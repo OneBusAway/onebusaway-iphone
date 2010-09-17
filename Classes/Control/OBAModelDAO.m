@@ -93,6 +93,11 @@ const static int kMaxEntriesInMostRecentList = 10;
 	return _model.mostRecentLocation;
 }
 
+- (void) setMostRecentLocation:(CLLocation*)location {
+	CLLocationCoordinate2D coord = location.coordinate;
+	[self saveMostRecentLocationLat:coord.latitude lon:coord.longitude];
+}
+
 #pragma mark OBAActivityListener
 
 - (void) placemark:(OBAPlacemark*)placemark {

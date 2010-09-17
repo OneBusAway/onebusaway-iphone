@@ -135,10 +135,6 @@ static const NSUInteger kShowNClosestStops = 4;
 	[super dealloc];
 }
 
--(void) searchWithTarget:(OBANavigationTarget*)target {
-	[_searchController searchWithTarget:target];
-}
-
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
 	[super loadView];
@@ -164,7 +160,7 @@ static const NSUInteger kShowNClosestStops = 4;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-	[self reloadData];
+	//[self reloadData];
 	[_appContext.locationManager addDelegate:self];
 }
 
@@ -302,6 +298,10 @@ static const NSUInteger kShowNClosestStops = 4;
 	return [_searchController getSearchTarget];
 }
 
+-(void) setNavigationTarget:(OBANavigationTarget*)target {
+	[_searchController searchWithTarget:target];
+}
+
 @end
 
 
@@ -434,6 +434,17 @@ void dumpRegion(MKCoordinateRegion r) {
 	*needsUpdate = TRUE;
 	
 	OBASearchControllerResult * result = _searchController.result;
+	
+	if( ! result ) {
+		CLLocation * center = [self currentLocation];
+		if( center ) {
+			return [OBASphericalGeometryLibrary createRegionWithCenter:center.coordinate latRadius:kDefaultMapRadius lonRadius:kDefaultMapRadius];
+		}
+		else {
+			*needsUpdate = FALSE;
+			return _mapView.region;
+		}
+	}
 	
 	switch(result.searchType) {
 		case OBASearchControllerSearchTypeCurrentLocation:

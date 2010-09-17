@@ -97,7 +97,6 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	NSMutableArray * results = [NSMutableArray array];
 	
 	OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
-	digester.verbose = TRUE;
 	[digester addStopRulesWithPrefix:@"/[]"];
 	[digester addSetNext:@selector(addObject:) forPrefix:@"/[]"];
 	[digester addTarget:digester selector:@selector(saveIfNeededForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:@"/"];

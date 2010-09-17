@@ -44,11 +44,10 @@
 						
 		NSMutableArray * items = [[NSMutableArray alloc] init];
 		
-		UIBarButtonItem * actionItem = [[UIBarButtonItem alloc] initWithTitle:@"More" style:UIBarButtonItemStyleBordered target:self action:@selector(onActionButton:)];
+		UIBarButtonItem * actionItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onActionButton:)];
 		actionItem.style = UIBarButtonItemStyleBordered;
 		[items addObject:actionItem];
 		[actionItem release];
-		
 
 		UIBarButtonItem * spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(onAddBookmarkButton:)];
 		[items addObject:spaceItem];
@@ -273,15 +272,24 @@
 			int minDiff = (int) abs(diff);
 			if( diff < -1.5) {
 				cell.minutesLabel.textColor = [UIColor redColor];
-				status = [NSString stringWithFormat:@"%d min early",minDiff];
+				if( minutes < 0 )
+					status = [NSString stringWithFormat:@"departed %d min early",minDiff];
+				else
+					status = [NSString stringWithFormat:@"%d min early",minDiff];
 			}
 			else if( diff < 1.5 ) {
 				cell.minutesLabel.textColor = [UIColor colorWithRed:0.0 green:0.5 blue:0.0 alpha:1.0];
-				status = @"on time";
+				if( minutes < 0 )
+					status = @"departed on time";
+				else
+					status = @"on time";
 			}
 			else {
 				cell.minutesLabel.textColor = [UIColor blueColor];
-				status = [NSString stringWithFormat:@"%d min delay",minDiff];
+				if( minutes < 0 )
+					status = [NSString stringWithFormat:@"departed %d min late",minDiff];
+				else
+					status = [NSString stringWithFormat:@"%d min delay",minDiff];
 			}
 		}
 		else {

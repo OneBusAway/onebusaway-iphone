@@ -216,7 +216,7 @@ static const float kSearchRadius = 400;
 	self.searchLocation = location;
 	
 	if( _searchType == OBASearchControllerSearchTypeCurrentLocation ) {
-		if( _lastCurrentLocationSearch == nil || [_lastCurrentLocationSearch getDistanceFrom:location] > kSearchRadius * 0.5 )
+		if( _lastCurrentLocationSearch == nil || [_lastCurrentLocationSearch getDistanceFrom:location] > kSearchRadius * 0.25 )
 			[self searchByCurrentLocation];
 	}
 }

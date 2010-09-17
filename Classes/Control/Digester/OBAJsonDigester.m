@@ -149,7 +149,8 @@
 	
 	NSString * fullName = [self extendPrefix:prefix withValue:name];
 	
-	OBALogDebug(@"path=%@",fullName);
+	if( _verbose )
+		OBALogDebug(@"path=%@",fullName);
 	
 	NSArray * rules = [_rulesByPrefix objectForKey:fullName];
 	

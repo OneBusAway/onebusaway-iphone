@@ -28,12 +28,12 @@
 
 @property (nonatomic,readonly) NSArray * bookmarks;
 @property (nonatomic,readonly) NSArray * mostRecentStops;
-@property (nonatomic,readonly) CLLocation * mostRecentLocation;
+@property (nonatomic,assign) CLLocation * mostRecentLocation;
 
 - (void) setup:(NSError**)error;
 
-//- (void) recordStop:(OBAStop*)stop error:(NSError**)error;
 - (void) saveIfNeeded:(NSError**)error;
+- (void) rollback;
 
 - (OBABookmark*) createTransientBookmark:(OBAStop*)stop;
 
@@ -41,7 +41,5 @@
 - (void) saveExistingBookmark:(OBABookmark*)bookmark error:(NSError**)error;
 - (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex error:(NSError**)error;
 - (void) removeBookmark:(OBABookmark*) bookmark error:(NSError**)error;
-
-- (void) rollback;
 
 @end

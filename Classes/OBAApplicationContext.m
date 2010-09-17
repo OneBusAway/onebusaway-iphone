@@ -35,7 +35,7 @@
 
 static NSString * kOBASavedNavigationTargets = @"OBASavedNavigationTargets";
 static NSString * kOBAApplicationTerminationTimestamp = @"OBAApplicationTerminationTimestamp";
-static const double kMaxTimeSinceApplicationTerminationToRestoreState = 1*60;
+static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15*60;
 
 @interface OBAApplicationContext (Private)
 
@@ -111,7 +111,7 @@ static const double kMaxTimeSinceApplicationTerminationToRestoreState = 1*60;
 	
 	switch (navigationTarget.target) {
 		case OBANavigationTargetTypeSearchResults:
-			[_searchResultsMapViewController searchWithTarget:navigationTarget];
+			[_searchResultsMapViewController setNavigationTarget:navigationTarget];
 			_tabBarController.selectedIndex = 0;
 			break;
 	}
@@ -170,6 +170,10 @@ static const double kMaxTimeSinceApplicationTerminationToRestoreState = 1*60;
 - (void)applicationWillTerminate:(UIApplication *)application {
 	NSLog(@"Application: Terminate!");
 	
+	CLLocation * location = _locationManager.currentLocation;
+	if( location )
+		_modelDao.mostRecentLocation = location;
+	
 	[self saveApplicationNavigationState];	
 	[self teardown];
 }
@@ -196,7 +200,7 @@ static const double kMaxTimeSinceApplicationTerminationToRestoreState = 1*60;
 	NSFileManager * manager = [NSFileManager defaultManager];
 	
 	// Delete model on startup?
-	if( TRUE ) {
+	if( FALSE ) {
 		if( ! [manager removeItemAtPath:path error:error] ) {
 			OBALogSevereWithError(*error,@"Error deleting file: %@",path);
 			return;

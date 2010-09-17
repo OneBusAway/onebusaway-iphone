@@ -44,6 +44,5 @@
 }
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)context;
--(void) searchWithTarget:(OBANavigationTarget*)target;
 
 @end
