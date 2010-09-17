@@ -21,6 +21,7 @@
 
 }
 
++ (CLLocationCoordinate2D) makeCoordinateLat:(CLLocationDegrees)lat lon:(CLLocationDegrees)lon;
 + (MKCoordinateRegion) createRegionWithCenter:(CLLocationCoordinate2D)center latRadius:(double)latRadiusInMeters lonRadius:(double)lonRadiusInMeters;
 + (double) getDistanceFromRegion:(MKCoordinateRegion)regionA toRegion:(MKCoordinateRegion)regionB;
 + (BOOL) isRegion:(MKCoordinateRegion)regionA containedBy:(MKCoordinateRegion)regionB;

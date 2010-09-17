@@ -22,6 +22,13 @@ static const double kRadiusOfEarthInMeters = 6371.01 * 1000;
 
 @implementation OBASphericalGeometryLibrary
 
++ (CLLocationCoordinate2D) makeCoordinateLat:(CLLocationDegrees)lat lon:(CLLocationDegrees)lon {
+	CLLocationCoordinate2D p;
+	p.latitude = lat;
+	p.longitude = lon;
+	return p;
+}
+
 + (MKCoordinateRegion) createRegionWithCenter:(CLLocationCoordinate2D)center latRadius:(double)latRadiusInMeters lonRadius:(double)lonRadiusInMeters {
 
     double latRadians = center.latitude / 180 * M_PI;

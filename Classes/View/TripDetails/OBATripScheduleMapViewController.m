@@ -170,9 +170,14 @@
 
 	MKCoordinateRegion r = [OBASphericalGeometryLibrary createRegionWithCenter:stop.coordinate latRadius:100 lonRadius:100];
 	MKCoordinateSpan span = r.span;
+	
 	NSInteger x = [self getXOffsetForStop:stop defaultValue:(isNextTrip?1:-1)];
 	NSInteger y = [self getYOffsetForStop:stop defaultValue:(isNextTrip?1:-1)];
-	CLLocationCoordinate2D p = CLLocationCoordinate2DMake(stop.lat + y * span.latitudeDelta/2, stop.lon + x * span.longitudeDelta/2);
+	
+	double lat = (stop.lat + y * span.latitudeDelta/2);
+	double lon = (stop.lon + x * span.longitudeDelta/2);
+	CLLocationCoordinate2D p = [OBASphericalGeometryLibrary makeCoordinateLat:lat lon:lon];
+	
 	return [[[OBATripContinuationMapAnnotation alloc] initWithTitle:tripTitle tripId:trip.tripId location:p] autorelease];
 }
 

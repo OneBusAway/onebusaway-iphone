@@ -63,8 +63,8 @@ typedef enum {
 		_problemNames = [[NSMutableArray alloc] init];
 
 		[self addProblemWithId:@"vehicle_never_came" name:[NSString stringWithFormat:@"The %@ never came",_vehicleType]];
-		[self addProblemWithId:@"vehicle_came_early" name:[NSString stringWithFormat:@"The %@ came early",_vehicleType]];
-		[self addProblemWithId:@"vehicle_came_late" name:[NSString stringWithFormat:@"The %@ came late",_vehicleType]];
+		[self addProblemWithId:@"vehicle_came_early" name:@"It came earlier than predicted"];
+		[self addProblemWithId:@"vehicle_came_late" name:@"It came later than predicted"];
 		[self addProblemWithId:@"wrong_headsign" name:@"Wrong destination shown"];
 		[self addProblemWithId:@"vehicle_does_not_stop_here" name:[NSString stringWithFormat:@"The %@ doesn't stop here",_vehicleType]];
 		[self addProblemWithId:@"other" name:@"Other"];
