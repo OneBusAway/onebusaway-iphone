@@ -110,6 +110,8 @@ static const NSUInteger kShowNClosestStops = 4;
 		
 		_busImage = [[UIImage imageNamed: @"BusMapIcon.png" ] retain];
 		_locationAnnotation = nil;
+		
+		_firstView = TRUE;
 	}
 	
 	return self;
@@ -157,7 +159,10 @@ static const NSUInteger kShowNClosestStops = 4;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-	//[self reloadData];
+	if( _firstView ) {
+		[self reloadData];
+		_firstView = FALSE;
+	}
 	_mapView.delegate = self;
 	[_appContext.locationManager addDelegate:self];
 }

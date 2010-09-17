@@ -41,6 +41,8 @@
 	
 	OBAGenericAnnotation * _locationAnnotation;
 	UIImage * _busImage;
+	
+	BOOL _firstView;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)context;
