@@ -688,7 +688,6 @@ typedef enum  {
 	NSString * label = [self computeLabelForCurrentResults];
 	self.navigationItem.prompt = label;
 	
-	[self refreshSearchToolbar];
 	[self checkResults];
 }
 
