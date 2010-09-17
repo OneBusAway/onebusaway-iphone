@@ -185,13 +185,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath  {
 	_customEditButtonItem.style = UIBarButtonItemStyleBordered;
 	
 	[self.tableView reloadData];
-	
-	if( self.editing ) {
-		NSLog(@"Why still editing?");
-		self.editing = FALSE;		
-		if( self.editing )
-			NSLog(@"Really, why still editing?");
-	}
 }	
 
 @end
