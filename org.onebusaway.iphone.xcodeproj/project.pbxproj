@@ -1152,7 +1152,7 @@
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = OneBusAway;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B6E1C1F0-42AD-402B-B67D-2893D397DE7D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8C4FEC73-7C88-4072-B5A2-72E4C3CA311A";
 				SDKROOT = iphoneos3.0;
 			};
 			name = AdHocDistribution;
