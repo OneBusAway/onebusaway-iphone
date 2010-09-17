@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.onebusaway</groupId>
+    <artifactId>onebusaway-iphone</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+<pluginRepositories>
+<pluginRepository>
+    <id>mc-release</id>
+    <name>Local Maven repository of releases</name>
+    <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+    <snapshots>
+        <enabled>false</enabled>
+    </snapshots>
+    <releases>
+        <enabled>true</enabled>
+    </releases>
+</pluginRepository>
+</pluginRepositories>
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>com.google.code.maven-license-plugin</groupId>
+            <artifactId>maven-license-plugin</artifactId>
+            <configuration>
+                <header>Resources/LicenseHeader.txt</header>
+		<includes>
+                    <include>Classes/**</include>
+                </includes>
+		<mapping>
+		  <m>JAVADOC_STYLE</m>
+		</mapping>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
+</project>
