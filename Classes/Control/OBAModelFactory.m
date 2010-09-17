@@ -157,6 +157,8 @@ static NSString * const kReferences = @"references";
 
 - (OBAArrivalsAndDeparturesForStopV2*) getArrivalsAndDeparturesForStopV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error {
 
+	[_references clear];
+	
 	OBAArrivalsAndDeparturesForStopV2 * ads = [[[OBAArrivalsAndDeparturesForStopV2 alloc] initWithReferences:_references] autorelease];
 	
 	OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];

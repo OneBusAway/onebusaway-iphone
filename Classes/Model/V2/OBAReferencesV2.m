@@ -46,4 +46,10 @@
 	return [_stops objectForKey:stopId];
 }
 
+- (void) clear {
+	[_agencies removeAllObjects];
+	[_routes removeAllObjects];
+	[_stops removeAllObjects];
+}
+
 @end

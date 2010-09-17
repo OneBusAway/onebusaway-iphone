@@ -17,5 +17,7 @@
 
 - (void) addStop:(OBAStopV2*)stop;
 - (OBAStopV2*) getStopForId:(NSString*)stopId;
+
+- (void) clear;
 							 
 @end

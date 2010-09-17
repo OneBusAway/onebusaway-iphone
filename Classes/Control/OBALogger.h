@@ -24,8 +24,17 @@ typedef enum {
 }
 OBALoggerLevel;
 
+#ifdef NDEBUG
+
+#define OBALog(level,s,...)
+#define OBALogWithError(level,errorObject,s,...)
+
+#else
+
 #define OBALog(level,s,...) [OBALogger logWithLevel:level pointer:self file:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] line:__LINE__ message:[NSString stringWithFormat:(s), ##__VA_ARGS__]]
 #define OBALogWithError(level,errorObject,s,...) [OBALogger logWithLevel:level pointer:self file:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] line:__LINE__ message:[NSString stringWithFormat:(s), ##__VA_ARGS__] error:errorObject]
+
+#endif
 
 #define OBALogDebug(s,...) OBALog(OBALoggerLevelDebug,s, ##__VA_ARGS__)
 #define OBALogDebugWithError(error,s,...) OBALogWithError(OBALoggerLevelDebug,error,s, ##__VA_ARGS__)

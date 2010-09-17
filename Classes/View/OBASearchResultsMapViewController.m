@@ -214,6 +214,8 @@ typedef enum  {
 		[self reloadData];
 		_firstView = FALSE;
 	}
+	
+	[self refreshSearchToolbar];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
