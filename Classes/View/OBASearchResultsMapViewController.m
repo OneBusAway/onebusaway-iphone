@@ -248,6 +248,7 @@ typedef enum  {
 		[_searchController searchWithTarget:target];
 	}
     
+	
     [self refreshSearchToolbar];
 }
 
@@ -653,9 +654,14 @@ typedef enum  {
 - (void) refreshSearchToolbar {
 	// show the UIToolbar at the bottom of the view controller
 	//
+	UINavigationController * navController = self.navigationController;
     NSString * searchFilterDesc = [self computeSearchFilterString];
-    if (searchFilterDesc != nil)
-        [self.filterToolbar showWithDescription:searchFilterDesc animated:NO];	
+    if (searchFilterDesc != nil && navController.visibleViewController == self)
+        [self.filterToolbar showWithDescription:searchFilterDesc animated:NO];
+	else {
+		[self.filterToolbar hideWithAnimated:TRUE];
+	}
+
 }
 
 - (void) reloadData {
