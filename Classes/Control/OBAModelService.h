@@ -54,7 +54,7 @@
 
 - (id<OBAModelServiceRequest>) requestAgenciesWithCoverageWithDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 
-- (id<OBAModelServiceRequest>) requestTripDetailsForId:(NSString*)tripId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>) requestTripDetailsForId:(NSString*)tripId serviceDate:(long long)serviceDate withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 
 - (id<OBAModelServiceRequest>) reportProblemWithTrip:(OBAReportProblemWithTripV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 

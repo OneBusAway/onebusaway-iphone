@@ -561,7 +561,7 @@ typedef enum {
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
 	OBAArrivalAndDepartureV2 * arrivalAndDeparture = [_filteredArrivals objectAtIndex:indexPath.row];
 	if( arrivalAndDeparture ) {
-		OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripId:arrivalAndDeparture.tripId];
+		OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripId:arrivalAndDeparture.tripId serviceDate:arrivalAndDeparture.serviceDate];
 		vc.currentStopId = _stopId;
 		[self.navigationController pushViewController:vc animated:TRUE];
 		[vc release];

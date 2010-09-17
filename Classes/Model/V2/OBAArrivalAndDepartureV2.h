@@ -24,6 +24,7 @@
 
 @property (nonatomic,retain) NSString * tripId;
 @property (nonatomic,retain) NSString * tripHeadsign;
+@property (nonatomic) long long serviceDate;
 
 @property (nonatomic,retain) NSString * stopId;
 @property (nonatomic,readonly) OBAStopV2 * stop;

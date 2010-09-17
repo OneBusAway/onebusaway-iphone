@@ -32,10 +32,11 @@ typedef enum {
 @synthesize tripDetails = _tripDetails;
 @synthesize currentStopId;
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext tripId:(NSString*)tripId {
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext tripId:(NSString*)tripId serviceDate:(long long)serviceDate{
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		_appContext = [appContext retain];
 		_tripId = [tripId retain];
+		_serviceDate = serviceDate;
 		
 		_progressView = [[OBAProgressIndicatorView viewFromNib] retain];
 		[self.navigationItem setTitleView:_progressView];
@@ -63,7 +64,7 @@ typedef enum {
 - (void)viewWillAppear:(BOOL)animated {
     [self clearPendingRequest];
 	[_progressView setMessage:@"Updating..." inProgress:TRUE progress:0];
-	_request = [[_appContext.modelService requestTripDetailsForId:_tripId withDelegate:self withContext:nil] retain];
+	_request = [[_appContext.modelService requestTripDetailsForId:_tripId serviceDate:_serviceDate withDelegate:self withContext:nil] retain];
 }
 
 #pragma mark OBAModelServiceDelegate
@@ -180,6 +181,7 @@ typedef enum {
 			if( indexPath.row == 0 ) {
 				if( _tripDetails ) {
 					OBAReportAProblemViewController * vc = [[OBAReportAProblemViewController alloc] initWithApplicationContext:_appContext tripDetails:_tripDetails];
+					vc.currentStopId = self.currentStopId;
 					[self.navigationController pushViewController:vc animated:TRUE];
 					[vc release];
 				}

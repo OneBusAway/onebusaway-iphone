@@ -6,6 +6,7 @@
 @synthesize routeId = _routeId;
 @synthesize routeShortName = _routeShortName;
 @synthesize tripId = _tripId;
+@synthesize serviceDate;
 @synthesize tripHeadsign = _tripHeadsign;
 @synthesize stopId = _stopId;
 
