@@ -40,7 +40,9 @@ NSString* OBARefreshEndedNotification = @"OBARefreshEndedNotification";
 		_jsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:context.obaDataSourceConfig];
 		_modelFactory = [context.modelFactory retain];
 		_modelDao = [context.modelDao retain];
-		_bgTask = UIBackgroundTaskInvalid;
+        
+        if ([[UIDevice currentDevice] isMultitaskingSupportedSafe])
+            _bgTask = UIBackgroundTaskInvalid;
 	}
 	return self;
 }
@@ -91,13 +93,14 @@ NSString* OBARefreshEndedNotification = @"OBARefreshEndedNotification";
 	[_jsonDataSource cancelOpenConnections];
 }
 
+// check if we support background task completion; if so, end bg task
 - (void) endBgTask {
-	// check if we support background task completion; if so, end bg task
-	if ([[UIDevice currentDevice] isMultitaskingSupportedSafe])
-	{
-		UIApplication* app = [UIApplication sharedApplication];
-		[app endBackgroundTask:_bgTask];
-		_bgTask = UIBackgroundTaskInvalid;
+    if ([[UIDevice currentDevice] isMultitaskingSupportedSafe]) {
+        if (_bgTask != UIBackgroundTaskInvalid) {
+            UIApplication* app = [UIApplication sharedApplication];
+            [app endBackgroundTask:_bgTask];
+            _bgTask = UIBackgroundTaskInvalid;   
+        }
 	}
 }
 
@@ -115,8 +118,7 @@ NSString* OBARefreshEndedNotification = @"OBARefreshEndedNotification";
 
 		// if we support background task completion (iOS >= 4.0), allow our refreshes to be completed
 		// even if the user switches the foreground application.
-		if ([[UIDevice currentDevice] isMultitaskingSupportedSafe])
-		{
+		if ([[UIDevice currentDevice] isMultitaskingSupportedSafe]) {
 			// if we're already refreshing, don't do another one.
 			if (_bgTask != UIBackgroundTaskInvalid)
 				return;

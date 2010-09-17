@@ -111,6 +111,8 @@ typedef enum {
 
 
 - (void)viewWillAppear:(BOOL)animated {
+    OBALogInfo(@"OBAStopViewController viewWillAppear: %@", self);
+    
     [super viewWillAppear:animated];
 
 	[_source addObserver:self forKeyPath:@"error" options:NSKeyValueObservingOptionNew context:nil];
@@ -121,13 +123,15 @@ typedef enum {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
 	}
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRefreshBegin) name:OBARefreshBeganNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRefreshEnd)   name:OBARefreshEndedNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRefreshBegin:) name:OBARefreshBeganNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRefreshEnd:)   name:OBARefreshEndedNotification object:nil];
 	
 	[self reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    OBALogInfo(@"OBAStopViewController viewWillDisspear: %@", self);
+ 
 	[super viewWillDisappear:animated];
 
 	[_source removeObserver:self forKeyPath:@"error"];
@@ -154,19 +158,32 @@ typedef enum {
 	[self reloadData];
 }
 
-- (void)didRefreshBegin {
-	UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:nil action:@selector(onRefreshButton:)];
-	[refreshItem setEnabled:NO];
-	[self.navigationItem setRightBarButtonItem:refreshItem];
-	[refreshItem release];	
+- (void)didRefreshBegin:(NSNotification*)notification {
+    // only refresh for this stop's view
+    if ([notification object] != _source)
+        return;
+    
+    // disable refresh button
+    UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:nil action:@selector(onRefreshButton:)];
+    [refreshItem setEnabled:NO];
+
+    [self.navigationItem setRightBarButtonItem:refreshItem];
+    [refreshItem release];
 }
 
-- (void)didRefreshEnd {
-	UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
-	[self.navigationItem setRightBarButtonItem:refreshItem];
-	[refreshItem release];
-		
-	[self reloadData];
+- (void)didRefreshEnd:(NSNotification*)notification {
+    // only refresh for this stop's view
+    if ([notification object] != _source)
+        return;
+    
+    // activate refresh button
+    UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
+  
+    [self.navigationItem setRightBarButtonItem:refreshItem];
+    [refreshItem release];
+    
+    // refresh the view with new data
+    [self reloadData];
 }
 
 
@@ -472,9 +489,9 @@ typedef enum {
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
     if (indexPath.row == 0)
-		cell.textLabel.text = @"Bookmark this stop";
+		cell.textLabel.text = @"Add to Bookmarks";
 	else if (indexPath.row == 1)
-		cell.textLabel.text = @"Filter & sort results";
+		cell.textLabel.text = @"Filter & Sort Routes";
 
 	return cell;
 }
