@@ -110,25 +110,24 @@ typedef enum {
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-		
-	[_source addObserver:self forKeyPath:@"stop" options:NSKeyValueObservingOptionNew context:nil];
-	[_source addObserver:self forKeyPath:@"predictedArrivals" options:NSKeyValueObservingOptionNew context:nil];
+
 	[_source addObserver:self forKeyPath:@"error" options:NSKeyValueObservingOptionNew context:nil];
 
 	if ([[UIDevice currentDevice] isMultitaskingSupportedSafe])
 	{
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground)  name:UIApplicationDidEnterBackgroundNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
 	}
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRefreshBegin) name:OBARefreshBeganNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRefreshEnd)   name:OBARefreshEndedNotification object:nil];
 	
 	[self reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	
-	[_source removeObserver:self forKeyPath:@"stop"];
-	[_source removeObserver:self forKeyPath:@"predictedArrivals"];
+
 	[_source removeObserver:self forKeyPath:@"error"];
 	
 	if ([[UIDevice currentDevice] isMultitaskingSupportedSafe])
@@ -136,6 +135,9 @@ typedef enum {
 		[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
 		[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 	}
+
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:OBARefreshBeganNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:OBARefreshEndedNotification object:nil];
 }
 
 - (void)didEnterBackground {
@@ -147,6 +149,21 @@ typedef enum {
 	// will repaint the UITableView to update new time offsets and such when returning from the background.
 	// this makes it so old data, represented with current times, from before the task switch will display
 	// briefly before we fetch new data.
+	[self reloadData];
+}
+
+- (void)didRefreshBegin {
+	UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:nil action:@selector(onRefreshButton:)];
+	[refreshItem setEnabled:NO];
+	[self.navigationItem setRightBarButtonItem:refreshItem];
+	[refreshItem release];	
+}
+
+- (void)didRefreshEnd {
+	UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
+	[self.navigationItem setRightBarButtonItem:refreshItem];
+	[refreshItem release];
+		
 	[self reloadData];
 }
 
@@ -225,7 +242,6 @@ typedef enum {
 }
 
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
@@ -291,18 +307,15 @@ typedef enum {
                        context:(void *)context {
 	if ([keyPath isEqual:@"error"]) {
 		if( _source.error )
-			OBALogWarningWithError(_source.error,@"Error... yay!");
-	}
-	else if([keyPath isEqual:@"stop"] || [keyPath isEqual:@"predictedArrivals"]) {
-		[self reloadData];
+			OBALogWarningWithError(_source.error, @"Error... yay!");
 	}
 }
-
 
 
 @end
 
 @implementation OBAStopViewController (Internal)
+
 
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section {
 		
@@ -329,7 +342,6 @@ typedef enum {
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView stopCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
 	OBAStop * stop = _source.stop;
 	
 	if( stop ) {
@@ -344,7 +356,6 @@ typedef enum {
 
 
 - (UITableViewCell*)tableView:(UITableView*)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath*)indexPath {
-
 	NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
 	
 	if( [arrivals count] == 0 ) {
@@ -447,21 +458,11 @@ typedef enum {
 	[_source refresh];
 }
 
-- (IBAction) onActionButton:(id)sender {
-	UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:@"Action" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
-	[actionSheet addButtonWithTitle:@"Add Bookmark"];
-	[actionSheet addButtonWithTitle:@"Filter"];
-	[actionSheet addButtonWithTitle:@"Cancel"];
-	actionSheet.cancelButtonIndex = 2;
-	[actionSheet showFromToolbar:self.navigationController.toolbar];
-}
-
 NSComparisonResult predictedArrivalSortByDepartureTime(id pa1, id pa2, void * context) {
 	return ((OBAArrivalAndDeparture*)pa1).bestDepartureTime - ((OBAArrivalAndDeparture*)pa2).bestDepartureTime;
 }
 
 NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
-	
 	OBAArrivalAndDeparture* pa1 = o1;
 	OBAArrivalAndDeparture* pa2 = o2;
 	
@@ -474,7 +475,6 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 }
 
 - (void) reloadData {
-	
 	@synchronized(self) {
 		
 		OBAStop * stop = _source.stop;

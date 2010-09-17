@@ -58,3 +58,6 @@
 - (void) cancelOpenConnections;
 
 @end
+
+extern NSString* OBARefreshBeganNotification;
+extern NSString* OBARefreshEndedNotification;

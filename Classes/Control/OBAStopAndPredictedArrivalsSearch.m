@@ -21,7 +21,9 @@
 #import "OBAJsonDataSource.h"
 #import "UIDeviceExtensions.h"
 
-#include <unistd.h>
+
+NSString* OBARefreshBeganNotification = @"OBARefreshBeganNotification";
+NSString* OBARefreshEndedNotification = @"OBARefreshEndedNotification";
 
 
 @implementation OBAStopAndPredictedArrivalsSearch
@@ -66,24 +68,26 @@
 	[self refresh];
 }
 
-- (OBANavigationTarget*) getSearchTarget {
+- (OBANavigationTarget*)getSearchTarget {
 	if( ! _stopId )
 		return nil;
+
 	NSDictionary * params = [NSDictionary dictionaryWithObject:_stopId forKey:@"stopId"];
 	return [OBANavigationTarget target:OBANavigationTargetTypeStop parameters:params];
 }
 
--(void) setSearchTarget:(OBANavigationTarget*) target {
+-(void)setSearchTarget:(OBANavigationTarget*) target {
 	NSString * stopId = [target parameterForKey:@"stopId"];
 	[self searchForStopId:stopId];
 }
 
-- (void) cancelOpenConnections {
+- (void)cancelOpenConnections {
 	if( _timer ) {
 		[_timer invalidate];
 		[_timer release];
 		_timer = nil;
 	}
+
 	[_jsonDataSource cancelOpenConnections];
 }
 
@@ -97,10 +101,13 @@
 	}
 }
 
-- (void) refresh {
+- (void)refresh {
 	if( _stopId ) {
-		NSString *url = [NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", _stopId];
+		// send "began" notification.
+		[[NSNotificationCenter defaultCenter] postNotificationName:OBARefreshBeganNotification object:self];		
+		
 		[_progress setMessage:@"Updating..." inProgress:TRUE progress:0];
+		
 		if( ! _timer ) {
 			_timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:TRUE];
 			[_timer retain];
@@ -120,6 +127,7 @@
 			}];
 		}
 		
+		NSString *url = [NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", _stopId];
 		[_jsonDataSource requestWithPath:url withArgs:nil withDelegate:self context:nil];
 	}
 }
@@ -127,7 +135,7 @@
 - (void)connectionDidFinishLoading:(id<OBADataSourceConnection>)connection withObject:(id)obj context:(id)context {
 	// debugging code: display how many times a stop controller has been refreshed.
 	// helpful for background completion.
-	static BOOL gDebugRefreshing     = NO;
+	const  BOOL gDebugRefreshing     = NO;
 	static int  gDebugTimesRefreshed = 1;
 	
 	NSNumber * code = [obj valueForKey:@"code"];
@@ -159,8 +167,7 @@
 	
 	NSString * message = [NSString stringWithFormat:@"Updated: %@", [OBACommon getTimeAsString]];
 
-	if (gDebugRefreshing)
-	{
+	if (gDebugRefreshing) {
 		message = [NSString stringWithFormat:@"%@ (%d)", message, gDebugTimesRefreshed];
 		
 		OBAArrivalAndDeparture * ad = [self.predictedArrivals objectAtIndex:0];
@@ -170,6 +177,9 @@
 						  
 	[_progress setMessage:message inProgress:FALSE progress:0];
 
+	// send "done" notification.
+	[[NSNotificationCenter defaultCenter] postNotificationName:OBARefreshEndedNotification object:self];
+	
 	// end bg task
 	[self endBgTask];
 }
@@ -181,6 +191,9 @@
 - (void)connectionDidFail:(id<OBADataSourceConnection>)connection withError:(NSError *)error context:(id)context {
 	self.error = error;
 	[_progress setMessage:@"Error connecting" inProgress:FALSE progress:0];
+	
+	// send "done" notification.
+	[[NSNotificationCenter defaultCenter] postNotificationName:OBARefreshEndedNotification object:self];	
 	
 	// end bg task
 	[self endBgTask];
