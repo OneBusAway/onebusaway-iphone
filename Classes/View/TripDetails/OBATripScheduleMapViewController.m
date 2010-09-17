@@ -5,13 +5,21 @@
 #import "OBATripStopTimeV2.h"
 #import "OBAStopIconFactory.h"
 #import "OBATripStopTimeMapAnnotation.h"
+#import "OBATripContinuationMapAnnotation.h"
 #import "OBACoordinateBounds.h"
 #import "OBAStopViewController.h"
+#import "OBASphericalGeometryLibrary.h"
+#import "OBATripDetailsViewController.h"
 
 
 @interface OBATripScheduleMapViewController (Private)
 
 - (MKMapView*) mapView;
+
+- (id<MKAnnotation>) createTripContinuationAnnotation:(OBATripV2*)trip isNextTrip:(BOOL)isNextTrip stopTimes:(NSArray*)stopTimes;
+
+- (NSInteger) getXOffsetForStop:(OBAStopV2*)stop defaultValue:(NSInteger)defaultXOffset;
+- (NSInteger) getYOffsetForStop:(OBAStopV2*)stop defaultValue:(NSInteger)defaultYOffset;
 
 @end
 
@@ -46,13 +54,14 @@
 - (void) viewWillAppear:(BOOL)animated {
 	
 	OBATripScheduleV2 * sched = self.tripDetails.schedule;
+	NSArray * stopTimes = sched.stopTimes;
 	MKMapView * mapView = [self mapView];
 	
 	NSMutableArray * annotations = [[NSMutableArray alloc] init];
 	
 	OBACoordinateBounds * bounds = [[OBACoordinateBounds alloc] init];
 	
-	for( OBATripStopTimeV2 * stopTime in sched.stopTimes ) {
+	for( OBATripStopTimeV2 * stopTime in stopTimes ) {
 		
 		OBATripStopTimeMapAnnotation * an = [[OBATripStopTimeMapAnnotation alloc] initWithTripDetails:self.tripDetails stopTime:stopTime];
 		an.timeFormatter = _timeFormatter;
@@ -62,6 +71,17 @@
 		OBAStopV2 * stop = stopTime.stop;
 		[bounds addLat:stop.lat lon:stop.lon];
 	}
+	
+	if( sched.nextTripId && [stopTimes count] > 0 ) {
+		id<MKAnnotation> an = [self createTripContinuationAnnotation:sched.nextTrip	isNextTrip:TRUE stopTimes:stopTimes];
+		[annotations addObject:an];
+	}
+	
+	if( sched.previousTripId && [stopTimes count] > 0 ) {
+		id<MKAnnotation> an = [self createTripContinuationAnnotation:sched.previousTrip	isNextTrip:FALSE stopTimes:stopTimes];
+		[annotations addObject:an];
+	}
+	
 	
 	[mapView addAnnotations:annotations];
 	
@@ -94,6 +114,18 @@
 		view.image = [stopIconFactory getIconForStop:an.stopTime.stop];
 		return view;
 	}
+	else if ( [annotation isKindOfClass:[OBATripContinuationMapAnnotation class]] ) {
+	
+		static NSString * viewId = @"TripContinutationView";
+		
+		MKPinAnnotationView * view = (MKPinAnnotationView*) [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
+		if( view == nil ) {
+			view = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId] autorelease];
+		}
+		view.canShowCallout = TRUE;
+		view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+		return view;
+	}
 	
 	return nil;
 }
@@ -109,6 +141,14 @@
 		[self.navigationController pushViewController:vc animated:TRUE];
 		[vc release];
 	}
+	else if ( [annotation isKindOfClass:[OBATripContinuationMapAnnotation class]] ) {
+		OBATripContinuationMapAnnotation * an = (OBATripContinuationMapAnnotation*)annotation;
+		OBATripStatusV2 * status = self.tripDetails.status;
+		OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:self.appContext tripId:an.tripId serviceDate:status.serviceDate];
+		[self.navigationController pushViewController:vc animated:TRUE];
+		[vc release];
+		
+	}
 }
 
 
@@ -118,6 +158,47 @@
 
 - (MKMapView*) mapView {
 	return (MKMapView*) self.view;			
+}
+
+- (id<MKAnnotation>) createTripContinuationAnnotation:(OBATripV2*)trip isNextTrip:(BOOL)isNextTrip stopTimes:(NSArray*)stopTimes {
+	
+	NSString * format = isNextTrip ? @"Coninutes as %@" : @"Starts as %@";
+	NSString * tripTitle = [NSString stringWithFormat:format, trip.asLabel];
+	NSInteger index = isNextTrip ? ([stopTimes count]-1) : 0;
+	OBATripStopTimeV2 * stopTime = [stopTimes objectAtIndex:index];
+	OBAStopV2 * stop = stopTime.stop;
+
+	MKCoordinateRegion r = [OBASphericalGeometryLibrary createRegionWithCenter:stop.coordinate latRadius:100 lonRadius:100];
+	MKCoordinateSpan span = r.span;
+	NSInteger x = [self getXOffsetForStop:stop defaultValue:(isNextTrip?1:-1)];
+	NSInteger y = [self getYOffsetForStop:stop defaultValue:(isNextTrip?1:-1)];
+	CLLocationCoordinate2D p = CLLocationCoordinate2DMake(stop.lat + y * span.latitudeDelta/2, stop.lon + x * span.longitudeDelta/2);
+	return [[[OBATripContinuationMapAnnotation alloc] initWithTitle:tripTitle tripId:trip.tripId location:p] autorelease];
+}
+
+- (NSInteger) getXOffsetForStop:(OBAStopV2*)stop defaultValue:(NSInteger)defaultXOffset {
+
+	NSString * direction = stop.direction;
+	if( ! direction )
+		return defaultXOffset;
+	
+	if( [direction rangeOfString:@"W"].location != NSNotFound )
+		return -1 * defaultXOffset;
+	else if ( [direction rangeOfString:@"E"].location != NSNotFound )
+		return 1 * defaultXOffset;
+	return 0;
+}
+
+- (NSInteger) getYOffsetForStop:(OBAStopV2*)stop defaultValue:(NSInteger)defaultYOffset {
+	
+	NSString * direction = stop.direction;
+	if( ! direction )
+		return defaultYOffset;
+	if( [direction rangeOfString:@"S"].location != NSNotFound )
+		return -1 * defaultYOffset;
+	else if ( [direction rangeOfString:@"N"].location != NSNotFound )
+		return 1 * defaultYOffset;
+	return 0;
 }
 
 @end

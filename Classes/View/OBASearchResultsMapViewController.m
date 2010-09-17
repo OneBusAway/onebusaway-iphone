@@ -419,7 +419,7 @@ typedef enum  {
 		}
 		
 		view.canShowCallout = TRUE;
-		
+
 		if( _searchController.searchType == OBASearchTypeAddress)
 			view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 		else

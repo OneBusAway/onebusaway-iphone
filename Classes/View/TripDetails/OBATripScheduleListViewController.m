@@ -188,16 +188,17 @@ typedef enum {
 
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section {
 	
-	NSInteger offset = 1;
-	
-	if( section == 0 )
-		return OBASectionTypeSchedule;
-	
+	NSInteger offset = 0;
+
 	if( _currentStopIndex > 0 ) {
 		if( section == offset )
 			return OBASectionTypePreviousStops;	
 		offset++;
 	}
+	
+	if( section == offset )
+		return OBASectionTypeSchedule;
+	offset++;
 	
 	if( [self hasTripConnections] ) {
 		if( section == offset )
@@ -242,7 +243,7 @@ typedef enum {
 	
 	if ( hidingPreviousStops && indexPath.row == 0 ) {
 		
-		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
+		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleDefault];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.accessoryType = UITableViewCellAccessoryNone;
 		cell.textLabel.text = [NSString stringWithFormat:@"Hiding %d previous stops",_currentStopIndex];
@@ -288,7 +289,7 @@ typedef enum {
 	if( sched.previousTripId != nil ) {
 		if( indexPath.row == offset ) {
 			OBATripV2 * trip = [sched previousTrip];
-			cell.textLabel.text = [NSString stringWithFormat:@"Inbound: %@",trip.asLabel];
+			cell.textLabel.text = [NSString stringWithFormat:@"Starts as %@",trip.asLabel];
 		}
 		offset++;
 	}
@@ -296,7 +297,7 @@ typedef enum {
 	if( sched.nextTripId != nil ) {
 		if( indexPath.row == offset ) {
 			OBATripV2 * trip = [sched nextTrip];
-			cell.textLabel.text = [NSString stringWithFormat:@"Outbound: %@",trip.asLabel];
+			cell.textLabel.text = [NSString stringWithFormat:@"Continues as %@",trip.asLabel];
 		}
 		offset++;
 	}

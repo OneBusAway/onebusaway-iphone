@@ -50,7 +50,6 @@ static const double kNearbyStopRadius = 200;
 - (void) clearPendingRequest;
 - (void) didRefreshBegin;
 - (void) didRefreshEnd;
-- (void) stopTimer;
 
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section;
 - (NSUInteger) sectionIndexForSectionType:(OBAStopSectionType)section;
@@ -123,7 +122,6 @@ static const double kNearbyStopRadius = 200;
 
 - (void) dealloc {
 	
-	[self stopTimer];
 	[self clearPendingRequest];
 	
 	[_stopId release];	
@@ -168,9 +166,7 @@ static const double kNearbyStopRadius = 200;
 
 - (void)viewWillDisappear:(BOOL)animated {
  
-	[super viewWillDisappear:animated];
-	
-	[self stopTimer];
+	[self clearPendingRequest];
 	
 	if ([[UIDevice currentDevice] isMultitaskingSupportedSafe])
 	{
@@ -381,14 +377,15 @@ static const double kNearbyStopRadius = 200;
 	
 	[self clearPendingRequest];
 	_request = [[service requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter withDelegate:self withContext:nil] retain];
-	
-	if( ! _timer ) {
-		_timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:TRUE];
-		[_timer retain];
-	}	
+	_timer = [[NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:TRUE] retain];
 }
 	 
 - (void) clearPendingRequest {
+	
+	[_timer invalidate];
+	[_timer release];
+	_timer = nil;
+	
 	[_request cancel];
 	[_request release];
 	_request = nil;
@@ -411,14 +408,6 @@ static const double kNearbyStopRadius = 200;
 	
     [self.navigationItem setRightBarButtonItem:refreshItem];
     [refreshItem release];
-}
-
-- (void) stopTimer {
-	if( _timer ) {
-		[_timer invalidate];
-		[_timer release];
-		_timer = nil;
-	}	
 }
 
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section {

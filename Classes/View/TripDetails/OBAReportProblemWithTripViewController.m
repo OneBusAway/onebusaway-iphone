@@ -13,7 +13,8 @@ typedef enum {
 	OBASectionTypeProblem,
 	OBASectionTypeComment,
 	OBASectionTypeOnTheVehicle,
-	OBASectionTypeSubmit
+	OBASectionTypeSubmit,
+	OBASectionTypeNotes
 } OBASectionType;
 
 
@@ -92,7 +93,7 @@ typedef enum {
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 4;
+	return 5;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -106,6 +107,8 @@ typedef enum {
 			return @"Optional - Comment:";
 		case OBASectionTypeOnTheVehicle:
 			return [NSString stringWithFormat:@"Optional - Are you on this %@?",_vehicleType];
+		case OBASectionTypeNotes:
+			return @"Your reports help OneBusAway find and fix problems with the system.";
 		default:
 			return nil;
 	}
@@ -124,6 +127,8 @@ typedef enum {
 			return 2;
 		case OBASectionTypeSubmit:
 			return 1;
+		case OBASectionTypeNotes:
+			return 0;
 		case OBASectionTypeNone:
 		default:
 			return 0;
@@ -286,6 +291,8 @@ typedef enum {
 			return OBASectionTypeOnTheVehicle;
 		case 3:
 			return OBASectionTypeSubmit;
+		case 4:
+			return OBASectionTypeNotes;
 		default:
 			return OBASectionTypeNone;
 	}
@@ -301,6 +308,8 @@ typedef enum {
 			return 2;
 		case OBASectionTypeSubmit:
 			return 3;
+		case OBASectionTypeNotes:
+			return 4;
 		case OBASectionTypeNone:
 		default:
 			break;

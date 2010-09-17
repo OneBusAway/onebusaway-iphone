@@ -325,6 +325,7 @@ static NSString * const kReferences = @"references";
 	[self addObjectCreateRule:[OBAAgencyWithCoverageV2 class] forPrefix:prefix];
 	[self addSetPropertyRule:@"agencyId" forPrefix:[self extendPrefix:prefix withValue:@"agencyId"]];	
 	[self addSetCoordinatePropertyRule:@"coordinate" withPrefix:prefix method:OBASetCoordinatePropertyMethodLatLon];
+	[self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];
 }
 
 - (void) addArrivalAndDepartureV2RulesWithPrefix:(NSString*)prefix {
