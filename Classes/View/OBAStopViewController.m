@@ -379,7 +379,7 @@ typedef enum {
 			}
 		}
 		else {
-			cell.minutesLabel.textColor = [UIColor colorWithRed:0.0 green:0.5 blue:0.0 alpha:1.0];;
+			cell.minutesLabel.textColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];;
 			if( minutes < 0 )
 				status = @"scheduled departure";
 			else
