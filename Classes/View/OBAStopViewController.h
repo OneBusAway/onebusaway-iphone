@@ -40,10 +40,4 @@
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext;
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext stop:(OBAStop*)stop;
 
-- (UITableViewCell*) tableView:(UITableView*)tableView stopCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (UITableViewCell*) tableView:(UITableView*)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath*)indexPath;
-- (UITableViewCell*) tableView:(UITableView*)tableView filterCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-
-- (void) reloadData;
-
 @end

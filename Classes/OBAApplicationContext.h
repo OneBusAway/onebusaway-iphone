@@ -26,7 +26,7 @@
 
 @class OBASearchResultsMapViewController;
 
-@interface OBAApplicationContext : NSObject <UIApplicationDelegate> {
+@interface OBAApplicationContext : NSObject <UIApplicationDelegate,UITabBarControllerDelegate> {
 	
     NSManagedObjectContext * _managedObjectContext;  
 	

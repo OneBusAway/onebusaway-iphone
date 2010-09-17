@@ -25,8 +25,25 @@
 #import "OBAArrivalEntryTableViewCell.h"
 
 #import "OBAProgressIndicatorView.h"
-#import "OBAEditStopBookmarkViewController.h"
-#import "OBAEditStopPreferencesViewController.h"
+#import "OBAStopOptionsViewController.h"
+
+
+typedef enum {
+	OBASectionNone, OBASectionStop, OBASectionArrivals, OBASectionFilter, OBASectionOptions
+} OBASectionType;
+	
+@interface OBAStopViewController (Internal)
+
+- (OBASectionType) sectionTypeForSection:(NSUInteger)section;
+
+- (UITableViewCell*) tableView:(UITableView*)tableView stopCellForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (UITableViewCell*) tableView:(UITableView*)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath*)indexPath;
+- (UITableViewCell*) tableView:(UITableView*)tableView filterCellForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (UITableViewCell*) tableView:(UITableView*)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath;
+
+- (void) reloadData;
+
+@end
 
 
 @implementation OBAStopViewController
@@ -42,41 +59,18 @@
 		[_timeFormatter setDateStyle:NSDateFormatterNoStyle];
 		[_timeFormatter setTimeStyle:NSDateFormatterShortStyle];
 						
-		NSMutableArray * items = [[NSMutableArray alloc] init];
-		
-		UIBarButtonItem * actionItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onActionButton:)];
-		actionItem.style = UIBarButtonItemStyleBordered;
-		[items addObject:actionItem];
-		[actionItem release];
-
-		UIBarButtonItem * spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(onAddBookmarkButton:)];
-		[items addObject:spaceItem];
-		[spaceItem release];
-		
 		OBAProgressIndicatorView * view = [OBAProgressIndicatorView viewFromNibWithSource:_source.progress];
-		UIBarButtonItem * progressItem = [[UIBarButtonItem alloc] initWithCustomView:view];
-		[items addObject:progressItem];
-		[progressItem release];
-
-		spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(onAddBookmarkButton:)];
-		[items addObject:spaceItem];
-		[spaceItem release];
+		[self.navigationItem setTitleView:view];
 		
 		UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
-		[items addObject:refreshItem];
+		[self.navigationItem setRightBarButtonItem:refreshItem];
 		[refreshItem release];
-		
-		self.toolbarItems = items;
-		
-		[items release];
 		
 		_allArrivals = [[NSMutableArray alloc] init];
 		_filteredArrivals = [[NSMutableArray alloc] init];
 		_showFilteredArrivals = YES;
 		
 		self.navigationItem.title = @"Stop";
-		
-		self.hidesBottomBarWhenPushed = TRUE;
 	}
 	return self;
 }
@@ -120,15 +114,11 @@
 	[_source addObserver:self forKeyPath:@"predictedArrivals" options:NSKeyValueObservingOptionNew context:nil];
 	[_source addObserver:self forKeyPath:@"error" options:NSKeyValueObservingOptionNew context:nil];	
 
-	[self.navigationController setToolbarHidden:FALSE];
-
 	[self reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	
-	self.navigationController.toolbarHidden = TRUE;
 	
 	[_source removeObserver:self forKeyPath:@"stop"];
 	[_source removeObserver:self forKeyPath:@"predictedArrivals"];
@@ -158,11 +148,11 @@
 	if( stop ) {
 		if( predictedArrivals ) {
 			if( [_filteredArrivals count] != [predictedArrivals count] ) {
-				return 3;
+				return 4;
 			}
-			return 2;
+			return 3;
 		}
-		return 1;
+		return 2;
 	}
 	
 	return 1;
@@ -172,60 +162,137 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	
-	OBAStop * stop = _source.stop;
 	NSArray * predictedArrivals = _source.predictedArrivals;
+	OBASectionType sectionType = [self sectionTypeForSection:section];
 	
-	if( stop ) {
-
-		if( section == 0 ) {
+	switch( sectionType ) {
+		case OBASectionStop:
 			return 1;
-		}
-		else if( section == 1 ) {
-			
+		case OBASectionArrivals: {
 			int c = 0;
-			if( predictedArrivals ) {
-				if( _showFilteredArrivals )
-					c = [_filteredArrivals count];
-				else
-					c = [predictedArrivals count];
-				
-				if( c == 0 )
-					c = 1;				
-			}
-			return c;
+			if( _showFilteredArrivals )
+				c = [_filteredArrivals count];
+			else
+				c = [predictedArrivals count];
+			
+			if( c == 0 )
+				c = 1;				
+			return c;			
 		}
-		else if( section == 2) {
+		case OBASectionFilter:
 			return 1;
-		}
+		case OBASectionOptions:
+			return 1;
+		default:
+			return 0;
 	}
-	
-	return 0;
 }
 
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-	if( indexPath.section == 0 ) {
-		return [self tableView:tableView stopCellForRowAtIndexPath:indexPath];
-	}
-	else if( indexPath.section == 1) {
-		return [self tableView:tableView predictedArrivalCellForRowAtIndexPath:indexPath];
-	}
-	else if( indexPath.section == 2) {
-		return [self tableView:tableView filterCellForRowAtIndexPath:indexPath];
+	OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
+
+	switch (sectionType) {
+		case OBASectionStop:
+			return [self tableView:tableView stopCellForRowAtIndexPath:indexPath];
+		case OBASectionArrivals:
+			return [self tableView:tableView predictedArrivalCellForRowAtIndexPath:indexPath];
+		case OBASectionFilter:
+			return [self tableView:tableView filterCellForRowAtIndexPath:indexPath];
+		case OBASectionOptions:
+			return [self tableView:tableView actionCellForRowAtIndexPath:indexPath];
+		default:
+			break;
 	}
 	
 	return [UITableViewCell getOrCreateCellForTableView:tableView];
 }
 
-- (UITableViewCell*) tableView:(UITableView*)tableView stopCellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
+	
+	switch (sectionType) {
+		case OBASectionFilter: {
+			_showFilteredArrivals = ! _showFilteredArrivals;
+			[self.tableView reloadData];
+			break;
+		}
+		case OBASectionOptions: {
+			OBAStopOptionsViewController * vc = [[OBAStopOptionsViewController alloc] initWithApplicationContext:_appContext stop:_source.stop];
+			[self.navigationController pushViewController:vc animated:TRUE];
+			[vc release];
+			break;
+		}
+		default:
+			break;
+	}
+}
+
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+					  ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+	if ([keyPath isEqual:@"error"]) {
+		if( _source.error )
+			OBALogWarningWithError(_source.error,@"Error... yay!");
+	}
+	else if([keyPath isEqual:@"stop"] || [keyPath isEqual:@"predictedArrivals"]) {
+		[self reloadData];
+	}
+}
+
+
+
+@end
+
+@implementation OBAStopViewController (Internal)
+
+- (OBASectionType) sectionTypeForSection:(NSUInteger)section {
+		
+	OBAStop * stop = _source.stop;
+	NSArray * predictedArrivals = _source.predictedArrivals;
+		
+	if( stop ) {
+		
+		if( section == 0 )
+			return OBASectionStop;
+		
+		if( predictedArrivals ) {
+			if( section == 1 )
+				return OBASectionArrivals;
+			if( section == 2) {
+				if( [_filteredArrivals count] != [predictedArrivals count] )
+					return OBASectionFilter;
+				else
+					return OBASectionOptions;
+			}
+			else if (section == 3 ) {
+				return OBASectionOptions;
+			}
+		}
+		else {
+			if( section == 1 )
+				return OBASectionOptions;
+		}
+	}
+	
+	return OBASectionNone;
+}
+
+- (UITableViewCell*) tableView:(UITableView*)tableView stopCellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	
 	OBAStop * stop = _source.stop;
 	
 	if( stop ) {
 		OBAStopTableViewCell * cell = [OBAStopTableViewCell getOrCreateCellForTableView:tableView];	
 		[cell setStop:stop];
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		return cell;
 	}
 	
@@ -246,6 +313,7 @@
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = @"No arrivals in the next 30 minutes";
 		cell.textLabel.textAlignment = UITextAlignmentCenter;
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		return cell;
 	}
 	else {
@@ -254,7 +322,7 @@
 		OBAArrivalAndDeparture * pa = [arrivals objectAtIndex:indexPath.row];
 		cell.destinationLabel.text = pa.tripHeadsign;
 		cell.routeLabel.text = pa.routeShortName;
-		
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		NSDate * time = [NSDate dateWithTimeIntervalSince1970:(pa.bestDepartureTime / 1000)];		
 		
 		NSTimeInterval interval = [time timeIntervalSinceNow];
@@ -321,26 +389,14 @@
 	return cell;
 }
 
+- (UITableViewCell*) tableView:(UITableView*)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if( indexPath.section == 2) {
-		_showFilteredArrivals = ! _showFilteredArrivals;
-		[self.tableView reloadData];
-	}
-}
-
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-					  ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
-	if ([keyPath isEqual:@"error"]) {
-		if( _source.error )
-			OBALogWarningWithError(_source.error,@"Error... yay!");
-	}
-	else if([keyPath isEqual:@"stop"] || [keyPath isEqual:@"predictedArrivals"]) {
-		[self reloadData];
-	}
+	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+	cell.textLabel.text = @"Options";
+	cell.textLabel.textAlignment = UITextAlignmentCenter;
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	return cell;	
 }
 
 - (IBAction)onRefreshButton:(id)sender {
@@ -354,29 +410,6 @@
 	[actionSheet addButtonWithTitle:@"Cancel"];
 	actionSheet.cancelButtonIndex = 2;
 	[actionSheet showFromToolbar:self.navigationController.toolbar];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	switch(buttonIndex) {
-		case 0: {
-			OBAStop * stop = _source.stop;
-			if( ! stop )
-				return;
-			OBABookmark * bookmark = [_appContext.modelDao createTransientBookmark:stop];
-			OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:_appContext bookmark:bookmark editType:OBABookmarkEditNew];
-			[self.navigationController pushViewController:vc animated:YES];
-			break;
-		}
-		case 1: {
-			OBAStop * stop = _source.stop;
-			if( ! stop )
-				return;
-			OBAEditStopPreferencesViewController * vc = [[OBAEditStopPreferencesViewController alloc] initWithApplicationContext:_appContext stop:stop];
-			[self.navigationController pushViewController:vc animated:YES];
-			[vc release];
-			break;
-		}
-	}
 }
 
 NSComparisonResult predictedArrivalSortByDepartureTime(id pa1, id pa2, void * context) {
@@ -406,18 +439,18 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 		
 		[_allArrivals removeAllObjects];
 		[_filteredArrivals removeAllObjects];
-	
+		
 		if( stop && predictedArrivals) {
-
+			
 			OBAStopPreferences * prefs = stop.preferences;
 			
 			for( OBAArrivalAndDeparture * pa in predictedArrivals) {
 				[_allArrivals addObject:pa];
-
+				
 				if( ! [prefs.routesToExclude containsObject:pa.route] )
 					[_filteredArrivals addObject:pa];
 			}
-
+			
 			switch ([prefs.sortTripsByType intValue]) {
 				case OBASortTripsByDepartureTime:
 					[_allArrivals sortUsingFunction:predictedArrivalSortByDepartureTime context:nil];
@@ -429,10 +462,12 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 					break;
 			}
 		}
-	
+		
 		[self.tableView reloadData];
 	}
 }
 
+
 @end
+
 

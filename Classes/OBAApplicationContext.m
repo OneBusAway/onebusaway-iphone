@@ -115,6 +115,8 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 		case OBANavigationTargetTypeSearchResults:
 			[_searchResultsMapViewController setNavigationTarget:navigationTarget];
 			_tabBarController.selectedIndex = 0;
+			UINavigationController * rootNavController =  [_tabBarController.viewControllers objectAtIndex:0];
+			[rootNavController  popToRootViewControllerAnimated:FALSE];
 			break;
 	}
 }
@@ -157,6 +159,8 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	NSArray * viewControllers = [NSArray arrayWithObjects: mapNav, bookmarksNav, recentStopsNav, searchNav, settingsNav, nil];
 	[_tabBarController setViewControllers:viewControllers animated:TRUE];
 	
+	_tabBarController.delegate = self;
+	
 	[bookmarksViewController release];
 	
 	UIView * rootView = [_tabBarController view];
@@ -186,6 +190,15 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 	NSLog(@"Application: IN-Active!");		
+}
+
+#pragma mark UITabBarControllerDelegate Methods
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+	if( tabBarController.selectedIndex == 0 ) {
+		UINavigationController * rootNavController = (UINavigationController*) _tabBarController.selectedViewController;
+		[rootNavController  popToRootViewControllerAnimated:FALSE];
+	}
 }
 
 @end

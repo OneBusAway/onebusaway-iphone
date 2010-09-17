@@ -73,6 +73,7 @@
 		D65CDC000FEC4753008257AD /* OBAActivityLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = D65CDBFB0FEC4753008257AD /* OBAActivityLogger.m */; };
 		D65CDC010FEC4753008257AD /* OBARotatingLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = D65CDBFD0FEC4753008257AD /* OBARotatingLogger.m */; };
 		D65CDC020FEC4753008257AD /* OBAUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D65CDBFF0FEC4753008257AD /* OBAUploadManager.m */; };
+		D65D5010102DF2F400434A89 /* OBAStopOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D65D500F102DF2F400434A89 /* OBAStopOptionsViewController.m */; };
 		D66842FC0FEA01F800C681B6 /* OBADataSourceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = D66842FB0FEA01F800C681B6 /* OBADataSourceConfig.m */; };
 		D66843040FEA03E800C681B6 /* OBAJsonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D66843030FEA03E800C681B6 /* OBAJsonDataSource.m */; };
 		D6686A6E0FD9ABD40097F034 /* OBAProgressIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = D6686A6D0FD9ABD40097F034 /* OBAProgressIndicatorView.m */; };
@@ -243,6 +244,8 @@
 		D65CDBFD0FEC4753008257AD /* OBARotatingLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBARotatingLogger.m; path = ActivityRecognition/Control/OBARotatingLogger.m; sourceTree = "<group>"; };
 		D65CDBFE0FEC4753008257AD /* OBAUploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAUploadManager.h; path = ActivityRecognition/Control/OBAUploadManager.h; sourceTree = "<group>"; };
 		D65CDBFF0FEC4753008257AD /* OBAUploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAUploadManager.m; path = ActivityRecognition/Control/OBAUploadManager.m; sourceTree = "<group>"; };
+		D65D500E102DF2F400434A89 /* OBAStopOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAStopOptionsViewController.h; path = View/OBAStopOptionsViewController.h; sourceTree = "<group>"; };
+		D65D500F102DF2F400434A89 /* OBAStopOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAStopOptionsViewController.m; path = View/OBAStopOptionsViewController.m; sourceTree = "<group>"; };
 		D66842FA0FEA01F800C681B6 /* OBADataSourceConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBADataSourceConfig.h; path = Control/DataSource/OBADataSourceConfig.h; sourceTree = "<group>"; };
 		D66842FB0FEA01F800C681B6 /* OBADataSourceConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBADataSourceConfig.m; path = Control/DataSource/OBADataSourceConfig.m; sourceTree = "<group>"; };
 		D66842FF0FEA02BC00C681B6 /* OBADataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBADataSource.h; path = Control/DataSource/OBADataSource.h; sourceTree = "<group>"; };
@@ -664,6 +667,8 @@
 				D6A982D80F7DA6870028173A /* OBASearchResultsListViewController.m */,
 				D62F30A50F7AA5D300629092 /* OBAStopViewController.h */,
 				D62F30A60F7AA5D300629092 /* OBAStopViewController.m */,
+				D65D500E102DF2F400434A89 /* OBAStopOptionsViewController.h */,
+				D65D500F102DF2F400434A89 /* OBAStopOptionsViewController.m */,
 				D67003E70F7D20730004F420 /* OBAEditStopPreferencesViewController.h */,
 				D67003E80F7D20730004F420 /* OBAEditStopPreferencesViewController.m */,
 				D6595C7B0FEB0C14009F6EF0 /* OBAEditStopBookmarkViewController.h */,
@@ -911,6 +916,7 @@
 				D6B889871014E46C00CF436E /* OBASearchControllerImpl.m in Sources */,
 				D6FE146F1023BCA800143C1B /* OBASelectorJsonDigesterRule.m in Sources */,
 				D6FE15021023D68500143C1B /* OBAEntityManager.m in Sources */,
+				D65D5010102DF2F400434A89 /* OBAStopOptionsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
