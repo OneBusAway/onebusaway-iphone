@@ -43,16 +43,16 @@
 
 #import "OBANearbyTripsController.h"
 
+
 static NSString * kOBAHiddenPreferenceLocationAwareDisabled = @"OBALocationAwareDisabled";
 static NSString * kOBAHiddenPreferenceSavedNavigationTargets = @"OBASavedNavigationTargets";
-static NSString * kOBAHiddenPreferenceApplicationTerminationTimestamp = @"OBAApplicationTerminationTimestamp";
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 
-static NSString * kOBAPreferenceShowOnStartup = @"oba_show_on_start_preference";
-static NSString * kOBAPreferenceClearLocalCacheOnStartup = @"oba_clear_local_cache_preference";
+static NSString* kOBAApiServerName = @"http://api.onebusaway.org";
+static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 
-//static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15 * 60; // we now always restore state
 static const BOOL kDeleteModelOnStartup = FALSE;
+
 
 @interface OBAApplicationContext (Private)
 
@@ -98,7 +98,6 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 }
 
 - (void) dealloc {
-	
 	[_managedObjectContext release];
 	[_modelDao release];
 	
@@ -208,7 +207,6 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 @implementation OBAApplicationContext (Private)
 
 - (void) setup {
-	
 	if( _setup )
 		return;
 	
@@ -218,20 +216,12 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	NSFileManager * manager = [NSFileManager defaultManager];
-
-	NSString * apiServerName = [userDefaults objectForKey:@"oba_api_server"];
-	if( apiServerName == nil || [apiServerName length] == 0 )
-		apiServerName = @"api.onebusaway.org";
-	
-	apiServerName = [NSString stringWithFormat:@"http://%@",apiServerName];
 	
 	NSString * userId = [self userIdFromDefaults:userDefaults];
 	NSString * appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
 	NSString * obaArgs = [NSString stringWithFormat:@"key=org.onebusaway.iphone&app_uid=%@&app_ver=%@",userId,appVersion];
-	
-	//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://soak-api.onebusaway.org" args:obaArgs];
-	//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://api.onebusaway.org" args:obaArgs];
-	_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:apiServerName args:obaArgs];		
+
+	_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:kOBAApiServerName args:obaArgs];		
 	
 	//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://localhost:8080/onebusaway-api-webapp" args:@"key=org.onebusaway.iphone"];
 	_googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://maps.google.com" args:@"output=json&oe=utf-8&key=ABQIAAAA1R_R0bUhLYRwbQFpKHVowhRAXGY6QyK0faTs-0G7h9EE_iri4RRtKgRdKFvvraEP5PX_lP_RlqKkzA"];
@@ -247,17 +237,13 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	
 	NSString * path = [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"OneBusAway.sqlite"];
 
-	BOOL clearCacheOnStartup = [userDefaults boolForKey:kOBAPreferenceClearLocalCacheOnStartup];
-	[userDefaults setBool:FALSE forKey:kOBAPreferenceClearLocalCacheOnStartup];
-	
-	if( clearCacheOnStartup || kDeleteModelOnStartup ) {
+	if( kDeleteModelOnStartup ) {
 
 		if( ! [manager removeItemAtPath:path error:&error] )
 			OBALogSevereWithError(error,@"Error deleting file: %@",path);
 		
 		[userDefaults removeObjectForKey:kOBAHiddenPreferenceLocationAwareDisabled];
 		[userDefaults removeObjectForKey:kOBAHiddenPreferenceSavedNavigationTargets];
-		[userDefaults removeObjectForKey:kOBAHiddenPreferenceApplicationTerminationTimestamp];
 		
 		if( kIncludeUWActivityInferenceCode )
 			[_activityLogger deleteAllTraces];
@@ -270,7 +256,7 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	NSManagedObjectModel * managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
 	NSPersistentStoreCoordinator * persistentStoreCoordinator = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: managedObjectModel] autorelease];
 	
-	NSURL *storeUrl = [NSURL fileURLWithPath: path];
+	NSURL *storeUrl = [NSURL fileURLWithPath:path];
 	
 	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
 							 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
@@ -357,32 +343,12 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 }
 
 - (void) restoreApplicationNavigationState {
-	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-	
-	NSInteger showOnStartup = [userDefaults integerForKey:kOBAPreferenceShowOnStartup];
-
-	if( 0 <= showOnStartup && showOnStartup < 4 )
-		_tabBarController.selectedIndex = showOnStartup;
+    _tabBarController.selectedIndex = kOBADefaultShowOnStartup;
     
-    //
     // On iOS 4.0 the default expectaton is that state will be restored, so
     // we no longer check if we should restore state and instead do it
     // consistently.
-    //
-/*
-    // We only restore the application state if it's been less than x minutes
-    // The idea is that, typically, if it's been more than x minutes, you've moved
-    // on from the stop you were looking at, so we should just return to the home
-    // screen
- 
-    NSData * dateData = [userDefaults objectForKey:kOBAHiddenPreferenceApplicationTerminationTimestamp];
-	if( ! dateData ) 
-		return;
-	NSDate * date = [NSKeyedUnarchiver unarchiveObjectWithData:dateData];
-	if( ! date || (-[date timeIntervalSinceNow]) > kMaxTimeSinceApplicationTerminationToRestoreState )
-		return;
-*/
-
+	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	NSData *restoreStateData = [userDefaults objectForKey:kOBAHiddenPreferenceSavedNavigationTargets];
 	
 	if(!restoreStateData)
@@ -435,8 +401,10 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 - (void) setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController {
 	if( ! [viewController conformsToProtocol:@protocol(OBANavigationTargetAware) ] )
 		return;
+    
 	if( ! [viewController respondsToSelector:@selector(setNavigationTarget:) ] )
 		return;
+
 	id<OBANavigationTargetAware> targetAware = (id<OBANavigationTargetAware>) viewController;
 	[targetAware setNavigationTarget:target];
 }

@@ -183,7 +183,6 @@
 		D6864A300F941CEA00C0296B /* OBAUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = D6864A2F0F941CEA00C0296B /* OBAUIKit.m */; };
 		D68CDC350FCB53F000EE6BDF /* OBABookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D68CDC340FCB53F000EE6BDF /* OBABookmarksViewController.m */; };
 		D68CDD100FCBB07D00EE6BDF /* OBAActivityListeners.m in Sources */ = {isa = PBXBuildFile; fileRef = D68CDD0F0FCBB07D00EE6BDF /* OBAActivityListeners.m */; };
-		D68EE1A710444BF900B3A180 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D68EE1A610444BF900B3A180 /* Settings.bundle */; };
 		D696DAA811A3CD8D00C0E6CB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D696DAA711A3CD8D00C0E6CB /* MessageUI.framework */; };
 		D6A346F5115A8B2200ACF54F /* FerryStopIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D6A346ED115A8B2200ACF54F /* FerryStopIcon.png */; };
 		D6A346F6115A8B2200ACF54F /* FerryStopIconE.png in Resources */ = {isa = PBXBuildFile; fileRef = D6A346EE115A8B2200ACF54F /* FerryStopIconE.png */; };
@@ -520,7 +519,6 @@
 		D68CDC340FCB53F000EE6BDF /* OBABookmarksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBABookmarksViewController.m; path = View/OBABookmarksViewController.m; sourceTree = "<group>"; };
 		D68CDD0E0FCBB07D00EE6BDF /* OBAActivityListeners.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAActivityListeners.h; path = Control/OBAActivityListeners.h; sourceTree = "<group>"; };
 		D68CDD0F0FCBB07D00EE6BDF /* OBAActivityListeners.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAActivityListeners.m; path = Control/OBAActivityListeners.m; sourceTree = "<group>"; };
-		D68EE1A610444BF900B3A180 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = Resources/Settings.bundle; sourceTree = "<group>"; };
 		D696DAA711A3CD8D00C0E6CB /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		D6A346ED115A8B2200ACF54F /* FerryStopIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIcon.png; path = "Resources/Map Icons/FerryStopIcon.png"; sourceTree = "<group>"; };
 		D6A346EE115A8B2200ACF54F /* FerryStopIconE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconE.png; path = "Resources/Map Icons/FerryStopIconE.png"; sourceTree = "<group>"; };
@@ -676,7 +674,6 @@
 				D6CFB1411032229F00005000 /* Default.png */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				D62AC46410A4F6D300CE9212 /* OBAModel.xcdatamodeld */,
-				D68EE1A610444BF900B3A180 /* Settings.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1319,7 +1316,6 @@
 				D64A44AC101EA4D8008F16CA /* TextBox-MagnifyingGlass.png in Resources */,
 				D64A4800101F53C7008F16CA /* Gear.png in Resources */,
 				D6CFB1421032229F00005000 /* Default.png in Resources */,
-				D68EE1A710444BF900B3A180 /* Settings.bundle in Resources */,
 				D62CC40510A3B4CD008F93FE /* LightRailStopIconE.png in Resources */,
 				D62CC40610A3B4CD008F93FE /* LightRailStopIconN.png in Resources */,
 				D62CC40710A3B4CD008F93FE /* LightRailStopIconNE.png in Resources */,
