@@ -195,7 +195,11 @@ typedef enum {
 	NSString * message = [NSString stringWithFormat:@"Updated: %@", [OBACommon getTimeAsString]];
 	[_progressView setMessage:message inProgress:FALSE progress:0];
 	[self didRefreshEnd];
-	self.result = obj;	
+	self.result = obj;
+	
+	// Note the event
+	[_appContext.activityListeners viewedArrivalsAndDeparturesForStop:_result.stop];
+
 	[self reloadData];
 }
 
