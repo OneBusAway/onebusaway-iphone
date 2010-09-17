@@ -22,8 +22,6 @@
 #import "OBALogger.h"
 
 
-static const BOOL kLogAccelerometer = YES;
-
 NSString * const kActivityNameKey = @"name";
 NSString * const kActivityTimeKey = @"time";
 
@@ -114,9 +112,11 @@ static OBAActivityLogger * _staticInstance = nil;
 		[_accelerometerLogger open];
 		[_activityLogger open];
 		
-		[_context.locationManager addDelegate:self];
+		if( kIncludeUWActivityLocationLogging ) {
+			[_context.locationManager addDelegate:self];
+		}
 		
-		if( kLogAccelerometer ) {
+		if( kIncludeUWActivityAccelerometerLogging ) {
 			UIAccelerometer * accel = [UIAccelerometer sharedAccelerometer];
 			[accel setDelegate:self];
 		}
@@ -134,9 +134,11 @@ static OBAActivityLogger * _staticInstance = nil;
 		if( ! _running )
 			return;
 		
-		[_context.locationManager removeDelegate:self];
+		if( kIncludeUWActivityLocationLogging ) {
+			[_context.locationManager removeDelegate:self];
+		}
 		
-		if( kLogAccelerometer ) {
+		if( kIncludeUWActivityAccelerometerLogging ) {
 			UIAccelerometer * accel = [UIAccelerometer sharedAccelerometer];
 			[accel setDelegate:nil];
 		}

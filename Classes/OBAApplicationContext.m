@@ -43,6 +43,9 @@
 
 #import "OBANearbyTripsController.h"
 
+#import "ISFeedback.h"
+
+
 static NSString * kOBAHiddenPreferenceLocationAwareDisabled = @"OBALocationAwareDisabled";
 static NSString * kOBAHiddenPreferenceSavedNavigationTargets = @"OBASavedNavigationTargets";
 static NSString * kOBAHiddenPreferenceApplicationTerminationTimestamp = @"OBAApplicationTerminationTimestamp";
@@ -166,7 +169,7 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	[_window addSubview:rootView];
 	[_window makeKeyAndVisible];
 	
-	OBANavigationTarget * navTarget = [OBASearchControllerFactory getNavigationTargetForSearchCurrentLocation];
+	OBANavigationTarget * navTarget = [OBASearchControllerFactory getNavigationTargetForSearchNone];
 	[self navigateToTarget:navTarget];
 	
 	[self restoreApplicationNavigationState];
@@ -305,18 +308,21 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	
 	_modelFactory = [[OBAModelFactory alloc] initWithManagedObjectContext:_managedObjectContext];
 	
-	if( _locationAware )
-		[_locationManager startUpdatingLocation];
-	
 	if( kIncludeUWActivityInferenceCode ) {
 		[_activityLogger start];
-		[_nearbyTripsController start];
+		if( kIncludeUWActivityNearbyTripLogging ) {
+			[_nearbyTripsController start];
+		}
 	}
+	
+	[ISFeedback initSharedInstance:@"b1b94280-e1bf-4d7c-a657-72aa1d25e49e"];
 }
 
 - (void) teardown {	
 	if( kIncludeUWActivityInferenceCode ) {
-		[_nearbyTripsController stop];
+		if( kIncludeUWActivityNearbyTripLogging ) {
+			[_nearbyTripsController stop];
+		}
 		[_activityLogger stop];
 	}
 	if( _locationAware )

@@ -28,7 +28,7 @@ OBALoggerLevel;
 #define OBALogWithError(level,errorObject,s,...) [OBALogger logWithLevel:level pointer:self file:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] line:__LINE__ message:[NSString stringWithFormat:(s), ##__VA_ARGS__] error:errorObject]
 
 #define OBALogDebug(s,...) OBALog(OBALoggerLevelDebug,s, ##__VA_ARGS__)
-#define OBALogDebugWithError(s,...) OBALogWithError(OBALoggerLevelDebug,error,s, ##__VA_ARGS__)
+#define OBALogDebugWithError(error,s,...) OBALogWithError(OBALoggerLevelDebug,error,s, ##__VA_ARGS__)
 
 #define OBALogInfo(s,...) OBALog(OBALoggerLevelInfo,s, ##__VA_ARGS__)
 #define OBALogInfoWithError(error,s,...) OBALogWithError(OBALoggerLevelInfo,error, s, ##__VA_ARGS__)

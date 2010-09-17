@@ -68,7 +68,6 @@
 	switch (_result.searchType) {
 		case OBASearchControllerSearchTypeNone:
 			return 0;
-		case OBASearchControllerSearchTypeCurrentLocation:
 		case OBASearchControllerSearchTypeRegion:
 		case OBASearchControllerSearchTypePlacemark:
 		case OBASearchControllerSearchTypeStopId:			
@@ -94,7 +93,6 @@
 			cell.textLabel.text = @"No search results";
 			return cell;
 		}
-		case OBASearchControllerSearchTypeCurrentLocation:
 		case OBASearchControllerSearchTypeRegion:
 		case OBASearchControllerSearchTypePlacemark:
 		case OBASearchControllerSearchTypeStopId:			
@@ -148,7 +146,6 @@
 		case OBASearchControllerSearchTypeNone: {
 			break;
 		}
-		case OBASearchControllerSearchTypeCurrentLocation:
 		case OBASearchControllerSearchTypeRegion:
 		case OBASearchControllerSearchTypePlacemark:
 		case OBASearchControllerSearchTypeStopId:			
@@ -197,7 +194,6 @@
 		case OBASearchControllerSearchTypeNone:
 			self.navigationItem.title = @"";
 			break;
-		case OBASearchControllerSearchTypeCurrentLocation:
 		case OBASearchControllerSearchTypeRegion:
 		case OBASearchControllerSearchTypePlacemark:
 		case OBASearchControllerSearchTypeStopId:			

@@ -20,8 +20,11 @@
 #import "OBAActivityLoggingViewController.h"
 #import "OBAContactUsViewController.h"
 
+#import "ISFeedback.h"
+
+
 typedef enum {
-	OBARowNone, OBARowAgencies, OBARowContactUs, OBARowLocationAware, OBARowActivityAware
+	OBARowNone, OBARowAgencies, OBARowContactUs, OBARowFeedback, OBARowLocationAware, OBARowActivityAware
 } OBARowType;
 
 
@@ -69,7 +72,7 @@ typedef enum {
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	NSInteger rows = 2;
+	NSInteger rows = 3;
 	if( kIncludeUWUserStudyCode )
 		rows += 1;
 	if( kIncludeUWActivityInferenceCode)
@@ -94,7 +97,13 @@ typedef enum {
 		cell.textLabel.text = @"Contact Us";
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		return cell;
-	}	
+	}
+	else if( rowType == OBARowFeedback ) {
+		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+		cell.textLabel.text = @"Feedback";
+		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		return cell;
+	}		
 	else if( rowType == OBARowLocationAware ) {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = @"Location Aware";
@@ -132,6 +141,10 @@ typedef enum {
 			[vc release];
 			break;
 		}
+		case OBARowFeedback: {
+			[[ISFeedback sharedInstance] pushOntoViewController:self];
+			break;
+		}
 		case OBARowLocationAware: {
 			_appContext.locationAware = ! _appContext.locationAware;
 			[self.tableView reloadData];
@@ -161,21 +174,23 @@ typedef enum {
 
 - (OBARowType) rowTypeForRowIndex:(NSInteger) row {
 	if( row == 0 )
-		return OBARowAgencies;
+		return OBARowFeedback;
 	if( row == 1 )
-		return OBARowContactUs;
+		return OBARowContactUs;	
+	if( row == 2 )
+		return OBARowAgencies;
 	if( kIncludeUWActivityInferenceCode && kIncludeUWUserStudyCode ) {
-		if( row == 2 )
-			return OBARowLocationAware;
 		if( row == 3 )
+			return OBARowLocationAware;
+		if( row == 4 )
 			return OBARowActivityAware;
 	}
 	else if( kIncludeUWActivityInferenceCode ) {
-		if( row == 2 )
+		if( row == 3 )
 			return OBARowActivityAware;
 	}
 	else if( kIncludeUWUserStudyCode ) {
-		if( row == 3 )
+		if( row == 4 )
 			return OBARowLocationAware;
 	}
 		

@@ -22,6 +22,10 @@ const NSInteger kOBAErrorDuplicateEntity = 1000;
 const NSInteger kOBAErrorMissingFieldInData = 1001;
 const BOOL kIncludeUWActivityInferenceCode = FALSE;
 const BOOL kIncludeUWUserStudyCode = FALSE;
+const BOOL kIncludeUWActivityAccelerometerLogging = FALSE;
+const BOOL kIncludeUWActivityLocationLogging = TRUE;
+const BOOL kIncludeUWActivityNearbyTripLogging = FALSE;
+
 
 
 @implementation NSObject (OBAConvenienceMethods)

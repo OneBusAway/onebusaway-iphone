@@ -25,7 +25,7 @@
 @class OBAProgressIndicatorImpl;
 
 
-@interface OBASearchControllerImpl : NSObject <OBALocationManagerDelegate,OBADataSourceDelegate,OBASearchController> {
+@interface OBASearchControllerImpl : NSObject <OBADataSourceDelegate,OBASearchController> {
 	
 	OBAApplicationContext * _appContext;
 	id<OBASearchControllerDelegate> _delegate;

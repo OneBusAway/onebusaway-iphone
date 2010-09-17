@@ -82,8 +82,8 @@ NSString * kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSe
 
 @implementation OBASearchControllerFactory
 
-+ (OBANavigationTarget*) getNavigationTargetForSearchCurrentLocation {
-	return [OBASearchControllerFactory getNavigationTargetForSearchType:OBASearchControllerSearchTypeCurrentLocation];
++ (OBANavigationTarget*) getNavigationTargetForSearchNone {
+	return [OBASearchControllerFactory getNavigationTargetForSearchType:OBASearchControllerSearchTypeNone];
 }
 
 + (OBANavigationTarget*) getNavigationTargetForSearchLocationRegion:(MKCoordinateRegion)region {

@@ -34,7 +34,7 @@ static const float kSearchRadius = 400;
 - (CLLocation*) currentLocationToSearch;
 - (CLLocation*) currentOrDefaultLocationToSearch;
 
--(void) searchByCurrentLocation;
+-(void) searchNone;
 -(void) searchByLocationRegion:(MKCoordinateRegion)region;
 -(void) searchByRoute:(NSString*)routeQuery;
 -(void) searchByRouteStops:(NSString*)routeId;
@@ -48,7 +48,6 @@ static const float kSearchRadius = 400;
 
 -(NSString*) progressCompleteMessageForSearchType;
 
--(void) handleSearchByCurrentLocation:(id)jsonObject;
 -(void) handleSearchByLocationRegion:(id)jsonObject;
 -(void) handleSearchByRoute:(id)jsonObject;
 -(void) handleSearchByRouteStops:(id)jsonObject;
@@ -128,27 +127,21 @@ static const float kSearchRadius = 400;
 	NSNumber * searchTypeAsNumber = [parameters objectForKey:kOBASearchControllerSearchTypeParameter];
 	
 	if( ! searchTypeAsNumber )
-		searchTypeAsNumber = [NSNumber numberWithInt:OBASearchControllerSearchTypeCurrentLocation];
+		searchTypeAsNumber = [NSNumber numberWithInt:OBASearchControllerSearchTypeNone];
 	
 	OBASearchControllerSearchType searchType = [self searchTypeForNumber:searchTypeAsNumber];
 	
 	@synchronized(self) {
 		
 		[self cancelOpenConnections];
-
-		if( _searchType == OBASearchControllerSearchTypeCurrentLocation && searchType != OBASearchControllerSearchTypeCurrentLocation)
-			[_locationManager removeDelegate:self];
-		
-		if( _searchType != OBASearchControllerSearchTypeCurrentLocation && searchType == OBASearchControllerSearchTypeCurrentLocation)
-			[_locationManager addDelegate:self];
 		
 		_searchType = searchType;
 		_result = [NSObject releaseOld:_result retainNew:nil];
 	}	
 	
 	switch (_searchType) {
-		case OBASearchControllerSearchTypeCurrentLocation:
-			[self searchByCurrentLocation];
+		case OBASearchControllerSearchTypeNone:
+			[self searchNone];
 			break;
 		case OBASearchControllerSearchTypeRegion: {
 			NSData * data = [parameters objectForKey:kOBASearchControllerSearchArgumentParameter];
@@ -208,26 +201,6 @@ static const float kSearchRadius = 400;
 	[_googleMapsDataSource cancelOpenConnections];
 }
 
-#pragma mark OBALocationManagerDelegate Methods
-
-- (void)locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
-	
-	self.searchLocation = location;
-	
-	if( _searchType == OBASearchControllerSearchTypeCurrentLocation ) {
-		if( _lastCurrentLocationSearch == nil || [_lastCurrentLocationSearch getDistanceFrom:location] > kSearchRadius * 0.25 )
-			[self searchByCurrentLocation];
-	}
-}
-
-- (void) locationManager:(OBALocationManager *)manager didFailWithError:(NSError*)error {
-	if( _searchType == OBASearchControllerSearchTypeCurrentLocation ) {
-		[_progress setMessage:@"Error determining location" inProgress:FALSE progress:0];
-		[self fireError:error];
-	}
-}
-
-
 #pragma mark OBADataSourceDelegate Methods
 
 - (void)connection:(id<OBADataSourceConnection>)connection withProgress:(float)progress {
@@ -249,9 +222,6 @@ static const float kSearchRadius = 400;
 	[_progress setMessage:message inProgress:FALSE progress:0];
 	
 	switch (searchType ) {
-		case OBASearchControllerSearchTypeCurrentLocation:
-			[self handleSearchByCurrentLocation:obj];
-			break;
 		case OBASearchControllerSearchTypeRegion:
 			[self handleSearchByLocationRegion:obj];
 			break;
@@ -287,8 +257,6 @@ static const float kSearchRadius = 400;
 
 - (OBASearchControllerSearchType) searchTypeForNumber:(NSNumber*)number {
 	switch ([number intValue]) {
-		case OBASearchControllerSearchTypeCurrentLocation:
-			return OBASearchControllerSearchTypeCurrentLocation;
 		case OBASearchControllerSearchTypeRegion:
 			return OBASearchControllerSearchTypeRegion;
 		case OBASearchControllerSearchTypeRoute:
@@ -332,30 +300,18 @@ static const float kSearchRadius = 400;
 	return location;
 }
 
--(void) searchByCurrentLocation {
-	
-	CLLocation * location =  [self currentLocationToSearch];
-
-	if( ! location) {
-		if( _locationManager.locationServicesEnabled )
-			[_progress setMessage:@"Locating..." inProgress:TRUE progress:0];
-		else
-			[_progress setMessage:@"Location services disabled" inProgress:FALSE progress:0];
-		return;
-	}
-	
-	CLLocationCoordinate2D coord = location.coordinate;
-	
-	_lastCurrentLocationSearch = [NSObject releaseOld:_lastCurrentLocationSearch retainNew:location];
-	
-	NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&radius=%f", coord.latitude, coord.longitude,kSearchRadius];
-	[self requestPath:@"/api/where/stops-for-location.json" withArgs:args searchType:OBASearchControllerSearchTypeCurrentLocation];
+-(void) searchNone {
+	OBASearchControllerResult * result = [OBASearchControllerResult result];
+	[self fireUpdate:result];
 }
 
 -(void) searchByLocationRegion:(MKCoordinateRegion)region {
 	
 	CLLocationCoordinate2D coord = region.center;
 	MKCoordinateSpan span = region.span;
+	
+	CLLocation * location = [[[CLLocation alloc] initWithLatitude:coord.latitude longitude:coord.longitude] autorelease];
+	_lastCurrentLocationSearch = [NSObject releaseOld:_lastCurrentLocationSearch retainNew:location];
 	
 	NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&latSpan=%f&lonSpan=%f", coord.latitude, coord.longitude,span.latitudeDelta,span.longitudeDelta];
 	[self requestPath:@"/api/where/stops-for-location.json" withArgs:args searchType:OBASearchControllerSearchTypeRegion];
@@ -438,7 +394,6 @@ static const float kSearchRadius = 400;
 		case OBASearchControllerSearchTypeNone:
 			title = @"";
 			break;
-		case OBASearchControllerSearchTypeCurrentLocation:
 		case OBASearchControllerSearchTypeRegion:
 		case OBASearchControllerSearchTypePlacemark:
 		case OBASearchControllerSearchTypeStopId:			
@@ -459,10 +414,6 @@ static const float kSearchRadius = 400;
 	}
 	
 	return title;
-}
-
--(void) handleSearchByCurrentLocation:(id)jsonObject {
-	[self fireStopsFromJsonObject:jsonObject];
 }
 
 -(void) handleSearchByLocationRegion:(id)jsonObject {

@@ -32,6 +32,12 @@
 	CLLocation * _currentLocation;
 	BOOL _disabled;
 	NSDate * _lastUpdate;
+	
+#if TARGET_IPHONE_SIMULATOR
+	NSArray * _locationTrace;
+	int _locationTraceIndex;
+#endif
+	
 }
 
 @property (nonatomic,retain) CLLocation * currentLocation;

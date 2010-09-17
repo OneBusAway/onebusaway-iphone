@@ -92,8 +92,16 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 	[_searchField becomeFirstResponder];
+	
+	OBALocationManager * lm = _appContext.locationManager;
+	[lm startUpdatingLocation];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	OBALocationManager * lm = _appContext.locationManager;
+	[lm stopUpdatingLocation];
+}	
 
 #pragma mark Table view methods
 

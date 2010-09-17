@@ -16,6 +16,23 @@
 
 #import "OBALocationManager.h"
 #import "OBACommon.h"
+#import "OBALogger.h"
+
+#if TARGET_IPHONE_SIMULATOR
+static const BOOL kUseLocationTraceInSimulator = FALSE;
+#endif
+
+@interface OBALocationManager (Private)
+
+-(void) handleNewLocation:(CLLocation*)location;
+
+#if TARGET_IPHONE_SIMULATOR
+-(void) handleSimulatedLocationTrace;
+#endif	
+
+@end
+
+
 
 @implementation OBALocationManager
 
@@ -32,6 +49,11 @@
 }
 
 -(void) dealloc {
+	
+#if TARGET_IPHONE_SIMULATOR
+	[_locationTrace release];
+#endif
+	
 	[_locationManager release];
 	[_delegates release];
 	[super dealloc];
@@ -66,23 +88,31 @@
 #pragma mark CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-
+	
 #if TARGET_IPHONE_SIMULATOR
-	//newLocation = [[[CLLocation alloc] initWithLatitude:47.66869649992775  longitude:-122.377610206604] autorelease]; // Ballard
-	newLocation = [[[CLLocation alloc] initWithLatitude:  47.653435121376894 longitude: -122.3056411743164] autorelease]; // UW CSE
-	//newLocation = [[[CLLocation alloc] initWithLatitude:  47.60983759756863 longitude: -122.33782768249512] autorelease];
+	
+	if ( kUseLocationTraceInSimulator ) {
+		
+		NSBundle *bundle = [NSBundle mainBundle];
+		NSString * path = [bundle pathForResource:@"LocationTrace" ofType:@"plist"];
+		_locationTrace = [[NSArray arrayWithContentsOfFile:path] retain];
+		_locationTraceIndex = 0;
+		[self handleSimulatedLocationTrace];
+		return;
+	}
+	else {
+		//newLocation = [[[CLLocation alloc] initWithLatitude:47.66869649992775  longitude:-122.377610206604] autorelease]; // Ballard
+		newLocation = [[[CLLocation alloc] initWithLatitude:  47.653435121376894 longitude: -122.3056411743164] autorelease]; // UW CSE
+		//newLocation = [[[CLLocation alloc] initWithLatitude:  47.60983759756863 longitude: -122.33782768249512] autorelease];		
+	}
+	
 #endif
 	
-	@synchronized(self) {
-		_currentLocation = [NSObject releaseOld:_currentLocation retainNew:newLocation];
-
-		for( id<OBALocationManagerDelegate> delegate in _delegates )
-			[delegate locationManager:self didUpdateLocation:_currentLocation];
-	}
+	[self handleNewLocation:newLocation];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-
+	
 	if( [error code] == kCLErrorDenied ) {
 		_disabled = TRUE;
 		[self stopUpdatingLocation];
@@ -92,4 +122,61 @@
 }
 
 @end
+
+
+
+@implementation OBALocationManager (Private)
+
+-(void) handleNewLocation:(CLLocation*)location {
+	
+	OBALogDebug(@"location: %@", [location description]);
+	
+	@synchronized(self) {
+		_currentLocation = [NSObject releaseOld:_currentLocation retainNew:location];
+		
+		for( id<OBALocationManagerDelegate> delegate in _delegates )
+			[delegate locationManager:self didUpdateLocation:_currentLocation];
+	}	
+}
+
+
+#if TARGET_IPHONE_SIMULATOR
+
+-(void) handleSimulatedLocationTrace {
+	if( ! _locationTrace )
+		return;
+	if( _locationTraceIndex >= [_locationTrace count] )
+		return;
+	
+	NSDictionary * record = [_locationTrace objectAtIndex:_locationTraceIndex];
+	
+	NSNumber * lat = [record objectForKey:@"lat"];
+	NSNumber * lon = [record objectForKey:@"lon"];
+	NSNumber * accuracy = [record objectForKey:@"accuracy"];
+	NSNumber * time = [record objectForKey:@"time"];
+	
+	CLLocationCoordinate2D point = { [lat doubleValue], [lon doubleValue] };
+	CLLocation * newLocation = [[CLLocation alloc] initWithCoordinate:point
+															 altitude:0
+												   horizontalAccuracy:[accuracy doubleValue]
+													 verticalAccuracy:0
+															timestamp:[NSDate date]];
+	
+	[self handleNewLocation:newLocation];
+	
+	_locationTraceIndex++;
+	if( _locationTraceIndex < [_locationTrace count] ) { 
+		NSDictionary * record2 = [_locationTrace objectAtIndex:_locationTraceIndex];
+		NSNumber * time2 = [record2 objectForKey:@"time"];
+		NSTimeInterval interval = [time2 doubleValue] - [time doubleValue];
+		interval = MAX(interval,0);
+		[self performSelector:@selector(handleSimulatedLocationTrace) withObject:nil afterDelay:interval];
+	}
+}
+
+#endif
+
+@end
+
+
 

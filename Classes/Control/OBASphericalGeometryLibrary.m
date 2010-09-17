@@ -34,4 +34,36 @@ static const double kRadiusOfEarthInMeters = 6371.01 * 1000;
 	return	MKCoordinateRegionMake(center, span);
 }
 
++ (double) getDistanceFromRegion:(MKCoordinateRegion)regionA toRegion:(MKCoordinateRegion)regionB {
+	CLLocation * a = [[[CLLocation alloc] initWithLatitude:regionA.center.latitude longitude:regionA.center.longitude] autorelease];
+	CLLocation * b = [[[CLLocation alloc] initWithLatitude:regionB.center.latitude longitude:regionB.center.longitude] autorelease];
+	return [a getDistanceFrom:b];	
+}
+
++ (BOOL) isRegion:(MKCoordinateRegion)regionA containedBy:(MKCoordinateRegion)regionB {
+
+	CLLocationCoordinate2D pA = regionA.center;
+	MKCoordinateSpan spanA = regionA.span;
+	
+	CLLocationCoordinate2D pB = regionB.center;
+	MKCoordinateSpan spanB = regionB.span;
+	
+	return  pB.latitude - spanB.latitudeDelta / 2 <= pA.latitude - spanA.latitudeDelta / 2 &&
+	pA.latitude + spanA.latitudeDelta / 2 <= pB.latitude + spanB.latitudeDelta / 2 &&
+	pB.longitude - spanB.longitudeDelta/2 <= pA.longitude - spanA.longitudeDelta / 2 &&
+	pA.longitude + spanA.longitudeDelta/2 <= pB.longitude + spanB.longitudeDelta / 2;
+}
+
++ (NSString*) regionAsString:(MKCoordinateRegion)region {
+	
+	CLLocationCoordinate2D pA = region.center;
+	MKCoordinateSpan spanA = region.span;
+	
+	return [NSString stringWithFormat:@"%f %f %f %f",
+			pA.latitude - spanA.latitudeDelta / 2,
+			pA.longitude - spanA.longitudeDelta / 2,
+			pA.latitude + spanA.latitudeDelta / 2,
+			pA.longitude + spanA.longitudeDelta / 2];
+}
+
 @end

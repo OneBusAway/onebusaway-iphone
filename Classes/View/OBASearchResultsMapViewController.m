@@ -28,13 +28,49 @@
 #import "OBAStopViewController.h"
 #import "OBACoordinateBounds.h"
 #import "OBASearchControllerImpl.h"
-
+#import "OBALogger.h"
 
 // Radius in meters
 static const double kDefaultMapRadius = 100;
+static const double kMinMapRadius = 150;
+static const double kMaxLatDeltaToShowStops = 0.008;
+static const double kRegionScaleFactor = 1.5;
+static const double kMinRegionDeltaToDetectUserDrag = 50;
+
+static const double kRegionChangeRequestsTimeToLive = 3.0;
+
 static const double kMaxMapDistanceFromCurrentLocation = 750;
 static const double kPaddingScaleFactor = 1.1;
 static const NSUInteger kShowNClosestStops = 4;
+
+static const double kStopsInRegionRefreshDelayOnDrag = 1.0;
+static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
+
+
+typedef enum  {
+	OBARegionChangeRequestTypeNone=0,
+	OBARegionChangeRequestTypeCurrentLocation=1,
+	OBARegionChangeRequestTypeSearchResult=2
+} OBARegionChangeRequestType;
+
+
+@interface OBARegionChangeRequest : NSObject
+{
+	NSDate * _timestamp;
+	OBARegionChangeRequestType _type;
+	MKCoordinateRegion _region;
+}
+
+- (id) initWithRegion:(MKCoordinateRegion)region type:(OBARegionChangeRequestType)type;
+- (double) compareRegion:(MKCoordinateRegion)region;
+
+@property (nonatomic,readonly) OBARegionChangeRequestType type;
+@property (nonatomic,readonly) MKCoordinateRegion region;
+@property (nonatomic,readonly) NSDate * timestamp;
+
+@end
+
+
 
 
 @interface OBASearchResultsMapViewController (Private)
@@ -43,6 +79,16 @@ static const NSUInteger kShowNClosestStops = 4;
 - (void) centerMapOnMostRecentLocation;
 - (void) refreshCurrentLocation;
 
+
+- (void) setMapRegion:(MKCoordinateRegion)region requestType:(OBARegionChangeRequestType)requestType;
+- (void) setMapRegionWithRequest:(OBARegionChangeRequest*)request;
+
+- (OBARegionChangeRequest*) getBestRegionChangeRequestForRegion:(MKCoordinateRegion)region;
+
+- (void) scheduleRefreshOfStopsInRegion:(NSTimeInterval)interval location:(CLLocation*)location;
+- (NSTimeInterval) getRefreshIntervalForLocationAccuracy:(CLLocation*)location;
+- (void) refreshStopsInRegion;
+
 - (void) reloadData;
 - (CLLocation*) currentLocation;
 - (UIImage*) getIconForStop:(OBAStop*)stop;
@@ -50,6 +96,8 @@ static const NSUInteger kShowNClosestStops = 4;
 
 - (void) setAnnotationsFromResults;
 - (void) setRegionFromResults;
+
+- (NSString*) computeLabelForCurrentResults;
 
 - (MKCoordinateRegion) computeRegionForCurrentResults:(BOOL*)needsUpdate;
 - (MKCoordinateRegion) computeRegionForStops:(NSArray*)stops;
@@ -60,9 +108,9 @@ static const NSUInteger kShowNClosestStops = 4;
 - (MKCoordinateRegion) computeRegionForPlacemarks:(NSArray*)placemarks andStops:(NSArray*)stops;
 - (MKCoordinateRegion) computeRegionForAgenciesWithCoverage:(NSArray*)agenciesWithCoverage;
 
+- (MKCoordinateRegion) getLocationAsRegion:(CLLocation*)location;
+
 - (void) checkResults;
-- (void) checkTooManyStopResults;
-- (void) checkNoStopResults;
 - (void) checkNoRouteResults;
 - (void) checkNoPlacemarksResults;
 - (void) showNoResultsAlertWithTitle:(NSString*)title prompt:(NSString*)prompt;
@@ -80,6 +128,9 @@ static const NSUInteger kShowNClosestStops = 4;
 
 -(void) dealloc {
 	[_appContext release];
+
+	[_pendingRegionChangeRequest release];
+	[_appliedRegionChangeRequests release];
 	
 	[_activityIndicatorView release];
 	
@@ -93,6 +144,7 @@ static const NSUInteger kShowNClosestStops = 4;
 	
 	[_stopIcons release];
 	[_defaultStopIcon release];
+	[_mostRecentLocation release];
 	
 	[_networkErrorAlertViewDelegate release];
 		
@@ -119,6 +171,16 @@ static const NSUInteger kShowNClosestStops = 4;
 	
 	_locationAnnotation = nil;
 	_firstView = TRUE;
+	_autoCenterOnCurrentLocation = TRUE;
+	_currentlyChangingRegion = FALSE;
+	
+	CLLocationCoordinate2D p = {0,0};
+	_mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0,0));
+	
+	_refreshTimer = nil;
+	
+	_pendingRegionChangeRequest = nil;
+	_appliedRegionChangeRequests = [[NSMutableArray alloc] init];
 	
 	_searchController.delegate = self;	
 	_searchController.progress.delegate = self;
@@ -129,6 +191,7 @@ static const NSUInteger kShowNClosestStops = 4;
 	
 	OBALocationManager * lm = _appContext.locationManager;
 	[lm addDelegate:self];
+	[lm startUpdatingLocation];
 	[_searchTypeControl setEnabled:lm.locationServicesEnabled forSegmentAtIndex:0];
 	
 	if( _firstView ) {
@@ -139,6 +202,7 @@ static const NSUInteger kShowNClosestStops = 4;
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
+	[_appContext.locationManager stopUpdatingLocation];
 	[_appContext.locationManager removeDelegate:self];
 }
 
@@ -217,6 +281,51 @@ static const NSUInteger kShowNClosestStops = 4;
 }
 
 #pragma mark MKMapViewDelegate Methods
+
+- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
+	_currentlyChangingRegion = TRUE;
+}
+
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+
+	_currentlyChangingRegion = FALSE;
+	
+	// We need to figure out if this region change came from the user dragging the map
+	// or from an actual request we instigated.  The easiest way to tell is to 
+	MKCoordinateRegion region = _mapView.region;	
+	OBARegionChangeRequestType type = OBARegionChangeRequestTypeNone;
+	
+	OBALogDebug(@"=== regionDidChangeAnimated: requests=%d",[_appliedRegionChangeRequests count]);
+	OBALogDebug(@"region=%@", [OBASphericalGeometryLibrary regionAsString:region]);
+	
+	OBARegionChangeRequest * request = [self getBestRegionChangeRequestForRegion:region];
+	if( request ) {
+		double score = [request compareRegion:region];
+		OBALogDebug(@"regionDidChangeAnimated: score=%f", score);
+		OBALogDebug(@"subregion=%@", [OBASphericalGeometryLibrary regionAsString:request.region]);
+		if( score < kMinRegionDeltaToDetectUserDrag )
+			type = request.type;
+	}
+
+	_autoCenterOnCurrentLocation = (type == OBARegionChangeRequestTypeCurrentLocation);
+	OBALogDebug(@"regionDidChangeAnimated: setting _autoCenterOnCurrentLocation to %d", _autoCenterOnCurrentLocation);
+	
+	if( _autoCenterOnCurrentLocation && _pendingRegionChangeRequest) {
+		OBALogDebug(@"applying pending reqest");
+		[self setMapRegionWithRequest:_pendingRegionChangeRequest];
+	}
+	else if( type == OBARegionChangeRequestTypeCurrentLocation ) {
+		OBALocationManager * lm = _appContext.locationManager;
+		double refreshInterval = [self getRefreshIntervalForLocationAccuracy:lm.currentLocation];
+		[self scheduleRefreshOfStopsInRegion:refreshInterval location:lm.currentLocation];
+	}
+	else if( type == OBARegionChangeRequestTypeNone ) {
+		if( _searchController.searchType == OBASearchControllerSearchTypeNone || _searchController.searchType == OBASearchControllerSearchTypeRegion)
+			[self scheduleRefreshOfStopsInRegion:kStopsInRegionRefreshDelayOnDrag location:nil];
+	}
+		
+	_pendingRegionChangeRequest = [NSObject releaseOld:_pendingRegionChangeRequest retainNew:nil];
+}
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
 	
@@ -312,20 +421,13 @@ static const NSUInteger kShowNClosestStops = 4;
 	}
 }
 
--(IBAction) onSearchTypeController:(id)sender {
-	switch(_searchTypeControl.selectedSegmentIndex) {
-		case 0: {
-			OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchCurrentLocation];
-			[_searchController searchWithTarget:target];
-			break;
-		}
-		case 1:{
-			OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchLocationRegion:_mapView.region];
-			[_searchController searchWithTarget:target];
-			break;
-		}
-	}
+
+-(IBAction) onCrossHairsButton:(id)sender {	
+	OBALogDebug(@"setting auto center on current location");
+	_autoCenterOnCurrentLocation = TRUE;
+	[self refreshCurrentLocation];
 }
+
 
 -(IBAction) onListButton:(id)sender {
 	OBASearchControllerResult * result = _searchController.result;
@@ -347,7 +449,7 @@ static const NSUInteger kShowNClosestStops = 4;
 	_stopIcons = [[NSMutableDictionary alloc] init];
 	
 	NSArray * directionIds = [NSArray arrayWithObjects:@"",@"N",@"NE",@"E",@"SE",@"S",@"SW",@"W",@"NW",nil];
-	NSArray * iconTypeIds = [NSArray arrayWithObjects:@"Bus",@"LightRail",@"Rail",nil];
+	NSArray * iconTypeIds = [NSArray arrayWithObjects:@"Bus",@"LightRail",@"Rail",@"Ferry",nil];
 
 	for( int j=0; j<[iconTypeIds count]; j++) {
 		NSString * iconType = [iconTypeIds objectAtIndex:j];
@@ -365,17 +467,12 @@ static const NSUInteger kShowNClosestStops = 4;
 
 - (void) centerMapOnMostRecentLocation {
 	
-	// Center our map on our most recent location, or a default if not present
-	CLLocationCoordinate2D defaultCenter = {0,0};
-	MKCoordinateRegion region = MKCoordinateRegionMake(defaultCenter,MKCoordinateSpanMake(180, 180));
-	
 	OBAModelDAO * modelDao = _appContext.modelDao;
 	CLLocation * mostRecentLocation = modelDao.mostRecentLocation;
 	
 	if( mostRecentLocation ) {
-		region = [OBASphericalGeometryLibrary createRegionWithCenter:mostRecentLocation.coordinate latRadius:kDefaultMapRadius lonRadius:kDefaultMapRadius];	
-		region = [_mapView regionThatFits:region];
-		_mapView.region = region;
+		MKCoordinateRegion region = [self getLocationAsRegion:mostRecentLocation];
+		[self setMapRegion:region requestType:OBARegionChangeRequestTypeCurrentLocation];
 	}
 }
 
@@ -383,7 +480,7 @@ static const NSUInteger kShowNClosestStops = 4;
 	
 	OBALocationManager * lm = _appContext.locationManager;
 	CLLocation * location = lm.currentLocation;
-	
+
 	if( _locationAnnotation ) {
 		[_mapView removeAnnotation:_locationAnnotation];
 		[_locationAnnotation release];
@@ -393,8 +490,134 @@ static const NSUInteger kShowNClosestStops = 4;
 	if( location ) {
 		_locationAnnotation = [[OBAGenericAnnotation alloc] initWithTitle:nil subtitle:nil coordinate:location.coordinate context:@"currentLocation"];
 		[_mapView addAnnotation:_locationAnnotation];
+		
+		OBALogDebug(@"refreshCurrentLocation: auto center on current location: %d", _autoCenterOnCurrentLocation);
+		
+		if( _autoCenterOnCurrentLocation ) {
+			double radius = MAX(location.horizontalAccuracy,kMinMapRadius);
+			MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:location.coordinate latRadius:radius lonRadius:radius];
+			[self setMapRegion:region requestType:OBARegionChangeRequestTypeCurrentLocation];
+		}		
 	}
 }
+
+- (void) setMapRegion:(MKCoordinateRegion)region requestType:(OBARegionChangeRequestType)requestType {
+
+	
+	OBARegionChangeRequest * request = [[OBARegionChangeRequest alloc] initWithRegion:region type:requestType];
+	[self setMapRegionWithRequest:request];
+	[request release];
+}
+		 
+- (void) setMapRegionWithRequest:(OBARegionChangeRequest*)request {
+	
+	OBALogDebug(@"setMapRegion: requestType=%d region=%@",request.type,[OBASphericalGeometryLibrary regionAsString:request.region]);
+	
+	/**
+	 * If we are currently in the process of changing the map region, we save the region change request as pending.
+	 * Otherwise, we apply the region change.
+	 */
+	if ( _currentlyChangingRegion ) {
+		OBALogDebug(@"saving pending request");
+		_pendingRegionChangeRequest = [NSObject releaseOld:_pendingRegionChangeRequest retainNew:request];
+	}
+	else {
+		[_appliedRegionChangeRequests addObject:request];
+		[_mapView setRegion:request.region animated:TRUE];
+	}
+}
+
+
+- (OBARegionChangeRequest*) getBestRegionChangeRequestForRegion:(MKCoordinateRegion)region {
+	
+	NSMutableArray * requests = [[NSMutableArray alloc] init];
+	OBARegionChangeRequest * bestRequest = nil;
+	double bestScore = 0;
+	
+	NSDate * now = [NSDate date];
+	
+	for( OBARegionChangeRequest * request in  _appliedRegionChangeRequests ) {
+		
+		NSTimeInterval interval = [now timeIntervalSinceDate:request.timestamp];
+
+		if( interval <= kRegionChangeRequestsTimeToLive ) {
+			[requests addObject:request];
+			double score = [request compareRegion:region];
+			if( bestRequest == nil || score < bestScore)  {
+				bestRequest = request;
+				bestScore = score;
+			}
+		}
+	}
+	
+	_appliedRegionChangeRequests = [NSObject releaseOld:_appliedRegionChangeRequests retainNew:requests];
+	
+	return bestRequest;
+}
+- (void) scheduleRefreshOfStopsInRegion:(NSTimeInterval)interval location:(CLLocation*)location {
+	
+	MKCoordinateRegion region = _mapView.region;
+	
+	BOOL moreAccurateRegion = _mostRecentLocation != nil && location != nil && location.horizontalAccuracy < _mostRecentLocation.horizontalAccuracy;
+	BOOL containedRegion = [OBASphericalGeometryLibrary isRegion:region containedBy:_mostRecentRegion];
+	
+	OBALogDebug(@"scheduleRefreshOfStopsInRegion: %f %d %d", interval, moreAccurateRegion, containedRegion);
+	if( ! moreAccurateRegion && containedRegion )
+		return;
+	
+	_mostRecentLocation = [NSObject releaseOld:_mostRecentLocation retainNew:location];
+	
+	if( _refreshTimer ) { 
+		[_refreshTimer invalidate];
+		_refreshTimer = nil;
+	}
+	
+	 _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(refreshStopsInRegion) userInfo:nil repeats:FALSE];	
+}
+			   
+- (NSTimeInterval) getRefreshIntervalForLocationAccuracy:(CLLocation*)location {
+	if( location == nil )
+		return kStopsInRegionRefreshDelayOnDrag;
+	if( location.horizontalAccuracy < 20 )
+		return 0;
+	if( location.horizontalAccuracy < 200 )
+		return 0.25;
+	if( location.horizontalAccuracy < 500 )
+		return 0.5;
+	if( location.horizontalAccuracy < 1000 )
+		return 1;
+	return 1.5;
+}
+
+- (void) refreshStopsInRegion {
+	
+	_refreshTimer = nil;
+	
+	MKCoordinateRegion region = _mapView.region;
+	MKCoordinateSpan span = region.span;
+
+	if( span.latitudeDelta > kMaxLatDeltaToShowStops ) {
+		
+		// Reset the most recent region
+		CLLocationCoordinate2D p = {0,0};
+		_mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0,0));
+		
+		OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchNone];
+		[_searchController searchWithTarget:target];
+	}
+	else {
+		span.latitudeDelta *= kRegionScaleFactor;
+		span.longitudeDelta *= kRegionScaleFactor;
+		region.span = span;
+	
+		_mostRecentRegion = region;
+	
+		OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchLocationRegion:region];
+		[_searchController searchWithTarget:target];
+	}
+}
+
+
 
 - (void) reloadData {
 
@@ -404,11 +627,19 @@ static const NSUInteger kShowNClosestStops = 4;
 	if( result && result.searchType == OBASearchControllerSearchTypeRoute && [result.routes count] > 0) {
 		[self performSelector:@selector(onListButton:) withObject:self afterDelay:1];
 		return;
-	 }
+	}
 	
-	[self refreshCurrentLocation];
+	if( ! (result.searchType == OBASearchControllerSearchTypeNone || result.searchType == OBASearchControllerSearchTypeRegion) ) {
+		OBALogDebug(@"reloadData: unsetting _autoCenterOnCurrentLocation");
+		_autoCenterOnCurrentLocation = FALSE;
+	}
+	
+	//[self refreshCurrentLocation];
 	[self setAnnotationsFromResults];
 	[self setRegionFromResults];
+	
+	NSString * label = [self computeLabelForCurrentResults];
+	self.navigationItem.prompt = label;
 	
 	[self checkResults];
 }
@@ -440,14 +671,14 @@ static const NSUInteger kShowNClosestStops = 4;
 	}
 
 	// Heay rail dominations
-	if( [routeTypes containsObject:[NSNumber numberWithInt:2]] )
+	if( [routeTypes containsObject:[NSNumber numberWithInt:4]] )
+		return @"Ferry";
+	else if( [routeTypes containsObject:[NSNumber numberWithInt:2]] )
 		return @"Rail";
-	else if( [routeTypes containsObject:[NSNumber numberWithInt:0]] ) {
+	else if( [routeTypes containsObject:[NSNumber numberWithInt:0]] )
 		return @"LightRail";
-	}
-	else {
+	else
 		return @"Bus";
-	}
 }
 
 - (CLLocation*) currentLocation {
@@ -496,12 +727,52 @@ static const NSUInteger kShowNClosestStops = 4;
 	[annotations release];
 }
 
+- (NSString*) computeLabelForCurrentResults {
+	
+	OBASearchControllerResult * result = _searchController.result;
+	
+	MKCoordinateRegion region = _mapView.region;
+	MKCoordinateSpan span = region.span;
+	
+	NSString * defaultLabel = nil;
+	if( span.latitudeDelta > kMaxLatDeltaToShowStops )
+		defaultLabel = @"Zoom in to look for stops";
+	
+	if( ! result)
+		return defaultLabel;
+	
+	switch(result.searchType) {
+		case OBASearchControllerSearchTypeRoute:
+		case OBASearchControllerSearchTypeRouteStops:	
+		case OBASearchControllerSearchTypeAddress:
+		case OBASearchControllerSearchTypeAgenciesWithCoverage:
+			return nil;
+		case OBASearchControllerSearchTypeNone:			
+			return defaultLabel;
+		case OBASearchControllerSearchTypePlacemark:			
+		case OBASearchControllerSearchTypeStopId:
+		case OBASearchControllerSearchTypeRegion: {
+			NSArray * stops = result.stops;
+			if( [stops count] == 0 )
+				return @"No stops at your current location";
+			if( result.stopLimitExceeded )
+				return @"Too many stops.  Zoom in for more detail.";
+			return defaultLabel;
+		}
+		default:
+			return defaultLabel;
+	}
+}
+
+
 - (void) setRegionFromResults {
 	
 	BOOL needsUpdate = FALSE;
 	MKCoordinateRegion region = [self computeRegionForCurrentResults:&needsUpdate];
-	if( needsUpdate )
-		[_mapView setRegion:region animated:YES];
+	if( needsUpdate ) {
+		OBALogDebug(@"setRegionFromResults");
+		[self setMapRegion:region requestType:OBARegionChangeRequestTypeSearchResult];
+	}
 }
 
 
@@ -514,7 +785,8 @@ static const NSUInteger kShowNClosestStops = 4;
 	if( ! result ) {
 		OBALocationManager * lm = _appContext.locationManager;
 		CLLocation * location = lm.currentLocation;
-		if( location ) {
+		if( location && FALSE) {
+			// TODO : Figure why this was here
 			return [OBASphericalGeometryLibrary createRegionWithCenter:location.coordinate latRadius:kDefaultMapRadius lonRadius:kDefaultMapRadius];
 		}
 		else {
@@ -524,7 +796,6 @@ static const NSUInteger kShowNClosestStops = 4;
 	}
 	
 	switch(result.searchType) {
-		case OBASearchControllerSearchTypeCurrentLocation:
 		case OBASearchControllerSearchTypeStopId:
 			return [self computeRegionForNClosestStops:result.stops center:[self currentLocation] numberOfStops:kShowNClosestStops];
 		case OBASearchControllerSearchTypeRoute:
@@ -668,6 +939,24 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	return region;
 }
 
+- (MKCoordinateRegion) getLocationAsRegion:(CLLocation*)location {
+	if( ! location ) {
+		
+	}
+	
+	/*
+	if( location.horizontalAccuracy == 0 ) {
+		CLLocationCoordinate2D defaultCenter = {0,0};
+		return MKCoordinateRegionMake(defaultCenter,MKCoordinateSpanMake(180, 180));
+	}
+	*/
+	
+	double radius = MAX(location.horizontalAccuracy,kMinMapRadius);
+	MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:location.coordinate latRadius:radius lonRadius:radius];	
+	region = [_mapView regionThatFits:region];
+	return region;
+}
+
 - (void) checkResults {
 	
 	OBASearchControllerResult * result = _searchController.result;
@@ -675,13 +964,6 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 		return;
 	
 	switch (result.searchType) {
-		case OBASearchControllerSearchTypeCurrentLocation:
-		case OBASearchControllerSearchTypeRegion:
-		case OBASearchControllerSearchTypeStopId:
-		case OBASearchControllerSearchTypePlacemark:
-			[self checkNoStopResults];
-			[self checkTooManyStopResults];
-			break;
 		case OBASearchControllerSearchTypeRoute:
 			[self checkNoRouteResults];
 			break;
@@ -690,26 +972,6 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 			break;
 		default:
 			break;
-	}
-}
-
-- (void) checkTooManyStopResults {
-	OBASearchControllerResult * result = _searchController.result;
-	if( result && result.stopLimitExceeded ) {
-		result.stopLimitExceeded = FALSE;
-		UIAlertView * view = [[UIAlertView alloc] init];
-		view.title = @"Too many stops";
-		view.message = @"There are too many stops to display all of them.  Try zooming in and redoing your search.";
-		[view addButtonWithTitle:@"Ok"];
-		view.cancelButtonIndex = 0;
-		[view show];
-	}	
-}
-
-- (void) checkNoStopResults {
-	OBASearchControllerResult * result = _searchController.result;
-	if( [result.stops count] == 0 ) {
-		[self showNoResultsAlertWithTitle: @"No stops found" prompt:@"No stops were found for your search."];
 	}
 }
 
@@ -760,4 +1022,32 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 }	
 
 @end
+
+@implementation OBARegionChangeRequest
+
+@synthesize type = _type;
+@synthesize region = _region;
+@synthesize timestamp = _timestamp;
+
+- (id) initWithRegion:(MKCoordinateRegion)region type:(OBARegionChangeRequestType)type {
+	
+	if( self = [super init] ) {
+		_region = region;
+		_type = type;
+		_timestamp = [[NSDate alloc] init];
+	}
+	return self;
+}
+
+-(void) dealloc {
+	[_timestamp release];
+	[super dealloc];
+}
+
+- (double) compareRegion:(MKCoordinateRegion)region {
+	return [OBASphericalGeometryLibrary getDistanceFromRegion:_region toRegion:region];
+}
+
+@end
+
 

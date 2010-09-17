@@ -17,8 +17,12 @@
 extern NSString * const OBAErrorDomain;
 extern const NSInteger kOBAErrorDuplicateEntity;
 extern const NSInteger kOBAErrorMissingFieldInData;
+
 extern const BOOL kIncludeUWActivityInferenceCode;
 extern const BOOL kIncludeUWUserStudyCode;
+extern const BOOL kIncludeUWActivityAccelerometerLogging;
+extern const BOOL kIncludeUWActivityLocationLogging;
+extern const BOOL kIncludeUWActivityNearbyTripLogging;
 
 
 typedef enum {

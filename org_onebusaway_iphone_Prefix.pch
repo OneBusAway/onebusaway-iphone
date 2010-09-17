@@ -9,3 +9,5 @@
     #import <CoreLocation/CoreLocation.h>
 	#import <MapKit/MapKit.h>
 #endif
+
+#define LOG NO

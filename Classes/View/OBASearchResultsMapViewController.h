@@ -23,7 +23,9 @@
 #import "OBAGenericAnnotation.h"
 #import "OBANetworkErrorAlertViewDelegate.h"
 
+
 @class OBASearchControllerImpl;
+@class OBARegionChangeRequest;
 
 @interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware,OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate> {
 	
@@ -44,6 +46,17 @@
 	OBANetworkErrorAlertViewDelegate * _networkErrorAlertViewDelegate;
 	
 	BOOL _firstView;
+	BOOL _autoCenterOnCurrentLocation;
+	
+	BOOL _currentlyChangingRegion;
+	
+	OBARegionChangeRequest * _pendingRegionChangeRequest;
+	NSMutableArray * _appliedRegionChangeRequests;
+	
+	MKCoordinateRegion _mostRecentRegion;
+	CLLocation * _mostRecentLocation;
+	
+	NSTimer * _refreshTimer;
 }
 
 //- (id) initWithApplicationContext:(OBAApplicationContext*)context;
@@ -53,7 +66,7 @@
 @property (nonatomic,retain) IBOutlet UISegmentedControl * searchTypeControl;
 @property (nonatomic,retain) IBOutlet UIBarButtonItem * listButton;
 
--(IBAction) onSearchTypeController:(id)sender;
+-(IBAction) onCrossHairsButton:(id)sender;
 -(IBAction) onListButton:(id)sender;
 
 @end
