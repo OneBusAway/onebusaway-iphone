@@ -22,6 +22,9 @@
     // private
     BOOL _currentlyShowing;
     id _filterDelegate;
+    
+    UILabel * _labelOutput;
+    UILabel * _descOutput;
 }
 
 @property (nonatomic, retain) NSString * filterDescription;

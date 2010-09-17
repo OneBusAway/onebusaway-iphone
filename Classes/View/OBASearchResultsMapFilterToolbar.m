@@ -16,10 +16,29 @@
 
 #import "OBASearchResultsMapFilterToolbar.h"
 
-
 @implementation OBASearchResultsMapFilterToolbar
 
+// private methods
+-(void) hideInternal {
+    if (_currentlyShowing) {
+        [_labelOutput removeFromSuperview];
+        [_descOutput  removeFromSuperview];
+        
+        _labelOutput = nil;
+        _descOutput  = nil;
+
+        [self removeFromSuperview];
+        _currentlyShowing = NO;
+    }
+}
+
+
+// propeties
 @synthesize filterDescription = _filterDescription;
+
+
+// methods
+const CGFloat kTabbarControllerHeight = 49.0;
 
 -(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate {
     self = [super init];
@@ -46,19 +65,6 @@
         NSArray * items = [NSArray arrayWithObjects:flexItem, clearItem, nil];
         
         self.barStyle = UIBarStyleBlackTranslucent;
-        
-        // size up the toolbar and set its frame
-        [self sizeToFit];
-        
-        const CGFloat toolbarHeight = self.frame.size.height;
-        const CGRect mainViewBounds = [[UIApplication sharedApplication] keyWindow].bounds;
-        
-        const CGFloat tabbarControllerHeight = 49.0;
-        [self setFrame:CGRectMake(CGRectGetMinX(mainViewBounds),
-                                                CGRectGetMinY(mainViewBounds) + CGRectGetHeight(mainViewBounds) - tabbarControllerHeight   - (toolbarHeight),
-                                                CGRectGetWidth(mainViewBounds),
-                                                toolbarHeight)];
-        
         [self setItems:items animated:NO];
         
         // Release toolbar button items -- they're now owned by the toolbar
@@ -69,20 +75,18 @@
     return self;
 }
 
+
 -(void) dealloc {
+    [self hideInternal];
+    
     [self.filterDescription release];
     [_filterDelegate release];
     
     [super dealloc];
 }
 
--(void) showWithDescription:(NSString*)filterDescString animated:(BOOL)animated {
-    if (_currentlyShowing)
-        return; // for now...
-    
-    self.filterDescription = filterDescString;
-    _currentlyShowing      = YES;
 
+-(void) setupLabels {
     //-------------------------------------------------
     // set up filter text labels
     //-------------------------------------------------
@@ -123,6 +127,7 @@
     
     labelOutput.font = filterLabelFont;
     labelOutput.text = filterLabelText;
+    _labelOutput = labelOutput;
     
     UILabel *descOutput        = [[UILabel alloc] initWithFrame:descFrame];
     descOutput.backgroundColor = [UIColor clearColor];
@@ -131,25 +136,81 @@
     
     descOutput.font = filterDescFont;
     descOutput.text = self.filterDescription;
+    _descOutput = descOutput;
     
     // Attach text labels to the filter toolbar 
-    [self addSubview:labelOutput];
-    [self addSubview:descOutput];
+    [self addSubview:_labelOutput];
+    [self addSubview:_descOutput];
     
     // Release text labels -- the filter toolbar now owns them
-    [labelOutput release];
-    [descOutput  release];
+    [_labelOutput release];
+    [_descOutput  release];
+}
 
+-(void) showWithDescription:(NSString*)filterDescString animated:(BOOL)animated {
+    BOOL justRefreshLabels = NO;
+    
+    if (_currentlyShowing) {
+        if (self.filterDescription != filterDescString)
+            justRefreshLabels = YES;
+        else 
+            return;
+    }
+        
+    self.filterDescription = filterDescString;
+    _currentlyShowing      = YES;
+    
+    if (justRefreshLabels) {
+        [_labelOutput removeFromSuperview];
+        [_descOutput  removeFromSuperview];
+        
+        [self setupLabels];
+        return;
+    }
+    
+    // Size up the toolbar and set its frame
+    self.alpha = 1.0;
+    
+    [self sizeToFit];
+    
+    const CGFloat toolbarHeight = self.frame.size.height;
+    const CGRect mainViewBounds = [[UIApplication sharedApplication] keyWindow].bounds;
+    
+    [self setFrame:CGRectMake(CGRectGetMinX(mainViewBounds),
+                              CGRectGetMinY(mainViewBounds) + CGRectGetHeight(mainViewBounds) - kTabbarControllerHeight - (toolbarHeight),
+                              CGRectGetWidth(mainViewBounds),
+                              toolbarHeight)];
+
+
+    // Set up labels
+    [self setupLabels];
+    
     // Attach the filter toolbar to the window view
     [[[UIApplication sharedApplication] keyWindow] addSubview:self];
 }
 
+
 -(void) hideWithAnimated:(BOOL)animated {
     if (!_currentlyShowing)
         return;
+    
+    if (animated) {
+        [UIView beginAnimations:nil context:NULL];
+        
+        {
+            [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+            [UIView setAnimationDuration:0.1];
+            
+            [UIView setAnimationDelegate:self];
+            [UIView setAnimationDidStopSelector:@selector(hideInternal)];
 
-    [self removeFromSuperview];
-    _currentlyShowing = NO;
+            self.alpha = 0.0;
+        }
+        
+        [UIView commitAnimations];
+    } else {
+        [self hideInternal];
+    }
 }
 
 @end

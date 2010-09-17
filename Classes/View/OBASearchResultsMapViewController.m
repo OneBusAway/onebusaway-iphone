@@ -184,20 +184,17 @@ typedef enum  {
 	
 	_searchController.delegate = self;	
 	_searchController.progress.delegate = self;
+
+    self.filterToolbar = [[OBASearchResultsMapFilterToolbar alloc] initWithDelegate:self];
 }
 
 - (void)viewDidUnload {
-    [super viewDidUnload];
-
     [self.filterToolbar release];
-    self.filterToolbar = nil;
+    [super viewDidUnload];
 }
 
 - (void)onFilterClear {
-    [self.filterToolbar hideWithAnimated:NO];
-    [self.filterToolbar release];
-    self.filterToolbar = nil;
-    
+    [self.filterToolbar hideWithAnimated:YES];
     [self refreshStopsInRegion];
 }
 
@@ -213,15 +210,12 @@ typedef enum  {
 		[self reloadData];
 		_firstView = FALSE;
 	}
-    
-    NSString * searchFilterDesc = [_searchController searchFilterString];
 
-    // create the UIToolbar at the bottom of the view controller
+    // show the UIToolbar at the bottom of the view controller
 	//
-    if(self.filterToolbar == nil && searchFilterDesc != nil) {
-        self.filterToolbar = [[OBASearchResultsMapFilterToolbar alloc] initWithDelegate:self];
+    NSString * searchFilterDesc = [_searchController searchFilterString];
+    if (searchFilterDesc != nil)
         [self.filterToolbar showWithDescription:searchFilterDesc animated:NO];
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -231,8 +225,6 @@ typedef enum  {
 	[_appContext.locationManager removeDelegate:self];
 
     [self.filterToolbar hideWithAnimated:NO];
-    [self.filterToolbar release];
-    self.filterToolbar = nil;
 }
 
 #pragma mark OBANavigationTargetAware
@@ -243,6 +235,10 @@ typedef enum  {
 
 -(void) setNavigationTarget:(OBANavigationTarget*)target {
 	[_searchController searchWithTarget:target];
+    
+    NSString * searchFilterDesc = [_searchController searchFilterString];
+    if (searchFilterDesc != nil)
+        [self.filterToolbar showWithDescription:searchFilterDesc animated:NO];
 }
 
 #pragma mark OBASearchControllerDelegate Methods
