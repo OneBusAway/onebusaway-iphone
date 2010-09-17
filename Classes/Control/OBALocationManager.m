@@ -18,6 +18,8 @@
 #import "OBACommon.h"
 #import "OBALogger.h"
 
+static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
+
 #if TARGET_IPHONE_SIMULATOR
 static const BOOL kUseLocationTraceInSimulator = FALSE;
 #endif
@@ -132,6 +134,28 @@ static const BOOL kUseLocationTraceInSimulator = FALSE;
 	OBALogDebug(@"location: %@", [location description]);
 	
 	@synchronized(self) {
+		
+		/**
+		 * We have this issue where we get a high-accuracy location reading immediately
+		 * followed by a low-accuracy location reading, such as if wifi-localization
+		 * completed before cell-tower-localization.  We want to ignore the low-accuracy
+		 * reading
+		 */
+		if( _currentLocation ) {
+			
+			NSDate * currentTime = [_currentLocation timestamp];
+			NSDate * newTime = [location timestamp];
+
+			NSTimeInterval interval = [newTime timeIntervalSinceDate:currentTime];
+			
+			OBALogDebug(@"location time diff: %f", interval);
+			
+			if ( interval < kSuccessiveLocationComparisonWindow &&
+				[_currentLocation horizontalAccuracy] < [location horizontalAccuracy]) {
+				OBALogDebug(@"pruning location reading with low accuracy");
+				return;
+			}
+		}
 		_currentLocation = [NSObject releaseOld:_currentLocation retainNew:location];
 		
 		for( id<OBALocationManagerDelegate> delegate in _delegates )

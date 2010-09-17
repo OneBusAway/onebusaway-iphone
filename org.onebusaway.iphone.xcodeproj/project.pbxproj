@@ -147,6 +147,7 @@
 		D64A44AC101EA4D8008F16CA /* TextBox-MagnifyingGlass.png in Resources */ = {isa = PBXBuildFile; fileRef = D64A44AB101EA4D8008F16CA /* TextBox-MagnifyingGlass.png */; };
 		D64A4800101F53C7008F16CA /* Gear.png in Resources */ = {isa = PBXBuildFile; fileRef = D64A47FF101F53C7008F16CA /* Gear.png */; };
 		D64C6F700FDF0FCD00F0C218 /* OBAProgressIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D64C6F6F0FDF0FCC00F0C218 /* OBAProgressIndicatorView.xib */; };
+		D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = D651BB2711C9D5DE001BE733 /* iTunesArtwork */; };
 		D652BF170FA6CA2F00608073 /* OBAUploadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D652BF160FA6CA2F00608073 /* OBAUploadView.xib */; };
 		D656D6740FD44E8E00ADE4D5 /* AppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D656D6730FD44E8E00ADE4D5 /* AppIcon.png */; };
 		D656D6B00FD4522C00ADE4D5 /* OBARecentStopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D656D6AF0FD4522C00ADE4D5 /* OBARecentStopsViewController.m */; };
@@ -450,6 +451,7 @@
 		D64A44AB101EA4D8008F16CA /* TextBox-MagnifyingGlass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TextBox-MagnifyingGlass.png"; path = "Resources/Icons/TextBox-MagnifyingGlass.png"; sourceTree = "<group>"; };
 		D64A47FF101F53C7008F16CA /* Gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Gear.png; path = Resources/Icons/Gear.png; sourceTree = "<group>"; };
 		D64C6F6F0FDF0FCC00F0C218 /* OBAProgressIndicatorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OBAProgressIndicatorView.xib; path = Resources/OBAProgressIndicatorView.xib; sourceTree = "<group>"; };
+		D651BB2711C9D5DE001BE733 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = Resources/iTunesArtwork; sourceTree = "<group>"; };
 		D652BF160FA6CA2F00608073 /* OBAUploadView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OBAUploadView.xib; path = Resources/OBAUploadView.xib; sourceTree = "<group>"; };
 		D656D6730FD44E8E00ADE4D5 /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon.png; path = Resources/AppIcon.png; sourceTree = "<group>"; };
 		D656D6AE0FD4522C00ADE4D5 /* OBARecentStopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBARecentStopsViewController.h; path = View/OBARecentStopsViewController.h; sourceTree = "<group>"; };
@@ -661,6 +663,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D651BB2711C9D5DE001BE733 /* iTunesArtwork */,
 				D64A426D101E14F4008F16CA /* Icons */,
 				D656D5640FD43B2200ADE4D5 /* Activity Logging */,
 				D622569A0F8BE88200F139BA /* Map Icons */,
@@ -1377,6 +1380,7 @@
 				D6177E3111A3CAEA00889414 /* NewIdea.xib in Resources */,
 				D6177E3211A3CAEA00889414 /* TagCell.xib in Resources */,
 				D6177E3311A3CAEA00889414 /* TextEditor.xib in Resources */,
+				D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1512,7 +1516,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUILD_VARIANTS = normal;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Ferris (2FY7X4V97G)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1525,8 +1529,9 @@
 				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = OneBusAway;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "49D1674A-B5D2-49DF-A5E5-B60A63C2FBE3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.0;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
@@ -1534,7 +1539,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Ferris";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1544,8 +1549,9 @@
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = OneBusAway;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B8E6B88C-03B3-4ECD-BD91-9F3944B506CB";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.0;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -1603,7 +1609,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Brian Ferris";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1613,8 +1619,9 @@
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = OneBusAway;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86A1D663-0CF4-49D4-AB10-36FA99B0E012";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.0;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = AdHocDistribution;
 		};
@@ -1648,6 +1655,7 @@
 				PRODUCT_NAME = OneBusAway;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "49A47426-CF8D-48B1-B25F-797E3CF38434";
 				SDKROOT = iphoneos3.0;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = AppStoreDistribution;
 		};

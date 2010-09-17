@@ -31,7 +31,6 @@ static const float kSearchRadius = 400;
 
 - (OBASearchControllerSearchType) searchTypeForNumber:(NSNumber*)number;
 
-- (CLLocation*) currentLocationToSearch;
 - (CLLocation*) currentOrDefaultLocationToSearch;
 
 -(void) searchNone;
@@ -274,13 +273,6 @@ static const float kSearchRadius = 400;
 		default:
 			return OBASearchControllerSearchTypeNone;
 	}		
-}
-
-- (CLLocation*) currentLocationToSearch {
-	CLLocation * location = _locationManager.currentLocation;
-	if( location )
-		self.searchLocation = location;	
-	return location;
 }
 
 - (CLLocation*) currentOrDefaultLocationToSearch {
