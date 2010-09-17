@@ -42,7 +42,6 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 }
 
 - (void)dealloc {
-
 	[_appContext release];
 	[_navigationTarget release];
 	
@@ -152,19 +151,22 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 			_currentSearchType = OBASearchTypeByRoute;
 			savedValue = _routeSavedValue;
 			break;
+            
 		case 1:
 			[_searchField setKeyboardType:UIKeyboardTypeDefault];
 			_searchField.placeholder = @"Search by address";
 			_currentSearchType = OBASearchTypeByAddress;
 			savedValue = _addressSavedValue;
 			break;
-		case 2:
+	
+        case 2:
 			[_searchField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
 			_searchField.placeholder = @"Search by stop #";
 			_currentSearchType = OBASearchTypeByStop;
 			savedValue = _stopIdSavedValue;
 			break;
-		default:
+		
+        default:
 			NSLog(@"unknown search type index");
 			break;
 	}
@@ -201,16 +203,41 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 		case OBASearchTypeByRoute:
 			[self handleRouteSearch:textField.text];
 			break;
+            
 		case OBASearchTypeByStop:
 			[self handleStopSearch:textField.text];
 			break;
-		case OBASearchTypeByAddress:
+	
+        case OBASearchTypeByAddress:
 			[self handleAddressSearch:textField.text];
 			break;
-		default:
+		
+        default:
 			break;
 	}
 	return YES;	
+}
+
+// Called whenever user enters/deletes character
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    // only check for route/stop id entry
+    if (_currentSearchType == OBASearchTypeByAddress)
+        return YES;
+    
+    // ignore copying/pasting more than one character because we can't
+    // change the input to just valid characters.
+    if ([string length] > 1)
+        return YES;
+
+    // for route/stop id entry, only allow numbers to be entered
+    NSString * numbersSet = @"01234556789";
+
+    // These are the characters that are *not* acceptable
+    NSCharacterSet * unacceptedInput =
+    [[NSCharacterSet characterSetWithCharactersInString:numbersSet] invertedSet];
+    
+    return ([string stringByTrimmingCharactersInSet:unacceptedInput].length > 0);
 }
 
 #pragma mark OBANavigationTargetAware
@@ -224,17 +251,17 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 
 @implementation OBASearchViewController (Private)
 
-- (void) handleRouteSearch:(NSString*)query {
+- (void)handleRouteSearch:(NSString*)query {
 	OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchRoute:query];
 	[_appContext navigateToTarget:target];
 }
 
-- (void) handleAddressSearch:(NSString*)query {
+- (void)handleAddressSearch:(NSString*)query {
 	OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchAddress:query];
 	[_appContext navigateToTarget:target];
 }
 
-- (void) handleStopSearch:(NSString*)query {
+- (void)handleStopSearch:(NSString*)query {
 	OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchStopCode:query];
 	[_appContext navigateToTarget:target];
 }
