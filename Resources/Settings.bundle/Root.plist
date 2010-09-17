@@ -40,6 +40,12 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
+			<string>Note: Your last active screen will be shown on start if the app has been used within the last 15 minutes.</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
 			<string>Advanced</string>
 		</dict>
 		<dict>
