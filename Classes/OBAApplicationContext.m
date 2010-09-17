@@ -90,16 +90,16 @@ static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15 * 60;
 
 @synthesize active = _active;
 
+
 - (id) init {
 	if( self = [super init] ) {
 		
 		_active = FALSE;
 		
 		_references = [[OBAReferencesV2 alloc] init];
-		_locationManager = [[OBALocationManager alloc] init];		
 		_activityListeners = [[OBAActivityListeners alloc] init];
 		_modelDao = [[OBAModelDAO alloc] init];
-		
+		_locationManager = [[OBALocationManager alloc] initWithModelDao:_modelDao];		
 		
 		[_activityListeners addListener:_modelDao];
 		
@@ -193,6 +193,7 @@ static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15 * 60;
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+	
     CLLocation * location = _locationManager.currentLocation;
 	if( location )
 		_modelDao.mostRecentLocation = location;
@@ -210,6 +211,8 @@ static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15 * 60;
 	 */
 	if( [self shouldRestoreStateToDefault:userDefaults] )
 		[self restoreStateToDefault:userDefaults];
+	
+	
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

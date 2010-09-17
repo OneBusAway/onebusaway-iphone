@@ -15,8 +15,9 @@
  */
 
 #import "OBAJsonDataSource.h"
-#import "SBJSON.h"
+#import "OBACommon.h"
 #import "OBALogger.h"
+#import "SBJSON.h"
 
 
 /****
@@ -284,6 +285,8 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:OBAApplicationDidCompleteNetworkRequestNotification object:self];
 	
 	@synchronized(self) {
 		

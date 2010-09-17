@@ -93,6 +93,10 @@ typedef enum  {
 - (void) reloadData;
 - (CLLocation*) currentLocation;
 
+- (void) showLocationServicesAlert;
+
+- (void) didCompleteNetworkRequest;
+
 - (void) setAnnotationsFromResults;
 - (void) setRegionFromResults;
 
@@ -124,7 +128,7 @@ typedef enum  {
 
 @synthesize appContext = _appContext;
 @synthesize mapView = _mapView;
-@synthesize searchTypeControl = _searchTypeControl;
+@synthesize currentLocationButton = _currentLocationButton;
 @synthesize listButton = _listButton;
 @synthesize filterToolbar = _filterToolbar;
 
@@ -141,7 +145,7 @@ typedef enum  {
 	
 	[_mapView release];
 	[_listButton release];
-	[_searchTypeControl release];
+	[_currentLocationButton release];
 
 	[_locationAnnotation release];
 	 
@@ -176,7 +180,8 @@ typedef enum  {
 	_pendingRegionChangeRequest = nil;
 	_appliedRegionChangeRequests = [[NSMutableArray alloc] init];
 	
-
+	_hideFutureNetworkErrors = FALSE;
+	
     self.filterToolbar = [[OBASearchResultsMapFilterToolbar alloc] initWithDelegate:self andAppContext:self.appContext];
 	
 	_searchController = [[OBASearchController alloc] initWithAppContext:_appContext];
@@ -197,10 +202,14 @@ typedef enum  {
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 	
+	self.navigationItem.title = @"Map";
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteNetworkRequest) name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
+	
 	OBALocationManager * lm = _appContext.locationManager;
 	[lm addDelegate:self];
 	[lm startUpdatingLocation];
-	[_searchTypeControl setEnabled:lm.locationServicesEnabled forSegmentAtIndex:0];
+	_currentLocationButton.enabled = lm.locationServicesEnabled;
 	
 	if (_searchController.searchType == OBASearchTypeNone ) {
 		_autoCenterOnCurrentLocation = TRUE;
@@ -214,6 +223,8 @@ typedef enum  {
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
     
 	[_appContext.locationManager stopUpdatingLocation];
 	[_appContext.locationManager removeDelegate:self];
@@ -262,6 +273,7 @@ typedef enum  {
 }
 
 - (void) handleSearchControllerUpdate:(OBASearchResult*)result {
+	self.navigationItem.title = @"Map";
 	[self reloadData];
 }
 
@@ -273,19 +285,22 @@ typedef enum  {
 	// this error gets propagated to us when the app isn't active (because the alert asking about location is).
 	
 	if( domain == kCLErrorDomain && [error code] == kCLErrorDenied ) {
-        UIAlertView * view = [[[UIAlertView alloc] init] autorelease];
-		view.title = @"Location Information";
-		view.message = @"Location information is disabled for this app.  Finding nearby stops using your current location will not function.";
-		[view addButtonWithTitle:@"Dismiss"];
-		view.cancelButtonIndex = 0;
-		[view show];
+		[self showLocationServicesAlert];
 		return;
 	}
 	
 	if( ! [self controllerIsVisibleAndActive] )
 		return;
 	
-	if( domain == NSURLErrorDomain ) {
+	if( [domain isEqual:NSURLErrorDomain] || [domain isEqual:NSPOSIXErrorDomain] ) {
+		
+		// We hide repeated network errors
+		if( _hideFutureNetworkErrors )
+			return;
+		
+		_hideFutureNetworkErrors = TRUE;
+		self.navigationItem.title = @"Error connecting";
+		
 		UIAlertView * view = [[[UIAlertView alloc] init] autorelease];
 		view.title = @"Error connecting";
 		view.message = @"There was a problem with your Internet connection.\n\nPlease check your network connection or contact us if you think the problem is on our end.";
@@ -300,12 +315,13 @@ typedef enum  {
 #pragma mark OBALocationManagerDelegate Methods
 
 - (void) locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
+	_currentLocationButton.enabled = TRUE;
 	[self refreshCurrentLocation];
 }
 
 - (void) locationManager:(OBALocationManager *)manager didFailWithError:(NSError*)error {
 	if( [error domain] == kCLErrorDomain && [error code] == kCLErrorDenied ) {
-		[_searchTypeControl setEnabled:FALSE forSegmentAtIndex:0];
+		[self showLocationServicesAlert];
 	}
 }
 
@@ -697,6 +713,27 @@ typedef enum  {
 	}
 	
 	return location;
+}
+
+- (void) showLocationServicesAlert {
+
+	_currentLocationButton.enabled = FALSE;
+	
+	if (! [_appContext.modelDao hideFutureLocationWarnings]) {
+		[_appContext.modelDao setHideFutureLocationWarnings:TRUE];
+		
+		UIAlertView * view = [[UIAlertView alloc] init];
+		view.title = @"Location Services Disabled";
+		view.message = @"Location Services are disabled for this app.  Some location-aware functionality will be missing.";
+		[view addButtonWithTitle:@"Dismiss"];
+		view.cancelButtonIndex = 0;
+		[view show];
+		[view release];
+	}		
+}
+
+- (void) didCompleteNetworkRequest {
+	_hideFutureNetworkErrors = FALSE;
 }
 
 - (void) setAnnotationsFromResults {

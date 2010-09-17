@@ -21,6 +21,8 @@ NSString * const OBAErrorDomain = @"org.onebusaway.iphone";
 const NSInteger kOBAErrorDuplicateEntity = 1000;
 const NSInteger kOBAErrorMissingFieldInData = 1001;
 
+NSString * const OBAApplicationDidCompleteNetworkRequestNotification = @"OBAApplicationDidCompleteNetworkRequestNotification";
+
 
 @implementation NSObject (OBAConvenienceMethods)
 

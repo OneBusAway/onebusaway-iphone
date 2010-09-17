@@ -53,7 +53,11 @@ typedef enum {
 		
 		UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:@"Map" style:UIBarButtonItemStyleBordered target:self action:@selector(showMap:)];
 		self.navigationItem.rightBarButtonItem = item;
-		[item release];		
+		[item release];
+		
+		UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithTitle:@"Schedule" style:UIBarButtonItemStyleBordered target:nil action:nil];
+		self.navigationItem.backBarButtonItem = backItem;
+		[backItem release];		
     }
     return self;
 }

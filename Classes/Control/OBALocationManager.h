@@ -15,6 +15,9 @@
  */
 
 
+#import "OBAModelDAO.h"
+
+
 @class OBALocationManager;
 
 @protocol OBALocationManagerDelegate <NSObject>
@@ -25,7 +28,7 @@
 
 @interface OBALocationManager : NSObject <CLLocationManagerDelegate> {
 
-@private
+	OBAModelDAO * _modelDao;
 	CLLocationManager * _locationManager;
 	NSMutableArray * _delegates;
 	
@@ -37,6 +40,8 @@
 	int _locationTraceIndex;
 #endif	
 }
+
+- (id) initWithModelDao:(OBAModelDAO*)modelDao;
 
 @property (nonatomic,retain) CLLocation * currentLocation;
 @property (readonly, nonatomic) BOOL locationServicesEnabled;

@@ -18,6 +18,11 @@ extern NSString * const OBAErrorDomain;
 extern const NSInteger kOBAErrorDuplicateEntity;
 extern const NSInteger kOBAErrorMissingFieldInData;
 
+/**
+ * Fired whenever a network request successfully completes
+ */
+extern NSString * const OBAApplicationDidCompleteNetworkRequestNotification;
+
 typedef enum {
 	OBANavigationTargetTypeRoot=0,
 	OBANavigationTargetTypeSearch,

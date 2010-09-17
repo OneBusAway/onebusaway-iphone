@@ -163,6 +163,14 @@ const static int kMaxEntriesInMostRecentList = 10;
 	[event release];
 }
 
+- (BOOL) hideFutureLocationWarnings {
+	return [_preferencesDao hideFutureLocationWarnings];
+}
+
+- (void) setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings {
+	[_preferencesDao setHideFutureLocationWarnings:hideFutureLocationWarnings];
+}
+
 @end
 
 

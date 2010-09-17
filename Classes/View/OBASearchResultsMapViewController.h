@@ -35,7 +35,7 @@
 	OBASearchController * _searchController;
 	
 	MKMapView * _mapView;
-	UISegmentedControl * _searchTypeControl;
+	UIBarButtonItem * _currentLocationButton;
 	UIBarButtonItem * _listButton;
     OBASearchResultsMapFilterToolbar * _filterToolbar;
 
@@ -55,13 +55,15 @@
 	CLLocation * _mostRecentLocation;
 	
 	NSTimer * _refreshTimer;
+	
+	BOOL _hideFutureNetworkErrors;
 }
 
 //- (id) initWithApplicationContext:(OBAApplicationContext*)context;
 
 @property (nonatomic,retain) IBOutlet OBAApplicationContext * appContext;
 @property (nonatomic,retain) IBOutlet MKMapView * mapView;
-@property (nonatomic,retain) IBOutlet UISegmentedControl * searchTypeControl;
+@property (nonatomic,retain) IBOutlet UIBarButtonItem * currentLocationButton;
 @property (nonatomic,retain) IBOutlet UIBarButtonItem * listButton;
 
 @property (nonatomic,retain) OBASearchResultsMapFilterToolbar * filterToolbar;

@@ -46,4 +46,10 @@
 - (OBAStopPreferencesV2*) stopPreferencesForStopWithId:(NSString*)stopId;
 - (void) setStopPreferences:(OBAStopPreferencesV2*)preferences forStopWithId:(NSString*)stopId;
 
+/**
+ * We persist hiding location warnings across application settings for users who have disabled location services for the app
+ */
+- (BOOL) hideFutureLocationWarnings;
+- (void) setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings;
+
 @end

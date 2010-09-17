@@ -33,5 +33,7 @@
 - (CLLocation*) readMostRecentLocation;
 - (void) writeMostRecentLocation:(CLLocation*)mostRecentLocation;
 
+- (BOOL) hideFutureLocationWarnings;
+- (void) setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings;
 
 @end

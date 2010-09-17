@@ -21,6 +21,7 @@ static NSString * kBookmarksKey = @"bookmarks";
 static NSString * kMostRecentStopsKey = @"mostRecentStops";
 static NSString * kStopPreferencesKey = @"stopPreferences";
 static NSString * kMostRecentLocationKey = @"mostRecentLocation";
+static NSString * kHideFutureLocationWarningsKey = @"hideFutureLocationWarnings";
 
 
 @interface OBAModelDAOUserPreferencesImpl (Private)
@@ -123,6 +124,26 @@ static NSString * kMostRecentLocationKey = @"mostRecentLocation";
 	[self encodeObject:mostRecentLocation forKey:kMostRecentLocationKey toData:data];
 	[user setObject:data forKey:kMostRecentLocationKey];
 }
+
+- (BOOL) hideFutureLocationWarnings {
+	@try {
+		NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+		NSNumber * v = [user objectForKey:kHideFutureLocationWarningsKey];
+		if( v )
+			return [v boolValue];
+	}
+	@catch (NSException * e) {
+	}
+	
+	return FALSE;
+}
+
+- (void) setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings {
+	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+	NSNumber * v = [NSNumber numberWithBool:hideFutureLocationWarnings];
+	[user setObject:v forKey:kHideFutureLocationWarningsKey];
+}
+
 
 @end
 

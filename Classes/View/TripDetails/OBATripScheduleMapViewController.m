@@ -36,7 +36,11 @@
 - (void) viewDidLoad {
 	_timeFormatter = [[NSDateFormatter alloc] init];
 	[_timeFormatter setDateStyle:NSDateFormatterNoStyle];
-	[_timeFormatter setTimeStyle:NSDateFormatterShortStyle];	
+	[_timeFormatter setTimeStyle:NSDateFormatterShortStyle];
+	
+	UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithTitle:@"Schedule" style:UIBarButtonItemStyleBordered target:nil action:nil];
+	self.navigationItem.backBarButtonItem = backItem;
+	[backItem release];	
 }
 
 - (void) viewWillAppear:(BOOL)animated {

@@ -53,6 +53,7 @@ static const double kNearbyStopRadius = 200;
 - (void) stopTimer;
 
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section;
+- (NSUInteger) sectionIndexForSectionType:(OBAStopSectionType)section;
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSectionType:(OBAStopSectionType)section;
 	
@@ -317,40 +318,38 @@ static const double kNearbyStopRadius = 200;
 			_showFilteredArrivals = !_showFilteredArrivals;
 			
 			// update arrivals section
-			static int arrivalsViewSection = 1;
-			if ([self sectionTypeForSection:arrivalsViewSection] == OBAStopSectionTypeArrivals)
-			{
-				UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-				[self determineFilterTypeCellText:cell filteringEnabled:_showFilteredArrivals];
-				[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-				
-				if ([_filteredArrivals count] == 0)
-				{
-					// We're showing a "no arrivals in the next 30 minutes" message, so our insertion/deletion math below would be wrong.
-					// Instead, just refresh the section with a fade.
-					[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:arrivalsViewSection] withRowAnimation:UITableViewRowAnimationFade];
-				}
-				else if ([_allArrivals count] != [_filteredArrivals count])
-				{
-					// Display a nice animation of the cells when changing our filter settings
-					NSMutableArray * modificationArray = [NSMutableArray arrayWithCapacity:[_allArrivals count] - [_filteredArrivals count]];
-					
-					int rowIterator = 0;
-					for(OBAArrivalAndDeparture * pa in _allArrivals)
-					{
-						bool isFilteredArrival = ([_filteredArrivals containsObject:pa] == NO);
-						
-						if (isFilteredArrival == YES)
-							[modificationArray addObject:[NSIndexPath indexPathForRow:rowIterator inSection:arrivalsViewSection]];
-						
-						rowIterator++;
-					}
+			int arrivalsViewSection = [self sectionIndexForSectionType:OBAStopSectionTypeArrivals];
 
-					if (_showFilteredArrivals)
-						[self.tableView deleteRowsAtIndexPaths:modificationArray withRowAnimation:UITableViewRowAnimationFade];
-					else
-						[self.tableView insertRowsAtIndexPaths:modificationArray withRowAnimation:UITableViewRowAnimationFade];
+			UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+			[self determineFilterTypeCellText:cell filteringEnabled:_showFilteredArrivals];
+			[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+			
+			if ([_filteredArrivals count] == 0)
+			{
+				// We're showing a "no arrivals in the next 30 minutes" message, so our insertion/deletion math below would be wrong.
+				// Instead, just refresh the section with a fade.
+				[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:arrivalsViewSection] withRowAnimation:UITableViewRowAnimationFade];
+			}
+			else if ([_allArrivals count] != [_filteredArrivals count])
+			{
+				// Display a nice animation of the cells when changing our filter settings
+				NSMutableArray * modificationArray = [NSMutableArray arrayWithCapacity:[_allArrivals count] - [_filteredArrivals count]];
+				
+				int rowIterator = 0;
+				for(OBAArrivalAndDeparture * pa in _allArrivals)
+				{
+					bool isFilteredArrival = ([_filteredArrivals containsObject:pa] == NO);
+					
+					if (isFilteredArrival == YES)
+						[modificationArray addObject:[NSIndexPath indexPathForRow:rowIterator inSection:arrivalsViewSection]];
+					
+					rowIterator++;
 				}
+				
+				if (_showFilteredArrivals)
+					[self.tableView deleteRowsAtIndexPaths:modificationArray withRowAnimation:UITableViewRowAnimationFade];
+				else
+					[self.tableView insertRowsAtIndexPaths:modificationArray withRowAnimation:UITableViewRowAnimationFade];
 			}
 			
 			break;
@@ -423,6 +422,7 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section {
+
 	OBAStopV2 * stop = _result.stop;
 		
 	if( stop ) {
@@ -454,6 +454,41 @@ static const double kNearbyStopRadius = 200;
 	}
 	
 	return OBAStopSectionTypeNone;
+}
+
+- (NSUInteger) sectionIndexForSectionType:(OBAStopSectionType)section {
+
+	OBAStopV2 * stop = _result.stop;
+	
+	if( stop ) {
+		
+		int offset = 0;
+		
+		if( _showTitle ) {
+			if( section == OBAStopSectionTypeName )
+				return offset;
+			offset++;
+		}
+		
+		if( section == OBAStopSectionTypeArrivals )
+			return offset;
+		offset++;
+		
+		if( [_filteredArrivals count] != [_allArrivals count] ) {
+			if( section == OBAStopSectionTypeFilter )
+				return offset;
+			offset++;
+		}
+		
+		if( _showActions ) {
+			if( section == OBAStopSectionTypeActions)
+				return offset;
+			offset++;
+		}
+	}
+	
+	return 0;
+	
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSectionType:(OBAStopSectionType)section {

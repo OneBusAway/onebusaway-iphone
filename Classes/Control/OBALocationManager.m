@@ -40,8 +40,9 @@ static const BOOL kUseLocationTraceInSimulator = FALSE;
 
 @synthesize currentLocation = _currentLocation;
 
--(id) init {
+- (id) initWithModelDao:(OBAModelDAO*)modelDao {
 	if( self = [super init]) {
+		_modelDao = [modelDao retain];
 		_disabled = FALSE;
 		_locationManager = [[CLLocationManager alloc] init];
 		_locationManager.delegate = self;
@@ -63,6 +64,7 @@ static const BOOL kUseLocationTraceInSimulator = FALSE;
 	
 	[_locationManager release];
 	[_delegates release];
+	[_modelDao release];
 	[super dealloc];
 }
 
@@ -85,7 +87,15 @@ static const BOOL kUseLocationTraceInSimulator = FALSE;
 }
 
 -(void) startUpdatingLocation {
-	[_locationManager startUpdatingLocation];
+	if( _locationManager.locationServicesEnabled ) {
+		[_locationManager startUpdatingLocation];
+	}
+	else {
+		if (! [_modelDao hideFutureLocationWarnings]) {
+			[_locationManager startUpdatingLocation];
+			[_modelDao setHideFutureLocationWarnings:TRUE];			
+		}
+	}
 }
 
 -(void) stopUpdatingLocation {
@@ -96,6 +106,9 @@ static const BOOL kUseLocationTraceInSimulator = FALSE;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
 	
+	_disabled = FALSE;
+	[_modelDao setHideFutureLocationWarnings:FALSE];
+
 #if TARGET_IPHONE_SIMULATOR
 	
 	if ( kUseLocationTraceInSimulator ) {

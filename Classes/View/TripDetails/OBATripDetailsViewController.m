@@ -8,6 +8,7 @@
 
 typedef enum {
 	OBASectionTypeNone,
+	OBASectionTypeLoading,
 	OBASectionTypeTitle,
 	OBASectionTypeSchedule,
 	OBASectionTypeActions
@@ -20,6 +21,7 @@ typedef enum {
 
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section;
 
+- (UITableViewCell*) tableView:(UITableView*)tableView loadingCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView titleCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView scheduleCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath;
@@ -117,6 +119,8 @@ typedef enum {
 	OBASectionType sectionType = [self sectionTypeForSection:section];
 	
 	switch( sectionType ) {
+		case OBASectionTypeLoading:
+			return 1;
 		case OBASectionTypeTitle:
 			return 1;
 		case OBASectionTypeSchedule:
@@ -136,6 +140,8 @@ typedef enum {
 	OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
 	
 	switch (sectionType) {
+		case OBASectionTypeLoading:
+			return [self tableView:tableView loadingCellForRowAtIndexPath:indexPath];
 		case OBASectionTypeTitle:
 			return [self tableView:tableView titleCellForRowAtIndexPath:indexPath];
 		case OBASectionTypeSchedule:
@@ -206,34 +212,70 @@ typedef enum {
 }
 
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section {
-	switch (section) {
-		case 0:
-			return OBASectionTypeTitle;
-		case 1:
-			return OBASectionTypeSchedule;
-		case 2:
-			return OBASectionTypeActions;
-		default:
+	
+	if( _tripDetails ) {
+		switch (section) {
+			case 0:
+				
+				return OBASectionTypeTitle;
+			case 1:
+				return OBASectionTypeSchedule;
+			case 2:
+				return OBASectionTypeActions;
+			default:
+				return OBASectionTypeNone;
+		}
+	}
+	else {
+		if( section == 0 )
+			return OBASectionTypeLoading;
 		return OBASectionTypeNone;
 	}
+
+}
+
+- (UITableViewCell*) tableView:(UITableView*)tableView loadingCellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+	cell.accessoryType = UITableViewCellAccessoryNone;
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+	cell.textLabel.text = @"Updating...";
+	cell.textLabel.textColor = [UIColor grayColor];	
+	cell.textLabel.textAlignment = UITextAlignmentCenter;	
+	
+	return cell;
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView titleCellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
-	cell.textLabel.textAlignment = UITextAlignmentCenter;	
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-	if( _tripDetails == nil ) {
-		cell.textLabel.text = @"Updating...";
-		cell.textLabel.textColor = [UIColor grayColor];
+	OBATripV2 * trip = _tripDetails.trip;
+	
+	cell.textLabel.text = trip.asLabel;
+	cell.textLabel.textColor = [UIColor blackColor];
+	cell.textLabel.textAlignment = UITextAlignmentLeft;	
+	
+	cell.detailTextLabel.text = @"Schedule data only";
+	cell.detailTextLabel.textColor = [UIColor blackColor];
+	cell.detailTextLabel.textAlignment = UITextAlignmentLeft;	
+	
+	OBATripStatusV2 * status = _tripDetails.status;
+	if( status && status.predicted ) {
+		NSInteger scheduleDeviation = status.scheduleDeviation/60;
+		NSString * label = @"";
+		if( scheduleDeviation <= -2 )
+			label = [NSString stringWithFormat:@"%d minutes early",(-scheduleDeviation)];
+		else if (scheduleDeviation < 2 )
+			label = @"on time";
+		else
+			label = [NSString stringWithFormat:@"%d minutes late",scheduleDeviation];
+		
+		cell.detailTextLabel.text = [NSString stringWithFormat:@"Vehicle # %@ - %@",status.vehicleId,label];
 	}
-	else {
-		OBATripV2 * trip = _tripDetails.trip;
-		cell.textLabel.text = trip.asLabel;
-		cell.textLabel.textColor = [UIColor blackColor];
-	}	
 	
 	return cell;
 }
@@ -241,9 +283,10 @@ typedef enum {
 
 - (UITableViewCell*) tableView:(UITableView*)tableView scheduleCellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-	cell.textLabel.textAlignment = UITextAlignmentLeft;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	cell.textLabel.textColor = [UIColor blackColor];
+	cell.textLabel.textAlignment = UITextAlignmentLeft;
 	
 	switch (indexPath.row) {
 		case 0:
@@ -261,10 +304,11 @@ typedef enum {
 - (UITableViewCell*) tableView:(UITableView*)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-	
+	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	cell.textLabel.textColor = [UIColor blackColor];
 	cell.textLabel.textAlignment = UITextAlignmentLeft;
 	
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	switch (indexPath.row) {
 		case 0: {
