@@ -34,13 +34,14 @@
 	OBASearchControllerImpl * _searchController;
 	
 	MKMapView * _mapView;
+
 	NSMutableDictionary * _busStopIcons;
+	UIImage * _busStopIcon;
 	
 	UISegmentedControl * _searchTypeControl;
 	UIBarButtonItem * _listButton;
 	
 	OBAGenericAnnotation * _locationAnnotation;
-	UIImage * _busImage;
 	
 	BOOL _firstView;
 }

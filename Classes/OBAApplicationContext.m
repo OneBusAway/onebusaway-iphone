@@ -36,6 +36,7 @@
 static NSString * kOBASavedNavigationTargets = @"OBASavedNavigationTargets";
 static NSString * kOBAApplicationTerminationTimestamp = @"OBAApplicationTerminationTimestamp";
 static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15*60;
+static const BOOL kDeleteModelOnStartup = FALSE;
 
 @interface OBAApplicationContext (Private)
 
@@ -68,7 +69,8 @@ static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15*60;
 
 - (id) init {
 	if( self = [super init] ) {
-		_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://api.onebusaway.org" args:@"key=org.onebusaway.iphone"];
+		_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://api.onebusaway.org" args:@"key=org.onebusaway.iphone"];		
+		//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://localhost:8080/onebusaway-api-webapp" args:@"key=org.onebusaway.iphone"];
 		//_jsonDataSource = [[OBAJsonDataSource alloc] initWithBaseUrl:@"http://beta.onebusaway.org" withBaseArgs:@"key=org.onebusaway.iphone"];
 		//_jsonDataSource = [[OBAJsonDataSource alloc] initWithBaseUrl:@"http://localhost:8080/org.onebusaway" withBaseArgs:@"key=org.onebusaway.iphone"];
 		
@@ -200,7 +202,7 @@ static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15*60;
 	NSFileManager * manager = [NSFileManager defaultManager];
 	
 	// Delete model on startup?
-	if( FALSE ) {
+	if( kDeleteModelOnStartup ) {
 		if( ! [manager removeItemAtPath:path error:error] ) {
 			OBALogSevereWithError(*error,@"Error deleting file: %@",path);
 			return;

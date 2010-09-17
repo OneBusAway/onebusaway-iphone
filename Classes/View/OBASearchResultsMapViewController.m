@@ -97,6 +97,7 @@ static const NSUInteger kShowNClosestStops = 4;
 		[self.navigationItem setRightBarButtonItem:_listButton];
 		_listButton.enabled = FALSE;
 		
+		_busStopIcon = [[UIImage imageNamed:@"BusStopIcon.png"] retain];
 		_busStopIcons = [[NSMutableDictionary alloc] init];
 		
 		NSArray * directionIds = [NSArray arrayWithObjects:@"N",@"NE",@"E",@"SE",@"S",@"SW",@"W",@"NW",nil];
@@ -108,7 +109,6 @@ static const NSUInteger kShowNClosestStops = 4;
 			[_busStopIcons setObject:image forKey:key];
 		}
 		
-		_busImage = [[UIImage imageNamed: @"BusMapIcon.png" ] retain];
 		_locationAnnotation = nil;
 		
 		_firstView = TRUE;
@@ -127,7 +127,7 @@ static const NSUInteger kShowNClosestStops = 4;
 	[_listButton release];
 	
 	[_busStopIcons release];
-	[_busImage release];
+	[_busStopIcon release];
 	
 	[_searchTypeControl release];
 	[_locationAnnotation release];
@@ -159,20 +159,19 @@ static const NSUInteger kShowNClosestStops = 4;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+	
+	_mapView.delegate = self;	
+	[_appContext.locationManager addDelegate:self];
+	
 	if( _firstView ) {
 		[self reloadData];
 		_firstView = FALSE;
 	}
-	_mapView.delegate = self;
-	[_appContext.locationManager addDelegate:self];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	NSLog(@"View will dissapear");
 	_mapView.delegate = nil;
-	
-
 	[_appContext.locationManager removeDelegate:self];
 }
 
@@ -317,7 +316,6 @@ static const NSUInteger kShowNClosestStops = 4;
 
 - (void) refreshCurrentLocation {
 	
-	NSLog(@"Refresh Location");
 	OBALocationManager * lm = _appContext.locationManager;
 	CLLocation * location = lm.currentLocation;
 	
@@ -353,12 +351,12 @@ static const NSUInteger kShowNClosestStops = 4;
 - (UIImage*) getIconForStop:(OBAStop*)stop {
 	
 	if( ! stop.direction )
-		return _busImage;
+		return _busStopIcon;
 	
 	UIImage * image = [_busStopIcons objectForKey:stop.direction];
 	
 	if( ! image || [image isEqual:[NSNull null]] )
-		return nil;
+		return _busStopIcon;
 	
 	return image;
 }
@@ -409,29 +407,12 @@ static const NSUInteger kShowNClosestStops = 4;
 	[annotations release];
 }
 
-void dumpRegion(MKCoordinateRegion r) {
-	CLLocationCoordinate2D c = r.center;
-	MKCoordinateSpan span = r.span;
-	NSLog(@"Min + Max Corners");
-	NSLog(@"%f %f",c.latitude - span.latitudeDelta/2,c.longitude - span.longitudeDelta/2);
-	NSLog(@"%f %f",c.latitude + span.latitudeDelta/2,c.longitude + span.longitudeDelta/2);	
-	NSLog(@"Box");
-	NSLog(@"%f %f",c.latitude - span.latitudeDelta/2,c.longitude - span.longitudeDelta/2);
-	NSLog(@"%f %f",c.latitude + span.latitudeDelta/2,c.longitude - span.longitudeDelta/2);	
-	NSLog(@"%f %f",c.latitude + span.latitudeDelta/2,c.longitude + span.longitudeDelta/2);
-	NSLog(@"%f %f",c.latitude - span.latitudeDelta/2,c.longitude + span.longitudeDelta/2);	
-	NSLog(@"%f %f",c.latitude - span.latitudeDelta/2,c.longitude - span.longitudeDelta/2);
-}
-
 - (void) setRegionFromResults {
 	
 	BOOL needsUpdate = FALSE;
 	MKCoordinateRegion region = [self computeRegionForCurrentResults:&needsUpdate];
-	if( needsUpdate ) {
-		dumpRegion(region);
+	if( needsUpdate )
 		[_mapView setRegion:region animated:YES];
-		dumpRegion(_mapView.region);
-	}
 }
 
 
@@ -442,9 +423,10 @@ void dumpRegion(MKCoordinateRegion r) {
 	OBASearchControllerResult * result = _searchController.result;
 	
 	if( ! result ) {
-		CLLocation * center = [self currentLocation];
-		if( center ) {
-			return [OBASphericalGeometryLibrary createRegionWithCenter:center.coordinate latRadius:kDefaultMapRadius lonRadius:kDefaultMapRadius];
+		OBALocationManager * lm = _appContext.locationManager;
+		CLLocation * location = lm.currentLocation;
+		if( location ) {
+			return [OBASphericalGeometryLibrary createRegionWithCenter:location.coordinate latRadius:kDefaultMapRadius lonRadius:kDefaultMapRadius];
 		}
 		else {
 			*needsUpdate = FALSE;
@@ -502,13 +484,9 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 
 - (MKCoordinateRegion) computeRegionForNClosestStops:(NSArray*)stops center:(CLLocation*)location numberOfStops:(NSUInteger)numberOfStops {
 	NSMutableArray * stopsSortedByDistance = [NSMutableArray arrayWithArray:stops];
-	NSLog(@"Sorting...");
 	[stopsSortedByDistance sortUsingFunction:sortStopsByDistanceFromLocation context:location];
-	NSLog(@"Sorting complete");
 	while( [stopsSortedByDistance count] > numberOfStops )
 		[stopsSortedByDistance removeLastObject];
-	for( OBAStop * stop in stopsSortedByDistance )
-		NSLog(@"  stop=%@", stop.stopId);
 	return [self computeRegionForStops:stopsSortedByDistance center:location];
 }
 
