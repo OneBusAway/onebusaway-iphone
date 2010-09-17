@@ -534,7 +534,7 @@ typedef enum {
 			cell.textLabel.text = @"Filter & Sort Routes";
 			break;
 		case 2:
-			cell.textLabel.text = @"Nearby Stops";
+			cell.textLabel.text = @"See Nearby Stops";
 			break;
 	}
 	

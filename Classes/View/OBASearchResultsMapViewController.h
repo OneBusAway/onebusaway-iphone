@@ -40,7 +40,6 @@
     OBASearchResultsMapFilterToolbar * _filterToolbar;
 
 	OBAGenericAnnotation * _locationAnnotation;
-	NSMutableArray * _mapAnnotations;
 	
 	UIImage * _defaultStopIcon;
 	NSMutableDictionary * _stopIcons;

@@ -42,7 +42,7 @@ static const double kMinRegionDeltaToDetectUserDrag = 50;
 
 static const double kRegionChangeRequestsTimeToLive = 3.0;
 
-static const double kMaxMapDistanceFromCurrentLocation = 750;
+static const double kMaxMapDistanceFromCurrentLocationForNearby = 800;
 static const double kPaddingScaleFactor = 1.075;
 static const NSUInteger kShowNClosestStops = 4;
 
@@ -145,7 +145,6 @@ typedef enum  {
 	[_searchTypeControl release];
 
 	[_locationAnnotation release];
-	[_mapAnnotations release];
 	 
 	[_stopIcons release];
 	[_defaultStopIcon release];
@@ -173,7 +172,6 @@ typedef enum  {
 	[self.view addSubview:_activityIndicatorView];
 	
 	_locationAnnotation = nil;
-	_mapAnnotations = [[NSMutableArray alloc] init];
 	
 	_firstView = TRUE;
 	_autoCenterOnCurrentLocation = TRUE;
@@ -769,13 +767,16 @@ typedef enum  {
 	NSMutableArray * toAdd = [[NSMutableArray alloc] init];
 	NSMutableArray * toRemove = [[NSMutableArray alloc] init];
 	
-	for( id annotation in _mapAnnotations )  {
-		if (! [annotations containsObject:annotation])
+	for( id annotation in [_mapView annotations] ) {
+        if( annotation == _locationAnnotation )
+            continue;
+        
+		if( ! [annotations containsObject:annotation] )
 			[toRemove addObject:annotation];
 	}
 	
-	for (id annotation in annotations) {
-		if( ! [_mapAnnotations containsObject:annotation] )
+	for( id annotation in annotations ) {
+		if( ! [[_mapView annotations] containsObject:annotation] )
 			[toAdd addObject:annotation];
 	}
 	
@@ -784,8 +785,6 @@ typedef enum  {
 	
 	[_mapView removeAnnotations:toRemove];
 	[_mapView addAnnotations:toAdd];
-	
-	_mapAnnotations = [NSObject releaseOld:_mapAnnotations retainNew:annotations];
 	
 	[toAdd release];
 	[toRemove release];
@@ -951,10 +950,11 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	for( OBAStop * stop in stops ) {
 		double latDelta = ABS(stop.lat - center.latitude) * 2.0 * kPaddingScaleFactor;
 		double lonDelta = ABS(stop.lon - center.longitude) * 2.0 * kPaddingScaleFactor;
-		span.latitudeDelta =  MAX(span.latitudeDelta,latDelta);
-		span.longitudeDelta =  MAX(span.longitudeDelta,lonDelta);
+        
+		span.latitudeDelta  = MAX(span.latitudeDelta,latDelta);
+		span.longitudeDelta = MAX(span.longitudeDelta,lonDelta);
 	}
-	
+    
 	region.center = center;
 	region.span = span;
 	
@@ -969,13 +969,13 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	for( OBAStop * stop in stops) {
 		CLLocation * location = [[CLLocation alloc] initWithLatitude:stop.lat longitude:stop.lon];
 		double d = [location distanceFromLocation:center];
-		if( d < kMaxMapDistanceFromCurrentLocation )
+		if( d < kMaxMapDistanceFromCurrentLocationForNearby )
 			[stopsInRange addObject:stop];
 		[location release];
 	}
 	
 	if( [stopsInRange count] > 0)
-		return [self computeRegionForStops:stopsInRange];
+		return [self computeRegionForStops:stopsInRange center:center];
 	else
 		return [self computeRegionForStops:stops];
 }
