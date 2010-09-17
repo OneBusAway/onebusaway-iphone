@@ -68,6 +68,7 @@
 			OBABookmark * bookmark = [_appContext.modelDao createTransientBookmark:_stop];
 			OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:_appContext bookmark:bookmark editType:OBABookmarkEditNew];
 			[self.navigationController pushViewController:vc animated:YES];
+            [vc release];
 			break;
 		}
 		case 1: {

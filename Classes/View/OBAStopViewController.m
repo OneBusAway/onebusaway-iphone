@@ -17,7 +17,6 @@
 #import "OBAStopViewController.h"
 #import "OBALogger.h"
 #import "OBAArrivalAndDeparture.h"
-#import "OBAStopPreferences.h"
 
 #import "OBAUIKit.h"
 
@@ -26,7 +25,10 @@
 #import "OBAArrivalEntryTableViewCell.h"
 
 #import "OBAProgressIndicatorView.h"
-#import "OBAStopOptionsViewController.h"
+
+#import "OBAStopPreferences.h"
+#import "OBAEditStopBookmarkViewController.h"
+#import "OBAEditStopPreferencesViewController.h"
 
 #import "UIDeviceExtensions.h"
 
@@ -213,7 +215,7 @@ typedef enum {
 		case OBASectionFilter:
 			return 1;
 		case OBASectionOptions:
-			return 1;
+			return 2;
 		default:
 			return 0;
 	}
@@ -248,7 +250,7 @@ typedef enum {
 	
 	switch (sectionType) {
 		case OBASectionFilter: {
-			_showFilteredArrivals = ! _showFilteredArrivals;
+			_showFilteredArrivals = !_showFilteredArrivals;
 			
 			// update arrivals section
 			static int arrivalsViewSection = 1;
@@ -289,10 +291,27 @@ typedef enum {
 			
 			break;
 		}
-		case OBASectionOptions: {
-			OBAStopOptionsViewController * vc = [[OBAStopOptionsViewController alloc] initWithApplicationContext:_appContext stop:_source.stop];
-			[self.navigationController pushViewController:vc animated:TRUE];
-			[vc release];
+		case OBASectionOptions: {            
+            switch(indexPath.row) {
+                case 0: {
+                    OBABookmark * bookmark = [_appContext.modelDao createTransientBookmark:_source.stop];
+                    
+                    OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:_appContext bookmark:bookmark editType:OBABookmarkEditNew];
+                    [self.navigationController pushViewController:vc animated:YES];
+                    [vc release];
+                    
+                    break;
+                }
+
+                case 1: {
+                    OBAEditStopPreferencesViewController * vc = [[OBAEditStopPreferencesViewController alloc] initWithApplicationContext:_appContext stop:_source.stop];
+                    [self.navigationController pushViewController:vc animated:YES];
+                    [vc release];
+                    
+                    break;
+                }
+            }
+
 			break;
 		}
 		default:
@@ -318,7 +337,6 @@ typedef enum {
 
 
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section {
-		
 	OBAStop * stop = _source.stop;
 		
 	if( stop ) {
@@ -363,6 +381,7 @@ typedef enum {
 		cell.textLabel.text = @"No arrivals in the next 30 minutes";
 		cell.textLabel.textAlignment = UITextAlignmentCenter;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.accessoryType = UITableViewCellAccessoryNone;
 		return cell;
 	}
 	else {
@@ -372,6 +391,7 @@ typedef enum {
 		cell.destinationLabel.text = pa.tripHeadsign;
 		cell.routeLabel.text = pa.routeShortName;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.accessoryType = UITableViewCellAccessoryNone;
 		NSDate * time = [NSDate dateWithTimeIntervalSince1970:(pa.bestDepartureTime / 1000)];		
 		
 		NSTimeInterval interval = [time timeIntervalSinceNow];
@@ -445,13 +465,18 @@ typedef enum {
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-	cell.textLabel.text = @"Options";
-	cell.textLabel.textAlignment = UITextAlignmentCenter;
+
+    cell.textLabel.textAlignment = UITextAlignmentCenter;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	return cell;	
+	
+    if (indexPath.row == 0)
+		cell.textLabel.text = @"Bookmark this stop";
+	else if (indexPath.row == 1)
+		cell.textLabel.text = @"Filter & sort results";
+
+	return cell;
 }
 
 - (IBAction)onRefreshButton:(id)sender {
@@ -476,7 +501,6 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 
 - (void) reloadData {
 	@synchronized(self) {
-		
 		OBAStop * stop = _source.stop;
 		
 		NSArray * predictedArrivals = _source.predictedArrivals;
@@ -484,8 +508,7 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 		[_allArrivals removeAllObjects];
 		[_filteredArrivals removeAllObjects];
 		
-		if( stop && predictedArrivals) {
-			
+		if(stop && predictedArrivals) {
 			OBAStopPreferences * prefs = stop.preferences;
 			
 			for( OBAArrivalAndDeparture * pa in predictedArrivals) {
@@ -494,12 +517,13 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 				if( ! [prefs.routesToExclude containsObject:pa.route] )
 					[_filteredArrivals addObject:pa];
 			}
-			
+
 			switch ([prefs.sortTripsByType intValue]) {
 				case OBASortTripsByDepartureTime:
 					[_allArrivals sortUsingFunction:predictedArrivalSortByDepartureTime context:nil];
 					[_filteredArrivals sortUsingFunction:predictedArrivalSortByDepartureTime context:nil];
 					break;
+
 				case OBASortTripsByRouteName:
 					[_allArrivals sortUsingFunction:predictedArrivalSortByRoute context:nil];
 					[_filteredArrivals sortUsingFunction:predictedArrivalSortByRoute context:nil];
