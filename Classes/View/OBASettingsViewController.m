@@ -106,7 +106,7 @@ typedef enum {
 		cell.textLabel.text = @"Contact Us";
 	}
 	else if( rowType == OBARowFeedback ) {
-		cell.textLabel.text = @"Feedback";
+		cell.textLabel.text = @"Give Feedback";
 	}
 	else if( rowType == OBARowSettings ) {
 		cell.textLabel.text = @"Settings";
