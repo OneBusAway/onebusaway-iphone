@@ -52,6 +52,12 @@
 			<key>DefaultValue</key>
 			<false/>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>&quot;Clear local cache&quot; will delete cached data, bookmarks, and recent stops on next app startup</string>
+		</dict>
 	</array>
 </dict>
 </plist>

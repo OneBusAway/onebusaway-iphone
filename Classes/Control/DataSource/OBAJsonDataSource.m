@@ -169,7 +169,6 @@
 
 - (void) cancel {
 	@synchronized(self) {
-		NSLog(@"  Canceling open connection in URL Fetcher");
 		if( _canceled )
 			return;
 		_canceled = TRUE;

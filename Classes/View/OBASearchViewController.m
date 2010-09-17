@@ -153,6 +153,7 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 			break;
 		default:
 			NSLog(@"unknown search type index");
+			break;
 	}
 
 	// refresh keyboard type if it's up
