@@ -128,6 +128,7 @@
 			OBAAgency * agency = awc.agency;
 			cell.textLabel.text = agency.name;
 			cell.textLabel.adjustsFontSizeToFitWidth = TRUE;
+			cell.selectionStyle = UITableViewCellSelectionStyleNone; // Change once agencies can be selected.
 			return cell;
 		}
 		default:
@@ -173,6 +174,7 @@
 		case OBASearchControllerSearchTypeAgenciesWithCoverage: {
 			//OBAAgencyWithCoverage * awc = [_result.agenciesWithCoverage objectAtIndex:indexPath.row];
 			//OBAAgency * agency = awc.agency;
+			// When agencies can be selected, make sure to change their cell's selectionStyle above
 		}
 		default:			
 			break;

@@ -87,7 +87,7 @@
 - (void) refresh {
 	if( _stopId ) {
 		NSString *url = [NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", _stopId];
-		[_progress setMessage:@"Connecting..." inProgress:TRUE progress:0];
+		[_progress setMessage:@"Updating..." inProgress:TRUE progress:0];
 		[_jsonDataSource requestWithPath:url withArgs:nil withDelegate:self context:nil];	
 		if( ! _timer ) {
 			_timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:TRUE];

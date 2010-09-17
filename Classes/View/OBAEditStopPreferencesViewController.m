@@ -18,6 +18,7 @@
 #import "OBALogger.h"
 #import "OBARoute.h"
 #import "OBAUITableViewCell.h"
+#import "OBAStopViewController.h"
 
 
 @implementation OBAEditStopPreferencesViewController
@@ -72,9 +73,9 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	if( section == 0)
-		return @"Sort By:";
+		return @"Sort by";
 	else if( section == 1)
-		return @"Routes:";
+		return @"Routes";
 	return nil;
 }
 
@@ -116,7 +117,6 @@
 	
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 	BOOL checked = FALSE;
-	cell.textLabel.text = @"Unknown cell";
 	
 	OBAStopPreferences * prefs = _stop.preferences;
 	
@@ -129,10 +129,12 @@
 			checked = [prefs.sortTripsByType intValue] == OBASortTripsByRouteName;
 			cell.textLabel.text = @"Route";
 			break;
+		default:
+			cell.textLabel.text = @"Unknown cell";
 	}
 
 	cell.accessoryType = checked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	
 	return cell;
 }
@@ -156,7 +158,7 @@
 	
 	BOOL checked = ! [prefs.routesToExclude containsObject:route];
 	cell.accessoryType = checked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	return cell;
 }
 
@@ -171,9 +173,11 @@
 			prefs.sortTripsByType = [NSNumber numberWithInteger:indexPath.row];
 			for( int i=0; i<2; i++) {
 				NSIndexPath * cellIndex = [NSIndexPath indexPathForRow:i inSection:0];
-				UITableViewCell * cell = [tableView cellForRowAtIndexPath:cellIndex];
 				BOOL checked = (i == indexPath.row);
+				
+				UITableViewCell * cell = [tableView cellForRowAtIndexPath:cellIndex];
 				cell.accessoryType = checked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+				[tableView deselectRowAtIndexPath:indexPath animated:TRUE];
 			}
 		}
 	}
@@ -193,6 +197,7 @@
 		
 		UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
 		cell.accessoryType = currentlyChecked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+		[tableView deselectRowAtIndexPath:indexPath animated:TRUE];
 	}
 }
 
@@ -208,7 +213,22 @@
 	[dao saveIfNeeded:&error];
 	if( error )
 		OBALogSevereWithError(error,@"Error saving stop preferences");
-	[self.navigationController popViewControllerAnimated:TRUE];
+	
+	// pop to stop view controller are saving settings
+	BOOL foundStopViewController = FALSE;
+	for (UIViewController* viewController in [self.navigationController viewControllers])
+	{
+		if ([viewController isKindOfClass:[OBAStopViewController class]])
+		{
+			[self.navigationController popToViewController:viewController animated:TRUE];
+			foundStopViewController = TRUE;
+			break;
+		}
+	}
+	
+	if (!foundStopViewController)
+		[self.navigationController popViewControllerAnimated:TRUE];
+
 }
 
 @end

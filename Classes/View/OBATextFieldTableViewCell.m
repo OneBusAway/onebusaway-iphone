@@ -42,8 +42,11 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)localTextField {	
-	[localTextField resignFirstResponder];
-	return YES;
+	
+	// edit bookmark page shouldn't hide keyboard when pressing return. this UX is used in the contacts app, for example.
+	// when we hold on to the keyboard, it slides off to the right of the screen.
+	//[localTextField resignFirstResponder];
+	return NO;
 }
 
 @end

@@ -72,12 +72,15 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 	switch (_currentSearchType) {
 		case OBASearchTypeByRoute:
 			_searchTypeControl.selectedSegmentIndex = 0;
+			[_searchField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
 			break;
 		case OBASearchTypeByAddress:
 			_searchTypeControl.selectedSegmentIndex = 1;
+			[_searchField setKeyboardType:UIKeyboardTypeDefault];
 			break;
 		case OBASearchTypeByStop:
 			_searchTypeControl.selectedSegmentIndex = 2;
+			[_searchField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
 			break;
 	}
 	
@@ -131,22 +134,31 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 	NSString * savedValue = nil;
 	switch(index) {
 		case 0:
-			self.searchField.placeholder = @"Search By Route";
+			[_searchField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
+			_searchField.placeholder = @"Search by route";
 			_currentSearchType = OBASearchTypeByRoute;
 			savedValue = _routeSavedValue;
 			break;
 		case 1:
-			self.searchField.placeholder = @"Search By Address";
+			[_searchField setKeyboardType:UIKeyboardTypeDefault];
+			_searchField.placeholder = @"Search by address";
 			_currentSearchType = OBASearchTypeByAddress;
 			savedValue = _addressSavedValue;
 			break;
 		case 2:
-			self.searchField.placeholder = @"Search By Stop #";
+			[_searchField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
+			_searchField.placeholder = @"Search by stop #";
 			_currentSearchType = OBASearchTypeByStop;
 			savedValue = _stopIdSavedValue;
 			break;
 		default:
 			NSLog(@"unknown search type index");
+	}
+
+	// refresh keyboard type if it's up
+	if( [_searchField isFirstResponder] == YES ) {
+		[_searchField resignFirstResponder];
+		[_searchField becomeFirstResponder];
 	}
 	
 	if( savedValue && [savedValue length] > 0)

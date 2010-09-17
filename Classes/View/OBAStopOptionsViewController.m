@@ -16,6 +16,7 @@
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext stop:(OBAStop*)stop {
 	if( self = [super initWithStyle:UITableViewStyleGrouped] ) {
+		self.tableView.scrollEnabled = NO;
 		_appContext = [appContext retain];
 		_stop = [stop retain];
 	}
@@ -49,9 +50,9 @@
 	if( indexPath.row == 0 )
 		cell.textLabel.text = @"Add a bookmark";
 	else if( indexPath.row == 1 )
-		cell.textLabel.text = @"Filter/sort results";
+		cell.textLabel.text = @"Filter & sort results";
 	cell.textLabel.textAlignment = UITextAlignmentCenter;
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	return cell;
 }

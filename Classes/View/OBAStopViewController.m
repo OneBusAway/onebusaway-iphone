@@ -39,6 +39,7 @@ typedef enum {
 
 - (UITableViewCell*) tableView:(UITableView*)tableView stopCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath*)indexPath;
+- (void)determineFilterTypeCellText:(UITableViewCell*)filterTypeCell filteringEnabled:(bool)filteringEnabled;
 - (UITableViewCell*) tableView:(UITableView*)tableView filterCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
@@ -141,11 +142,10 @@ typedef enum {
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	
 	OBAStop * stop = _source.stop;
-	NSArray * predictedArrivals = _source.predictedArrivals;
-	
+
 	if( stop ) {
-		if( predictedArrivals ) {
-			if( [_filteredArrivals count] != [predictedArrivals count] ) {
+		if( [_allArrivals count] > 0 ) {
+			if( [_filteredArrivals count] != [_allArrivals count] ) {
 				return 4;
 			}
 			return 3;
@@ -159,8 +159,7 @@ typedef enum {
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	
-	NSArray * predictedArrivals = _source.predictedArrivals;
+
 	OBASectionType sectionType = [self sectionTypeForSection:section];
 	
 	switch( sectionType ) {
@@ -171,7 +170,7 @@ typedef enum {
 			if( _showFilteredArrivals )
 				c = [_filteredArrivals count];
 			else
-				c = [predictedArrivals count];
+				c = [_allArrivals count];
 			
 			if( c == 0 )
 				c = 1;				
@@ -217,7 +216,44 @@ typedef enum {
 	switch (sectionType) {
 		case OBASectionFilter: {
 			_showFilteredArrivals = ! _showFilteredArrivals;
-			[self.tableView reloadData];
+			
+			// update arrivals section
+			static int arrivalsViewSection = 1;
+			if ([self sectionTypeForSection:arrivalsViewSection] == OBASectionArrivals)
+			{
+				UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+				[self determineFilterTypeCellText:cell filteringEnabled:_showFilteredArrivals];
+				[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+				
+				if ([_filteredArrivals count] == 0)
+				{
+					// We're showing a "no arrivals in the next 30 minutes" message, so our insertion/deletion math below would be wrong.
+					// Instead, just refresh the section with a fade.
+					[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:arrivalsViewSection] withRowAnimation:UITableViewRowAnimationFade];
+				}
+				else if ([_allArrivals count] != [_filteredArrivals count])
+				{
+					// Display a nice animation of the cells when changing our filter settings
+					NSMutableArray * modificationArray = [NSMutableArray arrayWithCapacity:[_allArrivals count] - [_filteredArrivals count]];
+					
+					int rowIterator = 0;
+					for(OBAArrivalAndDeparture * pa in _allArrivals)
+					{
+						bool isFilteredArrival = ([_filteredArrivals containsObject:pa] == NO);
+						
+						if (isFilteredArrival == YES)
+							[modificationArray addObject:[NSIndexPath indexPathForRow:rowIterator inSection:arrivalsViewSection]];
+						
+						rowIterator++;
+					}
+
+					if (_showFilteredArrivals)
+						[self.tableView deleteRowsAtIndexPaths:modificationArray withRowAnimation:UITableViewRowAnimationFade];
+					else
+						[self.tableView insertRowsAtIndexPaths:modificationArray withRowAnimation:UITableViewRowAnimationFade];
+				}
+			}
+			
 			break;
 		}
 		case OBASectionOptions: {
@@ -254,18 +290,17 @@ typedef enum {
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section {
 		
 	OBAStop * stop = _source.stop;
-	NSArray * predictedArrivals = _source.predictedArrivals;
 		
 	if( stop ) {
 		
 		if( section == 0 )
 			return OBASectionStop;
 		
-		if( predictedArrivals ) {
+		if( [_allArrivals count] > 0 ) {
 			if( section == 1 )
 				return OBASectionArrivals;
 			if( section == 2) {
-				if( [_filteredArrivals count] != [predictedArrivals count] )
+				if( [_filteredArrivals count] != [_allArrivals count] )
 					return OBASectionFilter;
 				else
 					return OBASectionOptions;
@@ -299,13 +334,11 @@ typedef enum {
 
 
 - (UITableViewCell*)tableView:(UITableView*)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath*)indexPath {
-	
-	NSArray * predictedArrivals = _source.predictedArrivals;
-	
-	if( ! predictedArrivals )
+
+	if( [_allArrivals count] == 0 )
 		return [UITableViewCell getOrCreateCellForTableView:tableView];
 	
-	NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : predictedArrivals;
+	NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
 	
 	if( [arrivals count] == 0 ) {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
@@ -372,17 +405,23 @@ typedef enum {
 	}
 }
 
+
+- (void)determineFilterTypeCellText:(UITableViewCell*)filterTypeCell filteringEnabled:(bool)filteringEnabled {
+	if( filteringEnabled )
+		filterTypeCell.textLabel.text = @"Show all arrivals";
+	else
+		filterTypeCell.textLabel.text = @"Show filtered arrivals";	
+}
+
 - (UITableViewCell*) tableView:(UITableView*)tableView filterCellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 	
-	if( _showFilteredArrivals )
-		cell.textLabel.text = @"Show all arrivals";
-	else
-		cell.textLabel.text = @"Show filtered arrivals";
+	[self determineFilterTypeCellText:cell filteringEnabled:_showFilteredArrivals];
 	
 	cell.textLabel.textAlignment = UITextAlignmentCenter;
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	cell.accessoryType = UITableViewCellAccessoryNone;
 	
 	return cell;
 }
@@ -392,7 +431,7 @@ typedef enum {
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 	cell.textLabel.text = @"Options";
 	cell.textLabel.textAlignment = UITextAlignmentCenter;
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	return cell;	
 }
@@ -460,7 +499,7 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 					break;
 			}
 		}
-		
+
 		[self.tableView reloadData];
 	}
 }

@@ -123,7 +123,7 @@
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="IBUIText">Search by:</string>
+								<string key="IBUIText">Search by</string>
 								<object class="NSFont" key="IBUIFont" id="353506502">
 									<string key="NSName">Helvetica</string>
 									<double key="NSSize">1.700000e+01</double>

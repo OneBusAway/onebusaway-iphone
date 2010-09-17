@@ -89,7 +89,7 @@
 		cell.textLabel.text = bookmark.name;
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		cell.textLabel.textAlignment = UITextAlignmentLeft;		
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 		return cell;
 	}
 }

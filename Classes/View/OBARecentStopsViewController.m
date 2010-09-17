@@ -76,7 +76,7 @@
 		OBAStopAccessEvent * event = [_mostRecentStops objectAtIndex:indexPath.row];
 		[cell setStop:event.stop];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 		return cell;
 	}
 }

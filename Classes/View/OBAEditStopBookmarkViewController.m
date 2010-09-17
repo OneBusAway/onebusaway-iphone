@@ -36,6 +36,7 @@ static NSString * kOBAEditTypeParameter = @"OBAEditTypeParameter";
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext bookmark:(OBABookmark*)bookmark editType:(OBABookmarkEditType)editType {
 
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+		self.tableView.scrollEnabled = FALSE;
 
 		_appContext = [appContext retain];
 		_bookmark = [bookmark retain];
@@ -92,7 +93,8 @@ static NSString * kOBAEditTypeParameter = @"OBAEditTypeParameter";
 		OBATextFieldTableViewCell * cell =  [OBATextFieldTableViewCell getOrCreateCellForTableView:tableView];
 		cell.textField.text = _bookmark.name;
 		_textField = cell.textField;
-		[cell.textField becomeFirstResponder];
+		[_textField becomeFirstResponder];
+		[tableView addSubview:cell]; // make keyboard slide in/out from right.
 		return cell;
 	}
 	else {
