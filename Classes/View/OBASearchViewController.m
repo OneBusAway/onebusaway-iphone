@@ -91,7 +91,10 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-	[_searchField becomeFirstResponder];
+	
+	const BOOL autoDisplayKeyboard = NO;
+	if (autoDisplayKeyboard)
+		[_searchField becomeFirstResponder];
 	
 	OBALocationManager * lm = _appContext.locationManager;
 	[lm startUpdatingLocation];
