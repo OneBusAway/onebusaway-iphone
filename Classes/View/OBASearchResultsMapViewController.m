@@ -65,6 +65,7 @@ static const NSUInteger kShowNClosestStops = 4;
 - (void) checkNoRouteResults;
 - (void) checkNoPlacemarksResults;
 - (void) showNoResultsAlertWithTitle:(NSString*)title prompt:(NSString*)prompt;
+- (BOOL) controllerIsVisibleAndActive;
 
 @end
 
@@ -153,13 +154,7 @@ static const NSUInteger kShowNClosestStops = 4;
 
 - (void) handleSearchControllerError:(NSError*)error {
 
-	// Ignore errors if our app isn't currently active
-	if( ! _appContext.active )
-		return;
-	
-	// Ignore errors if our view isn't currently on top
-	UINavigationController * nav = self.navigationController;
-	if( self != [nav visibleViewController])
+	if( ! [self controllerIsVisibleAndActive] )
 		return;
 	
 	NSString * domain = [error domain];
@@ -679,6 +674,9 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 
 	_listButton.enabled = FALSE;
 	
+	if( ! [self controllerIsVisibleAndActive] )
+		return;
+	
 	UIAlertView * view = [[UIAlertView alloc] init];
 	view.title = title;
 	view.message = [NSString stringWithFormat:@"%@  See the list of supported transit agencies for service coverage.",prompt];
@@ -688,6 +686,20 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	view.cancelButtonIndex = 1;
 	[view show];
 }
+
+- (BOOL) controllerIsVisibleAndActive {
+	
+	// Ignore errors if our app isn't currently active
+	if( ! _appContext.active )
+		return FALSE;
+	
+	// Ignore errors if our view isn't currently on top
+	UINavigationController * nav = self.navigationController;
+	if( self != [nav visibleViewController])
+		return FALSE;
+	
+	return TRUE;
+}	
 
 @end
 
