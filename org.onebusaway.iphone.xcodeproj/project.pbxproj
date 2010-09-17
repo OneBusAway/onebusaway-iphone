@@ -1038,6 +1038,39 @@
 			};
 			name = AdHocDistribution;
 		};
+		D6BEE73E10474E58003655A1 /* AppStoreDistribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos2.2.1;
+			};
+			name = AppStoreDistribution;
+		};
+		D6BEE73F10474E58003655A1 /* AppStoreDistribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Brian Ferris";
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Library/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = OneBusAway;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "49A47426-CF8D-48B1-B25F-797E3CF38434";
+				SDKROOT = iphoneos3.0;
+			};
+			name = AppStoreDistribution;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1046,6 +1079,7 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
+				D6BEE73F10474E58003655A1 /* AppStoreDistribution */,
 				D6575AF60FEE8B0900D6D987 /* AdHocDistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1056,6 +1090,7 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+				D6BEE73E10474E58003655A1 /* AppStoreDistribution */,
 				D6575AF50FEE8B0900D6D987 /* AdHocDistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
