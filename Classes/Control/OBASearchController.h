@@ -17,6 +17,7 @@
 #import "OBAProgressIndicatorSource.h"
 #import "OBAPlacemark.h"
 #import "OBANavigationTarget.h"
+#import "OBAListWithRangeAndReferencesV2.h"
 
 
 extern NSString * kOBASearchControllerSearchTypeParameter;
@@ -40,21 +41,22 @@ typedef enum {
 @interface OBASearchControllerResult : NSObject
 {
 	OBASearchControllerSearchType _searchType;
-	NSArray * _stops;
-	NSArray * _placemarks;
-	NSArray * _agenciesWithCoverage;
-	NSArray * _routes;
-	BOOL _stopLimitExceeded;
+	BOOL _limitExceeded;
+	BOOL _outOfRange;
+	NSArray * _values;
+	NSArray * _additionalValues;
 }
 
 @property (nonatomic) OBASearchControllerSearchType searchType;
-@property (nonatomic,retain) NSArray * stops;
-@property (nonatomic,retain) NSArray * placemarks;
-@property (nonatomic,retain) NSArray * agenciesWithCoverage;
-@property (nonatomic,retain) NSArray * routes;
-@property (nonatomic) BOOL stopLimitExceeded;
+@property (nonatomic) BOOL limitExceeded;
+@property (nonatomic) BOOL outOfRange;
+@property (nonatomic,retain) NSArray * values;
+@property (nonatomic,retain) NSArray * additionalValues;
 
 + (OBASearchControllerResult*) result;
++ (OBASearchControllerResult*) resultFromList:(OBAListWithRangeAndReferencesV2*)list;
+
+- (NSUInteger) count;
 
 @end
 

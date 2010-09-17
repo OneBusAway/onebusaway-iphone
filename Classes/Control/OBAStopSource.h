@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//#import <Foundation/Foundation.h>
-#import "OBAStop.h"
+#import "OBAStopV2.h"
 #import "OBAErrorSource.h"
 
 @protocol OBAStopSource <OBAErrorSource>
-@property (retain,readonly) OBAStop * stop;
+@property (retain,readonly) OBAStopV2 * stop;
 @end

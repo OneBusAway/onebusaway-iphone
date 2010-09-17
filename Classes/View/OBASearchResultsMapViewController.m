@@ -16,6 +16,9 @@
 
 #import "OBASearchResultsMapViewController.h"
 #import "OBARoute.h"
+#import "OBAStopV2.h"
+#import "OBARouteV2.h"
+#import "OBAAgencyWithCoverageV2.h"
 #import "OBAStopAnnotation.h"
 #import "OBAGenericAnnotation.h"
 #import "OBAAgencyWithCoverage.h"
@@ -89,8 +92,8 @@ typedef enum  {
 
 - (void) reloadData;
 - (CLLocation*) currentLocation;
-- (UIImage*) getIconForStop:(OBAStop*)stop;
-- (NSString*) getRouteIconTypeForStop:(OBAStop*)stop;
+- (UIImage*) getIconForStop:(OBAStopV2*)stop;
+- (NSString*) getRouteIconTypeForStop:(OBAStopV2*)stop;
 
 - (void) setAnnotationsFromResults;
 - (void) setRegionFromResults;
@@ -325,9 +328,9 @@ typedef enum  {
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
 	
-	if( [annotation isKindOfClass:[OBAStop class]] ) {
+	if( [annotation isKindOfClass:[OBAStopV2 class]] ) {
 		
-		OBAStop * stop = (OBAStop*)annotation;
+		OBAStopV2 * stop = (OBAStopV2*)annotation;
 		static NSString * viewId = @"StopView";
 		
 		MKAnnotationView * view = [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
@@ -395,9 +398,9 @@ typedef enum  {
 	
 	id annotation = view.annotation;
 	
-	if( [annotation isKindOfClass:[OBAStop class] ] ) {		
-		OBAStop * stop = annotation;
-		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stop:stop];
+	if( [annotation isKindOfClass:[OBAStopV2 class] ] ) {		
+		OBAStopV2 * stop = annotation;
+		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stop.stopId];
 		[self.navigationController pushViewController:vc animated:TRUE];
 		[vc release];
 	}
@@ -616,7 +619,7 @@ typedef enum  {
 	OBASearchControllerResult * result = _searchController.result;
 	_listButton.enabled = (result != nil);
 	
-	if( result && result.searchType == OBASearchControllerSearchTypeRoute && [result.routes count] > 0) {
+	if( result && result.searchType == OBASearchControllerSearchTypeRoute && [result.values count] > 0) {
 		[self performSelector:@selector(onListButton:) withObject:self afterDelay:1];
 		return;
 	}
@@ -636,7 +639,7 @@ typedef enum  {
 	[self checkResults];
 }
 
-- (UIImage*) getIconForStop:(OBAStop*)stop {
+- (UIImage*) getIconForStop:(OBAStopV2*)stop {
 	NSString * routeIconType = [self getRouteIconTypeForStop:stop];
 	NSString * direction = @"";
 	
@@ -653,9 +656,9 @@ typedef enum  {
 	return image;
 }
 
-- (NSString*) getRouteIconTypeForStop:(OBAStop*)stop {
+- (NSString*) getRouteIconTypeForStop:(OBAStopV2*)stop {
 	NSMutableSet * routeTypes = [NSMutableSet set];
-	for( OBARoute * route in stop.routes ) {
+	for( OBARouteV2 * route in stop.routes ) {
 		if( route.routeType )
 			[routeTypes addObject:route.routeType];
 	}
@@ -697,17 +700,16 @@ typedef enum  {
 	OBASearchControllerResult * result = _searchController.result;
 	
 	if( result ) {
-		[annotations addObjectsFromArray:result.stops];
-		[annotations addObjectsFromArray:result.placemarks];
-		
-		for( OBAAgencyWithCoverage * agencyWithCoverage in result.agenciesWithCoverage ) {
-			OBAAgency * agency = agencyWithCoverage.agency;
-			OBANavigationTargetAnnotation * an = [[OBANavigationTargetAnnotation alloc] initWithTitle:agency.name subtitle:nil coordinate:agencyWithCoverage.coordinate target:nil];
-			[annotations addObject:an];
-			[an release];
+		[annotations addObjectsFromArray:result.values];
+
+		if( result.searchType == OBASearchControllerSearchTypeAgenciesWithCoverage ) {		   
+			for( OBAAgencyWithCoverageV2 * agencyWithCoverage in result.values ) {
+				OBAAgencyV2 * agency = agencyWithCoverage.agency;
+				OBANavigationTargetAnnotation * an = [[OBANavigationTargetAnnotation alloc] initWithTitle:agency.name subtitle:nil coordinate:agencyWithCoverage.coordinate target:nil];
+				[annotations addObject:an];
+				[an release];
+			}
 		}
-		
-		[annotations addObjectsFromArray:result.agenciesWithCoverage];
 	}
 	
 	[_mapView addAnnotations:annotations];
@@ -743,12 +745,13 @@ typedef enum  {
             
 		case OBASearchControllerSearchTypePlacemark:
 		case OBASearchControllerSearchTypeRegion: {
-            NSArray * stops = result.stops;
-			if( [stops count] == 0 )
+			if( result.outOfRange )
+				return @"Out of OneBusAway service area.";
+			if( result.limitExceeded )
+				return @"Too many stops.  Zoom in for more detail.";
+			NSArray * values = result.values;
+			if( [values count] == 0 )
 				return @"No stops at your current location.";
-            
-			if( result.stopLimitExceeded )
-				return @"Too many stops. Zoom in for more detail.";
             
             if( filterString )
                 return filterString;
@@ -762,7 +765,6 @@ typedef enum  {
     
     return defaultLabel;
 }
-
 
 - (void) setRegionFromResults {
 	
@@ -796,16 +798,16 @@ typedef enum  {
 	
 	switch(result.searchType) {
 		case OBASearchControllerSearchTypeStopId:
-			return [self computeRegionForNClosestStops:result.stops center:[self currentLocation] numberOfStops:kShowNClosestStops];
+			return [self computeRegionForNClosestStops:result.values center:[self currentLocation] numberOfStops:kShowNClosestStops];
 		case OBASearchControllerSearchTypeRoute:
 		case OBASearchControllerSearchTypeRouteStops:	
-			return [self computeRegionForNearbyStops:result.stops];
+			return [self computeRegionForNearbyStops:result.values];
 		case OBASearchControllerSearchTypePlacemark:
-			return [self computeRegionForPlacemarks:result.placemarks andStops:result.stops];
+			return [self computeRegionForPlacemarks:result.additionalValues andStops:result.values];
 		case OBASearchControllerSearchTypeAddress:
-			return [self computeRegionForPlacemarks:result.placemarks];
+			return [self computeRegionForPlacemarks:result.values];
 		case OBASearchControllerSearchTypeAgenciesWithCoverage:
-			return [self computeRegionForAgenciesWithCoverage:result.agenciesWithCoverage];
+			return [self computeRegionForAgenciesWithCoverage:result.values];
 		case OBASearchControllerSearchTypeNone:
 		case OBASearchControllerSearchTypeRegion:
 		default:
@@ -976,14 +978,14 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 
 - (void) checkNoRouteResults {
 	OBASearchControllerResult * result = _searchController.result;
-	if( [result.routes count] == 0 ) {
+	if( [result.values count] == 0 ) {
 		[self showNoResultsAlertWithTitle: @"No routes found" prompt:@"No routes were found for your search."];
 	}
 }
 
 - (void) checkNoPlacemarksResults {
 	OBASearchControllerResult * result = _searchController.result;
-	if( [result.placemarks count] == 0 ) {
+	if( [result.values count] == 0 ) {
 		_listButton.enabled = FALSE;
 		[self showNoResultsAlertWithTitle: @"No places found" prompt:@"No places were found for your search."];
 	}

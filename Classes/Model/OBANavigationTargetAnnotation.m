@@ -23,6 +23,7 @@
 @synthesize subtitle = _subtitle;
 @synthesize coordinate = _coordinate;
 @synthesize target = _target;
+@synthesize data = _data;
 
 - (id) initWithTitle:(NSString*)title subtitle:(NSString*)subtitle coordinate:(CLLocationCoordinate2D)coordinate target:(OBANavigationTarget*)target {
 
@@ -40,6 +41,7 @@
 	[_title release];
 	[_subtitle release];
 	[_target release];
+	[_data release];
 	[super dealloc];
 }
 

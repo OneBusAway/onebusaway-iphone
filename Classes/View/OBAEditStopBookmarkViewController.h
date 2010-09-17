@@ -15,7 +15,7 @@
  */
 
 #import "OBAApplicationContext.h"
-#import "OBABookmark.h"
+#import "OBABookmarkV2.h"
 
 
 typedef enum {
@@ -27,11 +27,11 @@ typedef enum {
 @interface OBAEditStopBookmarkViewController : UITableViewController {
 	OBAApplicationContext * _appContext;
 	OBABookmarkEditType _editType;
-	OBABookmark * _bookmark;
+	OBABookmarkV2 * _bookmark;
 	UITextField * _textField;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext bookmark:(OBABookmark*)bookmark editType:(OBABookmarkEditType)editType;
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType;
 
 - (IBAction) onCancelButton:(id)sender;
 - (IBAction) onSaveButton:(id)sender;

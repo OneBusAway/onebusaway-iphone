@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-//#import <Foundation/Foundation.h>
-#import "OBAStop.h"
-#import "OBABookmark.h"
+#import "OBAStopV2.h"
+#import "OBABookmarkV2.h"
 #import "OBAPlacemark.h"
 
 
@@ -24,9 +23,9 @@
 
 @optional
 
-- (void) bookmarkClicked:(OBABookmark*)bookmark;
+- (void) bookmarkClicked:(OBABookmarkV2*)bookmark;
 - (void) placemark:(OBAPlacemark*)placemark;
-- (void) viewedArrivalsAndDeparturesForStop:(OBAStop*)stop;
+- (void) viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop;
 - (void) annotationWithLabel:(NSString*)label;
 - (void) nearbyTrips:(NSArray*)nearbyTrips;
 

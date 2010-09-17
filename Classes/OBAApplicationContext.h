@@ -30,8 +30,6 @@
 	BOOL _active;
 	BOOL _locationAware;
 	
-    NSManagedObjectContext * _managedObjectContext;  
-	
 	OBAModelDAO * _modelDao;
 	OBAModelFactory * _modelFactory;
 

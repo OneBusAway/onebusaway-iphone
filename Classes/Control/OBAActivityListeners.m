@@ -52,7 +52,7 @@
 
 #pragma mark OBAActivityListener Methods
 
-- (void) bookmarkClicked:(OBABookmark*)bookmark {
+- (void) bookmarkClicked:(OBABookmarkV2*)bookmark {
 	[self fireListenerEvent:@selector(bookmarkClicked:) withObject:bookmark];
 }
 
@@ -60,7 +60,7 @@
 	[self fireListenerEvent:@selector(placemark:) withObject:placemark];
 }
 
-- (void) viewedArrivalsAndDeparturesForStop:(OBAStop*)stop {
+- (void) viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop {
 	[self fireListenerEvent:@selector(viewedArrivalsAndDeparturesForStop:) withObject:stop];
 }
 

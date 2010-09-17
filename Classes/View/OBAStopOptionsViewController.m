@@ -14,7 +14,7 @@
 
 @implementation OBAStopOptionsViewController
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stop:(OBAStop*)stop {
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stop:(OBAStopV2*)stop {
 	if( self = [super initWithStyle:UITableViewStyleGrouped] ) {
 		self.tableView.scrollEnabled = NO;
 		_appContext = [appContext retain];
@@ -65,7 +65,7 @@
 	
 	switch(indexPath.row) {
 		case 0: {
-			OBABookmark * bookmark = [_appContext.modelDao createTransientBookmark:_stop];
+			OBABookmarkV2 * bookmark = [_appContext.modelDao createTransientBookmark:_stop];
 			OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:_appContext bookmark:bookmark editType:OBABookmarkEditNew];
 			[self.navigationController pushViewController:vc animated:YES];
             [vc release];

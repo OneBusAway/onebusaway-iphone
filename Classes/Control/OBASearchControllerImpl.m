@@ -55,14 +55,9 @@ static const float kSearchRadius = 400;
 -(void) handleSearchByPlacemark:(id)jsonObject;
 -(void) handleSearchForAgenciesWithCoverage:(id)jsonObject;
 
--(NSArray*) parseStops:(NSArray*)stopArray;
+-(OBAListWithRangeAndReferencesV2*) parseStopsV2:(NSDictionary*)data;
 
--(void) fireStopsFromJsonObject:(id)jsonObject;
--(void) fireStops:(NSArray*)stops limitExceeded:(BOOL)limitExceeded;
--(void) firePlacemarks:(NSArray*)placemarks;
--(void) fireStops:(NSArray*)stops placemarks:(NSArray*)placemarks limitExceeded:(BOOL)limitExceeded;
--(void) fireAgenciesWithCoverage:(NSArray*)agenciesWithCoverage;
-
+-(void) fireStopsV2FromJsonObject:(id)jsonObject;
 -(void) fireUpdate:(OBASearchControllerResult*)result;
 -(void) fireError:(NSError*)error;
 
@@ -309,9 +304,9 @@ static const float kSearchRadius = 400;
 	
 	CLLocation * location = [[CLLocation alloc] initWithLatitude:coord.latitude longitude:coord.longitude];
 	_lastCurrentLocationSearch = [NSObject releaseOld:_lastCurrentLocationSearch retainNew:location];
-    [location release];
+	[location release];
 	
-	NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&latSpan=%f&lonSpan=%f", coord.latitude, coord.longitude, span.latitudeDelta, span.longitudeDelta];
+	NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&latSpan=%f&lonSpan=%f&version=2", coord.latitude, coord.longitude, span.latitudeDelta, span.longitudeDelta];
 	[self requestPath:@"/api/where/stops-for-location.json" withArgs:args searchType:OBASearchControllerSearchTypeRegion];
 }
 
@@ -324,7 +319,7 @@ static const float kSearchRadius = 400;
 	CLLocationCoordinate2D coord = location.coordinate;
 
 	routeQuery = [self escapeStringForUrl:routeQuery];
-	NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@", coord.latitude, coord.longitude,routeQuery];
+	NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2", coord.latitude, coord.longitude,routeQuery];
 	
     [self requestPath:@"/api/where/routes-for-location.json" withArgs:args searchType:OBASearchControllerSearchTypeRoute];
 
@@ -332,7 +327,7 @@ static const float kSearchRadius = 400;
 
 -(void) searchByRouteStops:(NSString*)routeId {
 	NSString * path = [NSString stringWithFormat:@"/api/where/stops-for-route/%@.json", routeId];
-	[self requestPath: path withArgs:nil searchType:OBASearchControllerSearchTypeRouteStops];
+	[self requestPath: path withArgs:@"version=2" searchType:OBASearchControllerSearchTypeRouteStops];		
 }
 
 -(void) searchByStopId:(NSString*)stopIdQuery {
@@ -343,8 +338,8 @@ static const float kSearchRadius = 400;
     CLLocation * location = [self currentOrDefaultLocationToSearch];
 	CLLocationCoordinate2D coord = location.coordinate;
 	
-    stopIdQuery = [self escapeStringForUrl:stopIdQuery];
-	NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@", coord.latitude, coord.longitude, stopIdQuery];
+	stopIdQuery = [self escapeStringForUrl:stopIdQuery];
+	NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2", coord.latitude, coord.longitude,stopIdQuery];
 
 	[self requestPath:@"/api/where/stops-for-location.json" withArgs:args searchType:OBASearchControllerSearchTypeStopId];
 }
@@ -372,19 +367,18 @@ static const float kSearchRadius = 400;
     
 	MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:location latRadius:kSearchRadius lonRadius:kSearchRadius];
 	MKCoordinateSpan span = region.span;
-	
-    NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&latSpan=%f&lonSpan=%f", location.latitude, location.longitude, span.latitudeDelta, span.longitudeDelta];
-	
-    [self requestPath:@"/api/where/stops-for-location.json" withArgs:args searchType:OBASearchControllerSearchTypePlacemark];
+
+	NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&latSpan=%f&lonSpan=%f&version=2", location.latitude, location.longitude,span.latitudeDelta,span.longitudeDelta];
+	[self requestPath:@"/api/where/stops-for-location.json" withArgs:args searchType:OBASearchControllerSearchTypePlacemark];
 }
 
 -(void) searchForAgenciesWithCoverage {
+
     // update search filter description
     self.searchFilterString = [NSString stringWithFormat:@"supported transit agencies"];
 	
     // search
-    [self requestPath:@"/api/where/agencies-with-coverage.json" withArgs:nil searchType:OBASearchControllerSearchTypeAgenciesWithCoverage];
-   
+	[self requestPath:@"/api/where/agencies-with-coverage.json" withArgs:@"version=2" searchType:OBASearchControllerSearchTypeAgenciesWithCoverage];
 }
 
 - (void) requestPath:(NSString*)path withArgs:(NSString*)args searchType:(OBASearchControllerSearchType)searchType {
@@ -437,7 +431,7 @@ static const float kSearchRadius = 400;
 }
 
 -(void) handleSearchByLocationRegion:(id)jsonObject {
-	[self fireStopsFromJsonObject:jsonObject];
+	[self fireStopsV2FromJsonObject:jsonObject];
 }
 
 -(void) handleSearchByRoute:(id)jsonObject {
@@ -447,28 +441,22 @@ static const float kSearchRadius = 400;
 	if( ! data || [data isEqual:[NSNull null]])
 		return;
 	
-	NSArray * routesArray = [data valueForKey:@"routes"];
-	
-	if( ! routesArray )
-		return;
-	
 	OBAModelFactory * modelFactory = _appContext.modelFactory;
 	NSError * localError = nil;
-	NSArray * routes = [modelFactory getRoutesFromJSONArray:routesArray error:&localError];
+	OBAListWithRangeAndReferencesV2 * list = [modelFactory getRoutesV2FromJSON:data error:&localError];
 	
 	if( localError ) {
 		[self fireError:localError];
 		return;
 	}
 	
-	if( [routes count] == 1 ) {
-		OBARoute * route = [routes objectAtIndex:0];
+	if( [list count] == 1 ) {
+		OBARouteV2 * route = [list.values objectAtIndex:0];
 		OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchRouteStops:route.routeId];
 		[self searchWithTarget: target];
 	}
 	else {
-		OBASearchControllerResult * result = [OBASearchControllerResult result];
-		result.routes = routes;
+		OBASearchControllerResult * result = [OBASearchControllerResult resultFromList:list];
 		[self fireUpdate:result];
 	}
 }
@@ -480,25 +468,22 @@ static const float kSearchRadius = 400;
 	if( ! data || [data isEqual:[NSNull null]])
 		return;
 	
-	NSArray * stopsArray = [data objectForKey:@"stops"];
-	
-	if( stopsArray ) {
-		OBAModelFactory * modelFactory = _appContext.modelFactory;
-		NSError * localError = nil;	
-		NSArray * newStops = [modelFactory getStopsFromJSONArray:stopsArray error:&localError];
+	OBAModelFactory * modelFactory = _appContext.modelFactory;
+	NSError * localError = nil;	
+	OBAStopsForRouteV2 * stopsForRoute = [modelFactory getStopsForRouteV2FromJSON:data error:&localError];
 		
-		if( localError ) {
-			[self fireError:localError];
-			return;
-		}
-		
-		
-		[self fireStops:newStops limitExceeded:FALSE];
+	if( localError ) {
+		[self fireError:localError];
+		return;
 	}
+		
+	OBASearchControllerResult * result = [OBASearchControllerResult result];
+	result.values = [stopsForRoute stops];
+	[self fireUpdate:result];
 }
 
 -(void) handleSearchByStopId:(id)jsonObject {
-	[self fireStopsFromJsonObject:jsonObject];
+	[self fireStopsV2FromJsonObject:jsonObject];
 }
 
 -(void) handleSearchByAddress:(id)jsonObject {
@@ -521,7 +506,9 @@ static const float kSearchRadius = 400;
 		[self searchWithTarget:target];
 	}
 	else {
-		[self firePlacemarks:placemarks];
+		OBASearchControllerResult * result = [OBASearchControllerResult result];
+		result.values = placemarks;
+		[self fireUpdate:result];
 	}
 }
 
@@ -529,12 +516,11 @@ static const float kSearchRadius = 400;
 	NSDictionary * data = [jsonObject valueForKey:@"data"];
 	if( data == nil || [data isEqual:[NSNull null]] )
 		return;
-	NSArray * stopsArray = [data objectForKey:@"stops"];
-	NSArray * stops = [self parseStops:stopsArray];
-	NSNumber * limitExceeded = [data objectForKey:@"limitExceeded"];
+	OBAListWithRangeAndReferencesV2 * list = [self parseStopsV2:data];
+	OBASearchControllerResult * result = [OBASearchControllerResult resultFromList:list];
 	OBAPlacemark * placemark = [_target parameterForKey:kOBASearchControllerSearchArgumentParameter];
-	NSArray * placemarks = [NSArray arrayWithObject:placemark];
-	[self fireStops:stops placemarks:placemarks limitExceeded:[limitExceeded boolValue]];
+	result.additionalValues = [NSArray arrayWithObject:placemark];
+	[self fireUpdate:result];
 }
 
 -(void) handleSearchForAgenciesWithCoverage:(id)jsonObject {
@@ -545,69 +531,41 @@ static const float kSearchRadius = 400;
 	
 	OBAModelFactory * modelFactory = _appContext.modelFactory;
 	NSError * localError = nil;
-	NSArray * agenciesWithCoverage = [modelFactory getAgenciesWithCoverageFromJson:data error:&localError];
+	OBAListWithRangeAndReferencesV2 * list = [modelFactory getAgenciesWithCoverageV2FromJson:data error:&localError];
 	
 	if( localError ) {
 		[self fireError:localError];
 		return;
 	}
 	
-	[self fireAgenciesWithCoverage:agenciesWithCoverage];
+	OBASearchControllerResult * result = [OBASearchControllerResult resultFromList:list];
+	[self fireUpdate:result];
 }
 
--(NSArray*) parseStops:(NSArray*)stopArray {
-	
+-(OBAListWithRangeAndReferencesV2*) parseStopsV2:(NSDictionary*)data {
 	OBAModelFactory * modelFactory = _appContext.modelFactory;
 	NSError * localError = nil;	
-	NSArray * newStops = [modelFactory getStopsFromJSONArray:stopArray error:&localError];
+	OBAListWithRangeAndReferencesV2 * list = [modelFactory getStopsV2FromJSON:data error:&localError];
 	
 	if( localError ) {
 		OBALogSevereWithError(localError,@"This is bad");
 		[self fireError:localError];
-		return [NSArray array];
+		return nil;
 	}
 	
-	newStops = [newStops sortedArrayUsingSelector:@selector(compareUsingName:)];
-	
-	return newStops;
+	return list;	
 }
 
--(void) fireStopsFromJsonObject:(id)jsonObject {
+-(void) fireStopsV2FromJsonObject:(id)jsonObject {
 	NSDictionary * data = [jsonObject valueForKey:@"data"];
 	if( data == nil || [data isEqual:[NSNull null]] )
 		return;
-	NSArray * stopsArray = [data objectForKey:@"stops"];
-	NSArray * stops = [self parseStops:stopsArray];
-	NSNumber * v = [data objectForKey:@"limitExceeded"];
-	BOOL limitExceeded = [v boolValue];
-	[self fireStops:stops limitExceeded:limitExceeded];
-}
-
--(void) fireStops:(NSArray*)stops limitExceeded:(BOOL)limitExceeded {
-	OBASearchControllerResult * result = [OBASearchControllerResult result];
-	result.stops = stops;
-	result.stopLimitExceeded = limitExceeded;
-	[self fireUpdate:result];
-}
-
--(void) firePlacemarks:(NSArray*)placemarks {
-	OBASearchControllerResult * result = [OBASearchControllerResult result];
-	result.placemarks = placemarks;
-	[self fireUpdate:result];
-}
-
--(void) fireStops:(NSArray*)stops placemarks:(NSArray*)placemarks limitExceeded:(BOOL)limitExceeded {
-	OBASearchControllerResult * result = [OBASearchControllerResult result];
-	result.stops = stops;
-	result.placemarks = placemarks;
-	result.stopLimitExceeded = limitExceeded;
+	OBAListWithRangeAndReferencesV2 * list = [self parseStopsV2:data];
+	OBASearchControllerResult * result = [OBASearchControllerResult resultFromList:list];
 	[self fireUpdate:result];
 }
 
 -(void ) fireAgenciesWithCoverage:(NSArray*)agenciesWithCoverage {
-	OBASearchControllerResult * result = [OBASearchControllerResult result];
-	result.agenciesWithCoverage = agenciesWithCoverage;
-	[self fireUpdate:result];
 }
 
 -(void) fireUpdate:(OBASearchControllerResult*)result {

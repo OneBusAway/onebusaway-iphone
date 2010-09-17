@@ -42,9 +42,12 @@
     [super dealloc];
 }
 
-- (void) setStop:(OBAStop*)stop {
+- (void) setStop:(OBAStopV2*)stop {
 	_mainLabel.text = stop.name;
-	_subLabel.text = [NSString stringWithFormat:@"Stop # %@",stop.code];
+	if( stop.direction )
+		_subLabel.text = [NSString stringWithFormat:@"Stop # %@ - %@ bound",stop.code,stop.direction];
+	else
+		_subLabel.text = [NSString stringWithFormat:@"Stop # %@",stop.code];
 }
 
 @end

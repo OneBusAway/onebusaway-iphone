@@ -80,10 +80,14 @@ typedef enum {
 	return self;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stop:(OBAStop*)stop {
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopId:(NSString*)stopId {
 	self = [self initWithApplicationContext:appContext];
-	[_source searchForStopId:stop.stopId];
+	[_source searchForStopId:stopId];
 	return self;
+}	
+
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopIds:(NSArray*)stopIds {
+	return [self initWithApplicationContext:appContext stopId:[stopIds objectAtIndex:0]];
 }
 
 - (void)dealloc {
@@ -197,7 +201,7 @@ typedef enum {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	
-	OBAStop * stop = _source.stop;
+	OBAStopV2 * stop = _source.stop;
 	
 	if( stop ) {
 		if( [_filteredArrivals count] != [_allArrivals count] ) {
@@ -311,7 +315,7 @@ typedef enum {
 		case OBASectionOptions: {            
             switch(indexPath.row) {
                 case 0: {
-                    OBABookmark * bookmark = [_appContext.modelDao createTransientBookmark:_source.stop];
+                    OBABookmarkV2 * bookmark = [_appContext.modelDao createTransientBookmark:_source.stop];
                     
                     OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:_appContext bookmark:bookmark editType:OBABookmarkEditNew];
                     [self.navigationController pushViewController:vc animated:YES];
@@ -354,7 +358,7 @@ typedef enum {
 
 
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section {
-	OBAStop * stop = _source.stop;
+	OBAStopV2 * stop = _source.stop;
 		
 	if( stop ) {
 		
@@ -377,8 +381,8 @@ typedef enum {
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView stopCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	OBAStop * stop = _source.stop;
-	
+	OBAStopV2 * stop = _source.stop;
+
 	if( stop ) {
 		OBAStopTableViewCell * cell = [OBAStopTableViewCell getOrCreateCellForTableView:tableView];	
 		[cell setStop:stop];
@@ -518,7 +522,7 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 
 - (void) reloadData {
 	@synchronized(self) {
-		OBAStop * stop = _source.stop;
+		OBAStopV2 * stop = _source.stop;
 		
 		NSArray * predictedArrivals = _source.predictedArrivals;
 		
@@ -526,22 +530,21 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 		[_filteredArrivals removeAllObjects];
 		
 		if(stop && predictedArrivals) {
-			OBAStopPreferences * prefs = stop.preferences;
+			OBAModelDAO * modelDao = _appContext.modelDao;	
+			OBAStopPreferencesV2 * prefs = [modelDao stopPreferencesForStopWithId:stop.stopId];
 			
-			for( OBAArrivalAndDeparture * pa in predictedArrivals) {
+			for( OBAArrivalAndDepartureV2 * pa in predictedArrivals) {
 				[_allArrivals addObject:pa];
-				
-				if( ! [prefs.routesToExclude containsObject:pa.route] )
+				if( [prefs isRouteIdEnabled:pa.routeId] )
 					[_filteredArrivals addObject:pa];
 			}
 
-			switch ([prefs.sortTripsByType intValue]) {
-				case OBASortTripsByDepartureTime:
+			switch (prefs.sortTripsByType) {
+				case OBASortTripsByDepartureTimeV2:
 					[_allArrivals sortUsingFunction:predictedArrivalSortByDepartureTime context:nil];
 					[_filteredArrivals sortUsingFunction:predictedArrivalSortByDepartureTime context:nil];
 					break;
-
-				case OBASortTripsByRouteName:
+				case OBASortTripsByRouteNameV2:
 					[_allArrivals sortUsingFunction:predictedArrivalSortByRoute context:nil];
 					[_filteredArrivals sortUsingFunction:predictedArrivalSortByRoute context:nil];
 					break;

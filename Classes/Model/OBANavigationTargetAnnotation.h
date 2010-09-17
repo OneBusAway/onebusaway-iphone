@@ -16,18 +16,23 @@
 
 #import "OBANavigationTarget.h"
 
+typedef enum {
+	OBAAnnotationTypeStop
+} OBAAnnotationType;
 
 @interface OBANavigationTargetAnnotation : NSObject<MKAnnotation> {
 	NSString * _title;
 	NSString * _subtitle;
 	CLLocationCoordinate2D _coordinate;
 	OBANavigationTarget * _target;
+	id _data;
 }
 
 @property (nonatomic,readonly) NSString * title;
 @property (nonatomic,readonly) NSString * subtitle;
 @property (nonatomic,readonly) CLLocationCoordinate2D coordinate;
 @property (nonatomic,readonly) OBANavigationTarget * target;
+@property (nonatomic,retain) id data;
 
 - (id) initWithTitle:(NSString*)title subtitle:(NSString*)subtitle coordinate:(CLLocationCoordinate2D)coordinate target:(OBANavigationTarget*)target;
 

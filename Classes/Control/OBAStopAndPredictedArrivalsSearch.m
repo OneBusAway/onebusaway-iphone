@@ -110,7 +110,7 @@ NSString* OBARefreshEndedNotification = @"OBARefreshEndedNotification";
 		[[NSNotificationCenter defaultCenter] postNotificationName:OBARefreshBeganNotification object:self];		
 		
 		[_progress setMessage:@"Updating..." inProgress:TRUE progress:0];
-		
+
 		if( ! _timer ) {
 			_timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:TRUE];
 			[_timer retain];
@@ -130,7 +130,7 @@ NSString* OBARefreshEndedNotification = @"OBARefreshEndedNotification";
 		}
 		
 		NSString *url = [NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", _stopId];
-		[_jsonDataSource requestWithPath:url withArgs:nil withDelegate:self context:nil];
+		[_jsonDataSource requestWithPath:url withArgs:@"version=2" withDelegate:self context:nil];	
 	}
 }
 
@@ -153,17 +153,18 @@ NSString* OBARefreshEndedNotification = @"OBARefreshEndedNotification";
 	NSDictionary * data = [obj valueForKey:@"data"];
 	
 	NSError * localError = nil;	
-	OBAArrivalsAndDeparturesForStop * ads = [_modelFactory getArrivalsAndDeparturesForStopFromJSON:data error:&localError];
+	OBAArrivalsAndDeparturesForStopV2 * ads = [_modelFactory getArrivalsAndDeparturesForStopV2FromJSON:data error:&localError];
 	if( localError ) {
 		self.error = localError;
 		return;
 	}
 	
 	// Note the event
-	[_context.activityListeners viewedArrivalsAndDeparturesForStop:ads.stop];
+	OBAStopV2 * stop = ads.stop;
+	[_context.activityListeners viewedArrivalsAndDeparturesForStop:stop];
 
 	// Update the page
-	self.stop = ads.stop;
+	self.stop = stop;
 	self.predictedArrivals = ads.arrivalsAndDepartures;
 	self.error = nil;
 	

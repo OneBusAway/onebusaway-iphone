@@ -42,6 +42,7 @@
 #import "OBALockViewController.h"
 
 #import "OBANearbyTripsController.h"
+#import "OBAUserPreferencesMigration.h"
 
 
 static NSString * kOBAHiddenPreferenceLocationAwareDisabled = @"OBALocationAwareDisabled";
@@ -50,8 +51,6 @@ static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 
 static NSString* kOBAApiServerName = @"http://api.onebusaway.org";
 static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
-
-static const BOOL kDeleteModelOnStartup = FALSE;
 
 
 @interface OBAApplicationContext (Private)
@@ -65,9 +64,11 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 - (void) setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController;
 - (UIViewController*) getViewControllerForTarget:(OBANavigationTarget*)target;
 
-- (NSString *)applicationDocumentsDirectory;
-
 - (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults;
+
+- (void) migrateUserPreferences;
+
+- (NSString *)applicationDocumentsDirectory;
 
 @end
 
@@ -98,7 +99,6 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 }
 
 - (void) dealloc {
-	[_managedObjectContext release];
 	[_modelDao release];
 	
 	[_locationManager release];
@@ -212,10 +212,8 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	
 	_setup = TRUE;
 	_active = TRUE;
-	NSError * error = nil;
 	
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-	NSFileManager * manager = [NSFileManager defaultManager];
 	
 	NSString * userId = [self userIdFromDefaults:userDefaults];
 	NSString * appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
@@ -234,64 +232,16 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 		_activityLogger.context = self;
 		_nearbyTripsController = [[OBANearbyTripsController alloc] initWithApplicationContext:self];
 	}
-	
-	NSString * path = [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"OneBusAway.sqlite"];
-
-	if( kDeleteModelOnStartup ) {
-
-		if( ! [manager removeItemAtPath:path error:&error] )
-			OBALogSevereWithError(error,@"Error deleting file: %@",path);
-		
-		[userDefaults removeObjectForKey:kOBAHiddenPreferenceLocationAwareDisabled];
-		[userDefaults removeObjectForKey:kOBAHiddenPreferenceSavedNavigationTargets];
-		
-		if( kIncludeUWActivityInferenceCode )
-			[_activityLogger deleteAllTraces];
-	}
 
 	if( kIncludeUWUserStudyCode ) {
 		_locationAware = ! [userDefaults boolForKey:kOBAHiddenPreferenceLocationAwareDisabled];
 	}
-
-	NSManagedObjectModel * managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
-	NSPersistentStoreCoordinator * persistentStoreCoordinator = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: managedObjectModel] autorelease];
 	
-	NSURL *storeUrl = [NSURL fileURLWithPath:path];
-	
-	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-							 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-							 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
-	
-	
-	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
-		
-		OBALogSevereWithError(error,@"Error adding persistent store coordinator");
-		
-		if( ! [manager removeItemAtPath:path error:&error] ) {
-			OBALogSevereWithError(error,@"Error deleting file: %@",path);
-			return;
-		}
-		else {
-			if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {				
-				OBALogSevereWithError(error,@"Error adding persistent store coordinator (x2)");
-				return;
-			}
-		}
-	}
-	
-	_managedObjectContext = [[NSManagedObjectContext alloc] init];
-	[_managedObjectContext setPersistentStoreCoordinator: persistentStoreCoordinator];
-	
-	_modelDao = [[OBAModelDAO alloc] initWithManagedObjectContext:_managedObjectContext];
-	[_modelDao setup:&error];
-	if( error ) {
-		OBALogSevereWithError(error,@"Error on model dao setup");
-		return;
-	}
+	_modelDao = [[OBAModelDAO alloc] init];
 	
 	[_activityListeners addListener:_modelDao];
 	
-	_modelFactory = [[OBAModelFactory alloc] initWithManagedObjectContext:_managedObjectContext];
+	_modelFactory = [[OBAModelFactory alloc] init];
 	
 	if( kIncludeUWActivityInferenceCode ) {
 		[_activityLogger start];
@@ -299,6 +249,8 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 			[_nearbyTripsController start];
 		}
 	}
+	
+	[self migrateUserPreferences];
 }
 
 - (void) teardown {	
@@ -429,17 +381,7 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	return nil;
 }
 
-#pragma mark Application's documents directory
 
-/**
- Returns the path to the application's documents directory.
- */
-- (NSString *)applicationDocumentsDirectory {
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    return basePath;
-}
 
 - (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults {
 	
@@ -458,6 +400,26 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	}
 	
 	return userId;
+}
+
+- (void) migrateUserPreferences {
+	
+	OBAUserPreferencesMigration * migration = [[OBAUserPreferencesMigration alloc] init];
+	
+	NSString * path = [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"OneBusAway.sqlite"];
+	[migration migrateCoreDataPath:path toDao:_modelDao];
+}
+	 		
+#pragma mark Application's documents directory
+	 
+/**
+ * Returns the path to the application's documents directory.
+ */
+- (NSString *)applicationDocumentsDirectory {
+
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+	return basePath;
 }
 
 @end

@@ -16,8 +16,8 @@
 
 #import "OBASearchResultsListViewController.h"
 #import "OBALogger.h"
-#import "OBARoute.h"
-#import "OBAAgencyWithCoverage.h"
+#import "OBARouteV2.h"
+#import "OBAAgencyWithCoverageV2.h"
 #import "OBAUIKit.h"
 #import "OBAUITableViewCell.h"
 #import "OBASearchResultsMapViewController.h"
@@ -27,7 +27,7 @@
 @interface OBASearchResultsListViewController (Private)
 
 - (void) reloadData;
-- (NSString*) getStopDetail:(OBAStop*) stop;
+- (NSString*) getStopDetail:(OBAStopV2*) stop;
 
 @end
 
@@ -72,13 +72,10 @@
 		case OBASearchControllerSearchTypePlacemark:
 		case OBASearchControllerSearchTypeStopId:			
 		case OBASearchControllerSearchTypeRouteStops:
-			return [_result.stops count];
 		case OBASearchControllerSearchTypeRoute:			
-			return [_result.routes count];
 		case OBASearchControllerSearchTypeAddress:
-			return [_result.placemarks count];
 		case OBASearchControllerSearchTypeAgenciesWithCoverage:
-			return [_result.agenciesWithCoverage count];
+			return [_result count];
 		default:
 			return 0;
 	}
@@ -98,7 +95,7 @@
 		case OBASearchControllerSearchTypeStopId:			
 		case OBASearchControllerSearchTypeRouteStops: {
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
-			OBAStop * stop = [_result.stops objectAtIndex:indexPath.row];
+			OBAStopV2 * stop = [_result.values objectAtIndex:indexPath.row];
 			cell.textLabel.text = stop.name;
 			cell.textLabel.adjustsFontSizeToFitWidth = TRUE;
 			cell.detailTextLabel.text = [self getStopDetail:stop];
@@ -106,8 +103,8 @@
 		}
 		case OBASearchControllerSearchTypeRoute: {		
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
-			OBARoute * route = [_result.routes objectAtIndex:indexPath.row];
-			OBAAgency * agency = route.agency;
+			OBARouteV2 * route = [_result.values objectAtIndex:indexPath.row];
+			OBAAgencyV2 * agency = route.agency;
 			cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@",route.shortName,route.longName];
 			cell.textLabel.adjustsFontSizeToFitWidth = TRUE;
 			cell.detailTextLabel.text = agency.name;
@@ -115,15 +112,15 @@
 		}
 		case OBASearchControllerSearchTypeAddress: {
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-			OBAPlacemark * placemark = [_result.placemarks objectAtIndex:indexPath.row];
+			OBAPlacemark * placemark = [_result.values objectAtIndex:indexPath.row];
 			cell.textLabel.text = [placemark title];
 			cell.textLabel.adjustsFontSizeToFitWidth = TRUE;
 			return cell;
 		}
 		case OBASearchControllerSearchTypeAgenciesWithCoverage: {
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-			OBAAgencyWithCoverage * awc = [_result.agenciesWithCoverage objectAtIndex:indexPath.row];
-			OBAAgency * agency = awc.agency;
+			OBAAgencyWithCoverageV2 * awc = [_result.values objectAtIndex:indexPath.row];
+			OBAAgencyV2 * agency = awc.agency;
 			cell.textLabel.text = agency.name;
 			cell.textLabel.adjustsFontSizeToFitWidth = TRUE;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone; // Change once agencies can be selected.
@@ -150,20 +147,21 @@
 		case OBASearchControllerSearchTypePlacemark:
 		case OBASearchControllerSearchTypeStopId:			
 		case OBASearchControllerSearchTypeRouteStops: {
-			OBAStop * stop = [_result.stops objectAtIndex:indexPath.row];
-			OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stop:stop];
+			
+			OBAStopV2 * stop = [_result.values objectAtIndex:indexPath.row];
+			OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stop.stopId];
 			[self.navigationController pushViewController:vc animated:TRUE];
 			[vc release];
 			break;
 		}
 		case OBASearchControllerSearchTypeRoute: {		
-			OBARoute * route = [_result.routes objectAtIndex:indexPath.row];
+			OBARouteV2 * route = [_result.values objectAtIndex:indexPath.row];
 			OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchRouteStops:route.routeId];
 			[_appContext navigateToTarget:target];
 			break;
 		}
 		case OBASearchControllerSearchTypeAddress: {
-			OBAPlacemark * placemark = [_result.placemarks objectAtIndex:indexPath.row];
+			OBAPlacemark * placemark = [_result.values objectAtIndex:indexPath.row];
 			OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchPlacemark:placemark];
 			[_appContext navigateToTarget:target];
 			break;
@@ -216,7 +214,7 @@
 	[self.tableView reloadData];
 }
 
-- (NSString*) getStopDetail:(OBAStop*) stop {
+- (NSString*) getStopDetail:(OBAStopV2*) stop {
 	
 	NSMutableString * label = [NSMutableString string];
 	

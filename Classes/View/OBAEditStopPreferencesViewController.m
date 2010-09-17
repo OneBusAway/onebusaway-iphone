@@ -16,14 +16,14 @@
 
 #import "OBAEditStopPreferencesViewController.h"
 #import "OBALogger.h"
-#import "OBARoute.h"
+#import "OBARouteV2.h"
 #import "OBAUITableViewCell.h"
 #import "OBAStopViewController.h"
 
 
 @implementation OBAEditStopPreferencesViewController
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stop:(OBAStop*)stop {
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stop:(OBAStopV2*)stop {
 
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		
@@ -41,10 +41,14 @@
 		self.navigationItem.title = @"Filter & Sort";
 		
 		NSMutableArray * routes = [NSMutableArray array];
-		for( OBARoute * route in stop.routes)
+		for( OBARouteV2 * route in stop.routes)
 			[routes addObject:route];
 		[routes sortUsingSelector:@selector(compareUsingName:)];
 		_routes = [routes retain];
+		
+		OBAModelDAO * dao = _appContext.modelDao;
+		_preferences = [dao stopPreferencesForStopWithId:stop.stopId];
+		[_preferences retain];
     }
     return self;
 }
@@ -53,6 +57,7 @@
 	[_appContext release];
 	[_stop release];
 	[_routes release];
+	[_preferences release];
     [super dealloc];
 }
 
@@ -118,15 +123,13 @@
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 	BOOL checked = FALSE;
 	
-	OBAStopPreferences * prefs = _stop.preferences;
-	
 	switch(indexPath.row) {
-		case OBASortTripsByDepartureTime:
-			checked = [prefs.sortTripsByType intValue] == OBASortTripsByDepartureTime;
+		case OBASortTripsByDepartureTimeV2:
+			checked = _preferences.sortTripsByType == OBASortTripsByDepartureTimeV2;
 			cell.textLabel.text = @"Departure Time";
 			break;
-		case OBASortTripsByRouteName:
-			checked = [prefs.sortTripsByType intValue] == OBASortTripsByRouteName;
+		case OBASortTripsByRouteNameV2:
+			checked = _preferences.sortTripsByType == OBASortTripsByRouteNameV2;
 			cell.textLabel.text = @"Route";
 			break;
 		default:
@@ -149,14 +152,12 @@
 		return cell;
 	}
 	
-	OBARoute * route = [_routes objectAtIndex:indexPath.row];
+	OBARouteV2 * route = [_routes objectAtIndex:indexPath.row];
 	
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-	cell.textLabel.text = route.shortName;
+	cell.textLabel.text = [route safeShortName];
 	
-	OBAStopPreferences * prefs = _stop.preferences;
-	
-	BOOL checked = ! [prefs.routesToExclude containsObject:route];
+	BOOL checked = [_preferences isRouteIdEnabled:route.routeId];
 	cell.accessoryType = checked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	return cell;
@@ -166,11 +167,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	OBAStopPreferences * prefs = _stop.preferences;
-	
 	if( indexPath.section == 0) {
-		if( [prefs.sortTripsByType intValue] != indexPath.row ) {
-			prefs.sortTripsByType = [NSNumber numberWithInteger:indexPath.row];
+		if( _preferences.sortTripsByType != indexPath.row ) {
+			_preferences.sortTripsByType = indexPath.row;
 			for( int i=0; i<2; i++) {
 				NSIndexPath * cellIndex = [NSIndexPath indexPathForRow:i inSection:0];
 				BOOL checked = (i == indexPath.row);
@@ -186,14 +185,10 @@
 		if( [_routes count] == 0)
 			return;
 		
-		OBARoute * route = [_routes objectAtIndex:indexPath.row];
-		BOOL currentlyChecked = ! [prefs.routesToExclude containsObject:route];
+		OBARouteV2 * route = [_routes objectAtIndex:indexPath.row];
+		BOOL currentlyChecked = [_preferences isRouteIdEnabled:route.routeId];
 		currentlyChecked = ! currentlyChecked;
-		
-		if( currentlyChecked )
-			[prefs removeRoutesToExcludeObject:route];
-		else
-			[prefs addRoutesToExcludeObject:route];
+		[_preferences setEnabled:currentlyChecked forRouteId:route.routeId];
 		
 		UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
 		cell.accessoryType = currentlyChecked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
@@ -202,19 +197,15 @@
 }
 
 - (IBAction) onCancelButton:(id)sender {
-	[_appContext.modelDao rollback];
 	[self.navigationController popViewControllerAnimated:TRUE];
 }
 
 - (IBAction) onSaveButton:(id)sender {
 	
 	OBAModelDAO * dao = _appContext.modelDao;
-	NSError * error = nil;
-	[dao saveIfNeeded:&error];
-	if( error )
-		OBALogSevereWithError(error,@"Error saving stop preferences");
+	[dao setStopPreferences:_preferences forStopWithId:_stop.stopId];
 	
-	// pop to stop view controller after saving settings
+	// pop to stop view controller are saving settings
 	BOOL foundStopViewController = FALSE;
 	for (UIViewController* viewController in [self.navigationController viewControllers])
 	{
@@ -228,7 +219,6 @@
 	
 	if (!foundStopViewController)
 		[self.navigationController popViewControllerAnimated:TRUE];
-
 }
 
 @end

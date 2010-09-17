@@ -14,32 +14,36 @@
  * limitations under the License.
  */
 
-#import "OBAModel.h"
-#import "OBAStop.h"
-#import "OBABookmark.h"
+#import "OBAStopV2.h"
+#import "OBABookmarkV2.h"
+#import "OBAStopAccessEventV2.h"
+#import "OBAStopPreferencesV2.h"
 #import "OBAActivityListeners.h"
 
-@interface OBAModelDAO : NSObject<OBAActivityListener> {
-	NSManagedObjectContext * _context;
-	OBAModel * _model;
-}
+@class OBAModelDAOUserPreferencesImpl;
 
-- (id) initWithManagedObjectContext:(NSManagedObjectContext*)managedObjectContext;
+@interface OBAModelDAO : NSObject<OBAActivityListener> {
+	OBAModelDAOUserPreferencesImpl * _preferencesDao;
+	NSMutableArray * _bookmarks;
+	NSMutableArray * _mostRecentStops;
+	NSMutableDictionary * _stopPreferences;
+	CLLocation * _mostRecentLocation;
+}
 
 @property (nonatomic,readonly) NSArray * bookmarks;
 @property (nonatomic,readonly) NSArray * mostRecentStops;
 @property (nonatomic,assign) CLLocation * mostRecentLocation;
 
-- (void) setup:(NSError**)error;
+- (OBABookmarkV2*) createTransientBookmark:(OBAStopV2*)stop;
 
-- (void) saveIfNeeded:(NSError**)error;
-- (void) rollback;
-
-- (OBABookmark*) createTransientBookmark:(OBAStop*)stop;
-
-- (void) addNewBookmark:(OBABookmark*)bookmark error:(NSError**)error;
-- (void) saveExistingBookmark:(OBABookmark*)bookmark error:(NSError**)error;
+- (void) addNewBookmark:(OBABookmarkV2*)bookmark error:(NSError**)error;
+- (void) saveExistingBookmark:(OBABookmarkV2*)bookmark error:(NSError**)error;
 - (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex error:(NSError**)error;
-- (void) removeBookmark:(OBABookmark*) bookmark error:(NSError**)error;
+- (void) removeBookmark:(OBABookmarkV2*) bookmark error:(NSError**)error;
+
+- (void) addStopAccessEvent:(OBAStopAccessEventV2*)event;
+
+- (OBAStopPreferencesV2*) stopPreferencesForStopWithId:(NSString*)stopId;
+- (void) setStopPreferences:(OBAStopPreferencesV2*)preferences forStopWithId:(NSString*)stopId;
 
 @end

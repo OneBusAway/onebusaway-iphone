@@ -21,7 +21,17 @@
 
 }
 
-- (void) encodeObject:(id<NSCoding>)object forKey:(NSString*)key toData:(NSMutableData*)data;
-- (id) decodeObjectForKey:(NSString*)key fromData:(NSData*)data;
+- (NSArray*) readBookmarks;
+- (void) writeBookmarks:(NSArray*)source;
+
+- (NSArray*) readMostRecentStops;
+- (void) writeMostRecentStops:(NSArray*)source;
+
+- (NSDictionary*) readStopPreferences;
+- (void) writeStopPreferences:(NSDictionary*)stopPreferences;
+
+- (CLLocation*) readMostRecentLocation;
+- (void) writeMostRecentLocation:(CLLocation*)mostRecentLocation;
+
 
 @end

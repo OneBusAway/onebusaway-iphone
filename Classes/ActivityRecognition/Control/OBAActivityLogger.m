@@ -173,14 +173,14 @@ static OBAActivityLogger * _staticInstance = nil;
 
 #pragma mark OBAActivityListener Methods
 
-- (void) bookmarkClicked:(OBABookmark*)bookmark {
+- (void) bookmarkClicked:(OBABookmarkV2*)bookmark {
 	NSMutableDictionary * dict = [self getActivityRecord:@"bookmarkClicked"];
 	[dict setObject:bookmark.name forKey:@"bookmarkName"];
-	[dict setObject:bookmark.stop.stopId forKey:@"stopId"];
+	[dict setObject:bookmark.stopIds forKey:@"stopIds"];
 	[self writeJSONRecord:dict toLogger:_activityLogger];
 }
 
-- (void) viewedArrivalsAndDeparturesForStop:(OBAStop*)stop {
+- (void) viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop {
 	NSMutableDictionary * dict = [self getActivityRecord:@"viewArrivalsAndDeparturesForStop"];
 	[dict setObject:stop.stopId forKey:@"stopId"];
 	[self writeJSONRecord:dict toLogger:_activityLogger];	

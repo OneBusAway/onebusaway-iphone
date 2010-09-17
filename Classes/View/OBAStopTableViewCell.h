@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-//#import <UIKit/UIKit.h>
-#import "OBAStop.h"
+#import "OBAStopV2.h"
 
 @interface OBAStopTableViewCell : UITableViewCell {
 	UILabel * _mainLabel;
@@ -26,6 +25,6 @@
 @property (nonatomic,retain) IBOutlet UILabel * subLabel;
 
 + (OBAStopTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView;
-- (void) setStop:(OBAStop*)stop;
+- (void) setStop:(OBAStopV2*)stop;
 
 @end

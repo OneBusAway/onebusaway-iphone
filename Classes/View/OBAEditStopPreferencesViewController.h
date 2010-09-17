@@ -15,16 +15,17 @@
  */
 
 #import "OBAApplicationContext.h"
-#import "OBAStop.h"
-#import "OBAStopPreferences.h"
+#import "OBAStopV2.h"
+#import "OBAStopPreferencesV2.h"
 
 @interface OBAEditStopPreferencesViewController : UITableViewController {
 	OBAApplicationContext * _appContext;
-	OBAStop * _stop;
+	OBAStopV2 * _stop;
 	NSArray * _routes;
+	OBAStopPreferencesV2 * _preferences;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stop:(OBAStop*)stop;
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stop:(OBAStopV2*)stop;
 
 - (IBAction) onCancelButton:(id)sender;
 - (IBAction) onSaveButton:(id)sender;

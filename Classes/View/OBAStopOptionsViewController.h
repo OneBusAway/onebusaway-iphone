@@ -7,13 +7,13 @@
 //
 
 #import "OBAApplicationContext.h"
-#import "OBAStop.h"
+#import "OBAStopV2.h"
 
 @interface OBAStopOptionsViewController : UITableViewController {
 	OBAApplicationContext * _appContext;
-	OBAStop * _stop;
+	OBAStopV2 * _stop;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stop:(OBAStop*)stop;
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stop:(OBAStopV2*)stop;
 
 @end

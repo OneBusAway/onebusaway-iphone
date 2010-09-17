@@ -1,0 +1,14 @@
+#import "OBAHasReferencesV2.h"
+#import "OBAAgencyV2.h"
+
+
+@interface OBAAgencyWithCoverageV2 : OBAHasReferencesV2 {
+	NSString * _agencyId;
+	CLLocationCoordinate2D _coordinate;
+}
+
+@property (nonatomic,retain) NSString * agencyId;
+@property (nonatomic,readonly) OBAAgencyV2 * agency;
+@property (nonatomic) CLLocationCoordinate2D coordinate;
+
+@end

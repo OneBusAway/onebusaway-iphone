@@ -15,7 +15,7 @@
  */
 
 #import "OBARecentStopsViewController.h"
-#import "OBAStopAccessEvent.h"
+#import "OBAStopAccessEventV2.h"
 #import "OBAUIKit.h"
 #import "OBAStopTableViewCell.h"
 #import "OBAUITableViewCell.h"
@@ -72,9 +72,12 @@
 		return cell;
 	}
 	else {
-		OBAStopTableViewCell * cell = [OBAStopTableViewCell getOrCreateCellForTableView:tableView];
-		OBAStopAccessEvent * event = [_mostRecentStops objectAtIndex:indexPath.row];
-		[cell setStop:event.stop];
+		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
+		OBAStopAccessEventV2 * event = [_mostRecentStops objectAtIndex:indexPath.row];
+		cell.textLabel.text = event.title;
+		cell.textLabel.textAlignment = UITextAlignmentCenter;
+		cell.detailTextLabel.text = event.subtitle;
+		cell.detailTextLabel.textAlignment = UITextAlignmentCenter;
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 		return cell;
@@ -84,8 +87,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSInteger index = indexPath.row;	
 	if( 0 <= index && index < [_mostRecentStops count] ) {
-		OBAStopAccessEvent * event = [_mostRecentStops objectAtIndex:index];
-		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stop:event.stop];
+		OBAStopAccessEventV2 * event = [_mostRecentStops objectAtIndex:index];
+		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopIds:event.stopIds];
 		[self.navigationController pushViewController:vc animated:TRUE];
 		[vc release];
 	}

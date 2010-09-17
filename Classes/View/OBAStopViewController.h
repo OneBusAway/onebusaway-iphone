@@ -17,6 +17,7 @@
 #import "OBAApplicationContext.h"
 #import "OBANavigationTargetAware.h"
 #import "OBAStopAndPredictedArrivalsSearch.h"
+#import "OBABookmarkV2.h"
 
 
 @interface OBAStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate> {
@@ -32,6 +33,7 @@
 }
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext;
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stop:(OBAStop*)stop;
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopId:(NSString*)stopId;
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopIds:(NSArray*)stopIds;
 
 @end

@@ -45,34 +45,42 @@ NSString * kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSe
 @implementation OBASearchControllerResult
 
 @synthesize searchType = _searchType;
-@synthesize stops = _stops;
-@synthesize placemarks = _placemarks;
-@synthesize agenciesWithCoverage = _agenciesWithCoverage;
-@synthesize routes = _routes;
-@synthesize stopLimitExceeded = _stopLimitExceeded;
+@synthesize limitExceeded = _limitExceeded;
+@synthesize outOfRange = _outOfRange;
+@synthesize values = _values;
+@synthesize additionalValues = _additionalValues;
 
 + (OBASearchControllerResult*) result {
 	return [[[OBASearchControllerResult alloc] init] autorelease];
 }
 
++ (OBASearchControllerResult*) resultFromList:(OBAListWithRangeAndReferencesV2*)list {
+	OBASearchControllerResult * result = [[[OBASearchControllerResult alloc] init] autorelease];
+	result.values = list.values;
+	result.outOfRange = list.outOfRange;
+	result.limitExceeded = list.limitExceeded;
+	return result;
+}
+
 - (id) init {
 	if( self = [super init] ) {
 		_searchType = OBASearchControllerSearchTypeNone;
-		_stops = [[NSArray alloc] init];
-		_placemarks = [[NSArray alloc] init];
-		_agenciesWithCoverage = [[NSArray alloc] init];
-		_routes = [[NSArray alloc] init];
-		_stopLimitExceeded = FALSE;
+		_limitExceeded = FALSE;
+		_outOfRange = FALSE;
+		_values = [[NSArray alloc] init];
+		_additionalValues = [[NSArray alloc] init];
 	}
 	return self;
 }
 
 - (void) dealloc {
-	[_stops release];
-	[_placemarks release];
-	[_agenciesWithCoverage release];
-	[_routes release];
+	[_values release];
+	[_additionalValues release];
 	[super dealloc];
+}
+
+- (NSUInteger) count {
+	return [_values count];
 }
 
 @end

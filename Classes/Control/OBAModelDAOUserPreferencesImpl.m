@@ -16,19 +16,22 @@
 
 #import "OBAModelDAOUserPreferencesImpl.h"
 
+
 static NSString * kBookmarksKey = @"bookmarks";
-static NSString * kMostRecentStops = @"mostRecentStops";
+static NSString * kMostRecentStopsKey = @"mostRecentStops";
 static NSString * kStopPreferencesKey = @"stopPreferences";
+static NSString * kMostRecentLocationKey = @"mostRecentLocation";
+
+
+@interface OBAModelDAOUserPreferencesImpl (Private)
+
+- (void) encodeObject:(id<NSCoding>)object forKey:(NSString*)key toData:(NSMutableData*)data;
+- (id) decodeObjectForKey:(NSString*)key fromData:(NSData*)data;
+
+@end
+
 
 @implementation OBAModelDAOUserPreferencesImpl
-
-- (BOOL) openModel {	
-	return YES;
-}
-
-- (BOOL) closeModel {
-	return YES;
-}
 
 - (NSArray*) readBookmarks {
 	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
@@ -56,10 +59,10 @@ static NSString * kStopPreferencesKey = @"stopPreferences";
 
 - (NSArray*) readMostRecentStops {
 	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-	NSData * data = [user dataForKey:kMostRecentStops];
+	NSData * data = [user dataForKey:kMostRecentStopsKey];
 	NSArray * stops = nil;
 	@try {
-		stops = [self decodeObjectForKey:kMostRecentStops fromData:data];
+		stops = [self decodeObjectForKey:kMostRecentStopsKey fromData:data];
 	}
 	@catch (NSException * e) {
 		
@@ -74,8 +77,8 @@ static NSString * kStopPreferencesKey = @"stopPreferences";
 - (void) writeMostRecentStops:(NSArray*)source {
 	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
 	NSMutableData * data = [NSMutableData data];
-	[self encodeObject:source forKey:kMostRecentStops toData:data];
-	[user setObject:data forKey:kMostRecentStops];
+	[self encodeObject:source forKey:kMostRecentStopsKey toData:data];
+	[user setObject:data forKey:kMostRecentStopsKey];
 }
 
 - (NSDictionary*) readStopPreferences {
@@ -87,7 +90,7 @@ static NSString * kStopPreferencesKey = @"stopPreferences";
 	}
 	@catch (NSException * e) {
 	}
-
+	
 	if( ! dictionary )
 		dictionary = [[NSDictionary alloc] init];
 	
@@ -100,6 +103,32 @@ static NSString * kStopPreferencesKey = @"stopPreferences";
 	[self encodeObject:stopPreferences forKey:kStopPreferencesKey toData:data];
 	[user setObject:data forKey:kStopPreferencesKey];
 }
+
+- (CLLocation*) readMostRecentLocation {
+	CLLocation * location = nil;
+	@try {
+		NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+		NSData * data = [user dataForKey:kMostRecentLocationKey];
+		location = [self decodeObjectForKey:kMostRecentLocationKey fromData:data];
+	}
+	@catch (NSException * e) {
+	}
+	
+	return location;
+}
+
+- (void) writeMostRecentLocation:(CLLocation*)mostRecentLocation {
+	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+	NSMutableData * data = [NSMutableData data];
+	[self encodeObject:mostRecentLocation forKey:kMostRecentLocationKey toData:data];
+	[user setObject:data forKey:kMostRecentLocationKey];
+	
+}
+
+@end
+
+
+@implementation OBAModelDAOUserPreferencesImpl (Private)
 
 - (void) encodeObject:(id<NSCoding>)object forKey:(NSString*)key toData:(NSMutableData*)data {
 	NSKeyedArchiver * archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];

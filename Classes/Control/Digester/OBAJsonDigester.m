@@ -16,6 +16,7 @@
 
 #import "OBAJsonDigester.h"
 #import "OBACreateObjectJsonDigesterRule.h"
+#import "OBACallMethodJsonDigesterRule.h"
 #import "OBASetPropertyJsonDigesterRule.h"
 #import "OBASetNextOBAJsonDigesterRule.h"
 #import "OBASelectorJsonDigesterRule.h"
@@ -76,6 +77,12 @@
 
 - (void) addObjectCreateRule:(Class)objectClass forPrefix:(NSString*)prefix {
 	OBACreateObjectJsonDigesterRule * rule = [[OBACreateObjectJsonDigesterRule alloc] initWithObjectClass:objectClass];
+	[self addRule:rule forPrefix:prefix];
+	[rule release];
+}
+
+- (void) addCallMethodRule:(SEL)selector forPrefix:(NSString*)prefix {
+	OBACallMethodJsonDigesterRule * rule = [[OBACallMethodJsonDigesterRule alloc] initWithSelector:selector];
 	[self addRule:rule forPrefix:prefix];
 	[rule release];
 }

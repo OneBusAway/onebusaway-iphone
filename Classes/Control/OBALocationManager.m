@@ -46,6 +46,11 @@ static const BOOL kUseLocationTraceInSimulator = FALSE;
 		_locationManager = [[CLLocationManager alloc] init];
 		_locationManager.delegate = self;
 		_delegates = [[NSMutableArray alloc] init];
+		
+		
+#if TARGET_IPHONE_SIMULATOR
+		_currentLocation = [[CLLocation alloc] initWithLatitude:  47.653435121376894 longitude: -122.3056411743164];
+#endif
 	}
 	return self;
 }

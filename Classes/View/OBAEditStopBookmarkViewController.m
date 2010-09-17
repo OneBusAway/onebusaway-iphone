@@ -34,7 +34,7 @@ static NSString * kOBAEditTypeParameter = @"OBAEditTypeParameter";
 	return params;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext bookmark:(OBABookmark*)bookmark editType:(OBABookmarkEditType)editType {
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType {
 
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		self.tableView.scrollEnabled = FALSE;
@@ -99,9 +99,9 @@ static NSString * kOBAEditTypeParameter = @"OBAEditTypeParameter";
 		return cell;
 	}
 	else {
-		OBAStop * stop = _bookmark.stop;
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-		cell.textLabel.text = [NSString stringWithFormat:@"%@ - Stop # %@",stop.name,stop.code];
+		//cell.textLabel.text = [NSString stringWithFormat:@"%@ - Stop # %@",stop.name,stop.code];
+		cell.textLabel.text = @"TODO : Fix bookmark stop label";
 		cell.textLabel.font = [UIFont systemFontOfSize: 12];
 		cell.textLabel.textColor = [UIColor grayColor];
 		cell.selectionStyle =  UITableViewCellSelectionStyleNone;
@@ -110,10 +110,6 @@ static NSString * kOBAEditTypeParameter = @"OBAEditTypeParameter";
 }
 
 - (IBAction) onCancelButton:(id)sender {
-
-	// Undo any changes made
-	[_appContext.modelDao rollback];
-	
 	[self.navigationController popViewControllerAnimated:TRUE];
 }
 
@@ -133,8 +129,10 @@ static NSString * kOBAEditTypeParameter = @"OBAEditTypeParameter";
 			break;
 	}
 
+	[dao saveExistingBookmark:_bookmark error:&error];
+
 	if( error )
-		OBALogSevereWithError(error,@"Error saving bookmark: name=%@ stop=%@",_bookmark.name,_bookmark.stop.stopId);
+		OBALogSevereWithError(error,@"Error saving bookmark: name=%@",_bookmark.name);
 
 	// pop to stop view controller are saving settings
 	BOOL foundStopViewController = FALSE;
