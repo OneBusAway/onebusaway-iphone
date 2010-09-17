@@ -165,6 +165,8 @@ static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15 * 60;
 	_modelService.googleMapsJsonDataSource = googleMapsJsonDataSource;
 	[googleMapsJsonDataSource release];
 	[googleMapsDataSourceConfig release];
+	
+	[userDefaults setObject:appVersion forKey:@"oba_application_version"];
 }
 
 #pragma mark UIApplicationDelegate Methods

@@ -1,9 +1,7 @@
-#import "OBAReportAProblemViewController.h"
+#import "OBAReportProblemWithStopViewController.h"
 #import "OBAUITableViewCell.h"
 #import "OBAListSelectionViewController.h"
 #import "OBATextEditViewController.h"
-#import "OBALabelAndSwitchTableViewCell.h"
-#import "OBALabelAndTextFieldTableViewCell.h"
 #import "OBALogger.h"
 #import "SBJSON.h"
 
@@ -12,19 +10,16 @@ typedef enum {
 	OBASectionTypeNone,	
 	OBASectionTypeProblem,
 	OBASectionTypeComment,
-	OBASectionTypeOnTheVehicle,
 	OBASectionTypeSubmit
 } OBASectionType;
 
 
-@interface OBAReportAProblemViewController (Private)
+@interface OBAReportProblemWithStopViewController (Private)
+
+- (void) addProblemWithId:(NSString*)problemId name:(NSString*)problemName;
 
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section;
 - (NSUInteger) sectionIndexForType:(OBASectionType)type;
-
-- (UITableViewCell*) tableView:(UITableView*)tableView vehicleCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-
-- (NSString*) getVehicleTypeLabeForTripDetails:(OBATripDetailsV2*)tripDetails;
 
 - (void) submit;
 - (NSString*) getProblemAsData;
@@ -32,17 +27,15 @@ typedef enum {
 @end
 
 
-@implementation OBAReportAProblemViewController
-
-@synthesize currentStopId;
+@implementation OBAReportProblemWithStopViewController
 
 #pragma mark -
 #pragma mark Initialization
 
-- (id)initWithApplicationContext:(OBAApplicationContext*)context tripDetails:(OBATripDetailsV2*)tripDetails {
+- (id) initWithApplicationContext:(OBAApplicationContext*)context stop:(OBAStopV2*)stop {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		_appContext = [context retain];
-		_tripDetails = [tripDetails retain];
+		_stop = [stop retain];
 		
 		self.navigationItem.title = @"Report a Problem";
 
@@ -53,28 +46,27 @@ typedef enum {
 		self.navigationItem.backBarButtonItem = item;
 		[item release];
 		
-		_vehicleNumber = @"0000";
-		_vehicleType = [self getVehicleTypeLabeForTripDetails:tripDetails];
+		_problemIds = [[NSMutableArray alloc] init];
+		_problemNames = [[NSMutableArray alloc] init];
 		
-		NSMutableArray * problemNames = [[NSMutableArray alloc] init];
-		[problemNames addObject:[NSString stringWithFormat:@"The %@ never came",_vehicleType]];
-		[problemNames addObject:[NSString stringWithFormat:@"The %@ came early",_vehicleType]];
-		[problemNames addObject:[NSString stringWithFormat:@"The %@ came late",_vehicleType]];
-		[problemNames addObject:@"Wrong destination shown"];
-		[problemNames addObject:@"Other"];
-		_problemNames = [problemNames retain];
-		[problemNames release];
+		[self addProblemWithId:@"stop_name_wrong" name:@"Stop name is wrong"];
+		[self addProblemWithId:@"stop_number_wrong" name:@"Stop number is wrong"];
+		[self addProblemWithId:@"stop_location_wrong" name:@"Stop location is wrong"];
+		[self addProblemWithId:@"route_or_trip_missing" name:@"Route or scheduled trip is missing"];
+		[self addProblemWithId:@"other" name:@"Other"];
 		
-		_progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];		
+		_activityIndicatorView = [[OBAModalActivityIndicator alloc] init];
     }
     return self;
 }
 
 - (void)dealloc {
 	[_appContext release];
+	[_problemIds release];
 	[_problemNames release];
+	[_stop release];	
 	[_comment release];
-	[_progressView release];
+	[_activityIndicatorView release];
     [super dealloc];
 }
 
@@ -88,7 +80,7 @@ typedef enum {
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 4;
+	return 3;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -100,8 +92,6 @@ typedef enum {
 			return @"What's the problem?";
 		case OBASectionTypeComment:
 			return @"Optional - Comment:";
-		case OBASectionTypeOnTheVehicle:
-			return [NSString stringWithFormat:@"Optional - Are you on this %@?",_vehicleType];
 		default:
 			return nil;
 	}
@@ -116,8 +106,6 @@ typedef enum {
 			return 1;
 		case OBASectionTypeComment:
 			return 1;
-		case OBASectionTypeOnTheVehicle:
-			return 2;
 		case OBASectionTypeSubmit:
 			return 1;
 		case OBASectionTypeNone:
@@ -159,9 +147,6 @@ typedef enum {
 			return cell;
 		}
 		
-		case OBASectionTypeOnTheVehicle:
-			return [self tableView:tableView vehicleCellForRowAtIndexPath:indexPath];
-
 		case OBASectionTypeSubmit: {
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];			
 			cell.textLabel.textAlignment = UITextAlignmentCenter;
@@ -218,22 +203,17 @@ typedef enum {
 #pragma mark OBAModelServiceDelegate
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
+	[_activityIndicatorView hide];
 	[self.navigationController popViewControllerAnimated:TRUE];
 }
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
-	[_progressView removeFromSuperview];
+	[_activityIndicatorView hide];
 }
 
 - (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
-	OBALogSevereWithError(error,@"problem posting problem");
-	[_progressView removeFromSuperview];
+	[_activityIndicatorView hide];
 }
-
-- (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
-	[_progressView setProgress:progress];
-}
-
 
 #pragma mark Other methods
 
@@ -251,20 +231,15 @@ typedef enum {
 	[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:p] withRowAnimation:UITableViewRowAnimationFade];
 }
 
-- (void) setOnVehicle:(id) obj {
-	UISwitch * toggleSwitch = obj;
-	_onVehicle = toggleSwitch.on;
-}
-
-- (void) setVehicleNumber:(id) obj {
-	UITextField * textField = obj;	
-	_vehicleNumber = [NSObject releaseOld:_vehicleNumber retainNew:[textField text]];
-}
-
 @end
 
 
-@implementation OBAReportAProblemViewController (Private)
+@implementation OBAReportProblemWithStopViewController (Private)
+
+- (void) addProblemWithId:(NSString*)problemId name:(NSString*)problemName {
+	[_problemIds addObject:problemId];
+	[_problemNames addObject:problemName];
+}
 
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section {
 	switch (section) {
@@ -273,8 +248,6 @@ typedef enum {
 		case 1:
 			return OBASectionTypeComment;
 		case 2:
-			return OBASectionTypeOnTheVehicle;
-		case 3:
 			return OBASectionTypeSubmit;
 		default:
 			return OBASectionTypeNone;
@@ -287,10 +260,8 @@ typedef enum {
 			return 0;
 		case OBASectionTypeComment:
 			return 1;
-		case OBASectionTypeOnTheVehicle:
-			return 2;
 		case OBASectionTypeSubmit:
-			return 3;
+			return 2;
 		case OBASectionTypeNone:
 		default:
 			break;
@@ -298,68 +269,16 @@ typedef enum {
 	return -1;
 }
 
-- (UITableViewCell*) tableView:(UITableView*)tableView vehicleCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-	switch (indexPath.row) {
-		case 0: {
-			OBALabelAndSwitchTableViewCell * cell = [OBALabelAndSwitchTableViewCell getOrCreateCellForTableView:tableView];
-			cell.label.text = [NSString stringWithFormat:@"On this %@?",[_vehicleType capitalizedString]];
-			[cell.toggleSwitch setOn:_onVehicle];
-			[cell.toggleSwitch addTarget:self action:@selector(setOnVehicle:) forControlEvents:UIControlEventValueChanged];
-			return cell;
-		}
-		case 1: {
-			OBALabelAndTextFieldTableViewCell * cell = [OBALabelAndTextFieldTableViewCell getOrCreateCellForTableView:tableView];
-			cell.label.text = [NSString stringWithFormat:@"%@ Number",[_vehicleType capitalizedString]];
-			
-			cell.textField.text = _vehicleNumber;
-			cell.textField.delegate = self;
-			[cell.textField addTarget:self action:@selector(setVehicleNumber:) forControlEvents:UIControlEventEditingChanged];
-			[cell setNeedsLayout];
-			return cell;
-		}
-		default:
-			break;
-	}
-	
-	return [UITableViewCell getOrCreateCellForTableView:tableView];
-}
-
-- (NSString*) getVehicleTypeLabeForTripDetails:(OBATripDetailsV2*)tripDetails {
-	
-	OBATripV2 * trip = tripDetails.trip;
-	OBARouteV2 * route = trip.route;
-
-	switch ([route.routeType intValue]) {
-		case 0:
-		case 1:
-		case 2:
-			return @"train";
-		case 3:
-			return @"bus";
-		case 4:
-			return @"ferry";
-		default:
-			return @"vehicle";
-	}
-}
-
 - (void) submit {
 
-	OBAReportProblemWithTripV2 * problem = [[OBAReportProblemWithTripV2 alloc] init];
-	problem.tripId = _tripDetails.tripId;
-	problem.serviceDate = _tripDetails.status.serviceDate;
-	problem.stopId = self.currentStopId;
+	OBAReportProblemWithStopV2 * problem = [[OBAReportProblemWithStopV2 alloc] init];
+	problem.stopId = _stop.stopId;
 	problem.data = [self getProblemAsData];
 	problem.userComment = _comment;
-	problem.userOnVehicle = _onVehicle;
-	problem.userVehicleNumber = _vehicleNumber;
 	problem.userLocation = _appContext.locationManager.currentLocation;
 	
-	
-	[self.view addSubview:_progressView];
-	
-	[_appContext.modelService reportProblemWithTrip:problem withDelegate:self withContext:nil];
+	[_activityIndicatorView show:self.view];
+	[_appContext.modelService reportProblemWithStop:problem withDelegate:self withContext:nil];
 	
 	[problem release];
 }
@@ -367,29 +286,8 @@ typedef enum {
 - (NSString*) getProblemAsData {
 
 	NSMutableDictionary * p = [[NSMutableDictionary alloc] init];
+	[p setObject:[_problemIds objectAtIndex:_problemIndex] forKey:@"code"];
 	[p setObject:[_problemNames objectAtIndex:_problemIndex] forKey:@"text"];
-	NSString * code = nil;
-	
-	switch (_problemIndex) {
-		case 0:
-			code = @"vehicle_never_came";
-			break;
-		case 1:
-			code = @"vehicle_came_early";
-			break;
-		case 2:
-			code = @"vehicle_came_late";
-			break;
-		case 3:
-			code = @"wrong_headsign";
-			break;
-		default:
-			code = @"other";
-			break;
-	}
-
-	if (code)
-		[p setObject:code forKey:@"code"];
 	
 	SBJSON * json = [[SBJSON alloc] init];
 	NSString * v = [json stringWithObject:p];

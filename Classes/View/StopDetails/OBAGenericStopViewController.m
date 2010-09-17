@@ -10,11 +10,11 @@
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
+ * See the License for the specific languOBAStopSectionTypeage governing permissions and
  * limitations under the License.
  */
 
-#import "OBAStopViewController.h"
+#import "OBAGenericStopViewController.h"
 #import "OBALogger.h"
 #import "OBAArrivalAndDeparture.h"
 
@@ -30,6 +30,7 @@
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBAEditStopPreferencesViewController.h"
 #import "OBATripDetailsViewController.h"
+#import "OBAReportProblemViewController.h"
 
 #import "OBASearchController.h"
 #import "OBASphericalGeometryLibrary.h"
@@ -39,11 +40,11 @@
 
 static const double kNearbyStopRadius = 200;
 
-typedef enum {
-	OBASectionNone, OBASectionStop, OBASectionArrivals, OBASectionFilter, OBASectionOptions
-} OBASectionType;
 	
-@interface OBAStopViewController (Internal)
+@interface OBAGenericStopViewController (Private)
+
+// Override point for extension classes
+- (void) customSetup;
 
 - (void) refresh;
 - (void) clearPendingRequest;
@@ -51,8 +52,10 @@ typedef enum {
 - (void) didRefreshEnd;
 - (void) stopTimer;
 
-- (OBASectionType) sectionTypeForSection:(NSUInteger)section;
+- (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section;
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSectionType:(OBAStopSectionType)section;
+	
 - (UITableViewCell*) tableView:(UITableView*)tableView stopCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath*)indexPath;
 - (void)determineFilterTypeCellText:(UITableViewCell*)filterTypeCell filteringEnabled:(bool)filteringEnabled;
@@ -67,18 +70,22 @@ typedef enum {
 @end
 
 
-@implementation OBAStopViewController
+@implementation OBAGenericStopViewController
 
+@synthesize appContext = _appContext;
 @synthesize stopId = _stopId;
-@synthesize result = _result;
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext {
+
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 
 		_appContext = [appContext retain];
-		//_source = [[OBAStopAndPredictedArrivalsSearch alloc] initWithContext:appContext];
 		
+		_minutesBefore = 5;
 		_minutesAfter = 35;
+		
+		_showTitle = TRUE;
+		_showActions = TRUE;
 		
 		_timeFormatter = [[NSDateFormatter alloc] init];
 		[_timeFormatter setDateStyle:NSDateFormatterNoStyle];
@@ -96,17 +103,18 @@ typedef enum {
 		_showFilteredArrivals = YES;
 		
 		self.navigationItem.title = @"Stop";
+		
+		[self customSetup];
 	}
 	return self;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopId:(NSString*)stopId {
-	
 	if( self = [self initWithApplicationContext:appContext] ) {
 		_stopId = [stopId retain];
 	}
 	return self;
-}	
+}
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopIds:(NSArray*)stopIds {
 	return [self initWithApplicationContext:appContext stopId:[stopIds objectAtIndex:0]];
@@ -138,14 +146,13 @@ typedef enum {
 
 
 - (void) setNavigationTarget:(OBANavigationTarget*)navigationTarget {
-	self.stopId = [navigationTarget parameterForKey:@"stopId"];
+	_stopId = [NSObject releaseOld:_stopId retainNew:[navigationTarget parameterForKey:@"stopId"]];
 	[self refresh];
 }
 
 #pragma mark UIViewController
 
 - (void)viewWillAppear:(BOOL)animated {
-    OBALogInfo(@"OBAStopViewController viewWillAppear: %@", self);
     
     [super viewWillAppear:animated];
 
@@ -159,7 +166,6 @@ typedef enum {
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    OBALogInfo(@"OBAStopViewController viewWillDisspear: %@", self);
  
 	[super viewWillDisappear:animated];
 	
@@ -196,7 +202,7 @@ typedef enum {
 	NSString * message = [NSString stringWithFormat:@"Updated: %@", [OBACommon getTimeAsString]];
 	[_progressView setMessage:message inProgress:FALSE progress:0];
 	[self didRefreshEnd];
-	self.result = obj;
+	_result = [NSObject releaseOld:_result retainNew:obj];
 	
 	// Note the event
 	[_appContext.activityListeners viewedArrivalsAndDeparturesForStop:_result.stop];
@@ -238,16 +244,23 @@ typedef enum {
 	return 1;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {	
+	OBAStopSectionType sectionType = [self sectionTypeForSection:section];
+	return [self tableView:(UITableView *)tableView titleForHeaderInSectionType:sectionType];
+}
+
+
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-	OBASectionType sectionType = [self sectionTypeForSection:section];
+	OBAStopSectionType sectionType = [self sectionTypeForSection:section];
+	
 	
 	switch( sectionType ) {
-		case OBASectionStop:
+		case OBAStopSectionTypeName:
 			return 1;
-		case OBASectionArrivals: {
+		case OBAStopSectionTypeArrivals: {
 			int c = 0;
 			if( _showFilteredArrivals )
 				c = [_filteredArrivals count];
@@ -258,10 +271,10 @@ typedef enum {
 				c = 1;				
 			return c;			
 		}
-		case OBASectionFilter:
+		case OBAStopSectionTypeFilter:
 			return 1;
-		case OBASectionOptions:
-			return 3;
+		case OBAStopSectionTypeActions:
+			return 4;
 		default:
 			return 0;
 	}
@@ -271,16 +284,16 @@ typedef enum {
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-	OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
+	OBAStopSectionType sectionType = [self sectionTypeForSection:indexPath.section];
 
 	switch (sectionType) {
-		case OBASectionStop:
+		case OBAStopSectionTypeName:
 			return [self tableView:tableView stopCellForRowAtIndexPath:indexPath];
-		case OBASectionArrivals:
+		case OBAStopSectionTypeArrivals:
 			return [self tableView:tableView predictedArrivalCellForRowAtIndexPath:indexPath];
-		case OBASectionFilter:
+		case OBAStopSectionTypeFilter:
 			return [self tableView:tableView filterCellForRowAtIndexPath:indexPath];
-		case OBASectionOptions:
+		case OBAStopSectionTypeActions:
 			return [self tableView:tableView actionCellForRowAtIndexPath:indexPath];
 		default:
 			break;
@@ -292,20 +305,20 @@ typedef enum {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
+	OBAStopSectionType sectionType = [self sectionTypeForSection:indexPath.section];
 	
 	switch (sectionType) {
 			
-		case OBASectionArrivals:
+		case OBAStopSectionTypeArrivals:
 			[self tableView:tableView didSelectTripRowAtIndexPath:indexPath];
 			break;
 			
-		case OBASectionFilter: {
+		case OBAStopSectionTypeFilter: {
 			_showFilteredArrivals = !_showFilteredArrivals;
 			
 			// update arrivals section
 			static int arrivalsViewSection = 1;
-			if ([self sectionTypeForSection:arrivalsViewSection] == OBASectionArrivals)
+			if ([self sectionTypeForSection:arrivalsViewSection] == OBAStopSectionTypeArrivals)
 			{
 				UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
 				[self determineFilterTypeCellText:cell filteringEnabled:_showFilteredArrivals];
@@ -343,7 +356,7 @@ typedef enum {
 			break;
 		}
 		
-		case OBASectionOptions:
+		case OBAStopSectionTypeActions:
 			[self tableView:tableView didSelectActionRowAtIndexPath:indexPath];
 			break;
 
@@ -355,7 +368,11 @@ typedef enum {
 @end
 
 
-@implementation OBAStopViewController (Internal)
+@implementation OBAGenericStopViewController (Private)
+
+- (void) customSetup {
+	
+}
 
 - (void) refresh {
 	[_progressView setMessage:@"Updating..." inProgress:TRUE progress:0];
@@ -364,7 +381,7 @@ typedef enum {
 	OBAModelService * service = _appContext.modelService;
 	
 	[self clearPendingRequest];
-	_request = [[service requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesAfter:_minutesAfter withDelegate:self withContext:nil] retain];
+	_request = [[service requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter withDelegate:self withContext:nil] retain];
 	
 	if( ! _timer ) {
 		_timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:TRUE];
@@ -405,27 +422,42 @@ typedef enum {
 	}	
 }
 
-- (OBASectionType) sectionTypeForSection:(NSUInteger)section {
+- (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section {
 	OBAStopV2 * stop = _result.stop;
 		
 	if( stop ) {
 		
-		if( section == 0 )
-			return OBASectionStop;
-		if( section == 1 )
-			return OBASectionArrivals;
-		if( section == 2) {
-			if( [_filteredArrivals count] != [_allArrivals count] )
-				return OBASectionFilter;
-			else
-				return OBASectionOptions;
+		int offset = 0;
+		
+		if( _showTitle ) {
+			if( section == offset )
+				return OBAStopSectionTypeName;
+			offset++;
 		}
-		else if (section == 3 ) {
-			return OBASectionOptions;
+		
+		if( section == offset ) {
+			return OBAStopSectionTypeArrivals;
+		}
+		offset++;
+		
+		if( [_filteredArrivals count] != [_allArrivals count] ) {
+			if( section == offset )
+				return OBAStopSectionTypeFilter;
+			offset++;
+		}
+		
+		if( _showActions ) {
+			if( section == offset)
+				return OBAStopSectionTypeActions;
+			offset++;
 		}
 	}
 	
-	return OBASectionNone;
+	return OBAStopSectionTypeNone;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSectionType:(OBAStopSectionType)section {
+	return nil;
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView stopCellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -553,6 +585,9 @@ typedef enum {
 		case 2:
 			cell.textLabel.text = @"See Nearby Stops";
 			break;
+		case 3:
+			cell.textLabel.text = @"Report a Problem";
+			break;			
 	}
 	
 	return cell;
@@ -593,6 +628,14 @@ typedef enum {
 			MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:stop.coordinate latRadius:kNearbyStopRadius lonRadius:kNearbyStopRadius];
 			OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchLocationRegion:region];
 			[_appContext navigateToTarget:target];
+			break;
+		}
+			
+		case 3: {
+			OBAReportProblemViewController * vc = [[OBAReportProblemViewController alloc] initWithApplicationContext:_appContext stop:_result.stop];
+			[self.navigationController pushViewController:vc animated:YES];
+			[vc release];
+			
 			break;
 		}
 	}

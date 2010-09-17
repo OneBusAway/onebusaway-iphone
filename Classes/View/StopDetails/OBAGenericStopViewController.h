@@ -21,11 +21,25 @@
 #import "OBAProgressIndicatorView.h"
 
 
-@interface OBAStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate,OBAModelServiceDelegate> {
+typedef enum {
+	OBAStopSectionTypeNone,
+	OBAStopSectionTypeName,
+	OBAStopSectionTypeArrivals,
+	OBAStopSectionTypeFilter,
+	OBAStopSectionTypeActions
+} OBAStopSectionType;
+
+
+@interface OBAGenericStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate,OBAModelServiceDelegate> {
 
 	OBAApplicationContext * _appContext;
 	NSString * _stopId;
+	NSUInteger _minutesBefore;
 	NSUInteger _minutesAfter;
+	
+	// Control which parts of the view are displayed
+	BOOL _showTitle;
+	BOOL _showActions;
 
 	id<OBAModelServiceRequest> _request;
 	NSTimer * _timer;
@@ -45,7 +59,7 @@
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopId:(NSString*)stopId;
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopIds:(NSArray*)stopIds;
 
-@property (nonatomic,retain) NSString * stopId;
-@property (nonatomic,retain) OBAArrivalsAndDeparturesForStopV2 * result;
+@property (nonatomic,readonly) OBAApplicationContext * appContext;
+@property (nonatomic,readonly) NSString * stopId;
 
 @end

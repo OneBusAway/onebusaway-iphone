@@ -53,10 +53,10 @@ static const float kSearchRadius = 400;
 	return [self request:url args:args selector:selector delegate:delegate context:context];
 }
 
-- (id<OBAModelServiceRequest>) requestStopWithArrivalsAndDeparturesForId:(NSString*)stopId withMinutesAfter:(NSUInteger)minutesAfter withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) requestStopWithArrivalsAndDeparturesForId:(NSString*)stopId withMinutesBefore:(NSUInteger)minutesBefore withMinutesAfter:(NSUInteger)minutesAfter withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
 
 	NSString *url = [NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", stopId];
-	NSString * args = [NSString stringWithFormat:@"version=2&minutesAfter=%d",minutesAfter];
+	NSString * args = [NSString stringWithFormat:@"version=2&minutesBefore=%d&minutesAfter=%d",minutesBefore,minutesAfter];
 	SEL selector = @selector(getArrivalsAndDeparturesForStopV2FromJSON:error:);
 	
 	return [self request:url args:args selector:selector delegate:delegate context:context];
@@ -152,6 +152,35 @@ static const float kSearchRadius = 400;
 	SEL selector = @selector(getTripDetailsV2FromJSON:error:);
 	
 	return [self request:url args:args selector:selector delegate:delegate context:context];	
+}
+
+- (id<OBAModelServiceRequest>) reportProblemWithStop:(OBAReportProblemWithStopV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+	
+	NSString * url = [NSString stringWithFormat:@"/api/where/report-problem-with-stop.json"];
+	
+	NSMutableDictionary * args = [[NSMutableDictionary alloc] init];
+	[args setObject:@"2" forKey:@"version"];
+	[args setObject:problem.stopId forKey:@"stopId"];
+	
+	if( problem.data )
+		[args setObject:problem.data forKey:@"data"];
+	
+	if( problem.userComment )
+		[args setObject:problem.userComment forKey:@"userComment"];
+	
+	CLLocation * location = problem.userLocation;
+	if( location ) {
+		CLLocationCoordinate2D coord = location.coordinate;
+		[args setObject:[NSNumber numberWithDouble:coord.latitude] forKey:@"userLat"];
+		[args setObject:[NSNumber numberWithDouble:coord.longitude] forKey:@"userLon"];
+		[args setObject:[NSNumber numberWithDouble:location.horizontalAccuracy] forKey:@"userLocationAccuracy"];
+	}
+	
+	SEL selector = nil;
+	
+	OBAModelServiceRequest * request = [self post:url args:args selector:selector delegate:delegate context:context];
+	request.checkCode = FALSE;
+	return request;
 }
 
 - (id<OBAModelServiceRequest>) reportProblemWithTrip:(OBAReportProblemWithTripV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {

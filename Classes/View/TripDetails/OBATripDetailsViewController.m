@@ -2,7 +2,7 @@
 #import "OBAUITableViewCell.h"
 #import "OBATripScheduleMapViewController.h"
 #import "OBATripScheduleListViewController.h"
-#import "OBAReportAProblemViewController.h"
+#import "OBAReportProblemWithTripViewController.h"
 #import "OBALogger.h"
 
 
@@ -180,7 +180,7 @@ typedef enum {
 		case OBASectionTypeActions: {
 			if( indexPath.row == 0 ) {
 				if( _tripDetails ) {
-					OBAReportAProblemViewController * vc = [[OBAReportAProblemViewController alloc] initWithApplicationContext:_appContext tripDetails:_tripDetails];
+					OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationContext:_appContext tripDetails:_tripDetails];
 					vc.currentStopId = self.currentStopId;
 					[self.navigationController pushViewController:vc animated:TRUE];
 					[vc release];
