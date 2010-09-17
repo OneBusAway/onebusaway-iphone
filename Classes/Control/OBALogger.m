@@ -75,6 +75,9 @@
 			NSLog(@"%@  validation error object: %@",prefix,[validationErrorObject description]);
 			break;
 		}
+		default: {
+			NSLog(@"%@  userInfo:",[userInfo description]);
+		}
 	}
 }
 
