@@ -23,20 +23,6 @@ const NSInteger kOBAErrorMissingFieldInData = 1001;
 const BOOL kIncludeUWActivityInferenceCode = FALSE;
 const BOOL kIncludeUWUserStudyCode = FALSE;
 
-@implementation OBAErrorCodes
-
-+ (NSError*) getErrorFromResponseCode:(int)responseCode {
-	switch (responseCode) {
-		case OK_RESPONSE:
-			return nil;
-		case NO_SUCH_STOP_SERVICE_EXCEPTION:
-			return [[[NSError alloc] initWithDomain:OBAErrorDomain code:NO_SUCH_STOP_SERVICE_EXCEPTION userInfo:nil] autorelease];
-		default:
-			return nil;
-	}
-}
-
-@end
 
 @implementation NSObject (OBAConvenienceMethods)
 

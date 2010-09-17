@@ -302,7 +302,7 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	
 	NSInteger showOnStartup = [userDefaults integerForKey:kOBAPreferenceShowOnStartup];
 
-	if( 0 <= showOnStartup && showOnStartup < 3 )
+	if( 0 <= showOnStartup && showOnStartup < 4 )
 		_tabBarController.selectedIndex = showOnStartup;
 
 	// We only restore the application state if it's been less than x minutes

@@ -101,7 +101,10 @@
 	NSNumber * code = [obj valueForKey:@"code"];
 	
 	if( code == nil || [code intValue] != 200 ) {
-		self.error = [OBAErrorCodes getErrorFromResponseCode:[code intValue]];
+		if( code != nil && [code intValue] == 404 )
+			[_progress setMessage:@"Stop not found" inProgress:FALSE progress:0];
+		else
+			[_progress setMessage:@"Unknown error" inProgress:FALSE progress:0];
 		return;
 	}
 	

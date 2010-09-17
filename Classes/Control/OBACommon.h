@@ -20,21 +20,6 @@ extern const NSInteger kOBAErrorMissingFieldInData;
 extern const BOOL kIncludeUWActivityInferenceCode;
 extern const BOOL kIncludeUWUserStudyCode;
 
-typedef enum {
-	OK_RESPONSE = 200,
-	NO_SUCH_STOP_SERVICE_EXCEPTION = 411,
-	NO_SUCH_ROUTE_SERVICE_EXCEPTION = 412,
-	NO_SUCH_TRIP_SERVICE_EXCEPTION = 413
-} OBAErrorCode;
-
-
-@interface OBAErrorCodes : NSObject {
-
-}
-
-+ (NSError*) getErrorFromResponseCode:(int)responseCode;
-
-@end
 
 typedef enum {
 	OBANavigationTargetTypeRoot=0,
