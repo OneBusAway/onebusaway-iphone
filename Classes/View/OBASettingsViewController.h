@@ -16,9 +16,10 @@
 
 #import "OBAApplicationContext.h"
 #import "OBANavigationTargetAware.h"
+#import "IASKAppSettingsViewController.h"
 
 
-@interface OBASettingsViewController : UITableViewController <OBANavigationTargetAware> {
+@interface OBASettingsViewController : UITableViewController <OBANavigationTargetAware,IASKSettingsDelegate> {
 	OBAApplicationContext * _appContext;
 }
 

@@ -18,13 +18,6 @@ extern NSString * const OBAErrorDomain;
 extern const NSInteger kOBAErrorDuplicateEntity;
 extern const NSInteger kOBAErrorMissingFieldInData;
 
-extern const BOOL kIncludeUWActivityInferenceCode;
-extern const BOOL kIncludeUWUserStudyCode;
-extern const BOOL kIncludeUWActivityAccelerometerLogging;
-extern const BOOL kIncludeUWActivityLocationLogging;
-extern const BOOL kIncludeUWActivityNearbyTripLogging;
-
-
 typedef enum {
 	OBANavigationTargetTypeRoot=0,
 	OBANavigationTargetTypeSearch,
@@ -35,11 +28,7 @@ typedef enum {
 	OBANavigationTargetTypeEditBookmark,
 	OBANavigationTargetTypeEditStopPreferences,
 	OBANavigationTargetTypeSettings,
-	OBANavigationTargetTypeContactUs,
-	OBANavigationTargetTypeActivityLogging,
-	OBANavigationTargetTypeActivityAnnotation,
-	OBANavigationTargetTypeActivityUpload,
-	OBANavigationTargetTypeActivityLock
+	OBANavigationTargetTypeContactUs
 } OBANavigationTargetType;
 
 

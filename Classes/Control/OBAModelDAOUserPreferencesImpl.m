@@ -122,7 +122,6 @@ static NSString * kMostRecentLocationKey = @"mostRecentLocation";
 	NSMutableData * data = [NSMutableData data];
 	[self encodeObject:mostRecentLocation forKey:kMostRecentLocationKey toData:data];
 	[user setObject:data forKey:kMostRecentLocationKey];
-	
 }
 
 @end

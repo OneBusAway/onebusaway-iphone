@@ -20,7 +20,6 @@
 #import "OBADataSourceConfig.h"
 #import "OBALocationManager.h"
 #import "OBAActivityListeners.h"
-#import "OBAActivityLogger.h"
 #import "OBANavigationTarget.h"
 #import "OBAReferencesV2.h"
 
@@ -30,20 +29,13 @@
 	
 	BOOL _setup;
 	BOOL _active;
-	BOOL _locationAware;
 	
 	OBAReferencesV2 * _references;
 	OBAModelDAO * _modelDao;
-	OBAModelFactory * _modelFactory;
 	OBAModelService * _modelService;
 
 	OBALocationManager * _locationManager;
 	OBAActivityListeners * _activityListeners;
-	OBAActivityLogger * _activityLogger;
-	OBANearbyTripsController * _nearbyTripsController;
-	
-	OBADataSourceConfig * _obaDataSourceConfig;
-	OBADataSourceConfig * _googleMapsDataSourceConfig;
 	
 	UIWindow * _window;
 	UITabBarController * _tabBarController;
@@ -54,20 +46,14 @@
 
 @property (nonatomic,readonly) OBAReferencesV2 * references;
 @property (nonatomic,readonly) OBAModelDAO * modelDao;
-@property (nonatomic,readonly) OBAModelFactory * modelFactory;
 @property (nonatomic,readonly) OBAModelService * modelService;
 
 @property (nonatomic,readonly) OBALocationManager * locationManager;
 @property (nonatomic,readonly) OBAActivityListeners * activityListeners;
 
-@property (nonatomic,readonly) OBADataSourceConfig * obaDataSourceConfig;
-@property (nonatomic,readonly) OBADataSourceConfig * googleMapsDataSourceConfig;
-
 @property (nonatomic,readonly) BOOL active;
 
-@property (nonatomic,assign) BOOL locationAware;
-
-- (void) saveNavigationState;
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget;
+- (void) refreshSettings;
 
 @end

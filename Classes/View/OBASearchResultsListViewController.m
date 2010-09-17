@@ -54,7 +54,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 	[self reloadData];
-	[_appContext saveNavigationState];
 }
 
 #pragma mark Table view methods

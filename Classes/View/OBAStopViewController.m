@@ -45,6 +45,7 @@ typedef enum {
 @interface OBAStopViewController (Internal)
 
 - (void) refresh;
+- (void) clearPendingRequest;
 - (void) didRefreshBegin;
 - (void) didRefreshEnd;
 - (void) stopTimer;
@@ -67,7 +68,6 @@ typedef enum {
 @implementation OBAStopViewController
 
 @synthesize stopId = _stopId;
-@synthesize request = _request;
 @synthesize result = _result;
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext {
@@ -113,10 +113,9 @@ typedef enum {
 - (void) dealloc {
 	
 	[self stopTimer];
+	[self clearPendingRequest];
 	
 	[_stopId release];	
-	[_request cancel];
-	[_request release];
 	[_result release];
 	
 	[_allArrivals release];
@@ -154,7 +153,6 @@ typedef enum {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
 	}
 	
-	[_appContext saveNavigationState];
 	[self refresh];
 }
 
@@ -357,12 +355,20 @@ typedef enum {
 	[self didRefreshBegin];
 	
 	OBAModelService * service = _appContext.modelService;
-	self.request = [service requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesAfter:_minutesAfter withDelegate:self withContext:nil];
+	
+	[self clearPendingRequest];
+	_request = [[service requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesAfter:_minutesAfter withDelegate:self withContext:nil] retain];
 	
 	if( ! _timer ) {
 		_timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:TRUE];
 		[_timer retain];
 	}	
+}
+	 
+- (void) clearPendingRequest {
+	[_request cancel];
+	[_request release];
+	_request = nil;
 }
 
 - (void) didRefreshBegin {    

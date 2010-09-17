@@ -214,8 +214,6 @@ typedef enum  {
 		[self reloadData];
 		_firstView = FALSE;
 	}
-	
-	[_appContext saveNavigationState];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

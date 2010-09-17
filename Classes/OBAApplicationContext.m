@@ -36,29 +36,29 @@
 #import "OBAStopViewController.h"
 #import "OBAContactUsViewController.h"
 
-#import "OBAActivityLoggingViewController.h"
-#import "OBAActivityAnnotationViewController.h"
-#import "OBAUploadViewController.h"
-#import "OBALockViewController.h"
-
-#import "OBANearbyTripsController.h"
 #import "OBAUserPreferencesMigration.h"
 
 
-static NSString * kOBAHiddenPreferenceLocationAwareDisabled = @"OBALocationAwareDisabled";
 static NSString * kOBAHiddenPreferenceSavedNavigationTargets = @"OBASavedNavigationTargets";
+static NSString * kOBAHiddenPreferenceApplicationLastActiveTimestamp = @"OBAApplicationLastActiveTimestamp";
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 
-static NSString* kOBAApiServerName = @"http://api.onebusaway.org";
-static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
+static NSString * kOBAPreferenceShowOnStartup = @"oba_show_on_start_preference";
+static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
+
+static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15 * 60;
 
 
 @interface OBAApplicationContext (Private)
 
-- (void) setup;
-- (void) teardown;
+- (void) saveState;
 
-- (void) restoreApplicationNavigationState;
+- (void) restoreState;
+- (BOOL) shouldRestoreStateToDefault:(NSUserDefaults*)userDefaults;
+- (void) restoreStateToDefault:(NSUserDefaults*)userDefaults;
+- (BOOL) restoreSavedNavigationState:(NSUserDefaults*)userDefaults;
+
+- (void) navigateToTargetInternal:(OBANavigationTarget*)navigationTarget;
 
 - (void) setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController;
 - (UIViewController*) getViewControllerForTarget:(OBANavigationTarget*)target;
@@ -78,23 +78,38 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 @synthesize locationManager = _locationManager;
 @synthesize activityListeners = _activityListeners;
 
-@synthesize obaDataSourceConfig = _obaDataSourceConfig;
-@synthesize googleMapsDataSourceConfig = _googleMapsDataSourceConfig;
+@synthesize modelDao = _modelDao;
+@synthesize modelService = _modelService;
 
 @synthesize window = _window;
 @synthesize tabBarController = _tabBarController;
 
 @synthesize active = _active;
-@synthesize locationAware = _locationAware;
 
 - (id) init {
 	if( self = [super init] ) {
-
-		_setup = FALSE;
+		
 		_active = FALSE;
-		_locationAware = TRUE;
 		
 		_references = [[OBAReferencesV2 alloc] init];
+		_locationManager = [[OBALocationManager alloc] init];		
+		_activityListeners = [[OBAActivityListeners alloc] init];
+		_modelDao = [[OBAModelDAO alloc] init];
+		
+		
+		[_activityListeners addListener:_modelDao];
+		
+		_modelService = [[OBAModelService alloc] init];
+		_modelService.references = _references;
+		_modelService.modelDao = _modelDao;
+		
+		OBAModelFactory * modelFactory = [[OBAModelFactory alloc] initWithReferences:_references];
+		_modelService.modelFactory = modelFactory;
+		[modelFactory release];
+		
+		_modelService.locationManager = _locationManager;
+		
+		[self refreshSettings];
 	}
 	return self;
 }
@@ -105,14 +120,7 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 	[_references release];
 	
 	[_locationManager release];
-	[_nearbyTripsController release];
 	[_activityListeners release];
-	
-	[_obaDataSourceConfig release];
-	[_googleMapsDataSourceConfig release];
-	
-	if( kIncludeUWActivityInferenceCode )
-		[_activityLogger release];
 	
 	[_window release];
 	[_tabBarController release];
@@ -120,97 +128,50 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 	[super dealloc];
 }
 
-- (void) saveNavigationState {
+- (void) navigateToTarget:(OBANavigationTarget*)navigationTarget {
+	[self performSelector:@selector(navigateToTargetInternal:) withObject:navigationTarget afterDelay:0];
+}
 
-	UINavigationController * navController = (UINavigationController*) _tabBarController.selectedViewController;
-	
-	NSMutableArray * targets = [[NSMutableArray alloc] init];
-	
-	for( id source in [navController viewControllers] ) {
-		if( ! [source conformsToProtocol:@protocol(OBANavigationTargetAware)] )
-			break;
-		id<OBANavigationTargetAware> targetSource = (id<OBANavigationTargetAware>) source;
-		OBANavigationTarget * target = targetSource.navigationTarget;
-		if( ! target )
-			break;
-		[targets addObject:target];
-	}
+- (void) refreshSettings {
 	
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+									
+	NSString * apiServerName = [userDefaults objectForKey:@"oba_api_server"];
+	if( apiServerName == nil || [apiServerName length] == 0 )
+		apiServerName = kOBADefaultApiServerName;
 	
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:targets];
-	[userDefaults setObject:data forKey:kOBAHiddenPreferenceSavedNavigationTargets];
+	apiServerName = [NSString stringWithFormat:@"http://%@",apiServerName];
 	
-    //NSData *dateData = [NSKeyedArchiver archivedDataWithRootObject:[NSDate date]];
-	//[userDefaults setObject:dateData forKey:kOBAHiddenPreferenceApplicationTerminationTimestamp];
+	NSString * userId = [self userIdFromDefaults:userDefaults];
+	NSString * appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+	NSString * obaArgs = [NSString stringWithFormat:@"key=org.onebusaway.iphone&app_uid=%@&app_ver=%@",userId,appVersion];
 	
-    if( kIncludeUWUserStudyCode )
-		[userDefaults setBool:(!_locationAware) forKey:kOBAHiddenPreferenceLocationAwareDisabled];
+	OBADataSourceConfig * obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:apiServerName args:obaArgs];	
+	OBAJsonDataSource * obaJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:obaDataSourceConfig];
+	_modelService.obaJsonDataSource = obaJsonDataSource;
+	[obaJsonDataSource release];
+	[obaDataSourceConfig release];
 	
-	[targets release];		
-}
-
-- (void) navigateToTarget:(OBANavigationTarget*)navigationTarget {
-	
-	UINavigationController * current = (UINavigationController*) _tabBarController.selectedViewController;
-	if( current )
-		[current popToRootViewControllerAnimated:FALSE];
-	
-	switch (navigationTarget.target) {
-		case OBANavigationTargetTypeSearchResults: {
-			UINavigationController * mapNavController = [_tabBarController.viewControllers objectAtIndex:0];
-			OBASearchResultsMapViewController * searchResultsMapViewController = [mapNavController.viewControllers objectAtIndex:0];
-			_tabBarController.selectedIndex = 0;
-			[mapNavController popToRootViewControllerAnimated:FALSE];
-			[searchResultsMapViewController setNavigationTarget:navigationTarget];
-			break;
-		}
-
-		case OBANavigationTargetTypeContactUs: {
-			UINavigationController * detailsNavController = [_tabBarController.viewControllers objectAtIndex:4];
-			[detailsNavController popToRootViewControllerAnimated:FALSE];
-			OBAContactUsViewController * vc = [[OBAContactUsViewController alloc] initWithApplicationContext:self];
-			[detailsNavController pushViewController:vc animated:FALSE];
-			[vc release];
-			_tabBarController.selectedIndex = 4;
-			break;
-		}
-	}
-}
-
-- (OBAModelDAO*) modelDao {
-	if( ! _modelDao )
-		[self setup];
-	return _modelDao;
-}
-
-- (OBAModelFactory*) modelFactory {
-	if( ! _modelFactory )
-		[self setup];
-	return _modelFactory;
-}
-
-- (OBAModelService*) modelService {
-	if( ! _modelService )
-		[self setup];
-	return _modelService;
+	OBADataSourceConfig * googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://maps.google.com" args:@"output=json&oe=utf-8&key=ABQIAAAA1R_R0bUhLYRwbQFpKHVowhRAXGY6QyK0faTs-0G7h9EE_iri4RRtKgRdKFvvraEP5PX_lP_RlqKkzA"];
+	OBAJsonDataSource * googleMapsJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
+	_modelService.googleMapsJsonDataSource = googleMapsJsonDataSource;
+	[googleMapsJsonDataSource release];
+	[googleMapsDataSourceConfig release];
 }
 
 #pragma mark UIApplicationDelegate Methods
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {	
-	[self setup];
+	
+	[self migrateUserPreferences];
 	
 	_tabBarController.delegate = self;
-
+	
 	UIView * rootView = [_tabBarController view];
 	[_window addSubview:rootView];
 	[_window makeKeyAndVisible];
 	
-	OBANavigationTarget * navTarget = [OBASearch getNavigationTargetForSearchNone];
-	[self navigateToTarget:navTarget];
-	
-	[self restoreApplicationNavigationState];
+	[self restoreState];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -226,12 +187,23 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 	if( location )
 		_modelDao.mostRecentLocation = location;
 	
-	[self saveNavigationState];
+	[self saveState];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+	
+	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+
+	/**
+	 * If we've been in the background for a while (>15 mins), we restore
+	 * the app to the user's preferred default state
+	 */
+	if( [self shouldRestoreStateToDefault:userDefaults] )
+		[self restoreStateToDefault:userDefaults];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 	[self applicationDidEnterBackground:application]; // call for iOS < 4.0 devices
-	[self teardown];
 }
 
 #pragma mark UITabBarControllerDelegate Methods
@@ -252,89 +224,86 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 
 @implementation OBAApplicationContext (Private)
 
-- (void) setup {
-	if( _setup )
-		return;
+- (void) saveState {
 	
-	_setup = TRUE;
-	_active = TRUE;
+	UINavigationController * navController = (UINavigationController*) _tabBarController.selectedViewController;
+	
+	NSMutableArray * targets = [[NSMutableArray alloc] init];
+	
+	for( id source in [navController viewControllers] ) {
+		if( ! [source conformsToProtocol:@protocol(OBANavigationTargetAware)] )
+			break;
+		id<OBANavigationTargetAware> targetSource = (id<OBANavigationTargetAware>) source;
+		OBANavigationTarget * target = targetSource.navigationTarget;
+		if( ! target )
+			break;
+		[targets addObject:target];
+	}
 	
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	
-	NSString * userId = [self userIdFromDefaults:userDefaults];
-	NSString * appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-	NSString * obaArgs = [NSString stringWithFormat:@"key=org.onebusaway.iphone&app_uid=%@&app_ver=%@",userId,appVersion];
-
-	_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:kOBAApiServerName args:obaArgs];		
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:targets];
+	[userDefaults setObject:data forKey:kOBAHiddenPreferenceSavedNavigationTargets];
 	
-	//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://localhost:8080/onebusaway-api-webapp" args:@"key=org.onebusaway.iphone"];
-	_googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://maps.google.com" args:@"output=json&oe=utf-8&key=ABQIAAAA1R_R0bUhLYRwbQFpKHVowhRAXGY6QyK0faTs-0G7h9EE_iri4RRtKgRdKFvvraEP5PX_lP_RlqKkzA"];
+	NSDate * date = [NSDate date];
+    NSData * dateData = [NSKeyedArchiver archivedDataWithRootObject:date];
+	[userDefaults setObject:dateData forKey:kOBAHiddenPreferenceApplicationLastActiveTimestamp];
 	
-	_locationManager = [[OBALocationManager alloc] init];		
-	_activityListeners = [[OBAActivityListeners alloc] init];		
+	[targets release];
 	
-	if( kIncludeUWActivityInferenceCode ) {
-		_activityLogger = [[OBAActivityLogger alloc] init];
-		_activityLogger.context = self;
-		_nearbyTripsController = [[OBANearbyTripsController alloc] initWithApplicationContext:self];
-	}
-
-	if( kIncludeUWUserStudyCode ) {
-		_locationAware = ! [userDefaults boolForKey:kOBAHiddenPreferenceLocationAwareDisabled];
-	}
-	
-	_modelDao = [[OBAModelDAO alloc] init];
-	
-	[_activityListeners addListener:_modelDao];
-	
-	_modelFactory = [[OBAModelFactory alloc] initWithReferences:_references];
-	
-	if( kIncludeUWActivityInferenceCode ) {
-		[_activityLogger start];
-		if( kIncludeUWActivityNearbyTripLogging ) {
-			[_nearbyTripsController start];
-		}
-	}
-	
-	_modelService = [[OBAModelService alloc] init];
-	_modelService.references = _references;
-	_modelService.modelDao = _modelDao;
-	_modelService.modelFactory = _modelFactory;
-	_modelService.locationManager = _locationManager;
-	_modelService.obaJsonDataSource = [[[OBAJsonDataSource alloc] initWithConfig:_obaDataSourceConfig] autorelease];
-	_modelService.googleMapsJsonDataSource = [[[OBAJsonDataSource alloc] initWithConfig:_googleMapsDataSourceConfig] autorelease];
-	
-	[self migrateUserPreferences];
+	[userDefaults synchronize];
 }
 
-- (void) teardown {	
-	if( kIncludeUWActivityInferenceCode ) {
-		if( kIncludeUWActivityNearbyTripLogging ) {
-			[_nearbyTripsController stop];
-		}
-		[_activityLogger stop];
+- (void) restoreState {
+	
+	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+	
+	if( [self shouldRestoreStateToDefault:userDefaults] ) {
+		[self restoreStateToDefault:userDefaults];
+		return;
 	}
 
-	if( _locationAware )
-		[_locationManager stopUpdatingLocation];
-}	
+	if( [self restoreSavedNavigationState:userDefaults] )
+		return;
 
-- (void) restoreApplicationNavigationState {
-    _tabBarController.selectedIndex = kOBADefaultShowOnStartup;
-    
-    // On iOS 4.0 the default expectaton is that state will be restored, so
-    // we no longer check if we should restore state and instead do it
-    // consistently.
-	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+	// If we had no default state, just use a reasonable default
+	_tabBarController.selectedIndex = 0;
+}
+
+- (BOOL) shouldRestoreStateToDefault:(NSUserDefaults*)userDefaults {
+
+	// We should only restore the application state if it's been less than x minutes
+	// The idea is that, typically, if it's been more than x minutes, you've moved
+	// on from the stop you were looking at, so we should just return to the users'
+	// preferred home screen
+	
+	NSData * dateData = [userDefaults objectForKey:kOBAHiddenPreferenceApplicationLastActiveTimestamp];
+	if( ! dateData ) 
+		return TRUE;
+	NSDate * date = [NSKeyedUnarchiver unarchiveObjectWithData:dateData];
+	if( ! date || (-[date timeIntervalSinceNow]) > kMaxTimeSinceApplicationTerminationToRestoreState )
+		return TRUE;
+	
+	return FALSE;
+}
+
+- (void) restoreStateToDefault:(NSUserDefaults*)userDefaults {
+	NSInteger showOnStartup = [userDefaults integerForKey:kOBAPreferenceShowOnStartup];
+	if( 0 <= showOnStartup && showOnStartup < 4 )
+		_tabBarController.selectedIndex = showOnStartup;
+}
+
+- (BOOL) restoreSavedNavigationState:(NSUserDefaults*)userDefaults {
+	
 	NSData *restoreStateData = [userDefaults objectForKey:kOBAHiddenPreferenceSavedNavigationTargets];
 	
 	if(!restoreStateData)
-		return;
+		return FALSE;
 	
 	NSArray * targets = [NSKeyedUnarchiver unarchiveObjectWithData:restoreStateData];
-
+	
 	if(!targets || [targets count] == 0)
-		return;
+		return FALSE;
 	
 	OBANavigationTarget * rootTarget = [targets objectAtIndex:0];
 	
@@ -355,7 +324,7 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 			_tabBarController.selectedIndex = 4;
 			break;
 		default:
-			return;
+			return FALSE;
 	}
 	
 	UINavigationController * rootNavController = (UINavigationController*) _tabBarController.selectedViewController;
@@ -373,6 +342,36 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 		[rootNavController pushViewController:nextViewController animated:TRUE];
 		[nextViewController release];
 	}
+	
+	return TRUE;
+}
+
+- (void) navigateToTargetInternal:(OBANavigationTarget*)navigationTarget {
+	
+	UINavigationController * current = (UINavigationController*) _tabBarController.selectedViewController;
+	if( current )
+		[current popToRootViewControllerAnimated:FALSE];
+	
+	switch (navigationTarget.target) {
+		case OBANavigationTargetTypeSearchResults: {
+			UINavigationController * mapNavController = [_tabBarController.viewControllers objectAtIndex:0];
+			OBASearchResultsMapViewController * searchResultsMapViewController = [mapNavController.viewControllers objectAtIndex:0];
+			_tabBarController.selectedIndex = 0;
+			[mapNavController popToRootViewControllerAnimated:FALSE];
+			[searchResultsMapViewController setNavigationTarget:navigationTarget];
+			break;
+		}
+			
+		case OBANavigationTargetTypeContactUs: {
+			UINavigationController * detailsNavController = [_tabBarController.viewControllers objectAtIndex:4];
+			[detailsNavController popToRootViewControllerAnimated:FALSE];
+			OBAContactUsViewController * vc = [[OBAContactUsViewController alloc] initWithApplicationContext:self];
+			[detailsNavController pushViewController:vc animated:FALSE];
+			[vc release];
+			_tabBarController.selectedIndex = 4;
+			break;
+		}
+	}	
 }
 
 - (void) setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController {
@@ -381,7 +380,7 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
     
 	if( ! [viewController respondsToSelector:@selector(setNavigationTarget:) ] )
 		return;
-
+	
 	id<OBANavigationTargetAware> targetAware = (id<OBANavigationTargetAware>) viewController;
 	[targetAware setNavigationTarget:target];
 }
@@ -393,14 +392,6 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 			return [[OBAStopViewController alloc] initWithApplicationContext:self];
 		case OBANavigationTargetTypeContactUs:
 			return [[OBAContactUsViewController alloc] initWithApplicationContext:self];
-		case OBANavigationTargetTypeActivityLogging:
-			return [[OBAActivityLoggingViewController alloc] initWithApplicationContext:self];
-		case OBANavigationTargetTypeActivityAnnotation:
-			return [[OBAActivityAnnotationViewController alloc] initWithApplicationContext:self];
-		case OBANavigationTargetTypeActivityUpload:
-			return [[OBAUploadViewController alloc] initWithApplicationContext:self];
-		case OBANavigationTargetTypeActivityLock:
-			return [[OBALockViewController alloc] initWithApplicationContext:self];
 	}
 	
 	return nil;
@@ -416,6 +407,7 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 			userId = NSMakeCollectable(CFUUIDCreateString(kCFAllocatorDefault, theUUID));
 			CFRelease(theUUID);
 			[userDefaults setObject:userId forKey:kOBAHiddenPreferenceUserId];
+			[userDefaults synchronize];
 		}
 		else {
 			userId = @"anonymous";
@@ -432,14 +424,14 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 	NSString * path = [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"OneBusAway.sqlite"];
 	[migration migrateCoreDataPath:path toDao:_modelDao];
 }
-	 		
+
 #pragma mark Application's documents directory
-	 
+
 /**
  * Returns the path to the application's documents directory.
  */
 - (NSString *)applicationDocumentsDirectory {
-
+	
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
 	return basePath;

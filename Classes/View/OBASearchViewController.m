@@ -99,8 +99,6 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 	
 	OBALocationManager * lm = _appContext.locationManager;
 	[lm startUpdatingLocation];
-	
-	[_appContext saveNavigationState];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

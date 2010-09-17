@@ -17,14 +17,17 @@
 #import "OBASettingsViewController.h"
 #import "OBAUITableViewCell.h"
 #import "OBASearchController.h"
-#import "OBAActivityLoggingViewController.h"
 #import "OBAContactUsViewController.h"
 
 #import "ISFeedback.h"
 
 
 typedef enum {
-	OBARowNone, OBARowAgencies, OBARowContactUs, OBARowFeedback, OBARowLocationAware, OBARowActivityAware
+	OBARowNone,
+	OBARowFeedback,
+	OBARowContactUs,
+	OBARowSettings,
+	OBARowAgencies
 } OBARowType;
 
 
@@ -74,7 +77,6 @@ typedef enum {
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-	[_appContext saveNavigationState];
 }
 
 #pragma mark Table view methods
@@ -85,12 +87,7 @@ typedef enum {
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	NSInteger rows = 3;
-	if( kIncludeUWUserStudyCode )
-		rows += 1;
-	if( kIncludeUWActivityInferenceCode)
-		rows += 1;
-	return rows;
+	return 4;
 }
 
 
@@ -99,42 +96,26 @@ typedef enum {
     
 	OBARowType rowType = [self rowTypeForRowIndex:indexPath.row];
 	
+	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
 	if( rowType == OBARowAgencies ) {
-		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = @"Supported Agencies";
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		return cell;
 	}
 	else if( rowType == OBARowContactUs ) {
-		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = @"Contact Us";
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		return cell;
 	}
 	else if( rowType == OBARowFeedback ) {
-		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = @"Feedback";
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		return cell;
-	}		
-	else if( rowType == OBARowLocationAware ) {
-		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-		cell.textLabel.text = @"Location Aware";
-		cell.accessoryType =_appContext.locationAware ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-		return cell;
 	}
-	else if( rowType == OBARowActivityAware ) {
-		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-		cell.textLabel.text = @"Activity";
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		return cell;
-	}
+	else if( rowType == OBARowSettings ) {
+		cell.textLabel.text = @"Settings";
+	}	
 	else {
-		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = @"Unknown";
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		return cell;
 	}
+	
+	return cell;
 }
 
 
@@ -158,17 +139,11 @@ typedef enum {
 			[[ISFeedback sharedInstance] pushOntoViewController:self];
 			break;
 		}
-		case OBARowLocationAware: {
-			_appContext.locationAware = ! _appContext.locationAware;
-			[self.tableView reloadData];
-			break;
-		}
-		case OBARowActivityAware: {
-			if( kIncludeUWActivityInferenceCode ) {
-				OBAActivityLoggingViewController * vc = [[OBAActivityLoggingViewController alloc] initWithApplicationContext:_appContext];
-				[self.navigationController pushViewController:vc animated:TRUE];
-				[vc release];
-			}
+		case OBARowSettings: {
+			IASKAppSettingsViewController * vc = [[IASKAppSettingsViewController alloc] initWithNibName:@"IASKAppSettingsView" bundle:nil];
+			vc.showDoneButton = NO;
+			vc.delegate = self;
+			[self.navigationController pushViewController:vc animated:YES];
 			break;
 		}
 	}
@@ -178,6 +153,12 @@ typedef enum {
 
 - (OBANavigationTarget*) navigationTarget {
 	return [OBANavigationTarget target:OBANavigationTargetTypeSettings];
+}
+
+#pragma mark IASKSettingsDelegate
+
+- (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
+	[_appContext refreshSettings];
 }
 
 @end
@@ -191,22 +172,10 @@ typedef enum {
 	if( row == 1 )
 		return OBARowContactUs;	
 	if( row == 2 )
+		return OBARowSettings;
+	if( row == 3 )
 		return OBARowAgencies;
-	if( kIncludeUWActivityInferenceCode && kIncludeUWUserStudyCode ) {
-		if( row == 3 )
-			return OBARowLocationAware;
-		if( row == 4 )
-			return OBARowActivityAware;
-	}
-	else if( kIncludeUWActivityInferenceCode ) {
-		if( row == 3 )
-			return OBARowActivityAware;
-	}
-	else if( kIncludeUWUserStudyCode ) {
-		if( row == 4 )
-			return OBARowLocationAware;
-	}
-		
+	
 	return OBARowNone;
 }
 

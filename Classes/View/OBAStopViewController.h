@@ -46,7 +46,6 @@
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopIds:(NSArray*)stopIds;
 
 @property (nonatomic,retain) NSString * stopId;
-@property (nonatomic,retain) id<OBAModelServiceRequest> request;
 @property (nonatomic,retain) OBAArrivalsAndDeparturesForStopV2 * result;
 
 @end
