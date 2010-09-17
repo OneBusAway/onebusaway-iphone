@@ -22,6 +22,11 @@
 #import "OBAAgencyV2.h"
 #import "OBARouteV2.h"
 #import "OBAStopV2.h"
+#import "OBATripV2.h"
+#import "OBATripDetailsV2.h"
+#import "OBATripScheduleV2.h"
+#import "OBATripStopTimeV2.h"
+
 #import "OBAAgencyWithCoverageV2.h"
 #import "OBAPlacemark.h"
 
@@ -46,6 +51,8 @@ static NSString * const kReferences = @"references";
 - (void) addAgencyV2RulesWithPrefix:(NSString*)prefix;
 - (void) addRouteV2RulesWithPrefix:(NSString*)prefix;
 - (void) addStopV2RulesWithPrefix:(NSString*)prefix;
+- (void) addTripV2RulesWithPrefix:(NSString*)prefix;
+- (void) addTripDetailsV2RulesWithPrefix:(NSString*)prefix;
 
 - (void) addAgencyWithCoverageV2RulesWithPrefix:(NSString*)prefix;
 
@@ -54,6 +61,7 @@ static NSString * const kReferences = @"references";
 - (void) addAgencyToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
 - (void) addRouteToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
 - (void) addStopToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
+- (void) addTripToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
 
 - (void) setReferencesForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
 
@@ -192,6 +200,21 @@ static NSString * const kReferences = @"references";
 	return placemarks;
 }
 
+- (OBAEntryWithReferencesV2*) getTripDetailsV2FromJSON:(NSDictionary*)json error:(NSError**)error {
+
+	OBAEntryWithReferencesV2 * entry = [[[OBAEntryWithReferencesV2 alloc] initWithReferences:_references] autorelease];
+	
+	OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
+	[digester addReferencesRulesWithPrefix:@"/references"];
+	[digester addTripDetailsV2RulesWithPrefix:@"/entry"];
+	[digester addSetNext:@selector(setEntry:) forPrefix:@"/entry"];
+	
+	[digester parse:json withRoot:entry parameters:[self getDigesterParameters] error:error];
+	[digester release];
+	
+	return entry;
+}
+
 @end
 
 @implementation OBAModelFactory (Private)
@@ -217,6 +240,9 @@ static NSString * const kReferences = @"references";
 	
 	NSString * stopPrefix = [self extendPrefix:prefix withValue:@"stops/[]"];
 	[self addStopV2RulesWithPrefix:stopPrefix];
+	
+	NSString * tripPrefix = [self extendPrefix:prefix withValue:@"trips/[]"];
+	[self addTripV2RulesWithPrefix:tripPrefix];
 }
 
 - (void) addAgencyV2RulesWithPrefix:(NSString*)prefix {	
@@ -230,8 +256,8 @@ static NSString * const kReferences = @"references";
 - (void) addRouteV2RulesWithPrefix:(NSString*)prefix {	
 	[self addObjectCreateRule:[OBARouteV2 class] forPrefix:prefix];
 	[self addSetPropertyRule:@"routeId" forPrefix:[self extendPrefix:prefix withValue:@"id"]];
-	[self addSetPropertyRule:@"shortName" forPrefix:[self extendPrefix:prefix withValue:@"shortName"]];
-	[self addSetPropertyRule:@"longName" forPrefix:[self extendPrefix:prefix withValue:@"longName"]];
+	[self addSetOptionalPropertyRule:@"shortName" forPrefix:[self extendPrefix:prefix withValue:@"shortName"]];
+	[self addSetOptionalPropertyRule:@"longName" forPrefix:[self extendPrefix:prefix withValue:@"longName"]];
 	[self addSetPropertyRule:@"routeType" forPrefix:[self extendPrefix:prefix withValue:@"type"]];
 	[self addSetPropertyRule:@"agencyId" forPrefix:[self extendPrefix:prefix withValue:@"agencyId"]];
 	[self addTarget:self selector:@selector(addRouteToReferences:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];
@@ -241,12 +267,50 @@ static NSString * const kReferences = @"references";
 	[self addObjectCreateRule:[OBAStopV2 class] forPrefix:prefix];
 	[self addSetPropertyRule:@"stopId" forPrefix:[self extendPrefix:prefix withValue:@"id"]];	
 	[self addSetPropertyRule:@"name" forPrefix:[self extendPrefix:prefix withValue:@"name"]];
-	[self addSetPropertyRule:@"code" forPrefix:[self extendPrefix:prefix withValue:@"code"]]; // Optional
+	[self addSetOptionalPropertyRule:@"code" forPrefix:[self extendPrefix:prefix withValue:@"code"]]; // Optional
 	[self addSetPropertyRule:@"direction" forPrefix:[self extendPrefix:prefix withValue:@"direction"]]; // Optional
 	[self addSetPropertyRule:@"latitude" forPrefix:[self extendPrefix:prefix withValue:@"lat"]];
 	[self addSetPropertyRule:@"longitude" forPrefix:[self extendPrefix:prefix withValue:@"lon"]];
 	[self addSetPropertyRule:@"routeIds" forPrefix:[self extendPrefix:prefix withValue:@"routeIds"]];
 	[self addTarget:self selector:@selector(addStopToReferences:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];
+}
+
+- (void) addTripV2RulesWithPrefix:(NSString*)prefix {
+	[self addObjectCreateRule:[OBATripV2 class] forPrefix:prefix];
+	[self addSetPropertyRule:@"tripId" forPrefix:[self extendPrefix:prefix withValue:@"id"]];	
+	[self addSetPropertyRule:@"routeId" forPrefix:[self extendPrefix:prefix withValue:@"routeId"]];
+	[self addSetOptionalPropertyRule:@"routeShortName" forPrefix:[self extendPrefix:prefix withValue:@"routeShortName"]];
+	[self addSetOptionalPropertyRule:@"tripShortName" forPrefix:[self extendPrefix:prefix withValue:@"tripShortName"]];
+	[self addSetOptionalPropertyRule:@"tripHeadsign" forPrefix:[self extendPrefix:prefix withValue:@"tripHeadsign"]];
+	[self addSetPropertyRule:@"serviceId" forPrefix:[self extendPrefix:prefix withValue:@"serviceId"]];
+	[self addSetPropertyRule:@"shapeId" forPrefix:[self extendPrefix:prefix withValue:@"shapeId"]];
+	[self addSetPropertyRule:@"directionId" forPrefix:[self extendPrefix:prefix withValue:@"directionId"]];
+	[self addTarget:self selector:@selector(addTripToReferences:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];	
+}
+
+- (void) addTripDetailsV2RulesWithPrefix:(NSString*)prefix {
+	[self addObjectCreateRule:[OBATripDetailsV2 class] forPrefix:prefix];
+	[self addSetPropertyRule:@"tripId" forPrefix:[self extendPrefix:prefix withValue:@"tripId"]];
+	[self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];
+	
+	NSString * schedulePrefix = [self extendPrefix:prefix withValue:@"schedule"];
+	[self addObjectCreateRule:[OBATripScheduleV2 class] forPrefix:schedulePrefix];
+	[self addSetOptionalPropertyRule:@"previousTripId" forPrefix:[self extendPrefix:schedulePrefix withValue:@"previousTripId"]];
+	[self addSetOptionalPropertyRule:@"nextTripId" forPrefix:[self extendPrefix:schedulePrefix withValue:@"nextTripId"]];
+	[self addSetNext:@selector(setSchedule:) forPrefix:schedulePrefix];
+	[self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:schedulePrefix];
+	
+	NSString * stopTimesArrayPrefix = [self extendPrefix:prefix withValue:@"schedule/stopTimes"];
+	[self addObjectCreateRule:[NSMutableArray class] forPrefix:stopTimesArrayPrefix];
+	[self addSetNext:@selector(setStopTimes:) forPrefix:stopTimesArrayPrefix];
+	
+	NSString * stopTimesPrefix = [self extendPrefix:stopTimesArrayPrefix withValue:@"[]"];
+	[self addObjectCreateRule:[OBATripStopTimeV2 class] forPrefix:stopTimesPrefix];
+	[self addSetPropertyRule:@"arrivalTime" forPrefix:[self extendPrefix:stopTimesPrefix withValue:@"arrivalTime"]];
+	[self addSetPropertyRule:@"departureTime" forPrefix:[self extendPrefix:stopTimesPrefix withValue:@"departureTime"]];
+	[self addSetPropertyRule:@"stopId" forPrefix:[self extendPrefix:stopTimesPrefix withValue:@"stopId"]];
+	[self addSetNext:@selector(addObject:) forPrefix:stopTimesPrefix];
+	[self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:stopTimesPrefix];
 }
 
 - (void) addAgencyWithCoverageV2RulesWithPrefix:(NSString*)prefix {
@@ -294,6 +358,13 @@ static NSString * const kReferences = @"references";
 	OBAReferencesV2 * refs = [context getParameterForKey:kReferences];
 	[refs addStop:stop];
 	stop.references = refs;
+}
+
+- (void) addTripToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
+	OBATripV2 * trip = [context peek:0];
+	OBAReferencesV2 * refs = [context getParameterForKey:kReferences];
+	[refs addTrip:trip];
+	trip.references = refs;
 }
 
 - (void) setReferencesForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {

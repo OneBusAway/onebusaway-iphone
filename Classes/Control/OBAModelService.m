@@ -139,6 +139,14 @@ static const float kSearchRadius = 400;
 	return [self request:url args:args selector:selector delegate:delegate context:context];
 }
 
+- (id<OBAModelServiceRequest>) requestTripDetailsForId:(NSString*)tripId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+	NSString * url = [NSString stringWithFormat:@"/api/where/trip-details/%@.json", tripId];
+	NSString * args = @"version=2";
+	SEL selector = @selector(getTripDetailsV2FromJSON:error:);
+	
+	return [self request:url args:args selector:selector delegate:delegate context:context];	
+}
+
 @end
 
 

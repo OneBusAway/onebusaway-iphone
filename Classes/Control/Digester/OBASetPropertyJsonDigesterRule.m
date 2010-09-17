@@ -19,6 +19,8 @@
 
 @implementation OBASetPropertyJsonDigesterRule
 
+@synthesize optional = _optional;
+
 - (id) initWithPropertyName:(NSString*)propertyName {
 	if( self = [super init] ) {
 		[self initWithPropertyName:propertyName onlyIfNeeded:FALSE];
@@ -63,6 +65,9 @@
 		if( [existingValue isEqual:value] )
 			return;
 	}
+	
+	if( _optional && [value isKindOfClass:[NSString class]] && [value length] == 0)
+		return;
 	
 	[top setValue:value forKey:_propertyName];
 }

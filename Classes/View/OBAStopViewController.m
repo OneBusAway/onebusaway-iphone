@@ -29,6 +29,7 @@
 #import "OBAStopPreferences.h"
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBAEditStopPreferencesViewController.h"
+#import "OBATripDetailsViewController.h"
 
 #import "OBASearchController.h"
 #import "OBASphericalGeometryLibrary.h"
@@ -58,6 +59,7 @@ typedef enum {
 - (UITableViewCell*) tableView:(UITableView*)tableView filterCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
+- (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void)tableView:(UITableView *)tableView didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath;
 
 - (void) reloadData;
@@ -293,6 +295,11 @@ typedef enum {
 	OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
 	
 	switch (sectionType) {
+			
+		case OBASectionArrivals:
+			[self tableView:tableView didSelectTripRowAtIndexPath:indexPath];
+			break;
+			
 		case OBASectionFilter: {
 			_showFilteredArrivals = !_showFilteredArrivals;
 			
@@ -452,8 +459,11 @@ typedef enum {
 		OBAArrivalAndDeparture * pa = [arrivals objectAtIndex:indexPath.row];
 		cell.destinationLabel.text = pa.tripHeadsign;
 		cell.routeLabel.text = pa.routeShortName;
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.accessoryType = UITableViewCellAccessoryNone;
+		//cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        //cell.accessoryType = UITableViewCellAccessoryNone;
+		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		
 		NSDate * time = [NSDate dateWithTimeIntervalSince1970:(pa.bestDepartureTime / 1000)];		
 		
 		NSTimeInterval interval = [time timeIntervalSinceNow];
@@ -546,6 +556,16 @@ typedef enum {
 	}
 	
 	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
+	OBAArrivalAndDepartureV2 * arrivalAndDeparture = [_filteredArrivals objectAtIndex:indexPath.row];
+	if( arrivalAndDeparture ) {
+		OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripId:arrivalAndDeparture.tripId];
+		vc.currentStopId = _stopId;
+		[self.navigationController pushViewController:vc animated:TRUE];
+		[vc release];
+	}
 }
 
 - (void)tableView:(UITableView *)tableView didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath {

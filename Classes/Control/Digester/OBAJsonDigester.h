@@ -59,6 +59,7 @@ typedef enum {
 - (void) addObjectCreateRule:(Class)objectClass forPrefix:(NSString*)prefix;
 - (void) addCallMethodRule:(SEL)selector forPrefix:(NSString*)prefix;
 - (void) addSetPropertyRule:(NSString*)property forPrefix:(NSString*)prefix;
+- (void) addSetOptionalPropertyRule:(NSString*)property forPrefix:(NSString*)prefix;
 - (void) addSetPropertyIfNeededRule:(NSString*)property forPrefix:(NSString*)prefix;
 - (void) addSetNext:(SEL)selector forPrefix:(NSString*)prefix;
 - (void) addTarget:(NSObject*)target selector:(SEL)selector forRuleTarget:(OBAJsonDigesterRuleTarget)ruleTarget prefix:(NSString*)prefix;

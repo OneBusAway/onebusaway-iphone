@@ -93,6 +93,14 @@
 	[rule release];
 }
 
+- (void) addSetOptionalPropertyRule:(NSString*)property forPrefix:(NSString*)prefix {
+	OBASetPropertyJsonDigesterRule * rule = [[OBASetPropertyJsonDigesterRule alloc] initWithPropertyName:property];
+	rule.optional = TRUE;
+	[self addRule:rule forPrefix:prefix];
+	[rule release];
+}
+
+
 - (void) addSetPropertyIfNeededRule:(NSString*)property forPrefix:(NSString*)prefix {
 	OBASetPropertyJsonDigesterRule * rule = [[OBASetPropertyJsonDigesterRule alloc] initWithPropertyName:property onlyIfNeeded:TRUE];
 	[self addRule:rule forPrefix:prefix];

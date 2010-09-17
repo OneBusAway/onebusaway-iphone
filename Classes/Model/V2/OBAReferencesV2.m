@@ -2,6 +2,7 @@
 #import "OBAAgencyV2.h"
 #import "OBARouteV2.h"
 #import "OBAStopV2.h"
+#import "OBATripV2.h"
 
 
 @implementation OBAReferencesV2
@@ -11,6 +12,7 @@
 		_agencies = [[NSMutableDictionary alloc] init];
 		_routes = [[NSMutableDictionary alloc] init];
 		_stops = [[NSMutableDictionary alloc] init];
+		_trips = [[NSMutableDictionary alloc] init];
 	}
 	return self;
 }
@@ -19,6 +21,7 @@
 	[_agencies release];
 	[_routes release];
 	[_stops release];
+	[_trips release];
 	[super dealloc];
 }
 
@@ -46,10 +49,28 @@
 	return [_stops objectForKey:stopId];
 }
 
+- (void) addTrip:(OBATripV2*)trip {
+	[_trips setObject:trip forKey:trip.tripId];
+}
+
+- (OBATripV2*) getTripForId:(NSString*)tripId {
+	return [_trips objectForKey:tripId];
+}
+
 - (void) clear {
 	[_agencies removeAllObjects];
 	[_routes removeAllObjects];
 	[_stops removeAllObjects];
+	[_trips removeAllObjects];
+}
+
+- (NSString*) description {
+	return [NSString stringWithFormat:@"%@ agencies:%d routes:%d stops:%d trips%d",
+			[super description],
+			[_agencies count],
+			[_routes count],
+			[_stops count],
+			[_trips count]];
 }
 
 @end

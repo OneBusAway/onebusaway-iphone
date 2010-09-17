@@ -20,9 +20,12 @@
 @interface OBASetPropertyJsonDigesterRule : NSObject <OBAJsonDigesterRule> {
 	NSString * _propertyName;
 	BOOL _onlyIfNeeded;
+	BOOL _optional;
 }
 
 - (id) initWithPropertyName:(NSString*)propertyName;
 - (id) initWithPropertyName:(NSString*)propertyName onlyIfNeeded:(BOOL)onlyIfNeeded;
+
+@property (nonatomic) BOOL optional;
 
 @end
