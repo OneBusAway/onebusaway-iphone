@@ -22,6 +22,7 @@
 #import "OBALocationManager.h"
 #import "OBAGenericAnnotation.h"
 #import "OBANetworkErrorAlertViewDelegate.h"
+#import "OBASearchResultsMapFilterToolbar.h"
 
 
 @class OBASearchControllerImpl;
@@ -36,7 +37,8 @@
 	MKMapView * _mapView;
 	UISegmentedControl * _searchTypeControl;
 	UIBarButtonItem * _listButton;
-	
+    OBASearchResultsMapFilterToolbar * _filterToolbar;
+
 	OBAGenericAnnotation * _locationAnnotation;
 	
 	UIImage * _defaultStopIcon;
@@ -65,6 +67,8 @@
 @property (nonatomic,retain) IBOutlet MKMapView * mapView;
 @property (nonatomic,retain) IBOutlet UISegmentedControl * searchTypeControl;
 @property (nonatomic,retain) IBOutlet UIBarButtonItem * listButton;
+
+@property (nonatomic,retain) OBASearchResultsMapFilterToolbar * filterToolbar;
 
 -(IBAction) onCrossHairsButton:(id)sender;
 -(IBAction) onListButton:(id)sender;

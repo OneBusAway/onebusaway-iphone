@@ -43,10 +43,10 @@ static const double kMinRegionDeltaToDetectUserDrag = 50;
 static const double kRegionChangeRequestsTimeToLive = 3.0;
 
 static const double kMaxMapDistanceFromCurrentLocation = 750;
-static const double kPaddingScaleFactor = 1.1;
+static const double kPaddingScaleFactor = 1.075;
 static const NSUInteger kShowNClosestStops = 4;
 
-static const double kStopsInRegionRefreshDelayOnDrag = 1.0;
+static const double kStopsInRegionRefreshDelayOnDrag = 0.5;
 static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 
@@ -126,6 +126,7 @@ typedef enum  {
 @synthesize mapView = _mapView;
 @synthesize searchTypeControl = _searchTypeControl;
 @synthesize listButton = _listButton;
+@synthesize filterToolbar = _filterToolbar;
 
 -(void) dealloc {
 	[_appContext release];
@@ -185,6 +186,21 @@ typedef enum  {
 	_searchController.progress.delegate = self;
 }
 
+- (void)viewDidUnload {
+    [super viewDidUnload];
+
+    [self.filterToolbar release];
+    self.filterToolbar = nil;
+}
+
+- (void)onFilterClear {
+    [self.filterToolbar hideWithAnimated:NO];
+    [self.filterToolbar release];
+    self.filterToolbar = nil;
+    
+    [self refreshStopsInRegion];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 	
@@ -197,12 +213,26 @@ typedef enum  {
 		[self reloadData];
 		_firstView = FALSE;
 	}
+    
+    NSString * searchFilterDesc = [_searchController searchFilterString];
+
+    // create the UIToolbar at the bottom of the view controller
+	//
+    if(self.filterToolbar == nil && searchFilterDesc != nil) {
+        self.filterToolbar = [[OBASearchResultsMapFilterToolbar alloc] initWithDelegate:self];
+        [self.filterToolbar showWithDescription:searchFilterDesc animated:NO];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
+    
 	[_appContext.locationManager stopUpdatingLocation];
 	[_appContext.locationManager removeDelegate:self];
+
+    [self.filterToolbar hideWithAnimated:NO];
+    [self.filterToolbar release];
+    self.filterToolbar = nil;
 }
 
 #pragma mark OBANavigationTargetAware
@@ -232,7 +262,7 @@ typedef enum  {
         UIAlertView * view = [[[UIAlertView alloc] init] autorelease];
 		view.title = @"Location Information";
 		view.message = @"Location information is disabled for this app.  Finding nearby stops using your current location will not function.";
-		[view addButtonWithTitle:@"Ok"];
+		[view addButtonWithTitle:@"Dismiss"];
 		view.cancelButtonIndex = 0;
 		[view show];
 		return;
@@ -247,7 +277,7 @@ typedef enum  {
 		view.message = @"There was a problem with your Internet connection.\n\nPlease check your network connection or contact us if you think the problem is on our end.";
 		view.delegate = _networkErrorAlertViewDelegate;
 		[view addButtonWithTitle:@"Contact Us"];
-		[view addButtonWithTitle:@"Ok"];
+		[view addButtonWithTitle:@"Dismiss"];
 		view.cancelButtonIndex = 1;
 		[view show];
 	}
@@ -319,7 +349,7 @@ typedef enum  {
 		[self scheduleRefreshOfStopsInRegion:refreshInterval location:lm.currentLocation];
 	}
 	else if( type == OBARegionChangeRequestTypeNone ) {
-		if( _searchController.searchType == OBASearchControllerSearchTypeNone || _searchController.searchType == OBASearchControllerSearchTypeRegion)
+		if( _searchController.searchType == OBASearchControllerSearchTypeNone || _searchController.searchType == OBASearchControllerSearchTypeRegion || _searchController.searchType == OBASearchControllerSearchTypePlacemark)
 			[self scheduleRefreshOfStopsInRegion:kStopsInRegionRefreshDelayOnDrag location:nil];
 	}
 		
@@ -503,7 +533,6 @@ typedef enum  {
 
 - (void) setMapRegion:(MKCoordinateRegion)region requestType:(OBARegionChangeRequestType)requestType {
 
-	
 	OBARegionChangeRequest * request = [[OBARegionChangeRequest alloc] initWithRegion:region type:requestType];
 	[self setMapRegionWithRequest:request];
 	[request release];
@@ -728,20 +757,14 @@ typedef enum  {
 	
 	if( !result )
 		return defaultLabel;
-    
-    NSString * filterString = nil;
-    NSString * searchFilterDesc = [_searchController searchFilterString];
-    
-    if (searchFilterDesc != nil)
-        filterString = [NSString stringWithFormat:@"Filtering by %@.", searchFilterDesc];
-    
+
 	switch( result.searchType ) {
 		case OBASearchControllerSearchTypeRoute:
 		case OBASearchControllerSearchTypeRouteStops:	
 		case OBASearchControllerSearchTypeAddress:
 		case OBASearchControllerSearchTypeAgenciesWithCoverage:
 		case OBASearchControllerSearchTypeStopId:
-			return filterString;
+			return nil;
             
 		case OBASearchControllerSearchTypePlacemark:
 		case OBASearchControllerSearchTypeRegion: {
@@ -752,10 +775,6 @@ typedef enum  {
 			NSArray * values = result.values;
 			if( [values count] == 0 )
 				return @"No stops at your current location.";
-            
-            if( filterString )
-                return filterString;
-			
             return defaultLabel;
 		}
             
@@ -765,6 +784,7 @@ typedef enum  {
     
     return defaultLabel;
 }
+
 
 - (void) setRegionFromResults {
 	
@@ -817,7 +837,30 @@ typedef enum  {
 }
 
 - (MKCoordinateRegion) computeRegionForStops:(NSArray*)stops {
-	return [self computeRegionForStops:stops center:[self currentLocation]];
+    
+    double latRun = 0.0, lonRun = 0.0;
+    int    stopCount = 0;
+    
+	for( OBAStop * stop in stops ) {
+        latRun += stop.lat;
+        lonRun += stop.lon;
+        ++stopCount;
+	}
+
+    CLLocation * centerLocation = nil;
+    
+    if (stopCount == 0) {
+        centerLocation = self.currentLocation;
+    } else {
+        CLLocationCoordinate2D center;
+        center.latitude  = latRun / stopCount;
+        center.longitude = lonRun / stopCount;
+        
+        centerLocation = [[CLLocation alloc] initWithLatitude:center.latitude longitude:center.longitude];
+        [centerLocation autorelease];
+    }
+    
+	return [self computeRegionForStops:stops center:centerLocation];
 }
 
 NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
@@ -859,8 +902,8 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	MKCoordinateSpan span = region.span;
 	
 	for( OBAStop * stop in stops ) {
-		double latDelta = ABS(stop.lat - center.latitude) * 2 * kPaddingScaleFactor;
-		double lonDelta = ABS(stop.lon - center.longitude) * 2 * kPaddingScaleFactor;
+		double latDelta = ABS(stop.lat - center.latitude) * 2.0 * kPaddingScaleFactor;
+		double lonDelta = ABS(stop.lon - center.longitude) * 2.0 * kPaddingScaleFactor;
 		span.latitudeDelta =  MAX(span.latitudeDelta,latDelta);
 		span.longitudeDelta =  MAX(span.longitudeDelta,lonDelta);
 	}
@@ -1000,10 +1043,10 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	
 	UIAlertView * view = [[UIAlertView alloc] init];
 	view.title = title;
-	view.message = [NSString stringWithFormat:@"%@  See the list of supported transit agencies for service coverage.",prompt];
+	view.message = [NSString stringWithFormat:@"%@ See the list of supported transit agencies.",prompt];
 	view.delegate = self;
 	[view addButtonWithTitle:@"Agencies"];
-	[view addButtonWithTitle:@"Ok"];
+	[view addButtonWithTitle:@"Dismiss"];
 	view.cancelButtonIndex = 1;
 	[view show];
 }

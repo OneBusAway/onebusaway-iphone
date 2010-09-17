@@ -312,7 +312,7 @@ static const float kSearchRadius = 400;
 
 -(void) searchByRoute:(NSString*)routeQuery {
     // update search filter description
-    self.searchFilterString = [NSString stringWithFormat:@"route %@", routeQuery];
+    self.searchFilterString = [NSString stringWithFormat:@"Route %@", routeQuery];
 	
     // equest search
     CLLocation * location = [self currentOrDefaultLocationToSearch];
@@ -332,7 +332,7 @@ static const float kSearchRadius = 400;
 
 -(void) searchByStopId:(NSString*)stopIdQuery {
     // update search filter description
-    self.searchFilterString = [NSString stringWithFormat:@"stop id %@", stopIdQuery];
+    self.searchFilterString = [NSString stringWithFormat:@"Stop # %@", stopIdQuery];
 
 	// request search
     CLLocation * location = [self currentOrDefaultLocationToSearch];
@@ -345,8 +345,8 @@ static const float kSearchRadius = 400;
 }
 
 -(void) searchByAddress:(NSString*)addressQuery {
-    // update search filter description
-    self.searchFilterString = [NSString stringWithFormat:@"address \"%@\"", addressQuery];
+    // clear search filter description
+    self.searchFilterString = nil;
     
     // handle search
 	CLLocation * location = [self currentOrDefaultLocationToSearch];
@@ -375,7 +375,7 @@ static const float kSearchRadius = 400;
 -(void) searchForAgenciesWithCoverage {
 
     // update search filter description
-    self.searchFilterString = [NSString stringWithFormat:@"supported transit agencies"];
+    self.searchFilterString = [NSString stringWithFormat:@"Transit Agencies"];
 	
     // search
 	[self requestPath:@"/api/where/agencies-with-coverage.json" withArgs:@"version=2" searchType:OBASearchControllerSearchTypeAgenciesWithCoverage];

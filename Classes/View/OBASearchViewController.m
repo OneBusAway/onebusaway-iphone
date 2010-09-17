@@ -19,6 +19,8 @@
 #import "OBASearchTableViewCell.h"
 #import "OBASearchController.h"
 
+#include "OBASearchResultsMapViewController.h"
+
 
 const static int kSearchTableViewCellHeight = 127;
 static NSString * kOBASearchType = @"kOBASearchType";
