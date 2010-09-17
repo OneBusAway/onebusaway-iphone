@@ -24,13 +24,7 @@
 
 @implementation OBARecentStopsViewController
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext {
-	if( self = [super initWithStyle:UITableViewStyleGrouped] ) {
-		_appContext = [appContext retain];
-		_mostRecentStops = [[NSArray alloc] init];
-	}
-	return self;
-}
+@synthesize appContext = _appContext;
 
 - (void)dealloc {	
 	[_appContext release];
@@ -40,7 +34,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	self.navigationItem.title = @"Recent Stops"; 
+	_mostRecentStops = [[NSArray alloc] init];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -39,8 +39,6 @@ OBALoggerLevel;
 #define OBALogSevere(s,...) OBALog(OBALoggerLevelSevere,s, ##__VA_ARGS__)
 #define OBALogSevereWithError(error,s,...) OBALogWithError(OBALoggerLevelSevere,error,s, ##__VA_ARGS__)
 
-//NSLog( @"<%p %@:(%d)> %@", self, [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, [NSString stringWithFormat:(s), ##__VA_ARGS__] )
-
 @interface OBALogger : NSObject {
 
 }

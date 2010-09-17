@@ -117,11 +117,8 @@
 
 - (void) cancelOpenConnections {
 	@synchronized(self) {
-		NSLog(@"Canceling open connections in OBAJSONDataSource");
-		for( JsonUrlFetcherImpl * connection in _openConnections ) {
-			NSLog(@"  Canceling open connection in OBAJSONDataSource");
+		for( JsonUrlFetcherImpl * connection in _openConnections )
 			[connection cancel];
-		}
 		[_openConnections removeAllObjects];
 	}
 }
@@ -200,8 +197,6 @@
 		if( _canceled )
 			return;
 		
-		NSLog(@"Response: length=%lld mime=%@",[response expectedContentLength],[response MIMEType]);
-		
 		NSString * textEncodingName = [response textEncodingName];
 		if( textEncodingName )
 			_responseEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)textEncodingName));
@@ -264,7 +259,6 @@
 			return;
 		_canceled = TRUE;
 		
-		NSLog(@"Connection failed! Error - %@ %@", [error localizedDescription],[[error userInfo] objectForKey:NSErrorFailingURLStringKey]);	
 		[_delegate connectionDidFail:self withError:error context:_context];
 		[_source removeOpenConnection:self];
 		_delegate = nil;

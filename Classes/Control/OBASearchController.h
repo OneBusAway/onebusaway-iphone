@@ -62,9 +62,13 @@ typedef enum {
 
 #pragma mark OBASearchControllerDelegate Protocol
 
-@protocol OBASearchControllerDelegate
+@protocol OBASearchControllerDelegate <NSObject>
 
 - (void) handleSearchControllerUpdate:(OBASearchControllerResult*)result;
+
+@optional
+
+- (void) handleSearchControllerError:(NSError*)error;
 
 @end
 

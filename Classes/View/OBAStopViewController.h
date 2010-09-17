@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-//#import <UIKit/UIKit.h>
-
-#import "OBAViewContext.h"
+#import "OBAApplicationContext.h"
 #import "OBANavigationTargetAware.h"
-
-#import "OBAStopPreferences.h"
-
 #import "OBAStopAndPredictedArrivalsSearch.h"
 
 
 @interface OBAStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate> {
 
 	OBAApplicationContext * _appContext;
-	OBAViewContext * _context;
 	OBAStopAndPredictedArrivalsSearch * _source;
 
 	NSMutableArray * _allArrivals;

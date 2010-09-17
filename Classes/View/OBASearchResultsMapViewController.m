@@ -39,6 +39,8 @@ static const NSUInteger kShowNClosestStops = 4;
 
 @interface OBASearchResultsMapViewController (Private)
 
+- (void) loadIcons;
+- (void) centerMapOnMostRecentLocation;
 - (void) refreshCurrentLocation;
 
 - (void) reloadData;
@@ -68,98 +70,56 @@ static const NSUInteger kShowNClosestStops = 4;
 
 @implementation OBASearchResultsMapViewController
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)context {
-	
-	if( self = [super init] ) {
-		
-		_appContext = [context retain];
-		
-		_searchController = [[OBASearchControllerImpl alloc] initWithAppContext:context];
-		_searchController.delegate = self;
-		
-		UIImage * a = [UIImage imageNamed:@"SegmentedControl-CrossHairs.png"];
-		UIImage * b = [UIImage imageNamed:@"SegmentedControl-Region.png"];
-		NSArray * items = [NSArray arrayWithObjects:a,b,nil];
-		
-		_searchTypeControl = [[UISegmentedControl alloc] initWithItems:items];
-		_searchTypeControl.segmentedControlStyle = UISegmentedControlStyleBar;
-		_searchTypeControl.momentary = TRUE;
-
-		[_searchTypeControl addTarget:self action:@selector(onSearchTypeController:) forControlEvents:UIControlEventValueChanged];
-		
-		UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithCustomView:_searchTypeControl];
-		[self.navigationItem setLeftBarButtonItem:item];
-		[item release];
-		
-		self.navigationItem.titleView = [OBAProgressIndicatorView viewFromNibWithSource:_searchController.progress];
-		
-		_listButton = [[UIBarButtonItem alloc] initWithTitle:@"List" style:UIBarButtonItemStyleBordered target:self action:@selector(onListButton:)];
-		[self.navigationItem setRightBarButtonItem:_listButton];
-		_listButton.enabled = FALSE;
-		
-		_busStopIcon = [[UIImage imageNamed:@"BusStopIcon.png"] retain];
-		_busStopIcons = [[NSMutableDictionary alloc] init];
-		
-		NSArray * directionIds = [NSArray arrayWithObjects:@"N",@"NE",@"E",@"SE",@"S",@"SW",@"W",@"NW",nil];
-		
-		for( int i=0; i<[directionIds count]; i++) {
-			NSString * key = [directionIds objectAtIndex:i];
-			NSString * imageName = [NSString stringWithFormat:@"BusStopIcon%@.png",key];
-			UIImage * image = [UIImage imageNamed:imageName];
-			[_busStopIcons setObject:image forKey:key];
-		}
-		
-		_locationAnnotation = nil;
-		
-		_firstView = TRUE;
-	}
-	
-	return self;
-}
+@synthesize appContext = _appContext;
+@synthesize mapView = _mapView;
+@synthesize searchTypeControl = _searchTypeControl;
+@synthesize listButton = _listButton;
 
 -(void) dealloc {
-	
 	[_appContext release];
-	[_context release];
 	
+	[_activityIndicatorView release];
+	
+	[_searchController cancelOpenConnections];
 	[_searchController release];
+	
 	[_mapView release];
 	[_listButton release];
-	
-	[_busStopIcons release];
-	[_busStopIcon release];
-	
 	[_searchTypeControl release];
 	[_locationAnnotation release];
 	
+	[_busStopIcons release];
+	[_busStopIcon release];
+		
 	[super dealloc];
 }
 
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-	[super loadView];
-	
-	_mapView = [[MKMapView alloc]initWithFrame:CGRectMake(0.0, 0.0, 120, 180)];
-	
-	// Center our map on our most recent location, or a default if not present
-	CLLocationCoordinate2D defaultCenter = {0,0};
-	MKCoordinateRegion region = MKCoordinateRegionMake(defaultCenter,MKCoordinateSpanMake(180, 180));
+- (void) viewDidLoad {
 
-	OBAModelDAO * modelDao = _appContext.modelDao;
-	CLLocation * mostRecentLocation = modelDao.mostRecentLocation;
+	[super viewDidLoad];
 	
-	if( mostRecentLocation )
-		region = [OBASphericalGeometryLibrary createRegionWithCenter:mostRecentLocation.coordinate latRadius:kDefaultMapRadius lonRadius:kDefaultMapRadius];
+
+	[self loadIcons];
+	[self centerMapOnMostRecentLocation];
 	
-	region = [_mapView regionThatFits:region];
-	_mapView.region = region;
+	_searchController = [[OBASearchControllerImpl alloc] initWithAppContext:_appContext];
 	
-	self.view = _mapView;
+	CGRect indicatorBounds = CGRectMake(12, 12, 32, 32);
+	_activityIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:indicatorBounds];
+	_activityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+	_activityIndicatorView.hidesWhenStopped = TRUE;
+	[self.view addSubview:_activityIndicatorView];
+	
+	_locationAnnotation = nil;
+	_firstView = TRUE;
+	
+	_searchController.delegate = self;	
+	_searchController.progress.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-	
+	/*
 	_mapView.delegate = self;	
 	[_appContext.locationManager addDelegate:self];
 	
@@ -167,12 +127,22 @@ static const NSUInteger kShowNClosestStops = 4;
 		[self reloadData];
 		_firstView = FALSE;
 	}
+	*/
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	_mapView.delegate = nil;
 	[_appContext.locationManager removeDelegate:self];
+}
+
+#pragma mark OBANavigationTargetAware
+
+- (OBANavigationTarget*) navigationTarget {
+	return [_searchController getSearchTarget];
+}
+
+-(void) setNavigationTarget:(OBANavigationTarget*)target {
+	[_searchController searchWithTarget:target];
 }
 
 #pragma mark OBASearchControllerDelegate Methods
@@ -181,10 +151,37 @@ static const NSUInteger kShowNClosestStops = 4;
 	[self reloadData];
 }
 
+- (void) handleSearchControllerError:(NSError*)error {
+	NSLog(@"Problems!");
+	NSString * domain = [error domain];
+	if( domain == NSURLErrorDomain ) {
+		UIAlertView * view = [[UIAlertView alloc] init];
+		view.title = @"Error connecting";
+		view.message = @"There was a problem with your Internet connection.  Please check your network connection or try again in a bit.";
+		[view addButtonWithTitle:@"Ok"];
+		view.cancelButtonIndex = 0;
+		[view show];
+	}
+}
+
 #pragma mark OBALocationManagerDelegate Methods
 
 - (void) locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
 	[self refreshCurrentLocation];
+}
+
+#pragma mark OBAProgressIndicatorDelegate
+
+- (void) progressUpdated {
+	
+	id<OBAProgressIndicatorSource> progress = _searchController.progress;
+
+	if( progress.inProgress ) {
+		[_activityIndicatorView startAnimating];
+	}
+	else {
+		[_activityIndicatorView stopAnimating];
+	}
 }
 
 #pragma mark MKMapViewDelegate Methods
@@ -198,7 +195,7 @@ static const NSUInteger kShowNClosestStops = 4;
 		
 		MKAnnotationView * view = [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
 		if( view == nil ) {
-			view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
+			view = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId] autorelease];
 		}
 		view.canShowCallout = TRUE;
 		view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
@@ -209,7 +206,7 @@ static const NSUInteger kShowNClosestStops = 4;
 		static NSString * viewId = @"NavigationTargetView";
 		MKPinAnnotationView * view = (MKPinAnnotationView*) [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
 		if( view == nil ) {
-			view = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
+			view = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId] autorelease];
 		}
 		
 		view.canShowCallout = TRUE;
@@ -224,7 +221,7 @@ static const NSUInteger kShowNClosestStops = 4;
 		static NSString * viewId = @"NavigationTargetView";
 		MKPinAnnotationView * view = (MKPinAnnotationView*) [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
 		if( view == nil ) {
-			view = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
+			view = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId] autorelease];
 		}
 		
 		OBANavigationTargetAnnotation * nav = annotation;
@@ -246,7 +243,7 @@ static const NSUInteger kShowNClosestStops = 4;
 			
 			MKAnnotationView * view = [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
 			if( view == nil ) {
-				view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
+				view = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId] autorelease];
 			}
 			view.canShowCallout = FALSE;
 			view.image = [UIImage imageNamed:@"BlueMarker.png"];
@@ -297,22 +294,43 @@ static const NSUInteger kShowNClosestStops = 4;
 	}
 }
 
-#pragma mark OBANavigationTargetAware
-
-- (OBANavigationTarget*) navigationTarget {
-	return [_searchController getSearchTarget];
-}
-
--(void) setNavigationTarget:(OBANavigationTarget*)target {
-	[_searchController searchWithTarget:target];
-}
-
 @end
 
 
 #pragma mark OBASearchMapViewController Private Methods
 
 @implementation OBASearchResultsMapViewController (Private)
+
+- (void) loadIcons {
+
+	_busStopIcon = [[UIImage imageNamed:@"BusStopIcon.png"] retain];
+	_busStopIcons = [[NSMutableDictionary alloc] init];
+	
+	NSArray * directionIds = [NSArray arrayWithObjects:@"N",@"NE",@"E",@"SE",@"S",@"SW",@"W",@"NW",nil];
+	
+	for( int i=0; i<[directionIds count]; i++) {
+		NSString * key = [directionIds objectAtIndex:i];
+		NSString * imageName = [NSString stringWithFormat:@"BusStopIcon%@.png",key];
+		UIImage * image = [UIImage imageNamed:imageName];
+		[_busStopIcons setObject:image forKey:key];
+	}	
+}
+
+- (void) centerMapOnMostRecentLocation {
+	
+	// Center our map on our most recent location, or a default if not present
+	CLLocationCoordinate2D defaultCenter = {0,0};
+	MKCoordinateRegion region = MKCoordinateRegionMake(defaultCenter,MKCoordinateSpanMake(180, 180));
+	
+	OBAModelDAO * modelDao = _appContext.modelDao;
+	CLLocation * mostRecentLocation = modelDao.mostRecentLocation;
+	
+	if( mostRecentLocation ) {
+		region = [OBASphericalGeometryLibrary createRegionWithCenter:mostRecentLocation.coordinate latRadius:kDefaultMapRadius lonRadius:kDefaultMapRadius];	
+		region = [_mapView regionThatFits:region];
+		_mapView.region = region;
+	}
+}
 
 - (void) refreshCurrentLocation {
 	

@@ -38,6 +38,7 @@
 	NSArray * _predictedArrivals;
 	OBAProgressIndicatorImpl * _progress;
 	NSError * _error;
+	NSTimer * _timer;
 }
 
 @property (retain,readwrite) OBAStop * stop;

@@ -55,6 +55,18 @@ static const double kKeyTimeout = 3.0;
 	[_appContext release];
 	[_key release];
 	[_timer release];
+	
+	[_button0 release];
+	[_button1 release];
+	[_button2 release];
+	[_button3 release];
+	[_button4 release];
+	[_button5 release];
+	[_button6 release];
+	[_button7 release];
+	[_button8 release];
+	[_button9 release];
+	
     [super dealloc];
 }
 

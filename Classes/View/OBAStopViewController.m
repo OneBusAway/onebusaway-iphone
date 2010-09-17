@@ -17,6 +17,7 @@
 #import "OBAStopViewController.h"
 #import "OBALogger.h"
 #import "OBAArrivalAndDeparture.h"
+#import "OBAStopPreferences.h"
 
 #import "OBAUIKit.h"
 
@@ -83,8 +84,9 @@ typedef enum {
 
 - (void)dealloc {
 
-	[_context release];
+	[_source cancelOpenConnections];
 	[_source release];
+	
 	[_allArrivals release];
 	[_filteredArrivals release];
 	
@@ -101,10 +103,6 @@ typedef enum {
 
 - (void) setNavigationTarget:(OBANavigationTarget*)navigationTarget {
 	[_source setSearchTarget:navigationTarget];
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -19,7 +19,7 @@
 
 @implementation OBATextFieldTableViewCell
 
-@synthesize textField;
+@synthesize textField = _textField;
 
 + (OBATextFieldTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView {
 	static NSString * kCellId = @"OBATextFieldTableViewCell";
@@ -36,15 +36,8 @@
 	return cell;	
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
-
 - (void)dealloc {
+	[_textField release];
     [super dealloc];
 }
 

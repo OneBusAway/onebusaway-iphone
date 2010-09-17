@@ -22,6 +22,8 @@
 
 @implementation OBASettingsViewController
 
+@synthesize appContext = _appContext;
+
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		_appContext = [appContext retain];

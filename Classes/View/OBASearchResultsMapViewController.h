@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-//#import <UIKit/UIKit.h>
-#import "OBAViewContext.h"
+#import "OBAApplicationContext.h"
 #import "OBANavigationTargetAware.h"
 #import "OBAStop.h"
 #import "OBALocationManager.h"
@@ -24,28 +23,35 @@
 #import "OBAGenericAnnotation.h"
 
 @class OBASearchControllerImpl;
-@class OBAProgressIndicatorView;
 
-@interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware,OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate> {
+@interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware,OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate> {
 	
 	OBAApplicationContext * _appContext;
-	OBAViewContext * _context;
 	
 	OBASearchControllerImpl * _searchController;
 	
 	MKMapView * _mapView;
-
-	NSMutableDictionary * _busStopIcons;
-	UIImage * _busStopIcon;
-	
 	UISegmentedControl * _searchTypeControl;
 	UIBarButtonItem * _listButton;
 	
 	OBAGenericAnnotation * _locationAnnotation;
 	
+	UIImage * _busStopIcon;
+	NSMutableDictionary * _busStopIcons;
+	
+	UIActivityIndicatorView * _activityIndicatorView;
+	
 	BOOL _firstView;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)context;
+//- (id) initWithApplicationContext:(OBAApplicationContext*)context;
+
+@property (nonatomic,retain) IBOutlet OBAApplicationContext * appContext;
+@property (nonatomic,retain) IBOutlet MKMapView * mapView;
+@property (nonatomic,retain) IBOutlet UISegmentedControl * searchTypeControl;
+@property (nonatomic,retain) IBOutlet UIBarButtonItem * listButton;
+
+-(IBAction) onSearchTypeController:(id)sender;
+-(IBAction) onListButton:(id)sender;
 
 @end

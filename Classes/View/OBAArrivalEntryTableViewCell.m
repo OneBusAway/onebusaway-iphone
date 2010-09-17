@@ -19,20 +19,13 @@
 
 @implementation OBAArrivalEntryTableViewCell
 
-@synthesize routeLabel;
-@synthesize destinationLabel;
-@synthesize timeLabel;
-@synthesize minutesLabel;
-
-- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier]) {
-        // Initialization code
-    }
-    return self;
-}
+@synthesize routeLabel = _routeLabel;
+@synthesize destinationLabel = _destinationLabel;
+@synthesize timeLabel = _timeLabel;
+@synthesize minutesLabel = _minutesLabel;
 
 + (OBAArrivalEntryTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView {
-
+	
 	static NSString *cellId = @"OBAArrivalEntryTableViewCell";
 	
 	// Try to retrieve from the table view a now-unused cell with the given identifier
@@ -47,18 +40,12 @@
 	return cell;
 }
 
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
-
 - (void)dealloc {
+	[_routeLabel release];
+	[_destinationLabel release];
+	[_timeLabel release];
+	[_minutesLabel release];
     [super dealloc];
 }
-
 
 @end

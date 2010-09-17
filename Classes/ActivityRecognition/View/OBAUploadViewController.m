@@ -52,6 +52,11 @@
 
 - (void)dealloc {
 	[_uploadManager release];
+	
+	[_tracesOnDiskLabel release];
+	[_tracesOnServerLabel release];
+	[_tracesToUploadLabel release];
+	
     [super dealloc];
 }
 

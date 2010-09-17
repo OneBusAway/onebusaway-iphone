@@ -61,7 +61,7 @@ const BOOL kIncludeUWActivityInferenceCode = FALSE;
 + (NSString*) getTimeAsString {
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];	
 	[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-	[dateFormatter setDateStyle:NSDateFormatterShortStyle];	
+	[dateFormatter setDateStyle:kCFDateFormatterNoStyle];	
 	NSString * result = [dateFormatter stringFromDate:[NSDate date]];
 	[dateFormatter release];
 	return result;

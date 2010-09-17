@@ -23,8 +23,6 @@
 	NSArray * _bookmarks;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext;
-
-//- (IBAction)touchEditButton: (id) sender;
+@property (nonatomic,retain) IBOutlet OBAApplicationContext * appContext;
 
 @end

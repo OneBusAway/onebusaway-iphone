@@ -18,8 +18,8 @@
 #import "OBAStop.h"
 
 @interface OBAStopTableViewCell : UITableViewCell {
-	UILabel * mainLabel;
-	UILabel * subLabel;
+	UILabel * _mainLabel;
+	UILabel * _subLabel;
 }
 
 @property (nonatomic,retain) IBOutlet UILabel * mainLabel;
@@ -27,7 +27,5 @@
 
 + (OBAStopTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView;
 - (void) setStop:(OBAStop*)stop;
-
-
 
 @end

@@ -15,7 +15,6 @@
  */
 
 #import "OBAApplicationContext.h"
-#import "OBAViewContext.h"
 #import "OBANavigationTargetAware.h"
 #import "OBALogger.h"
 
@@ -40,7 +39,7 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 
 @interface OBAApplicationContext (Private)
 
-- (void) setup:(NSError**)error;
+- (void) setup;
 - (void) teardown;
 
 - (void) saveApplicationNavigationState;
@@ -56,8 +55,6 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 
 @implementation OBAApplicationContext
 
-@synthesize modelDao = _modelDao;
-@synthesize modelFactory = _modelFactory;
 @synthesize locationManager = _locationManager;
 @synthesize activityListeners = _activityListeners;
 
@@ -69,15 +66,14 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 
 - (id) init {
 	if( self = [super init] ) {
+
+		_setup = FALSE;
+		
 		_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://api.onebusaway.org" args:@"key=org.onebusaway.iphone"];		
 		//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://localhost:8080/onebusaway-api-webapp" args:@"key=org.onebusaway.iphone"];
-		//_jsonDataSource = [[OBAJsonDataSource alloc] initWithBaseUrl:@"http://beta.onebusaway.org" withBaseArgs:@"key=org.onebusaway.iphone"];
-		//_jsonDataSource = [[OBAJsonDataSource alloc] initWithBaseUrl:@"http://localhost:8080/org.onebusaway" withBaseArgs:@"key=org.onebusaway.iphone"];
-		
 		_googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://maps.google.com" args:@"output=json&oe=utf-8&key=ABQIAAAA1R_R0bUhLYRwbQFpKHVowhRAXGY6QyK0faTs-0G7h9EE_iri4RRtKgRdKFvvraEP5PX_lP_RlqKkzA"];
 		
-		_locationManager = [[OBALocationManager alloc] init];
-		
+		_locationManager = [[OBALocationManager alloc] init];		
 		_activityListeners = [[OBAActivityListeners alloc] init];		
 		
 		if( kIncludeUWActivityInferenceCode ) {
@@ -104,7 +100,6 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	
 	[_window release];
 	[_tabBarController release];
-	[_searchResultsMapViewController release];
 	
 	[super dealloc];
 }
@@ -112,60 +107,41 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget {
 	
 	switch (navigationTarget.target) {
-		case OBANavigationTargetTypeSearchResults:
-			[_searchResultsMapViewController setNavigationTarget:navigationTarget];
+		case OBANavigationTargetTypeSearchResults: {
+			UINavigationController * mapNavController = [_tabBarController.viewControllers objectAtIndex:0];
+			OBASearchResultsMapViewController * searchResultsMapViewController = [mapNavController.viewControllers objectAtIndex:0];
+			[searchResultsMapViewController setNavigationTarget:navigationTarget];
 			_tabBarController.selectedIndex = 0;
-			UINavigationController * rootNavController =  [_tabBarController.viewControllers objectAtIndex:0];
-			[rootNavController  popToRootViewControllerAnimated:FALSE];
+			[mapNavController  popToRootViewControllerAnimated:FALSE];
 			break;
+		}
 	}
 }
+
+- (OBAModelDAO*) modelDao {
+	if( ! _modelDao )
+		[self setup];
+	return _modelDao;
+}
+
+- (OBAModelFactory*) modelFactory {
+	if( ! _modelFactory )
+		[self setup];
+	return _modelFactory;
+}
+
 
 #pragma mark UIApplicationDelegate Methods
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {	
 	
-	NSError * error = nil;
-	[self setup:&error];
-	if( error ) {
-		NSLog(@"Bad!");
-	}
-	
-	_searchResultsMapViewController = [[OBASearchResultsMapViewController alloc] initWithApplicationContext:self];
-	UINavigationController * mapNav = [[UINavigationController alloc] initWithRootViewController:_searchResultsMapViewController];
-	mapNav.tabBarItem.title = @"Map";
-	mapNav.tabBarItem.image = [UIImage imageNamed:@"CrossHairs.png"];
-	
-	OBABookmarksViewController * bookmarksViewController = [[OBABookmarksViewController alloc] initWithApplicationContext:self];
-	UINavigationController * bookmarksNav = [[UINavigationController alloc] initWithRootViewController:bookmarksViewController];
-	bookmarksNav.tabBarItem.title = @"Bookmarks";
-	bookmarksNav.tabBarItem.image = [UIImage imageNamed:@"Bookmarks.png"];
-	
-	OBARecentStopsViewController * recentStopsViewController = [[OBARecentStopsViewController alloc] initWithApplicationContext:self];
-	UINavigationController * recentStopsNav = [[UINavigationController alloc] initWithRootViewController:recentStopsViewController];
-	recentStopsNav.tabBarItem.title = @"Recent";
-	recentStopsNav.tabBarItem.image = [UIImage imageNamed:@"Clock.png"];
-	
-	OBASearchViewController * searchViewController = [[OBASearchViewController alloc] initWithApplicationContext:self];
-	UINavigationController * searchNav = [[UINavigationController alloc] initWithRootViewController:searchViewController];
-	searchNav.tabBarItem.title = @"Search";
-	searchNav.tabBarItem.image = [UIImage imageNamed:@"MagnifyingGlass.png"];
-	
-	OBASettingsViewController * settingsViewController = [[OBASettingsViewController alloc] initWithApplicationContext:self];
-	UINavigationController * settingsNav = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
-	settingsNav.tabBarItem.title = @"Settings";
-	settingsNav.tabBarItem.image = [UIImage imageNamed:@"Gear.png"];
-	
-	NSArray * viewControllers = [NSArray arrayWithObjects: mapNav, bookmarksNav, recentStopsNav, searchNav, settingsNav, nil];
-	[_tabBarController setViewControllers:viewControllers animated:TRUE];
+	[self setup];
 	
 	_tabBarController.delegate = self;
-	
-	[bookmarksViewController release];
-	
+
 	UIView * rootView = [_tabBarController view];
 	[_window addSubview:rootView];
-	[_window makeKeyWindow];
+	[_window makeKeyAndVisible];
 	
 	OBANavigationTarget * navTarget = [OBASearchControllerFactory getNavigationTargetForSearchCurrentLocation];
 	[self navigateToTarget:navTarget];
@@ -174,7 +150,6 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-	NSLog(@"Application: Terminate!");
 	
 	CLLocation * location = _locationManager.currentLocation;
 	if( location )
@@ -182,14 +157,6 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	
 	[self saveApplicationNavigationState];	
 	[self teardown];
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-	NSLog(@"Application: Active!");	
-}
-
-- (void)applicationWillResignActive:(UIApplication *)application {
-	NSLog(@"Application: IN-Active!");		
 }
 
 #pragma mark UITabBarControllerDelegate Methods
@@ -205,7 +172,13 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 
 @implementation OBAApplicationContext (Private)
 
-- (void) setup:(NSError**)error {
+- (void) setup {
+	
+	if( _setup )
+		return;
+	
+	_setup = TRUE;
+	NSError * error = nil;
 	
 	NSManagedObjectModel * managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
 	NSPersistentStoreCoordinator * persistentStoreCoordinator = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: managedObjectModel] autorelease];
@@ -216,23 +189,23 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	
 	// Delete model on startup?
 	if( kDeleteModelOnStartup ) {
-		if( ! [manager removeItemAtPath:path error:error] ) {
-			OBALogSevereWithError(*error,@"Error deleting file: %@",path);
+		if( ! [manager removeItemAtPath:path error:&error] ) {
+			OBALogSevereWithError(error,@"Error deleting file: %@",path);
 			return;
 		}	
 	}
 	
-	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:error]) {
+	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
 		
-		OBALogSevereWithError(*error,@"Error adding persistent store coordinator");
+		OBALogSevereWithError(error,@"Error adding persistent store coordinator");
 		
-		if( ! [manager removeItemAtPath:path error:error] ) {
-			OBALogSevereWithError(*error,@"Error deleting file: %@",path);
+		if( ! [manager removeItemAtPath:path error:&error] ) {
+			OBALogSevereWithError(error,@"Error deleting file: %@",path);
 			return;
 		}
 		else {
-			if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:error]) {				
-				OBALogSevereWithError(*error,@"Error adding persistent store coordinator (x2)");
+			if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {				
+				OBALogSevereWithError(error,@"Error adding persistent store coordinator (x2)");
 				return;
 			}
 		}
@@ -242,9 +215,11 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	[_managedObjectContext setPersistentStoreCoordinator: persistentStoreCoordinator];
 	
 	_modelDao = [[OBAModelDAO alloc] initWithManagedObjectContext:_managedObjectContext];
-	[_modelDao setup:error];
-	if( *error )
+	[_modelDao setup:&error];
+	if( error ) {
+		OBALogSevereWithError(error,@"Error on model dao setup");
 		return;
+	}
 	
 	[_activityListeners addListener:_modelDao];
 	
@@ -347,6 +322,7 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 			break;		
 		[self setNavigationTarget:nextTarget forViewController:nextViewController];
 		[rootNavController pushViewController:nextViewController animated:TRUE];
+		[nextViewController release];
 	}
 }
 
@@ -363,15 +339,15 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	
 	switch(target.target) {
 		case OBANavigationTargetTypeStop:
-			return [[[OBAStopViewController alloc] initWithApplicationContext:self] autorelease];
+			return [[OBAStopViewController alloc] initWithApplicationContext:self];
 		case OBANavigationTargetTypeActivityLogging:
-			return [[[OBAActivityLoggingViewController alloc] initWithApplicationContext:self] autorelease];
+			return [[OBAActivityLoggingViewController alloc] initWithApplicationContext:self];
 		case OBANavigationTargetTypeActivityAnnotation:
-			return [[[OBAActivityAnnotationViewController alloc] initWithApplicationContext:self] autorelease];
+			return [[OBAActivityAnnotationViewController alloc] initWithApplicationContext:self];
 		case OBANavigationTargetTypeActivityUpload:
-			return [[[OBAUploadViewController alloc] initWithApplicationContext:self] autorelease];
+			return [[OBAUploadViewController alloc] initWithApplicationContext:self];
 		case OBANavigationTargetTypeActivityLock:
-			return [[[OBALockViewController alloc] initWithApplicationContext:self] autorelease];
+			return [[OBALockViewController alloc] initWithApplicationContext:self];
 	}
 	
 	return nil;

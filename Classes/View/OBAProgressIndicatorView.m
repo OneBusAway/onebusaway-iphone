@@ -40,6 +40,10 @@
 
 - (void)dealloc {
 	[self setSource:nil];
+	[_label release];
+	[_progressLabel release];
+	[_activityIndicator release];
+	[_progressView release];
     [super dealloc];
 }
 

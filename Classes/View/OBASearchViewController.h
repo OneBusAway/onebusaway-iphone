@@ -38,12 +38,11 @@ typedef enum {
 	NSString * _stopIdSavedValue;
 }
 
+@property (nonatomic,retain) IBOutlet OBAApplicationContext * appContext;
 @property (nonatomic,retain) IBOutlet UISegmentedControl * searchTypeControl;
 @property (nonatomic,retain) IBOutlet UITextField * searchField;
 
 + (NSDictionary*) getParametersForSearchType:(OBASearchType)searchType;
-
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext;
 
 - (IBAction) onSearchTypeButton:(id)sender;
 - (IBAction) onCancelButton:(id)sender;

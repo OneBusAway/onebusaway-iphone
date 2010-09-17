@@ -32,6 +32,7 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 
 @implementation OBASearchViewController
 
+@synthesize appContext = _appContext;
 @synthesize searchTypeControl = _searchTypeControl;
 @synthesize searchField = _searchField;
 
@@ -39,24 +40,13 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 	return [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:searchType] forKey:kOBASearchType];
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext {
-	if( self = [super initWithStyle:UITableViewStyleGrouped] ) {
-		_appContext = [appContext retain];
-		_currentSearchType = OBASearchTypeByRoute;
-		/*
-		NSNumber * searchType = [target.parameters objectForKey:kOBASearchType];
-		if( searchType )
-			_currentSearchType = [searchType intValue];
-		*/
-		_navigationTarget = [[OBANavigationTarget alloc] initWithTarget:OBANavigationTargetTypeSearch];
-	}
-	return self;	   
-}
-
 - (void)dealloc {
+
 	[_appContext release];
 	[_navigationTarget release];
 	
+	[_searchTypeControl release];
+	[_searchField release];
 	[_searchCell release];
 	
 	[_routeSavedValue release];
@@ -69,7 +59,8 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	self.navigationItem.title = @"Search";
+	_currentSearchType = OBASearchTypeByRoute;
+	_navigationTarget = [[OBANavigationTarget alloc] initWithTarget:OBANavigationTargetTypeSearch];
 	
 	NSArray * nib1 = [[NSBundle mainBundle] loadNibNamed:@"OBASearchTableViewCell" owner:self options:nil];
 	_searchCell = [[nib1 objectAtIndex:0] retain];
@@ -93,7 +84,7 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-	[_searchField becomeFirstResponder];
+	//[_searchField becomeFirstResponder];
 }
 
 

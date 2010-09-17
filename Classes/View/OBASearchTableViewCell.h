@@ -18,9 +18,9 @@
 
 
 @interface OBASearchTableViewCell : UITableViewCell {
-	UISegmentedControl * searchTypes;
-	UITextField * searchField;
-	UIButton * cancelButton;
+	UISegmentedControl * _searchTypes;
+	UITextField * _searchField;
+	UIButton * _cancelButton;
 }
 
 @property (nonatomic,retain) IBOutlet UISegmentedControl * searchTypes;

@@ -18,10 +18,10 @@
 
 
 @interface OBAArrivalEntryTableViewCell : UITableViewCell {
-	UILabel * routeLabel;
-	UILabel * destinationLabel;
-	UILabel * timeLabel;
-	UILabel * minutesLabel;
+	UILabel * _routeLabel;
+	UILabel * _destinationLabel;
+	UILabel * _timeLabel;
+	UILabel * _minutesLabel;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel * routeLabel;

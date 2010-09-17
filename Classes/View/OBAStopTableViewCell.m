@@ -17,11 +17,10 @@
 #import "OBAStopTableViewCell.h"
 
 
-
 @implementation OBAStopTableViewCell
 
-@synthesize mainLabel;
-@synthesize subLabel;
+@synthesize mainLabel = _mainLabel;
+@synthesize subLabel = _subLabel;
 
 + (OBAStopTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView {
 
@@ -37,22 +36,15 @@
 	return cell;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
-- (void) setStop:(OBAStop*)stop {
-	mainLabel.text = stop.name;
-	subLabel.text = [NSString stringWithFormat:@"Stop # %@",stop.code];
-}
-
-
 - (void)dealloc {
+	[_mainLabel release];
+	[_subLabel release];
     [super dealloc];
 }
 
+- (void) setStop:(OBAStop*)stop {
+	_mainLabel.text = stop.name;
+	_subLabel.text = [NSString stringWithFormat:@"Stop # %@",stop.code];
+}
 
 @end

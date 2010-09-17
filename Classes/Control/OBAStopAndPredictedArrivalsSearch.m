@@ -76,6 +76,11 @@
 }
 
 - (void) cancelOpenConnections {
+	if( _timer ) {
+		[_timer invalidate];
+		[_timer release];
+		_timer = nil;
+	}
 	[_jsonDataSource cancelOpenConnections];
 }
 
@@ -84,6 +89,10 @@
 		NSString *url = [NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", _stopId];
 		[_progress setMessage:@"Connecting..." inProgress:TRUE progress:0];
 		[_jsonDataSource requestWithPath:url withArgs:nil withDelegate:self context:nil];	
+		if( ! _timer ) {
+			_timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:TRUE];
+			[_timer retain];
+		}
 	}
 }
 
@@ -122,7 +131,6 @@
 }
 
 - (void)connectionDidFail:(id<OBADataSourceConnection>)connection withError:(NSError *)error context:(id)context {
-	NSLog(@"Connection failed! Error - %@ %@", [error localizedDescription],[[error userInfo] objectForKey:NSErrorFailingURLStringKey]);	
 	self.error = error;
 	[_progress setMessage:@"Error connecting" inProgress:FALSE progress:0];
 }

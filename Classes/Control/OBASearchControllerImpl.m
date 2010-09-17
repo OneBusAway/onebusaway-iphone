@@ -64,7 +64,9 @@ static const float kSearchRadius = 400;
 -(void) firePlacemarks:(NSArray*)placemarks;
 -(void) fireStops:(NSArray*)stops placemarks:(NSArray*)placemarks limitExceeded:(BOOL)limitExceeded;
 -(void) fireAgenciesWithCoverage:(NSArray*)agenciesWithCoverage;
+
 -(void) fireUpdate:(OBASearchControllerResult*)result;
+-(void) fireError:(NSError*)error;
 
 - (NSString*) escapeStringForUrl:(NSString*)url;
 
@@ -90,7 +92,6 @@ static const float kSearchRadius = 400;
 		_searchType = OBASearchControllerSearchTypeNone;
 		_progress = [[OBAProgressIndicatorImpl alloc] init];
 		_locationManager = [context.locationManager retain];
-		_modelFactory = [context.modelFactory retain];
 		
 		_obaDataSource = [[OBAJsonDataSource alloc] initWithConfig:context.obaDataSourceConfig];
 		_googleMapsDataSource = [[OBAJsonDataSource alloc] initWithConfig:context.googleMapsDataSourceConfig];
@@ -106,7 +107,6 @@ static const float kSearchRadius = 400;
 	
 	[_progress release];
 	[_locationManager release];
-	[_modelFactory release];
 	
 	[_obaDataSource release];
 	[_googleMapsDataSource release];
@@ -204,7 +204,6 @@ static const float kSearchRadius = 400;
 }
 
 - (void) cancelOpenConnections {
-	NSLog(@"Canceling open connections from SearchController");
 	[_obaDataSource cancelOpenConnections];
 	[_googleMapsDataSource cancelOpenConnections];
 }
@@ -272,8 +271,8 @@ static const float kSearchRadius = 400;
 }
 
 - (void)connectionDidFail:(id<OBADataSourceConnection>)connection withError:(NSError *)localError context:(id)context {
-	NSLog(@"Connection failed! Error - %@ %@", [localError localizedDescription],[[localError userInfo] objectForKey:NSErrorFailingURLStringKey]);
 	[_progress setMessage:@"Error connecting" inProgress:FALSE progress:0];
+	[self fireError:localError];
 }
 
 @end
@@ -471,11 +470,12 @@ static const float kSearchRadius = 400;
 	if( ! data || [data isEqual:[NSNull null]])
 		return;
 	
+	OBAModelFactory * modelFactory = _appContext.modelFactory;
 	NSError * localError = nil;
-	NSArray * routes = [_modelFactory getRoutesFromJSONArray:data error:&localError];
+	NSArray * routes = [modelFactory getRoutesFromJSONArray:data error:&localError];
 	
 	if( localError ) {
-		self.error = localError;
+		[self fireError:localError];
 		return;
 	}
 	
@@ -501,11 +501,12 @@ static const float kSearchRadius = 400;
 	NSArray * stopsArray = [data objectForKey:@"stops"];
 	
 	if( stopsArray ) {
+		OBAModelFactory * modelFactory = _appContext.modelFactory;
 		NSError * localError = nil;	
-		NSArray * newStops = [_modelFactory getStopsFromJSONArray:stopsArray error:&localError];
+		NSArray * newStops = [modelFactory getStopsFromJSONArray:stopsArray error:&localError];
 		
 		if( localError ) {
-			self.error = localError;
+			[self fireError:localError];
 			return;
 		}
 		
@@ -523,11 +524,12 @@ static const float kSearchRadius = 400;
 	if( ! jsonObject )
 		return;
 	
+	OBAModelFactory * modelFactory = _appContext.modelFactory;
 	NSError * localError = nil;
-	NSArray * placemarks = [_modelFactory getPlacemarksFromJSONObject:jsonObject error:&localError];
+	NSArray * placemarks = [modelFactory getPlacemarksFromJSONObject:jsonObject error:&localError];
 	
 	if( localError ) {
-		self.error = localError;
+		[self fireError:localError];
 		return;
 	}
 	
@@ -555,11 +557,12 @@ static const float kSearchRadius = 400;
 	
 	NSArray * data = [jsonObject objectForKey:@"data"];
 	
+	OBAModelFactory * modelFactory = _appContext.modelFactory;
 	NSError * localError = nil;
-	NSArray * agenciesWithCoverage = [_modelFactory getAgenciesWithCoverageFromJson:data error:&localError];
+	NSArray * agenciesWithCoverage = [modelFactory getAgenciesWithCoverageFromJson:data error:&localError];
 	
 	if( localError ) {
-		self.error = localError;
+		[self fireError:localError];
 		return;
 	}
 	
@@ -568,12 +571,13 @@ static const float kSearchRadius = 400;
 
 -(NSArray*) parseStops:(NSArray*)stopArray {
 	
+	OBAModelFactory * modelFactory = _appContext.modelFactory;
 	NSError * localError = nil;	
-	NSArray * newStops = [_modelFactory getStopsFromJSONArray:stopArray error:&localError];
+	NSArray * newStops = [modelFactory getStopsFromJSONArray:stopArray error:&localError];
 	
 	if( localError ) {
 		OBALogSevereWithError(localError,@"This is bad");
-		self.error = localError;
+		[self fireError:localError];
 		return [NSArray array];
 	}
 	
@@ -623,6 +627,12 @@ static const float kSearchRadius = 400;
 	_result = [NSObject releaseOld:_result retainNew:result];
 	if( _delegate )
 		[_delegate handleSearchControllerUpdate:_result];
+}
+
+- (void) fireError:(NSError*)error {
+	self.error = error;
+	if( _delegate && [_delegate respondsToSelector:@selector(handleSearchControllerError:)] )
+		[_delegate handleSearchControllerError:error];
 }
 
 - (NSString*) escapeStringForUrl:(NSString*)url {

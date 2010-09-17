@@ -20,13 +20,12 @@
 #import "OBALocationManager.h"
 #import "OBAActivityListeners.h"
 #import "OBAActivityLogger.h"
-
 #import "OBANavigationTarget.h"
 
 
-@class OBASearchResultsMapViewController;
-
 @interface OBAApplicationContext : NSObject <UIApplicationDelegate,UITabBarControllerDelegate> {
+	
+	BOOL _setup;
 	
     NSManagedObjectContext * _managedObjectContext;  
 	
@@ -42,7 +41,6 @@
 	
 	UIWindow * _window;
 	UITabBarController * _tabBarController;
-	OBASearchResultsMapViewController * _searchResultsMapViewController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -50,6 +48,7 @@
 
 @property (nonatomic,readonly) OBAModelDAO * modelDao;
 @property (nonatomic,readonly) OBAModelFactory * modelFactory;
+
 @property (nonatomic,readonly) OBALocationManager * locationManager;
 @property (nonatomic,readonly) OBAActivityListeners * activityListeners;
 

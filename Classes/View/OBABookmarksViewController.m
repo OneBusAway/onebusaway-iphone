@@ -31,13 +31,7 @@
 
 @implementation OBABookmarksViewController
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext {
-	if( self = [super initWithStyle:UITableViewStyleGrouped] ) {
-		_appContext = [appContext retain];
-		[self refreshBookmarks];
-	}
-	return self;
-}
+@synthesize appContext = _appContext;
 
 - (void)dealloc {
 	[_appContext release];
@@ -48,10 +42,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	self.tableView.allowsSelection = TRUE;
-	self.tableView.allowsSelectionDuringEditing = TRUE;
+	//self.tableView.allowsSelection = TRUE;
+	//self.tableView.allowsSelectionDuringEditing = TRUE;
 
-	self.navigationItem.title = @"Bookmarks";
+	//self.navigationItem.title = @"Bookmarks";
 	self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 

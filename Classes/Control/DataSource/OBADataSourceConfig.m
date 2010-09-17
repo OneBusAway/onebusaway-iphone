@@ -53,7 +53,7 @@
 		}
 	}
 	
-	NSLog(@"url=%@",url);
+	//NSLog(@"url=%@",url);
 	
 	return [NSURL URLWithString:url];
 }

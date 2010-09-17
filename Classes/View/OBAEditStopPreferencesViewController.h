@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBAViewContext.h"
+#import "OBAApplicationContext.h"
 #import "OBAStop.h"
 #import "OBAStopPreferences.h"
 

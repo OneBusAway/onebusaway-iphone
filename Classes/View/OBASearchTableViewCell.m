@@ -18,30 +18,25 @@
 
 @implementation OBASearchTableViewCell
 
-@synthesize searchTypes;
-@synthesize searchField;
-@synthesize cancelButton;
+@synthesize searchTypes = _searchTypes;
+@synthesize searchField = _searchField;
+@synthesize cancelButton = _cancelButton;
 
 - (void) didMoveToSuperview {
 	if( ! self.searchField.leftView ) {
 
 		UIImage *leftImage = [ UIImage imageNamed: @"TextBox-MagnifyingGlass.png" ];
 		UIImageView * leftImageView = [[UIImageView alloc] initWithImage:leftImage];
-		self.searchField.leftView = leftImageView;
-		self.searchField.leftViewMode = UITextFieldViewModeAlways;
-		
-		self.searchField.clearButtonMode = UITextFieldViewModeWhileEditing;		
+		_searchField.leftView = leftImageView;
+		_searchField.leftViewMode = UITextFieldViewModeAlways;
+		_searchField.clearButtonMode = UITextFieldViewModeWhileEditing;		
 	}
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 - (void)dealloc {
+	[_searchTypes release];
+	[_searchField release];
+	[_cancelButton release];
     [super dealloc];
 }
 

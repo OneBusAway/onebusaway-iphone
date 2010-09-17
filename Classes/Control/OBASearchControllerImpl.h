@@ -31,7 +31,6 @@
 	id<OBASearchControllerDelegate> _delegate;
 	
 	OBALocationManager * _locationManager;	
-	OBAModelFactory * _modelFactory;
 	
 	OBAJsonDataSource * _obaDataSource;
 	OBAJsonDataSource * _googleMapsDataSource;
