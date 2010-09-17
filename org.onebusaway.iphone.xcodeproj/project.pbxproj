@@ -164,7 +164,6 @@
 		D65CDC020FEC4753008257AD /* OBAUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D65CDBFF0FEC4753008257AD /* OBAUploadManager.m */; };
 		D65D5010102DF2F400434A89 /* OBAStopOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D65D500F102DF2F400434A89 /* OBAStopOptionsViewController.m */; };
 		D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */; };
-		D66704A411626FAB00CE5B23 /* LocationTraceDisabled.plist in Resources */ = {isa = PBXBuildFile; fileRef = D66704A311626FAB00CE5B23 /* LocationTraceDisabled.plist */; };
 		D66842FC0FEA01F800C681B6 /* OBADataSourceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = D66842FB0FEA01F800C681B6 /* OBADataSourceConfig.m */; };
 		D66843040FEA03E800C681B6 /* OBAJsonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D66843030FEA03E800C681B6 /* OBAJsonDataSource.m */; };
 		D6686A6E0FD9ABD40097F034 /* OBAProgressIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = D6686A6D0FD9ABD40097F034 /* OBAProgressIndicatorView.m */; };
@@ -481,7 +480,6 @@
 		D65D500E102DF2F400434A89 /* OBAStopOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAStopOptionsViewController.h; path = View/OBAStopOptionsViewController.h; sourceTree = "<group>"; };
 		D65D500F102DF2F400434A89 /* OBAStopOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAStopOptionsViewController.m; path = View/OBAStopOptionsViewController.m; sourceTree = "<group>"; };
 		D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		D66704A311626FAB00CE5B23 /* LocationTraceDisabled.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LocationTraceDisabled.plist; path = Resources/LocationTraceDisabled.plist; sourceTree = "<group>"; };
 		D66842FA0FEA01F800C681B6 /* OBADataSourceConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBADataSourceConfig.h; path = Control/DataSource/OBADataSourceConfig.h; sourceTree = "<group>"; };
 		D66842FB0FEA01F800C681B6 /* OBADataSourceConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBADataSourceConfig.m; path = Control/DataSource/OBADataSourceConfig.m; sourceTree = "<group>"; };
 		D66842FF0FEA02BC00C681B6 /* OBADataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBADataSource.h; path = Control/DataSource/OBADataSource.h; sourceTree = "<group>"; };
@@ -672,7 +670,6 @@
 				D656D6730FD44E8E00ADE4D5 /* AppIcon.png */,
 				D6CFB1411032229F00005000 /* Default.png */,
 				8D1107310486CEB800E47090 /* Info.plist */,
-				D66704A311626FAB00CE5B23 /* LocationTraceDisabled.plist */,
 				D62AC46410A4F6D300CE9212 /* OBAModel.xcdatamodeld */,
 				D68EE1A610444BF900B3A180 /* Settings.bundle */,
 			);
@@ -1345,7 +1342,6 @@
 				D6A346FB115A8B2200ACF54F /* FerryStopIconSW.png in Resources */,
 				D6A346FC115A8B2200ACF54F /* FerryStopIconW.png in Resources */,
 				D6A3470A115A8CEA00ACF54F /* FerryStopIconSE.png in Resources */,
-				D66704A411626FAB00CE5B23 /* LocationTraceDisabled.plist in Resources */,
 				D6177E1211A3CAEA00889414 /* .licences.readme in Resources */,
 				D6177E1311A3CAEA00889414 /* 18-envelope.png in Resources */,
 				D6177E1411A3CAEA00889414 /* 48px-Crystal_Clear_action_flag.png in Resources */,
