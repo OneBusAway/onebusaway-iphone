@@ -25,6 +25,6 @@
 		   
 - (id) initWithUrl:(NSString*)url args:(NSString*)args;
 
--(NSURL*) constructURL:(NSString*)path withArgs:(NSString*)args;
+-(NSURL*) constructURL:(NSString*)path withArgs:(NSString*)args includeArgs:(BOOL)includeArgs;
 
 @end

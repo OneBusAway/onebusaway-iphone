@@ -4,6 +4,9 @@
 #import "OBATextEditViewController.h"
 #import "OBALabelAndSwitchTableViewCell.h"
 #import "OBALabelAndTextFieldTableViewCell.h"
+#import "OBALogger.h"
+#import "SBJSON.h"
+
 
 typedef enum {
 	OBASectionTypeNone,	
@@ -23,11 +26,15 @@ typedef enum {
 
 - (NSString*) getVehicleTypeLabeForTripDetails:(OBATripDetailsV2*)tripDetails;
 
+- (void) submit;
+- (NSString*) getProblemAsData;
+
 @end
 
 
 @implementation OBAReportAProblemViewController
 
+@synthesize currentStopId;
 
 #pragma mark -
 #pragma mark Initialization
@@ -58,6 +65,7 @@ typedef enum {
 		_problemNames = [problemNames retain];
 		[problemNames release];
 		
+		_progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];		
     }
     return self;
 }
@@ -66,6 +74,7 @@ typedef enum {
 	[_appContext release];
 	[_problemNames release];
 	[_comment release];
+	[_progressView release];
     [super dealloc];
 }
 
@@ -189,6 +198,10 @@ typedef enum {
 			break;
 		}
 			
+		case OBASectionTypeSubmit: {
+			[self submit];
+		}
+			
 		default:
 			break;
 	}
@@ -202,6 +215,27 @@ typedef enum {
 	return YES;
 }
 
+#pragma mark OBAModelServiceDelegate
+
+- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
+	[self.navigationController popViewControllerAnimated:TRUE];
+}
+
+- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
+	[_progressView removeFromSuperview];
+}
+
+- (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
+	OBALogSevereWithError(error,@"problem posting problem");
+	[_progressView removeFromSuperview];
+}
+
+- (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
+	[_progressView setProgress:progress];
+}
+
+
+#pragma mark Other methods
 
 - (void) setProblem:(NSIndexPath*)indexPath {
 	_problemIndex = indexPath.row;
@@ -223,8 +257,8 @@ typedef enum {
 }
 
 - (void) setVehicleNumber:(id) obj {
-	UITextField * textField = obj;
-	_vehicleNumber = [textField text];
+	UITextField * textField = obj;	
+	_vehicleNumber = [NSObject releaseOld:_vehicleNumber retainNew:[textField text]];
 }
 
 @end
@@ -308,6 +342,60 @@ typedef enum {
 		default:
 			return @"vehicle";
 	}
+}
+
+- (void) submit {
+
+	OBAReportProblemWithTripV2 * problem = [[OBAReportProblemWithTripV2 alloc] init];
+	problem.tripId = _tripDetails.tripId;
+	problem.serviceDate = _tripDetails.status.serviceDate;
+	problem.stopId = self.currentStopId;
+	problem.data = [self getProblemAsData];
+	problem.userComment = _comment;
+	problem.userOnVehicle = _onVehicle;
+	problem.userVehicleNumber = _vehicleNumber;
+	problem.userLocation = _appContext.locationManager.currentLocation;
+	
+	
+	[self.view addSubview:_progressView];
+	
+	[_appContext.modelService reportProblemWithTrip:problem withDelegate:self withContext:nil];
+	
+	[problem release];
+}
+
+- (NSString*) getProblemAsData {
+
+	NSMutableDictionary * p = [[NSMutableDictionary alloc] init];
+	[p setObject:[_problemNames objectAtIndex:_problemIndex] forKey:@"text"];
+	NSString * code = nil;
+	
+	switch (_problemIndex) {
+		case 0:
+			code = @"vehicle_never_came";
+			break;
+		case 1:
+			code = @"vehicle_came_early";
+			break;
+		case 2:
+			code = @"vehicle_came_late";
+			break;
+		case 3:
+			code = @"wrong_headsign";
+			break;
+		default:
+			code = @"other";
+			break;
+	}
+
+	if (code)
+		[p setObject:code forKey:@"code"];
+	
+	SBJSON * json = [[SBJSON alloc] init];
+	NSString * v = [json stringWithObject:p];
+	[json release];
+	[p release];
+	return v;	
 }
 
 @end

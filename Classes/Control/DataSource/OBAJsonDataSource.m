@@ -16,6 +16,8 @@
 
 #import "OBAJsonDataSource.h"
 #import "SBJSON.h"
+#import "OBALogger.h"
+
 
 /****
  * Internal JsonUrlFetcher class that we pass on to our NSURLConnection
@@ -42,6 +44,9 @@
 @interface OBAJsonDataSource (Private)
 
 -(void) removeOpenConnection:(JsonUrlFetcherImpl*)connection;
+-(NSString*) constructFormBody:(NSDictionary*)args;
+-(NSString*) paramValueAsString:(id)value;
+-(NSString*) escapeParamValue:(NSString*)v;
 
 @end
 
@@ -70,7 +75,7 @@
 
 - (id<OBADataSourceConnection>) requestWithPath:(NSString*)path withArgs:(NSString*)args withDelegate:(id<OBADataSourceDelegate>)delegate context:(id)context {
 	
-	NSURL *feedURL = [_config constructURL:path withArgs:args];
+	NSURL *feedURL = [_config constructURL:path withArgs:args includeArgs:TRUE];
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:feedURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval: 20];
 	[request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"]; 
 	JsonUrlFetcherImpl * fetcher = [[JsonUrlFetcherImpl alloc] initWithSource:self withDelegate:delegate context:context];
@@ -82,9 +87,31 @@
 	return fetcher;
 }
 
+- (id<OBADataSourceConnection>) postWithPath:(NSString*)url withArgs:(NSDictionary*)args withDelegate:(NSObject<OBADataSourceDelegate>*)delegate context:(id)context {
+	
+	NSURL *targetUrl = [_config constructURL:url withArgs:nil includeArgs:FALSE];
+	NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:targetUrl];
+	[postRequest setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
+	[postRequest setHTTPMethod:@"POST"];
+	
+	NSString * formBody = [self constructFormBody:args];
+	[postRequest setHTTPBody:[formBody dataUsingEncoding:NSUTF8StringEncoding]];
+	
+	JsonUrlFetcherImpl * fetcher = [[JsonUrlFetcherImpl alloc] initWithSource:self withDelegate:delegate context:context];
+	fetcher.uploading = TRUE;
+
+	@synchronized(self) {
+		[_openConnections addObject:fetcher];		
+		[NSURLConnection connectionWithRequest:postRequest delegate:fetcher];
+	}
+	
+	return fetcher;
+}
+
+
 - (id<OBADataSourceConnection>) requestWithPath:(NSString*)url withArgs:(NSString*)args withFileUpload:(NSString*)path withDelegate:(NSObject<OBADataSourceDelegate>*)delegate context:(id)context {
 
-	NSURL *targetUrl = [_config constructURL:url withArgs:args];
+	NSURL *targetUrl = [_config constructURL:url withArgs:args includeArgs:TRUE];
 	NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:targetUrl];
 	//[postRequest setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
 	
@@ -131,6 +158,42 @@
 	@synchronized(self) {
 		[_openConnections removeObject:connection];
 	}
+}
+
+-(NSString*) constructFormBody:(NSDictionary*)args {
+	NSMutableString * body = [NSMutableString string];
+	if( _config.args )
+		[body appendString:_config.args];
+	for (NSString* paramName in args) {
+		id values = [args objectForKey:paramName];
+		if( ! [values isKindOfClass:[NSArray class]] )
+			values = [NSArray arrayWithObject:values];
+		
+		for( id paramValue in values ) {
+			if( [body length] > 0 )
+				[body appendString:@"&"];
+			[body appendString:paramName];
+			[body appendString:@"="];
+			NSString * stringValue = [self paramValueAsString:paramValue];
+			stringValue = [self escapeParamValue:stringValue];
+			[body appendString:stringValue];
+		}
+	}
+	
+	return body;
+}
+								   
+-(NSString*) paramValueAsString:(id)value {
+	if( [value isKindOfClass:[NSString class]] )
+		return value;
+	if( [value isKindOfClass:[NSNumber class]] )
+		return [value stringValue];
+	return [value description];
+}
+
+- (NSString *) escapeParamValue:(NSString *)s {
+	NSString *reserved = @";/?:@&=+$,";
+	return [NSMakeCollectable(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)s, NULL, (CFStringRef)reserved, kCFStringEncodingUTF8)) autorelease];
 }
 
 @end

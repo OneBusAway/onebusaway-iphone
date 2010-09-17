@@ -132,6 +132,7 @@
 		D64A42EC101E2E7D008F16CA /* SegmentedControl-CrossHairs.png in Resources */ = {isa = PBXBuildFile; fileRef = D64A42EB101E2E7D008F16CA /* SegmentedControl-CrossHairs.png */; };
 		D64A44AC101EA4D8008F16CA /* TextBox-MagnifyingGlass.png in Resources */ = {isa = PBXBuildFile; fileRef = D64A44AB101EA4D8008F16CA /* TextBox-MagnifyingGlass.png */; };
 		D64A4800101F53C7008F16CA /* Gear.png in Resources */ = {isa = PBXBuildFile; fileRef = D64A47FF101F53C7008F16CA /* Gear.png */; };
+		D64ACD091222D5CC00975FBE /* OBAReportProblemWithTripV2.m in Sources */ = {isa = PBXBuildFile; fileRef = D64ACD081222D5CC00975FBE /* OBAReportProblemWithTripV2.m */; };
 		D64C6F700FDF0FCD00F0C218 /* OBAProgressIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D64C6F6F0FDF0FCC00F0C218 /* OBAProgressIndicatorView.xib */; };
 		D64E836612049EFD000E6B2C /* OBAHasReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = D64E836512049EFD000E6B2C /* OBAHasReferencesV2.m */; };
 		D64E849C1205E0B9000E6B2C /* OBAArrivalAndDepartureV2.m in Sources */ = {isa = PBXBuildFile; fileRef = D64E849B1205E0B9000E6B2C /* OBAArrivalAndDepartureV2.m */; };
@@ -528,6 +529,8 @@
 		D64A42EB101E2E7D008F16CA /* SegmentedControl-CrossHairs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SegmentedControl-CrossHairs.png"; path = "Resources/Icons/SegmentedControl-CrossHairs.png"; sourceTree = "<group>"; };
 		D64A44AB101EA4D8008F16CA /* TextBox-MagnifyingGlass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TextBox-MagnifyingGlass.png"; path = "Resources/Icons/TextBox-MagnifyingGlass.png"; sourceTree = "<group>"; };
 		D64A47FF101F53C7008F16CA /* Gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Gear.png; path = Resources/Icons/Gear.png; sourceTree = "<group>"; };
+		D64ACD071222D5CC00975FBE /* OBAReportProblemWithTripV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAReportProblemWithTripV2.h; path = Model/V2/OBAReportProblemWithTripV2.h; sourceTree = "<group>"; };
+		D64ACD081222D5CC00975FBE /* OBAReportProblemWithTripV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAReportProblemWithTripV2.m; path = Model/V2/OBAReportProblemWithTripV2.m; sourceTree = "<group>"; };
 		D64C6F6F0FDF0FCC00F0C218 /* OBAProgressIndicatorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OBAProgressIndicatorView.xib; path = Resources/OBAProgressIndicatorView.xib; sourceTree = "<group>"; };
 		D64E836412049EFD000E6B2C /* OBAHasReferencesV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAHasReferencesV2.h; path = Model/V2/OBAHasReferencesV2.h; sourceTree = "<group>"; };
 		D64E836512049EFD000E6B2C /* OBAHasReferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAHasReferencesV2.m; path = Model/V2/OBAHasReferencesV2.m; sourceTree = "<group>"; };
@@ -1339,6 +1342,8 @@
 				D6E93838122123D10065ED03 /* OBATripStopTimeV2.m */,
 				D67816351222296D00FDED95 /* OBATripStatusV2.h */,
 				D67816361222296D00FDED95 /* OBATripStatusV2.m */,
+				D64ACD071222D5CC00975FBE /* OBAReportProblemWithTripV2.h */,
+				D64ACD081222D5CC00975FBE /* OBAReportProblemWithTripV2.m */,
 			);
 			name = V2;
 			sourceTree = "<group>";
@@ -1976,6 +1981,7 @@
 				D67816DC1222442D00FDED95 /* OBATripScheduleMapViewController.m in Sources */,
 				D67816F612224C1C00FDED95 /* OBAStopIconFactory.m in Sources */,
 				D678178C1222527F00FDED95 /* OBATripStopTimeMapAnnotation.m in Sources */,
+				D64ACD091222D5CC00975FBE /* OBAReportProblemWithTripV2.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

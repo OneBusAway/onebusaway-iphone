@@ -36,13 +36,14 @@
 	[super dealloc];
 }
 
--(NSURL*) constructURL:(NSString*)path withArgs:(NSString*)args {
+-(NSURL*) constructURL:(NSString*)path withArgs:(NSString*)args includeArgs:(BOOL)includeArgs {
 	
 	NSMutableString *url = [NSMutableString string];
 	if( _url )
 		[url appendString: _url];
 	[url appendString:path];
-	if( args || _args ) {
+	
+	if( includeArgs && (args || _args) ) {
 		[url appendString:@"?"];
 		if( _args )
 			[url appendString:_args];

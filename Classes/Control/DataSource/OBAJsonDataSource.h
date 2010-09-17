@@ -28,6 +28,7 @@
 - (id<OBADataSourceConnection>) requestWithPath:(NSString*)path withDelegate:(id<OBADataSourceDelegate>)delegate context:(id)context;
 - (id<OBADataSourceConnection>) requestWithPath:(NSString*)path withArgs:(NSString*)args withDelegate:(id<OBADataSourceDelegate>)delegate context:(id)context;
 - (id<OBADataSourceConnection>) requestWithPath:(NSString*)path withArgs:(NSString*)args withFileUpload:(NSString*)filePath withDelegate:(id<OBADataSourceDelegate>)delegate context:(id)context;
+- (id<OBADataSourceConnection>) postWithPath:(NSString*)url withArgs:(NSDictionary*)args withDelegate:(NSObject<OBADataSourceDelegate>*)delegate context:(id)context;
 
 - (void) cancelOpenConnections;
 

@@ -8,6 +8,7 @@
 #import "OBAStopV2.h"
 #import "OBANavigationTarget.h"
 #import "OBAPlacemark.h"
+#import "OBAReportProblemWithTripV2.h"
 
 
 @protocol OBAModelServiceRequest <NSObject>
@@ -54,5 +55,7 @@
 - (id<OBAModelServiceRequest>) requestAgenciesWithCoverageWithDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 
 - (id<OBAModelServiceRequest>) requestTripDetailsForId:(NSString*)tripId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+
+- (id<OBAModelServiceRequest>) reportProblemWithTrip:(OBAReportProblemWithTripV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 
 @end

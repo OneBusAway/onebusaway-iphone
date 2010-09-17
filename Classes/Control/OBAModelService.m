@@ -12,6 +12,13 @@ static const float kSearchRadius = 400;
 
 - (OBAModelServiceRequest*) request:(NSString*)url args:(NSString*)args selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context;
 - (OBAModelServiceRequest*) request:(OBAJsonDataSource*)source url:(NSString*)url args:(NSString*)args selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context;
+
+- (OBAModelServiceRequest*) post:(NSString*)url args:(NSDictionary*)args selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context;
+- (OBAModelServiceRequest*) post:(OBAJsonDataSource*)source url:(NSString*)url args:(NSDictionary*)args selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context;
+
+- (OBAModelServiceRequest*) request:(OBAJsonDataSource*)source selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context;
+
+
 - (CLLocation*) currentOrDefaultLocationToSearch;
 - (NSString*) escapeStringForUrl:(NSString*)url;
 
@@ -147,6 +154,44 @@ static const float kSearchRadius = 400;
 	return [self request:url args:args selector:selector delegate:delegate context:context];	
 }
 
+- (id<OBAModelServiceRequest>) reportProblemWithTrip:(OBAReportProblemWithTripV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+	
+	NSString * url = [NSString stringWithFormat:@"/api/where/report-problem-with-trip.json"];
+	
+	NSMutableDictionary * args = [[NSMutableDictionary alloc] init];
+	[args setObject:@"2" forKey:@"version"];
+	[args setObject:problem.tripId forKey:@"tripId"];
+	[args setObject:[NSString stringWithFormat:@"%lld",problem.serviceDate] forKey:@"serviceDate"];
+	
+	if( problem.stopId )	
+		[args setObject:problem.stopId forKey:@"stopId"];
+	
+	if( problem.data )
+		[args setObject:problem.data forKey:@"data"];
+	
+	if( problem.userComment )
+		[args setObject:problem.userComment forKey:@"userComment"];
+	
+	[args setObject:(problem.userOnVehicle ? @"true" : @"false") forKey:@"userOnVehicle"];
+
+	if( problem.userVehicleNumber )
+		[args setObject:problem.userVehicleNumber forKey:@"userVehicleNumber"];
+	
+	CLLocation * location = problem.userLocation;
+	if( location ) {
+		CLLocationCoordinate2D coord = location.coordinate;
+		[args setObject:[NSNumber numberWithDouble:coord.latitude] forKey:@"userLat"];
+		[args setObject:[NSNumber numberWithDouble:coord.longitude] forKey:@"userLon"];
+		[args setObject:[NSNumber numberWithDouble:location.horizontalAccuracy] forKey:@"userLocationAccuracy"];
+	}
+	
+	SEL selector = nil;
+	
+	OBAModelServiceRequest * request = [self post:url args:args selector:selector delegate:delegate context:context];
+	request.checkCode = FALSE;
+	return request;
+}
+
 @end
 
 
@@ -158,6 +203,22 @@ static const float kSearchRadius = 400;
 }
 
 - (OBAModelServiceRequest*) request:(OBAJsonDataSource*)source url:(NSString*)url args:(NSString*)args selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context {
+	OBAModelServiceRequest * request = [self request:source selector:selector delegate:delegate context:context];
+	request.connection = [source requestWithPath:url withArgs:args withDelegate:request context:nil];	
+	return request;
+}
+
+- (OBAModelServiceRequest*) post:(NSString*)url args:(NSDictionary*)args selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context {
+	return [self post:_obaJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
+}
+
+- (OBAModelServiceRequest*) post:(OBAJsonDataSource*)source url:(NSString*)url args:(NSDictionary*)args selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context {
+	OBAModelServiceRequest * request = [self request:source selector:selector delegate:delegate context:context];
+	request.connection = [source postWithPath:url withArgs:args withDelegate:request context:nil];
+	return request;	
+}
+
+- (OBAModelServiceRequest*) request:(OBAJsonDataSource*)source selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context {
 
 	OBAModelServiceRequest * request = [[[OBAModelServiceRequest alloc] init] autorelease];
 	request.delegate = delegate;
@@ -176,8 +237,6 @@ static const float kSearchRadius = 400;
 			[request endBackgroundTask];
 		}];
 	}
-	
-	request.connection = [source requestWithPath:url withArgs:args withDelegate:request context:nil];
 	
 	return request;
 }

@@ -64,26 +64,28 @@
 	NSError * error = nil;
 	NSError ** errorRef = &error;
 	
-	id result = nil;
+	id result = obj;
 	
-	if( ! [_modelFactory respondsToSelector:_modelFactorySelector] )
-		return;
+	if( _modelFactorySelector && [_modelFactory respondsToSelector:_modelFactorySelector] ) {
 	
-	NSMethodSignature * sig = [_modelFactory methodSignatureForSelector:_modelFactorySelector];
-	NSInvocation * invocation = [NSInvocation invocationWithMethodSignature:sig];
-	[invocation setTarget:_modelFactory];
-	[invocation setSelector:_modelFactorySelector];
-	[invocation setArgument:&data atIndex:2];
-	[invocation setArgument:&errorRef atIndex:3];
-	[invocation invoke];
-	
-	if( error ) {
-		if( [_delegate respondsToSelector:@selector(requestDidFail:withError:context:)] )
-			[_delegate requestDidFail:self withError:error context:_context];
-		return;
+		NSMethodSignature * sig = [_modelFactory methodSignatureForSelector:_modelFactorySelector];
+		NSInvocation * invocation = [NSInvocation invocationWithMethodSignature:sig];
+		[invocation setTarget:_modelFactory];
+		[invocation setSelector:_modelFactorySelector];
+		[invocation setArgument:&data atIndex:2];
+		[invocation setArgument:&errorRef atIndex:3];
+		[invocation invoke];
+		
+		if( error ) {
+			if( [_delegate respondsToSelector:@selector(requestDidFail:withError:context:)] )
+				[_delegate requestDidFail:self withError:error context:_context];
+			return;
+		}
+		
+		[invocation getReturnValue:&result];
 	}
 	
-	[invocation getReturnValue:&result];
+	
 	[_delegate requestDidFinish:self withObject:result context:_context];
 }
 
