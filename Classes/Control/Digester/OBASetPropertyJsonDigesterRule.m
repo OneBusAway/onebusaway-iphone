@@ -21,9 +21,19 @@
 
 - (id) initWithPropertyName:(NSString*)propertyName {
 	if( self = [super init] ) {
+		[self initWithPropertyName:propertyName onlyIfNeeded:FALSE];
 		_propertyName = [propertyName retain];		
 	}
 	return self;
+}
+
+- (id) initWithPropertyName:(NSString*)propertyName onlyIfNeeded:(BOOL)onlyIfNeeded {
+	if( self = [super init] ) {
+		_propertyName = [propertyName retain];		
+		_onlyIfNeeded = onlyIfNeeded;
+	}
+	return self;
+	
 }
 
 - (void) dealloc {
@@ -32,7 +42,15 @@
 }
 
 - (void) begin:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
+	
 	NSObject * top = [context peek:0];
+	
+	if( _onlyIfNeeded ) {
+		id existingValue = [top valueForKey:_propertyName];
+		if( [existingValue isEqual:value] )
+			return;
+	}
+	
 	[top setValue:value forKey:_propertyName];
 }
 

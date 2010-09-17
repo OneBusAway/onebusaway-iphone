@@ -18,6 +18,8 @@
 #import "OBACreateObjectJsonDigesterRule.h"
 #import "OBASetPropertyJsonDigesterRule.h"
 #import "OBASetNextOBAJsonDigesterRule.h"
+#import "OBASelectorJsonDigesterRule.h"
+#import "OBALogger.h"
 
 
 #pragma mark OBAJsonDigesterContextImpl Interface
@@ -27,7 +29,10 @@
 	NSMutableArray * _stack;
 	NSMutableDictionary * _parameters;
 	NSError * _error;
+	BOOL _verbose;
 }
+
+- (id) initWithVerbose:(BOOL)verbose;
 
 @end
 
@@ -45,9 +50,12 @@
 
 @implementation OBAJsonDigester
 
+@synthesize verbose = _verbose;
+
 - (id) init {
 	if( self = [super init] ) {
 		_rulesByPrefix = [[NSMutableDictionary alloc] init];
+		_verbose = FALSE;
 	}
 	return self;
 }
@@ -78,25 +86,44 @@
 	[rule release];
 }
 
+- (void) addSetPropertyIfNeededRule:(NSString*)property forPrefix:(NSString*)prefix {
+	OBASetPropertyJsonDigesterRule * rule = [[OBASetPropertyJsonDigesterRule alloc] initWithPropertyName:property onlyIfNeeded:TRUE];
+	[self addRule:rule forPrefix:prefix];
+	[rule release];
+	
+}
+
 - (void) addSetNext:(SEL)selector forPrefix:(NSString*)prefix {
 	OBASetNextOBAJsonDigesterRule * rule = [[OBASetNextOBAJsonDigesterRule alloc] initWithSelector:selector];
 	[self addRule:rule forPrefix:prefix];
 	[rule release];
 }
 
-- (void) parse:(id)jsonRoot withRoot:(id)rootObject {
-	[self parse:jsonRoot withRoot:rootObject parameters:[NSDictionary dictionary]];
+- (void) addTarget:(NSObject*)target selector:(SEL)selector forRuleTarget:(OBAJsonDigesterRuleTarget)ruleTarget prefix:(NSString*)prefix {
+	OBASelectorJsonDigesterRule * rule = [[OBASelectorJsonDigesterRule alloc] initWithTarget:target selector:selector ruleTarget:ruleTarget];
+	[self addRule:rule forPrefix:prefix];
+	[rule release];
 }
 
-- (void) parse:(id)jsonRoot withRoot:(id)rootObject parameters:(NSDictionary*)parameters {
+- (void) parse:(id)jsonRoot withRoot:(id)rootObject error:(NSError**)error {
+	[self parse:jsonRoot withRoot:rootObject parameters:[NSDictionary dictionary] error:error];
+}
+
+- (void) parse:(id)jsonRoot withRoot:(id)rootObject parameters:(NSDictionary*)parameters error:(NSError**)error {
 	
-	OBAJsonDigesterContextImpl * context = [[OBAJsonDigesterContextImpl alloc] init];
+	OBAJsonDigesterContextImpl * context = [[OBAJsonDigesterContextImpl alloc] initWithVerbose:_verbose];
 	
 	for( id key in parameters )
 		[context setParamter:[parameters objectForKey:key] forKey:key];
 	
 	[context pushValue:rootObject];
 	[self recursivelyParse:context jsonValue:jsonRoot prefix:@"" name:@"/"];
+	
+	NSError * err = context.error;
+	
+	if( err && error )
+		(*error) = err;
+	
 	[context release];
 }
 
@@ -121,6 +148,8 @@
 -(void) recursivelyParse:(OBAJsonDigesterContextImpl*)context jsonValue:(id)value prefix:(NSString*)prefix name:(NSString*)name {
 	
 	NSString * fullName = [self extendPrefix:prefix withValue:name];
+	
+	OBALogDebug(@"path=%@",fullName);
 	
 	NSArray * rules = [_rulesByPrefix objectForKey:fullName];
 	
@@ -179,10 +208,11 @@
 
 @synthesize error = _error;
 
-- (id) init {
+- (id) initWithVerbose:(BOOL)verbose {
 	if( self = [super init] ) {
 		_stack = [[NSMutableArray alloc] init];
 		_parameters = [[NSMutableDictionary alloc] init];
+		_verbose = verbose;
 	}
 	return self;
 }
@@ -212,6 +242,10 @@
 
 - (void) setParamter:(id)value forKey:(id)key {
 	[_parameters setObject:value forKey:key];
+}
+
+- (BOOL) verbose {
+	return _verbose;
 }
 
 @end

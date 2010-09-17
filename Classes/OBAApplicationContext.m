@@ -195,6 +195,14 @@ static const double kMaxTimeSinceApplicationTerminationToRestoreState = 1*60;
 	NSURL *storeUrl = [NSURL fileURLWithPath: path];
 	NSFileManager * manager = [NSFileManager defaultManager];
 	
+	// Delete model on startup?
+	if( TRUE ) {
+		if( ! [manager removeItemAtPath:path error:error] ) {
+			OBALogSevereWithError(*error,@"Error deleting file: %@",path);
+			return;
+		}	
+	}
+	
 	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:error]) {
 		
 		OBALogSevereWithError(*error,@"Error adding persistent store coordinator");

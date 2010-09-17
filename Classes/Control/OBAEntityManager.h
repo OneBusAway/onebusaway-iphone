@@ -14,31 +14,11 @@
  * limitations under the License.
  */
 
-#import "OBASetNextOBAJsonDigesterRule.h"
-#import "OBALogger.h"
+#import <Foundation/Foundation.h>
 
 
-@implementation OBASetNextOBAJsonDigesterRule
+@interface OBAEntityManager : NSObject
 
-- (id) initWithSelector:(SEL)selector {
-	if( self = [super init] ) {
-		_selector = selector;
-	}
-	return self;
-}
-
-- (void) end:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
-	
-	id a = [context peek:0];
-	id<NSObject> b = [context peek:1];
-	
-	if(context.verbose)	   
-		OBALogDebug(@"setNext");
-	
-	if( a && b && [b respondsToSelector:_selector])
-		[b performSelector:_selector withObject:a];
-	else if( context.verbose )
-		OBALogDebug(@"setNext selector not supported");
-}
++ (id) getEntityWithName:(NSString*)entityName entityIdProperty:(NSString*)entityIdProperty entityId:(id)entityId fromContext:(NSManagedObjectContext*)managedObjectContext withEntityIdMappings:(NSMutableDictionary*)entityIdMappings error:(NSError**)error;
 
 @end

@@ -114,6 +114,8 @@
 		D6F36F4E0FD96D9800C46D01 /* OBAProgressIndicatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = D6F36F4D0FD96D9800C46D01 /* OBAProgressIndicatorImpl.m */; };
 		D6FD5C700F75B883004A9D0F /* OBAArrivalAndDeparture.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FD5C6F0F75B883004A9D0F /* OBAArrivalAndDeparture.m */; };
 		D6FD5DB30F7619AE004A9D0F /* OBAArrivalEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FD5DB20F7619AE004A9D0F /* OBAArrivalEntryTableViewCell.m */; };
+		D6FE146F1023BCA800143C1B /* OBASelectorJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FE146E1023BCA800143C1B /* OBASelectorJsonDigesterRule.m */; };
+		D6FE15021023D68500143C1B /* OBAEntityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FE15011023D68500143C1B /* OBAEntityManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -316,6 +318,10 @@
 		D6FD5C6F0F75B883004A9D0F /* OBAArrivalAndDeparture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAArrivalAndDeparture.m; path = Model/OBAArrivalAndDeparture.m; sourceTree = "<group>"; };
 		D6FD5DB10F7619AE004A9D0F /* OBAArrivalEntryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAArrivalEntryTableViewCell.h; path = View/OBAArrivalEntryTableViewCell.h; sourceTree = "<group>"; };
 		D6FD5DB20F7619AE004A9D0F /* OBAArrivalEntryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAArrivalEntryTableViewCell.m; path = View/OBAArrivalEntryTableViewCell.m; sourceTree = "<group>"; };
+		D6FE146D1023BCA800143C1B /* OBASelectorJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASelectorJsonDigesterRule.h; path = Control/Digester/OBASelectorJsonDigesterRule.h; sourceTree = "<group>"; };
+		D6FE146E1023BCA800143C1B /* OBASelectorJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASelectorJsonDigesterRule.m; path = Control/Digester/OBASelectorJsonDigesterRule.m; sourceTree = "<group>"; };
+		D6FE15001023D68500143C1B /* OBAEntityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAEntityManager.h; path = Control/OBAEntityManager.h; sourceTree = "<group>"; };
+		D6FE15011023D68500143C1B /* OBAEntityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAEntityManager.m; path = Control/OBAEntityManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -709,6 +715,8 @@
 				D6A8C3EB0FE021A1001B46E1 /* OBASetPropertyJsonDigesterRule.m */,
 				D67D3DB90FE065870093E2F1 /* OBASetCoordinatePropertyJsonDigesterRule.h */,
 				D67D3DBA0FE065870093E2F1 /* OBASetCoordinatePropertyJsonDigesterRule.m */,
+				D6FE146D1023BCA800143C1B /* OBASelectorJsonDigesterRule.h */,
+				D6FE146E1023BCA800143C1B /* OBASelectorJsonDigesterRule.m */,
 				D6789E690FE0BE0000696FE6 /* OBACreateManagedEntityJsonDigesterRule.h */,
 				D6789E6A0FE0BE0000696FE6 /* OBACreateManagedEntityJsonDigesterRule.m */,
 			);
@@ -743,6 +751,8 @@
 				D6169FF30FC44B9200631BCE /* OBAModelFactory.m */,
 				D6CEA05F0F8D0EDF009DBD66 /* OBAModelDAOUserPreferencesImpl.h */,
 				D6CEA0600F8D0EDF009DBD66 /* OBAModelDAOUserPreferencesImpl.m */,
+				D6FE15001023D68500143C1B /* OBAEntityManager.h */,
+				D6FE15011023D68500143C1B /* OBAEntityManager.m */,
 			);
 			name = DAO;
 			sourceTree = "<group>";
@@ -899,6 +909,8 @@
 				D65CDC020FEC4753008257AD /* OBAUploadManager.m in Sources */,
 				D648A3CD0FECBAD9002D9D49 /* OBAGenericAnnotation.m in Sources */,
 				D6B889871014E46C00CF436E /* OBASearchControllerImpl.m in Sources */,
+				D6FE146F1023BCA800143C1B /* OBASelectorJsonDigesterRule.m in Sources */,
+				D6FE15021023D68500143C1B /* OBAEntityManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

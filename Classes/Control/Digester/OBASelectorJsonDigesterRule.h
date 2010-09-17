@@ -14,31 +14,20 @@
  * limitations under the License.
  */
 
-#import "OBASetNextOBAJsonDigesterRule.h"
-#import "OBALogger.h"
+#import "OBAJsonDigester.h"
 
 
-@implementation OBASetNextOBAJsonDigesterRule
+typedef enum {
+	OBASelectorJsonDigesterRuleTargetBefore,
+	OBASelectorJsonDigesterRuleTargetAfter,
+} OBASelectorJsonDigesterRuleTarget;
 
-- (id) initWithSelector:(SEL)selector {
-	if( self = [super init] ) {
-		_selector = selector;
-	}
-	return self;
+@interface OBASelectorJsonDigesterRule : NSObject <OBAJsonDigesterRule> {
+	NSObject * _target;
+	SEL _selector;
+	OBAJsonDigesterRuleTarget _ruleTarget;
 }
 
-- (void) end:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
-	
-	id a = [context peek:0];
-	id<NSObject> b = [context peek:1];
-	
-	if(context.verbose)	   
-		OBALogDebug(@"setNext");
-	
-	if( a && b && [b respondsToSelector:_selector])
-		[b performSelector:_selector withObject:a];
-	else if( context.verbose )
-		OBALogDebug(@"setNext selector not supported");
-}
+- (id) initWithTarget:(NSObject*)target selector:(SEL)selector ruleTarget:(OBAJsonDigesterRuleTarget)ruleTarget;
 
 @end

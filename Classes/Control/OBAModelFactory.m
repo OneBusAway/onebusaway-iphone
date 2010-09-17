@@ -30,6 +30,8 @@
 #import "OBAJsonDigester.h"
 #import "OBASetCoordinatePropertyJsonDigesterRule.h"
 #import "OBACreateManagedEntityJsonDigesterRule.h"
+#import "OBAEntityManager.h"
+
 
 static NSString * const kOBAAgency = @"OBAAgency";
 static NSString * const kOBARoute = @"OBARoute";
@@ -40,7 +42,7 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 @interface OBAModelFactory (Private)
 
 - (NSDictionary*) getDigesterParameters;
-
+/*
 - (OBAAgency*) getAgencyFromDictionary:(NSDictionary*)dictionary error:(NSError**)error;
 - (OBARoute*) getRouteFromDictionary:(NSDictionary*)dictionary error:(NSError**)error;
 - (OBAStop*) getStopFromDictionary:(NSDictionary*)dictionary error:(NSError**)error;
@@ -58,12 +60,17 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 
 - (BOOL) setValueForKey:(NSString*)objKey fromDictionary:(NSDictionary*)dictionary withDictionaryKey:(NSString*)dictKey onObject:(NSObject*)object required:(BOOL)required error:(NSError**)error;
 - (BOOL) setDoubleValueForKey:(NSString*)objKey fromDictionary:(NSDictionary*)dictionary withDictionaryKey:(NSString*)dictKey onObject:(NSObject*)object required:(BOOL)required error:(NSError**)error;
-
+*/
 @end
+
 
 @interface OBAJsonDigester (CustomDigesterRules)
 
 - (void) addAgencyRulesWithPrefix:(NSString*)prefix;
+- (void) addRouteRulesWithPrefix:(NSString*)prefix;
+- (void) addStopRulesWithPrefix:(NSString*)prefix;
+- (void) addArrivalAndDepartureRulesWithPrefix:(NSString*)prefix;
+
 - (void) addSetCoordinatePropertyRule:(NSString*)propertyName withPrefix:(NSString*)prefix method:(OBASetCoordinatePropertyMethod)method;
 
 @end
@@ -87,40 +94,31 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	
 - (NSArray*) getStopsFromJSONArray:(NSArray*)jsonArray error:(NSError**)error {
 	
-	NSMutableArray * stops = [NSMutableArray arrayWithCapacity:[jsonArray count]];
+	NSMutableArray * results = [NSMutableArray array];
 	
-	for( NSDictionary * dictionary in jsonArray ) {
-		OBAStop * stop = [self getStopFromDictionary:dictionary error:error];
-		if( *error )
-			return nil;
-		[stops addObject:stop];
-	}
+	OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
+	digester.verbose = TRUE;
+	[digester addStopRulesWithPrefix:@"/[]"];
+	[digester addSetNext:@selector(addObject:) forPrefix:@"/[]"];
+	[digester addTarget:digester selector:@selector(saveIfNeededForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:@"/"];
+	[digester parse:jsonArray withRoot:results parameters:[self getDigesterParameters] error:error];
+	[digester release];
 	
-	[self saveIfNeeded:error];
-
-	if( *error )
-		return nil;
-	
-	return stops;
+	return results;
 }
 
 - (NSArray*) getRoutesFromJSONArray:(NSArray*)jsonArray error:(NSError**)error {
-
-	NSMutableArray * routes = [NSMutableArray arrayWithCapacity:[jsonArray count]];
 	
-	for( NSDictionary * dictionary in jsonArray ) {
-		OBARoute * route = [self getRouteFromDictionary:dictionary error:error];
-		if( *error )
-			return nil;
-		[routes addObject:route];
-	}
+	NSMutableArray * results = [NSMutableArray array];
 	
-	[self saveIfNeeded:error];
+	OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
+	[digester addRouteRulesWithPrefix:@"/[]"];
+	[digester addSetNext:@selector(addObject:) forPrefix:@"/[]"];
+	[digester addTarget:self selector:@selector(saveIfNeededForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:@"/"];
+	[digester parse:jsonArray withRoot:results parameters:[self getDigesterParameters] error:error];
+	[digester release];
 	
-	if( *error )
-		return nil;
-	
-	return routes;
+	return results;
 }
 
 - (NSArray*) getPlacemarksFromJSONObject:(id)jsonObject error:(NSError**)error {
@@ -136,7 +134,7 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	[digester addRule:rule forPrefix:@"/Placemark/[]/Point/coordinates"];
 	[rule release];
 	
-	[digester parse:jsonObject withRoot:placemarks];
+	[digester parse:jsonObject withRoot:placemarks parameters:[self getDigesterParameters] error:error];
 	[digester release];
 	
 	return placemarks;
@@ -152,8 +150,9 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	[digester addSetNext:@selector(setAgency:) forPrefix:@"/[]/agency"];
 	[digester addSetCoordinatePropertyRule:@"coordinate" withPrefix:@"/[]" method:OBASetCoordinatePropertyMethodLatLon];
 	[digester addSetNext:@selector(addObject:) forPrefix:@"/[]"];
+	[digester addTarget:self selector:@selector(saveIfNeededForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:@"/"];
 	
-	[digester parse:jsonArray withRoot:results parameters:[self getDigesterParameters]];
+	[digester parse:jsonArray withRoot:results parameters:[self getDigesterParameters] error:error];
 	[digester release];
 	
 	return results;
@@ -163,29 +162,17 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	
 	OBAArrivalsAndDeparturesForStop * ads = [[[OBAArrivalsAndDeparturesForStop alloc] init] autorelease];
 	
-	NSDictionary * stopDict = [jsonDictionary valueForKey:@"stop"];
-	ads.stop = [self getStopFromDictionary:stopDict error:error];
-	if( *error )
-		return nil;
+	OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
+	[digester addStopRulesWithPrefix:@"/stop"];
+	[digester addSetNext:@selector(setStop:) forPrefix:@"/stop"];
+	[digester addObjectCreateRule:[NSMutableArray class] forPrefix:@"/arrivalsAndDepartures"];
+	[digester addSetNext:@selector(setArrivalsAndDepartures:) forPrefix:@"/arrivalsAndDepartures"];
+	[digester addArrivalAndDepartureRulesWithPrefix:@"/arrivalsAndDepartures/[]"];
+	[digester addSetNext:@selector(addObject:) forPrefix:@"/arrivalsAndDepartures/[]"];	
+	[digester addTarget:self selector:@selector(saveIfNeededForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:@"/"];
 	
-	NSArray * arrivalObjects = [jsonDictionary valueForKey:@"arrivalsAndDepartures"];	
-	NSMutableArray * localArrivalsAndDepartures = [NSMutableArray arrayWithCapacity:[arrivalObjects count]];
-	
-	for(int i=0; i<[arrivalObjects count]; i++) {
-		NSDictionary * arrivalObject = [arrivalObjects objectAtIndex:i];
-		OBAArrivalAndDeparture * ad = [self getArrivalAndDepartureFromDictionary:arrivalObject error:error];
-		if( *error )
-			return nil;
-		
-		[localArrivalsAndDepartures addObject:ad];
-	}
-	
-	ads.arrivalsAndDepartures = localArrivalsAndDepartures;
-	
-	[self saveIfNeeded:error];
-	
-	if( *error )
-		return nil;
+	[digester parse:jsonDictionary withRoot:ads parameters:[self getDigesterParameters] error:error];
+	[digester release];
 	
 	return ads;
 }
@@ -200,6 +187,8 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	[params setObject:_context forKey:@"managedObjectContext"];
 	return params;
 }
+
+/*
 
 - (OBAAgency*) getAgencyFromDictionary:(NSDictionary*)dictionary error:(NSError**)error {
 	NSString * agencyId = [dictionary objectForKey:@"id"];
@@ -252,7 +241,13 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	return route;
 }
 
+- (void) digester:(OBAJsonDigester*)digester path:(NSString*)path {
+	
+}
+
 - (OBAStop*) getStopFromDictionary:(NSDictionary*)dictionary error:(NSError**)error {
+	
+	
 	
 	NSString * stopId = [dictionary objectForKey:@"id"];
 	
@@ -312,13 +307,6 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	ad.routeShortName = [dictionary objectForKey:@"routeShortName"];
 	ad.tripId = [dictionary objectForKey:@"tripId"];
 	ad.tripHeadsign = [dictionary objectForKey:@"tripHeadsign"];
-
-	/*
-	NSString * stopId = [dictionary objectForKey:@"stopId"];
-	ad.stop = [self getStopWithId:stopId error:error];
-	if( *error )
-		return nil;
-	 */
 	
 	ad.scheduledArrivalTime = [[dictionary valueForKey:@"scheduledArrivalTime"] longLongValue];
 	ad.predictedArrivalTime = [[dictionary valueForKey:@"predictedArrivalTime"] longLongValue];
@@ -455,8 +443,11 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	
 	return TRUE;
 }
+ 
+*/
 
 @end
+
 	
 @implementation OBAJsonDigester (CustomDigesterRules)
 	
@@ -466,8 +457,57 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	[self addRule:rule forPrefix:prefix];
 	[rule release];
 	
-	[self addSetPropertyRule:@"name" forPrefix:[self extendPrefix:prefix withValue:@"name"]];
-	[self addSetPropertyRule:@"url" forPrefix:[self extendPrefix:prefix withValue:@"url"]];
+	[self addSetPropertyIfNeededRule:@"name" forPrefix:[self extendPrefix:prefix withValue:@"name"]];
+	[self addSetPropertyIfNeededRule:@"url" forPrefix:[self extendPrefix:prefix withValue:@"url"]];
+}
+
+- (void) addRouteRulesWithPrefix:(NSString*)prefix {
+	
+	OBACreateManagedEntityJsonDigesterRule * rule = [[OBACreateManagedEntityJsonDigesterRule alloc] initWithEntityName:kOBARoute entityIdProperty:@"routeId" jsonIdProperty:@"id"];
+	[self addRule:rule forPrefix:prefix];
+	[rule release];
+
+	[self addSetPropertyIfNeededRule:@"shortName" forPrefix:[self extendPrefix:prefix withValue:@"shortName"]];
+	[self addSetPropertyIfNeededRule:@"longName" forPrefix:[self extendPrefix:prefix withValue:@"longName"]];
+
+	[self addAgencyRulesWithPrefix:[self extendPrefix:prefix withValue:@"agency"]];
+	[self addTarget:self selector:@selector(setRouteAgencyIfNeededForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:[self extendPrefix:prefix withValue:@"agency"]];
+}
+
+- (void) addStopRulesWithPrefix:(NSString*)prefix {
+	
+	OBACreateManagedEntityJsonDigesterRule * rule = [[OBACreateManagedEntityJsonDigesterRule alloc] initWithEntityName:kOBAStop entityIdProperty:@"stopId" jsonIdProperty:@"id"];
+	[self addRule:rule forPrefix:prefix];
+	[rule release];
+
+	[self addSetPropertyIfNeededRule:@"name" forPrefix:[self extendPrefix:prefix withValue:@"name"]];
+	[self addSetPropertyIfNeededRule:@"code" forPrefix:[self extendPrefix:prefix withValue:@"code"]]; // Optional
+	[self addSetPropertyIfNeededRule:@"direction" forPrefix:[self extendPrefix:prefix withValue:@"direction"]]; // Optional
+	[self addSetPropertyIfNeededRule:@"latitude" forPrefix:[self extendPrefix:prefix withValue:@"lat"]];
+	[self addSetPropertyIfNeededRule:@"longitude" forPrefix:[self extendPrefix:prefix withValue:@"lon"]];
+	[self addTarget:self selector:@selector(ensureStopPreferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetBegin prefix:prefix];
+	
+	[self addObjectCreateRule:[NSMutableArray class] forPrefix:[self extendPrefix:prefix withValue:@"routes"]];
+	[self addTarget:self selector:@selector(setStopRoutesIfNeededForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:[self extendPrefix:prefix withValue:@"routes"]];
+	
+	[self addRouteRulesWithPrefix:[self extendPrefix:prefix withValue:@"routes/[]"]];
+	[self addSetNext:@selector(addObject:) forPrefix:[self extendPrefix:prefix withValue:@"routes/[]"]];
+}
+
+- (void) addArrivalAndDepartureRulesWithPrefix:(NSString*)prefix {
+	
+	[self addObjectCreateRule:[OBAArrivalAndDeparture class] forPrefix:prefix];
+	
+	[self addSetPropertyRule:@"routeShortName" forPrefix:[self extendPrefix:prefix withValue:@"routeShortName"]];
+	[self addSetPropertyRule:@"tripId" forPrefix:[self extendPrefix:prefix withValue:@"tripId"]];
+	[self addSetPropertyRule:@"tripHeadsign" forPrefix:[self extendPrefix:prefix withValue:@"tripHeadsign"]];
+
+	[self addSetPropertyRule:@"scheduledArrivalTime" forPrefix:[self extendPrefix:prefix withValue:@"scheduledArrivalTime"]];
+	[self addSetPropertyRule:@"predictedArrivalTime" forPrefix:[self extendPrefix:prefix withValue:@"predictedArrivalTime"]];
+	[self addSetPropertyRule:@"scheduledDepartureTime" forPrefix:[self extendPrefix:prefix withValue:@"scheduledDepartureTime"]];
+	[self addSetPropertyRule:@"predictedDepartureTime" forPrefix:[self extendPrefix:prefix withValue:@"predictedDepartureTime"]];
+	
+	[self addTarget:self selector:@selector(ensureArrivalAndDepartureRouteForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetBegin prefix:[self extendPrefix:prefix withValue:@"routeId"]];
 }
 
 - (void) addSetCoordinatePropertyRule:(NSString*)propertyName withPrefix:(NSString*)prefix method:(OBASetCoordinatePropertyMethod)method {
@@ -476,5 +516,68 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	[rule release];
 }
 
-@end
+- (void) setRouteAgencyIfNeededForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
+	OBAAgency * agency = [context peek:0];
+	OBARoute * route = [context peek:1];
+	if( ! [route.agency isEqual:agency] )
+		route.agency = agency;
+}
+
+- (void) setStopRoutesIfNeededForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
+	NSArray * routes = [context peek:0];
+	OBAStop * stop = [context peek:1];
+	NSSet * routeSet = [NSSet setWithArray:routes];
+	
+	if( ! [stop.routes isEqualToSet:routeSet] ) {
+		[stop removeRoutes:stop.routes];
+		[stop addRoutes:routeSet];
+	}
+}
+
+- (void) ensureStopPreferencesForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
+	OBAStop * stop = [context peek:0];
+	if( stop.preferences == nil ) {
+		NSManagedObjectContext * managedObjectContext = [context getParameterForKey:@"managedObjectContext"];
+		OBAStopPreferences * prefs = [NSEntityDescription insertNewObjectForEntityForName:kOBAStopPreferences inManagedObjectContext:managedObjectContext];
+		stop.preferences = prefs;
+	}
+}
+
+- (void) ensureArrivalAndDepartureRouteForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
+
+	OBAArrivalAndDeparture * arrivalAndDeparture = [context peek:0];
+	NSString * routeId = value;
+	
+	NSError * error = nil;
+	NSManagedObjectContext * managedObjectContext = [context getParameterForKey:@"managedObjectContext"];
+	NSMutableDictionary * entityIdMappings = [context getParameterForKey:@"entityIdMappings"];
+	
+	arrivalAndDeparture.route = [OBAEntityManager getEntityWithName:kOBARoute entityIdProperty:@"routeId" entityId:routeId fromContext:managedObjectContext withEntityIdMappings:entityIdMappings error:&error];
+	
+	if( error ) {
+		context.error = error;
+		return;
+	}
+}
+
+- (void) saveIfNeededForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
+	
+	NSManagedObjectContext * managedObjectContext = [context getParameterForKey:@"managedObjectContext"];
+	
+	NSError * error = nil;
+	
+	if( context.verbose )
+		OBALogDebug(@"saving managedObjectContext");
+	
+	if( [managedObjectContext hasChanges] )
+		[managedObjectContext save:&error];
+	
+	if( error ) {
+		OBALogSevereWithError(error,@"Error saving managedObjectContext");
+		context.error = error;
+		return;
+	}
+}	
+
+@end 
 

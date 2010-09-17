@@ -16,6 +16,11 @@
 
 #import "OBALogger.h"
 
+@interface OBALogger (Internal)
+
++ (void) logError:(NSError*)error prefix:(NSString*)prefix;
+
+@end
 
 @implementation OBALogger
 
@@ -26,8 +31,7 @@
 
 + (void) logWithLevel:(OBALoggerLevel)level pointer:(id)pointer file:(NSString*)file line:(NSInteger)line message:(NSString*)message error:(NSError*)error {
 	[self logWithLevel:level pointer:pointer file:file line:line message:message];
-	if( error )
-		NSLog(@"%@: %@",[error localizedDescription],[error localizedFailureReason]);
+	[self logError:error prefix:@""];
 }
 
 + (NSString*) logLevelAsString:(OBALoggerLevel)level {
@@ -45,3 +49,34 @@
 	}
 }
 @end
+
+@implementation OBALogger (Internal)
+
++ (void) logError:(NSError*)error prefix:(NSString*)prefix {
+	
+	if( ! error )
+		return;
+	
+	NSLog(@"%@%@: %@",prefix,[error localizedDescription],[error localizedFailureReason]);
+
+	NSDictionary * userInfo = [error userInfo];
+
+	switch( [error code] ) {
+		case NSValidationMultipleErrorsError: {
+			NSArray * errors = [userInfo objectForKey:@"NSDetailedErrors"];
+			for( NSError * subError in errors )
+				[self logError:subError prefix:[NSString stringWithFormat:@"%@  ",prefix]];
+			break;
+		}			
+		case NSValidationMissingMandatoryPropertyError: {
+			NSString * validationErrorKey = [userInfo objectForKey:@"NSValidationErrorKey"];
+			id validationErrorObject = [userInfo objectForKey:@"NSValidationErrorObject"];
+			NSLog(@"%@  validation error key: %@",prefix,validationErrorKey);
+			NSLog(@"%@  validation error object: %@",prefix,[validationErrorObject description]);
+			break;
+		}
+	}
+}
+
+@end
+

@@ -27,6 +27,7 @@
 - (void) setParamter:(id)value forKey:(id)key;
 
 @property (nonatomic,retain) NSError * error;
+@property (nonatomic,readonly) BOOL verbose;
 
 @end
 
@@ -40,18 +41,29 @@
 @end
 
 
+typedef enum {
+	OBAJsonDigesterRuleTargetBegin,
+	OBAJsonDigesterRuleTargetEnd
+} OBAJsonDigesterRuleTarget;
+
+
 @interface OBAJsonDigester : NSObject {
 	NSMutableDictionary * _rulesByPrefix;
+	BOOL _verbose;
 }
 
-- (void) addRule:(id<OBAJsonDigesterRule>)rule forPrefix:(NSString*)prefix;
-- (void) parse:(id)jsonRoot withRoot:(id)rootObject;
-- (void) parse:(id)jsonRoot withRoot:(id)rootObject parameters:(NSDictionary*)parameters;
+- (void) parse:(id)jsonRoot withRoot:(id)rootObject error:(NSError**)error;
+- (void) parse:(id)jsonRoot withRoot:(id)rootObject parameters:(NSDictionary*)parameters error:(NSError**)error;
 
+- (void) addRule:(id<OBAJsonDigesterRule>)rule forPrefix:(NSString*)prefix;
 - (void) addObjectCreateRule:(Class)objectClass forPrefix:(NSString*)prefix;
 - (void) addSetPropertyRule:(NSString*)property forPrefix:(NSString*)prefix;
+- (void) addSetPropertyIfNeededRule:(NSString*)property forPrefix:(NSString*)prefix;
 - (void) addSetNext:(SEL)selector forPrefix:(NSString*)prefix;
+- (void) addTarget:(NSObject*)target selector:(SEL)selector forRuleTarget:(OBAJsonDigesterRuleTarget)ruleTarget prefix:(NSString*)prefix;
 
 -(NSString*) extendPrefix:(NSString*)prefix withValue:(NSString*)value;
+
+@property (nonatomic) BOOL verbose;
 
 @end

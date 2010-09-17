@@ -15,6 +15,7 @@
  */
 
 #import "OBACreateObjectJsonDigesterRule.h"
+#import "OBALogger.h"
 
 
 @implementation OBACreateObjectJsonDigesterRule
@@ -31,6 +32,8 @@
 - (void) begin:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
 	id obj = [[_objectClass alloc] init];
 	[context pushValue:obj];
+	if( context.verbose )
+		OBALogDebug(@"Creating object: class=%@",[_objectClass description]);
 }
 
 - (void) end:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {

@@ -17,16 +17,7 @@
 #import "OBACreateManagedEntityJsonDigesterRule.h"
 #import "OBACommon.h"
 #import "OBALogger.h"
-
-
-@interface OBACreateManagedEntityJsonDigesterRule (Private)
-
-- (id) getEntityWithEntityId:(id)entityId fromContext:(id<OBAJsonDigesterContext>)context error:(NSError**)error;
-- (NSManagedObjectID*) getManagedObjectIdForEntityWithId:(NSString*)entityId withContext:(id<OBAJsonDigesterContext>)context;
-- (void) setManagedObjectIdForEntityWithId:(NSString*)entityId managedObjectId:(NSManagedObjectID*)managedObjectId context:(id<OBAJsonDigesterContext>)context;
-- (NSMutableDictionary*) getEntityIdMappings:(id<OBAJsonDigesterContext>)context;
-
-@end
+#import "OBAEntityManager.h"
 
 
 @implementation OBACreateManagedEntityJsonDigesterRule
@@ -65,7 +56,11 @@
 	}
 		
 	NSError * error = nil;
-	id obj = [self getEntityWithEntityId:entityId fromContext:context error:&error];
+	NSManagedObjectContext * managedObjectContext = [context getParameterForKey:@"managedObjectContext"];
+	NSMutableDictionary * entityIdMappings = [context getParameterForKey:@"entityIdMappings"];
+	
+	id obj = [OBAEntityManager getEntityWithName:_entityName entityIdProperty:_entityIdProperty entityId:entityId fromContext:managedObjectContext withEntityIdMappings:entityIdMappings error:&error];
+
 	if( error ) {
 		context.error = error;
 		return;
@@ -76,89 +71,6 @@
 
 - (void) end:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
 	[context popValue];
-}
-
-@end
-
-@implementation OBACreateManagedEntityJsonDigesterRule (Private)
-
-- (id) getEntityWithEntityId:(id)entityId fromContext:(id<OBAJsonDigesterContext>)context error:(NSError**)error {
-	
-	NSManagedObjectContext * managedObjectContext = [context getParameterForKey:@"managedObjectContext"];
-	NSManagedObjectID * managedObjectId = [self getManagedObjectIdForEntityWithId:entityId withContext:context];
-	
-	if( managedObjectId != nil ) {
-		NSError * error = nil;
-		NSManagedObject * obj = [managedObjectContext existingObjectWithID:managedObjectId error:&error];
-		if( error ) {
-			NSString * uri = [[managedObjectId URIRepresentation] absoluteString];
-			OBALogSevereWithError(error,@"Error retrievingExistingObjectWithID: entityName=%@ entityId=%@ managedId=%@",_entityName,entityId,uri);
-		}
-		else {
-			if( [entityId isEqual:[obj valueForKey:_entityIdProperty]] )
-				return obj;
-			NSString * uri = [[managedObjectId URIRepresentation] absoluteString];
-			OBALogWarning(@"Entity id mismatch: entityName=%@ entityId=%@ managedId=%@",_entityName,entityId,uri);
-		}
-	}
-	
-	NSEntityDescription *entityDescription = [NSEntityDescription
-											  entityForName:_entityName inManagedObjectContext:managedObjectContext];
-	
-	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-	[request setEntity:entityDescription];
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", _entityIdProperty, entityId];
-	[request setPredicate:predicate];
-	
-	NSArray *fetchedObjects = [managedObjectContext executeFetchRequest:request error:error];
-	
-	if (fetchedObjects == nil) {
-		OBALogSevereWithError((*error),@"Error fetching entity: name=%@ idProperty=%@ id=%@",_entityName,_entityIdProperty,entityId);
-		return nil;
-	}
-	
-	if( [fetchedObjects count] == 0) {
-		id entity = [NSEntityDescription insertNewObjectForEntityForName:_entityName inManagedObjectContext:managedObjectContext];
-		[entity setValue:entityId forKey:_entityIdProperty];
-		return entity;
-	}
-	
-	if( [fetchedObjects count] > 1 ) {
-		OBALogSevere(@"Duplicate entities: entityName=%@ entityIdProperty=%@ entityId=%@ count=%d",_entityName,_entityIdProperty,entityId,[fetchedObjects count]);
-		(*error) = [NSError errorWithDomain:OBAErrorDomain code:kOBAErrorDuplicateEntity userInfo:nil];
-		return nil;
-	}
-	
-	NSManagedObject * entity = [fetchedObjects objectAtIndex:0];
-	[self setManagedObjectIdForEntityWithId:entityId managedObjectId:[entity objectID] context:context];
-	return entity;
-}
-
-- (NSManagedObjectID*) getManagedObjectIdForEntityWithId:(NSString*)entityId withContext:(id<OBAJsonDigesterContext>)context {
-	NSDictionary * entityIdMappings = [self getEntityIdMappings:context];
-	NSDictionary * entityIdMapping = [entityIdMappings objectForKey:_entityName];
-	if( entityIdMapping == nil )
-		return nil;
-	return [entityIdMapping objectForKey:entityId];
-}
-
-- (void) setManagedObjectIdForEntityWithId:(NSString*)entityId managedObjectId:(NSManagedObjectID*)managedObjectId context:(id<OBAJsonDigesterContext>)context {
-	NSMutableDictionary * entityIdMappings = [self getEntityIdMappings:context];
-	NSMutableDictionary * entityIdMapping = [entityIdMappings objectForKey:_entityName];
-	if( entityIdMapping == nil ) {
-		entityIdMapping = [NSMutableDictionary dictionary];
-		[entityIdMappings setObject:entityIdMapping forKey:_entityName];
-	}
-	[entityIdMapping setObject:managedObjectId forKey:entityId];
-}
-
-- (NSMutableDictionary*) getEntityIdMappings:(id<OBAJsonDigesterContext>)context {
-	NSMutableDictionary * entityIdMappings = [context getParameterForKey:@"entityIdMappings"];
-	if( ! entityIdMappings ) {
-		entityIdMappings = [NSMutableDictionary dictionary];
-		[context setParamter:entityIdMappings forKey:@"entityIdMappings"];
-	}
-	return entityIdMappings;
 }
 
 @end

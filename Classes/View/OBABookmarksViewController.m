@@ -84,6 +84,7 @@
 	if( [_bookmarks count] == 0 ) {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = @"No bookmarks set";
+		cell.textLabel.textAlignment = UITextAlignmentCenter;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		return cell;
 	}
@@ -92,9 +93,8 @@
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = bookmark.name;
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		//cell.textLabel.textAlignment = UITextAlignmentLeft;		
-		//cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		//cell.showsReorderControl = YES;
+		cell.textLabel.textAlignment = UITextAlignmentLeft;		
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		return cell;
 	}
 }
