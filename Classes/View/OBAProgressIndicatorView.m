@@ -33,7 +33,7 @@
 
 + (id) viewFromNibWithSource:(NSObject<OBAProgressIndicatorSource>*)source {
 	NSArray * nib1 = [[NSBundle mainBundle] loadNibNamed:@"OBAProgressIndicatorView" owner:source options:nil];
-	OBAProgressIndicatorView * view = [[nib1 objectAtIndex:0] retain];
+	OBAProgressIndicatorView * view = [[[nib1 objectAtIndex:0] retain] autorelease];
 	[view setSource:source];
 	return view;
 }

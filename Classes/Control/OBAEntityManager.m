@@ -71,7 +71,9 @@
 	
 	if( [fetchedObjects count] > 1 ) {
 		OBALogSevere(@"Duplicate entities: entityName=%@ entityIdProperty=%@ entityId=%@ count=%d",entityName,entityIdProperty,entityId,[fetchedObjects count]);
-		(*error) = [NSError errorWithDomain:OBAErrorDomain code:kOBAErrorDuplicateEntity userInfo:nil];
+      
+        if (error != NULL)
+            (*error) = [NSError errorWithDomain:OBAErrorDomain code:kOBAErrorDuplicateEntity userInfo:nil];
 		return nil;
 	}
 	

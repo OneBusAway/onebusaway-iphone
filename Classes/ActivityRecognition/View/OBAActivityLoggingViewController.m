@@ -110,6 +110,7 @@
 		case 1: {
 			UIActionSheet * sheet = [[UIActionSheet alloc] initWithTitle:@"Really delete?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:nil];
 			[sheet showInView:self.view];
+            [sheet autorelease];
 			break;
 		}
 	}

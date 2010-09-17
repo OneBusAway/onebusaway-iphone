@@ -229,8 +229,8 @@ typedef enum  {
 	// We get this message because the user clicked "Don't allow" on using the current location.  Unfortunately,
 	// this error gets propagated to us when the app isn't active (because the alert asking about location is).
 	
-	if( domain == kCLErrorDomain && [error code] == kCLErrorDenied ) {			
-		UIAlertView * view = [[UIAlertView alloc] init];
+	if( domain == kCLErrorDomain && [error code] == kCLErrorDenied ) {
+        UIAlertView * view = [[[UIAlertView alloc] init] autorelease];
 		view.title = @"Location Information";
 		view.message = @"Location information is disabled for this app.  Finding nearby stops using your current location will not function.";
 		[view addButtonWithTitle:@"Ok"];
@@ -243,7 +243,7 @@ typedef enum  {
 		return;
 	
 	if( domain == NSURLErrorDomain ) {
-		UIAlertView * view = [[UIAlertView alloc] init];
+		UIAlertView * view = [[[UIAlertView alloc] init] autorelease];
 		view.title = @"Error connecting";
 		view.message = @"There was a problem with your Internet connection.\n\nPlease check your network connection or contact us if you think the problem is on our end.";
 		view.delegate = _networkErrorAlertViewDelegate;
@@ -434,6 +434,7 @@ typedef enum  {
 	if( result ) {
 		OBASearchResultsListViewController * vc = [[OBASearchResultsListViewController alloc] initWithContext:_appContext searchControllerResult:result];
 		[self.navigationController pushViewController:vc animated:TRUE];
+        [vc release];
 	}
 }
 

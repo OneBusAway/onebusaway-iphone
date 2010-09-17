@@ -76,7 +76,7 @@
 	JsonUrlFetcherImpl * fetcher = [[JsonUrlFetcherImpl alloc] initWithSource:self withDelegate:delegate context:context];
 	@synchronized(self) {
 		[_openConnections addObject:fetcher];
-		[NSURLConnection connectionWithRequest:request delegate:fetcher ];
+		[NSURLConnection connectionWithRequest:request delegate:fetcher];
 	}
 
 	return fetcher;
@@ -109,7 +109,7 @@
 	fetcher.uploading = TRUE;
 	@synchronized(self) {
 		[_openConnections addObject:fetcher];		
-		[NSURLConnection connectionWithRequest:postRequest delegate:fetcher ];
+		[NSURLConnection connectionWithRequest:postRequest delegate:fetcher];
 	}
 	
 	return fetcher;

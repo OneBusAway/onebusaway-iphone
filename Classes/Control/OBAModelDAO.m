@@ -65,7 +65,9 @@ const static int kMaxEntriesInMostRecentList = 10;
 	
 	if( [fetchedObjects count] > 1 ) {
 		OBALogSevere(@"Duplicate entities: entityName=OBAModel count=%d",[fetchedObjects count]);
-		(*error) = [NSError errorWithDomain:OBAErrorDomain code:kOBAErrorDuplicateEntity userInfo:nil];
+   
+        if (error != NULL)
+            (*error) = [NSError errorWithDomain:OBAErrorDomain code:kOBAErrorDuplicateEntity userInfo:nil];
 		return;
 	}
 	
