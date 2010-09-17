@@ -25,6 +25,7 @@
 @interface OBABookmarksViewController (Private)
 
 - (void) refreshBookmarks;
+- (void) abortEditing;
 
 @end
 
@@ -32,6 +33,7 @@
 @implementation OBABookmarksViewController
 
 @synthesize appContext = _appContext;
+@synthesize customEditButtonItem = _customEditButtonItem;
 
 - (void)dealloc {
 	[_appContext release];
@@ -39,19 +41,9 @@
     [super dealloc];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	
-	//self.tableView.allowsSelection = TRUE;
-	//self.tableView.allowsSelectionDuringEditing = TRUE;
-
-	//self.navigationItem.title = @"Bookmarks";
-	self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
+	
 	// We reload the table here in case we are coming back from the user editing the label for a bookmark
 	[self refreshBookmarks];
 	[self.tableView reloadData];
@@ -80,6 +72,7 @@
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = @"No bookmarks set";
 		cell.textLabel.textAlignment = UITextAlignmentCenter;
+		cell.accessoryType = UITableViewCellAccessoryNone;		
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		return cell;
 	}
@@ -87,8 +80,8 @@
 		OBABookmark * bookmark = [_bookmarks objectAtIndex:(indexPath.row)];
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = bookmark.name;
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		cell.textLabel.textAlignment = UITextAlignmentLeft;		
+		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 		return cell;
 	}
@@ -96,7 +89,7 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-
+	
 	if( [_bookmarks count] == 0 )
 		return;
 	
@@ -117,7 +110,7 @@
 
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle 
-		forRowAtIndexPath:(NSIndexPath *)indexPath  {
+forRowAtIndexPath:(NSIndexPath *)indexPath  {
 	
 	OBAModelDAO * modelDao = _appContext.modelDao;
 	OBABookmark * bookmark = [_bookmarks objectAtIndex:(indexPath.row)];
@@ -127,8 +120,13 @@
 		OBALogSevereWithError(error,@"Error removing bookmark");
 	[self refreshBookmarks];
 	
-	[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] 
-					 withRowAnimation:UITableViewRowAnimationFade];
+	if( [_bookmarks count] > 0 ) {
+		[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] 
+						 withRowAnimation:UITableViewRowAnimationFade];
+	}
+	else {
+		[self performSelector:@selector(abortEditing) withObject:nil afterDelay:0.1];
+	}
 }
 
 
@@ -146,6 +144,21 @@
 	[self refreshBookmarks];
 }
 
+- (IBAction) onEditButton:(id)sender {
+	
+	BOOL isEditing = ! self.editing;
+	[self setEditing:isEditing animated:TRUE];
+
+	if( isEditing ) {
+		_customEditButtonItem.title = @"Done";
+		_customEditButtonItem.style = UIBarButtonItemStyleDone;
+	}
+	else {
+		_customEditButtonItem.title = @"Edit";
+		_customEditButtonItem.style = UIBarButtonItemStyleBordered;
+	}
+}
+
 #pragma mark OBANavigationTargetAware
 
 - (OBANavigationTarget*) navigationTarget {
@@ -157,12 +170,29 @@
 @implementation OBABookmarksViewController (Private)
 
 - (void) refreshBookmarks {
-
+	
 	OBAModelDAO * dao = _appContext.modelDao;
 	_bookmarks = [NSObject releaseOld:_bookmarks retainNew:dao.bookmarks];
 	
-	self.editButtonItem.enabled = [_bookmarks count] > 0;
+	_customEditButtonItem.enabled = [_bookmarks count] > 0;
 }
+		
+- (void) abortEditing {
+	self.editing = FALSE;
+	[self.tableView setEditing:FALSE animated:FALSE];
+
+	_customEditButtonItem.title = @"Edit";
+	_customEditButtonItem.style = UIBarButtonItemStyleBordered;
+	
+	[self.tableView reloadData];
+	
+	if( self.editing ) {
+		NSLog(@"Why still editing?");
+		self.editing = FALSE;		
+		if( self.editing )
+			NSLog(@"Really, why still editing?");
+	}
+}	
 
 @end
 

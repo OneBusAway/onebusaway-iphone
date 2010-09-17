@@ -8,6 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="308"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -48,18 +49,18 @@
 			<object class="IBUITabBarController" id="231362614">
 				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-				<object class="IBUINavigationController" key="IBUISelectedViewController" id="344025381">
-					<string key="IBUITitle">Details</string>
-					<object class="IBUITabBarItem" key="IBUITabBarItem" id="941399378">
-						<string key="IBUITitle">Details</string>
+				<object class="IBUINavigationController" key="IBUISelectedViewController" id="45271972">
+					<object class="IBUITabBarItem" key="IBUITabBarItem" id="872208416">
+						<string key="IBUITitle">Bookmarks</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">Gear.png</string>
+							<string key="NSResourceName">Bookmarks.png</string>
 						</object>
+						<reference key="IBUITabBar"/>
 					</object>
 					<reference key="IBUIParentViewController" ref="231362614"/>
 					<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-					<object class="IBUINavigationBar" key="IBUINavigationBar" id="516970463">
+					<object class="IBUINavigationBar" key="IBUINavigationBar" id="322838799">
 						<nil key="NSNextResponder"/>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrameSize">{0, 0}</string>
@@ -69,26 +70,39 @@
 					</object>
 					<object class="NSMutableArray" key="IBUIViewControllers">
 						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="IBUITableViewController" id="1044085464">
-							<object class="IBUITableView" key="IBUIView" id="560310566">
-								<nil key="NSNextResponder"/>
+						<object class="IBUITableViewController" id="255817727">
+							<object class="IBUITableView" key="IBUIView" id="179672678">
+								<reference key="NSNextResponder"/>
 								<int key="NSvFlags">274</int>
 								<string key="NSFrameSize">{320, 367}</string>
+								<reference key="NSSuperview"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+								<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
 								<int key="IBUIStyle">1</int>
 								<int key="IBUISeparatorStyle">1</int>
 								<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
+								<bool key="IBUIAllowsSelectionDuringEditing">YES</bool>
 								<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
 								<float key="IBUIRowHeight">4.400000e+01</float>
 								<float key="IBUISectionHeaderHeight">1.000000e+01</float>
 								<float key="IBUISectionFooterHeight">1.000000e+01</float>
 							</object>
-							<object class="IBUINavigationItem" key="IBUINavigationItem" id="76512064">
-								<string key="IBUITitle">Details</string>
+							<object class="IBUINavigationItem" key="IBUINavigationItem" id="387634075">
+								<reference key="IBUINavigationBar"/>
+								<string key="IBUITitle">Bookmarks</string>
+								<object class="IBUIBarButtonItem" key="IBUIBackBarButtonItem" id="1036492613">
+									<string key="IBUITitle">Back</string>
+									<int key="IBUIStyle">1</int>
+								</object>
+								<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="687062731">
+									<bool key="IBUIEnabled">NO</bool>
+									<string key="IBUITitle">Edit</string>
+									<int key="IBUIStyle">1</int>
+								</object>
 							</object>
-							<reference key="IBUIParentViewController" ref="344025381"/>
+							<reference key="IBUIParentViewController" ref="45271972"/>
 							<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 						</object>
 					</object>
@@ -102,6 +116,7 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">CrossHairs.png</string>
 							</object>
+							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="231362614"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -186,56 +201,7 @@
 							</object>
 						</object>
 					</object>
-					<object class="IBUINavigationController" id="45271972">
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="872208416">
-							<string key="IBUITitle">Bookmarks</string>
-							<object class="NSCustomResource" key="IBUIImage">
-								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">Bookmarks.png</string>
-							</object>
-						</object>
-						<reference key="IBUIParentViewController" ref="231362614"/>
-						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-						<object class="IBUINavigationBar" key="IBUINavigationBar" id="322838799">
-							<nil key="NSNextResponder"/>
-							<int key="NSvFlags">256</int>
-							<string key="NSFrameSize">{0, 0}</string>
-							<bool key="IBUIOpaque">NO</bool>
-							<bool key="IBUIClipsSubviews">YES</bool>
-							<bool key="IBUIMultipleTouchEnabled">YES</bool>
-						</object>
-						<object class="NSMutableArray" key="IBUIViewControllers">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUITableViewController" id="255817727">
-								<object class="IBUITableView" key="IBUIView" id="179672678">
-									<nil key="NSNextResponder"/>
-									<int key="NSvFlags">274</int>
-									<string key="NSFrameSize">{320, 367}</string>
-									<bool key="IBUIOpaque">NO</bool>
-									<bool key="IBUIClipsSubviews">YES</bool>
-									<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-									<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
-									<int key="IBUIStyle">1</int>
-									<int key="IBUISeparatorStyle">1</int>
-									<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
-									<bool key="IBUIAllowsSelectionDuringEditing">YES</bool>
-									<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
-									<float key="IBUIRowHeight">4.400000e+01</float>
-									<float key="IBUISectionHeaderHeight">1.000000e+01</float>
-									<float key="IBUISectionFooterHeight">1.000000e+01</float>
-								</object>
-								<object class="IBUINavigationItem" key="IBUINavigationItem" id="387634075">
-									<string key="IBUITitle">Bookmarks</string>
-									<object class="IBUIBarButtonItem" key="IBUIBackBarButtonItem" id="1036492613">
-										<string key="IBUITitle">Back</string>
-										<int key="IBUIStyle">1</int>
-									</object>
-								</object>
-								<reference key="IBUIParentViewController" ref="45271972"/>
-								<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-							</object>
-						</object>
-					</object>
+					<reference ref="45271972"/>
 					<object class="IBUINavigationController" id="657958296">
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="22041474">
 							<string key="IBUITitle">Recent</string>
@@ -243,6 +209,7 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">Clock.png</string>
 							</object>
+							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="231362614"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -292,6 +259,7 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">MagnifyingGlass.png</string>
 							</object>
+							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="231362614"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -334,7 +302,52 @@
 							</object>
 						</object>
 					</object>
-					<reference ref="344025381"/>
+					<object class="IBUINavigationController" id="344025381">
+						<string key="IBUITitle">Details</string>
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="941399378">
+							<string key="IBUITitle">Details</string>
+							<object class="NSCustomResource" key="IBUIImage">
+								<string key="NSClassName">NSImage</string>
+								<string key="NSResourceName">Gear.png</string>
+							</object>
+							<reference key="IBUITabBar"/>
+						</object>
+						<reference key="IBUIParentViewController" ref="231362614"/>
+						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
+						<object class="IBUINavigationBar" key="IBUINavigationBar" id="516970463">
+							<nil key="NSNextResponder"/>
+							<int key="NSvFlags">256</int>
+							<string key="NSFrameSize">{0, 0}</string>
+							<bool key="IBUIOpaque">NO</bool>
+							<bool key="IBUIClipsSubviews">YES</bool>
+							<bool key="IBUIMultipleTouchEnabled">YES</bool>
+						</object>
+						<object class="NSMutableArray" key="IBUIViewControllers">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBUITableViewController" id="1044085464">
+								<object class="IBUITableView" key="IBUIView" id="560310566">
+									<nil key="NSNextResponder"/>
+									<int key="NSvFlags">274</int>
+									<string key="NSFrameSize">{320, 367}</string>
+									<bool key="IBUIOpaque">NO</bool>
+									<bool key="IBUIClipsSubviews">YES</bool>
+									<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+									<int key="IBUIStyle">1</int>
+									<int key="IBUISeparatorStyle">1</int>
+									<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
+									<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
+									<float key="IBUIRowHeight">4.400000e+01</float>
+									<float key="IBUISectionHeaderHeight">1.000000e+01</float>
+									<float key="IBUISectionFooterHeight">1.000000e+01</float>
+								</object>
+								<object class="IBUINavigationItem" key="IBUINavigationItem" id="76512064">
+									<string key="IBUITitle">Details</string>
+								</object>
+								<reference key="IBUIParentViewController" ref="344025381"/>
+								<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
+							</object>
+						</object>
+					</object>
 				</object>
 				<object class="IBUITabBar" key="IBUITabBar" id="660484408">
 					<nil key="NSNextResponder"/>
@@ -543,6 +556,22 @@
 						<reference key="destination" ref="739157883"/>
 					</object>
 					<int key="connectionID">307</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">customEditButtonItem</string>
+						<reference key="source" ref="255817727"/>
+						<reference key="destination" ref="687062731"/>
+					</object>
+					<int key="connectionID">309</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">onEditButton:</string>
+						<reference key="source" ref="687062731"/>
+						<reference key="destination" ref="255817727"/>
+					</object>
+					<int key="connectionID">310</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -775,6 +804,7 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="1036492613"/>
+							<reference ref="687062731"/>
 						</object>
 						<reference key="parent" ref="255817727"/>
 					</object>
@@ -864,6 +894,11 @@
 						<reference key="object" ref="739157883"/>
 						<reference key="parent" ref="153575895"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">308</int>
+						<reference key="object" ref="687062731"/>
+						<reference key="parent" ref="387634075"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -910,6 +945,7 @@
 					<string>3.CustomClassName</string>
 					<string>3.IBPluginDependency</string>
 					<string>305.IBPluginDependency</string>
+					<string>308.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -961,6 +997,7 @@
 					<string>OBAApplicationContext</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -983,7 +1020,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">307</int>
+			<int key="maxID">310</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1033,9 +1070,22 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">OBABookmarksViewController</string>
 					<string key="superclassName">UITableViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">onEditButton:</string>
+						<string key="NS.object.0">id</string>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">appContext</string>
-						<string key="NS.object.0">OBAApplicationContext</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSMutableArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>appContext</string>
+							<string>customEditButtonItem</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>OBAApplicationContext</string>
+							<string>UIBarButtonItem</string>
+						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>

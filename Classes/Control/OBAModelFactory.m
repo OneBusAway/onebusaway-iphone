@@ -113,7 +113,7 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
 	[digester addRouteRulesWithPrefix:@"/[]"];
 	[digester addSetNext:@selector(addObject:) forPrefix:@"/[]"];
-	[digester addTarget:self selector:@selector(saveIfNeededForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:@"/"];
+	[digester addTarget:digester selector:@selector(saveIfNeededForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:@"/"];
 	[digester parse:jsonArray withRoot:results parameters:[self getDigesterParameters] error:error];
 	[digester release];
 	
@@ -149,7 +149,7 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	[digester addSetNext:@selector(setAgency:) forPrefix:@"/[]/agency"];
 	[digester addSetCoordinatePropertyRule:@"coordinate" withPrefix:@"/[]" method:OBASetCoordinatePropertyMethodLatLon];
 	[digester addSetNext:@selector(addObject:) forPrefix:@"/[]"];
-	[digester addTarget:self selector:@selector(saveIfNeededForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:@"/"];
+	[digester addTarget:digester selector:@selector(saveIfNeededForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:@"/"];
 	
 	[digester parse:jsonArray withRoot:results parameters:[self getDigesterParameters] error:error];
 	[digester release];
@@ -168,7 +168,7 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	[digester addSetNext:@selector(setArrivalsAndDepartures:) forPrefix:@"/arrivalsAndDepartures"];
 	[digester addArrivalAndDepartureRulesWithPrefix:@"/arrivalsAndDepartures/[]"];
 	[digester addSetNext:@selector(addObject:) forPrefix:@"/arrivalsAndDepartures/[]"];	
-	[digester addTarget:self selector:@selector(saveIfNeededForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:@"/"];
+	[digester addTarget:digester selector:@selector(saveIfNeededForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:@"/"];
 	
 	[digester parse:jsonDictionary withRoot:ads parameters:[self getDigesterParameters] error:error];
 	[digester release];

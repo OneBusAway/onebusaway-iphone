@@ -19,10 +19,13 @@
 
 @interface OBABookmarksViewController : UITableViewController <OBANavigationTargetAware> {
 	OBAApplicationContext * _appContext;	
-	UIBarButtonItem * _editButton;
 	NSArray * _bookmarks;
+	UIBarButtonItem * _customEditButtonItem;
 }
 
 @property (nonatomic,retain) IBOutlet OBAApplicationContext * appContext;
+@property (nonatomic,retain) IBOutlet UIBarButtonItem * customEditButtonItem;
+
+- (IBAction) onEditButton:(id)sender;
 
 @end
