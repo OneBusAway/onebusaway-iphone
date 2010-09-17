@@ -8,7 +8,6 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="223"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -49,18 +48,18 @@
 			<object class="IBUITabBarController" id="231362614">
 				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-				<object class="IBUINavigationController" key="IBUISelectedViewController" id="121379705">
-					<object class="IBUITabBarItem" key="IBUITabBarItem" id="779036937">
-						<string key="IBUITitle">Search</string>
+				<object class="IBUINavigationController" key="IBUISelectedViewController" id="344025381">
+					<string key="IBUITitle">Details</string>
+					<object class="IBUITabBarItem" key="IBUITabBarItem" id="941399378">
+						<string key="IBUITitle">Details</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">MagnifyingGlass.png</string>
+							<string key="NSResourceName">Gear.png</string>
 						</object>
-						<reference key="IBUITabBar"/>
 					</object>
 					<reference key="IBUIParentViewController" ref="231362614"/>
 					<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-					<object class="IBUINavigationBar" key="IBUINavigationBar" id="96820163">
+					<object class="IBUINavigationBar" key="IBUINavigationBar" id="516970463">
 						<nil key="NSNextResponder"/>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrameSize">{0, 0}</string>
@@ -70,16 +69,14 @@
 					</object>
 					<object class="NSMutableArray" key="IBUIViewControllers">
 						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="IBUITableViewController" id="442544276">
-							<object class="IBUITableView" key="IBUIView" id="816047756">
-								<reference key="NSNextResponder"/>
+						<object class="IBUITableViewController" id="1044085464">
+							<object class="IBUITableView" key="IBUIView" id="560310566">
+								<nil key="NSNextResponder"/>
 								<int key="NSvFlags">274</int>
 								<string key="NSFrameSize">{320, 367}</string>
-								<reference key="NSSuperview"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-								<bool key="IBUIScrollEnabled">NO</bool>
 								<int key="IBUIStyle">1</int>
 								<int key="IBUISeparatorStyle">1</int>
 								<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
@@ -88,15 +85,10 @@
 								<float key="IBUISectionHeaderHeight">1.000000e+01</float>
 								<float key="IBUISectionFooterHeight">1.000000e+01</float>
 							</object>
-							<object class="IBUINavigationItem" key="IBUINavigationItem" id="153575895">
-								<reference key="IBUINavigationBar"/>
-								<string key="IBUITitle">Search</string>
-								<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="739157883">
-									<string key="IBUITitle">Cancel</string>
-									<int key="IBUIStyle">1</int>
-								</object>
+							<object class="IBUINavigationItem" key="IBUINavigationItem" id="76512064">
+								<string key="IBUITitle">Details</string>
 							</object>
-							<reference key="IBUIParentViewController" ref="121379705"/>
+							<reference key="IBUIParentViewController" ref="344025381"/>
 							<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 						</object>
 					</object>
@@ -110,7 +102,6 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">CrossHairs.png</string>
 							</object>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="231362614"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -202,7 +193,6 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">Bookmarks.png</string>
 							</object>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="231362614"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -253,7 +243,6 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">Clock.png</string>
 							</object>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="231362614"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -296,19 +285,17 @@
 							</object>
 						</object>
 					</object>
-					<reference ref="121379705"/>
-					<object class="IBUINavigationController" id="344025381">
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="941399378">
-							<string key="IBUITitle">Settings</string>
+					<object class="IBUINavigationController" id="121379705">
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="779036937">
+							<string key="IBUITitle">Search</string>
 							<object class="NSCustomResource" key="IBUIImage">
 								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">Gear.png</string>
+								<string key="NSResourceName">MagnifyingGlass.png</string>
 							</object>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="231362614"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-						<object class="IBUINavigationBar" key="IBUINavigationBar" id="516970463">
+						<object class="IBUINavigationBar" key="IBUINavigationBar" id="96820163">
 							<nil key="NSNextResponder"/>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrameSize">{0, 0}</string>
@@ -318,14 +305,15 @@
 						</object>
 						<object class="NSMutableArray" key="IBUIViewControllers">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUITableViewController" id="1044085464">
-								<object class="IBUITableView" key="IBUIView" id="560310566">
+							<object class="IBUITableViewController" id="442544276">
+								<object class="IBUITableView" key="IBUIView" id="816047756">
 									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
 									<string key="NSFrameSize">{320, 367}</string>
 									<bool key="IBUIOpaque">NO</bool>
 									<bool key="IBUIClipsSubviews">YES</bool>
 									<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+									<bool key="IBUIScrollEnabled">NO</bool>
 									<int key="IBUIStyle">1</int>
 									<int key="IBUISeparatorStyle">1</int>
 									<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
@@ -334,14 +322,19 @@
 									<float key="IBUISectionHeaderHeight">1.000000e+01</float>
 									<float key="IBUISectionFooterHeight">1.000000e+01</float>
 								</object>
-								<object class="IBUINavigationItem" key="IBUINavigationItem" id="76512064">
-									<string key="IBUITitle">Settings</string>
+								<object class="IBUINavigationItem" key="IBUINavigationItem" id="153575895">
+									<string key="IBUITitle">Search</string>
+									<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="739157883">
+										<string key="IBUITitle">Cancel</string>
+										<int key="IBUIStyle">1</int>
+									</object>
 								</object>
-								<reference key="IBUIParentViewController" ref="344025381"/>
+								<reference key="IBUIParentViewController" ref="121379705"/>
 								<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 							</object>
 						</object>
 					</object>
+					<reference ref="344025381"/>
 				</object>
 				<object class="IBUITabBar" key="IBUITabBar" id="660484408">
 					<nil key="NSNextResponder"/>

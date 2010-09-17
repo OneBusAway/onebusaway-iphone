@@ -32,9 +32,12 @@
 #import "OBALockViewController.h"
 
 
-static NSString * kOBASavedNavigationTargets = @"OBASavedNavigationTargets";
-static NSString * kOBAApplicationTerminationTimestamp = @"OBAApplicationTerminationTimestamp";
-static NSString * kOBALocationAware = @"OBALocationAware";
+static NSString * kOBAHiddenPreferenceLocationAwareDisabled = @"OBALocationAwareDisabled";
+static NSString * kOBAHiddenPreferenceSavedNavigationTargets = @"OBASavedNavigationTargets";
+static NSString * kOBAHiddenPreferenceApplicationTerminationTimestamp = @"OBAApplicationTerminationTimestamp";
+
+static NSString * kOBAPreferenceShowOnStartup = @"oba_show_on_start_preference";
+static NSString * kOBAPreferenceClearLocalCacheOnStartup = @"oba_clear_local_cache_preference";
 
 static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15*60;
 static const BOOL kDeleteModelOnStartup = FALSE;
@@ -195,20 +198,32 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	_setup = TRUE;
 	NSError * error = nil;
 	
+	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+	NSFileManager * manager = [NSFileManager defaultManager];
+	
+	NSString * path = [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"OneBusAway.sqlite"];
+
+	BOOL clearCacheOnStartup= [userDefaults boolForKey:kOBAPreferenceClearLocalCacheOnStartup];
+	[userDefaults setBool:FALSE forKey:kOBAPreferenceClearLocalCacheOnStartup];
+	
+	if( clearCacheOnStartup || kDeleteModelOnStartup ) {
+
+		if( ! [manager removeItemAtPath:path error:&error] )
+			OBALogSevereWithError(error,@"Error deleting file: %@",path);
+		
+		[userDefaults removeObjectForKey:kOBAHiddenPreferenceLocationAwareDisabled];
+		[userDefaults removeObjectForKey:kOBAHiddenPreferenceSavedNavigationTargets];
+		[userDefaults removeObjectForKey:kOBAHiddenPreferenceApplicationTerminationTimestamp];
+	}
+
+	if( kIncludeUWUserStudyCode ) {
+		_locationAware = ! [userDefaults boolForKey:kOBAHiddenPreferenceLocationAwareDisabled];
+	}
+	
 	NSManagedObjectModel * managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
 	NSPersistentStoreCoordinator * persistentStoreCoordinator = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: managedObjectModel] autorelease];
 	
-	NSString * path = [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"OneBusAway.sqlite"];
 	NSURL *storeUrl = [NSURL fileURLWithPath: path];
-	NSFileManager * manager = [NSFileManager defaultManager];
-	
-	// Delete model on startup?
-	if( kDeleteModelOnStartup ) {
-		if( ! [manager removeItemAtPath:path error:&error] ) {
-			OBALogSevereWithError(error,@"Error deleting file: %@",path);
-			return;
-		}	
-	}
 	
 	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
 		
@@ -239,11 +254,6 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	[_activityListeners addListener:_modelDao];
 	
 	_modelFactory = [[OBAModelFactory alloc] initWithManagedObjectContext:_managedObjectContext];
-	
-	if( kIncludeUWUserStudyCode ) {
-		NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-		_locationAware = [userDefaults boolForKey:kOBALocationAware];
-	}
 	
 	if( _locationAware )
 		[_locationManager startUpdatingLocation];
@@ -279,10 +289,10 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	NSData *dateData = [NSKeyedArchiver archivedDataWithRootObject:[NSDate date]];
 	
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-	[userDefaults setObject:data forKey:kOBASavedNavigationTargets];
-	[userDefaults setObject:dateData forKey:kOBAApplicationTerminationTimestamp];
+	[userDefaults setObject:data forKey:kOBAHiddenPreferenceSavedNavigationTargets];
+	[userDefaults setObject:dateData forKey:kOBAHiddenPreferenceApplicationTerminationTimestamp];
 	if( kIncludeUWUserStudyCode )
-		[userDefaults setBool:_locationAware forKey:kOBALocationAware];
+		[userDefaults setBool:(!_locationAware) forKey:kOBAHiddenPreferenceLocationAwareDisabled];
 	[targets release];	
 }
 
@@ -290,18 +300,23 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	
+	NSInteger showOnStartup = [userDefaults integerForKey:kOBAPreferenceShowOnStartup];
+
+	if( 0 <= showOnStartup && showOnStartup < 3 )
+		_tabBarController.selectedIndex = showOnStartup;
+
 	// We only restore the application state if it's been less than x minutes
 	// The idea is that, typically, if it's been more than x minutes, you've moved
 	// on from the stop you were looking at, so we should just return to the home
 	// screen
-	NSData * dateData = [userDefaults objectForKey:kOBAApplicationTerminationTimestamp];
+	NSData * dateData = [userDefaults objectForKey:kOBAHiddenPreferenceApplicationTerminationTimestamp];
 	if( ! dateData ) 
 		return;
 	NSDate * date = [NSKeyedUnarchiver unarchiveObjectWithData:dateData];
 	if( ! date || (-[date timeIntervalSinceNow]) > kMaxTimeSinceApplicationTerminationToRestoreState )
 		return;
 	
-	NSData *data = [userDefaults objectForKey:kOBASavedNavigationTargets];
+	NSData *data = [userDefaults objectForKey:kOBAHiddenPreferenceSavedNavigationTargets];
 	
 	if( ! data )
 		return;
