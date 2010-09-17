@@ -129,7 +129,7 @@
 		NSString * stopId = [_bookmark.stopIds objectAtIndex:indexPath.row-1];
 		OBAStopV2 * stop = [_stops objectForKey:stopId];
 		if( stop )
-			cell.textLabel.text = [NSString stringWithFormat:@"%@ - Stop # %@",stop.name,stop.code];
+			cell.textLabel.text = [NSString stringWithFormat:@"Stop # %@ - %@",stop.code,stop.name];
 		else
 			cell.textLabel.text = @"Loading stop info...";
 		

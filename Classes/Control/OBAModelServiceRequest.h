@@ -12,6 +12,8 @@
 	
 	id<OBADataSourceConnection> _connection;
 	UIBackgroundTaskIdentifier _bgTask;
+	
+	BOOL _clean;
 }
 
 @property (nonatomic, assign) id<OBAModelServiceDelegate> delegate;

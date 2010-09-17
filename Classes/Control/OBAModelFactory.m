@@ -55,6 +55,8 @@ static NSString * const kReferences = @"references";
 - (void) addRouteToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
 - (void) addStopToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
 
+- (void) setReferencesForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
+
 - (void) addSetCoordinatePropertyRule:(NSString*)propertyName withPrefix:(NSString*)prefix method:(OBASetCoordinatePropertyMethod)method;
 - (void) addSetLocationPropertyRule:(NSString*)propertyName withPrefix:(NSString*)prefix;
 
@@ -267,6 +269,8 @@ static NSString * const kReferences = @"references";
 	[self addSetPropertyRule:@"predictedArrivalTime" forPrefix:[self extendPrefix:prefix withValue:@"predictedArrivalTime"]];
 	[self addSetPropertyRule:@"scheduledDepartureTime" forPrefix:[self extendPrefix:prefix withValue:@"scheduledDepartureTime"]];
 	[self addSetPropertyRule:@"predictedDepartureTime" forPrefix:[self extendPrefix:prefix withValue:@"predictedDepartureTime"]];
+	
+	[self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];
 }
 
 - (void) addAgencyToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
@@ -288,6 +292,12 @@ static NSString * const kReferences = @"references";
 	OBAReferencesV2 * refs = [context getParameterForKey:kReferences];
 	[refs addStop:stop];
 	stop.references = refs;
+}
+
+- (void) setReferencesForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
+	OBAHasReferencesV2 * top = [context peek:0];
+	OBAReferencesV2 * refs = [context getParameterForKey:kReferences];
+	top.references = refs;
 }
 
 - (void) addSetCoordinatePropertyRule:(NSString*)propertyName withPrefix:(NSString*)prefix method:(OBASetCoordinatePropertyMethod)method {

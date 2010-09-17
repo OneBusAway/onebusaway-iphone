@@ -18,6 +18,8 @@
 
 static const double kRadiusOfEarthInMeters = 6371.01 * 1000;
 
+
+
 @implementation OBASphericalGeometryLibrary
 
 + (MKCoordinateRegion) createRegionWithCenter:(CLLocationCoordinate2D)center latRadius:(double)latRadiusInMeters lonRadius:(double)lonRadiusInMeters {
@@ -37,7 +39,7 @@ static const double kRadiusOfEarthInMeters = 6371.01 * 1000;
 + (double) getDistanceFromRegion:(MKCoordinateRegion)regionA toRegion:(MKCoordinateRegion)regionB {
 	CLLocation * a = [[[CLLocation alloc] initWithLatitude:regionA.center.latitude longitude:regionA.center.longitude] autorelease];
 	CLLocation * b = [[[CLLocation alloc] initWithLatitude:regionB.center.latitude longitude:regionB.center.longitude] autorelease];
-	return [a distanceFromLocation:b];	
+	return [a distanceFromLocationSafe:b];	
 }
 
 + (BOOL) isRegion:(MKCoordinateRegion)regionA containedBy:(MKCoordinateRegion)regionB {
@@ -78,3 +80,14 @@ static const double kRadiusOfEarthInMeters = 6371.01 * 1000;
 }
 
 @end
+
+@implementation CLLocation (OBAConvenienceMethods)
+
+- (CLLocationDistance)distanceFromLocationSafe:(const CLLocation *)location {
+	if( [self respondsToSelector:@selector(distanceFromLocation:)] )
+		return [self distanceFromLocation:location];
+	return [self getDistanceFrom:location];			
+}
+
+@end
+

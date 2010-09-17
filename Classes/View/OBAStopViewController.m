@@ -584,14 +584,16 @@ typedef enum {
 }
 
 NSComparisonResult predictedArrivalSortByDepartureTime(id pa1, id pa2, void * context) {
-	return ((OBAArrivalAndDeparture*)pa1).bestDepartureTime - ((OBAArrivalAndDeparture*)pa2).bestDepartureTime;
+	return ((OBAArrivalAndDepartureV2*)pa1).bestDepartureTime - ((OBAArrivalAndDepartureV2*)pa2).bestDepartureTime;
 }
 
 NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
-	OBAArrivalAndDeparture* pa1 = o1;
-	OBAArrivalAndDeparture* pa2 = o2;
+	OBAArrivalAndDepartureV2* pa1 = o1;
+	OBAArrivalAndDepartureV2* pa2 = o2;
 	
-	NSComparisonResult r = [pa1.route compareUsingName:pa2.route];
+	OBARouteV2 * r1 = pa1.route;
+	OBARouteV2 * r2 = pa2.route;
+	NSComparisonResult r = [r1 compareUsingName:r2];
 	
 	if( r == 0)
 		r = predictedArrivalSortByDepartureTime(pa1,pa2,context);

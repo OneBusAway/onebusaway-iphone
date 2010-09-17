@@ -510,7 +510,7 @@ typedef enum  {
 		for( int i=0; i<[directionIds count]; i++) {		
 			NSString * directionId = [directionIds objectAtIndex:i];
 			NSString * key = [NSString stringWithFormat:@"%@StopIcon%@",iconType,directionId];
-			NSString * imageName = [NSString stringWithFormat:@"%@",key];
+			NSString * imageName = [NSString stringWithFormat:@"%@.png",key];
 			UIImage * image = [UIImage imageNamed:imageName];
 			[_stopIcons setObject:image forKey:key];
 		}		
@@ -948,8 +948,8 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	CLLocation * stopLocation1 = [[CLLocation alloc] initWithLatitude:stop1.lat longitude:stop1.lon];
 	CLLocation * stopLocation2 = [[CLLocation alloc] initWithLatitude:stop2.lat longitude:stop2.lon];
 	
-	double v1 = [location distanceFromLocation:stopLocation1];
-	double v2 = [location distanceFromLocation:stopLocation2];
+	double v1 = [location distanceFromLocationSafe:stopLocation1];
+	double v2 = [location distanceFromLocationSafe:stopLocation2];
 	
 	[stopLocation1 release];
 	[stopLocation2 release];
@@ -998,7 +998,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	
 	for( OBAStop * stop in stops) {
 		CLLocation * location = [[CLLocation alloc] initWithLatitude:stop.lat longitude:stop.lon];
-		double d = [location distanceFromLocation:center];
+		double d = [location distanceFromLocationSafe:center];
 		if( d < kMaxMapDistanceFromCurrentLocationForNearby )
 			[stopsInRange addObject:stop];
 		[location release];

@@ -28,3 +28,10 @@
 + (NSString*) regionAsString:(MKCoordinateRegion)region;
 
 @end
+
+
+@interface CLLocation (OBAConvenienceMethods)
+
+- (CLLocationDistance)distanceFromLocationSafe:(const CLLocation *)location;
+
+@end

@@ -2,6 +2,13 @@
 #import "UIDeviceExtensions.h"
 
 
+@interface OBAModelServiceRequest (Private)
+
+- (void) cleanup;
+
+@end
+
+
 @implementation OBAModelServiceRequest
 
 @synthesize delegate = _delegate;
@@ -19,11 +26,20 @@
 		_checkCode = TRUE;
 		if ([[UIDevice currentDevice] isMultitaskingSupportedSafe])
             _bgTask = UIBackgroundTaskInvalid;
+		
+		/**
+		 * Why do we retain ourselves?  Many client apps will release their reference to us
+		 * in the delegate methods.  To make sure we stick around long enough to perform cleanup,
+		 * we keep a reference to ourselves that we'll release in the cleanup phase.
+		 */
+		_clean = FALSE;
+		[self retain];		
 	}
 	return self;
 }
 
 - (void) dealloc {
+	[self endBackgroundTask];
 	[_connection release];
 	[_context release];
 	[_modelFactory release];
@@ -87,26 +103,39 @@
 
 - (void) cancel {
 	[_connection cancel];
-	[self endBackgroundTask];
+	[self cleanup];
 }
 
 #pragma mark OBADataSourceDelegate
 
 - (void) connectionDidFinishLoading:(id<OBADataSourceConnection>)connection withObject:(id)obj context:(id)context {
 	[self handleResult:obj];
-	[self endBackgroundTask];
+	[self cleanup];
 }
 
 - (void) connectionDidFail:(id<OBADataSourceConnection>)connection withError:(NSError *)error context:(id)context {
 	if( [_delegate respondsToSelector:@selector(requestDidFail:withError:context:)] )	
 		[_delegate requestDidFail:self withError:error context:_context];
-	[self endBackgroundTask];
+	[self cleanup];
 }
 
 - (void) connection:(id<OBADataSourceConnection>)connection withProgress:(float)progress {
 	if( [_delegate respondsToSelector:@selector(request:withProgress:context:)] )
 		[_delegate request:self withProgress:progress context:_context];
-	[self endBackgroundTask];
 }
 
 @end
+
+
+@implementation OBAModelServiceRequest (Private)
+
+- (void) cleanup {
+	if( _clean )
+		return;
+	_clean = TRUE;
+	[self endBackgroundTask];
+	[self release];
+}
+
+@end
+
