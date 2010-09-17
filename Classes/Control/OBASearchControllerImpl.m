@@ -465,14 +465,19 @@ static const float kSearchRadius = 400;
 
 -(void) handleSearchByRoute:(id)jsonObject {
 	
-	NSArray * data = [jsonObject valueForKey:@"data"];
+	NSDictionary * data = [jsonObject valueForKey:@"data"];
 	
 	if( ! data || [data isEqual:[NSNull null]])
 		return;
 	
+	NSArray * routesArray = [data valueForKey:@"routes"];
+	
+	if( ! routesArray )
+		return;
+	
 	OBAModelFactory * modelFactory = _appContext.modelFactory;
 	NSError * localError = nil;
-	NSArray * routes = [modelFactory getRoutesFromJSONArray:data error:&localError];
+	NSArray * routes = [modelFactory getRoutesFromJSONArray:routesArray error:&localError];
 	
 	if( localError ) {
 		[self fireError:localError];
