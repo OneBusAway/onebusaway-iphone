@@ -218,28 +218,6 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 	return YES;	
 }
 
-// Called whenever user enters/deletes character
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    // only check for route/stop id entry
-    if (_currentSearchType == OBASearchTypeByAddress)
-        return YES;
-    
-    // ignore copying/pasting more than one character because we can't
-    // change the input to just valid characters.
-    if ([string length] > 1)
-        return YES;
-
-    // for route/stop id entry, only allow numbers to be entered
-    NSString * numbersSet = @"01234556789";
-
-    // These are the characters that are *not* acceptable
-    NSCharacterSet * unacceptedInput =
-    [[NSCharacterSet characterSetWithCharactersInString:numbersSet] invertedSet];
-    
-    return ([string stringByTrimmingCharactersInSet:unacceptedInput].length > 0);
-}
-
 #pragma mark OBANavigationTargetAware
 
 - (OBANavigationTarget*) navigationTarget {
