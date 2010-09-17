@@ -30,8 +30,13 @@
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBAEditStopPreferencesViewController.h"
 
+#import "OBASearchController.h"
+#import "OBASphericalGeometryLibrary.h"
+
 #import "UIDeviceExtensions.h"
 
+
+static const double kNearbyStopRadius = 200;
 
 typedef enum {
 	OBASectionNone, OBASectionStop, OBASectionArrivals, OBASectionFilter, OBASectionOptions
@@ -46,6 +51,8 @@ typedef enum {
 - (void)determineFilterTypeCellText:(UITableViewCell*)filterTypeCell filteringEnabled:(bool)filteringEnabled;
 - (UITableViewCell*) tableView:(UITableView*)tableView filterCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath;
+
+- (void)tableView:(UITableView *)tableView didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath;
 
 - (void) reloadData;
 
@@ -236,7 +243,7 @@ typedef enum {
 		case OBASectionFilter:
 			return 1;
 		case OBASectionOptions:
-			return 2;
+			return 3;
 		default:
 			return 0;
 	}
@@ -312,29 +319,11 @@ typedef enum {
 			
 			break;
 		}
-		case OBASectionOptions: {            
-            switch(indexPath.row) {
-                case 0: {
-                    OBABookmarkV2 * bookmark = [_appContext.modelDao createTransientBookmark:_source.stop];
-                    
-                    OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:_appContext bookmark:bookmark editType:OBABookmarkEditNew];
-                    [self.navigationController pushViewController:vc animated:YES];
-                    [vc release];
-                    
-                    break;
-                }
-
-                case 1: {
-                    OBAEditStopPreferencesViewController * vc = [[OBAEditStopPreferencesViewController alloc] initWithApplicationContext:_appContext stop:_source.stop];
-                    [self.navigationController pushViewController:vc animated:YES];
-                    [vc release];
-                    
-                    break;
-                }
-            }
-
+		
+		case OBASectionOptions:
+			[self tableView:tableView didSelectActionRowAtIndexPath:indexPath];
 			break;
-		}
+
 		default:
 			break;
 	}
@@ -492,12 +481,50 @@ typedef enum {
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
-    if (indexPath.row == 0)
-		cell.textLabel.text = @"Add to Bookmarks";
-	else if (indexPath.row == 1)
-		cell.textLabel.text = @"Filter & Sort Routes";
-
+	switch(indexPath.row) {
+		case 0:
+			cell.textLabel.text = @"Add to Bookmarks";
+			break;
+		case 1:
+			cell.textLabel.text = @"Filter & Sort Routes";
+			break;
+		case 2:
+			cell.textLabel.text = @"Nearby Stops";
+			break;
+	}
+	
 	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath {
+	switch(indexPath.row) {
+		case 0: {
+			OBABookmarkV2 * bookmark = [_appContext.modelDao createTransientBookmark:_source.stop];
+			
+			OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:_appContext bookmark:bookmark editType:OBABookmarkEditNew];
+			[self.navigationController pushViewController:vc animated:YES];
+			[vc release];
+			
+			break;
+		}
+			
+		case 1: {
+			OBAEditStopPreferencesViewController * vc = [[OBAEditStopPreferencesViewController alloc] initWithApplicationContext:_appContext stop:_source.stop];
+			[self.navigationController pushViewController:vc animated:YES];
+			[vc release];
+			
+			break;
+		}
+			
+		case 2: {
+			OBAStopV2 * stop = _source.stop;
+			MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:stop.coordinate latRadius:kNearbyStopRadius lonRadius:kNearbyStopRadius];
+			OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchLocationRegion:region];
+			[_appContext navigateToTarget:target];
+			break;
+		}
+	}
+	
 }
 
 - (IBAction)onRefreshButton:(id)sender {

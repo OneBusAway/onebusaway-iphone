@@ -118,6 +118,11 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 }
 
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget {
+	
+	UINavigationController * current = (UINavigationController*) _tabBarController.selectedViewController;
+	if( current )
+		[current popToRootViewControllerAnimated:FALSE];
+	
 	switch (navigationTarget.target) {
 		case OBANavigationTargetTypeSearchResults: {
 			UINavigationController * mapNavController = [_tabBarController.viewControllers objectAtIndex:0];
@@ -380,8 +385,6 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 	
 	return nil;
 }
-
-
 
 - (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults {
 	

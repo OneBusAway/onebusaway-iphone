@@ -234,11 +234,26 @@ typedef enum  {
 #pragma mark OBANavigationTargetAware
 
 - (OBANavigationTarget*) navigationTarget {
-	return [_searchController getSearchTarget];
+	if( _searchController.searchType == OBASearchControllerSearchTypeRegion )
+		return [OBASearchControllerFactory getNavigationTargetForSearchLocationRegion:_mapView.region];
+	else
+		return [_searchController getSearchTarget];
 }
 
 -(void) setNavigationTarget:(OBANavigationTarget*)target {
-	[_searchController searchWithTarget:target];
+
+
+	OBASearchControllerSearchType type = [OBASearchControllerFactory getSearchTypeForNagivationTarget:target];
+	if( type == OBASearchControllerSearchTypeRegion ) {
+		NSDictionary * parameters = target.parameters;
+		NSData * data = [parameters objectForKey:kOBASearchControllerSearchArgumentParameter];
+		MKCoordinateRegion region;
+		[data getBytes:&region];		
+		[self setMapRegion:region requestType:OBARegionChangeRequestTypeNone];
+	}
+	else {
+		[_searchController searchWithTarget:target];
+	}
     
     NSString * searchFilterDesc = [_searchController searchFilterString];
     if (searchFilterDesc != nil)

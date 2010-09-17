@@ -148,6 +148,35 @@ NSString * kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSe
 	return [self getNavigationTargetForSearchType:OBASearchControllerSearchTypeAgenciesWithCoverage];
 }
 
++ (OBASearchControllerSearchType) getSearchTypeForNagivationTarget:(OBANavigationTarget*)target {
+
+	// Update our target parameters
+	NSDictionary * parameters = target.parameters;	
+	NSNumber * searchTypeAsNumber = [parameters objectForKey:kOBASearchControllerSearchTypeParameter];
+	
+	if( ! searchTypeAsNumber )
+		searchTypeAsNumber = [NSNumber numberWithInt:OBASearchControllerSearchTypeNone];
+	
+	switch ([searchTypeAsNumber intValue]) {
+		case OBASearchControllerSearchTypeRegion:
+			return OBASearchControllerSearchTypeRegion;
+		case OBASearchControllerSearchTypeRoute:
+			return OBASearchControllerSearchTypeRoute;
+		case OBASearchControllerSearchTypeRouteStops:
+			return OBASearchControllerSearchTypeRouteStops;
+		case OBASearchControllerSearchTypeAddress:
+			return OBASearchControllerSearchTypeAddress;
+		case OBASearchControllerSearchTypePlacemark:
+			return OBASearchControllerSearchTypePlacemark;
+		case OBASearchControllerSearchTypeStopId:
+			return OBASearchControllerSearchTypeStopId;
+		case OBASearchControllerSearchTypeAgenciesWithCoverage:
+			return OBASearchControllerSearchTypeAgenciesWithCoverage;
+		default:
+			return OBASearchControllerSearchTypeNone;
+	}	
+}
+
 @end
 
 

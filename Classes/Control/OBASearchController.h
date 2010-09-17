@@ -107,6 +107,8 @@ typedef enum {
 + (OBANavigationTarget*) getNavigationTargetForSearchStopCode:(NSString*)stopIdQuery;
 + (OBANavigationTarget*) getNavigationTargetForSearchAgenciesWithCoverage;
 
++ (OBASearchControllerSearchType) getSearchTypeForNagivationTarget:(OBANavigationTarget*)target;
+
 @end
 	
 

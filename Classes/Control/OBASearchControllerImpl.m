@@ -29,8 +29,6 @@ static const float kSearchRadius = 400;
 
 @interface OBASearchControllerImpl (Internal)
 
-- (OBASearchControllerSearchType) searchTypeForNumber:(NSNumber*)number;
-
 - (CLLocation*) currentOrDefaultLocationToSearch;
 
 -(void) searchNone;
@@ -119,23 +117,18 @@ static const float kSearchRadius = 400;
 	_target = [NSObject releaseOld:_target retainNew:target];
 	
 	// Update our target parameters
-	NSDictionary * parameters = target.parameters;	
-	NSNumber * searchTypeAsNumber = [parameters objectForKey:kOBASearchControllerSearchTypeParameter];
-	
-	if( ! searchTypeAsNumber )
-		searchTypeAsNumber = [NSNumber numberWithInt:OBASearchControllerSearchTypeNone];
-	
-	OBASearchControllerSearchType searchType = [self searchTypeForNumber:searchTypeAsNumber];
+	OBASearchControllerSearchType type = [OBASearchControllerFactory getSearchTypeForNagivationTarget:target];
+	NSDictionary * parameters = target.parameters;		
 	
 	@synchronized(self) {
 		[self cancelOpenConnections];
 		
-		_searchType = searchType;
+		_searchType = type;
 		_result = [NSObject releaseOld:_result retainNew:nil];
 	}
 	
 	if( [_delegate respondsToSelector:@selector(handleSearchControllerStarted:)] )
-		[_delegate handleSearchControllerStarted:searchType];
+		[_delegate handleSearchControllerStarted:type];
 
 	switch (_searchType) {
 		case OBASearchControllerSearchTypeNone:
@@ -253,27 +246,6 @@ static const float kSearchRadius = 400;
 @end
 
 @implementation OBASearchControllerImpl (Internal)
-
-- (OBASearchControllerSearchType) searchTypeForNumber:(NSNumber*)number {
-	switch ([number intValue]) {
-		case OBASearchControllerSearchTypeRegion:
-			return OBASearchControllerSearchTypeRegion;
-		case OBASearchControllerSearchTypeRoute:
-			return OBASearchControllerSearchTypeRoute;
-		case OBASearchControllerSearchTypeRouteStops:
-			return OBASearchControllerSearchTypeRouteStops;
-		case OBASearchControllerSearchTypeAddress:
-			return OBASearchControllerSearchTypeAddress;
-		case OBASearchControllerSearchTypePlacemark:
-			return OBASearchControllerSearchTypePlacemark;
-		case OBASearchControllerSearchTypeStopId:
-			return OBASearchControllerSearchTypeStopId;
-		case OBASearchControllerSearchTypeAgenciesWithCoverage:
-			return OBASearchControllerSearchTypeAgenciesWithCoverage;
-		default:
-			return OBASearchControllerSearchTypeNone;
-	}		
-}
 
 - (CLLocation*) currentOrDefaultLocationToSearch {
 	
