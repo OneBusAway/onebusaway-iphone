@@ -182,11 +182,13 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 
 #pragma mark UITabBarControllerDelegate Methods
 
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-	if( tabBarController.selectedIndex == 0 ) {
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+	int index = tabBarController.selectedIndex;
+	if( index == 0 || index == 1 || index == 2 ) {
 		UINavigationController * rootNavController = (UINavigationController*) _tabBarController.selectedViewController;
 		[rootNavController  popToRootViewControllerAnimated:FALSE];
 	}
+	return YES;
 }
 
 @end
