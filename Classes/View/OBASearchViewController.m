@@ -104,6 +104,9 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 	[super viewWillDisappear:animated];
 	OBALocationManager * lm = _appContext.locationManager;
 	[lm stopUpdatingLocation];
+    
+    // hide keyboard
+    [_searchField resignFirstResponder];
 }	
 
 #pragma mark Table view methods
@@ -128,7 +131,6 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 }
 
 - (IBAction)onSearchTypeButton:(id)sender {
-	
 	switch(_currentSearchType) {
 		case OBASearchTypeByRoute:
 			_routeSavedValue = [_searchField.text retain];
@@ -168,12 +170,12 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 	}
 
 	// refresh keyboard type if it's up
-	if( [_searchField isFirstResponder] == YES ) {
+	if([_searchField isFirstResponder]) {
 		[_searchField resignFirstResponder];
 		[_searchField becomeFirstResponder];
 	}
 	
-	if( savedValue && [savedValue length] > 0)
+	if(savedValue && [savedValue length] > 0)
 		_searchField.text = savedValue;
 	else
 		_searchField.text = @"";
@@ -191,7 +193,6 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-	
 	self.navigationItem.rightBarButtonItem = nil;
 	
 	[_navigationTarget setParameter:textField.text forKey:kOBASearchValue];
@@ -239,5 +240,3 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 }
 
 @end
-
-
