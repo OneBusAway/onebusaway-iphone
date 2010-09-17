@@ -1019,7 +1019,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Ferris";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Brian Ferris";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1029,7 +1029,7 @@
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = OneBusAway;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8E27BCFB-6058-4DC6-A471-BFC73C3AA08C";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3C63961D-EAEB-48CD-BCBF-09E90E9A67A7";
 				SDKROOT = iphoneos3.0;
 			};
 			name = AdHocDistribution;
