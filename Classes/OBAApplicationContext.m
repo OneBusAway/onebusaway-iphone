@@ -209,7 +209,7 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 
 	NSString * apiServerName = [userDefaults objectForKey:@"oba_api_server"];
 	if( apiServerName == nil || [apiServerName length] == 0 )
-		apiServerName = @"soak-api.onebusaway.org";
+		apiServerName = @"api.onebusaway.org";
 	
 	apiServerName = [NSString stringWithFormat:@"http://%@",apiServerName];
 	
