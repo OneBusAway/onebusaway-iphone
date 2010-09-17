@@ -190,7 +190,7 @@ typedef enum  {
 	_searchController.delegate = self;	
 	_searchController.progress.delegate = self;
 
-    self.filterToolbar = [[OBASearchResultsMapFilterToolbar alloc] initWithDelegate:self];
+    self.filterToolbar = [[OBASearchResultsMapFilterToolbar alloc] initWithDelegate:self andAppContext:self.appContext];
 }
 
 - (void)viewDidUnload {
@@ -239,7 +239,6 @@ typedef enum  {
 
 -(void) setNavigationTarget:(OBANavigationTarget*)target {
 
-
 	OBASearchControllerSearchType type = [OBASearchControllerFactory getSearchTypeForNagivationTarget:target];
 	if( type == OBASearchControllerSearchTypeRegion ) {
 		NSDictionary * parameters = target.parameters;
@@ -252,7 +251,7 @@ typedef enum  {
 		[_searchController searchWithTarget:target];
 	}
     
-	[self refreshSearchToolbar];
+    [self refreshSearchToolbar];
 }
 
 #pragma mark OBASearchControllerDelegate Methods
@@ -694,7 +693,8 @@ typedef enum  {
 	
 	NSString * label = [self computeLabelForCurrentResults];
 	self.navigationItem.prompt = label;
-	
+    
+	[self refreshSearchToolbar];
 	[self checkResults];
 }
 
@@ -749,8 +749,6 @@ typedef enum  {
 }
 
 - (void) setAnnotationsFromResults {
-	
-	
 	NSMutableArray * annotations = [[NSMutableArray alloc] init];
 	
 	OBASearchControllerResult * result = _searchController.result;

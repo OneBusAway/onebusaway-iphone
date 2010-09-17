@@ -15,36 +15,33 @@
  */
 
 #import "OBASearchResultsMapFilterToolbar.h"
+#import "OBAApplicationContext.h" // for OBAApplicationContext.window
 
+
+// hidden declarations
+@interface OBASearchResultsMapFilterToolbar (hidden)
+
+-(void) hideInternal;
+
+@end
+
+
+// public implementation
 @implementation OBASearchResultsMapFilterToolbar
-
-// private methods
--(void) hideInternal {
-    if (_currentlyShowing) {
-        [_labelOutput removeFromSuperview];
-        [_descOutput  removeFromSuperview];
-        
-        _labelOutput = nil;
-        _descOutput  = nil;
-
-        [self removeFromSuperview];
-        _currentlyShowing = NO;
-    }
-}
-
 
 // propeties
 @synthesize filterDescription = _filterDescription;
+@synthesize appContext = _appContext;
 
 
 // methods
-const CGFloat kTabbarControllerHeight = 49.0;
-
--(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate {
+-(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate andAppContext:(OBAApplicationContext*)context {
     self = [super init];
     
     if (self != nil) {
         // init
+        self.appContext = context;
+
         _filterDelegate = delegate;
         [_filterDelegate retain];
         assert([_filterDelegate respondsToSelector:@selector(onFilterClear)]);
@@ -80,6 +77,7 @@ const CGFloat kTabbarControllerHeight = 49.0;
     [self hideInternal];
     
     [self.filterDescription release];
+    [self.appContext release];
     [_filterDelegate release];
     
     [super dealloc];
@@ -147,6 +145,7 @@ const CGFloat kTabbarControllerHeight = 49.0;
     [_descOutput  release];
 }
 
+
 -(void) showWithDescription:(NSString*)filterDescString animated:(BOOL)animated {
     BOOL justRefreshLabels = NO;
     
@@ -171,13 +170,17 @@ const CGFloat kTabbarControllerHeight = 49.0;
     // Size up the toolbar and set its frame
     self.alpha = 1.0;
     
+    // place the toolbar right on top of the tab bar
+    UITabBar* tabbar = [self.appContext tabBarController].tabBar;
+    const CGFloat tabbarHeight = tabbar.frame.size.height;
+
     [self sizeToFit];
-    
     const CGFloat toolbarHeight = self.frame.size.height;
-    const CGRect mainViewBounds = [[UIApplication sharedApplication] keyWindow].bounds;
+
+    const CGRect mainViewBounds = [self.appContext window].bounds;
     
     [self setFrame:CGRectMake(CGRectGetMinX(mainViewBounds),
-                              CGRectGetMinY(mainViewBounds) + CGRectGetHeight(mainViewBounds) - kTabbarControllerHeight - (toolbarHeight),
+                              CGRectGetMinY(mainViewBounds) + CGRectGetHeight(mainViewBounds) - tabbarHeight - (toolbarHeight),
                               CGRectGetWidth(mainViewBounds),
                               toolbarHeight)];
 
@@ -186,7 +189,7 @@ const CGFloat kTabbarControllerHeight = 49.0;
     [self setupLabels];
     
     // Attach the filter toolbar to the window view
-    [[[UIApplication sharedApplication] keyWindow] addSubview:self];
+    [[self.appContext window] addSubview:self];
 }
 
 
@@ -210,6 +213,25 @@ const CGFloat kTabbarControllerHeight = 49.0;
         [UIView commitAnimations];
     } else {
         [self hideInternal];
+    }
+}
+
+@end
+
+
+// hidden implementation
+@implementation OBASearchResultsMapFilterToolbar (hidden)
+
+-(void) hideInternal {
+    if (_currentlyShowing) {
+        [_labelOutput removeFromSuperview];
+        [_descOutput  removeFromSuperview];
+        
+        _labelOutput = nil;
+        _descOutput  = nil;
+        
+        [self removeFromSuperview];
+        _currentlyShowing = NO;
     }
 }
 

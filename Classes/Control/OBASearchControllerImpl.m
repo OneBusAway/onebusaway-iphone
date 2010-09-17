@@ -265,6 +265,10 @@ static const float kSearchRadius = 400;
 }
 
 -(void) searchNone {
+    // clear search filter description
+    self.searchFilterString = nil;
+    
+    // fire update
 	OBASearchControllerResult * result = [OBASearchControllerResult result];
 	[self fireUpdate:result];
 }

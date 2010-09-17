@@ -15,21 +15,23 @@
  */
 
 
+@class OBAApplicationContext;
+
 @interface OBASearchResultsMapFilterToolbar : UIToolbar {
-    // public
     NSString * _filterDescription;
-   
-    // private
     BOOL _currentlyShowing;
-    id _filterDelegate;
     
-    UILabel * _labelOutput;
-    UILabel * _descOutput;
+   	OBAApplicationContext * _appContext;
+    id                      _filterDelegate;
+    
+    UILabel * _labelOutput; // "Search: "
+    UILabel * _descOutput;  // "Route 8" or "Transit Agencies", etc
 }
 
-@property (nonatomic, retain) NSString * filterDescription;
+@property (nonatomic, retain) NSString *              filterDescription;
+@property (nonatomic, retain) OBAApplicationContext * appContext;
 
--(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate;
+-(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate andAppContext:(OBAApplicationContext*)context;
 -(void) dealloc;
 
 -(void) showWithDescription:(NSString*)filterDescString animated:(BOOL)animated;
