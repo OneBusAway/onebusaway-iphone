@@ -15,7 +15,7 @@
  */
 
 #import "OBASearchController.h"
-#import "OBARoute.h"
+#import "OBAStopV2.h"
 #import "OBAPlacemark.h"
 #import "OBAAgencyWithCoverage.h"
 #import "OBANavigationTargetAnnotation.h"
@@ -77,6 +77,31 @@ NSString * kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSe
 	[_values release];
 	[_additionalValues release];
 	[super dealloc];
+}
+
+- (OBASearchControllerResult*) resultsInRegion:(MKCoordinateRegion)region {
+	OBASearchControllerResult * result = [[[OBASearchControllerResult alloc] init] autorelease];
+	result.searchType = self.searchType;
+	result.outOfRange = self.outOfRange;
+	result.limitExceeded = self.limitExceeded;
+	
+	NSMutableArray * values = [[NSMutableArray alloc] init];
+	
+	for (id object in self.values) {
+		if( [object isKindOfClass:[OBAStopV2 class]] ) {
+			OBAStopV2 * stop = (OBAStopV2*) object;
+			if( [OBASphericalGeometryLibrary isCoordinate:stop.coordinate containedBy:region] )
+				[values addObject:object];
+		}
+		else {
+			[values addObject:object];
+		}
+	}
+	
+	result.values = values;
+	
+	return result;
+								
 }
 
 - (NSUInteger) count {

@@ -56,6 +56,7 @@ typedef enum {
 + (OBASearchControllerResult*) result;
 + (OBASearchControllerResult*) resultFromList:(OBAListWithRangeAndReferencesV2*)list;
 
+- (OBASearchControllerResult*) resultsInRegion:(MKCoordinateRegion)region;
 - (NSUInteger) count;
 
 @end
@@ -65,10 +66,12 @@ typedef enum {
 
 @protocol OBASearchControllerDelegate <NSObject>
 
+
 - (void) handleSearchControllerUpdate:(OBASearchControllerResult*)result;
 
 @optional
 
+- (void) handleSearchControllerStarted:(OBASearchControllerSearchType)searchType;
 - (void) handleSearchControllerError:(NSError*)error;
 
 @end

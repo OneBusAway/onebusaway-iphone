@@ -244,7 +244,6 @@ static NSString * const kEntityIdMappings = @"entityIdMappings";
 	[digester addReferencesRulesWithPrefix:@"/references"];
 	[digester addSetNext:@selector(setReferences:) forPrefix:@"/references"];
 	[digester addCallMethodRule:@selector(addStopId:) forPrefix:@"/entry/stopIds/[]"];
-	digester.verbose = TRUE;
 	[digester parse:jsonDictionary withRoot:result parameters:[self getDigesterParameters] error:error];
 	[digester release];
 	

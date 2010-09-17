@@ -70,13 +70,22 @@
 - (NSString*) subtitle {
 	NSString * r = [self routeNamesAsString];
 	if( self.direction )
-		return [NSString stringWithFormat:@"%@ bound - Routes: %@",self.direction,r];
-	return [NSString stringWithFormat:@"Routes: %@",r];
+		return [NSString stringWithFormat:@"# %@ - %@ bound - Routes: %@",self.code,self.direction,r];
+	return [NSString stringWithFormat:@"# %@ -Routes: %@",self.code,r];
 }
 
 - (CLLocationCoordinate2D) coordinate {
 	CLLocationCoordinate2D c = {self.lat,self.lon};
 	return c;
+}
+
+#pragma mark NSObject
+
+- (BOOL) isEqual:(id)object {
+	if (![object isKindOfClass:[OBAStopV2 class]])
+		return FALSE;
+	OBAStopV2 * stop = object;
+	return [self.stopId isEqual:stop.stopId];
 }
 
 @end

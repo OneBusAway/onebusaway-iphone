@@ -133,6 +133,9 @@ static const float kSearchRadius = 400;
 		_searchType = searchType;
 		_result = [NSObject releaseOld:_result retainNew:nil];
 	}
+	
+	if( [_delegate respondsToSelector:@selector(handleSearchControllerStarted:)] )
+		[_delegate handleSearchControllerStarted:searchType];
 
 	switch (_searchType) {
 		case OBASearchControllerSearchTypeNone:

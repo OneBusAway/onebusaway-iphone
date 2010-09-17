@@ -142,8 +142,10 @@ typedef enum  {
 	[_mapView release];
 	[_listButton release];
 	[_searchTypeControl release];
+
 	[_locationAnnotation release];
-	
+	[_mapAnnotations release];
+	 
 	[_stopIcons release];
 	[_defaultStopIcon release];
 	[_mostRecentLocation release];
@@ -170,6 +172,8 @@ typedef enum  {
 	[self.view addSubview:_activityIndicatorView];
 	
 	_locationAnnotation = nil;
+	_mapAnnotations = [[NSMutableArray alloc] init];
+	
 	_firstView = TRUE;
 	_autoCenterOnCurrentLocation = TRUE;
 	_currentlyChangingRegion = FALSE;
@@ -242,6 +246,13 @@ typedef enum  {
 }
 
 #pragma mark OBASearchControllerDelegate Methods
+
+- (void) handleSearchControllerStarted:(OBASearchControllerSearchType)searchType {
+	if( ! (searchType == OBASearchControllerSearchTypeNone || searchType == OBASearchControllerSearchTypeRegion) ) {
+		OBALogDebug(@"search started: unsetting _autoCenterOnCurrentLocation");
+		_autoCenterOnCurrentLocation = FALSE;
+	}	
+}
 
 - (void) handleSearchControllerUpdate:(OBASearchControllerResult*)result {
 	[self reloadData];
@@ -457,6 +468,10 @@ typedef enum  {
 -(IBAction) onListButton:(id)sender {
 	OBASearchControllerResult * result = _searchController.result;
 	if( result ) {
+		
+		// Prune down the results to show only what's currently in the map view
+		result = [result resultsInRegion:_mapView.region];
+		
 		OBASearchResultsListViewController * vc = [[OBASearchResultsListViewController alloc] initWithContext:_appContext searchControllerResult:result];
 		[self.navigationController pushViewController:vc animated:TRUE];
         [vc release];
@@ -649,11 +664,6 @@ typedef enum  {
 		return;
 	}
 	
-	if( ! (result.searchType == OBASearchControllerSearchTypeNone || result.searchType == OBASearchControllerSearchTypeRegion) ) {
-		OBALogDebug(@"reloadData: unsetting _autoCenterOnCurrentLocation");
-		_autoCenterOnCurrentLocation = FALSE;
-	}
-	
 	//[self refreshCurrentLocation];
 	[self setAnnotationsFromResults];
 	[self setRegionFromResults];
@@ -715,12 +725,9 @@ typedef enum  {
 }
 
 - (void) setAnnotationsFromResults {
-	[_mapView removeAnnotations:_mapView.annotations];	
+	
 	
 	NSMutableArray * annotations = [[NSMutableArray alloc] init];
-	
-	if( _locationAnnotation )
-		[annotations addObject:_locationAnnotation];
 	
 	OBASearchControllerResult * result = _searchController.result;
 	
@@ -736,8 +743,30 @@ typedef enum  {
 			}
 		}
 	}
+
+	NSMutableArray * toAdd = [[NSMutableArray alloc] init];
+	NSMutableArray * toRemove = [[NSMutableArray alloc] init];
 	
-	[_mapView addAnnotations:annotations];
+	for( id annotation in _mapAnnotations )  {
+		if (! [annotations containsObject:annotation])
+			[toRemove addObject:annotation];
+	}
+	
+	for (id annotation in annotations) {
+		if( ! [_mapAnnotations containsObject:annotation] )
+			[toAdd addObject:annotation];
+	}
+	
+	OBALogDebug(@"Annotations to remove: %d",[toRemove count]);
+	OBALogDebug(@"Annotations to add: %d", [toAdd count]);
+	
+	[_mapView removeAnnotations:toRemove];
+	[_mapView addAnnotations:toAdd];
+	
+	_mapAnnotations = [NSObject releaseOld:_mapAnnotations retainNew:annotations];
+	
+	[toAdd release];
+	[toRemove release];
 	[annotations release];
 }
 

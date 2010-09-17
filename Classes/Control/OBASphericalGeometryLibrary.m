@@ -54,6 +54,17 @@ static const double kRadiusOfEarthInMeters = 6371.01 * 1000;
 	pA.longitude + spanA.longitudeDelta/2 <= pB.longitude + spanB.longitudeDelta / 2;
 }
 
++ (BOOL) isCoordinate:(CLLocationCoordinate2D)coordinate containedBy:(MKCoordinateRegion)region {
+	
+	CLLocationCoordinate2D pR = region.center;
+	MKCoordinateSpan spanR = region.span;
+
+	return pR.latitude - spanR.latitudeDelta / 2 <= coordinate.latitude &&
+	coordinate.latitude <= pR.latitude + spanR.latitudeDelta / 2 &&
+	pR.longitude - spanR.longitudeDelta/2 <= coordinate.longitude &&
+	coordinate.longitude <= pR.longitude + spanR.longitudeDelta / 2;
+}
+
 + (NSString*) regionAsString:(MKCoordinateRegion)region {
 	
 	CLLocationCoordinate2D pA = region.center;
