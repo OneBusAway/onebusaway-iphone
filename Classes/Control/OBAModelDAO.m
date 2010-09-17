@@ -123,9 +123,11 @@ const static int kMaxEntriesInMostRecentList = 10;
 
 - (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex error:(NSError**)error {
 	OBABookmarkV2 * bm = [_bookmarks objectAtIndex:startIndex];
+	[bm retain];
 	[_bookmarks removeObjectAtIndex:startIndex];
 	[_bookmarks insertObject:bm atIndex:endIndex];
 	[_preferencesDao writeBookmarks:_bookmarks];
+	[bm release];
 }
 
 - (void) removeBookmark:(OBABookmarkV2*) bookmark error:(NSError**)error {

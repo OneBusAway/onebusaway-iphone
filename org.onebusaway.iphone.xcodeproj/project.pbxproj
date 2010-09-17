@@ -115,24 +115,6 @@
 		D62255AB0F8BCA8F00F139BA /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D62255AA0F8BCA8F00F139BA /* libsqlite3.0.dylib */; };
 		D62255D00F8BCBF100F139BA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D62255CF0F8BCBF100F139BA /* QuartzCore.framework */; };
 		D62AC46510A4F6D300CE9212 /* OBAModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D62AC46410A4F6D300CE9212 /* OBAModel.xcdatamodeld */; };
-		D62CC40510A3B4CD008F93FE /* LightRailStopIconE.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC3F310A3B4CD008F93FE /* LightRailStopIconE.png */; };
-		D62CC40610A3B4CD008F93FE /* LightRailStopIconN.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC3F410A3B4CD008F93FE /* LightRailStopIconN.png */; };
-		D62CC40710A3B4CD008F93FE /* LightRailStopIconNE.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC3F510A3B4CD008F93FE /* LightRailStopIconNE.png */; };
-		D62CC40810A3B4CD008F93FE /* LightRailStopIconNW.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC3F610A3B4CD008F93FE /* LightRailStopIconNW.png */; };
-		D62CC40910A3B4CD008F93FE /* LightRailStopIconS.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC3F710A3B4CD008F93FE /* LightRailStopIconS.png */; };
-		D62CC40A10A3B4CD008F93FE /* LightRailStopIconSE.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC3F810A3B4CD008F93FE /* LightRailStopIconSE.png */; };
-		D62CC40B10A3B4CD008F93FE /* LightRailStopIconSW.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC3F910A3B4CD008F93FE /* LightRailStopIconSW.png */; };
-		D62CC40C10A3B4CD008F93FE /* LightRailStopIconW.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC3FA10A3B4CD008F93FE /* LightRailStopIconW.png */; };
-		D62CC40E10A3B4CD008F93FE /* RailStopIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC3FC10A3B4CD008F93FE /* RailStopIcon.png */; };
-		D62CC40F10A3B4CD008F93FE /* RailStopIconE.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC3FD10A3B4CD008F93FE /* RailStopIconE.png */; };
-		D62CC41010A3B4CD008F93FE /* RailStopIconN.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC3FE10A3B4CD008F93FE /* RailStopIconN.png */; };
-		D62CC41110A3B4CD008F93FE /* RailStopIconNE.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC3FF10A3B4CD008F93FE /* RailStopIconNE.png */; };
-		D62CC41210A3B4CD008F93FE /* RailStopIconNW.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC40010A3B4CD008F93FE /* RailStopIconNW.png */; };
-		D62CC41310A3B4CD008F93FE /* RailStopIconS.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC40110A3B4CD008F93FE /* RailStopIconS.png */; };
-		D62CC41410A3B4CD008F93FE /* RailStopIconSE.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC40210A3B4CD008F93FE /* RailStopIconSE.png */; };
-		D62CC41510A3B4CD008F93FE /* RailStopIconSW.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC40310A3B4CD008F93FE /* RailStopIconSW.png */; };
-		D62CC41610A3B4CD008F93FE /* RailStopIconW.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC40410A3B4CD008F93FE /* RailStopIconW.png */; };
-		D62CC42110A3B52C008F93FE /* LightRailStopIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D62CC42010A3B52C008F93FE /* LightRailStopIcon.png */; };
 		D62F2ED50F7A0C5200629092 /* OBASearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D62F2ED40F7A0C5200629092 /* OBASearchTableViewCell.m */; };
 		D62F2F4C0F7A7EC600629092 /* OBASearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D62F2F4B0F7A7EC600629092 /* OBASearchTableViewCell.xib */; };
 		D62F30A70F7AA5D300629092 /* OBAStopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D62F30A60F7AA5D300629092 /* OBAStopViewController.m */; };
@@ -141,7 +123,9 @@
 		D63C82B710D62D1700B297C4 /* OBAContactUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D63C82B610D62D1700B297C4 /* OBAContactUsViewController.m */; };
 		D63C82F210D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D63C82F110D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m */; };
 		D648A3CD0FECBAD9002D9D49 /* OBAGenericAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D648A3CC0FECBAD9002D9D49 /* OBAGenericAnnotation.m */; };
-		D648A4010FED44A9002D9D49 /* BlueMarker.png in Resources */ = {isa = PBXBuildFile; fileRef = D648A4000FED44A9002D9D49 /* BlueMarker.png */; };
+		D64953C41214A1E90040572D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D64953C31214A1E80040572D /* Icon.png */; };
+		D64953CA1214A3890040572D /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = D64953C91214A3890040572D /* Icon-72.png */; };
+		D64953CC1214A3950040572D /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D64953CB1214A3950040572D /* Icon@2x.png */; };
 		D64A426F101E1503008F16CA /* CrossHairs.png in Resources */ = {isa = PBXBuildFile; fileRef = D64A426E101E1503008F16CA /* CrossHairs.png */; };
 		D64A4272101E161B008F16CA /* Bookmarks.png in Resources */ = {isa = PBXBuildFile; fileRef = D64A4271101E161B008F16CA /* Bookmarks.png */; };
 		D64A427B101E186E008F16CA /* Clock.png in Resources */ = {isa = PBXBuildFile; fileRef = D64A427A101E186E008F16CA /* Clock.png */; };
@@ -165,7 +149,6 @@
 		D651AE3A12038C3200B4153E /* OBAListWithRangeAndReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = D651AE3912038C3200B4153E /* OBAListWithRangeAndReferencesV2.m */; };
 		D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = D651BB2711C9D5DE001BE733 /* iTunesArtwork */; };
 		D652BF170FA6CA2F00608073 /* OBAUploadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D652BF160FA6CA2F00608073 /* OBAUploadView.xib */; };
-		D656D6740FD44E8E00ADE4D5 /* AppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D656D6730FD44E8E00ADE4D5 /* AppIcon.png */; };
 		D656D6B00FD4522C00ADE4D5 /* OBARecentStopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D656D6AF0FD4522C00ADE4D5 /* OBARecentStopsViewController.m */; };
 		D656D76C0FD4690300ADE4D5 /* OBASearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D656D76B0FD4690300ADE4D5 /* OBASearchViewController.m */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
@@ -186,6 +169,88 @@
 		D67002340F7C9F0B0004F420 /* OBAUITableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D67002330F7C9F0B0004F420 /* OBAUITableViewCell.m */; };
 		D67002EC0F7CADF50004F420 /* OBATextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D67002EB0F7CADF50004F420 /* OBATextFieldTableViewCell.m */; };
 		D67003E90F7D20730004F420 /* OBAEditStopPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D67003E80F7D20730004F420 /* OBAEditStopPreferencesViewController.m */; };
+		D671D2B912190DC700F398E5 /* BusStopIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D27112190DC700F398E5 /* BusStopIcon.png */; };
+		D671D2BA12190DC700F398E5 /* BusStopIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D27212190DC700F398E5 /* BusStopIcon@2x.png */; };
+		D671D2BB12190DC700F398E5 /* BusStopIconE.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D27312190DC700F398E5 /* BusStopIconE.png */; };
+		D671D2BC12190DC700F398E5 /* BusStopIconE@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D27412190DC700F398E5 /* BusStopIconE@2x.png */; };
+		D671D2BD12190DC700F398E5 /* BusStopIconN.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D27512190DC700F398E5 /* BusStopIconN.png */; };
+		D671D2BE12190DC700F398E5 /* BusStopIconN@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D27612190DC700F398E5 /* BusStopIconN@2x.png */; };
+		D671D2BF12190DC700F398E5 /* BusStopIconNE.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D27712190DC700F398E5 /* BusStopIconNE.png */; };
+		D671D2C012190DC700F398E5 /* BusStopIconNE@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D27812190DC700F398E5 /* BusStopIconNE@2x.png */; };
+		D671D2C112190DC700F398E5 /* BusStopIconNW.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D27912190DC700F398E5 /* BusStopIconNW.png */; };
+		D671D2C212190DC700F398E5 /* BusStopIconNW@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D27A12190DC700F398E5 /* BusStopIconNW@2x.png */; };
+		D671D2C312190DC700F398E5 /* BusStopIconS.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D27B12190DC700F398E5 /* BusStopIconS.png */; };
+		D671D2C412190DC700F398E5 /* BusStopIconS@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D27C12190DC700F398E5 /* BusStopIconS@2x.png */; };
+		D671D2C512190DC700F398E5 /* BusStopIconSE.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D27D12190DC700F398E5 /* BusStopIconSE.png */; };
+		D671D2C612190DC700F398E5 /* BusStopIconSE@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D27E12190DC700F398E5 /* BusStopIconSE@2x.png */; };
+		D671D2C712190DC700F398E5 /* BusStopIconSW.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D27F12190DC700F398E5 /* BusStopIconSW.png */; };
+		D671D2C812190DC700F398E5 /* BusStopIconSW@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D28012190DC700F398E5 /* BusStopIconSW@2x.png */; };
+		D671D2C912190DC700F398E5 /* BusStopIconW.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D28112190DC700F398E5 /* BusStopIconW.png */; };
+		D671D2CA12190DC700F398E5 /* BusStopIconW@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D28212190DC700F398E5 /* BusStopIconW@2x.png */; };
+		D671D2CB12190DC700F398E5 /* FerryStopIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D28312190DC700F398E5 /* FerryStopIcon.png */; };
+		D671D2CC12190DC700F398E5 /* FerryStopIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D28412190DC700F398E5 /* FerryStopIcon@2x.png */; };
+		D671D2CD12190DC700F398E5 /* FerryStopIconE.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D28512190DC700F398E5 /* FerryStopIconE.png */; };
+		D671D2CE12190DC700F398E5 /* FerryStopIconE@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D28612190DC700F398E5 /* FerryStopIconE@2x.png */; };
+		D671D2CF12190DC700F398E5 /* FerryStopIconN.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D28712190DC700F398E5 /* FerryStopIconN.png */; };
+		D671D2D012190DC700F398E5 /* FerryStopIconN@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D28812190DC700F398E5 /* FerryStopIconN@2x.png */; };
+		D671D2D112190DC700F398E5 /* FerryStopIconNE.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D28912190DC700F398E5 /* FerryStopIconNE.png */; };
+		D671D2D212190DC700F398E5 /* FerryStopIconNE@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D28A12190DC700F398E5 /* FerryStopIconNE@2x.png */; };
+		D671D2D312190DC700F398E5 /* FerryStopIconNW.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D28B12190DC700F398E5 /* FerryStopIconNW.png */; };
+		D671D2D412190DC700F398E5 /* FerryStopIconNW@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D28C12190DC700F398E5 /* FerryStopIconNW@2x.png */; };
+		D671D2D512190DC700F398E5 /* FerryStopIconS.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D28D12190DC700F398E5 /* FerryStopIconS.png */; };
+		D671D2D612190DC700F398E5 /* FerryStopIconS@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D28E12190DC700F398E5 /* FerryStopIconS@2x.png */; };
+		D671D2D712190DC700F398E5 /* FerryStopIconSE.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D28F12190DC700F398E5 /* FerryStopIconSE.png */; };
+		D671D2D812190DC700F398E5 /* FerryStopIconSE@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D29012190DC700F398E5 /* FerryStopIconSE@2x.png */; };
+		D671D2D912190DC700F398E5 /* FerryStopIconSW.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D29112190DC700F398E5 /* FerryStopIconSW.png */; };
+		D671D2DA12190DC700F398E5 /* FerryStopIconSW@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D29212190DC700F398E5 /* FerryStopIconSW@2x.png */; };
+		D671D2DB12190DC700F398E5 /* FerryStopIconW.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D29312190DC700F398E5 /* FerryStopIconW.png */; };
+		D671D2DC12190DC700F398E5 /* FerryStopIconW@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D29412190DC700F398E5 /* FerryStopIconW@2x.png */; };
+		D671D2DD12190DC700F398E5 /* LightRailStopIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D29512190DC700F398E5 /* LightRailStopIcon.png */; };
+		D671D2DE12190DC700F398E5 /* LightRailStopIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D29612190DC700F398E5 /* LightRailStopIcon@2x.png */; };
+		D671D2DF12190DC700F398E5 /* LightRailStopIconE.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D29712190DC700F398E5 /* LightRailStopIconE.png */; };
+		D671D2E012190DC700F398E5 /* LightRailStopIconE@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D29812190DC700F398E5 /* LightRailStopIconE@2x.png */; };
+		D671D2E112190DC700F398E5 /* LightRailStopIconN.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D29912190DC700F398E5 /* LightRailStopIconN.png */; };
+		D671D2E212190DC700F398E5 /* LightRailStopIconN@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D29A12190DC700F398E5 /* LightRailStopIconN@2x.png */; };
+		D671D2E312190DC700F398E5 /* LightRailStopIconNE.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D29B12190DC700F398E5 /* LightRailStopIconNE.png */; };
+		D671D2E412190DC700F398E5 /* LightRailStopIconNE@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D29C12190DC700F398E5 /* LightRailStopIconNE@2x.png */; };
+		D671D2E512190DC700F398E5 /* LightRailStopIconNW.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D29D12190DC700F398E5 /* LightRailStopIconNW.png */; };
+		D671D2E612190DC700F398E5 /* LightRailStopIconNW@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D29E12190DC700F398E5 /* LightRailStopIconNW@2x.png */; };
+		D671D2E712190DC700F398E5 /* LightRailStopIconS.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D29F12190DC700F398E5 /* LightRailStopIconS.png */; };
+		D671D2E812190DC700F398E5 /* LightRailStopIconS@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2A012190DC700F398E5 /* LightRailStopIconS@2x.png */; };
+		D671D2E912190DC700F398E5 /* LightRailStopIconSE.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2A112190DC700F398E5 /* LightRailStopIconSE.png */; };
+		D671D2EA12190DC700F398E5 /* LightRailStopIconSE@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2A212190DC700F398E5 /* LightRailStopIconSE@2x.png */; };
+		D671D2EB12190DC700F398E5 /* LightRailStopIconSW.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2A312190DC700F398E5 /* LightRailStopIconSW.png */; };
+		D671D2EC12190DC700F398E5 /* LightRailStopIconSW@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2A412190DC700F398E5 /* LightRailStopIconSW@2x.png */; };
+		D671D2ED12190DC700F398E5 /* LightRailStopIconW.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2A512190DC700F398E5 /* LightRailStopIconW.png */; };
+		D671D2EE12190DC700F398E5 /* LightRailStopIconW@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2A612190DC700F398E5 /* LightRailStopIconW@2x.png */; };
+		D671D2EF12190DC700F398E5 /* RailStopIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2A712190DC700F398E5 /* RailStopIcon.png */; };
+		D671D2F012190DC700F398E5 /* RailStopIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2A812190DC700F398E5 /* RailStopIcon@2x.png */; };
+		D671D2F112190DC700F398E5 /* RailStopIconE.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2A912190DC700F398E5 /* RailStopIconE.png */; };
+		D671D2F212190DC700F398E5 /* RailStopIconE@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2AA12190DC700F398E5 /* RailStopIconE@2x.png */; };
+		D671D2F312190DC700F398E5 /* RailStopIconN.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2AB12190DC700F398E5 /* RailStopIconN.png */; };
+		D671D2F412190DC700F398E5 /* RailStopIconN@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2AC12190DC700F398E5 /* RailStopIconN@2x.png */; };
+		D671D2F512190DC700F398E5 /* RailStopIconNE.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2AD12190DC700F398E5 /* RailStopIconNE.png */; };
+		D671D2F612190DC700F398E5 /* RailStopIconNE@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2AE12190DC700F398E5 /* RailStopIconNE@2x.png */; };
+		D671D2F712190DC700F398E5 /* RailStopIconNW.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2AF12190DC700F398E5 /* RailStopIconNW.png */; };
+		D671D2F812190DC700F398E5 /* RailStopIconNW@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2B012190DC700F398E5 /* RailStopIconNW@2x.png */; };
+		D671D2F912190DC700F398E5 /* RailStopIconS.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2B112190DC700F398E5 /* RailStopIconS.png */; };
+		D671D2FA12190DC700F398E5 /* RailStopIconS@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2B212190DC700F398E5 /* RailStopIconS@2x.png */; };
+		D671D2FB12190DC700F398E5 /* RailStopIconSE.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2B312190DC700F398E5 /* RailStopIconSE.png */; };
+		D671D2FC12190DC700F398E5 /* RailStopIconSE@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2B412190DC700F398E5 /* RailStopIconSE@2x.png */; };
+		D671D2FD12190DC700F398E5 /* RailStopIconSW.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2B512190DC700F398E5 /* RailStopIconSW.png */; };
+		D671D2FE12190DC700F398E5 /* RailStopIconSW@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2B612190DC700F398E5 /* RailStopIconSW@2x.png */; };
+		D671D2FF12190DC700F398E5 /* RailStopIconW.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2B712190DC700F398E5 /* RailStopIconW.png */; };
+		D671D30012190DC700F398E5 /* RailStopIconW@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D2B812190DC700F398E5 /* RailStopIconW@2x.png */; };
+		D671D31112190FD600F398E5 /* Bookmarks@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D30912190FD500F398E5 /* Bookmarks@2x.png */; };
+		D671D31212190FD600F398E5 /* Clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D30A12190FD500F398E5 /* Clock@2x.png */; };
+		D671D31312190FD600F398E5 /* CrossHairs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D30B12190FD500F398E5 /* CrossHairs@2x.png */; };
+		D671D31412190FD600F398E5 /* Gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D30C12190FD500F398E5 /* Gear@2x.png */; };
+		D671D31512190FD600F398E5 /* MagnifyingGlass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D30D12190FD500F398E5 /* MagnifyingGlass@2x.png */; };
+		D671D31612190FD600F398E5 /* SegmentedControl-CrossHairs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D30E12190FD500F398E5 /* SegmentedControl-CrossHairs@2x.png */; };
+		D671D31712190FD600F398E5 /* SegmentedControl-Region@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D30F12190FD500F398E5 /* SegmentedControl-Region@2x.png */; };
+		D671D31812190FD600F398E5 /* TextBox-MagnifyingGlass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D31012190FD500F398E5 /* TextBox-MagnifyingGlass@2x.png */; };
+		D671D324121910A900F398E5 /* BlueMarker.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D322121910A900F398E5 /* BlueMarker.png */; };
+		D671D325121910A900F398E5 /* BlueMarker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D671D323121910A900F398E5 /* BlueMarker@2x.png */; };
 		D6789E660FE0BC4700696FE6 /* OBAAgencyWithCoverage.m in Sources */ = {isa = PBXBuildFile; fileRef = D6789E650FE0BC4700696FE6 /* OBAAgencyWithCoverage.m */; };
 		D6789E6B0FE0BE0000696FE6 /* OBACreateManagedEntityJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = D6789E6A0FE0BE0000696FE6 /* OBACreateManagedEntityJsonDigesterRule.m */; };
 		D6789F050FE0EB0500696FE6 /* OBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6789F040FE0EB0500696FE6 /* OBASettingsViewController.m */; };
@@ -201,15 +266,6 @@
 		D696DAA811A3CD8D00C0E6CB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D696DAA711A3CD8D00C0E6CB /* MessageUI.framework */; };
 		D696ECB212078DE200514C2B /* OBACallMethodJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = D696ECB112078DE200514C2B /* OBACallMethodJsonDigesterRule.m */; };
 		D696ECF01207992E00514C2B /* OBAUserPreferencesMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = D696ECEF1207992E00514C2B /* OBAUserPreferencesMigration.m */; };
-		D6A346F5115A8B2200ACF54F /* FerryStopIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D6A346ED115A8B2200ACF54F /* FerryStopIcon.png */; };
-		D6A346F6115A8B2200ACF54F /* FerryStopIconE.png in Resources */ = {isa = PBXBuildFile; fileRef = D6A346EE115A8B2200ACF54F /* FerryStopIconE.png */; };
-		D6A346F7115A8B2200ACF54F /* FerryStopIconN.png in Resources */ = {isa = PBXBuildFile; fileRef = D6A346EF115A8B2200ACF54F /* FerryStopIconN.png */; };
-		D6A346F8115A8B2200ACF54F /* FerryStopIconNE.png in Resources */ = {isa = PBXBuildFile; fileRef = D6A346F0115A8B2200ACF54F /* FerryStopIconNE.png */; };
-		D6A346F9115A8B2200ACF54F /* FerryStopIconNW.png in Resources */ = {isa = PBXBuildFile; fileRef = D6A346F1115A8B2200ACF54F /* FerryStopIconNW.png */; };
-		D6A346FA115A8B2200ACF54F /* FerryStopIconS.png in Resources */ = {isa = PBXBuildFile; fileRef = D6A346F2115A8B2200ACF54F /* FerryStopIconS.png */; };
-		D6A346FB115A8B2200ACF54F /* FerryStopIconSW.png in Resources */ = {isa = PBXBuildFile; fileRef = D6A346F3115A8B2200ACF54F /* FerryStopIconSW.png */; };
-		D6A346FC115A8B2200ACF54F /* FerryStopIconW.png in Resources */ = {isa = PBXBuildFile; fileRef = D6A346F4115A8B2200ACF54F /* FerryStopIconW.png */; };
-		D6A3470A115A8CEA00ACF54F /* FerryStopIconSE.png in Resources */ = {isa = PBXBuildFile; fileRef = D6A34709115A8CEA00ACF54F /* FerryStopIconSE.png */; };
 		D6A8C2A50FDF311F001B46E1 /* OBANavigationTargetAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D6A8C2A40FDF311F001B46E1 /* OBANavigationTargetAnnotation.m */; };
 		D6A8C3030FE0004B001B46E1 /* OBAStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D6A8C3020FE0004B001B46E1 /* OBAStopAnnotation.m */; };
 		D6A8C3520FE00B9E001B46E1 /* OBAPlacemark.m in Sources */ = {isa = PBXBuildFile; fileRef = D6A8C3510FE00B9E001B46E1 /* OBAPlacemark.m */; };
@@ -227,15 +283,6 @@
 		D6CEA0610F8D0EDF009DBD66 /* OBAModelDAOUserPreferencesImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CEA0600F8D0EDF009DBD66 /* OBAModelDAOUserPreferencesImpl.m */; };
 		D6CEA1260F8D4E6E009DBD66 /* OBATextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6CEA1250F8D4E6E009DBD66 /* OBATextFieldTableViewCell.xib */; };
 		D6CFB1421032229F00005000 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D6CFB1411032229F00005000 /* Default.png */; };
-		D6EF2A320FDC6F980005FB65 /* BusStopIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D6EF2A290FDC6F980005FB65 /* BusStopIcon.png */; };
-		D6EF2A330FDC6F980005FB65 /* BusStopIconE.png in Resources */ = {isa = PBXBuildFile; fileRef = D6EF2A2A0FDC6F980005FB65 /* BusStopIconE.png */; };
-		D6EF2A340FDC6F980005FB65 /* BusStopIconN.png in Resources */ = {isa = PBXBuildFile; fileRef = D6EF2A2B0FDC6F980005FB65 /* BusStopIconN.png */; };
-		D6EF2A350FDC6F980005FB65 /* BusStopIconNE.png in Resources */ = {isa = PBXBuildFile; fileRef = D6EF2A2C0FDC6F980005FB65 /* BusStopIconNE.png */; };
-		D6EF2A360FDC6F980005FB65 /* BusStopIconNW.png in Resources */ = {isa = PBXBuildFile; fileRef = D6EF2A2D0FDC6F980005FB65 /* BusStopIconNW.png */; };
-		D6EF2A370FDC6F980005FB65 /* BusStopIconSE.png in Resources */ = {isa = PBXBuildFile; fileRef = D6EF2A2E0FDC6F980005FB65 /* BusStopIconSE.png */; };
-		D6EF2A380FDC6F980005FB65 /* BusStopIconSW.png in Resources */ = {isa = PBXBuildFile; fileRef = D6EF2A2F0FDC6F980005FB65 /* BusStopIconSW.png */; };
-		D6EF2A390FDC6F980005FB65 /* BusStopIconW.png in Resources */ = {isa = PBXBuildFile; fileRef = D6EF2A300FDC6F980005FB65 /* BusStopIconW.png */; };
-		D6EF2A3A0FDC6F980005FB65 /* BusStopIconS.png in Resources */ = {isa = PBXBuildFile; fileRef = D6EF2A310FDC6F980005FB65 /* BusStopIconS.png */; };
 		D6F36F4E0FD96D9800C46D01 /* OBAProgressIndicatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = D6F36F4D0FD96D9800C46D01 /* OBAProgressIndicatorImpl.m */; };
 		D6FD5C700F75B883004A9D0F /* OBAArrivalAndDeparture.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FD5C6F0F75B883004A9D0F /* OBAArrivalAndDeparture.m */; };
 		D6FD5DB30F7619AE004A9D0F /* OBAArrivalEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FD5DB20F7619AE004A9D0F /* OBAArrivalEntryTableViewCell.m */; };
@@ -432,24 +479,6 @@
 		D62255C80F8BCB9C00F139BA /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		D62255CF0F8BCBF100F139BA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D62AC46610A4F6D300CE9212 /* OBAModel-2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OBAModel-2.xcdatamodel"; sourceTree = "<group>"; };
-		D62CC3F310A3B4CD008F93FE /* LightRailStopIconE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIconE.png; path = "Resources/Map Icons/LightRailStopIconE.png"; sourceTree = "<group>"; };
-		D62CC3F410A3B4CD008F93FE /* LightRailStopIconN.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIconN.png; path = "Resources/Map Icons/LightRailStopIconN.png"; sourceTree = "<group>"; };
-		D62CC3F510A3B4CD008F93FE /* LightRailStopIconNE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIconNE.png; path = "Resources/Map Icons/LightRailStopIconNE.png"; sourceTree = "<group>"; };
-		D62CC3F610A3B4CD008F93FE /* LightRailStopIconNW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIconNW.png; path = "Resources/Map Icons/LightRailStopIconNW.png"; sourceTree = "<group>"; };
-		D62CC3F710A3B4CD008F93FE /* LightRailStopIconS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIconS.png; path = "Resources/Map Icons/LightRailStopIconS.png"; sourceTree = "<group>"; };
-		D62CC3F810A3B4CD008F93FE /* LightRailStopIconSE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIconSE.png; path = "Resources/Map Icons/LightRailStopIconSE.png"; sourceTree = "<group>"; };
-		D62CC3F910A3B4CD008F93FE /* LightRailStopIconSW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIconSW.png; path = "Resources/Map Icons/LightRailStopIconSW.png"; sourceTree = "<group>"; };
-		D62CC3FA10A3B4CD008F93FE /* LightRailStopIconW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIconW.png; path = "Resources/Map Icons/LightRailStopIconW.png"; sourceTree = "<group>"; };
-		D62CC3FC10A3B4CD008F93FE /* RailStopIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIcon.png; path = "Resources/Map Icons/RailStopIcon.png"; sourceTree = "<group>"; };
-		D62CC3FD10A3B4CD008F93FE /* RailStopIconE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIconE.png; path = "Resources/Map Icons/RailStopIconE.png"; sourceTree = "<group>"; };
-		D62CC3FE10A3B4CD008F93FE /* RailStopIconN.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIconN.png; path = "Resources/Map Icons/RailStopIconN.png"; sourceTree = "<group>"; };
-		D62CC3FF10A3B4CD008F93FE /* RailStopIconNE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIconNE.png; path = "Resources/Map Icons/RailStopIconNE.png"; sourceTree = "<group>"; };
-		D62CC40010A3B4CD008F93FE /* RailStopIconNW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIconNW.png; path = "Resources/Map Icons/RailStopIconNW.png"; sourceTree = "<group>"; };
-		D62CC40110A3B4CD008F93FE /* RailStopIconS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIconS.png; path = "Resources/Map Icons/RailStopIconS.png"; sourceTree = "<group>"; };
-		D62CC40210A3B4CD008F93FE /* RailStopIconSE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIconSE.png; path = "Resources/Map Icons/RailStopIconSE.png"; sourceTree = "<group>"; };
-		D62CC40310A3B4CD008F93FE /* RailStopIconSW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIconSW.png; path = "Resources/Map Icons/RailStopIconSW.png"; sourceTree = "<group>"; };
-		D62CC40410A3B4CD008F93FE /* RailStopIconW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIconW.png; path = "Resources/Map Icons/RailStopIconW.png"; sourceTree = "<group>"; };
-		D62CC42010A3B52C008F93FE /* LightRailStopIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIcon.png; path = "Resources/Map Icons/LightRailStopIcon.png"; sourceTree = "<group>"; };
 		D62F2ED30F7A0C5200629092 /* OBASearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASearchTableViewCell.h; path = View/OBASearchTableViewCell.h; sourceTree = "<group>"; };
 		D62F2ED40F7A0C5200629092 /* OBASearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASearchTableViewCell.m; path = View/OBASearchTableViewCell.m; sourceTree = "<group>"; };
 		D62F2F4B0F7A7EC600629092 /* OBASearchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OBASearchTableViewCell.xib; path = Resources/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
@@ -464,7 +493,9 @@
 		D63C82F110D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBANetworkErrorAlertViewDelegate.m; path = View/OBANetworkErrorAlertViewDelegate.m; sourceTree = "<group>"; };
 		D648A3CB0FECBAD9002D9D49 /* OBAGenericAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAGenericAnnotation.h; path = Model/OBAGenericAnnotation.h; sourceTree = "<group>"; };
 		D648A3CC0FECBAD9002D9D49 /* OBAGenericAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAGenericAnnotation.m; path = Model/OBAGenericAnnotation.m; sourceTree = "<group>"; };
-		D648A4000FED44A9002D9D49 /* BlueMarker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BlueMarker.png; path = "Resources/Map Icons/BlueMarker.png"; sourceTree = "<group>"; };
+		D64953C31214A1E80040572D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Resources/Icon.png; sourceTree = "<group>"; };
+		D64953C91214A3890040572D /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "Resources/Icon-72.png"; sourceTree = "<group>"; };
+		D64953CB1214A3950040572D /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Resources/Icon@2x.png"; sourceTree = "<group>"; };
 		D64A426E101E1503008F16CA /* CrossHairs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CrossHairs.png; path = Resources/Icons/CrossHairs.png; sourceTree = "<group>"; };
 		D64A4271101E161B008F16CA /* Bookmarks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Bookmarks.png; path = Resources/Icons/Bookmarks.png; sourceTree = "<group>"; };
 		D64A427A101E186E008F16CA /* Clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Clock.png; path = Resources/Icons/Clock.png; sourceTree = "<group>"; };
@@ -500,7 +531,6 @@
 		D651AE3912038C3200B4153E /* OBAListWithRangeAndReferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAListWithRangeAndReferencesV2.m; path = Model/V2/OBAListWithRangeAndReferencesV2.m; sourceTree = "<group>"; };
 		D651BB2711C9D5DE001BE733 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = Resources/iTunesArtwork; sourceTree = "<group>"; };
 		D652BF160FA6CA2F00608073 /* OBAUploadView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OBAUploadView.xib; path = Resources/OBAUploadView.xib; sourceTree = "<group>"; };
-		D656D6730FD44E8E00ADE4D5 /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon.png; path = Resources/AppIcon.png; sourceTree = "<group>"; };
 		D656D6AE0FD4522C00ADE4D5 /* OBARecentStopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBARecentStopsViewController.h; path = View/OBARecentStopsViewController.h; sourceTree = "<group>"; };
 		D656D6AF0FD4522C00ADE4D5 /* OBARecentStopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBARecentStopsViewController.m; path = View/OBARecentStopsViewController.m; sourceTree = "<group>"; };
 		D656D76A0FD4690300ADE4D5 /* OBASearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASearchViewController.h; path = View/OBASearchViewController.h; sourceTree = "<group>"; };
@@ -541,6 +571,88 @@
 		D67002EB0F7CADF50004F420 /* OBATextFieldTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBATextFieldTableViewCell.m; path = View/OBATextFieldTableViewCell.m; sourceTree = "<group>"; };
 		D67003E70F7D20730004F420 /* OBAEditStopPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAEditStopPreferencesViewController.h; path = View/OBAEditStopPreferencesViewController.h; sourceTree = "<group>"; };
 		D67003E80F7D20730004F420 /* OBAEditStopPreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAEditStopPreferencesViewController.m; path = View/OBAEditStopPreferencesViewController.m; sourceTree = "<group>"; };
+		D671D27112190DC700F398E5 /* BusStopIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIcon.png; path = "Resources/Map Icons/BusStopIcon.png"; sourceTree = "<group>"; };
+		D671D27212190DC700F398E5 /* BusStopIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BusStopIcon@2x.png"; path = "Resources/Map Icons/BusStopIcon@2x.png"; sourceTree = "<group>"; };
+		D671D27312190DC700F398E5 /* BusStopIconE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIconE.png; path = "Resources/Map Icons/BusStopIconE.png"; sourceTree = "<group>"; };
+		D671D27412190DC700F398E5 /* BusStopIconE@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BusStopIconE@2x.png"; path = "Resources/Map Icons/BusStopIconE@2x.png"; sourceTree = "<group>"; };
+		D671D27512190DC700F398E5 /* BusStopIconN.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIconN.png; path = "Resources/Map Icons/BusStopIconN.png"; sourceTree = "<group>"; };
+		D671D27612190DC700F398E5 /* BusStopIconN@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BusStopIconN@2x.png"; path = "Resources/Map Icons/BusStopIconN@2x.png"; sourceTree = "<group>"; };
+		D671D27712190DC700F398E5 /* BusStopIconNE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIconNE.png; path = "Resources/Map Icons/BusStopIconNE.png"; sourceTree = "<group>"; };
+		D671D27812190DC700F398E5 /* BusStopIconNE@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BusStopIconNE@2x.png"; path = "Resources/Map Icons/BusStopIconNE@2x.png"; sourceTree = "<group>"; };
+		D671D27912190DC700F398E5 /* BusStopIconNW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIconNW.png; path = "Resources/Map Icons/BusStopIconNW.png"; sourceTree = "<group>"; };
+		D671D27A12190DC700F398E5 /* BusStopIconNW@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BusStopIconNW@2x.png"; path = "Resources/Map Icons/BusStopIconNW@2x.png"; sourceTree = "<group>"; };
+		D671D27B12190DC700F398E5 /* BusStopIconS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIconS.png; path = "Resources/Map Icons/BusStopIconS.png"; sourceTree = "<group>"; };
+		D671D27C12190DC700F398E5 /* BusStopIconS@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BusStopIconS@2x.png"; path = "Resources/Map Icons/BusStopIconS@2x.png"; sourceTree = "<group>"; };
+		D671D27D12190DC700F398E5 /* BusStopIconSE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIconSE.png; path = "Resources/Map Icons/BusStopIconSE.png"; sourceTree = "<group>"; };
+		D671D27E12190DC700F398E5 /* BusStopIconSE@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BusStopIconSE@2x.png"; path = "Resources/Map Icons/BusStopIconSE@2x.png"; sourceTree = "<group>"; };
+		D671D27F12190DC700F398E5 /* BusStopIconSW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIconSW.png; path = "Resources/Map Icons/BusStopIconSW.png"; sourceTree = "<group>"; };
+		D671D28012190DC700F398E5 /* BusStopIconSW@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BusStopIconSW@2x.png"; path = "Resources/Map Icons/BusStopIconSW@2x.png"; sourceTree = "<group>"; };
+		D671D28112190DC700F398E5 /* BusStopIconW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIconW.png; path = "Resources/Map Icons/BusStopIconW.png"; sourceTree = "<group>"; };
+		D671D28212190DC700F398E5 /* BusStopIconW@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BusStopIconW@2x.png"; path = "Resources/Map Icons/BusStopIconW@2x.png"; sourceTree = "<group>"; };
+		D671D28312190DC700F398E5 /* FerryStopIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIcon.png; path = "Resources/Map Icons/FerryStopIcon.png"; sourceTree = "<group>"; };
+		D671D28412190DC700F398E5 /* FerryStopIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FerryStopIcon@2x.png"; path = "Resources/Map Icons/FerryStopIcon@2x.png"; sourceTree = "<group>"; };
+		D671D28512190DC700F398E5 /* FerryStopIconE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconE.png; path = "Resources/Map Icons/FerryStopIconE.png"; sourceTree = "<group>"; };
+		D671D28612190DC700F398E5 /* FerryStopIconE@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FerryStopIconE@2x.png"; path = "Resources/Map Icons/FerryStopIconE@2x.png"; sourceTree = "<group>"; };
+		D671D28712190DC700F398E5 /* FerryStopIconN.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconN.png; path = "Resources/Map Icons/FerryStopIconN.png"; sourceTree = "<group>"; };
+		D671D28812190DC700F398E5 /* FerryStopIconN@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FerryStopIconN@2x.png"; path = "Resources/Map Icons/FerryStopIconN@2x.png"; sourceTree = "<group>"; };
+		D671D28912190DC700F398E5 /* FerryStopIconNE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconNE.png; path = "Resources/Map Icons/FerryStopIconNE.png"; sourceTree = "<group>"; };
+		D671D28A12190DC700F398E5 /* FerryStopIconNE@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FerryStopIconNE@2x.png"; path = "Resources/Map Icons/FerryStopIconNE@2x.png"; sourceTree = "<group>"; };
+		D671D28B12190DC700F398E5 /* FerryStopIconNW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconNW.png; path = "Resources/Map Icons/FerryStopIconNW.png"; sourceTree = "<group>"; };
+		D671D28C12190DC700F398E5 /* FerryStopIconNW@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FerryStopIconNW@2x.png"; path = "Resources/Map Icons/FerryStopIconNW@2x.png"; sourceTree = "<group>"; };
+		D671D28D12190DC700F398E5 /* FerryStopIconS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconS.png; path = "Resources/Map Icons/FerryStopIconS.png"; sourceTree = "<group>"; };
+		D671D28E12190DC700F398E5 /* FerryStopIconS@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FerryStopIconS@2x.png"; path = "Resources/Map Icons/FerryStopIconS@2x.png"; sourceTree = "<group>"; };
+		D671D28F12190DC700F398E5 /* FerryStopIconSE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconSE.png; path = "Resources/Map Icons/FerryStopIconSE.png"; sourceTree = "<group>"; };
+		D671D29012190DC700F398E5 /* FerryStopIconSE@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FerryStopIconSE@2x.png"; path = "Resources/Map Icons/FerryStopIconSE@2x.png"; sourceTree = "<group>"; };
+		D671D29112190DC700F398E5 /* FerryStopIconSW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconSW.png; path = "Resources/Map Icons/FerryStopIconSW.png"; sourceTree = "<group>"; };
+		D671D29212190DC700F398E5 /* FerryStopIconSW@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FerryStopIconSW@2x.png"; path = "Resources/Map Icons/FerryStopIconSW@2x.png"; sourceTree = "<group>"; };
+		D671D29312190DC700F398E5 /* FerryStopIconW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconW.png; path = "Resources/Map Icons/FerryStopIconW.png"; sourceTree = "<group>"; };
+		D671D29412190DC700F398E5 /* FerryStopIconW@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FerryStopIconW@2x.png"; path = "Resources/Map Icons/FerryStopIconW@2x.png"; sourceTree = "<group>"; };
+		D671D29512190DC700F398E5 /* LightRailStopIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIcon.png; path = "Resources/Map Icons/LightRailStopIcon.png"; sourceTree = "<group>"; };
+		D671D29612190DC700F398E5 /* LightRailStopIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LightRailStopIcon@2x.png"; path = "Resources/Map Icons/LightRailStopIcon@2x.png"; sourceTree = "<group>"; };
+		D671D29712190DC700F398E5 /* LightRailStopIconE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIconE.png; path = "Resources/Map Icons/LightRailStopIconE.png"; sourceTree = "<group>"; };
+		D671D29812190DC700F398E5 /* LightRailStopIconE@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LightRailStopIconE@2x.png"; path = "Resources/Map Icons/LightRailStopIconE@2x.png"; sourceTree = "<group>"; };
+		D671D29912190DC700F398E5 /* LightRailStopIconN.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIconN.png; path = "Resources/Map Icons/LightRailStopIconN.png"; sourceTree = "<group>"; };
+		D671D29A12190DC700F398E5 /* LightRailStopIconN@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LightRailStopIconN@2x.png"; path = "Resources/Map Icons/LightRailStopIconN@2x.png"; sourceTree = "<group>"; };
+		D671D29B12190DC700F398E5 /* LightRailStopIconNE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIconNE.png; path = "Resources/Map Icons/LightRailStopIconNE.png"; sourceTree = "<group>"; };
+		D671D29C12190DC700F398E5 /* LightRailStopIconNE@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LightRailStopIconNE@2x.png"; path = "Resources/Map Icons/LightRailStopIconNE@2x.png"; sourceTree = "<group>"; };
+		D671D29D12190DC700F398E5 /* LightRailStopIconNW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIconNW.png; path = "Resources/Map Icons/LightRailStopIconNW.png"; sourceTree = "<group>"; };
+		D671D29E12190DC700F398E5 /* LightRailStopIconNW@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LightRailStopIconNW@2x.png"; path = "Resources/Map Icons/LightRailStopIconNW@2x.png"; sourceTree = "<group>"; };
+		D671D29F12190DC700F398E5 /* LightRailStopIconS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIconS.png; path = "Resources/Map Icons/LightRailStopIconS.png"; sourceTree = "<group>"; };
+		D671D2A012190DC700F398E5 /* LightRailStopIconS@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LightRailStopIconS@2x.png"; path = "Resources/Map Icons/LightRailStopIconS@2x.png"; sourceTree = "<group>"; };
+		D671D2A112190DC700F398E5 /* LightRailStopIconSE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIconSE.png; path = "Resources/Map Icons/LightRailStopIconSE.png"; sourceTree = "<group>"; };
+		D671D2A212190DC700F398E5 /* LightRailStopIconSE@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LightRailStopIconSE@2x.png"; path = "Resources/Map Icons/LightRailStopIconSE@2x.png"; sourceTree = "<group>"; };
+		D671D2A312190DC700F398E5 /* LightRailStopIconSW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIconSW.png; path = "Resources/Map Icons/LightRailStopIconSW.png"; sourceTree = "<group>"; };
+		D671D2A412190DC700F398E5 /* LightRailStopIconSW@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LightRailStopIconSW@2x.png"; path = "Resources/Map Icons/LightRailStopIconSW@2x.png"; sourceTree = "<group>"; };
+		D671D2A512190DC700F398E5 /* LightRailStopIconW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LightRailStopIconW.png; path = "Resources/Map Icons/LightRailStopIconW.png"; sourceTree = "<group>"; };
+		D671D2A612190DC700F398E5 /* LightRailStopIconW@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LightRailStopIconW@2x.png"; path = "Resources/Map Icons/LightRailStopIconW@2x.png"; sourceTree = "<group>"; };
+		D671D2A712190DC700F398E5 /* RailStopIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIcon.png; path = "Resources/Map Icons/RailStopIcon.png"; sourceTree = "<group>"; };
+		D671D2A812190DC700F398E5 /* RailStopIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RailStopIcon@2x.png"; path = "Resources/Map Icons/RailStopIcon@2x.png"; sourceTree = "<group>"; };
+		D671D2A912190DC700F398E5 /* RailStopIconE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIconE.png; path = "Resources/Map Icons/RailStopIconE.png"; sourceTree = "<group>"; };
+		D671D2AA12190DC700F398E5 /* RailStopIconE@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RailStopIconE@2x.png"; path = "Resources/Map Icons/RailStopIconE@2x.png"; sourceTree = "<group>"; };
+		D671D2AB12190DC700F398E5 /* RailStopIconN.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIconN.png; path = "Resources/Map Icons/RailStopIconN.png"; sourceTree = "<group>"; };
+		D671D2AC12190DC700F398E5 /* RailStopIconN@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RailStopIconN@2x.png"; path = "Resources/Map Icons/RailStopIconN@2x.png"; sourceTree = "<group>"; };
+		D671D2AD12190DC700F398E5 /* RailStopIconNE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIconNE.png; path = "Resources/Map Icons/RailStopIconNE.png"; sourceTree = "<group>"; };
+		D671D2AE12190DC700F398E5 /* RailStopIconNE@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RailStopIconNE@2x.png"; path = "Resources/Map Icons/RailStopIconNE@2x.png"; sourceTree = "<group>"; };
+		D671D2AF12190DC700F398E5 /* RailStopIconNW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIconNW.png; path = "Resources/Map Icons/RailStopIconNW.png"; sourceTree = "<group>"; };
+		D671D2B012190DC700F398E5 /* RailStopIconNW@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RailStopIconNW@2x.png"; path = "Resources/Map Icons/RailStopIconNW@2x.png"; sourceTree = "<group>"; };
+		D671D2B112190DC700F398E5 /* RailStopIconS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIconS.png; path = "Resources/Map Icons/RailStopIconS.png"; sourceTree = "<group>"; };
+		D671D2B212190DC700F398E5 /* RailStopIconS@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RailStopIconS@2x.png"; path = "Resources/Map Icons/RailStopIconS@2x.png"; sourceTree = "<group>"; };
+		D671D2B312190DC700F398E5 /* RailStopIconSE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIconSE.png; path = "Resources/Map Icons/RailStopIconSE.png"; sourceTree = "<group>"; };
+		D671D2B412190DC700F398E5 /* RailStopIconSE@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RailStopIconSE@2x.png"; path = "Resources/Map Icons/RailStopIconSE@2x.png"; sourceTree = "<group>"; };
+		D671D2B512190DC700F398E5 /* RailStopIconSW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIconSW.png; path = "Resources/Map Icons/RailStopIconSW.png"; sourceTree = "<group>"; };
+		D671D2B612190DC700F398E5 /* RailStopIconSW@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RailStopIconSW@2x.png"; path = "Resources/Map Icons/RailStopIconSW@2x.png"; sourceTree = "<group>"; };
+		D671D2B712190DC700F398E5 /* RailStopIconW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RailStopIconW.png; path = "Resources/Map Icons/RailStopIconW.png"; sourceTree = "<group>"; };
+		D671D2B812190DC700F398E5 /* RailStopIconW@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RailStopIconW@2x.png"; path = "Resources/Map Icons/RailStopIconW@2x.png"; sourceTree = "<group>"; };
+		D671D30912190FD500F398E5 /* Bookmarks@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Bookmarks@2x.png"; path = "Resources/Icons/Bookmarks@2x.png"; sourceTree = "<group>"; };
+		D671D30A12190FD500F398E5 /* Clock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Clock@2x.png"; path = "Resources/Icons/Clock@2x.png"; sourceTree = "<group>"; };
+		D671D30B12190FD500F398E5 /* CrossHairs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CrossHairs@2x.png"; path = "Resources/Icons/CrossHairs@2x.png"; sourceTree = "<group>"; };
+		D671D30C12190FD500F398E5 /* Gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Gear@2x.png"; path = "Resources/Icons/Gear@2x.png"; sourceTree = "<group>"; };
+		D671D30D12190FD500F398E5 /* MagnifyingGlass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "MagnifyingGlass@2x.png"; path = "Resources/Icons/MagnifyingGlass@2x.png"; sourceTree = "<group>"; };
+		D671D30E12190FD500F398E5 /* SegmentedControl-CrossHairs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SegmentedControl-CrossHairs@2x.png"; path = "Resources/Icons/SegmentedControl-CrossHairs@2x.png"; sourceTree = "<group>"; };
+		D671D30F12190FD500F398E5 /* SegmentedControl-Region@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SegmentedControl-Region@2x.png"; path = "Resources/Icons/SegmentedControl-Region@2x.png"; sourceTree = "<group>"; };
+		D671D31012190FD500F398E5 /* TextBox-MagnifyingGlass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TextBox-MagnifyingGlass@2x.png"; path = "Resources/Icons/TextBox-MagnifyingGlass@2x.png"; sourceTree = "<group>"; };
+		D671D322121910A900F398E5 /* BlueMarker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BlueMarker.png; path = "Resources/Map Icons/BlueMarker.png"; sourceTree = "<group>"; };
+		D671D323121910A900F398E5 /* BlueMarker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BlueMarker@2x.png"; path = "Resources/Map Icons/BlueMarker@2x.png"; sourceTree = "<group>"; };
 		D6789E640FE0BC4700696FE6 /* OBAAgencyWithCoverage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAAgencyWithCoverage.h; path = Model/OBAAgencyWithCoverage.h; sourceTree = "<group>"; };
 		D6789E650FE0BC4700696FE6 /* OBAAgencyWithCoverage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAAgencyWithCoverage.m; path = Model/OBAAgencyWithCoverage.m; sourceTree = "<group>"; };
 		D6789E690FE0BE0000696FE6 /* OBACreateManagedEntityJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBACreateManagedEntityJsonDigesterRule.h; path = Control/Digester/OBACreateManagedEntityJsonDigesterRule.h; sourceTree = "<group>"; };
@@ -570,15 +682,6 @@
 		D696ECB112078DE200514C2B /* OBACallMethodJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBACallMethodJsonDigesterRule.m; path = Control/Digester/OBACallMethodJsonDigesterRule.m; sourceTree = "<group>"; };
 		D696ECEE1207992E00514C2B /* OBAUserPreferencesMigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAUserPreferencesMigration.h; path = Control/OBAUserPreferencesMigration.h; sourceTree = "<group>"; };
 		D696ECEF1207992E00514C2B /* OBAUserPreferencesMigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAUserPreferencesMigration.m; path = Control/OBAUserPreferencesMigration.m; sourceTree = "<group>"; };
-		D6A346ED115A8B2200ACF54F /* FerryStopIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIcon.png; path = "Resources/Map Icons/FerryStopIcon.png"; sourceTree = "<group>"; };
-		D6A346EE115A8B2200ACF54F /* FerryStopIconE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconE.png; path = "Resources/Map Icons/FerryStopIconE.png"; sourceTree = "<group>"; };
-		D6A346EF115A8B2200ACF54F /* FerryStopIconN.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconN.png; path = "Resources/Map Icons/FerryStopIconN.png"; sourceTree = "<group>"; };
-		D6A346F0115A8B2200ACF54F /* FerryStopIconNE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconNE.png; path = "Resources/Map Icons/FerryStopIconNE.png"; sourceTree = "<group>"; };
-		D6A346F1115A8B2200ACF54F /* FerryStopIconNW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconNW.png; path = "Resources/Map Icons/FerryStopIconNW.png"; sourceTree = "<group>"; };
-		D6A346F2115A8B2200ACF54F /* FerryStopIconS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconS.png; path = "Resources/Map Icons/FerryStopIconS.png"; sourceTree = "<group>"; };
-		D6A346F3115A8B2200ACF54F /* FerryStopIconSW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconSW.png; path = "Resources/Map Icons/FerryStopIconSW.png"; sourceTree = "<group>"; };
-		D6A346F4115A8B2200ACF54F /* FerryStopIconW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconW.png; path = "Resources/Map Icons/FerryStopIconW.png"; sourceTree = "<group>"; };
-		D6A34709115A8CEA00ACF54F /* FerryStopIconSE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FerryStopIconSE.png; path = "Resources/Map Icons/FerryStopIconSE.png"; sourceTree = "<group>"; };
 		D6A8C2A30FDF311F001B46E1 /* OBANavigationTargetAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBANavigationTargetAnnotation.h; path = Model/OBANavigationTargetAnnotation.h; sourceTree = "<group>"; };
 		D6A8C2A40FDF311F001B46E1 /* OBANavigationTargetAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBANavigationTargetAnnotation.m; path = Model/OBANavigationTargetAnnotation.m; sourceTree = "<group>"; };
 		D6A8C3010FE0004B001B46E1 /* OBAStopAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAStopAnnotation.h; path = Model/OBAStopAnnotation.h; sourceTree = "<group>"; };
@@ -612,15 +715,6 @@
 		D6CEA0BD0F8D494F009DBD66 /* OBAStopsSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAStopsSource.h; path = Control/OBAStopsSource.h; sourceTree = "<group>"; };
 		D6CEA1250F8D4E6E009DBD66 /* OBATextFieldTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OBATextFieldTableViewCell.xib; path = Resources/OBATextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		D6CFB1411032229F00005000 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
-		D6EF2A290FDC6F980005FB65 /* BusStopIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIcon.png; path = "Resources/Map Icons/BusStopIcon.png"; sourceTree = "<group>"; };
-		D6EF2A2A0FDC6F980005FB65 /* BusStopIconE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIconE.png; path = "Resources/Map Icons/BusStopIconE.png"; sourceTree = "<group>"; };
-		D6EF2A2B0FDC6F980005FB65 /* BusStopIconN.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIconN.png; path = "Resources/Map Icons/BusStopIconN.png"; sourceTree = "<group>"; };
-		D6EF2A2C0FDC6F980005FB65 /* BusStopIconNE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIconNE.png; path = "Resources/Map Icons/BusStopIconNE.png"; sourceTree = "<group>"; };
-		D6EF2A2D0FDC6F980005FB65 /* BusStopIconNW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIconNW.png; path = "Resources/Map Icons/BusStopIconNW.png"; sourceTree = "<group>"; };
-		D6EF2A2E0FDC6F980005FB65 /* BusStopIconSE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIconSE.png; path = "Resources/Map Icons/BusStopIconSE.png"; sourceTree = "<group>"; };
-		D6EF2A2F0FDC6F980005FB65 /* BusStopIconSW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIconSW.png; path = "Resources/Map Icons/BusStopIconSW.png"; sourceTree = "<group>"; };
-		D6EF2A300FDC6F980005FB65 /* BusStopIconW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIconW.png; path = "Resources/Map Icons/BusStopIconW.png"; sourceTree = "<group>"; };
-		D6EF2A310FDC6F980005FB65 /* BusStopIconS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BusStopIconS.png; path = "Resources/Map Icons/BusStopIconS.png"; sourceTree = "<group>"; };
 		D6F36F490FD96D1C00C46D01 /* OBAProgressIndicatorSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAProgressIndicatorSource.h; path = Control/OBAProgressIndicatorSource.h; sourceTree = "<group>"; };
 		D6F36F4C0FD96D9800C46D01 /* OBAProgressIndicatorImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAProgressIndicatorImpl.h; path = Control/OBAProgressIndicatorImpl.h; sourceTree = "<group>"; };
 		D6F36F4D0FD96D9800C46D01 /* OBAProgressIndicatorImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAProgressIndicatorImpl.m; path = Control/OBAProgressIndicatorImpl.m; sourceTree = "<group>"; };
@@ -714,13 +808,13 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D64953CD1214A3A00040572D /* Application Icon */,
 				D651BB2711C9D5DE001BE733 /* iTunesArtwork */,
 				D64A426D101E14F4008F16CA /* Icons */,
 				D656D5640FD43B2200ADE4D5 /* Activity Logging */,
 				D622569A0F8BE88200F139BA /* Map Icons */,
 				D619F88E0FDF1372002893B5 /* Views */,
 				D619F8930FDF13E0002893B5 /* TableViewCells */,
-				D656D6730FD44E8E00ADE4D5 /* AppIcon.png */,
 				D6CFB1411032229F00005000 /* Default.png */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				D62AC46410A4F6D300CE9212 /* OBAModel.xcdatamodeld */,
@@ -1028,58 +1122,113 @@
 		D622569A0F8BE88200F139BA /* Map Icons */ = {
 			isa = PBXGroup;
 			children = (
-				D6A346ED115A8B2200ACF54F /* FerryStopIcon.png */,
-				D6A346EF115A8B2200ACF54F /* FerryStopIconN.png */,
-				D6A346F0115A8B2200ACF54F /* FerryStopIconNE.png */,
-				D6A346EE115A8B2200ACF54F /* FerryStopIconE.png */,
-				D6A34709115A8CEA00ACF54F /* FerryStopIconSE.png */,
-				D6A346F2115A8B2200ACF54F /* FerryStopIconS.png */,
-				D6A346F3115A8B2200ACF54F /* FerryStopIconSW.png */,
-				D6A346F4115A8B2200ACF54F /* FerryStopIconW.png */,
-				D6A346F1115A8B2200ACF54F /* FerryStopIconNW.png */,
-				D62CC42010A3B52C008F93FE /* LightRailStopIcon.png */,
-				D62CC3F310A3B4CD008F93FE /* LightRailStopIconE.png */,
-				D62CC3F410A3B4CD008F93FE /* LightRailStopIconN.png */,
-				D62CC3F510A3B4CD008F93FE /* LightRailStopIconNE.png */,
-				D62CC3F610A3B4CD008F93FE /* LightRailStopIconNW.png */,
-				D62CC3F710A3B4CD008F93FE /* LightRailStopIconS.png */,
-				D62CC3F810A3B4CD008F93FE /* LightRailStopIconSE.png */,
-				D62CC3F910A3B4CD008F93FE /* LightRailStopIconSW.png */,
-				D62CC3FA10A3B4CD008F93FE /* LightRailStopIconW.png */,
-				D62CC3FC10A3B4CD008F93FE /* RailStopIcon.png */,
-				D62CC3FD10A3B4CD008F93FE /* RailStopIconE.png */,
-				D62CC3FE10A3B4CD008F93FE /* RailStopIconN.png */,
-				D62CC3FF10A3B4CD008F93FE /* RailStopIconNE.png */,
-				D62CC40010A3B4CD008F93FE /* RailStopIconNW.png */,
-				D62CC40110A3B4CD008F93FE /* RailStopIconS.png */,
-				D62CC40210A3B4CD008F93FE /* RailStopIconSE.png */,
-				D62CC40310A3B4CD008F93FE /* RailStopIconSW.png */,
-				D62CC40410A3B4CD008F93FE /* RailStopIconW.png */,
-				D648A4000FED44A9002D9D49 /* BlueMarker.png */,
-				D6EF2A290FDC6F980005FB65 /* BusStopIcon.png */,
-				D6EF2A2A0FDC6F980005FB65 /* BusStopIconE.png */,
-				D6EF2A2B0FDC6F980005FB65 /* BusStopIconN.png */,
-				D6EF2A2C0FDC6F980005FB65 /* BusStopIconNE.png */,
-				D6EF2A2D0FDC6F980005FB65 /* BusStopIconNW.png */,
-				D6EF2A2E0FDC6F980005FB65 /* BusStopIconSE.png */,
-				D6EF2A2F0FDC6F980005FB65 /* BusStopIconSW.png */,
-				D6EF2A300FDC6F980005FB65 /* BusStopIconW.png */,
-				D6EF2A310FDC6F980005FB65 /* BusStopIconS.png */,
+				D671D322121910A900F398E5 /* BlueMarker.png */,
+				D671D323121910A900F398E5 /* BlueMarker@2x.png */,
+				D671D27112190DC700F398E5 /* BusStopIcon.png */,
+				D671D27212190DC700F398E5 /* BusStopIcon@2x.png */,
+				D671D27312190DC700F398E5 /* BusStopIconE.png */,
+				D671D27412190DC700F398E5 /* BusStopIconE@2x.png */,
+				D671D27512190DC700F398E5 /* BusStopIconN.png */,
+				D671D27612190DC700F398E5 /* BusStopIconN@2x.png */,
+				D671D27712190DC700F398E5 /* BusStopIconNE.png */,
+				D671D27812190DC700F398E5 /* BusStopIconNE@2x.png */,
+				D671D27912190DC700F398E5 /* BusStopIconNW.png */,
+				D671D27A12190DC700F398E5 /* BusStopIconNW@2x.png */,
+				D671D27B12190DC700F398E5 /* BusStopIconS.png */,
+				D671D27C12190DC700F398E5 /* BusStopIconS@2x.png */,
+				D671D27D12190DC700F398E5 /* BusStopIconSE.png */,
+				D671D27E12190DC700F398E5 /* BusStopIconSE@2x.png */,
+				D671D27F12190DC700F398E5 /* BusStopIconSW.png */,
+				D671D28012190DC700F398E5 /* BusStopIconSW@2x.png */,
+				D671D28112190DC700F398E5 /* BusStopIconW.png */,
+				D671D28212190DC700F398E5 /* BusStopIconW@2x.png */,
+				D671D28312190DC700F398E5 /* FerryStopIcon.png */,
+				D671D28412190DC700F398E5 /* FerryStopIcon@2x.png */,
+				D671D28512190DC700F398E5 /* FerryStopIconE.png */,
+				D671D28612190DC700F398E5 /* FerryStopIconE@2x.png */,
+				D671D28712190DC700F398E5 /* FerryStopIconN.png */,
+				D671D28812190DC700F398E5 /* FerryStopIconN@2x.png */,
+				D671D28912190DC700F398E5 /* FerryStopIconNE.png */,
+				D671D28A12190DC700F398E5 /* FerryStopIconNE@2x.png */,
+				D671D28B12190DC700F398E5 /* FerryStopIconNW.png */,
+				D671D28C12190DC700F398E5 /* FerryStopIconNW@2x.png */,
+				D671D28D12190DC700F398E5 /* FerryStopIconS.png */,
+				D671D28E12190DC700F398E5 /* FerryStopIconS@2x.png */,
+				D671D28F12190DC700F398E5 /* FerryStopIconSE.png */,
+				D671D29012190DC700F398E5 /* FerryStopIconSE@2x.png */,
+				D671D29112190DC700F398E5 /* FerryStopIconSW.png */,
+				D671D29212190DC700F398E5 /* FerryStopIconSW@2x.png */,
+				D671D29312190DC700F398E5 /* FerryStopIconW.png */,
+				D671D29412190DC700F398E5 /* FerryStopIconW@2x.png */,
+				D671D29512190DC700F398E5 /* LightRailStopIcon.png */,
+				D671D29612190DC700F398E5 /* LightRailStopIcon@2x.png */,
+				D671D29712190DC700F398E5 /* LightRailStopIconE.png */,
+				D671D29812190DC700F398E5 /* LightRailStopIconE@2x.png */,
+				D671D29912190DC700F398E5 /* LightRailStopIconN.png */,
+				D671D29A12190DC700F398E5 /* LightRailStopIconN@2x.png */,
+				D671D29B12190DC700F398E5 /* LightRailStopIconNE.png */,
+				D671D29C12190DC700F398E5 /* LightRailStopIconNE@2x.png */,
+				D671D29D12190DC700F398E5 /* LightRailStopIconNW.png */,
+				D671D29E12190DC700F398E5 /* LightRailStopIconNW@2x.png */,
+				D671D29F12190DC700F398E5 /* LightRailStopIconS.png */,
+				D671D2A012190DC700F398E5 /* LightRailStopIconS@2x.png */,
+				D671D2A112190DC700F398E5 /* LightRailStopIconSE.png */,
+				D671D2A212190DC700F398E5 /* LightRailStopIconSE@2x.png */,
+				D671D2A312190DC700F398E5 /* LightRailStopIconSW.png */,
+				D671D2A412190DC700F398E5 /* LightRailStopIconSW@2x.png */,
+				D671D2A512190DC700F398E5 /* LightRailStopIconW.png */,
+				D671D2A612190DC700F398E5 /* LightRailStopIconW@2x.png */,
+				D671D2A712190DC700F398E5 /* RailStopIcon.png */,
+				D671D2A812190DC700F398E5 /* RailStopIcon@2x.png */,
+				D671D2A912190DC700F398E5 /* RailStopIconE.png */,
+				D671D2AA12190DC700F398E5 /* RailStopIconE@2x.png */,
+				D671D2AB12190DC700F398E5 /* RailStopIconN.png */,
+				D671D2AC12190DC700F398E5 /* RailStopIconN@2x.png */,
+				D671D2AD12190DC700F398E5 /* RailStopIconNE.png */,
+				D671D2AE12190DC700F398E5 /* RailStopIconNE@2x.png */,
+				D671D2AF12190DC700F398E5 /* RailStopIconNW.png */,
+				D671D2B012190DC700F398E5 /* RailStopIconNW@2x.png */,
+				D671D2B112190DC700F398E5 /* RailStopIconS.png */,
+				D671D2B212190DC700F398E5 /* RailStopIconS@2x.png */,
+				D671D2B312190DC700F398E5 /* RailStopIconSE.png */,
+				D671D2B412190DC700F398E5 /* RailStopIconSE@2x.png */,
+				D671D2B512190DC700F398E5 /* RailStopIconSW.png */,
+				D671D2B612190DC700F398E5 /* RailStopIconSW@2x.png */,
+				D671D2B712190DC700F398E5 /* RailStopIconW.png */,
+				D671D2B812190DC700F398E5 /* RailStopIconW@2x.png */,
 			);
 			name = "Map Icons";
+			sourceTree = "<group>";
+		};
+		D64953CD1214A3A00040572D /* Application Icon */ = {
+			isa = PBXGroup;
+			children = (
+				D64953C31214A1E80040572D /* Icon.png */,
+				D64953C91214A3890040572D /* Icon-72.png */,
+				D64953CB1214A3950040572D /* Icon@2x.png */,
+			);
+			name = "Application Icon";
 			sourceTree = "<group>";
 		};
 		D64A426D101E14F4008F16CA /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				D64A47FF101F53C7008F16CA /* Gear.png */,
-				D64A426E101E1503008F16CA /* CrossHairs.png */,
 				D64A4271101E161B008F16CA /* Bookmarks.png */,
+				D671D30912190FD500F398E5 /* Bookmarks@2x.png */,
 				D64A427A101E186E008F16CA /* Clock.png */,
+				D671D30A12190FD500F398E5 /* Clock@2x.png */,
+				D64A426E101E1503008F16CA /* CrossHairs.png */,
+				D671D30B12190FD500F398E5 /* CrossHairs@2x.png */,
+				D64A47FF101F53C7008F16CA /* Gear.png */,
+				D671D30C12190FD500F398E5 /* Gear@2x.png */,
 				D64A427C101E22F8008F16CA /* MagnifyingGlass.png */,
+				D671D30D12190FD500F398E5 /* MagnifyingGlass@2x.png */,
 				D64A42EB101E2E7D008F16CA /* SegmentedControl-CrossHairs.png */,
+				D671D30E12190FD500F398E5 /* SegmentedControl-CrossHairs@2x.png */,
 				D64A42A7101E2639008F16CA /* SegmentedControl-Region.png */,
+				D671D30F12190FD500F398E5 /* SegmentedControl-Region@2x.png */,
 				D64A44AB101EA4D8008F16CA /* TextBox-MagnifyingGlass.png */,
+				D671D31012190FD500F398E5 /* TextBox-MagnifyingGlass@2x.png */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -1387,18 +1536,7 @@
 				D6CEA1260F8D4E6E009DBD66 /* OBATextFieldTableViewCell.xib in Resources */,
 				D652BF170FA6CA2F00608073 /* OBAUploadView.xib in Resources */,
 				D61E4D820FC1DECA000C1782 /* OBALockView.xib in Resources */,
-				D656D6740FD44E8E00ADE4D5 /* AppIcon.png in Resources */,
-				D6EF2A320FDC6F980005FB65 /* BusStopIcon.png in Resources */,
-				D6EF2A330FDC6F980005FB65 /* BusStopIconE.png in Resources */,
-				D6EF2A340FDC6F980005FB65 /* BusStopIconN.png in Resources */,
-				D6EF2A350FDC6F980005FB65 /* BusStopIconNE.png in Resources */,
-				D6EF2A360FDC6F980005FB65 /* BusStopIconNW.png in Resources */,
-				D6EF2A370FDC6F980005FB65 /* BusStopIconSE.png in Resources */,
-				D6EF2A380FDC6F980005FB65 /* BusStopIconSW.png in Resources */,
-				D6EF2A390FDC6F980005FB65 /* BusStopIconW.png in Resources */,
-				D6EF2A3A0FDC6F980005FB65 /* BusStopIconS.png in Resources */,
 				D64C6F700FDF0FCD00F0C218 /* OBAProgressIndicatorView.xib in Resources */,
-				D648A4010FED44A9002D9D49 /* BlueMarker.png in Resources */,
 				D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */,
 				D64A426F101E1503008F16CA /* CrossHairs.png in Resources */,
 				D64A4272101E161B008F16CA /* Bookmarks.png in Resources */,
@@ -1409,33 +1547,6 @@
 				D64A44AC101EA4D8008F16CA /* TextBox-MagnifyingGlass.png in Resources */,
 				D64A4800101F53C7008F16CA /* Gear.png in Resources */,
 				D6CFB1421032229F00005000 /* Default.png in Resources */,
-				D62CC40510A3B4CD008F93FE /* LightRailStopIconE.png in Resources */,
-				D62CC40610A3B4CD008F93FE /* LightRailStopIconN.png in Resources */,
-				D62CC40710A3B4CD008F93FE /* LightRailStopIconNE.png in Resources */,
-				D62CC40810A3B4CD008F93FE /* LightRailStopIconNW.png in Resources */,
-				D62CC40910A3B4CD008F93FE /* LightRailStopIconS.png in Resources */,
-				D62CC40A10A3B4CD008F93FE /* LightRailStopIconSE.png in Resources */,
-				D62CC40B10A3B4CD008F93FE /* LightRailStopIconSW.png in Resources */,
-				D62CC40C10A3B4CD008F93FE /* LightRailStopIconW.png in Resources */,
-				D62CC40E10A3B4CD008F93FE /* RailStopIcon.png in Resources */,
-				D62CC40F10A3B4CD008F93FE /* RailStopIconE.png in Resources */,
-				D62CC41010A3B4CD008F93FE /* RailStopIconN.png in Resources */,
-				D62CC41110A3B4CD008F93FE /* RailStopIconNE.png in Resources */,
-				D62CC41210A3B4CD008F93FE /* RailStopIconNW.png in Resources */,
-				D62CC41310A3B4CD008F93FE /* RailStopIconS.png in Resources */,
-				D62CC41410A3B4CD008F93FE /* RailStopIconSE.png in Resources */,
-				D62CC41510A3B4CD008F93FE /* RailStopIconSW.png in Resources */,
-				D62CC41610A3B4CD008F93FE /* RailStopIconW.png in Resources */,
-				D62CC42110A3B52C008F93FE /* LightRailStopIcon.png in Resources */,
-				D6A346F5115A8B2200ACF54F /* FerryStopIcon.png in Resources */,
-				D6A346F6115A8B2200ACF54F /* FerryStopIconE.png in Resources */,
-				D6A346F7115A8B2200ACF54F /* FerryStopIconN.png in Resources */,
-				D6A346F8115A8B2200ACF54F /* FerryStopIconNE.png in Resources */,
-				D6A346F9115A8B2200ACF54F /* FerryStopIconNW.png in Resources */,
-				D6A346FA115A8B2200ACF54F /* FerryStopIconS.png in Resources */,
-				D6A346FB115A8B2200ACF54F /* FerryStopIconSW.png in Resources */,
-				D6A346FC115A8B2200ACF54F /* FerryStopIconW.png in Resources */,
-				D6A3470A115A8CEA00ACF54F /* FerryStopIconSE.png in Resources */,
 				D6177E1211A3CAEA00889414 /* .licences.readme in Resources */,
 				D6177E1311A3CAEA00889414 /* 18-envelope.png in Resources */,
 				D6177E1411A3CAEA00889414 /* 48px-Crystal_Clear_action_flag.png in Resources */,
@@ -1471,6 +1582,91 @@
 				D6177E3211A3CAEA00889414 /* TagCell.xib in Resources */,
 				D6177E3311A3CAEA00889414 /* TextEditor.xib in Resources */,
 				D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */,
+				D64953C41214A1E90040572D /* Icon.png in Resources */,
+				D64953CA1214A3890040572D /* Icon-72.png in Resources */,
+				D64953CC1214A3950040572D /* Icon@2x.png in Resources */,
+				D671D2B912190DC700F398E5 /* BusStopIcon.png in Resources */,
+				D671D2BA12190DC700F398E5 /* BusStopIcon@2x.png in Resources */,
+				D671D2BB12190DC700F398E5 /* BusStopIconE.png in Resources */,
+				D671D2BC12190DC700F398E5 /* BusStopIconE@2x.png in Resources */,
+				D671D2BD12190DC700F398E5 /* BusStopIconN.png in Resources */,
+				D671D2BE12190DC700F398E5 /* BusStopIconN@2x.png in Resources */,
+				D671D2BF12190DC700F398E5 /* BusStopIconNE.png in Resources */,
+				D671D2C012190DC700F398E5 /* BusStopIconNE@2x.png in Resources */,
+				D671D2C112190DC700F398E5 /* BusStopIconNW.png in Resources */,
+				D671D2C212190DC700F398E5 /* BusStopIconNW@2x.png in Resources */,
+				D671D2C312190DC700F398E5 /* BusStopIconS.png in Resources */,
+				D671D2C412190DC700F398E5 /* BusStopIconS@2x.png in Resources */,
+				D671D2C512190DC700F398E5 /* BusStopIconSE.png in Resources */,
+				D671D2C612190DC700F398E5 /* BusStopIconSE@2x.png in Resources */,
+				D671D2C712190DC700F398E5 /* BusStopIconSW.png in Resources */,
+				D671D2C812190DC700F398E5 /* BusStopIconSW@2x.png in Resources */,
+				D671D2C912190DC700F398E5 /* BusStopIconW.png in Resources */,
+				D671D2CA12190DC700F398E5 /* BusStopIconW@2x.png in Resources */,
+				D671D2CB12190DC700F398E5 /* FerryStopIcon.png in Resources */,
+				D671D2CC12190DC700F398E5 /* FerryStopIcon@2x.png in Resources */,
+				D671D2CD12190DC700F398E5 /* FerryStopIconE.png in Resources */,
+				D671D2CE12190DC700F398E5 /* FerryStopIconE@2x.png in Resources */,
+				D671D2CF12190DC700F398E5 /* FerryStopIconN.png in Resources */,
+				D671D2D012190DC700F398E5 /* FerryStopIconN@2x.png in Resources */,
+				D671D2D112190DC700F398E5 /* FerryStopIconNE.png in Resources */,
+				D671D2D212190DC700F398E5 /* FerryStopIconNE@2x.png in Resources */,
+				D671D2D312190DC700F398E5 /* FerryStopIconNW.png in Resources */,
+				D671D2D412190DC700F398E5 /* FerryStopIconNW@2x.png in Resources */,
+				D671D2D512190DC700F398E5 /* FerryStopIconS.png in Resources */,
+				D671D2D612190DC700F398E5 /* FerryStopIconS@2x.png in Resources */,
+				D671D2D712190DC700F398E5 /* FerryStopIconSE.png in Resources */,
+				D671D2D812190DC700F398E5 /* FerryStopIconSE@2x.png in Resources */,
+				D671D2D912190DC700F398E5 /* FerryStopIconSW.png in Resources */,
+				D671D2DA12190DC700F398E5 /* FerryStopIconSW@2x.png in Resources */,
+				D671D2DB12190DC700F398E5 /* FerryStopIconW.png in Resources */,
+				D671D2DC12190DC700F398E5 /* FerryStopIconW@2x.png in Resources */,
+				D671D2DD12190DC700F398E5 /* LightRailStopIcon.png in Resources */,
+				D671D2DE12190DC700F398E5 /* LightRailStopIcon@2x.png in Resources */,
+				D671D2DF12190DC700F398E5 /* LightRailStopIconE.png in Resources */,
+				D671D2E012190DC700F398E5 /* LightRailStopIconE@2x.png in Resources */,
+				D671D2E112190DC700F398E5 /* LightRailStopIconN.png in Resources */,
+				D671D2E212190DC700F398E5 /* LightRailStopIconN@2x.png in Resources */,
+				D671D2E312190DC700F398E5 /* LightRailStopIconNE.png in Resources */,
+				D671D2E412190DC700F398E5 /* LightRailStopIconNE@2x.png in Resources */,
+				D671D2E512190DC700F398E5 /* LightRailStopIconNW.png in Resources */,
+				D671D2E612190DC700F398E5 /* LightRailStopIconNW@2x.png in Resources */,
+				D671D2E712190DC700F398E5 /* LightRailStopIconS.png in Resources */,
+				D671D2E812190DC700F398E5 /* LightRailStopIconS@2x.png in Resources */,
+				D671D2E912190DC700F398E5 /* LightRailStopIconSE.png in Resources */,
+				D671D2EA12190DC700F398E5 /* LightRailStopIconSE@2x.png in Resources */,
+				D671D2EB12190DC700F398E5 /* LightRailStopIconSW.png in Resources */,
+				D671D2EC12190DC700F398E5 /* LightRailStopIconSW@2x.png in Resources */,
+				D671D2ED12190DC700F398E5 /* LightRailStopIconW.png in Resources */,
+				D671D2EE12190DC700F398E5 /* LightRailStopIconW@2x.png in Resources */,
+				D671D2EF12190DC700F398E5 /* RailStopIcon.png in Resources */,
+				D671D2F012190DC700F398E5 /* RailStopIcon@2x.png in Resources */,
+				D671D2F112190DC700F398E5 /* RailStopIconE.png in Resources */,
+				D671D2F212190DC700F398E5 /* RailStopIconE@2x.png in Resources */,
+				D671D2F312190DC700F398E5 /* RailStopIconN.png in Resources */,
+				D671D2F412190DC700F398E5 /* RailStopIconN@2x.png in Resources */,
+				D671D2F512190DC700F398E5 /* RailStopIconNE.png in Resources */,
+				D671D2F612190DC700F398E5 /* RailStopIconNE@2x.png in Resources */,
+				D671D2F712190DC700F398E5 /* RailStopIconNW.png in Resources */,
+				D671D2F812190DC700F398E5 /* RailStopIconNW@2x.png in Resources */,
+				D671D2F912190DC700F398E5 /* RailStopIconS.png in Resources */,
+				D671D2FA12190DC700F398E5 /* RailStopIconS@2x.png in Resources */,
+				D671D2FB12190DC700F398E5 /* RailStopIconSE.png in Resources */,
+				D671D2FC12190DC700F398E5 /* RailStopIconSE@2x.png in Resources */,
+				D671D2FD12190DC700F398E5 /* RailStopIconSW.png in Resources */,
+				D671D2FE12190DC700F398E5 /* RailStopIconSW@2x.png in Resources */,
+				D671D2FF12190DC700F398E5 /* RailStopIconW.png in Resources */,
+				D671D30012190DC700F398E5 /* RailStopIconW@2x.png in Resources */,
+				D671D31112190FD600F398E5 /* Bookmarks@2x.png in Resources */,
+				D671D31212190FD600F398E5 /* Clock@2x.png in Resources */,
+				D671D31312190FD600F398E5 /* CrossHairs@2x.png in Resources */,
+				D671D31412190FD600F398E5 /* Gear@2x.png in Resources */,
+				D671D31512190FD600F398E5 /* MagnifyingGlass@2x.png in Resources */,
+				D671D31612190FD600F398E5 /* SegmentedControl-CrossHairs@2x.png in Resources */,
+				D671D31712190FD600F398E5 /* SegmentedControl-Region@2x.png in Resources */,
+				D671D31812190FD600F398E5 /* TextBox-MagnifyingGlass@2x.png in Resources */,
+				D671D324121910A900F398E5 /* BlueMarker.png in Resources */,
+				D671D325121910A900F398E5 /* BlueMarker@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -70,8 +70,8 @@
 - (NSString*) subtitle {
 	NSString * r = [self routeNamesAsString];
 	if( self.direction )
-		return [NSString stringWithFormat:@"# %@ - %@ bound - Routes: %@",self.code,self.direction,r];
-	return [NSString stringWithFormat:@"# %@ -Routes: %@",self.code,r];
+		return [NSString stringWithFormat:@"%@ bound - Routes: %@",self.direction,r];
+	return [NSString stringWithFormat:@"Routes: %@",r];
 }
 
 - (CLLocationCoordinate2D) coordinate {

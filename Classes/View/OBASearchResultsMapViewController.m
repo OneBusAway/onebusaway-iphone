@@ -513,7 +513,7 @@ typedef enum  {
 		for( int i=0; i<[directionIds count]; i++) {		
 			NSString * directionId = [directionIds objectAtIndex:i];
 			NSString * key = [NSString stringWithFormat:@"%@StopIcon%@",iconType,directionId];
-			NSString * imageName = [NSString stringWithFormat:@"%@.png",key];
+			NSString * imageName = [NSString stringWithFormat:@"%@",key];
 			UIImage * image = [UIImage imageNamed:imageName];
 			[_stopIcons setObject:image forKey:key];
 		}		
