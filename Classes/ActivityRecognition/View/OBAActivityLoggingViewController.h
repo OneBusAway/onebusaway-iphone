@@ -19,7 +19,7 @@
 #import "OBANavigationTargetAware.h"
 
 
-@interface OBAActivityLoggingViewController : UITableViewController <OBANavigationTargetAware> {
+@interface OBAActivityLoggingViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate> {
 	OBAApplicationContext * _appContext;
 }
 

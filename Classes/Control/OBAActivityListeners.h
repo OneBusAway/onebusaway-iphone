@@ -28,6 +28,7 @@
 - (void) placemark:(OBAPlacemark*)placemark;
 - (void) viewedArrivalsAndDeparturesForStop:(OBAStop*)stop;
 - (void) annotationWithLabel:(NSString*)label;
+- (void) nearbyTrips:(NSArray*)nearbyTrips;
 
 @end
 

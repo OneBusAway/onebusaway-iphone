@@ -220,6 +220,13 @@ static const float kSearchRadius = 400;
 	}
 }
 
+- (void) locationManager:(OBALocationManager *)manager didFailWithError:(NSError*)error {
+	if( _searchType == OBASearchControllerSearchTypeCurrentLocation ) {
+		[_progress setMessage:@"Error determining location" inProgress:FALSE progress:0];
+		[self fireError:error];
+	}
+}
+
 
 #pragma mark OBADataSourceDelegate Methods
 
@@ -236,7 +243,6 @@ static const float kSearchRadius = 400;
 			return;
 		searchType = _searchType;
 	}
-	
 	
 	//NSString * message = [NSString stringWithFormat:@"Updated: %@", [OBACommon getTimeAsString]];
 	NSString * message = [self progressCompleteMessageForSearchType];
@@ -550,6 +556,8 @@ static const float kSearchRadius = 400;
 
 -(void) handleSearchByPlacemark:(id)jsonObject {
 	NSDictionary * data = [jsonObject valueForKey:@"data"];
+	if( data == nil || [data isEqual:[NSNull null]] )
+		return;
 	NSArray * stopsArray = [data objectForKey:@"stops"];
 	NSArray * stops = [self parseStops:stopsArray];
 	NSNumber * limitExceeded = [data objectForKey:@"limitExceeded"];
@@ -561,6 +569,8 @@ static const float kSearchRadius = 400;
 -(void) handleSearchForAgenciesWithCoverage:(id)jsonObject {
 	
 	NSArray * data = [jsonObject objectForKey:@"data"];
+	if( data == nil || [data isEqual:[NSNull null]] )
+		return;
 	
 	OBAModelFactory * modelFactory = _appContext.modelFactory;
 	NSError * localError = nil;
@@ -593,6 +603,8 @@ static const float kSearchRadius = 400;
 
 -(void) fireStopsFromJsonObject:(id)jsonObject {
 	NSDictionary * data = [jsonObject valueForKey:@"data"];
+	if( data == nil || [data isEqual:[NSNull null]] )
+		return;
 	NSArray * stopsArray = [data objectForKey:@"stops"];
 	NSArray * stops = [self parseStops:stopsArray];
 	NSNumber * v = [data objectForKey:@"limitExceeded"];
@@ -636,8 +648,9 @@ static const float kSearchRadius = 400;
 
 - (void) fireError:(NSError*)error {
 	self.error = error;
-	if( _delegate && [_delegate respondsToSelector:@selector(handleSearchControllerError:)] )
+	if( _delegate && [_delegate respondsToSelector:@selector(handleSearchControllerError:)] ) {
 		[_delegate handleSearchControllerError:error];
+	}	
 }
 
 - (NSString*) escapeStringForUrl:(NSString*)url {

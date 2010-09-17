@@ -51,6 +51,8 @@ typedef enum {
 @interface OBACommon : NSObject
 
 + (NSString*) getTimeAsString;
++ (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName;
++ (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName third:(NSString*)thirdName;
 
 @end
 

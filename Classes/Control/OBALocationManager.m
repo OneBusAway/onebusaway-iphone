@@ -23,6 +23,7 @@
 
 -(id) init {
 	if( self = [super init]) {
+		_disabled = FALSE;
 		_locationManager = [[CLLocationManager alloc] init];
 		_locationManager.delegate = self;
 		_delegates = [[NSMutableArray alloc] init];
@@ -37,6 +38,8 @@
 }
 
 - (BOOL) locationServicesEnabled {
+	if( _disabled )
+		return FALSE;
 	return _locationManager.locationServicesEnabled;
 }
 
@@ -65,7 +68,8 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
 
 #if TARGET_IPHONE_SIMULATOR
-	newLocation = [[[CLLocation alloc] initWithLatitude:  47.653435121376894 longitude: -122.3056411743164] autorelease];
+	//newLocation = [[[CLLocation alloc] initWithLatitude:47.66869649992775  longitude:-122.377610206604] autorelease]; // Ballard
+	newLocation = [[[CLLocation alloc] initWithLatitude:  47.653435121376894 longitude: -122.3056411743164] autorelease]; // UW CSE
 	//newLocation = [[[CLLocation alloc] initWithLatitude:  47.60983759756863 longitude: -122.33782768249512] autorelease];
 #endif
 	
@@ -80,7 +84,10 @@
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
 
 	if( [error code] == kCLErrorDenied ) {
+		_disabled = TRUE;
 		[self stopUpdatingLocation];
+		for( id<OBALocationManagerDelegate> delegate in _delegates )
+			[delegate locationManager:self didFailWithError:error];
 	}
 }
 

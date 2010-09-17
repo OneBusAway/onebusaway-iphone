@@ -68,6 +68,10 @@
 	[self fireListenerEvent:@selector(annotationWithLabel:) withObject:label];
 }
 
+- (void) nearbyTrips:(NSArray*)nearbyTrips {
+	[self fireListenerEvent:@selector(nearbyTrips:) withObject:nearbyTrips];
+}
+
 	
 @end
 

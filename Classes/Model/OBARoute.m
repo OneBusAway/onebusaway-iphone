@@ -25,6 +25,7 @@
 @dynamic routeId;
 @dynamic shortName;
 @dynamic longName;
+@dynamic routeType;
 @dynamic stops;
 @dynamic agency;
 @dynamic excludedInPreferences;

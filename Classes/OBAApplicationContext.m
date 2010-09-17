@@ -14,6 +14,15 @@
  * limitations under the License.
  */
 
+#import <sys/socket.h>
+#import <netinet/in.h>
+#import <netinet6/in6.h>
+#import <arpa/inet.h>
+#import <ifaddrs.h>
+#import <netdb.h>
+
+#import <SystemConfiguration/SystemConfiguration.h>
+
 #import "OBAApplicationContext.h"
 #import "OBANavigationTargetAware.h"
 #import "OBALogger.h"
@@ -31,6 +40,7 @@
 #import "OBAUploadViewController.h"
 #import "OBALockViewController.h"
 
+#import "OBANearbyTripsController.h"
 
 static NSString * kOBAHiddenPreferenceLocationAwareDisabled = @"OBALocationAwareDisabled";
 static NSString * kOBAHiddenPreferenceSavedNavigationTargets = @"OBASavedNavigationTargets";
@@ -78,18 +88,7 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 		_setup = FALSE;
 		_active = FALSE;
 		_locationAware = TRUE;
-		
-		_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://api.onebusaway.org" args:@"key=org.onebusaway.iphone"];		
-		//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://localhost:8080/onebusaway-api-webapp" args:@"key=org.onebusaway.iphone"];
-		_googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://maps.google.com" args:@"output=json&oe=utf-8&key=ABQIAAAA1R_R0bUhLYRwbQFpKHVowhRAXGY6QyK0faTs-0G7h9EE_iri4RRtKgRdKFvvraEP5PX_lP_RlqKkzA"];
-		
-		_locationManager = [[OBALocationManager alloc] init];		
-		_activityListeners = [[OBAActivityListeners alloc] init];		
-		
-		if( kIncludeUWActivityInferenceCode ) {
-			_activityLogger = [[OBAActivityLogger alloc] init];
-			_activityLogger.context = self;
-		}
+
 	}
 	return self;
 }
@@ -100,6 +99,7 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	[_modelDao release];
 	
 	[_locationManager release];
+	[_nearbyTripsController release];
 	[_activityListeners release];
 	
 	[_obaDataSourceConfig release];
@@ -196,14 +196,37 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 		return;
 	
 	_setup = TRUE;
+	_active = TRUE;
 	NSError * error = nil;
 	
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	NSFileManager * manager = [NSFileManager defaultManager];
+
+	NSString * apiServerName = [userDefaults objectForKey:@"oba_api_server"];
+	if( apiServerName == nil || [apiServerName length] == 0 )
+		apiServerName = @"soak-api.onebusaway.org";
+	
+	apiServerName = [NSString stringWithFormat:@"http://%@",apiServerName];
+					 
+	//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://soak-api.onebusaway.org" args:@"key=org.onebusaway.iphone"];		
+	//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://api.onebusaway.org" args:@"key=org.onebusaway.iphone"];
+	_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:apiServerName args:@"key=org.onebusaway.iphone"];		
+	
+	//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://localhost:8080/onebusaway-api-webapp" args:@"key=org.onebusaway.iphone"];
+	_googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://maps.google.com" args:@"output=json&oe=utf-8&key=ABQIAAAA1R_R0bUhLYRwbQFpKHVowhRAXGY6QyK0faTs-0G7h9EE_iri4RRtKgRdKFvvraEP5PX_lP_RlqKkzA"];
+	
+	_locationManager = [[OBALocationManager alloc] init];		
+	_activityListeners = [[OBAActivityListeners alloc] init];		
+	
+	if( kIncludeUWActivityInferenceCode ) {
+		_activityLogger = [[OBAActivityLogger alloc] init];
+		_activityLogger.context = self;
+		_nearbyTripsController = [[OBANearbyTripsController alloc] initWithApplicationContext:self];
+	}
 	
 	NSString * path = [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"OneBusAway.sqlite"];
 
-	BOOL clearCacheOnStartup= [userDefaults boolForKey:kOBAPreferenceClearLocalCacheOnStartup];
+	BOOL clearCacheOnStartup = [userDefaults boolForKey:kOBAPreferenceClearLocalCacheOnStartup];
 	[userDefaults setBool:FALSE forKey:kOBAPreferenceClearLocalCacheOnStartup];
 	
 	if( clearCacheOnStartup || kDeleteModelOnStartup ) {
@@ -214,18 +237,26 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 		[userDefaults removeObjectForKey:kOBAHiddenPreferenceLocationAwareDisabled];
 		[userDefaults removeObjectForKey:kOBAHiddenPreferenceSavedNavigationTargets];
 		[userDefaults removeObjectForKey:kOBAHiddenPreferenceApplicationTerminationTimestamp];
+		
+		if( kIncludeUWActivityInferenceCode )
+			[_activityLogger deleteAllTraces];
 	}
 
 	if( kIncludeUWUserStudyCode ) {
 		_locationAware = ! [userDefaults boolForKey:kOBAHiddenPreferenceLocationAwareDisabled];
 	}
-	
+
 	NSManagedObjectModel * managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
 	NSPersistentStoreCoordinator * persistentStoreCoordinator = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: managedObjectModel] autorelease];
 	
 	NSURL *storeUrl = [NSURL fileURLWithPath: path];
 	
-	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
+	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+							 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+							 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
+	
+	
+	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
 		
 		OBALogSevereWithError(error,@"Error adding persistent store coordinator");
 		
@@ -258,13 +289,17 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	if( _locationAware )
 		[_locationManager startUpdatingLocation];
 	
-	if( kIncludeUWActivityInferenceCode )
+	if( kIncludeUWActivityInferenceCode ) {
 		[_activityLogger start];
+		[_nearbyTripsController start];
+	}
 }
 
 - (void) teardown {	
-	if( kIncludeUWActivityInferenceCode )
+	if( kIncludeUWActivityInferenceCode ) {
+		[_nearbyTripsController stop];
 		[_activityLogger stop];
+	}
 	if( _locationAware )
 		[_locationManager stopUpdatingLocation];
 }	

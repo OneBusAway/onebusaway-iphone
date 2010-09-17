@@ -19,6 +19,7 @@
 #import "OBAActivityAnnotationViewController.h"
 #import "OBAUploadViewController.h"
 #import "OBALockViewController.h"
+#import "OBACurrentActivityViewController.h"
 
 
 @implementation OBAActivityLoggingViewController
@@ -39,13 +40,13 @@
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+	return section == 0 ? 4 : 1;
 }
 
 
@@ -53,16 +54,28 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-	switch(indexPath.row) {
-		case 0:
-			cell.textLabel.text = @"Annotate Activity";
+	switch(indexPath.section) {
+		case 0: {
+			switch(indexPath.row) {
+				case 0:
+					cell.textLabel.text = @"Annotate Activity";
+					break;
+				case 1:
+					cell.textLabel.text = @"Upload Data";
+					break;
+				case 2:
+					cell.textLabel.text = @"Lock Screen";
+					break;
+				case 3:
+					cell.textLabel.text = @"Activity Display";
+					break;
+			}
 			break;
-		case 1:
-			cell.textLabel.text = @"Upload Data";
+		}		
+		case 1: {
+			cell.textLabel.text = @"Delete All Data";
 			break;
-		case 2:
-			cell.textLabel.text = @"Lock Screen";
-			break;
+		}
 	}
 	
     return cell;
@@ -73,19 +86,32 @@
 
 	UINavigationController * vc = nil;
 	
-	switch (indexPath.row) {
-		case 0:
-			vc = [[OBAActivityAnnotationViewController alloc] initWithApplicationContext:_appContext];
+	switch (indexPath.section ) {
+		case 0: {
+			switch (indexPath.row) {
+				case 0:
+					vc = [[OBAActivityAnnotationViewController alloc] initWithApplicationContext:_appContext];
+					break;
+				case 1:
+					vc = [[OBAUploadViewController alloc] initWithApplicationContext:_appContext];
+					break;
+				case 2:
+					vc = [[OBALockViewController alloc] initWithApplicationContext:_appContext];
+					break;
+				case 3:
+					vc = [[OBACurrentActivityViewController alloc] initWithApplicationContext:_appContext];
+					break;
+				default:
+					vc = [[OBAActivityAnnotationViewController alloc] initWithApplicationContext:_appContext];
+					break;			
+			}
 			break;
-		case 1:
-			vc = [[OBAUploadViewController alloc] initWithApplicationContext:_appContext];
+		}
+		case 1: {
+			UIActionSheet * sheet = [[UIActionSheet alloc] initWithTitle:@"Really delete?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:nil];
+			[sheet showInView:self.view];
 			break;
-		case 2:
-			vc = [[OBALockViewController alloc] initWithApplicationContext:_appContext];
-			break;
-		default:
-			vc = [[OBAActivityAnnotationViewController alloc] initWithApplicationContext:_appContext];
-			break;			
+		}
 	}
 	
 	[self.navigationController pushViewController:vc animated:TRUE];
@@ -96,6 +122,15 @@
 
 - (OBANavigationTarget*) navigationTarget {
 	return [OBANavigationTarget target:OBANavigationTargetTypeActivityLogging];
+}
+
+#pragma mark UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if( buttonIndex == 0 ) {
+		OBAActivityLogger * logger = [OBAActivityLogger getLogger];
+		[logger deleteAllTraces];
+	}
 }
 
 @end

@@ -18,6 +18,8 @@
 #import "SBJSON.h"
 #import "OBALogger.h"
 #import "OBAApplicationContext.h"
+#import "OBATripStatus.h"
+#import "OBALogger.h"
 
 
 static const BOOL kLogAccelerometer = YES;
@@ -81,6 +83,26 @@ static OBAActivityLogger * _staticInstance = nil;
 	return logFilePaths;
 }
 
+-(void) deleteAllTraces {
+	
+	BOOL wasRunning = _running;
+	
+	if( wasRunning )
+		[self stop];
+	
+	NSFileManager * manager = [NSFileManager defaultManager];
+	for( NSString * path in [self getLogFilePaths] ) {
+		NSError * error = nil;
+		[manager removeItemAtPath:path error:&error];
+		if( error )
+			OBALogSevereWithError(error,@"error deleting path: %@", path);
+			
+	}
+	
+	if( wasRunning )
+		[self start];
+}
+
 -(void) start {
 	
 	@synchronized(self) {
@@ -137,6 +159,10 @@ static OBAActivityLogger * _staticInstance = nil;
 	[_locationLogger write:line];
 }
 
+- (void) locationManager:(OBALocationManager *)manager didFailWithError:(NSError*)error {
+	
+}
+
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {
 	double t = CFAbsoluteTimeGetCurrent();
 	NSString * line = [NSString stringWithFormat:@"v2,%f,%f,%f,%f,%f\n",acceleration.timestamp,t,acceleration.x,acceleration.y,acceleration.z];
@@ -161,6 +187,31 @@ static OBAActivityLogger * _staticInstance = nil;
 - (void) annotationWithLabel:(NSString*)label {
 	NSMutableDictionary * dict = [self getActivityRecord:@"annotationWithLabel"];
 	[dict setObject:label forKey:@"annotationLabel"];
+	[self writeJSONRecord:dict toLogger:_activityLogger];
+}
+
+- (void) nearbyTrips:(NSArray*)nearbyTrips {
+	NSMutableDictionary * dict = [self getActivityRecord:@"nearbyTrips"];
+	NSMutableArray * elements = [NSMutableArray array];
+	
+	for( OBATripStatus * tripStatus in nearbyTrips ) {
+		NSMutableDictionary * element = [NSMutableDictionary dictionary];
+		OBATrip * trip = tripStatus.trip;
+		CLLocation * position =  tripStatus.position;
+		CLLocationCoordinate2D coordinates = position.coordinate;
+		int predicted = tripStatus.predicted ? 1 : 0;
+		
+		[element setObject:trip.tripId forKey:@"tripId"];
+		[element setObject:[NSNumber numberWithLongLong:tripStatus.serviceDate] forKey:@"serviceDate"];
+		[element setObject:[NSNumber numberWithDouble:coordinates.latitude] forKey:@"lat"];
+		[element setObject:[NSNumber numberWithDouble:coordinates.longitude] forKey:@"lon"];
+		[element setObject:[NSNumber numberWithInt:tripStatus.scheduleDeviation] forKey:@"scheduleDeviation"];
+		[element setObject:[NSNumber numberWithInt:predicted] forKey:@"predicted"];
+		 
+		[elements addObject:element];
+	}
+	
+	[dict setObject:elements forKey:@"trips"];
 	[self writeJSONRecord:dict toLogger:_activityLogger];
 }
 

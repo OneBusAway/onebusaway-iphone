@@ -46,6 +46,7 @@ static const NSUInteger kShowNClosestStops = 4;
 - (void) reloadData;
 - (CLLocation*) currentLocation;
 - (UIImage*) getIconForStop:(OBAStop*)stop;
+- (NSString*) getRouteIconTypeForStop:(OBAStop*)stop;
 
 - (void) setAnnotationsFromResults;
 - (void) setRegionFromResults;
@@ -90,8 +91,8 @@ static const NSUInteger kShowNClosestStops = 4;
 	[_searchTypeControl release];
 	[_locationAnnotation release];
 	
-	[_busStopIcons release];
-	[_busStopIcon release];
+	[_stopIcons release];
+	[_defaultStopIcon release];
 		
 	[super dealloc];
 }
@@ -121,9 +122,10 @@ static const NSUInteger kShowNClosestStops = 4;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-	//_mapView.delegate = self;	
-
-	[_appContext.locationManager addDelegate:self];
+	
+	OBALocationManager * lm = _appContext.locationManager;
+	[lm addDelegate:self];
+	[_searchTypeControl setEnabled:lm.locationServicesEnabled forSegmentAtIndex:0];
 	
 	if( _firstView ) {
 		[self reloadData];
@@ -154,10 +156,24 @@ static const NSUInteger kShowNClosestStops = 4;
 
 - (void) handleSearchControllerError:(NSError*)error {
 
+	NSString * domain = [error domain];
+	
+	// We get this message because the user clicked "Don't allow" on using the current location.  Unfortunately,
+	// this error gets propagated to us when the app isn't active (because the alert asking about location is).
+	
+	if( domain == kCLErrorDomain && [error code] == kCLErrorDenied ) {			
+		UIAlertView * view = [[UIAlertView alloc] init];
+		view.title = @"Location Information";
+		view.message = @"Location information is disabled for this app.  Finding nearby stops using your current location will not function.";
+		[view addButtonWithTitle:@"Ok"];
+		view.cancelButtonIndex = 0;
+		[view show];
+		return;
+	}
+	
 	if( ! [self controllerIsVisibleAndActive] )
 		return;
 	
-	NSString * domain = [error domain];
 	if( domain == NSURLErrorDomain ) {
 		UIAlertView * view = [[UIAlertView alloc] init];
 		view.title = @"Error connecting";
@@ -172,6 +188,12 @@ static const NSUInteger kShowNClosestStops = 4;
 
 - (void) locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
 	[self refreshCurrentLocation];
+}
+
+- (void) locationManager:(OBALocationManager *)manager didFailWithError:(NSError*)error {
+	if( [error domain] == kCLErrorDomain && [error code] == kCLErrorDenied ) {
+		[_searchTypeControl setEnabled:FALSE forSegmentAtIndex:0];
+	}
 }
 
 #pragma mark OBAProgressIndicatorDelegate
@@ -316,17 +338,23 @@ static const NSUInteger kShowNClosestStops = 4;
 
 - (void) loadIcons {
 
-	_busStopIcon = [[UIImage imageNamed:@"BusStopIcon.png"] retain];
-	_busStopIcons = [[NSMutableDictionary alloc] init];
+	_stopIcons = [[NSMutableDictionary alloc] init];
 	
-	NSArray * directionIds = [NSArray arrayWithObjects:@"N",@"NE",@"E",@"SE",@"S",@"SW",@"W",@"NW",nil];
-	
-	for( int i=0; i<[directionIds count]; i++) {
-		NSString * key = [directionIds objectAtIndex:i];
-		NSString * imageName = [NSString stringWithFormat:@"BusStopIcon%@.png",key];
-		UIImage * image = [UIImage imageNamed:imageName];
-		[_busStopIcons setObject:image forKey:key];
+	NSArray * directionIds = [NSArray arrayWithObjects:@"",@"N",@"NE",@"E",@"SE",@"S",@"SW",@"W",@"NW",nil];
+	NSArray * iconTypeIds = [NSArray arrayWithObjects:@"Bus",@"LightRail",@"Rail",nil];
+
+	for( int j=0; j<[iconTypeIds count]; j++) {
+		NSString * iconType = [iconTypeIds objectAtIndex:j];
+		for( int i=0; i<[directionIds count]; i++) {		
+			NSString * directionId = [directionIds objectAtIndex:i];
+			NSString * key = [NSString stringWithFormat:@"%@StopIcon%@",iconType,directionId];
+			NSString * imageName = [NSString stringWithFormat:@"%@.png",key];
+			UIImage * image = [UIImage imageNamed:imageName];
+			[_stopIcons setObject:image forKey:key];
+		}		
 	}	
+	
+	_defaultStopIcon = [_stopIcons objectForKey:@"BusStopIcon"];
 }
 
 - (void) centerMapOnMostRecentLocation {
@@ -381,15 +409,39 @@ static const NSUInteger kShowNClosestStops = 4;
 
 - (UIImage*) getIconForStop:(OBAStop*)stop {
 	
-	if( ! stop.direction )
-		return _busStopIcon;
+	NSString * routeIconType = [self getRouteIconTypeForStop:stop];
+	NSString * direction = @"";
 	
-	UIImage * image = [_busStopIcons objectForKey:stop.direction];
+	if( stop.direction )
+		direction = stop.direction;
+	
+	NSString * key = [NSString stringWithFormat:@"%@StopIcon%@",routeIconType,direction];
+
+	UIImage * image = [_stopIcons objectForKey:key];
 	
 	if( ! image || [image isEqual:[NSNull null]] )
-		return _busStopIcon;
+		return _defaultStopIcon;
 	
 	return image;
+}
+
+- (NSString*) getRouteIconTypeForStop:(OBAStop*)stop {
+
+	NSMutableSet * routeTypes = [NSMutableSet set];
+	for( OBARoute * route in stop.routes ) {
+		if( route.routeType )
+			[routeTypes addObject:route.routeType];
+	}
+
+	// Heay rail dominations
+	if( [routeTypes containsObject:[NSNumber numberWithInt:2]] )
+		return @"Rail";
+	else if( [routeTypes containsObject:[NSNumber numberWithInt:0]] ) {
+		return @"LightRail";
+	}
+	else {
+		return @"Bus";
+	}
 }
 
 - (CLLocation*) currentLocation {

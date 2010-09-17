@@ -54,6 +54,19 @@ const BOOL kIncludeUWUserStudyCode = FALSE;
 	return result;
 }
 
++ (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName {
+	if( firstName && [firstName length] > 0 )
+		return firstName;
+	return secondName;
+}
+
++ (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName third:(NSString*)thirdName {
+	if( firstName && [firstName length] > 0 )
+		return firstName;
+	if( secondName && [secondName length] > 0 )
+		return secondName;
+	return thirdName;
+}
 @end
 
 

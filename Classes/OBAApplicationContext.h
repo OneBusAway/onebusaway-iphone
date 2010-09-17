@@ -22,6 +22,7 @@
 #import "OBAActivityLogger.h"
 #import "OBANavigationTarget.h"
 
+@class OBANearbyTripsController;
 
 @interface OBAApplicationContext : NSObject <UIApplicationDelegate,UITabBarControllerDelegate> {
 	
@@ -37,6 +38,7 @@
 	OBALocationManager * _locationManager;
 	OBAActivityListeners * _activityListeners;
 	OBAActivityLogger * _activityLogger;
+	OBANearbyTripsController * _nearbyTripsController;
 	
 	OBADataSourceConfig * _obaDataSourceConfig;
 	OBADataSourceConfig * _googleMapsDataSourceConfig;

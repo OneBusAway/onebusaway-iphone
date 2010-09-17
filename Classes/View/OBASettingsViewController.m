@@ -111,18 +111,21 @@ typedef enum {
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	switch(indexPath.row) {
-		case 0: {
+	
+	OBARowType rowType = [self rowTypeForRowIndex:indexPath.row];
+	
+	switch(rowType) {
+		case OBARowAgencies: {
 			OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchAgenciesWithCoverage];
 			[_appContext navigateToTarget:target];
 			break;
 		}
-		case 1: {
+		case OBARowLocationAware: {
 			_appContext.locationAware = ! _appContext.locationAware;
 			[self.tableView reloadData];
 			break;
 		}
-		case 2: {
+		case OBARowActivityAware: {
 			if( kIncludeUWActivityInferenceCode ) {
 				OBAActivityLoggingViewController * vc = [[OBAActivityLoggingViewController alloc] initWithApplicationContext:_appContext];
 				[self.navigationController pushViewController:vc animated:TRUE];

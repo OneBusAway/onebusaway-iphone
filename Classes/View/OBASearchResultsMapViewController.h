@@ -36,8 +36,8 @@
 	
 	OBAGenericAnnotation * _locationAnnotation;
 	
-	UIImage * _busStopIcon;
-	NSMutableDictionary * _busStopIcons;
+	UIImage * _defaultStopIcon;
+	NSMutableDictionary * _stopIcons;
 	
 	UIActivityIndicatorView * _activityIndicatorView;
 	

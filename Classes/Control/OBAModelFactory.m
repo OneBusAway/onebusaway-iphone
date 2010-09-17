@@ -26,9 +26,12 @@
 #import "OBAArrivalsAndDeparturesForStop.h"
 #import "OBAPlacemark.h"
 #import "OBAAgencyWithCoverage.h"
+#import "OBATrip.h"
+#import "OBATripStatus.h"
 
 #import "OBAJsonDigester.h"
 #import "OBASetCoordinatePropertyJsonDigesterRule.h"
+#import "OBASetLocationPropertyJsonDigesterRule.h"
 #import "OBACreateManagedEntityJsonDigesterRule.h"
 #import "OBAEntityManager.h"
 
@@ -38,29 +41,14 @@ static NSString * const kOBARoute = @"OBARoute";
 static NSString * const kOBAStop = @"OBAStop";
 static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 
+static NSString * const kManagedObjectContext = @"managedObjectContext";
+static NSString * const kEntityIdMappings = @"entityIdMappings";
+
 
 @interface OBAModelFactory (Private)
 
 - (NSDictionary*) getDigesterParameters;
-/*
-- (OBAAgency*) getAgencyFromDictionary:(NSDictionary*)dictionary error:(NSError**)error;
-- (OBARoute*) getRouteFromDictionary:(NSDictionary*)dictionary error:(NSError**)error;
-- (OBAStop*) getStopFromDictionary:(NSDictionary*)dictionary error:(NSError**)error;
-- (OBAArrivalAndDeparture*) getArrivalAndDepartureFromDictionary:(NSDictionary*)dictionary error:(NSError**)error;
 
-- (OBARoute*) getRouteWithId:(NSString*)routeId error:(NSError**)error;
-- (OBAStop*) getStopWithId:(NSString*)stopId error:(NSError**)error;
-
-- (void) saveIfNeeded:(NSError**)error;
-
-- (id) getEntity:(NSString*)entityName entityIdProperty:(NSString*)entityIdProperty entityId:(NSString*)entityId error:(NSError**)error;
-
-- (void) setManagedObjectIdForEntity:(NSString*)entityName withEntityId:(NSString*)entityId managedObjectId:(NSManagedObjectID*)managedObjectId;
-- (NSManagedObjectID*) getManagedObjectIdForEntity:(NSString*)entityName withEntityId:(NSString*)entityId;
-
-- (BOOL) setValueForKey:(NSString*)objKey fromDictionary:(NSDictionary*)dictionary withDictionaryKey:(NSString*)dictKey onObject:(NSObject*)object required:(BOOL)required error:(NSError**)error;
-- (BOOL) setDoubleValueForKey:(NSString*)objKey fromDictionary:(NSDictionary*)dictionary withDictionaryKey:(NSString*)dictKey onObject:(NSObject*)object required:(BOOL)required error:(NSError**)error;
-*/
 @end
 
 
@@ -69,9 +57,12 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 - (void) addAgencyRulesWithPrefix:(NSString*)prefix;
 - (void) addRouteRulesWithPrefix:(NSString*)prefix;
 - (void) addStopRulesWithPrefix:(NSString*)prefix;
+- (void) addTripRulesWithPrefix:(NSString*)prefix;
+- (void) addTripStatusRulesWithPrefix:(NSString*)prefix;
 - (void) addArrivalAndDepartureRulesWithPrefix:(NSString*)prefix;
 
 - (void) addSetCoordinatePropertyRule:(NSString*)propertyName withPrefix:(NSString*)prefix method:(OBASetCoordinatePropertyMethod)method;
+- (void) addSetLocationPropertyRule:(NSString*)propertyName withPrefix:(NSString*)prefix;
 
 @end
 
@@ -157,6 +148,21 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	return results;
 }
 
+- (NSArray*) getTripStatusElementsFromJSONArray:(NSArray*)jsonArray error:(NSError**)error {
+	
+	NSMutableArray * results = [NSMutableArray array];
+	
+	OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
+	[digester addTripStatusRulesWithPrefix:@"/[]"];
+	[digester addSetNext:@selector(addObject:) forPrefix:@"/[]"];
+	[digester addTarget:digester selector:@selector(saveIfNeededForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:@"/"];
+	
+	[digester parse:jsonArray withRoot:results parameters:[self getDigesterParameters] error:error];
+	[digester release];
+	
+	return results;
+}
+
 - (OBAArrivalsAndDeparturesForStop*) getArrivalsAndDeparturesForStopFromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error {
 	
 	OBAArrivalsAndDeparturesForStop * ads = [[[OBAArrivalsAndDeparturesForStop alloc] init] autorelease];
@@ -182,268 +188,10 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 
 - (NSDictionary*) getDigesterParameters {
 	NSMutableDictionary * params = [NSMutableDictionary dictionary];
-	[params setObject:_entityIdMappings forKey:@"entityIdMappings"];
-	[params setObject:_context forKey:@"managedObjectContext"];
+	[params setObject:_entityIdMappings forKey:kEntityIdMappings];
+	[params setObject:_context forKey:kManagedObjectContext];
 	return params;
 }
-
-/*
-
-- (OBAAgency*) getAgencyFromDictionary:(NSDictionary*)dictionary error:(NSError**)error {
-	NSString * agencyId = [dictionary objectForKey:@"id"];
-	
-	if( agencyId == nil ) {
-		OBALogSevere(@"No id attribute found for agency");
-		return nil;
-	}
-	
-	OBAAgency * agency = [self getEntity:kOBAAgency entityIdProperty:@"agencyId" entityId:agencyId error:error];
-	
-	if(*error)
-		return nil;
-	
-	if( ! [self setValueForKey:@"name" fromDictionary:dictionary withDictionaryKey:@"name" onObject:agency required:TRUE error:error] )
-		return nil;
-	if( ! [self setValueForKey:@"url" fromDictionary:dictionary withDictionaryKey:@"url" onObject:agency required:TRUE error:error] )
-		return nil;
-	
-	return agency;
-}
-
-- (OBARoute*) getRouteFromDictionary:(NSDictionary*)dictionary error:(NSError**)error {
-	NSString * routeId = [dictionary objectForKey:@"id"];
-	
-	if( routeId == nil) {
-		OBALogSevere(@"No id attribute found for route");
-		return nil;
-	}
-	
-	OBARoute * route = [self getEntity:kOBARoute entityIdProperty:@"routeId" entityId:routeId error:error];
-	
-	if(*error)
-		return nil;
-	
-	if( ! [self setValueForKey:@"shortName" fromDictionary:dictionary withDictionaryKey:@"shortName" onObject:route required:TRUE error:error] )
-		return nil;
-	if( ! [self setValueForKey:@"longName" fromDictionary:dictionary withDictionaryKey:@"longName" onObject:route required:TRUE error:error] )
-		return nil;
-	
-	NSDictionary * agencyDictionary = [dictionary objectForKey:@"agency"];
-	OBAAgency * agency = [self getAgencyFromDictionary:agencyDictionary error:error];
-	if( ! [agency isEqual:route.agency] ) {
-		route.agency = agency;
-	}
-	
-	if( *error )
-		return nil;
-	
-	return route;
-}
-
-- (void) digester:(OBAJsonDigester*)digester path:(NSString*)path {
-	
-}
-
-- (OBAStop*) getStopFromDictionary:(NSDictionary*)dictionary error:(NSError**)error {
-	
-	
-	
-	NSString * stopId = [dictionary objectForKey:@"id"];
-	
-	if( stopId == nil) {
-		OBALogSevere(@"No id attribute found for stop");
-		return nil;
-	}
-	
-	OBAStop * stop = [self getEntity:kOBAStop entityIdProperty:@"stopId" entityId:stopId error:error];
-	if( *error )
-		return nil;
-	
-	if( ! [self setValueForKey:@"name" fromDictionary:dictionary withDictionaryKey:@"name" onObject:stop required:TRUE error:error] )
-		return nil;
-	if( ! [self setValueForKey:@"code" fromDictionary:dictionary withDictionaryKey:@"code" onObject:stop required:FALSE error:error] )
-		return nil;
-	if( ! [self setValueForKey:@"direction" fromDictionary:dictionary withDictionaryKey:@"direction" onObject:stop required:FALSE error:error] )
-		return nil;
-	
-	if( ! [self setDoubleValueForKey:@"latitude" fromDictionary:dictionary withDictionaryKey:@"lat" onObject:stop required:TRUE error:error] )
-		return nil;
-	if( ! [self setDoubleValueForKey:@"longitude" fromDictionary:dictionary withDictionaryKey:@"lon" onObject:stop required:TRUE error:error] )
-		return nil;
-	
-	NSArray * routeElements = [dictionary objectForKey:@"routes"];
-	
-	
-	if( [stop.routes count] != [routeElements count])
-		stop.routes = [NSSet set];
-	
-	for( NSDictionary * routeDictionary in routeElements ) {
-		OBARoute * route = [self getRouteFromDictionary:routeDictionary error:error];
-		if( *error ) 
-			return nil;
-		if( ! [stop.routes containsObject:route] ) {
-			[stop addRoutesObject:route];
-		}
-	}
-	
-	if( stop.preferences == nil ) {
-		OBAStopPreferences * prefs = [NSEntityDescription insertNewObjectForEntityForName:kOBAStopPreferences inManagedObjectContext:_context];
-		stop.preferences = prefs;
-	}
-	
-	return stop;
-}
-
-- (OBAArrivalAndDeparture*) getArrivalAndDepartureFromDictionary:(NSDictionary*)dictionary error:(NSError**)error {
-
-	OBAArrivalAndDeparture * ad = [[[OBAArrivalAndDeparture alloc] init] autorelease];
-	
-	NSString * routeId = [dictionary objectForKey:@"routeId"];
-	ad.route = [self getRouteWithId:routeId error:error];
-	if( *error )
-		return nil;
-	
-	ad.routeShortName = [dictionary objectForKey:@"routeShortName"];
-	ad.tripId = [dictionary objectForKey:@"tripId"];
-	ad.tripHeadsign = [dictionary objectForKey:@"tripHeadsign"];
-	
-	ad.scheduledArrivalTime = [[dictionary valueForKey:@"scheduledArrivalTime"] longLongValue];
-	ad.predictedArrivalTime = [[dictionary valueForKey:@"predictedArrivalTime"] longLongValue];
-	
-	ad.scheduledDepartureTime = [[dictionary valueForKey:@"scheduledDepartureTime"] longLongValue];
-	ad.predictedDepartureTime = [[dictionary valueForKey:@"predictedDepartureTime"] longLongValue];
-	
-	return ad;
-}
-
-- (OBARoute*) getRouteWithId:(NSString*)routeId error:(NSError**)error {
-	return [self getEntity:kOBARoute entityIdProperty:@"routeId" entityId:routeId error:error];
-}
-
-- (OBAStop*) getStopWithId:(NSString*)stopId error:(NSError**)error {
-	return [self getEntity:kOBAStop entityIdProperty:@"stopId" entityId:stopId error:error];
-}
-
-- (void) saveIfNeeded:(NSError**)error {
-	if( [_context hasChanges] )
-		[_context save:error];
-}
-
-- (id) getEntity:(NSString*)entityName entityIdProperty:(NSString*)entityIdProperty entityId:(NSString*)entityId error:(NSError**)error {
-	
-	NSManagedObjectID * managedObjectId = [self getManagedObjectIdForEntity:entityName withEntityId:entityId];
-	
-	if( managedObjectId != nil ) {
-		NSError * error = nil;
-		NSManagedObject * obj = [_context existingObjectWithID:managedObjectId error:&error];
-		if( error ) {
-			NSString * uri = [[managedObjectId URIRepresentation] absoluteString];
-			OBALogSevereWithError(error,@"Error retrievingExistingObjectWithID: entityName=%@ entityId=%@ managedId=%@",entityName,entityId,uri);
-		}
-		else {
-			if( [entityId isEqual:[obj valueForKey:entityIdProperty]] )
-				return obj;
-			NSString * uri = [[managedObjectId URIRepresentation] absoluteString];
-			OBALogWarning(@"Entity id mismatch: entityName=%@ entityId=%@ managedId=%@",entityName,entityId,uri);
-		}
-	}
-	
-	NSEntityDescription *entityDescription = [NSEntityDescription
-											  entityForName:entityName inManagedObjectContext:_context];
-	
-	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-	[request setEntity:entityDescription];
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", entityIdProperty, entityId];
-	[request setPredicate:predicate];
-	
-	NSArray *fetchedObjects = [_context executeFetchRequest:request error:error];
-	
-	if (fetchedObjects == nil) {
-		OBALogSevereWithError((*error),@"Error fetching entity: name=%@ idProperty=%@ id=%@",entityName,entityIdProperty,entityId);
-		return nil;
-	}
-	
-	if( [fetchedObjects count] == 0) {
-		id entity = [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:_context];
-		[entity setValue:entityId forKey:entityIdProperty];
-		return entity;
-	}
-	
-	if( [fetchedObjects count] > 1 ) {
-		OBALogSevere(@"Duplicate entities: entityName=%@ entityIdProperty=%@ entityId=%@ count=%d",entityName,entityIdProperty,entityId,[fetchedObjects count]);
-		(*error) = [NSError errorWithDomain:OBAErrorDomain code:kOBAErrorDuplicateEntity userInfo:nil];
-		return nil;
-	}
-	
-	NSManagedObject * entity = [fetchedObjects objectAtIndex:0];
-	[self setManagedObjectIdForEntity:entityName withEntityId:entityId managedObjectId:[entity objectID]];
-	return entity;
-}
-
-- (void) setManagedObjectIdForEntity:(NSString*)entityName withEntityId:(NSString*)entityId managedObjectId:(NSManagedObjectID*)managedObjectId {
-	NSMutableDictionary * entityIdMapping = [_entityIdMappings objectForKey:entityName];
-	if( entityIdMapping == nil ) {
-		entityIdMapping = [NSMutableDictionary dictionary];
-		[_entityIdMappings setObject:entityIdMapping forKey:entityName];
-	}
-	[entityIdMapping setObject:managedObjectId forKey:entityId];
-}
-
-- (NSManagedObjectID*) getManagedObjectIdForEntity:(NSString*)entityName withEntityId:(NSString*)entityId {
-	NSDictionary * entityIdMapping = [_entityIdMappings objectForKey:entityName];
-	if( entityIdMapping == nil )
-		return nil;
-	return [entityIdMapping objectForKey:entityId];
-}
-
-
-#pragma mark -
-#pragma mark Methods for transfering data from collections to objects
-
-- (BOOL) setValueForKey:(NSString*)objKey fromDictionary:(NSDictionary*)dictionary withDictionaryKey:(NSString*)dictKey onObject:(NSObject*)object required:(BOOL)required error:(NSError**)error {
-	
-	id value = [dictionary valueForKey:dictKey];
-	if( value == nil) {
-		if( required ) {
-			*error = [NSError errorWithDomain:OBAErrorDomain code:kOBAErrorMissingFieldInData userInfo:nil];
-			return FALSE;
-		}
-	}
-	
-	id existingValue = [object valueForKey:objKey];
-	
-	if( value == nil && existingValue == nil )
-		return TRUE;
-	if( value != nil && [value isEqual:existingValue] )
-		return TRUE;
-	
-	[object setValue:value forKey:objKey];
-	
-	return TRUE;
-}
-
-- (BOOL) setDoubleValueForKey:(NSString*)objKey fromDictionary:(NSDictionary*)dictionary withDictionaryKey:(NSString*)dictKey onObject:(NSObject*)object required:(BOOL)required error:(NSError**)error {
-	NSNumber * value = [dictionary valueForKey:dictKey];
-	if( value == nil) {
-		if( required ) {
-			*error = [NSError errorWithDomain:OBAErrorDomain code:kOBAErrorMissingFieldInData userInfo:nil];
-			return FALSE;
-		}
-	}
-	
-	NSNumber * existingValue = [object valueForKey:objKey];
-	
-	if( value == nil && existingValue == nil )
-		return TRUE;
-	if( value != nil && existingValue != nil || [value doubleValue] == [existingValue doubleValue])
-		return TRUE;
-	
-	[object setValue:[NSNumber numberWithDouble:[value doubleValue]] forKey:objKey];
-	
-	return TRUE;
-}
- 
-*/
 
 @end
 
@@ -468,6 +216,7 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 
 	[self addSetPropertyIfNeededRule:@"shortName" forPrefix:[self extendPrefix:prefix withValue:@"shortName"]];
 	[self addSetPropertyIfNeededRule:@"longName" forPrefix:[self extendPrefix:prefix withValue:@"longName"]];
+	[self addSetPropertyIfNeededRule:@"routeType" forPrefix:[self extendPrefix:prefix withValue:@"type"]];
 
 	[self addAgencyRulesWithPrefix:[self extendPrefix:prefix withValue:@"agency"]];
 	[self addTarget:self selector:@selector(setRouteAgencyIfNeededForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:[self extendPrefix:prefix withValue:@"agency"]];
@@ -493,6 +242,29 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	[self addSetNext:@selector(addObject:) forPrefix:[self extendPrefix:prefix withValue:@"routes/[]"]];
 }
 
+- (void) addTripRulesWithPrefix:(NSString*)prefix {
+	
+	[self addObjectCreateRule:[OBATrip class] forPrefix:prefix];
+	
+	[self addSetPropertyRule:@"tripId" forPrefix:[self extendPrefix:prefix withValue:@"id"]];
+	[self addSetPropertyRule:@"tripHeadsign" forPrefix:[self extendPrefix:prefix withValue:@"tripHeadsign"]];
+	[self addSetPropertyRule:@"routeShortName" forPrefix:[self extendPrefix:prefix withValue:@"routeShortName"]];
+}
+
+- (void) addTripStatusRulesWithPrefix:(NSString*)prefix {
+	
+	[self addObjectCreateRule:[OBATripStatus class] forPrefix:prefix];
+	[self addTripRulesWithPrefix:[self extendPrefix:prefix withValue:@"trip"]];
+	[self addSetNext:@selector(setTrip:) forPrefix:[self extendPrefix:prefix withValue:@"trip"]];
+	[self addRouteRulesWithPrefix:[self extendPrefix:prefix withValue:@"route"]];
+	[self addSetNext:@selector(setRoute:) forPrefix:[self extendPrefix:prefix withValue:@"route"]];
+	[self addSetLocationPropertyRule:@"position" withPrefix:[self extendPrefix:prefix withValue:@"position"]];
+	[self addSetPropertyRule:@"serviceDate" forPrefix:[self extendPrefix:prefix withValue:@"serviceDate"]];
+	[self addSetPropertyRule:@"scheduleDeviation" forPrefix:[self extendPrefix:prefix withValue:@"scheduleDeviation"]];
+	[self addSetPropertyRule:@"predicted" forPrefix:[self extendPrefix:prefix withValue:@"predicted"]];
+	[self addTarget:self selector:@selector(ensureArrivalAndDepartureRouteForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetBegin prefix:[self extendPrefix:prefix withValue:@"routeId"]];
+}
+
 - (void) addArrivalAndDepartureRulesWithPrefix:(NSString*)prefix {
 	
 	[self addObjectCreateRule:[OBAArrivalAndDeparture class] forPrefix:prefix];
@@ -515,6 +287,12 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	[rule release];
 }
 
+- (void) addSetLocationPropertyRule:(NSString*)propertyName withPrefix:(NSString*)prefix {
+	OBASetLocationPropertyJsonDigesterRule * rule = [[OBASetLocationPropertyJsonDigesterRule alloc] initWithPropertyName:propertyName];
+	[self addRule:rule forPrefix:prefix];
+	[rule release];	
+}
+
 - (void) setRouteAgencyIfNeededForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
 	OBAAgency * agency = [context peek:0];
 	OBARoute * route = [context peek:1];
@@ -523,20 +301,33 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 }
 
 - (void) setStopRoutesIfNeededForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
+	
 	NSArray * routes = [context peek:0];
 	OBAStop * stop = [context peek:1];
-	NSSet * routeSet = [NSSet setWithArray:routes];
 	
-	if( ! [stop.routes isEqualToSet:routeSet] ) {
-		[stop removeRoutes:stop.routes];
-		[stop addRoutes:routeSet];
+	NSMutableDictionary * originalRoutes = [NSMutableDictionary dictionary];
+	NSMutableDictionary * newRoutes = [NSMutableDictionary dictionary];
+		
+	for ( OBARoute * route in stop.routes )
+		[originalRoutes setObject:route forKey:route.routeId];
+	for( OBARoute * route in routes)
+		[newRoutes setObject:route forKey:route.routeId];
+		
+	for( NSString * routeId in newRoutes ) {
+		if( ! [originalRoutes objectForKey:routeId] )
+			[stop addRoutesObject:[newRoutes objectForKey:routeId]];
+	}
+	
+	for( NSString * routeId in originalRoutes) {
+		if( ! [newRoutes objectForKey:routeId] )
+			[stop removeRoutesObject:[originalRoutes objectForKey:routeId]];
 	}
 }
 
 - (void) ensureStopPreferencesForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
 	OBAStop * stop = [context peek:0];
 	if( stop.preferences == nil ) {
-		NSManagedObjectContext * managedObjectContext = [context getParameterForKey:@"managedObjectContext"];
+		NSManagedObjectContext * managedObjectContext = [context getParameterForKey:kManagedObjectContext];
 		OBAStopPreferences * prefs = [NSEntityDescription insertNewObjectForEntityForName:kOBAStopPreferences inManagedObjectContext:managedObjectContext];
 		stop.preferences = prefs;
 	}
@@ -548,8 +339,8 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 	NSString * routeId = value;
 	
 	NSError * error = nil;
-	NSManagedObjectContext * managedObjectContext = [context getParameterForKey:@"managedObjectContext"];
-	NSMutableDictionary * entityIdMappings = [context getParameterForKey:@"entityIdMappings"];
+	NSManagedObjectContext * managedObjectContext = [context getParameterForKey:kManagedObjectContext];
+	NSMutableDictionary * entityIdMappings = [context getParameterForKey:kEntityIdMappings];
 	
 	arrivalAndDeparture.route = [OBAEntityManager getEntityWithName:kOBARoute entityIdProperty:@"routeId" entityId:routeId fromContext:managedObjectContext withEntityIdMappings:entityIdMappings error:&error];
 	
@@ -561,15 +352,36 @@ static NSString * const kOBAStopPreferences = @"OBAStopPreferences";
 
 - (void) saveIfNeededForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
 	
-	NSManagedObjectContext * managedObjectContext = [context getParameterForKey:@"managedObjectContext"];
+	NSManagedObjectContext * managedObjectContext = [context getParameterForKey:kManagedObjectContext];
+	NSMutableDictionary * entityIdMappings = [context getParameterForKey:kEntityIdMappings];
 	
 	NSError * error = nil;
 	
-	if( context.verbose )
-		OBALogDebug(@"saving managedObjectContext");
 	
-	if( [managedObjectContext hasChanges] )
+	if( [managedObjectContext hasChanges] ) {
+		if( context.verbose || TRUE)
+			OBALogDebug(@"saving managedObjectContext");
+		
+		if(FALSE) {
+			NSLog(@"Inserted objects:");
+			for( id object in [managedObjectContext insertedObjects] ) {
+				NSLog(@"  %@",[object description]);
+			}
+			NSLog(@"Updated objects:");
+			for( id object in [managedObjectContext updatedObjects] ) {
+				NSLog(@"  %@",[object description]);
+			}
+			NSLog(@"Deleted objects:");
+			for( id object in [managedObjectContext deletedObjects] ) {
+				NSLog(@"  %@",[object description]);
+			}
+		}
+		
 		[managedObjectContext save:&error];
+		[entityIdMappings removeAllObjects];
+		if( context.verbose || TRUE)
+			OBALogDebug(@"saved managedObjectContext");
+	}
 	
 	if( error ) {
 		OBALogSevereWithError(error,@"Error saving managedObjectContext");

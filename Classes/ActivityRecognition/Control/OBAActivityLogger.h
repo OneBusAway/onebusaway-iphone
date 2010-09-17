@@ -36,6 +36,7 @@
 @property (nonatomic,retain) OBAApplicationContext * context;
 
 -(NSArray*) getLogFilePaths;
+-(void) deleteAllTraces;
 
 -(void) start;
 -(void) stop;

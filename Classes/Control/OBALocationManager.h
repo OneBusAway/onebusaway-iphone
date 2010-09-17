@@ -19,6 +19,7 @@
 
 @protocol OBALocationManagerDelegate <NSObject>
 - (void) locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location;
+- (void) locationManager:(OBALocationManager *)manager didFailWithError:(NSError*)error;
 @end
 
 

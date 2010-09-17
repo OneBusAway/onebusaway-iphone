@@ -26,6 +26,7 @@
 @property (nonatomic, retain) NSString * routeId;
 @property (nonatomic, retain) NSString * shortName;
 @property (nonatomic, retain) NSString * longName;
+@property (nonatomic, retain) NSNumber * routeType;
 @property (nonatomic, retain) NSSet* stops;
 @property (nonatomic, retain) OBAAgency * agency;
 @property (nonatomic, retain) NSSet* excludedInPreferences;

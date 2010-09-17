@@ -28,6 +28,7 @@
 - (NSArray*) getRoutesFromJSONArray:(NSArray*)jsonArray error:(NSError**)error;
 - (NSArray*) getPlacemarksFromJSONObject:(id)jsonObject error:(NSError**)error;
 - (NSArray*) getAgenciesWithCoverageFromJson:(id)jsonArray error:(NSError**)error;
+- (NSArray*) getTripStatusElementsFromJSONArray:(NSArray*)jsonArray error:(NSError**)error;
 
 - (OBAArrivalsAndDeparturesForStop*) getArrivalsAndDeparturesForStopFromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error;
 

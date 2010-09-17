@@ -24,11 +24,11 @@ static const double kRadiusOfEarthInMeters = 6371.01 * 1000;
 
     double latRadians = center.latitude / 180 * M_PI;
 	
-    double latRadius = latRadiusInMeters;
-    double lonRadius = cos(latRadians) * lonRadiusInMeters;
+    double latRadius = kRadiusOfEarthInMeters;
+    double lonRadius = cos(latRadians) * kRadiusOfEarthInMeters;
 	
-    double latOffset = latRadius / kRadiusOfEarthInMeters * 180 / M_PI;
-    double lonOffset = lonRadius / kRadiusOfEarthInMeters * 180 / M_PI;
+    double latOffset = (latRadiusInMeters / latRadius) * 180 / M_PI;
+    double lonOffset = (lonRadiusInMeters / lonRadius) * 180 / M_PI;
 	
 	MKCoordinateSpan span = MKCoordinateSpanMake(latOffset*2,lonOffset*2);
 	return	MKCoordinateRegionMake(center, span);
