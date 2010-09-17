@@ -27,6 +27,7 @@
 	
 	BOOL _setup;
 	BOOL _active;
+	BOOL _locationAware;
 	
     NSManagedObjectContext * _managedObjectContext;  
 	
@@ -57,6 +58,8 @@
 @property (nonatomic,readonly) OBADataSourceConfig * googleMapsDataSourceConfig;
 
 @property (nonatomic,readonly) BOOL active;
+
+@property (nonatomic,assign) BOOL locationAware;
 
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget;
 

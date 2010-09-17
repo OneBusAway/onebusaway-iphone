@@ -928,7 +928,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUILD_VARIANTS = normal;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Ferris";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -941,7 +941,7 @@
 				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = OneBusAway;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "02DB40E9-437A-4374-8023-42370CC882E9";
 				SDKROOT = iphoneos3.0;
 			};
 			name = Debug;
@@ -1029,7 +1029,7 @@
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = OneBusAway;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3C63961D-EAEB-48CD-BCBF-09E90E9A67A7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B6E1C1F0-42AD-402B-B67D-2893D397DE7D";
 				SDKROOT = iphoneos3.0;
 			};
 			name = AdHocDistribution;

@@ -34,6 +34,8 @@
 
 static NSString * kOBASavedNavigationTargets = @"OBASavedNavigationTargets";
 static NSString * kOBAApplicationTerminationTimestamp = @"OBAApplicationTerminationTimestamp";
+static NSString * kOBALocationAware = @"OBALocationAware";
+
 static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15*60;
 static const BOOL kDeleteModelOnStartup = FALSE;
 
@@ -65,12 +67,14 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 @synthesize tabBarController = _tabBarController;
 
 @synthesize active = _active;
+@synthesize locationAware = _locationAware;
 
 - (id) init {
 	if( self = [super init] ) {
 
 		_setup = FALSE;
 		_active = FALSE;
+		_locationAware = TRUE;
 		
 		_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://api.onebusaway.org" args:@"key=org.onebusaway.iphone"];		
 		//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://localhost:8080/onebusaway-api-webapp" args:@"key=org.onebusaway.iphone"];
@@ -236,7 +240,11 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	
 	_modelFactory = [[OBAModelFactory alloc] initWithManagedObjectContext:_managedObjectContext];
 	
-	[_locationManager startUpdatingLocation];
+	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+	_locationAware = [userDefaults boolForKey:kOBALocationAware];
+	
+	if( _locationAware )
+		[_locationManager startUpdatingLocation];
 	
 	if( kIncludeUWActivityInferenceCode )
 		[_activityLogger start];
@@ -245,7 +253,8 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 - (void) teardown {	
 	if( kIncludeUWActivityInferenceCode )
 		[_activityLogger stop];
-	[_locationManager stopUpdatingLocation];
+	if( _locationAware )
+		[_locationManager stopUpdatingLocation];
 }	
 
 - (void) saveApplicationNavigationState {
@@ -270,6 +279,7 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	[userDefaults setObject:data forKey:kOBASavedNavigationTargets];
 	[userDefaults setObject:dateData forKey:kOBAApplicationTerminationTimestamp];
+	[userDefaults setBool:_locationAware forKey:kOBALocationAware];
 	[targets release];	
 }
 

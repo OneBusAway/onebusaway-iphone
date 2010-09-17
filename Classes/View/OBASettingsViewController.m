@@ -57,7 +57,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return kIncludeUWActivityInferenceCode ? 2 : 1;
+	return kIncludeUWActivityInferenceCode ? 3 : 2;
 }
 
 
@@ -70,7 +70,13 @@
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		return cell;
 	}
-	else if( indexPath.row == 1 && kIncludeUWActivityInferenceCode) {
+	else if( indexPath.row == 1 ) {
+		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+		cell.textLabel.text = @"Location Aware";
+		cell.accessoryType =_appContext.locationAware ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+		return cell;
+	}
+	else if( indexPath.row == 2 && kIncludeUWActivityInferenceCode) {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = @"Activity";
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -93,6 +99,11 @@
 			break;
 		}
 		case 1: {
+			_appContext.locationAware = ! _appContext.locationAware;
+			[self.tableView reloadData];
+			break;
+		}
+		case 2: {
 			if( kIncludeUWActivityInferenceCode ) {
 				OBAActivityLoggingViewController * vc = [[OBAActivityLoggingViewController alloc] initWithApplicationContext:_appContext];
 				[self.navigationController pushViewController:vc animated:TRUE];
