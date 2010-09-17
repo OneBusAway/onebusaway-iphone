@@ -76,11 +76,12 @@ static const float kSearchRadius = 400;
 @implementation OBASearchControllerImpl
 
 @synthesize delegate = _delegate;
-
 @synthesize searchType = _searchType;
 @synthesize result = _result;
 @synthesize progress = _progress;
 @synthesize error = _error;
+
+@synthesize searchFilterString = _searchFilterString;
 
 
 - (id) initWithAppContext:(OBAApplicationContext*)context {
@@ -113,6 +114,7 @@ static const float kSearchRadius = 400;
 	[_searchContext release];
 	[_lastCurrentLocationSearch release];
 	[_result release];
+    [_searchFilterString release];
 	
 	[super dealloc];
 }
@@ -131,17 +133,17 @@ static const float kSearchRadius = 400;
 	OBASearchControllerSearchType searchType = [self searchTypeForNumber:searchTypeAsNumber];
 	
 	@synchronized(self) {
-		
 		[self cancelOpenConnections];
 		
 		_searchType = searchType;
 		_result = [NSObject releaseOld:_result retainNew:nil];
-	}	
-	
+	}
+
 	switch (_searchType) {
 		case OBASearchControllerSearchTypeNone:
 			[self searchNone];
 			break;
+
 		case OBASearchControllerSearchTypeRegion: {
 			NSData * data = [parameters objectForKey:kOBASearchControllerSearchArgumentParameter];
 			MKCoordinateRegion region;
@@ -298,63 +300,91 @@ static const float kSearchRadius = 400;
 }
 
 -(void) searchByLocationRegion:(MKCoordinateRegion)region {
-	
+    // clear search filter description
+    self.searchFilterString = nil;
+    
+    // request search
 	CLLocationCoordinate2D coord = region.center;
 	MKCoordinateSpan span = region.span;
 	
-	CLLocation * location = [[[CLLocation alloc] initWithLatitude:coord.latitude longitude:coord.longitude] autorelease];
+	CLLocation * location = [[CLLocation alloc] initWithLatitude:coord.latitude longitude:coord.longitude];
 	_lastCurrentLocationSearch = [NSObject releaseOld:_lastCurrentLocationSearch retainNew:location];
+    [location release];
 	
-	NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&latSpan=%f&lonSpan=%f", coord.latitude, coord.longitude,span.latitudeDelta,span.longitudeDelta];
+	NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&latSpan=%f&lonSpan=%f", coord.latitude, coord.longitude, span.latitudeDelta, span.longitudeDelta];
 	[self requestPath:@"/api/where/stops-for-location.json" withArgs:args searchType:OBASearchControllerSearchTypeRegion];
 }
 
 -(void) searchByRoute:(NSString*)routeQuery {
-	CLLocation * location = [self currentOrDefaultLocationToSearch];
+    // update search filter description
+    self.searchFilterString = [NSString stringWithFormat:@"route %@", routeQuery];
+	
+    // equest search
+    CLLocation * location = [self currentOrDefaultLocationToSearch];
 	CLLocationCoordinate2D coord = location.coordinate;
+
 	routeQuery = [self escapeStringForUrl:routeQuery];
 	NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@", coord.latitude, coord.longitude,routeQuery];
-	[self requestPath:@"/api/where/routes-for-location.json" withArgs:args searchType:OBASearchControllerSearchTypeRoute];
+	
+    [self requestPath:@"/api/where/routes-for-location.json" withArgs:args searchType:OBASearchControllerSearchTypeRoute];
+
 }
 
 -(void) searchByRouteStops:(NSString*)routeId {
-	
 	NSString * path = [NSString stringWithFormat:@"/api/where/stops-for-route/%@.json", routeId];
-	[self requestPath: path withArgs:nil searchType:OBASearchControllerSearchTypeRouteStops];		
-	
+	[self requestPath: path withArgs:nil searchType:OBASearchControllerSearchTypeRouteStops];
 }
 
 -(void) searchByStopId:(NSString*)stopIdQuery {
-	
-	CLLocation * location = [self currentOrDefaultLocationToSearch];
+    // update search filter description
+    self.searchFilterString = [NSString stringWithFormat:@"stop id %@", stopIdQuery];
+
+	// request search
+    CLLocation * location = [self currentOrDefaultLocationToSearch];
 	CLLocationCoordinate2D coord = location.coordinate;
-	stopIdQuery = [self escapeStringForUrl:stopIdQuery];
-	NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@", coord.latitude, coord.longitude,stopIdQuery];
+	
+    stopIdQuery = [self escapeStringForUrl:stopIdQuery];
+	NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@", coord.latitude, coord.longitude, stopIdQuery];
+
 	[self requestPath:@"/api/where/stops-for-location.json" withArgs:args searchType:OBASearchControllerSearchTypeStopId];
 }
 
 -(void) searchByAddress:(NSString*)addressQuery {
+    // update search filter description
+    self.searchFilterString = [NSString stringWithFormat:@"address \"%@\"", addressQuery];
+    
+    // handle search
 	CLLocation * location = [self currentOrDefaultLocationToSearch];
 	CLLocationCoordinate2D coord = location.coordinate;
+    
 	addressQuery = [self escapeStringForUrl:addressQuery];
-	NSString * args = [NSString stringWithFormat:@"ll=%f,%f&spn=0.5,0.5&q=%@", coord.latitude, coord.longitude,addressQuery];
+	NSString * args = [NSString stringWithFormat:@"ll=%f,%f&spn=0.5,0.5&q=%@", coord.latitude, coord.longitude, addressQuery];
+
 	[self requestPath:@"/maps/geo" withArgs:args searchType:OBASearchControllerSearchTypeAddress jsonDataSource:_googleMapsDataSource];
 }
 
 -(void) searchByPlacemark:(OBAPlacemark*)placemark {
-	
 	// Log the placemark
 	[_appContext.activityListeners placemark:placemark];
 	
+    // request search
 	CLLocationCoordinate2D location = placemark.coordinate;
+    
 	MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:location latRadius:kSearchRadius lonRadius:kSearchRadius];
 	MKCoordinateSpan span = region.span;
-	NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&latSpan=%f&lonSpan=%f", location.latitude, location.longitude,span.latitudeDelta,span.longitudeDelta];
-	[self requestPath:@"/api/where/stops-for-location.json" withArgs:args searchType:OBASearchControllerSearchTypePlacemark];
+	
+    NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&latSpan=%f&lonSpan=%f", location.latitude, location.longitude, span.latitudeDelta, span.longitudeDelta];
+	
+    [self requestPath:@"/api/where/stops-for-location.json" withArgs:args searchType:OBASearchControllerSearchTypePlacemark];
 }
 
 -(void) searchForAgenciesWithCoverage {
-	[self requestPath:@"/api/where/agencies-with-coverage.json" withArgs:nil searchType:OBASearchControllerSearchTypeAgenciesWithCoverage];
+    // update search filter description
+    self.searchFilterString = [NSString stringWithFormat:@"supported transit agencies"];
+	
+    // search
+    [self requestPath:@"/api/where/agencies-with-coverage.json" withArgs:nil searchType:OBASearchControllerSearchTypeAgenciesWithCoverage];
+   
 }
 
 - (void) requestPath:(NSString*)path withArgs:(NSString*)args searchType:(OBASearchControllerSearchType)searchType {
@@ -362,11 +392,9 @@ static const float kSearchRadius = 400;
 }
 
 - (void) requestPath:(NSString*)path withArgs:(NSString*)args searchType:(OBASearchControllerSearchType)searchType jsonDataSource:(OBAJsonDataSource*)jsonDataSource {
-	
 	@synchronized(self) {
-		
-		
 		[_searchContext release];
+        
 		if( args )
 			_searchContext = [[NSString alloc] initWithFormat:@"%@?%@",path,args];
 		else

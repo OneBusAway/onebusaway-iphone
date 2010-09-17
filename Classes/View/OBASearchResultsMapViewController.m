@@ -587,23 +587,20 @@ typedef enum  {
 }
 
 - (void) refreshStopsInRegion {
-	
 	_refreshTimer = nil;
 	
 	MKCoordinateRegion region = _mapView.region;
-	MKCoordinateSpan span = region.span;
+	MKCoordinateSpan   span   = region.span;
 
-	if( span.latitudeDelta > kMaxLatDeltaToShowStops ) {
-		
+	if(span.latitudeDelta > kMaxLatDeltaToShowStops) {
 		// Reset the most recent region
 		CLLocationCoordinate2D p = {0,0};
 		_mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0,0));
 		
 		OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchNone];
 		[_searchController searchWithTarget:target];
-	}
-	else {
-		span.latitudeDelta *= kRegionScaleFactor;
+	} else {
+		span.latitudeDelta  *= kRegionScaleFactor;
 		span.longitudeDelta *= kRegionScaleFactor;
 		region.span = span;
 	
@@ -615,9 +612,7 @@ typedef enum  {
 }
 
 
-
 - (void) reloadData {
-
 	OBASearchControllerResult * result = _searchController.result;
 	_listButton.enabled = (result != nil);
 	
@@ -642,7 +637,6 @@ typedef enum  {
 }
 
 - (UIImage*) getIconForStop:(OBAStop*)stop {
-	
 	NSString * routeIconType = [self getRouteIconTypeForStop:stop];
 	NSString * direction = @"";
 	
@@ -660,7 +654,6 @@ typedef enum  {
 }
 
 - (NSString*) getRouteIconTypeForStop:(OBAStop*)stop {
-
 	NSMutableSet * routeTypes = [NSMutableSet set];
 	for( OBARoute * route in stop.routes ) {
 		if( route.routeType )
@@ -679,7 +672,6 @@ typedef enum  {
 }
 
 - (CLLocation*) currentLocation {
-	
 	OBALocationManager * lm = _appContext.locationManager;
 	CLLocation * location = lm.currentLocation;
 	
@@ -695,7 +687,6 @@ typedef enum  {
 }
 
 - (void) setAnnotationsFromResults {
-	
 	[_mapView removeAnnotations:_mapView.annotations];	
 	
 	NSMutableArray * annotations = [[NSMutableArray alloc] init];
@@ -706,7 +697,6 @@ typedef enum  {
 	OBASearchControllerResult * result = _searchController.result;
 	
 	if( result ) {
-		
 		[annotations addObjectsFromArray:result.stops];
 		[annotations addObjectsFromArray:result.placemarks];
 		
@@ -725,7 +715,6 @@ typedef enum  {
 }
 
 - (NSString*) computeLabelForCurrentResults {
-	
 	OBASearchControllerResult * result = _searchController.result;
 	
 	MKCoordinateRegion region = _mapView.region;
@@ -733,32 +722,45 @@ typedef enum  {
 	
 	NSString * defaultLabel = nil;
 	if( span.latitudeDelta > kMaxLatDeltaToShowStops )
-		defaultLabel = @"Zoom in to look for stops";
+		defaultLabel = @"Zoom in to look for stops.";
 	
-	if( ! result)
+	if( !result )
 		return defaultLabel;
-	
-	switch(result.searchType) {
+    
+    NSString * filterString = nil;
+    NSString * searchFilterDesc = [_searchController searchFilterString];
+    
+    if (searchFilterDesc != nil)
+        filterString = [NSString stringWithFormat:@"Filtering by %@.", searchFilterDesc];
+    
+	switch( result.searchType ) {
 		case OBASearchControllerSearchTypeRoute:
 		case OBASearchControllerSearchTypeRouteStops:	
 		case OBASearchControllerSearchTypeAddress:
 		case OBASearchControllerSearchTypeAgenciesWithCoverage:
-			return nil;
+		case OBASearchControllerSearchTypeStopId:
+			return filterString;
+            
+		case OBASearchControllerSearchTypePlacemark:
+		case OBASearchControllerSearchTypeRegion: {
+            NSArray * stops = result.stops;
+			if( [stops count] == 0 )
+				return @"No stops at your current location.";
+            
+			if( result.stopLimitExceeded )
+				return @"Too many stops. Zoom in for more detail.";
+            
+            if( filterString )
+                return filterString;
+			
+            return defaultLabel;
+		}
+            
 		case OBASearchControllerSearchTypeNone:			
 			return defaultLabel;
-		case OBASearchControllerSearchTypePlacemark:			
-		case OBASearchControllerSearchTypeStopId:
-		case OBASearchControllerSearchTypeRegion: {
-			NSArray * stops = result.stops;
-			if( [stops count] == 0 )
-				return @"No stops at your current location";
-			if( result.stopLimitExceeded )
-				return @"Too many stops.  Zoom in for more detail.";
-			return defaultLabel;
-		}
-		default:
-			return defaultLabel;
 	}
+    
+    return defaultLabel;
 }
 
 

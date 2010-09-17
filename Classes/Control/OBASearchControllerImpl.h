@@ -37,6 +37,7 @@
 	
 	OBANavigationTarget * _target;
 	OBASearchControllerSearchType _searchType;
+    NSString * _searchFilterString;
 	NSString * _searchContext;
 	CLLocation * _lastCurrentLocationSearch;
 	
@@ -45,6 +46,8 @@
 	OBAProgressIndicatorImpl * _progress;
 	NSError * _error;
 }
+
+@property (nonatomic, retain) NSString * searchFilterString;
 
 - (id) initWithAppContext:(OBAApplicationContext*)context;
 

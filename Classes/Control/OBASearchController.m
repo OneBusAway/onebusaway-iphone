@@ -127,8 +127,10 @@ NSString * kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSe
 + (OBANavigationTarget*) getNavigationTargetForSearchType:(OBASearchControllerSearchType)searchType argument:(id)argument {
 	NSMutableDictionary * params = [NSMutableDictionary dictionary];
 	[params setObject:[NSNumber numberWithInt:searchType] forKey:kOBASearchControllerSearchTypeParameter];
+
 	if( argument )
 		[params setObject:argument forKey:kOBASearchControllerSearchArgumentParameter];
+    
 	return [[[OBANavigationTarget alloc] initWithTarget:OBANavigationTargetTypeSearchResults parameters:params] autorelease];
 }
 
