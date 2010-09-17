@@ -38,7 +38,7 @@
 		[self.navigationItem setRightBarButtonItem:saveButton];
 		[saveButton release];
 		
-		self.navigationItem.title = @"Filter";
+		self.navigationItem.title = @"Filter & Sort";
 		
 		NSMutableArray * routes = [NSMutableArray array];
 		for( OBARoute * route in stop.routes)
@@ -73,9 +73,9 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	if( section == 0)
-		return @"Sort by";
+		return @"Sort";
 	else if( section == 1)
-		return @"Routes";
+		return @"Show Routes";
 	return nil;
 }
 
@@ -214,7 +214,7 @@
 	if( error )
 		OBALogSevereWithError(error,@"Error saving stop preferences");
 	
-	// pop to stop view controller are saving settings
+	// pop to stop view controller after saving settings
 	BOOL foundStopViewController = FALSE;
 	for (UIViewController* viewController in [self.navigationController viewControllers])
 	{

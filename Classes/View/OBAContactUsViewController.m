@@ -48,11 +48,11 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	switch(section) {
 		case 0:
-			return @"Check us on Twitter for the latest service updates:";
+			return @"Twitter";
 		case 1:
-			return @"Send us feedback over email:";
+			return @"Email";
 		case 2:
-			return @"Let us know about a bug at our Issue Tracker:";
+			return @"Report bugs";
 		default:
 			return nil;
 	}

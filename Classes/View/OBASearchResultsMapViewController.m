@@ -71,8 +71,6 @@ typedef enum  {
 @end
 
 
-
-
 @interface OBASearchResultsMapViewController (Private)
 
 - (void) loadIcons;
@@ -152,9 +150,7 @@ typedef enum  {
 }
 
 - (void) viewDidLoad {
-
 	[super viewDidLoad];
-	
 
 	[self loadIcons];
 	[self centerMapOnMostRecentLocation];
