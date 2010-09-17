@@ -20,6 +20,18 @@
 #import "OBAActivityLoggingViewController.h"
 
 
+typedef enum {
+	OBARowNone, OBARowAgencies, OBARowLocationAware, OBARowActivityAware
+} OBARowType;
+
+
+@interface OBASettingsViewController (Internal)
+
+- (OBARowType) rowTypeForRowIndex:(NSInteger)row;
+
+@end
+
+
 @implementation OBASettingsViewController
 
 @synthesize appContext = _appContext;
@@ -57,26 +69,33 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return kIncludeUWActivityInferenceCode ? 3 : 2;
+	NSInteger rows = 1;
+	if( kIncludeUWUserStudyCode )
+		rows += 1;
+	if( kIncludeUWActivityInferenceCode)
+		rows += 1;
+	return rows;
 }
 
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-	if( indexPath.row == 0 ) {
+	OBARowType rowType = [self rowTypeForRowIndex:indexPath.row];
+	
+	if( rowType == OBARowAgencies ) {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = @"Supported Agencies";
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		return cell;
 	}
-	else if( indexPath.row == 1 ) {
+	else if( rowType == OBARowLocationAware ) {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = @"Location Aware";
 		cell.accessoryType =_appContext.locationAware ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
 		return cell;
 	}
-	else if( indexPath.row == 2 && kIncludeUWActivityInferenceCode) {
+	else if( rowType == OBARowActivityAware ) {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = @"Activity";
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -121,4 +140,31 @@
 }
 
 @end
+
+
+@implementation OBASettingsViewController (Internal)
+
+- (OBARowType) rowTypeForRowIndex:(NSInteger) row {
+	if( row == 0 )
+		return OBARowAgencies;
+	if( kIncludeUWActivityInferenceCode && kIncludeUWUserStudyCode ) {
+		if( row == 1 )
+			return OBARowLocationAware;
+		if( row == 2 )
+			return OBARowActivityAware;
+	}
+	else if( kIncludeUWActivityInferenceCode ) {
+		if( row == 1 )
+			return OBARowActivityAware;
+	}
+	else if( kIncludeUWUserStudyCode ) {
+		if( row == 1 )
+			return OBARowLocationAware;
+	}
+		
+	return OBARowNone;
+}
+
+@end
+
 

@@ -240,8 +240,10 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	
 	_modelFactory = [[OBAModelFactory alloc] initWithManagedObjectContext:_managedObjectContext];
 	
-	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-	_locationAware = [userDefaults boolForKey:kOBALocationAware];
+	if( kIncludeUWUserStudyCode ) {
+		NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+		_locationAware = [userDefaults boolForKey:kOBALocationAware];
+	}
 	
 	if( _locationAware )
 		[_locationManager startUpdatingLocation];
@@ -279,7 +281,8 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	[userDefaults setObject:data forKey:kOBASavedNavigationTargets];
 	[userDefaults setObject:dateData forKey:kOBAApplicationTerminationTimestamp];
-	[userDefaults setBool:_locationAware forKey:kOBALocationAware];
+	if( kIncludeUWUserStudyCode )
+		[userDefaults setBool:_locationAware forKey:kOBALocationAware];
 	[targets release];	
 }
 

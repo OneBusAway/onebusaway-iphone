@@ -20,7 +20,7 @@
 #import "OBASearchController.h"
 
 
-const static int kSearchTableViewCellHeight = 168;
+const static int kSearchTableViewCellHeight = 127;
 static NSString * kOBASearchType = @"kOBASearchType";
 static NSString * kOBASearchValue = @"kOBASearchValue";
 
@@ -35,6 +35,7 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 @synthesize appContext = _appContext;
 @synthesize searchTypeControl = _searchTypeControl;
 @synthesize searchField = _searchField;
+@synthesize cancelButton = _cancelButton;
 
 + (NSDictionary*) getParametersForSearchType:(OBASearchType)searchType {
 	return [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:searchType] forKey:kOBASearchType];
@@ -48,6 +49,7 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 	[_searchTypeControl release];
 	[_searchField release];
 	[_searchCell release];
+	[_cancelButton release];
 	
 	[_routeSavedValue release];
 	[_addressSavedValue release];
@@ -61,6 +63,8 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 	
 	_currentSearchType = OBASearchTypeByRoute;
 	_navigationTarget = [[OBANavigationTarget alloc] initWithTarget:OBANavigationTargetTypeSearch];
+	
+	self.navigationItem.rightBarButtonItem = nil;
 	
 	NSArray * nib1 = [[NSBundle mainBundle] loadNibNamed:@"OBASearchTableViewCell" owner:self options:nil];
 	_searchCell = [[nib1 objectAtIndex:0] retain];
@@ -153,9 +157,18 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 
 - (IBAction) onCancelButton:(id)sender {
 	[_searchField resignFirstResponder];
+	self.navigationItem.rightBarButtonItem = nil;
+}
+
+#pragma mark UITextFieldDelegate Methods
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+	self.navigationItem.rightBarButtonItem = _cancelButton;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
+	
+	self.navigationItem.rightBarButtonItem = nil;
 	
 	[_navigationTarget setParameter:textField.text forKey:kOBASearchValue];
 	

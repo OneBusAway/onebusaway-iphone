@@ -18,6 +18,7 @@ extern NSString * const OBAErrorDomain;
 extern const NSInteger kOBAErrorDuplicateEntity;
 extern const NSInteger kOBAErrorMissingFieldInData;
 extern const BOOL kIncludeUWActivityInferenceCode;
+extern const BOOL kIncludeUWUserStudyCode;
 
 typedef enum {
 	OK_RESPONSE = 200,
