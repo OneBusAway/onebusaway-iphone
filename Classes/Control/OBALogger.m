@@ -26,7 +26,7 @@
 
 + (void) logWithLevel:(OBALoggerLevel)level pointer:(id)pointer file:(NSString*)file line:(NSInteger)line message:(NSString*)message {
 	NSLog(@"# %@ - %p %@:%d",[self logLevelAsString:level],pointer,file,line);
-	NSLog(message);
+	NSLog(@"%@",message);
 }
 
 + (void) logWithLevel:(OBALoggerLevel)level pointer:(id)pointer file:(NSString*)file line:(NSInteger)line message:(NSString*)message error:(NSError*)error {

@@ -67,7 +67,7 @@
 	OBALocationManager * manager = _appContext.locationManager;
 	CLLocation * currentLocation = manager.currentLocation;
 	if( currentLocation )
-		distance = [currentLocation getDistanceFrom:status.position];
+		distance = [currentLocation distanceFromLocation:status.position];
 	
 	int scheduleDeviation = status.scheduleDeviation;
 	NSString * predicted = status.predicted ? @"true" : @"false";
@@ -101,8 +101,8 @@ NSComparisonResult tripStatusSortByDistance(id o1, id o2, void * context) {
 	if( ! currentLocation )
 		return NSOrderedSame;
 	
-	double d1 = [currentLocation getDistanceFrom:ts1.position];
-	double d2 = [currentLocation getDistanceFrom:ts2.position];
+	double d1 = [currentLocation distanceFromLocation:ts1.position];
+	double d2 = [currentLocation distanceFromLocation:ts2.position];
 
 	return d1 == d2 ? NSOrderedSame : (d1 < d2  ? NSOrderedAscending : NSOrderedDescending);
 }

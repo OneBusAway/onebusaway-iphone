@@ -828,8 +828,8 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	CLLocation * stopLocation1 = [[CLLocation alloc] initWithLatitude:stop1.lat longitude:stop1.lon];
 	CLLocation * stopLocation2 = [[CLLocation alloc] initWithLatitude:stop2.lat longitude:stop2.lon];
 	
-	double v1 = [location getDistanceFrom:stopLocation1];
-	double v2 = [location getDistanceFrom:stopLocation2];
+	double v1 = [location distanceFromLocation:stopLocation1];
+	double v2 = [location distanceFromLocation:stopLocation2];
 	
 	[stopLocation1 release];
 	[stopLocation2 release];
@@ -839,7 +839,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
     else if (v1 > v2)
         return NSOrderedDescending;
     else
-        return NSOrderedSame;	
+        return NSOrderedSame;
 }
 
 - (MKCoordinateRegion) computeRegionForNClosestStops:(NSArray*)stops center:(CLLocation*)location numberOfStops:(NSUInteger)numberOfStops {
@@ -877,7 +877,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	
 	for( OBAStop * stop in stops) {
 		CLLocation * location = [[CLLocation alloc] initWithLatitude:stop.lat longitude:stop.lon];
-		double d = [location getDistanceFrom:center];
+		double d = [location distanceFromLocation:center];
 		if( d < kMaxMapDistanceFromCurrentLocation )
 			[stopsInRange addObject:stop];
 		[location release];

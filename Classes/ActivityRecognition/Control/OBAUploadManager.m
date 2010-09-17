@@ -86,7 +86,7 @@
 			NSString * traceId = [NSString stringWithFormat:@"%@-%@-%@",device.uniqueIdentifier,[components objectAtIndex:n-2],[components objectAtIndex:n-1]];
 			[_traceIds setObject:path forKey:traceId];
 			
-			NSDictionary *fileAttributes = [fileManager fileAttributesAtPath:path traverseLink:YES];
+			NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:path error:NULL];
 			if( fileAttributes ) {
 				NSNumber *fileSize = [fileAttributes objectForKey:NSFileSize];
 				if( fileSize )

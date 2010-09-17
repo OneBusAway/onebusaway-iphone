@@ -43,7 +43,7 @@
 -(NSArray*) individualTracePaths {
 	NSFileManager * manager = [NSFileManager defaultManager];
 	NSMutableArray * paths = [NSMutableArray arrayWithCapacity:0];
-	for( NSString * trace in [manager directoryContentsAtPath:_path] )
+	for( NSString * trace in [manager contentsOfDirectoryAtPath:_path error:NULL] )
 		[paths addObject:[NSString stringWithFormat:@"%@/%@",_path,trace]];
 	return paths;
 }
@@ -98,7 +98,7 @@
 		}
 	}
 
-	if( [manager createDirectoryAtPath:_path attributes:nil] )
+	if( [manager createDirectoryAtPath:_path withIntermediateDirectories:FALSE attributes:nil error:NULL] )
 		return TRUE;
 		
 	NSLog(@"Error creating directory: %@",_path);
