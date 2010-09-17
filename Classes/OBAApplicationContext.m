@@ -45,6 +45,7 @@
 static NSString * kOBAHiddenPreferenceLocationAwareDisabled = @"OBALocationAwareDisabled";
 static NSString * kOBAHiddenPreferenceSavedNavigationTargets = @"OBASavedNavigationTargets";
 static NSString * kOBAHiddenPreferenceApplicationTerminationTimestamp = @"OBAApplicationTerminationTimestamp";
+static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 
 static NSString * kOBAPreferenceShowOnStartup = @"oba_show_on_start_preference";
 static NSString * kOBAPreferenceClearLocalCacheOnStartup = @"oba_clear_local_cache_preference";
@@ -64,6 +65,8 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 - (UIViewController*) getViewControllerForTarget:(OBANavigationTarget*)target;
 
 - (NSString *)applicationDocumentsDirectory;
+
+- (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults;
 
 @end
 
@@ -207,10 +210,14 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 		apiServerName = @"soak-api.onebusaway.org";
 	
 	apiServerName = [NSString stringWithFormat:@"http://%@",apiServerName];
-					 
-	//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://soak-api.onebusaway.org" args:@"key=org.onebusaway.iphone"];		
-	//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://api.onebusaway.org" args:@"key=org.onebusaway.iphone"];
-	_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:apiServerName args:@"key=org.onebusaway.iphone"];		
+	
+	NSString * userId = [self userIdFromDefaults:userDefaults];
+	NSString * appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+	NSString * obaArgs = [NSString stringWithFormat:@"key=org.onebusaway.iphone&app_uid=%@&app_ver=%@",userId,appVersion];
+	
+	//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://soak-api.onebusaway.org" args:obaArgs];
+	//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://api.onebusaway.org" args:obaArgs];
+	_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:apiServerName args:obaArgs];		
 	
 	//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://localhost:8080/onebusaway-api-webapp" args:@"key=org.onebusaway.iphone"];
 	_googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://maps.google.com" args:@"output=json&oe=utf-8&key=ABQIAAAA1R_R0bUhLYRwbQFpKHVowhRAXGY6QyK0faTs-0G7h9EE_iri4RRtKgRdKFvvraEP5PX_lP_RlqKkzA"];
@@ -437,6 +444,25 @@ static const BOOL kDeleteModelOnStartup = FALSE;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     return basePath;
+}
+
+- (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults {
+	
+	NSString * userId = [userDefaults stringForKey:kOBAHiddenPreferenceUserId];
+	
+	if( ! userId) {
+		CFUUIDRef theUUID = CFUUIDCreate(kCFAllocatorDefault);
+		if (theUUID) {
+			userId = NSMakeCollectable(CFUUIDCreateString(kCFAllocatorDefault, theUUID));
+			CFRelease(theUUID);
+			[userDefaults setObject:userId forKey:kOBAHiddenPreferenceUserId];
+		}
+		else {
+			userId = @"anonymous";
+		}
+	}
+	
+	return userId;
 }
 
 @end
