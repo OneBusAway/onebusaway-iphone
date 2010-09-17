@@ -93,6 +93,8 @@ static const NSUInteger kShowNClosestStops = 4;
 	
 	[_stopIcons release];
 	[_defaultStopIcon release];
+	
+	[_networkErrorAlertViewDelegate release];
 		
 	[super dealloc];
 }
@@ -106,6 +108,8 @@ static const NSUInteger kShowNClosestStops = 4;
 	[self centerMapOnMostRecentLocation];
 	
 	_searchController = [[OBASearchControllerImpl alloc] initWithAppContext:_appContext];
+	
+	_networkErrorAlertViewDelegate = [[OBANetworkErrorAlertViewDelegate alloc] initWithContext:_appContext];
 	
 	CGRect indicatorBounds = CGRectMake(12, 12, 32, 32);
 	_activityIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:indicatorBounds];
@@ -177,9 +181,11 @@ static const NSUInteger kShowNClosestStops = 4;
 	if( domain == NSURLErrorDomain ) {
 		UIAlertView * view = [[UIAlertView alloc] init];
 		view.title = @"Error connecting";
-		view.message = @"There was a problem with your Internet connection.  Please check your network connection or try again in a bit.";
+		view.message = @"There was a problem with your Internet connection.\n\nPlease check your network connection or contact us if you think the problem is on our end.";
+		view.delegate = _networkErrorAlertViewDelegate;
+		[view addButtonWithTitle:@"Contact Us"];
 		[view addButtonWithTitle:@"Ok"];
-		view.cancelButtonIndex = 0;
+		view.cancelButtonIndex = 1;
 		[view show];
 	}
 }

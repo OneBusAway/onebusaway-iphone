@@ -31,6 +31,7 @@ typedef enum {
 	OBANavigationTargetTypeEditBookmark,
 	OBANavigationTargetTypeEditStopPreferences,
 	OBANavigationTargetTypeSettings,
+	OBANavigationTargetTypeContactUs,
 	OBANavigationTargetTypeActivityLogging,
 	OBANavigationTargetTypeActivityAnnotation,
 	OBANavigationTargetTypeActivityUpload,

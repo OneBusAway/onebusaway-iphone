@@ -18,10 +18,10 @@
 #import "OBAUITableViewCell.h"
 #import "OBASearchController.h"
 #import "OBAActivityLoggingViewController.h"
-
+#import "OBAContactUsViewController.h"
 
 typedef enum {
-	OBARowNone, OBARowAgencies, OBARowLocationAware, OBARowActivityAware
+	OBARowNone, OBARowAgencies, OBARowContactUs, OBARowLocationAware, OBARowActivityAware
 } OBARowType;
 
 
@@ -69,7 +69,7 @@ typedef enum {
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	NSInteger rows = 1;
+	NSInteger rows = 2;
 	if( kIncludeUWUserStudyCode )
 		rows += 1;
 	if( kIncludeUWActivityInferenceCode)
@@ -89,6 +89,12 @@ typedef enum {
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		return cell;
 	}
+	else if( rowType == OBARowContactUs ) {
+		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+		cell.textLabel.text = @"Contact Us";
+		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		return cell;
+	}	
 	else if( rowType == OBARowLocationAware ) {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = @"Location Aware";
@@ -118,6 +124,12 @@ typedef enum {
 		case OBARowAgencies: {
 			OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchAgenciesWithCoverage];
 			[_appContext navigateToTarget:target];
+			break;
+		}
+		case OBARowContactUs: {
+			OBAContactUsViewController * vc = [[OBAContactUsViewController alloc] initWithApplicationContext:_appContext];
+			[self.navigationController pushViewController:vc animated:TRUE];
+			[vc release];
 			break;
 		}
 		case OBARowLocationAware: {
@@ -150,18 +162,20 @@ typedef enum {
 - (OBARowType) rowTypeForRowIndex:(NSInteger) row {
 	if( row == 0 )
 		return OBARowAgencies;
+	if( row == 1 )
+		return OBARowContactUs;
 	if( kIncludeUWActivityInferenceCode && kIncludeUWUserStudyCode ) {
-		if( row == 1 )
-			return OBARowLocationAware;
 		if( row == 2 )
+			return OBARowLocationAware;
+		if( row == 3 )
 			return OBARowActivityAware;
 	}
 	else if( kIncludeUWActivityInferenceCode ) {
-		if( row == 1 )
+		if( row == 2 )
 			return OBARowActivityAware;
 	}
 	else if( kIncludeUWUserStudyCode ) {
-		if( row == 1 )
+		if( row == 3 )
 			return OBARowLocationAware;
 	}
 		

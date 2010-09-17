@@ -34,6 +34,7 @@
 #import "OBASearchController.h"
 #import "OBASettingsViewController.h"
 #import "OBAStopViewController.h"
+#import "OBAContactUsViewController.h"
 
 #import "OBAActivityLoggingViewController.h"
 #import "OBAActivityAnnotationViewController.h"
@@ -126,6 +127,15 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 			[searchResultsMapViewController setNavigationTarget:navigationTarget];
 			_tabBarController.selectedIndex = 0;
 			[mapNavController  popToRootViewControllerAnimated:FALSE];
+			break;
+		}
+		case OBANavigationTargetTypeContactUs: {
+			UINavigationController * detailsNavController = [_tabBarController.viewControllers objectAtIndex:4];
+			[detailsNavController popToRootViewControllerAnimated:FALSE];
+			OBAContactUsViewController * vc = [[OBAContactUsViewController alloc] initWithApplicationContext:self];
+			[detailsNavController pushViewController:vc animated:FALSE];
+			[vc release];
+			_tabBarController.selectedIndex = 4;
 			break;
 		}
 	}
@@ -423,6 +433,8 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	switch(target.target) {
 		case OBANavigationTargetTypeStop:
 			return [[OBAStopViewController alloc] initWithApplicationContext:self];
+		case OBANavigationTargetTypeContactUs:
+			return [[OBAContactUsViewController alloc] initWithApplicationContext:self];
 		case OBANavigationTargetTypeActivityLogging:
 			return [[OBAActivityLoggingViewController alloc] initWithApplicationContext:self];
 		case OBANavigationTargetTypeActivityAnnotation:

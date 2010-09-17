@@ -64,6 +64,8 @@
 		D62F30A70F7AA5D300629092 /* OBAStopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D62F30A60F7AA5D300629092 /* OBAStopViewController.m */; };
 		D62F319D0F7ACFE900629092 /* OBAStopTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D62F319C0F7ACFE900629092 /* OBAStopTableViewCell.xib */; };
 		D62F31A10F7AD24E00629092 /* OBAStopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D62F31A00F7AD24E00629092 /* OBAStopTableViewCell.m */; };
+		D63C82B710D62D1700B297C4 /* OBAContactUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D63C82B610D62D1700B297C4 /* OBAContactUsViewController.m */; };
+		D63C82F210D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D63C82F110D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m */; };
 		D648A3CD0FECBAD9002D9D49 /* OBAGenericAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D648A3CC0FECBAD9002D9D49 /* OBAGenericAnnotation.m */; };
 		D648A4010FED44A9002D9D49 /* BlueMarker.png in Resources */ = {isa = PBXBuildFile; fileRef = D648A4000FED44A9002D9D49 /* BlueMarker.png */; };
 		D64A426F101E1503008F16CA /* CrossHairs.png in Resources */ = {isa = PBXBuildFile; fileRef = D64A426E101E1503008F16CA /* CrossHairs.png */; };
@@ -245,6 +247,10 @@
 		D62F319C0F7ACFE900629092 /* OBAStopTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OBAStopTableViewCell.xib; path = Resources/OBAStopTableViewCell.xib; sourceTree = "<group>"; };
 		D62F319F0F7AD24E00629092 /* OBAStopTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAStopTableViewCell.h; path = View/OBAStopTableViewCell.h; sourceTree = "<group>"; };
 		D62F31A00F7AD24E00629092 /* OBAStopTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAStopTableViewCell.m; path = View/OBAStopTableViewCell.m; sourceTree = "<group>"; };
+		D63C82B510D62D1700B297C4 /* OBAContactUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAContactUsViewController.h; path = View/OBAContactUsViewController.h; sourceTree = "<group>"; };
+		D63C82B610D62D1700B297C4 /* OBAContactUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAContactUsViewController.m; path = View/OBAContactUsViewController.m; sourceTree = "<group>"; };
+		D63C82F010D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBANetworkErrorAlertViewDelegate.h; path = View/OBANetworkErrorAlertViewDelegate.h; sourceTree = "<group>"; };
+		D63C82F110D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBANetworkErrorAlertViewDelegate.m; path = View/OBANetworkErrorAlertViewDelegate.m; sourceTree = "<group>"; };
 		D648A3CB0FECBAD9002D9D49 /* OBAGenericAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAGenericAnnotation.h; path = Model/OBAGenericAnnotation.h; sourceTree = "<group>"; };
 		D648A3CC0FECBAD9002D9D49 /* OBAGenericAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAGenericAnnotation.m; path = Model/OBAGenericAnnotation.m; sourceTree = "<group>"; };
 		D648A4000FED44A9002D9D49 /* BlueMarker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BlueMarker.png; path = "Resources/Map Icons/BlueMarker.png"; sourceTree = "<group>"; };
@@ -754,6 +760,10 @@
 				D6686A6D0FD9ABD40097F034 /* OBAProgressIndicatorView.m */,
 				D6789F030FE0EB0500696FE6 /* OBASettingsViewController.h */,
 				D6789F040FE0EB0500696FE6 /* OBASettingsViewController.m */,
+				D63C82B510D62D1700B297C4 /* OBAContactUsViewController.h */,
+				D63C82B610D62D1700B297C4 /* OBAContactUsViewController.m */,
+				D63C82F010D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.h */,
+				D63C82F110D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1028,6 +1038,8 @@
 				D6B6C035108804D100AC5FEF /* OBATripStatus.m in Sources */,
 				D6B6C03A108804E600AC5FEF /* OBATrip.m in Sources */,
 				D6B6C07810880AEB00AC5FEF /* OBASetLocationPropertyJsonDigesterRule.m in Sources */,
+				D63C82B710D62D1700B297C4 /* OBAContactUsViewController.m in Sources */,
+				D63C82F210D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,6 +21,7 @@
 #import "OBASearchController.h"
 #import "OBALocationManager.h"
 #import "OBAGenericAnnotation.h"
+#import "OBANetworkErrorAlertViewDelegate.h"
 
 @class OBASearchControllerImpl;
 
@@ -40,6 +41,7 @@
 	NSMutableDictionary * _stopIcons;
 	
 	UIActivityIndicatorView * _activityIndicatorView;
+	OBANetworkErrorAlertViewDelegate * _networkErrorAlertViewDelegate;
 	
 	BOOL _firstView;
 }
