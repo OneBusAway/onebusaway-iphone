@@ -60,6 +60,7 @@ static NSString * const kEntityIdMappings = @"entityIdMappings";
 
 @interface OBAJsonDigester (CustomDigesterRules)
 
+//- (void) addListWithRangeRulesWithPrefix:(NSString*)prefix;
 - (void) addReferencesRulesWithPrefix:(NSString*)prefix;
 
 - (void) addAgencyRulesWithPrefix:(NSString*)prefix;
@@ -209,6 +210,8 @@ static NSString * const kEntityIdMappings = @"entityIdMappings";
 	OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
 	[digester addReferencesRulesWithPrefix:@"/references"];
 	[digester addSetNext:@selector(setReferences:) forPrefix:@"/references"];
+	[digester addSetPropertyRule:@"outOfRange" forPrefix:@"/outOfRange"];
+	[digester addSetPropertyRule:@"limitExceeded" forPrefix:@"/limitExceeded"];
 	[digester addStopV2RulesWithPrefix:@"/list/[]"];
 	[digester addTarget:digester selector:@selector(setReferencesFromParentForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetBegin prefix:@"/list/[]"];
 	[digester addSetNext:@selector(addValue:) forPrefix:@"/list/[]"];

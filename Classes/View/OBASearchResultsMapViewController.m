@@ -80,7 +80,6 @@ typedef enum  {
 - (void) centerMapOnMostRecentLocation;
 - (void) refreshCurrentLocation;
 
-
 - (void) setMapRegion:(MKCoordinateRegion)region requestType:(OBARegionChangeRequestType)requestType;
 - (void) setMapRegionWithRequest:(OBARegionChangeRequest*)request;
 
@@ -89,6 +88,7 @@ typedef enum  {
 - (void) scheduleRefreshOfStopsInRegion:(NSTimeInterval)interval location:(CLLocation*)location;
 - (NSTimeInterval) getRefreshIntervalForLocationAccuracy:(CLLocation*)location;
 - (void) refreshStopsInRegion;
+- (void) refreshSearchToolbar;
 
 - (void) reloadData;
 - (CLLocation*) currentLocation;
@@ -112,6 +112,7 @@ typedef enum  {
 - (MKCoordinateRegion) getLocationAsRegion:(CLLocation*)location;
 
 - (void) checkResults;
+- (BOOL) checkOutOfRangeResults;
 - (void) checkNoRouteResults;
 - (void) checkNoPlacemarksResults;
 - (void) showNoResultsAlertWithTitle:(NSString*)title prompt:(NSString*)prompt;
@@ -214,12 +215,8 @@ typedef enum  {
 		[self reloadData];
 		_firstView = FALSE;
 	}
-
-    // show the UIToolbar at the bottom of the view controller
-	//
-    NSString * searchFilterDesc = [_searchController searchFilterString];
-    if (searchFilterDesc != nil)
-        [self.filterToolbar showWithDescription:searchFilterDesc animated:NO];
+	
+	[self refreshSearchToolbar];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -255,9 +252,7 @@ typedef enum  {
 		[_searchController searchWithTarget:target];
 	}
     
-    NSString * searchFilterDesc = [_searchController searchFilterString];
-    if (searchFilterDesc != nil)
-        [self.filterToolbar showWithDescription:searchFilterDesc animated:NO];
+	[self refreshSearchToolbar];
 }
 
 #pragma mark OBASearchControllerDelegate Methods
@@ -669,6 +664,13 @@ typedef enum  {
 	}
 }
 
+- (void) refreshSearchToolbar {
+	// show the UIToolbar at the bottom of the view controller
+	//
+    NSString * searchFilterDesc = [_searchController searchFilterString];
+    if (searchFilterDesc != nil)
+        [self.filterToolbar showWithDescription:searchFilterDesc animated:NO];	
+}
 
 - (void) reloadData {
 	OBASearchControllerResult * result = _searchController.result;
@@ -686,6 +688,7 @@ typedef enum  {
 	NSString * label = [self computeLabelForCurrentResults];
 	self.navigationItem.prompt = label;
 	
+	[self refreshSearchToolbar];
 	[self checkResults];
 }
 
@@ -1048,15 +1051,28 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 		return;
 	
 	switch (result.searchType) {
-		case OBASearchControllerSearchTypeRoute:
-			[self checkNoRouteResults];
+		case OBASearchControllerSearchTypeRegion:
+		case OBASearchControllerSearchTypePlacemark:
+			[self checkOutOfRangeResults];
+			break;
+		case OBASearchControllerSearchTypeRoute:			
+			if( ! [self checkOutOfRangeResults] )
+				[self checkNoRouteResults];
 			break;
 		case OBASearchControllerSearchTypeAddress:
-			[self checkNoPlacemarksResults];
+			if( ! [self checkOutOfRangeResults] )
+				[self checkNoPlacemarksResults];
 			break;
 		default:
 			break;
 	}
+}
+
+- (BOOL) checkOutOfRangeResults {
+	OBASearchControllerResult * result = _searchController.result;
+	if( result.outOfRange )
+		[self showNoResultsAlertWithTitle: @"Out of range" prompt:@"You are outside the OneBusAway service area."];
+	return result.outOfRange;
 }
 
 - (void) checkNoRouteResults {
