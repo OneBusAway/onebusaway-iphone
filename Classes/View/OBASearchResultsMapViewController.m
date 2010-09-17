@@ -356,19 +356,26 @@ typedef enum  {
 	_autoCenterOnCurrentLocation = (type == OBARegionChangeRequestTypeCurrentLocation);
 	OBALogDebug(@"regionDidChangeAnimated: setting _autoCenterOnCurrentLocation to %d", _autoCenterOnCurrentLocation);
 	
-	if( _autoCenterOnCurrentLocation && _pendingRegionChangeRequest) {
+    const OBASearchControllerSearchType searchType = _searchController.searchType;
+    const BOOL unfilteredSearch = searchType == OBASearchControllerSearchTypeNone || searchType == OBASearchControllerSearchTypeRegion || searchType == OBASearchControllerSearchTypePlacemark;
+    
+	if( _autoCenterOnCurrentLocation && _pendingRegionChangeRequest ) {
 		OBALogDebug(@"applying pending reqest");
 		[self setMapRegionWithRequest:_pendingRegionChangeRequest];
 	}
 	else if( type == OBARegionChangeRequestTypeCurrentLocation ) {
-		OBALocationManager * lm = _appContext.locationManager;
-		double refreshInterval = [self getRefreshIntervalForLocationAccuracy:lm.currentLocation];
-		[self scheduleRefreshOfStopsInRegion:refreshInterval location:lm.currentLocation];
+		if( unfilteredSearch ) {
+            OBALocationManager * lm = _appContext.locationManager;
+            double refreshInterval = [self getRefreshIntervalForLocationAccuracy:lm.currentLocation];
+            [self scheduleRefreshOfStopsInRegion:refreshInterval location:lm.currentLocation];
+        }
 	}
 	else if( type == OBARegionChangeRequestTypeNone ) {
-		if( _searchController.searchType == OBASearchControllerSearchTypeNone || _searchController.searchType == OBASearchControllerSearchTypeRegion || _searchController.searchType == OBASearchControllerSearchTypePlacemark)
-			[self scheduleRefreshOfStopsInRegion:kStopsInRegionRefreshDelayOnDrag location:nil];
-	}
+		if( unfilteredSearch ) {
+            [self scheduleRefreshOfStopsInRegion:kStopsInRegionRefreshDelayOnDrag location:nil];
+        }
+    }
+			
 		
 	_pendingRegionChangeRequest = [NSObject releaseOld:_pendingRegionChangeRequest retainNew:nil];
 }
