@@ -34,7 +34,9 @@
 	OBAModelDAO * _modelDao;
 	
 	NSString * _stopId;
-	OBAStopV2 * _stop;
+	NSUInteger _minutesAfter;
+	
+	OBAStopV2 * _stop;	
 	NSArray * _predictedArrivals;
 	OBAProgressIndicatorImpl * _progress;
 	NSError * _error;
@@ -42,6 +44,8 @@
 	
 	UIBackgroundTaskIdentifier _bgTask;
 }
+
+@property (nonatomic,readwrite) NSUInteger minutesAfter;
 
 @property (retain,readwrite) OBAStopV2 * stop;
 @property (retain,readwrite) NSArray * predictedArrivals;

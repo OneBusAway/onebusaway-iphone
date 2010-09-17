@@ -28,6 +28,8 @@ NSString* OBARefreshEndedNotification = @"OBARefreshEndedNotification";
 
 @implementation OBAStopAndPredictedArrivalsSearch
 
+@synthesize minutesAfter = _minutesAfter;
+
 @synthesize stop = _stop;
 @synthesize predictedArrivals = _predictedArrivals;
 @synthesize progress = _progress;
@@ -41,6 +43,8 @@ NSString* OBARefreshEndedNotification = @"OBARefreshEndedNotification";
 		_modelFactory = [context.modelFactory retain];
 		_modelDao = [context.modelDao retain];
         
+		_minutesAfter = 35;
+		
         if ([[UIDevice currentDevice] isMultitaskingSupportedSafe])
             _bgTask = UIBackgroundTaskInvalid;
 	}
@@ -130,7 +134,9 @@ NSString* OBARefreshEndedNotification = @"OBARefreshEndedNotification";
 		}
 		
 		NSString *url = [NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", _stopId];
-		[_jsonDataSource requestWithPath:url withArgs:@"version=2" withDelegate:self context:nil];	
+		NSString * args = [NSString stringWithFormat:@"version=2&minutesAfter=%d",_minutesAfter];
+						   
+		[_jsonDataSource requestWithPath:url withArgs:args withDelegate:self context:nil];	
 	}
 }
 
