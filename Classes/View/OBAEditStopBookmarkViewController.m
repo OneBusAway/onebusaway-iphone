@@ -19,6 +19,7 @@
 #import "OBAUITableViewCell.h"
 #import "OBATextFieldTableViewCell.h"
 #import "OBARoute.h"
+#import "OBAStopViewController.h"
 
 
 static NSString * kOBABookmarkParameter = @"OBABookmarkParameter";
@@ -135,7 +136,20 @@ static NSString * kOBAEditTypeParameter = @"OBAEditTypeParameter";
 	if( error )
 		OBALogSevereWithError(error,@"Error saving bookmark: name=%@ stop=%@",_bookmark.name,_bookmark.stop.stopId);
 
-	[self.navigationController popViewControllerAnimated:TRUE];
+	// pop to stop view controller are saving settings
+	BOOL foundStopViewController = FALSE;
+	for (UIViewController* viewController in [self.navigationController viewControllers])
+	{
+		if ([viewController isKindOfClass:[OBAStopViewController class]])
+		{
+			[self.navigationController popToViewController:viewController animated:TRUE];
+			foundStopViewController = TRUE;
+			break;
+		}
+	}
+	
+	if (!foundStopViewController)
+		[self.navigationController popViewControllerAnimated:TRUE];
 }
 
 @end
