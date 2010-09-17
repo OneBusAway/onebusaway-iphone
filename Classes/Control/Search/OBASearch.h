@@ -26,6 +26,7 @@ extern NSString * kOBASearchControllerSearchLocationParameter;
 
 typedef enum {
 	OBASearchTypeNone=0,
+	OBASearchTypePending,
 	OBASearchTypeRegion,
 	OBASearchTypeRoute,
 	OBASearchTypeRouteStops,

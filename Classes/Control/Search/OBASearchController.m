@@ -89,6 +89,13 @@
 	
 }
 
+-(void) searchPending {
+	[self cancelOpenConnections];
+	[_target release];
+	_target = nil;
+	_searchType = OBASearchTypePending;
+}
+
 -(OBANavigationTarget*) getSearchTarget {
 	return _target;
 }

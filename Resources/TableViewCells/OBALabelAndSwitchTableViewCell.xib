@@ -50,7 +50,7 @@
 							<object class="IBUILabel" id="379419905">
 								<reference key="NSNextResponder" ref="919479667"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{20, 12}, {178, 21}}</string>
+								<string key="NSFrame">{{10, 12}, {178, 21}}</string>
 								<reference key="NSSuperview" ref="919479667"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -74,7 +74,7 @@
 							<object class="IBUISwitch" id="1052574571">
 								<reference key="NSNextResponder" ref="919479667"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{206, 9}, {94, 27}}</string>
+								<string key="NSFrame">{{196, 9}, {94, 27}}</string>
 								<reference key="NSSuperview" ref="919479667"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -184,7 +184,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>UIResponder</string>
 					<string>OBALabelAndSwitchTableViewCell</string>
-					<string>{{67, 801}, {320, 44}}</string>
+					<string>{{236, 607}, {320, 44}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

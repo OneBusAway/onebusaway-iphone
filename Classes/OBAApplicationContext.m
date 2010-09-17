@@ -365,10 +365,13 @@ static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15 * 60;
 	switch (navigationTarget.target) {
 		case OBANavigationTargetTypeSearchResults: {
 			UINavigationController * mapNavController = [_tabBarController.viewControllers objectAtIndex:0];
+
 			OBASearchResultsMapViewController * searchResultsMapViewController = [mapNavController.viewControllers objectAtIndex:0];
+			[searchResultsMapViewController setNavigationTarget:navigationTarget];
+			
 			_tabBarController.selectedIndex = 0;
 			[mapNavController popToRootViewControllerAnimated:FALSE];
-			[searchResultsMapViewController setNavigationTarget:navigationTarget];
+			
 			break;
 		}
 			

@@ -165,7 +165,7 @@ typedef enum  {
 	
 	_locationAnnotation = nil;
 	
-	_autoCenterOnCurrentLocation = TRUE;
+	_autoCenterOnCurrentLocation = FALSE;
 	_currentlyChangingRegion = FALSE;
 	
 	CLLocationCoordinate2D p = {0,0};
@@ -202,7 +202,14 @@ typedef enum  {
 	[lm startUpdatingLocation];
 	[_searchTypeControl setEnabled:lm.locationServicesEnabled forSegmentAtIndex:0];
 	
-	[self refreshSearchToolbar];
+	if (_searchController.searchType == OBASearchTypeNone ) {
+		_autoCenterOnCurrentLocation = TRUE;
+		CLLocation * location = lm.currentLocation;
+		if( location )
+			[self locationManager:lm didUpdateLocation:location];
+	}
+	
+	[self refreshSearchToolbar];	
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -226,7 +233,11 @@ typedef enum  {
 -(void) setNavigationTarget:(OBANavigationTarget*)target {
 	
 	OBASearchType searchType =  [OBASearch getSearchTypeForNagivationTarget:target];
+
 	if( searchType == OBASearchTypeRegion ) {
+		
+		[_searchController searchPending];
+		
 		NSDictionary * parameters = target.parameters;
 		NSData * data = [parameters objectForKey:kOBASearchControllerSearchArgumentParameter];
 		MKCoordinateRegion region;
@@ -342,7 +353,7 @@ typedef enum  {
 	OBALogDebug(@"regionDidChangeAnimated: setting _autoCenterOnCurrentLocation to %d", _autoCenterOnCurrentLocation);
 	
     const OBASearchType searchType = _searchController.searchType;
-    const BOOL unfilteredSearch = searchType == OBASearchTypeNone || searchType == OBASearchTypeRegion || searchType == OBASearchTypePlacemark;
+    const BOOL unfilteredSearch = searchType == OBASearchTypeNone || searchType == OBASearchTypePending || searchType == OBASearchTypeRegion || searchType == OBASearchTypePlacemark;
     
 	if( _autoCenterOnCurrentLocation && _pendingRegionChangeRequest ) {
 		OBALogDebug(@"applying pending reqest");
@@ -750,6 +761,8 @@ typedef enum  {
 		case OBASearchTypeNone:			
 		case OBASearchTypeRegion:
 		case OBASearchTypePlacemark:
+		case OBASearchTypePending:
+		default:
 			return nil;
 	}
 	

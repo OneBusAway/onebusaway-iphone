@@ -72,6 +72,7 @@
 - (id) initWithAppContext:(OBAApplicationContext*)context;
 
 -(void) searchWithTarget:(OBANavigationTarget*)target;
+-(void) searchPending;
 -(OBANavigationTarget*) getSearchTarget;
 -(void) cancelOpenConnections;
 

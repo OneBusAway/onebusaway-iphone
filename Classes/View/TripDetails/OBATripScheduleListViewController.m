@@ -79,6 +79,7 @@ typedef enum {
 		index++;	
 	}
 	_currentStopIndex = -1;
+	[self.tableView reloadData];
 }
 
 #pragma mark -

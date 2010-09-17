@@ -90,9 +90,9 @@ typedef enum {
 		case OBASectionTypeProblem:
 			return @"What's the problem?";
 		case OBASectionTypeComment:
-			return @"Comment:";
+			return @"Optional - Comment:";
 		case OBASectionTypeOnTheVehicle:
-			return [NSString stringWithFormat:@"Are you on this %@?",_vehicleType];
+			return [NSString stringWithFormat:@"Optional - Are you on this %@?",_vehicleType];
 		default:
 			return nil;
 	}
@@ -276,7 +276,7 @@ typedef enum {
 		}
 		case 1: {
 			OBALabelAndTextFieldTableViewCell * cell = [OBALabelAndTextFieldTableViewCell getOrCreateCellForTableView:tableView];
-			cell.label.text = [NSString stringWithFormat:@"%@ Number (Optional)",[_vehicleType capitalizedString]];
+			cell.label.text = [NSString stringWithFormat:@"%@ Number",[_vehicleType capitalizedString]];
 			
 			cell.textField.text = _vehicleNumber;
 			cell.textField.delegate = self;
