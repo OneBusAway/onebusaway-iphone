@@ -119,15 +119,14 @@ static const NSUInteger kShowNClosestStops = 4;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-	/*
-	_mapView.delegate = self;	
+	//_mapView.delegate = self;	
+
 	[_appContext.locationManager addDelegate:self];
 	
 	if( _firstView ) {
 		[self reloadData];
 		_firstView = FALSE;
 	}
-	*/
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -152,7 +151,16 @@ static const NSUInteger kShowNClosestStops = 4;
 }
 
 - (void) handleSearchControllerError:(NSError*)error {
-	NSLog(@"Problems!");
+
+	// Ignore errors if our app isn't currently active
+	if( ! _appContext.active )
+		return;
+	
+	// Ignore errors if our view isn't currently on top
+	UINavigationController * nav = self.navigationController;
+	if( self != [nav visibleViewController])
+		return;
+	
 	NSString * domain = [error domain];
 	if( domain == NSURLErrorDomain ) {
 		UIAlertView * view = [[UIAlertView alloc] init];

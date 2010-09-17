@@ -26,6 +26,7 @@
 @interface OBAApplicationContext : NSObject <UIApplicationDelegate,UITabBarControllerDelegate> {
 	
 	BOOL _setup;
+	BOOL _active;
 	
     NSManagedObjectContext * _managedObjectContext;  
 	
@@ -54,6 +55,8 @@
 
 @property (nonatomic,readonly) OBADataSourceConfig * obaDataSourceConfig;
 @property (nonatomic,readonly) OBADataSourceConfig * googleMapsDataSourceConfig;
+
+@property (nonatomic,readonly) BOOL active;
 
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget;
 

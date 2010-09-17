@@ -64,10 +64,13 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 @synthesize window = _window;
 @synthesize tabBarController = _tabBarController;
 
+@synthesize active = _active;
+
 - (id) init {
 	if( self = [super init] ) {
 
 		_setup = FALSE;
+		_active = FALSE;
 		
 		_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://api.onebusaway.org" args:@"key=org.onebusaway.iphone"];		
 		//_obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://localhost:8080/onebusaway-api-webapp" args:@"key=org.onebusaway.iphone"];
@@ -147,6 +150,14 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	[self navigateToTarget:navTarget];
 	
 	[self restoreApplicationNavigationState];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+	_active = TRUE;
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+	_active = FALSE;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

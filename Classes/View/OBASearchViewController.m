@@ -84,7 +84,7 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-	//[_searchField becomeFirstResponder];
+	[_searchField becomeFirstResponder];
 }
 
 
