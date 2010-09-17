@@ -93,7 +93,7 @@ const CGFloat kTabbarControllerHeight = 49.0;
     const CGFloat filterFontSize = [UIFont labelFontSize];
     
     // Find size for the title text
-    NSString* filterLabelText     = @"Filter: ";
+    NSString* filterLabelText     = @"Search: ";
     UIFont*   filterLabelFont     = [UIFont boldSystemFontOfSize:filterFontSize];
     CGSize    filterLabelTextSize = [filterLabelText sizeWithFont:filterLabelFont];
     
