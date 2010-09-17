@@ -142,15 +142,12 @@ typedef enum {
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	
 	OBAStop * stop = _source.stop;
-
+	
 	if( stop ) {
-		if( [_allArrivals count] > 0 ) {
-			if( [_filteredArrivals count] != [_allArrivals count] ) {
-				return 4;
-			}
-			return 3;
+		if( [_filteredArrivals count] != [_allArrivals count] ) {
+			return 4;
 		}
-		return 2;
+		return 3;
 	}
 	
 	return 1;
@@ -295,23 +292,16 @@ typedef enum {
 		
 		if( section == 0 )
 			return OBASectionStop;
-		
-		if( [_allArrivals count] > 0 ) {
-			if( section == 1 )
-				return OBASectionArrivals;
-			if( section == 2) {
-				if( [_filteredArrivals count] != [_allArrivals count] )
-					return OBASectionFilter;
-				else
-					return OBASectionOptions;
-			}
-			else if (section == 3 ) {
+		if( section == 1 )
+			return OBASectionArrivals;
+		if( section == 2) {
+			if( [_filteredArrivals count] != [_allArrivals count] )
+				return OBASectionFilter;
+			else
 				return OBASectionOptions;
-			}
 		}
-		else {
-			if( section == 1 )
-				return OBASectionOptions;
+		else if (section == 3 ) {
+			return OBASectionOptions;
 		}
 	}
 	
@@ -335,9 +325,6 @@ typedef enum {
 
 - (UITableViewCell*)tableView:(UITableView*)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath*)indexPath {
 
-	if( [_allArrivals count] == 0 )
-		return [UITableViewCell getOrCreateCellForTableView:tableView];
-	
 	NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
 	
 	if( [arrivals count] == 0 ) {
