@@ -1,6 +1,10 @@
 #import "OBATripScheduleListViewController.h"
 #import "OBATripStopTimeV2.h"
 #import "OBAUITableViewCell.h"
+#import "OBATripDetailsViewController.h"
+#import "OBATripScheduleMapViewController.h"
+#import "OBAUIKit.h"
+#import "OBAStopViewController.h"
 
 
 typedef enum {
@@ -17,15 +21,22 @@ typedef enum {
 
 - (BOOL) hasTripConnections;
 - (NSUInteger) computeNumberOfScheduleRows;
+- (NSDate*) getStopTimeAsDate:(NSInteger)stopTime;
 
 - (UITableViewCell*) tableView:(UITableView*)tableView scheduleCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView previousStopsCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView connectionsCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
+- (void)tableView:(UITableView *)tableView didSelectScheduleRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tableView:(UITableView *)tableView didSelectPreviousStopsRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tableView:(UITableView *)tableView didSelectConnectionsRowAtIndexPath:(NSIndexPath *)indexPath;
+
 @end
 
 
 @implementation OBATripScheduleListViewController
+
+@synthesize currentStopId;
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)context tripDetails:(OBATripDetailsV2*)tripDetails {
     if ((self = [super initWithStyle:UITableViewStyleGrouped])) {
@@ -34,7 +45,15 @@ typedef enum {
 		_currentStopIndex = -1;
 		_showPreviousStops = FALSE;
 		
-		self.navigationItem.title = @"Trip Schedule";						
+		_timeFormatter = [[NSDateFormatter alloc] init];
+		[_timeFormatter setDateStyle:NSDateFormatterNoStyle];
+		[_timeFormatter setTimeStyle:NSDateFormatterShortStyle];		
+		
+		self.navigationItem.title = @"Trip Schedule";
+		
+		UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:@"Map" style:UIBarButtonItemStyleBordered target:self action:@selector(showMap:)];
+		self.navigationItem.rightBarButtonItem = item;
+		[item release];		
     }
     return self;
 }
@@ -45,7 +64,11 @@ typedef enum {
     [super dealloc];
 }
 
-- (void) setCurrentStopId:(NSString*)stopId {
+#pragma mark -
+#pragma mark View lifecycle
+
+- (void)viewWillAppear:(BOOL)animated {
+	NSString * stopId = self.currentStopId;
 	OBATripScheduleV2 * sched = _tripDetails.schedule;
 	NSInteger index = 0;
 	for( OBATripStopTimeV2 * stopTime in sched.stopTimes ) {
@@ -57,47 +80,6 @@ typedef enum {
 	}
 	_currentStopIndex = -1;
 }
-
-#pragma mark -
-#pragma mark View lifecycle
-
-/*
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-*/
-
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
-*/
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
 
 #pragma mark -
 #pragma mark Table view data source
@@ -168,32 +150,31 @@ typedef enum {
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here. Create and push another view controller.
-	/*
-	 <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-	 [self.navigationController pushViewController:detailViewController animated:YES];
-	 [detailViewController release];
-	 */
+
+	OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
+	
+	switch (sectionType) {
+		case OBASectionTypeSchedule:
+			[self tableView:tableView didSelectScheduleRowAtIndexPath:indexPath];
+			break;
+		case OBASectionTypePreviousStops:
+			[self tableView:tableView didSelectPreviousStopsRowAtIndexPath:indexPath];
+			break;			
+		case OBASectionTypeConnections:
+			[self tableView:tableView didSelectConnectionsRowAtIndexPath:indexPath];
+			break;
+		default:
+			break;
+	}
 }
 
 
-#pragma mark -
-#pragma mark Memory management
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Relinquish ownership any cached data, images, etc that aren't in use.
+- (void) showMap:(id)sender {
+	OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithAppContext:_appContext];
+	vc.tripDetails = _tripDetails;
+	vc.currentStopId = self.currentStopId;
+	[self.navigationController replaceViewController:vc animated:TRUE];
 }
-
-- (void)viewDidUnload {
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
-}
-
 
 @end
 
@@ -236,12 +217,28 @@ typedef enum {
 	return count;
 }
 
+- (NSDate*) getStopTimeAsDate:(NSInteger)stopTime {
+	
+	long long serviceDate = 0;
+	NSInteger scheduleDeviation = 0;
+	
+	OBATripStatusV2 * status = _tripDetails.status;
+	if( status ) {
+		serviceDate = status.serviceDate;
+		scheduleDeviation = status.scheduleDeviation;
+	}
+	
+	return [NSDate dateWithTimeIntervalSince1970:(serviceDate/1000 + stopTime + scheduleDeviation)];
+}
+
 - (UITableViewCell*) tableView:(UITableView*)tableView scheduleCellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-	if (! _showPreviousStops && _currentStopIndex > 0 && indexPath.row == 0 ) {
+	BOOL hidingPreviousStops = ! _showPreviousStops && _currentStopIndex > 0;
+	
+	if ( hidingPreviousStops && indexPath.row == 0 ) {
 		
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
-		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.accessoryType = UITableViewCellAccessoryNone;
 		cell.textLabel.text = [NSString stringWithFormat:@"Hiding %d previous stops",_currentStopIndex];
 		cell.textLabel.textColor = [UIColor grayColor];
@@ -252,16 +249,18 @@ typedef enum {
 	
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;		
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
-	NSUInteger index = indexPath.row-1;
-	if( ! _showPreviousStops && _currentStopIndex > 0 )
-		index += _currentStopIndex;
+	NSUInteger index = indexPath.row;
+	
+	if( hidingPreviousStops )
+		index += _currentStopIndex - 1;
 	OBATripStopTimeV2 * stopTime = [stopTimes objectAtIndex:index];
 	OBAStopV2 * stop = stopTime.stop;
 	cell.textLabel.text = stop.name;
 	cell.textLabel.textColor = [UIColor blackColor];
-	cell.detailTextLabel.text = [NSString stringWithFormat:@"time=%d",stopTime.arrivalTime];
+	NSDate * time = [self getStopTimeAsDate:stopTime.arrivalTime];
+	cell.detailTextLabel.text = [_timeFormatter stringFromDate:time];
 	return cell;
 }
 
@@ -284,7 +283,7 @@ typedef enum {
 	if( sched.previousTripId != nil ) {
 		if( indexPath.row == offset ) {
 			OBATripV2 * trip = [sched previousTrip];
-			cell.textLabel.text = [NSString stringWithFormat:@"Inbound from: %@",trip.asLabel];
+			cell.textLabel.text = [NSString stringWithFormat:@"Inbound: %@",trip.asLabel];
 		}
 		offset++;
 	}
@@ -292,12 +291,63 @@ typedef enum {
 	if( sched.nextTripId != nil ) {
 		if( indexPath.row == offset ) {
 			OBATripV2 * trip = [sched nextTrip];
-			cell.textLabel.text = [NSString stringWithFormat:@"Continues as: %@",trip.asLabel];
+			cell.textLabel.text = [NSString stringWithFormat:@"Outbound: %@",trip.asLabel];
 		}
 		offset++;
 	}
 
 	return cell;	
+}
+
+- (void)tableView:(UITableView *)tableView didSelectScheduleRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	BOOL hidingPreviousStops = ! _showPreviousStops && _currentStopIndex > 0;
+	
+	if ( hidingPreviousStops && indexPath.row == 0 )
+		return;
+	
+	NSArray * stopTimes = _tripDetails.schedule.stopTimes;
+	
+	NSUInteger index = indexPath.row;
+	
+	if( hidingPreviousStops )
+		index += _currentStopIndex - 1;
+	OBATripStopTimeV2 * stopTime = [stopTimes objectAtIndex:index];
+	
+	OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stopTime.stopId];
+	[self.navigationController pushViewController:vc animated:TRUE];
+	[vc release];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectPreviousStopsRowAtIndexPath:(NSIndexPath *)indexPath {
+	_showPreviousStops = ! _showPreviousStops;
+	[self.tableView reloadData];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectConnectionsRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	OBATripScheduleV2 * sched = _tripDetails.schedule;
+	
+	NSInteger offset = 0;
+	if( sched.previousTripId != nil ) {
+		if( indexPath.row == offset ) {
+			OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripId:sched.previousTripId];
+			[self.navigationController pushViewController:vc animated:TRUE];
+			[vc release];
+			return;
+		}
+		offset++;
+	}
+	
+	if( sched.nextTripId != nil ) {
+		if( indexPath.row == offset ) {
+			OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripId:sched.nextTripId];
+			[self.navigationController pushViewController:vc animated:TRUE];
+			[vc release];
+			return;
+		}
+		offset++;
+	}
 }
 
 @end

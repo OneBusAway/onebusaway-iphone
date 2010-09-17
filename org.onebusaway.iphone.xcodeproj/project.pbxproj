@@ -248,6 +248,11 @@
 		D671D938121BC10600F398E5 /* OBASearch.m in Sources */ = {isa = PBXBuildFile; fileRef = D671D937121BC10600F398E5 /* OBASearch.m */; };
 		D671D93D121BC26F00F398E5 /* OBASearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D671D93C121BC26F00F398E5 /* OBASearchResult.m */; };
 		D671D950121BC34800F398E5 /* OBASearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = D671D94F121BC34800F398E5 /* OBASearchController.m */; };
+		D67816371222296D00FDED95 /* OBATripStatusV2.m in Sources */ = {isa = PBXBuildFile; fileRef = D67816361222296D00FDED95 /* OBATripStatusV2.m */; };
+		D67816CD12223E2B00FDED95 /* OBATripScheduleMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D67816CC12223E2B00FDED95 /* OBATripScheduleMapViewController.xib */; };
+		D67816DC1222442D00FDED95 /* OBATripScheduleMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D67816DB1222442D00FDED95 /* OBATripScheduleMapViewController.m */; };
+		D67816F612224C1C00FDED95 /* OBAStopIconFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D67816F512224C1C00FDED95 /* OBAStopIconFactory.m */; };
+		D678178C1222527F00FDED95 /* OBATripStopTimeMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D678178B1222527F00FDED95 /* OBATripStopTimeMapAnnotation.m */; };
 		D6789E660FE0BC4700696FE6 /* OBAAgencyWithCoverage.m in Sources */ = {isa = PBXBuildFile; fileRef = D6789E650FE0BC4700696FE6 /* OBAAgencyWithCoverage.m */; };
 		D6789E6B0FE0BE0000696FE6 /* OBACreateManagedEntityJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = D6789E6A0FE0BE0000696FE6 /* OBACreateManagedEntityJsonDigesterRule.m */; };
 		D6789F050FE0EB0500696FE6 /* OBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6789F040FE0EB0500696FE6 /* OBASettingsViewController.m */; };
@@ -672,6 +677,15 @@
 		D671D93C121BC26F00F398E5 /* OBASearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASearchResult.m; path = Control/Search/OBASearchResult.m; sourceTree = "<group>"; };
 		D671D94E121BC34800F398E5 /* OBASearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASearchController.h; path = Control/Search/OBASearchController.h; sourceTree = "<group>"; };
 		D671D94F121BC34800F398E5 /* OBASearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASearchController.m; path = Control/Search/OBASearchController.m; sourceTree = "<group>"; };
+		D67816351222296D00FDED95 /* OBATripStatusV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBATripStatusV2.h; path = Model/V2/OBATripStatusV2.h; sourceTree = "<group>"; };
+		D67816361222296D00FDED95 /* OBATripStatusV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBATripStatusV2.m; path = Model/V2/OBATripStatusV2.m; sourceTree = "<group>"; };
+		D67816CC12223E2B00FDED95 /* OBATripScheduleMapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OBATripScheduleMapViewController.xib; path = Resources/Views/OBATripScheduleMapViewController.xib; sourceTree = "<group>"; };
+		D67816DA1222442D00FDED95 /* OBATripScheduleMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBATripScheduleMapViewController.h; path = View/TripDetails/OBATripScheduleMapViewController.h; sourceTree = "<group>"; };
+		D67816DB1222442D00FDED95 /* OBATripScheduleMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBATripScheduleMapViewController.m; path = View/TripDetails/OBATripScheduleMapViewController.m; sourceTree = "<group>"; };
+		D67816F412224C1C00FDED95 /* OBAStopIconFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAStopIconFactory.h; path = View/OBAStopIconFactory.h; sourceTree = "<group>"; };
+		D67816F512224C1C00FDED95 /* OBAStopIconFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAStopIconFactory.m; path = View/OBAStopIconFactory.m; sourceTree = "<group>"; };
+		D678178A1222527F00FDED95 /* OBATripStopTimeMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBATripStopTimeMapAnnotation.h; path = View/TripDetails/OBATripStopTimeMapAnnotation.h; sourceTree = "<group>"; };
+		D678178B1222527F00FDED95 /* OBATripStopTimeMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBATripStopTimeMapAnnotation.m; path = View/TripDetails/OBATripStopTimeMapAnnotation.m; sourceTree = "<group>"; };
 		D6789E640FE0BC4700696FE6 /* OBAAgencyWithCoverage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAAgencyWithCoverage.h; path = Model/OBAAgencyWithCoverage.h; sourceTree = "<group>"; };
 		D6789E650FE0BC4700696FE6 /* OBAAgencyWithCoverage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAAgencyWithCoverage.m; path = Model/OBAAgencyWithCoverage.m; sourceTree = "<group>"; };
 		D6789E690FE0BE0000696FE6 /* OBACreateManagedEntityJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBACreateManagedEntityJsonDigesterRule.h; path = Control/Digester/OBACreateManagedEntityJsonDigesterRule.h; sourceTree = "<group>"; };
@@ -1121,6 +1135,7 @@
 				D67C49C00F72A41D001782D5 /* MainWindow.xib */,
 				D64C6F6F0FDF0FCC00F0C218 /* OBAProgressIndicatorView.xib */,
 				D67ACC33121F64F700D436C4 /* OBATextEditViewController.xib */,
+				D67816CC12223E2B00FDED95 /* OBATripScheduleMapViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1322,6 +1337,8 @@
 				D6E938341221234E0065ED03 /* OBATripScheduleV2.m */,
 				D6E93837122123D10065ED03 /* OBATripStopTimeV2.h */,
 				D6E93838122123D10065ED03 /* OBATripStopTimeV2.m */,
+				D67816351222296D00FDED95 /* OBATripStatusV2.h */,
+				D67816361222296D00FDED95 /* OBATripStatusV2.m */,
 			);
 			name = V2;
 			sourceTree = "<group>";
@@ -1392,10 +1409,14 @@
 			children = (
 				D67ACB82121F37C700D436C4 /* OBATripDetailsViewController.h */,
 				D67ACB81121F37C700D436C4 /* OBATripDetailsViewController.m */,
-				D67ACB86121F37FB00D436C4 /* OBAReportAProblemViewController.h */,
-				D67ACB87121F37FB00D436C4 /* OBAReportAProblemViewController.m */,
+				D67816DA1222442D00FDED95 /* OBATripScheduleMapViewController.h */,
+				D67816DB1222442D00FDED95 /* OBATripScheduleMapViewController.m */,
 				D6E9383D1221261E0065ED03 /* OBATripScheduleListViewController.h */,
 				D6E9383E1221261E0065ED03 /* OBATripScheduleListViewController.m */,
+				D678178A1222527F00FDED95 /* OBATripStopTimeMapAnnotation.h */,
+				D678178B1222527F00FDED95 /* OBATripStopTimeMapAnnotation.m */,
+				D67ACB86121F37FB00D436C4 /* OBAReportAProblemViewController.h */,
+				D67ACB87121F37FB00D436C4 /* OBAReportAProblemViewController.m */,
 			);
 			name = TripDetails;
 			sourceTree = "<group>";
@@ -1443,6 +1464,8 @@
 				D63C82B610D62D1700B297C4 /* OBAContactUsViewController.m */,
 				D63C82F010D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.h */,
 				D63C82F110D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m */,
+				D67816F412224C1C00FDED95 /* OBAStopIconFactory.h */,
+				D67816F512224C1C00FDED95 /* OBAStopIconFactory.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1791,6 +1814,7 @@
 				D67ACC34121F64F700D436C4 /* OBATextEditViewController.xib in Resources */,
 				D67ACCD31220426F00D436C4 /* OBALabelAndTextFieldTableViewCell.xib in Resources */,
 				D6CE909A1220706A00723F49 /* OBALabelAndSwitchTableViewCell.xib in Resources */,
+				D67816CD12223E2B00FDED95 /* OBATripScheduleMapViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1948,6 +1972,10 @@
 				D6E938351221234E0065ED03 /* OBATripScheduleV2.m in Sources */,
 				D6E93839122123D10065ED03 /* OBATripStopTimeV2.m in Sources */,
 				D6E9383F1221261E0065ED03 /* OBATripScheduleListViewController.m in Sources */,
+				D67816371222296D00FDED95 /* OBATripStatusV2.m in Sources */,
+				D67816DC1222442D00FDED95 /* OBATripScheduleMapViewController.m in Sources */,
+				D67816F612224C1C00FDED95 /* OBAStopIconFactory.m in Sources */,
+				D678178C1222527F00FDED95 /* OBATripStopTimeMapAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

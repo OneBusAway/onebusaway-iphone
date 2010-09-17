@@ -33,6 +33,7 @@
 @property (nonatomic,readonly) CLLocationCoordinate2D center;
 @property (nonatomic,readonly) MKCoordinateSpan span;
 
+- (void) addLat:(double)lat lon:(double)lon;
 - (void) addCoordinate:(CLLocationCoordinate2D)coordinate;
 
 @end

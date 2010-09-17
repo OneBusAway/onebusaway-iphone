@@ -7,10 +7,12 @@
 	OBATripDetailsV2 * _tripDetails;	
 	BOOL _showPreviousStops;
 	NSInteger _currentStopIndex;
+	
+	NSDateFormatter * _timeFormatter;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)context tripDetails:(OBATripDetailsV2*)tripDetails;
 
-- (void) setCurrentStopId:(NSString*)stopId;
+@property (nonatomic,retain) NSString * currentStopId;
 
 @end

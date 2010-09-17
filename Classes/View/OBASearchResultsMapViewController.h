@@ -41,13 +41,9 @@
 
 	OBAGenericAnnotation * _locationAnnotation;
 	
-	UIImage * _defaultStopIcon;
-	NSMutableDictionary * _stopIcons;
-	
 	UIActivityIndicatorView * _activityIndicatorView;
 	OBANetworkErrorAlertViewDelegate * _networkErrorAlertViewDelegate;
 	
-	BOOL _firstView;
 	BOOL _autoCenterOnCurrentLocation;
 	
 	BOOL _currentlyChangingRegion;

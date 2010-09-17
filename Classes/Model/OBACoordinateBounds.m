@@ -55,19 +55,23 @@
 }
 
 - (void) addCoordinate:(CLLocationCoordinate2D)coordinate {
+	[self addLat:coordinate.latitude lon:coordinate.longitude];
+}
+
+- (void) addLat:(double)lat lon:(double)lon {
 	if( _empty ) {
 		_empty = FALSE;
 
-		_minLatitude = coordinate.latitude;
-		_maxLatitude = coordinate.latitude;
-		_minLongitude = coordinate.longitude;
-		_maxLongitude = coordinate.longitude;
+		_minLatitude = lat;
+		_maxLatitude = lat;
+		_minLongitude = lon;
+		_maxLongitude = lon;
 	}
 	else {
-		_minLatitude = MIN(_minLatitude,coordinate.latitude);
-		_maxLatitude = MAX(_maxLatitude,coordinate.latitude);
-		_minLongitude = MIN(_minLongitude,coordinate.longitude);
-		_maxLongitude = MAX(_maxLongitude,coordinate.longitude);
+		_minLatitude = MIN(_minLatitude,lat);
+		_maxLatitude = MAX(_maxLatitude,lat);
+		_minLongitude = MIN(_minLongitude,lon);
+		_maxLongitude = MAX(_maxLongitude,lon);
 	}
 }
 

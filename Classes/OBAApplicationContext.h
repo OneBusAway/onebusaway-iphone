@@ -24,6 +24,7 @@
 #import "OBAReferencesV2.h"
 
 @class OBANearbyTripsController;
+@class OBAStopIconFactory;
 
 @interface OBAApplicationContext : NSObject <UIApplicationDelegate,UITabBarControllerDelegate> {
 	
@@ -33,9 +34,11 @@
 	OBAReferencesV2 * _references;
 	OBAModelDAO * _modelDao;
 	OBAModelService * _modelService;
-
+	
 	OBALocationManager * _locationManager;
 	OBAActivityListeners * _activityListeners;
+
+	OBAStopIconFactory * _stopIconFactory;
 	
 	UIWindow * _window;
 	UITabBarController * _tabBarController;
@@ -47,6 +50,8 @@
 @property (nonatomic,readonly) OBAReferencesV2 * references;
 @property (nonatomic,readonly) OBAModelDAO * modelDao;
 @property (nonatomic,readonly) OBAModelService * modelService;
+
+@property (nonatomic,readonly) OBAStopIconFactory * stopIconFactory;
 
 @property (nonatomic,readonly) OBALocationManager * locationManager;
 @property (nonatomic,readonly) OBAActivityListeners * activityListeners;

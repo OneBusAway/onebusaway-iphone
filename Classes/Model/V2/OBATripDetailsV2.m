@@ -5,6 +5,7 @@
 
 @synthesize tripId;
 @synthesize schedule;
+@synthesize status;
 
 - (OBATripV2*) trip {
 	OBAReferencesV2 * refs = self.references;

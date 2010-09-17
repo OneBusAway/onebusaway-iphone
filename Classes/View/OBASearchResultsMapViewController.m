@@ -31,6 +31,7 @@
 #import "OBAStopViewController.h"
 #import "OBACoordinateBounds.h"
 #import "OBALogger.h"
+#import "OBAStopIconFactory.h"
 
 
 // Radius in meters
@@ -76,7 +77,6 @@ typedef enum  {
 
 @interface OBASearchResultsMapViewController (Private)
 
-- (void) loadIcons;
 - (void) centerMapOnMostRecentLocation;
 - (void) refreshCurrentLocation;
 
@@ -92,8 +92,6 @@ typedef enum  {
 
 - (void) reloadData;
 - (CLLocation*) currentLocation;
-- (UIImage*) getIconForStop:(OBAStopV2*)stop;
-- (NSString*) getRouteIconTypeForStop:(OBAStopV2*)stop;
 
 - (void) setAnnotationsFromResults;
 - (void) setRegionFromResults;
@@ -147,8 +145,6 @@ typedef enum  {
 
 	[_locationAnnotation release];
 	 
-	[_stopIcons release];
-	[_defaultStopIcon release];
 	[_mostRecentLocation release];
 	
 	[_networkErrorAlertViewDelegate release];
@@ -159,8 +155,6 @@ typedef enum  {
 - (void) viewDidLoad {
 	[super viewDidLoad];
 
-	[self loadIcons];
-	
 	_networkErrorAlertViewDelegate = [[OBANetworkErrorAlertViewDelegate alloc] initWithContext:_appContext];
 	
 	CGRect indicatorBounds = CGRectMake(12, 12, 32, 32);
@@ -171,7 +165,6 @@ typedef enum  {
 	
 	_locationAnnotation = nil;
 	
-	_firstView = TRUE;
 	_autoCenterOnCurrentLocation = TRUE;
 	_currentlyChangingRegion = FALSE;
 	
@@ -208,12 +201,6 @@ typedef enum  {
 	[lm addDelegate:self];
 	[lm startUpdatingLocation];
 	[_searchTypeControl setEnabled:lm.locationServicesEnabled forSegmentAtIndex:0];
-	
-	if( _firstView ) {
-		[self centerMapOnMostRecentLocation];
-		[self reloadData];
-		_firstView = FALSE;
-	}
 	
 	[self refreshSearchToolbar];
 }
@@ -391,7 +378,9 @@ typedef enum  {
 		}
 		view.canShowCallout = TRUE;
 		view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-		view.image = [self getIconForStop:stop];
+		
+		OBAStopIconFactory * stopIconFactory = _appContext.stopIconFactory;
+		view.image = [stopIconFactory getIconForStop:stop];
 		return view;
 	}
 	else if( [annotation isKindOfClass:[OBAPlacemark class]] ) {
@@ -499,27 +488,6 @@ typedef enum  {
 #pragma mark OBASearchMapViewController Private Methods
 
 @implementation OBASearchResultsMapViewController (Private)
-
-- (void) loadIcons {
-
-	_stopIcons = [[NSMutableDictionary alloc] init];
-	
-	NSArray * directionIds = [NSArray arrayWithObjects:@"",@"N",@"NE",@"E",@"SE",@"S",@"SW",@"W",@"NW",nil];
-	NSArray * iconTypeIds = [NSArray arrayWithObjects:@"Bus",@"LightRail",@"Rail",@"Ferry",nil];
-
-	for( int j=0; j<[iconTypeIds count]; j++) {
-		NSString * iconType = [iconTypeIds objectAtIndex:j];
-		for( int i=0; i<[directionIds count]; i++) {		
-			NSString * directionId = [directionIds objectAtIndex:i];
-			NSString * key = [NSString stringWithFormat:@"%@StopIcon%@",iconType,directionId];
-			NSString * imageName = [NSString stringWithFormat:@"%@.png",key];
-			UIImage * image = [UIImage imageNamed:imageName];
-			[_stopIcons setObject:image forKey:key];
-		}		
-	}	
-	
-	_defaultStopIcon = [_stopIcons objectForKey:@"BusStopIcon"];
-}
 
 - (void) centerMapOnMostRecentLocation {
 	
@@ -697,41 +665,6 @@ typedef enum  {
     
 	[self refreshSearchToolbar];
 	[self checkResults];
-}
-
-- (UIImage*) getIconForStop:(OBAStopV2*)stop {
-	NSString * routeIconType = [self getRouteIconTypeForStop:stop];
-	NSString * direction = @"";
-	
-	if( stop.direction )
-		direction = stop.direction;
-	
-	NSString * key = [NSString stringWithFormat:@"%@StopIcon%@",routeIconType,direction];
-
-	UIImage * image = [_stopIcons objectForKey:key];
-	
-	if( ! image || [image isEqual:[NSNull null]] )
-		return _defaultStopIcon;
-	
-	return image;
-}
-
-- (NSString*) getRouteIconTypeForStop:(OBAStopV2*)stop {
-	NSMutableSet * routeTypes = [NSMutableSet set];
-	for( OBARouteV2 * route in stop.routes ) {
-		if( route.routeType )
-			[routeTypes addObject:route.routeType];
-	}
-
-	// Heay rail dominations
-	if( [routeTypes containsObject:[NSNumber numberWithInt:4]] )
-		return @"Ferry";
-	else if( [routeTypes containsObject:[NSNumber numberWithInt:2]] )
-		return @"Rail";
-	else if( [routeTypes containsObject:[NSNumber numberWithInt:0]] )
-		return @"LightRail";
-	else
-		return @"Bus";
 }
 
 - (CLLocation*) currentLocation {

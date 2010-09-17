@@ -26,6 +26,7 @@
 #import "OBATripDetailsV2.h"
 #import "OBATripScheduleV2.h"
 #import "OBATripStopTimeV2.h"
+#import "OBATripStatusV2.h"
 
 #import "OBAAgencyWithCoverageV2.h"
 #import "OBAPlacemark.h"
@@ -165,8 +166,6 @@ static NSString * const kReferences = @"references";
 
 - (OBAArrivalsAndDeparturesForStopV2*) getArrivalsAndDeparturesForStopV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error {
 
-	[_references clear];
-	
 	OBAArrivalsAndDeparturesForStopV2 * ads = [[[OBAArrivalsAndDeparturesForStopV2 alloc] initWithReferences:_references] autorelease];
 	
 	OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
@@ -311,6 +310,15 @@ static NSString * const kReferences = @"references";
 	[self addSetPropertyRule:@"stopId" forPrefix:[self extendPrefix:stopTimesPrefix withValue:@"stopId"]];
 	[self addSetNext:@selector(addObject:) forPrefix:stopTimesPrefix];
 	[self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:stopTimesPrefix];
+	
+	NSString * statusPrefix = [self extendPrefix:prefix withValue:@"status"];
+	[self addObjectCreateRule:[OBATripStatusV2 class] forPrefix:statusPrefix];
+	[self addSetPropertyRule:@"serviceDate" forPrefix:[self extendPrefix:statusPrefix withValue:@"serviceDate"]];
+	[self addSetLocationPropertyRule:@"location" withPrefix:[self extendPrefix:statusPrefix withValue:@"position"]];
+	[self addSetPropertyRule:@"predicted" forPrefix:[self extendPrefix:statusPrefix withValue:@"predicted"]];
+	[self addSetPropertyRule:@"scheduleDeviation" forPrefix:[self extendPrefix:statusPrefix withValue:@"scheduleDeviation"]];
+	[self addSetPropertyRule:@"vehicleId" forPrefix:[self extendPrefix:statusPrefix withValue:@"vehicleId"]];
+	[self addSetNext:@selector(setStatus:) forPrefix:statusPrefix];
 }
 
 - (void) addAgencyWithCoverageV2RulesWithPrefix:(NSString*)prefix {

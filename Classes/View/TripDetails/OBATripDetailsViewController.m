@@ -1,5 +1,6 @@
 #import "OBATripDetailsViewController.h"
 #import "OBAUITableViewCell.h"
+#import "OBATripScheduleMapViewController.h"
 #import "OBATripScheduleListViewController.h"
 #import "OBAReportAProblemViewController.h"
 #import "OBALogger.h"
@@ -93,7 +94,9 @@ typedef enum {
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 3;
+	if( _tripDetails )
+		return 3;
+	return 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -153,7 +156,16 @@ typedef enum {
 	switch (sectionType) {
 	
 		case OBASectionTypeSchedule: {
-			if( indexPath.row == 1 ) {
+			
+			if( indexPath.row == 0 ) {
+				if( _tripDetails ) {
+					OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithAppContext:_appContext];
+					vc.tripDetails = _tripDetails;
+					vc.currentStopId = self.currentStopId;
+					[self.navigationController pushViewController:vc animated:TRUE];
+				}
+			}			
+			else if( indexPath.row == 1 ) {
 				if( _tripDetails ) {
 					OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationContext:_appContext tripDetails:_tripDetails];
 					[vc setCurrentStopId:self.currentStopId];

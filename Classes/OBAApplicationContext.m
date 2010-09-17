@@ -36,6 +36,8 @@
 #import "OBAStopViewController.h"
 #import "OBAContactUsViewController.h"
 
+#import "OBAStopIconFactory.h"
+
 #import "OBAUserPreferencesMigration.h"
 
 
@@ -81,6 +83,8 @@ static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15 * 60;
 @synthesize modelDao = _modelDao;
 @synthesize modelService = _modelService;
 
+@synthesize stopIconFactory = _stopIconFactory;
+
 @synthesize window = _window;
 @synthesize tabBarController = _tabBarController;
 
@@ -109,6 +113,8 @@ static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15 * 60;
 		
 		_modelService.locationManager = _locationManager;
 		
+		_stopIconFactory = [[OBAStopIconFactory alloc] init];
+		
 		[self refreshSettings];
 	}
 	return self;
@@ -121,6 +127,8 @@ static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15 * 60;
 	
 	[_locationManager release];
 	[_activityListeners release];
+	
+	[_stopIconFactory release];
 	
 	[_window release];
 	[_tabBarController release];
@@ -347,6 +355,8 @@ static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15 * 60;
 }
 
 - (void) navigateToTargetInternal:(OBANavigationTarget*)navigationTarget {
+	
+	[_references clear];
 	
 	UINavigationController * current = (UINavigationController*) _tabBarController.selectedViewController;
 	if( current )
