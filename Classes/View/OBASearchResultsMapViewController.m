@@ -30,8 +30,8 @@
 #import "OBASearchResultsListViewController.h"
 #import "OBAStopViewController.h"
 #import "OBACoordinateBounds.h"
-#import "OBASearchControllerImpl.h"
 #import "OBALogger.h"
+
 
 // Radius in meters
 static const double kDefaultMapRadius = 100;
@@ -98,6 +98,7 @@ typedef enum  {
 - (void) setAnnotationsFromResults;
 - (void) setRegionFromResults;
 
+- (NSString*) computeSearchFilterString;
 - (NSString*) computeLabelForCurrentResults;
 
 - (MKCoordinateRegion) computeRegionForCurrentResults:(BOOL*)needsUpdate;
@@ -159,9 +160,6 @@ typedef enum  {
 	[super viewDidLoad];
 
 	[self loadIcons];
-	[self centerMapOnMostRecentLocation];
-	
-	_searchController = [[OBASearchControllerImpl alloc] initWithAppContext:_appContext];
 	
 	_networkErrorAlertViewDelegate = [[OBANetworkErrorAlertViewDelegate alloc] initWithContext:_appContext];
 	
@@ -185,10 +183,12 @@ typedef enum  {
 	_pendingRegionChangeRequest = nil;
 	_appliedRegionChangeRequests = [[NSMutableArray alloc] init];
 	
-	_searchController.delegate = self;	
-	_searchController.progress.delegate = self;
 
     self.filterToolbar = [[OBASearchResultsMapFilterToolbar alloc] initWithDelegate:self andAppContext:self.appContext];
+	
+	_searchController = [[OBASearchController alloc] initWithAppContext:_appContext];
+	_searchController.delegate = self;	
+	_searchController.progress.delegate = self;
 }
 
 - (void)viewDidUnload {
@@ -210,11 +210,12 @@ typedef enum  {
 	[_searchTypeControl setEnabled:lm.locationServicesEnabled forSegmentAtIndex:0];
 	
 	if( _firstView ) {
+		[self centerMapOnMostRecentLocation];
 		[self reloadData];
 		_firstView = FALSE;
 	}
 	
-	[self refreshSearchToolbar];
+	[_appContext saveNavigationState];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -229,16 +230,16 @@ typedef enum  {
 #pragma mark OBANavigationTargetAware
 
 - (OBANavigationTarget*) navigationTarget {
-	if( _searchController.searchType == OBASearchControllerSearchTypeRegion )
-		return [OBASearchControllerFactory getNavigationTargetForSearchLocationRegion:_mapView.region];
+	if( _searchController.searchType == OBASearchTypeRegion )
+		return [OBASearch getNavigationTargetForSearchLocationRegion:_mapView.region];
 	else
 		return [_searchController getSearchTarget];
 }
 
 -(void) setNavigationTarget:(OBANavigationTarget*)target {
-
-	OBASearchControllerSearchType type = [OBASearchControllerFactory getSearchTypeForNagivationTarget:target];
-	if( type == OBASearchControllerSearchTypeRegion ) {
+	
+	OBASearchType searchType =  [OBASearch getSearchTypeForNagivationTarget:target];
+	if( searchType == OBASearchTypeRegion ) {
 		NSDictionary * parameters = target.parameters;
 		NSData * data = [parameters objectForKey:kOBASearchControllerSearchArgumentParameter];
 		MKCoordinateRegion region;
@@ -254,14 +255,14 @@ typedef enum  {
 
 #pragma mark OBASearchControllerDelegate Methods
 
-- (void) handleSearchControllerStarted:(OBASearchControllerSearchType)searchType {
-	if( ! (searchType == OBASearchControllerSearchTypeNone || searchType == OBASearchControllerSearchTypeRegion) ) {
+- (void) handleSearchControllerStarted:(OBASearchType)searchType {
+	if( ! (searchType == OBASearchTypeNone || searchType == OBASearchTypeRegion) ) {
 		OBALogDebug(@"search started: unsetting _autoCenterOnCurrentLocation");
 		_autoCenterOnCurrentLocation = FALSE;
 	}	
 }
 
-- (void) handleSearchControllerUpdate:(OBASearchControllerResult*)result {
+- (void) handleSearchControllerUpdate:(OBASearchResult*)result {
 	[self reloadData];
 }
 
@@ -353,8 +354,8 @@ typedef enum  {
 	_autoCenterOnCurrentLocation = (type == OBARegionChangeRequestTypeCurrentLocation);
 	OBALogDebug(@"regionDidChangeAnimated: setting _autoCenterOnCurrentLocation to %d", _autoCenterOnCurrentLocation);
 	
-    const OBASearchControllerSearchType searchType = _searchController.searchType;
-    const BOOL unfilteredSearch = searchType == OBASearchControllerSearchTypeNone || searchType == OBASearchControllerSearchTypeRegion || searchType == OBASearchControllerSearchTypePlacemark;
+    const OBASearchType searchType = _searchController.searchType;
+    const BOOL unfilteredSearch = searchType == OBASearchTypeNone || searchType == OBASearchTypeRegion || searchType == OBASearchTypePlacemark;
     
 	if( _autoCenterOnCurrentLocation && _pendingRegionChangeRequest ) {
 		OBALogDebug(@"applying pending reqest");
@@ -402,7 +403,7 @@ typedef enum  {
 		
 		view.canShowCallout = TRUE;
 		
-		if( _searchController.searchType == OBASearchControllerSearchTypeAddress)
+		if( _searchController.searchType == OBASearchTypeAddress)
 			view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 		else
 			view.rightCalloutAccessoryView = nil;
@@ -457,7 +458,7 @@ typedef enum  {
 	}
 	else if( [annotation isKindOfClass:[OBAPlacemark class]] ) {
 		OBAPlacemark * placemark = annotation;
-		OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchPlacemark:placemark];
+		OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
 		[_searchController searchWithTarget:target];
 	}
 }
@@ -466,7 +467,7 @@ typedef enum  {
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if( buttonIndex == 0 ) {
-		OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchAgenciesWithCoverage];
+		OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
 		[_appContext navigateToTarget:target];
 	}
 }
@@ -480,7 +481,7 @@ typedef enum  {
 
 
 -(IBAction) onListButton:(id)sender {
-	OBASearchControllerResult * result = _searchController.result;
+	OBASearchResult * result = _searchController.result;
 	if( result ) {
 		
 		// Prune down the results to show only what's currently in the map view
@@ -523,12 +524,14 @@ typedef enum  {
 - (void) centerMapOnMostRecentLocation {
 	
 	OBAModelDAO * modelDao = _appContext.modelDao;
-	CLLocation * mostRecentLocation = modelDao.mostRecentLocation;
+	CLLocation * mostRecentLocation = [modelDao.mostRecentLocation retain];
 	
 	if( mostRecentLocation ) {
 		MKCoordinateRegion region = [self getLocationAsRegion:mostRecentLocation];
 		[self setMapRegion:region requestType:OBARegionChangeRequestTypeCurrentLocation];
 	}
+	
+	[mostRecentLocation release];
 }
 
 - (void) refreshCurrentLocation {
@@ -654,7 +657,7 @@ typedef enum  {
 		CLLocationCoordinate2D p = {0,0};
 		_mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0,0));
 		
-		OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchNone];
+		OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchNone];
 		[_searchController searchWithTarget:target];
 	} else {
 		span.latitudeDelta  *= kRegionScaleFactor;
@@ -663,7 +666,7 @@ typedef enum  {
 	
 		_mostRecentRegion = region;
 	
-		OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchLocationRegion:region];
+		OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchLocationRegion:region];
 		[_searchController searchWithTarget:target];
 	}
 }
@@ -671,16 +674,16 @@ typedef enum  {
 - (void) refreshSearchToolbar {
 	// show the UIToolbar at the bottom of the view controller
 	//
-    NSString * searchFilterDesc = [_searchController searchFilterString];
+    NSString * searchFilterDesc = [self computeSearchFilterString];
     if (searchFilterDesc != nil)
         [self.filterToolbar showWithDescription:searchFilterDesc animated:NO];	
 }
 
 - (void) reloadData {
-	OBASearchControllerResult * result = _searchController.result;
+	OBASearchResult * result = _searchController.result;
 	_listButton.enabled = (result != nil);
 	
-	if( result && result.searchType == OBASearchControllerSearchTypeRoute && [result.values count] > 0) {
+	if( result && result.searchType == OBASearchTypeRoute && [result.values count] > 0) {
 		[self performSelector:@selector(onListButton:) withObject:self afterDelay:1];
 		return;
 	}
@@ -749,12 +752,12 @@ typedef enum  {
 - (void) setAnnotationsFromResults {
 	NSMutableArray * annotations = [[NSMutableArray alloc] init];
 	
-	OBASearchControllerResult * result = _searchController.result;
+	OBASearchResult * result = _searchController.result;
 	
 	if( result ) {
 		[annotations addObjectsFromArray:result.values];
 
-		if( result.searchType == OBASearchControllerSearchTypeAgenciesWithCoverage ) {		   
+		if( result.searchType == OBASearchTypeAgenciesWithCoverage ) {		   
 			for( OBAAgencyWithCoverageV2 * agencyWithCoverage in result.values ) {
 				OBAAgencyV2 * agency = agencyWithCoverage.agency;
 				OBANavigationTargetAnnotation * an = [[OBANavigationTargetAnnotation alloc] initWithTitle:agency.name subtitle:nil coordinate:agencyWithCoverage.coordinate target:nil];
@@ -791,8 +794,37 @@ typedef enum  {
 	[annotations release];
 }
 
+- (NSString*) computeSearchFilterString {
+
+	OBASearchType type = _searchController.searchType;
+	id param = _searchController.searchParameter;
+
+	switch(type) {
+		case OBASearchTypeRoute:
+			return [NSString stringWithFormat:@"Route %@", param];	
+		case OBASearchTypeRouteStops: {
+			OBARouteV2 * route = [_appContext.references getRouteForId:param];
+			if( route )
+				return [NSString stringWithFormat:@"Route %@", [route safeShortName]];
+			return @"Route";
+		}
+		case OBASearchTypeStopId:
+			return [NSString stringWithFormat:@"Stop # %@", param];	
+		case OBASearchTypeAgenciesWithCoverage:
+			return @"Transit Agencies";
+		case OBASearchTypeAddress:
+			return param;
+		case OBASearchTypeNone:			
+		case OBASearchTypeRegion:
+		case OBASearchTypePlacemark:
+			return nil;
+	}
+	
+	return nil;
+}
+
 - (NSString*) computeLabelForCurrentResults {
-	OBASearchControllerResult * result = _searchController.result;
+	OBASearchResult * result = _searchController.result;
 	
 	MKCoordinateRegion region = _mapView.region;
 	MKCoordinateSpan span = region.span;
@@ -805,15 +837,15 @@ typedef enum  {
 		return defaultLabel;
 
 	switch( result.searchType ) {
-		case OBASearchControllerSearchTypeRoute:
-		case OBASearchControllerSearchTypeRouteStops:	
-		case OBASearchControllerSearchTypeAddress:
-		case OBASearchControllerSearchTypeAgenciesWithCoverage:
-		case OBASearchControllerSearchTypeStopId:
+		case OBASearchTypeRoute:
+		case OBASearchTypeRouteStops:	
+		case OBASearchTypeAddress:
+		case OBASearchTypeAgenciesWithCoverage:
+		case OBASearchTypeStopId:
 			return nil;
             
-		case OBASearchControllerSearchTypePlacemark:
-		case OBASearchControllerSearchTypeRegion: {
+		case OBASearchTypePlacemark:
+		case OBASearchTypeRegion: {
 			if( result.outOfRange )
 				return @"Out of OneBusAway service area.";
 			if( result.limitExceeded )
@@ -824,7 +856,7 @@ typedef enum  {
             return defaultLabel;
 		}
             
-		case OBASearchControllerSearchTypeNone:			
+		case OBASearchTypeNone:			
 			return defaultLabel;
 	}
     
@@ -847,7 +879,7 @@ typedef enum  {
 	
 	*needsUpdate = TRUE;
 	
-	OBASearchControllerResult * result = _searchController.result;
+	OBASearchResult * result = _searchController.result;
 	
 	if( ! result ) {
 		OBALocationManager * lm = _appContext.locationManager;
@@ -863,19 +895,19 @@ typedef enum  {
 	}
 	
 	switch(result.searchType) {
-		case OBASearchControllerSearchTypeStopId:
+		case OBASearchTypeStopId:
 			return [self computeRegionForNClosestStops:result.values center:[self currentLocation] numberOfStops:kShowNClosestStops];
-		case OBASearchControllerSearchTypeRoute:
-		case OBASearchControllerSearchTypeRouteStops:	
+		case OBASearchTypeRoute:
+		case OBASearchTypeRouteStops:	
 			return [self computeRegionForNearbyStops:result.values];
-		case OBASearchControllerSearchTypePlacemark:
+		case OBASearchTypePlacemark:
 			return [self computeRegionForPlacemarks:result.additionalValues andStops:result.values];
-		case OBASearchControllerSearchTypeAddress:
+		case OBASearchTypeAddress:
 			return [self computeRegionForPlacemarks:result.values];
-		case OBASearchControllerSearchTypeAgenciesWithCoverage:
+		case OBASearchTypeAgenciesWithCoverage:
 			return [self computeRegionForAgenciesWithCoverage:result.values];
-		case OBASearchControllerSearchTypeNone:
-		case OBASearchControllerSearchTypeRegion:
+		case OBASearchTypeNone:
+		case OBASearchTypeRegion:
 		default:
 			*needsUpdate = FALSE;
 			return _mapView.region;
@@ -1050,20 +1082,20 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 
 - (void) checkResults {
 	
-	OBASearchControllerResult * result = _searchController.result;
+	OBASearchResult * result = _searchController.result;
 	if( ! result )
 		return;
 	
 	switch (result.searchType) {
-		case OBASearchControllerSearchTypeRegion:
-		case OBASearchControllerSearchTypePlacemark:
+		case OBASearchTypeRegion:
+		case OBASearchTypePlacemark:
 			[self checkOutOfRangeResults];
 			break;
-		case OBASearchControllerSearchTypeRoute:			
+		case OBASearchTypeRoute:			
 			if( ! [self checkOutOfRangeResults] )
 				[self checkNoRouteResults];
 			break;
-		case OBASearchControllerSearchTypeAddress:
+		case OBASearchTypeAddress:
 			if( ! [self checkOutOfRangeResults] )
 				[self checkNoPlacemarksResults];
 			break;
@@ -1073,21 +1105,21 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 }
 
 - (BOOL) checkOutOfRangeResults {
-	OBASearchControllerResult * result = _searchController.result;
+	OBASearchResult * result = _searchController.result;
 	if( result.outOfRange )
 		[self showNoResultsAlertWithTitle: @"Out of range" prompt:@"You are outside the OneBusAway service area."];
 	return result.outOfRange;
 }
 
 - (void) checkNoRouteResults {
-	OBASearchControllerResult * result = _searchController.result;
+	OBASearchResult * result = _searchController.result;
 	if( [result.values count] == 0 ) {
 		[self showNoResultsAlertWithTitle: @"No routes found" prompt:@"No routes were found for your search."];
 	}
 }
 
 - (void) checkNoPlacemarksResults {
-	OBASearchControllerResult * result = _searchController.result;
+	OBASearchResult * result = _searchController.result;
 	if( [result.values count] == 0 ) {
 		_listButton.enabled = FALSE;
 		[self showNoResultsAlertWithTitle: @"No places found" prompt:@"No places were found for your search."];

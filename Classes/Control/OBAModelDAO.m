@@ -37,7 +37,7 @@ const static int kMaxEntriesInMostRecentList = 10;
 		_bookmarks = [[NSMutableArray alloc] initWithArray:[_preferencesDao readBookmarks]];
 		_mostRecentStops = [[NSMutableArray alloc] initWithArray:[_preferencesDao readMostRecentStops]];
 		_stopPreferences = [[NSMutableDictionary alloc] initWithDictionary:[_preferencesDao readStopPreferences]];
-		_mostRecentLocation = [_preferencesDao readMostRecentLocation];
+		_mostRecentLocation = [[_preferencesDao readMostRecentLocation] retain];
 	}
 	return self;
 }
@@ -64,7 +64,7 @@ const static int kMaxEntriesInMostRecentList = 10;
 }
 
 - (void) setMostRecentLocation:(CLLocation*)location {
-	_mostRecentLocation = location;
+	_mostRecentLocation = [NSObject releaseOld:_mostRecentLocation retainNew:location];
 	[_preferencesDao writeMostRecentLocation:location];
 }
 

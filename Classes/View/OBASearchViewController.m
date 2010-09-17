@@ -23,7 +23,7 @@
 
 
 const static int kSearchTableViewCellHeight = 127;
-static NSString * kOBASearchType = @"kOBASearchType";
+static NSString * kOBASearchViewType = @"kOBASearchViewType";
 static NSString * kOBASearchValue = @"kOBASearchValue";
 
 @interface OBASearchViewController (Private)
@@ -39,8 +39,8 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 @synthesize searchField = _searchField;
 @synthesize cancelButton = _cancelButton;
 
-+ (NSDictionary*) getParametersForSearchType:(OBASearchType)searchType {
-	return [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:searchType] forKey:kOBASearchType];
++ (NSDictionary*) getParametersForSearchType:(OBASearchViewType)searchType {
+	return [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:searchType] forKey:kOBASearchViewType];
 }
 
 - (void)dealloc {
@@ -62,7 +62,7 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	_currentSearchType = OBASearchTypeByRoute;
+	_currentSearchType = OBASearchViewTypeByRoute;
 	_navigationTarget = [[OBANavigationTarget alloc] initWithTarget:OBANavigationTargetTypeSearch];
 	
 	self.navigationItem.rightBarButtonItem = nil;
@@ -71,15 +71,15 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 	_searchCell = [[nib1 objectAtIndex:0] retain];
 	
 	switch (_currentSearchType) {
-		case OBASearchTypeByRoute:
+		case OBASearchViewTypeByRoute:
 			_searchTypeControl.selectedSegmentIndex = 0;
 			[_searchField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
 			break;
-		case OBASearchTypeByAddress:
+		case OBASearchViewTypeByAddress:
 			_searchTypeControl.selectedSegmentIndex = 1;
 			[_searchField setKeyboardType:UIKeyboardTypeDefault];
 			break;
-		case OBASearchTypeByStop:
+		case OBASearchViewTypeByStop:
 			_searchTypeControl.selectedSegmentIndex = 2;
 			[_searchField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
 			break;
@@ -99,6 +99,8 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 	
 	OBALocationManager * lm = _appContext.locationManager;
 	[lm startUpdatingLocation];
+	
+	[_appContext saveNavigationState];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -133,13 +135,13 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 
 - (IBAction)onSearchTypeButton:(id)sender {
 	switch(_currentSearchType) {
-		case OBASearchTypeByRoute:
+		case OBASearchViewTypeByRoute:
 			_routeSavedValue = [_searchField.text retain];
 			break;
-		case OBASearchTypeByAddress:
+		case OBASearchViewTypeByAddress:
 			_addressSavedValue = [_searchField.text retain];
 			break;
-		case OBASearchTypeByStop:
+		case OBASearchViewTypeByStop:
 			_stopIdSavedValue = [_searchField.text retain];
 			break;
 	}
@@ -150,21 +152,21 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 		case 0:
 			[_searchField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
 			_searchField.placeholder = @"Search by route";
-			_currentSearchType = OBASearchTypeByRoute;
+			_currentSearchType = OBASearchViewTypeByRoute;
 			savedValue = _routeSavedValue;
 			break;
             
 		case 1:
 			[_searchField setKeyboardType:UIKeyboardTypeDefault];
 			_searchField.placeholder = @"Search by address";
-			_currentSearchType = OBASearchTypeByAddress;
+			_currentSearchType = OBASearchViewTypeByAddress;
 			savedValue = _addressSavedValue;
 			break;
 	
         case 2:
 			[_searchField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
 			_searchField.placeholder = @"Search by stop #";
-			_currentSearchType = OBASearchTypeByStop;
+			_currentSearchType = OBASearchViewTypeByStop;
 			savedValue = _stopIdSavedValue;
 			break;
 		
@@ -202,15 +204,15 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 	[_navigationTarget setParameter:textField.text forKey:kOBASearchValue];
 	
 	switch (_currentSearchType) {
-		case OBASearchTypeByRoute:
+		case OBASearchViewTypeByRoute:
 			[self handleRouteSearch:textField.text];
 			break;
             
-		case OBASearchTypeByStop:
+		case OBASearchViewTypeByStop:
 			[self handleStopSearch:textField.text];
 			break;
 	
-        case OBASearchTypeByAddress:
+        case OBASearchViewTypeByAddress:
 			[self handleAddressSearch:textField.text];
 			break;
 		
@@ -232,17 +234,17 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 @implementation OBASearchViewController (Private)
 
 - (void)handleRouteSearch:(NSString*)query {
-	OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchRoute:query];
+	OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchRoute:query];
 	[_appContext navigateToTarget:target];
 }
 
 - (void)handleAddressSearch:(NSString*)query {
-	OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchAddress:query];
+	OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAddress:query];
 	[_appContext navigateToTarget:target];
 }
 
 - (void)handleStopSearch:(NSString*)query {
-	OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchStopCode:query];
+	OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchStopCode:query];
 	[_appContext navigateToTarget:target];
 }
 

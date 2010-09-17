@@ -20,13 +20,13 @@
 
 
 typedef enum {
-	OBASearchTypeByStop, OBASearchTypeByRoute, OBASearchTypeByAddress
-} OBASearchType;
+	OBASearchViewTypeByStop, OBASearchViewTypeByRoute, OBASearchViewTypeByAddress
+} OBASearchViewType;
 
 
 @interface OBASearchViewController : UITableViewController <OBANavigationTargetAware,UITextFieldDelegate> {
 	OBAApplicationContext * _appContext;	
-	OBASearchType _currentSearchType;
+	OBASearchViewType _currentSearchType;
 	OBANavigationTarget * _navigationTarget;
 
 	UISegmentedControl * _searchTypeControl;
@@ -44,7 +44,7 @@ typedef enum {
 @property (nonatomic,retain) IBOutlet UITextField * searchField;
 @property (nonatomic,retain) IBOutlet UIBarButtonItem * cancelButton;
 
-+ (NSDictionary*) getParametersForSearchType:(OBASearchType)searchType;
++ (NSDictionary*) getParametersForSearchType:(OBASearchViewType)searchType;
 
 - (IBAction) onSearchTypeButton:(id)sender;
 - (IBAction) onCancelButton:(id)sender;

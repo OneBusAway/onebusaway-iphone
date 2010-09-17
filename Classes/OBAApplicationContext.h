@@ -52,6 +52,7 @@
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UITabBarController * tabBarController;
 
+@property (nonatomic,readonly) OBAReferencesV2 * references;
 @property (nonatomic,readonly) OBAModelDAO * modelDao;
 @property (nonatomic,readonly) OBAModelFactory * modelFactory;
 @property (nonatomic,readonly) OBAModelService * modelService;
@@ -66,6 +67,7 @@
 
 @property (nonatomic,assign) BOOL locationAware;
 
+- (void) saveNavigationState;
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget;
 
 @end

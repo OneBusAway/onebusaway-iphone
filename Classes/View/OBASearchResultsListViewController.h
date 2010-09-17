@@ -22,9 +22,9 @@
 
 @interface OBASearchResultsListViewController : UITableViewController {
 	OBAApplicationContext * _appContext;
-	OBASearchControllerResult * _result;
+	OBASearchResult * _result;
 }
 
-- (id) initWithContext:(OBAApplicationContext*)appContext searchControllerResult:(OBASearchControllerResult*)result;
+- (id) initWithContext:(OBAApplicationContext*)appContext searchControllerResult:(OBASearchResult*)result;
 
 @end

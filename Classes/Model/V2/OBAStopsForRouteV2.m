@@ -4,6 +4,8 @@
 
 @implementation OBAStopsForRouteV2
 
+@synthesize routeId = _routeId;
+
 - (id) initWithReferences:(OBAReferencesV2*)refs {
 	if(self = [super initWithReferences:refs]) {
 		_stopIds = [[NSMutableArray alloc] init];
@@ -12,12 +14,17 @@
 }
 
 - (void) dealloc {
+	[_routeId release];
 	[_stopIds release];
 	[super dealloc];
 }
 
 - (void) addStopId:(NSString*)stopId {
 	[_stopIds addObject:stopId];
+}
+
+- (OBARouteV2*) route {
+	return [_references getRouteForId:_routeId];
 }
 
 - (NSArray*) stops {

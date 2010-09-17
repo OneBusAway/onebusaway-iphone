@@ -33,6 +33,13 @@
 	[super dealloc];
 }
 
+#pragma mark UIViewController
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+	[_appContext saveNavigationState];
+}
+
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

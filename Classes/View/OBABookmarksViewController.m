@@ -47,6 +47,8 @@
 	// We reload the table here in case we are coming back from the user editing the label for a bookmark
 	[self refreshBookmarks];
 	[self.tableView reloadData];
+	
+	[_appContext saveNavigationState];
 }
 
 #pragma mark Table view methods

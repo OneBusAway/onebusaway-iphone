@@ -32,7 +32,7 @@
 	
 	OBAApplicationContext * _appContext;
 	
-	OBASearchControllerImpl * _searchController;
+	OBASearchController * _searchController;
 	
 	MKMapView * _mapView;
 	UISegmentedControl * _searchTypeControl;

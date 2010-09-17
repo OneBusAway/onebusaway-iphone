@@ -154,6 +154,7 @@ typedef enum {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
 	}
 	
+	[_appContext saveNavigationState];
 	[self refresh];
 }
 
@@ -564,7 +565,7 @@ typedef enum {
 		case 2: {
 			OBAStopV2 * stop = _result.stop;
 			MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:stop.coordinate latRadius:kNearbyStopRadius lonRadius:kNearbyStopRadius];
-			OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchLocationRegion:region];
+			OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchLocationRegion:region];
 			[_appContext navigateToTarget:target];
 			break;
 		}

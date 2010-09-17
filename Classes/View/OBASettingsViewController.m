@@ -58,6 +58,8 @@ typedef enum {
 	// Release any cached data, images, etc that aren't in use.
 }
 
+#pragma mark UIViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -70,6 +72,10 @@ typedef enum {
 	// e.g. self.myOutlet = nil;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+	[_appContext saveNavigationState];
+}
 
 #pragma mark Table view methods
 
@@ -138,7 +144,7 @@ typedef enum {
 	
 	switch(rowType) {
 		case OBARowAgencies: {
-			OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchAgenciesWithCoverage];
+			OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
 			[_appContext navigateToTarget:target];
 			break;
 		}

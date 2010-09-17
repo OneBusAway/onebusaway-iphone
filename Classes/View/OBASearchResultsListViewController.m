@@ -34,7 +34,7 @@
 
 @implementation OBASearchResultsListViewController
 
-- (id) initWithContext:(OBAApplicationContext*)appContext searchControllerResult:(OBASearchControllerResult*)result {
+- (id) initWithContext:(OBAApplicationContext*)appContext searchControllerResult:(OBASearchResult*)result {
 	
 	// Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
@@ -54,6 +54,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 	[self reloadData];
+	[_appContext saveNavigationState];
 }
 
 #pragma mark Table view methods
@@ -66,15 +67,15 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	switch (_result.searchType) {
-		case OBASearchControllerSearchTypeNone:
+		case OBASearchTypeNone:
 			return 0;
-		case OBASearchControllerSearchTypeRegion:
-		case OBASearchControllerSearchTypePlacemark:
-		case OBASearchControllerSearchTypeStopId:			
-		case OBASearchControllerSearchTypeRouteStops:
-		case OBASearchControllerSearchTypeRoute:			
-		case OBASearchControllerSearchTypeAddress:
-		case OBASearchControllerSearchTypeAgenciesWithCoverage:
+		case OBASearchTypeRegion:
+		case OBASearchTypePlacemark:
+		case OBASearchTypeStopId:			
+		case OBASearchTypeRouteStops:
+		case OBASearchTypeRoute:			
+		case OBASearchTypeAddress:
+		case OBASearchTypeAgenciesWithCoverage:
 			return [_result count];
 		default:
 			return 0;
@@ -85,15 +86,15 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
 	switch (_result.searchType) {
-		case OBASearchControllerSearchTypeNone: {
+		case OBASearchTypeNone: {
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 			cell.textLabel.text = @"No search results";
 			return cell;
 		}
-		case OBASearchControllerSearchTypeRegion:
-		case OBASearchControllerSearchTypePlacemark:
-		case OBASearchControllerSearchTypeStopId:			
-		case OBASearchControllerSearchTypeRouteStops: {
+		case OBASearchTypeRegion:
+		case OBASearchTypePlacemark:
+		case OBASearchTypeStopId:			
+		case OBASearchTypeRouteStops: {
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
 			OBAStopV2 * stop = [_result.values objectAtIndex:indexPath.row];
 			cell.textLabel.text = stop.name;
@@ -101,7 +102,7 @@
 			cell.detailTextLabel.text = [self getStopDetail:stop];
 			return cell;
 		}
-		case OBASearchControllerSearchTypeRoute: {		
+		case OBASearchTypeRoute: {		
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
 			OBARouteV2 * route = [_result.values objectAtIndex:indexPath.row];
 			OBAAgencyV2 * agency = route.agency;
@@ -110,14 +111,14 @@
 			cell.detailTextLabel.text = agency.name;
 			return cell;
 		}
-		case OBASearchControllerSearchTypeAddress: {
+		case OBASearchTypeAddress: {
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 			OBAPlacemark * placemark = [_result.values objectAtIndex:indexPath.row];
 			cell.textLabel.text = [placemark title];
 			cell.textLabel.adjustsFontSizeToFitWidth = TRUE;
 			return cell;
 		}
-		case OBASearchControllerSearchTypeAgenciesWithCoverage: {
+		case OBASearchTypeAgenciesWithCoverage: {
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 			OBAAgencyWithCoverageV2 * awc = [_result.values objectAtIndex:indexPath.row];
 			OBAAgencyV2 * agency = awc.agency;
@@ -140,13 +141,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	switch (_result.searchType) {
-		case OBASearchControllerSearchTypeNone: {
+		case OBASearchTypeNone: {
 			break;
 		}
-		case OBASearchControllerSearchTypeRegion:
-		case OBASearchControllerSearchTypePlacemark:
-		case OBASearchControllerSearchTypeStopId:			
-		case OBASearchControllerSearchTypeRouteStops: {
+		case OBASearchTypeRegion:
+		case OBASearchTypePlacemark:
+		case OBASearchTypeStopId:			
+		case OBASearchTypeRouteStops: {
 			
 			OBAStopV2 * stop = [_result.values objectAtIndex:indexPath.row];
 			OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stop.stopId];
@@ -154,19 +155,19 @@
 			[vc release];
 			break;
 		}
-		case OBASearchControllerSearchTypeRoute: {		
+		case OBASearchTypeRoute: {		
 			OBARouteV2 * route = [_result.values objectAtIndex:indexPath.row];
-			OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchRouteStops:route.routeId];
+			OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchRouteStops:route.routeId];
 			[_appContext navigateToTarget:target];
 			break;
 		}
-		case OBASearchControllerSearchTypeAddress: {
+		case OBASearchTypeAddress: {
 			OBAPlacemark * placemark = [_result.values objectAtIndex:indexPath.row];
-			OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchPlacemark:placemark];
+			OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
 			[_appContext navigateToTarget:target];
 			break;
 		}
-		case OBASearchControllerSearchTypeAgenciesWithCoverage: {
+		case OBASearchTypeAgenciesWithCoverage: {
 			//OBAAgencyWithCoverage * awc = [_result.agenciesWithCoverage objectAtIndex:indexPath.row];
 			//OBAAgency * agency = awc.agency;
 			// When agencies can be selected, make sure to change their cell's selectionStyle above
@@ -189,22 +190,22 @@
 - (void) reloadData {
 	
 	switch (_result.searchType) {
-		case OBASearchControllerSearchTypeNone:
+		case OBASearchTypeNone:
 			self.navigationItem.title = @"";
 			break;
-		case OBASearchControllerSearchTypeRegion:
-		case OBASearchControllerSearchTypePlacemark:
-		case OBASearchControllerSearchTypeStopId:			
-		case OBASearchControllerSearchTypeRouteStops:
+		case OBASearchTypeRegion:
+		case OBASearchTypePlacemark:
+		case OBASearchTypeStopId:			
+		case OBASearchTypeRouteStops:
 			self.navigationItem.title = @"Stops";
 			break;
-		case OBASearchControllerSearchTypeRoute:		
+		case OBASearchTypeRoute:		
 			self.navigationItem.title = @"Routes";
 			break;
-		case OBASearchControllerSearchTypeAddress:
+		case OBASearchTypeAddress:
 			self.navigationItem.title = @"Places";
 			break;
-		case OBASearchControllerSearchTypeAgenciesWithCoverage:
+		case OBASearchTypeAgenciesWithCoverage:
 			self.navigationItem.title = @"Agencies";
 			break;
 		default:			
