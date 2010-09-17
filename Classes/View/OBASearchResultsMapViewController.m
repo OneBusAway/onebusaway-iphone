@@ -117,8 +117,6 @@ static const NSUInteger kShowNClosestStops = 4;
 
 -(void) dealloc {
 	
-	_mapView.delegate = nil;
-	
 	[_appContext release];
 	[_context release];
 	
@@ -140,7 +138,6 @@ static const NSUInteger kShowNClosestStops = 4;
 	[super loadView];
 	
 	_mapView = [[MKMapView alloc]initWithFrame:CGRectMake(0.0, 0.0, 120, 180)];
-	_mapView.delegate = self;
 	
 	// Center our map on our most recent location, or a default if not present
 	CLLocationCoordinate2D defaultCenter = {0,0};
@@ -161,12 +158,16 @@ static const NSUInteger kShowNClosestStops = 4;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 	//[self reloadData];
+	_mapView.delegate = self;
 	[_appContext.locationManager addDelegate:self];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	NSLog(@"View will dissapear");
+	_mapView.delegate = nil;
+	
+
 	[_appContext.locationManager removeDelegate:self];
 }
 

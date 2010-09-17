@@ -59,6 +59,7 @@
     [super viewWillAppear:animated];
 
 	// We reload the table here in case we are coming back from the user editing the label for a bookmark
+	[self refreshBookmarks];
 	[self.tableView reloadData];
 }
 

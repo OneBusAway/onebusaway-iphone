@@ -48,6 +48,7 @@
  
 	OBAModelDAO * modelDao = _appContext.modelDao;	
 	_mostRecentStops = [NSObject releaseOld:_mostRecentStops retainNew:modelDao.mostRecentStops];
+	[self.tableView reloadData];
 }
 
 #pragma mark Table view methods
