@@ -43,9 +43,6 @@
 
 #import "OBANearbyTripsController.h"
 
-#import "ISFeedback.h"
-
-
 static NSString * kOBAHiddenPreferenceLocationAwareDisabled = @"OBALocationAwareDisabled";
 static NSString * kOBAHiddenPreferenceSavedNavigationTargets = @"OBASavedNavigationTargets";
 static NSString * kOBAHiddenPreferenceApplicationTerminationTimestamp = @"OBAApplicationTerminationTimestamp";
@@ -54,7 +51,7 @@ static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 static NSString * kOBAPreferenceShowOnStartup = @"oba_show_on_start_preference";
 static NSString * kOBAPreferenceClearLocalCacheOnStartup = @"oba_clear_local_cache_preference";
 
-static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15*60;
+//static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15 * 60; // we now always restore state
 static const BOOL kDeleteModelOnStartup = FALSE;
 
 @interface OBAApplicationContext (Private)
@@ -122,16 +119,16 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 }
 
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget {
-	
 	switch (navigationTarget.target) {
 		case OBANavigationTargetTypeSearchResults: {
 			UINavigationController * mapNavController = [_tabBarController.viewControllers objectAtIndex:0];
 			OBASearchResultsMapViewController * searchResultsMapViewController = [mapNavController.viewControllers objectAtIndex:0];
 			[searchResultsMapViewController setNavigationTarget:navigationTarget];
 			_tabBarController.selectedIndex = 0;
-			[mapNavController  popToRootViewControllerAnimated:FALSE];
+			[mapNavController popToRootViewControllerAnimated:FALSE];
 			break;
 		}
+
 		case OBANavigationTargetTypeContactUs: {
 			UINavigationController * detailsNavController = [_tabBarController.viewControllers objectAtIndex:4];
 			[detailsNavController popToRootViewControllerAnimated:FALSE];
@@ -160,7 +157,6 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 #pragma mark UIApplicationDelegate Methods
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {	
-	
 	[self setup];
 	
 	_tabBarController.delegate = self;
@@ -183,13 +179,16 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 	_active = FALSE;
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application {
-	
-	CLLocation * location = _locationManager.currentLocation;
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    CLLocation * location = _locationManager.currentLocation;
 	if( location )
 		_modelDao.mostRecentLocation = location;
 	
-	[self saveApplicationNavigationState];	
+	[self saveApplicationNavigationState];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+	[self applicationDidEnterBackground:application]; // call for iOS < 4.0 devices
 	[self teardown];
 }
 
@@ -314,8 +313,6 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 			[_nearbyTripsController start];
 		}
 	}
-	
-	[ISFeedback initSharedInstance:@"b1b94280-e1bf-4d7c-a657-72aa1d25e49e"];
 }
 
 - (void) teardown {	
@@ -325,12 +322,12 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 		}
 		[_activityLogger stop];
 	}
+
 	if( _locationAware )
 		[_locationManager stopUpdatingLocation];
 }	
 
 - (void) saveApplicationNavigationState {
-
 	UINavigationController * navController = (UINavigationController*) _tabBarController.selectedViewController;
 
 	NSMutableArray * targets = [[NSMutableArray alloc] init];
@@ -345,45 +342,55 @@ static const BOOL kDeleteModelOnStartup = FALSE;
 		[targets addObject:target];
 	}
 	
-	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:targets];
-	NSData *dateData = [NSKeyedArchiver archivedDataWithRootObject:[NSDate date]];
-	
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+	
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:targets];
 	[userDefaults setObject:data forKey:kOBAHiddenPreferenceSavedNavigationTargets];
-	[userDefaults setObject:dateData forKey:kOBAHiddenPreferenceApplicationTerminationTimestamp];
-	if( kIncludeUWUserStudyCode )
+	
+    //NSData *dateData = [NSKeyedArchiver archivedDataWithRootObject:[NSDate date]];
+	//[userDefaults setObject:dateData forKey:kOBAHiddenPreferenceApplicationTerminationTimestamp];
+	
+    if( kIncludeUWUserStudyCode )
 		[userDefaults setBool:(!_locationAware) forKey:kOBAHiddenPreferenceLocationAwareDisabled];
+
 	[targets release];	
 }
 
 - (void) restoreApplicationNavigationState {
-
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	
 	NSInteger showOnStartup = [userDefaults integerForKey:kOBAPreferenceShowOnStartup];
 
 	if( 0 <= showOnStartup && showOnStartup < 4 )
 		_tabBarController.selectedIndex = showOnStartup;
-
-	// We only restore the application state if it's been less than x minutes
-	// The idea is that, typically, if it's been more than x minutes, you've moved
-	// on from the stop you were looking at, so we should just return to the home
-	// screen
-	NSData * dateData = [userDefaults objectForKey:kOBAHiddenPreferenceApplicationTerminationTimestamp];
+    
+    //
+    // On iOS 4.0 the default expectaton is that state will be restored, so
+    // we no longer check if we should restore state and instead do it
+    // consistently.
+    //
+/*
+    // We only restore the application state if it's been less than x minutes
+    // The idea is that, typically, if it's been more than x minutes, you've moved
+    // on from the stop you were looking at, so we should just return to the home
+    // screen
+ 
+    NSData * dateData = [userDefaults objectForKey:kOBAHiddenPreferenceApplicationTerminationTimestamp];
 	if( ! dateData ) 
 		return;
 	NSDate * date = [NSKeyedUnarchiver unarchiveObjectWithData:dateData];
 	if( ! date || (-[date timeIntervalSinceNow]) > kMaxTimeSinceApplicationTerminationToRestoreState )
 		return;
+*/
+
+	NSData *restoreStateData = [userDefaults objectForKey:kOBAHiddenPreferenceSavedNavigationTargets];
 	
-	NSData *data = [userDefaults objectForKey:kOBAHiddenPreferenceSavedNavigationTargets];
-	
-	if( ! data )
+	if(!restoreStateData)
 		return;
 	
-	NSArray * targets = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+	NSArray * targets = [NSKeyedUnarchiver unarchiveObjectWithData:restoreStateData];
 
-	if( ! targets || [targets count] == 0)
+	if(!targets || [targets count] == 0)
 		return;
 	
 	OBANavigationTarget * rootTarget = [targets objectAtIndex:0];
