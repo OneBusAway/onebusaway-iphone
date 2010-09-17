@@ -39,6 +39,8 @@
 	OBAProgressIndicatorImpl * _progress;
 	NSError * _error;
 	NSTimer * _timer;
+	
+	UIBackgroundTaskIdentifier _bgTask;
 }
 
 @property (retain,readwrite) OBAStop * stop;

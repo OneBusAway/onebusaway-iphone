@@ -19,6 +19,9 @@
 #import "OBAProgressIndicatorImpl.h"
 #import "OBACommon.h"
 #import "OBAJsonDataSource.h"
+#import "UIDeviceExtensions.h"
+
+#include <unistd.h>
 
 
 @implementation OBAStopAndPredictedArrivalsSearch
@@ -35,12 +38,12 @@
 		_jsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:context.obaDataSourceConfig];
 		_modelFactory = [context.modelFactory retain];
 		_modelDao = [context.modelDao retain];
+		_bgTask = UIBackgroundTaskInvalid;
 	}
 	return self;
 }
 	
 - (void) dealloc {
-
 	[self cancelOpenConnections];
 	
 	[_stopId release];
@@ -84,19 +87,48 @@
 	[_jsonDataSource cancelOpenConnections];
 }
 
+- (void) endBgTask {
+	// check if we support background task completion; if so, end bg task
+	if ([[UIDevice currentDevice] isMultitaskingSupportedSafe])
+	{
+		UIApplication* app = [UIApplication sharedApplication];
+		[app endBackgroundTask:_bgTask];
+		_bgTask = UIBackgroundTaskInvalid;
+	}
+}
+
 - (void) refresh {
 	if( _stopId ) {
 		NSString *url = [NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", _stopId];
 		[_progress setMessage:@"Updating..." inProgress:TRUE progress:0];
-		[_jsonDataSource requestWithPath:url withArgs:nil withDelegate:self context:nil];	
 		if( ! _timer ) {
 			_timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:TRUE];
 			[_timer retain];
 		}
+
+		// if we support background task completion (iOS >= 4.0), allow our refreshes to be completed
+		// even if the user switches the foreground application.
+		if ([[UIDevice currentDevice] isMultitaskingSupportedSafe])
+		{
+			// if we're already refreshing, don't do another one.
+			if (_bgTask != UIBackgroundTaskInvalid)
+				return;
+			
+			UIApplication* app = [UIApplication sharedApplication];
+			_bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
+				[self endBgTask];
+			}];
+		}
+		
+		[_jsonDataSource requestWithPath:url withArgs:nil withDelegate:self context:nil];
 	}
 }
 
-- (void)connectionDidFinishLoading:(id<OBADataSourceConnection>)connection withObject:(id)obj context:(id)context{
+- (void)connectionDidFinishLoading:(id<OBADataSourceConnection>)connection withObject:(id)obj context:(id)context {
+	// debugging code: display how many times a stop controller has been refreshed.
+	// helpful for background completion.
+	static BOOL gDebugRefreshing     = NO;
+	static int  gDebugTimesRefreshed = 1;
 	
 	NSNumber * code = [obj valueForKey:@"code"];
 	
@@ -126,7 +158,20 @@
 	self.error = nil;
 	
 	NSString * message = [NSString stringWithFormat:@"Updated: %@", [OBACommon getTimeAsString]];
+
+	if (gDebugRefreshing)
+	{
+		message = [NSString stringWithFormat:@"%@ (%d)", message, gDebugTimesRefreshed];
+		
+		OBAArrivalAndDeparture * ad = [self.predictedArrivals objectAtIndex:0];
+		if (ad != nil)
+			ad.routeShortName = [NSString stringWithFormat:@"(%d)", gDebugTimesRefreshed++];
+	}
+						  
 	[_progress setMessage:message inProgress:FALSE progress:0];
+
+	// end bg task
+	[self endBgTask];
 }
 
 - (void)connection:(id<OBADataSourceConnection>)connection withProgress:(float)progress {
@@ -136,6 +181,9 @@
 - (void)connectionDidFail:(id<OBADataSourceConnection>)connection withError:(NSError *)error context:(id)context {
 	self.error = error;
 	[_progress setMessage:@"Error connecting" inProgress:FALSE progress:0];
+	
+	// end bg task
+	[self endBgTask];
 }
 
 @end

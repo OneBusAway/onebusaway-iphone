@@ -28,6 +28,8 @@
 #import "OBAProgressIndicatorView.h"
 #import "OBAStopOptionsViewController.h"
 
+#import "UIDeviceExtensions.h"
+
 
 typedef enum {
 	OBASectionNone, OBASectionStop, OBASectionArrivals, OBASectionFilter, OBASectionOptions
@@ -51,7 +53,6 @@ typedef enum {
 @implementation OBAStopViewController
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext {
-
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 
 		_appContext = [appContext retain];
@@ -84,7 +85,6 @@ typedef enum {
 }
 
 - (void)dealloc {
-
 	[_source cancelOpenConnections];
 	[_source release];
 	
@@ -102,17 +102,25 @@ typedef enum {
 	return [_source getSearchTarget];
 }
 
+
 - (void) setNavigationTarget:(OBANavigationTarget*)navigationTarget {
 	[_source setSearchTarget:navigationTarget];
 }
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 		
 	[_source addObserver:self forKeyPath:@"stop" options:NSKeyValueObservingOptionNew context:nil];
 	[_source addObserver:self forKeyPath:@"predictedArrivals" options:NSKeyValueObservingOptionNew context:nil];
-	[_source addObserver:self forKeyPath:@"error" options:NSKeyValueObservingOptionNew context:nil];	
+	[_source addObserver:self forKeyPath:@"error" options:NSKeyValueObservingOptionNew context:nil];
 
+	if ([[UIDevice currentDevice] isMultitaskingSupportedSafe])
+	{
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+	}
+	
 	[self reloadData];
 }
 
@@ -121,21 +129,33 @@ typedef enum {
 	
 	[_source removeObserver:self forKeyPath:@"stop"];
 	[_source removeObserver:self forKeyPath:@"predictedArrivals"];
-	[_source removeObserver:self forKeyPath:@"error"];	
+	[_source removeObserver:self forKeyPath:@"error"];
+	
+	if ([[UIDevice currentDevice] isMultitaskingSupportedSafe])
+	{
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+	}
 }
 
-/*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- */
+- (void)didEnterBackground {
+	
+}
+
+
+- (void)willEnterForeground {
+	// will repaint the UITableView to update new time offsets and such when returning from the background.
+	// this makes it so old data, represented with current times, from before the task switch will display
+	// briefly before we fetch new data.
+	[self reloadData];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
 }
+
 
 #pragma mark Table view methods
 
