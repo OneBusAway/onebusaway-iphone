@@ -64,6 +64,7 @@ static const NSUInteger kShowNClosestStops = 4;
 - (void) checkNoStopResults;
 - (void) checkNoRouteResults;
 - (void) checkNoPlacemarksResults;
+- (void) showNoResultsAlertWithTitle:(NSString*)title prompt:(NSString*)prompt;
 
 @end
 
@@ -276,6 +277,15 @@ static const NSUInteger kShowNClosestStops = 4;
 		OBAPlacemark * placemark = annotation;
 		OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchPlacemark:placemark];
 		[_searchController searchWithTarget:target];
+	}
+}
+
+#pragma mark UIAlertViewDelegate Methods
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if( buttonIndex == 0 ) {
+		OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchAgenciesWithCoverage];
+		[_appContext navigateToTarget:target];
 	}
 }
 
@@ -646,30 +656,14 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 - (void) checkNoStopResults {
 	OBASearchControllerResult * result = _searchController.result;
 	if( [result.stops count] == 0 ) {
-		_listButton.enabled = FALSE;
-		UIAlertView * view = [[UIAlertView alloc] init];
-		view.title = @"No stops found";
-		view.message = @"No stops were found for your search.  See the list of supported transit agencies for service coverage.";
-		view.delegate = self;
-		[view addButtonWithTitle:@"Agencies"];
-		[view addButtonWithTitle:@"Ok"];
-		view.cancelButtonIndex = 1;
-		[view show];
+		[self showNoResultsAlertWithTitle: @"No stops found" prompt:@"No stops were found for your search."];
 	}
 }
 
 - (void) checkNoRouteResults {
 	OBASearchControllerResult * result = _searchController.result;
 	if( [result.routes count] == 0 ) {
-		_listButton.enabled = FALSE;
-		UIAlertView * view = [[UIAlertView alloc] init];
-		view.title = @"No routes found";
-		view.message = @"No routes were found for your search.  See the list of supported transit agencies for service coverage.";
-		view.delegate = self;
-		[view addButtonWithTitle:@"Agencies"];
-		[view addButtonWithTitle:@"Ok"];
-		view.cancelButtonIndex = 1;
-		[view show];
+		[self showNoResultsAlertWithTitle: @"No routes found" prompt:@"No routes were found for your search."];
 	}
 }
 
@@ -677,15 +671,22 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	OBASearchControllerResult * result = _searchController.result;
 	if( [result.placemarks count] == 0 ) {
 		_listButton.enabled = FALSE;
-		UIAlertView * view = [[UIAlertView alloc] init];
-		view.title = @"No places found";
-		view.message = @"No places were found for your search.  See the list of supported transit agencies for service coverage.";
-		view.delegate = self;
-		[view addButtonWithTitle:@"Agencies"];
-		[view addButtonWithTitle:@"Ok"];
-		view.cancelButtonIndex = 1;
-		[view show];
+		[self showNoResultsAlertWithTitle: @"No places found" prompt:@"No places were found for your search."];
 	}
+}
+
+- (void) showNoResultsAlertWithTitle:(NSString*)title prompt:(NSString*)prompt {
+
+	_listButton.enabled = FALSE;
+	
+	UIAlertView * view = [[UIAlertView alloc] init];
+	view.title = title;
+	view.message = [NSString stringWithFormat:@"%@  See the list of supported transit agencies for service coverage.",prompt];
+	view.delegate = self;
+	[view addButtonWithTitle:@"Agencies"];
+	[view addButtonWithTitle:@"Ok"];
+	view.cancelButtonIndex = 1;
+	[view show];
 }
 
 @end
