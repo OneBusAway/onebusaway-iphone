@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>StringsTable</key>
+	<string>Root</string>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Options</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Show on start</string>
+			<key>Key</key>
+			<string>oba_show_on_start_preference</string>
+			<key>DefaultValue</key>
+			<integer>0</integer>
+			<key>Values</key>
+			<array>
+				<integer>0</integer>
+				<integer>1</integer>
+				<integer>2</integer>
+				<integer>3</integer>
+			</array>
+			<key>Titles</key>
+			<array>
+				<string>Map</string>
+				<string>Bookmarks</string>
+				<string>Recent Stops</string>
+				<string>Search</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Note: Your last active screen will be shown on start if the app has been used within the last 15 minutes.</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Advanced</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>API Server</string>
+			<key>Key</key>
+			<string>oba_api_server</string>
+			<key>DefaultValue</key>
+			<string>api.onebusaway.org</string>
+			<key>IsSecure</key>
+			<false/>
+			<key>KeyboardType</key>
+			<string>URL</string>
+			<key>AutocapitalizationType</key>
+			<string>None</string>
+			<key>AutoCorrectionType</key>
+			<string>Default</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>The name of the server the app will use for accessing transit data</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+			<key>Title</key>
+			<string>Application Version</string>
+			<key>Key</key>
+			<string>oba_application_version</string>
+			<key>DefaultValue</key>
+			<string>1.0</string>
+		</dict>
+	</array>
+</dict>
+</plist>
