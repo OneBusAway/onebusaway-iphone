@@ -45,6 +45,19 @@
 	
 	NSObject * top = [context peek:0];
 	
+	/**
+	 * Due to a bug in iPhone OS 3.0, NSDecimalNumbers sometimes cause errors when used in
+	 * a Core Data entity that is saved to an NSManagedObjectContext.  Get around it by
+	 * changing NSDecimalNumbers to just plain NSNumber
+	 * 
+	 * https://devforums.apple.com/message/129925#129925
+	 * http://www.stackoverflow.com/questions/1200591/coredata-error-while-saving-binding-not-implemented-for-this-sqltype-7
+	 */
+	if( [value isKindOfClass:[NSDecimalNumber class]] ) {
+		NSDecimalNumber * d = value;
+		value = [NSNumber numberWithDouble:[d doubleValue]];
+	}
+	
 	if( _onlyIfNeeded ) {
 		id existingValue = [top valueForKey:_propertyName];
 		if( [existingValue isEqual:value] )

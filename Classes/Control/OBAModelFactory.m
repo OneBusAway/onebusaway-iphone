@@ -359,27 +359,23 @@ static NSString * const kEntityIdMappings = @"entityIdMappings";
 	
 	
 	if( [managedObjectContext hasChanges] ) {
-		if( context.verbose || TRUE)
+		if( context.verbose)
 			OBALogDebug(@"saving managedObjectContext");
 		
-		if(FALSE) {
-			NSLog(@"Inserted objects:");
-			for( id object in [managedObjectContext insertedObjects] ) {
-				NSLog(@"  %@",[object description]);
-			}
-			NSLog(@"Updated objects:");
-			for( id object in [managedObjectContext updatedObjects] ) {
-				NSLog(@"  %@",[object description]);
-			}
-			NSLog(@"Deleted objects:");
-			for( id object in [managedObjectContext deletedObjects] ) {
-				NSLog(@"  %@",[object description]);
-			}
+		@try {
+			[managedObjectContext save:&error];
+		}
+		@catch (NSException * e) {
+			OBALogSevere(@"Exception caught: name=%@ reason=%@",[e name],[e reason]);
+			@throw e;
+		}
+		@catch (id unknown) {
+			OBALogSevere(@"Exception caught: desc=%@",[unknown description]);
+			@throw unknown;
 		}
 		
-		[managedObjectContext save:&error];
 		[entityIdMappings removeAllObjects];
-		if( context.verbose || TRUE)
+		if( context.verbose)
 			OBALogDebug(@"saved managedObjectContext");
 	}
 	
