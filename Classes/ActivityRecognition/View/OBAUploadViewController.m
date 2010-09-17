@@ -36,7 +36,7 @@
 		[items addObject:spaceItem];
 		[spaceItem release];
 		
-		OBAProgressIndicatorView * view = [OBAProgressIndicatorView viewFromNibWithSource:_uploadManager.progress];
+		OBAProgressIndicatorView * view = [OBAProgressIndicatorView viewFromNib];
 		UIBarButtonItem * progressItem = [[UIBarButtonItem alloc] initWithCustomView:view];
 		[items addObject:progressItem];
 		[progressItem release];

@@ -16,24 +16,37 @@
 
 #import "OBAApplicationContext.h"
 #import "OBANavigationTargetAware.h"
-#import "OBAStopAndPredictedArrivalsSearch.h"
+#import "OBAArrivalsAndDeparturesForStopV2.h"
 #import "OBABookmarkV2.h"
+#import "OBAProgressIndicatorView.h"
 
 
-@interface OBAStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate> {
+@interface OBAStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate,OBAModelServiceDelegate> {
 
 	OBAApplicationContext * _appContext;
-	OBAStopAndPredictedArrivalsSearch * _source;
+	NSString * _stopId;
+	NSUInteger _minutesAfter;
 
+	id<OBAModelServiceRequest> _request;
+	NSTimer * _timer;
+	
+	OBAArrivalsAndDeparturesForStopV2 * _result;
+	
 	NSMutableArray * _allArrivals;
 	NSMutableArray * _filteredArrivals;
 	BOOL _showFilteredArrivals;
 	
 	NSDateFormatter * _timeFormatter;
+	
+	OBAProgressIndicatorView * _progressView;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext;
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopId:(NSString*)stopId;
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopIds:(NSArray*)stopIds;
+
+@property (nonatomic,retain) NSString * stopId;
+@property (nonatomic,retain) id<OBAModelServiceRequest> request;
+@property (nonatomic,retain) OBAArrivalsAndDeparturesForStopV2 * result;
 
 @end

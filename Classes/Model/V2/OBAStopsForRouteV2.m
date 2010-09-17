@@ -4,8 +4,8 @@
 
 @implementation OBAStopsForRouteV2
 
-- (id) init {
-	if(self = [super init]) {
+- (id) initWithReferences:(OBAReferencesV2*)refs {
+	if(self = [super initWithReferences:refs]) {
 		_stopIds = [[NSMutableArray alloc] init];
 	}
 	return self;

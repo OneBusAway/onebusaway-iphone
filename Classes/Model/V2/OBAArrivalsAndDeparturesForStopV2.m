@@ -6,8 +6,8 @@
 @synthesize stopId = _stopId;
 @synthesize arrivalsAndDepartures = _arrivalsAndDepartures;
 
--(id) init {
-	if( self = [super init] ) {
+-(id) initWithReferences:(OBAReferencesV2*)refs {
+	if( self = [super initWithReferences:refs] ) {
 		_arrivalsAndDepartures = [[NSMutableArray alloc] init];
 	}
 	return self;

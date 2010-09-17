@@ -88,4 +88,8 @@
 	return [self.stopId isEqual:stop.stopId];
 }
 
+- (NSString*) description {
+	return [NSString stringWithFormat:@"Stop: id=%@",self.stopId];
+}
+
 @end

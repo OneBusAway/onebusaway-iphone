@@ -17,7 +17,6 @@
 #import "OBACommon.h"
 #import "OBAUploadManager.h"
 #import "OBAActivityLogger.h"
-#import "OBAProgressIndicatorImpl.h"
 
 
 @interface OBAUploadManager(InternalMethods)
@@ -36,14 +35,11 @@
 @synthesize tracesOnServer = _tracesOnServer;
 @synthesize tracesToUpload = _tracesToUpload;
 
-@synthesize progress = _progress;
-
 -(id) init {
 	if( self = [super init]) {
 		_traceIds = [[NSMutableDictionary alloc] init];
 		_traceIdsOnServer = [[NSMutableSet alloc] init];
 		_uploading = NO;
-		_progress = [[OBAProgressIndicatorImpl alloc] init];
 	}
 	return self;
 }
@@ -57,8 +53,6 @@
 	[_tracesOnDisk release];
 	[_tracesOnServer release];
 	[_tracesToUpload release];
-	
-	[_progress release];
 	
 	[super dealloc];
 }
@@ -128,12 +122,12 @@
 }
 
 - (void)connection:(id<OBADataSourceConnection>)connection withProgress:(float)progress {
-	[_progress setInProgress:TRUE progress:progress];
+	//[_progress setInProgress:TRUE progress:progress];
 }
 
 - (void)connectionDidFail:(id<OBADataSourceConnection>)connection withError:(NSError *)error context:(id)context{
 	NSLog(@"connection error: %@",[error localizedDescription]);
-	[_progress setMessage:@"Error connecting" inProgress:FALSE progress:0];
+	//[_progress setMessage:@"Error connecting" inProgress:FALSE progress:0];
 }
 
 -(void) startUploading {
@@ -150,7 +144,7 @@
 @implementation OBAUploadManager(InternalMethods)
 
 -(void) updateServerStatus {
-	[_progress setMessage:@"Connecting..." inProgress:TRUE progress:0];
+	//[_progress setMessage:@"Connecting..." inProgress:TRUE progress:0];
 	[_jsonDataSource requestWithPath:@"/api/datacollection/existing-data.json" withDelegate:self context:@"checkServer"];
 }
 
@@ -171,8 +165,8 @@
 		self.tracesOnServer = [NSString stringWithFormat:@"%d",onServer];
 		self.tracesToUpload = [NSString stringWithFormat:@"%d",[_traceIds count]-onServer];
 		
-		NSString * message = [NSString stringWithFormat:@"Updated: %@", [OBACommon getTimeAsString]];
-		[_progress setMessage:message inProgress:FALSE progress:0];
+		//NSString * message = [NSString stringWithFormat:@"Updated: %@", [OBACommon getTimeAsString]];
+		//[_progress setMessage:message inProgress:FALSE progress:0];
 	}
 	
 }
@@ -191,7 +185,7 @@
 			NSString * url = [NSString stringWithFormat:@"/api/datacollection/upload-data/%@/update",traceId];
 			NSString * filePath = [_traceIds objectForKey:traceId];
 			
-			[_progress setMessage:@"Uploading..." inProgress:TRUE progress:0];
+			//[_progress setMessage:@"Uploading..." inProgress:TRUE progress:0];
 			[_jsonDataSource requestWithPath:url withArgs:nil withFileUpload:filePath withDelegate:self context:@"upload"];
 			return;
 		}

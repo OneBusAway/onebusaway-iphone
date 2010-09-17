@@ -5,6 +5,8 @@
 	OBAReferencesV2 * _references;
 }
 
+- (id) initWithReferences:(OBAReferencesV2*)refs;
+
 @property (nonatomic,retain) OBAReferencesV2 * references;
 
 @end

@@ -7,8 +7,8 @@
 @synthesize outOfRange = _outOfRange;
 @synthesize values = _values;
 
-- (id) init {
-	if (self = [super init]) {
+- (id) initWithReferences:(OBAReferencesV2*)refs {
+	if (self = [super initWithReferences:refs]) {
 		_values = [[NSMutableArray alloc] init];
 	}
 	return self;

@@ -15,7 +15,6 @@
  */
 
 #import "OBAUIKit.h"
-#import "OBAStopAndPredictedArrivalsSearch.h"
 #import "OBAStopViewController.h"
 
 
@@ -112,6 +111,10 @@
 	[controllers addObject:controller];
 	[self setViewControllers:controllers animated:animated];
 	[controllers release];
+}
+
+-(void) popToRootViewController {
+	[self popToRootViewControllerAnimated:FALSE];
 }
 
 

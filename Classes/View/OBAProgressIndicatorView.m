@@ -17,13 +17,6 @@
 #import "OBAProgressIndicatorView.h"
 
 
-@interface OBAProgressIndicatorView (Private)
-
-- (void) updateFromSource;
-
-@end
-
-
 @implementation OBAProgressIndicatorView
 
 @synthesize label = _label;
@@ -31,15 +24,13 @@
 @synthesize activityIndicator = _activityIndicator;
 @synthesize progressView = _progressView;
 
-+ (id) viewFromNibWithSource:(NSObject<OBAProgressIndicatorSource>*)source {
-	NSArray * nib1 = [[NSBundle mainBundle] loadNibNamed:@"OBAProgressIndicatorView" owner:source options:nil];
++ (id) viewFromNib {
+	NSArray * nib1 = [[NSBundle mainBundle] loadNibNamed:@"OBAProgressIndicatorView" owner:nil options:nil];
 	OBAProgressIndicatorView * view = [[[nib1 objectAtIndex:0] retain] autorelease];
-	[view setSource:source];
 	return view;
 }
 
 - (void)dealloc {
-	[self setSource:nil];
 	[_label release];
 	[_progressLabel release];
 	[_activityIndicator release];
@@ -47,66 +38,31 @@
     [super dealloc];
 }
 
-- (NSObject<OBAProgressIndicatorSource>*) source {
-	return _source;
-}
+- (void) setMessage:(NSString*)message inProgress:(BOOL)inProgress progress:(float)progress {
 
-- (void) setSource:(NSObject<OBAProgressIndicatorSource>*)source {
+	BOOL hasMessage = (message != nil) && ([message length] > 0);
 	
-	if( _source) {
-		_source.delegate = nil;
-		[_source release];
-	}
+	if( inProgress && hasMessage )
+		_progressLabel.text = message;
 	
-	_source = [source retain];
-
-	if( _source) {
-		_source.delegate = self;
-		[self updateFromSource];
-	}
-}
-
-#pragma mark Key-Value Observation
-
-- (void) progressUpdated {
-	[self updateFromSource];
-}
-
-@end
-
-@implementation OBAProgressIndicatorView (Private)
-
-- (void) updateFromSource {
-
-	if( _source ) {
-		
-		BOOL hasProgress = _source.inProgress;
-		NSString * message = _source.message;
-		BOOL hasMessage = (message != nil) && ([message length] > 0);
-
-		if( hasProgress && hasMessage )
-			_progressLabel.text = message;
-		
-		if( ! hasProgress && hasMessage )
-			_label.text = message;
-		
-		if( hasProgress && hasMessage )
-			[_activityIndicator startAnimating];
-		else
-			[_activityIndicator stopAnimating];
-		
-		_label.hidden = ! (!hasProgress && hasMessage);
-		_progressLabel.hidden = ! (hasProgress  && hasMessage);
-		_activityIndicator.hidden = ! (hasProgress && hasMessage);
-		_progressView.hidden = ! (hasProgress && ! hasMessage);
-	}
-	else {
+	if( ! inProgress && hasMessage )
+		_label.text = message;
+	
+	if( inProgress && hasMessage )
+		[_activityIndicator startAnimating];
+	else
 		[_activityIndicator stopAnimating];
-		_label.hidden = TRUE;
-		_progressLabel.hidden = TRUE;
-		_progressView.hidden = TRUE;
-	}
+	
+	_progressView.progress = progress;
+	
+	_label.hidden = ! (!inProgress && hasMessage);
+	_progressLabel.hidden = ! (inProgress  && hasMessage);
+	_activityIndicator.hidden = ! (inProgress && hasMessage);
+	_progressView.hidden = ! (inProgress && ! hasMessage);
+}
+
+- (void) setInProgress:(BOOL)inProgress progress:(float)progress {
+	[self setMessage:nil inProgress:inProgress progress:progress];
 }
 
 @end
-

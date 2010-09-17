@@ -44,6 +44,11 @@ typedef enum {
 	
 @interface OBAStopViewController (Internal)
 
+- (void) refresh;
+- (void) didRefreshBegin;
+- (void) didRefreshEnd;
+- (void) stopTimer;
+
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section;
 
 - (UITableViewCell*) tableView:(UITableView*)tableView stopCellForRowAtIndexPath:(NSIndexPath *)indexPath;
@@ -61,18 +66,24 @@ typedef enum {
 
 @implementation OBAStopViewController
 
+@synthesize stopId = _stopId;
+@synthesize request = _request;
+@synthesize result = _result;
+
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext {
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 
 		_appContext = [appContext retain];
-		_source = [[OBAStopAndPredictedArrivalsSearch alloc] initWithContext:appContext];
+		//_source = [[OBAStopAndPredictedArrivalsSearch alloc] initWithContext:appContext];
+		
+		_minutesAfter = 35;
 		
 		_timeFormatter = [[NSDateFormatter alloc] init];
 		[_timeFormatter setDateStyle:NSDateFormatterNoStyle];
 		[_timeFormatter setTimeStyle:NSDateFormatterShortStyle];
 						
-		OBAProgressIndicatorView * view = [OBAProgressIndicatorView viewFromNibWithSource:_source.progress];
-		[self.navigationItem setTitleView:view];
+		_progressView = [[OBAProgressIndicatorView viewFromNib] retain];
+		[self.navigationItem setTitleView:_progressView];
 		
 		UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
 		[self.navigationItem setRightBarButtonItem:refreshItem];
@@ -88,8 +99,10 @@ typedef enum {
 }
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopId:(NSString*)stopId {
-	self = [self initWithApplicationContext:appContext];
-	[_source searchForStopId:stopId];
+	
+	if( self = [self initWithApplicationContext:appContext] ) {
+		_stopId = [stopId retain];
+	}
 	return self;
 }	
 
@@ -97,14 +110,20 @@ typedef enum {
 	return [self initWithApplicationContext:appContext stopId:[stopIds objectAtIndex:0]];
 }
 
-- (void)dealloc {
-	[_source cancelOpenConnections];
-	[_source release];
+- (void) dealloc {
+	
+	[self stopTimer];
+	
+	[_stopId release];	
+	[_request cancel];
+	[_request release];
+	[_result release];
 	
 	[_allArrivals release];
 	[_filteredArrivals release];
 	
 	[_timeFormatter release];
+	[_progressView release];
 	
     [super dealloc];
 }
@@ -112,21 +131,22 @@ typedef enum {
 #pragma mark OBANavigationTargetAware
 
 - (OBANavigationTarget*) navigationTarget {
-	return [_source getSearchTarget];
+	NSDictionary * params = [NSDictionary dictionaryWithObject:_stopId forKey:@"stopId"];
+	return [OBANavigationTarget target:OBANavigationTargetTypeStop parameters:params];
 }
 
 
 - (void) setNavigationTarget:(OBANavigationTarget*)navigationTarget {
-	[_source setSearchTarget:navigationTarget];
+	self.stopId = [navigationTarget parameterForKey:@"stopId"];
+	[self refresh];
 }
 
+#pragma mark UIViewController
 
 - (void)viewWillAppear:(BOOL)animated {
     OBALogInfo(@"OBAStopViewController viewWillAppear: %@", self);
     
     [super viewWillAppear:animated];
-
-	[_source addObserver:self forKeyPath:@"error" options:NSKeyValueObservingOptionNew context:nil];
 
 	if ([[UIDevice currentDevice] isMultitaskingSupportedSafe])
 	{
@@ -134,18 +154,15 @@ typedef enum {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
 	}
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRefreshBegin:) name:OBARefreshBeganNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRefreshEnd:)   name:OBARefreshEndedNotification object:nil];
-	
-	[self reloadData];
+	[self refresh];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     OBALogInfo(@"OBAStopViewController viewWillDisspear: %@", self);
  
 	[super viewWillDisappear:animated];
-
-	[_source removeObserver:self forKeyPath:@"error"];
+	
+	[self stopTimer];
 	
 	if ([[UIDevice currentDevice] isMultitaskingSupportedSafe])
 	{
@@ -153,8 +170,6 @@ typedef enum {
 		[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 	}
 
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:OBARefreshBeganNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:OBARefreshEndedNotification object:nil];
 }
 
 - (void)didEnterBackground {
@@ -169,46 +184,44 @@ typedef enum {
 	[self reloadData];
 }
 
-- (void)didRefreshBegin:(NSNotification*)notification {
-    // only refresh for this stop's view
-    if ([notification object] != _source)
-        return;
-    
-    // disable refresh button
-    UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:nil action:@selector(onRefreshButton:)];
-    [refreshItem setEnabled:NO];
-
-    [self.navigationItem setRightBarButtonItem:refreshItem];
-    [refreshItem release];
-}
-
-- (void)didRefreshEnd:(NSNotification*)notification {
-    // only refresh for this stop's view
-    if ([notification object] != _source)
-        return;
-    
-    // activate refresh button
-    UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
-  
-    [self.navigationItem setRightBarButtonItem:refreshItem];
-    [refreshItem release];
-    
-    // refresh the view with new data
-    [self reloadData];
-}
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
 }
 
+#pragma mark OBAModelServiceDelegate
+
+- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
+	NSString * message = [NSString stringWithFormat:@"Updated: %@", [OBACommon getTimeAsString]];
+	[_progressView setMessage:message inProgress:FALSE progress:0];
+	[self didRefreshEnd];
+	self.result = obj;	
+	[self reloadData];
+}
+
+- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
+	if( code == 404 )
+		[_progressView setMessage:@"Stop not found" inProgress:FALSE progress:0];
+	else
+		[_progressView setMessage:@"Unknown error" inProgress:FALSE progress:0];
+	[self didRefreshEnd];
+}
+
+- (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
+	OBALogWarningWithError(error, @"Error... yay!");
+	[_progressView setMessage:@"Error connecting" inProgress:FALSE progress:0];
+	[self didRefreshEnd];
+}
+
+- (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
+	[_progressView setInProgress:TRUE progress:progress];
+}
 
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	
-	OBAStopV2 * stop = _source.stop;
+	OBAStopV2 * stop = _result.stop;
 	
 	if( stop ) {
 		if( [_filteredArrivals count] != [_allArrivals count] ) {
@@ -329,25 +342,53 @@ typedef enum {
 	}
 }
 
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-					  ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
-	if ([keyPath isEqual:@"error"]) {
-		if( _source.error )
-			OBALogWarningWithError(_source.error, @"Error... yay!");
-	}
-}
-
-
 @end
+
 
 @implementation OBAStopViewController (Internal)
 
+- (void) refresh {
+	[_progressView setMessage:@"Updating..." inProgress:TRUE progress:0];
+	[self didRefreshBegin];
+	
+	OBAModelService * service = _appContext.modelService;
+	self.request = [service requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesAfter:_minutesAfter withDelegate:self withContext:nil];
+	
+	if( ! _timer ) {
+		_timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:TRUE];
+		[_timer retain];
+	}	
+}
+
+- (void) didRefreshBegin {    
+    
+	// disable refresh button
+    UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:nil action:@selector(onRefreshButton:)];
+    [refreshItem setEnabled:NO];
+	
+    [self.navigationItem setRightBarButtonItem:refreshItem];
+    [refreshItem release];
+}
+
+- (void) didRefreshEnd {
+    
+    // activate refresh button
+    UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
+	
+    [self.navigationItem setRightBarButtonItem:refreshItem];
+    [refreshItem release];
+}
+
+- (void) stopTimer {
+	if( _timer ) {
+		[_timer invalidate];
+		[_timer release];
+		_timer = nil;
+	}	
+}
 
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section {
-	OBAStopV2 * stop = _source.stop;
+	OBAStopV2 * stop = _result.stop;
 		
 	if( stop ) {
 		
@@ -370,7 +411,7 @@ typedef enum {
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView stopCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	OBAStopV2 * stop = _source.stop;
+	OBAStopV2 * stop = _result.stop;
 
 	if( stop ) {
 		OBAStopTableViewCell * cell = [OBAStopTableViewCell getOrCreateCellForTableView:tableView];	
@@ -499,7 +540,7 @@ typedef enum {
 - (void)tableView:(UITableView *)tableView didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath {
 	switch(indexPath.row) {
 		case 0: {
-			OBABookmarkV2 * bookmark = [_appContext.modelDao createTransientBookmark:_source.stop];
+			OBABookmarkV2 * bookmark = [_appContext.modelDao createTransientBookmark:_result.stop];
 			
 			OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:_appContext bookmark:bookmark editType:OBABookmarkEditNew];
 			[self.navigationController pushViewController:vc animated:YES];
@@ -509,7 +550,7 @@ typedef enum {
 		}
 			
 		case 1: {
-			OBAEditStopPreferencesViewController * vc = [[OBAEditStopPreferencesViewController alloc] initWithApplicationContext:_appContext stop:_source.stop];
+			OBAEditStopPreferencesViewController * vc = [[OBAEditStopPreferencesViewController alloc] initWithApplicationContext:_appContext stop:_result.stop];
 			[self.navigationController pushViewController:vc animated:YES];
 			[vc release];
 			
@@ -517,7 +558,7 @@ typedef enum {
 		}
 			
 		case 2: {
-			OBAStopV2 * stop = _source.stop;
+			OBAStopV2 * stop = _result.stop;
 			MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:stop.coordinate latRadius:kNearbyStopRadius lonRadius:kNearbyStopRadius];
 			OBANavigationTarget * target = [OBASearchControllerFactory getNavigationTargetForSearchLocationRegion:region];
 			[_appContext navigateToTarget:target];
@@ -528,7 +569,7 @@ typedef enum {
 }
 
 - (IBAction)onRefreshButton:(id)sender {
-	[_source refresh];
+	[self refresh];
 }
 
 NSComparisonResult predictedArrivalSortByDepartureTime(id pa1, id pa2, void * context) {
@@ -549,9 +590,9 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 
 - (void) reloadData {
 	@synchronized(self) {
-		OBAStopV2 * stop = _source.stop;
+		OBAStopV2 * stop = _result.stop;
 		
-		NSArray * predictedArrivals = _source.predictedArrivals;
+		NSArray * predictedArrivals = _result.arrivalsAndDepartures;
 		
 		[_allArrivals removeAllObjects];
 		[_filteredArrivals removeAllObjects];

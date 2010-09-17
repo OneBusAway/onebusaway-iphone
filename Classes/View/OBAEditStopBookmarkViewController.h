@@ -24,10 +24,12 @@ typedef enum {
 } OBABookmarkEditType;
 
 
-@interface OBAEditStopBookmarkViewController : UITableViewController {
+@interface OBAEditStopBookmarkViewController : UITableViewController <OBAModelServiceDelegate> {
 	OBAApplicationContext * _appContext;
 	OBABookmarkEditType _editType;
 	OBABookmarkV2 * _bookmark;
+	NSMutableArray * _requests;
+	NSMutableDictionary * _stops;
 	UITextField * _textField;
 }
 

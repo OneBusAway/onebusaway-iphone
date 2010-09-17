@@ -93,13 +93,16 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 		_setup = FALSE;
 		_active = FALSE;
 		_locationAware = TRUE;
-
+		
+		_references = [[OBAReferencesV2 alloc] init];
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[_modelDao release];
+	[_modelService release];
+	[_references release];
 	
 	[_locationManager release];
 	[_nearbyTripsController release];
@@ -157,6 +160,11 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 	return _modelFactory;
 }
 
+- (OBAModelService*) modelService {
+	if( ! _modelService )
+		[self setup];
+	return _modelService;
+}
 
 #pragma mark UIApplicationDelegate Methods
 
@@ -198,13 +206,16 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 
 #pragma mark UITabBarControllerDelegate Methods
 
-- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
-	int index = tabBarController.selectedIndex;
-	if( index == 0 || index == 1 || index == 2 ) {
-		UINavigationController * rootNavController = (UINavigationController*) _tabBarController.selectedViewController;
-		[rootNavController  popToRootViewControllerAnimated:FALSE];
-	}
-	return YES;
+/**
+ * We want to revert back to the root view of a selected controller when switching between tabs
+ */
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+	UINavigationController * nc = (UINavigationController *) viewController;
+	/**
+	 * Note that popToRootViewController didn't seem to work properly when called from the
+	 * calling context of the UITabBarController.  So we punt it to the main thread.
+	 */
+	[nc performSelector:@selector(popToRootViewController) withObject:nil afterDelay:0];
 }
 
 @end
@@ -246,7 +257,7 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 	
 	[_activityListeners addListener:_modelDao];
 	
-	_modelFactory = [[OBAModelFactory alloc] init];
+	_modelFactory = [[OBAModelFactory alloc] initWithReferences:_references];
 	
 	if( kIncludeUWActivityInferenceCode ) {
 		[_activityLogger start];
@@ -254,6 +265,8 @@ static NSInteger kOBADefaultShowOnStartup = 0; // 0 = maps screen
 			[_nearbyTripsController start];
 		}
 	}
+	
+	_modelService = [[OBAModelService alloc] initWithReferences:_references modelFactory:_modelFactory dataSourceConfig:_obaDataSourceConfig];
 	
 	[self migrateUserPreferences];
 }

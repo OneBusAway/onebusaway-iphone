@@ -14,24 +14,22 @@
  * limitations under the License.
  */
 
-//#import <UIKit/UIKit.h>
-#import "OBAProgressIndicatorSource.h"
 
-@interface OBAProgressIndicatorView : UIView <OBAProgressIndicatorDelegate> {
+@interface OBAProgressIndicatorView : UIView {
 	UILabel * _label;
 	UILabel * _progressLabel;
 	UIActivityIndicatorView * _activityIndicator;
 	UIProgressView * _progressView;
-	NSObject<OBAProgressIndicatorSource> * _source;
 }
-
-@property (nonatomic,retain) NSObject<OBAProgressIndicatorSource> * source;
 
 @property (nonatomic,retain) IBOutlet UILabel * label;
 @property (nonatomic,retain) IBOutlet UILabel * progressLabel;
 @property (nonatomic,retain) IBOutlet UIActivityIndicatorView * activityIndicator;
 @property (nonatomic,retain) IBOutlet UIProgressView * progressView;
 
-+ (id) viewFromNibWithSource:(NSObject<OBAProgressIndicatorSource>*)source;
++ (id) viewFromNib;
+
+- (void) setMessage:(NSString*)message inProgress:(BOOL)inProgress progress:(float)progress;
+- (void) setInProgress:(BOOL)inProgress progress:(float)progress;
 
 @end

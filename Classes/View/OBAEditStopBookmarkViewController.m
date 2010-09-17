@@ -22,17 +22,7 @@
 #import "OBAStopViewController.h"
 
 
-static NSString * kOBABookmarkParameter = @"OBABookmarkParameter";
-static NSString * kOBAEditTypeParameter = @"OBAEditTypeParameter";
-
 @implementation OBAEditStopBookmarkViewController
-
-+ (NSDictionary*) getParametersForBookmark:(OBABookmark*)bookmark editType:(OBABookmarkEditType)editType {
-	NSMutableDictionary * params = [NSMutableDictionary dictionary];
-	[params setObject:bookmark forKey:kOBABookmarkParameter];
-	[params setObject:[NSNumber numberWithInt:editType] forKey:kOBAEditTypeParameter];
-	return params;
-}
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType {
 
@@ -42,6 +32,9 @@ static NSString * kOBAEditTypeParameter = @"OBAEditTypeParameter";
 		_appContext = [appContext retain];
 		_bookmark = [bookmark retain];
 		_editType = editType;
+
+		_requests = [[NSMutableArray alloc] initWithCapacity:[_bookmark.stopIds count]];
+		_stops = [[NSMutableDictionary alloc] init];
 
 		UIBarButtonItem * cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButton:)];
 		[self.navigationItem setLeftBarButtonItem:cancelButton];
@@ -67,12 +60,44 @@ static NSString * kOBAEditTypeParameter = @"OBAEditTypeParameter";
 - (void)dealloc {
 	[_appContext release];
 	[_bookmark release];
+	[_stops release];
+	[_requests release];
     [super dealloc];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 	[self.tableView reloadData];
+	
+	
+	OBAModelService * service = _appContext.modelService;
+	NSArray * stopIds = _bookmark.stopIds;
+	for( NSUInteger i=0; i<[stopIds count]; i++) {
+		NSString * stopId = [stopIds objectAtIndex:i];
+		NSNumber * index = [NSNumber numberWithInt:i];
+		id<OBAModelServiceRequest> request = [service requestStopForId:stopId withDelegate:self withContext:index];
+		[_requests addObject:request];
+	}
+}
+
+#pragma mark OBAModelServiceRequest
+
+- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
+	
+	OBAEntryWithReferencesV2 * entry = obj;
+	OBAStopV2 * stop = entry.entry;
+	
+	NSNumber * num = context;
+	NSUInteger index = [num intValue];
+	
+	if( stop ) {
+		[_stops setObject:stop forKey:stop.stopId];
+		NSIndexPath * path = [NSIndexPath indexPathForRow:index+1 inSection:0];
+		NSArray * indexPaths = [NSArray arrayWithObject:path];
+		[self.tableView  reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+	}
+	
+	[_requests removeObject:request];
 }
 
 #pragma mark Table view methods
@@ -100,8 +125,14 @@ static NSString * kOBAEditTypeParameter = @"OBAEditTypeParameter";
 	}
 	else {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-		//cell.textLabel.text = [NSString stringWithFormat:@"%@ - Stop # %@",stop.name,stop.code];
-		cell.textLabel.text = @"TODO : Fix bookmark stop label";
+		
+		NSString * stopId = [_bookmark.stopIds objectAtIndex:indexPath.row-1];
+		OBAStopV2 * stop = [_stops objectForKey:stopId];
+		if( stop )
+			cell.textLabel.text = [NSString stringWithFormat:@"%@ - Stop # %@",stop.name,stop.code];
+		else
+			cell.textLabel.text = @"Loading stop info...";
+		
 		cell.textLabel.font = [UIFont systemFontOfSize: 12];
 		cell.textLabel.textColor = [UIColor grayColor];
 		cell.selectionStyle =  UITableViewCellSelectionStyleNone;

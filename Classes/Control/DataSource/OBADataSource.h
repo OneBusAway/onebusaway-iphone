@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@protocol OBADataSourceConnection
+@protocol OBADataSourceConnection <NSObject>
 - (void) cancel;
 @end
 

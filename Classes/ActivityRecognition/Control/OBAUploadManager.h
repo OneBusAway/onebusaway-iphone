@@ -32,8 +32,6 @@
 	NSMutableDictionary * _traceIds;
 	NSMutableSet * _traceIdsOnServer;
 	BOOL _uploading;
-	
-	OBAProgressIndicatorImpl * _progress;
 }
 
 @property (nonatomic,retain) OBAJsonDataSource * jsonDataSource;
@@ -41,8 +39,6 @@
 @property (nonatomic,retain) NSString * tracesOnDisk;
 @property (nonatomic,retain) NSString * tracesOnServer;
 @property (nonatomic,retain) NSString * tracesToUpload;
-
-@property (retain,readonly) NSObject<OBAProgressIndicatorSource>* progress;
 
 -(void) start;
 -(void) stop;

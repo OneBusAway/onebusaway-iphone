@@ -35,5 +35,6 @@
 -(void) replaceViewControllerWithAnimation:(UIViewController*)viewController;
 -(void) replaceViewControllerWithoutAnimation:(UIViewController*)viewController;
 -(void) pushViewController:(UIViewController*)controller animated:(BOOL)animated removeAnyExisting:(BOOL)removeAnyExisting;
+-(void) popToRootViewController;
 
 @end
