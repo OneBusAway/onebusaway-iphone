@@ -62,4 +62,6 @@ typedef enum {
 @property (nonatomic,readonly) OBAApplicationContext * appContext;
 @property (nonatomic,readonly) NSString * stopId;
 
+- (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section;
+
 @end

@@ -51,11 +51,9 @@ static const double kNearbyStopRadius = 200;
 - (void) didRefreshBegin;
 - (void) didRefreshEnd;
 
-- (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section;
+
 - (NSUInteger) sectionIndexForSectionType:(OBAStopSectionType)section;
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSectionType:(OBAStopSectionType)section;
-	
 - (UITableViewCell*) tableView:(UITableView*)tableView stopCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath*)indexPath;
 - (void)determineFilterTypeCellText:(UITableViewCell*)filterTypeCell filteringEnabled:(bool)filteringEnabled;
@@ -134,6 +132,41 @@ static const double kNearbyStopRadius = 200;
 	[_progressView release];
 	
     [super dealloc];
+}
+
+- (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section {
+	
+	OBAStopV2 * stop = _result.stop;
+	
+	if( stop ) {
+		
+		int offset = 0;
+		
+		if( _showTitle ) {
+			if( section == offset )
+				return OBAStopSectionTypeName;
+			offset++;
+		}
+		
+		if( section == offset ) {
+			return OBAStopSectionTypeArrivals;
+		}
+		offset++;
+		
+		if( [_filteredArrivals count] != [_allArrivals count] ) {
+			if( section == offset )
+				return OBAStopSectionTypeFilter;
+			offset++;
+		}
+		
+		if( _showActions ) {
+			if( section == offset)
+				return OBAStopSectionTypeActions;
+			offset++;
+		}
+	}
+	
+	return OBAStopSectionTypeNone;
 }
 
 #pragma mark OBANavigationTargetAware
@@ -241,13 +274,6 @@ static const double kNearbyStopRadius = 200;
 	return 1;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {	
-	OBAStopSectionType sectionType = [self sectionTypeForSection:section];
-	return [self tableView:(UITableView *)tableView titleForHeaderInSectionType:sectionType];
-}
-
-
-
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
@@ -265,7 +291,8 @@ static const double kNearbyStopRadius = 200;
 				c = [_allArrivals count];
 			
 			if( c == 0 )
-				c = 1;				
+				c = 1;
+			
 			return c;			
 		}
 		case OBAStopSectionTypeFilter:
@@ -410,41 +437,6 @@ static const double kNearbyStopRadius = 200;
     [refreshItem release];
 }
 
-- (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section {
-
-	OBAStopV2 * stop = _result.stop;
-		
-	if( stop ) {
-		
-		int offset = 0;
-		
-		if( _showTitle ) {
-			if( section == offset )
-				return OBAStopSectionTypeName;
-			offset++;
-		}
-		
-		if( section == offset ) {
-			return OBAStopSectionTypeArrivals;
-		}
-		offset++;
-		
-		if( [_filteredArrivals count] != [_allArrivals count] ) {
-			if( section == offset )
-				return OBAStopSectionTypeFilter;
-			offset++;
-		}
-		
-		if( _showActions ) {
-			if( section == offset)
-				return OBAStopSectionTypeActions;
-			offset++;
-		}
-	}
-	
-	return OBAStopSectionTypeNone;
-}
-
 - (NSUInteger) sectionIndexForSectionType:(OBAStopSectionType)section {
 
 	OBAStopV2 * stop = _result.stop;
@@ -480,10 +472,6 @@ static const double kNearbyStopRadius = 200;
 	
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSectionType:(OBAStopSectionType)section {
-	return nil;
-}
-
 - (UITableViewCell*) tableView:(UITableView*)tableView stopCellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	OBAStopV2 * stop = _result.stop;
 
@@ -510,6 +498,7 @@ static const double kNearbyStopRadius = 200;
 		return cell;
 	}
 	else {
+		
 		OBAArrivalEntryTableViewCell * cell = [OBAArrivalEntryTableViewCell getOrCreateCellForTableView:tableView];
 		
 		OBAArrivalAndDeparture * pa = [arrivals objectAtIndex:indexPath.row];
@@ -618,7 +607,8 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
-	OBAArrivalAndDepartureV2 * arrivalAndDeparture = [_filteredArrivals objectAtIndex:indexPath.row];
+	NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
+	OBAArrivalAndDepartureV2 * arrivalAndDeparture = [arrivals objectAtIndex:indexPath.row];
 	if( arrivalAndDeparture ) {
 		OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripId:arrivalAndDeparture.tripId serviceDate:arrivalAndDeparture.serviceDate];
 		vc.currentStopId = _stopId;

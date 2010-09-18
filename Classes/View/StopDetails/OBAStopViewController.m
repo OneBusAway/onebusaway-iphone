@@ -18,6 +18,32 @@
 
 @implementation OBAStopViewController
 
+- (void) customSetup {
+	NSArray * nib = [[NSBundle mainBundle] loadNibNamed:@"OBAArrivalsAndDeparturesHeaderView" owner:self options:nil];
+	_headerView = [[nib objectAtIndex:0] retain];
+}
+
+- (void) dealloc {
+	[_headerView release];
+	[super dealloc];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+	OBAStopSectionType sectionType = [self sectionTypeForSection:section];
+	if( sectionType == OBAStopSectionTypeArrivals ) {
+		return _headerView;
+	}
+	return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+	OBAStopSectionType sectionType = [self sectionTypeForSection:section];
+	if( sectionType == OBAStopSectionTypeArrivals ) {
+		return 20;
+	}
+	return 0;
+}
+
 @end
 
 

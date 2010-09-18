@@ -46,4 +46,17 @@
 
 	return cell;
 }
+
++(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView fromResource:(NSString*)resourceName {
+	
+	UITableViewCell * cell = (UITableViewCell*) [tableView dequeueReusableCellWithIdentifier:resourceName];
+	
+	if (cell == nil) {
+		NSArray * nib = [[NSBundle mainBundle] loadNibNamed:resourceName owner:self options:nil];
+		cell = [nib objectAtIndex:0];
+	}
+	
+	return cell;
+}
+
 @end

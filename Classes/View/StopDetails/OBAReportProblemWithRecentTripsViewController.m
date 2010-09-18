@@ -21,14 +21,16 @@
 	[super dealloc];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSectionType:(OBAStopSectionType)section {
-	if (section == OBAStopSectionTypeArrivals)
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {	
+	OBAStopSectionType sectionType = [self sectionTypeForSection:section];
+	if (sectionType == OBAStopSectionTypeArrivals)
 		return @"Select the trip with a problem:";
 	return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
-	OBAArrivalAndDepartureV2 * arrivalAndDeparture = [_filteredArrivals objectAtIndex:indexPath.row];
+	NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
+	OBAArrivalAndDepartureV2 * arrivalAndDeparture = [arrivals objectAtIndex:indexPath.row];
 	if( arrivalAndDeparture ) {
 		NSString * tripId = arrivalAndDeparture.tripId;
 		long long serviceDate = arrivalAndDeparture.serviceDate;

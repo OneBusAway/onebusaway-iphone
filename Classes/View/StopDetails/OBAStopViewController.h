@@ -18,7 +18,7 @@
 
 
 @interface OBAStopViewController : OBAGenericStopViewController {
-
+	UIView * _headerView;
 }
 
 @end
