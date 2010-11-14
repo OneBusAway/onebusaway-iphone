@@ -58,6 +58,7 @@ static NSString * const kReferences = @"references";
 - (void) addAgencyWithCoverageV2RulesWithPrefix:(NSString*)prefix;
 
 - (void) addArrivalAndDepartureV2RulesWithPrefix:(NSString*)prefix;
+- (void) addFrequencyV2RulesWithPrefix:(NSString*)prefix;
 
 - (void) addAgencyToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
 - (void) addRouteToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
@@ -299,6 +300,10 @@ static NSString * const kReferences = @"references";
 	[self addSetNext:@selector(setSchedule:) forPrefix:schedulePrefix];
 	[self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:schedulePrefix];
 	
+	NSString * scheduleFrequencyPrefix = [self extendPrefix:schedulePrefix withValue:@"frequency"];
+	[self addFrequencyV2RulesWithPrefix:scheduleFrequencyPrefix];
+	[self addSetNext:@selector(setFrequency:) forPrefix:scheduleFrequencyPrefix];
+	
 	NSString * stopTimesArrayPrefix = [self extendPrefix:prefix withValue:@"schedule/stopTimes"];
 	[self addObjectCreateRule:[NSMutableArray class] forPrefix:stopTimesArrayPrefix];
 	[self addSetNext:@selector(setStopTimes:) forPrefix:stopTimesArrayPrefix];
@@ -346,7 +351,20 @@ static NSString * const kReferences = @"references";
 	[self addSetPropertyRule:@"scheduledDepartureTime" forPrefix:[self extendPrefix:prefix withValue:@"scheduledDepartureTime"]];
 	[self addSetPropertyRule:@"predictedDepartureTime" forPrefix:[self extendPrefix:prefix withValue:@"predictedDepartureTime"]];
 	
+	NSString * frequencyPrefix = [self extendPrefix:prefix withValue:@"frequency"];
+	[self addFrequencyV2RulesWithPrefix:frequencyPrefix];
+	[self addSetNext:@selector(setFrequency:) forPrefix:frequencyPrefix];
+	
 	[self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];
+}
+
+- (void) addFrequencyV2RulesWithPrefix:(NSString*)prefix {
+	
+	[self addObjectCreateRule:[OBAFrequencyV2 class] forPrefix:prefix];
+	
+	[self addSetPropertyRule:@"startTime" forPrefix:[self extendPrefix:prefix withValue:@"startTime"]];
+	[self addSetPropertyRule:@"endTime" forPrefix:[self extendPrefix:prefix withValue:@"endTime"]];
+	[self addSetPropertyRule:@"headway" forPrefix:[self extendPrefix:prefix withValue:@"headway"]];
 }
 
 - (void) addAgencyToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {

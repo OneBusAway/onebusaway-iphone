@@ -6,15 +6,9 @@
 
 @synthesize timeZone;
 @synthesize stopTimes;
+@synthesize frequency;
 @synthesize previousTripId;
-
-- (NSString*) nextTripId {
-	return _nextTripId;
-}
-
-- (void) setNextTripId:(NSString *)tripId {
-	_nextTripId = [NSObject releaseOld:_nextTripId retainNew:tripId];
-}
+@synthesize nextTripId;
 
 - (OBATripV2*) previousTrip {
 	OBAReferencesV2 * refs = self.references;

@@ -20,13 +20,13 @@
 @interface OBAArrivalEntryTableViewCell : UITableViewCell {
 	UILabel * _routeLabel;
 	UILabel * _destinationLabel;
-	UILabel * _timeLabel;
+	UILabel * _statusLabel;
 	UILabel * _minutesLabel;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel * routeLabel;
 @property (nonatomic, retain) IBOutlet UILabel * destinationLabel;
-@property (nonatomic, retain) IBOutlet UILabel * timeLabel;
+@property (nonatomic, retain) IBOutlet UILabel * statusLabel;
 @property (nonatomic, retain) IBOutlet UILabel * minutesLabel;
 
 + (OBAArrivalEntryTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView;

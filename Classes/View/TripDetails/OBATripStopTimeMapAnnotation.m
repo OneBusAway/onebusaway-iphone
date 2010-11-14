@@ -31,6 +31,14 @@
 		scheduleDeviation = status.scheduleDeviation;
 	}
 	
+	OBATripScheduleV2 * schedule = _tripDetails.schedule;
+	
+	if( schedule.frequency ) {
+		OBATripStopTimeV2 * firstStopTime = [schedule.stopTimes objectAtIndex:0];
+		int minutes = (_stopTime.arrivalTime - firstStopTime.departureTime) / 60;
+		return [NSString stringWithFormat:@"%d mins",minutes];									  
+	}
+	
 	NSInteger stopTime = _stopTime.arrivalTime;
 	
 	NSDate * date = [NSDate dateWithTimeIntervalSince1970:(serviceDate/1000 + stopTime + scheduleDeviation)];

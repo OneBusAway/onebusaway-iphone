@@ -21,7 +21,7 @@
 
 @synthesize routeLabel = _routeLabel;
 @synthesize destinationLabel = _destinationLabel;
-@synthesize timeLabel = _timeLabel;
+@synthesize statusLabel = _statusLabel;
 @synthesize minutesLabel = _minutesLabel;
 
 + (OBAArrivalEntryTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView {
@@ -43,7 +43,7 @@
 - (void)dealloc {
 	[_routeLabel release];
 	[_destinationLabel release];
-	[_timeLabel release];
+	[_statusLabel release];
 	[_minutesLabel release];
     [super dealloc];
 }

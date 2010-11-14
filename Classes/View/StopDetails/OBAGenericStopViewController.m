@@ -16,7 +16,6 @@
 
 #import "OBAGenericStopViewController.h"
 #import "OBALogger.h"
-#import "OBAArrivalAndDeparture.h"
 
 #import "OBAUIKit.h"
 
@@ -64,6 +63,8 @@ static const double kNearbyStopRadius = 200;
 - (void)tableView:(UITableView *)tableView didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath;
 
 - (void) reloadData;
+
+- (NSString*) getStatusLabelForArrival:(OBAArrivalAndDepartureV2*)pa time:(NSDate*)time minutes:(int)minutes;
 
 @end
 
@@ -359,7 +360,7 @@ static const double kNearbyStopRadius = 200;
 				NSMutableArray * modificationArray = [NSMutableArray arrayWithCapacity:[_allArrivals count] - [_filteredArrivals count]];
 				
 				int rowIterator = 0;
-				for(OBAArrivalAndDeparture * pa in _allArrivals)
+				for(OBAArrivalAndDepartureV2 * pa in _allArrivals)
 				{
 					bool isFilteredArrival = ([_filteredArrivals containsObject:pa] == NO);
 					
@@ -501,11 +502,9 @@ static const double kNearbyStopRadius = 200;
 		
 		OBAArrivalEntryTableViewCell * cell = [OBAArrivalEntryTableViewCell getOrCreateCellForTableView:tableView];
 		
-		OBAArrivalAndDeparture * pa = [arrivals objectAtIndex:indexPath.row];
+		OBAArrivalAndDepartureV2 * pa = [arrivals objectAtIndex:indexPath.row];
 		cell.destinationLabel.text = pa.tripHeadsign;
 		cell.routeLabel.text = pa.routeShortName;
-		//cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        //cell.accessoryType = UITableViewCellAccessoryNone;
 		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		
@@ -514,48 +513,28 @@ static const double kNearbyStopRadius = 200;
 		NSTimeInterval interval = [time timeIntervalSinceNow];
 		int minutes = interval / 60;
 		
-		NSString * status;
-		
 		if(abs(minutes) <=1)
 			cell.minutesLabel.text = @"NOW";
 		else
 			cell.minutesLabel.text = [NSString stringWithFormat:@"%d",minutes];
 		
 		if( pa.predictedDepartureTime > 0 ) {
-			double diff = (pa.predictedDepartureTime - pa.scheduledDepartureTime) / ( 1000.0 * 60.0);
-			int minDiff = (int) abs(diff);
+			double diff = (pa.predictedDepartureTime - pa.scheduledDepartureTime) / ( 1000.0 * 60.0);			
 			if( diff < -1.5) {
 				cell.minutesLabel.textColor = [UIColor redColor];
-				if( minutes < 0 )
-					status = [NSString stringWithFormat:@"departed %d min early",minDiff];
-				else
-					status = [NSString stringWithFormat:@"%d min early",minDiff];
 			}
 			else if( diff < 1.5 ) {
 				cell.minutesLabel.textColor = [UIColor colorWithRed:0.0 green:0.5 blue:0.0 alpha:1.0];
-				if( minutes < 0 )
-					status = @"departed on time";
-				else
-					status = @"on time";
 			}
 			else {
 				cell.minutesLabel.textColor = [UIColor blueColor];
-				if( minutes < 0 )
-					status = [NSString stringWithFormat:@"departed %d min late",minDiff];
-				else
-					status = [NSString stringWithFormat:@"%d min delay",minDiff];
 			}
 		}
 		else {
 			cell.minutesLabel.textColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];;
-			if( minutes < 0 )
-				status = @"scheduled departure";
-			else
-				status = @"scheduled arrival";
-			
 		}
 		
-		cell.timeLabel.text = [NSString stringWithFormat:@"%@ - %@",[_timeFormatter stringFromDate:time],status];
+		cell.statusLabel.text = [self getStatusLabelForArrival:pa time:time minutes:minutes];
 		return cell;
 	}
 }
@@ -713,6 +692,57 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 	}
 }
 
+- (NSString*) getStatusLabelForArrival:(OBAArrivalAndDepartureV2*)pa time:(NSDate*)time minutes:(int)minutes {
+	
+	if( pa.frequency ) {
+		OBAFrequencyV2 * freq = pa.frequency;
+		int headway = freq.headway / 60;
+		
+		NSDate * now = [NSDate date];
+		NSDate * startTime = [NSDate dateWithTimeIntervalSince1970:(freq.startTime / 1000)];
+		NSDate * endTime = [NSDate dateWithTimeIntervalSince1970:(freq.endTime / 1000)];
+		
+		if ([now compare:startTime]  == NSOrderedAscending) {
+			return [NSString stringWithFormat:@"Every %d mins from %@",headway,[_timeFormatter stringFromDate:startTime]];
+		}
+		else {
+			return [NSString stringWithFormat:@"Every %d mins until %@",headway,[_timeFormatter stringFromDate:endTime]];
+		}
+	}
+
+	NSString * status;
+	
+	if( pa.predictedDepartureTime > 0 ) {
+		double diff = (pa.predictedDepartureTime - pa.scheduledDepartureTime) / ( 1000.0 * 60.0);
+		int minDiff = (int) abs(diff);
+		if( diff < -1.5) {
+			if( minutes < 0 )
+				status = [NSString stringWithFormat:@"departed %d min early",minDiff];
+			else
+				status = [NSString stringWithFormat:@"%d min early",minDiff];
+		}
+		else if( diff < 1.5 ) {
+			if( minutes < 0 )
+				status = @"departed on time";
+			else
+				status = @"on time";
+		}
+		else {
+			if( minutes < 0 )
+				status = [NSString stringWithFormat:@"departed %d min late",minDiff];
+			else
+				status = [NSString stringWithFormat:@"%d min delay",minDiff];
+		}
+	}
+	else {
+		if( minutes < 0 )
+			status = @"scheduled departure";
+		else
+			status = @"scheduled arrival";
+	}
+	
+	return [NSString stringWithFormat:@"%@ - %@",[_timeFormatter stringFromDate:time],status];	
+}
 
 @end
 

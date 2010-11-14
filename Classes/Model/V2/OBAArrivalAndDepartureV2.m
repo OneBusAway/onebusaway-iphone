@@ -9,6 +9,7 @@
 @synthesize serviceDate;
 @synthesize tripHeadsign = _tripHeadsign;
 @synthesize stopId = _stopId;
+@synthesize frequency = _frequency;
 
 @synthesize scheduledArrivalTime = _scheduledArrivalTime;
 @synthesize predictedArrivalTime = _predictedArrivalTime;

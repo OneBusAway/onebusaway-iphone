@@ -1,0 +1,18 @@
+//
+//  OBAFrequencyV2.m
+//  org.onebusaway.iphone
+//
+//  Created by Brian Ferris on 11/13/10.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//
+
+#import "OBAFrequencyV2.h"
+
+
+@implementation OBAFrequencyV2
+
+@synthesize startTime = _startTime;
+@synthesize endTime = _endTime;
+@synthesize headway = _headway;
+
+@end

@@ -1,6 +1,7 @@
 #import "OBAHasReferencesV2.h"
 #import "OBARouteV2.h"
 #import "OBAStopV2.h"
+#import "OBAFrequencyV2.h"
 
 
 @interface OBAArrivalAndDepartureV2 : OBAHasReferencesV2 {
@@ -11,6 +12,8 @@
 	NSString * _tripHeadsign;
 	
 	NSString * _stopId;
+	
+	OBAFrequencyV2 * _frequency;
 	
 	long long _scheduledArrivalTime;
 	long long _predictedArrivalTime;
@@ -28,6 +31,8 @@
 
 @property (nonatomic,retain) NSString * stopId;
 @property (nonatomic,readonly) OBAStopV2 * stop;
+
+@property (nonatomic,retain) OBAFrequencyV2 * frequency;
 
 @property (nonatomic) long long scheduledArrivalTime;
 @property (nonatomic) long long predictedArrivalTime;

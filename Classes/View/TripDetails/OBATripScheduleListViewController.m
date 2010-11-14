@@ -251,7 +251,8 @@ typedef enum {
 		return cell;
 	}
 
-	NSArray * stopTimes = _tripDetails.schedule.stopTimes;
+	OBATripScheduleV2 * schedule = _tripDetails.schedule;
+	NSArray * stopTimes = schedule.stopTimes;
 	
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
@@ -265,8 +266,17 @@ typedef enum {
 	OBAStopV2 * stop = stopTime.stop;
 	cell.textLabel.text = stop.name;
 	cell.textLabel.textColor = [UIColor blackColor];
-	NSDate * time = [self getStopTimeAsDate:stopTime.arrivalTime];
-	cell.detailTextLabel.text = [_timeFormatter stringFromDate:time];
+	
+	if( schedule.frequency ) {
+		OBATripStopTimeV2 * firstStopTime = [stopTimes objectAtIndex:0];
+		int minutes = (stopTime.arrivalTime - firstStopTime.departureTime) / 60;
+		cell.detailTextLabel.text = [NSString stringWithFormat:@"%d mins",minutes];									  
+	}
+	else {
+		NSDate * time = [self getStopTimeAsDate:stopTime.arrivalTime];
+		cell.detailTextLabel.text = [_timeFormatter stringFromDate:time];
+	}
+	
 	return cell;
 }
 
