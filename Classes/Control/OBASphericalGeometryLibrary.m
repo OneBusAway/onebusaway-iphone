@@ -16,7 +16,21 @@
 
 #import "OBASphericalGeometryLibrary.h"
 
+
 static const double kRadiusOfEarthInMeters = 6371.01 * 1000;
+
+typedef struct {
+	int number;
+	int index;
+} OBANumberAndIndex;
+
+
+@interface OBASphericalGeometryLibrary (Private)
+
++ (OBANumberAndIndex) decodeSignedNumber:(NSString*)value withIndex:(int)index;
++ (OBANumberAndIndex) decodeNumber:(NSString*)value withIndex:(int)index;
+
+@end
 
 
 
@@ -86,6 +100,33 @@ static const double kRadiusOfEarthInMeters = 6371.01 * 1000;
 			pA.longitude + spanA.longitudeDelta / 2];
 }
 
++ (NSArray*) decodePolylineString:(NSString*)encodedPolyline {
+	
+    double lat = 0;
+    double lon = 0;
+	
+    int strIndex = 0;
+	NSMutableArray * points = [NSMutableArray array];
+	
+    while (strIndex < [encodedPolyline length]) {
+		
+		OBANumberAndIndex rLat = [self decodeSignedNumber:encodedPolyline withIndex:strIndex];
+		lat = lat + rLat.number * 1e-5;
+		strIndex = rLat.index;
+		
+		OBANumberAndIndex rLon = [self decodeSignedNumber:encodedPolyline withIndex:strIndex];
+		lon = lon + rLon.number * 1e-5;
+		strIndex = rLon.index;
+		
+		CLLocation * loc = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
+		[points addObject:loc];
+		[loc release];
+    }
+	
+    return points;
+}
+
+
 @end
 
 @implementation CLLocation (OBAConvenienceMethods)
@@ -97,4 +138,39 @@ static const double kRadiusOfEarthInMeters = 6371.01 * 1000;
 }
 
 @end
+
+@implementation OBASphericalGeometryLibrary (Private)
+
+
++ (OBANumberAndIndex) decodeSignedNumber:(NSString*)value withIndex:(int)index {
+    OBANumberAndIndex r = [self decodeNumber:value withIndex:index];
+    int sgn_num = r.number;
+    if ((sgn_num & 0x01) > 0) {
+		sgn_num = ~(sgn_num);
+    }
+    r.number = sgn_num >> 1;
+    return r;
+}
+
++ (OBANumberAndIndex) decodeNumber:(NSString*)value withIndex:(int)index {
+	
+    int num = 0;
+    int v = 0;
+    int shift = 0;
+	
+    do {
+		char c = [value characterAtIndex:index++];
+		v = c - 63;
+		num |= (v & 0x1f) << shift;
+		shift += 5;
+    } while (v >= 0x20);
+
+	OBANumberAndIndex r;
+	r.number = num;
+	r.index = index;
+	return r;
+}
+
+@end
+
 

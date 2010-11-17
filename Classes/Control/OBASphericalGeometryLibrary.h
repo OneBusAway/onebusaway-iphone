@@ -28,6 +28,8 @@
 + (BOOL) isCoordinate:(CLLocationCoordinate2D)coordinate containedBy:(MKCoordinateRegion)region;
 + (NSString*) regionAsString:(MKCoordinateRegion)region;
 
++ (NSArray*) decodePolylineString:(NSString*)encodedPolyline;
+
 @end
 
 

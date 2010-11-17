@@ -26,6 +26,7 @@ typedef enum {
 	OBAStopSectionTypeName,
 	OBAStopSectionTypeArrivals,
 	OBAStopSectionTypeFilter,
+	OBAStopSectionTypeServiceAlerts,
 	OBAStopSectionTypeActions
 } OBAStopSectionType;
 
@@ -39,6 +40,7 @@ typedef enum {
 	
 	// Control which parts of the view are displayed
 	BOOL _showTitle;
+	BOOL _showServiceAlerts;
 	BOOL _showActions;
 
 	id<OBAModelServiceRequest> _request;

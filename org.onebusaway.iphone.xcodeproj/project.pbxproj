@@ -113,6 +113,12 @@
 		D62255A30F8BC95200F139BA /* OBASearchResultsMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D62255A20F8BC95200F139BA /* OBASearchResultsMapViewController.m */; };
 		D62255AB0F8BCA8F00F139BA /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D62255AA0F8BCA8F00F139BA /* libsqlite3.0.dylib */; };
 		D62255D00F8BCBF100F139BA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D62255CF0F8BCBF100F139BA /* QuartzCore.framework */; };
+		D62991621293C7F80084A818 /* OBASituationV2.m in Sources */ = {isa = PBXBuildFile; fileRef = D62991611293C7F80084A818 /* OBASituationV2.m */; };
+		D62991661293C8920084A818 /* OBASituationConsequenceV2.m in Sources */ = {isa = PBXBuildFile; fileRef = D62991651293C8920084A818 /* OBASituationConsequenceV2.m */; };
+		D62991FE1293D41D0084A818 /* OBASituationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D62991FD1293D41D0084A818 /* OBASituationsViewController.m */; };
+		D629928A1293DBDF0084A818 /* OBASituationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D62992891293DBDF0084A818 /* OBASituationViewController.m */; };
+		D62992B31293E24F0084A818 /* OBADiversionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D62992B21293E24F0084A818 /* OBADiversionViewController.m */; };
+		D62992C01293E2F00084A818 /* OBADiversionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D62992BF1293E2F00084A818 /* OBADiversionViewController.xib */; };
 		D62AC46510A4F6D300CE9212 /* OBAModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D62AC46410A4F6D300CE9212 /* OBAModel.xcdatamodeld */; };
 		D62F2ED50F7A0C5200629092 /* OBASearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D62F2ED40F7A0C5200629092 /* OBASearchTableViewCell.m */; };
 		D62F2F4C0F7A7EC600629092 /* OBASearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D62F2F4B0F7A7EC600629092 /* OBASearchTableViewCell.xib */; };
@@ -512,6 +518,17 @@
 		D62255AA0F8BCA8F00F139BA /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		D62255C80F8BCB9C00F139BA /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		D62255CF0F8BCBF100F139BA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		D62991601293C7F80084A818 /* OBASituationV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASituationV2.h; path = Model/V2/OBASituationV2.h; sourceTree = "<group>"; };
+		D62991611293C7F80084A818 /* OBASituationV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASituationV2.m; path = Model/V2/OBASituationV2.m; sourceTree = "<group>"; };
+		D62991641293C8920084A818 /* OBASituationConsequenceV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASituationConsequenceV2.h; path = Model/V2/OBASituationConsequenceV2.h; sourceTree = "<group>"; };
+		D62991651293C8920084A818 /* OBASituationConsequenceV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASituationConsequenceV2.m; path = Model/V2/OBASituationConsequenceV2.m; sourceTree = "<group>"; };
+		D62991FC1293D41D0084A818 /* OBASituationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASituationsViewController.h; path = View/Situations/OBASituationsViewController.h; sourceTree = "<group>"; };
+		D62991FD1293D41D0084A818 /* OBASituationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASituationsViewController.m; path = View/Situations/OBASituationsViewController.m; sourceTree = "<group>"; };
+		D62992881293DBDF0084A818 /* OBASituationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASituationViewController.h; path = View/Situations/OBASituationViewController.h; sourceTree = "<group>"; };
+		D62992891293DBDF0084A818 /* OBASituationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASituationViewController.m; path = View/Situations/OBASituationViewController.m; sourceTree = "<group>"; };
+		D62992B01293E1E00084A818 /* OBADiversionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBADiversionViewController.h; path = View/Situations/OBADiversionViewController.h; sourceTree = "<group>"; };
+		D62992B21293E24F0084A818 /* OBADiversionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBADiversionViewController.m; path = View/Situations/OBADiversionViewController.m; sourceTree = "<group>"; };
+		D62992BF1293E2F00084A818 /* OBADiversionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OBADiversionViewController.xib; path = Resources/Views/OBADiversionViewController.xib; sourceTree = "<group>"; };
 		D62AC46610A4F6D300CE9212 /* OBAModel-2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OBAModel-2.xcdatamodel"; sourceTree = "<group>"; };
 		D62F2ED30F7A0C5200629092 /* OBASearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASearchTableViewCell.h; path = View/OBASearchTableViewCell.h; sourceTree = "<group>"; };
 		D62F2ED40F7A0C5200629092 /* OBASearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASearchTableViewCell.m; path = View/OBASearchTableViewCell.m; sourceTree = "<group>"; };
@@ -1158,6 +1175,7 @@
 				D64C6F6F0FDF0FCC00F0C218 /* OBAProgressIndicatorView.xib */,
 				D67ACC33121F64F700D436C4 /* OBATextEditViewController.xib */,
 				D67816CC12223E2B00FDED95 /* OBATripScheduleMapViewController.xib */,
+				D62992BF1293E2F00084A818 /* OBADiversionViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1287,6 +1305,30 @@
 			name = "Map Icons";
 			sourceTree = "<group>";
 		};
+		D62991631293C81E0084A818 /* ServiceAlerts */ = {
+			isa = PBXGroup;
+			children = (
+				D62991601293C7F80084A818 /* OBASituationV2.h */,
+				D62991611293C7F80084A818 /* OBASituationV2.m */,
+				D62991641293C8920084A818 /* OBASituationConsequenceV2.h */,
+				D62991651293C8920084A818 /* OBASituationConsequenceV2.m */,
+			);
+			name = ServiceAlerts;
+			sourceTree = "<group>";
+		};
+		D62991FF1293D4260084A818 /* Situations */ = {
+			isa = PBXGroup;
+			children = (
+				D62991FC1293D41D0084A818 /* OBASituationsViewController.h */,
+				D62991FD1293D41D0084A818 /* OBASituationsViewController.m */,
+				D62992881293DBDF0084A818 /* OBASituationViewController.h */,
+				D62992891293DBDF0084A818 /* OBASituationViewController.m */,
+				D62992B01293E1E00084A818 /* OBADiversionViewController.h */,
+				D62992B21293E24F0084A818 /* OBADiversionViewController.m */,
+			);
+			name = Situations;
+			sourceTree = "<group>";
+		};
 		D64953CD1214A3A00040572D /* Application Icon */ = {
 			isa = PBXGroup;
 			children = (
@@ -1323,6 +1365,7 @@
 		D651ADF8120383AC00B4153E /* V2 */ = {
 			isa = PBXGroup;
 			children = (
+				D62991631293C81E0084A818 /* ServiceAlerts */,
 				D651AE0C120384BC00B4153E /* OBAAgencyV2.h */,
 				D651AE0B120384BC00B4153E /* OBAAgencyV2.m */,
 				D61F0627120943FB00BE0334 /* OBAAgencyWithCoverageV2.h */,
@@ -1335,6 +1378,8 @@
 				D64E854812068313000E6B2C /* OBABookmarkV2.m */,
 				D671D33A1219973A00F398E5 /* OBAEntryWithReferencesV2.h */,
 				D671D33B1219973A00F398E5 /* OBAEntryWithReferencesV2.m */,
+				D60AF203128F92C900D735C2 /* OBAFrequencyV2.h */,
+				D60AF204128F92C900D735C2 /* OBAFrequencyV2.m */,
 				D64E836412049EFD000E6B2C /* OBAHasReferencesV2.h */,
 				D64E836512049EFD000E6B2C /* OBAHasReferencesV2.m */,
 				D651AE3812038C3200B4153E /* OBAListWithRangeAndReferencesV2.h */,
@@ -1365,8 +1410,6 @@
 				D6E93838122123D10065ED03 /* OBATripStopTimeV2.m */,
 				D67816351222296D00FDED95 /* OBATripStatusV2.h */,
 				D67816361222296D00FDED95 /* OBATripStatusV2.m */,
-				D60AF203128F92C900D735C2 /* OBAFrequencyV2.h */,
-				D60AF204128F92C900D735C2 /* OBAFrequencyV2.m */,
 			);
 			name = V2;
 			sourceTree = "<group>";
@@ -1471,6 +1514,7 @@
 				D6A982DA0F7DA6930028173A /* TableViewCells */,
 				D683373C122640EF00D545EE /* StopDetails */,
 				D67ACB74121F379700D436C4 /* TripDetails */,
+				D62991FF1293D4260084A818 /* Situations */,
 				D656D76A0FD4690300ADE4D5 /* OBASearchViewController.h */,
 				D656D76B0FD4690300ADE4D5 /* OBASearchViewController.m */,
 				D68CDC330FCB53F000EE6BDF /* OBABookmarksViewController.h */,
@@ -1863,6 +1907,7 @@
 				D6CE909A1220706A00723F49 /* OBALabelAndSwitchTableViewCell.xib in Resources */,
 				D67816CD12223E2B00FDED95 /* OBATripScheduleMapViewController.xib in Resources */,
 				D6F74FA112451D0B008D881E /* OBAArrivalsAndDeparturesHeaderView.xib in Resources */,
+				D62992C01293E2F00084A818 /* OBADiversionViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2031,6 +2076,11 @@
 				D6833919122678A200D545EE /* OBAModalActivityIndicator.m in Sources */,
 				D6884F98122C6B8B00FFF4BB /* OBATripContinuationMapAnnotation.m in Sources */,
 				D60AF205128F92C900D735C2 /* OBAFrequencyV2.m in Sources */,
+				D62991621293C7F80084A818 /* OBASituationV2.m in Sources */,
+				D62991661293C8920084A818 /* OBASituationConsequenceV2.m in Sources */,
+				D62991FE1293D41D0084A818 /* OBASituationsViewController.m in Sources */,
+				D629928A1293DBDF0084A818 /* OBASituationViewController.m in Sources */,
+				D62992B31293E24F0084A818 /* OBADiversionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

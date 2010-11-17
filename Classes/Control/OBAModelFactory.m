@@ -28,6 +28,9 @@
 #import "OBATripStopTimeV2.h"
 #import "OBATripStatusV2.h"
 
+#import "OBASituationV2.h"
+#import "OBASituationConsequenceV2.h"
+
 #import "OBAAgencyWithCoverageV2.h"
 #import "OBAPlacemark.h"
 
@@ -53,6 +56,7 @@ static NSString * const kReferences = @"references";
 - (void) addRouteV2RulesWithPrefix:(NSString*)prefix;
 - (void) addStopV2RulesWithPrefix:(NSString*)prefix;
 - (void) addTripV2RulesWithPrefix:(NSString*)prefix;
+- (void) addSituationV2RulesWithPrefix:(NSString*)prefix;
 - (void) addTripDetailsV2RulesWithPrefix:(NSString*)prefix;
 
 - (void) addAgencyWithCoverageV2RulesWithPrefix:(NSString*)prefix;
@@ -64,6 +68,7 @@ static NSString * const kReferences = @"references";
 - (void) addRouteToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
 - (void) addStopToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
 - (void) addTripToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
+- (void) addSituationToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
 
 - (void) setReferencesForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
 
@@ -174,6 +179,7 @@ static NSString * const kReferences = @"references";
 	[digester addSetPropertyRule:@"stopId" forPrefix:@"/entry/stopId"];
 	[digester addArrivalAndDepartureV2RulesWithPrefix:@"/entry/arrivalsAndDepartures/[]"];
 	[digester addSetNext:@selector(addArrivalAndDeparture:) forPrefix:@"/entry/arrivalsAndDepartures/[]"];	
+	[digester addCallMethodRule:@selector(addSituationId:) forPrefix:@"/entry/situationIds/[]"];
 	
 	[digester parse:jsonDictionary withRoot:ads parameters:[self getDigesterParameters] error:error];
 	[digester release];
@@ -243,6 +249,10 @@ static NSString * const kReferences = @"references";
 	
 	NSString * tripPrefix = [self extendPrefix:prefix withValue:@"trips/[]"];
 	[self addTripV2RulesWithPrefix:tripPrefix];
+	
+	NSString * situationPrefix = [self extendPrefix:prefix withValue:@"situations/[]"];
+	[self addSituationV2RulesWithPrefix:situationPrefix];
+
 }
 
 - (void) addAgencyV2RulesWithPrefix:(NSString*)prefix {	
@@ -286,6 +296,29 @@ static NSString * const kReferences = @"references";
 	[self addSetPropertyRule:@"shapeId" forPrefix:[self extendPrefix:prefix withValue:@"shapeId"]];
 	[self addSetPropertyRule:@"directionId" forPrefix:[self extendPrefix:prefix withValue:@"directionId"]];
 	[self addTarget:self selector:@selector(addTripToReferences:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];	
+}
+
+- (void) addSituationV2RulesWithPrefix:(NSString*)prefix {
+	
+	
+	[self addObjectCreateRule:[OBASituationV2 class] forPrefix:prefix];
+	[self addSetPropertyRule:@"situationId" forPrefix:[self extendPrefix:prefix withValue:@"id"]];	
+	[self addSetPropertyRule:@"creationTime" forPrefix:[self extendPrefix:prefix withValue:@"creationTime"]];
+	[self addSetOptionalPropertyRule:@"summary" forPrefix:[self extendPrefix:prefix withValue:@"summary/value"]];
+	[self addSetOptionalPropertyRule:@"description" forPrefix:[self extendPrefix:prefix withValue:@"description/value"]];
+	[self addSetOptionalPropertyRule:@"advice" forPrefix:[self extendPrefix:prefix withValue:@"advice/value"]];
+	
+	NSString * consequencesPrefix = [self extendPrefix:prefix withValue:@"consequences"];
+	[self addObjectCreateRule:[NSMutableArray class] forPrefix:consequencesPrefix];
+	[self addSetNext:@selector(setConsequences:) forPrefix:consequencesPrefix];
+	
+	NSString * consequencePrefix = [self extendPrefix:consequencesPrefix withValue:@"[]"];
+	[self addObjectCreateRule:[OBASituationConsequenceV2 class] forPrefix:consequencePrefix];
+	[self addSetPropertyRule:@"condition" forPrefix:[self extendPrefix:consequencePrefix withValue:@"condition"]];
+	[self addSetPropertyRule:@"diversionPath" forPrefix:[self extendPrefix:consequencePrefix withValue:@"conditionDetails/diversionPath/points"]];
+	[self addSetNext:@selector(addObject:) forPrefix:consequencePrefix];
+	
+	[self addTarget:self selector:@selector(addSituationToReferences:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];
 }
 
 - (void) addTripDetailsV2RulesWithPrefix:(NSString*)prefix {
@@ -394,6 +427,15 @@ static NSString * const kReferences = @"references";
 	[refs addTrip:trip];
 	trip.references = refs;
 }
+									
+- (void) addSituationToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
+	OBASituationV2 * situation = [context peek:0];
+	OBAReferencesV2 * refs = [context getParameterForKey:kReferences];
+	[refs addSituation:situation];
+	situation.references = refs;
+	
+}
+										
 
 - (void) setReferencesForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
 	OBAHasReferencesV2 * top = [context peek:0];

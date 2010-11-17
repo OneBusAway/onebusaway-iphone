@@ -25,6 +25,7 @@
 
 #import "OBAProgressIndicatorView.h"
 
+#import "OBASituationsViewController.h"
 #import "OBAStopPreferences.h"
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBAEditStopPreferencesViewController.h"
@@ -54,17 +55,21 @@ static const double kNearbyStopRadius = 200;
 - (NSUInteger) sectionIndexForSectionType:(OBAStopSectionType)section;
 
 - (UITableViewCell*) tableView:(UITableView*)tableView stopCellForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (UITableViewCell*) tableView:(UITableView*)tableView serviceAlertCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath*)indexPath;
 - (void)determineFilterTypeCellText:(UITableViewCell*)filterTypeCell filteringEnabled:(bool)filteringEnabled;
 - (UITableViewCell*) tableView:(UITableView*)tableView filterCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
+- (void)tableView:(UITableView *)tableView didSelectServiceAlertRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void)tableView:(UITableView *)tableView didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath;
 
 - (void) reloadData;
 
 - (NSString*) getStatusLabelForArrival:(OBAArrivalAndDepartureV2*)pa time:(NSDate*)time minutes:(int)minutes;
+
+- (int) getUnreadServiceAlertCount;
 
 @end
 
@@ -84,6 +89,7 @@ static const double kNearbyStopRadius = 200;
 		_minutesAfter = 35;
 		
 		_showTitle = TRUE;
+		_showServiceAlerts = TRUE;
 		_showActions = TRUE;
 		
 		_timeFormatter = [[NSDateFormatter alloc] init];
@@ -146,6 +152,13 @@ static const double kNearbyStopRadius = 200;
 		if( _showTitle ) {
 			if( section == offset )
 				return OBAStopSectionTypeName;
+			offset++;
+		}
+		
+		if( _showServiceAlerts && [self getUnreadServiceAlertCount] > 0) {
+			
+			if( section == offset )
+				return OBAStopSectionTypeServiceAlerts;
 			offset++;
 		}
 		
@@ -284,6 +297,8 @@ static const double kNearbyStopRadius = 200;
 	switch( sectionType ) {
 		case OBAStopSectionTypeName:
 			return 1;
+		case OBAStopSectionTypeServiceAlerts:
+			return 1;
 		case OBAStopSectionTypeArrivals: {
 			int c = 0;
 			if( _showFilteredArrivals )
@@ -314,6 +329,8 @@ static const double kNearbyStopRadius = 200;
 	switch (sectionType) {
 		case OBAStopSectionTypeName:
 			return [self tableView:tableView stopCellForRowAtIndexPath:indexPath];
+		case OBAStopSectionTypeServiceAlerts:
+			return [self tableView:tableView serviceAlertCellForRowAtIndexPath:indexPath];
 		case OBAStopSectionTypeArrivals:
 			return [self tableView:tableView predictedArrivalCellForRowAtIndexPath:indexPath];
 		case OBAStopSectionTypeFilter:
@@ -333,6 +350,10 @@ static const double kNearbyStopRadius = 200;
 	OBAStopSectionType sectionType = [self sectionTypeForSection:indexPath.section];
 	
 	switch (sectionType) {
+			
+		case OBAStopSectionTypeServiceAlerts:
+			[self tableView:tableView didSelectServiceAlertRowAtIndexPath:indexPath];
+			break;
 			
 		case OBAStopSectionTypeArrivals:
 			[self tableView:tableView didSelectTripRowAtIndexPath:indexPath];
@@ -452,6 +473,12 @@ static const double kNearbyStopRadius = 200;
 			offset++;
 		}
 		
+		if( _showServiceAlerts && [self getUnreadServiceAlertCount] > 0) {
+			if( section == OBAStopSectionTypeServiceAlerts )
+				return offset;
+			offset++;
+		}
+		
 		if( section == OBAStopSectionTypeArrivals )
 			return offset;
 		offset++;
@@ -486,6 +513,18 @@ static const double kNearbyStopRadius = 200;
 	return [UITableViewCell getOrCreateCellForTableView:tableView];
 }
 
+- (UITableViewCell*) tableView:(UITableView*)tableView serviceAlertCellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	int count = [self getUnreadServiceAlertCount];
+	
+	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+	cell.textLabel.text = [NSString stringWithFormat:@"Service alerts: %d unread",count];
+	cell.textLabel.textAlignment = UITextAlignmentCenter;
+	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
+	return cell;	
+}
 
 - (UITableViewCell*)tableView:(UITableView*)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath*)indexPath {
 	NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
@@ -583,6 +622,13 @@ static const double kNearbyStopRadius = 200;
 	}
 	
 	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectServiceAlertRowAtIndexPath:(NSIndexPath *)indexPath {
+	NSArray * situations = _result.situations;
+	OBASituationsViewController * vc = [[OBASituationsViewController alloc] initWithApplicationContext:_appContext situations:situations];
+	[self.navigationController pushViewController:vc animated:TRUE];
+	[vc release];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -743,6 +789,18 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 	
 	return [NSString stringWithFormat:@"%@ - %@",[_timeFormatter stringFromDate:time],status];	
 }
+
+- (int) getUnreadServiceAlertCount {
+	
+	int count = 0;
+	
+	if( _result && _result.situationIds) {
+		NSArray * situationIds = _result.situationIds;
+		count = [situationIds count];
+	}
+	
+	return count;
+}	
 
 @end
 
