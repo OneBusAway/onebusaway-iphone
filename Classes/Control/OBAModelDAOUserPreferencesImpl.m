@@ -22,6 +22,7 @@ static NSString * kMostRecentStopsKey = @"mostRecentStops";
 static NSString * kStopPreferencesKey = @"stopPreferences";
 static NSString * kMostRecentLocationKey = @"mostRecentLocation";
 static NSString * kHideFutureLocationWarningsKey = @"hideFutureLocationWarnings";
+static NSString * kVisitedSituationIdsKey = @"hideFutureLocationWarnings";
 
 
 @interface OBAModelDAOUserPreferencesImpl (Private)
@@ -143,6 +144,31 @@ static NSString * kHideFutureLocationWarningsKey = @"hideFutureLocationWarnings"
 	NSNumber * v = [NSNumber numberWithBool:hideFutureLocationWarnings];
 	[user setObject:v forKey:kHideFutureLocationWarningsKey];
 }
+
+- (NSSet*) readVisistedSituationIds {
+	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+	NSData * data = [user dataForKey:kVisitedSituationIdsKey];
+	NSSet * situationIds = nil;
+	@try {
+		situationIds = [self decodeObjectForKey:kVisitedSituationIdsKey fromData:data];
+	}
+	@catch (NSException * e) {
+		
+	}
+	
+	if( ! situationIds )
+		situationIds = [[NSSet alloc] init];
+	
+	return situationIds;
+}
+
+- (void) writeVisistedSituationIds:(NSSet*)situationIds {
+	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+	NSMutableData * data = [NSMutableData data];
+	[self encodeObject:situationIds forKey:kVisitedSituationIdsKey toData:data];
+	[user setObject:data forKey:kVisitedSituationIdsKey];
+}
+
 
 
 @end

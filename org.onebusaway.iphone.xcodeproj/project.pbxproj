@@ -119,6 +119,8 @@
 		D629928A1293DBDF0084A818 /* OBASituationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D62992891293DBDF0084A818 /* OBASituationViewController.m */; };
 		D62992B31293E24F0084A818 /* OBADiversionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D62992B21293E24F0084A818 /* OBADiversionViewController.m */; };
 		D62992C01293E2F00084A818 /* OBADiversionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D62992BF1293E2F00084A818 /* OBADiversionViewController.xib */; };
+		D62993BB12943EC10084A818 /* OBAArrivalAndDepartureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D62993BA12943EC10084A818 /* OBAArrivalAndDepartureViewController.m */; };
+		D62993C2129454630084A818 /* OBAPresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = D62993C1129454630084A818 /* OBAPresentation.m */; };
 		D62AC46510A4F6D300CE9212 /* OBAModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D62AC46410A4F6D300CE9212 /* OBAModel.xcdatamodeld */; };
 		D62F2ED50F7A0C5200629092 /* OBASearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D62F2ED40F7A0C5200629092 /* OBASearchTableViewCell.m */; };
 		D62F2F4C0F7A7EC600629092 /* OBASearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D62F2F4B0F7A7EC600629092 /* OBASearchTableViewCell.xib */; };
@@ -158,6 +160,10 @@
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 		D65B9F1B0FDD7BBF006A9568 /* OBANavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = D65B9F1A0FDD7BBF006A9568 /* OBANavigationTarget.m */; };
 		D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */; };
+		D6678C341294E46B00B5B9E3 /* Alert@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D6678C321294E46B00B5B9E3 /* Alert@2x.png */; };
+		D6678C351294E46B00B5B9E3 /* Alert.png in Resources */ = {isa = PBXBuildFile; fileRef = D6678C331294E46B00B5B9E3 /* Alert.png */; };
+		D6678DF11295228200B5B9E3 /* AlertGrayscale.png in Resources */ = {isa = PBXBuildFile; fileRef = D6678DEF1295228200B5B9E3 /* AlertGrayscale.png */; };
+		D6678DF21295228200B5B9E3 /* AlertGrayscale@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D6678DF01295228200B5B9E3 /* AlertGrayscale@2x.png */; };
 		D66842FC0FEA01F800C681B6 /* OBADataSourceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = D66842FB0FEA01F800C681B6 /* OBADataSourceConfig.m */; };
 		D66843040FEA03E800C681B6 /* OBAJsonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D66843030FEA03E800C681B6 /* OBAJsonDataSource.m */; };
 		D6686A6E0FD9ABD40097F034 /* OBAProgressIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = D6686A6D0FD9ABD40097F034 /* OBAProgressIndicatorView.m */; };
@@ -529,6 +535,10 @@
 		D62992B01293E1E00084A818 /* OBADiversionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBADiversionViewController.h; path = View/Situations/OBADiversionViewController.h; sourceTree = "<group>"; };
 		D62992B21293E24F0084A818 /* OBADiversionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBADiversionViewController.m; path = View/Situations/OBADiversionViewController.m; sourceTree = "<group>"; };
 		D62992BF1293E2F00084A818 /* OBADiversionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OBADiversionViewController.xib; path = Resources/Views/OBADiversionViewController.xib; sourceTree = "<group>"; };
+		D62993B912943EC10084A818 /* OBAArrivalAndDepartureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAArrivalAndDepartureViewController.h; path = View/TripDetails/OBAArrivalAndDepartureViewController.h; sourceTree = "<group>"; };
+		D62993BA12943EC10084A818 /* OBAArrivalAndDepartureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAArrivalAndDepartureViewController.m; path = View/TripDetails/OBAArrivalAndDepartureViewController.m; sourceTree = "<group>"; };
+		D62993C0129454630084A818 /* OBAPresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAPresentation.h; path = View/OBAPresentation.h; sourceTree = "<group>"; };
+		D62993C1129454630084A818 /* OBAPresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAPresentation.m; path = View/OBAPresentation.m; sourceTree = "<group>"; };
 		D62AC46610A4F6D300CE9212 /* OBAModel-2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OBAModel-2.xcdatamodel"; sourceTree = "<group>"; };
 		D62F2ED30F7A0C5200629092 /* OBASearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASearchTableViewCell.h; path = View/OBASearchTableViewCell.h; sourceTree = "<group>"; };
 		D62F2ED40F7A0C5200629092 /* OBASearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASearchTableViewCell.m; path = View/OBASearchTableViewCell.m; sourceTree = "<group>"; };
@@ -590,6 +600,10 @@
 		D65B9F1A0FDD7BBF006A9568 /* OBANavigationTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTarget.m; sourceTree = "<group>"; };
 		D65BA1CF0FDDC74D006A9568 /* OBANavigationTargetAware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTargetAware.h; sourceTree = "<group>"; };
 		D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		D6678C321294E46B00B5B9E3 /* Alert@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Alert@2x.png"; path = "Resources/Icons/Alert@2x.png"; sourceTree = "<group>"; };
+		D6678C331294E46B00B5B9E3 /* Alert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Alert.png; path = Resources/Icons/Alert.png; sourceTree = "<group>"; };
+		D6678DEF1295228200B5B9E3 /* AlertGrayscale.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AlertGrayscale.png; path = Resources/Icons/AlertGrayscale.png; sourceTree = "<group>"; };
+		D6678DF01295228200B5B9E3 /* AlertGrayscale@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "AlertGrayscale@2x.png"; path = "Resources/Icons/AlertGrayscale@2x.png"; sourceTree = "<group>"; };
 		D66842FA0FEA01F800C681B6 /* OBADataSourceConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBADataSourceConfig.h; path = Control/DataSource/OBADataSourceConfig.h; sourceTree = "<group>"; };
 		D66842FB0FEA01F800C681B6 /* OBADataSourceConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBADataSourceConfig.m; path = Control/DataSource/OBADataSourceConfig.m; sourceTree = "<group>"; };
 		D66842FF0FEA02BC00C681B6 /* OBADataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBADataSource.h; path = Control/DataSource/OBADataSource.h; sourceTree = "<group>"; };
@@ -1342,6 +1356,10 @@
 		D64A426D101E14F4008F16CA /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				D6678C331294E46B00B5B9E3 /* Alert.png */,
+				D6678C321294E46B00B5B9E3 /* Alert@2x.png */,
+				D6678DEF1295228200B5B9E3 /* AlertGrayscale.png */,
+				D6678DF01295228200B5B9E3 /* AlertGrayscale@2x.png */,
 				D64A4271101E161B008F16CA /* Bookmarks.png */,
 				D671D30912190FD500F398E5 /* Bookmarks@2x.png */,
 				D64A427A101E186E008F16CA /* Clock.png */,
@@ -1480,6 +1498,8 @@
 		D67ACB74121F379700D436C4 /* TripDetails */ = {
 			isa = PBXGroup;
 			children = (
+				D62993B912943EC10084A818 /* OBAArrivalAndDepartureViewController.h */,
+				D62993BA12943EC10084A818 /* OBAArrivalAndDepartureViewController.m */,
 				D67ACB82121F37C700D436C4 /* OBATripDetailsViewController.h */,
 				D67ACB81121F37C700D436C4 /* OBATripDetailsViewController.m */,
 				D67816DA1222442D00FDED95 /* OBATripScheduleMapViewController.h */,
@@ -1515,6 +1535,8 @@
 				D683373C122640EF00D545EE /* StopDetails */,
 				D67ACB74121F379700D436C4 /* TripDetails */,
 				D62991FF1293D4260084A818 /* Situations */,
+				D62993C0129454630084A818 /* OBAPresentation.h */,
+				D62993C1129454630084A818 /* OBAPresentation.m */,
 				D656D76A0FD4690300ADE4D5 /* OBASearchViewController.h */,
 				D656D76B0FD4690300ADE4D5 /* OBASearchViewController.m */,
 				D68CDC330FCB53F000EE6BDF /* OBABookmarksViewController.h */,
@@ -1908,6 +1930,10 @@
 				D67816CD12223E2B00FDED95 /* OBATripScheduleMapViewController.xib in Resources */,
 				D6F74FA112451D0B008D881E /* OBAArrivalsAndDeparturesHeaderView.xib in Resources */,
 				D62992C01293E2F00084A818 /* OBADiversionViewController.xib in Resources */,
+				D6678C341294E46B00B5B9E3 /* Alert@2x.png in Resources */,
+				D6678C351294E46B00B5B9E3 /* Alert.png in Resources */,
+				D6678DF11295228200B5B9E3 /* AlertGrayscale.png in Resources */,
+				D6678DF21295228200B5B9E3 /* AlertGrayscale@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2081,6 +2107,8 @@
 				D62991FE1293D41D0084A818 /* OBASituationsViewController.m in Sources */,
 				D629928A1293DBDF0084A818 /* OBASituationViewController.m in Sources */,
 				D62992B31293E24F0084A818 /* OBADiversionViewController.m in Sources */,
+				D62993BB12943EC10084A818 /* OBAArrivalAndDepartureViewController.m in Sources */,
+				D62993C2129454630084A818 /* OBAPresentation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2092,6 +2120,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUILD_VARIANTS = normal;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -2103,6 +2132,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = OneBusAway;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos4.1;
 				VALIDATE_PRODUCT = YES;

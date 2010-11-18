@@ -55,6 +55,9 @@ typedef enum {
 	NSDateFormatter * _timeFormatter;
 	
 	OBAProgressIndicatorView * _progressView;
+	
+	NSUInteger _unreadServiceAlertCount;
+	NSUInteger _serviceAlertCount;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext;

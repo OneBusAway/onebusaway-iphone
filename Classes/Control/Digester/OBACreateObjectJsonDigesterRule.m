@@ -20,9 +20,12 @@
 
 @implementation OBACreateObjectJsonDigesterRule
 
+@synthesize onlyIfNotNull = _onlyIfNotNull;
+
 - (id) initWithObjectClass:(Class)objectClass {
 	if( self = [super init] ) {
 		_objectClass = objectClass;
+		_onlyIfNotNull = TRUE;
 	}
 	return self;
 }
@@ -30,15 +33,19 @@
 #pragma mark OBAJsonDigesterRule Methods
 
 - (void) begin:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
-	id obj = [[_objectClass alloc] init];
-	[context pushValue:obj];
-	[obj release];
-	if( context.verbose )
-		OBALogDebug(@"Creating object: class=%@",[_objectClass description]);
+	if( ! (_onlyIfNotNull && (value == nil || value == kCFNull)) ) {
+		id obj = [[_objectClass alloc] init];
+		[context pushValue:obj];
+		[obj release];
+		if( context.verbose )
+			OBALogDebug(@"Creating object: class=%@",[_objectClass description]);
+	}
 }
 
 - (void) end:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
-	[context popValue];
+	if( ! (_onlyIfNotNull && (value == nil || value == kCFNull)) ) {
+		[context popValue];
+	}
 }
 
 

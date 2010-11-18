@@ -28,6 +28,7 @@
 	NSMutableArray * _mostRecentStops;
 	NSMutableDictionary * _stopPreferences;
 	CLLocation * _mostRecentLocation;
+	NSMutableSet * _visitedSituationIds;
 }
 
 @property (nonatomic,readonly) NSArray * bookmarks;
@@ -45,6 +46,10 @@
 
 - (OBAStopPreferencesV2*) stopPreferencesForStopWithId:(NSString*)stopId;
 - (void) setStopPreferences:(OBAStopPreferencesV2*)preferences forStopWithId:(NSString*)stopId;
+
+- (BOOL) isVisitedSituationWithId:(NSString*)situationId;
+- (void) setVisited:(BOOL)visited forSituationWithId:(NSString*)situationId;
+- (NSUInteger) getUnreadServiceAlertCount:(NSArray*)situationIds;
 
 /**
  * We persist hiding location warnings across application settings for users who have disabled location services for the app

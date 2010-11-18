@@ -62,6 +62,7 @@ static NSString * const kReferences = @"references";
 - (void) addAgencyWithCoverageV2RulesWithPrefix:(NSString*)prefix;
 
 - (void) addArrivalAndDepartureV2RulesWithPrefix:(NSString*)prefix;
+- (void) addTripStatusV2RulesWithPrefix:(NSString*)prefix;
 - (void) addFrequencyV2RulesWithPrefix:(NSString*)prefix;
 
 - (void) addAgencyToReferences:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
@@ -349,14 +350,9 @@ static NSString * const kReferences = @"references";
 	[self addSetNext:@selector(addObject:) forPrefix:stopTimesPrefix];
 	[self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:stopTimesPrefix];
 	
-	NSString * statusPrefix = [self extendPrefix:prefix withValue:@"status"];
-	[self addObjectCreateRule:[OBATripStatusV2 class] forPrefix:statusPrefix];
-	[self addSetPropertyRule:@"serviceDate" forPrefix:[self extendPrefix:statusPrefix withValue:@"serviceDate"]];
-	[self addSetLocationPropertyRule:@"location" withPrefix:[self extendPrefix:statusPrefix withValue:@"position"]];
-	[self addSetPropertyRule:@"predicted" forPrefix:[self extendPrefix:statusPrefix withValue:@"predicted"]];
-	[self addSetPropertyRule:@"scheduleDeviation" forPrefix:[self extendPrefix:statusPrefix withValue:@"scheduleDeviation"]];
-	[self addSetPropertyRule:@"vehicleId" forPrefix:[self extendPrefix:statusPrefix withValue:@"vehicleId"]];
-	[self addSetNext:@selector(setStatus:) forPrefix:statusPrefix];
+	NSString * tripStatusPrefix = [self extendPrefix:prefix withValue:@"status"];
+	[self addTripStatusV2RulesWithPrefix:tripStatusPrefix];
+	[self addSetNext:@selector(setStatus:) forPrefix:tripStatusPrefix];
 }
 
 - (void) addAgencyWithCoverageV2RulesWithPrefix:(NSString*)prefix {
@@ -379,6 +375,10 @@ static NSString * const kReferences = @"references";
 	
 	[self addSetPropertyRule:@"stopId" forPrefix:[self extendPrefix:prefix withValue:@"stopId"]];
 	
+	NSString * tripStatusPrefix = [self extendPrefix:prefix withValue:@"tripStatus"];
+	[self addTripStatusV2RulesWithPrefix:tripStatusPrefix];
+	[self addSetNext:@selector(setTripStatus:) forPrefix:tripStatusPrefix];
+	
 	[self addSetPropertyRule:@"scheduledArrivalTime" forPrefix:[self extendPrefix:prefix withValue:@"scheduledArrivalTime"]];
 	[self addSetPropertyRule:@"predictedArrivalTime" forPrefix:[self extendPrefix:prefix withValue:@"predictedArrivalTime"]];
 	[self addSetPropertyRule:@"scheduledDepartureTime" forPrefix:[self extendPrefix:prefix withValue:@"scheduledDepartureTime"]];
@@ -388,8 +388,19 @@ static NSString * const kReferences = @"references";
 	[self addFrequencyV2RulesWithPrefix:frequencyPrefix];
 	[self addSetNext:@selector(setFrequency:) forPrefix:frequencyPrefix];
 	
+	[self addCallMethodRule:@selector(addSituationId:) forPrefix:[self extendPrefix:prefix withValue:@"situationIds/[]"]];
+	
 	[self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];
 }
+
+- (void) addTripStatusV2RulesWithPrefix:(NSString*)prefix {
+	[self addObjectCreateRule:[OBATripStatusV2 class] forPrefix:prefix];
+	[self addSetPropertyRule:@"serviceDate" forPrefix:[self extendPrefix:prefix withValue:@"serviceDate"]];
+	[self addSetLocationPropertyRule:@"location" withPrefix:[self extendPrefix:prefix withValue:@"position"]];
+	[self addSetPropertyRule:@"predicted" forPrefix:[self extendPrefix:prefix withValue:@"predicted"]];
+	[self addSetPropertyRule:@"scheduleDeviation" forPrefix:[self extendPrefix:prefix withValue:@"scheduleDeviation"]];
+	[self addSetPropertyRule:@"vehicleId" forPrefix:[self extendPrefix:prefix withValue:@"vehicleId"]];
+}		 
 
 - (void) addFrequencyV2RulesWithPrefix:(NSString*)prefix {
 	

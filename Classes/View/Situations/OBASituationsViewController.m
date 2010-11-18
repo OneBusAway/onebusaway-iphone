@@ -12,14 +12,6 @@
 #import "OBASituationViewController.h"
 
 
-@interface OBASituationsViewController (Private)
-
-- (UITableViewCell*) tableView:(UITableView*)tableView titleCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (UITableViewCell*) tableView:(UITableView*)tableView situationCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-
-@end
-
-
 @implementation OBASituationsViewController
 
 
@@ -31,6 +23,7 @@
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		_appContext = [appContext retain];
 		_situations = [situations retain];
+		self.navigationItem.title = @"Service Alerts";
 	}
 	
 	return self;
@@ -49,74 +42,20 @@
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 2;
+	return 1;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	switch(section) {
-		case 0:
-			return 1;
-		case 1: {
-			int count = [_situations count];
-			if( count == 0 )
-				count = 1;
-			return count;
-			break;
-		}
-		default:
-			return 0;
-	}
+	int count = [_situations count];
+	if( count == 0 )
+		count = 1;
+	return count;
 }
-
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-	if( indexPath.section == 0 )
-		return [self tableView:tableView titleCellForRowAtIndexPath:indexPath];
-	else if ( indexPath.section == 1 )
-		return [self tableView:tableView situationCellForRowAtIndexPath:indexPath];
-	else
-		return nil;
-}
-
-#pragma mark -
-#pragma mark Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	if( indexPath.section == 1 && [_situations count] > 0) {
-		OBASituationV2 * situation = [_situations objectAtIndex:indexPath.row];
-		OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationContext:_appContext situation:situation];
-		[self.navigationController pushViewController:vc animated:TRUE];
-		[vc release];
-	}
-}
-
-
-#pragma mark -
-#pragma mark Memory management
-
-
-
-
-@end
-	
-@implementation OBASituationsViewController (Private)
-
-- (UITableViewCell*) tableView:(UITableView*)tableView titleCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-	cell.textLabel.text = @"Service Alerts";
-	cell.textLabel.textAlignment = UITextAlignmentCenter;
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	cell.accessoryType = UITableViewCellAccessoryNone;
-	return cell;	
-}
-
-- (UITableViewCell*) tableView:(UITableView*)tableView situationCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
 	if( [_situations count] == 0 ) {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = @"No active service alerts";
@@ -136,6 +75,14 @@
 	return cell;	
 }
 
-@end
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
+	if( [_situations count] > 0) {
+		OBASituationV2 * situation = [_situations objectAtIndex:indexPath.row];
+		OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationContext:_appContext situation:situation];
+		[self.navigationController pushViewController:vc animated:TRUE];
+		[vc release];
+	}
+}
 
+@end

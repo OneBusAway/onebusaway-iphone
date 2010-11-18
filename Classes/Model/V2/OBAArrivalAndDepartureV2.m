@@ -9,6 +9,7 @@
 @synthesize serviceDate;
 @synthesize tripHeadsign = _tripHeadsign;
 @synthesize stopId = _stopId;
+@synthesize tripStatus = _tripStatus;
 @synthesize frequency = _frequency;
 
 @synthesize scheduledArrivalTime = _scheduledArrivalTime;
@@ -17,13 +18,22 @@
 @synthesize scheduledDepartureTime = _scheduledDepartureTime;
 @synthesize predictedDepartureTime = _predictedDepartureTime;
 
+@synthesize situationIds = _situationIds;
+
+- (id) init {
+	if (self = [super init]) {
+		_situationIds = [[NSMutableArray alloc] init];
+	}
+	return self;
+}
+
 - (void) dealloc {
 	[_routeId release];
 	[_routeShortName release];
 	[_tripId release];
 	[_tripHeadsign release];
 	[_stopId release];
-	
+	[_situationIds release];
 	[super dealloc];
 }
 
@@ -37,12 +47,37 @@
 	return [refs getStopForId:_stopId];
 }
 
+- (OBATripV2*) trip {
+	OBAReferencesV2 * refs = [self references];
+	return [refs getTripForId:_tripId];
+
+}
+
 - (long long) bestArrivalTime {
 	return _predictedArrivalTime == 0 ? _scheduledArrivalTime : _predictedArrivalTime;
 }
 
 - (long long) bestDepartureTime {
 	return _predictedDepartureTime == 0 ? _scheduledDepartureTime : _predictedDepartureTime;
+}
+
+- (NSArray*) situations {
+	
+	NSMutableArray * rSituations = [NSMutableArray array];
+	
+	OBAReferencesV2 * refs = self.references;
+	
+	for( NSString * situationId in self.situationIds ) {
+		OBASituationV2 * situation = [refs getSituationForId:situationId];
+		if( situation )
+			[rSituations addObject:situation];
+	}
+	
+	return rSituations;
+}
+
+- (void) addSituationId:(NSString*)situationId {
+	[_situationIds addObject:situationId];
 }
 
 @end

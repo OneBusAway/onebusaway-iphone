@@ -25,10 +25,12 @@
 
 #import "OBAProgressIndicatorView.h"
 
-#import "OBASituationsViewController.h"
+#import "OBAPresentation.h"
+
 #import "OBAStopPreferences.h"
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBAEditStopPreferencesViewController.h"
+#import "OBAArrivalAndDepartureViewController.h"
 #import "OBATripDetailsViewController.h"
 #import "OBAReportProblemViewController.h"
 
@@ -69,8 +71,6 @@ static const double kNearbyStopRadius = 200;
 
 - (NSString*) getStatusLabelForArrival:(OBAArrivalAndDepartureV2*)pa time:(NSDate*)time minutes:(int)minutes;
 
-- (int) getUnreadServiceAlertCount;
-
 @end
 
 
@@ -95,6 +95,9 @@ static const double kNearbyStopRadius = 200;
 		_timeFormatter = [[NSDateFormatter alloc] init];
 		[_timeFormatter setDateStyle:NSDateFormatterNoStyle];
 		[_timeFormatter setTimeStyle:NSDateFormatterShortStyle];
+		
+		_unreadServiceAlertCount = 0;
+		_serviceAlertCount = 0;
 						
 		_progressView = [[OBAProgressIndicatorView viewFromNib] retain];
 		[self.navigationItem setTitleView:_progressView];
@@ -155,7 +158,7 @@ static const double kNearbyStopRadius = 200;
 			offset++;
 		}
 		
-		if( _showServiceAlerts && [self getUnreadServiceAlertCount] > 0) {
+		if( _showServiceAlerts && _unreadServiceAlertCount > 0) {
 			
 			if( section == offset )
 				return OBAStopSectionTypeServiceAlerts;
@@ -279,10 +282,12 @@ static const double kNearbyStopRadius = 200;
 	OBAStopV2 * stop = _result.stop;
 	
 	if( stop ) {
-		if( [_filteredArrivals count] != [_allArrivals count] ) {
-			return 4;
-		}
-		return 3;
+		int count = 3;
+		if( [_filteredArrivals count] != [_allArrivals count] )
+			count++;
+		if( _showServiceAlerts && _unreadServiceAlertCount > 0 )
+			count++;
+		return count;
 	}
 	
 	return 1;
@@ -314,7 +319,7 @@ static const double kNearbyStopRadius = 200;
 		case OBAStopSectionTypeFilter:
 			return 1;
 		case OBAStopSectionTypeActions:
-			return 4;
+			return 5;
 		default:
 			return 0;
 	}
@@ -473,7 +478,7 @@ static const double kNearbyStopRadius = 200;
 			offset++;
 		}
 		
-		if( _showServiceAlerts && [self getUnreadServiceAlertCount] > 0) {
+		if( _showServiceAlerts && _unreadServiceAlertCount > 0) {
 			if( section == OBAStopSectionTypeServiceAlerts )
 				return offset;
 			offset++;
@@ -513,17 +518,8 @@ static const double kNearbyStopRadius = 200;
 	return [UITableViewCell getOrCreateCellForTableView:tableView];
 }
 
-- (UITableViewCell*) tableView:(UITableView*)tableView serviceAlertCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	int count = [self getUnreadServiceAlertCount];
-	
-	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-	cell.textLabel.text = [NSString stringWithFormat:@"Service alerts: %d unread",count];
-	cell.textLabel.textAlignment = UITextAlignmentCenter;
-	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	
-	return cell;	
+- (UITableViewCell*) tableView:(UITableView*)tableView serviceAlertCellForRowAtIndexPath:(NSIndexPath *)indexPath {	
+	return [OBAPresentation tableViewCellForUnreadServiceAlerts:_unreadServiceAlertCount tableView:tableView];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -600,6 +596,10 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	if( indexPath.row == 2 )
+		return [OBAPresentation tableViewCellForServiceAlerts:_unreadServiceAlertCount totalCount:_serviceAlertCount tableView:tableView];
+		
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
     cell.textLabel.textAlignment = UITextAlignmentCenter;
@@ -614,9 +614,12 @@ static const double kNearbyStopRadius = 200;
 			cell.textLabel.text = @"Filter & Sort Routes";
 			break;
 		case 2:
-			cell.textLabel.text = @"See Nearby Stops";
+			cell.textLabel.text = @"Service Alerts";
 			break;
 		case 3:
+			cell.textLabel.text = @"See Nearby Stops";
+			break;
+		case 4:
 			cell.textLabel.text = @"Report a Problem";
 			break;			
 	}
@@ -626,17 +629,14 @@ static const double kNearbyStopRadius = 200;
 
 - (void)tableView:(UITableView *)tableView didSelectServiceAlertRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSArray * situations = _result.situations;
-	OBASituationsViewController * vc = [[OBASituationsViewController alloc] initWithApplicationContext:_appContext situations:situations];
-	[self.navigationController pushViewController:vc animated:TRUE];
-	[vc release];
+	[OBAPresentation showSituations:situations withAppContext:_appContext navigationController:self.navigationController];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
 	OBAArrivalAndDepartureV2 * arrivalAndDeparture = [arrivals objectAtIndex:indexPath.row];
 	if( arrivalAndDeparture ) {
-		OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripId:arrivalAndDeparture.tripId serviceDate:arrivalAndDeparture.serviceDate];
-		vc.currentStopId = _stopId;
+		OBAArrivalAndDepartureViewController * vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationContext:_appContext arrivalAndDeparture:arrivalAndDeparture];
 		[self.navigationController pushViewController:vc animated:TRUE];
 		[vc release];
 	}
@@ -663,6 +663,12 @@ static const double kNearbyStopRadius = 200;
 		}
 			
 		case 2: {
+			NSArray * situations = _result.situations;
+			[OBAPresentation showSituations:situations withAppContext:_appContext navigationController:self.navigationController];
+			break;
+		}
+			
+		case 3: {
 			OBAStopV2 * stop = _result.stop;
 			MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:stop.coordinate latRadius:kNearbyStopRadius lonRadius:kNearbyStopRadius];
 			OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchLocationRegion:region];
@@ -670,7 +676,7 @@ static const double kNearbyStopRadius = 200;
 			break;
 		}
 			
-		case 3: {
+		case 4: {
 			OBAReportProblemViewController * vc = [[OBAReportProblemViewController alloc] initWithApplicationContext:_appContext stop:_result.stop];
 			[self.navigationController pushViewController:vc animated:YES];
 			[vc release];
@@ -704,38 +710,41 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 }
 
 - (void) reloadData {
-	@synchronized(self) {
-		OBAStopV2 * stop = _result.stop;
 		
-		NSArray * predictedArrivals = _result.arrivalsAndDepartures;
+	OBAModelDAO * modelDao = _appContext.modelDao;
+	OBAStopV2 * stop = _result.stop;
+	
+	NSArray * predictedArrivals = _result.arrivalsAndDepartures;
+	
+	[_allArrivals removeAllObjects];
+	[_filteredArrivals removeAllObjects];
+	
+	if(stop && predictedArrivals) {
 		
-		[_allArrivals removeAllObjects];
-		[_filteredArrivals removeAllObjects];
+		OBAStopPreferencesV2 * prefs = [modelDao stopPreferencesForStopWithId:stop.stopId];
 		
-		if(stop && predictedArrivals) {
-			OBAModelDAO * modelDao = _appContext.modelDao;	
-			OBAStopPreferencesV2 * prefs = [modelDao stopPreferencesForStopWithId:stop.stopId];
-			
-			for( OBAArrivalAndDepartureV2 * pa in predictedArrivals) {
-				[_allArrivals addObject:pa];
-				if( [prefs isRouteIdEnabled:pa.routeId] )
-					[_filteredArrivals addObject:pa];
-			}
-
-			switch (prefs.sortTripsByType) {
-				case OBASortTripsByDepartureTimeV2:
-					[_allArrivals sortUsingFunction:predictedArrivalSortByDepartureTime context:nil];
-					[_filteredArrivals sortUsingFunction:predictedArrivalSortByDepartureTime context:nil];
-					break;
-				case OBASortTripsByRouteNameV2:
-					[_allArrivals sortUsingFunction:predictedArrivalSortByRoute context:nil];
-					[_filteredArrivals sortUsingFunction:predictedArrivalSortByRoute context:nil];
-					break;
-			}
+		for( OBAArrivalAndDepartureV2 * pa in predictedArrivals) {
+			[_allArrivals addObject:pa];
+			if( [prefs isRouteIdEnabled:pa.routeId] )
+				[_filteredArrivals addObject:pa];
 		}
-
-		[self.tableView reloadData];
+		
+		switch (prefs.sortTripsByType) {
+			case OBASortTripsByDepartureTimeV2:
+				[_allArrivals sortUsingFunction:predictedArrivalSortByDepartureTime context:nil];
+				[_filteredArrivals sortUsingFunction:predictedArrivalSortByDepartureTime context:nil];
+				break;
+			case OBASortTripsByRouteNameV2:
+				[_allArrivals sortUsingFunction:predictedArrivalSortByRoute context:nil];
+				[_filteredArrivals sortUsingFunction:predictedArrivalSortByRoute context:nil];
+				break;
+		}
 	}
+	
+	_unreadServiceAlertCount = [modelDao getUnreadServiceAlertCount:_result.situationIds];
+	_serviceAlertCount = [_result.situationIds count];
+	
+	[self.tableView reloadData];
 }
 
 - (NSString*) getStatusLabelForArrival:(OBAArrivalAndDepartureV2*)pa time:(NSDate*)time minutes:(int)minutes {
@@ -789,18 +798,6 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 	
 	return [NSString stringWithFormat:@"%@ - %@",[_timeFormatter stringFromDate:time],status];	
 }
-
-- (int) getUnreadServiceAlertCount {
-	
-	int count = 0;
-	
-	if( _result && _result.situationIds) {
-		NSArray * situationIds = _result.situationIds;
-		count = [situationIds count];
-	}
-	
-	return count;
-}	
 
 @end
 

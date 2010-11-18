@@ -22,12 +22,27 @@
 
 @synthesize target = _target;
 @synthesize action = _action;
+@synthesize readOnly = _readOnly;
 
 +(OBATextEditViewController*)pushOntoViewController:(UIViewController*)parent withText:(NSString*)text withTitle:(NSString*)title {
+	return [self pushOntoViewController:parent withText:text withTitle:title readOnly:FALSE];
+}
+
++(OBATextEditViewController*)pushOntoViewController:(UIViewController*)parent withText:(NSString*)text withTitle:(NSString*)title readOnly:(BOOL)readOnly {
 	NSArray* wired = [[NSBundle mainBundle] loadNibNamed:@"OBATextEditViewController" owner:parent options:nil];
 	OBATextEditViewController* controller = [wired objectAtIndex:0];
 	[controller setTitle:title];
-	[[controller textView] setText:text];
+	
+	UITextView * textView = [controller textView];
+	[textView setText:text];
+	
+	if( readOnly ) {
+		[controller textView].editable = FALSE;
+		controller.navigationItem.rightBarButtonItem = nil;
+	}
+	
+	controller.readOnly = readOnly;
+	
 	[[parent navigationController] pushViewController:controller animated:YES];
 	return controller;
 }
@@ -49,8 +64,10 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-	[[self navigationController] setToolbarHidden:YES animated:YES];
-	[[self textView] becomeFirstResponder];
+	if( ! _readOnly ) {
+		[[self navigationController] setToolbarHidden:YES animated:YES];
+		[[self textView] becomeFirstResponder];
+	}
 }
 
 -(void)viewWillDisappear:(BOOL)animated {

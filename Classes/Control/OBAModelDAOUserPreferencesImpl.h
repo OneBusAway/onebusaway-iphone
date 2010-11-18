@@ -36,4 +36,7 @@
 - (BOOL) hideFutureLocationWarnings;
 - (void) setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings;
 
+- (NSSet*) readVisistedSituationIds;
+- (void) writeVisistedSituationIds:(NSSet*)situationIds;
+
 @end

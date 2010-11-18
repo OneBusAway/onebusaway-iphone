@@ -18,6 +18,8 @@
 
 @interface UITableViewCell (OBAConvenienceMethods)
 
++(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView cellId:(NSString*)cellId;
+
 +(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView;
 +(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView style:(UITableViewCellStyle)style;
 +(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView fromResource:(NSString*)resourceName;

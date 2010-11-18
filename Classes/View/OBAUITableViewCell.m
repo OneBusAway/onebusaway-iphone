@@ -19,8 +19,7 @@
 
 @implementation UITableViewCell (OBAConvenienceMethods)
 
-+(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView {
-	static NSString *cellId = @"DefaultIdentifier";
++(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView cellId:(NSString*)cellId {
 	
 	// Try to retrieve from the table view a now-unused cell with the given identifier
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
@@ -31,6 +30,11 @@
 	}
 	
 	return cell;
+}
+
++(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView {
+	static NSString *cellId = @"DefaultIdentifier";
+	return [self getOrCreateCellForTableView:tableView cellId:cellId];
 }
 
 +(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView style:(UITableViewCellStyle)style {

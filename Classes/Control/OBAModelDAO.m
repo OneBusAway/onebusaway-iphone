@@ -38,6 +38,7 @@ const static int kMaxEntriesInMostRecentList = 10;
 		_mostRecentStops = [[NSMutableArray alloc] initWithArray:[_preferencesDao readMostRecentStops]];
 		_stopPreferences = [[NSMutableDictionary alloc] initWithDictionary:[_preferencesDao readStopPreferences]];
 		_mostRecentLocation = [[_preferencesDao readMostRecentLocation] retain];
+		_visitedSituationIds = [[NSMutableSet alloc] initWithSet:[_preferencesDao readVisistedSituationIds]];
 	}
 	return self;
 }
@@ -173,6 +174,34 @@ const static int kMaxEntriesInMostRecentList = 10;
 - (void) setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings {
 	[_preferencesDao setHideFutureLocationWarnings:hideFutureLocationWarnings];
 }
+
+- (BOOL) isVisitedSituationWithId:(NSString*)situationId {
+	return [_visitedSituationIds containsObject:situationId];
+}
+
+- (NSUInteger) getUnreadServiceAlertCount:(NSArray*)situationIds {
+	NSUInteger count = 0;
+	for( NSString * situationId in situationIds ) {
+		if( ! [self isVisitedSituationWithId:situationId] )
+			count++;
+	}	
+	return count;
+}
+
+- (void) setVisited:(BOOL)visited forSituationWithId:(NSString*)situationId {
+	
+	BOOL prevVisited = [_visitedSituationIds containsObject:situationId];
+
+	if( visited != prevVisited ) {
+		if( visited ) 
+			[_visitedSituationIds addObject:situationId];
+		else 
+			[_visitedSituationIds removeObject:situationId];
+		
+		[_preferencesDao writeVisistedSituationIds:_visitedSituationIds];
+	}
+}
+
 
 @end
 
