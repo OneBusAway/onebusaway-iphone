@@ -70,6 +70,7 @@ static const double kNearbyStopRadius = 200;
 - (void) reloadData;
 
 - (NSString*) getStatusLabelForArrival:(OBAArrivalAndDepartureV2*)pa time:(NSDate*)time minutes:(int)minutes;
+- (OBAArrivalEntryTableViewCellAlertStyle) getAlertStyleForArrival:(OBAArrivalAndDepartureV2*)pa;
 
 @end
 
@@ -570,6 +571,9 @@ static const double kNearbyStopRadius = 200;
 		}
 		
 		cell.statusLabel.text = [self getStatusLabelForArrival:pa time:time minutes:minutes];
+		
+		cell.alertStyle = [self getAlertStyleForArrival:pa];
+		
 		return cell;
 	}
 }
@@ -629,7 +633,7 @@ static const double kNearbyStopRadius = 200;
 
 - (void)tableView:(UITableView *)tableView didSelectServiceAlertRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSArray * situations = _result.situations;
-	[OBAPresentation showSituations:situations withAppContext:_appContext navigationController:self.navigationController];
+	[OBAPresentation showSituations:situations withAppContext:_appContext navigationController:self.navigationController args:nil];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -664,7 +668,7 @@ static const double kNearbyStopRadius = 200;
 			
 		case 2: {
 			NSArray * situations = _result.situations;
-			[OBAPresentation showSituations:situations withAppContext:_appContext navigationController:self.navigationController];
+			[OBAPresentation showSituations:situations withAppContext:_appContext navigationController:self.navigationController args:nil];
 			break;
 		}
 			
@@ -797,6 +801,18 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 	}
 	
 	return [NSString stringWithFormat:@"%@ - %@",[_timeFormatter stringFromDate:time],status];	
+}
+
+- (OBAArrivalEntryTableViewCellAlertStyle) getAlertStyleForArrival:(OBAArrivalAndDepartureV2*)pa {
+	NSArray * situationIds = pa.situationIds;
+	if( [situationIds count] == 0 )
+		return OBAArrivalEntryTableViewCellAlertStyleNone;
+	OBAModelDAO * modelDao = _appContext.modelDao;
+	NSUInteger unreadCount = [modelDao getUnreadServiceAlertCount:situationIds];
+	if( unreadCount > 0 )
+		return OBAArrivalEntryTableViewCellAlertStyleActive;
+	else
+		return OBAArrivalEntryTableViewCellAlertStyleInactive;
 }
 
 @end

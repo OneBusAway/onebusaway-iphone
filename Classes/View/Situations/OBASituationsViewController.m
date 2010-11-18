@@ -18,6 +18,8 @@
 #pragma mark -
 #pragma mark Initialization
 
+@synthesize args;
+
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext situations:(NSArray*)situations {
 	
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
@@ -80,6 +82,7 @@
 	if( [_situations count] > 0) {
 		OBASituationV2 * situation = [_situations objectAtIndex:indexPath.row];
 		OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationContext:_appContext situation:situation];
+		vc.args = self.args;
 		[self.navigationController pushViewController:vc animated:TRUE];
 		[vc release];
 	}

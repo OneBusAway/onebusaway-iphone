@@ -10,4 +10,6 @@
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext situation:(OBASituationV2*)situation;
 
+@property (nonatomic,retain) NSDictionary * args;
+
 @end

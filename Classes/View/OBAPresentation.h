@@ -21,6 +21,6 @@
 
 + (UITableViewCell*) tableViewCellForServiceAlerts:(NSInteger)unreadServiceAlertCount totalCount:(NSUInteger)serviceAlertCount tableView:(UITableView*)tableView;
 
-+ (void) showSituations:(NSArray*)situations withAppContext:(OBAApplicationContext*)appContext navigationController:(UINavigationController*)navigationController;
++ (void) showSituations:(NSArray*)situations withAppContext:(OBAApplicationContext*)appContext navigationController:(UINavigationController*)navigationController args:(NSDictionary*)args;
 										 
 @end

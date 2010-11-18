@@ -15,6 +15,7 @@
 
 @synthesize appContext;
 @synthesize diversionPath;
+@synthesize args;
 
 +(OBADiversionViewController*) loadFromNibWithAppContext:(OBAApplicationContext*)context {
 	NSArray* wired = [[NSBundle mainBundle] loadNibNamed:@"OBADiversionViewController" owner:context options:nil];
@@ -23,7 +24,15 @@
 }
 
 - (void)dealloc {
-	[_polyline release];
+	[_request cancel];
+	[_request release];
+	
+	[self.args release];
+	[_tripEncodedPolyline release];
+	[_routePolyline release];
+	[_routePolylineView release];
+	[_reroutePolyline release];
+	[_reroutePolylineView release];
     [super dealloc];
 }
 
@@ -40,12 +49,23 @@
 		pointArr[i] = p;
 	}
 	
-	_polyline = [[MKPolyline polylineWithCoordinates:pointArr count:points.count] retain];
+	_reroutePolyline = [[MKPolyline polylineWithCoordinates:pointArr count:points.count] retain];
 	MKMapView * mv = [self mapView];
-	[mv addOverlay:_polyline];
+	[mv addOverlay:_reroutePolyline];
 	
 	if( ! [bounds empty] ) {
 		[mv setRegion:bounds.region];
+	}
+
+	OBAArrivalAndDepartureV2 * ad = [self.args objectForKey:@"arrivalAndDeparture"];
+	if( ad != nil && _tripEncodedPolyline == nil ) {
+		OBATripV2 * trip = ad.trip;
+		NSString * shapeId = trip.shapeId;
+		if( shapeId ) {
+			OBAApplicationContext * context = self.appContext;
+			OBAModelService * service = context.modelService;
+			_request = [[service requestShapeForId:shapeId withDelegate:self withContext:nil] retain];
+		}
 	}
 }
 
@@ -64,21 +84,55 @@
 
 	MKOverlayView* overlayView = nil;
 	
-	if(overlay == _polyline)
+	if(overlay == _reroutePolyline)
 	{
 		//if we have not yet created an overlay view for this overlay, create it now.
-		if(_polylineView == nil)
+		if(_reroutePolylineView == nil)
 		{
-			_polylineView = [[MKPolylineView alloc] initWithPolyline:_polyline];
-			_polylineView.fillColor = [UIColor redColor];
-			_polylineView.strokeColor = [UIColor redColor];
-			_polylineView.lineWidth = 5;
+			_reroutePolylineView = [[MKPolylineView alloc] initWithPolyline:_reroutePolyline];
+			_reroutePolylineView.fillColor = [UIColor redColor];
+			_reroutePolylineView.strokeColor = [UIColor redColor];
+			_reroutePolylineView.lineWidth = 5;
 		}
 		
-		overlayView = _polylineView;
+		overlayView = _reroutePolylineView;
+	}
+	else if( overlay == _routePolyline ) {
+		
+		//if we have not yet created an overlay view for this overlay, create it now.
+		if(_routePolylineView == nil)
+		{
+			_routePolylineView = [[MKPolylineView alloc] initWithPolyline:_routePolyline];
+			_routePolylineView.fillColor = [UIColor blackColor];
+			_routePolylineView.strokeColor = [UIColor blackColor];
+			_routePolylineView.lineWidth = 5;
+		}
+		
+		overlayView = _routePolylineView;
+		
 	}
 	
 	return overlayView;	
+}
+
+#pragma mark OBAModelServiceDelegate
+
+- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
+	if( obj ) {
+		_tripEncodedPolyline = [obj retain];
+		NSArray * points = [OBASphericalGeometryLibrary decodePolylineString:_tripEncodedPolyline];
+		
+		CLLocationCoordinate2D* pointArr = malloc(sizeof(CLLocationCoordinate2D) * points.count);
+		for (int i=0; i<points.count;i++) {
+			CLLocation * location = [points objectAtIndex:i];
+			CLLocationCoordinate2D p = location.coordinate;
+			pointArr[i] = p;
+		}
+		
+		_routePolyline = [[MKPolyline polylineWithCoordinates:pointArr count:points.count] retain];
+		MKMapView * mv = [self mapView];
+		[mv addOverlay:_routePolyline];
+	}
 }
 
 

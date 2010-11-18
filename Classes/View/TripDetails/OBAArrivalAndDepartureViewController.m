@@ -30,6 +30,8 @@ typedef enum {
 - (void) didSelectScheduleRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
 - (void) didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
 
+- (void) showSituations;
+
 @end
 
 
@@ -250,7 +252,7 @@ typedef enum {
 }
 	
 - (void) didSelectServiceAlertRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-	[OBAPresentation showSituations:_arrivalAndDeparture.situations withAppContext:_appContext navigationController:self.navigationController];
+	[self showSituations];
 }
 
 - (void) didSelectScheduleRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
@@ -272,7 +274,7 @@ typedef enum {
 
 - (void) didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
 	if( indexPath.row == 0 ) {
-		[OBAPresentation showSituations:_arrivalAndDeparture.situations withAppContext:_appContext navigationController:self.navigationController];
+		[self showSituations];
 	}
 	else if( indexPath.row == 1 ) {
 		/*
@@ -282,6 +284,11 @@ typedef enum {
 		[vc release];
 		*/
 	}
+}
+
+- (void) showSituations {
+	NSDictionary * args = [NSDictionary dictionaryWithObject:_arrivalAndDeparture forKey:@"arrivalAndDeparture"];
+	[OBAPresentation showSituations:_arrivalAndDeparture.situations withAppContext:_appContext navigationController:self.navigationController args:args];
 }
 
 @end

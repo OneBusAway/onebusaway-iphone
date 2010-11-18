@@ -39,5 +39,7 @@
 - (NSArray*) getPlacemarksFromJSONObject:(id)jsonObject error:(NSError**)error;
 - (OBAEntryWithReferencesV2*) getTripDetailsV2FromJSON:(NSDictionary*)json error:(NSError**)error;
 
+- (NSString*) getShapeV2FromJSON:(NSDictionary*)json error:(NSError*)error;
+
 
 @end

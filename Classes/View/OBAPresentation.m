@@ -65,7 +65,12 @@
 	static NSString *cellId = @"ServiceAlertsCell";
 	
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:cellId];
-	cell.textLabel.text = [NSString stringWithFormat:@"Service Alerts: %d total", serviceAlertCount];						    
+	
+	if( serviceAlertCount == 0 )
+		cell.textLabel.text = @"Service Alerts";
+	else
+		cell.textLabel.text = [NSString stringWithFormat:@"Service Alerts: %d total", serviceAlertCount];						    
+	
 	cell.textLabel.textAlignment = UITextAlignmentCenter;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -87,15 +92,17 @@
 	
 	
 
-+ (void) showSituations:(NSArray*)situations withAppContext:(OBAApplicationContext*)appContext navigationController:(UINavigationController*)navigationController {
++ (void) showSituations:(NSArray*)situations withAppContext:(OBAApplicationContext*)appContext navigationController:(UINavigationController*)navigationController args:(NSDictionary*)args {
 	if( [situations count] == 1 ) {
 		OBASituationV2 * situation = [situations objectAtIndex:0];
 		OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationContext:appContext situation:situation];
+		vc.args = args;
 		[navigationController pushViewController:vc animated:TRUE];
 		[vc release];
 	}
 	else {
 		OBASituationsViewController * vc = [[OBASituationsViewController alloc] initWithApplicationContext:appContext situations:situations];
+		vc.args = args;
 		[navigationController pushViewController:vc animated:TRUE];
 		[vc release];
 	}

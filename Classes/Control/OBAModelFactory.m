@@ -222,6 +222,11 @@ static NSString * const kReferences = @"references";
 	return entry;
 }
 
+- (NSString*) getShapeV2FromJSON:(NSDictionary*)json error:(NSError*)error {
+	NSDictionary * entry = [json objectForKey:@"entry"];
+	return [entry objectForKey:@"points"];
+}
+
 @end
 
 @implementation OBAModelFactory (Private)

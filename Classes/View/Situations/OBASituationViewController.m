@@ -40,6 +40,8 @@ typedef enum {
 
 @implementation OBASituationViewController
 
+@synthesize args;
+
 
 #pragma mark -
 #pragma mark Initialization
@@ -226,6 +228,7 @@ typedef enum {
 	else if( indexPath.row == 1 && _diversionPath ) {
 		OBADiversionViewController * vc = [OBADiversionViewController loadFromNibWithAppContext:_appContext];
 		vc.diversionPath = _diversionPath;
+		vc.args = self.args;
 		[self.navigationController pushViewController:vc animated:TRUE];		
 	}
 }

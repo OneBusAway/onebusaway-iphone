@@ -14,20 +14,35 @@
  * limitations under the License.
  */
 
-//#import <UIKit/UIKit.h>
 
+typedef enum {
+	OBAArrivalEntryTableViewCellAlertStyleNone,
+	OBAArrivalEntryTableViewCellAlertStyleInactive,
+	OBAArrivalEntryTableViewCellAlertStyleActive
+}
+OBAArrivalEntryTableViewCellAlertStyle;
 
 @interface OBAArrivalEntryTableViewCell : UITableViewCell {
 	UILabel * _routeLabel;
+	UIView * _labelsView;
 	UILabel * _destinationLabel;
 	UILabel * _statusLabel;
 	UILabel * _minutesLabel;
+	UIImageView * _unreadAlertImage;
+	UIImageView * _alertImage;
+	OBAArrivalEntryTableViewCellAlertStyle _alertStyle;
+	NSTimer * _transitionTimer;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel * routeLabel;
+@property (nonatomic, retain) IBOutlet UIView * labelsView;
 @property (nonatomic, retain) IBOutlet UILabel * destinationLabel;
 @property (nonatomic, retain) IBOutlet UILabel * statusLabel;
 @property (nonatomic, retain) IBOutlet UILabel * minutesLabel;
+@property (nonatomic, retain) IBOutlet UIImageView * unreadAlertImage;
+@property (nonatomic, retain) IBOutlet UIImageView * alertImage;
+
+@property (nonatomic) OBAArrivalEntryTableViewCellAlertStyle alertStyle;
 
 + (OBAArrivalEntryTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView;
 

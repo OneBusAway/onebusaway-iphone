@@ -154,6 +154,14 @@ static const float kSearchRadius = 400;
 	return [self request:url args:args selector:selector delegate:delegate context:context];	
 }
 
+- (id<OBAModelServiceRequest>) requestShapeForId:(NSString*)shapeId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+	NSString * url = [NSString stringWithFormat:@"/api/where/shape/%@.json",shapeId];
+	NSString * args = [NSString stringWithFormat:@"version=2"];
+	SEL selector = @selector(getShapeV2FromJSON:error:);
+
+	return [self request:url args:args selector:selector delegate:delegate context:context];
+}
+
 - (id<OBAModelServiceRequest>) reportProblemWithStop:(OBAReportProblemWithStopV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
 	
 	NSString * url = [NSString stringWithFormat:@"/api/where/report-problem-with-stop.json"];
