@@ -126,6 +126,20 @@ typedef struct {
     return points;
 }
 
++ (MKPolyline*) decodePolylineStringAsMKPolyline:(NSString*)polylineString {
+	
+	NSArray * points = [OBASphericalGeometryLibrary decodePolylineString:polylineString];
+	
+	CLLocationCoordinate2D* pointArr = malloc(sizeof(CLLocationCoordinate2D) * points.count);
+	for (int i=0; i<points.count;i++) {
+		CLLocation * location = [points objectAtIndex:i];
+		CLLocationCoordinate2D p = location.coordinate;
+		pointArr[i] = p;
+	}
+	
+	return [MKPolyline polylineWithCoordinates:pointArr count:points.count];
+}
+
 
 @end
 

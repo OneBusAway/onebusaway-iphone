@@ -20,14 +20,20 @@
 
 @implementation OBASetNextOBAJsonDigesterRule
 
+@synthesize onlyIfNotNull = _onlyIfNotNull;
+
 - (id) initWithSelector:(SEL)selector {
 	if( self = [super init] ) {
 		_selector = selector;
+		_onlyIfNotNull = TRUE;
 	}
 	return self;
 }
 
 - (void) end:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
+	
+	if( _onlyIfNotNull && (value == nil || value == kCFNull) )
+		return;
 	
 	id a = [context peek:0];
 	id<NSObject> b = [context peek:1];

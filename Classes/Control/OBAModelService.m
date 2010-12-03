@@ -146,12 +146,41 @@ static const float kSearchRadius = 400;
 	return [self request:url args:args selector:selector delegate:delegate context:context];
 }
 
-- (id<OBAModelServiceRequest>) requestTripDetailsForId:(NSString*)tripId serviceDate:(long long)serviceDate withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
-	NSString * url = [NSString stringWithFormat:@"/api/where/trip-details/%@.json", tripId];
-	NSString * args = [NSString stringWithFormat:@"version=2&serviceDate=%lld",serviceDate];
+- (id<OBAModelServiceRequest>) requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef*)instance withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+	
+	OBATripInstanceRef * tripInstance = instance.tripInstance;
+	
+	NSString * url = [NSString stringWithFormat:@"/api/where/arrival-and-departure-for-stop/%@.json", instance.stopId];
+	NSMutableString * args = [NSMutableString stringWithString:@"version=2"];
+	[args appendFormat:@"&tripId=%@",tripInstance.tripId];
+	[args appendFormat:@"&serviceDate=%lld",tripInstance.serviceDate];
+	if( tripInstance.vehicleId )
+		[args appendFormat:@"&vehicleId=%@",tripInstance.vehicleId];
+	if( instance.stopSequence >= 0 )
+		[args appendFormat:@"&stopSequence=%d",instance.stopSequence];
+	SEL selector = @selector(getArrivalAndDepartureForStopV2FromJSON:error:);
+	
+	return [self request:url args:args selector:selector delegate:delegate context:context];
+}
+
+- (id<OBAModelServiceRequest>) requestTripDetailsForTripInstance:(OBATripInstanceRef*)tripInstance withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+	NSString * url = [NSString stringWithFormat:@"/api/where/trip-details/%@.json", tripInstance.tripId];
+	NSMutableString * args = [NSMutableString stringWithString:@"version=2"];
+	if( tripInstance.serviceDate > 0 )
+		[args appendFormat:@"&serviceDate=%lld",tripInstance.serviceDate];
+	if( tripInstance.vehicleId )
+		[args appendFormat:@"&vehicleId=%@",tripInstance.vehicleId];
 	SEL selector = @selector(getTripDetailsV2FromJSON:error:);
 	
 	return [self request:url args:args selector:selector delegate:delegate context:context];	
+}
+
+- (id<OBAModelServiceRequest>) requestVehicleForId:(NSString*)vehicleId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+	NSString * url = [NSString stringWithFormat:@"/api/where/vehicle/%@.json",vehicleId];
+	NSString * args = [NSString stringWithFormat:@"version=2"];
+	SEL selector = @selector(getVehicleStatusV2FromJSON:error:);
+	
+	return [self request:url args:args selector:selector delegate:delegate context:context];
 }
 
 - (id<OBAModelServiceRequest>) requestShapeForId:(NSString*)shapeId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
@@ -196,9 +225,12 @@ static const float kSearchRadius = 400;
 	NSString * url = [NSString stringWithFormat:@"/api/where/report-problem-with-trip.json"];
 	
 	NSMutableDictionary * args = [[NSMutableDictionary alloc] init];
+	OBATripInstanceRef * tripInstance = problem.tripInstance;
 	[args setObject:@"2" forKey:@"version"];
-	[args setObject:problem.tripId forKey:@"tripId"];
-	[args setObject:[NSString stringWithFormat:@"%lld",problem.serviceDate] forKey:@"serviceDate"];
+	[args setObject:tripInstance.tripId forKey:@"tripId"];
+	[args setObject:[NSString stringWithFormat:@"%lld",tripInstance.serviceDate] forKey:@"serviceDate"];
+	if( tripInstance.vehicleId )
+		[args setObject:tripInstance.tripId forKey:@"vehicleId"];
 	
 	if( problem.stopId )	
 		[args setObject:problem.stopId forKey:@"stopId"];

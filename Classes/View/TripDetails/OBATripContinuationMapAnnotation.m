@@ -3,12 +3,12 @@
 
 @implementation OBATripContinuationMapAnnotation
 
-@synthesize tripId = _tripId;
+@synthesize tripInstance = _tripInstance;
 
-- (id) initWithTitle:(NSString*)title tripId:(NSString*)tripId location:(CLLocationCoordinate2D)location {
+- (id) initWithTitle:(NSString*)title tripInstance:(OBATripInstanceRef*)tripInstance location:(CLLocationCoordinate2D)location {
 	if( self = [super init] ) {
 		_title = [title retain]; 
-		_tripId = [tripId retain];
+		_tripInstance = [tripInstance retain];
 		_location = location;
 	}
 	return self;
@@ -16,7 +16,7 @@
 
 - (void) dealloc {
 	[_title release];
-	[_tripId release];
+	[_tripInstance release];
 	[super dealloc];
 }
 

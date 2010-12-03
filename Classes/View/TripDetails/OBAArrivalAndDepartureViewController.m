@@ -4,6 +4,7 @@
 #import "OBATripScheduleListViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
 #import "OBASituationsViewController.h"
+#import "OBAVehicleDetailsController.h"
 #import "OBALogger.h"
 #import "OBAPresentation.h"
 
@@ -37,35 +38,59 @@ typedef enum {
 
 @implementation OBAArrivalAndDepartureViewController
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
-	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-		_appContext = [appContext retain];
-		_arrivalAndDeparture = [arrivalAndDeparture retain];
-
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext arrivalAndDepartureInstance:(OBAArrivalAndDepartureInstanceRef*)instance {
+	if( self = [super initWithApplicationContext:appContext] ) {
+		_instance = [instance retain];
+		_arrivalAndDeparture = nil;
+		_arrivalCellFactory = [[OBAArrivalEntryTableViewCellFactory alloc] initWithAppContext:_appContext tableView:self.tableView];
+		_arrivalCellFactory.showServiceAlerts = FALSE;
+		self.refreshable = TRUE;
+		self.refreshInterval = 30;
+		self.showUpdateTime = TRUE;
 	}
 	return self;
 }
 
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+	self = [self initWithApplicationContext:appContext arrivalAndDepartureInstance:arrivalAndDeparture.instance];
+	_arrivalAndDeparture = [arrivalAndDeparture retain];
+	return self;	
+}
+
 - (void)dealloc {
-	[_appContext release];
+	[_instance release];
 	[_arrivalAndDeparture release];
+	[_arrivalCellFactory release];
     [super dealloc];
 }
 
-#pragma mark UIViewController methods
+- (BOOL) isLoading {
+	return _arrivalAndDeparture == nil;
+}
 
-- (void)viewWillAppear:(BOOL)animated {
-	
+- (id<OBAModelServiceRequest>) handleRefresh {
+	return [_appContext.modelService requestArrivalAndDepartureForStop:_instance withDelegate:self withContext:nil];
+}
+
+-(void) handleData:(id)obj context:(id)context {
+	OBAEntryWithReferencesV2 * entry = obj;
+	_arrivalAndDeparture = [entry.entry retain];
+}
+
+- (void) handleDataChanged {
 	// Refresh the unread service alert count
 	OBAModelDAO * modelDao = _appContext.modelDao;
 	_unreadServiceAlertCount = [modelDao getUnreadServiceAlertCount:_arrivalAndDeparture.situationIds];
 	_serviceAlertCount = [_arrivalAndDeparture.situationIds count];
-	[self.tableView reloadData];
 }
 
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	
+	if( [self isLoading] )
+		return [super numberOfSectionsInTableView:tableView];
+	
 	int count = 3;
 	if( _unreadServiceAlertCount > 0 )
 		count++;
@@ -73,6 +98,9 @@ typedef enum {
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	
+	if( [self isLoading] )
+		return [super tableView:tableView numberOfRowsInSection:section];
 	
 	OBASectionType sectionType = [self sectionTypeForSection:section];
 	
@@ -83,16 +111,38 @@ typedef enum {
 			return 1;
 		case OBASectionTypeSchedule:
 			return 2;
-		case OBASectionTypeActions:
-			return 1;
+		case OBASectionTypeActions: {
+			int count = 2;
+			if( _arrivalAndDeparture.tripStatus.vehicleId )
+				count++;
+			return count;
+		}
 		default:
 			return 0;
 	}
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+	
+	if( [self isLoading] )
+		return nil;
+	
+	OBASectionType sectionType = [self sectionTypeForSection:section];
+	
+	switch (sectionType) {
+		case OBASectionTypeSchedule:
+			return @"Trip Details:";
+		case OBASectionTypeActions:
+			return @"Actions:";
+		default:
+			return nil;
+	}
+}
 
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	if( [self isLoading] )
+		return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 	
 	OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
 	
@@ -114,6 +164,11 @@ typedef enum {
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	if( [self isLoading] ) {
+		[self tableView:tableView didSelectRowAtIndexPath:indexPath];
+		return;
+	}
 	
 	OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
 	
@@ -169,34 +224,9 @@ typedef enum {
 
 - (UITableViewCell*) titleCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView {
 	
-	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
+	OBAArrivalEntryTableViewCell * cell = [_arrivalCellFactory createCellForArrivalAndDeparture:_arrivalAndDeparture];
 	cell.accessoryType = UITableViewCellAccessoryNone;
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	
-	NSString * routeShortName = [OBAPresentation getRouteShortNameForArrivalAndDeparture:_arrivalAndDeparture];
-	NSString * tripHeadsign = [OBAPresentation getTripHeadsignForArrivalAndDeparture:_arrivalAndDeparture];
-	cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", routeShortName, tripHeadsign];
-	cell.textLabel.textColor = [UIColor blackColor];
-	cell.textLabel.textAlignment = UITextAlignmentLeft;	
-	
-	cell.detailTextLabel.text = @"Schedule data only";
-	cell.detailTextLabel.textColor = [UIColor blackColor];
-	cell.detailTextLabel.textAlignment = UITextAlignmentLeft;	
-	
-	OBATripStatusV2 * status = _arrivalAndDeparture.tripStatus;
-	if( status && status.predicted ) {
-		NSInteger scheduleDeviation = status.scheduleDeviation/60;
-		NSString * label = @"";
-		if( scheduleDeviation <= -2 )
-			label = [NSString stringWithFormat:@"%d minutes early",(-scheduleDeviation)];
-		else if (scheduleDeviation < 2 )
-			label = @"on time";
-		else
-			label = [NSString stringWithFormat:@"%d minutes late",scheduleDeviation];
-		
-		cell.detailTextLabel.text = [NSString stringWithFormat:@"Vehicle # %@ - %@",status.vehicleId,label];
-	}
-	
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;	
 	return cell;
 }
 
@@ -226,29 +256,33 @@ typedef enum {
 
 - (UITableViewCell*) actionCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView {
 	
-	if( indexPath.row == 0 ) {
-		return [OBAPresentation tableViewCellForServiceAlerts:_unreadServiceAlertCount totalCount:_serviceAlertCount tableView:tableView];
-	}
-	
-	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	cell.textLabel.textColor = [UIColor blackColor];
-	cell.textLabel.textAlignment = UITextAlignmentLeft;
-	
-	
 	switch (indexPath.row) {
-		case 0: {
-			cell.textLabel.text = @"Service Alerts";
-			break;
+		case 0:{
+			return [OBAPresentation tableViewCellForServiceAlerts:_unreadServiceAlertCount totalCount:_serviceAlertCount tableView:tableView];
 		}
 		case 1: {
+			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			cell.textLabel.textColor = [UIColor blackColor];
+			cell.textLabel.textAlignment = UITextAlignmentCenter;
 			cell.textLabel.text = @"Report a problem for this trip";
-			break;
+			return cell;			
 		}
+		case 2: {
+			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			cell.textLabel.textColor = [UIColor blackColor];
+			cell.textLabel.textAlignment = UITextAlignmentCenter;
+			cell.textLabel.text = @"Vehicle Info";
+			return cell;			
+		}
+		default:
+			break;
 	}
 	
-	return cell;
+	return nil;
 }
 	
 - (void) didSelectServiceAlertRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
@@ -256,33 +290,42 @@ typedef enum {
 }
 
 - (void) didSelectScheduleRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
+	OBATripInstanceRef * tripInstance = _arrivalAndDeparture.tripInstance;
 	if( indexPath.row == 0 ) {
 		OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithAppContext:_appContext];
-		// vc.tripDetails = _tripDetails;
+		vc.tripInstance = tripInstance;
 		vc.currentStopId = _arrivalAndDeparture.stopId;
 		[self.navigationController pushViewController:vc animated:TRUE];
 	}			
 	else if( indexPath.row == 1 ) {
-		/*
-		OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationContext:_appContext tripDetails:_tripDetails];
-		[vc setCurrentStopId:self.currentStopId];
+		OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationContext:_appContext tripInstance:tripInstance];
+		vc.currentStopId = _arrivalAndDeparture.stopId;
 		[self.navigationController pushViewController:vc animated:TRUE];
 		[vc release];
-		 */
 	}
 }
 
 - (void) didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-	if( indexPath.row == 0 ) {
-		[self showSituations];
-	}
-	else if( indexPath.row == 1 ) {
-		/*
-		OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationContext:_appContext tripDetails:_tripDetails];
-		vc.currentStopId = self.currentStopId;
-		[self.navigationController pushViewController:vc animated:TRUE];
-		[vc release];
-		*/
+	
+	switch (indexPath.row) {
+		case 0: {
+			[self showSituations];
+			break;
+		}
+		case 1: {
+			OBATripInstanceRef * tripInstance = _arrivalAndDeparture.tripInstance;
+			OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationContext:_appContext tripInstance:tripInstance trip:_arrivalAndDeparture.trip];
+			vc.currentStopId = _arrivalAndDeparture.stopId;
+			[self.navigationController pushViewController:vc animated:TRUE];
+			[vc release];
+			break;
+		}
+		case 2: {
+			OBAVehicleDetailsController * vc = [[OBAVehicleDetailsController alloc] initWithApplicationContext:_appContext vehicleId:_arrivalAndDeparture.tripStatus.vehicleId];
+			[self.navigationController pushViewController:vc animated:TRUE];
+			[vc release];
+			break;
+		}
 	}
 }
 

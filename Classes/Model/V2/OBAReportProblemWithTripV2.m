@@ -3,8 +3,7 @@
 
 @implementation OBAReportProblemWithTripV2
 
-@synthesize tripId;
-@synthesize serviceDate;
+@synthesize tripInstance;
 @synthesize stopId;
 @synthesize data;
 @synthesize userComment;
@@ -13,7 +12,7 @@
 @synthesize userLocation;
 
 - (void) dealloc {
-	self.tripId = nil;
+	self.tripInstance = nil;
 	self.stopId = nil;
 	self.data = nil;
 	self.userComment = nil;

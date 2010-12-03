@@ -1,11 +1,13 @@
+#import "OBATripInstanceRef.h"
+
 @interface OBATripContinuationMapAnnotation : NSObject <MKAnnotation> {
 	NSString * _title;
-	NSString * _tripId;
+	OBATripInstanceRef * _tripInstance;
 	CLLocationCoordinate2D _location;
 }
 
-- (id) initWithTitle:(NSString*)title tripId:(NSString*)tripId location:(CLLocationCoordinate2D)location;
+- (id) initWithTitle:(NSString*)title tripInstance:(OBATripInstanceRef*)tripInstance location:(CLLocationCoordinate2D)location;
 
-@property (nonatomic,readonly) NSString * tripId;
+@property (nonatomic,readonly) OBATripInstanceRef * tripInstance;
 
 @end

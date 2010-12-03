@@ -153,6 +153,7 @@
 			OBAStopsForRouteV2 * stopsForRoute = obj;
 			OBASearchResult * result = [OBASearchResult result];
 			result.values = [stopsForRoute stops];
+			result.additionalValues = stopsForRoute.polylines;
 			[self fireUpdate:result];
 			break;
 		}

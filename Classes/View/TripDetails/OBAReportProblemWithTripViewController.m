@@ -27,7 +27,7 @@ typedef enum {
 
 - (UITableViewCell*) tableView:(UITableView*)tableView vehicleCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
-- (NSString*) getVehicleTypeLabeForTripDetails:(OBATripDetailsV2*)tripDetails;
+- (NSString*) getVehicleTypeLabeForTrip:(OBATripV2*)trip;
 
 - (void) submit;
 - (NSString*) getProblemAsData;
@@ -42,11 +42,12 @@ typedef enum {
 #pragma mark -
 #pragma mark Initialization
 
-- (id)initWithApplicationContext:(OBAApplicationContext*)context tripDetails:(OBATripDetailsV2*)tripDetails {
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext tripInstance:(OBATripInstanceRef*)tripInstance trip:(OBATripV2*)trip {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-		_appContext = [context retain];
-		_tripDetails = [tripDetails retain];
-		
+		_appContext = [appContext retain];
+		_tripInstance = [tripInstance retain];
+		_trip = [trip retain];
+
 		self.navigationItem.title = @"Report a Problem";
 
 		UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:@"Custom Title"
@@ -57,7 +58,7 @@ typedef enum {
 		[item release];
 		
 		_vehicleNumber = @"0000";
-		_vehicleType = [self getVehicleTypeLabeForTripDetails:tripDetails];
+		_vehicleType = [self getVehicleTypeLabeForTrip:trip];
 		
 		_problemIds = [[NSMutableArray alloc] init];
 		_problemNames = [[NSMutableArray alloc] init];
@@ -77,7 +78,7 @@ typedef enum {
 - (void)dealloc {
 	[_appContext release];
 	[_problemNames release];
-	[_tripDetails release];
+	[_tripInstance release];
 	[_comment release];
 	[_activityIndicatorView release];
     [super dealloc];
@@ -344,9 +345,8 @@ typedef enum {
 	return [UITableViewCell getOrCreateCellForTableView:tableView];
 }
 
-- (NSString*) getVehicleTypeLabeForTripDetails:(OBATripDetailsV2*)tripDetails {
+- (NSString*) getVehicleTypeLabeForTrip:(OBATripV2*)trip {
 	
-	OBATripV2 * trip = tripDetails.trip;
 	OBARouteV2 * route = trip.route;
 
 	switch ([route.routeType intValue]) {
@@ -366,8 +366,7 @@ typedef enum {
 - (void) submit {
 
 	OBAReportProblemWithTripV2 * problem = [[OBAReportProblemWithTripV2 alloc] init];
-	problem.tripId = _tripDetails.tripId;
-	problem.serviceDate = _tripDetails.status.serviceDate;
+	problem.tripInstance = _tripInstance;
 	problem.stopId = self.currentStopId;
 	problem.data = [self getProblemAsData];
 	problem.userComment = _comment;

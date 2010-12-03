@@ -2,6 +2,12 @@
 #import "OBASituationsViewController.h"
 #import "OBASituationViewController.h"
 #import "OBAUITableViewCell.h"
+#import "OBASphericalGeometryLibrary.h"
+
+
+static const float kStopForRouteAnnotationMinScale = 0.1;
+static const float kStopForRouteAnnotationMaxScaleDistance = 1500;
+static const float kStopForRouteAnnotationMinScaleDistance = 8000;
 
 
 @implementation OBAPresentation
@@ -88,9 +94,7 @@
 		cell.imageView.image = [UIImage imageNamed:@"AlertGrayscale"];
 
 	return cell;	
-}
-	
-	
+}	
 
 + (void) showSituations:(NSArray*)situations withAppContext:(OBAApplicationContext*)appContext navigationController:(UINavigationController*)navigationController args:(NSDictionary*)args {
 	if( [situations count] == 1 ) {
@@ -105,6 +109,40 @@
 		vc.args = args;
 		[navigationController pushViewController:vc animated:TRUE];
 		[vc release];
+	}
+}
+
++ (float) computeStopsForRouteAnnotationScaleFactor:(MKCoordinateRegion)region {
+	
+	MKCoordinateSpan span = region.span;
+	CLLocationCoordinate2D center = region.center;
+	
+	double lat1 = center.latitude;
+	double lon1 = center.longitude - span.longitudeDelta / 2;
+	
+	double lat2 = center.latitude;
+	double lon2 = center.longitude + span.longitudeDelta / 2;
+	
+	CLLocation * a = [[CLLocation alloc] initWithLatitude:lat1 longitude:lon1];
+	CLLocation * b = [[CLLocation alloc] initWithLatitude:lat2 longitude:lon2];
+	
+	double d = [a distanceFromLocationSafe:b];
+	
+	[a release];
+	[b release];
+	
+	if( d <= kStopForRouteAnnotationMaxScaleDistance ) { 
+		return 1.0;
+	}
+	else if( d < kStopForRouteAnnotationMinScaleDistance ) {
+		float kStopForRouteAnnotationScaleSlope = (1.0-kStopForRouteAnnotationMinScale) / (kStopForRouteAnnotationMaxScaleDistance-kStopForRouteAnnotationMinScaleDistance);
+		float kStopForRouteAnnotationScaleOffset = 1.0 - kStopForRouteAnnotationScaleSlope * kStopForRouteAnnotationMaxScaleDistance;
+
+		double scale = kStopForRouteAnnotationScaleSlope * d + kStopForRouteAnnotationScaleOffset;
+		return scale;
+	}
+	else {
+		return kStopForRouteAnnotationMinScale;
 	}
 }
 

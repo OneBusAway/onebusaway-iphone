@@ -4,6 +4,8 @@
 #import "OBATripV2.h"
 #import "OBAFrequencyV2.h"
 #import "OBATripStatusV2.h"
+#import "OBATripInstanceRef.h"
+#import "OBAArrivalAndDepartureInstanceRef.h"
 
 
 @interface OBAArrivalAndDepartureV2 : OBAHasReferencesV2 {
@@ -14,6 +16,7 @@
 	NSString * _tripHeadsign;
 	
 	NSString * _stopId;
+	NSInteger _stopSequence;
 	
 	OBATripStatusV2 * _tripStatus;
 	
@@ -36,8 +39,12 @@
 @property (nonatomic,retain) NSString * tripHeadsign;
 @property (nonatomic) long long serviceDate;
 
+@property (nonatomic,readonly) OBAArrivalAndDepartureInstanceRef * instance;
+@property (nonatomic,readonly) OBATripInstanceRef * tripInstance;
+
 @property (nonatomic,retain) NSString * stopId;
 @property (nonatomic,readonly) OBAStopV2 * stop;
+@property (nonatomic) NSInteger stopSequence;
 
 @property (nonatomic,retain) OBATripStatusV2 * tripStatus;
 

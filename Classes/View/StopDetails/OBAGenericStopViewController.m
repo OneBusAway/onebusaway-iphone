@@ -69,9 +69,6 @@ static const double kNearbyStopRadius = 200;
 
 - (void) reloadData;
 
-- (NSString*) getStatusLabelForArrival:(OBAArrivalAndDepartureV2*)pa time:(NSDate*)time minutes:(int)minutes;
-- (OBAArrivalEntryTableViewCellAlertStyle) getAlertStyleForArrival:(OBAArrivalAndDepartureV2*)pa;
-
 @end
 
 
@@ -93,14 +90,14 @@ static const double kNearbyStopRadius = 200;
 		_showServiceAlerts = TRUE;
 		_showActions = TRUE;
 		
-		_timeFormatter = [[NSDateFormatter alloc] init];
-		[_timeFormatter setDateStyle:NSDateFormatterNoStyle];
-		[_timeFormatter setTimeStyle:NSDateFormatterShortStyle];
-		
+		_arrivalCellFactory = [[OBAArrivalEntryTableViewCellFactory alloc] initWithAppContext:_appContext tableView:self.tableView];
+		_arrivalCellFactory.showServiceAlerts = TRUE;
+
 		_unreadServiceAlertCount = 0;
 		_serviceAlertCount = 0;
 						
-		_progressView = [[OBAProgressIndicatorView viewFromNib] retain];
+		CGRect r = CGRectMake(0, 0, 160, 33);
+		_progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];
 		[self.navigationItem setTitleView:_progressView];
 		
 		UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
@@ -139,7 +136,7 @@ static const double kNearbyStopRadius = 200;
 	[_allArrivals release];
 	[_filteredArrivals release];
 	
-	[_timeFormatter release];
+	[_arrivalCellFactory release];
 	[_progressView release];
 	
     [super dealloc];
@@ -535,45 +532,11 @@ static const double kNearbyStopRadius = 200;
 		return cell;
 	}
 	else {
-		
-		OBAArrivalEntryTableViewCell * cell = [OBAArrivalEntryTableViewCell getOrCreateCellForTableView:tableView];
-		
+
 		OBAArrivalAndDepartureV2 * pa = [arrivals objectAtIndex:indexPath.row];
-		cell.destinationLabel.text = pa.tripHeadsign;
-		cell.routeLabel.text = pa.routeShortName;
+		OBAArrivalEntryTableViewCell * cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
 		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		
-		NSDate * time = [NSDate dateWithTimeIntervalSince1970:(pa.bestDepartureTime / 1000)];		
-		
-		NSTimeInterval interval = [time timeIntervalSinceNow];
-		int minutes = interval / 60;
-		
-		if(abs(minutes) <=1)
-			cell.minutesLabel.text = @"NOW";
-		else
-			cell.minutesLabel.text = [NSString stringWithFormat:@"%d",minutes];
-		
-		if( pa.predictedDepartureTime > 0 ) {
-			double diff = (pa.predictedDepartureTime - pa.scheduledDepartureTime) / ( 1000.0 * 60.0);			
-			if( diff < -1.5) {
-				cell.minutesLabel.textColor = [UIColor redColor];
-			}
-			else if( diff < 1.5 ) {
-				cell.minutesLabel.textColor = [UIColor colorWithRed:0.0 green:0.5 blue:0.0 alpha:1.0];
-			}
-			else {
-				cell.minutesLabel.textColor = [UIColor blueColor];
-			}
-		}
-		else {
-			cell.minutesLabel.textColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];;
-		}
-		
-		cell.statusLabel.text = [self getStatusLabelForArrival:pa time:time minutes:minutes];
-		
-		cell.alertStyle = [self getAlertStyleForArrival:pa];
-		
 		return cell;
 	}
 }
@@ -749,70 +712,6 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 	_serviceAlertCount = [_result.situationIds count];
 	
 	[self.tableView reloadData];
-}
-
-- (NSString*) getStatusLabelForArrival:(OBAArrivalAndDepartureV2*)pa time:(NSDate*)time minutes:(int)minutes {
-	
-	if( pa.frequency ) {
-		OBAFrequencyV2 * freq = pa.frequency;
-		int headway = freq.headway / 60;
-		
-		NSDate * now = [NSDate date];
-		NSDate * startTime = [NSDate dateWithTimeIntervalSince1970:(freq.startTime / 1000)];
-		NSDate * endTime = [NSDate dateWithTimeIntervalSince1970:(freq.endTime / 1000)];
-		
-		if ([now compare:startTime]  == NSOrderedAscending) {
-			return [NSString stringWithFormat:@"Every %d mins from %@",headway,[_timeFormatter stringFromDate:startTime]];
-		}
-		else {
-			return [NSString stringWithFormat:@"Every %d mins until %@",headway,[_timeFormatter stringFromDate:endTime]];
-		}
-	}
-
-	NSString * status;
-	
-	if( pa.predictedDepartureTime > 0 ) {
-		double diff = (pa.predictedDepartureTime - pa.scheduledDepartureTime) / ( 1000.0 * 60.0);
-		int minDiff = (int) abs(diff);
-		if( diff < -1.5) {
-			if( minutes < 0 )
-				status = [NSString stringWithFormat:@"departed %d min early",minDiff];
-			else
-				status = [NSString stringWithFormat:@"%d min early",minDiff];
-		}
-		else if( diff < 1.5 ) {
-			if( minutes < 0 )
-				status = @"departed on time";
-			else
-				status = @"on time";
-		}
-		else {
-			if( minutes < 0 )
-				status = [NSString stringWithFormat:@"departed %d min late",minDiff];
-			else
-				status = [NSString stringWithFormat:@"%d min delay",minDiff];
-		}
-	}
-	else {
-		if( minutes < 0 )
-			status = @"scheduled departure";
-		else
-			status = @"scheduled arrival";
-	}
-	
-	return [NSString stringWithFormat:@"%@ - %@",[_timeFormatter stringFromDate:time],status];	
-}
-
-- (OBAArrivalEntryTableViewCellAlertStyle) getAlertStyleForArrival:(OBAArrivalAndDepartureV2*)pa {
-	NSArray * situationIds = pa.situationIds;
-	if( [situationIds count] == 0 )
-		return OBAArrivalEntryTableViewCellAlertStyleNone;
-	OBAModelDAO * modelDao = _appContext.modelDao;
-	NSUInteger unreadCount = [modelDao getUnreadServiceAlertCount:situationIds];
-	if( unreadCount > 0 )
-		return OBAArrivalEntryTableViewCellAlertStyleActive;
-	else
-		return OBAArrivalEntryTableViewCellAlertStyleInactive;
 }
 
 @end

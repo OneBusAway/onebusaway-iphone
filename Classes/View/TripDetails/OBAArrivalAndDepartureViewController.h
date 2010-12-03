@@ -1,16 +1,19 @@
 #import "OBAApplicationContext.h"
-#import "OBANavigationTargetAware.h"
-#import "OBATripDetailsV2.h"
-#import "OBAProgressIndicatorView.h"
+#import "OBARequestDrivenTableViewController.h"
+#import "OBAArrivalAndDepartureV2.h"
+#import "OBAArrivalAndDepartureInstanceRef.h"
+#import "OBAArrivalEntryTableViewCellFactory.h"
 
 
-@interface OBAArrivalAndDepartureViewController : UITableViewController {
-	OBAApplicationContext * _appContext;
+@interface OBAArrivalAndDepartureViewController : OBARequestDrivenTableViewController {
+	OBAArrivalAndDepartureInstanceRef * _instance;
 	OBAArrivalAndDepartureV2 * _arrivalAndDeparture;
+	OBAArrivalEntryTableViewCellFactory * _arrivalCellFactory;
 	NSUInteger _unreadServiceAlertCount;
 	NSUInteger _serviceAlertCount;
 }
 
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext arrivalAndDepartureInstance:(OBAArrivalAndDepartureInstanceRef*)instance;
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
 
 

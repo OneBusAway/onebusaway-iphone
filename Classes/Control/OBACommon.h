@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+#import "OBALogger.h"
+
+
 extern NSString * const OBAErrorDomain;
 extern const NSInteger kOBAErrorDuplicateEntity;
 extern const NSInteger kOBAErrorMissingFieldInData;

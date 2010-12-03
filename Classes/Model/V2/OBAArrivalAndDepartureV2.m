@@ -9,8 +9,9 @@
 @synthesize serviceDate;
 @synthesize tripHeadsign = _tripHeadsign;
 @synthesize stopId = _stopId;
+@synthesize stopSequence = _stopSequence;
 @synthesize tripStatus = _tripStatus;
-@synthesize frequency = _frequency;
+//@synthesize frequency = _frequency;
 
 @synthesize scheduledArrivalTime = _scheduledArrivalTime;
 @synthesize predictedArrivalTime = _predictedArrivalTime;
@@ -33,6 +34,7 @@
 	[_tripId release];
 	[_tripHeadsign release];
 	[_stopId release];
+	[_frequency release];
 	[_situationIds release];
 	[super dealloc];
 }
@@ -51,6 +53,14 @@
 	OBAReferencesV2 * refs = [self references];
 	return [refs getTripForId:_tripId];
 
+}
+
+- (OBAArrivalAndDepartureInstanceRef *) instance {
+	return [OBAArrivalAndDepartureInstanceRef refWithTripInstance:self.tripInstance stopId:_stopId stopSequence:_stopSequence];
+}
+
+- (OBATripInstanceRef *) tripInstance {
+	return [OBATripInstanceRef tripInstance:self.tripId serviceDate:self.serviceDate vehicleId:self.tripStatus.vehicleId];
 }
 
 - (long long) bestArrivalTime {
@@ -78,6 +88,14 @@
 
 - (void) addSituationId:(NSString*)situationId {
 	[_situationIds addObject:situationId];
+}
+
+- (void) setFrequency:(OBAFrequencyV2*)frequency {
+	_frequency = [frequency retain];
+}
+
+- (OBAFrequencyV2*) frequency {
+	return _frequency;
 }
 
 @end

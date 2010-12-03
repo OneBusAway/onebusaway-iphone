@@ -276,7 +276,7 @@
 			return;
 		[_jsonData appendData:data];
 		if( [((NSObject*)_delegate) respondsToSelector:@selector(connection:withProgress:)] ) {
-			float progress = 0;
+			float progress = [_jsonData length];
 			if( _expectedLength > 0 )
 				progress = ((float) [_jsonData length]) / _expectedLength;
 			[_delegate connection:self withProgress:progress];

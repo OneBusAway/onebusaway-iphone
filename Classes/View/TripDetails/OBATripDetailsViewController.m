@@ -10,6 +10,7 @@ typedef enum {
 	OBASectionTypeNone,
 	OBASectionTypeLoading,
 	OBASectionTypeTitle,
+	OBASectionTypeServiceAlerts,
 	OBASectionTypeSchedule,
 	OBASectionTypeActions
 } OBASectionType;
@@ -34,13 +35,12 @@ typedef enum {
 @synthesize tripDetails = _tripDetails;
 @synthesize currentStopId;
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext tripId:(NSString*)tripId serviceDate:(long long)serviceDate{
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext tripInstance:(OBATripInstanceRef*)tripInstance {
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		_appContext = [appContext retain];
-		_tripId = [tripId retain];
-		_serviceDate = serviceDate;
-		
-		_progressView = [[OBAProgressIndicatorView viewFromNib] retain];
+		_tripInstance = [tripInstance retain];
+		CGRect r = CGRectMake(0, 0, 160, 33);
+		_progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];
 		[self.navigationItem setTitleView:_progressView];
 	}
 	return self;
@@ -49,7 +49,7 @@ typedef enum {
 - (void)dealloc {
 	[self clearPendingRequest];
 	[_appContext release];
-	[_tripId release];
+	[_tripInstance release];
 	[_tripDetails release];
 	[_progressView release];
     [super dealloc];
@@ -66,7 +66,7 @@ typedef enum {
 - (void)viewWillAppear:(BOOL)animated {
     [self clearPendingRequest];
 	[_progressView setMessage:@"Updating..." inProgress:TRUE progress:0];
-	_request = [[_appContext.modelService requestTripDetailsForId:_tripId serviceDate:_serviceDate withDelegate:self withContext:nil] retain];
+	_request = [[_appContext.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:nil] retain];
 }
 
 #pragma mark OBAModelServiceDelegate
@@ -74,6 +74,8 @@ typedef enum {
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
 	OBAEntryWithReferencesV2 * entry = obj;
 	self.tripDetails = entry.entry;
+	_unreadServiceAlertCount = [_appContext.modelDao getUnreadServiceAlertCount:_tripDetails.situationIds];
+	_serviceAlertCount = [_tripDetails.situationIds count];
 	[_progressView setMessage:@"Trip Details" inProgress:FALSE progress:0];
 	[self.tableView reloadData];
 }
@@ -167,6 +169,7 @@ typedef enum {
 			if( indexPath.row == 0 ) {
 				if( _tripDetails ) {
 					OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithAppContext:_appContext];
+					vc.tripInstance = _tripInstance;
 					vc.tripDetails = _tripDetails;
 					vc.currentStopId = self.currentStopId;
 					[self.navigationController pushViewController:vc animated:TRUE];
@@ -174,8 +177,9 @@ typedef enum {
 			}			
 			else if( indexPath.row == 1 ) {
 				if( _tripDetails ) {
-					OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationContext:_appContext tripDetails:_tripDetails];
-					[vc setCurrentStopId:self.currentStopId];
+					OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationContext:_appContext tripInstance:_tripInstance];
+					vc.tripDetails = _tripDetails;
+					vc.currentStopId = self.currentStopId;
 					[self.navigationController pushViewController:vc animated:TRUE];
 					[vc release];
 				}
@@ -186,7 +190,7 @@ typedef enum {
 		case OBASectionTypeActions: {
 			if( indexPath.row == 0 ) {
 				if( _tripDetails ) {
-					OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationContext:_appContext tripDetails:_tripDetails];
+					OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationContext:_appContext tripInstance:_tripInstance trip:_tripDetails.trip];
 					vc.currentStopId = self.currentStopId;
 					[self.navigationController pushViewController:vc animated:TRUE];
 					[vc release];

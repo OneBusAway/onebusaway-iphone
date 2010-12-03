@@ -131,7 +131,9 @@
 	for( id key in parameters )
 		[context setParamter:[parameters objectForKey:key] forKey:key];
 	
-	[context pushValue:rootObject];
+	if( rootObject )
+		[context pushValue:rootObject];
+	
 	[self recursivelyParse:context jsonValue:jsonRoot prefix:@"" name:@"/"];
 	
 	NSError * err = context.error;

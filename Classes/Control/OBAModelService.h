@@ -8,6 +8,8 @@
 #import "OBAStopV2.h"
 #import "OBANavigationTarget.h"
 #import "OBAPlacemark.h"
+#import "OBATripInstanceRef.h"
+#import "OBAArrivalAndDepartureInstanceRef.h"
 #import "OBAReportProblemWithStopV2.h"
 #import "OBAReportProblemWithTripV2.h"
 
@@ -55,7 +57,10 @@
 
 - (id<OBAModelServiceRequest>) requestAgenciesWithCoverageWithDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 
-- (id<OBAModelServiceRequest>) requestTripDetailsForId:(NSString*)tripId serviceDate:(long long)serviceDate withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>) requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef*)instance withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>) requestTripDetailsForTripInstance:(OBATripInstanceRef*)tripInstance withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+
+- (id<OBAModelServiceRequest>) requestVehicleForId:(NSString*)vehicleId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 
 - (id<OBAModelServiceRequest>) requestShapeForId:(NSString*)shapeId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 

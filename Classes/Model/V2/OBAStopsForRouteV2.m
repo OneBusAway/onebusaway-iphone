@@ -9,6 +9,7 @@
 - (id) initWithReferences:(OBAReferencesV2*)refs {
 	if(self = [super initWithReferences:refs]) {
 		_stopIds = [[NSMutableArray alloc] init];
+		_polylines = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
@@ -16,11 +17,16 @@
 - (void) dealloc {
 	[_routeId release];
 	[_stopIds release];
+	[_polylines release];
 	[super dealloc];
 }
 
 - (void) addStopId:(NSString*)stopId {
 	[_stopIds addObject:stopId];
+}
+
+- (void) addPolyline:(NSString*)polyline {
+	[_polylines addObject:polyline];
 }
 
 - (OBARouteV2*) route {
@@ -38,4 +44,8 @@
 	return stops;
 }
 
+- (NSArray*) polylines {
+	return _polylines;
+}
+	
 @end

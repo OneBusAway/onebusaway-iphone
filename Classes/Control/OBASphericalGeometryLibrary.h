@@ -29,6 +29,7 @@
 + (NSString*) regionAsString:(MKCoordinateRegion)region;
 
 + (NSArray*) decodePolylineString:(NSString*)encodedPolyline;
++ (MKPolyline*) decodePolylineStringAsMKPolyline:(NSString*)polylineString;
 
 @end
 

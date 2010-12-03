@@ -9,6 +9,7 @@
 
 typedef enum {
 	OBASectionTypeNone,
+	OBASectionTypeLoading,
 	OBASectionTypeSchedule,
 	OBASectionTypePreviousStops,
 	OBASectionTypeConnections
@@ -17,12 +18,15 @@ typedef enum {
 
 @interface OBATripScheduleListViewController (Private)
 
+- (void) handleTripDetails;
+
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section;
 
 - (BOOL) hasTripConnections;
 - (NSUInteger) computeNumberOfScheduleRows;
 - (NSDate*) getStopTimeAsDate:(NSInteger)stopTime;
 
+- (UITableViewCell*) tableView:(UITableView*)tableView loadingCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView scheduleCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView previousStopsCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView connectionsCellForRowAtIndexPath:(NSIndexPath *)indexPath;
@@ -36,12 +40,13 @@ typedef enum {
 
 @implementation OBATripScheduleListViewController
 
+@synthesize tripDetails = _tripDetails;
 @synthesize currentStopId;
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)context tripDetails:(OBATripDetailsV2*)tripDetails {
+- (id) initWithApplicationContext:(OBAApplicationContext*)context tripInstance:(OBATripInstanceRef*)tripInstance {
     if ((self = [super initWithStyle:UITableViewStyleGrouped])) {
 		_appContext = [context retain];
-		_tripDetails = [tripDetails retain];
+		_tripInstance = [tripInstance retain];
 		_currentStopIndex = -1;
 		_showPreviousStops = FALSE;
 		
@@ -49,7 +54,9 @@ typedef enum {
 		[_timeFormatter setDateStyle:NSDateFormatterNoStyle];
 		[_timeFormatter setTimeStyle:NSDateFormatterShortStyle];		
 		
-		self.navigationItem.title = @"Trip Schedule";
+		CGRect r = CGRectMake(0, 0, 160, 33);
+		_progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];
+		[self.navigationItem setTitleView:_progressView];
 		
 		UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:@"Map" style:UIBarButtonItemStyleBordered target:self action:@selector(showMap:)];
 		self.navigationItem.rightBarButtonItem = item;
@@ -63,8 +70,14 @@ typedef enum {
 }
 
 - (void)dealloc {
+	[_request cancel];
+	
 	[_appContext release];
+	[_tripInstance release];
 	[_tripDetails release];	 
+	[_request release];
+	[_timeFormatter release];
+	[_progressView release];
     [super dealloc];
 }
 
@@ -72,24 +85,47 @@ typedef enum {
 #pragma mark View lifecycle
 
 - (void)viewWillAppear:(BOOL)animated {
-	NSString * stopId = self.currentStopId;
-	OBATripScheduleV2 * sched = _tripDetails.schedule;
-	NSInteger index = 0;
-	for( OBATripStopTimeV2 * stopTime in sched.stopTimes ) {
-		if( [stopTime.stopId isEqual:stopId] ) {
-			_currentStopIndex = index;
-			return;
-		}
-		index++;	
+
+	if( _tripDetails == nil && _tripInstance != nil ) {
+		[self.tableView reloadData];
+		_request = [[_appContext.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:nil] retain];
 	}
-	_currentStopIndex = -1;
-	[self.tableView reloadData];
+	else {
+		[self handleTripDetails];
+	}
+}
+
+#pragma mark OBAModelServiceDelegate
+
+- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
+	OBAEntryWithReferencesV2 * entry = obj;
+	_tripDetails = [entry.entry retain];
+	[self handleTripDetails];
+}
+
+- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
+	if( code == 404 )
+		[_progressView setMessage:@"Trip not found" inProgress:FALSE progress:0];
+	else
+		[_progressView setMessage:@"Unknown error" inProgress:FALSE progress:0];
+}
+
+- (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
+	OBALogWarningWithError(error, @"Error");
+	[_progressView setMessage:@"Error connecting" inProgress:FALSE progress:0];
+}
+
+- (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
+	[_progressView setInProgress:TRUE progress:progress];
 }
 
 #pragma mark -
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	
+	if( _tripDetails == nil )
+		return 1;
 	NSInteger sections = 1;
 	if( _currentStopIndex > 0 )
 		sections++;
@@ -115,6 +151,8 @@ typedef enum {
 	OBASectionType sectionType = [self sectionTypeForSection:section];
 	
 	switch (sectionType) {
+		case OBASectionTypeLoading:
+			return 1;			
 		case OBASectionTypeSchedule:
 			return [self computeNumberOfScheduleRows];
 			break;
@@ -140,6 +178,8 @@ typedef enum {
 	OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
     
 	switch(sectionType) {
+		case OBASectionTypeLoading:
+			return [self tableView:tableView loadingCellForRowAtIndexPath:indexPath];
 		case OBASectionTypeSchedule:
 			return [self tableView:tableView scheduleCellForRowAtIndexPath:indexPath];
 		case OBASectionTypePreviousStops:
@@ -186,7 +226,29 @@ typedef enum {
 
 @implementation OBATripScheduleListViewController (Private)
 
+- (void) handleTripDetails {
+
+	[_progressView setMessage:@"Trip Schedule" inProgress:FALSE progress:0];
+
+	NSString * stopId = self.currentStopId;
+	OBATripScheduleV2 * sched = _tripDetails.schedule;
+	NSInteger index = 0;
+	for( OBATripStopTimeV2 * stopTime in sched.stopTimes ) {
+		if( [stopTime.stopId isEqual:stopId] ) {
+			_currentStopIndex = index;
+			[self.tableView reloadData];
+			return;
+		}
+		index++;	
+	}
+	_currentStopIndex = -1;
+	[self.tableView reloadData];
+}
+
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section {
+	
+	if( _tripDetails == nil )
+		return OBASectionTypeLoading;
 	
 	NSInteger offset = 0;
 
@@ -235,6 +297,14 @@ typedef enum {
 	}
 	
 	return [NSDate dateWithTimeIntervalSince1970:(serviceDate/1000 + stopTime + scheduleDeviation)];
+}
+
+- (UITableViewCell*) tableView:(UITableView*)tableView loadingCellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleDefault];
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	cell.accessoryType = UITableViewCellAccessoryNone;
+	cell.textLabel.text = @"Loading...";
+	return cell;	
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView scheduleCellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -343,11 +413,12 @@ typedef enum {
 - (void)tableView:(UITableView *)tableView didSelectConnectionsRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	OBATripScheduleV2 * sched = _tripDetails.schedule;
+	OBATripInstanceRef * tripInstance = _tripDetails.tripInstance;
 	
 	NSInteger offset = 0;
 	if( sched.previousTripId != nil ) {
 		if( indexPath.row == offset ) {
-			OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripId:sched.previousTripId serviceDate:_tripDetails.status.serviceDate];
+			OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripInstance:tripInstance];
 			[self.navigationController pushViewController:vc animated:TRUE];
 			[vc release];
 			return;
@@ -357,7 +428,7 @@ typedef enum {
 	
 	if( sched.nextTripId != nil ) {
 		if( indexPath.row == offset ) {
-			OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripId:sched.nextTripId serviceDate:_tripDetails.status.serviceDate];
+			OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripInstance:tripInstance];
 			[self.navigationController pushViewController:vc animated:TRUE];
 			[vc release];
 			return;

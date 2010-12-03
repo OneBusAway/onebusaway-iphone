@@ -19,6 +19,7 @@
 #import "OBAArrivalsAndDeparturesForStopV2.h"
 #import "OBABookmarkV2.h"
 #import "OBAProgressIndicatorView.h"
+#import "OBAArrivalEntryTableViewCellFactory.h"
 
 
 typedef enum {
@@ -52,7 +53,7 @@ typedef enum {
 	NSMutableArray * _filteredArrivals;
 	BOOL _showFilteredArrivals;
 	
-	NSDateFormatter * _timeFormatter;
+	OBAArrivalEntryTableViewCellFactory * _arrivalCellFactory;
 	
 	OBAProgressIndicatorView * _progressView;
 	

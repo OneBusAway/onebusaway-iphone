@@ -32,6 +32,7 @@
 #import "OBACoordinateBounds.h"
 #import "OBALogger.h"
 #import "OBAStopIconFactory.h"
+#import "OBAPresentation.h"
 
 
 // Radius in meters
@@ -98,6 +99,7 @@ typedef enum  {
 - (void) didCompleteNetworkRequest;
 
 - (void) setAnnotationsFromResults;
+- (void) setOverlaysFromResults;
 - (void) setRegionFromResults;
 
 - (NSString*) computeSearchFilterString;
@@ -388,9 +390,29 @@ typedef enum  {
             [self scheduleRefreshOfStopsInRegion:kStopsInRegionRefreshDelayOnDrag location:nil];
         }
     }
-			
 		
 	_pendingRegionChangeRequest = [NSObject releaseOld:_pendingRegionChangeRequest retainNew:nil];
+	
+	
+	float scale = 1.0;
+	float alpha = 1.0;
+	
+	OBASearchResult * result = _searchController.result;
+	
+	if( result && result.searchType == OBASearchTypeRouteStops ) {
+		scale = [OBAPresentation computeStopsForRouteAnnotationScaleFactor:mapView.region];
+		alpha = scale <= 0.11 ? 0.0 : 1.0;
+	}
+	
+	CGAffineTransform transform = CGAffineTransformMakeScale(scale, scale);
+	
+	for( id<MKAnnotation> annotation in mapView.annotations ) {
+		if ([annotation isKindOfClass:[OBAStopV2 class]]) {
+			MKAnnotationView * view = [mapView viewForAnnotation:annotation];
+			view.transform = transform;
+			view.alpha = alpha;
+		}
+	}
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
@@ -407,6 +429,16 @@ typedef enum  {
 		view.canShowCallout = TRUE;
 		view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 		
+		OBASearchResult * result = _searchController.result;
+		
+		if( result && result.searchType == OBASearchTypeRouteStops ) {
+			float scale = [OBAPresentation computeStopsForRouteAnnotationScaleFactor:mapView.region];
+			float alpha = scale <= 0.11 ? 0.0 : 1.0;
+			
+			view.transform = CGAffineTransformMakeScale(scale, scale);
+			view.alpha = alpha;
+		}
+
 		OBAStopIconFactory * stopIconFactory = _appContext.stopIconFactory;
 		view.image = [stopIconFactory getIconForStop:stop];
 		return view;
@@ -478,6 +510,21 @@ typedef enum  {
 		OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
 		[_searchController searchWithTarget:target];
 	}
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id )overlay {
+	
+	MKOverlayView* overlayView = nil;
+	
+	if( [overlay isKindOfClass:[MKPolyline class]] ) {
+		MKPolylineView * polylineView  = [[[MKPolylineView alloc] initWithPolyline:overlay] autorelease];
+		polylineView.fillColor = [UIColor blackColor];
+		polylineView.strokeColor = [UIColor blackColor];
+		polylineView.lineWidth = 5;
+		return polylineView;		
+	}
+
+	return overlayView;	
 }
 
 #pragma mark UIAlertViewDelegate Methods
@@ -691,6 +738,7 @@ typedef enum  {
 	
 	//[self refreshCurrentLocation];
 	[self setAnnotationsFromResults];
+	[self setOverlaysFromResults];
 	[self setRegionFromResults];
 	
 	NSString * label = [self computeLabelForCurrentResults];
@@ -779,6 +827,20 @@ typedef enum  {
 	[toAdd release];
 	[toRemove release];
 	[annotations release];
+}
+
+- (void) setOverlaysFromResults {
+
+	[_mapView removeOverlays:_mapView.overlays];
+
+	OBASearchResult * result = _searchController.result;
+	
+	if( result && result.searchType == OBASearchTypeRouteStops) {
+		for( NSString * polylineString in result.additionalValues ) {
+			MKPolyline * polyline = [OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString];
+			[_mapView  addOverlay:polyline];
+		}
+	}
 }
 
 - (NSString*) computeSearchFilterString {

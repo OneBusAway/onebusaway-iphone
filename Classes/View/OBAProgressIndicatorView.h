@@ -22,12 +22,7 @@
 	UIProgressView * _progressView;
 }
 
-@property (nonatomic,retain) IBOutlet UILabel * label;
-@property (nonatomic,retain) IBOutlet UILabel * progressLabel;
-@property (nonatomic,retain) IBOutlet UIActivityIndicatorView * activityIndicator;
-@property (nonatomic,retain) IBOutlet UIProgressView * progressView;
-
-+ (id) viewFromNib;
+- (id) initWithFrame:(CGRect)frame;
 
 - (void) setMessage:(NSString*)message inProgress:(BOOL)inProgress progress:(float)progress;
 - (void) setInProgress:(BOOL)inProgress progress:(float)progress;
