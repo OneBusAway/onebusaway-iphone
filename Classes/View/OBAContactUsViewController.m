@@ -16,6 +16,8 @@
 
 #import "OBAContactUsViewController.h"
 #import "OBAUITableViewCell.h"
+#import "ISFeedback.h"
+
 
 @implementation OBAContactUsViewController
 
@@ -35,6 +37,13 @@
 
 #pragma mark UIViewController
 
+- (void)viewDidLoad {
+	[super viewDidLoad];
+		
+	if ([ISFeedback sharedInstance] == nil)
+		[ISFeedback initSharedInstance:@"b1b94280-e1bf-4d7c-a657-72aa1d25e49e"];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
@@ -42,7 +51,7 @@
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 4;
 }
 
 
@@ -54,10 +63,12 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	switch(section) {
 		case 0:
-			return @"Twitter";
+			return @"Twitter - Latest News";
 		case 1:
 			return @"Email";
 		case 2:
+			return @"Idescale Feedback";
+		case 3:
 			return @"Report bugs";
 		default:
 			return nil;
@@ -68,6 +79,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+	cell.imageView.image = nil;
+	
 	switch( indexPath.section ) {
 		case 0:
 			cell.textLabel.text = @"http://twitter.com/onebusaway";
@@ -76,6 +89,10 @@
 			cell.textLabel.text = @"contact@onebusaway.org";
 			break;
 		case 2:
+			cell.textLabel.text = @"Submit an Idea";
+			cell.imageView.image = [UIImage imageNamed:@"Lightbulb.png"];
+			break;
+		case 3:
 			cell.textLabel.text = @"OneBusAway Issue Tracker";
 			break;
 	}
@@ -98,6 +115,10 @@
 			break;		
 		}
 		case 2: {
+			[[ISFeedback sharedInstance] pushOntoViewController:self];
+			break;
+		}
+		case 3: {
 			NSString *url = [NSString stringWithString: @"http://code.google.com/p/onebusaway-iphone/issues/list"];
 			[[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
 			break;

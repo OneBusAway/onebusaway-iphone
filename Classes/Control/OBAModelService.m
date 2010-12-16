@@ -229,8 +229,10 @@ static const float kSearchRadius = 400;
 	[args setObject:@"2" forKey:@"version"];
 	[args setObject:tripInstance.tripId forKey:@"tripId"];
 	[args setObject:[NSString stringWithFormat:@"%lld",tripInstance.serviceDate] forKey:@"serviceDate"];
-	if( tripInstance.vehicleId )
-		[args setObject:tripInstance.tripId forKey:@"vehicleId"];
+	if( tripInstance.vehicleId ) {
+		NSLog(@"vid=%@",tripInstance.vehicleId);
+		[args setObject:tripInstance.vehicleId forKey:@"vehicleId"];
+	}
 	
 	if( problem.stopId )	
 		[args setObject:problem.stopId forKey:@"stopId"];

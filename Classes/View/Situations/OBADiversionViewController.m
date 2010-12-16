@@ -2,6 +2,8 @@
 #import "OBAUIKit.h"
 #import "OBASphericalGeometryLibrary.h"
 #import "OBACoordinateBounds.h"
+#import "UIDeviceExtensions.h"
+#import "OBAPlacemark.h"
 
 
 @interface OBADiversionViewController (Private)
@@ -37,34 +39,51 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-
-	NSArray * points = [OBASphericalGeometryLibrary decodePolylineString:self.diversionPath];
-	OBACoordinateBounds * bounds = [[OBACoordinateBounds alloc] init];
 	
-	CLLocationCoordinate2D* pointArr = malloc(sizeof(CLLocationCoordinate2D) * points.count);
-	for (int i=0; i<points.count;i++) {
-		CLLocation * location = [points objectAtIndex:i];
-		CLLocationCoordinate2D p = location.coordinate;
-		[bounds addCoordinate:p];
-		pointArr[i] = p;
-	}
-	
-	_reroutePolyline = [[MKPolyline polylineWithCoordinates:pointArr count:points.count] retain];
 	MKMapView * mv = [self mapView];
-	[mv addOverlay:_reroutePolyline];
-	
-	if( ! [bounds empty] ) {
-		[mv setRegion:bounds.region];
-	}
 
-	OBAArrivalAndDepartureV2 * ad = [self.args objectForKey:@"arrivalAndDeparture"];
-	if( ad != nil && _tripEncodedPolyline == nil ) {
-		OBATripV2 * trip = ad.trip;
-		NSString * shapeId = trip.shapeId;
-		if( shapeId ) {
-			OBAApplicationContext * context = self.appContext;
-			OBAModelService * service = context.modelService;
-			_request = [[service requestShapeForId:shapeId withDelegate:self withContext:nil] retain];
+	if ( [[UIDevice currentDevice] isMKPolylineSupportedSafe] ) {
+
+		_reroutePolyline = [[OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:self.diversionPath] retain];
+
+		[mv addOverlay:_reroutePolyline];
+		
+		OBACoordinateBounds * bounds = [OBASphericalGeometryLibrary boundsForMKPolyline:_reroutePolyline];
+		if( ! [bounds empty] ) {
+			[mv setRegion:bounds.region];
+		}
+		
+		OBAArrivalAndDepartureV2 * ad = [self.args objectForKey:@"arrivalAndDeparture"];
+		if( ad != nil && _tripEncodedPolyline == nil ) {
+			OBATripV2 * trip = ad.trip;
+			NSString * shapeId = trip.shapeId;
+			if( shapeId ) {
+				OBAApplicationContext * context = self.appContext;
+				OBAModelService * service = context.modelService;
+				_request = [[service requestShapeForId:shapeId withDelegate:self withContext:nil] retain];
+			}
+		}
+	}
+	else {
+		
+		NSArray * points = [OBASphericalGeometryLibrary decodePolylineString:self.diversionPath];
+		points = [OBASphericalGeometryLibrary subsamplePoints:points minDistance:250];
+
+		NSMutableArray * annotations = [NSMutableArray arrayWithCapacity:[points count]];
+		OBACoordinateBounds * bounds = [[OBACoordinateBounds alloc] init];
+										
+		for( CLLocation * location in points ) {
+			OBAPlacemark * annotation = [[OBAPlacemark alloc] initWithAddress:@"" coordinate:location.coordinate];
+			[annotations addObject:annotation];
+			[annotation release];
+			
+			[bounds addLocation:location];
+		}
+		
+		[mv addAnnotations:annotations];
+		
+		if( ! [bounds empty] ) {
+			[mv setRegion:bounds.region];
 		}
 	}
 }
@@ -73,6 +92,15 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 	
+	if( [annotation isKindOfClass:[OBAPlacemark class]] ) {
+		static NSString * viewId = @"DiversionView";
+		MKPinAnnotationView * view = (MKPinAnnotationView*) [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
+		if( view == nil ) {
+			view = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId] autorelease];
+		}
+		view.canShowCallout = FALSE;
+		return view;
+	}
 	return nil;
 }
 

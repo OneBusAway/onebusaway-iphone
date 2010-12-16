@@ -140,6 +140,33 @@ typedef struct {
 	return [MKPolyline polylineWithCoordinates:pointArr count:points.count];
 }
 
++ (NSArray*) subsamplePoints:(NSArray*)points minDistance:(double)minDistance {
+
+	NSMutableArray * array = [NSMutableArray array];
+	CLLocation * prevLocation = nil;
+	for (int i=0; i<points.count;i++) {
+		CLLocation * location = [points objectAtIndex:i];
+		if( prevLocation == nil || i == (points.count - 1) || [prevLocation distanceFromLocationSafe:location] > minDistance ) {
+			[array addObject:location];
+			prevLocation = location;
+		}
+	}
+	
+	return array;
+}
+
++ (OBACoordinateBounds*) boundsForMKPolyline:(MKPolyline*)polyline {
+	
+	OBACoordinateBounds * bounds = [[[OBACoordinateBounds alloc] init] autorelease];
+	
+	MKMapPoint * points = polyline.points;
+	for( int i=0; i<polyline.pointCount; i++ ) {
+		MKMapPoint point = points[i];
+		[bounds addLat:point.y lon:point.x];
+	}
+	return bounds;
+}
+
 
 @end
 

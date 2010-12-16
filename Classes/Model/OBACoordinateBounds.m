@@ -54,6 +54,10 @@
 	return span;
 }
 
+- (void) addLocation:(CLLocation*)location {
+	[self addCoordinate:location.coordinate];
+}
+
 - (void) addCoordinate:(CLLocationCoordinate2D)coordinate {
 	[self addLat:coordinate.latitude lon:coordinate.longitude];
 }

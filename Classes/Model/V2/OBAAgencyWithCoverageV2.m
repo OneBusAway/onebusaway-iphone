@@ -16,4 +16,10 @@
 	return [refs getAgencyForId:_agencyId];
 }
 
+- (NSComparisonResult) compareUsingAgencyName:(OBAAgencyWithCoverageV2*)obj {
+	NSString * nameA = [self.agency name];
+	NSString * nameB = [obj.agency name];
+	return [nameA compare:nameB options:NSNumericSearch];
+}
+
 @end

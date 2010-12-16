@@ -33,6 +33,7 @@
 #import "OBALogger.h"
 #import "OBAStopIconFactory.h"
 #import "OBAPresentation.h"
+#import "UIDeviceExtensions.h"
 
 
 // Radius in meters
@@ -831,6 +832,9 @@ typedef enum  {
 
 - (void) setOverlaysFromResults {
 
+	if ( ! [[UIDevice currentDevice] isMKMapViewOverlaysSupportedSafe:_mapView] )
+		return;
+	
 	[_mapView removeOverlays:_mapView.overlays];
 
 	OBASearchResult * result = _searchController.result;

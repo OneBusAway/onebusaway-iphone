@@ -3,6 +3,7 @@
 #import "OBASituationViewController.h"
 #import "OBAUITableViewCell.h"
 #import "OBASphericalGeometryLibrary.h"
+#import "UIDeviceExtensions.h"
 
 
 static const float kStopForRouteAnnotationMinScale = 0.1;
@@ -113,6 +114,13 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
 }
 
 + (float) computeStopsForRouteAnnotationScaleFactor:(MKCoordinateRegion)region {
+	
+	/**
+	 * On devices that don't support MKPolyline, we don't scale the stops
+	 * because we won't have a corresponding polyline showing the route path
+	 */
+	if( ! [[UIDevice currentDevice] isMKPolylineSupportedSafe] )
+		return 1.0;
 	
 	MKCoordinateSpan span = region.span;
 	CLLocationCoordinate2D center = region.center;

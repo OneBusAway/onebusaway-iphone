@@ -16,6 +16,7 @@
 
 #import "UIDeviceExtensions.h"
 
+
 @implementation UIDevice (UIDeviceOBAExtensions)
 
 // Returns whether multitasking is supported on this device/version of iOS or not.
@@ -32,6 +33,40 @@
 	
 	cachedResult = YES;
 	return supportsMultitasking;
+}
+
+/**
+ * Returns whether MKPolyline is supported.  This was introduced in iOS 4.x
+ */
+- (BOOL)isMKPolylineSupportedSafe {
+	static BOOL cachedResult       = NO;
+	static BOOL supportsMKPolyline = NO;
+	
+	if (cachedResult)
+		return supportsMKPolyline;
+	
+	if ([MKPolyline class])
+		supportsMKPolyline = YES;
+	
+	cachedResult = YES;
+	return supportsMKPolyline;
+}
+
+/**
+ * Returns whether MKMapView.overlays is supported.  This was introduced in iOS 4.x
+ */
+- (BOOL)isMKMapViewOverlaysSupportedSafe:(MKMapView*)mapView {
+	static BOOL cachedResult              = NO;
+	static BOOL supportsMKMapViewOverlays = NO;
+	
+	if (cachedResult)
+		return supportsMKMapViewOverlays;
+	if ([mapView respondsToSelector:@selector(overlays)] )
+		supportsMKMapViewOverlays = YES;
+	
+	cachedResult = YES;
+	return supportsMKMapViewOverlays;
+	
 }
 
 @end

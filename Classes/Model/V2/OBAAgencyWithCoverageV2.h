@@ -11,4 +11,6 @@
 @property (nonatomic,readonly) OBAAgencyV2 * agency;
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 
+- (NSComparisonResult) compareUsingAgencyName:(OBAAgencyWithCoverageV2*)obj;
+
 @end

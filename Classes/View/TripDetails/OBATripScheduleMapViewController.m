@@ -11,6 +11,7 @@
 #import "OBASphericalGeometryLibrary.h"
 #import "OBATripDetailsViewController.h"
 #import "OBAPresentation.h"
+#import "UIDeviceExtensions.h"
 
 
 static const NSString * kTripDetailsContext = @"TripDetails";
@@ -270,7 +271,7 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 		[mapView setRegion:bounds.region];
 	
 	OBATripV2 * trip = _tripDetails.trip;
-	if( trip && trip.shapeId ) {
+	if( trip && trip.shapeId && [[UIDevice currentDevice] isMKMapViewOverlaysSupportedSafe:[self mapView]]) {
 		_request = [[_appContext.modelService requestShapeForId:trip.shapeId withDelegate:self withContext:kShapeContext] retain];
 	}
 }

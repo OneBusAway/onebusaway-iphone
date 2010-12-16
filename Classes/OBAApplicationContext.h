@@ -23,10 +23,12 @@
 #import "OBANavigationTarget.h"
 #import "OBAReferencesV2.h"
 
+#import "IASKAppSettingsViewController.h"
+
 @class OBANearbyTripsController;
 @class OBAStopIconFactory;
 
-@interface OBAApplicationContext : NSObject <UIApplicationDelegate,UITabBarControllerDelegate> {
+@interface OBAApplicationContext : NSObject <UIApplicationDelegate,UITabBarControllerDelegate,IASKSettingsDelegate> {
 	
 	BOOL _setup;
 	BOOL _active;

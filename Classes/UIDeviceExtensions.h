@@ -20,4 +20,14 @@
 // Will work even if called on iPhone OS 3.0, unlike the standard isMultitaskingSupported.
 - (BOOL)isMultitaskingSupportedSafe;
 
+/**
+ * Returns whether MKPolyline is supported.  This was introduced in iOS 4.x
+ */
+- (BOOL)isMKPolylineSupportedSafe;
+
+/**
+ * Returns whether MKMapView.overlays is supported.  This was introduced in iOS 4.x
+ */
+- (BOOL)isMKMapViewOverlaysSupportedSafe:(MKMapView*)mapView;
+
 @end

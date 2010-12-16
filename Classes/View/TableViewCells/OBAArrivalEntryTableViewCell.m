@@ -85,7 +85,7 @@
 		_alertImage.hidden = FALSE;
 
 		if( _transitionTimer == nil ) {
-			_transitionTimer = [[NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(timerFired:) userInfo:nil repeats:TRUE] retain];
+			_transitionTimer = [[NSTimer scheduledTimerWithTimeInterval:1.2 target:self selector:@selector(timerFired:) userInfo:nil repeats:TRUE] retain];
 			
 		}
 	}

@@ -17,6 +17,7 @@
 
 @implementation OBARequestDrivenTableViewController
 
+@synthesize appContext = _appContext;
 @synthesize progressLabel = _progressLabel;
 @synthesize showUpdateTime = _showUpdateTime;
 

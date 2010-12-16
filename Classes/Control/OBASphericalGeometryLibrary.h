@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-//#import <Foundation/Foundation.h>
+#import "OBACoordinateBounds.h"
 
 
 @interface OBASphericalGeometryLibrary : NSObject {
@@ -30,6 +30,10 @@
 
 + (NSArray*) decodePolylineString:(NSString*)encodedPolyline;
 + (MKPolyline*) decodePolylineStringAsMKPolyline:(NSString*)polylineString;
+
++ (NSArray*) subsamplePoints:(NSArray*)points minDistance:(double)minDistance;
+
++ (OBACoordinateBounds*) boundsForMKPolyline:(MKPolyline*)polyline;
 
 @end
 
