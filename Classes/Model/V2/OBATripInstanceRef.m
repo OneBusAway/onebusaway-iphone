@@ -20,4 +20,8 @@
 	return [[[OBATripInstanceRef alloc] initWithTripId:tripId serviceDate:serviceDate vehicleId:vehicleId] autorelease];
 }
 
+- (OBATripInstanceRef*) copyWithNewTripId:(NSString*)newTripId {
+	return [OBATripInstanceRef tripInstance:newTripId serviceDate:self.serviceDate vehicleId:self.vehicleId];
+}
+
 @end

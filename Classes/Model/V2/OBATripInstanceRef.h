@@ -12,4 +12,6 @@
 @property (nonatomic,readonly) long long serviceDate;
 @property (nonatomic,readonly) NSString * vehicleId;
 
+- (OBATripInstanceRef*) copyWithNewTripId:(NSString*)newTripId;
+
 @end

@@ -418,7 +418,8 @@ typedef enum {
 	NSInteger offset = 0;
 	if( sched.previousTripId != nil ) {
 		if( indexPath.row == offset ) {
-			OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripInstance:tripInstance];
+			OBATripInstanceRef * prevTripInstance = [tripInstance copyWithNewTripId:sched.previousTripId];
+			OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripInstance:prevTripInstance];
 			[self.navigationController pushViewController:vc animated:TRUE];
 			[vc release];
 			return;
@@ -428,7 +429,8 @@ typedef enum {
 	
 	if( sched.nextTripId != nil ) {
 		if( indexPath.row == offset ) {
-			OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripInstance:tripInstance];
+			OBATripInstanceRef * nextTripInstance = [tripInstance copyWithNewTripId:sched.nextTripId];
+			OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripInstance:nextTripInstance];
 			[self.navigationController pushViewController:vc animated:TRUE];
 			[vc release];
 			return;
