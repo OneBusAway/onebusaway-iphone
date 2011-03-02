@@ -46,6 +46,8 @@ static const float kSearchRadius = 400;
 
 - (id<OBAModelServiceRequest>) requestStopForId:(NSString*)stopId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
 
+	stopId = [self escapeStringForUrl:stopId];
+	
 	NSString * url = [NSString stringWithFormat:@"/api/where/stop/%@.json", stopId];
 	NSString * args = @"version=2";
 	SEL selector = @selector(getStopFromJSON:error:);
@@ -54,6 +56,8 @@ static const float kSearchRadius = 400;
 }
 
 - (id<OBAModelServiceRequest>) requestStopWithArrivalsAndDeparturesForId:(NSString*)stopId withMinutesBefore:(NSUInteger)minutesBefore withMinutesAfter:(NSUInteger)minutesAfter withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+	
+	stopId = [self escapeStringForUrl:stopId];
 
 	NSString *url = [NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", stopId];
 	NSString * args = [NSString stringWithFormat:@"version=2&minutesBefore=%d&minutesAfter=%d",minutesBefore,minutesAfter];
@@ -89,6 +93,9 @@ static const float kSearchRadius = 400;
 }
 
 - (id<OBAModelServiceRequest>) requestStopsForRoute:(NSString*)routeId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+	
+	routeId = [self escapeStringForUrl:routeId];
+	
 	NSString * url = [NSString stringWithFormat:@"/api/where/stops-for-route/%@.json", routeId];
 	NSString * args = @"version=2";
 	SEL selector = @selector(getStopsForRouteV2FromJSON:error:);
@@ -148,14 +155,15 @@ static const float kSearchRadius = 400;
 
 - (id<OBAModelServiceRequest>) requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef*)instance withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
 	
+	NSString * stopId = [self escapeStringForUrl:instance.stopId];
 	OBATripInstanceRef * tripInstance = instance.tripInstance;
 	
-	NSString * url = [NSString stringWithFormat:@"/api/where/arrival-and-departure-for-stop/%@.json", instance.stopId];
+	NSString * url = [NSString stringWithFormat:@"/api/where/arrival-and-departure-for-stop/%@.json", stopId];
 	NSMutableString * args = [NSMutableString stringWithString:@"version=2"];
-	[args appendFormat:@"&tripId=%@",tripInstance.tripId];
+	[args appendFormat:@"&tripId=%@",[self escapeStringForUrl:tripInstance.tripId]];
 	[args appendFormat:@"&serviceDate=%lld",tripInstance.serviceDate];
 	if( tripInstance.vehicleId )
-		[args appendFormat:@"&vehicleId=%@",tripInstance.vehicleId];
+		[args appendFormat:@"&vehicleId=%@",[self escapeStringForUrl:tripInstance.vehicleId]];
 	if( instance.stopSequence >= 0 )
 		[args appendFormat:@"&stopSequence=%d",instance.stopSequence];
 	SEL selector = @selector(getArrivalAndDepartureForStopV2FromJSON:error:);
@@ -164,18 +172,22 @@ static const float kSearchRadius = 400;
 }
 
 - (id<OBAModelServiceRequest>) requestTripDetailsForTripInstance:(OBATripInstanceRef*)tripInstance withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
-	NSString * url = [NSString stringWithFormat:@"/api/where/trip-details/%@.json", tripInstance.tripId];
+	NSString * tripId = [self escapeStringForUrl:tripInstance.tripId];
+	NSString * url = [NSString stringWithFormat:@"/api/where/trip-details/%@.json", tripId];
 	NSMutableString * args = [NSMutableString stringWithString:@"version=2"];
 	if( tripInstance.serviceDate > 0 )
 		[args appendFormat:@"&serviceDate=%lld",tripInstance.serviceDate];
 	if( tripInstance.vehicleId )
-		[args appendFormat:@"&vehicleId=%@",tripInstance.vehicleId];
+		[args appendFormat:@"&vehicleId=%@",[self escapeStringForUrl:tripInstance.vehicleId]];
 	SEL selector = @selector(getTripDetailsV2FromJSON:error:);
 	
 	return [self request:url args:args selector:selector delegate:delegate context:context];	
 }
 
 - (id<OBAModelServiceRequest>) requestVehicleForId:(NSString*)vehicleId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+	
+	vehicleId = [self escapeStringForUrl:vehicleId];
+	
 	NSString * url = [NSString stringWithFormat:@"/api/where/vehicle/%@.json",vehicleId];
 	NSString * args = [NSString stringWithFormat:@"version=2"];
 	SEL selector = @selector(getVehicleStatusV2FromJSON:error:);
@@ -184,6 +196,9 @@ static const float kSearchRadius = 400;
 }
 
 - (id<OBAModelServiceRequest>) requestShapeForId:(NSString*)shapeId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+
+	shapeId = [self escapeStringForUrl:shapeId];
+	
 	NSString * url = [NSString stringWithFormat:@"/api/where/shape/%@.json",shapeId];
 	NSString * args = [NSString stringWithFormat:@"version=2"];
 	SEL selector = @selector(getShapeV2FromJSON:error:);

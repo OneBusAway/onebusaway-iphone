@@ -46,10 +46,30 @@
 	
 	cell.destinationLabel.text = arrival.tripHeadsign;
 	cell.routeLabel.text = arrival.routeShortName;
-	cell.minutesLabel.text = [self getMinutesLabelForMinutes:minutes];
-	cell.minutesLabel.textColor = [self getMinutesColorForArrival:arrival];
 	cell.statusLabel.text = [self getStatusLabelForArrival:arrival time:time minutes:minutes];
 	cell.alertStyle = [self getAlertStyleForArrival:arrival];
+
+	if( arrival.predicted && arrival.predictedDepartureTime == 0 ) {
+		if( arrival.distanceFromStop < 500 ) {
+			cell.minutesLabel.text = [NSString stringWithFormat:@"%d",(NSInteger) arrival.distanceFromStop];	
+			cell.minutesSubLabel.text = @"meters";
+		}
+		else {
+			cell.minutesLabel.text = [NSString stringWithFormat:@"%0.1f",(arrival.distanceFromStop/1000.0)];	
+			cell.minutesSubLabel.text = @"km";
+		}
+		
+		cell.minutesLabel.textColor = [UIColor greenColor];
+		cell.minutesSubLabel.hidden = FALSE;
+		
+	}
+	else {
+		cell.minutesLabel.text = [self getMinutesLabelForMinutes:minutes];
+		cell.minutesLabel.textColor = [self getMinutesColorForArrival:arrival];
+		cell.minutesSubLabel.hidden = TRUE;
+	}
+	
+
 	
 	return cell;	
 }

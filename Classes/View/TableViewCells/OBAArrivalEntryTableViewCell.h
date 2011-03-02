@@ -28,6 +28,7 @@ OBAArrivalEntryTableViewCellAlertStyle;
 	UILabel * _destinationLabel;
 	UILabel * _statusLabel;
 	UILabel * _minutesLabel;
+	UILabel * _minutesSubLabel;
 	UIImageView * _unreadAlertImage;
 	UIImageView * _alertImage;
 	OBAArrivalEntryTableViewCellAlertStyle _alertStyle;
@@ -39,6 +40,7 @@ OBAArrivalEntryTableViewCellAlertStyle;
 @property (nonatomic, retain) IBOutlet UILabel * destinationLabel;
 @property (nonatomic, retain) IBOutlet UILabel * statusLabel;
 @property (nonatomic, retain) IBOutlet UILabel * minutesLabel;
+@property (nonatomic, retain) IBOutlet UILabel * minutesSubLabel;
 @property (nonatomic, retain) IBOutlet UIImageView * unreadAlertImage;
 @property (nonatomic, retain) IBOutlet UIImageView * alertImage;
 

@@ -11,7 +11,10 @@
 @synthesize stopId = _stopId;
 @synthesize stopSequence = _stopSequence;
 @synthesize tripStatus = _tripStatus;
+@synthesize distanceFromStop;
 //@synthesize frequency = _frequency;
+
+@synthesize predicted;
 
 @synthesize scheduledArrivalTime = _scheduledArrivalTime;
 @synthesize predictedArrivalTime = _predictedArrivalTime;

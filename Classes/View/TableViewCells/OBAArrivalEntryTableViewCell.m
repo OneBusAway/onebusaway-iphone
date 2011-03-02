@@ -30,6 +30,7 @@
 @synthesize destinationLabel = _destinationLabel;
 @synthesize statusLabel = _statusLabel;
 @synthesize minutesLabel = _minutesLabel;
+@synthesize minutesSubLabel = _minutesSubLabel;
 @synthesize unreadAlertImage = _unreadAlertImage;
 @synthesize alertImage = _alertImage;
 
@@ -55,6 +56,7 @@
 	[_destinationLabel release];
 	[_statusLabel release];
 	[_minutesLabel release];
+	[_minutesSubLabel release];
 	[_alertImage release];
     [super dealloc];
 }

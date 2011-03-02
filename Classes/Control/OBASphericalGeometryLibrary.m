@@ -126,18 +126,23 @@ typedef struct {
     return points;
 }
 
-+ (MKPolyline*) decodePolylineStringAsMKPolyline:(NSString*)polylineString {
++ (MKPolyline*) createMKPolylineFromLocations:(NSArray*) locations {
+
+	CLLocationCoordinate2D* pointArr = malloc(sizeof(CLLocationCoordinate2D) * locations.count);
 	
-	NSArray * points = [OBASphericalGeometryLibrary decodePolylineString:polylineString];
-	
-	CLLocationCoordinate2D* pointArr = malloc(sizeof(CLLocationCoordinate2D) * points.count);
-	for (int i=0; i<points.count;i++) {
-		CLLocation * location = [points objectAtIndex:i];
+	for (int i=0; i<locations.count;i++) {
+		CLLocation * location = [locations objectAtIndex:i];
 		CLLocationCoordinate2D p = location.coordinate;
 		pointArr[i] = p;
 	}
 	
-	return [MKPolyline polylineWithCoordinates:pointArr count:points.count];
+	return [MKPolyline polylineWithCoordinates:pointArr count:locations.count];
+}
+
++ (MKPolyline*) decodePolylineStringAsMKPolyline:(NSString*)polylineString {
+	
+	NSArray * locations = [OBASphericalGeometryLibrary decodePolylineString:polylineString];
+	return [OBASphericalGeometryLibrary createMKPolylineFromLocations:locations];
 }
 
 + (NSArray*) subsamplePoints:(NSArray*)points minDistance:(double)minDistance {
@@ -153,6 +158,18 @@ typedef struct {
 	}
 	
 	return array;
+}
+
++ (OBACoordinateBounds*) boundsForLocations:(NSArray*)locations {
+
+	OBACoordinateBounds * bounds = [[[OBACoordinateBounds alloc] init] autorelease];
+	
+	for( CLLocation * location in locations) {
+		CLLocationCoordinate2D p = location.coordinate;
+		[bounds addLat:p.latitude lon:p.longitude];
+	}
+	
+	return bounds;
 }
 
 + (OBACoordinateBounds*) boundsForMKPolyline:(MKPolyline*)polyline {

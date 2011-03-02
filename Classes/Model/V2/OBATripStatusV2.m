@@ -11,11 +11,15 @@
 @synthesize scheduleDeviation;
 @synthesize vehicleId;
 
+@synthesize lastUpdateTime;
+@synthesize lastKnownLocation;
+
 - (void) dealloc {
 	self.activeTripId = nil;
 	self.frequency = nil;
 	self.location = nil;
 	self.vehicleId = nil;
+	self.lastKnownLocation = nil;
 	[super dealloc];
 }
 

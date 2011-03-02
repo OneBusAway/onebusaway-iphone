@@ -131,10 +131,11 @@
 		D63227E912A826480070B799 /* OBAArrivalEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D63227E312A826480070B799 /* OBAArrivalEntryTableViewCell.m */; };
 		D63227EA12A826480070B799 /* OBAUITableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D63227E512A826480070B799 /* OBAUITableViewCell.m */; };
 		D63227ED12A826850070B799 /* OBAArrivalEntryTableViewCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D63227EC12A826850070B799 /* OBAArrivalEntryTableViewCellFactory.m */; };
-		D63228D312A84B100070B799 /* OBAVehicleDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = D63228D112A84B100070B799 /* OBAVehicleDetailsController.m */; };
 		D63228D612A852000070B799 /* OBAVehicleStatusV2.m in Sources */ = {isa = PBXBuildFile; fileRef = D63228D512A852000070B799 /* OBAVehicleStatusV2.m */; };
 		D63C82B710D62D1700B297C4 /* OBAContactUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D63C82B610D62D1700B297C4 /* OBAContactUsViewController.m */; };
 		D63C82F210D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D63C82F110D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m */; };
+		D644713D12DF93F300940464 /* OBAVehicleMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D644713C12DF93F300940464 /* OBAVehicleMapAnnotation.m */; };
+		D644714012DF957500940464 /* OBAVehicleDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = D644713F12DF957500940464 /* OBAVehicleDetailsController.m */; };
 		D648A3CD0FECBAD9002D9D49 /* OBAGenericAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D648A3CC0FECBAD9002D9D49 /* OBAGenericAnnotation.m */; };
 		D64953C41214A1E90040572D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D64953C31214A1E80040572D /* Icon.png */; };
 		D64953CA1214A3890040572D /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = D64953C91214A3890040572D /* Icon-72.png */; };
@@ -568,14 +569,16 @@
 		D63227E612A826480070B799 /* OBAUITableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAUITableViewCell.h; path = View/TableViewCells/OBAUITableViewCell.h; sourceTree = "<group>"; };
 		D63227EB12A826850070B799 /* OBAArrivalEntryTableViewCellFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAArrivalEntryTableViewCellFactory.h; path = View/TableViewCells/OBAArrivalEntryTableViewCellFactory.h; sourceTree = "<group>"; };
 		D63227EC12A826850070B799 /* OBAArrivalEntryTableViewCellFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAArrivalEntryTableViewCellFactory.m; path = View/TableViewCells/OBAArrivalEntryTableViewCellFactory.m; sourceTree = "<group>"; };
-		D63228D112A84B100070B799 /* OBAVehicleDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAVehicleDetailsController.m; path = View/TripDetails/OBAVehicleDetailsController.m; sourceTree = "<group>"; };
-		D63228D212A84B100070B799 /* OBAVehicleDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAVehicleDetailsController.h; path = View/TripDetails/OBAVehicleDetailsController.h; sourceTree = "<group>"; };
 		D63228D412A852000070B799 /* OBAVehicleStatusV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAVehicleStatusV2.h; path = Model/V2/OBAVehicleStatusV2.h; sourceTree = "<group>"; };
 		D63228D512A852000070B799 /* OBAVehicleStatusV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAVehicleStatusV2.m; path = Model/V2/OBAVehicleStatusV2.m; sourceTree = "<group>"; };
 		D63C82B510D62D1700B297C4 /* OBAContactUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAContactUsViewController.h; path = View/OBAContactUsViewController.h; sourceTree = "<group>"; };
 		D63C82B610D62D1700B297C4 /* OBAContactUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAContactUsViewController.m; path = View/OBAContactUsViewController.m; sourceTree = "<group>"; };
 		D63C82F010D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBANetworkErrorAlertViewDelegate.h; path = View/OBANetworkErrorAlertViewDelegate.h; sourceTree = "<group>"; };
 		D63C82F110D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBANetworkErrorAlertViewDelegate.m; path = View/OBANetworkErrorAlertViewDelegate.m; sourceTree = "<group>"; };
+		D644713B12DF93F300940464 /* OBAVehicleMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAVehicleMapAnnotation.h; path = View/Vehicles/OBAVehicleMapAnnotation.h; sourceTree = "<group>"; };
+		D644713C12DF93F300940464 /* OBAVehicleMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAVehicleMapAnnotation.m; path = View/Vehicles/OBAVehicleMapAnnotation.m; sourceTree = "<group>"; };
+		D644713E12DF957500940464 /* OBAVehicleDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAVehicleDetailsController.h; path = View/Vehicles/OBAVehicleDetailsController.h; sourceTree = "<group>"; };
+		D644713F12DF957500940464 /* OBAVehicleDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAVehicleDetailsController.m; path = View/Vehicles/OBAVehicleDetailsController.m; sourceTree = "<group>"; };
 		D648A3CB0FECBAD9002D9D49 /* OBAGenericAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAGenericAnnotation.h; path = Model/OBAGenericAnnotation.h; sourceTree = "<group>"; };
 		D648A3CC0FECBAD9002D9D49 /* OBAGenericAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAGenericAnnotation.m; path = Model/OBAGenericAnnotation.m; sourceTree = "<group>"; };
 		D64953C31214A1E80040572D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Resources/Icon.png; sourceTree = "<group>"; };
@@ -1373,6 +1376,17 @@
 			name = Situations;
 			sourceTree = "<group>";
 		};
+		D644713A12DF93AD00940464 /* Vehicles */ = {
+			isa = PBXGroup;
+			children = (
+				D644713E12DF957500940464 /* OBAVehicleDetailsController.h */,
+				D644713F12DF957500940464 /* OBAVehicleDetailsController.m */,
+				D644713B12DF93F300940464 /* OBAVehicleMapAnnotation.h */,
+				D644713C12DF93F300940464 /* OBAVehicleMapAnnotation.m */,
+			);
+			name = Vehicles;
+			sourceTree = "<group>";
+		};
 		D64953CD1214A3A00040572D /* Application Icon */ = {
 			isa = PBXGroup;
 			children = (
@@ -1556,8 +1570,6 @@
 				D6884F97122C6B8B00FFF4BB /* OBATripContinuationMapAnnotation.m */,
 				D67ACB86121F37FB00D436C4 /* OBAReportProblemWithTripViewController.h */,
 				D67ACB87121F37FB00D436C4 /* OBAReportProblemWithTripViewController.m */,
-				D63228D212A84B100070B799 /* OBAVehicleDetailsController.h */,
-				D63228D112A84B100070B799 /* OBAVehicleDetailsController.m */,
 			);
 			name = TripDetails;
 			sourceTree = "<group>";
@@ -1581,6 +1593,7 @@
 				D683373C122640EF00D545EE /* StopDetails */,
 				D67ACB74121F379700D436C4 /* TripDetails */,
 				D62991FF1293D4260084A818 /* Situations */,
+				D644713A12DF93AD00940464 /* Vehicles */,
 				D62993C0129454630084A818 /* OBAPresentation.h */,
 				D62993C1129454630084A818 /* OBAPresentation.m */,
 				D656D76A0FD4690300ADE4D5 /* OBASearchViewController.h */,
@@ -2166,9 +2179,10 @@
 				D63227E912A826480070B799 /* OBAArrivalEntryTableViewCell.m in Sources */,
 				D63227EA12A826480070B799 /* OBAUITableViewCell.m in Sources */,
 				D63227ED12A826850070B799 /* OBAArrivalEntryTableViewCellFactory.m in Sources */,
-				D63228D312A84B100070B799 /* OBAVehicleDetailsController.m in Sources */,
 				D63228D612A852000070B799 /* OBAVehicleStatusV2.m in Sources */,
 				D6B23BEF12AAC5D5000C17FD /* OBAAgenciesListViewController.m in Sources */,
+				D644713D12DF93F300940464 /* OBAVehicleMapAnnotation.m in Sources */,
+				D644714012DF957500940464 /* OBAVehicleDetailsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

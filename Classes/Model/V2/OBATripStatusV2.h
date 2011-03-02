@@ -19,6 +19,9 @@
 @property (nonatomic) NSInteger scheduleDeviation;
 @property (nonatomic,retain) NSString * vehicleId;
 
+@property (nonatomic) long long lastUpdateTime;
+@property (nonatomic,retain) CLLocation * lastKnownLocation;
+
 @property (nonatomic,readonly) OBATripInstanceRef * tripInstance;
 
 @end

@@ -44,11 +44,13 @@
 
 	if ( [[UIDevice currentDevice] isMKPolylineSupportedSafe] ) {
 
-		_reroutePolyline = [[OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:self.diversionPath] retain];
+		NSArray * points = [OBASphericalGeometryLibrary decodePolylineString:self.diversionPath];
+
+		_reroutePolyline = [[OBASphericalGeometryLibrary createMKPolylineFromLocations:points] retain];
 
 		[mv addOverlay:_reroutePolyline];
 		
-		OBACoordinateBounds * bounds = [OBASphericalGeometryLibrary boundsForMKPolyline:_reroutePolyline];
+		OBACoordinateBounds * bounds = [OBASphericalGeometryLibrary boundsForLocations:points];
 		if( ! [bounds empty] ) {
 			[mv setRegion:bounds.region];
 		}

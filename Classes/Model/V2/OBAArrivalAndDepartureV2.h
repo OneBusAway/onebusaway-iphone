@@ -50,6 +50,8 @@
 
 @property (nonatomic,retain) OBAFrequencyV2 * frequency;
 
+@property (nonatomic) BOOL predicted;
+
 @property (nonatomic) long long scheduledArrivalTime;
 @property (nonatomic) long long predictedArrivalTime;
 @property (nonatomic,readonly) long long bestArrivalTime;
@@ -57,6 +59,8 @@
 @property (nonatomic) long long scheduledDepartureTime;
 @property (nonatomic) long long predictedDepartureTime;
 @property (nonatomic,readonly) long long bestDepartureTime;
+
+@property (nonatomic) double distanceFromStop;
 
 @property (nonatomic,readonly) NSArray * situationIds;
 @property (nonatomic,readonly) NSArray * situations;

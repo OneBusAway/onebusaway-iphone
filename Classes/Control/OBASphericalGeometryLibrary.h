@@ -29,10 +29,12 @@
 + (NSString*) regionAsString:(MKCoordinateRegion)region;
 
 + (NSArray*) decodePolylineString:(NSString*)encodedPolyline;
++ (MKPolyline*) createMKPolylineFromLocations:(NSArray*) locations;
 + (MKPolyline*) decodePolylineStringAsMKPolyline:(NSString*)polylineString;
 
 + (NSArray*) subsamplePoints:(NSArray*)points minDistance:(double)minDistance;
 
++ (OBACoordinateBounds*) boundsForLocations:(NSArray*)locations;
 + (OBACoordinateBounds*) boundsForMKPolyline:(MKPolyline*)polyline;
 
 @end

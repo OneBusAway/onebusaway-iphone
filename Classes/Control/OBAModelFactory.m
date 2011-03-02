@@ -422,11 +422,15 @@ static NSString * const kReferences = @"references";
 	NSString * tripStatusPrefix = [self extendPrefix:prefix withValue:@"tripStatus"];
 	[self addTripStatusV2RulesWithPrefix:tripStatusPrefix];
 	[self addSetNext:@selector(setTripStatus:) forPrefix:tripStatusPrefix];
+
+	[self addSetPropertyRule:@"predicted" forPrefix:[self extendPrefix:prefix withValue:@"predicted"]];
 	
 	[self addSetPropertyRule:@"scheduledArrivalTime" forPrefix:[self extendPrefix:prefix withValue:@"scheduledArrivalTime"]];
 	[self addSetPropertyRule:@"predictedArrivalTime" forPrefix:[self extendPrefix:prefix withValue:@"predictedArrivalTime"]];
 	[self addSetPropertyRule:@"scheduledDepartureTime" forPrefix:[self extendPrefix:prefix withValue:@"scheduledDepartureTime"]];
 	[self addSetPropertyRule:@"predictedDepartureTime" forPrefix:[self extendPrefix:prefix withValue:@"predictedDepartureTime"]];
+	
+	[self addSetPropertyRule:@"distanceFromStop" forPrefix:[self extendPrefix:prefix withValue:@"distanceFromStop"]];
 	
 	NSString * frequencyPrefix = [self extendPrefix:prefix withValue:@"frequency"];
 	[self addFrequencyV2RulesWithPrefix:frequencyPrefix];
@@ -451,6 +455,9 @@ static NSString * const kReferences = @"references";
 	[self addSetPropertyRule:@"predicted" forPrefix:[self extendPrefix:prefix withValue:@"predicted"]];
 	[self addSetPropertyRule:@"scheduleDeviation" forPrefix:[self extendPrefix:prefix withValue:@"scheduleDeviation"]];
 	[self addSetPropertyRule:@"vehicleId" forPrefix:[self extendPrefix:prefix withValue:@"vehicleId"]];
+	
+	[self addSetPropertyRule:@"lastUpdateTime" forPrefix:[self extendPrefix:prefix withValue:@"lastUpdateTime"]];
+	[self addSetLocationPropertyRule:@"lastKnownLocation" withPrefix:[self extendPrefix:prefix withValue:@"lastKnownLocation"]];
 	[self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];
 }		 
 
