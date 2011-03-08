@@ -601,7 +601,7 @@ static const double kNearbyStopRadius = 200;
 
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
-	OBAArrivalAndDepartureV2 * arrivalAndDeparture = [arrivals objectAtIndex:indexPath.row];
+	OBAArrivalAndDepartureV2 * arrivalAndDeparture = (indexPath.row > 0 && indexPath.row < [arrivals count]) ? [arrivals objectAtIndex:indexPath.row] : nil;
 	if( arrivalAndDeparture ) {
 		OBAArrivalAndDepartureViewController * vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationContext:_appContext arrivalAndDeparture:arrivalAndDeparture];
 		[self.navigationController pushViewController:vc animated:TRUE];
