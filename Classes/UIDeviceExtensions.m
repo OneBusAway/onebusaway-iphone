@@ -69,4 +69,20 @@
 	
 }
 
+/**
+ * Returns whether NSRegularExpression is supported.  This was introduced in iOS 4.x
+ */
+- (BOOL)isNSRegularExpressionSupported {
+	static BOOL cachedResult              = NO;
+	static BOOL supportsNSRegularExpressionSupported = NO;
+	
+	if (cachedResult)
+		return supportsNSRegularExpressionSupported;
+	if ([NSRegularExpression class] )
+		supportsNSRegularExpressionSupported = YES;
+	
+	cachedResult = YES;
+	return supportsNSRegularExpressionSupported;	
+}
+
 @end

@@ -162,12 +162,12 @@
 	if( ! _showServiceAlerts )
 		return OBAArrivalEntryTableViewCellAlertStyleNone;
 	
-	NSArray * situationIds = arrival.situationIds;
-	if( [situationIds count] == 0 )
+	NSArray * situations = arrival.situations;
+	if( [situations count] == 0 )
 		return OBAArrivalEntryTableViewCellAlertStyleNone;
 	OBAModelDAO * modelDao = _appContext.modelDao;
-	NSUInteger unreadCount = [modelDao getUnreadServiceAlertCount:situationIds];
-	if( unreadCount > 0 )
+	OBAServiceAlertsModel * serviceAlerts = [modelDao getServiceAlertsModelForSituations:arrival.situations];
+	if( serviceAlerts.unreadCount > 0 )
 		return OBAArrivalEntryTableViewCellAlertStyleActive;
 	else
 		return OBAArrivalEntryTableViewCellAlertStyleInactive;

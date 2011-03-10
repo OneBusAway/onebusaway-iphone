@@ -9,8 +9,7 @@
 	OBAArrivalAndDepartureInstanceRef * _instance;
 	OBAArrivalAndDepartureV2 * _arrivalAndDeparture;
 	OBAArrivalEntryTableViewCellFactory * _arrivalCellFactory;
-	NSUInteger _unreadServiceAlertCount;
-	NSUInteger _serviceAlertCount;
+	OBAServiceAlertsModel * _serviceAlerts;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext arrivalAndDepartureInstance:(OBAArrivalAndDepartureInstanceRef*)instance;

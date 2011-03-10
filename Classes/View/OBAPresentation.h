@@ -17,9 +17,9 @@
 
 + (NSString*) getRouteLongNameForRoute:(OBARouteV2*)route;
 
-+ (UITableViewCell*) tableViewCellForUnreadServiceAlerts:(NSInteger)unreadServiceAlertCount tableView:(UITableView*)tableView;
++ (UITableViewCell*) tableViewCellForUnreadServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts tableView:(UITableView*)tableView;
 
-+ (UITableViewCell*) tableViewCellForServiceAlerts:(NSInteger)unreadServiceAlertCount totalCount:(NSUInteger)serviceAlertCount tableView:(UITableView*)tableView;
++ (UITableViewCell*) tableViewCellForServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts tableView:(UITableView*)tableView;
 
 + (void) showSituations:(NSArray*)situations withAppContext:(OBAApplicationContext*)appContext navigationController:(UINavigationController*)navigationController args:(NSDictionary*)args;
 

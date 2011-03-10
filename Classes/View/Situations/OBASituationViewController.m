@@ -10,8 +10,11 @@
 #import "OBAUITableViewCell.h"
 #import "OBASituationConsequenceV2.h"
 #import "OBADiversionViewController.h"
-#import "OBATextEditViewController.h"
+#import "OBAWebViewController.h"
+
+
 #import "OBAModelDAO.h"
+#import "UIDeviceExtensions.h"
 
 
 typedef enum {
@@ -33,7 +36,7 @@ typedef enum {
 - (void) didSelectDetailsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
 - (void) didSelectMarkAsReadRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
 
-- (NSString*) getDetails;
+- (NSString*) getDetails:(BOOL)htmlify;
 
 @end
 
@@ -198,7 +201,7 @@ typedef enum {
 	cell.textLabel.textAlignment = UITextAlignmentLeft;
 	
 	if( indexPath.row == 0 ) {
-		cell.textLabel.text = [self getDetails];
+		cell.textLabel.text = [self getDetails:FALSE];
 	}
 	else if ( indexPath.row == 1 && _diversionPath ) {
 		cell.textLabel.text = @"Show reroute";
@@ -216,14 +219,14 @@ typedef enum {
 	cell.textLabel.text = isRead ? @"Mark as Unread" : @"Mark as Read";
 	cell.textLabel.textAlignment = UITextAlignmentCenter;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-	cell.accessoryType = UITableViewCellAccessoryNone;
+	cell.accessoryType = UITableViewCellAccessoryNone;           
 	return cell;
 }
 
 - (void) didSelectDetailsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
 
 	if( indexPath.row == 0 ) {
-		[OBATextEditViewController pushOntoViewController:self withText:[self getDetails] withTitle:@"Details" readOnly:TRUE];
+		[OBAWebViewController pushOntoViewController:self withHtml:[self getDetails:TRUE] withTitle:@"Details"];
 	}
 	else if( indexPath.row == 1 && _diversionPath ) {
 		OBADiversionViewController * vc = [OBADiversionViewController loadFromNibWithAppContext:_appContext];
@@ -244,7 +247,7 @@ typedef enum {
 	[tableView deselectRowAtIndexPath:indexPath animated:TRUE];
 }
 
-- (NSString*) getDetails {
+- (NSString*) getDetails:(BOOL)htmlify {
 	
 	NSMutableString * buffer = [NSMutableString stringWithCapacity:0];
 	
@@ -257,6 +260,22 @@ typedef enum {
 	if( _situation.advice )
 		[buffer appendString:_situation.advice];
 	
+	/**
+	 * Is this a terrible hack?  Probably yes.
+	 */
+	if( htmlify ) {		
+		[buffer replaceOccurrencesOfString:@"\r\n" withString:@"<br/>" options:NSLiteralSearch range:NSMakeRange(0, [buffer length])];
+		if( [[UIDevice currentDevice] isNSRegularExpressionSupported]) {
+			NSError * error = nil;
+			NSRegularExpression * pattern = [NSRegularExpression regularExpressionWithPattern:@"(http://[^\\s]+)" options:0 error:&error];
+			if( ! error ) {
+				[pattern replaceMatchesInString:buffer options:0 range:NSMakeRange(0, [buffer length]) withTemplate:@"<a href=\"$1\">$1</a>"];
+			}
+		}
+											 
+		[buffer appendString:@"<style> body { background: #fff; font-family: Arial, Helvetica, Helvetica Neue, Verdana, sans-serif; font-size: 16px; line-height: 20px; color: #000;}</style>"];
+	}
+
 	return buffer;
 }
 

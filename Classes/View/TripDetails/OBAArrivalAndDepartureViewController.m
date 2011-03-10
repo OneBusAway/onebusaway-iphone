@@ -61,6 +61,7 @@ typedef enum {
 	[_instance release];
 	[_arrivalAndDeparture release];
 	[_arrivalCellFactory release];
+	[_serviceAlerts release];
     [super dealloc];
 }
 
@@ -80,8 +81,7 @@ typedef enum {
 - (void) handleDataChanged {
 	// Refresh the unread service alert count
 	OBAModelDAO * modelDao = _appContext.modelDao;
-	_unreadServiceAlertCount = [modelDao getUnreadServiceAlertCount:_arrivalAndDeparture.situationIds];
-	_serviceAlertCount = [_arrivalAndDeparture.situationIds count];
+	_serviceAlerts = [[modelDao getServiceAlertsModelForSituations:_arrivalAndDeparture.situations] retain];
 }
 
 #pragma mark Table view methods
@@ -92,7 +92,7 @@ typedef enum {
 		return [super numberOfSectionsInTableView:tableView];
 	
 	int count = 3;
-	if( _unreadServiceAlertCount > 0 )
+	if( _serviceAlerts.unreadCount > 0 )
 		count++;
 	return count;
 }
@@ -206,7 +206,7 @@ typedef enum {
 		return OBASectionTypeTitle;
 	offset++;
 	
-	if( _unreadServiceAlertCount > 0 ) {
+	if( _serviceAlerts.unreadCount > 0 ) {
 		if( offset == section )
 			return OBASectionTypeServiceAlerts;
 		offset++;
@@ -231,7 +231,7 @@ typedef enum {
 }
 
 - (UITableViewCell*) serviceAlertsCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView {
-	return [OBAPresentation tableViewCellForUnreadServiceAlerts:_unreadServiceAlertCount tableView:tableView];
+	return [OBAPresentation tableViewCellForUnreadServiceAlerts:_serviceAlerts tableView:tableView];
 }
 
 - (UITableViewCell*) scheduleCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView {
@@ -258,7 +258,7 @@ typedef enum {
 	
 	switch (indexPath.row) {
 		case 0:{
-			return [OBAPresentation tableViewCellForServiceAlerts:_unreadServiceAlertCount totalCount:_serviceAlertCount tableView:tableView];
+			return [OBAPresentation tableViewCellForServiceAlerts:_serviceAlerts tableView:tableView];
 		}
 		case 1: {
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];

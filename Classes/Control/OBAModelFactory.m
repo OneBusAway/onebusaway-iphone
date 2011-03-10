@@ -350,6 +350,9 @@ static NSString * const kReferences = @"references";
 	[self addSetOptionalPropertyRule:@"description" forPrefix:[self extendPrefix:prefix withValue:@"description/value"]];
 	[self addSetOptionalPropertyRule:@"advice" forPrefix:[self extendPrefix:prefix withValue:@"advice/value"]];
 	
+	[self addSetOptionalPropertyRule:@"severity" forPrefix:[self extendPrefix:prefix withValue:@"severity"]];
+	[self addSetOptionalPropertyRule:@"sensitivity" forPrefix:[self extendPrefix:prefix withValue:@"sensitivity"]];
+	
 	NSString * consequencesPrefix = [self extendPrefix:prefix withValue:@"consequences"];
 	[self addObjectCreateRule:[NSMutableArray class] forPrefix:consequencesPrefix];
 	[self addSetNext:@selector(setConsequences:) forPrefix:consequencesPrefix];

@@ -107,6 +107,13 @@
 		D61AC67C0F77E0F7006FA853 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D61AC67B0F77E0F7006FA853 /* CoreLocation.framework */; };
 		D61E4CED0FC1CFD8000C1782 /* OBASphericalGeometryLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = D61E4CEC0FC1CFD8000C1782 /* OBASphericalGeometryLibrary.m */; };
 		D61E4E4F0FC2000D000C1782 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D61E4E4E0FC2000D000C1782 /* MapKit.framework */; };
+		D61EE867132843EA001F8FEC /* Alert-Info-Grayscale.png in Resources */ = {isa = PBXBuildFile; fileRef = D61EE863132843EA001F8FEC /* Alert-Info-Grayscale.png */; };
+		D61EE868132843EA001F8FEC /* Alert-Info-Grayscale@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D61EE864132843EA001F8FEC /* Alert-Info-Grayscale@2x.png */; };
+		D61EE869132843EA001F8FEC /* Alert-Info.png in Resources */ = {isa = PBXBuildFile; fileRef = D61EE865132843EA001F8FEC /* Alert-Info.png */; };
+		D61EE86A132843EA001F8FEC /* Alert-Info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D61EE866132843EA001F8FEC /* Alert-Info@2x.png */; };
+		D61EE8AE13285AB6001F8FEC /* OBAServiceAlertsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D61EE8AD13285AB6001F8FEC /* OBAServiceAlertsModel.m */; };
+		D61EE8F51328690E001F8FEC /* OBAWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D61EE8F41328690E001F8FEC /* OBAWebViewController.m */; };
+		D61EE8FA132869A4001F8FEC /* OBAWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D61EE8F9132869A4001F8FEC /* OBAWebViewController.xib */; };
 		D61F0628120943FB00BE0334 /* OBAAgencyWithCoverageV2.m in Sources */ = {isa = PBXBuildFile; fileRef = D61F0626120943FB00BE0334 /* OBAAgencyWithCoverageV2.m */; };
 		D62253A30F8B1D8300F139BA /* OBALocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D62253A20F8B1D8300F139BA /* OBALocationManager.m */; };
 		D62254D30F8BBB5A00F139BA /* OBAModelDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = D62254D10F8BBB5A00F139BA /* OBAModelDAO.m */; };
@@ -526,6 +533,15 @@
 		D61E4CEB0FC1CFD8000C1782 /* OBASphericalGeometryLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASphericalGeometryLibrary.h; path = Control/OBASphericalGeometryLibrary.h; sourceTree = "<group>"; };
 		D61E4CEC0FC1CFD8000C1782 /* OBASphericalGeometryLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASphericalGeometryLibrary.m; path = Control/OBASphericalGeometryLibrary.m; sourceTree = "<group>"; };
 		D61E4E4E0FC2000D000C1782 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		D61EE863132843EA001F8FEC /* Alert-Info-Grayscale.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Alert-Info-Grayscale.png"; path = "Resources/Icons/Alert-Info-Grayscale.png"; sourceTree = "<group>"; };
+		D61EE864132843EA001F8FEC /* Alert-Info-Grayscale@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Alert-Info-Grayscale@2x.png"; path = "Resources/Icons/Alert-Info-Grayscale@2x.png"; sourceTree = "<group>"; };
+		D61EE865132843EA001F8FEC /* Alert-Info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Alert-Info.png"; path = "Resources/Icons/Alert-Info.png"; sourceTree = "<group>"; };
+		D61EE866132843EA001F8FEC /* Alert-Info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Alert-Info@2x.png"; path = "Resources/Icons/Alert-Info@2x.png"; sourceTree = "<group>"; };
+		D61EE8AC13285AB6001F8FEC /* OBAServiceAlertsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAServiceAlertsModel.h; path = Model/OBAServiceAlertsModel.h; sourceTree = "<group>"; };
+		D61EE8AD13285AB6001F8FEC /* OBAServiceAlertsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAServiceAlertsModel.m; path = Model/OBAServiceAlertsModel.m; sourceTree = "<group>"; };
+		D61EE8F31328690E001F8FEC /* OBAWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAWebViewController.h; path = View/Generic/OBAWebViewController.h; sourceTree = "<group>"; };
+		D61EE8F41328690E001F8FEC /* OBAWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAWebViewController.m; path = View/Generic/OBAWebViewController.m; sourceTree = "<group>"; };
+		D61EE8F9132869A4001F8FEC /* OBAWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OBAWebViewController.xib; path = Resources/Views/OBAWebViewController.xib; sourceTree = "<group>"; };
 		D61F0626120943FB00BE0334 /* OBAAgencyWithCoverageV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAAgencyWithCoverageV2.m; path = Model/V2/OBAAgencyWithCoverageV2.m; sourceTree = "<group>"; };
 		D61F0627120943FB00BE0334 /* OBAAgencyWithCoverageV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAAgencyWithCoverageV2.h; path = Model/V2/OBAAgencyWithCoverageV2.h; sourceTree = "<group>"; };
 		D62253A10F8B1D8300F139BA /* OBALocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBALocationManager.h; path = Control/OBALocationManager.h; sourceTree = "<group>"; };
@@ -1036,6 +1052,8 @@
 				D6A8C5260FE048C0001B46E1 /* OBACoordinateBounds.m */,
 				D6789E640FE0BC4700696FE6 /* OBAAgencyWithCoverage.h */,
 				D6789E650FE0BC4700696FE6 /* OBAAgencyWithCoverage.m */,
+				D61EE8AC13285AB6001F8FEC /* OBAServiceAlertsModel.h */,
+				D61EE8AD13285AB6001F8FEC /* OBAServiceAlertsModel.m */,
 				D6B6C033108804D100AC5FEF /* OBATripStatus.h */,
 				D6B6C034108804D100AC5FEF /* OBATripStatus.m */,
 				D6B6C038108804E600AC5FEF /* OBATrip.h */,
@@ -1221,6 +1239,7 @@
 				D6F74FA012451D0B008D881E /* OBAArrivalsAndDeparturesHeaderView.xib */,
 				D64C6F6F0FDF0FCC00F0C218 /* OBAProgressIndicatorView.xib */,
 				D67ACC33121F64F700D436C4 /* OBATextEditViewController.xib */,
+				D61EE8F9132869A4001F8FEC /* OBAWebViewController.xib */,
 				D67816CC12223E2B00FDED95 /* OBATripScheduleMapViewController.xib */,
 				D62992BF1293E2F00084A818 /* OBADiversionViewController.xib */,
 			);
@@ -1406,6 +1425,10 @@
 				D6678C321294E46B00B5B9E3 /* Alert@2x.png */,
 				D6678DEF1295228200B5B9E3 /* AlertGrayscale.png */,
 				D6678DF01295228200B5B9E3 /* AlertGrayscale@2x.png */,
+				D61EE865132843EA001F8FEC /* Alert-Info.png */,
+				D61EE866132843EA001F8FEC /* Alert-Info@2x.png */,
+				D61EE863132843EA001F8FEC /* Alert-Info-Grayscale.png */,
+				D61EE864132843EA001F8FEC /* Alert-Info-Grayscale@2x.png */,
 				D64A4271101E161B008F16CA /* Bookmarks.png */,
 				D671D30912190FD500F398E5 /* Bookmarks@2x.png */,
 				D64A427A101E186E008F16CA /* Clock.png */,
@@ -1543,6 +1566,8 @@
 				D67ACB6A121F34C400D436C4 /* OBAListSelectionViewController.m */,
 				D67ACC30121F648A00D436C4 /* OBATextEditViewController.h */,
 				D67ACC31121F648A00D436C4 /* OBATextEditViewController.m */,
+				D61EE8F31328690E001F8FEC /* OBAWebViewController.h */,
+				D61EE8F41328690E001F8FEC /* OBAWebViewController.m */,
 				D6686A6C0FD9ABD40097F034 /* OBAProgressIndicatorView.h */,
 				D6686A6D0FD9ABD40097F034 /* OBAProgressIndicatorView.m */,
 				D6833917122678A200D545EE /* OBAModalActivityIndicator.h */,
@@ -2001,6 +2026,11 @@
 				D6B23B8112AA35F9000C17FD /* ContactUs@2x.png in Resources */,
 				D6B23B9B12AA3F8B000C17FD /* Agencies.png in Resources */,
 				D6B23B9C12AA3F8B000C17FD /* Agencies@2x.png in Resources */,
+				D61EE867132843EA001F8FEC /* Alert-Info-Grayscale.png in Resources */,
+				D61EE868132843EA001F8FEC /* Alert-Info-Grayscale@2x.png in Resources */,
+				D61EE869132843EA001F8FEC /* Alert-Info.png in Resources */,
+				D61EE86A132843EA001F8FEC /* Alert-Info@2x.png in Resources */,
+				D61EE8FA132869A4001F8FEC /* OBAWebViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2183,6 +2213,8 @@
 				D6B23BEF12AAC5D5000C17FD /* OBAAgenciesListViewController.m in Sources */,
 				D644713D12DF93F300940464 /* OBAVehicleMapAnnotation.m in Sources */,
 				D644714012DF957500940464 /* OBAVehicleDetailsController.m in Sources */,
+				D61EE8AE13285AB6001F8FEC /* OBAServiceAlertsModel.m in Sources */,
+				D61EE8F51328690E001F8FEC /* OBAWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

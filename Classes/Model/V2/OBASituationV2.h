@@ -14,4 +14,7 @@
 
 @property (nonatomic,retain) NSArray * consequences;
 
+@property (nonatomic,retain) NSString * severity;
+@property (nonatomic,retain) NSString * sensitivity;
+
 @end

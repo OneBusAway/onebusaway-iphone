@@ -20,13 +20,21 @@
 
 @synthesize consequences;
 
+@synthesize severity;
+@synthesize sensitivity;
+
 - (void) dealloc {
 	
-	[self.situationId release];
+	self.situationId = nil;
 	
-	[self.summary release];
-	[self.description release];
-	[self.advice release];
+	self.summary = nil;
+	self.description = nil;
+	self.advice = nil;
+	
+	self.consequences = nil;
+	
+	self.severity = nil;
+	self.sensitivity = nil;
 	
 	[super dealloc];
 }

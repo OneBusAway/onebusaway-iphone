@@ -74,8 +74,7 @@ typedef enum {
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
 	OBAEntryWithReferencesV2 * entry = obj;
 	self.tripDetails = entry.entry;
-	_unreadServiceAlertCount = [_appContext.modelDao getUnreadServiceAlertCount:_tripDetails.situationIds];
-	_serviceAlertCount = [_tripDetails.situationIds count];
+	_serviceAlerts = [_appContext.modelDao getServiceAlertsModelForSituations:_tripDetails.situations];
 	[_progressView setMessage:@"Trip Details" inProgress:FALSE progress:0];
 	[self.tableView reloadData];
 }

@@ -30,4 +30,9 @@
  */
 - (BOOL)isMKMapViewOverlaysSupportedSafe:(MKMapView*)mapView;
 
+/**
+ * Returns whether NSRegularExpression is supported.  This was introduced in iOS 4.x
+ */
+- (BOOL)isNSRegularExpressionSupported;
+
 @end

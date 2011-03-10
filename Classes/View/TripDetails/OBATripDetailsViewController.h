@@ -9,8 +9,7 @@
 	OBAApplicationContext * _appContext;
 	OBATripInstanceRef * _tripInstance;
 	OBATripDetailsV2 * _tripDetails;
-	NSUInteger _unreadServiceAlertCount;
-	NSUInteger _serviceAlertCount;
+	OBAServiceAlertsModel * _serviceAlerts;
 	id<OBAModelServiceRequest> _request;
 	OBAProgressIndicatorView * _progressView;
 }

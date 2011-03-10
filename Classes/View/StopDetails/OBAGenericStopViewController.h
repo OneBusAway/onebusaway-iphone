@@ -57,8 +57,7 @@ typedef enum {
 	
 	OBAProgressIndicatorView * _progressView;
 	
-	NSUInteger _unreadServiceAlertCount;
-	NSUInteger _serviceAlertCount;
+	OBAServiceAlertsModel * _serviceAlerts;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext;

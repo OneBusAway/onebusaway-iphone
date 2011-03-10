@@ -18,6 +18,7 @@
 #import "OBALogger.h"
 #import "OBACommon.h"
 #import "OBAStopAccessEventV2.h"
+#import "OBASituationV2.h"
 #import "OBAModelDAOUserPreferencesImpl.h"
 
 
@@ -26,6 +27,7 @@ const static int kMaxEntriesInMostRecentList = 10;
 @interface OBAModelDAO (Private)
 
 - (void) saveMostRecentLocationLat:(double)lat lon:(double)lon;
+- (NSInteger) getSituationSeverityAsNumericValue:(NSString*)severity;
 
 @end
 
@@ -179,14 +181,39 @@ const static int kMaxEntriesInMostRecentList = 10;
 	return [_visitedSituationIds containsObject:situationId];
 }
 
-- (NSUInteger) getUnreadServiceAlertCount:(NSArray*)situationIds {
-	NSUInteger count = 0;
-	for( NSString * situationId in situationIds ) {
-		if( ! [self isVisitedSituationWithId:situationId] )
-			count++;
+- (OBAServiceAlertsModel*) getServiceAlertsModelForSituations:(NSArray*)situations {
+
+	OBAServiceAlertsModel * model = [[[OBAServiceAlertsModel alloc] init] autorelease];
+
+	model.totalCount = [situations count];
+	
+	NSInteger maxUnreadSeverityValue = -99;
+	NSInteger maxSeverityValue = -99;
+	
+	for( OBASituationV2 * situation in situations ) {
+		
+		NSString * severity = situation.severity;
+		NSInteger severityValue = [self getSituationSeverityAsNumericValue:severity];
+
+		if( ! [self isVisitedSituationWithId:situation.situationId] ) {
+			
+			model.unreadCount++;
+			
+			if( model.unreadMaxSeverity == nil || severityValue > maxUnreadSeverityValue) {
+				model.unreadMaxSeverity = severity;
+				maxUnreadSeverityValue = severityValue;
+			}
+		}
+		
+		if( model.maxSeverity == nil || severityValue > maxSeverityValue) {
+			model.maxSeverity = severity;
+			maxSeverityValue = severityValue;
+		}
 	}	
-	return count;
+	
+	return model;
 }
+
 
 - (void) setVisited:(BOOL)visited forSituationWithId:(NSString*)situationId {
 	
@@ -211,6 +238,28 @@ const static int kMaxEntriesInMostRecentList = 10;
 - (void) saveMostRecentLocationLat:(double)lat lon:(double)lon {	
 	CLLocation * location = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
 	[self setMostRecentLocation:location];
+}
+
+- (NSInteger) getSituationSeverityAsNumericValue:(NSString*)severity {
+	if( ! severity )
+		return -1;
+	if( [severity isEqualToString:@"noImpact"] )
+		return -2;
+	if( [severity isEqualToString:@"undefined"] )
+		return -1;
+	if( [severity isEqualToString:@"unknown"] )
+		return 0;
+	if( [severity isEqualToString:@"verySlight"] )
+		return 1;
+	if( [severity isEqualToString:@"slight"] )
+		return 2;
+	if( [severity isEqualToString:@"normal"] )
+		return 3;
+	if( [severity isEqualToString:@"normal"] )
+		return 4;
+	if( [severity isEqualToString:@"normal"] )
+		return 5;
+	return -1;
 }
 
 @end

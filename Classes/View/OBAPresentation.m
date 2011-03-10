@@ -48,52 +48,66 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
 	return route.longName;
 }
 
-+ (UITableViewCell*) tableViewCellForUnreadServiceAlerts:(NSInteger)unreadServiceAlertCount tableView:(UITableView*)tableView {
+
++ (UITableViewCell*) tableViewCellForUnreadServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts tableView:(UITableView*)tableView {
 	
 	static NSString *cellId = @"UnreadServiceAlertsCell";
 	
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:cellId];
-	cell.textLabel.text = [NSString stringWithFormat:@"Service alerts: %d unread",unreadServiceAlertCount];
+	cell.textLabel.text = [NSString stringWithFormat:@"Service alerts: %d unread",serviceAlerts.unreadCount];
 	cell.textLabel.textAlignment = UITextAlignmentCenter;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
-	// cell.textLabel.backgroundColor = [UIColor clearColor];
-    // cell.detailTextLabel.backgroundColor = [UIColor clearColor];	
-	// cell.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.6 alpha:1.0];
+	NSString * maxSeverity = serviceAlerts.unreadMaxSeverity;
 	
-	cell.imageView.image = [UIImage imageNamed:@"Alert"];
+	if( maxSeverity && [maxSeverity isEqualToString:@"noImpact"] )
+		cell.imageView.image = [UIImage imageNamed:@"Alert-Info"];
+	else
+		cell.imageView.image = [UIImage imageNamed:@"Alert"];
 	
 	return cell;	
 }
 
-+ (UITableViewCell*) tableViewCellForServiceAlerts:(NSInteger)unreadServiceAlertCount totalCount:(NSUInteger)serviceAlertCount tableView:(UITableView*)tableView {
++ (UITableViewCell*) tableViewCellForServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts tableView:(UITableView*)tableView {
 	
 	static NSString *cellId = @"ServiceAlertsCell";
 	
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:cellId];
 	
-	if( serviceAlertCount == 0 )
+	if( serviceAlerts.totalCount == 0 )
 		cell.textLabel.text = @"Service Alerts";
 	else
-		cell.textLabel.text = [NSString stringWithFormat:@"Service Alerts: %d total", serviceAlertCount];						    
+		cell.textLabel.text = [NSString stringWithFormat:@"Service Alerts: %d total", serviceAlerts.totalCount];						    
 	
 	cell.textLabel.textAlignment = UITextAlignmentCenter;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
-	// cell.textLabel.backgroundColor = [UIColor clearColor];
-    // cell.detailTextLabel.backgroundColor = [UIColor clearColor];	
-	// cell.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.6 alpha:1.0];
-	
-	if( serviceAlertCount == 0 ) {
+	if( serviceAlerts.totalCount == 0 ) {
 		cell.imageView.image = nil;
 	}
-	else  if( unreadServiceAlertCount > 0 )
-		cell.imageView.image = [UIImage imageNamed:@"Alert"];
-	else
-		cell.imageView.image = [UIImage imageNamed:@"AlertGrayscale"];
-
+	else {
+		if( serviceAlerts.unreadCount > 0 ) {
+			
+			NSString * maxSeverity = serviceAlerts.unreadMaxSeverity;	
+			
+			if( maxSeverity && [maxSeverity isEqualToString:@"noImpact"] )
+				cell.imageView.image = [UIImage imageNamed:@"Alert-Info"];
+			else
+				cell.imageView.image = [UIImage imageNamed:@"Alert"];
+		}
+		else {
+			
+			NSString * maxSeverity = serviceAlerts.maxSeverity;	
+			
+			if( maxSeverity && [maxSeverity isEqualToString:@"noImpact"] )
+				cell.imageView.image = [UIImage imageNamed:@"Alert-Info-Grayscale"];
+			else
+				cell.imageView.image = [UIImage imageNamed:@"AlertGrayscale"];
+		}
+	}
+	
 	return cell;	
 }	
 

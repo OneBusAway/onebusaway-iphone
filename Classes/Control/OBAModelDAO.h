@@ -19,6 +19,8 @@
 #import "OBAStopAccessEventV2.h"
 #import "OBAStopPreferencesV2.h"
 #import "OBAActivityListeners.h"
+#import "OBAServiceAlertsModel.h"
+
 
 @class OBAModelDAOUserPreferencesImpl;
 
@@ -49,7 +51,8 @@
 
 - (BOOL) isVisitedSituationWithId:(NSString*)situationId;
 - (void) setVisited:(BOOL)visited forSituationWithId:(NSString*)situationId;
-- (NSUInteger) getUnreadServiceAlertCount:(NSArray*)situationIds;
+
+- (OBAServiceAlertsModel*) getServiceAlertsModelForSituations:(NSArray*)situations;
 
 /**
  * We persist hiding location warnings across application settings for users who have disabled location services for the app
