@@ -264,7 +264,6 @@ typedef enum {
 	 * Is this a terrible hack?  Probably yes.
 	 */
 	if( htmlify ) {		
-		[buffer replaceOccurrencesOfString:@"\r\n" withString:@"<br/>" options:NSLiteralSearch range:NSMakeRange(0, [buffer length])];
 		if( [[UIDevice currentDevice] isNSRegularExpressionSupported]) {
 			NSError * error = nil;
 			NSRegularExpression * pattern = [NSRegularExpression regularExpressionWithPattern:@"(http://[^\\s]+)" options:0 error:&error];
@@ -272,6 +271,9 @@ typedef enum {
 				[pattern replaceMatchesInString:buffer options:0 range:NSMakeRange(0, [buffer length]) withTemplate:@"<a href=\"$1\">$1</a>"];
 			}
 		}
+		
+		[buffer replaceOccurrencesOfString:@"\r\n" withString:@"<br/>" options:NSLiteralSearch range:NSMakeRange(0, [buffer length])];
+		[buffer replaceOccurrencesOfString:@"\n" withString:@"<br/>" options:NSLiteralSearch range:NSMakeRange(0, [buffer length])];
 											 
 		[buffer appendString:@"<style> body { background: #fff; font-family: Arial, Helvetica, Helvetica Neue, Verdana, sans-serif; font-size: 16px; line-height: 20px; color: #000;}</style>"];
 	}
