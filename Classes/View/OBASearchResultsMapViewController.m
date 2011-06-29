@@ -24,7 +24,6 @@
 #import "OBAAgencyWithCoverage.h"
 #import "OBANavigationTargetAnnotation.h"
 #import "OBASphericalGeometryLibrary.h"
-#import "OBAUIKit.h"
 #import "OBASearchViewController.h"
 #import "OBAProgressIndicatorView.h"
 #import "OBASearchResultsListViewController.h"
@@ -53,39 +52,10 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.5;
 static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 
-typedef enum  {
-	OBARegionChangeRequestTypeNone=0,
-	OBARegionChangeRequestTypeCurrentLocation=1,
-	OBARegionChangeRequestTypeSearchResult=2
-} OBARegionChangeRequestType;
-
-
-@interface OBARegionChangeRequest : NSObject
-{
-	NSDate * _timestamp;
-	OBARegionChangeRequestType _type;
-	MKCoordinateRegion _region;
-}
-
-- (id) initWithRegion:(MKCoordinateRegion)region type:(OBARegionChangeRequestType)type;
-- (double) compareRegion:(MKCoordinateRegion)region;
-
-@property (nonatomic,readonly) OBARegionChangeRequestType type;
-@property (nonatomic,readonly) MKCoordinateRegion region;
-@property (nonatomic,readonly) NSDate * timestamp;
-
-@end
-
-
 @interface OBASearchResultsMapViewController (Private)
 
 - (void) centerMapOnMostRecentLocation;
 - (void) refreshCurrentLocation;
-
-- (void) setMapRegion:(MKCoordinateRegion)region requestType:(OBARegionChangeRequestType)requestType;
-- (void) setMapRegionWithRequest:(OBARegionChangeRequest*)request;
-
-- (OBARegionChangeRequest*) getBestRegionChangeRequestForRegion:(MKCoordinateRegion)region;
 
 - (void) scheduleRefreshOfStopsInRegion:(NSTimeInterval)interval location:(CLLocation*)location;
 - (NSTimeInterval) getRefreshIntervalForLocationAccuracy:(CLLocation*)location;
@@ -138,15 +108,13 @@ typedef enum  {
 -(void) dealloc {
 	[_appContext release];
 
-	[_pendingRegionChangeRequest release];
-	[_appliedRegionChangeRequests release];
-	
 	[_activityIndicatorView release];
 	
 	[_searchController cancelOpenConnections];
 	[_searchController release];
 	
 	[_mapView release];
+    [_mapRegionManager release];
 	[_listButton release];
 	[_currentLocationButton release];
 
@@ -172,17 +140,16 @@ typedef enum  {
 	
 	_locationAnnotation = nil;
 	
-	_autoCenterOnCurrentLocation = FALSE;
-	_currentlyChangingRegion = FALSE;
+	//_autoCenterOnCurrentLocation = FALSE;
 	
 	CLLocationCoordinate2D p = {0,0};
 	_mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0,0));
 	
 	_refreshTimer = nil;
 	
-	_pendingRegionChangeRequest = nil;
-	_appliedRegionChangeRequests = [[NSMutableArray alloc] init];
-	
+    _mapRegionManager = [[OBAMapRegionManager alloc] initWithMapView:_mapView];
+    _mapRegionManager.lastRegionChangeWasProgramatic = TRUE;
+    
 	_hideFutureNetworkErrors = FALSE;
 	
     self.filterToolbar = [[OBASearchResultsMapFilterToolbar alloc] initWithDelegate:self andAppContext:self.appContext];
@@ -215,7 +182,8 @@ typedef enum  {
 	_currentLocationButton.enabled = lm.locationServicesEnabled;
 	
 	if (_searchController.searchType == OBASearchTypeNone ) {
-		_autoCenterOnCurrentLocation = TRUE;
+		//_autoCenterOnCurrentLocation = TRUE;
+        _mapRegionManager.lastRegionChangeWasProgramatic = TRUE;
 		CLLocation * location = lm.currentLocation;
 		if( location )
 			[self locationManager:lm didUpdateLocation:location];
@@ -255,8 +223,8 @@ typedef enum  {
 		NSDictionary * parameters = target.parameters;
 		NSData * data = [parameters objectForKey:kOBASearchControllerSearchArgumentParameter];
 		MKCoordinateRegion region;
-		[data getBytes:&region];		
-		[self setMapRegion:region requestType:OBARegionChangeRequestTypeNone];
+		[data getBytes:&region];
+		[_mapRegionManager setRegion:region changeWasProgramatic:FALSE];
 	}
 	else {
 		[_searchController searchWithTarget:target];
@@ -271,7 +239,8 @@ typedef enum  {
 - (void) handleSearchControllerStarted:(OBASearchType)searchType {
 	if( ! (searchType == OBASearchTypeNone || searchType == OBASearchTypeRegion) ) {
 		OBALogDebug(@"search started: unsetting _autoCenterOnCurrentLocation");
-		_autoCenterOnCurrentLocation = FALSE;
+        //_autoCenterOnCurrentLocation = FALSE;
+        _mapRegionManager.lastRegionChangeWasProgramatic = FALSE;
 	}	
 }
 
@@ -345,55 +314,26 @@ typedef enum  {
 #pragma mark MKMapViewDelegate Methods
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
-	_currentlyChangingRegion = TRUE;
+	[_mapRegionManager mapView:mapView regionWillChangeAnimated:animated];
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-
-	_currentlyChangingRegion = FALSE;
-	
-	// We need to figure out if this region change came from the user dragging the map
-	// or from an actual request we instigated.  The easiest way to tell is to 
-	MKCoordinateRegion region = _mapView.region;	
-	OBARegionChangeRequestType type = OBARegionChangeRequestTypeNone;
-	
-	OBALogDebug(@"=== regionDidChangeAnimated: requests=%d",[_appliedRegionChangeRequests count]);
-	OBALogDebug(@"region=%@", [OBASphericalGeometryLibrary regionAsString:region]);
-	
-	OBARegionChangeRequest * request = [self getBestRegionChangeRequestForRegion:region];
-	if( request ) {
-		double score = [request compareRegion:region];
-		OBALogDebug(@"regionDidChangeAnimated: score=%f", score);
-		OBALogDebug(@"subregion=%@", [OBASphericalGeometryLibrary regionAsString:request.region]);
-		if( score < kMinRegionDeltaToDetectUserDrag )
-			type = request.type;
-	}
-
-	_autoCenterOnCurrentLocation = (type == OBARegionChangeRequestTypeCurrentLocation);
-	OBALogDebug(@"regionDidChangeAnimated: setting _autoCenterOnCurrentLocation to %d", _autoCenterOnCurrentLocation);
-	
+    
+    BOOL applyingPendingRegionChangeRequest = [_mapRegionManager mapView:mapView regionDidChangeAnimated:animated];
+    
     const OBASearchType searchType = _searchController.searchType;
     const BOOL unfilteredSearch = searchType == OBASearchTypeNone || searchType == OBASearchTypePending || searchType == OBASearchTypeRegion || searchType == OBASearchTypePlacemark;
-    
-	if( _autoCenterOnCurrentLocation && _pendingRegionChangeRequest ) {
-		OBALogDebug(@"applying pending reqest");
-		[self setMapRegionWithRequest:_pendingRegionChangeRequest];
-	}
-	else if( type == OBARegionChangeRequestTypeCurrentLocation ) {
-		if( unfilteredSearch ) {
+
+    if (!applyingPendingRegionChangeRequest && unfilteredSearch) {
+        if( _mapRegionManager.lastRegionChangeWasProgramatic ) {
             OBALocationManager * lm = _appContext.locationManager;
             double refreshInterval = [self getRefreshIntervalForLocationAccuracy:lm.currentLocation];
             [self scheduleRefreshOfStopsInRegion:refreshInterval location:lm.currentLocation];
         }
-	}
-	else if( type == OBARegionChangeRequestTypeNone ) {
-		if( unfilteredSearch ) {
+        else {
             [self scheduleRefreshOfStopsInRegion:kStopsInRegionRefreshDelayOnDrag location:nil];
         }
     }
-		
-	_pendingRegionChangeRequest = [NSObject releaseOld:_pendingRegionChangeRequest retainNew:nil];
-	
 	
 	float scale = 1.0;
 	float alpha = 1.0;
@@ -540,7 +480,8 @@ typedef enum  {
 
 -(IBAction) onCrossHairsButton:(id)sender {	
 	OBALogDebug(@"setting auto center on current location");
-	_autoCenterOnCurrentLocation = TRUE;
+	//_autoCenterOnCurrentLocation = TRUE;
+    _mapRegionManager.lastRegionChangeWasProgramatic = TRUE;
 	[self refreshCurrentLocation];
 }
 
@@ -572,7 +513,7 @@ typedef enum  {
 	
 	if( mostRecentLocation ) {
 		MKCoordinateRegion region = [self getLocationAsRegion:mostRecentLocation];
-		[self setMapRegion:region requestType:OBARegionChangeRequestTypeCurrentLocation];
+        [_mapRegionManager setRegion:region changeWasProgramatic:TRUE];
 	}
 	
 	[mostRecentLocation release];
@@ -593,68 +534,16 @@ typedef enum  {
 		_locationAnnotation = [[OBAGenericAnnotation alloc] initWithTitle:nil subtitle:nil coordinate:location.coordinate context:@"currentLocation"];
 		[_mapView addAnnotation:_locationAnnotation];
 		
-		OBALogDebug(@"refreshCurrentLocation: auto center on current location: %d", _autoCenterOnCurrentLocation);
+		OBALogDebug(@"refreshCurrentLocation: auto center on current location: %d", _mapRegionManager.lastRegionChangeWasProgramatic);
 		
-		if( _autoCenterOnCurrentLocation ) {
+		if( _mapRegionManager.lastRegionChangeWasProgramatic ) {
 			double radius = MAX(location.horizontalAccuracy,kMinMapRadius);
 			MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:location.coordinate latRadius:radius lonRadius:radius];
-			[self setMapRegion:region requestType:OBARegionChangeRequestTypeCurrentLocation];
+            [_mapRegionManager setRegion:region changeWasProgramatic:TRUE];
 		}		
 	}
 }
 
-- (void) setMapRegion:(MKCoordinateRegion)region requestType:(OBARegionChangeRequestType)requestType {
-
-	OBARegionChangeRequest * request = [[OBARegionChangeRequest alloc] initWithRegion:region type:requestType];
-	[self setMapRegionWithRequest:request];
-	[request release];
-}
-		 
-- (void) setMapRegionWithRequest:(OBARegionChangeRequest*)request {
-	
-	OBALogDebug(@"setMapRegion: requestType=%d region=%@",request.type,[OBASphericalGeometryLibrary regionAsString:request.region]);
-	
-	/**
-	 * If we are currently in the process of changing the map region, we save the region change request as pending.
-	 * Otherwise, we apply the region change.
-	 */
-	if ( _currentlyChangingRegion ) {
-		OBALogDebug(@"saving pending request");
-		_pendingRegionChangeRequest = [NSObject releaseOld:_pendingRegionChangeRequest retainNew:request];
-	}
-	else {
-		[_appliedRegionChangeRequests addObject:request];
-		[_mapView setRegion:request.region animated:TRUE];
-	}
-}
-
-
-- (OBARegionChangeRequest*) getBestRegionChangeRequestForRegion:(MKCoordinateRegion)region {
-	
-	NSMutableArray * requests = [[NSMutableArray alloc] init];
-	OBARegionChangeRequest * bestRequest = nil;
-	double bestScore = 0;
-	
-	NSDate * now = [NSDate date];
-	
-	for( OBARegionChangeRequest * request in  _appliedRegionChangeRequests ) {
-		
-		NSTimeInterval interval = [now timeIntervalSinceDate:request.timestamp];
-
-		if( interval <= kRegionChangeRequestsTimeToLive ) {
-			[requests addObject:request];
-			double score = [request compareRegion:region];
-			if( bestRequest == nil || score < bestScore)  {
-				bestRequest = request;
-				bestScore = score;
-			}
-		}
-	}
-	
-	_appliedRegionChangeRequests = [NSObject releaseOld:_appliedRegionChangeRequests retainNew:requests];
-	
-	return bestRequest;
-}
 - (void) scheduleRefreshOfStopsInRegion:(NSTimeInterval)interval location:(CLLocation*)location {
 	
 	MKCoordinateRegion region = _mapView.region;
@@ -925,7 +814,7 @@ typedef enum  {
 	MKCoordinateRegion region = [self computeRegionForCurrentResults:&needsUpdate];
 	if( needsUpdate ) {
 		OBALogDebug(@"setRegionFromResults");
-		[self setMapRegion:region requestType:OBARegionChangeRequestTypeSearchResult];
+        [_mapRegionManager setRegion:region changeWasProgramatic:FALSE];
 	}
 }
 
@@ -1211,33 +1100,6 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	
 	return TRUE;
 }	
-
-@end
-
-@implementation OBARegionChangeRequest
-
-@synthesize type = _type;
-@synthesize region = _region;
-@synthesize timestamp = _timestamp;
-
-- (id) initWithRegion:(MKCoordinateRegion)region type:(OBARegionChangeRequestType)type {
-	
-	if( self = [super init] ) {
-		_region = region;
-		_type = type;
-		_timestamp = [[NSDate alloc] init];
-	}
-	return self;
-}
-
--(void) dealloc {
-	[_timestamp release];
-	[super dealloc];
-}
-
-- (double) compareRegion:(MKCoordinateRegion)region {
-	return [OBASphericalGeometryLibrary getDistanceFromRegion:_region toRegion:region];
-}
 
 @end
 

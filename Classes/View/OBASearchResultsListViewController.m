@@ -18,8 +18,6 @@
 #import "OBALogger.h"
 #import "OBARouteV2.h"
 #import "OBAAgencyWithCoverageV2.h"
-#import "OBAUIKit.h"
-#import "OBAUITableViewCell.h"
 #import "OBASearchResultsMapViewController.h"
 #import "OBAStopViewController.h"
 

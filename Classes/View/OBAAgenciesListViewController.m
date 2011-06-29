@@ -1,5 +1,4 @@
 #import "OBAAgenciesListViewController.h"
-#import "OBAUITableViewCell.h"
 #import "OBALogger.h"
 #import "OBAPresentation.h"
 #import "OBAAgencyWithCoverageV2.h"

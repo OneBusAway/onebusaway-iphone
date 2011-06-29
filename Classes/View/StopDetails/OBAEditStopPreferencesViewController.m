@@ -17,7 +17,6 @@
 #import "OBAEditStopPreferencesViewController.h"
 #import "OBALogger.h"
 #import "OBARouteV2.h"
-#import "OBAUITableViewCell.h"
 #import "OBAStopViewController.h"
 
 

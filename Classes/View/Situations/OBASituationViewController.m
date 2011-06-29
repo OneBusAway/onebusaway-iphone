@@ -7,7 +7,6 @@
 //
 
 #import "OBASituationViewController.h"
-#import "OBAUITableViewCell.h"
 #import "OBASituationConsequenceV2.h"
 #import "OBADiversionViewController.h"
 #import "OBAWebViewController.h"

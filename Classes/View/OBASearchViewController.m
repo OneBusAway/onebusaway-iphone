@@ -15,7 +15,6 @@
  */
 
 #import "OBASearchViewController.h"
-#import "OBAUIKit.h"
 #import "OBASearchTableViewCell.h"
 #import "OBASearchController.h"
 

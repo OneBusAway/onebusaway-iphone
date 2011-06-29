@@ -1,5 +1,4 @@
 #import "OBAReportProblemWithTripViewController.h"
-#import "OBAUITableViewCell.h"
 #import "OBAListSelectionViewController.h"
 #import "OBATextEditViewController.h"
 #import "OBALabelAndSwitchTableViewCell.h"

@@ -17,9 +17,6 @@
 #import "OBAGenericStopViewController.h"
 #import "OBALogger.h"
 
-#import "OBAUIKit.h"
-
-#import "OBAUITableViewCell.h"
 #import "OBAStopTableViewCell.h"
 #import "OBAArrivalEntryTableViewCell.h"
 

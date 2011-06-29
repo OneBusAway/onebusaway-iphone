@@ -1,5 +1,4 @@
 #import "OBAArrivalAndDepartureViewController.h"
-#import "OBAUITableViewCell.h"
 #import "OBATripScheduleMapViewController.h"
 #import "OBATripScheduleListViewController.h"
 #import "OBAReportProblemWithTripViewController.h"

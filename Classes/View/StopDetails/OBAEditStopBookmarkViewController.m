@@ -16,7 +16,6 @@
 
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBALogger.h"
-#import "OBAUITableViewCell.h"
 #import "OBATextFieldTableViewCell.h"
 #import "OBARoute.h"
 #import "OBAStopViewController.h"

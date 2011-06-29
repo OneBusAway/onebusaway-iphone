@@ -1,9 +1,7 @@
 #import "OBATripScheduleListViewController.h"
 #import "OBATripStopTimeV2.h"
-#import "OBAUITableViewCell.h"
 #import "OBATripDetailsViewController.h"
 #import "OBATripScheduleMapViewController.h"
-#import "OBAUIKit.h"
 #import "OBAStopViewController.h"
 
 

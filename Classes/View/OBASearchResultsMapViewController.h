@@ -23,10 +23,10 @@
 #import "OBAGenericAnnotation.h"
 #import "OBANetworkErrorAlertViewDelegate.h"
 #import "OBASearchResultsMapFilterToolbar.h"
+#import "OBAMapRegionManager.h"
 
 
 @class OBASearchControllerImpl;
-@class OBARegionChangeRequest;
 
 @interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware,OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate> {
 	
@@ -35,6 +35,8 @@
 	OBASearchController * _searchController;
 	
 	MKMapView * _mapView;
+    OBAMapRegionManager * _mapRegionManager;
+    
 	UIBarButtonItem * _currentLocationButton;
 	UIBarButtonItem * _listButton;
     OBASearchResultsMapFilterToolbar * _filterToolbar;
@@ -43,13 +45,6 @@
 	
 	UIActivityIndicatorView * _activityIndicatorView;
 	OBANetworkErrorAlertViewDelegate * _networkErrorAlertViewDelegate;
-	
-	BOOL _autoCenterOnCurrentLocation;
-	
-	BOOL _currentlyChangingRegion;
-	
-	OBARegionChangeRequest * _pendingRegionChangeRequest;
-	NSMutableArray * _appliedRegionChangeRequests;
 	
 	MKCoordinateRegion _mostRecentRegion;
 	CLLocation * _mostRecentLocation;
