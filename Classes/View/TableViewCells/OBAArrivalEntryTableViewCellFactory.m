@@ -1,4 +1,5 @@
 #import "OBAArrivalEntryTableViewCellFactory.h"
+#import "OBAPresentation.h"
 
 
 @interface OBAArrivalEntryTableViewCellFactory (Private)
@@ -16,7 +17,8 @@
 @synthesize showServiceAlerts = _showServiceAlerts;
 
 - (id) initWithAppContext:(OBAApplicationContext*)appContext tableView:(UITableView*)tableView {
-	if( self = [super init] ) {
+    self = [super init];
+	if( self ) {
 		_appContext = [appContext retain];
 		_tableView = [tableView retain];
 		
@@ -44,8 +46,9 @@
 	NSTimeInterval interval = [time timeIntervalSinceNow];
 	int minutes = interval / 60;
 	
-	cell.destinationLabel.text = arrival.tripHeadsign;
-	cell.routeLabel.text = arrival.routeShortName;
+    
+	cell.destinationLabel.text = [OBAPresentation getTripHeadsignForArrivalAndDeparture:arrival];
+	cell.routeLabel.text = [OBAPresentation getRouteShortNameForArrivalAndDeparture:arrival];
 	cell.statusLabel.text = [self getStatusLabelForArrival:arrival time:time minutes:minutes];
 	cell.alertStyle = [self getAlertStyleForArrival:arrival];
 
