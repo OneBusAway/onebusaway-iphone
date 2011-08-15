@@ -167,7 +167,7 @@ typedef enum {
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.textLabel.textColor = [UIColor blackColor];
 	cell.textLabel.textAlignment = UITextAlignmentCenter;
-	cell.textLabel.text = @"Show on map";
+	cell.textLabel.text = NSLocalizedString(@"Show on map",@"AgenciesListViewController");
 	return cell;
 }
 
@@ -191,7 +191,7 @@ typedef enum {
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.textLabel.textColor = [UIColor blackColor];
 	cell.textLabel.textAlignment = UITextAlignmentCenter;
-	cell.textLabel.text = @"No agencies foud";
+	cell.textLabel.text = NSLocalizedString(@"No agencies found",@"cell.textLabel.text");
 	return cell;	
 }
 

@@ -45,10 +45,10 @@
 		
 		switch(_editType) {
 			case OBABookmarkEditNew:
-				self.navigationItem.title = @"Add Bookmark";
+				self.navigationItem.title = NSLocalizedString(@"Add Bookmark",@"OBABookmarkEditNew");
 				break;
 			case OBABookmarkEditExisting:
-				self.navigationItem.title = @"Edit Bookmark";
+				self.navigationItem.title = NSLocalizedString(@"Edit Bookmark",@"OBABookmarkEditExisting");
 				break;
 		}
     }
@@ -128,9 +128,9 @@
 		NSString * stopId = [_bookmark.stopIds objectAtIndex:indexPath.row-1];
 		OBAStopV2 * stop = [_stops objectForKey:stopId];
 		if( stop )
-			cell.textLabel.text = [NSString stringWithFormat:@"Stop # %@ - %@",stop.code,stop.name];
+			cell.textLabel.text = [NSString stringWithFormat:@"%@ # %@ - %@",NSLocalizedString(@"Stop",@"stop"),stop.code,stop.name];
 		else
-			cell.textLabel.text = @"Loading stop info...";
+			cell.textLabel.text = NSLocalizedString(@"Loading stop info...",@"!stop");
 		
 		cell.textLabel.font = [UIFont systemFontOfSize: 12];
 		cell.textLabel.textColor = [UIColor grayColor];

@@ -17,8 +17,8 @@
 
 - (NSString*) title {
 	if( ! _tripStatus.vehicleId )
-		return @"Vehicle";
-	return [NSString stringWithFormat:@"Vehicle: %@", _tripStatus.vehicleId];
+		return NSLocalizedString(@"Vehicle",@"title");
+	return [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Vehicle",@"title"), _tripStatus.vehicleId];
 }
 
 - (NSString*) subtitle {

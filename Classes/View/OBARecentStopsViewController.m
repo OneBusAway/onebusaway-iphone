@@ -64,7 +64,7 @@
     
 	if( [_mostRecentStops count] == 0 ) {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-		cell.textLabel.text = @ "No recent stops";
+		cell.textLabel.text = NSLocalizedString(@"No recent stops",@"cell.textLabel.text");
 		cell.textLabel.textAlignment = UITextAlignmentCenter;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		return cell;

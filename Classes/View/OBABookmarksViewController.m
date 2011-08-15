@@ -68,7 +68,7 @@
 	
 	if( [_bookmarks count] == 0 ) {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-		cell.textLabel.text = @"No bookmarks set";
+		cell.textLabel.text = NSLocalizedString(@"No bookmarks set",@"[_bookmarks count] == 0");
 		cell.textLabel.textAlignment = UITextAlignmentCenter;
 		cell.accessoryType = UITableViewCellAccessoryNone;		
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -148,11 +148,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath  {
 	[self setEditing:isEditing animated:TRUE];
 
 	if( isEditing ) {
-		_customEditButtonItem.title = @"Done";
+		_customEditButtonItem.title = NSLocalizedString(@"Done",@"title");
 		_customEditButtonItem.style = UIBarButtonItemStyleDone;
 	}
 	else {
-		_customEditButtonItem.title = @"Edit";
+		_customEditButtonItem.title = NSLocalizedString(@"Edit",@"title");
 		_customEditButtonItem.style = UIBarButtonItemStyleBordered;
 	}
 }
@@ -179,7 +179,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath  {
 	self.editing = FALSE;
 	[self.tableView setEditing:FALSE animated:FALSE];
 
-	_customEditButtonItem.title = @"Edit";
+	_customEditButtonItem.title = NSLocalizedString(@"Edit",@"title");
 	_customEditButtonItem.style = UIBarButtonItemStyleBordered;
 	
 	[self.tableView reloadData];

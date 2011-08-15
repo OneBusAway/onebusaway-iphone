@@ -62,15 +62,15 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	switch(section) {
 		case 0:
-			return @"Twitter - Latest News";
+			return NSLocalizedString(@"Twitter - Latest News",@"titleForHeaderInSection case 0");
 		case 1:
-			return @"Email";
+			return NSLocalizedString(@"Email",@"titleForHeaderInSection case 1");
 /*            
 		case 2:
 			return @"Idescale Feedback";
  */
 		case 2:
-			return @"Report bugs";
+			return NSLocalizedString(@"Report bugs",@"titleForHeaderInSection case 2");
 		default:
 			return nil;
 	}
@@ -84,10 +84,10 @@
 	
 	switch( indexPath.section ) {
 		case 0:
-			cell.textLabel.text = @"http://twitter.com/onebusaway";
+			cell.textLabel.text = NSLocalizedString(@"http://twitter.com/onebusaway",@"case 0");
 			break;
 		case 1:
-			cell.textLabel.text = @"contact@onebusaway.org";
+			cell.textLabel.text = NSLocalizedString(@"contact@onebusaway.org",@"cell.textLabel.text case 1");
 			break;
 /*
 		case 2:
@@ -96,7 +96,7 @@
 			break;
  */
 		case 2:
-			cell.textLabel.text = @"OneBusAway Issue Tracker";
+			cell.textLabel.text = NSLocalizedString(@"OneBusAway Issue Tracker",@"cell.textLabel.text case 2");
 			break;
 	}
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -107,13 +107,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	switch(indexPath.section) {
 		case 0: {
-			NSString *url = [NSString stringWithString: @"http://twitter.com/onebusaway"];
+			NSString *url = [NSString stringWithString: NSLocalizedString(@"http://twitter.com/onebusaway",@"case 0")];
 			[[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
 			break;
 			
 		}
 		case 1: {
-			NSString *url = [NSString stringWithString: @"mailto:contact@onebusaway.org"];
+			NSString *url = [NSString stringWithString: NSLocalizedString(@"mailto:contact@onebusaway.org",@"didSelectRowAtIndexPath case 1")];
 			[[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
 			break;		
 		}
@@ -124,7 +124,7 @@
 		}
 */ 
 		case 2: {
-			NSString *url = [NSString stringWithString: @"http://code.google.com/p/onebusaway-iphone/issues/list"];
+			NSString *url = [NSString stringWithString: NSLocalizedString(@"http://code.google.com/p/onebusaway-iphone/issues/list",@"didSelectRowAtIndexPath case 2")];
 			[[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
 			break;
 		}

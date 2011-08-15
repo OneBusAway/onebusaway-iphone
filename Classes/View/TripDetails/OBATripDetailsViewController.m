@@ -64,7 +64,7 @@ typedef enum {
 
 - (void)viewWillAppear:(BOOL)animated {
     [self clearPendingRequest];
-	[_progressView setMessage:@"Updating..." inProgress:TRUE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Updating...",@"message") inProgress:TRUE progress:0];
 	_request = [[_appContext.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:nil] retain];
 }
 
@@ -74,20 +74,20 @@ typedef enum {
 	OBAEntryWithReferencesV2 * entry = obj;
 	self.tripDetails = entry.entry;
 	_serviceAlerts = [_appContext.modelDao getServiceAlertsModelForSituations:_tripDetails.situations];
-	[_progressView setMessage:@"Trip Details" inProgress:FALSE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Trip Details",@"message") inProgress:FALSE progress:0];
 	[self.tableView reloadData];
 }
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
 	if( code == 404 )
-		[_progressView setMessage:@"Stop not found" inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Stop not found",@"message") inProgress:FALSE progress:0];
 	else
-		[_progressView setMessage:@"Unknown error" inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Unknown error",@"message") inProgress:FALSE progress:0];
 }
 
 - (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
 	OBALogWarningWithError(error, @"Error");
-	[_progressView setMessage:@"Error connecting" inProgress:FALSE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Error connecting",@"message") inProgress:FALSE progress:0];
 }
 
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
@@ -108,7 +108,7 @@ typedef enum {
 	
 	switch (sectionType) {
 		case OBASectionTypeSchedule:
-			return @"Trip Schedule:";
+			return NSLocalizedString(@"Trip Schedule:",@"OBASectionTypeSchedule");
 		default:
 			return nil;
 	}
@@ -242,7 +242,7 @@ typedef enum {
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-	cell.textLabel.text = @"Updating...";
+	cell.textLabel.text = NSLocalizedString(@"Updating...",@"message");
 	cell.textLabel.textColor = [UIColor grayColor];	
 	cell.textLabel.textAlignment = UITextAlignmentCenter;	
 	
@@ -261,7 +261,7 @@ typedef enum {
 	cell.textLabel.textColor = [UIColor blackColor];
 	cell.textLabel.textAlignment = UITextAlignmentLeft;	
 	
-	cell.detailTextLabel.text = @"Schedule data only";
+	cell.detailTextLabel.text = NSLocalizedString(@"Schedule data only",@"cell.detailTextLabel.text");
 	cell.detailTextLabel.textColor = [UIColor blackColor];
 	cell.detailTextLabel.textAlignment = UITextAlignmentLeft;	
 	
@@ -270,13 +270,13 @@ typedef enum {
 		NSInteger scheduleDeviation = status.scheduleDeviation/60;
 		NSString * label = @"";
 		if( scheduleDeviation <= -2 )
-			label = [NSString stringWithFormat:@"%d minutes early",(-scheduleDeviation)];
+			label = [NSString stringWithFormat:@"%d %@",(-scheduleDeviation), NSLocalizedString(@"minutes early",@"scheduleDeviation <= -2")];
 		else if (scheduleDeviation < 2 )
-			label = @"on time";
+			label = NSLocalizedString(@"on time",@"scheduleDeviation < 2");
 		else
-			label = [NSString stringWithFormat:@"%d minutes late",scheduleDeviation];
+			label = [NSString stringWithFormat:@"%d %@",scheduleDeviation, NSLocalizedString(@"minutes late",@"scheduleDeviation >= 2")];
 		
-		cell.detailTextLabel.text = [NSString stringWithFormat:@"Vehicle # %@ - %@",status.vehicleId,label];
+		cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ # %@ - %@",NSLocalizedString(@"Vehicle",@"cell.detailTextLabel.text"),status.vehicleId,label];
 	}
 	
 	return cell;
@@ -292,10 +292,10 @@ typedef enum {
 	
 	switch (indexPath.row) {
 		case 0:
-			cell.textLabel.text = @"Show as map";
+			cell.textLabel.text = NSLocalizedString(@"Show as map",@"text");
 			break;
 		case 1:
-			cell.textLabel.text = @"Show as list";
+			cell.textLabel.text = NSLocalizedString(@"Show as list",@"text");
 			break;
 	}
 	
@@ -314,7 +314,7 @@ typedef enum {
 	
 	switch (indexPath.row) {
 		case 0: {
-			cell.textLabel.text = @"Report a problem for this trip";
+			cell.textLabel.text = NSLocalizedString(@"Report a problem for this trip",@"text");
 			if( _tripDetails == nil ) {
 				cell.textLabel.textColor = [UIColor grayColor];
 				cell.selectionStyle = UITableViewCellSelectionStyleNone;

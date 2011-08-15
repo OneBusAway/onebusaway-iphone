@@ -26,7 +26,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {	
 	OBAStopSectionType sectionType = [self sectionTypeForSection:section];
 	if (sectionType == OBAStopSectionTypeArrivals)
-		return @"Select the trip with a problem:";
+		return NSLocalizedString(@"Select the trip with a problem:",@"sectionType == OBAStopSectionTypeArrivals");
 	return nil;
 }
 

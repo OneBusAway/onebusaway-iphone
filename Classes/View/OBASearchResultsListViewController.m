@@ -85,7 +85,7 @@
 	switch (_result.searchType) {
 		case OBASearchTypeNone: {
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-			cell.textLabel.text = @"No search results";
+			cell.textLabel.text = NSLocalizedString(@"No search results",@"OBASearchTypeNone text");
 			return cell;
 		}
 		case OBASearchTypeRegion:
@@ -130,7 +130,7 @@
 	}
 	
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-	cell.textLabel.text = @"Unknown search results";
+	cell.textLabel.text = NSLocalizedString(@"Unknown search results",@"_result.searchType");
 	return cell;
 }
 
@@ -194,16 +194,16 @@
 		case OBASearchTypePlacemark:
 		case OBASearchTypeStopId:			
 		case OBASearchTypeRouteStops:
-			self.navigationItem.title = @"Stops";
+			self.navigationItem.title = NSLocalizedString(@"Stops",@"OBASearchTypeRouteStops");
 			break;
 		case OBASearchTypeRoute:		
-			self.navigationItem.title = @"Routes";
+			self.navigationItem.title = NSLocalizedString(@"Routes",@"OBASearchTypeRoute");
 			break;
 		case OBASearchTypeAddress:
-			self.navigationItem.title = @"Places";
+			self.navigationItem.title = NSLocalizedString(@"Places",@"OBASearchTypeAddress");
 			break;
 		case OBASearchTypeAgenciesWithCoverage:
-			self.navigationItem.title = @"Agencies";
+			self.navigationItem.title = NSLocalizedString(@"Agencies",@"OBASearchTypeAgenciesWithCoverage");
 			break;
 		default:			
 			break;
@@ -217,9 +217,9 @@
 	NSMutableString * label = [NSMutableString string];
 	
 	if( stop.direction )
-		[label appendFormat:@"%@ bound - ",stop.direction];
+		[label appendFormat:@"%@ %@ - ",stop.direction,NSLocalizedString(@"bound",@"stop.direction label")];
 	
-	[label appendString:@"Routes: "];
+	[label appendString:NSLocalizedString(@"Routes: ",@"label")];
 	[label appendString:[stop routeNamesAsString]];
 	return label;
 }

@@ -14,9 +14,9 @@
 		_appContext = [context retain];
 		_stop = [stop retain];
 		
-		self.navigationItem.title = @"Report a Problem";
+		self.navigationItem.title = NSLocalizedString(@"Report a Problem",@"self.navigationItem.title");
 		
-		UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:@"Report" style:UIBarButtonItemStyleBordered target:nil action:nil];
+		UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Report",@"UIBarButtonItem initWithTitle") style:UIBarButtonItemStyleBordered target:nil action:nil];
 		self.navigationItem.backBarButtonItem = item;
 		[item release];
     }
@@ -38,7 +38,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
-	return @"The problem is with:";
+	return NSLocalizedString(@"The problem is with:",@"tableView titleForHeaderInSection");
 }
 
 
@@ -57,10 +57,10 @@
 	
 	switch (indexPath.row) {
 		case 0:
-			cell.textLabel.text = @"The stop itself";
+			cell.textLabel.text = NSLocalizedString(@"The stop itself",@"case 0 cell.textLabel.text");
 			break;
 		case 1:
-			cell.textLabel.text = @"A bus/train/etc at this stop";
+			cell.textLabel.text = NSLocalizedString(@"A bus/train/etc at this stop",@"case 1 cell.textLabel.text");
 			break;
 		default:
 			break;

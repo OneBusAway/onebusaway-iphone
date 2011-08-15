@@ -100,11 +100,11 @@ typedef enum {
 	
 	switch (sectionType) {
 		case OBASectionTypeVehicleDetails:
-			return @"Vehicle Details:";
+			return NSLocalizedString(@"Vehicle Details:",@"OBASectionTypeVehicleDetails");
 		case OBASectionTypeTripDetails:
-			return @"Active Trip Details:";
+			return NSLocalizedString(@"Active Trip Details:",@"OBASectionTypeTripDetails");
 		case OBASectionTypeTripSchedule:
-			return @"Active Trip Schedule:";
+			return NSLocalizedString(@"Active Trip Schedule:",@"OBASectionTypeTripSchedule");
 		default:
 			return nil;
 	}
@@ -188,7 +188,7 @@ typedef enum {
 
 	cell.textLabel.textColor = [UIColor blackColor];
 	cell.textLabel.textAlignment = UITextAlignmentLeft;
-	cell.textLabel.text = [NSString stringWithFormat:@"Vehicle: %@", _vehicleStatus.vehicleId];
+	cell.textLabel.text = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Vehicle",@"cell.textLabel.text"), _vehicleStatus.vehicleId];
 	
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];	
 	[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
@@ -198,7 +198,7 @@ typedef enum {
 
 	cell.detailTextLabel.textColor = [UIColor blackColor];
 	cell.detailTextLabel.textAlignment = UITextAlignmentLeft;
-	cell.detailTextLabel.text = [NSString stringWithFormat:@"Last update: %@", result];
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Last update",@"cell.detailTextLabel.text") , result];
 
 	return cell;
 }
@@ -224,23 +224,23 @@ typedef enum {
 		case 1: {
 			
 			if( tripStatus.frequency ) { 
-				cell.textLabel.text = [NSString stringWithFormat:@"Schedule deviation: N/A"];
+				cell.textLabel.text = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Schedule deviation",@"cell.textLabel.text"),NSLocalizedString(@"N/A",@"cell.textLabel.text")];
 			}
 			else {
 				NSInteger sd = tripStatus.scheduleDeviation;
 				NSString * label = @" ";
 				if( sd > 0 ) {
-					label = @" late";
+					label = NSLocalizedString(@" late",@"sd > 0");
 				}
 				else if( sd < 0 ) {
-					label = @" early";
+					label = NSLocalizedString(@" early",@"sd < 0");
 					sd = -sd;
 				}
 				
 				NSInteger mins = sd / 60;
 				NSInteger secs = sd % 60;
 				
-				cell.textLabel.text = [NSString stringWithFormat:@"Schedule deviation: %dm %ds%@",mins, secs, label];
+				cell.textLabel.text = [NSString stringWithFormat:@"%@: %dm %ds%@",NSLocalizedString(@"Schedule deviation",@"cell.textLabel.text"),mins, secs, label];
 			}
 			break;
 		}
@@ -259,11 +259,11 @@ typedef enum {
 	
 	switch (indexPath.row) {
 		case 0:
-			cell.textLabel.text = @"Show as map";
+			cell.textLabel.text = NSLocalizedString(@"Show as map",@"VehicleDetailsController");
 			
 			break;
 		case 1:
-			cell.textLabel.text = @"Show as list";
+			cell.textLabel.text = NSLocalizedString(@"Show as list",@"VehicleDetailsController");
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			break;
 	}

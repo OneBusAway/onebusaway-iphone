@@ -37,7 +37,7 @@
 		[self.navigationItem setRightBarButtonItem:saveButton];
 		[saveButton release];
 		
-		self.navigationItem.title = @"Filter & Sort";
+		self.navigationItem.title = NSLocalizedString(@"Filter & Sort",@"self.navigationItem.title");
 		
 		NSMutableArray * routes = [NSMutableArray array];
 		for( OBARouteV2 * route in stop.routes)
@@ -77,9 +77,9 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	if( section == 0)
-		return @"Sort";
+		return NSLocalizedString(@"Sort",@"section == 0");
 	else if( section == 1)
-		return @"Show Routes";
+		return NSLocalizedString(@"Show Routes",@"section == 1");
 	return nil;
 }
 
@@ -111,7 +111,7 @@
 		default:
 		{
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-			cell.textLabel.text = @"Unknown cell";
+			cell.textLabel.text = NSLocalizedString(@"Unknown cell",@"cell.textLabel.text");
 			return cell;
 		}
 	}
@@ -125,14 +125,14 @@
 	switch(indexPath.row) {
 		case OBASortTripsByDepartureTimeV2:
 			checked = _preferences.sortTripsByType == OBASortTripsByDepartureTimeV2;
-			cell.textLabel.text = @"Departure Time";
+			cell.textLabel.text = NSLocalizedString(@"Departure Time",@"OBASortTripsByDepartureTimeV2");
 			break;
 		case OBASortTripsByRouteNameV2:
 			checked = _preferences.sortTripsByType == OBASortTripsByRouteNameV2;
-			cell.textLabel.text = @"Route";
+			cell.textLabel.text = NSLocalizedString(@"Route",@"OBASortTripsByRouteNameV2");
 			break;
 		default:
-			cell.textLabel.text = @"Unknown cell";
+			cell.textLabel.text = NSLocalizedString(@"Unknown cell",@"cell.textLabel.text");
 	}
 
 	cell.accessoryType = checked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
@@ -146,7 +146,7 @@
 	if( [_routes count] == 0 ) {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.accessoryType = UITableViewCellAccessoryNone;
-		cell.textLabel.text = @"No routes at this stop";
+		cell.textLabel.text = NSLocalizedString(@"No routes at this stop",@"[_routes count] == 0");
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		return cell;
 	}

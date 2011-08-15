@@ -130,9 +130,9 @@ typedef enum {
 	
 	switch (sectionType) {
 		case OBASectionTypeSchedule:
-			return @"Trip Details:";
+			return NSLocalizedString(@"Trip Details:",@"OBASectionTypeSchedule");
 		case OBASectionTypeActions:
-			return @"Actions:";
+			return NSLocalizedString(@"Actions:",@"OBASectionTypeActions");
 		default:
 			return nil;
 	}
@@ -242,10 +242,10 @@ typedef enum {
 	
 	switch (indexPath.row) {
 		case 0:
-			cell.textLabel.text = @"Show as map";
+			cell.textLabel.text = NSLocalizedString(@"Show as map",@"text");
 			break;
 		case 1:
-			cell.textLabel.text = @"Show as list";
+			cell.textLabel.text = NSLocalizedString(@"Show as list",@"text");
 			break;
 	}
 	
@@ -265,7 +265,7 @@ typedef enum {
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			cell.textLabel.textColor = [UIColor blackColor];
 			cell.textLabel.textAlignment = UITextAlignmentCenter;
-			cell.textLabel.text = @"Report a problem for this trip";
+			cell.textLabel.text = NSLocalizedString(@"Report a problem for this trip",@"text");
 			return cell;			
 		}
 		case 2: {
@@ -274,7 +274,7 @@ typedef enum {
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			cell.textLabel.textColor = [UIColor blackColor];
 			cell.textLabel.textAlignment = UITextAlignmentCenter;
-			cell.textLabel.text = @"Vehicle Info";
+			cell.textLabel.text = NSLocalizedString(@"Vehicle Info",@"cell.textLabel.text");
 			return cell;			
 		}
 		default:

@@ -56,11 +56,11 @@ typedef enum {
 		_progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];
 		[self.navigationItem setTitleView:_progressView];
 		
-		UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:@"Map" style:UIBarButtonItemStyleBordered target:self action:@selector(showMap:)];
+		UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Map",@"initWithTitle") style:UIBarButtonItemStyleBordered target:self action:@selector(showMap:)];
 		self.navigationItem.rightBarButtonItem = item;
 		[item release];
 		
-		UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithTitle:@"Schedule" style:UIBarButtonItemStyleBordered target:nil action:nil];
+		UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Schedule",@"initWithTitle") style:UIBarButtonItemStyleBordered target:nil action:nil];
 		self.navigationItem.backBarButtonItem = backItem;
 		[backItem release];		
     }
@@ -103,14 +103,14 @@ typedef enum {
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
 	if( code == 404 )
-		[_progressView setMessage:@"Trip not found" inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Trip not found",@"message") inProgress:FALSE progress:0];
 	else
-		[_progressView setMessage:@"Unknown error" inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Unknown error",@"message") inProgress:FALSE progress:0];
 }
 
 - (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
 	OBALogWarningWithError(error, @"Error");
-	[_progressView setMessage:@"Error connecting" inProgress:FALSE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Error connecting",@"message") inProgress:FALSE progress:0];
 }
 
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
@@ -138,7 +138,7 @@ typedef enum {
 	
 	switch (sectionType) {
 		case OBASectionTypeConnections:
-			return @"Connections:";
+			return NSLocalizedString(@"Connections:",@"OBASectionTypeConnections");
 		default:
 			return nil;
 	}
@@ -226,7 +226,7 @@ typedef enum {
 
 - (void) handleTripDetails {
 
-	[_progressView setMessage:@"Trip Schedule" inProgress:FALSE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Trip Schedule",@"message") inProgress:FALSE progress:0];
 
 	NSString * stopId = self.currentStopId;
 	OBATripScheduleV2 * sched = _tripDetails.schedule;
@@ -301,7 +301,7 @@ typedef enum {
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleDefault];
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.accessoryType = UITableViewCellAccessoryNone;
-	cell.textLabel.text = @"Loading...";
+	cell.textLabel.text = NSLocalizedString(@"Loading...",@"cell.textLabel.text");
 	return cell;	
 }
 
@@ -314,7 +314,7 @@ typedef enum {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleDefault];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.accessoryType = UITableViewCellAccessoryNone;
-		cell.textLabel.text = [NSString stringWithFormat:@"Hiding %d previous stops",_currentStopIndex];
+		cell.textLabel.text = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"Hiding",@"hidingPreviousStops && indexPath.row == 0"), _currentStopIndex, NSLocalizedString(@"previous stops",@"hidingPreviousStops && indexPath.row == 0")];
 		cell.textLabel.textColor = [UIColor grayColor];
 		return cell;
 	}
@@ -338,7 +338,7 @@ typedef enum {
 	if( schedule.frequency ) {
 		OBATripStopTimeV2 * firstStopTime = [stopTimes objectAtIndex:0];
 		int minutes = (stopTime.arrivalTime - firstStopTime.departureTime) / 60;
-		cell.detailTextLabel.text = [NSString stringWithFormat:@"%d mins",minutes];									  
+		cell.detailTextLabel.text = [NSString stringWithFormat:@"%d %@",minutes,NSLocalizedString(@"mins",@"minutes")];									  
 	}
 	else {
 		NSDate * time = [self getStopTimeAsDate:stopTime.arrivalTime];
@@ -352,7 +352,7 @@ typedef enum {
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.accessoryType = UITableViewCellAccessoryNone;
-	cell.textLabel.text = _showPreviousStops ? @"Hide previous stops" : @"Show previous stops";
+	cell.textLabel.text = _showPreviousStops ? NSLocalizedString(@"Hide previous stops",@"_showPreviousStops") : NSLocalizedString(@"Show previous stops",@"!_showPreviousStops");
 	return cell;
 }
 
@@ -367,7 +367,7 @@ typedef enum {
 	if( sched.previousTripId != nil ) {
 		if( indexPath.row == offset ) {
 			OBATripV2 * trip = [sched previousTrip];
-			cell.textLabel.text = [NSString stringWithFormat:@"Starts as %@",trip.asLabel];
+			cell.textLabel.text = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Starts as",@"text"),trip.asLabel];
 		}
 		offset++;
 	}
@@ -375,7 +375,7 @@ typedef enum {
 	if( sched.nextTripId != nil ) {
 		if( indexPath.row == offset ) {
 			OBATripV2 * trip = [sched nextTrip];
-			cell.textLabel.text = [NSString stringWithFormat:@"Continues as %@",trip.asLabel];
+			cell.textLabel.text = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Continues as",@"text"),trip.asLabel];
 		}
 		offset++;
 	}

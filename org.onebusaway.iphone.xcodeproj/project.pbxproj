@@ -357,6 +357,8 @@
 		D68CDD100FCBB07D00EE6BDF /* OBAActivityListeners.m in Sources */ = {isa = PBXBuildFile; fileRef = D68CDD0F0FCBB07D00EE6BDF /* OBAActivityListeners.m */; };
 		D696DAA811A3CD8D00C0E6CB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D696DAA711A3CD8D00C0E6CB /* MessageUI.framework */; };
 		D696ECF01207992E00514C2B /* OBAUserPreferencesMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = D696ECEF1207992E00514C2B /* OBAUserPreferencesMigration.m */; };
+		D69C598913F9BD6900BA90A2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D69C598713F9BD6900BA90A2 /* Localizable.strings */; };
+		D69C598B13F9BD9100BA90A2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D6E884E9121C3F1400C53386 /* Settings.bundle */; };
 		D6A8C2A50FDF311F001B46E1 /* OBANavigationTargetAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D6A8C2A40FDF311F001B46E1 /* OBANavigationTargetAnnotation.m */; };
 		D6A8C3030FE0004B001B46E1 /* OBAStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D6A8C3020FE0004B001B46E1 /* OBAStopAnnotation.m */; };
 		D6A982D90F7DA6870028173A /* OBASearchResultsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6A982D80F7DA6870028173A /* OBASearchResultsListViewController.m */; };
@@ -927,6 +929,8 @@
 		D696DAA711A3CD8D00C0E6CB /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		D696ECEE1207992E00514C2B /* OBAUserPreferencesMigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAUserPreferencesMigration.h; path = Control/OBAUserPreferencesMigration.h; sourceTree = "<group>"; };
 		D696ECEF1207992E00514C2B /* OBAUserPreferencesMigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAUserPreferencesMigration.m; path = Control/OBAUserPreferencesMigration.m; sourceTree = "<group>"; };
+		D69C598813F9BD6900BA90A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D69C598A13F9BD9100BA90A2 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D6A8C2A30FDF311F001B46E1 /* OBANavigationTargetAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBANavigationTargetAnnotation.h; path = Model/OBANavigationTargetAnnotation.h; sourceTree = "<group>"; };
 		D6A8C2A40FDF311F001B46E1 /* OBANavigationTargetAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBANavigationTargetAnnotation.m; path = Model/OBANavigationTargetAnnotation.m; sourceTree = "<group>"; };
 		D6A8C3010FE0004B001B46E1 /* OBAStopAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAStopAnnotation.h; path = Model/OBAStopAnnotation.h; sourceTree = "<group>"; };
@@ -1090,6 +1094,7 @@
 				D6CFB1411032229F00005000 /* Default.png */,
 				D651BB2711C9D5DE001BE733 /* iTunesArtwork */,
 				8D1107310486CEB800E47090 /* Info.plist */,
+				D69C598713F9BD6900BA90A2 /* Localizable.strings */,
 				D6E884E9121C3F1400C53386 /* Settings.bundle */,
 				D62AC46410A4F6D300CE9212 /* OBAModel.xcdatamodeld */,
 			);
@@ -2046,6 +2051,7 @@
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
+				fr,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */;
 			projectDirPath = "";
@@ -2252,6 +2258,8 @@
 				D645110F13BABA62003FF668 /* OBATextEditViewController.xib in Resources */,
 				D645111013BABA62003FF668 /* OBATextFieldTableViewCell.xib in Resources */,
 				D645111113BABA62003FF668 /* OBAWebViewController.xib in Resources */,
+				D69C598913F9BD6900BA90A2 /* Localizable.strings in Resources */,
+				D69C598B13F9BD9100BA90A2 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2456,6 +2464,18 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D69C598713F9BD6900BA90A2 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D69C598813F9BD6900BA90A2 /* en */,
+				D69C598A13F9BD9100BA90A2 /* fr */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {

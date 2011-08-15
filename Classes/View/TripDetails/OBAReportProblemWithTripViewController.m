@@ -47,9 +47,9 @@ typedef enum {
 		_tripInstance = [tripInstance retain];
 		_trip = [trip retain];
 
-		self.navigationItem.title = @"Report a Problem";
+		self.navigationItem.title = NSLocalizedString(@"Report a Problem",@"self.navigationItem.title");
 
-		UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:@"Custom Title"
+		UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Custom Title",@"initWithTitle")
 										 style:UIBarButtonItemStyleBordered
 										target:nil
 										action:nil];
@@ -62,12 +62,12 @@ typedef enum {
 		_problemIds = [[NSMutableArray alloc] init];
 		_problemNames = [[NSMutableArray alloc] init];
 
-		[self addProblemWithId:@"vehicle_never_came" name:[NSString stringWithFormat:@"The %@ never came",_vehicleType]];
-		[self addProblemWithId:@"vehicle_came_early" name:@"It came earlier than predicted"];
-		[self addProblemWithId:@"vehicle_came_late" name:@"It came later than predicted"];
-		[self addProblemWithId:@"wrong_headsign" name:@"Wrong destination shown"];
-		[self addProblemWithId:@"vehicle_does_not_stop_here" name:[NSString stringWithFormat:@"The %@ doesn't stop here",_vehicleType]];
-		[self addProblemWithId:@"other" name:@"Other"];
+		[self addProblemWithId:@"vehicle_never_came" name:[NSString stringWithFormat:@"%@ %@ %@",NSLocalizedString(@"The",@"name"),_vehicleType,NSLocalizedString(@"never came",@"name")]];
+		[self addProblemWithId:@"vehicle_came_early" name:NSLocalizedString(@"It came earlier than predicted",@"name")];
+		[self addProblemWithId:@"vehicle_came_late" name:NSLocalizedString(@"It came later than predicted",@"name")];
+		[self addProblemWithId:@"wrong_headsign" name:NSLocalizedString(@"Wrong destination shown",@"name")];
+		[self addProblemWithId:@"vehicle_does_not_stop_here" name:[NSString stringWithFormat:@"%@ %@ %@",NSLocalizedString(@"The",@"name"),_vehicleType,NSLocalizedString(@"doesn't stop here",@"name")]];
+		[self addProblemWithId:@"other" name:NSLocalizedString(@"Other",@"name")];
 		
 		_activityIndicatorView = [[OBAModalActivityIndicator alloc] init];		
     }
@@ -87,7 +87,7 @@ typedef enum {
 #pragma mark UIViewController
 
 -(void)viewDidLoad {
-	self.navigationItem.backBarButtonItem.title = @"Problem";
+	self.navigationItem.backBarButtonItem.title = NSLocalizedString(@"Problem",@"self.navigationItem.backBarButtonItem.title");
 }
 
 #pragma mark Table view methods
@@ -102,13 +102,13 @@ typedef enum {
 	
 	switch (sectionType) {
 		case OBASectionTypeProblem:
-			return @"What's the problem?";
+			return NSLocalizedString(@"What's the problem?",@"OBASectionTypeProblem");
 		case OBASectionTypeComment:
-			return @"Optional - Comment:";
+			return NSLocalizedString(@"Optional - Comment:",@"OBASectionTypeComment");
 		case OBASectionTypeOnTheVehicle:
-			return [NSString stringWithFormat:@"Optional - Are you on this %@?",_vehicleType];
+			return [NSString stringWithFormat:@"%@ %@?",NSLocalizedString(@"Optional - Are you on this",@"OBASectionTypeOnTheVehicle"),_vehicleType];
 		case OBASectionTypeNotes:
-			return @"Your reports help OneBusAway find and fix problems with the system.";
+			return NSLocalizedString(@"Your reports help OneBusAway find and fix problems with the system.",@"OBASectionTypeNotes");
 		default:
 			return nil;
 	}
@@ -162,7 +162,7 @@ typedef enum {
 			}
 			else {
 				cell.textLabel.textColor = [UIColor grayColor];
-				cell.textLabel.text = @"Touch to edit";
+				cell.textLabel.text = NSLocalizedString(@"Touch to edit",@"cell.textLabel.text");
 			}
 			
 			return cell;
@@ -176,7 +176,7 @@ typedef enum {
 			cell.textLabel.textAlignment = UITextAlignmentCenter;
 			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 			cell.accessoryType = UITableViewCellAccessoryNone;
-			cell.textLabel.text = @"Submit";
+			cell.textLabel.text = NSLocalizedString(@"Submit",@"cell.textLabel.text");
 			return cell;
 		}
 		default:	
@@ -201,7 +201,7 @@ typedef enum {
 		}
 			
 		case OBASectionTypeComment: {
-			OBATextEditViewController * vc = [OBATextEditViewController pushOntoViewController:self withText:_comment withTitle:@"Comment"];
+			OBATextEditViewController * vc = [OBATextEditViewController pushOntoViewController:self withText:_comment withTitle:NSLocalizedString(@"Comment",@"withTitle")];
 			vc.target = self;
 			vc.action = @selector(setComment:);
 			break;
@@ -322,14 +322,14 @@ typedef enum {
 	switch (indexPath.row) {
 		case 0: {
 			OBALabelAndSwitchTableViewCell * cell = [OBALabelAndSwitchTableViewCell getOrCreateCellForTableView:tableView];
-			cell.label.text = [NSString stringWithFormat:@"On this %@?",[_vehicleType capitalizedString]];
+			cell.label.text = [NSString stringWithFormat:@"%@ %@?",NSLocalizedString(@"On this",@"cell.label.text"),[_vehicleType capitalizedString]];
 			[cell.toggleSwitch setOn:_onVehicle];
 			[cell.toggleSwitch addTarget:self action:@selector(setOnVehicle:) forControlEvents:UIControlEventValueChanged];
 			return cell;
 		}
 		case 1: {
 			OBALabelAndTextFieldTableViewCell * cell = [OBALabelAndTextFieldTableViewCell getOrCreateCellForTableView:tableView];
-			cell.label.text = [NSString stringWithFormat:@"%@ Number",[_vehicleType capitalizedString]];
+			cell.label.text = [NSString stringWithFormat:@"%@ %@",[_vehicleType capitalizedString],NSLocalizedString(@"Number",@"cell.label.text")];
 			
 			cell.textField.text = _vehicleNumber;
 			cell.textField.delegate = self;
@@ -351,14 +351,15 @@ typedef enum {
 	switch ([route.routeType intValue]) {
 		case 0:
 		case 1:
+			return NSLocalizedString(@"metro",@"routeType 1");
 		case 2:
-			return @"train";
+			return NSLocalizedString(@"train",@"routeType 2");
 		case 3:
-			return @"bus";
+			return NSLocalizedString(@"bus",@"routeType 3");
 		case 4:
-			return @"ferry";
+			return NSLocalizedString(@"ferry",@"routeType 4");
 		default:
-			return @"vehicle";
+			return NSLocalizedString(@"vehicle",@"routeType default");
 	}
 }
 

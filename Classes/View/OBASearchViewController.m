@@ -148,21 +148,21 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 	switch(index) {
 		case 0:
 			[_searchField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
-			_searchField.placeholder = @"Search by route";
+			_searchField.placeholder = NSLocalizedString(@"Search by route",@"_searchField.placeholder");
 			_currentSearchType = OBASearchViewTypeByRoute;
 			savedValue = _routeSavedValue;
 			break;
             
 		case 1:
 			[_searchField setKeyboardType:UIKeyboardTypeDefault];
-			_searchField.placeholder = @"Search by address";
+			_searchField.placeholder = NSLocalizedString(@"Search by address",@"_searchField.placeholder");
 			_currentSearchType = OBASearchViewTypeByAddress;
 			savedValue = _addressSavedValue;
 			break;
 	
         case 2:
 			[_searchField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
-			_searchField.placeholder = @"Search by stop #";
+			_searchField.placeholder = NSLocalizedString(@"Search by stop #",@"_searchField.placeholder");
 			_currentSearchType = OBASearchViewTypeByStop;
 			savedValue = _stopIdSavedValue;
 			break;

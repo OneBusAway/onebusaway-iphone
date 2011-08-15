@@ -45,9 +45,9 @@
 - (void) setStop:(OBAStopV2*)stop {
 	_mainLabel.text = stop.name;
 	if( stop.direction )
-		_subLabel.text = [NSString stringWithFormat:@"Stop # %@ - %@ bound",stop.code,stop.direction];
+		_subLabel.text = [NSString stringWithFormat:@"%@ # %@ - %@ %@",NSLocalizedString(@"Stop",@"text"),stop.code,stop.direction,NSLocalizedString(@"bound",@"text")];
 	else
-		_subLabel.text = [NSString stringWithFormat:@"Stop # %@",stop.code];
+		_subLabel.text = [NSString stringWithFormat:@"%@ # %@",NSLocalizedString(@"Stop",@"text"),stop.code];
 }
 
 @end

@@ -85,7 +85,7 @@
 	}
 	
 	_request = [[self requestForTarget:target] retain];
-	[_progress setMessage:@"Connecting..." inProgress:TRUE progress:0];
+	[_progress setMessage:NSLocalizedString(@"Connecting...",@"searchWithTarget _progress") inProgress:TRUE progress:0];
 	
 }
 
@@ -193,13 +193,13 @@
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
 	if( code == 404 )
-		[_progress setMessage:@"Not found" inProgress:FALSE progress:0];
+		[_progress setMessage:NSLocalizedString(@"Not found",@"code == 404") inProgress:FALSE progress:0];
 	else
-		[_progress setMessage:@"Server error" inProgress:FALSE progress:0];
+		[_progress setMessage:NSLocalizedString(@"Server error",@"code # 404") inProgress:FALSE progress:0];
 }
 
 - (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
-	[_progress setMessage:@"Error connecting" inProgress:FALSE progress:0];
+	[_progress setMessage:NSLocalizedString(@"Error connecting",@"requestDidFail") inProgress:FALSE progress:0];
 	[self fireError:error];
 }
 
@@ -267,16 +267,16 @@
 		case OBASearchTypePlacemark:
 		case OBASearchTypeStopId:			
 		case OBASearchTypeRouteStops:
-			title = @"Stops";
+			title = NSLocalizedString(@"Stops",@"OBASearchTypeRouteStops");
 			break;
 		case OBASearchTypeRoute:		
-			title = @"Routes";
+			title = NSLocalizedString(@"Routes",@"OBASearchTypeRoute");
 			break;
 		case OBASearchTypeAddress:
-			title = @"Places";
+			title = NSLocalizedString(@"Places",@"OBASearchTypeAddress");
 			break;
 		case OBASearchTypeAgenciesWithCoverage:
-			title = @"Agencies";
+			title = NSLocalizedString(@"Agencies",@"OBASearchTypeAgenciesWithCoverage");
 			break;
 		default:			
 			break;

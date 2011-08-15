@@ -24,7 +24,7 @@
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		_appContext = [appContext retain];
 		_situations = [situations retain];
-		self.navigationItem.title = @"Service Alerts";
+		self.navigationItem.title = NSLocalizedString(@"Service Alerts",@"self.navigationItem.title");
 	}
 	
 	return self;
@@ -59,7 +59,7 @@
     
 	if( [_situations count] == 0 ) {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-		cell.textLabel.text = @"No active service alerts";
+		cell.textLabel.text = NSLocalizedString(@"No active service alerts",@"cell.textLabel.text");
 		cell.textLabel.textAlignment = UITextAlignmentCenter;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.accessoryType = UITableViewCellAccessoryNone;

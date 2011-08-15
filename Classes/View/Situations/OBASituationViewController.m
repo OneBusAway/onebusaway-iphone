@@ -99,7 +99,7 @@ typedef enum {
 	
 	switch (sectionType) {
 		case OBASectionTypeDetails:
-			return @"Details:";
+			return NSLocalizedString(@"Details:",@"OBASectionTypeDetails");
 		default:
 			return nil;
 	}
@@ -203,7 +203,7 @@ typedef enum {
 		cell.textLabel.text = [self getDetails:FALSE];
 	}
 	else if ( indexPath.row == 1 && _diversionPath ) {
-		cell.textLabel.text = @"Show reroute";
+		cell.textLabel.text = NSLocalizedString(@"Show reroute",@"cell.textLabel.text");
 	}
 	
 	return cell;
@@ -215,7 +215,7 @@ typedef enum {
 	BOOL isRead = [modelDao isVisitedSituationWithId:_situation.situationId];
 
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-	cell.textLabel.text = isRead ? @"Mark as Unread" : @"Mark as Read";
+	cell.textLabel.text = isRead ? NSLocalizedString(@"Mark as Unread",@"isRead") : NSLocalizedString(@"Mark as Read",@"!isRead");
 	cell.textLabel.textAlignment = UITextAlignmentCenter;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.accessoryType = UITableViewCellAccessoryNone;           
@@ -225,7 +225,7 @@ typedef enum {
 - (void) didSelectDetailsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
 
 	if( indexPath.row == 0 ) {
-		[OBAWebViewController pushOntoViewController:self withHtml:[self getDetails:TRUE] withTitle:@"Details"];
+		[OBAWebViewController pushOntoViewController:self withHtml:[self getDetails:TRUE] withTitle:NSLocalizedString(@"Details",@"withTitle")];
 	}
 	else if( indexPath.row == 1 && _diversionPath ) {
 		OBADiversionViewController * vc = [OBADiversionViewController loadFromNibWithAppContext:_appContext];
@@ -242,7 +242,7 @@ typedef enum {
 	[modelDao setVisited:isRead forSituationWithId:_situation.situationId];
 	
 	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-	cell.textLabel.text = isRead ? @"Mark as Unread" : @"Mark as Read";
+	cell.textLabel.text = isRead ? NSLocalizedString(@"Mark as Unread",@"isRead") : NSLocalizedString(@"Mark as Read",@"!isRead");
 	[tableView deselectRowAtIndexPath:indexPath animated:TRUE];
 }
 

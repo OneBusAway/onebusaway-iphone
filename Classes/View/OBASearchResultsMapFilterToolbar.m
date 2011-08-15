@@ -91,7 +91,7 @@
     const CGFloat filterFontSize = [UIFont labelFontSize];
     
     // Find size for the title text
-    NSString* filterLabelText     = @"Search: ";
+    NSString* filterLabelText     = NSLocalizedString(@"Search: ",@"setupLabels text");
     UIFont*   filterLabelFont     = [UIFont boldSystemFontOfSize:filterFontSize];
     CGSize    filterLabelTextSize = [filterLabelText sizeWithFont:filterLabelFont];
     

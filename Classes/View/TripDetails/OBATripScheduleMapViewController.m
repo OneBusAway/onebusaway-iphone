@@ -64,7 +64,7 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 	[_timeFormatter setDateStyle:NSDateFormatterNoStyle];
 	[_timeFormatter setTimeStyle:NSDateFormatterShortStyle];
 	
-	UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithTitle:@"Schedule" style:UIBarButtonItemStyleBordered target:nil action:nil];
+	UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Schedule",@"initWithTitle") style:UIBarButtonItemStyleBordered target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backItem;
 	[backItem release];	
 }
@@ -99,25 +99,25 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 			_routePolyline = [[OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString] retain];
 			[self.mapView addOverlay:_routePolyline];
 		}
-		[_progressView setMessage:@"Trip Schedule" inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Trip Schedule",@"message") inProgress:FALSE progress:0];
 	}
 }
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
 	if( code == 404 )
-		[_progressView setMessage:@"Trip not found" inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Trip not found",@"message") inProgress:FALSE progress:0];
 	else
-		[_progressView setMessage:@"Unknown error" inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Unknown error",@"message") inProgress:FALSE progress:0];
 }
 
 - (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
 	OBALogWarningWithError(error, @"Error");
-	[_progressView setMessage:@"Error connecting" inProgress:FALSE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Error connecting",@"message") inProgress:FALSE progress:0];
 }
 
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
 	if (progress > 1.0) {
-		[_progressView setMessage:@"Downloading..." inProgress:TRUE progress:progress];
+		[_progressView setMessage:NSLocalizedString(@"Downloading...",@"message") inProgress:TRUE progress:progress];
 	}
     else {
 		[_progressView setInProgress:TRUE progress:progress];
@@ -232,7 +232,7 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 
 - (void) handleTripDetails {
 	
-	[_progressView setMessage:@"Trip Schedule" inProgress:FALSE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Trip Schedule",@"message") inProgress:FALSE progress:0];
 
 	OBATripScheduleV2 * sched = _tripDetails.schedule;
 	NSArray * stopTimes = sched.stopTimes;
@@ -279,8 +279,8 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 	
 	OBATripInstanceRef * tripRef = _tripDetails.tripInstance;
 	
-	NSString * format = isNextTrip ? @"Coninutes as %@" : @"Starts as %@";
-	NSString * tripTitle = [NSString stringWithFormat:format, trip.asLabel];
+	NSString * format = isNextTrip ? NSLocalizedString(@"Continues as",@"text") : NSLocalizedString(@"Starts as",@"text");
+	NSString * tripTitle = [NSString stringWithFormat:@"%@ %@",format, trip.asLabel];
 	NSInteger index = isNextTrip ? ([stopTimes count]-1) : 0;
 	OBATripStopTimeV2 * stopTime = [stopTimes objectAtIndex:index];
 	OBAStopV2 * stop = stopTime.stop;

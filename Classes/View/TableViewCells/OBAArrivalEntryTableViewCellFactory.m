@@ -55,7 +55,7 @@
 	if( arrival.predicted && arrival.predictedDepartureTime == 0 ) {
 		if( arrival.distanceFromStop < 500 ) {
 			cell.minutesLabel.text = [NSString stringWithFormat:@"%d",(NSInteger) arrival.distanceFromStop];	
-			cell.minutesSubLabel.text = @"meters";
+			cell.minutesSubLabel.text = NSLocalizedString(@"meters",@"cell.minutesSubLabel.text");
 		}
 		else {
 			cell.minutesLabel.text = [NSString stringWithFormat:@"%0.1f",(arrival.distanceFromStop/1000.0)];	
@@ -84,7 +84,7 @@
 
 - (NSString*) getMinutesLabelForMinutes:(int)minutes {
 	if(abs(minutes) <=1)
-		return @"NOW";
+		return NSLocalizedString(@"NOW",@"abs(minutes) <=1");
 	else
 		return [NSString stringWithFormat:@"%d",minutes];
 }
@@ -119,10 +119,10 @@
 		NSDate * endTime = [NSDate dateWithTimeIntervalSince1970:(freq.endTime / 1000)];
 		
 		if ([now compare:startTime]  == NSOrderedAscending) {
-			return [NSString stringWithFormat:@"Every %d mins from %@",headway,[_timeFormatter stringFromDate:startTime]];
+			return [NSString stringWithFormat:@"%@ %d %@ %@",NSLocalizedString(@"Every",@"[now compare:startTime]"),headway,NSLocalizedString(@"mins from",@"[now compare:startTime]  == NSOrderedAscending"),[_timeFormatter stringFromDate:startTime]];
 		}
 		else {
-			return [NSString stringWithFormat:@"Every %d mins until %@",headway,[_timeFormatter stringFromDate:endTime]];
+			return [NSString stringWithFormat:@"%@ %d %@ %@",NSLocalizedString(@"Every",@"[now compare:startTime]"),headway,NSLocalizedString(@"mins until",@"[now compare:startTime] # NSOrderedAscending"),[_timeFormatter stringFromDate:endTime]];
 		}
 	}
 	
@@ -133,28 +133,28 @@
 		int minDiff = (int) abs(diff);
 		if( diff < -1.5) {
 			if( minutes < 0 )
-				status = [NSString stringWithFormat:@"departed %d min early",minDiff];
+				status = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"departed",@"minutes < 0"),minDiff,NSLocalizedString(@"min early",@"diff < -1.5")];
 			else
-				status = [NSString stringWithFormat:@"%d min early",minDiff];
+				status = [NSString stringWithFormat:@"%d %@",minDiff,NSLocalizedString(@"min early",@"diff < -1.5")];
 		}
 		else if( diff < 1.5 ) {
 			if( minutes < 0 )
-				status = @"departed on time";
+				status = NSLocalizedString(@"departed on time",@"minutes < 0");
 			else
-				status = @"on time";
+				status = NSLocalizedString(@"on time",@"minutes >= 0");
 		}
 		else {
 			if( minutes < 0 )
-				status = [NSString stringWithFormat:@"departed %d min late",minDiff];
+				status = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"departed",@"minutes < 0"),minDiff,NSLocalizedString(@"min late",@"diff")];
 			else
-				status = [NSString stringWithFormat:@"%d min delay",minDiff];
+				status = [NSString stringWithFormat:@"%d %@",minDiff,NSLocalizedString(@"min delay",@"diff")];
 		}
 	}
 	else {
 		if( minutes < 0 )
-			status = @"scheduled departure";
+			status = NSLocalizedString(@"scheduled departure",@"minutes < 0");
 		else
-			status = @"scheduled arrival";
+			status = NSLocalizedString(@"scheduled arrival",@"minutes >= 0");
 	}
 	
 	return [NSString stringWithFormat:@"%@ - %@",[_timeFormatter stringFromDate:time],status];	

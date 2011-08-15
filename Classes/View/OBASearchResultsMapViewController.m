@@ -172,7 +172,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 	
-	self.navigationItem.title = @"Map";
+	self.navigationItem.title = NSLocalizedString(@"Map",@"self.navigationItem.title");
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteNetworkRequest) name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
 	
@@ -245,7 +245,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 - (void) handleSearchControllerUpdate:(OBASearchResult*)result {
-	self.navigationItem.title = @"Map";
+	self.navigationItem.title = NSLocalizedString(@"Map",@"self.navigationItem.title");
 	[self reloadData];
 }
 
@@ -271,14 +271,14 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 			return;
 		
 		_hideFutureNetworkErrors = TRUE;
-		self.navigationItem.title = @"Error connecting";
+		self.navigationItem.title = NSLocalizedString(@"Error connecting",@"self.navigationItem.title");
 		
 		UIAlertView * view = [[[UIAlertView alloc] init] autorelease];
-		view.title = @"Error connecting";
-		view.message = @"There was a problem with your Internet connection.\n\nPlease check your network connection or contact us if you think the problem is on our end.";
+		view.title = NSLocalizedString(@"Error connecting",@"self.navigationItem.title");
+		view.message = NSLocalizedString(@"There was a problem with your Internet connection.\n\nPlease check your network connection or contact us if you think the problem is on our end.",@"view.message");
 		view.delegate = _networkErrorAlertViewDelegate;
-		[view addButtonWithTitle:@"Contact Us"];
-		[view addButtonWithTitle:@"Dismiss"];
+		[view addButtonWithTitle:NSLocalizedString(@"Contact Us",@"view addButtonWithTitle")];
+		[view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
 		view.cancelButtonIndex = 1;
 		[view show];
 	}
@@ -661,9 +661,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 		[_appContext.modelDao setHideFutureLocationWarnings:TRUE];
 		
 		UIAlertView * view = [[UIAlertView alloc] init];
-		view.title = @"Location Services Disabled";
-		view.message = @"Location Services are disabled for this app.  Some location-aware functionality will be missing.";
-		[view addButtonWithTitle:@"Dismiss"];
+		view.title = NSLocalizedString(@"Location Services Disabled",@"view.title");
+		view.message = NSLocalizedString(@"Location Services are disabled for this app.  Some location-aware functionality will be missing.",@"view.message");
+		[view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
 		view.cancelButtonIndex = 0;
 		[view show];
 		[view release];
@@ -743,17 +743,17 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 	switch(type) {
 		case OBASearchTypeRoute:
-			return [NSString stringWithFormat:@"Route %@", param];	
+			return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Route",@"route"), param];	
 		case OBASearchTypeRouteStops: {
 			OBARouteV2 * route = [_appContext.references getRouteForId:param];
 			if( route )
-				return [NSString stringWithFormat:@"Route %@", [route safeShortName]];
-			return @"Route";
+				return [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Route",@"route") , [route safeShortName]];
+			return NSLocalizedString(@"Route",@"route");
 		}
 		case OBASearchTypeStopId:
-			return [NSString stringWithFormat:@"Stop # %@", param];	
+			return [NSString stringWithFormat:@"%@ # %@",NSLocalizedString(@"Stop",@"OBASearchTypeStopId") , param];	
 		case OBASearchTypeAgenciesWithCoverage:
-			return @"Transit Agencies";
+			return NSLocalizedString(@"Transit Agencies",@"OBASearchTypeAgenciesWithCoverage");
 		case OBASearchTypeAddress:
 			return param;
 		case OBASearchTypeNone:			
@@ -775,7 +775,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	
 	NSString * defaultLabel = nil;
 	if( span.latitudeDelta > kMaxLatDeltaToShowStops )
-		defaultLabel = @"Zoom in to look for stops.";
+		defaultLabel = NSLocalizedString(@"Zoom in to look for stops.",@"span.latitudeDelta > kMaxLatDeltaToShowStops");
 	
 	if( !result )
 		return defaultLabel;
@@ -791,12 +791,12 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 		case OBASearchTypePlacemark:
 		case OBASearchTypeRegion: {
 			if( result.outOfRange )
-				return @"Out of OneBusAway service area.";
+				return NSLocalizedString(@"Out of OneBusAway service area.",@"result.outOfRange");
 			if( result.limitExceeded )
-				return @"Too many stops.  Zoom in for more detail.";
+				return NSLocalizedString(@"Too many stops.  Zoom in for more detail.",@"result.limitExceeded");
 			NSArray * values = result.values;
 			if( [values count] == 0 )
-				return @"No stops at your current location.";
+				return NSLocalizedString(@"No stops at your current location.",@"[values count] == 0");
             return defaultLabel;
 		}
             
@@ -1051,14 +1051,14 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 - (BOOL) checkOutOfRangeResults {
 	OBASearchResult * result = _searchController.result;
 	if( result.outOfRange )
-		[self showNoResultsAlertWithTitle: @"Out of range" prompt:@"You are outside the OneBusAway service area."];
+		[self showNoResultsAlertWithTitle: NSLocalizedString(@"Out of range",@"showNoResultsAlertWithTitle") prompt:NSLocalizedString(@"You are outside the OneBusAway service area.",@"prompt")];
 	return result.outOfRange;
 }
 
 - (void) checkNoRouteResults {
 	OBASearchResult * result = _searchController.result;
 	if( [result.values count] == 0 ) {
-		[self showNoResultsAlertWithTitle: @"No routes found" prompt:@"No routes were found for your search."];
+		[self showNoResultsAlertWithTitle: NSLocalizedString(@"No routes found",@"showNoResultsAlertWithTitle") prompt:NSLocalizedString(@"No routes were found for your search.",@"prompt")];
 	}
 }
 
@@ -1066,7 +1066,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	OBASearchResult * result = _searchController.result;
 	if( [result.values count] == 0 ) {
 		_listButton.enabled = FALSE;
-		[self showNoResultsAlertWithTitle: @"No places found" prompt:@"No places were found for your search."];
+		[self showNoResultsAlertWithTitle: NSLocalizedString(@"No places found",@"showNoResultsAlertWithTitle") prompt:NSLocalizedString(@"No places were found for your search.",@"prompt")];
 	}
 }
 
@@ -1079,10 +1079,10 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	
 	UIAlertView * view = [[UIAlertView alloc] init];
 	view.title = title;
-	view.message = [NSString stringWithFormat:@"%@ See the list of supported transit agencies.",prompt];
+	view.message = [NSString stringWithFormat:@"%@ %@",prompt,NSLocalizedString(@"See the list of supported transit agencies.",@"view.message")];
 	view.delegate = self;
-	[view addButtonWithTitle:@"Agencies"];
-	[view addButtonWithTitle:@"Dismiss"];
+	[view addButtonWithTitle:NSLocalizedString(@"Agencies",@"OBASearchTypeAgenciesWithCoverage")];
+	[view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
 	view.cancelButtonIndex = 1;
 	[view show];
 }

@@ -104,7 +104,7 @@ static const double kNearbyStopRadius = 200;
 		_filteredArrivals = [[NSMutableArray alloc] init];
 		_showFilteredArrivals = YES;
 		
-		self.navigationItem.title = @"Stop";
+		self.navigationItem.title = NSLocalizedString(@"Stop",@"stop");
 		
 		[self customSetup];
 	}
@@ -241,7 +241,7 @@ static const double kNearbyStopRadius = 200;
 #pragma mark OBAModelServiceDelegate
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
-	NSString * message = [NSString stringWithFormat:@"Updated: %@", [OBACommon getTimeAsString]];
+	NSString * message = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Updated",@"message"), [OBACommon getTimeAsString]];
 	[_progressView setMessage:message inProgress:FALSE progress:0];
 	[self didRefreshEnd];
 	_result = [NSObject releaseOld:_result retainNew:obj];
@@ -254,15 +254,15 @@ static const double kNearbyStopRadius = 200;
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
 	if( code == 404 )
-		[_progressView setMessage:@"Stop not found" inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Stop not found",@"code == 404") inProgress:FALSE progress:0];
 	else
-		[_progressView setMessage:@"Unknown error" inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Unknown error",@"code # 404") inProgress:FALSE progress:0];
 	[self didRefreshEnd];
 }
 
 - (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
 	OBALogWarningWithError(error, @"Error... yay!");
-	[_progressView setMessage:@"Error connecting" inProgress:FALSE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Error connecting",@"requestDidFail") inProgress:FALSE progress:0];
 	[self didRefreshEnd];
 }
 
@@ -419,7 +419,7 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (void) refresh {
-	[_progressView setMessage:@"Updating..." inProgress:TRUE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Updating...",@"refresh") inProgress:TRUE progress:0];
 	[self didRefreshBegin];
 	
 	OBAModelService * service = _appContext.modelService;
@@ -522,7 +522,7 @@ static const double kNearbyStopRadius = 200;
 	
 	if( [arrivals count] == 0 ) {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-		cell.textLabel.text = @"No arrivals in the next 30 minutes";
+		cell.textLabel.text = NSLocalizedString(@"No arrivals in the next 30 minutes",@"[arrivals count] == 0");
 		cell.textLabel.textAlignment = UITextAlignmentCenter;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
@@ -541,9 +541,9 @@ static const double kNearbyStopRadius = 200;
 
 - (void)determineFilterTypeCellText:(UITableViewCell*)filterTypeCell filteringEnabled:(bool)filteringEnabled {
 	if( filteringEnabled )
-		filterTypeCell.textLabel.text = @"Show all arrivals";
+		filterTypeCell.textLabel.text = NSLocalizedString(@"Show all arrivals",@"filteringEnabled");
 	else
-		filterTypeCell.textLabel.text = @"Show filtered arrivals";	
+		filterTypeCell.textLabel.text = NSLocalizedString(@"Show filtered arrivals",@"!filteringEnabled");	
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView filterCellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -572,19 +572,19 @@ static const double kNearbyStopRadius = 200;
 	
 	switch(indexPath.row) {
 		case 0:
-			cell.textLabel.text = @"Add to Bookmarks";
+			cell.textLabel.text = NSLocalizedString(@"Add to Bookmarks",@"case 0");
 			break;
 		case 1:
-			cell.textLabel.text = @"Filter & Sort Routes";
+			cell.textLabel.text = NSLocalizedString(@"Filter & Sort Routes",@"case 1");
 			break;
 		case 2:
-			cell.textLabel.text = @"Service Alerts";
+			cell.textLabel.text = NSLocalizedString(@"Service Alerts",@"case 2");
 			break;
 		case 3:
-			cell.textLabel.text = @"See Nearby Stops";
+			cell.textLabel.text = NSLocalizedString(@"See Nearby Stops",@"case 3");
 			break;
 		case 4:
-			cell.textLabel.text = @"Report a Problem";
+			cell.textLabel.text = NSLocalizedString(@"Report a Problem",@"self.navigationItem.title");
 			break;			
 	}
 	
