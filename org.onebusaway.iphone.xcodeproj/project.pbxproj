@@ -11,6 +11,11 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
+		A005943E13FC43A9001B397B /* OBASearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005943C13FC43A9001B397B /* OBASearchTableViewCell.xib */; };
+		A005945713FC49A0001B397B /* OBATripScheduleMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005945513FC49A0001B397B /* OBATripScheduleMapViewController.xib */; };
+		A005945C13FC4A02001B397B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005945A13FC4A02001B397B /* MainWindow.xib */; };
+		A005946113FC4AE1001B397B /* OBATextEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005945F13FC4AE1001B397B /* OBATextEditViewController.xib */; };
+		A005946613FC4B58001B397B /* OBAArrivalsAndDeparturesHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005946413FC4B58001B397B /* OBAArrivalsAndDeparturesHeaderView.xib */; };
 		D48EC071120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D48EC06F120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.h */; };
 		D48EC072120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = D48EC070120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.m */; };
 		D4B7158C11F82D3700D0A9CB /* UIDeviceExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B7158B11F82D3700D0A9CB /* UIDeviceExtensions.m */; };
@@ -108,7 +113,6 @@
 		D62992C01293E2F00084A818 /* OBADiversionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D62992BF1293E2F00084A818 /* OBADiversionViewController.xib */; };
 		D62993BB12943EC10084A818 /* OBAArrivalAndDepartureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D62993BA12943EC10084A818 /* OBAArrivalAndDepartureViewController.m */; };
 		D62AC46510A4F6D300CE9212 /* OBAModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D62AC46410A4F6D300CE9212 /* OBAModel.xcdatamodeld */; };
-		D62F2F4C0F7A7EC600629092 /* OBASearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D62F2F4B0F7A7EC600629092 /* OBASearchTableViewCell.xib */; };
 		D62F319D0F7ACFE900629092 /* OBAStopTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D62F319C0F7ACFE900629092 /* OBAStopTableViewCell.xib */; };
 		D63227E712A826480070B799 /* OBAStopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D63227DF12A826480070B799 /* OBAStopTableViewCell.m */; };
 		D63227E812A826480070B799 /* OBASearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D63227E112A826480070B799 /* OBASearchTableViewCell.m */; };
@@ -252,7 +256,6 @@
 		D645110C13BABA62003FF668 /* OBALabelAndSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D645107113BABA62003FF668 /* OBALabelAndSwitchTableViewCell.xib */; };
 		D645110D13BABA62003FF668 /* OBALabelAndTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D645107213BABA62003FF668 /* OBALabelAndTextFieldTableViewCell.xib */; };
 		D645110E13BABA62003FF668 /* OBAProgressIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D645107313BABA62003FF668 /* OBAProgressIndicatorView.xib */; };
-		D645110F13BABA62003FF668 /* OBATextEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D645107413BABA62003FF668 /* OBATextEditViewController.xib */; };
 		D645111013BABA62003FF668 /* OBATextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D645107513BABA62003FF668 /* OBATextFieldTableViewCell.xib */; };
 		D645111113BABA62003FF668 /* OBAWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D645107613BABA62003FF668 /* OBAWebViewController.xib */; };
 		D648A3CD0FECBAD9002D9D49 /* OBAGenericAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D648A3CC0FECBAD9002D9D49 /* OBAGenericAnnotation.m */; };
@@ -336,7 +339,6 @@
 		D671D938121BC10600F398E5 /* OBASearch.m in Sources */ = {isa = PBXBuildFile; fileRef = D671D937121BC10600F398E5 /* OBASearch.m */; };
 		D671D93D121BC26F00F398E5 /* OBASearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D671D93C121BC26F00F398E5 /* OBASearchResult.m */; };
 		D671D950121BC34800F398E5 /* OBASearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = D671D94F121BC34800F398E5 /* OBASearchController.m */; };
-		D67816CD12223E2B00FDED95 /* OBATripScheduleMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D67816CC12223E2B00FDED95 /* OBATripScheduleMapViewController.xib */; };
 		D67816DC1222442D00FDED95 /* OBATripScheduleMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D67816DB1222442D00FDED95 /* OBATripScheduleMapViewController.m */; };
 		D678178C1222527F00FDED95 /* OBATripStopTimeMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D678178B1222527F00FDED95 /* OBATripStopTimeMapAnnotation.m */; };
 		D6789E660FE0BC4700696FE6 /* OBAAgencyWithCoverage.m in Sources */ = {isa = PBXBuildFile; fileRef = D6789E650FE0BC4700696FE6 /* OBAAgencyWithCoverage.m */; };
@@ -344,7 +346,6 @@
 		D67ACB88121F37FB00D436C4 /* OBAReportProblemWithTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D67ACB87121F37FB00D436C4 /* OBAReportProblemWithTripViewController.m */; };
 		D67ACCD9122045B500D436C4 /* OBALabelAndTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D67ACCD8122045B500D436C4 /* OBALabelAndTextFieldTableViewCell.m */; };
 		D67C49C40F72A41D001782D5 /* OBAArrivalEntryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D67C49BF0F72A41D001782D5 /* OBAArrivalEntryTableViewCell.xib */; };
-		D67C49C50F72A41D001782D5 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D67C49C00F72A41D001782D5 /* MainWindow.xib */; };
 		D6833758122641DA00D545EE /* OBAStopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6833752122641DA00D545EE /* OBAStopViewController.m */; };
 		D6833759122641DA00D545EE /* OBAEditStopPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6833754122641DA00D545EE /* OBAEditStopPreferencesViewController.m */; };
 		D683375A122641DA00D545EE /* OBAEditStopBookmarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6833756122641DA00D545EE /* OBAEditStopBookmarkViewController.m */; };
@@ -399,7 +400,6 @@
 		D6DB3E1A13BAF6A1004C2832 /* OBACommonV1.m in Sources */ = {isa = PBXBuildFile; fileRef = D6DB3E1913BAF6A0004C2832 /* OBACommonV1.m */; };
 		D6E884EA121C3F1400C53386 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D6E884E9121C3F1400C53386 /* Settings.bundle */; };
 		D6E9383F1221261E0065ED03 /* OBATripScheduleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E9383E1221261E0065ED03 /* OBATripScheduleListViewController.m */; };
-		D6F74FA112451D0B008D881E /* OBAArrivalsAndDeparturesHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6F74FA012451D0B008D881E /* OBAArrivalsAndDeparturesHeaderView.xib */; };
 		D6FE15021023D68500143C1B /* OBAEntityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FE15011023D68500143C1B /* OBAEntityManager.m */; };
 /* End PBXBuildFile section */
 
@@ -424,6 +424,16 @@
 		28A0AB4B0D9B1048005BE974 /* org_onebusaway_iphone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = org_onebusaway_iphone_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A005943D13FC43A9001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
+		A005943F13FC43DB001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
+		A005945613FC49A0001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBATripScheduleMapViewController.xib; sourceTree = "<group>"; };
+		A005945813FC49A6001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OBATripScheduleMapViewController.xib; sourceTree = "<group>"; };
+		A005945B13FC4A02001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		A005945D13FC4A08001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		A005946013FC4AE1001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBATextEditViewController.xib; sourceTree = "<group>"; };
+		A005946213FC4AE8001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OBATextEditViewController.xib; sourceTree = "<group>"; };
+		A005946513FC4B58001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBAArrivalsAndDeparturesHeaderView.xib; sourceTree = "<group>"; };
+		A005946713FC4B5E001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OBAArrivalsAndDeparturesHeaderView.xib; sourceTree = "<group>"; };
 		D48EC06F120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASearchResultsMapFilterToolbar.h; path = View/OBASearchResultsMapFilterToolbar.h; sourceTree = "<group>"; };
 		D48EC070120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASearchResultsMapFilterToolbar.m; path = View/OBASearchResultsMapFilterToolbar.m; sourceTree = "<group>"; };
 		D4B7158A11F82D3700D0A9CB /* UIDeviceExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDeviceExtensions.h; sourceTree = "<group>"; };
@@ -576,7 +586,6 @@
 		D62993B912943EC10084A818 /* OBAArrivalAndDepartureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAArrivalAndDepartureViewController.h; path = View/TripDetails/OBAArrivalAndDepartureViewController.h; sourceTree = "<group>"; };
 		D62993BA12943EC10084A818 /* OBAArrivalAndDepartureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAArrivalAndDepartureViewController.m; path = View/TripDetails/OBAArrivalAndDepartureViewController.m; sourceTree = "<group>"; };
 		D62AC46610A4F6D300CE9212 /* OBAModel-2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OBAModel-2.xcdatamodel"; sourceTree = "<group>"; };
-		D62F2F4B0F7A7EC600629092 /* OBASearchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OBASearchTableViewCell.xib; path = Resources/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
 		D62F319C0F7ACFE900629092 /* OBAStopTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OBAStopTableViewCell.xib; path = Resources/OBAStopTableViewCell.xib; sourceTree = "<group>"; };
 		D63227DF12A826480070B799 /* OBAStopTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAStopTableViewCell.m; path = View/TableViewCells/OBAStopTableViewCell.m; sourceTree = "<group>"; };
 		D63227E012A826480070B799 /* OBAStopTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAStopTableViewCell.h; path = View/TableViewCells/OBAStopTableViewCell.h; sourceTree = "<group>"; };
@@ -729,7 +738,6 @@
 		D645107113BABA62003FF668 /* OBALabelAndSwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBALabelAndSwitchTableViewCell.xib; sourceTree = "<group>"; };
 		D645107213BABA62003FF668 /* OBALabelAndTextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBALabelAndTextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		D645107313BABA62003FF668 /* OBAProgressIndicatorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAProgressIndicatorView.xib; sourceTree = "<group>"; };
-		D645107413BABA62003FF668 /* OBATextEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBATextEditViewController.xib; sourceTree = "<group>"; };
 		D645107513BABA62003FF668 /* OBATextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBATextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		D645107613BABA62003FF668 /* OBAWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAWebViewController.xib; sourceTree = "<group>"; };
 		D648A3CB0FECBAD9002D9D49 /* OBAGenericAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAGenericAnnotation.h; path = Model/OBAGenericAnnotation.h; sourceTree = "<group>"; };
@@ -891,7 +899,6 @@
 		D671D93C121BC26F00F398E5 /* OBASearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASearchResult.m; path = Control/Search/OBASearchResult.m; sourceTree = "<group>"; };
 		D671D94E121BC34800F398E5 /* OBASearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASearchController.h; path = Control/Search/OBASearchController.h; sourceTree = "<group>"; };
 		D671D94F121BC34800F398E5 /* OBASearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASearchController.m; path = Control/Search/OBASearchController.m; sourceTree = "<group>"; };
-		D67816CC12223E2B00FDED95 /* OBATripScheduleMapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OBATripScheduleMapViewController.xib; path = Resources/Views/OBATripScheduleMapViewController.xib; sourceTree = "<group>"; };
 		D67816DA1222442D00FDED95 /* OBATripScheduleMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBATripScheduleMapViewController.h; path = View/TripDetails/OBATripScheduleMapViewController.h; sourceTree = "<group>"; };
 		D67816DB1222442D00FDED95 /* OBATripScheduleMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBATripScheduleMapViewController.m; path = View/TripDetails/OBATripScheduleMapViewController.m; sourceTree = "<group>"; };
 		D678178A1222527F00FDED95 /* OBATripStopTimeMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBATripStopTimeMapAnnotation.h; path = View/TripDetails/OBATripStopTimeMapAnnotation.h; sourceTree = "<group>"; };
@@ -905,7 +912,6 @@
 		D67ACCD7122045B500D436C4 /* OBALabelAndTextFieldTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBALabelAndTextFieldTableViewCell.h; path = View/TableViewCells/OBALabelAndTextFieldTableViewCell.h; sourceTree = "<group>"; };
 		D67ACCD8122045B500D436C4 /* OBALabelAndTextFieldTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBALabelAndTextFieldTableViewCell.m; path = View/TableViewCells/OBALabelAndTextFieldTableViewCell.m; sourceTree = "<group>"; };
 		D67C49BF0F72A41D001782D5 /* OBAArrivalEntryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OBAArrivalEntryTableViewCell.xib; path = Resources/OBAArrivalEntryTableViewCell.xib; sourceTree = "<group>"; };
-		D67C49C00F72A41D001782D5 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = Resources/MainWindow.xib; sourceTree = "<group>"; };
 		D6833752122641DA00D545EE /* OBAStopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAStopViewController.m; path = View/StopDetails/OBAStopViewController.m; sourceTree = "<group>"; };
 		D6833753122641DA00D545EE /* OBAStopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAStopViewController.h; path = View/StopDetails/OBAStopViewController.h; sourceTree = "<group>"; };
 		D6833754122641DA00D545EE /* OBAEditStopPreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAEditStopPreferencesViewController.m; path = View/StopDetails/OBAEditStopPreferencesViewController.m; sourceTree = "<group>"; };
@@ -1004,7 +1010,6 @@
 		D6E884E9121C3F1400C53386 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		D6E9383D1221261E0065ED03 /* OBATripScheduleListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBATripScheduleListViewController.h; path = View/TripDetails/OBATripScheduleListViewController.h; sourceTree = "<group>"; };
 		D6E9383E1221261E0065ED03 /* OBATripScheduleListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBATripScheduleListViewController.m; path = View/TripDetails/OBATripScheduleListViewController.m; sourceTree = "<group>"; };
-		D6F74FA012451D0B008D881E /* OBAArrivalsAndDeparturesHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OBAArrivalsAndDeparturesHeaderView.xib; path = Resources/Views/OBAArrivalsAndDeparturesHeaderView.xib; sourceTree = "<group>"; };
 		D6FE15001023D68500143C1B /* OBAEntityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAEntityManager.h; path = Control/OBAEntityManager.h; sourceTree = "<group>"; };
 		D6FE15011023D68500143C1B /* OBAEntityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAEntityManager.m; path = Control/OBAEntityManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1331,9 +1336,9 @@
 		D619F88E0FDF1372002893B5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				D67C49C00F72A41D001782D5 /* MainWindow.xib */,
-				D6F74FA012451D0B008D881E /* OBAArrivalsAndDeparturesHeaderView.xib */,
-				D67816CC12223E2B00FDED95 /* OBATripScheduleMapViewController.xib */,
+				A005946413FC4B58001B397B /* OBAArrivalsAndDeparturesHeaderView.xib */,
+				A005945A13FC4A02001B397B /* MainWindow.xib */,
+				A005945513FC49A0001B397B /* OBATripScheduleMapViewController.xib */,
 				D62992BF1293E2F00084A818 /* OBADiversionViewController.xib */,
 			);
 			name = Views;
@@ -1342,7 +1347,7 @@
 		D619F8930FDF13E0002893B5 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
-				D62F2F4B0F7A7EC600629092 /* OBASearchTableViewCell.xib */,
+				A005943C13FC43A9001B397B /* OBASearchTableViewCell.xib */,
 				D62F319C0F7ACFE900629092 /* OBAStopTableViewCell.xib */,
 				D619028F0F7977F700F8778E /* OBANearbyStopsPageTableViewCell.xib */,
 				D67C49BF0F72A41D001782D5 /* OBAArrivalEntryTableViewCell.xib */,
@@ -1408,12 +1413,12 @@
 		D6450FD913BABA62003FF668 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A005945F13FC4AE1001B397B /* OBATextEditViewController.xib */,
 				D6450FDA13BABA62003FF668 /* Icons */,
 				D645102413BABA62003FF668 /* MapIcons */,
 				D645107113BABA62003FF668 /* OBALabelAndSwitchTableViewCell.xib */,
 				D645107213BABA62003FF668 /* OBALabelAndTextFieldTableViewCell.xib */,
 				D645107313BABA62003FF668 /* OBAProgressIndicatorView.xib */,
-				D645107413BABA62003FF668 /* OBATextEditViewController.xib */,
 				D645107513BABA62003FF668 /* OBATextFieldTableViewCell.xib */,
 				D645107613BABA62003FF668 /* OBAWebViewController.xib */,
 			);
@@ -2068,9 +2073,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D67C49C40F72A41D001782D5 /* OBAArrivalEntryTableViewCell.xib in Resources */,
-				D67C49C50F72A41D001782D5 /* MainWindow.xib in Resources */,
 				D61902900F7977F700F8778E /* OBANearbyStopsPageTableViewCell.xib in Resources */,
-				D62F2F4C0F7A7EC600629092 /* OBASearchTableViewCell.xib in Resources */,
 				D62F319D0F7ACFE900629092 /* OBAStopTableViewCell.xib in Resources */,
 				D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */,
 				D6CFB1421032229F00005000 /* Default.png in Resources */,
@@ -2113,8 +2116,6 @@
 				D64953CA1214A3890040572D /* Icon-72.png in Resources */,
 				D64953CC1214A3950040572D /* Icon@2x.png in Resources */,
 				D6E884EA121C3F1400C53386 /* Settings.bundle in Resources */,
-				D67816CD12223E2B00FDED95 /* OBATripScheduleMapViewController.xib in Resources */,
-				D6F74FA112451D0B008D881E /* OBAArrivalsAndDeparturesHeaderView.xib in Resources */,
 				D62992C01293E2F00084A818 /* OBADiversionViewController.xib in Resources */,
 				D6B00510132A09F0006A9AC9 /* IASKAppSettingsView.xib in Resources */,
 				D6B00511132A09F0006A9AC9 /* IASKAppSettingsWebView.xib in Resources */,
@@ -2255,11 +2256,15 @@
 				D645110C13BABA62003FF668 /* OBALabelAndSwitchTableViewCell.xib in Resources */,
 				D645110D13BABA62003FF668 /* OBALabelAndTextFieldTableViewCell.xib in Resources */,
 				D645110E13BABA62003FF668 /* OBAProgressIndicatorView.xib in Resources */,
-				D645110F13BABA62003FF668 /* OBATextEditViewController.xib in Resources */,
 				D645111013BABA62003FF668 /* OBATextFieldTableViewCell.xib in Resources */,
 				D645111113BABA62003FF668 /* OBAWebViewController.xib in Resources */,
 				D69C598913F9BD6900BA90A2 /* Localizable.strings in Resources */,
 				D69C598B13F9BD9100BA90A2 /* Settings.bundle in Resources */,
+				A005943E13FC43A9001B397B /* OBASearchTableViewCell.xib in Resources */,
+				A005945713FC49A0001B397B /* OBATripScheduleMapViewController.xib in Resources */,
+				A005945C13FC4A02001B397B /* MainWindow.xib in Resources */,
+				A005946113FC4AE1001B397B /* OBATextEditViewController.xib in Resources */,
+				A005946613FC4B58001B397B /* OBAArrivalsAndDeparturesHeaderView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2466,6 +2471,51 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		A005943C13FC43A9001B397B /* OBASearchTableViewCell.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A005943D13FC43A9001B397B /* en */,
+				A005943F13FC43DB001B397B /* fr */,
+			);
+			name = OBASearchTableViewCell.xib;
+			sourceTree = "<group>";
+		};
+		A005945513FC49A0001B397B /* OBATripScheduleMapViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A005945613FC49A0001B397B /* en */,
+				A005945813FC49A6001B397B /* fr */,
+			);
+			name = OBATripScheduleMapViewController.xib;
+			sourceTree = "<group>";
+		};
+		A005945A13FC4A02001B397B /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A005945B13FC4A02001B397B /* en */,
+				A005945D13FC4A08001B397B /* fr */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+		A005945F13FC4AE1001B397B /* OBATextEditViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A005946013FC4AE1001B397B /* en */,
+				A005946213FC4AE8001B397B /* fr */,
+			);
+			name = OBATextEditViewController.xib;
+			sourceTree = "<group>";
+		};
+		A005946413FC4B58001B397B /* OBAArrivalsAndDeparturesHeaderView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A005946513FC4B58001B397B /* en */,
+				A005946713FC4B5E001B397B /* fr */,
+			);
+			name = OBAArrivalsAndDeparturesHeaderView.xib;
+			sourceTree = "<group>";
+		};
 		D69C598713F9BD6900BA90A2 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2545,7 +2595,7 @@
 				);
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8E27BCFB-6058-4DC6-A471-BFC73C3AA08C";
-				SDKROOT = iphoneos2.2.1;
+				SDKROOT = iphoneos3.1.2;
 			};
 			name = Debug;
 		};
@@ -2559,7 +2609,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos2.2.1;
+				SDKROOT = iphoneos3.1.2;
 			};
 			name = Release;
 		};
@@ -2575,7 +2625,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9BC19122-AEC3-4BD0-A770-ABD0BE99D6C1";
-				SDKROOT = iphoneos2.2.1;
+				SDKROOT = iphoneos3.1.2;
 			};
 			name = AdHocDistribution;
 		};
@@ -2612,7 +2662,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos2.2.1;
+				SDKROOT = iphoneos3.1.2;
 			};
 			name = AppStoreDistribution;
 		};

@@ -189,6 +189,9 @@
 /* [arrivals count] == 0 */
 "No arrivals in the next 30 minutes" = "Aucune arrivée dans les 30 prochaines minutes";
 
+/* [_bookmarks count] == 0 */
+"No bookmarks set" = "Aucun favori";
+
 /* showNoResultsAlertWithTitle */
 "No places found" = "Aucun lieu trouvé";
 

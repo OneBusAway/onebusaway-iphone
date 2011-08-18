@@ -186,6 +186,9 @@
 /* cell.textLabel.text */
 "No agencies found" = "No agencies found";
 
+/* [_bookmarks count] == 0 */
+"No bookmarks set" = "No bookmarks set";
+
 /* [arrivals count] == 0 */
 "No arrivals in the next 30 minutes" = "No arrivals in the next 30 minutes";
 
