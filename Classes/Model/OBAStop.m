@@ -77,7 +77,7 @@
 }
 
 - (NSString*) subtitle {
-	return [NSString stringWithFormat:@"Routes: %@",[self routeNamesAsString]];
+	return [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Routes",@"subtitle"),[self routeNamesAsString]];
 }
 
 - (CLLocationCoordinate2D) coordinate {

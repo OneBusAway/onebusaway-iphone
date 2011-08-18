@@ -15,6 +15,7 @@
 		A005945713FC49A0001B397B /* OBATripScheduleMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005945513FC49A0001B397B /* OBATripScheduleMapViewController.xib */; };
 		A005945C13FC4A02001B397B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005945A13FC4A02001B397B /* MainWindow.xib */; };
 		A005946613FC4B58001B397B /* OBAArrivalsAndDeparturesHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005946413FC4B58001B397B /* OBAArrivalsAndDeparturesHeaderView.xib */; };
+		A00E679813FD956C0022820E /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A00E679713FD956C0022820E /* Settings.bundle */; };
 		A07B947913FD50C50030E0F7 /* OBATextEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A07B947813FD50C50030E0F7 /* OBATextEditViewController.xib */; };
 		D48EC071120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D48EC06F120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.h */; };
 		D48EC072120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = D48EC070120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.m */; };
@@ -359,7 +360,6 @@
 		D696DAA811A3CD8D00C0E6CB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D696DAA711A3CD8D00C0E6CB /* MessageUI.framework */; };
 		D696ECF01207992E00514C2B /* OBAUserPreferencesMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = D696ECEF1207992E00514C2B /* OBAUserPreferencesMigration.m */; };
 		D69C598913F9BD6900BA90A2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D69C598713F9BD6900BA90A2 /* Localizable.strings */; };
-		D69C598B13F9BD9100BA90A2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D6E884E9121C3F1400C53386 /* Settings.bundle */; };
 		D6A8C2A50FDF311F001B46E1 /* OBANavigationTargetAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D6A8C2A40FDF311F001B46E1 /* OBANavigationTargetAnnotation.m */; };
 		D6A8C3030FE0004B001B46E1 /* OBAStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D6A8C3020FE0004B001B46E1 /* OBAStopAnnotation.m */; };
 		D6A982D90F7DA6870028173A /* OBASearchResultsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6A982D80F7DA6870028173A /* OBASearchResultsListViewController.m */; };
@@ -398,7 +398,6 @@
 		D6CFB1421032229F00005000 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D6CFB1411032229F00005000 /* Default.png */; };
 		D6DB3E1713BAEF98004C2832 /* OBABookmarkV2.m in Sources */ = {isa = PBXBuildFile; fileRef = D6DB3E1513BAEF98004C2832 /* OBABookmarkV2.m */; };
 		D6DB3E1A13BAF6A1004C2832 /* OBACommonV1.m in Sources */ = {isa = PBXBuildFile; fileRef = D6DB3E1913BAF6A0004C2832 /* OBACommonV1.m */; };
-		D6E884EA121C3F1400C53386 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D6E884E9121C3F1400C53386 /* Settings.bundle */; };
 		D6E9383F1221261E0065ED03 /* OBATripScheduleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E9383E1221261E0065ED03 /* OBATripScheduleListViewController.m */; };
 		D6FE15021023D68500143C1B /* OBAEntityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FE15011023D68500143C1B /* OBAEntityManager.m */; };
 /* End PBXBuildFile section */
@@ -432,6 +431,7 @@
 		A005945D13FC4A08001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		A005946513FC4B58001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBAArrivalsAndDeparturesHeaderView.xib; sourceTree = "<group>"; };
 		A005946713FC4B5E001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OBAArrivalsAndDeparturesHeaderView.xib; sourceTree = "<group>"; };
+		A00E679713FD956C0022820E /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		A07B947813FD50C50030E0F7 /* OBATextEditViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OBATextEditViewController.xib; sourceTree = "<group>"; };
 		D48EC06F120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASearchResultsMapFilterToolbar.h; path = View/OBASearchResultsMapFilterToolbar.h; sourceTree = "<group>"; };
 		D48EC070120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASearchResultsMapFilterToolbar.m; path = View/OBASearchResultsMapFilterToolbar.m; sourceTree = "<group>"; };
@@ -1006,7 +1006,6 @@
 		D6DB3E1613BAEF98004C2832 /* OBABookmarkV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBABookmarkV2.h; path = Model/OBABookmarkV2.h; sourceTree = "<group>"; };
 		D6DB3E1813BAF6A0004C2832 /* OBACommonV1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACommonV1.h; sourceTree = "<group>"; };
 		D6DB3E1913BAF6A0004C2832 /* OBACommonV1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACommonV1.m; sourceTree = "<group>"; };
-		D6E884E9121C3F1400C53386 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		D6E9383D1221261E0065ED03 /* OBATripScheduleListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBATripScheduleListViewController.h; path = View/TripDetails/OBATripScheduleListViewController.h; sourceTree = "<group>"; };
 		D6E9383E1221261E0065ED03 /* OBATripScheduleListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBATripScheduleListViewController.m; path = View/TripDetails/OBATripScheduleListViewController.m; sourceTree = "<group>"; };
 		D6FE15001023D68500143C1B /* OBAEntityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAEntityManager.h; path = Control/OBAEntityManager.h; sourceTree = "<group>"; };
@@ -1092,6 +1091,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A00E679713FD956C0022820E /* Settings.bundle */,
 				D64953CD1214A3A00040572D /* Application Icon */,
 				D619F88E0FDF1372002893B5 /* Views */,
 				D619F8930FDF13E0002893B5 /* TableViewCells */,
@@ -1099,7 +1099,6 @@
 				D651BB2711C9D5DE001BE733 /* iTunesArtwork */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				D69C598713F9BD6900BA90A2 /* Localizable.strings */,
-				D6E884E9121C3F1400C53386 /* Settings.bundle */,
 				D62AC46410A4F6D300CE9212 /* OBAModel.xcdatamodeld */,
 			);
 			name = Resources;
@@ -2114,7 +2113,6 @@
 				D64953C41214A1E90040572D /* Icon.png in Resources */,
 				D64953CA1214A3890040572D /* Icon-72.png in Resources */,
 				D64953CC1214A3950040572D /* Icon@2x.png in Resources */,
-				D6E884EA121C3F1400C53386 /* Settings.bundle in Resources */,
 				D62992C01293E2F00084A818 /* OBADiversionViewController.xib in Resources */,
 				D6B00510132A09F0006A9AC9 /* IASKAppSettingsView.xib in Resources */,
 				D6B00511132A09F0006A9AC9 /* IASKAppSettingsWebView.xib in Resources */,
@@ -2258,12 +2256,12 @@
 				D645111013BABA62003FF668 /* OBATextFieldTableViewCell.xib in Resources */,
 				D645111113BABA62003FF668 /* OBAWebViewController.xib in Resources */,
 				D69C598913F9BD6900BA90A2 /* Localizable.strings in Resources */,
-				D69C598B13F9BD9100BA90A2 /* Settings.bundle in Resources */,
 				A005943E13FC43A9001B397B /* OBASearchTableViewCell.xib in Resources */,
 				A005945713FC49A0001B397B /* OBATripScheduleMapViewController.xib in Resources */,
 				A005945C13FC4A02001B397B /* MainWindow.xib in Resources */,
 				A005946613FC4B58001B397B /* OBAArrivalsAndDeparturesHeaderView.xib in Resources */,
 				A07B947913FD50C50030E0F7 /* OBATextEditViewController.xib in Resources */,
+				A00E679813FD956C0022820E /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
