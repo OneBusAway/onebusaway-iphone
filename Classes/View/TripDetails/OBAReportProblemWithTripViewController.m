@@ -4,7 +4,7 @@
 #import "OBALabelAndSwitchTableViewCell.h"
 #import "OBALabelAndTextFieldTableViewCell.h"
 #import "OBALogger.h"
-#import "SBJSON.h"
+#import "SBJSON/SBJson.h"
 
 
 typedef enum {
@@ -387,9 +387,9 @@ typedef enum {
 	[p setObject:[_problemIds objectAtIndex:_problemIndex] forKey:@"code"];
 	[p setObject:[_problemNames objectAtIndex:_problemIndex] forKey:@"text"];
 	
-	SBJSON * json = [[SBJSON alloc] init];
-	NSString * v = [json stringWithObject:p];
-	[json release];
+    SBJsonWriter * writer = [[SBJsonWriter alloc] init];
+	NSString * v = [writer stringWithObject:p];
+	[writer release];
 	[p release];
 	return v;	
 }
