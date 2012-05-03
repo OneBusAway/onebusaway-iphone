@@ -6,7 +6,6 @@
     git submodule init
     git submodule update
 
-1. Open the `onebusaway-iphone-workspace.xcworkspace` workspace file.
-1. Under `File > Workspace Settings...`, make sure that for "Build Locations", "Place build products in derived data location" is selected.
+1. Open the `org.onebusaway.iphone.xcodeproj` project file.
 
 You should now be able to build.

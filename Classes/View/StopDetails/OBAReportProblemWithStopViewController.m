@@ -2,7 +2,7 @@
 #import "OBAListSelectionViewController.h"
 #import "OBATextEditViewController.h"
 #import "OBALogger.h"
-#import "SBJSON/SBJson.h"
+#import "SBJson.h"
 
 
 typedef enum {
