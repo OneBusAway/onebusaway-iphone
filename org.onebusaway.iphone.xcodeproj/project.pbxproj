@@ -234,6 +234,7 @@
 		93A2917D160157F70035BC70 /* OBATextEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93A2909E160157F60035BC70 /* OBATextEditViewController.xib */; };
 		93A2917E160157F70035BC70 /* OBATextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93A2909F160157F60035BC70 /* OBATextFieldTableViewCell.xib */; };
 		93A2917F160157F70035BC70 /* OBAWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93A290A0160157F60035BC70 /* OBAWebViewController.xib */; };
+		93A29181160158C00035BC70 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A29180160158C00035BC70 /* Default-568h@2x.png */; };
 		A005943E13FC43A9001B397B /* OBASearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005943C13FC43A9001B397B /* OBASearchTableViewCell.xib */; };
 		A005945713FC49A0001B397B /* OBATripScheduleMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005945513FC49A0001B397B /* OBATripScheduleMapViewController.xib */; };
 		A005945C13FC4A02001B397B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005945A13FC4A02001B397B /* MainWindow.xib */; };
@@ -669,6 +670,7 @@
 		93A2909E160157F60035BC70 /* OBATextEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBATextEditViewController.xib; sourceTree = "<group>"; };
 		93A2909F160157F60035BC70 /* OBATextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBATextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		93A290A0160157F60035BC70 /* OBAWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAWebViewController.xib; sourceTree = "<group>"; };
+		93A29180160158C00035BC70 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A005943D13FC43A9001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
 		A005943F13FC43DB001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
 		A005945613FC49A0001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBATripScheduleMapViewController.xib; sourceTree = "<group>"; };
@@ -940,6 +942,7 @@
 		29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */ = {
 			isa = PBXGroup;
 			children = (
+				93A29180160158C00035BC70 /* Default-568h@2x.png */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				D61A66790FCDB155004D2E91 /* Libraries */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -1989,6 +1992,7 @@
 				93A2917D160157F70035BC70 /* OBATextEditViewController.xib in Resources */,
 				93A2917E160157F70035BC70 /* OBATextFieldTableViewCell.xib in Resources */,
 				93A2917F160157F70035BC70 /* OBAWebViewController.xib in Resources */,
+				93A29181160158C00035BC70 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
