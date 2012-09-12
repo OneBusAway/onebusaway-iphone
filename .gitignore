@@ -1,4 +1,5 @@
 build
+*.xcuserdatad
 ._build
 DebugSymbolBackups
 Logs
