@@ -4,6 +4,3 @@
 [submodule "Libraries/InAppSettingsKit"]
 	path = Libraries/InAppSettingsKit
 	url = https://github.com/futuretap/InAppSettingsKit.git
-[submodule "Libraries/onebusaway-iphone-common"]
-	path = Libraries/onebusaway-iphone-common
-	url = https://github.com/OneBusAway/onebusaway-iphone-common
