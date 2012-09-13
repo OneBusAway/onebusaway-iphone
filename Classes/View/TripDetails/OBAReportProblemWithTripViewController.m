@@ -145,7 +145,7 @@ typedef enum {
 			cell.textLabel.textAlignment = UITextAlignmentLeft;
 			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-			cell.textLabel.text = [_problemNames objectAtIndex:_problemIndex];
+			cell.textLabel.text = _problemNames[_problemIndex];
 			return cell;			
 		}
 		case OBASectionTypeComment: {
@@ -249,14 +249,14 @@ typedef enum {
 	_problemIndex = indexPath.row;
 	NSUInteger section = [self sectionIndexForType:OBASectionTypeProblem];
 	NSIndexPath * p = [NSIndexPath indexPathForRow:0 inSection:section];
-	[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:p] withRowAnimation:UITableViewRowAnimationFade];
+	[self.tableView reloadRowsAtIndexPaths:@[p] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (void) setComment:(NSString*)comment {
 	_comment = [NSObject releaseOld:_comment retainNew:comment];
 	NSUInteger section = [self sectionIndexForType:OBASectionTypeComment];
 	NSIndexPath * p = [NSIndexPath indexPathForRow:0 inSection:section];
-	[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:p] withRowAnimation:UITableViewRowAnimationFade];
+	[self.tableView reloadRowsAtIndexPaths:@[p] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (void) setOnVehicle:(id) obj {
@@ -382,8 +382,8 @@ typedef enum {
 - (NSString*) getProblemAsData {
 
 	NSMutableDictionary * p = [[NSMutableDictionary alloc] init];
-	[p setObject:[_problemIds objectAtIndex:_problemIndex] forKey:@"code"];
-	[p setObject:[_problemNames objectAtIndex:_problemIndex] forKey:@"text"];
+	p[@"code"] = _problemIds[_problemIndex];
+	p[@"text"] = _problemNames[_problemIndex];
 
     NSData *data = [NSJSONSerialization dataWithJSONObject:p options:0 error:nil];
     NSString *v = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];

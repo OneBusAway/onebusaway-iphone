@@ -190,8 +190,8 @@ static const NSUInteger kTagAgenciesView = 6;
 	_tabBarController.delegate = self;
 	
 	// Register a settings callback
-	UINavigationController * navController = [_tabBarController.viewControllers objectAtIndex:5];
-	IASKAppSettingsViewController * vc = [navController.viewControllers objectAtIndex:0];
+	UINavigationController * navController = (_tabBarController.viewControllers)[5];
+	IASKAppSettingsViewController * vc = (navController.viewControllers)[0];
 	vc.delegate = self;
 	
 	UIView * rootView = [_tabBarController view];
@@ -274,7 +274,7 @@ static const NSUInteger kTagAgenciesView = 6;
 	NSMutableArray *tabOrderArray = [[NSMutableArray alloc] initWithCapacity:count];
 	for (UIViewController *viewController in viewControllers) {		
 		NSInteger tag = viewController.tabBarItem.tag;
-		[tabOrderArray addObject:[NSNumber numberWithInteger:tag]];
+		[tabOrderArray addObject:@(tag)];
 	}
 	
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
@@ -354,7 +354,7 @@ static const NSUInteger kTagAgenciesView = 6;
         NSMutableArray *newViewControllers = [NSMutableArray arrayWithCapacity:initialViewControllers.count];
         for (NSNumber *tabBarNumber in tabBarOrder) {
             NSUInteger tabBarIndex = [tabBarNumber unsignedIntegerValue];
-            [newViewControllers addObject:[initialViewControllers objectAtIndex:tabBarIndex]];
+            [newViewControllers addObject:initialViewControllers[tabBarIndex]];
         }
         self.tabBarController.viewControllers = newViewControllers;
     }	
@@ -362,7 +362,7 @@ static const NSUInteger kTagAgenciesView = 6;
 	/**
 	 * For now, we don't allow the customization of tab order
 	 */
-	_tabBarController.customizableViewControllers = [NSArray array];
+	_tabBarController.customizableViewControllers = @[];
 }
 
 - (BOOL) shouldRestoreStateToDefault:(NSUserDefaults*)userDefaults {
@@ -400,7 +400,7 @@ static const NSUInteger kTagAgenciesView = 6;
 	if(!targets || [targets count] == 0)
 		return FALSE;
 	
-	OBANavigationTarget * rootTarget = [targets objectAtIndex:0];
+	OBANavigationTarget * rootTarget = targets[0];
 	NSInteger selectedTag = -1;
 	
 	switch(rootTarget.target) {
@@ -445,7 +445,7 @@ static const NSUInteger kTagAgenciesView = 6;
 	[self setNavigationTarget:rootTarget forViewController:rootViewController];
 	
 	for( NSUInteger index = 1; index < [targets count]; index++) {
-		OBANavigationTarget * nextTarget = [targets objectAtIndex:index];
+		OBANavigationTarget * nextTarget = targets[index];
 		UIViewController * nextViewController = [self getViewControllerForTarget:nextTarget];
 		if( ! nextViewController )
 			break;		
@@ -470,9 +470,9 @@ static const NSUInteger kTagAgenciesView = 6;
 			NSInteger index = [self getViewControllerIndexForTag:kTagMapView];
 			if( index == -1 )
 				return;
-			UINavigationController * mapNavController = [_tabBarController.viewControllers objectAtIndex:index];
+			UINavigationController * mapNavController = (_tabBarController.viewControllers)[index];
 
-			OBASearchResultsMapViewController * searchResultsMapViewController = [mapNavController.viewControllers objectAtIndex:0];
+			OBASearchResultsMapViewController * searchResultsMapViewController = (mapNavController.viewControllers)[0];
 			[searchResultsMapViewController setNavigationTarget:navigationTarget];
 			
 			_tabBarController.selectedIndex = index;
@@ -485,7 +485,7 @@ static const NSUInteger kTagAgenciesView = 6;
 			NSInteger index = [self getViewControllerIndexForTag:kTagContactUsView];
 			if( index == -1 )
 				return;
-			UINavigationController * detailsNavController = [_tabBarController.viewControllers objectAtIndex:index];
+			UINavigationController * detailsNavController = (_tabBarController.viewControllers)[index];
 			[detailsNavController popToRootViewControllerAnimated:FALSE];
 			OBAContactUsViewController * vc = [[OBAContactUsViewController alloc] initWithApplicationContext:self];
 			[detailsNavController pushViewController:vc animated:FALSE];
@@ -529,7 +529,7 @@ static const NSUInteger kTagAgenciesView = 6;
 	NSUInteger count = [controllers count];
 	
 	for( NSUInteger i=0; i<count; i++ ) {
-		UINavigationController * nc = [controllers objectAtIndex:i];
+		UINavigationController * nc = controllers[i];
 		if( nc.tabBarItem.tag == tag )
 			return i;
 	}
@@ -573,7 +573,7 @@ static const NSUInteger kTagAgenciesView = 6;
 - (NSString *)applicationDocumentsDirectory {
 	
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+	NSString *basePath = ([paths count] > 0) ? paths[0] : nil;
 	return basePath;
 }
 

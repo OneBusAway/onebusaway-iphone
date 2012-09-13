@@ -119,7 +119,7 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopIds:(NSArray*)stopIds {
-	return [self initWithApplicationContext:appContext stopId:[stopIds objectAtIndex:0]];
+	return [self initWithApplicationContext:appContext stopId:stopIds[0]];
 }
 
 - (void) dealloc {
@@ -184,7 +184,7 @@ static const double kNearbyStopRadius = 200;
 #pragma mark OBANavigationTargetAware
 
 - (OBANavigationTarget*) navigationTarget {
-	NSDictionary * params = [NSDictionary dictionaryWithObject:_stopId forKey:@"stopId"];
+	NSDictionary * params = @{@"stopId": _stopId};
 	return [OBANavigationTarget target:OBANavigationTargetTypeStop parameters:params];
 }
 
@@ -530,7 +530,7 @@ static const double kNearbyStopRadius = 200;
 	}
 	else {
 
-		OBAArrivalAndDepartureV2 * pa = [arrivals objectAtIndex:indexPath.row];
+		OBAArrivalAndDepartureV2 * pa = arrivals[indexPath.row];
 		OBAArrivalEntryTableViewCell * cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
 		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -599,7 +599,7 @@ static const double kNearbyStopRadius = 200;
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
 	if ( 0 <= indexPath.row && indexPath.row < [arrivals count] ) {
-		OBAArrivalAndDepartureV2 * arrivalAndDeparture = [arrivals objectAtIndex:indexPath.row];
+		OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
 		OBAArrivalAndDepartureViewController * vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationContext:_appContext arrivalAndDeparture:arrivalAndDeparture];
 		[self.navigationController pushViewController:vc animated:TRUE];
 		[vc release];

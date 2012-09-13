@@ -173,7 +173,7 @@ typedef enum {
 
 - (UITableViewCell*) agenciesCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView {
 
-	OBAAgencyWithCoverageV2 * awc = [_agencies objectAtIndex:indexPath.row];
+	OBAAgencyWithCoverageV2 * awc = _agencies[indexPath.row];
 	OBAAgencyV2 * agency = awc.agency;
 	
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
@@ -201,7 +201,7 @@ typedef enum {
 }
 
 - (void) didSelectAgencyRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-	OBAAgencyWithCoverageV2 * awc = [_agencies objectAtIndex:indexPath.row];
+	OBAAgencyWithCoverageV2 * awc = _agencies[indexPath.row];
 	OBAAgencyV2 * agency = awc.agency;
 	[[UIApplication sharedApplication] openURL: [NSURL URLWithString: agency.url]];
 }

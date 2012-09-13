@@ -330,13 +330,13 @@ typedef enum {
 	
 	if( hidingPreviousStops )
 		index += _currentStopIndex - 1;
-	OBATripStopTimeV2 * stopTime = [stopTimes objectAtIndex:index];
+	OBATripStopTimeV2 * stopTime = stopTimes[index];
 	OBAStopV2 * stop = stopTime.stop;
 	cell.textLabel.text = stop.name;
 	cell.textLabel.textColor = [UIColor blackColor];
 	
 	if( schedule.frequency ) {
-		OBATripStopTimeV2 * firstStopTime = [stopTimes objectAtIndex:0];
+		OBATripStopTimeV2 * firstStopTime = stopTimes[0];
 		int minutes = (stopTime.arrivalTime - firstStopTime.departureTime) / 60;
 		cell.detailTextLabel.text = [NSString stringWithFormat:@"%d %@",minutes,NSLocalizedString(@"mins",@"minutes")];									  
 	}
@@ -396,7 +396,7 @@ typedef enum {
 	
 	if( hidingPreviousStops )
 		index += _currentStopIndex - 1;
-	OBATripStopTimeV2 * stopTime = [stopTimes objectAtIndex:index];
+	OBATripStopTimeV2 * stopTime = stopTimes[index];
 	
 	OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stopTime.stopId];
 	[self.navigationController pushViewController:vc animated:TRUE];

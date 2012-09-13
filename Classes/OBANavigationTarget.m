@@ -23,7 +23,7 @@
 @synthesize parameters = _parameters;
 
 - (id) initWithTarget:(OBANavigationTargetType)target {
-	return [self initWithTarget:target parameters:[NSDictionary dictionary]];
+	return [self initWithTarget:target parameters:@{}];
 }
 
 - (id) initWithTarget:(OBANavigationTargetType)target parameters:(NSDictionary*)parameters {
@@ -61,11 +61,11 @@
 }
 
 - (id) parameterForKey:(id)key {
-	return [_parameters objectForKey:key];
+	return _parameters[key];
 }
 
 - (void) setParameter:(id)value forKey:(id)key {
-	[_parameters setObject:value forKey:key];
+	_parameters[key] = value;
 }
 
 #pragma mark NSCoder Methods

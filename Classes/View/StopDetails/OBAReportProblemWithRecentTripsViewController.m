@@ -32,7 +32,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
-	OBAArrivalAndDepartureV2 * arrivalAndDeparture = [arrivals objectAtIndex:indexPath.row];
+	OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
 	if( arrivalAndDeparture ) {
 		OBATripInstanceRef * tripInstance = arrivalAndDeparture.tripInstance;
 		[_appContext.modelService requestTripDetailsForTripInstance:tripInstance withDelegate:_tripDetailsHandler withContext:self];

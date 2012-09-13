@@ -151,7 +151,7 @@
 		return cell;
 	}
 	
-	OBARouteV2 * route = [_routes objectAtIndex:indexPath.row];
+	OBARouteV2 * route = _routes[indexPath.row];
 	
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 	cell.textLabel.text = [route safeShortName];
@@ -184,7 +184,7 @@
 		if( [_routes count] == 0)
 			return;
 		
-		OBARouteV2 * route = [_routes objectAtIndex:indexPath.row];
+		OBARouteV2 * route = _routes[indexPath.row];
 		BOOL currentlyChecked = [_preferences isRouteIdEnabled:route.routeId];
 		currentlyChecked = ! currentlyChecked;
 		[_preferences setEnabled:currentlyChecked forRouteId:route.routeId];

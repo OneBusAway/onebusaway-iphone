@@ -138,7 +138,7 @@
 		case OBASearchTypeRoute: {
 			OBAListWithRangeAndReferencesV2 * list = obj;
 			if( [list count] == 1 ) {
-				OBARouteV2 * route = [list.values objectAtIndex:0];
+				OBARouteV2 * route = (list.values)[0];
 				OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchRouteStops:route.routeId];
 				[self performSelector:@selector(searchWithTarget:) withObject:target afterDelay:0];
 				//[self searchWithTarget: target];
@@ -161,7 +161,7 @@
 		case OBASearchTypeAddress: {
 			NSArray * placemarks = obj;
 			if( [placemarks count] == 1 ) {
-				OBAPlacemark * placemark = [placemarks objectAtIndex:0];
+				OBAPlacemark * placemark = placemarks[0];
 				OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
 				[self performSelector:@selector(searchWithTarget:) withObject:target afterDelay:0];
 			}
@@ -176,7 +176,7 @@
 		case OBASearchTypePlacemark: {
 			OBASearchResult * result = [OBASearchResult resultFromList:obj];
 			OBAPlacemark * placemark = [_target parameterForKey:kOBASearchControllerSearchArgumentParameter];
-			result.additionalValues = [NSArray arrayWithObject:placemark];
+			result.additionalValues = @[placemark];
 			[self fireUpdate:result];
 			break;
 		}

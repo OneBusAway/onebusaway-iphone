@@ -34,7 +34,7 @@
 	OBATripScheduleV2 * schedule = _tripDetails.schedule;
 	
 	if( schedule.frequency ) {
-		OBATripStopTimeV2 * firstStopTime = [schedule.stopTimes objectAtIndex:0];
+		OBATripStopTimeV2 * firstStopTime = (schedule.stopTimes)[0];
 		int minutes = (_stopTime.arrivalTime - firstStopTime.departureTime) / 60;
 		return [NSString stringWithFormat:@"%d %@",minutes,NSLocalizedString(@"mins",@"minutes")];									  
 	}

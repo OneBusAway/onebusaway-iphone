@@ -75,7 +75,7 @@
 		return cell;
 	}
 	else {
-		OBABookmarkV2 * bookmark = [_bookmarks objectAtIndex:(indexPath.row)];
+		OBABookmarkV2 * bookmark = _bookmarks[(indexPath.row)];
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = bookmark.name;
 		cell.textLabel.textAlignment = UITextAlignmentLeft;		
@@ -91,7 +91,7 @@
 	if( [_bookmarks count] == 0 )
 		return;
 	
-	OBABookmarkV2 * bookmark = [_bookmarks objectAtIndex:(indexPath.row)];
+	OBABookmarkV2 * bookmark = _bookmarks[(indexPath.row)];
 	
 	if( self.tableView.editing ) {
 		OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:_appContext bookmark:bookmark editType:OBABookmarkEditExisting];
@@ -111,7 +111,7 @@
 forRowAtIndexPath:(NSIndexPath *)indexPath  {
 	
 	OBAModelDAO * modelDao = _appContext.modelDao;
-	OBABookmarkV2 * bookmark = [_bookmarks objectAtIndex:(indexPath.row)];
+	OBABookmarkV2 * bookmark = _bookmarks[(indexPath.row)];
 	NSError * error = nil;
 	[modelDao removeBookmark:bookmark error:&error];
 	if( error ) 
@@ -119,7 +119,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath  {
 	[self refreshBookmarks];
 	
 	if( [_bookmarks count] > 0 ) {
-		[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] 
+		[self.tableView deleteRowsAtIndexPaths:@[indexPath] 
 						 withRowAnimation:UITableViewRowAnimationFade];
 	}
 	else {

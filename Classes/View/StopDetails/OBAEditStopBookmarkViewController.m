@@ -72,7 +72,7 @@
 	OBAModelService * service = _appContext.modelService;
 	NSArray * stopIds = _bookmark.stopIds;
 	for( NSUInteger i=0; i<[stopIds count]; i++) {
-		NSString * stopId = [stopIds objectAtIndex:i];
+		NSString * stopId = stopIds[i];
 		NSNumber * index = [NSNumber numberWithInt:i];
 		id<OBAModelServiceRequest> request = [service requestStopForId:stopId withDelegate:self withContext:index];
 		[_requests addObject:request];
@@ -90,9 +90,9 @@
 	NSUInteger index = [num intValue];
 	
 	if( stop ) {
-		[_stops setObject:stop forKey:stop.stopId];
+		_stops[stop.stopId] = stop;
 		NSIndexPath * path = [NSIndexPath indexPathForRow:index+1 inSection:0];
-		NSArray * indexPaths = [NSArray arrayWithObject:path];
+		NSArray * indexPaths = @[path];
 		[self.tableView  reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
 	}
 	
@@ -125,8 +125,8 @@
 	else {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		
-		NSString * stopId = [_bookmark.stopIds objectAtIndex:indexPath.row-1];
-		OBAStopV2 * stop = [_stops objectForKey:stopId];
+		NSString * stopId = (_bookmark.stopIds)[indexPath.row-1];
+		OBAStopV2 * stop = _stops[stopId];
 		if( stop )
 			cell.textLabel.text = [NSString stringWithFormat:@"%@ # %@ - %@",NSLocalizedString(@"Stop",@"stop"),stop.code,stop.name];
 		else

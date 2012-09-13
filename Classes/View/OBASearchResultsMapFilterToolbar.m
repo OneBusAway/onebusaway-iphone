@@ -59,7 +59,7 @@
         UIBarButtonItem * flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
         
         // set up the UIToolbar
-        NSArray * items = [NSArray arrayWithObjects:flexItem, clearItem, nil];
+        NSArray * items = @[flexItem, clearItem];
         
         self.barStyle = UIBarStyleBlackTranslucent;
         [self setItems:items animated:NO];

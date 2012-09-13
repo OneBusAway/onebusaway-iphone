@@ -79,10 +79,10 @@ NSString * kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSe
 
 	// Update our target parameters
 	NSDictionary * parameters = target.parameters;	
-	NSNumber * searchTypeAsNumber = [parameters objectForKey:kOBASearchTypeParameter];
+	NSNumber * searchTypeAsNumber = parameters[kOBASearchTypeParameter];
 	
 	if( ! searchTypeAsNumber )
-		searchTypeAsNumber = [NSNumber numberWithInt:OBASearchTypeNone];
+		searchTypeAsNumber = @(OBASearchTypeNone);
 	
 	switch ([searchTypeAsNumber intValue]) {
 		case OBASearchTypeRegion:
@@ -106,7 +106,7 @@ NSString * kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSe
 
 + (id) getSearchTypeParameterForNagivationTarget:(OBANavigationTarget*)target {
 	NSDictionary * params = target.parameters;
-	return [params objectForKey:kOBASearchControllerSearchArgumentParameter];
+	return params[kOBASearchControllerSearchArgumentParameter];
 }
 
 @end
@@ -121,10 +121,10 @@ NSString * kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSe
 
 + (OBANavigationTarget*) getNavigationTargetForSearchType:(OBASearchType)searchType argument:(id)argument {
 	NSMutableDictionary * params = [NSMutableDictionary dictionary];
-	[params setObject:[NSNumber numberWithInt:searchType] forKey:kOBASearchTypeParameter];
+	params[kOBASearchTypeParameter] = [NSNumber numberWithInt:searchType];
 
 	if( argument )
-		[params setObject:argument forKey:kOBASearchControllerSearchArgumentParameter];
+		params[kOBASearchControllerSearchArgumentParameter] = argument;
     
 	return [[[OBANavigationTarget alloc] initWithTarget:OBANavigationTargetTypeSearchResults parameters:params] autorelease];
 }

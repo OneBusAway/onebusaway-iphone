@@ -93,7 +93,7 @@
 		case OBASearchTypeStopId:			
 		case OBASearchTypeRouteStops: {
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
-			OBAStopV2 * stop = [_result.values objectAtIndex:indexPath.row];
+			OBAStopV2 * stop = (_result.values)[indexPath.row];
 			cell.textLabel.text = stop.name;
 			cell.textLabel.adjustsFontSizeToFitWidth = TRUE;
 			cell.detailTextLabel.text = [self getStopDetail:stop];
@@ -101,7 +101,7 @@
 		}
 		case OBASearchTypeRoute: {		
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
-			OBARouteV2 * route = [_result.values objectAtIndex:indexPath.row];
+			OBARouteV2 * route = (_result.values)[indexPath.row];
 			OBAAgencyV2 * agency = route.agency;
 			cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@",route.shortName,route.longName];
 			cell.textLabel.adjustsFontSizeToFitWidth = TRUE;
@@ -110,14 +110,14 @@
 		}
 		case OBASearchTypeAddress: {
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-			OBAPlacemark * placemark = [_result.values objectAtIndex:indexPath.row];
+			OBAPlacemark * placemark = (_result.values)[indexPath.row];
 			cell.textLabel.text = [placemark title];
 			cell.textLabel.adjustsFontSizeToFitWidth = TRUE;
 			return cell;
 		}
 		case OBASearchTypeAgenciesWithCoverage: {
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-			OBAAgencyWithCoverageV2 * awc = [_result.values objectAtIndex:indexPath.row];
+			OBAAgencyWithCoverageV2 * awc = (_result.values)[indexPath.row];
 			OBAAgencyV2 * agency = awc.agency;
 			cell.textLabel.text = agency.name;
 			cell.textLabel.adjustsFontSizeToFitWidth = TRUE;
@@ -146,20 +146,20 @@
 		case OBASearchTypeStopId:			
 		case OBASearchTypeRouteStops: {
 			
-			OBAStopV2 * stop = [_result.values objectAtIndex:indexPath.row];
+			OBAStopV2 * stop = (_result.values)[indexPath.row];
 			OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stop.stopId];
 			[self.navigationController pushViewController:vc animated:TRUE];
 			[vc release];
 			break;
 		}
 		case OBASearchTypeRoute: {		
-			OBARouteV2 * route = [_result.values objectAtIndex:indexPath.row];
+			OBARouteV2 * route = (_result.values)[indexPath.row];
 			OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchRouteStops:route.routeId];
 			[_appContext navigateToTarget:target];
 			break;
 		}
 		case OBASearchTypeAddress: {
-			OBAPlacemark * placemark = [_result.values objectAtIndex:indexPath.row];
+			OBAPlacemark * placemark = (_result.values)[indexPath.row];
 			OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
 			[_appContext navigateToTarget:target];
 			break;

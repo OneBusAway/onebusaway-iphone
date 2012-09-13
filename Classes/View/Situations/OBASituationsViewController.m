@@ -66,7 +66,7 @@
 		return cell;			
 	}
 	
-	OBASituationV2 * situation = [_situations objectAtIndex:indexPath.row];
+	OBASituationV2 * situation = _situations[indexPath.row];
 	
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 	cell.textLabel.text = situation.summary;
@@ -79,7 +79,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	if( [_situations count] > 0) {
-		OBASituationV2 * situation = [_situations objectAtIndex:indexPath.row];
+		OBASituationV2 * situation = _situations[indexPath.row];
 		OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationContext:_appContext situation:situation];
 		vc.args = self.args;
 		[self.navigationController pushViewController:vc animated:TRUE];

@@ -52,9 +52,8 @@
 	
 	NSURL *storeUrl = [NSURL fileURLWithPath:path];
 	
-	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-							 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-							 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
+	NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @YES,
+							 NSInferMappingModelAutomaticallyOption: @YES};
 	
 	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
 		OBALogSevereWithError(error,@"Error adding persistent store");
@@ -79,7 +78,7 @@
 		OBAStop * stop = bookmark.stop;
 		OBABookmarkV2 * v2 = [[OBABookmarkV2 alloc] init];
 		v2.name = bookmark.name;
-		v2.stopIds = [NSArray arrayWithObject:stop.stopId];
+		v2.stopIds = @[stop.stopId];
 		[dao addNewBookmark:v2 error:nil];
 	}
 	[bookmarks release];
@@ -101,12 +100,12 @@
 	[recentStops sortUsingSelector:@selector(compare:)];
 	
 	for( int i = [recentStops count]-1; i >= 0; i-- ) {
-		OBAStopAccessEvent * event = [recentStops objectAtIndex:i];
+		OBAStopAccessEvent * event = recentStops[i];
 		OBAStop * stop = event.stop;
 		OBAStopAccessEventV2 * v2 = [[OBAStopAccessEventV2 alloc] init];
 		v2.title = stop.title;
 		v2.subtitle = stop.subtitle;
-		v2.stopIds = [NSArray arrayWithObject:stop.stopId];
+		v2.stopIds = @[stop.stopId];
 		[dao addStopAccessEvent:v2];
 		[v2 release];
 	}
@@ -147,7 +146,7 @@
 		return nil;
 	}
 
-	return [fetchedObjects objectAtIndex:0];
+	return fetchedObjects[0];
 }
 
 - (NSArray*) fetchObjectsFromContext:(NSManagedObjectContext*)context ofType:(NSString*)typeName predicate:(NSPredicate*)predicate {

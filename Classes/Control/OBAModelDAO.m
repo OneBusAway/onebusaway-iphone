@@ -114,7 +114,7 @@ const static int kMaxEntriesInMostRecentList = 10;
 	if( stop.direction )
 		bookmarkName = [NSString stringWithFormat:@"%@ [%@]",stop.name,stop.direction];
 	bookmark.name = bookmarkName;
-	bookmark.stopIds = [NSArray arrayWithObject:stop.stopId];
+	bookmark.stopIds = @[stop.stopId];
 	return bookmark;
 }
 
@@ -128,7 +128,7 @@ const static int kMaxEntriesInMostRecentList = 10;
 }
 
 - (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex error:(NSError**)error {
-	OBABookmarkV2 * bm = [_bookmarks objectAtIndex:startIndex];
+	OBABookmarkV2 * bm = _bookmarks[startIndex];
 	[bm retain];
 	[_bookmarks removeObjectAtIndex:startIndex];
 	[_bookmarks insertObject:bm atIndex:endIndex];
@@ -142,14 +142,14 @@ const static int kMaxEntriesInMostRecentList = 10;
 }
 
 - (OBAStopPreferencesV2*) stopPreferencesForStopWithId:(NSString*)stopId {
-	OBAStopPreferencesV2 * prefs = [_stopPreferences objectForKey:stopId];
+	OBAStopPreferencesV2 * prefs = _stopPreferences[stopId];
 	if( ! prefs )
 		return [[[OBAStopPreferencesV2 alloc] init] autorelease];
 	return [[[OBAStopPreferencesV2 alloc] initWithStopPreferences:prefs] autorelease];
 }
 
 - (void) setStopPreferences:(OBAStopPreferencesV2*)preferences forStopWithId:(NSString*)stopId {
-	[_stopPreferences setObject:preferences forKey:stopId];
+	_stopPreferences[stopId] = preferences;
 	[_preferencesDao writeStopPreferences:_stopPreferences];
 }
 
@@ -162,7 +162,7 @@ const static int kMaxEntriesInMostRecentList = 10;
 
 - (void) viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop {
 	OBAStopAccessEventV2 * event = [[OBAStopAccessEventV2 alloc] init];
-	event.stopIds = [NSArray arrayWithObject:stop.stopId];
+	event.stopIds = @[stop.stopId];
 	event.title = stop.title;
 	event.subtitle = stop.subtitle;
 	[self addStopAccessEvent:event];

@@ -40,7 +40,7 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 
 +(OBATripScheduleMapViewController*) loadFromNibWithAppContext:(OBAApplicationContext*)context {
 	NSArray* wired = [[NSBundle mainBundle] loadNibNamed:@"OBATripScheduleMapViewController" owner:context options:nil];
-	OBATripScheduleMapViewController* controller = [wired objectAtIndex:0];
+	OBATripScheduleMapViewController* controller = wired[0];
 	return controller;
 }
 
@@ -282,7 +282,7 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 	NSString * format = isNextTrip ? NSLocalizedString(@"Continues as",@"text") : NSLocalizedString(@"Starts as",@"text");
 	NSString * tripTitle = [NSString stringWithFormat:@"%@ %@",format, trip.asLabel];
 	NSInteger index = isNextTrip ? ([stopTimes count]-1) : 0;
-	OBATripStopTimeV2 * stopTime = [stopTimes objectAtIndex:index];
+	OBATripStopTimeV2 * stopTime = stopTimes[index];
 	OBAStopV2 * stop = stopTime.stop;
 
 	MKCoordinateRegion r = [OBASphericalGeometryLibrary createRegionWithCenter:stop.coordinate latRadius:100 lonRadius:100];

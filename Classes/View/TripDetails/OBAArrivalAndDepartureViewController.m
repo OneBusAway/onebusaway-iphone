@@ -329,7 +329,7 @@ typedef enum {
 }
 
 - (void) showSituations {
-	NSDictionary * args = [NSDictionary dictionaryWithObject:_arrivalAndDeparture forKey:@"arrivalAndDeparture"];
+	NSDictionary * args = @{@"arrivalAndDeparture": _arrivalAndDeparture};
 	[OBAPresentation showSituations:_arrivalAndDeparture.situations withAppContext:_appContext navigationController:self.navigationController args:args];
 }
 

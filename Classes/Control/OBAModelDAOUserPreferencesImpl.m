@@ -141,7 +141,7 @@ static NSString * kVisitedSituationIdsKey = @"hideFutureLocationWarnings";
 
 - (void) setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings {
 	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-	NSNumber * v = [NSNumber numberWithBool:hideFutureLocationWarnings];
+	NSNumber * v = @(hideFutureLocationWarnings);
 	[user setObject:v forKey:kHideFutureLocationWarningsKey];
 }
 

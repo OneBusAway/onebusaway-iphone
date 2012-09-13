@@ -221,7 +221,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 		[_searchController searchPending];
 		
 		NSDictionary * parameters = target.parameters;
-		NSData * data = [parameters objectForKey:kOBASearchControllerSearchArgumentParameter];
+		NSData * data = parameters[kOBASearchControllerSearchArgumentParameter];
 		MKCoordinateRegion region;
 		[data getBytes:&region];
 		[_mapRegionManager setRegion:region changeWasProgramatic:FALSE];

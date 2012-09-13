@@ -67,7 +67,7 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 	self.navigationItem.rightBarButtonItem = nil;
 	
 	NSArray * nib1 = [[NSBundle mainBundle] loadNibNamed:@"OBASearchTableViewCell" owner:self options:nil];
-	_searchCell = [[nib1 objectAtIndex:0] retain];
+	_searchCell = [nib1[0] retain];
 	
 	switch (_currentSearchType) {
 		case OBASearchViewTypeByRoute:

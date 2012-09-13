@@ -77,7 +77,7 @@
 		return nil;
 	}
 	
-	NSManagedObject * entity = [fetchedObjects objectAtIndex:0];
+	NSManagedObject * entity = fetchedObjects[0];
 	[self setManagedObjectIdForEntityName:entityName entityId:entityId managedObjectId:[entity objectID] entityIdMappings:entityIdMappings];
 	return entity;
 }
@@ -87,20 +87,20 @@
 @implementation OBAEntityManager (Internal)
 
 + (NSManagedObjectID*) getManagedObjectIdForEntityName:(NSString*)entityName entityId:(NSString*)entityId entityIdMappings:(NSDictionary*)entityIdMappings {
-	NSDictionary * entityIdMapping = [entityIdMappings objectForKey:entityName];
+	NSDictionary * entityIdMapping = entityIdMappings[entityName];
 	if( entityIdMapping == nil )
 		return nil;
-	return [entityIdMapping objectForKey:entityId];
+	return entityIdMapping[entityId];
 }
 
 + (void) setManagedObjectIdForEntityName:(NSString*)entityName entityId:(NSString*)entityId managedObjectId:(NSManagedObjectID*)managedObjectId entityIdMappings:(NSMutableDictionary*)entityIdMappings {
 	
-	NSMutableDictionary * entityIdMapping = [entityIdMappings objectForKey:entityName];
+	NSMutableDictionary * entityIdMapping = entityIdMappings[entityName];
 	if( entityIdMapping == nil ) {
 		entityIdMapping = [NSMutableDictionary dictionary];
-		[entityIdMappings setObject:entityIdMapping forKey:entityName];
+		entityIdMappings[entityName] = entityIdMapping;
 	}
-	[entityIdMapping setObject:managedObjectId forKey:entityId];
+	entityIdMapping[entityId] = managedObjectId;
 }
 
 @end

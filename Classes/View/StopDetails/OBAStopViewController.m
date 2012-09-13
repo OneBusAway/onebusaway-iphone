@@ -20,7 +20,7 @@
 
 - (void) customSetup {
 	NSArray * nib = [[NSBundle mainBundle] loadNibNamed:@"OBAArrivalsAndDeparturesHeaderView" owner:self options:nil];
-	_headerView = [[nib objectAtIndex:0] retain];
+	_headerView = [nib[0] retain];
 }
 
 - (void) dealloc {

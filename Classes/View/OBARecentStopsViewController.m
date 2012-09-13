@@ -71,7 +71,7 @@
 	}
 	else {
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
-		OBAStopAccessEventV2 * event = [_mostRecentStops objectAtIndex:indexPath.row];
+		OBAStopAccessEventV2 * event = _mostRecentStops[indexPath.row];
 		cell.textLabel.text = event.title;
 		cell.textLabel.textAlignment = UITextAlignmentCenter;
 		cell.detailTextLabel.text = event.subtitle;
@@ -85,7 +85,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSInteger index = indexPath.row;	
 	if( 0 <= index && index < [_mostRecentStops count] ) {
-		OBAStopAccessEventV2 * event = [_mostRecentStops objectAtIndex:index];
+		OBAStopAccessEventV2 * event = _mostRecentStops[index];
 		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopIds:event.stopIds];
 		[self.navigationController pushViewController:vc animated:TRUE];
 		[vc release];

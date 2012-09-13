@@ -20,7 +20,7 @@
 
 +(OBADiversionViewController*) loadFromNibWithAppContext:(OBAApplicationContext*)context {
 	NSArray* wired = [[NSBundle mainBundle] loadNibNamed:@"OBADiversionViewController" owner:context options:nil];
-	OBADiversionViewController* controller = [wired objectAtIndex:0];
+	OBADiversionViewController* controller = wired[0];
 	return controller;
 }
 
@@ -54,7 +54,7 @@
 			[mv setRegion:bounds.region];
 		}
 		
-		OBAArrivalAndDepartureV2 * ad = [self.args objectForKey:@"arrivalAndDeparture"];
+		OBAArrivalAndDepartureV2 * ad = (self.args)[@"arrivalAndDeparture"];
 		if( ad != nil && _tripEncodedPolyline == nil ) {
 			OBATripV2 * trip = ad.trip;
 			NSString * shapeId = trip.shapeId;
@@ -153,7 +153,7 @@
 		
 		CLLocationCoordinate2D* pointArr = malloc(sizeof(CLLocationCoordinate2D) * points.count);
 		for (int i=0; i<points.count;i++) {
-			CLLocation * location = [points objectAtIndex:i];
+			CLLocation * location = points[i];
 			CLLocationCoordinate2D p = location.coordinate;
 			pointArr[i] = p;
 		}
