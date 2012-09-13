@@ -799,12 +799,11 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 				return NSLocalizedString(@"No stops at your current location.",@"[values count] == 0");
             return defaultLabel;
 		}
-            
-		case OBASearchTypeNone:			
+
+        case OBASearchTypePending:
+		case OBASearchTypeNone:
 			return defaultLabel;
 	}
-    
-    return defaultLabel;
 }
 
 
