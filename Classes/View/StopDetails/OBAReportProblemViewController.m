@@ -66,12 +66,12 @@
 	switch (indexPath.row) {
 		case 0: {
 			OBAReportProblemWithStopViewController * vc = [[OBAReportProblemWithStopViewController alloc] initWithApplicationContext:_appContext stop:_stop];
-			[self.navigationController pushViewController:vc animated:TRUE];
+			[self.navigationController pushViewController:vc animated:YES];
 			break;
 		}
 		case 1: {
 			OBAReportProblemWithRecentTripsViewController * vc = [[OBAReportProblemWithRecentTripsViewController alloc] initWithApplicationContext:_appContext stopId:_stop.stopId];
-			[self.navigationController pushViewController:vc animated:TRUE];
+			[self.navigationController pushViewController:vc animated:YES];
 			break;
 		}
 		default:

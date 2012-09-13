@@ -165,7 +165,7 @@
 				
 				UITableViewCell * cell = [tableView cellForRowAtIndexPath:cellIndex];
 				cell.accessoryType = checked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-				[tableView deselectRowAtIndexPath:indexPath animated:TRUE];
+				[tableView deselectRowAtIndexPath:indexPath animated:YES];
 			}
 		}
 	}
@@ -181,12 +181,12 @@
 		
 		UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
 		cell.accessoryType = currentlyChecked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-		[tableView deselectRowAtIndexPath:indexPath animated:TRUE];
+		[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	}
 }
 
 - (IBAction) onCancelButton:(id)sender {
-	[self.navigationController popViewControllerAnimated:TRUE];
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction) onSaveButton:(id)sender {
@@ -200,14 +200,14 @@
 	{
 		if ([viewController isKindOfClass:[OBAStopViewController class]])
 		{
-			[self.navigationController popToViewController:viewController animated:TRUE];
-			foundStopViewController = TRUE;
+			[self.navigationController popToViewController:viewController animated:YES];
+			foundStopViewController = YES;
 			break;
 		}
 	}
 	
 	if (!foundStopViewController)
-		[self.navigationController popViewControllerAnimated:TRUE];
+		[self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

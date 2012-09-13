@@ -105,7 +105,7 @@ typedef enum {
 }
 
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
-	[_progressView setInProgress:TRUE progress:progress];
+	[_progressView setInProgress:YES progress:progress];
 }
 
 #pragma mark -
@@ -207,7 +207,7 @@ typedef enum {
 	OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithAppContext:_appContext];
 	vc.tripDetails = _tripDetails;
 	vc.currentStopId = self.currentStopId;
-	[self.navigationController replaceViewController:vc animated:TRUE];
+	[self.navigationController replaceViewController:vc animated:YES];
 }
 
 @end
@@ -390,7 +390,7 @@ typedef enum {
 	OBATripStopTimeV2 * stopTime = stopTimes[index];
 	
 	OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stopTime.stopId];
-	[self.navigationController pushViewController:vc animated:TRUE];
+	[self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectPreviousStopsRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -408,7 +408,7 @@ typedef enum {
 		if( indexPath.row == offset ) {
 			OBATripInstanceRef * prevTripInstance = [tripInstance copyWithNewTripId:sched.previousTripId];
 			OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripInstance:prevTripInstance];
-			[self.navigationController pushViewController:vc animated:TRUE];
+			[self.navigationController pushViewController:vc animated:YES];
 			return;
 		}
 		offset++;
@@ -418,7 +418,7 @@ typedef enum {
 		if( indexPath.row == offset ) {
 			OBATripInstanceRef * nextTripInstance = [tripInstance copyWithNewTripId:sched.nextTripId];
 			OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripInstance:nextTripInstance];
-			[self.navigationController pushViewController:vc animated:TRUE];
+			[self.navigationController pushViewController:vc animated:YES];
 			return;
 		}
 		offset++;

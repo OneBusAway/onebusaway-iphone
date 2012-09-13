@@ -163,7 +163,7 @@ typedef enum {
 			OBAListSelectionViewController * vc = [[OBAListSelectionViewController alloc] initWithValues:_problemNames selectedIndex:selectedIndex];
 			vc.target = self;
 			vc.action = @selector(setProblem:);
-			[self.navigationController pushViewController:vc animated:TRUE];
+			[self.navigationController pushViewController:vc animated:YES];
 			break;
 		}
 			
@@ -195,7 +195,7 @@ typedef enum {
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
 	[_activityIndicatorView hide];
-	[self.navigationController popViewControllerAnimated:TRUE];
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {

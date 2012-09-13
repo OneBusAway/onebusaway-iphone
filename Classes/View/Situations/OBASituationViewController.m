@@ -67,7 +67,7 @@ typedef enum {
 
 		// Mark the situation as visited
 		OBAModelDAO * modelDao = _appContext.modelDao;
-		[modelDao setVisited:TRUE forSituationWithId:_situation.situationId];
+		[modelDao setVisited:YES forSituationWithId:_situation.situationId];
 	}
 	
 	return self;
@@ -221,13 +221,13 @@ typedef enum {
 - (void) didSelectDetailsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
 
 	if( indexPath.row == 0 ) {
-		[OBAWebViewController pushOntoViewController:self withHtml:[self getDetails:TRUE] withTitle:NSLocalizedString(@"Details",@"withTitle")];
+		[OBAWebViewController pushOntoViewController:self withHtml:[self getDetails:YES] withTitle:NSLocalizedString(@"Details",@"withTitle")];
 	}
 	else if( indexPath.row == 1 && _diversionPath ) {
 		OBADiversionViewController * vc = [OBADiversionViewController loadFromNibWithAppContext:_appContext];
 		vc.diversionPath = _diversionPath;
 		vc.args = self.args;
-		[self.navigationController pushViewController:vc animated:TRUE];		
+		[self.navigationController pushViewController:vc animated:YES];		
 	}
 }
 
@@ -239,7 +239,7 @@ typedef enum {
 	
 	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
 	cell.textLabel.text = isRead ? NSLocalizedString(@"Mark as Unread",@"isRead") : NSLocalizedString(@"Mark as Read",@"!isRead");
-	[tableView deselectRowAtIndexPath:indexPath animated:TRUE];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSString*) getDetails:(BOOL)htmlify {

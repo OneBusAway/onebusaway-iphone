@@ -90,12 +90,12 @@
 	
 	if( self.tableView.editing ) {
 		OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:_appContext bookmark:bookmark editType:OBABookmarkEditExisting];
-		[self.navigationController pushViewController:vc animated:TRUE];
+		[self.navigationController pushViewController:vc animated:YES];
 	}
 	else {
 		[_appContext.activityListeners bookmarkClicked:bookmark];
 		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopIds:bookmark.stopIds];
-		[self.navigationController pushViewController:vc animated:TRUE];
+		[self.navigationController pushViewController:vc animated:YES];
 	}
 }
 
@@ -138,7 +138,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath  {
 - (IBAction) onEditButton:(id)sender {
 	
 	BOOL isEditing = ! self.editing;
-	[self setEditing:isEditing animated:TRUE];
+	[self setEditing:isEditing animated:YES];
 
 	if( isEditing ) {
 		_customEditButtonItem.title = NSLocalizedString(@"Done",@"title");

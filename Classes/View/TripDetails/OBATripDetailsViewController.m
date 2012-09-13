@@ -59,7 +59,7 @@ typedef enum {
 
 - (void)viewWillAppear:(BOOL)animated {
     [self clearPendingRequest];
-	[_progressView setMessage:NSLocalizedString(@"Updating...",@"message") inProgress:TRUE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Updating...",@"message") inProgress:YES progress:0];
 	_request = [_appContext.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:nil];
 }
 
@@ -86,7 +86,7 @@ typedef enum {
 }
 
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
-	[_progressView setInProgress:TRUE progress:progress];
+	[_progressView setInProgress:YES progress:progress];
 }
 
 #pragma mark Table view methods
@@ -165,7 +165,7 @@ typedef enum {
 					vc.tripInstance = _tripInstance;
 					vc.tripDetails = _tripDetails;
 					vc.currentStopId = self.currentStopId;
-					[self.navigationController pushViewController:vc animated:TRUE];
+					[self.navigationController pushViewController:vc animated:YES];
 				}
 			}			
 			else if( indexPath.row == 1 ) {
@@ -173,7 +173,7 @@ typedef enum {
 					OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationContext:_appContext tripInstance:_tripInstance];
 					vc.tripDetails = _tripDetails;
 					vc.currentStopId = self.currentStopId;
-					[self.navigationController pushViewController:vc animated:TRUE];
+					[self.navigationController pushViewController:vc animated:YES];
 				}
 			}
 			break;			
@@ -184,7 +184,7 @@ typedef enum {
 				if( _tripDetails ) {
 					OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationContext:_appContext tripInstance:_tripInstance trip:_tripDetails.trip];
 					vc.currentStopId = self.currentStopId;
-					[self.navigationController pushViewController:vc animated:TRUE];
+					[self.navigationController pushViewController:vc animated:YES];
 				}
 			}
 			break;

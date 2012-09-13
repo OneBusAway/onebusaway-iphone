@@ -77,7 +77,7 @@
 		OBASituationV2 * situation = _situations[indexPath.row];
 		OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationContext:_appContext situation:situation];
 		vc.args = self.args;
-		[self.navigationController pushViewController:vc animated:TRUE];
+		[self.navigationController pushViewController:vc animated:YES];
 	}
 }
 

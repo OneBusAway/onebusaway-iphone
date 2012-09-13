@@ -131,7 +131,7 @@
 }
 
 - (IBAction) onCancelButton:(id)sender {
-	[self.navigationController popViewControllerAnimated:TRUE];
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction) onSaveButton:(id)sender {
@@ -161,14 +161,14 @@
 	{
 		if ([viewController isKindOfClass:[OBAStopViewController class]])
 		{
-			[self.navigationController popToViewController:viewController animated:TRUE];
-			foundStopViewController = TRUE;
+			[self.navigationController popToViewController:viewController animated:YES];
+			foundStopViewController = YES;
 			break;
 		}
 	}
 	
 	if (!foundStopViewController)
-		[self.navigationController popViewControllerAnimated:TRUE];
+		[self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

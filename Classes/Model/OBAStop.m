@@ -45,7 +45,7 @@
 - (NSString*) routeNamesAsString {
 	
 	NSMutableString * label = [NSMutableString string];
-	BOOL first = TRUE;
+	BOOL first = YES;
 	
 	NSMutableArray * sRoutes = [NSMutableArray array];
 	

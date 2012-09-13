@@ -83,12 +83,12 @@ static const double kNearbyStopRadius = 200;
 		_minutesBefore = 5;
 		_minutesAfter = 35;
 		
-		_showTitle = TRUE;
-		_showServiceAlerts = TRUE;
-		_showActions = TRUE;
+		_showTitle = YES;
+		_showServiceAlerts = YES;
+		_showActions = YES;
 		
 		_arrivalCellFactory = [[OBAArrivalEntryTableViewCellFactory alloc] initWithAppContext:_appContext tableView:self.tableView];
-		_arrivalCellFactory.showServiceAlerts = TRUE;
+		_arrivalCellFactory.showServiceAlerts = YES;
 
 		_serviceAlerts = [[OBAServiceAlertsModel alloc] init];
 						
@@ -258,7 +258,7 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
-	[_progressView setInProgress:TRUE progress:progress];
+	[_progressView setInProgress:YES progress:progress];
 }
 
 #pragma mark Table view methods
@@ -410,14 +410,14 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (void) refresh {
-	[_progressView setMessage:NSLocalizedString(@"Updating...",@"refresh") inProgress:TRUE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Updating...",@"refresh") inProgress:YES progress:0];
 	[self didRefreshBegin];
 	
 	OBAModelService * service = _appContext.modelService;
 	
 	[self clearPendingRequest];
 	_request = [service requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter withDelegate:self withContext:nil];
-	_timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:TRUE];
+	_timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 }
 	 
 - (void) clearPendingRequest {
@@ -588,7 +588,7 @@ static const double kNearbyStopRadius = 200;
 	if ( 0 <= indexPath.row && indexPath.row < [arrivals count] ) {
 		OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
 		OBAArrivalAndDepartureViewController * vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationContext:_appContext arrivalAndDeparture:arrivalAndDeparture];
-		[self.navigationController pushViewController:vc animated:TRUE];
+		[self.navigationController pushViewController:vc animated:YES];
 	}
 }
 

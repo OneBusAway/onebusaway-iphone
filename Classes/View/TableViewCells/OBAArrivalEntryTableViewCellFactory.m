@@ -26,7 +26,7 @@
 		[_timeFormatter setDateStyle:NSDateFormatterNoStyle];
 		[_timeFormatter setTimeStyle:NSDateFormatterShortStyle];
 		
-		_showServiceAlerts = TRUE;
+		_showServiceAlerts = YES;
 	}
 	return self;
 }
@@ -63,7 +63,7 @@
 	else {
 		cell.minutesLabel.text = [self getMinutesLabelForMinutes:minutes];
 		cell.minutesLabel.textColor = [self getMinutesColorForArrival:arrival];
-		cell.minutesSubLabel.hidden = TRUE;
+		cell.minutesSubLabel.hidden = YES;
 	}
 	
 

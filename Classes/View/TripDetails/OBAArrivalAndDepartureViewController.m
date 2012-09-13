@@ -43,9 +43,9 @@ typedef enum {
 		_arrivalAndDeparture = nil;
 		_arrivalCellFactory = [[OBAArrivalEntryTableViewCellFactory alloc] initWithAppContext:_appContext tableView:self.tableView];
 		_arrivalCellFactory.showServiceAlerts = NO;
-		self.refreshable = TRUE;
+		self.refreshable = YES;
 		self.refreshInterval = 30;
-		self.showUpdateTime = TRUE;
+		self.showUpdateTime = YES;
 	}
 	return self;
 }
@@ -287,12 +287,12 @@ typedef enum {
 		OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithAppContext:_appContext];
 		vc.tripInstance = tripInstance;
 		vc.currentStopId = _arrivalAndDeparture.stopId;
-		[self.navigationController pushViewController:vc animated:TRUE];
+		[self.navigationController pushViewController:vc animated:YES];
 	}			
 	else if( indexPath.row == 1 ) {
 		OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationContext:_appContext tripInstance:tripInstance];
 		vc.currentStopId = _arrivalAndDeparture.stopId;
-		[self.navigationController pushViewController:vc animated:TRUE];
+		[self.navigationController pushViewController:vc animated:YES];
 	}
 }
 
@@ -307,12 +307,12 @@ typedef enum {
 			OBATripInstanceRef * tripInstance = _arrivalAndDeparture.tripInstance;
 			OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationContext:_appContext tripInstance:tripInstance trip:_arrivalAndDeparture.trip];
 			vc.currentStopId = _arrivalAndDeparture.stopId;
-			[self.navigationController pushViewController:vc animated:TRUE];
+			[self.navigationController pushViewController:vc animated:YES];
 			break;
 		}
 		case 2: {
 			OBAVehicleDetailsController * vc = [[OBAVehicleDetailsController alloc] initWithApplicationContext:_appContext vehicleId:_arrivalAndDeparture.tripStatus.vehicleId];
-			[self.navigationController pushViewController:vc animated:TRUE];
+			[self.navigationController pushViewController:vc animated:YES];
 			break;
 		}
 	}

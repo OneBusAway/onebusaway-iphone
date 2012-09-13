@@ -33,9 +33,9 @@ typedef enum {
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext vehicleId:(NSString*)vehicleId {
 	if( self = [super initWithApplicationContext:appContext] ) {
 		_vehicleId = vehicleId;
-		self.refreshable = TRUE;
+		self.refreshable = YES;
 		self.refreshInterval = 30;
-		self.showUpdateTime = TRUE;
+		self.showUpdateTime = YES;
 	}
 	return self;
 }
@@ -274,12 +274,12 @@ typedef enum {
 		case 0: {
 			OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithAppContext:_appContext];
 			vc.tripInstance = tripInstance;
-			[self.navigationController pushViewController:vc animated:TRUE];			
+			[self.navigationController pushViewController:vc animated:YES];			
 			break;
 		}
 		case 1: {
 			OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationContext:_appContext tripInstance:tripInstance];
-			[self.navigationController pushViewController:vc animated:TRUE];
+			[self.navigationController pushViewController:vc animated:YES];
 			break;
 		}
 	}

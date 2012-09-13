@@ -82,7 +82,7 @@
 	if( 0 <= index && index < [_mostRecentStops count] ) {
 		OBAStopAccessEventV2 * event = _mostRecentStops[index];
 		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopIds:event.stopIds];
-		[self.navigationController pushViewController:vc animated:TRUE];
+		[self.navigationController pushViewController:vc animated:YES];
 	}
 }
 

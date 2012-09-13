@@ -67,8 +67,8 @@
 
 	if( _alertStyle == OBAArrivalEntryTableViewCellAlertStyleNone ) {
 		[self cancelTimer];
-		_unreadAlertImage.hidden = TRUE;
-		_alertImage.hidden = TRUE;		
+		_unreadAlertImage.hidden = YES;
+		_alertImage.hidden = YES;		
 		_minutesLabel.hidden = NO;
 	}
 	else {
@@ -80,7 +80,7 @@
 		_alertImage.hidden = NO;
 
 		if( _transitionTimer == nil ) {
-			_transitionTimer = [NSTimer scheduledTimerWithTimeInterval:1.2 target:self selector:@selector(timerFired:) userInfo:nil repeats:TRUE];
+			_transitionTimer = [NSTimer scheduledTimerWithTimeInterval:1.2 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
 			
 		}
 	}

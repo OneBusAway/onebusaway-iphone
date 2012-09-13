@@ -70,7 +70,7 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 	OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationContext:self.appContext tripInstance:_tripInstance];
 	vc.tripDetails = self.tripDetails;
 	vc.currentStopId = self.currentStopId;
-	[self.navigationController replaceViewController:vc animated:TRUE];
+	[self.navigationController replaceViewController:vc animated:YES];
 }
 
 #pragma mark OBAModelServiceDelegate
@@ -105,10 +105,10 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
 	if (progress > 1.0) {
-		[_progressView setMessage:NSLocalizedString(@"Downloading...",@"message") inProgress:TRUE progress:progress];
+		[_progressView setMessage:NSLocalizedString(@"Downloading...",@"message") inProgress:YES progress:progress];
 	}
     else {
-		[_progressView setInProgress:TRUE progress:progress];
+		[_progressView setInProgress:YES progress:progress];
 	}
 }
 
@@ -127,7 +127,7 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 		if( view == nil ) {
 			view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
 		}
-		view.canShowCallout = TRUE;
+		view.canShowCallout = YES;
 		view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 		OBAStopIconFactory * stopIconFactory = [[self appContext] stopIconFactory];
 		view.image = [stopIconFactory getIconForStop:an.stopTime.stop];
@@ -143,7 +143,7 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 		if( view == nil ) {
 			view = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
 		}
-		view.canShowCallout = TRUE;
+		view.canShowCallout = YES;
 		view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 		return view;
 	}
@@ -159,12 +159,12 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 		OBATripStopTimeMapAnnotation * an = (OBATripStopTimeMapAnnotation*)annotation;
 		OBATripStopTimeV2 * stopTime = an.stopTime;
 		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:self.appContext stopId:stopTime.stopId];
-		[self.navigationController pushViewController:vc animated:TRUE];
+		[self.navigationController pushViewController:vc animated:YES];
 	}
 	else if ( [annotation isKindOfClass:[OBATripContinuationMapAnnotation class]] ) {
 		OBATripContinuationMapAnnotation * an = (OBATripContinuationMapAnnotation*)annotation;
 		OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripInstance:an.tripInstance];
-		[self.navigationController pushViewController:vc animated:TRUE];
+		[self.navigationController pushViewController:vc animated:YES];
 	}
 }
 
@@ -239,7 +239,7 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 	}
 	
 	if( sched.nextTripId && [stopTimes count] > 0 ) {
-		id<MKAnnotation> an = [self createTripContinuationAnnotation:sched.nextTrip	isNextTrip:TRUE stopTimes:stopTimes];
+		id<MKAnnotation> an = [self createTripContinuationAnnotation:sched.nextTrip	isNextTrip:YES stopTimes:stopTimes];
 		[annotations addObject:an];
 	}
 	

@@ -90,7 +90,7 @@
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
 			OBAStopV2 * stop = (_result.values)[indexPath.row];
 			cell.textLabel.text = stop.name;
-			cell.textLabel.adjustsFontSizeToFitWidth = TRUE;
+			cell.textLabel.adjustsFontSizeToFitWidth = YES;
 			cell.detailTextLabel.text = [self getStopDetail:stop];
 			return cell;
 		}
@@ -99,7 +99,7 @@
 			OBARouteV2 * route = (_result.values)[indexPath.row];
 			OBAAgencyV2 * agency = route.agency;
 			cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@",route.shortName,route.longName];
-			cell.textLabel.adjustsFontSizeToFitWidth = TRUE;
+			cell.textLabel.adjustsFontSizeToFitWidth = YES;
 			cell.detailTextLabel.text = agency.name;
 			return cell;
 		}
@@ -107,7 +107,7 @@
 			UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 			OBAPlacemark * placemark = (_result.values)[indexPath.row];
 			cell.textLabel.text = [placemark title];
-			cell.textLabel.adjustsFontSizeToFitWidth = TRUE;
+			cell.textLabel.adjustsFontSizeToFitWidth = YES;
 			return cell;
 		}
 		case OBASearchTypeAgenciesWithCoverage: {
@@ -115,7 +115,7 @@
 			OBAAgencyWithCoverageV2 * awc = (_result.values)[indexPath.row];
 			OBAAgencyV2 * agency = awc.agency;
 			cell.textLabel.text = agency.name;
-			cell.textLabel.adjustsFontSizeToFitWidth = TRUE;
+			cell.textLabel.adjustsFontSizeToFitWidth = YES;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone; // Change once agencies can be selected.
 			return cell;
 		}
@@ -143,7 +143,7 @@
 			
 			OBAStopV2 * stop = (_result.values)[indexPath.row];
 			OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stop.stopId];
-			[self.navigationController pushViewController:vc animated:TRUE];
+			[self.navigationController pushViewController:vc animated:YES];
 			break;
 		}
 		case OBASearchTypeRoute: {		

@@ -182,7 +182,7 @@ static const NSUInteger kTagAgenciesView = 6;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-	_active = TRUE;
+	_active = YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -230,7 +230,7 @@ static const NSUInteger kTagAgenciesView = 6;
 		return NO;
 	}
 	
-	return TRUE;
+	return YES;
 }
 
 /**
@@ -352,10 +352,10 @@ static const NSUInteger kTagAgenciesView = 6;
 	
 	NSData * dateData = [userDefaults objectForKey:kOBAHiddenPreferenceApplicationLastActiveTimestamp];
 	if( ! dateData ) 
-		return TRUE;
+		return YES;
 	NSDate * date = [NSKeyedUnarchiver unarchiveObjectWithData:dateData];
 	if( ! date || (-[date timeIntervalSinceNow]) > kMaxTimeSinceApplicationTerminationToRestoreState )
-		return TRUE;
+		return YES;
 	
 	return NO;
 }
@@ -428,10 +428,10 @@ static const NSUInteger kTagAgenciesView = 6;
 		if( ! nextViewController )
 			break;		
 		[self setNavigationTarget:nextTarget forViewController:nextViewController];
-		[rootNavController pushViewController:nextViewController animated:TRUE];
+		[rootNavController pushViewController:nextViewController animated:YES];
 	}
 	
-	return TRUE;
+	return YES;
 }
 
 - (void) navigateToTargetInternal:(OBANavigationTarget*)navigationTarget {

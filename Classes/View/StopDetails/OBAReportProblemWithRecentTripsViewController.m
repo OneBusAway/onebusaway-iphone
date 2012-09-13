@@ -48,7 +48,7 @@
 		OBATripInstanceRef * tripInstance = tripDetails.tripInstance;
 		OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationContext:parent.appContext tripInstance:tripInstance trip:tripDetails.trip];
 		vc.currentStopId = parent.stopId;
-		[parent.navigationController pushViewController:vc animated:TRUE];
+		[parent.navigationController pushViewController:vc animated:YES];
 	}
 }
 

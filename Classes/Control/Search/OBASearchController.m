@@ -79,7 +79,7 @@
 	}
 	
 	_request = [self requestForTarget:target];
-	[_progress setMessage:NSLocalizedString(@"Connecting...",@"searchWithTarget _progress") inProgress:TRUE progress:0];
+	[_progress setMessage:NSLocalizedString(@"Connecting...",@"searchWithTarget _progress") inProgress:YES progress:0];
 	
 }
 
@@ -199,7 +199,7 @@
 }
 
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
-	[_progress setInProgress:TRUE progress:progress];
+	[_progress setInProgress:YES progress:progress];
 }
 
 @end
