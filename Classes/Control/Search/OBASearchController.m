@@ -188,6 +188,9 @@
 		case OBASearchTypeAgenciesWithCoverage:
 			[self fireUpdateFromList:obj];
 			break;
+
+        default:
+            NSLog(@"Unhandled case in %s: %d", __PRETTY_FUNCTION__, _searchType);
 	}
 }
 

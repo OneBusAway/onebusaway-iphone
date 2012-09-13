@@ -157,6 +157,8 @@ typedef enum {
 		case OBASectionTypeMarkAsRead:
 			[self didSelectMarkAsReadRowAtIndexPath:indexPath tableView:tableView];
 			break;
+        default:
+            NSLog(@"Unhandled switch value in %s: %d", __PRETTY_FUNCTION__, sectionType);
 	}
 }
 
