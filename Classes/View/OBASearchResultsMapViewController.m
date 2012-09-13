@@ -121,8 +121,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	
 	_locationAnnotation = nil;
 	
-	//_autoCenterOnCurrentLocation = NO;
-	
 	CLLocationCoordinate2D p = {0,0};
 	_mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0,0));
 	
@@ -158,7 +156,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	_currentLocationButton.enabled = lm.locationServicesEnabled;
 	
 	if (_searchController.searchType == OBASearchTypeNone ) {
-		//_autoCenterOnCurrentLocation = YES;
         _mapRegionManager.lastRegionChangeWasProgramatic = YES;
 		CLLocation * location = lm.currentLocation;
 		if( location )
@@ -214,8 +211,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void) handleSearchControllerStarted:(OBASearchType)searchType {
 	if( ! (searchType == OBASearchTypeNone || searchType == OBASearchTypeRegion) ) {
-		OBALogDebug(@"search started: unsetting _autoCenterOnCurrentLocation");
-        //_autoCenterOnCurrentLocation = NO;
         _mapRegionManager.lastRegionChangeWasProgramatic = NO;
 	}	
 }
@@ -455,8 +450,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 -(IBAction) onCrossHairsButton:(id)sender {	
 	OBALogDebug(@"setting auto center on current location");
-	//_autoCenterOnCurrentLocation = YES;
-    _mapRegionManager.lastRegionChangeWasProgramatic = YES;
+	_mapRegionManager.lastRegionChangeWasProgramatic = YES;
 	[self refreshCurrentLocation];
 }
 
