@@ -593,7 +593,6 @@ static const double kNearbyStopRadius = 200;
 
 - (void)tableView:(UITableView *)tableView didSelectServiceAlertRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSArray * situations = _result.situations;
-    // TODO: this method doesn't exist, will cause a crash.
 	[OBAPresentation showSituations:situations withAppContext:_appContext navigationController:self.navigationController args:nil];
 }
 
@@ -629,7 +628,6 @@ static const double kNearbyStopRadius = 200;
 			
 		case 2: {
 			NSArray * situations = _result.situations;
-            //TODO: this method doesn't exist; causes a crash when called.
 			[OBAPresentation showSituations:situations withAppContext:_appContext navigationController:self.navigationController args:nil];
 			break;
 		}
