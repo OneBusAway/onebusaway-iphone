@@ -19,11 +19,11 @@
 
 +(OBATripScheduleMapViewController*) loadFromNibWithAppContext:(OBAApplicationContext*)context;
 
-@property (nonatomic,retain) IBOutlet OBAApplicationContext * appContext;
-@property (nonatomic,retain) IBOutlet OBAProgressIndicatorView * progressView;
-@property (nonatomic,retain) OBATripInstanceRef * tripInstance;
-@property (nonatomic,retain) OBATripDetailsV2 * tripDetails;
-@property (nonatomic,retain) NSString * currentStopId;
+@property (nonatomic,strong) IBOutlet OBAApplicationContext * appContext;
+@property (nonatomic,strong) IBOutlet OBAProgressIndicatorView * progressView;
+@property (nonatomic,strong) OBATripInstanceRef * tripInstance;
+@property (nonatomic,strong) OBATripDetailsV2 * tripDetails;
+@property (nonatomic,strong) NSString * currentStopId;
 
 - (IBAction) showList:(id)source;
 

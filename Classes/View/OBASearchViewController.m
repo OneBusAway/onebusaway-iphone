@@ -42,21 +42,6 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 	return [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:searchType] forKey:kOBASearchViewType];
 }
 
-- (void)dealloc {
-	[_appContext release];
-	[_navigationTarget release];
-	
-	[_searchTypeControl release];
-	[_searchField release];
-	[_searchCell release];
-	[_cancelButton release];
-	
-	[_routeSavedValue release];
-	[_addressSavedValue release];
-	[_stopIdSavedValue release];
-	
-    [super dealloc];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -67,7 +52,7 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 	self.navigationItem.rightBarButtonItem = nil;
 	
 	NSArray * nib1 = [[NSBundle mainBundle] loadNibNamed:@"OBASearchTableViewCell" owner:self options:nil];
-	_searchCell = [nib1[0] retain];
+	_searchCell = nib1[0];
 	
 	switch (_currentSearchType) {
 		case OBASearchViewTypeByRoute:
@@ -133,13 +118,13 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 - (IBAction)onSearchTypeButton:(id)sender {
 	switch(_currentSearchType) {
 		case OBASearchViewTypeByRoute:
-			_routeSavedValue = [_searchField.text retain];
+			_routeSavedValue = _searchField.text;
 			break;
 		case OBASearchViewTypeByAddress:
-			_addressSavedValue = [_searchField.text retain];
+			_addressSavedValue = _searchField.text;
 			break;
 		case OBASearchViewTypeByStop:
-			_stopIdSavedValue = [_searchField.text retain];
+			_stopIdSavedValue = _searchField.text;
 			break;
 	}
 	

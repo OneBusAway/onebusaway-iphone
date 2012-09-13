@@ -47,16 +47,6 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 - (void)dealloc {
 	[_request cancel];
 	
-	[_appContext release];
-	[_tripInstance release];
-	[_tripDetails release];
-	[_currentStopId release];
-	[_request release];
-	[_routePolyline release];
-	[_routePolylineView release];
-	[_progressView release];
-	[_timeFormatter release];
-    [super dealloc];
 }
 
 - (void) viewDidLoad {
@@ -66,13 +56,12 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 	
 	UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Schedule",@"initWithTitle") style:UIBarButtonItemStyleBordered target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backItem;
-	[backItem release];	
 }
 
 - (void) viewWillAppear:(BOOL)animated {
 	
 	if( _tripDetails == nil && _tripInstance != nil )
-		_request = [[_appContext.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:kTripDetailsContext] retain];
+		_request = [_appContext.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:kTripDetailsContext];
 	else
 		[self handleTripDetails];
 }
@@ -82,7 +71,6 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 	vc.tripDetails = self.tripDetails;
 	vc.currentStopId = self.currentStopId;
 	[self.navigationController replaceViewController:vc animated:TRUE];
-	[vc release];
 }
 
 #pragma mark OBAModelServiceDelegate
@@ -90,13 +78,13 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
 	if( context == kTripDetailsContext ) {
 		OBAEntryWithReferencesV2 * entry = obj;
-		_tripDetails = [entry.entry retain];
+		_tripDetails = entry.entry;
 		[self handleTripDetails];
 	}
 	else if ( context == kShapeContext ) {		
 		if( obj ) {
 			NSString * polylineString = obj;
-			_routePolyline = [[OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString] retain];
+			_routePolyline = [OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString];
 			[self.mapView addOverlay:_routePolyline];
 		}
 		[_progressView setMessage:NSLocalizedString(@"Trip Schedule",@"message") inProgress:FALSE progress:0];
@@ -137,7 +125,7 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 		
 		MKAnnotationView * view = [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
 		if( view == nil ) {
-			view = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId] autorelease];
+			view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
 		}
 		view.canShowCallout = TRUE;
 		view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
@@ -153,7 +141,7 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 		
 		MKPinAnnotationView * view = (MKPinAnnotationView*) [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
 		if( view == nil ) {
-			view = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId] autorelease];
+			view = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
 		}
 		view.canShowCallout = TRUE;
 		view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
@@ -172,13 +160,11 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 		OBATripStopTimeV2 * stopTime = an.stopTime;
 		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:self.appContext stopId:stopTime.stopId];
 		[self.navigationController pushViewController:vc animated:TRUE];
-		[vc release];
 	}
 	else if ( [annotation isKindOfClass:[OBATripContinuationMapAnnotation class]] ) {
 		OBATripContinuationMapAnnotation * an = (OBATripContinuationMapAnnotation*)annotation;
 		OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripInstance:an.tripInstance];
 		[self.navigationController pushViewController:vc animated:TRUE];
-		[vc release];		
 	}
 }
 
@@ -247,7 +233,6 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 		OBATripStopTimeMapAnnotation * an = [[OBATripStopTimeMapAnnotation alloc] initWithTripDetails:self.tripDetails stopTime:stopTime];
 		an.timeFormatter = _timeFormatter;
 		[annotations addObject:an];
-		[an release];
 		
 		OBAStopV2 * stop = stopTime.stop;
 		[bounds addLat:stop.lat lon:stop.lon];
@@ -271,7 +256,7 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 	
 	OBATripV2 * trip = _tripDetails.trip;
 	if( trip && trip.shapeId && [[UIDevice currentDevice] isMKMapViewOverlaysSupportedSafe:[self mapView]]) {
-		_request = [[_appContext.modelService requestShapeForId:trip.shapeId withDelegate:self withContext:kShapeContext] retain];
+		_request = [_appContext.modelService requestShapeForId:trip.shapeId withDelegate:self withContext:kShapeContext];
 	}
 }
 
@@ -295,7 +280,7 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 	double lon = (stop.lon + x * span.longitudeDelta/2);
 	CLLocationCoordinate2D p = [OBASphericalGeometryLibrary makeCoordinateLat:lat lon:lon];
 	
-	return [[[OBATripContinuationMapAnnotation alloc] initWithTitle:tripTitle tripInstance:tripRef location:p] autorelease];
+	return [[OBATripContinuationMapAnnotation alloc] initWithTitle:tripTitle tripInstance:tripRef location:p];
 }
 
 - (NSInteger) getXOffsetForStop:(OBAStopV2*)stop defaultValue:(NSInteger)defaultXOffset {

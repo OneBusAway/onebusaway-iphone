@@ -43,8 +43,8 @@ typedef enum {
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)context tripInstance:(OBATripInstanceRef*)tripInstance {
     if ((self = [super initWithStyle:UITableViewStyleGrouped])) {
-		_appContext = [context retain];
-		_tripInstance = [tripInstance retain];
+		_appContext = context;
+		_tripInstance = tripInstance;
 		_currentStopIndex = -1;
 		_showPreviousStops = FALSE;
 		
@@ -58,11 +58,9 @@ typedef enum {
 		
 		UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Map",@"initWithTitle") style:UIBarButtonItemStyleBordered target:self action:@selector(showMap:)];
 		self.navigationItem.rightBarButtonItem = item;
-		[item release];
 		
 		UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Schedule",@"initWithTitle") style:UIBarButtonItemStyleBordered target:nil action:nil];
 		self.navigationItem.backBarButtonItem = backItem;
-		[backItem release];		
     }
     return self;
 }
@@ -70,13 +68,6 @@ typedef enum {
 - (void)dealloc {
 	[_request cancel];
 	
-	[_appContext release];
-	[_tripInstance release];
-	[_tripDetails release];	 
-	[_request release];
-	[_timeFormatter release];
-	[_progressView release];
-    [super dealloc];
 }
 
 #pragma mark -
@@ -86,7 +77,7 @@ typedef enum {
 
 	if( _tripDetails == nil && _tripInstance != nil ) {
 		[self.tableView reloadData];
-		_request = [[_appContext.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:nil] retain];
+		_request = [_appContext.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:nil];
 	}
 	else {
 		[self handleTripDetails];
@@ -97,7 +88,7 @@ typedef enum {
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
 	OBAEntryWithReferencesV2 * entry = obj;
-	_tripDetails = [entry.entry retain];
+	_tripDetails = entry.entry;
 	[self handleTripDetails];
 }
 
@@ -400,7 +391,6 @@ typedef enum {
 	
 	OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stopTime.stopId];
 	[self.navigationController pushViewController:vc animated:TRUE];
-	[vc release];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectPreviousStopsRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -419,7 +409,6 @@ typedef enum {
 			OBATripInstanceRef * prevTripInstance = [tripInstance copyWithNewTripId:sched.previousTripId];
 			OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripInstance:prevTripInstance];
 			[self.navigationController pushViewController:vc animated:TRUE];
-			[vc release];
 			return;
 		}
 		offset++;
@@ -430,7 +419,6 @@ typedef enum {
 			OBATripInstanceRef * nextTripInstance = [tripInstance copyWithNewTripId:sched.nextTripId];
 			OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripInstance:nextTripInstance];
 			[self.navigationController pushViewController:vc animated:TRUE];
-			[vc release];
 			return;
 		}
 		offset++;

@@ -51,7 +51,7 @@
 	NSEntityDescription *entityDescription = [NSEntityDescription
 											  entityForName:entityName inManagedObjectContext:managedObjectContext];
 	
-	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	NSFetchRequest *request = [[NSFetchRequest alloc] init];
 	[request setEntity:entityDescription];
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", entityIdProperty, entityId];
 	[request setPredicate:predicate];

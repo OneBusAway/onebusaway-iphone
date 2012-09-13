@@ -45,7 +45,7 @@
 - (id) initWithAppContext:(OBAApplicationContext*)context {
 	
 	if ( self = [super init] ) {
-		_modelService = [context.modelService retain];
+		_modelService = context.modelService;
 		_searchType = OBASearchTypeNone;
 		_progress = [[OBAProgressIndicatorImpl alloc] init];
 	}
@@ -56,16 +56,10 @@
 	
 	[self cancelOpenConnections];
 
-	[_modelService release];
 	
-	[_progress release];
 	
-	[_target release];
-	[_result release];
 	
-	[_lastCurrentLocationSearch release];
 	
-	[super dealloc];
 }
 
 -(void) searchWithTarget:(OBANavigationTarget*)target {
@@ -84,14 +78,13 @@
 		return;
 	}
 	
-	_request = [[self requestForTarget:target] retain];
+	_request = [self requestForTarget:target];
 	[_progress setMessage:NSLocalizedString(@"Connecting...",@"searchWithTarget _progress") inProgress:TRUE progress:0];
 	
 }
 
 -(void) searchPending {
 	[self cancelOpenConnections];
-	[_target release];
 	_target = nil;
 	_searchType = OBASearchTypePending;
 }
@@ -115,7 +108,6 @@
 
 - (void) cancelOpenConnections {
 	[_request cancel];
-	[_request release];
 	_request = nil;
 	
 	_searchType = OBASearchTypeNone;

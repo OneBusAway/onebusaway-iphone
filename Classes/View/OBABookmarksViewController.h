@@ -23,8 +23,8 @@
 	UIBarButtonItem * _customEditButtonItem;
 }
 
-@property (nonatomic,retain) IBOutlet OBAApplicationContext * appContext;
-@property (nonatomic,retain) IBOutlet UIBarButtonItem * customEditButtonItem;
+@property (nonatomic,strong) IBOutlet OBAApplicationContext * appContext;
+@property (nonatomic,strong) IBOutlet UIBarButtonItem * customEditButtonItem;
 
 - (IBAction) onEditButton:(id)sender;
 

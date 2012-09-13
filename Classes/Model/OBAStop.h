@@ -26,16 +26,16 @@
 }
 
 
-@property (nonatomic, retain) NSString * stopId;
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * code;
-@property (nonatomic, retain) NSString * direction;
-@property (nonatomic, retain) NSNumber * latitude;
-@property (nonatomic, retain) NSNumber * longitude;
-@property (nonatomic, retain) NSSet* routes;
-@property (nonatomic, retain) NSSet* accessEvents;
-@property (nonatomic, retain) OBAStopPreferences * preferences;
-@property (nonatomic, retain) NSSet* bookmarks;
+@property (nonatomic, strong) NSString * stopId;
+@property (nonatomic, strong) NSString * name;
+@property (nonatomic, strong) NSString * code;
+@property (nonatomic, strong) NSString * direction;
+@property (nonatomic, strong) NSNumber * latitude;
+@property (nonatomic, strong) NSNumber * longitude;
+@property (nonatomic, strong) NSSet* routes;
+@property (nonatomic, strong) NSSet* accessEvents;
+@property (nonatomic, strong) OBAStopPreferences * preferences;
+@property (nonatomic, strong) NSSet* bookmarks;
 
 @property (nonatomic,readonly) double lat;
 @property (nonatomic,readonly) double lon;

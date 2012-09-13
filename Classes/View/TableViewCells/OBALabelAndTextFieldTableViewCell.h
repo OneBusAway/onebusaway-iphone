@@ -3,8 +3,8 @@
 	UITextField * _textField;
 }
 
-@property (nonatomic,retain) IBOutlet UILabel * label;
-@property (nonatomic,retain) IBOutlet UITextField * textField;
+@property (nonatomic,strong) IBOutlet UILabel * label;
+@property (nonatomic,strong) IBOutlet UITextField * textField;
 
 + (OBALabelAndTextFieldTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView;
 

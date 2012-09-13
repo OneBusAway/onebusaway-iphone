@@ -12,11 +12,11 @@
 @synthesize additionalValues = _additionalValues;
 
 + (OBASearchResult*) result {
-	return [[[OBASearchResult alloc] init] autorelease];
+	return [[OBASearchResult alloc] init];
 }
 
 + (OBASearchResult*) resultFromList:(OBAListWithRangeAndReferencesV2*)list {
-	OBASearchResult * result = [[[OBASearchResult alloc] init] autorelease];
+	OBASearchResult * result = [[OBASearchResult alloc] init];
 	result.values = list.values;
 	result.outOfRange = list.outOfRange;
 	result.limitExceeded = list.limitExceeded;
@@ -34,14 +34,9 @@
 	return self;
 }
 
-- (void) dealloc {
-	[_values release];
-	[_additionalValues release];
-	[super dealloc];
-}
 
 - (OBASearchResult*) resultsInRegion:(MKCoordinateRegion)region {
-	OBASearchResult * result = [[[OBASearchResult alloc] init] autorelease];
+	OBASearchResult * result = [[OBASearchResult alloc] init];
 	result.searchType = self.searchType;
 	result.outOfRange = self.outOfRange;
 	result.limitExceeded = self.limitExceeded;

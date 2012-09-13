@@ -24,11 +24,6 @@
 
 @synthesize appContext = _appContext;
 
-- (void)dealloc {	
-	[_appContext release];
-	[_mostRecentStops release];
-    [super dealloc];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -88,7 +83,6 @@
 		OBAStopAccessEventV2 * event = _mostRecentStops[index];
 		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopIds:event.stopIds];
 		[self.navigationController pushViewController:vc animated:TRUE];
-		[vc release];
 	}
 }
 

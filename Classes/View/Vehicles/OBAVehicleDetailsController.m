@@ -32,7 +32,7 @@ typedef enum {
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext vehicleId:(NSString*)vehicleId {
 	if( self = [super initWithApplicationContext:appContext] ) {
-		_vehicleId = [vehicleId retain];
+		_vehicleId = vehicleId;
 		self.refreshable = TRUE;
 		self.refreshInterval = 30;
 		self.showUpdateTime = TRUE;
@@ -40,11 +40,6 @@ typedef enum {
 	return self;
 }
 
-- (void)dealloc {
-	[_vehicleId release];
-	[_vehicleStatus release];
-    [super dealloc];
-}
 
 - (BOOL) isLoading {
 	return _vehicleStatus == nil;
@@ -56,7 +51,7 @@ typedef enum {
 
 -(void) handleData:(id)obj context:(id)context {
 	OBAEntryWithReferencesV2 * entry = obj;
-	_vehicleStatus = [entry.entry retain];
+	_vehicleStatus = entry.entry;
 }
 
 #pragma mark Table view methods
@@ -194,7 +189,6 @@ typedef enum {
 	[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
 	[dateFormatter setDateStyle:kCFDateFormatterNoStyle];	
 	NSString * result = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:_vehicleStatus.lastUpdateTime/1000.0]];
-	[dateFormatter release];
 
 	cell.detailTextLabel.textColor = [UIColor blackColor];
 	cell.detailTextLabel.textAlignment = UITextAlignmentLeft;
@@ -286,7 +280,6 @@ typedef enum {
 		case 1: {
 			OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationContext:_appContext tripInstance:tripInstance];
 			[self.navigationController pushViewController:vc animated:TRUE];
-			[vc release];
 			break;
 		}
 	}

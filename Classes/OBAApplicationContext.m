@@ -121,7 +121,6 @@ static const NSUInteger kTagAgenciesView = 6;
 		
 		OBAModelFactory * modelFactory = [[OBAModelFactory alloc] initWithReferences:_references];
 		_modelService.modelFactory = modelFactory;
-		[modelFactory release];
 		
 		_modelService.locationManager = _locationManager;
 		
@@ -132,21 +131,6 @@ static const NSUInteger kTagAgenciesView = 6;
 	return self;
 }
 
-- (void) dealloc {
-	[_modelDao release];
-	[_modelService release];
-	[_references release];
-	
-	[_locationManager release];
-	[_activityListeners release];
-	
-	[_stopIconFactory release];
-	
-	[_window release];
-	[_tabBarController release];
-	
-	[super dealloc];
-}
 
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget {
 	[self performSelector:@selector(navigateToTargetInternal:) withObject:navigationTarget afterDelay:0];
@@ -169,14 +153,10 @@ static const NSUInteger kTagAgenciesView = 6;
 	OBADataSourceConfig * obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:apiServerName args:obaArgs];	
 	OBAJsonDataSource * obaJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:obaDataSourceConfig];
 	_modelService.obaJsonDataSource = obaJsonDataSource;
-	[obaJsonDataSource release];
-	[obaDataSourceConfig release];
 	
 	OBADataSourceConfig * googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://maps.google.com" args:@"output=json&oe=utf-8&key=ABQIAAAA1R_R0bUhLYRwbQFpKHVowhRAXGY6QyK0faTs-0G7h9EE_iri4RRtKgRdKFvvraEP5PX_lP_RlqKkzA"];
 	OBAJsonDataSource * googleMapsJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
 	_modelService.googleMapsJsonDataSource = googleMapsJsonDataSource;
-	[googleMapsJsonDataSource release];
-	[googleMapsDataSourceConfig release];
 	
 	[userDefaults setObject:appVersion forKey:@"oba_application_version"];
 }
@@ -281,7 +261,6 @@ static const NSUInteger kTagAgenciesView = 6;
 	[userDefaults setObject:tabOrderArray forKey:kOBAHiddenPreferenceTabOrder];
 	[userDefaults synchronize];
 	
-	[tabOrderArray release];
 }
 
 #pragma mark IASKSettingsDelegate
@@ -320,7 +299,6 @@ static const NSUInteger kTagAgenciesView = 6;
     NSData * dateData = [NSKeyedArchiver archivedDataWithRootObject:date];
 	[userDefaults setObject:dateData forKey:kOBAHiddenPreferenceApplicationLastActiveTimestamp];
 	
-	[targets release];
 	
 	[userDefaults synchronize];
 }
@@ -451,7 +429,6 @@ static const NSUInteger kTagAgenciesView = 6;
 			break;		
 		[self setNavigationTarget:nextTarget forViewController:nextViewController];
 		[rootNavController pushViewController:nextViewController animated:TRUE];
-		[nextViewController release];
 	}
 	
 	return TRUE;
@@ -489,7 +466,6 @@ static const NSUInteger kTagAgenciesView = 6;
 			[detailsNavController popToRootViewControllerAnimated:FALSE];
 			OBAContactUsViewController * vc = [[OBAContactUsViewController alloc] initWithApplicationContext:self];
 			[detailsNavController pushViewController:vc animated:FALSE];
-			[vc release];
 			_tabBarController.selectedIndex = index;
 			break;
 		}

@@ -35,14 +35,14 @@ OBAArrivalEntryTableViewCellAlertStyle;
 	NSTimer * _transitionTimer;
 }
 
-@property (nonatomic, retain) IBOutlet UILabel * routeLabel;
-@property (nonatomic, retain) IBOutlet UIView * labelsView;
-@property (nonatomic, retain) IBOutlet UILabel * destinationLabel;
-@property (nonatomic, retain) IBOutlet UILabel * statusLabel;
-@property (nonatomic, retain) IBOutlet UILabel * minutesLabel;
-@property (nonatomic, retain) IBOutlet UILabel * minutesSubLabel;
-@property (nonatomic, retain) IBOutlet UIImageView * unreadAlertImage;
-@property (nonatomic, retain) IBOutlet UIImageView * alertImage;
+@property (nonatomic, strong) IBOutlet UILabel * routeLabel;
+@property (nonatomic, strong) IBOutlet UIView * labelsView;
+@property (nonatomic, strong) IBOutlet UILabel * destinationLabel;
+@property (nonatomic, strong) IBOutlet UILabel * statusLabel;
+@property (nonatomic, strong) IBOutlet UILabel * minutesLabel;
+@property (nonatomic, strong) IBOutlet UILabel * minutesSubLabel;
+@property (nonatomic, strong) IBOutlet UIImageView * unreadAlertImage;
+@property (nonatomic, strong) IBOutlet UIImageView * alertImage;
 
 @property (nonatomic) OBAArrivalEntryTableViewCellAlertStyle alertStyle;
 

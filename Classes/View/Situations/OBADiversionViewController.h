@@ -17,8 +17,8 @@
 
 +(OBADiversionViewController*) loadFromNibWithAppContext:(OBAApplicationContext*)context;
 
-@property (nonatomic,retain) IBOutlet OBAApplicationContext * appContext;
-@property (nonatomic,retain) NSString * diversionPath;
-@property (nonatomic,retain) NSDictionary * args;
+@property (nonatomic,strong) IBOutlet OBAApplicationContext * appContext;
+@property (nonatomic,strong) NSString * diversionPath;
+@property (nonatomic,strong) NSDictionary * args;
 
 @end

@@ -11,23 +11,17 @@
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)context stop:(OBAStopV2*)stop {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-		_appContext = [context retain];
-		_stop = [stop retain];
+		_appContext = context;
+		_stop = stop;
 		
 		self.navigationItem.title = NSLocalizedString(@"Report a Problem",@"self.navigationItem.title");
 		
 		UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Report",@"UIBarButtonItem initWithTitle") style:UIBarButtonItemStyleBordered target:nil action:nil];
 		self.navigationItem.backBarButtonItem = item;
-		[item release];
     }
     return self;
 }
 
-- (void) dealloc {
-	[_appContext release];
-	[_stop release];
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark Table view data source
@@ -73,13 +67,11 @@
 		case 0: {
 			OBAReportProblemWithStopViewController * vc = [[OBAReportProblemWithStopViewController alloc] initWithApplicationContext:_appContext stop:_stop];
 			[self.navigationController pushViewController:vc animated:TRUE];
-			[vc release];
 			break;
 		}
 		case 1: {
 			OBAReportProblemWithRecentTripsViewController * vc = [[OBAReportProblemWithRecentTripsViewController alloc] initWithApplicationContext:_appContext stopId:_stop.stopId];
 			[self.navigationController pushViewController:vc animated:TRUE];
-			[vc release];
 			break;
 		}
 		default:

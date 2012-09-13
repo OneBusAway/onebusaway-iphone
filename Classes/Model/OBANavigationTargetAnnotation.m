@@ -28,21 +28,14 @@
 - (id) initWithTitle:(NSString*)title subtitle:(NSString*)subtitle coordinate:(CLLocationCoordinate2D)coordinate target:(OBANavigationTarget*)target {
 
 	if( self = [super init] ) {
-		_title = [title retain];
-		_subtitle = [subtitle retain];
+		_title = title;
+		_subtitle = subtitle;
 		_coordinate = coordinate;
-		_target = [target retain];
+		_target = target;
 	}
 	
 	return self;
 }
 
-- (void) dealloc {
-	[_title release];
-	[_subtitle release];
-	[_target release];
-	[_data release];
-	[super dealloc];
-}
 
 @end

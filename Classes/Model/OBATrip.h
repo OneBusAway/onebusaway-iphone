@@ -13,8 +13,8 @@
 	NSString * _routeShortName;
 }
 
-@property (nonatomic,retain) NSString * tripId;
-@property (nonatomic,retain) NSString * tripHeadsign;
-@property (nonatomic,retain) NSString * routeShortName;
+@property (nonatomic,strong) NSString * tripId;
+@property (nonatomic,strong) NSString * tripHeadsign;
+@property (nonatomic,strong) NSString * routeShortName;
 
 @end

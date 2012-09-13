@@ -32,7 +32,7 @@ typedef enum {
 @property (nonatomic,readonly) NSString * subtitle;
 @property (nonatomic,readonly) CLLocationCoordinate2D coordinate;
 @property (nonatomic,readonly) OBANavigationTarget * target;
-@property (nonatomic,retain) id data;
+@property (nonatomic,strong) id data;
 
 - (id) initWithTitle:(NSString*)title subtitle:(NSString*)subtitle coordinate:(CLLocationCoordinate2D)coordinate target:(OBANavigationTarget*)target;
 

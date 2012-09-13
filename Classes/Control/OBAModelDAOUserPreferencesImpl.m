@@ -180,14 +180,12 @@ static NSString * kVisitedSituationIdsKey = @"hideFutureLocationWarnings";
 	NSKeyedArchiver * archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
 	[archiver encodeObject:object forKey:key];
 	[archiver finishEncoding];
-	[archiver release];
 }
 
 - (id) decodeObjectForKey:(NSString*)key fromData:(NSData*)data {
 	NSKeyedUnarchiver * unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
 	id object = [unarchiver decodeObjectForKey:key];
 	[unarchiver finishDecoding];
-	[unarchiver release];
 	return object;
 }
 

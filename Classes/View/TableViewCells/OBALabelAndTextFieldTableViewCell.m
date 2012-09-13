@@ -31,11 +31,6 @@
 	return cell;
 }
 
-- (void)dealloc {
-	[_label release];
-	[_textField release];
-    [super dealloc];
-}
 
 - (void)layoutSubviews {
 	CGSize labelSize = [_label sizeThatFits:CGSizeZero];

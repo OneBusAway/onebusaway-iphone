@@ -26,15 +26,6 @@
 
 - (void)dealloc {
 	[_request cancel];
-	[_request release];
-	
-	[self.args release];
-	[_tripEncodedPolyline release];
-	[_routePolyline release];
-	[_routePolylineView release];
-	[_reroutePolyline release];
-	[_reroutePolylineView release];
-    [super dealloc];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -45,7 +36,7 @@
 
 		NSArray * points = [OBASphericalGeometryLibrary decodePolylineString:self.diversionPath];
 
-		_reroutePolyline = [[OBASphericalGeometryLibrary createMKPolylineFromLocations:points] retain];
+		_reroutePolyline = [OBASphericalGeometryLibrary createMKPolylineFromLocations:points];
 
 		[mv addOverlay:_reroutePolyline];
 		
@@ -61,7 +52,7 @@
 			if( shapeId ) {
 				OBAApplicationContext * context = self.appContext;
 				OBAModelService * service = context.modelService;
-				_request = [[service requestShapeForId:shapeId withDelegate:self withContext:nil] retain];
+				_request = [service requestShapeForId:shapeId withDelegate:self withContext:nil];
 			}
 		}
 	}
@@ -76,7 +67,6 @@
 		for( CLLocation * location in points ) {
 			OBAPlacemark * annotation = [[OBAPlacemark alloc] initWithAddress:@"" coordinate:location.coordinate];
 			[annotations addObject:annotation];
-			[annotation release];
 			
 			[bounds addLocation:location];
 		}
@@ -97,7 +87,7 @@
 		static NSString * viewId = @"DiversionView";
 		MKPinAnnotationView * view = (MKPinAnnotationView*) [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
 		if( view == nil ) {
-			view = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId] autorelease];
+			view = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
 		}
 		view.canShowCallout = FALSE;
 		return view;
@@ -148,7 +138,7 @@
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
 	if( obj ) {
-		_tripEncodedPolyline = [obj retain];
+		_tripEncodedPolyline = obj;
 		NSArray * points = [OBASphericalGeometryLibrary decodePolylineString:_tripEncodedPolyline];
 		
 		CLLocationCoordinate2D* pointArr = malloc(sizeof(CLLocationCoordinate2D) * points.count);
@@ -158,7 +148,7 @@
 			pointArr[i] = p;
 		}
 		
-		_routePolyline = [[MKPolyline polylineWithCoordinates:pointArr count:points.count] retain];
+		_routePolyline = [MKPolyline polylineWithCoordinates:pointArr count:points.count];
 		MKMapView * mv = [self mapView];
 		[mv addOverlay:_routePolyline];
 	}

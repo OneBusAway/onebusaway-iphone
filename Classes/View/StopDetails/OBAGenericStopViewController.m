@@ -78,7 +78,7 @@ static const double kNearbyStopRadius = 200;
 
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 
-		_appContext = [appContext retain];
+		_appContext = appContext;
 		
 		_minutesBefore = 5;
 		_minutesAfter = 35;
@@ -98,7 +98,6 @@ static const double kNearbyStopRadius = 200;
 		
 		UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
 		[self.navigationItem setRightBarButtonItem:refreshItem];
-		[refreshItem release];
 		
 		_allArrivals = [[NSMutableArray alloc] init];
 		_filteredArrivals = [[NSMutableArray alloc] init];
@@ -113,7 +112,7 @@ static const double kNearbyStopRadius = 200;
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopId:(NSString*)stopId {
 	if( self = [self initWithApplicationContext:appContext] ) {
-		_stopId = [stopId retain];
+		_stopId = stopId;
 	}
 	return self;
 }
@@ -126,17 +125,9 @@ static const double kNearbyStopRadius = 200;
 	
 	[self clearPendingRequest];
 	
-	[_stopId release];	
-	[_result release];
 	
-	[_allArrivals release];
-	[_filteredArrivals release];
 	
-	[_arrivalCellFactory release];
-	[_progressView release];
-	[_serviceAlerts release];
 	
-    [super dealloc];
 }
 
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section {
@@ -425,18 +416,16 @@ static const double kNearbyStopRadius = 200;
 	OBAModelService * service = _appContext.modelService;
 	
 	[self clearPendingRequest];
-	_request = [[service requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter withDelegate:self withContext:nil] retain];
-	_timer = [[NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:TRUE] retain];
+	_request = [service requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter withDelegate:self withContext:nil];
+	_timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:TRUE];
 }
 	 
 - (void) clearPendingRequest {
 	
 	[_timer invalidate];
-	[_timer release];
 	_timer = nil;
 	
 	[_request cancel];
-	[_request release];
 	_request = nil;
 }
 
@@ -447,7 +436,6 @@ static const double kNearbyStopRadius = 200;
     [refreshItem setEnabled:NO];
 	
     [self.navigationItem setRightBarButtonItem:refreshItem];
-    [refreshItem release];
 }
 
 - (void) didRefreshEnd {
@@ -456,7 +444,6 @@ static const double kNearbyStopRadius = 200;
     UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
 	
     [self.navigationItem setRightBarButtonItem:refreshItem];
-    [refreshItem release];
 }
 
 - (NSUInteger) sectionIndexForSectionType:(OBAStopSectionType)section {
@@ -602,7 +589,6 @@ static const double kNearbyStopRadius = 200;
 		OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
 		OBAArrivalAndDepartureViewController * vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationContext:_appContext arrivalAndDeparture:arrivalAndDeparture];
 		[self.navigationController pushViewController:vc animated:TRUE];
-		[vc release];
 	}
 }
 
@@ -613,7 +599,6 @@ static const double kNearbyStopRadius = 200;
 			
 			OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:_appContext bookmark:bookmark editType:OBABookmarkEditNew];
 			[self.navigationController pushViewController:vc animated:YES];
-			[vc release];
 			
 			break;
 		}
@@ -621,7 +606,6 @@ static const double kNearbyStopRadius = 200;
 		case 1: {
 			OBAEditStopPreferencesViewController * vc = [[OBAEditStopPreferencesViewController alloc] initWithApplicationContext:_appContext stop:_result.stop];
 			[self.navigationController pushViewController:vc animated:YES];
-			[vc release];
 			
 			break;
 		}
@@ -643,7 +627,6 @@ static const double kNearbyStopRadius = 200;
 		case 4: {
 			OBAReportProblemViewController * vc = [[OBAReportProblemViewController alloc] initWithApplicationContext:_appContext stop:_result.stop];
 			[self.navigationController pushViewController:vc animated:YES];
-			[vc release];
 			
 			break;
 		}
@@ -705,7 +688,7 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 		}
 	}
 	
-	_serviceAlerts = [[modelDao getServiceAlertsModelForSituations:_result.situations] retain];
+	_serviceAlerts = [modelDao getServiceAlertsModelForSituations:_result.situations];
 	
 	[self.tableView reloadData];
 }

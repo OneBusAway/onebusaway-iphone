@@ -24,7 +24,7 @@
 	id _context;
 }
 
-@property (nonatomic,readonly) NSString * context;
+@property (weak, nonatomic,readonly) NSString * context;
 
 - (id) initWithTitle:(NSString*)title subtitle:(NSString*)subtitle coordinate:(CLLocationCoordinate2D)coordinate context:(id)context;
 

@@ -29,9 +29,9 @@ typedef enum {
 {
 }
 
-@property (nonatomic, retain) NSNumber * sortTripsByType;
-@property (nonatomic, retain) OBAStop * stop;
-@property (nonatomic, retain) NSSet* routesToExclude;
+@property (nonatomic, strong) NSNumber * sortTripsByType;
+@property (nonatomic, strong) OBAStop * stop;
+@property (nonatomic, strong) NSSet* routesToExclude;
 
 @end
 

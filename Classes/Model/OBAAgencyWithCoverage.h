@@ -22,7 +22,7 @@
 	CLLocationCoordinate2D _coordinate;
 }
 
-@property (nonatomic,retain) OBAAgency * agency;
+@property (nonatomic,strong) OBAAgency * agency;
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 
 @end

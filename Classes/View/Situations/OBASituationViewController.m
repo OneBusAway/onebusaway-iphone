@@ -51,8 +51,8 @@ typedef enum {
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext situation:(OBASituationV2*)situation {
 	
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-		_appContext = [appContext retain];
-		_situation = [situation retain];
+		_appContext = appContext;
+		_situation = situation;
 		
 		NSString * diversionPath = nil;
 		
@@ -63,7 +63,7 @@ typedef enum {
 		}
 		
 		if( diversionPath )
-			_diversionPath = [diversionPath retain];
+			_diversionPath = diversionPath;
 
 		// Mark the situation as visited
 		OBAModelDAO * modelDao = _appContext.modelDao;
@@ -73,12 +73,6 @@ typedef enum {
 	return self;
 }
 
-- (void)dealloc {
-	[_appContext release];
-	[_situation release];
-	[_diversionPath release];
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark Table view data source

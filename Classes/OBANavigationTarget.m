@@ -47,18 +47,14 @@
 }
 
 + (id) target:(OBANavigationTargetType)target {
-	return [[[self alloc] initWithTarget:target] autorelease];	
+	return [[self alloc] initWithTarget:target];	
 }
 
 + (id) target:(OBANavigationTargetType)target parameters:(NSDictionary*)parameters {
-	return [[[self alloc] initWithTarget:target parameters:parameters] autorelease];
+	return [[self alloc] initWithTarget:target parameters:parameters];
 }
 
 
-- (void) dealloc {
-	[_parameters release];
-	[super dealloc];
-}
 
 - (id) parameterForKey:(id)key {
 	return _parameters[key];

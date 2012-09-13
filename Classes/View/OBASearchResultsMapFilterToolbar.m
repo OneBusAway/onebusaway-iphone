@@ -43,7 +43,6 @@
         self.appContext = context;
 
         _filterDelegate = delegate;
-        [_filterDelegate retain];
         assert([_filterDelegate respondsToSelector:@selector(onFilterClear)]);
         
         _currentlyShowing = NO;
@@ -65,8 +64,6 @@
         [self setItems:items animated:NO];
         
         // Release toolbar button items -- they're now owned by the toolbar
-        [flexItem release];
-        [clearItem release];
     }
     
     return self;
@@ -75,12 +72,6 @@
 
 -(void) dealloc {
     [self hideInternal];
-    
-    [self.filterDescription release];
-    [self.appContext release];
-    [_filterDelegate release];
-    
-    [super dealloc];
 }
 
 
@@ -141,8 +132,6 @@
     [self addSubview:_descOutput];
     
     // Release text labels -- the filter toolbar now owns them
-    [_labelOutput release];
-    [_descOutput  release];
 }
 
 

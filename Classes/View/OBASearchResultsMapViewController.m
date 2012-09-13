@@ -105,26 +105,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @synthesize listButton = _listButton;
 @synthesize filterToolbar = _filterToolbar;
 
--(void) dealloc {
-	[_appContext release];
-
-	[_activityIndicatorView release];
-	
+- (void) dealloc {
 	[_searchController cancelOpenConnections];
-	[_searchController release];
-	
-	[_mapView release];
-    [_mapRegionManager release];
-	[_listButton release];
-	[_currentLocationButton release];
-
-	[_locationAnnotation release];
-	 
-	[_mostRecentLocation release];
-	
-	[_networkErrorAlertViewDelegate release];
-		
-	[super dealloc];
 }
 
 - (void) viewDidLoad {
@@ -157,11 +139,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	_searchController = [[OBASearchController alloc] initWithAppContext:_appContext];
 	_searchController.delegate = self;	
 	_searchController.progress.delegate = self;
-}
-
-- (void)viewDidUnload {
-    [self.filterToolbar release];
-    [super viewDidUnload];
 }
 
 - (void)onFilterClear {
@@ -273,7 +250,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 		_hideFutureNetworkErrors = TRUE;
 		self.navigationItem.title = NSLocalizedString(@"Error connecting",@"self.navigationItem.title");
 		
-		UIAlertView * view = [[[UIAlertView alloc] init] autorelease];
+		UIAlertView * view = [[UIAlertView alloc] init];
 		view.title = NSLocalizedString(@"Error connecting",@"self.navigationItem.title");
 		view.message = NSLocalizedString(@"There was a problem with your Internet connection.\n\nPlease check your network connection or contact us if you think the problem is on our end.",@"view.message");
 		view.delegate = _networkErrorAlertViewDelegate;
@@ -365,7 +342,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 		
 		MKAnnotationView * view = [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
 		if( view == nil ) {
-			view = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId] autorelease];
+			view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
 		}
 		view.canShowCallout = TRUE;
 		view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
@@ -388,7 +365,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 		static NSString * viewId = @"NavigationTargetView";
 		MKPinAnnotationView * view = (MKPinAnnotationView*) [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
 		if( view == nil ) {
-			view = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId] autorelease];
+			view = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
 		}
 		
 		view.canShowCallout = TRUE;
@@ -403,7 +380,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 		static NSString * viewId = @"NavigationTargetView";
 		MKPinAnnotationView * view = (MKPinAnnotationView*) [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
 		if( view == nil ) {
-			view = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId] autorelease];
+			view = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
 		}
 		
 		OBANavigationTargetAnnotation * nav = annotation;
@@ -425,7 +402,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 			
 			MKAnnotationView * view = [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
 			if( view == nil ) {
-				view = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId] autorelease];
+				view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
 			}
 			view.canShowCallout = FALSE;
 			view.image = [UIImage imageNamed:@"BlueMarker.png"];
@@ -444,7 +421,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 		OBAStopV2 * stop = annotation;
 		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stop.stopId];
 		[self.navigationController pushViewController:vc animated:TRUE];
-		[vc release];
 	}
 	else if( [annotation isKindOfClass:[OBAPlacemark class]] ) {
 		OBAPlacemark * placemark = annotation;
@@ -458,7 +434,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	MKOverlayView* overlayView = nil;
 	
 	if( [overlay isKindOfClass:[MKPolyline class]] ) {
-		MKPolylineView * polylineView  = [[[MKPolylineView alloc] initWithPolyline:overlay] autorelease];
+		MKPolylineView * polylineView  = [[MKPolylineView alloc] initWithPolyline:overlay];
 		polylineView.fillColor = [UIColor blackColor];
 		polylineView.strokeColor = [UIColor blackColor];
 		polylineView.lineWidth = 5;
@@ -495,7 +471,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 		
 		OBASearchResultsListViewController * vc = [[OBASearchResultsListViewController alloc] initWithContext:_appContext searchControllerResult:result];
 		[self.navigationController pushViewController:vc animated:TRUE];
-        [vc release];
 	}
 }
 
@@ -509,14 +484,13 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void) centerMapOnMostRecentLocation {
 	
 	OBAModelDAO * modelDao = _appContext.modelDao;
-	CLLocation * mostRecentLocation = [modelDao.mostRecentLocation retain];
+	CLLocation * mostRecentLocation = modelDao.mostRecentLocation;
 	
 	if( mostRecentLocation ) {
 		MKCoordinateRegion region = [self getLocationAsRegion:mostRecentLocation];
         [_mapRegionManager setRegion:region changeWasProgramatic:TRUE];
 	}
 	
-	[mostRecentLocation release];
 }
 
 - (void) refreshCurrentLocation {
@@ -526,7 +500,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 	if( _locationAnnotation ) {
 		[_mapView removeAnnotation:_locationAnnotation];
-		[_locationAnnotation release];
 		_locationAnnotation = nil;
 	}
 	
@@ -647,7 +620,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 	if( ! location ) {
 		CLLocationCoordinate2D center = _mapView.centerCoordinate;	
-		location = [[[CLLocation alloc] initWithLatitude:center.latitude longitude:center.longitude] autorelease];	
+		location = [[CLLocation alloc] initWithLatitude:center.latitude longitude:center.longitude];	
 	}
 	
 	return location;
@@ -666,7 +639,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 		[view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
 		view.cancelButtonIndex = 0;
 		[view show];
-		[view release];
 	}		
 }
 
@@ -687,7 +659,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 				OBAAgencyV2 * agency = agencyWithCoverage.agency;
 				OBANavigationTargetAnnotation * an = [[OBANavigationTargetAnnotation alloc] initWithTitle:agency.name subtitle:nil coordinate:agencyWithCoverage.coordinate target:nil];
 				[annotations addObject:an];
-				[an release];
 			}
 		}
 	}
@@ -714,9 +685,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	[_mapView removeAnnotations:toRemove];
 	[_mapView addAnnotations:toAdd];
 	
-	[toAdd release];
-	[toRemove release];
-	[annotations release];
 }
 
 - (void) setOverlaysFromResults {
@@ -942,7 +910,6 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 		CLLocationDistance d = [location distanceFromLocation:center];
 		if( d < kMaxMapDistanceFromCurrentLocationForNearby )
 			[stopsInRange addObject:stop];
-		[location release];
 	}
 	
 	if( [stopsInRange count] > 0)
@@ -970,7 +937,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	
 	for( OBAPlacemark * placemark in placemarks ) {
 		CLLocationCoordinate2D coordinate = placemark.coordinate;
-		center = [[[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude] autorelease];
+		center = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
 	}
 	
 	return [self computeRegionForNClosestStops:stops center:center numberOfStops:kShowNClosestStops];

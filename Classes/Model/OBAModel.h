@@ -23,9 +23,9 @@
 {
 }
 
-@property (nonatomic, retain) NSSet* recentStops;
-@property (nonatomic, retain) NSSet* bookmarks;
-@property (nonatomic, retain) CLLocation * mostRecentLocation;
+@property (nonatomic, strong) NSSet* recentStops;
+@property (nonatomic, strong) NSSet* bookmarks;
+@property (nonatomic, strong) CLLocation * mostRecentLocation;
 
 @end
 

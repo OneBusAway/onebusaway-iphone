@@ -56,12 +56,12 @@
 
 //- (id) initWithApplicationContext:(OBAApplicationContext*)context;
 
-@property (nonatomic,retain) IBOutlet OBAApplicationContext * appContext;
-@property (nonatomic,retain) IBOutlet MKMapView * mapView;
-@property (nonatomic,retain) IBOutlet UIBarButtonItem * currentLocationButton;
-@property (nonatomic,retain) IBOutlet UIBarButtonItem * listButton;
+@property (nonatomic,strong) IBOutlet OBAApplicationContext * appContext;
+@property (nonatomic,strong) IBOutlet MKMapView * mapView;
+@property (nonatomic,strong) IBOutlet UIBarButtonItem * currentLocationButton;
+@property (nonatomic,strong) IBOutlet UIBarButtonItem * listButton;
 
-@property (nonatomic,retain) OBASearchResultsMapFilterToolbar * filterToolbar;
+@property (nonatomic,strong) OBASearchResultsMapFilterToolbar * filterToolbar;
 
 -(IBAction) onCrossHairsButton:(id)sender;
 -(IBAction) onListButton:(id)sender;

@@ -23,20 +23,14 @@
 
 - (id) initWithTitle:(NSString*)title subtitle:(NSString*)subtitle coordinate:(CLLocationCoordinate2D)coordinate context:(id)context {
 	if( self = [super init] ) {
-		_title = [title retain];
-		_subtitle = [subtitle retain];
+		_title = title;
+		_subtitle = subtitle;
 		_coordinate = coordinate;
-		_context = [context retain];
+		_context = context;
 	}
 	return self;
 }
 
-- (void) dealloc {
-	[_title release];
-	[_subtitle release];
-	[_context release];
-	[super dealloc];
-}
 
 - (NSString*) title {
 	return _title;

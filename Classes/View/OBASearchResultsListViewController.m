@@ -36,18 +36,13 @@
 	
 	// Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-		_appContext = [appContext retain];
-		_result = [result retain];
+		_appContext = appContext;
+		_result = result;
 	}
 	return self;
 }
 
 
-- (void)dealloc {
-	[_appContext release];
-	[_result release];
-    [super dealloc];
-}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -149,7 +144,6 @@
 			OBAStopV2 * stop = (_result.values)[indexPath.row];
 			OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stop.stopId];
 			[self.navigationController pushViewController:vc animated:TRUE];
-			[vc release];
 			break;
 		}
 		case OBASearchTypeRoute: {		

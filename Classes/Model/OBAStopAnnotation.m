@@ -22,15 +22,11 @@
 
 - (id) initWithStop:(OBAStop*)stop {
 	if( self = [super init] ) {
-		_stop = [stop retain];
+		_stop = stop;
 	}
 	return self;
 }
 
-- (void) dealloc {
-	[_stop release];
-	[super dealloc];
-}
 
 - (OBAStop*) stop {
 	return _stop;

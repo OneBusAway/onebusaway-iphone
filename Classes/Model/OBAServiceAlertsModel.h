@@ -5,8 +5,8 @@
 @property (nonatomic) NSUInteger unreadCount;
 @property (nonatomic) NSUInteger totalCount;
 
-@property (nonatomic,retain) NSString * unreadMaxSeverity;
-@property (nonatomic,retain) NSString * maxSeverity;
+@property (nonatomic,strong) NSString * unreadMaxSeverity;
+@property (nonatomic,strong) NSString * maxSeverity;
 
 
 @end

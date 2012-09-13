@@ -8,7 +8,7 @@
 
 - (id) initWithTripStatus:(OBATripStatusV2*)tripStatus {
 	if( self = [super init] ) {
-		_tripStatus = [tripStatus retain];
+		_tripStatus = tripStatus;
 	}
 	return self;	
 }
@@ -27,7 +27,6 @@
 	[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
 	[dateFormatter setDateStyle:kCFDateFormatterNoStyle];	
 	NSString * result = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:_tripStatus.lastUpdateTime/1000.0]];
-	[dateFormatter release];
 	
 	return result;
 }

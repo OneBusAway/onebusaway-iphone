@@ -42,10 +42,6 @@ typedef enum {
 	self.showUpdateTime = FALSE;
 }
 
-- (void)dealloc {
-	[_agencies release];
-    [super dealloc];
-}
 
 - (BOOL) isLoading {
 	return _agencies == nil;

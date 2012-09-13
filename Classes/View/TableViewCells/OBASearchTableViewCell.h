@@ -23,8 +23,8 @@
 	UIButton * _cancelButton;
 }
 
-@property (nonatomic,retain) IBOutlet UISegmentedControl * searchTypes;
-@property (nonatomic,retain) IBOutlet UITextField * searchField;
-@property (nonatomic,retain) IBOutlet UIButton * cancelButton;
+@property (nonatomic,strong) IBOutlet UISegmentedControl * searchTypes;
+@property (nonatomic,strong) IBOutlet UITextField * searchField;
+@property (nonatomic,strong) IBOutlet UIButton * cancelButton;
 
 @end

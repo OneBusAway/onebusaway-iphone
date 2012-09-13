@@ -23,15 +23,15 @@
 {
 }
 
-@property (nonatomic, retain) NSString * routeId;
-@property (nonatomic, retain) NSString * shortName;
-@property (nonatomic, retain) NSString * longName;
-@property (nonatomic, retain) NSNumber * routeType;
-@property (nonatomic, retain) NSSet* stops;
-@property (nonatomic, retain) OBAAgency * agency;
-@property (nonatomic, retain) NSSet* excludedInPreferences;
+@property (nonatomic, strong) NSString * routeId;
+@property (nonatomic, strong) NSString * shortName;
+@property (nonatomic, strong) NSString * longName;
+@property (nonatomic, strong) NSNumber * routeType;
+@property (nonatomic, strong) NSSet* stops;
+@property (nonatomic, strong) OBAAgency * agency;
+@property (nonatomic, strong) NSSet* excludedInPreferences;
 
-@property (nonatomic, readonly) NSString * safeShortName;
+@property (weak, nonatomic, readonly) NSString * safeShortName;
 
 - (NSComparisonResult) compareUsingName:(OBARoute*)aRoute;
 

@@ -36,11 +36,6 @@
 	return cell;
 }
 
-- (void)dealloc {
-	[_mainLabel release];
-	[_subLabel release];
-    [super dealloc];
-}
 
 - (void) setStop:(OBAStopV2*)stop {
 	_mainLabel.text = stop.name;

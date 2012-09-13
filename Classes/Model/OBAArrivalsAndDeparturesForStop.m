@@ -29,10 +29,5 @@
 	return self;
 }
 
-- (void) dealloc {
-	[_stop release];
-	[_arrivalsAndDepartures release];
-	[super dealloc];
-}
 
 @end

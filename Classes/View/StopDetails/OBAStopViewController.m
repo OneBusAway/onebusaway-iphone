@@ -20,13 +20,9 @@
 
 - (void) customSetup {
 	NSArray * nib = [[NSBundle mainBundle] loadNibNamed:@"OBAArrivalsAndDeparturesHeaderView" owner:self options:nil];
-	_headerView = [nib[0] retain];
+	_headerView = nib[0];
 }
 
-- (void) dealloc {
-	[_headerView release];
-	[super dealloc];
-}
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	OBAStopSectionType sectionType = [self sectionTypeForSection:section];

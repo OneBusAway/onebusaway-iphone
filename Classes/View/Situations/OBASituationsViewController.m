@@ -22,19 +22,14 @@
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext situations:(NSArray*)situations {
 	
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-		_appContext = [appContext retain];
-		_situations = [situations retain];
+		_appContext = appContext;
+		_situations = situations;
 		self.navigationItem.title = NSLocalizedString(@"Service Alerts",@"self.navigationItem.title");
 	}
 	
 	return self;
 }
 
-- (void)dealloc {
-	[_appContext release];
-	[_situations release];
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -83,7 +78,6 @@
 		OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationContext:_appContext situation:situation];
 		vc.args = self.args;
 		[self.navigationController pushViewController:vc animated:TRUE];
-		[vc release];
 	}
 }
 

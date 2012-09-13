@@ -48,7 +48,7 @@
 	NSError * error = nil;
 	
 	NSManagedObjectModel * managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
-	NSPersistentStoreCoordinator * persistentStoreCoordinator = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: managedObjectModel] autorelease];
+	NSPersistentStoreCoordinator * persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: managedObjectModel];
 	
 	NSURL *storeUrl = [NSURL fileURLWithPath:path];
 	
@@ -81,7 +81,6 @@
 		v2.stopIds = @[stop.stopId];
 		[dao addNewBookmark:v2 error:nil];
 	}
-	[bookmarks release];
 	
 	// Transfer stop preferences
 	// For reasons I don't understand, I couldn't get the OR of the two predicates to work, so I split them up
@@ -107,10 +106,8 @@
 		v2.subtitle = stop.subtitle;
 		v2.stopIds = @[stop.stopId];
 		[dao addStopAccessEvent:v2];
-		[v2 release];
 	}
 	
-	[recentStops release];
 }
 
 - (void) migrateStopPreferencesForStops:(NSArray*)stops withModelDao:(OBAModelDAO*)dao {
@@ -153,7 +150,7 @@
 	
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:typeName inManagedObjectContext:context];
 	
-	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];	
+	NSFetchRequest *request = [[NSFetchRequest alloc] init];	
 	[request setEntity:entityDescription];
 	if( predicate )
 		[request setPredicate:predicate];

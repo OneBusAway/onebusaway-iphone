@@ -41,9 +41,9 @@ typedef enum {
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext tripInstance:(OBATripInstanceRef*)tripInstance trip:(OBATripV2*)trip {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-		_appContext = [appContext retain];
-		_tripInstance = [tripInstance retain];
-		_trip = [trip retain];
+		_appContext = appContext;
+		_tripInstance = tripInstance;
+		_trip = trip;
 
 		self.navigationItem.title = NSLocalizedString(@"Report a Problem",@"self.navigationItem.title");
 
@@ -52,7 +52,6 @@ typedef enum {
 										target:nil
 										action:nil];
 		self.navigationItem.backBarButtonItem = item;
-		[item release];
 		
 		_vehicleNumber = @"0000";
 		_vehicleType = [self getVehicleTypeLabeForTrip:trip];
@@ -72,14 +71,6 @@ typedef enum {
     return self;
 }
 
-- (void)dealloc {
-	[_appContext release];
-	[_problemNames release];
-	[_tripInstance release];
-	[_comment release];
-	[_activityIndicatorView release];
-    [super dealloc];
-}
 
 
 #pragma mark UIViewController
@@ -194,7 +185,6 @@ typedef enum {
 			vc.target = self;
 			vc.action = @selector(setProblem:);
 			[self.navigationController pushViewController:vc animated:TRUE];
-			[vc release];
 			break;
 		}
 			
@@ -376,7 +366,6 @@ typedef enum {
 	[_activityIndicatorView show:self.view];
 	[_appContext.modelService reportProblemWithTrip:problem withDelegate:self withContext:nil];
 	
-	[problem release];
 }
 
 - (NSString*) getProblemAsData {
@@ -386,8 +375,7 @@ typedef enum {
 	p[@"text"] = _problemNames[_problemIndex];
 
     NSData *data = [NSJSONSerialization dataWithJSONObject:p options:0 error:nil];
-    NSString *v = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-    [p release];
+    NSString *v = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 
 	return v;	
 }

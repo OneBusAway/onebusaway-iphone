@@ -126,7 +126,7 @@ NSString * kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSe
 	if( argument )
 		params[kOBASearchControllerSearchArgumentParameter] = argument;
     
-	return [[[OBANavigationTarget alloc] initWithTarget:OBANavigationTargetTypeSearchResults parameters:params] autorelease];
+	return [[OBANavigationTarget alloc] initWithTarget:OBANavigationTargetTypeSearchResults parameters:params];
 }
 
 @end

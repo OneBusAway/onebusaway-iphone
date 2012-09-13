@@ -15,12 +15,6 @@
 @synthesize tripHeadsign = _tripHeadsign;
 @synthesize routeShortName = _routeShortName;
 
-- (void) dealloc {
-	[_tripId release];
-	[_tripHeadsign release];
-	[_routeShortName release];
-	[super dealloc];
-}
 
 
 @end

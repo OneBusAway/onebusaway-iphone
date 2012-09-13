@@ -5,7 +5,7 @@
 
 - (id) initWithCoder:(NSCoder*)coder;
 
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSArray * stopIds;
+@property (nonatomic, strong) NSString * name;
+@property (nonatomic, strong) NSArray * stopIds;
 
 @end

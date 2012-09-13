@@ -23,9 +23,9 @@
 {
 }
 
-@property (nonatomic, retain) NSDate * eventTime;
-@property (nonatomic, retain) OBAStop * stop;
-@property (nonatomic, retain) OBAModel * model;
+@property (nonatomic, strong) NSDate * eventTime;
+@property (nonatomic, strong) OBAStop * stop;
+@property (nonatomic, strong) OBAModel * model;
 
 - (NSComparisonResult) compare:(OBAStopAccessEvent*)event;
 

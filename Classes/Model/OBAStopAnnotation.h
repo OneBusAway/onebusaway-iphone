@@ -24,6 +24,6 @@
 
 - (id) initWithStop:(OBAStop*)stop;
 
-@property (nonatomic,readonly) OBAStop * stop;
+@property (weak, nonatomic,readonly) OBAStop * stop;
 
 @end

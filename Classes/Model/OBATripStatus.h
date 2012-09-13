@@ -19,10 +19,10 @@
 	BOOL _predicted;
 }
 
-@property (nonatomic,retain) OBATrip * trip;
-@property (nonatomic,retain) OBARoute * route;
+@property (nonatomic,strong) OBATrip * trip;
+@property (nonatomic,strong) OBARoute * route;
 @property (nonatomic) long long serviceDate;
-@property (nonatomic,retain) CLLocation * position;
+@property (nonatomic,strong) CLLocation * position;
 @property (nonatomic) int scheduleDeviation;
 @property (nonatomic) BOOL predicted;
 

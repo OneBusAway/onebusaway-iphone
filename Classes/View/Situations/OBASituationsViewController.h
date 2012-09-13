@@ -8,6 +8,6 @@
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext situations:(NSArray*)situations;
 
-@property (nonatomic,retain) NSDictionary * args;
+@property (nonatomic,strong) NSDictionary * args;
 
 @end

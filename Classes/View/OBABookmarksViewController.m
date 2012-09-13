@@ -33,11 +33,6 @@
 @synthesize appContext = _appContext;
 @synthesize customEditButtonItem = _customEditButtonItem;
 
-- (void)dealloc {
-	[_appContext release];
-	[_bookmarks release];
-    [super dealloc];
-}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -96,13 +91,11 @@
 	if( self.tableView.editing ) {
 		OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:_appContext bookmark:bookmark editType:OBABookmarkEditExisting];
 		[self.navigationController pushViewController:vc animated:TRUE];
-		[vc release];
 	}
 	else {
 		[_appContext.activityListeners bookmarkClicked:bookmark];
 		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopIds:bookmark.stopIds];
 		[self.navigationController pushViewController:vc animated:TRUE];
-		[vc release];
 	}
 }
 

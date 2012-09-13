@@ -21,15 +21,11 @@
 
 - (id) initWithContext:(OBAApplicationContext*)context {
 	if( self = [super init] ) {
-		_context = [context retain];
+		_context = context;
 	}
 	return self;
 }
 
-- (void) dealloc {
-	[_context release];
-	[super dealloc];
-}
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
 	if( buttonIndex == 0 )

@@ -16,7 +16,7 @@
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext tripInstance:(OBATripInstanceRef*)tripInstance;
 
-@property (nonatomic,retain) OBATripDetailsV2 * tripDetails;
-@property (nonatomic,retain) NSString * currentStopId;
+@property (nonatomic,strong) OBATripDetailsV2 * tripDetails;
+@property (nonatomic,strong) NSString * currentStopId;
 
 @end

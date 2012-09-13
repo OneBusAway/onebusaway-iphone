@@ -33,10 +33,6 @@
 	return self;
 }
 
-- (void) dealloc {
-	[_listeners release];
-	[super dealloc];
-}
 
 - (void) addListener:(NSObject<OBAActivityListener,NSObject>*)listener {
 	@synchronized(self) {

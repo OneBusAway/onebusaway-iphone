@@ -33,12 +33,6 @@
 	}
 }
 
-- (void)dealloc {
-	[_searchTypes release];
-	[_searchField release];
-	[_cancelButton release];
-    [super dealloc];
-}
 
 
 @end

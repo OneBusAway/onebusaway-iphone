@@ -33,9 +33,9 @@
 	NSMutableSet * _visitedSituationIds;
 }
 
-@property (nonatomic,readonly) NSArray * bookmarks;
-@property (nonatomic,readonly) NSArray * mostRecentStops;
-@property (nonatomic,assign) CLLocation * mostRecentLocation;
+@property (weak, nonatomic,readonly) NSArray * bookmarks;
+@property (weak, nonatomic,readonly) NSArray * mostRecentStops;
+@property (nonatomic,weak) CLLocation * mostRecentLocation;
 
 - (OBABookmarkV2*) createTransientBookmark:(OBAStopV2*)stop;
 

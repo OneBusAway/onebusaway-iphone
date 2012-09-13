@@ -23,7 +23,7 @@
 	NSMutableArray * _arrivalsAndDepartures;
 }
 
-@property (nonatomic,retain) OBAStop * stop;
-@property (nonatomic,retain) NSArray * arrivalsAndDepartures;
+@property (nonatomic,strong) OBAStop * stop;
+@property (nonatomic,strong) NSArray * arrivalsAndDepartures;
 
 @end

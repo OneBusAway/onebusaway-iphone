@@ -18,10 +18,6 @@
 	_tripDetailsHandler = [[OBATripDetailsHandler alloc] init];
 }
 
-- (void) dealloc {
-	[_tripDetailsHandler release];
-	[super dealloc];
-}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {	
 	OBAStopSectionType sectionType = [self sectionTypeForSection:section];
@@ -53,7 +49,6 @@
 		OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationContext:parent.appContext tripInstance:tripInstance trip:tripDetails.trip];
 		vc.currentStopId = parent.stopId;
 		[parent.navigationController pushViewController:vc animated:TRUE];
-		[vc release];
 	}
 }
 

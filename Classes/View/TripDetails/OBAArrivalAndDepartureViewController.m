@@ -39,7 +39,7 @@ typedef enum {
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext arrivalAndDepartureInstance:(OBAArrivalAndDepartureInstanceRef*)instance {
 	if( self = [super initWithApplicationContext:appContext] ) {
-		_instance = [instance retain];
+		_instance = instance;
 		_arrivalAndDeparture = nil;
 		_arrivalCellFactory = [[OBAArrivalEntryTableViewCellFactory alloc] initWithAppContext:_appContext tableView:self.tableView];
 		_arrivalCellFactory.showServiceAlerts = FALSE;
@@ -52,17 +52,10 @@ typedef enum {
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
 	self = [self initWithApplicationContext:appContext arrivalAndDepartureInstance:arrivalAndDeparture.instance];
-	_arrivalAndDeparture = [arrivalAndDeparture retain];
+	_arrivalAndDeparture = arrivalAndDeparture;
 	return self;	
 }
 
-- (void)dealloc {
-	[_instance release];
-	[_arrivalAndDeparture release];
-	[_arrivalCellFactory release];
-	[_serviceAlerts release];
-    [super dealloc];
-}
 
 - (BOOL) isLoading {
 	return _arrivalAndDeparture == nil;
@@ -74,13 +67,13 @@ typedef enum {
 
 -(void) handleData:(id)obj context:(id)context {
 	OBAEntryWithReferencesV2 * entry = obj;
-	_arrivalAndDeparture = [entry.entry retain];
+	_arrivalAndDeparture = entry.entry;
 }
 
 - (void) handleDataChanged {
 	// Refresh the unread service alert count
 	OBAModelDAO * modelDao = _appContext.modelDao;
-	_serviceAlerts = [[modelDao getServiceAlertsModelForSituations:_arrivalAndDeparture.situations] retain];
+	_serviceAlerts = [modelDao getServiceAlertsModelForSituations:_arrivalAndDeparture.situations];
 }
 
 #pragma mark Table view methods
@@ -300,7 +293,6 @@ typedef enum {
 		OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationContext:_appContext tripInstance:tripInstance];
 		vc.currentStopId = _arrivalAndDeparture.stopId;
 		[self.navigationController pushViewController:vc animated:TRUE];
-		[vc release];
 	}
 }
 
@@ -316,13 +308,11 @@ typedef enum {
 			OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationContext:_appContext tripInstance:tripInstance trip:_arrivalAndDeparture.trip];
 			vc.currentStopId = _arrivalAndDeparture.stopId;
 			[self.navigationController pushViewController:vc animated:TRUE];
-			[vc release];
 			break;
 		}
 		case 2: {
 			OBAVehicleDetailsController * vc = [[OBAVehicleDetailsController alloc] initWithApplicationContext:_appContext vehicleId:_arrivalAndDeparture.tripStatus.vehicleId];
 			[self.navigationController pushViewController:vc animated:TRUE];
-			[vc release];
 			break;
 		}
 	}

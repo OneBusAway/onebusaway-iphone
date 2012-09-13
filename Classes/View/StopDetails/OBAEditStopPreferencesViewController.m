@@ -26,16 +26,14 @@
 
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		
-		_appContext = [appContext retain];
-		_stop = [stop retain];
+		_appContext = appContext;
+		_stop = stop;
 		
 		UIBarButtonItem * cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButton:)];
 		[self.navigationItem setLeftBarButtonItem:cancelButton];
-		[cancelButton release];
 		
 		UIBarButtonItem * saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onSaveButton:)];
 		[self.navigationItem setRightBarButtonItem:saveButton];
-		[saveButton release];
 		
 		self.navigationItem.title = NSLocalizedString(@"Filter & Sort",@"self.navigationItem.title");
 		
@@ -43,22 +41,14 @@
 		for( OBARouteV2 * route in stop.routes)
 			[routes addObject:route];
 		[routes sortUsingSelector:@selector(compareUsingName:)];
-		_routes = [routes retain];
+		_routes = routes;
 		
 		OBAModelDAO * dao = _appContext.modelDao;
 		_preferences = [dao stopPreferencesForStopWithId:stop.stopId];
-		[_preferences retain];
     }
     return self;
 }
 
-- (void)dealloc {
-	[_appContext release];
-	[_stop release];
-	[_routes release];
-	[_preferences release];
-    [super dealloc];
-}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

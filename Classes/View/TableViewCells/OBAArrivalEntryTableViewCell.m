@@ -52,13 +52,6 @@
 
 - (void)dealloc {
 	[self cancelTimer];
-	[_routeLabel release];
-	[_destinationLabel release];
-	[_statusLabel release];
-	[_minutesLabel release];
-	[_minutesSubLabel release];
-	[_alertImage release];
-    [super dealloc];
 }
 
 - (OBAArrivalEntryTableViewCellAlertStyle) alertStyle {
@@ -87,7 +80,7 @@
 		_alertImage.hidden = FALSE;
 
 		if( _transitionTimer == nil ) {
-			_transitionTimer = [[NSTimer scheduledTimerWithTimeInterval:1.2 target:self selector:@selector(timerFired:) userInfo:nil repeats:TRUE] retain];
+			_transitionTimer = [NSTimer scheduledTimerWithTimeInterval:1.2 target:self selector:@selector(timerFired:) userInfo:nil repeats:TRUE];
 			
 		}
 	}
@@ -116,7 +109,6 @@
 - (void) cancelTimer {
 	if ( _transitionTimer ) {
 		[_transitionTimer invalidate];
-		[_transitionTimer release];
 		_transitionTimer = nil;
 	}	
 }

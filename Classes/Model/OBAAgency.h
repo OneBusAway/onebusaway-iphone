@@ -22,10 +22,10 @@
 {
 }
 
-@property (nonatomic, retain) NSString * agencyId;
-@property (nonatomic, retain) NSString * url;
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSSet* routes;
+@property (nonatomic, strong) NSString * agencyId;
+@property (nonatomic, strong) NSString * url;
+@property (nonatomic, strong) NSString * name;
+@property (nonatomic, strong) NSSet* routes;
 
 @end
 

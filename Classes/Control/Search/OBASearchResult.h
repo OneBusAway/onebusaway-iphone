@@ -13,8 +13,8 @@
 @property (nonatomic) OBASearchType searchType;
 @property (nonatomic) BOOL limitExceeded;
 @property (nonatomic) BOOL outOfRange;
-@property (nonatomic,retain) NSArray * values;
-@property (nonatomic,retain) NSArray * additionalValues;
+@property (nonatomic,strong) NSArray * values;
+@property (nonatomic,strong) NSArray * additionalValues;
 
 + (OBASearchResult*) result;
 + (OBASearchResult*) resultFromList:(OBAListWithRangeAndReferencesV2*)list;

@@ -23,10 +23,10 @@
 {
 }
 
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) OBAStop * stop;
-@property (nonatomic, retain) OBAModel * model;
-@property (nonatomic, retain) NSNumber * index;
+@property (nonatomic, strong) NSString * name;
+@property (nonatomic, strong) OBAStop * stop;
+@property (nonatomic, strong) OBAModel * model;
+@property (nonatomic, strong) NSNumber * index;
 
 - (NSComparisonResult) compareIndex:(OBABookmark*)bookmark;
 

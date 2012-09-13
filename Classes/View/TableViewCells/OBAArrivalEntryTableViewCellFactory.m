@@ -19,8 +19,8 @@
 - (id) initWithAppContext:(OBAApplicationContext*)appContext tableView:(UITableView*)tableView {
     self = [super init];
 	if( self ) {
-		_appContext = [appContext retain];
-		_tableView = [tableView retain];
+		_appContext = appContext;
+		_tableView = tableView;
 		
 		_timeFormatter = [[NSDateFormatter alloc] init];
 		[_timeFormatter setDateStyle:NSDateFormatterNoStyle];
@@ -31,12 +31,6 @@
 	return self;
 }
 
-- (void) dealloc {
-	[_appContext release];
-	[_tableView release];
-	[_timeFormatter release];
-	[super dealloc];
-}
 
 - (OBAArrivalEntryTableViewCell*) createCellForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrival {
 

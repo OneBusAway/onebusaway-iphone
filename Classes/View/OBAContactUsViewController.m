@@ -24,15 +24,11 @@
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-		_appContext = [appContext retain];
+		_appContext = appContext;
 	}
     return self;
 }
 
-- (void) dealloc {
-	[_appContext release];
-	[super dealloc];
-}
 
 #pragma mark UIViewController
 

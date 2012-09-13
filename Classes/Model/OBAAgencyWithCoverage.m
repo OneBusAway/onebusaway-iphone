@@ -22,9 +22,5 @@
 @synthesize agency = _agency;
 @synthesize coordinate = _coordinate;
 
-- (void) dealloc {
-	[_agency release];
-	[super dealloc];
-}
 
 @end

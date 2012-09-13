@@ -23,6 +23,6 @@
 	NSArray * _mostRecentStops;
 }
 
-@property (nonatomic,retain) IBOutlet OBAApplicationContext * appContext;
+@property (nonatomic,strong) IBOutlet OBAApplicationContext * appContext;
 
 @end

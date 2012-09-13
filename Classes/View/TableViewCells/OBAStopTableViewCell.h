@@ -21,8 +21,8 @@
 	UILabel * _subLabel;
 }
 
-@property (nonatomic,retain) IBOutlet UILabel * mainLabel;
-@property (nonatomic,retain) IBOutlet UILabel * subLabel;
+@property (nonatomic,strong) IBOutlet UILabel * mainLabel;
+@property (nonatomic,strong) IBOutlet UILabel * subLabel;
 
 + (OBAStopTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView;
 - (void) setStop:(OBAStopV2*)stop;

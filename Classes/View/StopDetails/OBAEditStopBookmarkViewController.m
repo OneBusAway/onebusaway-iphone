@@ -28,8 +28,8 @@
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		self.tableView.scrollEnabled = FALSE;
 
-		_appContext = [appContext retain];
-		_bookmark = [bookmark retain];
+		_appContext = appContext;
+		_bookmark = bookmark;
 		_editType = editType;
 
 		_requests = [[NSMutableArray alloc] initWithCapacity:[_bookmark.stopIds count]];
@@ -37,11 +37,9 @@
 
 		UIBarButtonItem * cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButton:)];
 		[self.navigationItem setLeftBarButtonItem:cancelButton];
-		[cancelButton release];
 		
 		UIBarButtonItem * saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onSaveButton:)];
 		[self.navigationItem setRightBarButtonItem:saveButton];
-		[saveButton release];
 		
 		switch(_editType) {
 			case OBABookmarkEditNew:
@@ -56,13 +54,6 @@
     return self;
 }
 
-- (void)dealloc {
-	[_appContext release];
-	[_bookmark release];
-	[_stops release];
-	[_requests release];
-    [super dealloc];
-}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

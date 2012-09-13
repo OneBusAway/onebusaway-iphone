@@ -32,8 +32,8 @@ typedef enum {
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)context stop:(OBAStopV2*)stop {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-		_appContext = [context retain];
-		_stop = [stop retain];
+		_appContext = context;
+		_stop = stop;
 		
 		self.navigationItem.title = NSLocalizedString(@"Report a Problem",@"self.navigationItem.title");
 
@@ -42,7 +42,6 @@ typedef enum {
 										target:nil
 										action:nil];
 		self.navigationItem.backBarButtonItem = item;
-		[item release];
 		
 		_problemIds = [[NSMutableArray alloc] init];
 		_problemNames = [[NSMutableArray alloc] init];
@@ -58,15 +57,6 @@ typedef enum {
     return self;
 }
 
-- (void)dealloc {
-	[_appContext release];
-	[_problemIds release];
-	[_problemNames release];
-	[_stop release];	
-	[_comment release];
-	[_activityIndicatorView release];
-    [super dealloc];
-}
 
 
 #pragma mark UIViewController
@@ -174,7 +164,6 @@ typedef enum {
 			vc.target = self;
 			vc.action = @selector(setProblem:);
 			[self.navigationController pushViewController:vc animated:TRUE];
-			[vc release];
 			break;
 		}
 			
@@ -286,7 +275,6 @@ typedef enum {
 	[_activityIndicatorView show:self.view];
 	[_appContext.modelService reportProblemWithStop:problem withDelegate:self withContext:nil];
 	
-	[problem release];
 }
 
 - (NSString*) getProblemAsData {
@@ -296,9 +284,8 @@ typedef enum {
 	p[@"text"] = _problemNames[_problemIndex];
 
     NSData *data = [NSJSONSerialization dataWithJSONObject:p options:0 error:nil];
-    NSString *v = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+    NSString *v = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 
-    [p release];
 
 	return v;	
 }

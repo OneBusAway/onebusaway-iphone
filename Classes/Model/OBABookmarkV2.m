@@ -8,8 +8,8 @@
 
 - (id) initWithCoder:(NSCoder*)coder {
 	if( self = [super init] ) {
-		_name =  [[coder decodeObjectForKey:@"name"] retain];
-		_stopIds =  [[coder decodeObjectForKey:@"stopIds"] retain];
+		_name =  [coder decodeObjectForKey:@"name"];
+		_stopIds =  [coder decodeObjectForKey:@"stopIds"];
 	}
 	return self;
 }

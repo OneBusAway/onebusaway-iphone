@@ -8,8 +8,8 @@
 
 - (id) initWithTripDetails:(OBATripDetailsV2*)tripDetails stopTime:(OBATripStopTimeV2*)stopTime {
 	if( self = [super init] ) {
-		_tripDetails = [tripDetails retain];
-		_stopTime = [stopTime retain];
+		_tripDetails = tripDetails;
+		_stopTime = stopTime;
 	}
 	return self;
 }

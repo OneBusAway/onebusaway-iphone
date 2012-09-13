@@ -39,20 +39,12 @@ const static int kMaxEntriesInMostRecentList = 10;
 		_bookmarks = [[NSMutableArray alloc] initWithArray:[_preferencesDao readBookmarks]];
 		_mostRecentStops = [[NSMutableArray alloc] initWithArray:[_preferencesDao readMostRecentStops]];
 		_stopPreferences = [[NSMutableDictionary alloc] initWithDictionary:[_preferencesDao readStopPreferences]];
-		_mostRecentLocation = [[_preferencesDao readMostRecentLocation] retain];
+		_mostRecentLocation = [_preferencesDao readMostRecentLocation];
 		_visitedSituationIds = [[NSMutableSet alloc] initWithSet:[_preferencesDao readVisistedSituationIds]];
 	}
 	return self;
 }
 
-- (void) dealloc {
-	[_bookmarks release];
-	[_mostRecentStops release];
-	[_stopPreferences release];
-	[_mostRecentLocation release];
-	[_preferencesDao release];
-	[super dealloc];
-}
 
 - (NSArray*) bookmarks {
 	return _bookmarks;
@@ -85,7 +77,6 @@ const static int kMaxEntriesInMostRecentList = 10;
 	}
 	
 	if( existingEvent ) {
-		[existingEvent retain];
 		[_mostRecentStops removeObject:existingEvent];
 		[_mostRecentStops insertObject:existingEvent atIndex:0];
 	}
@@ -104,12 +95,11 @@ const static int kMaxEntriesInMostRecentList = 10;
 		[_mostRecentStops removeObjectAtIndex:([_mostRecentStops count]-1)];
 	
 	[_preferencesDao writeMostRecentStops:_mostRecentStops];	
-	[existingEvent release];
 }
 
 
 - (OBABookmarkV2*) createTransientBookmark:(OBAStopV2*)stop {
-	OBABookmarkV2 * bookmark = [[[OBABookmarkV2 alloc] init] autorelease];
+	OBABookmarkV2 * bookmark = [[OBABookmarkV2 alloc] init];
 	NSString * bookmarkName = stop.name;
 	if( stop.direction )
 		bookmarkName = [NSString stringWithFormat:@"%@ [%@]",stop.name,stop.direction];
@@ -129,11 +119,9 @@ const static int kMaxEntriesInMostRecentList = 10;
 
 - (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex error:(NSError**)error {
 	OBABookmarkV2 * bm = _bookmarks[startIndex];
-	[bm retain];
 	[_bookmarks removeObjectAtIndex:startIndex];
 	[_bookmarks insertObject:bm atIndex:endIndex];
 	[_preferencesDao writeBookmarks:_bookmarks];
-	[bm release];
 }
 
 - (void) removeBookmark:(OBABookmarkV2*) bookmark error:(NSError**)error {
@@ -144,8 +132,8 @@ const static int kMaxEntriesInMostRecentList = 10;
 - (OBAStopPreferencesV2*) stopPreferencesForStopWithId:(NSString*)stopId {
 	OBAStopPreferencesV2 * prefs = _stopPreferences[stopId];
 	if( ! prefs )
-		return [[[OBAStopPreferencesV2 alloc] init] autorelease];
-	return [[[OBAStopPreferencesV2 alloc] initWithStopPreferences:prefs] autorelease];
+		return [[OBAStopPreferencesV2 alloc] init];
+	return [[OBAStopPreferencesV2 alloc] initWithStopPreferences:prefs];
 }
 
 - (void) setStopPreferences:(OBAStopPreferencesV2*)preferences forStopWithId:(NSString*)stopId {
@@ -166,7 +154,6 @@ const static int kMaxEntriesInMostRecentList = 10;
 	event.title = stop.title;
 	event.subtitle = stop.subtitle;
 	[self addStopAccessEvent:event];
-	[event release];
 }
 
 - (BOOL) hideFutureLocationWarnings {
@@ -183,7 +170,7 @@ const static int kMaxEntriesInMostRecentList = 10;
 
 - (OBAServiceAlertsModel*) getServiceAlertsModelForSituations:(NSArray*)situations {
 
-	OBAServiceAlertsModel * model = [[[OBAServiceAlertsModel alloc] init] autorelease];
+	OBAServiceAlertsModel * model = [[OBAServiceAlertsModel alloc] init];
 
 	model.totalCount = [situations count];
 	

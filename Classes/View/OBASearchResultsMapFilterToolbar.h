@@ -28,8 +28,8 @@
     UILabel * _descOutput;  // "Route 8" or "Transit Agencies", etc
 }
 
-@property (nonatomic, retain) NSString *              filterDescription;
-@property (nonatomic, retain) OBAApplicationContext * appContext;
+@property (nonatomic, strong) NSString *              filterDescription;
+@property (nonatomic, strong) OBAApplicationContext * appContext;
 
 -(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate andAppContext:(OBAApplicationContext*)context;
 -(void) dealloc;
