@@ -384,11 +384,11 @@ typedef enum {
 	NSMutableDictionary * p = [[NSMutableDictionary alloc] init];
 	[p setObject:[_problemIds objectAtIndex:_problemIndex] forKey:@"code"];
 	[p setObject:[_problemNames objectAtIndex:_problemIndex] forKey:@"text"];
-	
-    SBJsonWriter * writer = [[SBJsonWriter alloc] init];
-	NSString * v = [writer stringWithObject:p];
-	[writer release];
-	[p release];
+
+    NSData *data = [NSJSONSerialization dataWithJSONObject:p options:0 error:nil];
+    NSString *v = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+    [p release];
+
 	return v;	
 }
 
