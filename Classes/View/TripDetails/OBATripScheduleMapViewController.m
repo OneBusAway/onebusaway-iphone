@@ -12,7 +12,7 @@
 #import "OBAPresentation.h"
 
 static const NSString * kTripDetailsContext = @"TripDetails";
-static const NSString * kShapeContext = @"ShapeContext"	;
+static const NSString * kShapeContext = @"ShapeContext";
 
 
 @interface OBATripScheduleMapViewController (Private)
@@ -44,7 +44,6 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 
 - (void)dealloc {
 	[_request cancel];
-	
 }
 
 - (void) viewDidLoad {
