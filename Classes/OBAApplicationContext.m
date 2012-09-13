@@ -509,14 +509,14 @@ static const NSUInteger kTagAgenciesView = 6;
 
 - (UIViewController*) getViewControllerForTarget:(OBANavigationTarget*)target {
 	
-	switch(target.target) {
+	switch (target.target) {
 		case OBANavigationTargetTypeStop:
 			return [[OBAStopViewController alloc] initWithApplicationContext:self];
 		case OBANavigationTargetTypeContactUs:
 			return [[OBAContactUsViewController alloc] initWithApplicationContext:self];
+        default:
+            return nil;
 	}
-	
-	return nil;
 }
 
 - (NSInteger) getViewControllerIndexForTag:(NSUInteger)tag {
