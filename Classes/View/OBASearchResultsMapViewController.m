@@ -893,8 +893,8 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	CLLocation * stopLocation1 = [[CLLocation alloc] initWithLatitude:stop1.lat longitude:stop1.lon];
 	CLLocation * stopLocation2 = [[CLLocation alloc] initWithLatitude:stop2.lat longitude:stop2.lon];
 	
-	double v1 = [location distanceFromLocationSafe:stopLocation1];
-	double v2 = [location distanceFromLocationSafe:stopLocation2];
+	CLLocationDistance v1 = [location distanceFromLocation:stopLocation1];
+	CLLocationDistance v2 = [location distanceFromLocation:stopLocation2];
 	
 	[stopLocation1 release];
 	[stopLocation2 release];
@@ -943,7 +943,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	
 	for( OBAStop * stop in stops) {
 		CLLocation * location = [[CLLocation alloc] initWithLatitude:stop.lat longitude:stop.lon];
-		double d = [location distanceFromLocationSafe:center];
+		CLLocationDistance d = [location distanceFromLocation:center];
 		if( d < kMaxMapDistanceFromCurrentLocationForNearby )
 			[stopsInRange addObject:stop];
 		[location release];
