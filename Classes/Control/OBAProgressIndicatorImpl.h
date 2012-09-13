@@ -22,10 +22,10 @@
 	NSString * _message;
 	BOOL _inProgress;
 	float _progress;
-	id<OBAProgressIndicatorDelegate> _delegate;
+	
 }
 
-@property (retain,readonly) NSString * message;
+@property (strong,readonly) NSString * message;
 @property (readonly) BOOL inProgress;
 @property (readonly) float progress;
 

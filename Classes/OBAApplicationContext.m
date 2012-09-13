@@ -544,7 +544,7 @@ static const NSUInteger kTagAgenciesView = 6;
 	if( ! userId) {
 		CFUUIDRef theUUID = CFUUIDCreate(kCFAllocatorDefault);
 		if (theUUID) {
-			userId = NSMakeCollectable(CFUUIDCreateString(kCFAllocatorDefault, theUUID));
+			userId = CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, theUUID));
 			CFRelease(theUUID);
 			[userDefaults setObject:userId forKey:kOBAHiddenPreferenceUserId];
 			[userDefaults synchronize];

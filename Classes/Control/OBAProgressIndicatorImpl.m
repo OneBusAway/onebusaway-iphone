@@ -17,6 +17,11 @@
 #import "OBAProgressIndicatorImpl.h"
 #import "OBACommon.h"
 
+@interface OBAProgressIndicatorImpl ()
+@property (strong,readwrite) NSString * message;
+@property (readwrite) BOOL inProgress;
+@property (readwrite) float progress;
+@end
 
 @implementation OBAProgressIndicatorImpl
 

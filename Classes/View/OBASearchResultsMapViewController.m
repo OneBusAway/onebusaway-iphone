@@ -878,7 +878,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         center.longitude = lonRun / stopCount;
         
         centerLocation = [[CLLocation alloc] initWithLatitude:center.latitude longitude:center.longitude];
-        [centerLocation autorelease];
     }
     
 	return [self computeRegionForStops:stops center:centerLocation];
@@ -888,17 +887,14 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 	
 	OBAStop * stop1 = (OBAStop*) o1;
 	OBAStop * stop2 = (OBAStop*) o2;
-	CLLocation * location = (CLLocation*)context;
+	CLLocation * location = (__bridge CLLocation*)context;
 	
 	CLLocation * stopLocation1 = [[CLLocation alloc] initWithLatitude:stop1.lat longitude:stop1.lon];
 	CLLocation * stopLocation2 = [[CLLocation alloc] initWithLatitude:stop2.lat longitude:stop2.lon];
 	
 	CLLocationDistance v1 = [location distanceFromLocation:stopLocation1];
 	CLLocationDistance v2 = [location distanceFromLocation:stopLocation2];
-	
-	[stopLocation1 release];
-	[stopLocation2 release];
-	
+
     if (v1 < v2)
         return NSOrderedAscending;
     else if (v1 > v2)
@@ -909,7 +905,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 
 - (MKCoordinateRegion) computeRegionForNClosestStops:(NSArray*)stops center:(CLLocation*)location numberOfStops:(NSUInteger)numberOfStops {
 	NSMutableArray * stopsSortedByDistance = [NSMutableArray arrayWithArray:stops];
-	[stopsSortedByDistance sortUsingFunction:sortStopsByDistanceFromLocation context:location];
+	[stopsSortedByDistance sortUsingFunction:sortStopsByDistanceFromLocation context:(__bridge void *)(location)];
 	while( [stopsSortedByDistance count] > numberOfStops )
 		[stopsSortedByDistance removeLastObject];
 	return [self computeRegionForStops:stopsSortedByDistance center:location];

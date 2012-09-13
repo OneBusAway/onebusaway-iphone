@@ -16,15 +16,15 @@
 		93A290A3160157F70035BC70 /* OBALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F7A160157F60035BC70 /* OBALogger.m */; };
 		93A290A4160157F70035BC70 /* OBAModelFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F7C160157F60035BC70 /* OBAModelFactory.m */; };
 		93A290A5160157F70035BC70 /* OBAModelService.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F7E160157F60035BC70 /* OBAModelService.m */; };
-		93A290A6160157F70035BC70 /* OBAModelServiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F80160157F60035BC70 /* OBAModelServiceRequest.m */; };
+		93A290A6160157F70035BC70 /* OBAModelServiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F80160157F60035BC70 /* OBAModelServiceRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		93A290A7160157F70035BC70 /* OBASphericalGeometryLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F82160157F60035BC70 /* OBASphericalGeometryLibrary.m */; };
 		93A290A8160157F70035BC70 /* OBADataSourceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F86160157F60035BC70 /* OBADataSourceConfig.m */; };
-		93A290A9160157F70035BC70 /* OBAJsonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F88160157F60035BC70 /* OBAJsonDataSource.m */; };
+		93A290A9160157F70035BC70 /* OBAJsonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F88160157F60035BC70 /* OBAJsonDataSource.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		93A290AA160157F70035BC70 /* OBACallMethodJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F8B160157F60035BC70 /* OBACallMethodJsonDigesterRule.m */; };
 		93A290AB160157F70035BC70 /* OBACreateManagedEntityJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F8D160157F60035BC70 /* OBACreateManagedEntityJsonDigesterRule.m */; };
 		93A290AC160157F70035BC70 /* OBACreateObjectJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F8F160157F60035BC70 /* OBACreateObjectJsonDigesterRule.m */; };
 		93A290AD160157F70035BC70 /* OBAJsonDigester.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F91160157F60035BC70 /* OBAJsonDigester.m */; };
-		93A290AE160157F70035BC70 /* OBASelectorJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F93160157F60035BC70 /* OBASelectorJsonDigesterRule.m */; };
+		93A290AE160157F70035BC70 /* OBASelectorJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F93160157F60035BC70 /* OBASelectorJsonDigesterRule.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		93A290AF160157F70035BC70 /* OBASetCoordinatePropertyJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F95160157F60035BC70 /* OBASetCoordinatePropertyJsonDigesterRule.m */; };
 		93A290B0160157F70035BC70 /* OBASetDatePropertyJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F97160157F60035BC70 /* OBASetDatePropertyJsonDigesterRule.m */; };
 		93A290B1160157F70035BC70 /* OBASetLocationPropertyJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F99160157F60035BC70 /* OBASetLocationPropertyJsonDigesterRule.m */; };
