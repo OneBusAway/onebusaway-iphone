@@ -110,7 +110,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView sortByCellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-	BOOL checked = FALSE;
+	BOOL checked = NO;
 	
 	switch(indexPath.row) {
 		case OBASortTripsByDepartureTimeV2:
@@ -195,7 +195,7 @@
 	[dao setStopPreferences:_preferences forStopWithId:_stop.stopId];
 	
 	// pop to stop view controller are saving settings
-	BOOL foundStopViewController = FALSE;
+	BOOL foundStopViewController = NO;
 	for (UIViewController* viewController in [self.navigationController viewControllers])
 	{
 		if ([viewController isKindOfClass:[OBAStopViewController class]])

@@ -31,15 +31,15 @@ typedef enum {
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext {
 	if( self = [super initWithApplicationContext:appContext] ) {
-		self.refreshable = FALSE;
-		self.showUpdateTime = FALSE;
+		self.refreshable = NO;
+		self.showUpdateTime = NO;
 	}
 	return self;
 }
 
 -(void) viewDidLoad {
-	self.refreshable = FALSE;
-	self.showUpdateTime = FALSE;
+	self.refreshable = NO;
+	self.showUpdateTime = NO;
 }
 
 

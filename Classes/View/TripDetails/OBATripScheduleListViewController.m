@@ -46,7 +46,7 @@ typedef enum {
 		_appContext = context;
 		_tripInstance = tripInstance;
 		_currentStopIndex = -1;
-		_showPreviousStops = FALSE;
+		_showPreviousStops = NO;
 		
 		_timeFormatter = [[NSDateFormatter alloc] init];
 		[_timeFormatter setDateStyle:NSDateFormatterNoStyle];
@@ -94,14 +94,14 @@ typedef enum {
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
 	if( code == 404 )
-		[_progressView setMessage:NSLocalizedString(@"Trip not found",@"message") inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Trip not found",@"message") inProgress:NO progress:0];
 	else
-		[_progressView setMessage:NSLocalizedString(@"Unknown error",@"message") inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Unknown error",@"message") inProgress:NO progress:0];
 }
 
 - (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
 	OBALogWarningWithError(error, @"Error");
-	[_progressView setMessage:NSLocalizedString(@"Error connecting",@"message") inProgress:FALSE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Error connecting",@"message") inProgress:NO progress:0];
 }
 
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
@@ -217,7 +217,7 @@ typedef enum {
 
 - (void) handleTripDetails {
 
-	[_progressView setMessage:NSLocalizedString(@"Trip Schedule",@"message") inProgress:FALSE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Trip Schedule",@"message") inProgress:NO progress:0];
 
 	NSString * stopId = self.currentStopId;
 	OBATripScheduleV2 * sched = _tripDetails.schedule;

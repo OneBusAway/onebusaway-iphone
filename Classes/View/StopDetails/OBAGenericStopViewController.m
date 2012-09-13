@@ -233,7 +233,7 @@ static const double kNearbyStopRadius = 200;
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
 	NSString * message = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Updated",@"message"), [OBACommon getTimeAsString]];
-	[_progressView setMessage:message inProgress:FALSE progress:0];
+	[_progressView setMessage:message inProgress:NO progress:0];
 	[self didRefreshEnd];
 	_result = [NSObject releaseOld:_result retainNew:obj];
 	
@@ -245,15 +245,15 @@ static const double kNearbyStopRadius = 200;
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
 	if( code == 404 )
-		[_progressView setMessage:NSLocalizedString(@"Stop not found",@"code == 404") inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Stop not found",@"code == 404") inProgress:NO progress:0];
 	else
-		[_progressView setMessage:NSLocalizedString(@"Unknown error",@"code # 404") inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Unknown error",@"code # 404") inProgress:NO progress:0];
 	[self didRefreshEnd];
 }
 
 - (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
 	OBALogWarningWithError(error, @"Error... yay!");
-	[_progressView setMessage:NSLocalizedString(@"Error connecting",@"requestDidFail") inProgress:FALSE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Error connecting",@"requestDidFail") inProgress:NO progress:0];
 	[self didRefreshEnd];
 }
 

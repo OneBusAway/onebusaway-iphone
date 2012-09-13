@@ -74,7 +74,7 @@
 		OBASearchResult * result = [OBASearchResult result];
 		result.searchType = OBASearchTypeNone;
 		[self fireUpdate:result];
-		[_progress setMessage:@"" inProgress:FALSE progress:0];
+		[_progress setMessage:@"" inProgress:NO progress:0];
 		return;
 	}
 	
@@ -119,7 +119,7 @@
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
 	
 	NSString * message = [self progressCompleteMessageForSearchType];
-	[_progress setMessage:message inProgress:FALSE progress:0];
+	[_progress setMessage:message inProgress:NO progress:0];
 
 	switch (_searchType ) {
 
@@ -188,13 +188,13 @@
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
 	if( code == 404 )
-		[_progress setMessage:NSLocalizedString(@"Not found",@"code == 404") inProgress:FALSE progress:0];
+		[_progress setMessage:NSLocalizedString(@"Not found",@"code == 404") inProgress:NO progress:0];
 	else
-		[_progress setMessage:NSLocalizedString(@"Server error",@"code # 404") inProgress:FALSE progress:0];
+		[_progress setMessage:NSLocalizedString(@"Server error",@"code # 404") inProgress:NO progress:0];
 }
 
 - (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
-	[_progress setMessage:NSLocalizedString(@"Error connecting",@"requestDidFail") inProgress:FALSE progress:0];
+	[_progress setMessage:NSLocalizedString(@"Error connecting",@"requestDidFail") inProgress:NO progress:0];
 	[self fireError:error];
 }
 

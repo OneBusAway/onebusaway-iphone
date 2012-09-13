@@ -89,7 +89,7 @@
 		if( view == nil ) {
 			view = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
 		}
-		view.canShowCallout = FALSE;
+		view.canShowCallout = NO;
 		return view;
 	}
 	return nil;

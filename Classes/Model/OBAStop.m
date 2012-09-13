@@ -57,7 +57,7 @@
 	for( OBARoute * route in sRoutes ) {
 		
 		if( first )
-			first = FALSE;
+			first = NO;
 		else
 			[label  appendString:@", "];
 		[label appendString:[route safeShortName]];

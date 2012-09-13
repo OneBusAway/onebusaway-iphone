@@ -106,7 +106,7 @@ static const NSUInteger kTagAgenciesView = 6;
 - (id) init {
 	if( self = [super init] ) {
 		
-		_active = FALSE;
+		_active = NO;
 		
 		_references = [[OBAReferencesV2 alloc] init];
 		_activityListeners = [[OBAActivityListeners alloc] init];
@@ -186,7 +186,7 @@ static const NSUInteger kTagAgenciesView = 6;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-	_active = FALSE;
+	_active = NO;
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -227,7 +227,7 @@ static const NSUInteger kTagAgenciesView = 6;
 		 */
 		OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
 		[self performSelector:@selector(navigateToTargetInternal:) withObject:target afterDelay:0];
-		return FALSE;
+		return NO;
 	}
 	
 	return TRUE;
@@ -357,7 +357,7 @@ static const NSUInteger kTagAgenciesView = 6;
 	if( ! date || (-[date timeIntervalSinceNow]) > kMaxTimeSinceApplicationTerminationToRestoreState )
 		return TRUE;
 	
-	return FALSE;
+	return NO;
 }
 
 - (void) restoreStateToDefault:(NSUserDefaults*)userDefaults {
@@ -371,12 +371,12 @@ static const NSUInteger kTagAgenciesView = 6;
 	NSData *restoreStateData = [userDefaults objectForKey:kOBAHiddenPreferenceSavedNavigationTargets];
 	
 	if(!restoreStateData)
-		return FALSE;
+		return NO;
 	
 	NSArray * targets = [NSKeyedUnarchiver unarchiveObjectWithData:restoreStateData];
 	
 	if(!targets || [targets count] == 0)
-		return FALSE;
+		return NO;
 	
 	OBANavigationTarget * rootTarget = targets[0];
 	NSInteger selectedTag = -1;
@@ -404,15 +404,15 @@ static const NSUInteger kTagAgenciesView = 6;
 			selectedTag = kTagAgenciesView;
 			break;
 		default:
-			return FALSE;
+			return NO;
 	}
 	
 	if( selectedTag == -1 )
-		return FALSE;
+		return NO;
 	
 	NSInteger index = [self getViewControllerIndexForTag:selectedTag];
 	if( index == -1 )
-		return FALSE;
+		return NO;
 	
 	_tabBarController.selectedIndex = index;
 	
@@ -440,7 +440,7 @@ static const NSUInteger kTagAgenciesView = 6;
 	
 	UINavigationController * current = (UINavigationController*) _tabBarController.selectedViewController;
 	if( current )
-		[current popToRootViewControllerAnimated:FALSE];
+		[current popToRootViewControllerAnimated:NO];
 	
 	switch (navigationTarget.target) {
 		case OBANavigationTargetTypeSearchResults: {
@@ -453,7 +453,7 @@ static const NSUInteger kTagAgenciesView = 6;
 			[searchResultsMapViewController setNavigationTarget:navigationTarget];
 			
 			_tabBarController.selectedIndex = index;
-			[mapNavController popToRootViewControllerAnimated:FALSE];
+			[mapNavController popToRootViewControllerAnimated:NO];
 			
 			break;
 		}
@@ -463,9 +463,9 @@ static const NSUInteger kTagAgenciesView = 6;
 			if( index == -1 )
 				return;
 			UINavigationController * detailsNavController = (_tabBarController.viewControllers)[index];
-			[detailsNavController popToRootViewControllerAnimated:FALSE];
+			[detailsNavController popToRootViewControllerAnimated:NO];
 			OBAContactUsViewController * vc = [[OBAContactUsViewController alloc] initWithApplicationContext:self];
-			[detailsNavController pushViewController:vc animated:FALSE];
+			[detailsNavController pushViewController:vc animated:NO];
 			_tabBarController.selectedIndex = index;
 			break;
 		}

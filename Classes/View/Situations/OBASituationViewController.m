@@ -196,7 +196,7 @@ typedef enum {
 	cell.textLabel.textAlignment = UITextAlignmentLeft;
 	
 	if( indexPath.row == 0 ) {
-		cell.textLabel.text = [self getDetails:FALSE];
+		cell.textLabel.text = [self getDetails:NO];
 	}
 	else if ( indexPath.row == 1 && _diversionPath ) {
 		cell.textLabel.text = NSLocalizedString(@"Show reroute",@"cell.textLabel.text");

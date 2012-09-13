@@ -169,8 +169,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath  {
 }
 		
 - (void) abortEditing {
-	self.editing = FALSE;
-	[self.tableView setEditing:FALSE animated:FALSE];
+	self.editing = NO;
+	[self.tableView setEditing:NO animated:NO];
 
 	_customEditButtonItem.title = NSLocalizedString(@"Edit",@"title");
 	_customEditButtonItem.style = UIBarButtonItemStyleBordered;

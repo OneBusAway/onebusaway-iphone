@@ -57,7 +57,7 @@
 		}
 		
 		cell.minutesLabel.textColor = [UIColor greenColor];
-		cell.minutesSubLabel.hidden = FALSE;
+		cell.minutesSubLabel.hidden = NO;
 		
 	}
 	else {

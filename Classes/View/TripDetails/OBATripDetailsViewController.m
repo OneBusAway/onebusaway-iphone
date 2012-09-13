@@ -69,20 +69,20 @@ typedef enum {
 	OBAEntryWithReferencesV2 * entry = obj;
 	self.tripDetails = entry.entry;
 	_serviceAlerts = [_appContext.modelDao getServiceAlertsModelForSituations:_tripDetails.situations];
-	[_progressView setMessage:NSLocalizedString(@"Trip Details",@"message") inProgress:FALSE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Trip Details",@"message") inProgress:NO progress:0];
 	[self.tableView reloadData];
 }
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
 	if( code == 404 )
-		[_progressView setMessage:NSLocalizedString(@"Stop not found",@"message") inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Stop not found",@"message") inProgress:NO progress:0];
 	else
-		[_progressView setMessage:NSLocalizedString(@"Unknown error",@"message") inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Unknown error",@"message") inProgress:NO progress:0];
 }
 
 - (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
 	OBALogWarningWithError(error, @"Error");
-	[_progressView setMessage:NSLocalizedString(@"Error connecting",@"message") inProgress:FALSE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Error connecting",@"message") inProgress:NO progress:0];
 }
 
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {

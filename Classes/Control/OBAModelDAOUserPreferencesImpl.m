@@ -136,7 +136,7 @@ static NSString * kVisitedSituationIdsKey = @"hideFutureLocationWarnings";
 	@catch (NSException * e) {
 	}
 	
-	return FALSE;
+	return NO;
 }
 
 - (void) setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings {

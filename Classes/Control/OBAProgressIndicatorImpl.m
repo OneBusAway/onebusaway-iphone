@@ -32,7 +32,7 @@
 
 - (id) init {
 	if( self = [super init] ) {
-		_inProgress = FALSE;
+		_inProgress = NO;
 		_progress = 0.0;
 	}
 	return self;

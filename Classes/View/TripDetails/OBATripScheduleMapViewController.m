@@ -87,20 +87,20 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 			_routePolyline = [OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString];
 			[self.mapView addOverlay:_routePolyline];
 		}
-		[_progressView setMessage:NSLocalizedString(@"Trip Schedule",@"message") inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Trip Schedule",@"message") inProgress:NO progress:0];
 	}
 }
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
 	if( code == 404 )
-		[_progressView setMessage:NSLocalizedString(@"Trip not found",@"message") inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Trip not found",@"message") inProgress:NO progress:0];
 	else
-		[_progressView setMessage:NSLocalizedString(@"Unknown error",@"message") inProgress:FALSE progress:0];
+		[_progressView setMessage:NSLocalizedString(@"Unknown error",@"message") inProgress:NO progress:0];
 }
 
 - (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
 	OBALogWarningWithError(error, @"Error");
-	[_progressView setMessage:NSLocalizedString(@"Error connecting",@"message") inProgress:FALSE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Error connecting",@"message") inProgress:NO progress:0];
 }
 
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
@@ -218,7 +218,7 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 
 - (void) handleTripDetails {
 	
-	[_progressView setMessage:NSLocalizedString(@"Trip Schedule",@"message") inProgress:FALSE progress:0];
+	[_progressView setMessage:NSLocalizedString(@"Trip Schedule",@"message") inProgress:NO progress:0];
 
 	OBATripScheduleV2 * sched = _tripDetails.schedule;
 	NSArray * stopTimes = sched.stopTimes;
@@ -244,7 +244,7 @@ static const NSString * kShapeContext = @"ShapeContext"	;
 	}
 	
 	if( sched.previousTripId && [stopTimes count] > 0 ) {
-		id<MKAnnotation> an = [self createTripContinuationAnnotation:sched.previousTrip	isNextTrip:FALSE stopTimes:stopTimes];
+		id<MKAnnotation> an = [self createTripContinuationAnnotation:sched.previousTrip	isNextTrip:NO stopTimes:stopTimes];
 		[annotations addObject:an];
 	}
 	

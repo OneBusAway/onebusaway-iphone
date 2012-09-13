@@ -26,7 +26,7 @@
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType {
 
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-		self.tableView.scrollEnabled = FALSE;
+		self.tableView.scrollEnabled = NO;
 
 		_appContext = appContext;
 		_bookmark = bookmark;
@@ -156,7 +156,7 @@
 		OBALogSevereWithError(error,@"Error saving bookmark: name=%@",_bookmark.name);
 
 	// pop to stop view controller are saving settings
-	BOOL foundStopViewController = FALSE;
+	BOOL foundStopViewController = NO;
 	for (UIViewController* viewController in [self.navigationController viewControllers])
 	{
 		if ([viewController isKindOfClass:[OBAStopViewController class]])

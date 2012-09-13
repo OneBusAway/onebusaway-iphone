@@ -45,10 +45,11 @@
 	NSMutableString * label = [NSMutableString string];
 	[label appendString:NSLocalizedString(@"Routes: ",@"subtitle label")];
 	BOOL first = TRUE;
-	
+
+    // TODO: use -componentsJoinedByString
 	for( OBARoute * route in _stop.routes ) {
 		if( first )
-			first = FALSE;
+			first = NO;
 		else
 			[label  appendString:@", "];
 		[label appendString: route.shortName];

@@ -9,10 +9,10 @@
 @implementation OBAReportProblemWithRecentTripsViewController 
 
 - (void) customSetup {
-	_showTitle = FALSE;
-	_showActions = FALSE;
-	_arrivalCellFactory.showServiceAlerts = FALSE;
-	_showServiceAlerts = FALSE;
+	_showTitle = NO;
+	_showActions = NO;
+	_arrivalCellFactory.showServiceAlerts = NO;
+	_showServiceAlerts = NO;
 	_minutesBefore = 20;
 	
 	_tripDetailsHandler = [[OBATripDetailsHandler alloc] init];

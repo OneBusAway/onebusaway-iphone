@@ -26,8 +26,8 @@
 - (id) init {
 	if( self = [super init] ) {
 		_searchType = OBASearchTypeNone;
-		_limitExceeded = FALSE;
-		_outOfRange = FALSE;
+		_limitExceeded = NO;
+		_outOfRange = NO;
 		_values = [[NSArray alloc] init];
 		_additionalValues = [[NSArray alloc] init];
 	}

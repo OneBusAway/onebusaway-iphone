@@ -123,7 +123,7 @@
 		OBAStopPreferencesV2 * p2 = [[OBAStopPreferencesV2 alloc] init];
 		p2.sortTripsByType = [prefs.sortTripsByType intValue];
 		for( OBARoute * route in routes )
-			[p2 setEnabled:FALSE forRouteId:route.routeId];
+			[p2 setEnabled:NO forRouteId:route.routeId];
 		[dao setStopPreferences:p2 forStopWithId:stop.stopId];
 	}
 }

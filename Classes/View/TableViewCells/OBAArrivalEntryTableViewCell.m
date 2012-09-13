@@ -69,15 +69,15 @@
 		[self cancelTimer];
 		_unreadAlertImage.hidden = TRUE;
 		_alertImage.hidden = TRUE;		
-		_minutesLabel.hidden = FALSE;
+		_minutesLabel.hidden = NO;
 	}
 	else {
 
 		_minutesLabel.alpha = 1.0;
 		_unreadAlertImage.alpha = 0.0;
 		_alertImage.alpha = 0.0;
-		_unreadAlertImage.hidden = FALSE;
-		_alertImage.hidden = FALSE;
+		_unreadAlertImage.hidden = NO;
+		_alertImage.hidden = NO;
 
 		if( _transitionTimer == nil ) {
 			_transitionTimer = [NSTimer scheduledTimerWithTimeInterval:1.2 target:self selector:@selector(timerFired:) userInfo:nil repeats:TRUE];

@@ -42,7 +42,7 @@ typedef enum {
 		_instance = instance;
 		_arrivalAndDeparture = nil;
 		_arrivalCellFactory = [[OBAArrivalEntryTableViewCellFactory alloc] initWithAppContext:_appContext tableView:self.tableView];
-		_arrivalCellFactory.showServiceAlerts = FALSE;
+		_arrivalCellFactory.showServiceAlerts = NO;
 		self.refreshable = TRUE;
 		self.refreshInterval = 30;
 		self.showUpdateTime = TRUE;
