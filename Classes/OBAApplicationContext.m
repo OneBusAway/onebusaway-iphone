@@ -493,7 +493,11 @@ static const NSUInteger kTagAgenciesView = 6;
 			_tabBarController.selectedIndex = index;
 			break;
 		}
-	}	
+
+        default: {
+            NSLog(@"Unhandled switch case in %s: %d", __PRETTY_FUNCTION__, navigationTarget.target);
+        }
+	}
 }
 
 - (void) setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController {
