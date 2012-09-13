@@ -242,7 +242,6 @@
 		A00E679813FD956C0022820E /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A00E679713FD956C0022820E /* Settings.bundle */; };
 		D48EC071120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D48EC06F120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.h */; };
 		D48EC072120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = D48EC070120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.m */; };
-		D4B7158C11F82D3700D0A9CB /* UIDeviceExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B7158B11F82D3700D0A9CB /* UIDeviceExtensions.m */; };
 		D6169A170FC228FB00631BCE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6169A160FC228FB00631BCE /* CoreData.framework */; };
 		D6169A630FC23FDF00631BCE /* OBABookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = D6169A560FC23FDF00631BCE /* OBABookmark.m */; };
 		D6169A640FC23FDF00631BCE /* OBAStopAccessEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D6169A580FC23FDF00631BCE /* OBAStopAccessEvent.m */; };
@@ -670,8 +669,6 @@
 		A00E679713FD956C0022820E /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		D48EC06F120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASearchResultsMapFilterToolbar.h; path = View/OBASearchResultsMapFilterToolbar.h; sourceTree = "<group>"; };
 		D48EC070120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASearchResultsMapFilterToolbar.m; path = View/OBASearchResultsMapFilterToolbar.m; sourceTree = "<group>"; };
-		D4B7158A11F82D3700D0A9CB /* UIDeviceExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDeviceExtensions.h; sourceTree = "<group>"; };
-		D4B7158B11F82D3700D0A9CB /* UIDeviceExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDeviceExtensions.m; sourceTree = "<group>"; };
 		D6169A040FC2258800631BCE /* OBAModel-1.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = "OBAModel-1.xcdatamodel"; sourceTree = "<group>"; };
 		D6169A160FC228FB00631BCE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D6169A550FC23FDF00631BCE /* OBABookmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBABookmark.h; path = Model/OBABookmark.h; sourceTree = "<group>"; };
@@ -885,8 +882,6 @@
 				D616A12A0FC5153100631BCE /* OBAApplicationContext.h */,
 				D616A12B0FC5153100631BCE /* OBAApplicationContext.m */,
 				D65BA1CF0FDDC74D006A9568 /* OBANavigationTargetAware.h */,
-				D4B7158A11F82D3700D0A9CB /* UIDeviceExtensions.h */,
-				D4B7158B11F82D3700D0A9CB /* UIDeviceExtensions.m */,
 				D6DB3E1813BAF6A0004C2832 /* OBACommonV1.h */,
 				D6DB3E1913BAF6A0004C2832 /* OBACommonV1.m */,
 			);
@@ -1960,7 +1955,6 @@
 				D6B6C03A108804E600AC5FEF /* OBATrip.m in Sources */,
 				D63C82B710D62D1700B297C4 /* OBAContactUsViewController.m in Sources */,
 				D63C82F210D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m in Sources */,
-				D4B7158C11F82D3700D0A9CB /* UIDeviceExtensions.m in Sources */,
 				D696ECF01207992E00514C2B /* OBAUserPreferencesMigration.m in Sources */,
 				D48EC072120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.m in Sources */,
 				D671D7AF121A77E800F398E5 /* OBAProgressIndicatorImpl.m in Sources */,

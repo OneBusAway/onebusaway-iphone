@@ -10,11 +10,7 @@
 #import "OBASituationConsequenceV2.h"
 #import "OBADiversionViewController.h"
 #import "OBAWebViewController.h"
-
-
 #import "OBAModelDAO.h"
-#import "UIDeviceExtensions.h"
-
 
 typedef enum {
 	OBASectionTypeNone,
@@ -258,14 +254,12 @@ typedef enum {
 	/**
 	 * Is this a terrible hack?  Probably yes.
 	 */
-	if( htmlify ) {		
-		if( [[UIDevice currentDevice] isNSRegularExpressionSupported]) {
-			NSError * error = nil;
-			NSRegularExpression * pattern = [NSRegularExpression regularExpressionWithPattern:@"(http://[^\\s]+)" options:0 error:&error];
-			if( ! error ) {
-				[pattern replaceMatchesInString:buffer options:0 range:NSMakeRange(0, [buffer length]) withTemplate:@"<a href=\"$1\">$1</a>"];
-			}
-		}
+	if( htmlify ) {
+        NSError * error = nil;
+        NSRegularExpression * pattern = [NSRegularExpression regularExpressionWithPattern:@"(http://[^\\s]+)" options:0 error:&error];
+        if( ! error ) {
+            [pattern replaceMatchesInString:buffer options:0 range:NSMakeRange(0, [buffer length]) withTemplate:@"<a href=\"$1\">$1</a>"];
+        }
 		
 		[buffer replaceOccurrencesOfString:@"\r\n" withString:@"<br/>" options:NSLiteralSearch range:NSMakeRange(0, [buffer length])];
 		[buffer replaceOccurrencesOfString:@"\n" withString:@"<br/>" options:NSLiteralSearch range:NSMakeRange(0, [buffer length])];

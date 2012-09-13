@@ -1,7 +1,6 @@
 #import "OBADiversionViewController.h"
 #import "OBASphericalGeometryLibrary.h"
 #import "OBACoordinateBounds.h"
-#import "UIDeviceExtensions.h"
 #import "OBAPlacemark.h"
 
 
@@ -31,52 +30,27 @@
 - (void) viewWillAppear:(BOOL)animated {
 	
 	MKMapView * mv = [self mapView];
+    NSArray * points = [OBASphericalGeometryLibrary decodePolylineString:self.diversionPath];
 
-	if ( [[UIDevice currentDevice] isMKPolylineSupportedSafe] ) {
+    _reroutePolyline = [OBASphericalGeometryLibrary createMKPolylineFromLocations:points];
 
-		NSArray * points = [OBASphericalGeometryLibrary decodePolylineString:self.diversionPath];
+    [mv addOverlay:_reroutePolyline];
 
-		_reroutePolyline = [OBASphericalGeometryLibrary createMKPolylineFromLocations:points];
+    OBACoordinateBounds * bounds = [OBASphericalGeometryLibrary boundsForLocations:points];
+    if( ! [bounds empty] ) {
+        [mv setRegion:bounds.region];
+    }
 
-		[mv addOverlay:_reroutePolyline];
-		
-		OBACoordinateBounds * bounds = [OBASphericalGeometryLibrary boundsForLocations:points];
-		if( ! [bounds empty] ) {
-			[mv setRegion:bounds.region];
-		}
-		
-		OBAArrivalAndDepartureV2 * ad = (self.args)[@"arrivalAndDeparture"];
-		if( ad != nil && _tripEncodedPolyline == nil ) {
-			OBATripV2 * trip = ad.trip;
-			NSString * shapeId = trip.shapeId;
-			if( shapeId ) {
-				OBAApplicationContext * context = self.appContext;
-				OBAModelService * service = context.modelService;
-				_request = [service requestShapeForId:shapeId withDelegate:self withContext:nil];
-			}
-		}
-	}
-	else {
-		
-		NSArray * points = [OBASphericalGeometryLibrary decodePolylineString:self.diversionPath];
-		points = [OBASphericalGeometryLibrary subsamplePoints:points minDistance:250];
-
-		NSMutableArray * annotations = [NSMutableArray arrayWithCapacity:[points count]];
-		OBACoordinateBounds * bounds = [[OBACoordinateBounds alloc] init];
-										
-		for( CLLocation * location in points ) {
-			OBAPlacemark * annotation = [[OBAPlacemark alloc] initWithAddress:@"" coordinate:location.coordinate];
-			[annotations addObject:annotation];
-			
-			[bounds addLocation:location];
-		}
-		
-		[mv addAnnotations:annotations];
-		
-		if( ! [bounds empty] ) {
-			[mv setRegion:bounds.region];
-		}
-	}
+    OBAArrivalAndDepartureV2 * ad = (self.args)[@"arrivalAndDeparture"];
+    if( ad != nil && _tripEncodedPolyline == nil ) {
+        OBATripV2 * trip = ad.trip;
+        NSString * shapeId = trip.shapeId;
+        if( shapeId ) {
+            OBAApplicationContext * context = self.appContext;
+            OBAModelService * service = context.modelService;
+            _request = [service requestShapeForId:shapeId withDelegate:self withContext:nil];
+        }
+    }
 }
 
 #pragma mark MKMapViewDelegate

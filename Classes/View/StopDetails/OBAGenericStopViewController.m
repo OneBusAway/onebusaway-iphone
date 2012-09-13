@@ -34,8 +34,6 @@
 #import "OBASearchController.h"
 #import "OBASphericalGeometryLibrary.h"
 
-#import "UIDeviceExtensions.h"
-
 
 static const double kNearbyStopRadius = 200;
 
@@ -191,7 +189,7 @@ static const double kNearbyStopRadius = 200;
     
     [super viewWillAppear:animated];
 
-	if ([[UIDevice currentDevice] isMultitaskingSupportedSafe])
+	if ([[UIDevice currentDevice] isMultitaskingSupported])
 	{
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground)  name:UIApplicationDidEnterBackgroundNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -204,7 +202,7 @@ static const double kNearbyStopRadius = 200;
  
 	[self clearPendingRequest];
 	
-	if ([[UIDevice currentDevice] isMultitaskingSupportedSafe])
+	if ([[UIDevice currentDevice] isMultitaskingSupported])
 	{
 		[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
 		[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
