@@ -328,6 +328,7 @@ typedef enum {
 	}
 }
 
+// TODO: this crashes right now since, as the compiler tells us, -showSituations: doesn't exist.
 - (void) showSituations {
 	NSDictionary * args = [NSDictionary dictionaryWithObject:_arrivalAndDeparture forKey:@"arrivalAndDeparture"];
 	[OBAPresentation showSituations:_arrivalAndDeparture.situations withAppContext:_appContext navigationController:self.navigationController args:args];
