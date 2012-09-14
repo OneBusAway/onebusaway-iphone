@@ -27,7 +27,7 @@
 #import "OBASearchController.h"
 #import "OBAStopViewController.h"
 #import "OBAContactUsViewController.h"
-
+#import "OBAAgenciesListViewController.h"
 #import "OBAStopIconFactory.h"
 
 #import "OBAUserPreferencesMigration.h"
@@ -53,26 +53,27 @@ static const NSUInteger kTagSettingsView = 5;
 static const NSUInteger kTagAgenciesView = 6;
 
 
-@interface OBAApplicationContext (Private)
+@interface OBAApplicationContext ()
 
-- (void) saveState;
+- (void) _constructUI;
 
-- (void) restoreState;
-- (void) restoreTabOrder:(NSUserDefaults*)userDefaults;
-- (BOOL) shouldRestoreStateToDefault:(NSUserDefaults*)userDefaults;
-- (void) restoreStateToDefault:(NSUserDefaults*)userDefaults;
-- (BOOL) restoreSavedNavigationState:(NSUserDefaults*)userDefaults;
+- (void) _saveState;
+- (void) _restoreState;
+- (void) _restoreTabOrder:(NSUserDefaults*)userDefaults;
+- (BOOL) _shouldRestoreStateToDefault:(NSUserDefaults*)userDefaults;
+- (void) _restoreStateToDefault:(NSUserDefaults*)userDefaults;
+- (BOOL) _restoreSavedNavigationState:(NSUserDefaults*)userDefaults;
 
-- (void) navigateToTargetInternal:(OBANavigationTarget*)navigationTarget;
+- (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget;
 
-- (void) setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController;
+- (void) _setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController;
 - (UIViewController*) getViewControllerForTarget:(OBANavigationTarget*)target;
 
 - (NSInteger) getViewControllerIndexForTag:(NSUInteger)tag;
 
 - (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults;
 
-- (void) migrateUserPreferences;
+- (void) _migrateUserPreferences;
 
 - (NSString *)applicationDocumentsDirectory;
 
@@ -80,21 +81,6 @@ static const NSUInteger kTagAgenciesView = 6;
 
 
 @implementation OBAApplicationContext
-
-@synthesize references = _references;
-@synthesize locationManager = _locationManager;
-@synthesize activityListeners = _activityListeners;
-
-@synthesize modelDao = _modelDao;
-@synthesize modelService = _modelService;
-
-@synthesize stopIconFactory = _stopIconFactory;
-
-@synthesize window = _window;
-@synthesize tabBarController = _tabBarController;
-
-@synthesize active = _active;
-
 
 - (id) init {
 	if( self = [super init] ) {
@@ -126,7 +112,7 @@ static const NSUInteger kTagAgenciesView = 6;
 
 
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget {
-	[self performSelector:@selector(navigateToTargetInternal:) withObject:navigationTarget afterDelay:0];
+	[self performSelector:@selector(_navigateToTargetInternal:) withObject:navigationTarget afterDelay:0];
 }
 
 - (void) refreshSettings {
@@ -154,24 +140,44 @@ static const NSUInteger kTagAgenciesView = 6;
 	[userDefaults setObject:appVersion forKey:@"oba_application_version"];
 }
 
+- (void)_constructUI
+{
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.tabBarController = [[UITabBarController alloc] init];
+    
+    self.mapViewController = [[OBASearchResultsMapViewController alloc] init];
+    self.bookmarksViewController = [[OBABookmarksViewController alloc] init];
+    self.recentViewController = [[OBARecentStopsViewController alloc] init];
+    self.searchViewController = [[OBASearchViewController alloc] init];
+    self.contactViewController = [[OBAContactUsViewController alloc] init];
+    self.settingsViewController = [[IASKAppSettingsViewController alloc] init];
+    self.settingsViewController.delegate = self;
+    self.agenciesViewController = [[OBAAgenciesListViewController alloc] init];
+    
+    self.tabBarController.delegate = self;
+    
+    self.tabBarController.viewControllers = @[
+        [[UINavigationController alloc] initWithRootViewController:self.mapViewController],
+        [[UINavigationController alloc] initWithRootViewController:self.bookmarksViewController],
+        [[UINavigationController alloc] initWithRootViewController:self.recentViewController],
+        [[UINavigationController alloc] initWithRootViewController:self.searchViewController],
+        [[UINavigationController alloc] initWithRootViewController:self.contactViewController],
+        [[UINavigationController alloc] initWithRootViewController:self.settingsViewController],
+        [[UINavigationController alloc] initWithRootViewController:self.agenciesViewController]
+    ];
+    
+    self.window.rootViewController = self.tabBarController;
+    [self.window makeKeyAndVisible];
+}
+
 #pragma mark UIApplicationDelegate Methods
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
-	
-	[self migrateUserPreferences];
-	
-	_tabBarController.delegate = self;
-	
-	// Register a settings callback
-	UINavigationController * navController = (_tabBarController.viewControllers)[5];
-	IASKAppSettingsViewController * vc = (navController.viewControllers)[0];
-	vc.delegate = self;
-	
-	UIView * rootView = [_tabBarController view];
-	[_window addSubview:rootView];
-	[_window makeKeyAndVisible];
-	
-	[self restoreState];
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [self _migrateUserPreferences];
+    [self _constructUI];
+	[self _restoreState];
+
+    return YES;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -188,7 +194,7 @@ static const NSUInteger kTagAgenciesView = 6;
 	if( location )
 		_modelDao.mostRecentLocation = location;
 	
-	[self saveState];
+	[self _saveState];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -199,8 +205,8 @@ static const NSUInteger kTagAgenciesView = 6;
 	 * If we've been in the background for a while (>15 mins), we restore
 	 * the app to the user's preferred default state
 	 */
-	if( [self shouldRestoreStateToDefault:userDefaults] )
-		[self restoreStateToDefault:userDefaults];
+	if( [self _shouldRestoreStateToDefault:userDefaults] )
+		[self _restoreStateToDefault:userDefaults];
 	
 	
 }
@@ -219,7 +225,7 @@ static const NSUInteger kTagAgenciesView = 6;
 		 * Note that we delay the call to allow the tab-bar to finish its thing
 		 */
 		OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
-		[self performSelector:@selector(navigateToTargetInternal:) withObject:target afterDelay:0];
+		[self performSelector:@selector(_navigateToTargetInternal:) withObject:target afterDelay:0];
 		return NO;
 	}
 	
@@ -262,14 +268,10 @@ static const NSUInteger kTagAgenciesView = 6;
 	[self refreshSettings];
 }
 
-@end
 
-
-@implementation OBAApplicationContext (Private)
-
-- (void) saveState {
+- (void) _saveState {
 	
-	UINavigationController * navController = (UINavigationController*) _tabBarController.selectedViewController;
+	UINavigationController * navController = (UINavigationController*) self.tabBarController.selectedViewController;
 	
 	NSMutableArray * targets = [[NSMutableArray alloc] init];
 	
@@ -296,25 +298,25 @@ static const NSUInteger kTagAgenciesView = 6;
 	[userDefaults synchronize];
 }
 
-- (void) restoreState {
+- (void) _restoreState {
 	
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	
-	[self restoreTabOrder:userDefaults];
+	[self _restoreTabOrder:userDefaults];
 	
-	if( [self shouldRestoreStateToDefault:userDefaults] ) {
-		[self restoreStateToDefault:userDefaults];
+	if( [self _shouldRestoreStateToDefault:userDefaults] ) {
+		[self _restoreStateToDefault:userDefaults];
 		return;
 	}
 
-	if( [self restoreSavedNavigationState:userDefaults] )
+	if( [self _restoreSavedNavigationState:userDefaults] )
 		return;
 
 	// If we had no default state, just use a reasonable default
-	_tabBarController.selectedIndex = 0;
+	self.tabBarController.selectedIndex = 0;
 }
 
-- (void) restoreTabOrder:(NSUserDefaults*)userDefaults {
+- (void) _restoreTabOrder:(NSUserDefaults*)userDefaults {
 	/**
 	 * Restore tab order if necessary
 	 */
@@ -333,10 +335,10 @@ static const NSUInteger kTagAgenciesView = 6;
 	/**
 	 * For now, we don't allow the customization of tab order
 	 */
-	_tabBarController.customizableViewControllers = @[];
+	self.tabBarController.customizableViewControllers = @[];
 }
 
-- (BOOL) shouldRestoreStateToDefault:(NSUserDefaults*)userDefaults {
+- (BOOL) _shouldRestoreStateToDefault:(NSUserDefaults*)userDefaults {
 
 	// We should only restore the application state if it's been less than x minutes
 	// The idea is that, typically, if it's been more than x minutes, you've moved
@@ -353,13 +355,13 @@ static const NSUInteger kTagAgenciesView = 6;
 	return NO;
 }
 
-- (void) restoreStateToDefault:(NSUserDefaults*)userDefaults {
+- (void) _restoreStateToDefault:(NSUserDefaults*)userDefaults {
 	NSInteger showOnStartup = [userDefaults integerForKey:kOBAPreferenceShowOnStartup];
 	if( 0 <= showOnStartup && showOnStartup < 4 )
-		_tabBarController.selectedIndex = showOnStartup;
+		self.tabBarController.selectedIndex = showOnStartup;
 }
 
-- (BOOL) restoreSavedNavigationState:(NSUserDefaults*)userDefaults {
+- (BOOL) _restoreSavedNavigationState:(NSUserDefaults*)userDefaults {
 	
 	NSData *restoreStateData = [userDefaults objectForKey:kOBAHiddenPreferenceSavedNavigationTargets];
 	
@@ -407,31 +409,31 @@ static const NSUInteger kTagAgenciesView = 6;
 	if( index == -1 )
 		return NO;
 	
-	_tabBarController.selectedIndex = index;
+	self.tabBarController.selectedIndex = index;
 	
-	UINavigationController * rootNavController = (UINavigationController*) _tabBarController.selectedViewController;
+	UINavigationController * rootNavController = (UINavigationController*) self.tabBarController.selectedViewController;
 	
 	UIViewController * rootViewController = [rootNavController topViewController];
 	
-	[self setNavigationTarget:rootTarget forViewController:rootViewController];
+	[self _setNavigationTarget:rootTarget forViewController:rootViewController];
 	
 	for( NSUInteger index = 1; index < [targets count]; index++) {
 		OBANavigationTarget * nextTarget = targets[index];
 		UIViewController * nextViewController = [self getViewControllerForTarget:nextTarget];
 		if( ! nextViewController )
 			break;		
-		[self setNavigationTarget:nextTarget forViewController:nextViewController];
+		[self _setNavigationTarget:nextTarget forViewController:nextViewController];
 		[rootNavController pushViewController:nextViewController animated:YES];
 	}
 	
 	return YES;
 }
 
-- (void) navigateToTargetInternal:(OBANavigationTarget*)navigationTarget {
+- (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget {
 	
 	[_references clear];
 	
-	UINavigationController * current = (UINavigationController*) _tabBarController.selectedViewController;
+	UINavigationController * current = (UINavigationController*) self.tabBarController.selectedViewController;
 	if( current )
 		[current popToRootViewControllerAnimated:NO];
 	
@@ -440,12 +442,12 @@ static const NSUInteger kTagAgenciesView = 6;
 			NSInteger index = [self getViewControllerIndexForTag:kTagMapView];
 			if( index == -1 )
 				return;
-			UINavigationController * mapNavController = (_tabBarController.viewControllers)[index];
+			UINavigationController * mapNavController = (self.tabBarController.viewControllers)[index];
 
 			OBASearchResultsMapViewController * searchResultsMapViewController = (mapNavController.viewControllers)[0];
 			[searchResultsMapViewController setNavigationTarget:navigationTarget];
 			
-			_tabBarController.selectedIndex = index;
+			self.tabBarController.selectedIndex = index;
 			[mapNavController popToRootViewControllerAnimated:NO];
 			
 			break;
@@ -455,11 +457,11 @@ static const NSUInteger kTagAgenciesView = 6;
 			NSInteger index = [self getViewControllerIndexForTag:kTagContactUsView];
 			if( index == -1 )
 				return;
-			UINavigationController * detailsNavController = (_tabBarController.viewControllers)[index];
+			UINavigationController * detailsNavController = (self.tabBarController.viewControllers)[index];
 			[detailsNavController popToRootViewControllerAnimated:NO];
 			OBAContactUsViewController * vc = [[OBAContactUsViewController alloc] initWithApplicationContext:self];
 			[detailsNavController pushViewController:vc animated:NO];
-			_tabBarController.selectedIndex = index;
+			self.tabBarController.selectedIndex = index;
 			break;
 		}
 
@@ -469,7 +471,7 @@ static const NSUInteger kTagAgenciesView = 6;
 	}
 }
 
-- (void) setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController {
+- (void) _setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController {
 	if( ! [viewController conformsToProtocol:@protocol(OBANavigationTargetAware) ] )
 		return;
     
@@ -494,7 +496,7 @@ static const NSUInteger kTagAgenciesView = 6;
 
 - (NSInteger) getViewControllerIndexForTag:(NSUInteger)tag {
 	
-	NSArray * controllers = _tabBarController.viewControllers;
+	NSArray * controllers = self.tabBarController.viewControllers;
 	NSUInteger count = [controllers count];
 	
 	for( NSUInteger i=0; i<count; i++ ) {
@@ -526,7 +528,7 @@ static const NSUInteger kTagAgenciesView = 6;
 	return userId;
 }
 
-- (void) migrateUserPreferences {
+- (void) _migrateUserPreferences {
 	
 	OBAUserPreferencesMigration * migration = [[OBAUserPreferencesMigration alloc] init];
 	
