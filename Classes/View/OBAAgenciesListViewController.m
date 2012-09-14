@@ -33,7 +33,7 @@ typedef enum {
 - (id)init {
     self = [super initWithApplicationContext:nil];
     if (self) {
-        self.title = NSLocalizedString(@"Agencies", @"");
+        self.title = NSLocalizedString(@"Agencies", @"Agencies tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Agencies"];
         self.refreshable = NO;
 		self.showUpdateTime = NO;

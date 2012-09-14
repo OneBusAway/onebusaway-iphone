@@ -39,7 +39,7 @@
 
     if (self)
     {
-        self.title = NSLocalizedString(@"Bookmarks", @"");
+        self.title = NSLocalizedString(@"Bookmarks", @"Bookmarks tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Bookmarks"];
     }
     return self;

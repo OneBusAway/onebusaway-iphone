@@ -28,7 +28,7 @@
     self = [super initWithStyle:UITableViewStyleGrouped];
 
     if (self) {
-        self.title = NSLocalizedString(@"Recent", @"");
+        self.title = NSLocalizedString(@"Recent", @"Recent stops tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Clock"];
     }
 

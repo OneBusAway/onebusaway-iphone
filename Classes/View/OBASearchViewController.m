@@ -42,7 +42,7 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
     self = [super initWithStyle:UITableViewStyleGrouped];
 
     if (self) {
-        self.title = NSLocalizedString(@"Search", @"");
+        self.title = NSLocalizedString(@"Search", @"Search tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"MagnifyingGlass"];
     }
     return self;
