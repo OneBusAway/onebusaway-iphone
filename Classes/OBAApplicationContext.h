@@ -22,15 +22,14 @@
 #import "OBAActivityListeners.h"
 #import "OBANavigationTarget.h"
 #import "OBAReferencesV2.h"
-
-#import "OBASearchResultsMapViewController.h"
-#import "OBABookmarksViewController.h"
-#import "OBARecentStopsViewController.h"
-#import "OBASearchViewController.h"
-#import "OBAContactUsViewController.h"
 #import "IASKAppSettingsViewController.h"
-#import "OBAAgenciesListViewController.h"
 
+@class OBASearchResultsMapViewController;
+@class OBABookmarksViewController;
+@class OBARecentStopsViewController;
+@class OBASearchViewController;
+@class OBAContactUsViewController;
+@class OBAAgenciesListViewController;
 
 @class OBANearbyTripsController;
 @class OBAStopIconFactory;
@@ -54,8 +53,8 @@
 	
 }
 
-@property (nonatomic, strong) IBOutlet UIWindow *window;
-@property (nonatomic, strong) IBOutlet UITabBarController * tabBarController;
+@property(nonatomic, strong) UIWindow *window;
+@property(strong) UITabBarController * tabBarController;
 
 // view controller tabs
 @property(strong) OBASearchResultsMapViewController *mapViewController;
