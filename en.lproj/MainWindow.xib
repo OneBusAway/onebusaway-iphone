@@ -84,7 +84,6 @@
 							<string key="NSResourceName">Agencies.png</string>
 						</object>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<reference key="IBUITabBar" ref="660484408"/>
 					</object>
 					<reference key="IBUIParentViewController" ref="231362614"/>
 					<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -153,7 +152,6 @@
 								<string key="NSResourceName">CrossHairs.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-							<reference key="IBUITabBar" ref="660484408"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="231362614"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -230,7 +228,6 @@
 								<string key="NSResourceName">Bookmarks.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-							<reference key="IBUITabBar" ref="660484408"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="231362614"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -309,7 +306,6 @@
 								<string key="NSResourceName">Clock.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-							<reference key="IBUITabBar" ref="660484408"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="231362614"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -379,7 +375,6 @@
 								<string key="NSResourceName">MagnifyingGlass.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-							<reference key="IBUITabBar" ref="660484408"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="231362614"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -450,7 +445,6 @@
 								<string key="NSResourceName">ContactUs.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-							<reference key="IBUITabBar" ref="660484408"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="231362614"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -518,7 +512,6 @@
 								<string key="NSResourceName">Gear.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-							<reference key="IBUITabBar" ref="660484408"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="231362614"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -570,17 +563,6 @@
 					</object>
 					<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 					<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-					<object class="NSMutableArray" key="IBUIItems">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<reference ref="713957840"/>
-						<reference ref="872208416"/>
-						<reference ref="22041474"/>
-						<reference ref="779036937"/>
-						<reference ref="509703139"/>
-						<reference ref="941399378"/>
-						<reference ref="646074133"/>
-					</object>
-					<reference key="IBUISelectedItem" ref="646074133"/>
 				</object>
 			</object>
 		</object>
