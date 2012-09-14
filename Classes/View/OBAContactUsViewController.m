@@ -22,9 +22,10 @@
 
 @synthesize appContext = _appContext;
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext {
+- (id)init {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-		_appContext = appContext;
+		self.title = NSLocalizedString(@"Contact Us", @"");
+        self.tabBarItem.image = [UIImage imageNamed:@"ContactUs"];
 	}
     return self;
 }

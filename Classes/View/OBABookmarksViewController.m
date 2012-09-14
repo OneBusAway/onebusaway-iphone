@@ -33,6 +33,17 @@
 @synthesize appContext = _appContext;
 @synthesize customEditButtonItem = _customEditButtonItem;
 
+- (id)init
+{
+    self = [super initWithStyle:UITableViewStyleGrouped];
+
+    if (self)
+    {
+        self.title = NSLocalizedString(@"Bookmarks", @"");
+        self.tabBarItem.image = [UIImage imageNamed:@"Bookmarks"];
+    }
+    return self;
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -44,30 +55,19 @@
 
 #pragma mark Table view methods
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	return MAX(_bookmarks.count, 1);
 }
 
-
-// Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {	
-	int count = [_bookmarks count];
-	if( count == 0 )
-		count = 1;
-	return count;
-}
-
-
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	if( [_bookmarks count] == 0 ) {
-		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+
+    UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+
+	if( 0 == _bookmarks.count ) {
 		cell.textLabel.text = NSLocalizedString(@"No bookmarks set",@"[_bookmarks count] == 0");
 		cell.textLabel.textAlignment = UITextAlignmentCenter;
 		cell.accessoryType = UITableViewCellAccessoryNone;		
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		return cell;
 	}
 	else {
 		OBABookmarkV2 * bookmark = _bookmarks[(indexPath.row)];
@@ -76,8 +76,9 @@
 		cell.textLabel.textAlignment = UITextAlignmentLeft;		
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-		return cell;
 	}
+
+    return cell;
 }
 
 
@@ -100,8 +101,7 @@
 }
 
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle 
-forRowAtIndexPath:(NSIndexPath *)indexPath  {
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath  {
 	
 	OBAModelDAO * modelDao = _appContext.modelDao;
 	OBABookmarkV2 * bookmark = _bookmarks[(indexPath.row)];

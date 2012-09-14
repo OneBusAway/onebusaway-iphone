@@ -9,6 +9,4 @@
 	NSMutableArray * _agencies;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext;
-
 @end

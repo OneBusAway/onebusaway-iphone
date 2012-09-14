@@ -24,6 +24,16 @@
 
 @synthesize appContext = _appContext;
 
+- (id)init {
+    self = [super initWithStyle:UITableViewStyleGrouped];
+
+    if (self) {
+        self.title = NSLocalizedString(@"Recent", @"");
+        self.tabBarItem.image = [UIImage imageNamed:@"Clock"];
+    }
+
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

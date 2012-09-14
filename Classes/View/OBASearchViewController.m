@@ -38,6 +38,16 @@ static NSString * kOBASearchValue = @"kOBASearchValue";
 @synthesize searchField = _searchField;
 @synthesize cancelButton = _cancelButton;
 
+- (id)init {
+    self = [super initWithStyle:UITableViewStyleGrouped];
+
+    if (self) {
+        self.title = NSLocalizedString(@"Search", @"");
+        self.tabBarItem.image = [UIImage imageNamed:@"MagnifyingGlass"];
+    }
+    return self;
+}
+
 + (NSDictionary*) getParametersForSearchType:(OBASearchViewType)searchType {
 	return [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:searchType] forKey:kOBASearchViewType];
 }

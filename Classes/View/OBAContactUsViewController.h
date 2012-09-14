@@ -22,8 +22,6 @@
 	OBAApplicationContext * _appContext;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext;
-
 @property (nonatomic,strong) IBOutlet OBAApplicationContext * appContext;
 
 @end

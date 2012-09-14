@@ -29,12 +29,16 @@ typedef enum {
 
 @implementation OBAAgenciesListViewController
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext {
-	if( self = [super initWithApplicationContext:appContext] ) {
-		self.refreshable = NO;
+// TODO: why does super need the app delegate on -init?
+- (id)init {
+    self = [super initWithApplicationContext:nil];
+    if (self) {
+        self.title = NSLocalizedString(@"Agencies", @"");
+        self.tabBarItem.image = [UIImage imageNamed:@"Agencies"];
+        self.refreshable = NO;
 		self.showUpdateTime = NO;
-	}
-	return self;
+    }
+    return self;
 }
 
 -(void) viewDidLoad {

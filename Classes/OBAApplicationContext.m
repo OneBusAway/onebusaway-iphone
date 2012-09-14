@@ -164,6 +164,8 @@ static const NSUInteger kTagAgenciesView = 6;
     [viewControllers addObject:self.contactViewController];
     
     self.settingsViewController = [[IASKAppSettingsViewController alloc] init];
+    self.settingsViewController.title = NSLocalizedString(@"Settings", @"");
+    self.settingsViewController.tabBarItem.image = [UIImage imageNamed:@"Gear"];
     [viewControllers addObject:self.settingsViewController];
     self.settingsViewController.delegate = self;
     
@@ -469,17 +471,17 @@ static const NSUInteger kTagAgenciesView = 6;
 			break;
 		}
 			
-		case OBANavigationTargetTypeContactUs: {
-			NSInteger index = [self _getViewControllerIndexForTag:kTagContactUsView];
-			if( index == -1 )
-				return;
-			UINavigationController * detailsNavController = (self.tabBarController.viewControllers)[index];
-			[detailsNavController popToRootViewControllerAnimated:NO];
-			OBAContactUsViewController * vc = [[OBAContactUsViewController alloc] initWithApplicationContext:self];
-			[detailsNavController pushViewController:vc animated:NO];
-			self.tabBarController.selectedIndex = index;
-			break;
-		}
+//		case OBANavigationTargetTypeContactUs: {
+//			NSInteger index = [self _getViewControllerIndexForTag:kTagContactUsView];
+//			if( index == -1 )
+//				return;
+//			UINavigationController * detailsNavController = (self.tabBarController.viewControllers)[index];
+//			[detailsNavController popToRootViewControllerAnimated:NO];
+//			OBAContactUsViewController * vc = [[OBAContactUsViewController alloc] initWithApplicationContext:self];
+//			[detailsNavController pushViewController:vc animated:NO];
+//			self.tabBarController.selectedIndex = index;
+//			break;
+//		}
 
         default: {
             NSLog(@"Unhandled switch case in %s: %d", __PRETTY_FUNCTION__, navigationTarget.target);
@@ -503,8 +505,8 @@ static const NSUInteger kTagAgenciesView = 6;
 	switch (target.target) {
 		case OBANavigationTargetTypeStop:
 			return [[OBAStopViewController alloc] initWithApplicationContext:self];
-		case OBANavigationTargetTypeContactUs:
-			return [[OBAContactUsViewController alloc] initWithApplicationContext:self];
+//		case OBANavigationTargetTypeContactUs:
+//			return [[OBAContactUsViewController alloc] initWithApplicationContext:self];
         default:
             return nil;
 	}
