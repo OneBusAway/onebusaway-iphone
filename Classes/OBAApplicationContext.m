@@ -67,9 +67,9 @@ static const NSUInteger kTagAgenciesView = 6;
 - (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget;
 
 - (void) _setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController;
-- (UIViewController*) getViewControllerForTarget:(OBANavigationTarget*)target;
+- (UIViewController*) _getViewControllerForTarget:(OBANavigationTarget*)target;
 
-- (NSInteger) getViewControllerIndexForTag:(NSUInteger)tag;
+- (NSInteger) _getViewControllerIndexForTag:(NSUInteger)tag;
 
 - (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults;
 
@@ -145,26 +145,42 @@ static const NSUInteger kTagAgenciesView = 6;
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.tabBarController = [[UITabBarController alloc] init];
     
+    NSMutableArray *viewControllers = [NSMutableArray array];
+    NSMutableArray *navigableVCs = [NSMutableArray array];
+    
     self.mapViewController = [[OBASearchResultsMapViewController alloc] init];
+    [viewControllers addObject:self.mapViewController];
+    
     self.bookmarksViewController = [[OBABookmarksViewController alloc] init];
+    [viewControllers addObject:self.bookmarksViewController];
+    
     self.recentViewController = [[OBARecentStopsViewController alloc] init];
+    [viewControllers addObject:self.recentViewController];
+    
     self.searchViewController = [[OBASearchViewController alloc] init];
+    [viewControllers addObject:self.searchViewController];
+    
     self.contactViewController = [[OBAContactUsViewController alloc] init];
+    [viewControllers addObject:self.contactViewController];
+    
     self.settingsViewController = [[IASKAppSettingsViewController alloc] init];
+    [viewControllers addObject:self.settingsViewController];
     self.settingsViewController.delegate = self;
+    
     self.agenciesViewController = [[OBAAgenciesListViewController alloc] init];
+    [viewControllers addObject:self.agenciesViewController];
+    
+    // TODO: these shouldn't all need references to the app delegate.
+    for (UIViewController *vc in viewControllers) {
+        if ([vc respondsToSelector:@selector(setAppContext:)]) {
+            [vc performSelector:@selector(setAppContext:) withObject:self];
+        }
+        
+        [navigableVCs addObject:[[UINavigationController alloc] initWithRootViewController:vc]];
+    }
     
     self.tabBarController.delegate = self;
-    
-    self.tabBarController.viewControllers = @[
-        [[UINavigationController alloc] initWithRootViewController:self.mapViewController],
-        [[UINavigationController alloc] initWithRootViewController:self.bookmarksViewController],
-        [[UINavigationController alloc] initWithRootViewController:self.recentViewController],
-        [[UINavigationController alloc] initWithRootViewController:self.searchViewController],
-        [[UINavigationController alloc] initWithRootViewController:self.contactViewController],
-        [[UINavigationController alloc] initWithRootViewController:self.settingsViewController],
-        [[UINavigationController alloc] initWithRootViewController:self.agenciesViewController]
-    ];
+    self.tabBarController.viewControllers = navigableVCs;
     
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
@@ -405,7 +421,7 @@ static const NSUInteger kTagAgenciesView = 6;
 	if( selectedTag == -1 )
 		return NO;
 	
-	NSInteger index = [self getViewControllerIndexForTag:selectedTag];
+	NSInteger index = [self _getViewControllerIndexForTag:selectedTag];
 	if( index == -1 )
 		return NO;
 	
@@ -419,7 +435,7 @@ static const NSUInteger kTagAgenciesView = 6;
 	
 	for( NSUInteger index = 1; index < [targets count]; index++) {
 		OBANavigationTarget * nextTarget = targets[index];
-		UIViewController * nextViewController = [self getViewControllerForTarget:nextTarget];
+		UIViewController * nextViewController = [self _getViewControllerForTarget:nextTarget];
 		if( ! nextViewController )
 			break;		
 		[self _setNavigationTarget:nextTarget forViewController:nextViewController];
@@ -439,7 +455,7 @@ static const NSUInteger kTagAgenciesView = 6;
 	
 	switch (navigationTarget.target) {
 		case OBANavigationTargetTypeSearchResults: {
-			NSInteger index = [self getViewControllerIndexForTag:kTagMapView];
+			NSInteger index = [self _getViewControllerIndexForTag:kTagMapView];
 			if( index == -1 )
 				return;
 			UINavigationController * mapNavController = (self.tabBarController.viewControllers)[index];
@@ -454,7 +470,7 @@ static const NSUInteger kTagAgenciesView = 6;
 		}
 			
 		case OBANavigationTargetTypeContactUs: {
-			NSInteger index = [self getViewControllerIndexForTag:kTagContactUsView];
+			NSInteger index = [self _getViewControllerIndexForTag:kTagContactUsView];
 			if( index == -1 )
 				return;
 			UINavigationController * detailsNavController = (self.tabBarController.viewControllers)[index];
@@ -482,7 +498,7 @@ static const NSUInteger kTagAgenciesView = 6;
 	[targetAware setNavigationTarget:target];
 }
 
-- (UIViewController*) getViewControllerForTarget:(OBANavigationTarget*)target {
+- (UIViewController*) _getViewControllerForTarget:(OBANavigationTarget*)target {
 	
 	switch (target.target) {
 		case OBANavigationTargetTypeStop:
@@ -494,7 +510,7 @@ static const NSUInteger kTagAgenciesView = 6;
 	}
 }
 
-- (NSInteger) getViewControllerIndexForTag:(NSUInteger)tag {
+- (NSInteger) _getViewControllerIndexForTag:(NSUInteger)tag {
 	
 	NSArray * controllers = self.tabBarController.viewControllers;
 	NSUInteger count = [controllers count];

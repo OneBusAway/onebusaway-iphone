@@ -25,6 +25,7 @@
 		9330DED11603B41400E14AF4 /* IASKSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DEC11603B41400E14AF4 /* IASKSlider.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9330DED21603B41400E14AF4 /* IASKSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DEC31603B41400E14AF4 /* IASKSwitch.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9330DED31603B41400E14AF4 /* IASKTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DEC51603B41400E14AF4 /* IASKTextField.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9330DED61603BC6F00E14AF4 /* OBASearchResultsMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9330DED51603BC6F00E14AF4 /* OBASearchResultsMapViewController.xib */; };
 		93A290A1160157F70035BC70 /* OBACommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F76160157F60035BC70 /* OBACommon.m */; };
 		93A290A2160157F70035BC70 /* OBALocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F78160157F60035BC70 /* OBALocationManager.m */; };
 		93A290A3160157F70035BC70 /* OBALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F7A160157F60035BC70 /* OBALogger.m */; };
@@ -387,6 +388,7 @@
 		9330DEC31603B41400E14AF4 /* IASKSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IASKSwitch.m; sourceTree = "<group>"; };
 		9330DEC41603B41400E14AF4 /* IASKTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IASKTextField.h; sourceTree = "<group>"; };
 		9330DEC51603B41400E14AF4 /* IASKTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IASKTextField.m; sourceTree = "<group>"; };
+		9330DED51603BC6F00E14AF4 /* OBASearchResultsMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBASearchResultsMapViewController.xib; sourceTree = "<group>"; };
 		93A28F75160157F60035BC70 /* OBACommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACommon.h; sourceTree = "<group>"; };
 		93A28F76160157F60035BC70 /* OBACommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACommon.m; sourceTree = "<group>"; };
 		93A28F77160157F60035BC70 /* OBALocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALocationManager.h; sourceTree = "<group>"; };
@@ -884,6 +886,7 @@
 		29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */ = {
 			isa = PBXGroup;
 			children = (
+				9330DED41603BC5500E14AF4 /* xibs */,
 				93A29180160158C00035BC70 /* Default-568h@2x.png */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				D61A66790FCDB155004D2E91 /* Libraries */,
@@ -997,6 +1000,14 @@
 				9330DEC51603B41400E14AF4 /* IASKTextField.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		9330DED41603BC5500E14AF4 /* xibs */ = {
+			isa = PBXGroup;
+			children = (
+				9330DED51603BC6F00E14AF4 /* OBASearchResultsMapViewController.xib */,
+			);
+			path = xibs;
 			sourceTree = "<group>";
 		};
 		93A28F71160157F60035BC70 /* onebusaway-iphone-common */ = {
@@ -1880,6 +1891,7 @@
 				93A2917E160157F70035BC70 /* OBATextFieldTableViewCell.xib in Resources */,
 				93A2917F160157F70035BC70 /* OBAWebViewController.xib in Resources */,
 				93A29181160158C00035BC70 /* Default-568h@2x.png in Resources */,
+				9330DED61603BC6F00E14AF4 /* OBASearchResultsMapViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

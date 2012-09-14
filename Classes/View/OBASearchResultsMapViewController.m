@@ -104,6 +104,16 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @synthesize listButton = _listButton;
 @synthesize filterToolbar = _filterToolbar;
 
+- (id)init {
+    self = [super initWithNibName:@"OBASearchResultsMapViewController" bundle:nil];
+    
+    if (self)
+    {
+        self.title = NSLocalizedString(@"Map", @"");
+    }
+    return self;
+}
+
 - (void) dealloc {
 	[_searchController cancelOpenConnections];
 }
