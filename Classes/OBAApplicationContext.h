@@ -23,8 +23,13 @@
 #import "OBANavigationTarget.h"
 #import "OBAReferencesV2.h"
 
+#import "OBASearchResultsMapViewController.h"
+#import "OBABookmarksViewController.h"
+#import "OBARecentStopsViewController.h"
+#import "OBASearchViewController.h"
+#import "OBAContactUsViewController.h"
 #import "IASKAppSettingsViewController.h"
-
+#import "OBAAgenciesListViewController.h"
 
 
 @class OBANearbyTripsController;
@@ -51,6 +56,15 @@
 
 @property (nonatomic, strong) IBOutlet UIWindow *window;
 @property (nonatomic, strong) IBOutlet UITabBarController * tabBarController;
+
+// view controller tabs
+@property(strong) OBASearchResultsMapViewController *mapViewController;
+@property(strong) OBABookmarksViewController *bookmarksViewController;
+@property(strong) OBARecentStopsViewController *recentViewController;
+@property(strong) OBASearchViewController *searchViewController;
+@property(strong) OBAContactUsViewController *contactViewController;
+@property(strong) IASKAppSettingsViewController *settingsViewController;
+@property(strong) OBAAgenciesListViewController *agenciesViewController;
 
 @property (nonatomic,readonly) OBAReferencesV2 * references;
 @property (nonatomic,readonly) OBAModelDAO * modelDao;
