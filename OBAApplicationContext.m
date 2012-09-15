@@ -28,6 +28,7 @@
 #import "OBAStopViewController.h"
 #import "OBAContactUsViewController.h"
 #import "OBAAgenciesListViewController.h"
+#import "OBACreditsViewController.h"
 #import "OBAStopIconFactory.h"
 
 #import "OBAUserPreferencesMigration.h"
@@ -171,6 +172,9 @@ static const NSUInteger kTagAgenciesView = 6;
     
     self.agenciesViewController = [[OBAAgenciesListViewController alloc] init];
     [viewControllers addObject:self.agenciesViewController];
+    
+    self.creditsViewController = [[OBACreditsViewController alloc] init];
+    [viewControllers addObject:self.creditsViewController];
     
     // TODO: these shouldn't all need references to the app delegate.
     for (UIViewController *vc in viewControllers) {

@@ -30,6 +30,7 @@
 @class OBASearchViewController;
 @class OBAContactUsViewController;
 @class OBAAgenciesListViewController;
+@class OBACreditsViewController;
 
 @class OBANearbyTripsController;
 @class OBAStopIconFactory;
@@ -64,6 +65,7 @@
 @property(strong) OBAContactUsViewController *contactViewController;
 @property(strong) IASKAppSettingsViewController *settingsViewController;
 @property(strong) OBAAgenciesListViewController *agenciesViewController;
+@property(strong) OBACreditsViewController *creditsViewController;
 
 @property (nonatomic,readonly) OBAReferencesV2 * references;
 @property (nonatomic,readonly) OBAModelDAO * modelDao;
