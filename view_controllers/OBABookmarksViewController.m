@@ -20,11 +20,9 @@
 #import "OBAStopViewController.h"
 
 
-@interface OBABookmarksViewController (Private)
-
-- (void) refreshBookmarks;
-- (void) abortEditing;
-
+@interface OBABookmarksViewController ()
+- (void)_refreshBookmarks;
+- (void)_abortEditing;
 @end
 
 
@@ -49,7 +47,7 @@
     [super viewWillAppear:animated];
 	
 	// We reload the table here in case we are coming back from the user editing the label for a bookmark
-	[self refreshBookmarks];
+	[self _refreshBookmarks];
 	[self.tableView reloadData];
 }
 
@@ -109,14 +107,14 @@
 	[modelDao removeBookmark:bookmark error:&error];
 	if( error ) 
 		OBALogSevereWithError(error,@"Error removing bookmark");
-	[self refreshBookmarks];
+	[self _refreshBookmarks];
 	
 	if( [_bookmarks count] > 0 ) {
 		[self.tableView deleteRowsAtIndexPaths:@[indexPath] 
 						 withRowAnimation:UITableViewRowAnimationFade];
 	}
 	else {
-		[self performSelector:@selector(abortEditing) withObject:nil afterDelay:0.1];
+		[self performSelector:@selector(_abortEditing) withObject:nil afterDelay:0.1];
 	}
 }
 
@@ -132,7 +130,7 @@
 	[modelDao moveBookmark:oldPath.row to: newPath.row error:&error];
 	if( error ) 
 		OBALogSevereWithError(error,@"Error moving bookmark");
-	[self refreshBookmarks];
+	[self _refreshBookmarks];
 }
 
 - (IBAction) onEditButton:(id)sender {
@@ -156,11 +154,9 @@
 	return [OBANavigationTarget target:OBANavigationTargetTypeBookmarks];
 }
 
-@end
+#pragma mark - Private
 
-@implementation OBABookmarksViewController (Private)
-
-- (void) refreshBookmarks {
+- (void) _refreshBookmarks {
 	
 	OBAModelDAO * dao = _appContext.modelDao;
 	_bookmarks = [NSObject releaseOld:_bookmarks retainNew:dao.bookmarks];
@@ -168,7 +164,7 @@
 	_customEditButtonItem.enabled = [_bookmarks count] > 0;
 }
 		
-- (void) abortEditing {
+- (void)_abortEditing {
 	self.editing = NO;
 	[self.tableView setEditing:NO animated:NO];
 
