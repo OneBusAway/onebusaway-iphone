@@ -64,9 +64,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+    UITableViewCell * cell = nil;
 
 	if( 0 == self.bookmarks.count ) {
+        cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = NSLocalizedString(@"No bookmarks set",@"[_bookmarks count] == 0");
 		cell.textLabel.textAlignment = UITextAlignmentCenter;
 		cell.accessoryType = UITableViewCellAccessoryNone;		
@@ -74,12 +75,15 @@
 	}
 	else {
 		OBABookmarkV2 * bookmark = self.bookmarks[(indexPath.row)];
-        
-		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-		cell.textLabel.text = bookmark.name;
-		cell.textLabel.textAlignment = UITextAlignmentLeft;		
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+
+        cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([self class])];
+
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([self class])];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+
+        cell.textLabel.text = bookmark.name ? bookmark.name : @"NO NAME";
 	}
 
     return cell;
