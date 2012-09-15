@@ -58,7 +58,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 @interface OBASearchResultsMapViewController (Private)
 
-- (void) centerMapOnMostRecentLocation;
 - (void) refreshCurrentLocation;
 
 - (void) scheduleRefreshOfStopsInRegion:(NSTimeInterval)interval location:(CLLocation*)location;
@@ -518,18 +517,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 @implementation OBASearchResultsMapViewController (Private)
 
-- (void) centerMapOnMostRecentLocation {
-	
-	OBAModelDAO * modelDao = _appContext.modelDao;
-	CLLocation * mostRecentLocation = modelDao.mostRecentLocation;
-	
-	if( mostRecentLocation ) {
-		MKCoordinateRegion region = [self getLocationAsRegion:mostRecentLocation];
-        [_mapRegionManager setRegion:region changeWasProgramatic:YES];
-	}
-	
-}
-
 - (void) refreshCurrentLocation {
 	
 	OBALocationManager * lm = _appContext.locationManager;
@@ -977,8 +964,9 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 }
 
 - (MKCoordinateRegion) computeRegionForAgenciesWithCoverage:(NSArray*)agenciesWithCoverage {
-	if( [agenciesWithCoverage count] == 0 )
-		return _mapView.region;
+	if (0 == agenciesWithCoverage.count) {
+        return _mapView.region;
+    }
 	
 	OBACoordinateBounds * bounds = [OBACoordinateBounds bounds];
 	
@@ -1002,17 +990,6 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 }
 
 - (MKCoordinateRegion) getLocationAsRegion:(CLLocation*)location {
-	if( ! location ) {
-		
-	}
-	
-	/*
-	if( location.horizontalAccuracy == 0 ) {
-		CLLocationCoordinate2D defaultCenter = {0,0};
-		return MKCoordinateRegionMake(defaultCenter,MKCoordinateSpanMake(180, 180));
-	}
-	*/
-	
 	double radius = MAX(location.horizontalAccuracy,kMinMapRadius);
 	MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:location.coordinate latRadius:radius lonRadius:radius];	
 	region = [_mapView regionThatFits:region];
