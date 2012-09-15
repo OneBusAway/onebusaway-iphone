@@ -52,7 +52,6 @@
 	OBANavigationTarget * _target;
 	OBASearchType _searchType;
 	id<OBAModelServiceRequest> _request;
-	OBASearchResult * __weak _result;
 	NSError * _error;
 
 	CLLocation * _lastCurrentLocationSearch;	
@@ -61,7 +60,7 @@
 @property (nonatomic,weak) id<OBASearchControllerDelegate> delegate;
 @property (nonatomic,readonly) OBASearchType searchType;
 @property (weak, nonatomic,readonly) id searchParameter;
-@property (weak, nonatomic,readonly) OBASearchResult * result;
+@property (strong,readonly) OBASearchResult * result;
 
 @property (weak, nonatomic,readonly) CLLocation * searchLocation;
 

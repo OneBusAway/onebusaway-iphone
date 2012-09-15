@@ -56,7 +56,6 @@
 @property (nonatomic,strong) OBAApplicationContext * appContext;
 @property (nonatomic,strong) IBOutlet MKMapView * mapView;
 @property (nonatomic,strong) IBOutlet UIBarButtonItem * currentLocationButton;
-@property (nonatomic,strong) IBOutlet UIBarButtonItem * listButton;
 
 @property (nonatomic,strong) OBASearchResultsMapFilterToolbar * filterToolbar;
 

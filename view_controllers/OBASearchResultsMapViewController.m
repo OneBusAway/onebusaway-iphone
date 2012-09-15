@@ -101,7 +101,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @synthesize appContext = _appContext;
 @synthesize mapView = _mapView;
 @synthesize currentLocationButton = _currentLocationButton;
-@synthesize listButton = _listButton;
 @synthesize filterToolbar = _filterToolbar;
 
 - (id)init {
@@ -145,8 +144,10 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     self.filterToolbar = [[OBASearchResultsMapFilterToolbar alloc] initWithDelegate:self andAppContext:self.appContext];
 	
 	_searchController = [[OBASearchController alloc] initWithAppContext:_appContext];
-	_searchController.delegate = self;	
+	_searchController.delegate = self;
 	_searchController.progress.delegate = self;
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"List", @"Right bar button item in map") style:UIBarButtonItemStyleBordered target:self action:@selector(onListButton:)];
 }
 
 - (void)onFilterClear {

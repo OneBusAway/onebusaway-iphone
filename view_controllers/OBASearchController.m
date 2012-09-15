@@ -19,6 +19,9 @@
 #import "OBAProgressIndicatorImpl.h"
 #import "OBALogger.h"
 
+@interface OBASearchController ()
+@property(strong,readwrite) OBASearchResult *result;
+@end
 
 @interface OBASearchController (Internal)
 
@@ -38,7 +41,6 @@
 
 @synthesize delegate = _delegate;
 @synthesize searchType = _searchType;
-@synthesize result = _result;
 @synthesize progress = _progress;
 @synthesize error = _error;
 
@@ -53,13 +55,7 @@
 }
 
 -(void) dealloc {
-	
 	[self cancelOpenConnections];
-
-	
-	
-	
-	
 }
 
 -(void) searchWithTarget:(OBANavigationTarget*)target {
@@ -111,7 +107,7 @@
 	_request = nil;
 	
 	_searchType = OBASearchTypeNone;
-	_result = [NSObject releaseOld:_result retainNew:nil];
+	self.result = nil;
 }
 
 #pragma mark OBAModelServiceDelegate
@@ -287,9 +283,9 @@
 
 -(void) fireUpdate:(OBASearchResult*)result {
 	result.searchType = _searchType;
-	_result = [NSObject releaseOld:_result retainNew:result];
+	self.result = result;
 	if( _delegate )
-		[_delegate handleSearchControllerUpdate:_result];
+		[_delegate handleSearchControllerUpdate:self.result];
 }
 
 - (void) fireError:(NSError*)error {
