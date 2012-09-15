@@ -21,13 +21,13 @@
 
 
 @interface OBABookmarksViewController ()
+@property(strong) NSArray *bookmarks;
 - (void)_refreshBookmarks;
 - (void)_abortEditing;
 @end
 
 
 @implementation OBABookmarksViewController
-
 @synthesize appContext = _appContext;
 @synthesize customEditButtonItem = _customEditButtonItem;
 
@@ -39,6 +39,7 @@
     {
         self.title = NSLocalizedString(@"Bookmarks", @"Bookmarks tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Bookmarks"];
+        self.bookmarks = [NSArray array];
     }
     return self;
 }
@@ -54,21 +55,22 @@
 #pragma mark Table view methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return MAX(_bookmarks.count, 1);
+	return MAX(self.bookmarks.count, 1);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
-	if( 0 == _bookmarks.count ) {
+	if( 0 == self.bookmarks.count ) {
 		cell.textLabel.text = NSLocalizedString(@"No bookmarks set",@"[_bookmarks count] == 0");
 		cell.textLabel.textAlignment = UITextAlignmentCenter;
 		cell.accessoryType = UITableViewCellAccessoryNone;		
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	}
 	else {
-		OBABookmarkV2 * bookmark = _bookmarks[(indexPath.row)];
+		OBABookmarkV2 * bookmark = self.bookmarks[(indexPath.row)];
+        
 		UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 		cell.textLabel.text = bookmark.name;
 		cell.textLabel.textAlignment = UITextAlignmentLeft;		
@@ -82,10 +84,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 	
-	if( [_bookmarks count] == 0 )
-		return;
+	if (0 == self.bookmarks.count)
+    {
+        return;
+    }
 	
-	OBABookmarkV2 * bookmark = _bookmarks[(indexPath.row)];
+	OBABookmarkV2 * bookmark = self.bookmarks[(indexPath.row)];
 	
 	if( self.tableView.editing ) {
 		OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:_appContext bookmark:bookmark editType:OBABookmarkEditExisting];
@@ -102,14 +106,15 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath  {
 	
 	OBAModelDAO * modelDao = _appContext.modelDao;
-	OBABookmarkV2 * bookmark = _bookmarks[(indexPath.row)];
+	OBABookmarkV2 * bookmark = self.bookmarks[(indexPath.row)];
+    
 	NSError * error = nil;
 	[modelDao removeBookmark:bookmark error:&error];
 	if( error ) 
 		OBALogSevereWithError(error,@"Error removing bookmark");
 	[self _refreshBookmarks];
 	
-	if( [_bookmarks count] > 0 ) {
+	if( [self.bookmarks count] > 0 ) {
 		[self.tableView deleteRowsAtIndexPaths:@[indexPath] 
 						 withRowAnimation:UITableViewRowAnimationFade];
 	}
@@ -157,11 +162,9 @@
 #pragma mark - Private
 
 - (void) _refreshBookmarks {
-	
 	OBAModelDAO * dao = _appContext.modelDao;
-	_bookmarks = [NSObject releaseOld:_bookmarks retainNew:dao.bookmarks];
-	
-	_customEditButtonItem.enabled = [_bookmarks count] > 0;
+    self.bookmarks = dao.bookmarks;
+	_customEditButtonItem.enabled = [self.bookmarks count] > 0;
 }
 		
 - (void)_abortEditing {

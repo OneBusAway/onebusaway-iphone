@@ -18,8 +18,7 @@
 #import "OBANavigationTargetAware.h"
 
 @interface OBABookmarksViewController : UITableViewController <OBANavigationTargetAware> {
-	OBAApplicationContext * _appContext;	
-	NSArray * _bookmarks;
+	OBAApplicationContext * _appContext;
 	UIBarButtonItem * _customEditButtonItem;
 }
 
