@@ -53,6 +53,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 @interface OBASearchResultsMapViewController ()
 @property(strong) PaperFoldView *paperFoldView;
+@property(strong) UIBarButtonItem *listBarButtonItem;
 @property(strong) OBASearchResultsListViewController *searchResultsListViewController;
 @end
 
@@ -151,7 +152,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	_searchController.delegate = self;
 	_searchController.progress.delegate = self;
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"List", @"Right bar button item in map") style:UIBarButtonItemStyleBordered target:self action:@selector(onListButton:)];
+    self.listBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"List", @"Right bar button item in map") style:UIBarButtonItemStyleBordered target:self action:@selector(onListButton:)];
+    self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
     
     self.searchResultsListViewController = [[OBASearchResultsListViewController alloc] initWithContext:_appContext searchControllerResult:nil];
     
@@ -165,6 +167,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     self.view = self.paperFoldView;
     [self.paperFoldView setCenterContentView:originalView];
+    
+    self.searchBar.showsScopeBar = NO;
+    self.navigationItem.titleView = self.searchBar;
 }
 
 - (void)onFilterClear {
@@ -205,7 +210,32 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     [self.filterToolbar hideWithAnimated:NO];
 }
 
-#pragma mark OBANavigationTargetAware
+#pragma mark - UISearchBarDelegate
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    self.navigationItem.rightBarButtonItem = nil;
+    searchBar.showsScopeBar = YES;
+    searchBar.showsCancelButton = YES;
+    
+    return YES;
+}
+
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
+{
+    self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
+    searchBar.showsScopeBar = NO;
+    searchBar.showsCancelButton = NO;
+    
+    return YES;
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar endEditing:YES];
+}
+
+#pragma mark - OBANavigationTargetAware
 
 - (OBANavigationTarget*) navigationTarget {
 	if( _searchController.searchType == OBASearchTypeRegion )

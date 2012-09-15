@@ -28,7 +28,7 @@
 
 @class OBASearchControllerImpl;
 
-@interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware,OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate> {
+@interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware,OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate> {
 	
 	OBAApplicationContext * _appContext;
 	
@@ -56,6 +56,7 @@
 @property (nonatomic,strong) OBAApplicationContext * appContext;
 @property (nonatomic,strong) IBOutlet MKMapView * mapView;
 @property (nonatomic,strong) IBOutlet UIBarButtonItem * currentLocationButton;
+@property(nonatomic,strong) IBOutlet UISearchBar *searchBar;
 
 @property (nonatomic,strong) OBASearchResultsMapFilterToolbar * filterToolbar;
 
