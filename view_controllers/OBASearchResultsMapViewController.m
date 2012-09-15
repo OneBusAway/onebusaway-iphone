@@ -32,6 +32,7 @@
 #import "OBALogger.h"
 #import "OBAStopIconFactory.h"
 #import "OBAPresentation.h"
+#import "PaperFoldView.h"
 
 
 // Radius in meters
@@ -49,6 +50,10 @@ static const NSUInteger kShowNClosestStops = 4;
 
 static const double kStopsInRegionRefreshDelayOnDrag = 0.5;
 static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
+
+@interface OBASearchResultsMapViewController ()
+@property(strong) PaperFoldView *paperFoldView;
+@end
 
 
 @interface OBASearchResultsMapViewController (Private)
@@ -148,6 +153,17 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	_searchController.progress.delegate = self;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"List", @"Right bar button item in map") style:UIBarButtonItemStyleBordered target:self action:@selector(onListButton:)];
+    
+    UIView *emptyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 480)];
+    emptyView.backgroundColor = [UIColor redColor];
+    self.paperFoldView = [[PaperFoldView alloc] initWithFrame:self.view.bounds];
+    [self.paperFoldView setRightFoldContentView:emptyView rightViewFoldCount:4 rightViewPullFactor:0.9];
+    self.paperFoldView.enableRightFoldDragging = NO;
+
+    UIView *originalView = self.view;
+    
+    self.view = self.paperFoldView;
+    [self.paperFoldView setCenterContentView:originalView];
 }
 
 - (void)onFilterClear {
@@ -468,15 +484,31 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 
 -(IBAction) onListButton:(id)sender {
-	OBASearchResult * result = _searchController.result;
-	if( result ) {
-		
-		// Prune down the results to show only what's currently in the map view
-		result = [result resultsInRegion:_mapView.region];
-		
-		OBASearchResultsListViewController * vc = [[OBASearchResultsListViewController alloc] initWithContext:_appContext searchControllerResult:result];
-		[self.navigationController pushViewController:vc animated:YES];
-	}
+    @synchronized(self) {
+        if (PaperFoldStateDefault == self.paperFoldView.state) {
+            self.mapView.userInteractionEnabled = NO;
+            [self.paperFoldView setPaperFoldState:PaperFoldStateRightUnfolded];
+        }
+        else if (PaperFoldStateRightUnfolded == self.paperFoldView.state) {
+            self.mapView.userInteractionEnabled = YES;
+            [self.paperFoldView setPaperFoldState:PaperFoldStateDefault];
+        }
+        else {
+            // We're either transitioning or something broke.
+            // Either way it's a no-op.
+        }
+    }
+
+    
+//	OBASearchResult * result = _searchController.result;
+//	if( result ) {
+//		
+//		// Prune down the results to show only what's currently in the map view
+//		result = [result resultsInRegion:_mapView.region];
+//		
+//		OBASearchResultsListViewController * vc = [[OBASearchResultsListViewController alloc] initWithContext:_appContext searchControllerResult:result];
+//		[self.navigationController pushViewController:vc animated:YES];
+//	}
 }
 
 @end
