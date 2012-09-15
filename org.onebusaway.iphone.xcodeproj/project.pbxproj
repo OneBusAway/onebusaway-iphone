@@ -250,6 +250,13 @@
 		93A2917E160157F70035BC70 /* OBATextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93A2909F160157F60035BC70 /* OBATextFieldTableViewCell.xib */; };
 		93A2917F160157F70035BC70 /* OBAWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93A290A0160157F60035BC70 /* OBAWebViewController.xib */; };
 		93A29181160158C00035BC70 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A29180160158C00035BC70 /* Default-568h@2x.png */; };
+		93AD36301603FDE300BDF03F /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36231603FDE300BDF03F /* OBAAgenciesListViewController.m */; };
+		93AD36311603FDE300BDF03F /* OBABookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36251603FDE300BDF03F /* OBABookmarksViewController.m */; };
+		93AD36321603FDE300BDF03F /* OBAContactUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36271603FDE300BDF03F /* OBAContactUsViewController.m */; };
+		93AD36331603FDE300BDF03F /* OBARecentStopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36291603FDE300BDF03F /* OBARecentStopsViewController.m */; };
+		93AD36341603FDE300BDF03F /* OBASearchResultsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD362B1603FDE300BDF03F /* OBASearchResultsListViewController.m */; };
+		93AD36351603FDE300BDF03F /* OBASearchResultsMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD362D1603FDE300BDF03F /* OBASearchResultsMapViewController.m */; };
+		93AD36361603FDE300BDF03F /* OBASearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD362F1603FDE300BDF03F /* OBASearchViewController.m */; };
 		A005943E13FC43A9001B397B /* OBASearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005943C13FC43A9001B397B /* OBASearchTableViewCell.xib */; };
 		A005945713FC49A0001B397B /* OBATripScheduleMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005945513FC49A0001B397B /* OBATripScheduleMapViewController.xib */; };
 		A005945C13FC4A02001B397B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005945A13FC4A02001B397B /* MainWindow.xib */; };
@@ -272,7 +279,6 @@
 		D61E4E4F0FC2000D000C1782 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D61E4E4E0FC2000D000C1782 /* MapKit.framework */; };
 		D61EE8AE13285AB6001F8FEC /* OBAServiceAlertsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D61EE8AD13285AB6001F8FEC /* OBAServiceAlertsModel.m */; };
 		D62254D30F8BBB5A00F139BA /* OBAModelDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = D62254D10F8BBB5A00F139BA /* OBAModelDAO.m */; };
-		D62255A30F8BC95200F139BA /* OBASearchResultsMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D62255A20F8BC95200F139BA /* OBASearchResultsMapViewController.m */; };
 		D62255AB0F8BCA8F00F139BA /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D62255AA0F8BCA8F00F139BA /* libsqlite3.0.dylib */; };
 		D62255D00F8BCBF100F139BA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D62255CF0F8BCBF100F139BA /* QuartzCore.framework */; };
 		D62991FE1293D41D0084A818 /* OBASituationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D62991FD1293D41D0084A818 /* OBASituationsViewController.m */; };
@@ -286,7 +292,6 @@
 		D63227E812A826480070B799 /* OBASearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D63227E112A826480070B799 /* OBASearchTableViewCell.m */; };
 		D63227E912A826480070B799 /* OBAArrivalEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D63227E312A826480070B799 /* OBAArrivalEntryTableViewCell.m */; };
 		D63227ED12A826850070B799 /* OBAArrivalEntryTableViewCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D63227EC12A826850070B799 /* OBAArrivalEntryTableViewCellFactory.m */; };
-		D63C82B710D62D1700B297C4 /* OBAContactUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D63C82B610D62D1700B297C4 /* OBAContactUsViewController.m */; };
 		D63C82F210D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D63C82F110D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m */; };
 		D644713D12DF93F300940464 /* OBAVehicleMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D644713C12DF93F300940464 /* OBAVehicleMapAnnotation.m */; };
 		D644714012DF957500940464 /* OBAVehicleDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = D644713F12DF957500940464 /* OBAVehicleDetailsController.m */; };
@@ -295,8 +300,6 @@
 		D64953CA1214A3890040572D /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = D64953C91214A3890040572D /* Icon-72.png */; };
 		D64953CC1214A3950040572D /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D64953CB1214A3950040572D /* Icon@2x.png */; };
 		D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = D651BB2711C9D5DE001BE733 /* iTunesArtwork */; };
-		D656D6B00FD4522C00ADE4D5 /* OBARecentStopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D656D6AF0FD4522C00ADE4D5 /* OBARecentStopsViewController.m */; };
-		D656D76C0FD4690300ADE4D5 /* OBASearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D656D76B0FD4690300ADE4D5 /* OBASearchViewController.m */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 		D65B9F1B0FDD7BBF006A9568 /* OBANavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = D65B9F1A0FDD7BBF006A9568 /* OBANavigationTarget.m */; };
 		D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */; };
@@ -319,15 +322,12 @@
 		D68337BA122659C400D545EE /* OBAReportProblemWithRecentTripsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D68337B9122659C400D545EE /* OBAReportProblemWithRecentTripsViewController.m */; };
 		D68337BE12265B9000D545EE /* OBAGenericStopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D68337BD12265B9000D545EE /* OBAGenericStopViewController.m */; };
 		D6884F98122C6B8B00FFF4BB /* OBATripContinuationMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D6884F97122C6B8B00FFF4BB /* OBATripContinuationMapAnnotation.m */; };
-		D68CDC350FCB53F000EE6BDF /* OBABookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D68CDC340FCB53F000EE6BDF /* OBABookmarksViewController.m */; };
 		D68CDD100FCBB07D00EE6BDF /* OBAActivityListeners.m in Sources */ = {isa = PBXBuildFile; fileRef = D68CDD0F0FCBB07D00EE6BDF /* OBAActivityListeners.m */; };
 		D696DAA811A3CD8D00C0E6CB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D696DAA711A3CD8D00C0E6CB /* MessageUI.framework */; };
 		D696ECF01207992E00514C2B /* OBAUserPreferencesMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = D696ECEF1207992E00514C2B /* OBAUserPreferencesMigration.m */; };
 		D69C598913F9BD6900BA90A2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D69C598713F9BD6900BA90A2 /* Localizable.strings */; };
 		D6A8C2A50FDF311F001B46E1 /* OBANavigationTargetAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D6A8C2A40FDF311F001B46E1 /* OBANavigationTargetAnnotation.m */; };
 		D6A8C3030FE0004B001B46E1 /* OBAStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D6A8C3020FE0004B001B46E1 /* OBAStopAnnotation.m */; };
-		D6A982D90F7DA6870028173A /* OBASearchResultsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6A982D80F7DA6870028173A /* OBASearchResultsListViewController.m */; };
-		D6B23BEF12AAC5D5000C17FD /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6B23BEE12AAC5D5000C17FD /* OBAAgenciesListViewController.m */; };
 		D6B6C035108804D100AC5FEF /* OBATripStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = D6B6C034108804D100AC5FEF /* OBATripStatus.m */; };
 		D6B6C03A108804E600AC5FEF /* OBATrip.m in Sources */ = {isa = PBXBuildFile; fileRef = D6B6C039108804E600AC5FEF /* OBATrip.m */; };
 		D6CEA0610F8D0EDF009DBD66 /* OBAModelDAOUserPreferencesImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CEA0600F8D0EDF009DBD66 /* OBAModelDAOUserPreferencesImpl.m */; };
@@ -682,6 +682,20 @@
 		93A2909F160157F60035BC70 /* OBATextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBATextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		93A290A0160157F60035BC70 /* OBAWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAWebViewController.xib; sourceTree = "<group>"; };
 		93A29180160158C00035BC70 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		93AD36221603FDE300BDF03F /* OBAAgenciesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgenciesListViewController.h; sourceTree = "<group>"; };
+		93AD36231603FDE300BDF03F /* OBAAgenciesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAgenciesListViewController.m; sourceTree = "<group>"; };
+		93AD36241603FDE300BDF03F /* OBABookmarksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarksViewController.h; sourceTree = "<group>"; };
+		93AD36251603FDE300BDF03F /* OBABookmarksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarksViewController.m; sourceTree = "<group>"; };
+		93AD36261603FDE300BDF03F /* OBAContactUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAContactUsViewController.h; sourceTree = "<group>"; };
+		93AD36271603FDE300BDF03F /* OBAContactUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAContactUsViewController.m; sourceTree = "<group>"; };
+		93AD36281603FDE300BDF03F /* OBARecentStopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARecentStopsViewController.h; sourceTree = "<group>"; };
+		93AD36291603FDE300BDF03F /* OBARecentStopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARecentStopsViewController.m; sourceTree = "<group>"; };
+		93AD362A1603FDE300BDF03F /* OBASearchResultsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchResultsListViewController.h; sourceTree = "<group>"; };
+		93AD362B1603FDE300BDF03F /* OBASearchResultsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearchResultsListViewController.m; sourceTree = "<group>"; };
+		93AD362C1603FDE300BDF03F /* OBASearchResultsMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchResultsMapViewController.h; sourceTree = "<group>"; };
+		93AD362D1603FDE300BDF03F /* OBASearchResultsMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearchResultsMapViewController.m; sourceTree = "<group>"; };
+		93AD362E1603FDE300BDF03F /* OBASearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchViewController.h; sourceTree = "<group>"; };
+		93AD362F1603FDE300BDF03F /* OBASearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearchViewController.m; sourceTree = "<group>"; };
 		A005943D13FC43A9001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
 		A005943F13FC43DB001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
 		A005945613FC49A0001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBATripScheduleMapViewController.xib; sourceTree = "<group>"; };
@@ -720,8 +734,6 @@
 		D61EE8AD13285AB6001F8FEC /* OBAServiceAlertsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAServiceAlertsModel.m; path = Model/OBAServiceAlertsModel.m; sourceTree = "<group>"; };
 		D62254D10F8BBB5A00F139BA /* OBAModelDAO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAModelDAO.m; path = Control/OBAModelDAO.m; sourceTree = "<group>"; };
 		D62254D20F8BBB5A00F139BA /* OBAModelDAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAModelDAO.h; path = Control/OBAModelDAO.h; sourceTree = "<group>"; };
-		D62255A10F8BC95200F139BA /* OBASearchResultsMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASearchResultsMapViewController.h; path = View/OBASearchResultsMapViewController.h; sourceTree = "<group>"; };
-		D62255A20F8BC95200F139BA /* OBASearchResultsMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASearchResultsMapViewController.m; path = View/OBASearchResultsMapViewController.m; sourceTree = "<group>"; };
 		D62255AA0F8BCA8F00F139BA /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		D62255C80F8BCB9C00F139BA /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		D62255CF0F8BCBF100F139BA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -744,8 +756,6 @@
 		D63227E412A826480070B799 /* OBAArrivalEntryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAArrivalEntryTableViewCell.h; path = View/TableViewCells/OBAArrivalEntryTableViewCell.h; sourceTree = "<group>"; };
 		D63227EB12A826850070B799 /* OBAArrivalEntryTableViewCellFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAArrivalEntryTableViewCellFactory.h; path = View/TableViewCells/OBAArrivalEntryTableViewCellFactory.h; sourceTree = "<group>"; };
 		D63227EC12A826850070B799 /* OBAArrivalEntryTableViewCellFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAArrivalEntryTableViewCellFactory.m; path = View/TableViewCells/OBAArrivalEntryTableViewCellFactory.m; sourceTree = "<group>"; };
-		D63C82B510D62D1700B297C4 /* OBAContactUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAContactUsViewController.h; path = View/OBAContactUsViewController.h; sourceTree = "<group>"; };
-		D63C82B610D62D1700B297C4 /* OBAContactUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAContactUsViewController.m; path = View/OBAContactUsViewController.m; sourceTree = "<group>"; };
 		D63C82F010D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBANetworkErrorAlertViewDelegate.h; path = View/OBANetworkErrorAlertViewDelegate.h; sourceTree = "<group>"; };
 		D63C82F110D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBANetworkErrorAlertViewDelegate.m; path = View/OBANetworkErrorAlertViewDelegate.m; sourceTree = "<group>"; };
 		D644713B12DF93F300940464 /* OBAVehicleMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAVehicleMapAnnotation.h; path = View/Vehicles/OBAVehicleMapAnnotation.h; sourceTree = "<group>"; };
@@ -758,10 +768,6 @@
 		D64953C91214A3890040572D /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "Resources/Icon-72.png"; sourceTree = "<group>"; };
 		D64953CB1214A3950040572D /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Resources/Icon@2x.png"; sourceTree = "<group>"; };
 		D651BB2711C9D5DE001BE733 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = Resources/iTunesArtwork; sourceTree = "<group>"; };
-		D656D6AE0FD4522C00ADE4D5 /* OBARecentStopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBARecentStopsViewController.h; path = View/OBARecentStopsViewController.h; sourceTree = "<group>"; };
-		D656D6AF0FD4522C00ADE4D5 /* OBARecentStopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBARecentStopsViewController.m; path = View/OBARecentStopsViewController.m; sourceTree = "<group>"; };
-		D656D76A0FD4690300ADE4D5 /* OBASearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASearchViewController.h; path = View/OBASearchViewController.h; sourceTree = "<group>"; };
-		D656D76B0FD4690300ADE4D5 /* OBASearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASearchViewController.m; path = View/OBASearchViewController.m; sourceTree = "<group>"; };
 		D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		D65B9F190FDD7BBF006A9568 /* OBANavigationTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTarget.h; sourceTree = "<group>"; };
 		D65B9F1A0FDD7BBF006A9568 /* OBANavigationTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTarget.m; sourceTree = "<group>"; };
@@ -805,8 +811,6 @@
 		D68337BD12265B9000D545EE /* OBAGenericStopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAGenericStopViewController.m; path = View/StopDetails/OBAGenericStopViewController.m; sourceTree = "<group>"; };
 		D6884F96122C6B8B00FFF4BB /* OBATripContinuationMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBATripContinuationMapAnnotation.h; path = View/TripDetails/OBATripContinuationMapAnnotation.h; sourceTree = "<group>"; };
 		D6884F97122C6B8B00FFF4BB /* OBATripContinuationMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBATripContinuationMapAnnotation.m; path = View/TripDetails/OBATripContinuationMapAnnotation.m; sourceTree = "<group>"; };
-		D68CDC330FCB53F000EE6BDF /* OBABookmarksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBABookmarksViewController.h; path = View/OBABookmarksViewController.h; sourceTree = "<group>"; };
-		D68CDC340FCB53F000EE6BDF /* OBABookmarksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBABookmarksViewController.m; path = View/OBABookmarksViewController.m; sourceTree = "<group>"; };
 		D68CDD0E0FCBB07D00EE6BDF /* OBAActivityListeners.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAActivityListeners.h; path = Control/OBAActivityListeners.h; sourceTree = "<group>"; };
 		D68CDD0F0FCBB07D00EE6BDF /* OBAActivityListeners.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAActivityListeners.m; path = Control/OBAActivityListeners.m; sourceTree = "<group>"; };
 		D696DAA711A3CD8D00C0E6CB /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -818,10 +822,6 @@
 		D6A8C2A40FDF311F001B46E1 /* OBANavigationTargetAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBANavigationTargetAnnotation.m; path = Model/OBANavigationTargetAnnotation.m; sourceTree = "<group>"; };
 		D6A8C3010FE0004B001B46E1 /* OBAStopAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAStopAnnotation.h; path = Model/OBAStopAnnotation.h; sourceTree = "<group>"; };
 		D6A8C3020FE0004B001B46E1 /* OBAStopAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAStopAnnotation.m; path = Model/OBAStopAnnotation.m; sourceTree = "<group>"; };
-		D6A982D70F7DA6870028173A /* OBASearchResultsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASearchResultsListViewController.h; path = View/OBASearchResultsListViewController.h; sourceTree = "<group>"; };
-		D6A982D80F7DA6870028173A /* OBASearchResultsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASearchResultsListViewController.m; path = View/OBASearchResultsListViewController.m; sourceTree = "<group>"; };
-		D6B23BED12AAC5D5000C17FD /* OBAAgenciesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAAgenciesListViewController.h; path = View/OBAAgenciesListViewController.h; sourceTree = "<group>"; };
-		D6B23BEE12AAC5D5000C17FD /* OBAAgenciesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAAgenciesListViewController.m; path = View/OBAAgenciesListViewController.m; sourceTree = "<group>"; };
 		D6B6C033108804D100AC5FEF /* OBATripStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBATripStatus.h; path = Model/OBATripStatus.h; sourceTree = "<group>"; };
 		D6B6C034108804D100AC5FEF /* OBATripStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBATripStatus.m; path = Model/OBATripStatus.m; sourceTree = "<group>"; };
 		D6B6C038108804E600AC5FEF /* OBATrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBATrip.h; path = Model/OBATrip.h; sourceTree = "<group>"; };
@@ -886,6 +886,7 @@
 		29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */ = {
 			isa = PBXGroup;
 			children = (
+				93AD36201603FD9B00BDF03F /* view_controllers */,
 				9330DED41603BC5500E14AF4 /* xibs */,
 				93A29180160158C00035BC70 /* Default-568h@2x.png */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -1398,6 +1399,27 @@
 			path = MapIcons;
 			sourceTree = "<group>";
 		};
+		93AD36201603FD9B00BDF03F /* view_controllers */ = {
+			isa = PBXGroup;
+			children = (
+				93AD36221603FDE300BDF03F /* OBAAgenciesListViewController.h */,
+				93AD36231603FDE300BDF03F /* OBAAgenciesListViewController.m */,
+				93AD36241603FDE300BDF03F /* OBABookmarksViewController.h */,
+				93AD36251603FDE300BDF03F /* OBABookmarksViewController.m */,
+				93AD36261603FDE300BDF03F /* OBAContactUsViewController.h */,
+				93AD36271603FDE300BDF03F /* OBAContactUsViewController.m */,
+				93AD36281603FDE300BDF03F /* OBARecentStopsViewController.h */,
+				93AD36291603FDE300BDF03F /* OBARecentStopsViewController.m */,
+				93AD362A1603FDE300BDF03F /* OBASearchResultsListViewController.h */,
+				93AD362B1603FDE300BDF03F /* OBASearchResultsListViewController.m */,
+				93AD362C1603FDE300BDF03F /* OBASearchResultsMapViewController.h */,
+				93AD362D1603FDE300BDF03F /* OBASearchResultsMapViewController.m */,
+				93AD362E1603FDE300BDF03F /* OBASearchViewController.h */,
+				93AD362F1603FDE300BDF03F /* OBASearchViewController.m */,
+			);
+			path = view_controllers;
+			sourceTree = "<group>";
+		};
 		D6169FE40FC4496100631BCE /* Managed Objects */ = {
 			isa = PBXGroup;
 			children = (
@@ -1581,22 +1603,8 @@
 				D67ACB74121F379700D436C4 /* TripDetails */,
 				D62991FF1293D4260084A818 /* Situations */,
 				D644713A12DF93AD00940464 /* Vehicles */,
-				D656D76A0FD4690300ADE4D5 /* OBASearchViewController.h */,
-				D656D76B0FD4690300ADE4D5 /* OBASearchViewController.m */,
-				D68CDC330FCB53F000EE6BDF /* OBABookmarksViewController.h */,
-				D68CDC340FCB53F000EE6BDF /* OBABookmarksViewController.m */,
-				D656D6AE0FD4522C00ADE4D5 /* OBARecentStopsViewController.h */,
-				D656D6AF0FD4522C00ADE4D5 /* OBARecentStopsViewController.m */,
-				D62255A10F8BC95200F139BA /* OBASearchResultsMapViewController.h */,
-				D62255A20F8BC95200F139BA /* OBASearchResultsMapViewController.m */,
-				D6A982D70F7DA6870028173A /* OBASearchResultsListViewController.h */,
-				D6A982D80F7DA6870028173A /* OBASearchResultsListViewController.m */,
 				D48EC06F120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.h */,
 				D48EC070120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.m */,
-				D63C82B510D62D1700B297C4 /* OBAContactUsViewController.h */,
-				D63C82B610D62D1700B297C4 /* OBAContactUsViewController.m */,
-				D6B23BED12AAC5D5000C17FD /* OBAAgenciesListViewController.h */,
-				D6B23BEE12AAC5D5000C17FD /* OBAAgenciesListViewController.m */,
 				D63C82F010D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.h */,
 				D63C82F110D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m */,
 			);
@@ -1903,9 +1911,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				D6A982D90F7DA6870028173A /* OBASearchResultsListViewController.m in Sources */,
 				D62254D30F8BBB5A00F139BA /* OBAModelDAO.m in Sources */,
-				D62255A30F8BC95200F139BA /* OBASearchResultsMapViewController.m in Sources */,
 				D6CEA0610F8D0EDF009DBD66 /* OBAModelDAOUserPreferencesImpl.m in Sources */,
 				D62AC46510A4F6D300CE9212 /* OBAModel.xcdatamodeld in Sources */,
 				D6169A630FC23FDF00631BCE /* OBABookmark.m in Sources */,
@@ -1917,10 +1923,7 @@
 				D6169AE10FC2579F00631BCE /* OBAStopPreferences.m in Sources */,
 				D616A03C0FC4561D00631BCE /* OBAArrivalsAndDeparturesForStop.m in Sources */,
 				D616A12C0FC5153100631BCE /* OBAApplicationContext.m in Sources */,
-				D68CDC350FCB53F000EE6BDF /* OBABookmarksViewController.m in Sources */,
 				D68CDD100FCBB07D00EE6BDF /* OBAActivityListeners.m in Sources */,
-				D656D6B00FD4522C00ADE4D5 /* OBARecentStopsViewController.m in Sources */,
-				D656D76C0FD4690300ADE4D5 /* OBASearchViewController.m in Sources */,
 				D65B9F1B0FDD7BBF006A9568 /* OBANavigationTarget.m in Sources */,
 				D6A8C2A50FDF311F001B46E1 /* OBANavigationTargetAnnotation.m in Sources */,
 				D6A8C3030FE0004B001B46E1 /* OBAStopAnnotation.m in Sources */,
@@ -1929,7 +1932,6 @@
 				D6FE15021023D68500143C1B /* OBAEntityManager.m in Sources */,
 				D6B6C035108804D100AC5FEF /* OBATripStatus.m in Sources */,
 				D6B6C03A108804E600AC5FEF /* OBATrip.m in Sources */,
-				D63C82B710D62D1700B297C4 /* OBAContactUsViewController.m in Sources */,
 				D63C82F210D6327900B297C4 /* OBANetworkErrorAlertViewDelegate.m in Sources */,
 				D696ECF01207992E00514C2B /* OBAUserPreferencesMigration.m in Sources */,
 				D48EC072120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.m in Sources */,
@@ -1959,7 +1961,6 @@
 				D63227E812A826480070B799 /* OBASearchTableViewCell.m in Sources */,
 				D63227E912A826480070B799 /* OBAArrivalEntryTableViewCell.m in Sources */,
 				D63227ED12A826850070B799 /* OBAArrivalEntryTableViewCellFactory.m in Sources */,
-				D6B23BEF12AAC5D5000C17FD /* OBAAgenciesListViewController.m in Sources */,
 				D644713D12DF93F300940464 /* OBAVehicleMapAnnotation.m in Sources */,
 				D644714012DF957500940464 /* OBAVehicleDetailsController.m in Sources */,
 				D61EE8AE13285AB6001F8FEC /* OBAServiceAlertsModel.m in Sources */,
@@ -2047,6 +2048,13 @@
 				9330DED11603B41400E14AF4 /* IASKSlider.m in Sources */,
 				9330DED21603B41400E14AF4 /* IASKSwitch.m in Sources */,
 				9330DED31603B41400E14AF4 /* IASKTextField.m in Sources */,
+				93AD36301603FDE300BDF03F /* OBAAgenciesListViewController.m in Sources */,
+				93AD36311603FDE300BDF03F /* OBABookmarksViewController.m in Sources */,
+				93AD36321603FDE300BDF03F /* OBAContactUsViewController.m in Sources */,
+				93AD36331603FDE300BDF03F /* OBARecentStopsViewController.m in Sources */,
+				93AD36341603FDE300BDF03F /* OBASearchResultsListViewController.m in Sources */,
+				93AD36351603FDE300BDF03F /* OBASearchResultsMapViewController.m in Sources */,
+				93AD36361603FDE300BDF03F /* OBASearchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
