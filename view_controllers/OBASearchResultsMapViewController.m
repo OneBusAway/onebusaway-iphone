@@ -53,8 +53,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 @interface OBASearchResultsMapViewController ()
 @property(strong) PaperFoldView *paperFoldView;
+@property(strong) OBASearchResultsListViewController *searchResultsListViewController;
 @end
-
 
 @interface OBASearchResultsMapViewController (Private)
 
@@ -154,10 +154,10 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"List", @"Right bar button item in map") style:UIBarButtonItemStyleBordered target:self action:@selector(onListButton:)];
     
-    UIView *emptyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 480)];
-    emptyView.backgroundColor = [UIColor redColor];
+    self.searchResultsListViewController = [[OBASearchResultsListViewController alloc] initWithContext:_appContext searchControllerResult:nil];
+    self.searchResultsListViewController.view.frame = CGRectMake(0, 0, 150, CGRectGetHeight(self.view.bounds));
     self.paperFoldView = [[PaperFoldView alloc] initWithFrame:self.view.bounds];
-    [self.paperFoldView setRightFoldContentView:emptyView rightViewFoldCount:4 rightViewPullFactor:0.9];
+    [self.paperFoldView setRightFoldContentView:self.searchResultsListViewController.view rightViewFoldCount:4 rightViewPullFactor:0.9];
     self.paperFoldView.enableRightFoldDragging = NO;
 
     UIView *originalView = self.view;
@@ -487,28 +487,28 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     @synchronized(self) {
         if (PaperFoldStateDefault == self.paperFoldView.state) {
             self.mapView.userInteractionEnabled = NO;
-            [self.paperFoldView setPaperFoldState:PaperFoldStateRightUnfolded];
+            
+            OBASearchResult * result = _searchController.result;
+            if (result) {
+                // Prune down the results to show only what's currently in the map view
+                result = [result resultsInRegion:_mapView.region];
+                self.searchResultsListViewController.result = result;
+                [self.searchResultsListViewController viewWillAppear:YES];
+                [self.paperFoldView setPaperFoldState:PaperFoldStateRightUnfolded];
+                [self.searchResultsListViewController viewDidAppear:YES];
+            }
         }
         else if (PaperFoldStateRightUnfolded == self.paperFoldView.state) {
             self.mapView.userInteractionEnabled = YES;
+            [self.searchResultsListViewController viewWillDisappear:YES];
             [self.paperFoldView setPaperFoldState:PaperFoldStateDefault];
+            [self.searchResultsListViewController viewDidDisappear:YES];
         }
         else {
             // We're either transitioning or something broke.
             // Either way it's a no-op.
         }
     }
-
-    
-//	OBASearchResult * result = _searchController.result;
-//	if( result ) {
-//		
-//		// Prune down the results to show only what's currently in the map view
-//		result = [result resultsInRegion:_mapView.region];
-//		
-//		OBASearchResultsListViewController * vc = [[OBASearchResultsListViewController alloc] initWithContext:_appContext searchControllerResult:result];
-//		[self.navigationController pushViewController:vc animated:YES];
-//	}
 }
 
 @end

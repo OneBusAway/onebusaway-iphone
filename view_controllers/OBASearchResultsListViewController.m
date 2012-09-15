@@ -37,7 +37,7 @@
 	// Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		_appContext = appContext;
-		_result = result;
+		self.result = result;
 	}
 	return self;
 }
@@ -50,11 +50,6 @@
 }
 
 #pragma mark Table view methods
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
