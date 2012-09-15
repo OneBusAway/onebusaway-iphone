@@ -35,7 +35,7 @@
 - (id) initWithContext:(OBAApplicationContext*)appContext searchControllerResult:(OBASearchResult*)result {
 	
 	// Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+	if (self = [super initWithStyle:UITableViewStylePlain]) {
 		_appContext = appContext;
 		self.result = result;
 	}
