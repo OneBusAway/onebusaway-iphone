@@ -28,8 +28,6 @@
 
 
 @implementation OBABookmarksViewController
-@synthesize appContext = _appContext;
-@synthesize customEditButtonItem = _customEditButtonItem;
 
 - (id)init
 {
@@ -42,6 +40,12 @@
         self.bookmarks = [NSArray array];
     }
     return self;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -81,7 +85,6 @@
     return cell;
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 	
 	if (0 == self.bookmarks.count)
@@ -92,20 +95,19 @@
 	OBABookmarkV2 * bookmark = self.bookmarks[(indexPath.row)];
 	
 	if( self.tableView.editing ) {
-		OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:_appContext bookmark:bookmark editType:OBABookmarkEditExisting];
+		OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:self.appContext bookmark:bookmark editType:OBABookmarkEditExisting];
 		[self.navigationController pushViewController:vc animated:YES];
 	}
 	else {
-		[_appContext.activityListeners bookmarkClicked:bookmark];
-		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopIds:bookmark.stopIds];
+		[self.appContext.activityListeners bookmarkClicked:bookmark];
+		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:self.appContext stopIds:bookmark.stopIds];
 		[self.navigationController pushViewController:vc animated:YES];
 	}
 }
 
-
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath  {
 	
-	OBAModelDAO * modelDao = _appContext.modelDao;
+	OBAModelDAO * modelDao = self.appContext.modelDao;
 	OBABookmarkV2 * bookmark = self.bookmarks[(indexPath.row)];
     
 	NSError * error = nil;
@@ -130,27 +132,12 @@
 
 -(void) tableView: (UITableView *) tableView moveRowAtIndexPath: (NSIndexPath *) oldPath toIndexPath:(NSIndexPath *) newPath {
 	
-	OBAModelDAO * modelDao = _appContext.modelDao;
+	OBAModelDAO * modelDao = self.appContext.modelDao;
 	NSError * error = nil;
 	[modelDao moveBookmark:oldPath.row to: newPath.row error:&error];
 	if( error ) 
 		OBALogSevereWithError(error,@"Error moving bookmark");
 	[self _refreshBookmarks];
-}
-
-- (IBAction) onEditButton:(id)sender {
-	
-	BOOL isEditing = ! self.editing;
-	[self setEditing:isEditing animated:YES];
-
-	if( isEditing ) {
-		_customEditButtonItem.title = NSLocalizedString(@"Done",@"title");
-		_customEditButtonItem.style = UIBarButtonItemStyleDone;
-	}
-	else {
-		_customEditButtonItem.title = NSLocalizedString(@"Edit",@"title");
-		_customEditButtonItem.style = UIBarButtonItemStyleBordered;
-	}
 }
 
 #pragma mark OBANavigationTargetAware
@@ -162,18 +149,14 @@
 #pragma mark - Private
 
 - (void) _refreshBookmarks {
-	OBAModelDAO * dao = _appContext.modelDao;
+	OBAModelDAO * dao = self.appContext.modelDao;
     self.bookmarks = dao.bookmarks;
-	_customEditButtonItem.enabled = [self.bookmarks count] > 0;
+	self.editButtonItem.enabled = [self.bookmarks count] > 0;
 }
 		
 - (void)_abortEditing {
 	self.editing = NO;
-	[self.tableView setEditing:NO animated:NO];
-
-	_customEditButtonItem.title = NSLocalizedString(@"Edit",@"title");
-	_customEditButtonItem.style = UIBarButtonItemStyleBordered;
-	
+	[self.tableView setEditing:NO animated:NO];	
 	[self.tableView reloadData];
 }	
 

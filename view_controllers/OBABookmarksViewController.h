@@ -17,14 +17,6 @@
 #import "OBAApplicationContext.h"
 #import "OBANavigationTargetAware.h"
 
-@interface OBABookmarksViewController : UITableViewController <OBANavigationTargetAware> {
-	OBAApplicationContext * _appContext;
-	UIBarButtonItem * _customEditButtonItem;
-}
-
-@property (nonatomic,strong) IBOutlet OBAApplicationContext * appContext;
-@property (nonatomic,strong) IBOutlet UIBarButtonItem * customEditButtonItem;
-
-- (IBAction) onEditButton:(id)sender;
-
+@interface OBABookmarksViewController : UITableViewController <OBANavigationTargetAware>
+@property(nonatomic,strong) IBOutlet OBAApplicationContext * appContext;
 @end
