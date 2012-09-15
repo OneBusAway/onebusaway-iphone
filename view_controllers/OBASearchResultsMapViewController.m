@@ -154,11 +154,13 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"List", @"Right bar button item in map") style:UIBarButtonItemStyleBordered target:self action:@selector(onListButton:)];
     
     self.searchResultsListViewController = [[OBASearchResultsListViewController alloc] initWithContext:_appContext searchControllerResult:nil];
+    
     self.searchResultsListViewController.view.frame = CGRectMake(0, 0, 250, CGRectGetHeight(self.view.bounds));
+   [self addChildViewController:self.searchResultsListViewController];
     self.paperFoldView = [[PaperFoldView alloc] initWithFrame:self.view.bounds];
     [self.paperFoldView setRightFoldContentView:self.searchResultsListViewController.view rightViewFoldCount:4 rightViewPullFactor:0.5];
     self.paperFoldView.enableRightFoldDragging = NO;
-
+    
     UIView *originalView = self.view;
     
     self.view = self.paperFoldView;
