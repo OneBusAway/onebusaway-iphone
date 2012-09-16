@@ -26,6 +26,9 @@
 #import "OBASphericalGeometryLibrary.h"
 #import "OBAProgressIndicatorView.h"
 #import "OBASearchResultsListViewController.h"
+#import "JCMSegmentPageController.h"
+#import "OBABookmarksViewController.h"
+#import "OBARecentStopsViewController.h"
 #import "OBAStopViewController.h"
 #import "OBACoordinateBounds.h"
 #import "OBALogger.h"
@@ -56,6 +59,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @property(strong) UIBarButtonItem *listBarButtonItem;
 @property(strong) UIBarButtonItem *bookmarksBarButtonItem;
 @property(strong) OBASearchResultsListViewController *searchResultsListViewController;
+
+- (void)_showBookmarks;
 @end
 
 @interface OBASearchResultsMapViewController (Private)
@@ -153,7 +158,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	_searchController.delegate = self;
 	_searchController.progress.delegate = self;
     
-    self.bookmarksBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(foo)];
+    self.bookmarksBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(_showBookmarks)];
     self.navigationItem.leftBarButtonItem = self.bookmarksBarButtonItem;
     
     self.listBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"List", @"Right bar button item in map") style:UIBarButtonItemStyleBordered target:self action:@selector(onListButton:)];
@@ -563,6 +568,17 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 #pragma mark - IBActions
+
+- (void)_showBookmarks {
+	JCMSegmentPageController *segmentPageController = [[JCMSegmentPageController alloc] init];
+    OBABookmarksViewController *bookmarks = [[OBABookmarksViewController alloc] init];
+    OBARecentStopsViewController *recentStops = [[OBARecentStopsViewController alloc] init];
+
+//	segmentPageController.delegate = self;
+	segmentPageController.viewControllers = @[bookmarks, recentStops];
+    
+    [self presentViewController:segmentPageController animated:YES completion:nil];
+}
 
 - (IBAction)onCrossHairsButton:(id)sender {
 	OBALogDebug(@"setting auto center on current location");

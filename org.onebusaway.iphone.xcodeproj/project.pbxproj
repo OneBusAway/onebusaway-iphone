@@ -286,6 +286,7 @@
 		93A2917E160157F70035BC70 /* OBATextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93A2909F160157F60035BC70 /* OBATextFieldTableViewCell.xib */; };
 		93A2917F160157F70035BC70 /* OBAWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93A290A0160157F60035BC70 /* OBAWebViewController.xib */; };
 		93A29181160158C00035BC70 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A29180160158C00035BC70 /* Default-568h@2x.png */; };
+		93A5F5081606541100D1670A /* JCMSegmentPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A5F5071606541100D1670A /* JCMSegmentPageController.m */; };
 		93AD36301603FDE300BDF03F /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36231603FDE300BDF03F /* OBAAgenciesListViewController.m */; };
 		93AD36311603FDE300BDF03F /* OBABookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36251603FDE300BDF03F /* OBABookmarksViewController.m */; };
 		93AD36321603FDE300BDF03F /* OBAContactUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36271603FDE300BDF03F /* OBAContactUsViewController.m */; };
@@ -756,6 +757,8 @@
 		93A2909F160157F60035BC70 /* OBATextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBATextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		93A290A0160157F60035BC70 /* OBAWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAWebViewController.xib; sourceTree = "<group>"; };
 		93A29180160158C00035BC70 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		93A5F5061606541100D1670A /* JCMSegmentPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCMSegmentPageController.h; path = "Libraries/jcmendez-JCMSegmentPageController-145da61/JCMSegmentPageController.h"; sourceTree = "<group>"; };
+		93A5F5071606541100D1670A /* JCMSegmentPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCMSegmentPageController.m; path = "Libraries/jcmendez-JCMSegmentPageController-145da61/JCMSegmentPageController.m"; sourceTree = "<group>"; };
 		93AD36221603FDE300BDF03F /* OBAAgenciesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgenciesListViewController.h; sourceTree = "<group>"; };
 		93AD36231603FDE300BDF03F /* OBAAgenciesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAgenciesListViewController.m; sourceTree = "<group>"; };
 		93AD36241603FDE300BDF03F /* OBABookmarksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarksViewController.h; sourceTree = "<group>"; };
@@ -1530,6 +1533,15 @@
 			path = MapIcons;
 			sourceTree = "<group>";
 		};
+		93A5F5041606540000D1670A /* JCMSegmentPageController */ = {
+			isa = PBXGroup;
+			children = (
+				93A5F5061606541100D1670A /* JCMSegmentPageController.h */,
+				93A5F5071606541100D1670A /* JCMSegmentPageController.m */,
+			);
+			name = JCMSegmentPageController;
+			sourceTree = "<group>";
+		};
 		93AD36201603FD9B00BDF03F /* view_controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1727,6 +1739,7 @@
 		D61A66790FCDB155004D2E91 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				93A5F5041606540000D1670A /* JCMSegmentPageController */,
 				9330DF011605108400E14AF4 /* PaperFold */,
 				9330DEA51603B41400E14AF4 /* InAppSettingsKit */,
 				93A28F71160157F60035BC70 /* onebusaway-iphone-common */,
@@ -2134,6 +2147,7 @@
 				9330DF181605108400E14AF4 /* TouchThroughUIView.m in Sources */,
 				9330DF191605108400E14AF4 /* UIView+Screenshot.m in Sources */,
 				9330DF281606405100E14AF4 /* OBAScopeView.m in Sources */,
+				93A5F5081606541100D1670A /* JCMSegmentPageController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
