@@ -56,11 +56,6 @@ static const float JCM_TAB_BAR_HEIGHT = 44.0f;
 	self.selectedIndex = lastIndex;
 }
 
-- (void)layoutHeaderView {
-	CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, JCM_TAB_BAR_HEIGHT);
-    self.segmentedControl.frame = CGRectInset(rect, 5.0, 5.0);
-}
-
 /**
  * When the view loads, we set the header, and on it, the segmented control that will control
  * the page being displayed
@@ -69,6 +64,27 @@ static const float JCM_TAB_BAR_HEIGHT = 44.0f;
 	[super viewDidLoad];
 
 	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    
+	self.headerContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), JCM_TAB_BAR_HEIGHT)];
+    self.headerContainerView.backgroundColor = [UIColor redColor];
+    
+    CGRect segmentedControlRect = CGRectInset(self.headerContainerView.frame, 5.0, 5.0);
+    self.segmentedControl = [[UISegmentedControl alloc] initWithFrame:segmentedControlRect];
+    self.segmentedControl.momentary = NO;
+    self.segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    [self.segmentedControl addTarget:self action:@selector(tabButtonPressed:) forControlEvents:UIControlEventValueChanged];
+
+    [self.headerContainerView addSubview:self.segmentedControl];
+	[self.view addSubview:self.headerContainerView];
+
+	self.contentContainerView = [[UIView alloc] initWithFrame:CGRectZero];
+	[self.view addSubview:self.contentContainerView];
+
+	[self reloadTabButtons];
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
     
     CGRect tabContainerRect = CGRectZero;
     CGRect contentContainerRect = CGRectZero;
@@ -81,24 +97,10 @@ static const float JCM_TAB_BAR_HEIGHT = 44.0f;
         tabContainerRect = CGRectMake(0, CGRectGetHeight(self.view.bounds) - JCM_TAB_BAR_HEIGHT, CGRectGetWidth(self.view.bounds), JCM_TAB_BAR_HEIGHT);
         contentContainerRect = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) - JCM_TAB_BAR_HEIGHT);
     }
-
-	self.headerContainerView = [[UIView alloc] initWithFrame:tabContainerRect];
-	self.headerContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
-    CGRect segmentedControlRect = CGRectInset(tabContainerRect, 5.0, 5.0);
-    self.segmentedControl = [[UISegmentedControl alloc] initWithFrame:segmentedControlRect];
-    self.segmentedControl.momentary = NO;
-    self.segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-    [self.segmentedControl addTarget:self action:@selector(tabButtonPressed:) forControlEvents:UIControlEventValueChanged];
-
-    [self.headerContainerView addSubview:self.segmentedControl];
-	[self.view addSubview:self.headerContainerView];
-
-	self.contentContainerView = [[UIView alloc] initWithFrame:contentContainerRect];
-	self.contentContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	[self.view addSubview:self.contentContainerView];
-
-	[self reloadTabButtons];
+    self.headerContainerView.frame = tabContainerRect;
+    self.contentContainerView.frame = contentContainerRect;
+    self.segmentedControl.frame = CGRectInset(self.headerContainerView.bounds, 5.0, 5.0);
 }
 
 - (void)viewDidUnload {
@@ -106,11 +108,6 @@ static const float JCM_TAB_BAR_HEIGHT = 44.0f;
 	self.headerContainerView = nil;
 	self.contentContainerView = nil;
 	self.segmentedControl = nil;
-}
-
-- (void)viewWillLayoutSubviews {
-	[super viewWillLayoutSubviews];
-	[self layoutHeaderView];
 }
 
 - (void)dealloc {

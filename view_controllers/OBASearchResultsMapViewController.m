@@ -573,11 +573,14 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	JCMSegmentPageController *segmentPageController = [[JCMSegmentPageController alloc] init];
     OBABookmarksViewController *bookmarks = [[OBABookmarksViewController alloc] init];
     OBARecentStopsViewController *recentStops = [[OBARecentStopsViewController alloc] init];
-
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:segmentPageController];
+    
 //	segmentPageController.delegate = self;
 	segmentPageController.viewControllers = @[bookmarks, recentStops];
     
-    [self presentViewController:segmentPageController animated:YES completion:nil];
+    [self presentViewController:nav animated:YES completion:^{
+        NSLog(@"%@", [segmentPageController.view performSelector:@selector(recursiveDescription)]);
+    }];
 }
 
 - (IBAction)onCrossHairsButton:(id)sender {
