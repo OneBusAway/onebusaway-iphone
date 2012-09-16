@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface OBAScopeView : UIView
-
+@property BOOL drawsTopBorder;
+@property BOOL drawsBottomBorder;
 @end

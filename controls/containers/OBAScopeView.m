@@ -20,6 +20,8 @@
 }
 
 - (void)_configureOBAScopeView {
+    self.drawsBottomBorder = YES;
+    self.drawsTopBorder = NO;
     self.backgroundColor = [UIColor clearColor];
     CAGradientLayer *gradient = (CAGradientLayer*)self.layer;
     gradient.colors = @[(id)(OBARGBCOLOR(213, 219, 223)).CGColor, (id)(OBARGBCOLOR(178, 187, 194)).CGColor];
@@ -48,11 +50,19 @@
     
     [OBARGBCOLOR(122, 137, 148) set];
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
     CGContextSetLineWidth(context,1.f);
-    CGContextMoveToPoint(context, 0.f, CGRectGetHeight(self.frame) - 0.5f);
-    CGContextAddLineToPoint(context, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame) - 0.5f);
-    CGContextStrokePath(context);
+    
+    if (self.drawsBottomBorder) {
+        CGContextMoveToPoint(context, 0.f, CGRectGetHeight(self.frame) - 0.5f);
+        CGContextAddLineToPoint(context, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame) - 0.5f);
+        CGContextStrokePath(context);
+    }
+    
+    if (self.drawsTopBorder) {
+        CGContextMoveToPoint(context, 0.f, 0.5f);
+        CGContextAddLineToPoint(context, CGRectGetWidth(self.frame), 0.5f);
+        CGContextStrokePath(context);
+    }
 }
 
 @end
