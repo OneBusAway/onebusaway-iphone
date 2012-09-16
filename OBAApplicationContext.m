@@ -150,13 +150,7 @@ static const NSUInteger kTagAgenciesView = 6;
     
     self.mapViewController = [[OBASearchResultsMapViewController alloc] init];
     [viewControllers addObject:self.mapViewController];
-    
-    self.bookmarksViewController = [[OBABookmarksViewController alloc] init];
-    [viewControllers addObject:self.bookmarksViewController];
-    
-    self.recentViewController = [[OBARecentStopsViewController alloc] init];
-    [viewControllers addObject:self.recentViewController];
-    
+        
     self.contactViewController = [[OBAContactUsViewController alloc] init];
     [viewControllers addObject:self.contactViewController];
     

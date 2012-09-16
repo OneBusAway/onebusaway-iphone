@@ -25,8 +25,6 @@
 #import "IASKAppSettingsViewController.h"
 
 @class OBASearchResultsMapViewController;
-@class OBABookmarksViewController;
-@class OBARecentStopsViewController;
 @class OBAContactUsViewController;
 @class OBAAgenciesListViewController;
 @class OBACreditsViewController;
@@ -58,8 +56,6 @@
 
 // view controller tabs
 @property(strong) OBASearchResultsMapViewController *mapViewController;
-@property(strong) OBABookmarksViewController *bookmarksViewController;
-@property(strong) OBARecentStopsViewController *recentViewController;
 @property(strong) OBAContactUsViewController *contactViewController;
 @property(strong) IASKAppSettingsViewController *settingsViewController;
 @property(strong) OBAAgenciesListViewController *agenciesViewController;
