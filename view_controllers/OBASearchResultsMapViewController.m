@@ -24,7 +24,6 @@
 #import "OBAAgencyWithCoverage.h"
 #import "OBANavigationTargetAnnotation.h"
 #import "OBASphericalGeometryLibrary.h"
-#import "OBASearchViewController.h"
 #import "OBAProgressIndicatorView.h"
 #import "OBASearchResultsListViewController.h"
 #import "OBAStopViewController.h"
@@ -168,8 +167,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     self.view = self.paperFoldView;
     [self.paperFoldView setCenterContentView:originalView];
-    
-    self.searchBar.showsScopeBar = NO;
+        
     self.navigationItem.titleView = self.searchBar;
 }
 
@@ -197,7 +195,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 			[self locationManager:lm didUpdateLocation:location];
 	}
 	
-	[self refreshSearchToolbar];	
+	[self refreshSearchToolbar];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -559,20 +557,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 #pragma mark - IBActions
-
-- (IBAction)searchTypeUpdated:(id)sender {
-    switch (self.searchTypeSegmentedControl.selectedSegmentIndex) {
-        case 0: {
-            // Route
-        }
-        case 1: {
-            // Address
-        }
-        case 2: {
-            // Stop number
-        }
-    }
-}
 
 - (IBAction)onCrossHairsButton:(id)sender {
 	OBALogDebug(@"setting auto center on current location");

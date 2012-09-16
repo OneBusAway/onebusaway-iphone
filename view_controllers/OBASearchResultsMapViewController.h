@@ -64,6 +64,5 @@
 
 - (IBAction)onCrossHairsButton:(id)sender;
 - (IBAction)onListButton:(id)sender;
-- (IBAction)searchTypeUpdated:(id)sender;
 
 @end

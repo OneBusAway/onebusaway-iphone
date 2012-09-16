@@ -27,7 +27,6 @@
 @class OBASearchResultsMapViewController;
 @class OBABookmarksViewController;
 @class OBARecentStopsViewController;
-@class OBASearchViewController;
 @class OBAContactUsViewController;
 @class OBAAgenciesListViewController;
 @class OBACreditsViewController;
@@ -61,7 +60,6 @@
 @property(strong) OBASearchResultsMapViewController *mapViewController;
 @property(strong) OBABookmarksViewController *bookmarksViewController;
 @property(strong) OBARecentStopsViewController *recentViewController;
-@property(strong) OBASearchViewController *searchViewController;
 @property(strong) OBAContactUsViewController *contactViewController;
 @property(strong) IASKAppSettingsViewController *settingsViewController;
 @property(strong) OBAAgenciesListViewController *agenciesViewController;

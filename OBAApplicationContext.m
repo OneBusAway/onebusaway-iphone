@@ -23,7 +23,6 @@
 #import "OBASearchResultsMapViewController.h"
 #import "OBABookmarksViewController.h"
 #import "OBARecentStopsViewController.h"
-#import "OBASearchViewController.h"
 #import "OBASearchController.h"
 #import "OBAStopViewController.h"
 #import "OBAContactUsViewController.h"
@@ -157,9 +156,6 @@ static const NSUInteger kTagAgenciesView = 6;
     
     self.recentViewController = [[OBARecentStopsViewController alloc] init];
     [viewControllers addObject:self.recentViewController];
-    
-    self.searchViewController = [[OBASearchViewController alloc] init];
-    [viewControllers addObject:self.searchViewController];
     
     self.contactViewController = [[OBAContactUsViewController alloc] init];
     [viewControllers addObject:self.contactViewController];
