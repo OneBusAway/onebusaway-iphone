@@ -20,7 +20,7 @@
 static const float JCM_TAB_BAR_HEIGHT = 44.0f;
 
 @interface JCMSegmentPageController ()
-@property(strong) UIView *headerContainerView;
+@property (strong, nonatomic, readwrite) UIView *headerContainerView;
 @property(strong) UISegmentedControl *segmentedControl;
 @property(strong) UIView *contentContainerView;
 @end
@@ -32,6 +32,8 @@ static const float JCM_TAB_BAR_HEIGHT = 44.0f;
     
     if (self) {
         self.tabLocation = JCMSegmentTabLocationBottom;
+        self.headerContainerViewClass = [UIView class];
+        self.headerContainerView = nil;
     }
     return self;
 }
@@ -56,6 +58,15 @@ static const float JCM_TAB_BAR_HEIGHT = 44.0f;
 	self.selectedIndex = lastIndex;
 }
 
+- (UIView*)headerContainerView {
+    @synchronized(self) {
+        if (!_headerContainerView) {
+            _headerContainerView = [[self.headerContainerViewClass alloc] initWithFrame:CGRectZero];
+        }
+        return _headerContainerView;
+    }
+}
+
 /**
  * When the view loads, we set the header, and on it, the segmented control that will control
  * the page being displayed
@@ -65,8 +76,7 @@ static const float JCM_TAB_BAR_HEIGHT = 44.0f;
 
 	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
-	self.headerContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), JCM_TAB_BAR_HEIGHT)];
-    self.headerContainerView.backgroundColor = [UIColor redColor];
+    self.headerContainerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), JCM_TAB_BAR_HEIGHT);
     
     CGRect segmentedControlRect = CGRectInset(self.headerContainerView.frame, 5.0, 5.0);
     self.segmentedControl = [[UISegmentedControl alloc] initWithFrame:segmentedControlRect];

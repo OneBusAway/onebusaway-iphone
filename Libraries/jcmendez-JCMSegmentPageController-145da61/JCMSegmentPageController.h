@@ -29,6 +29,14 @@ typedef enum {
  */
 @interface JCMSegmentPageController : UIViewController
 
+// The class from which the header container view is instantiated.
+// Exposed here to allow us to swap in our own custom classes for a
+// different look and feel.
+@property (strong) Class headerContainerViewClass;
+
+// The view that contains our segmented control 'tabs'.
+@property (strong, nonatomic, readonly) UIView *headerContainerView;
+
 // Determines whether the tabs appear on the top or bottom of the view controller
 @property (nonatomic, assign) JCMSegmentTabLocation tabLocation;
 

@@ -571,6 +571,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void)_showBookmarks {
 	JCMSegmentPageController *segmentPageController = [[JCMSegmentPageController alloc] init];
+    segmentPageController.headerContainerViewClass = [OBAScopeView class];
     OBABookmarksViewController *bookmarks = [[OBABookmarksViewController alloc] init];
     OBARecentStopsViewController *recentStops = [[OBARecentStopsViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:segmentPageController];
