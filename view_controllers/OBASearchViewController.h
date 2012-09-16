@@ -17,12 +17,7 @@
 #import "OBANavigationTargetAware.h"
 #import "OBAApplicationContext.h"
 #import "OBASearchTableViewCell.h"
-
-
-typedef enum {
-	OBASearchViewTypeByStop, OBASearchViewTypeByRoute, OBASearchViewTypeByAddress
-} OBASearchViewType;
-
+#import "OBACommonV1.h"
 
 @interface OBASearchViewController : UITableViewController <OBANavigationTargetAware,UITextFieldDelegate> {
 	OBAApplicationContext * _appContext;	

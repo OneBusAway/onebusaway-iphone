@@ -236,6 +236,32 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     [searchBar endEditing:YES];
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    OBANavigationTarget* target = nil;
+    
+    switch (self.searchTypeSegmentedControl.selectedSegmentIndex) {
+        case 0: {
+            // Route
+            target = [OBASearch getNavigationTargetForSearchRoute:searchBar.text];
+            break;
+        }
+        case 1: {
+            // Address
+            target = [OBASearch getNavigationTargetForSearchAddress:searchBar.text];
+            break;
+        }
+        case 2: {
+            // Stop number
+            target = [OBASearch getNavigationTargetForSearchStopCode:searchBar.text];
+            break;
+        }
+    }
+    
+    [_appContext navigateToTarget:target];
+    
+    [searchBar endEditing:YES];
+}
+
 - (void)animateInScopeView {
     CGRect offscreenScopeFrame = self.scopeView.frame;
     offscreenScopeFrame.origin.y = -offscreenScopeFrame.size.height;
@@ -532,15 +558,30 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	}
 }
 
+#pragma mark - IBActions
 
--(IBAction) onCrossHairsButton:(id)sender {	
+- (IBAction)searchTypeUpdated:(id)sender {
+    switch (self.searchTypeSegmentedControl.selectedSegmentIndex) {
+        case 0: {
+            // Route
+        }
+        case 1: {
+            // Address
+        }
+        case 2: {
+            // Stop number
+        }
+    }
+}
+
+- (IBAction)onCrossHairsButton:(id)sender {
 	OBALogDebug(@"setting auto center on current location");
 	_mapRegionManager.lastRegionChangeWasProgramatic = YES;
 	[self refreshCurrentLocation];
 }
 
 
--(IBAction) onListButton:(id)sender {
+- (IBAction)onListButton:(id)sender {
     @synchronized(self) {
         if (PaperFoldStateDefault == self.paperFoldView.state) {
             self.mapView.userInteractionEnabled = NO;

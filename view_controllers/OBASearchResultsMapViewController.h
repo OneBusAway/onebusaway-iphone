@@ -53,15 +53,17 @@
 	
 	BOOL _hideFutureNetworkErrors;
 }
-@property (nonatomic,strong) OBAApplicationContext * appContext;
+@property(nonatomic,strong) OBAApplicationContext * appContext;
 @property(nonatomic,strong) IBOutlet OBAScopeView *scopeView;
-@property (nonatomic,strong) IBOutlet MKMapView * mapView;
-@property (nonatomic,strong) IBOutlet UIBarButtonItem * currentLocationButton;
+@property(nonatomic,strong) IBOutlet UISegmentedControl *searchTypeSegmentedControl;
+@property(nonatomic,strong) IBOutlet MKMapView * mapView;
+@property(nonatomic,strong) IBOutlet UIBarButtonItem * currentLocationButton;
 @property(nonatomic,strong) IBOutlet UISearchBar *searchBar;
 
 @property (nonatomic,strong) OBASearchResultsMapFilterToolbar * filterToolbar;
 
--(IBAction) onCrossHairsButton:(id)sender;
--(IBAction) onListButton:(id)sender;
+- (IBAction)onCrossHairsButton:(id)sender;
+- (IBAction)onListButton:(id)sender;
+- (IBAction)searchTypeUpdated:(id)sender;
 
 @end
