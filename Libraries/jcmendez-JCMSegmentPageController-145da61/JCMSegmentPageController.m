@@ -17,42 +17,39 @@
 
 #import "JCMSegmentPageController.h"
 
-static const float TAB_BAR_HEIGHT = 44.0f;
+static const float JCM_TAB_BAR_HEIGHT = 44.0f;
 
-@implementation JCMSegmentPageController {
-	UIView *headerContainerView;
-  UISegmentedControl *segmentedControl;
-	UIView *contentContainerView;
-}
+@interface JCMSegmentPageController ()
+@property(strong) UIView *headerContainerView;
+@property(strong) UISegmentedControl *segmentedControl;
+@property(strong) UIView *contentContainerView;
+@end
 
-@synthesize viewControllers = _viewControllers;
-@synthesize selectedIndex = _selectedIndex;
-@synthesize delegate = _delegate;
+@implementation JCMSegmentPageController
 
 - (void)removeAllSegments {
-  [segmentedControl removeAllSegments];
+  [self.segmentedControl removeAllSegments];
 }
 
 - (void)addSegments {
 	NSUInteger index = 0;
 	for (UIViewController *viewController in self.viewControllers) {
-    [segmentedControl insertSegmentWithTitle:viewController.title atIndex:index animated:NO];
-		++index;
+        [self.segmentedControl insertSegmentWithTitle:viewController.title atIndex:index animated:NO];
 	}
 }
 
 - (void)reloadTabButtons {
 	[self removeAllSegments];
 	[self addSegments];
-  // TODO -- Do I need this???
+    // TODO -- Do I need this???
 	NSUInteger lastIndex = _selectedIndex;
 	_selectedIndex = NSNotFound;
 	self.selectedIndex = lastIndex;
 }
 
 - (void)layoutHeaderView {
-	CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, TAB_BAR_HEIGHT);
-  segmentedControl.frame = CGRectInset(rect, 5.0, 5.0);
+	CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, JCM_TAB_BAR_HEIGHT);
+    self.segmentedControl.frame = CGRectInset(rect, 5.0, 5.0);
 }
 
 /**
@@ -64,32 +61,32 @@ static const float TAB_BAR_HEIGHT = 44.0f;
 
 	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
-	CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, TAB_BAR_HEIGHT);
-	headerContainerView = [[UIView alloc] initWithFrame:rect];
-	headerContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-  CGRect segmentedControlRect = CGRectInset(rect, 5.0, 5.0);
-  segmentedControl = [[UISegmentedControl alloc] initWithFrame:segmentedControlRect];
-  segmentedControl.momentary = NO;
-  segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-  [segmentedControl addTarget:self action:@selector(tabButtonPressed:) forControlEvents:UIControlEventValueChanged];
+	CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, JCM_TAB_BAR_HEIGHT);
+	self.headerContainerView = [[UIView alloc] initWithFrame:rect];
+	self.headerContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    CGRect segmentedControlRect = CGRectInset(rect, 5.0, 5.0);
+    self.segmentedControl = [[UISegmentedControl alloc] initWithFrame:segmentedControlRect];
+    self.segmentedControl.momentary = NO;
+    self.segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    [self.segmentedControl addTarget:self action:@selector(tabButtonPressed:) forControlEvents:UIControlEventValueChanged];
 
-  [headerContainerView addSubview:segmentedControl];
-	[self.view addSubview:headerContainerView];
+    [self.headerContainerView addSubview:self.segmentedControl];
+	[self.view addSubview:self.headerContainerView];
 
-	rect.origin.y = TAB_BAR_HEIGHT;
-	rect.size.height = self.view.bounds.size.height - TAB_BAR_HEIGHT;
-	contentContainerView = [[UIView alloc] initWithFrame:rect];
-	contentContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	[self.view addSubview:contentContainerView];
+	rect.origin.y = JCM_TAB_BAR_HEIGHT;
+	rect.size.height = self.view.bounds.size.height - JCM_TAB_BAR_HEIGHT;
+	self.contentContainerView = [[UIView alloc] initWithFrame:rect];
+	self.contentContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	[self.view addSubview:self.contentContainerView];
 
 	[self reloadTabButtons];
 }
 
 - (void)viewDidUnload {
 	[super viewDidUnload];
-	headerContainerView = nil;
-	contentContainerView = nil;
-	segmentedControl = nil;
+	self.headerContainerView = nil;
+	self.contentContainerView = nil;
+	self.segmentedControl = nil;
 }
 
 - (void)viewWillLayoutSubviews {
@@ -98,8 +95,8 @@ static const float TAB_BAR_HEIGHT = 44.0f;
 }
 
 - (void)dealloc {
-  _viewControllers = nil;
-  _delegate = nil;
+  self.viewControllers = nil;
+  self.delegate = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -117,31 +114,35 @@ static const float TAB_BAR_HEIGHT = 44.0f;
 	UIViewController *oldSelectedViewController = self.selectedViewController;
 
 	// Remove the old child view controllers.
-	for (UIViewController *viewController in _viewControllers) {
+	for (UIViewController *viewController in self.viewControllers) {
 		[viewController willMoveToParentViewController:nil];
 		[viewController removeFromParentViewController];
 	}
 
-	_viewControllers = [newViewControllers copy];
+	self.viewControllers = [newViewControllers copy];
 
 	// This follows the same rules as UITabBarController for trying to
 	// re-select the previously selected view controller.
-	NSUInteger newIndex = [_viewControllers indexOfObject:oldSelectedViewController];
-	if (newIndex != NSNotFound)
+	NSUInteger newIndex = [self.viewControllers indexOfObject:oldSelectedViewController];
+	if (NSNotFound != newIndex) {
 		_selectedIndex = newIndex;
-	else if (newIndex < [_viewControllers count])
-		_selectedIndex = newIndex;
-	else
+    }
+	else if (newIndex < [_viewControllers count]) {
+        _selectedIndex = newIndex;
+    }
+	else {
 		_selectedIndex = 0;
-
+    }
+    
 	// Add the new child view controllers.
 	for (UIViewController *viewController in _viewControllers) {
 		[self addChildViewController:viewController];
 		[viewController didMoveToParentViewController:self];
 	}
 
-	if ([self isViewLoaded])
+	if ([self isViewLoaded]) {
 		[self reloadTabButtons];
+    }
 }
 
 - (void)setSelectedIndex:(NSUInteger)newSelectedIndex {
@@ -153,8 +154,9 @@ static const float TAB_BAR_HEIGHT = 44.0f;
 
 	if ([self.delegate respondsToSelector:@selector(segmentPageController:shouldSelectViewController:atIndex:)]) {
 		UIViewController *toViewController = [self.viewControllers objectAtIndex:newSelectedIndex];
-		if (![self.delegate segmentPageController:self shouldSelectViewController:toViewController atIndex:newSelectedIndex])
+		if (![self.delegate segmentPageController:self shouldSelectViewController:toViewController atIndex:newSelectedIndex]) {
 			return;
+        }
 	}
 
 	if (![self isViewLoaded]) {
@@ -168,7 +170,7 @@ static const float TAB_BAR_HEIGHT = 44.0f;
 		_selectedIndex = newSelectedIndex;
 
 		if (_selectedIndex != NSNotFound) {
-      [segmentedControl setSelectedSegmentIndex:_selectedIndex];
+            [self.segmentedControl setSelectedSegmentIndex:_selectedIndex];
 			toViewController = self.selectedViewController;
 		}
 
@@ -176,20 +178,21 @@ static const float TAB_BAR_HEIGHT = 44.0f;
 			[fromViewController.view removeFromSuperview];
 		}
 		else if (fromViewController == nil) { // don't animate
-			toViewController.view.frame = contentContainerView.bounds;
-			[contentContainerView addSubview:toViewController.view];
+			toViewController.view.frame = self.contentContainerView.bounds;
+			[self.contentContainerView addSubview:toViewController.view];
 
-			if ([self.delegate respondsToSelector:@selector(segmentPageController:didSelectViewController:atIndex:)])
+			if ([self.delegate respondsToSelector:@selector(segmentPageController:didSelectViewController:atIndex:)]) {
 				[self.delegate segmentPageController:self didSelectViewController:toViewController atIndex:newSelectedIndex];
+            }
 		} else if (animated) {
-			CGRect rect = contentContainerView.bounds;
+			CGRect rect = self.contentContainerView.bounds;
 			if (oldSelectedIndex < newSelectedIndex)
 				rect.origin.x = rect.size.width;
 			else
 				rect.origin.x = -rect.size.width;
 
 			toViewController.view.frame = rect;
-			headerContainerView.userInteractionEnabled = NO;
+			self.headerContainerView.userInteractionEnabled = NO;
 
 			[self transitionFromViewController:fromViewController
 				toViewController:toViewController
@@ -203,10 +206,10 @@ static const float TAB_BAR_HEIGHT = 44.0f;
 						rect.origin.x = rect.size.width;
 
 					fromViewController.view.frame = rect;
-					toViewController.view.frame = contentContainerView.bounds;
+					toViewController.view.frame = self.contentContainerView.bounds;
 				}
 				completion:^(BOOL finished) {
-					headerContainerView.userInteractionEnabled = YES;
+					self.headerContainerView.userInteractionEnabled = YES;
 
 					if ([self.delegate respondsToSelector:@selector(segmentPageController:didSelectViewController:atIndex:)])
 						[self.delegate segmentPageController:self didSelectViewController:toViewController atIndex:newSelectedIndex];
@@ -214,8 +217,8 @@ static const float TAB_BAR_HEIGHT = 44.0f;
 		} else { // not animated
 			[fromViewController.view removeFromSuperview];
 
-			toViewController.view.frame = contentContainerView.bounds;
-			[contentContainerView addSubview:toViewController.view];
+			toViewController.view.frame = self.contentContainerView.bounds;
+			[self.contentContainerView addSubview:toViewController.view];
 
 			if ([self.delegate respondsToSelector:@selector(segmentPageController:didSelectViewController:atIndex:)])
 				[self.delegate segmentPageController:self didSelectViewController:toViewController atIndex:newSelectedIndex];

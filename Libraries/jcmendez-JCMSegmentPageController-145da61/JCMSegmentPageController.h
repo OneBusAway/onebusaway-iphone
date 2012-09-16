@@ -24,14 +24,17 @@
  */
 @interface JCMSegmentPageController : UIViewController
 
-/// Keeps an array of the controllers managed by this container controller
+// Keeps an array of the controllers managed by this container controller
 @property (nonatomic, copy) NSArray *viewControllers;
-/// Reference to the currently selected controller
+
+// Reference to the currently selected controller
 @property (nonatomic, weak) UIViewController *selectedViewController;
-/// Index of the currently selected controller
+
+// Index of the currently selected controller
 @property (nonatomic, assign) NSUInteger selectedIndex;
-/// Optional delegate that can be informed of a new selection and decide
-/// whether a page can or can't be selected
+
+// Optional delegate that can be informed of a new selection and decide
+// whether a page can or can't be selected
 @property (nonatomic, weak) id <JCMSegmentPageControllerDelegate> delegate;
 
 - (void)setSelectedIndex:(NSUInteger)index animated:(BOOL)animated;
