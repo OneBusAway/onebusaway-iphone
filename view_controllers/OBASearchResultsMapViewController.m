@@ -577,11 +577,14 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     ((OBAScopeView*)segmentPageController.headerContainerView).drawsTopBorder = YES;
     
     OBABookmarksViewController *bookmarks = [[OBABookmarksViewController alloc] init];
+    bookmarks.appContext = self.appContext;
+    
     OBARecentStopsViewController *recentStops = [[OBARecentStopsViewController alloc] init];
+    recentStops.appContext = self.appContext;
+    
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:segmentPageController];
     
-//	segmentPageController.delegate = self;
-	segmentPageController.viewControllers = @[bookmarks, recentStops];
+	segmentPageController.viewControllers = @[recentStops, bookmarks];
     
     [self presentViewController:nav animated:YES completion:nil];
 }
