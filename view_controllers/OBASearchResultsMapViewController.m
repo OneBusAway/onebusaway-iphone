@@ -54,6 +54,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @interface OBASearchResultsMapViewController ()
 @property(strong) PaperFoldView *paperFoldView;
 @property(strong) UIBarButtonItem *listBarButtonItem;
+@property(strong) UIBarButtonItem *bookmarksBarButtonItem;
 @property(strong) OBASearchResultsListViewController *searchResultsListViewController;
 @end
 
@@ -152,6 +153,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	_searchController.delegate = self;
 	_searchController.progress.delegate = self;
     
+    self.bookmarksBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(foo)];
+    self.navigationItem.leftBarButtonItem = self.bookmarksBarButtonItem;
+    
     self.listBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"List", @"Right bar button item in map") style:UIBarButtonItemStyleBordered target:self action:@selector(onListButton:)];
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
     
@@ -213,6 +217,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
+    self.navigationItem.leftBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = nil;
     searchBar.showsCancelButton = YES;
     [self animateInScopeView];
@@ -222,6 +227,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
 {
+    self.navigationItem.leftBarButtonItem = self.bookmarksBarButtonItem;
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
     searchBar.showsCancelButton = NO;
     [self animateOutScopeView];
