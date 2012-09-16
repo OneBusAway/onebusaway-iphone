@@ -38,6 +38,23 @@
 		9330DF181605108400E14AF4 /* TouchThroughUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DF0F1605108400E14AF4 /* TouchThroughUIView.m */; };
 		9330DF191605108400E14AF4 /* UIView+Screenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DF111605108400E14AF4 /* UIView+Screenshot.m */; };
 		9330DF281606405100E14AF4 /* OBAScopeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DF271606405100E14AF4 /* OBAScopeView.m */; };
+		9332ADFC160682AC00CF234A /* CGPointAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 9332ADE4160682AC00CF234A /* CGPointAdditions.c */; };
+		9332ADFD160682AC00CF234A /* BackFragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 9332ADE7160682AC00CF234A /* BackFragmentShader.glsl */; };
+		9332ADFE160682AC00CF234A /* BackPageGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 9332ADE8160682AC00CF234A /* BackPageGradient.png */; };
+		9332ADFF160682AC00CF234A /* BackVertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 9332ADE9160682AC00CF234A /* BackVertexShader.glsl */; };
+		9332AE00160682AC00CF234A /* FrontFragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 9332ADEA160682AC00CF234A /* FrontFragmentShader.glsl */; };
+		9332AE01160682AC00CF234A /* FrontVertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 9332ADEB160682AC00CF234A /* FrontVertexShader.glsl */; };
+		9332AE02160682AC00CF234A /* NextPageFragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 9332ADEC160682AC00CF234A /* NextPageFragmentShader.glsl */; };
+		9332AE03160682AC00CF234A /* NextPageNoTextureFragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 9332ADED160682AC00CF234A /* NextPageNoTextureFragmentShader.glsl */; };
+		9332AE04160682AC00CF234A /* NextPageNoTextureVertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 9332ADEE160682AC00CF234A /* NextPageNoTextureVertexShader.glsl */; };
+		9332AE05160682AC00CF234A /* NextPageVertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 9332ADEF160682AC00CF234A /* NextPageVertexShader.glsl */; };
+		9332AE06160682AC00CF234A /* XBAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9332ADF1160682AC00CF234A /* XBAnimation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9332AE07160682AC00CF234A /* XBAnimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9332ADF3160682AC00CF234A /* XBAnimationManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9332AE08160682AC00CF234A /* XBCurlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9332ADF5160682AC00CF234A /* XBCurlView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9332AE09160682AC00CF234A /* XBPageCurlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9332ADF7160682AC00CF234A /* XBPageCurlView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9332AE0A160682AC00CF234A /* XBPageDragView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9332ADF9160682AC00CF234A /* XBPageDragView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9332AE0B160682AC00CF234A /* XBSnappingPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 9332ADFB160682AC00CF234A /* XBSnappingPoint.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9332AE0E160682DA00CF234A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9332AE0D160682DA00CF234A /* OpenGLES.framework */; };
 		93631E401604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E3D1604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib */; };
 		93631E411604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */; };
 		93631E421604F72900CB7209 /* OBAStopTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E3F1604F72900CB7209 /* OBAStopTableViewCell.xib */; };
@@ -420,6 +437,30 @@
 		9330DF111605108400E14AF4 /* UIView+Screenshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Screenshot.m"; sourceTree = "<group>"; };
 		9330DF261606405100E14AF4 /* OBAScopeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAScopeView.h; sourceTree = "<group>"; };
 		9330DF271606405100E14AF4 /* OBAScopeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAScopeView.m; sourceTree = "<group>"; };
+		9332ADE4160682AC00CF234A /* CGPointAdditions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CGPointAdditions.c; sourceTree = "<group>"; };
+		9332ADE5160682AC00CF234A /* CGPointAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGPointAdditions.h; sourceTree = "<group>"; };
+		9332ADE7160682AC00CF234A /* BackFragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BackFragmentShader.glsl; sourceTree = "<group>"; };
+		9332ADE8160682AC00CF234A /* BackPageGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackPageGradient.png; sourceTree = "<group>"; };
+		9332ADE9160682AC00CF234A /* BackVertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BackVertexShader.glsl; sourceTree = "<group>"; };
+		9332ADEA160682AC00CF234A /* FrontFragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FrontFragmentShader.glsl; sourceTree = "<group>"; };
+		9332ADEB160682AC00CF234A /* FrontVertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FrontVertexShader.glsl; sourceTree = "<group>"; };
+		9332ADEC160682AC00CF234A /* NextPageFragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NextPageFragmentShader.glsl; sourceTree = "<group>"; };
+		9332ADED160682AC00CF234A /* NextPageNoTextureFragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NextPageNoTextureFragmentShader.glsl; sourceTree = "<group>"; };
+		9332ADEE160682AC00CF234A /* NextPageNoTextureVertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NextPageNoTextureVertexShader.glsl; sourceTree = "<group>"; };
+		9332ADEF160682AC00CF234A /* NextPageVertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NextPageVertexShader.glsl; sourceTree = "<group>"; };
+		9332ADF0160682AC00CF234A /* XBAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBAnimation.h; sourceTree = "<group>"; };
+		9332ADF1160682AC00CF234A /* XBAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBAnimation.m; sourceTree = "<group>"; };
+		9332ADF2160682AC00CF234A /* XBAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBAnimationManager.h; sourceTree = "<group>"; };
+		9332ADF3160682AC00CF234A /* XBAnimationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBAnimationManager.m; sourceTree = "<group>"; };
+		9332ADF4160682AC00CF234A /* XBCurlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBCurlView.h; sourceTree = "<group>"; };
+		9332ADF5160682AC00CF234A /* XBCurlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBCurlView.m; sourceTree = "<group>"; };
+		9332ADF6160682AC00CF234A /* XBPageCurlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBPageCurlView.h; sourceTree = "<group>"; };
+		9332ADF7160682AC00CF234A /* XBPageCurlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBPageCurlView.m; sourceTree = "<group>"; };
+		9332ADF8160682AC00CF234A /* XBPageDragView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBPageDragView.h; sourceTree = "<group>"; };
+		9332ADF9160682AC00CF234A /* XBPageDragView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBPageDragView.m; sourceTree = "<group>"; };
+		9332ADFA160682AC00CF234A /* XBSnappingPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBSnappingPoint.h; sourceTree = "<group>"; };
+		9332ADFB160682AC00CF234A /* XBSnappingPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBSnappingPoint.m; sourceTree = "<group>"; };
+		9332AE0D160682DA00CF234A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		93631E3D1604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAArrivalEntryTableViewCell.xib; sourceTree = "<group>"; };
 		93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBANearbyStopsPageTableViewCell.xib; sourceTree = "<group>"; };
 		93631E3F1604F72900CB7209 /* OBAStopTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAStopTableViewCell.xib; sourceTree = "<group>"; };
@@ -873,6 +914,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9332AE0E160682DA00CF234A /* OpenGLES.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */,
@@ -948,6 +990,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9332AE0D160682DA00CF234A /* OpenGLES.framework */,
+				D62255AA0F8BCA8F00F139BA /* libsqlite3.0.dylib */,
 				D62255C80F8BCB9C00F139BA /* CoreAudio.framework */,
 				D62255CF0F8BCBF100F139BA /* QuartzCore.framework */,
 				D61E4E4E0FC2000D000C1782 /* MapKit.framework */,
@@ -1067,6 +1111,45 @@
 				9330DF271606405100E14AF4 /* OBAScopeView.m */,
 			);
 			path = containers;
+			sourceTree = "<group>";
+		};
+		9332ADE3160682AC00CF234A /* XBPageCurl */ = {
+			isa = PBXGroup;
+			children = (
+				9332ADE4160682AC00CF234A /* CGPointAdditions.c */,
+				9332ADE5160682AC00CF234A /* CGPointAdditions.h */,
+				9332ADE6160682AC00CF234A /* Resources */,
+				9332ADF0160682AC00CF234A /* XBAnimation.h */,
+				9332ADF1160682AC00CF234A /* XBAnimation.m */,
+				9332ADF2160682AC00CF234A /* XBAnimationManager.h */,
+				9332ADF3160682AC00CF234A /* XBAnimationManager.m */,
+				9332ADF4160682AC00CF234A /* XBCurlView.h */,
+				9332ADF5160682AC00CF234A /* XBCurlView.m */,
+				9332ADF6160682AC00CF234A /* XBPageCurlView.h */,
+				9332ADF7160682AC00CF234A /* XBPageCurlView.m */,
+				9332ADF8160682AC00CF234A /* XBPageDragView.h */,
+				9332ADF9160682AC00CF234A /* XBPageDragView.m */,
+				9332ADFA160682AC00CF234A /* XBSnappingPoint.h */,
+				9332ADFB160682AC00CF234A /* XBSnappingPoint.m */,
+			);
+			name = XBPageCurl;
+			path = "Libraries/xissburg-XBPageCurl-eb61e1c/XBPageCurl";
+			sourceTree = "<group>";
+		};
+		9332ADE6160682AC00CF234A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9332ADE7160682AC00CF234A /* BackFragmentShader.glsl */,
+				9332ADE8160682AC00CF234A /* BackPageGradient.png */,
+				9332ADE9160682AC00CF234A /* BackVertexShader.glsl */,
+				9332ADEA160682AC00CF234A /* FrontFragmentShader.glsl */,
+				9332ADEB160682AC00CF234A /* FrontVertexShader.glsl */,
+				9332ADEC160682AC00CF234A /* NextPageFragmentShader.glsl */,
+				9332ADED160682AC00CF234A /* NextPageNoTextureFragmentShader.glsl */,
+				9332ADEE160682AC00CF234A /* NextPageNoTextureVertexShader.glsl */,
+				9332ADEF160682AC00CF234A /* NextPageVertexShader.glsl */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		93631E461604F80000CB7209 /* migrations */ = {
@@ -1739,11 +1822,11 @@
 		D61A66790FCDB155004D2E91 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				9332ADE3160682AC00CF234A /* XBPageCurl */,
 				93A5F5041606540000D1670A /* JCMSegmentPageController */,
 				9330DF011605108400E14AF4 /* PaperFold */,
 				9330DEA51603B41400E14AF4 /* InAppSettingsKit */,
 				93A28F71160157F60035BC70 /* onebusaway-iphone-common */,
-				D62255AA0F8BCA8F00F139BA /* libsqlite3.0.dylib */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1984,6 +2067,15 @@
 				93631E451604F77A00CB7209 /* OBADiversionViewController.xib in Resources */,
 				9330DEE816050BA500E14AF4 /* OBACreditsViewController.xib in Resources */,
 				9330DEEA16050CA600E14AF4 /* credits.html in Resources */,
+				9332ADFD160682AC00CF234A /* BackFragmentShader.glsl in Resources */,
+				9332ADFE160682AC00CF234A /* BackPageGradient.png in Resources */,
+				9332ADFF160682AC00CF234A /* BackVertexShader.glsl in Resources */,
+				9332AE00160682AC00CF234A /* FrontFragmentShader.glsl in Resources */,
+				9332AE01160682AC00CF234A /* FrontVertexShader.glsl in Resources */,
+				9332AE02160682AC00CF234A /* NextPageFragmentShader.glsl in Resources */,
+				9332AE03160682AC00CF234A /* NextPageNoTextureFragmentShader.glsl in Resources */,
+				9332AE04160682AC00CF234A /* NextPageNoTextureVertexShader.glsl in Resources */,
+				9332AE05160682AC00CF234A /* NextPageVertexShader.glsl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2148,6 +2240,13 @@
 				9330DF191605108400E14AF4 /* UIView+Screenshot.m in Sources */,
 				9330DF281606405100E14AF4 /* OBAScopeView.m in Sources */,
 				93A5F5081606541100D1670A /* JCMSegmentPageController.m in Sources */,
+				9332ADFC160682AC00CF234A /* CGPointAdditions.c in Sources */,
+				9332AE06160682AC00CF234A /* XBAnimation.m in Sources */,
+				9332AE07160682AC00CF234A /* XBAnimationManager.m in Sources */,
+				9332AE08160682AC00CF234A /* XBCurlView.m in Sources */,
+				9332AE09160682AC00CF234A /* XBPageCurlView.m in Sources */,
+				9332AE0A160682AC00CF234A /* XBPageDragView.m in Sources */,
+				9332AE0B160682AC00CF234A /* XBSnappingPoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
