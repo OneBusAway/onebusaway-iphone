@@ -17,12 +17,20 @@
 
 @protocol JCMSegmentPageControllerDelegate;
 
+typedef enum {
+    JCMSegmentTabLocationTop = 1,
+    JCMSegmentTabLocationBottom,
+} JCMSegmentTabLocation;
+
 /**
  * Custom container view controller for iOS5 that functions similarly to a 
  * UITabBarController, but the way to switch tabs is through a 
  * UISegmentedControl on top.
  */
 @interface JCMSegmentPageController : UIViewController
+
+// Determines whether the tabs appear on the top or bottom of the view controller
+@property (nonatomic, assign) JCMSegmentTabLocation tabLocation;
 
 // Keeps an array of the controllers managed by this container controller
 @property (nonatomic, copy) NSArray *viewControllers;

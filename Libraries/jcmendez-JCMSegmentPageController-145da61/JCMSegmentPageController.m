@@ -27,6 +27,15 @@ static const float JCM_TAB_BAR_HEIGHT = 44.0f;
 
 @implementation JCMSegmentPageController
 
+- (id)init {
+    self = [super init];
+    
+    if (self) {
+        self.tabLocation = JCMSegmentTabLocationBottom;
+    }
+    return self;
+}
+
 - (void)removeAllSegments {
   [self.segmentedControl removeAllSegments];
 }
@@ -60,11 +69,23 @@ static const float JCM_TAB_BAR_HEIGHT = 44.0f;
 	[super viewDidLoad];
 
 	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    
+    CGRect tabContainerRect = CGRectZero;
+    CGRect contentContainerRect = CGRectZero;
+    
+    if (JCMSegmentTabLocationTop == self.tabLocation) {
+        tabContainerRect = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), JCM_TAB_BAR_HEIGHT);
+        contentContainerRect = CGRectMake(0, JCM_TAB_BAR_HEIGHT, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) - JCM_TAB_BAR_HEIGHT);
+    }
+    else {
+        tabContainerRect = CGRectMake(0, CGRectGetHeight(self.view.bounds) - JCM_TAB_BAR_HEIGHT, CGRectGetWidth(self.view.bounds), JCM_TAB_BAR_HEIGHT);
+        contentContainerRect = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) - JCM_TAB_BAR_HEIGHT);
+    }
 
-	CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, JCM_TAB_BAR_HEIGHT);
-	self.headerContainerView = [[UIView alloc] initWithFrame:rect];
+	self.headerContainerView = [[UIView alloc] initWithFrame:tabContainerRect];
 	self.headerContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    CGRect segmentedControlRect = CGRectInset(rect, 5.0, 5.0);
+    
+    CGRect segmentedControlRect = CGRectInset(tabContainerRect, 5.0, 5.0);
     self.segmentedControl = [[UISegmentedControl alloc] initWithFrame:segmentedControlRect];
     self.segmentedControl.momentary = NO;
     self.segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
@@ -73,9 +94,7 @@ static const float JCM_TAB_BAR_HEIGHT = 44.0f;
     [self.headerContainerView addSubview:self.segmentedControl];
 	[self.view addSubview:self.headerContainerView];
 
-	rect.origin.y = JCM_TAB_BAR_HEIGHT;
-	rect.size.height = self.view.bounds.size.height - JCM_TAB_BAR_HEIGHT;
-	self.contentContainerView = [[UIView alloc] initWithFrame:rect];
+	self.contentContainerView = [[UIView alloc] initWithFrame:contentContainerRect];
 	self.contentContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	[self.view addSubview:self.contentContainerView];
 
@@ -119,7 +138,7 @@ static const float JCM_TAB_BAR_HEIGHT = 44.0f;
 		[viewController removeFromParentViewController];
 	}
 
-	self.viewControllers = [newViewControllers copy];
+	_viewControllers = [newViewControllers copy];
 
 	// This follows the same rules as UITabBarController for trying to
 	// re-select the previously selected view controller.
