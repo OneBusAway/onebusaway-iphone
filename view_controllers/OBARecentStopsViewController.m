@@ -42,10 +42,18 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    // TODO: this only fires once. needs to fire in segmentpagecontroller every time!
+    self.parentViewController.navigationItem.leftBarButtonItem = nil;
+    self.parentViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"Title for a close button on a modal view controller") style:UIBarButtonItemStyleDone target:self action:@selector(close)];
  
 	OBAModelDAO * modelDao = _appContext.modelDao;	
 	_mostRecentStops = [NSObject releaseOld:_mostRecentStops retainNew:modelDao.mostRecentStops];
 	[self.tableView reloadData];
+}
+
+- (void)close {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark Table view methods
