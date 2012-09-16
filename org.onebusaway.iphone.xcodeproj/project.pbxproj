@@ -37,6 +37,7 @@
 		9330DF171605108400E14AF4 /* ShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DF0D1605108400E14AF4 /* ShadowView.m */; };
 		9330DF181605108400E14AF4 /* TouchThroughUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DF0F1605108400E14AF4 /* TouchThroughUIView.m */; };
 		9330DF191605108400E14AF4 /* UIView+Screenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DF111605108400E14AF4 /* UIView+Screenshot.m */; };
+		9330DF281606405100E14AF4 /* OBAScopeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DF271606405100E14AF4 /* OBAScopeView.m */; };
 		93631E401604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E3D1604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib */; };
 		93631E411604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */; };
 		93631E421604F72900CB7209 /* OBAStopTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E3F1604F72900CB7209 /* OBAStopTableViewCell.xib */; };
@@ -418,6 +419,8 @@
 		9330DF0F1605108400E14AF4 /* TouchThroughUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchThroughUIView.m; sourceTree = "<group>"; };
 		9330DF101605108400E14AF4 /* UIView+Screenshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Screenshot.h"; sourceTree = "<group>"; };
 		9330DF111605108400E14AF4 /* UIView+Screenshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Screenshot.m"; sourceTree = "<group>"; };
+		9330DF261606405100E14AF4 /* OBAScopeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAScopeView.h; sourceTree = "<group>"; };
+		9330DF271606405100E14AF4 /* OBAScopeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAScopeView.m; sourceTree = "<group>"; };
 		93631E3D1604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAArrivalEntryTableViewCell.xib; sourceTree = "<group>"; };
 		93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBANearbyStopsPageTableViewCell.xib; sourceTree = "<group>"; };
 		93631E3F1604F72900CB7209 /* OBAStopTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAStopTableViewCell.xib; sourceTree = "<group>"; };
@@ -1060,6 +1063,15 @@
 			path = "Libraries/honcheng-PaperFold-for-iOS-8fe4356/PaperFold/PaperFold/PaperFold";
 			sourceTree = "<group>";
 		};
+		9330DF251606404100E14AF4 /* containers */ = {
+			isa = PBXGroup;
+			children = (
+				9330DF261606405100E14AF4 /* OBAScopeView.h */,
+				9330DF271606405100E14AF4 /* OBAScopeView.m */,
+			);
+			path = containers;
+			sourceTree = "<group>";
+		};
 		93631E461604F80000CB7209 /* migrations */ = {
 			isa = PBXGroup;
 			children = (
@@ -1557,6 +1569,7 @@
 		93AD36371603FE4600BDF03F /* controls */ = {
 			isa = PBXGroup;
 			children = (
+				9330DF251606404100E14AF4 /* containers */,
 				93631E7A1604F9A200CB7209 /* alerts */,
 				93631E7D1604F9A200CB7209 /* toolbars */,
 				93AD36991604027E00BDF03F /* progress */,
@@ -2132,6 +2145,7 @@
 				9330DF171605108400E14AF4 /* ShadowView.m in Sources */,
 				9330DF181605108400E14AF4 /* TouchThroughUIView.m in Sources */,
 				9330DF191605108400E14AF4 /* UIView+Screenshot.m in Sources */,
+				9330DF281606405100E14AF4 /* OBAScopeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

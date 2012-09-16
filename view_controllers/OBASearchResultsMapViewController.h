@@ -24,7 +24,7 @@
 #import "OBANetworkErrorAlertViewDelegate.h"
 #import "OBASearchResultsMapFilterToolbar.h"
 #import "OBAMapRegionManager.h"
-
+#import "OBAScopeView.h"
 
 @class OBASearchControllerImpl;
 
@@ -54,6 +54,7 @@
 	BOOL _hideFutureNetworkErrors;
 }
 @property (nonatomic,strong) OBAApplicationContext * appContext;
+@property(nonatomic,strong) IBOutlet OBAScopeView *scopeView;
 @property (nonatomic,strong) IBOutlet MKMapView * mapView;
 @property (nonatomic,strong) IBOutlet UIBarButtonItem * currentLocationButton;
 @property(nonatomic,strong) IBOutlet UISearchBar *searchBar;

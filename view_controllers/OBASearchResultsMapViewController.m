@@ -34,6 +34,7 @@
 #import "OBAPresentation.h"
 #import "PaperFoldView.h"
 
+#define kScopeViewAnimationDuration 0.25
 
 // Radius in meters
 static const double kDefaultMapRadius = 100;
@@ -215,8 +216,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
     self.navigationItem.rightBarButtonItem = nil;
-    searchBar.showsScopeBar = YES;
     searchBar.showsCancelButton = YES;
+    [self animateInScopeView];
     
     return YES;
 }
@@ -224,8 +225,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
 {
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
-    searchBar.showsScopeBar = NO;
     searchBar.showsCancelButton = NO;
+    [self animateOutScopeView];
     
     return YES;
 }
@@ -233,6 +234,31 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar endEditing:YES];
+}
+
+- (void)animateInScopeView {
+    CGRect offscreenScopeFrame = self.scopeView.frame;
+    offscreenScopeFrame.origin.y = -offscreenScopeFrame.size.height;
+    self.scopeView.frame = offscreenScopeFrame;
+    [self.view addSubview:self.scopeView];
+    
+    CGRect finalScopeFrame = self.scopeView.frame;
+    finalScopeFrame.origin.y = 0;
+    
+    [UIView animateWithDuration:kScopeViewAnimationDuration animations:^{
+        self.scopeView.frame = finalScopeFrame;
+    }];
+}
+
+- (void)animateOutScopeView {
+    CGRect offscreenScopeFrame = self.scopeView.frame;
+    offscreenScopeFrame.origin.y = -offscreenScopeFrame.size.height;
+    
+    [UIView animateWithDuration:kScopeViewAnimationDuration animations:^{
+        self.scopeView.frame = offscreenScopeFrame;
+    } completion:^(BOOL finished) {
+        [self.scopeView removeFromSuperview];
+    }];
 }
 
 #pragma mark - OBANavigationTargetAware
