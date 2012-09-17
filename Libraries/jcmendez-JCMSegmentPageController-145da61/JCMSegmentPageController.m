@@ -111,6 +111,7 @@ static const float JCM_TAB_BAR_HEIGHT = 44.0f;
     self.headerContainerView.frame = tabContainerRect;
     self.contentContainerView.frame = contentContainerRect;
     self.segmentedControl.frame = CGRectInset(self.headerContainerView.bounds, 5.0, 5.0);
+    self.segmentedControl.frame = CGRectOffset(self.segmentedControl.frame, 0, 1);
 }
 
 - (void)viewDidUnload {
