@@ -135,7 +135,7 @@ static const float JCM_TAB_BAR_HEIGHT = 44.0f;
 }
 
 - (void)setViewControllers:(NSArray *)newViewControllers {
-	NSAssert([newViewControllers count] >= 2, @"JCMSegmentPageController requires at least two view controllers");
+	NSAssert(!newViewControllers || [newViewControllers count] >= 2, @"JCMSegmentPageController requires at least two view controllers");
 
 	UIViewController *oldSelectedViewController = self.selectedViewController;
 
@@ -147,27 +147,29 @@ static const float JCM_TAB_BAR_HEIGHT = 44.0f;
 
 	_viewControllers = [newViewControllers copy];
 
-	// This follows the same rules as UITabBarController for trying to
-	// re-select the previously selected view controller.
-	NSUInteger newIndex = [self.viewControllers indexOfObject:oldSelectedViewController];
-	if (NSNotFound != newIndex) {
-		_selectedIndex = newIndex;
-    }
-	else if (newIndex < [_viewControllers count]) {
-        _selectedIndex = newIndex;
-    }
-	else {
-		_selectedIndex = 0;
-    }
-    
-	// Add the new child view controllers.
-	for (UIViewController *viewController in _viewControllers) {
-		[self addChildViewController:viewController];
-		[viewController didMoveToParentViewController:self];
-	}
+    if (_viewControllers) {
+        // This follows the same rules as UITabBarController for trying to
+        // re-select the previously selected view controller.
+        NSUInteger newIndex = [self.viewControllers indexOfObject:oldSelectedViewController];
+        if (NSNotFound != newIndex) {
+            _selectedIndex = newIndex;
+        }
+        else if (newIndex < [_viewControllers count]) {
+            _selectedIndex = newIndex;
+        }
+        else {
+            _selectedIndex = 0;
+        }
 
-	if ([self isViewLoaded]) {
-		[self reloadTabButtons];
+        // Add the new child view controllers.
+        for (UIViewController *viewController in _viewControllers) {
+            [self addChildViewController:viewController];
+            [viewController didMoveToParentViewController:self];
+        }
+        
+        if ([self isViewLoaded]) {
+            [self reloadTabButtons];
+        }
     }
 }
 
