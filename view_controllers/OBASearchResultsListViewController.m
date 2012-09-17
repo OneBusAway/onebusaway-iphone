@@ -42,7 +42,14 @@
 	return self;
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
 
+    CGFloat height = 2.f * CGRectGetHeight(self.view.frame);
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, -0.25f * height, 1, height)];
+    line.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:line];
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
