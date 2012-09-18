@@ -623,6 +623,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void)showInfoPane {
     OBAInfoViewController *infoViewController = [[OBAInfoViewController alloc] init];
+    infoViewController.presenterViewController = self.navigationController;
     UINavigationController *infoNavigation = [[UINavigationController alloc] initWithRootViewController:infoViewController];
     infoNavigation.navigationBarHidden = YES;
     infoNavigation.modalTransitionStyle = UIModalTransitionStylePartialCurl;

@@ -11,4 +11,5 @@
 @interface OBAInfoViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 @property(nonatomic,strong) IBOutlet UIView *headerView;
 @property(nonatomic,strong) IBOutlet UITableView *tableView;
+@property(nonatomic,assign) UIViewController *presenterViewController;
 @end

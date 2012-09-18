@@ -83,7 +83,13 @@
         // Credits
         pushMe = [[OBACreditsViewController alloc] init];
     }
-    [self.navigationController pushViewController:pushMe animated:YES];
+        
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:pushMe];
+    
+    OBAInfoViewController *weakSelf = self;
+    [self dismissViewControllerAnimated:YES completion:^{
+        [weakSelf.presenterViewController presentViewController:nav animated:YES completion:nil];
+    }];
 }
 
 @end
