@@ -178,6 +178,43 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     [self.paperFoldView setCenterContentView:originalView];
         
     self.navigationItem.titleView = self.searchBar;
+
+    [self _setupOnMapToolbar];
+}
+
+- (void)_setupOnMapToolbar {
+    UIView *onMapToolbarWrapper = [[UIView alloc] initWithFrame:CGRectMake(11, CGRectGetHeight(self.view.bounds) - 55, 78, 31)];
+    onMapToolbarWrapper.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    OBAScopeView *onMapToolbar = [[OBAScopeView alloc] initWithFrame:onMapToolbarWrapper.bounds];
+
+    onMapToolbar.layer.cornerRadius = 4.f;
+    onMapToolbar.layer.masksToBounds = YES;
+    onMapToolbar.layer.borderColor = (OBARGBACOLOR(255,255,255,0.5)).CGColor;
+    onMapToolbar.layer.borderWidth = 1.f;
+    onMapToolbar.drawsBottomBorder = NO;
+
+    onMapToolbarWrapper.layer.cornerRadius = 5.0;
+    onMapToolbarWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
+    onMapToolbarWrapper.layer.shadowOpacity = 0.5;
+    onMapToolbarWrapper.layer.shadowRadius = 1.f;
+    onMapToolbarWrapper.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
+    [onMapToolbarWrapper addSubview:onMapToolbar];
+
+    [self.view addSubview:onMapToolbarWrapper];
+
+    UIButton *location = [UIButton buttonWithType:UIButtonTypeCustom];
+    [location addTarget:self action:@selector(onCrossHairsButton:) forControlEvents:UIControlEventTouchUpInside];
+    [location setImage:[UIImage imageNamed:@"lbs_arrow"] forState:UIControlStateNormal];
+    location.frame = CGRectMake(0, 0, 31, 31);
+    [onMapToolbar addSubview:location];
+
+    UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(location.frame) + 1, 4, 1, 23)];
+    separator.backgroundColor = OBARGBCOLOR(167, 170, 177);
+    separator.layer.shadowColor = (OBARGBACOLOR(255,255,255,0.5)).CGColor;
+    separator.layer.shadowOpacity = 1.f;
+    separator.layer.shadowRadius = 0;
+    separator.layer.shadowOffset = CGSizeMake(1, 0);
+    [onMapToolbar addSubview:separator];
 }
 
 - (void)onFilterClear {
