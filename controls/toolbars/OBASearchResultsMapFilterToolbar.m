@@ -137,16 +137,19 @@
 
 -(void) showWithDescription:(NSString*)filterDescString animated:(BOOL)animated {
     BOOL justRefreshLabels = NO;
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     
     if (_currentlyShowing) {
-        if (self.filterDescription != filterDescString)
+        if (self.filterDescription != filterDescString) {
             justRefreshLabels = YES;
-        else 
+        }
+        else {
             return;
+        }
     }
         
     self.filterDescription = filterDescString;
-    _currentlyShowing      = YES;
+    _currentlyShowing = YES;
     
     if (justRefreshLabels) {
         [_labelOutput removeFromSuperview];
@@ -160,11 +163,10 @@
     self.alpha = 1.0;
     
     // place the toolbar right on top of the tab bar
-    UITabBar* tabbar = [self.appContext tabBarController].tabBar;
-    const CGFloat tabbarHeight = tabbar.frame.size.height;
+    const CGFloat tabbarHeight = CGRectGetHeight(keyWindow.frame);
 
     [self sizeToFit];
-    const CGFloat toolbarHeight = self.frame.size.height;
+    const CGFloat toolbarHeight = CGRectGetHeight(self.frame);
 
     const CGRect mainViewBounds = [self.appContext window].bounds;
     
@@ -178,7 +180,7 @@
     [self setupLabels];
     
     // Attach the filter toolbar to the window view
-    [[self.appContext window] addSubview:self];
+    [keyWindow addSubview:self];
 }
 
 

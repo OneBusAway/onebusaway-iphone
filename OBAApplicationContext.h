@@ -25,14 +25,9 @@
 #import "IASKAppSettingsViewController.h"
 
 @class OBASearchResultsMapViewController;
-@class OBAContactUsViewController;
-@class OBAAgenciesListViewController;
-@class OBACreditsViewController;
-
-@class OBANearbyTripsController;
 @class OBAStopIconFactory;
 
-@interface OBAApplicationContext : NSObject <UIApplicationDelegate,UITabBarControllerDelegate,IASKSettingsDelegate> {
+@interface OBAApplicationContext : UIResponder <UIApplicationDelegate,UITabBarControllerDelegate,IASKSettingsDelegate> {
 	
 	BOOL _setup;
 	BOOL _active;
@@ -45,21 +40,11 @@
 	OBAActivityListeners * _activityListeners;
 
 	OBAStopIconFactory * _stopIconFactory;
-	
-	UIWindow * _window;
-	UITabBarController * _tabBarController;
-	
 }
 
 @property(nonatomic, strong) UIWindow *window;
-@property(strong) UITabBarController * tabBarController;
-
-// view controller tabs
+@property(nonatomic, strong) UINavigationController *navigation;
 @property(strong) OBASearchResultsMapViewController *mapViewController;
-@property(strong) OBAContactUsViewController *contactViewController;
-@property(strong) IASKAppSettingsViewController *settingsViewController;
-@property(strong) OBAAgenciesListViewController *agenciesViewController;
-@property(strong) OBACreditsViewController *creditsViewController;
 
 @property (nonatomic,readonly) OBAReferencesV2 * references;
 @property (nonatomic,readonly) OBAModelDAO * modelDao;
