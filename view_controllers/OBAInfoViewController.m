@@ -7,6 +7,10 @@
 //
 
 #import "OBAInfoViewController.h"
+#import "OBAContactUsViewController.h"
+#import "OBAAgenciesListViewController.h"
+#import "IASKAppSettingsViewController.h"
+#import "OBACreditsViewController.h"
 
 @implementation OBAInfoViewController
 
@@ -49,6 +53,31 @@
     }
 
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UIViewController *pushMe = nil;
+    if (0 == indexPath.row) {
+        // Contact Us
+        pushMe = [[OBAContactUsViewController alloc] init];
+    }
+    else if (1 == indexPath.row) {
+        // Settings
+        pushMe = [[IASKAppSettingsViewController alloc] init];
+        pushMe.title = NSLocalizedString(@"Settings", @"");
+        // TODO: Bring this out of the app context.
+        //settingsViewController.delegate = self;
+    }
+    else if (2 == indexPath.row) {
+        // Agencies
+         pushMe = [[OBAAgenciesListViewController alloc] init];
+    }
+    else {
+        // Credits
+        pushMe = [[OBACreditsViewController alloc] init];
+    }
+    [self.navigationController pushViewController:pushMe animated:YES];
 }
 
 @end
