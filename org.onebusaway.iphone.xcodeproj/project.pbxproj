@@ -64,6 +64,8 @@
 		93631E871604F9AD00CB7209 /* OBATripStopTimeMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E851604F9AD00CB7209 /* OBATripStopTimeMapAnnotation.m */; };
 		93631EA61607F40C00CB7209 /* lbs_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 93631EA41607F40C00CB7209 /* lbs_arrow.png */; };
 		93631EA71607F40C00CB7209 /* lbs_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93631EA51607F40C00CB7209 /* lbs_arrow@2x.png */; };
+		93631EAB1607FB2F00CB7209 /* OBAInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631EAA1607FB2F00CB7209 /* OBAInfoViewController.m */; };
+		93631EAD1607FB7100CB7209 /* OBAInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631EAC1607FB7100CB7209 /* OBAInfoViewController.xib */; };
 		93A290A1160157F70035BC70 /* OBACommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F76160157F60035BC70 /* OBACommon.m */; };
 		93A290A2160157F70035BC70 /* OBALocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F78160157F60035BC70 /* OBALocationManager.m */; };
 		93A290A3160157F70035BC70 /* OBALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A28F7A160157F60035BC70 /* OBALogger.m */; };
@@ -468,6 +470,9 @@
 		93631E851604F9AD00CB7209 /* OBATripStopTimeMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripStopTimeMapAnnotation.m; sourceTree = "<group>"; };
 		93631EA41607F40C00CB7209 /* lbs_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lbs_arrow.png; path = Resources/lbs_arrow.png; sourceTree = "<group>"; };
 		93631EA51607F40C00CB7209 /* lbs_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lbs_arrow@2x.png"; path = "Resources/lbs_arrow@2x.png"; sourceTree = "<group>"; };
+		93631EA91607FB2F00CB7209 /* OBAInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAInfoViewController.h; sourceTree = "<group>"; };
+		93631EAA1607FB2F00CB7209 /* OBAInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAInfoViewController.m; sourceTree = "<group>"; };
+		93631EAC1607FB7100CB7209 /* OBAInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAInfoViewController.xib; sourceTree = "<group>"; };
 		93A28F75160157F60035BC70 /* OBACommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACommon.h; sourceTree = "<group>"; };
 		93A28F76160157F60035BC70 /* OBACommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACommon.m; sourceTree = "<group>"; };
 		93A28F77160157F60035BC70 /* OBALocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALocationManager.h; sourceTree = "<group>"; };
@@ -1039,6 +1044,7 @@
 				93631E3F1604F72900CB7209 /* OBAStopTableViewCell.xib */,
 				9330DED51603BC6F00E14AF4 /* OBASearchResultsMapViewController.xib */,
 				9330DEE716050BA500E14AF4 /* OBACreditsViewController.xib */,
+				93631EAC1607FB7100CB7209 /* OBAInfoViewController.xib */,
 			);
 			path = xibs;
 			sourceTree = "<group>";
@@ -1573,6 +1579,8 @@
 				93AD362D1603FDE300BDF03F /* OBASearchResultsMapViewController.m */,
 				9330DEE316050B9500E14AF4 /* OBACreditsViewController.h */,
 				9330DEE416050B9500E14AF4 /* OBACreditsViewController.m */,
+				93631EA91607FB2F00CB7209 /* OBAInfoViewController.h */,
+				93631EAA1607FB2F00CB7209 /* OBAInfoViewController.m */,
 			);
 			path = view_controllers;
 			sourceTree = "<group>";
@@ -1992,6 +2000,7 @@
 				9330DEEA16050CA600E14AF4 /* credits.html in Resources */,
 				93631EA61607F40C00CB7209 /* lbs_arrow.png in Resources */,
 				93631EA71607F40C00CB7209 /* lbs_arrow@2x.png in Resources */,
+				93631EAD1607FB7100CB7209 /* OBAInfoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2156,6 +2165,7 @@
 				9330DF191605108400E14AF4 /* UIView+Screenshot.m in Sources */,
 				9330DF281606405100E14AF4 /* OBAScopeView.m in Sources */,
 				93A5F5081606541100D1670A /* JCMSegmentPageController.m in Sources */,
+				93631EAB1607FB2F00CB7209 /* OBAInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

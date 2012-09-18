@@ -35,6 +35,7 @@
 #import "OBAStopIconFactory.h"
 #import "OBAPresentation.h"
 #import "PaperFoldView.h"
+#import "OBAInfoViewController.h"
 
 #define kScopeViewAnimationDuration 0.25
 
@@ -182,6 +183,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     [self _setupOnMapToolbar];
 }
 
+// TODO: Fix crappy layout.
 - (void)_setupOnMapToolbar {
     UIView *onMapToolbarWrapper = [[UIView alloc] initWithFrame:CGRectMake(11, CGRectGetHeight(self.view.bounds) - 55, 78, 31)];
     onMapToolbarWrapper.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
@@ -192,12 +194,16 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     onMapToolbar.layer.borderColor = (OBARGBACOLOR(255,255,255,0.5)).CGColor;
     onMapToolbar.layer.borderWidth = 1.f;
     onMapToolbar.drawsBottomBorder = NO;
+    onMapToolbar.layer.shouldRasterize = YES;
+    onMapToolbar.layer.rasterizationScale = [UIScreen mainScreen].scale;
 
     onMapToolbarWrapper.layer.cornerRadius = 5.0;
     onMapToolbarWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
     onMapToolbarWrapper.layer.shadowOpacity = 0.5;
     onMapToolbarWrapper.layer.shadowRadius = 1.f;
     onMapToolbarWrapper.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
+    onMapToolbarWrapper.layer.shouldRasterize = YES;
+    onMapToolbarWrapper.layer.rasterizationScale = [UIScreen mainScreen].scale;
     [onMapToolbarWrapper addSubview:onMapToolbar];
 
     [self.view addSubview:onMapToolbarWrapper];
@@ -214,7 +220,15 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     separator.layer.shadowOpacity = 1.f;
     separator.layer.shadowRadius = 0;
     separator.layer.shadowOffset = CGSizeMake(1, 0);
+    separator.layer.shouldRasterize = YES;
+    separator.layer.rasterizationScale = [UIScreen mainScreen].scale;
     [onMapToolbar addSubview:separator];
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    [button addTarget:self action:@selector(showInfoPane) forControlEvents:UIControlEventTouchUpInside];
+    CGFloat x = CGRectGetMaxX(separator.frame) + 2;
+    button.frame = CGRectMake(x, 0, CGRectGetWidth(onMapToolbar.frame) - x, CGRectGetHeight(onMapToolbar.frame));
+    [onMapToolbar addSubview:button];
 }
 
 - (void)onFilterClear {
@@ -236,9 +250,10 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	
 	if (_searchController.searchType == OBASearchTypeNone ) {
         _mapRegionManager.lastRegionChangeWasProgramatic = YES;
-		CLLocation * location = lm.currentLocation;
-		if( location )
-			[self locationManager:lm didUpdateLocation:location];
+		CLLocation* location = lm.currentLocation;
+		if (location) {
+            [self locationManager:lm didUpdateLocation:location];
+        }
 	}
 	
 	[self refreshSearchToolbar];
@@ -605,6 +620,14 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 #pragma mark - IBActions
+
+- (void)showInfoPane {
+    OBAInfoViewController *infoViewController = [[OBAInfoViewController alloc] init];
+    UINavigationController *infoNavigation = [[UINavigationController alloc] initWithRootViewController:infoViewController];
+    infoNavigation.navigationBarHidden = YES;
+    infoNavigation.modalTransitionStyle = UIModalTransitionStylePartialCurl;
+    [self presentViewController:infoNavigation animated:YES completion:nil];
+}
 
 - (void)_showBookmarks {
 	JCMSegmentPageController *segmentPageController = [[JCMSegmentPageController alloc] init];
