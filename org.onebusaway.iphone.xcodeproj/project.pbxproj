@@ -267,7 +267,6 @@
 		93631E451604F77A00CB7209 /* OBADiversionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E441604F77A00CB7209 /* OBADiversionViewController.xib */; };
 		93631E491604F80000CB7209 /* OBAUserPreferencesMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E481604F80000CB7209 /* OBAUserPreferencesMigration.m */; };
 		93631E4C1604F96800CB7209 /* OBAApplicationContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E4B1604F96800CB7209 /* OBAApplicationContext.m */; };
-		93631E521604F97D00CB7209 /* OBAActivityListeners.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E4F1604F97D00CB7209 /* OBAActivityListeners.m */; };
 		93631E531604F97D00CB7209 /* OBACommonV1.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E511604F97D00CB7209 /* OBACommonV1.m */; };
 		93631E6E1604F99500CB7209 /* OBAEditStopBookmarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E561604F99500CB7209 /* OBAEditStopBookmarkViewController.m */; };
 		93631E6F1604F99500CB7209 /* OBAEditStopPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E581604F99500CB7209 /* OBAEditStopPreferencesViewController.m */; };
@@ -724,8 +723,6 @@
 		93631E481604F80000CB7209 /* OBAUserPreferencesMigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAUserPreferencesMigration.m; sourceTree = "<group>"; };
 		93631E4A1604F96800CB7209 /* OBAApplicationContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAApplicationContext.h; sourceTree = "<group>"; };
 		93631E4B1604F96800CB7209 /* OBAApplicationContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAApplicationContext.m; sourceTree = "<group>"; };
-		93631E4E1604F97D00CB7209 /* OBAActivityListeners.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAActivityListeners.h; sourceTree = "<group>"; };
-		93631E4F1604F97D00CB7209 /* OBAActivityListeners.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAActivityListeners.m; sourceTree = "<group>"; };
 		93631E501604F97D00CB7209 /* OBACommonV1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACommonV1.h; sourceTree = "<group>"; };
 		93631E511604F97D00CB7209 /* OBACommonV1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACommonV1.m; sourceTree = "<group>"; };
 		93631E551604F99500CB7209 /* OBAEditStopBookmarkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopBookmarkViewController.h; sourceTree = "<group>"; };
@@ -1482,8 +1479,6 @@
 		93631E4D1604F97D00CB7209 /* utilities */ = {
 			isa = PBXGroup;
 			children = (
-				93631E4E1604F97D00CB7209 /* OBAActivityListeners.h */,
-				93631E4F1604F97D00CB7209 /* OBAActivityListeners.m */,
 				93631E501604F97D00CB7209 /* OBACommonV1.h */,
 				93631E511604F97D00CB7209 /* OBACommonV1.m */,
 			);
@@ -2068,7 +2063,6 @@
 				93AD36A6160402CA00BDF03F /* OBASearchController.m in Sources */,
 				93631E491604F80000CB7209 /* OBAUserPreferencesMigration.m in Sources */,
 				93631E4C1604F96800CB7209 /* OBAApplicationContext.m in Sources */,
-				93631E521604F97D00CB7209 /* OBAActivityListeners.m in Sources */,
 				93631E531604F97D00CB7209 /* OBACommonV1.m in Sources */,
 				93631E6E1604F99500CB7209 /* OBAEditStopBookmarkViewController.m in Sources */,
 				93631E6F1604F99500CB7209 /* OBAEditStopPreferencesViewController.m in Sources */,

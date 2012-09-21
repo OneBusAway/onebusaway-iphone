@@ -19,7 +19,6 @@
 #import "OBAModelService.h"
 #import "OBADataSourceConfig.h"
 #import "OBALocationManager.h"
-#import "OBAActivityListeners.h"
 #import "OBANavigationTarget.h"
 #import "OBAReferencesV2.h"
 #import "IASKAppSettingsViewController.h"
@@ -52,7 +51,6 @@
 @property (nonatomic,readonly) OBAStopIconFactory * stopIconFactory;
 
 @property (nonatomic,readonly) OBALocationManager * locationManager;
-@property (nonatomic,readonly) OBAActivityListeners * activityListeners;
 
 @property (nonatomic,readonly) BOOL active;
 

@@ -236,7 +236,7 @@ static const double kNearbyStopRadius = 200;
 	_result = [NSObject releaseOld:_result retainNew:obj];
 	
 	// Note the event
-	[_appContext.activityListeners viewedArrivalsAndDeparturesForStop:_result.stop];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:_result.stop];
 
 	[self reloadData];
 }

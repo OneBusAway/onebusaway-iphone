@@ -20,7 +20,7 @@
 #import "OBAStopAccessEventV2.h"
 #import "OBASituationV2.h"
 #import "OBAModelDAOUserPreferencesImpl.h"
-
+#import "OBAPlacemark.h"
 
 const static int kMaxEntriesInMostRecentList = 10;
 
