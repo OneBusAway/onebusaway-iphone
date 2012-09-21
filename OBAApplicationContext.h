@@ -37,7 +37,6 @@
 	OBAModelService * _modelService;
 	
 	OBALocationManager * _locationManager;
-	OBAActivityListeners * _activityListeners;
 
 	OBAStopIconFactory * _stopIconFactory;
 }

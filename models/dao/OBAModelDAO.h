@@ -24,7 +24,7 @@
 
 @class OBAModelDAOUserPreferencesImpl;
 
-@interface OBAModelDAO : NSObject<OBAActivityListener> {
+@interface OBAModelDAO : NSObject {
 	OBAModelDAOUserPreferencesImpl * _preferencesDao;
 	NSMutableArray * _bookmarks;
 	NSMutableArray * _mostRecentStops;

@@ -65,12 +65,9 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 		_active = NO;
 		
 		_references = [[OBAReferencesV2 alloc] init];
-		_activityListeners = [[OBAActivityListeners alloc] init];
 		_modelDao = [[OBAModelDAO alloc] init];
 		_locationManager = [[OBALocationManager alloc] initWithModelDao:_modelDao];		
-		
-		[_activityListeners addListener:_modelDao];
-		
+				
 		_modelService = [[OBAModelService alloc] init];
 		_modelService.references = _references;
 		_modelService.modelDao = _modelDao;

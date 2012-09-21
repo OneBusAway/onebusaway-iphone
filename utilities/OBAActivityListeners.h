@@ -18,25 +18,10 @@
 #import "OBABookmarkV2.h"
 #import "OBAPlacemark.h"
 
+#define OBAPlacemarkNotification @"OBAPlacemarkNotification"
+#define OBAViewedArrivalsAndDeparturesForStopNotification @"OBAViewedArrivalsAndDeparturesForStopNotification"
 
-@protocol OBAActivityListener
-
-@optional
-
-- (void) bookmarkClicked:(OBABookmarkV2*)bookmark;
-- (void) placemark:(OBAPlacemark*)placemark;
-- (void) viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop;
-- (void) annotationWithLabel:(NSString*)label;
-- (void) nearbyTrips:(NSArray*)nearbyTrips;
-
-@end
-
-
-@interface OBAActivityListeners : NSObject<OBAActivityListener> {
-	NSMutableArray * _listeners;
-}
-
-- (void) addListener:(NSObject<OBAActivityListener,NSObject>*)listener;
-- (void) removeListener:(NSObject<OBAActivityListener,NSObject>*)listener;
-
+@interface OBAActivityListeners : NSObject
+- (void)placemark:(OBAPlacemark*)placemark;
+- (void)viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop;
 @end

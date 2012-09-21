@@ -16,71 +16,15 @@
 
 #import "OBAActivityListeners.h"
 
-
-@interface OBAActivityListeners (Private)
-
-- (void) fireListenerEvent:(SEL)aSelector withObject:(id)object1;
-
-@end
-
-
 @implementation OBAActivityListeners
 
-- (id) init {
-	if( self = [super init]) {
-		_listeners = [[NSMutableArray alloc] init];
-	}
-	return self;
-}
-
-
-- (void) addListener:(NSObject<OBAActivityListener,NSObject>*)listener {
-	@synchronized(self) {
-		[_listeners addObject:listener];
-	}
-}
-
-- (void) removeListener:(NSObject<OBAActivityListener,NSObject>*)listener {
-	@synchronized(self) {
-		[_listeners removeObject:listener];
-	}
-}
-
-#pragma mark OBAActivityListener Methods
-
-- (void) bookmarkClicked:(OBABookmarkV2*)bookmark {
-	[self fireListenerEvent:@selector(bookmarkClicked:) withObject:bookmark];
-}
-
 - (void) placemark:(OBAPlacemark*)placemark {
-	[self fireListenerEvent:@selector(placemark:) withObject:placemark];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBAPlacemarkNotification object:placemark];
 }
 
 - (void) viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop {
-	[self fireListenerEvent:@selector(viewedArrivalsAndDeparturesForStop:) withObject:stop];
+	[[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:stop];
 }
-
-- (void) annotationWithLabel:(NSString*)label {
-	[self fireListenerEvent:@selector(annotationWithLabel:) withObject:label];
-}
-
-- (void) nearbyTrips:(NSArray*)nearbyTrips {
-	[self fireListenerEvent:@selector(nearbyTrips:) withObject:nearbyTrips];
-}
-
 	
-@end
-
-@implementation OBAActivityListeners (Private)
-
-- (void) fireListenerEvent:(SEL)aSelector withObject:(id)object1 {
-	@synchronized(self) {
-		for( id<OBAActivityListener,NSObject> listener in _listeners ) {
-			if( [listener respondsToSelector:aSelector] )
-				[listener performSelector:aSelector withObject:object1];
-		}
-	}	
-}
-
 @end
 

@@ -41,10 +41,17 @@ const static int kMaxEntriesInMostRecentList = 10;
 		_stopPreferences = [[NSMutableDictionary alloc] initWithDictionary:[_preferencesDao readStopPreferences]];
 		_mostRecentLocation = [_preferencesDao readMostRecentLocation];
 		_visitedSituationIds = [[NSMutableSet alloc] initWithSet:[_preferencesDao readVisistedSituationIds]];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recordPlacemark:) name:OBAPlacemarkNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewedArrivalsAndDeparturesForStop:) name:OBAViewedArrivalsAndDeparturesForStopNotification object:nil];
 	}
 	return self;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBAPlacemarkNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBAViewedArrivalsAndDeparturesForStopNotification object:nil];
+}
 
 - (NSArray*) bookmarks {
 	return _bookmarks;
@@ -143,12 +150,14 @@ const static int kMaxEntriesInMostRecentList = 10;
 
 #pragma mark OBAActivityListener
 
-- (void) placemark:(OBAPlacemark*)placemark {
-	CLLocationCoordinate2D coordinate = placemark.coordinate;
+- (void)recordPlacemark:(NSNotification*)note {
+    OBAPlacemark * placemark = [note object];
+    CLLocationCoordinate2D coordinate = placemark.coordinate;
 	[self saveMostRecentLocationLat:coordinate.latitude lon:coordinate.longitude];
 }
 
-- (void) viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop {
+- (void)viewedArrivalsAndDeparturesForStop:(NSNotification*)note {
+    OBAStopV2* stop = [note object];
 	OBAStopAccessEventV2 * event = [[OBAStopAccessEventV2 alloc] init];
 	event.stopIds = @[stop.stopId];
 	event.title = stop.title;
