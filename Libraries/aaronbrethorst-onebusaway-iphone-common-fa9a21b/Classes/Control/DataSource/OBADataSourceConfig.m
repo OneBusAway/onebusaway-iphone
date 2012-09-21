@@ -16,42 +16,52 @@
 
 #import "OBADataSourceConfig.h"
 
+@interface OBADataSourceConfig ()
+@property(strong,readwrite) NSString* url;
+@property(strong,readwrite) NSString* args;
+@end
 
 @implementation OBADataSourceConfig
 
-@synthesize url = _url;
-@synthesize args = _args;
-
 - (id) initWithUrl:(NSString*)url args:(NSString*)args {
-	if( self = [super init] ) {
-		_url = url;
-		_args = args;
+	self = [super init];
+    
+    if (self) {
+		self.url = url;
+		self.args = args;
 	}
 	return self;
 }
 
 
--(NSURL*) constructURL:(NSString*)path withArgs:(NSString*)args includeArgs:(BOOL)includeArgs {
+// TODO: clean up by converting args into dict and dict into query params.
+- (NSURL*)constructURL:(NSString*)path withArgs:(NSString*)args includeArgs:(BOOL)includeArgs {
+	NSMutableString *constructedURL = [NSMutableString string];
+    
+	if (self.url) {
+		[constructedURL appendString:self.url];
+    }
+    
+	[constructedURL appendString:path];
 	
-	NSMutableString *url = [NSMutableString string];
-	if( _url )
-		[url appendString: _url];
-	[url appendString:path];
-	
-	if( includeArgs && (args || _args) ) {
-		[url appendString:@"?"];
-		if( _args )
-			[url appendString:_args];
-		if( args ) {
-			if( _args )
-				[url appendString:@"&"];
-			[url appendString:args];
+	if (includeArgs && (args || self.args) ) {
+		[constructedURL appendString:@"?"];
+		if ( _args ) {
+            [constructedURL appendString:_args];
+        }
+			
+		if (args) {
+			if (self.args) {
+                [constructedURL appendString:@"&"];
+            }
+				
+			[constructedURL appendString:args];
 		}
 	}
 	
-	NSLog(@"url=%@",url);
+	NSLog(@"url=%@",constructedURL);
 	
-	return [NSURL URLWithString:url];
+	return [NSURL URLWithString:constructedURL];
 }
 
 @end

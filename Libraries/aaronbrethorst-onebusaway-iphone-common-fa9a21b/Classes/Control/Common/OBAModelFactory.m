@@ -110,8 +110,8 @@ static NSString * const kReferences = @"references";
 
 
 - (OBAEntryWithReferencesV2*) getStopFromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error {
-
-	OBAEntryWithReferencesV2 * entry = [[OBAEntryWithReferencesV2 alloc] initWithReferences:_references];
+	
+    OBAEntryWithReferencesV2 * entry = [[OBAEntryWithReferencesV2 alloc] initWithReferences:_references];
 	
 	OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
 	[digester addReferencesRulesWithPrefix:@"/references"];
@@ -125,7 +125,7 @@ static NSString * const kReferences = @"references";
 
 - (OBAListWithRangeAndReferencesV2*) getStopsV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error {
 	
-	OBAListWithRangeAndReferencesV2 * list = [[OBAListWithRangeAndReferencesV2 alloc] initWithReferences:_references];
+    OBAListWithRangeAndReferencesV2 * list = [[OBAListWithRangeAndReferencesV2 alloc] initWithReferences:_references];
 	
 	OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
 	[digester addReferencesRulesWithPrefix:@"/references"];
@@ -280,7 +280,7 @@ static NSString * const kReferences = @"references";
 }
 
 - (OBAListWithRangeAndReferencesV2*) getCurrentVehicleEstimatesV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error {
-        
+    
     OBAListWithRangeAndReferencesV2 * list = [[OBAListWithRangeAndReferencesV2 alloc] initWithReferences:_references];
 	
 	OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];

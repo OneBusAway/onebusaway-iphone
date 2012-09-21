@@ -21,22 +21,9 @@
  * Internal JsonUrlFetcher class that we pass on to our NSURLConnection
  ****/
 
-@interface JsonUrlFetcherImpl : NSObject <OBADataSourceConnection> {
-	OBAJsonDataSource * _source;
-	NSURLConnection * _connection;
-	NSStringEncoding _responseEncoding;
-	NSMutableData * _jsonData;
-	NSInteger _expectedLength;
-	id<OBADataSourceDelegate> _delegate;
-	id _context;
-	BOOL _uploading;
-	BOOL _canceled;
-}
-
-@property (nonatomic) BOOL uploading;
-
-- (id) initWithSource:(OBAJsonDataSource*)source withDelegate:(id<OBADataSourceDelegate>)delegate context:(id)context;
-
+@interface JsonUrlFetcherImpl : NSObject <OBADataSourceConnection>
+@property BOOL uploading;
+- (id)initWithSource:(OBAJsonDataSource*)source withDelegate:(id<OBADataSourceDelegate>)delegate context:(id)context;
 @end
 
 @interface OBAJsonDataSource (Private)
@@ -48,23 +35,24 @@
 
 @end
 
+@interface OBAJsonDataSource ()
+@property(strong) OBADataSourceConfig *config;
+@property(strong) NSMutableArray *openConnections;
+@end
 
 
 @implementation OBAJsonDataSource
 
 - (id) initWithConfig:(OBADataSourceConfig*)config {
 	if( self = [super init] ) {
-		_config = [config retain];
-		_openConnections = [[NSMutableArray alloc] init];
+		self.config = config;
+		self.openConnections = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[self cancelOpenConnections];
-	[_config release];
-	[_openConnections release];
-	[super dealloc];
 }
 
 - (id<OBADataSourceConnection>) requestWithPath:(NSString*)path withDelegate:(id<OBADataSourceDelegate>)delegate context:(id)context {
@@ -191,13 +179,22 @@
 
 - (NSString *) escapeParamValue:(NSString *)s {
 	NSString *reserved = @";/?:@&=+$,";
-	return [NSMakeCollectable(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)s, NULL, (CFStringRef)reserved, kCFStringEncodingUTF8)) autorelease];
+	return CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)s, NULL, (CFStringRef)reserved, kCFStringEncodingUTF8));
 }
 
 @end
 
 
-
+@interface JsonUrlFetcherImpl ()
+@property(strong) OBAJsonDataSource *source;
+@property(strong) NSURLConnection *connection;
+@property NSStringEncoding responseEncoding;
+@property(strong) NSMutableData *jsonData;
+@property NSInteger expectedLength;
+@property(weak) id<OBADataSourceDelegate> delegate;
+@property(strong) id context;
+@property BOOL canceled;
+@end
 
 @implementation JsonUrlFetcherImpl
 
@@ -207,36 +204,31 @@
 
     self = [super init];
 
-	if(self) {		
-		_source = [source retain];
-		_delegate = delegate;
-		_context = [context retain];
+	if (self) {
+		self.source = source;
+		self.delegate = delegate;
+		self.context = context;
 		
-		_jsonData = [[NSMutableData alloc] initWithCapacity:0];
-		_uploading = NO;
-		_canceled = NO;
+		self.jsonData = [[NSMutableData alloc] initWithCapacity:0];
+		self.uploading = NO;
+		self.canceled = NO;
 		
 	}
 	return self;
 }
 
-- (void) dealloc {
-	
-	[_source release];
-	[_context release];
-	[_jsonData release];
-	
-	[super dealloc];
-}
-
-- (void) cancel {
+- (void)cancel {
 	@synchronized(self) {
-		if( _canceled )
-			return;
-		_canceled = YES;
-		[_connection cancel];
-		_delegate = nil;
-		[self autorelease];
+		if (self.canceled) {
+            return;
+        }
+			
+		self.canceled = YES;
+		[self.connection cancel];
+		self.delegate = nil;
+		
+        //TODO: this sort of thing scares me.
+        //[self autorelease];
 	}
 }
 
@@ -288,28 +280,29 @@
 	
 	@synchronized(self) {
 		
-		if (_canceled)
+		if (self.canceled)
         {
             return;
         }
         
-		_canceled = YES;
+		self.canceled = YES;
 
         NSError *error = nil;
-        id jsonObject = [NSJSONSerialization JSONObjectWithData:_jsonData options:0 error:&error];
+        id jsonObject = [NSJSONSerialization JSONObjectWithData:self.jsonData options:0 error:&error];
 
 		if (error)
         {
-			[_delegate connectionDidFail:self withError:error context:_context];
+			[self.delegate connectionDidFail:self withError:error context:self.context];
         }
 		else
 		{
-            [_delegate connectionDidFinishLoading:self withObject:jsonObject context:_context];
+            [self.delegate connectionDidFinishLoading:self withObject:jsonObject context:self.context];
         }
 				
 		[_source removeOpenConnection:self];
-		_delegate = nil;
-		[self autorelease];
+		self.delegate = nil;
+        // TODO: this terrifies me now that we've moved into ARC-land.
+        // [self autorelease];
 	}
 }
 
@@ -317,14 +310,17 @@
 	
 	@synchronized(self) {
 		
-		if( _canceled )
-			return;
-		_canceled = YES;
+		if (self.canceled) {
+            return;
+        }
+			
+		self.canceled = YES;
 		
-		[_delegate connectionDidFail:self withError:error context:_context];
-		[_source removeOpenConnection:self];
-		_delegate = nil;
-		[self autorelease];
+		[self.delegate connectionDidFail:self withError:error context:self.context];
+		[self.source removeOpenConnection:self];
+		self.delegate = nil;
+        // TODO: this terrifies me now that we've moved into ARC-land.
+        // [self autorelease];
 	}
 }
 

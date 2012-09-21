@@ -1,32 +1,17 @@
 #import "OBAModelService.h"
 
-
 @interface OBAModelServiceRequest : NSObject<OBAModelServiceRequest,OBADataSourceDelegate>
-{
-	id<OBAModelServiceDelegate> _delegate;
-	id _context;
-	OBAModelFactory * _modelFactory;
-	SEL _modelFactorySelector;
-	
-	BOOL _checkCode;
-	
-	id<OBADataSourceConnection> _connection;
-	UIBackgroundTaskIdentifier _bgTask;
-	
-	BOOL _clean;
-}
+@property(weak) id<OBAModelServiceDelegate> delegate;
+@property(strong) id context;
+@property(strong) OBAModelFactory * modelFactory;
+@property(assign) SEL modelFactorySelector;
 
-@property (nonatomic, assign) id<OBAModelServiceDelegate> delegate;
-@property (nonatomic,retain) id context;
-@property (nonatomic,retain) OBAModelFactory * modelFactory;
-@property (nonatomic) SEL modelFactorySelector;
+@property BOOL checkCode;
 
-@property (nonatomic, assign) BOOL checkCode;
+@property UIBackgroundTaskIdentifier bgTask;
+@property(strong) id<OBADataSourceConnection> connection;
 
-@property (nonatomic) UIBackgroundTaskIdentifier bgTask;
-@property (nonatomic,retain) id<OBADataSourceConnection> connection;
-
-- (void) endBackgroundTask;
-- (void) handleResult:(id)obj;
+- (void)endBackgroundTask;
+- (void)handleResult:(id)obj;
 
 @end

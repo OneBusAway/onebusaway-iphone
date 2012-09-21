@@ -15,16 +15,9 @@
  */
 
 
-@interface OBADataSourceConfig : NSObject {
-	NSString * _url;
-	NSString * _args;
-}
-
-@property (nonatomic,readonly) NSString * url;
-@property (nonatomic,readonly) NSString * args;
-		   
-- (id) initWithUrl:(NSString*)url args:(NSString*)args;
-
--(NSURL*) constructURL:(NSString*)path withArgs:(NSString*)args includeArgs:(BOOL)includeArgs;
-
+@interface OBADataSourceConfig : NSObject
+@property(strong,readonly) NSString* url;
+@property(strong,readonly) NSString* args;
+- (id)initWithUrl:(NSString*)url args:(NSString*)args;
+- (NSURL*)constructURL:(NSString*)path withArgs:(NSString*)args includeArgs:(BOOL)includeArgs;
 @end

@@ -1,47 +1,32 @@
 #import "OBAModelServiceRequest.h"
 
-@interface OBAModelServiceRequest (Private)
-
-- (void) cleanup;
-
+@interface OBAModelServiceRequest ()
+@property BOOL clean;
+- (void)cleanup;
 @end
-
 
 @implementation OBAModelServiceRequest
 
-@synthesize delegate = _delegate;
-@synthesize context = _context;
-@synthesize modelFactory = _modelFactory;
-@synthesize modelFactorySelector = _modelFactorySelector;
-
-@synthesize checkCode = _checkCode;
-
-@synthesize bgTask = _bgTask;
-@synthesize connection = _connection;
-
 - (id) init {
-	if( self = [super init] ) {
-		_checkCode = YES;
-		if ([[UIDevice currentDevice] isMultitaskingSupported])
-            _bgTask = UIBackgroundTaskInvalid;
+    self = [super init];
+	if (self) {
+		self.checkCode = YES;
+        self.bgTask = UIBackgroundTaskInvalid;
 		
+        // TODO: AB 20 Sept 12: this comment terrifies me, especially given that this code has moved to ARC.
 		/**
 		 * Why do we retain ourselves?  Many client apps will release their reference to us
 		 * in the delegate methods.  To make sure we stick around long enough to perform cleanup,
 		 * we keep a reference to ourselves that we'll release in the cleanup phase.
 		 */
-		_clean = NO;
-		[self retain];		
+		self.clean = NO;
+        //[self retain];
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[self endBackgroundTask];
-	[_connection release];
-	[_context release];
-	[_modelFactory release];
-	[super dealloc];
 }
 
 - (void) handleResult:(id)obj {
@@ -58,12 +43,15 @@
 		obj = [obj valueForKey:@"data"];
 	}
 	
-	NSDictionary * data = obj;
-	NSError * error = nil;
-	NSError ** errorRef = &error;
+	__unsafe_unretained NSDictionary * data = obj;
 	
-	id result = obj;
-	
+    // http://stackoverflow.com/questions/10002538/nsinvocation-nserror-autoreleasing-memory-crasher
+    __autoreleasing NSError * error = nil;
+    __autoreleasing NSError **errorRef = &error;
+    
+    
+	__unsafe_unretained id result = obj;
+    
 	if( _modelFactorySelector && [_modelFactory respondsToSelector:_modelFactorySelector] ) {
 	
 		NSMethodSignature * sig = [_modelFactory methodSignatureForSelector:_modelFactorySelector];
@@ -124,17 +112,16 @@
 		[_delegate request:self withProgress:progress context:_context];
 }
 
-@end
-
-
-@implementation OBAModelServiceRequest (Private)
-
 - (void) cleanup {
-	if( _clean )
-		return;
-	_clean = YES;
-	[self endBackgroundTask];
-	[self release];
+    @synchronized(self) {
+        if (self.clean) {
+            return;
+        }
+        self.clean = YES;
+        [self endBackgroundTask];
+        //TODO: the prior existence of this terrifies me. See comment above in -init.
+        //	[self release];
+    }
 }
 
 @end
