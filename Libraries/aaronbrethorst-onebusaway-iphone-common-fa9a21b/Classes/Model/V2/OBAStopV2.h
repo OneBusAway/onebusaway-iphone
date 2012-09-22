@@ -1,10 +1,7 @@
 #import "OBAHasReferencesV2.h"
 
 
-@interface OBAStopV2 :  OBAHasReferencesV2 <MKAnnotation>
-{
-}
-
+@interface OBAStopV2 : OBAHasReferencesV2 <MKAnnotation>
 
 @property (nonatomic, strong) NSString * stopId;
 @property (nonatomic, strong) NSString * name;

@@ -99,7 +99,7 @@
 	NSInteger index = indexPath.row;	
 	if( 0 <= index && index < [_mostRecentStops count] ) {
 		OBAStopAccessEventV2 * event = _mostRecentStops[index];
-		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopIds:event.stopIds];
+		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:event.stopIds[0]];
 		[self.navigationController pushViewController:vc animated:YES];
 	}
 }

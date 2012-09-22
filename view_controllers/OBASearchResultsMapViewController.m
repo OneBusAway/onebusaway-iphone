@@ -583,9 +583,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	
 	id annotation = view.annotation;
 	
-	if( [annotation isKindOfClass:[OBAStopV2 class] ] ) {		
+	if ([annotation isKindOfClass:[OBAStopV2 class]]) {
 		OBAStopV2 * stop = annotation;
-		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stop.stopId];
+		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stop:stop];
 		[self.navigationController pushViewController:vc animated:YES];
 	}
 	else if( [annotation isKindOfClass:[OBAPlacemark class]] ) {
@@ -814,6 +814,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	OBALocationManager * lm = _appContext.locationManager;
 	CLLocation * location = lm.currentLocation;
 	
+    // TODO: WTF?
 	if( ! location )
 		location = _searchController.searchLocation;
 

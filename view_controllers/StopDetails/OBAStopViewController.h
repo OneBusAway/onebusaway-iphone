@@ -16,9 +16,5 @@
 
 #import "OBAGenericStopViewController.h"
 
-
-@interface OBAStopViewController : OBAGenericStopViewController {
-	UIView * _headerView;
-}
-
+@interface OBAStopViewController : OBAGenericStopViewController
 @end

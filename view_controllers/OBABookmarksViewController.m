@@ -108,7 +108,7 @@
 		[self.navigationController pushViewController:vc animated:YES];
 	}
 	else {
-		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:self.appContext stopIds:bookmark.stopIds];
+		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:self.appContext stopId:bookmark.stopIds[0]];
 		[self.navigationController pushViewController:vc animated:YES];
 	}
 }

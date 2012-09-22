@@ -40,6 +40,7 @@ static const double kNearbyStopRadius = 200;
 @interface OBAGenericStopViewController ()
 @property(strong,readwrite) OBAApplicationContext * _appContext;
 @property(strong,readwrite) NSString * stopId;
+@property(strong) OBAStopV2 *stop;
 @property NSUInteger minutesAfter;
 
 @property(strong) id<OBAModelServiceRequest> request;
@@ -82,9 +83,6 @@ static const double kNearbyStopRadius = 200;
 
 @implementation OBAGenericStopViewController
 
-@synthesize appContext = _appContext;
-@synthesize stopId = _stopId;
-
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext {
 
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
@@ -120,15 +118,22 @@ static const double kNearbyStopRadius = 200;
 	return self;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopId:(NSString*)stopId {
-	if( self = [self initWithApplicationContext:appContext] ) {
-		_stopId = stopId;
-	}
-	return self;
+- (id)initWithApplicationContext:(OBAApplicationContext *)appContext stop:(OBAStopV2 *)stop {
+    self = [self initWithApplicationContext:appContext];
+    
+    if (self) {
+        self.stop = stop;
+        self.stopId = stop.stopId;
+    }
+    return self;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopIds:(NSArray*)stopIds {
-	return [self initWithApplicationContext:appContext stopId:stopIds[0]];
+- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopId:(NSString*)stopId {
+	if (self = [self initWithApplicationContext:appContext]) {
+		self.stop = nil;
+        self.stopId = stopId;
+	}
+	return self;
 }
 
 - (void) dealloc {
@@ -186,7 +191,7 @@ static const double kNearbyStopRadius = 200;
 
 
 - (void) setNavigationTarget:(OBANavigationTarget*)navigationTarget {
-	_stopId = [NSObject releaseOld:_stopId retainNew:[navigationTarget parameterForKey:@"stopId"]];
+    self.stopId = [navigationTarget parameterForKey:@"stopId"];
 	[self refresh];
 }
 

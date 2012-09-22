@@ -20,7 +20,7 @@
 #import "OBABookmarkV2.h"
 #import "OBAProgressIndicatorView.h"
 #import "OBAArrivalEntryTableViewCellFactory.h"
-
+#import "OBAStopV2.h"
 
 typedef enum {
 	OBAStopSectionTypeNone,
@@ -45,6 +45,6 @@ typedef enum {
 
 - (id)initWithApplicationContext:(OBAApplicationContext*)appContext;
 - (id)initWithApplicationContext:(OBAApplicationContext*)appContext stopId:(NSString*)stopId;
-- (id)initWithApplicationContext:(OBAApplicationContext*)appContext stopIds:(NSArray*)stopIds;
+- (id)initWithApplicationContext:(OBAApplicationContext *)appContext stop:(OBAStopV2*)stop;
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section;
 @end

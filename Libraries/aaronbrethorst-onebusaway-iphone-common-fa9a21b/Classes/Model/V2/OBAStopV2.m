@@ -4,25 +4,17 @@
 
 @implementation OBAStopV2
 
-@synthesize name;
-@synthesize code;
-@synthesize direction;
-@synthesize stopId;
-@synthesize latitude;
-@synthesize longitude;
-@synthesize routeIds;
-
-
 - (NSArray*) routes {
 
 	NSMutableArray * sRoutes = [NSMutableArray array];
 	
 	OBAReferencesV2 * refs = self.references;
-	
-	for( NSString * routeId in self.routeIds ) {
+    
+	for ( NSString * routeId in self.routeIds ) {
 		OBARouteV2 * route = [refs getRouteForId:routeId];
-		if( route )
+		if (route) {
 			[sRoutes addObject:route];
+        }
 	}
 	
 	[sRoutes sortUsingSelector:@selector(compareUsingName:)];
@@ -44,26 +36,16 @@
 }
 
 - (NSString*) routeNamesAsString {
-	
-	NSMutableString * label = [NSMutableString string];
-	BOOL first = YES;
-	
-	NSArray * sRoutes = [self routes];
-
-    // TODO: -componentsJoinedByString
-	for( OBARouteV2 * route in sRoutes ) {
-		
-		if( first )
-			first = NO;
-		else
-			[label appendString:@", "];
-		[label appendString:[route safeShortName]];
-	}
-	return label;
-	
+    NSMutableArray *safeShortNames = [NSMutableArray array];
+    
+    for (OBARouteV2 *route in self.routes) {
+        [safeShortNames addObject:route.safeShortName];
+    }
+    
+    return [safeShortNames componentsJoinedByString:@", "];
 }
 
-# pragma mark MKAnnotation
+#pragma mark - MKAnnotation
 
 - (NSString*) title {
 	return self.name;
@@ -71,9 +53,13 @@
 
 - (NSString*) subtitle {
 	NSString * r = [self routeNamesAsString];
-	if( self.direction )
-		return [NSString stringWithFormat:@"%@ bound - Routes: %@",self.direction,r];
-	return [NSString stringWithFormat:@"Routes: %@",r];
+
+	if (self.direction) {
+        return [NSString stringWithFormat:NSLocalizedString(@"%@ bound - Routes: %@", @""), self.direction, r];
+    }
+    else {
+        return [NSString stringWithFormat:NSLocalizedString(@"Routes: %@", @""), r];
+    }
 }
 
 - (CLLocationCoordinate2D) coordinate {
