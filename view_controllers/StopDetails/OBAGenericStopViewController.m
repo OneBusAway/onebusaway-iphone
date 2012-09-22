@@ -89,9 +89,8 @@ static const double kNearbyStopRadius = 200;
 		_arrivalCellFactory.showServiceAlerts = YES;
 
 		_serviceAlerts = [[OBAServiceAlertsModel alloc] init];
-						
-		CGRect r = CGRectMake(0, 0, 160, 33);
-		_progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];
+
+		_progressView = [[OBAProgressIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 160, 33)];
 		[self.navigationItem setTitleView:_progressView];
 		
 		UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
@@ -120,12 +119,7 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (void) dealloc {
-	
 	[self clearPendingRequest];
-	
-	
-	
-	
 }
 
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section {
@@ -189,11 +183,7 @@ static const double kNearbyStopRadius = 200;
     
     [super viewWillAppear:animated];
 
-	if ([[UIDevice currentDevice] isMultitaskingSupported])
-	{
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground)  name:UIApplicationDidEnterBackgroundNotification object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
-	}
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
 	
 	[self refresh];
 }
@@ -202,18 +192,8 @@ static const double kNearbyStopRadius = 200;
  
 	[self clearPendingRequest];
 	
-	if ([[UIDevice currentDevice] isMultitaskingSupported])
-	{
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
-	}
-
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 }
-
-- (void)didEnterBackground {
-	
-}
-
 
 - (void)willEnterForeground {
 	// will repaint the UITableView to update new time offsets and such when returning from the background.
