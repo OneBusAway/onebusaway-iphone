@@ -29,19 +29,21 @@
 
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-	OBAStopSectionType sectionType = [self sectionTypeForSection:section];
-	if( sectionType == OBAStopSectionTypeArrivals ) {
+	if (OBAStopSectionTypeArrivals == [self sectionTypeForSection:section]) {
 		return self.headerView;
 	}
-	return nil;
+    else {
+        return nil;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	OBAStopSectionType sectionType = [self sectionTypeForSection:section];
-	if( sectionType == OBAStopSectionTypeArrivals ) {
+	if (OBAStopSectionTypeArrivals == [self sectionTypeForSection:section]) {
 		return 20;
 	}
-	return 0;
+    else {
+        return 0;
+    }
 }
 
 @end
