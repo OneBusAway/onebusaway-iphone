@@ -23,7 +23,6 @@
 
 typedef enum {
 	OBAStopSectionTypeNone,
-	OBAStopSectionTypeName,
 	OBAStopSectionTypeArrivals,
 	OBAStopSectionTypeFilter,
 	OBAStopSectionTypeServiceAlerts,

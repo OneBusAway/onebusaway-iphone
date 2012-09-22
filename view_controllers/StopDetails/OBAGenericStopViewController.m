@@ -131,17 +131,19 @@ static const double kNearbyStopRadius = 200;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UINib *xibFile = [UINib nibWithNibName:@"OBAGenericStopViewController" bundle:nil];
-    [xibFile instantiateWithOwner:self options:nil];
-    
-    self.tableHeaderView.backgroundColor = self.tableView.backgroundColor;
-    self.mapView.layer.cornerRadius = 4.f;
-    self.mapView.layer.borderColor = OBARGBCOLOR(128, 128, 128).CGColor;
-    self.mapView.layer.borderWidth = 1.f;
-    self.mapView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    self.mapView.layer.shouldRasterize = YES;
-    
-    self.tableView.tableHeaderView = self.tableHeaderView;
+    if (self.showTitle) {
+        UINib *xibFile = [UINib nibWithNibName:@"OBAGenericStopViewController" bundle:nil];
+        [xibFile instantiateWithOwner:self options:nil];
+        
+        self.tableHeaderView.backgroundColor = self.tableView.backgroundColor;
+        self.mapView.layer.cornerRadius = 4.f;
+        self.mapView.layer.borderColor = OBARGBCOLOR(128, 128, 128).CGColor;
+        self.mapView.layer.borderWidth = 1.f;
+        self.mapView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+        self.mapView.layer.shouldRasterize = YES;
+        
+        self.tableView.tableHeaderView = self.tableHeaderView;
+    }
 }
 
 - (void)viewDidUnload {
@@ -158,13 +160,7 @@ static const double kNearbyStopRadius = 200;
 	if( stop ) {
 		
 		int offset = 0;
-		
-		if( _showTitle ) {
-			if( section == offset )
-				return OBAStopSectionTypeName;
-			offset++;
-		}
-		
+				
 		if( _showServiceAlerts && _serviceAlerts.unreadCount > 0) {
 			
 			if( section == offset )
@@ -275,7 +271,7 @@ static const double kNearbyStopRadius = 200;
 	OBAStopV2 * stop = _result.stop;
 	
 	if( stop ) {
-		int count = 3;
+		int count = 2;
 		if( [_filteredArrivals count] != [_allArrivals count] )
 			count++;
 		if( _showServiceAlerts && _serviceAlerts.unreadCount > 0 )
@@ -292,8 +288,6 @@ static const double kNearbyStopRadius = 200;
 	OBAStopSectionType sectionType = [self sectionTypeForSection:section];
 	
 	switch( sectionType ) {
-		case OBAStopSectionTypeName:
-			return 1;
 		case OBAStopSectionTypeServiceAlerts:
 			return 1;
 		case OBAStopSectionTypeArrivals: {
@@ -324,8 +318,6 @@ static const double kNearbyStopRadius = 200;
 	OBAStopSectionType sectionType = [self sectionTypeForSection:indexPath.section];
 
 	switch (sectionType) {
-		case OBAStopSectionTypeName:
-			return [self tableView:tableView stopCellForRowAtIndexPath:indexPath];
 		case OBAStopSectionTypeServiceAlerts:
 			return [self tableView:tableView serviceAlertCellForRowAtIndexPath:indexPath];
 		case OBAStopSectionTypeArrivals:
@@ -459,13 +451,7 @@ static const double kNearbyStopRadius = 200;
 	if( stop ) {
 		
 		int offset = 0;
-		
-		if( _showTitle ) {
-			if( section == OBAStopSectionTypeName )
-				return offset;
-			offset++;
-		}
-		
+				
 		if( _showServiceAlerts && _serviceAlerts.unreadCount > 0) {
 			if( section == OBAStopSectionTypeServiceAlerts )
 				return offset;
