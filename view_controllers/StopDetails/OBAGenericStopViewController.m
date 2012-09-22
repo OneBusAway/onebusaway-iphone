@@ -53,12 +53,12 @@ static const double kNearbyStopRadius = 200;
 @interface OBAGenericStopViewController (Private)
 
 // Override point for extension classes
-- (void) customSetup;
+- (void)customSetup;
 
-- (void) refresh;
-- (void) clearPendingRequest;
-- (void) didRefreshBegin;
-- (void) didRefreshEnd;
+- (void)refresh;
+- (void)clearPendingRequest;
+- (void)didRefreshBegin;
+- (void)didRefreshEnd;
 
 
 - (NSUInteger) sectionIndexForSectionType:(OBAStopSectionType)section;
@@ -73,8 +73,7 @@ static const double kNearbyStopRadius = 200;
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void)tableView:(UITableView *)tableView didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath;
 
-- (void) reloadData;
-
+- (void)reloadData;
 @end
 
 
