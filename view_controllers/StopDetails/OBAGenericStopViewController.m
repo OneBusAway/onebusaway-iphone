@@ -676,11 +676,13 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
     
     if (stop) {
         [self.mapView oba_setCenterCoordinate:CLLocationCoordinate2DMake(stop.lat, stop.lon) zoomLevel:13 animated:NO];
-//        _mainLabel.text = stop.name;
-//        if( stop.direction )
-//            _subLabel.text = [NSString stringWithFormat:@"%@ # %@ - %@ %@",NSLocalizedString(@"Stop",@"text"),stop.code,stop.direction,NSLocalizedString(@"bound",@"text")];
-//        else
-//            _subLabel.text = [NSString stringWithFormat:@"%@ # %@",NSLocalizedString(@"Stop",@"text"),stop.code];
+        self.stopName.text = stop.name;
+        if (stop.direction) {
+            self.stopNumber.text = [NSString stringWithFormat:@"%@ # %@ - %@ %@",NSLocalizedString(@"Stop",@"text"),stop.code,stop.direction,NSLocalizedString(@"bound",@"text")];
+        }
+        else {
+           self.stopNumber.text = [NSString stringWithFormat:@"%@ # %@",NSLocalizedString(@"Stop",@"text"),stop.code];
+        }
     }
 	
 	if (stop && predictedArrivals) {
