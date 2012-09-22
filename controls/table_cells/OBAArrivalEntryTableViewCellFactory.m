@@ -40,7 +40,6 @@
 	NSTimeInterval interval = [time timeIntervalSinceNow];
 	int minutes = interval / 60;
 	
-    
 	cell.destinationLabel.text = [OBAPresentation getTripHeadsignForArrivalAndDeparture:arrival];
 	cell.routeLabel.text = [OBAPresentation getRouteShortNameForArrivalAndDeparture:arrival];
 	cell.statusLabel.text = [self getStatusLabelForArrival:arrival time:time minutes:minutes];
