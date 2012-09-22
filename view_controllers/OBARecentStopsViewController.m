@@ -16,7 +16,6 @@
 
 #import "OBARecentStopsViewController.h"
 #import "OBAStopAccessEventV2.h"
-#import "OBAStopTableViewCell.h"
 #import "OBAStopViewController.h"
 
 

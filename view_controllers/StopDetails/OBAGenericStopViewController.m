@@ -17,7 +17,6 @@
 #import "OBAGenericStopViewController.h"
 #import "OBALogger.h"
 
-#import "OBAStopTableViewCell.h"
 #import "OBAArrivalEntryTableViewCell.h"
 
 #import "OBAProgressIndicatorView.h"
@@ -64,7 +63,6 @@ static const double kNearbyStopRadius = 200;
 
 - (NSUInteger) sectionIndexForSectionType:(OBAStopSectionType)section;
 
-- (UITableViewCell*) tableView:(UITableView*)tableView stopCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView serviceAlertCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath*)indexPath;
 - (void)determineFilterTypeCellText:(UITableViewCell*)filterTypeCell filteringEnabled:(bool)filteringEnabled;
@@ -477,19 +475,6 @@ static const double kNearbyStopRadius = 200;
 	
 	return 0;
 	
-}
-
-- (UITableViewCell*) tableView:(UITableView*)tableView stopCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	OBAStopV2 * stop = _result.stop;
-
-	if( stop ) {
-		OBAStopTableViewCell * cell = [OBAStopTableViewCell getOrCreateCellForTableView:tableView];	
-		[cell setStop:stop];
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		return cell;
-	}
-	
-	return [UITableViewCell getOrCreateCellForTableView:tableView];
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView serviceAlertCellForRowAtIndexPath:(NSIndexPath *)indexPath {	
