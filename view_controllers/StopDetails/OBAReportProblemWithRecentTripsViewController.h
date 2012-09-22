@@ -1,7 +1,4 @@
 #import "OBAGenericStopViewController.h"
 
-@interface OBAReportProblemWithRecentTripsViewController : OBAGenericStopViewController {
-	id _tripDetailsHandler;
-}
-
+@interface OBAReportProblemWithRecentTripsViewController : OBAGenericStopViewController
 @end

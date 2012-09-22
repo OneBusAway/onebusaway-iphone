@@ -37,7 +37,20 @@
 
 static const double kNearbyStopRadius = 200;
 
-	
+@interface OBAGenericStopViewController ()
+@property(strong,readwrite) OBAApplicationContext * _appContext;
+@property(strong,readwrite) NSString * stopId;
+@property NSUInteger minutesAfter;
+
+@property(strong) id<OBAModelServiceRequest> request;
+@property(strong) NSTimer *timer;
+
+@property(strong) OBAArrivalsAndDeparturesForStopV2 * result;
+
+@property(strong) OBAProgressIndicatorView * progressView;
+@property(strong) OBAServiceAlertsModel * serviceAlerts;
+@end
+
 @interface OBAGenericStopViewController (Private)
 
 // Override point for extension classes

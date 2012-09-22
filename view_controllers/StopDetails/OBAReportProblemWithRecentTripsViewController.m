@@ -5,33 +5,39 @@
 
 @end
 
+@interface OBAReportProblemWithRecentTripsViewController ()
+@property(strong) id tripDetailsHandler;
+@end
+
 
 @implementation OBAReportProblemWithRecentTripsViewController 
 
 - (void) customSetup {
-	_showTitle = NO;
-	_showActions = NO;
-	_arrivalCellFactory.showServiceAlerts = NO;
-	_showServiceAlerts = NO;
-	_minutesBefore = 20;
+	self.showTitle = NO;
+	self.showActions = NO;
+	self.arrivalCellFactory.showServiceAlerts = NO;
+	self.showServiceAlerts = NO;
+	self.minutesBefore = 20;
 	
-	_tripDetailsHandler = [[OBATripDetailsHandler alloc] init];
+	self.tripDetailsHandler = [[OBATripDetailsHandler alloc] init];
 }
 
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {	
 	OBAStopSectionType sectionType = [self sectionTypeForSection:section];
-	if (sectionType == OBAStopSectionTypeArrivals)
+	if (sectionType == OBAStopSectionTypeArrivals) {
 		return NSLocalizedString(@"Select the trip with a problem:",@"sectionType == OBAStopSectionTypeArrivals");
+    }
 	return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
+	NSArray * arrivals = self.showFilteredArrivals ? self.filteredArrivals : self.allArrivals;
 	OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
-	if( arrivalAndDeparture ) {
+
+	if (arrivalAndDeparture) {
 		OBATripInstanceRef * tripInstance = arrivalAndDeparture.tripInstance;
-		[_appContext.modelService requestTripDetailsForTripInstance:tripInstance withDelegate:_tripDetailsHandler withContext:self];
+		[self.appContext.modelService requestTripDetailsForTripInstance:tripInstance withDelegate:self.tripDetailsHandler withContext:self];
 	}
 }
 

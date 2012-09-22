@@ -31,42 +31,20 @@ typedef enum {
 	OBAStopSectionTypeActions
 } OBAStopSectionType;
 
+@interface OBAGenericStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate,OBAModelServiceDelegate>
+@property(strong,readonly) OBAApplicationContext * appContext;
+@property(strong,readonly) NSString * stopId;
+@property BOOL showTitle;
+@property BOOL showServiceAlerts;
+@property BOOL showActions;
+@property NSUInteger minutesBefore;
+@property(strong) OBAArrivalEntryTableViewCellFactory * arrivalCellFactory;
+@property(strong) NSMutableArray *allArrivals;
+@property(strong) NSMutableArray *filteredArrivals;
+@property BOOL showFilteredArrivals;
 
-@interface OBAGenericStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate,OBAModelServiceDelegate> {
-
-	OBAApplicationContext * _appContext;
-	NSString * _stopId;
-	NSUInteger _minutesBefore;
-	NSUInteger _minutesAfter;
-	
-	// Control which parts of the view are displayed
-	BOOL _showTitle;
-	BOOL _showServiceAlerts;
-	BOOL _showActions;
-
-	id<OBAModelServiceRequest> _request;
-	NSTimer * _timer;
-	
-	OBAArrivalsAndDeparturesForStopV2 * _result;
-	
-	NSMutableArray * _allArrivals;
-	NSMutableArray * _filteredArrivals;
-	BOOL _showFilteredArrivals;
-	
-	OBAArrivalEntryTableViewCellFactory * _arrivalCellFactory;
-	
-	OBAProgressIndicatorView * _progressView;
-	
-	OBAServiceAlertsModel * _serviceAlerts;
-}
-
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext;
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopId:(NSString*)stopId;
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopIds:(NSArray*)stopIds;
-
-@property (nonatomic,readonly) OBAApplicationContext * appContext;
-@property (nonatomic,readonly) NSString * stopId;
-
+- (id)initWithApplicationContext:(OBAApplicationContext*)appContext;
+- (id)initWithApplicationContext:(OBAApplicationContext*)appContext stopId:(NSString*)stopId;
+- (id)initWithApplicationContext:(OBAApplicationContext*)appContext stopIds:(NSArray*)stopIds;
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section;
-
 @end
