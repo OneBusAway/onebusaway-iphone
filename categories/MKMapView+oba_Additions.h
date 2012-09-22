@@ -6,6 +6,8 @@
 //
 //
 
+// From http://troybrant.net/blog/2010/01/set-the-zoom-level-of-an-mkmapview/
+
 #import <MapKit/MapKit.h>
 
 @interface MKMapView (oba_Additions)
