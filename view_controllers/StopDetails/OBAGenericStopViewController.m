@@ -33,7 +33,7 @@
 
 #import "OBASearchController.h"
 #import "OBASphericalGeometryLibrary.h"
-
+#import "MKMapView+oba_Additions.h"
 
 static const double kNearbyStopRadius = 200;
 
@@ -126,6 +126,29 @@ static const double kNearbyStopRadius = 200;
 
 - (void) dealloc {
 	[self clearPendingRequest];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    UINib *xibFile = [UINib nibWithNibName:@"OBAGenericStopViewController" bundle:nil];
+    [xibFile instantiateWithOwner:self options:nil];
+    
+    self.tableHeaderView.backgroundColor = self.tableView.backgroundColor;
+    self.mapView.layer.cornerRadius = 4.f;
+    self.mapView.layer.borderColor = OBARGBCOLOR(128, 128, 128).CGColor;
+    self.mapView.layer.borderWidth = 1.f;
+    self.mapView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    self.mapView.layer.shouldRasterize = YES;
+    
+    self.tableView.tableHeaderView = self.tableHeaderView;
+}
+
+- (void)viewDidUnload {
+    self.tableHeaderView = nil;
+    self.tableView.tableHeaderView = nil;
+    
+    [super viewDidUnload];
 }
 
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section {
@@ -650,8 +673,17 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 	
 	[_allArrivals removeAllObjects];
 	[_filteredArrivals removeAllObjects];
+    
+    if (stop) {
+        [self.mapView oba_setCenterCoordinate:CLLocationCoordinate2DMake(stop.lat, stop.lon) zoomLevel:13 animated:NO];
+//        _mainLabel.text = stop.name;
+//        if( stop.direction )
+//            _subLabel.text = [NSString stringWithFormat:@"%@ # %@ - %@ %@",NSLocalizedString(@"Stop",@"text"),stop.code,stop.direction,NSLocalizedString(@"bound",@"text")];
+//        else
+//            _subLabel.text = [NSString stringWithFormat:@"%@ # %@",NSLocalizedString(@"Stop",@"text"),stop.code];
+    }
 	
-	if(stop && predictedArrivals) {
+	if (stop && predictedArrivals) {
 		
 		OBAStopPreferencesV2 * prefs = [modelDao stopPreferencesForStopWithId:stop.stopId];
 		

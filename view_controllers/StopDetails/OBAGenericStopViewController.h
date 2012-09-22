@@ -31,6 +31,9 @@ typedef enum {
 } OBAStopSectionType;
 
 @interface OBAGenericStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate,OBAModelServiceDelegate>
+@property(nonatomic,strong) IBOutlet UIView *tableHeaderView;
+@property(nonatomic,strong) IBOutlet MKMapView *mapView;
+
 @property(strong,readonly) OBAApplicationContext * appContext;
 @property(strong,readonly) NSString * stopId;
 @property BOOL showTitle;

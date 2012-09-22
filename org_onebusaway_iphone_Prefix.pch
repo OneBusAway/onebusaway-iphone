@@ -7,6 +7,7 @@
     #import <UIKit/UIKit.h>
 	#import <CoreData/CoreData.h>
     #import <CoreLocation/CoreLocation.h>
+    #import <QuartzCore/QuartzCore.h>
 	#import <MapKit/MapKit.h>
     #import "OBAUIKit.h"
     #import "OBACommonV1.h"

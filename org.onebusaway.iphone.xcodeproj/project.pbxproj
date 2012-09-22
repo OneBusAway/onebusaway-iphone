@@ -11,6 +11,8 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
+		931C42BD160E47FC00435CD3 /* OBAGenericStopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 931C42BC160E47FC00435CD3 /* OBAGenericStopViewController.xib */; };
+		931C42C2160E4B2A00435CD3 /* MKMapView+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 931C42C1160E4B2A00435CD3 /* MKMapView+oba_Additions.m */; };
 		9330DEC61603B41400E14AF4 /* IASKAppSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DEA81603B41400E14AF4 /* IASKAppSettingsViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9330DEC71603B41400E14AF4 /* IASKAppSettingsWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DEAA1603B41400E14AF4 /* IASKAppSettingsWebViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9330DEC81603B41400E14AF4 /* IASKSpecifierValuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DEAC1603B41400E14AF4 /* IASKSpecifierValuesViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -371,6 +373,9 @@
 		28A0AB4B0D9B1048005BE974 /* org_onebusaway_iphone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = org_onebusaway_iphone_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		931C42BC160E47FC00435CD3 /* OBAGenericStopViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAGenericStopViewController.xib; sourceTree = "<group>"; };
+		931C42C0160E4B2A00435CD3 /* MKMapView+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+oba_Additions.h"; sourceTree = "<group>"; };
+		931C42C1160E4B2A00435CD3 /* MKMapView+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+oba_Additions.m"; sourceTree = "<group>"; };
 		9330DEA71603B41400E14AF4 /* IASKAppSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IASKAppSettingsViewController.h; sourceTree = "<group>"; };
 		9330DEA81603B41400E14AF4 /* IASKAppSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IASKAppSettingsViewController.m; sourceTree = "<group>"; };
 		9330DEA91603B41400E14AF4 /* IASKAppSettingsWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IASKAppSettingsWebViewController.h; sourceTree = "<group>"; };
@@ -906,6 +911,7 @@
 		29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */ = {
 			isa = PBXGroup;
 			children = (
+				931C42BF160E4AE000435CD3 /* categories */,
 				93631E4D1604F97D00CB7209 /* utilities */,
 				93631E4A1604F96800CB7209 /* OBAApplicationContext.h */,
 				93631E4B1604F96800CB7209 /* OBAApplicationContext.m */,
@@ -969,6 +975,15 @@
 				288765070DF74369002DB57D /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		931C42BF160E4AE000435CD3 /* categories */ = {
+			isa = PBXGroup;
+			children = (
+				931C42C0160E4B2A00435CD3 /* MKMapView+oba_Additions.h */,
+				931C42C1160E4B2A00435CD3 /* MKMapView+oba_Additions.m */,
+			);
+			path = categories;
 			sourceTree = "<group>";
 		};
 		9330DEA51603B41400E14AF4 /* InAppSettingsKit */ = {
@@ -1042,6 +1057,7 @@
 				9330DED51603BC6F00E14AF4 /* OBASearchResultsMapViewController.xib */,
 				9330DEE716050BA500E14AF4 /* OBACreditsViewController.xib */,
 				93631EAC1607FB7100CB7209 /* OBAInfoViewController.xib */,
+				931C42BC160E47FC00435CD3 /* OBAGenericStopViewController.xib */,
 			);
 			path = xibs;
 			sourceTree = "<group>";
@@ -1996,6 +2012,7 @@
 				933C8037160C07440005AAFE /* OBATextEditViewController.xib in Resources */,
 				933C8038160C07440005AAFE /* OBATextFieldTableViewCell.xib in Resources */,
 				933C8039160C07440005AAFE /* OBAWebViewController.xib in Resources */,
+				931C42BD160E47FC00435CD3 /* OBAGenericStopViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2160,6 +2177,7 @@
 				933C7F9C160C07440005AAFE /* OBATextFieldTableViewCell.m in Sources */,
 				933C7F9D160C07440005AAFE /* OBAUIKit.m in Sources */,
 				933C7F9E160C07440005AAFE /* OBAWebViewController.m in Sources */,
+				931C42C2160E4B2A00435CD3 /* MKMapView+oba_Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
