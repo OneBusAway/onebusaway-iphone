@@ -5,9 +5,7 @@
 
 
 @interface OBADiversionViewController (Private)
-
 - (MKMapView*) mapView;
-
 @end
 
 
@@ -123,6 +121,7 @@
 		}
 		
 		_routePolyline = [MKPolyline polylineWithCoordinates:pointArr count:points.count];
+        free(pointArr);
 		MKMapView * mv = [self mapView];
 		[mv addOverlay:_routePolyline];
 	}
