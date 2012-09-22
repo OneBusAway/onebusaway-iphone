@@ -137,23 +137,19 @@
 - (IBAction) onSaveButton:(id)sender {
 		
 	OBAModelDAO * dao = _appContext.modelDao;
-	NSError * error = nil;
 	
 	_bookmark.name = _textField.text;
 	
 	switch (_editType ) {
 		case OBABookmarkEditNew:
-			[dao addNewBookmark:_bookmark error:&error];
+			[dao addNewBookmark:_bookmark];
 			break;
 		case OBABookmarkEditExisting:
-			[dao saveExistingBookmark:_bookmark error:&error];
+			[dao saveExistingBookmark:_bookmark];
 			break;
 	}
 
-	[dao saveExistingBookmark:_bookmark error:&error];
-
-	if( error )
-		OBALogSevereWithError(error,@"Error saving bookmark: name=%@",_bookmark.name);
+	[dao saveExistingBookmark:_bookmark];
 
 	// pop to stop view controller are saving settings
 	BOOL foundStopViewController = NO;

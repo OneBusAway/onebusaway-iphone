@@ -115,23 +115,23 @@ const static int kMaxEntriesInMostRecentList = 10;
 	return bookmark;
 }
 
-- (void) addNewBookmark:(OBABookmarkV2*)bookmark error:(NSError**)error {
+- (void) addNewBookmark:(OBABookmarkV2*)bookmark {
 	[_bookmarks addObject:bookmark];
 	[_preferencesDao writeBookmarks:_bookmarks];
 }
 
-- (void) saveExistingBookmark:(OBABookmarkV2*)bookmark error:(NSError**)error {
+- (void) saveExistingBookmark:(OBABookmarkV2*)bookmark {
 	[_preferencesDao writeBookmarks:_bookmarks];
 }
 
-- (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex error:(NSError**)error {
+- (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex {
 	OBABookmarkV2 * bm = _bookmarks[startIndex];
 	[_bookmarks removeObjectAtIndex:startIndex];
 	[_bookmarks insertObject:bm atIndex:endIndex];
 	[_preferencesDao writeBookmarks:_bookmarks];
 }
 
-- (void) removeBookmark:(OBABookmarkV2*) bookmark error:(NSError**)error {
+- (void) removeBookmark:(OBABookmarkV2*)bookmark {
 	[_bookmarks removeObject:bookmark];
 	[_preferencesDao writeBookmarks:_bookmarks];
 }

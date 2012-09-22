@@ -118,15 +118,12 @@
 	OBAModelDAO * modelDao = self.appContext.modelDao;
 	OBABookmarkV2 * bookmark = self.bookmarks[(indexPath.row)];
     
-	NSError * error = nil;
-	[modelDao removeBookmark:bookmark error:&error];
-	if( error ) 
-		OBALogSevereWithError(error,@"Error removing bookmark");
+	[modelDao removeBookmark:bookmark];
+
 	[self _refreshBookmarks];
 	
 	if( [self.bookmarks count] > 0 ) {
-		[self.tableView deleteRowsAtIndexPaths:@[indexPath] 
-						 withRowAnimation:UITableViewRowAnimationFade];
+		[self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 	}
 	else {
 		[self performSelector:@selector(_abortEditing) withObject:nil afterDelay:0.1];
@@ -141,10 +138,7 @@
 -(void) tableView: (UITableView *) tableView moveRowAtIndexPath: (NSIndexPath *) oldPath toIndexPath:(NSIndexPath *) newPath {
 	
 	OBAModelDAO * modelDao = self.appContext.modelDao;
-	NSError * error = nil;
-	[modelDao moveBookmark:oldPath.row to: newPath.row error:&error];
-	if( error ) 
-		OBALogSevereWithError(error,@"Error moving bookmark");
+	[modelDao moveBookmark:oldPath.row to: newPath.row];
 	[self _refreshBookmarks];
 }
 

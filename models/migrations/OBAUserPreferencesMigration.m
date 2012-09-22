@@ -79,7 +79,7 @@
 		OBABookmarkV2 * v2 = [[OBABookmarkV2 alloc] init];
 		v2.name = bookmark.name;
 		v2.stopIds = @[stop.stopId];
-		[dao addNewBookmark:v2 error:nil];
+		[dao addNewBookmark:v2];
 	}
 	
 	// Transfer stop preferences

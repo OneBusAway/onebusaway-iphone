@@ -110,27 +110,30 @@
 	[self addRule:rule forPrefix:prefix];
 }
 
-- (void) parse:(id)jsonRoot withRoot:(id)rootObject error:(NSError**)error {
-	[self parse:jsonRoot withRoot:rootObject parameters:@{} error:error];
+- (BOOL) parse:(id)jsonRoot withRoot:(id)rootObject error:(NSError**)error {
+	return [self parse:jsonRoot withRoot:rootObject parameters:@{} error:error];
 }
 
-- (void) parse:(id)jsonRoot withRoot:(id)rootObject parameters:(NSDictionary*)parameters error:(NSError**)error {
+- (BOOL)parse:(id)jsonRoot withRoot:(id)rootObject parameters:(NSDictionary*)parameters error:(NSError**)error {
 	
 	OBAJsonDigesterContextImpl * context = [[OBAJsonDigesterContextImpl alloc] initWithVerbose:_verbose];
 	
-	for( id key in parameters )
+	for (id key in parameters) {
 		[context setParamter:parameters[key] forKey:key];
+    }
 	
-	if( rootObject )
-		[context pushValue:rootObject];
+	if (rootObject) {
+        [context pushValue:rootObject];
+    }
 	
 	[self recursivelyParse:context jsonValue:jsonRoot prefix:@"" name:@"/"];
 	
 	NSError * err = context.error;
 	
-	if( err && error )
+	if (err && error) {
 		(*error) = err;
-	
+    }
+	return (err != nil);
 }
 
 -(NSString*) extendPrefix:(NSString*)prefix withValue:(NSString*)value {

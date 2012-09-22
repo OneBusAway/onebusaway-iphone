@@ -38,10 +38,10 @@
 
 - (OBABookmarkV2*) createTransientBookmark:(OBAStopV2*)stop;
 
-- (void) addNewBookmark:(OBABookmarkV2*)bookmark error:(NSError**)error;
-- (void) saveExistingBookmark:(OBABookmarkV2*)bookmark error:(NSError**)error;
-- (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex error:(NSError**)error;
-- (void) removeBookmark:(OBABookmarkV2*) bookmark error:(NSError**)error;
+- (void) addNewBookmark:(OBABookmarkV2*)bookmark;
+- (void) saveExistingBookmark:(OBABookmarkV2*)bookmark;
+- (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex;
+- (void) removeBookmark:(OBABookmarkV2*) bookmark;
 
 - (void) addStopAccessEvent:(OBAStopAccessEventV2*)event;
 

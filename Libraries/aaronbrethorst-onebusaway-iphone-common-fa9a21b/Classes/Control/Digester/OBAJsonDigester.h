@@ -52,8 +52,8 @@ typedef enum {
 	BOOL _verbose;
 }
 
-- (void) parse:(id)jsonRoot withRoot:(id)rootObject error:(NSError**)error;
-- (void) parse:(id)jsonRoot withRoot:(id)rootObject parameters:(NSDictionary*)parameters error:(NSError**)error;
+- (BOOL) parse:(id)jsonRoot withRoot:(id)rootObject error:(NSError**)error;
+- (BOOL) parse:(id)jsonRoot withRoot:(id)rootObject parameters:(NSDictionary*)parameters error:(NSError**)error;
 
 - (void) addRule:(id<OBAJsonDigesterRule>)rule forPrefix:(NSString*)prefix;
 - (void) addObjectCreateRule:(Class)objectClass forPrefix:(NSString*)prefix;
