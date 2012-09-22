@@ -253,6 +253,8 @@ static const float JCM_TAB_BAR_HEIGHT = 44.0f;
 				[self.delegate segmentPageController:self didSelectViewController:toViewController atIndex:newSelectedIndex];
 		}
 	}
+    
+    self.title = self.selectedViewController.title;
 }
 
 - (UIViewController *)selectedViewController {
