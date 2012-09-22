@@ -585,7 +585,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	
 	if ([annotation isKindOfClass:[OBAStopV2 class]]) {
 		OBAStopV2 * stop = annotation;
-		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stop:stop];
+		OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stop.stopId];
 		[self.navigationController pushViewController:vc animated:YES];
 	}
 	else if( [annotation isKindOfClass:[OBAPlacemark class]] ) {

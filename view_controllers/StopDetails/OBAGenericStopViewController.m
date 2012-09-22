@@ -40,7 +40,6 @@ static const double kNearbyStopRadius = 200;
 @interface OBAGenericStopViewController ()
 @property(strong,readwrite) OBAApplicationContext * _appContext;
 @property(strong,readwrite) NSString * stopId;
-@property(strong) OBAStopV2 *stop;
 @property NSUInteger minutesAfter;
 
 @property(strong) id<OBAModelServiceRequest> request;
@@ -118,19 +117,8 @@ static const double kNearbyStopRadius = 200;
 	return self;
 }
 
-- (id)initWithApplicationContext:(OBAApplicationContext *)appContext stop:(OBAStopV2 *)stop {
-    self = [self initWithApplicationContext:appContext];
-    
-    if (self) {
-        self.stop = stop;
-        self.stopId = stop.stopId;
-    }
-    return self;
-}
-
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopId:(NSString*)stopId {
 	if (self = [self initWithApplicationContext:appContext]) {
-		self.stop = nil;
         self.stopId = stopId;
 	}
 	return self;
@@ -231,10 +219,10 @@ static const double kNearbyStopRadius = 200;
 	NSString * message = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Updated",@"message"), [OBACommon getTimeAsString]];
 	[_progressView setMessage:message inProgress:NO progress:0];
 	[self didRefreshEnd];
-	_result = [NSObject releaseOld:_result retainNew:obj];
+    self.result = obj;
 	
 	// Note the event
-    [[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:_result.stop];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:self.result.stop];
 
 	[self reloadData];
 }
@@ -279,7 +267,6 @@ static const double kNearbyStopRadius = 200;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
 	OBAStopSectionType sectionType = [self sectionTypeForSection:section];
-	
 	
 	switch( sectionType ) {
 		case OBAStopSectionTypeName:
@@ -655,6 +642,8 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 - (void) reloadData {
 		
 	OBAModelDAO * modelDao = _appContext.modelDao;
+    
+    //TODO: use data from this to populate a small map.
 	OBAStopV2 * stop = _result.stop;
 	
 	NSArray * predictedArrivals = _result.arrivalsAndDepartures;
