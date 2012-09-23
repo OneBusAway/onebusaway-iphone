@@ -271,35 +271,33 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-	OBAStopSectionType sectionType = [self sectionTypeForSection:section];
-	
-	switch( sectionType ) {
-		case OBAStopSectionTypeServiceAlerts:
-			return 1;
+    
+	switch ([self sectionTypeForSection:section]) {
+		case OBAStopSectionTypeServiceAlerts: {
+            return 1;
+        }
 		case OBAStopSectionTypeArrivals: {
-			int c = 0;
-			if( _showFilteredArrivals )
-				c = [_filteredArrivals count];
-			else
-				c = [_allArrivals count];
-			
-			if( c == 0 )
-				c = 1;
-			
-			return c;			
+            NSInteger arrivalRows = self.showFilteredArrivals ? self.filteredArrivals.count : self.allArrivals.count;
+            if (arrivalRows > 0) {
+                return arrivalRows;
+            }
+            else {
+                // for a 'no arrivals in the next 30 minutes' message
+                return 1;
+            }
 		}
-		case OBAStopSectionTypeFilter:
-			return 1;
-		case OBAStopSectionTypeActions:
-			return 5;
-		default:
-			return 0;
+		case OBAStopSectionTypeFilter: {
+            return 1;
+        }
+		case OBAStopSectionTypeActions: {
+            return 5;
+        }
+		default: {
+            return 0;
+        }
 	}
 }
 
-
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
 	OBAStopSectionType sectionType = [self sectionTypeForSection:indexPath.section];
@@ -396,10 +394,8 @@ static const double kNearbyStopRadius = 200;
 	[_progressView setMessage:NSLocalizedString(@"Updating...",@"refresh") inProgress:YES progress:0];
 	[self didBeginRefresh];
 	
-	OBAModelService * service = _appContext.modelService;
-	
 	[self clearPendingRequest];
-	_request = [service requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter withDelegate:self withContext:nil];
+	_request = [_appContext.modelService requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter withDelegate:self withContext:nil];
 	_timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 }
 	 
