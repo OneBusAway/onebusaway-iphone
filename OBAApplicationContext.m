@@ -86,7 +86,6 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 
 
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget {
-    NSAssert(NO, @"FIXME!");
 	[self performSelector:@selector(_navigateToTargetInternal:) withObject:navigationTarget afterDelay:0];
 }
 
@@ -122,9 +121,9 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
     self.mapViewController = [[OBASearchResultsMapViewController alloc] init];
     self.mapViewController.appContext = self;
     
-    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:self.mapViewController];
+    self.navigation = [[UINavigationController alloc] initWithRootViewController:self.mapViewController];
     
-    self.window.rootViewController = navigation;
+    self.window.rootViewController = self.navigation;
     [self.window makeKeyAndVisible];
 }
 
