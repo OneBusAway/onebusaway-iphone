@@ -43,10 +43,10 @@ static const float JCM_TAB_BAR_HEIGHT = 44.0f;
 }
 
 - (void)addSegments {
-	NSUInteger index = 0;
-	for (UIViewController *viewController in self.viewControllers) {
-        [self.segmentedControl insertSegmentWithTitle:viewController.title atIndex:index animated:NO];
-	}
+    for (int i=0; i<self.viewControllers.count; i++) {
+        UIViewController *viewController = [self.viewControllers objectAtIndex:i];
+        [self.segmentedControl insertSegmentWithTitle:viewController.title atIndex:i animated:NO];
+    }
 }
 
 - (void)reloadTabButtons {
