@@ -132,13 +132,7 @@ static const double kNearbyStopRadius = 200;
         UINib *xibFile = [UINib nibWithNibName:@"OBAGenericStopViewController" bundle:nil];
         [xibFile instantiateWithOwner:self options:nil];
         
-        self.tableHeaderView.backgroundColor = self.tableView.backgroundColor;
-        self.mapView.layer.cornerRadius = 4.f;
-        self.mapView.layer.borderColor = OBARGBCOLOR(128, 128, 128).CGColor;
-        self.mapView.layer.borderWidth = 1.f;
-        self.mapView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-        self.mapView.layer.shouldRasterize = YES;
-        
+        self.tableHeaderView.backgroundColor = self.tableView.backgroundColor;        
         self.tableView.tableHeaderView = self.tableHeaderView;
     }
 }

@@ -13,6 +13,7 @@
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
 		931C42BD160E47FC00435CD3 /* OBAGenericStopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 931C42BC160E47FC00435CD3 /* OBAGenericStopViewController.xib */; };
 		931C42C2160E4B2A00435CD3 /* MKMapView+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 931C42C1160E4B2A00435CD3 /* MKMapView+oba_Additions.m */; };
+		931C42CD160F984000435CD3 /* OBAShadowLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 931C42CC160F984000435CD3 /* OBAShadowLabel.m */; };
 		9330DEC61603B41400E14AF4 /* IASKAppSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DEA81603B41400E14AF4 /* IASKAppSettingsViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9330DEC71603B41400E14AF4 /* IASKAppSettingsWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DEAA1603B41400E14AF4 /* IASKAppSettingsWebViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9330DEC81603B41400E14AF4 /* IASKSpecifierValuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DEAC1603B41400E14AF4 /* IASKSpecifierValuesViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -374,6 +375,8 @@
 		931C42BC160E47FC00435CD3 /* OBAGenericStopViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAGenericStopViewController.xib; sourceTree = "<group>"; };
 		931C42C0160E4B2A00435CD3 /* MKMapView+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+oba_Additions.h"; sourceTree = "<group>"; };
 		931C42C1160E4B2A00435CD3 /* MKMapView+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+oba_Additions.m"; sourceTree = "<group>"; };
+		931C42CB160F984000435CD3 /* OBAShadowLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAShadowLabel.h; sourceTree = "<group>"; };
+		931C42CC160F984000435CD3 /* OBAShadowLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAShadowLabel.m; sourceTree = "<group>"; };
 		9330DEA71603B41400E14AF4 /* IASKAppSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IASKAppSettingsViewController.h; sourceTree = "<group>"; };
 		9330DEA81603B41400E14AF4 /* IASKAppSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IASKAppSettingsViewController.m; sourceTree = "<group>"; };
 		9330DEA91603B41400E14AF4 /* IASKAppSettingsWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IASKAppSettingsWebViewController.h; sourceTree = "<group>"; };
@@ -979,6 +982,15 @@
 				931C42C1160E4B2A00435CD3 /* MKMapView+oba_Additions.m */,
 			);
 			path = categories;
+			sourceTree = "<group>";
+		};
+		931C42CA160F983300435CD3 /* labels */ = {
+			isa = PBXGroup;
+			children = (
+				931C42CB160F984000435CD3 /* OBAShadowLabel.h */,
+				931C42CC160F984000435CD3 /* OBAShadowLabel.m */,
+			);
+			path = labels;
 			sourceTree = "<group>";
 		};
 		9330DEA51603B41400E14AF4 /* InAppSettingsKit */ = {
@@ -1593,6 +1605,7 @@
 		93AD36371603FE4600BDF03F /* controls */ = {
 			isa = PBXGroup;
 			children = (
+				931C42CA160F983300435CD3 /* labels */,
 				9330DF251606404100E14AF4 /* containers */,
 				93631E7A1604F9A200CB7209 /* alerts */,
 				93631E7D1604F9A200CB7209 /* toolbars */,
@@ -2168,6 +2181,7 @@
 				933C7F9D160C07440005AAFE /* OBAUIKit.m in Sources */,
 				933C7F9E160C07440005AAFE /* OBAWebViewController.m in Sources */,
 				931C42C2160E4B2A00435CD3 /* MKMapView+oba_Additions.m in Sources */,
+				931C42CD160F984000435CD3 /* OBAShadowLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
