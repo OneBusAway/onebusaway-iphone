@@ -16,35 +16,7 @@
 
 #import "OBAStopViewController.h"
 
-@interface OBAStopViewController ()
-@property(strong) UIView *headerView;
-@end
-
 @implementation OBAStopViewController
-
-- (void) customSetup {
-	NSArray * nib = [[NSBundle mainBundle] loadNibNamed:@"OBAArrivalsAndDeparturesHeaderView" owner:self options:nil];
-	self.headerView = nib[0];
-}
-
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-	if (OBAStopSectionTypeArrivals == [self sectionTypeForSection:section]) {
-		return self.headerView;
-	}
-    else {
-        return nil;
-    }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	if (OBAStopSectionTypeArrivals == [self sectionTypeForSection:section]) {
-		return 20;
-	}
-    else {
-        return 0;
-    }
-}
 
 @end
 
