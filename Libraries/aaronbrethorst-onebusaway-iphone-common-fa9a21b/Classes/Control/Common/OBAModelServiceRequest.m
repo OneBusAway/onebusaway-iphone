@@ -29,14 +29,16 @@
 	[self endBackgroundTask];
 }
 
-- (void) handleResult:(id)obj {
+- (void)handleResult:(id)obj {
 	
-	if( _checkCode ) {
-		NSNumber * code = [obj valueForKey:@"code"];
+	if (self.checkCode) {
+		NSNumber *code = [obj valueForKey:@"code"];
 	
-		if( code == nil || [code intValue] != 200 ) {
-			if( [_delegate respondsToSelector:@selector(requestDidFinish:withCode:context:)] )
-				[_delegate requestDidFinish:self withCode:[code intValue] context:_context];
+		if (!code || 200 != [code integerValue]) {
+			if ([_delegate respondsToSelector:@selector(requestDidFinish:withCode:context:)]) {
+                [_delegate requestDidFinish:self withCode:[code intValue] context:_context];
+            }
+				
 			return;
 		}
 		
