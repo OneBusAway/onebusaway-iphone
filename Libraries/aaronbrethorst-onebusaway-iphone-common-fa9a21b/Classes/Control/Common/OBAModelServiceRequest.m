@@ -43,32 +43,25 @@
 		obj = [obj valueForKey:@"data"];
 	}
 	
-	__unsafe_unretained NSDictionary * data = obj;
+	NSDictionary * data = obj;
 	
     // http://stackoverflow.com/questions/10002538/nsinvocation-nserror-autoreleasing-memory-crasher
-    __autoreleasing NSError * error = nil;
-    __autoreleasing NSError **errorRef = &error;
+    NSError * error = nil;
     
-    
-	__unsafe_unretained id result = obj;
+	id result = obj;
     
 	if( _modelFactorySelector && [_modelFactory respondsToSelector:_modelFactorySelector] ) {
 	
-		NSMethodSignature * sig = [_modelFactory methodSignatureForSelector:_modelFactorySelector];
-		NSInvocation * invocation = [NSInvocation invocationWithMethodSignature:sig];
-		[invocation setTarget:_modelFactory];
-		[invocation setSelector:_modelFactorySelector];
-		[invocation setArgument:&data atIndex:2];
-		[invocation setArgument:&errorRef atIndex:3];
-		[invocation invoke];
-		
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        result = [_modelFactory performSelector:_modelFactorySelector withObject:data withObject:error];
+#pragma clang diagnostic pop
+
 		if( error ) {
 			if( [_delegate respondsToSelector:@selector(requestDidFail:withError:context:)] )
 				[_delegate requestDidFail:self withError:error context:_context];
 			return;
 		}
-		
-		[invocation getReturnValue:&result];
 	}
 	
 	
