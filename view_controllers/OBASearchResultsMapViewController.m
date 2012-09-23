@@ -39,6 +39,10 @@
 
 #define kScopeViewAnimationDuration 0.25
 
+#define kRouteSegmentIndex 0
+#define kAddressSegmentIndex 1
+#define kStopNumberSegmentIndex 2
+
 // Radius in meters
 static const double kDefaultMapRadius = 100;
 static const double kMinMapRadius = 150;
@@ -170,6 +174,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     self.searchResultsListViewController.view.frame = CGRectMake(0, 0, 250, CGRectGetHeight(self.view.bounds));
    [self addChildViewController:self.searchResultsListViewController];
     self.paperFoldView = [[PaperFoldView alloc] initWithFrame:self.view.bounds];
+    self.paperFoldView.autoresizesSubviews = YES;
     [self.paperFoldView setRightFoldContentView:self.searchResultsListViewController.view rightViewFoldCount:4 rightViewPullFactor:0.5];
     self.paperFoldView.enableRightFoldDragging = NO;
     
@@ -301,18 +306,15 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     OBANavigationTarget* target = nil;
     
     switch (self.searchTypeSegmentedControl.selectedSegmentIndex) {
-        case 0: {
-            // Route
+        case kRouteSegmentIndex: {
             target = [OBASearch getNavigationTargetForSearchRoute:searchBar.text];
             break;
         }
-        case 1: {
-            // Address
+        case kAddressSegmentIndex: {
             target = [OBASearch getNavigationTargetForSearchAddress:searchBar.text];
             break;
         }
-        case 2: {
-            // Stop number
+        case kStopNumberSegmentIndex: {
             target = [OBASearch getNavigationTargetForSearchStopCode:searchBar.text];
             break;
         }
