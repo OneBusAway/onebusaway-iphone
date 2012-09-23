@@ -44,10 +44,7 @@
 	}
 	
 	NSDictionary * data = obj;
-	
-    // http://stackoverflow.com/questions/10002538/nsinvocation-nserror-autoreleasing-memory-crasher
     NSError * error = nil;
-    
 	id result = obj;
     
 	if( _modelFactorySelector && [_modelFactory respondsToSelector:_modelFactorySelector] ) {
@@ -63,20 +60,16 @@
 			return;
 		}
 	}
-	
-	
+
 	[_delegate requestDidFinish:self withObject:result context:_context];
 }
 
-// check if we support background task completion; if so, end bg task
-- (void) endBackgroundTask {		
-	if ([[UIDevice currentDevice] isMultitaskingSupported]) {
-		if (_bgTask != UIBackgroundTaskInvalid) {
-			UIApplication* app = [UIApplication sharedApplication];
-			[app endBackgroundTask:_bgTask];
-			_bgTask = UIBackgroundTaskInvalid;   
-		}
-	}
+- (void)endBackgroundTask {
+    if (_bgTask != UIBackgroundTaskInvalid) {
+        UIApplication* app = [UIApplication sharedApplication];
+        [app endBackgroundTask:_bgTask];
+        _bgTask = UIBackgroundTaskInvalid;
+    }
 }
 
 
