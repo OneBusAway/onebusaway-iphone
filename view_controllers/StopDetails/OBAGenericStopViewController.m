@@ -300,22 +300,23 @@ static const double kNearbyStopRadius = 200;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-	OBAStopSectionType sectionType = [self sectionTypeForSection:indexPath.section];
-
-	switch (sectionType) {
-		case OBAStopSectionTypeServiceAlerts:
+	switch ([self sectionTypeForSection:indexPath.section]) {
+		case OBAStopSectionTypeServiceAlerts: {
 			return [self tableView:tableView serviceAlertCellForRowAtIndexPath:indexPath];
-		case OBAStopSectionTypeArrivals:
-			return [self tableView:tableView predictedArrivalCellForRowAtIndexPath:indexPath];
-		case OBAStopSectionTypeFilter:
-			return [self tableView:tableView filterCellForRowAtIndexPath:indexPath];
-		case OBAStopSectionTypeActions:
-			return [self tableView:tableView actionCellForRowAtIndexPath:indexPath];
-		default:
-			break;
+        }
+		case OBAStopSectionTypeArrivals: {
+            return [self tableView:tableView predictedArrivalCellForRowAtIndexPath:indexPath];
+        }
+		case OBAStopSectionTypeFilter: {
+            return [self tableView:tableView filterCellForRowAtIndexPath:indexPath];
+        }
+		case OBAStopSectionTypeActions: {
+            return [self tableView:tableView actionCellForRowAtIndexPath:indexPath];
+        }
+		default: {
+            return [UITableViewCell getOrCreateCellForTableView:tableView];
+        }
 	}
-	
-	return [UITableViewCell getOrCreateCellForTableView:tableView];
 }
 
 
