@@ -57,8 +57,8 @@ static const double kNearbyStopRadius = 200;
 
 - (void)refresh;
 - (void)clearPendingRequest;
-- (void)didRefreshBegin;
-- (void)didRefreshEnd;
+- (void)didBeginRefresh;
+- (void)didFinishRefresh;
 
 
 - (NSUInteger) sectionIndexForSectionType:(OBAStopSectionType)section;
@@ -151,10 +151,8 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section {
-	
-	OBAStopV2 * stop = _result.stop;
-	
-	if( stop ) {
+
+	if (_result.stop) {
 		
 		int offset = 0;
 				
@@ -224,17 +222,12 @@ static const double kNearbyStopRadius = 200;
 	[self reloadData];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
-}
-
 #pragma mark OBAModelServiceDelegate
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
 	NSString * message = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Updated",@"message"), [OBACommon getTimeAsString]];
 	[_progressView setMessage:message inProgress:NO progress:0];
-	[self didRefreshEnd];
+	[self didFinishRefresh];
     self.result = obj;
 	
 	// Note the event
@@ -244,24 +237,22 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
-	if( code == 404 )
-		[_progressView setMessage:NSLocalizedString(@"Stop not found",@"code == 404") inProgress:NO progress:0];
-	else
-		[_progressView setMessage:NSLocalizedString(@"Unknown error",@"code # 404") inProgress:NO progress:0];
-	[self didRefreshEnd];
+    NSString *message = (404 == code ? NSLocalizedString(@"Stop not found",@"code == 404") : NSLocalizedString(@"Unknown error",@"code # 404"));
+    [self.progressView setMessage:message inProgress:NO progress:0];
+	[self didFinishRefresh];
 }
 
 - (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
 	OBALogWarningWithError(error, @"Error... yay!");
 	[_progressView setMessage:NSLocalizedString(@"Error connecting",@"requestDidFail") inProgress:NO progress:0];
-	[self didRefreshEnd];
+	[self didFinishRefresh];
 }
 
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
 	[_progressView setInProgress:YES progress:progress];
 }
 
-#pragma mark Table view methods
+#pragma mark - UITableViewDelegate and UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	
@@ -279,7 +270,6 @@ static const double kNearbyStopRadius = 200;
 	return 1;
 }
 
-// Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
 	OBAStopSectionType sectionType = [self sectionTypeForSection:section];
@@ -364,23 +354,21 @@ static const double kNearbyStopRadius = 200;
 			else if ([_allArrivals count] != [_filteredArrivals count])
 			{
 				// Display a nice animation of the cells when changing our filter settings
-				NSMutableArray * modificationArray = [NSMutableArray arrayWithCapacity:[_allArrivals count] - [_filteredArrivals count]];
-				
-				int rowIterator = 0;
-				for(OBAArrivalAndDepartureV2 * pa in _allArrivals)
-				{
-					bool isFilteredArrival = ([_filteredArrivals containsObject:pa] == NO);
-					
-					if (isFilteredArrival == YES)
-						[modificationArray addObject:[NSIndexPath indexPathForRow:rowIterator inSection:arrivalsViewSection]];
-					
-					rowIterator++;
-				}
-				
-				if (_showFilteredArrivals)
+				NSMutableArray *modificationArray = [NSMutableArray array];
+                
+                for (NSInteger i = 0; i < self.allArrivals.count; i++) {
+                    OBAArrivalAndDepartureV2 * pa = self.allArrivals[i];
+                    if (![_filteredArrivals containsObject:pa]) {
+						[modificationArray addObject:[NSIndexPath indexPathForRow:i inSection:arrivalsViewSection]];
+					}
+                }
+
+				if (self.showFilteredArrivals) {
 					[self.tableView deleteRowsAtIndexPaths:modificationArray withRowAnimation:UITableViewRowAnimationFade];
-				else
+                }
+				else {
 					[self.tableView insertRowsAtIndexPaths:modificationArray withRowAnimation:UITableViewRowAnimationFade];
+                }
 			}
 			
 			break;
@@ -406,7 +394,7 @@ static const double kNearbyStopRadius = 200;
 
 - (void) refresh {
 	[_progressView setMessage:NSLocalizedString(@"Updating...",@"refresh") inProgress:YES progress:0];
-	[self didRefreshBegin];
+	[self didBeginRefresh];
 	
 	OBAModelService * service = _appContext.modelService;
 	
@@ -424,21 +412,12 @@ static const double kNearbyStopRadius = 200;
 	_request = nil;
 }
 
-- (void) didRefreshBegin {    
-    
-	// disable refresh button
-    UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:nil action:@selector(onRefreshButton:)];
-    [refreshItem setEnabled:NO];
-	
-    [self.navigationItem setRightBarButtonItem:refreshItem];
+- (void) didBeginRefresh {
+    self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 
-- (void) didRefreshEnd {
-    
-    // activate refresh button
-    UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
-	
-    [self.navigationItem setRightBarButtonItem:refreshItem];
+- (void) didFinishRefresh {
+    self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
 - (NSUInteger) sectionIndexForSectionType:(OBAStopSectionType)section {
