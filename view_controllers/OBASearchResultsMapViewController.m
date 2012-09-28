@@ -162,7 +162,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     self.bookmarksBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(_showBookmarks)];
     self.navigationItem.leftBarButtonItem = self.bookmarksBarButtonItem;
     
-    self.listBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"List", @"Right bar button item in map") style:UIBarButtonItemStyleBordered target:self action:@selector(onListButton:)];
+    self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStyleBordered target:self action:@selector(onListButton:)];
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
     
     self.searchResultsListViewController = [[OBASearchResultsListViewController alloc] initWithContext:_appContext searchControllerResult:nil];
