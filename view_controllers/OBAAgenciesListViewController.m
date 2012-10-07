@@ -31,7 +31,7 @@ typedef enum {
 
 // TODO: why does super need the app delegate on -init?
 - (id)init {
-    self = [super initWithApplicationContext:nil];
+    self = [super initWithApplicationContext:APP_DELEGATE];
     if (self) {
         self.title = NSLocalizedString(@"Agencies", @"Agencies tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Agencies"];
@@ -202,7 +202,9 @@ typedef enum {
 
 - (void) didSelectActionsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
 	OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
-	[_appContext navigateToTarget:target];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [_appContext navigateToTarget:target];
+    }];
 }
 
 - (void) didSelectAgencyRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
