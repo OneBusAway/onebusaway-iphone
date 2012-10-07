@@ -61,6 +61,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 @interface OBASearchResultsMapViewController ()
 @property(strong) PaperFoldView *paperFoldView;
+@property(strong) UIButton *locationButton;
 @property(strong) UIBarButtonItem *listBarButtonItem;
 @property(strong) UIBarButtonItem *bookmarksBarButtonItem;
 @property(strong) OBASearchResultsListViewController *searchResultsListViewController;
@@ -216,13 +217,13 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
     [self.view addSubview:self.floatingToolbarWrapper];
 
-    UIButton *location = [UIButton buttonWithType:UIButtonTypeCustom];
-    [location addTarget:self action:@selector(onCrossHairsButton:) forControlEvents:UIControlEventTouchUpInside];
-    [location setImage:[UIImage imageNamed:@"lbs_arrow"] forState:UIControlStateNormal];
-    location.frame = CGRectMake(0, 0, toolbarButtonWidth, CGRectGetHeight(self.floatingToolbar.frame));
-    [self.floatingToolbar addSubview:location];
+    self.locationButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.locationButton addTarget:self action:@selector(onCrossHairsButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.locationButton setImage:[UIImage imageNamed:@"lbs_arrow"] forState:UIControlStateNormal];
+    self.locationButton.frame = CGRectMake(0, 0, toolbarButtonWidth, CGRectGetHeight(self.floatingToolbar.frame));
+    [self.floatingToolbar addSubview:self.locationButton];
 
-    UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(location.frame) + 1, 4, 1, 23)];
+    UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.locationButton.frame) + 1, 4, 1, 23)];
     separator.backgroundColor = OBARGBCOLOR(167, 170, 177);
     separator.layer.shadowColor = (OBARGBACOLOR(255,255,255,0.5)).CGColor;
     separator.layer.shadowOpacity = 1.f;
@@ -817,7 +818,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void) reloadData {
 	OBASearchResult * result = _searchController.result;
-	_listButton.enabled = (result != nil);
+    self.navigationItem.rightBarButtonItem.enabled = result != nil;
 	
 	if( result && result.searchType == OBASearchTypeRoute && [result.values count] > 0) {
 		[self performSelector:@selector(onListButton:) withObject:self afterDelay:1];
@@ -1239,15 +1240,15 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 - (void) checkNoPlacemarksResults {
 	OBASearchResult * result = _searchController.result;
 	if( [result.values count] == 0 ) {
-		_listButton.enabled = NO;
-		[self showNoResultsAlertWithTitle: NSLocalizedString(@"No places found",@"showNoResultsAlertWithTitle") prompt:NSLocalizedString(@"No places were found for your search.",@"prompt")];
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+        [self showNoResultsAlertWithTitle: NSLocalizedString(@"No places found",@"showNoResultsAlertWithTitle") prompt:NSLocalizedString(@"No places were found for your search.",@"prompt")];
 	}
 }
 
 - (void) showNoResultsAlertWithTitle:(NSString*)title prompt:(NSString*)prompt {
 
-	_listButton.enabled = NO;
-	
+	self.navigationItem.rightBarButtonItem.enabled = NO;
+
 	if( ! [self controllerIsVisibleAndActive] )
 		return;
 	
