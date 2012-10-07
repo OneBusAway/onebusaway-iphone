@@ -667,6 +667,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     @synchronized(self) {
         if (PaperFoldStateDefault == self.paperFoldView.state) {
             // Transition from map -> list
+
+            self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
+
             self.mapView.userInteractionEnabled = NO;
 
             [UIView animateWithDuration:kPaperfoldAnimationDuration animations:^{
@@ -687,6 +690,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         }
         else if (PaperFoldStateRightUnfolded == self.paperFoldView.state) {
             // Transition from list -> map
+
+            self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+
             self.mapView.userInteractionEnabled = YES;
 
             self.floatingToolbarWrapper.hidden = NO;
