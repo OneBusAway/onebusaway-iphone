@@ -146,9 +146,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	_activityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
 	_activityIndicatorView.hidesWhenStopped = YES;
 	[self.view addSubview:_activityIndicatorView];
-	
-	_locationAnnotation = nil;
-	
+
 	CLLocationCoordinate2D p = {0,0};
 	_mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0,0));
 	
@@ -463,11 +461,25 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 #pragma mark MKMapViewDelegate Methods
 
+- (void) mapView:(MKMapView *)aMapView didAddAnnotationViews:(NSArray *)views {
+    for (MKAnnotationView *view in views) {
+        if ([view.annotation isKindOfClass:[MKUserLocation class]]) {
+            [view.superview bringSubviewToFront:view];
+            return;
+        }
+    }
+}
+
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
 	[_mapRegionManager mapView:mapView regionWillChangeAnimated:animated];
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+
+    if (mapView.userLocation) {
+        UIView *annotationView = [mapView viewForAnnotation:mapView.userLocation];
+        [annotationView.superview bringSubviewToFront:annotationView];
+    }
     
     BOOL applyingPendingRegionChangeRequest = [_mapRegionManager mapView:mapView regionDidChangeAnimated:animated];
     
@@ -507,7 +519,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
-	
+
 	if( [annotation isKindOfClass:[OBAStopV2 class]] ) {
 		
 		OBAStopV2 * stop = (OBAStopV2*)annotation;
@@ -724,15 +736,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	OBALocationManager * lm = _appContext.locationManager;
 	CLLocation * location = lm.currentLocation;
 
-	if( _locationAnnotation ) {
-		[_mapView removeAnnotation:_locationAnnotation];
-		_locationAnnotation = nil;
-	}
-	
 	if( location ) {
-		_locationAnnotation = [[OBAGenericAnnotation alloc] initWithTitle:nil subtitle:nil coordinate:location.coordinate context:@"currentLocation"];
-		[_mapView addAnnotation:_locationAnnotation];
-		
 		OBALogDebug(@"refreshCurrentLocation: auto center on current location: %d", _mapRegionManager.lastRegionChangeWasProgramatic);
 		
 		if( _mapRegionManager.lastRegionChangeWasProgramatic ) {
@@ -894,9 +898,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	NSMutableArray * toRemove = [[NSMutableArray alloc] init];
 	
 	for( id annotation in [_mapView annotations] ) {
-        if( annotation == _locationAnnotation )
-            continue;
-        
 		if( ! [annotations containsObject:annotation] )
 			[toRemove addObject:annotation];
 	}

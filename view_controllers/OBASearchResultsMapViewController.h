@@ -38,8 +38,6 @@
     OBAMapRegionManager * _mapRegionManager;
     
     OBASearchResultsMapFilterToolbar * _filterToolbar;
-
-	OBAGenericAnnotation * _locationAnnotation;
 	
 	UIActivityIndicatorView * _activityIndicatorView;
 	OBANetworkErrorAlertViewDelegate * _networkErrorAlertViewDelegate;
