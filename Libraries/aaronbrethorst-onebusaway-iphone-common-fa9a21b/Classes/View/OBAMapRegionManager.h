@@ -7,25 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OBARegionChangeRequest.h"
 
-
-@class OBARegionChangeRequest;
-
-
-@interface OBAMapRegionManager : NSObject {
-    MKMapView * _mapView;
-    BOOL _lastRegionChangeWasProgramatic;
-    BOOL _currentlyChangingRegion;
-    OBARegionChangeRequest * _pendingRegionChangeRequest;
-	NSMutableArray * _appliedRegionChangeRequests;
-}
-
-- (id) initWithMapView:(MKMapView*)mapView;
-
+@interface OBAMapRegionManager : NSObject
 @property (nonatomic) BOOL lastRegionChangeWasProgramatic;
 
-- (void) setRegion:(MKCoordinateRegion)region;
-- (void) setRegion:(MKCoordinateRegion)region changeWasProgramatic:(BOOL)changeWasProgramatic;
+- (id)initWithMapView:(MKMapView*)mapView;
+
+- (void)setRegion:(MKCoordinateRegion)region;
+- (void)setRegion:(MKCoordinateRegion)region changeWasProgramatic:(BOOL)changeWasProgramatic;
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated;
 

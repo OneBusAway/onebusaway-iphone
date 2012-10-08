@@ -40,18 +40,13 @@ static NSString * kOBAPreferenceShowOnStartup = @"oba_show_on_start_preference";
 static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 
 @interface OBAApplicationContext ()
-
 - (void) _constructUI;
-
 - (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget;
-
 - (void) _setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController;
 - (UIViewController*) _getViewControllerForTarget:(OBANavigationTarget*)target;
 
 - (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults;
-
 - (void) _migrateUserPreferences;
-
 - (NSString *)applicationDocumentsDirectory;
 
 @end

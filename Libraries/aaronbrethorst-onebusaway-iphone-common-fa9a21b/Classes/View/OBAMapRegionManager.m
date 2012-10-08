@@ -6,52 +6,28 @@
 static const double kMinRegionDeltaToDetectUserDrag = 50;
 static const double kRegionChangeRequestsTimeToLive = 3.0;
 
+@interface OBAMapRegionManager ()
+@property(strong) MKMapView *mapView;
+@property BOOL currentlyChangingRegion;
+@property(strong) OBARegionChangeRequest *pendingRegionChangeRequest;
+@property(strong) NSMutableArray *appliedRegionChangeRequests;
 
-typedef enum  {
-    OBARegionChangeRequestTypeUser=0,
-    OBARegionChangeRequestTypeProgramatic=1
-} OBARegionChangeRequestType;
-
-
-@interface OBARegionChangeRequest : NSObject
-{
-    NSDate * _timestamp;
-    OBARegionChangeRequestType _type;
-    MKCoordinateRegion _region;
-}
-
-- (id) initWithRegion:(MKCoordinateRegion)region type:(OBARegionChangeRequestType)type;
-- (double) compareRegion:(MKCoordinateRegion)region;
-
-@property (nonatomic,readonly) OBARegionChangeRequestType type;
-@property (nonatomic,readonly) MKCoordinateRegion region;
-@property (nonatomic,readonly) NSDate * timestamp;
-
-@end
-
-
-
-@interface OBAMapRegionManager (Private)
-
-- (void) setMapRegion:(MKCoordinateRegion)region requestType:(OBARegionChangeRequestType)requestType;
-- (void) setMapRegionWithRequest:(OBARegionChangeRequest*)request;
+- (void)setMapRegion:(MKCoordinateRegion)region requestType:(OBARegionChangeRequestType)requestType;
+- (void)setMapRegionWithRequest:(OBARegionChangeRequest*)request;
 - (OBARegionChangeRequest*) getBestRegionChangeRequestForRegion:(MKCoordinateRegion)region;
-
 @end
 
 
 @implementation OBAMapRegionManager
 
-@synthesize lastRegionChangeWasProgramatic = _lastRegionChangeWasProgramatic;
-
 - (id) initWithMapView:(MKMapView*)mapView {
     self = [super init];
     if (self) {
-        _mapView = mapView;
-        _lastRegionChangeWasProgramatic = NO;
-        _currentlyChangingRegion = NO;
-        _pendingRegionChangeRequest = nil;
-        _appliedRegionChangeRequests = [[NSMutableArray alloc] init];
+        self.mapView = mapView;
+        self.lastRegionChangeWasProgramatic = NO;
+        self.currentlyChangingRegion = NO;
+        self.pendingRegionChangeRequest = nil;
+        self.appliedRegionChangeRequests = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -66,12 +42,12 @@ typedef enum  {
 }
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
-    _currentlyChangingRegion = YES;
+    self.currentlyChangingRegion = YES;
 }
 
 - (BOOL)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
     
-    _currentlyChangingRegion = NO;
+    self.currentlyChangingRegion = NO;
     
     /**
      * We need to figure out if this region change came from the user dragging the map                                                                                                                                         
@@ -80,10 +56,10 @@ typedef enum  {
      * the actual map region change.  When the actual map region change doesn't match any
      * of our applied requests, we assume it must have been from a user zoom or pan.
      */
-    MKCoordinateRegion region = _mapView.region;
+    MKCoordinateRegion region = self.mapView.region;
     OBARegionChangeRequestType type = OBARegionChangeRequestTypeUser;
     
-    //OBALogDebug(@"=== regionDidChangeAnimated: requests=%d",[_appliedRegionChangeRequests count]);
+    //OBALogDebug(@"=== regionDidChangeAnimated: requests=%d",[self.appliedRegionChangeRequests count]);
     //OBALogDebug(@"region=%@", [OBASphericalGeometryLibrary regionAsString:region]);
     
     OBARegionChangeRequest * request = [self getBestRegionChangeRequestForRegion:region];
@@ -95,64 +71,61 @@ typedef enum  {
             type = request.type;
     }
     
-    _lastRegionChangeWasProgramatic = (type == OBARegionChangeRequestTypeProgramatic);
-    //OBALogDebug(@"regionDidChangeAnimated: setting _lastRegionChangeWasProgramatic to %d", _lastRegionChangeWasProgramatic);
+    self.lastRegionChangeWasProgramatic = (type == OBARegionChangeRequestTypeProgramatic);
+    //OBALogDebug(@"regionDidChangeAnimated: setting self.lastRegionChangeWasProgramatic to %d", self.lastRegionChangeWasProgramatic);
     
     BOOL applyingPendingRequest = NO;
     
-    if( _lastRegionChangeWasProgramatic && _pendingRegionChangeRequest ) {
+    if( self.lastRegionChangeWasProgramatic && self.pendingRegionChangeRequest ) {
         //OBALogDebug(@"applying pending reqest");
-        [self setMapRegionWithRequest:_pendingRegionChangeRequest];
+        [self setMapRegionWithRequest:self.pendingRegionChangeRequest];
         applyingPendingRequest = YES;
     }
     
-    _pendingRegionChangeRequest = [NSObject releaseOld:_pendingRegionChangeRequest retainNew:nil];
+    self.pendingRegionChangeRequest = [NSObject releaseOld:self.pendingRegionChangeRequest retainNew:nil];
 
     return applyingPendingRequest;
 }
 
-@end
+#pragma mark - Private Methods
 
-
-
-@implementation OBAMapRegionManager (Private)
 
 - (void) setMapRegion:(MKCoordinateRegion)region requestType:(OBARegionChangeRequestType)requestType {
-    
+
     OBARegionChangeRequest * request = [[OBARegionChangeRequest alloc] initWithRegion:region type:requestType];
     [self setMapRegionWithRequest:request];
 }
 
 - (void) setMapRegionWithRequest:(OBARegionChangeRequest*)request {
-    
+
     //OBALogDebug(@"setMapRegion: requestType=%d region=%@",request.type,[OBASphericalGeometryLibrary regionAsString:request.region]);
-    
-    /**                                                                                                                                                                                                                        
-     * If we are currently in the process of changing the map region, we save the region change request as pending.                                                                                                            
-     * Otherwise, we apply the region change.                                                                                                                                                                                  
+
+    /**
+     * If we are currently in the process of changing the map region, we save the region change request as pending.
+     * Otherwise, we apply the region change.
      */
-    if ( _currentlyChangingRegion ) {
+    if ( self.currentlyChangingRegion ) {
         //OBALogDebug(@"saving pending request");
-        _pendingRegionChangeRequest = [NSObject releaseOld:_pendingRegionChangeRequest retainNew:request];
+        self.pendingRegionChangeRequest = request;
     }
     else {
-        [_appliedRegionChangeRequests addObject:request];
-        [_mapView setRegion:request.region animated:YES];
+        [self.appliedRegionChangeRequests addObject:request];
+        [self.mapView setRegion:request.region animated:YES];
     }
 }
 
 - (OBARegionChangeRequest*) getBestRegionChangeRequestForRegion:(MKCoordinateRegion)region {
-    
+
     NSMutableArray * requests = [[NSMutableArray alloc] init];
     OBARegionChangeRequest * bestRequest = nil;
     double bestScore = 0;
-    
+
 	NSDate * now = [NSDate date];
-    
-	for( OBARegionChangeRequest * request in  _appliedRegionChangeRequests ) {
-        
+
+	for( OBARegionChangeRequest * request in  self.appliedRegionChangeRequests ) {
+
         NSTimeInterval interval = [now timeIntervalSinceDate:request.timestamp];
-        
+
         if( interval <= kRegionChangeRequestsTimeToLive ) {
             [requests addObject:request];
             double score = [request compareRegion:region];
@@ -162,38 +135,11 @@ typedef enum  {
             }
         }
     }
-    
-    _appliedRegionChangeRequests = [NSObject releaseOld:_appliedRegionChangeRequests retainNew:requests];
-    
-    
+
+    self.appliedRegionChangeRequests = requests;
+
+
     return bestRequest;
-}
-
-@end
-
-
-
-@implementation OBARegionChangeRequest
-
-@synthesize type = _type;
-@synthesize region = _region;
-@synthesize timestamp = _timestamp;
-
-- (id) initWithRegion:(MKCoordinateRegion)region type:(OBARegionChangeRequestType)type {
-    
-    self = [super init];
-    
-    if( self ) {
-        _region = region;
-		_type = type;
-        _timestamp = [[NSDate alloc] init];
-    }
-    return self;
-}
-
-
-- (double) compareRegion:(MKCoordinateRegion)region {
-	return [OBASphericalGeometryLibrary getDistanceFromRegion:_region toRegion:region];
 }
 
 @end

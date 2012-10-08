@@ -131,7 +131,6 @@
 	return cell;
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	switch (_result.searchType) {
