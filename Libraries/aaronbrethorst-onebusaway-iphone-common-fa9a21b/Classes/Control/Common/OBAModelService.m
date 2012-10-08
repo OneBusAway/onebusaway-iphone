@@ -228,7 +228,7 @@ static const float kSearchRadius = 400;
     NSDate * t = problem.time;
 
     NSMutableDictionary *args = [NSMutableDictionary dictionaryWithDictionary:@{
-        @"time": [NSString stringWithFormat:@"%lld",t],
+        @"time": [NSString stringWithFormat:@"%lld",(long long)t.timeIntervalSince1970],
         @"latFrom": [NSString stringWithFormat:@"%f",from.latitude],
         @"lonFrom": [NSString stringWithFormat:@"%f",from.longitude],
         @"latTo": [NSString stringWithFormat:@"%f",to.latitude],
@@ -237,18 +237,19 @@ static const float kSearchRadius = 400;
         @"useRealTime": @"true"
                                  }];
 	
-	if( problem.data )
+	if (problem.data) {
 		args[@"data"] = problem.data;
-	
-	if( problem.userComment )
+	}
+
+	if (problem.userComment) {
 		args[@"userComment"] = problem.userComment;
-	
-	CLLocation * location = problem.userLocation;
-	if( location ) {
-		CLLocationCoordinate2D coord = location.coordinate;
+	}
+
+    if (problem.userLocation) {
+		CLLocationCoordinate2D coord = problem.userLocation.coordinate;
 		args[@"userLat"] = [NSString stringWithFormat:@"%f",coord.latitude];
 		args[@"userLon"] = [NSString stringWithFormat:@"%f",coord.longitude];
-		args[@"userLocationAccuracy"] = [NSString stringWithFormat:@"%f",location.horizontalAccuracy];
+		args[@"userLocationAccuracy"] = [NSString stringWithFormat:@"%f", problem.userLocation.horizontalAccuracy];
 	}
 	
 	SEL selector = nil;
