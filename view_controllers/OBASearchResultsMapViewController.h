@@ -39,7 +39,6 @@
     
     OBASearchResultsMapFilterToolbar * _filterToolbar;
 	
-	UIActivityIndicatorView * _activityIndicatorView;
 	OBANetworkErrorAlertViewDelegate * _networkErrorAlertViewDelegate;
 	
 	MKCoordinateRegion _mostRecentRegion;

@@ -59,6 +59,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.5;
 static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 @interface OBASearchResultsMapViewController ()
+@property(strong) UIView *activityIndicatorWrapper;
+@property(strong) UIActivityIndicatorView * activityIndicatorView;
 @property(strong) PaperFoldView *paperFoldView;
 @property(strong) UIButton *locationButton;
 @property(strong) UIBarButtonItem *listBarButtonItem;
@@ -139,12 +141,19 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	[super viewDidLoad];
 
 	_networkErrorAlertViewDelegate = [[OBANetworkErrorAlertViewDelegate alloc] initWithContext:_appContext];
-	
-	CGRect indicatorBounds = CGRectMake(12, 12, 32, 32);
-	_activityIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:indicatorBounds];
-	_activityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-	_activityIndicatorView.hidesWhenStopped = YES;
-	[self.view addSubview:_activityIndicatorView];
+
+    CGRect indicatorBounds = CGRectMake(12, 12, 36, 36);
+    self.activityIndicatorWrapper = [[UIView alloc] initWithFrame:indicatorBounds];
+    self.activityIndicatorWrapper.backgroundColor = OBARGBACOLOR(0, 0, 0, 0.5);
+    self.activityIndicatorWrapper.layer.cornerRadius = 4.f;
+    self.activityIndicatorWrapper.layer.shouldRasterize = YES;
+    self.activityIndicatorWrapper.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    self.activityIndicatorWrapper.hidden = YES;
+
+	self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectInset(self.activityIndicatorWrapper.bounds, 4, 4)];
+	self.activityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
+    [self.activityIndicatorWrapper addSubview:self.activityIndicatorView];
+	[self.view addSubview:self.activityIndicatorWrapper];
 
 	CLLocationCoordinate2D p = {0,0};
 	_mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0,0));
@@ -451,10 +460,12 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	id<OBAProgressIndicatorSource> progress = _searchController.progress;
 
 	if( progress.inProgress ) {
-		[_activityIndicatorView startAnimating];
+        self.activityIndicatorWrapper.hidden = NO;
+		[self.activityIndicatorView startAnimating];
 	}
 	else {
-		[_activityIndicatorView stopAnimating];
+        self.activityIndicatorWrapper.hidden = YES;
+		[self.activityIndicatorView stopAnimating];
 	}
 }
 
