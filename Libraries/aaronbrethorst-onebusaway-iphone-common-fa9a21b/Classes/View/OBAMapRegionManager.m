@@ -85,7 +85,10 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
             type = request.type;
     }
     
-    self.lastRegionChangeWasProgramatic = (type == OBARegionChangeRequestTypeProgramatic);
+    self.lastRegionChangeWasProgramatic = (
+                                           type == OBARegionChangeRequestTypeProgramatic ||
+                                           [self.appliedRegionChangeRequests count] == 0
+                                           );
     //OBALogDebug(@"regionDidChangeAnimated: setting self.lastRegionChangeWasProgramatic to %d", self.lastRegionChangeWasProgramatic);
     
     BOOL applyingPendingRequest = NO;
