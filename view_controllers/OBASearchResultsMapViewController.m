@@ -19,7 +19,6 @@
 #import "OBAStopV2.h"
 #import "OBARouteV2.h"
 #import "OBAAgencyWithCoverageV2.h"
-#import "OBAStopAnnotation.h"
 #import "OBAGenericAnnotation.h"
 #import "OBAAgencyWithCoverage.h"
 #import "OBANavigationTargetAnnotation.h"

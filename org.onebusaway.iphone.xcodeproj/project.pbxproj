@@ -312,7 +312,6 @@
 		93AD36541603FEDF00BDF03F /* OBASituationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36511603FEDF00BDF03F /* OBASituationViewController.m */; };
 		93AD365F1603FFE600BDF03F /* OBAGenericAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36581603FFE600BDF03F /* OBAGenericAnnotation.m */; };
 		93AD36601603FFE600BDF03F /* OBANavigationTargetAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD365A1603FFE600BDF03F /* OBANavigationTargetAnnotation.m */; };
-		93AD36611603FFE600BDF03F /* OBAStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD365C1603FFE600BDF03F /* OBAStopAnnotation.m */; };
 		93AD36621603FFE600BDF03F /* OBAVehicleMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD365E1603FFE600BDF03F /* OBAVehicleMapAnnotation.m */; };
 		93AD3672160400F500BDF03F /* OBAAgencyWithCoverage.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD3665160400F500BDF03F /* OBAAgencyWithCoverage.m */; };
 		93AD3673160400F500BDF03F /* OBAArrivalsAndDeparturesForStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD3667160400F500BDF03F /* OBAArrivalsAndDeparturesForStop.m */; };
@@ -813,8 +812,6 @@
 		93AD36581603FFE600BDF03F /* OBAGenericAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAGenericAnnotation.m; sourceTree = "<group>"; };
 		93AD36591603FFE600BDF03F /* OBANavigationTargetAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTargetAnnotation.h; sourceTree = "<group>"; };
 		93AD365A1603FFE600BDF03F /* OBANavigationTargetAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTargetAnnotation.m; sourceTree = "<group>"; };
-		93AD365B1603FFE600BDF03F /* OBAStopAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopAnnotation.h; sourceTree = "<group>"; };
-		93AD365C1603FFE600BDF03F /* OBAStopAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopAnnotation.m; sourceTree = "<group>"; };
 		93AD365D1603FFE600BDF03F /* OBAVehicleMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAVehicleMapAnnotation.h; sourceTree = "<group>"; };
 		93AD365E1603FFE600BDF03F /* OBAVehicleMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAVehicleMapAnnotation.m; sourceTree = "<group>"; };
 		93AD3664160400F500BDF03F /* OBAAgencyWithCoverage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgencyWithCoverage.h; sourceTree = "<group>"; };
@@ -1696,8 +1693,6 @@
 				93AD36581603FFE600BDF03F /* OBAGenericAnnotation.m */,
 				93AD36591603FFE600BDF03F /* OBANavigationTargetAnnotation.h */,
 				93AD365A1603FFE600BDF03F /* OBANavigationTargetAnnotation.m */,
-				93AD365B1603FFE600BDF03F /* OBAStopAnnotation.h */,
-				93AD365C1603FFE600BDF03F /* OBAStopAnnotation.m */,
 				93AD365D1603FFE600BDF03F /* OBAVehicleMapAnnotation.h */,
 				93AD365E1603FFE600BDF03F /* OBAVehicleMapAnnotation.m */,
 			);
@@ -2110,7 +2105,6 @@
 				93AD36541603FEDF00BDF03F /* OBASituationViewController.m in Sources */,
 				93AD365F1603FFE600BDF03F /* OBAGenericAnnotation.m in Sources */,
 				93AD36601603FFE600BDF03F /* OBANavigationTargetAnnotation.m in Sources */,
-				93AD36611603FFE600BDF03F /* OBAStopAnnotation.m in Sources */,
 				93AD36621603FFE600BDF03F /* OBAVehicleMapAnnotation.m in Sources */,
 				93AD3672160400F500BDF03F /* OBAAgencyWithCoverage.m in Sources */,
 				93AD3673160400F500BDF03F /* OBAArrivalsAndDeparturesForStop.m in Sources */,
