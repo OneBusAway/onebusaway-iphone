@@ -39,13 +39,20 @@
 	id a = [context peek:0];
 	id<NSObject> b = [context peek:1];
 	
-	if(context.verbose)	   
+	if (context.verbose) {
 		OBALogDebug(@"setNext");
-	
-	if( a && b && [b respondsToSelector:_selector])
-		[b performSelector:_selector withObject:a];
-	else if( context.verbose )
+	}
+
+	if (a && b && [b respondsToSelector:_selector]) {
+// note: I think that silencing warnings like this is gross.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    [b performSelector:_selector withObject:a];
+#pragma clang diagnostic pop
+    }
+	else if (context.verbose) {
 		OBALogDebug(@"setNext selector not supported");
+    }
 }
 
 @end

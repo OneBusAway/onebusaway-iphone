@@ -81,8 +81,13 @@
 #pragma mark Actions
 
 -(IBAction)save:(id)sender {
-	if( _target && _action && [_target respondsToSelector:_action] )
-		[_target performSelector:_action withObject:[[self textView] text]];
+	if( _target && _action && [_target respondsToSelector:_action] ) {
+// note: I think that silencing warnings like this is gross.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        [_target performSelector:_action withObject:[[self textView] text]];
+#pragma clang diagnostic pop
+    }
 	[self.navigationController popViewControllerAnimated:YES];
 }
 

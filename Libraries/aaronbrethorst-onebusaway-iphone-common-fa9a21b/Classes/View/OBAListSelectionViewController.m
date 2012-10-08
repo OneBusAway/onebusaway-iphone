@@ -57,8 +57,12 @@
     [[tableView cellForRowAtIndexPath:[self checkedItem]] setAccessoryType:UITableViewCellAccessoryNone];
     [self setCheckedItem:indexPath];
 	
-	if( _target && _action && [_target respondsToSelector:_action] )
+	if( _target && _action && [_target respondsToSelector:_action] ) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 		[_target performSelector:_action withObject:indexPath];
+#pragma clang diagnostic pop
+    }
     
     if (self.exitOnSelection) {
         [self.navigationController popViewControllerAnimated:YES];
