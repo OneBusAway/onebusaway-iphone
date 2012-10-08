@@ -30,13 +30,9 @@
 #import "OBAUserPreferencesMigration.h"
 #import "IASKAppSettingsViewController.h"
 
-
 static NSString * kOBAHiddenPreferenceSavedNavigationTargets = @"OBASavedNavigationTargets";
 static NSString * kOBAHiddenPreferenceApplicationLastActiveTimestamp = @"OBAApplicationLastActiveTimestamp";
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
-static NSString * kOBAHiddenPreferenceTabOrder = @"OBATabOrder";
-
-static NSString * kOBAPreferenceShowOnStartup = @"oba_show_on_start_preference";
 static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 
 @interface OBAApplicationContext ()
@@ -49,13 +45,12 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 - (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults;
 - (void) _migrateUserPreferences;
 - (NSString *)applicationDocumentsDirectory;
-
 @end
 
 
 @implementation OBAApplicationContext
 
-- (id) init {
+- (id)init {
     self = [super init];
 
 	if (self) {
@@ -154,53 +149,6 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 	self.active = NO;
 }
 
-
-#pragma mark UITabBarControllerDelegate Methods
-
-- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
-	
-	NSLog(@"title=%@",viewController.title);
-	if ([viewController.title isEqual:@"Agencies"] ) {
-		/**
-		 * Note that we delay the call to allow the tab-bar to finish its thing
-		 */
-		OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
-		[self performSelector:@selector(_navigateToTargetInternal:) withObject:target afterDelay:0];
-		return NO;
-	}
-	
-	return YES;
-}
-
-/**
- * We want to revert back to the root view of a selected controller when switching between tabs
- */
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-	UINavigationController * nc = (UINavigationController *) viewController;
-	/**
-	 * Note that popToRootViewController didn't seem to work properly when called from the
-	 * calling context of the UITabBarController.  So we punt it to the main thread.
-	 */
-	[nc performSelector:@selector(popToRootViewController) withObject:nil afterDelay:0];
-}
-
-/**
- * We want to save the tab order
- */
-- (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed {
-	
-	NSUInteger count = tabBarController.viewControllers.count;
-	NSMutableArray *tabOrderArray = [[NSMutableArray alloc] initWithCapacity:count];
-	for (UIViewController *viewController in viewControllers) {		
-		NSInteger tag = viewController.tabBarItem.tag;
-		[tabOrderArray addObject:@(tag)];
-	}
-	
-	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-	[userDefaults setObject:tabOrderArray forKey:kOBAHiddenPreferenceTabOrder];
-	[userDefaults synchronize];
-	
-}
 
 #pragma mark IASKSettingsDelegate
 
