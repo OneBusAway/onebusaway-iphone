@@ -40,6 +40,7 @@ static NSString * kOBAPreferenceShowOnStartup = @"oba_show_on_start_preference";
 static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 
 @interface OBAApplicationContext ()
+@property(nonatomic,readwrite) BOOL active;
 - (void) _constructUI;
 - (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget;
 - (void) _setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController;
@@ -55,7 +56,12 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 @implementation OBAApplicationContext
 
 - (id) init {
-	if( self = [super init] ) {
+    self = [super init];
+
+	if (self) {
+
+        self.active = NO;
+
 		_references = [[OBAReferencesV2 alloc] init];
 		_modelDao = [[OBAModelDAO alloc] init];
 		_locationManager = [[OBALocationManager alloc] initWithModelDao:_modelDao];		
@@ -139,6 +145,15 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 - (void)applicationWillTerminate:(UIApplication *)application {
 	[self applicationDidEnterBackground:application]; // call for iOS < 4.0 devices
 }
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+	self.active = YES;
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+	self.active = NO;
+}
+
 
 #pragma mark UITabBarControllerDelegate Methods
 
