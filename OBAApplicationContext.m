@@ -15,7 +15,7 @@
  */
 
 #import <SystemConfiguration/SystemConfiguration.h>
-
+#import <Crashlytics/Crashlytics.h>
 #import "OBAApplicationContext.h"
 #import "OBANavigationTargetAware.h"
 #import "OBALogger.h"
@@ -123,6 +123,7 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [Crashlytics startWithAPIKey:@"c84d1b759118d7506fea035b497a567d26a1c67b"];
     [self _migrateUserPreferences];
     [self _constructUI];
 

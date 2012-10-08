@@ -295,6 +295,7 @@
 		93AA8A4416220E7200B945E7 /* TouchThroughUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AA8A3B16220E7200B945E7 /* TouchThroughUIView.m */; };
 		93AA8A4516220E7200B945E7 /* UIView+Screenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AA8A3D16220E7200B945E7 /* UIView+Screenshot.m */; };
 		93AA8A541622610300B945E7 /* OBARegionChangeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AA8A531622610300B945E7 /* OBARegionChangeRequest.m */; };
+		93AA8A6D162385C300B945E7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93AA8A6C162385C300B945E7 /* Crashlytics.framework */; };
 		93AD36301603FDE300BDF03F /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36231603FDE300BDF03F /* OBAAgenciesListViewController.m */; };
 		93AD36311603FDE300BDF03F /* OBABookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36251603FDE300BDF03F /* OBABookmarksViewController.m */; };
 		93AD36321603FDE300BDF03F /* OBAContactUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36271603FDE300BDF03F /* OBAContactUsViewController.m */; };
@@ -778,6 +779,7 @@
 		93AA8A3D16220E7200B945E7 /* UIView+Screenshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Screenshot.m"; sourceTree = "<group>"; };
 		93AA8A521622610300B945E7 /* OBARegionChangeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionChangeRequest.h; sourceTree = "<group>"; };
 		93AA8A531622610300B945E7 /* OBARegionChangeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionChangeRequest.m; sourceTree = "<group>"; };
+		93AA8A6C162385C300B945E7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		93AD36221603FDE300BDF03F /* OBAAgenciesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgenciesListViewController.h; sourceTree = "<group>"; };
 		93AD36231603FDE300BDF03F /* OBAAgenciesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAgenciesListViewController.m; sourceTree = "<group>"; };
 		93AD36241603FDE300BDF03F /* OBABookmarksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarksViewController.h; sourceTree = "<group>"; };
@@ -900,6 +902,7 @@
 				D6169A170FC228FB00631BCE /* CoreData.framework in Frameworks */,
 				D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */,
 				D696DAA811A3CD8D00C0E6CB /* MessageUI.framework in Frameworks */,
+				93AA8A6D162385C300B945E7 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -972,6 +975,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93AA8A6C162385C300B945E7 /* Crashlytics.framework */,
 				D62255AA0F8BCA8F00F139BA /* libsqlite3.0.dylib */,
 				D62255C80F8BCB9C00F139BA /* CoreAudio.framework */,
 				D62255CF0F8BCBF100F139BA /* QuartzCore.framework */,
@@ -1812,6 +1816,7 @@
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				D6B74DF90F6CA5D80067D68F /* CopyFiles */,
+				93AA8A6A1623859800B945E7 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2038,6 +2043,22 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		93AA8A6A1623859800B945E7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run c84d1b759118d7506fea035b497a567d26a1c67b";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -2253,7 +2274,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2285,7 +2309,10 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -2361,7 +2388,10 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Brian Ferris";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -2404,7 +2434,10 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Brian Ferris";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
