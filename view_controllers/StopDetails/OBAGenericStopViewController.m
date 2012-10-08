@@ -606,7 +606,6 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 		
 	OBAModelDAO * modelDao = _appContext.modelDao;
     
-    //TODO: use data from this to populate a small map.
 	OBAStopV2 * stop = _result.stop;
 	
 	NSArray * predictedArrivals = _result.arrivalsAndDepartures;

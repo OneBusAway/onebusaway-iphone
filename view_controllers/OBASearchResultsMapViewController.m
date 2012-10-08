@@ -842,19 +842,15 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 - (CLLocation*) currentLocation {
-	OBALocationManager * lm = _appContext.locationManager;
-	CLLocation * location = lm.currentLocation;
-	
-    // TODO: WTF?
-	if( ! location )
-		location = _searchController.searchLocation;
-
-	if( ! location ) {
-		CLLocationCoordinate2D center = _mapView.centerCoordinate;	
-		location = [[CLLocation alloc] initWithLatitude:center.latitude longitude:center.longitude];	
-	}
-	
-	return location;
+    if (_appContext.locationManager.currentLocation) {
+        return _appContext.locationManager.currentLocation;
+    }
+    else if (_searchController.searchLocation) {
+        return _searchController.searchLocation;
+    }
+    else {
+        return [[CLLocation alloc] initWithLatitude:_mapView.centerCoordinate.latitude longitude:_mapView.centerCoordinate.longitude];
+    }
 }
 
 - (void) showLocationServicesAlert {
