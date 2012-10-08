@@ -28,9 +28,6 @@
 
 @interface OBAApplicationContext : UIResponder <UIApplicationDelegate,UITabBarControllerDelegate,IASKSettingsDelegate> {
 	
-	BOOL _setup;
-	BOOL _active;
-	
 	OBAReferencesV2 * _references;
 	OBAModelDAO * _modelDao;
 	OBAModelService * _modelService;

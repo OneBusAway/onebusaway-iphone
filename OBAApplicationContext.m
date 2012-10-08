@@ -56,9 +56,6 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 
 - (id) init {
 	if( self = [super init] ) {
-		
-		_active = NO;
-		
 		_references = [[OBAReferencesV2 alloc] init];
 		_modelDao = [[OBAModelDAO alloc] init];
 		_locationManager = [[OBALocationManager alloc] initWithModelDao:_modelDao];		
@@ -129,14 +126,6 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
     [self _constructUI];
 
     return YES;
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-	_active = YES;
-}
-
-- (void)applicationWillResignActive:(UIApplication *)application {
-	_active = NO;
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
