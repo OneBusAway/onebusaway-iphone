@@ -296,6 +296,7 @@
 		93AA8A4516220E7200B945E7 /* UIView+Screenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AA8A3D16220E7200B945E7 /* UIView+Screenshot.m */; };
 		93AA8A541622610300B945E7 /* OBARegionChangeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AA8A531622610300B945E7 /* OBARegionChangeRequest.m */; };
 		93AA8A6D162385C300B945E7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93AA8A6C162385C300B945E7 /* Crashlytics.framework */; };
+		93AA8A711623874F00B945E7 /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93AA8A701623874F00B945E7 /* libFlurryAnalytics.a */; };
 		93AD36301603FDE300BDF03F /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36231603FDE300BDF03F /* OBAAgenciesListViewController.m */; };
 		93AD36311603FDE300BDF03F /* OBABookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36251603FDE300BDF03F /* OBABookmarksViewController.m */; };
 		93AD36321603FDE300BDF03F /* OBAContactUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36271603FDE300BDF03F /* OBAContactUsViewController.m */; };
@@ -780,6 +781,8 @@
 		93AA8A521622610300B945E7 /* OBARegionChangeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionChangeRequest.h; sourceTree = "<group>"; };
 		93AA8A531622610300B945E7 /* OBARegionChangeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionChangeRequest.m; sourceTree = "<group>"; };
 		93AA8A6C162385C300B945E7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		93AA8A6F1623874F00B945E7 /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
+		93AA8A701623874F00B945E7 /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
 		93AD36221603FDE300BDF03F /* OBAAgenciesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgenciesListViewController.h; sourceTree = "<group>"; };
 		93AD36231603FDE300BDF03F /* OBAAgenciesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAgenciesListViewController.m; sourceTree = "<group>"; };
 		93AD36241603FDE300BDF03F /* OBABookmarksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarksViewController.h; sourceTree = "<group>"; };
@@ -903,6 +906,7 @@
 				D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */,
 				D696DAA811A3CD8D00C0E6CB /* MessageUI.framework in Frameworks */,
 				93AA8A6D162385C300B945E7 /* Crashlytics.framework in Frameworks */,
+				93AA8A711623874F00B945E7 /* libFlurryAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1590,6 +1594,16 @@
 			path = "Libraries/honcheng-PaperFold-for-iOS-7b532d8/PaperFold/PaperFold/PaperFold";
 			sourceTree = "<group>";
 		};
+		93AA8A6E1623874F00B945E7 /* FlurryAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				93AA8A6F1623874F00B945E7 /* FlurryAnalytics.h */,
+				93AA8A701623874F00B945E7 /* libFlurryAnalytics.a */,
+			);
+			name = FlurryAnalytics;
+			path = Libraries/FlurryAnalytics;
+			sourceTree = "<group>";
+		};
 		93AD36201603FD9B00BDF03F /* view_controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1787,6 +1801,7 @@
 		D61A66790FCDB155004D2E91 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				93AA8A6E1623874F00B945E7 /* FlurryAnalytics */,
 				93AA8A2D16220E7200B945E7 /* PaperFold */,
 				933C7E2B160C07440005AAFE /* aaronbrethorst-onebusaway-iphone-common-fa9a21b */,
 				93A5F5041606540000D1670A /* JCMSegmentPageController */,
@@ -2288,6 +2303,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Libraries/FlurryAnalytics\"",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2321,6 +2337,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Libraries/FlurryAnalytics\"",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2400,6 +2417,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Libraries/FlurryAnalytics\"",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2446,6 +2464,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Libraries/FlurryAnalytics\"",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
