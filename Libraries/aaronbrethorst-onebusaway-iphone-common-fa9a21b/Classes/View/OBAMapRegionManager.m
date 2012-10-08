@@ -28,10 +28,21 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
         self.currentlyChangingRegion = NO;
         self.pendingRegionChangeRequest = nil;
         self.appliedRegionChangeRequests = [[NSMutableArray alloc] init];
+
+        [self addObserver:self forKeyPath:@"lastRegionChangeWasProgramatic" options:0 context:nil];
     }
     return self;
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (object == self && [keyPath isEqual:@"lastRegionChangeWasProgramatic"]) {
+
+        if (!self.lastRegionChangeWasProgramatic) {
+            NSLog(@"WTF!");
+        }
+    }
+}
 
 - (void) setRegion:(MKCoordinateRegion)region {
     [self setMapRegion:region requestType:OBARegionChangeRequestTypeProgramatic];
@@ -44,6 +55,9 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
     self.currentlyChangingRegion = YES;
 }
+
+
+// TODO: @jefk - the problem is here!!!
 
 - (BOOL)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
     
