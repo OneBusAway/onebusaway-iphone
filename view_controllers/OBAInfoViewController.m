@@ -12,15 +12,15 @@
 #import "IASKAppSettingsViewController.h"
 #import "OBACreditsViewController.h"
 
+#define kContactUsRow 0
+#define kSettingsRow 1
+#define kAgenciesRow 2
+#define kCreditsRow 3
+
 @implementation OBAInfoViewController
 
 - (id)init {
-    self = [super initWithNibName:@"OBAInfoViewController" bundle:nil];
-
-    if (self) {
-        //
-    }
-    return self;
+    return [super initWithNibName:@"OBAInfoViewController" bundle:nil];
 }
 
 - (void)viewDidLoad {
@@ -45,17 +45,25 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
 
-    if (0 == indexPath.row) {
-        cell.textLabel.text = NSLocalizedString(@"Contact Us", @"");
-    }
-    else if (1 == indexPath.row) {
-        cell.textLabel.text = NSLocalizedString(@"Settings", @"");
-    }
-    else if (2 == indexPath.row) {
-        cell.textLabel.text = NSLocalizedString(@"Agencies", @"");
-    }
-    else {
-        cell.textLabel.text = NSLocalizedString(@"Credits", @"");
+    switch (indexPath.row) {
+        case kContactUsRow: {
+            cell.textLabel.text = NSLocalizedString(@"Contact Us", @"");
+            break;
+        }
+        case kSettingsRow: {
+            cell.textLabel.text = NSLocalizedString(@"Settings", @"");
+            break;
+        }
+        case kAgenciesRow: {
+            cell.textLabel.text = NSLocalizedString(@"Agencies", @"");
+            break;
+        }
+        case kCreditsRow: {
+            cell.textLabel.text = NSLocalizedString(@"Credits", @"");
+            break;
+        }
+        default:
+            break;
     }
 
     return cell;
@@ -64,26 +72,31 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UIViewController *pushMe = nil;
-    if (0 == indexPath.row) {
-        // Contact Us
-        pushMe = [[OBAContactUsViewController alloc] init];
+
+    switch (indexPath.row) {
+        case kContactUsRow: {
+            pushMe = [[OBAContactUsViewController alloc] init];
+            break;
+        }
+        case kSettingsRow: {
+            pushMe = [[IASKAppSettingsViewController alloc] init];
+            pushMe.title = NSLocalizedString(@"Settings", @"");
+            ((IASKAppSettingsViewController*)pushMe).delegate = APP_DELEGATE;
+
+            break;
+        }
+        case kAgenciesRow: {
+            pushMe = [[OBAAgenciesListViewController alloc] init];
+            break;
+        }
+        case kCreditsRow: {
+            pushMe = [[OBACreditsViewController alloc] init];
+            break;
+        }
+        default:
+            break;
     }
-    else if (1 == indexPath.row) {
-        // Settings
-        pushMe = [[IASKAppSettingsViewController alloc] init];
-        pushMe.title = NSLocalizedString(@"Settings", @"");
-        // TODO: Bring this out of the app context.
-        //settingsViewController.delegate = self;
-    }
-    else if (2 == indexPath.row) {
-        // Agencies
-         pushMe = [[OBAAgenciesListViewController alloc] init];
-    }
-    else {
-        // Credits
-        pushMe = [[OBACreditsViewController alloc] init];
-    }
-        
+
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:pushMe];
     
     OBAInfoViewController *weakSelf = self;

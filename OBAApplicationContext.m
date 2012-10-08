@@ -153,6 +153,7 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 #pragma mark IASKSettingsDelegate
 
 - (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
+    [sender dismissViewControllerAnimated:YES completion:nil];
 	[self refreshSettings];
 }
 
