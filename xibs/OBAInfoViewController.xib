@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1536</int>
-		<string key="IBDocument.SystemVersion">12B19</string>
+		<string key="IBDocument.SystemVersion">12C54</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2840</string>
-		<string key="IBDocument.AppKitVersion">1187</string>
-		<string key="IBDocument.HIToolboxVersion">624.00</string>
+		<string key="IBDocument.AppKitVersion">1187.34</string>
+		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">1926</string>
@@ -4481,7 +4481,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<object class="IBUILabel" id="288310957">
 						<reference key="NSNextResponder" ref="342140198"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{0, 101}, {320, 32}}</string>
+						<string key="NSFrame">{{0, 170}, {320, 32}}</string>
 						<reference key="NSSuperview" ref="342140198"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="565081224"/>
@@ -4521,7 +4521,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<object class="IBUILabel" id="565081224">
 						<reference key="NSNextResponder" ref="342140198"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{20, 141}, {280, 81}}</string>
+						<string key="NSFrame">{{20, 210}, {280, 20}}</string>
 						<reference key="NSSuperview" ref="342140198"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
@@ -4531,8 +4531,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string type="base64-UTF8" key="IBUIText">wqkgVW5pdmVyc2l0eSBvZiBXYXNoaW5ndG9uLgoKT3JpZ2luYWxseSBjcmVhdGVkIGJ5IEJyaWFuIEZl
-cnJpcy4gQ3VycmVudGx5IG1haW50YWluZWQgYnkgQWFyb24gQnJldGhvcnN0Lg</string>
+						<string key="IBUIText">© University of Washington.</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAxIDEAA</bytes>
@@ -4556,10 +4555,10 @@ cnJpcy4gQ3VycmVudGx5IG1haW50YWluZWQgYnkgQWFyb24gQnJldGhvcnN0Lg</string>
 						<double key="preferredMaxLayoutWidth">280</double>
 					</object>
 				</array>
-				<string key="NSFrameSize">{320, 227}</string>
+				<string key="NSFrameSize">{320, 250}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="288310957"/>
+				<reference key="NSNextKeyView"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="536282548"/>
 				<object class="IBUISimulatedSizeMetrics" key="IBUISimulatedDestinationMetrics">
@@ -4681,7 +4680,7 @@ cnJpcy4gQ3VycmVudGx5IG1haW50YWluZWQgYnkgQWFyb24gQnJldGhvcnN0Lg</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">31</int>
+			<int key="maxID">32</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
