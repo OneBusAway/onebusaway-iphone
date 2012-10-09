@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OBACreditsViewController : UIViewController
+@interface OBACreditsViewController : UIViewController <UIWebViewDelegate>
 @property(nonatomic,strong) IBOutlet UIWebView *webView;
 @end
