@@ -110,7 +110,7 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 - (void)_constructUI
 {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    
+    self.window.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     self.mapViewController = [[OBASearchResultsMapViewController alloc] init];
     self.mapViewController.appContext = self;
     

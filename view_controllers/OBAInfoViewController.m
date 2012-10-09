@@ -12,6 +12,8 @@
 #import "IASKAppSettingsViewController.h"
 #import "OBACreditsViewController.h"
 
+#define kPeelBackSize 125.f
+
 #define kContactUsRow 0
 #define kSettingsRow 1
 #define kAgenciesRow 2
@@ -27,6 +29,14 @@
     [super viewDidLoad];
     
     self.tableView.tableHeaderView = self.headerView;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    CGRect currentFrame = self.view.frame;
+    currentFrame.origin.y += kPeelBackSize;
+    currentFrame.size.height -= kPeelBackSize;
+    self.view.frame = currentFrame;
 }
 
 #pragma mark - UITableViewDataSource
