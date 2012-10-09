@@ -392,7 +392,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     [self refreshSearchToolbar];
 }
 
-#pragma mark OBASearchControllerDelegate Methods
+#pragma mark - OBASearchControllerDelegate Methods
 
 - (void) handleSearchControllerStarted:(OBASearchType)searchType {
 	if( ! (searchType == OBASearchTypeNone || searchType == OBASearchTypeRegion) ) {
@@ -440,7 +440,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	}
 }
 
-#pragma mark OBALocationManagerDelegate Methods
+#pragma mark - OBALocationManagerDelegate Methods
 
 - (void) locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
 	_currentLocationButton.enabled = YES;
@@ -453,7 +453,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	}
 }
 
-#pragma mark OBAProgressIndicatorDelegate
+#pragma mark - OBAProgressIndicatorDelegate
 
 - (void) progressUpdated {
 	
@@ -639,7 +639,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	return overlayView;	
 }
 
-#pragma mark UIAlertViewDelegate Methods
+#pragma mark - UIAlertViewDelegate Methods
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if( buttonIndex == 0 ) {
@@ -735,7 +735,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @end
 
 
-#pragma mark OBASearchMapViewController Private Methods
+#pragma mark - OBASearchMapViewController Private Methods
 
 @implementation OBASearchResultsMapViewController (Private)
 
