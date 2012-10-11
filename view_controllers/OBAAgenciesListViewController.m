@@ -26,10 +26,8 @@ typedef enum {
 
 @end
 
-
 @implementation OBAAgenciesListViewController
 
-// TODO: why does super need the app delegate on -init?
 - (id)init {
     self = [super initWithApplicationContext:APP_DELEGATE];
     if (self) {

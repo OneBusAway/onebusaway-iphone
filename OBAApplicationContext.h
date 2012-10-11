@@ -26,10 +26,7 @@
 @class OBASearchResultsMapViewController;
 @class OBAStopIconFactory;
 
-@interface OBAApplicationContext : UIResponder <UIApplicationDelegate,UITabBarControllerDelegate,IASKSettingsDelegate> {
-	
-	BOOL _setup;
-	BOOL _active;
+@interface OBAApplicationContext : UIResponder <UIApplicationDelegate,IASKSettingsDelegate> {
 	
 	OBAReferencesV2 * _references;
 	OBAModelDAO * _modelDao;
@@ -44,15 +41,15 @@
 @property(nonatomic, strong) UINavigationController *navigation;
 @property(strong) OBASearchResultsMapViewController *mapViewController;
 
-@property (nonatomic,readonly) OBAReferencesV2 * references;
-@property (nonatomic,readonly) OBAModelDAO * modelDao;
-@property (nonatomic,readonly) OBAModelService * modelService;
+@property(nonatomic,readonly) OBAReferencesV2 * references;
+@property(nonatomic,readonly) OBAModelDAO * modelDao;
+@property(nonatomic,readonly) OBAModelService * modelService;
 
-@property (nonatomic,readonly) OBAStopIconFactory * stopIconFactory;
+@property(nonatomic,readonly) OBAStopIconFactory * stopIconFactory;
 
-@property (nonatomic,readonly) OBALocationManager * locationManager;
+@property(nonatomic,readonly) OBALocationManager * locationManager;
 
-@property (nonatomic,readonly) BOOL active;
+@property(nonatomic,readonly) BOOL active;
 
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget;
 - (void) refreshSettings;

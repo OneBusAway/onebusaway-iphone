@@ -49,7 +49,7 @@
     NSError * error = nil;
 	id result = obj;
     
-	if( _modelFactorySelector && [_modelFactory respondsToSelector:_modelFactorySelector] ) {
+	if (_modelFactorySelector && [_modelFactory respondsToSelector:_modelFactorySelector]) {
 	
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"

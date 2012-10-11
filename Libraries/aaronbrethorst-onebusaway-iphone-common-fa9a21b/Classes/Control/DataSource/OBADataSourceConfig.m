@@ -33,8 +33,6 @@
 	return self;
 }
 
-
-// TODO: clean up by converting args into dict and dict into query params.
 - (NSURL*)constructURL:(NSString*)path withArgs:(NSString*)args includeArgs:(BOOL)includeArgs {
 	NSMutableString *constructedURL = [NSMutableString string];
     

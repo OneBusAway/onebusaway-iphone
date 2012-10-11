@@ -258,6 +258,8 @@
 		933C8037160C07440005AAFE /* OBATextEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F58160C07440005AAFE /* OBATextEditViewController.xib */; };
 		933C8038160C07440005AAFE /* OBATextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F59160C07440005AAFE /* OBATextFieldTableViewCell.xib */; };
 		933C8039160C07440005AAFE /* OBAWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F5A160C07440005AAFE /* OBAWebViewController.xib */; };
+		934606C21623A92200BD1CD0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 934606C11623A92200BD1CD0 /* Default.png */; };
+		934606C51623A92700BD1CD0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 934606C41623A92700BD1CD0 /* Default@2x.png */; };
 		93631E401604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E3D1604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib */; };
 		93631E411604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */; };
 		93631E451604F77A00CB7209 /* OBADiversionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E441604F77A00CB7209 /* OBADiversionViewController.xib */; };
@@ -295,6 +297,8 @@
 		93AA8A4416220E7200B945E7 /* TouchThroughUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AA8A3B16220E7200B945E7 /* TouchThroughUIView.m */; };
 		93AA8A4516220E7200B945E7 /* UIView+Screenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AA8A3D16220E7200B945E7 /* UIView+Screenshot.m */; };
 		93AA8A541622610300B945E7 /* OBARegionChangeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AA8A531622610300B945E7 /* OBARegionChangeRequest.m */; };
+		93AA8A6D162385C300B945E7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93AA8A6C162385C300B945E7 /* Crashlytics.framework */; };
+		93AA8A711623874F00B945E7 /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93AA8A701623874F00B945E7 /* libFlurryAnalytics.a */; };
 		93AD36301603FDE300BDF03F /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36231603FDE300BDF03F /* OBAAgenciesListViewController.m */; };
 		93AD36311603FDE300BDF03F /* OBABookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36251603FDE300BDF03F /* OBABookmarksViewController.m */; };
 		93AD36321603FDE300BDF03F /* OBAContactUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36271603FDE300BDF03F /* OBAContactUsViewController.m */; };
@@ -310,7 +314,6 @@
 		93AD36541603FEDF00BDF03F /* OBASituationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36511603FEDF00BDF03F /* OBASituationViewController.m */; };
 		93AD365F1603FFE600BDF03F /* OBAGenericAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36581603FFE600BDF03F /* OBAGenericAnnotation.m */; };
 		93AD36601603FFE600BDF03F /* OBANavigationTargetAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD365A1603FFE600BDF03F /* OBANavigationTargetAnnotation.m */; };
-		93AD36611603FFE600BDF03F /* OBAStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD365C1603FFE600BDF03F /* OBAStopAnnotation.m */; };
 		93AD36621603FFE600BDF03F /* OBAVehicleMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD365E1603FFE600BDF03F /* OBAVehicleMapAnnotation.m */; };
 		93AD3672160400F500BDF03F /* OBAAgencyWithCoverage.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD3665160400F500BDF03F /* OBAAgencyWithCoverage.m */; };
 		93AD3673160400F500BDF03F /* OBAArrivalsAndDeparturesForStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD3667160400F500BDF03F /* OBAArrivalsAndDeparturesForStop.m */; };
@@ -711,6 +714,8 @@
 		933C7F58160C07440005AAFE /* OBATextEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBATextEditViewController.xib; sourceTree = "<group>"; };
 		933C7F59160C07440005AAFE /* OBATextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBATextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		933C7F5A160C07440005AAFE /* OBAWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAWebViewController.xib; sourceTree = "<group>"; };
+		934606C11623A92200BD1CD0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		934606C41623A92700BD1CD0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		93631E3D1604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAArrivalEntryTableViewCell.xib; sourceTree = "<group>"; };
 		93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBANearbyStopsPageTableViewCell.xib; sourceTree = "<group>"; };
 		93631E441604F77A00CB7209 /* OBADiversionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBADiversionViewController.xib; sourceTree = "<group>"; };
@@ -778,6 +783,9 @@
 		93AA8A3D16220E7200B945E7 /* UIView+Screenshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Screenshot.m"; sourceTree = "<group>"; };
 		93AA8A521622610300B945E7 /* OBARegionChangeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionChangeRequest.h; sourceTree = "<group>"; };
 		93AA8A531622610300B945E7 /* OBARegionChangeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionChangeRequest.m; sourceTree = "<group>"; };
+		93AA8A6C162385C300B945E7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		93AA8A6F1623874F00B945E7 /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
+		93AA8A701623874F00B945E7 /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
 		93AD36221603FDE300BDF03F /* OBAAgenciesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgenciesListViewController.h; sourceTree = "<group>"; };
 		93AD36231603FDE300BDF03F /* OBAAgenciesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAgenciesListViewController.m; sourceTree = "<group>"; };
 		93AD36241603FDE300BDF03F /* OBABookmarksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarksViewController.h; sourceTree = "<group>"; };
@@ -808,8 +816,6 @@
 		93AD36581603FFE600BDF03F /* OBAGenericAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAGenericAnnotation.m; sourceTree = "<group>"; };
 		93AD36591603FFE600BDF03F /* OBANavigationTargetAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTargetAnnotation.h; sourceTree = "<group>"; };
 		93AD365A1603FFE600BDF03F /* OBANavigationTargetAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTargetAnnotation.m; sourceTree = "<group>"; };
-		93AD365B1603FFE600BDF03F /* OBAStopAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopAnnotation.h; sourceTree = "<group>"; };
-		93AD365C1603FFE600BDF03F /* OBAStopAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopAnnotation.m; sourceTree = "<group>"; };
 		93AD365D1603FFE600BDF03F /* OBAVehicleMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAVehicleMapAnnotation.h; sourceTree = "<group>"; };
 		93AD365E1603FFE600BDF03F /* OBAVehicleMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAVehicleMapAnnotation.m; sourceTree = "<group>"; };
 		93AD3664160400F500BDF03F /* OBAAgencyWithCoverage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgencyWithCoverage.h; sourceTree = "<group>"; };
@@ -900,6 +906,8 @@
 				D6169A170FC228FB00631BCE /* CoreData.framework in Frameworks */,
 				D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */,
 				D696DAA811A3CD8D00C0E6CB /* MessageUI.framework in Frameworks */,
+				93AA8A6D162385C300B945E7 /* Crashlytics.framework in Frameworks */,
+				93AA8A711623874F00B945E7 /* libFlurryAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -917,6 +925,8 @@
 		29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */ = {
 			isa = PBXGroup;
 			children = (
+				934606C41623A92700BD1CD0 /* Default@2x.png */,
+				934606C11623A92200BD1CD0 /* Default.png */,
 				931C42BF160E4AE000435CD3 /* categories */,
 				93631E4D1604F97D00CB7209 /* utilities */,
 				93631E4A1604F96800CB7209 /* OBAApplicationContext.h */,
@@ -972,6 +982,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93AA8A6C162385C300B945E7 /* Crashlytics.framework */,
 				D62255AA0F8BCA8F00F139BA /* libsqlite3.0.dylib */,
 				D62255C80F8BCB9C00F139BA /* CoreAudio.framework */,
 				D62255CF0F8BCBF100F139BA /* QuartzCore.framework */,
@@ -1586,6 +1597,16 @@
 			path = "Libraries/honcheng-PaperFold-for-iOS-7b532d8/PaperFold/PaperFold/PaperFold";
 			sourceTree = "<group>";
 		};
+		93AA8A6E1623874F00B945E7 /* FlurryAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				93AA8A6F1623874F00B945E7 /* FlurryAnalytics.h */,
+				93AA8A701623874F00B945E7 /* libFlurryAnalytics.a */,
+			);
+			name = FlurryAnalytics;
+			path = Libraries/FlurryAnalytics;
+			sourceTree = "<group>";
+		};
 		93AD36201603FD9B00BDF03F /* view_controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1678,8 +1699,6 @@
 				93AD36581603FFE600BDF03F /* OBAGenericAnnotation.m */,
 				93AD36591603FFE600BDF03F /* OBANavigationTargetAnnotation.h */,
 				93AD365A1603FFE600BDF03F /* OBANavigationTargetAnnotation.m */,
-				93AD365B1603FFE600BDF03F /* OBAStopAnnotation.h */,
-				93AD365C1603FFE600BDF03F /* OBAStopAnnotation.m */,
 				93AD365D1603FFE600BDF03F /* OBAVehicleMapAnnotation.h */,
 				93AD365E1603FFE600BDF03F /* OBAVehicleMapAnnotation.m */,
 			);
@@ -1783,6 +1802,7 @@
 		D61A66790FCDB155004D2E91 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				93AA8A6E1623874F00B945E7 /* FlurryAnalytics */,
 				93AA8A2D16220E7200B945E7 /* PaperFold */,
 				933C7E2B160C07440005AAFE /* aaronbrethorst-onebusaway-iphone-common-fa9a21b */,
 				93A5F5041606540000D1670A /* JCMSegmentPageController */,
@@ -1812,6 +1832,7 @@
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				D6B74DF90F6CA5D80067D68F /* CopyFiles */,
+				93AA8A6A1623859800B945E7 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2033,10 +2054,28 @@
 				9302721716137A47004DBFDE /* info@2x.png in Resources */,
 				93ADBBB4161618850092994E /* lines.png in Resources */,
 				93ADBBB5161618850092994E /* lines@2x.png in Resources */,
+				934606C21623A92200BD1CD0 /* Default.png in Resources */,
+				934606C51623A92700BD1CD0 /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		93AA8A6A1623859800B945E7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run c84d1b759118d7506fea035b497a567d26a1c67b";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
@@ -2074,7 +2113,6 @@
 				93AD36541603FEDF00BDF03F /* OBASituationViewController.m in Sources */,
 				93AD365F1603FFE600BDF03F /* OBAGenericAnnotation.m in Sources */,
 				93AD36601603FFE600BDF03F /* OBANavigationTargetAnnotation.m in Sources */,
-				93AD36611603FFE600BDF03F /* OBAStopAnnotation.m in Sources */,
 				93AD36621603FFE600BDF03F /* OBAVehicleMapAnnotation.m in Sources */,
 				93AD3672160400F500BDF03F /* OBAAgencyWithCoverage.m in Sources */,
 				93AD3673160400F500BDF03F /* OBAArrivalsAndDeparturesForStop.m in Sources */,
@@ -2253,7 +2291,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2264,6 +2305,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Libraries/FlurryAnalytics\"",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2285,7 +2327,10 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -2294,6 +2339,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Libraries/FlurryAnalytics\"",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2361,7 +2407,10 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Brian Ferris";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -2370,6 +2419,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Libraries/FlurryAnalytics\"",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2404,7 +2454,10 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Brian Ferris";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -2413,6 +2466,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Libraries/FlurryAnalytics\"",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",

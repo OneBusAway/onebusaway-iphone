@@ -15,7 +15,7 @@
  */
 
 #import <SystemConfiguration/SystemConfiguration.h>
-
+#import <Crashlytics/Crashlytics.h>
 #import "OBAApplicationContext.h"
 #import "OBANavigationTargetAware.h"
 #import "OBALogger.h"
@@ -30,16 +30,13 @@
 #import "OBAUserPreferencesMigration.h"
 #import "IASKAppSettingsViewController.h"
 
-
 static NSString * kOBAHiddenPreferenceSavedNavigationTargets = @"OBASavedNavigationTargets";
 static NSString * kOBAHiddenPreferenceApplicationLastActiveTimestamp = @"OBAApplicationLastActiveTimestamp";
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
-static NSString * kOBAHiddenPreferenceTabOrder = @"OBATabOrder";
-
-static NSString * kOBAPreferenceShowOnStartup = @"oba_show_on_start_preference";
 static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 
 @interface OBAApplicationContext ()
+@property(nonatomic,readwrite) BOOL active;
 - (void) _constructUI;
 - (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget;
 - (void) _setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController;
@@ -48,17 +45,18 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 - (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults;
 - (void) _migrateUserPreferences;
 - (NSString *)applicationDocumentsDirectory;
-
 @end
 
 
 @implementation OBAApplicationContext
 
-- (id) init {
-	if( self = [super init] ) {
-		
-		_active = NO;
-		
+- (id)init {
+    self = [super init];
+
+	if (self) {
+
+        self.active = NO;
+
 		_references = [[OBAReferencesV2 alloc] init];
 		_modelDao = [[OBAModelDAO alloc] init];
 		_locationManager = [[OBALocationManager alloc] initWithModelDao:_modelDao];		
@@ -112,7 +110,7 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 - (void)_constructUI
 {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    
+    self.window.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     self.mapViewController = [[OBASearchResultsMapViewController alloc] init];
     self.mapViewController.appContext = self;
     
@@ -125,18 +123,12 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [FlurryAnalytics startSession:@"HDQ7ZPV2NJR6CX75NSYJ"];
+    [Crashlytics startWithAPIKey:@"c84d1b759118d7506fea035b497a567d26a1c67b"];
     [self _migrateUserPreferences];
     [self _constructUI];
 
     return YES;
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-	_active = YES;
-}
-
-- (void)applicationWillResignActive:(UIApplication *)application {
-	_active = NO;
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -151,56 +143,19 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 	[self applicationDidEnterBackground:application]; // call for iOS < 4.0 devices
 }
 
-#pragma mark UITabBarControllerDelegate Methods
-
-- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
-	
-	NSLog(@"title=%@",viewController.title);
-	if ([viewController.title isEqual:@"Agencies"] ) {
-		/**
-		 * Note that we delay the call to allow the tab-bar to finish its thing
-		 */
-		OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
-		[self performSelector:@selector(_navigateToTargetInternal:) withObject:target afterDelay:0];
-		return NO;
-	}
-	
-	return YES;
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+	self.active = YES;
 }
 
-/**
- * We want to revert back to the root view of a selected controller when switching between tabs
- */
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-	UINavigationController * nc = (UINavigationController *) viewController;
-	/**
-	 * Note that popToRootViewController didn't seem to work properly when called from the
-	 * calling context of the UITabBarController.  So we punt it to the main thread.
-	 */
-	[nc performSelector:@selector(popToRootViewController) withObject:nil afterDelay:0];
+- (void)applicationWillResignActive:(UIApplication *)application {
+	self.active = NO;
 }
 
-/**
- * We want to save the tab order
- */
-- (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed {
-	
-	NSUInteger count = tabBarController.viewControllers.count;
-	NSMutableArray *tabOrderArray = [[NSMutableArray alloc] initWithCapacity:count];
-	for (UIViewController *viewController in viewControllers) {		
-		NSInteger tag = viewController.tabBarItem.tag;
-		[tabOrderArray addObject:@(tag)];
-	}
-	
-	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-	[userDefaults setObject:tabOrderArray forKey:kOBAHiddenPreferenceTabOrder];
-	[userDefaults synchronize];
-	
-}
 
 #pragma mark IASKSettingsDelegate
 
 - (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
+    [sender dismissViewControllerAnimated:YES completion:nil];
 	[self refreshSettings];
 }
 

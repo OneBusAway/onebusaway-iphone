@@ -228,7 +228,7 @@ static const float kSearchRadius = 400;
     NSDate * t = problem.time;
 
     NSMutableDictionary *args = [NSMutableDictionary dictionaryWithDictionary:@{
-        @"time": [NSString stringWithFormat:@"%lld",t],
+        @"time": [NSString stringWithFormat:@"%lld",(long long)t.timeIntervalSince1970],
         @"latFrom": [NSString stringWithFormat:@"%f",from.latitude],
         @"lonFrom": [NSString stringWithFormat:@"%f",from.longitude],
         @"latTo": [NSString stringWithFormat:@"%f",to.latitude],
@@ -237,18 +237,19 @@ static const float kSearchRadius = 400;
         @"useRealTime": @"true"
                                  }];
 	
-	if( problem.data )
+	if (problem.data) {
 		args[@"data"] = problem.data;
-	
-	if( problem.userComment )
+	}
+
+	if (problem.userComment) {
 		args[@"userComment"] = problem.userComment;
-	
-	CLLocation * location = problem.userLocation;
-	if( location ) {
-		CLLocationCoordinate2D coord = location.coordinate;
+	}
+
+    if (problem.userLocation) {
+		CLLocationCoordinate2D coord = problem.userLocation.coordinate;
 		args[@"userLat"] = [NSString stringWithFormat:@"%f",coord.latitude];
 		args[@"userLon"] = [NSString stringWithFormat:@"%f",coord.longitude];
-		args[@"userLocationAccuracy"] = [NSString stringWithFormat:@"%f",location.horizontalAccuracy];
+		args[@"userLocationAccuracy"] = [NSString stringWithFormat:@"%f", problem.userLocation.horizontalAccuracy];
 	}
 	
 	SEL selector = nil;
@@ -361,107 +362,6 @@ static const float kSearchRadius = 400;
 	SEL selector = @selector(getCurrentVehicleEstimatesV2FromJSON:error:);
     
     return [self request:url args:[self argsFromDictionary:args] selector:selector delegate:delegate context:context];
-}
-
-- (id<OBAModelServiceRequest>) planTripFrom:(CLLocationCoordinate2D)from to:(CLLocationCoordinate2D)to time:(NSDate*)time arriveBy:(BOOL)arriveBy options:(NSDictionary*)options delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context {
-    
-    NSString * url = [NSString stringWithFormat:@"/api/where/plan-trip.json"];
-	
-	NSMutableDictionary * args = [[NSMutableDictionary alloc] init];
-    
-    NSTimeInterval interval = [time timeIntervalSince1970];
-    long long t = (interval * 1000);
-    
-    args[@"time"] = [NSString stringWithFormat:@"%lld",t];
-    args[@"latFrom"] = [NSString stringWithFormat:@"%f",from.latitude];
-    args[@"lonFrom"] = [NSString stringWithFormat:@"%f",from.longitude];
-    args[@"latTo"] = [NSString stringWithFormat:@"%f",to.latitude];
-    args[@"lonTo"] = [NSString stringWithFormat:@"%f",to.longitude];
-    args[@"arriveBy"] = (arriveBy ? @"true" : @"false");
-    args[@"useRealTime"] = @"true";
-    
-    // Append all options
-    for (NSString * key in options ) {
-        args[key] = options[key];
-    }
-        
-	SEL selector = @selector(getItinerariesV2FromJSON:error:);
-    
-    NSString * argsValue = [self argsFromDictionary:args];
-    
-    return [self request:url args:argsValue selector:selector delegate:delegate context:context];
-    //return [self post:url args:args selector:selector delegate:delegate context:context];
-}
-
-- (id<OBAModelServiceRequest>) registerAlarmForArrivalAndDepartureAtStop:(OBAArrivalAndDepartureInstanceRef*)instance onArrival:(BOOL)onArrival alarmTimeOffset:(NSInteger)alarmTimeOffset notificationOptions:(NSDictionary*)notificationOptions withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
-    
-    NSString * stopId = [self escapeStringForUrl:instance.stopId];
-	OBATripInstanceRef * tripInstance = instance.tripInstance;
-	
-	NSString * url = [NSString stringWithFormat:@"/api/where/register-alarm-for-arrival-and-departure-at-stop/%@.json", stopId];
-    
-    NSMutableDictionary * args = [[NSMutableDictionary alloc] init];
-    args[@"tripId"] = tripInstance.tripId;
-    args[@"serviceDate"] = [NSString stringWithFormat:@"%lld",tripInstance.serviceDate];
-	if( tripInstance.vehicleId )
-		args[@"vehicleId"] = tripInstance.vehicleId;
-	if( instance.stopSequence >= 0 )
-        args[@"stopSequence"] = [NSString stringWithFormat:@"%d",instance.stopSequence];
-    
-    if( onArrival )
-        args[@"onArrival"] = @"true";
-    
-    if( alarmTimeOffset != 0 )
-        args[@"alarmTimeOffset"] = [NSString stringWithFormat:@"%d",alarmTimeOffset];
-    
-    if (notificationOptions) {
-
-        NSData *data = [NSJSONSerialization dataWithJSONObject:notificationOptions options:0 error:nil];
-        NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-
-        if (json)
-        {
-            args[@"data"] = json;
-        }
-    }
-    
-    NSData * token = self.deviceToken;
-    const unsigned char * tokenBuffer = [token bytes];
-    NSMutableString * tokenString = [[NSMutableString alloc] initWithString:@"apns:"];
-    for( NSInteger i=0; i < [token length]; i++)
-        [tokenString appendFormat:@"%02X",(unsigned long)(tokenBuffer[i])];
-    args[@"url"] = tokenString;
-    NSLog(@"Token String: %@ %d",tokenString,[token length]);
-    
-    SEL selector = @selector(getAlarmIdFromJSON:error:);
-                                   
-    NSString * argsValue = [self argsFromDictionary:args];
-	
-	return [self request:url args:argsValue selector:selector delegate:delegate context:context];
-}
-
-- (id<OBAModelServiceRequest>) cancelAlarmWithId:(NSString*)alarmId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
-
-    alarmId = [self escapeStringForUrl:alarmId];
-	
-	NSString * url = [NSString stringWithFormat:@"/api/where/cancel-alarm/%@.json",alarmId];
-    
-	return [self request:url args:nil selector:nil delegate:delegate context:context];
-}
-
-- (id<OBAModelServiceRequest>) cancelAlarmsWithIds:(NSArray*)alarmIds withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
-    
-    NSString * url = @"/api/where/cancel-alarms.json";
-
-    NSMutableString * args = [NSMutableString string];
-    for( __strong NSString * alarmId in alarmIds ) {
-        alarmId = [self escapeStringForUrl:alarmId];
-        if( [args length] > 0 )
-            [args appendString:@"&"];
-        [args appendString:alarmId];
-    }
-    
-	return [self request:url args:args selector:nil delegate:delegate context:context];
 }
 
 @end

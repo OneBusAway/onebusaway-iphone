@@ -81,8 +81,13 @@
 #pragma mark Actions
 
 -(IBAction)save:(id)sender {
-	if( _target && _action && [_target respondsToSelector:_action] )
-		[_target performSelector:_action withObject:[[self textView] text]];
+	if( _target && _action && [_target respondsToSelector:_action] ) {
+// note: I think that silencing warnings like this is gross.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        [_target performSelector:_action withObject:[[self textView] text]];
+#pragma clang diagnostic pop
+    }
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -97,12 +102,13 @@
 
 -(void)keyboardDidShow:(NSNotification*)notification {
 	if (_keyboardShowing) {return;}
-	NSValue* bounds = [notification userInfo][UIKeyboardBoundsUserInfoKey];
-	CGSize keyboardSize = [bounds CGRectValue].size;
-	CGRect frame = [[self view] frame];
+    
+	NSValue* bounds = [notification userInfo][UIKeyboardFrameEndUserInfoKey];
+	CGSize keyboardSize = bounds.CGRectValue.size;
+	CGRect frame = self.view.frame;
 	_nokeyboardHeight = frame.size.height;
 	frame.size.height = _nokeyboardHeight - keyboardSize.height;
-	[[self view] setFrame:frame];
+	self.view.frame = frame;
 	_keyboardShowing = YES;
 }
 
