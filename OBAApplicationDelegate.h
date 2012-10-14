@@ -26,6 +26,7 @@
 @class OBASearchResultsMapViewController;
 @class OBARecentStopsViewController;
 @class OBABookmarksViewController;
+@class OBAInfoViewController;
 @class OBAStopIconFactory;
 
 @interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate,IASKSettingsDelegate> {
@@ -50,6 +51,9 @@
 
 @property(strong) UINavigationController *bookmarksNavigationController;
 @property(strong) OBABookmarksViewController *bookmarksViewController;
+
+@property(strong) UINavigationController *infoNavigationController;
+@property(strong) OBAInfoViewController *infoViewController;
 
 @property(nonatomic,readonly) OBAReferencesV2 * references;
 @property(nonatomic,readonly) OBAModelDAO * modelDao;

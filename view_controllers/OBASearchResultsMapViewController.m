@@ -644,10 +644,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 #pragma mark - IBActions
 
 - (void)showInfoPane {
-    OBAInfoViewController *infoViewController = [[OBAInfoViewController alloc] init];
-    infoViewController.presenterViewController = self.navigationController;
-    infoViewController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
-    [self presentViewController:infoViewController animated:YES completion:nil];
+
 }
 
 - (IBAction)onCrossHairsButton:(id)sender {

@@ -33,18 +33,8 @@
 
 #pragma mark UIViewController
 
-- (void)viewDidLoad {
-	[super viewDidLoad];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"") style:UIBarButtonItemStyleDone target:self action:@selector(close)];
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-}
-
-- (void)close {
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark Table view methods

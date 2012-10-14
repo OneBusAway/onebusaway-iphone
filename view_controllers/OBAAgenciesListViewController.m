@@ -42,12 +42,6 @@ typedef enum {
 -(void) viewDidLoad {
 	self.refreshable = NO;
 	self.showUpdateTime = NO;
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"") style:UIBarButtonItemStyleDone target:self action:@selector(close)];
-}
-
-- (void)close {
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (BOOL) isLoading {

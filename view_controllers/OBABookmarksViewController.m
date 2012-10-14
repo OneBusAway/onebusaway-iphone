@@ -48,17 +48,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    self.parentViewController.navigationItem.leftBarButtonItem = self.editButtonItem;
-    self.parentViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"Title for a close button on a modal view controller") style:UIBarButtonItemStyleDone target:self action:@selector(close)];
-	
+
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+
 	// We reload the table here in case we are coming back from the user editing the label for a bookmark
 	[self _refreshBookmarks];
 	[self.tableView reloadData];
-}
-
-- (void)close {
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark Table view methods

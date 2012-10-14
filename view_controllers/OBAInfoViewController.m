@@ -12,8 +12,6 @@
 #import "IASKAppSettingsViewController.h"
 #import "OBACreditsViewController.h"
 
-#define kPeelBackSize 125.f
-
 #define kContactUsRow 0
 #define kSettingsRow 1
 #define kAgenciesRow 2
@@ -22,21 +20,18 @@
 @implementation OBAInfoViewController
 
 - (id)init {
-    return [super initWithNibName:@"OBAInfoViewController" bundle:nil];
+    self = [super initWithNibName:@"OBAInfoViewController" bundle:nil];
+    if (self) {
+        self.title = NSLocalizedString(@"Info", @"");
+        self.tabBarItem.image = [UIImage imageNamed:@"info"];
+    }
+    return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.tableView.tableHeaderView = self.headerView;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    CGRect currentFrame = self.view.frame;
-    currentFrame.origin.y += kPeelBackSize;
-    currentFrame.size.height -= kPeelBackSize;
-    self.view.frame = currentFrame;
 }
 
 #pragma mark - UITableViewDataSource
@@ -107,12 +102,7 @@
             break;
     }
 
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:pushMe];
-    
-    OBAInfoViewController *weakSelf = self;
-    [self dismissViewControllerAnimated:YES completion:^{
-        [weakSelf.presenterViewController presentViewController:nav animated:YES completion:nil];
-    }];
+    [self.navigationController pushViewController:pushMe animated:YES];
 }
 
 @end
