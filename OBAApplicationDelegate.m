@@ -116,7 +116,7 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 
     self.mapViewController = [[OBASearchResultsMapViewController alloc] init];
     self.mapViewController.appContext = self;
-    self.navigation = [[UINavigationController alloc] initWithRootViewController:self.mapViewController];
+    self.mapNavigationController = [[UINavigationController alloc] initWithRootViewController:self.mapViewController];
 
     self.tabBarController.viewControllers = @[self.navigation];
     
@@ -167,7 +167,7 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 	
 	[_references clear];
     
-    [self.navigation popToRootViewControllerAnimated:NO];
+    [self.mapNavigationController popToRootViewControllerAnimated:NO];
     
     if (OBANavigationTargetTypeSearchResults == navigationTarget.target) {
         self.mapViewController.navigationTarget = navigationTarget;

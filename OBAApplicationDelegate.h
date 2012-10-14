@@ -39,7 +39,7 @@
 
 @property(nonatomic, strong) UIWindow *window;
 @property(nonatomic, strong) UITabBarController *tabBarController;
-@property(nonatomic, strong) UINavigationController *navigation;
+@property(nonatomic, strong) UINavigationController *mapNavigationController;
 @property(strong) OBASearchResultsMapViewController *mapViewController;
 
 @property(nonatomic,readonly) OBAReferencesV2 * references;
