@@ -9,6 +9,7 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
 @interface OBAMapRegionManager ()
 @property(strong) MKMapView *mapView;
 @property BOOL currentlyChangingRegion;
+@property BOOL firstRegionChangeRequested;
 @property(strong) OBARegionChangeRequest *pendingRegionChangeRequest;
 @property(strong) NSMutableArray *appliedRegionChangeRequests;
 
@@ -26,6 +27,7 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
         self.mapView = mapView;
         self.lastRegionChangeWasProgramatic = NO;
         self.currentlyChangingRegion = NO;
+        self.firstRegionChangeRequested = NO;
         self.pendingRegionChangeRequest = nil;
         self.appliedRegionChangeRequests = [[NSMutableArray alloc] init];
     }
@@ -73,7 +75,7 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
             type = request.type;
     }
     
-    self.lastRegionChangeWasProgramatic = (type == OBARegionChangeRequestTypeProgramatic);
+    self.lastRegionChangeWasProgramatic = (type == OBARegionChangeRequestTypeProgramatic || !self.firstRegionChangeRequested);
     //OBALogDebug(@"regionDidChangeAnimated: setting self.lastRegionChangeWasProgramatic to %d", self.lastRegionChangeWasProgramatic);
     
     BOOL applyingPendingRequest = NO;
@@ -100,19 +102,27 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
 
 - (void) setMapRegionWithRequest:(OBARegionChangeRequest*)request {
 
-    //OBALogDebug(@"setMapRegion: requestType=%d region=%@",request.type,[OBASphericalGeometryLibrary regionAsString:request.region]);
+    @synchronized(self) {
+        //OBALogDebug(@"setMapRegion: requestType=%d region=%@",request.type,[OBASphericalGeometryLibrary regionAsString:request.region]);
 
-    /**
-     * If we are currently in the process of changing the map region, we save the region change request as pending.
-     * Otherwise, we apply the region change.
-     */
-    if ( self.currentlyChangingRegion ) {
-        //OBALogDebug(@"saving pending request");
-        self.pendingRegionChangeRequest = request;
-    }
-    else {
-        [self.appliedRegionChangeRequests addObject:request];
-        [self.mapView setRegion:request.region animated:YES];
+        /**
+         * If we are currently in the process of changing the map region, we save the region change request as pending.
+         * Otherwise, we apply the region change.
+         */
+        if ( self.currentlyChangingRegion ) {
+            //OBALogDebug(@"saving pending request");
+            self.pendingRegionChangeRequest = request;
+        }
+        else {
+            [self.appliedRegionChangeRequests addObject:request];
+            [self.mapView setRegion:request.region animated:YES];
+        }
+
+        /**
+         * firstRegionChangeRequested makes sure that the map view zooms to your current location before any requests have been made
+         * map view will show current location on app startup
+         */
+        self.firstRegionChangeRequested = YES;
     }
 }
 
