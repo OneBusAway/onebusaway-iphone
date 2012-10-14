@@ -38,6 +38,7 @@
 }
 
 @property(nonatomic, strong) UIWindow *window;
+@property(nonatomic, strong) UITabBarController *tabBarController;
 @property(nonatomic, strong) UINavigationController *navigation;
 @property(strong) OBASearchResultsMapViewController *mapViewController;
 

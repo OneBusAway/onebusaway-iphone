@@ -111,12 +111,16 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+
+    self.tabBarController = [[UITabBarController alloc] init];
+
     self.mapViewController = [[OBASearchResultsMapViewController alloc] init];
     self.mapViewController.appContext = self;
-    
     self.navigation = [[UINavigationController alloc] initWithRootViewController:self.mapViewController];
+
+    self.tabBarController.viewControllers = @[self.navigation];
     
-    self.window.rootViewController = self.navigation;
+    self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
 }
 
