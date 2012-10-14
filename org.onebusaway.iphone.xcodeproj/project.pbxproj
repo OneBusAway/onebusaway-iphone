@@ -340,7 +340,6 @@
 		93ADBBB5161618850092994E /* lines@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93ADBBB3161618850092994E /* lines@2x.png */; };
 		A005943E13FC43A9001B397B /* OBASearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005943C13FC43A9001B397B /* OBASearchTableViewCell.xib */; };
 		A005945713FC49A0001B397B /* OBATripScheduleMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005945513FC49A0001B397B /* OBATripScheduleMapViewController.xib */; };
-		A005945C13FC4A02001B397B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005945A13FC4A02001B397B /* MainWindow.xib */; };
 		A00E679813FD956C0022820E /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A00E679713FD956C0022820E /* Settings.bundle */; };
 		D6169A170FC228FB00631BCE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6169A160FC228FB00631BCE /* CoreData.framework */; };
 		D61AC67C0F77E0F7006FA853 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D61AC67B0F77E0F7006FA853 /* CoreLocation.framework */; };
@@ -868,8 +867,6 @@
 		A005943F13FC43DB001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
 		A005945613FC49A0001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBATripScheduleMapViewController.xib; sourceTree = "<group>"; };
 		A005945813FC49A6001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OBATripScheduleMapViewController.xib; sourceTree = "<group>"; };
-		A005945B13FC4A02001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
-		A005945D13FC4A08001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		A00E679713FD956C0022820E /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		D6169A040FC2258800631BCE /* OBAModel-1.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = "OBAModel-1.xcdatamodel"; sourceTree = "<group>"; };
 		D6169A160FC228FB00631BCE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -1785,7 +1782,6 @@
 		D619F88E0FDF1372002893B5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A005945A13FC4A02001B397B /* MainWindow.xib */,
 				A005945513FC49A0001B397B /* OBATripScheduleMapViewController.xib */,
 			);
 			name = Views;
@@ -1882,7 +1878,6 @@
 				D69C598913F9BD6900BA90A2 /* Localizable.strings in Resources */,
 				A005943E13FC43A9001B397B /* OBASearchTableViewCell.xib in Resources */,
 				A005945713FC49A0001B397B /* OBATripScheduleMapViewController.xib in Resources */,
-				A005945C13FC4A02001B397B /* MainWindow.xib in Resources */,
 				A00E679813FD956C0022820E /* Settings.bundle in Resources */,
 				93A29181160158C00035BC70 /* Default-568h@2x.png in Resources */,
 				9330DED61603BC6F00E14AF4 /* OBASearchResultsMapViewController.xib in Resources */,
@@ -2259,15 +2254,6 @@
 				A005945813FC49A6001B397B /* fr */,
 			);
 			name = OBATripScheduleMapViewController.xib;
-			sourceTree = "<group>";
-		};
-		A005945A13FC4A02001B397B /* MainWindow.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A005945B13FC4A02001B397B /* en */,
-				A005945D13FC4A08001B397B /* fr */,
-			);
-			name = MainWindow.xib;
 			sourceTree = "<group>";
 		};
 		D69C598713F9BD6900BA90A2 /* Localizable.strings */ = {
