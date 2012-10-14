@@ -287,7 +287,6 @@
 		93631EAB1607FB2F00CB7209 /* OBAInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631EAA1607FB2F00CB7209 /* OBAInfoViewController.m */; };
 		93631EAD1607FB7100CB7209 /* OBAInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631EAC1607FB7100CB7209 /* OBAInfoViewController.xib */; };
 		93A29181160158C00035BC70 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A29180160158C00035BC70 /* Default-568h@2x.png */; };
-		93A5F5081606541100D1670A /* JCMSegmentPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A5F5071606541100D1670A /* JCMSegmentPageController.m */; };
 		93AA8A3E16220E7200B945E7 /* FacingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AA8A2F16220E7200B945E7 /* FacingView.m */; };
 		93AA8A3F16220E7200B945E7 /* FoldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AA8A3116220E7200B945E7 /* FoldView.m */; };
 		93AA8A4016220E7200B945E7 /* MultiFoldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AA8A3316220E7200B945E7 /* MultiFoldView.m */; };
@@ -762,8 +761,6 @@
 		93631EAA1607FB2F00CB7209 /* OBAInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAInfoViewController.m; sourceTree = "<group>"; };
 		93631EAC1607FB7100CB7209 /* OBAInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAInfoViewController.xib; sourceTree = "<group>"; };
 		93A29180160158C00035BC70 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		93A5F5061606541100D1670A /* JCMSegmentPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCMSegmentPageController.h; path = "Libraries/jcmendez-JCMSegmentPageController-145da61/JCMSegmentPageController.h"; sourceTree = "<group>"; };
-		93A5F5071606541100D1670A /* JCMSegmentPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCMSegmentPageController.m; path = "Libraries/jcmendez-JCMSegmentPageController-145da61/JCMSegmentPageController.m"; sourceTree = "<group>"; };
 		93AA8A2E16220E7200B945E7 /* FacingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacingView.h; sourceTree = "<group>"; };
 		93AA8A2F16220E7200B945E7 /* FacingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacingView.m; sourceTree = "<group>"; };
 		93AA8A3016220E7200B945E7 /* FoldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldView.h; sourceTree = "<group>"; };
@@ -1561,15 +1558,6 @@
 			path = toolbars;
 			sourceTree = "<group>";
 		};
-		93A5F5041606540000D1670A /* JCMSegmentPageController */ = {
-			isa = PBXGroup;
-			children = (
-				93A5F5061606541100D1670A /* JCMSegmentPageController.h */,
-				93A5F5071606541100D1670A /* JCMSegmentPageController.m */,
-			);
-			name = JCMSegmentPageController;
-			sourceTree = "<group>";
-		};
 		93AA8A2D16220E7200B945E7 /* PaperFold */ = {
 			isa = PBXGroup;
 			children = (
@@ -1801,7 +1789,6 @@
 				93AA8A6E1623874F00B945E7 /* FlurryAnalytics */,
 				93AA8A2D16220E7200B945E7 /* PaperFold */,
 				933C7E2B160C07440005AAFE /* aaronbrethorst-onebusaway-iphone-common-fa9a21b */,
-				93A5F5041606540000D1670A /* JCMSegmentPageController */,
 				9330DEA51603B41400E14AF4 /* InAppSettingsKit */,
 			);
 			name = Libraries;
@@ -2153,7 +2140,6 @@
 				93631E871604F9AD00CB7209 /* OBATripStopTimeMapAnnotation.m in Sources */,
 				9330DEE516050B9500E14AF4 /* OBACreditsViewController.m in Sources */,
 				9330DF281606405100E14AF4 /* OBAScopeView.m in Sources */,
-				93A5F5081606541100D1670A /* JCMSegmentPageController.m in Sources */,
 				93631EAB1607FB2F00CB7209 /* OBAInfoViewController.m in Sources */,
 				933C7F5B160C07440005AAFE /* OBACommon.m in Sources */,
 				933C7F5C160C07440005AAFE /* OBALocationManager.m in Sources */,

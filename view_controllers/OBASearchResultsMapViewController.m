@@ -25,7 +25,6 @@
 #import "OBASphericalGeometryLibrary.h"
 #import "OBAProgressIndicatorView.h"
 #import "OBASearchResultsListViewController.h"
-#import "JCMSegmentPageController.h"
 #import "OBABookmarksViewController.h"
 #import "OBARecentStopsViewController.h"
 #import "OBAStopViewController.h"
@@ -67,7 +66,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @property(strong) OBASearchResultsListViewController *searchResultsListViewController;
 @property(strong) OBAScopeView *floatingToolbar;
 @property(strong) UIView *floatingToolbarWrapper;
-- (void)_showBookmarks;
 @end
 
 @interface OBASearchResultsMapViewController (Private)
@@ -650,26 +648,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     infoViewController.presenterViewController = self.navigationController;
     infoViewController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
     [self presentViewController:infoViewController animated:YES completion:nil];
-}
-
-- (void)_showBookmarks {
-	JCMSegmentPageController *segmentPageController = [[JCMSegmentPageController alloc] init];
-    segmentPageController.headerContainerViewClass = [OBAScopeView class];
-    
-    ((OBAScopeView*)segmentPageController.headerContainerView).drawsBottomBorder = NO;
-    ((OBAScopeView*)segmentPageController.headerContainerView).drawsTopBorder = YES;
-    
-    OBABookmarksViewController *bookmarks = [[OBABookmarksViewController alloc] init];
-    bookmarks.appContext = self.appContext;
-    
-    OBARecentStopsViewController *recentStops = [[OBARecentStopsViewController alloc] init];
-    recentStops.appContext = self.appContext;
-    
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:segmentPageController];
-    
-	segmentPageController.viewControllers = @[recentStops, bookmarks];
-    
-    [self presentViewController:nav animated:YES completion:nil];
 }
 
 - (IBAction)onCrossHairsButton:(id)sender {
