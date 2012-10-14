@@ -24,6 +24,8 @@
 #import "IASKAppSettingsViewController.h"
 
 @class OBASearchResultsMapViewController;
+@class OBARecentStopsViewController;
+@class OBABookmarksViewController;
 @class OBAStopIconFactory;
 
 @interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate,IASKSettingsDelegate> {
@@ -39,8 +41,15 @@
 
 @property(nonatomic, strong) UIWindow *window;
 @property(nonatomic, strong) UITabBarController *tabBarController;
+
 @property(nonatomic, strong) UINavigationController *mapNavigationController;
 @property(strong) OBASearchResultsMapViewController *mapViewController;
+
+@property(strong) UINavigationController *recentsNavigationController;
+@property(strong) OBARecentStopsViewController *recentsViewController;
+
+@property(strong) UINavigationController *bookmarksNavigationController;
+@property(strong) OBABookmarksViewController *bookmarksViewController;
 
 @property(nonatomic,readonly) OBAReferencesV2 * references;
 @property(nonatomic,readonly) OBAModelDAO * modelDao;

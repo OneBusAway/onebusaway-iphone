@@ -64,7 +64,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @property(strong) PaperFoldView *paperFoldView;
 @property(strong) UIButton *locationButton;
 @property(strong) UIBarButtonItem *listBarButtonItem;
-@property(strong) UIBarButtonItem *bookmarksBarButtonItem;
 @property(strong) OBASearchResultsListViewController *searchResultsListViewController;
 @property(strong) OBAScopeView *floatingToolbar;
 @property(strong) UIView *floatingToolbarWrapper;
@@ -170,10 +169,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	_searchController = [[OBASearchController alloc] initWithAppContext:_appContext];
 	_searchController.delegate = self;
 	_searchController.progress.delegate = self;
-    
-    self.bookmarksBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(_showBookmarks)];
-    self.navigationItem.leftBarButtonItem = self.bookmarksBarButtonItem;
-    
+
     self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStyleBordered target:self action:@selector(onListButton:)];
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
     
@@ -300,7 +296,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
 {
-    self.navigationItem.leftBarButtonItem = self.bookmarksBarButtonItem;
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
     searchBar.showsCancelButton = NO;
     [self animateOutScopeView];

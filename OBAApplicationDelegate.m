@@ -21,8 +21,9 @@
 #import "OBALogger.h"
 
 #import "OBASearchResultsMapViewController.h"
-#import "OBABookmarksViewController.h"
 #import "OBARecentStopsViewController.h"
+#import "OBABookmarksViewController.h"
+
 #import "OBASearchController.h"
 #import "OBAStopViewController.h"
 #import "OBAStopIconFactory.h"
@@ -118,7 +119,15 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
     self.mapViewController.appContext = self;
     self.mapNavigationController = [[UINavigationController alloc] initWithRootViewController:self.mapViewController];
 
-    self.tabBarController.viewControllers = @[self.navigation];
+    self.recentsViewController = [[OBARecentStopsViewController alloc] init];
+    self.recentsViewController.appContext = self;
+    self.recentsNavigationController = [[UINavigationController alloc] initWithRootViewController:self.recentsViewController];
+
+    self.bookmarksViewController = [[OBABookmarksViewController alloc] init];
+    self.bookmarksViewController.appContext = self;
+    self.bookmarksNavigationController = [[UINavigationController alloc] initWithRootViewController:self.bookmarksViewController];
+
+    self.tabBarController.viewControllers = @[self.mapNavigationController, self.recentsNavigationController, self.bookmarksNavigationController];
     
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
