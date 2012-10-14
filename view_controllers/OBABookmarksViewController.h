@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
 
 @interface OBABookmarksViewController : UITableViewController <OBANavigationTargetAware>
-@property(nonatomic,strong) IBOutlet OBAApplicationContext * appContext;
+@property(nonatomic,strong) IBOutlet OBAApplicationDelegate * appContext;
 @end

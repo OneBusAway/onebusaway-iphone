@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
 #import "OBAStop.h"
 #import "OBALocationManager.h"
@@ -30,7 +30,7 @@
 
 @interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware,OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate> {
 	
-	OBAApplicationContext * _appContext;
+	OBAApplicationDelegate * _appContext;
 	
 	OBASearchController * _searchController;
 	
@@ -48,7 +48,7 @@
 	
 	BOOL _hideFutureNetworkErrors;
 }
-@property(nonatomic,strong) OBAApplicationContext * appContext;
+@property(nonatomic,strong) OBAApplicationDelegate * appContext;
 @property(nonatomic,strong) IBOutlet OBAScopeView *scopeView;
 @property(nonatomic,strong) IBOutlet UISegmentedControl *searchTypeSegmentedControl;
 @property(nonatomic,strong) IBOutlet MKMapView * mapView;

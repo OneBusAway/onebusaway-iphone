@@ -16,7 +16,7 @@
 
 @synthesize showServiceAlerts = _showServiceAlerts;
 
-- (id) initWithAppContext:(OBAApplicationContext*)appContext tableView:(UITableView*)tableView {
+- (id) initWithAppContext:(OBAApplicationDelegate*)appContext tableView:(UITableView*)tableView {
     self = [super init];
 	if( self ) {
 		_appContext = appContext;

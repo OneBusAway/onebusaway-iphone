@@ -1,12 +1,12 @@
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 #import "OBAStopV2.h"
 
 
 @interface OBAReportProblemViewController : UITableViewController {
-	OBAApplicationContext * _appContext;
+	OBAApplicationDelegate * _appContext;
 	OBAStopV2 * _stop;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stop:(OBAStopV2*)stop;
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext stop:(OBAStopV2*)stop;
 
 @end

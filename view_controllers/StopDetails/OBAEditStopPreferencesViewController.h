@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 #import "OBAStopV2.h"
 #import "OBAStopPreferencesV2.h"
 
 @interface OBAEditStopPreferencesViewController : UITableViewController {
-	OBAApplicationContext * _appContext;
+	OBAApplicationDelegate * _appContext;
 	OBAStopV2 * _stop;
 	NSArray * _routes;
 	OBAStopPreferencesV2 * _preferences;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stop:(OBAStopV2*)stop;
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext stop:(OBAStopV2*)stop;
 
 - (IBAction) onCancelButton:(id)sender;
 - (IBAction) onSaveButton:(id)sender;

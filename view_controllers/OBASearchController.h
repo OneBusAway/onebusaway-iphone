@@ -16,7 +16,7 @@
 
 #import "OBASearch.h"
 #import "OBASearchResult.h"
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 #import "OBAProgressIndicatorSource.h"
 #import "OBAPlacemark.h"
 #import "OBADataSource.h"
@@ -68,7 +68,7 @@
 @property (nonatomic,strong) NSError * error;
 
 
-- (id) initWithAppContext:(OBAApplicationContext*)context;
+- (id) initWithAppContext:(OBAApplicationDelegate*)context;
 
 -(void) searchWithTarget:(OBANavigationTarget*)target;
 -(void) searchPending;

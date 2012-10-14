@@ -1,12 +1,12 @@
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 
 
 @interface OBASituationsViewController : UITableViewController {
-	OBAApplicationContext * _appContext;
+	OBAApplicationDelegate * _appContext;
 	NSArray * _situations;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext situations:(NSArray*)situations;
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext situations:(NSArray*)situations;
 
 @property (nonatomic,strong) NSDictionary * args;
 

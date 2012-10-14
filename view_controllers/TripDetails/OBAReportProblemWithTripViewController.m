@@ -39,7 +39,7 @@ typedef enum {
 #pragma mark -
 #pragma mark Initialization
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext tripInstance:(OBATripInstanceRef*)tripInstance trip:(OBATripV2*)trip {
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext tripInstance:(OBATripInstanceRef*)tripInstance trip:(OBATripV2*)trip {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		_appContext = appContext;
 		_tripInstance = tripInstance;

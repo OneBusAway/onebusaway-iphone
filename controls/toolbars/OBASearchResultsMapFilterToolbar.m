@@ -15,7 +15,7 @@
  */
 
 #import "OBASearchResultsMapFilterToolbar.h"
-#import "OBAApplicationContext.h" // for OBAApplicationContext.window
+#import "OBAApplicationDelegate.h" // for OBAApplicationDelegate.window
 
 
 // hidden declarations
@@ -35,7 +35,7 @@
 
 
 // methods
--(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate andAppContext:(OBAApplicationContext*)context {
+-(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate andAppContext:(OBAApplicationDelegate*)context {
     self = [super init];
     
     if (self != nil) {

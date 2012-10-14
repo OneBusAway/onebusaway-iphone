@@ -26,7 +26,7 @@
 @class OBASearchResultsMapViewController;
 @class OBAStopIconFactory;
 
-@interface OBAApplicationContext : UIResponder <UIApplicationDelegate,IASKSettingsDelegate> {
+@interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate,IASKSettingsDelegate> {
 	
 	OBAReferencesV2 * _references;
 	OBAModelDAO * _modelDao;

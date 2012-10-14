@@ -1,11 +1,11 @@
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 #import "OBATripDetailsV2.h"
 #import "OBAModalActivityIndicator.h"
 #import "OBATripInstanceRef.h"
 
 
 @interface OBAReportProblemWithTripViewController : UITableViewController <UITextFieldDelegate,OBAModelServiceDelegate> {
-	OBAApplicationContext * _appContext;
+	OBAApplicationDelegate * _appContext;
 	OBATripInstanceRef * _tripInstance;
 	OBATripV2 * _trip;
 	NSMutableArray * _problemIds;
@@ -19,7 +19,7 @@
 	OBAModalActivityIndicator * _activityIndicatorView;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext tripInstance:(OBATripInstanceRef*)tripInstance trip:(OBATripV2*)trip;
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext tripInstance:(OBATripInstanceRef*)tripInstance trip:(OBATripV2*)trip;
 
 @property (nonatomic,strong) NSString * currentStopId;
 

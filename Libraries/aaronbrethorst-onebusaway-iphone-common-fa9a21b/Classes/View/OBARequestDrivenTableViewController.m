@@ -20,7 +20,7 @@
 @synthesize progressLabel = _progressLabel;
 @synthesize showUpdateTime = _showUpdateTime;
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext { 
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext { 
     self = [super initWithStyle:UITableViewStyleGrouped];
 	if (self) {
 		_appContext = appContext;

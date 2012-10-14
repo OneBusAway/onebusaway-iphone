@@ -23,7 +23,7 @@
 
 @implementation OBAEditStopBookmarkViewController
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType {
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType {
 
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		self.tableView.scrollEnabled = NO;

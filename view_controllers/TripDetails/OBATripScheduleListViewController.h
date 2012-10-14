@@ -1,11 +1,11 @@
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 #import "OBATripDetailsV2.h"
 #import "OBATripInstanceRef.h"
 #import "OBAProgressIndicatorView.h"
 
 
 @interface OBATripScheduleListViewController : UITableViewController <OBAModelServiceDelegate> {
-	OBAApplicationContext * _appContext;
+	OBAApplicationDelegate * _appContext;
 	OBATripInstanceRef * _tripInstance;
 	OBATripDetailsV2 * _tripDetails;	
 	id<OBAModelServiceRequest> _request;
@@ -16,7 +16,7 @@
 	OBAProgressIndicatorView * _progressView;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)context tripInstance:(OBATripInstanceRef*)tripInstance;
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)context tripInstance:(OBATripInstanceRef*)tripInstance;
 
 @property (nonatomic,strong) OBATripDetailsV2 * tripDetails;
 @property (nonatomic,strong) NSString * currentStopId;

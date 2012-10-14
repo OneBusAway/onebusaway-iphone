@@ -37,7 +37,7 @@ typedef enum {
 
 @implementation OBAArrivalAndDepartureViewController
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext arrivalAndDepartureInstance:(OBAArrivalAndDepartureInstanceRef*)instance {
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext arrivalAndDepartureInstance:(OBAArrivalAndDepartureInstanceRef*)instance {
 	if( self = [super initWithApplicationContext:appContext] ) {
 		_instance = instance;
 		_arrivalAndDeparture = nil;
@@ -50,7 +50,7 @@ typedef enum {
 	return self;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
 	self = [self initWithApplicationContext:appContext arrivalAndDepartureInstance:arrivalAndDeparture.instance];
 	_arrivalAndDeparture = arrivalAndDeparture;
 	return self;	

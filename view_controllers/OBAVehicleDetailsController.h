@@ -1,4 +1,4 @@
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 #import "OBARequestDrivenTableViewController.h"
 #import "OBAVehicleStatusV2.h"
 
@@ -8,7 +8,7 @@
 	OBAVehicleStatusV2 * _vehicleStatus;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext vehicleId:(NSString*)vehicleId;
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext vehicleId:(NSString*)vehicleId;
 
 
 @end

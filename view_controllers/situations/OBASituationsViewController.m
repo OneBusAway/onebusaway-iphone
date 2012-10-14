@@ -19,7 +19,7 @@
 
 @synthesize args;
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext situations:(NSArray*)situations {
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext situations:(NSArray*)situations {
 	
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		_appContext = appContext;

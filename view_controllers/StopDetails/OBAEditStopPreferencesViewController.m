@@ -22,7 +22,7 @@
 
 @implementation OBAEditStopPreferencesViewController
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stop:(OBAStopV2*)stop {
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext stop:(OBAStopV2*)stop {
 
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		

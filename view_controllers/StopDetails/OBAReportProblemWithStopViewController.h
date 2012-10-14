@@ -1,9 +1,9 @@
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 #import "OBAStopV2.h"
 #import "OBAModalActivityIndicator.h"
 
 @interface OBAReportProblemWithStopViewController : UITableViewController <UITextFieldDelegate,OBAModelServiceDelegate> {
-	OBAApplicationContext * _appContext;
+	OBAApplicationDelegate * _appContext;
 	OBAStopV2 * _stop;
 	NSMutableArray * _problemIds;
 	NSMutableArray * _problemNames;
@@ -13,6 +13,6 @@
 	OBAModalActivityIndicator * _activityIndicatorView;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stop:(OBAStopV2*)stop;
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext stop:(OBAStopV2*)stop;
 
 @end

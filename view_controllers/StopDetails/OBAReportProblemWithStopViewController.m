@@ -30,7 +30,7 @@ typedef enum {
 #pragma mark -
 #pragma mark Initialization
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)context stop:(OBAStopV2*)stop {
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)context stop:(OBAStopV2*)stop {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		_appContext = context;
 		_stop = stop;

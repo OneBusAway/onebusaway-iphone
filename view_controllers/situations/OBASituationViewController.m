@@ -44,7 +44,7 @@ typedef enum {
 #pragma mark -
 #pragma mark Initialization
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext situation:(OBASituationV2*)situation {
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext situation:(OBASituationV2*)situation {
 	
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		_appContext = appContext;

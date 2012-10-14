@@ -1,4 +1,4 @@
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 #import "OBATripDetailsV2.h"
 
 
@@ -15,9 +15,9 @@
 	id<OBAModelServiceRequest> _request;
 }
 
-+(OBADiversionViewController*) loadFromNibWithAppContext:(OBAApplicationContext*)context;
++(OBADiversionViewController*) loadFromNibWithAppContext:(OBAApplicationDelegate*)context;
 
-@property (nonatomic,strong) IBOutlet OBAApplicationContext * appContext;
+@property (nonatomic,strong) IBOutlet OBAApplicationDelegate * appContext;
 @property (nonatomic,strong) NSString * diversionPath;
 @property (nonatomic,strong) NSDictionary * args;
 

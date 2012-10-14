@@ -30,7 +30,7 @@ typedef enum {
 
 @implementation OBAVehicleDetailsController
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext vehicleId:(NSString*)vehicleId {
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext vehicleId:(NSString*)vehicleId {
 	if( self = [super initWithApplicationContext:appContext] ) {
 		_vehicleId = vehicleId;
 		self.refreshable = YES;

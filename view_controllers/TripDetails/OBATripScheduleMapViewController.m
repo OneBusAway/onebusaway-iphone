@@ -36,7 +36,7 @@ static const NSString * kShapeContext = @"ShapeContext";
 @synthesize tripDetails = _tripDetails;
 @synthesize currentStopId = _currentStopId;
 
-+(OBATripScheduleMapViewController*) loadFromNibWithAppContext:(OBAApplicationContext*)context {
++(OBATripScheduleMapViewController*) loadFromNibWithAppContext:(OBAApplicationDelegate*)context {
 	NSArray* wired = [[NSBundle mainBundle] loadNibNamed:@"OBATripScheduleMapViewController" owner:context options:nil];
 	OBATripScheduleMapViewController* controller = wired[0];
 	return controller;

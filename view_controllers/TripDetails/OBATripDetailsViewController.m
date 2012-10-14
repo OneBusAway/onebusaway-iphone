@@ -34,7 +34,7 @@ typedef enum {
 @synthesize tripDetails = _tripDetails;
 @synthesize currentStopId;
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext tripInstance:(OBATripInstanceRef*)tripInstance {
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext tripInstance:(OBATripInstanceRef*)tripInstance {
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		_appContext = appContext;
 		_tripInstance = tripInstance;

@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
 
 
 @interface OBARecentStopsViewController : UITableViewController <OBANavigationTargetAware> {
-	OBAApplicationContext * _appContext;
+	OBAApplicationDelegate * _appContext;
 	NSArray * _mostRecentStops;
 }
 
-@property (nonatomic,strong) IBOutlet OBAApplicationContext * appContext;
+@property (nonatomic,strong) IBOutlet OBAApplicationDelegate * appContext;
 
 @end

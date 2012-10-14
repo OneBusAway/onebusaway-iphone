@@ -15,14 +15,14 @@
  */
 
 
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 
 
 @interface OBANetworkErrorAlertViewDelegate : NSObject <UIAlertViewDelegate> {
-	OBAApplicationContext * _context;
+	OBAApplicationDelegate * _context;
 }
 
-- (id) initWithContext:(OBAApplicationContext*)context;
+- (id) initWithContext:(OBAApplicationDelegate*)context;
 
 
 @end

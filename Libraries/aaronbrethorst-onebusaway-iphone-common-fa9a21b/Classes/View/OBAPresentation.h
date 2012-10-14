@@ -1,4 +1,4 @@
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 #import "OBAArrivalAndDepartureV2.h"
 #import "OBATripV2.h"
 #import "OBATransitLegV2.h"
@@ -30,6 +30,6 @@
 
 + (float) computeStopsForRouteAnnotationScaleFactor:(MKCoordinateRegion)region;
 
-+ (void)showSituations:(NSArray*)situations withAppContext:(OBAApplicationContext*)appContext navigationController:(UINavigationController*)navController args:(NSDictionary*)args;
++ (void)showSituations:(NSArray*)situations withAppContext:(OBAApplicationDelegate*)appContext navigationController:(UINavigationController*)navController args:(NSDictionary*)args;
 
 @end

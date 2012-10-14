@@ -15,13 +15,13 @@
  */
 
 
-@class OBAApplicationContext;
+@class OBAApplicationDelegate;
 
 @interface OBASearchResultsMapFilterToolbar : UIToolbar {
     NSString * _filterDescription;
     BOOL _currentlyShowing;
     
-   	OBAApplicationContext * _appContext;
+   	OBAApplicationDelegate * _appContext;
     id                      _filterDelegate;
     
     UILabel * _labelOutput; // "Search: "
@@ -29,9 +29,9 @@
 }
 
 @property (nonatomic, strong) NSString *              filterDescription;
-@property (nonatomic, strong) OBAApplicationContext * appContext;
+@property (nonatomic, strong) OBAApplicationDelegate * appContext;
 
--(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate andAppContext:(OBAApplicationContext*)context;
+-(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate andAppContext:(OBAApplicationDelegate*)context;
 -(void) dealloc;
 
 -(void) showWithDescription:(NSString*)filterDescString animated:(BOOL)animated;

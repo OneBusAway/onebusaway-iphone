@@ -16,7 +16,7 @@
 
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <Crashlytics/Crashlytics.h>
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
 #import "OBALogger.h"
 
@@ -35,7 +35,7 @@ static NSString * kOBAHiddenPreferenceApplicationLastActiveTimestamp = @"OBAAppl
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 
-@interface OBAApplicationContext ()
+@interface OBAApplicationDelegate ()
 @property(nonatomic,readwrite) BOOL active;
 - (void) _constructUI;
 - (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget;
@@ -48,7 +48,7 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 @end
 
 
-@implementation OBAApplicationContext
+@implementation OBAApplicationDelegate
 
 - (id)init {
     self = [super init];

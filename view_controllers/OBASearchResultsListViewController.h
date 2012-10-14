@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 #import "OBASearchController.h"
 
 
 @class OBASearchResultsMapViewController;
 
 @interface OBASearchResultsListViewController : UITableViewController {
-	OBAApplicationContext * _appContext;
+	OBAApplicationDelegate * _appContext;
 }
 @property(strong) OBASearchResult *result;
-- (id) initWithContext:(OBAApplicationContext*)appContext searchControllerResult:(OBASearchResult*)result;
+- (id) initWithContext:(OBAApplicationDelegate*)appContext searchControllerResult:(OBASearchResult*)result;
 
 @end

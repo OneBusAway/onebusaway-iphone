@@ -19,7 +19,7 @@
 
 @implementation OBANetworkErrorAlertViewDelegate
 
-- (id) initWithContext:(OBAApplicationContext*)context {
+- (id) initWithContext:(OBAApplicationDelegate*)context {
 	if( self = [super init] ) {
 		_context = context;
 	}

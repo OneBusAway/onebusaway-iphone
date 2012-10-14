@@ -37,7 +37,7 @@
 static const double kNearbyStopRadius = 200;
 
 @interface OBAGenericStopViewController ()
-@property(strong,readwrite) OBAApplicationContext * _appContext;
+@property(strong,readwrite) OBAApplicationDelegate * _appContext;
 @property(strong,readwrite) NSString * stopId;
 @property NSUInteger minutesAfter;
 
@@ -79,7 +79,7 @@ static const double kNearbyStopRadius = 200;
 
 @implementation OBAGenericStopViewController
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext {
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext {
 
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 
@@ -114,7 +114,7 @@ static const double kNearbyStopRadius = 200;
 	return self;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext stopId:(NSString*)stopId {
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext stopId:(NSString*)stopId {
 	if (self = [self initWithApplicationContext:appContext]) {
         self.stopId = stopId;
 	}

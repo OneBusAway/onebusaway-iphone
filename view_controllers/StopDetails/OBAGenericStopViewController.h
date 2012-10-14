@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
 #import "OBAArrivalsAndDeparturesForStopV2.h"
 #import "OBABookmarkV2.h"
@@ -35,7 +35,7 @@ typedef enum {
 @property(nonatomic,strong) IBOutlet UILabel *stopName;
 @property(nonatomic,strong) IBOutlet UILabel *stopNumber;
 
-@property(strong,readonly) OBAApplicationContext * appContext;
+@property(strong,readonly) OBAApplicationDelegate * appContext;
 @property(strong,readonly) NSString * stopId;
 @property BOOL showTitle;
 @property BOOL showServiceAlerts;
@@ -46,7 +46,7 @@ typedef enum {
 @property(strong) NSMutableArray *filteredArrivals;
 @property BOOL showFilteredArrivals;
 
-- (id)initWithApplicationContext:(OBAApplicationContext*)appContext;
-- (id)initWithApplicationContext:(OBAApplicationContext*)appContext stopId:(NSString*)stopId;
+- (id)initWithApplicationContext:(OBAApplicationDelegate*)appContext;
+- (id)initWithApplicationContext:(OBAApplicationDelegate*)appContext stopId:(NSString*)stopId;
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section;
 @end

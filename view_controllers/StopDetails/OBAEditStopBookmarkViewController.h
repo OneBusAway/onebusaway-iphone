@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBAApplicationContext.h"
+#import "OBAApplicationDelegate.h"
 #import "OBABookmarkV2.h"
 
 
@@ -25,7 +25,7 @@ typedef enum {
 
 
 @interface OBAEditStopBookmarkViewController : UITableViewController <OBAModelServiceDelegate> {
-	OBAApplicationContext * _appContext;
+	OBAApplicationDelegate * _appContext;
 	OBABookmarkEditType _editType;
 	OBABookmarkV2 * _bookmark;
 	NSMutableArray * _requests;
@@ -33,7 +33,7 @@ typedef enum {
 	UITextField * _textField;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationContext*)appContext bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType;
+- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType;
 
 - (IBAction) onCancelButton:(id)sender;
 - (IBAction) onSaveButton:(id)sender;

@@ -15,7 +15,7 @@
 @synthesize diversionPath;
 @synthesize args;
 
-+(OBADiversionViewController*) loadFromNibWithAppContext:(OBAApplicationContext*)context {
++(OBADiversionViewController*) loadFromNibWithAppContext:(OBAApplicationDelegate*)context {
 	NSArray* wired = [[NSBundle mainBundle] loadNibNamed:@"OBADiversionViewController" owner:context options:nil];
 	OBADiversionViewController* controller = wired[0];
 	return controller;
@@ -44,7 +44,7 @@
         OBATripV2 * trip = ad.trip;
         NSString * shapeId = trip.shapeId;
         if( shapeId ) {
-            OBAApplicationContext * context = self.appContext;
+            OBAApplicationDelegate * context = self.appContext;
             OBAModelService * service = context.modelService;
             _request = [service requestShapeForId:shapeId withDelegate:self withContext:nil];
         }

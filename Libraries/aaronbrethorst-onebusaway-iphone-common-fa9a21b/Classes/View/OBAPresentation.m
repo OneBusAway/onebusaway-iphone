@@ -157,7 +157,7 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
 	}
 }
 
-+ (void)showSituations:(NSArray*)situations withAppContext:(OBAApplicationContext*)appContext navigationController:(UINavigationController*)navController args:(NSDictionary*)args
++ (void)showSituations:(NSArray*)situations withAppContext:(OBAApplicationDelegate*)appContext navigationController:(UINavigationController*)navController args:(NSDictionary*)args
 {
     NSLog(@"TODO: %s", __PRETTY_FUNCTION__);
 }
