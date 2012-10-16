@@ -16,6 +16,7 @@
 		A005945C13FC4A02001B397B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005945A13FC4A02001B397B /* MainWindow.xib */; };
 		A005946613FC4B58001B397B /* OBAArrivalsAndDeparturesHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005946413FC4B58001B397B /* OBAArrivalsAndDeparturesHeaderView.xib */; };
 		A00E679813FD956C0022820E /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A00E679713FD956C0022820E /* Settings.bundle */; };
+		CD799CCC162D300E006D4D74 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD799CCB162D300E006D4D74 /* Default-568h@2x.png */; };
 		D48EC071120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D48EC06F120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.h */; };
 		D48EC072120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = D48EC070120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.m */; };
 		D4B7158C11F82D3700D0A9CB /* UIDeviceExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B7158B11F82D3700D0A9CB /* UIDeviceExtensions.m */; };
@@ -386,6 +387,7 @@
 		A005946513FC4B58001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBAArrivalsAndDeparturesHeaderView.xib; sourceTree = "<group>"; };
 		A005946713FC4B5E001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OBAArrivalsAndDeparturesHeaderView.xib; sourceTree = "<group>"; };
 		A00E679713FD956C0022820E /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		CD799CCB162D300E006D4D74 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		D48EC06F120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASearchResultsMapFilterToolbar.h; path = View/OBASearchResultsMapFilterToolbar.h; sourceTree = "<group>"; };
 		D48EC070120A9FFC00E529FC /* OBASearchResultsMapFilterToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASearchResultsMapFilterToolbar.m; path = View/OBASearchResultsMapFilterToolbar.m; sourceTree = "<group>"; };
 		D4B7158A11F82D3700D0A9CB /* UIDeviceExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDeviceExtensions.h; sourceTree = "<group>"; };
@@ -940,6 +942,7 @@
 		29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */ = {
 			isa = PBXGroup;
 			children = (
+				CD799CCB162D300E006D4D74 /* Default-568h@2x.png */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				D61A66790FCDB155004D2E91 /* Libraries */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -1990,6 +1993,7 @@
 				D62E3246153C6B9A00DB5676 /* OBATextEditViewController.xib in Resources */,
 				D62E3247153C6B9A00DB5676 /* OBATextFieldTableViewCell.xib in Resources */,
 				D62E3248153C6B9A00DB5676 /* OBAWebViewController.xib in Resources */,
+				CD799CCC162D300E006D4D74 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
