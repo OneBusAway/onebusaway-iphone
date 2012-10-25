@@ -504,12 +504,18 @@ static const double kNearbyStopRadius = 200;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	switch(indexPath.row) {
-		case 0:
+		case 0: {
 			cell.textLabel.text = NSLocalizedString(@"Add to Bookmarks",@"case 0");
 			break;
-		case 2:
+        }
+        case 1: {
+            // move code from OBAPresentation into here.
+            break;
+        }
+		case 2: {
 			cell.textLabel.text = NSLocalizedString(@"Report a Problem",@"self.navigationItem.title");
-			break;			
+			break;
+        }
 	}
 	
 	return cell;

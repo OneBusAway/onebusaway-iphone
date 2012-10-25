@@ -226,9 +226,6 @@
 		self.canceled = YES;
 		[self.connection cancel];
 		self.delegate = nil;
-		
-        //TODO: this sort of thing scares me.
-        //[self autorelease];
 	}
 }
 
@@ -301,8 +298,6 @@
 				
 		[_source removeOpenConnection:self];
 		self.delegate = nil;
-        // TODO: this terrifies me now that we've moved into ARC-land.
-        // [self autorelease];
 	}
 }
 
@@ -319,8 +314,6 @@
 		[self.delegate connectionDidFail:self withError:error context:self.context];
 		[self.source removeOpenConnection:self];
 		self.delegate = nil;
-        // TODO: this terrifies me now that we've moved into ARC-land.
-        // [self autorelease];
 	}
 }
 

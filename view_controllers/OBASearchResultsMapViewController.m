@@ -924,22 +924,14 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	
 	*needsUpdate = YES;
 	
-	OBASearchResult * result = _searchController.result;
+	OBASearchResult *result = _searchController.result;
 	
-	if( ! result ) {
-		OBALocationManager * lm = _appContext.locationManager;
-		CLLocation * location = lm.currentLocation;
-		if( location && NO) {
-			// TODO : Figure why this was here
-			return [OBASphericalGeometryLibrary createRegionWithCenter:location.coordinate latRadius:kDefaultMapRadius lonRadius:kDefaultMapRadius];
-		}
-		else {
-			*needsUpdate = NO;
-			return _mapView.region;
-		}
+	if (!result ) {
+        *needsUpdate = NO;
+        return _mapView.region;
 	}
 	
-	switch(result.searchType) {
+	switch (result.searchType) {
 		case OBASearchTypeStopId:
 			return [self computeRegionForNClosestStops:result.values center:[self currentLocation] numberOfStops:kShowNClosestStops];
 		case OBASearchTypeRoute:
@@ -960,7 +952,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 - (MKCoordinateRegion) computeRegionForStops:(NSArray*)stops {
-    
     double latRun = 0.0, lonRun = 0.0;
     int    stopCount = 0;
     

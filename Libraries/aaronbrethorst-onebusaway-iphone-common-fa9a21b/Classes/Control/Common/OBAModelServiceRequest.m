@@ -12,15 +12,7 @@
 	if (self) {
 		self.checkCode = YES;
         self.bgTask = UIBackgroundTaskInvalid;
-		
-        // TODO: AB 20 Sept 12: this comment terrifies me, especially given that this code has moved to ARC.
-		/**
-		 * Why do we retain ourselves?  Many client apps will release their reference to us
-		 * in the delegate methods.  To make sure we stick around long enough to perform cleanup,
-		 * we keep a reference to ourselves that we'll release in the cleanup phase.
-		 */
 		self.clean = NO;
-        //[self retain];
 	}
 	return self;
 }
@@ -107,8 +99,6 @@
         }
         self.clean = YES;
         [self endBackgroundTask];
-        //TODO: the prior existence of this terrifies me. See comment above in -init.
-        //	[self release];
     }
 }
 
