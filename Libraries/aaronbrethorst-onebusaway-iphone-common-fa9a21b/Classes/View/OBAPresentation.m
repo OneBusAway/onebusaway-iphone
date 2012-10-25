@@ -86,41 +86,28 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
 + (UITableViewCell*) tableViewCellForServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts tableView:(UITableView*)tableView {
 	
 	static NSString *cellId = @"ServiceAlertsCell";
-	
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:cellId];
-	
-	if( serviceAlerts.totalCount == 0 )
-		cell.textLabel.text = @"Service Alerts";
-	else
-		cell.textLabel.text = [NSString stringWithFormat:@"Service Alerts: %d total", serviceAlerts.totalCount];						    
-	
-	cell.textLabel.textAlignment = UITextAlignmentCenter;
-	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.textLabel.textAlignment = UITextAlignmentCenter;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+	if (serviceAlerts.totalCount == 0) {
+		cell.textLabel.text = @"Service Alerts";
+    }
+	else {
+		cell.textLabel.text = [NSString stringWithFormat:@"Service Alerts: %d total", serviceAlerts.totalCount];						    
+    }
 	
-	if( serviceAlerts.totalCount == 0 ) {
+	if (serviceAlerts.totalCount == 0) {
 		cell.imageView.image = nil;
 	}
-	else {
-		if( serviceAlerts.unreadCount > 0 ) {
-			
-			NSString * maxSeverity = serviceAlerts.unreadMaxSeverity;	
-			
-			if( maxSeverity && [maxSeverity isEqualToString:@"noImpact"] )
-				cell.imageView.image = [UIImage imageNamed:@"Alert-Info"];
-			else
-				cell.imageView.image = [UIImage imageNamed:@"Alert"];
-		}
-		else {
-			
-			NSString * maxSeverity = serviceAlerts.maxSeverity;	
-			
-			if( maxSeverity && [maxSeverity isEqualToString:@"noImpact"] )
-				cell.imageView.image = [UIImage imageNamed:@"Alert-Info-Grayscale"];
-			else
-				cell.imageView.image = [UIImage imageNamed:@"AlertGrayscale"];
-		}
-	}
+    else if ( serviceAlerts.unreadCount > 0 ) {
+        NSString *imageName = [serviceAlerts.unreadMaxSeverity isEqual:@"noImpact"] ? @"Alert-Info" : @"Alert";
+        cell.imageView.image = [UIImage imageNamed:imageName];
+    }
+    else {
+        NSString *imageName = [serviceAlerts.maxSeverity isEqual:@"noImpact"] ? @"Alert-Info-Grayscale" : @"AlertGrayscale";
+        cell.imageView.image = [UIImage imageNamed:imageName];
+    }
 	
 	return cell;	
 }	

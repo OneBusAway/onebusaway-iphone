@@ -494,14 +494,12 @@ static const double kNearbyStopRadius = 200;
 
 - (UITableViewCell*) tableView:(UITableView*)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	if( indexPath.row == 1 )
-		return [OBAPresentation tableViewCellForServiceAlerts:_serviceAlerts tableView:tableView];
-		
 	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
     cell.textLabel.textAlignment = UITextAlignmentCenter;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.imageView.image = nil;
 	
 	switch(indexPath.row) {
 		case 0: {
@@ -509,7 +507,26 @@ static const double kNearbyStopRadius = 200;
 			break;
         }
         case 1: {
-            // move code from OBAPresentation into here.
+            if (_serviceAlerts.totalCount == 0) {
+                cell.textLabel.text = @"Service Alerts";
+            }
+            else {
+                cell.textLabel.text = [NSString stringWithFormat:@"Service Alerts: %d total", _serviceAlerts.totalCount];
+            }
+
+            if (_serviceAlerts.totalCount == 0) {
+                cell.imageView.image = nil;
+            }
+            else if (_serviceAlerts.unreadCount > 0) {
+                NSString *imageName = [_serviceAlerts.unreadMaxSeverity isEqual:@"noImpact"] ? @"Alert-Info" : @"Alert";
+                cell.imageView.image = [UIImage imageNamed:imageName];
+            }
+            else {
+                NSString *imageName = [_serviceAlerts.maxSeverity isEqual:@"noImpact"] ? @"Alert-Info-Grayscale" : @"AlertGrayscale";
+                cell.imageView.image = [UIImage imageNamed:imageName];
+            }
+            
+            return cell;
             break;
         }
 		case 2: {
