@@ -507,16 +507,6 @@ static const double kNearbyStopRadius = 200;
 		case 0:
 			cell.textLabel.text = NSLocalizedString(@"Add to Bookmarks",@"case 0");
 			break;
-//		case 1:
-//            cell.textLabel.text = NSLocalizedString(@"Filter & Sort Routes",@"case 1");
-//			break;
-//		case 1:
-//            // this code path is unreachable because of the guard at the beginning of the method
-//			cell.textLabel.text = NSLocalizedString(@"Service Alerts",@"case 1");
-//			break;
-//		case 3:
-//		 	cell.textLabel.text = NSLocalizedString(@"See Nearby Stops",@"case 3");
-//		 	break;
 		case 2:
 			cell.textLabel.text = NSLocalizedString(@"Report a Problem",@"self.navigationItem.title");
 			break;			
@@ -549,27 +539,6 @@ static const double kNearbyStopRadius = 200;
 			
 			break;
 		}
-			
-//		case 1: {
-//			OBAEditStopPreferencesViewController * vc = [[OBAEditStopPreferencesViewController alloc] initWithApplicationContext:_appContext stop:_result.stop];
-//			[self.navigationController pushViewController:vc animated:YES];
-//			
-//			break;
-//		}
-
-//		case 1: {
-//			NSArray * situations = _result.situations;
-//			[OBAPresentation showSituations:situations withAppContext:_appContext navigationController:self.navigationController args:nil];
-//			break;
-//		}
-
-//		case 3: {
-//			OBAStopV2 * stop = _result.stop;
-//			MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:stop.coordinate latRadius:kNearbyStopRadius lonRadius:kNearbyStopRadius];
-//			OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchLocationRegion:region];
-//			[_appContext navigateToTarget:target];
-//			break;
-//		}
 
 		case 2: {
 			OBAReportProblemViewController * vc = [[OBAReportProblemViewController alloc] initWithApplicationContext:_appContext stop:_result.stop];
