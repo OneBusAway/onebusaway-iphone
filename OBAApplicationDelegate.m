@@ -34,6 +34,7 @@
 
 static NSString * kOBAHiddenPreferenceSavedNavigationTargets = @"OBASavedNavigationTargets";
 static NSString * kOBAHiddenPreferenceApplicationLastActiveTimestamp = @"OBAApplicationLastActiveTimestamp";
+static NSString * kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 
@@ -47,8 +48,8 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 - (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults;
 - (void) _migrateUserPreferences;
 - (NSString *)applicationDocumentsDirectory;
+- (void)_updateSelectedTabIndex;
 @end
-
 
 @implementation OBAApplicationDelegate
 
@@ -84,7 +85,7 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 	[self performSelector:@selector(_navigateToTargetInternal:) withObject:navigationTarget afterDelay:0];
 }
 
-- (void) refreshSettings {
+- (void)refreshSettings {
 	
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 									
@@ -132,6 +133,9 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
     self.infoNavigationController = [[UINavigationController alloc] initWithRootViewController:self.infoViewController];
 
     self.tabBarController.viewControllers = @[self.mapNavigationController, self.recentsNavigationController, self.bookmarksNavigationController, self.infoNavigationController];
+    self.tabBarController.delegate = self;
+
+    [self _updateSelectedTabIndex];
     
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
@@ -162,12 +166,28 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
 	self.active = YES;
+    self.tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 	self.active = NO;
 }
 
+#pragma mark - UITabBarControllerDelegate
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    [[NSUserDefaults standardUserDefaults] setInteger:tabBarController.selectedIndex forKey:kOBASelectedTabIndexDefaultsKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)_updateSelectedTabIndex {
+    NSInteger selectedIndex = 0;
+
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:kOBASelectedTabIndexDefaultsKey]) {
+        selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
+    }
+    self.tabBarController.selectedIndex = selectedIndex;
+}
 
 #pragma mark IASKSettingsDelegate
 
