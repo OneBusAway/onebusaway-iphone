@@ -46,9 +46,6 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
     self.currentlyChangingRegion = YES;
 }
 
-
-// TODO: @jefk - the problem is here!!!
-
 - (BOOL)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
     
     self.currentlyChangingRegion = NO;
