@@ -64,8 +64,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @property(strong) UIButton *locationButton;
 @property(strong) UIBarButtonItem *listBarButtonItem;
 @property(strong) OBASearchResultsListViewController *searchResultsListViewController;
-@property(strong) OBAScopeView *floatingToolbar;
-@property(strong) UIView *floatingToolbarWrapper;
 @end
 
 @interface OBASearchResultsMapViewController (Private)
@@ -188,59 +186,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     [self.paperFoldView setCenterContentView:originalView];
         
     self.navigationItem.titleView = self.searchBar;
-
-    [self _setupOnMapToolbar];
-}
-
-// TODO: Fix crappy layout.
-- (void)_setupOnMapToolbar {
-    CGFloat toolbarButtonWidth = 40;
-    CGFloat toolbarWidth = toolbarButtonWidth + 1 + 2 + 1 + toolbarButtonWidth;
-    self.floatingToolbarWrapper = [[UIView alloc] initWithFrame:CGRectMake(11, CGRectGetHeight(self.view.bounds) - 55, toolbarWidth, 31)];
-    self.floatingToolbarWrapper.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.floatingToolbar = [[OBAScopeView alloc] initWithFrame:self.floatingToolbarWrapper.bounds];
-
-    self.floatingToolbar.layer.cornerRadius = 4.f;
-    self.floatingToolbar.layer.masksToBounds = YES;
-    self.floatingToolbar.layer.borderColor = (OBARGBACOLOR(255,255,255,0.5)).CGColor;
-    self.floatingToolbar.layer.borderWidth = 1.f;
-    self.floatingToolbar.drawsBottomBorder = NO;
-    self.floatingToolbar.layer.shouldRasterize = YES;
-    self.floatingToolbar.layer.rasterizationScale = [UIScreen mainScreen].scale;
-
-    self.floatingToolbarWrapper.layer.cornerRadius = 5.0;
-    self.floatingToolbarWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
-    self.floatingToolbarWrapper.layer.shadowOpacity = 0.5;
-    self.floatingToolbarWrapper.layer.shadowRadius = 1.f;
-    self.floatingToolbarWrapper.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
-    self.floatingToolbarWrapper.layer.shouldRasterize = YES;
-    self.floatingToolbarWrapper.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    [self.floatingToolbarWrapper addSubview:self.floatingToolbar];
-
-    [self.view addSubview:self.floatingToolbarWrapper];
-
-    self.locationButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.locationButton addTarget:self action:@selector(onCrossHairsButton:) forControlEvents:UIControlEventTouchUpInside];
-    [self.locationButton setImage:[UIImage imageNamed:@"lbs_arrow"] forState:UIControlStateNormal];
-    self.locationButton.frame = CGRectMake(0, 0, toolbarButtonWidth, CGRectGetHeight(self.floatingToolbar.frame));
-    [self.floatingToolbar addSubview:self.locationButton];
-
-    UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.locationButton.frame) + 1, 4, 1, 23)];
-    separator.backgroundColor = OBARGBCOLOR(167, 170, 177);
-    separator.layer.shadowColor = (OBARGBACOLOR(255,255,255,0.5)).CGColor;
-    separator.layer.shadowOpacity = 1.f;
-    separator.layer.shadowRadius = 0;
-    separator.layer.shadowOffset = CGSizeMake(1, 0);
-    separator.layer.shouldRasterize = YES;
-    separator.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    [self.floatingToolbar addSubview:separator];
-
-    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [infoButton setImage:[UIImage imageNamed:@"info"] forState:UIControlStateNormal];
-    [infoButton addTarget:self action:@selector(showInfoPane) forControlEvents:UIControlEventTouchUpInside];
-    CGFloat infoButtonX = CGRectGetMaxX(separator.frame) + 2;
-    infoButton.frame = CGRectMake(infoButtonX, 0, toolbarButtonWidth, CGRectGetHeight(self.floatingToolbar.frame));
-    [self.floatingToolbar addSubview:infoButton];
 }
 
 - (void)onFilterClear {
@@ -665,12 +610,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
             self.mapView.userInteractionEnabled = NO;
 
-            [UIView animateWithDuration:kPaperfoldAnimationDuration animations:^{
-                self.floatingToolbarWrapper.alpha = 0;
-            } completion:^(BOOL finished) {
-                self.floatingToolbarWrapper.hidden = YES;
-            }];
-            
             OBASearchResult * result = _searchController.result;
             if (result) {
                 // Prune down the results to show only what's currently in the map view
@@ -687,11 +626,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
             self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 
             self.mapView.userInteractionEnabled = YES;
-
-            self.floatingToolbarWrapper.hidden = NO;
-            [UIView animateWithDuration:kPaperfoldAnimationDuration animations:^{
-                self.floatingToolbarWrapper.alpha = 1.f;
-            } completion:nil];
 
             [self.searchResultsListViewController viewWillDisappear:YES];
             [self.paperFoldView setPaperFoldState:PaperFoldStateDefault];
