@@ -168,6 +168,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 	_searchController.delegate = self;
 	_searchController.progress.delegate = self;
 
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lbs_arrow"] style:UIBarButtonItemStyleBordered target:self action:@selector(onCrossHairsButton:)];
+
     self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStyleBordered target:self action:@selector(onListButton:)];
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
     
