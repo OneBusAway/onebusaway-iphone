@@ -59,6 +59,6 @@
 @property (nonatomic,strong) OBASearchResultsMapFilterToolbar * filterToolbar;
 
 - (IBAction)onCrossHairsButton:(id)sender;
-- (IBAction)onListButton:(id)sender;
+- (IBAction)showListView:(id)sender;
 
 @end

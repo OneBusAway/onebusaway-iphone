@@ -32,11 +32,9 @@
 #import "OBALogger.h"
 #import "OBAStopIconFactory.h"
 #import "OBAPresentation.h"
-#import "PaperFoldView.h"
 #import "OBAInfoViewController.h"
 
 #define kScopeViewAnimationDuration 0.25
-#define kPaperfoldAnimationDuration 0.25
 #define kRouteSegmentIndex 0
 #define kAddressSegmentIndex 1
 #define kStopNumberSegmentIndex 2
@@ -60,7 +58,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @interface OBASearchResultsMapViewController ()
 @property(strong) UIView *activityIndicatorWrapper;
 @property(strong) UIActivityIndicatorView * activityIndicatorView;
-@property(strong) PaperFoldView *paperFoldView;
 @property(strong) UIButton *locationButton;
 @property(strong) UIBarButtonItem *listBarButtonItem;
 @property(strong) OBASearchResultsListViewController *searchResultsListViewController;
@@ -168,23 +165,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lbs_arrow"] style:UIBarButtonItemStyleBordered target:self action:@selector(onCrossHairsButton:)];
 
-    self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStyleBordered target:self action:@selector(onListButton:)];
+    self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStyleBordered target:self action:@selector(showListView:)];
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
-    
-    self.searchResultsListViewController = [[OBASearchResultsListViewController alloc] initWithContext:_appContext searchControllerResult:nil];
-    
-    self.searchResultsListViewController.view.frame = CGRectMake(0, 0, 250, CGRectGetHeight(self.view.bounds));
-   [self addChildViewController:self.searchResultsListViewController];
-    self.paperFoldView = [[PaperFoldView alloc] initWithFrame:self.view.bounds];
-    self.paperFoldView.autoresizesSubviews = YES;
-    [self.paperFoldView setRightFoldContentView:self.searchResultsListViewController.view rightViewFoldCount:4 rightViewPullFactor:0.5];
-    self.paperFoldView.enableRightFoldDragging = NO;
-    
-    UIView *originalView = self.view;
-    
-    self.view = self.paperFoldView;
-    [self.paperFoldView setCenterContentView:originalView];
-        
     self.navigationItem.titleView = self.searchBar;
 }
 
@@ -601,41 +583,18 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 
-- (IBAction)onListButton:(id)sender {
-    @synchronized(self) {
-        if (PaperFoldStateDefault == self.paperFoldView.state) {
-            // Transition from map -> list
+- (IBAction)showListView:(id)sender {
 
-            self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
+    OBASearchResult * result = _searchController.result;
 
-            self.mapView.userInteractionEnabled = NO;
-
-            OBASearchResult * result = _searchController.result;
-            if (result) {
-                // Prune down the results to show only what's currently in the map view
-                result = [result resultsInRegion:_mapView.region];
-                self.searchResultsListViewController.result = result;
-                [self.searchResultsListViewController viewWillAppear:YES];
-                [self.paperFoldView setPaperFoldState:PaperFoldStateRightUnfolded];
-                [self.searchResultsListViewController viewDidAppear:YES];
-            }
-        }
-        else if (PaperFoldStateRightUnfolded == self.paperFoldView.state) {
-            // Transition from list -> map
-
-            self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
-
-            self.mapView.userInteractionEnabled = YES;
-
-            [self.searchResultsListViewController viewWillDisappear:YES];
-            [self.paperFoldView setPaperFoldState:PaperFoldStateDefault];
-            [self.searchResultsListViewController viewDidDisappear:YES];
-        }
-        else {
-            // We're either transitioning or something broke.
-            // Either way it's a no-op.
-        }
+    if (result) {
+        // Prune down the results to show only what's currently in the map view
+        result = [result resultsInRegion:_mapView.region];
     }
+
+    OBASearchResultsListViewController *listViewController = [[OBASearchResultsListViewController alloc]initWithContext:self.appContext searchControllerResult:result];
+
+    [self.navigationController pushViewController:listViewController animated:YES];
 }
 
 @end
@@ -739,7 +698,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     self.navigationItem.rightBarButtonItem.enabled = result != nil;
 	
 	if( result && result.searchType == OBASearchTypeRoute && [result.values count] > 0) {
-		[self performSelector:@selector(onListButton:) withObject:self afterDelay:1];
+		[self performSelector:@selector(showListView:) withObject:self afterDelay:1];
 		return;
 	}
 	
