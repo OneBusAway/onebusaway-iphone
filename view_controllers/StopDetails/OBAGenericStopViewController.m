@@ -151,7 +151,7 @@ static const double kNearbyStopRadius = 200;
 		int offset = 0;
 				
 		if( _showServiceAlerts && _serviceAlerts.unreadCount > 0) {
-			
+
 			if( section == offset )
 				return OBAStopSectionTypeServiceAlerts;
 			offset++;
@@ -562,6 +562,12 @@ static const double kNearbyStopRadius = 200;
 			
 			break;
 		}
+
+        case 1: {
+            NSArray * situations = _result.situations;
+            [OBAPresentation showSituations:situations withAppContext:_appContext navigationController:self.navigationController args:nil];
+            break;
+        }
 
 		case 2: {
 			OBAReportProblemViewController * vc = [[OBAReportProblemViewController alloc] initWithApplicationContext:_appContext stop:_result.stop];
