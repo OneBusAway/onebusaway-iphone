@@ -39,6 +39,7 @@
 #define kRouteSegmentIndex 0
 #define kAddressSegmentIndex 1
 #define kStopNumberSegmentIndex 2
+#define kMapLabelAnimationDuration 0.25
 
 // Radius in meters
 static const double kDefaultMapRadius = 100;
@@ -175,6 +176,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
     CALayer *labelLayer = self.mapLabel.layer;
     labelLayer.rasterizationScale = [UIScreen mainScreen].scale;
+    labelLayer.shouldRasterize = YES;
     labelLayer.backgroundColor = [UIColor whiteColor].CGColor;
     labelLayer.opacity = 0.8;
     labelLayer.cornerRadius = 7;
@@ -730,16 +732,16 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 - (void) applyMapLabelWithText:(NSString*)labelText {
-    if (labelText && self.mapLabel.hidden == YES) {
+    if (labelText && self.mapLabel.hidden) {
         self.mapLabel.text = labelText;
         self.mapLabel.alpha = 0.f;
         self.mapLabel.hidden = NO;
-        [UIView animateWithDuration:0.25 animations:^{
+        [UIView animateWithDuration:kMapLabelAnimationDuration animations:^{
             self.mapLabel.alpha = 1.f;
         }];
     }
-    else if (!labelText && self.mapLabel.hidden == NO) {
-        [UIView animateWithDuration:0.25 animations:^{
+    else if (!labelText) {
+        [UIView animateWithDuration:kMapLabelAnimationDuration animations:^{
             self.mapLabel.alpha = 0;
         } completion:^(BOOL finished) {
             self.mapLabel.hidden = YES;
