@@ -592,8 +592,11 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     }
 
     OBASearchResultsListViewController *listViewController = [[OBASearchResultsListViewController alloc]initWithContext:self.appContext searchControllerResult:result];
+    listViewController.isModal = YES;
 
-    [self.navigationController pushViewController:listViewController animated:YES];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:listViewController];
+    nav.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 @end

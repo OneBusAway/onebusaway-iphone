@@ -33,9 +33,8 @@
 @implementation OBASearchResultsListViewController
 
 - (id) initWithContext:(OBAApplicationDelegate*)appContext searchControllerResult:(OBASearchResult*)result {
-	
-	// Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 	if (self = [super initWithStyle:UITableViewStylePlain]) {
+        self.isModal = NO;
 		_appContext = appContext;
 		self.result = result;
 	}
@@ -44,6 +43,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    if (self.isModal) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"map"] style:UIBarButtonItemStyleBordered target:self action:@selector(dismissModal)];
+    }
 
     CGFloat height = 2.f * CGRectGetHeight(self.view.frame);
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, -0.25f * height, 1, height)];
@@ -54,6 +57,12 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 	[self reloadData];
+}
+
+#pragma mark - Actions
+
+- (void)dismissModal {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark Table view methods

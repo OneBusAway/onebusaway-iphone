@@ -24,6 +24,7 @@
 	OBAApplicationDelegate * _appContext;
 }
 @property(strong) OBASearchResult *result;
+@property BOOL isModal;
 - (id) initWithContext:(OBAApplicationDelegate*)appContext searchControllerResult:(OBASearchResult*)result;
 
 @end

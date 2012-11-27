@@ -113,7 +113,7 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 - (void)_constructUI
 {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+    self.window.backgroundColor = [UIColor blackColor];
 
     self.tabBarController = [[UITabBarController alloc] init];
 
