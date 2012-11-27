@@ -17,10 +17,10 @@
 //#import <Foundation/Foundation.h>
 
 typedef enum {
-	OBALoggerLevelDebug,
-	OBALoggerLevelInfo,
-	OBALoggerLevelWarning,
-	OBALoggerLevelSevere
+    OBALoggerLevelDebug,
+    OBALoggerLevelInfo,
+    OBALoggerLevelWarning,
+    OBALoggerLevelSevere
 }
 OBALoggerLevel;
 

@@ -22,27 +22,27 @@
 @synthesize textField = _textField;
 
 + (OBATextFieldTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView {
-	static NSString * kCellId = @"OBATextFieldTableViewCell";
-	
-	OBATextFieldTableViewCell * cell = (OBATextFieldTableViewCell *) [tableView dequeueReusableCellWithIdentifier:kCellId];
-	
-	if (cell == nil) {
-		NSArray * nib = [[NSBundle mainBundle] loadNibNamed:kCellId owner:self options:nil];
-		cell = nib[0];
-		cell.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-	}
-	
-	
-	return cell;	
+    static NSString * kCellId = @"OBATextFieldTableViewCell";
+    
+    OBATextFieldTableViewCell * cell = (OBATextFieldTableViewCell *) [tableView dequeueReusableCellWithIdentifier:kCellId];
+    
+    if (cell == nil) {
+        NSArray * nib = [[NSBundle mainBundle] loadNibNamed:kCellId owner:self options:nil];
+        cell = nib[0];
+        cell.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    }
+    
+    
+    return cell;    
 }
 
 
-- (BOOL)textFieldShouldReturn:(UITextField *)localTextField {	
-	
-	// edit bookmark page shouldn't hide keyboard when pressing return. this UX is used in the contacts app, for example.
-	// when we hold on to the keyboard, it slides off to the right of the screen.
-	//[localTextField resignFirstResponder];
-	return NO;
+- (BOOL)textFieldShouldReturn:(UITextField *)localTextField {    
+    
+    // edit bookmark page shouldn't hide keyboard when pressing return. this UX is used in the contacts app, for example.
+    // when we hold on to the keyboard, it slides off to the right of the screen.
+    //[localTextField resignFirstResponder];
+    return NO;
 }
 
 @end

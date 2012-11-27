@@ -25,60 +25,60 @@
 @implementation OBALogger
 
 + (void) logWithLevel:(OBALoggerLevel)level pointer:(id)pointer file:(NSString*)file line:(NSInteger)line message:(NSString*)message {
-	NSLog(@"# %@ - %p %@:%d",[self logLevelAsString:level],pointer,file,line);
-	NSLog(@"%@",message);
+    NSLog(@"# %@ - %p %@:%d",[self logLevelAsString:level],pointer,file,line);
+    NSLog(@"%@",message);
 }
 
 + (void) logWithLevel:(OBALoggerLevel)level pointer:(id)pointer file:(NSString*)file line:(NSInteger)line message:(NSString*)message error:(NSError*)error {
-	[self logWithLevel:level pointer:pointer file:file line:line message:message];
-	[self logError:error prefix:@""];
+    [self logWithLevel:level pointer:pointer file:file line:line message:message];
+    [self logError:error prefix:@""];
 }
 
 + (NSString*) logLevelAsString:(OBALoggerLevel)level {
-	switch(level) {
-		case OBALoggerLevelDebug:
-			return @"DEBUG";
-		case OBALoggerLevelInfo:
-			return @"INFO";
-		case OBALoggerLevelWarning:
-			return @"WARNING";
-		case OBALoggerLevelSevere:
-			return @"SEVERE";
-		default:
-			return @"UNKNOWN";
-	}
+    switch(level) {
+        case OBALoggerLevelDebug:
+            return @"DEBUG";
+        case OBALoggerLevelInfo:
+            return @"INFO";
+        case OBALoggerLevelWarning:
+            return @"WARNING";
+        case OBALoggerLevelSevere:
+            return @"SEVERE";
+        default:
+            return @"UNKNOWN";
+    }
 }
 @end
 
 @implementation OBALogger (Internal)
 
 + (void) logError:(NSError*)error prefix:(NSString*)prefix {
-	
-	if( ! error )
-		return;
-	
-	NSLog(@"%@%@: %@",prefix,[error localizedDescription],[error localizedFailureReason]);
+    
+    if( ! error )
+        return;
+    
+    NSLog(@"%@%@: %@",prefix,[error localizedDescription],[error localizedFailureReason]);
 
-	NSDictionary * userInfo = [error userInfo];
+    NSDictionary * userInfo = [error userInfo];
 
-	switch( [error code] ) {
-		case NSValidationMultipleErrorsError: {
-			NSArray * errors = userInfo[@"NSDetailedErrors"];
-			for( NSError * subError in errors )
-				[self logError:subError prefix:[NSString stringWithFormat:@"%@  ",prefix]];
-			break;
-		}			
-		case NSValidationMissingMandatoryPropertyError: {
-			NSString * validationErrorKey = userInfo[@"NSValidationErrorKey"];
-			id validationErrorObject = userInfo[@"NSValidationErrorObject"];
-			NSLog(@"%@  validation error key: %@",prefix,validationErrorKey);
-			NSLog(@"%@  validation error object: %@",prefix,[validationErrorObject description]);
-			break;
-		}
-		default: {
-			NSLog(@"%@  userInfo:",[userInfo description]);
-		}
-	}
+    switch( [error code] ) {
+        case NSValidationMultipleErrorsError: {
+            NSArray * errors = userInfo[@"NSDetailedErrors"];
+            for( NSError * subError in errors )
+                [self logError:subError prefix:[NSString stringWithFormat:@"%@  ",prefix]];
+            break;
+        }            
+        case NSValidationMissingMandatoryPropertyError: {
+            NSString * validationErrorKey = userInfo[@"NSValidationErrorKey"];
+            id validationErrorObject = userInfo[@"NSValidationErrorObject"];
+            NSLog(@"%@  validation error key: %@",prefix,validationErrorKey);
+            NSLog(@"%@  validation error object: %@",prefix,[validationErrorObject description]);
+            break;
+        }
+        default: {
+            NSLog(@"%@  userInfo:",[userInfo description]);
+        }
+    }
 }
 
 @end

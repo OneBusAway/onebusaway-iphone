@@ -5,16 +5,16 @@
 
 
 @interface OBATripScheduleMapViewController : UIViewController <MKMapViewDelegate,OBAModelServiceDelegate> {
-	OBAApplicationDelegate * _appContext;
-	OBATripInstanceRef * _tripInstance;
-	NSString * _currentStopId;
-	OBATripDetailsV2 * _tripDetails;
-	id<OBAModelServiceRequest> _request;
-	OBAProgressIndicatorView * _progressView;	
-	NSDateFormatter * _timeFormatter;
-	
-	MKPolyline * _routePolyline;
-	MKPolylineView * _routePolylineView;
+    OBAApplicationDelegate * _appContext;
+    OBATripInstanceRef * _tripInstance;
+    NSString * _currentStopId;
+    OBATripDetailsV2 * _tripDetails;
+    id<OBAModelServiceRequest> _request;
+    OBAProgressIndicatorView * _progressView;    
+    NSDateFormatter * _timeFormatter;
+    
+    MKPolyline * _routePolyline;
+    MKPolylineView * _routePolylineView;
 }
 
 +(OBATripScheduleMapViewController*) loadFromNibWithAppContext:(OBAApplicationDelegate*)context;

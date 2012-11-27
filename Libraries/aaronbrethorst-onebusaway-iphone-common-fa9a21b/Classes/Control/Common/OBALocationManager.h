@@ -28,17 +28,17 @@
 
 @interface OBALocationManager : NSObject <CLLocationManagerDelegate> {
 
-	OBAModelDAO * _modelDao;
-	CLLocationManager * _locationManager;
-	NSMutableArray * _delegates;
-	
-	CLLocation * _currentLocation;
-	BOOL _disabled;
-	
+    OBAModelDAO * _modelDao;
+    CLLocationManager * _locationManager;
+    NSMutableArray * _delegates;
+    
+    CLLocation * _currentLocation;
+    BOOL _disabled;
+    
 #if TARGET_IPHONE_SIMULATOR
-	NSArray * _locationTrace;
-	int _locationTraceIndex;
-#endif	
+    NSArray * _locationTrace;
+    int _locationTraceIndex;
+#endif    
 }
 
 - (id) initWithModelDao:(OBAModelDAO*)modelDao;

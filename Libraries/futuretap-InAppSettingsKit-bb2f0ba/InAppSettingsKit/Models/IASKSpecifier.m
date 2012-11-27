@@ -33,7 +33,7 @@
         [self setSpecifierDict:specifier];
         
         if ([[self type] isEqualToString:kIASKPSMultiValueSpecifier] ||
-			[[self type] isEqualToString:kIASKPSTitleValueSpecifier]) {
+            [[self type] isEqualToString:kIASKPSTitleValueSpecifier]) {
             [self _reinterpretValues:[self specifierDict]];
         }
     }
@@ -43,8 +43,8 @@
 - (void)dealloc {
     [_specifierDict release], _specifierDict = nil;
     [_multipleValuesDict release], _multipleValuesDict = nil;
-	
-	_settingsReader = nil;
+    
+    _settingsReader = nil;
 
     [super dealloc];
 }
@@ -56,17 +56,17 @@
     NSMutableDictionary *multipleValuesDict = [[[NSMutableDictionary alloc] init] autorelease];
     
     if (values) {
-		[multipleValuesDict setObject:values forKey:kIASKValues];
-	}
-	
+        [multipleValuesDict setObject:values forKey:kIASKValues];
+    }
+    
     if (titles) {
-		[multipleValuesDict setObject:titles forKey:kIASKTitles];
-	}
+        [multipleValuesDict setObject:titles forKey:kIASKTitles];
+    }
     
     [self setMultipleValuesDict:multipleValuesDict];
 }
 - (NSString*)localizedObjectForKey:(NSString*)key {
-	return [self.settingsReader titleForStringId:[_specifierDict objectForKey:key]];
+    return [self.settingsReader titleForStringId:[_specifierDict objectForKey:key]];
 }
 
 - (NSString*)title {
@@ -102,20 +102,20 @@
 }
 
 - (NSString*)titleForCurrentValue:(id)currentValue {
-	NSArray *values = [self multipleValues];
-	NSArray *titles = [self multipleTitles];
-	if (values.count != titles.count) {
-		return nil;
-	}
+    NSArray *values = [self multipleValues];
+    NSArray *titles = [self multipleTitles];
+    if (values.count != titles.count) {
+        return nil;
+    }
     NSInteger keyIndex = [values indexOfObject:currentValue];
-	if (keyIndex == NSNotFound) {
-		return nil;
-	}
-	@try {
-		return [self.settingsReader titleForStringId:[titles objectAtIndex:keyIndex]];
-	}
-	@catch (NSException * e) {}
-	return nil;
+    if (keyIndex == NSNotFound) {
+        return nil;
+    }
+    @try {
+        return [self.settingsReader titleForStringId:[titles objectAtIndex:keyIndex]];
+    }
+    @catch (NSException * e) {}
+    return nil;
 }
 
 - (NSInteger)multipleValuesCount {
@@ -143,14 +143,14 @@
 }
 
 - (BOOL)defaultBoolValue {
-	id defaultValue = [self defaultValue];
-	if ([defaultValue isEqual:[self trueValue]]) {
-		return YES;
-	}
-	if ([defaultValue isEqual:[self falseValue]]) {
-		return NO;
-	}
-	return [defaultValue boolValue];
+    id defaultValue = [self defaultValue];
+    if ([defaultValue isEqual:[self trueValue]]) {
+        return YES;
+    }
+    if ([defaultValue isEqual:[self falseValue]]) {
+        return NO;
+    }
+    return [defaultValue boolValue];
 }
 
 - (id)trueValue {
@@ -192,12 +192,12 @@
         return UIKeyboardTypeNumberPad;
     }
     else if ([[_specifierDict objectForKey:KIASKKeyboardType] isEqualToString:kIASKKeyboardDecimalPad]) {
-		if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iPhoneOS_4_1) {
-			return UIKeyboardTypeDecimalPad;
-		}
-		else {
-			return UIKeyboardTypeNumbersAndPunctuation;
-		}
+        if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iPhoneOS_4_1) {
+            return UIKeyboardTypeDecimalPad;
+        }
+        else {
+            return UIKeyboardTypeNumbersAndPunctuation;
+        }
     }
     else if ([[_specifierDict objectForKey:KIASKKeyboardType] isEqualToString:KIASKKeyboardURL]) {
         return UIKeyboardTypeURL;
@@ -248,8 +248,8 @@
 }
 
 - (BOOL)adjustsFontSizeToFitWidth {
-	NSNumber *boxedResult = [_specifierDict objectForKey:kIASKAdjustsFontSizeToFitWidth];
-	return !boxedResult || [boxedResult boolValue];
+    NSNumber *boxedResult = [_specifierDict objectForKey:kIASKAdjustsFontSizeToFitWidth];
+    return !boxedResult || [boxedResult boolValue];
 }
 
 - (UITextAlignment)textAlignment
@@ -262,10 +262,10 @@
         return UITextAlignmentRight;
     }
     if ([self.type isEqualToString:kIASKButtonSpecifier] && !self.cellImage) {
-		return UITextAlignmentCenter;
-	} else if ([self.type isEqualToString:kIASKPSMultiValueSpecifier] || [self.type isEqualToString:kIASKPSTitleValueSpecifier]) {
-		return UITextAlignmentRight;
-	}
-	return UITextAlignmentLeft;
+        return UITextAlignmentCenter;
+    } else if ([self.type isEqualToString:kIASKPSMultiValueSpecifier] || [self.type isEqualToString:kIASKPSTitleValueSpecifier]) {
+        return UITextAlignmentRight;
+    }
+    return UITextAlignmentLeft;
 }
 @end

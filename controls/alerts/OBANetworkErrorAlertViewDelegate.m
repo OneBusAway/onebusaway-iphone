@@ -20,16 +20,16 @@
 @implementation OBANetworkErrorAlertViewDelegate
 
 - (id) initWithContext:(OBAApplicationDelegate*)context {
-	if( self = [super init] ) {
-		_context = context;
-	}
-	return self;
+    if( self = [super init] ) {
+        _context = context;
+    }
+    return self;
 }
 
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-	if( buttonIndex == 0 )
-		[_context navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
+    if( buttonIndex == 0 )
+        [_context navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
 }
 
 @end

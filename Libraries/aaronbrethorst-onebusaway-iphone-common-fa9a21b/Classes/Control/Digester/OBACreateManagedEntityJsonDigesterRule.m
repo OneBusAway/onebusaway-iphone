@@ -22,48 +22,48 @@
 @implementation OBACreateManagedEntityJsonDigesterRule
 
 - (id) initWithEntityName:(NSString*)entityName entityIdProperty:(NSString*)entityIdProperty jsonIdProperty:(NSString*)jsonIdProperty {
-	if( self = [super init] ) {
-		_entityName = entityName;
-		_entityIdProperty = entityIdProperty;
-		_jsonIdProperty = jsonIdProperty;
-	}
-	return self;
+    if( self = [super init] ) {
+        _entityName = entityName;
+        _entityIdProperty = entityIdProperty;
+        _jsonIdProperty = jsonIdProperty;
+    }
+    return self;
 }
 
 
 #pragma mark OBAJsonDigesterRule Methods
 
 - (void) begin:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value  {
-	
-	if( ! [value isKindOfClass:[NSDictionary class]] ) {
-		context.error = [NSError errorWithDomain:OBAErrorDomain code:kOBAErrorMissingFieldInData userInfo:nil];
-		return;
-	}
-	
-	NSDictionary * dict = value;
-	id entityId = dict[_jsonIdProperty];
-	
-	if( entityId == nil ) {
-		context.error = [NSError errorWithDomain:OBAErrorDomain code:kOBAErrorMissingFieldInData userInfo:nil];
-		return;
-	}
-		
-	NSError * error = nil;
-	NSManagedObjectContext * managedObjectContext = [context getParameterForKey:@"managedObjectContext"];
-	NSMutableDictionary * entityIdMappings = [context getParameterForKey:@"entityIdMappings"];
-	
-	id obj = [OBAEntityManager getEntityWithName:_entityName entityIdProperty:_entityIdProperty entityId:entityId fromContext:managedObjectContext withEntityIdMappings:entityIdMappings error:&error];
+    
+    if( ! [value isKindOfClass:[NSDictionary class]] ) {
+        context.error = [NSError errorWithDomain:OBAErrorDomain code:kOBAErrorMissingFieldInData userInfo:nil];
+        return;
+    }
+    
+    NSDictionary * dict = value;
+    id entityId = dict[_jsonIdProperty];
+    
+    if( entityId == nil ) {
+        context.error = [NSError errorWithDomain:OBAErrorDomain code:kOBAErrorMissingFieldInData userInfo:nil];
+        return;
+    }
+        
+    NSError * error = nil;
+    NSManagedObjectContext * managedObjectContext = [context getParameterForKey:@"managedObjectContext"];
+    NSMutableDictionary * entityIdMappings = [context getParameterForKey:@"entityIdMappings"];
+    
+    id obj = [OBAEntityManager getEntityWithName:_entityName entityIdProperty:_entityIdProperty entityId:entityId fromContext:managedObjectContext withEntityIdMappings:entityIdMappings error:&error];
 
-	if( error ) {
-		context.error = error;
-		return;
-	}
-	
-	[context pushValue:obj];
+    if( error ) {
+        context.error = error;
+        return;
+    }
+    
+    [context pushValue:obj];
 }
 
 - (void) end:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
-	[context popValue];
+    [context popValue];
 }
 
 @end

@@ -13,8 +13,8 @@
 
 - (id)initWithValues:(NSArray*)values selectedIndex:(NSIndexPath*)selectedIndex {
     if ((self = [super initWithStyle:UITableViewStyleGrouped])) {
-		_values = values;
-		_checkedItem = selectedIndex;
+        _values = values;
+        _checkedItem = selectedIndex;
     }
     return self;
 }
@@ -24,7 +24,7 @@
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 1;
+    return 1;
 }
 
 
@@ -36,13 +36,13 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+    UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.textLabel.textAlignment = UITextAlignmentLeft;
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	cell.accessoryType = [self checkedItem] == indexPath ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-	cell.textLabel.text = _values[indexPath.row];
-	
-	return cell;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.accessoryType = [self checkedItem] == indexPath ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    cell.textLabel.text = _values[indexPath.row];
+    
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -56,17 +56,17 @@
     [[tableView cellForRowAtIndexPath:indexPath] setAccessoryType:UITableViewCellAccessoryCheckmark];
     [[tableView cellForRowAtIndexPath:[self checkedItem]] setAccessoryType:UITableViewCellAccessoryNone];
     [self setCheckedItem:indexPath];
-	
-	if( _target && _action && [_target respondsToSelector:_action] ) {
+    
+    if( _target && _action && [_target respondsToSelector:_action] ) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-		[_target performSelector:_action withObject:indexPath];
+        [_target performSelector:_action withObject:indexPath];
 #pragma clang diagnostic pop
     }
     
     if (self.exitOnSelection) {
         [self.navigationController popViewControllerAnimated:YES];
-    }								 
+    }                                 
 }
 
 

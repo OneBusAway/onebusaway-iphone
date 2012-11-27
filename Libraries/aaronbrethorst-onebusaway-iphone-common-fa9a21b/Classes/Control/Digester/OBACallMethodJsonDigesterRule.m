@@ -19,24 +19,24 @@
 @implementation OBACallMethodJsonDigesterRule
 
 - (id)initWithSelector:(SEL)selector {
-	if (self = [super init]) {
-		_selector = selector;
-	}
-	return self;
+    if (self = [super init]) {
+        _selector = selector;
+    }
+    return self;
 }
 
 - (void) begin:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
-	
-	NSObject * top = [context peek:0];
-	
-	if (!top) {
-		return;
+    
+    NSObject * top = [context peek:0];
+    
+    if (!top) {
+        return;
     }
 
 // note: this is gross.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-	[top performSelector:_selector withObject:value];
+    [top performSelector:_selector withObject:value];
 #pragma clang diagnostic pop
 }
 

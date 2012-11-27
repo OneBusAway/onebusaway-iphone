@@ -3,11 +3,11 @@
 
 @interface OBASearchResult : NSObject
 {
-	OBASearchType _searchType;
-	BOOL _limitExceeded;
-	BOOL _outOfRange;
-	NSArray * _values;
-	NSArray * _additionalValues;
+    OBASearchType _searchType;
+    BOOL _limitExceeded;
+    BOOL _outOfRange;
+    NSArray * _values;
+    NSArray * _additionalValues;
 }
 
 @property (nonatomic) OBASearchType searchType;

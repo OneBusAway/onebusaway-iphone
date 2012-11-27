@@ -6,10 +6,10 @@
 
 
 @interface OBAArrivalAndDepartureViewController : OBARequestDrivenTableViewController {
-	OBAArrivalAndDepartureInstanceRef * _instance;
-	OBAArrivalAndDepartureV2 * _arrivalAndDeparture;
-	OBAArrivalEntryTableViewCellFactory * _arrivalCellFactory;
-	OBAServiceAlertsModel * _serviceAlerts;
+    OBAArrivalAndDepartureInstanceRef * _instance;
+    OBAArrivalAndDepartureV2 * _arrivalAndDeparture;
+    OBAArrivalEntryTableViewCellFactory * _arrivalCellFactory;
+    OBAServiceAlertsModel * _serviceAlerts;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext arrivalAndDepartureInstance:(OBAArrivalAndDepartureInstanceRef*)instance;

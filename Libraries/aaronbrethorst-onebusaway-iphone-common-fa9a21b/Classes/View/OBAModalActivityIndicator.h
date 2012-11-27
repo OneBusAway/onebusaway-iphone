@@ -1,6 +1,6 @@
 @interface OBAModalActivityIndicator : NSObject {
-	UIView * _modalView;
-	UIActivityIndicatorView * _activityIndicatorView;
+    UIView * _modalView;
+    UIActivityIndicatorView * _activityIndicatorView;
 }
 
 - (void) show:(UIView*)view;

@@ -19,18 +19,18 @@
 
 
 typedef enum {
-	OBABookmarkEditNew=0,
-	OBABookmarkEditExisting=1
+    OBABookmarkEditNew=0,
+    OBABookmarkEditExisting=1
 } OBABookmarkEditType;
 
 
 @interface OBAEditStopBookmarkViewController : UITableViewController <OBAModelServiceDelegate> {
-	OBAApplicationDelegate * _appContext;
-	OBABookmarkEditType _editType;
-	OBABookmarkV2 * _bookmark;
-	NSMutableArray * _requests;
-	NSMutableDictionary * _stops;
-	UITextField * _textField;
+    OBAApplicationDelegate * _appContext;
+    OBABookmarkEditType _editType;
+    OBABookmarkV2 * _bookmark;
+    NSMutableArray * _requests;
+    NSMutableDictionary * _stops;
+    UITextField * _textField;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType;

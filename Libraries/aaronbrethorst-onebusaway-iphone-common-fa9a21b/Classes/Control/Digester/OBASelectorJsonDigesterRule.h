@@ -18,14 +18,14 @@
 
 
 typedef enum {
-	OBASelectorJsonDigesterRuleTargetBefore,
-	OBASelectorJsonDigesterRuleTargetAfter,
+    OBASelectorJsonDigesterRuleTargetBefore,
+    OBASelectorJsonDigesterRuleTargetAfter,
 } OBASelectorJsonDigesterRuleTarget;
 
 @interface OBASelectorJsonDigesterRule : NSObject <OBAJsonDigesterRule> {
-	NSObject * _target;
-	SEL _selector;
-	OBAJsonDigesterRuleTarget _ruleTarget;
+    NSObject * _target;
+    SEL _selector;
+    OBAJsonDigesterRuleTarget _ruleTarget;
 }
 
 - (id) initWithTarget:(NSObject*)target selector:(SEL)selector ruleTarget:(OBAJsonDigesterRuleTarget)ruleTarget;

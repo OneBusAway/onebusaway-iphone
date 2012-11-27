@@ -25,15 +25,15 @@ extern NSString * kOBASearchControllerSearchArgumentParameter;
 extern NSString * kOBASearchControllerSearchLocationParameter;
 
 typedef enum {
-	OBASearchTypeNone=0,
-	OBASearchTypePending,
-	OBASearchTypeRegion,
-	OBASearchTypeRoute,
-	OBASearchTypeRouteStops,
-	OBASearchTypeAddress,
-	OBASearchTypePlacemark,
-	OBASearchTypeStopId,
-	OBASearchTypeAgenciesWithCoverage
+    OBASearchTypeNone=0,
+    OBASearchTypePending,
+    OBASearchTypeRegion,
+    OBASearchTypeRoute,
+    OBASearchTypeRouteStops,
+    OBASearchTypeAddress,
+    OBASearchTypePlacemark,
+    OBASearchTypeStopId,
+    OBASearchTypeAgenciesWithCoverage
 } OBASearchType;
 
 
@@ -52,5 +52,5 @@ typedef enum {
 + (id) getSearchTypeParameterForNagivationTarget:(OBANavigationTarget*)target;
 
 @end
-	
+    
 

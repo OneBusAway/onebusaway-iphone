@@ -18,8 +18,8 @@
 
 
 typedef enum {
-	OBASortTripsByDepartureTime=0,
-	OBASortTripsByRouteName=1
+    OBASortTripsByDepartureTime=0,
+    OBASortTripsByRouteName=1
 } OBASortTripsByType;
 
 @class OBAStop;

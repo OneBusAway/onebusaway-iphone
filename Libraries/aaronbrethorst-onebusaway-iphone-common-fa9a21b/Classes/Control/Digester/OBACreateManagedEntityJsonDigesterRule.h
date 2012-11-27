@@ -18,9 +18,9 @@
 
 
 @interface OBACreateManagedEntityJsonDigesterRule : NSObject <OBAJsonDigesterRule> {
-	NSString * _entityName;
-	NSString * _entityIdProperty;
-	NSString * _jsonIdProperty;
+    NSString * _entityName;
+    NSString * _entityIdProperty;
+    NSString * _jsonIdProperty;
 }
 
 - (id) initWithEntityName:(NSString*)entityName entityIdProperty:(NSString*)entityIdProperty jsonIdProperty:(NSString*)jsonIdProperty;

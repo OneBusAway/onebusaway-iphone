@@ -56,58 +56,58 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 - (id)init {
     self = [super init];
 
-	if (self) {
+    if (self) {
 
         self.active = NO;
 
-		_references = [[OBAReferencesV2 alloc] init];
-		_modelDao = [[OBAModelDAO alloc] init];
-		_locationManager = [[OBALocationManager alloc] initWithModelDao:_modelDao];		
-				
-		_modelService = [[OBAModelService alloc] init];
-		_modelService.references = _references;
-		_modelService.modelDao = _modelDao;
-		
-		OBAModelFactory * modelFactory = [[OBAModelFactory alloc] initWithReferences:_references];
-		_modelService.modelFactory = modelFactory;
-		
-		_modelService.locationManager = _locationManager;
-		
-		_stopIconFactory = [[OBAStopIconFactory alloc] init];
-		
-		[self refreshSettings];
-	}
-	return self;
+        _references = [[OBAReferencesV2 alloc] init];
+        _modelDao = [[OBAModelDAO alloc] init];
+        _locationManager = [[OBALocationManager alloc] initWithModelDao:_modelDao];        
+                
+        _modelService = [[OBAModelService alloc] init];
+        _modelService.references = _references;
+        _modelService.modelDao = _modelDao;
+        
+        OBAModelFactory * modelFactory = [[OBAModelFactory alloc] initWithReferences:_references];
+        _modelService.modelFactory = modelFactory;
+        
+        _modelService.locationManager = _locationManager;
+        
+        _stopIconFactory = [[OBAStopIconFactory alloc] init];
+        
+        [self refreshSettings];
+    }
+    return self;
 }
 
 
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget {
-	[self performSelector:@selector(_navigateToTargetInternal:) withObject:navigationTarget afterDelay:0];
+    [self performSelector:@selector(_navigateToTargetInternal:) withObject:navigationTarget afterDelay:0];
 }
 
 - (void)refreshSettings {
-	
-	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-									
-	NSString * apiServerName = [userDefaults objectForKey:@"oba_api_server"];
-	if( apiServerName == nil || [apiServerName length] == 0 )
-		apiServerName = kOBADefaultApiServerName;
-	
-	apiServerName = [NSString stringWithFormat:@"http://%@",apiServerName];
-	
-	NSString * userId = [self userIdFromDefaults:userDefaults];
-	NSString * appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-	NSString * obaArgs = [NSString stringWithFormat:@"key=org.onebusaway.iphone&app_uid=%@&app_ver=%@",userId,appVersion];
-	
-	OBADataSourceConfig * obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:apiServerName args:obaArgs];	
-	OBAJsonDataSource * obaJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:obaDataSourceConfig];
-	_modelService.obaJsonDataSource = obaJsonDataSource;
-	
-	OBADataSourceConfig * googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://maps.google.com" args:@"output=json&oe=utf-8&key=ABQIAAAA1R_R0bUhLYRwbQFpKHVowhRAXGY6QyK0faTs-0G7h9EE_iri4RRtKgRdKFvvraEP5PX_lP_RlqKkzA"];
-	OBAJsonDataSource * googleMapsJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
-	_modelService.googleMapsJsonDataSource = googleMapsJsonDataSource;
-	
-	[userDefaults setObject:appVersion forKey:@"oba_application_version"];
+    
+    NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+                                    
+    NSString * apiServerName = [userDefaults objectForKey:@"oba_api_server"];
+    if( apiServerName == nil || [apiServerName length] == 0 )
+        apiServerName = kOBADefaultApiServerName;
+    
+    apiServerName = [NSString stringWithFormat:@"http://%@",apiServerName];
+    
+    NSString * userId = [self userIdFromDefaults:userDefaults];
+    NSString * appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    NSString * obaArgs = [NSString stringWithFormat:@"key=org.onebusaway.iphone&app_uid=%@&app_ver=%@",userId,appVersion];
+    
+    OBADataSourceConfig * obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:apiServerName args:obaArgs];    
+    OBAJsonDataSource * obaJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:obaDataSourceConfig];
+    _modelService.obaJsonDataSource = obaJsonDataSource;
+    
+    OBADataSourceConfig * googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://maps.google.com" args:@"output=json&oe=utf-8&key=ABQIAAAA1R_R0bUhLYRwbQFpKHVowhRAXGY6QyK0faTs-0G7h9EE_iri4RRtKgRdKFvvraEP5PX_lP_RlqKkzA"];
+    OBAJsonDataSource * googleMapsJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
+    _modelService.googleMapsJsonDataSource = googleMapsJsonDataSource;
+    
+    [userDefaults setObject:appVersion forKey:@"oba_application_version"];
 }
 
 - (void)_constructUI
@@ -154,23 +154,23 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     CLLocation * location = _locationManager.currentLocation;
-	if ( location )
+    if ( location )
     {
-		_modelDao.mostRecentLocation = location;
+        _modelDao.mostRecentLocation = location;
     }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-	[self applicationDidEnterBackground:application]; // call for iOS < 4.0 devices
+    [self applicationDidEnterBackground:application]; // call for iOS < 4.0 devices
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-	self.active = YES;
+    self.active = YES;
     self.tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-	self.active = NO;
+    self.active = NO;
 }
 
 #pragma mark - UITabBarControllerDelegate
@@ -193,12 +193,12 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 
 - (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
     [sender dismissViewControllerAnimated:YES completion:nil];
-	[self refreshSettings];
+    [self refreshSettings];
 }
 
 - (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget {
-	
-	[_references clear];
+    
+    [_references clear];
     
     [self.mapNavigationController popToRootViewControllerAnimated:NO];
     
@@ -211,52 +211,52 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 }
 
 - (void) _setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController {
-	if( ! [viewController conformsToProtocol:@protocol(OBANavigationTargetAware) ] )
-		return;
+    if( ! [viewController conformsToProtocol:@protocol(OBANavigationTargetAware) ] )
+        return;
     
-	if( ! [viewController respondsToSelector:@selector(setNavigationTarget:) ] )
-		return;
-	
-	id<OBANavigationTargetAware> targetAware = (id<OBANavigationTargetAware>) viewController;
-	[targetAware setNavigationTarget:target];
+    if( ! [viewController respondsToSelector:@selector(setNavigationTarget:) ] )
+        return;
+    
+    id<OBANavigationTargetAware> targetAware = (id<OBANavigationTargetAware>) viewController;
+    [targetAware setNavigationTarget:target];
 }
 
 - (UIViewController*) _getViewControllerForTarget:(OBANavigationTarget*)target {
-	
-	switch (target.target) {
-		case OBANavigationTargetTypeStop:
-			return [[OBAStopViewController alloc] initWithApplicationContext:self];
+    
+    switch (target.target) {
+        case OBANavigationTargetTypeStop:
+            return [[OBAStopViewController alloc] initWithApplicationContext:self];
         default:
             return nil;
-	}
+    }
 }
 
 - (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults {
-	
-	NSString * userId = [userDefaults stringForKey:kOBAHiddenPreferenceUserId];
-	
-	if( ! userId) {
-		CFUUIDRef theUUID = CFUUIDCreate(kCFAllocatorDefault);
-		if (theUUID) {
-			userId = CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, theUUID));
-			CFRelease(theUUID);
-			[userDefaults setObject:userId forKey:kOBAHiddenPreferenceUserId];
-			[userDefaults synchronize];
-		}
-		else {
-			userId = @"anonymous";
-		}
-	}
-	
-	return userId;
+    
+    NSString * userId = [userDefaults stringForKey:kOBAHiddenPreferenceUserId];
+    
+    if( ! userId) {
+        CFUUIDRef theUUID = CFUUIDCreate(kCFAllocatorDefault);
+        if (theUUID) {
+            userId = CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, theUUID));
+            CFRelease(theUUID);
+            [userDefaults setObject:userId forKey:kOBAHiddenPreferenceUserId];
+            [userDefaults synchronize];
+        }
+        else {
+            userId = @"anonymous";
+        }
+    }
+    
+    return userId;
 }
 
 - (void) _migrateUserPreferences {
-	
-	OBAUserPreferencesMigration * migration = [[OBAUserPreferencesMigration alloc] init];
-	
-	NSString * path = [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"OneBusAway.sqlite"];
-	[migration migrateCoreDataPath:path toDao:_modelDao];
+    
+    OBAUserPreferencesMigration * migration = [[OBAUserPreferencesMigration alloc] init];
+    
+    NSString * path = [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"OneBusAway.sqlite"];
+    [migration migrateCoreDataPath:path toDao:_modelDao];
 }
 
 #pragma mark Application's documents directory
@@ -265,10 +265,10 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
  * Returns the path to the application's documents directory.
  */
 - (NSString *)applicationDocumentsDirectory {
-	
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *basePath = ([paths count] > 0) ? paths[0] : nil;
-	return basePath;
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *basePath = ([paths count] > 0) ? paths[0] : nil;
+    return basePath;
 }
 
 @end

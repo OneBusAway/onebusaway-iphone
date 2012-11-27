@@ -31,55 +31,55 @@
 
 + (id) getEntityWithName:(NSString*)entityName entityIdProperty:(NSString*)entityIdProperty entityId:(id)entityId fromContext:(NSManagedObjectContext*)managedObjectContext withEntityIdMappings:(NSMutableDictionary*)entityIdMappings error:(NSError**)error {
 
-	NSManagedObjectID * managedObjectId = [self getManagedObjectIdForEntityName:entityName entityId:entityId entityIdMappings:entityIdMappings];
-	
-	if( managedObjectId != nil ) {
-		NSError * error = nil;
-		NSManagedObject * obj = [managedObjectContext existingObjectWithID:managedObjectId error:&error];
-		if( error ) {
-			NSString * uri = [[managedObjectId URIRepresentation] absoluteString];
-			OBALogSevereWithError(error,@"Error retrievingExistingObjectWithID: entityName=%@ entityId=%@ managedId=%@",entityName,entityId,uri);
-		}
-		else {
-			if( [entityId isEqual:[obj valueForKey:entityIdProperty]] )
-				return obj;
-			NSString * uri = [[managedObjectId URIRepresentation] absoluteString];
-			OBALogWarning(@"Entity id mismatch: entityName=%@ entityId=%@ managedId=%@",entityName,entityId,uri);
-		}
-	}
-	
-	NSEntityDescription *entityDescription = [NSEntityDescription
-											  entityForName:entityName inManagedObjectContext:managedObjectContext];
-	
-	NSFetchRequest *request = [[NSFetchRequest alloc] init];
-	[request setEntity:entityDescription];
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", entityIdProperty, entityId];
-	[request setPredicate:predicate];
-	
-	NSArray *fetchedObjects = [managedObjectContext executeFetchRequest:request error:error];
-	
-	if (fetchedObjects == nil) {
-		OBALogSevereWithError((*error),@"Error fetching entity: name=%@ idProperty=%@ id=%@",entityName,entityIdProperty,entityId);
-		return nil;
-	}
-	
-	if( [fetchedObjects count] == 0) {
-		id entity = [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:managedObjectContext];
-		[entity setValue:entityId forKey:entityIdProperty];
-		return entity;
-	}
-	
-	if( [fetchedObjects count] > 1 ) {
-		OBALogSevere(@"Duplicate entities: entityName=%@ entityIdProperty=%@ entityId=%@ count=%d",entityName,entityIdProperty,entityId,[fetchedObjects count]);
+    NSManagedObjectID * managedObjectId = [self getManagedObjectIdForEntityName:entityName entityId:entityId entityIdMappings:entityIdMappings];
+    
+    if( managedObjectId != nil ) {
+        NSError * error = nil;
+        NSManagedObject * obj = [managedObjectContext existingObjectWithID:managedObjectId error:&error];
+        if( error ) {
+            NSString * uri = [[managedObjectId URIRepresentation] absoluteString];
+            OBALogSevereWithError(error,@"Error retrievingExistingObjectWithID: entityName=%@ entityId=%@ managedId=%@",entityName,entityId,uri);
+        }
+        else {
+            if( [entityId isEqual:[obj valueForKey:entityIdProperty]] )
+                return obj;
+            NSString * uri = [[managedObjectId URIRepresentation] absoluteString];
+            OBALogWarning(@"Entity id mismatch: entityName=%@ entityId=%@ managedId=%@",entityName,entityId,uri);
+        }
+    }
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:entityName inManagedObjectContext:managedObjectContext];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", entityIdProperty, entityId];
+    [request setPredicate:predicate];
+    
+    NSArray *fetchedObjects = [managedObjectContext executeFetchRequest:request error:error];
+    
+    if (fetchedObjects == nil) {
+        OBALogSevereWithError((*error),@"Error fetching entity: name=%@ idProperty=%@ id=%@",entityName,entityIdProperty,entityId);
+        return nil;
+    }
+    
+    if( [fetchedObjects count] == 0) {
+        id entity = [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:managedObjectContext];
+        [entity setValue:entityId forKey:entityIdProperty];
+        return entity;
+    }
+    
+    if( [fetchedObjects count] > 1 ) {
+        OBALogSevere(@"Duplicate entities: entityName=%@ entityIdProperty=%@ entityId=%@ count=%d",entityName,entityIdProperty,entityId,[fetchedObjects count]);
       
         if (error != NULL)
             (*error) = [NSError errorWithDomain:OBAErrorDomain code:kOBAErrorDuplicateEntity userInfo:nil];
-		return nil;
-	}
-	
-	NSManagedObject * entity = fetchedObjects[0];
-	[self setManagedObjectIdForEntityName:entityName entityId:entityId managedObjectId:[entity objectID] entityIdMappings:entityIdMappings];
-	return entity;
+        return nil;
+    }
+    
+    NSManagedObject * entity = fetchedObjects[0];
+    [self setManagedObjectIdForEntityName:entityName entityId:entityId managedObjectId:[entity objectID] entityIdMappings:entityIdMappings];
+    return entity;
 }
 
 @end
@@ -87,20 +87,20 @@
 @implementation OBAEntityManager (Internal)
 
 + (NSManagedObjectID*) getManagedObjectIdForEntityName:(NSString*)entityName entityId:(NSString*)entityId entityIdMappings:(NSDictionary*)entityIdMappings {
-	NSDictionary * entityIdMapping = entityIdMappings[entityName];
-	if( entityIdMapping == nil )
-		return nil;
-	return entityIdMapping[entityId];
+    NSDictionary * entityIdMapping = entityIdMappings[entityName];
+    if( entityIdMapping == nil )
+        return nil;
+    return entityIdMapping[entityId];
 }
 
 + (void) setManagedObjectIdForEntityName:(NSString*)entityName entityId:(NSString*)entityId managedObjectId:(NSManagedObjectID*)managedObjectId entityIdMappings:(NSMutableDictionary*)entityIdMappings {
-	
-	NSMutableDictionary * entityIdMapping = entityIdMappings[entityName];
-	if( entityIdMapping == nil ) {
-		entityIdMapping = [NSMutableDictionary dictionary];
-		entityIdMappings[entityName] = entityIdMapping;
-	}
-	entityIdMapping[entityId] = managedObjectId;
+    
+    NSMutableDictionary * entityIdMapping = entityIdMappings[entityName];
+    if( entityIdMapping == nil ) {
+        entityIdMapping = [NSMutableDictionary dictionary];
+        entityIdMappings[entityName] = entityIdMapping;
+    }
+    entityIdMapping[entityId] = managedObjectId;
 }
 
 @end

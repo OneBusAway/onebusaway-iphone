@@ -6,7 +6,7 @@
 
 
 @interface OBAAgenciesListViewController : OBARequestDrivenTableViewController {
-	NSMutableArray * _agencies;
+    NSMutableArray * _agencies;
 }
 
 @end

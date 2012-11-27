@@ -5,15 +5,15 @@
 
 
 @interface OBATripScheduleListViewController : UITableViewController <OBAModelServiceDelegate> {
-	OBAApplicationDelegate * _appContext;
-	OBATripInstanceRef * _tripInstance;
-	OBATripDetailsV2 * _tripDetails;	
-	id<OBAModelServiceRequest> _request;
-	BOOL _showPreviousStops;
-	NSInteger _currentStopIndex;
-	
-	NSDateFormatter * _timeFormatter;
-	OBAProgressIndicatorView * _progressView;
+    OBAApplicationDelegate * _appContext;
+    OBATripInstanceRef * _tripInstance;
+    OBATripDetailsV2 * _tripDetails;    
+    id<OBAModelServiceRequest> _request;
+    BOOL _showPreviousStops;
+    NSInteger _currentStopIndex;
+    
+    NSDateFormatter * _timeFormatter;
+    OBAProgressIndicatorView * _progressView;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)context tripInstance:(OBATripInstanceRef*)tripInstance;

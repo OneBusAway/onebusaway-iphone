@@ -27,10 +27,10 @@
 
 - (id) init {
     self = [super init];
-	if( self ) {
-		_empty = YES;
-	}
-	return self;
+    if( self ) {
+        _empty = YES;
+    }
+    return self;
 }
 
 - (id) initWithBounds:(OBACoordinateBounds*)bounds {
@@ -56,40 +56,40 @@
 
 - (id) initWithCoder:(NSCoder*)coder {
     self = [super init];
-	if( self ) {
+    if( self ) {
         _empty = [coder decodeBoolForKey:@"empty"];
         _minLatitude = [coder decodeDoubleForKey:@"minLatitude"];
         _maxLatitude = [coder decodeDoubleForKey:@"maxLatitude"];
         _minLongitude = [coder decodeDoubleForKey:@"minLongitude"];
         _maxLongitude = [coder decodeDoubleForKey:@"maxLongitude"];
-	}
-	return self;
+    }
+    return self;
 }
 
 + (id) bounds {
-	return [[OBACoordinateBounds alloc] init];
+    return [[OBACoordinateBounds alloc] init];
 }
 
 - (MKCoordinateRegion) region {
-	return MKCoordinateRegionMake([self center],[self span]);
+    return MKCoordinateRegionMake([self center],[self span]);
 }
 
 - (CLLocationCoordinate2D) center {
-	CLLocationCoordinate2D center = {0.0,0.0};
-	if( ! _empty ) {
-		center.latitude = (_minLatitude + _maxLatitude)/2;
-		center.longitude = (_minLongitude + _maxLongitude)/2;
-	}
-	return center;
+    CLLocationCoordinate2D center = {0.0,0.0};
+    if( ! _empty ) {
+        center.latitude = (_minLatitude + _maxLatitude)/2;
+        center.longitude = (_minLongitude + _maxLongitude)/2;
+    }
+    return center;
 }
 
 - (MKCoordinateSpan) span {
-	MKCoordinateSpan span = MKCoordinateSpanMake(0.0,0.0);
-	if( ! _empty ) {
-		span.latitudeDelta = _maxLatitude - _minLatitude;
-		span.longitudeDelta = _maxLongitude - _minLongitude;
-	}
-	return span;
+    MKCoordinateSpan span = MKCoordinateSpanMake(0.0,0.0);
+    if( ! _empty ) {
+        span.latitudeDelta = _maxLatitude - _minLatitude;
+        span.longitudeDelta = _maxLongitude - _minLongitude;
+    }
+    return span;
 }
 
 - (void) addRegion:(MKCoordinateRegion)region {
@@ -105,28 +105,28 @@
 }
 
 - (void) addLocation:(CLLocation*)location {
-	[self addCoordinate:location.coordinate];
+    [self addCoordinate:location.coordinate];
 }
 
 - (void) addCoordinate:(CLLocationCoordinate2D)coordinate {
-	[self addLat:coordinate.latitude lon:coordinate.longitude];
+    [self addLat:coordinate.latitude lon:coordinate.longitude];
 }
 
 - (void) addLat:(double)lat lon:(double)lon {
-	if( _empty ) {
-		_empty = NO;
+    if( _empty ) {
+        _empty = NO;
 
-		_minLatitude = lat;
-		_maxLatitude = lat;
-		_minLongitude = lon;
-		_maxLongitude = lon;
-	}
-	else {
-		_minLatitude = MIN(_minLatitude,lat);
-		_maxLatitude = MAX(_maxLatitude,lat);
-		_minLongitude = MIN(_minLongitude,lon);
-		_maxLongitude = MAX(_maxLongitude,lon);
-	}
+        _minLatitude = lat;
+        _maxLatitude = lat;
+        _minLongitude = lon;
+        _maxLongitude = lon;
+    }
+    else {
+        _minLatitude = MIN(_minLatitude,lat);
+        _maxLatitude = MAX(_maxLatitude,lat);
+        _minLongitude = MIN(_minLongitude,lon);
+        _maxLongitude = MAX(_maxLongitude,lon);
+    }
 }
 
 - (void) expandByRatio:(double)ratio {

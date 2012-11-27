@@ -11,13 +11,13 @@
 
 
 - (OBATripV2*) previousTrip {
-	OBAReferencesV2 * refs = self.references;
-	return [refs getTripForId:self.previousTripId];
+    OBAReferencesV2 * refs = self.references;
+    return [refs getTripForId:self.previousTripId];
 }
 
 - (OBATripV2*) nextTrip {
-	OBAReferencesV2 * refs = self.references;
-	return [refs getTripForId:self.nextTripId];
+    OBAReferencesV2 * refs = self.references;
+    return [refs getTripForId:self.nextTripId];
 }
 
 

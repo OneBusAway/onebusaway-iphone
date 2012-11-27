@@ -27,14 +27,14 @@
 
 - (id) initWithTitle:(NSString*)title subtitle:(NSString*)subtitle coordinate:(CLLocationCoordinate2D)coordinate target:(OBANavigationTarget*)target {
 
-	if( self = [super init] ) {
-		_title = title;
-		_subtitle = subtitle;
-		_coordinate = coordinate;
-		_target = target;
-	}
-	
-	return self;
+    if( self = [super init] ) {
+        _title = title;
+        _subtitle = subtitle;
+        _coordinate = coordinate;
+        _target = target;
+    }
+    
+    return self;
 }
 
 

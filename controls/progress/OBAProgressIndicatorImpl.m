@@ -31,22 +31,22 @@
 @synthesize delegate = _delegate;
 
 - (id) init {
-	if( self = [super init] ) {
-		_inProgress = NO;
-		_progress = 0.0;
-	}
-	return self;
+    if( self = [super init] ) {
+        _inProgress = NO;
+        _progress = 0.0;
+    }
+    return self;
 }
 
 - (void) setMessage:(NSString*)message inProgress:(BOOL)inProgress progress:(float)progress {
-	_message = [NSObject releaseOld:_message retainNew:message];
-	_inProgress = inProgress;
-	_progress = progress;
-	[_delegate progressUpdated];
+    _message = [NSObject releaseOld:_message retainNew:message];
+    _inProgress = inProgress;
+    _progress = progress;
+    [_delegate progressUpdated];
 }
 
 - (void) setInProgress:(BOOL)inProgress progress:(float)progress {
-	[self setMessage:nil inProgress:inProgress progress:progress];
+    [self setMessage:nil inProgress:inProgress progress:progress];
 }
 
 

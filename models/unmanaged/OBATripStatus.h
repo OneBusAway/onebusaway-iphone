@@ -11,12 +11,12 @@
 #import "OBARoute.h"
 
 @interface OBATripStatus : NSObject {
-	OBATrip * _trip;
-	OBARoute * _route;
-	long long _serviceDate;
-	CLLocation * _position;
-	int _scheduleDeviation;
-	BOOL _predicted;
+    OBATrip * _trip;
+    OBARoute * _route;
+    long long _serviceDate;
+    CLLocation * _position;
+    int _scheduleDeviation;
+    BOOL _predicted;
 }
 
 @property (nonatomic,strong) OBATrip * trip;

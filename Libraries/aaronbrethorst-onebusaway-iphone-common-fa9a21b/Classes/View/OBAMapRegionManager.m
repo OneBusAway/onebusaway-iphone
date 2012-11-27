@@ -129,9 +129,9 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
     OBARegionChangeRequest * bestRequest = nil;
     double bestScore = 0;
 
-	NSDate * now = [NSDate date];
+    NSDate * now = [NSDate date];
 
-	for( OBARegionChangeRequest * request in  self.appliedRegionChangeRequests ) {
+    for( OBARegionChangeRequest * request in  self.appliedRegionChangeRequests ) {
 
         NSTimeInterval interval = [now timeIntervalSinceDate:request.timestamp];
 

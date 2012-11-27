@@ -19,7 +19,7 @@
 
 
 @interface OBANetworkErrorAlertViewDelegate : NSObject <UIAlertViewDelegate> {
-	OBAApplicationDelegate * _context;
+    OBAApplicationDelegate * _context;
 }
 
 - (id) initWithContext:(OBAApplicationDelegate*)context;

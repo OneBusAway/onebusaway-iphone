@@ -23,10 +23,10 @@
 @synthesize arrivalsAndDepartures = _arrivalsAndDepartures;
 
 - (id) init {
-	if( self = [super init] ) {
-		_arrivalsAndDepartures = [[NSMutableArray alloc] init];
-	}
-	return self;
+    if( self = [super init] ) {
+        _arrivalsAndDepartures = [[NSMutableArray alloc] init];
+    }
+    return self;
 }
 
 

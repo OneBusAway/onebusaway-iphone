@@ -22,11 +22,11 @@
 #import "OBAArrivalEntryTableViewCellFactory.h"
 
 typedef enum {
-	OBAStopSectionTypeNone,
-	OBAStopSectionTypeArrivals,
-	OBAStopSectionTypeFilter,
-	OBAStopSectionTypeServiceAlerts,
-	OBAStopSectionTypeActions
+    OBAStopSectionTypeNone,
+    OBAStopSectionTypeArrivals,
+    OBAStopSectionTypeFilter,
+    OBAStopSectionTypeServiceAlerts,
+    OBAStopSectionTypeActions
 } OBAStopSectionType;
 
 @interface OBAGenericStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate,OBAModelServiceDelegate>

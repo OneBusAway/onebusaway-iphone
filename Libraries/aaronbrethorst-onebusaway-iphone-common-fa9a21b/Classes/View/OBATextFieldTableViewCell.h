@@ -18,7 +18,7 @@
 
 
 @interface OBATextFieldTableViewCell : UITableViewCell {
-	UITextField * _textField;
+    UITextField * _textField;
 }
 
 @property (nonatomic,strong) IBOutlet UITextField * textField;

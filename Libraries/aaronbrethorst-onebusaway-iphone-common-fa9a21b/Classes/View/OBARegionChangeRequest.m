@@ -23,7 +23,7 @@
 
     if( self ) {
         self.region = region;
-		self.type = type;
+        self.type = type;
         self.timestamp = [[NSDate alloc] init];
     }
     return self;
@@ -31,7 +31,7 @@
 
 
 - (double) compareRegion:(MKCoordinateRegion)region {
-	return [OBASphericalGeometryLibrary getDistanceFromRegion:self.region toRegion:region];
+    return [OBASphericalGeometryLibrary getDistanceFromRegion:self.region toRegion:region];
 }
 
 @end

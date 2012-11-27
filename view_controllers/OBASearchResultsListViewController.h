@@ -21,7 +21,7 @@
 @class OBASearchResultsMapViewController;
 
 @interface OBASearchResultsListViewController : UITableViewController {
-	OBAApplicationDelegate * _appContext;
+    OBAApplicationDelegate * _appContext;
 }
 @property(strong) OBASearchResult *result;
 @property BOOL isModal;

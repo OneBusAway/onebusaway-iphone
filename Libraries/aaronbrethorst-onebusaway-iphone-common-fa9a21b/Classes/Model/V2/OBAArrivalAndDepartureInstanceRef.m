@@ -9,17 +9,17 @@
 
 - (id) initWithTripInstance:(OBATripInstanceRef*)tripInstance stopId:(NSString*)stopId stopSequence:(NSInteger)stopSequence {
     self = [super init];
-	if( self ) {
-		_tripInstance = tripInstance;
-		_stopId = stopId;
-		_stopSequence = stopSequence;
-	}
-	return self;
+    if( self ) {
+        _tripInstance = tripInstance;
+        _stopId = stopId;
+        _stopSequence = stopSequence;
+    }
+    return self;
 }
 
 
 + (OBAArrivalAndDepartureInstanceRef*) refWithTripInstance:(OBATripInstanceRef*)tripInstance stopId:(NSString*)stopId stopSequence:(NSInteger)stopSequence {
-	return [[self alloc] initWithTripInstance:tripInstance stopId:stopId stopSequence:stopSequence];
+    return [[self alloc] initWithTripInstance:tripInstance stopId:stopId stopSequence:stopSequence];
 }
 
 - (BOOL) isEqualWithOptionalVehicleId:(OBAArrivalAndDepartureInstanceRef*)ref {

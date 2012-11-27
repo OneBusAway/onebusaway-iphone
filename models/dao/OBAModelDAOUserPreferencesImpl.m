@@ -36,137 +36,137 @@ static NSString * kVisitedSituationIdsKey = @"hideFutureLocationWarnings";
 @implementation OBAModelDAOUserPreferencesImpl
 
 - (NSArray*) readBookmarks {
-	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-	NSData * data = [user dataForKey:kBookmarksKey];
-	NSArray * bookmarks = nil;
-	@try {
-		bookmarks = [self decodeObjectForKey:kBookmarksKey fromData:data];
-	}
-	@catch (NSException * e) {
-		
-	}
-	
-	if( ! bookmarks )
-		bookmarks = [[NSArray alloc] init];
-	
-	return bookmarks;
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSData * data = [user dataForKey:kBookmarksKey];
+    NSArray * bookmarks = nil;
+    @try {
+        bookmarks = [self decodeObjectForKey:kBookmarksKey fromData:data];
+    }
+    @catch (NSException * e) {
+        
+    }
+    
+    if( ! bookmarks )
+        bookmarks = [[NSArray alloc] init];
+    
+    return bookmarks;
 }
 
 - (void) writeBookmarks:(NSArray*)source {
-	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-	NSMutableData * data = [NSMutableData data];
-	[self encodeObject:source forKey:kBookmarksKey toData:data];
-	[user setObject:data forKey:kBookmarksKey];
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSMutableData * data = [NSMutableData data];
+    [self encodeObject:source forKey:kBookmarksKey toData:data];
+    [user setObject:data forKey:kBookmarksKey];
 }
 
 - (NSArray*) readMostRecentStops {
-	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-	NSData * data = [user dataForKey:kMostRecentStopsKey];
-	NSArray * stops = nil;
-	@try {
-		stops = [self decodeObjectForKey:kMostRecentStopsKey fromData:data];
-	}
-	@catch (NSException * e) {
-		
-	}
-	
-	if( ! stops )
-		stops = [[NSArray alloc] init];
-	
-	return stops;
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSData * data = [user dataForKey:kMostRecentStopsKey];
+    NSArray * stops = nil;
+    @try {
+        stops = [self decodeObjectForKey:kMostRecentStopsKey fromData:data];
+    }
+    @catch (NSException * e) {
+        
+    }
+    
+    if( ! stops )
+        stops = [[NSArray alloc] init];
+    
+    return stops;
 }
 
 - (void) writeMostRecentStops:(NSArray*)source {
-	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-	NSMutableData * data = [NSMutableData data];
-	[self encodeObject:source forKey:kMostRecentStopsKey toData:data];
-	[user setObject:data forKey:kMostRecentStopsKey];
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSMutableData * data = [NSMutableData data];
+    [self encodeObject:source forKey:kMostRecentStopsKey toData:data];
+    [user setObject:data forKey:kMostRecentStopsKey];
 }
 
 - (NSDictionary*) readStopPreferences {
-	NSDictionary * dictionary = nil;
-	@try {
-		NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-		NSData * data = [user dataForKey:kStopPreferencesKey];
-		dictionary = [self decodeObjectForKey:kStopPreferencesKey fromData:data];
-	}
-	@catch (NSException * e) {
-	}
-	
-	if( ! dictionary )
-		dictionary = [[NSDictionary alloc] init];
-	
-	return dictionary;
+    NSDictionary * dictionary = nil;
+    @try {
+        NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+        NSData * data = [user dataForKey:kStopPreferencesKey];
+        dictionary = [self decodeObjectForKey:kStopPreferencesKey fromData:data];
+    }
+    @catch (NSException * e) {
+    }
+    
+    if( ! dictionary )
+        dictionary = [[NSDictionary alloc] init];
+    
+    return dictionary;
 }
 
 - (void) writeStopPreferences:(NSDictionary*)stopPreferences {
-	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-	NSMutableData * data = [NSMutableData data];
-	[self encodeObject:stopPreferences forKey:kStopPreferencesKey toData:data];
-	[user setObject:data forKey:kStopPreferencesKey];
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSMutableData * data = [NSMutableData data];
+    [self encodeObject:stopPreferences forKey:kStopPreferencesKey toData:data];
+    [user setObject:data forKey:kStopPreferencesKey];
 }
 
 - (CLLocation*) readMostRecentLocation {
-	CLLocation * location = nil;
-	@try {
-		NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-		NSData * data = [user dataForKey:kMostRecentLocationKey];
-		location = [self decodeObjectForKey:kMostRecentLocationKey fromData:data];
-	}
-	@catch (NSException * e) {
-	}
-	
-	return location;
+    CLLocation * location = nil;
+    @try {
+        NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+        NSData * data = [user dataForKey:kMostRecentLocationKey];
+        location = [self decodeObjectForKey:kMostRecentLocationKey fromData:data];
+    }
+    @catch (NSException * e) {
+    }
+    
+    return location;
 }
 
 - (void) writeMostRecentLocation:(CLLocation*)mostRecentLocation {
-	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-	NSMutableData * data = [NSMutableData data];
-	[self encodeObject:mostRecentLocation forKey:kMostRecentLocationKey toData:data];
-	[user setObject:data forKey:kMostRecentLocationKey];
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSMutableData * data = [NSMutableData data];
+    [self encodeObject:mostRecentLocation forKey:kMostRecentLocationKey toData:data];
+    [user setObject:data forKey:kMostRecentLocationKey];
 }
 
 - (BOOL) hideFutureLocationWarnings {
-	@try {
-		NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-		NSNumber * v = [user objectForKey:kHideFutureLocationWarningsKey];
-		if( v )
-			return [v boolValue];
-	}
-	@catch (NSException * e) {
-	}
-	
-	return NO;
+    @try {
+        NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+        NSNumber * v = [user objectForKey:kHideFutureLocationWarningsKey];
+        if( v )
+            return [v boolValue];
+    }
+    @catch (NSException * e) {
+    }
+    
+    return NO;
 }
 
 - (void) setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings {
-	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-	NSNumber * v = @(hideFutureLocationWarnings);
-	[user setObject:v forKey:kHideFutureLocationWarningsKey];
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSNumber * v = @(hideFutureLocationWarnings);
+    [user setObject:v forKey:kHideFutureLocationWarningsKey];
 }
 
 - (NSSet*) readVisistedSituationIds {
-	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-	NSData * data = [user dataForKey:kVisitedSituationIdsKey];
-	NSSet * situationIds = nil;
-	@try {
-		situationIds = [self decodeObjectForKey:kVisitedSituationIdsKey fromData:data];
-	}
-	@catch (NSException * e) {
-		
-	}
-	
-	if( ! situationIds )
-		situationIds = [[NSSet alloc] init];
-	
-	return situationIds;
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSData * data = [user dataForKey:kVisitedSituationIdsKey];
+    NSSet * situationIds = nil;
+    @try {
+        situationIds = [self decodeObjectForKey:kVisitedSituationIdsKey fromData:data];
+    }
+    @catch (NSException * e) {
+        
+    }
+    
+    if( ! situationIds )
+        situationIds = [[NSSet alloc] init];
+    
+    return situationIds;
 }
 
 - (void) writeVisistedSituationIds:(NSSet*)situationIds {
-	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-	NSMutableData * data = [NSMutableData data];
-	[self encodeObject:situationIds forKey:kVisitedSituationIdsKey toData:data];
-	[user setObject:data forKey:kVisitedSituationIdsKey];
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSMutableData * data = [NSMutableData data];
+    [self encodeObject:situationIds forKey:kVisitedSituationIdsKey toData:data];
+    [user setObject:data forKey:kVisitedSituationIdsKey];
 }
 
 
@@ -177,16 +177,16 @@ static NSString * kVisitedSituationIdsKey = @"hideFutureLocationWarnings";
 @implementation OBAModelDAOUserPreferencesImpl (Private)
 
 - (void) encodeObject:(id<NSCoding>)object forKey:(NSString*)key toData:(NSMutableData*)data {
-	NSKeyedArchiver * archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-	[archiver encodeObject:object forKey:key];
-	[archiver finishEncoding];
+    NSKeyedArchiver * archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:object forKey:key];
+    [archiver finishEncoding];
 }
 
 - (id) decodeObjectForKey:(NSString*)key fromData:(NSData*)data {
-	NSKeyedUnarchiver * unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-	id object = [unarchiver decodeObjectForKey:key];
-	[unarchiver finishDecoding];
-	return object;
+    NSKeyedUnarchiver * unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    id object = [unarchiver decodeObjectForKey:key];
+    [unarchiver finishDecoding];
+    return object;
 }
 
 @end

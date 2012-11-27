@@ -6,33 +6,33 @@
 
 - (NSArray*) routes {
 
-	NSMutableArray * sRoutes = [NSMutableArray array];
-	
-	OBAReferencesV2 * refs = self.references;
+    NSMutableArray * sRoutes = [NSMutableArray array];
     
-	for ( NSString * routeId in self.routeIds ) {
-		OBARouteV2 * route = [refs getRouteForId:routeId];
-		if (route) {
-			[sRoutes addObject:route];
+    OBAReferencesV2 * refs = self.references;
+    
+    for ( NSString * routeId in self.routeIds ) {
+        OBARouteV2 * route = [refs getRouteForId:routeId];
+        if (route) {
+            [sRoutes addObject:route];
         }
-	}
-	
-	[sRoutes sortUsingSelector:@selector(compareUsingName:)];
-	
-	return sRoutes;
-}	
-	
+    }
+    
+    [sRoutes sortUsingSelector:@selector(compareUsingName:)];
+    
+    return sRoutes;
+}    
+    
 
 - (double) lat {
-	return [self.latitude doubleValue];
+    return [self.latitude doubleValue];
 }
 
 - (double) lon {
-	return [self.longitude doubleValue];
+    return [self.longitude doubleValue];
 }
 
 - (NSComparisonResult) compareUsingName:(OBAStopV2*)aStop {
-	return [self.name compare:aStop.name options:NSNumericSearch];
+    return [self.name compare:aStop.name options:NSNumericSearch];
 }
 
 - (NSString*) routeNamesAsString {
@@ -48,13 +48,13 @@
 #pragma mark - MKAnnotation
 
 - (NSString*) title {
-	return self.name;
+    return self.name;
 }
 
 - (NSString*) subtitle {
-	NSString * r = [self routeNamesAsString];
+    NSString * r = [self routeNamesAsString];
 
-	if (self.direction) {
+    if (self.direction) {
         return [NSString stringWithFormat:NSLocalizedString(@"%@ bound - Routes: %@", @""), self.direction, r];
     }
     else {
@@ -63,21 +63,21 @@
 }
 
 - (CLLocationCoordinate2D) coordinate {
-	CLLocationCoordinate2D c = {self.lat,self.lon};
-	return c;
+    CLLocationCoordinate2D c = {self.lat,self.lon};
+    return c;
 }
 
 #pragma mark NSObject
 
 - (BOOL) isEqual:(id)object {
-	if (![object isKindOfClass:[OBAStopV2 class]])
-		return NO;
-	OBAStopV2 * stop = object;
-	return [self.stopId isEqual:stop.stopId];
+    if (![object isKindOfClass:[OBAStopV2 class]])
+        return NO;
+    OBAStopV2 * stop = object;
+    return [self.stopId isEqual:stop.stopId];
 }
 
 - (NSString*) description {
-	return [NSString stringWithFormat:@"Stop: id=%@",self.stopId];
+    return [NSString stringWithFormat:@"Stop: id=%@",self.stopId];
 }
 
 @end

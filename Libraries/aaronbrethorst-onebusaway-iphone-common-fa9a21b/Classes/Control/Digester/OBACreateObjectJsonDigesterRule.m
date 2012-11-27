@@ -26,28 +26,28 @@
 @synthesize onlyIfNotNull = _onlyIfNotNull;
 
 - (id) initWithObjectClass:(Class)objectClass {
-	if( self = [super init] ) {
-		_objectClass = objectClass;
-		_onlyIfNotNull = YES;
-	}
-	return self;
+    if( self = [super init] ) {
+        _objectClass = objectClass;
+        _onlyIfNotNull = YES;
+    }
+    return self;
 }
 
 #pragma mark OBAJsonDigesterRule Methods
 
 - (void) begin:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
-	if([self shouldDigestValue:value]) {
-		id obj = [[_objectClass alloc] init];
-		[context pushValue:obj];
-		if( context.verbose )
-			OBALogDebug(@"Creating object: class=%@",[_objectClass description]);
-	}
+    if([self shouldDigestValue:value]) {
+        id obj = [[_objectClass alloc] init];
+        [context pushValue:obj];
+        if( context.verbose )
+            OBALogDebug(@"Creating object: class=%@",[_objectClass description]);
+    }
 }
 
 - (void) end:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
-	if([self shouldDigestValue:value]) {
-		[context popValue];
-	}
+    if([self shouldDigestValue:value]) {
+        [context popValue];
+    }
 }
 
 - (BOOL)shouldDigestValue:(id)value {

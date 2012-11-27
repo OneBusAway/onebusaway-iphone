@@ -2,8 +2,8 @@
 
 
 @interface OBAVehicleMapAnnotation : NSObject <MKAnnotation> {
-	OBATripStatusV2 * _tripStatus;
-	BOOL _showLastKnownLocation;
+    OBATripStatusV2 * _tripStatus;
+    BOOL _showLastKnownLocation;
 }
 
 - (id) initWithTripStatus:(OBATripStatusV2*)tripStatus;

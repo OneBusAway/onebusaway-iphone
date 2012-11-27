@@ -42,14 +42,14 @@
 
 
 typedef enum {
-	OBAJsonDigesterRuleTargetBegin,
-	OBAJsonDigesterRuleTargetEnd
+    OBAJsonDigesterRuleTargetBegin,
+    OBAJsonDigesterRuleTargetEnd
 } OBAJsonDigesterRuleTarget;
 
 
 @interface OBAJsonDigester : NSObject {
-	NSMutableDictionary * _rulesByPrefix;
-	BOOL _verbose;
+    NSMutableDictionary * _rulesByPrefix;
+    BOOL _verbose;
 }
 
 - (BOOL) parse:(id)jsonRoot withRoot:(id)rootObject error:(NSError**)error;

@@ -10,40 +10,40 @@
 
 -(id) initWithReferences:(OBAReferencesV2*)refs {
     self = [super initWithReferences:refs];
-	if( self ) {
-		_arrivalsAndDepartures = [[NSMutableArray alloc] init];
-		_situationIds = [[NSMutableArray alloc] init];
-	}
-	return self;
+    if( self ) {
+        _arrivalsAndDepartures = [[NSMutableArray alloc] init];
+        _situationIds = [[NSMutableArray alloc] init];
+    }
+    return self;
 }
 
 
 -(OBAStopV2*) stop {
-	OBAReferencesV2 * refs = [self references];
-	return [refs getStopForId:self.stopId];
+    OBAReferencesV2 * refs = [self references];
+    return [refs getStopForId:self.stopId];
 }
 
 - (NSArray*) situations {
-	
-	NSMutableArray * rSituations = [NSMutableArray array];
-	
-	OBAReferencesV2 * refs = self.references;
-	
-	for( NSString * situationId in self.situationIds ) {
-		OBASituationV2 * situation = [refs getSituationForId:situationId];
-		if( situation )
-			[rSituations addObject:situation];
-	}
-	
-	return rSituations;
+    
+    NSMutableArray * rSituations = [NSMutableArray array];
+    
+    OBAReferencesV2 * refs = self.references;
+    
+    for( NSString * situationId in self.situationIds ) {
+        OBASituationV2 * situation = [refs getSituationForId:situationId];
+        if( situation )
+            [rSituations addObject:situation];
+    }
+    
+    return rSituations;
 }
 
 - (void) addArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
-	[_arrivalsAndDepartures addObject:arrivalAndDeparture];
+    [_arrivalsAndDepartures addObject:arrivalAndDeparture];
 }
 
 - (void) addSituationId:(NSString*)situationId {
-	[_situationIds addObject:situationId];
+    [_situationIds addObject:situationId];
 }
 
 @end

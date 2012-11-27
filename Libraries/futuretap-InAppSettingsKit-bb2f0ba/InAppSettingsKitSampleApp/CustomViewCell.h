@@ -10,7 +10,7 @@
 
 
 @interface CustomViewCell : UITableViewCell {
-	UITextView *textView;
+    UITextView *textView;
 }
 
 @property (nonatomic, retain) IBOutlet UITextView *textView;

@@ -6,12 +6,12 @@
 
 
 @interface OBATripDetailsViewController : UITableViewController <OBANavigationTargetAware,OBAModelServiceDelegate> {
-	OBAApplicationDelegate * _appContext;
-	OBATripInstanceRef * _tripInstance;
-	OBATripDetailsV2 * _tripDetails;
-	OBAServiceAlertsModel * _serviceAlerts;
-	id<OBAModelServiceRequest> _request;
-	OBAProgressIndicatorView * _progressView;
+    OBAApplicationDelegate * _appContext;
+    OBATripInstanceRef * _tripInstance;
+    OBATripDetailsV2 * _tripDetails;
+    OBAServiceAlertsModel * _serviceAlerts;
+    id<OBAModelServiceRequest> _request;
+    OBAProgressIndicatorView * _progressView;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext tripInstance:(OBATripInstanceRef*)tripInstance;

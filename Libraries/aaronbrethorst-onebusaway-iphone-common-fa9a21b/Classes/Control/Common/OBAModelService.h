@@ -28,13 +28,13 @@
 
 
 @interface OBAModelService : NSObject {
-	OBAReferencesV2 * _references;
-	OBAModelDAO * _modelDao;
-	OBAModelFactory * _modelFactory;
-	OBAJsonDataSource * _obaJsonDataSource;
-	OBAJsonDataSource * _googleMapsJsonDataSource;
+    OBAReferencesV2 * _references;
+    OBAModelDAO * _modelDao;
+    OBAModelFactory * _modelFactory;
+    OBAJsonDataSource * _obaJsonDataSource;
+    OBAJsonDataSource * _googleMapsJsonDataSource;
     OBAJsonDataSource * _googlePlacesJsonDataSource;
-	OBALocationManager * _locationManager;
+    OBALocationManager * _locationManager;
 }
 
 @property (nonatomic,strong) OBAReferencesV2 * references;

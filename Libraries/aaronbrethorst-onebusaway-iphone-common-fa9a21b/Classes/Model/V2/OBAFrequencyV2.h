@@ -10,9 +10,9 @@
 
 
 @interface OBAFrequencyV2 : NSObject {
-	long long _startTime;
-	long long _endTime;
-	int _headway;
+    long long _startTime;
+    long long _endTime;
+    int _headway;
 }
 
 @property (nonatomic) long long startTime;

@@ -3,15 +3,15 @@
 
 
 @interface OBARequestDrivenTableViewController : UITableViewController <OBAModelServiceDelegate> {
-	OBAApplicationDelegate * _appContext;
-	id<OBAModelServiceRequest> _request;
-	OBAProgressIndicatorView * _progressView;
-	NSString * _progressLabel;
-	BOOL _showUpdateTime;
-	BOOL _refreshable;
-	NSInteger _refreshInterval;	
-	
-	NSTimer * _timer;
+    OBAApplicationDelegate * _appContext;
+    id<OBAModelServiceRequest> _request;
+    OBAProgressIndicatorView * _progressView;
+    NSString * _progressLabel;
+    BOOL _showUpdateTime;
+    BOOL _refreshable;
+    NSInteger _refreshInterval;    
+    
+    NSTimer * _timer;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext;

@@ -2,9 +2,9 @@
 
 
 @interface OBAArrivalAndDepartureInstanceRef : NSObject {
-	OBATripInstanceRef * _tripInstance;
-	NSString * _stopId;
-	NSInteger _stopSequence;
+    OBATripInstanceRef * _tripInstance;
+    NSString * _stopId;
+    NSInteger _stopSequence;
 }
 
 - (id) initWithTripInstance:(OBATripInstanceRef*)tripInstance stopId:(NSString*)stopId stopSequence:(NSInteger)stopSequence;

@@ -35,71 +35,71 @@
 @synthesize alertImage = _alertImage;
 
 + (OBAArrivalEntryTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView {
-	
-	static NSString *cellId = @"OBAArrivalEntryTableViewCell";
-	
-	// Try to retrieve from the table view a now-unused cell with the given identifier
-	OBAArrivalEntryTableViewCell *cell = (OBAArrivalEntryTableViewCell *) [tableView dequeueReusableCellWithIdentifier:cellId];
-	
-	// If no cell is available, create a new one using the given identifier
-	if (cell == nil) {
-		NSArray * nib = [[NSBundle mainBundle] loadNibNamed:cellId owner:self options:nil];
-		cell = nib[0];
-	}
-	
-	return cell;
+    
+    static NSString *cellId = @"OBAArrivalEntryTableViewCell";
+    
+    // Try to retrieve from the table view a now-unused cell with the given identifier
+    OBAArrivalEntryTableViewCell *cell = (OBAArrivalEntryTableViewCell *) [tableView dequeueReusableCellWithIdentifier:cellId];
+    
+    // If no cell is available, create a new one using the given identifier
+    if (cell == nil) {
+        NSArray * nib = [[NSBundle mainBundle] loadNibNamed:cellId owner:self options:nil];
+        cell = nib[0];
+    }
+    
+    return cell;
 }
 
 - (void)dealloc {
-	[self cancelTimer];
+    [self cancelTimer];
 }
 
 - (OBAArrivalEntryTableViewCellAlertStyle) alertStyle {
-	return _alertStyle;
+    return _alertStyle;
 }
 
 - (void) setAlertStyle:(OBAArrivalEntryTableViewCellAlertStyle)alertStyle {
-	
-	if( _alertStyle == alertStyle )
-		return;
-	
-	_alertStyle = alertStyle;
+    
+    if( _alertStyle == alertStyle )
+        return;
+    
+    _alertStyle = alertStyle;
 
-	if( _alertStyle == OBAArrivalEntryTableViewCellAlertStyleNone ) {
-		[self cancelTimer];
-		_unreadAlertImage.hidden = YES;
-		_alertImage.hidden = YES;		
-		_minutesLabel.hidden = NO;
-	}
-	else {
+    if( _alertStyle == OBAArrivalEntryTableViewCellAlertStyleNone ) {
+        [self cancelTimer];
+        _unreadAlertImage.hidden = YES;
+        _alertImage.hidden = YES;        
+        _minutesLabel.hidden = NO;
+    }
+    else {
 
-		_minutesLabel.alpha = 1.0;
-		_unreadAlertImage.alpha = 0.0;
-		_alertImage.alpha = 0.0;
-		_unreadAlertImage.hidden = NO;
-		_alertImage.hidden = NO;
+        _minutesLabel.alpha = 1.0;
+        _unreadAlertImage.alpha = 0.0;
+        _alertImage.alpha = 0.0;
+        _unreadAlertImage.hidden = NO;
+        _alertImage.hidden = NO;
 
-		if( _transitionTimer == nil ) {
-			_transitionTimer = [NSTimer scheduledTimerWithTimeInterval:1.2 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
-			
-		}
-	}
+        if( _transitionTimer == nil ) {
+            _transitionTimer = [NSTimer scheduledTimerWithTimeInterval:1.2 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
+            
+        }
+    }
 }
 
 - (void)timerFired:(NSTimer*)theTimer {
-	[UIView beginAnimations:nil context:nil]; {
-		[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-		[UIView setAnimationDuration:0.5];
-		UIImageView * activeImage = _alertStyle == OBAArrivalEntryTableViewCellAlertStyleActive ? _unreadAlertImage : _alertImage;
-		if (_minutesLabel.alpha == 0.0) {
-			_minutesLabel.alpha = 1.0;
-			activeImage.alpha = 0.0;
-		}
-		else {
-			_minutesLabel.alpha = 0.0;
-			activeImage.alpha = 1.0;
-		}
-	}[UIView commitAnimations];
+    [UIView beginAnimations:nil context:nil]; {
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        [UIView setAnimationDuration:0.5];
+        UIImageView * activeImage = _alertStyle == OBAArrivalEntryTableViewCellAlertStyleActive ? _unreadAlertImage : _alertImage;
+        if (_minutesLabel.alpha == 0.0) {
+            _minutesLabel.alpha = 1.0;
+            activeImage.alpha = 0.0;
+        }
+        else {
+            _minutesLabel.alpha = 0.0;
+            activeImage.alpha = 1.0;
+        }
+    }[UIView commitAnimations];
 }
 
 @end
@@ -107,10 +107,10 @@
 @implementation OBAArrivalEntryTableViewCell (Private)
 
 - (void) cancelTimer {
-	if ( _transitionTimer ) {
-		[_transitionTimer invalidate];
-		_transitionTimer = nil;
-	}	
+    if ( _transitionTimer ) {
+        [_transitionTimer invalidate];
+        _transitionTimer = nil;
+    }    
 }
 
 @end

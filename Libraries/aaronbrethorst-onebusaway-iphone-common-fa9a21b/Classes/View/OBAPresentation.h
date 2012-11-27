@@ -5,7 +5,7 @@
 
 
 @interface OBAPresentation : NSObject {
-	
+    
 }
 
 + (NSString*) getRouteShortNameForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;

@@ -1,7 +1,7 @@
 @interface OBATripInstanceRef : NSObject {
-	NSString * _tripId;
-	long long _serviceDate;
-	NSString * _vehicleId;
+    NSString * _tripId;
+    long long _serviceDate;
+    NSString * _vehicleId;
 }
 
 - (id) initWithTripId:(NSString*)tripId serviceDate:(long long)serviceDate vehicleId:(NSString*)vehicleId;

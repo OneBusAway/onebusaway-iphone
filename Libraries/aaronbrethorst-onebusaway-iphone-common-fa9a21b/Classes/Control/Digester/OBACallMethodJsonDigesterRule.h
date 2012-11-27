@@ -18,7 +18,7 @@
 
 
 @interface OBACallMethodJsonDigesterRule : NSObject <OBAJsonDigesterRule> {
-	SEL _selector;
+    SEL _selector;
 }
 
 - (id) initWithSelector:(SEL)selector;

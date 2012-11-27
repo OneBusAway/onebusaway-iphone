@@ -9,21 +9,21 @@
 
 - (id) initWithTripId:(NSString*)tripId serviceDate:(long long)serviceDate vehicleId:(NSString*)vehicleId {
     self = [super init];
-	if( self ) {
-		_tripId = tripId;
-		_serviceDate = serviceDate;
-		_vehicleId = vehicleId;
-	}
-	return self;
+    if( self ) {
+        _tripId = tripId;
+        _serviceDate = serviceDate;
+        _vehicleId = vehicleId;
+    }
+    return self;
 }
 
 
 + (OBATripInstanceRef*) tripInstance:(NSString*)tripId serviceDate:(long long)serviceDate vehicleId:(NSString*)vehicleId {
-	return [[OBATripInstanceRef alloc] initWithTripId:tripId serviceDate:serviceDate vehicleId:vehicleId];
+    return [[OBATripInstanceRef alloc] initWithTripId:tripId serviceDate:serviceDate vehicleId:vehicleId];
 }
 
 - (OBATripInstanceRef*) copyWithNewTripId:(NSString*)newTripId {
-	return [OBATripInstanceRef tripInstance:newTripId serviceDate:self.serviceDate vehicleId:self.vehicleId];
+    return [OBATripInstanceRef tripInstance:newTripId serviceDate:self.serviceDate vehicleId:self.vehicleId];
 }
 
 - (BOOL) isEqualWithOptionalVehicleId:(OBATripInstanceRef*)ref {

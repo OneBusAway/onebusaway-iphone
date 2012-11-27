@@ -21,42 +21,42 @@
 
 +(void) addToolbar:(UIToolbar*)toolbar toParentView:(UIView*) parentView withMainView:(UIView*)view animated:(BOOL)animated {
 
-	[toolbar sizeToFit];
-	[parentView addSubview:toolbar];
-	
-	//Caclulate the height of the toolbar
-	CGFloat toolbarHeight = [toolbar frame].size.height;
-	
-	//Get the bounds of the parent view
-	CGRect rootViewBounds = parentView.bounds;
-		
-	//Get the height of the parent view.
-	CGFloat rootViewHeight = CGRectGetHeight(rootViewBounds);
-	
-	//Get the width of the parent view,
-	CGFloat rootViewWidth = CGRectGetWidth(rootViewBounds);
-	
-	//Create a rectangle for the toolbar
-	CGRect rectArea = CGRectMake(0, rootViewHeight - toolbarHeight, rootViewWidth, toolbarHeight);
-	
-	CGRect mainViewFrame = [view frame];
-	mainViewFrame.size.height -= toolbarHeight;
+    [toolbar sizeToFit];
+    [parentView addSubview:toolbar];
+    
+    //Caclulate the height of the toolbar
+    CGFloat toolbarHeight = [toolbar frame].size.height;
+    
+    //Get the bounds of the parent view
+    CGRect rootViewBounds = parentView.bounds;
+        
+    //Get the height of the parent view.
+    CGFloat rootViewHeight = CGRectGetHeight(rootViewBounds);
+    
+    //Get the width of the parent view,
+    CGFloat rootViewWidth = CGRectGetWidth(rootViewBounds);
+    
+    //Create a rectangle for the toolbar
+    CGRect rectArea = CGRectMake(0, rootViewHeight - toolbarHeight, rootViewWidth, toolbarHeight);
+    
+    CGRect mainViewFrame = [view frame];
+    mainViewFrame.size.height -= toolbarHeight;
 
-	if( animated ) {
-		CGRect rectAreaPre = CGRectMake(0, rootViewHeight, rootViewWidth, toolbarHeight);	
-		[toolbar setFrame:rectAreaPre];
-		
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDuration:0.4];
-		[UIView setAnimationDelegate: self];		
-	}
+    if( animated ) {
+        CGRect rectAreaPre = CGRectMake(0, rootViewHeight, rootViewWidth, toolbarHeight);    
+        [toolbar setFrame:rectAreaPre];
+        
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.4];
+        [UIView setAnimationDelegate: self];        
+    }
 
-	//Reposition and resize the receiver
-	[toolbar setFrame:rectArea];	
-	[view setFrame:mainViewFrame];
-	
-	if( animated )
-		[UIView commitAnimations];
+    //Reposition and resize the receiver
+    [toolbar setFrame:rectArea];    
+    [view setFrame:mainViewFrame];
+    
+    if( animated )
+        [UIView commitAnimations];
 
 }
 
@@ -65,32 +65,32 @@
 @implementation UINavigationController (OBAConvenienceMethods)
 
 -(void) replaceViewController:(UIViewController*)viewController animated:(BOOL)animated {
-	NSMutableArray * viewControllers = [NSMutableArray arrayWithArray:self.viewControllers];
-	[viewControllers insertObject:viewController atIndex:[viewControllers count]-1];
-	self.viewControllers = viewControllers;
-	[self popViewControllerAnimated:animated]; 	
+    NSMutableArray * viewControllers = [NSMutableArray arrayWithArray:self.viewControllers];
+    [viewControllers insertObject:viewController atIndex:[viewControllers count]-1];
+    self.viewControllers = viewControllers;
+    [self popViewControllerAnimated:animated];     
 }
-		
+        
 -(void) replaceViewControllerWithAnimation:(UIViewController*)viewController {
-	[self replaceViewController:viewController animated:YES];
+    [self replaceViewController:viewController animated:YES];
 }
-			
+            
 -(void) replaceViewControllerWithoutAnimation:(UIViewController*)viewController {
-	[self replaceViewController:viewController animated:NO];	
+    [self replaceViewController:viewController animated:NO];    
 }
 
 -(void) pushViewController:(UIViewController*)controller animated:(BOOL)animated removeAnyExisting:(BOOL)removeAnyExisting {
-	NSMutableArray * controllers = [[NSMutableArray alloc] initWithArray:self.viewControllers];
-	for( UIViewController * vc in self.viewControllers ) {
-		if( [vc isKindOfClass:[controller class]] )
-			[controllers removeObject:vc];
-	}
-	[controllers addObject:controller];
-	[self setViewControllers:controllers animated:animated];
+    NSMutableArray * controllers = [[NSMutableArray alloc] initWithArray:self.viewControllers];
+    for( UIViewController * vc in self.viewControllers ) {
+        if( [vc isKindOfClass:[controller class]] )
+            [controllers removeObject:vc];
+    }
+    [controllers addObject:controller];
+    [self setViewControllers:controllers animated:animated];
 }
 
 -(void) popToRootViewController {
-	[self popToRootViewControllerAnimated:NO];
+    [self popToRootViewControllerAnimated:NO];
 }
 
 
@@ -101,50 +101,50 @@
 @implementation UITableViewCell (OBAConvenienceMethods)
 
 +(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView cellId:(NSString*)cellId {
-	
-	// Try to retrieve from the table view a now-unused cell with the given identifier
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-	
-	// If no cell is available, create a new one using the given identifier
-	if (cell == nil) {
+    
+    // Try to retrieve from the table view a now-unused cell with the given identifier
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    
+    // If no cell is available, create a new one using the given identifier
+    if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-	}
-	
-	return cell;
+    }
+    
+    return cell;
 }
 
 +(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView {
-	static NSString *cellId = @"DefaultIdentifier";
-	return [self getOrCreateCellForTableView:tableView cellId:cellId];
+    static NSString *cellId = @"DefaultIdentifier";
+    return [self getOrCreateCellForTableView:tableView cellId:cellId];
 }
 
 +(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView style:(UITableViewCellStyle)style {    
-	NSString * cellId = [NSString stringWithFormat:@"DefaultIdentifier-%d",style];
-	return [self getOrCreateCellForTableView:tableView style:style cellId:cellId];
+    NSString * cellId = [NSString stringWithFormat:@"DefaultIdentifier-%d",style];
+    return [self getOrCreateCellForTableView:tableView style:style cellId:cellId];
 }
 
 +(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView style:(UITableViewCellStyle)style cellId:(NSString*)cellId {
 
     // Try to retrieve from the table view a now-unused cell with the given identifier
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-	
-	// If no cell is available, create a new one using the given identifier
-	if (cell == nil)
-		cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:cellId];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     
-	return cell;
+    // If no cell is available, create a new one using the given identifier
+    if (cell == nil)
+        cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:cellId];
+    
+    return cell;
 }
 
 +(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView fromResource:(NSString*)resourceName {
-	
-	UITableViewCell * cell = (UITableViewCell*) [tableView dequeueReusableCellWithIdentifier:resourceName];
-	
-	if (cell == nil) {
-		NSArray * nib = [[NSBundle mainBundle] loadNibNamed:resourceName owner:self options:nil];
-		cell = nib[0];
-	}
-	
-	return cell;
+    
+    UITableViewCell * cell = (UITableViewCell*) [tableView dequeueReusableCellWithIdentifier:resourceName];
+    
+    if (cell == nil) {
+        NSArray * nib = [[NSBundle mainBundle] loadNibNamed:resourceName owner:self options:nil];
+        cell = nib[0];
+    }
+    
+    return cell;
 }
 
 @end

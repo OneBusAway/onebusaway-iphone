@@ -5,7 +5,7 @@
 #import "OBATripInstanceRef.h"
 
 @interface OBATripDetailsV2 : OBAHasReferencesV2 {
-	NSMutableArray * _situationIds;
+    NSMutableArray * _situationIds;
 }
 
 @property (nonatomic,strong) NSString * tripId;

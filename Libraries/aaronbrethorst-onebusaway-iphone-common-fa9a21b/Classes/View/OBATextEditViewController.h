@@ -3,11 +3,11 @@
 @end
 
 @interface OBATextEditViewController : UIViewController {
-	id __weak _target;
-	SEL _action;
-	BOOL _keyboardShowing;
-	CGFloat _nokeyboardHeight;
-	BOOL _readOnly;
+    id __weak _target;
+    SEL _action;
+    BOOL _keyboardShowing;
+    CGFloat _nokeyboardHeight;
+    BOOL _readOnly;
 }
 
 @property (nonatomic,weak) id target;

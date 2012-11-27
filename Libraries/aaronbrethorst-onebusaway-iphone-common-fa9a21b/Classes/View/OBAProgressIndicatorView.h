@@ -16,10 +16,10 @@
 
 
 @interface OBAProgressIndicatorView : UIView {
-	UILabel * _label;
-	UILabel * _progressLabel;
-	UIActivityIndicatorView * _activityIndicator;
-	UIProgressView * _progressView;
+    UILabel * _label;
+    UILabel * _progressLabel;
+    UIActivityIndicatorView * _activityIndicator;
+    UIProgressView * _progressView;
 }
 
 - (id) initWithFrame:(CGRect)frame;

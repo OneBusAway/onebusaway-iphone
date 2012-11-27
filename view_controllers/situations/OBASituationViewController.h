@@ -3,9 +3,9 @@
 
 
 @interface OBASituationViewController : UITableViewController {
-	OBAApplicationDelegate * _appContext;
-	OBASituationV2 * _situation;
-	NSString * _diversionPath;
+    OBAApplicationDelegate * _appContext;
+    OBASituationV2 * _situation;
+    NSString * _diversionPath;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext situation:(OBASituationV2*)situation;

@@ -22,26 +22,26 @@
 @synthesize coordinate = _coordinate;
 
 - (id) initWithTitle:(NSString*)title subtitle:(NSString*)subtitle coordinate:(CLLocationCoordinate2D)coordinate context:(id)context {
-	if( self = [super init] ) {
-		_title = title;
-		_subtitle = subtitle;
-		_coordinate = coordinate;
-		_context = context;
-	}
-	return self;
+    if( self = [super init] ) {
+        _title = title;
+        _subtitle = subtitle;
+        _coordinate = coordinate;
+        _context = context;
+    }
+    return self;
 }
 
 
 - (NSString*) title {
-	return _title;
+    return _title;
 }
 
 - (NSString*) subtitle {
-	return _subtitle;
+    return _subtitle;
 }
 
 - (id) context {
-	return _context;
+    return _context;
 }
 
 @end

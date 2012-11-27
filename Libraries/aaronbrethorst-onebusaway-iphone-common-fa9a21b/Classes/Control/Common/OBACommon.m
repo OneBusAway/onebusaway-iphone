@@ -27,9 +27,9 @@ NSString * const OBAApplicationDidCompleteNetworkRequestNotification = @"OBAAppl
 @implementation NSObject (OBAConvenienceMethods)
 
 + (id) releaseOld:(id<NSObject>)oldValue retainNew:(id<NSObject>)newValue {
-	if( oldValue == newValue )
-		return newValue;
-	return newValue;
+    if( oldValue == newValue )
+        return newValue;
+    return newValue;
 }
 
 @end
@@ -37,7 +37,7 @@ NSString * const OBAApplicationDidCompleteNetworkRequestNotification = @"OBAAppl
 @implementation NSString (OBAConvenienceMethods)
 
 - (NSComparisonResult) compareUsingNumberSearch:(NSString*)aString {
-	return [self compare:aString options:NSNumericSearch];
+    return [self compare:aString options:NSNumericSearch];
 }
 
 @end
@@ -56,25 +56,25 @@ NSString * const OBAApplicationDidCompleteNetworkRequestNotification = @"OBAAppl
 @implementation OBACommon
 
 + (NSString*) getTimeAsString {
-	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];	
-	[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-	[dateFormatter setDateStyle:kCFDateFormatterNoStyle];	
-	NSString * result = [dateFormatter stringFromDate:[NSDate date]];
-	return result;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];    
+    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    [dateFormatter setDateStyle:kCFDateFormatterNoStyle];    
+    NSString * result = [dateFormatter stringFromDate:[NSDate date]];
+    return result;
 }
 
 + (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName {
-	if( firstName && [firstName length] > 0 )
-		return firstName;
-	return secondName;
+    if( firstName && [firstName length] > 0 )
+        return firstName;
+    return secondName;
 }
 
 + (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName third:(NSString*)thirdName {
-	if( firstName && [firstName length] > 0 )
-		return firstName;
-	if( secondName && [secondName length] > 0 )
-		return secondName;
-	return thirdName;
+    if( firstName && [firstName length] > 0 )
+        return firstName;
+    if( secondName && [secondName length] > 0 )
+        return secondName;
+    return thirdName;
 }
 @end
 

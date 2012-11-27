@@ -19,10 +19,10 @@
 
 
 @interface OBAProgressIndicatorImpl : NSObject <OBAProgressIndicatorSource> {
-	NSString * _message;
-	BOOL _inProgress;
-	float _progress;
-	
+    NSString * _message;
+    BOOL _inProgress;
+    float _progress;
+    
 }
 
 @property (strong,readonly) NSString * message;

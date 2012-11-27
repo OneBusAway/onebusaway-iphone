@@ -21,7 +21,7 @@
     NSString * _filterDescription;
     BOOL _currentlyShowing;
     
-   	OBAApplicationDelegate * _appContext;
+    OBAApplicationDelegate * _appContext;
     id                      _filterDelegate;
     
     UILabel * _labelOutput; // "Search: "

@@ -19,10 +19,10 @@
 #import "OBAStopPreferencesV2.h"
 
 @interface OBAEditStopPreferencesViewController : UITableViewController {
-	OBAApplicationDelegate * _appContext;
-	OBAStopV2 * _stop;
-	NSArray * _routes;
-	OBAStopPreferencesV2 * _preferences;
+    OBAApplicationDelegate * _appContext;
+    OBAStopV2 * _stop;
+    NSArray * _routes;
+    OBAStopPreferencesV2 * _preferences;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext stop:(OBAStopV2*)stop;

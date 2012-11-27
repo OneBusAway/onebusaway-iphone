@@ -29,24 +29,24 @@
 @class OBASearchControllerImpl;
 
 @interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware,OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate> {
-	
-	OBAApplicationDelegate * _appContext;
-	
-	OBASearchController * _searchController;
-	
-	MKMapView * _mapView;
+    
+    OBAApplicationDelegate * _appContext;
+    
+    OBASearchController * _searchController;
+    
+    MKMapView * _mapView;
     OBAMapRegionManager * _mapRegionManager;
     
     OBASearchResultsMapFilterToolbar * _filterToolbar;
-	
-	OBANetworkErrorAlertViewDelegate * _networkErrorAlertViewDelegate;
-	
-	MKCoordinateRegion _mostRecentRegion;
-	CLLocation * _mostRecentLocation;
-	
-	NSTimer * _refreshTimer;
-	
-	BOOL _hideFutureNetworkErrors;
+    
+    OBANetworkErrorAlertViewDelegate * _networkErrorAlertViewDelegate;
+    
+    MKCoordinateRegion _mostRecentRegion;
+    CLLocation * _mostRecentLocation;
+    
+    NSTimer * _refreshTimer;
+    
+    BOOL _hideFutureNetworkErrors;
 }
 @property(nonatomic,strong) OBAApplicationDelegate * appContext;
 @property(nonatomic,strong) IBOutlet OBAScopeView *scopeView;

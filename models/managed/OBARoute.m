@@ -31,16 +31,16 @@
 @dynamic excludedInPreferences;
 
 - (NSString *) safeShortName {
-	NSString * name = self.shortName;
-	if( name )
-		return name;
-	return self.longName;	
+    NSString * name = self.shortName;
+    if( name )
+        return name;
+    return self.longName;    
 }
 
 - (NSComparisonResult) compareUsingName:(OBARoute*)aRoute {
-	NSString * name1 = [self safeShortName];
-	NSString * name2 = [aRoute safeShortName];
-	return [name1 compare:name2 options:NSNumericSearch];
+    NSString * name1 = [self safeShortName];
+    NSString * name2 = [aRoute safeShortName];
+    return [name1 compare:name2 options:NSNumericSearch];
 }
 
 @end

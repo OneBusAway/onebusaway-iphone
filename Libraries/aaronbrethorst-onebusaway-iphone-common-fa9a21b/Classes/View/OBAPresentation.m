@@ -12,17 +12,17 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
 @implementation OBAPresentation
 
 + (NSString*) getRouteShortNameForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
-	NSString * name = arrivalAndDeparture.routeShortName;
-	if( name )
-		return name;
+    NSString * name = arrivalAndDeparture.routeShortName;
+    if( name )
+        return name;
     return [self getRouteShortNameForTrip:arrivalAndDeparture.trip];
 }
 
 + (NSString*) getTripHeadsignForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
-	NSString * name = arrivalAndDeparture.tripHeadsign;
-	if( name )
-		return name;
-	return [self getTripHeadsignForTrip:arrivalAndDeparture.trip];
+    NSString * name = arrivalAndDeparture.tripHeadsign;
+    if( name )
+        return name;
+    return [self getTripHeadsignForTrip:arrivalAndDeparture.trip];
 }
 
 + (NSString*) getTripHeadsignForTransitLeg:(OBATransitLegV2*)transitLeg {
@@ -33,13 +33,13 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
 }
 
 + (NSString*) getTripHeadsignForTrip:(OBATripV2*)trip {
-	NSString * name = trip.tripHeadsign;
-	if( name )
-		return name;
-	name = [self getRouteLongNameForRoute:trip.route];
-	if( name )
-		return name;
-	return @"Headed somewhere...";
+    NSString * name = trip.tripHeadsign;
+    if( name )
+        return name;
+    name = [self getRouteLongNameForRoute:trip.route];
+    if( name )
+        return name;
+    return @"Headed somewhere...";
 }
 
 + (NSString*) getRouteShortNameForTransitLeg:(OBATransitLegV2*)transitLeg {
@@ -55,54 +55,54 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
 }
 
 + (NSString*) getRouteShortNameForRoute:(OBARouteV2*)route {
-	NSString * name = route.shortName;
-	if( name )
-		return name;
-	return route.longName;	
+    NSString * name = route.shortName;
+    if( name )
+        return name;
+    return route.longName;    
 }
 
 + (NSString*) getRouteLongNameForRoute:(OBARouteV2*)route {
-	return route.longName;
+    return route.longName;
 }
 
 
 + (UITableViewCell*) tableViewCellForUnreadServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts tableView:(UITableView*)tableView {
-	
-	static NSString *cellId = @"UnreadServiceAlertsCell";
-	
-	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:cellId];
-	cell.textLabel.text = [NSString stringWithFormat:@"Service alerts: %d unread",serviceAlerts.unreadCount];
-	cell.textLabel.textAlignment = UITextAlignmentCenter;
-	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	
-	NSString * maxSeverity = serviceAlerts.unreadMaxSeverity;
-	
-	if( maxSeverity && [maxSeverity isEqualToString:@"noImpact"] )
-		cell.imageView.image = [UIImage imageNamed:@"Alert-Info"];
-	else
-		cell.imageView.image = [UIImage imageNamed:@"Alert"];
-	
-	return cell;	
+    
+    static NSString *cellId = @"UnreadServiceAlertsCell";
+    
+    UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:cellId];
+    cell.textLabel.text = [NSString stringWithFormat:@"Service alerts: %d unread",serviceAlerts.unreadCount];
+    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    NSString * maxSeverity = serviceAlerts.unreadMaxSeverity;
+    
+    if( maxSeverity && [maxSeverity isEqualToString:@"noImpact"] )
+        cell.imageView.image = [UIImage imageNamed:@"Alert-Info"];
+    else
+        cell.imageView.image = [UIImage imageNamed:@"Alert"];
+    
+    return cell;    
 }
 
 + (UITableViewCell*) tableViewCellForServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts tableView:(UITableView*)tableView {
-	
-	static NSString *cellId = @"ServiceAlertsCell";
-	UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:cellId];
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-	if (serviceAlerts.totalCount == 0) {
-		cell.textLabel.text = @"Service Alerts";
+    static NSString *cellId = @"ServiceAlertsCell";
+    UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:cellId];
+    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    if (serviceAlerts.totalCount == 0) {
+        cell.textLabel.text = @"Service Alerts";
     }
-	else {
-		cell.textLabel.text = [NSString stringWithFormat:@"Service Alerts: %d total", serviceAlerts.totalCount];						    
+    else {
+        cell.textLabel.text = [NSString stringWithFormat:@"Service Alerts: %d total", serviceAlerts.totalCount];                            
     }
-	
-	if (serviceAlerts.totalCount == 0) {
-		cell.imageView.image = nil;
-	}
+    
+    if (serviceAlerts.totalCount == 0) {
+        cell.imageView.image = nil;
+    }
     else if ( serviceAlerts.unreadCount > 0 ) {
         NSString *imageName = [serviceAlerts.unreadMaxSeverity isEqual:@"noImpact"] ? @"Alert-Info" : @"Alert";
         cell.imageView.image = [UIImage imageNamed:imageName];
@@ -111,54 +111,54 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
         NSString *imageName = [serviceAlerts.maxSeverity isEqual:@"noImpact"] ? @"Alert-Info-Grayscale" : @"AlertGrayscale";
         cell.imageView.image = [UIImage imageNamed:imageName];
     }
-	
-	return cell;	
-}	
+    
+    return cell;    
+}    
 
 + (float) computeStopsForRouteAnnotationScaleFactor:(MKCoordinateRegion)region {
-		
-	MKCoordinateSpan span = region.span;
-	CLLocationCoordinate2D center = region.center;
-	
-	double lat1 = center.latitude;
-	double lon1 = center.longitude - span.longitudeDelta / 2;
-	
-	double lat2 = center.latitude;
-	double lon2 = center.longitude + span.longitudeDelta / 2;
-	
-	CLLocation * a = [[CLLocation alloc] initWithLatitude:lat1 longitude:lon1];
-	CLLocation * b = [[CLLocation alloc] initWithLatitude:lat2 longitude:lon2];
-	
-	CLLocationDistance d = [a distanceFromLocation:b];
-	
-	
-	if( d <= kStopForRouteAnnotationMaxScaleDistance ) { 
-		return 1.0;
-	}
-	else if( d < kStopForRouteAnnotationMinScaleDistance ) {
-		float kStopForRouteAnnotationScaleSlope = (1.0-kStopForRouteAnnotationMinScale) / (kStopForRouteAnnotationMaxScaleDistance-kStopForRouteAnnotationMinScaleDistance);
-		float kStopForRouteAnnotationScaleOffset = 1.0 - kStopForRouteAnnotationScaleSlope * kStopForRouteAnnotationMaxScaleDistance;
+        
+    MKCoordinateSpan span = region.span;
+    CLLocationCoordinate2D center = region.center;
+    
+    double lat1 = center.latitude;
+    double lon1 = center.longitude - span.longitudeDelta / 2;
+    
+    double lat2 = center.latitude;
+    double lon2 = center.longitude + span.longitudeDelta / 2;
+    
+    CLLocation * a = [[CLLocation alloc] initWithLatitude:lat1 longitude:lon1];
+    CLLocation * b = [[CLLocation alloc] initWithLatitude:lat2 longitude:lon2];
+    
+    CLLocationDistance d = [a distanceFromLocation:b];
+    
+    
+    if( d <= kStopForRouteAnnotationMaxScaleDistance ) { 
+        return 1.0;
+    }
+    else if( d < kStopForRouteAnnotationMinScaleDistance ) {
+        float kStopForRouteAnnotationScaleSlope = (1.0-kStopForRouteAnnotationMinScale) / (kStopForRouteAnnotationMaxScaleDistance-kStopForRouteAnnotationMinScaleDistance);
+        float kStopForRouteAnnotationScaleOffset = 1.0 - kStopForRouteAnnotationScaleSlope * kStopForRouteAnnotationMaxScaleDistance;
 
-		double scale = kStopForRouteAnnotationScaleSlope * d + kStopForRouteAnnotationScaleOffset;
-		return scale;
-	}
-	else {
-		return kStopForRouteAnnotationMinScale;
-	}
+        double scale = kStopForRouteAnnotationScaleSlope * d + kStopForRouteAnnotationScaleOffset;
+        return scale;
+    }
+    else {
+        return kStopForRouteAnnotationMinScale;
+    }
 }
 
 + (void)showSituations:(NSArray*)situations withAppContext:(OBAApplicationDelegate*)appContext navigationController:(UINavigationController*)navigationController args:(NSDictionary*)args {
-	if( [situations count] == 1 ) {
-		OBASituationV2 * situation = [situations objectAtIndex:0];
-		OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationContext:appContext situation:situation];
-		vc.args = args;
-		[navigationController pushViewController:vc animated:YES];
-	}
-	else {
-		OBASituationsViewController * vc = [[OBASituationsViewController alloc] initWithApplicationContext:appContext situations:situations];
-		vc.args = args;
-		[navigationController pushViewController:vc animated:YES];
-	}
+    if( [situations count] == 1 ) {
+        OBASituationV2 * situation = [situations objectAtIndex:0];
+        OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationContext:appContext situation:situation];
+        vc.args = args;
+        [navigationController pushViewController:vc animated:YES];
+    }
+    else {
+        OBASituationsViewController * vc = [[OBASituationsViewController alloc] initWithApplicationContext:appContext situations:situations];
+        vc.args = args;
+        [navigationController pushViewController:vc animated:YES];
+    }
 }
 
 

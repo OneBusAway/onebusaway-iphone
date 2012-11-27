@@ -3,10 +3,10 @@
 
 
 @interface OBAArrivalEntryTableViewCellFactory : NSObject {
-	OBAApplicationDelegate * _appContext;
-	UITableView * _tableView;
-	NSDateFormatter * _timeFormatter;
-	BOOL _showServiceAlerts;
+    OBAApplicationDelegate * _appContext;
+    UITableView * _tableView;
+    NSDateFormatter * _timeFormatter;
+    BOOL _showServiceAlerts;
 }
 
 - (id) initWithAppContext:(OBAApplicationDelegate*)appContext tableView:(UITableView*)tableView;

@@ -5,11 +5,11 @@
 @class OBASituationV2;
 
 @interface OBAReferencesV2 : NSObject {
-	NSMutableDictionary * _agencies;
-	NSMutableDictionary * _routes;
-	NSMutableDictionary * _stops;
-	NSMutableDictionary * _trips;
-	NSMutableDictionary * _situations;
+    NSMutableDictionary * _agencies;
+    NSMutableDictionary * _routes;
+    NSMutableDictionary * _stops;
+    NSMutableDictionary * _trips;
+    NSMutableDictionary * _situations;
 }
 
 - (void) addAgency:(OBAAgencyV2*)agency;
@@ -28,5 +28,5 @@
 - (OBASituationV2*) getSituationForId:(NSString*)situationId;
 
 - (void) clear;
-							 
+                             
 @end

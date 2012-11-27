@@ -27,7 +27,7 @@
 @dynamic index;
 
 - (NSComparisonResult) compareIndex:(OBABookmark*)bookmark {
-	return [self.index compare:bookmark.index];
+    return [self.index compare:bookmark.index];
 }
 
 @end

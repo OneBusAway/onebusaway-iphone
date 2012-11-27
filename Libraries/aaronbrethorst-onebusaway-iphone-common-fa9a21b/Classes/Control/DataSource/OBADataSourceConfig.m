@@ -24,42 +24,42 @@
 @implementation OBADataSourceConfig
 
 - (id) initWithUrl:(NSString*)url args:(NSString*)args {
-	self = [super init];
+    self = [super init];
     
     if (self) {
-		self.url = url;
-		self.args = args;
-	}
-	return self;
+        self.url = url;
+        self.args = args;
+    }
+    return self;
 }
 
 - (NSURL*)constructURL:(NSString*)path withArgs:(NSString*)args includeArgs:(BOOL)includeArgs {
-	NSMutableString *constructedURL = [NSMutableString string];
+    NSMutableString *constructedURL = [NSMutableString string];
     
-	if (self.url) {
-		[constructedURL appendString:self.url];
+    if (self.url) {
+        [constructedURL appendString:self.url];
     }
     
-	[constructedURL appendString:path];
-	
-	if (includeArgs && (args || self.args) ) {
-		[constructedURL appendString:@"?"];
-		if ( _args ) {
+    [constructedURL appendString:path];
+    
+    if (includeArgs && (args || self.args) ) {
+        [constructedURL appendString:@"?"];
+        if ( _args ) {
             [constructedURL appendString:_args];
         }
-			
-		if (args) {
-			if (self.args) {
+            
+        if (args) {
+            if (self.args) {
                 [constructedURL appendString:@"&"];
             }
-				
-			[constructedURL appendString:args];
-		}
-	}
-	
-	NSLog(@"url=%@",constructedURL);
-	
-	return [NSURL URLWithString:constructedURL];
+                
+            [constructedURL appendString:args];
+        }
+    }
+    
+    NSLog(@"url=%@",constructedURL);
+    
+    return [NSURL URLWithString:constructedURL];
 }
 
 @end

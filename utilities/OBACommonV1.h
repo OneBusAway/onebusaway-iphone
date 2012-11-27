@@ -1,19 +1,19 @@
 typedef enum {
-	OBANavigationTargetTypeRoot=0,
-	OBANavigationTargetTypeSearch,
-	OBANavigationTargetTypeSearchResults,
-	OBANavigationTargetTypeBookmarks,
-	OBANavigationTargetTypeRecentStops,
-	OBANavigationTargetTypeStop,
-	OBANavigationTargetTypeEditBookmark,
-	OBANavigationTargetTypeEditStopPreferences,
-	OBANavigationTargetTypeSettings,
-	OBANavigationTargetTypeContactUs,
-	OBANavigationTargetTypeAgencies
+    OBANavigationTargetTypeRoot=0,
+    OBANavigationTargetTypeSearch,
+    OBANavigationTargetTypeSearchResults,
+    OBANavigationTargetTypeBookmarks,
+    OBANavigationTargetTypeRecentStops,
+    OBANavigationTargetTypeStop,
+    OBANavigationTargetTypeEditBookmark,
+    OBANavigationTargetTypeEditStopPreferences,
+    OBANavigationTargetTypeSettings,
+    OBANavigationTargetTypeContactUs,
+    OBANavigationTargetTypeAgencies
 } OBANavigationTargetType;
 
 typedef enum {
-	OBASearchViewTypeByStop = 0,
+    OBASearchViewTypeByStop = 0,
     OBASearchViewTypeByRoute,
     OBASearchViewTypeByAddress
 } OBASearchViewType;

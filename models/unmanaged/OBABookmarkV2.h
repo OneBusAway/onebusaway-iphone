@@ -1,6 +1,6 @@
 @interface OBABookmarkV2 : NSObject {
-	NSString * _name;
-	NSArray * _stopIds;
+    NSString * _name;
+    NSArray * _stopIds;
 }
 
 - (id) initWithCoder:(NSCoder*)coder;

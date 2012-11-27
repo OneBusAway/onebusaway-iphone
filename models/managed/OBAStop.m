@@ -35,54 +35,54 @@
 @dynamic bookmarks;
 
 - (double) lat {
-	return [self.latitude doubleValue];
+    return [self.latitude doubleValue];
 }
 
 - (double) lon {
-	return [self.longitude doubleValue];
+    return [self.longitude doubleValue];
 }
 
 - (NSString*) routeNamesAsString {
-	
-	NSMutableString * label = [NSMutableString string];
-	BOOL first = YES;
-	
-	NSMutableArray * sRoutes = [NSMutableArray array];
-	
-	for( OBARoute * route in self.routes )
-		[sRoutes addObject:route];
-	
-	[sRoutes sortUsingSelector:@selector(compareUsingName:)];
-	
-	for( OBARoute * route in sRoutes ) {
-		
-		if( first )
-			first = NO;
-		else
-			[label  appendString:@", "];
-		[label appendString:[route safeShortName]];
-	}
-	return label;
-	
+    
+    NSMutableString * label = [NSMutableString string];
+    BOOL first = YES;
+    
+    NSMutableArray * sRoutes = [NSMutableArray array];
+    
+    for( OBARoute * route in self.routes )
+        [sRoutes addObject:route];
+    
+    [sRoutes sortUsingSelector:@selector(compareUsingName:)];
+    
+    for( OBARoute * route in sRoutes ) {
+        
+        if( first )
+            first = NO;
+        else
+            [label  appendString:@", "];
+        [label appendString:[route safeShortName]];
+    }
+    return label;
+    
 }
 
 - (NSComparisonResult) compareUsingName:(OBAStop*)aStop {
-	return [self.name compare:aStop.name options:NSNumericSearch];
+    return [self.name compare:aStop.name options:NSNumericSearch];
 }
 
 # pragma mark MKAnnotation
 
 - (NSString*) title {
-	return self.name;
+    return self.name;
 }
 
 - (NSString*) subtitle {
-	return [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Routes",@"subtitle"),[self routeNamesAsString]];
+    return [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Routes",@"subtitle"),[self routeNamesAsString]];
 }
 
 - (CLLocationCoordinate2D) coordinate {
-	CLLocationCoordinate2D c = {self.lat,self.lon};
-	return c;
+    CLLocationCoordinate2D c = {self.lat,self.lon};
+    return c;
 }
 
 @end

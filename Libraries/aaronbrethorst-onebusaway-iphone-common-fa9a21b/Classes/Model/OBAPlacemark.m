@@ -26,23 +26,23 @@
 
 -(id) initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate {
     self = [super init];
-	if( self ) {
-		_address = address;
-		_coordinate = coordinate;
-	}
-	return self;
+    if( self ) {
+        _address = address;
+        _coordinate = coordinate;
+    }
+    return self;
 }
 
 - (id) initWithCoder:(NSCoder*)coder {
     self = [super init];
-	if( self ) {
+    if( self ) {
         _name = [coder decodeObjectForKey:@"name"];
-		_address =  [coder decodeObjectForKey:@"address"];
+        _address =  [coder decodeObjectForKey:@"address"];
         _icon =  [coder decodeObjectForKey:@"icon"];
-		NSData * data = [coder decodeObjectForKey:@"coordinate"];
-		[data getBytes:&_coordinate];
-	}
-	return self;
+        NSData * data = [coder decodeObjectForKey:@"coordinate"];
+        [data getBytes:&_coordinate];
+    }
+    return self;
 }
 
 
@@ -55,17 +55,17 @@
 - (NSString*) title {
     if( _name )
         return _name;
-	return _address;
+    return _address;
 }
 
 #pragma mark NSCoder Methods
 
 - (void) encodeWithCoder: (NSCoder *)coder {
     [coder encodeObject:_name forKey:@"name"];
-	[coder encodeObject:_address forKey:@"address"];
+    [coder encodeObject:_address forKey:@"address"];
     [coder encodeObject:_icon forKey:@"icon"];
-	NSData * data = [NSData dataWithBytes:&_coordinate length:sizeof(CLLocationCoordinate2D)];
-	[coder encodeObject:data forKey:@"coordinate"];
+    NSData * data = [NSData dataWithBytes:&_coordinate length:sizeof(CLLocationCoordinate2D)];
+    [coder encodeObject:data forKey:@"coordinate"];
 }
 
 @end

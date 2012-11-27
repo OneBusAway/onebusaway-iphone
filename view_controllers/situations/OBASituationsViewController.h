@@ -2,8 +2,8 @@
 
 
 @interface OBASituationsViewController : UITableViewController {
-	OBAApplicationDelegate * _appContext;
-	NSArray * _situations;
+    OBAApplicationDelegate * _appContext;
+    NSArray * _situations;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext situations:(NSArray*)situations;

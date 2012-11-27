@@ -19,8 +19,8 @@
 
 
 @interface OBAArrivalsAndDeparturesForStop : NSObject {
-	OBAStop * _stop;
-	NSMutableArray * _arrivalsAndDepartures;
+    OBAStop * _stop;
+    NSMutableArray * _arrivalsAndDepartures;
 }
 
 @property (nonatomic,strong) OBAStop * stop;

@@ -4,15 +4,15 @@
 
 @interface OBADiversionViewController : UIViewController <MKMapViewDelegate,OBAModelServiceDelegate> {
 
-	NSString * _tripEncodedPolyline;
+    NSString * _tripEncodedPolyline;
 
-	MKPolyline * _routePolyline;
-	MKPolylineView * _routePolylineView;
+    MKPolyline * _routePolyline;
+    MKPolylineView * _routePolylineView;
 
-	MKPolyline * _reroutePolyline;
-	MKPolylineView * _reroutePolylineView;
-	
-	id<OBAModelServiceRequest> _request;
+    MKPolyline * _reroutePolyline;
+    MKPolylineView * _reroutePolylineView;
+    
+    id<OBAModelServiceRequest> _request;
 }
 
 +(OBADiversionViewController*) loadFromNibWithAppContext:(OBAApplicationDelegate*)context;

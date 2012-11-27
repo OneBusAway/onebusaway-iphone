@@ -4,8 +4,8 @@
 
 
 @interface OBAArrivalsAndDeparturesForStopV2 : OBAHasReferencesV2 {
-	NSMutableArray * _arrivalsAndDepartures;
-	NSMutableArray * _situationIds;
+    NSMutableArray * _arrivalsAndDepartures;
+    NSMutableArray * _situationIds;
 }
 
 @property (nonatomic,strong) NSString * stopId;

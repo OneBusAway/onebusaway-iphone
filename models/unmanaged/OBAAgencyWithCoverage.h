@@ -18,8 +18,8 @@
 
 
 @interface OBAAgencyWithCoverage : NSObject {
-	OBAAgency * _agency;
-	CLLocationCoordinate2D _coordinate;
+    OBAAgency * _agency;
+    CLLocationCoordinate2D _coordinate;
 }
 
 @property (nonatomic,strong) OBAAgency * agency;

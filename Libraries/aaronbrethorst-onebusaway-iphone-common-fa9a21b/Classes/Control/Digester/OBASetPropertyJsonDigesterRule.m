@@ -23,51 +23,51 @@
 
 - (id) initWithPropertyName:(NSString*)propertyName {
     self = [super init];
-	if( self ) {
-		if (!(self = [self initWithPropertyName:propertyName onlyIfNeeded:NO])) return nil;
-		_propertyName = propertyName;		
-	}
-	return self;
+    if( self ) {
+        if (!(self = [self initWithPropertyName:propertyName onlyIfNeeded:NO])) return nil;
+        _propertyName = propertyName;        
+    }
+    return self;
 }
 
 - (id) initWithPropertyName:(NSString*)propertyName onlyIfNeeded:(BOOL)onlyIfNeeded {
     self = [super init];
-	if( self ) {
-		_propertyName = propertyName;		
-		_onlyIfNeeded = onlyIfNeeded;
-	}
-	return self;
-	
+    if( self ) {
+        _propertyName = propertyName;        
+        _onlyIfNeeded = onlyIfNeeded;
+    }
+    return self;
+    
 }
 
 
 - (void) begin:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
-	
-	NSObject * top = [context peek:0];
-	
-	/**
-	 * Due to a bug in iPhone OS 3.0, NSDecimalNumbers sometimes cause errors when used in
-	 * a Core Data entity that is saved to an NSManagedObjectContext.  Get around it by
-	 * changing NSDecimalNumbers to just plain NSNumber
-	 * 
-	 * https://devforums.apple.com/message/129925#129925
-	 * http://www.stackoverflow.com/questions/1200591/coredata-error-while-saving-binding-not-implemented-for-this-sqltype-7
-	 */
-	if( [value isKindOfClass:[NSDecimalNumber class]] ) {
-		NSDecimalNumber * d = value;
-		value = @([d doubleValue]);
-	}
-	
-	if( _onlyIfNeeded ) {
-		id existingValue = [top valueForKey:_propertyName];
-		if( [existingValue isEqual:value] )
-			return;
-	}
-	
-	if( _optional && [value isKindOfClass:[NSString class]] && [value length] == 0)
-		return;
-	
-	[top setValue:value forKey:_propertyName];
+    
+    NSObject * top = [context peek:0];
+    
+    /**
+     * Due to a bug in iPhone OS 3.0, NSDecimalNumbers sometimes cause errors when used in
+     * a Core Data entity that is saved to an NSManagedObjectContext.  Get around it by
+     * changing NSDecimalNumbers to just plain NSNumber
+     * 
+     * https://devforums.apple.com/message/129925#129925
+     * http://www.stackoverflow.com/questions/1200591/coredata-error-while-saving-binding-not-implemented-for-this-sqltype-7
+     */
+    if( [value isKindOfClass:[NSDecimalNumber class]] ) {
+        NSDecimalNumber * d = value;
+        value = @([d doubleValue]);
+    }
+    
+    if( _onlyIfNeeded ) {
+        id existingValue = [top valueForKey:_propertyName];
+        if( [existingValue isEqual:value] )
+            return;
+    }
+    
+    if( _optional && [value isKindOfClass:[NSString class]] && [value length] == 0)
+        return;
+    
+    [top setValue:value forKey:_propertyName];
 }
 
 @end

@@ -9,53 +9,53 @@
 
 - (id) init {
     self = [super init];
-	if (self) {
-		self.checkCode = YES;
+    if (self) {
+        self.checkCode = YES;
         self.bgTask = UIBackgroundTaskInvalid;
-		self.clean = NO;
-	}
-	return self;
+        self.clean = NO;
+    }
+    return self;
 }
 
 - (void) dealloc {
-	[self endBackgroundTask];
+    [self endBackgroundTask];
 }
 
 - (void)handleResult:(id)obj {
-	
-	if (self.checkCode) {
-		NSNumber *code = [obj valueForKey:@"code"];
-	
-		if (!code || 200 != [code integerValue]) {
-			if ([_delegate respondsToSelector:@selector(requestDidFinish:withCode:context:)]) {
+    
+    if (self.checkCode) {
+        NSNumber *code = [obj valueForKey:@"code"];
+    
+        if (!code || 200 != [code integerValue]) {
+            if ([_delegate respondsToSelector:@selector(requestDidFinish:withCode:context:)]) {
                 [_delegate requestDidFinish:self withCode:[code intValue] context:_context];
             }
-				
-			return;
-		}
-		
-		obj = [obj valueForKey:@"data"];
-	}
-	
-	NSDictionary * data = obj;
-    NSError * error = nil;
-	id result = obj;
+                
+            return;
+        }
+        
+        obj = [obj valueForKey:@"data"];
+    }
     
-	if (_modelFactorySelector && [_modelFactory respondsToSelector:_modelFactorySelector]) {
-	
+    NSDictionary * data = obj;
+    NSError * error = nil;
+    id result = obj;
+    
+    if (_modelFactorySelector && [_modelFactory respondsToSelector:_modelFactorySelector]) {
+    
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
         result = [_modelFactory performSelector:_modelFactorySelector withObject:data withObject:error];
 #pragma clang diagnostic pop
 
-		if( error ) {
-			if( [_delegate respondsToSelector:@selector(requestDidFail:withError:context:)] )
-				[_delegate requestDidFail:self withError:error context:_context];
-			return;
-		}
-	}
+        if( error ) {
+            if( [_delegate respondsToSelector:@selector(requestDidFail:withError:context:)] )
+                [_delegate requestDidFail:self withError:error context:_context];
+            return;
+        }
+    }
 
-	[_delegate requestDidFinish:self withObject:result context:_context];
+    [_delegate requestDidFinish:self withObject:result context:_context];
 }
 
 - (void)endBackgroundTask {
@@ -70,26 +70,26 @@
 #pragma mark OBAModelServiceRequest
 
 - (void) cancel {
-	[_connection cancel];
-	[self cleanup];
+    [_connection cancel];
+    [self cleanup];
 }
 
 #pragma mark OBADataSourceDelegate
 
 - (void) connectionDidFinishLoading:(id<OBADataSourceConnection>)connection withObject:(id)obj context:(id)context {
-	[self handleResult:obj];
-	[self cleanup];
+    [self handleResult:obj];
+    [self cleanup];
 }
 
 - (void) connectionDidFail:(id<OBADataSourceConnection>)connection withError:(NSError *)error context:(id)context {
-	if( [_delegate respondsToSelector:@selector(requestDidFail:withError:context:)] )	
-		[_delegate requestDidFail:self withError:error context:_context];
-	[self cleanup];
+    if( [_delegate respondsToSelector:@selector(requestDidFail:withError:context:)] )    
+        [_delegate requestDidFail:self withError:error context:_context];
+    [self cleanup];
 }
 
 - (void) connection:(id<OBADataSourceConnection>)connection withProgress:(float)progress {
-	if( [_delegate respondsToSelector:@selector(request:withProgress:context:)] )
-		[_delegate request:self withProgress:progress context:_context];
+    if( [_delegate respondsToSelector:@selector(request:withProgress:context:)] )
+        [_delegate request:self withProgress:progress context:_context];
 }
 
 - (void) cleanup {

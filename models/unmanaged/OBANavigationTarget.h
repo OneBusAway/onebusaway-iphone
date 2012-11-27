@@ -19,8 +19,8 @@
 
 
 @interface OBANavigationTarget : NSObject <NSCoding> {
-	OBANavigationTargetType _target;
-	NSMutableDictionary * _parameters;
+    OBANavigationTargetType _target;
+    NSMutableDictionary * _parameters;
 }
 
 @property (nonatomic,readonly) OBANavigationTargetType target;

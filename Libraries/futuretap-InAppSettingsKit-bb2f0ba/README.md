@@ -154,7 +154,7 @@ To hide a set of cells use:
 
 or the non-animated version:
 
-	@property (nonatomic, retain) NSSet *hiddenKeys;
+    @property (nonatomic, retain) NSSet *hiddenKeys;
 
 See the sample app for more details.
 

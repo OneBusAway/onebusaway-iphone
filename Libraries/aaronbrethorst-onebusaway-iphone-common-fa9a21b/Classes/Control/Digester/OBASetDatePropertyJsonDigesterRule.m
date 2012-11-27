@@ -21,7 +21,7 @@
 
 - (void) begin:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
 
-	if( [value isKindOfClass:[NSNumber class]] ) {
+    if ([value isKindOfClass:[NSNumber class]]) {
         NSNumber * n = value;
         NSTimeInterval interval = [n longLongValue] / 1000.0;
         NSDate * date = [NSDate dateWithTimeIntervalSince1970:interval];

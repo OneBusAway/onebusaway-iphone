@@ -1,6 +1,6 @@
 @interface OBALabelAndTextFieldTableViewCell : UITableViewCell {
-	UILabel * _label;
-	UITextField * _textField;
+    UILabel * _label;
+    UITextField * _textField;
 }
 
 @property (nonatomic,strong) IBOutlet UILabel * label;

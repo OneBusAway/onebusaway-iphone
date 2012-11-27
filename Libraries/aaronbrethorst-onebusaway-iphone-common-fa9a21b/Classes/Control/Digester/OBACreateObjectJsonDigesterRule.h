@@ -18,8 +18,8 @@
 
 
 @interface OBACreateObjectJsonDigesterRule : NSObject <OBAJsonDigesterRule> {
-	Class _objectClass;
-	BOOL _onlyIfNotNull;
+    Class _objectClass;
+    BOOL _onlyIfNotNull;
 }
 
 - (id) initWithObjectClass:(Class)objectClass;

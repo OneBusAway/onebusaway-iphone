@@ -2,7 +2,7 @@
 
 
 @interface OBAEntryWithReferencesV2 : OBAHasReferencesV2 {
-	id _entry;
+    id _entry;
 }
 
 @property (nonatomic,strong) id entry;

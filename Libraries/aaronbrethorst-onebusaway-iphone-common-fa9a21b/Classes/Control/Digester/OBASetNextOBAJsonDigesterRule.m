@@ -24,34 +24,34 @@
 
 - (id) initWithSelector:(SEL)selector {
     self = [super init];
-	if( self ) {
-		_selector = selector;
-		_onlyIfNotNull = YES;
-	}
-	return self;
+    if( self ) {
+        _selector = selector;
+        _onlyIfNotNull = YES;
+    }
+    return self;
 }
 
 - (void) end:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
-	
-	if( _onlyIfNotNull && (value == nil || value == ((id)kCFNull)) )
-		return;
-	
-	id a = [context peek:0];
-	id<NSObject> b = [context peek:1];
-	
-	if (context.verbose) {
-		OBALogDebug(@"setNext");
-	}
+    
+    if( _onlyIfNotNull && (value == nil || value == ((id)kCFNull)) )
+        return;
+    
+    id a = [context peek:0];
+    id<NSObject> b = [context peek:1];
+    
+    if (context.verbose) {
+        OBALogDebug(@"setNext");
+    }
 
-	if (a && b && [b respondsToSelector:_selector]) {
+    if (a && b && [b respondsToSelector:_selector]) {
 // note: I think that silencing warnings like this is gross.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     [b performSelector:_selector withObject:a];
 #pragma clang diagnostic pop
     }
-	else if (context.verbose) {
-		OBALogDebug(@"setNext selector not supported");
+    else if (context.verbose) {
+        OBALogDebug(@"setNext selector not supported");
     }
 }
 

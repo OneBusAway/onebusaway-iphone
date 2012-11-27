@@ -3,9 +3,9 @@
 
 
 @interface OBAStopsForRouteV2 : OBAHasReferencesV2 {
-	NSString * _routeId;
-	NSMutableArray * _stopIds;
-	NSMutableArray * _polylines;
+    NSString * _routeId;
+    NSMutableArray * _stopIds;
+    NSMutableArray * _polylines;
 }
 
 @property (nonatomic, strong) NSString * routeId;

@@ -2,9 +2,9 @@
 
 
 @interface OBAListWithRangeAndReferencesV2 : OBAHasReferencesV2 {
-	BOOL _limitExceeded;
-	BOOL _outOfRange;
-	NSMutableArray * _values;
+    BOOL _limitExceeded;
+    BOOL _outOfRange;
+    NSMutableArray * _values;
 }
 
 @property (nonatomic) BOOL limitExceeded;

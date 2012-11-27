@@ -17,13 +17,13 @@
 #import "OBASetPropertyJsonDigesterRule.h"
 
 typedef enum {
-	OBASetCoordinatePropertyMethodArray,
-	OBASetCoordinatePropertyMethodLatLon
+    OBASetCoordinatePropertyMethodArray,
+    OBASetCoordinatePropertyMethodLatLon
 }
 OBASetCoordinatePropertyMethod;
 
 @interface OBASetCoordinatePropertyJsonDigesterRule : OBASetPropertyJsonDigesterRule {
-	OBASetCoordinatePropertyMethod _method;
+    OBASetCoordinatePropertyMethod _method;
 }
 
 - (id) initWithPropertyName:(NSString*)propertyName method:(OBASetCoordinatePropertyMethod) method;

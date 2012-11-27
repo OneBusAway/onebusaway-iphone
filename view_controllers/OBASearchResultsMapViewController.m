@@ -563,7 +563,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     }
 }
 
-- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id )overlay {	
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id )overlay {    
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineView * polylineView  = [[MKPolylineView alloc] initWithPolyline:overlay];
         polylineView.fillColor = [UIColor blackColor];

@@ -12,17 +12,17 @@
 @implementation OBASetLocationPropertyJsonDigesterRule
 
 - (void) begin:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
-	
-	if( ! [value isKindOfClass:[NSDictionary class]] )
-		return;
-	
-	NSDictionary * dictionary = (NSDictionary*)value;
-	
-	NSNumber * latitude = dictionary[@"lat"];
-	NSNumber * longitude = dictionary[@"lon"];
-	
-	CLLocation * location = [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude:[longitude doubleValue]];
-	[super begin:context name:name value:location];
+    
+    if( ! [value isKindOfClass:[NSDictionary class]] )
+        return;
+    
+    NSDictionary * dictionary = (NSDictionary*)value;
+    
+    NSNumber * latitude = dictionary[@"lat"];
+    NSNumber * longitude = dictionary[@"lon"];
+    
+    CLLocation * location = [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude:[longitude doubleValue]];
+    [super begin:context name:name value:location];
 }
 
 

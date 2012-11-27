@@ -43,70 +43,70 @@ NSString * kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSe
 @implementation OBASearch
 
 + (OBANavigationTarget*) getNavigationTargetForSearchNone {
-	return [OBASearch getNavigationTargetForSearchType:OBASearchTypeNone];
+    return [OBASearch getNavigationTargetForSearchType:OBASearchTypeNone];
 }
 
 + (OBANavigationTarget*) getNavigationTargetForSearchLocationRegion:(MKCoordinateRegion)region {
-	NSData * data = [NSData dataWithBytes:&region length:sizeof(MKCoordinateRegion)];	
-	return [OBASearch getNavigationTargetForSearchType:OBASearchTypeRegion argument:data];
+    NSData * data = [NSData dataWithBytes:&region length:sizeof(MKCoordinateRegion)];    
+    return [OBASearch getNavigationTargetForSearchType:OBASearchTypeRegion argument:data];
 }
 
 + (OBANavigationTarget*) getNavigationTargetForSearchRoute:(NSString*)routeQuery {
-	return [OBASearch getNavigationTargetForSearchType:OBASearchTypeRoute argument:routeQuery];
+    return [OBASearch getNavigationTargetForSearchType:OBASearchTypeRoute argument:routeQuery];
 }
 
 + (OBANavigationTarget*) getNavigationTargetForSearchRouteStops:(NSString*)routeId {
-	return [self getNavigationTargetForSearchType:OBASearchTypeRouteStops argument:routeId];
+    return [self getNavigationTargetForSearchType:OBASearchTypeRouteStops argument:routeId];
 }
 
 + (OBANavigationTarget*) getNavigationTargetForSearchAddress:(NSString*)addressQuery {
-	return [self getNavigationTargetForSearchType:OBASearchTypeAddress argument:addressQuery];	
+    return [self getNavigationTargetForSearchType:OBASearchTypeAddress argument:addressQuery];    
 }
 
 + (OBANavigationTarget*) getNavigationTargetForSearchPlacemark:(OBAPlacemark*)placemark {
-	return [self getNavigationTargetForSearchType:OBASearchTypePlacemark argument:placemark];
+    return [self getNavigationTargetForSearchType:OBASearchTypePlacemark argument:placemark];
 }
 
 + (OBANavigationTarget*) getNavigationTargetForSearchStopCode:(NSString*)stopIdQuery {
-	return [self getNavigationTargetForSearchType:OBASearchTypeStopId argument:stopIdQuery];	
+    return [self getNavigationTargetForSearchType:OBASearchTypeStopId argument:stopIdQuery];    
 }
 
 + (OBANavigationTarget*) getNavigationTargetForSearchAgenciesWithCoverage {
-	return [self getNavigationTargetForSearchType:OBASearchTypeAgenciesWithCoverage];
+    return [self getNavigationTargetForSearchType:OBASearchTypeAgenciesWithCoverage];
 }
 
 + (OBASearchType) getSearchTypeForNagivationTarget:(OBANavigationTarget*)target {
 
-	// Update our target parameters
-	NSDictionary * parameters = target.parameters;	
-	NSNumber * searchTypeAsNumber = parameters[kOBASearchTypeParameter];
-	
-	if( ! searchTypeAsNumber )
-		searchTypeAsNumber = @(OBASearchTypeNone);
-	
-	switch ([searchTypeAsNumber intValue]) {
-		case OBASearchTypeRegion:
-			return OBASearchTypeRegion;
-		case OBASearchTypeRoute:
-			return OBASearchTypeRoute;
-		case OBASearchTypeRouteStops:
-			return OBASearchTypeRouteStops;
-		case OBASearchTypeAddress:
-			return OBASearchTypeAddress;
-		case OBASearchTypePlacemark:
-			return OBASearchTypePlacemark;
-		case OBASearchTypeStopId:
-			return OBASearchTypeStopId;
-		case OBASearchTypeAgenciesWithCoverage:
-			return OBASearchTypeAgenciesWithCoverage;
-		default:
-			return OBASearchTypeNone;
-	}	
+    // Update our target parameters
+    NSDictionary * parameters = target.parameters;    
+    NSNumber * searchTypeAsNumber = parameters[kOBASearchTypeParameter];
+    
+    if( ! searchTypeAsNumber )
+        searchTypeAsNumber = @(OBASearchTypeNone);
+    
+    switch ([searchTypeAsNumber intValue]) {
+        case OBASearchTypeRegion:
+            return OBASearchTypeRegion;
+        case OBASearchTypeRoute:
+            return OBASearchTypeRoute;
+        case OBASearchTypeRouteStops:
+            return OBASearchTypeRouteStops;
+        case OBASearchTypeAddress:
+            return OBASearchTypeAddress;
+        case OBASearchTypePlacemark:
+            return OBASearchTypePlacemark;
+        case OBASearchTypeStopId:
+            return OBASearchTypeStopId;
+        case OBASearchTypeAgenciesWithCoverage:
+            return OBASearchTypeAgenciesWithCoverage;
+        default:
+            return OBASearchTypeNone;
+    }    
 }
 
 + (id) getSearchTypeParameterForNagivationTarget:(OBANavigationTarget*)target {
-	NSDictionary * params = target.parameters;
-	return params[kOBASearchControllerSearchArgumentParameter];
+    NSDictionary * params = target.parameters;
+    return params[kOBASearchControllerSearchArgumentParameter];
 }
 
 @end
@@ -116,17 +116,17 @@ NSString * kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSe
 @implementation OBASearch (Internal)
 
 + (OBANavigationTarget*) getNavigationTargetForSearchType:(OBASearchType)searchType {
-	return [self getNavigationTargetForSearchType:searchType argument:nil];
+    return [self getNavigationTargetForSearchType:searchType argument:nil];
 }
 
 + (OBANavigationTarget*) getNavigationTargetForSearchType:(OBASearchType)searchType argument:(id)argument {
-	NSMutableDictionary * params = [NSMutableDictionary dictionary];
-	params[kOBASearchTypeParameter] = [NSNumber numberWithInt:searchType];
+    NSMutableDictionary * params = [NSMutableDictionary dictionary];
+    params[kOBASearchTypeParameter] = [NSNumber numberWithInt:searchType];
 
-	if( argument )
-		params[kOBASearchControllerSearchArgumentParameter] = argument;
+    if( argument )
+        params[kOBASearchControllerSearchArgumentParameter] = argument;
     
-	return [[OBANavigationTarget alloc] initWithTarget:OBANavigationTargetTypeSearchResults parameters:params];
+    return [[OBANavigationTarget alloc] initWithTarget:OBANavigationTargetTypeSearchResults parameters:params];
 }
 
 @end

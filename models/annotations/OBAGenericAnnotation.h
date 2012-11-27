@@ -18,10 +18,10 @@
 
 
 @interface OBAGenericAnnotation : NSObject<MKAnnotation> {
-	NSString * _title;
-	NSString * _subtitle;
-	CLLocationCoordinate2D _coordinate;
-	id _context;
+    NSString * _title;
+    NSString * _subtitle;
+    CLLocationCoordinate2D _coordinate;
+    id _context;
 }
 
 @property (weak, nonatomic,readonly) NSString * context;

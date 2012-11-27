@@ -15,7 +15,7 @@
 //
 //  This code is licensed under the BSD license that is available at: http://www.opensource.org/licenses/bsd-license.php
 //
-//	Settings Icon (also used in App Icon) thanks to http://glyphish.com/ 
+//    Settings Icon (also used in App Icon) thanks to http://glyphish.com/ 
 
 #import "InAppSettingsKitSampleAppAppDelegate.h"
 
@@ -27,13 +27,13 @@
 
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-	[window addSubview:tabBarController.view];
+    [window addSubview:tabBarController.view];
 }
 
 - (void)dealloc {
     [window release];
-	[navigationController release];
-	[tabBarController release];
+    [navigationController release];
+    [tabBarController release];
     [super dealloc];
 }
 

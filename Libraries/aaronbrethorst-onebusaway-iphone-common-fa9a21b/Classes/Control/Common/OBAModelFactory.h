@@ -23,8 +23,8 @@
 
 
 @interface OBAModelFactory : NSObject {
-	OBAReferencesV2 * _references;
-	NSMutableDictionary * _entityIdMappings;
+    OBAReferencesV2 * _references;
+    NSMutableDictionary * _entityIdMappings;
 }
 
 - (id) initWithReferences:(OBAReferencesV2*)references;

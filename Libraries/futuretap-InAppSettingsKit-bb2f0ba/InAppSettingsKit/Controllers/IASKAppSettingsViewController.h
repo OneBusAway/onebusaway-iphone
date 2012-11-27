@@ -60,19 +60,19 @@
 
 
 @interface IASKAppSettingsViewController : UITableViewController <IASKViewController, UITextFieldDelegate, MFMailComposeViewControllerDelegate> {
-	id<IASKSettingsDelegate>  _delegate;
+    id<IASKSettingsDelegate>  _delegate;
     
     NSMutableArray          *_viewList;
-	
-	IASKSettingsReader		*_settingsReader;
+    
+    IASKSettingsReader        *_settingsReader;
     id<IASKSettingsStore>  _settingsStore;
-	NSString				*_file;
-	
-	id                      _currentFirstResponder;
+    NSString                *_file;
+    
+    id                      _currentFirstResponder;
     
     BOOL                    _showCreditsFooter;
     BOOL                    _showDoneButton;
-	
+    
     NSSet                   *_hiddenKeys;
 }
 

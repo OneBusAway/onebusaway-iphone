@@ -18,11 +18,11 @@
 
 
 @interface OBACoordinateBounds : NSObject <NSCoding> {
-	BOOL _empty;	
-	double _minLatitude;
-	double _minLongitude;	
-	double _maxLatitude;
-	double _maxLongitude;
+    BOOL _empty;    
+    double _minLatitude;
+    double _minLongitude;    
+    double _maxLatitude;
+    double _maxLongitude;
 }
 
 - (id) initWithBounds:(OBACoordinateBounds*)bounds;

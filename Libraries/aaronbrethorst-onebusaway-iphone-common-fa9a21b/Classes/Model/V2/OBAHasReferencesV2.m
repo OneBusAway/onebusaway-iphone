@@ -7,10 +7,10 @@
 
 - (id) initWithReferences:(OBAReferencesV2*)refs {
     self = [super init];
-	if( self ) {
-		_references = refs;
-	}
-	return self;
+    if( self ) {
+        _references = refs;
+    }
+    return self;
 }
 
 

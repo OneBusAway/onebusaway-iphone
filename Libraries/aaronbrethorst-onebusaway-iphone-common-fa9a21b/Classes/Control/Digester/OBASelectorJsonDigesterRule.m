@@ -27,20 +27,20 @@
 @implementation OBASelectorJsonDigesterRule
 
 - (id) initWithTarget:(id<NSObject>)target selector:(SEL)selector ruleTarget:(OBAJsonDigesterRuleTarget)ruleTarget {
-	if( self = [super init] ) {
-		_target = target;
-		_selector = selector;
-		_ruleTarget = ruleTarget;
-	}
-	return self;
+    if( self = [super init] ) {
+        _target = target;
+        _selector = selector;
+        _ruleTarget = ruleTarget;
+    }
+    return self;
 }
 
 - (void) begin:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
-	[self handleRuleTarget:OBAJsonDigesterRuleTargetBegin context:context name:name value:value];
+    [self handleRuleTarget:OBAJsonDigesterRuleTargetBegin context:context name:name value:value];
 }
 
 - (void) end:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
-	[self handleRuleTarget:OBAJsonDigesterRuleTargetEnd context:context name:name value:value];
+    [self handleRuleTarget:OBAJsonDigesterRuleTargetEnd context:context name:name value:value];
 }
 
 @end
@@ -48,25 +48,25 @@
 @implementation OBASelectorJsonDigesterRule (Internal)
 
 - (void) handleRuleTarget:(OBAJsonDigesterRuleTarget)ruleTarget context:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
-	
-	if( _ruleTarget != ruleTarget )
-		return;
-	
-	NSMethodSignature * methodSig = [_target methodSignatureForSelector:_selector];
-	
-	if( ! methodSig ) {
-		OBALogSevere(@"selector not found for target object in OBASelectorJSONDigesterRule");
-		return;
-	}
-	
-	NSInvocation * invoker = [NSInvocation invocationWithMethodSignature:methodSig];
-	[invoker setTarget:_target];
-	[invoker setSelector:_selector];
-	[invoker setArgument:&context atIndex:2];
-	[invoker setArgument:&name atIndex:3];
-	[invoker setArgument:&value atIndex:4];
-	
-	[invoker invoke];
+    
+    if( _ruleTarget != ruleTarget )
+        return;
+    
+    NSMethodSignature * methodSig = [_target methodSignatureForSelector:_selector];
+    
+    if( ! methodSig ) {
+        OBALogSevere(@"selector not found for target object in OBASelectorJSONDigesterRule");
+        return;
+    }
+    
+    NSInvocation * invoker = [NSInvocation invocationWithMethodSignature:methodSig];
+    [invoker setTarget:_target];
+    [invoker setSelector:_selector];
+    [invoker setArgument:&context atIndex:2];
+    [invoker setArgument:&name atIndex:3];
+    [invoker setArgument:&value atIndex:4];
+    
+    [invoker invoke];
 }
 
 @end

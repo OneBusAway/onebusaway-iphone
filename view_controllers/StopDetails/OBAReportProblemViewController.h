@@ -3,8 +3,8 @@
 
 
 @interface OBAReportProblemViewController : UITableViewController {
-	OBAApplicationDelegate * _appContext;
-	OBAStopV2 * _stop;
+    OBAApplicationDelegate * _appContext;
+    OBAStopV2 * _stop;
 }
 
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext stop:(OBAStopV2*)stop;

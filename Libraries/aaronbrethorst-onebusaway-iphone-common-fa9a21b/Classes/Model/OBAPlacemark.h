@@ -19,9 +19,9 @@
 
 @interface OBAPlacemark : NSObject <NSCoding,MKAnnotation> {
     NSString * _name;
-	NSString * _address;
+    NSString * _address;
     NSString * _icon;
-	CLLocationCoordinate2D _coordinate;
+    CLLocationCoordinate2D _coordinate;
 }
 
 @property (nonatomic,strong) NSString * name;

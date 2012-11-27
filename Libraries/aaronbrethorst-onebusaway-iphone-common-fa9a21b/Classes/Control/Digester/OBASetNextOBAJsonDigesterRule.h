@@ -18,8 +18,8 @@
 
 
 @interface OBASetNextOBAJsonDigesterRule : NSObject <OBAJsonDigesterRule> {
-	SEL _selector;
-	BOOL _onlyIfNotNull;
+    SEL _selector;
+    BOOL _onlyIfNotNull;
 }
 
 - (id) initWithSelector:(SEL)selector;

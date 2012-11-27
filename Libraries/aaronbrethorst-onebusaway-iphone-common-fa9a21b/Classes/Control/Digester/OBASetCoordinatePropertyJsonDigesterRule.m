@@ -32,25 +32,25 @@
 
 - (id) initWithPropertyName:(NSString*)propertyName method:(OBASetCoordinatePropertyMethod) method {
     self = [super initWithPropertyName:propertyName];
-	if( self ) {
-		_method = method;
+    if( self ) {
+        _method = method;
         self.latJsonName = @"lat";
         self.lonJsonName = @"lon";
-	}
-	return self;
+    }
+    return self;
 }
 
 
 - (void) begin:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
-	
-	switch(_method) {
-		case OBASetCoordinatePropertyMethodArray:
-			[self arrayMethod:context name:name value:value];
-			break;
-		case OBASetCoordinatePropertyMethodLatLon:
-			[self latLonMethod:context name:name value:value];
-			break;
-	}
+    
+    switch(_method) {
+        case OBASetCoordinatePropertyMethodArray:
+            [self arrayMethod:context name:name value:value];
+            break;
+        case OBASetCoordinatePropertyMethodLatLon:
+            [self latLonMethod:context name:name value:value];
+            break;
+    }
 }
 
 @end
@@ -59,37 +59,37 @@
 
 - (void) arrayMethod:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
 
-	if( ! [value isKindOfClass:[NSArray class]] )
-		return;
-	
-	NSArray * array = (NSArray*)value;
-	
-	if( [array count] < 2 )
-		return;
-	
-	NSNumber * longitude = array[0];
-	NSNumber * latitude = array[1];
-	
-	[self setCoordinate:context name:name lat:latitude lon:longitude];
+    if( ! [value isKindOfClass:[NSArray class]] )
+        return;
+    
+    NSArray * array = (NSArray*)value;
+    
+    if( [array count] < 2 )
+        return;
+    
+    NSNumber * longitude = array[0];
+    NSNumber * latitude = array[1];
+    
+    [self setCoordinate:context name:name lat:latitude lon:longitude];
 }
 
 - (void) latLonMethod:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
 
-	if( ! [value isKindOfClass:[NSDictionary class]] )
-		return;
-	
-	NSDictionary * dictionary = (NSDictionary*)value;
-	
-	NSNumber * latitude = dictionary[self.latJsonName];
-	NSNumber * longitude = dictionary[self.lonJsonName];
-	
-	[self setCoordinate:context name:name lat:latitude lon:longitude];
+    if( ! [value isKindOfClass:[NSDictionary class]] )
+        return;
+    
+    NSDictionary * dictionary = (NSDictionary*)value;
+    
+    NSNumber * latitude = dictionary[self.latJsonName];
+    NSNumber * longitude = dictionary[self.lonJsonName];
+    
+    [self setCoordinate:context name:name lat:latitude lon:longitude];
 }
 
 - (void) setCoordinate:(id<OBAJsonDigesterContext>)context name:(NSString*)name lat:(NSNumber*)lat lon:(NSNumber*)lon {
-	CLLocationCoordinate2D coordinate = {[lat doubleValue], [lon doubleValue]};	
-	NSValue * v = [NSValue value:&coordinate withObjCType:@encode(CLLocationCoordinate2D)];
-	[super begin:context name:name value:v];
+    CLLocationCoordinate2D coordinate = {[lat doubleValue], [lon doubleValue]};    
+    NSValue * v = [NSValue value:&coordinate withObjCType:@encode(CLLocationCoordinate2D)];
+    [super begin:context name:name value:v];
 }
 
 @end

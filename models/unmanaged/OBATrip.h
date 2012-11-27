@@ -8,9 +8,9 @@
 
 
 @interface OBATrip : NSObject {
-	NSString * _tripId;
-	NSString * _tripHeadsign;
-	NSString * _routeShortName;
+    NSString * _tripId;
+    NSString * _tripHeadsign;
+    NSString * _routeShortName;
 }
 
 @property (nonatomic,strong) NSString * tripId;

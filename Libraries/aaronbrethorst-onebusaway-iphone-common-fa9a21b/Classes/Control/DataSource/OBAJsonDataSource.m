@@ -44,96 +44,96 @@
 @implementation OBAJsonDataSource
 
 - (id) initWithConfig:(OBADataSourceConfig*)config {
-	if( self = [super init] ) {
-		self.config = config;
-		self.openConnections = [[NSMutableArray alloc] init];
-	}
-	return self;
+    if( self = [super init] ) {
+        self.config = config;
+        self.openConnections = [[NSMutableArray alloc] init];
+    }
+    return self;
 }
 
 - (void) dealloc {
-	[self cancelOpenConnections];
+    [self cancelOpenConnections];
 }
 
 - (id<OBADataSourceConnection>) requestWithPath:(NSString*)path withDelegate:(id<OBADataSourceDelegate>)delegate context:(id)context {
-	return [self requestWithPath:path withArgs:nil withDelegate:delegate context: context];
+    return [self requestWithPath:path withArgs:nil withDelegate:delegate context: context];
 }
 
 - (id<OBADataSourceConnection>) requestWithPath:(NSString*)path withArgs:(NSString*)args withDelegate:(id<OBADataSourceDelegate>)delegate context:(id)context {
-	
-	NSURL *feedURL = [_config constructURL:path withArgs:args includeArgs:YES];
-	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:feedURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval: 20];
-	[request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"]; 
-	JsonUrlFetcherImpl * fetcher = [[JsonUrlFetcherImpl alloc] initWithSource:self withDelegate:delegate context:context];
-	@synchronized(self) {
-		[_openConnections addObject:fetcher];
-		[NSURLConnection connectionWithRequest:request delegate:fetcher];
-	}
+    
+    NSURL *feedURL = [_config constructURL:path withArgs:args includeArgs:YES];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:feedURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval: 20];
+    [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"]; 
+    JsonUrlFetcherImpl * fetcher = [[JsonUrlFetcherImpl alloc] initWithSource:self withDelegate:delegate context:context];
+    @synchronized(self) {
+        [_openConnections addObject:fetcher];
+        [NSURLConnection connectionWithRequest:request delegate:fetcher];
+    }
 
-	return fetcher;
+    return fetcher;
 }
 
 - (id<OBADataSourceConnection>) postWithPath:(NSString*)url withArgs:(NSDictionary*)args withDelegate:(NSObject<OBADataSourceDelegate>*)delegate context:(id)context {
-	
-	NSURL *targetUrl = [_config constructURL:url withArgs:nil includeArgs:NO];
-	NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:targetUrl];
-	[postRequest setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
-	[postRequest setHTTPMethod:@"POST"];
-	
-	NSString * formBody = [self constructFormBody:args];
-	[postRequest setHTTPBody:[formBody dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	JsonUrlFetcherImpl * fetcher = [[JsonUrlFetcherImpl alloc] initWithSource:self withDelegate:delegate context:context];
-	fetcher.uploading = YES;
+    
+    NSURL *targetUrl = [_config constructURL:url withArgs:nil includeArgs:NO];
+    NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:targetUrl];
+    [postRequest setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
+    [postRequest setHTTPMethod:@"POST"];
+    
+    NSString * formBody = [self constructFormBody:args];
+    [postRequest setHTTPBody:[formBody dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    JsonUrlFetcherImpl * fetcher = [[JsonUrlFetcherImpl alloc] initWithSource:self withDelegate:delegate context:context];
+    fetcher.uploading = YES;
 
-	@synchronized(self) {
-		[_openConnections addObject:fetcher];		
-		[NSURLConnection connectionWithRequest:postRequest delegate:fetcher];
-	}
-	
-	return fetcher;
+    @synchronized(self) {
+        [_openConnections addObject:fetcher];        
+        [NSURLConnection connectionWithRequest:postRequest delegate:fetcher];
+    }
+    
+    return fetcher;
 }
 
 
 - (id<OBADataSourceConnection>) requestWithPath:(NSString*)url withArgs:(NSString*)args withFileUpload:(NSString*)path withDelegate:(NSObject<OBADataSourceDelegate>*)delegate context:(id)context {
 
-	NSURL *targetUrl = [_config constructURL:url withArgs:args includeArgs:YES];
-	NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:targetUrl];
-	//[postRequest setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
-	
-	//adding header information:
-	[postRequest setHTTPMethod:@"POST"];
-	
-	NSString *stringBoundary = @"0xKhTmLbOuNdArY";
-	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",stringBoundary];
-	[postRequest addValue:contentType forHTTPHeaderField: @"Content-Type"];
-	
-	//setting up the body:
-	NSMutableData *postBody = [NSMutableData data];
-	[postBody appendData:[[NSString stringWithFormat:@"--%@\r\n",stringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[@"Content-Disposition: form-data; name=\"upload\"; filename=\"upload\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	NSData * fileData = [NSData dataWithContentsOfFile:path];
-	[postBody appendData:fileData];
-	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",stringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	[postRequest setHTTPBody:postBody];
-	
-	JsonUrlFetcherImpl * fetcher = [[JsonUrlFetcherImpl alloc] initWithSource:self withDelegate:delegate context:context];
-	fetcher.uploading = YES;
-	@synchronized(self) {
-		[_openConnections addObject:fetcher];		
-		[NSURLConnection connectionWithRequest:postRequest delegate:fetcher];
-	}
-	
-	return fetcher;
+    NSURL *targetUrl = [_config constructURL:url withArgs:args includeArgs:YES];
+    NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:targetUrl];
+    //[postRequest setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
+    
+    //adding header information:
+    [postRequest setHTTPMethod:@"POST"];
+    
+    NSString *stringBoundary = @"0xKhTmLbOuNdArY";
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",stringBoundary];
+    [postRequest addValue:contentType forHTTPHeaderField: @"Content-Type"];
+    
+    //setting up the body:
+    NSMutableData *postBody = [NSMutableData data];
+    [postBody appendData:[[NSString stringWithFormat:@"--%@\r\n",stringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postBody appendData:[@"Content-Disposition: form-data; name=\"upload\"; filename=\"upload\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    [postBody appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    NSData * fileData = [NSData dataWithContentsOfFile:path];
+    [postBody appendData:fileData];
+    [postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",stringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postRequest setHTTPBody:postBody];
+    
+    JsonUrlFetcherImpl * fetcher = [[JsonUrlFetcherImpl alloc] initWithSource:self withDelegate:delegate context:context];
+    fetcher.uploading = YES;
+    @synchronized(self) {
+        [_openConnections addObject:fetcher];        
+        [NSURLConnection connectionWithRequest:postRequest delegate:fetcher];
+    }
+    
+    return fetcher;
 }
 
 - (void) cancelOpenConnections {
-	@synchronized(self) {
-		for( JsonUrlFetcherImpl * connection in _openConnections )
-			[connection cancel];
-		[_openConnections removeAllObjects];
-	}
+    @synchronized(self) {
+        for( JsonUrlFetcherImpl * connection in _openConnections )
+            [connection cancel];
+        [_openConnections removeAllObjects];
+    }
 }
 
 @end
@@ -141,45 +141,45 @@
 @implementation OBAJsonDataSource (Private)
 
 -(void) removeOpenConnection:(JsonUrlFetcherImpl*)connection {
-	@synchronized(self) {
-		[_openConnections removeObject:connection];
-	}
+    @synchronized(self) {
+        [_openConnections removeObject:connection];
+    }
 }
 
 -(NSString*) constructFormBody:(NSDictionary*)args {
-	NSMutableString * body = [NSMutableString string];
-	if( _config.args )
-		[body appendString:_config.args];
-	for (NSString* paramName in args) {
-		id values = args[paramName];
-		if( ! [values isKindOfClass:[NSArray class]] )
-			values = @[values];
-		
-		for( id paramValue in values ) {
-			if( [body length] > 0 )
-				[body appendString:@"&"];
-			[body appendString:paramName];
-			[body appendString:@"="];
-			NSString * stringValue = [self paramValueAsString:paramValue];
-			stringValue = [self escapeParamValue:stringValue];
-			[body appendString:stringValue];
-		}
-	}
-	
-	return body;
+    NSMutableString * body = [NSMutableString string];
+    if( _config.args )
+        [body appendString:_config.args];
+    for (NSString* paramName in args) {
+        id values = args[paramName];
+        if( ! [values isKindOfClass:[NSArray class]] )
+            values = @[values];
+        
+        for( id paramValue in values ) {
+            if( [body length] > 0 )
+                [body appendString:@"&"];
+            [body appendString:paramName];
+            [body appendString:@"="];
+            NSString * stringValue = [self paramValueAsString:paramValue];
+            stringValue = [self escapeParamValue:stringValue];
+            [body appendString:stringValue];
+        }
+    }
+    
+    return body;
 }
-								   
+                                   
 -(NSString*) paramValueAsString:(id)value {
-	if( [value isKindOfClass:[NSString class]] )
-		return value;
-	if( [value isKindOfClass:[NSNumber class]] )
-		return [value stringValue];
-	return [value description];
+    if( [value isKindOfClass:[NSString class]] )
+        return value;
+    if( [value isKindOfClass:[NSNumber class]] )
+        return [value stringValue];
+    return [value description];
 }
 
 - (NSString *) escapeParamValue:(NSString *)s {
-	NSString *reserved = @";/?:@&=+$,";
-	return CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)s, NULL, (CFStringRef)reserved, kCFStringEncodingUTF8));
+    NSString *reserved = @";/?:@&=+$,";
+    return CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)s, NULL, (CFStringRef)reserved, kCFStringEncodingUTF8));
 }
 
 @end
@@ -204,117 +204,117 @@
 
     self = [super init];
 
-	if (self) {
-		self.source = source;
-		self.delegate = delegate;
-		self.context = context;
-		
-		self.jsonData = [[NSMutableData alloc] initWithCapacity:0];
-		self.uploading = NO;
-		self.canceled = NO;
-		
-	}
-	return self;
+    if (self) {
+        self.source = source;
+        self.delegate = delegate;
+        self.context = context;
+        
+        self.jsonData = [[NSMutableData alloc] initWithCapacity:0];
+        self.uploading = NO;
+        self.canceled = NO;
+        
+    }
+    return self;
 }
 
 - (void)cancel {
-	@synchronized(self) {
-		if (self.canceled) {
+    @synchronized(self) {
+        if (self.canceled) {
             return;
         }
-			
-		self.canceled = YES;
-		[self.connection cancel];
-		self.delegate = nil;
-	}
+            
+        self.canceled = YES;
+        [self.connection cancel];
+        self.delegate = nil;
+    }
 }
 
 #pragma mark NSURLConnection Delegate Methods
 
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
-	@synchronized(self) {
-		if( _canceled )
-			return;
-		if( _uploading && [((NSObject*)_delegate) respondsToSelector:@selector(connection:withProgress:)]) {
-			float progress = ((float)totalBytesWritten)/totalBytesExpectedToWrite;
-			[_delegate connection:self withProgress:progress];
-		}
-	}
+    @synchronized(self) {
+        if( _canceled )
+            return;
+        if( _uploading && [((NSObject*)_delegate) respondsToSelector:@selector(connection:withProgress:)]) {
+            float progress = ((float)totalBytesWritten)/totalBytesExpectedToWrite;
+            [_delegate connection:self withProgress:progress];
+        }
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-	@synchronized(self) {
-		if( _canceled )
-			return;
-		
-		NSString * textEncodingName = [response textEncodingName];
-		if( textEncodingName )
-			_responseEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)textEncodingName));
-		else
-			_responseEncoding = NSUTF8StringEncoding;
-		_expectedLength = [response expectedContentLength];
-		[_jsonData setLength:0];
-	}
+    @synchronized(self) {
+        if( _canceled )
+            return;
+        
+        NSString * textEncodingName = [response textEncodingName];
+        if( textEncodingName )
+            _responseEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)textEncodingName));
+        else
+            _responseEncoding = NSUTF8StringEncoding;
+        _expectedLength = [response expectedContentLength];
+        [_jsonData setLength:0];
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSMutableData *)data {
-	@synchronized(self) {
-		if( _canceled )
-			return;
-		[_jsonData appendData:data];
-		if( [((NSObject*)_delegate) respondsToSelector:@selector(connection:withProgress:)] ) {
-			float progress = [_jsonData length];
-			if( _expectedLength > 0 )
-				progress = ((float) [_jsonData length]) / _expectedLength;
-			[_delegate connection:self withProgress:progress];
-		}
-	}
+    @synchronized(self) {
+        if( _canceled )
+            return;
+        [_jsonData appendData:data];
+        if( [((NSObject*)_delegate) respondsToSelector:@selector(connection:withProgress:)] ) {
+            float progress = [_jsonData length];
+            if( _expectedLength > 0 )
+                progress = ((float) [_jsonData length]) / _expectedLength;
+            [_delegate connection:self withProgress:progress];
+        }
+    }
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:OBAApplicationDidCompleteNetworkRequestNotification object:self];
-	
-	@synchronized(self) {
-		
-		if (self.canceled)
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBAApplicationDidCompleteNetworkRequestNotification object:self];
+    
+    @synchronized(self) {
+        
+        if (self.canceled)
         {
             return;
         }
         
-		self.canceled = YES;
+        self.canceled = YES;
 
         NSError *error = nil;
         id jsonObject = [NSJSONSerialization JSONObjectWithData:self.jsonData options:0 error:&error];
 
-		if (error)
+        if (error)
         {
-			[self.delegate connectionDidFail:self withError:error context:self.context];
+            [self.delegate connectionDidFail:self withError:error context:self.context];
         }
-		else
-		{
+        else
+        {
             [self.delegate connectionDidFinishLoading:self withObject:jsonObject context:self.context];
         }
-				
-		[_source removeOpenConnection:self];
-		self.delegate = nil;
-	}
+                
+        [_source removeOpenConnection:self];
+        self.delegate = nil;
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	
-	@synchronized(self) {
-		
-		if (self.canceled) {
+    
+    @synchronized(self) {
+        
+        if (self.canceled) {
             return;
         }
-			
-		self.canceled = YES;
-		
-		[self.delegate connectionDidFail:self withError:error context:self.context];
-		[self.source removeOpenConnection:self];
-		self.delegate = nil;
-	}
+            
+        self.canceled = YES;
+        
+        [self.delegate connectionDidFail:self withError:error context:self.context];
+        [self.source removeOpenConnection:self];
+        self.delegate = nil;
+    }
 }
 
 @end

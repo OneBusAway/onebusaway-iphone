@@ -2,7 +2,7 @@
 
 
 @interface OBAHasReferencesV2 : NSObject {
-	OBAReferencesV2 * _references;
+    OBAReferencesV2 * _references;
 }
 
 - (id) initWithReferences:(OBAReferencesV2*)refs;

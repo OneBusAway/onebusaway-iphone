@@ -24,12 +24,12 @@
 @class OBAModelDAOUserPreferencesImpl;
 
 @interface OBAModelDAO : NSObject {
-	OBAModelDAOUserPreferencesImpl * _preferencesDao;
-	NSMutableArray * _bookmarks;
-	NSMutableArray * _mostRecentStops;
-	NSMutableDictionary * _stopPreferences;
-	CLLocation * _mostRecentLocation;
-	NSMutableSet * _visitedSituationIds;
+    OBAModelDAOUserPreferencesImpl * _preferencesDao;
+    NSMutableArray * _bookmarks;
+    NSMutableArray * _mostRecentStops;
+    NSMutableDictionary * _stopPreferences;
+    CLLocation * _mostRecentLocation;
+    NSMutableSet * _visitedSituationIds;
 }
 
 @property (weak, nonatomic,readonly) NSArray * bookmarks;

@@ -26,8 +26,8 @@
 @dynamic model;
 
 - (NSComparisonResult) compare:(OBAStopAccessEvent*)event {
-	NSComparisonResult r = [self.eventTime compare:event.eventTime];
-	return r == NSOrderedSame ? NSOrderedSame : ( r == NSOrderedAscending ? NSOrderedDescending : NSOrderedAscending);
+    NSComparisonResult r = [self.eventTime compare:event.eventTime];
+    return r == NSOrderedSame ? NSOrderedSame : ( r == NSOrderedAscending ? NSOrderedDescending : NSOrderedAscending);
 }
 
 @end

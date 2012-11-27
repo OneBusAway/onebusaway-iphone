@@ -30,8 +30,8 @@
 
 
 - (void)dealloc {
-	[textView release];
-	textView = nil;
+    [textView release];
+    textView = nil;
 
     [super dealloc];
 }

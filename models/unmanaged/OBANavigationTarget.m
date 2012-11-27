@@ -23,52 +23,52 @@
 @synthesize parameters = _parameters;
 
 - (id) initWithTarget:(OBANavigationTargetType)target {
-	return [self initWithTarget:target parameters:@{}];
+    return [self initWithTarget:target parameters:@{}];
 }
 
 - (id) initWithTarget:(OBANavigationTargetType)target parameters:(NSDictionary*)parameters {
-	if( self = [super init] ) {
-		_target = target;
-		_parameters = [[NSMutableDictionary alloc] initWithDictionary:parameters];
-	}
-	return self;
+    if( self = [super init] ) {
+        _target = target;
+        _parameters = [[NSMutableDictionary alloc] initWithDictionary:parameters];
+    }
+    return self;
 }
 
 - (id) initWithCoder:(NSCoder*)coder {
-	if( self = [super init] ) {
-		
-		NSNumber * target = [coder decodeObjectForKey:@"target"];
-		_target = [target intValue];
+    if( self = [super init] ) {
+        
+        NSNumber * target = [coder decodeObjectForKey:@"target"];
+        _target = [target intValue];
 
-		NSDictionary * dictionary = [coder decodeObjectForKey:@"parameters"];
-		_parameters = [[NSMutableDictionary alloc] initWithDictionary:dictionary];
-	}
-	return self;
+        NSDictionary * dictionary = [coder decodeObjectForKey:@"parameters"];
+        _parameters = [[NSMutableDictionary alloc] initWithDictionary:dictionary];
+    }
+    return self;
 }
 
 + (id) target:(OBANavigationTargetType)target {
-	return [[self alloc] initWithTarget:target];	
+    return [[self alloc] initWithTarget:target];    
 }
 
 + (id) target:(OBANavigationTargetType)target parameters:(NSDictionary*)parameters {
-	return [[self alloc] initWithTarget:target parameters:parameters];
+    return [[self alloc] initWithTarget:target parameters:parameters];
 }
 
 
 
 - (id) parameterForKey:(id)key {
-	return _parameters[key];
+    return _parameters[key];
 }
 
 - (void) setParameter:(id)value forKey:(id)key {
-	_parameters[key] = value;
+    _parameters[key] = value;
 }
 
 #pragma mark NSCoder Methods
 
 - (void) encodeWithCoder: (NSCoder *)coder {
-	[coder encodeObject:[NSNumber numberWithInt:_target] forKey:@"target"];
-	[coder encodeObject:_parameters forKey:@"parameters"];
+    [coder encodeObject:[NSNumber numberWithInt:_target] forKey:@"target"];
+    [coder encodeObject:_parameters forKey:@"parameters"];
 }
 
 

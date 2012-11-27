@@ -30,14 +30,14 @@
 @class OBAStopIconFactory;
 
 @interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate,IASKSettingsDelegate, UITabBarControllerDelegate> {
-	
-	OBAReferencesV2 * _references;
-	OBAModelDAO * _modelDao;
-	OBAModelService * _modelService;
-	
-	OBALocationManager * _locationManager;
+    
+    OBAReferencesV2 * _references;
+    OBAModelDAO * _modelDao;
+    OBAModelService * _modelService;
+    
+    OBALocationManager * _locationManager;
 
-	OBAStopIconFactory * _stopIconFactory;
+    OBAStopIconFactory * _stopIconFactory;
 }
 
 @property(nonatomic, strong) UIWindow *window;
