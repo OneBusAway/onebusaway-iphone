@@ -548,17 +548,16 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id )overlay {
 	
-	MKOverlayView* overlayView = nil;
-	
-	if( [overlay isKindOfClass:[MKPolyline class]] ) {
+	if ([overlay isKindOfClass:[MKPolyline class]]) {
 		MKPolylineView * polylineView  = [[MKPolylineView alloc] initWithPolyline:overlay];
 		polylineView.fillColor = [UIColor blackColor];
 		polylineView.strokeColor = [UIColor blackColor];
 		polylineView.lineWidth = 5;
-		return polylineView;		
+		return polylineView;
 	}
-
-	return overlayView;	
+    else {
+        return nil;
+    }
 }
 
 #pragma mark - UIAlertViewDelegate Methods
