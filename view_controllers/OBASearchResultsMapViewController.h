@@ -55,6 +55,7 @@
 @property(nonatomic,strong) IBOutlet UIBarButtonItem * currentLocationButton;
 @property(nonatomic,strong) IBOutlet UISearchBar *searchBar;
 @property(nonatomic,strong) IBOutlet UIToolbar *toolbar;
+@property(nonatomic,strong) IBOutlet UILabel *mapLabel;
 
 @property (nonatomic,strong) OBASearchResultsMapFilterToolbar * filterToolbar;
 
