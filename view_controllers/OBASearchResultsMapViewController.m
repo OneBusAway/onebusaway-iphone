@@ -58,6 +58,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.5;
 static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 @interface OBASearchResultsMapViewController ()
+@property(strong) OBANetworkErrorAlertViewDelegate *networkErrorAlertViewDelegate;
 @property(strong) OBAMapRegionManager *mapRegionManager;
 @property(strong) OBASearchController *searchController;
 @property(strong) UIView *activityIndicatorWrapper;
@@ -128,7 +129,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void) viewDidLoad {
     [super viewDidLoad];
 
-    _networkErrorAlertViewDelegate = [[OBANetworkErrorAlertViewDelegate alloc] initWithContext:self.appContext];
+    self.networkErrorAlertViewDelegate = [[OBANetworkErrorAlertViewDelegate alloc] initWithContext:self.appContext];
 
     CGRect indicatorBounds = CGRectMake(12, 12, 36, 36);
     self.activityIndicatorWrapper = [[UIView alloc] initWithFrame:indicatorBounds];
@@ -366,7 +367,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         UIAlertView * view = [[UIAlertView alloc] init];
         view.title = NSLocalizedString(@"Error connecting",@"self.navigationItem.title");
         view.message = NSLocalizedString(@"There was a problem with your Internet connection.\n\nPlease check your network connection or contact us if you think the problem is on our end.",@"view.message");
-        view.delegate = _networkErrorAlertViewDelegate;
+        view.delegate = self.networkErrorAlertViewDelegate;
         [view addButtonWithTitle:NSLocalizedString(@"Contact Us",@"view addButtonWithTitle")];
         [view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
         view.cancelButtonIndex = 1;
