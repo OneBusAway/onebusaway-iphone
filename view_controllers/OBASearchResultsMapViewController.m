@@ -60,6 +60,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @interface OBASearchResultsMapViewController ()
 @property MKCoordinateRegion mostRecentRegion;
 @property(strong) CLLocation *mostRecentLocation;
+@property(strong) NSTimer *refreshTimer;
 @property(strong) OBANetworkErrorAlertViewDelegate *networkErrorAlertViewDelegate;
 @property(strong) OBAMapRegionManager *mapRegionManager;
 @property(strong) OBASearchController *searchController;
@@ -149,7 +150,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     CLLocationCoordinate2D p = {0,0};
     self.mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0,0));
     
-    _refreshTimer = nil;
+    self.refreshTimer = nil;
     
     self.mapRegionManager = [[OBAMapRegionManager alloc] initWithMapView:self.mapView];
     self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
@@ -645,12 +646,10 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     self.mostRecentLocation = location;
 
-    if( _refreshTimer ) { 
-        [_refreshTimer invalidate];
-        _refreshTimer = nil;
+    if (self.refreshTimer) {
+        [self.refreshTimer invalidate];
     }
-    
-     _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(refreshStopsInRegion) userInfo:nil repeats:NO];
+    self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(refreshStopsInRegion) userInfo:nil repeats:NO];
 }
                
 - (NSTimeInterval) getRefreshIntervalForLocationAccuracy:(CLLocation*)location {
@@ -668,12 +667,12 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 - (void) refreshStopsInRegion {
-    _refreshTimer = nil;
+    self.refreshTimer = nil;
     
     MKCoordinateRegion region = self.mapView.region;
-    MKCoordinateSpan   span   = region.span;
+    MKCoordinateSpan span = region.span;
 
-    if(span.latitudeDelta > kMaxLatDeltaToShowStops) {
+    if (span.latitudeDelta > kMaxLatDeltaToShowStops) {
         // Reset the most recent region
         CLLocationCoordinate2D p = {0,0};
         self.mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0,0));
