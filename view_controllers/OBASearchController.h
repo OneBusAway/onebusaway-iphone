@@ -69,7 +69,7 @@
 
 
 - (id) initWithAppContext:(OBAApplicationDelegate*)context;
-
+- (BOOL)unfilteredSearch;
 -(void) searchWithTarget:(OBANavigationTarget*)target;
 -(void) searchPending;
 -(OBANavigationTarget*) getSearchTarget;

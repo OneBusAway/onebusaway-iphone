@@ -110,6 +110,12 @@
     self.result = nil;
 }
 
+#pragma mark - Public Methods
+
+- (BOOL)unfilteredSearch {
+    return (self.searchType == OBASearchTypeNone || self.searchType == OBASearchTypePending || self.searchType == OBASearchTypeRegion || self.searchType == OBASearchTypePlacemark);
+}
+
 #pragma mark OBAModelServiceDelegate
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {

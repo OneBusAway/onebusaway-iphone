@@ -118,8 +118,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (id)init {
     self = [super initWithNibName:@"OBASearchResultsMapViewController" bundle:nil];
     
-    if (self)
-    {
+    if (self) {
         self.title = NSLocalizedString(@"Map", @"Map tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Crosshairs"];
     }
@@ -203,11 +202,10 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     [lm startUpdatingLocation];
     self.currentLocationButton.enabled = lm.locationServicesEnabled;
     
-    if (self.searchController.searchType == OBASearchTypeNone ) {
+    if (OBASearchTypeNone == self.searchController.searchType) {
         self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
-        CLLocation* location = lm.currentLocation;
-        if (location) {
-            [self locationManager:lm didUpdateLocation:location];
+        if (lm.currentLocation) {
+            [self locationManager:lm didUpdateLocation:lm.currentLocation];
         }
     }
     
@@ -227,8 +225,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 #pragma mark - UISearchBarDelegate
 
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
-{
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     self.navigationItem.leftBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = nil;
     searchBar.showsCancelButton = YES;
@@ -237,8 +234,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     return YES;
 }
 
-- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
-{
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
     searchBar.showsCancelButton = NO;
     [self animateOutScopeView];
@@ -246,31 +242,24 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     return YES;
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-{
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [searchBar endEditing:YES];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     OBANavigationTarget* target = nil;
-    
-    switch (self.searchTypeSegmentedControl.selectedSegmentIndex) {
-        case kRouteSegmentIndex: {
-            target = [OBASearch getNavigationTargetForSearchRoute:searchBar.text];
-            break;
-        }
-        case kAddressSegmentIndex: {
-            target = [OBASearch getNavigationTargetForSearchAddress:searchBar.text];
-            break;
-        }
-        case kStopNumberSegmentIndex: {
-            target = [OBASearch getNavigationTargetForSearchStopCode:searchBar.text];
-            break;
-        }
+
+    if (kRouteSegmentIndex == self.searchTypeSegmentedControl.selectedSegmentIndex) {
+        target = [OBASearch getNavigationTargetForSearchRoute:searchBar.text];
     }
-    
+    else if (kAddressSegmentIndex == self.searchTypeSegmentedControl.selectedSegmentIndex) {
+        target = [OBASearch getNavigationTargetForSearchAddress:searchBar.text];
+    }
+    else {
+        target = [OBASearch getNavigationTargetForSearchStopCode:searchBar.text];
+    }
+
     [self.appContext navigateToTarget:target];
-    
     [searchBar endEditing:YES];
 }
 
@@ -301,7 +290,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 #pragma mark - OBANavigationTargetAware
 
-- (OBANavigationTarget*) navigationTarget {
+- (OBANavigationTarget*)navigationTarget {
     if (OBASearchTypeRegion == self.searchController.searchType) {
         return [OBASearch getNavigationTargetForSearchLocationRegion:self.mapView.region];
     }
@@ -315,7 +304,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     OBASearchType searchType = [OBASearch getSearchTypeForNagivationTarget:target];
 
     if (OBASearchTypeRegion == searchType) {
-        
         [self.searchController searchPending];
         
         NSDictionary * parameters = target.parameters;
@@ -344,22 +332,20 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     [self reloadData];
 }
 
-- (void) handleSearchControllerError:(NSError*)error {
-
-    NSString * domain = [error domain];
-    
+- (void)handleSearchControllerError:(NSError*)error {
     // We get this message because the user clicked "Don't allow" on using the current location.  Unfortunately,
     // this error gets propagated to us when the app isn't active (because the alert asking about location is).
     
-    if( domain == kCLErrorDomain && [error code] == kCLErrorDenied ) {
+    if (kCLErrorDomain == error.domain && kCLErrorDenied == error.code) {
         [self showLocationServicesAlert];
         return;
     }
     
-    if( ! [self controllerIsVisibleAndActive] )
+    if (!self.controllerIsVisibleAndActive) {
         return;
+    }
     
-    if( [domain isEqual:NSURLErrorDomain] || [domain isEqual:NSPOSIXErrorDomain] ) {
+    if ([error.domain isEqual:NSURLErrorDomain] || [error.domain isEqual:NSPOSIXErrorDomain]) {
         
         // We hide repeated network errors
         if (self.hideFutureNetworkErrors) {
@@ -382,24 +368,24 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 #pragma mark - OBALocationManagerDelegate Methods
 
-- (void) locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
+- (void)locationManager:(OBALocationManager*)manager didUpdateLocation:(CLLocation*)location {
     self.currentLocationButton.enabled = YES;
     [self refreshCurrentLocation];
 }
 
-- (void) locationManager:(OBALocationManager *)manager didFailWithError:(NSError*)error {
-    if( [error domain] == kCLErrorDomain && [error code] == kCLErrorDenied ) {
+- (void)locationManager:(OBALocationManager *)manager didFailWithError:(NSError*)error {
+    if (kCLErrorDomain == error.domain && kCLErrorDenied == error.code) {
         [self showLocationServicesAlert];
     }
 }
 
 #pragma mark - OBAProgressIndicatorDelegate
 
-- (void) progressUpdated {
+- (void)progressUpdated {
     
     id<OBAProgressIndicatorSource> progress = self.searchController.progress;
 
-    if( progress.inProgress ) {
+    if (progress.inProgress) {
         self.activityIndicatorWrapper.hidden = NO;
         [self.activityIndicatorView startAnimating];
     }
@@ -411,7 +397,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 #pragma mark MKMapViewDelegate Methods
 
-- (void) mapView:(MKMapView *)aMapView didAddAnnotationViews:(NSArray *)views {
+- (void)mapView:(MKMapView *)aMapView didAddAnnotationViews:(NSArray *)views {
     for (MKAnnotationView *view in views) {
         if ([view.annotation isKindOfClass:[MKUserLocation class]]) {
             [view.superview bringSubviewToFront:view];
@@ -433,10 +419,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     BOOL applyingPendingRegionChangeRequest = [self.mapRegionManager mapView:mapView regionDidChangeAnimated:animated];
     
-    const OBASearchType searchType = self.searchController.searchType;
-    const BOOL unfilteredSearch = searchType == OBASearchTypeNone || searchType == OBASearchTypePending || searchType == OBASearchTypeRegion || searchType == OBASearchTypePlacemark;
-
-    if (!applyingPendingRegionChangeRequest && unfilteredSearch) {
+    if (!applyingPendingRegionChangeRequest && self.searchController.unfilteredSearch) {
         if (self.mapRegionManager.lastRegionChangeWasProgramatic) {
             OBALocationManager * lm = self.appContext.locationManager;
             double refreshInterval = [self getRefreshIntervalForLocationAccuracy:lm.currentLocation];
@@ -452,14 +435,14 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     OBASearchResult * result = self.searchController.result;
     
-    if( result && result.searchType == OBASearchTypeRouteStops ) {
+    if (result && OBASearchTypeRouteStops == result.searchType) {
         scale = [OBAPresentation computeStopsForRouteAnnotationScaleFactor:mapView.region];
         alpha = scale <= 0.11 ? 0.0 : 1.0;
     }
     
     CGAffineTransform transform = CGAffineTransformMakeScale(scale, scale);
     
-    for( id<MKAnnotation> annotation in mapView.annotations ) {
+    for (id<MKAnnotation> annotation in mapView.annotations) {
         if ([annotation isKindOfClass:[OBAStopV2 class]]) {
             MKAnnotationView * view = [mapView viewForAnnotation:annotation];
             view.transform = transform;
@@ -470,21 +453,21 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
 
-    if( [annotation isKindOfClass:[OBAStopV2 class]] ) {
+    if ([annotation isKindOfClass:[OBAStopV2 class]]) {
         
-        OBAStopV2 * stop = (OBAStopV2*)annotation;
-        static NSString * viewId = @"StopView";
+        OBAStopV2 *stop = (OBAStopV2*)annotation;
+        static NSString *viewId = @"StopView";
         
         MKAnnotationView * view = [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
-        if( view == nil ) {
+        if (!view) {
             view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
         }
         view.canShowCallout = YES;
         view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         
-        OBASearchResult * result = self.searchController.result;
+        OBASearchResult *result = self.searchController.result;
         
-        if( result && result.searchType == OBASearchTypeRouteStops ) {
+        if (result && OBASearchTypeRouteStops == result.searchType) {
             float scale = [OBAPresentation computeStopsForRouteAnnotationScaleFactor:mapView.region];
             float alpha = scale <= 0.11 ? 0.0 : 1.0;
             
@@ -496,25 +479,27 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         view.image = [stopIconFactory getIconForStop:stop];
         return view;
     }
-    else if( [annotation isKindOfClass:[OBAPlacemark class]] ) {
+    else if ([annotation isKindOfClass:[OBAPlacemark class]]) {
         static NSString * viewId = @"NavigationTargetView";
         MKPinAnnotationView * view = (MKPinAnnotationView*) [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
-        if( view == nil ) {
+        if (!view) {
             view = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
         }
         
         view.canShowCallout = YES;
 
-        if( self.searchController.searchType == OBASearchTypeAddress)
+        if (OBASearchTypeAddress == self.searchController.searchType) {
             view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        else
+        }
+        else {
             view.rightCalloutAccessoryView = nil;
+        }
         return view;
     }
-    else if( [annotation isKindOfClass:[OBANavigationTargetAnnotation class]] ) {
+    else if ([annotation isKindOfClass:[OBANavigationTargetAnnotation class]]) {
         static NSString * viewId = @"NavigationTargetView";
         MKPinAnnotationView * view = (MKPinAnnotationView*) [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
-        if( view == nil ) {
+        if (!view) {
             view = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
         }
         
@@ -522,21 +507,23 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         
         view.canShowCallout = YES;
         
-        if( nav.target )
+        if (nav.target) {
             view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        else
+        }
+        else {
             view.rightCalloutAccessoryView = nil;
+        }
         
         return view;
     }
-    else if( [annotation isKindOfClass:[OBAGenericAnnotation class]] ) {
-        
+    else if ([annotation isKindOfClass:[OBAGenericAnnotation class]]) {
+        // TODO: verify that this is actually dead code. I am pretty sure this cannot be hit anymore.
         OBAGenericAnnotation * ga = annotation;
-        if( [@"currentLocation" isEqual:ga.context] ) {
+        if ([@"currentLocation" isEqual:ga.context]) {
             static NSString * viewId = @"CurrentLocationView";
             
             MKAnnotationView * view = [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
-            if( view == nil ) {
+            if (!view) {
                 view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
             }
             view.canShowCallout = NO;
@@ -548,7 +535,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     return nil;
 }
 
-- (void) mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
     
     id annotation = view.annotation;
     
@@ -580,7 +567,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 #pragma mark - UIAlertViewDelegate Methods
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if( buttonIndex == 0 ) {
+    if (0 == buttonIndex) {
         OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
         [self.appContext navigateToTarget:target];
     }
