@@ -104,16 +104,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void)checkNoPlacemarksResults;
 - (void)showNoResultsAlertWithTitle:(NSString*)title prompt:(NSString*)prompt;
 - (BOOL)controllerIsVisibleAndActive;
-
 @end
 
-
 @implementation OBASearchResultsMapViewController
-
-@synthesize appContext = _appContext;
-@synthesize mapView = _mapView;
-@synthesize currentLocationButton = _currentLocationButton;
-@synthesize filterToolbar = _filterToolbar;
 
 - (id)init {
     self = [super initWithNibName:@"OBASearchResultsMapViewController" bundle:nil];
@@ -133,7 +126,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void) viewDidLoad {
     [super viewDidLoad];
 
-    _networkErrorAlertViewDelegate = [[OBANetworkErrorAlertViewDelegate alloc] initWithContext:_appContext];
+    _networkErrorAlertViewDelegate = [[OBANetworkErrorAlertViewDelegate alloc] initWithContext:self.appContext];
 
     CGRect indicatorBounds = CGRectMake(12, 12, 36, 36);
     self.activityIndicatorWrapper = [[UIView alloc] initWithFrame:indicatorBounds];
@@ -153,14 +146,14 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     _refreshTimer = nil;
     
-    _mapRegionManager = [[OBAMapRegionManager alloc] initWithMapView:_mapView];
+    _mapRegionManager = [[OBAMapRegionManager alloc] initWithMapView:self.mapView];
     _mapRegionManager.lastRegionChangeWasProgramatic = YES;
     
     _hideFutureNetworkErrors = NO;
     
     self.filterToolbar = [[OBASearchResultsMapFilterToolbar alloc] initWithDelegate:self andAppContext:self.appContext];
     
-    _searchController = [[OBASearchController alloc] initWithAppContext:_appContext];
+    _searchController = [[OBASearchController alloc] initWithAppContext:self.appContext];
     _searchController.delegate = self;
     _searchController.progress.delegate = self;
 
@@ -198,10 +191,10 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteNetworkRequest) name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
     
-    OBALocationManager * lm = _appContext.locationManager;
+    OBALocationManager * lm = self.appContext.locationManager;
     [lm addDelegate:self];
     [lm startUpdatingLocation];
-    _currentLocationButton.enabled = lm.locationServicesEnabled;
+    self.currentLocationButton.enabled = lm.locationServicesEnabled;
     
     if (_searchController.searchType == OBASearchTypeNone ) {
         _mapRegionManager.lastRegionChangeWasProgramatic = YES;
@@ -219,8 +212,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
     
-    [_appContext.locationManager stopUpdatingLocation];
-    [_appContext.locationManager removeDelegate:self];
+    [self.appContext.locationManager stopUpdatingLocation];
+    [self.appContext.locationManager removeDelegate:self];
 
     [self.filterToolbar hideWithAnimated:NO];
 }
@@ -269,7 +262,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         }
     }
     
-    [_appContext navigateToTarget:target];
+    [self.appContext navigateToTarget:target];
     
     [searchBar endEditing:YES];
 }
@@ -303,7 +296,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (OBANavigationTarget*) navigationTarget {
     if( _searchController.searchType == OBASearchTypeRegion )
-        return [OBASearch getNavigationTargetForSearchLocationRegion:_mapView.region];
+        return [OBASearch getNavigationTargetForSearchLocationRegion:self.mapView.region];
     else
         return [_searchController getSearchTarget];
 }
@@ -381,7 +374,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 #pragma mark - OBALocationManagerDelegate Methods
 
 - (void) locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
-    _currentLocationButton.enabled = YES;
+    self.currentLocationButton.enabled = YES;
     [self refreshCurrentLocation];
 }
 
@@ -436,7 +429,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
     if (!applyingPendingRegionChangeRequest && unfilteredSearch) {
         if( _mapRegionManager.lastRegionChangeWasProgramatic ) {
-            OBALocationManager * lm = _appContext.locationManager;
+            OBALocationManager * lm = self.appContext.locationManager;
             double refreshInterval = [self getRefreshIntervalForLocationAccuracy:lm.currentLocation];
             [self scheduleRefreshOfStopsInRegion:refreshInterval location:lm.currentLocation];
         }
@@ -490,7 +483,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
             view.alpha = alpha;
         }
 
-        OBAStopIconFactory * stopIconFactory = _appContext.stopIconFactory;
+        OBAStopIconFactory * stopIconFactory = self.appContext.stopIconFactory;
         view.image = [stopIconFactory getIconForStop:stop];
         return view;
     }
@@ -552,7 +545,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     if ([annotation isKindOfClass:[OBAStopV2 class]]) {
         OBAStopV2 * stop = annotation;
-        OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stop.stopId];
+        OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:self.appContext stopId:stop.stopId];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if( [annotation isKindOfClass:[OBAPlacemark class]] ) {
@@ -580,7 +573,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if( buttonIndex == 0 ) {
         OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
-        [_appContext navigateToTarget:target];
+        [self.appContext navigateToTarget:target];
     }
 }
 
@@ -599,7 +592,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
     if (result) {
         // Prune down the results to show only what's currently in the map view
-        result = [result resultsInRegion:_mapView.region];
+        result = [result resultsInRegion:self.mapView.region];
     }
 
     OBASearchResultsListViewController *listViewController = [[OBASearchResultsListViewController alloc]initWithContext:self.appContext searchControllerResult:result];
@@ -619,7 +612,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void) refreshCurrentLocation {
     
-    OBALocationManager * lm = _appContext.locationManager;
+    OBALocationManager * lm = self.appContext.locationManager;
     CLLocation * location = lm.currentLocation;
 
     if( location ) {
@@ -635,7 +628,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void) scheduleRefreshOfStopsInRegion:(NSTimeInterval)interval location:(CLLocation*)location {
     
-    MKCoordinateRegion region = _mapView.region;
+    MKCoordinateRegion region = self.mapView.region;
     
     BOOL moreAccurateRegion = _mostRecentLocation != nil && location != nil && location.horizontalAccuracy < _mostRecentLocation.horizontalAccuracy;
     BOOL containedRegion = [OBASphericalGeometryLibrary isRegion:region containedBy:_mostRecentRegion];
@@ -671,7 +664,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void) refreshStopsInRegion {
     _refreshTimer = nil;
     
-    MKCoordinateRegion region = _mapView.region;
+    MKCoordinateRegion region = self.mapView.region;
     MKCoordinateSpan   span   = region.span;
 
     if(span.latitudeDelta > kMaxLatDeltaToShowStops) {
@@ -746,23 +739,23 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 - (CLLocation*) currentLocation {
-    if (_appContext.locationManager.currentLocation) {
-        return _appContext.locationManager.currentLocation;
+    if (self.appContext.locationManager.currentLocation) {
+        return self.appContext.locationManager.currentLocation;
     }
     else if (_searchController.searchLocation) {
         return _searchController.searchLocation;
     }
     else {
-        return [[CLLocation alloc] initWithLatitude:_mapView.centerCoordinate.latitude longitude:_mapView.centerCoordinate.longitude];
+        return [[CLLocation alloc] initWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude];
     }
 }
 
 - (void) showLocationServicesAlert {
 
-    _currentLocationButton.enabled = NO;
+    self.currentLocationButton.enabled = NO;
     
-    if (! [_appContext.modelDao hideFutureLocationWarnings]) {
-        [_appContext.modelDao setHideFutureLocationWarnings:YES];
+    if (! [self.appContext.modelDao hideFutureLocationWarnings]) {
+        [self.appContext.modelDao setHideFutureLocationWarnings:YES];
         
         UIAlertView * view = [[UIAlertView alloc] init];
         view.title = NSLocalizedString(@"Location Services Disabled",@"view.title");
@@ -797,33 +790,33 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     NSMutableArray * toAdd = [[NSMutableArray alloc] init];
     NSMutableArray * toRemove = [[NSMutableArray alloc] init];
     
-    for( id annotation in [_mapView annotations] ) {
+    for( id annotation in [self.mapView annotations] ) {
         if( ! [annotations containsObject:annotation] )
             [toRemove addObject:annotation];
     }
     
     for( id annotation in annotations ) {
-        if( ! [[_mapView annotations] containsObject:annotation] )
+        if( ! [[self.mapView annotations] containsObject:annotation] )
             [toAdd addObject:annotation];
     }
     
     OBALogDebug(@"Annotations to remove: %d",[toRemove count]);
     OBALogDebug(@"Annotations to add: %d", [toAdd count]);
     
-    [_mapView removeAnnotations:toRemove];
-    [_mapView addAnnotations:toAdd];
+    [self.mapView removeAnnotations:toRemove];
+    [self.mapView addAnnotations:toAdd];
     
 }
 
 - (void) setOverlaysFromResults {
-    [_mapView removeOverlays:_mapView.overlays];
+    [self.mapView removeOverlays:self.mapView.overlays];
 
     OBASearchResult * result = _searchController.result;
     
     if( result && result.searchType == OBASearchTypeRouteStops) {
         for( NSString * polylineString in result.additionalValues ) {
             MKPolyline * polyline = [OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString];
-            [_mapView  addOverlay:polyline];
+            [self.mapView  addOverlay:polyline];
         }
     }
 }
@@ -837,7 +830,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         case OBASearchTypeRoute:
             return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Route",@"route"), param];    
         case OBASearchTypeRouteStops: {
-            OBARouteV2 * route = [_appContext.references getRouteForId:param];
+            OBARouteV2 * route = [self.appContext.references getRouteForId:param];
             if( route )
                 return [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Route",@"route") , [route safeShortName]];
             return NSLocalizedString(@"Route",@"route");
@@ -862,7 +855,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (NSString*) computeLabelForCurrentResults {
     OBASearchResult * result = _searchController.result;
     
-    MKCoordinateRegion region = _mapView.region;
+    MKCoordinateRegion region = self.mapView.region;
     MKCoordinateSpan span = region.span;
     
     NSString * defaultLabel = nil;
@@ -918,7 +911,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     if (!result ) {
         *needsUpdate = NO;
-        return _mapView.region;
+        return self.mapView.region;
     }
     
     switch (result.searchType) {
@@ -937,7 +930,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         case OBASearchTypeRegion:
         default:
             *needsUpdate = NO;
-            return _mapView.region;
+            return self.mapView.region;
     }
 }
 
@@ -1041,7 +1034,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
         [bounds addCoordinate:placemark.coordinate];
     
     if( bounds.empty )
-        return _mapView.region;
+        return self.mapView.region;
     
     return bounds.region;
 }
@@ -1060,7 +1053,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 
 - (MKCoordinateRegion) computeRegionForAgenciesWithCoverage:(NSArray*)agenciesWithCoverage {
     if (0 == agenciesWithCoverage.count) {
-        return _mapView.region;
+        return self.mapView.region;
     }
     
     OBACoordinateBounds * bounds = [OBACoordinateBounds bounds];
@@ -1069,7 +1062,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
         [bounds addCoordinate:agencyWithCoverage.coordinate];
     
     if( bounds.empty )
-        return _mapView.region;
+        return self.mapView.region;
     
     MKCoordinateRegion region = bounds.region;
     
@@ -1087,7 +1080,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 - (MKCoordinateRegion) getLocationAsRegion:(CLLocation*)location {
     double radius = MAX(location.horizontalAccuracy,kMinMapRadius);
     MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:location.coordinate latRadius:radius lonRadius:radius];    
-    region = [_mapView regionThatFits:region];
+    region = [self.mapView regionThatFits:region];
     return region;
 }
 
@@ -1157,7 +1150,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 - (BOOL) controllerIsVisibleAndActive {
     
     // Ignore errors if our app isn't currently active
-    if( ! _appContext.active )
+    if( ! self.appContext.active )
         return NO;
     
     // Ignore errors if our view isn't currently on top
