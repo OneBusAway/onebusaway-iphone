@@ -30,8 +30,6 @@
 
 @interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate> {
 
-    CLLocation * _mostRecentLocation;
-    
     NSTimer * _refreshTimer;
     
     BOOL _hideFutureNetworkErrors;

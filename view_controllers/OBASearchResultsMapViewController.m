@@ -59,6 +59,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 @interface OBASearchResultsMapViewController ()
 @property MKCoordinateRegion mostRecentRegion;
+@property(strong) CLLocation *mostRecentLocation;
 @property(strong) OBANetworkErrorAlertViewDelegate *networkErrorAlertViewDelegate;
 @property(strong) OBAMapRegionManager *mapRegionManager;
 @property(strong) OBASearchController *searchController;
@@ -635,15 +636,15 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     MKCoordinateRegion region = self.mapView.region;
     
-    BOOL moreAccurateRegion = _mostRecentLocation != nil && location != nil && location.horizontalAccuracy < _mostRecentLocation.horizontalAccuracy;
+    BOOL moreAccurateRegion = self.mostRecentLocation != nil && location != nil && location.horizontalAccuracy < self.mostRecentLocation.horizontalAccuracy;
     BOOL containedRegion = [OBASphericalGeometryLibrary isRegion:region containedBy:self.mostRecentRegion];
     
     OBALogDebug(@"scheduleRefreshOfStopsInRegion: %f %d %d", interval, moreAccurateRegion, containedRegion);
     if( ! moreAccurateRegion && containedRegion )
         return;
     
-    _mostRecentLocation = [NSObject releaseOld:_mostRecentLocation retainNew:location];
-    
+    self.mostRecentLocation = location;
+
     if( _refreshTimer ) { 
         [_refreshTimer invalidate];
         _refreshTimer = nil;
