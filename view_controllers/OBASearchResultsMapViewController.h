@@ -30,7 +30,6 @@
 
 @interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware,OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate> {
 
-    MKMapView * _mapView;
     OBAMapRegionManager * _mapRegionManager;
     
     OBASearchResultsMapFilterToolbar * _filterToolbar;
