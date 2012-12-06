@@ -67,44 +67,43 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 @interface OBASearchResultsMapViewController (Private)
 
-- (void) refreshCurrentLocation;
+- (void)refreshCurrentLocation;
 
-- (void) scheduleRefreshOfStopsInRegion:(NSTimeInterval)interval location:(CLLocation*)location;
-- (NSTimeInterval) getRefreshIntervalForLocationAccuracy:(CLLocation*)location;
-- (void) refreshStopsInRegion;
-- (void) refreshSearchToolbar;
+- (void)scheduleRefreshOfStopsInRegion:(NSTimeInterval)interval location:(CLLocation*)location;
+- (NSTimeInterval)getRefreshIntervalForLocationAccuracy:(CLLocation*)location;
+- (void)refreshStopsInRegion;
+- (void)refreshSearchToolbar;
 
-- (void) reloadData;
-- (CLLocation*) currentLocation;
+- (void)reloadData;
+- (CLLocation*)currentLocation;
 
-- (void) showLocationServicesAlert;
+- (void)showLocationServicesAlert;
 
-- (void) didCompleteNetworkRequest;
+- (void)didCompleteNetworkRequest;
 
-- (void) setAnnotationsFromResults;
-- (void) setOverlaysFromResults;
-- (void) setRegionFromResults;
+- (void)setAnnotationsFromResults;
+- (void)setOverlaysFromResults;
+- (void)setRegionFromResults;
 
-- (NSString*) computeSearchFilterString;
-- (NSString*) computeLabelForCurrentResults;
+- (NSString*)computeSearchFilterString;
+- (NSString*)computeLabelForCurrentResults;
 
-- (MKCoordinateRegion) computeRegionForCurrentResults:(BOOL*)needsUpdate;
-- (MKCoordinateRegion) computeRegionForStops:(NSArray*)stops;
-- (MKCoordinateRegion) computeRegionForNClosestStops:(NSArray*)stops center:(CLLocation*)location numberOfStops:(NSUInteger)numberOfStops;
-- (MKCoordinateRegion) computeRegionForPlacemarks:(NSArray*)stops;
-- (MKCoordinateRegion) computeRegionForStops:(NSArray*)stops center:(CLLocation*)location;
-- (MKCoordinateRegion) computeRegionForNearbyStops:(NSArray*)stops;
-- (MKCoordinateRegion) computeRegionForPlacemarks:(NSArray*)placemarks andStops:(NSArray*)stops;
-- (MKCoordinateRegion) computeRegionForAgenciesWithCoverage:(NSArray*)agenciesWithCoverage;
+- (MKCoordinateRegion)computeRegionForCurrentResults:(BOOL*)needsUpdate;
+- (MKCoordinateRegion)computeRegionForStops:(NSArray*)stops;
+- (MKCoordinateRegion)computeRegionForNClosestStops:(NSArray*)stops center:(CLLocation*)location numberOfStops:(NSUInteger)numberOfStops;
+- (MKCoordinateRegion)computeRegionForPlacemarks:(NSArray*)stops;
+- (MKCoordinateRegion)computeRegionForStops:(NSArray*)stops center:(CLLocation*)location;
+- (MKCoordinateRegion)computeRegionForNearbyStops:(NSArray*)stops;
+- (MKCoordinateRegion)computeRegionForPlacemarks:(NSArray*)placemarks andStops:(NSArray*)stops;
+- (MKCoordinateRegion)computeRegionForAgenciesWithCoverage:(NSArray*)agenciesWithCoverage;
+- (MKCoordinateRegion)getLocationAsRegion:(CLLocation*)location;
 
-- (MKCoordinateRegion) getLocationAsRegion:(CLLocation*)location;
-
-- (void) checkResults;
-- (BOOL) checkOutOfRangeResults;
-- (void) checkNoRouteResults;
-- (void) checkNoPlacemarksResults;
-- (void) showNoResultsAlertWithTitle:(NSString*)title prompt:(NSString*)prompt;
-- (BOOL) controllerIsVisibleAndActive;
+- (void)checkResults;
+- (BOOL)checkOutOfRangeResults;
+- (void)checkNoRouteResults;
+- (void)checkNoPlacemarksResults;
+- (void)showNoResultsAlertWithTitle:(NSString*)title prompt:(NSString*)prompt;
+- (BOOL)controllerIsVisibleAndActive;
 
 @end
 
@@ -586,10 +585,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 #pragma mark - IBActions
-
-- (void)showInfoPane {
-
-}
 
 - (IBAction)onCrossHairsButton:(id)sender {
     OBALogDebug(@"setting auto center on current location");
