@@ -58,6 +58,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.5;
 static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 @interface OBASearchResultsMapViewController ()
+@property(strong) OBAMapRegionManager *mapRegionManager;
 @property(strong) OBASearchController *searchController;
 @property(strong) UIView *activityIndicatorWrapper;
 @property(strong) UIActivityIndicatorView * activityIndicatorView;
@@ -147,8 +148,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     _refreshTimer = nil;
     
-    _mapRegionManager = [[OBAMapRegionManager alloc] initWithMapView:self.mapView];
-    _mapRegionManager.lastRegionChangeWasProgramatic = YES;
+    self.mapRegionManager = [[OBAMapRegionManager alloc] initWithMapView:self.mapView];
+    self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
     
     _hideFutureNetworkErrors = NO;
     
@@ -198,7 +199,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     self.currentLocationButton.enabled = lm.locationServicesEnabled;
     
     if (self.searchController.searchType == OBASearchTypeNone ) {
-        _mapRegionManager.lastRegionChangeWasProgramatic = YES;
+        self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
         CLLocation* location = lm.currentLocation;
         if (location) {
             [self locationManager:lm didUpdateLocation:location];
@@ -316,7 +317,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         NSData * data = parameters[kOBASearchControllerSearchArgumentParameter];
         MKCoordinateRegion region;
         [data getBytes:&region];
-        [_mapRegionManager setRegion:region changeWasProgramatic:NO];
+        [self.mapRegionManager setRegion:region changeWasProgramatic:NO];
     }
     else {
         [self.searchController searchWithTarget:target];
@@ -329,7 +330,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void)handleSearchControllerStarted:(OBASearchType)searchType {
     if (OBASearchTypeNone != searchType && OBASearchTypeRegion != searchType) {
-        _mapRegionManager.lastRegionChangeWasProgramatic = NO;
+        self.mapRegionManager.lastRegionChangeWasProgramatic = NO;
     }
 }
 
@@ -414,7 +415,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
-    [_mapRegionManager mapView:mapView regionWillChangeAnimated:animated];
+    [self.mapRegionManager mapView:mapView regionWillChangeAnimated:animated];
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
@@ -424,13 +425,13 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         [annotationView.superview bringSubviewToFront:annotationView];
     }
     
-    BOOL applyingPendingRegionChangeRequest = [_mapRegionManager mapView:mapView regionDidChangeAnimated:animated];
+    BOOL applyingPendingRegionChangeRequest = [self.mapRegionManager mapView:mapView regionDidChangeAnimated:animated];
     
     const OBASearchType searchType = self.searchController.searchType;
     const BOOL unfilteredSearch = searchType == OBASearchTypeNone || searchType == OBASearchTypePending || searchType == OBASearchTypeRegion || searchType == OBASearchTypePlacemark;
 
     if (!applyingPendingRegionChangeRequest && unfilteredSearch) {
-        if( _mapRegionManager.lastRegionChangeWasProgramatic ) {
+        if (self.mapRegionManager.lastRegionChangeWasProgramatic) {
             OBALocationManager * lm = self.appContext.locationManager;
             double refreshInterval = [self getRefreshIntervalForLocationAccuracy:lm.currentLocation];
             [self scheduleRefreshOfStopsInRegion:refreshInterval location:lm.currentLocation];
@@ -583,7 +584,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (IBAction)onCrossHairsButton:(id)sender {
     OBALogDebug(@"setting auto center on current location");
-    _mapRegionManager.lastRegionChangeWasProgramatic = YES;
+    self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
     [self refreshCurrentLocation];
 }
 
@@ -618,12 +619,12 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     CLLocation * location = lm.currentLocation;
 
     if( location ) {
-        OBALogDebug(@"refreshCurrentLocation: auto center on current location: %d", _mapRegionManager.lastRegionChangeWasProgramatic);
+        OBALogDebug(@"refreshCurrentLocation: auto center on current location: %d", self.mapRegionManager.lastRegionChangeWasProgramatic);
         
-        if( _mapRegionManager.lastRegionChangeWasProgramatic ) {
+        if (self.mapRegionManager.lastRegionChangeWasProgramatic) {
             double radius = MAX(location.horizontalAccuracy,kMinMapRadius);
             MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:location.coordinate latRadius:radius lonRadius:radius];
-            [_mapRegionManager setRegion:region changeWasProgramatic:YES];
+            [self.mapRegionManager setRegion:region changeWasProgramatic:YES];
         }        
     }
 }
@@ -900,7 +901,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     MKCoordinateRegion region = [self computeRegionForCurrentResults:&needsUpdate];
     if( needsUpdate ) {
         OBALogDebug(@"setRegionFromResults");
-        [_mapRegionManager setRegion:region changeWasProgramatic:NO];
+        [self.mapRegionManager setRegion:region changeWasProgramatic:NO];
     }
 }
 

@@ -28,10 +28,8 @@
 
 @class OBASearchControllerImpl;
 
-@interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware,OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate> {
+@interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate> {
 
-    OBAMapRegionManager * _mapRegionManager;
-    
     OBASearchResultsMapFilterToolbar * _filterToolbar;
     
     OBANetworkErrorAlertViewDelegate * _networkErrorAlertViewDelegate;
