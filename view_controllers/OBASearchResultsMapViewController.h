@@ -30,8 +30,6 @@
 
 @interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate> {
 
-    OBASearchResultsMapFilterToolbar * _filterToolbar;
-    
     OBANetworkErrorAlertViewDelegate * _networkErrorAlertViewDelegate;
     
     MKCoordinateRegion _mostRecentRegion;
