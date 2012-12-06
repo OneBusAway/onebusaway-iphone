@@ -58,6 +58,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.5;
 static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 @interface OBASearchResultsMapViewController ()
+@property(strong) OBASearchController *searchController;
 @property(strong) UIView *activityIndicatorWrapper;
 @property(strong) UIActivityIndicatorView * activityIndicatorView;
 @property(strong) UIButton *locationButton;
@@ -120,7 +121,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 - (void) dealloc {
-    [_searchController cancelOpenConnections];
+    [self.searchController cancelOpenConnections];
 }
 
 - (void) viewDidLoad {
@@ -153,9 +154,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     self.filterToolbar = [[OBASearchResultsMapFilterToolbar alloc] initWithDelegate:self andAppContext:self.appContext];
     
-    _searchController = [[OBASearchController alloc] initWithAppContext:self.appContext];
-    _searchController.delegate = self;
-    _searchController.progress.delegate = self;
+    self.searchController = [[OBASearchController alloc] initWithAppContext:self.appContext];
+    self.searchController.delegate = self;
+    self.searchController.progress.delegate = self;
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lbs_arrow"] style:UIBarButtonItemStyleBordered target:self action:@selector(onCrossHairsButton:)];
 
@@ -196,7 +197,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     [lm startUpdatingLocation];
     self.currentLocationButton.enabled = lm.locationServicesEnabled;
     
-    if (_searchController.searchType == OBASearchTypeNone ) {
+    if (self.searchController.searchType == OBASearchTypeNone ) {
         _mapRegionManager.lastRegionChangeWasProgramatic = YES;
         CLLocation* location = lm.currentLocation;
         if (location) {
@@ -295,19 +296,21 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 #pragma mark - OBANavigationTargetAware
 
 - (OBANavigationTarget*) navigationTarget {
-    if( _searchController.searchType == OBASearchTypeRegion )
+    if (OBASearchTypeRegion == self.searchController.searchType) {
         return [OBASearch getNavigationTargetForSearchLocationRegion:self.mapView.region];
-    else
-        return [_searchController getSearchTarget];
+    }
+    else {
+        return [self.searchController getSearchTarget];
+    }
 }
 
 -(void) setNavigationTarget:(OBANavigationTarget*)target {
     
-    OBASearchType searchType =  [OBASearch getSearchTypeForNagivationTarget:target];
+    OBASearchType searchType = [OBASearch getSearchTypeForNagivationTarget:target];
 
-    if( searchType == OBASearchTypeRegion ) {
+    if (OBASearchTypeRegion == searchType) {
         
-        [_searchController searchPending];
+        [self.searchController searchPending];
         
         NSDictionary * parameters = target.parameters;
         NSData * data = parameters[kOBASearchControllerSearchArgumentParameter];
@@ -316,23 +319,22 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         [_mapRegionManager setRegion:region changeWasProgramatic:NO];
     }
     else {
-        [_searchController searchWithTarget:target];
+        [self.searchController searchWithTarget:target];
     }
-    
-    
+
     [self refreshSearchToolbar];
 }
 
 #pragma mark - OBASearchControllerDelegate Methods
 
-- (void) handleSearchControllerStarted:(OBASearchType)searchType {
-    if( ! (searchType == OBASearchTypeNone || searchType == OBASearchTypeRegion) ) {
+- (void)handleSearchControllerStarted:(OBASearchType)searchType {
+    if (OBASearchTypeNone != searchType && OBASearchTypeRegion != searchType) {
         _mapRegionManager.lastRegionChangeWasProgramatic = NO;
-    }    
+    }
 }
 
-- (void) handleSearchControllerUpdate:(OBASearchResult*)result {
-    self.navigationItem.title = NSLocalizedString(@"Map",@"self.navigationItem.title");
+- (void)handleSearchControllerUpdate:(OBASearchResult*)result {
+    self.navigationItem.title = NSLocalizedString(@"Map", @"self.navigationItem.title");
     [self reloadData];
 }
 
@@ -388,7 +390,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void) progressUpdated {
     
-    id<OBAProgressIndicatorSource> progress = _searchController.progress;
+    id<OBAProgressIndicatorSource> progress = self.searchController.progress;
 
     if( progress.inProgress ) {
         self.activityIndicatorWrapper.hidden = NO;
@@ -424,7 +426,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     BOOL applyingPendingRegionChangeRequest = [_mapRegionManager mapView:mapView regionDidChangeAnimated:animated];
     
-    const OBASearchType searchType = _searchController.searchType;
+    const OBASearchType searchType = self.searchController.searchType;
     const BOOL unfilteredSearch = searchType == OBASearchTypeNone || searchType == OBASearchTypePending || searchType == OBASearchTypeRegion || searchType == OBASearchTypePlacemark;
 
     if (!applyingPendingRegionChangeRequest && unfilteredSearch) {
@@ -441,7 +443,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     float scale = 1.0;
     float alpha = 1.0;
     
-    OBASearchResult * result = _searchController.result;
+    OBASearchResult * result = self.searchController.result;
     
     if( result && result.searchType == OBASearchTypeRouteStops ) {
         scale = [OBAPresentation computeStopsForRouteAnnotationScaleFactor:mapView.region];
@@ -473,7 +475,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         view.canShowCallout = YES;
         view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         
-        OBASearchResult * result = _searchController.result;
+        OBASearchResult * result = self.searchController.result;
         
         if( result && result.searchType == OBASearchTypeRouteStops ) {
             float scale = [OBAPresentation computeStopsForRouteAnnotationScaleFactor:mapView.region];
@@ -496,7 +498,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         
         view.canShowCallout = YES;
 
-        if( _searchController.searchType == OBASearchTypeAddress)
+        if( self.searchController.searchType == OBASearchTypeAddress)
             view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         else
             view.rightCalloutAccessoryView = nil;
@@ -551,7 +553,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     else if( [annotation isKindOfClass:[OBAPlacemark class]] ) {
         OBAPlacemark * placemark = annotation;
         OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
-        [_searchController searchWithTarget:target];
+        [self.searchController searchWithTarget:target];
     }
 }
 
@@ -588,7 +590,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (IBAction)showListView:(id)sender {
 
-    OBASearchResult * result = _searchController.result;
+    OBASearchResult * result = self.searchController.result;
 
     if (result) {
         // Prune down the results to show only what's currently in the map view
@@ -673,7 +675,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         _mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0,0));
         
         OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchNone];
-        [_searchController searchWithTarget:target];
+        [self.searchController searchWithTarget:target];
     } else {
         span.latitudeDelta  *= kRegionScaleFactor;
         span.longitudeDelta *= kRegionScaleFactor;
@@ -682,7 +684,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         _mostRecentRegion = region;
     
         OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchLocationRegion:region];
-        [_searchController searchWithTarget:target];
+        [self.searchController searchWithTarget:target];
     }
 }
 
@@ -700,7 +702,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 - (void) reloadData {
-    OBASearchResult * result = _searchController.result;
+    OBASearchResult * result = self.searchController.result;
     self.navigationItem.rightBarButtonItem.enabled = result != nil;
     
     if( result && result.searchType == OBASearchTypeRoute && [result.values count] > 0) {
@@ -742,8 +744,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     if (self.appContext.locationManager.currentLocation) {
         return self.appContext.locationManager.currentLocation;
     }
-    else if (_searchController.searchLocation) {
-        return _searchController.searchLocation;
+    else if (self.searchController.searchLocation) {
+        return self.searchController.searchLocation;
     }
     else {
         return [[CLLocation alloc] initWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude];
@@ -773,7 +775,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void) setAnnotationsFromResults {
     NSMutableArray * annotations = [[NSMutableArray alloc] init];
     
-    OBASearchResult * result = _searchController.result;
+    OBASearchResult * result = self.searchController.result;
     
     if( result ) {
         [annotations addObjectsFromArray:result.values];
@@ -811,7 +813,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void) setOverlaysFromResults {
     [self.mapView removeOverlays:self.mapView.overlays];
 
-    OBASearchResult * result = _searchController.result;
+    OBASearchResult * result = self.searchController.result;
     
     if( result && result.searchType == OBASearchTypeRouteStops) {
         for( NSString * polylineString in result.additionalValues ) {
@@ -823,8 +825,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (NSString*) computeSearchFilterString {
 
-    OBASearchType type = _searchController.searchType;
-    id param = _searchController.searchParameter;
+    OBASearchType type = self.searchController.searchType;
+    id param = self.searchController.searchParameter;
 
     switch(type) {
         case OBASearchTypeRoute:
@@ -853,7 +855,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 - (NSString*) computeLabelForCurrentResults {
-    OBASearchResult * result = _searchController.result;
+    OBASearchResult * result = self.searchController.result;
     
     MKCoordinateRegion region = self.mapView.region;
     MKCoordinateSpan span = region.span;
@@ -907,7 +909,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     *needsUpdate = YES;
     
-    OBASearchResult *result = _searchController.result;
+    OBASearchResult *result = self.searchController.result;
     
     if (!result ) {
         *needsUpdate = NO;
@@ -1086,7 +1088,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 
 - (void) checkResults {
     
-    OBASearchResult * result = _searchController.result;
+    OBASearchResult * result = self.searchController.result;
     if( ! result )
         return;
     
@@ -1109,21 +1111,21 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 }
 
 - (BOOL) checkOutOfRangeResults {
-    OBASearchResult * result = _searchController.result;
+    OBASearchResult * result = self.searchController.result;
     if( result.outOfRange )
         [self showNoResultsAlertWithTitle: NSLocalizedString(@"Out of range",@"showNoResultsAlertWithTitle") prompt:NSLocalizedString(@"You are outside the OneBusAway service area.",@"prompt")];
     return result.outOfRange;
 }
 
 - (void) checkNoRouteResults {
-    OBASearchResult * result = _searchController.result;
+    OBASearchResult * result = self.searchController.result;
     if( [result.values count] == 0 ) {
         [self showNoResultsAlertWithTitle: NSLocalizedString(@"No routes found",@"showNoResultsAlertWithTitle") prompt:NSLocalizedString(@"No routes were found for your search.",@"prompt")];
     }
 }
 
 - (void) checkNoPlacemarksResults {
-    OBASearchResult * result = _searchController.result;
+    OBASearchResult * result = self.searchController.result;
     if( [result.values count] == 0 ) {
         self.navigationItem.rightBarButtonItem.enabled = NO;
         [self showNoResultsAlertWithTitle: NSLocalizedString(@"No places found",@"showNoResultsAlertWithTitle") prompt:NSLocalizedString(@"No places were found for your search.",@"prompt")];
