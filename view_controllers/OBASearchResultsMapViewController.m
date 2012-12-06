@@ -1102,17 +1102,19 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
     }
 }
 
-- (BOOL) checkOutOfRangeResults {
-    OBASearchResult * result = self.searchController.result;
-    if( result.outOfRange )
-        [self showNoResultsAlertWithTitle: NSLocalizedString(@"Out of range",@"showNoResultsAlertWithTitle") prompt:NSLocalizedString(@"You are outside the OneBusAway service area.",@"prompt")];
-    return result.outOfRange;
+- (BOOL)checkOutOfRangeResults {
+    if (self.searchController.result.outOfRange) {
+        [self showNoResultsAlertWithTitle:NSLocalizedString(@"Out of range",@"showNoResultsAlertWithTitle")
+                                   prompt:NSLocalizedString(@"You are outside the OneBusAway service area.",@"prompt")];
+    }
+
+    return self.searchController.result.outOfRange;
 }
 
-- (void) checkNoRouteResults {
-    OBASearchResult * result = self.searchController.result;
-    if( [result.values count] == 0 ) {
-        [self showNoResultsAlertWithTitle: NSLocalizedString(@"No routes found",@"showNoResultsAlertWithTitle") prompt:NSLocalizedString(@"No routes were found for your search.",@"prompt")];
+- (void)checkNoRouteResults {
+    if (0 == self.searchController.result.values.count) {
+        [self showNoResultsAlertWithTitle:NSLocalizedString(@"No routes found",@"showNoResultsAlertWithTitle")
+                                   prompt:NSLocalizedString(@"No routes were found for your search.",@"prompt")];
     }
 }
 
@@ -1128,31 +1130,30 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 
     self.navigationItem.rightBarButtonItem.enabled = NO;
 
-    if( ! [self controllerIsVisibleAndActive] )
+    if (!self.controllerIsVisibleAndActive) {
         return;
-    
-    UIAlertView * view = [[UIAlertView alloc] init];
-    view.title = title;
-    view.message = [NSString stringWithFormat:@"%@ %@",prompt,NSLocalizedString(@"See the list of supported transit agencies.",@"view.message")];
-    view.delegate = self;
-    [view addButtonWithTitle:NSLocalizedString(@"Agencies",@"OBASearchTypeAgenciesWithCoverage")];
-    [view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
-    view.cancelButtonIndex = 1;
-    [view show];
+    }
+
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                    message:[NSString stringWithFormat:@"%@ %@",prompt,NSLocalizedString(@"See the list of supported transit agencies.",@"view.message")]
+                                                   delegate:self
+                                          cancelButtonTitle:NSLocalizedString(@"Dismiss", @"")
+                                          otherButtonTitles:NSLocalizedString(@"Agencies",@"OBASearchTypeAgenciesWithCoverage"), nil];
+    [alert show];
 }
 
 - (BOOL) controllerIsVisibleAndActive {
-    
-    // Ignore errors if our app isn't currently active
-    if( ! self.appContext.active )
+    if (!self.appContext.active) {
+        // Ignore errors if our app isn't currently active
         return NO;
-    
-    // Ignore errors if our view isn't currently on top
-    UINavigationController * nav = self.navigationController;
-    if( self != [nav visibleViewController])
+    }
+    else if (self != self.navigationController.visibleViewController) {
+        // Ignore errors if our view isn't currently on top
         return NO;
-    
-    return YES;
+    }
+    else {
+        return YES;
+    }
 }    
 
 @end
