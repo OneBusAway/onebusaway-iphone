@@ -58,6 +58,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.5;
 static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 @interface OBASearchResultsMapViewController ()
+@property BOOL hideFutureNetworkErrors;
 @property MKCoordinateRegion mostRecentRegion;
 @property(strong) CLLocation *mostRecentLocation;
 @property(strong) NSTimer *refreshTimer;
@@ -155,7 +156,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     self.mapRegionManager = [[OBAMapRegionManager alloc] initWithMapView:self.mapView];
     self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
     
-    _hideFutureNetworkErrors = NO;
+    self.hideFutureNetworkErrors = NO;
     
     self.filterToolbar = [[OBASearchResultsMapFilterToolbar alloc] initWithDelegate:self andAppContext:self.appContext];
     
@@ -361,15 +362,16 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     if( [domain isEqual:NSURLErrorDomain] || [domain isEqual:NSPOSIXErrorDomain] ) {
         
         // We hide repeated network errors
-        if( _hideFutureNetworkErrors )
+        if (self.hideFutureNetworkErrors) {
             return;
+        }
         
-        _hideFutureNetworkErrors = YES;
+        self.hideFutureNetworkErrors = YES;
         self.navigationItem.title = NSLocalizedString(@"Error connecting",@"self.navigationItem.title");
         
         UIAlertView * view = [[UIAlertView alloc] init];
         view.title = NSLocalizedString(@"Error connecting",@"self.navigationItem.title");
-        view.message = NSLocalizedString(@"There was a problem with your Internet connection.\n\nPlease check your network connection or contact us if you think the problem is on our end.",@"view.message");
+        view.message = NSLocalizedString(@"There was a problem with your Internet connection.\r\n\r\nPlease check your network connection or contact us if you think the problem is on our end.",@"view.message");
         view.delegate = self.networkErrorAlertViewDelegate;
         [view addButtonWithTitle:NSLocalizedString(@"Contact Us",@"view addButtonWithTitle")];
         [view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
@@ -771,8 +773,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     }        
 }
 
-- (void) didCompleteNetworkRequest {
-    _hideFutureNetworkErrors = NO;
+- (void)didCompleteNetworkRequest {
+    self.hideFutureNetworkErrors = NO;
 }
 
 - (void) setAnnotationsFromResults {

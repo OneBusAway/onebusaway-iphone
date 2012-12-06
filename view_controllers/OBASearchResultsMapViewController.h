@@ -28,10 +28,7 @@
 
 @class OBASearchControllerImpl;
 
-@interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate> {
-
-    BOOL _hideFutureNetworkErrors;
-}
+@interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate>
 @property(nonatomic,strong) OBAApplicationDelegate * appContext;
 @property(nonatomic,strong) IBOutlet OBAScopeView *scopeView;
 @property(nonatomic,strong) IBOutlet UISegmentedControl *searchTypeSegmentedControl;
@@ -40,7 +37,6 @@
 @property(nonatomic,strong) IBOutlet UISearchBar *searchBar;
 @property(nonatomic,strong) IBOutlet UIToolbar *toolbar;
 @property(nonatomic,strong) IBOutlet UILabel *mapLabel;
-
 @property (nonatomic,strong) OBASearchResultsMapFilterToolbar * filterToolbar;
 
 - (IBAction)onCrossHairsButton:(id)sender;
