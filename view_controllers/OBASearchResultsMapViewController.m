@@ -58,6 +58,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.5;
 static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 @interface OBASearchResultsMapViewController ()
+@property MKCoordinateRegion mostRecentRegion;
 @property(strong) OBANetworkErrorAlertViewDelegate *networkErrorAlertViewDelegate;
 @property(strong) OBAMapRegionManager *mapRegionManager;
 @property(strong) OBASearchController *searchController;
@@ -145,7 +146,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     [self.view addSubview:self.activityIndicatorWrapper];
 
     CLLocationCoordinate2D p = {0,0};
-    _mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0,0));
+    self.mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0,0));
     
     _refreshTimer = nil;
     
@@ -635,7 +636,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     MKCoordinateRegion region = self.mapView.region;
     
     BOOL moreAccurateRegion = _mostRecentLocation != nil && location != nil && location.horizontalAccuracy < _mostRecentLocation.horizontalAccuracy;
-    BOOL containedRegion = [OBASphericalGeometryLibrary isRegion:region containedBy:_mostRecentRegion];
+    BOOL containedRegion = [OBASphericalGeometryLibrary isRegion:region containedBy:self.mostRecentRegion];
     
     OBALogDebug(@"scheduleRefreshOfStopsInRegion: %f %d %d", interval, moreAccurateRegion, containedRegion);
     if( ! moreAccurateRegion && containedRegion )
@@ -674,7 +675,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     if(span.latitudeDelta > kMaxLatDeltaToShowStops) {
         // Reset the most recent region
         CLLocationCoordinate2D p = {0,0};
-        _mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0,0));
+        self.mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0,0));
         
         OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchNone];
         [self.searchController searchWithTarget:target];
@@ -683,7 +684,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         span.longitudeDelta *= kRegionScaleFactor;
         region.span = span;
     
-        _mostRecentRegion = region;
+        self.mostRecentRegion = region;
     
         OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchLocationRegion:region];
         [self.searchController searchWithTarget:target];
