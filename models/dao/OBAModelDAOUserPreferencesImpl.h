@@ -39,4 +39,7 @@
 - (NSSet*) readVisistedSituationIds;
 - (void) writeVisistedSituationIds:(NSSet*)situationIds;
 
+- (NSDictionary*) readOBARegion;
+- (void) writeOBARegion:(NSDictionary*)oBARegion;
+
 @end

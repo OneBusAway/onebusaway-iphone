@@ -23,7 +23,7 @@ static NSString * kStopPreferencesKey = @"stopPreferences";
 static NSString * kMostRecentLocationKey = @"mostRecentLocation";
 static NSString * kHideFutureLocationWarningsKey = @"hideFutureLocationWarnings";
 static NSString * kVisitedSituationIdsKey = @"hideFutureLocationWarnings";
-
+static NSString * kOBARegionKey = @"oBARegion";
 
 @interface OBAModelDAOUserPreferencesImpl (Private)
 
@@ -169,6 +169,28 @@ static NSString * kVisitedSituationIdsKey = @"hideFutureLocationWarnings";
     [user setObject:data forKey:kVisitedSituationIdsKey];
 }
 
+- (NSDictionary*) readOBARegion {
+	NSDictionary * dictionary = nil;
+	@try {
+		NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+		NSData * data = [user dataForKey:kOBARegionKey];
+		dictionary = [self decodeObjectForKey:kOBARegionKey fromData:data];
+	}
+	@catch (NSException * e) {
+	}
+	
+	if( ! dictionary )
+		dictionary = [[NSDictionary alloc] init];
+	
+	return dictionary;
+}
+
+- (void) writeOBARegion:(NSDictionary *)oBARegion {
+	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+	NSMutableData * data = [NSMutableData data];
+	[self encodeObject:oBARegion forKey:kOBARegionKey toData:data];
+	[user setObject:data forKey:kOBARegionKey];
+}
 
 
 @end
