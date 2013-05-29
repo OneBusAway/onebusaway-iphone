@@ -56,6 +56,7 @@ typedef enum {
     OBAListWithRangeAndReferencesV2 * list = obj;
     _agencies = [[NSMutableArray alloc] initWithArray:list.values];
     [_agencies sortUsingSelector:@selector(compareUsingAgencyName:)];
+    _progressLabel = @"Agencies";
 }
 
 #pragma mark Table view methods
