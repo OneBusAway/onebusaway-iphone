@@ -120,7 +120,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     if (self) {
         self.title = NSLocalizedString(@"Map", @"Map tab title");
-        self.tabBarItem.image = [UIImage imageNamed:@"Crosshairs"];
+        self.tabBarItem.image = [UIImage imageNamed:@"CrossHairs"];
     }
     return self;
 }
