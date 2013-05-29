@@ -129,6 +129,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     [self.searchController cancelOpenConnections];
 }
 
+
+
 - (void) viewDidLoad {
     [super viewDidLoad];
 
@@ -163,7 +165,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     self.searchController.delegate = self;
     self.searchController.progress.delegate = self;
 
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lbs_arrow"] style:UIBarButtonItemStyleBordered target:self action:@selector(onCrossHairsButton:)];
+    self.navigationItem.leftBarButtonItem = [self getArrowButton];
+
 
     self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStyleBordered target:self action:@selector(showListView:)];
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
@@ -223,6 +226,10 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     [self.filterToolbar hideWithAnimated:NO];
 }
 
+- (UIBarButtonItem *)getArrowButton {
+    return [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lbs_arrow"] style:UIBarButtonItemStyleBordered target:self action:@selector(onCrossHairsButton:)];
+}
+
 #pragma mark - UISearchBarDelegate
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
@@ -236,6 +243,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
+    self.navigationItem.leftBarButtonItem = [self getArrowButton];;
     searchBar.showsCancelButton = NO;
     [self animateOutScopeView];
     
@@ -1155,6 +1163,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
         return YES;
     }
 }    
+
 
 @end
 
