@@ -114,7 +114,7 @@
         }
 */ 
         case 2: {
-            NSString *url = [NSString stringWithString: NSLocalizedString(@"http://code.google.com/p/onebusaway-iphone/issues/list",@"didSelectRowAtIndexPath case 2")];
+            NSString *url = [NSString stringWithString: NSLocalizedString(@"https://github.com/OneBusAway/onebusaway-iphone/issues",@"didSelectRowAtIndexPath case 2")];
             [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             break;
         }
