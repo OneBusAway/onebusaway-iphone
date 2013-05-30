@@ -137,6 +137,11 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 
     [self _updateSelectedTabIndex];
     
+    UIColor *tintColor = [UIColor colorWithHue:(86./360.) saturation:0.68 brightness:0.67 alpha:1];
+    [[UINavigationBar appearance] setTintColor:tintColor];
+    [[UISearchBar appearance] setTintColor:tintColor];
+    [[UISegmentedControl appearance] setTintColor:tintColor];
+    
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
 }
