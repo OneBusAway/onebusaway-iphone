@@ -72,7 +72,7 @@
 					<object class="IBUILabel" id="956532839">
 						<reference key="NSNextResponder" ref="752624470"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{10, 44}, {300, 21}}</string>
+						<string key="NSFrame">{{10, 56}, {300, 21}}</string>
 						<reference key="NSSuperview" ref="752624470"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="457191819"/>
@@ -106,7 +106,7 @@
 					<object class="IBUILabel" id="457191819">
 						<reference key="NSNextResponder" ref="752624470"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{10, 73}, {300, 18}}</string>
+						<string key="NSFrame">{{10, 77}, {300, 18}}</string>
 						<reference key="NSSuperview" ref="752624470"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="299199899"/>
@@ -158,7 +158,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<string key="IBUIText">Route</string>
 						<nil key="IBUIHighlightedColor"/>
-						<object class="NSColor" key="IBUIShadowColor">
+						<object class="NSColor" key="IBUIShadowColor" id="788068920">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAxIDEAA</bytes>
 						</object>
@@ -188,10 +188,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<string key="IBUIText">Destination</string>
 						<nil key="IBUIHighlightedColor"/>
-						<object class="NSColor" key="IBUIShadowColor" id="959339680">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MSAxIDEAA</bytes>
-						</object>
+						<reference key="IBUIShadowColor" ref="788068920"/>
 						<string key="IBUIShadowOffset">{0, 0}</string>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
@@ -212,7 +209,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<string key="IBUIText">Minutes</string>
 						<nil key="IBUIHighlightedColor"/>
-						<reference key="IBUIShadowColor" ref="959339680"/>
+						<reference key="IBUIShadowColor" ref="788068920"/>
 						<string key="IBUIShadowOffset">{0, 0}</string>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
@@ -374,17 +371,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">OBAGenericStopViewController</string>
 					<string key="superclassName">UITableViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">onRefreshButton:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">onRefreshButton:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">onRefreshButton:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="mapView">MKMapView</string>
 						<string key="stopName">UILabel</string>
