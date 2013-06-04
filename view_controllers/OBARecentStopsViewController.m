@@ -24,7 +24,7 @@
 @synthesize appContext = _appContext;
 
 - (id)init {
-    self = [super initWithStyle:UITableViewStyleGrouped];
+    self = [super initWithStyle:UITableViewStylePlain];
 
     if (self) {
         self.title = NSLocalizedString(@"Recent", @"Recent stops tab title");

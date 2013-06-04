@@ -81,7 +81,7 @@ static const double kNearbyStopRadius = 200;
 
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext {
 
-    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+    if (self = [super initWithStyle:UITableViewStylePlain]) {
 
         _appContext = appContext;
         
