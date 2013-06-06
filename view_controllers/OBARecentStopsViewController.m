@@ -17,6 +17,7 @@
 #import "OBARecentStopsViewController.h"
 #import "OBAStopAccessEventV2.h"
 #import "OBAStopViewController.h"
+#import "UITableViewController+oba_Additions.h"
 
 
 @implementation OBARecentStopsViewController
@@ -37,6 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _mostRecentStops = [[NSArray alloc] init];
+    [self hideEmptySeparators];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
