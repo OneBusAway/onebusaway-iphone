@@ -11,6 +11,7 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
+		923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */; };
 		9302721616137A47004DBFDE /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 9302721416137A47004DBFDE /* info.png */; };
 		9302721716137A47004DBFDE /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9302721516137A47004DBFDE /* info@2x.png */; };
 		931C42BD160E47FC00435CD3 /* OBAGenericStopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 931C42BC160E47FC00435CD3 /* OBAGenericStopViewController.xib */; };
@@ -370,6 +371,8 @@
 		28A0AB4B0D9B1048005BE974 /* org_onebusaway_iphone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = org_onebusaway_iphone_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		923FE67E176082A7009AFDE8 /* UITableViewController+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewController+oba_Additions.h"; sourceTree = "<group>"; };
+		923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewController+oba_Additions.m"; sourceTree = "<group>"; };
 		9302721416137A47004DBFDE /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = Resources/info.png; sourceTree = "<group>"; };
 		9302721516137A47004DBFDE /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "info@2x.png"; path = "Resources/info@2x.png"; sourceTree = "<group>"; };
 		931C42BC160E47FC00435CD3 /* OBAGenericStopViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAGenericStopViewController.xib; sourceTree = "<group>"; };
@@ -978,6 +981,8 @@
 			children = (
 				931C42C0160E4B2A00435CD3 /* MKMapView+oba_Additions.h */,
 				931C42C1160E4B2A00435CD3 /* MKMapView+oba_Additions.m */,
+				923FE67E176082A7009AFDE8 /* UITableViewController+oba_Additions.h */,
+				923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */,
 			);
 			path = categories;
 			sourceTree = "<group>";
@@ -2169,6 +2174,7 @@
 				931C42C2160E4B2A00435CD3 /* MKMapView+oba_Additions.m in Sources */,
 				931C42CD160F984000435CD3 /* OBAShadowLabel.m in Sources */,
 				93AA8A541622610300B945E7 /* OBARegionChangeRequest.m in Sources */,
+				923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

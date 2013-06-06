@@ -33,6 +33,7 @@
 #import "OBASearchController.h"
 #import "OBASphericalGeometryLibrary.h"
 #import "MKMapView+oba_Additions.h"
+#import "UITableViewController+oba_Additions.h"
 
 static const double kNearbyStopRadius = 200;
 
@@ -131,9 +132,8 @@ static const double kNearbyStopRadius = 200;
     if (self.showTitle) {
         UINib *xibFile = [UINib nibWithNibName:@"OBAGenericStopViewController" bundle:nil];
         [xibFile instantiateWithOwner:self options:nil];
-        
-        self.tableHeaderView.backgroundColor = self.tableView.backgroundColor;        
         self.tableView.tableHeaderView = self.tableHeaderView;
+        [self hideEmptySeparators];
     }
 }
 
@@ -376,6 +376,27 @@ static const double kNearbyStopRadius = 200;
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if ([self sectionTypeForSection:section] == OBAStopSectionTypeActions) {
+        return 30;
+    }
+    return 0;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
+    view.backgroundColor = OBARGBCOLOR(240, 240, 240);
+    return view;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([self sectionTypeForSection:indexPath.section] == OBAStopSectionTypeArrivals) {
+        return 50;
+    }
+    return 44;
+}
+
 @end
 
 
@@ -457,6 +478,7 @@ static const double kNearbyStopRadius = 200;
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = NSLocalizedString(@"No arrivals in the next 30 minutes",@"[arrivals count] == 0");
         cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:18];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
         return cell;
@@ -497,6 +519,7 @@ static const double kNearbyStopRadius = 200;
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
     cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.imageView.image = nil;

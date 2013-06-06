@@ -52,6 +52,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<bool key="IBMKZoomEnabled">NO</bool>
 						<bool key="IBMKScrollEnabled">NO</bool>
+						<bool key="IBMKShowsUserLocation">YES</bool>
 					</object>
 					<object class="IBUIView" id="7875899">
 						<reference key="NSNextResponder" ref="752624470"/>
@@ -147,7 +148,7 @@
 					<object class="IBUILabel" id="1028276993">
 						<reference key="NSNextResponder" ref="752624470"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{19, 113}, {49, 21}}</string>
+						<string key="NSFrame">{{4, 110}, {64, 21}}</string>
 						<reference key="NSSuperview" ref="752624470"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="997315095"/>
@@ -177,7 +178,7 @@
 					<object class="IBUILabel" id="997315095">
 						<reference key="NSNextResponder" ref="752624470"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{115, 113}, {77, 21}}</string>
+						<string key="NSFrame">{{115, 110}, {77, 21}}</string>
 						<reference key="NSSuperview" ref="752624470"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1016813967"/>
@@ -199,7 +200,7 @@
 					<object class="IBUILabel" id="1016813967">
 						<reference key="NSNextResponder" ref="752624470"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{235, 113}, {53, 21}}</string>
+						<string key="NSFrame">{{245, 110}, {53, 21}}</string>
 						<reference key="NSSuperview" ref="752624470"/>
 						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -223,6 +224,10 @@
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="7875899"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
+				<object class="NSColor" key="IBUIBackgroundColor">
+					<int key="NSColorSpace">1</int>
+					<bytes key="NSRGB">MC45NDExNzY0NzA2IDAuOTQxMTc2NDcwNiAwLjk0MTE3NjQ3MDYAA</bytes>
+				</object>
 				<object class="IBUISimulatedSizeMetrics" key="IBUISimulatedDestinationMetrics">
 					<string key="IBUISimulatedSizeMetricsClass">IBUISimulatedFreeformSizeMetricsSentinel</string>
 					<string key="IBUIDisplayName">Freeform</string>
@@ -371,6 +376,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">OBAGenericStopViewController</string>
 					<string key="superclassName">UITableViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">onRefreshButton:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">onRefreshButton:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">onRefreshButton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="mapView">MKMapView</string>
 						<string key="stopName">UILabel</string>
