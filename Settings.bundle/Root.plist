@@ -56,7 +56,7 @@
 			<key>Key</key>
 			<string>oba_api_server</string>
 			<key>DefaultValue</key>
-			<string>api.onebusaway.org</string>
+			<string>api.pugetsound.onebusaway.org</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>KeyboardType</key>

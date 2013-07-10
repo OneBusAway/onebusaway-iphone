@@ -47,7 +47,7 @@ static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 static NSString * kOBAHiddenPreferenceTabOrder = @"OBATabOrder";
 
 static NSString * kOBAPreferenceShowOnStartup = @"oba_show_on_start_preference";
-static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
+static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
 
 static const double kMaxTimeSinceApplicationTerminationToRestoreState = 15 * 60;
 
