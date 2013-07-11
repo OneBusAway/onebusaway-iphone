@@ -535,6 +535,7 @@ static const double kNearbyStopRadius = 200;
     [self determineFilterTypeCellText:cell filteringEnabled:_showFilteredArrivals];
     
     cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryNone;
     
