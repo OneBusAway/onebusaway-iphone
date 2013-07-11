@@ -119,7 +119,7 @@ CGRect IASKCGRectSwap(CGRect rect);
     if (self) {
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
-        _showDoneButton = YES;
+        _showDoneButton = NO;
         // If set to YES, will display credits for InAppSettingsKit creators
         _showCreditsFooter = YES;
     }
@@ -212,6 +212,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 
 - (void)viewWillDisappear:(BOOL)animated {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    [self dismiss:self];
     [super viewWillDisappear:animated];
 }
 

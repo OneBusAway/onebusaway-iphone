@@ -15,7 +15,6 @@
  */
 
 #import <SystemConfiguration/SystemConfiguration.h>
-#import <Crashlytics/Crashlytics.h>
 #import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
 #import "OBALogger.h"
@@ -36,7 +35,7 @@ static NSString * kOBAHiddenPreferenceSavedNavigationTargets = @"OBASavedNavigat
 static NSString * kOBAHiddenPreferenceApplicationLastActiveTimestamp = @"OBAApplicationLastActiveTimestamp";
 static NSString * kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
-static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
+static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
 
 @interface OBAApplicationDelegate ()
 @property(nonatomic,readwrite) BOOL active;
@@ -151,7 +150,6 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [FlurryAnalytics startSession:@"HDQ7ZPV2NJR6CX75NSYJ"];
-    [Crashlytics startWithAPIKey:@"c84d1b759118d7506fea035b497a567d26a1c67b"];
     [self _migrateUserPreferences];
     [self _constructUI];
 
@@ -198,8 +196,8 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
 #pragma mark IASKSettingsDelegate
 
 - (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
-    [sender dismissViewControllerAnimated:YES completion:nil];
     [self refreshSettings];
+    
 }
 
 - (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget {
