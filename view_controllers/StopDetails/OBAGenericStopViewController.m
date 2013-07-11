@@ -29,6 +29,7 @@
 #import "OBAArrivalAndDepartureViewController.h"
 #import "OBATripDetailsViewController.h"
 #import "OBAReportProblemViewController.h"
+#import "OBAStopIconFactory.h"
 
 #import "OBASearchController.h"
 #import "OBASphericalGeometryLibrary.h"
@@ -109,6 +110,8 @@ static const double kNearbyStopRadius = 200;
         _showFilteredArrivals = YES;
         
         self.navigationItem.title = NSLocalizedString(@"Stop",@"stop");
+        
+
         
         [self customSetup];
     }
@@ -245,6 +248,30 @@ static const double kNearbyStopRadius = 200;
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
     [_progressView setInProgress:YES progress:progress];
 }
+
+#pragma mark 
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    
+    if ([annotation isKindOfClass:[OBAStopV2 class]]) {
+        
+        OBAStopV2 *stop = (OBAStopV2*)annotation;
+        static NSString *viewId = @"StopView";
+        
+        MKAnnotationView * view = [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
+        if (!view) {
+            view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
+        }
+        view.canShowCallout = NO;
+        
+
+        OBAStopIconFactory * stopIconFactory = self.appContext.stopIconFactory;
+        view.image = [stopIconFactory getIconForStop:stop];
+        return view;
+    }
+    return nil;
+}
+
 
 #pragma mark - UITableViewDelegate and UITableViewDataSource
 
@@ -644,6 +671,8 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
         else {
            self.stopNumber.text = [NSString stringWithFormat:@"%@ # %@",NSLocalizedString(@"Stop",@"text"),stop.code];
         }
+        [_mapView addAnnotation:stop];
+
     }
     
     if (stop && predictedArrivals) {
