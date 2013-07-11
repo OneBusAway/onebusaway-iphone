@@ -112,7 +112,7 @@
 "Hiding" = "Masquage de"; /* Vérifier contexte */
 
 /* didSelectRowAtIndexPath case 2 */
-"http://code.google.com/p/onebusaway-iphone/issues/list" = "http://code.google.com/p/onebusaway-iphone/issues/list";
+"https://github.com/OneBusAway/onebusaway-iphone/issues" = "https://github.com/OneBusAway/onebusaway-iphone/issues";
 
 /* cell.textLabel.text case 0 */
 "http://twitter.com/onebusaway" = "http://twitter.com/onebusaway";
