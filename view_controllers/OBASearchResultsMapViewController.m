@@ -793,7 +793,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     NSMutableArray * toRemove = [[NSMutableArray alloc] init];
     
     for( id annotation in [self.mapView annotations] ) {
-        if( ! [annotations containsObject:annotation] )
+        if( ! [annotations containsObject:annotation] && [annotation class] != MKUserLocation.class)
             [toRemove addObject:annotation];
     }
     
