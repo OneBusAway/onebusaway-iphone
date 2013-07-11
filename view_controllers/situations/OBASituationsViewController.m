@@ -30,6 +30,13 @@
     return self;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [UIColor whiteColor];
+}
+
 
 #pragma mark -
 #pragma mark View lifecycle

@@ -19,7 +19,7 @@
 #import "OBATextFieldTableViewCell.h"
 #import "OBARoute.h"
 #import "OBAStopViewController.h"
-
+#import "UITableViewController+oba_Additions.h"
 
 @implementation OBAEditStopBookmarkViewController
 
@@ -54,6 +54,11 @@
     return self;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self hideEmptySeparators];
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

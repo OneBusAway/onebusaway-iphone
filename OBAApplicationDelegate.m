@@ -120,7 +120,7 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
     self.mapViewController = [[OBASearchResultsMapViewController alloc] init];
     self.mapViewController.appContext = self;
     self.mapNavigationController = [[UINavigationController alloc] initWithRootViewController:self.mapViewController];
-
+    
     self.recentsViewController = [[OBARecentStopsViewController alloc] init];
     self.recentsViewController.appContext = self;
     self.recentsNavigationController = [[UINavigationController alloc] initWithRootViewController:self.recentsViewController];
@@ -128,7 +128,7 @@ static NSString * kOBADefaultApiServerName = @"api.onebusaway.org";
     self.bookmarksViewController = [[OBABookmarksViewController alloc] init];
     self.bookmarksViewController.appContext = self;
     self.bookmarksNavigationController = [[UINavigationController alloc] initWithRootViewController:self.bookmarksViewController];
-
+    
     self.infoViewController = [[OBAInfoViewController alloc] init];
     self.infoNavigationController = [[UINavigationController alloc] initWithRootViewController:self.infoViewController];
 
