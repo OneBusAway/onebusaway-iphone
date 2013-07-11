@@ -212,6 +212,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 
 - (void)viewWillDisappear:(BOOL)animated {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    [self dismiss:self];
     [super viewWillDisappear:animated];
 }
 
