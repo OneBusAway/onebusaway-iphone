@@ -311,7 +311,7 @@ static const double kNearbyStopRadius = 200;
             return 1;
         }
         case OBAStopSectionTypeActions: {
-            return 3;
+            return 4;
         }
         default: {
             return 0;
@@ -557,6 +557,11 @@ static const double kNearbyStopRadius = 200;
             break;
         }
         case 1: {
+            cell.textLabel.text = NSLocalizedString(@"Filter & Sort Routes",@"case 1");
+
+            break;
+        }
+        case 2: {
             if (_serviceAlerts.totalCount == 0) {
                 cell.textLabel.text = @"Service Alerts";
             }
@@ -579,7 +584,7 @@ static const double kNearbyStopRadius = 200;
             return cell;
             break;
         }
-        case 2: {
+        case 3: {
             cell.textLabel.text = NSLocalizedString(@"Report a Problem",@"self.navigationItem.title");
             break;
         }
@@ -612,14 +617,19 @@ static const double kNearbyStopRadius = 200;
             
             break;
         }
-
         case 1: {
+            OBAEditStopPreferencesViewController * vc = [[OBAEditStopPreferencesViewController alloc] initWithApplicationContext:_appContext stop:_result.stop];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+
+        case 2: {
             NSArray * situations = _result.situations;
             [OBAPresentation showSituations:situations withAppContext:_appContext navigationController:self.navigationController args:nil];
             break;
         }
 
-        case 2: {
+        case 3: {
             OBAReportProblemViewController * vc = [[OBAReportProblemViewController alloc] initWithApplicationContext:_appContext stop:_result.stop];
             [self.navigationController pushViewController:vc animated:YES];
             
