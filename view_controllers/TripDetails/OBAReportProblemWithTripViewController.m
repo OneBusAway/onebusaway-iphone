@@ -76,7 +76,10 @@ typedef enum {
 #pragma mark UIViewController
 
 -(void)viewDidLoad {
+    [super viewDidLoad];
     self.navigationItem.backBarButtonItem.title = NSLocalizedString(@"Problem",@"self.navigationItem.backBarButtonItem.title");
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [UIColor whiteColor];
 }
 
 #pragma mark Table view methods

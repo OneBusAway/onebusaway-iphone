@@ -69,6 +69,12 @@ typedef enum {
     return self;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [UIColor whiteColor];
+}
 
 #pragma mark -
 #pragma mark Table view data source

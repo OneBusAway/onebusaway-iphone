@@ -19,13 +19,13 @@
 #import "OBATextFieldTableViewCell.h"
 #import "OBARoute.h"
 #import "OBAStopViewController.h"
-
+#import "UITableViewController+oba_Additions.h"
 
 @implementation OBAEditStopBookmarkViewController
 
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType {
 
-    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+    if (self = [super initWithStyle:UITableViewStylePlain]) {
         self.tableView.scrollEnabled = NO;
 
         _appContext = appContext;
@@ -54,6 +54,11 @@
     return self;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self hideEmptySeparators];
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

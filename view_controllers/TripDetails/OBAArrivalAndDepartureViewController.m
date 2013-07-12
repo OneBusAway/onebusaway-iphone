@@ -50,6 +50,13 @@ typedef enum {
     return self;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [UIColor whiteColor];
+}
+
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
     self = [self initWithApplicationContext:appContext arrivalAndDepartureInstance:arrivalAndDeparture.instance];
     _arrivalAndDeparture = arrivalAndDeparture;

@@ -18,6 +18,7 @@
 #import "OBALogger.h"
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBAStopViewController.h"
+#import "UITableViewController+oba_Additions.h"
 
 
 @interface OBABookmarksViewController ()
@@ -31,7 +32,7 @@
 
 - (id)init
 {
-    self = [super initWithStyle:UITableViewStyleGrouped];
+    self = [super initWithStyle:UITableViewStylePlain];
 
     if (self)
     {
@@ -43,6 +44,7 @@
 }
 
 - (void)viewDidLoad {
+    [self hideEmptySeparators];
     [super viewDidLoad];
 }
 

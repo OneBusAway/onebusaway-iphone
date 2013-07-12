@@ -29,10 +29,12 @@
 #import "OBAArrivalAndDepartureViewController.h"
 #import "OBATripDetailsViewController.h"
 #import "OBAReportProblemViewController.h"
+#import "OBAStopIconFactory.h"
 
 #import "OBASearchController.h"
 #import "OBASphericalGeometryLibrary.h"
 #import "MKMapView+oba_Additions.h"
+#import "UITableViewController+oba_Additions.h"
 
 static const double kNearbyStopRadius = 200;
 
@@ -81,7 +83,7 @@ static const double kNearbyStopRadius = 200;
 
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext {
 
-    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+    if (self = [super initWithStyle:UITableViewStylePlain]) {
 
         _appContext = appContext;
         
@@ -109,6 +111,8 @@ static const double kNearbyStopRadius = 200;
         
         self.navigationItem.title = NSLocalizedString(@"Stop",@"stop");
         
+
+        
         [self customSetup];
     }
     return self;
@@ -131,9 +135,8 @@ static const double kNearbyStopRadius = 200;
     if (self.showTitle) {
         UINib *xibFile = [UINib nibWithNibName:@"OBAGenericStopViewController" bundle:nil];
         [xibFile instantiateWithOwner:self options:nil];
-        
-        self.tableHeaderView.backgroundColor = self.tableView.backgroundColor;        
         self.tableView.tableHeaderView = self.tableHeaderView;
+        [self hideEmptySeparators];
     }
 }
 
@@ -245,6 +248,30 @@ static const double kNearbyStopRadius = 200;
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
     [_progressView setInProgress:YES progress:progress];
 }
+
+#pragma mark 
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    
+    if ([annotation isKindOfClass:[OBAStopV2 class]]) {
+        
+        OBAStopV2 *stop = (OBAStopV2*)annotation;
+        static NSString *viewId = @"StopView";
+        
+        MKAnnotationView * view = [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
+        if (!view) {
+            view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
+        }
+        view.canShowCallout = NO;
+        
+
+        OBAStopIconFactory * stopIconFactory = self.appContext.stopIconFactory;
+        view.image = [stopIconFactory getIconForStop:stop];
+        return view;
+    }
+    return nil;
+}
+
 
 #pragma mark - UITableViewDelegate and UITableViewDataSource
 
@@ -376,6 +403,27 @@ static const double kNearbyStopRadius = 200;
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if ([self sectionTypeForSection:section] == OBAStopSectionTypeActions) {
+        return 30;
+    }
+    return 0;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
+    view.backgroundColor = OBARGBCOLOR(240, 240, 240);
+    return view;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([self sectionTypeForSection:indexPath.section] == OBAStopSectionTypeArrivals) {
+        return 50;
+    }
+    return 44;
+}
+
 @end
 
 
@@ -457,6 +505,7 @@ static const double kNearbyStopRadius = 200;
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = NSLocalizedString(@"No arrivals in the next 30 minutes",@"[arrivals count] == 0");
         cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:18];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
         return cell;
@@ -486,6 +535,7 @@ static const double kNearbyStopRadius = 200;
     [self determineFilterTypeCellText:cell filteringEnabled:_showFilteredArrivals];
     
     cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryNone;
     
@@ -497,6 +547,7 @@ static const double kNearbyStopRadius = 200;
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
     cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.imageView.image = nil;
@@ -623,7 +674,7 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
     [_filteredArrivals removeAllObjects];
     
     if (stop) {
-        [self.mapView oba_setCenterCoordinate:CLLocationCoordinate2DMake(stop.lat, stop.lon) zoomLevel:13 animated:NO];
+        [self.mapView oba_setCenterCoordinate:CLLocationCoordinate2DMake(stop.lat, stop.lon) zoomLevel:15 animated:NO];
         self.stopName.text = stop.name;
         if (stop.direction) {
             self.stopNumber.text = [NSString stringWithFormat:@"%@ # %@ - %@ %@",NSLocalizedString(@"Stop",@"text"),stop.code,stop.direction,NSLocalizedString(@"bound",@"text")];
@@ -631,6 +682,8 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
         else {
            self.stopNumber.text = [NSString stringWithFormat:@"%@ # %@",NSLocalizedString(@"Stop",@"text"),stop.code];
         }
+        [_mapView addAnnotation:stop];
+
     }
     
     if (stop && predictedArrivals) {
