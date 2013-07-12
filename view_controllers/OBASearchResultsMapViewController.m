@@ -111,6 +111,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void)checkNoPlacemarksResults;
 - (void)showNoResultsAlertWithTitle:(NSString*)title prompt:(NSString*)prompt;
 - (BOOL)controllerIsVisibleAndActive;
+- (void)cancelSearchSelection;
 @end
 
 @implementation OBASearchResultsMapViewController
@@ -269,6 +270,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
     [self.appContext navigateToTarget:target];
     [searchBar endEditing:YES];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelSearchSelection)];
+
 }
 
 - (void)animateInScopeView {
@@ -1164,6 +1167,10 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
     }
 }    
 
+- (void)cancelSearchSelection {
+    self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
+    [self.searchController searchWithTarget:nil];;
+}
 
 @end
 
