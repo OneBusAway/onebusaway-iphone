@@ -111,7 +111,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void)checkNoPlacemarksResults;
 - (void)showNoResultsAlertWithTitle:(NSString*)title prompt:(NSString*)prompt;
 - (BOOL)controllerIsVisibleAndActive;
-- (void)cancelSearchSelection;
 @end
 
 @implementation OBASearchResultsMapViewController
@@ -247,12 +246,13 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     self.navigationItem.leftBarButtonItem = [self getArrowButton];;
     searchBar.showsCancelButton = NO;
     [self animateOutScopeView];
-    
+
     return YES;
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [searchBar endEditing:YES];
+    [self.searchController searchWithTarget:nil];;
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -270,7 +270,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
     [self.appContext navigateToTarget:target];
     [searchBar endEditing:YES];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelSearchSelection)];
 
 }
 
@@ -578,7 +577,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 #pragma mark - UIAlertViewDelegate Methods
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (0 == buttonIndex) {
+    if (1 == buttonIndex) {
         OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
         [self.appContext navigateToTarget:target];
     }
@@ -1167,10 +1166,6 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
     }
 }    
 
-- (void)cancelSearchSelection {
-    self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
-    [self.searchController searchWithTarget:nil];;
-}
 
 @end
 
