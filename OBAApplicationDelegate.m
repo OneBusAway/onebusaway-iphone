@@ -201,7 +201,23 @@ static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
     [self.mapNavigationController popToRootViewControllerAnimated:NO];
     
     if (OBANavigationTargetTypeSearchResults == navigationTarget.target) {
+        [self.tabBarController setSelectedViewController:self.mapNavigationController];
         self.mapViewController.navigationTarget = navigationTarget;
+    }
+    else if (OBANavigationTargetTypeContactUs == navigationTarget.target) {
+        [self.tabBarController setSelectedViewController:self.infoNavigationController];
+        [self.infoViewController tableView:self.infoViewController.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    }
+    else if (OBANavigationTargetTypeSettings == navigationTarget.target) {
+        [self.tabBarController setSelectedViewController:self.infoNavigationController];
+        [self.infoViewController tableView:self.infoViewController.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    }
+    else if (OBANavigationTargetTypeAgencies == navigationTarget.target) {
+        [self.tabBarController setSelectedViewController:self.infoNavigationController];
+        [self.infoViewController tableView:self.infoViewController.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+    }
+    else if (OBANavigationTargetTypeBookmarks == navigationTarget.target) {
+        [self.tabBarController setSelectedViewController:self.bookmarksNavigationController];
     }
     else {
         NSLog(@"Unhandled target in %s: %d", __PRETTY_FUNCTION__, navigationTarget.target);
