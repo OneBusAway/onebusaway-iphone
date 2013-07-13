@@ -121,7 +121,7 @@ CGRect IASKCGRectSwap(CGRect rect);
         self.tableView.dataSource = self;
         _showDoneButton = NO;
         // If set to YES, will display credits for InAppSettingsKit creators
-        _showCreditsFooter = YES;
+        _showCreditsFooter = NO;
     }
     return self;
 }
