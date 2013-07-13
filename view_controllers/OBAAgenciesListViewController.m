@@ -195,9 +195,7 @@ typedef enum {
 
 - (void) didSelectActionsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
-    [self dismissViewControllerAnimated:YES completion:^{
-        [_appContext navigateToTarget:target];
-    }];
+    [_appContext navigateToTarget:target];
 }
 
 - (void) didSelectAgencyRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
