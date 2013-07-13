@@ -246,12 +246,14 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     self.navigationItem.leftBarButtonItem = [self getArrowButton];;
     searchBar.showsCancelButton = NO;
     [self animateOutScopeView];
-    
+
     return YES;
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [searchBar endEditing:YES];
+    [self.searchController searchWithTarget:nil];
+    [self refreshStopsInRegion];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -269,6 +271,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
     [self.appContext navigateToTarget:target];
     [searchBar endEditing:YES];
+
 }
 
 - (void)animateInScopeView {
@@ -364,6 +367,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         self.navigationItem.title = NSLocalizedString(@"Error connecting",@"self.navigationItem.title");
         
         UIAlertView * view = [[UIAlertView alloc] init];
+        view.tag = 1;
         view.title = NSLocalizedString(@"Error connecting",@"self.navigationItem.title");
         view.message = NSLocalizedString(@"There was a problem with your Internet connection.\r\n\r\nPlease check your network connection or contact us if you think the problem is on our end.",@"view.message");
         view.delegate = self.networkErrorAlertViewDelegate;
@@ -575,10 +579,12 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 #pragma mark - UIAlertViewDelegate Methods
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (0 == buttonIndex) {
+    if (alertView.tag == 1 &&  buttonIndex == 0) {
+        
+    } else if (alertView.tag == 2 && buttonIndex == 0) {
         OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
         [self.appContext navigateToTarget:target];
-    }
+    } 
 }
 
 #pragma mark - IBActions
@@ -793,7 +799,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     NSMutableArray * toRemove = [[NSMutableArray alloc] init];
     
     for( id annotation in [self.mapView annotations] ) {
-        if( ! [annotations containsObject:annotation] )
+        if( ! [annotations containsObject:annotation] && [annotation class] != MKUserLocation.class)
             [toRemove addObject:annotation];
     }
     
@@ -1142,11 +1148,14 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
         return;
     }
 
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:[NSString stringWithFormat:@"%@ %@",prompt,NSLocalizedString(@"See the list of supported transit agencies.",@"view.message")]
-                                                   delegate:self
-                                          cancelButtonTitle:NSLocalizedString(@"Dismiss", @"")
-                                          otherButtonTitles:NSLocalizedString(@"Agencies",@"OBASearchTypeAgenciesWithCoverage"), nil];
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    alert.tag = 2;
+    alert.title = title;
+    alert.message = [NSString stringWithFormat:@"%@ %@",prompt,NSLocalizedString(@"See the list of supported transit agencies.",@"view.message")];
+    alert.delegate = self;
+    [alert addButtonWithTitle:NSLocalizedString(@"Agencies",@"OBASearchTypeAgenciesWithCoverage")];
+    [alert addButtonWithTitle:NSLocalizedString(@"Dismiss", @"")];
+    alert.cancelButtonIndex = 1;
     [alert show];
 }
 
