@@ -62,7 +62,7 @@
         case 2:
             return NSLocalizedString(@"Report bugs",@"titleForHeaderInSection case 2");
         case 3:
-            return NSLocalizedString(@"Receive beta releases",@"titleForHeaderInSection case 3");
+            return NSLocalizedString(@"Help test OneBusAway",@"titleForHeaderInSection case 3");
         default:
             return nil;
     }
@@ -91,7 +91,7 @@
             cell.textLabel.text = NSLocalizedString(@"OneBusAway Issue Tracker",@"cell.textLabel.text case 2");
             break;
         case 3:
-            cell.textLabel.text = NSLocalizedString(@"Sign up for Beta releases",@"cell.textLabel.text case 3");
+            cell.textLabel.text = NSLocalizedString(@"Sign up for beta releases",@"cell.textLabel.text case 3");
             break;
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
