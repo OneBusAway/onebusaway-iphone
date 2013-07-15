@@ -88,7 +88,7 @@
             break;
  */
         case 2:
-            cell.textLabel.text = NSLocalizedString(@"OneBusAway Issue Tracker",@"cell.textLabel.text case 2");
+            cell.textLabel.text = NSLocalizedString(@"OneBusAway issue tracker",@"cell.textLabel.text case 2");
             break;
         case 3:
             cell.textLabel.text = NSLocalizedString(@"Sign up for beta releases",@"cell.textLabel.text case 3");
