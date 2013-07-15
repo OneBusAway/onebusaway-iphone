@@ -30,7 +30,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableHeaderView = self.headerView;
 }
 
@@ -89,7 +90,8 @@
             pushMe = [[IASKAppSettingsViewController alloc] init];
             pushMe.title = NSLocalizedString(@"Settings", @"");
             ((IASKAppSettingsViewController*)pushMe).delegate = APP_DELEGATE;
-
+            ((IASKAppSettingsViewController*)pushMe).tableView.backgroundView = nil;
+            ((IASKAppSettingsViewController*)pushMe).tableView.backgroundColor = [UIColor whiteColor];
             break;
         }
         case kAgenciesRow: {
