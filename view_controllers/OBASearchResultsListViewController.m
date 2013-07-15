@@ -20,6 +20,7 @@
 #import "OBAAgencyWithCoverageV2.h"
 #import "OBASearchResultsMapViewController.h"
 #import "OBAStopViewController.h"
+#import "UITableViewController+oba_Additions.h"
 
 
 @interface OBASearchResultsListViewController (Private)
@@ -52,6 +53,7 @@
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, -0.25f * height, 1, height)];
     line.backgroundColor = [UIColor grayColor];
     [self.view addSubview:line];
+    [self hideEmptySeparators];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

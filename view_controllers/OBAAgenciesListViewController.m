@@ -42,6 +42,8 @@ typedef enum {
 -(void) viewDidLoad {
     self.refreshable = NO;
     self.showUpdateTime = NO;
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [UIColor whiteColor];
 }
 
 - (BOOL) isLoading {

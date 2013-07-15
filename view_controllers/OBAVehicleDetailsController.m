@@ -40,6 +40,12 @@ typedef enum {
     return self;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [UIColor whiteColor];
+}
 
 - (BOOL) isLoading {
     return _vehicleStatus == nil;

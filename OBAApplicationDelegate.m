@@ -119,7 +119,7 @@ static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
     self.mapViewController = [[OBASearchResultsMapViewController alloc] init];
     self.mapViewController.appContext = self;
     self.mapNavigationController = [[UINavigationController alloc] initWithRootViewController:self.mapViewController];
-
+    
     self.recentsViewController = [[OBARecentStopsViewController alloc] init];
     self.recentsViewController.appContext = self;
     self.recentsNavigationController = [[UINavigationController alloc] initWithRootViewController:self.recentsViewController];
@@ -127,7 +127,7 @@ static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
     self.bookmarksViewController = [[OBABookmarksViewController alloc] init];
     self.bookmarksViewController.appContext = self;
     self.bookmarksNavigationController = [[UINavigationController alloc] initWithRootViewController:self.bookmarksViewController];
-
+    
     self.infoViewController = [[OBAInfoViewController alloc] init];
     self.infoNavigationController = [[UINavigationController alloc] initWithRootViewController:self.infoViewController];
 
@@ -135,6 +135,12 @@ static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
     self.tabBarController.delegate = self;
 
     [self _updateSelectedTabIndex];
+    
+    UIColor *tintColor = [UIColor colorWithHue:(86./360.) saturation:0.68 brightness:0.67 alpha:1];
+    [[UINavigationBar appearance] setTintColor:tintColor];
+    [[UISearchBar appearance] setTintColor:tintColor];
+    [[UISegmentedControl appearance] setTintColor:tintColor];
+    [[UITabBar appearance] setSelectedImageTintColor:tintColor];
     
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
