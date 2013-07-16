@@ -47,29 +47,26 @@
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    return 2;
 }
 
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    if (section == 0) {
+        return 2;
+    } else
+    {
+        return 3;
+    }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     switch(section) {
         case 0:
-            return NSLocalizedString(@"Twitter - Latest News",@"titleForHeaderInSection case 0");
+            return NSLocalizedString(@"Contact us",@"titleForHeaderInSection case 0");
         case 1:
-            return NSLocalizedString(@"Email",@"titleForHeaderInSection case 1");
-/*            
-        case 2:
-            return @"Idescale Feedback";
- */
-        case 2:
-            return NSLocalizedString(@"Report bugs",@"titleForHeaderInSection case 2");
-        case 3:
-            return NSLocalizedString(@"Help test OneBusAway",@"titleForHeaderInSection case 3");
+            return NSLocalizedString(@"More",@"titleForHeaderInSection case 1");
         default:
             return nil;
     }
@@ -81,25 +78,28 @@
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.imageView.image = nil;
     
-    switch( indexPath.section ) {
+    switch( indexPath.row) {
         case 0:
-            cell.textLabel.text = NSLocalizedString(@"http://twitter.com/onebusaway",@"case 0");
+            if (indexPath.section == 0) {
+                cell.textLabel.text = NSLocalizedString(@"contact@onebusaway.org",@"cell.textLabel.text case 0");
+            } else
+            {
+                cell.textLabel.text = NSLocalizedString(@"Sign up for beta releases",@"cell.textLabel.text case 0");
+            }
             break;
         case 1:
-            cell.textLabel.text = NSLocalizedString(@"contact@onebusaway.org",@"cell.textLabel.text case 1");
+            if (indexPath.section == 0) {
+                cell.textLabel.text = NSLocalizedString(@"http://twitter.com/onebusaway",@"case 1");
+            } else
+            {
+                cell.textLabel.text = NSLocalizedString(@"OneBusAway issue tracker",@"cell.textLabel.text case 1");
+            }
             break;
-/*
         case 2:
-            cell.textLabel.text = @"Submit an Idea";
-            cell.imageView.image = [UIImage imageNamed:@"Lightbulb.png"];
+            cell.textLabel.text = NSLocalizedString(@"Privacy Policy",@"cell.textLabel.text case 2");
+
             break;
- */
-        case 2:
-            cell.textLabel.text = NSLocalizedString(@"OneBusAway issue tracker",@"cell.textLabel.text case 2");
-            break;
-        case 3:
-            cell.textLabel.text = NSLocalizedString(@"Sign up for beta releases",@"cell.textLabel.text case 3");
-            break;
+
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
@@ -107,37 +107,36 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch(indexPath.section) {
-        case 0: {
-            NSString *url = [NSString stringWithString: NSLocalizedString(@"http://twitter.com/onebusaway",@"case 0")];
-            [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+    switch( indexPath.row) {
+        case 0:
+            if (indexPath.section == 0) {
+                NSString *url = [NSString stringWithString: NSLocalizedString(@"mailto:contact@onebusaway.org",@"didSelectRowAtIndexPath case 1")];
+                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+            } else
+            {
+                NSString *url = [NSString stringWithString: NSLocalizedString(@"https://testflightapp.com/join/f3ba0330e6f87e3459f4090bb2adccf0-MjEwOTYz/",@"didSelectRowAtIndexPath case 3")];
+                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+            }
             break;
-            
-        }
-        case 1: {
-            NSString *url = [NSString stringWithString: NSLocalizedString(@"mailto:contact@onebusaway.org",@"didSelectRowAtIndexPath case 1")];
-            [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
-            break;        
-        }
-/*            
-        case 2: {
-            [[ISFeedback sharedInstance] pushOntoViewController:self];
+        case 1:
+            if (indexPath.section == 0) {
+                NSString *url = [NSString stringWithString: NSLocalizedString(@"http://twitter.com/onebusaway",@"case 0")];
+                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];            } else
+            {
+                NSString *url = [NSString stringWithString: NSLocalizedString(@"https://github.com/OneBusAway/onebusaway-iphone/issues",@"didSelectRowAtIndexPath case 2")];
+                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+            }
             break;
-        }
-*/ 
-        case 2: {
-            NSString *url = [NSString stringWithString: NSLocalizedString(@"https://github.com/OneBusAway/onebusaway-iphone/issues",@"didSelectRowAtIndexPath case 2")];
+        case 2:
+        {
+            NSString *url = [NSString stringWithString: NSLocalizedString(@"http://pugetsound.onebusaway.org/p/PrivacyPolicy.action",@"didSelectRowAtIndexPath case 3")];
             [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
-            break;
         }
-        case 3: {
-            NSString *url = [NSString stringWithString: NSLocalizedString(@"https://testflightapp.com/join/f3ba0330e6f87e3459f4090bb2adccf0-MjEwOTYz/",@"didSelectRowAtIndexPath case 3")];
-            [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             break;
-        }
-            
             
     }
+    
+
 }
 
 #pragma mark OBANavigationTargetAware

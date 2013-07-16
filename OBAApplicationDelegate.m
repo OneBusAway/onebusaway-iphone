@@ -149,7 +149,6 @@ static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [FlurryAnalytics startSession:@"HDQ7ZPV2NJR6CX75NSYJ"];
     [self _migrateUserPreferences];
     [self _constructUI];
 
