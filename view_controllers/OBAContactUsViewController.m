@@ -64,7 +64,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     switch(section) {
         case 0:
-            return NSLocalizedString(@"Contact us",@"titleForHeaderInSection case 0");
+            return NSLocalizedString(@"Contact Us",@"titleForHeaderInSection case 0");
         case 1:
             return NSLocalizedString(@"More",@"titleForHeaderInSection case 1");
         default:
