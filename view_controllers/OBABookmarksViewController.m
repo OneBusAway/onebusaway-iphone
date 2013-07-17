@@ -39,6 +39,7 @@
         self.title = NSLocalizedString(@"Bookmarks", @"Bookmarks tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Bookmarks"];
         self.bookmarks = [NSArray array];
+        self.tableView.allowsSelectionDuringEditing = YES;
     }
     return self;
 }
