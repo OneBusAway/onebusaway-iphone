@@ -96,7 +96,7 @@
             }
             break;
         case 2:
-            cell.textLabel.text = NSLocalizedString(@"Privacy Policy",@"cell.textLabel.text case 2");
+            cell.textLabel.text = NSLocalizedString(@"Privacy policy",@"cell.textLabel.text case 2");
 
             break;
 
