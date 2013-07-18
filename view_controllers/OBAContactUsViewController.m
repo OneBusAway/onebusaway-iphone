@@ -57,7 +57,7 @@
         return 2;
     } else
     {
-        return 3;
+        return 2;
     }
 }
 
@@ -84,7 +84,7 @@
                 cell.textLabel.text = NSLocalizedString(@"contact@onebusaway.org",@"cell.textLabel.text case 0");
             } else
             {
-                cell.textLabel.text = NSLocalizedString(@"Sign up for beta releases",@"cell.textLabel.text case 0");
+                cell.textLabel.text = NSLocalizedString(@"OneBusAway issue tracker",@"cell.textLabel.text case 1");
             }
             break;
         case 1:
@@ -92,11 +92,11 @@
                 cell.textLabel.text = NSLocalizedString(@"http://twitter.com/onebusaway",@"case 1");
             } else
             {
-                cell.textLabel.text = NSLocalizedString(@"OneBusAway issue tracker",@"cell.textLabel.text case 1");
+                cell.textLabel.text = NSLocalizedString(@"Privacy policy",@"cell.textLabel.text case 2");
+
             }
             break;
         case 2:
-            cell.textLabel.text = NSLocalizedString(@"Privacy policy",@"cell.textLabel.text case 2");
 
             break;
 
@@ -114,7 +114,7 @@
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             } else
             {
-                NSString *url = [NSString stringWithString: NSLocalizedString(@"https://testflightapp.com/join/f3ba0330e6f87e3459f4090bb2adccf0-MjEwOTYz/",@"didSelectRowAtIndexPath case 3")];
+                NSString *url = [NSString stringWithString: NSLocalizedString(@"https://github.com/OneBusAway/onebusaway-iphone/issues",@"didSelectRowAtIndexPath case 2")];
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             }
             break;
@@ -123,14 +123,13 @@
                 NSString *url = [NSString stringWithString: NSLocalizedString(@"http://twitter.com/onebusaway",@"case 0")];
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];            } else
             {
-                NSString *url = [NSString stringWithString: NSLocalizedString(@"https://github.com/OneBusAway/onebusaway-iphone/issues",@"didSelectRowAtIndexPath case 2")];
+                NSString *url = [NSString stringWithString: NSLocalizedString(@"http://pugetsound.onebusaway.org/p/PrivacyPolicy.action",@"didSelectRowAtIndexPath case 3")];
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             }
             break;
         case 2:
         {
-            NSString *url = [NSString stringWithString: NSLocalizedString(@"http://pugetsound.onebusaway.org/p/PrivacyPolicy.action",@"didSelectRowAtIndexPath case 3")];
-            [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+
         }
             break;
             
