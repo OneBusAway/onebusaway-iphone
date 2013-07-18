@@ -109,6 +109,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (BOOL)checkOutOfRangeResults;
 - (void)checkNoRouteResults;
 - (void)checkNoPlacemarksResults;
+- (void)checkNoStopIdResults;
+
 - (void)showNoResultsAlertWithTitle:(NSString*)title prompt:(NSString*)prompt;
 - (BOOL)controllerIsVisibleAndActive;
 @end
@@ -582,7 +584,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     if (alertView.tag == 1 &&  buttonIndex == 0) {
         
     } else if (alertView.tag == 2 && buttonIndex == 0) {
-        OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
+        OBANavigationTarget * target = [OBANavigationTarget target:OBANavigationTargetTypeAgencies];;
         [self.appContext navigateToTarget:target];
     } 
 }
@@ -1111,6 +1113,10 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
             if( ! [self checkOutOfRangeResults] )
                 [self checkNoPlacemarksResults];
             break;
+        case OBASearchTypeStopId:
+            if( ! [self checkOutOfRangeResults] )
+                [self checkNoStopIdResults];
+            break;
         default:
             break;
     }
@@ -1129,6 +1135,13 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
     if (0 == self.searchController.result.values.count) {
         [self showNoResultsAlertWithTitle:NSLocalizedString(@"No routes found",@"showNoResultsAlertWithTitle")
                                    prompt:NSLocalizedString(@"No routes were found for your search.",@"prompt")];
+    }
+}
+
+- (void)checkNoStopIdResults {
+    if (0 == self.searchController.result.values.count) {
+        [self showNoResultsAlertWithTitle:NSLocalizedString(@"No stops found",@"showNoResultsAlertWithTitle")
+                                   prompt:NSLocalizedString(@"No stops were found for your search.",@"prompt")];
     }
 }
 
