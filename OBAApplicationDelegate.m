@@ -47,7 +47,6 @@ static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
 - (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults;
 - (void) _migrateUserPreferences;
 - (NSString *)applicationDocumentsDirectory;
-- (void)_updateSelectedTabIndex;
 @end
 
 @implementation OBAApplicationDelegate
@@ -132,9 +131,8 @@ static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
     self.infoNavigationController = [[UINavigationController alloc] initWithRootViewController:self.infoViewController];
 
     self.tabBarController.viewControllers = @[self.mapNavigationController, self.recentsNavigationController, self.bookmarksNavigationController, self.infoNavigationController];
-    self.tabBarController.delegate = self;
 
-    [self _updateSelectedTabIndex];
+    self.tabBarController.selectedIndex = 0;
     
     UIColor *tintColor = [UIColor colorWithHue:(86./360.) saturation:0.68 brightness:0.67 alpha:1];
     [[UINavigationBar appearance] setTintColor:tintColor];
@@ -169,28 +167,14 @@ static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     self.active = YES;
-    self.tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     self.active = NO;
 }
 
-#pragma mark - UITabBarControllerDelegate
 
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    [[NSUserDefaults standardUserDefaults] setInteger:tabBarController.selectedIndex forKey:kOBASelectedTabIndexDefaultsKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
 
-- (void)_updateSelectedTabIndex {
-    NSInteger selectedIndex = 0;
-
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:kOBASelectedTabIndexDefaultsKey]) {
-        selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
-    }
-    self.tabBarController.selectedIndex = selectedIndex;
-}
 
 #pragma mark IASKSettingsDelegate
 
