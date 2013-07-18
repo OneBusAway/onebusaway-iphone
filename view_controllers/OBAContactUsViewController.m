@@ -24,7 +24,7 @@
 
 - (id)init {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-        self.title = NSLocalizedString(@"Contact Us", @"Contact us tab title");
+        self.title = NSLocalizedString(@"Contact Us & More", @"Contact us tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"ContactUs"];
     }
     return self;
