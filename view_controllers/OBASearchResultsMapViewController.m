@@ -112,6 +112,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void)checkNoStopIdResults;
 
 - (void)showNoResultsAlertWithTitle:(NSString*)title prompt:(NSString*)prompt;
+
+- (void)cancelPressed;
 - (BOOL)controllerIsVisibleAndActive;
 @end
 
@@ -188,6 +190,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     labelLayer.shadowOpacity = 0.2;
     labelLayer.shadowOffset = CGSizeMake(0,0);
     labelLayer.shadowRadius = 7;
+
 }
 
 - (void)onFilterClear {
@@ -201,19 +204,12 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     self.navigationItem.title = NSLocalizedString(@"Map",@"self.navigationItem.title");
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteNetworkRequest) name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
-    
+
     OBALocationManager * lm = self.appContext.locationManager;
     [lm addDelegate:self];
     [lm startUpdatingLocation];
     self.currentLocationButton.enabled = lm.locationServicesEnabled;
-    
-    if (OBASearchTypeNone == self.searchController.searchType) {
-        self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
-        if (lm.currentLocation) {
-            [self locationManager:lm didUpdateLocation:lm.currentLocation];
-        }
-    }
-    
+
     [self refreshSearchToolbar];
 }
 
@@ -254,8 +250,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [searchBar endEditing:YES];
-    [self.searchController searchWithTarget:nil];
-    [self refreshStopsInRegion];
+    [self cancelPressed];
+
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -718,6 +714,10 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         return;
     }
     
+    if (result && result.searchType == OBASearchTypeAgenciesWithCoverage) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPressed)];
+    }
+    
     //[self refreshCurrentLocation];
     [self setAnnotationsFromResults];
     [self setOverlaysFromResults];
@@ -1170,6 +1170,14 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
     [alert addButtonWithTitle:NSLocalizedString(@"Dismiss", @"")];
     alert.cancelButtonIndex = 1;
     [alert show];
+}
+
+- (void) cancelPressed
+{
+    [self.searchController searchWithTarget:[OBASearch getNavigationTargetForSearchNone]];
+    [self refreshStopsInRegion];
+    self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
+    
 }
 
 - (BOOL) controllerIsVisibleAndActive {
