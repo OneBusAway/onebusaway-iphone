@@ -19,17 +19,13 @@
 
 static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 
-#if TARGET_IPHONE_SIMULATOR
-static const BOOL kUseLocationTraceInSimulator = NO;
-#endif
+
 
 @interface OBALocationManager (Private)
 
 -(void) handleNewLocation:(CLLocation*)location;
 
-#if TARGET_IPHONE_SIMULATOR
--(void) handleSimulatedLocationTrace;
-#endif    
+
 
 @end
 
@@ -47,10 +43,6 @@ static const BOOL kUseLocationTraceInSimulator = NO;
         _locationManager.delegate = self;
         _delegates = [[NSMutableArray alloc] init];
         
-        
-#if TARGET_IPHONE_SIMULATOR
-        _currentLocation = [[CLLocation alloc] initWithLatitude:  47.653435121376894 longitude: -122.3056411743164];
-#endif
     }
     return self;
 }
@@ -94,28 +86,6 @@ static const BOOL kUseLocationTraceInSimulator = NO;
     
     _disabled = NO;
     [_modelDao setHideFutureLocationWarnings:NO];
-
-#if TARGET_IPHONE_SIMULATOR
-    
-    if ( kUseLocationTraceInSimulator ) {
-        
-        NSBundle *bundle = [NSBundle mainBundle];
-        NSString * path = [bundle pathForResource:@"LocationTrace" ofType:@"plist"];
-        _locationTrace = [NSArray arrayWithContentsOfFile:path];
-        _locationTraceIndex = 0;
-        [self handleSimulatedLocationTrace];
-        return;
-    }
-    else {
-         
-        //newLocation = [[[CLLocation alloc] initWithLatitude:47.677553240051175 longitude: -122.31267894201659] autorelease]; // Roosevelt HS
-        //newLocation = [[[CLLocation alloc] initWithLatitude:47.66869649992775  longitude:-122.377610206604] autorelease]; // Ballard
-        newLocation = [[CLLocation alloc] initWithLatitude:  47.653435121376894 longitude: -122.3056411743164]; // UW CSE
-        //newLocation = [[[CLLocation alloc] initWithLatitude:  47.60983759756863 longitude: -122.33782768249512] autorelease];        
-    }
-    
-#endif
-    
     [self handleNewLocation:newLocation];
 }
 
@@ -170,43 +140,6 @@ static const BOOL kUseLocationTraceInSimulator = NO;
             [delegate locationManager:self didUpdateLocation:_currentLocation];
     }    
 }
-
-
-#if TARGET_IPHONE_SIMULATOR
-
--(void) handleSimulatedLocationTrace {
-    if( ! _locationTrace )
-        return;
-    if( _locationTraceIndex >= [_locationTrace count] )
-        return;
-    
-    NSDictionary * record = _locationTrace[_locationTraceIndex];
-    
-    NSNumber * lat = record[@"lat"];
-    NSNumber * lon = record[@"lon"];
-    NSNumber * accuracy = record[@"accuracy"];
-    NSNumber * time = record[@"time"];
-    
-    CLLocationCoordinate2D point = { [lat doubleValue], [lon doubleValue] };
-    CLLocation * newLocation = [[CLLocation alloc] initWithCoordinate:point
-                                                             altitude:0
-                                                   horizontalAccuracy:[accuracy doubleValue]
-                                                     verticalAccuracy:0
-                                                            timestamp:[NSDate date]];
-
-    [self handleNewLocation:newLocation];
-
-    _locationTraceIndex++;
-    if( _locationTraceIndex < [_locationTrace count] ) { 
-        NSDictionary * record2 = _locationTrace[_locationTraceIndex];
-        NSNumber * time2 = record2[@"time"];
-        NSTimeInterval interval = [time2 doubleValue] - [time doubleValue];
-        interval = MAX(interval,0);
-        [self performSelector:@selector(handleSimulatedLocationTrace) withObject:nil afterDelay:interval];
-    }
-}
-
-#endif
 
 @end
 
