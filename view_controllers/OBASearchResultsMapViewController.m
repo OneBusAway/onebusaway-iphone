@@ -269,7 +269,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
     [self.appContext navigateToTarget:target];
     [searchBar endEditing:YES];
-
+    
 }
 
 - (void)animateInScopeView {
@@ -1192,8 +1192,27 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
     else {
         return YES;
     }
+    
 }    
 
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (_searchBar.isFirstResponder)
+        [self searchBarCancelButtonClicked:_searchBar];
+}
+-(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    
+}
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    
+}
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    
+}
 
 @end
 
