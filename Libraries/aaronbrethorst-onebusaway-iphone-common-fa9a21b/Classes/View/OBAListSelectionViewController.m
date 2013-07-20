@@ -1,4 +1,5 @@
 #import "OBAListSelectionViewController.h"
+#import "UITableViewController+oba_Additions.h"
 
 
 @implementation OBAListSelectionViewController
@@ -12,14 +13,20 @@
 @synthesize exitOnSelection;
 
 - (id)initWithValues:(NSArray*)values selectedIndex:(NSIndexPath*)selectedIndex {
-    if ((self = [super initWithStyle:UITableViewStyleGrouped])) {
+    if ((self = [super initWithStyle:UITableViewStylePlain])) {
         _values = values;
         _checkedItem = selectedIndex;
     }
     return self;
 }
 
+- (void)viewDidLoad
+{
+    [self hideEmptySeparators];
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [UIColor whiteColor];
 
+}
 
 #pragma mark Table view data source
 
@@ -38,19 +45,15 @@
     
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.accessoryType = [self checkedItem] == indexPath ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    cell.accessoryType = [self checkedItem].row == indexPath.row ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     cell.textLabel.text = _values[indexPath.row];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    if (indexPath == [self checkedItem]) {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        return;
-    }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [[tableView cellForRowAtIndexPath:indexPath] setAccessoryType:UITableViewCellAccessoryCheckmark];
