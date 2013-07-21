@@ -73,7 +73,8 @@
         cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = NSLocalizedString(@"No bookmarks set",@"[_bookmarks count] == 0");
         cell.textLabel.textAlignment = UITextAlignmentCenter;
-        cell.accessoryType = UITableViewCellAccessoryNone;        
+        cell.textLabel.font = [UIFont systemFontOfSize:18];
+        cell.accessoryType = UITableViewCellAccessoryNone;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     else {
@@ -85,7 +86,7 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([self class])];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-
+        cell.textLabel.font = [UIFont systemFontOfSize:18];
         cell.textLabel.text = bookmark.name ? bookmark.name : @"NO NAME";
     }
 

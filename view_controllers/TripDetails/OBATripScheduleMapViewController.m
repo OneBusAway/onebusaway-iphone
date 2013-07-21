@@ -50,6 +50,7 @@ static const NSString * kShapeContext = @"ShapeContext";
     _timeFormatter = [[NSDateFormatter alloc] init];
     [_timeFormatter setDateStyle:NSDateFormatterNoStyle];
     [_timeFormatter setTimeStyle:NSDateFormatterShortStyle];
+    self.navigationItem.rightBarButtonItem.accessibilityLabel = NSLocalizedString(@"List", @"self.navigationItem.rightBarButtonItem.accessibilityLabel");
     
     UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Schedule",@"initWithTitle") style:UIBarButtonItemStyleBordered target:nil action:nil];
     self.navigationItem.backBarButtonItem = backItem;

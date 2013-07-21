@@ -121,22 +121,7 @@ typedef enum {
     }
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    
-    if( [self isLoading] )
-        return nil;
-    
-    OBASectionType sectionType = [self sectionTypeForSection:section];
-    
-    switch (sectionType) {
-        case OBASectionTypeSchedule:
-            return NSLocalizedString(@"Trip Details:",@"OBASectionTypeSchedule");
-        case OBASectionTypeActions:
-            return NSLocalizedString(@"Actions:",@"OBASectionTypeActions");
-        default:
-            return nil;
-    }
-}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -239,6 +224,7 @@ typedef enum {
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
     
     switch (indexPath.row) {
         case 0:
@@ -264,7 +250,8 @@ typedef enum {
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.textLabel.textColor = [UIColor blackColor];
-            cell.textLabel.textAlignment = UITextAlignmentCenter;
+            cell.textLabel.textAlignment = UITextAlignmentLeft;
+            cell.textLabel.font = [UIFont systemFontOfSize:18];
             cell.textLabel.text = NSLocalizedString(@"Report a problem for this trip",@"text");
             return cell;            
         }
@@ -273,7 +260,8 @@ typedef enum {
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.textLabel.textColor = [UIColor blackColor];
-            cell.textLabel.textAlignment = UITextAlignmentCenter;
+            cell.textLabel.textAlignment = UITextAlignmentLeft;
+            cell.textLabel.font = [UIFont systemFontOfSize:18];
             cell.textLabel.text = NSLocalizedString(@"Vehicle Info",@"cell.textLabel.text");
             return cell;            
         }
@@ -283,7 +271,51 @@ typedef enum {
     
     return nil;
 }
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([self sectionTypeForSection:indexPath.section] == OBASectionTypeTitle) {
+        return 50;
+    }
+    return 44;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    switch ([self sectionTypeForSection:section]) {
+        case OBASectionTypeSchedule:
+            return 40;
+        case OBASectionTypeActions:
+            return 30;
+        default:
+            return 0;
+    }
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    view.backgroundColor = OBAGREENBACKGROUND;
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
+    title.font = [UIFont systemFontOfSize:18];
+    title.backgroundColor = [UIColor clearColor];;
+
     
+    
+    switch ([self sectionTypeForSection:section]) {
+        case OBASectionTypeSchedule:
+            title.text = NSLocalizedString(@"Trip Details",@"OBASectionTypeSchedule");
+            break;
+        case OBASectionTypeActions:
+            //title.text = NSLocalizedString(@"Actions",@"OBASectionTypeActions");
+            break;
+        default:
+            break;
+    }
+    [view addSubview:title];
+    
+    return view;
+}
+
+
 - (void) didSelectServiceAlertRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     [self showSituations];
 }

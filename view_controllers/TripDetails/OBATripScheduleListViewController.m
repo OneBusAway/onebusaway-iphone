@@ -3,6 +3,7 @@
 #import "OBATripDetailsViewController.h"
 #import "OBATripScheduleMapViewController.h"
 #import "OBAStopViewController.h"
+#import "UITableViewController+oba_Additions.h"
 
 
 typedef enum {
@@ -42,7 +43,7 @@ typedef enum {
 @synthesize currentStopId;
 
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)context tripInstance:(OBATripInstanceRef*)tripInstance {
-    if ((self = [super initWithStyle:UITableViewStyleGrouped])) {
+    if ((self = [super initWithStyle:UITableViewStylePlain])) {
         _appContext = context;
         _tripInstance = tripInstance;
         _currentStopIndex = -1;
@@ -55,8 +56,8 @@ typedef enum {
         CGRect r = CGRectMake(0, 0, 160, 33);
         _progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];
         [self.navigationItem setTitleView:_progressView];
-        
-        UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Map",@"initWithTitle") style:UIBarButtonItemStyleBordered target:self action:@selector(showMap:)];
+        UIBarButtonItem * item =[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"map"] style:UIBarButtonItemStyleBordered target:self action:@selector(showMap:)];
+        item.accessibilityLabel = NSLocalizedString(@"Map",@"initWithTitle");
         self.navigationItem.rightBarButtonItem = item;
         
         UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Schedule",@"initWithTitle") style:UIBarButtonItemStyleBordered target:nil action:nil];
@@ -70,6 +71,7 @@ typedef enum {
     [super viewDidLoad];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
+    [self hideEmptySeparators];
 }
 
 - (void)dealloc {
@@ -300,7 +302,10 @@ typedef enum {
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.textLabel.text = NSLocalizedString(@"Loading...",@"cell.textLabel.text");
-    return cell;    
+    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
+
+    return cell;
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView scheduleCellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -350,6 +355,7 @@ typedef enum {
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.textLabel.text = _showPreviousStops ? NSLocalizedString(@"Hide previous stops",@"_showPreviousStops") : NSLocalizedString(@"Show previous stops",@"!_showPreviousStops");
     return cell;
 }
@@ -358,6 +364,7 @@ typedef enum {
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
     
     OBATripScheduleV2 * sched = _tripDetails.schedule;
     
@@ -379,6 +386,42 @@ typedef enum {
     }
 
     return cell;    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    OBASectionType sectionType = [self sectionTypeForSection:section];
+    
+    switch(sectionType) {
+        case OBASectionTypeLoading:
+            return 0;
+        case OBASectionTypeSchedule:
+            return 0;
+        case OBASectionTypePreviousStops:
+            return 0;
+        case OBASectionTypeConnections:
+            return 40;
+        default:
+            return 0;
+    }}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    view.backgroundColor = OBAGREENBACKGROUND;
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
+    title.font = [UIFont systemFontOfSize:18];
+    title.backgroundColor = [UIColor clearColor];;
+    OBASectionType sectionType = [self sectionTypeForSection:section];
+    
+    switch (sectionType) {
+        case OBASectionTypeConnections:
+            title.text = NSLocalizedString(@"Connections:",@"OBASectionTypeConnections");
+            break;
+        default:
+            break;
+    }
+    [view addSubview:title];
+    return view;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectScheduleRowAtIndexPath:(NSIndexPath *)indexPath {

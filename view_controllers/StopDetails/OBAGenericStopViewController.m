@@ -108,7 +108,7 @@ static const double kNearbyStopRadius = 200;
         _allArrivals = [[NSMutableArray alloc] init];
         _filteredArrivals = [[NSMutableArray alloc] init];
         _showFilteredArrivals = YES;
-        
+
         self.navigationItem.title = NSLocalizedString(@"Stop",@"stop");
         
 
@@ -136,6 +136,48 @@ static const double kNearbyStopRadius = 200;
         UINib *xibFile = [UINib nibWithNibName:@"OBAGenericStopViewController" bundle:nil];
         [xibFile instantiateWithOwner:self options:nil];
         self.tableView.tableHeaderView = self.tableHeaderView;
+        
+
+        self.stopRoutes = [[OBAShadowLabel alloc] initWithFrame:CGRectMake(0, 77, 320, 18) rate:60 andFadeLength:10];
+        self.stopRoutes.marqueeType = MLContinuous;
+        self.stopRoutes.backgroundColor = [UIColor clearColor];
+        self.stopRoutes.textColor = [UIColor whiteColor];
+        self.stopRoutes.font = [UIFont boldSystemFontOfSize:14];
+        self.stopRoutes.continuousMarqueeExtraBuffer = 80;
+        self.stopRoutes.tapToScroll = YES;
+        self.stopRoutes.animationDelay = 0;
+        self.stopRoutes.animationCurve = UIViewAnimationOptionCurveLinear;
+        [self.tableHeaderView addSubview:self.stopRoutes];
+
+        self.stopNumber = [[OBAShadowLabel alloc] initWithFrame:CGRectMake(10, 40, 320, 15)];
+        self.stopNumber.backgroundColor = [UIColor clearColor];
+        self.stopNumber.textColor = [UIColor whiteColor];
+        self.stopNumber.font = [UIFont systemFontOfSize:13];
+        [self.tableHeaderView addSubview:self.stopNumber];
+        
+        self.stopName = [[OBAShadowLabel alloc] initWithFrame:CGRectMake(0, 53, 320, 27) rate:60 andFadeLength:10];
+        self.stopName.marqueeType = MLContinuous;
+        self.stopName.backgroundColor = [UIColor clearColor];
+        self.stopName.textColor = [UIColor whiteColor];
+        self.stopName.font = [UIFont boldSystemFontOfSize:19];
+        self.stopName.continuousMarqueeExtraBuffer = 80;
+        self.stopName.tapToScroll = YES;
+        self.stopName.animationDelay = 0;
+        self.stopName.animationCurve = UIViewAnimationOptionCurveLinear;
+
+        self.tableHeaderView.backgroundColor = OBAGREENBACKGROUND;
+        [self.tableHeaderView addSubview:self.stopName];
+        
+        UIView *legalView = nil;
+        
+        for (UIView *subview in self.mapView.subviews) {
+            if ([subview isKindOfClass:[UILabel class]]) {
+                legalView = subview;
+                break;
+            }
+        }
+        legalView.frame = CGRectMake(290, 4, legalView.frame.size.width, legalView.frame.size.height);
+        
         [self hideEmptySeparators];
     }
 }
@@ -144,6 +186,7 @@ static const double kNearbyStopRadius = 200;
     self.tableHeaderView = nil;
     self.tableView.tableHeaderView = nil;
     
+    [self setStopRoutes:nil];
     [super viewDidUnload];
 }
 
@@ -413,7 +456,7 @@ static const double kNearbyStopRadius = 200;
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
-    view.backgroundColor = OBARGBCOLOR(240, 240, 240);
+    view.backgroundColor = OBAGREENBACKGROUND;
     return view;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -505,7 +548,7 @@ static const double kNearbyStopRadius = 200;
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = NSLocalizedString(@"No arrivals in the next 30 minutes",@"[arrivals count] == 0");
         cell.textLabel.textAlignment = UITextAlignmentCenter;
-        cell.textLabel.font = [UIFont boldSystemFontOfSize:18];
+        cell.textLabel.font = [UIFont systemFontOfSize:18];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
         return cell;
@@ -546,7 +589,7 @@ static const double kNearbyStopRadius = 200;
     
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.textAlignment = UITextAlignmentLeft;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -675,11 +718,18 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
         [self.mapView oba_setCenterCoordinate:CLLocationCoordinate2DMake(stop.lat, stop.lon) zoomLevel:15 animated:NO];
         self.stopName.text = stop.name;
         if (stop.direction) {
-            self.stopNumber.text = [NSString stringWithFormat:@"%@ # %@ - %@ %@",NSLocalizedString(@"Stop",@"text"),stop.code,stop.direction,NSLocalizedString(@"bound",@"text")];
+            self.stopNumber.text = [NSString stringWithFormat:@"%@ #%@ - %@ %@",NSLocalizedString(@"Stop",@"text"),stop.code,stop.direction,NSLocalizedString(@"bound",@"text")];
+        } else
+        {
+            self.stopNumber.text = [NSString stringWithFormat:@"%@ #%@",NSLocalizedString(@"Stop",@"text"),stop.code];
+   
         }
-        else {
-           self.stopNumber.text = [NSString stringWithFormat:@"%@ # %@",NSLocalizedString(@"Stop",@"text"),stop.code];
-        }
+
+        
+        if (stop.routeNamesAsString) 
+            self.stopRoutes.text = [stop routeNamesAsString];
+        
+        
         [_mapView addAnnotation:stop];
 
     }

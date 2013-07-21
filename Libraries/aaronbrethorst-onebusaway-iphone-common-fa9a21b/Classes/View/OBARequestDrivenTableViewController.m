@@ -21,7 +21,7 @@
 @synthesize showUpdateTime = _showUpdateTime;
 
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext { 
-    self = [super initWithStyle:UITableViewStyleGrouped];
+    self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         _appContext = appContext;
         CGRect r = CGRectMake(0, 0, 160, 33);
@@ -31,6 +31,12 @@
         _showUpdateTime = NO;
     }
     return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self hideEmptySeparators];
 }
 
 - (void)dealloc {
@@ -155,7 +161,8 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     cell.textLabel.text = @"Updating...";
-    cell.textLabel.textColor = [UIColor grayColor];    
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.textColor = [UIColor grayColor];
     cell.textLabel.textAlignment = UITextAlignmentCenter;    
     
     return cell;

@@ -41,6 +41,7 @@ typedef enum {
 }
 
 -(void) viewDidLoad {
+    [super viewDidLoad];
 	self.refreshable = NO;
 	self.showUpdateTime = NO;
     self.progressLabel = NSLocalizedString(@"Regions", @"regions title");
@@ -372,6 +373,8 @@ typedef enum {
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.textLabel.textColor = [UIColor blackColor];
 	cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
+
 	cell.textLabel.text = region.regionName;
 	return cell;
 }
@@ -407,6 +410,7 @@ typedef enum {
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.textLabel.text = NSLocalizedString(@"Custom API Url", @"cell.textLabel.text");
     return cell;
 }
@@ -416,5 +420,52 @@ typedef enum {
     
     UIViewController *pushMe = [[OBACustomApiViewController alloc] initWithApplicationDelegate:self.appContext];
     [self.navigationController pushViewController:pushMe animated:YES];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    switch ([self sectionTypeForSection:section]) {
+        case OBASectionTypeAllRegions:
+        case OBASectionTypeNearbyRegions:
+        case OBASectionTypeLoading:
+        case OBASectionTypeNoRegions:
+            return 40;
+        case OBASectionTypeTitle:
+            return 70;
+        default:
+            return 30;
+    }
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    view.backgroundColor = [UIColor colorWithHue:(86./360.) saturation:0.68 brightness:0.67 alpha:0.1];
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 290, 30)];
+    title.font = [UIFont systemFontOfSize:18];
+    title.backgroundColor = [UIColor clearColor];
+    
+    switch ([self sectionTypeForSection:section]) {
+        case OBASectionTypeLoading:
+            title.text = NSLocalizedString(@"Loading available regions...", @"OBASectionTypeLoading title");
+            break;
+        case OBASectionTypeTitle:
+            title.text =  NSLocalizedString(@"Select the region where you wish to use OneBusAway", @"OBASectionTypeTitle title");
+            title.frame = CGRectMake(15, 5, 290, 60);
+            title.numberOfLines = 2;
+            break;
+        case OBASectionTypeNearbyRegions:
+            title.text =  NSLocalizedString(@"Set Region automatically", @"OBASectionTypeNearbyRegions title");
+            break;
+        case OBASectionTypeAllRegions:
+            title.text =  NSLocalizedString(@"Manually select Region", @"OBASectionTypeAllRegions title");
+            break;
+        case OBASectionTypeNoRegions:
+            title.text =  NSLocalizedString(@"No regions found", @"OBASectionTypeNoRegions title");
+            break;
+        default:
+            break;
+    }
+    [view addSubview:title];
+    return view;
 }
 @end

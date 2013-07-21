@@ -9,6 +9,7 @@
 #import "OBASettingsViewController.h"
 #import "OBAApplicationDelegate.h"
 #import "OBARegionListViewController.h"
+#import "UITableViewController+oba_Additions.h"
 
 #define kRegionsRow 0
 #define kVersionRow 1
@@ -21,7 +22,7 @@
 
 
 - (id)init {
-    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+    if (self = [super initWithStyle:UITableViewStylePlain]) {
         self.title = NSLocalizedString(@"Settings", @"");
         self.appDelegate = APP_DELEGATE;
     }
@@ -33,6 +34,7 @@
     [super viewDidLoad];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
+    [self hideEmptySeparators];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -87,12 +89,15 @@
             } else {
                 cell.textLabel.text = self.appDelegate.modelDao.readCustomApiUrl;
             }
+            cell.textLabel.font = [UIFont systemFontOfSize:18];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             break;
         }
         case kVersionRow: {
             cell.textLabel.text = NSLocalizedString(@"Application Version", @"settings version");
             cell.detailTextLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+            cell.detailTextLabel.textColor = [UIColor blackColor];
+            cell.textLabel.font = [UIFont systemFontOfSize:18];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             break;
         }
@@ -126,4 +131,32 @@
 
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    switch (section) {
+        case kRegionsRow:
+            return 40;
+        case kVersionRow:
+        default:
+            return 30;
+    }
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    view.backgroundColor = OBAGREENBACKGROUND;
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
+    title.font = [UIFont systemFontOfSize:18];
+    title.backgroundColor = [UIColor clearColor];;
+    switch (section) {
+        case kRegionsRow:
+            title.text = NSLocalizedString(@"Region", @"settings region title");
+            break;
+        case kVersionRow:
+        default:
+            break;
+    }
+    [view addSubview:title];
+    return view;
+}
 @end

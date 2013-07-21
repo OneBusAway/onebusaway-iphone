@@ -18,6 +18,7 @@
 		923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */; };
 		925A1AD517B6ACA200029F0B /* OBARegionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 925A1AD417B6ACA200029F0B /* OBARegionListViewController.m */; };
 		925A1AD817B7969500029F0B /* OBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 925A1AD717B7969500029F0B /* OBASettingsViewController.m */; };
+		92CAAE99179C4B070097DD3D /* MarqueeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 92CAAE98179C4B070097DD3D /* MarqueeLabel.m */; };
 		9302721616137A47004DBFDE /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 9302721416137A47004DBFDE /* info.png */; };
 		9302721716137A47004DBFDE /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9302721516137A47004DBFDE /* info@2x.png */; };
 		931C42BD160E47FC00435CD3 /* OBAGenericStopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 931C42BC160E47FC00435CD3 /* OBAGenericStopViewController.xib */; };
@@ -369,6 +370,8 @@
 		925A1AD417B6ACA200029F0B /* OBARegionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionListViewController.m; sourceTree = "<group>"; };
 		925A1AD617B7969500029F0B /* OBASettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASettingsViewController.h; sourceTree = "<group>"; };
 		925A1AD717B7969500029F0B /* OBASettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASettingsViewController.m; sourceTree = "<group>"; };
+		92CAAE97179C4B070097DD3D /* MarqueeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarqueeLabel.h; sourceTree = "<group>"; };
+		92CAAE98179C4B070097DD3D /* MarqueeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarqueeLabel.m; sourceTree = "<group>"; };
 		9302721416137A47004DBFDE /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = Resources/info.png; sourceTree = "<group>"; };
 		9302721516137A47004DBFDE /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "info@2x.png"; path = "Resources/info@2x.png"; sourceTree = "<group>"; };
 		931C42BC160E47FC00435CD3 /* OBAGenericStopViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAGenericStopViewController.xib; sourceTree = "<group>"; };
@@ -923,6 +926,15 @@
 				288765070DF74369002DB57D /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		92CAAE96179C4AF40097DD3D /* MarqueeLabel */ = {
+			isa = PBXGroup;
+			children = (
+				92CAAE97179C4B070097DD3D /* MarqueeLabel.h */,
+				92CAAE98179C4B070097DD3D /* MarqueeLabel.m */,
+			);
+			name = MarqueeLabel;
 			sourceTree = "<group>";
 		};
 		931C42BF160E4AE000435CD3 /* categories */ = {
@@ -1633,6 +1645,7 @@
 		D61A66790FCDB155004D2E91 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				92CAAE96179C4AF40097DD3D /* MarqueeLabel */,
 				933C7E2B160C07440005AAFE /* aaronbrethorst-onebusaway-iphone-common-fa9a21b */,
 			);
 			name = Libraries;
@@ -2028,6 +2041,7 @@
 				925A1AD817B7969500029F0B /* OBASettingsViewController.m in Sources */,
 				9211E32217B8236B0008A479 /* OBARegionHelper.m in Sources */,
 				9211E32517B922D20008A479 /* OBACustomApiViewController.m in Sources */,
+				92CAAE99179C4B070097DD3D /* MarqueeLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

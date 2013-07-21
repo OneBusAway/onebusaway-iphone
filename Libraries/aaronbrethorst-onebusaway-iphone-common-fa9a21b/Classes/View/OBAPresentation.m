@@ -90,8 +90,9 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
     
     static NSString *cellId = @"ServiceAlertsCell";
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:cellId];
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.textAlignment = UITextAlignmentLeft;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
     
     if (serviceAlerts.totalCount == 0) {
         cell.textLabel.text = @"Service Alerts";

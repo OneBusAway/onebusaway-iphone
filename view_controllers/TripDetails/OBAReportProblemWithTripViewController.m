@@ -2,6 +2,7 @@
 #import "OBALabelAndSwitchTableViewCell.h"
 #import "OBALabelAndTextFieldTableViewCell.h"
 #import "OBALogger.h"
+#import "UITableViewController+oba_Additions.h"
 
 typedef enum {
     OBASectionTypeNone,    
@@ -36,7 +37,7 @@ typedef enum {
 #pragma mark Initialization
 
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext tripInstance:(OBATripInstanceRef*)tripInstance trip:(OBATripV2*)trip {
-    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+    if (self = [super initWithStyle:UITableViewStylePlain]) {
         _appContext = appContext;
         _tripInstance = tripInstance;
         _trip = trip;
@@ -78,30 +79,58 @@ typedef enum {
     self.navigationItem.backBarButtonItem.title = NSLocalizedString(@"Problem",@"self.navigationItem.backBarButtonItem.title");
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
+    [self hideEmptySeparators];
 }
 
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 5;
+    return 4;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    OBASectionType sectionType = [self sectionTypeForSection:section];
+    
+    switch (sectionType) {
+        case OBASectionTypeSubmit:
+            return 70;
+        default:
+            return 40;
+    }
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    view.backgroundColor = OBAGREENBACKGROUND;
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 290, 30)];
+    title.font = [UIFont systemFontOfSize:18];
+    title.backgroundColor = [UIColor clearColor];;
     OBASectionType sectionType = [self sectionTypeForSection:section];
     
     switch (sectionType) {
         case OBASectionTypeProblem:
-            return NSLocalizedString(@"What's the problem?",@"OBASectionTypeProblem");
+            title.text = NSLocalizedString(@"What's the problem?",@"OBASectionTypeProblem");
+            break;
         case OBASectionTypeComment:
-            return NSLocalizedString(@"Optional - Comment:",@"OBASectionTypeComment");
+            title.text = NSLocalizedString(@"Optional - Comment:",@"OBASectionTypeComment");
+            break;
         case OBASectionTypeOnTheVehicle:
-            return [NSString stringWithFormat:@"%@ %@?",NSLocalizedString(@"Optional - Are you on this",@"OBASectionTypeOnTheVehicle"),_vehicleType];
-        case OBASectionTypeNotes:
-            return NSLocalizedString(@"Your reports help OneBusAway find and fix problems with the system.",@"OBASectionTypeNotes");
+            title.text = [NSString stringWithFormat:@"%@ %@?",NSLocalizedString(@"Optional - Are you on this",@"OBASectionTypeOnTheVehicle"),_vehicleType];
+            break;
+        case OBASectionTypeSubmit:
+            view.frame = CGRectMake(0, 0, 320, 70);
+            title.numberOfLines = 2;
+            title.frame = CGRectMake(15, 5, 290, 60);
+            title.text = NSLocalizedString(@"Your reports help OneBusAway find and fix problems with the system.",@"OBASectionTypeNotes");
+            break;
         default:
-            return nil;
+            break;
     }
+    [view addSubview:title];
+    return view;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -137,6 +166,7 @@ typedef enum {
             cell.textLabel.textAlignment = UITextAlignmentLeft;
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.textLabel.font = [UIFont systemFontOfSize:18];
             cell.textLabel.text = _problemNames[_problemIndex];
             return cell;            
         }
@@ -145,7 +175,7 @@ typedef enum {
             cell.textLabel.textAlignment = UITextAlignmentLeft;
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            
+            cell.textLabel.font = [UIFont systemFontOfSize:18];
             if (_comment && [_comment length] > 0) {
                 cell.textLabel.textColor = [UIColor blackColor];
                 cell.textLabel.text = _comment;
@@ -166,6 +196,7 @@ typedef enum {
             cell.textLabel.textAlignment = UITextAlignmentCenter;
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.textLabel.font = [UIFont systemFontOfSize:18];
             cell.textLabel.text = NSLocalizedString(@"Submit",@"cell.textLabel.text");
             return cell;
         }
@@ -333,6 +364,7 @@ typedef enum {
         case 0: {
             OBALabelAndSwitchTableViewCell * cell = [OBALabelAndSwitchTableViewCell getOrCreateCellForTableView:tableView];
             cell.label.text = [NSString stringWithFormat:@"%@ %@?",NSLocalizedString(@"On this",@"cell.label.text"),[_vehicleType capitalizedString]];
+            cell.label.font = [UIFont systemFontOfSize:18];
             [cell.toggleSwitch setOn:_onVehicle];
             [cell.toggleSwitch addTarget:self action:@selector(setOnVehicle:) forControlEvents:UIControlEventValueChanged];
             return cell;
@@ -340,7 +372,7 @@ typedef enum {
         case 1: {
             OBALabelAndTextFieldTableViewCell * cell = [OBALabelAndTextFieldTableViewCell getOrCreateCellForTableView:tableView];
             cell.label.text = [NSString stringWithFormat:@"%@ %@",[_vehicleType capitalizedString],NSLocalizedString(@"Number",@"cell.label.text")];
-            
+            cell.label.font = [UIFont systemFontOfSize:18];            
             cell.textField.text = _vehicleNumber;
             cell.textField.delegate = self;
             [cell.textField addTarget:self action:@selector(setVehicleNumber:) forControlEvents:UIControlEventEditingChanged];

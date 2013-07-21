@@ -32,12 +32,14 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray * arrivals = self.showFilteredArrivals ? self.filteredArrivals : self.allArrivals;
-    OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
-
-    if (arrivalAndDeparture) {
-        OBATripInstanceRef * tripInstance = arrivalAndDeparture.tripInstance;
-        [self.appContext.modelService requestTripDetailsForTripInstance:tripInstance withDelegate:self.tripDetailsHandler withContext:self];
+    NSArray *arrivals = self.showFilteredArrivals ? self.filteredArrivals : self.allArrivals;
+    if (arrivals.count > 0) {
+        OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
+        
+        if (arrivalAndDeparture) {
+            OBATripInstanceRef * tripInstance = arrivalAndDeparture.tripInstance;
+            [self.appContext.modelService requestTripDetailsForTripInstance:tripInstance withDelegate:self.tripDetailsHandler withContext:self];
+        }
     }
 }
 

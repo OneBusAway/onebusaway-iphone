@@ -1,6 +1,6 @@
 #import "OBAApplicationDelegate.h"
 #import "OBAProgressIndicatorView.h"
-
+#import "UITableViewController+oba_Additions.h"
 
 @interface OBARequestDrivenTableViewController : UITableViewController <OBAModelServiceDelegate> {
     OBAApplicationDelegate * _appContext;
