@@ -173,6 +173,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 
     self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStyleBordered target:self action:@selector(showListView:)];
+    self.listBarButtonItem.accessibilityLabel = NSLocalizedString(@"list", @"self.listBarButtonItem.accessibilityLabel");
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
     self.navigationItem.titleView = self.searchBar;
 
@@ -225,7 +226,10 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 - (UIBarButtonItem *)getArrowButton {
-    return [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lbs_arrow"] style:UIBarButtonItemStyleBordered target:self action:@selector(onCrossHairsButton:)];
+    UIBarButtonItem *arrowButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lbs_arrow"] style:UIBarButtonItemStyleBordered target:self action:@selector(onCrossHairsButton:)];
+    arrowButton.accessibilityLabel = NSLocalizedString(@"my location", @"arrowButton.accessibilityLabel");
+    arrowButton.accessibilityHint = NSLocalizedString(@"centers the map on current location", @"arrowButton.accessibilityHint");
+    return arrowButton;
 }
 
 #pragma mark - UISearchBarDelegate
