@@ -53,19 +53,19 @@
 
     switch (indexPath.row) {
         case kContactUsRow: {
-            cell.textLabel.text = NSLocalizedString(@"Contact Us", @"");
+            cell.textLabel.text = NSLocalizedString(@"Contact Us & More", @"info row contact us");
             break;
         }
         case kSettingsRow: {
-            cell.textLabel.text = NSLocalizedString(@"Settings", @"");
+            cell.textLabel.text = NSLocalizedString(@"Settings", @"info row settings");
             break;
         }
         case kAgenciesRow: {
-            cell.textLabel.text = NSLocalizedString(@"Agencies", @"");
+            cell.textLabel.text = NSLocalizedString(@"Agencies", @"info row agencies");
             break;
         }
         case kCreditsRow: {
-            cell.textLabel.text = NSLocalizedString(@"Credits", @"");
+            cell.textLabel.text = NSLocalizedString(@"Credits", @"info row credits");
             break;
         }
         default:

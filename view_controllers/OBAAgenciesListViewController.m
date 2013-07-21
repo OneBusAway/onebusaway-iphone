@@ -44,8 +44,13 @@ typedef enum {
     self.showUpdateTime = NO;
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
-}
 
+}
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self refresh];
+}
 - (BOOL) isLoading {
     return _agencies == nil;
 }
