@@ -35,10 +35,6 @@
     CLLocation * _currentLocation;
     BOOL _disabled;
     
-#if TARGET_IPHONE_SIMULATOR
-    NSArray * _locationTrace;
-    int _locationTraceIndex;
-#endif    
 }
 
 - (id) initWithModelDao:(OBAModelDAO*)modelDao;

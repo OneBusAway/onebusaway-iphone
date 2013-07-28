@@ -53,6 +53,8 @@ typedef enum {
                                         action:nil];
         self.navigationItem.backBarButtonItem = item;
         
+
+        
         _vehicleNumber = @"0000";
         _vehicleType = [self getVehicleTypeLabeForTrip:trip];
         
@@ -185,6 +187,7 @@ typedef enum {
         case OBASectionTypeProblem: {
             NSIndexPath * selectedIndex = [NSIndexPath indexPathForRow:_problemIndex inSection:0];            
             OBAListSelectionViewController * vc = [[OBAListSelectionViewController alloc] initWithValues:_problemNames selectedIndex:selectedIndex];
+            vc.title = NSLocalizedString(@"What's the problem?", @"vc.title");
             vc.target = self;
             vc.action = @selector(setProblem:);
             [self.navigationController pushViewController:vc animated:YES];

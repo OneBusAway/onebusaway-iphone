@@ -133,10 +133,7 @@
 					<int key="IBUIAutocorrectionType">1</int>
 					<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				</object>
-				<array key="IBScopeButtonTitles">
-					<string>Title</string>
-					<string>Title</string>
-				</array>
+				<array key="IBScopeButtonTitles" id="0"/>
 			</object>
 			<object class="IBUIView" id="237765170">
 				<reference key="NSNextResponder"/>
@@ -264,7 +261,7 @@
 				<array key="orderedObjects">
 					<object class="IBObjectRecord">
 						<int key="objectID">0</int>
-						<array key="object" id="0"/>
+						<reference key="object" ref="0"/>
 						<reference key="children" ref="1000"/>
 						<nil key="parent"/>
 					</object>
