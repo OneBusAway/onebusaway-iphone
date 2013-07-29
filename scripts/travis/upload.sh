@@ -63,6 +63,7 @@ git config --global push.default simple #to remove some special warning message 
 git push deploy $TRAVIS_BRANCH #if another CI build pushes at the same time issues may occur
 
 RC=$?
+echo "git exit code: $RC"
 if [[ $RC -ne 0 ]]; then
   exit -1
 fi
