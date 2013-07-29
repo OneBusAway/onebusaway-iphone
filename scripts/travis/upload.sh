@@ -59,7 +59,7 @@ git add -A
 git commit -m "$COMMIT_MSG"
 git remote add deploy $DEPLOY_SSH_REPO
 git config --global push.default simple #to remove some special warning message about git 2.0 changes
-#todo: only push if newer build hasn't already pushed: see https://github.com/rcrowley/json.sh and https://api.travis-ci.org/repositories/OneBusAway/onebusaway-iphone.json
+#todo: only push if newer build hasn't already pushed: see http://madebynathan.com/2012/01/31/travis-ci-status-in-shell-prompt/ & https://github.com/travis-ci/travis#installation & https://github.com/rcrowley/json.sh and https://api.travis-ci.org/repositories/OneBusAway/onebusaway-iphone.json
 git push deploy $TRAVIS_BRANCH #if another CI build pushes at the same time issues may occur
 
 RC=$?
