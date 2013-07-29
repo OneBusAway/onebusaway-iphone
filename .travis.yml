@@ -1,0 +1,18 @@
+language: objective-c
+before_install:
+    - brew update
+    - brew install xctool
+before_script:
+    - chmod -R +x ./scripts
+    - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+script: xctool -project org.onebusaway.iphone.xcodeproj -scheme Debug archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO #build-tests run-tests
+after_success:
+    - ./scripts/travis/upload.sh
+env:
+  global:
+  - APPNAME="OneBusAway"
+  - DEPLOY_READONLY_REPO="https://github.com/bbodenmiller/onebusaway-iphone-test-releases.git"
+  - DEPLOY_SSH_REPO="git@github.com:bbodenmiller/onebusaway-iphone-test-releases.git"
+  - DISTRIBUTION_LISTS="Developers"
+
+#details to setup travis to testflight are at https://gist.github.com/johanneswuerbach/5559514 with some tips at https://github.com/OneBusAway/onebusaway-iphone/issues/16

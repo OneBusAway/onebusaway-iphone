@@ -1,4 +1,5 @@
 # OneBusAway for iPhone
+[![Build Status](https://travis-ci.org/OneBusAway/onebusaway-iphone.png)](https://travis-ci.org/OneBusAway/onebusaway-iphone)
 
 ## Test latest development release
 
@@ -23,6 +24,10 @@ You should now be able to build.
 Development: Xcode 4.5/iOS 6.0 SDK
 
 Runtime: iOS 5.1 or higher
+
+### Releasing
+
+When uploading to app store rename `org.onebusaway.iphone-debug` to `org.onebusaway.iphone` in `Info.plist`
 
 ## Contributing
 

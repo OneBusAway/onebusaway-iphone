@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>231C3B8B-8868-4074-B334-7653BC2D661D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>onebusaway-iphone-workspace</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>F37A5860-F212-4330-ABF1-63B4625F8D7F</key>
+		<string>https://github.com/neophit/onebusaway-iphone.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>onebusaway-iphone-workspace.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>F37A5860-F212-4330-ABF1-63B4625F8D7F</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/neophit/onebusaway-iphone.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>F37A5860-F212-4330-ABF1-63B4625F8D7F</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F37A5860-F212-4330-ABF1-63B4625F8D7F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>onebusaway-iphone-forked</string>
+		</dict>
+	</array>
+</dict>
+</plist>
