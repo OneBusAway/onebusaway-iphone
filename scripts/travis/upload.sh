@@ -42,7 +42,9 @@ cp -R "$ARCHIVE_DIR" .
 echo "\n********************"
 echo "*   Fake signing   *"
 echo "********************"
-#curl -o ldid https://networkpx.googlecode.com/files/ldid
+if [[ ! -f ldid ]]; then
+  curl -o ldid https://networkpx.googlecode.com/files/ldid
+fi
 chmod +x ./ldid
 chmod +x $APPNAME.app/$APPNAME
 ./ldid -S $APPNAME.app/$APPNAME
