@@ -3,7 +3,9 @@
 
 ## Test latest development release
 
-If you would like to help test the latest development builds signup on our [TestFlight page](http://tflig.ht/1ac8oEg).
+If you would like to help test the latest development release signup on our [TestFlight page](http://tflig.ht/1ac8oEg).
+
+Have a jailbroken device? [Install the latest commit build](https://github.com/bbodenmiller/onebusaway-iphone-test-releases)
 
 ## Build instructions
 
