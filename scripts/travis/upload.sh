@@ -34,6 +34,7 @@ git remote add deploy $DEPLOY_SSH_REPO
 echo "\n********************"
 echo "*    Copy Files    *"
 echo "********************"
+git fetch deploy
 git checkout -b $TRAVIS_BRANCH deploy/$TRAVIS_BRANCH
 #git branch $TRAVIS_BRANCH
 #git checkout $TRAVIS_BRANCH
