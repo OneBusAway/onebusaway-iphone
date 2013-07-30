@@ -64,6 +64,7 @@ git status
 git remote -v
 git show remote origin
 git show remote deploy
+git pull deploy $TRAVIS_BRANCH
 #todo: only push if newer build hasn't already pushed: see http://madebynathan.com/2012/01/31/travis-ci-status-in-shell-prompt/ & https://github.com/travis-ci/travis#installation & https://github.com/rcrowley/json.sh and https://api.travis-ci.org/repositories/OneBusAway/onebusaway-iphone.json
 git push deploy $TRAVIS_BRANCH #if another CI build pushes at the same time issues may occur
 
