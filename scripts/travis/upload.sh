@@ -36,7 +36,9 @@ echo "*    Copy Files    *"
 echo "********************"
 git branch $TRAVIS_BRANCH
 git checkout $TRAVIS_BRANCH
-git pull deploy $TRAVIS_BRANCH
+git fetch deploy
+git merge deploy/$TRAVIS_BRANCH
+#git pull deploy $TRAVIS_BRANCH
 echo "cp -r \"$ARCHIVE_DIR\" ."
 cp -R "$ARCHIVE_DIR" .
 
