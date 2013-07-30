@@ -36,6 +36,7 @@ echo "*    Copy Files    *"
 echo "********************"
 git fetch deploy
 git checkout -b $TRAVIS_BRANCH deploy/$TRAVIS_BRANCH
+git ls-remote
 #git branch $TRAVIS_BRANCH
 #git checkout $TRAVIS_BRANCH
 #git fetch deploy
