@@ -4,7 +4,7 @@ if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then
   exit 0
 fi
 #if [[ "$TRAVIS_BRANCH" != "master" ]]; then
-  echo "\nTesting on $TRAVIS_BRANCH branch."
+  echo "\nTested & deploying on $TRAVIS_BRANCH branch."
   #exit 0
 #fi
 
@@ -40,7 +40,7 @@ git checkout -b $TRAVIS_BRANCH deploy/$TRAVIS_BRANCH
 echo "\n********************"
 echo "*    Copy Files    *"
 echo "********************"
-echo "cp -r \"$ARCHIVE_DIR\" ."
+#echo "cp -r \"$ARCHIVE_DIR\" ."
 cp -R "$ARCHIVE_DIR" .
 
 #so it will work on jailbroken devices
@@ -64,21 +64,14 @@ git add -A
 git commit -m "$COMMIT_MSG"
 git config --global push.default simple #to remove some special warning message about git 2.0 changes
 git status
-git remote -v
-git show remote origin
-git show remote deploy
 #todo: only push if newer build hasn't already pushed: see http://madebynathan.com/2012/01/31/travis-ci-status-in-shell-prompt/ & https://github.com/travis-ci/travis#installation & https://github.com/rcrowley/json.sh and https://api.travis-ci.org/repositories/OneBusAway/onebusaway-iphone.json
 git push deploy $TRAVIS_BRANCH #if another CI build pushes at the same time issues may occur
 
 RC=$?
-echo "git exit code: $RC"
+#echo "git exit code: $RC"
 if [[ $RC -ne "0" ]]; then
-  echo "error hit"
+  #echo "error hit"
   exit -1
-fi
-
-if [[ $RC -ne "1" ]]; then
-  echo "no error"
 fi
 
 exit 0
