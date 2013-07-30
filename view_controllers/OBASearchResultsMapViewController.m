@@ -42,7 +42,7 @@
 #define kMapLabelAnimationDuration 0.25
 
 // Radius in meters
-static const double kDefaultMapRadius = 210;
+static const double kDefaultMapRadius = 100;
 static const double kMinMapRadius = 210;
 static const double kMaxLatDeltaToShowStops = 0.008;
 static const double kRegionScaleFactor = 1.5;
@@ -50,7 +50,7 @@ static const double kMinRegionDeltaToDetectUserDrag = 50;
 
 static const double kRegionChangeRequestsTimeToLive = 3.0;
 
-static const double kMaxMapDistanceFromCurrentLocationForNearby = 850;
+static const double kMaxMapDistanceFromCurrentLocationForNearby = 10000;
 static const double kPaddingScaleFactor = 1.075;
 static const NSUInteger kShowNClosestStops = 4;
 
