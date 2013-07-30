@@ -54,6 +54,8 @@ chmod +x $APPNAME.app/$APPNAME
 
 echo "\n********************"
 echo "*   Deploy to GH   *"
+git remote add deploy $DEPLOY_SSH_REPO
+git pull deploy $TRAVIS_BRANCH
 echo "********************"
 git add -A
 git commit -m "$COMMIT_MSG"
