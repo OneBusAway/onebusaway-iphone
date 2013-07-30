@@ -42,8 +42,8 @@
 #define kMapLabelAnimationDuration 0.25
 
 // Radius in meters
-static const double kDefaultMapRadius = 100;
-static const double kMinMapRadius = 1000;
+static const double kDefaultMapRadius = 10000;
+static const double kMinMapRadius = 10000;
 static const double kMaxLatDeltaToShowStops = 0.008;
 static const double kRegionScaleFactor = 1.5;
 static const double kMinRegionDeltaToDetectUserDrag = 50;
