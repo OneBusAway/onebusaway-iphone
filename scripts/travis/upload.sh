@@ -29,21 +29,17 @@ cd onebusaway-iphone-test-releases
 eval `ssh-agent -s`
 chmod 600 id_rsa # this key should have push access
 ssh-add id_rsa
+
+echo "\n********************"
+echo "*  Setup Remote    *"
+echo "********************"
 git remote add deploy $DEPLOY_SSH_REPO
+git fetch deploy
+git checkout -b $TRAVIS_BRANCH deploy/$TRAVIS_BRANCH
 
 echo "\n********************"
 echo "*    Copy Files    *"
 echo "********************"
-git fetch deploy
-git fetch origin
-git remote show deploy
-git checkout -b $TRAVIS_BRANCH deploy/$TRAVIS_BRANCH
-git ls-remote
-#git branch $TRAVIS_BRANCH
-#git checkout $TRAVIS_BRANCH
-#git fetch deploy
-#git merge deploy/$TRAVIS_BRANCH
-#git pull deploy $TRAVIS_BRANCH -m "pull"
 echo "cp -r \"$ARCHIVE_DIR\" ."
 cp -R "$ARCHIVE_DIR" .
 
@@ -67,12 +63,10 @@ echo "********************"
 git add -A
 git commit -m "$COMMIT_MSG"
 git config --global push.default simple #to remove some special warning message about git 2.0 changes
-git fetch
 git status
 git remote -v
 git show remote origin
 git show remote deploy
-git pull deploy $TRAVIS_BRANCH
 #todo: only push if newer build hasn't already pushed: see http://madebynathan.com/2012/01/31/travis-ci-status-in-shell-prompt/ & https://github.com/travis-ci/travis#installation & https://github.com/rcrowley/json.sh and https://api.travis-ci.org/repositories/OneBusAway/onebusaway-iphone.json
 git push deploy $TRAVIS_BRANCH #if another CI build pushes at the same time issues may occur
 
