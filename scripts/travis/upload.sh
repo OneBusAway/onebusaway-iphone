@@ -31,7 +31,7 @@ chmod 600 id_rsa # this key should have push access
 ssh-add id_rsa
 
 echo "\n********************"
-echo "*  Setup Remote    *"t
+echo "*  Setup Remote    *"
 echo "********************"
 git remote add deploy $DEPLOY_SSH_REPO
 git fetch deploy
