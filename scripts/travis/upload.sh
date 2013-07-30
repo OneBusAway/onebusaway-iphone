@@ -35,6 +35,8 @@ echo "\n********************"
 echo "*    Copy Files    *"
 echo "********************"
 git fetch deploy
+git fetch origin
+git remote show deploy
 git checkout -b $TRAVIS_BRANCH deploy/$TRAVIS_BRANCH
 git ls-remote
 #git branch $TRAVIS_BRANCH
