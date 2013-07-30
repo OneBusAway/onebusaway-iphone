@@ -68,8 +68,13 @@ gitk HEAD @{u}
 
 RC=$?
 echo "git exit code: $RC"
-if [[ $RC -ne 0 ]]; then
+if [[ $RC -ne "0" ]]; then
+  echo "error hit"
   exit -1
+fi
+
+if [[ $RC -ne "1" ]]; then
+  echo "no error"
 fi
 
 exit 0
