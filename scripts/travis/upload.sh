@@ -29,12 +29,14 @@ cd onebusaway-iphone-test-releases
 eval `ssh-agent -s`
 chmod 600 id_rsa # this key should have push access
 ssh-add id_rsa
+git remote add deploy $DEPLOY_SSH_REPO
 
 echo "\n********************"
 echo "*    Copy Files    *"
 echo "********************"
 git branch $TRAVIS_BRANCH
 git checkout $TRAVIS_BRANCH
+git pull deploy $TRAVIS_BRANCH
 echo "cp -r \"$ARCHIVE_DIR\" ."
 cp -R "$ARCHIVE_DIR" .
 
@@ -54,12 +56,9 @@ chmod +x $APPNAME.app/$APPNAME
 
 echo "\n********************"
 echo "*   Deploy to GH   *"
-git remote add deploy $DEPLOY_SSH_REPO
-git pull deploy $TRAVIS_BRANCH
 echo "********************"
 git add -A
 git commit -m "$COMMIT_MSG"
-git remote add deploy $DEPLOY_SSH_REPO
 git config --global push.default simple #to remove some special warning message about git 2.0 changes
 git fetch
 git status
