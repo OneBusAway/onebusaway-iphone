@@ -52,7 +52,7 @@ RC=$?
 if [[ $RC -ne "0" ]]; then
   echo "Branch does not exist, making branch"
   git branch $TRAVIS_BRANCH
-  git branch -u deploy/$TRAVIS_BRANCH $TRAVIS_BRANCH
+  git push deploy $TRAVIS_BRANCH -u
   checklastcommanderrorexit  
   git rm $LOCK_FILE
 fi
