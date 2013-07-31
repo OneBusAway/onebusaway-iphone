@@ -51,6 +51,7 @@ git checkout -b $TRAVIS_BRANCH deploy/$TRAVIS_BRANCH
 RC=$?
 if [[ $RC -ne "0" ]]; then
   echo "Branch does not exist, making branch"
+  git branch $TRAVIS_BRANCH
   git branch -u deploy/$TRAVIS_BRANCH $TRAVIS_BRANCH
   checklastcommanderrorexit  
   git rm $LOCK_FILE
