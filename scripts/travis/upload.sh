@@ -40,6 +40,9 @@ git checkout -b $TRAVIS_BRANCH deploy/$TRAVIS_BRANCH
 echo "\n********************"
 echo "*  Lock for deploy  *"
 echo "********************"
+if [[ -f repo.lock ]]; then
+  echo "repo locked"
+fi
 touch repo.lock
 git push deploy $TRAVIS_BRANCH
 
