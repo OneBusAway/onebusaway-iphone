@@ -63,7 +63,7 @@ echo " ----------------"
 if [[ -f $LOCK_FILE ]]; then #check if repo is locked
   ls
   echo "Waiting to lock repo"
-  while [ -f $LOCK_FILEk ]; do
+  while [ -f $LOCK_FILE ]; do
      echo "."
      sleep 15s
      git pull
