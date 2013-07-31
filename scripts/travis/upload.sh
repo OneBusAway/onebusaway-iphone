@@ -41,6 +41,7 @@ echo "\n********************"
 echo "*  Lock for deploy  *"
 echo "********************"
 if [[ -f repo.lock ]]; then
+  ls
   echo "repo locked"
 fi
 touch repo.lock
