@@ -43,7 +43,8 @@ echo "*  Lock for deploy  *"
 echo "********************"
 function pushtodeploy {
   git add -A
-  git commit -m "$1"
+  CMT_MESSAGE="$TRAVIS_BUILD_NUMBER: $1"
+  git commit -m "$CMT_MESSAGE"
   git config --global push.default simple #to remove some special warning message about git 2.0 changes
   git status
   git push deploy $TRAVIS_BRANCH #if another CI build pushes at the same time issues may occur
@@ -72,7 +73,7 @@ else
   touch repo.lock
   echo "after lock"
   ls
-  pushtodeploy 'lock repo for CI #$TRAVIS_BUILD_NUMBER'
+  pushtodeploy 'lock repo for CI deploy'
 fi
 
 echo "\n********************"
