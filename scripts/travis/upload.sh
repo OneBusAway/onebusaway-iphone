@@ -61,14 +61,14 @@ echo " ----------------"
 if [[ -f repo.lock ]]; then
   ls
   echo "repo locked"
+else
+  echo "locking!!!!"
+  echo "before lock"
+  touch repo.lock
+  echo "after lock"
+  ls
+  pushtodeploy 'lock repo for CI #$TRAVIS_BUILD_NUMBER'
 fi
-
-echo "before lock"
-touch repo.lock
-echo "after lock"
-ls
-pushtodeploy 'lock repo for CI #$TRAVIS_BUILD_NUMBER'
-ls
 
 echo "\n********************"
 echo "*    Copy Files    *"
