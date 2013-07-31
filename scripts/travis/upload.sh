@@ -26,6 +26,7 @@ echo "*  Add deploy key  *"
 echo "********************"
 git clone $DEPLOY_READONLY_REPO
 cd onebusaway-iphone-test-releases
+ls
 eval `ssh-agent -s`
 chmod 600 id_rsa # this key should have push access
 ssh-add id_rsa
