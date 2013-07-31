@@ -40,19 +40,27 @@ git checkout -b $TRAVIS_BRANCH deploy/$TRAVIS_BRANCH
 echo "\n********************"
 echo "*  Lock for deploy  *"
 echo "********************"
+function pushtodeploy {
+  git add -A
+  git commit -m $1
+  git config --global push.default simple #to remove some special warning message about git 2.0 changes
+  git status
+  git push deploy $TRAVIS_BRANCH #if another CI build pushes at the same time issues may occur
+
+  RC=$?
+  #echo "git exit code: $RC"
+  if [[ $RC -ne "0" ]]; then
+    #echo "error hit"
+    exit -1
+  fi
+}
+
 if [[ -f repo.lock ]]; then
   ls
   echo "repo locked"
 fi
 touch repo.lock
-git push deploy $TRAVIS_BRANCH
-
-RC=$?
-#echo "git exit code: $RC"
-if [[ $RC -ne "0" ]]; then
-  #echo "error hit"
-  exit -1
-fi
+pushtodeploy "lock repo for CI #$TRAVIS_BUILD_NUMBER"
 
 echo "\n********************"
 echo "*    Copy Files    *"
@@ -78,18 +86,7 @@ echo "\n********************"
 echo "*   Deploy to GH   *"
 echo "********************"
 git rm repo.lock #unlock repo for more deploys
-git add -A
-git commit -m "$COMMIT_MSG"
-git config --global push.default simple #to remove some special warning message about git 2.0 changes
-git status
 #todo: only push if newer build hasn't already pushed: see http://madebynathan.com/2012/01/31/travis-ci-status-in-shell-prompt/ & https://github.com/travis-ci/travis#installation & https://github.com/rcrowley/json.sh and https://api.travis-ci.org/repositories/OneBusAway/onebusaway-iphone.json
-git push deploy $TRAVIS_BRANCH #if another CI build pushes at the same time issues may occur
-
-RC=$?
-#echo "git exit code: $RC"
-if [[ $RC -ne "0" ]]; then
-  #echo "error hit"
-  exit -1
-fi
+pushtodeploy "$COMMIT_MSG"
 
 exit 0
