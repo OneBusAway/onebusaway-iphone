@@ -40,6 +40,8 @@ git checkout -b $TRAVIS_BRANCH deploy/$TRAVIS_BRANCH
 echo "\n********************"
 echo "*  Lock for deploy  *"
 echo "********************"
+LOCK_FILE=repo.lock
+
 function pushtodeploy {
   git add -A
   CMT_MESSAGE="$TRAVIS_BUILD_NUMBER: $1"
@@ -58,17 +60,17 @@ function pushtodeploy {
 
 ls
 echo " ----------------"
-if [[ -f repo.lock ]]; then #check if repo is locked
+if [[ -f $LOCK_FILE ]]; then #check if repo is locked
   ls
   echo "Waiting to lock repo"
-  while [ -f repo.lock ]; do
+  while [ -f $LOCK_FILEk ]; do
      echo "."
      sleep 15s
      git pull
   done
 else
   echo "Locking repo!"
-  touch repo.lock
+  touch $LOCK_FILE
   ls
   pushtodeploy 'lock repo for CI deploy'
 fi
@@ -96,7 +98,7 @@ chmod +x $APPNAME.app/$APPNAME
 echo "\n********************"
 echo "*   Deploy to GH   *"
 echo "********************"
-git rm -f repo.lock #unlock repo for other deploys
+git rm -f $LOCK_FILE #unlock repo for other deploys
 #todo: only push if newer build hasn't already pushed: see http://madebynathan.com/2012/01/31/travis-ci-status-in-shell-prompt/ & https://github.com/travis-ci/travis#installation & https://github.com/rcrowley/json.sh and https://api.travis-ci.org/repositories/OneBusAway/onebusaway-iphone.json
 pushtodeploy "$COMMIT_MSG"
 
