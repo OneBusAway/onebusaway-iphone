@@ -1,4 +1,6 @@
 #!/bin/sh
+LOCK_FILE=repo.lock
+
 if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then
   echo "\nThis is a pull request. No deployment will be done."
   exit 0
@@ -33,23 +35,7 @@ ssh-add id_rsa
 echo "\n********************"
 echo "*  Setup Remote    *"
 echo "********************"
-git remote add deploy $DEPLOY_SSH_REPO
-git fetch deploy
-git checkout -b $TRAVIS_BRANCH deploy/$TRAVIS_BRANCH
-
-echo "\n********************"
-echo "*  Lock for deploy  *"
-echo "********************"
-LOCK_FILE=repo.lock
-
-function pushtodeploy {
-  git add -A
-  CMT_MESSAGE="$TRAVIS_BUILD_NUMBER: $1"
-  git commit -m "$CMT_MESSAGE"
-  git config --global push.default simple #to remove some special warning message about git 2.0 changes
-  git status
-  git push deploy $TRAVIS_BRANCH #if another CI build pushes at the same time issues may occur
-
+function checklastcommanderrorexit {
   RC=$?
   #echo "git exit code: $RC"
   if [[ $RC -ne "0" ]]; then
@@ -58,8 +44,35 @@ function pushtodeploy {
   fi
 }
 
-ls
-echo " ----------------"
+git remote add deploy $DEPLOY_SSH_REPO
+git fetch deploy
+git checkout -b $TRAVIS_BRANCH deploy/$TRAVIS_BRANCH
+
+RC=$?
+if [[ $RC -ne "0" ]]; then
+  echo "Branch does not exist, making branch"
+  git branch $TRAVIS_BRANCH
+  git push deploy $TRAVIS_BRANCH -u
+  checklastcommanderrorexit  
+  if [[ -f $LOCK_FILE ]]; then #clear lock since new branch
+    git rm $LOCK_FILE
+  fi
+fi
+
+echo "\n********************"
+echo "*  Lock for deploy  *"
+echo "********************"
+function pushtodeploy {
+  git add -A
+  CMT_MESSAGE="$TRAVIS_BUILD_NUMBER: $1"
+  git commit -m "$CMT_MESSAGE"
+  git config --global push.default simple #to remove some special warning message about git 2.0 changes
+  git status
+  git push deploy $TRAVIS_BRANCH #if another CI build pushes at the same time issues may occur
+
+  checklastcommanderrorexit
+}
+
 if [[ -f $LOCK_FILE ]]; then #check if repo is locked
   ls
   while [ -f $LOCK_FILE ]; do
@@ -97,8 +110,13 @@ chmod +x $APPNAME.app/$APPNAME
 echo "\n********************"
 echo "*   Deploy to GH   *"
 echo "********************"
-git rm -f $LOCK_FILE #unlock repo for other deploys
 #todo: only push if newer build hasn't already pushed: see http://madebynathan.com/2012/01/31/travis-ci-status-in-shell-prompt/ & https://github.com/travis-ci/travis#installation & https://github.com/rcrowley/json.sh and https://api.travis-ci.org/repositories/OneBusAway/onebusaway-iphone.json
 pushtodeploy "$COMMIT_MSG"
+
+echo "\n********************"
+echo "*    Unlok repo    *"
+echo "********************"
+git rm -f $LOCK_FILE #unlock repo for other deploys
+pushtodeploy "unlock repo"
 
 exit 0
