@@ -43,7 +43,7 @@ echo "*  Lock for deploy  *"
 echo "********************"
 function pushtodeploy {
   git add -A
-  git commit -m $1
+  git commit -m "$1"
   git config --global push.default simple #to remove some special warning message about git 2.0 changes
   git status
   git push deploy $TRAVIS_BRANCH #if another CI build pushes at the same time issues may occur
