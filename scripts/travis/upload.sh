@@ -63,10 +63,11 @@ if [[ -f repo.lock ]]; then
   echo "repo locked"
 fi
 
+echo "before lock"
 touch repo.lock
+echo "after lock"
 ls
-pushtodeploy "lock repo for CI #$TRAVIS_BUILD_NUMBER"
-echo "test" > repo.lock
+pushtodeploy 'lock repo for CI #$TRAVIS_BUILD_NUMBER'
 ls
 
 echo "\n********************"
