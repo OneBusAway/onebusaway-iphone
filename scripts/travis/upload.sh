@@ -59,8 +59,12 @@ if [[ -f repo.lock ]]; then
   ls
   echo "repo locked"
 fi
+
 touch repo.lock
+ls
 pushtodeploy "lock repo for CI #$TRAVIS_BUILD_NUMBER"
+echo "test" > repo.lock
+ls
 
 echo "\n********************"
 echo "*    Copy Files    *"
