@@ -55,6 +55,8 @@ function pushtodeploy {
   fi
 }
 
+ls
+echo " ----------------"
 if [[ -f repo.lock ]]; then
   ls
   echo "repo locked"
