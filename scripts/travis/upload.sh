@@ -1,4 +1,6 @@
 #!/bin/sh
+LOCK_FILE=repo.lock
+
 if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then
   echo "\nThis is a pull request. No deployment will be done."
   exit 0
@@ -33,15 +35,30 @@ ssh-add id_rsa
 echo "\n********************"
 echo "*  Setup Remote    *"
 echo "********************"
+function checklastcommanderrorexit {
+  RC=$?
+  #echo "git exit code: $RC"
+  if [[ $RC -ne "0" ]]; then
+    #echo "error hit"
+    exit -1
+  fi
+}
+
 git remote add deploy $DEPLOY_SSH_REPO
 git fetch deploy
 git checkout -b $TRAVIS_BRANCH deploy/$TRAVIS_BRANCH
 
+RC=$?
+if [[ $RC -ne "0" ]]; then
+  echo "Branch does not exist, making branch"
+  git branch -u deploy/$TRAVIS_BRANCH $TRAVIS_BRANCH
+  checklastcommanderrorexit  
+  git rm $LOCK_FILE
+fi
+
 echo "\n********************"
 echo "*  Lock for deploy  *"
 echo "********************"
-LOCK_FILE=repo.lock
-
 function pushtodeploy {
   git add -A
   CMT_MESSAGE="$TRAVIS_BUILD_NUMBER: $1"
@@ -50,12 +67,7 @@ function pushtodeploy {
   git status
   git push deploy $TRAVIS_BRANCH #if another CI build pushes at the same time issues may occur
 
-  RC=$?
-  #echo "git exit code: $RC"
-  if [[ $RC -ne "0" ]]; then
-    #echo "error hit"
-    exit -1
-  fi
+  checklastcommanderrorexit
 }
 
 if [[ -f $LOCK_FILE ]]; then #check if repo is locked
