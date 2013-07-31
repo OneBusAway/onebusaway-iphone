@@ -38,6 +38,19 @@ git fetch deploy
 git checkout -b $TRAVIS_BRANCH deploy/$TRAVIS_BRANCH
 
 echo "\n********************"
+echo "*  Lock for deploy  *"
+echo "********************"
+touch repo.lock
+git push deploy $TRAVIS_BRANCH
+
+RC=$?
+#echo "git exit code: $RC"
+if [[ $RC -ne "0" ]]; then
+  #echo "error hit"
+  exit -1
+fi
+
+echo "\n********************"
 echo "*    Copy Files    *"
 echo "********************"
 #echo "cp -r \"$ARCHIVE_DIR\" ."
@@ -60,6 +73,7 @@ chmod +x $APPNAME.app/$APPNAME
 echo "\n********************"
 echo "*   Deploy to GH   *"
 echo "********************"
+git rm repo.lock #unlock repo for more deploys
 git add -A
 git commit -m "$COMMIT_MSG"
 git config --global push.default simple #to remove some special warning message about git 2.0 changes
