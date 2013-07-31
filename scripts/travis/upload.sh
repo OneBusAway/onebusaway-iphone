@@ -58,13 +58,6 @@ function pushtodeploy {
   fi
 }
 
-function lockrepo {
-  echo "Locking repo!"
-  touch $LOCK_FILE
-  ls
-  pushtodeploy 'lock repo for CI deploy'
-}
-
 ls
 echo " ----------------"
 if [[ -f $LOCK_FILE ]]; then #check if repo is locked
@@ -74,10 +67,12 @@ if [[ -f $LOCK_FILE ]]; then #check if repo is locked
      sleep 15s
      git pull
   done
-  lockrepo
-else
-  lockrepo
 fi
+
+echo "Locking repo!"
+touch $LOCK_FILE
+ls
+pushtodeploy 'lock repo for CI deploy'
 
 echo "\n********************"
 echo "*    Copy Files    *"
