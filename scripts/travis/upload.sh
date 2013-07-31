@@ -26,7 +26,6 @@ echo "*  Add deploy key  *"
 echo "********************"
 git clone $DEPLOY_READONLY_REPO
 cd onebusaway-iphone-test-releases
-ls
 eval `ssh-agent -s`
 chmod 600 id_rsa # this key should have push access
 ssh-add id_rsa
@@ -59,7 +58,7 @@ function pushtodeploy {
 
 ls
 echo " ----------------"
-if [[ -f repo.lock ]]; then
+if [[ -f repo.lock ]]; then #check if repo is locked
   ls
   echo "Waiting to lock repo"
   while [ -f repo.lock ]; do
@@ -68,10 +67,8 @@ if [[ -f repo.lock ]]; then
      git pull
   done
 else
-  echo "locking!!!!"
-  echo "before lock"
+  echo "Locking repo!"
   touch repo.lock
-  echo "after lock"
   ls
   pushtodeploy 'lock repo for CI deploy'
 fi
