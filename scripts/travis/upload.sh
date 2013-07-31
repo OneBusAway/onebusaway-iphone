@@ -54,7 +54,9 @@ if [[ $RC -ne "0" ]]; then
   git branch $TRAVIS_BRANCH
   git push deploy $TRAVIS_BRANCH -u
   checklastcommanderrorexit  
-  git rm $LOCK_FILE
+  if [[ -f $LOCK_FILE ]]; then #clear lock since new branch
+    git rm $LOCK_FILE
+  fi
 fi
 
 echo "\n********************"
