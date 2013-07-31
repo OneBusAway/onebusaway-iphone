@@ -111,14 +111,12 @@ echo "\n********************"
 echo "*   Deploy to GH   *"
 echo "********************"
 #todo: only push if newer build hasn't already pushed: see http://madebynathan.com/2012/01/31/travis-ci-status-in-shell-prompt/ & https://github.com/travis-ci/travis#installation & https://github.com/rcrowley/json.sh and https://api.travis-ci.org/repositories/OneBusAway/onebusaway-iphone.json
-echo "sleep 5m"
-#sleep 600s
 pushtodeploy "$COMMIT_MSG"
 
 echo "\n********************"
 echo "*    Unlok repo    *"
 echo "********************"
 git rm -f $LOCK_FILE #unlock repo for other deploys
-#pushtodeploy "unlock repo"
+pushtodeploy "unlock repo"
 
 exit 0
