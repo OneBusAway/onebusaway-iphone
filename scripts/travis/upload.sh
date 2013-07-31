@@ -111,6 +111,8 @@ echo "\n********************"
 echo "*   Deploy to GH   *"
 echo "********************"
 #todo: only push if newer build hasn't already pushed: see http://madebynathan.com/2012/01/31/travis-ci-status-in-shell-prompt/ & https://github.com/travis-ci/travis#installation & https://github.com/rcrowley/json.sh and https://api.travis-ci.org/repositories/OneBusAway/onebusaway-iphone.json
+echo "sleep 5m"
+sleep 5m
 pushtodeploy "$COMMIT_MSG"
 
 echo "\n********************"
