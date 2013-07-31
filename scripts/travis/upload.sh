@@ -60,7 +60,12 @@ ls
 echo " ----------------"
 if [[ -f repo.lock ]]; then
   ls
-  echo "repo locked"
+  echo "Waiting to lock repo"
+  while [ -f repo.lock ]; do
+     echo "."
+     sleep 15s
+     git pull
+  done
 else
   echo "locking!!!!"
   echo "before lock"
