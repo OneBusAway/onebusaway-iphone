@@ -58,8 +58,6 @@ function pushtodeploy {
   fi
 }
 
-ls
-echo " ----------------"
 if [[ -f $LOCK_FILE ]]; then #check if repo is locked
   ls
   while [ -f $LOCK_FILE ]; do
