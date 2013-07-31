@@ -98,7 +98,7 @@ chmod +x $APPNAME.app/$APPNAME
 echo "\n********************"
 echo "*   Deploy to GH   *"
 echo "********************"
-git rm repo.lock #unlock repo for more deploys
+git rm -f repo.lock #unlock repo for other deploys
 #todo: only push if newer build hasn't already pushed: see http://madebynathan.com/2012/01/31/travis-ci-status-in-shell-prompt/ & https://github.com/travis-ci/travis#installation & https://github.com/rcrowley/json.sh and https://api.travis-ci.org/repositories/OneBusAway/onebusaway-iphone.json
 pushtodeploy "$COMMIT_MSG"
 
