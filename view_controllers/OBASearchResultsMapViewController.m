@@ -895,7 +895,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
                 return NSLocalizedString(@"Too many stops.  Zoom in for more detail.",@"result.limitExceeded");
             NSArray * values = result.values;
             if( [values count] == 0 )
-                return NSLocalizedString(@"No stops at your current location.",@"[values count] == 0");
+                return NSLocalizedString(@"No stops at this location.",@"[values count] == 0");
             return defaultLabel;
         }
 
