@@ -54,7 +54,7 @@ static const double kMaxMapDistanceFromCurrentLocationForNearby = 800;
 static const double kPaddingScaleFactor = 1.075;
 static const NSUInteger kShowNClosestStops = 4;
 
-static const double kStopsInRegionRefreshDelayOnDrag = 0.5;
+static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 @interface OBASearchResultsMapViewController ()
@@ -743,6 +743,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
             self.mapLabel.alpha = 1.f;
         }];
     }
+    else if (labelText){
+        self.mapLabel.text = labelText;
+    }
     else if (!labelText) {
         [UIView animateWithDuration:kMapLabelAnimationDuration animations:^{
             self.mapLabel.alpha = 0;
@@ -894,7 +897,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
             if( result.limitExceeded )
                 return NSLocalizedString(@"Too many stops.  Zoom in for more detail.",@"result.limitExceeded");
             NSArray * values = result.values;
-            if( [values count] == 0 )
+            if( [values count] == 0 && span.latitudeDelta <= kMaxLatDeltaToShowStops)
                 return NSLocalizedString(@"No stops at this location.",@"[values count] == 0");
             return defaultLabel;
         }
