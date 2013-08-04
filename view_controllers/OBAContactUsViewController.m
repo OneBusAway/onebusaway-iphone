@@ -121,7 +121,8 @@
         case 1:
             if (indexPath.section == 0) {
                 NSString *url = [NSString stringWithString: NSLocalizedString(@"http://twitter.com/onebusaway",@"case 0")];
-                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];            } else
+                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+            } else
             {
                 NSString *url = [NSString stringWithString: NSLocalizedString(@"http://pugetsound.onebusaway.org/p/PrivacyPolicy.action",@"didSelectRowAtIndexPath case 3")];
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
@@ -134,6 +135,7 @@
             break;
             
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 
 }
