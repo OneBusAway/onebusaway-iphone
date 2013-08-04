@@ -719,6 +719,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     }
     
     if (result && result.searchType == OBASearchTypeAgenciesWithCoverage) {
+        self.navigationItem.titleView = nil;
+        self.navigationItem.title = NSLocalizedString(@"Agencies", @"self.navigationItem.title");
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPressed)];
     }
     
@@ -1181,6 +1183,8 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 
 - (void) cancelPressed
 {
+    self.navigationItem.titleView = self.searchBar;
+    self.navigationItem.title = NSLocalizedString(@"Map", @"self.navigationItem.title");
     [self.searchController searchWithTarget:[OBASearch getNavigationTargetForSearchNone]];
     [self refreshStopsInRegion];
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
