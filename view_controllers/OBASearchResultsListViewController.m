@@ -27,6 +27,7 @@
 
 - (void) reloadData;
 - (NSString*) getStopDetail:(OBAStopV2*) stop;
+- (NSString*) getRouteText:(OBARouteV2*) route;
 
 @end
 
@@ -111,7 +112,7 @@
             UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
             OBARouteV2 * route = (_result.values)[indexPath.row];
             OBAAgencyV2 * agency = route.agency;
-            cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@",route.shortName,route.longName];
+            cell.textLabel.text = [self getRouteText:route];
             cell.textLabel.adjustsFontSizeToFitWidth = YES;
             cell.detailTextLabel.text = agency.name;
             return cell;
@@ -230,6 +231,15 @@
     return label;
 }
 
+- (NSString*) getRouteText:(OBARouteV2*) route {
+    NSMutableArray *nameArray = [NSMutableArray array];
+    if (route.shortName) {
+        [nameArray addObject:route.shortName];
+    }
+    if (route.longName) {
+        [nameArray addObject:route.longName];
+    }
+    
+    return [nameArray componentsJoinedByString:@" - "];
+}
 @end
-
-
