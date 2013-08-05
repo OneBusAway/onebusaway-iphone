@@ -209,6 +209,7 @@ typedef enum {
     OBAAgencyWithCoverageV2 * awc = _agencies[indexPath.row];
     OBAAgencyV2 * agency = awc.agency;
     [[UIApplication sharedApplication] openURL: [NSURL URLWithString: agency.url]];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

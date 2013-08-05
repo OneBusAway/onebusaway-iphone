@@ -31,9 +31,7 @@
 #import "OBAUserPreferencesMigration.h"
 #import "IASKAppSettingsViewController.h"
 
-static NSString * kOBAHiddenPreferenceSavedNavigationTargets = @"OBASavedNavigationTargets";
-static NSString * kOBAHiddenPreferenceApplicationLastActiveTimestamp = @"OBAApplicationLastActiveTimestamp";
-static NSString * kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
+
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
 
