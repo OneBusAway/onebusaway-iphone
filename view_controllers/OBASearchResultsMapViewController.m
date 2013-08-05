@@ -54,7 +54,7 @@ static const double kMaxMapDistanceFromCurrentLocationForNearby = 800;
 static const double kPaddingScaleFactor = 1.075;
 static const NSUInteger kShowNClosestStops = 4;
 
-static const double kStopsInRegionRefreshDelayOnDrag = 0.5;
+static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 @interface OBASearchResultsMapViewController ()
@@ -719,6 +719,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     }
     
     if (result && result.searchType == OBASearchTypeAgenciesWithCoverage) {
+        self.navigationItem.titleView = nil;
+        self.navigationItem.title = NSLocalizedString(@"Agencies", @"self.navigationItem.title");
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPressed)];
     }
     
@@ -742,6 +744,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         [UIView animateWithDuration:kMapLabelAnimationDuration animations:^{
             self.mapLabel.alpha = 1.f;
         }];
+    }
+    else if (labelText){
+        self.mapLabel.text = labelText;
     }
     else if (!labelText) {
         [UIView animateWithDuration:kMapLabelAnimationDuration animations:^{
@@ -894,8 +899,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
             if( result.limitExceeded )
                 return NSLocalizedString(@"Too many stops.  Zoom in for more detail.",@"result.limitExceeded");
             NSArray * values = result.values;
-            if( [values count] == 0 )
-                return NSLocalizedString(@"No stops at your current location.",@"[values count] == 0");
+            if( [values count] == 0 && span.latitudeDelta <= kMaxLatDeltaToShowStops)
+                return NSLocalizedString(@"No stops at this location.",@"[values count] == 0");
             return defaultLabel;
         }
 
@@ -1178,6 +1183,8 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 
 - (void) cancelPressed
 {
+    self.navigationItem.titleView = self.searchBar;
+    self.navigationItem.title = NSLocalizedString(@"Map", @"self.navigationItem.title");
     [self.searchController searchWithTarget:[OBASearch getNavigationTargetForSearchNone]];
     [self refreshStopsInRegion];
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
