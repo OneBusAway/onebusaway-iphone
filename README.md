@@ -7,6 +7,10 @@ If you would like to help test the latest development release signup on our [Tes
 
 Have a jailbroken device? [Install the latest commit build](https://github.com/bbodenmiller/onebusaway-iphone-test-releases)
 
+## Contributing
+
+See our [contributing guidelines](CONTRIBUTING.md) and [roadmap](ROADMAP.md).
+
 ## Build instructions
 
 * Clone the repository.
@@ -22,8 +26,7 @@ Runtime: iOS 5.1 or higher
 
 ### Releasing
 
-When uploading to app store rename `org.onebusaway.iphone-debug` to `org.onebusaway.iphone` in `Info.plist`
-
-## Contributing
-
-See our [contributing guidelines](CONTRIBUTING.md) and [roadmap](ROADMAP.md).
+* Update the [CHANGELOG](CHANGELOG.md) to reflect the changes in this release
+* Create [GitHub release](https://github.com/OneBusAway/onebusaway-iphone/releases) based on changelog
+* Use changelog as App Store release notes
+* When uploading to App Store rename `org.onebusaway.iphone-debug` to `org.onebusaway.iphone` in `Info.plist`
