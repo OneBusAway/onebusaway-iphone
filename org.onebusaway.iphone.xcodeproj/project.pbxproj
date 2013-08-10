@@ -11,6 +11,8 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
+		92235D2617B692760042B843 /* OBARegionBoundsV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 92235D2317B692760042B843 /* OBARegionBoundsV2.m */; };
+		92235D2717B692760042B843 /* OBARegionV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 92235D2517B692760042B843 /* OBARegionV2.m */; };
 		923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */; };
 		9302721616137A47004DBFDE /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 9302721416137A47004DBFDE /* info.png */; };
 		9302721716137A47004DBFDE /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9302721516137A47004DBFDE /* info@2x.png */; };
@@ -369,6 +371,10 @@
 		28A0AB4B0D9B1048005BE974 /* org_onebusaway_iphone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = org_onebusaway_iphone_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		92235D2217B692760042B843 /* OBARegionBoundsV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionBoundsV2.h; sourceTree = "<group>"; };
+		92235D2317B692760042B843 /* OBARegionBoundsV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionBoundsV2.m; sourceTree = "<group>"; };
+		92235D2417B692760042B843 /* OBARegionV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionV2.h; sourceTree = "<group>"; };
+		92235D2517B692760042B843 /* OBARegionV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionV2.m; sourceTree = "<group>"; };
 		923FE67E176082A7009AFDE8 /* UITableViewController+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewController+oba_Additions.h"; sourceTree = "<group>"; };
 		923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewController+oba_Additions.m"; sourceTree = "<group>"; };
 		9302721416137A47004DBFDE /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = Resources/info.png; sourceTree = "<group>"; };
@@ -1207,6 +1213,10 @@
 				933C7E79160C07440005AAFE /* OBAListWithRangeAndReferencesV2.m */,
 				933C7E7A160C07440005AAFE /* OBAReferencesV2.h */,
 				933C7E7B160C07440005AAFE /* OBAReferencesV2.m */,
+				92235D2217B692760042B843 /* OBARegionBoundsV2.h */,
+				92235D2317B692760042B843 /* OBARegionBoundsV2.m */,
+				92235D2417B692760042B843 /* OBARegionV2.h */,
+				92235D2517B692760042B843 /* OBARegionV2.m */,
 				933C7E7C160C07440005AAFE /* OBAReportProblemWithPlannedTripV2.h */,
 				933C7E7D160C07440005AAFE /* OBAReportProblemWithPlannedTripV2.m */,
 				933C7E7E160C07440005AAFE /* OBAReportProblemWithStopV2.h */,
@@ -2139,6 +2149,8 @@
 				931C42CD160F984000435CD3 /* OBAShadowLabel.m in Sources */,
 				93AA8A541622610300B945E7 /* OBARegionChangeRequest.m in Sources */,
 				923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */,
+				92235D2617B692760042B843 /* OBARegionBoundsV2.m in Sources */,
+				92235D2717B692760042B843 /* OBARegionV2.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

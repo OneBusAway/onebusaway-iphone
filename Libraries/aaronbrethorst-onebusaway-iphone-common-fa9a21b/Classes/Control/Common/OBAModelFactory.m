@@ -43,6 +43,8 @@
 #import "OBASetLocationPropertyJsonDigesterRule.h"
 #import "OBASetDatePropertyJsonDigesterRule.h"
 
+#import "OBARegionV2.h"
+#import "OBARegionBoundsV2.h"
 
 static NSString * const kReferences = @"references";
 
@@ -92,6 +94,8 @@ static NSString * const kReferences = @"references";
 - (void) addSetLocationPropertyRule:(NSString*)propertyName withPrefix:(NSString*)prefix;
 - (void) addSetDatePropertyRule:(NSString*)propertyName withPrefix:(NSString*)prefix;
 
+- (void) addRegionV2RulesWithPrefix:(NSString*)prefix;
+- (void) addRegionBoundsV2RulesWithPrefix:(NSString*)prefix;
 @end
 
 
@@ -178,6 +182,17 @@ static NSString * const kReferences = @"references";
     [digester parse:jsonDictionary withRoot:list parameters:[self getDigesterParameters] error:error];
     
     return list;
+}
+
+- (OBAListWithRangeAndReferencesV2*) getRegionsV2FromJson:(id)jsonDictionary error:(NSError**)error {
+        OBAListWithRangeAndReferencesV2 * list = [[OBAListWithRangeAndReferencesV2 alloc] initWithReferences:_references];
+    
+        OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
+        [digester addRegionV2RulesWithPrefix:@"/data/list/[]"];
+        [digester addSetNext:@selector(addValue:) forPrefix:@"/data/list/[]"];
+        [digester parse:jsonDictionary withRoot:list parameters:[self getDigesterParameters] error:error];
+    
+        return list;
 }
 
 - (OBAArrivalsAndDeparturesForStopV2*) getArrivalsAndDeparturesForStopV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error {
@@ -569,6 +584,36 @@ static NSString * const kReferences = @"references";
     [self addCallMethodRule:@selector(addSituationId:) forPrefix:[self extendPrefix:prefix withValue:@"situationIds/[]"]];
     
     [self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];
+}
+
+- (void) addRegionV2RulesWithPrefix:(NSString*)prefix {
+    [self addObjectCreateRule:[OBARegionV2 class] forPrefix:prefix];
+    [self addSetPropertyRule:@"siriBaseUrl" forPrefix:[self extendPrefix:prefix withValue:@"siriBaseUrl"]];
+    [self addSetPropertyRule:@"obaVersionInfo" forPrefix:[self extendPrefix:prefix withValue:@"obaVersionInfo"]];
+    [self addSetPropertyRule:@"supportsSiriRealtimeApis" forPrefix:[self extendPrefix:prefix withValue:@"supportsSiriRealtimeApis"]];
+    [self addSetPropertyRule:@"language" forPrefix:[self extendPrefix:prefix withValue:@"language"]];
+    [self addSetPropertyRule:@"supportsObaRealtimeApis" forPrefix:[self extendPrefix:prefix withValue:@"supportsObaRealtimeApis"]];
+
+    NSString * regionBoundsPrefix = [self extendPrefix:prefix withValue:@"bounds/[]"];
+    [self addRegionBoundsV2RulesWithPrefix:regionBoundsPrefix];
+    [self addSetNext:@selector(addBound:) forPrefix:regionBoundsPrefix];
+
+    //[self addCallMethodRule:@selector(addBound:) forPrefix:[self extendPrefix:prefix withValue:@"bounds/[]"]];
+
+    [self addSetPropertyRule:@"supportsObaDiscoveryApis" forPrefix:[self extendPrefix:prefix withValue:@"supportsObaDiscoveryApis"]];
+    [self addSetPropertyRule:@"contactEmail" forPrefix:[self extendPrefix:prefix withValue:@"contactEmail"]];
+    [self addSetPropertyRule:@"active" forPrefix:[self extendPrefix:prefix withValue:@"active"]];
+    [self addSetPropertyRule:@"obaBaseUrl" forPrefix:[self extendPrefix:prefix withValue:@"obaBaseUrl"]];
+    [self addSetPropertyRule:@"id_number" forPrefix:[self extendPrefix:prefix withValue:@"id"]];
+    [self addSetPropertyRule:@"regionName" forPrefix:[self extendPrefix:prefix withValue:@"regionName"]];
+}
+
+- (void) addRegionBoundsV2RulesWithPrefix:(NSString*)prefix {
+    [self addObjectCreateRule:[OBARegionBoundsV2 class] forPrefix:prefix];
+    [self addSetPropertyRule:@"lat" forPrefix:[self extendPrefix:prefix withValue:@"lat"]];
+    [self addSetPropertyRule:@"latSpan" forPrefix:[self extendPrefix:prefix withValue:@"latSpan"]];
+    [self addSetPropertyRule:@"lon" forPrefix:[self extendPrefix:prefix withValue:@"lon"]];
+    [self addSetPropertyRule:@"lonSpan" forPrefix:[self extendPrefix:prefix withValue:@"lonSpan"]];
 }
 
 - (void) addTripStatusV2RulesWithPrefix:(NSString*)prefix {

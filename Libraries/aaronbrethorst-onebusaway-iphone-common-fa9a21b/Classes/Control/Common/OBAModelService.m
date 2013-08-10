@@ -30,6 +30,7 @@ static const float kSearchRadius = 400;
 @synthesize modelFactory = _modelFactory;
 @synthesize references = _references;
 @synthesize obaJsonDataSource = _obaJsonDataSource;
+@synthesize obaRegionJsonDataSource = _obaRegionJsonDataSource; 
 @synthesize googleMapsJsonDataSource = _googleMapsJsonDataSource;
 @synthesize googlePlacesJsonDataSource = _googlePlacesJsonDataSource;
 @synthesize locationManager = _locationManager;
@@ -132,6 +133,14 @@ static const float kSearchRadius = 400;
     SEL selector = @selector(getPlacemarksFromJSONObject:error:);
     
     return [self request:_googleMapsJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
+}
+
+- (id<OBAModelServiceRequest>) requestRegions:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+    NSString * url = @"/regions.json";
+    NSString * args = @"";
+    SEL selector = @selector(getRegionsV2FromJson:error:);
+
+    return [self request:_obaRegionJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
 }
 
 - (id<OBAModelServiceRequest>) placemarksForPlace:(NSString*)name withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
