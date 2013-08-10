@@ -50,8 +50,8 @@ git checkout -b $TRAVIS_BRANCH deploy/$TRAVIS_BRANCH
 
 RC=$?
 if [[ $RC -ne "0" ]]; then
-  echo "Branch does not exist, making branch"
-  git branch $TRAVIS_BRANCH
+  echo "Branch does not exist, making branch and checking out"
+  git checkout -b $TRAVIS_BRANCH
   git push deploy $TRAVIS_BRANCH -u
   checklastcommanderrorexit  
   if [[ -f $LOCK_FILE ]]; then #clear lock since new branch
