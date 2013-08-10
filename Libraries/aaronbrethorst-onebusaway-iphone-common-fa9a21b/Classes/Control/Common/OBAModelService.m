@@ -113,7 +113,7 @@ static const float kSearchRadius = 400;
     routeQuery = [self escapeStringForUrl:routeQuery];
     
     NSString * url = @"/api/where/routes-for-location.json";
-    NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2", coord.latitude, coord.longitude,routeQuery];
+    NSString * args = [NSString stringWithFormat:@"radius=50000&lat=%f&lon=%f&query=%@&version=2", coord.latitude, coord.longitude,routeQuery];
     SEL selector = @selector(getRoutesV2FromJSON:error:);
     
     return [self request:url args:args selector:selector delegate:delegate context:context];

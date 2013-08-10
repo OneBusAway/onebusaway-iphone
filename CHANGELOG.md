@@ -1,5 +1,8 @@
 # Changelog for OneBusAway for iPhone
 
+## 2.0
+* Fixed bug where some routes wouldn't appear when searching depending on your current location
+
 ## 1.2
 
 Special thanks to Sebastian Kießling, Aaron Brethorst, and all other parties involved for making this update possible. 
