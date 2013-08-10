@@ -75,11 +75,10 @@ static NSString * kRegionName = @"regionName";
     self.siriBaseUrl = nil;
     self.obaVersionInfo = nil;
     self.language = nil;
-    [_bounds release];
+    self.bounds = nil;
     self.contactEmail = nil;
     self.obaBaseUrl = nil;
     self.regionName = nil;
-    [super dealloc];
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {

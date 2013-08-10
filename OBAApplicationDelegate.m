@@ -31,9 +31,11 @@
 #import "OBAUserPreferencesMigration.h"
 #import "IASKAppSettingsViewController.h"
 
+#import "OBARegionListViewController.h"
 
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
+static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 
 @interface OBAApplicationDelegate ()
 @property(nonatomic,readwrite) BOOL active;
@@ -85,11 +87,21 @@ static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
     
     NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
                                     
-    NSString * apiServerName = [userDefaults objectForKey:@"oba_api_server"];
-    if( apiServerName == nil || [apiServerName length] == 0 )
-        apiServerName = kOBADefaultApiServerName;
-    
-    apiServerName = [NSString stringWithFormat:@"http://%@",apiServerName];
+    NSString * apiServerName; // = [userDefaults objectForKey:@"oba_api_server"];
+	if( apiServerName == nil || [apiServerName length] == 0 ) {
+        if (_modelDao.region != nil) {
+            apiServerName = [NSString stringWithFormat:@"%@", _modelDao.region.obaBaseUrl];
+            // remove the last '/'
+            apiServerName = [apiServerName substringToIndex:[apiServerName length]-1];
+        }
+        else {
+            apiServerName = kOBADefaultApiServerName;
+            apiServerName = [NSString stringWithFormat:@"http://%@",apiServerName];
+        }
+        
+    }
+    NSLog(@"%@",apiServerName);
+
     
     NSString * userId = [self userIdFromDefaults:userDefaults];
     NSString * appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
@@ -102,6 +114,18 @@ static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
     OBADataSourceConfig * googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://maps.google.com" args:@"output=json&oe=utf-8&key=ABQIAAAA1R_R0bUhLYRwbQFpKHVowhRAXGY6QyK0faTs-0G7h9EE_iri4RRtKgRdKFvvraEP5PX_lP_RlqKkzA"];
     OBAJsonDataSource * googleMapsJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
     _modelService.googleMapsJsonDataSource = googleMapsJsonDataSource;
+    
+    
+    NSString * regionApiServerName = [userDefaults objectForKey:@"oba_region_api_server"];
+    if (regionApiServerName == nil || [regionApiServerName length] == 0) {
+        regionApiServerName = kOBADefaultRegionApiServerName;
+    }
+    
+    regionApiServerName = [NSString stringWithFormat:@"http://%@", regionApiServerName];
+    
+    OBADataSourceConfig * obaRegionDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:regionApiServerName args:obaArgs];
+    OBAJsonDataSource * obaRegionJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:obaRegionDataSourceConfig];
+    _modelService.obaRegionJsonDataSource = obaRegionJsonDataSource;
     
     [userDefaults setObject:appVersion forKey:@"oba_application_version"];
 }
@@ -139,6 +163,12 @@ static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
     [[UITabBar appearance] setSelectedImageTintColor:tintColor];
     
     self.window.rootViewController = self.tabBarController;
+
+    if (_modelDao.region == nil) {
+        _regionListViewController = [[OBARegionListViewController alloc] initWithApplicationContext:self];
+        self.window.rootViewController = _regionListViewController;
+    }
+
     [self.window makeKeyAndVisible];
 }
 
@@ -258,6 +288,16 @@ static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
     
     NSString * path = [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"OneBusAway.sqlite"];
     [migration migrateCoreDataPath:path toDao:_modelDao];
+}
+
+- (void)regionSelected {
+    [_regionListViewController.view removeFromSuperview];
+    _regionListViewController = nil;
+    
+    [self refreshSettings];
+    
+    self.window.rootViewController = self.tabBarController;
+    [_window makeKeyAndVisible];
 }
 
 #pragma mark Application's documents directory

@@ -28,6 +28,7 @@
 @class OBABookmarksViewController;
 @class OBAInfoViewController;
 @class OBAStopIconFactory;
+@class OBARegionListViewController;
 
 @interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate,IASKSettingsDelegate> {
     
@@ -38,6 +39,8 @@
     OBALocationManager * _locationManager;
 
     OBAStopIconFactory * _stopIconFactory;
+    
+    OBARegionListViewController *_regionListViewController;
 }
 
 @property(nonatomic, strong) UIWindow *window;
@@ -55,6 +58,7 @@
 @property(strong) UINavigationController *infoNavigationController;
 @property(strong) OBAInfoViewController *infoViewController;
 
+
 @property(nonatomic,readonly) OBAReferencesV2 * references;
 @property(nonatomic,readonly) OBAModelDAO * modelDao;
 @property(nonatomic,readonly) OBAModelService * modelService;
@@ -67,5 +71,6 @@
 
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget;
 - (void) refreshSettings;
+- (void) regionSelected;
 
 @end

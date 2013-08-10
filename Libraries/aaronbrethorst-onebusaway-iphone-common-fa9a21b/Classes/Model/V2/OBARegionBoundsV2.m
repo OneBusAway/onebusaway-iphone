@@ -19,9 +19,6 @@ static NSString * kLatSpanKey = @"latSpan";
 static NSString * kLonKey = @"lon";
 static NSString * kLonSpanKey = @"lonSpan";
 
-- (void) dealloc {
-    [super dealloc];
-}
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [encoder encodeDouble:self.lat forKey:kLatKey];

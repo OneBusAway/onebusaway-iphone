@@ -41,6 +41,7 @@ const static int kMaxEntriesInMostRecentList = 10;
         _stopPreferences = [[NSMutableDictionary alloc] initWithDictionary:[_preferencesDao readStopPreferences]];
         _mostRecentLocation = [_preferencesDao readMostRecentLocation];
         _visitedSituationIds = [[NSMutableSet alloc] initWithSet:[_preferencesDao readVisistedSituationIds]];
+        _region = [_preferencesDao readOBARegion];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recordPlacemark:) name:OBAPlacemarkNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewedArrivalsAndDeparturesForStop:) name:OBAViewedArrivalsAndDeparturesForStopNotification object:nil];
@@ -69,6 +70,16 @@ const static int kMaxEntriesInMostRecentList = 10;
     _mostRecentLocation = [NSObject releaseOld:_mostRecentLocation retainNew:location];
     [_preferencesDao writeMostRecentLocation:location];
 }
+
+- (OBARegionV2*) region {
+    return _region;
+}
+
+- (void) setOBARegion:(OBARegionV2*)newRegion {
+    _region = [NSObject releaseOld:_region retainNew:newRegion];
+    [_preferencesDao writeOBARegion:newRegion];
+}
+
 
 - (void) addStopAccessEvent:(OBAStopAccessEventV2*)event {
 

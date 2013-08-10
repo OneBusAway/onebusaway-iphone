@@ -169,23 +169,20 @@ static NSString * kOBARegionKey = @"oBARegion";
     [user setObject:data forKey:kVisitedSituationIdsKey];
 }
 
-- (NSDictionary*) readOBARegion {
-	NSDictionary * dictionary = nil;
+- (OBARegionV2*) readOBARegion {
+	OBARegionV2* region = nil;
 	@try {
 		NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
 		NSData * data = [user dataForKey:kOBARegionKey];
-		dictionary = [self decodeObjectForKey:kOBARegionKey fromData:data];
+		region = [self decodeObjectForKey:kOBARegionKey fromData:data];
 	}
 	@catch (NSException * e) {
 	}
 	
-	if( ! dictionary )
-		dictionary = [[NSDictionary alloc] init];
-	
-	return dictionary;
+	return region;
 }
 
-- (void) writeOBARegion:(NSDictionary *)oBARegion {
+- (void) writeOBARegion:(OBARegionV2 *)oBARegion {
 	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
 	NSMutableData * data = [NSMutableData data];
 	[self encodeObject:oBARegion forKey:kOBARegionKey toData:data];
