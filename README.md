@@ -1,4 +1,4 @@
-# OneBusAway for iPhone [![Build Status](https://travis-ci.org/OneBusAway/onebusaway-iphone.png)](https://travis-ci.org/OneBusAway/onebusaway-iphone) [![Stories in Ready](http://githubkanban.herokuapp.com/huboard/OneBusAway/onebusaway-iphone.png)](http://huboard.com/OneBusAway/onebusaway-iphone/board)
+# OneBusAway for iPhone [![Build Status](https://travis-ci.org/OneBusAway/onebusaway-iphone.png)](https://travis-ci.org/OneBusAway/onebusaway-iphone) [![Stories in Ready](https://githubkanban.herokuapp.com/huboard/OneBusAway/onebusaway-iphone.png)](http://huboard.com/OneBusAway/onebusaway-iphone/board)
 
 ## Test latest development release
 
