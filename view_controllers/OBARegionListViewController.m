@@ -40,6 +40,7 @@ typedef enum {
 -(void) viewDidLoad {
 	self.refreshable = NO;
 	self.showUpdateTime = NO;
+    self.progressLabel = NSLocalizedString(@"Regions", @"regions title");
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
 }
@@ -353,10 +354,10 @@ typedef enum {
             return ;
             break;
     }
-    
+
     [_appContext.modelDao setOBARegion:region];
     [_appContext regionSelected];
-	//[[UIApplication sharedApplication] openURL: [NSURL URLWithString: agency.url]];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

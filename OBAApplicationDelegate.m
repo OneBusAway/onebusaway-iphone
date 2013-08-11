@@ -164,10 +164,10 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     
     self.window.rootViewController = self.tabBarController;
 
-    if (_modelDao.region == nil) {
+    //if (_modelDao.region == nil) {
         _regionListViewController = [[OBARegionListViewController alloc] initWithApplicationContext:self];
         self.window.rootViewController = _regionListViewController;
-    }
+    //}
 
     [self.window makeKeyAndVisible];
 }

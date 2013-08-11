@@ -15,6 +15,7 @@
 		92235D2717B692760042B843 /* OBARegionV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 92235D2517B692760042B843 /* OBARegionV2.m */; };
 		923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */; };
 		925A1AD517B6ACA200029F0B /* OBARegionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 925A1AD417B6ACA200029F0B /* OBARegionListViewController.m */; };
+		925A1AD817B7969500029F0B /* OBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 925A1AD717B7969500029F0B /* OBASettingsViewController.m */; };
 		9302721616137A47004DBFDE /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 9302721416137A47004DBFDE /* info.png */; };
 		9302721716137A47004DBFDE /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9302721516137A47004DBFDE /* info@2x.png */; };
 		931C42BD160E47FC00435CD3 /* OBAGenericStopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 931C42BC160E47FC00435CD3 /* OBAGenericStopViewController.xib */; };
@@ -380,6 +381,8 @@
 		923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewController+oba_Additions.m"; sourceTree = "<group>"; };
 		925A1AD317B6ACA200029F0B /* OBARegionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionListViewController.h; sourceTree = "<group>"; };
 		925A1AD417B6ACA200029F0B /* OBARegionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionListViewController.m; sourceTree = "<group>"; };
+		925A1AD617B7969500029F0B /* OBASettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASettingsViewController.h; sourceTree = "<group>"; };
+		925A1AD717B7969500029F0B /* OBASettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASettingsViewController.m; sourceTree = "<group>"; };
 		9302721416137A47004DBFDE /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = Resources/info.png; sourceTree = "<group>"; };
 		9302721516137A47004DBFDE /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "info@2x.png"; path = "Resources/info@2x.png"; sourceTree = "<group>"; };
 		931C42BC160E47FC00435CD3 /* OBAGenericStopViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAGenericStopViewController.xib; sourceTree = "<group>"; };
@@ -1577,6 +1580,8 @@
 				93631EAA1607FB2F00CB7209 /* OBAInfoViewController.m */,
 				925A1AD317B6ACA200029F0B /* OBARegionListViewController.h */,
 				925A1AD417B6ACA200029F0B /* OBARegionListViewController.m */,
+				925A1AD617B7969500029F0B /* OBASettingsViewController.h */,
+				925A1AD717B7969500029F0B /* OBASettingsViewController.m */,
 			);
 			path = view_controllers;
 			sourceTree = "<group>";
@@ -2157,6 +2162,7 @@
 				92235D2617B692760042B843 /* OBARegionBoundsV2.m in Sources */,
 				92235D2717B692760042B843 /* OBARegionV2.m in Sources */,
 				925A1AD517B6ACA200029F0B /* OBARegionListViewController.m in Sources */,
+				925A1AD817B7969500029F0B /* OBASettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
