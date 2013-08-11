@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSString * language;
 @property (nonatomic, retain) NSArray * bounds;
 @property (nonatomic, retain) NSString * contactEmail;
+@property (nonatomic, retain) NSString * twitterUrl;
 @property (nonatomic, retain) NSString * obaBaseUrl;
 @property (nonatomic, retain) NSString * regionName;
 

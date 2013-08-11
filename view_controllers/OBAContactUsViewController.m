@@ -91,7 +91,8 @@ static NSString * kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
             break;
         case 1:
             if (indexPath.section == 0) {
-                cell.textLabel.text = NSLocalizedString(@"http://twitter.com/onebusaway",@"case 1");
+                NSString *twitterName = [[region.twitterUrl componentsSeparatedByString:@"/"] lastObject];
+                cell.textLabel.text = [NSString stringWithFormat:@"twitter.com/%@", twitterName];
             } else
             {
                 cell.textLabel.text = NSLocalizedString(@"Privacy policy",@"cell.textLabel.text case 2");
@@ -123,10 +124,12 @@ static NSString * kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
             break;
         case 1:
             if (indexPath.section == 0) {
+                NSString *twitterName = [[region.twitterUrl componentsSeparatedByString:@"/"] lastObject];
                 if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]]) {
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"twitter://user?screen_name=onebusaway"]];
+                    NSString *url = [NSString stringWithFormat:@"twitter://user?screen_name=%@",twitterName ];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
                 } else {
-                    NSString *url = [NSString stringWithString: NSLocalizedString(@"http://twitter.com/onebusaway",@"case 0")];
+                    NSString *url = [NSString stringWithFormat:@"http://twitter.com/%@", twitterName];
                     [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
                 }
             } else
