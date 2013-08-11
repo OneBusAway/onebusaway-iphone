@@ -29,7 +29,6 @@
 #import "OBAStopIconFactory.h"
 
 #import "OBAUserPreferencesMigration.h"
-#import "IASKAppSettingsViewController.h"
 
 #import "OBARegionListViewController.h"
 
@@ -203,14 +202,14 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 
 
 
-
+/*
 #pragma mark IASKSettingsDelegate
 
 - (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
     [self refreshSettings];
     
 }
-
+*/
 - (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget {
     
     [_references clear];

@@ -115,7 +115,7 @@
             break;
         }
         default:
-            break;
+            return;
     }
     
     [self.navigationController pushViewController:pushMe animated:YES];

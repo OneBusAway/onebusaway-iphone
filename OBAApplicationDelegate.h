@@ -21,7 +21,6 @@
 #import "OBALocationManager.h"
 #import "OBANavigationTarget.h"
 #import "OBAReferencesV2.h"
-#import "IASKAppSettingsViewController.h"
 
 @class OBASearchResultsMapViewController;
 @class OBARecentStopsViewController;
@@ -30,7 +29,7 @@
 @class OBAStopIconFactory;
 @class OBARegionListViewController;
 
-@interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate,IASKSettingsDelegate> {
+@interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate> {
     
     OBAReferencesV2 * _references;
     OBAModelDAO * _modelDao;
