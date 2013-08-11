@@ -15,17 +15,18 @@
  */
 
 #import "OBAContactUsViewController.h"
-//#import "ISFeedback.h"
+
+static NSString * kOBADefaultContactEmail = @"contact@onebusaway.org";
+static NSString * kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 
 
 @implementation OBAContactUsViewController
 
-@synthesize appContext = _appContext;
 
 - (id)init {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
         self.title = NSLocalizedString(@"Contact Us & More", @"Contact us tab title");
-        self.tabBarItem.image = [UIImage imageNamed:@"ContactUs"];
+        self.appContext = APP_DELEGATE;
     }
     return self;
 }
@@ -77,11 +78,12 @@
     
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.imageView.image = nil;
-    
+    OBARegionV2 *region = _appContext.modelDao.region;
+
     switch( indexPath.row) {
         case 0:
             if (indexPath.section == 0) {
-                cell.textLabel.text = NSLocalizedString(@"contact@onebusaway.org",@"cell.textLabel.text case 0");
+                cell.textLabel.text = region.contactEmail; 
             } else
             {
                 cell.textLabel.text = NSLocalizedString(@"OneBusAway issue tracker",@"cell.textLabel.text case 1");
@@ -107,11 +109,12 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    OBARegionV2 *region = _appContext.modelDao.region;
     switch( indexPath.row) {
         case 0:
             if (indexPath.section == 0) {
-                NSString *url = [NSString stringWithString: NSLocalizedString(@"mailto:contact@onebusaway.org",@"didSelectRowAtIndexPath case 1")];
-                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+                //NSString *url = [NSString stringWithString: NSLocalizedString(@"mailto:contact@onebusaway.org",@"didSelectRowAtIndexPath case 1")];
+                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: region.contactEmail]];
             } else
             {
                 NSString *url = [NSString stringWithString: NSLocalizedString(@"https://github.com/OneBusAway/onebusaway-iphone/issues",@"didSelectRowAtIndexPath case 2")];

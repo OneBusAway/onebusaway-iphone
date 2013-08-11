@@ -116,9 +116,6 @@
 		933C7FB2160C07440005AAFE /* Clock.ai in Resources */ = {isa = PBXBuildFile; fileRef = 933C7ED2160C07440005AAFE /* Clock.ai */; };
 		933C7FB3160C07440005AAFE /* Clock.png in Resources */ = {isa = PBXBuildFile; fileRef = 933C7ED3160C07440005AAFE /* Clock.png */; };
 		933C7FB4160C07440005AAFE /* Clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 933C7ED4160C07440005AAFE /* Clock@2x.png */; };
-		933C7FB5160C07440005AAFE /* ContactUs.ai in Resources */ = {isa = PBXBuildFile; fileRef = 933C7ED5160C07440005AAFE /* ContactUs.ai */; };
-		933C7FB6160C07440005AAFE /* ContactUs.png in Resources */ = {isa = PBXBuildFile; fileRef = 933C7ED6160C07440005AAFE /* ContactUs.png */; };
-		933C7FB7160C07440005AAFE /* ContactUs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 933C7ED7160C07440005AAFE /* ContactUs@2x.png */; };
 		933C7FB8160C07440005AAFE /* CrossHairs.ai in Resources */ = {isa = PBXBuildFile; fileRef = 933C7ED8160C07440005AAFE /* CrossHairs.ai */; };
 		933C7FB9160C07440005AAFE /* CrossHairs.png in Resources */ = {isa = PBXBuildFile; fileRef = 933C7ED9160C07440005AAFE /* CrossHairs.png */; };
 		933C7FBA160C07440005AAFE /* CrossHairs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 933C7EDA160C07440005AAFE /* CrossHairs@2x.png */; };
@@ -541,9 +538,6 @@
 		933C7ED2160C07440005AAFE /* Clock.ai */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Clock.ai; sourceTree = "<group>"; };
 		933C7ED3160C07440005AAFE /* Clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Clock.png; sourceTree = "<group>"; };
 		933C7ED4160C07440005AAFE /* Clock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Clock@2x.png"; sourceTree = "<group>"; };
-		933C7ED5160C07440005AAFE /* ContactUs.ai */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ContactUs.ai; sourceTree = "<group>"; };
-		933C7ED6160C07440005AAFE /* ContactUs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ContactUs.png; sourceTree = "<group>"; };
-		933C7ED7160C07440005AAFE /* ContactUs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ContactUs@2x.png"; sourceTree = "<group>"; };
 		933C7ED8160C07440005AAFE /* CrossHairs.ai */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CrossHairs.ai; sourceTree = "<group>"; };
 		933C7ED9160C07440005AAFE /* CrossHairs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CrossHairs.png; sourceTree = "<group>"; };
 		933C7EDA160C07440005AAFE /* CrossHairs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CrossHairs@2x.png"; sourceTree = "<group>"; };
@@ -1231,9 +1225,6 @@
 				933C7ED2160C07440005AAFE /* Clock.ai */,
 				933C7ED3160C07440005AAFE /* Clock.png */,
 				933C7ED4160C07440005AAFE /* Clock@2x.png */,
-				933C7ED5160C07440005AAFE /* ContactUs.ai */,
-				933C7ED6160C07440005AAFE /* ContactUs.png */,
-				933C7ED7160C07440005AAFE /* ContactUs@2x.png */,
 				933C7ED8160C07440005AAFE /* CrossHairs.ai */,
 				933C7ED9160C07440005AAFE /* CrossHairs.png */,
 				933C7EDA160C07440005AAFE /* CrossHairs@2x.png */,
@@ -1749,9 +1740,6 @@
 				933C7FB2160C07440005AAFE /* Clock.ai in Resources */,
 				933C7FB3160C07440005AAFE /* Clock.png in Resources */,
 				933C7FB4160C07440005AAFE /* Clock@2x.png in Resources */,
-				933C7FB5160C07440005AAFE /* ContactUs.ai in Resources */,
-				933C7FB6160C07440005AAFE /* ContactUs.png in Resources */,
-				933C7FB7160C07440005AAFE /* ContactUs@2x.png in Resources */,
 				933C7FB8160C07440005AAFE /* CrossHairs.ai in Resources */,
 				933C7FB9160C07440005AAFE /* CrossHairs.png in Resources */,
 				933C7FBA160C07440005AAFE /* CrossHairs@2x.png in Resources */,
