@@ -62,4 +62,6 @@
 - (BOOL) hideFutureLocationWarnings;
 - (void) setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings;
 
+- (BOOL) readSetRegionAutomatically;
+- (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically;
 @end

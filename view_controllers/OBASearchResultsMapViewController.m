@@ -70,6 +70,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @property(strong) UIButton *locationButton;
 @property(strong) UIBarButtonItem *listBarButtonItem;
 @property(strong) OBASearchResultsListViewController *searchResultsListViewController;
+
 @end
 
 @interface OBASearchResultsMapViewController (Private)
@@ -191,7 +192,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     labelLayer.shadowOpacity = 0.2;
     labelLayer.shadowOffset = CGSizeMake(0,0);
     labelLayer.shadowRadius = 7;
-
 }
 
 - (void)onFilterClear {

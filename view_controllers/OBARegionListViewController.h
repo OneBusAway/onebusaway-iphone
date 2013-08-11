@@ -10,14 +10,15 @@
 #import "OBARequestDrivenTableViewController.h"
 
 @interface OBARegionListViewController : OBARequestDrivenTableViewController<OBALocationManagerDelegate> {
-    NSMutableArray * _regions;
-    NSMutableArray * _nearbyRegions;
-    
+    NSMutableArray * _regions;    
     CLLocation * _mostRecentLocation;
     BOOL _hideFutureNetworkErrors;
     BOOL _locationTimedOut;
     NSTimer *_locationTimer;
 }
+
+@property (nonatomic) OBARegionV2 *nearbyRegion;
+@property (nonatomic) NSIndexPath *checkedItem;
 
 - (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext;
 - (void) sortRegionsByLocation;

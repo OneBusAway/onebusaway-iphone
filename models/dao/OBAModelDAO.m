@@ -184,6 +184,14 @@ const static int kMaxEntriesInMostRecentList = 10;
     [_preferencesDao setHideFutureLocationWarnings:hideFutureLocationWarnings];
 }
 
+- (BOOL) readSetRegionAutomatically {
+    return [_preferencesDao readSetRegionAutomatically];
+}
+
+- (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
+    [_preferencesDao writeSetRegionAutomatically:setRegionAutomatically];
+}
+
 - (BOOL) isVisitedSituationWithId:(NSString*)situationId {
     return [_visitedSituationIds containsObject:situationId];
 }

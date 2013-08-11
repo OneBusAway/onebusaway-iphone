@@ -31,6 +31,7 @@
 #import "OBAUserPreferencesMigration.h"
 
 #import "OBARegionListViewController.h"
+#import "OBARegionHelper.h"
 
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
@@ -38,6 +39,9 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 
 @interface OBAApplicationDelegate ()
 @property(nonatomic,readwrite) BOOL active;
+@property(nonatomic) OBARegionHelper *regionHelper;
+
+
 - (void) _constructUI;
 - (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget;
 - (void) _setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController;
@@ -162,11 +166,12 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     [[UITabBar appearance] setSelectedImageTintColor:tintColor];
     
     self.window.rootViewController = self.tabBarController;
+    
+    if (self.modelDao.readSetRegionAutomatically) {
+        _regionHelper = [[OBARegionHelper alloc] init];
+        [_regionHelper updateNearestRegion];
+    }
 
-    //if (_modelDao.region == nil) {
-        _regionListViewController = [[OBARegionListViewController alloc] initWithApplicationContext:self];
-        self.window.rootViewController = _regionListViewController;
-    //}
 
     [self.window makeKeyAndVisible];
 }
@@ -299,6 +304,11 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     [_window makeKeyAndVisible];
 }
 
+- (void) showRegionListViewController
+{
+    _regionListViewController = [[OBARegionListViewController alloc] initWithApplicationContext:self];
+    self.window.rootViewController = _regionListViewController;
+}
 #pragma mark Application's documents directory
 
 /**

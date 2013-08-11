@@ -71,5 +71,6 @@
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget;
 - (void) refreshSettings;
 - (void) regionSelected;
+- (void) showRegionListViewController;
 
 @end

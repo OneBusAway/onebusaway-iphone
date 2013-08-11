@@ -42,4 +42,7 @@
 - (OBARegionV2*) readOBARegion;
 - (void) writeOBARegion:(OBARegionV2*)oBARegion;
 
+- (BOOL) readSetRegionAutomatically;
+- (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically;
+
 @end

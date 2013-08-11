@@ -24,6 +24,7 @@ static NSString * kMostRecentLocationKey = @"mostRecentLocation";
 static NSString * kHideFutureLocationWarningsKey = @"hideFutureLocationWarnings";
 static NSString * kVisitedSituationIdsKey = @"hideFutureLocationWarnings";
 static NSString * kOBARegionKey = @"oBARegion";
+static NSString * kSetRegionAutomatically = @"setRegionAutomatically";
 
 @interface OBAModelDAOUserPreferencesImpl (Private)
 
@@ -189,6 +190,24 @@ static NSString * kOBARegionKey = @"oBARegion";
 	[user setObject:data forKey:kOBARegionKey];
 }
 
+- (BOOL) readSetRegionAutomatically {
+    @try {
+        NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+        NSNumber * v = [user objectForKey:kSetRegionAutomatically];
+        if( v )
+            return [v boolValue];
+    }
+    @catch (NSException * e) {
+    }
+    
+    return YES;
+}
+
+- (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSNumber * v = @(setRegionAutomatically);
+    [user setObject:v forKey:kSetRegionAutomatically];
+}
 
 @end
 
