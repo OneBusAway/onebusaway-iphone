@@ -16,8 +16,8 @@
 
 #import "OBAContactUsViewController.h"
 
-static NSString * kOBADefaultContactEmail = @"contact@onebusaway.org";
-static NSString * kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
+static NSString *kOBADefaultContactEmail = @"contact@onebusaway.org";
+static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 
 
 @implementation OBAContactUsViewController
@@ -83,18 +83,24 @@ static NSString * kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
     switch( indexPath.row) {
         case 0:
             if (indexPath.section == 0) {
-                cell.textLabel.text = region.contactEmail; 
-            } else
-            {
+                NSString *contactEmail = kOBADefaultContactEmail;
+                if (region) {
+                    contactEmail = region.contactEmail;
+                }
+                cell.textLabel.text = contactEmail;
+            } else {
                 cell.textLabel.text = NSLocalizedString(@"OneBusAway issue tracker",@"cell.textLabel.text case 1");
             }
             break;
         case 1:
             if (indexPath.section == 0) {
-                NSString *twitterName = [[region.twitterUrl componentsSeparatedByString:@"/"] lastObject];
+                NSString *twitterUrl = kOBADefaultTwitterURL;
+                if (region) {
+                    twitterUrl = region.twitterUrl;
+                }
+                NSString *twitterName = [[twitterUrl componentsSeparatedByString:@"/"] lastObject];
                 cell.textLabel.text = [NSString stringWithFormat:@"twitter.com/%@", twitterName];
-            } else
-            {
+            } else {
                 cell.textLabel.text = NSLocalizedString(@"Privacy policy",@"cell.textLabel.text case 2");
 
             }
@@ -114,8 +120,11 @@ static NSString * kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
     switch( indexPath.row) {
         case 0:
             if (indexPath.section == 0) {
-                //NSString *url = [NSString stringWithString: NSLocalizedString(@"mailto:contact@onebusaway.org",@"didSelectRowAtIndexPath case 1")];
-                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: region.contactEmail]];
+                NSString *contactEmail = kOBADefaultContactEmail;
+                if (region) {
+                    contactEmail = region.contactEmail;
+                }
+                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: contactEmail]];
             } else
             {
                 NSString *url = [NSString stringWithString: NSLocalizedString(@"https://github.com/OneBusAway/onebusaway-iphone/issues",@"didSelectRowAtIndexPath case 2")];
@@ -124,7 +133,11 @@ static NSString * kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
             break;
         case 1:
             if (indexPath.section == 0) {
-                NSString *twitterName = [[region.twitterUrl componentsSeparatedByString:@"/"] lastObject];
+                NSString *twitterUrl = kOBADefaultTwitterURL;
+                if (region) {
+                    twitterUrl = region.twitterUrl;
+                }
+                NSString *twitterName = [[twitterUrl componentsSeparatedByString:@"/"] lastObject];
                 if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]]) {
                     NSString *url = [NSString stringWithFormat:@"twitter://user?screen_name=%@",twitterName ];
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];

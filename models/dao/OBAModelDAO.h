@@ -31,12 +31,14 @@
     CLLocation * _mostRecentLocation;
     NSMutableSet * _visitedSituationIds;
     OBARegionV2 * _region;
+    NSMutableArray * _mostRecentCustomApiUrls;
 }
 
 @property (weak, nonatomic,readonly) NSArray * bookmarks;
 @property (weak, nonatomic,readonly) NSArray * mostRecentStops;
 @property (nonatomic,weak) CLLocation * mostRecentLocation;
 @property (nonatomic,readonly) OBARegionV2 * region;
+@property (weak, nonatomic,readonly) NSArray * mostRecentCustomApiUrls;
 
 - (OBABookmarkV2*) createTransientBookmark:(OBAStopV2*)stop;
 
@@ -64,4 +66,9 @@
 
 - (BOOL) readSetRegionAutomatically;
 - (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically;
+
+- (NSString*) readCustomApiUrl;
+- (void) writeCustomApiUrl:(NSString*)customApiUrl;
+
+- (void) addCustomApiUrl:(NSString*)customApiUrl;
 @end

@@ -12,6 +12,7 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
 		9211E32217B8236B0008A479 /* OBARegionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9211E32117B8236B0008A479 /* OBARegionHelper.m */; };
+		9211E32517B922D20008A479 /* OBACustomApiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9211E32417B922D20008A479 /* OBACustomApiViewController.m */; };
 		92235D2617B692760042B843 /* OBARegionBoundsV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 92235D2317B692760042B843 /* OBARegionBoundsV2.m */; };
 		92235D2717B692760042B843 /* OBARegionV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 92235D2517B692760042B843 /* OBARegionV2.m */; };
 		923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */; };
@@ -357,6 +358,8 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9211E32017B8236B0008A479 /* OBARegionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionHelper.h; sourceTree = "<group>"; };
 		9211E32117B8236B0008A479 /* OBARegionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionHelper.m; sourceTree = "<group>"; };
+		9211E32317B922D20008A479 /* OBACustomApiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACustomApiViewController.h; sourceTree = "<group>"; };
+		9211E32417B922D20008A479 /* OBACustomApiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACustomApiViewController.m; sourceTree = "<group>"; };
 		92235D2217B692760042B843 /* OBARegionBoundsV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionBoundsV2.h; sourceTree = "<group>"; };
 		92235D2317B692760042B843 /* OBARegionBoundsV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionBoundsV2.m; sourceTree = "<group>"; };
 		92235D2417B692760042B843 /* OBARegionV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionV2.h; sourceTree = "<group>"; };
@@ -854,6 +857,7 @@
 		29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */ = {
 			isa = PBXGroup;
 			children = (
+				93A29180160158C00035BC70 /* Default-568h@2x.png */,
 				934606C41623A92700BD1CD0 /* Default@2x.png */,
 				934606C11623A92200BD1CD0 /* Default.png */,
 				931C42BF160E4AE000435CD3 /* categories */,
@@ -865,7 +869,6 @@
 				93AD36371603FE4600BDF03F /* controls */,
 				93AD36201603FD9B00BDF03F /* view_controllers */,
 				9330DED41603BC5500E14AF4 /* xibs */,
-				93A29180160158C00035BC70 /* Default-568h@2x.png */,
 				D61A66790FCDB155004D2E91 /* Libraries */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -1463,6 +1466,8 @@
 				93631EAA1607FB2F00CB7209 /* OBAInfoViewController.m */,
 				925A1AD317B6ACA200029F0B /* OBARegionListViewController.h */,
 				925A1AD417B6ACA200029F0B /* OBARegionListViewController.m */,
+				9211E32317B922D20008A479 /* OBACustomApiViewController.h */,
+				9211E32417B922D20008A479 /* OBACustomApiViewController.m */,
 				925A1AD617B7969500029F0B /* OBASettingsViewController.h */,
 				925A1AD717B7969500029F0B /* OBASettingsViewController.m */,
 			);
@@ -2028,6 +2033,7 @@
 				925A1AD517B6ACA200029F0B /* OBARegionListViewController.m in Sources */,
 				925A1AD817B7969500029F0B /* OBASettingsViewController.m in Sources */,
 				9211E32217B8236B0008A479 /* OBARegionHelper.m in Sources */,
+				9211E32517B922D20008A479 /* OBACustomApiViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

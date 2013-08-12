@@ -45,4 +45,10 @@
 - (BOOL) readSetRegionAutomatically;
 - (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically;
 
+- (NSString*) readCustomApiUrl;
+- (void) writeCustomApiUrl:(NSString*)customApiUrl;
+
+- (NSArray*) readMostRecentCustomApiUrls;
+- (void) writeMostRecentCustomApiUrls:(NSArray*)customApiUrls;
+
 @end

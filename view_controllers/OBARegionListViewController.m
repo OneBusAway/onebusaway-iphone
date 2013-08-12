@@ -8,6 +8,8 @@
 
 #import "OBARegionListViewController.h"
 #import "OBARegionV2.h"
+#import "OBACustomApiViewController.h"
+
 
 typedef enum {
 	OBASectionTypeNone,
@@ -16,14 +18,16 @@ typedef enum {
     OBASectionTypeNearbyRegions,
 	OBASectionTypeAllRegions,
 	OBASectionTypeNoRegions,
+    OBASectionTypeCustomAPI,
 } OBASectionType;
 
-@interface OBARegionListViewController (Private)
+@interface OBARegionListViewController ()
 
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section;
 - (UITableViewCell*) regionsCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView;
 - (void) didSelectRegionRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
-
+- (UITableViewCell*) customAPICellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView;
+- (void) didSelectCustomAPIRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
 @end
 
 @implementation OBARegionListViewController
@@ -177,13 +181,13 @@ typedef enum {
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	
     if (_regions == nil)
-        return 1;
-    else if ([_regions count] == 0)
-        return 1;
-	else if( self.nearbyRegion == nil)
         return 2;
-    else
+    else if ([_regions count] == 0)
+        return 2;
+	else if( self.nearbyRegion == nil)
         return 3;
+    else
+        return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -202,6 +206,8 @@ typedef enum {
             } else {
                 return 0;
             }
+        case OBASectionTypeCustomAPI:
+            return 1;
 		default:
 			return 0;
 	}
@@ -218,7 +224,7 @@ typedef enum {
         case OBASectionTypeNearbyRegions:
             return NSLocalizedString(@"Set Region automatically", @"OBASectionTypeNearbyRegions title");
         case OBASectionTypeAllRegions:
-            return NSLocalizedString(@"Available Regions", @"OBASectionTypeAllRegions title");
+            return NSLocalizedString(@"Manually select Region", @"OBASectionTypeAllRegions title");
         case OBASectionTypeNoRegions:
             return NSLocalizedString(@"No regions found", @"OBASectionTypeNoRegions title");
         default:
@@ -238,6 +244,8 @@ typedef enum {
 			return [self regionsCellForRowAtIndexPath:indexPath tableView:tableView];
         case OBASectionTypeNearbyRegions:
             return [self regionsCellForRowAtIndexPath:indexPath tableView:tableView];
+        case OBASectionTypeCustomAPI:
+            return [self customAPICellForRowAtIndexPath:indexPath tableView:tableView];
 		default:
 			break;
 	}
@@ -263,6 +271,9 @@ typedef enum {
         case OBASectionTypeNearbyRegions:
             [self didSelectRegionRowAtIndexPath:indexPath tableView:tableView];
             break;
+        case OBASectionTypeCustomAPI:
+            [self didSelectCustomAPIRowAtIndexPath:indexPath tableView:tableView];
+            break;
 		default:
 			break;
 	}
@@ -287,19 +298,19 @@ typedef enum {
 	}
 }
 
-@end
-
-@implementation OBARegionListViewController (Private)
-
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section {
 	
     if (_regions == nil) {
         if (section == 0)
             return OBASectionTypeLoading;
+        else if (section == 1)
+            return OBASectionTypeCustomAPI;
     }
 	else if( [_regions count] == 0 ) {
 		if( section == 0 )
 			return OBASectionTypeNoRegions;
+        else if (section == 1)
+            return OBASectionTypeCustomAPI;
 	}
 	else {
 		if( section == 0 )
@@ -307,12 +318,16 @@ typedef enum {
         else if (self.nearbyRegion == nil) {
             if (section == 1)
                 return OBASectionTypeAllRegions;
+            else if (section == 2)
+                return OBASectionTypeCustomAPI;
         }
         else {
             if (section == 1)
                 return OBASectionTypeNearbyRegions;
             else if (section == 2)
                 return OBASectionTypeAllRegions;
+            else if (section == 3)
+                return OBASectionTypeCustomAPI;
         }
 	}
 	
@@ -369,11 +384,26 @@ typedef enum {
             return ;
             break;
     }
-
+    [_appContext.modelDao writeCustomApiUrl:@""];
     [_appContext.modelDao setOBARegion:region];
     [_appContext regionSelected];
 
 }
 
+- (UITableViewCell*) customAPICellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView {
+    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.textLabel.textColor = [UIColor blackColor];
+    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.text = NSLocalizedString(@"Custom API Url", @"cell.textLabel.text");
+    return cell;
+}
 
+- (void) didSelectCustomAPIRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    UIViewController *pushMe = [[OBACustomApiViewController alloc] initWithApplicationDelegate:self.appContext];
+    [self.navigationController pushViewController:pushMe animated:YES];
+}
 @end

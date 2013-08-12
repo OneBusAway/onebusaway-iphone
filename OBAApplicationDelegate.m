@@ -34,7 +34,6 @@
 #import "OBARegionHelper.h"
 
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
-static NSString * kOBADefaultApiServerName = @"api.pugetsound.onebusaway.org";
 static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 
 @interface OBAApplicationDelegate ()
@@ -89,19 +88,22 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 - (void)refreshSettings {
     
     NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-                                    
-    NSString * apiServerName; // = [userDefaults objectForKey:@"oba_api_server"];
-	if( apiServerName == nil || [apiServerName length] == 0 ) {
+    NSString *apiServerName = nil;
+	if([self.modelDao.readCustomApiUrl isEqualToString:@""]) {
         if (_modelDao.region != nil) {
             apiServerName = [NSString stringWithFormat:@"%@", _modelDao.region.obaBaseUrl];
             // remove the last '/'
             apiServerName = [apiServerName substringToIndex:[apiServerName length]-1];
         }
         else {
-            apiServerName = kOBADefaultApiServerName;
+            self.regionHelper = [[OBARegionHelper alloc] init];
+            [self.modelDao writeSetRegionAutomatically:YES];
+            [self.regionHelper updateNearestRegion];
             apiServerName = [NSString stringWithFormat:@"http://%@",apiServerName];
         }
         
+    } else {
+        apiServerName = [NSString stringWithFormat:@"http://%@",self.modelDao.readCustomApiUrl];
     }
     NSLog(@"%@",apiServerName);
 
@@ -167,12 +169,15 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     
     self.window.rootViewController = self.tabBarController;
     
-    _regionHelper = [[OBARegionHelper alloc] init];
-    if (self.modelDao.readSetRegionAutomatically) {
-        [_regionHelper updateNearestRegion];
-    } else {
-        [_regionHelper updateRegion];
+    if ([self.modelDao.readCustomApiUrl isEqualToString:@""]) {
+        _regionHelper = [[OBARegionHelper alloc] init];
+        if (self.modelDao.readSetRegionAutomatically) {
+            [_regionHelper updateNearestRegion];
+        } else {
+            [_regionHelper updateRegion];
+        }
     }
+
 
 
     [self.window makeKeyAndVisible];

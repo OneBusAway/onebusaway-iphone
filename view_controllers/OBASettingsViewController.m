@@ -82,7 +82,11 @@
     
     switch (indexPath.section) {
         case kRegionsRow: {
-            cell.textLabel.text = self.appDelegate.modelDao.region.regionName;
+            if ([self.appDelegate.modelDao.readCustomApiUrl isEqualToString:@""]) {
+                cell.textLabel.text = self.appDelegate.modelDao.region.regionName;
+            } else {
+                cell.textLabel.text = self.appDelegate.modelDao.readCustomApiUrl;
+            }
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             break;
         }
