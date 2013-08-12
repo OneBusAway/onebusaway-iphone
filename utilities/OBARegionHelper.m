@@ -13,17 +13,30 @@
 
 @property (nonatomic) NSMutableArray *regions;
 @property (nonatomic) CLLocation *location;
+@property (nonatomic) OBAApplicationDelegate *appDelegate;
 - (void) setNearestRegion;
+- (void) setRegion;
 @end
 
 @implementation OBARegionHelper
 
+- (id) init {
+    self = [super init];
+    if (self) {
+        self.appDelegate = APP_DELEGATE;
+    }
+    return self;
+}
+
 - (void) updateNearestRegion {
-    OBAApplicationDelegate *appDelegate = APP_DELEGATE;
-    [appDelegate.modelService requestRegions:self withContext:nil];
-    OBALocationManager * lm = appDelegate.locationManager;
+    [self.appDelegate.modelService requestRegions:self withContext:nil];
+    OBALocationManager * lm = self.appDelegate.locationManager;
 	[lm addDelegate:self];
 	[lm startUpdatingLocation];
+}
+
+- (void) updateRegion {
+    [self.appDelegate.modelService requestRegions:self withContext:nil];
 }
 
 - (void) setNearestRegion{
@@ -38,8 +51,7 @@
         }
         [self.regions removeObjectsInArray:notSupportedRegions];
         
-        OBAApplicationDelegate *appDelegate = APP_DELEGATE;
-        OBALocationManager * lm = appDelegate.locationManager;
+        OBALocationManager * lm = self.appDelegate.locationManager;
         CLLocation * newLocation = lm.currentLocation;
         
         NSMutableArray *regionsToRemove = [NSMutableArray array];
@@ -71,12 +83,22 @@
             }
         }];
         
-        [appDelegate.modelDao setOBARegion:[self.regions objectAtIndex:0]];
-        [appDelegate regionSelected];
-        [appDelegate.locationManager removeDelegate:self];
-        [appDelegate.modelDao writeSetRegionAutomatically:YES];
+        [self.appDelegate.modelDao setOBARegion:[self.regions objectAtIndex:0]];
+        [self.appDelegate regionSelected];
+        [self.appDelegate.locationManager removeDelegate:self];
+        [self.appDelegate.modelDao writeSetRegionAutomatically:YES];
     }
      
+}
+
+- (void) setRegion {
+    NSString *regionName = self.appDelegate.modelDao.region.regionName;
+    for (OBARegionV2 *region in self.regions) {
+        if ([region.regionName isEqualToString:regionName]) {
+            [self.appDelegate.modelDao setOBARegion:region];
+            break;
+        }
+    }
 }
 #pragma mark OBAModelServiceDelegate
 
@@ -84,9 +106,12 @@
     
     OBAListWithRangeAndReferencesV2 * list = obj;
 	self.regions = [[NSMutableArray alloc] initWithArray:list.values];
-    [self setNearestRegion];
-    
 
+    if (self.appDelegate.modelDao.readSetRegionAutomatically) {
+        [self setNearestRegion];
+    } else {
+        [self setRegion];
+    }
 }
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
@@ -105,18 +130,16 @@
 
 
 - (void) locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
-    OBAApplicationDelegate *appDelegate = APP_DELEGATE;
-    OBALocationManager * lm = appDelegate.locationManager;
+    OBALocationManager * lm = self.appDelegate.locationManager;
 	self.location = lm.currentLocation;
 
     [self setNearestRegion];
 }
 - (void)locationManager:(OBALocationManager *)manager didFailWithError:(NSError *)error {
-    OBAApplicationDelegate *appDelegate = APP_DELEGATE;
-    if (appDelegate.modelDao.region == nil) {
-        [appDelegate showRegionListViewController];
+    if (self.appDelegate.modelDao.region == nil) {
+        [self.appDelegate showRegionListViewController];
     }
-    [appDelegate.locationManager removeDelegate:self];
+    [self.appDelegate.locationManager removeDelegate:self];
 
 }
 

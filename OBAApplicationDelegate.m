@@ -167,9 +167,11 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     
     self.window.rootViewController = self.tabBarController;
     
+    _regionHelper = [[OBARegionHelper alloc] init];
     if (self.modelDao.readSetRegionAutomatically) {
-        _regionHelper = [[OBARegionHelper alloc] init];
         [_regionHelper updateNearestRegion];
+    } else {
+        [_regionHelper updateRegion];
     }
 
 

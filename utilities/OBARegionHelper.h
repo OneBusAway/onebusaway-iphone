@@ -14,4 +14,5 @@
 
 
 - (void) updateNearestRegion;
+- (void) updateRegion;
 @end
