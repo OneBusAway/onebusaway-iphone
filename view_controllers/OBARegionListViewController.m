@@ -72,6 +72,7 @@ typedef enum {
     
 	[_appContext.locationManager stopUpdatingLocation];
 	[_appContext.locationManager removeDelegate:self];
+    [_locationTimer invalidate];
 }
 
 
