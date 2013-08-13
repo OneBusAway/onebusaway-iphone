@@ -104,6 +104,9 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
         
     } else {
         apiServerName = [NSString stringWithFormat:@"http://%@",self.modelDao.readCustomApiUrl];
+        if ([apiServerName hasSuffix:@"/"]) {
+            apiServerName = [apiServerName substringToIndex:[apiServerName length]-1];
+        }
     }
     NSLog(@"%@",apiServerName);
 

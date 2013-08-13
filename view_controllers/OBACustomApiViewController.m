@@ -144,6 +144,7 @@ static NSString *editingCellTag = @"editingCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
 	
 	switch (sectionType) {
@@ -173,7 +174,7 @@ static NSString *editingCellTag = @"editingCell";
     //_textField = cell.textField;
     //[_textField becomeFirstResponder];
     //[tableView addSubview:cell]; // make keyboard slide in/out from right.
-    cell.textField.placeholder = @"example.onebusaway.org/api";
+    cell.textField.placeholder = @"example.onebusaway.org/api/";
     cell.textField.text = self.appDelegate.modelDao.readCustomApiUrl;
     cell.textField.tag = editingCellTag;
     cell.textField.delegate = self;
@@ -191,7 +192,7 @@ static NSString *editingCellTag = @"editingCell";
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = UITextAlignmentLeft;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
     cell.textLabel.text = [self.recentUrls objectAtIndex:indexPath.row];
     return cell;
 }
@@ -213,9 +214,10 @@ static NSString *editingCellTag = @"editingCell";
         [self.appDelegate refreshSettings];
         if (![self.customApiUrlTextField.text isEqualToString:@""]) {
             [self.appDelegate.modelDao addCustomApiUrl:self.customApiUrlTextField.text];
-            [self.tableView reloadData];
         }
 
     }
+    [self.tableView reloadData];
+
 }
 @end
