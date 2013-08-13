@@ -9,7 +9,7 @@
 #import "OBAInfoViewController.h"
 #import "OBAContactUsViewController.h"
 #import "OBAAgenciesListViewController.h"
-#import "IASKAppSettingsViewController.h"
+#import "OBASettingsViewController.h"
 #import "OBACreditsViewController.h"
 
 #define kContactUsRow 0
@@ -87,11 +87,7 @@
             break;
         }
         case kSettingsRow: {
-            pushMe = [[IASKAppSettingsViewController alloc] init];
-            pushMe.title = NSLocalizedString(@"Settings", @"");
-            ((IASKAppSettingsViewController*)pushMe).delegate = APP_DELEGATE;
-            ((IASKAppSettingsViewController*)pushMe).tableView.backgroundView = nil;
-            ((IASKAppSettingsViewController*)pushMe).tableView.backgroundColor = [UIColor whiteColor];
+            pushMe = [[OBASettingsViewController alloc] init];
             break;
         }
         case kAgenciesRow: {

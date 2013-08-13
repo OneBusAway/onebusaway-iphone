@@ -15,7 +15,7 @@
  */
 
 //#import <Foundation/Foundation.h>
-
+#import "OBARegionV2.h"
 
 @interface OBAModelDAOUserPreferencesImpl : NSObject  {
 
@@ -38,5 +38,17 @@
 
 - (NSSet*) readVisistedSituationIds;
 - (void) writeVisistedSituationIds:(NSSet*)situationIds;
+
+- (OBARegionV2*) readOBARegion;
+- (void) writeOBARegion:(OBARegionV2*)oBARegion;
+
+- (BOOL) readSetRegionAutomatically;
+- (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically;
+
+- (NSString*) readCustomApiUrl;
+- (void) writeCustomApiUrl:(NSString*)customApiUrl;
+
+- (NSArray*) readMostRecentCustomApiUrls;
+- (void) writeMostRecentCustomApiUrls:(NSArray*)customApiUrls;
 
 @end
