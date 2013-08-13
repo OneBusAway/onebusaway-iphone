@@ -79,7 +79,7 @@ static const float kSearchRadius = 400;
     stopQuery = [self escapeStringForUrl:stopQuery];
     
     NSString * url = @"/api/where/stops-for-location.json";
-    NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2", coord.latitude, coord.longitude,stopQuery];
+    NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2&radius=15000", coord.latitude, coord.longitude,stopQuery];
     SEL selector = @selector(getStopsV2FromJSON:error:);
     
     return [self request:url args:args selector:selector delegate:delegate context:context];    
@@ -113,7 +113,7 @@ static const float kSearchRadius = 400;
     routeQuery = [self escapeStringForUrl:routeQuery];
     
     NSString * url = @"/api/where/routes-for-location.json";
-    NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2", coord.latitude, coord.longitude,routeQuery];
+    NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2&radius=15000", coord.latitude, coord.longitude,routeQuery];
     SEL selector = @selector(getRoutesV2FromJSON:error:);
     
     return [self request:url args:args selector:selector delegate:delegate context:context];
