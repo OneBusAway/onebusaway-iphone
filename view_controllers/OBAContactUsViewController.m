@@ -128,7 +128,7 @@
                 }
             } else
             {
-                NSString *url = [NSString stringWithString: NSLocalizedString(@"http://pugetsound.onebusaway.org/p/PrivacyPolicy.action",@"didSelectRowAtIndexPath case 3")];
+                NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.org/privacy/",@"didSelectRowAtIndexPath case 3")];
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             }
             break;
