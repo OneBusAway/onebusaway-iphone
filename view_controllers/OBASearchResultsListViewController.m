@@ -163,12 +163,14 @@
             OBARouteV2 * route = (_result.values)[indexPath.row];
             OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchRouteStops:route.routeId];
             [_appContext navigateToTarget:target];
+            [self dismissModal];
             break;
         }
         case OBASearchTypeAddress: {
             OBAPlacemark * placemark = (_result.values)[indexPath.row];
             OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
             [_appContext navigateToTarget:target];
+            [self dismissModal];
             break;
         }
         case OBASearchTypeAgenciesWithCoverage: {

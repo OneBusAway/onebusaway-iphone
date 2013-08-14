@@ -640,6 +640,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void) scheduleRefreshOfStopsInRegion:(NSTimeInterval)interval location:(CLLocation*)location {
     
+    [self reloadData];
+    
     MKCoordinateRegion region = self.mapView.region;
     
     BOOL moreAccurateRegion = self.mostRecentLocation != nil && location != nil && location.horizontalAccuracy < self.mostRecentLocation.horizontalAccuracy;
@@ -898,8 +900,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
                 return NSLocalizedString(@"Out of OneBusAway service area.",@"result.outOfRange");
             if( result.limitExceeded )
                 return NSLocalizedString(@"Too many stops.  Zoom in for more detail.",@"result.limitExceeded");
-            NSArray * values = result.values;
-            if( [values count] == 0 && span.latitudeDelta <= kMaxLatDeltaToShowStops)
+            if([[self.mapView annotationsInMapRect:self.mapView.visibleMapRect] count] == 0 && span.latitudeDelta <= kMaxLatDeltaToShowStops)
                 return NSLocalizedString(@"No stops at this location.",@"[values count] == 0");
             return defaultLabel;
         }
