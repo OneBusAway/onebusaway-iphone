@@ -23,9 +23,13 @@ static NSString * kStopPreferencesKey = @"stopPreferences";
 static NSString * kMostRecentLocationKey = @"mostRecentLocation";
 static NSString * kHideFutureLocationWarningsKey = @"hideFutureLocationWarnings";
 static NSString * kVisitedSituationIdsKey = @"hideFutureLocationWarnings";
+static NSString * kOBARegionKey = @"oBARegion";
+static NSString * kSetRegionAutomaticallyKey = @"setRegionAutomatically";
+static NSString * kCustomApiUrlKey = @"customApiUrl";
+static NSString * kMostRecentCustomApiUrlsKey = @"mostRecentCustomApiUrls";
 
 
-@interface OBAModelDAOUserPreferencesImpl (Private)
+@interface OBAModelDAOUserPreferencesImpl ()
 
 - (void) encodeObject:(id<NSCoding>)object forKey:(NSString*)key toData:(NSMutableData*)data;
 - (id) decodeObjectForKey:(NSString*)key fromData:(NSData*)data;
@@ -169,12 +173,91 @@ static NSString * kVisitedSituationIdsKey = @"hideFutureLocationWarnings";
     [user setObject:data forKey:kVisitedSituationIdsKey];
 }
 
+- (OBARegionV2*) readOBARegion {
+	OBARegionV2* region = nil;
+	@try {
+		NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+		NSData * data = [user dataForKey:kOBARegionKey];
+		region = [self decodeObjectForKey:kOBARegionKey fromData:data];
+	}
+	@catch (NSException * e) {
+	}
+	
+	return region;
+}
 
+- (void) writeOBARegion:(OBARegionV2 *)oBARegion {
+	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+	NSMutableData * data = [NSMutableData data];
+	[self encodeObject:oBARegion forKey:kOBARegionKey toData:data];
+	[user setObject:data forKey:kOBARegionKey];
+}
 
-@end
+- (BOOL) readSetRegionAutomatically {
+    @try {
+        NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+        NSNumber * v = [user objectForKey:kSetRegionAutomaticallyKey];
+        if( v )
+            return [v boolValue];
+    }
+    @catch (NSException * e) {
+    }
+    
+    return YES;
+}
 
+- (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSNumber * v = @(setRegionAutomatically);
+    [user setObject:v forKey:kSetRegionAutomaticallyKey];
+}
 
-@implementation OBAModelDAOUserPreferencesImpl (Private)
+- (NSString*) readCustomApiUrl {
+    NSString *customApiUrl = nil;
+    @try {
+        NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+        NSData * data = [user dataForKey:kCustomApiUrlKey];
+        customApiUrl = [self decodeObjectForKey:kCustomApiUrlKey fromData:data];
+    }
+    @catch (NSException * e) {
+    }
+    
+    if( !customApiUrl )
+        customApiUrl = @"";
+    
+    return customApiUrl;
+}
+
+- (void) writeCustomApiUrl:(NSString*)customApiUrl {
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSMutableData * data = [NSMutableData data];
+    [self encodeObject:customApiUrl forKey:kCustomApiUrlKey toData:data];
+    [user setObject:data forKey:kCustomApiUrlKey];
+}
+
+- (NSArray*) readMostRecentCustomApiUrls {
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSData * data = [user dataForKey:kMostRecentCustomApiUrlsKey];
+    NSArray * customApiUrls = nil;
+    @try {
+        customApiUrls = [self decodeObjectForKey:kMostRecentCustomApiUrlsKey fromData:data];
+    }
+    @catch (NSException * e) {
+        
+    }
+    
+    if(!customApiUrls)
+        customApiUrls = [[NSArray alloc] init];
+    
+    return customApiUrls;
+}
+
+- (void) writeMostRecentCustomApiUrls:(NSArray*)customApiUrls {
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSMutableData * data = [NSMutableData data];
+    [self encodeObject:customApiUrls forKey:kMostRecentCustomApiUrlsKey toData:data];
+    [user setObject:data forKey:kMostRecentCustomApiUrlsKey];
+}
 
 - (void) encodeObject:(id<NSCoding>)object forKey:(NSString*)key toData:(NSMutableData*)data {
     NSKeyedArchiver * archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];

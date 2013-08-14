@@ -24,7 +24,7 @@
 
 const static int kMaxEntriesInMostRecentList = 10;
 
-@interface OBAModelDAO (Private)
+@interface OBAModelDAO ()
 
 - (void) saveMostRecentLocationLat:(double)lat lon:(double)lon;
 - (NSInteger) getSituationSeverityAsNumericValue:(NSString*)severity;
@@ -41,7 +41,9 @@ const static int kMaxEntriesInMostRecentList = 10;
         _stopPreferences = [[NSMutableDictionary alloc] initWithDictionary:[_preferencesDao readStopPreferences]];
         _mostRecentLocation = [_preferencesDao readMostRecentLocation];
         _visitedSituationIds = [[NSMutableSet alloc] initWithSet:[_preferencesDao readVisistedSituationIds]];
-        
+        _region = [_preferencesDao readOBARegion];
+        _mostRecentCustomApiUrls = [[NSMutableArray alloc] initWithArray:[_preferencesDao readMostRecentCustomApiUrls]];
+
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recordPlacemark:) name:OBAPlacemarkNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewedArrivalsAndDeparturesForStop:) name:OBAViewedArrivalsAndDeparturesForStopNotification object:nil];
     }
@@ -61,6 +63,10 @@ const static int kMaxEntriesInMostRecentList = 10;
     return _mostRecentStops;
 }
 
+- (NSArray*) mostRecentCustomApiUrls {
+    return _mostRecentCustomApiUrls;
+}
+
 - (CLLocation*) mostRecentLocation {
     return _mostRecentLocation;
 }
@@ -69,6 +75,16 @@ const static int kMaxEntriesInMostRecentList = 10;
     _mostRecentLocation = [NSObject releaseOld:_mostRecentLocation retainNew:location];
     [_preferencesDao writeMostRecentLocation:location];
 }
+
+- (OBARegionV2*) region {
+    return _region;
+}
+
+- (void) setOBARegion:(OBARegionV2*)newRegion {
+    _region = [NSObject releaseOld:_region retainNew:newRegion];
+    [_preferencesDao writeOBARegion:newRegion];
+}
+
 
 - (void) addStopAccessEvent:(OBAStopAccessEventV2*)event {
 
@@ -104,6 +120,33 @@ const static int kMaxEntriesInMostRecentList = 10;
     [_preferencesDao writeMostRecentStops:_mostRecentStops];    
 }
 
+- (void) addCustomApiUrl:(NSString *)customApiUrl {
+    
+    NSString *existingCustomApiUrl = nil;
+    
+    for( NSString * recentCustomApiUrl in _mostRecentCustomApiUrls ) {
+        if( [recentCustomApiUrl isEqualToString:customApiUrl] ) {
+            existingCustomApiUrl = customApiUrl;
+            break;
+        }
+    }
+    
+    if( existingCustomApiUrl ) {
+        [_mostRecentCustomApiUrls removeObject:existingCustomApiUrl];
+        [_mostRecentCustomApiUrls insertObject:existingCustomApiUrl atIndex:0];
+    }
+    else {
+
+        [_mostRecentCustomApiUrls insertObject:customApiUrl atIndex:0];
+        
+    }
+    
+    int over = [_mostRecentCustomApiUrls count] - kMaxEntriesInMostRecentList;
+    for( int i=0; i<over; i++)
+        [_mostRecentCustomApiUrls removeObjectAtIndex:([_mostRecentCustomApiUrls count]-1)];
+    
+    [_preferencesDao writeMostRecentCustomApiUrls:_mostRecentCustomApiUrls];
+}
 
 - (OBABookmarkV2*) createTransientBookmark:(OBAStopV2*)stop {
     OBABookmarkV2 * bookmark = [[OBABookmarkV2 alloc] init];
@@ -173,6 +216,14 @@ const static int kMaxEntriesInMostRecentList = 10;
     [_preferencesDao setHideFutureLocationWarnings:hideFutureLocationWarnings];
 }
 
+- (BOOL) readSetRegionAutomatically {
+    return [_preferencesDao readSetRegionAutomatically];
+}
+
+- (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
+    [_preferencesDao writeSetRegionAutomatically:setRegionAutomatically];
+}
+
 - (BOOL) isVisitedSituationWithId:(NSString*)situationId {
     return [_visitedSituationIds containsObject:situationId];
 }
@@ -225,14 +276,15 @@ const static int kMaxEntriesInMostRecentList = 10;
     }
 }
 
-
-@end
-
-
-@implementation OBAModelDAO (Private)
+- (NSString*) readCustomApiUrl {
+    return [_preferencesDao readCustomApiUrl];
+}
+- (void) writeCustomApiUrl:(NSString*)customApiUrl {
+    [_preferencesDao writeCustomApiUrl:customApiUrl];
+}
 
 - (void) saveMostRecentLocationLat:(double)lat lon:(double)lon {    
-    CLLocation * location = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
     [self setMostRecentLocation:location];
 }
 

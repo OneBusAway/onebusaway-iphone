@@ -19,7 +19,7 @@
 #import "OBAStopAccessEventV2.h"
 #import "OBAStopPreferencesV2.h"
 #import "OBAServiceAlertsModel.h"
-
+#import "OBARegionV2.h"
 
 @class OBAModelDAOUserPreferencesImpl;
 
@@ -30,11 +30,15 @@
     NSMutableDictionary * _stopPreferences;
     CLLocation * _mostRecentLocation;
     NSMutableSet * _visitedSituationIds;
+    OBARegionV2 * _region;
+    NSMutableArray * _mostRecentCustomApiUrls;
 }
 
 @property (weak, nonatomic,readonly) NSArray * bookmarks;
 @property (weak, nonatomic,readonly) NSArray * mostRecentStops;
 @property (nonatomic,weak) CLLocation * mostRecentLocation;
+@property (nonatomic,readonly) OBARegionV2 * region;
+@property (weak, nonatomic,readonly) NSArray * mostRecentCustomApiUrls;
 
 - (OBABookmarkV2*) createTransientBookmark:(OBAStopV2*)stop;
 
@@ -53,10 +57,18 @@
 
 - (OBAServiceAlertsModel*) getServiceAlertsModelForSituations:(NSArray*)situations;
 
+- (void) setOBARegion:(OBARegionV2*)newRegion;
 /**
  * We persist hiding location warnings across application settings for users who have disabled location services for the app
  */
 - (BOOL) hideFutureLocationWarnings;
 - (void) setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings;
 
+- (BOOL) readSetRegionAutomatically;
+- (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically;
+
+- (NSString*) readCustomApiUrl;
+- (void) writeCustomApiUrl:(NSString*)customApiUrl;
+
+- (void) addCustomApiUrl:(NSString*)customApiUrl;
 @end

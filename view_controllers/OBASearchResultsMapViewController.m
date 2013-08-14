@@ -70,6 +70,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @property(strong) UIButton *locationButton;
 @property(strong) UIBarButtonItem *listBarButtonItem;
 @property(strong) OBASearchResultsListViewController *searchResultsListViewController;
+
 @end
 
 @interface OBASearchResultsMapViewController (Private)
@@ -115,6 +116,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void)cancelPressed;
 - (BOOL)controllerIsVisibleAndActive;
+- (BOOL)outOfServiceAreaForRegion:(MKCoordinateRegion)viewRegion;
 @end
 
 @implementation OBASearchResultsMapViewController
@@ -191,7 +193,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     labelLayer.shadowOpacity = 0.2;
     labelLayer.shadowOffset = CGSizeMake(0,0);
     labelLayer.shadowRadius = 7;
-
 }
 
 - (void)onFilterClear {
@@ -883,8 +884,10 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     if( span.latitudeDelta > kMaxLatDeltaToShowStops )
         defaultLabel = NSLocalizedString(@"Zoom in to look for stops.",@"span.latitudeDelta > kMaxLatDeltaToShowStops");
     
-    if( !result )
+    if( !result ) {
         return defaultLabel;
+    }
+    
 
     switch( result.searchType ) {
         case OBASearchTypeRoute:
@@ -896,19 +899,22 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
             
         case OBASearchTypePlacemark:
         case OBASearchTypeRegion: {
-            if( result.outOfRange )
-                return NSLocalizedString(@"Out of OneBusAway service area.",@"result.outOfRange");
             if( result.limitExceeded )
                 return NSLocalizedString(@"Too many stops.  Zoom in for more detail.",@"result.limitExceeded");
+
             if([[self.mapView annotationsInMapRect:self.mapView.visibleMapRect] count] == 0 && span.latitudeDelta <= kMaxLatDeltaToShowStops)
                 return NSLocalizedString(@"No stops at this location.",@"[values count] == 0");
-            return defaultLabel;
-        }
+
 
         case OBASearchTypePending:
         case OBASearchTypeNone:
-            return defaultLabel;
+            break;
     }
+    if (self.appContext.modelDao.region && [self outOfServiceAreaForRegion:region]) {
+        return NSLocalizedString(@"Out of OneBusAway service area.",@"result.outOfRange");
+    }
+    return defaultLabel;
+
 }
 
 
@@ -1208,24 +1214,44 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 }    
 
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if (_searchBar.isFirstResponder)
         [self searchBarCancelButtonClicked:_searchBar];
 }
--(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
     
 }
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     
 }
--(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
     
 }
-
+- (BOOL)outOfServiceAreaForRegion:(MKCoordinateRegion)viewRegion {
+    MKMapRect viewRect = MKMapRectForCoordinateRegion(viewRegion);
+    for (OBARegionBoundsV2 *bounds in self.appContext.modelDao.region.bounds) {
+        MKCoordinateRegion serviceRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(bounds.lat, bounds.lon), MKCoordinateSpanMake(bounds.lonSpan, bounds.latSpan));
+        MKMapRect serviceRect = MKMapRectForCoordinateRegion(serviceRegion);
+        if (MKMapRectIntersectsRect(serviceRect, viewRect)) {
+            return NO;
+        }
+    }
+    return YES;
+}
+    
+MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
+    MKMapPoint a = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
+                                                                      region.center.latitude + region.span.latitudeDelta / 2,
+                                                                      region.center.longitude - region.span.longitudeDelta / 2));
+    MKMapPoint b = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
+                                                                      region.center.latitude - region.span.latitudeDelta / 2,
+                                                                      region.center.longitude + region.span.longitudeDelta / 2));
+    return MKMapRectMake(MIN(a.x,b.x), MIN(a.y,b.y), ABS(a.x-b.x), ABS(a.y-b.y));
+}
 @end
 
 
