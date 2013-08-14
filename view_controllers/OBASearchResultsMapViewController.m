@@ -70,6 +70,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @property(strong) UIButton *locationButton;
 @property(strong) UIBarButtonItem *listBarButtonItem;
 @property(strong) OBASearchResultsListViewController *searchResultsListViewController;
+@property (nonatomic) BOOL secondSearchTry;
 @end
 
 @interface OBASearchResultsMapViewController (Private)
@@ -343,13 +344,14 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void)handleSearchControllerUpdate:(OBASearchResult*)result {
     self.navigationItem.title = NSLocalizedString(@"Map", @"self.navigationItem.title");
+    self.secondSearchTry = NO;
     [self reloadData];
 }
 
 - (void)handleSearchControllerError:(NSError*)error {
     // We get this message because the user clicked "Don't allow" on using the current location.  Unfortunately,
     // this error gets propagated to us when the app isn't active (because the alert asking about location is).
-    
+
     if (kCLErrorDomain == error.domain && kCLErrorDenied == error.code) {
         [self showLocationServicesAlert];
         return;
@@ -358,7 +360,11 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     if (!self.controllerIsVisibleAndActive) {
         return;
     }
-    
+    if (!self.secondSearchTry) {
+        self.secondSearchTry = YES;
+        [self.searchController searchWithTarget:[self.searchController getSearchTarget]];
+        return;
+    }
     if ([error.domain isEqual:NSURLErrorDomain] || [error.domain isEqual:NSPOSIXErrorDomain]) {
         
         // We hide repeated network errors
