@@ -39,6 +39,7 @@
 
     OBAStopIconFactory * _stopIconFactory;
     
+    UINavigationController *_regionNavigationController;
     OBARegionListViewController *_regionListViewController;
 }
 

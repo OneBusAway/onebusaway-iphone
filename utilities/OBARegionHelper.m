@@ -64,7 +64,12 @@
         }
         
         [self.regions removeObjectsInArray:regionsToRemove];
-        
+        if (self.regions.count == 0) {
+            [self.appDelegate.modelDao writeSetRegionAutomatically:NO];
+            [self.appDelegate.locationManager removeDelegate:self];
+            [self.appDelegate showRegionListViewController];
+            return;
+        }
         [self.regions sortUsingComparator:^(id obj1, id obj2) {
             OBARegionV2 *region1 = (OBARegionV2*) obj1;
             OBARegionV2 *region2 = (OBARegionV2*) obj2;
@@ -84,7 +89,7 @@
         }];
         
         [self.appDelegate.modelDao setOBARegion:[self.regions objectAtIndex:0]];
-        [self.appDelegate regionSelected];
+        [self.appDelegate refreshSettings];
         [self.appDelegate.locationManager removeDelegate:self];
         [self.appDelegate.modelDao writeSetRegionAutomatically:YES];
     }
