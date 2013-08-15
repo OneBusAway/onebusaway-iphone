@@ -89,7 +89,7 @@
         }];
         
         [self.appDelegate.modelDao setOBARegion:[self.regions objectAtIndex:0]];
-        [self.appDelegate regionSelected];
+        [self.appDelegate refreshSettings];
         [self.appDelegate.locationManager removeDelegate:self];
         [self.appDelegate.modelDao writeSetRegionAutomatically:YES];
     }

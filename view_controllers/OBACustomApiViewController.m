@@ -206,14 +206,15 @@ static NSString *editingCellTag = @"editingCell";
 - (void) saveCustomApiUrl {
     if (![self.customApiUrlTextField.text isEqualToString:self.appDelegate.modelDao.readCustomApiUrl]) {
 
-        [self.appDelegate.modelDao writeCustomApiUrl:self.customApiUrlTextField.text];
-        [self.appDelegate.modelDao writeSetRegionAutomatically:NO];
-        [self.appDelegate.modelDao setOBARegion:nil];
 
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [self.appDelegate refreshSettings];
         if (![self.customApiUrlTextField.text isEqualToString:@""]) {
             [self.appDelegate.modelDao addCustomApiUrl:self.customApiUrlTextField.text];
+            [self.appDelegate.modelDao writeCustomApiUrl:self.customApiUrlTextField.text];
+            [self.appDelegate.modelDao writeSetRegionAutomatically:NO];
+            [self.appDelegate.modelDao setOBARegion:nil];
+            
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            [self.appDelegate regionSelected];
         }
 
     }
