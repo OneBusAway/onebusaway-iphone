@@ -305,7 +305,8 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 }
 
 - (void)regionSelected {
-    [_regionListViewController.view removeFromSuperview];
+    [_regionNavigationController removeFromParentViewController];
+    _regionNavigationController = nil;
     _regionListViewController = nil;
     
     [self refreshSettings];
@@ -317,7 +318,9 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 - (void) showRegionListViewController
 {
     _regionListViewController = [[OBARegionListViewController alloc] initWithApplicationContext:self];
-    self.window.rootViewController = _regionListViewController;
+    _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:_regionListViewController];
+
+    self.window.rootViewController = _regionNavigationController;
 }
 #pragma mark Application's documents directory
 

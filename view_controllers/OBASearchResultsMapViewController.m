@@ -654,7 +654,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     OBALogDebug(@"scheduleRefreshOfStopsInRegion: %f %d %d", interval, moreAccurateRegion, containedRegion);
     if(!moreAccurateRegion && containedRegion) {
-        [self reloadData];
+        NSString * label = [self computeLabelForCurrentResults];
+        [self applyMapLabelWithText:label];
         return;
     }
     

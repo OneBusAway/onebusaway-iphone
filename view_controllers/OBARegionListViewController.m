@@ -108,7 +108,7 @@ typedef enum {
 }
 
 - (void) sortRegionsByLocation {
-    if (![self isLoading]) {
+    if (![self isLoading] && _mostRecentLocation) {
         NSMutableArray *nearbyRegions = [NSMutableArray arrayWithArray:_regions];
         NSMutableArray *regionsToRemove = [NSMutableArray array];
         for (id obj in nearbyRegions) {
@@ -138,9 +138,13 @@ typedef enum {
                 return (NSComparisonResult)NSOrderedSame;
             }
         }];
-        self.nearbyRegion = [nearbyRegions objectAtIndex:0];
-        [self.tableView reloadData];
+        if (nearbyRegions.count > 0) {
+            self.nearbyRegion = [nearbyRegions objectAtIndex:0];
+        } else {
+            self.nearbyRegion = nil;
+        }
     }
+    [self.tableView reloadData];
 }
 
 - (void) sortRegionsByName {
