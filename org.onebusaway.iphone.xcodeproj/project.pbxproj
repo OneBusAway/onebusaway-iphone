@@ -319,6 +319,10 @@
 		93ADBBB5161618850092994E /* lines@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93ADBBB3161618850092994E /* lines@2x.png */; };
 		93D878C5166450AC00FCEFFB /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = 93D878C3166450AC00FCEFFB /* map.png */; };
 		93D878C6166450AC00FCEFFB /* map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93D878C4166450AC00FCEFFB /* map@2x.png */; };
+		96ADB3DB17BDD4D700314D65 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ADB3D517BDD4D600314D65 /* libTestFlight.a */; };
+		96ADB3DC17BDD4D700314D65 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 96ADB3D617BDD4D700314D65 /* README.md */; };
+		96ADB3DD17BDD4D700314D65 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 96ADB3D717BDD4D700314D65 /* release_notes.md */; };
+		96ADB3DF17BDD5DA00314D65 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ADB3DE17BDD5DA00314D65 /* libz.dylib */; };
 		A005943E13FC43A9001B397B /* OBASearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005943C13FC43A9001B397B /* OBASearchTableViewCell.xib */; };
 		A005945713FC49A0001B397B /* OBATripScheduleMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005945513FC49A0001B397B /* OBATripScheduleMapViewController.xib */; };
 		D6169A170FC228FB00631BCE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6169A160FC228FB00631BCE /* CoreData.framework */; };
@@ -804,6 +808,13 @@
 		93ADBBB3161618850092994E /* lines@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lines@2x.png"; path = "../../../../Resources/lines@2x.png"; sourceTree = "<group>"; };
 		93D878C3166450AC00FCEFFB /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = map.png; path = ../../../../Resources/map.png; sourceTree = "<group>"; };
 		93D878C4166450AC00FCEFFB /* map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "map@2x.png"; path = "../../../../Resources/map@2x.png"; sourceTree = "<group>"; };
+		96ADB3D517BDD4D600314D65 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		96ADB3D617BDD4D700314D65 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		96ADB3D717BDD4D700314D65 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+		96ADB3D817BDD4D700314D65 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		96ADB3D917BDD4D700314D65 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		96ADB3DA17BDD4D700314D65 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		96ADB3DE17BDD5DA00314D65 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		A005943D13FC43A9001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
 		A005943F13FC43DB001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
 		A005945613FC49A0001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBATripScheduleMapViewController.xib; sourceTree = "<group>"; };
@@ -831,11 +842,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96ADB3DF17BDD5DA00314D65 /* libz.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */,
 				D61AC67C0F77E0F7006FA853 /* CoreLocation.framework in Frameworks */,
 				D62255AB0F8BCA8F00F139BA /* libsqlite3.0.dylib in Frameworks */,
+				96ADB3DB17BDD4D700314D65 /* libTestFlight.a in Frameworks */,
 				D62255D00F8BCBF100F139BA /* QuartzCore.framework in Frameworks */,
 				D61E4E4F0FC2000D000C1782 /* MapKit.framework in Frameworks */,
 				D6169A170FC228FB00631BCE /* CoreData.framework in Frameworks */,
@@ -905,6 +918,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				96ADB3DE17BDD5DA00314D65 /* libz.dylib */,
 				D62255AA0F8BCA8F00F139BA /* libsqlite3.0.dylib */,
 				D62255C80F8BCB9C00F139BA /* CoreAudio.framework */,
 				D62255CF0F8BCBF100F139BA /* QuartzCore.framework */,
@@ -1607,6 +1621,19 @@
 			path = protocols;
 			sourceTree = "<group>";
 		};
+		96ADB3D417BDD4D600314D65 /* TestFlightSDK2 */ = {
+			isa = PBXGroup;
+			children = (
+				96ADB3D517BDD4D600314D65 /* libTestFlight.a */,
+				96ADB3D617BDD4D700314D65 /* README.md */,
+				96ADB3D717BDD4D700314D65 /* release_notes.md */,
+				96ADB3D817BDD4D700314D65 /* TestFlight+AsyncLogging.h */,
+				96ADB3D917BDD4D700314D65 /* TestFlight+ManualSessions.h */,
+				96ADB3DA17BDD4D700314D65 /* TestFlight.h */,
+			);
+			path = TestFlightSDK2;
+			sourceTree = "<group>";
+		};
 		D619F88E0FDF1372002893B5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -1641,6 +1668,7 @@
 			children = (
 				92CAAE96179C4AF40097DD3D /* MarqueeLabel */,
 				933C7E2B160C07440005AAFE /* Common */,
+				96ADB3D417BDD4D600314D65 /* TestFlightSDK2 */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1750,6 +1778,7 @@
 				933C7FB4160C07440005AAFE /* Clock@2x.png in Resources */,
 				933C7FB8160C07440005AAFE /* CrossHairs.ai in Resources */,
 				933C7FB9160C07440005AAFE /* CrossHairs.png in Resources */,
+				96ADB3DC17BDD4D700314D65 /* README.md in Resources */,
 				933C7FBA160C07440005AAFE /* CrossHairs@2x.png in Resources */,
 				933C7FBB160C07440005AAFE /* Gear.ai in Resources */,
 				933C7FBC160C07440005AAFE /* Gear.png in Resources */,
@@ -1849,6 +1878,7 @@
 				933C801A160C07440005AAFE /* LightRailStopIconS@2x.png in Resources */,
 				933C801B160C07440005AAFE /* LightRailStopIconSE.png in Resources */,
 				933C801C160C07440005AAFE /* LightRailStopIconSE@2x.png in Resources */,
+				96ADB3DD17BDD4D700314D65 /* release_notes.md in Resources */,
 				933C801D160C07440005AAFE /* LightRailStopIconSW.png in Resources */,
 				933C801E160C07440005AAFE /* LightRailStopIconSW@2x.png in Resources */,
 				933C801F160C07440005AAFE /* LightRailStopIconW.png in Resources */,
@@ -2094,7 +2124,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"$(SRCROOT)/TestFlightSDK2",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2127,7 +2158,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"$(SRCROOT)/TestFlightSDK2",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2203,7 +2235,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"$(SRCROOT)/TestFlightSDK2",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2249,7 +2282,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"$(SRCROOT)/TestFlightSDK2",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
