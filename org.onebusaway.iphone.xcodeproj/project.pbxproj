@@ -320,8 +320,6 @@
 		93D878C5166450AC00FCEFFB /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = 93D878C3166450AC00FCEFFB /* map.png */; };
 		93D878C6166450AC00FCEFFB /* map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93D878C4166450AC00FCEFFB /* map@2x.png */; };
 		96ADB3DB17BDD4D700314D65 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ADB3D517BDD4D600314D65 /* libTestFlight.a */; };
-		96ADB3DC17BDD4D700314D65 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 96ADB3D617BDD4D700314D65 /* README.md */; };
-		96ADB3DD17BDD4D700314D65 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 96ADB3D717BDD4D700314D65 /* release_notes.md */; };
 		96ADB3DF17BDD5DA00314D65 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ADB3DE17BDD5DA00314D65 /* libz.dylib */; };
 		A005943E13FC43A9001B397B /* OBASearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005943C13FC43A9001B397B /* OBASearchTableViewCell.xib */; };
 		A005945713FC49A0001B397B /* OBATripScheduleMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005945513FC49A0001B397B /* OBATripScheduleMapViewController.xib */; };
@@ -1778,7 +1776,6 @@
 				933C7FB4160C07440005AAFE /* Clock@2x.png in Resources */,
 				933C7FB8160C07440005AAFE /* CrossHairs.ai in Resources */,
 				933C7FB9160C07440005AAFE /* CrossHairs.png in Resources */,
-				96ADB3DC17BDD4D700314D65 /* README.md in Resources */,
 				933C7FBA160C07440005AAFE /* CrossHairs@2x.png in Resources */,
 				933C7FBB160C07440005AAFE /* Gear.ai in Resources */,
 				933C7FBC160C07440005AAFE /* Gear.png in Resources */,
@@ -1878,7 +1875,6 @@
 				933C801A160C07440005AAFE /* LightRailStopIconS@2x.png in Resources */,
 				933C801B160C07440005AAFE /* LightRailStopIconSE.png in Resources */,
 				933C801C160C07440005AAFE /* LightRailStopIconSE@2x.png in Resources */,
-				96ADB3DD17BDD4D700314D65 /* release_notes.md in Resources */,
 				933C801D160C07440005AAFE /* LightRailStopIconSW.png in Resources */,
 				933C801E160C07440005AAFE /* LightRailStopIconSW@2x.png in Resources */,
 				933C801F160C07440005AAFE /* LightRailStopIconW.png in Resources */,
