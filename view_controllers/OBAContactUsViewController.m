@@ -124,6 +124,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                 if (region) {
                     contactEmail = region.contactEmail;
                 }
+                contactEmail = [NSString stringWithFormat:@"mailto:%@",contactEmail];
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: contactEmail]];
             } else
             {
