@@ -1,22 +1,16 @@
 # Changelog for OneBusAway for iPhone
 
-#2.0
+##2.0
 
-Special thanks to Sebastian Kießling and Chaya Hiruncharoenvate for their work on this version!
+Special thanks to Sebastian Kießling, Chaya Hiruncharoenvate, and the many testers for their work on this version!
 
-2.0rc4: 
-* Fixes crash when out of supported region
-* Fixes search crash 
-* Fixes issue with custom api url in region list on startup
-* Fixes issue with region list when location services are disabled
-
-2.0:
-* Multiregion support for Atlanta, GA and Tampa, FL
+* Added multiregion support - now also includes Atlanta, GA and Tampa, FL
+* Extended search radius to 15,000 meters
+* Fixed bug where you couldn't select the route if multiple options appeared (e.g. searching for "A Line")
 * Updated privacy policy link
-* Extended searcg radius to 15,000 meters
-* Fix for "No stops at location"
+* Updated copyright notice
+* Fix and improve "No stops at this location" logic
 * Other small bug fixes
-
 
 ## 1.2
 
