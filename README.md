@@ -28,6 +28,7 @@ Runtime: iOS 5.1 or higher
 ### Releasing
 
 * Update the [CHANGELOG](CHANGELOG.md) to reflect the changes in this release
+* Merge in to `master` branch
 * Create [GitHub release](https://github.com/OneBusAway/onebusaway-iphone/releases) based on changelog
 * Use changelog as App Store release notes
 * When uploading to App Store rename `org.onebusaway.iphone-debug` to `org.onebusaway.iphone` in `Info.plist`
