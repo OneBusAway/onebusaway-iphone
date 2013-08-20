@@ -70,6 +70,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @property(strong) UIButton *locationButton;
 @property(strong) UIBarButtonItem *listBarButtonItem;
 @property(strong) OBASearchResultsListViewController *searchResultsListViewController;
+@property (nonatomic) BOOL secondSearchTry;
 @end
 
 @interface OBASearchResultsMapViewController (Private)
@@ -115,6 +116,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void)cancelPressed;
 - (BOOL)controllerIsVisibleAndActive;
+- (BOOL)outOfServiceArea;
 @end
 
 @implementation OBASearchResultsMapViewController
@@ -342,13 +344,14 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void)handleSearchControllerUpdate:(OBASearchResult*)result {
     self.navigationItem.title = NSLocalizedString(@"Map", @"self.navigationItem.title");
+    self.secondSearchTry = NO;
     [self reloadData];
 }
 
 - (void)handleSearchControllerError:(NSError*)error {
     // We get this message because the user clicked "Don't allow" on using the current location.  Unfortunately,
     // this error gets propagated to us when the app isn't active (because the alert asking about location is).
-    
+
     if (kCLErrorDomain == error.domain && kCLErrorDenied == error.code) {
         [self showLocationServicesAlert];
         return;
@@ -357,7 +360,11 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     if (!self.controllerIsVisibleAndActive) {
         return;
     }
-    
+    if (!self.secondSearchTry) {
+        self.secondSearchTry = YES;
+        [self.searchController searchWithTarget:[self.searchController getSearchTarget]];
+        return;
+    }
     if ([error.domain isEqual:NSURLErrorDomain] || [error.domain isEqual:NSPOSIXErrorDomain]) {
         
         // We hide repeated network errors
@@ -646,8 +653,11 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     BOOL containedRegion = [OBASphericalGeometryLibrary isRegion:region containedBy:self.mostRecentRegion];
     
     OBALogDebug(@"scheduleRefreshOfStopsInRegion: %f %d %d", interval, moreAccurateRegion, containedRegion);
-    if( ! moreAccurateRegion && containedRegion )
+    if(!moreAccurateRegion && containedRegion) {
+        NSString * label = [self computeLabelForCurrentResults];
+        [self applyMapLabelWithText:label];
         return;
+    }
     
     self.mostRecentLocation = location;
 
@@ -894,20 +904,22 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
             
         case OBASearchTypePlacemark:
         case OBASearchTypeRegion: {
-            if( result.outOfRange )
-                return NSLocalizedString(@"Out of OneBusAway service area.",@"result.outOfRange");
             if( result.limitExceeded )
                 return NSLocalizedString(@"Too many stops.  Zoom in for more detail.",@"result.limitExceeded");
-            NSArray * values = result.values;
-            if( [values count] == 0 && span.latitudeDelta <= kMaxLatDeltaToShowStops)
-                return NSLocalizedString(@"No stops at this location.",@"[values count] == 0");
-            return defaultLabel;
+            if([[self.mapView annotationsInMapRect:self.mapView.visibleMapRect] count] == 0 && span.latitudeDelta <= kMaxLatDeltaToShowStops)
+                defaultLabel = NSLocalizedString(@"No stops at this location.",@"[values count] == 0");
+            break;
+
         }
 
         case OBASearchTypePending:
         case OBASearchTypeNone:
-            return defaultLabel;
+            break;
     }
+    if (self.appContext.modelDao.region && [self outOfServiceArea]) {
+        return NSLocalizedString(@"Out of OneBusAway service area.",@"result.outOfRange");
+    }
+    return defaultLabel;
 }
 
 
@@ -1224,7 +1236,27 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 {
     
 }
+- (BOOL)outOfServiceArea{
+    MKMapRect viewRect = self.mapView.visibleMapRect;
+    for (OBARegionBoundsV2 *bounds in self.appContext.modelDao.region.bounds) {
+        MKCoordinateRegion serviceRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(bounds.lat, bounds.lon), MKCoordinateSpanMake(bounds.lonSpan, bounds.latSpan));
+        MKMapRect serviceRect = MKMapRectForCoordinateRegion(serviceRegion);
+        if (MKMapRectIntersectsRect(serviceRect, viewRect)) {
+            return NO;
+        }
+    }
+    return YES;
+}
 
+MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
+    MKMapPoint a = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
+                                                                      region.center.latitude + region.span.latitudeDelta / 2,
+                                                                      region.center.longitude - region.span.longitudeDelta / 2));
+    MKMapPoint b = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
+                                                                      region.center.latitude - region.span.latitudeDelta / 2,
+                                                                      region.center.longitude + region.span.longitudeDelta / 2));
+    return MKMapRectMake(MIN(a.x,b.x), MIN(a.y,b.y), ABS(a.x-b.x), ABS(a.y-b.y));
+}
 @end
 
 

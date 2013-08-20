@@ -21,15 +21,15 @@
 #import "OBALocationManager.h"
 #import "OBANavigationTarget.h"
 #import "OBAReferencesV2.h"
-#import "IASKAppSettingsViewController.h"
 
 @class OBASearchResultsMapViewController;
 @class OBARecentStopsViewController;
 @class OBABookmarksViewController;
 @class OBAInfoViewController;
 @class OBAStopIconFactory;
+@class OBARegionListViewController;
 
-@interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate,IASKSettingsDelegate> {
+@interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate> {
     
     OBAReferencesV2 * _references;
     OBAModelDAO * _modelDao;
@@ -38,6 +38,9 @@
     OBALocationManager * _locationManager;
 
     OBAStopIconFactory * _stopIconFactory;
+    
+    UINavigationController *_regionNavigationController;
+    OBARegionListViewController *_regionListViewController;
 }
 
 @property(nonatomic, strong) UIWindow *window;
@@ -55,6 +58,7 @@
 @property(strong) UINavigationController *infoNavigationController;
 @property(strong) OBAInfoViewController *infoViewController;
 
+
 @property(nonatomic,readonly) OBAReferencesV2 * references;
 @property(nonatomic,readonly) OBAModelDAO * modelDao;
 @property(nonatomic,readonly) OBAModelService * modelService;
@@ -67,5 +71,7 @@
 
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget;
 - (void) refreshSettings;
+- (void) regionSelected;
+- (void) showRegionListViewController;
 
 @end

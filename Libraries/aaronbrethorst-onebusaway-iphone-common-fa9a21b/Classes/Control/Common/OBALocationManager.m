@@ -94,8 +94,10 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
     if( [error code] == kCLErrorDenied ) {
         _disabled = YES;
         [self stopUpdatingLocation];
-        for( id<OBALocationManagerDelegate> delegate in _delegates )
-            [delegate locationManager:self didFailWithError:error];
+        for (int i = 0; i < [_delegates count]; i++) {
+            [(id<OBALocationManagerDelegate>)[_delegates objectAtIndex:i ] locationManager:self didFailWithError:error];
+        }
+
     }
 }
 
@@ -136,8 +138,9 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
         }
         _currentLocation = [NSObject releaseOld:_currentLocation retainNew:location];
         
-        for( id<OBALocationManagerDelegate> delegate in _delegates )
-            [delegate locationManager:self didUpdateLocation:_currentLocation];
+        for (int i = 0; i < [_delegates count]; i++) {
+            [(id<OBALocationManagerDelegate>)[_delegates objectAtIndex:i ] locationManager:self didUpdateLocation:_currentLocation];
+        }
     }    
 }
 

@@ -30,6 +30,7 @@ static const float kSearchRadius = 400;
 @synthesize modelFactory = _modelFactory;
 @synthesize references = _references;
 @synthesize obaJsonDataSource = _obaJsonDataSource;
+@synthesize obaRegionJsonDataSource = _obaRegionJsonDataSource; 
 @synthesize googleMapsJsonDataSource = _googleMapsJsonDataSource;
 @synthesize googlePlacesJsonDataSource = _googlePlacesJsonDataSource;
 @synthesize locationManager = _locationManager;
@@ -79,7 +80,7 @@ static const float kSearchRadius = 400;
     stopQuery = [self escapeStringForUrl:stopQuery];
     
     NSString * url = @"/api/where/stops-for-location.json";
-    NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2", coord.latitude, coord.longitude,stopQuery];
+    NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2&radius=15000", coord.latitude, coord.longitude,stopQuery];
     SEL selector = @selector(getStopsV2FromJSON:error:);
     
     return [self request:url args:args selector:selector delegate:delegate context:context];    
@@ -113,7 +114,7 @@ static const float kSearchRadius = 400;
     routeQuery = [self escapeStringForUrl:routeQuery];
     
     NSString * url = @"/api/where/routes-for-location.json";
-    NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2", coord.latitude, coord.longitude,routeQuery];
+    NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2&radius=15000", coord.latitude, coord.longitude,routeQuery];
     SEL selector = @selector(getRoutesV2FromJSON:error:);
     
     return [self request:url args:args selector:selector delegate:delegate context:context];
@@ -132,6 +133,14 @@ static const float kSearchRadius = 400;
     SEL selector = @selector(getPlacemarksFromJSONObject:error:);
     
     return [self request:_googleMapsJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
+}
+
+- (id<OBAModelServiceRequest>) requestRegions:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+    NSString * url = @"/regions.json";
+    NSString * args = @"";
+    SEL selector = @selector(getRegionsV2FromJson:error:);
+
+    return [self request:_obaRegionJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
 }
 
 - (id<OBAModelServiceRequest>) placemarksForPlace:(NSString*)name withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
