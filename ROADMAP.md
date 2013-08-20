@@ -2,10 +2,7 @@
 
 These are things that we have expressed interest in but haven't implemented yet. Our [huboard](http://huboard.com/OneBusAway/onebusaway-iphone/board) lists the highest priority items under the 'Ready' column. If you feel like you can complete one of the tasks, feel free to fork the project and send a pull request with the new code. We will work to release new updates to the App store frequently as bugs are fixed and new features are added. 
 
-## [Update 2.0](https://github.com/OneBusAway/onebusaway-iphone/issues?milestone=2&state=open)
-* Add support for [multiple agencies](https://github.com/OneBusAway/onebusaway-iphone/issues/11) in one app
-
-## Update 2.1
+## [Update 2.1](https://github.com/OneBusAway/onebusaway-iphone/issues?milestone=3&state=open)
 * Fix issues labeled as ['bug' in issue tracker](https://github.com/OneBusAway/onebusaway-iphone/issues?labels=bug&state=open)
 
 ## Update 2.5
