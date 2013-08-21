@@ -185,7 +185,9 @@ typedef enum {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	
-    if (_regions == nil)
+    if([self isLoading])
+        return 1;
+    else if(_regions == nil)
         return 2;
     else if ([_regions count] == 0)
         return 2;
