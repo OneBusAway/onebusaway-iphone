@@ -174,7 +174,7 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     
     if ([self.modelDao.readCustomApiUrl isEqualToString:@""]) {
         _regionHelper = [[OBARegionHelper alloc] init];
-        if (self.modelDao.readSetRegionAutomatically) {
+        if (self.modelDao.readSetRegionAutomatically && self.locationManager.locationServicesEnabled) {
             [_regionHelper updateNearestRegion];
         } else {
             [_regionHelper updateRegion];
