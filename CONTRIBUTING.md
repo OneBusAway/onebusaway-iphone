@@ -1,6 +1,6 @@
 # Contribute to OneBusAway for iPhone
 
-This guide details how to use issues and pull requests to improve OneBusAway for iPhone.
+This guide details how to use issues and pull requests (for new code) to improve OneBusAway for iPhone.
 
 ## Closing policy for issues and pull requests
 
@@ -41,8 +41,8 @@ If you can, please submit a pull request with the fix or improvements including 
 1. Add your changes to the [CHANGELOG](CHANGELOG.md) & remove from the [ROADMAP](ROADMAP.md)
 1. If you have multiple commits please combine them into one commit by [squashing them](http://git-scm.com/book/en/Git-Tools-Rewriting-History#Squashing-Commits)
 1. Push the commit to your fork
-1. Submit a pull request
-2. [Search for issues](https://github.com/OneBusAway/onebusaway-iphone/search?q=&ref=cmdform&type=Issues) related to your pull request and mention them in the pull request description
+1. Submit a pull request with a motive for your change and the method you used to achieve it
+1. [Search for issues](https://github.com/OneBusAway/onebusaway-iphone/search?q=&ref=cmdform&type=Issues) related to your pull request and mention them in the pull request description or comments
 
 We will accept pull requests if:
 

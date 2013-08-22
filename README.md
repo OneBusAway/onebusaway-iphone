@@ -1,5 +1,4 @@
-# OneBusAway for iPhone
-[![Build Status](https://travis-ci.org/OneBusAway/onebusaway-iphone.png)](https://travis-ci.org/OneBusAway/onebusaway-iphone)
+# OneBusAway for iPhone [![Build Status](https://travis-ci.org/OneBusAway/onebusaway-iphone.png)](https://travis-ci.org/OneBusAway/onebusaway-iphone) [![Stories in Ready](https://githubkanban.herokuapp.com/huboard/OneBusAway/onebusaway-iphone.png)](http://huboard.com/OneBusAway/onebusaway-iphone/board)
 
 ## Test latest development release
 
@@ -10,6 +9,8 @@ Have a jailbroken device? [Install the latest commit build](https://github.com/b
 ## Contributing
 
 See our [contributing guidelines](CONTRIBUTING.md) and [roadmap](ROADMAP.md).
+
+Our [huboard](http://huboard.com/OneBusAway/onebusaway-iphone/board) lists development priorites and status updates.
 
 ## Build instructions
 
