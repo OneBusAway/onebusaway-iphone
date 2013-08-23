@@ -71,6 +71,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @property(strong) UIBarButtonItem *listBarButtonItem;
 @property(strong) OBASearchResultsListViewController *searchResultsListViewController;
 @property (nonatomic) BOOL secondSearchTry;
+@property (strong) OBANavigationTarget *savedNavigationTarget;
 @end
 
 @interface OBASearchResultsMapViewController (Private)
@@ -135,8 +136,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     [self.searchController cancelOpenConnections];
 }
 
-
-
 - (void) viewDidLoad {
     [super viewDidLoad];
 
@@ -170,7 +169,11 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     self.searchController = [[OBASearchController alloc] initWithAppContext:self.appContext];
     self.searchController.delegate = self;
     self.searchController.progress.delegate = self;
-
+    if (self.savedNavigationTarget) {
+        [self.searchController searchWithTarget:self.savedNavigationTarget];
+        self.savedNavigationTarget = nil;
+    }
+    
     self.navigationItem.leftBarButtonItem = [self getArrowButton];
 
 
@@ -328,7 +331,11 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         [self.mapRegionManager setRegion:region changeWasProgramatic:NO];
     }
     else {
-        [self.searchController searchWithTarget:target];
+        if (self.searchController) {
+            [self.searchController searchWithTarget:target];
+        } else {
+            self.savedNavigationTarget = target;
+        }
     }
 
     [self refreshSearchToolbar];
