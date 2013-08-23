@@ -1,5 +1,4 @@
 #import "OBAReportProblemWithTripViewController.h"
-#import "OBAListSelectionViewController.h"
 #import "OBALabelAndSwitchTableViewCell.h"
 #import "OBALabelAndTextFieldTableViewCell.h"
 #import "OBALogger.h"
@@ -187,8 +186,7 @@ typedef enum {
             NSIndexPath * selectedIndex = [NSIndexPath indexPathForRow:_problemIndex inSection:0];            
             OBAListSelectionViewController * vc = [[OBAListSelectionViewController alloc] initWithValues:_problemNames selectedIndex:selectedIndex];
             vc.title = NSLocalizedString(@"What's the problem?", @"vc.title");
-            vc.target = self;
-            vc.action = @selector(setProblem:);
+            vc.delegate = self;
             vc.exitOnSelection = YES;
             [self.navigationController pushViewController:vc animated:YES];
             break;
@@ -253,11 +251,11 @@ typedef enum {
 
 #pragma mark Other methods
 
-- (void) setProblem:(NSIndexPath*)indexPath {
+- (void)checkItemWithIndex:(NSIndexPath *)indexPath {
     _problemIndex = indexPath.row;
     NSUInteger section = [self sectionIndexForType:OBASectionTypeProblem];
-    NSIndexPath * p = [NSIndexPath indexPathForRow:0 inSection:section];
-    [self.tableView reloadRowsAtIndexPaths:@[p] withRowAnimation:UITableViewRowAnimationFade];
+    NSIndexPath *reloadIndexPath = [NSIndexPath indexPathForRow:0 inSection:section];
+    [self.tableView reloadRowsAtIndexPaths:@[reloadIndexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 #pragma mark OBATextEditViewControllerDelegate
@@ -265,8 +263,8 @@ typedef enum {
 - (void) saveText:(NSString *)text {
     _comment = text;
     NSUInteger section = [self sectionIndexForType:OBASectionTypeComment];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:section];
-    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    NSIndexPath *reloadIndexPath = [NSIndexPath indexPathForRow:0 inSection:section];
+    [self.tableView reloadRowsAtIndexPaths:@[reloadIndexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (void) setOnVehicle:(id) obj {

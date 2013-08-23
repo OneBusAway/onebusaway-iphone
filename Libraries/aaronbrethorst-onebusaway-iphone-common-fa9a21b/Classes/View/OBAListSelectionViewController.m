@@ -1,31 +1,28 @@
 #import "OBAListSelectionViewController.h"
 #import "UITableViewController+oba_Additions.h"
 
+@interface OBAListSelectionViewController ()
+@property (nonatomic) NSArray *values;
+
+@end
 
 @implementation OBAListSelectionViewController
 
-
 #pragma mark Initialization
 
-@synthesize checkedItem = _checkedItem;
-@synthesize target = _target;
-@synthesize action = _action;
-@synthesize exitOnSelection;
-
 - (id)initWithValues:(NSArray*)values selectedIndex:(NSIndexPath*)selectedIndex {
-    if ((self = [super initWithStyle:UITableViewStylePlain])) {
-        _values = values;
-        _checkedItem = selectedIndex;
+    self = [super initWithStyle:UITableViewStylePlain];
+    if (self) {
+        self.values = values;
+        self.checkedItem = selectedIndex;
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [self hideEmptySeparators];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
-
 }
 
 #pragma mark Table view data source
@@ -36,7 +33,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_values count];
+    return self.values.count;
 }
 
 
@@ -56,15 +53,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [[tableView cellForRowAtIndexPath:[self checkedItem]] setAccessoryType:UITableViewCellAccessoryNone];
+    [[tableView cellForRowAtIndexPath:self.checkedItem] setAccessoryType:UITableViewCellAccessoryNone];
     [[tableView cellForRowAtIndexPath:indexPath] setAccessoryType:UITableViewCellAccessoryCheckmark];
-    [self setCheckedItem:indexPath];
+    self.checkedItem = indexPath;
     
-    if( _target && _action && [_target respondsToSelector:_action] ) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [_target performSelector:_action withObject:indexPath];
-#pragma clang diagnostic pop
+    if([self.delegate respondsToSelector:@selector(checkItemWithIndex:)]) {
+        [self.delegate checkItemWithIndex:indexPath];
     }
     
     if (self.exitOnSelection) {

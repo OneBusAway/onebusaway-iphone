@@ -3,8 +3,9 @@
 #import "OBAModalActivityIndicator.h"
 #import "OBATripInstanceRef.h"
 #import "OBATextEditViewController.h"
+#import "OBAListSelectionViewController.h"
 
-@interface OBAReportProblemWithTripViewController : UITableViewController <UITextFieldDelegate,OBAModelServiceDelegate, OBATextEditViewControllerDelegate> {
+@interface OBAReportProblemWithTripViewController : UITableViewController <UITextFieldDelegate,OBAModelServiceDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate> {
     OBAApplicationDelegate * _appContext;
     OBATripInstanceRef * _tripInstance;
     OBATripV2 * _trip;
