@@ -2,9 +2,9 @@
 #import "OBATripDetailsV2.h"
 #import "OBAModalActivityIndicator.h"
 #import "OBATripInstanceRef.h"
+#import "OBATextEditViewController.h"
 
-
-@interface OBAReportProblemWithTripViewController : UITableViewController <UITextFieldDelegate,OBAModelServiceDelegate> {
+@interface OBAReportProblemWithTripViewController : UITableViewController <UITextFieldDelegate,OBAModelServiceDelegate, OBATextEditViewControllerDelegate> {
     OBAApplicationDelegate * _appContext;
     OBATripInstanceRef * _tripInstance;
     OBATripV2 * _trip;

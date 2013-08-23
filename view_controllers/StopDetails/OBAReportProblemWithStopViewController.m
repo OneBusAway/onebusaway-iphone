@@ -1,6 +1,5 @@
 #import "OBAReportProblemWithStopViewController.h"
 #import "OBAListSelectionViewController.h"
-#import "OBATextEditViewController.h"
 #import "OBALogger.h"
 
 typedef enum {
@@ -174,8 +173,7 @@ typedef enum {
             
         case OBASectionTypeComment: {
             OBATextEditViewController * vc = [OBATextEditViewController pushOntoViewController:self withText:_comment withTitle:NSLocalizedString(@"Comment",@"OBATextEditViewController withTitle")];
-            vc.target = self;
-            vc.action = @selector(setComment:);
+            vc.delegate = self;
             break;
         }
             
@@ -221,11 +219,13 @@ typedef enum {
     [self.tableView reloadRowsAtIndexPaths:@[p] withRowAnimation:UITableViewRowAnimationFade];
 }
 
-- (void) setComment:(NSString*)comment {
-    _comment = [NSObject releaseOld:_comment retainNew:comment];
+#pragma mark OBATextEditViewControllerDelegate
+
+- (void) saveText:(NSString *)text {
+    _comment = text;
     NSUInteger section = [self sectionIndexForType:OBASectionTypeComment];
-    NSIndexPath * p = [NSIndexPath indexPathForRow:0 inSection:section];
-    [self.tableView reloadRowsAtIndexPaths:@[p] withRowAnimation:UITableViewRowAnimationFade];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:section];
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 @end

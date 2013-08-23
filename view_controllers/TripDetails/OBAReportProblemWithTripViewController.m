@@ -1,6 +1,5 @@
 #import "OBAReportProblemWithTripViewController.h"
 #import "OBAListSelectionViewController.h"
-#import "OBATextEditViewController.h"
 #import "OBALabelAndSwitchTableViewCell.h"
 #import "OBALabelAndTextFieldTableViewCell.h"
 #import "OBALogger.h"
@@ -197,8 +196,7 @@ typedef enum {
             
         case OBASectionTypeComment: {
             OBATextEditViewController * vc = [OBATextEditViewController pushOntoViewController:self withText:_comment withTitle:NSLocalizedString(@"Comment",@"withTitle")];
-            vc.target = self;
-            vc.action = @selector(setComment:);
+            vc.delegate = self;
             break;
         }
             
@@ -262,11 +260,13 @@ typedef enum {
     [self.tableView reloadRowsAtIndexPaths:@[p] withRowAnimation:UITableViewRowAnimationFade];
 }
 
-- (void) setComment:(NSString*)comment {
-    _comment = [NSObject releaseOld:_comment retainNew:comment];
+#pragma mark OBATextEditViewControllerDelegate
+
+- (void) saveText:(NSString *)text {
+    _comment = text;
     NSUInteger section = [self sectionIndexForType:OBASectionTypeComment];
-    NSIndexPath * p = [NSIndexPath indexPathForRow:0 inSection:section];
-    [self.tableView reloadRowsAtIndexPaths:@[p] withRowAnimation:UITableViewRowAnimationFade];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:section];
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (void) setOnVehicle:(id) obj {
