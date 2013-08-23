@@ -45,7 +45,7 @@
     [super viewWillAppear:animated];
  
     OBAModelDAO * modelDao = _appContext.modelDao;    
-    _mostRecentStops = [NSObject releaseOld:_mostRecentStops retainNew:modelDao.mostRecentStops];
+    _mostRecentStops = modelDao.mostRecentStops;
     [self.tableView reloadData];
 }
 

@@ -136,7 +136,7 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
                 return;
             }
         }
-        _currentLocation = [NSObject releaseOld:_currentLocation retainNew:location];
+        _currentLocation = location;
         
         for (int i = 0; i < [_delegates count]; i++) {
             [(id<OBALocationManagerDelegate>)[_delegates objectAtIndex:i ] locationManager:self didUpdateLocation:_currentLocation];

@@ -62,7 +62,7 @@
     
     [self cancelOpenConnections];
     
-    _target = [NSObject releaseOld:_target retainNew:target];    
+    _target = target;    
     _searchType = [OBASearch getSearchTypeForNagivationTarget:target];    
     
     // Short circuit if the request is NONE

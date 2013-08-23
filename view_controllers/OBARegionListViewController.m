@@ -171,7 +171,7 @@ typedef enum {
 - (void) locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
     OBALocationManager * lm = _appContext.locationManager;
 	CLLocation * newLocation = lm.currentLocation;
-	_mostRecentLocation = [NSObject releaseOld:_mostRecentLocation retainNew:newLocation];
+	_mostRecentLocation = newLocation;
     [_locationTimer invalidate];
     [self sortRegionsByLocation];
 }

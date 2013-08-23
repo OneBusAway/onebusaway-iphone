@@ -272,9 +272,9 @@ typedef enum {
     _onVehicle = toggleSwitch.on;
 }
 
-- (void) setVehicleNumber:(id) obj {
-    UITextField * textField = obj;    
-    _vehicleNumber = [NSObject releaseOld:_vehicleNumber retainNew:[textField text]];
+- (void)setVehicleNumber:(id)obj {
+    UITextField *textField = obj;    
+    _vehicleNumber = textField.text;
 }
 
 @end
