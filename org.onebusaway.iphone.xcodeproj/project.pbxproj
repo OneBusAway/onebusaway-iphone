@@ -64,7 +64,6 @@
 		933C7F7C160C07440005AAFE /* OBALegV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E77160C07440005AAFE /* OBALegV2.m */; };
 		933C7F7D160C07440005AAFE /* OBAListWithRangeAndReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E79160C07440005AAFE /* OBAListWithRangeAndReferencesV2.m */; };
 		933C7F7E160C07440005AAFE /* OBAReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E7B160C07440005AAFE /* OBAReferencesV2.m */; };
-		933C7F7F160C07440005AAFE /* OBAReportProblemWithPlannedTripV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E7D160C07440005AAFE /* OBAReportProblemWithPlannedTripV2.m */; };
 		933C7F80160C07440005AAFE /* OBAReportProblemWithStopV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E7F160C07440005AAFE /* OBAReportProblemWithStopV2.m */; };
 		933C7F81160C07440005AAFE /* OBAReportProblemWithTripV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E81160C07440005AAFE /* OBAReportProblemWithTripV2.m */; };
 		933C7F82160C07440005AAFE /* OBARouteV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E83160C07440005AAFE /* OBARouteV2.m */; };
@@ -457,8 +456,6 @@
 		933C7E79160C07440005AAFE /* OBAListWithRangeAndReferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAListWithRangeAndReferencesV2.m; sourceTree = "<group>"; };
 		933C7E7A160C07440005AAFE /* OBAReferencesV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReferencesV2.h; sourceTree = "<group>"; };
 		933C7E7B160C07440005AAFE /* OBAReferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReferencesV2.m; sourceTree = "<group>"; };
-		933C7E7C160C07440005AAFE /* OBAReportProblemWithPlannedTripV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReportProblemWithPlannedTripV2.h; sourceTree = "<group>"; };
-		933C7E7D160C07440005AAFE /* OBAReportProblemWithPlannedTripV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReportProblemWithPlannedTripV2.m; sourceTree = "<group>"; };
 		933C7E7E160C07440005AAFE /* OBAReportProblemWithStopV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReportProblemWithStopV2.h; sourceTree = "<group>"; };
 		933C7E7F160C07440005AAFE /* OBAReportProblemWithStopV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReportProblemWithStopV2.m; sourceTree = "<group>"; };
 		933C7E80160C07440005AAFE /* OBAReportProblemWithTripV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReportProblemWithTripV2.h; sourceTree = "<group>"; };
@@ -1110,8 +1107,6 @@
 				92235D2317B692760042B843 /* OBARegionBoundsV2.m */,
 				92235D2417B692760042B843 /* OBARegionV2.h */,
 				92235D2517B692760042B843 /* OBARegionV2.m */,
-				933C7E7C160C07440005AAFE /* OBAReportProblemWithPlannedTripV2.h */,
-				933C7E7D160C07440005AAFE /* OBAReportProblemWithPlannedTripV2.m */,
 				933C7E7E160C07440005AAFE /* OBAReportProblemWithStopV2.h */,
 				933C7E7F160C07440005AAFE /* OBAReportProblemWithStopV2.m */,
 				933C7E80160C07440005AAFE /* OBAReportProblemWithTripV2.h */,
@@ -1992,7 +1987,6 @@
 				933C7F7C160C07440005AAFE /* OBALegV2.m in Sources */,
 				933C7F7D160C07440005AAFE /* OBAListWithRangeAndReferencesV2.m in Sources */,
 				933C7F7E160C07440005AAFE /* OBAReferencesV2.m in Sources */,
-				933C7F7F160C07440005AAFE /* OBAReportProblemWithPlannedTripV2.m in Sources */,
 				933C7F80160C07440005AAFE /* OBAReportProblemWithStopV2.m in Sources */,
 				933C7F81160C07440005AAFE /* OBAReportProblemWithTripV2.m in Sources */,
 				933C7F82160C07440005AAFE /* OBARouteV2.m in Sources */,
