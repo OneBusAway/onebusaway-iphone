@@ -167,6 +167,7 @@ typedef enum {
             vc.title = NSLocalizedString(@"What's the problem?", @"vc.title");
             vc.target = self;
             vc.action = @selector(setProblem:);
+            vc.exitOnSelection = YES;
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
@@ -179,6 +180,7 @@ typedef enum {
         }
             
         case OBASectionTypeSubmit: {
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
             [self submit];
         }
             
