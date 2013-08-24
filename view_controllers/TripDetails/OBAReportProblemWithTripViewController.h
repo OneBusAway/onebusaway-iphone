@@ -5,7 +5,7 @@
 #import "OBATextEditViewController.h"
 #import "OBAListSelectionViewController.h"
 
-@interface OBAReportProblemWithTripViewController : UITableViewController <UITextFieldDelegate,OBAModelServiceDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate> {
+@interface OBAReportProblemWithTripViewController : UITableViewController <UITextFieldDelegate,OBAModelServiceDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate, UIAlertViewDelegate> {
     OBAApplicationDelegate * _appContext;
     OBATripInstanceRef * _tripInstance;
     OBATripV2 * _trip;

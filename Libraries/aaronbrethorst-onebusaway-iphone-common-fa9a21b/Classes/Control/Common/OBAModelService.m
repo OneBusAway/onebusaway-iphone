@@ -229,73 +229,71 @@ static const float kSearchRadius = 400;
 
 - (id<OBAModelServiceRequest>) reportProblemWithStop:(OBAReportProblemWithStopV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
     
-    NSString * url = [NSString stringWithFormat:@"/api/where/report-problem-with-stop.json"];
+    NSString *url = [NSString stringWithFormat:@"/api/where/report-problem-with-stop.json"];
     
-    NSMutableDictionary * args = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *args = [[NSMutableDictionary alloc] init];
     args[@"version"] = @"2";
     args[@"stopId"] = problem.stopId;
     
-    if( problem.data )
-        args[@"data"] = problem.data;
+    if(problem.code)
+        args[@"code"] = problem.code;
     
-    if( problem.userComment )
+    if(problem.userComment)
         args[@"userComment"] = problem.userComment;
     
-    CLLocation * location = problem.userLocation;
-    if( location ) {
-        CLLocationCoordinate2D coord = location.coordinate;
-        args[@"userLat"] = @(coord.latitude);
-        args[@"userLon"] = @(coord.longitude);
-        args[@"userLocationAccuracy"] = @(location.horizontalAccuracy);
+    if(problem.userLocation) {
+        CLLocationCoordinate2D coord = problem.userLocation.coordinate;
+        args[@"userLat"] = [@(coord.latitude) stringValue];
+        args[@"userLon"] = [@(coord.longitude) stringValue];
+        args[@"userLocationAccuracy"] = [@(problem.userLocation.horizontalAccuracy) stringValue];
     }
     
     SEL selector = nil;
-    
-    OBAModelServiceRequest * request = [self post:url args:args selector:selector delegate:delegate context:context];
-    request.checkCode = NO;
+
+    OBAModelServiceRequest *request = [self request:url args:[self argsFromDictionary:args] selector:selector delegate:delegate context:context];
+    request.checkCode = YES;
     return request;
 }
 
 - (id<OBAModelServiceRequest>) reportProblemWithTrip:(OBAReportProblemWithTripV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
     
-    NSString * url = [NSString stringWithFormat:@"/api/where/report-problem-with-trip.json"];
+    NSString *url = [NSString stringWithFormat:@"/api/where/report-problem-with-trip.json"];
     
-    NSMutableDictionary * args = [[NSMutableDictionary alloc] init];
-    OBATripInstanceRef * tripInstance = problem.tripInstance;
+    NSMutableDictionary *args = [[NSMutableDictionary alloc] init];
+    OBATripInstanceRef *tripInstance = problem.tripInstance;
     args[@"version"] = @"2";
     args[@"tripId"] = tripInstance.tripId;
     args[@"serviceDate"] = [NSString stringWithFormat:@"%lld",tripInstance.serviceDate];
-    if( tripInstance.vehicleId ) {
+    if(tripInstance.vehicleId) {
         NSLog(@"vid=%@",tripInstance.vehicleId);
         args[@"vehicleId"] = tripInstance.vehicleId;
     }
     
-    if( problem.stopId )    
+    if(problem.stopId)    
         args[@"stopId"] = problem.stopId;
     
-    if( problem.data )
-        args[@"data"] = problem.data;
+    if(problem.code)
+        args[@"code"] = problem.code;
     
-    if( problem.userComment )
+    if(problem.userComment)
         args[@"userComment"] = problem.userComment;
     
     args[@"userOnVehicle"] = (problem.userOnVehicle ? @"true" : @"false");
 
-    if( problem.userVehicleNumber )
+    if(problem.userVehicleNumber)
         args[@"userVehicleNumber"] = problem.userVehicleNumber;
     
-    CLLocation * location = problem.userLocation;
-    if( location ) {
-        CLLocationCoordinate2D coord = location.coordinate;
-        args[@"userLat"] = @(coord.latitude);
-        args[@"userLon"] = @(coord.longitude);
-        args[@"userLocationAccuracy"] = @(location.horizontalAccuracy);
+    if(problem.userLocation) {
+        CLLocationCoordinate2D coord = problem.userLocation.coordinate;
+        args[@"userLat"] = [@(coord.latitude) stringValue];
+        args[@"userLon"] = [@(coord.longitude) stringValue];
+        args[@"userLocationAccuracy"] = [@(problem.userLocation.horizontalAccuracy) stringValue];
     }
     
     SEL selector = nil;
     
-    OBAModelServiceRequest * request = [self post:url args:args selector:selector delegate:delegate context:context];
-    request.checkCode = NO;
+    OBAModelServiceRequest *request = [self request:url args:[self argsFromDictionary:args] selector:selector delegate:delegate context:context];
+    request.checkCode = YES;
     return request;
 }
 
@@ -396,23 +394,22 @@ static const float kSearchRadius = 400;
 - (NSString*) escapeStringForUrl:(NSString*)url {
     url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSMutableString *escaped = [NSMutableString stringWithString:url];
-    NSRange wholeString = NSMakeRange(0, [escaped length]);
-    [escaped replaceOccurrencesOfString:@"&" withString:@"%26" options:NSCaseInsensitiveSearch range:wholeString];
-    [escaped replaceOccurrencesOfString:@"+" withString:@"%2B" options:NSCaseInsensitiveSearch range:wholeString];
-    [escaped replaceOccurrencesOfString:@"," withString:@"%2C" options:NSCaseInsensitiveSearch range:wholeString];
-    [escaped replaceOccurrencesOfString:@"/" withString:@"%2F" options:NSCaseInsensitiveSearch range:wholeString];
-    [escaped replaceOccurrencesOfString:@":" withString:@"%3A" options:NSCaseInsensitiveSearch range:wholeString];
-    [escaped replaceOccurrencesOfString:@";" withString:@"%3B" options:NSCaseInsensitiveSearch range:wholeString];
-    [escaped replaceOccurrencesOfString:@"=" withString:@"%3D" options:NSCaseInsensitiveSearch range:wholeString];
-    [escaped replaceOccurrencesOfString:@"?" withString:@"%3F" options:NSCaseInsensitiveSearch range:wholeString];
-    [escaped replaceOccurrencesOfString:@"@" withString:@"%40" options:NSCaseInsensitiveSearch range:wholeString];
-    [escaped replaceOccurrencesOfString:@" " withString:@"%20" options:NSCaseInsensitiveSearch range:wholeString];
-    [escaped replaceOccurrencesOfString:@"\t" withString:@"%09" options:NSCaseInsensitiveSearch range:wholeString];
-    [escaped replaceOccurrencesOfString:@"#" withString:@"%23" options:NSCaseInsensitiveSearch range:wholeString];
-    [escaped replaceOccurrencesOfString:@"<" withString:@"%3C" options:NSCaseInsensitiveSearch range:wholeString];
-    [escaped replaceOccurrencesOfString:@">" withString:@"%3E" options:NSCaseInsensitiveSearch range:wholeString];
-    [escaped replaceOccurrencesOfString:@"\"" withString:@"%22" options:NSCaseInsensitiveSearch range:wholeString];
-    [escaped replaceOccurrencesOfString:@"\n" withString:@"%0A" options:NSCaseInsensitiveSearch range:wholeString];
+    [escaped replaceOccurrencesOfString:@"&" withString:@"%26" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
+    [escaped replaceOccurrencesOfString:@"+" withString:@"%2B" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
+    [escaped replaceOccurrencesOfString:@"," withString:@"%2C" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
+    [escaped replaceOccurrencesOfString:@"/" withString:@"%2F" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
+    [escaped replaceOccurrencesOfString:@":" withString:@"%3A" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
+    [escaped replaceOccurrencesOfString:@";" withString:@"%3B" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
+    [escaped replaceOccurrencesOfString:@"=" withString:@"%3D" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
+    [escaped replaceOccurrencesOfString:@"?" withString:@"%3F" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
+    [escaped replaceOccurrencesOfString:@"@" withString:@"%40" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
+    [escaped replaceOccurrencesOfString:@" " withString:@"%20" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
+    [escaped replaceOccurrencesOfString:@"\t" withString:@"%09" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
+    [escaped replaceOccurrencesOfString:@"#" withString:@"%23" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
+    [escaped replaceOccurrencesOfString:@"<" withString:@"%3C" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
+    [escaped replaceOccurrencesOfString:@">" withString:@"%3E" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
+    [escaped replaceOccurrencesOfString:@"\"" withString:@"%22" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
+    [escaped replaceOccurrencesOfString:@"\n" withString:@"%0A" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
     return escaped;
 }
 

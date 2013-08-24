@@ -21,12 +21,10 @@ typedef enum {
 - (NSUInteger) sectionIndexForType:(OBASectionType)type;
 
 - (UITableViewCell*) tableView:(UITableView*)tableView vehicleCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-
 - (NSString*) getVehicleTypeLabeForTrip:(OBATripV2*)trip;
 
-- (void) submit;
-- (NSString*) getProblemAsData;
-
+- (void)submit;
+- (void)showErrorAlert;
 @end
 
 
@@ -231,17 +229,23 @@ typedef enum {
 #pragma mark OBAModelServiceDelegate
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
+    UIAlertView * view = [[UIAlertView alloc] init];
+    view.title = NSLocalizedString(@"Submitting successful",@"view.title");
+    view.message = NSLocalizedString(@"The problem was sucessfully reported.\nThank you!",@"view.message");
+    [view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
+    view.cancelButtonIndex = 0;
+    [view show];
     [_activityIndicatorView hide];
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
+    [self showErrorAlert];
     [_activityIndicatorView hide];
 }
 
 - (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
+    [self showErrorAlert];
     [_activityIndicatorView hide];
-    OBALogSevereWithError(error,@"problem posting problem");
 }
 
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
@@ -369,33 +373,35 @@ typedef enum {
     }
 }
 
-- (void) submit {
-
-    OBAReportProblemWithTripV2 * problem = [[OBAReportProblemWithTripV2 alloc] init];
+- (void)submit {
+    OBAReportProblemWithTripV2 *problem = [[OBAReportProblemWithTripV2 alloc] init];
     problem.tripInstance = _tripInstance;
     problem.stopId = self.currentStopId;
-    problem.data = [self getProblemAsData];
+    problem.code = _problemIds[_problemIndex];
     problem.userComment = _comment;
     problem.userOnVehicle = _onVehicle;
     problem.userVehicleNumber = _vehicleNumber;
     problem.userLocation = _appContext.locationManager.currentLocation;
     
-    
     [_activityIndicatorView show:self.view];
     [_appContext.modelService reportProblemWithTrip:problem withDelegate:self withContext:nil];
-    
 }
 
-- (NSString*) getProblemAsData {
+#pragma mark UIAlertViewDelegate
 
-    NSMutableDictionary * p = [[NSMutableDictionary alloc] init];
-    p[@"code"] = _problemIds[_problemIndex];
-    p[@"text"] = _problemNames[_problemIndex];
-
-    NSData *data = [NSJSONSerialization dataWithJSONObject:p options:0 error:nil];
-    NSString *v = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-
-    return v;    
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if( buttonIndex == 0 )
+        [_appContext navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
 }
 
+- (void)showErrorAlert {
+    UIAlertView * view = [[UIAlertView alloc] init];
+    view.title = NSLocalizedString(@"Error Submitting",@"view.title");
+    view.message = NSLocalizedString(@"There occured an error while reporting the problem. Please contact us directly.",@"view.message");
+    view.delegate = self;
+    [view addButtonWithTitle:NSLocalizedString(@"Contact Us",@"view addButtonWithTitle")];
+    [view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
+    view.cancelButtonIndex = 1;
+    [view show];
+}
 @end
