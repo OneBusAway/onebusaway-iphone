@@ -207,8 +207,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.navigationItem.title = NSLocalizedString(@"Map",@"self.navigationItem.title");
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteNetworkRequest) name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
 
     OBALocationManager * lm = self.appContext.locationManager;
@@ -350,7 +348,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 }
 
 - (void)handleSearchControllerUpdate:(OBASearchResult*)result {
-    self.navigationItem.title = NSLocalizedString(@"Map", @"self.navigationItem.title");
     self.secondSearchTry = NO;
     [self reloadData];
 }
@@ -947,7 +944,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     OBASearchResult *result = self.searchController.result;
     
-    if (!result ) {
+    if (!result || (result.values.count == 0 && result.additionalValues.count == 0)) {
         *needsUpdate = NO;
         return self.mapView.region;
     }
@@ -981,19 +978,13 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         lonRun += stop.lon;
         ++stopCount;
     }
+    
+    CLLocationCoordinate2D center;
+    center.latitude  = latRun / stopCount;
+    center.longitude = lonRun / stopCount;
 
-    CLLocation * centerLocation = nil;
-    
-    if (stopCount == 0) {
-        centerLocation = self.currentLocation;
-    } else {
-        CLLocationCoordinate2D center;
-        center.latitude  = latRun / stopCount;
-        center.longitude = lonRun / stopCount;
-        
-        centerLocation = [[CLLocation alloc] initWithLatitude:center.latitude longitude:center.longitude];
-    }
-    
+    CLLocation *centerLocation = [[CLLocation alloc] initWithLatitude:center.latitude longitude:center.longitude];
+   
     return [self computeRegionForStops:stops center:centerLocation];
 }
 
