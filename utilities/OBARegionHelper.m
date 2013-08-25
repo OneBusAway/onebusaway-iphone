@@ -98,12 +98,17 @@
 
 - (void) setRegion {
     NSString *regionName = self.appDelegate.modelDao.region.regionName;
-    for (OBARegionV2 *region in self.regions) {
-        if ([region.regionName isEqualToString:regionName]) {
-            [self.appDelegate.modelDao setOBARegion:region];
-            break;
+    if (regionName) {
+        for (OBARegionV2 *region in self.regions) {
+            if ([region.regionName isEqualToString:regionName]) {
+                [self.appDelegate.modelDao setOBARegion:region];
+                break;
+            }
         }
+    } else {
+        [self.appDelegate showRegionListViewController]; 
     }
+
 }
 #pragma mark OBAModelServiceDelegate
 
@@ -112,7 +117,7 @@
     OBAListWithRangeAndReferencesV2 * list = obj;
 	self.regions = [[NSMutableArray alloc] initWithArray:list.values];
 
-    if (self.appDelegate.modelDao.readSetRegionAutomatically) {
+    if (self.appDelegate.modelDao.readSetRegionAutomatically && self.appDelegate.locationManager.locationServicesEnabled) {
         [self setNearestRegion];
     } else {
         [self setRegion];

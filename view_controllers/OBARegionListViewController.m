@@ -54,15 +54,19 @@ typedef enum {
 	self.navigationItem.title = NSLocalizedString(@"Select Region",@"self.navigationItem.title");
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteNetworkRequest) name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
-	
-    _locationTimedOut = NO;
-	OBALocationManager * lm = _appContext.locationManager;
-	[lm addDelegate:self];
-	[lm startUpdatingLocation];
     
-    _locationTimer = [NSTimer timerWithTimeInterval:60.0 target:self selector:@selector(timeOutLocation) userInfo:(self) repeats:NO];
-    [[NSRunLoop mainRunLoop] addTimer:_locationTimer forMode:NSRunLoopCommonModes];
-    
+    OBALocationManager *lm = _appContext.locationManager;
+    if (lm.locationServicesEnabled) {
+        _locationTimedOut = NO;
+        [lm addDelegate:self];
+        [lm startUpdatingLocation];
+        
+        _locationTimer = [NSTimer timerWithTimeInterval:60.0 target:self selector:@selector(timeOutLocation) userInfo:(self) repeats:NO];
+        [[NSRunLoop mainRunLoop] addTimer:_locationTimer forMode:NSRunLoopCommonModes];
+        
+    } else {
+        _locationTimedOut = YES;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -185,7 +189,9 @@ typedef enum {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	
-    if (_regions == nil)
+    if([self isLoading])
+        return 1;
+    else if(_regions == nil)
         return 2;
     else if ([_regions count] == 0)
         return 2;
