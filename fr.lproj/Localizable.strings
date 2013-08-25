@@ -130,7 +130,7 @@
 "Loading..." = "Chargement en cours...";
 
 /* view.message */
-"Location Services are disabled for this app.  Some location-aware functionality will be missing." = "Les services de localisation sont désactivés pour cette application. Certaines fonctionalités de géolocalisation seront manquantes."; /* Vérifier pour "localisation-aware" */
+"Location Services are disabled for this app. Some location-aware functionality will be missing." = "Les services de localisation sont désactivés pour cette application. Certaines fonctionalités de géolocalisation seront manquantes."; /* Vérifier pour "localisation-aware" */
 
 /* view.title */
 "Location Services Disabled" = "Services de localisation désactivés";

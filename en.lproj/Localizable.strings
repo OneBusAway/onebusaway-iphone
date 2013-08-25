@@ -130,7 +130,7 @@
 "Loading..." = "Loading...";
 
 /* view.message */
-"Location Services are disabled for this app.  Some location-aware functionality will be missing." = "Location Services are disabled for this app.  Some location-aware functionality will be missing.";
+"Location Services are disabled for this app. Some location-aware functionality will be missing." = "Location Services are disabled for this app. Some location-aware functionality will be missing.";
 
 /* view.title */
 "Location Services Disabled" = "Location Services Disabled";
