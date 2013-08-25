@@ -1,4 +1,8 @@
 # Changelog for OneBusAway for iPhone
+##2.0.1
+
+* Fixes bug with connection error when location services are disabled 
+* Fixes bug with "Report a problem"
 
 ##2.0
 
