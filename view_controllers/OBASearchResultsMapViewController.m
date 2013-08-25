@@ -905,7 +905,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         case OBASearchTypePlacemark:
         case OBASearchTypeRegion: {
             if( result.limitExceeded )
-                return NSLocalizedString(@"Too many stops.  Zoom in for more detail.",@"result.limitExceeded");
+                return NSLocalizedString(@"Too many stops. Zoom in for more detail.",@"result.limitExceeded");
             if([[self.mapView annotationsInMapRect:self.mapView.visibleMapRect] count] == 0 && span.latitudeDelta <= kMaxLatDeltaToShowStops)
                 defaultLabel = NSLocalizedString(@"No stops at this location.",@"[values count] == 0");
             break;

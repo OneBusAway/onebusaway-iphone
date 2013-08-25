@@ -391,7 +391,7 @@
 "There was a problem with your Internet connection.\n\nPlease check your network connection or contact us if you think the problem is on our end." = "There was a problem with your Internet connection.\n\nPlease check your network connection.";
 
 /* result.limitExceeded */
-"Too many stops.  Zoom in for more detail." = "Too many stops.  Zoom in for more detail.";
+"Too many stops. Zoom in for more detail." = "Too many stops. Zoom in for more detail.";
 
 /* cell.textLabel.text */
 "total" = "total";
