@@ -103,18 +103,18 @@
     OBABookmarkV2 * bookmark = self.bookmarks[(indexPath.row)];
     
     if( self.tableView.editing ) {
-        OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:self.appContext bookmark:bookmark editType:OBABookmarkEditExisting];
+        OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:self.appDelegate bookmark:bookmark editType:OBABookmarkEditExisting];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else {
-        OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:self.appContext stopId:bookmark.stopIds[0]];
+        OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationDelegate:self.appDelegate stopId:bookmark.stopIds[0]];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath  {
     
-    OBAModelDAO * modelDao = self.appContext.modelDao;
+    OBAModelDAO * modelDao = self.appDelegate.modelDao;
     OBABookmarkV2 * bookmark = self.bookmarks[(indexPath.row)];
     
     [modelDao removeBookmark:bookmark];
@@ -136,7 +136,7 @@
 
 -(void) tableView: (UITableView *) tableView moveRowAtIndexPath: (NSIndexPath *) oldPath toIndexPath:(NSIndexPath *) newPath {
     
-    OBAModelDAO * modelDao = self.appContext.modelDao;
+    OBAModelDAO * modelDao = self.appDelegate.modelDao;
     [modelDao moveBookmark:oldPath.row to: newPath.row];
     [self _refreshBookmarks];
 }
@@ -150,7 +150,7 @@
 #pragma mark - Private
 
 - (void) _refreshBookmarks {
-    OBAModelDAO * dao = self.appContext.modelDao;
+    OBAModelDAO * dao = self.appDelegate.modelDao;
     self.bookmarks = dao.bookmarks;
     self.editButtonItem.enabled = [self.bookmarks count] > 0;
 }

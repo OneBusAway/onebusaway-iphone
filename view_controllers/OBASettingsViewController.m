@@ -120,7 +120,7 @@
 
     switch (indexPath.section) {
         case kRegionsRow: {
-            pushMe = [[OBARegionListViewController alloc] initWithApplicationContext:self.appDelegate];
+            pushMe = [[OBARegionListViewController alloc] initWithApplicationDelegate:self.appDelegate];
             break;
         }
         default:

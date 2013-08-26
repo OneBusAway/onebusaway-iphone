@@ -19,9 +19,9 @@
 #import "OBANavigationTargetAware.h"
 
 @interface OBAContactUsViewController : UITableViewController <OBANavigationTargetAware> {
-    OBAApplicationDelegate * _appContext;
+    OBAApplicationDelegate * _appDelegate;
 }
 
-@property (nonatomic,strong) IBOutlet OBAApplicationDelegate * appContext;
+@property (nonatomic,strong) IBOutlet OBAApplicationDelegate * appDelegate;
 
 @end

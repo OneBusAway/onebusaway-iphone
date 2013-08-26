@@ -29,7 +29,7 @@ typedef enum {
 @implementation OBAAgenciesListViewController
 
 - (id)init {
-    self = [super initWithApplicationContext:APP_DELEGATE];
+    self = [super initWithApplicationDelegate:APP_DELEGATE];
     if (self) {
         self.title = NSLocalizedString(@"Agencies", @"Agencies tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Agencies"];
@@ -57,7 +57,7 @@ typedef enum {
 }
 
 - (id<OBAModelServiceRequest>) handleRefresh {
-    return [_appContext.modelService requestAgenciesWithCoverageWithDelegate:self withContext:nil];
+    return [_appDelegate.modelService requestAgenciesWithCoverageWithDelegate:self withContext:nil];
 }
 
 -(void) handleData:(id)obj context:(id)context {
@@ -220,7 +220,7 @@ typedef enum {
 
 - (void) didSelectActionsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
-    [_appContext navigateToTarget:target];
+    [_appDelegate navigateToTarget:target];
 }
 
 - (void) didSelectAgencyRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {

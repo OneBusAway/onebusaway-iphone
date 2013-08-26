@@ -15,9 +15,9 @@
     id<OBAModelServiceRequest> _request;
 }
 
-+(OBADiversionViewController*) loadFromNibWithAppContext:(OBAApplicationDelegate*)context;
++(OBADiversionViewController*) loadFromNibWithappDelegate:(OBAApplicationDelegate*)context;
 
-@property (nonatomic,strong) IBOutlet OBAApplicationDelegate * appContext;
+@property (nonatomic,strong) IBOutlet OBAApplicationDelegate * appDelegate;
 @property (nonatomic,strong) NSString * diversionPath;
 @property (nonatomic,strong) NSDictionary * args;
 

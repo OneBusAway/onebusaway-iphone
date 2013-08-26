@@ -28,7 +28,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 - (id)init {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         self.title = NSLocalizedString(@"Contact Us & More", @"Contact us tab title");
-        self.appContext = APP_DELEGATE;
+        self.appDelegate = APP_DELEGATE;
     }
     return self;
 }
@@ -58,7 +58,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        OBARegionV2 *region = _appContext.modelDao.region;
+        OBARegionV2 *region = _appDelegate.modelDao.region;
         if (region.facebookUrl && ![region.facebookUrl isEqualToString:@""]) {
             return 3;
         }
@@ -109,7 +109,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    OBARegionV2 *region = _appContext.modelDao.region;
+    OBARegionV2 *region = _appDelegate.modelDao.region;
     switch( indexPath.row) {
         case 0:
             if (indexPath.section == 0) {

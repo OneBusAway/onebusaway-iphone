@@ -32,8 +32,8 @@ typedef enum {
 
 @implementation OBARegionListViewController
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext {
-	if( self = [super initWithApplicationContext:appContext] ) {
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate {
+	if( self = [super initWithApplicationDelegate:appDelegate] ) {
 		self.refreshable = NO;
 		self.showUpdateTime = NO;
 	}
@@ -56,7 +56,7 @@ typedef enum {
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteNetworkRequest) name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
     
-    OBALocationManager *lm = _appContext.locationManager;
+    OBALocationManager *lm = _appDelegate.locationManager;
     if (lm.locationServicesEnabled) {
         _locationTimedOut = NO;
         [lm addDelegate:self];
@@ -75,8 +75,8 @@ typedef enum {
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
     
-	[_appContext.locationManager stopUpdatingLocation];
-	[_appContext.locationManager removeDelegate:self];
+	[_appDelegate.locationManager stopUpdatingLocation];
+	[_appDelegate.locationManager removeDelegate:self];
     [_locationTimer invalidate];
 }
 
@@ -92,7 +92,7 @@ typedef enum {
 }
 
 - (id<OBAModelServiceRequest>) handleRefresh {
-	return [_appContext.modelService requestRegions:self withContext:nil];
+	return [_appDelegate.modelService requestRegions:self withContext:nil];
 }
 
 - (void) handleData:(id)obj context:(id)context {
@@ -170,7 +170,7 @@ typedef enum {
 #pragma mark OBALocationManagerDelegate Methods
 
 - (void) locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
-    OBALocationManager * lm = _appContext.locationManager;
+    OBALocationManager * lm = _appDelegate.locationManager;
 	CLLocation * newLocation = lm.currentLocation;
 	_mostRecentLocation = newLocation;
     [_locationTimer invalidate];
@@ -298,8 +298,8 @@ typedef enum {
 
 - (void) showLocationServicesAlert {
 	
-	if (! [_appContext.modelDao hideFutureLocationWarnings]) {
-		[_appContext.modelDao setHideFutureLocationWarnings:TRUE];
+	if (! [_appDelegate.modelDao hideFutureLocationWarnings]) {
+		[_appDelegate.modelDao setHideFutureLocationWarnings:TRUE];
 		
 		UIAlertView * view = [[UIAlertView alloc] init];
 		view.title = NSLocalizedString(@"Location Services Disabled",@"view.title");
@@ -353,14 +353,14 @@ typedef enum {
     switch ([self sectionTypeForSection:indexPath.section]) {
         case OBASectionTypeNearbyRegions:
             region = self.nearbyRegion;
-            if ([_appContext.modelDao readSetRegionAutomatically]) {
+            if ([_appDelegate.modelDao readSetRegionAutomatically]) {
                 self.checkedItem = indexPath;
             }
             break;
         case OBASectionTypeAllRegions:
             region = [_regions objectAtIndex:indexPath.row];
-            if (![_appContext.modelDao readSetRegionAutomatically] &&
-                [_appContext.modelDao.region.regionName isEqualToString:region.regionName]) {
+            if (![_appDelegate.modelDao readSetRegionAutomatically] &&
+                [_appDelegate.modelDao.region.regionName isEqualToString:region.regionName]) {
                 self.checkedItem = indexPath;
             }
             break;
@@ -388,19 +388,19 @@ typedef enum {
     switch ([self sectionTypeForSection:indexPath.section]) {
         case OBASectionTypeNearbyRegions:
             region = self.nearbyRegion;
-            [_appContext.modelDao writeSetRegionAutomatically:YES];
+            [_appDelegate.modelDao writeSetRegionAutomatically:YES];
             break;
         case OBASectionTypeAllRegions:
             region = [_regions objectAtIndex:indexPath.row];
-            [_appContext.modelDao writeSetRegionAutomatically:NO];
+            [_appDelegate.modelDao writeSetRegionAutomatically:NO];
             break;
         default:
             return ;
             break;
     }
-    [_appContext.modelDao writeCustomApiUrl:@""];
-    [_appContext.modelDao setOBARegion:region];
-    [_appContext regionSelected];
+    [_appDelegate.modelDao writeCustomApiUrl:@""];
+    [_appDelegate.modelDao setOBARegion:region];
+    [_appDelegate regionSelected];
 
 }
 
@@ -418,7 +418,7 @@ typedef enum {
 - (void) didSelectCustomAPIRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    UIViewController *pushMe = [[OBACustomApiViewController alloc] initWithApplicationDelegate:self.appContext];
+    UIViewController *pushMe = [[OBACustomApiViewController alloc] initWithApplicationDelegate:self.appDelegate];
     [self.navigationController pushViewController:pushMe animated:YES];
 }
 

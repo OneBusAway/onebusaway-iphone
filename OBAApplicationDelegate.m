@@ -148,15 +148,15 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     self.tabBarController = [[UITabBarController alloc] init];
 
     self.mapViewController = [[OBASearchResultsMapViewController alloc] init];
-    self.mapViewController.appContext = self;
+    self.mapViewController.appDelegate = self;
     self.mapNavigationController = [[UINavigationController alloc] initWithRootViewController:self.mapViewController];
     
     self.recentsViewController = [[OBARecentStopsViewController alloc] init];
-    self.recentsViewController.appContext = self;
+    self.recentsViewController.appDelegate = self;
     self.recentsNavigationController = [[UINavigationController alloc] initWithRootViewController:self.recentsViewController];
 
     self.bookmarksViewController = [[OBABookmarksViewController alloc] init];
-    self.bookmarksViewController.appContext = self;
+    self.bookmarksViewController.appDelegate = self;
     self.bookmarksNavigationController = [[UINavigationController alloc] initWithRootViewController:self.bookmarksViewController];
     
     self.infoViewController = [[OBAInfoViewController alloc] init];
@@ -280,7 +280,7 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     
     switch (target.target) {
         case OBANavigationTargetTypeStop:
-            return [[OBAStopViewController alloc] initWithApplicationContext:self];
+            return [[OBAStopViewController alloc] initWithApplicationDelegate:self];
         default:
             return nil;
     }
@@ -327,7 +327,7 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 
 - (void) showRegionListViewController
 {
-    _regionListViewController = [[OBARegionListViewController alloc] initWithApplicationContext:self];
+    _regionListViewController = [[OBARegionListViewController alloc] initWithApplicationDelegate:self];
     _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:_regionListViewController];
 
     self.window.rootViewController = _regionNavigationController;

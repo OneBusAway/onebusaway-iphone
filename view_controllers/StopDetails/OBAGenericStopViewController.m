@@ -39,7 +39,7 @@
 static const double kNearbyStopRadius = 200;
 
 @interface OBAGenericStopViewController ()
-@property(strong,readwrite) OBAApplicationDelegate * _appContext;
+@property(strong,readwrite) OBAApplicationDelegate * _appDelegate;
 @property(strong,readwrite) NSString * stopId;
 @property NSUInteger minutesAfter;
 
@@ -81,11 +81,11 @@ static const double kNearbyStopRadius = 200;
 
 @implementation OBAGenericStopViewController
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext {
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate {
 
     if (self = [super initWithStyle:UITableViewStylePlain]) {
 
-        _appContext = appContext;
+        _appDelegate = appDelegate;
         
         _minutesBefore = 5;
         _minutesAfter = 35;
@@ -94,7 +94,7 @@ static const double kNearbyStopRadius = 200;
         _showServiceAlerts = YES;
         _showActions = YES;
         
-        _arrivalCellFactory = [[OBAArrivalEntryTableViewCellFactory alloc] initWithAppContext:_appContext tableView:self.tableView];
+        _arrivalCellFactory = [[OBAArrivalEntryTableViewCellFactory alloc] initWithappDelegate:_appDelegate tableView:self.tableView];
         _arrivalCellFactory.showServiceAlerts = YES;
 
         _serviceAlerts = [[OBAServiceAlertsModel alloc] init];
@@ -118,8 +118,8 @@ static const double kNearbyStopRadius = 200;
     return self;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext stopId:(NSString*)stopId {
-    if (self = [self initWithApplicationContext:appContext]) {
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate stopId:(NSString*)stopId {
+    if (self = [self initWithApplicationDelegate:appDelegate]) {
         self.stopId = stopId;
     }
     return self;
@@ -308,7 +308,7 @@ static const double kNearbyStopRadius = 200;
         view.canShowCallout = NO;
         
 
-        OBAStopIconFactory * stopIconFactory = self.appContext.stopIconFactory;
+        OBAStopIconFactory * stopIconFactory = self.appDelegate.stopIconFactory;
         view.image = [stopIconFactory getIconForStop:stop];
         return view;
     }
@@ -481,7 +481,7 @@ static const double kNearbyStopRadius = 200;
     [self didBeginRefresh];
     
     [self clearPendingRequest];
-    _request = [_appContext.modelService requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter withDelegate:self withContext:nil];
+    _request = [_appDelegate.modelService requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter withDelegate:self withContext:nil];
     _timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 }
      
@@ -638,14 +638,14 @@ static const double kNearbyStopRadius = 200;
 
 - (void)tableView:(UITableView *)tableView didSelectServiceAlertRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray * situations = _result.situations;
-    [OBAPresentation showSituations:situations withAppContext:_appContext navigationController:self.navigationController args:nil];
+    [OBAPresentation showSituations:situations withappDelegate:_appDelegate navigationController:self.navigationController args:nil];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
     if ( 0 <= indexPath.row && indexPath.row < [arrivals count] ) {
         OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
-        OBAArrivalAndDepartureViewController * vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationContext:_appContext arrivalAndDeparture:arrivalAndDeparture];
+        OBAArrivalAndDepartureViewController * vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationDelegate:_appDelegate arrivalAndDeparture:arrivalAndDeparture];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -653,27 +653,27 @@ static const double kNearbyStopRadius = 200;
 - (void)tableView:(UITableView *)tableView didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath {
     switch(indexPath.row) {
         case 0: {
-            OBABookmarkV2 * bookmark = [_appContext.modelDao createTransientBookmark:_result.stop];
+            OBABookmarkV2 * bookmark = [_appDelegate.modelDao createTransientBookmark:_result.stop];
             
-            OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationContext:_appContext bookmark:bookmark editType:OBABookmarkEditNew];
+            OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:_appDelegate bookmark:bookmark editType:OBABookmarkEditNew];
             [self.navigationController pushViewController:vc animated:YES];
             
             break;
         }
         case 1: {
-            OBAReportProblemViewController * vc = [[OBAReportProblemViewController alloc] initWithApplicationContext:_appContext stop:_result.stop];
+            OBAReportProblemViewController * vc = [[OBAReportProblemViewController alloc] initWithApplicationDelegate:_appDelegate stop:_result.stop];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
 
         case 2: {
             NSArray * situations = _result.situations;
-            [OBAPresentation showSituations:situations withAppContext:_appContext navigationController:self.navigationController args:nil];
+            [OBAPresentation showSituations:situations withappDelegate:_appDelegate navigationController:self.navigationController args:nil];
             break;
         }
 
         case 3: {
-            OBAEditStopPreferencesViewController * vc = [[OBAEditStopPreferencesViewController alloc] initWithApplicationContext:_appContext stop:_result.stop];
+            OBAEditStopPreferencesViewController * vc = [[OBAEditStopPreferencesViewController alloc] initWithApplicationDelegate:_appDelegate stop:_result.stop];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
@@ -705,7 +705,7 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 
 - (void) reloadData {
         
-    OBAModelDAO * modelDao = _appContext.modelDao;
+    OBAModelDAO * modelDao = _appDelegate.modelDao;
     
     OBAStopV2 * stop = _result.stop;
     

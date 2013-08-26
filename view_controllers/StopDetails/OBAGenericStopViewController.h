@@ -37,7 +37,7 @@ typedef enum {
 @property(nonatomic,strong) IBOutlet OBAShadowLabel *stopNumber;
 @property (strong, nonatomic) IBOutlet OBAShadowLabel *stopRoutes;
 
-@property(strong,readonly) OBAApplicationDelegate * appContext;
+@property(strong,readonly) OBAApplicationDelegate * appDelegate;
 @property(strong,readonly) NSString * stopId;
 @property BOOL showTitle;
 @property BOOL showServiceAlerts;
@@ -48,7 +48,7 @@ typedef enum {
 @property(strong) NSMutableArray *filteredArrivals;
 @property BOOL showFilteredArrivals;
 
-- (id)initWithApplicationContext:(OBAApplicationDelegate*)appContext;
-- (id)initWithApplicationContext:(OBAApplicationDelegate*)appContext stopId:(NSString*)stopId;
+- (id)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate;
+- (id)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate stopId:(NSString*)stopId;
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section;
 @end

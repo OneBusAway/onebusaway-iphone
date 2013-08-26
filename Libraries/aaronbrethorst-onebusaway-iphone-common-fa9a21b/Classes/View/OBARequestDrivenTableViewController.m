@@ -16,14 +16,14 @@
 
 @implementation OBARequestDrivenTableViewController
 
-@synthesize appContext = _appContext;
+@synthesize appDelegate = _appDelegate;
 @synthesize progressLabel = _progressLabel;
 @synthesize showUpdateTime = _showUpdateTime;
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext { 
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate { 
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
-        _appContext = appContext;
+        _appDelegate = appDelegate;
         CGRect r = CGRectMake(0, 0, 160, 33);
         _progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];
         [self.navigationItem setTitleView:_progressView];

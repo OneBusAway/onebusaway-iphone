@@ -69,7 +69,7 @@
 @property (nonatomic,strong) NSError * error;
 
 
-- (id) initWithAppContext:(OBAApplicationDelegate*)context;
+- (id) initWithappDelegate:(OBAApplicationDelegate*)context;
 - (BOOL)unfilteredSearch;
 -(void) searchWithTarget:(OBANavigationTarget*)target;
 -(void) searchPending;

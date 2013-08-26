@@ -28,9 +28,9 @@ typedef enum {
 #pragma mark -
 #pragma mark Initialization
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)context stop:(OBAStopV2*)stop {
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)context stop:(OBAStopV2*)stop {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-        _appContext = context;
+        _appDelegate = context;
         _stop = stop;
         
         self.navigationItem.title = NSLocalizedString(@"Report a Problem",@"self.navigationItem.title");
@@ -313,10 +313,10 @@ typedef enum {
     problem.stopId = _stop.stopId;
     problem.code = _problemIds[_problemIndex];
     problem.userComment = _comment;
-    problem.userLocation = _appContext.locationManager.currentLocation;
+    problem.userLocation = _appDelegate.locationManager.currentLocation;
     
     [_activityIndicatorView show:self.view];
-    [_appContext.modelService reportProblemWithStop:problem withDelegate:self withContext:nil];
+    [_appDelegate.modelService reportProblemWithStop:problem withDelegate:self withContext:nil];
 
 }
 
@@ -324,7 +324,7 @@ typedef enum {
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if( buttonIndex == 0 )
-        [_appContext navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
+        [_appDelegate navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
 }
 
 - (void)showErrorAlert {

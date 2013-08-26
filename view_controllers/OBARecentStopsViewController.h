@@ -19,10 +19,10 @@
 
 
 @interface OBARecentStopsViewController : UITableViewController <OBANavigationTargetAware> {
-    OBAApplicationDelegate * _appContext;
+    OBAApplicationDelegate * _appDelegate;
     NSArray * _mostRecentStops;
 }
 
-@property (nonatomic,strong) IBOutlet OBAApplicationDelegate * appContext;
+@property (nonatomic,strong) IBOutlet OBAApplicationDelegate * appDelegate;
 
 @end

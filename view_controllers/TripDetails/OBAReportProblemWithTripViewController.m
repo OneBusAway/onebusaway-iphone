@@ -36,9 +36,9 @@ typedef enum {
 #pragma mark -
 #pragma mark Initialization
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext tripInstance:(OBATripInstanceRef*)tripInstance trip:(OBATripV2*)trip {
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate tripInstance:(OBATripInstanceRef*)tripInstance trip:(OBATripV2*)trip {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-        _appContext = appContext;
+        _appDelegate = appDelegate;
         _tripInstance = tripInstance;
         _trip = trip;
 
@@ -413,17 +413,17 @@ typedef enum {
     problem.userComment = _comment;
     problem.userOnVehicle = _onVehicle;
     problem.userVehicleNumber = _vehicleNumber;
-    problem.userLocation = _appContext.locationManager.currentLocation;
+    problem.userLocation = _appDelegate.locationManager.currentLocation;
     
     [_activityIndicatorView show:self.view];
-    [_appContext.modelService reportProblemWithTrip:problem withDelegate:self withContext:nil];
+    [_appDelegate.modelService reportProblemWithTrip:problem withDelegate:self withContext:nil];
 }
 
 #pragma mark UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if( buttonIndex == 0 )
-        [_appContext navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
+        [_appDelegate navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
 }
 
 - (void)showErrorAlert {

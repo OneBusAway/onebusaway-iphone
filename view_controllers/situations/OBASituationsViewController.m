@@ -20,10 +20,10 @@
 
 @synthesize args;
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext situations:(NSArray*)situations {
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate situations:(NSArray*)situations {
     
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-        _appContext = appContext;
+        _appDelegate = appDelegate;
         _situations = situations;
         self.navigationItem.title = NSLocalizedString(@"Service Alerts",@"self.navigationItem.title");
     }
@@ -85,7 +85,7 @@
     
     if( [_situations count] > 0) {
         OBASituationV2 * situation = _situations[indexPath.row];
-        OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationContext:_appContext situation:situation];
+        OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationDelegate:_appDelegate situation:situation];
         vc.args = self.args;
         [self.navigationController pushViewController:vc animated:YES];
     }

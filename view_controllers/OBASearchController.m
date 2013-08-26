@@ -44,7 +44,7 @@
 @synthesize progress = _progress;
 @synthesize error = _error;
 
-- (id) initWithAppContext:(OBAApplicationDelegate*)context {
+- (id) initWithappDelegate:(OBAApplicationDelegate*)context {
     
     if ( self = [super init] ) {
         _modelService = context.modelService;

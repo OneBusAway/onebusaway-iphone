@@ -21,10 +21,10 @@
 @class OBASearchResultsMapViewController;
 
 @interface OBASearchResultsListViewController : UITableViewController {
-    OBAApplicationDelegate * _appContext;
+    OBAApplicationDelegate * _appDelegate;
 }
 @property(strong) OBASearchResult *result;
 @property BOOL isModal;
-- (id) initWithContext:(OBAApplicationDelegate*)appContext searchControllerResult:(OBASearchResult*)result;
+- (id) initWithContext:(OBAApplicationDelegate*)appDelegate searchControllerResult:(OBASearchResult*)result;
 
 @end

@@ -148,15 +148,15 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
     }
 }
 
-+ (void)showSituations:(NSArray*)situations withAppContext:(OBAApplicationDelegate*)appContext navigationController:(UINavigationController*)navigationController args:(NSDictionary*)args {
++ (void)showSituations:(NSArray*)situations withappDelegate:(OBAApplicationDelegate*)appDelegate navigationController:(UINavigationController*)navigationController args:(NSDictionary*)args {
     if( [situations count] == 1 ) {
         OBASituationV2 * situation = [situations objectAtIndex:0];
-        OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationContext:appContext situation:situation];
+        OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationDelegate:appDelegate situation:situation];
         vc.args = args;
         [navigationController pushViewController:vc animated:YES];
     }
     else {
-        OBASituationsViewController * vc = [[OBASituationsViewController alloc] initWithApplicationContext:appContext situations:situations];
+        OBASituationsViewController * vc = [[OBASituationsViewController alloc] initWithApplicationDelegate:appDelegate situations:situations];
         vc.args = args;
         [navigationController pushViewController:vc animated:YES];
     }

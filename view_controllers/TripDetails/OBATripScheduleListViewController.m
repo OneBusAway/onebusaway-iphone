@@ -42,9 +42,9 @@ typedef enum {
 @synthesize tripDetails = _tripDetails;
 @synthesize currentStopId;
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)context tripInstance:(OBATripInstanceRef*)tripInstance {
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)context tripInstance:(OBATripInstanceRef*)tripInstance {
     if ((self = [super initWithStyle:UITableViewStylePlain])) {
-        _appContext = context;
+        _appDelegate = context;
         _tripInstance = tripInstance;
         _currentStopIndex = -1;
         _showPreviousStops = NO;
@@ -86,7 +86,7 @@ typedef enum {
 
     if( _tripDetails == nil && _tripInstance != nil ) {
         [self.tableView reloadData];
-        _request = [_appContext.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:nil];
+        _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:nil];
     }
     else {
         [self handleTripDetails];
@@ -213,7 +213,7 @@ typedef enum {
 
 
 - (void) showMap:(id)sender {
-    OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithAppContext:_appContext];
+    OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithappDelegate:_appDelegate];
     vc.tripDetails = _tripDetails;
     vc.currentStopId = self.currentStopId;
     [self.navigationController replaceViewController:vc animated:YES];
@@ -439,7 +439,7 @@ typedef enum {
         index += _currentStopIndex - 1;
     OBATripStopTimeV2 * stopTime = stopTimes[index];
     
-    OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stopTime.stopId];
+    OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationDelegate:_appDelegate stopId:stopTime.stopId];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -457,7 +457,7 @@ typedef enum {
     if( sched.previousTripId != nil ) {
         if( indexPath.row == offset ) {
             OBATripInstanceRef * prevTripInstance = [tripInstance copyWithNewTripId:sched.previousTripId];
-            OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripInstance:prevTripInstance];
+            OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationDelegate:_appDelegate tripInstance:prevTripInstance];
             [self.navigationController pushViewController:vc animated:YES];
             return;
         }
@@ -467,7 +467,7 @@ typedef enum {
     if( sched.nextTripId != nil ) {
         if( indexPath.row == offset ) {
             OBATripInstanceRef * nextTripInstance = [tripInstance copyWithNewTripId:sched.nextTripId];
-            OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripInstance:nextTripInstance];
+            OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationDelegate:_appDelegate tripInstance:nextTripInstance];
             [self.navigationController pushViewController:vc animated:YES];
             return;
         }

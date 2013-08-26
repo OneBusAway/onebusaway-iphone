@@ -23,11 +23,11 @@
 
 @implementation OBAEditStopPreferencesViewController
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext stop:(OBAStopV2*)stop {
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate stop:(OBAStopV2*)stop {
 
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         
-        _appContext = appContext;
+        _appDelegate = appDelegate;
         _stop = stop;
         
         UIBarButtonItem * cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButton:)];
@@ -44,7 +44,7 @@
         [routes sortUsingSelector:@selector(compareUsingName:)];
         _routes = routes;
         
-        OBAModelDAO * dao = _appContext.modelDao;
+        OBAModelDAO * dao = _appDelegate.modelDao;
         _preferences = [dao stopPreferencesForStopWithId:stop.stopId];
     }
     return self;
@@ -219,7 +219,7 @@
 
 - (IBAction) onSaveButton:(id)sender {
     
-    OBAModelDAO * dao = _appContext.modelDao;
+    OBAModelDAO * dao = _appDelegate.modelDao;
     [dao setStopPreferences:_preferences forStopWithId:_stop.stopId];
     
     // pop to stop view controller are saving settings
