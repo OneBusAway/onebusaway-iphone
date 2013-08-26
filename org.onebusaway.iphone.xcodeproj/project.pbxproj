@@ -971,7 +971,6 @@
 			isa = PBXGroup;
 			children = (
 				933C7E2C160C07440005AAFE /* Classes */,
-				933C7EBD160C07440005AAFE /* Resources */,
 			);
 			name = Common;
 			path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b";
@@ -1179,13 +1178,6 @@
 				93AA8A531622610300B945E7 /* OBARegionChangeRequest.m */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		933C7EBD160C07440005AAFE /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		933C7EBE160C07440005AAFE /* Icons */ = {

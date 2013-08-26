@@ -445,9 +445,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         [annotationView.superview bringSubviewToFront:annotationView];
     }
     
-    BOOL applyingPendingRegionChangeRequest = [self.mapRegionManager mapView:mapView regionDidChangeAnimated:animated];
+    [self.mapRegionManager mapView:mapView regionDidChangeAnimated:animated];
     
-    if (!applyingPendingRegionChangeRequest && self.searchController.unfilteredSearch) {
+    if (self.searchController.unfilteredSearch) {
         if (self.mapRegionManager.lastRegionChangeWasProgramatic) {
             OBALocationManager * lm = self.appContext.locationManager;
             double refreshInterval = [self getRefreshIntervalForLocationAccuracy:lm.currentLocation];
