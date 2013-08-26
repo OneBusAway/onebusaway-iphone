@@ -212,7 +212,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     OBALocationManager * lm = self.appContext.locationManager;
     [lm addDelegate:self];
     [lm startUpdatingLocation];
-    self.currentLocationButton.enabled = lm.locationServicesEnabled;
+    self.navigationItem.leftBarButtonItem.enabled = lm.locationServicesEnabled;
 
     [self refreshSearchToolbar];
 }
@@ -394,7 +394,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 #pragma mark - OBALocationManagerDelegate Methods
 
 - (void)locationManager:(OBALocationManager*)manager didUpdateLocation:(CLLocation*)location {
-    self.currentLocationButton.enabled = YES;
+    self.navigationItem.leftBarButtonItem.enabled = YES;
     [self refreshCurrentLocation];
 }
 
@@ -785,7 +785,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void) showLocationServicesAlert {
 
-    self.currentLocationButton.enabled = NO;
+    self.navigationItem.leftBarButtonItem.enabled = NO;
     
     if (! [self.appContext.modelDao hideFutureLocationWarnings]) {
         [self.appContext.modelDao setHideFutureLocationWarnings:YES];

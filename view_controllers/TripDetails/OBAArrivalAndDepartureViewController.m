@@ -112,7 +112,7 @@ typedef enum {
             return 2;
         case OBASectionTypeActions: {
             int count = 2;
-            if( _arrivalAndDeparture.tripStatus.vehicleId )
+            if( _arrivalAndDeparture.tripStatus.vehicleId && ![_arrivalAndDeparture.tripStatus.vehicleId isEqualToString:@""])
                 count++;
             return count;
         }
