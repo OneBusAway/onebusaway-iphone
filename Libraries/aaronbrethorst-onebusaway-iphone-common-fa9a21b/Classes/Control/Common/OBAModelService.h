@@ -41,7 +41,7 @@
 @property (nonatomic,strong) OBAModelDAO * modelDao;
 @property (nonatomic,strong) OBAModelFactory * modelFactory;
 @property (nonatomic,strong) OBAJsonDataSource * obaJsonDataSource;
-@property (nonatomic,retain) OBAJsonDataSource * obaRegionJsonDataSource;
+@property (nonatomic,strong) OBAJsonDataSource * obaRegionJsonDataSource;
 @property (nonatomic,strong) OBAJsonDataSource * googleMapsJsonDataSource;
 @property (nonatomic,strong) OBAJsonDataSource * googlePlacesJsonDataSource;
 @property (nonatomic,strong) OBALocationManager * locationManager;

@@ -13,15 +13,15 @@
     NSMutableArray *_bounds;
 }
 
-@property (nonatomic, retain) NSString * siriBaseUrl;
-@property (nonatomic, retain) NSString * obaVersionInfo;
-@property (nonatomic, retain) NSString * language;
-@property (nonatomic, retain) NSArray * bounds;
-@property (nonatomic, retain) NSString * contactEmail;
-@property (nonatomic, retain) NSString * twitterUrl;
-@property (nonatomic, retain) NSString * obaBaseUrl;
+@property (nonatomic, strong) NSString * siriBaseUrl;
+@property (nonatomic, strong) NSString * obaVersionInfo;
+@property (nonatomic, strong) NSString * language;
+@property (nonatomic, strong) NSArray * bounds;
+@property (nonatomic, strong) NSString * contactEmail;
+@property (nonatomic, strong) NSString * twitterUrl;
+@property (nonatomic, strong) NSString * obaBaseUrl;
 @property (nonatomic, strong) NSString * facebookUrl;
-@property (nonatomic, retain) NSString * regionName;
+@property (nonatomic, strong) NSString * regionName;
 
 @property (nonatomic) BOOL supportsSiriRealtimeApis;
 @property (nonatomic) BOOL supportsObaRealtimeApis;

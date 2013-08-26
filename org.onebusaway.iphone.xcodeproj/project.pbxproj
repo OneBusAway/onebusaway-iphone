@@ -362,7 +362,7 @@
 		9211E32417B922D20008A479 /* OBACustomApiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACustomApiViewController.m; sourceTree = "<group>"; };
 		92235D2217B692760042B843 /* OBARegionBoundsV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionBoundsV2.h; sourceTree = "<group>"; };
 		92235D2317B692760042B843 /* OBARegionBoundsV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionBoundsV2.m; sourceTree = "<group>"; };
-		92235D2417B692760042B843 /* OBARegionV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionV2.h; sourceTree = "<group>"; };
+		92235D2417B692760042B843 /* OBARegionV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OBARegionV2.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		92235D2517B692760042B843 /* OBARegionV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionV2.m; sourceTree = "<group>"; };
 		923FE67E176082A7009AFDE8 /* UITableViewController+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewController+oba_Additions.h"; sourceTree = "<group>"; };
 		923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewController+oba_Additions.m"; sourceTree = "<group>"; };
@@ -394,7 +394,7 @@
 		933C7E34160C07440005AAFE /* OBALogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALogger.m; sourceTree = "<group>"; };
 		933C7E35160C07440005AAFE /* OBAModelFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelFactory.h; sourceTree = "<group>"; };
 		933C7E36160C07440005AAFE /* OBAModelFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelFactory.m; sourceTree = "<group>"; };
-		933C7E37160C07440005AAFE /* OBAModelService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelService.h; sourceTree = "<group>"; };
+		933C7E37160C07440005AAFE /* OBAModelService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OBAModelService.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		933C7E38160C07440005AAFE /* OBAModelService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelService.m; sourceTree = "<group>"; };
 		933C7E39160C07440005AAFE /* OBAModelServiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelServiceRequest.h; sourceTree = "<group>"; };
 		933C7E3A160C07440005AAFE /* OBAModelServiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelServiceRequest.m; sourceTree = "<group>"; };
@@ -411,7 +411,7 @@
 		933C7E47160C07440005AAFE /* OBACreateManagedEntityJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACreateManagedEntityJsonDigesterRule.m; sourceTree = "<group>"; };
 		933C7E48160C07440005AAFE /* OBACreateObjectJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACreateObjectJsonDigesterRule.h; sourceTree = "<group>"; };
 		933C7E49160C07440005AAFE /* OBACreateObjectJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACreateObjectJsonDigesterRule.m; sourceTree = "<group>"; };
-		933C7E4A160C07440005AAFE /* OBAJsonDigester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAJsonDigester.h; sourceTree = "<group>"; };
+		933C7E4A160C07440005AAFE /* OBAJsonDigester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OBAJsonDigester.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		933C7E4B160C07440005AAFE /* OBAJsonDigester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAJsonDigester.m; sourceTree = "<group>"; };
 		933C7E4C160C07440005AAFE /* OBASelectorJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASelectorJsonDigesterRule.h; sourceTree = "<group>"; };
 		933C7E4D160C07440005AAFE /* OBASelectorJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASelectorJsonDigesterRule.m; sourceTree = "<group>"; };
@@ -792,7 +792,7 @@
 		93AD3695160401EF00BDF03F /* OBAModelDAOUserPreferencesImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelDAOUserPreferencesImpl.m; sourceTree = "<group>"; };
 		93AD369A1604027E00BDF03F /* OBAProgressIndicatorImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAProgressIndicatorImpl.h; sourceTree = "<group>"; };
 		93AD369B1604027E00BDF03F /* OBAProgressIndicatorImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAProgressIndicatorImpl.m; sourceTree = "<group>"; };
-		93AD369C1604027E00BDF03F /* OBAProgressIndicatorSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAProgressIndicatorSource.h; sourceTree = "<group>"; };
+		93AD369C1604027E00BDF03F /* OBAProgressIndicatorSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OBAProgressIndicatorSource.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		93AD369E160402C000BDF03F /* OBASearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearch.h; sourceTree = "<group>"; };
 		93AD369F160402C000BDF03F /* OBASearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearch.m; sourceTree = "<group>"; };
 		93AD36A0160402C000BDF03F /* OBASearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchResult.h; sourceTree = "<group>"; };
