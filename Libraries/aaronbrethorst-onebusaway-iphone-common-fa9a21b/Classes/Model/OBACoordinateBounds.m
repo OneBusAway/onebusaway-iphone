@@ -19,12 +19,6 @@
 
 @implementation OBACoordinateBounds
 
-@synthesize empty = _empty;
-@synthesize minLatitude = _minLatitude;
-@synthesize maxLatitude = _maxLatitude;
-@synthesize minLongitude = _minLongitude;
-@synthesize maxLongitude = _maxLongitude;
-
 - (id) init {
     self = [super init];
     if( self ) {

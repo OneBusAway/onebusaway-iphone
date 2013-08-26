@@ -23,12 +23,12 @@
 
 @implementation OBAEditStopBookmarkViewController
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType {
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType {
 
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         self.tableView.scrollEnabled = NO;
 
-        _appContext = appContext;
+        _appDelegate = appDelegate;
         _bookmark = bookmark;
         _editType = editType;
 
@@ -65,7 +65,7 @@
     [self.tableView reloadData];
     
     
-    OBAModelService * service = _appContext.modelService;
+    OBAModelService * service = _appDelegate.modelService;
     NSArray * stopIds = _bookmark.stopIds;
     for( NSUInteger i=0; i<[stopIds count]; i++) {
         NSString * stopId = stopIds[i];
@@ -141,7 +141,7 @@
 
 - (IBAction) onSaveButton:(id)sender {
         
-    OBAModelDAO * dao = _appContext.modelDao;
+    OBAModelDAO * dao = _appDelegate.modelDao;
     
     _bookmark.name = _textField.text;
     

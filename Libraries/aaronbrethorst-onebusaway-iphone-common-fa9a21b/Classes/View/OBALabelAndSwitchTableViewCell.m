@@ -11,9 +11,6 @@
 
 @implementation OBALabelAndSwitchTableViewCell
 
-@synthesize label = _label;
-@synthesize toggleSwitch = _toggleSwitch;
-
 + (OBALabelAndSwitchTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView {
     
     static NSString *cellId = @"OBALabelAndSwitchTableViewCell";

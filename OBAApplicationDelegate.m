@@ -34,6 +34,7 @@
 #import "OBARegionHelper.h"
 
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
+static NSString * kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
 static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 
 @interface OBAApplicationDelegate ()
@@ -49,6 +50,7 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 - (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults;
 - (void) _migrateUserPreferences;
 - (NSString *)applicationDocumentsDirectory;
+- (void)_updateSelectedTabIndex;
 @end
 
 @implementation OBAApplicationDelegate
@@ -146,23 +148,24 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     self.tabBarController = [[UITabBarController alloc] init];
 
     self.mapViewController = [[OBASearchResultsMapViewController alloc] init];
-    self.mapViewController.appContext = self;
+    self.mapViewController.appDelegate = self;
     self.mapNavigationController = [[UINavigationController alloc] initWithRootViewController:self.mapViewController];
     
     self.recentsViewController = [[OBARecentStopsViewController alloc] init];
-    self.recentsViewController.appContext = self;
+    self.recentsViewController.appDelegate = self;
     self.recentsNavigationController = [[UINavigationController alloc] initWithRootViewController:self.recentsViewController];
 
     self.bookmarksViewController = [[OBABookmarksViewController alloc] init];
-    self.bookmarksViewController.appContext = self;
+    self.bookmarksViewController.appDelegate = self;
     self.bookmarksNavigationController = [[UINavigationController alloc] initWithRootViewController:self.bookmarksViewController];
     
     self.infoViewController = [[OBAInfoViewController alloc] init];
     self.infoNavigationController = [[UINavigationController alloc] initWithRootViewController:self.infoViewController];
 
     self.tabBarController.viewControllers = @[self.mapNavigationController, self.recentsNavigationController, self.bookmarksNavigationController, self.infoNavigationController];
+    self.tabBarController.delegate = self;
 
-    self.tabBarController.selectedIndex = 0;
+    [self _updateSelectedTabIndex];
     
     UIColor *tintColor = [UIColor colorWithHue:(86./360.) saturation:0.68 brightness:0.67 alpha:1];
     [[UINavigationBar appearance] setTintColor:tintColor];
@@ -209,22 +212,29 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     self.active = YES;
+    self.tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     self.active = NO;
 }
 
+#pragma mark - UITabBarControllerDelegate
 
-
-/*
-#pragma mark IASKSettingsDelegate
-
-- (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
-    [self refreshSettings];
-    
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    [[NSUserDefaults standardUserDefaults] setInteger:tabBarController.selectedIndex forKey:kOBASelectedTabIndexDefaultsKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
-*/
+
+- (void)_updateSelectedTabIndex {
+    NSInteger selectedIndex = 0;
+
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:kOBASelectedTabIndexDefaultsKey]) {
+        selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
+    }
+    self.tabBarController.selectedIndex = selectedIndex;
+}
+
 - (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget {
     
     [_references clear];
@@ -270,7 +280,7 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     
     switch (target.target) {
         case OBANavigationTargetTypeStop:
-            return [[OBAStopViewController alloc] initWithApplicationContext:self];
+            return [[OBAStopViewController alloc] initWithApplicationDelegate:self];
         default:
             return nil;
     }
@@ -317,7 +327,7 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 
 - (void) showRegionListViewController
 {
-    _regionListViewController = [[OBARegionListViewController alloc] initWithApplicationContext:self];
+    _regionListViewController = [[OBARegionListViewController alloc] initWithApplicationDelegate:self];
     _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:_regionListViewController];
 
     self.window.rootViewController = _regionNavigationController;

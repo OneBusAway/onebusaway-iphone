@@ -2,7 +2,7 @@
 #import "OBAPresentation.h"
 
 
-@interface OBAArrivalEntryTableViewCellFactory (Private)
+@interface OBAArrivalEntryTableViewCellFactory ()
 
 - (NSString*) getMinutesLabelForMinutes:(int)minutes;
 - (UIColor*) getMinutesColorForArrival:(OBAArrivalAndDepartureV2*)arrival;
@@ -14,12 +14,10 @@
 
 @implementation OBAArrivalEntryTableViewCellFactory
 
-@synthesize showServiceAlerts = _showServiceAlerts;
-
-- (id) initWithAppContext:(OBAApplicationDelegate*)appContext tableView:(UITableView*)tableView {
+- (id) initWithappDelegate:(OBAApplicationDelegate*)appDelegate tableView:(UITableView*)tableView {
     self = [super init];
     if( self ) {
-        _appContext = appContext;
+        _appDelegate = appDelegate;
         _tableView = tableView;
         
         _timeFormatter = [[NSDateFormatter alloc] init];
@@ -69,11 +67,6 @@
     
     return cell;    
 }
-
-
-@end
-
-@implementation OBAArrivalEntryTableViewCellFactory (Private)
 
 - (NSString*) getMinutesLabelForMinutes:(int)minutes {
     if(abs(minutes) <=1)
@@ -161,7 +154,7 @@
     NSArray * situations = arrival.situations;
     if( [situations count] == 0 )
         return OBAArrivalEntryTableViewCellAlertStyleNone;
-    OBAModelDAO * modelDao = _appContext.modelDao;
+    OBAModelDAO * modelDao = _appDelegate.modelDao;
     OBAServiceAlertsModel * serviceAlerts = [modelDao getServiceAlertsModelForSituations:arrival.situations];
     if( serviceAlerts.unreadCount > 0 )
         return OBAArrivalEntryTableViewCellAlertStyleActive;

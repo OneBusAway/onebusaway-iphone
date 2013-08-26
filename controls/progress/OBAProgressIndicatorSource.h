@@ -21,7 +21,7 @@
 
 @protocol OBAProgressIndicatorSource
 
-@property (retain,readonly) NSString * message;
+@property (strong,readonly) NSString * message;
 @property (readonly) BOOL inProgress;
 @property (readonly) float progress;
 

@@ -15,18 +15,20 @@
  */
 
 #import "OBAContactUsViewController.h"
+#import "UITableViewController+oba_Additions.h"
 
 static NSString *kOBADefaultContactEmail = @"contact@onebusaway.org";
 static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
+
 
 
 @implementation OBAContactUsViewController
 
 
 - (id)init {
-    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+    if (self = [super initWithStyle:UITableViewStylePlain]) {
         self.title = NSLocalizedString(@"Contact Us & More", @"Contact us tab title");
-        self.appContext = APP_DELEGATE;
+        self.appDelegate = APP_DELEGATE;
     }
     return self;
 }
@@ -37,6 +39,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 - (void) viewDidLoad
 {
     [super viewDidLoad];
+    [self hideEmptySeparators];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
 }
@@ -55,6 +58,10 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
+        OBARegionV2 *region = _appDelegate.modelDao.region;
+        if (region.facebookUrl && ![region.facebookUrl isEqualToString:@""]) {
+            return 3;
+        }
         return 2;
     } else
     {
@@ -62,50 +69,36 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
     }
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    switch(section) {
-        case 0:
-            return NSLocalizedString(@"Contact Us",@"titleForHeaderInSection case 0");
-        case 1:
-            return NSLocalizedString(@"More",@"titleForHeaderInSection case 1");
-        default:
-            return nil;
-    }
-}
+
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.imageView.image = nil;
-    OBARegionV2 *region = _appContext.modelDao.region;
 
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    
     switch( indexPath.row) {
         case 0:
             if (indexPath.section == 0) {
-                NSString *contactEmail = kOBADefaultContactEmail;
-                if (region) {
-                    contactEmail = region.contactEmail;
-                }
-                cell.textLabel.text = contactEmail;
+                cell.textLabel.text = NSLocalizedString(@"Email", @"Email title");
             } else {
                 cell.textLabel.text = NSLocalizedString(@"OneBusAway issue tracker",@"cell.textLabel.text case 1");
             }
             break;
         case 1:
             if (indexPath.section == 0) {
-                NSString *twitterUrl = kOBADefaultTwitterURL;
-                if (region) {
-                    twitterUrl = region.twitterUrl;
-                }
-                NSString *twitterName = [[twitterUrl componentsSeparatedByString:@"/"] lastObject];
-                cell.textLabel.text = [NSString stringWithFormat:@"twitter.com/%@", twitterName];
+                cell.textLabel.text = NSLocalizedString(@"Twitter", @"Twitter title");
             } else {
                 cell.textLabel.text = NSLocalizedString(@"Privacy policy",@"cell.textLabel.text case 2");
 
             }
             break;
         case 2:
+            if (indexPath.section == 0) {
+                cell.textLabel.text = NSLocalizedString(@"Facebook", @"Facebook title");
+            }
 
             break;
 
@@ -116,7 +109,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    OBARegionV2 *region = _appContext.modelDao.region;
+    OBARegionV2 *region = _appDelegate.modelDao.region;
     switch( indexPath.row) {
         case 0:
             if (indexPath.section == 0) {
@@ -154,7 +147,9 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
             break;
         case 2:
         {
-
+            if (region.facebookUrl) {
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: region.facebookUrl]];
+            }
         }
             break;
             
@@ -162,6 +157,30 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{        
+    return 40;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    view.backgroundColor = OBAGREENBACKGROUND;
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
+    title.font = [UIFont systemFontOfSize:18];
+    title.backgroundColor = [UIColor clearColor];;
+    switch(section) {
+        case 0:
+            title.text = NSLocalizedString(@"Contact Us",@"titleForHeaderInSection case 0");
+            break;
+        case 1:
+            title.text = NSLocalizedString(@"More",@"titleForHeaderInSection case 1");
+            break;
+
+    }
+    [view addSubview:title];
+    return view;
 }
 
 #pragma mark OBANavigationTargetAware

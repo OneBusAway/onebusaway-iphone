@@ -30,6 +30,6 @@
 
 + (float) computeStopsForRouteAnnotationScaleFactor:(MKCoordinateRegion)region;
 
-+ (void)showSituations:(NSArray*)situations withAppContext:(OBAApplicationDelegate*)appContext navigationController:(UINavigationController*)navController args:(NSDictionary*)args;
++ (void)showSituations:(NSArray*)situations withappDelegate:(OBAApplicationDelegate*)appDelegate navigationController:(UINavigationController*)navController args:(NSDictionary*)args;
 
 @end

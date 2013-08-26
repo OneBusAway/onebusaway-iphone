@@ -32,8 +32,8 @@ typedef enum {
 
 @implementation OBARegionListViewController
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext {
-	if( self = [super initWithApplicationContext:appContext] ) {
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate {
+	if( self = [super initWithApplicationDelegate:appDelegate] ) {
 		self.refreshable = NO;
 		self.showUpdateTime = NO;
 	}
@@ -41,6 +41,7 @@ typedef enum {
 }
 
 -(void) viewDidLoad {
+    [super viewDidLoad];
 	self.refreshable = NO;
 	self.showUpdateTime = NO;
     self.progressLabel = NSLocalizedString(@"Regions", @"regions title");
@@ -55,7 +56,7 @@ typedef enum {
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteNetworkRequest) name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
     
-    OBALocationManager *lm = _appContext.locationManager;
+    OBALocationManager *lm = _appDelegate.locationManager;
     if (lm.locationServicesEnabled) {
         _locationTimedOut = NO;
         [lm addDelegate:self];
@@ -74,8 +75,8 @@ typedef enum {
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
     
-	[_appContext.locationManager stopUpdatingLocation];
-	[_appContext.locationManager removeDelegate:self];
+	[_appDelegate.locationManager stopUpdatingLocation];
+	[_appDelegate.locationManager removeDelegate:self];
     [_locationTimer invalidate];
 }
 
@@ -91,7 +92,7 @@ typedef enum {
 }
 
 - (id<OBAModelServiceRequest>) handleRefresh {
-	return [_appContext.modelService requestRegions:self withContext:nil];
+	return [_appDelegate.modelService requestRegions:self withContext:nil];
 }
 
 - (void) handleData:(id)obj context:(id)context {
@@ -169,9 +170,9 @@ typedef enum {
 #pragma mark OBALocationManagerDelegate Methods
 
 - (void) locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
-    OBALocationManager * lm = _appContext.locationManager;
+    OBALocationManager * lm = _appDelegate.locationManager;
 	CLLocation * newLocation = lm.currentLocation;
-	_mostRecentLocation = [NSObject releaseOld:_mostRecentLocation retainNew:newLocation];
+	_mostRecentLocation = newLocation;
     [_locationTimer invalidate];
     [self sortRegionsByLocation];
 }
@@ -297,8 +298,8 @@ typedef enum {
 
 - (void) showLocationServicesAlert {
 	
-	if (! [_appContext.modelDao hideFutureLocationWarnings]) {
-		[_appContext.modelDao setHideFutureLocationWarnings:TRUE];
+	if (! [_appDelegate.modelDao hideFutureLocationWarnings]) {
+		[_appDelegate.modelDao setHideFutureLocationWarnings:TRUE];
 		
 		UIAlertView * view = [[UIAlertView alloc] init];
 		view.title = NSLocalizedString(@"Location Services Disabled",@"view.title");
@@ -352,14 +353,14 @@ typedef enum {
     switch ([self sectionTypeForSection:indexPath.section]) {
         case OBASectionTypeNearbyRegions:
             region = self.nearbyRegion;
-            if ([_appContext.modelDao readSetRegionAutomatically]) {
+            if ([_appDelegate.modelDao readSetRegionAutomatically]) {
                 self.checkedItem = indexPath;
             }
             break;
         case OBASectionTypeAllRegions:
             region = [_regions objectAtIndex:indexPath.row];
-            if (![_appContext.modelDao readSetRegionAutomatically] &&
-                [_appContext.modelDao.region.regionName isEqualToString:region.regionName]) {
+            if (![_appDelegate.modelDao readSetRegionAutomatically] &&
+                [_appDelegate.modelDao.region.regionName isEqualToString:region.regionName]) {
                 self.checkedItem = indexPath;
             }
             break;
@@ -372,6 +373,8 @@ typedef enum {
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.textLabel.textColor = [UIColor blackColor];
 	cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
+
 	cell.textLabel.text = region.regionName;
 	return cell;
 }
@@ -385,19 +388,19 @@ typedef enum {
     switch ([self sectionTypeForSection:indexPath.section]) {
         case OBASectionTypeNearbyRegions:
             region = self.nearbyRegion;
-            [_appContext.modelDao writeSetRegionAutomatically:YES];
+            [_appDelegate.modelDao writeSetRegionAutomatically:YES];
             break;
         case OBASectionTypeAllRegions:
             region = [_regions objectAtIndex:indexPath.row];
-            [_appContext.modelDao writeSetRegionAutomatically:NO];
+            [_appDelegate.modelDao writeSetRegionAutomatically:NO];
             break;
         default:
             return ;
             break;
     }
-    [_appContext.modelDao writeCustomApiUrl:@""];
-    [_appContext.modelDao setOBARegion:region];
-    [_appContext regionSelected];
+    [_appDelegate.modelDao writeCustomApiUrl:@""];
+    [_appDelegate.modelDao setOBARegion:region];
+    [_appDelegate regionSelected];
 
 }
 
@@ -407,6 +410,7 @@ typedef enum {
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.textLabel.text = NSLocalizedString(@"Custom API Url", @"cell.textLabel.text");
     return cell;
 }
@@ -414,7 +418,54 @@ typedef enum {
 - (void) didSelectCustomAPIRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    UIViewController *pushMe = [[OBACustomApiViewController alloc] initWithApplicationDelegate:self.appContext];
+    UIViewController *pushMe = [[OBACustomApiViewController alloc] initWithApplicationDelegate:self.appDelegate];
     [self.navigationController pushViewController:pushMe animated:YES];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    switch ([self sectionTypeForSection:section]) {
+        case OBASectionTypeAllRegions:
+        case OBASectionTypeNearbyRegions:
+        case OBASectionTypeLoading:
+        case OBASectionTypeNoRegions:
+            return 40;
+        case OBASectionTypeTitle:
+            return 70;
+        default:
+            return 30;
+    }
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    view.backgroundColor = [UIColor colorWithHue:(86./360.) saturation:0.68 brightness:0.67 alpha:0.1];
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 290, 30)];
+    title.font = [UIFont systemFontOfSize:18];
+    title.backgroundColor = [UIColor clearColor];
+    
+    switch ([self sectionTypeForSection:section]) {
+        case OBASectionTypeLoading:
+            title.text = NSLocalizedString(@"Loading available regions...", @"OBASectionTypeLoading title");
+            break;
+        case OBASectionTypeTitle:
+            title.text =  NSLocalizedString(@"Select the region where you wish to use OneBusAway", @"OBASectionTypeTitle title");
+            title.frame = CGRectMake(15, 5, 290, 60);
+            title.numberOfLines = 2;
+            break;
+        case OBASectionTypeNearbyRegions:
+            title.text =  NSLocalizedString(@"Set Region automatically", @"OBASectionTypeNearbyRegions title");
+            break;
+        case OBASectionTypeAllRegions:
+            title.text =  NSLocalizedString(@"Manually select Region", @"OBASectionTypeAllRegions title");
+            break;
+        case OBASectionTypeNoRegions:
+            title.text =  NSLocalizedString(@"No regions found", @"OBASectionTypeNoRegions title");
+            break;
+        default:
+            break;
+    }
+    [view addSubview:title];
+    return view;
 }
 @end

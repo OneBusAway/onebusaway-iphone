@@ -61,6 +61,7 @@ static NSString * kMostRecentCustomApiUrlsKey = @"mostRecentCustomApiUrls";
     NSMutableData * data = [NSMutableData data];
     [self encodeObject:source forKey:kBookmarksKey toData:data];
     [user setObject:data forKey:kBookmarksKey];
+    [user synchronize];
 }
 
 - (NSArray*) readMostRecentStops {

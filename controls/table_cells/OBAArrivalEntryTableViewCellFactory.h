@@ -3,13 +3,12 @@
 
 
 @interface OBAArrivalEntryTableViewCellFactory : NSObject {
-    OBAApplicationDelegate * _appContext;
+    OBAApplicationDelegate * _appDelegate;
     UITableView * _tableView;
     NSDateFormatter * _timeFormatter;
-    BOOL _showServiceAlerts;
 }
 
-- (id) initWithAppContext:(OBAApplicationDelegate*)appContext tableView:(UITableView*)tableView;
+- (id) initWithappDelegate:(OBAApplicationDelegate*)appDelegate tableView:(UITableView*)tableView;
 
 - (OBAArrivalEntryTableViewCell*) createCellForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrival;
 

@@ -26,11 +26,6 @@ extern const NSInteger kOBAErrorMissingFieldInData;
  */
 extern NSString * const OBAApplicationDidCompleteNetworkRequestNotification;
 
-@interface NSObject (OBAConvenienceMethods)
-+ (id) releaseOld:(id<NSObject>)oldValue retainNew:(id<NSObject>)newValue;
-@end
-
-
 @interface NSString (OBAConvenienceMethods)
 - (NSComparisonResult) compareUsingNumberSearch:(NSString*)aString;
 @end

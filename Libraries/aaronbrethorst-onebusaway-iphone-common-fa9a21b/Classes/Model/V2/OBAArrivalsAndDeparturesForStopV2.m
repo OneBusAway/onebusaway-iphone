@@ -4,7 +4,6 @@
 
 @implementation OBAArrivalsAndDeparturesForStopV2
 
-@synthesize stopId = _stopId;
 @synthesize arrivalsAndDepartures = _arrivalsAndDepartures;
 @synthesize situationIds = _situationIds;
 

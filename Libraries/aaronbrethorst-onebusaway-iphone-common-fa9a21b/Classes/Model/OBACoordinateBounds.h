@@ -17,13 +17,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OBACoordinateBounds : NSObject <NSCoding> {
-    BOOL _empty;    
-    double _minLatitude;
-    double _minLongitude;    
-    double _maxLatitude;
-    double _maxLongitude;
-}
+@interface OBACoordinateBounds : NSObject <NSCoding>
 
 - (id) initWithBounds:(OBACoordinateBounds*)bounds;
 - (id) initWithRegion:(MKCoordinateRegion)region;

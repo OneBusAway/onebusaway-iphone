@@ -3,12 +3,12 @@
 
 
 @interface OBASituationViewController : UITableViewController {
-    OBAApplicationDelegate * _appContext;
+    OBAApplicationDelegate * _appDelegate;
     OBASituationV2 * _situation;
     NSString * _diversionPath;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext situation:(OBASituationV2*)situation;
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate situation:(OBASituationV2*)situation;
 
 @property (nonatomic,strong) NSDictionary * args;
 

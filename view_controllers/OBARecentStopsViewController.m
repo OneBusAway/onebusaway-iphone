@@ -22,8 +22,6 @@
 
 @implementation OBARecentStopsViewController
 
-@synthesize appContext = _appContext;
-
 - (id)init {
     self = [super initWithStyle:UITableViewStylePlain];
 
@@ -44,8 +42,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
  
-    OBAModelDAO * modelDao = _appContext.modelDao;    
-    _mostRecentStops = [NSObject releaseOld:_mostRecentStops retainNew:modelDao.mostRecentStops];
+    OBAModelDAO * modelDao = _appDelegate.modelDao;    
+    _mostRecentStops = modelDao.mostRecentStops;
     [self.tableView reloadData];
 }
 
@@ -92,7 +90,7 @@
     NSInteger index = indexPath.row;    
     if( 0 <= index && index < [_mostRecentStops count] ) {
         OBAStopAccessEventV2 * event = _mostRecentStops[index];
-        OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:event.stopIds[0]];
+        OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationDelegate:_appDelegate stopId:event.stopIds[0]];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

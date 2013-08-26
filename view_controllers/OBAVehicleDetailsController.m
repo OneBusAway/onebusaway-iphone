@@ -30,8 +30,8 @@ typedef enum {
 
 @implementation OBAVehicleDetailsController
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext vehicleId:(NSString*)vehicleId {
-    if( self = [super initWithApplicationContext:appContext] ) {
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate vehicleId:(NSString*)vehicleId {
+    if( self = [super initWithApplicationDelegate:appDelegate] ) {
         _vehicleId = vehicleId;
         self.refreshable = YES;
         self.refreshInterval = 30;
@@ -52,7 +52,7 @@ typedef enum {
 }
 
 - (id<OBAModelServiceRequest>) handleRefresh {
-    return [_appContext.modelService requestVehicleForId:_vehicleId withDelegate:self withContext:nil];
+    return [_appDelegate.modelService requestVehicleForId:_vehicleId withDelegate:self withContext:nil];
 }
 
 -(void) handleData:(id)obj context:(id)context {
@@ -213,7 +213,7 @@ typedef enum {
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = UITextAlignmentLeft;
-    
+    cell.textLabel.font = [UIFont systemFontOfSize:18];    
     switch (indexPath.row) {
         case 0: {
             NSString * routeShortName = [OBAPresentation getRouteShortNameForRoute:trip.route];
@@ -256,7 +256,7 @@ typedef enum {
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = UITextAlignmentLeft;
-    
+    cell.textLabel.font = [UIFont systemFontOfSize:18];    
     switch (indexPath.row) {
         case 0:
             cell.textLabel.text = NSLocalizedString(@"Show as map",@"VehicleDetailsController");
@@ -271,6 +271,50 @@ typedef enum {
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    
+    OBASectionType sectionType = [self sectionTypeForSection:section];
+    if (![self isLoading]) {
+        switch (sectionType) {
+            case OBASectionTypeVehicleDetails:
+            case OBASectionTypeTripDetails:
+            case OBASectionTypeTripSchedule:
+                return 40;
+            default:
+                break;
+        }
+    }
+    return 0;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    view.backgroundColor = OBAGREENBACKGROUND;
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
+    title.font = [UIFont systemFontOfSize:18];
+    title.backgroundColor = [UIColor clearColor];;
+    OBASectionType sectionType = [self sectionTypeForSection:section];
+    if (![self isLoading]) {
+        switch (sectionType) {
+            case OBASectionTypeVehicleDetails:
+                title.text = NSLocalizedString(@"Vehicle Details:",@"OBASectionTypeVehicleDetails");
+                break;
+            case OBASectionTypeTripDetails:
+                title.text = NSLocalizedString(@"Active Trip Details:",@"OBASectionTypeTripDetails");
+                break;
+            case OBASectionTypeTripSchedule:
+                title.text = NSLocalizedString(@"Active Trip Schedule:",@"OBASectionTypeTripSchedule");
+                break;
+            default:
+                break;
+        }
+    }
+
+    [view addSubview:title];
+    return view;
+}
+
 - (void) didSelectTripScheduleRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     
     OBATripStatusV2 * tripStatus = _vehicleStatus.tripStatus;
@@ -278,13 +322,13 @@ typedef enum {
     
     switch (indexPath.row) {
         case 0: {
-            OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithAppContext:_appContext];
+            OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithappDelegate:_appDelegate];
             vc.tripInstance = tripInstance;
             [self.navigationController pushViewController:vc animated:YES];            
             break;
         }
         case 1: {
-            OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationContext:_appContext tripInstance:tripInstance];
+            OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationDelegate:_appDelegate tripInstance:tripInstance];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }

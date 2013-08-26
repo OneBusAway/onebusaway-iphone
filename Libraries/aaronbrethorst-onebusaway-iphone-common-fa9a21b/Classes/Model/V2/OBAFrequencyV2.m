@@ -11,8 +11,4 @@
 
 @implementation OBAFrequencyV2
 
-@synthesize startTime = _startTime;
-@synthesize endTime = _endTime;
-@synthesize headway = _headway;
-
 @end

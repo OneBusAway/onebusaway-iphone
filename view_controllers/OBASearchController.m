@@ -39,12 +39,7 @@
 
 @implementation OBASearchController
 
-@synthesize delegate = _delegate;
-@synthesize searchType = _searchType;
-@synthesize progress = _progress;
-@synthesize error = _error;
-
-- (id) initWithAppContext:(OBAApplicationDelegate*)context {
+- (id) initWithappDelegate:(OBAApplicationDelegate*)context {
     
     if ( self = [super init] ) {
         _modelService = context.modelService;
@@ -62,7 +57,7 @@
     
     [self cancelOpenConnections];
     
-    _target = [NSObject releaseOld:_target retainNew:target];    
+    _target = target;    
     _searchType = [OBASearch getSearchTypeForNagivationTarget:target];    
     
     // Short circuit if the request is NONE
@@ -224,7 +219,7 @@
         }
         case OBASearchTypeRoute: {
             NSString * routeQuery = [OBASearch getSearchTypeParameterForNagivationTarget:target];
-            return [_modelService requestRoutesForQuery:routeQuery withDelegate:self withContext:nil];
+            return [_modelService requestRoutesForQuery:routeQuery withRegion:self.searchRegion withDelegate:self withContext:nil];
         }
         case OBASearchTypeRouteStops: {
             NSString * routeId = [OBASearch getSearchTypeParameterForNagivationTarget:target];
@@ -240,7 +235,7 @@
         }            
         case OBASearchTypeStopId: {
             NSString * stopCode = [OBASearch getSearchTypeParameterForNagivationTarget:target];
-            return [_modelService requestStopsForQuery:stopCode withDelegate:self withContext:nil];
+            return [_modelService requestStopsForQuery:stopCode withRegion:self.searchRegion withDelegate:self withContext:nil];
         }
         case OBASearchTypeAgenciesWithCoverage:
             return [_modelService requestAgenciesWithCoverageWithDelegate:self withContext:nil];

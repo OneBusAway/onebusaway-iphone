@@ -29,7 +29,7 @@ typedef enum {
 @implementation OBAAgenciesListViewController
 
 - (id)init {
-    self = [super initWithApplicationContext:APP_DELEGATE];
+    self = [super initWithApplicationDelegate:APP_DELEGATE];
     if (self) {
         self.title = NSLocalizedString(@"Agencies", @"Agencies tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Agencies"];
@@ -40,6 +40,7 @@ typedef enum {
 }
 
 -(void) viewDidLoad {
+    [super viewDidLoad];
     self.refreshable = NO;
     self.showUpdateTime = NO;
     self.tableView.backgroundView = nil;
@@ -56,7 +57,7 @@ typedef enum {
 }
 
 - (id<OBAModelServiceRequest>) handleRefresh {
-    return [_appContext.modelService requestAgenciesWithCoverageWithDelegate:self withContext:nil];
+    return [_appDelegate.modelService requestAgenciesWithCoverageWithDelegate:self withContext:nil];
 }
 
 -(void) handleData:(id)obj context:(id)context {
@@ -171,7 +172,8 @@ typedef enum {
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.textAlignment = UITextAlignmentLeft;
     cell.textLabel.text = NSLocalizedString(@"Show on map",@"AgenciesListViewController");
     return cell;
 }
@@ -185,7 +187,8 @@ typedef enum {
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.textLabel.text = agency.name;
     return cell;
 }
@@ -200,9 +203,24 @@ typedef enum {
     return cell;    
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if ([self sectionTypeForSection:section] == OBASectionTypeAgencies ) {
+        return 30;
+    }
+    return 0;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
+    view.backgroundColor = OBAGREENBACKGROUND;
+    return view;
+}
+
+
 - (void) didSelectActionsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
-    [_appContext navigateToTarget:target];
+    [_appDelegate navigateToTarget:target];
 }
 
 - (void) didSelectAgencyRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {

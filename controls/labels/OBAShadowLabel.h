@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MarqueeLabel.h"
 
-@interface OBAShadowLabel : UILabel
+@interface OBAShadowLabel : MarqueeLabel
 
 @end

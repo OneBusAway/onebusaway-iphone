@@ -3,9 +3,6 @@
 
 @implementation OBABookmarkV2
 
-@synthesize name = _name;
-@synthesize stopIds = _stopIds;
-
 - (id) initWithCoder:(NSCoder*)coder {
     if( self = [super init] ) {
         _name =  [coder decodeObjectForKey:@"name"];

@@ -18,15 +18,16 @@
 #import "OBALogger.h"
 #import "OBARouteV2.h"
 #import "OBAStopViewController.h"
+#import "UITableViewController+oba_Additions.h"
 
 
 @implementation OBAEditStopPreferencesViewController
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext stop:(OBAStopV2*)stop {
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate stop:(OBAStopV2*)stop {
 
-    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+    if (self = [super initWithStyle:UITableViewStylePlain]) {
         
-        _appContext = appContext;
+        _appDelegate = appDelegate;
         _stop = stop;
         
         UIBarButtonItem * cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButton:)];
@@ -43,7 +44,7 @@
         [routes sortUsingSelector:@selector(compareUsingName:)];
         _routes = routes;
         
-        OBAModelDAO * dao = _appContext.modelDao;
+        OBAModelDAO * dao = _appDelegate.modelDao;
         _preferences = [dao stopPreferencesForStopWithId:stop.stopId];
     }
     return self;
@@ -60,6 +61,7 @@
     [super viewDidLoad];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
+    [self hideEmptySeparators];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,12 +74,28 @@
     return 2;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if( section == 0)
-        return NSLocalizedString(@"Sort",@"section == 0");
-    else if( section == 1)
-        return NSLocalizedString(@"Show Routes",@"section == 1");
-    return nil;
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 40;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    view.backgroundColor = OBAGREENBACKGROUND;
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
+    title.font = [UIFont systemFontOfSize:18];
+    title.backgroundColor = [UIColor clearColor];;
+    switch(section) {
+        case 0:
+            title.text =  NSLocalizedString(@"Sort",@"section == 0");
+            break;
+        case 1:
+            title.text = NSLocalizedString(@"Show Routes",@"section == 1");
+            break;
+            
+    }
+    [view addSubview:title];
+    return view;
 }
 
 // Customize the number of rows in the table view.
@@ -134,6 +152,7 @@
 
     cell.accessoryType = checked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
     
     return cell;
 }
@@ -156,6 +175,8 @@
     BOOL checked = [_preferences isRouteIdEnabled:route.routeId];
     cell.accessoryType = checked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    
     return cell;
 }
 
@@ -198,7 +219,7 @@
 
 - (IBAction) onSaveButton:(id)sender {
     
-    OBAModelDAO * dao = _appContext.modelDao;
+    OBAModelDAO * dao = _appDelegate.modelDao;
     [dao setStopPreferences:_preferences forStopWithId:_stop.stopId];
     
     // pop to stop view controller are saving settings

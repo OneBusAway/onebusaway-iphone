@@ -3,12 +3,6 @@
 
 @implementation OBAItineraryV2
 
-@synthesize startTime;
-@synthesize endTime;
-@synthesize probability;
-@synthesize selected;
-@synthesize rawData;
-
 @synthesize legs = _legs;
 
 - (id) init {

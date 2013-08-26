@@ -17,12 +17,9 @@
 #import "OBAAgency.h"
 
 
-@interface OBAAgencyWithCoverage : NSObject {
-    OBAAgency * _agency;
-    CLLocationCoordinate2D _coordinate;
-}
+@interface OBAAgencyWithCoverage : NSObject
 
-@property (nonatomic,strong) OBAAgency * agency;
+@property (nonatomic,strong) OBAAgency *agency;
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 
 @end
