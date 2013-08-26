@@ -130,7 +130,7 @@
 "Loading..." = "Loading...";
 
 /* view.message */
-"Location Services are disabled for this app.  Some location-aware functionality will be missing." = "Location Services are disabled for this app.  Some location-aware functionality will be missing.";
+"Location Services are disabled for this app. Some location-aware functionality will be missing." = "Location Services are disabled for this app. Some location-aware functionality will be missing.";
 
 /* view.title */
 "Location Services Disabled" = "Location Services Disabled";
@@ -391,7 +391,7 @@
 "There was a problem with your Internet connection.\n\nPlease check your network connection or contact us if you think the problem is on our end." = "There was a problem with your Internet connection.\n\nPlease check your network connection.";
 
 /* result.limitExceeded */
-"Too many stops.  Zoom in for more detail." = "Too many stops.  Zoom in for more detail.";
+"Too many stops. Zoom in for more detail." = "Too many stops. Zoom in for more detail.";
 
 /* cell.textLabel.text */
 "total" = "total";

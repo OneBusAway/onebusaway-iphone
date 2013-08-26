@@ -303,7 +303,7 @@ typedef enum {
 		
 		UIAlertView * view = [[UIAlertView alloc] init];
 		view.title = NSLocalizedString(@"Location Services Disabled",@"view.title");
-		view.message = NSLocalizedString(@"Location Services are disabled for this app.  Some location-aware functionality will be missing.",@"view.message");
+		view.message = NSLocalizedString(@"Location Services are disabled for this app. Some location-aware functionality will be missing.",@"view.message");
 		[view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
 		view.cancelButtonIndex = 0;
 		[view show];
