@@ -54,10 +54,12 @@
 
 - (id<OBAModelServiceRequest>) requestStopsForRegion:(MKCoordinateRegion)region withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 - (id<OBAModelServiceRequest>) requestStopsForQuery:(NSString*)stopQuery withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>) requestStopsForQuery:(NSString*)stopQuery withRegion:(CLRegion*)region withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 - (id<OBAModelServiceRequest>) requestStopsForRoute:(NSString*)routeId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 - (id<OBAModelServiceRequest>) requestStopsForPlacemark:(OBAPlacemark*)placemark withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 
 - (id<OBAModelServiceRequest>) requestRoutesForQuery:(NSString*)routeQuery withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>) requestRoutesForQuery:(NSString*)routeQuery withRegion:(CLRegion*)region withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 - (id<OBAModelServiceRequest>) placemarksForAddress:(NSString*)address withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 - (id<OBAModelServiceRequest>) placemarksForPlace:(NSString*)name withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 

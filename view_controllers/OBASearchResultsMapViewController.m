@@ -118,6 +118,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void)cancelPressed;
 - (BOOL)controllerIsVisibleAndActive;
 - (BOOL)outOfServiceArea;
+
+- (CLLocationDistance)getDistanceFrom:(CLLocationCoordinate2D)start to:(CLLocationCoordinate2D)end;
+- (CLRegion*)convertVisibleMapIntoCLRegion;
 @end
 
 @implementation OBASearchResultsMapViewController
@@ -263,7 +266,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     OBANavigationTarget* target = nil;
-
+    self.searchController.searchRegion = [self convertVisibleMapIntoCLRegion];
     if (kRouteSegmentIndex == self.searchTypeSegmentedControl.selectedSegmentIndex) {
         target = [OBASearch getNavigationTargetForSearchRoute:searchBar.text];
     }
@@ -1254,6 +1257,23 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
                                                                       region.center.latitude - region.span.latitudeDelta / 2,
                                                                       region.center.longitude + region.span.longitudeDelta / 2));
     return MKMapRectMake(MIN(a.x,b.x), MIN(a.y,b.y), ABS(a.x-b.x), ABS(a.y-b.y));
+}
+
+- (CLLocationDistance)getDistanceFrom:(CLLocationCoordinate2D)start to:(CLLocationCoordinate2D)end {
+    CLLocation *startLoc = [[CLLocation alloc] initWithLatitude:start.latitude longitude:start.longitude];
+    CLLocation *endLoc = [[CLLocation alloc] initWithLatitude:end.latitude longitude:end.longitude];
+    CLLocationDistance distance = [startLoc distanceFromLocation:endLoc];
+    return distance;
+}
+
+- (CLRegion*)convertVisibleMapIntoCLRegion {
+    MKMapRect mRect = self.mapView.visibleMapRect;
+    MKMapPoint neMapPoint = MKMapPointMake(MKMapRectGetMaxX(mRect), mRect.origin.y);
+    MKMapPoint swMapPoint = MKMapPointMake(mRect.origin.x, MKMapRectGetMaxY(mRect));
+    CLLocationCoordinate2D neCoord = MKCoordinateForMapPoint(neMapPoint);
+    CLLocationCoordinate2D swCoord = MKCoordinateForMapPoint(swMapPoint);
+    CLLocationDistance diameter = [self getDistanceFrom:neCoord to:swCoord];
+    return [[CLRegion alloc] initCircularRegionWithCenter: self.mapView.centerCoordinate radius:(diameter/2) identifier:@"mapRegion"];
 }
 @end
 

@@ -224,7 +224,7 @@
         }
         case OBASearchTypeRoute: {
             NSString * routeQuery = [OBASearch getSearchTypeParameterForNagivationTarget:target];
-            return [_modelService requestRoutesForQuery:routeQuery withDelegate:self withContext:nil];
+            return [_modelService requestRoutesForQuery:routeQuery withRegion:self.searchRegion withDelegate:self withContext:nil];
         }
         case OBASearchTypeRouteStops: {
             NSString * routeId = [OBASearch getSearchTypeParameterForNagivationTarget:target];
@@ -240,7 +240,7 @@
         }            
         case OBASearchTypeStopId: {
             NSString * stopCode = [OBASearch getSearchTypeParameterForNagivationTarget:target];
-            return [_modelService requestStopsForQuery:stopCode withDelegate:self withContext:nil];
+            return [_modelService requestStopsForQuery:stopCode withRegion:self.searchRegion withDelegate:self withContext:nil];
         }
         case OBASearchTypeAgenciesWithCoverage:
             return [_modelService requestAgenciesWithCoverageWithDelegate:self withContext:nil];

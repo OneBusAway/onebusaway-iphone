@@ -4,6 +4,7 @@
 #import "OBASphericalGeometryLibrary.h"
 
 static const float kSearchRadius = 400;
+static const float kBigSearchRadius = 15000;
 
 
 @interface OBAModelService (Private)
@@ -73,14 +74,24 @@ static const float kSearchRadius = 400;
 }
 
 - (id<OBAModelServiceRequest>) requestStopsForQuery:(NSString*)stopQuery withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
-    
-    CLLocation * location = [self currentOrDefaultLocationToSearch];
-    CLLocationCoordinate2D coord = location.coordinate;
+    return [self requestStopsForQuery:stopQuery withRegion:nil withDelegate:delegate withContext:context];
+}
+
+- (id<OBAModelServiceRequest>)requestStopsForQuery:(NSString*)stopQuery withRegion:(CLRegion*)region withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+    CLLocationDistance radius = kBigSearchRadius;
+    CLLocationCoordinate2D coord;
+    if (region) {
+        radius = region.radius > kBigSearchRadius ? region.radius : kBigSearchRadius;
+        coord = region.center;
+    } else {
+        CLLocation *location = [self currentOrDefaultLocationToSearch];
+        coord = location.coordinate;
+    }
     
     stopQuery = [self escapeStringForUrl:stopQuery];
     
-    NSString * url = @"/api/where/stops-for-location.json";
-    NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2&radius=15000", coord.latitude, coord.longitude,stopQuery];
+    NSString *url = @"/api/where/stops-for-location.json";
+    NSString *args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2&radius=%f", coord.latitude, coord.longitude,stopQuery, radius];
     SEL selector = @selector(getStopsV2FromJSON:error:);
     
     return [self request:url args:args selector:selector delegate:delegate context:context];    
@@ -107,14 +118,23 @@ static const float kSearchRadius = 400;
 }
 
 - (id<OBAModelServiceRequest>) requestRoutesForQuery:(NSString*)routeQuery withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+    return [self requestRoutesForQuery:routeQuery withRegion:nil withDelegate:delegate withContext:context];
+}
 
-    CLLocation * location = [self currentOrDefaultLocationToSearch];
-    CLLocationCoordinate2D coord = location.coordinate;
-    
+- (id<OBAModelServiceRequest>) requestRoutesForQuery:(NSString*)routeQuery withRegion:(CLRegion *)region withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+    CLLocationDistance radius = kBigSearchRadius;
+    CLLocationCoordinate2D coord;
+    if (region) {
+        radius = region.radius > kBigSearchRadius ? region.radius : kBigSearchRadius;
+        coord = region.center;
+    } else {
+        CLLocation *location = [self currentOrDefaultLocationToSearch];
+        coord = location.coordinate;
+    }
     routeQuery = [self escapeStringForUrl:routeQuery];
     
-    NSString * url = @"/api/where/routes-for-location.json";
-    NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2&radius=15000", coord.latitude, coord.longitude,routeQuery];
+    NSString *url = @"/api/where/routes-for-location.json";
+    NSString *args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2&radius=%f", coord.latitude, coord.longitude,routeQuery,radius];
     SEL selector = @selector(getRoutesV2FromJSON:error:);
     
     return [self request:url args:args selector:selector delegate:delegate context:context];
