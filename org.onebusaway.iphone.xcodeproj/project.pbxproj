@@ -372,17 +372,17 @@
 		925A1AD717B7969500029F0B /* OBASettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASettingsViewController.m; sourceTree = "<group>"; };
 		92CAAE97179C4B070097DD3D /* MarqueeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarqueeLabel.h; sourceTree = "<group>"; };
 		92CAAE98179C4B070097DD3D /* MarqueeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarqueeLabel.m; sourceTree = "<group>"; };
-		9302721416137A47004DBFDE /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = Resources/info.png; sourceTree = "<group>"; };
-		9302721516137A47004DBFDE /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "info@2x.png"; path = "Resources/info@2x.png"; sourceTree = "<group>"; };
-		931C42BC160E47FC00435CD3 /* OBAGenericStopViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAGenericStopViewController.xib; sourceTree = "<group>"; };
+		9302721416137A47004DBFDE /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = ../../../../Resources/info.png; sourceTree = "<group>"; };
+		9302721516137A47004DBFDE /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "info@2x.png"; path = "../../../../Resources/info@2x.png"; sourceTree = "<group>"; };
+		931C42BC160E47FC00435CD3 /* OBAGenericStopViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBAGenericStopViewController.xib; path = xibs/OBAGenericStopViewController.xib; sourceTree = "<group>"; };
 		931C42C0160E4B2A00435CD3 /* MKMapView+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+oba_Additions.h"; sourceTree = "<group>"; };
 		931C42C1160E4B2A00435CD3 /* MKMapView+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+oba_Additions.m"; sourceTree = "<group>"; };
 		931C42CB160F984000435CD3 /* OBAShadowLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAShadowLabel.h; sourceTree = "<group>"; };
 		931C42CC160F984000435CD3 /* OBAShadowLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAShadowLabel.m; sourceTree = "<group>"; };
-		9330DED51603BC6F00E14AF4 /* OBASearchResultsMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBASearchResultsMapViewController.xib; sourceTree = "<group>"; };
+		9330DED51603BC6F00E14AF4 /* OBASearchResultsMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBASearchResultsMapViewController.xib; path = xibs/OBASearchResultsMapViewController.xib; sourceTree = "<group>"; };
 		9330DEE316050B9500E14AF4 /* OBACreditsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACreditsViewController.h; sourceTree = "<group>"; };
 		9330DEE416050B9500E14AF4 /* OBACreditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACreditsViewController.m; sourceTree = "<group>"; };
-		9330DEE716050BA500E14AF4 /* OBACreditsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBACreditsViewController.xib; sourceTree = "<group>"; };
+		9330DEE716050BA500E14AF4 /* OBACreditsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBACreditsViewController.xib; path = xibs/OBACreditsViewController.xib; sourceTree = "<group>"; };
 		9330DEE916050CA600E14AF4 /* credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
 		9330DF261606405100E14AF4 /* OBAScopeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAScopeView.h; sourceTree = "<group>"; };
 		9330DF271606405100E14AF4 /* OBAScopeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAScopeView.m; sourceTree = "<group>"; };
@@ -667,17 +667,17 @@
 		933C7F52160C07440005AAFE /* RailStopIconW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RailStopIconW.png; sourceTree = "<group>"; };
 		933C7F53160C07440005AAFE /* RailStopIconW@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RailStopIconW@2x.png"; sourceTree = "<group>"; };
 		933C7F54160C07440005AAFE /* StopMapIcon.ai */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StopMapIcon.ai; sourceTree = "<group>"; };
-		933C7F55160C07440005AAFE /* OBALabelAndSwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBALabelAndSwitchTableViewCell.xib; sourceTree = "<group>"; };
-		933C7F56160C07440005AAFE /* OBALabelAndTextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBALabelAndTextFieldTableViewCell.xib; sourceTree = "<group>"; };
-		933C7F57160C07440005AAFE /* OBAProgressIndicatorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAProgressIndicatorView.xib; sourceTree = "<group>"; };
-		933C7F58160C07440005AAFE /* OBATextEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBATextEditViewController.xib; sourceTree = "<group>"; };
-		933C7F59160C07440005AAFE /* OBATextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBATextFieldTableViewCell.xib; sourceTree = "<group>"; };
-		933C7F5A160C07440005AAFE /* OBAWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAWebViewController.xib; sourceTree = "<group>"; };
+		933C7F55160C07440005AAFE /* OBALabelAndSwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBALabelAndSwitchTableViewCell.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBALabelAndSwitchTableViewCell.xib"; sourceTree = "<group>"; };
+		933C7F56160C07440005AAFE /* OBALabelAndTextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBALabelAndTextFieldTableViewCell.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBALabelAndTextFieldTableViewCell.xib"; sourceTree = "<group>"; };
+		933C7F57160C07440005AAFE /* OBAProgressIndicatorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBAProgressIndicatorView.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBAProgressIndicatorView.xib"; sourceTree = "<group>"; };
+		933C7F58160C07440005AAFE /* OBATextEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBATextEditViewController.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBATextEditViewController.xib"; sourceTree = "<group>"; };
+		933C7F59160C07440005AAFE /* OBATextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBATextFieldTableViewCell.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBATextFieldTableViewCell.xib"; sourceTree = "<group>"; };
+		933C7F5A160C07440005AAFE /* OBAWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBAWebViewController.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBAWebViewController.xib"; sourceTree = "<group>"; };
 		934606C11623A92200BD1CD0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		934606C41623A92700BD1CD0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		93631E3D1604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAArrivalEntryTableViewCell.xib; sourceTree = "<group>"; };
-		93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBANearbyStopsPageTableViewCell.xib; sourceTree = "<group>"; };
-		93631E441604F77A00CB7209 /* OBADiversionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBADiversionViewController.xib; sourceTree = "<group>"; };
+		93631E3D1604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBAArrivalEntryTableViewCell.xib; path = xibs/OBAArrivalEntryTableViewCell.xib; sourceTree = "<group>"; };
+		93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBANearbyStopsPageTableViewCell.xib; path = xibs/OBANearbyStopsPageTableViewCell.xib; sourceTree = "<group>"; };
+		93631E441604F77A00CB7209 /* OBADiversionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBADiversionViewController.xib; path = xibs/OBADiversionViewController.xib; sourceTree = "<group>"; };
 		93631E471604F80000CB7209 /* OBAUserPreferencesMigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAUserPreferencesMigration.h; sourceTree = "<group>"; };
 		93631E481604F80000CB7209 /* OBAUserPreferencesMigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAUserPreferencesMigration.m; sourceTree = "<group>"; };
 		93631E4A1604F96800CB7209 /* OBAApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAApplicationDelegate.h; sourceTree = "<group>"; };
@@ -716,11 +716,11 @@
 		93631E831604F9AD00CB7209 /* OBATripContinuationMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripContinuationMapAnnotation.m; sourceTree = "<group>"; };
 		93631E841604F9AD00CB7209 /* OBATripStopTimeMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripStopTimeMapAnnotation.h; sourceTree = "<group>"; };
 		93631E851604F9AD00CB7209 /* OBATripStopTimeMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripStopTimeMapAnnotation.m; sourceTree = "<group>"; };
-		93631EA41607F40C00CB7209 /* lbs_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lbs_arrow.png; path = Resources/lbs_arrow.png; sourceTree = "<group>"; };
-		93631EA51607F40C00CB7209 /* lbs_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lbs_arrow@2x.png"; path = "Resources/lbs_arrow@2x.png"; sourceTree = "<group>"; };
+		93631EA41607F40C00CB7209 /* lbs_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lbs_arrow.png; path = ../../../../Resources/lbs_arrow.png; sourceTree = "<group>"; };
+		93631EA51607F40C00CB7209 /* lbs_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lbs_arrow@2x.png"; path = "../../../../Resources/lbs_arrow@2x.png"; sourceTree = "<group>"; };
 		93631EA91607FB2F00CB7209 /* OBAInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAInfoViewController.h; sourceTree = "<group>"; };
 		93631EAA1607FB2F00CB7209 /* OBAInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAInfoViewController.m; sourceTree = "<group>"; };
-		93631EAC1607FB7100CB7209 /* OBAInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAInfoViewController.xib; sourceTree = "<group>"; };
+		93631EAC1607FB7100CB7209 /* OBAInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBAInfoViewController.xib; path = xibs/OBAInfoViewController.xib; sourceTree = "<group>"; };
 		93A29180160158C00035BC70 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		93AA8A521622610300B945E7 /* OBARegionChangeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionChangeRequest.h; sourceTree = "<group>"; };
 		93AA8A531622610300B945E7 /* OBARegionChangeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionChangeRequest.m; sourceTree = "<group>"; };
@@ -800,10 +800,10 @@
 		93AD36A4160402CA00BDF03F /* OBASearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchController.h; sourceTree = "<group>"; };
 		93AD36A5160402CA00BDF03F /* OBASearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearchController.m; sourceTree = "<group>"; };
 		93AD36A8160402FD00BDF03F /* OBANavigationTargetAware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTargetAware.h; sourceTree = "<group>"; };
-		93ADBBB2161618850092994E /* lines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lines.png; path = Resources/lines.png; sourceTree = "<group>"; };
-		93ADBBB3161618850092994E /* lines@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lines@2x.png"; path = "Resources/lines@2x.png"; sourceTree = "<group>"; };
-		93D878C3166450AC00FCEFFB /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = map.png; path = Resources/map.png; sourceTree = "<group>"; };
-		93D878C4166450AC00FCEFFB /* map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "map@2x.png"; path = "Resources/map@2x.png"; sourceTree = "<group>"; };
+		93ADBBB2161618850092994E /* lines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lines.png; path = ../../../../Resources/lines.png; sourceTree = "<group>"; };
+		93ADBBB3161618850092994E /* lines@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lines@2x.png"; path = "../../../../Resources/lines@2x.png"; sourceTree = "<group>"; };
+		93D878C3166450AC00FCEFFB /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = map.png; path = ../../../../Resources/map.png; sourceTree = "<group>"; };
+		93D878C4166450AC00FCEFFB /* map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "map@2x.png"; path = "../../../../Resources/map@2x.png"; sourceTree = "<group>"; };
 		A005943D13FC43A9001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
 		A005943F13FC43DB001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
 		A005945613FC49A0001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBATripScheduleMapViewController.xib; sourceTree = "<group>"; };
@@ -857,9 +857,6 @@
 		29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */ = {
 			isa = PBXGroup;
 			children = (
-				93A29180160158C00035BC70 /* Default-568h@2x.png */,
-				934606C41623A92700BD1CD0 /* Default@2x.png */,
-				934606C11623A92200BD1CD0 /* Default.png */,
 				931C42BF160E4AE000435CD3 /* categories */,
 				93631E4D1604F97D00CB7209 /* utilities */,
 				93631E4A1604F96800CB7209 /* OBAApplicationDelegate.h */,
@@ -868,7 +865,6 @@
 				93AD36551603FFE300BDF03F /* models */,
 				93AD36371603FE4600BDF03F /* controls */,
 				93AD36201603FD9B00BDF03F /* view_controllers */,
-				9330DED41603BC5500E14AF4 /* xibs */,
 				D61A66790FCDB155004D2E91 /* Libraries */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -891,14 +887,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				93D878C3166450AC00FCEFFB /* map.png */,
-				93D878C4166450AC00FCEFFB /* map@2x.png */,
-				93ADBBB2161618850092994E /* lines.png */,
-				93ADBBB3161618850092994E /* lines@2x.png */,
-				9302721416137A47004DBFDE /* info.png */,
-				9302721516137A47004DBFDE /* info@2x.png */,
-				93631EA41607F40C00CB7209 /* lbs_arrow.png */,
-				93631EA51607F40C00CB7209 /* lbs_arrow@2x.png */,
+				9228E65917CB6A5500885EA4 /* Default */,
+				933C7EBE160C07440005AAFE /* Icons */,
+				933C7F08160C07440005AAFE /* MapIcons */,
 				D64953CD1214A3A00040572D /* Application Icon */,
 				D619F88E0FDF1372002893B5 /* Views */,
 				D619F8930FDF13E0002893B5 /* TableViewCells */,
@@ -926,6 +917,16 @@
 				288765070DF74369002DB57D /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9228E65917CB6A5500885EA4 /* Default */ = {
+			isa = PBXGroup;
+			children = (
+				93A29180160158C00035BC70 /* Default-568h@2x.png */,
+				934606C41623A92700BD1CD0 /* Default@2x.png */,
+				934606C11623A92200BD1CD0 /* Default.png */,
+			);
+			name = Default;
 			sourceTree = "<group>";
 		};
 		92CAAE96179C4AF40097DD3D /* MarqueeLabel */ = {
@@ -957,20 +958,6 @@
 			path = labels;
 			sourceTree = "<group>";
 		};
-		9330DED41603BC5500E14AF4 /* xibs */ = {
-			isa = PBXGroup;
-			children = (
-				93631E441604F77A00CB7209 /* OBADiversionViewController.xib */,
-				93631E3D1604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib */,
-				93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */,
-				9330DED51603BC6F00E14AF4 /* OBASearchResultsMapViewController.xib */,
-				9330DEE716050BA500E14AF4 /* OBACreditsViewController.xib */,
-				93631EAC1607FB7100CB7209 /* OBAInfoViewController.xib */,
-				931C42BC160E47FC00435CD3 /* OBAGenericStopViewController.xib */,
-			);
-			path = xibs;
-			sourceTree = "<group>";
-		};
 		9330DF251606404100E14AF4 /* containers */ = {
 			isa = PBXGroup;
 			children = (
@@ -980,13 +967,13 @@
 			path = containers;
 			sourceTree = "<group>";
 		};
-		933C7E2B160C07440005AAFE /* aaronbrethorst-onebusaway-iphone-common-fa9a21b */ = {
+		933C7E2B160C07440005AAFE /* Common */ = {
 			isa = PBXGroup;
 			children = (
 				933C7E2C160C07440005AAFE /* Classes */,
 				933C7EBD160C07440005AAFE /* Resources */,
 			);
-			name = "aaronbrethorst-onebusaway-iphone-common-fa9a21b";
+			name = Common;
 			path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b";
 			sourceTree = "<group>";
 		};
@@ -1197,14 +1184,6 @@
 		933C7EBD160C07440005AAFE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				933C7EBE160C07440005AAFE /* Icons */,
-				933C7F08160C07440005AAFE /* MapIcons */,
-				933C7F55160C07440005AAFE /* OBALabelAndSwitchTableViewCell.xib */,
-				933C7F56160C07440005AAFE /* OBALabelAndTextFieldTableViewCell.xib */,
-				933C7F57160C07440005AAFE /* OBAProgressIndicatorView.xib */,
-				933C7F58160C07440005AAFE /* OBATextEditViewController.xib */,
-				933C7F59160C07440005AAFE /* OBATextFieldTableViewCell.xib */,
-				933C7F5A160C07440005AAFE /* OBAWebViewController.xib */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1212,6 +1191,14 @@
 		933C7EBE160C07440005AAFE /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				93D878C3166450AC00FCEFFB /* map.png */,
+				93D878C4166450AC00FCEFFB /* map@2x.png */,
+				93ADBBB2161618850092994E /* lines.png */,
+				93ADBBB3161618850092994E /* lines@2x.png */,
+				9302721416137A47004DBFDE /* info.png */,
+				9302721516137A47004DBFDE /* info@2x.png */,
+				93631EA41607F40C00CB7209 /* lbs_arrow.png */,
+				93631EA51607F40C00CB7209 /* lbs_arrow@2x.png */,
 				933C7EBF160C07440005AAFE /* Agencies.ai */,
 				933C7EC0160C07440005AAFE /* Agencies.png */,
 				933C7EC1160C07440005AAFE /* Agencies@2x.png */,
@@ -1283,7 +1270,8 @@
 				933C7F06160C07440005AAFE /* TextBox-MagnifyingGlass.png */,
 				933C7F07160C07440005AAFE /* TextBox-MagnifyingGlass@2x.png */,
 			);
-			path = Icons;
+			name = Icons;
+			path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/Icons";
 			sourceTree = "<group>";
 		};
 		933C7F08160C07440005AAFE /* MapIcons */ = {
@@ -1366,7 +1354,8 @@
 				933C7F53160C07440005AAFE /* RailStopIconW@2x.png */,
 				933C7F54160C07440005AAFE /* StopMapIcon.ai */,
 			);
-			path = MapIcons;
+			name = MapIcons;
+			path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/MapIcons";
 			sourceTree = "<group>";
 		};
 		93631E461604F80000CB7209 /* migrations */ = {
@@ -1629,6 +1618,14 @@
 		D619F88E0FDF1372002893B5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				93631E441604F77A00CB7209 /* OBADiversionViewController.xib */,
+				9330DED51603BC6F00E14AF4 /* OBASearchResultsMapViewController.xib */,
+				9330DEE716050BA500E14AF4 /* OBACreditsViewController.xib */,
+				93631EAC1607FB7100CB7209 /* OBAInfoViewController.xib */,
+				931C42BC160E47FC00435CD3 /* OBAGenericStopViewController.xib */,
+				933C7F57160C07440005AAFE /* OBAProgressIndicatorView.xib */,
+				933C7F58160C07440005AAFE /* OBATextEditViewController.xib */,
+				933C7F5A160C07440005AAFE /* OBAWebViewController.xib */,
 				A005945513FC49A0001B397B /* OBATripScheduleMapViewController.xib */,
 			);
 			name = Views;
@@ -1637,6 +1634,11 @@
 		D619F8930FDF13E0002893B5 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				93631E3D1604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib */,
+				93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */,
+				933C7F55160C07440005AAFE /* OBALabelAndSwitchTableViewCell.xib */,
+				933C7F56160C07440005AAFE /* OBALabelAndTextFieldTableViewCell.xib */,
+				933C7F59160C07440005AAFE /* OBATextFieldTableViewCell.xib */,
 				A005943C13FC43A9001B397B /* OBASearchTableViewCell.xib */,
 			);
 			name = TableViewCells;
@@ -1646,7 +1648,7 @@
 			isa = PBXGroup;
 			children = (
 				92CAAE96179C4AF40097DD3D /* MarqueeLabel */,
-				933C7E2B160C07440005AAFE /* aaronbrethorst-onebusaway-iphone-common-fa9a21b */,
+				933C7E2B160C07440005AAFE /* Common */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
