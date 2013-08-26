@@ -1,7 +1,7 @@
 #import "OBAReportProblemViewController.h"
 #import "OBAReportProblemWithStopViewController.h"
 #import "OBAReportProblemWithRecentTripsViewController.h"
-
+#import "UITableViewController+oba_Additions.h"
 
 @implementation OBAReportProblemViewController
 
@@ -9,9 +9,9 @@
 #pragma mark -
 #pragma mark Initialization
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)context stop:(OBAStopV2*)stop {
-    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-        _appContext = context;
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)context stop:(OBAStopV2*)stop {
+    if (self = [super initWithStyle:UITableViewStylePlain]) {
+        _appDelegate = context;
         _stop = stop;
         
         self.navigationItem.title = NSLocalizedString(@"Report a Problem",@"self.navigationItem.title");
@@ -26,6 +26,7 @@
     [super viewDidLoad];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
+    [self hideEmptySeparators];
 }
 
 #pragma mark -
@@ -35,11 +36,23 @@
     return 1;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    
-    return NSLocalizedString(@"The problem is with:",@"tableView titleForHeaderInSection");
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 40;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    view.backgroundColor = OBAGREENBACKGROUND;
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
+    title.font = [UIFont systemFontOfSize:18];
+    title.backgroundColor = [UIColor clearColor];;
+    title.text = NSLocalizedString(@"The problem is with:",@"tableView titleForHeaderInSection");
+    [view addSubview:title];
+    return view;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 2;
@@ -53,7 +66,7 @@
     cell.textLabel.textAlignment = UITextAlignmentLeft;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
     switch (indexPath.row) {
         case 0:
             cell.textLabel.text = NSLocalizedString(@"The stop itself",@"case 0 cell.textLabel.text");
@@ -70,12 +83,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 0: {
-            OBAReportProblemWithStopViewController * vc = [[OBAReportProblemWithStopViewController alloc] initWithApplicationContext:_appContext stop:_stop];
+            OBAReportProblemWithStopViewController * vc = [[OBAReportProblemWithStopViewController alloc] initWithApplicationDelegate:_appDelegate stop:_stop];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
         case 1: {
-            OBAReportProblemWithRecentTripsViewController * vc = [[OBAReportProblemWithRecentTripsViewController alloc] initWithApplicationContext:_appContext stopId:_stop.stopId];
+            OBAReportProblemWithRecentTripsViewController * vc = [[OBAReportProblemWithRecentTripsViewController alloc] initWithApplicationDelegate:_appDelegate stopId:_stop.stopId];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }

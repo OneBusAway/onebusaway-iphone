@@ -34,10 +34,10 @@
 
 @implementation OBASearchResultsListViewController
 
-- (id) initWithContext:(OBAApplicationDelegate*)appContext searchControllerResult:(OBASearchResult*)result {
+- (id) initWithContext:(OBAApplicationDelegate*)appDelegate searchControllerResult:(OBASearchResult*)result {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         self.isModal = NO;
-        _appContext = appContext;
+        _appDelegate = appDelegate;
         self.result = result;
     }
     return self;
@@ -155,21 +155,21 @@
         case OBASearchTypeRouteStops: {
             
             OBAStopV2 * stop = (_result.values)[indexPath.row];
-            OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stop.stopId];
+            OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationDelegate:_appDelegate stopId:stop.stopId];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
         case OBASearchTypeRoute: {        
             OBARouteV2 * route = (_result.values)[indexPath.row];
             OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchRouteStops:route.routeId];
-            [_appContext navigateToTarget:target];
+            [_appDelegate navigateToTarget:target];
             [self dismissModal];
             break;
         }
         case OBASearchTypeAddress: {
             OBAPlacemark * placemark = (_result.values)[indexPath.row];
             OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
-            [_appContext navigateToTarget:target];
+            [_appDelegate navigateToTarget:target];
             [self dismissModal];
             break;
         }

@@ -83,7 +83,7 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
         applyingPendingRequest = YES;
     }
     
-    self.pendingRegionChangeRequest = [NSObject releaseOld:self.pendingRegionChangeRequest retainNew:nil];
+    self.pendingRegionChangeRequest = nil;
 
     return applyingPendingRequest;
 }

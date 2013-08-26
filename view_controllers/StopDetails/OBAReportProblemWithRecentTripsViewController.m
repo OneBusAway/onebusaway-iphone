@@ -32,12 +32,14 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray * arrivals = self.showFilteredArrivals ? self.filteredArrivals : self.allArrivals;
-    OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
-
-    if (arrivalAndDeparture) {
-        OBATripInstanceRef * tripInstance = arrivalAndDeparture.tripInstance;
-        [self.appContext.modelService requestTripDetailsForTripInstance:tripInstance withDelegate:self.tripDetailsHandler withContext:self];
+    NSArray *arrivals = self.showFilteredArrivals ? self.filteredArrivals : self.allArrivals;
+    if (arrivals.count > 0) {
+        OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
+        
+        if (arrivalAndDeparture) {
+            OBATripInstanceRef * tripInstance = arrivalAndDeparture.tripInstance;
+            [self.appDelegate.modelService requestTripDetailsForTripInstance:tripInstance withDelegate:self.tripDetailsHandler withContext:self];
+        }
     }
 }
 
@@ -52,7 +54,7 @@
     OBATripDetailsV2 * tripDetails = entry.entry;
     if( tripDetails ) {
         OBATripInstanceRef * tripInstance = tripDetails.tripInstance;
-        OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationContext:parent.appContext tripInstance:tripInstance trip:tripDetails.trip];
+        OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationDelegate:parent.appDelegate tripInstance:tripInstance trip:tripDetails.trip];
         vc.currentStopId = parent.stopId;
         [parent.navigationController pushViewController:vc animated:YES];
     }

@@ -33,6 +33,7 @@ static NSString * kBounds = @"bounds";
 static NSString * kSupportsObaDiscoveryApis = @"supportsObaDiscoveryApis";
 static NSString * kContactEmail = @"contactEmail";
 static NSString * kTwitterUrl = @"twitterUrl";
+static NSString * kFacebookUrl = @"facebookUrl";
 static NSString * kActive = @"active";
 static NSString * kObaBaseUrl = @"obaBaseUrl";
 static NSString * kId_number = @"id_number";
@@ -73,17 +74,6 @@ static NSString * kRegionName = @"regionName";
     return distance;
 }
 
-- (void)dealloc {
-    self.siriBaseUrl = nil;
-    self.obaVersionInfo = nil;
-    self.language = nil;
-    self.bounds = nil;
-    self.contactEmail = nil;
-    self.twitterUrl = nil;
-    self.obaBaseUrl = nil;
-    self.regionName = nil;
-}
-
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [encoder encodeObject:self.siriBaseUrl forKey:kSiriBaseUrl];
     [encoder encodeObject:self.obaVersionInfo forKey:kObaVersionInfo];
@@ -94,6 +84,7 @@ static NSString * kRegionName = @"regionName";
     [encoder encodeBool:self.supportsObaDiscoveryApis forKey:kSupportsObaDiscoveryApis];
     [encoder encodeObject:self.contactEmail forKey:kContactEmail];
     [encoder encodeObject:self.twitterUrl forKey:kTwitterUrl];
+    [encoder encodeObject:self.facebookUrl forKey:kFacebookUrl];
     [encoder encodeBool:self.active forKey:kActive];
     [encoder encodeObject:self.obaBaseUrl forKey:kObaBaseUrl];
     [encoder encodeInteger:self.id_number forKey:kId_number];
@@ -110,6 +101,7 @@ static NSString * kRegionName = @"regionName";
     self.supportsObaRealtimeApis = [decoder decodeBoolForKey:kSupportsObaRealtimeApis];
     self.contactEmail = [decoder decodeObjectForKey:kContactEmail];
     self.twitterUrl = [decoder decodeObjectForKey:kTwitterUrl];
+    self.facebookUrl = [decoder decodeObjectForKey:kFacebookUrl];
     self.active = [decoder decodeBoolForKey:kActive];
     self.obaBaseUrl = [decoder decodeObjectForKey:kObaBaseUrl];
     self.id_number = [decoder decodeIntegerForKey:kId_number];

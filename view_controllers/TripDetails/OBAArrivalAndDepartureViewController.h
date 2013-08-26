@@ -12,8 +12,8 @@
     OBAServiceAlertsModel * _serviceAlerts;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext arrivalAndDepartureInstance:(OBAArrivalAndDepartureInstanceRef*)instance;
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate arrivalAndDepartureInstance:(OBAArrivalAndDepartureInstanceRef*)instance;
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
 
 
 @end

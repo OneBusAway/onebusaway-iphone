@@ -51,8 +51,6 @@
 
 @implementation OBAJsonDigester
 
-@synthesize verbose = _verbose;
-
 - (id) init {
     self = [super init];
     if( self ) {

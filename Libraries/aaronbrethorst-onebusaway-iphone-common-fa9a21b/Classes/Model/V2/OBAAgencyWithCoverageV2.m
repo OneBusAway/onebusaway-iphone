@@ -3,10 +3,6 @@
 
 @implementation OBAAgencyWithCoverageV2
 
-@synthesize agencyId;
-@synthesize coordinate;
-
-
 - (OBAAgencyV2*) agency {
     OBAReferencesV2 * refs = [self references];
     return [refs getAgencyForId:self.agencyId];

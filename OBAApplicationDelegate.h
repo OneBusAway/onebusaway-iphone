@@ -29,7 +29,7 @@
 @class OBAStopIconFactory;
 @class OBARegionListViewController;
 
-@interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate> {
+@interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate> {
     
     OBAReferencesV2 * _references;
     OBAModelDAO * _modelDao;

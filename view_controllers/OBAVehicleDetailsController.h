@@ -8,7 +8,7 @@
     OBAVehicleStatusV2 * _vehicleStatus;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext vehicleId:(NSString*)vehicleId;
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate vehicleId:(NSString*)vehicleId;
 
 
 @end

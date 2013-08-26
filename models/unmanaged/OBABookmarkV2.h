@@ -1,7 +1,4 @@
-@interface OBABookmarkV2 : NSObject {
-    NSString * _name;
-    NSArray * _stopIds;
-}
+@interface OBABookmarkV2 : NSObject
 
 - (id) initWithCoder:(NSCoder*)coder;
 

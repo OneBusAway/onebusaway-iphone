@@ -18,5 +18,5 @@
 #import "OBANavigationTargetAware.h"
 
 @interface OBABookmarksViewController : UITableViewController <OBANavigationTargetAware>
-@property(nonatomic,strong) IBOutlet OBAApplicationDelegate * appContext;
+@property(nonatomic,strong) IBOutlet OBAApplicationDelegate * appDelegate;
 @end

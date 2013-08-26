@@ -23,14 +23,6 @@ typedef enum {
 OBAArrivalEntryTableViewCellAlertStyle;
 
 @interface OBAArrivalEntryTableViewCell : UITableViewCell {
-    UILabel * _routeLabel;
-    UIView * _labelsView;
-    UILabel * _destinationLabel;
-    UILabel * _statusLabel;
-    UILabel * _minutesLabel;
-    UILabel * _minutesSubLabel;
-    UIImageView * _unreadAlertImage;
-    UIImageView * _alertImage;
     OBAArrivalEntryTableViewCellAlertStyle _alertStyle;
     NSTimer * _transitionTimer;
 }

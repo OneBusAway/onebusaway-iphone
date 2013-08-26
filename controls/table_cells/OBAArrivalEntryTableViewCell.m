@@ -25,15 +25,6 @@
 
 @implementation OBAArrivalEntryTableViewCell
 
-@synthesize routeLabel = _routeLabel;
-@synthesize labelsView = _labelsView;
-@synthesize destinationLabel = _destinationLabel;
-@synthesize statusLabel = _statusLabel;
-@synthesize minutesLabel = _minutesLabel;
-@synthesize minutesSubLabel = _minutesSubLabel;
-@synthesize unreadAlertImage = _unreadAlertImage;
-@synthesize alertImage = _alertImage;
-
 + (OBAArrivalEntryTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView {
     
     static NSString *cellId = @"OBAArrivalEntryTableViewCell";

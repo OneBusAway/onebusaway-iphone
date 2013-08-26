@@ -1,22 +1,17 @@
-@protocol OBATextEditViewControllerDelegate
 
+
+@protocol OBATextEditViewControllerDelegate <NSObject>
+- (void) saveText:(NSString*)text;
 @end
 
-@interface OBATextEditViewController : UIViewController {
-    id __weak _target;
-    SEL _action;
-    BOOL _keyboardShowing;
-    CGFloat _nokeyboardHeight;
-    BOOL _readOnly;
-}
+@interface OBATextEditViewController : UIViewController
 
-@property (nonatomic,weak) id target;
-@property (nonatomic) SEL action;
+@property (nonatomic) id <OBATextEditViewControllerDelegate> delegate;
 @property (nonatomic) BOOL readOnly;
 
-+(OBATextEditViewController*)pushOntoViewController:(UIViewController*)parent withText:(NSString*)text withTitle:(NSString*)title;
-+(OBATextEditViewController*)pushOntoViewController:(UIViewController*)parent withText:(NSString*)text withTitle:(NSString*)title readOnly:(BOOL)readOnly;
++ (OBATextEditViewController*)pushOntoViewController:(UIViewController*)parent withText:(NSString*)text withTitle:(NSString*)title;
++ (OBATextEditViewController*)pushOntoViewController:(UIViewController*)parent withText:(NSString*)text withTitle:(NSString*)title readOnly:(BOOL)readOnly;
 
--(IBAction)save:(id)sender;
+- (IBAction)save:(id)sender;
 
 @end

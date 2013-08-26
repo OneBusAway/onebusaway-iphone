@@ -72,7 +72,7 @@ const static int kMaxEntriesInMostRecentList = 10;
 }
 
 - (void) setMostRecentLocation:(CLLocation*)location {
-    _mostRecentLocation = [NSObject releaseOld:_mostRecentLocation retainNew:location];
+    _mostRecentLocation = location;
     [_preferencesDao writeMostRecentLocation:location];
 }
 
@@ -81,7 +81,7 @@ const static int kMaxEntriesInMostRecentList = 10;
 }
 
 - (void) setOBARegion:(OBARegionV2*)newRegion {
-    _region = [NSObject releaseOld:_region retainNew:newRegion];
+    _region = newRegion;
     [_preferencesDao writeOBARegion:newRegion];
 }
 

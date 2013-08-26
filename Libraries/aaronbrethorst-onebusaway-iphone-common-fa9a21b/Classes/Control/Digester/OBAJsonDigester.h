@@ -26,7 +26,7 @@
 - (id) getParameterForKey:(id)key;
 - (void) setParamter:(id)value forKey:(id)key;
 
-@property (nonatomic,retain) NSError * error;
+@property (nonatomic,strong) NSError * error;
 @property (nonatomic,readonly) BOOL verbose;
 
 @end
@@ -49,7 +49,6 @@ typedef enum {
 
 @interface OBAJsonDigester : NSObject {
     NSMutableDictionary * _rulesByPrefix;
-    BOOL _verbose;
 }
 
 - (BOOL) parse:(id)jsonRoot withRoot:(id)rootObject error:(NSError**)error;

@@ -31,16 +31,16 @@
 
 // propeties
 @synthesize filterDescription = _filterDescription;
-@synthesize appContext = _appContext;
+@synthesize appDelegate = _appDelegate;
 
 
 // methods
--(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate andAppContext:(OBAApplicationDelegate*)context {
+-(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate andappDelegate:(OBAApplicationDelegate*)context {
     self = [super init];
     
     if (self != nil) {
         // init
-        self.appContext = context;
+        self.appDelegate = context;
 
         _filterDelegate = delegate;
         assert([_filterDelegate respondsToSelector:@selector(onFilterClear)]);
@@ -168,7 +168,7 @@
     [self sizeToFit];
     const CGFloat toolbarHeight = CGRectGetHeight(self.frame);
 
-    const CGRect mainViewBounds = [self.appContext window].bounds;
+    const CGRect mainViewBounds = [self.appDelegate window].bounds;
     
     [self setFrame:CGRectMake(CGRectGetMinX(mainViewBounds),
                               CGRectGetMinY(mainViewBounds) + CGRectGetHeight(mainViewBounds) - tabbarHeight - (toolbarHeight),

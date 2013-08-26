@@ -5,7 +5,7 @@
 
 
 @interface OBATripScheduleMapViewController : UIViewController <MKMapViewDelegate,OBAModelServiceDelegate> {
-    OBAApplicationDelegate * _appContext;
+    OBAApplicationDelegate * _appDelegate;
     OBATripInstanceRef * _tripInstance;
     NSString * _currentStopId;
     OBATripDetailsV2 * _tripDetails;
@@ -17,9 +17,9 @@
     MKPolylineView * _routePolylineView;
 }
 
-+(OBATripScheduleMapViewController*) loadFromNibWithAppContext:(OBAApplicationDelegate*)context;
++(OBATripScheduleMapViewController*) loadFromNibWithappDelegate:(OBAApplicationDelegate*)context;
 
-@property (nonatomic,strong) IBOutlet OBAApplicationDelegate * appContext;
+@property (nonatomic,strong) IBOutlet OBAApplicationDelegate * appDelegate;
 @property (nonatomic,strong) IBOutlet OBAProgressIndicatorView * progressView;
 @property (nonatomic,strong) OBATripInstanceRef * tripInstance;
 @property (nonatomic,strong) OBATripDetailsV2 * tripDetails;

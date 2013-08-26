@@ -1,7 +1,4 @@
-@interface OBALabelAndSwitchTableViewCell : UITableViewCell {
-    UILabel * _label;
-    UISwitch * _toggleSwitch;
-}
+@interface OBALabelAndSwitchTableViewCell : UITableViewCell
 
 @property (nonatomic,strong) IBOutlet UILabel * label;
 @property (nonatomic,strong) IBOutlet UISwitch * toggleSwitch;

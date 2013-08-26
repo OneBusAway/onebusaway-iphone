@@ -9,6 +9,7 @@
 #import "OBASituationsViewController.h"
 #import "OBASituationV2.h"
 #import "OBASituationViewController.h"
+#import "UITableViewController+oba_Additions.h"
 
 
 @implementation OBASituationsViewController
@@ -19,10 +20,10 @@
 
 @synthesize args;
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext situations:(NSArray*)situations {
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate situations:(NSArray*)situations {
     
-    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-        _appContext = appContext;
+    if (self = [super initWithStyle:UITableViewStylePlain]) {
+        _appDelegate = appDelegate;
         _situations = situations;
         self.navigationItem.title = NSLocalizedString(@"Service Alerts",@"self.navigationItem.title");
     }
@@ -35,6 +36,7 @@
     [super viewDidLoad];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
+    [self hideEmptySeparators];
 }
 
 
@@ -63,6 +65,7 @@
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = NSLocalizedString(@"No active service alerts",@"cell.textLabel.text");
         cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.font = [UIFont systemFontOfSize:18];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
         return cell;            
@@ -82,7 +85,7 @@
     
     if( [_situations count] > 0) {
         OBASituationV2 * situation = _situations[indexPath.row];
-        OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationContext:_appContext situation:situation];
+        OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationDelegate:_appDelegate situation:situation];
         vc.args = self.args;
         [self.navigationController pushViewController:vc animated:YES];
     }

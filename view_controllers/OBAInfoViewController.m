@@ -30,6 +30,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectZero];
+    footerView.backgroundColor = [UIColor clearColor];
+    [self.tableView setTableFooterView:footerView];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableHeaderView = self.headerView;
@@ -49,6 +52,7 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.font = [UIFont systemFontOfSize:19];
     }
 
     switch (indexPath.row) {
