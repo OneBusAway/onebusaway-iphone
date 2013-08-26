@@ -1,7 +1,4 @@
-@interface OBALabelAndTextFieldTableViewCell : UITableViewCell {
-    UILabel * _label;
-    UITextField * _textField;
-}
+@interface OBALabelAndTextFieldTableViewCell : UITableViewCell
 
 @property (nonatomic,strong) IBOutlet UILabel * label;
 @property (nonatomic,strong) IBOutlet UITextField * textField;

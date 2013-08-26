@@ -31,8 +31,6 @@ typedef enum {
 
 @implementation OBAReportProblemWithTripViewController
 
-@synthesize currentStopId;
-
 #pragma mark -
 #pragma mark Initialization
 

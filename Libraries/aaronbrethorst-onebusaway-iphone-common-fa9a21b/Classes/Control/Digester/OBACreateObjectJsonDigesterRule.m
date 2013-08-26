@@ -23,8 +23,6 @@
 
 @implementation OBACreateObjectJsonDigesterRule
 
-@synthesize onlyIfNotNull = _onlyIfNotNull;
-
 - (id) initWithObjectClass:(Class)objectClass {
     if( self = [super init] ) {
         _objectClass = objectClass;

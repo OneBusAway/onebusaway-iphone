@@ -6,7 +6,6 @@
     OBAApplicationDelegate * _appDelegate;
     UITableView * _tableView;
     NSDateFormatter * _timeFormatter;
-    BOOL _showServiceAlerts;
 }
 
 - (id) initWithappDelegate:(OBAApplicationDelegate*)appDelegate tableView:(UITableView*)tableView;

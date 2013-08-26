@@ -11,10 +11,6 @@
 
 @implementation OBADiversionViewController
 
-@synthesize appDelegate;
-@synthesize diversionPath;
-@synthesize args;
-
 +(OBADiversionViewController*) loadFromNibWithappDelegate:(OBAApplicationDelegate*)context {
     NSArray* wired = [[NSBundle mainBundle] loadNibNamed:@"OBADiversionViewController" owner:context options:nil];
     OBADiversionViewController* controller = wired[0];

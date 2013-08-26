@@ -45,14 +45,8 @@
     
     OBAModelService * _modelService;
     
-    OBAProgressIndicatorImpl * _progress;
-    
-    id<OBASearchControllerDelegate> __weak _delegate;
-    
     OBANavigationTarget * _target;
-    OBASearchType _searchType;
     id<OBAModelServiceRequest> _request;
-    NSError * _error;
 
     CLLocation * _lastCurrentLocationSearch;    
 }

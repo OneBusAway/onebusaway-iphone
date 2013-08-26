@@ -16,10 +16,6 @@
 
 @implementation OBARequestDrivenTableViewController
 
-@synthesize appDelegate = _appDelegate;
-@synthesize progressLabel = _progressLabel;
-@synthesize showUpdateTime = _showUpdateTime;
-
 - (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate { 
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {

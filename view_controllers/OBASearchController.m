@@ -39,11 +39,6 @@
 
 @implementation OBASearchController
 
-@synthesize delegate = _delegate;
-@synthesize searchType = _searchType;
-@synthesize progress = _progress;
-@synthesize error = _error;
-
 - (id) initWithappDelegate:(OBAApplicationDelegate*)context {
     
     if ( self = [super init] ) {

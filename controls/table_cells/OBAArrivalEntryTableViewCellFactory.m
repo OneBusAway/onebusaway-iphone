@@ -2,7 +2,7 @@
 #import "OBAPresentation.h"
 
 
-@interface OBAArrivalEntryTableViewCellFactory (Private)
+@interface OBAArrivalEntryTableViewCellFactory ()
 
 - (NSString*) getMinutesLabelForMinutes:(int)minutes;
 - (UIColor*) getMinutesColorForArrival:(OBAArrivalAndDepartureV2*)arrival;
@@ -13,8 +13,6 @@
 
 
 @implementation OBAArrivalEntryTableViewCellFactory
-
-@synthesize showServiceAlerts = _showServiceAlerts;
 
 - (id) initWithappDelegate:(OBAApplicationDelegate*)appDelegate tableView:(UITableView*)tableView {
     self = [super init];
@@ -69,11 +67,6 @@
     
     return cell;    
 }
-
-
-@end
-
-@implementation OBAArrivalEntryTableViewCellFactory (Private)
 
 - (NSString*) getMinutesLabelForMinutes:(int)minutes {
     if(abs(minutes) <=1)

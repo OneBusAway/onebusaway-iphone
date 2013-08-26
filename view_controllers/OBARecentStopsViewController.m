@@ -22,8 +22,6 @@
 
 @implementation OBARecentStopsViewController
 
-@synthesize appDelegate = _appDelegate;
-
 - (id)init {
     self = [super initWithStyle:UITableViewStylePlain];
 

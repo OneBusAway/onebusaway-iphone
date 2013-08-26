@@ -18,10 +18,7 @@
 #import "OBAStop.h"
 
 
-@interface OBAArrivalsAndDeparturesForStop : NSObject {
-    OBAStop * _stop;
-    NSMutableArray * _arrivalsAndDepartures;
-}
+@interface OBAArrivalsAndDeparturesForStop : NSObject
 
 @property (nonatomic,strong) OBAStop * stop;
 @property (nonatomic,strong) NSArray * arrivalsAndDepartures;

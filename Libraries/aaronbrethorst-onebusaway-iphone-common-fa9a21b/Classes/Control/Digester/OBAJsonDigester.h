@@ -49,7 +49,6 @@ typedef enum {
 
 @interface OBAJsonDigester : NSObject {
     NSMutableDictionary * _rulesByPrefix;
-    BOOL _verbose;
 }
 
 - (BOOL) parse:(id)jsonRoot withRoot:(id)rootObject error:(NSError**)error;

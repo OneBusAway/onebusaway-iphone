@@ -3,8 +3,6 @@
 
 @implementation OBATripStopTimeMapAnnotation
 
-@synthesize timeFormatter;
-@synthesize stopTime = _stopTime;
 
 - (id) initWithTripDetails:(OBATripDetailsV2*)tripDetails stopTime:(OBATripStopTimeV2*)stopTime {
     if( self = [super init] ) {

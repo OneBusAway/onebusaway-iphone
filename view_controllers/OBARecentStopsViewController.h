@@ -19,7 +19,6 @@
 
 
 @interface OBARecentStopsViewController : UITableViewController <OBANavigationTargetAware> {
-    OBAApplicationDelegate * _appDelegate;
     NSArray * _mostRecentStops;
 }
 

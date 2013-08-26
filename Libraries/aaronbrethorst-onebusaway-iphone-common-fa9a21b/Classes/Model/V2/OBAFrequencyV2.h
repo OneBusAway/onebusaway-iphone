@@ -9,11 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OBAFrequencyV2 : NSObject {
-    long long _startTime;
-    long long _endTime;
-    int _headway;
-}
+@interface OBAFrequencyV2 : NSObject
 
 @property (nonatomic) long long startTime;
 @property (nonatomic) long long endTime;
