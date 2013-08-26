@@ -58,6 +58,10 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
+        OBARegionV2 *region = _appContext.modelDao.region;
+        if (region.facebookUrl && ![region.facebookUrl isEqualToString:@""]) {
+            return 3;
+        }
         return 2;
     } else
     {
@@ -72,36 +76,29 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
     
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.imageView.image = nil;
-    OBARegionV2 *region = _appContext.modelDao.region;
 
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     
     switch( indexPath.row) {
         case 0:
             if (indexPath.section == 0) {
-                NSString *contactEmail = kOBADefaultContactEmail;
-                if (region) {
-                    contactEmail = region.contactEmail;
-                }
-                cell.textLabel.text = contactEmail;
+                cell.textLabel.text = NSLocalizedString(@"Email", @"Email title");
             } else {
                 cell.textLabel.text = NSLocalizedString(@"OneBusAway issue tracker",@"cell.textLabel.text case 1");
             }
             break;
         case 1:
             if (indexPath.section == 0) {
-                NSString *twitterUrl = kOBADefaultTwitterURL;
-                if (region) {
-                    twitterUrl = region.twitterUrl;
-                }
-                NSString *twitterName = [[twitterUrl componentsSeparatedByString:@"/"] lastObject];
-                cell.textLabel.text = [NSString stringWithFormat:@"twitter.com/%@", twitterName];
+                cell.textLabel.text = NSLocalizedString(@"Twitter", @"Twitter title");
             } else {
                 cell.textLabel.text = NSLocalizedString(@"Privacy policy",@"cell.textLabel.text case 2");
 
             }
             break;
         case 2:
+            if (indexPath.section == 0) {
+                cell.textLabel.text = NSLocalizedString(@"Facebook", @"Facebook title");
+            }
 
             break;
 
@@ -150,7 +147,9 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
             break;
         case 2:
         {
-
+            if (region.facebookUrl) {
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: region.facebookUrl]];
+            }
         }
             break;
             

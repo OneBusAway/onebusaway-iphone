@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSString * contactEmail;
 @property (nonatomic, retain) NSString * twitterUrl;
 @property (nonatomic, retain) NSString * obaBaseUrl;
+@property (nonatomic, strong) NSString * facebookUrl;
 @property (nonatomic, retain) NSString * regionName;
 
 @property (nonatomic) BOOL supportsSiriRealtimeApis;
