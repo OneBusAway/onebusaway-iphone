@@ -1,6 +1,7 @@
 language: objective-c
 before_install:
     - brew update
+    - brew remove xctool
     - brew install xctool
 before_script:
     - chmod -R +x ./scripts
