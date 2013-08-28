@@ -230,8 +230,8 @@ typedef enum {
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
     UIAlertView * view = [[UIAlertView alloc] init];
-    view.title = NSLocalizedString(@"Submitting Successful",@"view.title");
-    view.message = NSLocalizedString(@"The problem was successfully reported. Thank you.",@"view.message");
+    view.title = NSLocalizedString(@"Submission Successful",@"view.title");
+    view.message = NSLocalizedString(@"The problem was sucessfully reported. Thank you!",@"view.message");
     [view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
     view.cancelButtonIndex = 0;
     [view show];
