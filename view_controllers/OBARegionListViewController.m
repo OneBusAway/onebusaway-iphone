@@ -411,7 +411,7 @@ typedef enum {
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = UITextAlignmentLeft;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
-    cell.textLabel.text = NSLocalizedString(@"Custom API Url", @"cell.textLabel.text");
+    cell.textLabel.text = NSLocalizedString(@"Custom API URL", @"cell.textLabel.text");
     return cell;
 }
 
