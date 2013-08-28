@@ -234,9 +234,9 @@ typedef enum {
         case OBASectionTypeTitle:
             return NSLocalizedString(@"Select the region where you wish to use OneBusAway", @"OBASectionTypeTitle title");
         case OBASectionTypeNearbyRegions:
-            return NSLocalizedString(@"Set Region automatically", @"OBASectionTypeNearbyRegions title");
+            return NSLocalizedString(@"Set region automatically", @"OBASectionTypeNearbyRegions title");
         case OBASectionTypeAllRegions:
-            return NSLocalizedString(@"Manually select Region", @"OBASectionTypeAllRegions title");
+            return NSLocalizedString(@"Manually select region", @"OBASectionTypeAllRegions title");
         case OBASectionTypeNoRegions:
             return NSLocalizedString(@"No regions found", @"OBASectionTypeNoRegions title");
         default:
@@ -411,7 +411,7 @@ typedef enum {
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = UITextAlignmentLeft;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
-    cell.textLabel.text = NSLocalizedString(@"Custom API Url", @"cell.textLabel.text");
+    cell.textLabel.text = NSLocalizedString(@"Custom API URL", @"cell.textLabel.text");
     return cell;
 }
 
