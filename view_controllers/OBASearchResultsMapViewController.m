@@ -200,6 +200,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     labelLayer.shadowOffset = CGSizeMake(0,0);
     labelLayer.shadowRadius = 7;
 
+    [TestFlight passCheckpoint:@"OBASearchResultsMapViewController"];
 }
 
 - (void)onFilterClear {

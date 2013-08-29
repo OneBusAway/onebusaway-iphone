@@ -36,6 +36,7 @@
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableHeaderView = self.headerView;
+    [TestFlight passCheckpoint:@"OBAInfoViewController"];
 }
 
 #pragma mark - UITableViewDataSource

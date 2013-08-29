@@ -53,6 +53,8 @@ static NSString *editingCellTag = @"editingCell";
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+    [TestFlight passCheckpoint:@"OBACustomApiViewController"];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {

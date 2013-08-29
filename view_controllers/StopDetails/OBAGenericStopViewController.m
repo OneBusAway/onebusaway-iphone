@@ -180,6 +180,7 @@ static const double kNearbyStopRadius = 200;
         
         [self hideEmptySeparators];
     }
+    [TestFlight passCheckpoint:@"OBAGenericStopViewController"];
 }
 
 - (void)viewDidUnload {

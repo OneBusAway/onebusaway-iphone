@@ -74,6 +74,7 @@ typedef enum {
     [super viewDidLoad];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
+    [TestFlight passCheckpoint:@"OBASituationViewController"];
 }
 
 #pragma mark -
