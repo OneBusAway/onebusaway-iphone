@@ -45,7 +45,7 @@ static NSString *editingCellTag = @"editingCell";
     [super viewDidLoad];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
-    self.title = NSLocalizedString(@"Custom API Url", @"title");
+    self.title = NSLocalizedString(@"Custom API URL", @"title");
     self.recentUrls = self.appDelegate.modelDao.mostRecentCustomApiUrls;
     [self hideEmptySeparators];
     // Uncomment the following line to preserve selection between presentations.
