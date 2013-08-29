@@ -47,6 +47,7 @@ typedef enum {
     self.progressLabel = NSLocalizedString(@"Regions", @"regions title");
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
+    [TestFlight passCheckpoint:@"OBARegionListViewController"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

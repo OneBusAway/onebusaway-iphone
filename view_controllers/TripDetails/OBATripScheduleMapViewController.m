@@ -54,6 +54,7 @@ static const NSString * kShapeContext = @"ShapeContext";
     
     UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Schedule",@"initWithTitle") style:UIBarButtonItemStyleBordered target:nil action:nil];
     self.navigationItem.backBarButtonItem = backItem;
+    [TestFlight passCheckpoint:@"OBATripScheduleMapViewController"];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

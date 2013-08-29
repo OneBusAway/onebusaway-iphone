@@ -33,6 +33,7 @@
 {
     [super viewDidLoad];
     [self hideEmptySeparators];
+    [TestFlight passCheckpoint:@"OBARequestDrivenTableViewController"];
 }
 
 - (void)dealloc {
