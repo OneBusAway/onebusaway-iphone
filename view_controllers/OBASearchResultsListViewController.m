@@ -55,6 +55,7 @@
     line.backgroundColor = [UIColor grayColor];
     [self.view addSubview:line];
     [self hideEmptySeparators];
+    [TestFlight passCheckpoint:@"OBASearchResultsListViewController"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

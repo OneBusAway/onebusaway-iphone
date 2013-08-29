@@ -45,6 +45,7 @@ typedef enum {
     self.showUpdateTime = NO;
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
+    [TestFlight passCheckpoint:@"OBAAgenciesListViewController"];
 
 }
 - (void) viewWillAppear:(BOOL)animated

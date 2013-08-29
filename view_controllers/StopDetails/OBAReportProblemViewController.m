@@ -27,6 +27,7 @@
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
     [self hideEmptySeparators];
+    [TestFlight passCheckpoint:@"OBAReportProblemViewController"];
 }
 
 #pragma mark -

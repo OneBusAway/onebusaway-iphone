@@ -55,6 +55,7 @@ typedef enum {
     [super viewDidLoad];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
+    [TestFlight passCheckpoint:@"OBAArrivalAndDepartureViewController"];
 }
 
 - (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
