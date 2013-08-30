@@ -37,6 +37,7 @@
     [super viewDidLoad];
     _mostRecentStops = [[NSArray alloc] init];
     [self hideEmptySeparators];
+    [TestFlight passCheckpoint:@"OBARecentStopsViewController"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

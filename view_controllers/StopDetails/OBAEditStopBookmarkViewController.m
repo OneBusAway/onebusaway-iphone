@@ -58,6 +58,7 @@
 {
     [super viewDidLoad];
     [self hideEmptySeparators];
+    [TestFlight passCheckpoint:@"OBAEditStopBookmarkViewController"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

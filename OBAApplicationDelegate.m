@@ -33,6 +33,8 @@
 #import "OBARegionListViewController.h"
 #import "OBARegionHelper.h"
 
+#import "TestFlight.h"
+
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 static NSString * kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
 static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
@@ -192,6 +194,8 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
+    [TestFlight takeOff:@"8720ef43-19cc-49ed-ab49-819f74329fe7"];
     [self _migrateUserPreferences];
     [self _constructUI];
 

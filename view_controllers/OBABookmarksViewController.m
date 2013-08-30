@@ -47,6 +47,7 @@
 - (void)viewDidLoad {
     [self hideEmptySeparators];
     [super viewDidLoad];
+    [TestFlight passCheckpoint:@"OBABookmarksViewController"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
