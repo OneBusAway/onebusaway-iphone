@@ -120,8 +120,8 @@ echo "\n********************"
 echo "*     Make IPA     *"
 echo "********************"
 CURRENT_DIR=`pwd`
-echo $CURRENT_DIR
-ls -R
+#echo $CURRENT_DIR
+#ls -R
 xcrun -sdk iphoneos PackageApplication -v "$CURRENT_DIR/$APPNAME.app" -o "$CURRENT_DIR/$APPNAME.ipa"
 
 echo "\n********************"
