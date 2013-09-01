@@ -123,6 +123,7 @@ CURRENT_DIR=`pwd`
 #echo $CURRENT_DIR
 #ls -R
 xcrun -sdk iphoneos PackageApplication -v "$CURRENT_DIR/$APPNAME.app" -o "$CURRENT_DIR/$APPNAME.ipa"
+checklastcommanderrorexit
 
 echo "\n********************"
 echo "*   Deploy to GH   *"
