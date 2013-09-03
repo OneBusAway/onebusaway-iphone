@@ -290,7 +290,12 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     [self.view addSubview:self.scopeView];
     
     CGRect finalScopeFrame = self.scopeView.frame;
-    finalScopeFrame.origin.y = 0;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        finalScopeFrame.origin.y = self.navigationController.navigationBar.frame.size.height +
+                                    [UIApplication sharedApplication].statusBarFrame.size.height;
+    } else {
+        finalScopeFrame.origin.y = 0;
+    }
     
     [UIView animateWithDuration:kScopeViewAnimationDuration animations:^{
         self.scopeView.frame = finalScopeFrame;
