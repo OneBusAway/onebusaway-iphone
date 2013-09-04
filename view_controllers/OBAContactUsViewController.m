@@ -66,7 +66,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
         return 2;
     } else
     {
-        return 3;
+        return 4;
     }
 }
 
@@ -85,23 +85,25 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
             if (indexPath.section == 0) {
                 cell.textLabel.text = NSLocalizedString(@"Email", @"Email title");
             } else {
-                cell.textLabel.text = NSLocalizedString(@"OneBusAway issue tracker",@"cell.textLabel.text case 1");
+                cell.textLabel.text = NSLocalizedString(@"Sign up for beta releases",@"cell.textLabel.text case 0");
             }
             break;
         case 1:
             if (indexPath.section == 0) {
                 cell.textLabel.text = NSLocalizedString(@"Twitter", @"Twitter title");
             } else {
-                cell.textLabel.text = NSLocalizedString(@"OneBusAway feature requests",@"cell.textLabel.text case 3");
+                cell.textLabel.text = NSLocalizedString(@"OneBusAway issue tracker",@"cell.textLabel.text case 1");
             }
             break;
         case 2:
             if (indexPath.section == 0) {
                 cell.textLabel.text = NSLocalizedString(@"Facebook", @"Facebook title");
             } else {
-                cell.textLabel.text = NSLocalizedString(@"Privacy policy",@"cell.textLabel.text case 2");
+                cell.textLabel.text = NSLocalizedString(@"OneBusAway feature requests",@"cell.textLabel.text case 2");
             }
-
+            break;
+        case 3:
+            cell.textLabel.text = NSLocalizedString(@"Privacy policy",@"cell.textLabel.text case 3");
             break;
 
     }
@@ -123,7 +125,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: contactEmail]];
             } else
             {
-                NSString *url = [NSString stringWithString: NSLocalizedString(@"https://github.com/OneBusAway/onebusaway-iphone/issues",@"didSelectRowAtIndexPath case 2")];
+                NSString *url = [NSString stringWithString: NSLocalizedString(@"https://testflightapp.com/join/f3ba0330e6f87e3459f4090bb2adccf0-MjEwOTYz/",@"didSelectRowAtIndexPath case 0")];
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             }
             break;
@@ -143,12 +145,12 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                 }
             } else
             {
-                NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.org/privacy/",@"didSelectRowAtIndexPath case 3")];
+                NSString *url = [NSString stringWithString: NSLocalizedString(@"https://github.com/OneBusAway/onebusaway-iphone/issues",@"didSelectRowAtIndexPath case 1")];
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+
             }
             break;
         case 2:
-        {
             if (indexPath.section == 0 && region.facebookUrl) {
                 NSString *facebookUrl = region.facebookUrl;
                 NSString *facebookPage = [[facebookUrl componentsSeparatedByString:@"/"] lastObject];
@@ -162,10 +164,15 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                 }
             } else
             {
-                NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.ideascale.com/a/ideafactory.do?id=8715&mode=top&discussionFilter=byids&discussionID=46166",@"didSelectRowAtIndexPath case 4")];
+                NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.ideascale.com/a/ideafactory.do?id=8715&mode=top&discussionFilter=byids&discussionID=46166",@"didSelectRowAtIndexPath case 2")];
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             }
-        }
+            break;
+        case 3:
+            if (indexPath.section != 0) {
+                NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.org/privacy/",@"didSelectRowAtIndexPath case 3")];
+                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+            }
             break;
             
     }
