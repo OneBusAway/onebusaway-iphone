@@ -110,8 +110,7 @@ static const double kNearbyStopRadius = 200;
         _showFilteredArrivals = YES;
 
         self.navigationItem.title = NSLocalizedString(@"Stop",@"stop");
-        
-
+        self.tableView.backgroundColor = [UIColor whiteColor];
         
         [self customSetup];
     }
