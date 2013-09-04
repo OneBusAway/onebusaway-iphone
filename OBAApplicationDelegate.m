@@ -174,6 +174,10 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     [[UISearchBar appearance] setTintColor:tintColor];
     [[UISegmentedControl appearance] setTintColor:tintColor];
     [[UITabBar appearance] setSelectedImageTintColor:tintColor];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        [[UISegmentedControl appearance] setTitleTextAttributes:@{UITextAttributeTextColor: [UIColor whiteColor]} forState:UIControlStateNormal];
+        [[UISegmentedControl appearance] setTitleTextAttributes:@{UITextAttributeTextColor: [UIColor whiteColor]} forState:UIControlStateSelected];
+    }
     
     self.window.rootViewController = self.tabBarController;
     

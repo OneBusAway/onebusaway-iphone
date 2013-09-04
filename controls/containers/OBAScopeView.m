@@ -22,7 +22,7 @@
 - (void)_configureOBAScopeView {
     self.drawsBottomBorder = YES;
     self.drawsTopBorder = NO;
-    self.backgroundColor = [UIColor colorWithHue:(86./360.) saturation:0.68 brightness:0.67 alpha:0.6];
+    self.backgroundColor = [UIColor colorWithHue:(86./360.) saturation:0.68 brightness:0.67 alpha:0.8];
 }
 
 - (id)initWithFrame:(CGRect)frame
