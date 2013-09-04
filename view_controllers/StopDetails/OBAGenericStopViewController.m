@@ -99,7 +99,7 @@ static const double kNearbyStopRadius = 200;
 
         _serviceAlerts = [[OBAServiceAlertsModel alloc] init];
 
-        _progressView = [[OBAProgressIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 160, 33)];
+        _progressView = [[OBAProgressIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 160, 44)];
         [self.navigationItem setTitleView:_progressView];
         
         UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
