@@ -97,6 +97,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (NSString*)computeSearchFilterString;
 - (NSString*)computeLabelForCurrentResults;
+- (void) applyMapLabelWithText:(NSString*)labelText;
 
 - (MKCoordinateRegion)computeRegionForCurrentResults:(BOOL*)needsUpdate;
 - (MKCoordinateRegion)computeRegionForStops:(NSArray*)stops;
@@ -260,6 +261,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     [self.navigationItem setRightBarButtonItem:nil animated:YES];
     [searchBar setShowsCancelButton:YES animated:YES];
+    [self applyMapLabelWithText:nil];
     [self animateInScopeView];
     
     return YES;
