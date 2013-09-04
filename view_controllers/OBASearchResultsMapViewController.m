@@ -207,6 +207,13 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     labelLayer.shadowOpacity = 0.2;
     labelLayer.shadowOffset = CGSizeMake(0,0);
     labelLayer.shadowRadius = 7;
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        CGRect mapLabelFrame = self.mapLabel.frame;
+        mapLabelFrame.origin.y += self.navigationController.navigationBar.frame.size.height +
+        [UIApplication sharedApplication].statusBarFrame.size.height;
+        self.mapLabel.frame = mapLabelFrame;
+    }
 
     [TestFlight passCheckpoint:@"OBASearchResultsMapViewController"];
 }
