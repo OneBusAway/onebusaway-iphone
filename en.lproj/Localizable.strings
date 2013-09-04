@@ -247,7 +247,7 @@
 "Other" = "Other";
 
 /* result.outOfRange */
-"Out of OneBusAway service area." = "Out of OneBusAway service area.";
+"Out of OneBusAway service area" = "Out of OneBusAway service area";
 
 /* showNoResultsAlertWithTitle */
 "Out of range" = "Out of range";
@@ -391,7 +391,7 @@
 "There was a problem with your Internet connection.\n\nPlease check your network connection or contact us if you think the problem is on our end." = "There was a problem with your Internet connection.\n\nPlease check your network connection.";
 
 /* result.limitExceeded */
-"Too many stops. Zoom in for more detail." = "Too many stops. Zoom in for more detail.";
+"Too many stops, zoom in for more detail" = "Too many stops, zoom in for more detail";
 
 /* cell.textLabel.text */
 "total" = "total";
@@ -463,5 +463,5 @@
 "Your reports help OneBusAway find and fix problems with the system." = "Your reports help OneBusAway find and fix problems with the system.";
 
 /* span.latitudeDelta > kMaxLatDeltaToShowStops */
-"Zoom in to look for stops." = "Zoom in to look for stops.";
+"Zoom in to look for stops" = "Zoom in to look for stops";
 
