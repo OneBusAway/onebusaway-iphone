@@ -66,7 +66,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
         return 2;
     } else
     {
-        return 2;
+        return 3;
     }
 }
 
@@ -92,13 +92,14 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
             if (indexPath.section == 0) {
                 cell.textLabel.text = NSLocalizedString(@"Twitter", @"Twitter title");
             } else {
-                cell.textLabel.text = NSLocalizedString(@"Privacy policy",@"cell.textLabel.text case 2");
-
+                cell.textLabel.text = NSLocalizedString(@"OneBusAway feature requests",@"cell.textLabel.text case 3");
             }
             break;
         case 2:
             if (indexPath.section == 0) {
                 cell.textLabel.text = NSLocalizedString(@"Facebook", @"Facebook title");
+            } else {
+                cell.textLabel.text = NSLocalizedString(@"Privacy policy",@"cell.textLabel.text case 2");
             }
 
             break;
@@ -148,7 +149,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
             break;
         case 2:
         {
-            if (region.facebookUrl) {
+            if (indexPath.section == 0 && region.facebookUrl) {
                 NSString *facebookUrl = region.facebookUrl;
                 NSString *facebookPage = [[facebookUrl componentsSeparatedByString:@"/"] lastObject];
 
@@ -158,7 +159,11 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                 } else {
                     NSString *url = [NSString stringWithFormat:@"http://facebook.com/%@", facebookPage];
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
-                }                
+                }
+            } else
+            {
+                NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.ideascale.com/a/ideafactory.do?id=8715&mode=top&discussionFilter=byids&discussionID=46166",@"didSelectRowAtIndexPath case 4")];
+                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             }
         }
             break;
