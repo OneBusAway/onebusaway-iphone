@@ -28,8 +28,8 @@ typedef enum {
     id _data;
 }
 
-@property (nonatomic,readonly) NSString * title;
-@property (nonatomic,readonly) NSString * subtitle;
+@property (nonatomic,readonly, copy) NSString * title;
+@property (nonatomic,readonly, copy) NSString * subtitle;
 @property (nonatomic,readonly) CLLocationCoordinate2D coordinate;
 @property (nonatomic,readonly) OBANavigationTarget * target;
 @property (nonatomic,strong) id data;
