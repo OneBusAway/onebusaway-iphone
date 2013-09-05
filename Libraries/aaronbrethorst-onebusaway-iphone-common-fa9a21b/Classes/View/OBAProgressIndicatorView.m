@@ -79,7 +79,13 @@
     CGRect labelFrame = CGRectMake(0, 0, r.size.width, r.size.height);
     CGRect progressLabelFrame = CGRectMake(25, 0, r.size.width-25, r.size.height);
     CGRect acitivityIndicatorFrame = CGRectMake(0, (r.size.height-20) / 2, 20, 20);
-    CGRect progressViewFrame = CGRectMake(0, (r.size.height-11)/2, r.size.width, 11);
+    CGRect progressViewFrame;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        progressViewFrame = CGRectMake(0, (r.size.height-1)/2, r.size.width, 11);
+    } else {
+        progressViewFrame = CGRectMake(0, (r.size.height-11)/2, r.size.width, 11);
+    }
+    
     
     _label = [[UILabel alloc] initWithFrame:labelFrame];        
     _progressLabel = [[UILabel alloc] initWithFrame:progressLabelFrame];
