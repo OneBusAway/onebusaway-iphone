@@ -514,7 +514,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
             view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
         }
         view.canShowCallout = YES;
-        view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        UIButton *rightCalloutButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        rightCalloutButton.tintColor = OBAGREEN;
+        view.rightCalloutAccessoryView = rightCalloutButton;
         
         OBASearchResult *result = self.searchController.result;
         
