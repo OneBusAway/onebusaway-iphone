@@ -149,7 +149,16 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
         case 2:
         {
             if (region.facebookUrl) {
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: region.facebookUrl]];
+                NSString *facebookUrl = region.facebookUrl;
+                NSString *facebookPage = [[facebookUrl componentsSeparatedByString:@"/"] lastObject];
+
+                if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"fb://"]]) {
+                    NSString *url = [NSString stringWithFormat:@"fb://profile/%@",facebookPage ];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
+                } else {
+                    NSString *url = [NSString stringWithFormat:@"http://facebook.com/%@", facebookPage];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
+                }                
             }
         }
             break;
