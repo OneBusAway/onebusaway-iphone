@@ -169,11 +169,17 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 
     [self _updateSelectedTabIndex];
     
-    UIColor *tintColor = [UIColor colorWithHue:(86./360.) saturation:0.68 brightness:0.67 alpha:1];
+    UIColor *tintColor = OBAGREEN;
     [[UINavigationBar appearance] setTintColor:tintColor];
     [[UISearchBar appearance] setTintColor:tintColor];
     [[UISegmentedControl appearance] setTintColor:tintColor];
     [[UITabBar appearance] setSelectedImageTintColor:tintColor];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        [[UITabBar appearance] setTintColor:tintColor];
+        [[UITextField appearance] setTintColor:tintColor];
+        [[UISegmentedControl appearance] setTitleTextAttributes:@{UITextAttributeTextColor: [UIColor whiteColor]} forState:UIControlStateNormal];
+        [[UISegmentedControl appearance] setTitleTextAttributes:@{UITextAttributeTextColor: [UIColor whiteColor]} forState:UIControlStateSelected];
+    }
     
     self.window.rootViewController = self.tabBarController;
     
