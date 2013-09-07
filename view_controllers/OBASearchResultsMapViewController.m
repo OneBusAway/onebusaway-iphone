@@ -200,8 +200,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     CALayer *labelLayer = self.mapLabel.layer;
     labelLayer.rasterizationScale = [UIScreen mainScreen].scale;
     labelLayer.shouldRasterize = YES;
-    labelLayer.backgroundColor = [UIColor whiteColor].CGColor;
-    labelLayer.opacity = 0.8;
+    labelLayer.backgroundColor = [UIColor colorWithWhite:1 alpha:0.9].CGColor;
     labelLayer.cornerRadius = 7;
 
     labelLayer.shadowColor = [UIColor blackColor].CGColor;
