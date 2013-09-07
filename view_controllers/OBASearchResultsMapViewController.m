@@ -123,6 +123,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (CLLocationDistance)getDistanceFrom:(CLLocationCoordinate2D)start to:(CLLocationCoordinate2D)end;
 - (CLRegion*)convertVisibleMapIntoCLRegion;
+
+- (BOOL)checkStopsInRegion;
 @end
 
 @implementation OBASearchResultsMapViewController
@@ -937,7 +939,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         case OBASearchTypeRegion: {
             if( result.limitExceeded )
                 return NSLocalizedString(@"Too many stops. Zoom in for more detail.",@"result.limitExceeded");
-            if([[self.mapView annotationsInMapRect:self.mapView.visibleMapRect] count] == 0 && span.latitudeDelta <= kMaxLatDeltaToShowStops)
+            if(![self checkStopsInRegion] && span.latitudeDelta <= kMaxLatDeltaToShowStops)
                 defaultLabel = NSLocalizedString(@"No stops at this location.",@"[values count] == 0");
             break;
 
@@ -1299,6 +1301,21 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
     CLLocationCoordinate2D swCoord = MKCoordinateForMapPoint(swMapPoint);
     CLLocationDistance diameter = [self getDistanceFrom:neCoord to:swCoord];
     return [[CLRegion alloc] initCircularRegionWithCenter: self.mapView.centerCoordinate radius:(diameter/2) identifier:@"mapRegion"];
+}
+
+- (BOOL)checkStopsInRegion {
+    if ([[self.mapView annotationsInMapRect:self.mapView.visibleMapRect] count] > 0) {
+        return YES;
+    }
+    for (id <MKAnnotation> annotation in [self.mapView annotations]) {
+        MKAnnotationView *annotationView = [self.mapView viewForAnnotation:annotation];
+        MKCoordinateRegion annotationRegion = [self.mapView convertRect:annotationView.frame toRegionFromView:self.mapView];
+        MKMapRect annotationRect = MKMapRectForCoordinateRegion(annotationRegion);
+        if (MKMapRectIntersectsRect(self.mapView.visibleMapRect, annotationRect)) {
+            return YES;
+        }
+    }
+    return NO;
 }
 @end
 
