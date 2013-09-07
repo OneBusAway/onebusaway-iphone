@@ -1307,7 +1307,11 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
     if ([[self.mapView annotationsInMapRect:self.mapView.visibleMapRect] count] > 0) {
         return YES;
     }
-    for (id <MKAnnotation> annotation in [self.mapView annotations]) {
+    NSMutableArray *annotations = [NSMutableArray arrayWithArray:[self.mapView annotations]];
+    if (self.mapView.userLocation) {
+        [annotations removeObject:self.mapView.userLocation];
+    }
+    for (id <MKAnnotation> annotation in annotations) {
         MKAnnotationView *annotationView = [self.mapView viewForAnnotation:annotation];
         MKCoordinateRegion annotationRegion = [self.mapView convertRect:annotationView.frame toRegionFromView:self.mapView];
         MKMapRect annotationRect = MKMapRectForCoordinateRegion(annotationRegion);
