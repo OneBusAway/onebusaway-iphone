@@ -1,10 +1,42 @@
 language: objective-c
 before_install:
+    #- pwd
+    
+    # print version of os x
+    #- sw_vers
+    
+    # print disk space
+    #- df -h
+    
+    # install all software updates
+    #- sudo softwareupdate -iva
+    
+    #todo: move xcode install to seperate file
+    #todo: check if downloaded file, else retry
+    
+    #uninstall xcode 4
+    - sudo rm -R /Applications/Xcode.app
+    
+    #install xcode
+    - curl -o xc5p6.dmg https://copy.com/Im9N8o6H2ZJd1lyB/xc5p6.dmg
+    - hdiutil attach xc5p6.dmg
+    - sudo cp -R "/Volumes/Xcode/Xcode5-DP6.app" /Applications
+    - sudo mv "/Applications/Xcode5-DP6.app" "/Applications/Xcode.app"
+    - rm xc5p6.dmg
+    
+    #agree to xcode license
+    - chmod -R +x ./scripts
+    - sudo -E scripts/travis/accept_license.sh
+
+    #print ver
+    - xcodebuild -version -sdk
+
+    #install xctool
     - brew update
     - brew remove xctool
     - brew install xctool
 before_script:
-    - chmod -R +x ./scripts
+    #- chmod -R +x ./scripts
     - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 script: xctool -project org.onebusaway.iphone.xcodeproj -scheme Debug archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO && ./scripts/travis/upload.sh #build-tests run-tests
 env:
