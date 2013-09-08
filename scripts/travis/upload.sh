@@ -125,6 +125,11 @@ CURRENT_DIR=`pwd`
 xcrun -sdk iphoneos PackageApplication -v "$CURRENT_DIR/$APPNAME.app" -o "$CURRENT_DIR/$APPNAME.ipa"
 checklastcommanderrorexit
 
+#echo "\n Copying dSYM for later crash debugging..."
+#DYSM=`find ~ -name "$APPNAME.app.dSYM" | head -1`
+#rsync -rv --delete "$DYSM" "$CURRENT_DIR/$APPNAME.app.dSYM"
+#checklastcommanderrorexit
+
 echo "\n********************"
 echo "*   Deploy to GH   *"
 echo "********************"
