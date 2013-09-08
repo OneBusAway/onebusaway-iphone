@@ -12,10 +12,13 @@
 #import "OBASettingsViewController.h"
 #import "OBACreditsViewController.h"
 
-#define kContactUsRow 0
-#define kSettingsRow 1
-#define kAgenciesRow 2
-#define kCreditsRow 3
+#define kContactUsRow 4
+#define kSettingsRow 0
+#define kAgenciesRow 1
+#define kCreditsRow 5
+#define kPrivacy 6
+#define kIssueTracker 3
+#define kFeatureRequests 2
 
 @implementation OBAInfoViewController
 
@@ -42,7 +45,7 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return 7;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -58,7 +61,7 @@
 
     switch (indexPath.row) {
         case kContactUsRow: {
-            cell.textLabel.text = NSLocalizedString(@"Contact Us & More", @"info row contact us");
+            cell.textLabel.text = NSLocalizedString(@"Contact Us", @"info row contact us");
             break;
         }
         case kSettingsRow: {
@@ -71,6 +74,18 @@
         }
         case kCreditsRow: {
             cell.textLabel.text = NSLocalizedString(@"Credits", @"info row credits");
+            break;
+        }
+        case kFeatureRequests: {
+            cell.textLabel.text = NSLocalizedString(@"Suggest/Vote on New Features", @"info row feture requests");
+            break;
+        }
+        case kIssueTracker: {
+            cell.textLabel.text = NSLocalizedString(@"Report Issues/Bugs", @"info row issue tracker");
+            break;
+        }
+        case kPrivacy: {
+            cell.textLabel.text = NSLocalizedString(@"Privacy Policy", @"info row privacy");
             break;
         }
         default:
@@ -101,6 +116,21 @@
         }
         case kCreditsRow: {
             pushMe = [[OBACreditsViewController alloc] init];
+            break;
+        }
+        case kFeatureRequests: {
+            NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.ideascale.com/a/ideafactory.do?id=8715&mode=top&discussionFilter=byids&discussionID=46166",@"didSelectRowAtIndexPath case 1")];
+            [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+            break;
+        }
+        case kIssueTracker: {
+            NSString *url = [NSString stringWithString: NSLocalizedString(@"https://github.com/OneBusAway/onebusaway-iphone/issues",@"didSelectRowAtIndexPath case 2")];
+            [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+            break;
+        }
+        case kPrivacy: {
+            NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.org/privacy/",@"didSelectRowAtIndexPath case 3")];
+            [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             break;
         }
         default:
