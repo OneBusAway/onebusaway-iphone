@@ -1,6 +1,23 @@
 # Changelog for OneBusAway for iPhone
 
-##2.0
+## 2.1
+
+Special thanks to Sebastian Kießling and the many testers for their work on this version!
+
+* Startup on last opened tab
+* New design for iOS 7 users
+* Added link to feature request tracker, be sure to vote on and suggest new features from the Info tab
+* Added link to Facebook page
+* Added analytics package to help determine what parts of the app are most popular as well as fix bugs and crashes
+* Cosmetic improvements
+* Improved search results at high zoom levels and when searching at locations not near your current location
+* Improved map status message logic
+* Fixed bugs only exposed with location services disabled
+* Fixed trip problem reporting bugs
+* Fixed bug where zooming in on current location would force zoom out
+* Fixed bug where you couldn't select route after searching and receiving multiple route results
+
+## 2.0
 
 Special thanks to Sebastian Kießling, Chaya Hiruncharoenvate, and the many testers for their work on this version!
 
