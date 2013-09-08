@@ -135,7 +135,7 @@ static const double kNearbyStopRadius = 200;
         UINib *xibFile = [UINib nibWithNibName:@"OBAGenericStopViewController" bundle:nil];
         [xibFile instantiateWithOwner:self options:nil];
         self.tableView.tableHeaderView = self.tableHeaderView;
-        
+        self.mapView.accessibilityElementsHidden = YES;
 
         self.stopRoutes = [[OBAShadowLabel alloc] initWithFrame:CGRectMake(0, 77, 320, 18) rate:60 andFadeLength:10];
         self.stopRoutes.marqueeType = MLContinuous;
@@ -293,7 +293,7 @@ static const double kNearbyStopRadius = 200;
     [_progressView setInProgress:YES progress:progress];
 }
 
-#pragma mark 
+#pragma mark MapView
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     
@@ -308,7 +308,6 @@ static const double kNearbyStopRadius = 200;
         }
         view.canShowCallout = NO;
         
-
         OBAStopIconFactory * stopIconFactory = self.appDelegate.stopIconFactory;
         view.image = [stopIconFactory getIconForStop:stop];
         return view;
@@ -729,7 +728,6 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
         
         if (stop.routeNamesAsString) 
             self.stopRoutes.text = [stop routeNamesAsString];
-        
         
         [_mapView addAnnotation:stop];
 
