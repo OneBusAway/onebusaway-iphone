@@ -113,7 +113,7 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
         }
     }
     NSLog(@"%@",apiServerName);
-    [TestFlight passCheckpoint:@"API Server: %@",apiServerName];
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"API Server: %@",apiServerName]];
     
     NSString * userId = [self userIdFromDefaults:userDefaults];
     NSString * appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
