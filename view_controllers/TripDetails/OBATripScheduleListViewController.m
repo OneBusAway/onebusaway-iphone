@@ -214,7 +214,7 @@ typedef enum {
 
 
 - (void) showMap:(id)sender {
-    OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithappDelegate:_appDelegate];
+    OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] initWithApplicationDelegate:_appDelegate];
     vc.tripDetails = _tripDetails;
     vc.currentStopId = self.currentStopId;
     [self.navigationController replaceViewController:vc animated:YES];

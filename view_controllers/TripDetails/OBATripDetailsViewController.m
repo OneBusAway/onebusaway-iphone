@@ -168,7 +168,7 @@ typedef enum {
             
             if( indexPath.row == 0 ) {
                 if( _tripDetails ) {
-                    OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithappDelegate:_appDelegate];
+                    OBATripScheduleMapViewController * vc = [[OBATripScheduleMapViewController alloc]initWithApplicationDelegate:_appDelegate];
                     vc.tripInstance = _tripInstance;
                     vc.tripDetails = _tripDetails;
                     vc.currentStopId = self.currentStopId;
