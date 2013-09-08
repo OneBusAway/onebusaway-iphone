@@ -62,7 +62,7 @@ typedef enum {
         [lm addDelegate:self];
         [lm startUpdatingLocation];
         
-        _locationTimer = [NSTimer timerWithTimeInterval:60.0 target:self selector:@selector(timeOutLocation) userInfo:(self) repeats:NO];
+        _locationTimer = [NSTimer timerWithTimeInterval:60.0 target:self selector:@selector(timeOutLocation:) userInfo:(self) repeats:NO];
         [[NSRunLoop mainRunLoop] addTimer:_locationTimer forMode:NSRunLoopCommonModes];
         
     } else {
