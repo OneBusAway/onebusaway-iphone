@@ -72,6 +72,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 @property(strong) OBASearchResultsListViewController *searchResultsListViewController;
 @property (nonatomic) BOOL secondSearchTry;
 @property (strong) OBANavigationTarget *savedNavigationTarget;
+@property (nonatomic) UIView *titleView;
 @end
 
 @interface OBASearchResultsMapViewController (Private)
@@ -96,6 +97,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (NSString*)computeSearchFilterString;
 - (NSString*)computeLabelForCurrentResults;
+- (void) applyMapLabelWithText:(NSString*)labelText;
 
 - (MKCoordinateRegion)computeRegionForCurrentResults:(BOOL*)needsUpdate;
 - (MKCoordinateRegion)computeRegionForStops:(NSArray*)stops;
@@ -121,6 +123,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (CLLocationDistance)getDistanceFrom:(CLLocationCoordinate2D)start to:(CLLocationCoordinate2D)end;
 - (CLRegion*)convertVisibleMapIntoCLRegion;
+
+- (BOOL)checkStopsInRegion;
 @end
 
 @implementation OBASearchResultsMapViewController
@@ -183,7 +187,14 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStyleBordered target:self action:@selector(showListView:)];
     self.listBarButtonItem.accessibilityLabel = NSLocalizedString(@"list", @"self.listBarButtonItem.accessibilityLabel");
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
-    self.navigationItem.titleView = self.searchBar;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+        self.searchBar.barTintColor = [UIColor clearColor];
+        [self.titleView addSubview:self.searchBar];
+        self.navigationItem.titleView = self.titleView;
+    } else {
+        self.navigationItem.titleView = self.searchBar;
+    }
 
     self.mapLabel.hidden = YES;
     self.mapLabel.alpha = 0;
@@ -191,14 +202,20 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     CALayer *labelLayer = self.mapLabel.layer;
     labelLayer.rasterizationScale = [UIScreen mainScreen].scale;
     labelLayer.shouldRasterize = YES;
-    labelLayer.backgroundColor = [UIColor whiteColor].CGColor;
-    labelLayer.opacity = 0.8;
+    labelLayer.backgroundColor = [UIColor colorWithWhite:1 alpha:0.9].CGColor;
     labelLayer.cornerRadius = 7;
 
     labelLayer.shadowColor = [UIColor blackColor].CGColor;
     labelLayer.shadowOpacity = 0.2;
     labelLayer.shadowOffset = CGSizeMake(0,0);
     labelLayer.shadowRadius = 7;
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        CGRect mapLabelFrame = self.mapLabel.frame;
+        mapLabelFrame.origin.y += self.navigationController.navigationBar.frame.size.height +
+        [UIApplication sharedApplication].statusBarFrame.size.height;
+        self.mapLabel.frame = mapLabelFrame;
+    }
 
     [TestFlight passCheckpoint:@"OBASearchResultsMapViewController"];
 }
@@ -242,18 +259,19 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 #pragma mark - UISearchBarDelegate
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-    self.navigationItem.leftBarButtonItem = nil;
-    self.navigationItem.rightBarButtonItem = nil;
-    searchBar.showsCancelButton = YES;
+    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    [self.navigationItem setRightBarButtonItem:nil animated:YES];
+    [searchBar setShowsCancelButton:YES animated:YES];
+    [self applyMapLabelWithText:nil];
     [self animateInScopeView];
     
     return YES;
 }
 
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
-    self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
-    self.navigationItem.leftBarButtonItem = [self getArrowButton];;
-    searchBar.showsCancelButton = NO;
+    [self.navigationItem setRightBarButtonItem:self.listBarButtonItem animated:YES];
+    [self.navigationItem setLeftBarButtonItem:[self getArrowButton] animated:YES];
+    [searchBar setShowsCancelButton:NO animated:YES];
     [self animateOutScopeView];
 
     return YES;
@@ -290,7 +308,12 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     [self.view addSubview:self.scopeView];
     
     CGRect finalScopeFrame = self.scopeView.frame;
-    finalScopeFrame.origin.y = 0;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        finalScopeFrame.origin.y = self.navigationController.navigationBar.frame.size.height +
+                                    [UIApplication sharedApplication].statusBarFrame.size.height;
+    } else {
+        finalScopeFrame.origin.y = 0;
+    }
     
     [UIView animateWithDuration:kScopeViewAnimationDuration animations:^{
         self.scopeView.frame = finalScopeFrame;
@@ -492,7 +515,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
             view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
         }
         view.canShowCallout = YES;
-        view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        UIButton *rightCalloutButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        rightCalloutButton.tintColor = OBAGREEN;
+        view.rightCalloutAccessoryView = rightCalloutButton;
         
         OBASearchResult *result = self.searchController.result;
         
@@ -914,7 +939,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         case OBASearchTypeRegion: {
             if( result.limitExceeded )
                 return NSLocalizedString(@"Too many stops. Zoom in for more detail.",@"result.limitExceeded");
-            if([[self.mapView annotationsInMapRect:self.mapView.visibleMapRect] count] == 0 && span.latitudeDelta <= kMaxLatDeltaToShowStops)
+            if(![self checkStopsInRegion] && span.latitudeDelta <= kMaxLatDeltaToShowStops)
                 defaultLabel = NSLocalizedString(@"No stops at this location.",@"[values count] == 0");
             break;
 
@@ -1195,8 +1220,11 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 
 - (void) cancelPressed
 {
-    self.navigationItem.titleView = self.searchBar;
-    self.navigationItem.title = NSLocalizedString(@"Map", @"self.navigationItem.title");
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        self.navigationItem.titleView = self.titleView;
+    } else {
+        self.navigationItem.titleView = self.searchBar;   
+    }
     [self.searchController searchWithTarget:[OBASearch getNavigationTargetForSearchNone]];
     [self refreshStopsInRegion];
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
@@ -1273,6 +1301,25 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
     CLLocationCoordinate2D swCoord = MKCoordinateForMapPoint(swMapPoint);
     CLLocationDistance diameter = [self getDistanceFrom:neCoord to:swCoord];
     return [[CLRegion alloc] initCircularRegionWithCenter: self.mapView.centerCoordinate radius:(diameter/2) identifier:@"mapRegion"];
+}
+
+- (BOOL)checkStopsInRegion {
+    if ([[self.mapView annotationsInMapRect:self.mapView.visibleMapRect] count] > 0) {
+        return YES;
+    }
+    NSMutableArray *annotations = [NSMutableArray arrayWithArray:[self.mapView annotations]];
+    if (self.mapView.userLocation) {
+        [annotations removeObject:self.mapView.userLocation];
+    }
+    for (id <MKAnnotation> annotation in annotations) {
+        MKAnnotationView *annotationView = [self.mapView viewForAnnotation:annotation];
+        MKCoordinateRegion annotationRegion = [self.mapView convertRect:annotationView.frame toRegionFromView:self.mapView];
+        MKMapRect annotationRect = MKMapRectForCoordinateRegion(annotationRegion);
+        if (MKMapRectIntersectsRect(self.mapView.visibleMapRect, annotationRect)) {
+            return YES;
+        }
+    }
+    return NO;
 }
 @end
 
