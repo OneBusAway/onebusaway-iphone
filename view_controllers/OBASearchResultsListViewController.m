@@ -75,7 +75,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     switch (_result.searchType) {
         case OBASearchTypeNone:
-            return 0;
+            return 1;
         case OBASearchTypeRegion:
         case OBASearchTypePlacemark:
         case OBASearchTypeStopId:            
@@ -95,7 +95,9 @@
     switch (_result.searchType) {
         case OBASearchTypeNone: {
             UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-            cell.textLabel.text = NSLocalizedString(@"No search results",@"OBASearchTypeNone text");
+            cell.textLabel.text = NSLocalizedString(@"No results for current region",@"OBASearchTypeNone text");
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
         }
         case OBASearchTypeRegion:
@@ -198,7 +200,7 @@
     
     switch (_result.searchType) {
         case OBASearchTypeNone:
-            self.navigationItem.title = @"";
+            self.navigationItem.title = NSLocalizedString(@"No results",@"OBASearchTypeNone");
             break;
         case OBASearchTypeRegion:
         case OBASearchTypePlacemark:
