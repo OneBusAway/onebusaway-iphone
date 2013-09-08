@@ -897,7 +897,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     NSString * defaultLabel = nil;
     if( span.latitudeDelta > kMaxLatDeltaToShowStops )
-        defaultLabel = NSLocalizedString(@"Zoom in to look for stops.",@"span.latitudeDelta > kMaxLatDeltaToShowStops");
+        defaultLabel = NSLocalizedString(@"Zoom in to look for stops",@"span.latitudeDelta > kMaxLatDeltaToShowStops");
     
     if( !result )
         return defaultLabel;
@@ -913,9 +913,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         case OBASearchTypePlacemark:
         case OBASearchTypeRegion: {
             if( result.limitExceeded )
-                return NSLocalizedString(@"Too many stops. Zoom in for more detail.",@"result.limitExceeded");
+                return NSLocalizedString(@"Too many stops, zoom in for more detail",@"result.limitExceeded");
             if([[self.mapView annotationsInMapRect:self.mapView.visibleMapRect] count] == 0 && span.latitudeDelta <= kMaxLatDeltaToShowStops)
-                defaultLabel = NSLocalizedString(@"No stops at this location.",@"[values count] == 0");
+                defaultLabel = NSLocalizedString(@"No stops at this location",@"[values count] == 0");
             break;
 
         }
@@ -925,7 +925,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
             break;
     }
     if (self.appDelegate.modelDao.region && [self outOfServiceArea]) {
-        return NSLocalizedString(@"Out of OneBusAway service area.",@"result.outOfRange");
+        return NSLocalizedString(@"Out of OneBusAway service area",@"result.outOfRange");
     }
     return defaultLabel;
 }
