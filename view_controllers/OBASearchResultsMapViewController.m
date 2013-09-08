@@ -1308,15 +1308,47 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
         return YES;
     }
     NSMutableArray *annotations = [NSMutableArray arrayWithArray:[self.mapView annotations]];
-    if (self.mapView.userLocation) {
+    if (self.mapView.userLocation ) {
         [annotations removeObject:self.mapView.userLocation];
     }
-    for (id <MKAnnotation> annotation in annotations) {
-        MKAnnotationView *annotationView = [self.mapView viewForAnnotation:annotation];
-        MKCoordinateRegion annotationRegion = [self.mapView convertRect:annotationView.frame toRegionFromView:self.mapView];
-        MKMapRect annotationRect = MKMapRectForCoordinateRegion(annotationRegion);
-        if (MKMapRectIntersectsRect(self.mapView.visibleMapRect, annotationRect)) {
-            return YES;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        for (id <MKAnnotation> annotation in annotations) {
+            MKAnnotationView *annotationView = [self.mapView viewForAnnotation:annotation];
+            MKCoordinateRegion annotationRegion = [self.mapView convertRect:annotationView.frame toRegionFromView:self.mapView];
+            MKMapRect annotationRect = MKMapRectForCoordinateRegion(annotationRegion);
+            
+            if (MKMapRectIntersectsRect(self.mapView.visibleMapRect, annotationRect)) {
+                return YES;
+            }
+        }
+    } else {
+        for (id <MKAnnotation> annotation in annotations) {
+            if ([annotation isKindOfClass:[OBAStopV2 class]]) {
+                OBAStopV2 *stop = (OBAStopV2*)annotation;
+                CLLocationCoordinate2D annotationCoord = stop.coordinate;
+                
+                CGPoint annotationPoint = [self.mapView convertCoordinate:annotationCoord toPointToView:self.mapView];
+                CGRect annotationFrame;
+                if(stop.direction.length == 2){
+                    annotationFrame = CGRectMake(annotationPoint.x-17.5, annotationPoint.y-17.5, 35, 35);
+                } else if (stop.direction.length == 1){
+                    if ([stop.direction isEqualToString:@"E"] || [stop.direction isEqualToString:@"W"]) {
+                        annotationFrame = CGRectMake(annotationPoint.x-20.5, annotationPoint.y-15, 41, 30);
+                    } else {
+                        annotationFrame = CGRectMake(annotationPoint.x-15, annotationPoint.y-20.5, 30, 41);
+                    }
+                } else {
+                    annotationFrame = CGRectMake(annotationPoint.x-15, annotationPoint.y-15, 30, 30);
+                }
+                
+                MKCoordinateRegion annotationRegion = [self.mapView convertRect:annotationFrame toRegionFromView:self.mapView];
+
+                MKMapRect annotationRect = MKMapRectForCoordinateRegion(annotationRegion);
+                
+                if (MKMapRectIntersectsRect(self.mapView.visibleMapRect, annotationRect)) {
+                    return YES;
+                }
+            }
         }
     }
     return NO;
