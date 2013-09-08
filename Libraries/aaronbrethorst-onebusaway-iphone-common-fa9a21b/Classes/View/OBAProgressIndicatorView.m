@@ -79,11 +79,18 @@
     CGRect labelFrame = CGRectMake(0, 0, r.size.width, r.size.height);
     CGRect progressLabelFrame = CGRectMake(25, 0, r.size.width-25, r.size.height);
     CGRect acitivityIndicatorFrame = CGRectMake(0, (r.size.height-20) / 2, 20, 20);
-    CGRect progressViewFrame = CGRectMake(0, (r.size.height-11)/2, r.size.width, 11);
+    CGRect progressViewFrame;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        progressViewFrame = CGRectMake(0, (r.size.height-1)/2, r.size.width, 11);
+    } else {
+        progressViewFrame = CGRectMake(0, (r.size.height-11)/2, r.size.width, 11);
+    }
+    
     
     _label = [[UILabel alloc] initWithFrame:labelFrame];        
     _progressLabel = [[UILabel alloc] initWithFrame:progressLabelFrame];
-    _activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:acitivityIndicatorFrame];
+    _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:
+                          SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? UIActivityIndicatorViewStyleGray : UIActivityIndicatorViewStyleWhite];
     _progressView = [[UIProgressView alloc] initWithFrame:progressViewFrame];    
 
     self.backgroundColor = [UIColor clearColor];
@@ -91,7 +98,7 @@
     
     [self setupLabel:_label];
     [self setupLabel:_progressLabel];
-    
+    _activityIndicator.frame = acitivityIndicatorFrame;
     _label.textAlignment = UITextAlignmentCenter;
     _progressLabel.textAlignment = UITextAlignmentCenter;    
     
@@ -109,10 +116,15 @@
 - (void) setupLabel:(UILabel*)label {
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont fontWithName:@"Helvetica-Bold" size:17.0];
-    label.textColor = [UIColor whiteColor];
-    label.shadowColor = [UIColor blackColor];
-    label.shadowOffset = CGSizeMake(0,-1);
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        label.font = [UIFont boldSystemFontOfSize:16.0];
+        label.textColor = [UIColor blackColor];
+    } else {
+        label.font = [UIFont fontWithName:@"Helvetica-Bold" size:17.0];
+        label.textColor = [UIColor whiteColor];
+        label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+        label.shadowOffset = CGSizeMake(0,-1);
+    }
 }
 
 @end

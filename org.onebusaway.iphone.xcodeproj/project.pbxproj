@@ -18,6 +18,7 @@
 		923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */; };
 		925A1AD517B6ACA200029F0B /* OBARegionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 925A1AD417B6ACA200029F0B /* OBARegionListViewController.m */; };
 		925A1AD817B7969500029F0B /* OBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 925A1AD717B7969500029F0B /* OBASettingsViewController.m */; };
+		928E12B217D7863400FD855E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 928E12B117D7863400FD855E /* Images.xcassets */; };
 		92CAAE99179C4B070097DD3D /* MarqueeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 92CAAE98179C4B070097DD3D /* MarqueeLabel.m */; };
 		9302721616137A47004DBFDE /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 9302721416137A47004DBFDE /* info.png */; };
 		9302721716137A47004DBFDE /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9302721516137A47004DBFDE /* info@2x.png */; };
@@ -248,8 +249,6 @@
 		933C8037160C07440005AAFE /* OBATextEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F58160C07440005AAFE /* OBATextEditViewController.xib */; };
 		933C8038160C07440005AAFE /* OBATextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F59160C07440005AAFE /* OBATextFieldTableViewCell.xib */; };
 		933C8039160C07440005AAFE /* OBAWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F5A160C07440005AAFE /* OBAWebViewController.xib */; };
-		934606C21623A92200BD1CD0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 934606C11623A92200BD1CD0 /* Default.png */; };
-		934606C51623A92700BD1CD0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 934606C41623A92700BD1CD0 /* Default@2x.png */; };
 		93631E401604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E3D1604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib */; };
 		93631E411604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */; };
 		93631E451604F77A00CB7209 /* OBADiversionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E441604F77A00CB7209 /* OBADiversionViewController.xib */; };
@@ -276,7 +275,6 @@
 		93631EA71607F40C00CB7209 /* lbs_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93631EA51607F40C00CB7209 /* lbs_arrow@2x.png */; };
 		93631EAB1607FB2F00CB7209 /* OBAInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631EAA1607FB2F00CB7209 /* OBAInfoViewController.m */; };
 		93631EAD1607FB7100CB7209 /* OBAInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631EAC1607FB7100CB7209 /* OBAInfoViewController.xib */; };
-		93A29181160158C00035BC70 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A29180160158C00035BC70 /* Default-568h@2x.png */; };
 		93AA8A541622610300B945E7 /* OBARegionChangeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AA8A531622610300B945E7 /* OBARegionChangeRequest.m */; };
 		93AD36301603FDE300BDF03F /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36231603FDE300BDF03F /* OBAAgenciesListViewController.m */; };
 		93AD36311603FDE300BDF03F /* OBABookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36251603FDE300BDF03F /* OBABookmarksViewController.m */; };
@@ -329,9 +327,6 @@
 		D62255AB0F8BCA8F00F139BA /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D62255AA0F8BCA8F00F139BA /* libsqlite3.0.dylib */; };
 		D62255D00F8BCBF100F139BA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D62255CF0F8BCBF100F139BA /* QuartzCore.framework */; };
 		D62AC46510A4F6D300CE9212 /* OBAModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D62AC46410A4F6D300CE9212 /* OBAModel.xcdatamodeld */; };
-		D64953C41214A1E90040572D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D64953C31214A1E80040572D /* Icon.png */; };
-		D64953CA1214A3890040572D /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = D64953C91214A3890040572D /* Icon-72.png */; };
-		D64953CC1214A3950040572D /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D64953CB1214A3950040572D /* Icon@2x.png */; };
 		D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = D651BB2711C9D5DE001BE733 /* iTunesArtwork */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 		D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */; };
@@ -372,6 +367,7 @@
 		925A1AD417B6ACA200029F0B /* OBARegionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionListViewController.m; sourceTree = "<group>"; };
 		925A1AD617B7969500029F0B /* OBASettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASettingsViewController.h; sourceTree = "<group>"; };
 		925A1AD717B7969500029F0B /* OBASettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASettingsViewController.m; sourceTree = "<group>"; };
+		928E12B117D7863400FD855E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = OneBusAway/Images.xcassets; sourceTree = "<group>"; };
 		92CAAE97179C4B070097DD3D /* MarqueeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarqueeLabel.h; sourceTree = "<group>"; };
 		92CAAE98179C4B070097DD3D /* MarqueeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarqueeLabel.m; sourceTree = "<group>"; };
 		9302721416137A47004DBFDE /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = ../../../../Resources/info.png; sourceTree = "<group>"; };
@@ -675,8 +671,6 @@
 		933C7F58160C07440005AAFE /* OBATextEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBATextEditViewController.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBATextEditViewController.xib"; sourceTree = "<group>"; };
 		933C7F59160C07440005AAFE /* OBATextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBATextFieldTableViewCell.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBATextFieldTableViewCell.xib"; sourceTree = "<group>"; };
 		933C7F5A160C07440005AAFE /* OBAWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBAWebViewController.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBAWebViewController.xib"; sourceTree = "<group>"; };
-		934606C11623A92200BD1CD0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		934606C41623A92700BD1CD0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		93631E3D1604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBAArrivalEntryTableViewCell.xib; path = xibs/OBAArrivalEntryTableViewCell.xib; sourceTree = "<group>"; };
 		93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBANearbyStopsPageTableViewCell.xib; path = xibs/OBANearbyStopsPageTableViewCell.xib; sourceTree = "<group>"; };
 		93631E441604F77A00CB7209 /* OBADiversionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBADiversionViewController.xib; path = xibs/OBADiversionViewController.xib; sourceTree = "<group>"; };
@@ -723,7 +717,6 @@
 		93631EA91607FB2F00CB7209 /* OBAInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAInfoViewController.h; sourceTree = "<group>"; };
 		93631EAA1607FB2F00CB7209 /* OBAInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAInfoViewController.m; sourceTree = "<group>"; };
 		93631EAC1607FB7100CB7209 /* OBAInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBAInfoViewController.xib; path = xibs/OBAInfoViewController.xib; sourceTree = "<group>"; };
-		93A29180160158C00035BC70 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		93AA8A521622610300B945E7 /* OBARegionChangeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionChangeRequest.h; sourceTree = "<group>"; };
 		93AA8A531622610300B945E7 /* OBARegionChangeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionChangeRequest.m; sourceTree = "<group>"; };
 		93AD36221603FDE300BDF03F /* OBAAgenciesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgenciesListViewController.h; sourceTree = "<group>"; };
@@ -825,9 +818,6 @@
 		D62255C80F8BCB9C00F139BA /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		D62255CF0F8BCBF100F139BA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D62AC46610A4F6D300CE9212 /* OBAModel-2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OBAModel-2.xcdatamodel"; sourceTree = "<group>"; };
-		D64953C31214A1E80040572D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Resources/Icon.png; sourceTree = "<group>"; };
-		D64953C91214A3890040572D /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "Resources/Icon-72.png"; sourceTree = "<group>"; };
-		D64953CB1214A3950040572D /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Resources/Icon@2x.png"; sourceTree = "<group>"; };
 		D651BB2711C9D5DE001BE733 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = Resources/iTunesArtwork; sourceTree = "<group>"; };
 		D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -898,10 +888,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9228E65917CB6A5500885EA4 /* Default */,
+				928E12B117D7863400FD855E /* Images.xcassets */,
 				933C7EBE160C07440005AAFE /* Icons */,
 				933C7F08160C07440005AAFE /* MapIcons */,
-				D64953CD1214A3A00040572D /* Application Icon */,
 				D619F88E0FDF1372002893B5 /* Views */,
 				D619F8930FDF13E0002893B5 /* TableViewCells */,
 				D651BB2711C9D5DE001BE733 /* iTunesArtwork */,
@@ -929,16 +918,6 @@
 				288765070DF74369002DB57D /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		9228E65917CB6A5500885EA4 /* Default */ = {
-			isa = PBXGroup;
-			children = (
-				93A29180160158C00035BC70 /* Default-568h@2x.png */,
-				934606C41623A92700BD1CD0 /* Default@2x.png */,
-				934606C11623A92200BD1CD0 /* Default.png */,
-			);
-			name = Default;
 			sourceTree = "<group>";
 		};
 		92CAAE96179C4AF40097DD3D /* MarqueeLabel */ = {
@@ -1671,16 +1650,6 @@
 			name = Libraries;
 			sourceTree = "<group>";
 		};
-		D64953CD1214A3A00040572D /* Application Icon */ = {
-			isa = PBXGroup;
-			children = (
-				D64953C31214A1E80040572D /* Icon.png */,
-				D64953C91214A3890040572D /* Icon-72.png */,
-				D64953CB1214A3950040572D /* Icon@2x.png */,
-			);
-			name = "Application Icon";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1709,7 +1678,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = OBA;
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = OneBusAway;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "org.onebusaway.iphone" */;
@@ -1736,13 +1705,9 @@
 			files = (
 				D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */,
 				D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */,
-				D64953C41214A1E90040572D /* Icon.png in Resources */,
-				D64953CA1214A3890040572D /* Icon-72.png in Resources */,
-				D64953CC1214A3950040572D /* Icon@2x.png in Resources */,
 				D69C598913F9BD6900BA90A2 /* Localizable.strings in Resources */,
 				A005943E13FC43A9001B397B /* OBASearchTableViewCell.xib in Resources */,
 				A005945713FC49A0001B397B /* OBATripScheduleMapViewController.xib in Resources */,
-				93A29181160158C00035BC70 /* Default-568h@2x.png in Resources */,
 				9330DED61603BC6F00E14AF4 /* OBASearchResultsMapViewController.xib in Resources */,
 				93631E401604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib in Resources */,
 				93631E411604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib in Resources */,
@@ -1815,6 +1780,7 @@
 				933C7FDE160C07440005AAFE /* RightArrow@2x.png in Resources */,
 				933C7FDF160C07440005AAFE /* SegmentedControl-CrossHairs.ai in Resources */,
 				933C7FE0160C07440005AAFE /* SegmentedControl-CrossHairs.png in Resources */,
+				928E12B217D7863400FD855E /* Images.xcassets in Resources */,
 				933C7FE1160C07440005AAFE /* SegmentedControl-CrossHairs@2x.png in Resources */,
 				933C7FE2160C07440005AAFE /* SegmentedControl-Region.ai in Resources */,
 				933C7FE3160C07440005AAFE /* SegmentedControl-Region.png in Resources */,
@@ -1909,8 +1875,6 @@
 				9302721716137A47004DBFDE /* info@2x.png in Resources */,
 				93ADBBB4161618850092994E /* lines.png in Resources */,
 				93ADBBB5161618850092994E /* lines@2x.png in Resources */,
-				934606C21623A92200BD1CD0 /* Default.png in Resources */,
-				934606C51623A92700BD1CD0 /* Default@2x.png in Resources */,
 				93D878C5166450AC00FCEFFB /* map.png in Resources */,
 				93D878C6166450AC00FCEFFB /* map@2x.png in Resources */,
 			);
@@ -2102,6 +2066,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUILD_VARIANTS = normal;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2141,6 +2107,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -2173,7 +2141,6 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -2189,7 +2156,6 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -2202,7 +2168,6 @@
 		D6575AF50FEE8B0900D6D987 /* AdHocDistribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
@@ -2218,6 +2183,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Brian Ferris";
 				COPY_PHASE_STRIP = NO;
@@ -2251,7 +2218,6 @@
 		D6BEE73E10474E58003655A1 /* AppStoreDistribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -2266,6 +2232,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Brian Ferris";
 				COPY_PHASE_STRIP = NO;

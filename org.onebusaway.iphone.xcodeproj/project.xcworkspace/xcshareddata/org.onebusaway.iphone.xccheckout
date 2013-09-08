@@ -2,8 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>745349F4-EFB7-4CCF-985E-4FA4990E784B</string>
+	<string>95F0B635-5A6E-49B9-A259-8FE8E6A1207D</string>
 	<key>IDESourceControlProjectName</key>
 	<string>org.onebusaway.iphone</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
