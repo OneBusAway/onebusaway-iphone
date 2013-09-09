@@ -267,9 +267,14 @@ static NSString * kMostRecentCustomApiUrlsKey = @"mostRecentCustomApiUrls";
 }
 
 - (id) decodeObjectForKey:(NSString*)key fromData:(NSData*)data {
-    NSKeyedUnarchiver * unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    id object = [unarchiver decodeObjectForKey:key];
-    [unarchiver finishDecoding];
+    id object = nil;
+
+    if (data) {
+        NSKeyedUnarchiver * unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        object = [unarchiver decodeObjectForKey:key];
+        [unarchiver finishDecoding];
+    }
+
     return object;
 }
 
