@@ -78,7 +78,10 @@ typedef enum {
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
     [self hideEmptySeparators];
-    [TestFlight passCheckpoint:@"OBAReportProblemWithTripViewController"];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 #pragma mark Table view methods

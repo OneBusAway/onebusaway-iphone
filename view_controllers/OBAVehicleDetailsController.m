@@ -45,7 +45,10 @@ typedef enum {
     [super viewDidLoad];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
-    [TestFlight passCheckpoint:@"OBAVehicleDetailsController"];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (BOOL) isLoading {

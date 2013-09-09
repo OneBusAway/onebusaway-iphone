@@ -179,7 +179,6 @@ static const double kNearbyStopRadius = 200;
         
         [self hideEmptySeparators];
     }
-    [TestFlight passCheckpoint:@"OBAGenericStopViewController"];
 }
 
 - (void)viewDidUnload {
@@ -246,6 +245,8 @@ static const double kNearbyStopRadius = 200;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     [self refresh];
+
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
