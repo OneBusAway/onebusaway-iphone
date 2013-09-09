@@ -23,7 +23,10 @@
     [self hideEmptySeparators];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
-    [TestFlight passCheckpoint:@"OBAListSelectionViewController"];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 #pragma mark Table view data source

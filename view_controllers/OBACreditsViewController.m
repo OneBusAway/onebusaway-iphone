@@ -28,7 +28,10 @@
     [super viewDidLoad];
     NSString *htmlString = [[NSString alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"credits" ofType:@"html"] encoding:NSUTF8StringEncoding error:nil];
     [self.webView loadHTMLString:htmlString baseURL:[NSURL fileURLWithPath:[NSBundle mainBundle].bundlePath]];
-    [TestFlight passCheckpoint:@"OBACreditsViewController"];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 #pragma mark - UIWebViewDelegate

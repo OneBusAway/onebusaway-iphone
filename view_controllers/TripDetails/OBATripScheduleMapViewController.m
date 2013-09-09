@@ -54,7 +54,6 @@ static const NSString * kShapeContext = @"ShapeContext";
     
     UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Schedule",@"initWithTitle") style:UIBarButtonItemStyleBordered target:nil action:nil];
     self.navigationItem.backBarButtonItem = backItem;
-    [TestFlight passCheckpoint:@"OBATripScheduleMapViewController"];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -63,6 +62,8 @@ static const NSString * kShapeContext = @"ShapeContext";
         _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:kTripDetailsContext];
     else
         [self handleTripDetails];
+
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void) showList:(id)source {

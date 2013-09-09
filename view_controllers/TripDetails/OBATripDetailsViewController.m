@@ -50,7 +50,6 @@ typedef enum {
     [super viewDidLoad];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
-    [TestFlight passCheckpoint:@"OBATripDetailsViewController"];
 }
 - (void)dealloc {
     [self clearPendingRequest];
@@ -68,6 +67,7 @@ typedef enum {
     [self clearPendingRequest];
     [_progressView setMessage:NSLocalizedString(@"Updating...",@"message") inProgress:YES progress:0];
     _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:nil];
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 #pragma mark OBAModelServiceDelegate

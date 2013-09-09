@@ -38,6 +38,7 @@
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 static NSString * kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
 static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
+static NSString * apiServerName = nil;
 
 @interface OBAApplicationDelegate ()
 @property(nonatomic,readwrite) BOOL active;
@@ -92,7 +93,6 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 - (void)refreshSettings {
     
     NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *apiServerName = nil;
 	if([self.modelDao.readCustomApiUrl isEqualToString:@""]) {
         if (_modelDao.region != nil) {
             apiServerName = [NSString stringWithFormat:@"%@", _modelDao.region.obaBaseUrl];
@@ -113,7 +113,6 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
         }
     }
     NSLog(@"%@",apiServerName);
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"API Server: %@",apiServerName]];
     
     NSString * userId = [self userIdFromDefaults:userDefaults];
     NSString * appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
@@ -211,6 +210,7 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     // if app store version use token for org.onebusaway.iphone
     [TestFlight takeOff:@"28959455-6425-40fb-a08c-204cb2a80421"];
 #endif
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"API Server: %@",apiServerName]];
 
     [self _migrateUserPreferences];
     [self _constructUI];

@@ -37,7 +37,6 @@
     [super viewDidLoad];
     _mostRecentStops = [[NSArray alloc] init];
     [self hideEmptySeparators];
-    [TestFlight passCheckpoint:@"OBARecentStopsViewController"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -46,6 +45,8 @@
     OBAModelDAO * modelDao = _appDelegate.modelDao;    
     _mostRecentStops = modelDao.mostRecentStops;
     [self.tableView reloadData];
+
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 #pragma mark Table view methods
