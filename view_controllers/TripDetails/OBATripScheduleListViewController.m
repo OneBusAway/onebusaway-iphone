@@ -83,7 +83,7 @@ typedef enum {
 #pragma mark View lifecycle
 
 - (void)viewWillAppear:(BOOL)animated {
-
+    [super viewWillAppear:animated];
     if( _tripDetails == nil && _tripInstance != nil ) {
         [self.tableView reloadData];
         _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:nil];
@@ -214,7 +214,7 @@ typedef enum {
 
 
 - (void) showMap:(id)sender {
-    OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithappDelegate:_appDelegate];
+    OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] initWithApplicationDelegate:_appDelegate];
     vc.tripDetails = _tripDetails;
     vc.currentStopId = self.currentStopId;
     [self.navigationController replaceViewController:vc animated:YES];

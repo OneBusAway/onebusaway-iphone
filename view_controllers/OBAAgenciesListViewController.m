@@ -92,7 +92,7 @@ typedef enum {
         case OBASectionTypeActions:
             return 1;
         case OBASectionTypeAgencies:
-            return [_agencies count];
+            return [_agencies count] + 1;
         case OBASectionTypeNoAgencies:
             return 1;
         default:
@@ -125,7 +125,6 @@ typedef enum {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if( [self isLoading] ) {
-        [self tableView:tableView didSelectRowAtIndexPath:indexPath];
         return;
     }
     
@@ -171,7 +170,7 @@ typedef enum {
 - (UITableViewCell*) actionsCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView {
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.textLabel.textAlignment = UITextAlignmentLeft;
@@ -181,12 +180,18 @@ typedef enum {
 
 - (UITableViewCell*) agenciesCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView {
 
-    OBAAgencyWithCoverageV2 * awc = _agencies[indexPath.row];
+    if (indexPath.row == 0) {
+        UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = OBAGREENBACKGROUND;
+        return cell;
+    }
+    OBAAgencyWithCoverageV2 * awc = _agencies[indexPath.row-1];
     OBAAgencyV2 * agency = awc.agency;
     
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = UITextAlignmentLeft;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
@@ -204,20 +209,18 @@ typedef enum {
     return cell;    
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([self sectionTypeForSection:section] == OBASectionTypeAgencies ) {
-        return 30;
+    switch ([self sectionTypeForSection:indexPath.section]) {
+        case OBASectionTypeAgencies:
+            if (indexPath.row == 0) {
+                return 30;
+            }
+        default:
+            return 44;
     }
-    return 0;
-}
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
-    view.backgroundColor = OBAGREENBACKGROUND;
-    return view;
-}
 
+}
 
 - (void) didSelectActionsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
@@ -225,7 +228,10 @@ typedef enum {
 }
 
 - (void) didSelectAgencyRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-    OBAAgencyWithCoverageV2 * awc = _agencies[indexPath.row];
+    if (indexPath.row == 0) {
+        return;
+    }
+    OBAAgencyWithCoverageV2 * awc = _agencies[indexPath.row-1];
     OBAAgencyV2 * agency = awc.agency;
     [[UIApplication sharedApplication] openURL: [NSURL URLWithString: agency.url]];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

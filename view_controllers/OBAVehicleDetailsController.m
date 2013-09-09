@@ -48,6 +48,7 @@ typedef enum {
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
@@ -326,7 +327,7 @@ typedef enum {
     
     switch (indexPath.row) {
         case 0: {
-            OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithappDelegate:_appDelegate];
+            OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] initWithApplicationDelegate:_appDelegate];
             vc.tripInstance = tripInstance;
             [self.navigationController pushViewController:vc animated:YES];            
             break;

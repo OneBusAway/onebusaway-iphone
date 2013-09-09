@@ -91,7 +91,7 @@
 #pragma mark UIViewController methods
 
 - (void)viewWillAppear:(BOOL)animated {
-
+    [super viewWillAppear:animated];
     [self clearPendingRequest];
 
     if ([self isLoading]) {        

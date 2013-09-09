@@ -58,6 +58,7 @@ typedef enum {
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
@@ -327,7 +328,7 @@ typedef enum {
 - (void) didSelectScheduleRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     OBATripInstanceRef * tripInstance = _arrivalAndDeparture.tripInstance;
     if( indexPath.row == 0 ) {
-        OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithappDelegate:_appDelegate];
+        OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] initWithApplicationDelegate:_appDelegate];
         vc.tripInstance = tripInstance;
         vc.currentStopId = _arrivalAndDeparture.stopId;
         [self.navigationController pushViewController:vc animated:YES];

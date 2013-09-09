@@ -64,6 +64,7 @@ typedef enum {
 #pragma mark UIViewController methods
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self clearPendingRequest];
     [_progressView setMessage:NSLocalizedString(@"Updating...",@"message") inProgress:YES progress:0];
     _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:nil];
@@ -168,7 +169,7 @@ typedef enum {
             
             if( indexPath.row == 0 ) {
                 if( _tripDetails ) {
-                    OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithappDelegate:_appDelegate];
+                    OBATripScheduleMapViewController * vc = [[OBATripScheduleMapViewController alloc]initWithApplicationDelegate:_appDelegate];
                     vc.tripInstance = _tripInstance;
                     vc.tripDetails = _tripDetails;
                     vc.currentStopId = self.currentStopId;

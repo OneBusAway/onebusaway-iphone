@@ -15,7 +15,7 @@
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "oba_logo40.png",
+      "filename" : "oba_logo40@2x.png",
       "scale" : "2x"
     },
     {
@@ -33,7 +33,7 @@
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "oba_logo60.png",
+      "filename" : "oba_logo60@2x.png",
       "scale" : "2x"
     }
   ],
