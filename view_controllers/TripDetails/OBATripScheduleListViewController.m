@@ -83,7 +83,7 @@ typedef enum {
 #pragma mark View lifecycle
 
 - (void)viewWillAppear:(BOOL)animated {
-
+    [super viewWillAppear:animated];
     if( _tripDetails == nil && _tripInstance != nil ) {
         [self.tableView reloadData];
         _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:nil];

@@ -64,6 +64,7 @@ typedef enum {
 #pragma mark UIViewController methods
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self clearPendingRequest];
     [_progressView setMessage:NSLocalizedString(@"Updating...",@"message") inProgress:YES progress:0];
     _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:nil];

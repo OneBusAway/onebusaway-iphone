@@ -57,6 +57,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     if(!self.readOnly) {
         [self.navigationController setToolbarHidden:YES animated:YES];
         [self.textView becomeFirstResponder];

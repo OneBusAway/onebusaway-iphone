@@ -61,7 +61,7 @@ static const NSString * kShapeContext = @"ShapeContext";
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-    
+    [super viewWillAppear:animated];
     if( _tripDetails == nil && _tripInstance != nil )
         _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:kTripDetailsContext];
     else
