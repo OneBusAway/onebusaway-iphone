@@ -36,10 +36,12 @@ static const NSString * kShapeContext = @"ShapeContext";
 @synthesize tripDetails = _tripDetails;
 @synthesize currentStopId = _currentStopId;
 
-+(OBATripScheduleMapViewController*) loadFromNibWithappDelegate:(OBAApplicationDelegate*)context {
-    NSArray* wired = [[NSBundle mainBundle] loadNibNamed:@"OBATripScheduleMapViewController" owner:context options:nil];
-    OBATripScheduleMapViewController* controller = wired[0];
-    return controller;
+- (id)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate {
+    self = [super initWithNibName:@"OBATripScheduleMapViewController" bundle:nil];
+    if (self) {
+        self.appDelegate = appDelegate;
+    }
+    return self;
 }
 
 - (void)dealloc {
@@ -50,14 +52,16 @@ static const NSString * kShapeContext = @"ShapeContext";
     _timeFormatter = [[NSDateFormatter alloc] init];
     [_timeFormatter setDateStyle:NSDateFormatterNoStyle];
     [_timeFormatter setTimeStyle:NSDateFormatterShortStyle];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStylePlain target:self action:@selector(showList:)];
     self.navigationItem.rightBarButtonItem.accessibilityLabel = NSLocalizedString(@"List", @"self.navigationItem.rightBarButtonItem.accessibilityLabel");
-    
+    self.progressView = [[OBAProgressIndicatorView alloc] initWithFrame:CGRectMake(80, 6, 160, 33)];
+    self.navigationItem.titleView = self.progressView;
     UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Schedule",@"initWithTitle") style:UIBarButtonItemStyleBordered target:nil action:nil];
     self.navigationItem.backBarButtonItem = backItem;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-    
+    [super viewWillAppear:animated];
     if( _tripDetails == nil && _tripInstance != nil )
         _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:kTripDetailsContext];
     else
@@ -87,7 +91,7 @@ static const NSString * kShapeContext = @"ShapeContext";
             _routePolyline = [OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString];
             [self.mapView addOverlay:_routePolyline];
         }
-        [_progressView setMessage:NSLocalizedString(@"Trip Schedule",@"message") inProgress:NO progress:0];
+        [_progressView setMessage:NSLocalizedString(@"Route Map",@"message") inProgress:NO progress:0];
     }
 }
 

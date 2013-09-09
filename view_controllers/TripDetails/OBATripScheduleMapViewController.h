@@ -17,14 +17,14 @@
     MKPolylineView * _routePolylineView;
 }
 
-+(OBATripScheduleMapViewController*) loadFromNibWithappDelegate:(OBAApplicationDelegate*)context;
+- (id)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate;
 
-@property (nonatomic,strong) IBOutlet OBAApplicationDelegate * appDelegate;
+@property (nonatomic,strong) OBAApplicationDelegate * appDelegate;
 @property (nonatomic,strong) IBOutlet OBAProgressIndicatorView * progressView;
 @property (nonatomic,strong) OBATripInstanceRef * tripInstance;
 @property (nonatomic,strong) OBATripDetailsV2 * tripDetails;
 @property (nonatomic,strong) NSString * currentStopId;
 
-- (IBAction) showList:(id)source;
+- (void) showList:(id)source;
 
 @end
