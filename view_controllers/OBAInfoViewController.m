@@ -39,7 +39,10 @@
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableHeaderView = self.headerView;
-    [TestFlight passCheckpoint:@"OBAInfoViewController"];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 #pragma mark - UITableViewDataSource
@@ -119,16 +122,19 @@
             break;
         }
         case kFeatureRequests: {
+            [TestFlight passCheckpoint:@"Clicked Feature Request Link"];
             NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.ideascale.com/a/ideafactory.do?id=8715&mode=top&discussionFilter=byids&discussionID=46166",@"didSelectRowAtIndexPath case 1")];
             [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             break;
         }
         case kIssueTracker: {
+            [TestFlight passCheckpoint:@"Clicked Issue Tracker Link"];
             NSString *url = [NSString stringWithString: NSLocalizedString(@"https://github.com/OneBusAway/onebusaway-iphone/issues",@"didSelectRowAtIndexPath case 2")];
             [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             break;
         }
         case kPrivacy: {
+            [TestFlight passCheckpoint:@"Clicked Privacy Policy Link"];
             NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.org/privacy/",@"didSelectRowAtIndexPath case 3")];
             [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             break;

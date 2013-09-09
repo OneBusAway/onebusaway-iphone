@@ -47,7 +47,6 @@
 - (void)viewDidLoad {
     [self hideEmptySeparators];
     [super viewDidLoad];
-    [TestFlight passCheckpoint:@"OBABookmarksViewController"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -58,6 +57,8 @@
     // We reload the table here in case we are coming back from the user editing the label for a bookmark
     [self _refreshBookmarks];
     [self.tableView reloadData];
+
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 #pragma mark Table view methods

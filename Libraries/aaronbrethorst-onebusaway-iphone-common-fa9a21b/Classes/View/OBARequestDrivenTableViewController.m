@@ -33,7 +33,6 @@
 {
     [super viewDidLoad];
     [self hideEmptySeparators];
-    [TestFlight passCheckpoint:@"OBARequestDrivenTableViewController"];
 }
 
 - (void)dealloc {
@@ -105,6 +104,8 @@
         [self handleDataChanged];
         [self.tableView reloadData];
     }
+
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {    

@@ -58,7 +58,6 @@
 {
     [super viewDidLoad];
     [self hideEmptySeparators];
-    [TestFlight passCheckpoint:@"OBAEditStopBookmarkViewController"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -74,6 +73,8 @@
         id<OBAModelServiceRequest> request = [service requestStopForId:stopId withDelegate:self withContext:index];
         [_requests addObject:request];
     }
+
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 #pragma mark OBAModelServiceRequest

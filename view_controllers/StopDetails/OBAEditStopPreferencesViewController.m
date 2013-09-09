@@ -54,6 +54,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void)viewDidLoad
@@ -62,7 +63,6 @@
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
     [self hideEmptySeparators];
-    [TestFlight passCheckpoint:@"OBAEditStopPreferencesViewController"];
 }
 
 - (void)didReceiveMemoryWarning {

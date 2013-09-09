@@ -216,8 +216,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         [UIApplication sharedApplication].statusBarFrame.size.height;
         self.mapLabel.frame = mapLabelFrame;
     }
-
-    [TestFlight passCheckpoint:@"OBASearchResultsMapViewController"];
 }
 
 - (void)onFilterClear {
@@ -236,6 +234,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     self.navigationItem.leftBarButtonItem.enabled = lm.locationServicesEnabled;
 
     [self refreshSearchToolbar];
+
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

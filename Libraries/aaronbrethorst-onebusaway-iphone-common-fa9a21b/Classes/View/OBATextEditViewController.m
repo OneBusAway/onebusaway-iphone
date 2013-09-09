@@ -54,7 +54,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification object:nil];
-    [TestFlight passCheckpoint:@"OBATextEditViewController"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -62,6 +61,7 @@
         [self.navigationController setToolbarHidden:YES animated:YES];
         [self.textView becomeFirstResponder];
     }
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void)viewDidUnload {

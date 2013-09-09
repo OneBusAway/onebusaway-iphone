@@ -72,7 +72,6 @@ typedef enum {
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
     [self hideEmptySeparators];
-    [TestFlight passCheckpoint:@"OBATripScheduleListViewController"];
 }
 
 - (void)dealloc {
@@ -92,6 +91,7 @@ typedef enum {
     else {
         [self handleTripDetails];
     }
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 #pragma mark OBAModelServiceDelegate
