@@ -546,7 +546,7 @@ static const double kNearbyStopRadius = 200;
     
     if( [arrivals count] == 0 ) {
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-        cell.textLabel.text = [NSString stringWithFormat:@"No arrivals in the next %@ minutes", _minutesAfter];
+        cell.textLabel.text = NSLocalizedString(@"No arrivals in the next 30 minutes",@"[arrivals count] == 0");
         cell.textLabel.textAlignment = UITextAlignmentCenter;
         cell.textLabel.font = [UIFont systemFontOfSize:18];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
