@@ -2184,7 +2184,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Brian Ferris";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: University Of Washington (THEWY9596Q)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2206,7 +2206,7 @@
 					MapKit,
 				);
 				PRODUCT_NAME = OneBusAway;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "26BEE153-C523-42B0-85C5-03EDA22D15D0";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8B3E1CF6-8EDF-4F37-8F12-E805C22EEB39";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 				VALIDATE_PRODUCT = YES;
@@ -2233,7 +2233,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Brian Ferris";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: University Of Washington (THEWY9596Q)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2254,7 +2254,7 @@
 					MapKit,
 				);
 				PRODUCT_NAME = OneBusAway;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "078D5A45-AF53-4D32-A394-4E2BA29D318F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8B3E1CF6-8EDF-4F37-8F12-E805C22EEB39";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 				VALIDATE_PRODUCT = YES;

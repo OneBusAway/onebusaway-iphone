@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>95F0B635-5A6E-49B9-A259-8FE8E6A1207D</string>
+	<string>7CA4D6CA-410E-4EAF-8B8A-6E120F9E9959</string>
 	<key>IDESourceControlProjectName</key>
 	<string>org.onebusaway.iphone</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>F87402AF-943B-4F9A-9FD0-6F9027BEE18D</key>
-		<string>https://github.com/ksslng/onebusaway-iphone.git</string>
+		<key>0083F78C-1FA4-46D1-88AC-9A7601C618E0</key>
+		<string>https://github.com/OneBusAway/onebusaway-iphone.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>org.onebusaway.iphone.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>F87402AF-943B-4F9A-9FD0-6F9027BEE18D</key>
+		<key>0083F78C-1FA4-46D1-88AC-9A7601C618E0</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/ksslng/onebusaway-iphone.git</string>
+	<string>https://github.com/OneBusAway/onebusaway-iphone.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>F87402AF-943B-4F9A-9FD0-6F9027BEE18D</string>
+	<string>0083F78C-1FA4-46D1-88AC-9A7601C618E0</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>F87402AF-943B-4F9A-9FD0-6F9027BEE18D</string>
+			<string>0083F78C-1FA4-46D1-88AC-9A7601C618E0</string>
 			<key>IDESourceControlWCCName</key>
 			<string>onebusaway-iphone</string>
 		</dict>
