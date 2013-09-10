@@ -183,7 +183,8 @@ typedef enum {
     if (indexPath.row == 0) {
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.backgroundColor = OBAGREENBACKGROUND;
+        cell.backgroundView = [[UIView alloc] initWithFrame:cell.frame];
+        cell.backgroundView.backgroundColor = OBAGREENBACKGROUND;
         return cell;
     }
     OBAAgencyWithCoverageV2 * awc = _agencies[indexPath.row-1];
