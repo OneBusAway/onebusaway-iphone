@@ -209,10 +209,11 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     // if app store version use token for org.onebusaway.iphone
     [TestFlight takeOff:@"28959455-6425-40fb-a08c-204cb2a80421"];
 #endif
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"API Region: %@",self.modelDao.region.regionName]];
 
     [self _migrateUserPreferences];
     [self _constructUI];
+
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"API Region: %@",self.modelDao.region.regionName]];
 
     return YES;
 }
