@@ -32,5 +32,4 @@ Runtime: iOS 5.1 or higher
 * Create [GitHub release](https://github.com/OneBusAway/onebusaway-iphone/releases) based on changelog
 * Use changelog as App Store release notes
 * Before uploading to App Store:
-  * Comment out `[TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];` from `OBAApplicationDelegate.m` 
-  * Rename `org.onebusaway.iphone-debug` to `org.onebusaway.iphone` in `Info.plist`
+  * Rename `org.onebusaway.iphone.dev` to `org.onebusaway.iphone` in `Info.plist`
