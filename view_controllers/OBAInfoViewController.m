@@ -41,8 +41,8 @@
     self.tableView.tableHeaderView = self.headerView;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 

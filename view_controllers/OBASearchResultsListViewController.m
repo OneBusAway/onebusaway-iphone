@@ -59,6 +59,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self reloadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 

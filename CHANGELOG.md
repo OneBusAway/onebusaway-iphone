@@ -12,10 +12,16 @@ Special thanks to Sebastian Kießling and the many testers for their work on thi
 * Cosmetic improvements
 * Improved search results at high zoom levels and when searching at locations not near your current location
 * Improved map status message logic
+* Improved list view when no stops present
 * Fixed bugs only exposed with location services disabled
 * Fixed trip problem reporting bugs
 * Fixed bug where zooming in on current location would force zoom out
 * Fixed bug where you couldn't select route after searching and receiving multiple route results
+
+##2.0.1
+
+* Fixes bug with connection error when location services are disabled 
+* Fixes bug with "Report a problem"
 
 ## 2.0
 

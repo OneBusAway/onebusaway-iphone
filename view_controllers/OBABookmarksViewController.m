@@ -57,7 +57,10 @@
     // We reload the table here in case we are coming back from the user editing the label for a bookmark
     [self _refreshBookmarks];
     [self.tableView reloadData];
+}
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 

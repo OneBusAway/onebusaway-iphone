@@ -83,6 +83,8 @@ const static int kMaxEntriesInMostRecentList = 10;
 - (void) setOBARegion:(OBARegionV2*)newRegion {
     _region = newRegion;
     [_preferencesDao writeOBARegion:newRegion];
+    NSLog(@"Set Region: %@",newRegion.regionName);
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"Set Region: %@",newRegion.regionName]];
 }
 
 

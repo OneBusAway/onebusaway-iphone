@@ -44,8 +44,8 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
     self.tableView.backgroundColor = [UIColor whiteColor];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 

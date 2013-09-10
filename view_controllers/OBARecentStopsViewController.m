@@ -45,7 +45,10 @@
     OBAModelDAO * modelDao = _appDelegate.modelDao;    
     _mostRecentStops = modelDao.mostRecentStops;
     [self.tableView reloadData];
+}
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 

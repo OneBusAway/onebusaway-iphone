@@ -238,12 +238,12 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     self.navigationItem.leftBarButtonItem.enabled = lm.locationServicesEnabled;
 
     [self refreshSearchToolbar];
-
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
     
