@@ -213,9 +213,17 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     [self _migrateUserPreferences];
     [self _constructUI];
 
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"API Region: %@",self.modelDao.region.regionName]];
+    // record api region to testflight, but first wait 3 seconds for testflight session to finish starting
+    [NSTimer scheduledTimerWithTimeInterval: 3.0
+        target: self
+        selector:@selector(recordCheckpoint:)
+        userInfo: nil repeats:NO];
 
     return YES;
+}
+
+- (void)recordCheckpoint:(NSTimer *)timer {
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"API Region: %@",self.modelDao.region.regionName]];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
