@@ -222,7 +222,7 @@ static const NSString * kShapeContext = @"ShapeContext";
 
 - (void) handleTripDetails {
     
-    [_progressView setMessage:NSLocalizedString(@"Trip Schedule",@"message") inProgress:NO progress:0];
+    [_progressView setMessage:NSLocalizedString(@"Route Map",@"message") inProgress:NO progress:0];
 
     OBATripScheduleV2 * sched = _tripDetails.schedule;
     NSArray * stopTimes = sched.stopTimes;
