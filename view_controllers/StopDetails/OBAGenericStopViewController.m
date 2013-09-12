@@ -343,11 +343,12 @@ static const double kNearbyStopRadius = 200;
         case OBAStopSectionTypeArrivals: {
             NSInteger arrivalRows = self.showFilteredArrivals ? self.filteredArrivals.count : self.allArrivals.count;
             if (arrivalRows > 0) {
-                return arrivalRows;
+                return arrivalRows + 1;
             }
             else {
-                // for a 'no arrivals in the next 30 minutes' message
-                return 1;
+                // for a 'no arrivals in the next 35 minutes' message
+                // for 'load next arrivals' message
+                return 2;
             }
         }
         case OBAStopSectionTypeFilter: {
@@ -543,17 +544,23 @@ static const double kNearbyStopRadius = 200;
 
 - (UITableViewCell*)tableView:(UITableView*)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath*)indexPath {
     NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
-    
-    if( [arrivals count] == 0 ) {
+
+    if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-        cell.textLabel.text = NSLocalizedString(@"No arrivals in the next 30 minutes",@"[arrivals count] == 0");
+        cell.textLabel.text = NSLocalizedString(@"Load more arrivals",@"load more arrivals");
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.font = [UIFont systemFontOfSize:18];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        return cell;
+    } else if(arrivals.count == 0 ) {
+        UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+        cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"No arrivals in the next %i minutes",@"[arrivals count] == 0"), self.minutesAfter];
         cell.textLabel.textAlignment = UITextAlignmentCenter;
         cell.textLabel.font = [UIFont systemFontOfSize:18];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
         return cell;
-    }
-    else {
+    } else {
 
         OBAArrivalAndDepartureV2 * pa = arrivals[indexPath.row];
         OBAArrivalEntryTableViewCell * cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
@@ -643,7 +650,11 @@ static const double kNearbyStopRadius = 200;
 
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
-    if ( 0 <= indexPath.row && indexPath.row < [arrivals count] ) {
+    if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        self.minutesAfter += 30;
+        [self refresh];
+    } else if ( 0 <= indexPath.row && indexPath.row < arrivals.count ) {
         OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
         OBAArrivalAndDepartureViewController * vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationDelegate:_appDelegate arrivalAndDeparture:arrivalAndDeparture];
         [self.navigationController pushViewController:vc animated:YES];

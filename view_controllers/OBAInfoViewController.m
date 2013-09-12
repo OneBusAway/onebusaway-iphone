@@ -39,6 +39,7 @@
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableHeaderView = self.headerView;
+    self.tableView.frame = self.view.bounds;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
