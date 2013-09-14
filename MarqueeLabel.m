@@ -271,22 +271,7 @@ typedef void (^animationCompletionBlock)(void);
     }
     
     // Calculate expected size
-    CGSize expectedLabelSize = CGSizeZero;
-    CGSize maximumLabelSize = CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX);
-    // Check for attributed string attributes
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0) {
-        // Calculate based on attributed text
-        expectedLabelSize = [self.subLabel.attributedText boundingRectWithSize:maximumLabelSize
-                                                                       options:0
-                                                                       context:nil].size;
-    } else {
-        // Calculate on base string
-        expectedLabelSize = [self.subLabel.text sizeWithFont:self.font
-                                           constrainedToSize:maximumLabelSize
-                                               lineBreakMode:NSLineBreakByClipping];
-    }
-    
-    expectedLabelSize.height = self.bounds.size.height;
+    CGSize expectedLabelSize = [self subLabelSize];
     
     // Move to origin
     [self returnLabelToOriginImmediately];
@@ -472,11 +457,25 @@ typedef void (^animationCompletionBlock)(void);
 }
 
 - (CGSize)subLabelSize {
-    // Calculate label size
-    CGSize maximumLabelSize = CGSizeMake(CGFLOAT_MAX, self.frame.size.height);
-    CGSize expectedLabelSize = [(NSString *)self.subLabel.text sizeWithFont:self.font
-                                                          constrainedToSize:maximumLabelSize
-                                                              lineBreakMode:NSLineBreakByClipping];
+    // Calculate expected size
+    CGSize expectedLabelSize = CGSizeZero;
+    CGSize maximumLabelSize = CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX);
+    // Check for attributed string attributes
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0) {
+        // Calculate based on attributed text
+        expectedLabelSize = [self.subLabel.attributedText boundingRectWithSize:maximumLabelSize
+                                                                       options:0
+                                                                       context:nil].size;
+    } else {
+        // Calculate on base string
+        expectedLabelSize = [self.subLabel.text sizeWithFont:self.font
+                                           constrainedToSize:maximumLabelSize
+                                               lineBreakMode:NSLineBreakByClipping];
+    }
+    
+    expectedLabelSize.width = ceilf(expectedLabelSize.width);
+    expectedLabelSize.height = self.bounds.size.height;
+    
     return expectedLabelSize;
 }
 
@@ -640,9 +639,8 @@ typedef void (^animationCompletionBlock)(void);
         sl.frame = CGRectOffset(self.homeLabelFrame, offset, 0.0f);
         offset += (self.marqueeType == MLContinuousReverse ? -1 : 1) * (self.homeLabelFrame.size.width + self.fadeLength + self.continuousMarqueeExtraBuffer);
     }
-    if (fabs(self.subLabel.frame.origin.x-self.homeLabelFrame.origin.x)
-            < 1000 * FLT_EPSILON * fabs(self.subLabel.frame.origin.x+self.homeLabelFrame.origin.x)
-            || fabs(self.subLabel.frame.origin.x-self.homeLabelFrame.origin.x) < FLT_MIN) {
+    
+    if (self.subLabel.frame.origin.x == self.homeLabelFrame.origin.x) {
         self.awayFromHome = NO;
     } else {
         [self returnLabelToOriginImmediately];
