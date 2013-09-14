@@ -238,6 +238,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     self.navigationItem.leftBarButtonItem.enabled = lm.locationServicesEnabled;
 
     [self refreshSearchToolbar];
+    if (self.searchController.unfilteredSearch) {
+        [self refreshStopsInRegion];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
