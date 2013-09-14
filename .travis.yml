@@ -20,8 +20,7 @@ before_install:
     #install xcode
     - curl -o x5gm.dmg https://copy.com/8yyq7U7Bl0sVEIRe/x5gm.dmg
     - hdiutil attach x5gm.dmg
-    - sudo cp -R "/Volumes/Xcode/Xcode.app" /Applications
-    - rm x5gm.dmg
+    - ln -s /Volumes/Xcode/Xcode.app /Applications/Xcode.app
     
     #agree to xcode license
     - chmod -R +x ./scripts
