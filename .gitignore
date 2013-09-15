@@ -3,5 +3,3 @@ build
 ._build
 DebugSymbolBackups
 Logs
-
-*.xccheckout
