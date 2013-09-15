@@ -205,9 +205,13 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
         [TestFlight setDeviceIdentifier:uniqueIdentifierString];
     }
     [TestFlight takeOff:@"1329bac8-596e-4c80-a180-31aad3eb676a"];
+    NSLog(@"Debug app");
+    //ULog(@"Debug app");
 #else
     // if app store version use token for org.onebusaway.iphone
     [TestFlight takeOff:@"28959455-6425-40fb-a08c-204cb2a80421"];
+    NSLog(@"Production app");
+    //ULog(@"Production app");
 #endif
 
     [self _migrateUserPreferences];
