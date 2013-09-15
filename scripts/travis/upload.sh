@@ -100,6 +100,7 @@ echo "\n********************"
 echo "*    Copy Files    *"
 echo "********************"
 #echo "cp -r \"$ARCHIVE_DIR\" ."
+rm -R $APPNAME.app
 cp -R "$ARCHIVE_DIR" .
 
 #so it will work on jailbroken devices

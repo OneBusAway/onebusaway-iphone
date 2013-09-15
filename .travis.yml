@@ -18,11 +18,9 @@ before_install:
     - sudo rm -R /Applications/Xcode.app
     
     #install xcode
-    - curl -o xc5p6.dmg https://copy.com/Im9N8o6H2ZJd1lyB/xc5p6.dmg
-    - hdiutil attach xc5p6.dmg
-    - sudo cp -R "/Volumes/Xcode/Xcode5-DP6.app" /Applications
-    - sudo mv "/Applications/Xcode5-DP6.app" "/Applications/Xcode.app"
-    - rm xc5p6.dmg
+    - curl -o x5gm.dmg https://copy.com/8yyq7U7Bl0sVEIRe/x5gm.dmg
+    - hdiutil attach x5gm.dmg
+    - ln -s /Volumes/Xcode/Xcode.app /Applications/Xcode.app
     
     #agree to xcode license
     - chmod -R +x ./scripts
