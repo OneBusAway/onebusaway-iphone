@@ -41,6 +41,7 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
         _disabled = NO;
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
+        _locationManager.purpose = @"Your location will be used to show nearby stops and routes.";
         _delegates = [[NSMutableArray alloc] init];
         
     }
