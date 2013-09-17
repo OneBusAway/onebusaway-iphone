@@ -1656,7 +1656,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "OneBusAway" */;
 			buildPhases = (
-				96EF6E5917E8C57100786226 /* Set build version to current git commit short SHA */,
+				96EF6E5917E8C57100786226 /* Set build version to current git commit short SHA with dirty inditicator (+) */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
@@ -1884,19 +1884,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		96EF6E5917E8C57100786226 /* Set build version to current git commit short SHA */ = {
+		96EF6E5917E8C57100786226 /* Set build version to current git commit short SHA with dirty inditicator (+) */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Set build version to current git commit short SHA";
+			name = "Set build version to current git commit short SHA with dirty inditicator (+)";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n# Get current git commit short SHA\ngitCommitSHA=$(git rev-parse --short HEAD)\n# Set bundle build version to current git commit short SHA\n/usr/libexec/PlistBuddy -c \"Add :CFBundleVersion string $gitCommitSHA\" \"$INFOPLIST_FILE\"";
+			shellScript = "#!/bin/bash\n# Get current git commit short SHA\ngitCommitSHA=$(git rev-parse --short HEAD)\n# Check if the git working copy is dirty\nif ! git diff-index --quiet HEAD --\nthen\n# Append a plus character to the git commit to indicate dirty changes in build\ngitCommitSHA+=\"+\"\nfi\n# Set bundle build version to current git commit short SHA with dirty indicator\n/usr/libexec/PlistBuddy -c \"Add :CFBundleVersion string $gitCommitSHA\" \"$INFOPLIST_FILE\"";
 			showEnvVarsInLog = 0;
 		};
 		96EF6E5A17E8CD9500786226 /* Reset build version for clean git commits */ = {
