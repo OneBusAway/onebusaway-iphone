@@ -1662,7 +1662,7 @@
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				D6B74DF90F6CA5D80067D68F /* CopyFiles */,
-				96EF6E5A17E8CD9500786226 /* Reset build version for clean git commits */,
+				96EF6E5A17E8CD9500786226 /* Reset build version and bundle identifier for clean git commits */,
 			);
 			buildRules = (
 			);
@@ -1897,22 +1897,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n# Get current git commit short SHA\ngitCommitSHA=$(git rev-parse --short HEAD)\n# Check if the git working copy is dirty\nif test -n \"$(git status --porcelain)\"\nthen\n# Append a plus character to the git commit short SHA to indicate dirty changes in build\ngitCommitSHA+=\"+\"\nfi\n# Set bundle build version to current git commit short SHA with dirty indicator\n/usr/libexec/PlistBuddy -c \"Add :CFBundleVersion string $gitCommitSHA\" \"$INFOPLIST_FILE\"";
+			shellScript = "#!/bin/bash\nsh ${PROJECT_DIR}/scripts/addBuildVersion.sh";
 			showEnvVarsInLog = 0;
 		};
-		96EF6E5A17E8CD9500786226 /* Reset build version for clean git commits */ = {
+		96EF6E5A17E8CD9500786226 /* Reset build version and bundle identifier for clean git commits */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Reset build version for clean git commits";
+			name = "Reset build version and bundle identifier for clean git commits";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n# Clear bundle version\n/usr/libexec/PlistBuddy -c \"Delete :CFBundleVersion\" \"$INFOPLIST_FILE\"\n# Reset bundle identifier to org.onebusaway.iphone.dev\n/usr/libexec/PlistBuddy -c \"Set :CFBundleIdentifier org.onebusaway.iphone.dev\" \"$INFOPLIST_FILE\"";
+			shellScript = "#!/bin/bash\nsh ${PROJECT_DIR}/scripts/resetForCleanGitCommits.sh";
 			showEnvVarsInLog = 0;
 		};
 		96EF6E5C17E8F3C600786226 /* Set bundle identifier for AppStoreDistribution configuration */ = {
@@ -1927,7 +1927,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n# Check if current build configuration is AppStoreDistribution\nif [ \"$CONFIGURATION\" == \"AppStoreDistribution\" ]\nthen\n# Set bundle identifier to org.onebusaway.iphone for App Store release\n/usr/libexec/PlistBuddy -c \"Set :CFBundleIdentifier org.onebusaway.iphone\" \"$INFOPLIST_FILE\"\nfi";
+			shellScript = "#!/bin/bash\nsh ${PROJECT_DIR}/scripts/setBundleIdentifierForAppStore.sh";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
