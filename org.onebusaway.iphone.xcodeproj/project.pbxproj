@@ -1897,7 +1897,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n# Get current git commit short SHA\ngitCommitSHA=$(git rev-parse --short HEAD)\n# Check if the git working copy is dirty\nif ! git diff-index --quiet HEAD --\nthen\n# Append a plus character to the git commit short SHA to indicate dirty changes in build\ngitCommitSHA+=\"+\"\nfi\n# Set bundle build version to current git commit short SHA with dirty indicator\n/usr/libexec/PlistBuddy -c \"Add :CFBundleVersion string $gitCommitSHA\" \"$INFOPLIST_FILE\"";
+			shellScript = "#!/bin/bash\n# Get current git commit short SHA\ngitCommitSHA=$(git rev-parse --short HEAD)\n# Check if the git working copy is dirty\nif test -n \"$(git status --porcelain)\"\nthen\n# Append a plus character to the git commit short SHA to indicate dirty changes in build\ngitCommitSHA+=\"+\"\nfi\n# Set bundle build version to current git commit short SHA with dirty indicator\n/usr/libexec/PlistBuddy -c \"Add :CFBundleVersion string $gitCommitSHA\" \"$INFOPLIST_FILE\"";
 			showEnvVarsInLog = 0;
 		};
 		96EF6E5A17E8CD9500786226 /* Reset build version for clean git commits */ = {
