@@ -11,23 +11,9 @@ before_install:
     # install all software updates
     #- sudo softwareupdate -iva
     
-    #todo: move xcode install to seperate file
-    #todo: check if downloaded file, else retry
-    
-    #uninstall xcode 4
-    - sudo rm -R /Applications/Xcode.app
-    
-    #install xcode
-    - curl -o x5gm.dmg https://copy.com/8yyq7U7Bl0sVEIRe/x5gm.dmg
-    - hdiutil attach x5gm.dmg
-    - ln -s /Volumes/Xcode/Xcode.app /Applications/Xcode.app
-    
-    #agree to xcode license
+    #install xcode 5
     - chmod -R +x ./scripts
-    - sudo -E scripts/travis/accept_license.sh
-
-    #print ver
-    - xcodebuild -version -sdk
+    - ./scripts/travis/xcode5.sh
 
     #install xctool
     - brew update
