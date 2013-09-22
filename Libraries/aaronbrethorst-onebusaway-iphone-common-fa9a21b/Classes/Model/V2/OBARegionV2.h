@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSString * obaVersionInfo;
 @property (nonatomic, strong) NSString * language;
 @property (nonatomic, strong) NSArray * bounds;
+@property (nonatomic, strong) NSString * contactPhone;
 @property (nonatomic, strong) NSString * contactEmail;
 @property (nonatomic, strong) NSString * twitterUrl;
 @property (nonatomic, strong) NSString * obaBaseUrl;

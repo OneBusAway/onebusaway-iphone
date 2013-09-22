@@ -601,6 +601,7 @@ static NSString * const kReferences = @"references";
     //[self addCallMethodRule:@selector(addBound:) forPrefix:[self extendPrefix:prefix withValue:@"bounds/[]"]];
 
     [self addSetPropertyRule:@"supportsObaDiscoveryApis" forPrefix:[self extendPrefix:prefix withValue:@"supportsObaDiscoveryApis"]];
+    [self addSetPropertyRule:@"contactPhone" forPrefix:[self extendPrefix:prefix withValue:@"contactPhone"]];
     [self addSetPropertyRule:@"contactEmail" forPrefix:[self extendPrefix:prefix withValue:@"contactEmail"]];
     [self addSetPropertyRule:@"twitterUrl" forPrefix:[self extendPrefix:prefix withValue:@"twitterUrl"]];
     [self addSetPropertyRule:@"facebookUrl" forPrefix:[self extendPrefix:prefix withValue:@"facebookUrl"]];
