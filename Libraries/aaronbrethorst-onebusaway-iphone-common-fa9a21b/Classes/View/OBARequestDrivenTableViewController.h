@@ -12,6 +12,7 @@
     NSInteger _refreshInterval;    
     
     NSTimer * _timer;
+    NSTimer * _timerMinutesUpdater;
 }
 
 - (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate;
