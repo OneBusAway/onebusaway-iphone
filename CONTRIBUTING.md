@@ -56,3 +56,7 @@ We will accept pull requests if:
 * We think other users will benefit from the same functionality
 * If it makes changes to the UI the pull request should include screenshots
 * It is a single commit (please use `git rebase -i` to squash commits)
+
+## License
+
+By contributing code to this project via pull requests, patches, or any other process, you are agreeing to license your contributions under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
