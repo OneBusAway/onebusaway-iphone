@@ -96,8 +96,10 @@
             break;
         }
         case kVersionRow: {
-            cell.textLabel.text = NSLocalizedString(@"Application Version", @"settings version");
-            cell.detailTextLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+            cell.textLabel.text = NSLocalizedString(@"App Version", @"settings version");
+            NSString *appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+            NSString *appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ (%@)", appVersionString, appBuildString];
             cell.detailTextLabel.textColor = [UIColor blackColor];
             cell.textLabel.font = [UIFont systemFontOfSize:18];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
