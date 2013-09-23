@@ -69,8 +69,8 @@
 }
 
 - (NSString*) getMinutesLabelForMinutes:(int)minutes {
-    if(abs(minutes) <=1)
-        return NSLocalizedString(@"NOW",@"abs(minutes) <=1");
+    if(minutes == 0)
+        return NSLocalizedString(@"NOW",@"minutes == 0");
     else
         return [NSString stringWithFormat:@"%d",minutes];
 }
