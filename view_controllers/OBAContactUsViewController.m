@@ -17,10 +17,16 @@
 #import "OBAContactUsViewController.h"
 #import "UITableViewController+oba_Additions.h"
 
+#define kPhoneRow 0
+#define kEmailRow 1
+#define kTwitterRow 2
+#define kFacebookRow 3
+
+#define kRowCount 4 //including Facebook which is optional
+
+static NSString *kOBADefaultContactPhone = @"1-000-000-0000";
 static NSString *kOBADefaultContactEmail = @"contact@onebusaway.org";
 static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
-
-
 
 @implementation OBAContactUsViewController
 
@@ -55,9 +61,11 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     OBARegionV2 *region = _appDelegate.modelDao.region;
     if (region.facebookUrl && ![region.facebookUrl isEqualToString:@""]) {
-        return 3;
+        return kRowCount;
     }
-    return 2;
+    
+    //if no facebook URL 1 less row
+    return (kRowCount-1);
 }
 
 
@@ -70,13 +78,16 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     
     switch( indexPath.row) {
-        case 0:
+        case kPhoneRow:
+            cell.textLabel.text = NSLocalizedString(@"Phone", @"Phone");
+            break;
+        case kEmailRow:
             cell.textLabel.text = NSLocalizedString(@"Email", @"Email title");
             break;
-        case 1:
+        case kTwitterRow:
             cell.textLabel.text = NSLocalizedString(@"Twitter", @"Twitter title");
             break;
-        case 2:
+        case kFacebookRow:
             cell.textLabel.text = NSLocalizedString(@"Facebook", @"Facebook title");
             break;
     }
@@ -88,7 +99,18 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     OBARegionV2 *region = _appDelegate.modelDao.region;
     switch( indexPath.row) {
-        case 0:
+        case kPhoneRow:
+            {
+                [TestFlight passCheckpoint:@"Clicked Phone Link"];
+                NSString *contactPhone = kOBADefaultContactPhone;
+                if (region.contactPhone) {
+                    contactPhone = region.contactPhone;
+                }
+                contactPhone = [NSString stringWithFormat:@"telprompt://%@",contactPhone];
+                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: contactPhone]];
+            }
+            break;
+        case kEmailRow:
             {
                 [TestFlight passCheckpoint:@"Clicked Email Link"];
                 NSString *contactEmail = kOBADefaultContactEmail;
@@ -99,7 +121,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: contactEmail]];
             }
             break;
-        case 1:
+        case kTwitterRow:
             {
                 [TestFlight passCheckpoint:@"Clicked Twitter Link"];
                 NSString *twitterUrl = kOBADefaultTwitterURL;
@@ -118,7 +140,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                 }
             }
             break;
-        case 2:
+        case kFacebookRow:
             if (region.facebookUrl) {
                 [TestFlight passCheckpoint:@"Clicked Facebook Link"];
                 NSString *facebookUrl = region.facebookUrl;
