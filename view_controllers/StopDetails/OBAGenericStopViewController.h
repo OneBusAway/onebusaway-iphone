@@ -43,6 +43,7 @@ typedef enum {
 @property BOOL showServiceAlerts;
 @property BOOL showActions;
 @property NSUInteger minutesBefore;
+@property NSUInteger minutesAfter;
 @property(strong) OBAArrivalEntryTableViewCellFactory * arrivalCellFactory;
 @property(strong) NSMutableArray *allArrivals;
 @property(strong) NSMutableArray *filteredArrivals;
@@ -51,4 +52,5 @@ typedef enum {
 - (id)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate;
 - (id)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate stopId:(NSString*)stopId;
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section;
+- (void)refresh;
 @end
