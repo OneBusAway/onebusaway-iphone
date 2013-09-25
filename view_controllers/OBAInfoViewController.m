@@ -12,13 +12,14 @@
 #import "OBASettingsViewController.h"
 #import "OBACreditsViewController.h"
 
-#define kContactUsRow 4
 #define kSettingsRow 0
 #define kAgenciesRow 1
-#define kCreditsRow 5
-#define kPrivacy 6
-#define kIssueTracker 3
 #define kFeatureRequests 2
+#define kContactUsRow 3
+#define kCreditsRow 4
+#define kPrivacy 5
+
+#define kRowCount 6
 
 @implementation OBAInfoViewController
 
@@ -50,7 +51,7 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 7;
+    return kRowCount;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -82,11 +83,7 @@
             break;
         }
         case kFeatureRequests: {
-            cell.textLabel.text = NSLocalizedString(@"Suggest/Vote on New Features", @"info row feture requests");
-            break;
-        }
-        case kIssueTracker: {
-            cell.textLabel.text = NSLocalizedString(@"Report Issues/Bugs", @"info row issue tracker");
+            cell.textLabel.text = NSLocalizedString(@"Feature Requests", @"info row feture requests");
             break;
         }
         case kPrivacy: {
@@ -126,12 +123,6 @@
         case kFeatureRequests: {
             [TestFlight passCheckpoint:@"Clicked Feature Request Link"];
             NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.ideascale.com/a/ideafactory.do?id=8715&mode=top&discussionFilter=byids&discussionID=46166",@"didSelectRowAtIndexPath case 1")];
-            [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
-            break;
-        }
-        case kIssueTracker: {
-            [TestFlight passCheckpoint:@"Clicked Issue Tracker Link"];
-            NSString *url = [NSString stringWithString: NSLocalizedString(@"https://github.com/OneBusAway/onebusaway-iphone/issues",@"didSelectRowAtIndexPath case 2")];
             [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             break;
         }
