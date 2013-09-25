@@ -17,7 +17,7 @@
     self.showActions = NO;
     self.arrivalCellFactory.showServiceAlerts = NO;
     self.showServiceAlerts = NO;
-    self.minutesBefore = 20;
+    self.minutesBefore = 30;
     
     self.tripDetailsHandler = [[OBATripDetailsHandler alloc] init];
 }
@@ -33,7 +33,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray *arrivals = self.showFilteredArrivals ? self.filteredArrivals : self.allArrivals;
-    if (arrivals.count > 0) {
+    if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        self.minutesAfter += 30;
+        [self refresh];
+    } else if (arrivals.count > 0) {
         OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
         
         if (arrivalAndDeparture) {

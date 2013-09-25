@@ -41,7 +41,6 @@ static const double kNearbyStopRadius = 200;
 @interface OBAGenericStopViewController ()
 @property(strong,readwrite) OBAApplicationDelegate * _appDelegate;
 @property(strong,readwrite) NSString * stopId;
-@property NSUInteger minutesAfter;
 
 @property(strong) id<OBAModelServiceRequest> request;
 @property(strong) NSTimer *timer;
@@ -52,12 +51,11 @@ static const double kNearbyStopRadius = 200;
 @property(strong) OBAServiceAlertsModel * serviceAlerts;
 @end
 
-@interface OBAGenericStopViewController (Private)
+@interface OBAGenericStopViewController ()
 
 // Override point for extension classes
 - (void)customSetup;
 
-- (void)refresh;
 - (void)clearPendingRequest;
 - (void)didBeginRefresh;
 - (void)didFinishRefresh;
@@ -468,11 +466,6 @@ static const double kNearbyStopRadius = 200;
     return 44;
 }
 
-@end
-
-
-@implementation OBAGenericStopViewController (Private)
-
 - (void) customSetup {
     
 }
@@ -497,10 +490,30 @@ static const double kNearbyStopRadius = 200;
 
 - (void) didBeginRefresh {
     self.navigationItem.rightBarButtonItem.enabled = NO;
+    NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
+    UITableViewCell *cell;
+    if (arrivals.count == 0) {
+        cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    } else {
+        cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:arrivals.count inSection:0]];
+    }
+    cell.userInteractionEnabled = NO;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.textLabel.textColor = [UIColor lightGrayColor];
 }
 
 - (void) didFinishRefresh {
     self.navigationItem.rightBarButtonItem.enabled = YES;
+    NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
+    UITableViewCell *cell;
+    if (arrivals.count == 0) {
+        cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    } else {
+        cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:arrivals.count inSection:0]];
+    }
+    cell.userInteractionEnabled = YES;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    cell.textLabel.textColor = [UIColor blackColor];
 }
 
 - (NSUInteger) sectionIndexForSectionType:(OBAStopSectionType)section {
