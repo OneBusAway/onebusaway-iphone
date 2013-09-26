@@ -15,6 +15,14 @@
 
     #import "TestFlight.h"
 	#define NSLog(__FORMAT__, ...) TFLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
+// useful UI alert for debugging, idea from http://stackoverflow.com/a/7017711
+#ifdef DEBUG
+    #define ULog(fmt, ...)  { UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%s\n [Line %d] ", __PRETTY_FUNCTION__, __LINE__] message:[NSString stringWithFormat:fmt, ##__VA_ARGS__]  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil]; [alert show]; }
+#else
+    #define ULog(...)
+#endif
+
 #endif
 
 #define LOG NO

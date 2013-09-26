@@ -11,8 +11,13 @@
 #import "OBARegionListViewController.h"
 #import "UITableViewController+oba_Additions.h"
 
-#define kRegionsRow 0
-#define kVersionRow 1
+#define kRegionsSection 0
+#define kVersionSection 1
+
+#define kVersionRow 0
+#ifdef DEBUG
+#    define kTypeRow 1
+#endif
 
 @interface OBASettingsViewController ()
 @property (nonatomic) OBAApplicationDelegate *appDelegate;
@@ -61,9 +66,9 @@
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     switch (section) {
-        case kRegionsRow:
+        case kRegionsSection:
             return NSLocalizedString(@"Region", @"settings region title");
-        case kVersionRow:
+        case kVersionSection:
             return @"";
         default:
             return @"";
@@ -72,7 +77,15 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
+#ifdef DEBUG
+    if (section == kRegionsSection){ 
+        return 1;
+    }else{
+        return 2;
+    }
+#else
     return 1;
+#endif    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -85,7 +98,7 @@
     }
     
     switch (indexPath.section) {
-        case kRegionsRow: {
+        case kRegionsSection: {
             if ([self.appDelegate.modelDao.readCustomApiUrl isEqualToString:@""]) {
                 cell.textLabel.text = self.appDelegate.modelDao.region.regionName;
             } else {
@@ -95,15 +108,29 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             break;
         }
-        case kVersionRow: {
-            cell.textLabel.text = NSLocalizedString(@"App Version", @"settings version");
-            NSString *appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-            NSString *appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ (%@)", appVersionString, appBuildString];
-            cell.detailTextLabel.textColor = [UIColor blackColor];
-            cell.textLabel.font = [UIFont systemFontOfSize:18];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            break;
+        case kVersionSection: {
+            switch (indexPath.row) {
+                case kVersionRow: {
+                    cell.textLabel.text = NSLocalizedString(@"App Version", @"settings version");
+                    NSString *appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+                    NSString *appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ (%@)", appVersionString, appBuildString];
+                    cell.detailTextLabel.textColor = [UIColor blackColor];
+                    cell.textLabel.font = [UIFont systemFontOfSize:18];
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    break;
+                }
+#ifdef DEBUG
+                case kTypeRow: {
+                    cell.textLabel.text = NSLocalizedString(@"Debug Version", @"Debug Version");
+                    cell.textLabel.font = [UIFont systemFontOfSize:18];
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    break;
+                }
+#endif
+                default:
+                    break;
+            }
         }
         default:
             break;
@@ -123,7 +150,7 @@
     UIViewController *pushMe = nil;
 
     switch (indexPath.section) {
-        case kRegionsRow: {
+        case kRegionsSection: {
             pushMe = [[OBARegionListViewController alloc] initWithApplicationDelegate:self.appDelegate];
             break;
         }
@@ -138,9 +165,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     switch (section) {
-        case kRegionsRow:
+        case kRegionsSection:
             return 40;
-        case kVersionRow:
+        case kVersionSection:
         default:
             return 30;
     }
@@ -153,10 +180,10 @@
     title.font = [UIFont systemFontOfSize:18];
     title.backgroundColor = [UIColor clearColor];;
     switch (section) {
-        case kRegionsRow:
+        case kRegionsSection:
             title.text = NSLocalizedString(@"Region", @"settings region title");
             break;
-        case kVersionRow:
+        case kVersionSection:
         default:
             break;
     }
