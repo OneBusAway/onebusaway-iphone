@@ -28,6 +28,9 @@ Runtime: iOS 5.1 or higher
 ### Releasing
 
 * Update the [CHANGELOG](CHANGELOG.md) to reflect the changes in this release
+* Update the [version number](https://github.com/OneBusAway/onebusaway-iphone/blob/develop/Info.plist#L20)
 * Merge in to `master` branch
+* Create AppStore build
+* Upload build to [TestFlight](http://testflightapp.com) and dSYM to crashes section for build
+* Upload to AppStore, use changelog as release notes
 * Create [GitHub release](https://github.com/OneBusAway/onebusaway-iphone/releases) based on changelog
-* Use changelog as App Store release notes
