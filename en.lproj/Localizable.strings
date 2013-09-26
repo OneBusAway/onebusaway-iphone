@@ -388,7 +388,7 @@
 "The" = "The";
 
 /* view.message */
-"There was a problem with your Internet connection.\n\nPlease check your network connection or contact us if you think the problem is on our end." = "There was a problem with your Internet connection.\n\nPlease check your network connection.";
+"There was a problem with your Internet connection.\n\nPlease check your network connection or contact us if you think the problem is on our end." = "There was a problem with your Internet connection.\n\nPlease check your network connection or contact us if you think the problem is on our end.";
 
 /* result.limitExceeded */
 "Too many stops, zoom in for more detail" = "Too many stops, zoom in for more detail";
