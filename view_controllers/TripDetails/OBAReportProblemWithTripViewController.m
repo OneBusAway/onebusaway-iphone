@@ -432,7 +432,7 @@ typedef enum {
 - (void)showErrorAlert {
     UIAlertView * view = [[UIAlertView alloc] init];
     view.title = NSLocalizedString(@"Error Submitting",@"view.title");
-    view.message = NSLocalizedString(@"There occured an error while reporting the problem. Please contact us directly.",@"view.message");
+    view.message = NSLocalizedString(@"An error occurred while reporting the problem. Please contact us directly.",@"view.message");
     view.delegate = self;
     [view addButtonWithTitle:NSLocalizedString(@"Contact Us",@"view addButtonWithTitle")];
     [view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
