@@ -48,6 +48,24 @@
     [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
+- (void) openContactUs {
+    UIViewController *pushMe = nil;
+    pushMe = [[OBAContactUsViewController alloc] init];
+    [self.navigationController pushViewController:pushMe animated:YES];
+}
+
+- (void) openSettings {
+    UIViewController *pushMe = nil;
+    pushMe = [[OBASettingsViewController alloc] init];
+    [self.navigationController pushViewController:pushMe animated:YES];
+}
+
+- (void) openAgencies {
+    UIViewController *pushMe = nil;
+    pushMe = [[OBAAgenciesListViewController alloc] init];
+    [self.navigationController pushViewController:pushMe animated:YES];
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -105,19 +123,20 @@
 
     switch (indexPath.row) {
         case kContactUsRow: {
-            pushMe = [[OBAContactUsViewController alloc] init];
+            [self openContactUs];
             break;
         }
         case kSettingsRow: {
-            pushMe = [[OBASettingsViewController alloc] init];
+            [self openSettings];
             break;
         }
         case kAgenciesRow: {
-            pushMe = [[OBAAgenciesListViewController alloc] init];
+            [self openAgencies];
             break;
         }
         case kCreditsRow: {
             pushMe = [[OBACreditsViewController alloc] init];
+            [self.navigationController pushViewController:pushMe animated:YES];
             break;
         }
         case kFeatureRequests: {
@@ -135,8 +154,6 @@
         default:
             break;
     }
-
-    [self.navigationController pushViewController:pushMe animated:YES];
 }
 
 @end

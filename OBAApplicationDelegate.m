@@ -274,15 +274,15 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     }
     else if (OBANavigationTargetTypeContactUs == navigationTarget.target) {
         [self.tabBarController setSelectedViewController:self.infoNavigationController];
-        [self.infoViewController tableView:self.infoViewController.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        [self.infoViewController openContactUs];
     }
     else if (OBANavigationTargetTypeSettings == navigationTarget.target) {
         [self.tabBarController setSelectedViewController:self.infoNavigationController];
-        [self.infoViewController tableView:self.infoViewController.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+        [self.infoViewController openSettings];
     }
     else if (OBANavigationTargetTypeAgencies == navigationTarget.target) {
         [self.tabBarController setSelectedViewController:self.infoNavigationController];
-        [self.infoViewController tableView:self.infoViewController.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+        [self.infoViewController openAgencies];
     }
     else if (OBANavigationTargetTypeBookmarks == navigationTarget.target) {
         [self.tabBarController setSelectedViewController:self.bookmarksNavigationController];
