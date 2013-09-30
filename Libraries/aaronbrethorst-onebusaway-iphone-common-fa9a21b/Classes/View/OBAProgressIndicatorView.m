@@ -16,6 +16,12 @@
 
 #import "OBAProgressIndicatorView.h"
 
+@interface OBAProgressIndicatorView ()
+@property (strong,readwrite) NSString * message;
+@property (readwrite) BOOL inProgress;
+@property (readwrite) float progress;
+@end
+
 @interface OBAProgressIndicatorView (Private)
 
 - (void) setup;
@@ -25,6 +31,10 @@
 
 
 @implementation OBAProgressIndicatorView
+
+@synthesize message = _message;
+@synthesize inProgress = _inProgress;
+@synthesize progress = _progress;
 
 - (id) initWithCoder:(NSCoder *)aDecoder {
     if ( self = [super initWithCoder:aDecoder] ) {
@@ -42,6 +52,10 @@
 
 
 - (void) setMessage:(NSString*)message inProgress:(BOOL)inProgress progress:(float)progress {
+
+    _message = message;
+    _inProgress = inProgress;
+    _progress = progress;
 
     BOOL hasMessage = (message != nil) && ([message length] > 0);
     
