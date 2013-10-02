@@ -252,6 +252,8 @@
 		935846A717FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358469F17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m */; };
 		935846A817FB9DC30034200C /* TWSReleaseNotesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 935846A117FB9DC30034200C /* TWSReleaseNotesView.m */; };
 		935846A917FB9DC30034200C /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 935846A317FB9DC30034200C /* UIImage+ImageEffects.m */; };
+		935846AB17FB9EA40034200C /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 935846AA17FB9EA40034200C /* Accelerate.framework */; };
+		935846AE17FBA2D00034200C /* OBAReleaseNotesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 935846AD17FBA2D00034200C /* OBAReleaseNotesManager.m */; };
 		93631E401604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E3D1604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib */; };
 		93631E411604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */; };
 		93631E451604F77A00CB7209 /* OBADiversionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E441604F77A00CB7209 /* OBADiversionViewController.xib */; };
@@ -680,6 +682,9 @@
 		935846A117FB9DC30034200C /* TWSReleaseNotesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TWSReleaseNotesView.m; sourceTree = "<group>"; };
 		935846A217FB9DC30034200C /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		935846A317FB9DC30034200C /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		935846AA17FB9EA40034200C /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		935846AC17FBA2D00034200C /* OBAReleaseNotesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReleaseNotesManager.h; sourceTree = "<group>"; };
+		935846AD17FBA2D00034200C /* OBAReleaseNotesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReleaseNotesManager.m; sourceTree = "<group>"; };
 		93631E3D1604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBAArrivalEntryTableViewCell.xib; path = xibs/OBAArrivalEntryTableViewCell.xib; sourceTree = "<group>"; };
 		93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBANearbyStopsPageTableViewCell.xib; path = xibs/OBANearbyStopsPageTableViewCell.xib; sourceTree = "<group>"; };
 		93631E441604F77A00CB7209 /* OBADiversionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBADiversionViewController.xib; path = xibs/OBADiversionViewController.xib; sourceTree = "<group>"; };
@@ -838,6 +843,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				935846AB17FB9EA40034200C /* Accelerate.framework in Frameworks */,
 				96ADB3DF17BDD5DA00314D65 /* libz.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
@@ -913,6 +919,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				935846AA17FB9EA40034200C /* Accelerate.framework */,
 				96ADB3DE17BDD5DA00314D65 /* libz.dylib */,
 				D62255AA0F8BCA8F00F139BA /* libsqlite3.0.dylib */,
 				D62255C80F8BCB9C00F139BA /* CoreAudio.framework */,
@@ -1379,6 +1386,8 @@
 				93631E511604F97D00CB7209 /* OBACommonV1.m */,
 				9211E32017B8236B0008A479 /* OBARegionHelper.h */,
 				9211E32117B8236B0008A479 /* OBARegionHelper.m */,
+				935846AC17FBA2D00034200C /* OBAReleaseNotesManager.h */,
+				935846AD17FBA2D00034200C /* OBAReleaseNotesManager.m */,
 			);
 			path = utilities;
 			sourceTree = "<group>";
@@ -2024,6 +2033,7 @@
 				93631EAB1607FB2F00CB7209 /* OBAInfoViewController.m in Sources */,
 				933C7F5B160C07440005AAFE /* OBACommon.m in Sources */,
 				933C7F5C160C07440005AAFE /* OBALocationManager.m in Sources */,
+				935846AE17FBA2D00034200C /* OBAReleaseNotesManager.m in Sources */,
 				933C7F5D160C07440005AAFE /* OBALogger.m in Sources */,
 				933C7F5E160C07440005AAFE /* OBAModelFactory.m in Sources */,
 				933C7F5F160C07440005AAFE /* OBAModelService.m in Sources */,
