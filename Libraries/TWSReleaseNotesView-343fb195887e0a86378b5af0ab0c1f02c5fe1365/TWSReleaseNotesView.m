@@ -192,7 +192,10 @@ static const NSTimeInterval kTWSReleaseNotesViewTransitionDuration = 0.2f;
 {
     // Read stored version string and current version string
     NSString *previousAppVersion = [[NSUserDefaults standardUserDefaults] stringForKey:kTWSReleaseNotesViewVersionKey];
-    NSString *currentAppVersion = [[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"];
+
+    // 01 October 2013 Aaron Brethorst, note: I had to change this from CFBundleVersion since I don't want
+    // to have release notes popping up every time we change the SHA1 value in the Info.plist file.
+    NSString *currentAppVersion = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
  
     // Flag app as updated if a previous version string is found and it does not match with the current version string
     BOOL isUpdated = (previousAppVersion && ![previousAppVersion isEqualToString:currentAppVersion]) ? YES : NO;
