@@ -249,9 +249,6 @@
 		933C8037160C07440005AAFE /* OBATextEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F58160C07440005AAFE /* OBATextEditViewController.xib */; };
 		933C8038160C07440005AAFE /* OBATextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F59160C07440005AAFE /* OBATextFieldTableViewCell.xib */; };
 		933C8039160C07440005AAFE /* OBAWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F5A160C07440005AAFE /* OBAWebViewController.xib */; };
-		935846A417FB9DC30034200C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9358469B17FB9DC30034200C /* .gitignore */; };
-		935846A517FB9DC30034200C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 9358469C17FB9DC30034200C /* LICENSE */; };
-		935846A617FB9DC30034200C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9358469D17FB9DC30034200C /* README.md */; };
 		935846A717FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358469F17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m */; };
 		935846A817FB9DC30034200C /* TWSReleaseNotesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 935846A117FB9DC30034200C /* TWSReleaseNotesView.m */; };
 		935846A917FB9DC30034200C /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 935846A317FB9DC30034200C /* UIImage+ImageEffects.m */; };
@@ -677,9 +674,6 @@
 		933C7F58160C07440005AAFE /* OBATextEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBATextEditViewController.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBATextEditViewController.xib"; sourceTree = "<group>"; };
 		933C7F59160C07440005AAFE /* OBATextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBATextFieldTableViewCell.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBATextFieldTableViewCell.xib"; sourceTree = "<group>"; };
 		933C7F5A160C07440005AAFE /* OBAWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBAWebViewController.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBAWebViewController.xib"; sourceTree = "<group>"; };
-		9358469B17FB9DC30034200C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		9358469C17FB9DC30034200C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		9358469D17FB9DC30034200C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		9358469E17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TWSReleaseNotesDownloadOperation.h; sourceTree = "<group>"; };
 		9358469F17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TWSReleaseNotesDownloadOperation.m; sourceTree = "<group>"; };
 		935846A017FB9DC30034200C /* TWSReleaseNotesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TWSReleaseNotesView.h; sourceTree = "<group>"; };
@@ -1358,9 +1352,6 @@
 		9358469A17FB9DC30034200C /* TWSReleaseNotesView */ = {
 			isa = PBXGroup;
 			children = (
-				9358469B17FB9DC30034200C /* .gitignore */,
-				9358469C17FB9DC30034200C /* LICENSE */,
-				9358469D17FB9DC30034200C /* README.md */,
 				9358469E17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.h */,
 				9358469F17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m */,
 				935846A017FB9DC30034200C /* TWSReleaseNotesView.h */,
@@ -1762,7 +1753,6 @@
 				933C7FA6160C07440005AAFE /* Alert-Info@2x.png in Resources */,
 				933C7FA7160C07440005AAFE /* Alert.ai in Resources */,
 				933C7FA8160C07440005AAFE /* Alert.png in Resources */,
-				935846A617FB9DC30034200C /* README.md in Resources */,
 				933C7FA9160C07440005AAFE /* Alert@2x.png in Resources */,
 				933C7FAA160C07440005AAFE /* AlertGrayscale.png in Resources */,
 				933C7FAB160C07440005AAFE /* AlertGrayscale@2x.png in Resources */,
@@ -1824,7 +1814,6 @@
 				933C7FE5160C07440005AAFE /* TextBox-MagnifyingGlass.ai in Resources */,
 				933C7FE6160C07440005AAFE /* TextBox-MagnifyingGlass.png in Resources */,
 				933C7FE7160C07440005AAFE /* TextBox-MagnifyingGlass@2x.png in Resources */,
-				935846A417FB9DC30034200C /* .gitignore in Resources */,
 				933C7FE8160C07440005AAFE /* BlueMarker.png in Resources */,
 				933C7FE9160C07440005AAFE /* BlueMarker@2x.png in Resources */,
 				933C7FEA160C07440005AAFE /* BusStopIcon.png in Resources */,
@@ -1909,7 +1898,6 @@
 				933C8039160C07440005AAFE /* OBAWebViewController.xib in Resources */,
 				931C42BD160E47FC00435CD3 /* OBAGenericStopViewController.xib in Resources */,
 				9302721616137A47004DBFDE /* info.png in Resources */,
-				935846A517FB9DC30034200C /* LICENSE in Resources */,
 				9302721716137A47004DBFDE /* info@2x.png in Resources */,
 				93ADBBB4161618850092994E /* lines.png in Resources */,
 				93ADBBB5161618850092994E /* lines@2x.png in Resources */,
