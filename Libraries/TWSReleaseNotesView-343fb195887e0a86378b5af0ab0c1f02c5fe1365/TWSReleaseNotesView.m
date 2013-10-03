@@ -27,6 +27,7 @@
 @end
 
 static NSString *const kTWSReleaseNotesViewVersionKey = @"com.tapwings.open.kTWSReleaseNotesViewControllerVersionKey";
+static NSString *const kTWSReleaseNotesInfoPlistKey = @"CFBundleShortVersionString";
 static const CGFloat kTWSReleaseNotesViewDefaultOverlayAlpha = 0.5f;
 static const CGFloat kTWSReleaseNotesViewDefaultTextViewBackgroundAlpha = 0.8f;
 static const CGFloat kTWSReleaseNotesViewContainerViewCornerRadius = 3.0f;
@@ -195,10 +196,10 @@ static const NSTimeInterval kTWSReleaseNotesViewTransitionDuration = 0.2f;
 
     // 01 October 2013 Aaron Brethorst, note: I had to change this from CFBundleVersion since I don't want
     // to have release notes popping up every time we change the SHA1 value in the Info.plist file.
-    NSString *currentAppVersion = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
+    NSString *currentAppVersion = [[NSBundle mainBundle] infoDictionary][kTWSReleaseNotesInfoPlistKey];
  
     // Flag app as updated if a previous version string is found and it does not match with the current version string
-    BOOL isUpdated = (previousAppVersion && ![previousAppVersion isEqualToString:currentAppVersion]) ? YES : NO;
+    BOOL isUpdated = (previousAppVersion && ![previousAppVersion isEqualToString:currentAppVersion]);
 
     if (isUpdated || !previousAppVersion)
     {
@@ -478,7 +479,7 @@ static const NSTimeInterval kTWSReleaseNotesViewTransitionDuration = 0.2f;
 + (void)storeCurrentAppVersionString
 {
     // Store current app version string in the user defaults
-    NSString *currentAppVersion = [[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"];
+    NSString *currentAppVersion = [[NSBundle mainBundle] infoDictionary][kTWSReleaseNotesInfoPlistKey];
     [[NSUserDefaults standardUserDefaults] setObject:currentAppVersion forKey:kTWSReleaseNotesViewVersionKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
