@@ -17,7 +17,7 @@
     self.showActions = NO;
     self.arrivalCellFactory.showServiceAlerts = NO;
     self.showServiceAlerts = NO;
-    self.minutesBefore = 20;
+    self.minutesBefore = 30;
     
     self.tripDetailsHandler = [[OBATripDetailsHandler alloc] init];
 }
@@ -32,12 +32,18 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray * arrivals = self.showFilteredArrivals ? self.filteredArrivals : self.allArrivals;
-    OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
-
-    if (arrivalAndDeparture) {
-        OBATripInstanceRef * tripInstance = arrivalAndDeparture.tripInstance;
-        [self.appContext.modelService requestTripDetailsForTripInstance:tripInstance withDelegate:self.tripDetailsHandler withContext:self];
+    NSArray *arrivals = self.showFilteredArrivals ? self.filteredArrivals : self.allArrivals;
+    if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        self.minutesAfter += 30;
+        [self refresh];
+    } else if (arrivals.count > 0) {
+        OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
+        
+        if (arrivalAndDeparture) {
+            OBATripInstanceRef * tripInstance = arrivalAndDeparture.tripInstance;
+            [self.appDelegate.modelService requestTripDetailsForTripInstance:tripInstance withDelegate:self.tripDetailsHandler withContext:self];
+        }
     }
 }
 
@@ -52,7 +58,7 @@
     OBATripDetailsV2 * tripDetails = entry.entry;
     if( tripDetails ) {
         OBATripInstanceRef * tripInstance = tripDetails.tripInstance;
-        OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationContext:parent.appContext tripInstance:tripInstance trip:tripDetails.trip];
+        OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationDelegate:parent.appDelegate tripInstance:tripInstance trip:tripDetails.trip];
         vc.currentStopId = parent.stopId;
         [parent.navigationController pushViewController:vc animated:YES];
     }

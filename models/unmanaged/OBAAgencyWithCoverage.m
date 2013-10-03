@@ -19,8 +19,4 @@
 
 @implementation OBAAgencyWithCoverage
 
-@synthesize agency = _agency;
-@synthesize coordinate = _coordinate;
-
-
 @end

@@ -34,9 +34,9 @@ typedef enum {
 @synthesize tripDetails = _tripDetails;
 @synthesize currentStopId;
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext tripInstance:(OBATripInstanceRef*)tripInstance {
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate tripInstance:(OBATripInstanceRef*)tripInstance {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-        _appContext = appContext;
+        _appDelegate = appDelegate;
         _tripInstance = tripInstance;
         CGRect r = CGRectMake(0, 0, 160, 33);
         _progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];
@@ -64,9 +64,11 @@ typedef enum {
 #pragma mark UIViewController methods
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self clearPendingRequest];
     [_progressView setMessage:NSLocalizedString(@"Updating...",@"message") inProgress:YES progress:0];
-    _request = [_appContext.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:nil];
+    _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:nil];
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 #pragma mark OBAModelServiceDelegate
@@ -74,7 +76,7 @@ typedef enum {
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
     OBAEntryWithReferencesV2 * entry = obj;
     self.tripDetails = entry.entry;
-    _serviceAlerts = [_appContext.modelDao getServiceAlertsModelForSituations:_tripDetails.situations];
+    _serviceAlerts = [_appDelegate.modelDao getServiceAlertsModelForSituations:_tripDetails.situations];
     [_progressView setMessage:NSLocalizedString(@"Trip Details",@"message") inProgress:NO progress:0];
     [self.tableView reloadData];
 }
@@ -167,7 +169,7 @@ typedef enum {
             
             if( indexPath.row == 0 ) {
                 if( _tripDetails ) {
-                    OBATripScheduleMapViewController * vc = [OBATripScheduleMapViewController loadFromNibWithAppContext:_appContext];
+                    OBATripScheduleMapViewController * vc = [[OBATripScheduleMapViewController alloc]initWithApplicationDelegate:_appDelegate];
                     vc.tripInstance = _tripInstance;
                     vc.tripDetails = _tripDetails;
                     vc.currentStopId = self.currentStopId;
@@ -176,7 +178,7 @@ typedef enum {
             }            
             else if( indexPath.row == 1 ) {
                 if( _tripDetails ) {
-                    OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationContext:_appContext tripInstance:_tripInstance];
+                    OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationDelegate:_appDelegate tripInstance:_tripInstance];
                     vc.tripDetails = _tripDetails;
                     vc.currentStopId = self.currentStopId;
                     [self.navigationController pushViewController:vc animated:YES];
@@ -188,7 +190,7 @@ typedef enum {
         case OBASectionTypeActions: {
             if( indexPath.row == 0 ) {
                 if( _tripDetails ) {
-                    OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationContext:_appContext tripInstance:_tripInstance trip:_tripDetails.trip];
+                    OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationDelegate:_appDelegate tripInstance:_tripInstance trip:_tripDetails.trip];
                     vc.currentStopId = self.currentStopId;
                     [self.navigationController pushViewController:vc animated:YES];
                 }

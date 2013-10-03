@@ -8,9 +8,6 @@
 
 @implementation OBALabelAndTextFieldTableViewCell
 
-@synthesize label = _label;
-@synthesize textField = _textField;
-
 + (OBALabelAndTextFieldTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView {
     
     static NSString *cellId = @"OBALabelAndTextFieldTableViewCell";

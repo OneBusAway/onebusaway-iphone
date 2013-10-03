@@ -30,16 +30,18 @@ static const NSString * kShapeContext = @"ShapeContext";
 
 @implementation OBATripScheduleMapViewController
 
-@synthesize appContext = _appContext;
+@synthesize appDelegate = _appDelegate;
 @synthesize progressView = _progressView;
 @synthesize tripInstance = _tripInstance;
 @synthesize tripDetails = _tripDetails;
 @synthesize currentStopId = _currentStopId;
 
-+(OBATripScheduleMapViewController*) loadFromNibWithAppContext:(OBAApplicationDelegate*)context {
-    NSArray* wired = [[NSBundle mainBundle] loadNibNamed:@"OBATripScheduleMapViewController" owner:context options:nil];
-    OBATripScheduleMapViewController* controller = wired[0];
-    return controller;
+- (id)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate {
+    self = [super initWithNibName:@"OBATripScheduleMapViewController" bundle:nil];
+    if (self) {
+        self.appDelegate = appDelegate;
+    }
+    return self;
 }
 
 - (void)dealloc {
@@ -50,21 +52,26 @@ static const NSString * kShapeContext = @"ShapeContext";
     _timeFormatter = [[NSDateFormatter alloc] init];
     [_timeFormatter setDateStyle:NSDateFormatterNoStyle];
     [_timeFormatter setTimeStyle:NSDateFormatterShortStyle];
-    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStylePlain target:self action:@selector(showList:)];
+    self.navigationItem.rightBarButtonItem.accessibilityLabel = NSLocalizedString(@"List", @"self.navigationItem.rightBarButtonItem.accessibilityLabel");
+    self.progressView = [[OBAProgressIndicatorView alloc] initWithFrame:CGRectMake(80, 6, 160, 33)];
+    self.navigationItem.titleView = self.progressView;
     UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Schedule",@"initWithTitle") style:UIBarButtonItemStyleBordered target:nil action:nil];
     self.navigationItem.backBarButtonItem = backItem;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-    
+    [super viewWillAppear:animated];
     if( _tripDetails == nil && _tripInstance != nil )
-        _request = [_appContext.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:kTripDetailsContext];
+        _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:kTripDetailsContext];
     else
         [self handleTripDetails];
+
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void) showList:(id)source {
-    OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationContext:self.appContext tripInstance:_tripInstance];
+    OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationDelegate:self.appDelegate tripInstance:_tripInstance];
     vc.tripDetails = self.tripDetails;
     vc.currentStopId = self.currentStopId;
     [self.navigationController replaceViewController:vc animated:YES];
@@ -84,7 +91,7 @@ static const NSString * kShapeContext = @"ShapeContext";
             _routePolyline = [OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString];
             [self.mapView addOverlay:_routePolyline];
         }
-        [_progressView setMessage:NSLocalizedString(@"Trip Schedule",@"message") inProgress:NO progress:0];
+        [_progressView setMessage:NSLocalizedString(@"Route Map",@"message") inProgress:NO progress:0];
     }
 }
 
@@ -126,7 +133,7 @@ static const NSString * kShapeContext = @"ShapeContext";
         }
         view.canShowCallout = YES;
         view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        OBAStopIconFactory * stopIconFactory = [[self appContext] stopIconFactory];
+        OBAStopIconFactory * stopIconFactory = [[self appDelegate] stopIconFactory];
         view.image = [stopIconFactory getIconForStop:an.stopTime.stop];
         view.transform = CGAffineTransformMakeScale(scale, scale);
         view.alpha = alpha;
@@ -155,12 +162,12 @@ static const NSString * kShapeContext = @"ShapeContext";
     if( [annotation isKindOfClass:[OBATripStopTimeMapAnnotation class] ] ) {        
         OBATripStopTimeMapAnnotation * an = (OBATripStopTimeMapAnnotation*)annotation;
         OBATripStopTimeV2 * stopTime = an.stopTime;
-        OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:self.appContext stopId:stopTime.stopId];
+        OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationDelegate:self.appDelegate stopId:stopTime.stopId];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if ( [annotation isKindOfClass:[OBATripContinuationMapAnnotation class]] ) {
         OBATripContinuationMapAnnotation * an = (OBATripContinuationMapAnnotation*)annotation;
-        OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationContext:_appContext tripInstance:an.tripInstance];
+        OBATripDetailsViewController * vc = [[OBATripDetailsViewController alloc] initWithApplicationDelegate:_appDelegate tripInstance:an.tripInstance];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -215,7 +222,7 @@ static const NSString * kShapeContext = @"ShapeContext";
 
 - (void) handleTripDetails {
     
-    [_progressView setMessage:NSLocalizedString(@"Trip Schedule",@"message") inProgress:NO progress:0];
+    [_progressView setMessage:NSLocalizedString(@"Route Map",@"message") inProgress:NO progress:0];
 
     OBATripScheduleV2 * sched = _tripDetails.schedule;
     NSArray * stopTimes = sched.stopTimes;
@@ -253,7 +260,7 @@ static const NSString * kShapeContext = @"ShapeContext";
     
     OBATripV2 * trip = _tripDetails.trip;
     if( trip && trip.shapeId) {
-        _request = [_appContext.modelService requestShapeForId:trip.shapeId withDelegate:self withContext:kShapeContext];
+        _request = [_appDelegate.modelService requestShapeForId:trip.shapeId withDelegate:self withContext:kShapeContext];
     }
 }
 

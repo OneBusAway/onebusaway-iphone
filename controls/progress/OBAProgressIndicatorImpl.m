@@ -39,7 +39,7 @@
 }
 
 - (void) setMessage:(NSString*)message inProgress:(BOOL)inProgress progress:(float)progress {
-    _message = [NSObject releaseOld:_message retainNew:message];
+    _message = message;
     _inProgress = inProgress;
     _progress = progress;
     [_delegate progressUpdated];

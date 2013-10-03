@@ -2,10 +2,11 @@
 #import "OBATripDetailsV2.h"
 #import "OBAModalActivityIndicator.h"
 #import "OBATripInstanceRef.h"
+#import "OBATextEditViewController.h"
+#import "OBAListSelectionViewController.h"
 
-
-@interface OBAReportProblemWithTripViewController : UITableViewController <UITextFieldDelegate,OBAModelServiceDelegate> {
-    OBAApplicationDelegate * _appContext;
+@interface OBAReportProblemWithTripViewController : UITableViewController <UITextFieldDelegate,OBAModelServiceDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate, UIAlertViewDelegate> {
+    OBAApplicationDelegate * _appDelegate;
     OBATripInstanceRef * _tripInstance;
     OBATripV2 * _trip;
     NSMutableArray * _problemIds;
@@ -19,7 +20,7 @@
     OBAModalActivityIndicator * _activityIndicatorView;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext tripInstance:(OBATripInstanceRef*)tripInstance trip:(OBATripV2*)trip;
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate tripInstance:(OBATripInstanceRef*)tripInstance trip:(OBATripV2*)trip;
 
 @property (nonatomic,strong) NSString * currentStopId;
 

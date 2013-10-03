@@ -22,9 +22,7 @@
 - (void)_configureOBAScopeView {
     self.drawsBottomBorder = YES;
     self.drawsTopBorder = NO;
-    self.backgroundColor = [UIColor clearColor];
-    CAGradientLayer *gradient = (CAGradientLayer*)self.layer;
-    gradient.colors = @[(id)(OBARGBCOLOR(213, 219, 223)).CGColor, (id)(OBARGBCOLOR(178, 187, 194)).CGColor];
+    self.backgroundColor = [UIColor colorWithHue:(86./360.) saturation:0.68 brightness:0.67 alpha:0.8];
 }
 
 - (id)initWithFrame:(CGRect)frame

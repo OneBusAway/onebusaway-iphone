@@ -66,9 +66,11 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
     OBARegionChangeRequest * request = [self getBestRegionChangeRequestForRegion:region];
     if( request ) {
         double score = [request compareRegion:region];
+        BOOL oldRegionContainsNewRegion = [OBASphericalGeometryLibrary isRegion:region containedBy:request.region];
+        BOOL newRegionContainsOldRegion = [OBASphericalGeometryLibrary isRegion:request.region containedBy:region];
         //OBALogDebug(@"regionDidChangeAnimated: score=%f", score);
         //OBALogDebug(@"subregion=%@", [OBASphericalGeometryLibrary regionAsString:request.region]);
-        if( score < kMinRegionDeltaToDetectUserDrag )
+        if( score < kMinRegionDeltaToDetectUserDrag && !oldRegionContainsNewRegion && !newRegionContainsOldRegion)
             type = request.type;
     }
     
@@ -83,7 +85,7 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
         applyingPendingRequest = YES;
     }
     
-    self.pendingRegionChangeRequest = [NSObject releaseOld:self.pendingRegionChangeRequest retainNew:nil];
+    self.pendingRegionChangeRequest = nil;
 
     return applyingPendingRequest;
 }

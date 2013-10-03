@@ -3,10 +3,6 @@
 
 @implementation OBAArrivalAndDepartureInstanceRef
 
-@synthesize tripInstance = _tripInstance;
-@synthesize stopId = _stopId;
-@synthesize stopSequence = _stopSequence;
-
 - (id) initWithTripInstance:(OBATripInstanceRef*)tripInstance stopId:(NSString*)stopId stopSequence:(NSInteger)stopSequence {
     self = [super init];
     if( self ) {

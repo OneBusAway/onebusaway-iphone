@@ -29,11 +29,10 @@
 @class OBASearchControllerImpl;
 
 @interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate>
-@property(nonatomic,strong) OBAApplicationDelegate * appContext;
+@property(nonatomic,strong) OBAApplicationDelegate * appDelegate;
 @property(nonatomic,strong) IBOutlet OBAScopeView *scopeView;
 @property(nonatomic,strong) IBOutlet UISegmentedControl *searchTypeSegmentedControl;
 @property(nonatomic,strong) IBOutlet MKMapView * mapView;
-@property(nonatomic,strong) IBOutlet UIBarButtonItem * currentLocationButton;
 @property(nonatomic,strong) IBOutlet UISearchBar *searchBar;
 @property(nonatomic,strong) IBOutlet UIToolbar *toolbar;
 @property(nonatomic,strong) IBOutlet UILabel *mapLabel;

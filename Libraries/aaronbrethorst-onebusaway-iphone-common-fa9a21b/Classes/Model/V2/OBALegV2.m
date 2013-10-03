@@ -3,12 +3,6 @@
 
 @implementation OBALegV2
 
-@synthesize startTime;
-@synthesize endTime;
-@synthesize mode;
-@synthesize distance;
-
-@synthesize transitLeg;
 @synthesize streetLegs = _streetLegs;
 
 - (id) init {

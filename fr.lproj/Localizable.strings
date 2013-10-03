@@ -130,7 +130,7 @@
 "Loading..." = "Chargement en cours...";
 
 /* view.message */
-"Location Services are disabled for this app.  Some location-aware functionality will be missing." = "Les services de localisation sont désactivés pour cette application. Certaines fonctionalités de géolocalisation seront manquantes."; /* Vérifier pour "localisation-aware" */
+"Location Services are disabled for this app. Some location-aware functionality will be missing." = "Les services de localisation sont désactivés pour cette application. Certaines fonctionalités de géolocalisation seront manquantes."; /* Vérifier pour "localisation-aware" */
 
 /* view.title */
 "Location Services Disabled" = "Services de localisation désactivés";
@@ -247,7 +247,7 @@
 "Other" = "Autre";
 
 /* result.outOfRange */
-"Out of OneBusAway service area." = "Hors de la zone de service de OneBusAway"; /* Changer nom */
+"Out of OneBusAway service area" = "Hors de la zone de service de OneBusAway"; /* Changer nom */
 
 /* showNoResultsAlertWithTitle */
 "Out of range" = "Hors de portée";
@@ -391,7 +391,7 @@
 "There was a problem with your Internet connection.\n\nPlease check your network connection or contact us if you think the problem is on our end." = "Il y a un problème avec la connexion Internet.\n\nbVeuillez vérifier vore connexion réseau ou contactez-nous si vous pensez que le problème est de notre côté.";
 
 /* result.limitExceeded */
-"Too many stops.  Zoom in for more detail." = "Il y a trop d'arrêts. Faites un zoom avant pour plus de détails.";
+"Too many stops, zoom in for more detail" = "Il y a trop d'arrêts. Faites un zoom avant pour plus de détails.";
 
 /* cell.textLabel.text */
 "total" = "total";
@@ -463,4 +463,4 @@
 "Your reports help OneBusAway find and fix problems with the system." = "Vos rapports aident OneBusAway à trouver et à résoudre les problèmes du système.";
 
 /* span.latitudeDelta > kMaxLatDeltaToShowStops */
-"Zoom in to look for stops." = "Faites un zoom avant pour voir les arrêts.";
+"Zoom in to look for stops" = "Faites un zoom avant pour voir les arrêts.";

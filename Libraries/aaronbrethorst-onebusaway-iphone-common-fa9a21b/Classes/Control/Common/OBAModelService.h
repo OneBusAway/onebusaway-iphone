@@ -9,7 +9,6 @@
 #import "OBAPlacemark.h"
 #import "OBATripInstanceRef.h"
 #import "OBAArrivalAndDepartureInstanceRef.h"
-#import "OBAReportProblemWithPlannedTripV2.h"
 #import "OBAReportProblemWithStopV2.h"
 #import "OBAReportProblemWithTripV2.h"
 
@@ -42,7 +41,7 @@
 @property (nonatomic,strong) OBAModelDAO * modelDao;
 @property (nonatomic,strong) OBAModelFactory * modelFactory;
 @property (nonatomic,strong) OBAJsonDataSource * obaJsonDataSource;
-@property (nonatomic,retain) OBAJsonDataSource * obaRegionJsonDataSource;
+@property (nonatomic,strong) OBAJsonDataSource * obaRegionJsonDataSource;
 @property (nonatomic,strong) OBAJsonDataSource * googleMapsJsonDataSource;
 @property (nonatomic,strong) OBAJsonDataSource * googlePlacesJsonDataSource;
 @property (nonatomic,strong) OBALocationManager * locationManager;
@@ -55,10 +54,12 @@
 
 - (id<OBAModelServiceRequest>) requestStopsForRegion:(MKCoordinateRegion)region withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 - (id<OBAModelServiceRequest>) requestStopsForQuery:(NSString*)stopQuery withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>) requestStopsForQuery:(NSString*)stopQuery withRegion:(CLRegion*)region withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 - (id<OBAModelServiceRequest>) requestStopsForRoute:(NSString*)routeId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 - (id<OBAModelServiceRequest>) requestStopsForPlacemark:(OBAPlacemark*)placemark withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 
 - (id<OBAModelServiceRequest>) requestRoutesForQuery:(NSString*)routeQuery withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>) requestRoutesForQuery:(NSString*)routeQuery withRegion:(CLRegion*)region withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 - (id<OBAModelServiceRequest>) placemarksForAddress:(NSString*)address withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 - (id<OBAModelServiceRequest>) placemarksForPlace:(NSString*)name withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 
@@ -74,7 +75,6 @@
 
 - (id<OBAModelServiceRequest>) requestShapeForId:(NSString*)shapeId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 
-- (id<OBAModelServiceRequest>) reportProblemWithPlannedTrip:(OBAReportProblemWithPlannedTripV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 - (id<OBAModelServiceRequest>) reportProblemWithStop:(OBAReportProblemWithStopV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 - (id<OBAModelServiceRequest>) reportProblemWithTrip:(OBAReportProblemWithTripV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 

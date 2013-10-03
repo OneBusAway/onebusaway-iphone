@@ -19,9 +19,6 @@
 
 @implementation OBAArrivalsAndDeparturesForStop
 
-@synthesize stop = _stop;
-@synthesize arrivalsAndDepartures = _arrivalsAndDepartures;
-
 - (id) init {
     if( self = [super init] ) {
         _arrivalsAndDepartures = [[NSMutableArray alloc] init];
