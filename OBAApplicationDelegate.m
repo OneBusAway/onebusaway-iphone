@@ -32,6 +32,7 @@
 
 #import "OBARegionListViewController.h"
 #import "OBARegionHelper.h"
+#import "OBAReleaseNotesManager.h"
 
 #import "TestFlight.h"
 
@@ -190,9 +191,11 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
         }
     }
 
-
-
     [self.window makeKeyAndVisible];
+
+    if ([OBAReleaseNotesManager shouldShowReleaseNotes]) {
+        [OBAReleaseNotesManager showReleaseNotes:self.window];
+    }
 }
 
 #pragma mark UIApplicationDelegate Methods

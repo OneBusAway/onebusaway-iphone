@@ -249,6 +249,11 @@
 		933C8037160C07440005AAFE /* OBATextEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F58160C07440005AAFE /* OBATextEditViewController.xib */; };
 		933C8038160C07440005AAFE /* OBATextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F59160C07440005AAFE /* OBATextFieldTableViewCell.xib */; };
 		933C8039160C07440005AAFE /* OBAWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F5A160C07440005AAFE /* OBAWebViewController.xib */; };
+		935846A717FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358469F17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m */; };
+		935846A817FB9DC30034200C /* TWSReleaseNotesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 935846A117FB9DC30034200C /* TWSReleaseNotesView.m */; };
+		935846A917FB9DC30034200C /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 935846A317FB9DC30034200C /* UIImage+ImageEffects.m */; };
+		935846AB17FB9EA40034200C /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 935846AA17FB9EA40034200C /* Accelerate.framework */; };
+		935846AE17FBA2D00034200C /* OBAReleaseNotesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 935846AD17FBA2D00034200C /* OBAReleaseNotesManager.m */; };
 		93631E401604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E3D1604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib */; };
 		93631E411604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */; };
 		93631E451604F77A00CB7209 /* OBADiversionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E441604F77A00CB7209 /* OBADiversionViewController.xib */; };
@@ -671,6 +676,15 @@
 		933C7F58160C07440005AAFE /* OBATextEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBATextEditViewController.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBATextEditViewController.xib"; sourceTree = "<group>"; };
 		933C7F59160C07440005AAFE /* OBATextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBATextFieldTableViewCell.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBATextFieldTableViewCell.xib"; sourceTree = "<group>"; };
 		933C7F5A160C07440005AAFE /* OBAWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBAWebViewController.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBAWebViewController.xib"; sourceTree = "<group>"; };
+		9358469E17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TWSReleaseNotesDownloadOperation.h; sourceTree = "<group>"; };
+		9358469F17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TWSReleaseNotesDownloadOperation.m; sourceTree = "<group>"; };
+		935846A017FB9DC30034200C /* TWSReleaseNotesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TWSReleaseNotesView.h; sourceTree = "<group>"; };
+		935846A117FB9DC30034200C /* TWSReleaseNotesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TWSReleaseNotesView.m; sourceTree = "<group>"; };
+		935846A217FB9DC30034200C /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		935846A317FB9DC30034200C /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		935846AA17FB9EA40034200C /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		935846AC17FBA2D00034200C /* OBAReleaseNotesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReleaseNotesManager.h; sourceTree = "<group>"; };
+		935846AD17FBA2D00034200C /* OBAReleaseNotesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReleaseNotesManager.m; sourceTree = "<group>"; };
 		93631E3D1604F72900CB7209 /* OBAArrivalEntryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBAArrivalEntryTableViewCell.xib; path = xibs/OBAArrivalEntryTableViewCell.xib; sourceTree = "<group>"; };
 		93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBANearbyStopsPageTableViewCell.xib; path = xibs/OBANearbyStopsPageTableViewCell.xib; sourceTree = "<group>"; };
 		93631E441604F77A00CB7209 /* OBADiversionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBADiversionViewController.xib; path = xibs/OBADiversionViewController.xib; sourceTree = "<group>"; };
@@ -829,6 +843,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				935846AB17FB9EA40034200C /* Accelerate.framework in Frameworks */,
 				96ADB3DF17BDD5DA00314D65 /* libz.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
@@ -904,6 +919,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				935846AA17FB9EA40034200C /* Accelerate.framework */,
 				96ADB3DE17BDD5DA00314D65 /* libz.dylib */,
 				D62255AA0F8BCA8F00F139BA /* libsqlite3.0.dylib */,
 				D62255C80F8BCB9C00F139BA /* CoreAudio.framework */,
@@ -1340,6 +1356,20 @@
 			path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/MapIcons";
 			sourceTree = "<group>";
 		};
+		9358469A17FB9DC30034200C /* TWSReleaseNotesView */ = {
+			isa = PBXGroup;
+			children = (
+				9358469E17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.h */,
+				9358469F17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m */,
+				935846A017FB9DC30034200C /* TWSReleaseNotesView.h */,
+				935846A117FB9DC30034200C /* TWSReleaseNotesView.m */,
+				935846A217FB9DC30034200C /* UIImage+ImageEffects.h */,
+				935846A317FB9DC30034200C /* UIImage+ImageEffects.m */,
+			);
+			name = TWSReleaseNotesView;
+			path = "Libraries/TWSReleaseNotesView-343fb195887e0a86378b5af0ab0c1f02c5fe1365";
+			sourceTree = "<group>";
+		};
 		93631E461604F80000CB7209 /* migrations */ = {
 			isa = PBXGroup;
 			children = (
@@ -1356,6 +1386,8 @@
 				93631E511604F97D00CB7209 /* OBACommonV1.m */,
 				9211E32017B8236B0008A479 /* OBARegionHelper.h */,
 				9211E32117B8236B0008A479 /* OBARegionHelper.m */,
+				935846AC17FBA2D00034200C /* OBAReleaseNotesManager.h */,
+				935846AD17FBA2D00034200C /* OBAReleaseNotesManager.m */,
 			);
 			path = utilities;
 			sourceTree = "<group>";
@@ -1642,6 +1674,7 @@
 		D61A66790FCDB155004D2E91 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				9358469A17FB9DC30034200C /* TWSReleaseNotesView */,
 				92CAAE96179C4AF40097DD3D /* MarqueeLabel */,
 				933C7E2B160C07440005AAFE /* Common */,
 				96ADB3D417BDD4D600314D65 /* TestFlightSDK2 */,
@@ -2000,9 +2033,11 @@
 				93631EAB1607FB2F00CB7209 /* OBAInfoViewController.m in Sources */,
 				933C7F5B160C07440005AAFE /* OBACommon.m in Sources */,
 				933C7F5C160C07440005AAFE /* OBALocationManager.m in Sources */,
+				935846AE17FBA2D00034200C /* OBAReleaseNotesManager.m in Sources */,
 				933C7F5D160C07440005AAFE /* OBALogger.m in Sources */,
 				933C7F5E160C07440005AAFE /* OBAModelFactory.m in Sources */,
 				933C7F5F160C07440005AAFE /* OBAModelService.m in Sources */,
+				935846A817FB9DC30034200C /* TWSReleaseNotesView.m in Sources */,
 				933C7F60160C07440005AAFE /* OBAModelServiceRequest.m in Sources */,
 				933C7F61160C07440005AAFE /* OBASphericalGeometryLibrary.m in Sources */,
 				933C7F62160C07440005AAFE /* OBADataSourceConfig.m in Sources */,
@@ -2043,6 +2078,7 @@
 				933C7F86160C07440005AAFE /* OBAStopPreferencesV2.m in Sources */,
 				933C7F87160C07440005AAFE /* OBAStopsForRouteV2.m in Sources */,
 				933C7F88160C07440005AAFE /* OBAStopV2.m in Sources */,
+				935846A717FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m in Sources */,
 				933C7F89160C07440005AAFE /* OBAStreetLegV2.m in Sources */,
 				933C7F8A160C07440005AAFE /* OBATransitLegV2.m in Sources */,
 				933C7F8B160C07440005AAFE /* OBATripDetailsV2.m in Sources */,
@@ -2067,6 +2103,7 @@
 				933C7F9E160C07440005AAFE /* OBAWebViewController.m in Sources */,
 				931C42C2160E4B2A00435CD3 /* MKMapView+oba_Additions.m in Sources */,
 				931C42CD160F984000435CD3 /* OBAShadowLabel.m in Sources */,
+				935846A917FB9DC30034200C /* UIImage+ImageEffects.m in Sources */,
 				93AA8A541622610300B945E7 /* OBARegionChangeRequest.m in Sources */,
 				923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */,
 				92235D2617B692760042B843 /* OBARegionBoundsV2.m in Sources */,
