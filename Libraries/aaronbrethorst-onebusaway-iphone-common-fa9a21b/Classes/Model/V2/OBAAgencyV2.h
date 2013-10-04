@@ -2,8 +2,6 @@
 
 
 @interface OBAAgencyV2 :  OBAHasReferencesV2
-{
-}
 
 @property (nonatomic, strong) NSString * agencyId;
 @property (nonatomic, strong) NSString * url;

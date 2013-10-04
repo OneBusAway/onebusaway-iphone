@@ -3,25 +3,6 @@
 
 @implementation OBAArrivalAndDepartureV2
 
-@synthesize routeId;
-@synthesize routeShortName;
-@synthesize tripId;
-@synthesize serviceDate;
-@synthesize tripHeadsign;
-@synthesize stopId;
-@synthesize stopSequence;
-@synthesize tripStatus;
-@synthesize frequency;
-@synthesize distanceFromStop;
-
-@synthesize predicted;
-
-@synthesize scheduledArrivalTime;
-@synthesize predictedArrivalTime;
-
-@synthesize scheduledDepartureTime;
-@synthesize predictedDepartureTime;
-
 @synthesize situationIds = _situationIds;
 
 - (id) init {

@@ -1,11 +1,7 @@
 #import "OBATripInstanceRef.h"
 
 
-@interface OBAArrivalAndDepartureInstanceRef : NSObject {
-    OBATripInstanceRef * _tripInstance;
-    NSString * _stopId;
-    NSInteger _stopSequence;
-}
+@interface OBAArrivalAndDepartureInstanceRef : NSObject
 
 - (id) initWithTripInstance:(OBATripInstanceRef*)tripInstance stopId:(NSString*)stopId stopSequence:(NSInteger)stopSequence;
 

@@ -9,6 +9,7 @@
 #import "OBACustomApiViewController.h"
 #import "OBAApplicationDelegate.h"
 #import "OBATextFieldTableViewCell.h"
+#import "UITableViewController+oba_Additions.h"
 
 typedef enum {
 	OBASectionTypeNone,
@@ -32,7 +33,7 @@ static NSString *editingCellTag = @"editingCell";
 @implementation OBACustomApiViewController
 
 - (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate {
-    self = [super initWithStyle:UITableViewStyleGrouped];
+    self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         self.appDelegate = appDelegate;
     }
@@ -44,14 +45,16 @@ static NSString *editingCellTag = @"editingCell";
     [super viewDidLoad];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
-    self.title = NSLocalizedString(@"Custom API Url", @"title");
+    self.title = NSLocalizedString(@"Custom API URL", @"title");
     self.recentUrls = self.appDelegate.modelDao.mostRecentCustomApiUrls;
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self hideEmptySeparators];
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self saveCustomApiUrl];
@@ -181,6 +184,7 @@ static NSString *editingCellTag = @"editingCell";
     cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
     cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     cell.textField.returnKeyType = UIReturnKeyDone;
+    cell.textField.font = [UIFont systemFontOfSize:18];
     self.customApiUrlTextField = cell.textField;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
@@ -220,5 +224,35 @@ static NSString *editingCellTag = @"editingCell";
     }
     [self.tableView reloadData];
 
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	switch ([self sectionTypeForSection:section]) {
+        case OBASectionTypeEditing:
+        case OBASectionTypeRecent:
+            return 40;
+        default:
+            return 30;
+	}
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    view.backgroundColor = OBAGREENBACKGROUND;
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
+    title.font = [UIFont systemFontOfSize:18];
+    title.backgroundColor = [UIColor clearColor];;
+    switch ([self sectionTypeForSection:section]) {
+        case OBASectionTypeEditing:
+            title.text = NSLocalizedString(@"Edit", @"custom url edit");
+            break;
+        case OBASectionTypeRecent:
+            title.text = NSLocalizedString(@"Recent", @"custom url recent");
+            break;
+        default:
+            break;
+    }
+    [view addSubview:title];
+    return view;
 }
 @end

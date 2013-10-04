@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0450"
+   LastUpgradeVersion = "0500"
    version = "1.8">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -84,7 +84,7 @@
       buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "AppStoreDistribution"
+      buildConfiguration = "AdHocDistribution"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

@@ -12,10 +12,14 @@
 #import "OBASettingsViewController.h"
 #import "OBACreditsViewController.h"
 
-#define kContactUsRow 0
-#define kSettingsRow 1
-#define kAgenciesRow 2
-#define kCreditsRow 3
+#define kSettingsRow 0
+#define kAgenciesRow 1
+#define kFeatureRequests 2
+#define kContactUsRow 3
+#define kCreditsRow 4
+#define kPrivacy 5
+
+#define kRowCount 6
 
 @implementation OBAInfoViewController
 
@@ -30,15 +34,42 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectZero];
+    footerView.backgroundColor = [UIColor clearColor];
+    [self.tableView setTableFooterView:footerView];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableHeaderView = self.headerView;
+    self.tableView.frame = self.view.bounds;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
+}
+
+- (void) openContactUs {
+    UIViewController *pushMe = nil;
+    pushMe = [[OBAContactUsViewController alloc] init];
+    [self.navigationController pushViewController:pushMe animated:YES];
+}
+
+- (void) openSettings {
+    UIViewController *pushMe = nil;
+    pushMe = [[OBASettingsViewController alloc] init];
+    [self.navigationController pushViewController:pushMe animated:YES];
+}
+
+- (void) openAgencies {
+    UIViewController *pushMe = nil;
+    pushMe = [[OBAAgenciesListViewController alloc] init];
+    [self.navigationController pushViewController:pushMe animated:YES];
 }
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return kRowCount;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -49,11 +80,12 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.font = [UIFont systemFontOfSize:19];
     }
 
     switch (indexPath.row) {
         case kContactUsRow: {
-            cell.textLabel.text = NSLocalizedString(@"Contact Us & More", @"info row contact us");
+            cell.textLabel.text = NSLocalizedString(@"Contact Us", @"info row contact us");
             break;
         }
         case kSettingsRow: {
@@ -66,6 +98,14 @@
         }
         case kCreditsRow: {
             cell.textLabel.text = NSLocalizedString(@"Credits", @"info row credits");
+            break;
+        }
+        case kFeatureRequests: {
+            cell.textLabel.text = NSLocalizedString(@"Feature Requests", @"info row feture requests");
+            break;
+        }
+        case kPrivacy: {
+            cell.textLabel.text = NSLocalizedString(@"Privacy Policy", @"info row privacy");
             break;
         }
         default:
@@ -83,26 +123,37 @@
 
     switch (indexPath.row) {
         case kContactUsRow: {
-            pushMe = [[OBAContactUsViewController alloc] init];
+            [self openContactUs];
             break;
         }
         case kSettingsRow: {
-            pushMe = [[OBASettingsViewController alloc] init];
+            [self openSettings];
             break;
         }
         case kAgenciesRow: {
-            pushMe = [[OBAAgenciesListViewController alloc] init];
+            [self openAgencies];
             break;
         }
         case kCreditsRow: {
             pushMe = [[OBACreditsViewController alloc] init];
+            [self.navigationController pushViewController:pushMe animated:YES];
+            break;
+        }
+        case kFeatureRequests: {
+            [TestFlight passCheckpoint:@"Clicked Feature Request Link"];
+            NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.ideascale.com/a/ideafactory.do?id=8715&mode=top&discussionFilter=byids&discussionID=46166",@"didSelectRowAtIndexPath case 1")];
+            [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+            break;
+        }
+        case kPrivacy: {
+            [TestFlight passCheckpoint:@"Clicked Privacy Policy Link"];
+            NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.org/privacy/",@"didSelectRowAtIndexPath case 3")];
+            [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             break;
         }
         default:
             break;
     }
-
-    [self.navigationController pushViewController:pushMe animated:YES];
 }
 
 @end

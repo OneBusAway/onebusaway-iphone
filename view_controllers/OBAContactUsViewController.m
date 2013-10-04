@@ -15,18 +15,24 @@
  */
 
 #import "OBAContactUsViewController.h"
+#import "UITableViewController+oba_Additions.h"
+
+#define kEmailRow 0
+#define kTwitterRow 1
+#define kFacebookRow 2
+
+#define kRowCount 3 //including Facebook which is optional
 
 static NSString *kOBADefaultContactEmail = @"contact@onebusaway.org";
 static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
-
 
 @implementation OBAContactUsViewController
 
 
 - (id)init {
-    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-        self.title = NSLocalizedString(@"Contact Us & More", @"Contact us tab title");
-        self.appContext = APP_DELEGATE;
+    if (self = [super initWithStyle:UITableViewStylePlain]) {
+        self.title = NSLocalizedString(@"Contact Us", @"Contact us tab title");
+        self.appDelegate = APP_DELEGATE;
     }
     return self;
 }
@@ -37,78 +43,48 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 - (void) viewDidLoad
 {
     [super viewDidLoad];
+    [self hideEmptySeparators];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 #pragma mark Table view methods
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
-}
-
-
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 2;
-    } else
-    {
-        return 2;
+    OBARegionV2 *region = _appDelegate.modelDao.region;
+    if (region.facebookUrl && ![region.facebookUrl isEqualToString:@""]) {
+        return kRowCount;
     }
+    
+    //if no facebook URL 1 less row
+    return (kRowCount-1);
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    switch(section) {
-        case 0:
-            return NSLocalizedString(@"Contact Us",@"titleForHeaderInSection case 0");
-        case 1:
-            return NSLocalizedString(@"More",@"titleForHeaderInSection case 1");
-        default:
-            return nil;
-    }
-}
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.imageView.image = nil;
-    OBARegionV2 *region = _appContext.modelDao.region;
 
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    
     switch( indexPath.row) {
-        case 0:
-            if (indexPath.section == 0) {
-                NSString *contactEmail = kOBADefaultContactEmail;
-                if (region) {
-                    contactEmail = region.contactEmail;
-                }
-                cell.textLabel.text = contactEmail;
-            } else {
-                cell.textLabel.text = NSLocalizedString(@"OneBusAway issue tracker",@"cell.textLabel.text case 1");
-            }
+        case kEmailRow:
+            cell.textLabel.text = NSLocalizedString(@"Email", @"Email title");
             break;
-        case 1:
-            if (indexPath.section == 0) {
-                NSString *twitterUrl = kOBADefaultTwitterURL;
-                if (region) {
-                    twitterUrl = region.twitterUrl;
-                }
-                NSString *twitterName = [[twitterUrl componentsSeparatedByString:@"/"] lastObject];
-                cell.textLabel.text = [NSString stringWithFormat:@"twitter.com/%@", twitterName];
-            } else {
-                cell.textLabel.text = NSLocalizedString(@"Privacy policy",@"cell.textLabel.text case 2");
-
-            }
+        case kTwitterRow:
+            cell.textLabel.text = NSLocalizedString(@"Twitter", @"Twitter title");
             break;
-        case 2:
-
+        case kFacebookRow:
+            cell.textLabel.text = NSLocalizedString(@"Facebook", @"Facebook title");
             break;
-
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
@@ -116,52 +92,64 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    OBARegionV2 *region = _appContext.modelDao.region;
+    OBARegionV2 *region = _appDelegate.modelDao.region;
     switch( indexPath.row) {
-        case 0:
-            if (indexPath.section == 0) {
+        case kEmailRow:
+            {
+                [TestFlight passCheckpoint:@"Clicked Email Link"];
                 NSString *contactEmail = kOBADefaultContactEmail;
                 if (region) {
                     contactEmail = region.contactEmail;
                 }
                 contactEmail = [NSString stringWithFormat:@"mailto:%@",contactEmail];
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: contactEmail]];
-            } else
-            {
-                NSString *url = [NSString stringWithString: NSLocalizedString(@"https://github.com/OneBusAway/onebusaway-iphone/issues",@"didSelectRowAtIndexPath case 2")];
-                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             }
             break;
-        case 1:
-            if (indexPath.section == 0) {
+        case kTwitterRow:
+            {
+                [TestFlight passCheckpoint:@"Clicked Twitter Link"];
                 NSString *twitterUrl = kOBADefaultTwitterURL;
                 if (region) {
                     twitterUrl = region.twitterUrl;
                 }
                 NSString *twitterName = [[twitterUrl componentsSeparatedByString:@"/"] lastObject];
                 if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]]) {
+                    [TestFlight passCheckpoint:@"Loaded Twitter via App"];
                     NSString *url = [NSString stringWithFormat:@"twitter://user?screen_name=%@",twitterName ];
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
                 } else {
+                    [TestFlight passCheckpoint:@"Loaded Twitter via Web"];
                     NSString *url = [NSString stringWithFormat:@"http://twitter.com/%@", twitterName];
                     [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
                 }
-            } else
-            {
-                NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.org/privacy/",@"didSelectRowAtIndexPath case 3")];
-                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             }
             break;
-        case 2:
-        {
+        case kFacebookRow:
+            if (region.facebookUrl) {
+                [TestFlight passCheckpoint:@"Clicked Facebook Link"];
+                NSString *facebookUrl = region.facebookUrl;
+                NSString *facebookPage = [[facebookUrl componentsSeparatedByString:@"/"] lastObject];
 
-        }
+                if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"fb://"]]) {
+                    [TestFlight passCheckpoint:@"Loaded Facebook via App"];
+                    NSString *url = [NSString stringWithFormat:@"fb://profile/%@",facebookPage ];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
+                } else {
+                    [TestFlight passCheckpoint:@"Loaded Facebook via Web"];
+                    NSString *url = [NSString stringWithFormat:@"http://facebook.com/%@", facebookPage];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
+                }
+            }
             break;
-            
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{        
+    return 0.0;
 }
 
 #pragma mark OBANavigationTargetAware

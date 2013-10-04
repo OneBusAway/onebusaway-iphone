@@ -45,14 +45,8 @@
     
     OBAModelService * _modelService;
     
-    OBAProgressIndicatorImpl * _progress;
-    
-    id<OBASearchControllerDelegate> __weak _delegate;
-    
     OBANavigationTarget * _target;
-    OBASearchType _searchType;
     id<OBAModelServiceRequest> _request;
-    NSError * _error;
 
     CLLocation * _lastCurrentLocationSearch;    
 }
@@ -63,12 +57,13 @@
 @property (strong,readonly) OBASearchResult * result;
 
 @property (weak, nonatomic,readonly) CLLocation * searchLocation;
+@property (nonatomic,strong) CLRegion *searchRegion;
 
 @property (nonatomic,strong) NSObject<OBAProgressIndicatorSource>* progress;
 @property (nonatomic,strong) NSError * error;
 
 
-- (id) initWithAppContext:(OBAApplicationDelegate*)context;
+- (id) initWithappDelegate:(OBAApplicationDelegate*)context;
 - (BOOL)unfilteredSearch;
 -(void) searchWithTarget:(OBANavigationTarget*)target;
 -(void) searchPending;

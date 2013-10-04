@@ -21,7 +21,7 @@
     NSString * _filterDescription;
     BOOL _currentlyShowing;
     
-    OBAApplicationDelegate * _appContext;
+    OBAApplicationDelegate * _appDelegate;
     id                      _filterDelegate;
     
     UILabel * _labelOutput; // "Search: "
@@ -29,9 +29,9 @@
 }
 
 @property (nonatomic, strong) NSString *              filterDescription;
-@property (nonatomic, strong) OBAApplicationDelegate * appContext;
+@property (nonatomic, strong) OBAApplicationDelegate * appDelegate;
 
--(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate andAppContext:(OBAApplicationDelegate*)context;
+-(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate andappDelegate:(OBAApplicationDelegate*)context;
 -(void) dealloc;
 
 -(void) showWithDescription:(NSString*)filterDescString animated:(BOOL)animated;

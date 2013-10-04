@@ -1,9 +1,11 @@
 #import "OBAApplicationDelegate.h"
 #import "OBAStopV2.h"
 #import "OBAModalActivityIndicator.h"
+#import "OBATextEditViewController.h"
+#import "OBAListSelectionViewController.h"
 
-@interface OBAReportProblemWithStopViewController : UITableViewController <UITextFieldDelegate,OBAModelServiceDelegate> {
-    OBAApplicationDelegate * _appContext;
+@interface OBAReportProblemWithStopViewController : UITableViewController <UITextFieldDelegate,OBAModelServiceDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate, UIAlertViewDelegate> {
+    OBAApplicationDelegate * _appDelegate;
     OBAStopV2 * _stop;
     NSMutableArray * _problemIds;
     NSMutableArray * _problemNames;
@@ -13,6 +15,6 @@
     OBAModalActivityIndicator * _activityIndicatorView;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext stop:(OBAStopV2*)stop;
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate stop:(OBAStopV2*)stop;
 
 @end

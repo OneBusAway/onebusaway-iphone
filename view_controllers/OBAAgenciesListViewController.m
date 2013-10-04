@@ -29,7 +29,7 @@ typedef enum {
 @implementation OBAAgenciesListViewController
 
 - (id)init {
-    self = [super initWithApplicationContext:APP_DELEGATE];
+    self = [super initWithApplicationDelegate:APP_DELEGATE];
     if (self) {
         self.title = NSLocalizedString(@"Agencies", @"Agencies tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Agencies"];
@@ -40,23 +40,25 @@ typedef enum {
 }
 
 -(void) viewDidLoad {
+    [super viewDidLoad];
     self.refreshable = NO;
     self.showUpdateTime = NO;
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
-
 }
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self refresh];
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
+
 - (BOOL) isLoading {
     return _agencies == nil;
 }
 
 - (id<OBAModelServiceRequest>) handleRefresh {
-    return [_appContext.modelService requestAgenciesWithCoverageWithDelegate:self withContext:nil];
+    return [_appDelegate.modelService requestAgenciesWithCoverageWithDelegate:self withContext:nil];
 }
 
 -(void) handleData:(id)obj context:(id)context {
@@ -90,7 +92,7 @@ typedef enum {
         case OBASectionTypeActions:
             return 1;
         case OBASectionTypeAgencies:
-            return [_agencies count];
+            return [_agencies count] + 1;
         case OBASectionTypeNoAgencies:
             return 1;
         default:
@@ -123,7 +125,6 @@ typedef enum {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if( [self isLoading] ) {
-        [self tableView:tableView didSelectRowAtIndexPath:indexPath];
         return;
     }
     
@@ -169,23 +170,32 @@ typedef enum {
 - (UITableViewCell*) actionsCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView {
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.textAlignment = UITextAlignmentLeft;
     cell.textLabel.text = NSLocalizedString(@"Show on map",@"AgenciesListViewController");
     return cell;
 }
 
 - (UITableViewCell*) agenciesCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView {
 
-    OBAAgencyWithCoverageV2 * awc = _agencies[indexPath.row];
+    if (indexPath.row == 0) {
+        UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundView = [[UIView alloc] initWithFrame:cell.frame];
+        cell.backgroundView.backgroundColor = OBAGREENBACKGROUND;
+        return cell;
+    }
+    OBAAgencyWithCoverageV2 * awc = _agencies[indexPath.row-1];
     OBAAgencyV2 * agency = awc.agency;
     
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.textLabel.text = agency.name;
     return cell;
 }
@@ -200,13 +210,29 @@ typedef enum {
     return cell;    
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch ([self sectionTypeForSection:indexPath.section]) {
+        case OBASectionTypeAgencies:
+            if (indexPath.row == 0) {
+                return 30;
+            }
+        default:
+            return 44;
+    }
+
+}
+
 - (void) didSelectActionsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
-    [_appContext navigateToTarget:target];
+    [_appDelegate navigateToTarget:target];
 }
 
 - (void) didSelectAgencyRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-    OBAAgencyWithCoverageV2 * awc = _agencies[indexPath.row];
+    if (indexPath.row == 0) {
+        return;
+    }
+    OBAAgencyWithCoverageV2 * awc = _agencies[indexPath.row-1];
     OBAAgencyV2 * agency = awc.agency;
     [[UIApplication sharedApplication] openURL: [NSURL URLWithString: agency.url]];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

@@ -20,7 +20,7 @@
 @property (nonatomic) OBARegionV2 *nearbyRegion;
 @property (nonatomic) NSIndexPath *checkedItem;
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext;
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate;
 - (void) sortRegionsByLocation;
 - (void) sortRegionsByName;
 - (void) timeOutLocation:(NSTimer*)theTimer;

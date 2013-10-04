@@ -23,21 +23,20 @@
 #import "UITableViewController+oba_Additions.h"
 
 
-@interface OBASearchResultsListViewController (Private)
-
+@interface OBASearchResultsListViewController ()
+- (UITableViewCell*)tableView:(UITableView *)tableView zeroCountCellWithKind:(NSString*)kind;
 - (void) reloadData;
 - (NSString*) getStopDetail:(OBAStopV2*) stop;
 - (NSString*) getRouteText:(OBARouteV2*) route;
-
 @end
 
 
 @implementation OBASearchResultsListViewController
 
-- (id) initWithContext:(OBAApplicationDelegate*)appContext searchControllerResult:(OBASearchResult*)result {
+- (id) initWithContext:(OBAApplicationDelegate*)appDelegate searchControllerResult:(OBASearchResult*)result {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         self.isModal = NO;
-        _appContext = appContext;
+        _appDelegate = appDelegate;
         self.result = result;
     }
     return self;
@@ -62,6 +61,11 @@
     [self reloadData];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
+}
+
 #pragma mark - Actions
 
 - (void)dismissModal {
@@ -74,7 +78,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     switch (_result.searchType) {
         case OBASearchTypeNone:
-            return 0;
+            return 1;
         case OBASearchTypeRegion:
         case OBASearchTypePlacemark:
         case OBASearchTypeStopId:            
@@ -82,7 +86,7 @@
         case OBASearchTypeRoute:            
         case OBASearchTypeAddress:
         case OBASearchTypeAgenciesWithCoverage:
-            return [_result count];
+            return [_result count] == 0 ? 1 : [_result count];
         default:
             return 0;
     }
@@ -94,13 +98,18 @@
     switch (_result.searchType) {
         case OBASearchTypeNone: {
             UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-            cell.textLabel.text = NSLocalizedString(@"No search results",@"OBASearchTypeNone text");
+            cell.textLabel.text = NSLocalizedString(@"No results for current region",@"OBASearchTypeNone text");
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
         }
         case OBASearchTypeRegion:
         case OBASearchTypePlacemark:
         case OBASearchTypeStopId:            
         case OBASearchTypeRouteStops: {
+            if (self.result.count == 0) {
+                return [self tableView:tableView zeroCountCellWithKind:NSLocalizedString(@"stops", @"stops warnign")];
+            }
             UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
             OBAStopV2 * stop = (_result.values)[indexPath.row];
             cell.textLabel.text = stop.name;
@@ -108,7 +117,10 @@
             cell.detailTextLabel.text = [self getStopDetail:stop];
             return cell;
         }
-        case OBASearchTypeRoute: {        
+        case OBASearchTypeRoute: {
+            if (self.result.count == 0) {
+                return [self tableView:tableView zeroCountCellWithKind:NSLocalizedString(@"routes", @"routes warnign")];
+            }
             UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
             OBARouteV2 * route = (_result.values)[indexPath.row];
             OBAAgencyV2 * agency = route.agency;
@@ -118,6 +130,9 @@
             return cell;
         }
         case OBASearchTypeAddress: {
+            if (self.result.count == 0) {
+                return [self tableView:tableView zeroCountCellWithKind:NSLocalizedString(@"places", @"places warnign")];
+            }
             UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
             OBAPlacemark * placemark = (_result.values)[indexPath.row];
             cell.textLabel.text = [placemark title];
@@ -125,6 +140,9 @@
             return cell;
         }
         case OBASearchTypeAgenciesWithCoverage: {
+            if (self.result.count == 0) {
+                return [self tableView:tableView zeroCountCellWithKind:NSLocalizedString(@"agencies", @"agencies warnign")];
+            }
             UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
             OBAAgencyWithCoverageV2 * awc = (_result.values)[indexPath.row];
             OBAAgencyV2 * agency = awc.agency;
@@ -143,6 +161,15 @@
     return cell;
 }
 
+- (UITableViewCell*)tableView:(UITableView *)tableView zeroCountCellWithKind:(NSString*)kind
+{
+    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+    cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"No %@ at this location", @"No {kind} at this location"), kind];
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     switch (_result.searchType) {
@@ -153,27 +180,30 @@
         case OBASearchTypePlacemark:
         case OBASearchTypeStopId:            
         case OBASearchTypeRouteStops: {
-            
+            if (self.result.count == 0) break;
             OBAStopV2 * stop = (_result.values)[indexPath.row];
-            OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationContext:_appContext stopId:stop.stopId];
+            OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationDelegate:_appDelegate stopId:stop.stopId];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
-        case OBASearchTypeRoute: {        
+        case OBASearchTypeRoute: {
+            if (self.result.count == 0) break;
             OBARouteV2 * route = (_result.values)[indexPath.row];
             OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchRouteStops:route.routeId];
-            [_appContext navigateToTarget:target];
+            [_appDelegate navigateToTarget:target];
             [self dismissModal];
             break;
         }
         case OBASearchTypeAddress: {
+            if (self.result.count == 0) break;
             OBAPlacemark * placemark = (_result.values)[indexPath.row];
             OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
-            [_appContext navigateToTarget:target];
+            [_appDelegate navigateToTarget:target];
             [self dismissModal];
             break;
         }
         case OBASearchTypeAgenciesWithCoverage: {
+            if (self.result.count == 0) break;
             //OBAAgencyWithCoverage * awc = [_result.agenciesWithCoverage objectAtIndex:indexPath.row];
             //OBAAgency * agency = awc.agency;
             // When agencies can be selected, make sure to change their cell's selectionStyle above
@@ -189,15 +219,11 @@
     return [OBANavigationTarget target:OBANavigationTargetTypeSearchResults];
 }
 
-@end
-
-@implementation OBASearchResultsListViewController (Private)
-
 - (void) reloadData {
     
     switch (_result.searchType) {
         case OBASearchTypeNone:
-            self.navigationItem.title = @"";
+            self.navigationItem.title = NSLocalizedString(@"No results",@"OBASearchTypeNone");
             break;
         case OBASearchTypeRegion:
         case OBASearchTypePlacemark:
@@ -244,4 +270,5 @@
     
     return [nameArray componentsJoinedByString:@" - "];
 }
+
 @end

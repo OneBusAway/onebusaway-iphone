@@ -16,14 +16,10 @@
 
 @implementation OBARequestDrivenTableViewController
 
-@synthesize appContext = _appContext;
-@synthesize progressLabel = _progressLabel;
-@synthesize showUpdateTime = _showUpdateTime;
-
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext { 
-    self = [super initWithStyle:UITableViewStyleGrouped];
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate { 
+    self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
-        _appContext = appContext;
+        _appDelegate = appDelegate;
         CGRect r = CGRectMake(0, 0, 160, 33);
         _progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];
         [self.navigationItem setTitleView:_progressView];
@@ -31,6 +27,12 @@
         _showUpdateTime = NO;
     }
     return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self hideEmptySeparators];
 }
 
 - (void)dealloc {
@@ -89,7 +91,7 @@
 #pragma mark UIViewController methods
 
 - (void)viewWillAppear:(BOOL)animated {
-
+    [super viewWillAppear:animated];
     [self clearPendingRequest];
 
     if ([self isLoading]) {        
@@ -102,6 +104,8 @@
         [self handleDataChanged];
         [self.tableView reloadData];
     }
+
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {    
@@ -155,7 +159,8 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     cell.textLabel.text = @"Updating...";
-    cell.textLabel.textColor = [UIColor grayColor];    
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.textColor = [UIColor grayColor];
     cell.textLabel.textAlignment = UITextAlignmentCenter;    
     
     return cell;

@@ -100,6 +100,7 @@ echo "\n********************"
 echo "*    Copy Files    *"
 echo "********************"
 #echo "cp -r \"$ARCHIVE_DIR\" ."
+rm -R $APPNAME.app
 cp -R "$ARCHIVE_DIR" .
 
 #so it will work on jailbroken devices
@@ -115,6 +116,20 @@ chmod +x $APPNAME.app/$APPNAME
 #lipo -info OneBusAway
 #otool -L OneBusAway
 #file OneBusAway
+
+echo "\n********************"
+echo "*     Make IPA     *"
+echo "********************"
+CURRENT_DIR=`pwd`
+#echo $CURRENT_DIR
+#ls -R
+xcrun -sdk iphoneos PackageApplication -v "$CURRENT_DIR/$APPNAME.app" -o "$CURRENT_DIR/$APPNAME.ipa"
+checklastcommanderrorexit
+
+#echo "\n Copying dSYM for later crash debugging..."
+#DYSM=`find ~ -name "$APPNAME.app.dSYM" | head -1`
+#rsync -rv --delete "$DYSM" "$CURRENT_DIR/$APPNAME.app.dSYM"
+#checklastcommanderrorexit
 
 echo "\n********************"
 echo "*   Deploy to GH   *"

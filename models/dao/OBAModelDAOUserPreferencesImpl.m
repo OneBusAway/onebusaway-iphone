@@ -61,6 +61,7 @@ static NSString * kMostRecentCustomApiUrlsKey = @"mostRecentCustomApiUrls";
     NSMutableData * data = [NSMutableData data];
     [self encodeObject:source forKey:kBookmarksKey toData:data];
     [user setObject:data forKey:kBookmarksKey];
+    [user synchronize];
 }
 
 - (NSArray*) readMostRecentStops {
@@ -266,9 +267,14 @@ static NSString * kMostRecentCustomApiUrlsKey = @"mostRecentCustomApiUrls";
 }
 
 - (id) decodeObjectForKey:(NSString*)key fromData:(NSData*)data {
-    NSKeyedUnarchiver * unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    id object = [unarchiver decodeObjectForKey:key];
-    [unarchiver finishDecoding];
+    id object = nil;
+
+    if (data) {
+        NSKeyedUnarchiver * unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        object = [unarchiver decodeObjectForKey:key];
+        [unarchiver finishDecoding];
+    }
+
     return object;
 }
 

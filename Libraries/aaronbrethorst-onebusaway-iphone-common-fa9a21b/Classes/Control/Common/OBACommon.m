@@ -23,17 +23,6 @@ const NSInteger kOBAErrorMissingFieldInData = 1001;
 
 NSString * const OBAApplicationDidCompleteNetworkRequestNotification = @"OBAApplicationDidCompleteNetworkRequestNotification";
 
-
-@implementation NSObject (OBAConvenienceMethods)
-
-+ (id) releaseOld:(id<NSObject>)oldValue retainNew:(id<NSObject>)newValue {
-    if( oldValue == newValue )
-        return newValue;
-    return newValue;
-}
-
-@end
-
 @implementation NSString (OBAConvenienceMethods)
 
 - (NSComparisonResult) compareUsingNumberSearch:(NSString*)aString {

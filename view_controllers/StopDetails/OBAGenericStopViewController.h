@@ -20,6 +20,7 @@
 #import "OBABookmarkV2.h"
 #import "OBAProgressIndicatorView.h"
 #import "OBAArrivalEntryTableViewCellFactory.h"
+#import "OBAShadowLabel.h"
 
 typedef enum {
     OBAStopSectionTypeNone,
@@ -32,21 +33,24 @@ typedef enum {
 @interface OBAGenericStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate,OBAModelServiceDelegate, MKMapViewDelegate>
 @property(nonatomic,strong) IBOutlet UIView *tableHeaderView;
 @property(nonatomic,strong) IBOutlet MKMapView *mapView;
-@property(nonatomic,strong) IBOutlet UILabel *stopName;
-@property(nonatomic,strong) IBOutlet UILabel *stopNumber;
+@property(nonatomic,strong) IBOutlet OBAShadowLabel *stopName;
+@property(nonatomic,strong) IBOutlet OBAShadowLabel *stopNumber;
+@property (strong, nonatomic) IBOutlet OBAShadowLabel *stopRoutes;
 
-@property(strong,readonly) OBAApplicationDelegate * appContext;
+@property(strong,readonly) OBAApplicationDelegate * appDelegate;
 @property(strong,readonly) NSString * stopId;
 @property BOOL showTitle;
 @property BOOL showServiceAlerts;
 @property BOOL showActions;
 @property NSUInteger minutesBefore;
+@property NSUInteger minutesAfter;
 @property(strong) OBAArrivalEntryTableViewCellFactory * arrivalCellFactory;
 @property(strong) NSMutableArray *allArrivals;
 @property(strong) NSMutableArray *filteredArrivals;
 @property BOOL showFilteredArrivals;
 
-- (id)initWithApplicationContext:(OBAApplicationDelegate*)appContext;
-- (id)initWithApplicationContext:(OBAApplicationDelegate*)appContext stopId:(NSString*)stopId;
+- (id)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate;
+- (id)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate stopId:(NSString*)stopId;
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section;
+- (void)refresh;
 @end

@@ -25,7 +25,7 @@ typedef enum {
 
 
 @interface OBAEditStopBookmarkViewController : UITableViewController <OBAModelServiceDelegate> {
-    OBAApplicationDelegate * _appContext;
+    OBAApplicationDelegate * _appDelegate;
     OBABookmarkEditType _editType;
     OBABookmarkV2 * _bookmark;
     NSMutableArray * _requests;
@@ -33,7 +33,7 @@ typedef enum {
     UITextField * _textField;
 }
 
-- (id) initWithApplicationContext:(OBAApplicationDelegate*)appContext bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType;
+- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType;
 
 - (IBAction) onCancelButton:(id)sender;
 - (IBAction) onSaveButton:(id)sender;

@@ -3,9 +3,4 @@
 
 @implementation OBACurrentVehicleEstimateV2
 
-
-@synthesize probability;
-@synthesize tripStatus;
-@synthesize debug;
-
 @end
