@@ -1689,12 +1689,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "OneBusAway" */;
 			buildPhases = (
+				96EF6E5C17E8F3C600786226 /* Set bundle identifier for AppStoreDistribution configuration */,
+				96EF6E5917E8C57100786226 /* Set build version to current git commit short SHA with dirty inditicator (+) */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				D6B74DF90F6CA5D80067D68F /* CopyFiles */,
-				96EF6E5C17E8F3C600786226 /* Set bundle identifier for AppStoreDistribution configuration */,
-				96EF6E5917E8C57100786226 /* Set build version to current git commit short SHA with dirty inditicator (+) */,
 			);
 			buildRules = (
 			);
