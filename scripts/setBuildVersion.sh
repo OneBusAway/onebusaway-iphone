@@ -8,4 +8,4 @@ then
 gitCommitSHA+="+"
 fi
 # Set bundle build version to current git commit short SHA with dirty indicator
-/usr/libexec/PlistBuddy -c "Add :CFBundleVersion string $gitCommitSHA" "$INFOPLIST_FILE"
+/usr/libexec/PlistBuddy -c "Set :CFBundleVersion $gitCommitSHA" "${TARGET_BUILD_DIR}/${INFOPLIST_PATH}"
