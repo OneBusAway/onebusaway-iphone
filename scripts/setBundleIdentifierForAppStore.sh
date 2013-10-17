@@ -3,5 +3,5 @@
 if [ "$CONFIGURATION" == "AppStoreDistribution" ]
 then
 # Set bundle identifier to org.onebusaway.iphone for App Store release
-/usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier org.onebusaway.iphone" "$INFOPLIST_FILE"
+/usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier org.onebusaway.iphone" "${TARGET_BUILD_DIR}/${INFOPLIST_PATH}"
 fi
