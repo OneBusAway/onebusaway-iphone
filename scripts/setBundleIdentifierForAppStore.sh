@@ -1,7 +1,9 @@
 #!/bin/bash
-# Check if current build configuration is AppStoreDistribution
+# Check if current build configuration is for App Store release
 if [ "$CONFIGURATION" == "AppStoreDistribution" ]
 then
-# Set bundle identifier to org.onebusaway.iphone for App Store release
-/usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier org.onebusaway.iphone" "${TARGET_BUILD_DIR}/${INFOPLIST_PATH}"
+	# Set bundle identifier to org.onebusaway.iphone for App Store release
+	echo "#define BUNDLE_IDENTIFIER org.onebusaway.iphone" >> $PROJECT_TEMP_DIR/infoplist.prefix
+else
+	echo "#define BUNDLE_IDENTIFIER org.onebusaway.iphone.dev" >> $PROJECT_TEMP_DIR/infoplist.prefix
 fi

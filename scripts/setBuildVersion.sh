@@ -8,4 +8,6 @@ then
 gitCommitSHA+="+"
 fi
 # Set bundle build version to current git commit short SHA with dirty indicator
-/usr/libexec/PlistBuddy -c "Set :CFBundleVersion $gitCommitSHA" "${TARGET_BUILD_DIR}/${INFOPLIST_PATH}"
+echo "#define GIT_COMMIT_SHA $gitCommitSHA" >> $PROJECT_TEMP_DIR/infoplist.prefix
+# Tell Xcode to preprocess Info.plist
+touch $PROJECT_DIR/Info.plist

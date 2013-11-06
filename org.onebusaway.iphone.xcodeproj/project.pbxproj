@@ -6,6 +6,21 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		96C6447B1810B4A70000EC49 /* Versioning */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 96C644801810B4A70000EC49 /* Build configuration list for PBXAggregateTarget "Versioning" */;
+			buildPhases = (
+				E81C7AFD1824AE960047C68C /* Set bundle identifier based on current build configuration */,
+				96C644841810B4EE0000EC49 /* Set preprocessor definition for current git commit short SHA with dirty inditicator (+) */,
+			);
+			dependencies = (
+			);
+			name = Versioning;
+			productName = Versioning;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -337,6 +352,16 @@
 		D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */; };
 		D69C598913F9BD6900BA90A2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D69C598713F9BD6900BA90A2 /* Localizable.strings */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		96C644821810B4D80000EC49 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 96C6447B1810B4A70000EC49;
+			remoteInfo = Versioning;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		D6B74DF90F6CA5D80067D68F /* CopyFiles */ = {
@@ -836,6 +861,11 @@
 		D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D69C598813F9BD6900BA90A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D69C598A13F9BD9100BA90A2 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E81C7B001825DEBF0047C68C /* setBuildVersion.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = setBuildVersion.sh; sourceTree = "<group>"; };
+		E81C7B011825DEBF0047C68C /* setBundleIdentifierForAppStore.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = setBundleIdentifierForAppStore.sh; sourceTree = "<group>"; };
+		E81C7B031825DEBF0047C68C /* accept_license.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = accept_license.sh; sourceTree = "<group>"; };
+		E81C7B041825DEBF0047C68C /* upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = upload.sh; sourceTree = "<group>"; };
+		E81C7B051825DEBF0047C68C /* xcode5.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = xcode5.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -907,6 +937,7 @@
 				933C7F08160C07440005AAFE /* MapIcons */,
 				D619F88E0FDF1372002893B5 /* Views */,
 				D619F8930FDF13E0002893B5 /* TableViewCells */,
+				E81C7AFF1825DEBF0047C68C /* scripts */,
 				D651BB2711C9D5DE001BE733 /* iTunesArtwork */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				D69C598713F9BD6900BA90A2 /* Localizable.strings */,
@@ -1682,6 +1713,26 @@
 			name = Libraries;
 			sourceTree = "<group>";
 		};
+		E81C7AFF1825DEBF0047C68C /* scripts */ = {
+			isa = PBXGroup;
+			children = (
+				E81C7B001825DEBF0047C68C /* setBuildVersion.sh */,
+				E81C7B011825DEBF0047C68C /* setBundleIdentifierForAppStore.sh */,
+				E81C7B021825DEBF0047C68C /* travis */,
+			);
+			path = scripts;
+			sourceTree = "<group>";
+		};
+		E81C7B021825DEBF0047C68C /* travis */ = {
+			isa = PBXGroup;
+			children = (
+				E81C7B031825DEBF0047C68C /* accept_license.sh */,
+				E81C7B041825DEBF0047C68C /* upload.sh */,
+				E81C7B051825DEBF0047C68C /* xcode5.sh */,
+			);
+			path = travis;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1690,15 +1741,15 @@
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "OneBusAway" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
-				96EF6E5C17E8F3C600786226 /* Set bundle identifier for AppStoreDistribution configuration */,
-				96EF6E5917E8C57100786226 /* Set build version to current git commit short SHA with dirty inditicator (+) */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				D6B74DF90F6CA5D80067D68F /* CopyFiles */,
+				E81C7AFE1824B7C80047C68C /* Remove infoplist.prefix preprocessor file from project temp directory */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				96C644831810B4D80000EC49 /* PBXTargetDependency */,
 			);
 			name = OneBusAway;
 			productName = org.onebusaway.iphone;
@@ -1728,6 +1779,7 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* OneBusAway */,
+				96C6447B1810B4A70000EC49 /* Versioning */,
 			);
 		};
 /* End PBXProject section */
@@ -1917,14 +1969,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		96EF6E5917E8C57100786226 /* Set build version to current git commit short SHA with dirty inditicator (+) */ = {
+		96C644841810B4EE0000EC49 /* Set preprocessor definition for current git commit short SHA with dirty inditicator (+) */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Set build version to current git commit short SHA with dirty inditicator (+)";
+			name = "Set preprocessor definition for current git commit short SHA with dirty inditicator (+)";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1932,19 +1984,34 @@
 			shellScript = "#!/bin/bash\nsh ${PROJECT_DIR}/scripts/setBuildVersion.sh";
 			showEnvVarsInLog = 0;
 		};
-		96EF6E5C17E8F3C600786226 /* Set bundle identifier for AppStoreDistribution configuration */ = {
+		E81C7AFD1824AE960047C68C /* Set bundle identifier based on current build configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Set bundle identifier for AppStoreDistribution configuration";
+			name = "Set bundle identifier based on current build configuration";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/bash\nsh ${PROJECT_DIR}/scripts/setBundleIdentifierForAppStore.sh";
+			showEnvVarsInLog = 0;
+		};
+		E81C7AFE1824B7C80047C68C /* Remove infoplist.prefix preprocessor file from project temp directory */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Remove infoplist.prefix preprocessor file from project temp directory";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm $PROJECT_TEMP_DIR/infoplist.prefix";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2102,6 +2169,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		96C644831810B4D80000EC49 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 96C6447B1810B4A70000EC49 /* Versioning */;
+			targetProxy = 96C644821810B4D80000EC49 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		A005943C13FC43A9001B397B /* OBASearchTableViewCell.xib */ = {
 			isa = PBXVariantGroup;
@@ -2153,7 +2228,9 @@
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2181,6 +2258,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -2191,7 +2269,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2203,6 +2283,7 @@
 					MapKit,
 				);
 				PRODUCT_NAME = OneBusAway;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -2210,6 +2291,34 @@
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
+		};
+		96C6447C1810B4A70000EC49 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		96C6447D1810B4A70000EC49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		96C6447E1810B4A70000EC49 /* AppStoreDistribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = AppStoreDistribution;
+		};
+		96C6447F1810B4A70000EC49 /* AdHocDistribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = AdHocDistribution;
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2259,7 +2368,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: University Of Washington (THEWY9596Q)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2269,7 +2379,9 @@
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2281,7 +2393,8 @@
 					MapKit,
 				);
 				PRODUCT_NAME = OneBusAway;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8B3E1CF6-8EDF-4F37-8F12-E805C22EEB39";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
@@ -2309,7 +2422,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: University Of Washington (THEWY9596Q)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2319,7 +2433,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2331,7 +2447,8 @@
 					MapKit,
 				);
 				PRODUCT_NAME = OneBusAway;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8B3E1CF6-8EDF-4F37-8F12-E805C22EEB39";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = YES;
 				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
@@ -2349,6 +2466,17 @@
 				1D6058950D05DD3E006BFB54 /* Release */,
 				D6BEE73F10474E58003655A1 /* AppStoreDistribution */,
 				D6575AF60FEE8B0900D6D987 /* AdHocDistribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		96C644801810B4A70000EC49 /* Build configuration list for PBXAggregateTarget "Versioning" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96C6447C1810B4A70000EC49 /* Debug */,
+				96C6447D1810B4A70000EC49 /* Release */,
+				96C6447E1810B4A70000EC49 /* AppStoreDistribution */,
+				96C6447F1810B4A70000EC49 /* AdHocDistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
