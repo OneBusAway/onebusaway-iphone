@@ -12,7 +12,6 @@
 			buildConfigurationList = 96C644801810B4A70000EC49 /* Build configuration list for PBXAggregateTarget "Versioning" */;
 			buildPhases = (
 				E81C7AFD1824AE960047C68C /* Set bundle identifier based on current build configuration */,
-				96C644841810B4EE0000EC49 /* Set preprocessor definition for current git commit short SHA with dirty inditicator (+) */,
 			);
 			dependencies = (
 			);
@@ -861,7 +860,6 @@
 		D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D69C598813F9BD6900BA90A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D69C598A13F9BD9100BA90A2 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		E81C7B001825DEBF0047C68C /* setBuildVersion.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = setBuildVersion.sh; sourceTree = "<group>"; };
 		E81C7B011825DEBF0047C68C /* setBundleIdentifierForAppStore.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = setBundleIdentifierForAppStore.sh; sourceTree = "<group>"; };
 		E81C7B031825DEBF0047C68C /* accept_license.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = accept_license.sh; sourceTree = "<group>"; };
 		E81C7B041825DEBF0047C68C /* upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = upload.sh; sourceTree = "<group>"; };
@@ -1716,7 +1714,6 @@
 		E81C7AFF1825DEBF0047C68C /* scripts */ = {
 			isa = PBXGroup;
 			children = (
-				E81C7B001825DEBF0047C68C /* setBuildVersion.sh */,
 				E81C7B011825DEBF0047C68C /* setBundleIdentifierForAppStore.sh */,
 				E81C7B021825DEBF0047C68C /* travis */,
 			);
@@ -1969,21 +1966,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		96C644841810B4EE0000EC49 /* Set preprocessor definition for current git commit short SHA with dirty inditicator (+) */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Set preprocessor definition for current git commit short SHA with dirty inditicator (+)";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nsh ${PROJECT_DIR}/scripts/setBuildVersion.sh";
-			showEnvVarsInLog = 0;
-		};
 		E81C7AFD1824AE960047C68C /* Set bundle identifier based on current build configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
