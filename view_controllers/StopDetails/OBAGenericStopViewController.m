@@ -161,6 +161,12 @@ static const double kNearbyStopRadius = 200;
         self.stopName.tapToScroll = YES;
         self.stopName.animationDelay = 0;
         self.stopName.animationCurve = UIViewAnimationOptionCurveLinear;
+        self.stopName.userInteractionEnabled = YES;
+        UITapGestureRecognizer *gr = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(openURLS:)];
+        [self.stopName addGestureRecognizer:gr];
+        gr.numberOfTapsRequired = 1;
+        gr.cancelsTouchesInView = NO;
+        [self.view addSubview:self.stopName];
 
         self.tableHeaderView.backgroundColor = OBAGREENBACKGROUND;
         [self.tableHeaderView addSubview:self.stopName];
@@ -177,6 +183,12 @@ static const double kNearbyStopRadius = 200;
         
         [self hideEmptySeparators];
     }
+}
+
+- (void)openURLS:(UITapGestureRecognizer*)gesture
+{
+     NSString *stopFinderUrl = [NSString stringWithFormat:@"http://stopinfo.pugetsound.onebusaway.org"];
+     [[UIApplication sharedApplication] openURL: [NSURL URLWithString: stopFinderUrl]];
 }
 
 - (void)viewDidUnload {
@@ -743,6 +755,7 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
         self.stopName.text = stop.name;
         if (stop.direction) {
             self.stopNumber.text = [NSString stringWithFormat:@"%@ #%@ - %@ %@",NSLocalizedString(@"Stop",@"text"),stop.code,stop.direction,NSLocalizedString(@"bound",@"text")];
+            self.stopName.accessibilityLabel = [NSString stringWithFormat:@"%@, double tap for stop landmark information.", self.stopName.text];
         } else
         {
             self.stopNumber.text = [NSString stringWithFormat:@"%@ #%@",NSLocalizedString(@"Stop",@"text"),stop.code];
