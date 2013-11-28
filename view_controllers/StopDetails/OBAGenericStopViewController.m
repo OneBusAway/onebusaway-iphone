@@ -30,6 +30,7 @@
 #import "OBATripDetailsViewController.h"
 #import "OBAReportProblemViewController.h"
 #import "OBAStopIconFactory.h"
+#import "OBARegionV2.h"
 
 #import "OBASearchController.h"
 #import "OBASphericalGeometryLibrary.h"
@@ -187,8 +188,15 @@ static const double kNearbyStopRadius = 200;
 
 - (void)openURLS:(UITapGestureRecognizer*)gesture
 {
-     NSString *stopFinderUrl = [NSString stringWithFormat:@"http://stopinfo.pugetsound.onebusaway.org"];
-     [[UIApplication sharedApplication] openURL: [NSURL URLWithString: stopFinderUrl]];
+    OBAStopV2 *stop = _result.stop;
+    OBARegionV2 *region = _appDelegate.modelDao.region;
+    if (region) {
+        [TestFlight passCheckpoint:@"Loaded StopFinder via App"];
+        NSString *stopFinderBaseUrl = region.stopInfoUrl;
+        NSString *url = [NSString stringWithFormat:@"%@/busstops/%@", stopFinderBaseUrl, stop.stopId];
+        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+    }
+    
 }
 
 - (void)viewDidUnload {
@@ -745,6 +753,7 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
     
     OBAStopV2 * stop = _result.stop;
     
+    OBARegionV2 * region = _appDelegate.modelDao.region;
     NSArray * predictedArrivals = _result.arrivalsAndDepartures;
     
     [_allArrivals removeAllObjects];
@@ -755,7 +764,9 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
         self.stopName.text = stop.name;
         if (stop.direction) {
             self.stopNumber.text = [NSString stringWithFormat:@"%@ #%@ - %@ %@",NSLocalizedString(@"Stop",@"text"),stop.code,stop.direction,NSLocalizedString(@"bound",@"text")];
-            self.stopName.accessibilityLabel = [NSString stringWithFormat:@"%@, double tap for stop landmark information.", self.stopName.text];
+            if (![region.stopInfoUrl isEqual:[NSNull null]]){
+                self.stopName.accessibilityLabel = [NSString stringWithFormat:@"%@, double tap for stop landmark information.", self.stopName.text];\
+            }
         } else
         {
             self.stopNumber.text = [NSString stringWithFormat:@"%@ #%@",NSLocalizedString(@"Stop",@"text"),stop.code];

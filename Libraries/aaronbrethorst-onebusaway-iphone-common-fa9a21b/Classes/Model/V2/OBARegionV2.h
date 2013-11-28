@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSString * obaBaseUrl;
 @property (nonatomic, strong) NSString * facebookUrl;
 @property (nonatomic, strong) NSString * regionName;
+@property (nonatomic, strong) NSString * stopInfoUrl;
 
 @property (nonatomic) BOOL supportsSiriRealtimeApis;
 @property (nonatomic) BOOL supportsObaRealtimeApis;
