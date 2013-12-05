@@ -765,6 +765,14 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
         if (stop.direction) {
             self.stopNumber.text = [NSString stringWithFormat:@"%@ #%@ - %@ %@",NSLocalizedString(@"Stop",@"text"),stop.code,stop.direction,NSLocalizedString(@"bound",@"text")];
             if (![region.stopInfoUrl isEqual:[NSNull null]]){
+                //Change color of label and underline if it is linked to a stopinfo page
+                //Set accessibility label accordingly
+                self.stopName.textColor = [UIColor colorWithRed:(82/255.0) green:(113/255.0) blue:(41/255.0) alpha:1];
+                NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString: stop.name];
+                [attributeString addAttribute:NSUnderlineStyleAttributeName
+                                            value:[NSNumber numberWithInt:1]
+                                            range:(NSRange){0,[attributeString length]}];
+                self.stopName.attributedText = attributeString;
                 self.stopName.accessibilityLabel = [NSString stringWithFormat:@"%@, double tap for stop landmark information.", self.stopName.text];\
             }
         } else
