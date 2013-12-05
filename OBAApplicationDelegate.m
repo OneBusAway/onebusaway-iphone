@@ -122,7 +122,7 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     OBAJsonDataSource * obaJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:obaDataSourceConfig];
     _modelService.obaJsonDataSource = obaJsonDataSource;
     
-    OBADataSourceConfig * googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"http://maps.google.com" args:@"output=json&oe=utf-8&key=ABQIAAAA1R_R0bUhLYRwbQFpKHVowhRAXGY6QyK0faTs-0G7h9EE_iri4RRtKgRdKFvvraEP5PX_lP_RlqKkzA"];
+    OBADataSourceConfig * googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"https://maps.googleapis.com" args:@"&sensor=true"];
     OBAJsonDataSource * googleMapsJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
     _modelService.googleMapsJsonDataSource = googleMapsJsonDataSource;
     
