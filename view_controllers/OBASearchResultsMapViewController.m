@@ -1274,8 +1274,17 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 - (BOOL)outOfServiceArea{
     MKMapRect viewRect = self.mapView.visibleMapRect;
     for (OBARegionBoundsV2 *bounds in self.appDelegate.modelDao.region.bounds) {
-        MKCoordinateRegion serviceRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(bounds.lat, bounds.lon), MKCoordinateSpanMake(bounds.lonSpan, bounds.latSpan));
-        MKMapRect serviceRect = MKMapRectForCoordinateRegion(serviceRegion);
+        
+        
+        MKMapPoint a = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
+                                                                          bounds.lat+ bounds.latSpan/ 2,
+                                                                          bounds.lon - bounds.lonSpan/ 2));
+        MKMapPoint b = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
+                                                                          bounds.lat - bounds.latSpan / 2,
+                                                                          bounds.lon + bounds.lonSpan / 2));
+        
+        MKMapRect serviceRect = MKMapRectMake(MIN(a.x,b.x), MIN(a.y,b.y), ABS(a.x-b.x), ABS(a.y-b.y));
+        
         if (MKMapRectIntersectsRect(serviceRect, viewRect)) {
             return NO;
         }
