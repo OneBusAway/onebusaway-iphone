@@ -30,6 +30,7 @@
 #import "OBATripDetailsViewController.h"
 #import "OBAReportProblemViewController.h"
 #import "OBAStopIconFactory.h"
+#import "OBARegionV2.h"
 
 #import "OBASearchController.h"
 #import "OBASphericalGeometryLibrary.h"
@@ -161,6 +162,12 @@ static const double kNearbyStopRadius = 200;
         self.stopName.tapToScroll = YES;
         self.stopName.animationDelay = 0;
         self.stopName.animationCurve = UIViewAnimationOptionCurveLinear;
+        self.stopName.userInteractionEnabled = YES;
+        UITapGestureRecognizer *gr = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(openURLS:)];
+        [self.stopName addGestureRecognizer:gr];
+        gr.numberOfTapsRequired = 1;
+        gr.cancelsTouchesInView = NO;
+        [self.view addSubview:self.stopName];
 
         self.tableHeaderView.backgroundColor = OBAGREENBACKGROUND;
         [self.tableHeaderView addSubview:self.stopName];
@@ -177,6 +184,19 @@ static const double kNearbyStopRadius = 200;
         
         [self hideEmptySeparators];
     }
+}
+
+- (void)openURLS:(UITapGestureRecognizer*)gesture
+{
+    OBAStopV2 *stop = _result.stop;
+    OBARegionV2 *region = _appDelegate.modelDao.region;
+    if (region) {
+        [TestFlight passCheckpoint:@"Loaded StopFinder via App"];
+        NSString *stopFinderBaseUrl = region.stopInfoUrl;
+        NSString *url = [NSString stringWithFormat:@"%@/busstops/%@", stopFinderBaseUrl, stop.stopId];
+        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+    }
+    
 }
 
 - (void)viewDidUnload {
@@ -733,6 +753,7 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
     
     OBAStopV2 * stop = _result.stop;
     
+    OBARegionV2 * region = _appDelegate.modelDao.region;
     NSArray * predictedArrivals = _result.arrivalsAndDepartures;
     
     [_allArrivals removeAllObjects];
@@ -743,6 +764,17 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
         self.stopName.text = stop.name;
         if (stop.direction) {
             self.stopNumber.text = [NSString stringWithFormat:@"%@ #%@ - %@ %@",NSLocalizedString(@"Stop",@"text"),stop.code,stop.direction,NSLocalizedString(@"bound",@"text")];
+            if (![region.stopInfoUrl isEqual:[NSNull null]]){
+                //Change color of label and underline if it is linked to a stopinfo page
+                //Set accessibility label accordingly
+                self.stopName.textColor = [UIColor colorWithRed:(82/255.0) green:(113/255.0) blue:(41/255.0) alpha:1];
+                NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString: stop.name];
+                [attributeString addAttribute:NSUnderlineStyleAttributeName
+                                            value:[NSNumber numberWithInt:1]
+                                            range:(NSRange){0,[attributeString length]}];
+                self.stopName.attributedText = attributeString;
+                self.stopName.accessibilityLabel = [NSString stringWithFormat:@"%@, double tap for stop landmark information.", self.stopName.text];\
+            }
         } else
         {
             self.stopNumber.text = [NSString stringWithFormat:@"%@ #%@",NSLocalizedString(@"Stop",@"text"),stop.code];
