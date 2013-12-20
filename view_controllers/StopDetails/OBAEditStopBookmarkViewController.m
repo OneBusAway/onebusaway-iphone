@@ -20,6 +20,8 @@
 #import "OBARoute.h"
 #import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
+#import "OBABookmarkGroup.h"
+#import "OBAEditStopBookmarkGroupViewController.h"
 
 @implementation OBAEditStopBookmarkViewController
 
@@ -30,6 +32,7 @@
 
         _appDelegate = appDelegate;
         _bookmark = bookmark;
+        _selectedGroup = bookmark.group;
         _editType = editType;
 
         _requests = [[NSMutableArray alloc] initWithCapacity:[_bookmark.stopIds count]];
@@ -106,7 +109,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 3;
 }
 
 // Customize the appearance of table view cells.
@@ -120,7 +123,7 @@
         [tableView addSubview:cell]; // make keyboard slide in/out from right.
         return cell;
     }
-    else {
+    else if ( indexPath.row == 1 ){
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         
         NSString * stopId = (_bookmark.stopIds)[indexPath.row-1];
@@ -135,6 +138,29 @@
         cell.selectionStyle =  UITableViewCellSelectionStyleNone;
         return cell;
     }
+    else {
+        UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"BookmarkGroupCell"];
+        NSString *groupName = @"None";
+        if (_selectedGroup) {
+            groupName = _selectedGroup.name;
+        }
+        cell.textLabel.text = [NSString stringWithFormat:@"Set Group: %@", groupName];
+        cell.textLabel.textColor = [UIColor darkGrayColor];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        return cell;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 2) {
+        OBAEditStopBookmarkGroupViewController *groupVC = [[OBAEditStopBookmarkGroupViewController alloc] initWithAppDelegate:_appDelegate selectedBookmarkGroup:_selectedGroup];
+        groupVC.delegate = self;
+        [self.navigationController pushViewController:groupVC animated:YES];
+    }
+}
+
+- (void)didSetBookmarkGroup:(OBABookmarkGroup *)group {
+    _selectedGroup = group;
 }
 
 - (IBAction) onCancelButton:(id)sender {
@@ -147,23 +173,19 @@
     
     _bookmark.name = _textField.text;
     
-    switch (_editType ) {
-        case OBABookmarkEditNew:
+    if (!_bookmark.group && !_selectedGroup) {
+        if (_editType == OBABookmarkEditNew) {
             [dao addNewBookmark:_bookmark];
-            break;
-        case OBABookmarkEditExisting:
-            [dao saveExistingBookmark:_bookmark];
-            break;
+        }
+        [dao saveExistingBookmark:_bookmark];
+    } else {
+        [dao moveBookmark:_bookmark toGroup:_selectedGroup];
     }
-
-    [dao saveExistingBookmark:_bookmark];
 
     // pop to stop view controller are saving settings
     BOOL foundStopViewController = NO;
-    for (UIViewController* viewController in [self.navigationController viewControllers])
-    {
-        if ([viewController isKindOfClass:[OBAStopViewController class]])
-        {
+    for (UIViewController* viewController in [self.navigationController viewControllers]) {
+        if ([viewController isKindOfClass:[OBAStopViewController class]]) {
             [self.navigationController popToViewController:viewController animated:YES];
             foundStopViewController = YES;
             break;
