@@ -35,6 +35,7 @@
 #import "OBASphericalGeometryLibrary.h"
 #import "MKMapView+oba_Additions.h"
 #import "UITableViewController+oba_Additions.h"
+#import "OBABookmarkGroup.h"
 
 static const double kNearbyStopRadius = 200;
 
@@ -185,6 +186,23 @@ static const double kNearbyStopRadius = 200;
     
     [self setStopRoutes:nil];
     [super viewDidUnload];
+}
+
+- (OBABookmarkV2*)existingBookmark {
+    OBAStopV2 *stop = _result.stop;
+    for (OBABookmarkV2 *bm in [_appDelegate.modelDao bookmarks]) {
+        if ([bm.stopIds containsObject:stop.stopId]) {
+            return bm;
+        }
+    }
+    for (OBABookmarkGroup *group in [_appDelegate.modelDao bookmarkGroups]) {
+        for (OBABookmarkV2 *bm in group.bookmarks) {
+            if ([bm.stopIds containsObject:stop.stopId]) {
+                return bm;
+            }
+        }
+    }
+    return nil;
 }
 
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section {
@@ -617,7 +635,11 @@ static const double kNearbyStopRadius = 200;
     
     switch(indexPath.row) {
         case 0: {
-            cell.textLabel.text = NSLocalizedString(@"Add to Bookmarks",@"case 0");
+            if ([self existingBookmark]) {
+                cell.textLabel.text = NSLocalizedString(@"Edit Bookmark",@"case 0 edit");
+            } else {
+                cell.textLabel.text = NSLocalizedString(@"Add to Bookmarks",@"case 0");
+            }
             break;
         }
         case 1: {
@@ -677,9 +699,15 @@ static const double kNearbyStopRadius = 200;
 - (void)tableView:(UITableView *)tableView didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath {
     switch(indexPath.row) {
         case 0: {
-            OBABookmarkV2 * bookmark = [_appDelegate.modelDao createTransientBookmark:_result.stop];
-            
-            OBAEditStopBookmarkViewController * vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:_appDelegate bookmark:bookmark editType:OBABookmarkEditNew];
+            OBAEditStopBookmarkViewController * vc = nil;
+            OBABookmarkV2 * bookmark = [self existingBookmark];
+            if (!bookmark) {
+                bookmark = [_appDelegate.modelDao createTransientBookmark:_result.stop];
+                
+                vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:_appDelegate bookmark:bookmark editType:OBABookmarkEditNew];
+            } else {
+                vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:_appDelegate bookmark:bookmark editType:OBABookmarkEditExisting];
+            }
             [self.navigationController pushViewController:vc animated:YES];
             
             break;
