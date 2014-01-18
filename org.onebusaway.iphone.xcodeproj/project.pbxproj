@@ -351,6 +351,7 @@
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 		D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */; };
 		D69C598913F9BD6900BA90A2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D69C598713F9BD6900BA90A2 /* Localizable.strings */; };
+		FFA3C6B6188B0E6C006FBDD1 /* WSCoachMarksView.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA3C6B5188B0E6C006FBDD1 /* WSCoachMarksView.m */; };
 		FFBFE02A1863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBFE0291863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m */; };
 		FFCA85721863D24200F87DCA /* OBABookmarkGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FFCA85711863D24200F87DCA /* OBABookmarkGroup.m */; };
 		FFE76DCD186F94E10036D121 /* OBAEditBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFE76DCC186F94E10036D121 /* OBAEditBookmarkGroupViewController.m */; };
@@ -869,6 +870,8 @@
 		E81C7B031825DEBF0047C68C /* accept_license.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = accept_license.sh; sourceTree = "<group>"; };
 		E81C7B041825DEBF0047C68C /* upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = upload.sh; sourceTree = "<group>"; };
 		E81C7B051825DEBF0047C68C /* xcode5.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = xcode5.sh; sourceTree = "<group>"; };
+		FFA3C6B4188B0E6C006FBDD1 /* WSCoachMarksView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSCoachMarksView.h; sourceTree = "<group>"; };
+		FFA3C6B5188B0E6C006FBDD1 /* WSCoachMarksView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSCoachMarksView.m; sourceTree = "<group>"; };
 		FFBFE0281863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopBookmarkGroupViewController.h; sourceTree = "<group>"; };
 		FFBFE0291863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditStopBookmarkGroupViewController.m; sourceTree = "<group>"; };
 		FFCA85701863D24200F87DCA /* OBABookmarkGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkGroup.h; sourceTree = "<group>"; };
@@ -1720,6 +1723,7 @@
 		D61A66790FCDB155004D2E91 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				FFA3C6B3188B0E5D006FBDD1 /* WSCoachMarks */,
 				9358469A17FB9DC30034200C /* TWSReleaseNotesView */,
 				92CAAE96179C4AF40097DD3D /* MarqueeLabel */,
 				933C7E2B160C07440005AAFE /* Common */,
@@ -1746,6 +1750,15 @@
 				E81C7B051825DEBF0047C68C /* xcode5.sh */,
 			);
 			path = travis;
+			sourceTree = "<group>";
+		};
+		FFA3C6B3188B0E5D006FBDD1 /* WSCoachMarks */ = {
+			isa = PBXGroup;
+			children = (
+				FFA3C6B4188B0E6C006FBDD1 /* WSCoachMarksView.h */,
+				FFA3C6B5188B0E6C006FBDD1 /* WSCoachMarksView.m */,
+			);
+			name = WSCoachMarks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2083,6 +2096,7 @@
 				93631E6E1604F99500CB7209 /* OBAEditStopBookmarkViewController.m in Sources */,
 				93631E6F1604F99500CB7209 /* OBAEditStopPreferencesViewController.m in Sources */,
 				93631E701604F99500CB7209 /* OBAGenericStopViewController.m in Sources */,
+				FFA3C6B6188B0E6C006FBDD1 /* WSCoachMarksView.m in Sources */,
 				93631E711604F99500CB7209 /* OBAReportProblemViewController.m in Sources */,
 				93631E721604F99500CB7209 /* OBAReportProblemWithRecentTripsViewController.m in Sources */,
 				93631E731604F99500CB7209 /* OBAReportProblemWithStopViewController.m in Sources */,

@@ -36,7 +36,9 @@
 #import "MKMapView+oba_Additions.h"
 #import "UITableViewController+oba_Additions.h"
 #import "OBABookmarkGroup.h"
+#import "WSCoachMarksView.h"
 
+static NSString * kOBAStopInfoCoachMarkShownDefaultsKey = @"OBAStopInfoCoachMarkShown";
 static const double kNearbyStopRadius = 200;
 
 @interface OBAGenericStopViewController ()
@@ -178,6 +180,10 @@ static const double kNearbyStopRadius = 200;
         
         [self hideEmptySeparators];
     }
+    
+    if ([self shouldShowCoachMark]) {
+        [self showCoachMark];
+    }
 }
 
 - (void)viewDidUnload {
@@ -237,6 +243,27 @@ static const double kNearbyStopRadius = 200;
     }
     
     return OBAStopSectionTypeNone;
+}
+
+#pragma mark Stop Info Coach Mark
+
+- (BOOL)shouldShowCoachMark {
+    BOOL coachMarkShown = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAStopInfoCoachMarkShownDefaultsKey];
+    return !coachMarkShown;
+}
+
+- (void)showCoachMark {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kOBAStopInfoCoachMarkShownDefaultsKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    NSArray *coachMarks = @[ @{
+            @"rect": [NSValue valueWithCGRect:(CGRect){{5,30}, {310, 70}}],
+            @"caption": @"Tap here to learn more about this stop with the new StopInfo service."
+            }];
+    
+    WSCoachMarksView *coachMarksView = [[WSCoachMarksView alloc] initWithFrame:self.view.bounds coachMarks:coachMarks];
+    [self.view addSubview:coachMarksView];
+    [coachMarksView start];
 }
 
 #pragma mark OBANavigationTargetAware
