@@ -195,7 +195,7 @@ static NSString *editingCellTag = @"editingCell";
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.font = [UIFont systemFontOfSize:16];
     cell.textLabel.text = [self.recentUrls objectAtIndex:indexPath.row];
     return cell;

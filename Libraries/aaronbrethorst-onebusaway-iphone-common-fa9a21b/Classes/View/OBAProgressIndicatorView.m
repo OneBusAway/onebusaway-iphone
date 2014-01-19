@@ -99,8 +99,8 @@
     [self setupLabel:_label];
     [self setupLabel:_progressLabel];
     _activityIndicator.frame = acitivityIndicatorFrame;
-    _label.textAlignment = UITextAlignmentCenter;
-    _progressLabel.textAlignment = UITextAlignmentCenter;    
+    _label.textAlignment = NSTextAlignmentCenter;
+    _progressLabel.textAlignment = NSTextAlignmentCenter;    
     
     [self addSubview:_label];
     [self addSubview:_progressLabel];

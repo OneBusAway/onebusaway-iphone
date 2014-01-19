@@ -190,7 +190,7 @@ typedef enum {
 - (UITableViewCell*) tableView:(UITableView*)tableView titleCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.textLabel.text = _situation.summary;
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryNone;
     return cell;    
@@ -200,7 +200,7 @@ typedef enum {
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];    
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     
     if( indexPath.row == 0 ) {
         cell.textLabel.text = [self getDetails:NO];
@@ -219,7 +219,7 @@ typedef enum {
 
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.textLabel.text = isRead ? NSLocalizedString(@"Mark as Unread",@"isRead") : NSLocalizedString(@"Mark as Read",@"!isRead");
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryNone;           
     return cell;
