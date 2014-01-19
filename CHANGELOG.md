@@ -1,5 +1,13 @@
 # Changelog for OneBusAway for iPhone
 
+## 2.2
+
+* Added support for finding and contributing information about bus stops in Stop Details page for Puget Sound (see http://stopinfo.pugetsound.onebusaway.org for more details)
+* Added option to show experimental servers (such as Washington D.C.)
+* Added feature to create groups for bookmarks
+* Fixed address search by updating to Google Geocoding V3 API
+* Fixed "Out of Service Area" message appearing for covered areas
+
 ## 2.1
 
 Special thanks to the volunteer developers and many testers for their work on this version!
