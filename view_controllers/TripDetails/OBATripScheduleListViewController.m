@@ -303,7 +303,7 @@ typedef enum {
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.textLabel.text = NSLocalizedString(@"Loading...",@"cell.textLabel.text");
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
 
     return cell;

@@ -72,7 +72,7 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
     
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:cellId];
     cell.textLabel.text = [NSString stringWithFormat:@"Service alerts: %d unread",serviceAlerts.unreadCount];
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
@@ -90,7 +90,7 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
     
     static NSString *cellId = @"ServiceAlertsCell";
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:cellId];
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     

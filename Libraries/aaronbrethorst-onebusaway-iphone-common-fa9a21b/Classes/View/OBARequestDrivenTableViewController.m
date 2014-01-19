@@ -161,7 +161,7 @@
     cell.textLabel.text = @"Updating...";
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.textLabel.textColor = [UIColor grayColor];
-    cell.textLabel.textAlignment = UITextAlignmentCenter;    
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;    
     
     return cell;
 }

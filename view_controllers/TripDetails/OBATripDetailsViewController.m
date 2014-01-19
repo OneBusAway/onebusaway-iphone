@@ -244,7 +244,7 @@ typedef enum {
 
     cell.textLabel.text = NSLocalizedString(@"Updating...",@"message");
     cell.textLabel.textColor = [UIColor grayColor];    
-    cell.textLabel.textAlignment = UITextAlignmentCenter;    
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     
     return cell;
 }
@@ -259,11 +259,11 @@ typedef enum {
     
     cell.textLabel.text = trip.asLabel;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentLeft;    
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     
     cell.detailTextLabel.text = NSLocalizedString(@"Schedule data only",@"cell.detailTextLabel.text");
     cell.detailTextLabel.textColor = [UIColor blackColor];
-    cell.detailTextLabel.textAlignment = UITextAlignmentLeft;    
+    cell.detailTextLabel.textAlignment = NSTextAlignmentLeft;
     
     OBATripStatusV2 * status = _tripDetails.status;
     if( status && status.predicted ) {
@@ -288,7 +288,7 @@ typedef enum {
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     
     switch (indexPath.row) {
         case 0:
@@ -309,7 +309,7 @@ typedef enum {
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     
     
     switch (indexPath.row) {

@@ -826,15 +826,6 @@ typedef void (^animationCompletionBlock)(void);
     self.subLabel.baselineAdjustment = baselineAdjustment;
 }
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
-- (NSAttributedString *)attributedText {
-    return self.subLabel.attributedText;
-}
-
-- (void)setAttributedText:(NSAttributedString *)attributedText {
-    self.subLabel.attributedText = attributedText;
-}
-
 - (void)setAdjustsLetterSpacingToFitWidth:(BOOL)adjustsLetterSpacingToFitWidth {
     // By the nature of MarqueeLabel, this is NO
     [super setAdjustsLetterSpacingToFitWidth:NO];
@@ -843,7 +834,6 @@ typedef void (^animationCompletionBlock)(void);
 - (void)setMinimumScaleFactor:(CGFloat)minimumScaleFactor {
     [super setMinimumScaleFactor:0.0f];
 }
-#endif
 
 #pragma mark - Custom Getters and Setters
 

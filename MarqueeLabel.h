@@ -60,13 +60,13 @@ typedef enum {
 /* marqueeType:
  * When set to LeftRight, the label moves from left to right and back from right to left alternatively.
  *
- *      NOTE: LeftRight type is ONLY compatible with a label text alignment of UITextAlignmentLeft. Specifying
- *      LeftRight will change any previously set, non-compatible text alignment to UITextAlignmentLeft.
+ *      NOTE: LeftRight type is ONLY compatible with a label text alignment of NSTextAlignmentLeft. Specifying
+ *      LeftRight will change any previously set, non-compatible text alignment to NSTextAlignmentLeft.
  *
  * When set to RightLeft, the label moves from right to left and back from left to right alternatively.
  *
- *      NOTE: RightLeft type is ONLY compatibile with a label text alignment of UITextAlignmentRight. Specifying
- *      RightLeft will change any previously set, non-compatible text alignment to UITextAlignmentRight.
+ *      NOTE: RightLeft type is ONLY compatible with a label text alignment of NSTextAlignmentRight. Specifying
+ *      RightLeft will change any previously set, non-compatible text alignment to NSTextAlignmentRight.
  *
  * When set to Continuous, the label slides continuously to the left.
  *
