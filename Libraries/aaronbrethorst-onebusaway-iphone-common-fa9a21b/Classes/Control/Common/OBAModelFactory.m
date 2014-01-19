@@ -608,6 +608,7 @@ static NSString * const kReferences = @"references";
     [self addSetPropertyRule:@"obaBaseUrl" forPrefix:[self extendPrefix:prefix withValue:@"obaBaseUrl"]];
     [self addSetPropertyRule:@"id_number" forPrefix:[self extendPrefix:prefix withValue:@"id"]];
     [self addSetPropertyRule:@"regionName" forPrefix:[self extendPrefix:prefix withValue:@"regionName"]];
+    [self addSetPropertyRule:@"stopInfoUrl" forPrefix:[self extendPrefix:prefix withValue:@"stopInfoUrl"]];
 }
 
 - (void) addRegionBoundsV2RulesWithPrefix:(NSString*)prefix {
