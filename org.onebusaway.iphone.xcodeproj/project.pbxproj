@@ -351,6 +351,9 @@
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 		D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */; };
 		D69C598913F9BD6900BA90A2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D69C598713F9BD6900BA90A2 /* Localizable.strings */; };
+		FFBFE02A1863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBFE0291863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m */; };
+		FFCA85721863D24200F87DCA /* OBABookmarkGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FFCA85711863D24200F87DCA /* OBABookmarkGroup.m */; };
+		FFE76DCD186F94E10036D121 /* OBAEditBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFE76DCC186F94E10036D121 /* OBAEditBookmarkGroupViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -866,6 +869,12 @@
 		E81C7B031825DEBF0047C68C /* accept_license.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = accept_license.sh; sourceTree = "<group>"; };
 		E81C7B041825DEBF0047C68C /* upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = upload.sh; sourceTree = "<group>"; };
 		E81C7B051825DEBF0047C68C /* xcode5.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = xcode5.sh; sourceTree = "<group>"; };
+		FFBFE0281863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopBookmarkGroupViewController.h; sourceTree = "<group>"; };
+		FFBFE0291863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditStopBookmarkGroupViewController.m; sourceTree = "<group>"; };
+		FFCA85701863D24200F87DCA /* OBABookmarkGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkGroup.h; sourceTree = "<group>"; };
+		FFCA85711863D24200F87DCA /* OBABookmarkGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkGroup.m; sourceTree = "<group>"; };
+		FFE76DCB186F94E10036D121 /* OBAEditBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditBookmarkGroupViewController.h; sourceTree = "<group>"; };
+		FFE76DCC186F94E10036D121 /* OBAEditBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditBookmarkGroupViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1440,6 +1449,10 @@
 				93631E601604F99500CB7209 /* OBAReportProblemWithStopViewController.m */,
 				93631E611604F99500CB7209 /* OBAStopViewController.h */,
 				93631E621604F99500CB7209 /* OBAStopViewController.m */,
+				FFBFE0281863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.h */,
+				FFBFE0291863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m */,
+				FFE76DCB186F94E10036D121 /* OBAEditBookmarkGroupViewController.h */,
+				FFE76DCC186F94E10036D121 /* OBAEditBookmarkGroupViewController.m */,
 			);
 			path = StopDetails;
 			sourceTree = "<group>";
@@ -1604,6 +1617,8 @@
 				93AD366F160400F500BDF03F /* OBATrip.m */,
 				93AD3670160400F500BDF03F /* OBATripStatus.h */,
 				93AD3671160400F500BDF03F /* OBATripStatus.m */,
+				FFCA85701863D24200F87DCA /* OBABookmarkGroup.h */,
+				FFCA85711863D24200F87DCA /* OBABookmarkGroup.m */,
 			);
 			path = unmanaged;
 			sourceTree = "<group>";
@@ -2039,6 +2054,7 @@
 				93AD365F1603FFE600BDF03F /* OBAGenericAnnotation.m in Sources */,
 				93AD36601603FFE600BDF03F /* OBANavigationTargetAnnotation.m in Sources */,
 				93AD36621603FFE600BDF03F /* OBAVehicleMapAnnotation.m in Sources */,
+				FFCA85721863D24200F87DCA /* OBABookmarkGroup.m in Sources */,
 				93AD3672160400F500BDF03F /* OBAAgencyWithCoverage.m in Sources */,
 				93AD3673160400F500BDF03F /* OBAArrivalsAndDeparturesForStop.m in Sources */,
 				93AD3674160400F500BDF03F /* OBABookmarkV2.m in Sources */,
@@ -2055,6 +2071,7 @@
 				93AD368E1604016400BDF03F /* OBAStopPreferences.m in Sources */,
 				93AD3696160401EF00BDF03F /* OBAEntityManager.m in Sources */,
 				93AD3697160401EF00BDF03F /* OBAModelDAO.m in Sources */,
+				FFBFE02A1863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m in Sources */,
 				93AD3698160401EF00BDF03F /* OBAModelDAOUserPreferencesImpl.m in Sources */,
 				93AD369D1604027E00BDF03F /* OBAProgressIndicatorImpl.m in Sources */,
 				93AD36A2160402C000BDF03F /* OBASearch.m in Sources */,
@@ -2110,6 +2127,7 @@
 				933C7F72160C07440005AAFE /* OBAAgencyWithCoverageV2.m in Sources */,
 				933C7F73160C07440005AAFE /* OBAArrivalAndDepartureInstanceRef.m in Sources */,
 				933C7F74160C07440005AAFE /* OBAArrivalAndDepartureV2.m in Sources */,
+				FFE76DCD186F94E10036D121 /* OBAEditBookmarkGroupViewController.m in Sources */,
 				933C7F75160C07440005AAFE /* OBAArrivalsAndDeparturesForStopV2.m in Sources */,
 				933C7F76160C07440005AAFE /* OBACurrentVehicleEstimateV2.m in Sources */,
 				933C7F77160C07440005AAFE /* OBAEntryWithReferencesV2.m in Sources */,

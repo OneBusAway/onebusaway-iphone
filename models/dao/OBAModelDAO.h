@@ -26,6 +26,7 @@
 @interface OBAModelDAO : NSObject {
     OBAModelDAOUserPreferencesImpl * _preferencesDao;
     NSMutableArray * _bookmarks;
+    NSMutableArray * _bookmarkGroups;
     NSMutableArray * _mostRecentStops;
     NSMutableDictionary * _stopPreferences;
     CLLocation * _mostRecentLocation;
@@ -35,6 +36,7 @@
 }
 
 @property (weak, nonatomic,readonly) NSArray * bookmarks;
+@property (weak, nonatomic,readonly) NSArray * bookmarkGroups;
 @property (weak, nonatomic,readonly) NSArray * mostRecentStops;
 @property (nonatomic,weak) CLLocation * mostRecentLocation;
 @property (nonatomic,readonly) OBARegionV2 * region;
@@ -46,6 +48,11 @@
 - (void) saveExistingBookmark:(OBABookmarkV2*)bookmark;
 - (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex;
 - (void) removeBookmark:(OBABookmarkV2*) bookmark;
+
+- (void) addOrSaveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup;
+- (void) removeBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup;
+- (void) moveBookmark:(OBABookmarkV2*)bookmark toGroup:(OBABookmarkGroup*)group;
+- (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex inGroup:(OBABookmarkGroup*)group;
 
 - (void) addStopAccessEvent:(OBAStopAccessEventV2*)event;
 

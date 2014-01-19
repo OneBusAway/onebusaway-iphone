@@ -21,6 +21,7 @@
 #import "OBASituationV2.h"
 #import "OBAModelDAOUserPreferencesImpl.h"
 #import "OBAPlacemark.h"
+#import "OBABookmarkGroup.h"
 
 const static int kMaxEntriesInMostRecentList = 10;
 
@@ -37,6 +38,7 @@ const static int kMaxEntriesInMostRecentList = 10;
     if( self = [super init] ) {
         _preferencesDao = [[OBAModelDAOUserPreferencesImpl alloc] init];
         _bookmarks = [[NSMutableArray alloc] initWithArray:[_preferencesDao readBookmarks]];
+        _bookmarkGroups = [[NSMutableArray alloc] initWithArray:[_preferencesDao readBookmarkGroups]];
         _mostRecentStops = [[NSMutableArray alloc] initWithArray:[_preferencesDao readMostRecentStops]];
         _stopPreferences = [[NSMutableDictionary alloc] initWithDictionary:[_preferencesDao readStopPreferences]];
         _mostRecentLocation = [_preferencesDao readMostRecentLocation];
@@ -57,6 +59,10 @@ const static int kMaxEntriesInMostRecentList = 10;
 
 - (NSArray*) bookmarks {
     return _bookmarks;
+}
+
+- (NSArray *)bookmarkGroups {
+    return _bookmarkGroups;
 }
 
 - (NSArray*) mostRecentStops {
@@ -177,8 +183,57 @@ const static int kMaxEntriesInMostRecentList = 10;
 }
 
 - (void) removeBookmark:(OBABookmarkV2*)bookmark {
-    [_bookmarks removeObject:bookmark];
+    if (!bookmark.group) {
+        [_bookmarks removeObject:bookmark];
+        [_preferencesDao writeBookmarks:_bookmarks];
+    } else {
+        [bookmark.group.bookmarks removeObject:bookmark];
+        [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
+    }
+}
+
+- (void) addOrSaveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup {
+    if (![_bookmarkGroups containsObject:bookmarkGroup]) {
+        [_bookmarkGroups addObject:bookmarkGroup];
+    }
+    [_bookmarkGroups sortUsingComparator:^NSComparisonResult(OBABookmarkGroup *obj1, OBABookmarkGroup *obj2) {
+        return [obj1.name compare:obj2.name];
+    }];
+    [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
+}
+
+- (void)removeBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup {
+    for (OBABookmarkV2 *bm in bookmarkGroup.bookmarks) {
+        [_bookmarks addObject:bm];
+        bm.group = nil;
+    }
+    [_bookmarkGroups removeObject:bookmarkGroup];
     [_preferencesDao writeBookmarks:_bookmarks];
+    [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
+}
+
+- (void) moveBookmark:(OBABookmarkV2*)bookmark toGroup:(OBABookmarkGroup*)group {
+    if (bookmark.group == group) return;
+    else if (!group) {
+        [_bookmarks addObject:bookmark];
+        [bookmark.group.bookmarks removeObject:bookmark];
+    } else if (bookmark.group != nil) {
+        [bookmark.group.bookmarks removeObject:bookmark];
+        [group.bookmarks addObject:bookmark];
+    } else {
+        [_bookmarks removeObject:bookmark];
+        [group.bookmarks addObject:bookmark];
+    }
+    bookmark.group = group;
+    [_preferencesDao writeBookmarks:_bookmarks];
+    [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
+}
+
+- (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex inGroup:(OBABookmarkGroup*)group {
+    OBABookmarkV2 *bm = group.bookmarks[startIndex];
+    [group.bookmarks removeObjectAtIndex:startIndex];
+    [group.bookmarks insertObject:bm atIndex:endIndex];
+    [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
 }
 
 - (OBAStopPreferencesV2*) stopPreferencesForStopWithId:(NSString*)stopId {
