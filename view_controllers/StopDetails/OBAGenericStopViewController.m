@@ -30,6 +30,7 @@
 #import "OBATripDetailsViewController.h"
 #import "OBAReportProblemViewController.h"
 #import "OBAStopIconFactory.h"
+#import "OBARegionV2.h"
 
 #import "OBASearchController.h"
 #import "OBASphericalGeometryLibrary.h"
@@ -38,6 +39,7 @@
 #import "OBABookmarkGroup.h"
 
 static const double kNearbyStopRadius = 200;
+static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 
 @interface OBAGenericStopViewController ()
 @property(strong,readwrite) OBAApplicationDelegate * _appDelegate;
@@ -153,7 +155,7 @@ static const double kNearbyStopRadius = 200;
         self.stopNumber.font = [UIFont systemFontOfSize:13];
         [self.tableHeaderView addSubview:self.stopNumber];
         
-        self.stopName = [[OBAShadowLabel alloc] initWithFrame:CGRectMake(0, 53, 320, 27) rate:60 andFadeLength:10];
+        self.stopName = [[OBAShadowLabel alloc] initWithFrame:CGRectMake(0, 53, 275, 27) rate:60 andFadeLength:10];
         self.stopName.marqueeType = MLContinuous;
         self.stopName.backgroundColor = [UIColor clearColor];
         self.stopName.textColor = [UIColor whiteColor];
@@ -162,7 +164,21 @@ static const double kNearbyStopRadius = 200;
         self.stopName.tapToScroll = YES;
         self.stopName.animationDelay = 0;
         self.stopName.animationCurve = UIViewAnimationOptionCurveLinear;
+        [self.view addSubview:self.stopName];
 
+        OBARegionV2 *region = _appDelegate.modelDao.region;
+        if (![region.stopInfoUrl isEqual:[NSNull null]]) {
+            self.stopInfoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+            [self.stopInfoButton setFrame:CGRectMake(285, 53, 25, 25)];
+            [self.stopInfoButton addTarget:self
+                               action:@selector(openURLS)
+                     forControlEvents:UIControlEventTouchUpInside];
+            self.stopInfoButton.tintColor = [UIColor whiteColor];
+            self.stopInfoButton.accessibilityLabel = NSLocalizedString(@"About this stop, button.", @"");
+            self.stopInfoButton.accessibilityHint = NSLocalizedString(@"Double tap for stop landmark information.", @"");
+            [self.tableHeaderView addSubview:self.stopInfoButton];
+        }
+        
         self.tableHeaderView.backgroundColor = OBAGREENBACKGROUND;
         [self.tableHeaderView addSubview:self.stopName];
         
@@ -178,6 +194,30 @@ static const double kNearbyStopRadius = 200;
         
         [self hideEmptySeparators];
     }
+}
+
+- (void)openURLS {
+    
+    OBARegionV2 *region = _appDelegate.modelDao.region;
+    
+    if (region) {
+        
+        NSString *url;
+        OBAStopV2 *stop = _result.stop;
+        NSString *stopFinderBaseUrl = region.stopInfoUrl;
+        
+        if (![region.stopInfoUrl isEqual:[NSNull null]]) {
+            url = [NSString stringWithFormat:@"%@/busstops/%@", stopFinderBaseUrl, stop.stopId];
+            [TestFlight passCheckpoint:@"Loaded StopInfo from Puget Sound"];
+        }
+        else {
+            url = kOBANoStopInformationURL;
+            [TestFlight passCheckpoint:@"Loaded StopInfo from Other Region"];
+        }
+        
+        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+    }
+    
 }
 
 - (void)viewDidUnload {
@@ -331,7 +371,6 @@ static const double kNearbyStopRadius = 200;
     return nil;
 }
 
-
 #pragma mark - UITableViewDelegate and UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -371,7 +410,7 @@ static const double kNearbyStopRadius = 200;
             return 1;
         }
         case OBAStopSectionTypeActions: {
-            return 4;
+            return 5;
         }
         default: {
             return 0;
@@ -476,7 +515,7 @@ static const double kNearbyStopRadius = 200;
     view.backgroundColor = OBAGREENBACKGROUND;
     return view;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self sectionTypeForSection:indexPath.section] == OBAStopSectionTypeArrivals) {
         return 50;
@@ -597,6 +636,7 @@ static const double kNearbyStopRadius = 200;
         OBAArrivalEntryTableViewCell * cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+       
         return cell;
     }
 }
@@ -647,6 +687,10 @@ static const double kNearbyStopRadius = 200;
             break;
         }
         case 2: {
+            cell.textLabel.text = NSLocalizedString(@"About This Stop",@"case 2");
+            break;
+        }
+        case 3: {
             if (_serviceAlerts.totalCount == 0) {
                 cell.textLabel.text = @"Service Alerts";
             }
@@ -669,7 +713,7 @@ static const double kNearbyStopRadius = 200;
             return cell;
             break;
         }
-        case 3: {
+        case 4: {
             cell.textLabel.text = NSLocalizedString(@"Filter & Sort Routes",@"case 1");
             break;
         }
@@ -717,14 +761,17 @@ static const double kNearbyStopRadius = 200;
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
-
         case 2: {
+            [self openURLS];
+            break;
+        }
+        case 3: {
             NSArray * situations = _result.situations;
             [OBAPresentation showSituations:situations withappDelegate:_appDelegate navigationController:self.navigationController args:nil];
             break;
         }
 
-        case 3: {
+        case 4: {
             OBAEditStopPreferencesViewController * vc = [[OBAEditStopPreferencesViewController alloc] initWithApplicationDelegate:_appDelegate stop:_result.stop];
             [self.navigationController pushViewController:vc animated:YES];
             break;
@@ -771,8 +818,8 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
         self.stopName.text = stop.name;
         if (stop.direction) {
             self.stopNumber.text = [NSString stringWithFormat:@"%@ #%@ - %@ %@",NSLocalizedString(@"Stop",@"text"),stop.code,stop.direction,NSLocalizedString(@"bound",@"text")];
-        } else
-        {
+        }
+        else {
             self.stopNumber.text = [NSString stringWithFormat:@"%@ #%@",NSLocalizedString(@"Stop",@"text"),stop.code];
    
         }

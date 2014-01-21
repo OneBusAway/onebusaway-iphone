@@ -23,6 +23,7 @@
 @synthesize obaBaseUrl;
 @synthesize id_number;
 @synthesize regionName;
+@synthesize stopInfoUrl;
 
 static NSString * kSiriBaseUrl = @"siriBaseUrl";
 static NSString * kObaVersionInfo = @"obaVersionInfo";
@@ -38,6 +39,7 @@ static NSString * kActive = @"active";
 static NSString * kObaBaseUrl = @"obaBaseUrl";
 static NSString * kId_number = @"id_number";
 static NSString * kRegionName = @"regionName";
+static NSString * kStopInfoUrl = @"stopInfoUrl";
 
 - (id)init {
     self = [super init];
@@ -89,6 +91,7 @@ static NSString * kRegionName = @"regionName";
     [encoder encodeObject:self.obaBaseUrl forKey:kObaBaseUrl];
     [encoder encodeInteger:self.id_number forKey:kId_number];
     [encoder encodeObject:self.regionName forKey:kRegionName];
+    [encoder encodeObject:self.stopInfoUrl forKey:kStopInfoUrl];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
@@ -106,6 +109,7 @@ static NSString * kRegionName = @"regionName";
     self.obaBaseUrl = [decoder decodeObjectForKey:kObaBaseUrl];
     self.id_number = [decoder decodeIntegerForKey:kId_number];
     self.regionName = [decoder decodeObjectForKey:kRegionName];
+    self.stopInfoUrl = [decoder decodeObjectForKey:kStopInfoUrl];
     
     return self;
 }

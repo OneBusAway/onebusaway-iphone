@@ -35,7 +35,8 @@ typedef enum {
 @property(nonatomic,strong) IBOutlet MKMapView *mapView;
 @property(nonatomic,strong) IBOutlet OBAShadowLabel *stopName;
 @property(nonatomic,strong) IBOutlet OBAShadowLabel *stopNumber;
-@property (strong, nonatomic) IBOutlet OBAShadowLabel *stopRoutes;
+@property(nonatomic, strong) IBOutlet OBAShadowLabel *stopRoutes;
+@property(nonatomic, strong) IBOutlet UIButton *stopInfoButton;
 
 @property(strong,readonly) OBAApplicationDelegate * appDelegate;
 @property(strong,readonly) NSString * stopId;
