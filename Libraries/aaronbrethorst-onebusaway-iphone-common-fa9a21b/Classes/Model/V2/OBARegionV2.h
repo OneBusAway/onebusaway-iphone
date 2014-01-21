@@ -27,6 +27,7 @@
 @property (nonatomic) BOOL supportsObaRealtimeApis;
 @property (nonatomic) BOOL supportsObaDiscoveryApis;
 @property (nonatomic) BOOL active;
+@property (nonatomic) BOOL experimental;
 @property (nonatomic) NSInteger id_number;
 
 - (void)addBound:(OBARegionBoundsV2*)bound;

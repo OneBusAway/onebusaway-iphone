@@ -156,7 +156,7 @@ static const float kBigSearchRadius = 15000;
 }
 
 - (id<OBAModelServiceRequest>) requestRegions:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
-    NSString * url = @"/regions.json";
+    NSString * url = @"/regions-v3.json";
     NSString * args = @"";
     SEL selector = @selector(getRegionsV2FromJson:error:);
 

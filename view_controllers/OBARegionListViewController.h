@@ -14,7 +14,9 @@
     CLLocation * _mostRecentLocation;
     BOOL _hideFutureNetworkErrors;
     BOOL _locationTimedOut;
+    BOOL _showExperimentalRegions;
     NSTimer *_locationTimer;
+    UISwitch *_toggleSwitch;
 }
 
 @property (nonatomic) OBARegionV2 *nearbyRegion;
