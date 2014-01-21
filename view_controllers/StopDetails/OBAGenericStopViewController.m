@@ -154,7 +154,7 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
         self.stopNumber.font = [UIFont systemFontOfSize:13];
         [self.tableHeaderView addSubview:self.stopNumber];
         
-        self.stopName = [[OBAShadowLabel alloc] initWithFrame:CGRectMake(0, 53, 320, 27) rate:60 andFadeLength:10];
+        self.stopName = [[OBAShadowLabel alloc] initWithFrame:CGRectMake(0, 53, 275, 27) rate:60 andFadeLength:10];
         self.stopName.marqueeType = MLContinuous;
         self.stopName.backgroundColor = [UIColor clearColor];
         self.stopName.textColor = [UIColor whiteColor];
@@ -163,13 +163,21 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
         self.stopName.tapToScroll = YES;
         self.stopName.animationDelay = 0;
         self.stopName.animationCurve = UIViewAnimationOptionCurveLinear;
-        self.stopName.userInteractionEnabled = YES;
-        UITapGestureRecognizer *gr = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(openURLS:)];
-        [self.stopName addGestureRecognizer:gr];
-        gr.numberOfTapsRequired = 1;
-        gr.cancelsTouchesInView = NO;
         [self.view addSubview:self.stopName];
 
+        OBARegionV2 *region = _appDelegate.modelDao.region;
+        if (![region.stopInfoUrl isEqual:[NSNull null]]) {
+            self.stopInfoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+            [self.stopInfoButton setFrame:CGRectMake(285, 53, 25, 25)];
+            [self.stopInfoButton addTarget:self
+                               action:@selector(openURLS)
+                     forControlEvents:UIControlEventTouchUpInside];
+            self.stopInfoButton.tintColor = [UIColor whiteColor];
+            self.stopInfoButton.accessibilityLabel = NSLocalizedString(@"About this stop, button.", @"");
+            self.stopInfoButton.accessibilityHint = NSLocalizedString(@"Double tap for stop landmark information.", @"");
+            [self.tableHeaderView addSubview:self.stopInfoButton];
+        }
+        
         self.tableHeaderView.backgroundColor = OBAGREENBACKGROUND;
         [self.tableHeaderView addSubview:self.stopName];
         
@@ -188,11 +196,15 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
 }
 
 - (void)openURLS {
-    OBAStopV2 *stop = _result.stop;
+    
     OBARegionV2 *region = _appDelegate.modelDao.region;
-    NSString *url;
+    
     if (region) {
+        
+        NSString *url;
+        OBAStopV2 *stop = _result.stop;
         NSString *stopFinderBaseUrl = region.stopInfoUrl;
+        
         if (![region.stopInfoUrl isEqual:[NSNull null]]) {
             url = [NSString stringWithFormat:@"%@/busstops/%@", stopFinderBaseUrl, stop.stopId];
             [TestFlight passCheckpoint:@"Loaded StopInfo from Puget Sound"];
@@ -201,8 +213,8 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
             url = kOBANoStopInformationURL;
             [TestFlight passCheckpoint:@"Loaded StopInfo from Other Region"];
         }
-        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
         
+        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
     }
     
 }
@@ -606,6 +618,7 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
         OBAArrivalEntryTableViewCell * cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+       
         return cell;
     }
 }
@@ -767,7 +780,6 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
     
     OBAStopV2 * stop = _result.stop;
     
-    OBARegionV2 * region = _appDelegate.modelDao.region;
     NSArray * predictedArrivals = _result.arrivalsAndDepartures;
     
     [_allArrivals removeAllObjects];
@@ -778,17 +790,6 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
         self.stopName.text = stop.name;
         if (stop.direction) {
             self.stopNumber.text = [NSString stringWithFormat:@"%@ #%@ - %@ %@",NSLocalizedString(@"Stop",@"text"),stop.code,stop.direction,NSLocalizedString(@"bound",@"text")];
-            if (![region.stopInfoUrl isEqual:[NSNull null]]) {
-                //Change color of label and underline if it is linked to a stopinfo page
-                //Set accessibility label accordingly
-                self.stopName.textColor = [UIColor colorWithRed:(82/255.0) green:(113/255.0) blue:(41/255.0) alpha:1];
-                NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString: stop.name];
-                [attributeString addAttribute:NSUnderlineStyleAttributeName
-                                            value:[NSNumber numberWithInt:1]
-                                            range:(NSRange){0,[attributeString length]}];
-                self.stopName.attributedText = attributeString;
-                self.stopName.accessibilityLabel = [NSString stringWithFormat:@"%@, double tap for stop landmark information.", self.stopName.text];
-            }
         }
         else {
             self.stopNumber.text = [NSString stringWithFormat:@"%@ #%@",NSLocalizedString(@"Stop",@"text"),stop.code];
