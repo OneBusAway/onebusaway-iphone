@@ -37,7 +37,21 @@
 #import "UITableViewController+oba_Additions.h"
 #import "OBABookmarkGroup.h"
 
+#define kMinInDay 1440
+#define kLoadMoreMin 30 //minutes to increment by when selecting load more
+#define kDataRefreshFreq 30 //how often to check for new data from server in seconds
+#define kMinutesAfter 35 //initial time period to show, minutes
+
 static const double kNearbyStopRadius = 200;
+
+BOOL _refreshing;
+BOOL _loadingMore;
+BOOL _doLoadMore;
+
+BOOL _alertShown;
+
+NSInteger _wasArrivalsCount;
+NSInteger _wasMinutesAfter;
 
 @interface OBAGenericStopViewController ()
 @property(strong,readwrite) OBAApplicationDelegate * _appDelegate;
@@ -58,15 +72,15 @@ static const double kNearbyStopRadius = 200;
 - (void)customSetup;
 
 - (void)clearPendingRequest;
-- (void)didBeginRefresh;
 - (void)didFinishRefresh;
-
+- (void)loadMore;
 
 - (NSUInteger) sectionIndexForSectionType:(OBAStopSectionType)section;
 
 - (UITableViewCell*) tableView:(UITableView*)tableView serviceAlertCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath*)indexPath;
 - (void)determineFilterTypeCellText:(UITableViewCell*)filterTypeCell filteringEnabled:(bool)filteringEnabled;
+- (void)determineStatusCellAttributes:(UITableViewCell*)statusCell;
 - (UITableViewCell*) tableView:(UITableView*)tableView filterCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell*) tableView:(UITableView*)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
@@ -81,13 +95,11 @@ static const double kNearbyStopRadius = 200;
 @implementation OBAGenericStopViewController
 
 - (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate {
-
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-
         _appDelegate = appDelegate;
         
         _minutesBefore = 5;
-        _minutesAfter = 35;
+        _minutesAfter = kMinutesAfter;
         
         _showTitle = YES;
         _showServiceAlerts = YES;
@@ -108,6 +120,10 @@ static const double kNearbyStopRadius = 200;
         _filteredArrivals = [[NSMutableArray alloc] init];
         _showFilteredArrivals = YES;
 
+        _loadingMore = FALSE;
+        _refreshing = FALSE;
+        _doLoadMore = FALSE;
+
         self.navigationItem.title = NSLocalizedString(@"Stop",@"stop");
         self.tableView.backgroundColor = [UIColor whiteColor];
         
@@ -124,6 +140,8 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (void) dealloc {
+    _loadingMore = FALSE;
+    _refreshing = FALSE;
     [self clearPendingRequest];
 }
 
@@ -181,6 +199,8 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (void)viewDidUnload {
+    _loadingMore = FALSE;
+    _refreshing = FALSE;
     self.tableHeaderView = nil;
     self.tableView.tableHeaderView = nil;
     
@@ -206,7 +226,6 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section {
-
     if (_result.stop) {
         
         int offset = 0;
@@ -254,8 +273,7 @@ static const double kNearbyStopRadius = 200;
 
 #pragma mark UIViewController
 
-- (void)viewWillAppear:(BOOL)animated {
-    
+- (void)viewWillAppear:(BOOL)animated {    
     [super viewWillAppear:animated];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -266,7 +284,8 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
- 
+    _loadingMore = FALSE;
+    _refreshing = FALSE;
     [self clearPendingRequest];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -282,15 +301,49 @@ static const double kNearbyStopRadius = 200;
 #pragma mark OBAModelServiceDelegate
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
-    NSString * message = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Updated",@"message"), [OBACommon getTimeAsString]];
-    [_progressView setMessage:message inProgress:NO progress:0];
-    [self didFinishRefresh];
+    NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
+
     self.result = obj;
     
     // Note the event
     [[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:self.result.stop];
 
     [self reloadData];
+
+    _refreshing = FALSE;
+
+    //if needed loading more, check if we still need to load yet more
+    if (_loadingMore){
+        //if no arrivals in 24 hours
+        if(((self.minutesAfter-_wasMinutesAfter) >= kMinInDay)) {
+            _loadingMore = FALSE;
+            
+            if(_wasMinutesAfter>30 && !_alertShown && arrivals.count>0){
+                _alertShown = TRUE;
+                [TestFlight passCheckpoint:@"Load more arrivals: none found in 24 hour period"];
+                UIAlertView * view = [[UIAlertView alloc] init];
+                view.title = NSLocalizedString(@"No Results",@"view.title");
+                view.message = [NSString stringWithFormat:NSLocalizedString(@"No arrivals found during the %i to %i minutes from now period.",@"view.message"), _wasMinutesAfter, self.minutesAfter];
+                [view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
+                view.cancelButtonIndex = 0;
+                [view show];
+            }
+        }
+
+        //if some number of arrivals as when we started
+        if ( (_wasArrivalsCount >= arrivals.count) && _loadingMore){
+            [TestFlight passCheckpoint:@"Load more arrivals: none found, automatically trying to load more"];
+            [self loadMore];
+        }else{
+            _loadingMore = FALSE;
+        }
+    }
+
+    if (!_loadingMore){
+        NSString * message = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Updated",@"message"), [OBACommon getTimeAsString]];
+        [_progressView setMessage:message inProgress:NO progress:0];
+        [self didFinishRefresh];
+    }
 }
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
@@ -306,13 +359,14 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
-    [_progressView setInProgress:YES progress:progress];
+    if(_refreshing){
+        [_progressView setInProgress:YES progress:progress];
+    }
 }
 
 #pragma mark MapView
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
-    
     if ([annotation isKindOfClass:[OBAStopV2 class]]) {
         
         OBAStopV2 *stop = (OBAStopV2*)annotation;
@@ -335,7 +389,6 @@ static const double kNearbyStopRadius = 200;
 #pragma mark - UITableViewDelegate and UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
     OBAStopV2 * stop = _result.stop;
     
     if( stop ) {
@@ -351,21 +404,27 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     switch ([self sectionTypeForSection:section]) {
         case OBAStopSectionTypeServiceAlerts: {
             return 1;
         }
         case OBAStopSectionTypeArrivals: {
+            int count = 0;
             NSInteger arrivalRows = self.showFilteredArrivals ? self.filteredArrivals.count : self.allArrivals.count;
+
             if (arrivalRows > 0) {
-                return arrivalRows + 1;
-            }
-            else {
+                count = arrivalRows;
+            } else {
                 // for a 'no arrivals in the next 35 minutes' message
-                // for 'load next arrivals' message
-                return 2;
+                count++;
             }
+
+            if (_showActions){
+                // for 'load more arrivals' message
+                count++;
+            }
+
+            return count;
         }
         case OBAStopSectionTypeFilter: {
             return 1;
@@ -380,7 +439,6 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
     switch ([self sectionTypeForSection:indexPath.section]) {
         case OBAStopSectionTypeServiceAlerts: {
             return [self tableView:tableView serviceAlertCellForRowAtIndexPath:indexPath];
@@ -401,12 +459,10 @@ static const double kNearbyStopRadius = 200;
 }
 
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {    
     OBAStopSectionType sectionType = [self sectionTypeForSection:indexPath.section];
     
-    switch (sectionType) {
-            
+    switch (sectionType) {            
         case OBAStopSectionTypeServiceAlerts:
             [self tableView:tableView didSelectServiceAlertRowAtIndexPath:indexPath];
             break;
@@ -427,7 +483,7 @@ static const double kNearbyStopRadius = 200;
             
             if ([_filteredArrivals count] == 0)
             {
-                // We're showing a "no arrivals in the next 30 minutes" message, so our insertion/deletion math below would be wrong.
+                // We're showing a "no arrivals in the next 35 minutes" message, so our insertion/deletion math below would be wrong.
                 // Instead, just refresh the section with a fade.
                 [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:arrivalsViewSection] withRowAnimation:UITableViewRowAnimationFade];
             }
@@ -445,8 +501,7 @@ static const double kNearbyStopRadius = 200;
 
                 if (self.showFilteredArrivals) {
                     [self.tableView deleteRowsAtIndexPaths:modificationArray withRowAnimation:UITableViewRowAnimationFade];
-                }
-                else {
+                } else {
                     [self.tableView insertRowsAtIndexPaths:modificationArray withRowAnimation:UITableViewRowAnimationFade];
                 }
             }
@@ -463,21 +518,20 @@ static const double kNearbyStopRadius = 200;
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if ([self sectionTypeForSection:section] == OBAStopSectionTypeActions) {
         return 30;
     }
     return 0;
 }
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
     view.backgroundColor = OBAGREENBACKGROUND;
     return view;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if ([self sectionTypeForSection:indexPath.section] == OBAStopSectionTypeArrivals) {
         return 50;
     }
@@ -489,16 +543,67 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (void) refresh {
-    [_progressView setMessage:NSLocalizedString(@"Updating...",@"refresh") inProgress:YES progress:0];
-    [self didBeginRefresh];
-    
+    if(!_loadingMore&&!_doLoadMore){
+        _refreshing = TRUE;
+    }
+
+    if(!_loadingMore){
+        NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
+        int arrivalsViewSection = [self sectionIndexForSectionType:OBAStopSectionTypeArrivals];
+
+        UITableViewCell *cell;
+        if (arrivals.count == 0) {
+            cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:arrivalsViewSection]];
+        } else {
+            cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:arrivals.count inSection:arrivalsViewSection]];
+        }
+        
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+
+        if(_doLoadMore){
+            _doLoadMore = FALSE;
+            _loadingMore = TRUE;
+        }
+
+        [self determineStatusCellAttributes:cell];
+    }
+
+    if(!_progressView.inProgress){
+        if(_loadingMore){
+            [_progressView setMessage:NSLocalizedString(@"Loading more arrivals...",@"loading more arrivals") inProgress:YES progress:0];
+        }else{
+            [_progressView setMessage:NSLocalizedString(@"Updating...",@"refresh") inProgress:YES progress:0];
+        }
+    }
+
     [self clearPendingRequest];
     _request = [_appDelegate.modelService requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter withDelegate:self withContext:nil];
-    _timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+}
+
+- (void)determineStatusCellAttributes:(UITableViewCell*)statusCell {
+    NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
+
+    statusCell.userInteractionEnabled = NO;
+    statusCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    statusCell.textLabel.textColor = [UIColor lightGrayColor];
+
+    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [activityView startAnimating];
+    [statusCell setAccessoryView:activityView];
+
+    if(_loadingMore){
+        statusCell.textLabel.text = NSLocalizedString(@"Loading more arrivals",@"loading more arrivals");
+    }else{
+        if(arrivals.count <= 0 && (_wasMinutesAfter>self.minutesAfter)){
+            _wasArrivalsCount = 0;
+            _wasMinutesAfter = 0;
+        }
+
+        statusCell.textLabel.text = NSLocalizedString(@"Updating arrivals",@"loading more arrivals");
+    }
 }
      
 - (void) clearPendingRequest {
-    
     [_timer invalidate];
     _timer = nil;
     
@@ -506,42 +611,26 @@ static const double kNearbyStopRadius = 200;
     _request = nil;
 }
 
-- (void) didBeginRefresh {
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-    NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
-    UITableViewCell *cell;
-    if (arrivals.count == 0) {
-        cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
-    } else {
-        cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:arrivals.count inSection:0]];
-    }
-    cell.userInteractionEnabled = NO;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.textColor = [UIColor lightGrayColor];
+- (void) didFinishRefresh {
+    _refreshing = FALSE;
+    _loadingMore = FALSE;
+
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+
+    _timer = [NSTimer scheduledTimerWithTimeInterval:kDataRefreshFreq target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 }
 
-- (void) didFinishRefresh {
-    self.navigationItem.rightBarButtonItem.enabled = YES;
-    NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
-    UITableViewCell *cell;
-    if (arrivals.count == 0) {
-        cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
-    } else {
-        cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:arrivals.count inSection:0]];
-    }
-    cell.userInteractionEnabled = YES;
-    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-    cell.textLabel.textColor = [UIColor blackColor];
+- (void) loadMore {
+    _alertShown = FALSE;
+    self.minutesAfter += kLoadMoreMin;
+    [self refresh];
 }
 
 - (NSUInteger) sectionIndexForSectionType:(OBAStopSectionType)section {
-
     OBAStopV2 * stop = _result.stop;
+    int offset = 0;
     
-    if( stop ) {
-        
-        int offset = 0;
-                
+    if( stop ) {                
         if( _showServiceAlerts && _serviceAlerts.unreadCount > 0) {
             if( section == OBAStopSectionTypeServiceAlerts )
                 return offset;
@@ -565,8 +654,7 @@ static const double kNearbyStopRadius = 200;
         }
     }
     
-    return 0;
-    
+    return offset;
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView serviceAlertCellForRowAtIndexPath:(NSIndexPath *)indexPath {    
@@ -579,20 +667,36 @@ static const double kNearbyStopRadius = 200;
     if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = NSLocalizedString(@"Load more arrivals",@"load more arrivals");
+
+        [cell setAccessoryView:nil];
+
         cell.textLabel.textAlignment = UITextAlignmentCenter;
         cell.textLabel.font = [UIFont systemFontOfSize:18];
         cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.userInteractionEnabled = YES;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.textLabel.textColor = [UIColor blackColor];
+
+        if(_refreshing||_loadingMore){
+            [self determineStatusCellAttributes:cell];
+        }        
+
         return cell;
     } else if(arrivals.count == 0 ) {
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"No arrivals in the next %i minutes",@"[arrivals count] == 0"), self.minutesAfter];
+
+        [cell setAccessoryView:nil];
+
         cell.textLabel.textAlignment = UITextAlignmentCenter;
         cell.textLabel.font = [UIFont systemFontOfSize:18];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.userInteractionEnabled = YES;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.textLabel.textColor = [UIColor blackColor];
         return cell;
     } else {
-
         OBAArrivalAndDepartureV2 * pa = arrivals[indexPath.row];
         OBAArrivalEntryTableViewCell * cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
@@ -610,10 +714,13 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView filterCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     
     [self determineFilterTypeCellText:cell filteringEnabled:_showFilteredArrivals];
+
+    [cell setAccessoryView:nil];
+    cell.userInteractionEnabled = YES;
+    cell.textLabel.textColor = [UIColor blackColor];
     
     cell.textLabel.textAlignment = UITextAlignmentCenter;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
@@ -624,14 +731,17 @@ static const double kNearbyStopRadius = 200;
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+
+    [cell setAccessoryView:nil];
 
     cell.textLabel.textAlignment = UITextAlignmentLeft;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.userInteractionEnabled = YES;
+    cell.textLabel.textColor = [UIColor blackColor];
     cell.imageView.image = nil;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     switch(indexPath.row) {
         case 0: {
@@ -685,10 +795,19 @@ static const double kNearbyStopRadius = 200;
 
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
+
+    //if load more button pressed
     if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
+        [TestFlight passCheckpoint:@"Load more arrivals"];
+        
+        _wasArrivalsCount = arrivals.count;
+        _wasMinutesAfter = self.minutesAfter;
+
+        _doLoadMore = TRUE;
+
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-        self.minutesAfter += 30;
-        [self refresh];
+        
+        [self loadMore];
     } else if ( 0 <= indexPath.row && indexPath.row < arrivals.count ) {
         OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
         OBAArrivalAndDepartureViewController * vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationDelegate:_appDelegate arrivalAndDeparture:arrivalAndDeparture];
@@ -712,6 +831,7 @@ static const double kNearbyStopRadius = 200;
             
             break;
         }
+
         case 1: {
             OBAReportProblemViewController * vc = [[OBAReportProblemViewController alloc] initWithApplicationDelegate:_appDelegate stop:_result.stop];
             [self.navigationController pushViewController:vc animated:YES];
@@ -730,7 +850,6 @@ static const double kNearbyStopRadius = 200;
             break;
         }
     }
-    
 }
 
 - (IBAction)onRefreshButton:(id)sender {
@@ -756,7 +875,6 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
 }
 
 - (void) reloadData {
-        
     OBAModelDAO * modelDao = _appDelegate.modelDao;
     
     OBAStopV2 * stop = _result.stop;
@@ -776,17 +894,14 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
             self.stopNumber.text = [NSString stringWithFormat:@"%@ #%@",NSLocalizedString(@"Stop",@"text"),stop.code];
    
         }
-
         
         if (stop.routeNamesAsString) 
             self.stopRoutes.text = [stop routeNamesAsString];
         
         [_mapView addAnnotation:stop];
-
     }
     
-    if (stop && predictedArrivals) {
-        
+    if (stop && predictedArrivals) {    
         OBAStopPreferencesV2 * prefs = [modelDao stopPreferencesForStopWithId:stop.stopId];
         
         for( OBAArrivalAndDepartureV2 * pa in predictedArrivals) {
@@ -808,10 +923,17 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
     }
     
     _serviceAlerts = [modelDao getServiceAlertsModelForSituations:_result.situations];
+
+    if(self.minutesAfter==kMinutesAfter){
+        _loadingMore = FALSE;
+    }
     
-    [self.tableView reloadData];
+    NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
+
+    //wait to reload tableview until we are done
+    if(!_loadingMore || ((self.minutesAfter-_wasMinutesAfter) >= kMinInDay) || !(_wasArrivalsCount >= arrivals.count)){
+        [self.tableView reloadData];
+    } 
 }
 
 @end
-
-

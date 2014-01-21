@@ -20,7 +20,15 @@
     UILabel * _progressLabel;
     UIActivityIndicatorView * _activityIndicator;
     UIProgressView * _progressView;
+    
+    NSString * _message;
+    BOOL _inProgress;
+    float _progress;
 }
+
+@property (strong,readonly) NSString * message;
+@property (readonly) BOOL inProgress;
+@property (readonly) float progress;
 
 - (id) initWithFrame:(CGRect)frame;
 
