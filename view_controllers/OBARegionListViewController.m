@@ -460,8 +460,8 @@ typedef enum {
     if (toggleSwitch.on)
     {
     
-        UIAlertView *unstableRegionAlert = [[UIAlertView alloc] initWithTitle:@"Regions in beta"
-                                                        message:@"Experimental regions may be unstable and without real-time info! Go ahead?"
+        UIAlertView *unstableRegionAlert = [[UIAlertView alloc] initWithTitle:@"Enable regions in beta?"
+                                                        message:@"Experimental regions may be unstable and without real-time info!"
                                                        delegate:self
                                               cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:@"OK", nil];
@@ -471,7 +471,7 @@ typedef enum {
         //if current region is beta, show alert; otherwise, just update list
         if (_appDelegate.modelDao.region.experimental){
             UIAlertView *currentRegionUnavailableAlert = [[UIAlertView alloc] initWithTitle:@"Discard current region?"
-                                                         message:@"Your current experimental region won't be available! Go ahead?"
+                                                         message:@"Your current experimental region won't be available! Proceed anyway?"
                                                         delegate:self
                                                cancelButtonTitle:@"Cancel"
                                                otherButtonTitles:@"OK", nil];
