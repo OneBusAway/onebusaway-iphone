@@ -36,6 +36,7 @@
 #import "OBASphericalGeometryLibrary.h"
 #import "MKMapView+oba_Additions.h"
 #import "UITableViewController+oba_Additions.h"
+#import "SVWebViewController.h"
 
 static const double kNearbyStopRadius = 200;
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
@@ -214,7 +215,13 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
             [TestFlight passCheckpoint:@"Loaded StopInfo from Other Region"];
         }
         
-        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0.0")) {
+            SVWebViewController *webViewController = [[SVWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
+            [self.navigationController pushViewController:webViewController animated:YES];
+            self.navigationItem.title = @"Back";
+        } else {
+            [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+        }
     }
     
 }
@@ -281,6 +288,8 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
     [super viewWillAppear:animated];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+    self.navigationItem.title = @"Stop";
     
     [self refresh];
 
