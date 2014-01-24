@@ -460,7 +460,7 @@ typedef enum {
     if (toggleSwitch.on)
     {
     
-        UIAlertView *unstableRegionAlert = [[UIAlertView alloc] initWithTitle:@"Enable regions in beta?"
+        UIAlertView *unstableRegionAlert = [[UIAlertView alloc] initWithTitle:@"Enable Regions in Beta?"
                                                         message:@"Experimental regions may be unstable and without real-time info!"
                                                        delegate:self
                                               cancelButtonTitle:@"Cancel"
@@ -470,7 +470,7 @@ typedef enum {
     } else {
         //if current region is beta, show alert; otherwise, just update list
         if (_appDelegate.modelDao.region.experimental){
-            UIAlertView *currentRegionUnavailableAlert = [[UIAlertView alloc] initWithTitle:@"Discard current region?"
+            UIAlertView *currentRegionUnavailableAlert = [[UIAlertView alloc] initWithTitle:@"Discard Current Region?"
                                                          message:@"Your current experimental region won't be available! Proceed anyway?"
                                                         delegate:self
                                                cancelButtonTitle:@"Cancel"
@@ -500,18 +500,18 @@ typedef enum {
 
 - (void) doNeedToUpdateRegionsList {
     
-    
     _showExperimentalRegions = !_showExperimentalRegions;
     
     if (_appDelegate.modelDao.region.experimental){
         
         //Change to automatic region if available
-        if (self.nearbyRegion) {
+        if (self.nearbyRegion && !self.nearbyRegion.experimental) {
             [_appDelegate.modelDao writeSetRegionAutomatically:YES];
             [_appDelegate.modelDao setOBARegion:self.nearbyRegion];
         }
         //Otherwise, set region to first in list
         else if(![self isLoading] && _regions.count > 0) {
+            [_appDelegate.modelDao writeSetRegionAutomatically:NO];
             [_appDelegate.modelDao setOBARegion:[_regions objectAtIndex:0]];
         }
         //Set region to nil if list is empty
@@ -525,7 +525,6 @@ typedef enum {
     [[NSUserDefaults standardUserDefaults] setBool:_showExperimentalRegions
                                             forKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    [self handleRefresh];
 }
 
 - (void) didSelectCustomAPIRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
@@ -567,10 +566,10 @@ typedef enum {
             title.numberOfLines = 2;
             break;
         case OBASectionTypeNearbyRegions:
-            title.text =  NSLocalizedString(@"Set Region automatically", @"OBASectionTypeNearbyRegions title");
+            title.text =  NSLocalizedString(@"Set Region Automatically", @"OBASectionTypeNearbyRegions title");
             break;
         case OBASectionTypeAllRegions:
-            title.text =  NSLocalizedString(@"Manually select Region", @"OBASectionTypeAllRegions title");
+            title.text =  NSLocalizedString(@"Manually Select Region", @"OBASectionTypeAllRegions title");
             break;
         case OBASectionTypeNoRegions:
             title.text =  NSLocalizedString(@"No regions found", @"OBASectionTypeNoRegions title");
