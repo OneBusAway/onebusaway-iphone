@@ -40,6 +40,7 @@
 
 static const double kNearbyStopRadius = 200;
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
+static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDefaultsKey";
 
 @interface OBAGenericStopViewController ()
 @property(strong,readwrite) OBAApplicationDelegate * _appDelegate;
@@ -52,6 +53,7 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
 
 @property(strong) OBAProgressIndicatorView * progressView;
 @property(strong) OBAServiceAlertsModel * serviceAlerts;
+@property (nonatomic, strong) EMHint *hint;
 @end
 
 @interface OBAGenericStopViewController ()
@@ -196,6 +198,14 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if ([self shouldShowHint]) {
+        [self showHint];
+    }
+}
+
 - (void)openURLS {
     
     OBARegionV2 *region = _appDelegate.modelDao.region;
@@ -266,6 +276,27 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
     }
     
     return OBAStopSectionTypeNone;
+}
+
+#pragma mark Stop Info Hint
+
+- (NSArray *)hintStateRectsToHint:(id)hintState {
+    return @[ [NSValue valueWithCGRect:CGRectMake(297, 129, 30, 30)] ];
+}
+
+- (BOOL)shouldShowHint {
+    BOOL didShowHintAlready = [[NSUserDefaults standardUserDefaults] boolForKey:kOBADidShowStopInfoHintDefaultsKey];
+    OBARegionV2 *region = _appDelegate.modelDao.region;
+    BOOL validStopInfoRegion = ![region.stopInfoUrl isEqual:[NSNull null]];
+    return (!didShowHintAlready && validStopInfoRegion);
+}
+
+- (void)showHint {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kOBADidShowStopInfoHintDefaultsKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    self.hint = [[EMHint alloc] init];
+    self.hint.hintDelegate = self;
+    [self.hint presentModalMessage:@"Tap here to view and submit more information about this stop with the new Stop Info service" where:self.view.superview];
 }
 
 #pragma mark OBANavigationTargetAware
