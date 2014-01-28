@@ -158,6 +158,11 @@ typedef enum {
         }];
         if (nearbyRegions.count > 0) {
             self.nearbyRegion = [nearbyRegions objectAtIndex:0];
+            if (_didJustBeginShowingExperimental && self.nearbyRegion.experimental && _showExperimentalRegions) {
+                [_appDelegate.modelDao writeSetRegionAutomatically:YES];
+                [_appDelegate.modelDao setOBARegion:self.nearbyRegion];
+                _didJustBeginShowingExperimental = NO;
+            }
         } else {
             self.nearbyRegion = nil;
         }
@@ -284,7 +289,6 @@ typedef enum {
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
 
 	if( [self isLoading] ) {
 		return;
@@ -501,6 +505,7 @@ typedef enum {
 - (void) doNeedToUpdateRegionsList {
     
     _showExperimentalRegions = !_showExperimentalRegions;
+    _didJustBeginShowingExperimental = _showExperimentalRegions;
     
     if (_appDelegate.modelDao.region.experimental){
         

@@ -15,6 +15,7 @@
     BOOL _hideFutureNetworkErrors;
     BOOL _locationTimedOut;
     BOOL _showExperimentalRegions;
+    BOOL _didJustBeginShowingExperimental;
     NSTimer *_locationTimer;
     UISwitch *_toggleSwitch;
 }
