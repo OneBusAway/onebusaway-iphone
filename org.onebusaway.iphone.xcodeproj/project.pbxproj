@@ -351,6 +351,8 @@
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 		D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */; };
 		D69C598913F9BD6900BA90A2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D69C598713F9BD6900BA90A2 /* Localizable.strings */; };
+		FFA40DFC1894A7F800E37566 /* EMHint.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA40DF91894A7F800E37566 /* EMHint.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FFA40DFD1894A7F800E37566 /* EMHintsView.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA40DFB1894A7F800E37566 /* EMHintsView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FFFF52D71890DD56007F8DBA /* SVWebViewController.strings in Resources */ = {isa = PBXBuildFile; fileRef = FFFF52BA1890DD56007F8DBA /* SVWebViewController.strings */; };
 		FFFF52D81890DD56007F8DBA /* SVModalWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFF52C21890DD56007F8DBA /* SVModalWebViewController.m */; };
 		FFFF52D91890DD56007F8DBA /* SVWebViewController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FFFF52C31890DD56007F8DBA /* SVWebViewController.bundle */; };
@@ -879,6 +881,10 @@
 		E81C7B031825DEBF0047C68C /* accept_license.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = accept_license.sh; sourceTree = "<group>"; };
 		E81C7B041825DEBF0047C68C /* upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = upload.sh; sourceTree = "<group>"; };
 		E81C7B051825DEBF0047C68C /* xcode5.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = xcode5.sh; sourceTree = "<group>"; };
+		FFA40DF81894A7F800E37566 /* EMHint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMHint.h; sourceTree = "<group>"; };
+		FFA40DF91894A7F800E37566 /* EMHint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMHint.m; sourceTree = "<group>"; };
+		FFA40DFA1894A7F800E37566 /* EMHintsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMHintsView.h; sourceTree = "<group>"; };
+		FFA40DFB1894A7F800E37566 /* EMHintsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMHintsView.m; sourceTree = "<group>"; };
 		FFFF52BB1890DD56007F8DBA /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/SVWebViewController.strings; sourceTree = "<group>"; };
 		FFFF52BC1890DD56007F8DBA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SVWebViewController.strings; sourceTree = "<group>"; };
 		FFFF52BD1890DD56007F8DBA /* es-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-ES"; path = "es-ES.lproj/SVWebViewController.strings"; sourceTree = "<group>"; };
@@ -1743,6 +1749,7 @@
 		D61A66790FCDB155004D2E91 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				FFA40DF71894A7EF00E37566 /* EMHint */,
 				FFFF52B91890DD56007F8DBA /* SVWebViewController */,
 				9358469A17FB9DC30034200C /* TWSReleaseNotesView */,
 				92CAAE96179C4AF40097DD3D /* MarqueeLabel */,
@@ -1770,6 +1777,17 @@
 				E81C7B051825DEBF0047C68C /* xcode5.sh */,
 			);
 			path = travis;
+			sourceTree = "<group>";
+		};
+		FFA40DF71894A7EF00E37566 /* EMHint */ = {
+			isa = PBXGroup;
+			children = (
+				FFA40DF81894A7F800E37566 /* EMHint.h */,
+				FFA40DF91894A7F800E37566 /* EMHint.m */,
+				FFA40DFA1894A7F800E37566 /* EMHintsView.h */,
+				FFA40DFB1894A7F800E37566 /* EMHintsView.m */,
+			);
+			name = EMHint;
 			sourceTree = "<group>";
 		};
 		FFFF52B91890DD56007F8DBA /* SVWebViewController */ = {
@@ -2145,6 +2163,7 @@
 				93AD3672160400F500BDF03F /* OBAAgencyWithCoverage.m in Sources */,
 				93AD3673160400F500BDF03F /* OBAArrivalsAndDeparturesForStop.m in Sources */,
 				93AD3674160400F500BDF03F /* OBABookmarkV2.m in Sources */,
+				FFA40DFC1894A7F800E37566 /* EMHint.m in Sources */,
 				93AD3675160400F500BDF03F /* OBANavigationTarget.m in Sources */,
 				93AD3676160400F500BDF03F /* OBAServiceAlertsModel.m in Sources */,
 				93AD3677160400F500BDF03F /* OBATrip.m in Sources */,
@@ -2215,6 +2234,7 @@
 				933C7F73160C07440005AAFE /* OBAArrivalAndDepartureInstanceRef.m in Sources */,
 				933C7F74160C07440005AAFE /* OBAArrivalAndDepartureV2.m in Sources */,
 				933C7F75160C07440005AAFE /* OBAArrivalsAndDeparturesForStopV2.m in Sources */,
+				FFA40DFD1894A7F800E37566 /* EMHintsView.m in Sources */,
 				933C7F76160C07440005AAFE /* OBACurrentVehicleEstimateV2.m in Sources */,
 				933C7F77160C07440005AAFE /* OBAEntryWithReferencesV2.m in Sources */,
 				933C7F78160C07440005AAFE /* OBAFrequencyV2.m in Sources */,
