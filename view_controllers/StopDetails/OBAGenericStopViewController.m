@@ -302,6 +302,32 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
     return @[ [NSValue valueWithCGRect:CGRectMake(297, 129, 30, 30)] ];
 }
 
+- (UIView *)hintStateViewForDialog:(id)hintState {
+    NSString *message = NSLocalizedString(@"Tap here to learn and share useful information about this stop", @"EMHint label");
+    NSString *accessMessage = NSLocalizedString(@"Access information about bus stops through the stop info button after the name of the stop. Tap to dismiss.", @"EMHint accessibility label");
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    CGSize sz = [message sizeWithFont:label.font constrainedToSize:CGSizeMake(250, 1000)];
+    
+    CGRect frame = CGRectMake(floorf(150 - sz.width/2),
+                              floorf(250 - sz.height/2),
+                              floorf(sz.width + 5),
+                              floorf(sz.height + 10));
+    label.frame = frame;
+    label.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin
+                                | UIViewAutoresizingFlexibleRightMargin
+                                | UIViewAutoresizingFlexibleLeftMargin
+                                | UIViewAutoresizingFlexibleBottomMargin);
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = [UIColor whiteColor];
+    label.numberOfLines = 0;
+    label.lineBreakMode = UILineBreakModeWordWrap;
+    label.text = message;
+    label.accessibilityLabel = accessMessage;
+    
+    return label;
+}
+
 - (BOOL)shouldShowHint {
     BOOL didShowHintAlready = [[NSUserDefaults standardUserDefaults] boolForKey:kOBADidShowStopInfoHintDefaultsKey];
     OBARegionV2 *region = _appDelegate.modelDao.region;
