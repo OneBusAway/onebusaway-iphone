@@ -219,8 +219,6 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         
         if (![region.stopInfoUrl isEqual:[NSNull null]]) {
             url = [NSString stringWithFormat:@"%@/busstops/%@", stopFinderBaseUrl, stop.stopId];
-            if (UIAccessibilityIsVoiceOverRunning())
-                [TestFlight passCheckpoint:@"Loaded StopInfo using VoiceOver"];
         }
         else {
             url = kOBANoStopInformationURL;
@@ -346,6 +344,8 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
     [self refresh];
 
     [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
+    if (UIAccessibilityIsVoiceOverRunning())
+        [TestFlight passCheckpoint:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
