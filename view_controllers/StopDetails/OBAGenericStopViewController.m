@@ -219,17 +219,20 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         
         if (![region.stopInfoUrl isEqual:[NSNull null]]) {
             url = [NSString stringWithFormat:@"%@/busstops/%@", stopFinderBaseUrl, stop.stopId];
-            [TestFlight passCheckpoint:@"Loaded StopInfo from Puget Sound"];
+            if (UIAccessibilityIsVoiceOverRunning())
+                [TestFlight passCheckpoint:@"Loaded StopInfo using VoiceOver"];
         }
         else {
             url = kOBANoStopInformationURL;
-            [TestFlight passCheckpoint:@"Loaded StopInfo from Other Region"];
         }
+        [TestFlight passCheckpoint:[NSString stringWithFormat:@"Loaded StopInfo from %@", region.regionName]];
         
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0.0")) {
             SVWebViewController *webViewController = [[SVWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
             [self.navigationController pushViewController:webViewController animated:YES];
-            self.navigationItem.title = @"Back";
+            self.navigationItem.title = @"Stop";
+            self.navigationItem.accessibilityLabel = NSLocalizedString(@"Back to stop arrival times, button.", "back to stop details");
+            self.navigationItem.accessibilityHint = NSLocalizedString(@"Exits stop info page.", @"stopinfo accessibility hint");
         } else {
             [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
         }
