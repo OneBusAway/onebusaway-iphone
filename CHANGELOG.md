@@ -6,7 +6,8 @@
 * Added option to show experimental servers (such as Washington D.C.)
 * Added feature to create groups for bookmarks
 * Fixed address search by updating to Google Geocoding V3 API
-* Fixed "Out of Service Area" message appearing for covered areas
+* Fixed "Out of Service Area" message appearing for certain covered areas
+* Made various accessibility improvements for VoiceOver
 
 ## 2.1
 
