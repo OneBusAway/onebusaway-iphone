@@ -305,7 +305,7 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
 
 - (UIView *)hintStateViewForDialog:(id)hintState {
     NSString *message = NSLocalizedString(@"Tap here to learn and share useful information about this stop", @"EMHint label");
-    NSString *accessMessage = NSLocalizedString(@"Access information about bus stops through the stop info button after the name of the stop. Tap to dismiss.", @"EMHint accessibility label");
+    NSString *accessMessage = NSLocalizedString(@"Access information about bus stops through the stop info button found after the name of the stop. Double tap to dismiss this message.", @"EMHint accessibility label");
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
     CGSize sz = [message sizeWithFont:label.font constrainedToSize:CGSizeMake(250, 1000)];
