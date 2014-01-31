@@ -133,6 +133,7 @@
                                                             target:self
                                                             action:@selector(goBackClicked:)];
 		_backBarButtonItem.width = 18.0f;
+        _backBarButtonItem.accessibilityLabel = NSLocalizedString(@"Back, web view button", @"_backBarButtonItem.accessibilityLabel");
     }
     return _backBarButtonItem;
 }
@@ -144,6 +145,7 @@
                                                                target:self
                                                                action:@selector(goForwardClicked:)];
 		_forwardBarButtonItem.width = 18.0f;
+        _forwardBarButtonItem.accessibilityLabel = NSLocalizedString(@"Forward, web view button", @"_forwardBarButtonItem.accessibilityLabel");
     }
     return _forwardBarButtonItem;
 }
@@ -151,6 +153,7 @@
 - (UIBarButtonItem *)refreshBarButtonItem {
     if (!_refreshBarButtonItem) {
         _refreshBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadClicked:)];
+        _refreshBarButtonItem.accessibilityLabel = NSLocalizedString(@"Refresh, web view button", @"_refreshBarButtonItem.accessibilityLabel");
     }
     return _refreshBarButtonItem;
 }
@@ -158,6 +161,7 @@
 - (UIBarButtonItem *)stopBarButtonItem {
     if (!_stopBarButtonItem) {
         _stopBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(stopClicked:)];
+        _stopBarButtonItem.accessibilityLabel = NSLocalizedString(@"Stop, web view button", @"_stopBarButtonItem.accessibilityLabel");
     }
     return _stopBarButtonItem;
 }
@@ -165,6 +169,7 @@
 - (UIBarButtonItem *)actionBarButtonItem {
     if (!_actionBarButtonItem) {
         _actionBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonClicked:)];
+        _actionBarButtonItem.accessibilityLabel = NSLocalizedString(@"Actions, web view button", @"_actionBarButtonItem.accessibilityLabel");
     }
     return _actionBarButtonItem;
 }

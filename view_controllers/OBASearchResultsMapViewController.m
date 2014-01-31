@@ -189,7 +189,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 
     self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStyleBordered target:self action:@selector(showListView:)];
-    self.listBarButtonItem.accessibilityLabel = NSLocalizedString(@"list", @"self.listBarButtonItem.accessibilityLabel");
+    self.listBarButtonItem.accessibilityLabel = NSLocalizedString(@"Nearby stops list", @"self.listBarButtonItem.accessibilityLabel");
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
