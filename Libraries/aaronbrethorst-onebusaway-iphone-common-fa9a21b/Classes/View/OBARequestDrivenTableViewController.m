@@ -1,6 +1,8 @@
 #import "OBARequestDrivenTableViewController.h"
 #import "OBALogger.h"
 
+#define kMinutesUpdaterFreq 5
+
 
 @interface OBARequestDrivenTableViewController (Private)
 
@@ -177,6 +179,9 @@
 @implementation OBARequestDrivenTableViewController (Private)
 
 - (void) clearPendingRequest {
+    [_timerMinutesUpdater invalidate];
+    _timerMinutesUpdater = nil;
+
     [_timer invalidate];
     _timer = nil;
     
@@ -216,6 +221,7 @@
     UIBarButtonItem * refreshItem = [self.navigationItem rightBarButtonItem];
     if( refreshItem )
         [refreshItem setEnabled:YES];
+    _timerMinutesUpdater = [NSTimer scheduledTimerWithTimeInterval:kMinutesUpdaterFreq target:self.tableView selector:@selector(reloadData) userInfo:nil repeats:YES];
 }
 
 @end

@@ -39,9 +39,14 @@
 #import "OBABookmarkGroup.h"
 #import "SVWebViewController.h"
 
+#define kMinutesUpdaterFreq 5
+#define kDataRefreshFreq 30
+
 static const double kNearbyStopRadius = 200;
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDefaultsKey";
+
+NSTimer * _timerMinutesUpdater;
 
 @interface OBAGenericStopViewController ()
 @property(strong,readwrite) OBAApplicationDelegate * _appDelegate;
@@ -602,11 +607,15 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
     
     [self clearPendingRequest];
     _request = [_appDelegate.modelService requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter withDelegate:self withContext:nil];
-    _timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:kDataRefreshFreq target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+    _timerMinutesUpdater = [NSTimer scheduledTimerWithTimeInterval:kMinutesUpdaterFreq target:self selector:@selector(reloadData) userInfo:nil repeats:YES];
 }
      
 - (void) clearPendingRequest {
     
+    [_timerMinutesUpdater invalidate];
+    _timerMinutesUpdater = nil;
+
     [_timer invalidate];
     _timer = nil;
     
