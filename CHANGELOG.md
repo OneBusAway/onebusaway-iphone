@@ -8,6 +8,7 @@
 * Fixed address search by updating to Google Geocoding V3 API
 * Fixed "Out of Service Area" message appearing for certain covered areas
 * Made various accessibility improvements for VoiceOver
+* UI consistency improvement
 
 ## 2.1
 
