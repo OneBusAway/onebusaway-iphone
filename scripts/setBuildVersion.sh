@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ "$CONFIGURATION" == "Debug" ]
+if [ "$CONFIGURATION" == "Debug" -o "$CONFIGURATION" == "AdHocDistribution" ]
 then
     # Get current git commit short SHA
     gitCommitSHA=$(git rev-parse --short HEAD)
