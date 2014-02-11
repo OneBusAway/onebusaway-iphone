@@ -530,6 +530,7 @@ typedef enum {
     [[NSUserDefaults standardUserDefaults] setBool:_showExperimentalRegions
                                             forKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    [self handleRefresh];
 }
 
 - (void) didSelectCustomAPIRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
