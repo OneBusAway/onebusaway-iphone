@@ -203,11 +203,7 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 #ifdef DEBUG
-    // if beta testing record uuid and use token for org.onebusaway.iphone.dev
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(uniqueIdentifier)]) {
-        NSString *uniqueIdentifierString = [[UIDevice currentDevice] performSelector:@selector(uniqueIdentifier)];
-        [TestFlight setDeviceIdentifier:uniqueIdentifierString];
-    }
+    // if beta testing use token for org.onebusaway.iphone.dev
     [TestFlight takeOff:@"1329bac8-596e-4c80-a180-31aad3eb676a"];
     NSLog(@"Debug app");
     //ULog(@"Debug app");
