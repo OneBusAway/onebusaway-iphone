@@ -37,7 +37,7 @@
 #import "MKMapView+oba_Additions.h"
 #import "UITableViewController+oba_Additions.h"
 #import "OBABookmarkGroup.h"
-#import "SVWebViewController.h"
+#import "OBAStopWebViewController.h"
 
 static const double kNearbyStopRadius = 200;
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
@@ -179,6 +179,7 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
             self.stopInfoButton.tintColor = [UIColor whiteColor];
             self.stopInfoButton.accessibilityLabel = NSLocalizedString(@"About this stop, button.", @"");
             self.stopInfoButton.accessibilityHint = NSLocalizedString(@"Double tap for stop landmark information.", @"");
+            self.stopInfoButton.hidden = YES;
             [self.tableHeaderView addSubview:self.stopInfoButton];
         }
         
@@ -217,8 +218,20 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         OBAStopV2 *stop = _result.stop;
         NSString *stopFinderBaseUrl = region.stopInfoUrl;
         
+        NSString *hiddenPreferenceUserId = @"OBAApplicationUserId";
+        NSString *userID = [[NSUserDefaults standardUserDefaults] stringForKey:hiddenPreferenceUserId];
+        
         if (![region.stopInfoUrl isEqual:[NSNull null]]) {
             url = [NSString stringWithFormat:@"%@/busstops/%@", stopFinderBaseUrl, stop.stopId];
+            if (userID.length > 0) {
+                url = [NSString stringWithFormat:@"%@?userid=%@", url, userID];
+                if (stop.direction.length > 0) {
+                    url = [NSString stringWithFormat:@"%@&direction=%@", url, stop.direction];
+                }
+            }
+            else if (stop.direction.length > 0) {
+                url = [NSString stringWithFormat:@"%@?direction=%@", url, stop.direction];
+            }
         }
         else {
             url = kOBANoStopInformationURL;
@@ -226,13 +239,10 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         [TestFlight passCheckpoint:[NSString stringWithFormat:@"Loaded StopInfo from %@", region.regionName]];
         
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0.0")) {
-            SVWebViewController *webViewController = [[SVWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
+            OBAStopWebViewController *webViewController = [[OBAStopWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
             [self.navigationController pushViewController:webViewController animated:YES];
-            self.navigationItem.title = @"Stop";
-            self.navigationItem.accessibilityLabel = NSLocalizedString(@"Back to stop arrival times, button.", "back to stop details");
-            self.navigationItem.accessibilityHint = NSLocalizedString(@"Exits stop info page.", @"stopinfo accessibility hint");
         } else {
-            [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
         }
     }
     
@@ -899,6 +909,7 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
         
         [_mapView addAnnotation:stop];
 
+        self.stopInfoButton.hidden = NO;
     }
     
     if (stop && predictedArrivals) {
