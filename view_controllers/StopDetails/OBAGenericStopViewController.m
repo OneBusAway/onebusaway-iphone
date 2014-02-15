@@ -38,6 +38,10 @@
 #import "UITableViewController+oba_Additions.h"
 #import "OBABookmarkGroup.h"
 #import "OBAStopWebViewController.h"
+#import "GAI.h"
+#import "GAIFields.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
 static const double kNearbyStopRadius = 200;
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
@@ -134,6 +138,11 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
+                                       value:@"StopView Controller Screen"];
+    [[GAI sharedInstance].defaultTracker
+     send:[[GAIDictionaryBuilder createAppView] build]];
     
     if (self.showTitle) {
         UINib *xibFile = [UINib nibWithNibName:@"OBAGenericStopViewController" bundle:nil];
@@ -238,6 +247,7 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         }
         [TestFlight passCheckpoint:[NSString stringWithFormat:@"Loaded StopInfo from %@", region.regionName]];
         
+        
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0.0")) {
             OBAStopWebViewController *webViewController = [[OBAStopWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
             [self.navigationController pushViewController:webViewController animated:YES];
@@ -245,13 +255,18 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
         }
     }
-    
+    [[GAI sharedInstance].defaultTracker
+             send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
+                                                          action:@"button_press"
+                                                           label:@"Hit Stop Info Button"
+                                                           value:nil] build]];
 }
 
 - (void)viewDidUnload {
     self.tableHeaderView = nil;
     self.tableView.tableHeaderView = nil;
-    
+    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
+                                       value:nil];
     [self setStopRoutes:nil];
     [super viewDidUnload];
 }
@@ -380,8 +395,14 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
     [self refresh];
 
     [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
-    if (UIAccessibilityIsVoiceOverRunning())
+    if (UIAccessibilityIsVoiceOverRunning()){
         [TestFlight passCheckpoint:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]]];
+        [[GAI sharedInstance].defaultTracker
+            send:[[GAIDictionaryBuilder createEventWithCategory:@"accessibility"
+                                                         action:@"voiceover_on"
+                                                          label:@"VoiceOver Running"
+                                                          value:nil] build]];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

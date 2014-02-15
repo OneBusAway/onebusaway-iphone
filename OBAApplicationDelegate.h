@@ -21,6 +21,7 @@
 #import "OBALocationManager.h"
 #import "OBANavigationTarget.h"
 #import "OBAReferencesV2.h"
+#import "GAI.h"
 
 @class OBASearchResultsMapViewController;
 @class OBARecentStopsViewController;
@@ -68,6 +69,8 @@
 @property(nonatomic,readonly) OBALocationManager * locationManager;
 
 @property(nonatomic,readonly) BOOL active;
+
+@property(nonatomic, strong) id<GAITracker> tracker;
 
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget;
 - (void) refreshSettings;

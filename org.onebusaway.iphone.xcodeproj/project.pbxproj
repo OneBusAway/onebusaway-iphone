@@ -22,6 +22,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		08CA5CAB18AF054100A9E465 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08CA5CAA18AF054100A9E465 /* libGoogleAnalyticsServices.a */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -382,6 +383,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		08CA5CA418AF04E300A9E465 /* GAI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		08CA5CA518AF04E300A9E465 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		08CA5CA618AF04E300A9E465 /* GAIFields.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
+		08CA5CA718AF04E300A9E465 /* GAILogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
+		08CA5CA818AF04E300A9E465 /* GAITrackedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		08CA5CA918AF04E300A9E465 /* GAITracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		08CA5CAA18AF054100A9E465 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* OneBusAway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneBusAway.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -894,6 +902,7 @@
 				935846AB17FB9EA40034200C /* Accelerate.framework in Frameworks */,
 				96ADB3DF17BDD5DA00314D65 /* libz.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				08CA5CAB18AF054100A9E465 /* libGoogleAnalyticsServices.a in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */,
 				D61AC67C0F77E0F7006FA853 /* CoreLocation.framework in Frameworks */,
@@ -909,6 +918,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		08CA5CA318AF04CB00A9E465 /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				08CA5CAA18AF054100A9E465 /* libGoogleAnalyticsServices.a */,
+				08CA5CA418AF04E300A9E465 /* GAI.h */,
+				08CA5CA518AF04E300A9E465 /* GAIDictionaryBuilder.h */,
+				08CA5CA618AF04E300A9E465 /* GAIFields.h */,
+				08CA5CA718AF04E300A9E465 /* GAILogger.h */,
+				08CA5CA818AF04E300A9E465 /* GAITrackedViewController.h */,
+				08CA5CA918AF04E300A9E465 /* GAITracker.h */,
+			);
+			name = GoogleAnalytics;
+			sourceTree = "<group>";
+		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1731,6 +1754,7 @@
 		D61A66790FCDB155004D2E91 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				08CA5CA318AF04CB00A9E465 /* GoogleAnalytics */,
 				FFA40DF71894A7EF00E37566 /* EMHint */,
 				9358469A17FB9DC30034200C /* TWSReleaseNotesView */,
 				92CAAE96179C4AF40097DD3D /* MarqueeLabel */,
@@ -2286,6 +2310,7 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/TestFlightSDK2",
+					"/Users/cbonnar/Desktop/onebusaway-iphone",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2327,6 +2352,7 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/TestFlightSDK2",
+					"/Users/cbonnar/Desktop/onebusaway-iphone",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2437,6 +2463,7 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/TestFlightSDK2",
+					"/Users/cbonnar/Desktop/onebusaway-iphone",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2491,6 +2518,7 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/TestFlightSDK2",
+					"/Users/cbonnar/Desktop/onebusaway-iphone",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",

@@ -40,6 +40,9 @@ static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 static NSString * kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
 static NSString * kOBAShowExperimentalRegionsDefaultsKey = @"kOBAShowExperimentalRegionsDefaultsKey";
 static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
+static NSString *const kTrackingId = @"UA-2423527-17";
+static NSString *const kAllowTracking = @"allowTracking";
+static BOOL const kGaDryRun = NO;
 
 @interface OBAApplicationDelegate ()
 @property(nonatomic,readwrite) BOOL active;
@@ -206,14 +209,30 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
     // if beta testing use token for org.onebusaway.iphone.dev
     [TestFlight takeOff:@"1329bac8-596e-4c80-a180-31aad3eb676a"];
     NSLog(@"Debug app");
+    static BOOL const kGaDryRun = YES;
     //ULog(@"Debug app");
 #else
     // if app store version use token for org.onebusaway.iphone
     [TestFlight takeOff:@"28959455-6425-40fb-a08c-204cb2a80421"];
     NSLog(@"Production app");
+    static BOOL const kGaDryRun = NO;
     //ULog(@"Production app");
+    
 #endif
 
+    NSDictionary *appDefaults = @{kAllowTracking: @(YES)};
+    [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
+    // User must be able to opt out of tracking
+    [GAI sharedInstance].optOut =
+    ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
+    // Initialize Google Analytics with a 120-second dispatch interval. There is a
+    // tradeoff between battery usage and timely dispatch.
+    [GAI sharedInstance].dispatchInterval = 120;
+    [GAI sharedInstance].trackUncaughtExceptions = YES;
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
+    [[GAI sharedInstance] setDryRun:kGaDryRun];
+    
+    self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
     [self _migrateUserPreferences];
     [self _constructUI];
 
@@ -235,6 +254,8 @@ static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     self.active = YES;
     self.tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
+    [GAI sharedInstance].optOut =
+    ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
