@@ -53,7 +53,7 @@ static const NSString * kShapeContext = @"ShapeContext";
     [_timeFormatter setDateStyle:NSDateFormatterNoStyle];
     [_timeFormatter setTimeStyle:NSDateFormatterShortStyle];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStylePlain target:self action:@selector(showList:)];
-    self.navigationItem.rightBarButtonItem.accessibilityLabel = NSLocalizedString(@"List", @"self.navigationItem.rightBarButtonItem.accessibilityLabel");
+    self.navigationItem.rightBarButtonItem.accessibilityLabel = NSLocalizedString(@"Nearby stops list", @"self.navigationItem.rightBarButtonItem.accessibilityLabel");
     self.progressView = [[OBAProgressIndicatorView alloc] initWithFrame:CGRectMake(80, 6, 160, 33)];
     self.navigationItem.titleView = self.progressView;
     UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Schedule",@"initWithTitle") style:UIBarButtonItemStyleBordered target:nil action:nil];

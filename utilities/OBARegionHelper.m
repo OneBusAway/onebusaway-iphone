@@ -45,7 +45,13 @@
         NSMutableArray *notSupportedRegions = [NSMutableArray array];
         for (id obj in self.regions) {
             OBARegionV2 *region = (OBARegionV2 *)obj;
-            if (!region.supportsObaRealtimeApis || !region.active) {
+            BOOL showExperimentalRegions = NO;
+            if ([[NSUserDefaults standardUserDefaults] boolForKey: @"kOBAShowExperimentalRegionsDefaultsKey"])
+                showExperimentalRegions = [[NSUserDefaults standardUserDefaults]
+                                            boolForKey: @"kOBAShowExperimentalRegionsDefaultsKey"];
+            
+            if (!region.supportsObaRealtimeApis || !region.active  ||
+                (region.experimental && !showExperimentalRegions)) {
                 [notSupportedRegions addObject:region];
             }
         }

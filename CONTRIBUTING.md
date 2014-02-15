@@ -49,7 +49,7 @@ We will accept pull requests if:
 * The code has proper tests and all tests pass (or it is a test exposing a failure in existing code)
 * It can be merged without problems (if not please use: `git rebase master`)
 * It doesn't break any existing functionality
-* It's quality code that conforms to standard style guides and best practices
+* It's quality code that conforms to [The New York Times style guide](https://github.com/NYTimes/objective-c-style-guide) and standard best practices
 * The description includes a motive for your change and the method you used to achieve it
 * It is not a catch all pull request but rather fixes a specific issue or implements a specific feature
 * It keeps the OneBusAway for iPhone code base clean and well structured

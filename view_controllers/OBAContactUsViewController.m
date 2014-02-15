@@ -16,10 +16,12 @@
 
 #import "OBAContactUsViewController.h"
 #import "UITableViewController+oba_Additions.h"
+#import "OBANavigationTargetAware.h"
 
 #define kEmailRow 0
 #define kTwitterRow 1
 #define kFacebookRow 2
+
 
 #define kRowCount 3 //including Facebook which is optional
 
@@ -101,7 +103,12 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                 if (region) {
                     contactEmail = region.contactEmail;
                 }
-                contactEmail = [NSString stringWithFormat:@"mailto:%@",contactEmail];
+                
+                NSString *appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+                CLLocation * location = _appDelegate.locationManager.currentLocation;
+                NSString *args = [[NSString stringWithFormat:@"?subject=OneBusAway iOS Feedback&body=\n\n---------------\nApp Version: %@\nDevice: %@ \nOS Version: %@\nLoc: %f, %f", appVersionString, [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], location.coordinate.latitude, location.coordinate.longitude] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+   
+                contactEmail = [NSString stringWithFormat:@"mailto:%@%@",contactEmail, args];
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: contactEmail]];
             }
             break;
