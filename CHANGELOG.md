@@ -9,6 +9,9 @@
 * Fixed "Out of Service Area" message appearing for certain covered areas
 * Made various accessibility improvements for VoiceOver
 * UI consistency improvement
+* Upgraded TestFlight SDK
+* Added Google Analytics
+* Attached subject and footer with relevant info to e-mail under "Contact Us"
 
 ## 2.1
 
