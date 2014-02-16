@@ -45,11 +45,15 @@
     OBAModelDAO * modelDao = _appDelegate.modelDao;    
     _mostRecentStops = modelDao.mostRecentStops;
     [self.tableView reloadData];
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
+                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [[GAI sharedInstance].defaultTracker
+     send:[[GAIDictionaryBuilder createAppView] build]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 #pragma mark Table view methods

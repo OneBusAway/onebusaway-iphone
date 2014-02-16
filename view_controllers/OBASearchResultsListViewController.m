@@ -58,12 +58,16 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
+                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [[GAI sharedInstance].defaultTracker
+     send:[[GAIDictionaryBuilder createAppView] build]];
     [self reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 #pragma mark - Actions
