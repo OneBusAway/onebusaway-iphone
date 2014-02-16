@@ -524,7 +524,6 @@ typedef enum {
     if (_appDelegate.modelDao.region.experimental){
         
         //Change to automatic region if available
-        //Change to automatic region if available
         if (self.nearbyRegion && !self.nearbyRegion.experimental) {
             [_appDelegate.modelDao writeSetRegionAutomatically:YES];
             [_appDelegate.modelDao setOBARegion:self.nearbyRegion];
