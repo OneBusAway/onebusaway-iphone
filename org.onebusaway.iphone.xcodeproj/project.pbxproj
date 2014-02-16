@@ -6,7 +6,23 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		96C6447B1810B4A70000EC49 /* Versioning */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 96C644801810B4A70000EC49 /* Build configuration list for PBXAggregateTarget "Versioning" */;
+			buildPhases = (
+				E81C7AFD1824AE960047C68C /* Set bundle identifier based on current build configuration */,
+				96C644841810B4EE0000EC49 /* Set preprocessor definition for current git commit short SHA with dirty inditicator (+) */,
+			);
+			dependencies = (
+			);
+			name = Versioning;
+			productName = Versioning;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
+		08741E1518B0358900251C1B /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08741E1418B0358900251C1B /* libGoogleAnalyticsServices.a */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -336,7 +352,23 @@
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 		D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */; };
 		D69C598913F9BD6900BA90A2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D69C598713F9BD6900BA90A2 /* Localizable.strings */; };
+		FF5331F318AC4DEE00E0C791 /* OBAStopWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF5331F218AC4DEE00E0C791 /* OBAStopWebViewController.m */; };
+		FFA40DFC1894A7F800E37566 /* EMHint.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA40DF91894A7F800E37566 /* EMHint.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FFA40DFD1894A7F800E37566 /* EMHintsView.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA40DFB1894A7F800E37566 /* EMHintsView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FFBFE02A1863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBFE0291863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m */; };
+		FFCA85721863D24200F87DCA /* OBABookmarkGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FFCA85711863D24200F87DCA /* OBABookmarkGroup.m */; };
+		FFE76DCD186F94E10036D121 /* OBAEditBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFE76DCC186F94E10036D121 /* OBAEditBookmarkGroupViewController.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		96C644821810B4D80000EC49 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 96C6447B1810B4A70000EC49;
+			remoteInfo = Versioning;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		D6B74DF90F6CA5D80067D68F /* CopyFiles */ = {
@@ -351,6 +383,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		08741E0E18B0358900251C1B /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		08741E0F18B0358900251C1B /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		08741E1018B0358900251C1B /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
+		08741E1118B0358900251C1B /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
+		08741E1218B0358900251C1B /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		08741E1318B0358900251C1B /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		08741E1418B0358900251C1B /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* OneBusAway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneBusAway.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -836,6 +875,23 @@
 		D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D69C598813F9BD6900BA90A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D69C598A13F9BD9100BA90A2 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E81C7B001825DEBF0047C68C /* setBuildVersion.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = setBuildVersion.sh; sourceTree = "<group>"; };
+		E81C7B011825DEBF0047C68C /* setBundleIdentifierForAppStore.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = setBundleIdentifierForAppStore.sh; sourceTree = "<group>"; };
+		E81C7B031825DEBF0047C68C /* accept_license.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = accept_license.sh; sourceTree = "<group>"; };
+		E81C7B041825DEBF0047C68C /* upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = upload.sh; sourceTree = "<group>"; };
+		E81C7B051825DEBF0047C68C /* xcode5.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = xcode5.sh; sourceTree = "<group>"; };
+		FF5331F118AC4DEE00E0C791 /* OBAStopWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopWebViewController.h; sourceTree = "<group>"; };
+		FF5331F218AC4DEE00E0C791 /* OBAStopWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopWebViewController.m; sourceTree = "<group>"; };
+		FFA40DF81894A7F800E37566 /* EMHint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMHint.h; sourceTree = "<group>"; };
+		FFA40DF91894A7F800E37566 /* EMHint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMHint.m; sourceTree = "<group>"; };
+		FFA40DFA1894A7F800E37566 /* EMHintsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMHintsView.h; sourceTree = "<group>"; };
+		FFA40DFB1894A7F800E37566 /* EMHintsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMHintsView.m; sourceTree = "<group>"; };
+		FFBFE0281863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopBookmarkGroupViewController.h; sourceTree = "<group>"; };
+		FFBFE0291863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditStopBookmarkGroupViewController.m; sourceTree = "<group>"; };
+		FFCA85701863D24200F87DCA /* OBABookmarkGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkGroup.h; sourceTree = "<group>"; };
+		FFCA85711863D24200F87DCA /* OBABookmarkGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkGroup.m; sourceTree = "<group>"; };
+		FFE76DCB186F94E10036D121 /* OBAEditBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditBookmarkGroupViewController.h; sourceTree = "<group>"; };
+		FFE76DCC186F94E10036D121 /* OBAEditBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditBookmarkGroupViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -846,6 +902,7 @@
 				935846AB17FB9EA40034200C /* Accelerate.framework in Frameworks */,
 				96ADB3DF17BDD5DA00314D65 /* libz.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				08741E1518B0358900251C1B /* libGoogleAnalyticsServices.a in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */,
 				D61AC67C0F77E0F7006FA853 /* CoreLocation.framework in Frameworks */,
@@ -861,6 +918,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		08741E0D18B0358900251C1B /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				08741E0E18B0358900251C1B /* GAI.h */,
+				08741E0F18B0358900251C1B /* GAIDictionaryBuilder.h */,
+				08741E1018B0358900251C1B /* GAIFields.h */,
+				08741E1118B0358900251C1B /* GAILogger.h */,
+				08741E1218B0358900251C1B /* GAITrackedViewController.h */,
+				08741E1318B0358900251C1B /* GAITracker.h */,
+				08741E1418B0358900251C1B /* libGoogleAnalyticsServices.a */,
+			);
+			name = GoogleAnalytics;
+			path = Libraries/GoogleAnalytics;
+			sourceTree = "<group>";
+		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -907,6 +979,7 @@
 				933C7F08160C07440005AAFE /* MapIcons */,
 				D619F88E0FDF1372002893B5 /* Views */,
 				D619F8930FDF13E0002893B5 /* TableViewCells */,
+				E81C7AFF1825DEBF0047C68C /* scripts */,
 				D651BB2711C9D5DE001BE733 /* iTunesArtwork */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				D69C598713F9BD6900BA90A2 /* Localizable.strings */,
@@ -1409,6 +1482,12 @@
 				93631E601604F99500CB7209 /* OBAReportProblemWithStopViewController.m */,
 				93631E611604F99500CB7209 /* OBAStopViewController.h */,
 				93631E621604F99500CB7209 /* OBAStopViewController.m */,
+				FFBFE0281863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.h */,
+				FFBFE0291863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m */,
+				FFE76DCB186F94E10036D121 /* OBAEditBookmarkGroupViewController.h */,
+				FFE76DCC186F94E10036D121 /* OBAEditBookmarkGroupViewController.m */,
+				FF5331F118AC4DEE00E0C791 /* OBAStopWebViewController.h */,
+				FF5331F218AC4DEE00E0C791 /* OBAStopWebViewController.m */,
 			);
 			path = StopDetails;
 			sourceTree = "<group>";
@@ -1573,6 +1652,8 @@
 				93AD366F160400F500BDF03F /* OBATrip.m */,
 				93AD3670160400F500BDF03F /* OBATripStatus.h */,
 				93AD3671160400F500BDF03F /* OBATripStatus.m */,
+				FFCA85701863D24200F87DCA /* OBABookmarkGroup.h */,
+				FFCA85711863D24200F87DCA /* OBABookmarkGroup.m */,
 			);
 			path = unmanaged;
 			sourceTree = "<group>";
@@ -1674,12 +1755,45 @@
 		D61A66790FCDB155004D2E91 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				08741E0D18B0358900251C1B /* GoogleAnalytics */,
+				FFA40DF71894A7EF00E37566 /* EMHint */,
 				9358469A17FB9DC30034200C /* TWSReleaseNotesView */,
 				92CAAE96179C4AF40097DD3D /* MarqueeLabel */,
 				933C7E2B160C07440005AAFE /* Common */,
 				96ADB3D417BDD4D600314D65 /* TestFlightSDK2 */,
 			);
 			name = Libraries;
+			sourceTree = "<group>";
+		};
+		E81C7AFF1825DEBF0047C68C /* scripts */ = {
+			isa = PBXGroup;
+			children = (
+				E81C7B001825DEBF0047C68C /* setBuildVersion.sh */,
+				E81C7B011825DEBF0047C68C /* setBundleIdentifierForAppStore.sh */,
+				E81C7B021825DEBF0047C68C /* travis */,
+			);
+			path = scripts;
+			sourceTree = "<group>";
+		};
+		E81C7B021825DEBF0047C68C /* travis */ = {
+			isa = PBXGroup;
+			children = (
+				E81C7B031825DEBF0047C68C /* accept_license.sh */,
+				E81C7B041825DEBF0047C68C /* upload.sh */,
+				E81C7B051825DEBF0047C68C /* xcode5.sh */,
+			);
+			path = travis;
+			sourceTree = "<group>";
+		};
+		FFA40DF71894A7EF00E37566 /* EMHint */ = {
+			isa = PBXGroup;
+			children = (
+				FFA40DF81894A7F800E37566 /* EMHint.h */,
+				FFA40DF91894A7F800E37566 /* EMHint.m */,
+				FFA40DFA1894A7F800E37566 /* EMHintsView.h */,
+				FFA40DFB1894A7F800E37566 /* EMHintsView.m */,
+			);
+			name = EMHint;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1689,17 +1803,16 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "OneBusAway" */;
 			buildPhases = (
-				96EF6E5917E8C57100786226 /* Set build version to current git commit short SHA with dirty inditicator (+) */,
-				96EF6E5C17E8F3C600786226 /* Set bundle identifier for AppStoreDistribution configuration */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				D6B74DF90F6CA5D80067D68F /* CopyFiles */,
-				96EF6E5A17E8CD9500786226 /* Reset build version and bundle identifier for clean git commits */,
+				E81C7AFE1824B7C80047C68C /* Remove infoplist.prefix preprocessor file from project temp directory */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				96C644831810B4D80000EC49 /* PBXTargetDependency */,
 			);
 			name = OneBusAway;
 			productName = org.onebusaway.iphone;
@@ -1723,12 +1836,19 @@
 			knownRegions = (
 				en,
 				fr,
+				da,
+				"es-ES",
+				es,
+				ja,
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* OneBusAway */,
+				96C6447B1810B4A70000EC49 /* Versioning */,
 			);
 		};
 /* End PBXProject section */
@@ -1918,49 +2038,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		96EF6E5917E8C57100786226 /* Set build version to current git commit short SHA with dirty inditicator (+) */ = {
+		96C644841810B4EE0000EC49 /* Set preprocessor definition for current git commit short SHA with dirty inditicator (+) */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Set build version to current git commit short SHA with dirty inditicator (+)";
+			name = "Set preprocessor definition for current git commit short SHA with dirty inditicator (+)";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nsh ${PROJECT_DIR}/scripts/addBuildVersion.sh";
+			shellScript = "#!/bin/bash\nsh ${PROJECT_DIR}/scripts/setBuildVersion.sh";
 			showEnvVarsInLog = 0;
 		};
-		96EF6E5A17E8CD9500786226 /* Reset build version and bundle identifier for clean git commits */ = {
+		E81C7AFD1824AE960047C68C /* Set bundle identifier based on current build configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Reset build version and bundle identifier for clean git commits";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nsh ${PROJECT_DIR}/scripts/resetForCleanGitCommits.sh";
-			showEnvVarsInLog = 0;
-		};
-		96EF6E5C17E8F3C600786226 /* Set bundle identifier for AppStoreDistribution configuration */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Set bundle identifier for AppStoreDistribution configuration";
+			name = "Set bundle identifier based on current build configuration";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/bash\nsh ${PROJECT_DIR}/scripts/setBundleIdentifierForAppStore.sh";
+			showEnvVarsInLog = 0;
+		};
+		E81C7AFE1824B7C80047C68C /* Remove infoplist.prefix preprocessor file from project temp directory */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Remove infoplist.prefix preprocessor file from project temp directory";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm $PROJECT_TEMP_DIR/infoplist.prefix";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1988,9 +2108,11 @@
 				93AD365F1603FFE600BDF03F /* OBAGenericAnnotation.m in Sources */,
 				93AD36601603FFE600BDF03F /* OBANavigationTargetAnnotation.m in Sources */,
 				93AD36621603FFE600BDF03F /* OBAVehicleMapAnnotation.m in Sources */,
+				FFCA85721863D24200F87DCA /* OBABookmarkGroup.m in Sources */,
 				93AD3672160400F500BDF03F /* OBAAgencyWithCoverage.m in Sources */,
 				93AD3673160400F500BDF03F /* OBAArrivalsAndDeparturesForStop.m in Sources */,
 				93AD3674160400F500BDF03F /* OBABookmarkV2.m in Sources */,
+				FFA40DFC1894A7F800E37566 /* EMHint.m in Sources */,
 				93AD3675160400F500BDF03F /* OBANavigationTarget.m in Sources */,
 				93AD3676160400F500BDF03F /* OBAServiceAlertsModel.m in Sources */,
 				93AD3677160400F500BDF03F /* OBATrip.m in Sources */,
@@ -2004,6 +2126,7 @@
 				93AD368E1604016400BDF03F /* OBAStopPreferences.m in Sources */,
 				93AD3696160401EF00BDF03F /* OBAEntityManager.m in Sources */,
 				93AD3697160401EF00BDF03F /* OBAModelDAO.m in Sources */,
+				FFBFE02A1863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m in Sources */,
 				93AD3698160401EF00BDF03F /* OBAModelDAOUserPreferencesImpl.m in Sources */,
 				93AD369D1604027E00BDF03F /* OBAProgressIndicatorImpl.m in Sources */,
 				93AD36A2160402C000BDF03F /* OBASearch.m in Sources */,
@@ -2045,6 +2168,7 @@
 				933C7F64160C07440005AAFE /* OBACallMethodJsonDigesterRule.m in Sources */,
 				933C7F65160C07440005AAFE /* OBACreateManagedEntityJsonDigesterRule.m in Sources */,
 				933C7F66160C07440005AAFE /* OBACreateObjectJsonDigesterRule.m in Sources */,
+				FF5331F318AC4DEE00E0C791 /* OBAStopWebViewController.m in Sources */,
 				933C7F67160C07440005AAFE /* OBAJsonDigester.m in Sources */,
 				933C7F68160C07440005AAFE /* OBASelectorJsonDigesterRule.m in Sources */,
 				933C7F69160C07440005AAFE /* OBASetCoordinatePropertyJsonDigesterRule.m in Sources */,
@@ -2059,7 +2183,9 @@
 				933C7F72160C07440005AAFE /* OBAAgencyWithCoverageV2.m in Sources */,
 				933C7F73160C07440005AAFE /* OBAArrivalAndDepartureInstanceRef.m in Sources */,
 				933C7F74160C07440005AAFE /* OBAArrivalAndDepartureV2.m in Sources */,
+				FFE76DCD186F94E10036D121 /* OBAEditBookmarkGroupViewController.m in Sources */,
 				933C7F75160C07440005AAFE /* OBAArrivalsAndDeparturesForStopV2.m in Sources */,
+				FFA40DFD1894A7F800E37566 /* EMHintsView.m in Sources */,
 				933C7F76160C07440005AAFE /* OBACurrentVehicleEstimateV2.m in Sources */,
 				933C7F77160C07440005AAFE /* OBAEntryWithReferencesV2.m in Sources */,
 				933C7F78160C07440005AAFE /* OBAFrequencyV2.m in Sources */,
@@ -2118,6 +2244,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		96C644831810B4D80000EC49 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 96C6447B1810B4A70000EC49 /* Versioning */;
+			targetProxy = 96C644821810B4D80000EC49 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		A005943C13FC43A9001B397B /* OBASearchTableViewCell.xib */ = {
 			isa = PBXVariantGroup;
@@ -2169,12 +2303,15 @@
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/TestFlightSDK2",
+					"$(SRCROOT)/Libraries/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2197,6 +2334,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -2207,18 +2345,22 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/TestFlightSDK2",
+					"$(SRCROOT)/Libraries/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					MapKit,
 				);
 				PRODUCT_NAME = OneBusAway;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -2226,6 +2368,34 @@
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
+		};
+		96C6447C1810B4A70000EC49 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		96C6447D1810B4A70000EC49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		96C6447E1810B4A70000EC49 /* AppStoreDistribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = AppStoreDistribution;
+		};
+		96C6447F1810B4A70000EC49 /* AdHocDistribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = AdHocDistribution;
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2275,7 +2445,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: University Of Washington (THEWY9596Q)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2285,19 +2456,23 @@
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/TestFlightSDK2",
+					"$(SRCROOT)/Libraries/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					MapKit,
 				);
 				PRODUCT_NAME = OneBusAway;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8B3E1CF6-8EDF-4F37-8F12-E805C22EEB39";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
@@ -2325,7 +2500,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: University Of Washington (THEWY9596Q)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2335,19 +2511,23 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/TestFlightSDK2",
+					"$(SRCROOT)/Libraries/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					MapKit,
 				);
 				PRODUCT_NAME = OneBusAway;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8B3E1CF6-8EDF-4F37-8F12-E805C22EEB39";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = YES;
 				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
@@ -2365,6 +2545,17 @@
 				1D6058950D05DD3E006BFB54 /* Release */,
 				D6BEE73F10474E58003655A1 /* AppStoreDistribution */,
 				D6575AF60FEE8B0900D6D987 /* AdHocDistribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		96C644801810B4A70000EC49 /* Build configuration list for PBXAggregateTarget "Versioning" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96C6447C1810B4A70000EC49 /* Debug */,
+				96C6447D1810B4A70000EC49 /* Release */,
+				96C6447E1810B4A70000EC49 /* AppStoreDistribution */,
+				96C6447F1810B4A70000EC49 /* AdHocDistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

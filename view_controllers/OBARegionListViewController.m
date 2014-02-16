@@ -10,7 +10,6 @@
 #import "OBARegionV2.h"
 #import "OBACustomApiViewController.h"
 
-
 typedef enum {
 	OBASectionTypeNone,
     OBASectionTypeLoading,
@@ -19,6 +18,7 @@ typedef enum {
 	OBASectionTypeAllRegions,
 	OBASectionTypeNoRegions,
     OBASectionTypeCustomAPI,
+    OBASectionTypeShowExperimentalRegions,
 } OBASectionType;
 
 @interface OBARegionListViewController ()
@@ -28,6 +28,7 @@ typedef enum {
 - (void) didSelectRegionRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
 - (UITableViewCell*) customAPICellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView;
 - (void) didSelectCustomAPIRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
+- (void) doNeedToUpdateRegionsList;
 @end
 
 @implementation OBARegionListViewController
@@ -47,6 +48,12 @@ typedef enum {
     self.progressLabel = NSLocalizedString(@"Regions", @"regions title");
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
+    _showExperimentalRegions = NO;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey: @"kOBAShowExperimentalRegionsDefaultsKey"])
+        _showExperimentalRegions = [[NSUserDefaults standardUserDefaults]
+                                 boolForKey: @"kOBAShowExperimentalRegionsDefaultsKey"];
+    _toggleSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+    [_toggleSwitch setOn: _showExperimentalRegions animated:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -70,6 +77,10 @@ typedef enum {
     }
 
     [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
+                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [[GAI sharedInstance].defaultTracker
+     send:[[GAIDictionaryBuilder createAppView] build]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -87,6 +98,7 @@ typedef enum {
 	_regions = nil;
     _mostRecentLocation = nil;
     _locationTimer = nil;
+    _toggleSwitch = nil;
 }
 
 - (BOOL) isLoading {
@@ -104,7 +116,8 @@ typedef enum {
     NSMutableArray *notSupportedRegions = [NSMutableArray array];
     for (id obj in _regions) {
         OBARegionV2 *region = (OBARegionV2 *)obj;
-        if (!region.supportsObaRealtimeApis || !region.active) {
+        if ((!region.supportsObaRealtimeApis || !region.active)
+            || (region.experimental && !_showExperimentalRegions)) {
             [notSupportedRegions addObject:region];
         }
     }
@@ -117,6 +130,7 @@ typedef enum {
 - (void) sortRegionsByLocation {
     if (![self isLoading] && _mostRecentLocation) {
         NSMutableArray *nearbyRegions = [NSMutableArray arrayWithArray:_regions];
+        
         NSMutableArray *regionsToRemove = [NSMutableArray array];
         for (id obj in nearbyRegions) {
             OBARegionV2 *region = (OBARegionV2 *) obj;
@@ -127,6 +141,7 @@ typedef enum {
         }
         
         [nearbyRegions removeObjectsInArray:regionsToRemove];
+        
         
         [nearbyRegions sortUsingComparator:^(id obj1, id obj2) {
             OBARegionV2 *region1 = (OBARegionV2*) obj1;
@@ -147,11 +162,16 @@ typedef enum {
         }];
         if (nearbyRegions.count > 0) {
             self.nearbyRegion = [nearbyRegions objectAtIndex:0];
+            if (_didJustBeginShowingExperimental && self.nearbyRegion.experimental && _showExperimentalRegions) {
+                [_appDelegate.modelDao writeSetRegionAutomatically:YES];
+                [_appDelegate.modelDao setOBARegion:self.nearbyRegion];
+                _didJustBeginShowingExperimental = NO;
+            }
         } else {
             self.nearbyRegion = nil;
         }
     }
-    [self.tableView reloadData];
+    [self handleRefresh];
 }
 
 - (void) sortRegionsByName {
@@ -193,15 +213,15 @@ typedef enum {
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	
     if([self isLoading])
-        return 1;
+        return 2;
     else if(_regions == nil)
-        return 2;
-    else if ([_regions count] == 0)
-        return 2;
-	else if( self.nearbyRegion == nil)
         return 3;
-    else
+    else if ([_regions count] == 0)
+        return 3;
+	else if( self.nearbyRegion == nil)
         return 4;
+    else
+        return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -221,6 +241,8 @@ typedef enum {
                 return 0;
             }
         case OBASectionTypeCustomAPI:
+            return 1;
+        case OBASectionTypeShowExperimentalRegions:
             return 1;
 		default:
 			return 0;
@@ -260,6 +282,8 @@ typedef enum {
             return [self regionsCellForRowAtIndexPath:indexPath tableView:tableView];
         case OBASectionTypeCustomAPI:
             return [self customAPICellForRowAtIndexPath:indexPath tableView:tableView];
+        case OBASectionTypeShowExperimentalRegions:
+            return [self experimentalRegionCellForRowAtIndexPath:indexPath tableView:tableView];
 		default:
 			break;
 	}
@@ -269,7 +293,6 @@ typedef enum {
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
 
 	if( [self isLoading] ) {
 		return;
@@ -318,12 +341,16 @@ typedef enum {
         if (section == 0)
             return OBASectionTypeLoading;
         else if (section == 1)
+            return OBASectionTypeShowExperimentalRegions;
+        else if (section == 2)
             return OBASectionTypeCustomAPI;
     }
 	else if( [_regions count] == 0 ) {
 		if( section == 0 )
 			return OBASectionTypeNoRegions;
         else if (section == 1)
+            return OBASectionTypeShowExperimentalRegions;
+        else if (section == 2)
             return OBASectionTypeCustomAPI;
 	}
 	else {
@@ -333,6 +360,8 @@ typedef enum {
             if (section == 1)
                 return OBASectionTypeAllRegions;
             else if (section == 2)
+                return OBASectionTypeShowExperimentalRegions;
+            else if (section == 3)
                 return OBASectionTypeCustomAPI;
         }
         else {
@@ -341,6 +370,8 @@ typedef enum {
             else if (section == 2)
                 return OBASectionTypeAllRegions;
             else if (section == 3)
+                return OBASectionTypeShowExperimentalRegions;
+            else if (section == 4)
                 return OBASectionTypeCustomAPI;
         }
 	}
@@ -350,7 +381,7 @@ typedef enum {
 
 - (UITableViewCell*) regionsCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView {
     OBARegionV2 *region = nil;
-    UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+    UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"RegionsCell"];
 
     switch ([self sectionTypeForSection:indexPath.section]) {
         case OBASectionTypeNearbyRegions:
@@ -406,8 +437,24 @@ typedef enum {
 
 }
 
+- (UITableViewCell*) experimentalRegionCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView {
+    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"ExperimentalRegionCell"];
+    [_toggleSwitch addTarget:self
+                     action:@selector(didSwitchStateOfToggle:)
+           forControlEvents:UIControlEventValueChanged];
+    cell.accessoryView = [[UIView alloc] initWithFrame:_toggleSwitch.frame];
+    [cell.accessoryView addSubview:_toggleSwitch];
+    
+    cell.textLabel.textColor = [UIColor blackColor];
+    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.text = NSLocalizedString(@"Experimental Regions", @"cell.textLabel.text");
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
+}
+
 - (UITableViewCell*) customAPICellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView {
-    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"CustomAPICell"];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textColor = [UIColor blackColor];
@@ -415,6 +462,90 @@ typedef enum {
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.textLabel.text = NSLocalizedString(@"Custom API URL", @"cell.textLabel.text");
     return cell;
+}
+
+- (void) didSwitchStateOfToggle:(UISwitch *)toggleSwitch {
+    if (toggleSwitch.on)
+    {
+    
+        UIAlertView *unstableRegionAlert = [[UIAlertView alloc] initWithTitle:@"Enable Regions in Beta?"
+                                                        message:@"Experimental regions may be unstable and without real-time info!"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"OK", nil];
+        [unstableRegionAlert show];
+        [[GAI sharedInstance].defaultTracker
+         send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
+                                                      action:@"button_press"
+                                                       label:@"Turned on Experimental Regions"
+                                                       value:nil] build]];
+        
+    } else {
+        //if current region is beta, show alert; otherwise, just update list
+        if (_appDelegate.modelDao.region.experimental){
+            UIAlertView *currentRegionUnavailableAlert = [[UIAlertView alloc] initWithTitle:@"Discard Current Region?"
+                                                         message:@"Your current experimental region won't be available! Proceed anyway?"
+                                                        delegate:self
+                                               cancelButtonTitle:@"Cancel"
+                                               otherButtonTitles:@"OK", nil];
+            [currentRegionUnavailableAlert show];
+            [[GAI sharedInstance].defaultTracker
+             send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
+                                                          action:@"button_press"
+                                                           label:@"Turned off Experimental Regions"
+                                                           value:nil] build]];
+        } else {
+            [self doNeedToUpdateRegionsList];
+        }
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    if([title isEqualToString:@"OK"])
+    {
+        [self doNeedToUpdateRegionsList];
+    } else if([title isEqualToString:@"Cancel"]) {
+        if (_showExperimentalRegions) {
+            [_toggleSwitch setOn: YES animated:NO];
+        }
+        else {
+            [_toggleSwitch setOn: NO animated:NO];
+        }
+    }
+}
+
+- (void) doNeedToUpdateRegionsList {
+    
+    _showExperimentalRegions = !_showExperimentalRegions;
+    _didJustBeginShowingExperimental = _showExperimentalRegions;
+    
+    if (_appDelegate.modelDao.region.experimental){
+        
+        //Change to automatic region if available
+        if (self.nearbyRegion && !self.nearbyRegion.experimental) {
+            [_appDelegate.modelDao writeSetRegionAutomatically:YES];
+            [_appDelegate.modelDao setOBARegion:self.nearbyRegion];
+        }
+        //Otherwise, set region to first in list
+        else if(![self isLoading] && _regions.count > 0) {
+            [_appDelegate.modelDao writeSetRegionAutomatically:NO];
+            [_appDelegate.modelDao setOBARegion:[_regions objectAtIndex:0]];
+        }
+        //Set region to nil if list is empty
+        else if (![self isLoading]) {
+            UIAlertView *noAvailableRegionsAlert = [[UIAlertView alloc] initWithTitle:@"No Regions Found" message:@"No available regions were found, recheck your connection and try again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [_appDelegate.modelDao setOBARegion:nil];
+            [noAvailableRegionsAlert show];
+        }
+    }
+    [_appDelegate.modelDao writeCustomApiUrl:@""];
+    [_appDelegate regionSelected];
+    [[NSUserDefaults standardUserDefaults] setBool:_showExperimentalRegions
+                                            forKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self handleRefresh];
 }
 
 - (void) didSelectCustomAPIRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
@@ -456,10 +587,10 @@ typedef enum {
             title.numberOfLines = 2;
             break;
         case OBASectionTypeNearbyRegions:
-            title.text =  NSLocalizedString(@"Set Region automatically", @"OBASectionTypeNearbyRegions title");
+            title.text =  NSLocalizedString(@"Set Region Automatically", @"OBASectionTypeNearbyRegions title");
             break;
         case OBASectionTypeAllRegions:
-            title.text =  NSLocalizedString(@"Manually select Region", @"OBASectionTypeAllRegions title");
+            title.text =  NSLocalizedString(@"Manually Select Region", @"OBASectionTypeAllRegions title");
             break;
         case OBASectionTypeNoRegions:
             title.text =  NSLocalizedString(@"No regions found", @"OBASectionTypeNoRegions title");

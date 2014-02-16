@@ -225,26 +225,29 @@ static NSString * const kReferences = @"references";
     return entry;
 }
 
-- (NSArray*) getPlacemarksFromJSONObject:(id)jsonObject error:(NSError**)error {
+- (OBAPlacemarks*) getPlacemarksFromJSONObject:(id)jsonObject error:(NSError**)error {
     
-    NSMutableArray * placemarks = [NSMutableArray array];
+    OBAPlacemarks * placemarks = [[OBAPlacemarks alloc] init];
     
     OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
-    [digester addObjectCreateRule:[OBAPlacemark class] forPrefix:@"/Placemark/[]"];
-    [digester addSetPropertyRule:@"address" forPrefix:@"/Placemark/[]/address"];
-    [digester addSetNext:@selector(addObject:) forPrefix:@"/Placemark/[]"];
+    [digester addObjectCreateRule:[OBAPlacemark class] forPrefix:@"/results/[]"];
+    [digester addSetPropertyRule:@"address" forPrefix:@"/results/[]/formatted_address"];
     
-    OBASetCoordinatePropertyJsonDigesterRule * rule = [[OBASetCoordinatePropertyJsonDigesterRule alloc] initWithPropertyName:@"coordinate" method:OBASetCoordinatePropertyMethodArray];
+    OBASetCoordinatePropertyJsonDigesterRule * rule = [[OBASetCoordinatePropertyJsonDigesterRule alloc] initWithPropertyName:@"coordinate" method:OBASetCoordinatePropertyMethodLatLon];
+    rule.lonJsonName = @"lng";
+    [digester addRule:rule forPrefix:@"/results/[]/geometry/location"];
+    [digester addSetNext:@selector(addPlacemark:) forPrefix:@"/results/[]"];
     
-    [digester addRule:rule forPrefix:@"/Placemark/[]/Point/coordinates"];
+    
     
     [digester parse:jsonObject withRoot:placemarks parameters:[self getDigesterParameters] error:error];
     
     return placemarks;
 }
 
-- (OBAPlacemarks*) getPlacemarksFromGooglePlacesJSONObject:(id)jsonObject error:(NSError**)error {
 
+- (OBAPlacemarks*) getPlacemarksFromGooglePlacesJSONObject:(id)jsonObject error:(NSError**)error {
+    
     OBAPlacemarks * placemarks = [[OBAPlacemarks alloc] init];
     
     OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
@@ -605,9 +608,11 @@ static NSString * const kReferences = @"references";
     [self addSetPropertyRule:@"twitterUrl" forPrefix:[self extendPrefix:prefix withValue:@"twitterUrl"]];
     [self addSetPropertyRule:@"facebookUrl" forPrefix:[self extendPrefix:prefix withValue:@"facebookUrl"]];
     [self addSetPropertyRule:@"active" forPrefix:[self extendPrefix:prefix withValue:@"active"]];
+    [self addSetPropertyRule:@"experimental" forPrefix:[self extendPrefix:prefix withValue:@"experimental"]];
     [self addSetPropertyRule:@"obaBaseUrl" forPrefix:[self extendPrefix:prefix withValue:@"obaBaseUrl"]];
     [self addSetPropertyRule:@"id_number" forPrefix:[self extendPrefix:prefix withValue:@"id"]];
     [self addSetPropertyRule:@"regionName" forPrefix:[self extendPrefix:prefix withValue:@"regionName"]];
+    [self addSetPropertyRule:@"stopInfoUrl" forPrefix:[self extendPrefix:prefix withValue:@"stopInfoUrl"]];
 }
 
 - (void) addRegionBoundsV2RulesWithPrefix:(NSString*)prefix {

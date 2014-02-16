@@ -147,16 +147,19 @@ static const float kBigSearchRadius = 15000;
     CLLocationCoordinate2D coord = location.coordinate;
     
     address = [self escapeStringForUrl:address];
+    address = [address stringByReplacingOccurrencesOfString:@"%20" withString:@"+"];
+
+    NSString * url = @"/maps/api/geocode/json";
     
-    NSString * url = @"/maps/geo";
-    NSString * args = [NSString stringWithFormat:@"ll=%f,%f&spn=0.5,0.5&q=%@", coord.latitude, coord.longitude, address];
+    NSString * args = [[NSString stringWithFormat:@"bounds=%f,%f|%f,%f&address=%@", coord.latitude, coord.longitude, coord.latitude, coord.longitude, address] stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
+    
     SEL selector = @selector(getPlacemarksFromJSONObject:error:);
     
     return [self request:_googleMapsJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
 }
 
 - (id<OBAModelServiceRequest>) requestRegions:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
-    NSString * url = @"/regions.json";
+    NSString * url = @"/regions-v3.json";
     NSString * args = @"";
     SEL selector = @selector(getRegionsV2FromJson:error:);
 

@@ -18,6 +18,7 @@
 
 
 static NSString * kBookmarksKey = @"bookmarks";
+static NSString * kBookmarkGroupsKey = @"bookmarkGroups";
 static NSString * kMostRecentStopsKey = @"mostRecentStops";
 static NSString * kStopPreferencesKey = @"stopPreferences";
 static NSString * kMostRecentLocationKey = @"mostRecentLocation";
@@ -61,6 +62,29 @@ static NSString * kMostRecentCustomApiUrlsKey = @"mostRecentCustomApiUrls";
     NSMutableData * data = [NSMutableData data];
     [self encodeObject:source forKey:kBookmarksKey toData:data];
     [user setObject:data forKey:kBookmarksKey];
+    [user synchronize];
+}
+
+- (NSArray*) readBookmarkGroups {
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSData * data = [user dataForKey:kBookmarkGroupsKey];
+    NSArray * bookmarkGroups = nil;
+    @try {
+        bookmarkGroups = [self decodeObjectForKey:kBookmarkGroupsKey fromData:data];
+    }
+    @catch (NSException * e) {
+    }
+    if (!bookmarkGroups) {
+        bookmarkGroups = [[NSArray alloc] init];
+    }
+    return bookmarkGroups;
+}
+
+- (void) writeBookmarkGroups:(NSArray*)source {
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSMutableData * data = [NSMutableData data];
+    [self encodeObject:source forKey:kBookmarkGroupsKey toData:data];
+    [user setObject:data forKey:kBookmarkGroupsKey];
     [user synchronize];
 }
 
