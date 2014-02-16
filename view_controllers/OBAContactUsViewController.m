@@ -17,6 +17,7 @@
 #import "OBAContactUsViewController.h"
 #import "UITableViewController+oba_Additions.h"
 #import "OBANavigationTargetAware.h"
+#import <sys/utsname.h>
 
 #define kEmailRow 0
 #define kTwitterRow 1
@@ -112,10 +113,14 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                 if (region) {
                     contactEmail = region.contactEmail;
                 }
+
+                //device model, thanks to http://stackoverflow.com/a/11197770/1233435
+                struct utsname systemInfo;
+                uname(&systemInfo);
                 
                 NSString *appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
                 CLLocation * location = _appDelegate.locationManager.currentLocation;
-                NSString *args = [[NSString stringWithFormat:@"?subject=OneBusAway iOS Feedback&body=\n\n---------------\nApp Version: %@\nDevice: %@ \nOS Version: %@\nLoc: %f, %f", appVersionString, [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], location.coordinate.latitude, location.coordinate.longitude] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                NSString *args = [[NSString stringWithFormat:@"?subject=OneBusAway iOS Feedback&body=\n\n---------------\nApp Version: %@\nDevice: <a href='http://stackoverflow.com/a/11197770/1233435'>%@</a>\nOS Version: %@\nCurrent Location: %f, %f", appVersionString, [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding], [[UIDevice currentDevice] systemVersion], location.coordinate.latitude, location.coordinate.longitude] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
    
                 contactEmail = [NSString stringWithFormat:@"mailto:%@%@",contactEmail, args];
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: contactEmail]];
