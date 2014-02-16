@@ -8,23 +8,15 @@ for i in "${ADDR[@]}"; do
 done
 
 if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then
-  echo "\nThis is a pull request. No deployment will be done."
-  exit 0
+  BRANCH="$USERNAME/pr/$TRAVIS_PULL_REQUEST"
+else
+  BRANCH="$USERNAME/$TRAVIS_BRANCH"
 fi
-echo "\nTested & deploying on $USERNAME/$TRAVIS_BRANCH branch."
-
-#echo "\n********************"
-#echo "*  Zipping files   *"
-#echo "********************"
-#if [[ zip -r -9 -q "$HOME/Library/Developer/Xcode/Archives/$APPNAME.zip" "$HOME/Library/Developer/Xcode/Archives/" -ne 0 ]]; then
-#  exit -1
-#fi
+echo "\nTested & deploying on $BRANCH branch."
 
 ARCHIVE_DIR=`find $HOME/Library/Developer/Xcode/Archives -name "$APPNAME.app" | head -1`
-#echo $ARCHIVE_DIR
 
 COMMIT_MSG=`git log -1 --pretty=%B`
-#echo $COMMIT_MSG
 
 echo "\n********************"
 echo "*  Add deploy key  *"
@@ -50,13 +42,13 @@ function checklastcommanderrorexit {
 
 git remote add deploy $DEPLOY_SSH_REPO
 git fetch deploy
-git checkout -b $USERNAME/$TRAVIS_BRANCH deploy/$USERNAME/$TRAVIS_BRANCH
+git checkout -b $BRANCH deploy/$BRANCH
 
 RC=$?
 if [[ $RC -ne "0" ]]; then
   echo "Branch does not exist, making branch and checking out"
-  git checkout -b $USERNAME/$TRAVIS_BRANCH
-  git push deploy $USERNAME/$TRAVIS_BRANCH -u
+  git checkout -b $BRANCH
+  git push deploy $BRANCH -u
   checklastcommanderrorexit  
   if [[ -f $LOCK_FILE ]]; then #clear lock since new branch
     git rm $LOCK_FILE
@@ -83,7 +75,7 @@ function pushtodeploy {
   git commit -m "$CMT_MESSAGE"
   git config --global push.default simple #to remove some special warning message about git 2.0 changes
   git status
-  git push deploy $USERNAME/$TRAVIS_BRANCH #if another CI build pushes at the same time issues may occur
+  git push deploy $BRANCH #if another CI build pushes at the same time issues may occur
 
   checklastcommanderrorexit
 }
@@ -131,11 +123,11 @@ chmod +x $APPNAME.app/$APPNAME
 echo "\n********************"
 echo "*     Make IPA     *"
 echo "********************"
-#CURRENT_DIR=`pwd`
-##echo $CURRENT_DIR
-##ls -R
-#xcrun -sdk iphoneos PackageApplication -v "$CURRENT_DIR/$APPNAME.app" -o "$CURRENT_DIR/$APPNAME.ipa"
-#checklastcommanderrorexit
+CURRENT_DIR=`pwd`
+#echo $CURRENT_DIR
+#ls -R
+xcrun -sdk iphoneos PackageApplication -v "$CURRENT_DIR/$APPNAME.app" -o "$CURRENT_DIR/$APPNAME.ipa"
+checklastcommanderrorexit
 
 #echo "\n Copying dSYM for later crash debugging..."
 #DYSM=`find ~ -name "$APPNAME.app.dSYM" | head -1`
