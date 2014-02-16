@@ -63,7 +63,23 @@
         cell.minutesSubLabel.hidden = YES;
     }
     
-
+    NSString *minutesUntilArrivalText;
+    if ([cell.minutesLabel.text isEqualToString:@"NOW"])
+        minutesUntilArrivalText = NSLocalizedString(@"arriving now", "minutes==0");
+    else if (cell.minutesLabel.text.intValue > 1)
+        minutesUntilArrivalText = [NSString stringWithFormat:NSLocalizedString(@"%@ minutes until arrival", @"minutes > 1"), cell.minutesLabel.text];
+    else if (cell.minutesLabel.text.intValue == 1)
+        minutesUntilArrivalText = NSLocalizedString(@"1 minute until arrival", "minutes==1");
+    else if (cell.minutesLabel.text.intValue == -1)
+            minutesUntilArrivalText = NSLocalizedString(@"departed 1 minute ago", "minutes==-1");
+    else if (cell.minutesLabel.text.intValue < -1) {
+        NSInteger positiveMins = cell.minutesLabel.text.intValue * -1;
+        minutesUntilArrivalText = [NSString stringWithFormat:NSLocalizedString(@"departed %i minutes ago", @"minutes < 0"), positiveMins];
+    }
+    else
+        minutesUntilArrivalText = NSLocalizedString(@"unknown arrival time", @"minutes unknown");
+    
+    cell.accessibilityLabel = [NSString stringWithFormat:NSLocalizedString(@"%@ toward %@, %@ at %@", "arrivalEntryTable.cell.accessibilityLabel"), cell.routeLabel.text, cell.destinationLabel.text, minutesUntilArrivalText, cell.statusLabel.text];
     
     return cell;    
 }

@@ -1,27 +1,22 @@
 #!/bin/sh
 LOCK_FILE=repo.lock
 
-if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then
-  echo "\nThis is a pull request. No deployment will be done."
-  exit 0
-fi
-#if [[ "$TRAVIS_BRANCH" != "master" ]]; then
-  echo "\nTested & deploying on $TRAVIS_BRANCH branch."
-  #exit 0
-#fi
+IFS='/' read -ra ADDR <<< "$TRAVIS_REPO_SLUG" #thanks to http://stackoverflow.com/a/918931/1233435
+for i in "${ADDR[@]}"; do
+    USERNAME=$i
+    break
+done
 
-#echo "\n********************"
-#echo "*  Zipping files   *"
-#echo "********************"
-#if [[ zip -r -9 -q "$HOME/Library/Developer/Xcode/Archives/$APPNAME.zip" "$HOME/Library/Developer/Xcode/Archives/" -ne 0 ]]; then
-#  exit -1
-#fi
+if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then
+  BRANCH="$USERNAME/pr/$TRAVIS_PULL_REQUEST"
+else
+  BRANCH="$USERNAME/$TRAVIS_BRANCH"
+fi
+echo "\nTested & deploying on $BRANCH branch."
 
 ARCHIVE_DIR=`find $HOME/Library/Developer/Xcode/Archives -name "$APPNAME.app" | head -1`
-#echo $ARCHIVE_DIR
 
 COMMIT_MSG=`git log -1 --pretty=%B`
-#echo $COMMIT_MSG
 
 echo "\n********************"
 echo "*  Add deploy key  *"
@@ -40,19 +35,20 @@ function checklastcommanderrorexit {
   #echo "git exit code: $RC"
   if [[ $RC -ne "0" ]]; then
     #echo "error hit"
+    #todo: add repo unlock
     exit -1
   fi
 }
 
 git remote add deploy $DEPLOY_SSH_REPO
 git fetch deploy
-git checkout -b $TRAVIS_BRANCH deploy/$TRAVIS_BRANCH
+git checkout -b $BRANCH deploy/$BRANCH
 
 RC=$?
 if [[ $RC -ne "0" ]]; then
   echo "Branch does not exist, making branch and checking out"
-  git checkout -b $TRAVIS_BRANCH
-  git push deploy $TRAVIS_BRANCH -u
+  git checkout -b $BRANCH
+  git push deploy $BRANCH -u
   checklastcommanderrorexit  
   if [[ -f $LOCK_FILE ]]; then #clear lock since new branch
     git rm $LOCK_FILE
@@ -79,7 +75,7 @@ function pushtodeploy {
   git commit -m "$CMT_MESSAGE"
   git config --global push.default simple #to remove some special warning message about git 2.0 changes
   git status
-  git push deploy $TRAVIS_BRANCH #if another CI build pushes at the same time issues may occur
+  git push deploy $BRANCH #if another CI build pushes at the same time issues may occur
 
   checklastcommanderrorexit
 }
@@ -107,15 +103,22 @@ cp -R "$ARCHIVE_DIR" .
 echo "\n********************"
 echo "*   Fake signing   *"
 echo "********************"
-if [[ ! -f ldid ]]; then
-  curl -o ldid https://networkpx.googlecode.com/files/ldid
-fi
+#build ldid from source
+git clone git://git.saurik.com/ldid.git
+cd ldid
+git submodule update --init
+./make.sh
+cp ./ldid ../ldid-tmp
+cd ..
+rm -Rf ldid
+mv ldid-tmp ldid
 chmod +x ./ldid
 chmod +x $APPNAME.app/$APPNAME
 ./ldid -S $APPNAME.app/$APPNAME
-#lipo -info OneBusAway
-#otool -L OneBusAway
-#file OneBusAway
+#./ldid -e $APPNAME.app/$APPNAME
+#lipo -info $APPNAME.app/$APPNAME
+#otool -L $APPNAME.app/$APPNAME
+#file $APPNAME.app/$APPNAME
 
 echo "\n********************"
 echo "*     Make IPA     *"

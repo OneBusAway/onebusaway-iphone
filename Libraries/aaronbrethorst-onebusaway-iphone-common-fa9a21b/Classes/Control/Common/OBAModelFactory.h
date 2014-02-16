@@ -38,7 +38,7 @@
 - (OBAListWithRangeAndReferencesV2*) getAgenciesWithCoverageV2FromJson:(id)jsonDictionary error:(NSError**)error;
 - (OBAArrivalsAndDeparturesForStopV2*) getArrivalsAndDeparturesForStopV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error;
 - (OBAEntryWithReferencesV2*) getArrivalAndDepartureForStopV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error;
-- (NSArray*) getPlacemarksFromJSONObject:(id)jsonObject error:(NSError**)error;
+- (OBAPlacemarks*) getPlacemarksFromJSONObject:(id)jsonObject error:(NSError**)error;
 - (OBAPlacemarks*) getPlacemarksFromGooglePlacesJSONObject:(id)jsonObject error:(NSError**)error;
 - (OBAEntryWithReferencesV2*) getTripDetailsV2FromJSON:(NSDictionary*)json error:(NSError**)error;
 

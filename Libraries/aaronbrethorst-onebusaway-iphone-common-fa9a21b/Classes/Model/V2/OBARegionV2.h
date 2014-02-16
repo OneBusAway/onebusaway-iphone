@@ -22,11 +22,13 @@
 @property (nonatomic, strong) NSString * obaBaseUrl;
 @property (nonatomic, strong) NSString * facebookUrl;
 @property (nonatomic, strong) NSString * regionName;
+@property (nonatomic, strong) NSString * stopInfoUrl;
 
 @property (nonatomic) BOOL supportsSiriRealtimeApis;
 @property (nonatomic) BOOL supportsObaRealtimeApis;
 @property (nonatomic) BOOL supportsObaDiscoveryApis;
 @property (nonatomic) BOOL active;
+@property (nonatomic) BOOL experimental;
 @property (nonatomic) NSInteger id_number;
 
 - (void)addBound:(OBARegionBoundsV2*)bound;

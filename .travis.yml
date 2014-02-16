@@ -11,18 +11,18 @@ before_install:
     # install all software updates
     #- sudo softwareupdate -iva
     
-    #install xcode 5
-    - chmod -R +x ./scripts
-    - ./scripts/travis/xcode5.sh
+    #install xcode
+    #- chmod -R +x ./scripts
+    #- ./scripts/travis/xcode5.sh
 
     #install xctool
     - brew update
     - brew remove xctool
     - brew install xctool
 before_script:
-    #- chmod -R +x ./scripts
+    - chmod -R +x ./scripts
     - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-script: xctool -project org.onebusaway.iphone.xcodeproj -scheme Debug archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO && ./scripts/travis/upload.sh #build-tests run-tests
+script: xctool -project org.onebusaway.iphone.xcodeproj -scheme Debug archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGN_ENTITLEMENTS="" build-tests run-tests && ./scripts/travis/upload.sh
 env:
   global:
   - APPNAME="OneBusAway"

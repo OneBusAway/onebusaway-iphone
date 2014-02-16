@@ -148,7 +148,8 @@
         }
             
         case OBASearchTypeAddress: {
-            NSArray * placemarks = obj;
+            
+            NSArray * placemarks = [obj placemarks];
             if( [placemarks count] == 1 ) {
                 OBAPlacemark * placemark = placemarks[0];
                 OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
@@ -160,6 +161,7 @@
                 [self fireUpdate:result];
             }
             break;
+            
         }
 
         case OBASearchTypePlacemark: {
@@ -191,6 +193,7 @@
 }
 
 - (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
+    
     [_progress setMessage:NSLocalizedString(@"Error connecting",@"requestDidFail") inProgress:NO progress:0];
     [self fireError:error];
 }

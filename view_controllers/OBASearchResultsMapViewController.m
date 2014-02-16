@@ -189,7 +189,7 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 
     self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStyleBordered target:self action:@selector(showListView:)];
-    self.listBarButtonItem.accessibilityLabel = NSLocalizedString(@"list", @"self.listBarButtonItem.accessibilityLabel");
+    self.listBarButtonItem.accessibilityLabel = NSLocalizedString(@"Nearby stops list", @"self.listBarButtonItem.accessibilityLabel");
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
@@ -229,7 +229,11 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
+                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [[GAI sharedInstance].defaultTracker
+     send:[[GAIDictionaryBuilder createAppView] build]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteNetworkRequest) name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
 
     OBALocationManager * lm = self.appDelegate.locationManager;
@@ -245,8 +249,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
     
@@ -1274,8 +1276,17 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 - (BOOL)outOfServiceArea{
     MKMapRect viewRect = self.mapView.visibleMapRect;
     for (OBARegionBoundsV2 *bounds in self.appDelegate.modelDao.region.bounds) {
-        MKCoordinateRegion serviceRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(bounds.lat, bounds.lon), MKCoordinateSpanMake(bounds.lonSpan, bounds.latSpan));
-        MKMapRect serviceRect = MKMapRectForCoordinateRegion(serviceRegion);
+        
+        
+        MKMapPoint a = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
+                                                                          bounds.lat+ bounds.latSpan/ 2,
+                                                                          bounds.lon - bounds.lonSpan/ 2));
+        MKMapPoint b = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
+                                                                          bounds.lat - bounds.latSpan / 2,
+                                                                          bounds.lon + bounds.lonSpan / 2));
+        
+        MKMapRect serviceRect = MKMapRectMake(MIN(a.x,b.x), MIN(a.y,b.y), ABS(a.x-b.x), ABS(a.y-b.y));
+        
         if (MKMapRectIntersectsRect(serviceRect, viewRect)) {
             return NO;
         }
