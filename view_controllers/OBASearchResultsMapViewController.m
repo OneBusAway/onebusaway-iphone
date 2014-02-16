@@ -229,7 +229,11 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
+                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [[GAI sharedInstance].defaultTracker
+     send:[[GAIDictionaryBuilder createAppView] build]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteNetworkRequest) name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
 
     OBALocationManager * lm = self.appDelegate.locationManager;
@@ -245,8 +249,6 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
     
