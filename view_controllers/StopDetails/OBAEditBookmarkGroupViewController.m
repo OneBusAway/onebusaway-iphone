@@ -53,6 +53,11 @@
 - (void)onSaveButton:(id)sender {
     OBAModelDAO *dao = _appDelegate.modelDao;
     _bookmarkGroup.name = _textField.text;
+    [[GAI sharedInstance].defaultTracker
+     send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
+                                                  action:@"edit_field"
+                                                   label:@"Edited Bookmark"
+                                                   value:nil] build]];
     [dao addOrSaveBookmarkGroup:_bookmarkGroup];
     [self.navigationController popViewControllerAnimated:YES];
 }

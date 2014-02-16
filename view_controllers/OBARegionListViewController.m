@@ -77,6 +77,10 @@ typedef enum {
     }
 
     [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
+                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [[GAI sharedInstance].defaultTracker
+     send:[[GAIDictionaryBuilder createAppView] build]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -470,6 +474,11 @@ typedef enum {
                                               cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:@"OK", nil];
         [unstableRegionAlert show];
+        [[GAI sharedInstance].defaultTracker
+         send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
+                                                      action:@"button_press"
+                                                       label:@"Turned on Experimental Regions"
+                                                       value:nil] build]];
         
     } else {
         //if current region is beta, show alert; otherwise, just update list
@@ -480,6 +489,11 @@ typedef enum {
                                                cancelButtonTitle:@"Cancel"
                                                otherButtonTitles:@"OK", nil];
             [currentRegionUnavailableAlert show];
+            [[GAI sharedInstance].defaultTracker
+             send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
+                                                          action:@"button_press"
+                                                           label:@"Turned off Experimental Regions"
+                                                           value:nil] build]];
         } else {
             [self doNeedToUpdateRegionsList];
         }

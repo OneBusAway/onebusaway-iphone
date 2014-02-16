@@ -225,6 +225,7 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         }
         [TestFlight passCheckpoint:[NSString stringWithFormat:@"Loaded StopInfo from %@", region.regionName]];
         
+        
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0.0")) {
             SVWebViewController *webViewController = [[SVWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
             [self.navigationController pushViewController:webViewController animated:YES];
@@ -235,13 +236,16 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
             [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
         }
     }
-    
+    [[GAI sharedInstance].defaultTracker
+             send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
+                                                          action:@"button_press"
+                                                           label:[NSString stringWithFormat:@"Loaded StopInfo from %@", region.regionName]
+                                                           value:nil] build]];
 }
 
 - (void)viewDidUnload {
     self.tableHeaderView = nil;
     self.tableView.tableHeaderView = nil;
-    
     [self setStopRoutes:nil];
     [super viewDidUnload];
 }
@@ -370,8 +374,18 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
     [self refresh];
 
     [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
-    if (UIAccessibilityIsVoiceOverRunning())
+    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
+                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [[GAI sharedInstance].defaultTracker
+     send:[[GAIDictionaryBuilder createAppView] build]];
+    if (UIAccessibilityIsVoiceOverRunning()){
         [TestFlight passCheckpoint:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]]];
+        [[GAI sharedInstance].defaultTracker
+            send:[[GAIDictionaryBuilder createEventWithCategory:@"accessibility"
+                                                         action:@"voiceover_on"
+                                                          label:@"VoiceOver Running"
+                                                          value:nil] build]];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
