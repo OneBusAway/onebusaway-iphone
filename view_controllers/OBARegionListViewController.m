@@ -540,7 +540,8 @@ typedef enum {
             [noAvailableRegionsAlert show];
         }
     }
-
+    [_appDelegate.modelDao writeCustomApiUrl:@""];
+    [_appDelegate regionSelected];
     [[NSUserDefaults standardUserDefaults] setBool:_showExperimentalRegions
                                             forKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
     [[NSUserDefaults standardUserDefaults] synchronize];
