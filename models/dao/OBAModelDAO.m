@@ -91,6 +91,11 @@ const static int kMaxEntriesInMostRecentList = 10;
     [_preferencesDao writeOBARegion:newRegion];
     NSLog(@"Set Region: %@",newRegion.regionName);
     [TestFlight passCheckpoint:[NSString stringWithFormat:@"Set Region: %@",newRegion.regionName]];
+    [[GAI sharedInstance].defaultTracker
+     send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
+                                                  action:@"set_region"
+                                                   label:[NSString stringWithFormat:@"Set Region: %@",newRegion.regionName]
+                                                   value:nil] build]];
 }
 
 

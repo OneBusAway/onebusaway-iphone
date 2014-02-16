@@ -34,6 +34,11 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
+                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [[GAI sharedInstance].defaultTracker
+     send:[[GAIDictionaryBuilder createAppView] build]];
+    
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
     
     [self _refreshGroups];
@@ -96,6 +101,11 @@
     } else {
         if (self.editing) {
             OBAEditBookmarkGroupViewController *editBookmarkGroupVC = [[OBAEditBookmarkGroupViewController alloc] initWithApplicationDelegate:self.appDelegate bookmarkGroup:self.groups[indexPath.row - 2] editType:OBABookmarkGroupEditExisting];
+            [[GAI sharedInstance].defaultTracker
+             send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
+                                                          action:@"edit_field"
+                                                           label:@"Edited Bookmark Group"
+                                                           value:nil] build]];
             [self.navigationController pushViewController:editBookmarkGroupVC animated:YES];
         } else {
             NSInteger oldGroupRow = self.selectedGroup ? ([self.groups indexOfObject:self.selectedGroup]+2) : 1;
