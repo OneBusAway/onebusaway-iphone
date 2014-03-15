@@ -1,5 +1,9 @@
 # Changelog for OneBusAway for iPhone
 
+## 2.3
+
+* Improve problem submission process
+
 ## 2.2
 
 * Added support for finding and contributing information about bus stops in Stop Details page for Puget Sound (see http://stopinfo.pugetsound.onebusaway.org for more details)
