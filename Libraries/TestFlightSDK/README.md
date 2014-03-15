@@ -86,7 +86,7 @@ For **beta** users, you can see who the users are if they have a TestFlight acco
 
 ### Crash Reports
 
-The TestFlight SDK automatically reports all crashes (beta and prod) to TestFlight's website where you can view them. Crash reports are sent **at** crash time. TestFlight will also automatically symbolicate all crashes (if you have uploaded your dSYM). For **beta** apps, on the site, you can see which checkpoints the user passed before the crash and see remote logs that were sent before the crash. For **prod** apps, you can see remote logs that were sent before the crash.
+The TestFlight SDK automatically reports all crashes (beta and prod) to TestFlight's website where you can view them. Crash reports are sent **at** crash time. TestFlight will also automatically symbolicate all crashes (if you have uploaded your dSYM). For **beta** apps, on the site, you can see which checkpoints the user passed before the crash and see remote logs that were sent before the crash.
 
 
 ### Beta In App Updates  
@@ -104,7 +104,7 @@ To turn this off set this option before calling `takeOff:`
     
 ### Checkpoints
 
-When a tester does something you care about in your app, you can pass a checkpoint. For example completing a level, adding a todo item, etc. The checkpoint progress is used to provide insight into how your testers are testing your apps. The passed checkpoints are also attached to crashes, which can help when creating steps to replicate. Checkpoints are visible for all beta and prod builds.
+When a tester does something you care about in your app, you can pass a checkpoint. For example completing a level, adding a todo item, etc. The checkpoint progress is used to provide insight into how your testers are testing your apps. The passed checkpoints are also attached to crashes, which can help when creating steps to replicate. Checkpoints are visible for all beta builds.
 
     [TestFlight passCheckpoint:@"CHECKPOINT_NAME"];
 
@@ -112,7 +112,7 @@ Use `passCheckpoint:` to track when a user performs certain tasks in your applic
 
 Checkpoints are meant to tell you if a user visited a place in your app or completed a task. They should not be used for debugging purposes. Instead, use Remote Logging for debugging information (more information below).
 
-NB: Checkpoints are only recorded during sessions.
+NB: Checkpoints are only recorded during BETA sessions.
 
 
 ### Custom Environment Information
@@ -135,7 +135,7 @@ Once users have submitted feedback from inside of the application you can view i
 
 ### Remote Logging
 
-Remote Logging allows you to see the logs your app prints out remotely, on TestFlight's website. You can see logs for **beta sessions** and **prod sessions with crashes**. NB: you cannot see the logs for all prod sessions.
+Remote Logging allows you to see the logs your app prints out remotely, on TestFlight's website. You can see logs for **beta sessions**.
 
 To use it, simply replace all of your `NSLog` calls with `TFLog` calls. An easy way to do this without rewriting all your `NSLog` calls is to add the following macro to your `.pch` file.
 
@@ -161,6 +161,7 @@ If you have your own custom logging, call `TFLog` from your custom logging funct
     [TestFlight setOptions:@{ TFOptionLogToConsole : @NO }];
     [TestFlight setOptions:@{ TFOptionLogToSTDERR : @NO }];
     
+
 ## Advanced Notes
 
 ### Checkpoint API
@@ -172,11 +173,13 @@ When passing a checkpoint, TestFlight logs the checkpoint synchronously (See Rem
 
 All logging is done synchronously. Every time the SDK logs, it must write data to a file. This is to ensure log integrity at crash time. Without this, we could not trust logs at crash time. If you have a high performance app, please email support@testflightapp.com for more options.
 
+
 ### Advanced Session Control
 
 Continuing sessions: You can adjust the amount of time a user can leave the app for and still continue the same session when they come back by changing the `TFOptionSessionKeepAliveTimeout` option. Change it to 0 to turn the feature off.
 
 Manual Session Control: If your app is a music player that continues to play music in the background, a navigation app that continues to function in the background, or any app where a user is considered to be "using" the app even while the app is not active you should use Manual Session Control. Please only use manual session control if you know exactly what you are doing. There are many pitfalls which can result in bad session duration and counts. See `TestFlight+ManualSessions.h` for more information and instructions.
+
 
 ### Advanced Exception/Signal Handling
 

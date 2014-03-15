@@ -6,7 +6,7 @@
 //  Copyright 2011 TestFlight. All rights reserved.
 
 #import <Foundation/Foundation.h>
-#define TESTFLIGHT_SDK_VERSION @"2.2.2"
+#define TESTFLIGHT_SDK_VERSION @"3.0.0"
 #undef TFLog
 
 #if __cplusplus
@@ -14,6 +14,7 @@ extern "C" {
 #endif
     /*
      * Remote Logging
+     * BETA only
      * Note: All Logging is synchronous, see the README for more information.
      */
     void TFLog(NSString *format, ...) __attribute__((format(__NSString__, 1, 2)));
@@ -31,6 +32,7 @@ extern "C" {
 
 /**
  * Add custom environment information
+ * BETA only
  * If you want to track custom information such as a user name from your application you can add it here.
  * NB: This information must be added before the session starts, it is recorded only on session start.
  * 
@@ -64,6 +66,7 @@ extern "C" {
 
 /**
  * Track when a user has passed a checkpoint after the flight has taken off. Eg. passed level 1, posted high score.
+ * BETA only
  * Checkpoints are sent in the background.
  * Note: The checkpoint is logged synchronously (See TFLog and TFOptionLogOnCheckpoint for more information).
  *
@@ -74,6 +77,7 @@ extern "C" {
 /**
  * Submits custom feedback to the site. Sends the data in feedback to the site. This is to be used as the method to submit
  * feedback from custom feedback forms.
+ * BETA only
  *
  * @param feedback Your users feedback, method does nothing if feedback is nil
  */
