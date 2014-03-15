@@ -22,6 +22,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		727E52F515824F1200534646 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 727E52F415824F1200534646 /* MessageUI.framework */; };
 		08741E1518B0358900251C1B /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08741E1418B0358900251C1B /* libGoogleAnalyticsServices.a */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -383,6 +384,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		727E52F415824F1200534646 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		08741E0E18B0358900251C1B /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		08741E0F18B0358900251C1B /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		08741E1018B0358900251C1B /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
@@ -899,6 +901,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				727E52F515824F1200534646 /* MessageUI.framework in Frameworks */,
 				935846AB17FB9EA40034200C /* Accelerate.framework in Frameworks */,
 				96ADB3DF17BDD5DA00314D65 /* libz.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
@@ -992,6 +995,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				727E52F415824F1200534646 /* MessageUI.framework */,
 				935846AA17FB9EA40034200C /* Accelerate.framework */,
 				96ADB3DE17BDD5DA00314D65 /* libz.dylib */,
 				D62255AA0F8BCA8F00F139BA /* libsqlite3.0.dylib */,

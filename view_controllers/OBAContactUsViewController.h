@@ -17,8 +17,9 @@
 
 #import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
+#import <MessageUI/MFMailComposeViewController.h>
 
-@interface OBAContactUsViewController : UITableViewController <OBANavigationTargetAware> {
+@interface OBAContactUsViewController : UITableViewController <OBANavigationTargetAware, MFMailComposeViewControllerDelegate> {
     OBAApplicationDelegate * _appDelegate;
 }
 
