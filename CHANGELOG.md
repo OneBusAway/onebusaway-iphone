@@ -3,11 +3,11 @@
 ## 2.3
 
 * Improve problem submission process
-
-## 2.3
-
+* Improve contact us by email feature
 * Upgraded TestFlight SDK
+* Enhance back button path for StopInfo
 * General cleanup
+
 
 ## 2.2
 
