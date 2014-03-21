@@ -1,3 +1,7 @@
+## 3.0.0 - February 18, 2014
+
+- Remove checkpoints, feedback, and logs from production apps.
+
 ## 2.2.2 - February 5, 2014
 
 - Remove `+ (void)setDeviceIdentifier:(NSString *)deviceIdentifer`, it is no longer used
