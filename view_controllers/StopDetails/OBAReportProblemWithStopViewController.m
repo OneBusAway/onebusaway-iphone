@@ -250,6 +250,10 @@ typedef enum {
     view.cancelButtonIndex = 0;
     [view show];
     [_activityIndicatorView hide];
+    
+    //go back to stop view
+    NSArray *allViewControllers = self.navigationController.viewControllers;
+    [self.navigationController popToViewController: [allViewControllers objectAtIndex: ([allViewControllers count]-3)] animated: YES];
 }
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {

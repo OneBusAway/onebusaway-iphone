@@ -2,6 +2,10 @@
 
 ## 2.3
 
+* Improve problem submission process
+
+## 2.3
+
 * Upgraded TestFlight SDK
 * General cleanup
 
