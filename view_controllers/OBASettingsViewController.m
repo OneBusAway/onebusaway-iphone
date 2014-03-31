@@ -12,15 +12,20 @@
 #import "UITableViewController+oba_Additions.h"
 
 #define kRegionsSection 0
-#define kVersionSection 1
+#define kAccessibilitySection 1
+#define kVersionSection 2
 
 #define kVersionRow 0
 #ifdef DEBUG
 #    define kTypeRow 1
 #endif
 
+static NSString * kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
+
 @interface OBASettingsViewController ()
 @property (nonatomic) OBAApplicationDelegate *appDelegate;
+@property (nonatomic, strong) UISwitch *toggleSwitch;
+@property (nonatomic, assign) BOOL increaseContrast;
 @end
 
 @implementation OBASettingsViewController
@@ -40,6 +45,11 @@
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
     [self hideEmptySeparators];
+    
+    self.increaseContrast = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey];
+    
+    self.toggleSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+    [self.toggleSwitch setOn:self.increaseContrast animated:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -60,11 +70,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)didSwitchStateOfToggle:(UISwitch*)sender
+{
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:kOBAIncreaseContrastKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -72,6 +88,8 @@
     switch (section) {
         case kRegionsSection:
             return NSLocalizedString(@"Region", @"settings region title");
+        case kAccessibilitySection:
+            return @"";
         case kVersionSection:
             return @"";
         default:
@@ -84,7 +102,9 @@
 #ifdef DEBUG
     if (section == kRegionsSection){ 
         return 1;
-    }else{
+    } else if (section == kAccessibilitySection) {
+        return 1;
+    } else {
         return 2;
     }
 #else
@@ -110,6 +130,22 @@
             }
             cell.textLabel.font = [UIFont systemFontOfSize:18];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            break;
+        }
+        case kAccessibilitySection: {
+            cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"IncreaseContrastCell"];
+            
+            [self.toggleSwitch addTarget:self
+                              action:@selector(didSwitchStateOfToggle:)
+                    forControlEvents:UIControlEventValueChanged];
+            cell.accessoryView = [[UIView alloc] initWithFrame:self.toggleSwitch.frame];
+            [cell.accessoryView addSubview:self.toggleSwitch];
+            
+            cell.textLabel.textColor = [UIColor blackColor];
+            cell.textLabel.textAlignment = UITextAlignmentLeft;
+            cell.textLabel.font = [UIFont systemFontOfSize:18];
+            cell.textLabel.text = NSLocalizedString(@"Increase Contrast", @"increase contrast");
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             break;
         }
         case kVersionSection: {
