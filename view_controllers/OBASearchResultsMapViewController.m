@@ -57,6 +57,8 @@ static const NSUInteger kShowNClosestStops = 4;
 static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
+static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
+
 @interface OBASearchResultsMapViewController ()
 @property BOOL hideFutureNetworkErrors;
 @property MKCoordinateRegion mostRecentRegion;
@@ -187,16 +189,29 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     self.navigationItem.leftBarButtonItem = [self getArrowButton];
 
-
     self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStyleBordered target:self action:@selector(showListView:)];
     self.listBarButtonItem.accessibilityLabel = NSLocalizedString(@"Nearby stops list", @"self.listBarButtonItem.accessibilityLabel");
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-        self.searchBar.barTintColor = [UIColor clearColor];
+        self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
         [self.titleView addSubview:self.searchBar];
         self.navigationItem.titleView = self.titleView;
-    } else {
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
+            self.searchBar.searchBarStyle = UISearchBarStyleDefault;
+            self.searchBar.barTintColor = OBADARKGREEN;
+            self.searchBar.tintColor = [UIColor whiteColor];
+            
+            self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+            self.navigationController.tabBarController.tabBar.barTintColor = [UIColor whiteColor];
+            self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+            
+            self.scopeView.backgroundColor = [UIColor blackColor];
+            self.scopeView.tintColor = OBADARKGREEN;
+        }
+    }
+    else {
         self.navigationItem.titleView = self.searchBar;
     }
 
@@ -322,7 +337,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         finalScopeFrame.origin.y = self.navigationController.navigationBar.frame.size.height +
                                     [UIApplication sharedApplication].statusBarFrame.size.height;
-    } else {
+    }
+    else {
         finalScopeFrame.origin.y = 0;
     }
     
@@ -369,7 +385,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     else {
         if (self.searchController) {
             [self.searchController searchWithTarget:target];
-        } else {
+        }
+        else {
             self.savedNavigationTarget = target;
         }
     }
@@ -528,6 +545,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         view.canShowCallout = YES;
         UIButton *rightCalloutButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         rightCalloutButton.tintColor = OBAGREEN;
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
+            rightCalloutButton.tintColor = [UIColor blackColor];
+        }
         view.rightCalloutAccessoryView = rightCalloutButton;
         
         OBASearchResult *result = self.searchController.result;
@@ -634,7 +654,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 1 &&  buttonIndex == 0) {
         
-    } else if (alertView.tag == 2 && buttonIndex == 0) {
+    }
+    else if (alertView.tag == 2 && buttonIndex == 0) {
         OBANavigationTarget * target = [OBANavigationTarget target:OBANavigationTargetTypeAgencies];;
         [self.appDelegate navigateToTarget:target];
     } 
@@ -738,7 +759,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         
         OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchNone];
         [self.searchController searchWithTarget:target];
-    } else {
+    }
+    else {
         span.latitudeDelta  *= kRegionScaleFactor;
         span.longitudeDelta *= kRegionScaleFactor;
         region.span = span;
@@ -1233,7 +1255,8 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 {
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         self.navigationItem.titleView = self.titleView;
-    } else {
+    }
+    else {
         self.navigationItem.titleView = self.searchBar;   
     }
     [self.searchController searchWithTarget:[OBASearch getNavigationTargetForSearchNone]];
@@ -1341,7 +1364,8 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
                 return YES;
             }
         }
-    } else {
+    }
+    else {
         for (id <MKAnnotation> annotation in annotations) {
             if ([annotation isKindOfClass:[OBAStopV2 class]]) {
                 OBAStopV2 *stop = (OBAStopV2*)annotation;
@@ -1351,13 +1375,16 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
                 CGRect annotationFrame;
                 if(stop.direction.length == 2){
                     annotationFrame = CGRectMake(annotationPoint.x-17.5, annotationPoint.y-17.5, 35, 35);
-                } else if (stop.direction.length == 1){
+                }
+                else if (stop.direction.length == 1){
                     if ([stop.direction isEqualToString:@"E"] || [stop.direction isEqualToString:@"W"]) {
                         annotationFrame = CGRectMake(annotationPoint.x-20.5, annotationPoint.y-15, 41, 30);
-                    } else {
+                    }
+                    else {
                         annotationFrame = CGRectMake(annotationPoint.x-15, annotationPoint.y-20.5, 30, 41);
                     }
-                } else {
+                }
+                else {
                     annotationFrame = CGRectMake(annotationPoint.x-15, annotationPoint.y-15, 30, 30);
                 }
                 
