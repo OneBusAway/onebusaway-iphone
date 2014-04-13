@@ -23,6 +23,8 @@ const NSInteger kOBAErrorMissingFieldInData = 1001;
 
 NSString * const OBAApplicationDidCompleteNetworkRequestNotification = @"OBAApplicationDidCompleteNetworkRequestNotification";
 
+NSString * const OBAIncreaseContrastToggledNotification = @"OBAIncreaseContrastToggledNotification";
+
 @implementation NSString (OBAConvenienceMethods)
 
 - (NSComparisonResult) compareUsingNumberSearch:(NSString*)aString {

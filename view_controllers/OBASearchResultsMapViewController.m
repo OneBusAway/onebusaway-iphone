@@ -220,6 +220,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         [UIApplication sharedApplication].statusBarFrame.size.height;
         self.mapLabel.frame = mapLabelFrame;
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self.mapView selector:@selector(setNeedsDisplay) name:OBAIncreaseContrastToggledNotification object:nil];
 }
 
 - (void)onFilterClear {
