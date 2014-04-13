@@ -72,6 +72,7 @@ static NSString * kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 - (void)didSwitchStateOfToggle:(UISwitch*)sender
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBAIncreaseContrastToggledNotification object:nil userInfo:nil];
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:kOBAIncreaseContrastKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
