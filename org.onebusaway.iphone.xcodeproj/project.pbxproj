@@ -22,12 +22,13 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		727E52F515824F1200534646 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 727E52F415824F1200534646 /* MessageUI.framework */; };
+		086804CA18ECD9DE006E8F82 /* InfoButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 086804C918ECD9DE006E8F82 /* InfoButton.png */; };
 		08741E1518B0358900251C1B /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08741E1418B0358900251C1B /* libGoogleAnalyticsServices.a */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
+		727E52F515824F1200534646 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 727E52F415824F1200534646 /* MessageUI.framework */; };
 		9211E32217B8236B0008A479 /* OBARegionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9211E32117B8236B0008A479 /* OBARegionHelper.m */; };
 		9211E32517B922D20008A479 /* OBACustomApiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9211E32417B922D20008A479 /* OBACustomApiViewController.m */; };
 		92235D2617B692760042B843 /* OBARegionBoundsV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 92235D2317B692760042B843 /* OBARegionBoundsV2.m */; };
@@ -384,7 +385,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		727E52F415824F1200534646 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		086804C918ECD9DE006E8F82 /* InfoButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InfoButton.png; path = Resources/InfoButton.png; sourceTree = SOURCE_ROOT; };
 		08741E0E18B0358900251C1B /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		08741E0F18B0358900251C1B /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		08741E1018B0358900251C1B /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
@@ -398,6 +399,7 @@
 		288765070DF74369002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AB4B0D9B1048005BE974 /* org_onebusaway_iphone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = org_onebusaway_iphone_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		727E52F415824F1200534646 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9211E32017B8236B0008A479 /* OBARegionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionHelper.h; sourceTree = "<group>"; };
 		9211E32117B8236B0008A479 /* OBARegionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionHelper.m; sourceTree = "<group>"; };
@@ -1266,6 +1268,7 @@
 		933C7EBE160C07440005AAFE /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				086804C918ECD9DE006E8F82 /* InfoButton.png */,
 				93D878C3166450AC00FCEFFB /* map.png */,
 				93D878C4166450AC00FCEFFB /* map@2x.png */,
 				93ADBBB2161618850092994E /* lines.png */,
@@ -1714,7 +1717,7 @@
 			path = protocols;
 			sourceTree = "<group>";
 		};
-		96ADB3D417BDD4D600314D65 /* TestFlightSDK */ = {
+		96ADB3D417BDD4D600314D65 /* Libraries/TestFlightSDK */ = {
 			isa = PBXGroup;
 			children = (
 				96ADB3D517BDD4D600314D65 /* libTestFlight.a */,
@@ -1764,7 +1767,7 @@
 				9358469A17FB9DC30034200C /* TWSReleaseNotesView */,
 				92CAAE96179C4AF40097DD3D /* MarqueeLabel */,
 				933C7E2B160C07440005AAFE /* Common */,
-				96ADB3D417BDD4D600314D65 /* TestFlightSDK */,
+				96ADB3D417BDD4D600314D65 /* Libraries/TestFlightSDK */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -2030,6 +2033,7 @@
 				933C8038160C07440005AAFE /* OBATextFieldTableViewCell.xib in Resources */,
 				933C8039160C07440005AAFE /* OBAWebViewController.xib in Resources */,
 				931C42BD160E47FC00435CD3 /* OBAGenericStopViewController.xib in Resources */,
+				086804CA18ECD9DE006E8F82 /* InfoButton.png in Resources */,
 				9302721616137A47004DBFDE /* info.png in Resources */,
 				9302721716137A47004DBFDE /* info@2x.png in Resources */,
 				93ADBBB4161618850092994E /* lines.png in Resources */,

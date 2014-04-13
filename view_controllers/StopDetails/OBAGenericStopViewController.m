@@ -42,6 +42,7 @@
 static const double kNearbyStopRadius = 200;
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDefaultsKey";
+static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 @interface OBAGenericStopViewController ()
 @property(strong,readwrite) OBAApplicationDelegate * _appDelegate;
@@ -55,6 +56,7 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
 @property(strong) OBAProgressIndicatorView * progressView;
 @property(strong) OBAServiceAlertsModel * serviceAlerts;
 @property (nonatomic, strong) EMHint *hint;
+@property(nonatomic, strong) UIButton *stopInfoButton;
 @end
 
 @interface OBAGenericStopViewController ()
@@ -138,9 +140,10 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
     if (self.showTitle) {
         UINib *xibFile = [UINib nibWithNibName:@"OBAGenericStopViewController" bundle:nil];
         [xibFile instantiateWithOwner:self options:nil];
+        BOOL showInHighContrast = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey];
         self.tableView.tableHeaderView = self.tableHeaderView;
         self.mapView.accessibilityElementsHidden = YES;
-
+        
         self.stopRoutes = [[OBAShadowLabel alloc] initWithFrame:CGRectMake(0, 77, 320, 18) rate:60 andFadeLength:10];
         self.stopRoutes.marqueeType = MLContinuous;
         self.stopRoutes.backgroundColor = [UIColor clearColor];
@@ -168,23 +171,35 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         self.stopName.animationDelay = 0;
         self.stopName.animationCurve = UIViewAnimationOptionCurveLinear;
         [self.view addSubview:self.stopName];
+        
+        self.tableHeaderView.backgroundColor = OBAGREENBACKGROUND;
+        [self.tableHeaderView addSubview:self.stopName];
 
         OBARegionV2 *region = _appDelegate.modelDao.region;
         if (![region.stopInfoUrl isEqual:[NSNull null]]) {
-            self.stopInfoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+            if (showInHighContrast){
+                self.mapView.hidden = YES;
+                self.tableHeaderView.backgroundColor = OBAGREEN;
+                self.stopInfoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                [self.stopInfoButton setBackgroundImage:[UIImage imageNamed:@"InfoButton.png"]
+                                               forState:UIControlStateNormal];
+            }
+            else {
+                self.mapView.hidden = NO;
+                self.tableHeaderView.backgroundColor = [UIColor clearColor];
+                self.stopInfoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+            }
+            
             [self.stopInfoButton setFrame:CGRectMake(285, 53, 25, 25)];
             [self.stopInfoButton addTarget:self
-                               action:@selector(openURLS)
-                     forControlEvents:UIControlEventTouchUpInside];
+                                    action:@selector(openURLS)
+                          forControlEvents:UIControlEventTouchUpInside];
             self.stopInfoButton.tintColor = [UIColor whiteColor];
             self.stopInfoButton.accessibilityLabel = NSLocalizedString(@"About this stop, button.", @"");
             self.stopInfoButton.accessibilityHint = NSLocalizedString(@"Double tap for stop landmark information.", @"");
             self.stopInfoButton.hidden = YES;
             [self.tableHeaderView addSubview:self.stopInfoButton];
         }
-        
-        self.tableHeaderView.backgroundColor = OBAGREENBACKGROUND;
-        [self.tableHeaderView addSubview:self.stopName];
         
         UIView *legalView = nil;
         
@@ -242,7 +257,8 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0.0")) {
             OBAStopWebViewController *webViewController = [[OBAStopWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
             [self.navigationController pushViewController:webViewController animated:YES];
-        } else {
+        }
+        else {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
         }
     }
@@ -644,7 +660,8 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
     UITableViewCell *cell;
     if (arrivals.count == 0) {
         cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
-    } else {
+    }
+    else {
         cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:arrivals.count inSection:0]];
     }
     cell.userInteractionEnabled = NO;
@@ -658,7 +675,8 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
     UITableViewCell *cell;
     if (arrivals.count == 0) {
         cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
-    } else {
+    }
+    else {
         cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:arrivals.count inSection:0]];
     }
     cell.userInteractionEnabled = YES;
@@ -715,7 +733,8 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         cell.textLabel.font = [UIFont systemFontOfSize:18];
         cell.accessoryType = UITableViewCellAccessoryNone;
         return cell;
-    } else if(arrivals.count == 0 ) {
+    }
+    else if(arrivals.count == 0 ) {
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"No arrivals in the next %i minutes",@"[arrivals count] == 0"), self.minutesAfter];
         cell.textLabel.textAlignment = UITextAlignmentCenter;
@@ -723,7 +742,8 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
         return cell;
-    } else {
+    }
+    else {
 
         OBAArrivalAndDepartureV2 * pa = arrivals[indexPath.row];
         OBAArrivalEntryTableViewCell * cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
@@ -770,7 +790,8 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         case 0: {
             if ([self existingBookmark]) {
                 cell.textLabel.text = NSLocalizedString(@"Edit Bookmark",@"case 0 edit");
-            } else {
+            }
+            else {
                 cell.textLabel.text = NSLocalizedString(@"Add to Bookmarks",@"case 0");
             }
             break;
@@ -826,7 +847,8 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         self.minutesAfter += 30;
         [self refresh];
-    } else if ( 0 <= indexPath.row && indexPath.row < arrivals.count ) {
+    }
+    else if ( 0 <= indexPath.row && indexPath.row < arrivals.count ) {
         OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
         OBAArrivalAndDepartureViewController * vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationDelegate:_appDelegate arrivalAndDeparture:arrivalAndDeparture];
         [self.navigationController pushViewController:vc animated:YES];
@@ -842,7 +864,8 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
                 bookmark = [_appDelegate.modelDao createTransientBookmark:_result.stop];
                 
                 vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:_appDelegate bookmark:bookmark editType:OBABookmarkEditNew];
-            } else {
+            }
+            else {
                 vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:_appDelegate bookmark:bookmark editType:OBABookmarkEditExisting];
             }
             [self.navigationController pushViewController:vc animated:YES];
