@@ -245,6 +245,13 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 }
 
 - (void)setHighContrastStyle {
+    [[GAI sharedInstance].defaultTracker
+     send:[[GAIDictionaryBuilder createEventWithCategory:@"accessibility"
+                                                  action:@"increase_contrast"
+                                                   label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]]
+                                                   value:nil] build]];
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]]];
+    
     self.searchBar.searchBarStyle = UISearchBarStyleDefault;
     self.searchBar.barTintColor = OBADARKGREEN;
     self.searchBar.tintColor = [UIColor whiteColor];

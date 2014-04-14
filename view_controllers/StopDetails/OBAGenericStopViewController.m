@@ -181,6 +181,12 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         if (![region.stopInfoUrl isEqual:[NSNull null]]) {
             self.showInHighContrast = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey];
             if (self.showInHighContrast) {
+                [[GAI sharedInstance].defaultTracker
+                 send:[[GAIDictionaryBuilder createEventWithCategory:@"accessibility"
+                                                              action:@"increase_contrast"
+                                                               label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]]
+                                                               value:nil] build]];
+                [TestFlight passCheckpoint:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]]];
                 self.mapView.hidden = YES;
                 self.tableHeaderView.backgroundColor = OBAGREEN;
             }
@@ -296,6 +302,14 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
                                                           action:@"button_press"
                                                            label:[NSString stringWithFormat:@"Loaded StopInfo from %@", region.regionName]
                                                            value:nil] build]];
+    if (UIAccessibilityIsVoiceOverRunning()){
+        [[GAI sharedInstance].defaultTracker
+            send:[[GAIDictionaryBuilder createEventWithCategory:@"accessibility"
+                                                         action:@"voiceover_on"
+                                                          label:@"Loaded StopInfo with VoiceOver"
+                                                          value:nil] build]];
+        [TestFlight passCheckpoint:@"Loaded StopInfo with VoiceOver"];
+    }
 }
 
 - (void)viewDidUnload {
@@ -438,7 +452,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         [[GAI sharedInstance].defaultTracker
             send:[[GAIDictionaryBuilder createEventWithCategory:@"accessibility"
                                                          action:@"voiceover_on"
-                                                          label:@"VoiceOver Running"
+                                                          label:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]]
                                                           value:nil] build]];
     }
 }
