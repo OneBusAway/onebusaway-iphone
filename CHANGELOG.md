@@ -1,11 +1,12 @@
 # Changelog for OneBusAway for iPhone
 
-## 2.3
+## 2.2.1
 
+* Added new setting for high color contrast and reduced transparency
 * Improve problem submission process
 * Improve contact us by email feature
-* Upgraded TestFlight SDK
-* Enhance back button path for StopInfo
+* Upgraded TestFlight SDK, updated event tracking
+* Enhanced back button path for StopInfo
 * General cleanup
 
 
