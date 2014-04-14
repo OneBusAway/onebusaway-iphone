@@ -199,16 +199,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         self.navigationItem.titleView = self.titleView;
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
-            self.searchBar.searchBarStyle = UISearchBarStyleDefault;
-            self.searchBar.barTintColor = OBADARKGREEN;
-            self.searchBar.tintColor = [UIColor whiteColor];
-            
-            self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-            self.navigationController.tabBarController.tabBar.barTintColor = [UIColor whiteColor];
-            self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-            
-            self.scopeView.backgroundColor = [UIColor blackColor];
-            self.scopeView.tintColor = OBADARKGREEN;
+            [self setHighContrastStyle];
         }
     }
     else {
@@ -236,7 +227,47 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         self.mapLabel.frame = mapLabelFrame;
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self.mapView selector:@selector(setNeedsDisplay) name:OBAIncreaseContrastToggledNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contrastToggled) name:OBAIncreaseContrastToggledNotification object:nil];
+}
+
+- (void)contrastToggled {
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
+            [self setHighContrastStyle];
+        } else {
+            [self setRegularStyle];
+        }
+    }
+    for (id<MKAnnotation> annotation in [self.mapView annotations]) {
+        [self.mapView removeAnnotation:annotation];
+        [self.mapView addAnnotation:annotation];
+    }
+}
+
+- (void)setHighContrastStyle {
+    self.searchBar.searchBarStyle = UISearchBarStyleDefault;
+    self.searchBar.barTintColor = OBADARKGREEN;
+    self.searchBar.tintColor = [UIColor whiteColor];
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationController.tabBarController.tabBar.barTintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    
+    self.scopeView.backgroundColor = [UIColor blackColor];
+    self.scopeView.tintColor = OBADARKGREEN;
+}
+
+- (void)setRegularStyle {
+    self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    self.searchBar.barTintColor = nil;
+    self.searchBar.tintColor = nil;
+    
+    self.navigationController.navigationBar.barTintColor = nil;
+    self.navigationController.tabBarController.tabBar.barTintColor = nil;
+    self.navigationController.navigationBar.tintColor = OBAGREEN;
+    
+    self.scopeView.backgroundColor = [UIColor colorWithHue:(86./360.) saturation:0.68 brightness:0.67 alpha:0.8];
+    self.scopeView.tintColor = nil;
 }
 
 - (void)onFilterClear {
