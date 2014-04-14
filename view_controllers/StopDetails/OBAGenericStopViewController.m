@@ -57,6 +57,9 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 @property(strong) OBAServiceAlertsModel * serviceAlerts;
 @property (nonatomic, strong) EMHint *hint;
 @property(nonatomic, strong) UIButton *stopInfoButton;
+@property (nonatomic, strong) UIButton *highContrastStopInfoButton;
+
+@property (nonatomic, assign) BOOL showInHighContrast;
 @end
 
 @interface OBAGenericStopViewController ()
@@ -140,7 +143,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     if (self.showTitle) {
         UINib *xibFile = [UINib nibWithNibName:@"OBAGenericStopViewController" bundle:nil];
         [xibFile instantiateWithOwner:self options:nil];
-        BOOL showInHighContrast = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey];
         self.tableView.tableHeaderView = self.tableHeaderView;
         self.mapView.accessibilityElementsHidden = YES;
         
@@ -177,19 +179,31 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
         OBARegionV2 *region = _appDelegate.modelDao.region;
         if (![region.stopInfoUrl isEqual:[NSNull null]]) {
-            if (showInHighContrast){
+            self.showInHighContrast = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey];
+            if (self.showInHighContrast) {
                 self.mapView.hidden = YES;
                 self.tableHeaderView.backgroundColor = OBAGREEN;
-                self.stopInfoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                [self.stopInfoButton setBackgroundImage:[UIImage imageNamed:@"InfoButton.png"]
-                                               forState:UIControlStateNormal];
             }
             else {
                 self.mapView.hidden = NO;
                 self.tableHeaderView.backgroundColor = [UIColor clearColor];
-                self.stopInfoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
             }
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContrast) name:OBAIncreaseContrastToggledNotification object:nil];
             
+            self.highContrastStopInfoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            [self.highContrastStopInfoButton setBackgroundImage:[UIImage imageNamed:@"InfoButton.png"]
+                                                       forState:UIControlStateNormal];
+            [self.highContrastStopInfoButton setFrame:CGRectMake(285, 53, 25, 25)];
+            [self.highContrastStopInfoButton addTarget:self
+                                    action:@selector(openURLS)
+                          forControlEvents:UIControlEventTouchUpInside];
+            self.highContrastStopInfoButton.tintColor = [UIColor whiteColor];
+            self.highContrastStopInfoButton.accessibilityLabel = NSLocalizedString(@"About this stop, button.", @"");
+            self.highContrastStopInfoButton.accessibilityHint = NSLocalizedString(@"Double tap for stop landmark information.", @"");
+            self.highContrastStopInfoButton.hidden = YES;
+            [self.tableHeaderView addSubview:self.highContrastStopInfoButton];
+            
+            self.stopInfoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
             [self.stopInfoButton setFrame:CGRectMake(285, 53, 25, 25)];
             [self.stopInfoButton addTarget:self
                                     action:@selector(openURLS)
@@ -220,6 +234,21 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     
     if ([self shouldShowHint]) {
         [self showHint];
+    }
+}
+
+- (void)refreshContrast {
+    self.showInHighContrast = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey];
+    if (self.showInHighContrast) {
+        self.highContrastStopInfoButton.hidden = self.stopInfoButton.hidden;
+        self.stopInfoButton.hidden = YES;
+        self.mapView.hidden = YES;
+        self.tableHeaderView.backgroundColor = OBAGREEN;
+    } else {
+        self.stopInfoButton.hidden = self.highContrastStopInfoButton.hidden;
+        self.highContrastStopInfoButton.hidden = YES;
+        self.mapView.hidden = NO;
+        self.tableHeaderView.backgroundColor = [UIColor clearColor];
     }
 }
 
@@ -946,7 +975,12 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
         
         [_mapView addAnnotation:stop];
 
-        self.stopInfoButton.hidden = NO;
+        
+        if (self.showInHighContrast) {
+            self.highContrastStopInfoButton.hidden = NO;
+        } else {
+            self.stopInfoButton.hidden = NO;
+        }
     }
     
     if (stop && predictedArrivals) {
