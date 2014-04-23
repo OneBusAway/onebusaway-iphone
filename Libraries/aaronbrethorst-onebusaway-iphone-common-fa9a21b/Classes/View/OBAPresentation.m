@@ -71,8 +71,8 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
     static NSString *cellId = @"UnreadServiceAlertsCell";
     
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:cellId];
-    cell.textLabel.text = [NSString stringWithFormat:@"Service alerts: %d unread",serviceAlerts.unreadCount];
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.text = [NSString stringWithFormat:@"Service alerts: %lu unread",(unsigned long)serviceAlerts.unreadCount];
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
@@ -90,7 +90,7 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
     
     static NSString *cellId = @"ServiceAlertsCell";
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:cellId];
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     
@@ -98,7 +98,7 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
         cell.textLabel.text = @"Service Alerts";
     }
     else {
-        cell.textLabel.text = [NSString stringWithFormat:@"Service Alerts: %d total", serviceAlerts.totalCount];                            
+        cell.textLabel.text = [NSString stringWithFormat:@"Service Alerts: %lu total", (unsigned long)serviceAlerts.totalCount];                            
     }
     
     if (serviceAlerts.totalCount == 0) {

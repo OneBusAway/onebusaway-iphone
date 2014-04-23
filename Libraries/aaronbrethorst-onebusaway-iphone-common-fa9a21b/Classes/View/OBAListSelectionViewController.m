@@ -50,7 +50,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = [self checkedItem].row == indexPath.row ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;

@@ -234,7 +234,7 @@
 -(id) peek:(NSUInteger)index {
     NSInteger objIndex = [_stack count] - 1 - index;
     if (objIndex < 0 || objIndex > [_stack count]) {
-        NSLog(@"OBAJsonDigesterContextImpl: peek - index out of bounds: %d => %d", index, objIndex);
+        NSLog(@"OBAJsonDigesterContextImpl: peek - index out of bounds: %lu => %ld", (unsigned long)index, (long)objIndex);
         return nil;
     }
     return _stack[objIndex];

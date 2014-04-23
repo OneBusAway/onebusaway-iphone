@@ -412,11 +412,11 @@
 		923FE67E176082A7009AFDE8 /* UITableViewController+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewController+oba_Additions.h"; sourceTree = "<group>"; };
 		923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewController+oba_Additions.m"; sourceTree = "<group>"; };
 		925A1AD317B6ACA200029F0B /* OBARegionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionListViewController.h; sourceTree = "<group>"; };
-		925A1AD417B6ACA200029F0B /* OBARegionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionListViewController.m; sourceTree = "<group>"; };
+		925A1AD417B6ACA200029F0B /* OBARegionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBARegionListViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		925A1AD617B7969500029F0B /* OBASettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASettingsViewController.h; sourceTree = "<group>"; };
-		925A1AD717B7969500029F0B /* OBASettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASettingsViewController.m; sourceTree = "<group>"; };
+		925A1AD717B7969500029F0B /* OBASettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBASettingsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		928E12B117D7863400FD855E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = OneBusAway/Images.xcassets; sourceTree = "<group>"; };
-		92CAAE97179C4B070097DD3D /* MarqueeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarqueeLabel.h; sourceTree = "<group>"; };
+		92CAAE97179C4B070097DD3D /* MarqueeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MarqueeLabel.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		92CAAE98179C4B070097DD3D /* MarqueeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarqueeLabel.m; sourceTree = "<group>"; };
 		9302721416137A47004DBFDE /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = ../../../../Resources/info.png; sourceTree = "<group>"; };
 		9302721516137A47004DBFDE /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "info@2x.png"; path = "../../../../Resources/info@2x.png"; sourceTree = "<group>"; };
@@ -542,9 +542,9 @@
 		933C7EA0160C07440005AAFE /* OBAVehicleStatusV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAVehicleStatusV2.h; sourceTree = "<group>"; };
 		933C7EA1160C07440005AAFE /* OBAVehicleStatusV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAVehicleStatusV2.m; sourceTree = "<group>"; };
 		933C7EA3160C07440005AAFE /* OBALabelAndSwitchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALabelAndSwitchTableViewCell.h; sourceTree = "<group>"; };
-		933C7EA4160C07440005AAFE /* OBALabelAndSwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALabelAndSwitchTableViewCell.m; sourceTree = "<group>"; };
+		933C7EA4160C07440005AAFE /* OBALabelAndSwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBALabelAndSwitchTableViewCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		933C7EA5160C07440005AAFE /* OBAListSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAListSelectionViewController.h; sourceTree = "<group>"; };
-		933C7EA6160C07440005AAFE /* OBAListSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAListSelectionViewController.m; sourceTree = "<group>"; };
+		933C7EA6160C07440005AAFE /* OBAListSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAListSelectionViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		933C7EA7160C07440005AAFE /* OBAMapRegionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapRegionManager.h; sourceTree = "<group>"; };
 		933C7EA8160C07440005AAFE /* OBAMapRegionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapRegionManager.m; sourceTree = "<group>"; };
 		933C7EA9160C07440005AAFE /* OBAModalActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModalActivityIndicator.h; sourceTree = "<group>"; };
@@ -552,11 +552,11 @@
 		933C7EAB160C07440005AAFE /* OBAPickerTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAPickerTextField.h; sourceTree = "<group>"; };
 		933C7EAC160C07440005AAFE /* OBAPickerTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAPickerTextField.m; sourceTree = "<group>"; };
 		933C7EAD160C07440005AAFE /* OBAPresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAPresentation.h; sourceTree = "<group>"; };
-		933C7EAE160C07440005AAFE /* OBAPresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAPresentation.m; sourceTree = "<group>"; };
+		933C7EAE160C07440005AAFE /* OBAPresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAPresentation.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		933C7EAF160C07440005AAFE /* OBAProgressIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAProgressIndicatorView.h; sourceTree = "<group>"; };
-		933C7EB0160C07440005AAFE /* OBAProgressIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAProgressIndicatorView.m; sourceTree = "<group>"; };
+		933C7EB0160C07440005AAFE /* OBAProgressIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAProgressIndicatorView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		933C7EB1160C07440005AAFE /* OBARequestDrivenTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARequestDrivenTableViewController.h; sourceTree = "<group>"; };
-		933C7EB2160C07440005AAFE /* OBARequestDrivenTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARequestDrivenTableViewController.m; sourceTree = "<group>"; };
+		933C7EB2160C07440005AAFE /* OBARequestDrivenTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBARequestDrivenTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		933C7EB3160C07440005AAFE /* OBAStopIconFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopIconFactory.h; sourceTree = "<group>"; };
 		933C7EB4160C07440005AAFE /* OBAStopIconFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopIconFactory.m; sourceTree = "<group>"; };
 		933C7EB5160C07440005AAFE /* OBATextEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATextEditViewController.h; sourceTree = "<group>"; };
@@ -756,9 +756,9 @@
 		93631E661604F99500CB7209 /* OBAReportProblemWithTripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReportProblemWithTripViewController.h; sourceTree = "<group>"; };
 		93631E671604F99500CB7209 /* OBAReportProblemWithTripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReportProblemWithTripViewController.m; sourceTree = "<group>"; };
 		93631E681604F99500CB7209 /* OBATripDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripDetailsViewController.h; sourceTree = "<group>"; };
-		93631E691604F99500CB7209 /* OBATripDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripDetailsViewController.m; sourceTree = "<group>"; };
+		93631E691604F99500CB7209 /* OBATripDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBATripDetailsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		93631E6A1604F99500CB7209 /* OBATripScheduleListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripScheduleListViewController.h; sourceTree = "<group>"; };
-		93631E6B1604F99500CB7209 /* OBATripScheduleListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripScheduleListViewController.m; sourceTree = "<group>"; };
+		93631E6B1604F99500CB7209 /* OBATripScheduleListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBATripScheduleListViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		93631E6C1604F99500CB7209 /* OBATripScheduleMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripScheduleMapViewController.h; sourceTree = "<group>"; };
 		93631E6D1604F99500CB7209 /* OBATripScheduleMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripScheduleMapViewController.m; sourceTree = "<group>"; };
 		93631E7B1604F9A200CB7209 /* OBANetworkErrorAlertViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANetworkErrorAlertViewDelegate.h; sourceTree = "<group>"; };
@@ -2314,7 +2314,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -2356,7 +2356,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -2467,7 +2467,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -2522,7 +2522,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",

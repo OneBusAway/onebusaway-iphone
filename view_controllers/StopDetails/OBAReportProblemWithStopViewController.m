@@ -154,7 +154,7 @@ typedef enum {
     switch (sectionType) {
         case OBASectionTypeProblem: {
             UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];            
-            cell.textLabel.textAlignment = UITextAlignmentLeft;
+            cell.textLabel.textAlignment = NSTextAlignmentLeft;
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.textLabel.font = [UIFont systemFontOfSize:18];
@@ -163,7 +163,7 @@ typedef enum {
         }
         case OBASectionTypeComment: {
             UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];            
-            cell.textLabel.textAlignment = UITextAlignmentLeft;
+            cell.textLabel.textAlignment = NSTextAlignmentLeft;
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.textLabel.font = [UIFont systemFontOfSize:18];
@@ -182,7 +182,7 @@ typedef enum {
         
         case OBASectionTypeSubmit: {
             UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];            
-            cell.textLabel.textAlignment = UITextAlignmentCenter;
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.textLabel.font = [UIFont systemFontOfSize:18];

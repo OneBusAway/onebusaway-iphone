@@ -177,7 +177,7 @@ typedef enum {
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.font = [UIFont systemFontOfSize:18];
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.text = NSLocalizedString(@"Show on map",@"AgenciesListViewController");
     return cell;
 }
@@ -198,7 +198,7 @@ typedef enum {
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.textLabel.text = agency.name;
     return cell;
@@ -209,7 +209,7 @@ typedef enum {
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.textLabel.text = NSLocalizedString(@"No agencies found",@"cell.textLabel.text");
     return cell;    
 }

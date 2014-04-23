@@ -46,16 +46,12 @@ static const double kDefaultMapRadius = 100;
 static const double kMinMapRadius = 150;
 static const double kMaxLatDeltaToShowStops = 0.008;
 static const double kRegionScaleFactor = 1.5;
-static const double kMinRegionDeltaToDetectUserDrag = 50;
-
-static const double kRegionChangeRequestsTimeToLive = 3.0;
 
 static const double kMaxMapDistanceFromCurrentLocationForNearby = 800;
 static const double kPaddingScaleFactor = 1.075;
 static const NSUInteger kShowNClosestStops = 4;
 
 static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
-static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
@@ -895,8 +891,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             [toAdd addObject:annotation];
     }
     
-    OBALogDebug(@"Annotations to remove: %d",[toRemove count]);
-    OBALogDebug(@"Annotations to add: %d", [toAdd count]);
+    OBALogDebug(@"Annotations to remove: %lu",(unsigned long)[toRemove count]);
+    OBALogDebug(@"Annotations to add: %lu", (unsigned long)[toAdd count]);
     
     [self.mapView removeAnnotations:toRemove];
     [self.mapView addAnnotations:toAdd];

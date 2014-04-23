@@ -33,8 +33,8 @@
     
     if( schedule.frequency ) {
         OBATripStopTimeV2 * firstStopTime = (schedule.stopTimes)[0];
-        int minutes = (_stopTime.arrivalTime - firstStopTime.departureTime) / 60;
-        return [NSString stringWithFormat:@"%d %@",minutes,NSLocalizedString(@"mins",@"minutes")];                                      
+        NSInteger minutes = (_stopTime.arrivalTime - firstStopTime.departureTime) / 60;
+        return [NSString stringWithFormat:@"%ld %@",(long)minutes,NSLocalizedString(@"mins",@"minutes")];                                      
     }
     
     NSInteger stopTime = _stopTime.arrivalTime;

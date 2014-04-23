@@ -19,7 +19,7 @@
     if (cell == nil) {
         NSArray * nib = [[NSBundle mainBundle] loadNibNamed:cellId owner:self options:nil];
         cell = nib[0];
-        cell.textField.textAlignment = UITextAlignmentRight;
+        cell.textField.textAlignment = NSTextAlignmentRight;
         cell.textField.returnKeyType = UIReturnKeyDone;
         cell.accessoryType = UITableViewCellAccessoryNone;        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;

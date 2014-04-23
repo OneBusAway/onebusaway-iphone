@@ -233,7 +233,7 @@ typedef enum {
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     
     switch (indexPath.row) {
@@ -260,7 +260,7 @@ typedef enum {
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.textLabel.textColor = [UIColor blackColor];
-            cell.textLabel.textAlignment = UITextAlignmentLeft;
+            cell.textLabel.textAlignment = NSTextAlignmentLeft;
             cell.textLabel.font = [UIFont systemFontOfSize:18];
             cell.textLabel.text = NSLocalizedString(@"Report a problem for this trip",@"text");
             return cell;            
@@ -270,7 +270,7 @@ typedef enum {
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.textLabel.textColor = [UIColor blackColor];
-            cell.textLabel.textAlignment = UITextAlignmentLeft;
+            cell.textLabel.textAlignment = NSTextAlignmentLeft;
             cell.textLabel.font = [UIFont systemFontOfSize:18];
             cell.textLabel.text = NSLocalizedString(@"Vehicle Info",@"cell.textLabel.text");
             return cell;            
