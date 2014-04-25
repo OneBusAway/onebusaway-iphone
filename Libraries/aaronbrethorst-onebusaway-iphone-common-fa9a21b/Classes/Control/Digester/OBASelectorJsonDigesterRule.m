@@ -17,16 +17,18 @@
 #import "OBASelectorJsonDigesterRule.h"
 #import "OBALogger.h"
 
-@interface OBASelectorJsonDigesterRule (Internal)
+@interface OBASelectorJsonDigesterRule()
 
-- (void) handleRuleTarget:(OBAJsonDigesterRuleTarget)ruleTarget context:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
+@property (nonatomic, weak) NSObject * target;
+@property (nonatomic, assign) SEL selector;
+@property (nonatomic, assign) OBAJsonDigesterRuleTarget ruleTarget;
 
 @end
 
 
 @implementation OBASelectorJsonDigesterRule
 
-- (id) initWithTarget:(id<NSObject>)target selector:(SEL)selector ruleTarget:(OBAJsonDigesterRuleTarget)ruleTarget {
+- (instancetype) initWithTarget:(id<NSObject>)target selector:(SEL)selector ruleTarget:(OBAJsonDigesterRuleTarget)ruleTarget {
     if( self = [super init] ) {
         _target = target;
         _selector = selector;
@@ -43,25 +45,21 @@
     [self handleRuleTarget:OBAJsonDigesterRuleTargetEnd context:context name:name value:value];
 }
 
-@end
-
-@implementation OBASelectorJsonDigesterRule (Internal)
-
 - (void) handleRuleTarget:(OBAJsonDigesterRuleTarget)ruleTarget context:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
     
-    if( _ruleTarget != ruleTarget )
+    if( self.ruleTarget != ruleTarget )
         return;
     
-    NSMethodSignature * methodSig = [_target methodSignatureForSelector:_selector];
+    NSMethodSignature * methodSig = [self.target methodSignatureForSelector:self.selector];
     
-    if( ! methodSig ) {
+    if(!methodSig) {
         OBALogSevere(@"selector not found for target object in OBASelectorJSONDigesterRule");
         return;
     }
     
     NSInvocation * invoker = [NSInvocation invocationWithMethodSignature:methodSig];
-    [invoker setTarget:_target];
-    [invoker setSelector:_selector];
+    [invoker setTarget:self.target];
+    [invoker setSelector:self.selector];
     [invoker setArgument:&context atIndex:2];
     [invoker setArgument:&name atIndex:3];
     [invoker setArgument:&value atIndex:4];
