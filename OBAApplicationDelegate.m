@@ -42,7 +42,6 @@ static NSString * kOBAShowExperimentalRegionsDefaultsKey = @"kOBAShowExperimenta
 static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 static NSString *const kTrackingId = @"UA-2423527-17";
 static NSString *const kAllowTracking = @"allowTracking";
-static BOOL const kGaDryRun = NO;
 
 @interface OBAApplicationDelegate ()
 @property(nonatomic,readwrite) BOOL active;

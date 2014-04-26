@@ -39,13 +39,12 @@
 #import "OBABookmarkGroup.h"
 #import "OBAStopWebViewController.h"
 
-static const double kNearbyStopRadius = 200;
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDefaultsKey";
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 @interface OBAGenericStopViewController ()
-@property(strong,readwrite) OBAApplicationDelegate * _appDelegate;
+@property(strong,readwrite) OBAApplicationDelegate * appDelegate;
 @property(strong,readwrite) NSString * stopId;
 
 @property(strong) id<OBAModelServiceRequest> request;
