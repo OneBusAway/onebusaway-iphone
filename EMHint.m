@@ -116,7 +116,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         [label setText:message];
         [label setTextColor:[UIColor whiteColor]];
         [label setNumberOfLines:0];
-        [label setLineBreakMode:UILineBreakModeWordWrap];
+        [label setLineBreakMode:NSLineBreakByWordWrapping];
         [_modalView addSubview:label];
         [label release];
     }

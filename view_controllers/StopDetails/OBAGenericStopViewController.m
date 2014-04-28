@@ -39,13 +39,12 @@
 #import "OBABookmarkGroup.h"
 #import "OBAStopWebViewController.h"
 
-static const double kNearbyStopRadius = 200;
+//static const double kNearbyStopRadius = 200;
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDefaultsKey";
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 @interface OBAGenericStopViewController ()
-@property(strong,readwrite) OBAApplicationDelegate * _appDelegate;
 @property(strong,readwrite) NSString * stopId;
 
 @property(strong) id<OBAModelServiceRequest> request;
@@ -395,7 +394,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];
     label.numberOfLines = 0;
-    label.lineBreakMode = UILineBreakModeWordWrap;
+    label.lineBreakMode = NSLineBreakByWordWrapping;
     label.text = message;
     label.accessibilityLabel = accessMessage;
     
@@ -610,7 +609,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             _showFilteredArrivals = !_showFilteredArrivals;
             
             // update arrivals section
-            int arrivalsViewSection = [self sectionIndexForSectionType:OBAStopSectionTypeArrivals];
+            NSInteger arrivalsViewSection = [self sectionIndexForSectionType:OBAStopSectionTypeArrivals];
 
             UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
             [self determineFilterTypeCellText:cell filteringEnabled:_showFilteredArrivals];
@@ -772,7 +771,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = NSLocalizedString(@"Load more arrivals",@"load more arrivals");
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.textLabel.font = [UIFont systemFontOfSize:18];
         cell.accessoryType = UITableViewCellAccessoryNone;
         return cell;
@@ -780,7 +779,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     else if(arrivals.count == 0 ) {
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"No arrivals in the next %i minutes",@"[arrivals count] == 0"), self.minutesAfter];
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.textLabel.font = [UIFont systemFontOfSize:18];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
@@ -811,7 +810,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     
     [self determineFilterTypeCellText:cell filteringEnabled:_showFilteredArrivals];
     
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryNone;
@@ -823,7 +822,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -852,7 +851,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
                 cell.textLabel.text = @"Service Alerts";
             }
             else {
-                cell.textLabel.text = [NSString stringWithFormat:@"Service Alerts: %d total", _serviceAlerts.totalCount];
+                cell.textLabel.text = [NSString stringWithFormat:@"Service Alerts: %lu total", (unsigned long)_serviceAlerts.totalCount];
             }
 
             if (_serviceAlerts.totalCount == 0) {

@@ -22,7 +22,7 @@
     if (cell == nil) {
         NSArray * nib = [[NSBundle mainBundle] loadNibNamed:cellId owner:self options:nil];
         cell = nib[0];
-        cell.label.textAlignment = UITextAlignmentLeft;
+        cell.label.textAlignment = NSTextAlignmentLeft;
         cell.accessoryType = UITableViewCellAccessoryNone;                    
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }

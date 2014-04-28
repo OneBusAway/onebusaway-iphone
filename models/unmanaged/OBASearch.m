@@ -24,9 +24,6 @@
 #import "OBAJsonDataSource.h"
 
 
-static const float kSearchRadius = 400;
-
-
 NSString * kOBASearchTypeParameter = @"OBASearchTypeParameter";
 NSString * kOBASearchControllerSearchArgumentParameter = @"OBASearchControllerSearchArgumentParameter";
 NSString * kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSearchLocationParameter";

@@ -155,7 +155,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                             appVersionString, [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding], 
                             [[UIDevice currentDevice] systemVersion], location.coordinate.latitude, location.coordinate.longitude] isHTML:YES]; 
                 				
-                        [self presentModalViewController:controller animated:YES];
+                        [self presentViewController:controller animated:YES completion:^{ }];
                     }else{
                         [self cantSendEmail];
                     }

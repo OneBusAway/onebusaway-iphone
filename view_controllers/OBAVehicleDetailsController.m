@@ -197,7 +197,7 @@ typedef enum {
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.text = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Vehicle",@"cell.textLabel.text"), _vehicleStatus.vehicleId];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];    
@@ -206,7 +206,7 @@ typedef enum {
     NSString * result = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:_vehicleStatus.lastUpdateTime/1000.0]];
 
     cell.detailTextLabel.textColor = [UIColor blackColor];
-    cell.detailTextLabel.textAlignment = UITextAlignmentLeft;
+    cell.detailTextLabel.textAlignment = NSTextAlignmentLeft;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Last update",@"cell.detailTextLabel.text") , result];
 
     return cell;
@@ -221,7 +221,7 @@ typedef enum {
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.font = [UIFont systemFontOfSize:18];    
     switch (indexPath.row) {
         case 0: {
@@ -249,7 +249,7 @@ typedef enum {
                 NSInteger mins = sd / 60;
                 NSInteger secs = sd % 60;
                 
-                cell.textLabel.text = [NSString stringWithFormat:@"%@: %dm %ds%@",NSLocalizedString(@"Schedule deviation",@"cell.textLabel.text"),mins, secs, label];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@: %ldm %lds%@",NSLocalizedString(@"Schedule deviation",@"cell.textLabel.text"),(long)mins, (long)secs, label];
             }
             break;
         }
@@ -264,7 +264,7 @@ typedef enum {
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.font = [UIFont systemFontOfSize:18];    
     switch (indexPath.row) {
         case 0:

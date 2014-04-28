@@ -143,7 +143,7 @@ static NSString * kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             [cell.accessoryView addSubview:self.toggleSwitch];
             
             cell.textLabel.textColor = [UIColor blackColor];
-            cell.textLabel.textAlignment = UITextAlignmentLeft;
+            cell.textLabel.textAlignment = NSTextAlignmentLeft;
             cell.textLabel.font = [UIFont systemFontOfSize:18];
             cell.textLabel.text = NSLocalizedString(@"Increase Contrast", @"increase contrast");
             cell.selectionStyle = UITableViewCellSelectionStyleNone;

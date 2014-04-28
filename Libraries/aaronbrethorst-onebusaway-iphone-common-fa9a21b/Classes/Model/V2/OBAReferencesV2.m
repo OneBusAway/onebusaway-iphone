@@ -70,13 +70,13 @@
 }
 
 - (NSString*) description {
-    return [NSString stringWithFormat:@"%@ agencies:%d routes:%d stops:%d trips:%d situations:%d",
+    return [NSString stringWithFormat:@"%@ agencies:%lu routes:%lu stops:%lu trips:%lu situations:%lu",
             [super description],
-            [_agencies count],
-            [_routes count],
-            [_stops count],
-            [_trips count],
-            [_situations count]];
+            (unsigned long)[_agencies count],
+            (unsigned long)[_routes count],
+            (unsigned long)[_stops count],
+            (unsigned long)[_trips count],
+            (unsigned long)[_situations count]];
 }
 
 @end

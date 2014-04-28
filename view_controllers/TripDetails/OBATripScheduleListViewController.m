@@ -307,7 +307,7 @@ typedef enum {
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.textLabel.text = NSLocalizedString(@"Loading...",@"cell.textLabel.text");
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
 
     return cell;
@@ -322,7 +322,7 @@ typedef enum {
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleDefault];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.textLabel.text = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"Hiding",@"hidingPreviousStops && indexPath.row == 0"), _currentStopIndex, NSLocalizedString(@"previous stops",@"hidingPreviousStops && indexPath.row == 0")];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@ %ld %@",NSLocalizedString(@"Hiding",@"hidingPreviousStops && indexPath.row == 0"), (long)_currentStopIndex, NSLocalizedString(@"previous stops",@"hidingPreviousStops && indexPath.row == 0")];
         cell.textLabel.textColor = [UIColor grayColor];
         return cell;
     }
@@ -345,8 +345,8 @@ typedef enum {
     
     if( schedule.frequency ) {
         OBATripStopTimeV2 * firstStopTime = stopTimes[0];
-        int minutes = (stopTime.arrivalTime - firstStopTime.departureTime) / 60;
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d %@",minutes,NSLocalizedString(@"mins",@"minutes")];                                      
+        NSInteger minutes = (stopTime.arrivalTime - firstStopTime.departureTime) / 60;
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld %@",(long)minutes,NSLocalizedString(@"mins",@"minutes")];                                      
     }
     else {
         NSDate * time = [self getStopTimeAsDate:stopTime.arrivalTime];
