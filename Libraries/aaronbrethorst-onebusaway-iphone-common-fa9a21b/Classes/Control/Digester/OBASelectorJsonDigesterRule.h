@@ -17,17 +17,16 @@
 #import "OBAJsonDigester.h"
 
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, OBASelectorJsonDigesterRuleTarget) {
     OBASelectorJsonDigesterRuleTargetBefore,
     OBASelectorJsonDigesterRuleTargetAfter,
-} OBASelectorJsonDigesterRuleTarget;
+};
 
-@interface OBASelectorJsonDigesterRule : NSObject <OBAJsonDigesterRule> {
-    NSObject * _target;
-    SEL _selector;
-    OBAJsonDigesterRuleTarget _ruleTarget;
-}
+@interface OBASelectorJsonDigesterRule : NSObject <OBAJsonDigesterRule> 
 
-- (id) initWithTarget:(NSObject*)target selector:(SEL)selector ruleTarget:(OBAJsonDigesterRuleTarget)ruleTarget;
+/**
+    Note: the target is not retained by this object.
+ */
+- (instancetype) initWithTarget:(NSObject*)target selector:(SEL)selector ruleTarget:(OBAJsonDigesterRuleTarget)ruleTarget;
 
 @end
