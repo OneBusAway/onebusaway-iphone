@@ -18,11 +18,11 @@
 #import "UITableViewController+oba_Additions.h"
 #import "OBANavigationTargetAware.h"
 #import <sys/utsname.h>
+#import <MessageUI/MFMailComposeViewController.h>
 
 #define kEmailRow 0
 #define kTwitterRow 1
 #define kFacebookRow 2
-
 
 #define kRowCount 3 //including Facebook which is optional
 
@@ -40,6 +40,27 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
     return self;
 }
 
+#pragma mark mail methods
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller  
+          didFinishWithResult:(MFMailComposeResult)result 
+                        error:(NSError*)error;
+{
+    [self becomeFirstResponder];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)cantSendEmail
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Setup Mail",@"view.title")
+                                                    message:NSLocalizedString(@"Please setup your Mail app before trying to send an email.",@"view.message")
+                                                   delegate:nil
+                                          cancelButtonTitle:nil
+                                          otherButtonTitles:NSLocalizedString(@"Okay", @"Ok button"), nil];
+    
+    [alert show];
+}
 
 #pragma mark UIViewController
 
@@ -97,7 +118,6 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
     return cell;
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     OBARegionV2 *region = _appDelegate.modelDao.region;
     switch( indexPath.row) {
@@ -109,21 +129,39 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                                                               action:@"button_press"
                                                                label:@"Clicked Email Link"
                                                                value:nil] build]];
-                NSString *contactEmail = kOBADefaultContactEmail;
-                if (region) {
-                    contactEmail = region.contactEmail;
-                }
 
-                //device model, thanks to http://stackoverflow.com/a/11197770/1233435
-                struct utsname systemInfo;
-                uname(&systemInfo);
-                
-                NSString *appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-                CLLocation * location = _appDelegate.locationManager.currentLocation;
-                NSString *args = [[NSString stringWithFormat:@"?subject=OneBusAway iOS Feedback&body=\n\n---------------\nApp Version: %@\nDevice: <a href='http://stackoverflow.com/a/11197770/1233435'>%@</a>\nOS Version: %@\nCurrent Location: %f, %f", appVersionString, [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding], [[UIDevice currentDevice] systemVersion], location.coordinate.latitude, location.coordinate.longitude] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-   
-                contactEmail = [NSString stringWithFormat:@"mailto:%@%@",contactEmail, args];
-                [[UIApplication sharedApplication] openURL: [NSURL URLWithString: contactEmail]];
+                //check if user can send email
+                if ([MFMailComposeViewController canSendMail]){
+                    // Create and show composer
+                    NSString *contactEmail = kOBADefaultContactEmail;
+                    if (region) {
+                        contactEmail = region.contactEmail;
+                    }
+
+                    //device model, thanks to http://stackoverflow.com/a/11197770/1233435
+                    struct utsname systemInfo;
+                    uname(&systemInfo);
+                    
+                    NSString *appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+                    CLLocation * location = _appDelegate.locationManager.currentLocation;                
+
+                    MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
+                    if (controller != nil){
+                        controller.mailComposeDelegate=self;
+                				[controller setToRecipients:[NSArray arrayWithObject:contactEmail]];
+                				[controller setSubject:NSLocalizedString(@"OneBusAway iOS Feedback", @"feedback mail subject")];
+                				[controller setMessageBody:[NSString stringWithFormat:@"<br><br>---------------<br>App Version: %@<br>Device: \
+                            <a href='http://stackoverflow.com/a/11197770/1233435'>%@</a><br>iOS Version: %@<br>Current Location: %f, %f", 
+                            appVersionString, [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding], 
+                            [[UIDevice currentDevice] systemVersion], location.coordinate.latitude, location.coordinate.longitude] isHTML:YES]; 
+                				
+                        [self presentViewController:controller animated:YES completion:^{ }];
+                    }else{
+                        [self cantSendEmail];
+                    }
+                }else{
+                    [self cantSendEmail];
+                }
             }
             break;
         case kTwitterRow:
@@ -210,4 +248,3 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 }
 
 @end
-

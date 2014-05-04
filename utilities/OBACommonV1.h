@@ -24,6 +24,7 @@ typedef enum {
 #define OBARGBACOLOR(__r, __g, __b, __a) [UIColor colorWithRed:(__r / 255.f) green:(__g / 255.f) blue:(__b / 255.f) alpha:__a]
 #define OBAGREEN [UIColor colorWithHue:(86./360.) saturation:0.68 brightness:0.67 alpha:1];
 #define OBAGREENBACKGROUND [UIColor colorWithHue:(86./360.) saturation:0.68 brightness:0.67 alpha:0.1]
+#define OBADARKGREEN [UIColor colorWithRed:0.3529 green:0.5020 blue:0.1608 alpha:1.0000]
 
 #define OBAPlacemarkNotification @"OBAPlacemarkNotification"
 #define OBAViewedArrivalsAndDeparturesForStopNotification @"OBAViewedArrivalsAndDeparturesForStopNotification"

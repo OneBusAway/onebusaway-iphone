@@ -72,7 +72,7 @@
     NSArray * stopIds = _bookmark.stopIds;
     for( NSUInteger i=0; i<[stopIds count]; i++) {
         NSString * stopId = stopIds[i];
-        NSNumber * index = [NSNumber numberWithInt:i];
+        NSNumber * index = [NSNumber numberWithInteger:i];
         id<OBAModelServiceRequest> request = [service requestStopForId:stopId withDelegate:self withContext:index];
         [_requests addObject:request];
     }

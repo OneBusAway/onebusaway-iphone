@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) NSURL *url;
+@property (nonatomic, assign) BOOL onLastView;
 
 @end
 
@@ -48,11 +49,18 @@
 }
 
 - (void)handleBack {
-    if ([self.webView canGoBack]) {
+    if ([self.webView canGoBack] && !self.onLastView) {
         [self.webView goBack];
     } else {
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if ([request.URL.absoluteString rangeOfString:@"http://stopinfo.pugetsound.onebusaway.org/about/entry/"].location != NSNotFound) {
+        self.onLastView = YES;
+    }
+    return YES;
 }
 
 - (UIWebView*)webView {

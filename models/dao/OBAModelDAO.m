@@ -126,7 +126,7 @@ const static int kMaxEntriesInMostRecentList = 10;
     existingEvent.title = event.title;
     existingEvent.subtitle = event.subtitle;
     
-    int over = [_mostRecentStops count] - kMaxEntriesInMostRecentList;
+    NSInteger over = [_mostRecentStops count] - kMaxEntriesInMostRecentList;
     for( int i=0; i<over; i++)
         [_mostRecentStops removeObjectAtIndex:([_mostRecentStops count]-1)];
     
@@ -134,6 +134,10 @@ const static int kMaxEntriesInMostRecentList = 10;
 }
 
 - (void) addCustomApiUrl:(NSString *)customApiUrl {
+    
+    if(!customApiUrl) {
+        return;
+    }
     
     NSString *existingCustomApiUrl = nil;
     
@@ -154,7 +158,7 @@ const static int kMaxEntriesInMostRecentList = 10;
         
     }
     
-    int over = [_mostRecentCustomApiUrls count] - kMaxEntriesInMostRecentList;
+    NSUInteger over = [_mostRecentCustomApiUrls count] - kMaxEntriesInMostRecentList;
     for( int i=0; i<over; i++)
         [_mostRecentCustomApiUrls removeObjectAtIndex:([_mostRecentCustomApiUrls count]-1)];
     

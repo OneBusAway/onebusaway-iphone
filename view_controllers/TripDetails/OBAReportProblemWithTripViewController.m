@@ -3,6 +3,8 @@
 #import "OBALabelAndTextFieldTableViewCell.h"
 #import "OBALogger.h"
 #import "UITableViewController+oba_Additions.h"
+#import "OBAStopViewController.h"
+#import "OBAArrivalAndDepartureViewController.h"
 
 typedef enum {
     OBASectionTypeNone,    
@@ -170,7 +172,7 @@ typedef enum {
     switch (sectionType) {
         case OBASectionTypeProblem: {
             UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];            
-            cell.textLabel.textAlignment = UITextAlignmentLeft;
+            cell.textLabel.textAlignment = NSTextAlignmentLeft;
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.textLabel.font = [UIFont systemFontOfSize:18];
@@ -179,7 +181,7 @@ typedef enum {
         }
         case OBASectionTypeComment: {
             UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];            
-            cell.textLabel.textAlignment = UITextAlignmentLeft;
+            cell.textLabel.textAlignment = NSTextAlignmentLeft;
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.textLabel.font = [UIFont systemFontOfSize:18];
@@ -200,7 +202,7 @@ typedef enum {
 
         case OBASectionTypeSubmit: {
             UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];            
-            cell.textLabel.textAlignment = UITextAlignmentCenter;
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.textLabel.font = [UIFont systemFontOfSize:18];
@@ -269,11 +271,30 @@ typedef enum {
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
     UIAlertView * view = [[UIAlertView alloc] init];
     view.title = NSLocalizedString(@"Submission Successful",@"view.title");
+    [[GAI sharedInstance].defaultTracker
+     send:[[GAIDictionaryBuilder createEventWithCategory:@"submit"
+                                                  action:@"report_problem"
+                                                   label:@"Reported Problem"
+                                                   value:nil] build]];
     view.message = NSLocalizedString(@"The problem was sucessfully reported. Thank you!",@"view.message");
     [view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
     view.cancelButtonIndex = 0;
     [view show];
     [_activityIndicatorView hide];
+
+    //go back to view that initiated report
+    NSArray *allViewControllers = self.navigationController.viewControllers;
+    for(NSInteger i=[allViewControllers count]-1; i>=0; i--){
+        id obj=[allViewControllers objectAtIndex:i];
+        
+        if([obj isKindOfClass:[OBAArrivalAndDepartureViewController class]]){
+            [self.navigationController popToViewController:obj animated: YES];
+            return;
+        }else if([obj isKindOfClass:[OBAStopViewController class]]){
+            [self.navigationController popToViewController:obj animated: YES];
+            return;
+        }
+    }
 }
 
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {

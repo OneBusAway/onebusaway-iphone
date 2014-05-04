@@ -46,16 +46,14 @@ static const double kDefaultMapRadius = 100;
 static const double kMinMapRadius = 150;
 static const double kMaxLatDeltaToShowStops = 0.008;
 static const double kRegionScaleFactor = 1.5;
-static const double kMinRegionDeltaToDetectUserDrag = 50;
-
-static const double kRegionChangeRequestsTimeToLive = 3.0;
 
 static const double kMaxMapDistanceFromCurrentLocationForNearby = 800;
 static const double kPaddingScaleFactor = 1.075;
 static const NSUInteger kShowNClosestStops = 4;
 
 static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
-static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
+
+static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 @interface OBASearchResultsMapViewController ()
 @property BOOL hideFutureNetworkErrors;
@@ -187,16 +185,20 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     
     self.navigationItem.leftBarButtonItem = [self getArrowButton];
 
-
     self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStyleBordered target:self action:@selector(showListView:)];
     self.listBarButtonItem.accessibilityLabel = NSLocalizedString(@"Nearby stops list", @"self.listBarButtonItem.accessibilityLabel");
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-        self.searchBar.barTintColor = [UIColor clearColor];
+        self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
         [self.titleView addSubview:self.searchBar];
         self.navigationItem.titleView = self.titleView;
-    } else {
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
+            [self setHighContrastStyle];
+        }
+    }
+    else {
         self.navigationItem.titleView = self.searchBar;
     }
 
@@ -220,6 +222,55 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         [UIApplication sharedApplication].statusBarFrame.size.height;
         self.mapLabel.frame = mapLabelFrame;
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contrastToggled) name:OBAIncreaseContrastToggledNotification object:nil];
+}
+
+- (void)contrastToggled {
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
+            [self setHighContrastStyle];
+        } else {
+            [self setRegularStyle];
+        }
+    }
+    for (id<MKAnnotation> annotation in [self.mapView annotations]) {
+        [self.mapView removeAnnotation:annotation];
+        [self.mapView addAnnotation:annotation];
+    }
+}
+
+- (void)setHighContrastStyle {
+    [[GAI sharedInstance].defaultTracker
+     send:[[GAIDictionaryBuilder createEventWithCategory:@"accessibility"
+                                                  action:@"increase_contrast"
+                                                   label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]]
+                                                   value:nil] build]];
+    [TestFlight passCheckpoint:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]]];
+    
+    self.searchBar.searchBarStyle = UISearchBarStyleDefault;
+    self.searchBar.barTintColor = OBADARKGREEN;
+    self.searchBar.tintColor = [UIColor whiteColor];
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationController.tabBarController.tabBar.barTintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    
+    self.scopeView.backgroundColor = [UIColor blackColor];
+    self.scopeView.tintColor = OBADARKGREEN;
+}
+
+- (void)setRegularStyle {
+    self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    self.searchBar.barTintColor = nil;
+    self.searchBar.tintColor = nil;
+    
+    self.navigationController.navigationBar.barTintColor = nil;
+    self.navigationController.tabBarController.tabBar.barTintColor = nil;
+    self.navigationController.navigationBar.tintColor = OBAGREEN;
+    
+    self.scopeView.backgroundColor = [UIColor colorWithHue:(86./360.) saturation:0.68 brightness:0.67 alpha:0.8];
+    self.scopeView.tintColor = nil;
 }
 
 - (void)onFilterClear {
@@ -320,7 +371,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         finalScopeFrame.origin.y = self.navigationController.navigationBar.frame.size.height +
                                     [UIApplication sharedApplication].statusBarFrame.size.height;
-    } else {
+    }
+    else {
         finalScopeFrame.origin.y = 0;
     }
     
@@ -367,7 +419,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
     else {
         if (self.searchController) {
             [self.searchController searchWithTarget:target];
-        } else {
+        }
+        else {
             self.savedNavigationTarget = target;
         }
     }
@@ -526,6 +579,9 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         view.canShowCallout = YES;
         UIButton *rightCalloutButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         rightCalloutButton.tintColor = OBAGREEN;
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
+            rightCalloutButton.tintColor = [UIColor blackColor];
+        }
         view.rightCalloutAccessoryView = rightCalloutButton;
         
         OBASearchResult *result = self.searchController.result;
@@ -632,7 +688,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 1 &&  buttonIndex == 0) {
         
-    } else if (alertView.tag == 2 && buttonIndex == 0) {
+    }
+    else if (alertView.tag == 2 && buttonIndex == 0) {
         OBANavigationTarget * target = [OBANavigationTarget target:OBANavigationTargetTypeAgencies];;
         [self.appDelegate navigateToTarget:target];
     } 
@@ -736,7 +793,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
         
         OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchNone];
         [self.searchController searchWithTarget:target];
-    } else {
+    }
+    else {
         span.latitudeDelta  *= kRegionScaleFactor;
         span.longitudeDelta *= kRegionScaleFactor;
         region.span = span;
@@ -871,8 +929,8 @@ static const double kStopsInRegionRefreshDelayOnLocate = 0.1;
             [toAdd addObject:annotation];
     }
     
-    OBALogDebug(@"Annotations to remove: %d",[toRemove count]);
-    OBALogDebug(@"Annotations to add: %d", [toAdd count]);
+    OBALogDebug(@"Annotations to remove: %lu",(unsigned long)[toRemove count]);
+    OBALogDebug(@"Annotations to add: %lu", (unsigned long)[toAdd count]);
     
     [self.mapView removeAnnotations:toRemove];
     [self.mapView addAnnotations:toAdd];
@@ -1231,7 +1289,8 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 {
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         self.navigationItem.titleView = self.titleView;
-    } else {
+    }
+    else {
         self.navigationItem.titleView = self.searchBar;   
     }
     [self.searchController searchWithTarget:[OBASearch getNavigationTargetForSearchNone]];
@@ -1339,7 +1398,8 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
                 return YES;
             }
         }
-    } else {
+    }
+    else {
         for (id <MKAnnotation> annotation in annotations) {
             if ([annotation isKindOfClass:[OBAStopV2 class]]) {
                 OBAStopV2 *stop = (OBAStopV2*)annotation;
@@ -1349,13 +1409,16 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
                 CGRect annotationFrame;
                 if(stop.direction.length == 2){
                     annotationFrame = CGRectMake(annotationPoint.x-17.5, annotationPoint.y-17.5, 35, 35);
-                } else if (stop.direction.length == 1){
+                }
+                else if (stop.direction.length == 1){
                     if ([stop.direction isEqualToString:@"E"] || [stop.direction isEqualToString:@"W"]) {
                         annotationFrame = CGRectMake(annotationPoint.x-20.5, annotationPoint.y-15, 41, 30);
-                    } else {
+                    }
+                    else {
                         annotationFrame = CGRectMake(annotationPoint.x-15, annotationPoint.y-20.5, 30, 41);
                     }
-                } else {
+                }
+                else {
                     annotationFrame = CGRectMake(annotationPoint.x-15, annotationPoint.y-15, 30, 30);
                 }
                 

@@ -199,7 +199,7 @@ static NSString *editingCellTag = @"editingCell";
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.font = [UIFont systemFontOfSize:16];
     cell.textLabel.text = [self.recentUrls objectAtIndex:indexPath.row];
     return cell;
@@ -213,9 +213,7 @@ static NSString *editingCellTag = @"editingCell";
 
 - (void) saveCustomApiUrl {
     if (![self.customApiUrlTextField.text isEqualToString:self.appDelegate.modelDao.readCustomApiUrl]) {
-
-
-        if (![self.customApiUrlTextField.text isEqualToString:@""]) {
+        if ([self.customApiUrlTextField.text length] > 0) {
             [self.appDelegate.modelDao addCustomApiUrl:self.customApiUrlTextField.text];
             [self.appDelegate.modelDao writeCustomApiUrl:self.customApiUrlTextField.text];
             [self.appDelegate.modelDao writeSetRegionAutomatically:NO];

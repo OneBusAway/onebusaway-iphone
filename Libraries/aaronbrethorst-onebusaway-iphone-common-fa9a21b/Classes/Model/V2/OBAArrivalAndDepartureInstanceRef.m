@@ -46,7 +46,7 @@
 }
 
 - (NSString*) description {
-    return [NSString stringWithFormat:@"(tripInstance=%@, stopId=%@, stopSequence=%d)",[_tripInstance description],_stopId,_stopSequence];
+    return [NSString stringWithFormat:@"(tripInstance=%@, stopId=%@, stopSequence=%ld)",[_tripInstance description],_stopId,(long)_stopSequence];
 }
 
 @end

@@ -98,7 +98,7 @@
         [recentStops addObject:event];
     [recentStops sortUsingSelector:@selector(compare:)];
     
-    for( int i = [recentStops count]-1; i >= 0; i-- ) {
+    for( NSInteger i = [recentStops count]-1; i >= 0; i-- ) {
         OBAStopAccessEvent * event = recentStops[i];
         OBAStop * stop = event.stop;
         OBAStopAccessEventV2 * v2 = [[OBAStopAccessEventV2 alloc] init];
@@ -139,7 +139,7 @@
         return nil;
 
     if( [fetchedObjects count] > 1 ) {
-        OBALogSevere(@"Duplicate entities: entityName=OBAModel count=%d",[fetchedObjects count]);
+        OBALogSevere(@"Duplicate entities: entityName=OBAModel count=%lu",(unsigned long)[fetchedObjects count]);
         return nil;
     }
 

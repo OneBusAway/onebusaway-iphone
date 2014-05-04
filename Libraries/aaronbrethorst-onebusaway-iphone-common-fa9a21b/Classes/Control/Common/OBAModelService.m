@@ -55,7 +55,7 @@ static const float kBigSearchRadius = 15000;
     stopId = [self escapeStringForUrl:stopId];
 
     NSString *url = [NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", stopId];
-    NSString * args = [NSString stringWithFormat:@"version=2&minutesBefore=%d&minutesAfter=%d",minutesBefore,minutesAfter];
+    NSString * args = [NSString stringWithFormat:@"version=2&minutesBefore=%lu&minutesAfter=%lu",(unsigned long)minutesBefore,(unsigned long)minutesAfter];
     SEL selector = @selector(getArrivalsAndDeparturesForStopV2FromJSON:error:);
     
     return [self request:url args:args selector:selector delegate:delegate context:context];
@@ -179,7 +179,7 @@ static const float kBigSearchRadius = 15000;
         radius = kSearchRadius;
     
     NSString * url = @"/maps/api/place/search/json";
-    NSString * args = [NSString stringWithFormat:@"location=%f,%f&radius=%d&name=%@&sensor=true", coord.latitude, coord.longitude, radius, name];
+    NSString * args = [NSString stringWithFormat:@"location=%f,%f&radius=%ld&name=%@&sensor=true", coord.latitude, coord.longitude, (long)radius, name];
     SEL selector = @selector(getPlacemarksFromGooglePlacesJSONObject:error:);
     
     return [self request:_googlePlacesJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
@@ -209,7 +209,7 @@ static const float kBigSearchRadius = 15000;
     if( tripInstance.vehicleId )
         [args appendFormat:@"&vehicleId=%@",[self escapeStringForUrl:tripInstance.vehicleId]];
     if( instance.stopSequence >= 0 )
-        [args appendFormat:@"&stopSequence=%d",instance.stopSequence];
+        [args appendFormat:@"&stopSequence=%ld",(long)instance.stopSequence];
     SEL selector = @selector(getArrivalAndDepartureForStopV2FromJSON:error:);
     
     return [self request:url args:args selector:selector delegate:delegate context:context];

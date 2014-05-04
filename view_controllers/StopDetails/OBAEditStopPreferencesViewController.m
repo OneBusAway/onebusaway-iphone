@@ -110,7 +110,7 @@
             return 2;
         case 1:
         {
-            int c = [_routes count];
+            NSInteger c = [_routes count];
             if( c == 0 )
                 c = 1;
             return c;
@@ -191,7 +191,7 @@
     
     if( indexPath.section == 0) {
         if( _preferences.sortTripsByType != indexPath.row ) {
-            _preferences.sortTripsByType = indexPath.row;
+            _preferences.sortTripsByType = (int)indexPath.row;
             for( int i=0; i<2; i++) {
                 NSIndexPath * cellIndex = [NSIndexPath indexPathForRow:i inSection:0];
                 BOOL checked = (i == indexPath.row);

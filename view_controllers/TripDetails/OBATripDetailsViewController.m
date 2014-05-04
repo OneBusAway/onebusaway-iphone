@@ -244,9 +244,9 @@ typedef enum {
         NSInteger scheduleDeviation = status.scheduleDeviation / 60;
         NSString *label = @"";
 
-        if (scheduleDeviation <= -2) label = [NSString stringWithFormat:@"%d %@", (-scheduleDeviation), NSLocalizedString(@"minutes early", @"scheduleDeviation <= -2")];
+        if (scheduleDeviation <= -2) label = [NSString stringWithFormat:@"%ld %@", (long)(-scheduleDeviation), NSLocalizedString(@"minutes early", @"scheduleDeviation <= -2")];
         else if (scheduleDeviation < 2) label = NSLocalizedString(@"on time", @"scheduleDeviation < 2");
-        else label = [NSString stringWithFormat:@"%d %@", scheduleDeviation, NSLocalizedString(@"minutes late", @"scheduleDeviation >= 2")];
+        else label = [NSString stringWithFormat:@"%ld %@", (long)scheduleDeviation, NSLocalizedString(@"minutes late", @"scheduleDeviation >= 2")];
 
         cell.statusLabel.text = [NSString stringWithFormat:@"%@ # %@ - %@", NSLocalizedString(@"Vehicle", @"cell.statusLabel.text"), status.vehicleId, label];
     }
@@ -263,7 +263,7 @@ typedef enum {
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
 
     switch (indexPath.row) {
@@ -285,7 +285,7 @@ typedef enum {
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
 
 

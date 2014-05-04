@@ -1,5 +1,17 @@
 # Changelog for OneBusAway for iPhone
 
+## 2.2.1
+
+* Added new setting for high color contrast and reduced transparency
+* Improve problem submission process
+* Improve contact us by email feature
+* Changed minimum iOS version to 6.0
+* Upgraded TestFlight SDK, updated event tracking
+* Enhanced back button path for StopInfo
+* Improved memory management
+* General cleanup
+
+
 ## 2.2
 
 * Added support for finding and contributing information about bus stops in Stop Details page for Puget Sound (see http://stopinfo.pugetsound.onebusaway.org for more details)

@@ -39,12 +39,12 @@
 #import "OBABookmarkGroup.h"
 #import "OBAStopWebViewController.h"
 
-static const double kNearbyStopRadius = 200;
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDefaultsKey";
+static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 @interface OBAGenericStopViewController ()
-@property(strong,readwrite) OBAApplicationDelegate * _appDelegate;
+@property(strong,readwrite) OBAApplicationDelegate * appDelegate;
 @property(strong,readwrite) NSString * stopId;
 
 @property(strong) id<OBAModelServiceRequest> request;
@@ -55,6 +55,10 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
 @property(strong) OBAProgressIndicatorView * progressView;
 @property(strong) OBAServiceAlertsModel * serviceAlerts;
 @property (nonatomic, strong) EMHint *hint;
+@property(nonatomic, strong) UIButton *stopInfoButton;
+@property (nonatomic, strong) UIButton *highContrastStopInfoButton;
+
+@property (nonatomic, assign) BOOL showInHighContrast;
 @end
 
 @interface OBAGenericStopViewController ()
@@ -140,7 +144,7 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         [xibFile instantiateWithOwner:self options:nil];
         self.tableView.tableHeaderView = self.tableHeaderView;
         self.mapView.accessibilityElementsHidden = YES;
-
+        
         self.stopRoutes = [[OBAShadowLabel alloc] initWithFrame:CGRectMake(0, 77, 320, 18) rate:60 andFadeLength:10];
         self.stopRoutes.marqueeType = MLContinuous;
         self.stopRoutes.backgroundColor = [UIColor clearColor];
@@ -168,23 +172,53 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         self.stopName.animationDelay = 0;
         self.stopName.animationCurve = UIViewAnimationOptionCurveLinear;
         [self.view addSubview:self.stopName];
+        
+        self.tableHeaderView.backgroundColor = OBAGREENBACKGROUND;
+        [self.tableHeaderView addSubview:self.stopName];
 
         OBARegionV2 *region = _appDelegate.modelDao.region;
         if (![region.stopInfoUrl isEqual:[NSNull null]]) {
+            self.showInHighContrast = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey];
+            if (self.showInHighContrast) {
+                [[GAI sharedInstance].defaultTracker
+                 send:[[GAIDictionaryBuilder createEventWithCategory:@"accessibility"
+                                                              action:@"increase_contrast"
+                                                               label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]]
+                                                               value:nil] build]];
+                [TestFlight passCheckpoint:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]]];
+                self.mapView.hidden = YES;
+                self.tableHeaderView.backgroundColor = OBAGREEN;
+            }
+            else {
+                self.mapView.hidden = NO;
+                self.tableHeaderView.backgroundColor = [UIColor clearColor];
+            }
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContrast) name:OBAIncreaseContrastToggledNotification object:nil];
+            
+            self.highContrastStopInfoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            [self.highContrastStopInfoButton setBackgroundImage:[UIImage imageNamed:@"InfoButton.png"]
+                                                       forState:UIControlStateNormal];
+            [self.highContrastStopInfoButton setFrame:CGRectMake(285, 53, 25, 25)];
+            [self.highContrastStopInfoButton addTarget:self
+                                    action:@selector(openURLS)
+                          forControlEvents:UIControlEventTouchUpInside];
+            self.highContrastStopInfoButton.tintColor = [UIColor whiteColor];
+            self.highContrastStopInfoButton.accessibilityLabel = NSLocalizedString(@"About this stop, button.", @"");
+            self.highContrastStopInfoButton.accessibilityHint = NSLocalizedString(@"Double tap for stop landmark information.", @"");
+            self.highContrastStopInfoButton.hidden = YES;
+            [self.tableHeaderView addSubview:self.highContrastStopInfoButton];
+            
             self.stopInfoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
             [self.stopInfoButton setFrame:CGRectMake(285, 53, 25, 25)];
             [self.stopInfoButton addTarget:self
-                               action:@selector(openURLS)
-                     forControlEvents:UIControlEventTouchUpInside];
+                                    action:@selector(openURLS)
+                          forControlEvents:UIControlEventTouchUpInside];
             self.stopInfoButton.tintColor = [UIColor whiteColor];
             self.stopInfoButton.accessibilityLabel = NSLocalizedString(@"About this stop, button.", @"");
             self.stopInfoButton.accessibilityHint = NSLocalizedString(@"Double tap for stop landmark information.", @"");
             self.stopInfoButton.hidden = YES;
             [self.tableHeaderView addSubview:self.stopInfoButton];
         }
-        
-        self.tableHeaderView.backgroundColor = OBAGREENBACKGROUND;
-        [self.tableHeaderView addSubview:self.stopName];
         
         UIView *legalView = nil;
         
@@ -205,6 +239,21 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
     
     if ([self shouldShowHint]) {
         [self showHint];
+    }
+}
+
+- (void)refreshContrast {
+    self.showInHighContrast = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey];
+    if (self.showInHighContrast) {
+        self.highContrastStopInfoButton.hidden = self.stopInfoButton.hidden;
+        self.stopInfoButton.hidden = YES;
+        self.mapView.hidden = YES;
+        self.tableHeaderView.backgroundColor = OBAGREEN;
+    } else {
+        self.stopInfoButton.hidden = self.highContrastStopInfoButton.hidden;
+        self.highContrastStopInfoButton.hidden = YES;
+        self.mapView.hidden = NO;
+        self.tableHeaderView.backgroundColor = [UIColor clearColor];
     }
 }
 
@@ -242,7 +291,8 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0.0")) {
             OBAStopWebViewController *webViewController = [[OBAStopWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
             [self.navigationController pushViewController:webViewController animated:YES];
-        } else {
+        }
+        else {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
         }
     }
@@ -251,6 +301,14 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
                                                           action:@"button_press"
                                                            label:[NSString stringWithFormat:@"Loaded StopInfo from %@", region.regionName]
                                                            value:nil] build]];
+    if (UIAccessibilityIsVoiceOverRunning()){
+        [[GAI sharedInstance].defaultTracker
+            send:[[GAIDictionaryBuilder createEventWithCategory:@"accessibility"
+                                                         action:@"voiceover_on"
+                                                          label:@"Loaded StopInfo with VoiceOver"
+                                                          value:nil] build]];
+        [TestFlight passCheckpoint:@"Loaded StopInfo with VoiceOver"];
+    }
 }
 
 - (void)viewDidUnload {
@@ -336,7 +394,7 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];
     label.numberOfLines = 0;
-    label.lineBreakMode = UILineBreakModeWordWrap;
+    label.lineBreakMode = NSLineBreakByWordWrapping;
     label.text = message;
     label.accessibilityLabel = accessMessage;
     
@@ -393,7 +451,7 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         [[GAI sharedInstance].defaultTracker
             send:[[GAIDictionaryBuilder createEventWithCategory:@"accessibility"
                                                          action:@"voiceover_on"
-                                                          label:@"VoiceOver Running"
+                                                          label:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]]
                                                           value:nil] build]];
     }
 }
@@ -551,7 +609,7 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
             _showFilteredArrivals = !_showFilteredArrivals;
             
             // update arrivals section
-            int arrivalsViewSection = [self sectionIndexForSectionType:OBAStopSectionTypeArrivals];
+            NSInteger arrivalsViewSection = [self sectionIndexForSectionType:OBAStopSectionTypeArrivals];
 
             UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
             [self determineFilterTypeCellText:cell filteringEnabled:_showFilteredArrivals];
@@ -644,7 +702,8 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
     UITableViewCell *cell;
     if (arrivals.count == 0) {
         cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
-    } else {
+    }
+    else {
         cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:arrivals.count inSection:0]];
     }
     cell.userInteractionEnabled = NO;
@@ -658,7 +717,8 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
     UITableViewCell *cell;
     if (arrivals.count == 0) {
         cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
-    } else {
+    }
+    else {
         cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:arrivals.count inSection:0]];
     }
     cell.userInteractionEnabled = YES;
@@ -711,19 +771,21 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
     if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = NSLocalizedString(@"Load more arrivals",@"load more arrivals");
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.textLabel.font = [UIFont systemFontOfSize:18];
         cell.accessoryType = UITableViewCellAccessoryNone;
         return cell;
-    } else if(arrivals.count == 0 ) {
+    }
+    else if(arrivals.count == 0 ) {
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"No arrivals in the next %i minutes",@"[arrivals count] == 0"), self.minutesAfter];
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.textLabel.font = [UIFont systemFontOfSize:18];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
         return cell;
-    } else {
+    }
+    else {
 
         OBAArrivalAndDepartureV2 * pa = arrivals[indexPath.row];
         OBAArrivalEntryTableViewCell * cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
@@ -748,7 +810,7 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
     
     [self determineFilterTypeCellText:cell filteringEnabled:_showFilteredArrivals];
     
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryNone;
@@ -760,7 +822,7 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
     
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
-    cell.textLabel.textAlignment = UITextAlignmentLeft;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -770,7 +832,8 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         case 0: {
             if ([self existingBookmark]) {
                 cell.textLabel.text = NSLocalizedString(@"Edit Bookmark",@"case 0 edit");
-            } else {
+            }
+            else {
                 cell.textLabel.text = NSLocalizedString(@"Add to Bookmarks",@"case 0");
             }
             break;
@@ -788,7 +851,7 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
                 cell.textLabel.text = @"Service Alerts";
             }
             else {
-                cell.textLabel.text = [NSString stringWithFormat:@"Service Alerts: %d total", _serviceAlerts.totalCount];
+                cell.textLabel.text = [NSString stringWithFormat:@"Service Alerts: %lu total", (unsigned long)_serviceAlerts.totalCount];
             }
 
             if (_serviceAlerts.totalCount == 0) {
@@ -826,7 +889,8 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         self.minutesAfter += 30;
         [self refresh];
-    } else if ( 0 <= indexPath.row && indexPath.row < arrivals.count ) {
+    }
+    else if ( 0 <= indexPath.row && indexPath.row < arrivals.count ) {
         OBAArrivalAndDepartureV2 * arrivalAndDeparture = arrivals[indexPath.row];
         OBAArrivalAndDepartureViewController * vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationDelegate:_appDelegate arrivalAndDeparture:arrivalAndDeparture];
         [self.navigationController pushViewController:vc animated:YES];
@@ -842,7 +906,8 @@ static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDe
                 bookmark = [_appDelegate.modelDao createTransientBookmark:_result.stop];
                 
                 vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:_appDelegate bookmark:bookmark editType:OBABookmarkEditNew];
-            } else {
+            }
+            else {
                 vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:_appDelegate bookmark:bookmark editType:OBABookmarkEditExisting];
             }
             [self.navigationController pushViewController:vc animated:YES];
@@ -923,7 +988,12 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void * context) {
         
         [_mapView addAnnotation:stop];
 
-        self.stopInfoButton.hidden = NO;
+        
+        if (self.showInHighContrast) {
+            self.highContrastStopInfoButton.hidden = NO;
+        } else {
+            self.stopInfoButton.hidden = NO;
+        }
     }
     
     if (stop && predictedArrivals) {

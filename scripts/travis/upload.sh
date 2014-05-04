@@ -75,7 +75,7 @@ function pushtodeploy {
   git commit -m "$CMT_MESSAGE"
   git config --global push.default simple #to remove some special warning message about git 2.0 changes
   git status
-  git push deploy $BRANCH #if another CI build pushes at the same time issues may occur
+  git push -f deploy $BRANCH #if another CI build pushes at the exact same time issues will occur
 
   checklastcommanderrorexit
 }

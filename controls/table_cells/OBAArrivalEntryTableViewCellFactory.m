@@ -45,7 +45,7 @@
 
     if( arrival.predicted && arrival.predictedDepartureTime == 0 ) {
         if( arrival.distanceFromStop < 500 ) {
-            cell.minutesLabel.text = [NSString stringWithFormat:@"%d",(NSInteger) arrival.distanceFromStop];    
+            cell.minutesLabel.text = [NSString stringWithFormat:@"%ld",(long) arrival.distanceFromStop];
             cell.minutesSubLabel.text = NSLocalizedString(@"meters",@"cell.minutesSubLabel.text");
         }
         else {

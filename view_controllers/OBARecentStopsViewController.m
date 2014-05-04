@@ -65,7 +65,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    int count = [_mostRecentStops count];
+    NSUInteger count = [_mostRecentStops count];
     if( count == 0 ) 
         count = 1;
     return count;
@@ -78,7 +78,7 @@
     if( [_mostRecentStops count] == 0 ) {
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = NSLocalizedString(@"No recent stops",@"cell.textLabel.text");
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -86,9 +86,9 @@
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
         OBAStopAccessEventV2 * event = _mostRecentStops[indexPath.row];
         cell.textLabel.text = event.title;
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.detailTextLabel.text = event.subtitle;
-        cell.detailTextLabel.textAlignment = UITextAlignmentCenter;
+        cell.detailTextLabel.textAlignment = NSTextAlignmentCenter;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         return cell;
