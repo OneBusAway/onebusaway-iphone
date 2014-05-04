@@ -5,8 +5,10 @@
 * Added new setting for high color contrast and reduced transparency
 * Improve problem submission process
 * Improve contact us by email feature
+* Changed minimum iOS version to 6.0
 * Upgraded TestFlight SDK, updated event tracking
 * Enhanced back button path for StopInfo
+* Improved memory management
 * General cleanup
 
 
