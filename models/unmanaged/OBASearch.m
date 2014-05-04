@@ -23,7 +23,6 @@
 #import "OBASphericalGeometryLibrary.h"
 #import "OBAJsonDataSource.h"
 
-
 NSString * kOBASearchTypeParameter = @"OBASearchTypeParameter";
 NSString * kOBASearchControllerSearchArgumentParameter = @"OBASearchControllerSearchArgumentParameter";
 NSString * kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSearchLocationParameter";
