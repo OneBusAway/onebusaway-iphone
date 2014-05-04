@@ -135,6 +135,10 @@ const static int kMaxEntriesInMostRecentList = 10;
 
 - (void) addCustomApiUrl:(NSString *)customApiUrl {
     
+    if(!customApiUrl) {
+        return;
+    }
+    
     NSString *existingCustomApiUrl = nil;
     
     for( NSString * recentCustomApiUrl in _mostRecentCustomApiUrls ) {
