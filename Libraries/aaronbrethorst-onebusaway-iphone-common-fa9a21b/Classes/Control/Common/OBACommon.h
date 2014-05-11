@@ -21,11 +21,6 @@ extern NSString * const OBAErrorDomain;
 extern const NSInteger kOBAErrorDuplicateEntity;
 extern const NSInteger kOBAErrorMissingFieldInData;
 
-/**
- * Fired whenever a network request successfully completes
- */
-extern NSString * const OBAApplicationDidCompleteNetworkRequestNotification;
-
 extern NSString * const OBAIncreaseContrastToggledNotification;
 
 @interface NSString (OBAConvenienceMethods)

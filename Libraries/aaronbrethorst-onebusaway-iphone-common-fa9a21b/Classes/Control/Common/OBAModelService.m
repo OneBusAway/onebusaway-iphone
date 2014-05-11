@@ -6,25 +6,6 @@
 static const float kSearchRadius = 400;
 static const float kBigSearchRadius = 15000;
 
-
-@interface OBAModelService (Private)
-
-- (OBAModelServiceRequest*) request:(NSString*)url args:(NSString*)args selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context;
-- (OBAModelServiceRequest*) request:(OBAJsonDataSource*)source url:(NSString*)url args:(NSString*)args selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context;
-
-- (OBAModelServiceRequest*) post:(NSString*)url args:(NSDictionary*)args selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context;
-- (OBAModelServiceRequest*) post:(OBAJsonDataSource*)source url:(NSString*)url args:(NSDictionary*)args selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context;
-
-- (OBAModelServiceRequest*) request:(OBAJsonDataSource*)source selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context;
-
-
-- (CLLocation*) currentOrDefaultLocationToSearch;
-- (NSString*) escapeStringForUrl:(NSString*)url;
-- (NSString*) argsFromDictionary:(NSDictionary*)args;
-
-@end
-
-
 @implementation OBAModelService
 
 @synthesize modelDao = _modelDao;
@@ -39,7 +20,7 @@ static const float kBigSearchRadius = 15000;
 @synthesize deviceToken;
 
 
-- (id<OBAModelServiceRequest>) requestStopForId:(NSString*)stopId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) requestStopForId:(NSString*)stopId completionBlock:(OBADataSourceCompletion) completion {
 
     stopId = [self escapeStringForUrl:stopId];
     
@@ -50,7 +31,7 @@ static const float kBigSearchRadius = 15000;
     return [self request:url args:args selector:selector delegate:delegate context:context];
 }
 
-- (id<OBAModelServiceRequest>) requestStopWithArrivalsAndDeparturesForId:(NSString*)stopId withMinutesBefore:(NSUInteger)minutesBefore withMinutesAfter:(NSUInteger)minutesAfter withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) requestStopWithArrivalsAndDeparturesForId:(NSString*)stopId withMinutesBefore:(NSUInteger)minutesBefore withMinutesAfter:(NSUInteger)minutesAfter completionBlock:(OBADataSourceCompletion) completion; {
     
     stopId = [self escapeStringForUrl:stopId];
 
@@ -61,7 +42,7 @@ static const float kBigSearchRadius = 15000;
     return [self request:url args:args selector:selector delegate:delegate context:context];
 }
 
-- (id<OBAModelServiceRequest>) requestStopsForRegion:(MKCoordinateRegion)region withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) requestStopsForRegion:(MKCoordinateRegion)region completionBlock:(OBADataSourceCompletion) completion; {
     
     CLLocationCoordinate2D coord = region.center;
     MKCoordinateSpan span = region.span;
@@ -73,11 +54,11 @@ static const float kBigSearchRadius = 15000;
     return [self request:url args:args selector:selector delegate:delegate context:context];
 }
 
-- (id<OBAModelServiceRequest>) requestStopsForQuery:(NSString*)stopQuery withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) requestStopsForQuery:(NSString*)stopQuery completionBlock:(OBADataSourceCompletion) completion {
     return [self requestStopsForQuery:stopQuery withRegion:nil withDelegate:delegate withContext:context];
 }
 
-- (id<OBAModelServiceRequest>)requestStopsForQuery:(NSString*)stopQuery withRegion:(CLRegion*)region withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>)requestStopsForQuery:(NSString*)stopQuery withRegion:(CLRegion*)region completionBlock:(OBADataSourceCompletion) completion {
     CLLocationDistance radius = kBigSearchRadius;
     CLLocationCoordinate2D coord;
     if (region) {
@@ -97,7 +78,7 @@ static const float kBigSearchRadius = 15000;
     return [self request:url args:args selector:selector delegate:delegate context:context];    
 }
 
-- (id<OBAModelServiceRequest>) requestStopsForRoute:(NSString*)routeId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) requestStopsForRoute:(NSString*)routeId completionBlock:(OBADataSourceCompletion) completion {
     
     routeId = [self escapeStringForUrl:routeId];
     
@@ -108,7 +89,7 @@ static const float kBigSearchRadius = 15000;
     return [self request:url args:args selector:selector delegate:delegate context:context];
 }
 
-- (id<OBAModelServiceRequest>) requestStopsForPlacemark:(OBAPlacemark*)placemark withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) requestStopsForPlacemark:(OBAPlacemark*)placemark completionBlock:(OBADataSourceCompletion) completion {
 
     // request search
     CLLocationCoordinate2D location = placemark.coordinate;
@@ -117,11 +98,11 @@ static const float kBigSearchRadius = 15000;
     return [self requestStopsForRegion:region withDelegate:delegate withContext:context];
 }
 
-- (id<OBAModelServiceRequest>) requestRoutesForQuery:(NSString*)routeQuery withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) requestRoutesForQuery:(NSString*)routeQuery completionBlock:(OBADataSourceCompletion) completion {
     return [self requestRoutesForQuery:routeQuery withRegion:nil withDelegate:delegate withContext:context];
 }
 
-- (id<OBAModelServiceRequest>) requestRoutesForQuery:(NSString*)routeQuery withRegion:(CLRegion *)region withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) requestRoutesForQuery:(NSString*)routeQuery withRegion:(CLRegion *)region completionBlock:(OBADataSourceCompletion) completion {
     CLLocationDistance radius = kBigSearchRadius;
     CLLocationCoordinate2D coord;
     if (region) {
@@ -140,7 +121,7 @@ static const float kBigSearchRadius = 15000;
     return [self request:url args:args selector:selector delegate:delegate context:context];
 }
 
-- (id<OBAModelServiceRequest>) placemarksForAddress:(NSString*)address withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) placemarksForAddress:(NSString*)address completionBlock:(OBADataSourceCompletion) completion {
 
     // handle search
     CLLocation * location = [self currentOrDefaultLocationToSearch];
@@ -158,7 +139,7 @@ static const float kBigSearchRadius = 15000;
     return [self request:_googleMapsJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
 }
 
-- (id<OBAModelServiceRequest>) requestRegions:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) requestRegions:(OBADataSourceCompletion) completion {
     NSString * url = @"/regions-v3.json";
     NSString * args = @"";
     SEL selector = @selector(getRegionsV2FromJson:error:);
@@ -166,7 +147,7 @@ static const float kBigSearchRadius = 15000;
     return [self request:_obaRegionJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
 }
 
-- (id<OBAModelServiceRequest>) placemarksForPlace:(NSString*)name withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) placemarksForPlace:(NSString*)name completionBlock:(OBADataSourceCompletion) completion {
     
     // handle search
     CLLocation * location = [self currentOrDefaultLocationToSearch];
@@ -185,7 +166,7 @@ static const float kBigSearchRadius = 15000;
     return [self request:_googlePlacesJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
 }
 
-- (id<OBAModelServiceRequest>) requestAgenciesWithCoverageWithDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) requestAgenciesWithCoverage:(OBADataSourceCompletion) completion{
     
     // update search filter description
     // self.searchFilterString = [NSString stringWithFormat:@"Transit Agencies"];
@@ -197,7 +178,7 @@ static const float kBigSearchRadius = 15000;
     return [self request:url args:args selector:selector delegate:delegate context:context];
 }
 
-- (id<OBAModelServiceRequest>) requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef*)instance withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef*)instance completionBlock:(OBADataSourceCompletion) completion {
     
     NSString * stopId = [self escapeStringForUrl:instance.stopId];
     OBATripInstanceRef * tripInstance = instance.tripInstance;
@@ -215,7 +196,7 @@ static const float kBigSearchRadius = 15000;
     return [self request:url args:args selector:selector delegate:delegate context:context];
 }
 
-- (id<OBAModelServiceRequest>) requestTripDetailsForTripInstance:(OBATripInstanceRef*)tripInstance withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) requestTripDetailsForTripInstance:(OBATripInstanceRef*)tripInstance completionBlock:(OBADataSourceCompletion) completion {
     NSString * tripId = [self escapeStringForUrl:tripInstance.tripId];
     NSString * url = [NSString stringWithFormat:@"/api/where/trip-details/%@.json", tripId];
     NSMutableString * args = [NSMutableString stringWithString:@"version=2"];
@@ -228,7 +209,7 @@ static const float kBigSearchRadius = 15000;
     return [self request:url args:args selector:selector delegate:delegate context:context];    
 }
 
-- (id<OBAModelServiceRequest>) requestVehicleForId:(NSString*)vehicleId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) requestVehicleForId:(NSString*)vehicleId completionBlock:(OBADataSourceCompletion) completion {
     
     vehicleId = [self escapeStringForUrl:vehicleId];
     
@@ -239,7 +220,7 @@ static const float kBigSearchRadius = 15000;
     return [self request:url args:args selector:selector delegate:delegate context:context];
 }
 
-- (id<OBAModelServiceRequest>) requestShapeForId:(NSString*)shapeId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) requestShapeForId:(NSString*)shapeId completionBlock:(OBADataSourceCompletion) completion {
 
     shapeId = [self escapeStringForUrl:shapeId];
     
@@ -250,7 +231,7 @@ static const float kBigSearchRadius = 15000;
     return [self request:url args:args selector:selector delegate:delegate context:context];
 }
 
-- (id<OBAModelServiceRequest>) reportProblemWithStop:(OBAReportProblemWithStopV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) reportProblemWithStop:(OBAReportProblemWithStopV2*)problem completionBlock:(OBADataSourceCompletion) completion {
     
     NSString *url = [NSString stringWithFormat:@"/api/where/report-problem-with-stop.json"];
     
@@ -278,7 +259,7 @@ static const float kBigSearchRadius = 15000;
     return request;
 }
 
-- (id<OBAModelServiceRequest>) reportProblemWithTrip:(OBAReportProblemWithTripV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) reportProblemWithTrip:(OBAReportProblemWithTripV2*)problem completionBlock:(OBADataSourceCompletion) completion {
     
     NSString *url = [NSString stringWithFormat:@"/api/where/report-problem-with-trip.json"];
     
@@ -320,7 +301,7 @@ static const float kBigSearchRadius = 15000;
     return request;
 }
 
-- (id<OBAModelServiceRequest>) requestCurrentVehicleEstimatesForLocations:(NSArray*)locations withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+- (id<OBAModelServiceRequest>) requestCurrentVehicleEstimatesForLocations:(NSArray*)locations completionBlock:(OBADataSourceCompletion) completion{
     
     NSString * url = [NSString stringWithFormat:@"/api/where/estimate-current-vehicle.json"];
     
@@ -351,38 +332,30 @@ static const float kBigSearchRadius = 15000;
     return [self request:url args:[self argsFromDictionary:args] selector:selector delegate:delegate context:context];
 }
 
-@end
 
-
-
-@implementation OBAModelService (Private)
-
-
-- (OBAModelServiceRequest*) request:(NSString*)url args:(NSString*)args selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context {
+- (OBAModelServiceRequest*) request:(NSString*)url args:(NSString*)args selector:(SEL)selector completionBlock:(OBADataSourceCompletion) completion{
     return [self request:_obaJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
 }
 
-- (OBAModelServiceRequest*) request:(OBAJsonDataSource*)source url:(NSString*)url args:(NSString*)args selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context {
+- (OBAModelServiceRequest*) request:(OBAJsonDataSource*)source url:(NSString*)url args:(NSString*)args selector:(SEL)selector completionBlock:(OBADataSourceCompletion) completion{
     OBAModelServiceRequest * request = [self request:source selector:selector delegate:delegate context:context];
     request.connection = [source requestWithPath:url withArgs:args withDelegate:request context:nil];    
     return request;
 }
 
-- (OBAModelServiceRequest*) post:(NSString*)url args:(NSDictionary*)args selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context {
+- (OBAModelServiceRequest*) post:(NSString*)url args:(NSDictionary*)args selector:(SEL)selector completionBlock:(OBADataSourceCompletion) completion{
     return [self post:_obaJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
 }
 
-- (OBAModelServiceRequest*) post:(OBAJsonDataSource*)source url:(NSString*)url args:(NSDictionary*)args selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context {
+- (OBAModelServiceRequest*) post:(OBAJsonDataSource*)source url:(NSString*)url args:(NSDictionary*)args selector:(SEL)selector  completionBlock:(OBADataSourceCompletion) completion {
     OBAModelServiceRequest * request = [self request:source selector:selector delegate:delegate context:context];
     request.connection = [source postWithPath:url withArgs:args withDelegate:request context:nil];
     return request;    
 }
 
-- (OBAModelServiceRequest*) request:(OBAJsonDataSource*)source selector:(SEL)selector delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context {
+- (OBAModelServiceRequest*) request:(OBAJsonDataSource*)source selector:(SEL)selector {
 
     OBAModelServiceRequest * request = [[OBAModelServiceRequest alloc] init];
-    request.delegate = delegate;
-    request.context = context;
     request.modelFactory = _modelFactory;
     request.modelFactorySelector = selector;
     

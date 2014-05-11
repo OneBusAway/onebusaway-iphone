@@ -14,69 +14,54 @@
 
 
 @protocol OBAModelServiceRequest <NSObject>
-- (void) cancel;
-@end
-
-@protocol OBAModelServiceDelegate <NSObject>
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context;
-@optional
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context;
-- (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context;
-- (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context;
+- (void)cancel;
 @end
 
 
-@interface OBAModelService : NSObject {
-    OBAReferencesV2 * _references;
-    OBAModelDAO * _modelDao;
-    OBAModelFactory * _modelFactory;
-    OBAJsonDataSource * _obaJsonDataSource;
-    OBAJsonDataSource * _obaRegionJsonDataSource; 
-    OBAJsonDataSource * _googleMapsJsonDataSource;
-    OBAJsonDataSource * _googlePlacesJsonDataSource;
-    OBALocationManager * _locationManager;
-}
+@interface OBAModelService : NSObject
 
-@property (nonatomic,strong) OBAReferencesV2 * references;
-@property (nonatomic,strong) OBAModelDAO * modelDao;
-@property (nonatomic,strong) OBAModelFactory * modelFactory;
-@property (nonatomic,strong) OBAJsonDataSource * obaJsonDataSource;
-@property (nonatomic,strong) OBAJsonDataSource * obaRegionJsonDataSource;
-@property (nonatomic,strong) OBAJsonDataSource * googleMapsJsonDataSource;
-@property (nonatomic,strong) OBAJsonDataSource * googlePlacesJsonDataSource;
-@property (nonatomic,strong) OBALocationManager * locationManager;
+@property (nonatomic, strong) OBAReferencesV2 *references;
+@property (nonatomic, strong) OBAModelDAO *modelDao;
+@property (nonatomic, strong) OBAModelFactory *modelFactory;
+@property (nonatomic, strong) OBAJsonDataSource *obaJsonDataSource;
+@property (nonatomic, strong) OBAJsonDataSource *obaRegionJsonDataSource;
+@property (nonatomic, strong) OBAJsonDataSource *googleMapsJsonDataSource;
+@property (nonatomic, strong) OBAJsonDataSource *googlePlacesJsonDataSource;
+@property (nonatomic, strong) OBALocationManager *locationManager;
 
-@property (nonatomic,strong) NSData * deviceToken;
+@property (nonatomic, strong) NSData *deviceToken;
 
 
-- (id<OBAModelServiceRequest>) requestStopForId:(NSString*)stopId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
-- (id<OBAModelServiceRequest>) requestStopWithArrivalsAndDeparturesForId:(NSString*)stopId withMinutesBefore:(NSUInteger)minutesBefore withMinutesAfter:(NSUInteger)minutesAfter withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>)requestStopForId:(NSString *)stopId completionBlock:(OBADataSourceCompletion)completion;
+- (id<OBAModelServiceRequest>)requestStopWithArrivalsAndDeparturesForId:(NSString *)stopId withMinutesBefore:(NSUInteger)minutesBefore withMinutesAfter:(NSUInteger)minutesAfter completionBlock:(OBADataSourceCompletion)completion;
 
-- (id<OBAModelServiceRequest>) requestStopsForRegion:(MKCoordinateRegion)region withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
-- (id<OBAModelServiceRequest>) requestStopsForQuery:(NSString*)stopQuery withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
-- (id<OBAModelServiceRequest>) requestStopsForQuery:(NSString*)stopQuery withRegion:(CLRegion*)region withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
-- (id<OBAModelServiceRequest>) requestStopsForRoute:(NSString*)routeId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
-- (id<OBAModelServiceRequest>) requestStopsForPlacemark:(OBAPlacemark*)placemark withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>)requestStopsForRegion:(MKCoordinateRegion)region completionBlock:(OBADataSourceCompletion)completion;
+- (id<OBAModelServiceRequest>)requestStopsForQuery:(NSString *)stopQuery completionBlock:(OBADataSourceCompletion)completion;
+- (id<OBAModelServiceRequest>)requestStopsForQuery:(NSString *)stopQuery withRegion:(CLRegion *)region completionBlock:(OBADataSourceCompletion)completion;
 
-- (id<OBAModelServiceRequest>) requestRoutesForQuery:(NSString*)routeQuery withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
-- (id<OBAModelServiceRequest>) requestRoutesForQuery:(NSString*)routeQuery withRegion:(CLRegion*)region withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
-- (id<OBAModelServiceRequest>) placemarksForAddress:(NSString*)address withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
-- (id<OBAModelServiceRequest>) placemarksForPlace:(NSString*)name withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>)requestStopsForRoute:(NSString *)routeId completionBlock:(OBADataSourceCompletion)completion;
+- (id<OBAModelServiceRequest>)requestStopsForPlacemark:(OBAPlacemark *)placemark completionBlock:(OBADataSourceCompletion)completion;
 
-- (id<OBAModelServiceRequest>) requestRegions:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>)requestRoutesForQuery:(NSString *)routeQuery completionBlock:(OBADataSourceCompletion)completion;
+- (id<OBAModelServiceRequest>)requestRoutesForQuery:(NSString *)routeQuery withRegion:(CLRegion *)region completionBlock:(OBADataSourceCompletion)completion;
 
-- (id<OBAModelServiceRequest>) requestAgenciesWithCoverageWithDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>)placemarksForAddress:(NSString *)address completionBlock:(OBADataSourceCompletion)completion;
+- (id<OBAModelServiceRequest>)placemarksForPlace:(NSString *)name completionBlock:(OBADataSourceCompletion)completion;
 
-- (id<OBAModelServiceRequest>) requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef*)instance withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>)requestRegions:(OBADataSourceCompletion)completion;
 
-- (id<OBAModelServiceRequest>) requestTripDetailsForTripInstance:(OBATripInstanceRef*)tripInstance withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>)requestAgenciesWithCoverage:(OBADataSourceCompletion)completion;
 
-- (id<OBAModelServiceRequest>) requestVehicleForId:(NSString*)vehicleId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>)requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef *)instance completionBlock:(OBADataSourceCompletion)completion;
 
-- (id<OBAModelServiceRequest>) requestShapeForId:(NSString*)shapeId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance completionBlock:(OBADataSourceCompletion)completion;
 
-- (id<OBAModelServiceRequest>) reportProblemWithStop:(OBAReportProblemWithStopV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
-- (id<OBAModelServiceRequest>) reportProblemWithTrip:(OBAReportProblemWithTripV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>)requestVehicleForId:(NSString *)vehicleId completionBlock:(OBADataSourceCompletion)completion;
 
-- (id<OBAModelServiceRequest>) requestCurrentVehicleEstimatesForLocations:(NSArray*)locations withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>)requestShapeForId:(NSString *)shapeId completionBlock:(OBADataSourceCompletion)completion;
+
+- (id<OBAModelServiceRequest>)reportProblemWithStop:(OBAReportProblemWithStopV2 *)problem completionBlock:(OBADataSourceCompletion)completion;
+- (id<OBAModelServiceRequest>)reportProblemWithTrip:(OBAReportProblemWithTripV2 *)problem completionBlock:(OBADataSourceCompletion)completion;
+
+- (id<OBAModelServiceRequest>)requestCurrentVehicleEstimatesForLocations:(NSArray *)locations completionBlock:(OBADataSourceCompletion)completion;
 @end

@@ -62,7 +62,6 @@ typedef enum {
 	
 	self.navigationItem.title = NSLocalizedString(@"Select Region",@"self.navigationItem.title");
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteNetworkRequest) name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
     
     OBALocationManager *lm = _appDelegate.locationManager;
     if (lm.locationServicesEnabled) {
@@ -82,9 +81,7 @@ typedef enum {
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
-    
+
 	[_appDelegate.locationManager stopUpdatingLocation];
 	[_appDelegate.locationManager removeDelegate:self];
     [_locationTimer invalidate];

@@ -17,14 +17,22 @@
 #import "OBADataSource.h"
 #import "OBADataSourceConfig.h"
 
+typedef void (^OBADataSourceCompletion)(id jsonData, NSError * error, NSUInteger responseCode);
+typedef void (^OBADataSourceProgress)(CGFloat percentProgress);
 
 @interface OBAJsonDataSource : NSObject
+
 - (id)initWithConfig:(OBADataSourceConfig*)config;
 
-- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path withDelegate:(id<OBADataSourceDelegate>)delegate context:(id)context;
-- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path withArgs:(NSString*)args withDelegate:(id<OBADataSourceDelegate>)delegate context:(id)context;
-- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path withArgs:(NSString*)args withFileUpload:(NSString*)filePath withDelegate:(id<OBADataSourceDelegate>)delegate context:(id)context;
-- (id<OBADataSourceConnection>) postWithPath:(NSString*)url withArgs:(NSDictionary*)args withDelegate:(NSObject<OBADataSourceDelegate>*)delegate context:(id)context;
+- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path completionBlock:(OBADataSourceCompletion) completion;
+
+- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path completionBlock:(OBADataSourceCompletion) completion;
+
+- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path withArgs:(NSString*)args completionBlock:(OBADataSourceCompletion) completion;
+
+- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path withArgs:(NSString*)args withFileUpload:(NSString*)filePath completionBlock:(OBADataSourceCompletion) completion processBlock:(OBADataSourceProgress) progress;
+
+- (id<OBADataSourceConnection>) postWithPath:(NSString*)url withArgs:(NSDictionary*)args completionBlock:(OBADataSourceCompletion) completion processBlock:(OBADataSourceProgress) progress;;
 
 - (void) cancelOpenConnections;
 
