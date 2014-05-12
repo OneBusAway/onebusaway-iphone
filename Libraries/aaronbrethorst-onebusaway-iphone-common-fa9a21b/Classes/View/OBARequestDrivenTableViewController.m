@@ -3,15 +3,11 @@
 #import "OBAAnalytics.h"
 
 
-@interface OBARequestDrivenTableViewController (Private)
+@interface OBARequestDrivenTableViewController()
 
-- (void) clearPendingRequest;
+@property (nonatomic, copy, readwrite) OBADataSourceProgress progressCallback;
 
-- (void) checkTimer;
-- (void) refreshProgressLabel;
-- (void) didRefreshBegin;
-- (void) didRefreshEnd;
-
+@property (nonatomic, strong)  OBAProgressIndicatorView * progressView;
 @end
 
 
@@ -26,6 +22,13 @@
         [self.navigationItem setTitleView:_progressView];
         _progressLabel = @"";
         _showUpdateTime = NO;
+        
+        
+        __weak OBARequestDrivenTableViewController * weakSelf = self;
+        self.progressCallback =  ^(CGFloat progress) {
+            [weakSelf.progressView setInProgress:YES progress:progress];
+            [weakSelf didRefreshEnd];
+        };
     }
     return self;
 }
@@ -81,14 +84,6 @@
     return nil;
 }
 
-- (void) handleData:(id)obj context:(id)context {
-    
-}
-
-- (void) handleDataChanged {
-    
-}
-
 #pragma mark UIViewController methods
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -102,7 +97,6 @@
         [self checkTimer];
         [self refreshProgressLabel];
         [self didRefreshEnd];
-        [self handleDataChanged];
         [self.tableView reloadData];
     }
 
@@ -115,30 +109,27 @@
 
 #pragma mark OBAModelServiceDelegate
 
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
-    [self handleData:obj context:context];
-    [self refreshProgressLabel];
-    [self didRefreshEnd];
-    [self handleDataChanged];
-    [self.tableView reloadData];
+-(void) updateProgress:(CGFloat)progress {
 }
 
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
-    if( code == 404 )
+-(void) refreshCompleteWithCode:(NSUInteger) statusCode {
+    if(200 <= statusCode && statusCode < 300) {
+        [self refreshProgressLabel];
+        [self.tableView reloadData];
+    }
+    else if(statusCode == 404) {
         [_progressView setMessage:@"Not found" inProgress:NO progress:0];
-    else
+    }
+    else {
         [_progressView setMessage:@"Unknown error" inProgress:NO progress:0];
+    }
     [self didRefreshEnd];
+
 }
 
-- (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
+-(void) refreshFailedWithError:(NSError *) error {
     OBALogWarningWithError(error, @"Error");
     [_progressView setMessage:@"Error connecting" inProgress:NO progress:0];
-    [self didRefreshEnd];
-}
-
-- (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
-    [_progressView setInProgress:YES progress:progress];
     [self didRefreshEnd];
 }
 
@@ -171,11 +162,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
 }
-
-@end
-
-
-@implementation OBARequestDrivenTableViewController (Private)
 
 - (void) clearPendingRequest {
     [_timer invalidate];

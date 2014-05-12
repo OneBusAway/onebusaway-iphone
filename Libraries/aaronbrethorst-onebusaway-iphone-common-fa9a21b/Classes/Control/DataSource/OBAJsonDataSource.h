@@ -17,22 +17,31 @@
 #import "OBADataSource.h"
 #import "OBADataSourceConfig.h"
 
-typedef void (^OBADataSourceCompletion)(id jsonData, NSError * error, NSUInteger responseCode);
-typedef void (^OBADataSourceProgress)(CGFloat percentProgress);
+typedef void (^OBADataSourceCompletion)(id responseData, NSUInteger responseCode, NSError * error);
+typedef void (^OBADataSourceProgress)(CGFloat progress);
 
 @interface OBAJsonDataSource : NSObject
 
 - (id)initWithConfig:(OBADataSourceConfig*)config;
 
-- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path completionBlock:(OBADataSourceCompletion) completion;
+- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path
+                                completionBlock:(OBADataSourceCompletion) completion;
 
-- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path completionBlock:(OBADataSourceCompletion) completion;
+- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path
+                                       withArgs:(NSString*)args
+                                completionBlock:(OBADataSourceCompletion) completion
+                                  progressBlock:(OBADataSourceProgress) progress;
 
-- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path withArgs:(NSString*)args completionBlock:(OBADataSourceCompletion) completion;
+- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path
+                                       withArgs:(NSString*)args
+                                 withFileUpload:(NSString*)filePath
+                                completionBlock:(OBADataSourceCompletion) completion
+                                  progressBlock:(OBADataSourceProgress) progress;
 
-- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path withArgs:(NSString*)args withFileUpload:(NSString*)filePath completionBlock:(OBADataSourceCompletion) completion processBlock:(OBADataSourceProgress) progress;
-
-- (id<OBADataSourceConnection>) postWithPath:(NSString*)url withArgs:(NSDictionary*)args completionBlock:(OBADataSourceCompletion) completion processBlock:(OBADataSourceProgress) progress;;
+- (id<OBADataSourceConnection>) postWithPath:(NSString*)url
+                                    withArgs:(NSDictionary*)args
+                             completionBlock:(OBADataSourceCompletion) completion
+                               progressBlock:(OBADataSourceProgress) progress;
 
 - (void) cancelOpenConnections;
 

@@ -234,33 +234,6 @@ typedef enum {
     return YES;
 }
 
-#pragma mark OBAModelServiceDelegate
-
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
-    UIAlertView * view = [[UIAlertView alloc] init];
-    view.title = NSLocalizedString(@"Submission Successful",@"view.title");
-    [OBAAnalytics reportEventWithCategory:@"submit" action:@"report_problem" label:@"Reported Problem" value:nil];
-    view.message = NSLocalizedString(@"The problem was sucessfully reported. Thank you!",@"view.message");
-    [view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
-    view.cancelButtonIndex = 0;
-    [view show];
-    [_activityIndicatorView hide];
-    
-    //go back to stop view
-    NSArray *allViewControllers = self.navigationController.viewControllers;
-    [self.navigationController popToViewController: [allViewControllers objectAtIndex: ([allViewControllers count]-3)] animated: YES];
-}
-
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
-    [self showErrorAlert];
-    [_activityIndicatorView hide];
-}
-
-- (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
-    [self showErrorAlert];
-    [_activityIndicatorView hide];
-}
-
 #pragma mark OBAListSelectionViewController
 
 - (void)checkItemWithIndex:(NSIndexPath *)indexPath {
@@ -329,7 +302,28 @@ typedef enum {
     problem.userLocation = _appDelegate.locationManager.currentLocation;
     
     [_activityIndicatorView show:self.view];
-    [_appDelegate.modelService reportProblemWithStop:problem withDelegate:self withContext:nil];
+    [_appDelegate.modelService reportProblemWithStop:problem completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+     
+        if(error || !responseData) {
+            [self showErrorAlert];
+            [_activityIndicatorView hide];
+        }
+        else {
+            UIAlertView * view = [[UIAlertView alloc] init];
+            view.title = NSLocalizedString(@"Submission Successful",@"view.title");
+             [OBAAnalytics reportEventWithCategory:@"submit" action:@"report_problem" label:@"Reported Problem" value:nil];
+   
+            view.message = NSLocalizedString(@"The problem was sucessfully reported. Thank you!",@"view.message");
+            [view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
+            view.cancelButtonIndex = 0;
+            [view show];
+            [_activityIndicatorView hide];
+            
+            //go back to stop view
+            NSArray *allViewControllers = self.navigationController.viewControllers;
+            [self.navigationController popToViewController: [allViewControllers objectAtIndex: ([allViewControllers count]-3)] animated: YES];
+        }
+    }];
 
 }
 

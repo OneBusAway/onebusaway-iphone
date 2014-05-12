@@ -20,20 +20,10 @@
 #import "OBALogger.h"
 
 @interface OBASearchController ()
+
 @property(strong,readwrite) OBASearchResult *result;
-@end
-
-@interface OBASearchController (Internal)
-
-- (id<OBAModelServiceRequest>) requestForTarget:(OBANavigationTarget*)target;
-- (NSString*) progressCompleteMessageForSearchType;
-
--(void) fireUpdateFromList:(OBAListWithRangeAndReferencesV2*)list;
--(void) fireUpdate:(OBASearchResult*)result;
--(void) fireError:(NSError*)error;
 
 @end
-
 
 #pragma mark OBASearchController
 
@@ -201,11 +191,6 @@
 - (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
     [_progress setInProgress:YES progress:progress];
 }
-
-@end
-
-
-@implementation OBASearchController (Internal)
    
 - (id<OBAModelServiceRequest>) requestForTarget:(OBANavigationTarget*)target {
     
@@ -218,30 +203,45 @@
             NSData * data = [OBASearch getSearchTypeParameterForNagivationTarget:target];
             MKCoordinateRegion region;
             [data getBytes:&region];
-            return [_modelService requestStopsForRegion:region withDelegate:self withContext:nil];
+            
+            return [_modelService requestStopsForRegion:region completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                
+            }];
         }
         case OBASearchTypeRoute: {
             NSString * routeQuery = [OBASearch getSearchTypeParameterForNagivationTarget:target];
-            return [_modelService requestRoutesForQuery:routeQuery withRegion:self.searchRegion withDelegate:self withContext:nil];
+            return [_modelService requestRoutesForQuery:routeQuery withRegion:self.searchRegion completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                
+            }];
         }
         case OBASearchTypeRouteStops: {
             NSString * routeId = [OBASearch getSearchTypeParameterForNagivationTarget:target];
-            return [_modelService requestStopsForRoute:routeId withDelegate:self withContext:nil];
+            return [_modelService requestStopsForRoute:routeId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                
+            }];
         }
         case OBASearchTypeAddress: {
             NSString * addressQuery = [OBASearch getSearchTypeParameterForNagivationTarget:target];
-            return [_modelService placemarksForAddress:addressQuery withDelegate:self withContext:nil];
+            return [_modelService placemarksForAddress:addressQuery completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                
+            }];
         }
         case OBASearchTypePlacemark: {
             OBAPlacemark * placemark = [OBASearch getSearchTypeParameterForNagivationTarget:target];
-            return [_modelService requestStopsForPlacemark:placemark withDelegate:self withContext:nil];
+            return [_modelService requestStopsForPlacemark:placemark completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                
+            }];
         }            
         case OBASearchTypeStopId: {
             NSString * stopCode = [OBASearch getSearchTypeParameterForNagivationTarget:target];
-            return [_modelService requestStopsForQuery:stopCode withRegion:self.searchRegion withDelegate:self withContext:nil];
+            return [_modelService requestStopsForQuery:stopCode withRegion:self.searchRegion completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                
+            }];
         }
         case OBASearchTypeAgenciesWithCoverage:
-            return [_modelService requestAgenciesWithCoverageWithDelegate:self withContext:nil];
+            return [_modelService requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                
+            }];
             
         default:
             break;

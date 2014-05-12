@@ -100,25 +100,30 @@ typedef enum {
 }
 
 - (id<OBAModelServiceRequest>) handleRefresh {
-	return [_appDelegate.modelService requestRegions:self withContext:nil];
-}
-
-- (void) handleData:(id)obj context:(id)context {
-    OBAListWithRangeAndReferencesV2 * list = obj;
-	_regions = [[NSMutableArray alloc] initWithArray:list.values];
-    
-    NSMutableArray *notSupportedRegions = [NSMutableArray array];
-    for (id obj in _regions) {
-        OBARegionV2 *region = (OBARegionV2 *)obj;
-        if ((!region.supportsObaRealtimeApis || !region.active)
-            || (region.experimental && !_showExperimentalRegions)) {
-            [notSupportedRegions addObject:region];
+	return [_appDelegate.modelService requestRegions:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        if(error) {
+            [self refreshFailedWithError:error];
         }
-    }
-    [_regions removeObjectsInArray:notSupportedRegions];
-    //NSLog(@"%f %f", _mostRecentLocation.coordinate.latitude, _mostRecentLocation.coordinate.longitude);
-    //[self sortRegionsByLocation];
-    [self sortRegionsByName];
+        else {
+            OBAListWithRangeAndReferencesV2 * list = jsonData;
+            _regions = [[NSMutableArray alloc] initWithArray:list.values];
+            
+            NSMutableArray *notSupportedRegions = [NSMutableArray array];
+            for (id obj in _regions) {
+                OBARegionV2 *region = (OBARegionV2 *)obj;
+                if ((!region.supportsObaRealtimeApis || !region.active)
+                    || (region.experimental && !_showExperimentalRegions)) {
+                    [notSupportedRegions addObject:region];
+                }
+            }
+            [_regions removeObjectsInArray:notSupportedRegions];
+            //NSLog(@"%f %f", _mostRecentLocation.coordinate.latitude, _mostRecentLocation.coordinate.longitude);
+            //[self sortRegionsByLocation];
+            [self sortRegionsByName];
+            
+            [self refreshCompleteWithCode:responseCode];
+        }
+    }];
 }
 
 - (void) sortRegionsByLocation {

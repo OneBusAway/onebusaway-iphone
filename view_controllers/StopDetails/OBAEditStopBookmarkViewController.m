@@ -74,31 +74,25 @@
     for( NSUInteger i=0; i<[stopIds count]; i++) {
         NSString * stopId = stopIds[i];
         NSNumber * index = [NSNumber numberWithInteger:i];
-        id<OBAModelServiceRequest> request = [service requestStopForId:stopId withDelegate:self withContext:index];
+        id<OBAModelServiceRequest> request = [service requestStopForId:stopId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+            OBAEntryWithReferencesV2 * entry = jsonData;
+            OBAStopV2 * stop = entry.entry;
+            
+            NSUInteger idx = [index intValue];
+            
+            if( stop ) {
+                _stops[stop.stopId] = stop;
+                NSIndexPath * path = [NSIndexPath indexPathForRow:idx+1 inSection:0];
+                NSArray * indexPaths = @[path];
+                [self.tableView  reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+            }
+            
+            [_requests removeObject:request];
+        }];
         [_requests addObject:request];
     }
 
     [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
-}
-
-#pragma mark OBAModelServiceRequest
-
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
-    
-    OBAEntryWithReferencesV2 * entry = obj;
-    OBAStopV2 * stop = entry.entry;
-    
-    NSNumber * num = context;
-    NSUInteger index = [num intValue];
-    
-    if( stop ) {
-        _stops[stop.stopId] = stop;
-        NSIndexPath * path = [NSIndexPath indexPathForRow:index+1 inSection:0];
-        NSArray * indexPaths = @[path];
-        [self.tableView  reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
-    }
-    
-    [_requests removeObject:request];
 }
 
 #pragma mark Table view methods
@@ -106,7 +100,6 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
-
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

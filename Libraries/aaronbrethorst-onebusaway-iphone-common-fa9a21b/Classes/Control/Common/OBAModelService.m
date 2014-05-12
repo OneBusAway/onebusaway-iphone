@@ -28,10 +28,10 @@ static const float kBigSearchRadius = 15000;
     NSString * args = @"version=2";
     SEL selector = @selector(getStopFromJSON:error:);
     
-    return [self request:url args:args selector:selector delegate:delegate context:context];
+    return [self request:url args:args selector:selector completionBlock:completion];
 }
 
-- (id<OBAModelServiceRequest>) requestStopWithArrivalsAndDeparturesForId:(NSString*)stopId withMinutesBefore:(NSUInteger)minutesBefore withMinutesAfter:(NSUInteger)minutesAfter completionBlock:(OBADataSourceCompletion) completion; {
+- (id<OBAModelServiceRequest>) requestStopWithArrivalsAndDeparturesForId:(NSString*)stopId withMinutesBefore:(NSUInteger)minutesBefore withMinutesAfter:(NSUInteger)minutesAfter completionBlock:(OBADataSourceCompletion) completion progressBlock:(OBADataSourceProgress) progress {
     
     stopId = [self escapeStringForUrl:stopId];
 
@@ -39,7 +39,7 @@ static const float kBigSearchRadius = 15000;
     NSString * args = [NSString stringWithFormat:@"version=2&minutesBefore=%lu&minutesAfter=%lu",(unsigned long)minutesBefore,(unsigned long)minutesAfter];
     SEL selector = @selector(getArrivalsAndDeparturesForStopV2FromJSON:error:);
     
-    return [self request:url args:args selector:selector delegate:delegate context:context];
+    return [self request:url args:args selector:selector completionBlock:completion];
 }
 
 - (id<OBAModelServiceRequest>) requestStopsForRegion:(MKCoordinateRegion)region completionBlock:(OBADataSourceCompletion) completion; {
@@ -51,11 +51,11 @@ static const float kBigSearchRadius = 15000;
     NSString * args = [NSString stringWithFormat:@"lat=%f&lon=%f&latSpan=%f&lonSpan=%f&version=2", coord.latitude, coord.longitude, span.latitudeDelta, span.longitudeDelta];
     SEL selector = @selector(getStopsV2FromJSON:error:);
     
-    return [self request:url args:args selector:selector delegate:delegate context:context];
+    return [self request:url args:args selector:selector completionBlock:completion];
 }
 
 - (id<OBAModelServiceRequest>) requestStopsForQuery:(NSString*)stopQuery completionBlock:(OBADataSourceCompletion) completion {
-    return [self requestStopsForQuery:stopQuery withRegion:nil withDelegate:delegate withContext:context];
+    return [self requestStopsForQuery:stopQuery withRegion:nil completionBlock:completion];
 }
 
 - (id<OBAModelServiceRequest>)requestStopsForQuery:(NSString*)stopQuery withRegion:(CLRegion*)region completionBlock:(OBADataSourceCompletion) completion {
@@ -75,7 +75,7 @@ static const float kBigSearchRadius = 15000;
     NSString *args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2&radius=%f", coord.latitude, coord.longitude,stopQuery, radius];
     SEL selector = @selector(getStopsV2FromJSON:error:);
     
-    return [self request:url args:args selector:selector delegate:delegate context:context];    
+    return [self request:url args:args selector:selector completionBlock:completion];
 }
 
 - (id<OBAModelServiceRequest>) requestStopsForRoute:(NSString*)routeId completionBlock:(OBADataSourceCompletion) completion {
@@ -86,7 +86,7 @@ static const float kBigSearchRadius = 15000;
     NSString * args = @"version=2";
     SEL selector = @selector(getStopsForRouteV2FromJSON:error:);
     
-    return [self request:url args:args selector:selector delegate:delegate context:context];
+    return [self request:url args:args selector:selector completionBlock:completion];
 }
 
 - (id<OBAModelServiceRequest>) requestStopsForPlacemark:(OBAPlacemark*)placemark completionBlock:(OBADataSourceCompletion) completion {
@@ -95,11 +95,11 @@ static const float kBigSearchRadius = 15000;
     CLLocationCoordinate2D location = placemark.coordinate;
     
     MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:location latRadius:kSearchRadius lonRadius:kSearchRadius];
-    return [self requestStopsForRegion:region withDelegate:delegate withContext:context];
+    return [self requestStopsForRegion:region completionBlock:completion];
 }
 
 - (id<OBAModelServiceRequest>) requestRoutesForQuery:(NSString*)routeQuery completionBlock:(OBADataSourceCompletion) completion {
-    return [self requestRoutesForQuery:routeQuery withRegion:nil withDelegate:delegate withContext:context];
+    return [self requestRoutesForQuery:routeQuery withRegion:nil completionBlock:completion];
 }
 
 - (id<OBAModelServiceRequest>) requestRoutesForQuery:(NSString*)routeQuery withRegion:(CLRegion *)region completionBlock:(OBADataSourceCompletion) completion {
@@ -118,7 +118,7 @@ static const float kBigSearchRadius = 15000;
     NSString *args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2&radius=%f", coord.latitude, coord.longitude,routeQuery,radius];
     SEL selector = @selector(getRoutesV2FromJSON:error:);
     
-    return [self request:url args:args selector:selector delegate:delegate context:context];
+    return [self request:url args:args selector:selector completionBlock:completion];
 }
 
 - (id<OBAModelServiceRequest>) placemarksForAddress:(NSString*)address completionBlock:(OBADataSourceCompletion) completion {
@@ -136,7 +136,7 @@ static const float kBigSearchRadius = 15000;
     
     SEL selector = @selector(getPlacemarksFromJSONObject:error:);
     
-    return [self request:_googleMapsJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
+    return [self request:_googleMapsJsonDataSource url:url args:args selector:selector completionBlock:completion];
 }
 
 - (id<OBAModelServiceRequest>) requestRegions:(OBADataSourceCompletion) completion {
@@ -144,7 +144,7 @@ static const float kBigSearchRadius = 15000;
     NSString * args = @"";
     SEL selector = @selector(getRegionsV2FromJson:error:);
 
-    return [self request:_obaRegionJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
+    return [self request:_obaRegionJsonDataSource url:url args:args selector:selector completionBlock:completion];
 }
 
 - (id<OBAModelServiceRequest>) placemarksForPlace:(NSString*)name completionBlock:(OBADataSourceCompletion) completion {
@@ -163,7 +163,7 @@ static const float kBigSearchRadius = 15000;
     NSString * args = [NSString stringWithFormat:@"location=%f,%f&radius=%ld&name=%@&sensor=true", coord.latitude, coord.longitude, (long)radius, name];
     SEL selector = @selector(getPlacemarksFromGooglePlacesJSONObject:error:);
     
-    return [self request:_googlePlacesJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
+    return [self request:_googlePlacesJsonDataSource url:url args:args selector:selector completionBlock:completion];
 }
 
 - (id<OBAModelServiceRequest>) requestAgenciesWithCoverage:(OBADataSourceCompletion) completion{
@@ -175,7 +175,7 @@ static const float kBigSearchRadius = 15000;
     NSString * args = @"version=2";
     SEL selector = @selector(getAgenciesWithCoverageV2FromJson:error:);
     
-    return [self request:url args:args selector:selector delegate:delegate context:context];
+    return [self request:url args:args selector:selector completionBlock:completion];
 }
 
 - (id<OBAModelServiceRequest>) requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef*)instance completionBlock:(OBADataSourceCompletion) completion {
@@ -193,10 +193,10 @@ static const float kBigSearchRadius = 15000;
         [args appendFormat:@"&stopSequence=%ld",(long)instance.stopSequence];
     SEL selector = @selector(getArrivalAndDepartureForStopV2FromJSON:error:);
     
-    return [self request:url args:args selector:selector delegate:delegate context:context];
+    return [self request:url args:args selector:selector completionBlock:completion];
 }
 
-- (id<OBAModelServiceRequest>) requestTripDetailsForTripInstance:(OBATripInstanceRef*)tripInstance completionBlock:(OBADataSourceCompletion) completion {
+- (id<OBAModelServiceRequest>) requestTripDetailsForTripInstance:(OBATripInstanceRef*)tripInstance completionBlock:(OBADataSourceCompletion) completion progressBlock:(OBADataSourceProgress) progress {
     NSString * tripId = [self escapeStringForUrl:tripInstance.tripId];
     NSString * url = [NSString stringWithFormat:@"/api/where/trip-details/%@.json", tripId];
     NSMutableString * args = [NSMutableString stringWithString:@"version=2"];
@@ -206,7 +206,7 @@ static const float kBigSearchRadius = 15000;
         [args appendFormat:@"&vehicleId=%@",[self escapeStringForUrl:tripInstance.vehicleId]];
     SEL selector = @selector(getTripDetailsV2FromJSON:error:);
     
-    return [self request:url args:args selector:selector delegate:delegate context:context];    
+    return [self request:url args:args selector:selector completionBlock:completion progressBlock:progress];
 }
 
 - (id<OBAModelServiceRequest>) requestVehicleForId:(NSString*)vehicleId completionBlock:(OBADataSourceCompletion) completion {
@@ -217,7 +217,7 @@ static const float kBigSearchRadius = 15000;
     NSString * args = [NSString stringWithFormat:@"version=2"];
     SEL selector = @selector(getVehicleStatusV2FromJSON:error:);
     
-    return [self request:url args:args selector:selector delegate:delegate context:context];
+    return [self request:url args:args selector:selector completionBlock:completion];
 }
 
 - (id<OBAModelServiceRequest>) requestShapeForId:(NSString*)shapeId completionBlock:(OBADataSourceCompletion) completion {
@@ -228,7 +228,7 @@ static const float kBigSearchRadius = 15000;
     NSString * args = [NSString stringWithFormat:@"version=2"];
     SEL selector = @selector(getShapeV2FromJSON:error:);
 
-    return [self request:url args:args selector:selector delegate:delegate context:context];
+    return [self request:url args:args selector:selector completionBlock:completion];
 }
 
 - (id<OBAModelServiceRequest>) reportProblemWithStop:(OBAReportProblemWithStopV2*)problem completionBlock:(OBADataSourceCompletion) completion {
@@ -254,7 +254,7 @@ static const float kBigSearchRadius = 15000;
     
     SEL selector = nil;
 
-    OBAModelServiceRequest *request = [self request:url args:[self argsFromDictionary:args] selector:selector delegate:delegate context:context];
+    OBAModelServiceRequest *request = [self request:url args:[self argsFromDictionary:args] selector:selector completionBlock:completion];
     request.checkCode = YES;
     return request;
 }
@@ -296,7 +296,7 @@ static const float kBigSearchRadius = 15000;
     
     SEL selector = nil;
     
-    OBAModelServiceRequest *request = [self request:url args:[self argsFromDictionary:args] selector:selector delegate:delegate context:context];
+    OBAModelServiceRequest *request = [self request:url args:[self argsFromDictionary:args] selector:selector completionBlock:completion];
     request.checkCode = YES;
     return request;
 }
@@ -329,27 +329,35 @@ static const float kBigSearchRadius = 15000;
     
     SEL selector = @selector(getCurrentVehicleEstimatesV2FromJSON:error:);
     
-    return [self request:url args:[self argsFromDictionary:args] selector:selector delegate:delegate context:context];
+    return [self request:url args:[self argsFromDictionary:args] selector:selector completionBlock:completion];
 }
 
 
-- (OBAModelServiceRequest*) request:(NSString*)url args:(NSString*)args selector:(SEL)selector completionBlock:(OBADataSourceCompletion) completion{
-    return [self request:_obaJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
+- (OBAModelServiceRequest*) request:(NSString*)url args:(NSString*)args selector:(SEL)selector completionBlock:(OBADataSourceCompletion) completion progressBlock:(OBADataSourceProgress) progress{
+    return [self request:_obaJsonDataSource url:url args:args selector:selector completionBlock:completion];
 }
 
-- (OBAModelServiceRequest*) request:(OBAJsonDataSource*)source url:(NSString*)url args:(NSString*)args selector:(SEL)selector completionBlock:(OBADataSourceCompletion) completion{
-    OBAModelServiceRequest * request = [self request:source selector:selector delegate:delegate context:context];
-    request.connection = [source requestWithPath:url withArgs:args withDelegate:request context:nil];    
+- (OBAModelServiceRequest*) request:(OBAJsonDataSource*)source url:(NSString*)url args:(NSString*)args selector:(SEL)selector completionBlock:(OBADataSourceCompletion) completion progressBlock:(OBADataSourceProgress) progress {
+    OBAModelServiceRequest * request = [self request:source selector:selector];
+    request.connection = [source requestWithPath:url withArgs:args completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        
+        [request processData:jsonData withError:error responseCode:responseCode completionBlock:completion];
+        
+    }];
     return request;
 }
 
 - (OBAModelServiceRequest*) post:(NSString*)url args:(NSDictionary*)args selector:(SEL)selector completionBlock:(OBADataSourceCompletion) completion{
-    return [self post:_obaJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
+    return [self post:_obaJsonDataSource url:url args:args selector:selector completionBlock:completion progressBlock:nil];
 }
 
-- (OBAModelServiceRequest*) post:(OBAJsonDataSource*)source url:(NSString*)url args:(NSDictionary*)args selector:(SEL)selector  completionBlock:(OBADataSourceCompletion) completion {
-    OBAModelServiceRequest * request = [self request:source selector:selector delegate:delegate context:context];
-    request.connection = [source postWithPath:url withArgs:args withDelegate:request context:nil];
+- (OBAModelServiceRequest*) post:(OBAJsonDataSource*)source url:(NSString*)url args:(NSDictionary*)args selector:(SEL)selector completionBlock:(OBADataSourceCompletion) completion progressBlock:(OBADataSourceProgress) progress {
+    OBAModelServiceRequest * request = [self request:source selector:selector];
+    request.connection = [source postWithPath:url withArgs:args completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        
+        [request processData:jsonData withError:error responseCode:responseCode completionBlock:completion];
+        
+    } processBlock:progress];
     return request;    
 }
 

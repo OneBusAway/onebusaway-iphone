@@ -76,18 +76,20 @@ typedef enum {
 }
 
 - (id<OBAModelServiceRequest>) handleRefresh {
-    return [_appDelegate.modelService requestArrivalAndDepartureForStop:_instance withDelegate:self withContext:nil];
-}
-
--(void) handleData:(id)obj context:(id)context {
-    OBAEntryWithReferencesV2 * entry = obj;
-    _arrivalAndDeparture = entry.entry;
-}
-
-- (void) handleDataChanged {
-    // Refresh the unread service alert count
-    OBAModelDAO * modelDao = _appDelegate.modelDao;
-    _serviceAlerts = [modelDao getServiceAlertsModelForSituations:_arrivalAndDeparture.situations];
+    return [_appDelegate.modelService requestArrivalAndDepartureForStop:_instance completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        if(error) {
+            [self refreshFailedWithError:error];
+        }
+        else {
+            OBAEntryWithReferencesV2 * entry = jsonData;
+            _arrivalAndDeparture = entry.entry;
+            
+            OBAModelDAO * modelDao = _appDelegate.modelDao;
+            _serviceAlerts = [modelDao getServiceAlertsModelForSituations:_arrivalAndDeparture.situations];
+            [self refreshCompleteWithCode:responseCode];
+            
+        }
+    }];
 }
 
 #pragma mark Table view methods

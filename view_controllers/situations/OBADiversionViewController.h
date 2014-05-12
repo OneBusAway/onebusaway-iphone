@@ -2,7 +2,7 @@
 #import "OBATripDetailsV2.h"
 
 
-@interface OBADiversionViewController : UIViewController <MKMapViewDelegate,OBAModelServiceDelegate> {
+@interface OBADiversionViewController : UIViewController <MKMapViewDelegate> {
 
     NSString * _tripEncodedPolyline;
 

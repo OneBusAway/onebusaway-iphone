@@ -4,7 +4,7 @@
 #import "OBAProgressIndicatorView.h"
 
 
-@interface OBATripScheduleMapViewController : UIViewController <MKMapViewDelegate,OBAModelServiceDelegate> {
+@interface OBATripScheduleMapViewController : UIViewController <MKMapViewDelegate> {
     OBAApplicationDelegate * _appDelegate;
     OBATripInstanceRef * _tripInstance;
     NSString * _currentStopId;

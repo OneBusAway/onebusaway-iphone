@@ -1,16 +1,7 @@
 #import "OBAReportProblemWithRecentTripsViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
 
-@interface OBATripDetailsHandler : NSObject <OBAModelServiceDelegate>
-
-@end
-
-@interface OBAReportProblemWithRecentTripsViewController ()
-@property(strong) id tripDetailsHandler;
-@end
-
-
-@implementation OBAReportProblemWithRecentTripsViewController 
+@implementation OBAReportProblemWithRecentTripsViewController
 
 - (void) customSetup {
     self.showTitle = NO;
@@ -18,12 +9,10 @@
     self.arrivalCellFactory.showServiceAlerts = NO;
     self.showServiceAlerts = NO;
     self.minutesBefore = 30;
-    
-    self.tripDetailsHandler = [[OBATripDetailsHandler alloc] init];
 }
 
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {    
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     OBAStopSectionType sectionType = [self sectionTypeForSection:section];
     if (sectionType == OBAStopSectionTypeArrivals) {
         return NSLocalizedString(@"Select the trip with a problem:",@"sectionType == OBAStopSectionTypeArrivals");
@@ -42,29 +31,23 @@
         
         if (arrivalAndDeparture) {
             OBATripInstanceRef * tripInstance = arrivalAndDeparture.tripInstance;
-            [self.appDelegate.modelService requestTripDetailsForTripInstance:tripInstance withDelegate:self.tripDetailsHandler withContext:self];
+            [self.appDelegate.modelService requestTripDetailsForTripInstance:tripInstance
+                                                             completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                                                                 if(jsonData) {
+                                                                     OBAEntryWithReferencesV2 * entry = jsonData;
+                                                                     OBATripDetailsV2 * tripDetails = entry.entry;
+                                                                     if( tripDetails ) {
+                                                                         OBATripInstanceRef * tripInstance = tripDetails.tripInstance;
+                                                                         OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationDelegate:self.appDelegate tripInstance:tripInstance trip:tripDetails.trip];
+                                                                         vc.currentStopId = self.stopId;
+                                                                         [self.navigationController pushViewController:vc animated:YES];
+                                                                     }
+                                                                     
+                                                                 }
+                                                                 
+                                                             }];
         }
     }
 }
 
 @end
-
-
-@implementation OBATripDetailsHandler
-
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
-    OBAReportProblemWithRecentTripsViewController * parent = context;
-    OBAEntryWithReferencesV2 * entry = obj;
-    OBATripDetailsV2 * tripDetails = entry.entry;
-    if( tripDetails ) {
-        OBATripInstanceRef * tripInstance = tripDetails.tripInstance;
-        OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationDelegate:parent.appDelegate tripInstance:tripInstance trip:tripDetails.trip];
-        vc.currentStopId = parent.stopId;
-        [parent.navigationController pushViewController:vc animated:YES];
-    }
-}
-
-@end
-
-
-

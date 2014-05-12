@@ -41,7 +41,7 @@
 
 @class OBAProgressIndicatorImpl;
 
-@interface OBASearchController : NSObject <OBAModelServiceDelegate> {
+@interface OBASearchController : NSObject {
     
     OBAModelService * _modelService;
     

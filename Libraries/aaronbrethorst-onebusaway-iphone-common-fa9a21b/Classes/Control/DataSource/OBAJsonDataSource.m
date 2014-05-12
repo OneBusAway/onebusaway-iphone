@@ -60,17 +60,17 @@
 }
 
 - (id<OBADataSourceConnection>)requestWithPath:(NSString *)path completionBlock:(OBADataSourceCompletion)completion {
-    return [self requestWithPath:path withArgs:nil completionBlock:completion];
+    return [self requestWithPath:path withArgs:nil completionBlock:completion progressBlock:nil];
 }
 
-- (id<OBADataSourceConnection>)requestWithPath:(NSString *)path withArgs:(NSString *)args completionBlock:(OBADataSourceCompletion)completion {
+- (id<OBADataSourceConnection>)requestWithPath:(NSString *)path withArgs:(NSString *)args completionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress) progress {
     NSURL *feedURL = [self.config constructURL:path withArgs:args includeArgs:YES];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:feedURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
 
     [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
     JsonUrlFetcherImpl *fetcher = [[JsonUrlFetcherImpl alloc] init];
     fetcher.completionBlock = completion;
-
+    fetcher.progressBlock = progress;
     [self.openConnections addObject:fetcher];
     [fetcher loadRequest:request];
 
@@ -273,7 +273,7 @@
 
     if (self.completionBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.completionBlock(jsonObject, error, self.requestResponse.statusCode);
+            self.completionBlock(jsonObject, self.requestResponse.statusCode, error);
         });
     }
 }
@@ -281,7 +281,7 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     if (self.completionBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.completionBlock(nil, error, -1);
+            self.completionBlock(nil, NSUIntegerMax, error);
         });
     }
 }

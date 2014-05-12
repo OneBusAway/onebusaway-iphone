@@ -87,36 +87,32 @@ typedef enum {
     [super viewWillAppear:animated];
     if( _tripDetails == nil && _tripInstance != nil ) {
         [self.tableView reloadData];
-        _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:nil];
+        _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            if(responseCode == 404) {
+                [_progressView setMessage:NSLocalizedString(@"Trip not found",@"message") inProgress:NO progress:0];
+            }
+            else if(responseCode >= 300) {
+                [_progressView setMessage:NSLocalizedString(@"Unknown error",@"message") inProgress:NO progress:0];
+            }
+            else if(error) {
+                OBALogWarningWithError(error, @"Error");
+                [_progressView setMessage:NSLocalizedString(@"Error connecting",@"message") inProgress:NO progress:0];
+            }
+            else {
+                OBAEntryWithReferencesV2 * entry = responseData;
+                _tripDetails = entry.entry;
+                [self handleTripDetails];
+            }
+            
+        } progressBlock:^(CGFloat progress) {
+            
+            [_progressView setInProgress:YES progress:progress];
+        }];
     }
     else {
         [self handleTripDetails];
     }
     [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
-}
-
-#pragma mark OBAModelServiceDelegate
-
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
-    OBAEntryWithReferencesV2 * entry = obj;
-    _tripDetails = entry.entry;
-    [self handleTripDetails];
-}
-
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
-    if( code == 404 )
-        [_progressView setMessage:NSLocalizedString(@"Trip not found",@"message") inProgress:NO progress:0];
-    else
-        [_progressView setMessage:NSLocalizedString(@"Unknown error",@"message") inProgress:NO progress:0];
-}
-
-- (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
-    OBALogWarningWithError(error, @"Error");
-    [_progressView setMessage:NSLocalizedString(@"Error connecting",@"message") inProgress:NO progress:0];
-}
-
-- (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
-    [_progressView setInProgress:YES progress:progress];
 }
 
 #pragma mark -

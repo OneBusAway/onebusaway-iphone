@@ -5,7 +5,7 @@
 #import "OBAProgressIndicatorView.h"
 #import "OBARequestDrivenTableViewController.h"
 
-@interface OBATripDetailsViewController : OBARequestDrivenTableViewController <OBAModelServiceDelegate> {
+@interface OBATripDetailsViewController : OBARequestDrivenTableViewController {
     OBATripInstanceRef *_tripInstance;
     OBATripDetailsV2 *_tripDetails;
     OBAServiceAlertsModel *_serviceAlerts;

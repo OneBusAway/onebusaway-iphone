@@ -21,41 +21,39 @@
     [self endBackgroundTask];
 }
 
-- (void)handleResult:(id)obj {
+
+- (void) processData:(id) obj withError:(NSError *) error responseCode:(NSUInteger) code completionBlock:(OBADataSourceCompletion)completion {
     
-    if (self.checkCode) {
+    NSUInteger responseCode = code;
+    if(self.checkCode && [obj respondsToSelector:@selector(valueForKey:)]) {
         NSNumber *code = [obj valueForKey:@"code"];
-    
-        if (!code || 200 != [code integerValue]) {
-            if ([_delegate respondsToSelector:@selector(requestDidFinish:withCode:context:)]) {
-                [_delegate requestDidFinish:self withCode:[code intValue] context:_context];
-            }
-                
-            return;
+        if (code) {
+            responseCode = [code unsignedIntegerValue];
         }
-        
         obj = [obj valueForKey:@"data"];
     }
     
+    
     NSDictionary * data = obj;
-    NSError * error = nil;
+    NSError * jsonError = nil;
     id result = obj;
     
     if (_modelFactorySelector && [_modelFactory respondsToSelector:_modelFactorySelector]) {
-    
+        
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        result = [_modelFactory performSelector:_modelFactorySelector withObject:data withObject:error];
+        result = [_modelFactory performSelector:_modelFactorySelector withObject:data withObject:jsonError];
 #pragma clang diagnostic pop
-
-        if( error ) {
-            if( [_delegate respondsToSelector:@selector(requestDidFail:withError:context:)] )
-                [_delegate requestDidFail:self withError:error context:_context];
-            return;
+        
+        if(!error) {
+            error = jsonError;
         }
     }
-
-    [_delegate requestDidFinish:self withObject:result context:_context];
+    
+    [self cleanup];
+    
+    completion(result, responseCode, error);
+    
 }
 
 - (void)endBackgroundTask {
@@ -74,32 +72,12 @@
     [self cleanup];
 }
 
-#pragma mark OBADataSourceDelegate
-
-- (void) connectionDidFinishLoading:(id<OBADataSourceConnection>)connection withObject:(id)obj context:(id)context {
-    [self handleResult:obj];
-    [self cleanup];
-}
-
-- (void) connectionDidFail:(id<OBADataSourceConnection>)connection withError:(NSError *)error context:(id)context {
-    if( [_delegate respondsToSelector:@selector(requestDidFail:withError:context:)] )    
-        [_delegate requestDidFail:self withError:error context:_context];
-    [self cleanup];
-}
-
-- (void) connection:(id<OBADataSourceConnection>)connection withProgress:(float)progress {
-    if( [_delegate respondsToSelector:@selector(request:withProgress:context:)] )
-        [_delegate request:self withProgress:progress context:_context];
-}
-
 - (void) cleanup {
-    @synchronized(self) {
-        if (self.clean) {
-            return;
-        }
-        self.clean = YES;
-        [self endBackgroundTask];
+    if (self.clean) {
+        return;
     }
+    self.clean = YES;
+    [self endBackgroundTask];
 }
 
 @end

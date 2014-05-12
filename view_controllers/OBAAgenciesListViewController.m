@@ -60,14 +60,18 @@ typedef enum {
 }
 
 - (id<OBAModelServiceRequest>) handleRefresh {
-    return [_appDelegate.modelService requestAgenciesWithCoverageWithDelegate:self withContext:nil];
-}
-
--(void) handleData:(id)obj context:(id)context {
-    OBAListWithRangeAndReferencesV2 * list = obj;
-    _agencies = [[NSMutableArray alloc] initWithArray:list.values];
-    [_agencies sortUsingSelector:@selector(compareUsingAgencyName:)];
-    _progressLabel = @"Agencies";
+    return [_appDelegate.modelService requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        if(error) {
+            [self refreshFailedWithError:error];
+        }
+        else {
+            OBAListWithRangeAndReferencesV2 * list = jsonData;
+            _agencies = [[NSMutableArray alloc] initWithArray:list.values];
+            [_agencies sortUsingSelector:@selector(compareUsingAgencyName:)];
+            _progressLabel = @"Agencies";
+            [self refreshCompleteWithCode:responseCode];
+        }
+    }];
 }
 
 #pragma mark Table view methods

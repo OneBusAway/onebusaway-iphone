@@ -4,7 +4,7 @@
 #import "OBAProgressIndicatorView.h"
 
 
-@interface OBATripScheduleListViewController : UITableViewController <OBAModelServiceDelegate> {
+@interface OBATripScheduleListViewController : UITableViewController {
     OBAApplicationDelegate * _appDelegate;
     OBATripInstanceRef * _tripInstance;
     OBATripDetailsV2 * _tripDetails;    

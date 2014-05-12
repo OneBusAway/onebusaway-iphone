@@ -265,48 +265,6 @@ typedef enum {
     textField.placeholder = @"";
 }
 
-#pragma mark OBAModelServiceDelegate
-
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
-    UIAlertView * view = [[UIAlertView alloc] init];
-    view.title = NSLocalizedString(@"Submission Successful",@"view.title");
-    [OBAAnalytics reportEventWithCategory:@"submit" action:@"report_problem" label:@"Reported Problem" value:nil];
-    view.message = NSLocalizedString(@"The problem was sucessfully reported. Thank you!",@"view.message");
-    [view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
-    view.cancelButtonIndex = 0;
-    [view show];
-    [_activityIndicatorView hide];
-
-    //go back to view that initiated report
-    NSArray *allViewControllers = self.navigationController.viewControllers;
-    for(NSInteger i=[allViewControllers count]-1; i>=0; i--){
-        id obj=[allViewControllers objectAtIndex:i];
-        
-        if([obj isKindOfClass:[OBAArrivalAndDepartureViewController class]]){
-            [self.navigationController popToViewController:obj animated: YES];
-            return;
-        }else if([obj isKindOfClass:[OBAStopViewController class]]){
-            [self.navigationController popToViewController:obj animated: YES];
-            return;
-        }
-    }
-}
-
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
-    [self showErrorAlert];
-    [_activityIndicatorView hide];
-}
-
-- (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
-    [self showErrorAlert];
-    [_activityIndicatorView hide];
-}
-
-- (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
-
-}
-
-
 #pragma mark Other methods
 
 - (void)checkItemWithIndex:(NSIndexPath *)indexPath {
@@ -439,7 +397,38 @@ typedef enum {
     problem.userLocation = _appDelegate.locationManager.currentLocation;
     
     [_activityIndicatorView show:self.view];
-    [_appDelegate.modelService reportProblemWithTrip:problem withDelegate:self withContext:nil];
+    [_appDelegate.modelService reportProblemWithTrip:problem completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        
+        if(error || !jsonData) {
+            [self showErrorAlert];
+            [_activityIndicatorView hide];
+        }
+        else {
+            UIAlertView * view = [[UIAlertView alloc] init];
+            view.title = NSLocalizedString(@"Submission Successful",@"view.title");
+             [OBAAnalytics reportEventWithCategory:@"submit" action:@"report_problem" label:@"Reported Problem" value:nil];
+  
+            view.message = NSLocalizedString(@"The problem was sucessfully reported. Thank you!",@"view.message");
+            [view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
+            view.cancelButtonIndex = 0;
+            [view show];
+            [_activityIndicatorView hide];
+            
+            //go back to view that initiated report
+            NSArray *allViewControllers = self.navigationController.viewControllers;
+            for(NSInteger i=[allViewControllers count]-1; i>=0; i--){
+                id obj=[allViewControllers objectAtIndex:i];
+                
+                if([obj isKindOfClass:[OBAArrivalAndDepartureViewController class]]){
+                    [self.navigationController popToViewController:obj animated: YES];
+                    return;
+                }else if([obj isKindOfClass:[OBAStopViewController class]]){
+                    [self.navigationController popToViewController:obj animated: YES];
+                    return;
+                }
+            }
+        }
+    }];
 }
 
 #pragma mark UIAlertViewDelegate
