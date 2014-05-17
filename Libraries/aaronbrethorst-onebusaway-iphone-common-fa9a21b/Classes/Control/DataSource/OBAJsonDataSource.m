@@ -77,7 +77,7 @@
     return fetcher;
 }
 
-- (id<OBADataSourceConnection>)postWithPath:(NSString *)url withArgs:(NSDictionary *)args completionBlock:(OBADataSourceCompletion)completion processBlock:(OBADataSourceProgress)progress {
+- (id<OBADataSourceConnection>)postWithPath:(NSString *)url withArgs:(NSDictionary *)args completionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress {
     NSURL *targetUrl = [_config constructURL:url withArgs:nil includeArgs:NO];
     NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:targetUrl];
 
@@ -98,7 +98,7 @@
     return fetcher;
 }
 
-- (id<OBADataSourceConnection>)requestWithPath:(NSString *)url withArgs:(NSString *)args withFileUpload:(NSString *)path completionBlock:(OBADataSourceCompletion)completion processBlock:(OBADataSourceProgress)progress {
+- (id<OBADataSourceConnection>)requestWithPath:(NSString *)url withArgs:(NSString *)args withFileUpload:(NSString *)path completionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress {
     NSURL *targetUrl = [_config constructURL:url withArgs:args includeArgs:YES];
     NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:targetUrl];
 

@@ -24,6 +24,17 @@
 #import "OBAEditStopBookmarkGroupViewController.h"
 #import "OBAAnalytics.h"
 
+@interface OBAEditStopBookmarkViewController()
+
+@property (nonatomic, strong) OBAApplicationDelegate * appDelegate;
+@property (nonatomic, assign) OBABookmarkEditType editType;
+@property (nonatomic, strong) OBABookmarkV2 * bookmark;
+@property (nonatomic, strong) OBABookmarkGroup * selectedGroup;
+@property (nonatomic, strong) NSHashTable * requests;
+@property (nonatomic, strong) NSMutableDictionary * stops;
+@property (nonatomic, strong) UITextField * textField;
+
+@end
 @implementation OBAEditStopBookmarkViewController
 
 - (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType {
@@ -36,7 +47,8 @@
         _selectedGroup = bookmark.group;
         _editType = editType;
 
-        _requests = [[NSMutableArray alloc] initWithCapacity:[_bookmark.stopIds count]];
+        _requests = [NSHashTable weakObjectsHashTable];
+        
         _stops = [[NSMutableDictionary alloc] init];
 
         UIBarButtonItem * cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButton:)];
@@ -74,22 +86,19 @@
     for( NSUInteger i=0; i<[stopIds count]; i++) {
         NSString * stopId = stopIds[i];
         NSNumber * index = [NSNumber numberWithInteger:i];
-        id<OBAModelServiceRequest> request = [service requestStopForId:stopId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-            OBAEntryWithReferencesV2 * entry = jsonData;
+        [service requestStopForId:stopId completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            OBAEntryWithReferencesV2 * entry = responseData;
             OBAStopV2 * stop = entry.entry;
             
             NSUInteger idx = [index intValue];
             
             if( stop ) {
-                _stops[stop.stopId] = stop;
+                self->_stops[stop.stopId] = stop;
                 NSIndexPath * path = [NSIndexPath indexPathForRow:idx+1 inSection:0];
                 NSArray * indexPaths = @[path];
-                [self.tableView  reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+                [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
             }
-            
-            [_requests removeObject:request];
         }];
-        [_requests addObject:request];
     }
 
     [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
@@ -112,16 +121,16 @@
     if( indexPath.row == 0 ) {
         OBATextFieldTableViewCell * cell =  [OBATextFieldTableViewCell getOrCreateCellForTableView:tableView];
         cell.textField.text = _bookmark.name;
-        _textField = cell.textField;
-        [_textField becomeFirstResponder];
+        self.textField = cell.textField;
+        [self.textField becomeFirstResponder];
         [tableView addSubview:cell]; // make keyboard slide in/out from right.
         return cell;
     }
     else if ( indexPath.row == 1 ){
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         
-        NSString * stopId = (_bookmark.stopIds)[indexPath.row-1];
-        OBAStopV2 * stop = _stops[stopId];
+        NSString * stopId = self.bookmark.stopIds[indexPath.row-1];
+        OBAStopV2 * stop = self.stops[stopId];
         if( stop )
             cell.textLabel.text = [NSString stringWithFormat:@"%@ # %@ - %@",NSLocalizedString(@"Stop",@"stop"),stop.code,stop.name];
         else
@@ -135,8 +144,8 @@
     else {
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"BookmarkGroupCell"];
         NSString *groupName = @"None";
-        if (_selectedGroup) {
-            groupName = _selectedGroup.name;
+        if (self.selectedGroup) {
+            groupName = self.selectedGroup.name;
         }
         cell.textLabel.text = [NSString stringWithFormat:@"Set Group: %@", groupName];
         cell.textLabel.textColor = [UIColor darkGrayColor];
@@ -147,14 +156,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 2) {
-        OBAEditStopBookmarkGroupViewController *groupVC = [[OBAEditStopBookmarkGroupViewController alloc] initWithAppDelegate:_appDelegate selectedBookmarkGroup:_selectedGroup];
+        OBAEditStopBookmarkGroupViewController *groupVC = [[OBAEditStopBookmarkGroupViewController alloc] initWithAppDelegate:_appDelegate selectedBookmarkGroup:self.selectedGroup];
         groupVC.delegate = self;
         [self.navigationController pushViewController:groupVC animated:YES];
     }
 }
 
 - (void)didSetBookmarkGroup:(OBABookmarkGroup *)group {
-    _selectedGroup = group;
+    self.selectedGroup = group;
 }
 
 - (IBAction) onCancelButton:(id)sender {
@@ -163,17 +172,17 @@
 
 - (IBAction) onSaveButton:(id)sender {
         
-    OBAModelDAO * dao = _appDelegate.modelDao;
+    OBAModelDAO * dao = self.appDelegate.modelDao;
     
-    _bookmark.name = _textField.text;
+    self.bookmark.name = self.textField.text;
     
-    if (!_bookmark.group && !_selectedGroup) {
-        if (_editType == OBABookmarkEditNew) {
-            [dao addNewBookmark:_bookmark];
+    if (!self.bookmark.group && !self.selectedGroup) {
+        if (self.editType == OBABookmarkEditNew) {
+            [dao addNewBookmark:self.bookmark];
         }
-        [dao saveExistingBookmark:_bookmark];
+        [dao saveExistingBookmark:self.bookmark];
     } else {
-        [dao moveBookmark:_bookmark toGroup:_selectedGroup];
+        [dao moveBookmark:self.bookmark toGroup:self.selectedGroup];
     }
 
     // pop to stop view controller are saving settings

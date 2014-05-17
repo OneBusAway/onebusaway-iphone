@@ -32,11 +32,11 @@ typedef enum {
 } OBAStopSectionType;
 
 @interface OBAGenericStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate, MKMapViewDelegate, EMHintDelegate>
-@property(nonatomic,strong) IBOutlet UIView *tableHeaderView;
-@property(nonatomic,strong) IBOutlet MKMapView *mapView;
-@property(nonatomic,strong) IBOutlet OBAShadowLabel *stopName;
-@property(nonatomic,strong) IBOutlet OBAShadowLabel *stopNumber;
-@property(nonatomic, strong) IBOutlet OBAShadowLabel *stopRoutes;
+@property(nonatomic, weak) IBOutlet UIView *tableHeaderView;
+@property(nonatomic, weak) IBOutlet MKMapView *mapView;
+@property(nonatomic, strong) OBAShadowLabel *stopName;
+@property(nonatomic, strong) OBAShadowLabel *stopNumber;
+@property(nonatomic, strong) OBAShadowLabel *stopRoutes;
 
 @property(strong,readonly) OBAApplicationDelegate * appDelegate;
 @property(strong,readonly) NSString * stopId;

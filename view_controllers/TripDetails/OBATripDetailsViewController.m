@@ -74,7 +74,7 @@ typedef enum {
             
             [self refreshCompleteWithCode:responseCode];
         }
-    }];
+    } progressBlock:nil];
 }
 
 

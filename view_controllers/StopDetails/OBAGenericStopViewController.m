@@ -298,13 +298,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     }
 }
 
-- (void)viewDidUnload {
-    self.tableHeaderView = nil;
-    self.tableView.tableHeaderView = nil;
-    [self setStopRoutes:nil];
-    [super viewDidUnload];
-}
-
 - (OBABookmarkV2*)existingBookmark {
     OBAStopV2 *stop = _result.stop;
     for (OBABookmarkV2 *bm in [_appDelegate.modelDao bookmarks]) {
@@ -445,36 +438,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     // this makes it so old data, represented with current times, from before the task switch will display
     // briefly before we fetch new data.
     [self reloadData];
-}
-
-#pragma mark OBAModelServiceDelegate
-
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
-    NSString * message = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Updated",@"message"), [OBACommon getTimeAsString]];
-    [_progressView setMessage:message inProgress:NO progress:0];
-    [self didFinishRefresh];
-    self.result = obj;
-    
-    // Note the event
-    [[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:self.result.stop];
-
-    [self reloadData];
-}
-
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
-    NSString *message = (404 == code ? NSLocalizedString(@"Stop not found",@"code == 404") : NSLocalizedString(@"Unknown error",@"code # 404"));
-    [self.progressView setMessage:message inProgress:NO progress:0];
-    [self didFinishRefresh];
-}
-
-- (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
-    OBALogWarningWithError(error, @"Error... yay!");
-    [_progressView setMessage:NSLocalizedString(@"Error connecting",@"requestDidFail") inProgress:NO progress:0];
-    [self didFinishRefresh];
-}
-
-- (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
-    [_progressView setInProgress:YES progress:progress];
 }
 
 #pragma mark MapView
@@ -660,7 +623,32 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     [self didBeginRefresh];
     
     [self clearPendingRequest];
-    _request = [_appDelegate.modelService requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter withDelegate:self withContext:nil];
+    __weak OBAGenericStopViewController * weakVC = self;
+    _request = [_appDelegate.modelService requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+        
+        if(error) {
+            OBALogWarningWithError(error, @"Error... yay!");
+            [weakVC.progressView setMessage:NSLocalizedString(@"Error connecting",@"requestDidFail") inProgress:NO progress:0];
+        }
+        else if(responseCode >= 300) {
+            NSString *message = (404 == responseCode ? NSLocalizedString(@"Stop not found",@"code == 404") : NSLocalizedString(@"Unknown error",@"code # 404"));
+            [weakVC.progressView setMessage:message inProgress:NO progress:0];
+        }
+        else if(responseData) {
+            NSString * message = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Updated",@"message"), [OBACommon getTimeAsString]];
+            [weakVC.progressView setMessage:message inProgress:NO progress:0];
+            weakVC.result = responseData;
+
+            // Note the event
+            [[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:weakVC.result.stop];
+
+            [weakVC reloadData];
+        }
+        [weakVC didFinishRefresh];
+        
+    } progressBlock:^(CGFloat progress) {
+        [weakVC.progressView setInProgress:YES progress:progress];
+    }];
     _timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 }
      

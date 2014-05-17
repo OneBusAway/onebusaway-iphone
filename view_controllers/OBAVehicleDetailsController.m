@@ -16,15 +16,10 @@ typedef enum {
 } OBASectionType;
 
 
-@interface OBAVehicleDetailsController (Private)
+@interface OBAVehicleDetailsController()
 
-- (OBASectionType) sectionTypeForSection:(NSUInteger)section;
-
-- (UITableViewCell*) vehicleCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView;
-- (UITableViewCell*) tripDetailsCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView;
-- (UITableViewCell*) tripScheduleCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView;
-
-- (void) didSelectTripScheduleRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
+@property (nonatomic, strong) NSString * vehicleId;
+@property (nonatomic, strong) OBAVehicleStatusV2 * vehicleStatus;
 
 @end
 
@@ -59,14 +54,15 @@ typedef enum {
 }
 
 - (id<OBAModelServiceRequest>) handleRefresh {
-    return [_appDelegate.modelService requestVehicleForId:_vehicleId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+    __weak OBAVehicleDetailsController * weakVc = self;
+    return [self.appDelegate.modelService requestVehicleForId:_vehicleId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
         if(error) {
-            [self refreshFailedWithError:error];
+            [weakVc refreshFailedWithError:error];
         }
         else {
             OBAEntryWithReferencesV2 * entry = jsonData;
-            _vehicleStatus = entry.entry;
-            [self refreshCompleteWithCode:responseCode];
+            weakVc.vehicleStatus = entry.entry;
+            [weakVc refreshCompleteWithCode:responseCode];
         }
     }];
 }
@@ -164,12 +160,6 @@ typedef enum {
     }
     
 }
-
-@end
-
-
-@implementation OBAVehicleDetailsController (Private)
-
 
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section {
     
@@ -333,13 +323,13 @@ typedef enum {
     
     switch (indexPath.row) {
         case 0: {
-            OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] initWithApplicationDelegate:_appDelegate];
+            OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] initWithApplicationDelegate:self.appDelegate];
             vc.tripInstance = tripInstance;
             [self.navigationController pushViewController:vc animated:YES];            
             break;
         }
         case 1: {
-            OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationDelegate:_appDelegate tripInstance:tripInstance];
+            OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationDelegate:self.appDelegate tripInstance:tripInstance];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }

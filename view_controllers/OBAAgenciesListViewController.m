@@ -14,16 +14,9 @@ typedef enum {
 } OBASectionType;
 
 
-@interface OBAAgenciesListViewController (Private)
+@interface OBAAgenciesListViewController()
 
-- (OBASectionType) sectionTypeForSection:(NSUInteger)section;
-
-- (UITableViewCell*) actionsCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView;
-- (UITableViewCell*) agenciesCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView;
-- (UITableViewCell*) noAgenciesCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView;
-
-- (void) didSelectActionsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
-- (void) didSelectAgencyRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
+@property (nonatomic, strong) NSMutableArray * agencies;
 
 @end
 
@@ -60,15 +53,17 @@ typedef enum {
 }
 
 - (id<OBAModelServiceRequest>) handleRefresh {
-    return [_appDelegate.modelService requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
+    
+    __weak OBAAgenciesListViewController * weakVc = self;
+    return [self.appDelegate.modelService requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
         if(error) {
-            [self refreshFailedWithError:error];
+            [weakVc refreshFailedWithError:error];
         }
         else {
             OBAListWithRangeAndReferencesV2 * list = jsonData;
-            _agencies = [[NSMutableArray alloc] initWithArray:list.values];
-            [_agencies sortUsingSelector:@selector(compareUsingAgencyName:)];
-            _progressLabel = @"Agencies";
+            weakVc.agencies = [[NSMutableArray alloc] initWithArray:list.values];
+            [weakVc.agencies sortUsingSelector:@selector(compareUsingAgencyName:)];
+            weakVc.progressLabel = @"Agencies";
             [self refreshCompleteWithCode:responseCode];
         }
     }];
@@ -151,12 +146,6 @@ typedef enum {
     
 }
 
-@end
-
-
-@implementation OBAAgenciesListViewController (Private)
-
-
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section {
     
     if( [_agencies count] == 0 ) {
@@ -231,7 +220,7 @@ typedef enum {
 
 - (void) didSelectActionsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
-    [_appDelegate navigateToTarget:target];
+    [self.appDelegate navigateToTarget:target];
 }
 
 - (void) didSelectAgencyRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {

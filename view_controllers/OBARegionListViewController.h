@@ -9,16 +9,7 @@
 #import "OBAApplicationDelegate.h"
 #import "OBARequestDrivenTableViewController.h"
 
-@interface OBARegionListViewController : OBARequestDrivenTableViewController<OBALocationManagerDelegate> {
-    NSMutableArray * _regions;    
-    CLLocation * _mostRecentLocation;
-    BOOL _hideFutureNetworkErrors;
-    BOOL _locationTimedOut;
-    BOOL _showExperimentalRegions;
-    BOOL _didJustBeginShowingExperimental;
-    NSTimer *_locationTimer;
-    UISwitch *_toggleSwitch;
-}
+@interface OBARegionListViewController : OBARequestDrivenTableViewController<OBALocationManagerDelegate> 
 
 @property (nonatomic) OBARegionV2 *nearbyRegion;
 @property (nonatomic) NSIndexPath *checkedItem;

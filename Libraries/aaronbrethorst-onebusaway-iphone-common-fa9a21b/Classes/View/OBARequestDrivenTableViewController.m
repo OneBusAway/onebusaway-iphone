@@ -43,10 +43,6 @@
     [self clearPendingRequest];
 }
 
-- (BOOL) refreshable {
-    return _refreshable;
-}
-
 - (void) setRefreshable:(BOOL)refreshable {
     _refreshable = refreshable;
 
@@ -57,10 +53,6 @@
     else {
         [self.navigationItem setRightBarButtonItem:nil];
     }
-}
-
-- (NSInteger) refreshInterval {
-    return _refreshInterval;
 }
 
 - (void) setRefreshInterval:(NSInteger)refreshInterval {

@@ -18,20 +18,13 @@ typedef enum {
 } OBASectionType;
 
 
-@interface OBAArrivalAndDepartureViewController (Private)
+@interface OBAArrivalAndDepartureViewController()
 
-- (OBASectionType) sectionTypeForSection:(NSUInteger)section;
 
-- (UITableViewCell*) titleCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView;
-- (UITableViewCell*) serviceAlertsCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView;
-- (UITableViewCell*) scheduleCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView;
-- (UITableViewCell*) actionCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView*)tableView;
-
-- (void) didSelectServiceAlertRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
-- (void) didSelectScheduleRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
-- (void) didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
-
-- (void) showSituations;
+@property (nonatomic, strong) OBAArrivalAndDepartureInstanceRef * instance;
+@property (nonatomic, strong) OBAArrivalAndDepartureV2 * arrivalAndDeparture;
+@property (nonatomic, strong) OBAArrivalEntryTableViewCellFactory * arrivalCellFactory;
+@property (nonatomic, strong) OBAServiceAlertsModel * serviceAlerts;
 
 @end
 
@@ -42,7 +35,7 @@ typedef enum {
     if( self = [super initWithApplicationDelegate:appDelegate] ) {
         _instance = instance;
         _arrivalAndDeparture = nil;
-        _arrivalCellFactory = [[OBAArrivalEntryTableViewCellFactory alloc] initWithappDelegate:_appDelegate tableView:self.tableView];
+        _arrivalCellFactory = [[OBAArrivalEntryTableViewCellFactory alloc] initWithappDelegate:appDelegate tableView:self.tableView];
         _arrivalCellFactory.showServiceAlerts = NO;
         self.refreshable = YES;
         self.refreshInterval = 30;
@@ -76,16 +69,16 @@ typedef enum {
 }
 
 - (id<OBAModelServiceRequest>) handleRefresh {
-    return [_appDelegate.modelService requestArrivalAndDepartureForStop:_instance completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+    return [self.appDelegate.modelService requestArrivalAndDepartureForStop:_instance completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
         if(error) {
             [self refreshFailedWithError:error];
         }
         else {
             OBAEntryWithReferencesV2 * entry = jsonData;
-            _arrivalAndDeparture = entry.entry;
+            self.arrivalAndDeparture = entry.entry;
             
-            OBAModelDAO * modelDao = _appDelegate.modelDao;
-            _serviceAlerts = [modelDao getServiceAlertsModelForSituations:_arrivalAndDeparture.situations];
+            OBAModelDAO * modelDao = self.appDelegate.modelDao;
+            self.serviceAlerts = [modelDao getServiceAlertsModelForSituations:self->_arrivalAndDeparture.situations];
             [self refreshCompleteWithCode:responseCode];
             
         }
@@ -184,12 +177,6 @@ typedef enum {
     }
     
 }
-
-@end
-
-
-@implementation OBAArrivalAndDepartureViewController (Private)
-
 
 - (OBASectionType) sectionTypeForSection:(NSUInteger)section {
     
@@ -332,13 +319,13 @@ typedef enum {
 - (void) didSelectScheduleRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     OBATripInstanceRef * tripInstance = _arrivalAndDeparture.tripInstance;
     if( indexPath.row == 0 ) {
-        OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] initWithApplicationDelegate:_appDelegate];
+        OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] initWithApplicationDelegate:self.appDelegate];
         vc.tripInstance = tripInstance;
         vc.currentStopId = _arrivalAndDeparture.stopId;
         [self.navigationController pushViewController:vc animated:YES];
     }            
     else if( indexPath.row == 1 ) {
-        OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationDelegate:_appDelegate tripInstance:tripInstance];
+        OBATripScheduleListViewController * vc = [[OBATripScheduleListViewController alloc] initWithApplicationDelegate:self.appDelegate tripInstance:tripInstance];
         vc.currentStopId = _arrivalAndDeparture.stopId;
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -353,13 +340,13 @@ typedef enum {
         }
         case 1: {
             OBATripInstanceRef * tripInstance = _arrivalAndDeparture.tripInstance;
-            OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationDelegate:_appDelegate tripInstance:tripInstance trip:_arrivalAndDeparture.trip];
+            OBAReportProblemWithTripViewController * vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationDelegate:self.appDelegate tripInstance:tripInstance trip:_arrivalAndDeparture.trip];
             vc.currentStopId = _arrivalAndDeparture.stopId;
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
         case 2: {
-            OBAVehicleDetailsController * vc = [[OBAVehicleDetailsController alloc] initWithApplicationDelegate:_appDelegate vehicleId:_arrivalAndDeparture.tripStatus.vehicleId];
+            OBAVehicleDetailsController * vc = [[OBAVehicleDetailsController alloc] initWithApplicationDelegate:self.appDelegate vehicleId:_arrivalAndDeparture.tripStatus.vehicleId];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
@@ -368,7 +355,7 @@ typedef enum {
 
 - (void) showSituations {
     NSDictionary * args = @{@"arrivalAndDeparture": _arrivalAndDeparture};
-    [OBAPresentation showSituations:_arrivalAndDeparture.situations withappDelegate:_appDelegate navigationController:self.navigationController args:args];
+    [OBAPresentation showSituations:_arrivalAndDeparture.situations withappDelegate:self.appDelegate navigationController:self.navigationController args:args];
 }
 
 @end

@@ -64,7 +64,24 @@ static const NSString * kShapeContext = @"ShapeContext";
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if( _tripDetails == nil && _tripInstance != nil )
-        _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance withDelegate:self withContext:kTripDetailsContext];
+        _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            
+            if(error || responseCode >= 300) {
+                [self updateProgressViewWithError:error responseCode:responseCode];
+            }
+            else {
+                OBAEntryWithReferencesV2 * entry = responseData;
+                self->_tripDetails = entry.entry;
+                [self handleTripDetails];
+            }
+        } progressBlock:^(CGFloat progress) {
+            if (progress > 1.0) {
+                [self->_progressView setMessage:NSLocalizedString(@"Downloading...",@"message") inProgress:YES progress:progress];
+            }
+            else {
+                [self->_progressView setInProgress:YES progress:progress];
+            }
+        }];
     else
         [self handleTripDetails];
 
@@ -76,6 +93,19 @@ static const NSString * kShapeContext = @"ShapeContext";
     vc.tripDetails = self.tripDetails;
     vc.currentStopId = self.currentStopId;
     [self.navigationController replaceViewController:vc animated:YES];
+}
+
+-(void) updateProgressViewWithError:(NSError*) error responseCode:(NSInteger) responseCode {
+    if(responseCode == 404) {
+        [_progressView setMessage:NSLocalizedString(@"Trip not found",@"message") inProgress:NO progress:0];
+    }
+    else if(responseCode >= 300) {
+        [_progressView setMessage:NSLocalizedString(@"Unknown error",@"message") inProgress:NO progress:0];
+    }
+    else if(error) {
+        OBALogWarningWithError(error, @"Error");
+        [_progressView setMessage:NSLocalizedString(@"Error connecting",@"message") inProgress:NO progress:0];
+    }
 }
 
 #pragma mark OBAModelServiceDelegate
@@ -93,27 +123,6 @@ static const NSString * kShapeContext = @"ShapeContext";
             [self.mapView addOverlay:_routePolyline];
         }
         [_progressView setMessage:NSLocalizedString(@"Route Map",@"message") inProgress:NO progress:0];
-    }
-}
-
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
-    if( code == 404 )
-        [_progressView setMessage:NSLocalizedString(@"Trip not found",@"message") inProgress:NO progress:0];
-    else
-        [_progressView setMessage:NSLocalizedString(@"Unknown error",@"message") inProgress:NO progress:0];
-}
-
-- (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
-    OBALogWarningWithError(error, @"Error");
-    [_progressView setMessage:NSLocalizedString(@"Error connecting",@"message") inProgress:NO progress:0];
-}
-
-- (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
-    if (progress > 1.0) {
-        [_progressView setMessage:NSLocalizedString(@"Downloading...",@"message") inProgress:YES progress:progress];
-    }
-    else {
-        [_progressView setInProgress:YES progress:progress];
     }
 }
 
@@ -261,7 +270,9 @@ static const NSString * kShapeContext = @"ShapeContext";
     
     OBATripV2 * trip = _tripDetails.trip;
     if( trip && trip.shapeId) {
-        _request = [_appDelegate.modelService requestShapeForId:trip.shapeId withDelegate:self withContext:kShapeContext];
+        _request = [_appDelegate.modelService requestShapeForId:trip.shapeId completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            
+        }];
     }
 }
 

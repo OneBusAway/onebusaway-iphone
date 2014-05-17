@@ -41,15 +41,7 @@
 
 @class OBAProgressIndicatorImpl;
 
-@interface OBASearchController : NSObject {
-    
-    OBAModelService * _modelService;
-    
-    OBANavigationTarget * _target;
-    id<OBAModelServiceRequest> _request;
-
-    CLLocation * _lastCurrentLocationSearch;    
-}
+@interface OBASearchController : NSObject 
 
 @property (nonatomic,weak) id<OBASearchControllerDelegate> delegate;
 @property (nonatomic,readonly) OBASearchType searchType;

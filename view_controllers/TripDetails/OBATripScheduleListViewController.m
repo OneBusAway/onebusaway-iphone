@@ -40,9 +40,6 @@ typedef enum {
 
 @implementation OBATripScheduleListViewController
 
-@synthesize tripDetails = _tripDetails;
-@synthesize currentStopId;
-
 - (id) initWithApplicationDelegate:(OBAApplicationDelegate*)context tripInstance:(OBATripInstanceRef*)tripInstance {
     if ((self = [super initWithStyle:UITableViewStylePlain])) {
         _appDelegate = context;
@@ -89,24 +86,23 @@ typedef enum {
         [self.tableView reloadData];
         _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
             if(responseCode == 404) {
-                [_progressView setMessage:NSLocalizedString(@"Trip not found",@"message") inProgress:NO progress:0];
+                [self->_progressView setMessage:NSLocalizedString(@"Trip not found",@"message") inProgress:NO progress:0];
             }
             else if(responseCode >= 300) {
-                [_progressView setMessage:NSLocalizedString(@"Unknown error",@"message") inProgress:NO progress:0];
+                [self->_progressView setMessage:NSLocalizedString(@"Unknown error",@"message") inProgress:NO progress:0];
             }
             else if(error) {
                 OBALogWarningWithError(error, @"Error");
-                [_progressView setMessage:NSLocalizedString(@"Error connecting",@"message") inProgress:NO progress:0];
+                [self->_progressView setMessage:NSLocalizedString(@"Error connecting",@"message") inProgress:NO progress:0];
             }
             else {
                 OBAEntryWithReferencesV2 * entry = responseData;
-                _tripDetails = entry.entry;
+                self->_tripDetails = entry.entry;
                 [self handleTripDetails];
             }
             
         } progressBlock:^(CGFloat progress) {
-            
-            [_progressView setInProgress:YES progress:progress];
+            [self->_progressView setInProgress:YES progress:progress];
         }];
     }
     else {

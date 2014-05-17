@@ -2,20 +2,11 @@
 #import "OBAProgressIndicatorView.h"
 #import "UITableViewController+oba_Additions.h"
 
-@interface OBARequestDrivenTableViewController : UITableViewController {
-    OBAApplicationDelegate * _appDelegate;
-    id<OBAModelServiceRequest> _request;
-    NSString * _progressLabel;
-    BOOL _showUpdateTime;
-    BOOL _refreshable;
-    NSInteger _refreshInterval;    
-    
-    NSTimer * _timer;
-}
+@interface OBARequestDrivenTableViewController : UITableViewController
 
 - (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate;
 
-@property (nonatomic,strong) IBOutlet OBAApplicationDelegate * appDelegate;
+@property (nonatomic,strong) OBAApplicationDelegate * appDelegate;
 
 @property (nonatomic,strong) NSString * progressLabel;
 @property (nonatomic) BOOL showUpdateTime;
@@ -23,6 +14,8 @@
 @property (nonatomic) BOOL refreshable;
 @property (nonatomic) NSInteger refreshInterval;
 
+@property (nonatomic, strong) NSTimer * timer;
+@property (nonatomic, strong) id<OBAModelServiceRequest> request;
 @property (nonatomic, copy, readonly) OBADataSourceProgress progressCallback;
 
 - (BOOL) isLoading;

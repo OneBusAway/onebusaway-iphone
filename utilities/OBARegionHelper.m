@@ -29,15 +29,55 @@
     return self;
 }
 
+
+
+#pragma mark OBAModelServiceDelegate
+
+- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
+    
+    OBAListWithRangeAndReferencesV2 * list = obj;
+	self.regions = [[NSMutableArray alloc] initWithArray:list.values];
+    
+    if (self.appDelegate.modelDao.readSetRegionAutomatically && self.appDelegate.locationManager.locationServicesEnabled) {
+        [self setNearestRegion];
+    } else {
+        [self setRegion];
+    }
+}
+
+- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
+}
+
+- (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
+}
+
+- (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
+    
+}
+
+
 - (void) updateNearestRegion {
-    [self.appDelegate.modelService requestRegions:self withContext:nil];
+    [self updateRegion];
     OBALocationManager * lm = self.appDelegate.locationManager;
 	[lm addDelegate:self];
 	[lm startUpdatingLocation];
 }
 
 - (void) updateRegion {
-    [self.appDelegate.modelService requestRegions:self withContext:nil];
+    [self.appDelegate.modelService requestRegions:^(id responseData, NSUInteger responseCode, NSError *error) {
+        [self processRegionData:responseData];
+    }];
+}
+
+-(void) processRegionData:(id) regionData {
+    OBAListWithRangeAndReferencesV2 * list = regionData;
+	self.regions = [[NSMutableArray alloc] initWithArray:list.values];
+    
+    if (self.appDelegate.modelDao.readSetRegionAutomatically && self.appDelegate.locationManager.locationServicesEnabled) {
+        [self setNearestRegion];
+    } else {
+        [self setRegion];
+    }
 }
 
 - (void) setNearestRegion{
@@ -124,31 +164,6 @@
     }
 
 }
-#pragma mark OBAModelServiceDelegate
-
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
-    
-    OBAListWithRangeAndReferencesV2 * list = obj;
-	self.regions = [[NSMutableArray alloc] initWithArray:list.values];
-
-    if (self.appDelegate.modelDao.readSetRegionAutomatically && self.appDelegate.locationManager.locationServicesEnabled) {
-        [self setNearestRegion];
-    } else {
-        [self setRegion];
-    }
-}
-
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
-}
-
-- (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
-}
-
-- (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
-
-}
-
-
 
 #pragma mark OBALocationManagerDelegate Methods
 

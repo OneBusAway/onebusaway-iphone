@@ -45,7 +45,7 @@
                                                                      
                                                                  }
                                                                  
-                                                             }];
+                                                             } progressBlock:nil];
         }
     }
 }

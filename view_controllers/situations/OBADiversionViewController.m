@@ -4,10 +4,23 @@
 #import "OBAPlacemark.h"
 
 
-@interface OBADiversionViewController (Private)
-- (MKMapView*) mapView;
-@end
+@interface OBADiversionViewController()
 
+
+@property(nonatomic, strong) NSString * tripEncodedPolyline;
+
+@property(nonatomic, strong) MKPolyline * routePolyline;
+@property(nonatomic, strong) MKPolylineView * routePolylineView;
+
+@property(nonatomic, strong) MKPolyline * reroutePolyline;
+@property(nonatomic, strong) MKPolylineView * reroutePolylineView;
+
+@property(nonatomic, strong) id<OBAModelServiceRequest> request;
+
+- (MKMapView*) mapView;
+
+
+@end
 
 @implementation OBADiversionViewController
 
@@ -18,7 +31,7 @@
 }
 
 - (void)dealloc {
-    [_request cancel];
+    [self.request cancel];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -42,10 +55,11 @@
         if( shapeId ) {
             OBAApplicationDelegate * context = self.appDelegate;
             OBAModelService * service = context.modelService;
+            __weak OBADiversionViewController * weakVc = self;
             _request = [service requestShapeForId:shapeId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                 if(jsonData) {
-                    _tripEncodedPolyline = jsonData;
-                    NSArray * points = [OBASphericalGeometryLibrary decodePolylineString:_tripEncodedPolyline];
+                    weakVc.tripEncodedPolyline = jsonData;
+                    NSArray * points = [OBASphericalGeometryLibrary decodePolylineString:weakVc.tripEncodedPolyline];
                     
                     CLLocationCoordinate2D* pointArr = malloc(sizeof(CLLocationCoordinate2D) * points.count);
                     for (int i=0; i<points.count;i++) {
@@ -54,10 +68,10 @@
                         pointArr[i] = p;
                     }
                     
-                    _routePolyline = [MKPolyline polylineWithCoordinates:pointArr count:points.count];
+                    weakVc.routePolyline = [MKPolyline polylineWithCoordinates:pointArr count:points.count];
                     free(pointArr);
-                    MKMapView * mv = [self mapView];
-                    [mv addOverlay:_routePolyline];
+                    MKMapView * mv = [weakVc mapView];
+                    [mv addOverlay:weakVc.routePolyline];
                 }
             }];
         }
@@ -118,11 +132,6 @@
     
     return overlayView;    
 }
-
-@end
-
-@implementation OBADiversionViewController (Private)
-
 - (MKMapView*) mapView {
     return (MKMapView*) self.view;            
 }

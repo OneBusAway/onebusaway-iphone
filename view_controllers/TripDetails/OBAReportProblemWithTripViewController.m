@@ -401,7 +401,7 @@ typedef enum {
         
         if(error || !jsonData) {
             [self showErrorAlert];
-            [_activityIndicatorView hide];
+            [self->_activityIndicatorView hide];
         }
         else {
             UIAlertView * view = [[UIAlertView alloc] init];
@@ -412,7 +412,7 @@ typedef enum {
             [view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
             view.cancelButtonIndex = 0;
             [view show];
-            [_activityIndicatorView hide];
+            [self->_activityIndicatorView hide];
             
             //go back to view that initiated report
             NSArray *allViewControllers = self.navigationController.viewControllers;
