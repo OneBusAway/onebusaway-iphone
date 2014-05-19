@@ -12,6 +12,8 @@
 #import "OBABookmarkGroup.h"
 #import "OBAModelDAO.h"
 
+#import "OBAAnalytics.h"
+
 @interface OBAEditBookmarkGroupViewController ()
 {
     OBAApplicationDelegate *_appDelegate;
@@ -53,11 +55,7 @@
 - (void)onSaveButton:(id)sender {
     OBAModelDAO *dao = _appDelegate.modelDao;
     _bookmarkGroup.name = _textField.text;
-    [[GAI sharedInstance].defaultTracker
-     send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
-                                                  action:@"edit_field"
-                                                   label:@"Edited Bookmark"
-                                                   value:nil] build]];
+    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"edit_field" label:@"Edited Bookmark" value:nil];
     [dao addOrSaveBookmarkGroup:_bookmarkGroup];
     [self.navigationController popViewControllerAnimated:YES];
 }

@@ -6,6 +6,7 @@
 #import "OBAVehicleDetailsController.h"
 #import "OBALogger.h"
 #import "OBAPresentation.h"
+#import "OBAAnalytics.h"
 
 
 typedef enum {
@@ -59,12 +60,8 @@ typedef enum {
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
-                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker
-     send:[[GAIDictionaryBuilder createAppView] build]];
     
+    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];    
 }
 
 - (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {

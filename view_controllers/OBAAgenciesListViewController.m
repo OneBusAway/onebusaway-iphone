@@ -3,6 +3,7 @@
 #import "OBAPresentation.h"
 #import "OBAAgencyWithCoverageV2.h"
 #import "OBASearch.h"
+#import "OBAAnalytics.h"
 
 
 typedef enum {
@@ -50,11 +51,8 @@ typedef enum {
 {
     [super viewWillAppear:animated];
     [self refresh];
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
-                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker
-     send:[[GAIDictionaryBuilder createAppView] build]];
+    
+    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (BOOL) isLoading {

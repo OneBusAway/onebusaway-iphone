@@ -51,6 +51,7 @@
 		933C7F5B160C07440005AAFE /* OBACommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E30160C07440005AAFE /* OBACommon.m */; };
 		933C7F5C160C07440005AAFE /* OBALocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E32160C07440005AAFE /* OBALocationManager.m */; };
 		933C7F5D160C07440005AAFE /* OBALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E34160C07440005AAFE /* OBALogger.m */; };
+		933C803C160C07440005AAFE /* OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C803B160C07440005AAFE /* OBAAnalytics.m */; };
 		933C7F5E160C07440005AAFE /* OBAModelFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E36160C07440005AAFE /* OBAModelFactory.m */; };
 		933C7F5F160C07440005AAFE /* OBAModelService.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E38160C07440005AAFE /* OBAModelService.m */; };
 		933C7F60160C07440005AAFE /* OBAModelServiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E3A160C07440005AAFE /* OBAModelServiceRequest.m */; };
@@ -438,6 +439,8 @@
 		933C7E32160C07440005AAFE /* OBALocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALocationManager.m; sourceTree = "<group>"; };
 		933C7E33160C07440005AAFE /* OBALogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALogger.h; sourceTree = "<group>"; };
 		933C7E34160C07440005AAFE /* OBALogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALogger.m; sourceTree = "<group>"; };
+		933C803A160C07440005AAFE /* OBAAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAnalytics.h; sourceTree = "<group>"; };
+		933C803B160C07440005AAFE /* OBAAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAnalytics.m; sourceTree = "<group>"; };
 		933C7E35160C07440005AAFE /* OBAModelFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelFactory.h; sourceTree = "<group>"; };
 		933C7E36160C07440005AAFE /* OBAModelFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelFactory.m; sourceTree = "<group>"; };
 		933C7E37160C07440005AAFE /* OBAModelService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OBAModelService.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -1090,6 +1093,8 @@
 				933C7E32160C07440005AAFE /* OBALocationManager.m */,
 				933C7E33160C07440005AAFE /* OBALogger.h */,
 				933C7E34160C07440005AAFE /* OBALogger.m */,
+				933C803A160C07440005AAFE /* OBAAnalytics.h */,
+				933C803B160C07440005AAFE /* OBAAnalytics.m */,
 				933C7E35160C07440005AAFE /* OBAModelFactory.h */,
 				933C7E36160C07440005AAFE /* OBAModelFactory.m */,
 				933C7E37160C07440005AAFE /* OBAModelService.h */,
@@ -2166,6 +2171,7 @@
 				933C7F5C160C07440005AAFE /* OBALocationManager.m in Sources */,
 				935846AE17FBA2D00034200C /* OBAReleaseNotesManager.m in Sources */,
 				933C7F5D160C07440005AAFE /* OBALogger.m in Sources */,
+				933C803C160C07440005AAFE /* OBAAnalytics.m in Sources */,
 				933C7F5E160C07440005AAFE /* OBAModelFactory.m in Sources */,
 				933C7F5F160C07440005AAFE /* OBAModelService.m in Sources */,
 				935846A817FB9DC30034200C /* TWSReleaseNotesView.m in Sources */,

@@ -10,6 +10,7 @@
 #import "OBAApplicationDelegate.h"
 #import "OBARegionListViewController.h"
 #import "UITableViewController+oba_Additions.h"
+#import "OBAAnalytics.h"
 
 #define kRegionsSection 0
 #define kAccessibilitySection 1
@@ -57,11 +58,7 @@ static NSString * kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     [super viewWillAppear:YES];
     [self.tableView reloadData];
 
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
-                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker
-     send:[[GAIDictionaryBuilder createAppView] build]];
+    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void)didReceiveMemoryWarning

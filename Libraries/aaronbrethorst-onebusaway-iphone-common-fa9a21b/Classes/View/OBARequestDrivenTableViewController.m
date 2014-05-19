@@ -1,5 +1,6 @@
 #import "OBARequestDrivenTableViewController.h"
 #import "OBALogger.h"
+#import "OBAAnalytics.h"
 
 
 @interface OBARequestDrivenTableViewController (Private)
@@ -105,11 +106,7 @@
         [self.tableView reloadData];
     }
 
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
-                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker
-     send:[[GAIDictionaryBuilder createAppView] build]];
+    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {    

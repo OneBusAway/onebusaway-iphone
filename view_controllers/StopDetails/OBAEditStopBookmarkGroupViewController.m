@@ -13,6 +13,8 @@
 #import "OBAEditBookmarkGroupViewController.h"
 #import "OBAApplicationDelegate.h"
 
+#import "OBAAnalytics.h"
+
 @interface OBAEditStopBookmarkGroupViewController ()
 
 @end
@@ -32,17 +34,14 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
-                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker
-     send:[[GAIDictionaryBuilder createAppView] build]];
+    [super viewWillAppear:animated];    
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
     
     [self _refreshGroups];
     [self.tableView reloadData];
+    
+    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void)onDoneButton:(id)sender {
@@ -101,11 +100,7 @@
     } else {
         if (self.editing) {
             OBAEditBookmarkGroupViewController *editBookmarkGroupVC = [[OBAEditBookmarkGroupViewController alloc] initWithApplicationDelegate:self.appDelegate bookmarkGroup:self.groups[indexPath.row - 2] editType:OBABookmarkGroupEditExisting];
-            [[GAI sharedInstance].defaultTracker
-             send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
-                                                          action:@"edit_field"
-                                                           label:@"Edited Bookmark Group"
-                                                           value:nil] build]];
+            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"edit_field" label:@"Edited Bookmark Group" value:nil];
             [self.navigationController pushViewController:editBookmarkGroupVC animated:YES];
         } else {
             NSInteger oldGroupRow = self.selectedGroup ? ([self.groups indexOfObject:self.selectedGroup]+2) : 1;
