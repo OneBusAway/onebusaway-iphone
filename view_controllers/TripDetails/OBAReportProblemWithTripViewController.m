@@ -6,6 +6,8 @@
 #import "OBAStopViewController.h"
 #import "OBAArrivalAndDepartureViewController.h"
 
+#import "OBAAnalytics.h"
+
 typedef enum {
     OBASectionTypeNone,    
     OBASectionTypeProblem,
@@ -84,11 +86,8 @@ typedef enum {
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
-                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker
-     send:[[GAIDictionaryBuilder createAppView] build]];
+    
+    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 #pragma mark Table view methods
@@ -271,11 +270,7 @@ typedef enum {
 - (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
     UIAlertView * view = [[UIAlertView alloc] init];
     view.title = NSLocalizedString(@"Submission Successful",@"view.title");
-    [[GAI sharedInstance].defaultTracker
-     send:[[GAIDictionaryBuilder createEventWithCategory:@"submit"
-                                                  action:@"report_problem"
-                                                   label:@"Reported Problem"
-                                                   value:nil] build]];
+    [OBAAnalytics reportEventWithCategory:@"submit" action:@"report_problem" label:@"Reported Problem" value:nil];
     view.message = NSLocalizedString(@"The problem was sucessfully reported. Thank you!",@"view.message");
     [view addButtonWithTitle:NSLocalizedString(@"Dismiss",@"view addButtonWithTitle")];
     view.cancelButtonIndex = 0;

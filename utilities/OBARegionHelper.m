@@ -8,6 +8,7 @@
 
 #import "OBARegionHelper.h"
 #import "OBAApplicationDelegate.h"
+#import "OBAAnalytics.h"
 
 @interface OBARegionHelper ()
 
@@ -93,11 +94,18 @@
                 return (NSComparisonResult)NSOrderedSame;
             }
         }];
-        
+
+        NSString * oldRegion = @"null";
+        if(self.appDelegate.modelDao.region != nil){
+            oldRegion = self.appDelegate.modelDao.region.regionName;
+        }
+
         [self.appDelegate.modelDao setOBARegion:[self.regions objectAtIndex:0]];
         [self.appDelegate refreshSettings];
         [self.appDelegate.locationManager removeDelegate:self];
         [self.appDelegate.modelDao writeSetRegionAutomatically:YES];
+
+        [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"configured_region_auto" label:[NSString stringWithFormat:@"Set Region Automatically: %@; Old Region: %@", self.appDelegate.modelDao.region.regionName, oldRegion] value:nil];
     }
      
 }

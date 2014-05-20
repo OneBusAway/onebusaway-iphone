@@ -39,6 +39,8 @@
 #import "OBABookmarkGroup.h"
 #import "OBAStopWebViewController.h"
 
+#import "OBAAnalytics.h"
+
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDefaultsKey";
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
@@ -180,12 +182,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         if (![region.stopInfoUrl isEqual:[NSNull null]]) {
             self.showInHighContrast = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey];
             if (self.showInHighContrast) {
-                [[GAI sharedInstance].defaultTracker
-                 send:[[GAIDictionaryBuilder createEventWithCategory:@"accessibility"
-                                                              action:@"increase_contrast"
-                                                               label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]]
-                                                               value:nil] build]];
-                [TestFlight passCheckpoint:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]]];
+                [OBAAnalytics reportEventWithCategory:@"accessibility" action:@"increase_contrast" label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]] value:nil];
                 self.mapView.hidden = YES;
                 self.tableHeaderView.backgroundColor = OBAGREEN;
             }
@@ -285,8 +282,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         else {
             url = kOBANoStopInformationURL;
         }
-        [TestFlight passCheckpoint:[NSString stringWithFormat:@"Loaded StopInfo from %@", region.regionName]];
-        
+        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:[NSString stringWithFormat:@"Loaded StopInfo from %@", region.regionName] value:nil];       
         
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0.0")) {
             OBAStopWebViewController *webViewController = [[OBAStopWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
@@ -296,18 +292,9 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
         }
     }
-    [[GAI sharedInstance].defaultTracker
-             send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
-                                                          action:@"button_press"
-                                                           label:[NSString stringWithFormat:@"Loaded StopInfo from %@", region.regionName]
-                                                           value:nil] build]];
+    
     if (UIAccessibilityIsVoiceOverRunning()){
-        [[GAI sharedInstance].defaultTracker
-            send:[[GAIDictionaryBuilder createEventWithCategory:@"accessibility"
-                                                         action:@"voiceover_on"
-                                                          label:@"Loaded StopInfo with VoiceOver"
-                                                          value:nil] build]];
-        [TestFlight passCheckpoint:@"Loaded StopInfo with VoiceOver"];
+        [OBAAnalytics reportEventWithCategory:@"accessibility" action:@"voiceover_on" label:@"Loaded StopInfo with VoiceOver" value:nil];
     }
 }
 
@@ -432,7 +419,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 #pragma mark UIViewController
 
 - (void)viewWillAppear:(BOOL)animated {
-    
     [super viewWillAppear:animated];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -441,18 +427,9 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     
     [self refresh];
 
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
-                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker
-     send:[[GAIDictionaryBuilder createAppView] build]];
+    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
     if (UIAccessibilityIsVoiceOverRunning()){
-        [TestFlight passCheckpoint:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]]];
-        [[GAI sharedInstance].defaultTracker
-            send:[[GAIDictionaryBuilder createEventWithCategory:@"accessibility"
-                                                         action:@"voiceover_on"
-                                                          label:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]]
-                                                          value:nil] build]];
+        [OBAAnalytics reportEventWithCategory:@"accessibility" action:@"voiceover_on" label:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]] value:nil];
     }
 }
 
@@ -886,6 +863,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray * arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
     if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
+        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Clicked load more arrivals button" value:nil];
+
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         self.minutesAfter += 30;
         [self refresh];

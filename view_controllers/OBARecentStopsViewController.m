@@ -18,6 +18,7 @@
 #import "OBAStopAccessEventV2.h"
 #import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
+#import "OBAAnalytics.h"
 
 
 @implementation OBARecentStopsViewController
@@ -45,11 +46,8 @@
     OBAModelDAO * modelDao = _appDelegate.modelDao;    
     _mostRecentStops = modelDao.mostRecentStops;
     [self.tableView reloadData];
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
-                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker
-     send:[[GAIDictionaryBuilder createAppView] build]];
+    
+    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

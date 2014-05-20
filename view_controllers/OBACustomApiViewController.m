@@ -10,6 +10,7 @@
 #import "OBAApplicationDelegate.h"
 #import "OBATextFieldTableViewCell.h"
 #import "UITableViewController+oba_Additions.h"
+#import "OBAAnalytics.h"
 
 typedef enum {
 	OBASectionTypeNone,
@@ -52,11 +53,8 @@ static NSString *editingCellTag = @"editingCell";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
-                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker
-     send:[[GAIDictionaryBuilder createAppView] build]];
+    
+    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

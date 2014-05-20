@@ -9,6 +9,7 @@
 #import "OBARegionListViewController.h"
 #import "OBARegionV2.h"
 #import "OBACustomApiViewController.h"
+#import "OBAAnalytics.h"
 
 typedef enum {
 	OBASectionTypeNone,
@@ -76,11 +77,7 @@ typedef enum {
         _locationTimedOut = YES;
     }
 
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
-                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker
-     send:[[GAIDictionaryBuilder createAppView] build]];
+    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -422,10 +419,12 @@ typedef enum {
         case OBASectionTypeNearbyRegions:
             region = self.nearbyRegion;
             [_appDelegate.modelDao writeSetRegionAutomatically:YES];
+            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Set region automatically" value:nil];
             break;
         case OBASectionTypeAllRegions:
             region = [_regions objectAtIndex:indexPath.row];
             [_appDelegate.modelDao writeSetRegionAutomatically:NO];
+            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Set region manually" value:nil];
             break;
         default:
             return ;
@@ -474,12 +473,6 @@ typedef enum {
                                               cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:@"OK", nil];
         [unstableRegionAlert show];
-        [[GAI sharedInstance].defaultTracker
-         send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
-                                                      action:@"button_press"
-                                                       label:@"Turned on Experimental Regions"
-                                                       value:nil] build]];
-        
     } else {
         //if current region is beta, show alert; otherwise, just update list
         if (_appDelegate.modelDao.region.experimental){
@@ -489,11 +482,6 @@ typedef enum {
                                                cancelButtonTitle:@"Cancel"
                                                otherButtonTitles:@"OK", nil];
             [currentRegionUnavailableAlert show];
-            [[GAI sharedInstance].defaultTracker
-             send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
-                                                          action:@"button_press"
-                                                           label:@"Turned off Experimental Regions"
-                                                           value:nil] build]];
         } else {
             [self doNeedToUpdateRegionsList];
         }
@@ -520,6 +508,12 @@ typedef enum {
     
     _showExperimentalRegions = !_showExperimentalRegions;
     _didJustBeginShowingExperimental = _showExperimentalRegions;
+
+    if (_showExperimentalRegions) {
+        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Turned on Experimental Regions" value:nil];
+    }else{
+        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Turned off Experimental Regions" value:nil];
+    }
     
     if (_appDelegate.modelDao.region.experimental){
         

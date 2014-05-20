@@ -19,6 +19,7 @@
 #import "OBANavigationTargetAware.h"
 #import <sys/utsname.h>
 #import <MessageUI/MFMailComposeViewController.h>
+#import "OBAAnalytics.h"
 
 #define kEmailRow 0
 #define kTwitterRow 1
@@ -70,11 +71,8 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
     [self hideEmptySeparators];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
-                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker
-     send:[[GAIDictionaryBuilder createAppView] build]];
+    
+    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -123,12 +121,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
     switch( indexPath.row) {
         case kEmailRow:
             {
-                [TestFlight passCheckpoint:@"Clicked Email Link"];
-                [[GAI sharedInstance].defaultTracker
-                 send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
-                                                              action:@"button_press"
-                                                               label:@"Clicked Email Link"
-                                                               value:nil] build]];
+                [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Clicked Email Link" value:nil];
 
                 //check if user can send email
                 if ([MFMailComposeViewController canSendMail]){
@@ -166,33 +159,18 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
             break;
         case kTwitterRow:
             {
-                [TestFlight passCheckpoint:@"Clicked Twitter Link"];
-                [[GAI sharedInstance].defaultTracker
-                 send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
-                                                              action:@"button_press"
-                                                               label:@"Clicked Twitter Link"
-                                                               value:nil] build]];
+                [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Clicked Twitter Link" value:nil];
                 NSString *twitterUrl = kOBADefaultTwitterURL;
                 if (region) {
                     twitterUrl = region.twitterUrl;
                 }
                 NSString *twitterName = [[twitterUrl componentsSeparatedByString:@"/"] lastObject];
                 if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]]) {
-                    [TestFlight passCheckpoint:@"Loaded Twitter via App"];
-                    [[GAI sharedInstance].defaultTracker
-                     send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
-                                                                  action:@"app_switch"
-                                                                   label:@"Loaded Twitter via App"
-                                                                   value:nil] build]];
+                    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"app_switch" label:@"Loaded Twitter via App" value:nil];
                     NSString *url = [NSString stringWithFormat:@"twitter://user?screen_name=%@",twitterName ];
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
                 } else {
-                    [TestFlight passCheckpoint:@"Loaded Twitter via Web"];
-                    [[GAI sharedInstance].defaultTracker
-                     send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
-                                                                  action:@"app_switch"
-                                                                   label:@"Loaded Twitter via Web"
-                                                                   value:nil] build]];
+                    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"app_switch" label:@"Loaded Twitter via Web" value:nil];
                     NSString *url = [NSString stringWithFormat:@"http://twitter.com/%@", twitterName];
                     [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
                 }
@@ -200,31 +178,16 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
             break;
         case kFacebookRow:
             if (region.facebookUrl) {
-                [TestFlight passCheckpoint:@"Clicked Facebook Link"];
-                [[GAI sharedInstance].defaultTracker
-                 send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
-                                                              action:@"button_press"
-                                                               label:@"Clicked Facebook Link"
-                                                               value:nil] build]];
+                [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Clicked Facebook Link" value:nil];
                 NSString *facebookUrl = region.facebookUrl;
                 NSString *facebookPage = [[facebookUrl componentsSeparatedByString:@"/"] lastObject];
 
                 if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"fb://"]]) {
-                    [TestFlight passCheckpoint:@"Loaded Facebook via App"];
-                    [[GAI sharedInstance].defaultTracker
-                     send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
-                                                                  action:@"app_switch"
-                                                                   label:@"Loaded Facebook via App"
-                                                                   value:nil] build]];
+                    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"app_switch" label:@"Loaded Facebook via App" value:nil];
                     NSString *url = [NSString stringWithFormat:@"fb://profile/%@",facebookPage ];
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
                 } else {
-                    [TestFlight passCheckpoint:@"Loaded Facebook via Web"];
-                    [[GAI sharedInstance].defaultTracker
-                     send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
-                                                                  action:@"app_switch"
-                                                                   label:@"Loaded Facebook via Web"
-                                                                   value:nil] build]];
+                    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"app_switch" label:@"Loaded Facebook via Web" value:nil];
                     NSString *url = [NSString stringWithFormat:@"http://facebook.com/%@", facebookPage];
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
                 }
