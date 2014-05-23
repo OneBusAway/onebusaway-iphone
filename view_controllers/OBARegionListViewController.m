@@ -428,16 +428,16 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     switch ([self sectionTypeForSection:indexPath.section]) {
         case OBASectionTypeNearbyRegions:
             region = self.nearbyRegion;
-
-            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Set region automatically" value:nil];
             [self.appDelegate.modelDao writeSetRegionAutomatically:YES];
+            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Set region automatically" value:nil];
+            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"set_region" label:[NSString stringWithFormat:@"Set region automatically: %@",region.regionName] value:nil];
             break;
 
         case OBASectionTypeAllRegions:
             region = self.regions[indexPath.row];
             [self.appDelegate.modelDao writeSetRegionAutomatically:NO];
             [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Set region manually" value:nil];
-
+            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"set_region" label:[NSString stringWithFormat:@"Set region manually: %@",region.regionName] value:nil];
             break;
 
         default:
