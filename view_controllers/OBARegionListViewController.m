@@ -422,9 +422,10 @@ typedef enum {
             [self.appDelegate.modelDao writeSetRegionAutomatically:YES];
             break;
         case OBASectionTypeAllRegions:
-            [OBAAnalytics reportEventWithCategory:@"ui_action            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Set region manually" value:nil];
             region = self.regions[indexPath.row];
             [self.appDelegate.modelDao writeSetRegionAutomatically:NO];
+            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Set region manually" value:nil];
+            
             break;
         default:
             return ;

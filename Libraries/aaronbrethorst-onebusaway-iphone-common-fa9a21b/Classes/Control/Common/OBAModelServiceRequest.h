@@ -8,7 +8,11 @@
 @property BOOL checkCode;
 
 @property UIBackgroundTaskIdentifier bgTask;
-@property(strong) id<OBADataSourceConnection> connection;
+/**
+ *  This has to be weak to avoid retain cycles between the "Connection" object and this service request.  The connection may hold a strong reference 
+ *  to this request to perform some post processing on the data.
+ */
+@property (nonatomic, weak) id<OBADataSourceConnection> connection;
 
 - (void)endBackgroundTask;
 
