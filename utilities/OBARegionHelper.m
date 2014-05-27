@@ -30,32 +30,6 @@
 }
 
 
-
-#pragma mark OBAModelServiceDelegate
-
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
-    
-    OBAListWithRangeAndReferencesV2 * list = obj;
-	self.regions = [[NSMutableArray alloc] initWithArray:list.values];
-    
-    if (self.appDelegate.modelDao.readSetRegionAutomatically && self.appDelegate.locationManager.locationServicesEnabled) {
-        [self setNearestRegion];
-    } else {
-        [self setRegion];
-    }
-}
-
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withCode:(NSInteger)code context:(id)context {
-}
-
-- (void)requestDidFail:(id<OBAModelServiceRequest>)request withError:(NSError *)error context:(id)context {
-}
-
-- (void)request:(id<OBAModelServiceRequest>)request withProgress:(float)progress context:(id)context {
-    
-}
-
-
 - (void) updateNearestRegion {
     [self updateRegion];
     OBALocationManager * lm = self.appDelegate.locationManager;

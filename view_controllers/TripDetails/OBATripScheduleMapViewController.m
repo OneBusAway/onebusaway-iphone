@@ -16,26 +16,20 @@ static const NSString * kTripDetailsContext = @"TripDetails";
 static const NSString * kShapeContext = @"ShapeContext";
 
 
-@interface OBATripScheduleMapViewController (Private)
+@interface OBATripScheduleMapViewController()
 
 - (MKMapView*) mapView;
 
-- (void) handleTripDetails;
-- (id<MKAnnotation>) createTripContinuationAnnotation:(OBATripV2*)trip isNextTrip:(BOOL)isNextTrip stopTimes:(NSArray*)stopTimes;
-
-- (NSInteger) getXOffsetForStop:(OBAStopV2*)stop defaultValue:(NSInteger)defaultXOffset;
-- (NSInteger) getYOffsetForStop:(OBAStopV2*)stop defaultValue:(NSInteger)defaultYOffset;
+@property (nonatomic, strong) id<OBAModelServiceRequest> request;
+@property (nonatomic, strong) NSDateFormatter * timeFormatter;
+    
+@property (nonatomic, strong) MKPolyline * routePolyline;
+@property (nonatomic, strong) MKPolylineView * routePolylineView;
 
 @end
 
 
 @implementation OBATripScheduleMapViewController
-
-@synthesize appDelegate = _appDelegate;
-@synthesize progressView = _progressView;
-@synthesize tripInstance = _tripInstance;
-@synthesize tripDetails = _tripDetails;
-@synthesize currentStopId = _currentStopId;
 
 - (id)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate {
     self = [super initWithNibName:@"OBATripScheduleMapViewController" bundle:nil];
@@ -63,28 +57,34 @@ static const NSString * kShapeContext = @"ShapeContext";
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if( _tripDetails == nil && _tripInstance != nil )
+    if( _tripDetails == nil && _tripInstance != nil ) {
+        
+        __weak OBATripScheduleMapViewController * weakCon = self;
+        
         _request = [_appDelegate.modelService requestTripDetailsForTripInstance:_tripInstance completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
             
             if(error || responseCode >= 300) {
-                [self updateProgressViewWithError:error responseCode:responseCode];
+                [weakCon updateProgressViewWithError:error responseCode:responseCode];
             }
             else {
                 OBAEntryWithReferencesV2 * entry = responseData;
-                self->_tripDetails = entry.entry;
-                [self handleTripDetails];
+                weakCon.tripDetails = entry.entry;
+                [weakCon handleTripDetails];
             }
         } progressBlock:^(CGFloat progress) {
             if (progress > 1.0) {
-                [self->_progressView setMessage:NSLocalizedString(@"Downloading...",@"message") inProgress:YES progress:progress];
+                [weakCon.progressView setMessage:NSLocalizedString(@"Downloading...",@"message") inProgress:YES progress:progress];
             }
             else {
-                [self->_progressView setInProgress:YES progress:progress];
+                [weakCon.progressView setInProgress:YES progress:progress];
             }
         }];
-    else
+    }
+    else {
         [self handleTripDetails];
-
+    }
+    
+    
     [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
@@ -105,24 +105,6 @@ static const NSString * kShapeContext = @"ShapeContext";
     else if(error) {
         OBALogWarningWithError(error, @"Error");
         [_progressView setMessage:NSLocalizedString(@"Error connecting",@"message") inProgress:NO progress:0];
-    }
-}
-
-#pragma mark OBAModelServiceDelegate
-
-- (void)requestDidFinish:(id<OBAModelServiceRequest>)request withObject:(id)obj context:(id)context {
-    if( context == kTripDetailsContext ) {
-        OBAEntryWithReferencesV2 * entry = obj;
-        _tripDetails = entry.entry;
-        [self handleTripDetails];
-    }
-    else if ( context == kShapeContext ) {        
-        if( obj ) {
-            NSString * polylineString = obj;
-            _routePolyline = [OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString];
-            [self.mapView addOverlay:_routePolyline];
-        }
-        [_progressView setMessage:NSLocalizedString(@"Route Map",@"message") inProgress:NO progress:0];
     }
 }
 
@@ -221,10 +203,6 @@ static const NSString * kShapeContext = @"ShapeContext";
     }
 }
 
-@end
-
-
-@implementation OBATripScheduleMapViewController (Private)
 
 - (MKMapView*) mapView {
     return (MKMapView*) self.view;            
@@ -270,8 +248,14 @@ static const NSString * kShapeContext = @"ShapeContext";
     
     OBATripV2 * trip = _tripDetails.trip;
     if( trip && trip.shapeId) {
+        __weak OBATripScheduleMapViewController * weakCon = self;
         _request = [_appDelegate.modelService requestShapeForId:trip.shapeId completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            
+            if(responseData ) {
+                NSString * polylineString = responseData;
+                weakCon.routePolyline = [OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString];
+                [weakCon.mapView addOverlay:weakCon.routePolyline];
+            }
+            [weakCon.progressView setMessage:NSLocalizedString(@"Route Map",@"message") inProgress:NO progress:0];
         }];
     }
 }
