@@ -39,7 +39,7 @@ If you can, please submit a pull request with the fix or improvements including 
 1. Create a feature branch
 1. Write tests and code
 1. Ensure your changes follow the [The New York Times style guide](https://github.com/NYTimes/objective-c-style-guide) by running Uncrustify from the Xcode Edit menu
-1. Add your changes to the [CHANGELOG](CHANGELOG.md)
+1. Summarize the changes you are making in the pull request description
 1. If you have multiple commits please combine them into one commit by [squashing them](http://git-scm.com/book/en/Git-Tools-Rewriting-History#Squashing-Commits)
 1. Push the commit to your fork
 1. Submit a pull request against the `develop` branch with a motive for your change and the method you used to achieve it
@@ -48,7 +48,7 @@ If you can, please submit a pull request with the fix or improvements including 
 We will accept pull requests if:
 
 * The code has proper tests and all tests pass (or it is a test exposing a failure in existing code)
-* It can be merged without problems (if not please use: `git rebase upstream/develop`)
+* It can be merged without problems (if not, please use: `git rebase upstream/develop`) 
 * It doesn't break any existing functionality
 * It's quality code that conforms to [The New York Times style guide](https://github.com/NYTimes/objective-c-style-guide) and standard best practices
 * The description includes a motive for your change and the method you used to achieve it
@@ -57,6 +57,8 @@ We will accept pull requests if:
 * We think other users will benefit from the same functionality
 * If it makes changes to the UI the pull request should include screenshots
 * It is a single commit (please use `git rebase -i` to squash commits)
+
+**Note:** If another pull request is merged into the develop branch that causes your pull request to no longer merge cleanly, you may be asked to rebase (`git rebase upstream/develop`).
 
 ## Workflow
 
