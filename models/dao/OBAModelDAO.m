@@ -24,7 +24,7 @@
 #import "OBABookmarkGroup.h"
 #import "OBAAnalytics.h"
 
-const static int kMaxEntriesInMostRecentList = 10;
+const NSInteger kMaxEntriesInMostRecentList = 10;
 
 @interface OBAModelDAO ()
 
