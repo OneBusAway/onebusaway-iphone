@@ -39,7 +39,7 @@ If you can, please submit a pull request with the fix or improvements including 
 1. Create a feature branch
 1. Write tests and code
 1. Ensure your changes follow the [The New York Times style guide](https://github.com/NYTimes/objective-c-style-guide) by running Uncrustify from the Xcode Edit menu
-1. Summarize the changes you are making in the pull request description
+1. Summarize the changes you are making in a ~1 line high-level summary (to be used for release notes)
 1. If you have multiple commits please combine them into one commit by [squashing them](http://git-scm.com/book/en/Git-Tools-Rewriting-History#Squashing-Commits)
 1. Push the commit to your fork
 1. Submit a pull request against the `develop` branch with a motive for your change and the method you used to achieve it
