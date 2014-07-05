@@ -1,6 +1,7 @@
 #import "OBAStopIconFactory.h"
 #import "OBARouteV2.h"
 
+#define BOOKMARK_COLOR [UIColor colorWithRed:1.0 green:211.0/255.0 blue:94.0/255.0 alpha:1.0]
 
 @interface OBAStopIconFactory (Private)
 
@@ -43,6 +44,38 @@
         return _defaultStopIcon;
     
     return image;
+}
+
+- (UIImage *)bookmarkedIconForImage:(UIImage *)image {
+    UIColor *color = BOOKMARK_COLOR;
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGRect area = CGRectMake(0, 0, image.size.width, image.size.height);
+    
+    CGContextScaleCTM(context, 1, -1);
+    CGContextTranslateCTM(context, 0, -area.size.height);
+    
+    CGContextSaveGState(context);
+    CGContextClipToMask(context, area, image.CGImage);
+    
+    [color set];
+    CGContextFillRect(context, area);
+    
+    CGContextRestoreGState(context);
+    
+    CGContextSetBlendMode(context, kCGBlendModeMultiply);
+    CGContextDrawImage(context, area, image.CGImage);
+    UIImage *colorizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return colorizedImage;
+}
+
+- (UIImage *)getBookmarkedIconForStop:(OBAStopV2*)stop {
+    UIImage *originalIcon = [self getIconForStop:stop];
+    return [self bookmarkedIconForImage:originalIcon];
 }
 
 - (UIImage*) getModeIconForRoute:(OBARouteV2*)route {

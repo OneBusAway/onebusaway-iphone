@@ -17,6 +17,7 @@
 #import "OBASearchResultsMapViewController.h"
 #import "OBARoute.h"
 #import "OBAStopV2.h"
+#import "OBABookmarkGroup.h"
 #import "OBARouteV2.h"
 #import "OBAAgencyWithCoverageV2.h"
 #import "OBAGenericAnnotation.h"
@@ -75,6 +76,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 @end
 
 @interface OBASearchResultsMapViewController (Private)
+
+- (BOOL)isStopBookmarked:(OBAStopV2*)stop;
 
 - (void)refreshCurrentLocation;
 
@@ -596,7 +599,12 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         }
 
         OBAStopIconFactory * stopIconFactory = self.appDelegate.stopIconFactory;
-        view.image = [stopIconFactory getIconForStop:stop];
+        if ([self isStopBookmarked:stop]) {
+            view.image = [stopIconFactory getBookmarkedIconForStop:stop];
+        }
+        else {
+            view.image = [stopIconFactory getIconForStop:stop];
+        }
         return view;
     }
     else if ([annotation isKindOfClass:[OBAPlacemark class]]) {
@@ -729,6 +737,22 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 #pragma mark - OBASearchMapViewController Private Methods
 
 @implementation OBASearchResultsMapViewController (Private)
+
+- (BOOL)isStopBookmarked:(OBAStopV2 *)stop {
+    for (OBABookmarkV2 *bm in [_appDelegate.modelDao bookmarks]) {
+        if ([bm.stopIds containsObject:stop.stopId]) {
+            return YES;
+        }
+    }
+    for (OBABookmarkGroup *group in [_appDelegate.modelDao bookmarkGroups]) {
+        for (OBABookmarkV2 *bm in group.bookmarks) {
+            if ([bm.stopIds containsObject:stop.stopId]) {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
 
 - (void) refreshCurrentLocation {
     
