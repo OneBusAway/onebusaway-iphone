@@ -11,7 +11,7 @@
 - (NSString*) getRouteIconTypeForRouteTypes:(NSSet*)routeTypes;
 - (NSString*) getRouteIconTypeForRoute:(OBARouteV2*)route;
 
-- (NSString*) keyForIcontTypeId:(NSString *)iconTypeId
+- (NSString*) keyForIconTypeId:(NSString *)iconTypeId
                     directionId:(NSString *)directionId
                    isBookmarked:(BOOL) isBookmarked;
 
@@ -46,7 +46,7 @@
     if( includeDirection && stop.direction )
         direction = stop.direction;
     
-    NSString * key = [self keyForIcontTypeId:routeIconType directionId:direction isBookmarked:isBookmarked];
+    NSString * key = [self keyForIconTypeId:routeIconType directionId:direction isBookmarked:isBookmarked];
     
     UIImage * image = _stopIcons[key];
     
@@ -95,12 +95,12 @@
         NSString * iconType = iconTypeIds[j];
         for( int i=0; i<[directionIds count]; i++) {        
             NSString * directionId = directionIds[i];
-            NSString * key = [self keyForIcontTypeId:iconType directionId:directionId isBookmarked:NO];
+            NSString * key = [self keyForIconTypeId:iconType directionId:directionId isBookmarked:NO];
             NSString * imageName = [NSString stringWithFormat:@"%@.png",key];
             UIImage * image = [UIImage imageNamed:imageName];
             _stopIcons[key] = image;
             
-            NSString *bookmarkedKey = [self keyForIcontTypeId:iconType directionId:directionId isBookmarked:YES];
+            NSString *bookmarkedKey = [self keyForIconTypeId:iconType directionId:directionId isBookmarked:YES];
             UIImage *bookmarkedImage = [self getBookmarkedIconForImage:image];
             _stopIcons[bookmarkedKey] = bookmarkedImage;
         }        
@@ -109,7 +109,7 @@
     _defaultStopIcon = _stopIcons[@"BusStopIcon"];
 }
 
-- (NSString *)keyForIcontTypeId:(NSString *)iconTypeId
+- (NSString *)keyForIconTypeId:(NSString *)iconTypeId
                     directionId:(NSString *)directionId
                    isBookmarked:(BOOL) isBookmarked
 {
