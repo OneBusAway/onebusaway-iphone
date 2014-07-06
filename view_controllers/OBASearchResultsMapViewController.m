@@ -599,12 +599,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         }
 
         OBAStopIconFactory * stopIconFactory = self.appDelegate.stopIconFactory;
-        if ([self isStopBookmarked:stop]) {
-            view.image = [stopIconFactory getBookmarkedIconForStop:stop];
-        }
-        else {
-            view.image = [stopIconFactory getIconForStop:stop];
-        }
+        BOOL isBookmarked = [self isStopBookmarked:stop];
+        view.image = [stopIconFactory getIconForStop:stop includeDirection:YES isBookmarked:isBookmarked];
         return view;
     }
     else if ([annotation isKindOfClass:[OBAPlacemark class]]) {
