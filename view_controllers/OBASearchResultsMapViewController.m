@@ -225,6 +225,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contrastToggled) name:OBAIncreaseContrastToggledNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onMapTabBarButton) name:@"OBAMapButtonRecenterNotification" object:nil];
 }
 
 - (void)contrastToggled {
@@ -701,6 +702,13 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (IBAction)onCrossHairsButton:(id)sender {
     [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Clicked My Location Button" value:nil];
     OBALogDebug(@"setting auto center on current location");
+    self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
+    [self refreshCurrentLocation];
+}
+
+- (void)onMapTabBarButton {
+    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Clicked Map Tab Bar Button To Re-center" value:nil];
+    OBALogDebug(@"setting auto center on current location (via tab bar)");
     self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
     [self refreshCurrentLocation];
 }
