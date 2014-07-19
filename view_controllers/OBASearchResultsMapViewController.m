@@ -707,10 +707,12 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 }
 
 - (void)onMapTabBarButton {
-    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"My Location via Map Tab Button" value:nil];
-    OBALogDebug(@"setting auto center on current location (via tab bar)");
-    self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
-    [self refreshCurrentLocation];
+    if (self.isViewLoaded && self.view.window) {
+        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"My Location via Map Tab Button" value:nil];
+        OBALogDebug(@"setting auto center on current location (via tab bar)");
+        self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
+        [self refreshCurrentLocation];
+    }
 }
 
 
