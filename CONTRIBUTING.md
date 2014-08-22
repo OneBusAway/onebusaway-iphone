@@ -2,6 +2,9 @@
 
 This guide details how to use issues and pull requests (for new code) to improve OneBusAway for iPhone.
 
+## Individual Contributor License Agreement (ICLA)
+To ensure that the app source code remains fully open-source under a common license, we require that contributors sign [an electronic ICLA](https://docs.google.com/forms/d/12jV-ByyN186MuPotMvxJtNKtSaGGTnEHm8rXomM2bm4/viewform) before contributions can be merged.
+
 ## Closing policy for issues and pull requests
 
 OneBusAway for iPhone is a popular project and the capacity to deal with issues and pull requests is limited. Out of respect for our volunteers, issues and pull requests not in line with the guidelines listed in this document may be closed without notice.
