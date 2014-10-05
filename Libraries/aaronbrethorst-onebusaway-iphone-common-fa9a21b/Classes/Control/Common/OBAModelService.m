@@ -8,18 +8,6 @@ static const float kBigSearchRadius = 15000;
 
 @implementation OBAModelService
 
-@synthesize modelDao = _modelDao;
-@synthesize modelFactory = _modelFactory;
-@synthesize references = _references;
-@synthesize obaJsonDataSource = _obaJsonDataSource;
-@synthesize obaRegionJsonDataSource = _obaRegionJsonDataSource;
-@synthesize googleMapsJsonDataSource = _googleMapsJsonDataSource;
-@synthesize googlePlacesJsonDataSource = _googlePlacesJsonDataSource;
-@synthesize locationManager = _locationManager;
-
-@synthesize deviceToken;
-
-
 - (id<OBAModelServiceRequest>)requestStopForId:(NSString *)stopId completionBlock:(OBADataSourceCompletion)completion {
     stopId = [self escapeStringForUrl:stopId];
 
@@ -144,7 +132,7 @@ static const float kBigSearchRadius = 15000;
     NSString *args = @"";
     SEL selector = @selector(getRegionsV2FromJson:error:);
 
-    return [self request:_obaRegionJsonDataSource url:url args:args selector:selector completionBlock:completion progressBlock:nil];
+    return [self request:self.obaRegionJsonDataSource url:url args:args selector:selector completionBlock:completion progressBlock:nil];
 }
 
 - (id<OBAModelServiceRequest>)placemarksForPlace:(NSString *)name completionBlock:(OBADataSourceCompletion)completion {
