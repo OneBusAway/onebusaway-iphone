@@ -34,11 +34,6 @@
 
 @interface OBAJsonDataSource ()
 
-- (void)removeOpenConnection:(JsonUrlFetcherImpl *)connection;
-- (NSString *)constructFormBody:(NSDictionary *)args;
-- (NSString *)paramValueAsString:(id)value;
-- (NSString *)escapeParamValue:(NSString *)v;
-
 @property (strong) OBADataSourceConfig *config;
 @property (strong) NSHashTable *openConnections;
 @end
@@ -139,10 +134,6 @@
     }
 
     [self.openConnections removeAllObjects];
-}
-
-- (void)removeOpenConnection:(JsonUrlFetcherImpl *)connection {
-    [self.openConnections removeObject:connection];
 }
 
 - (NSString *)constructFormBody:(NSDictionary *)args {
