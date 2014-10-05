@@ -3,18 +3,19 @@
 #import "OBAAnalytics.h"
 
 
-@interface OBARequestDrivenTableViewController()
+@interface OBARequestDrivenTableViewController ()
 
 @property (nonatomic, copy, readwrite) OBADataSourceProgress progressCallback;
 
-@property (nonatomic, strong)  OBAProgressIndicatorView * progressView;
+@property (nonatomic, strong)  OBAProgressIndicatorView *progressView;
 @end
 
 
 @implementation OBARequestDrivenTableViewController
 
-- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate { 
+- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate {
     self = [super initWithStyle:UITableViewStylePlain];
+
     if (self) {
         _appDelegate = appDelegate;
         CGRect r = CGRectMake(0, 0, 160, 33);
@@ -22,19 +23,19 @@
         [self.navigationItem setTitleView:_progressView];
         _progressLabel = @"";
         _showUpdateTime = NO;
-        
-        
-        __weak OBARequestDrivenTableViewController * weakSelf = self;
+
+
+        __weak OBARequestDrivenTableViewController *weakSelf = self;
         self.progressCallback =  ^(CGFloat progress) {
             [weakSelf.progressView setInProgress:YES progress:progress];
             [weakSelf didRefreshEnd];
         };
     }
+
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     [self hideEmptySeparators];
 }
@@ -43,11 +44,11 @@
     [self clearPendingRequest];
 }
 
-- (void) setRefreshable:(BOOL)refreshable {
+- (void)setRefreshable:(BOOL)refreshable {
     _refreshable = refreshable;
 
-    if( _refreshable ) {
-        UIBarButtonItem * refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
+    if (_refreshable) {
+        UIBarButtonItem *refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
         [self.navigationItem setRightBarButtonItem:refreshItem];
     }
     else {
@@ -55,16 +56,16 @@
     }
 }
 
-- (void) setRefreshInterval:(NSInteger)refreshInterval {
+- (void)setRefreshInterval:(NSInteger)refreshInterval {
     _refreshInterval = refreshInterval;
     [self checkTimer];
 }
 
-- (BOOL) isLoading {
+- (BOOL)isLoading {
     return YES;
 }
 
-- (void) refresh {
+- (void)refresh {
     [_progressView setMessage:@"Updating..." inProgress:YES progress:0];
     [self didRefreshBegin];
     [self clearPendingRequest];
@@ -72,7 +73,7 @@
     [self checkTimer];
 }
 
-- (id<OBAModelServiceRequest>) handleRefresh {
+- (id<OBAModelServiceRequest>)handleRefresh {
     return nil;
 }
 
@@ -82,7 +83,7 @@
     [super viewWillAppear:animated];
     [self clearPendingRequest];
 
-    if ([self isLoading]) {        
+    if ([self isLoading]) {
         [self refresh];
     }
     else {
@@ -95,31 +96,31 @@
     [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {    
+- (void)viewWillDisappear:(BOOL)animated {
     [self clearPendingRequest];
 }
 
 #pragma mark OBAModelServiceDelegate
 
--(void) updateProgress:(CGFloat)progress {
+- (void)updateProgress:(CGFloat)progress {
 }
 
--(void) refreshCompleteWithCode:(NSUInteger) statusCode {
-    if(200 <= statusCode && statusCode < 300) {
+- (void)refreshCompleteWithCode:(NSUInteger)statusCode {
+    if (200 <= statusCode && statusCode < 300) {
         [self refreshProgressLabel];
         [self.tableView reloadData];
     }
-    else if(statusCode == 404) {
+    else if (statusCode == 404) {
         [_progressView setMessage:@"Not found" inProgress:NO progress:0];
     }
     else {
         [_progressView setMessage:@"Unknown error" inProgress:NO progress:0];
     }
-    [self didRefreshEnd];
 
+    [self didRefreshEnd];
 }
 
--(void) refreshFailedWithError:(NSError *) error {
+- (void)refreshFailedWithError:(NSError *)error {
     OBALogWarningWithError(error, @"Error");
     [_progressView setMessage:@"Error connecting" inProgress:NO progress:0];
     [self didRefreshEnd];
@@ -135,30 +136,27 @@
     return 1;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+
     cell.textLabel.text = @"Updating...";
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.textLabel.textColor = [UIColor grayColor];
-    cell.textLabel.textAlignment = NSTextAlignmentCenter;    
-    
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+
     return cell;
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
 }
 
-- (void) clearPendingRequest {
+- (void)clearPendingRequest {
     [_timer invalidate];
     _timer = nil;
-    
+
     [_request cancel];
     _request = nil;
 }
@@ -167,8 +165,8 @@
     [self refresh];
 }
 
-- (void) checkTimer {
-    if( _refreshInterval > 0 ) {
+- (void)checkTimer {
+    if (_refreshInterval > 0) {
         _timer = [NSTimer scheduledTimerWithTimeInterval:_refreshInterval target:self selector:@selector(refresh) userInfo:nil repeats:YES];
     }
     else {
@@ -177,25 +175,24 @@
     }
 }
 
-- (void) refreshProgressLabel {
-    NSString * label = _progressLabel;
-    if( _showUpdateTime )
-        label = [NSString stringWithFormat:@"Updated: %@", [OBACommon getTimeAsString]];
+- (void)refreshProgressLabel {
+    NSString *label = _progressLabel;
+
+    if (_showUpdateTime) label = [NSString stringWithFormat:@"Updated: %@", [OBACommon getTimeAsString]];
+
     [_progressView setMessage:label inProgress:NO progress:0];
 }
 
-- (void) didRefreshBegin {    
-    UIBarButtonItem * refreshItem = [self.navigationItem rightBarButtonItem];
-    if( refreshItem )
-        [refreshItem setEnabled:NO];
-    
+- (void)didRefreshBegin {
+    UIBarButtonItem *refreshItem = [self.navigationItem rightBarButtonItem];
+
+    if (refreshItem) [refreshItem setEnabled:NO];
 }
 
-- (void) didRefreshEnd {
-    UIBarButtonItem * refreshItem = [self.navigationItem rightBarButtonItem];
-    if( refreshItem )
-        [refreshItem setEnabled:YES];
+- (void)didRefreshEnd {
+    UIBarButtonItem *refreshItem = [self.navigationItem rightBarButtonItem];
+
+    if (refreshItem) [refreshItem setEnabled:YES];
 }
 
 @end
-

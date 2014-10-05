@@ -4,16 +4,16 @@
 #import "OBAProgressIndicatorView.h"
 
 
-@interface OBATripScheduleMapViewController : UIViewController <MKMapViewDelegate> 
+@interface OBATripScheduleMapViewController : UIViewController <MKMapViewDelegate>
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate;
+- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate;
 
-@property (nonatomic,strong) OBAApplicationDelegate * appDelegate;
-@property (nonatomic,strong) OBAProgressIndicatorView * progressView;
-@property (nonatomic,strong) OBATripInstanceRef * tripInstance;
-@property (nonatomic,strong) OBATripDetailsV2 * tripDetails;
-@property (nonatomic,strong) NSString * currentStopId;
+@property (nonatomic, strong) OBAApplicationDelegate *appDelegate;
+@property (nonatomic, strong) OBAProgressIndicatorView *progressView;
+@property (nonatomic, strong) OBATripInstanceRef *tripInstance;
+@property (nonatomic, strong) OBATripDetailsV2 *tripDetails;
+@property (nonatomic, strong) NSString *currentStopId;
 
-- (void) showList:(id)source;
+- (void)showList:(id)source;
 
 @end

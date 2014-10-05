@@ -56,7 +56,7 @@
                                                       withMinutesBefore:(NSUInteger)minutesBefore
                                                        withMinutesAfter:(NSUInteger)minutesAfter
                                                         completionBlock:(OBADataSourceCompletion)completion
-                                                          progressBlock:(OBADataSourceProgress) progress;
+                                                          progressBlock:(OBADataSourceProgress)progress;
 /**
  *  Makes an asynchronous request for a set of stops within a given region
  *
@@ -81,7 +81,7 @@
  *  Makes an asynchronous request to get a set of stops for a given query, bounded by a region
  *
  *  @param stopQuery  A "stopCode" represented by a string
- *  @param region     A region 
+ *  @param region     A region
  *  @param completion The block to be called once the request completes, this is always executed on the main thread.
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
@@ -190,7 +190,7 @@
  */
 - (id<OBAModelServiceRequest>)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance
                                                 completionBlock:(OBADataSourceCompletion)completion
-                                                  progressBlock:(OBADataSourceProgress) progress;
+                                                  progressBlock:(OBADataSourceProgress)progress;
 /**
  *  Makes an asynchronous request to fetch a vehicle definition based on id
  *

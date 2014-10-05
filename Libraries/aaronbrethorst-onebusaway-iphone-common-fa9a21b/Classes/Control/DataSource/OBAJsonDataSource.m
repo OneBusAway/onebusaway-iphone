@@ -63,7 +63,7 @@
     return [self requestWithPath:path withArgs:nil completionBlock:completion progressBlock:nil];
 }
 
-- (id<OBADataSourceConnection>)requestWithPath:(NSString *)path withArgs:(NSString *)args completionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress) progress {
+- (id<OBADataSourceConnection>)requestWithPath:(NSString *)path withArgs:(NSString *)args completionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress {
     NSURL *feedURL = [self.config constructURL:path withArgs:args includeArgs:YES];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:feedURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
 
@@ -134,9 +134,10 @@
 }
 
 - (void)cancelOpenConnections {
-    for(JsonUrlFetcherImpl * fetcher in self.openConnections) {
+    for (JsonUrlFetcherImpl *fetcher in self.openConnections) {
         [fetcher cancel];
     }
+
     [self.openConnections removeAllObjects];
 }
 
@@ -185,12 +186,12 @@
 @end
 
 
-@interface JsonUrlFetcherImpl()<NSURLConnectionDelegate, NSURLConnectionDataDelegate>
+@interface JsonUrlFetcherImpl ()<NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
 @property (strong, nonatomic) NSURLConnection *connection;
 @property (assign, nonatomic) NSStringEncoding responseEncoding;
 @property (strong, nonatomic) NSMutableData *responseData;
-@property (strong, nonatomic) NSHTTPURLResponse * requestResponse;
+@property (strong, nonatomic) NSHTTPURLResponse *requestResponse;
 @property (assign, nonatomic) NSInteger expectedLength;
 
 @end
@@ -203,7 +204,6 @@
 
     dispatch_once(&onceToken, ^{
         connectionQueue = [[NSOperationQueue alloc] init];
-        connectionQueue.maxConcurrentOperationCount = 5;
     });
 
     self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
@@ -226,18 +226,20 @@
 #pragma mark NSURLConnection Delegate Methods
 
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
-    if (self.uploading && self.progressBlock) {
+    if (self.uploading) {
         float progress = ((float)totalBytesWritten) / totalBytesExpectedToWrite;
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.progressBlock(progress);
+            if(self.progressBlock) {
+                self.progressBlock(progress);
+            }
         });
     }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    self.requestResponse = (NSHTTPURLResponse*) response;
-    
+    self.requestResponse = (NSHTTPURLResponse *)response;
+
     NSString *textEncodingName = [response textEncodingName];
 
     if (textEncodingName) {
@@ -261,7 +263,9 @@
         }
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.progressBlock(progress);
+            if(self.progressBlock) {
+                self.progressBlock(progress);
+            }
         });
     }
 }
@@ -271,19 +275,19 @@
 
     id jsonObject = [NSJSONSerialization JSONObjectWithData:self.responseData options:0 error:&error];
 
-    if (self.completionBlock) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.completionBlock) {
             self.completionBlock(jsonObject, self.requestResponse.statusCode, error);
-        });
-    }
+        }
+    });
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    if (self.completionBlock) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.completionBlock) {
             self.completionBlock(nil, NSUIntegerMax, error);
-        });
-    }
+        }
+    });
 }
 
 @end
