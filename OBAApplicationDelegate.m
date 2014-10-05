@@ -280,6 +280,16 @@ static NSString *const kAllowTracking = @"allowTracking";
 
 #pragma mark - UITabBarControllerDelegate
 
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+    NSUInteger oldIndex = [self.tabBarController.viewControllers indexOfObject:[self.tabBarController selectedViewController]];
+    NSUInteger newIndex = [self.tabBarController.viewControllers indexOfObject:viewController];
+    if(newIndex == 0 && newIndex == oldIndex) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"OBAMapButtonRecenterNotification" object:nil];
+    }
+
+    return YES;
+}
+
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
     [[NSUserDefaults standardUserDefaults] setInteger:tabBarController.selectedIndex forKey:kOBASelectedTabIndexDefaultsKey];
     [[NSUserDefaults standardUserDefaults] synchronize];

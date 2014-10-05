@@ -1,5 +1,11 @@
 # Changelog for OneBusAway for iPhone
 
+## 2.*
+
+* Updated Google Analytics library
+* Fixed tracking bugs for experimental regions
+* Updated logging
+
 ## 2.2.1
 
 * Added new setting for high color contrast and reduced transparency

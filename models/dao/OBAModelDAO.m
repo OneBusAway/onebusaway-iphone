@@ -24,7 +24,7 @@
 #import "OBABookmarkGroup.h"
 #import "OBAAnalytics.h"
 
-const static int kMaxEntriesInMostRecentList = 10;
+const NSInteger kMaxEntriesInMostRecentList = 10;
 
 @interface OBAModelDAO ()
 
@@ -153,7 +153,7 @@ const static int kMaxEntriesInMostRecentList = 10;
         
     }
     
-    NSUInteger over = [_mostRecentCustomApiUrls count] - kMaxEntriesInMostRecentList;
+    NSInteger over = [_mostRecentCustomApiUrls count] - kMaxEntriesInMostRecentList;
     for( int i=0; i<over; i++)
         [_mostRecentCustomApiUrls removeObjectAtIndex:([_mostRecentCustomApiUrls count]-1)];
     
