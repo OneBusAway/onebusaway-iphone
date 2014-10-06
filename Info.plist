@@ -37,6 +37,8 @@
 	<true/>
 	<key>NSLocationUsageDescription</key>
 	<string>Your location will be used to show nearby stops and routes.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your location will be used to show nearby stops and routes.</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIStatusBarStyle</key>

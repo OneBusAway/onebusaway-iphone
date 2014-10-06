@@ -19,17 +19,11 @@
 
 static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 
-
-
 @interface OBALocationManager (Private)
 
--(void) handleNewLocation:(CLLocation*)location;
-
-
+- (void)handleNewLocation:(CLLocation*)location;
 
 @end
-
-
 
 @implementation OBALocationManager
 
@@ -78,6 +72,23 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 
 -(void) stopUpdatingLocation {
     [_locationManager stopUpdatingLocation];
+}
+
+#pragma mark - iOS 8 Location Manager Support
+
+- (BOOL)hasRequestedInUseAuthorization {
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        return [CLLocationManager authorizationStatus] != kCLAuthorizationStatusNotDetermined;
+    }
+    else {
+        return YES;
+    }
+}
+
+- (void)requestInUseAuthorization {
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        [_locationManager requestWhenInUseAuthorization];
+    }
 }
 
 #pragma mark CLLocationManagerDelegate

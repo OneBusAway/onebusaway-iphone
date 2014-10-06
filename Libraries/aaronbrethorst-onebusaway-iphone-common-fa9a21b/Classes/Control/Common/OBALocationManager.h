@@ -23,6 +23,9 @@
 @protocol OBALocationManagerDelegate <NSObject>
 - (void) locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location;
 - (void) locationManager:(OBALocationManager *)manager didFailWithError:(NSError*)error;
+
+@optional
+- (void)locationManager:(OBALocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status;
 @end
 
 
@@ -42,10 +45,14 @@
 @property (nonatomic,strong) CLLocation * currentLocation;
 @property (readonly, nonatomic) BOOL locationServicesEnabled;
 
-- (void) addDelegate:(id<OBALocationManagerDelegate>)delegate;
-- (void) removeDelegate:(id<OBALocationManagerDelegate>)delegate;
+- (void)addDelegate:(id<OBALocationManagerDelegate>)delegate;
+- (void)removeDelegate:(id<OBALocationManagerDelegate>)delegate;
 
--(void) startUpdatingLocation;
--(void) stopUpdatingLocation;
+- (void)startUpdatingLocation;
+- (void)stopUpdatingLocation;
+
+// iOS 8 Location Manager Support
+- (BOOL)hasRequestedInUseAuthorization;
+- (void)requestInUseAuthorization;
 
 @end
