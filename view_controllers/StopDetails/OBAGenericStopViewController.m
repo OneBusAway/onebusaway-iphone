@@ -191,11 +191,13 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
                 self.tableHeaderView.backgroundColor = [UIColor clearColor];
             }
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContrast) name:OBAIncreaseContrastToggledNotification object:nil];
+
+            CGFloat infoButtonOriginX = CGRectGetWidth(self.view.bounds) - 25.f - 10.f;
             
             self.highContrastStopInfoButton = [UIButton buttonWithType:UIButtonTypeCustom];
             [self.highContrastStopInfoButton setBackgroundImage:[UIImage imageNamed:@"InfoButton.png"]
                                                        forState:UIControlStateNormal];
-            [self.highContrastStopInfoButton setFrame:CGRectMake(285, 53, 25, 25)];
+            [self.highContrastStopInfoButton setFrame:CGRectMake(infoButtonOriginX, 53, 25, 25)];
             [self.highContrastStopInfoButton addTarget:self
                                     action:@selector(openURLS)
                           forControlEvents:UIControlEventTouchUpInside];
@@ -206,7 +208,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             [self.tableHeaderView addSubview:self.highContrastStopInfoButton];
             
             self.stopInfoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
-            [self.stopInfoButton setFrame:CGRectMake(285, 53, 25, 25)];
+
+            [self.stopInfoButton setFrame:CGRectMake(infoButtonOriginX, 53, 25, 25)];
             [self.stopInfoButton addTarget:self
                                     action:@selector(openURLS)
                           forControlEvents:UIControlEventTouchUpInside];
