@@ -365,6 +365,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 - (void)animateInScopeView {
     CGRect offscreenScopeFrame = self.scopeView.frame;
+    offscreenScopeFrame.size.width = CGRectGetWidth(self.view.frame);
     offscreenScopeFrame.origin.y = -offscreenScopeFrame.size.height;
     self.scopeView.frame = offscreenScopeFrame;
     [self.view addSubview:self.scopeView];
