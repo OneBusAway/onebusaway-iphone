@@ -42,7 +42,6 @@
 #import "OBAAnalytics.h"
 
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
-static NSString *kOBADidShowStopInfoHintDefaultsKey = @"OBADidShowStopInfoHintDefaultsKey";
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 @interface OBAGenericStopViewController ()
@@ -56,7 +55,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 @property(strong) OBAProgressIndicatorView * progressView;
 @property(strong) OBAServiceAlertsModel * serviceAlerts;
-@property (nonatomic, strong) EMHint *hint;
 @property(nonatomic, strong) UIButton *stopInfoButton;
 @property (nonatomic, strong) UIButton *highContrastStopInfoButton;
 
@@ -234,14 +232,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    if ([self shouldShowHint]) {
-        [self showHint];
-    }
-}
-
 - (void)refreshContrast {
     self.showInHighContrast = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey];
     if (self.showInHighContrast) {
@@ -357,53 +347,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     }
     
     return OBAStopSectionTypeNone;
-}
-
-#pragma mark Stop Info Hint
-
-- (NSArray *)hintStateRectsToHint:(id)hintState {
-    return @[ [NSValue valueWithCGRect:CGRectMake(297, 129, 30, 30)] ];
-}
-
-- (UIView *)hintStateViewForDialog:(id)hintState {
-    NSString *message = NSLocalizedString(@"Tap here to learn and share useful information about this stop", @"EMHint label");
-    NSString *accessMessage = NSLocalizedString(@"Access information about bus stops through the stop info button found after the name of the stop. Double tap to dismiss this message.", @"EMHint accessibility label");
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-    CGSize sz = [message sizeWithFont:label.font constrainedToSize:CGSizeMake(250, 1000)];
-    
-    CGRect frame = CGRectMake(floorf(150 - sz.width/2),
-                              floorf(250 - sz.height/2),
-                              floorf(sz.width + 5),
-                              floorf(sz.height + 10));
-    label.frame = frame;
-    label.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin
-                                | UIViewAutoresizingFlexibleRightMargin
-                                | UIViewAutoresizingFlexibleLeftMargin
-                                | UIViewAutoresizingFlexibleBottomMargin);
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor whiteColor];
-    label.numberOfLines = 0;
-    label.lineBreakMode = NSLineBreakByWordWrapping;
-    label.text = message;
-    label.accessibilityLabel = accessMessage;
-    
-    return label;
-}
-
-- (BOOL)shouldShowHint {
-    BOOL didShowHintAlready = [[NSUserDefaults standardUserDefaults] boolForKey:kOBADidShowStopInfoHintDefaultsKey];
-    OBARegionV2 *region = _appDelegate.modelDao.region;
-    BOOL validStopInfoRegion = ![region.stopInfoUrl isEqual:[NSNull null]];
-    return (!didShowHintAlready && validStopInfoRegion);
-}
-
-- (void)showHint {
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kOBADidShowStopInfoHintDefaultsKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    self.hint = [[EMHint alloc] init];
-    self.hint.hintDelegate = self;
-    [self.hint presentModalMessage:@"Tap here to view and submit more information about this stop with the new Stop Info service" where:self.view.superview];
 }
 
 #pragma mark OBANavigationTargetAware

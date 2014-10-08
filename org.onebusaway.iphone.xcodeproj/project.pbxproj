@@ -357,8 +357,6 @@
 		D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */; };
 		D69C598913F9BD6900BA90A2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D69C598713F9BD6900BA90A2 /* Localizable.strings */; };
 		FF5331F318AC4DEE00E0C791 /* OBAStopWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF5331F218AC4DEE00E0C791 /* OBAStopWebViewController.m */; };
-		FFA40DFC1894A7F800E37566 /* EMHint.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA40DF91894A7F800E37566 /* EMHint.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FFA40DFD1894A7F800E37566 /* EMHintsView.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA40DFB1894A7F800E37566 /* EMHintsView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FFBFE02A1863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBFE0291863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m */; };
 		FFCA85721863D24200F87DCA /* OBABookmarkGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FFCA85711863D24200F87DCA /* OBABookmarkGroup.m */; };
 		FFE76DCD186F94E10036D121 /* OBAEditBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFE76DCC186F94E10036D121 /* OBAEditBookmarkGroupViewController.m */; };
@@ -891,10 +889,6 @@
 		E81C7B051825DEBF0047C68C /* xcode5.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = xcode5.sh; sourceTree = "<group>"; };
 		FF5331F118AC4DEE00E0C791 /* OBAStopWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopWebViewController.h; sourceTree = "<group>"; };
 		FF5331F218AC4DEE00E0C791 /* OBAStopWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopWebViewController.m; sourceTree = "<group>"; };
-		FFA40DF81894A7F800E37566 /* EMHint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMHint.h; sourceTree = "<group>"; };
-		FFA40DF91894A7F800E37566 /* EMHint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMHint.m; sourceTree = "<group>"; };
-		FFA40DFA1894A7F800E37566 /* EMHintsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMHintsView.h; sourceTree = "<group>"; };
-		FFA40DFB1894A7F800E37566 /* EMHintsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMHintsView.m; sourceTree = "<group>"; };
 		FFBFE0281863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopBookmarkGroupViewController.h; sourceTree = "<group>"; };
 		FFBFE0291863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditStopBookmarkGroupViewController.m; sourceTree = "<group>"; };
 		FFCA85701863D24200F87DCA /* OBABookmarkGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkGroup.h; sourceTree = "<group>"; };
@@ -1771,7 +1765,6 @@
 			isa = PBXGroup;
 			children = (
 				08741E0D18B0358900251C1B /* GoogleAnalytics */,
-				FFA40DF71894A7EF00E37566 /* EMHint */,
 				9358469A17FB9DC30034200C /* TWSReleaseNotesView */,
 				92CAAE96179C4AF40097DD3D /* MarqueeLabel */,
 				933C7E2B160C07440005AAFE /* Common */,
@@ -1798,17 +1791,6 @@
 				E81C7B051825DEBF0047C68C /* xcode5.sh */,
 			);
 			path = travis;
-			sourceTree = "<group>";
-		};
-		FFA40DF71894A7EF00E37566 /* EMHint */ = {
-			isa = PBXGroup;
-			children = (
-				FFA40DF81894A7F800E37566 /* EMHint.h */,
-				FFA40DF91894A7F800E37566 /* EMHint.m */,
-				FFA40DFA1894A7F800E37566 /* EMHintsView.h */,
-				FFA40DFB1894A7F800E37566 /* EMHintsView.m */,
-			);
-			name = EMHint;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2129,7 +2111,6 @@
 				93AD3672160400F500BDF03F /* OBAAgencyWithCoverage.m in Sources */,
 				93AD3673160400F500BDF03F /* OBAArrivalsAndDeparturesForStop.m in Sources */,
 				93AD3674160400F500BDF03F /* OBABookmarkV2.m in Sources */,
-				FFA40DFC1894A7F800E37566 /* EMHint.m in Sources */,
 				93AD3675160400F500BDF03F /* OBANavigationTarget.m in Sources */,
 				93AD3676160400F500BDF03F /* OBAServiceAlertsModel.m in Sources */,
 				93AD3677160400F500BDF03F /* OBATrip.m in Sources */,
@@ -2203,7 +2184,6 @@
 				933C7F74160C07440005AAFE /* OBAArrivalAndDepartureV2.m in Sources */,
 				FFE76DCD186F94E10036D121 /* OBAEditBookmarkGroupViewController.m in Sources */,
 				933C7F75160C07440005AAFE /* OBAArrivalsAndDeparturesForStopV2.m in Sources */,
-				FFA40DFD1894A7F800E37566 /* EMHintsView.m in Sources */,
 				933C7F76160C07440005AAFE /* OBACurrentVehicleEstimateV2.m in Sources */,
 				933C7F77160C07440005AAFE /* OBAEntryWithReferencesV2.m in Sources */,
 				933C7F78160C07440005AAFE /* OBAFrequencyV2.m in Sources */,
