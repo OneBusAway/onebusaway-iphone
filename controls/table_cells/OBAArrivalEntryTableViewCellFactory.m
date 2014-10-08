@@ -61,6 +61,14 @@
         cell.minutesLabel.text = [self getMinutesLabelForMinutes:minutes];
         cell.minutesLabel.textColor = [self getMinutesColorForArrival:arrival];
         cell.minutesSubLabel.hidden = YES;
+        NSMutableAttributedString *statusColoredString = [[NSMutableAttributedString alloc] initWithString:cell.statusLabel.text];
+        NSRange startOfStatusSubstring = [cell.statusLabel.text rangeOfString:@"-"];
+        if (startOfStatusSubstring.location != NSNotFound){
+            [statusColoredString addAttribute:NSForegroundColorAttributeName
+                                    value:[self getMinutesColorForArrival:arrival]
+                                    range:NSMakeRange(startOfStatusSubstring.location + 1, [statusColoredString length] - (startOfStatusSubstring.location + 1))];
+        }
+        [cell.statusLabel setAttributedText:statusColoredString];
     }
     
     NSString *minutesUntilArrivalText;
@@ -99,7 +107,7 @@
             return [UIColor redColor];
         }
         else if( diff < 1.5 ) {
-            return [UIColor colorWithRed:0.0 green:0.5 blue:0.0 alpha:1.0];
+            return OBALABELGREEN;
         }
         else {
             return [UIColor blueColor];
