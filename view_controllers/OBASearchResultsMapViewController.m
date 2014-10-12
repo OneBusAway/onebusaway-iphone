@@ -228,6 +228,19 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onMapTabBarButton) name:@"OBAMapButtonRecenterNotification" object:nil];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        if (![APP_DELEGATE.locationManager hasRequestedInUseAuthorization]) {
+            [APP_DELEGATE.locationManager requestInUseAuthorization];
+        }
+    }
+    else {
+        self.mapView.showsUserLocation = YES;
+    }
+}
+
 - (void)contrastToggled {
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
@@ -493,6 +506,16 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (void)locationManager:(OBALocationManager *)manager didFailWithError:(NSError*)error {
     if (kCLErrorDomain == error.domain && kCLErrorDenied == error.code) {
         [self showLocationServicesAlert];
+    }
+}
+
+- (void)locationManager:(OBALocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+
+    // TODO: it would be nice to tell the user how to un-hose themselves
+    // if they accidentally deny location services to OBA.
+
+    if (status != kCLAuthorizationStatusNotDetermined && status != kCLAuthorizationStatusRestricted && status != kCLAuthorizationStatusDenied) {
+        self.mapView.showsUserLocation = YES;
     }
 }
 

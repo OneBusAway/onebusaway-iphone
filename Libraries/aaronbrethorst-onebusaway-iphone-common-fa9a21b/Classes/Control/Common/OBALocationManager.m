@@ -19,17 +19,11 @@
 
 static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 
-
-
 @interface OBALocationManager (Private)
 
--(void) handleNewLocation:(CLLocation*)location;
-
-
+- (void)handleNewLocation:(CLLocation*)location;
 
 @end
-
-
 
 @implementation OBALocationManager
 
@@ -80,6 +74,23 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
     [_locationManager stopUpdatingLocation];
 }
 
+#pragma mark - iOS 8 Location Manager Support
+
+- (BOOL)hasRequestedInUseAuthorization {
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        return [CLLocationManager authorizationStatus] != kCLAuthorizationStatusNotDetermined;
+    }
+    else {
+        return YES;
+    }
+}
+
+- (void)requestInUseAuthorization {
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        [_locationManager performSelector:@selector(requestWhenInUseAuthorization) withObject:nil];
+    }
+}
+
 #pragma mark CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
@@ -98,6 +109,15 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
             [(id<OBALocationManagerDelegate>)[_delegates objectAtIndex:i ] locationManager:self didFailWithError:error];
         }
 
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    for (id<OBALocationManagerDelegate> d in _delegates) {
+        if ([d respondsToSelector:@selector(locationManager:didChangeAuthorizationStatus:)]) {
+            [d locationManager:self didChangeAuthorizationStatus:status];
+        }
     }
 }
 
