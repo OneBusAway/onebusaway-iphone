@@ -39,6 +39,8 @@
 	<string>Your location will be used to show nearby stops and routes.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location will be used to show nearby stops and routes.</string>
+	<key>UILaunchStoryboardName</key>
+	<string>OBALaunchScreen</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIStatusBarStyle</key>

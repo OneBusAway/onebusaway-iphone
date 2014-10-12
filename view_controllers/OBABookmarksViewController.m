@@ -106,6 +106,10 @@
     return MAX(total, 1);
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return self.bookmarks.count > 0 || self.bookmarkGroups.count > 0;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     UITableViewCell * cell = nil;
