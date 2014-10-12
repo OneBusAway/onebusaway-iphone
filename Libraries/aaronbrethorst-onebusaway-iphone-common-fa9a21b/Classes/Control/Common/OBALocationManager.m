@@ -112,6 +112,15 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
     }
 }
 
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    for (id<OBALocationManagerDelegate> d in _delegates) {
+        if ([d respondsToSelector:@selector(locationManager:didChangeAuthorizationStatus:)]) {
+            [d locationManager:self didChangeAuthorizationStatus:status];
+        }
+    }
+}
+
 @end
 
 
