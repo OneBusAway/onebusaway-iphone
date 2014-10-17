@@ -57,6 +57,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 @interface OBASearchResultsMapViewController ()
+@property BOOL hideFutureOutOfRangeErrors;
+@property BOOL firstShowOutOfRangeAlertCall;
 @property BOOL hideFutureNetworkErrors;
 @property MKCoordinateRegion mostRecentRegion;
 @property(strong) CLLocation *mostRecentLocation;
@@ -134,6 +136,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     if (self) {
         self.title = NSLocalizedString(@"Map", @"Map tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"CrossHairs"];
+        self.firstShowOutOfRangeAlertCall = YES;
     }
     return self;
 }
@@ -718,7 +721,33 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     else if (alertView.tag == 2 && buttonIndex == 0) {
         OBANavigationTarget * target = [OBANavigationTarget target:OBANavigationTargetTypeAgencies];;
         [self.appDelegate navigateToTarget:target];
-    } 
+    }
+    else if (alertView.tag == 3) {
+        if (buttonIndex == 0) {
+            self.hideFutureOutOfRangeErrors = YES;
+        } else if (buttonIndex == 1) {
+            NSArray *boundsArray = self.appDelegate.modelDao.region.bounds;
+            double minX = DBL_MAX;
+            double minY = DBL_MAX;
+            double maxX = DBL_MIN;
+            double maxY = DBL_MIN;
+            for (OBARegionBoundsV2 *bounds in boundsArray) {
+                MKMapPoint a = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
+                                                                                  bounds.lat+ bounds.latSpan/ 2,
+                                                                                  bounds.lon - bounds.lonSpan/ 2));
+                MKMapPoint b = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
+                                                                                  bounds.lat - bounds.latSpan / 2,
+                                                                                  bounds.lon + bounds.lonSpan / 2));
+                minX = MIN(minX, MIN(a.x, b.x));
+                minY = MIN(minY, MIN(a.y, b.y));
+                maxX = MAX(maxX, MAX(a.x, b.x));
+                maxY = MAX(maxY, MAX(a.y, b.y));
+            }
+            MKMapRect serviceRect = MKMapRectMake(minX, minY, maxX - minX, maxY - minY);
+            
+            [self.mapRegionManager setRegion:MKCoordinateRegionForMapRect(serviceRect)];
+        }
+    }
 }
 
 #pragma mark - IBActions
@@ -880,6 +909,10 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     [self refreshSearchToolbar];
     [self checkResults];
+    
+    if (self.appDelegate.modelDao.region && [self outOfServiceArea]) {
+        [self showOutOfRangeAlert];
+    }
 }
 
 - (void) applyMapLabelWithText:(NSString*)labelText {
@@ -912,6 +945,25 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     }
     else {
         return [[CLLocation alloc] initWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude];
+    }
+}
+
+- (void) showOutOfRangeAlert {
+    // Workaround to avoid showing this when the app first loads
+    if (self.firstShowOutOfRangeAlertCall) {
+        self.firstShowOutOfRangeAlertCall = NO;
+        return;
+    }
+    if (!self.hideFutureOutOfRangeErrors) {
+        UIAlertView * view = [[UIAlertView alloc] init];
+        view.delegate = self;
+        view.tag = 3;
+        view.title = NSLocalizedString(@"Out of range",@"view.title");
+        view.message = [NSString stringWithFormat:NSLocalizedString(@"You are out of the %@ service area\n\nGo there now?",@"view.message"), self.appDelegate.modelDao.region.regionName];
+        [view addButtonWithTitle:NSLocalizedString(@"Stay where I am",@"view addButtonWithTitle")];
+        [view addButtonWithTitle:NSLocalizedString(@"Take me there",@"view addButtonWithTitle")];
+        view.cancelButtonIndex = 0;
+        [view show];
     }
 }
 
