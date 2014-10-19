@@ -78,6 +78,26 @@ static NSString * kStopInfoUrl = @"stopInfoUrl";
     return distance;
 }
 
+- (MKMapRect)serviceRect {
+    double minX = DBL_MAX;
+    double minY = DBL_MAX;
+    double maxX = DBL_MIN;
+    double maxY = DBL_MIN;
+    for (OBARegionBoundsV2 *bounds in self.bounds) {
+        MKMapPoint a = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
+                                                bounds.lat+ bounds.latSpan/ 2,
+                                                bounds.lon - bounds.lonSpan/ 2));
+        MKMapPoint b = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
+                                                bounds.lat - bounds.latSpan / 2,
+                                                bounds.lon + bounds.lonSpan / 2));
+        minX = MIN(minX, MIN(a.x, b.x));
+        minY = MIN(minY, MIN(a.y, b.y));
+        maxX = MAX(maxX, MAX(a.x, b.x));
+        maxY = MAX(maxY, MAX(a.y, b.y));
+    }
+    return MKMapRectMake(minX, minY, maxX - minX, maxY - minY);
+}
+
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [encoder encodeObject:self.siriBaseUrl forKey:kSiriBaseUrl];
     [encoder encodeObject:self.obaVersionInfo forKey:kObaVersionInfo];

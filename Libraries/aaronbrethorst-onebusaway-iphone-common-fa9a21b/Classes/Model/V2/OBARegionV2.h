@@ -33,5 +33,6 @@
 
 - (void)addBound:(OBARegionBoundsV2*)bound;
 - (CLLocationDistance)distanceFromLocation:(CLLocation*)location;
+- (MKMapRect)serviceRect;
 
 @end
