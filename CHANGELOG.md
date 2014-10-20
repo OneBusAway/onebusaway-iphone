@@ -1,7 +1,8 @@
 # Changelog for OneBusAway for iPhone
 
-## 2.2.2
+## 2.3
 
+* Adds notification for when user is outside selected region
 * Fixes bug with setting Custom API URLs
 * Fixes bug with bookmark edits causing crash
 * Optimization for iPhone 6/6+ screen resolutions
@@ -9,6 +10,7 @@
 * Updates status label to match minute colors
 * Tapping map tab button while in Map tab now centers on current location
 * Analytics updates and fixes
+
 
 ## 2.2.1
 
