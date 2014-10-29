@@ -726,7 +726,9 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     else if (alertView.tag == kOBAOutOfRangeAlertViewTag) {
         if (buttonIndex == 0) {
             self.hideFutureOutOfRangeErrors = YES;
+            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Out of Region Alert: NO" value:nil];
         } else if (buttonIndex == 1) {
+            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Out of Region Alert: YES" value:nil];
             MKMapRect serviceRect = [self.appDelegate.modelDao.region serviceRect];
             [self.mapRegionManager setRegion:MKCoordinateRegionForMapRect(serviceRect)];
         }
