@@ -35,6 +35,7 @@
 #import "OBAReleaseNotesManager.h"
 
 #import "TestFlight.h"
+#import "OBAAnalytics.h"
 
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 static NSString * kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
@@ -204,34 +205,38 @@ static NSString *const kAllowTracking = @"allowTracking";
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    //setup TestFlight
 #ifdef DEBUG
     // if beta testing use token for org.onebusaway.iphone.dev
     [TestFlight takeOff:@"1329bac8-596e-4c80-a180-31aad3eb676a"];
     NSLog(@"Debug app");
     static BOOL const kGaDryRun = YES;
-    //ULog(@"Debug app");
 #else
     // if app store version use token for org.onebusaway.iphone
     [TestFlight takeOff:@"28959455-6425-40fb-a08c-204cb2a80421"];
     NSLog(@"Production app");
     static BOOL const kGaDryRun = NO;
-    //ULog(@"Production app");
-    
 #endif
 
+    //setup Google Analytics
     NSDictionary *appDefaults = @{kAllowTracking: @(YES)};
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
     // User must be able to opt out of tracking
     [GAI sharedInstance].optOut =
     ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
     // Initialize Google Analytics with a 120-second dispatch interval. There is a
-    // tradeoff between battery usage and timely dispatch.
+    // tradeoff between battery usage and timely dispatch. Default is 120 -- see more details at
+    // https://developers.google.com/analytics/devguides/collection/ios/v3/dispatch
     [GAI sharedInstance].dispatchInterval = 120;
     [GAI sharedInstance].trackUncaughtExceptions = YES;
     [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
+//don't report to Google Analytics when developing
+#ifdef DEBUG
     [[GAI sharedInstance] setDryRun:kGaDryRun];
-    
+#endif    
     self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
+
     [self _migrateUserPreferences];
     [self _constructUI];
 
@@ -259,26 +264,31 @@ static NSString *const kAllowTracking = @"allowTracking";
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     if([self.modelDao.readCustomApiUrl isEqualToString:@""]) {
-        [TestFlight passCheckpoint:[NSString stringWithFormat:@"API Region: %@",self.modelDao.region.regionName]];
-        [[GAI sharedInstance].defaultTracker
-         send:[[GAIDictionaryBuilder createEventWithCategory:@"app_settings"
-                                                      action:@"configured_region"
-                                                       label:[NSString stringWithFormat:@"API Region: %@",self.modelDao.region.regionName]
-                                                       value:nil] build]];
+        [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"configured_region" label:[NSString stringWithFormat:@"API Region: %@",self.modelDao.region.regionName] value:nil];
     }else{
-        [TestFlight passCheckpoint:[NSString stringWithFormat:@"API Region: %@",self.modelDao.readCustomApiUrl]];
-        [[GAI sharedInstance].defaultTracker
-         send:[[GAIDictionaryBuilder createEventWithCategory:@"app_settings"
-                                                      action:@"configured_region"
-                                                       label:[NSString stringWithFormat:@"API Region: %@",self.modelDao.readCustomApiUrl]
-                                                       value:nil] build]];
+        [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"configured_region" label:[NSString stringWithFormat:@"API Region: %@",self.modelDao.readCustomApiUrl] value:nil];
     }
-    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
-                                       value:nil];
+    [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", (self.modelDao.readSetRegionAutomatically ? @"YES" : @"NO")] value:nil];
+
+    BOOL _showExperimentalRegions = NO;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey: @"kOBAShowExperimentalRegionsDefaultsKey"])
+        _showExperimentalRegions = [[NSUserDefaults standardUserDefaults] boolForKey: @"kOBAShowExperimentalRegionsDefaultsKey"];
+    [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"general" label:[NSString stringWithFormat:@"Show Experimental Regions: %@", (_showExperimentalRegions ? @"YES" : @"NO")] value:nil];
+    
     self.active = NO;
 }
 
 #pragma mark - UITabBarControllerDelegate
+
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+    NSUInteger oldIndex = [self.tabBarController.viewControllers indexOfObject:[self.tabBarController selectedViewController]];
+    NSUInteger newIndex = [self.tabBarController.viewControllers indexOfObject:viewController];
+    if(newIndex == 0 && newIndex == oldIndex) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"OBAMapButtonRecenterNotification" object:nil];
+    }
+
+    return YES;
+}
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
     [[NSUserDefaults standardUserDefaults] setInteger:tabBarController.selectedIndex forKey:kOBASelectedTabIndexDefaultsKey];
@@ -287,11 +297,32 @@ static NSString *const kAllowTracking = @"allowTracking";
 
 - (void)_updateSelectedTabIndex {
     NSInteger selectedIndex = 0;
+    NSString * startupView = nil;
 
     if ([[NSUserDefaults standardUserDefaults] objectForKey:kOBASelectedTabIndexDefaultsKey]) {
         selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
     }
     self.tabBarController.selectedIndex = selectedIndex;
+
+    switch (selectedIndex) {
+        case 0:
+            startupView = @"OBASearchResultsMapViewController";
+            break;
+        case 1:
+            startupView = @"OBARecentStopsViewController";
+            break;
+        case 2:
+            startupView = @"OBABookmarksViewController";
+            break;
+        case 3:
+            startupView = @"OBAInfoViewController";
+            break;
+        default:
+            startupView = @"Unknown";
+            break;
+    }
+
+    [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"startup" label:[NSString stringWithFormat:@"Startup View: %@",startupView] value:nil];
 }
 
 - (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget {

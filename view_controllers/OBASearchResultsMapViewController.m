@@ -34,12 +34,14 @@
 #import "OBAPresentation.h"
 #import "OBAInfoViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "OBAAnalytics.h"
 
 #define kScopeViewAnimationDuration 0.25
 #define kRouteSegmentIndex 0
 #define kAddressSegmentIndex 1
 #define kStopNumberSegmentIndex 2
 #define kMapLabelAnimationDuration 0.25
+#define kOBAOutOfRangeAlertViewTag 3
 
 // Radius in meters
 static const double kDefaultMapRadius = 100;
@@ -56,6 +58,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 @interface OBASearchResultsMapViewController ()
+@property BOOL hideFutureOutOfRangeErrors;
+@property BOOL firstShowOutOfRangeAlertCall;
 @property BOOL hideFutureNetworkErrors;
 @property MKCoordinateRegion mostRecentRegion;
 @property(strong) CLLocation *mostRecentLocation;
@@ -133,6 +137,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     if (self) {
         self.title = NSLocalizedString(@"Map", @"Map tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"CrossHairs"];
+        self.firstShowOutOfRangeAlertCall = YES;
     }
     return self;
 }
@@ -224,6 +229,20 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contrastToggled) name:OBAIncreaseContrastToggledNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onMapTabBarButton) name:@"OBAMapButtonRecenterNotification" object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        if (![APP_DELEGATE.locationManager hasRequestedInUseAuthorization]) {
+            [APP_DELEGATE.locationManager requestInUseAuthorization];
+        }
+    }
+    else {
+        self.mapView.showsUserLocation = YES;
+    }
 }
 
 - (void)contrastToggled {
@@ -241,12 +260,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 }
 
 - (void)setHighContrastStyle {
-    [[GAI sharedInstance].defaultTracker
-     send:[[GAIDictionaryBuilder createEventWithCategory:@"accessibility"
-                                                  action:@"increase_contrast"
-                                                   label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]]
-                                                   value:nil] build]];
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]]];
+    [OBAAnalytics reportEventWithCategory:@"accessibility" action:@"increase_contrast" label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]] value:nil];
     
     self.searchBar.searchBarStyle = UISearchBarStyleDefault;
     self.searchBar.barTintColor = OBADARKGREEN;
@@ -280,11 +294,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
-                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker
-     send:[[GAIDictionaryBuilder createAppView] build]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteNetworkRequest) name:OBAApplicationDidCompleteNetworkRequestNotification object:nil];
 
     OBALocationManager * lm = self.appDelegate.locationManager;
@@ -296,6 +305,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     if (self.searchController.unfilteredSearch) {
         [self refreshStopsInRegion];
     }
+
+    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -319,6 +330,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 #pragma mark - UISearchBarDelegate
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Search box selected" value:nil];
+
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     [self.navigationItem setRightBarButtonItem:nil animated:YES];
     [searchBar setShowsCancelButton:YES animated:YES];
@@ -338,22 +351,28 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Cancel search button clicked" value:nil];
+
     [searchBar endEditing:YES];
     [self cancelPressed];
-
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Search button clicked" value:nil];
+
     OBANavigationTarget* target = nil;
     self.searchController.searchRegion = [self convertVisibleMapIntoCLRegion];
     if (kRouteSegmentIndex == self.searchTypeSegmentedControl.selectedSegmentIndex) {
         target = [OBASearch getNavigationTargetForSearchRoute:searchBar.text];
+        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Search: Route" value:nil];
     }
     else if (kAddressSegmentIndex == self.searchTypeSegmentedControl.selectedSegmentIndex) {
         target = [OBASearch getNavigationTargetForSearchAddress:searchBar.text];
+        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Search: Address" value:nil];
     }
     else {
         target = [OBASearch getNavigationTargetForSearchStopCode:searchBar.text];
+        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Search: Stop" value:nil];
     }
 
     [self.appDelegate navigateToTarget:target];
@@ -363,6 +382,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 - (void)animateInScopeView {
     CGRect offscreenScopeFrame = self.scopeView.frame;
+    offscreenScopeFrame.size.width = CGRectGetWidth(self.view.frame);
     offscreenScopeFrame.origin.y = -offscreenScopeFrame.size.height;
     self.scopeView.frame = offscreenScopeFrame;
     [self.view addSubview:self.scopeView];
@@ -490,6 +510,16 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (void)locationManager:(OBALocationManager *)manager didFailWithError:(NSError*)error {
     if (kCLErrorDomain == error.domain && kCLErrorDenied == error.code) {
         [self showLocationServicesAlert];
+    }
+}
+
+- (void)locationManager:(OBALocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+
+    // TODO: it would be nice to tell the user how to un-hose themselves
+    // if they accidentally deny location services to OBA.
+
+    if (status != kCLAuthorizationStatusNotDetermined && status != kCLAuthorizationStatusRestricted && status != kCLAuthorizationStatusDenied) {
+        self.mapView.showsUserLocation = YES;
     }
 }
 
@@ -692,15 +722,35 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     else if (alertView.tag == 2 && buttonIndex == 0) {
         OBANavigationTarget * target = [OBANavigationTarget target:OBANavigationTargetTypeAgencies];;
         [self.appDelegate navigateToTarget:target];
-    } 
+    }
+    else if (alertView.tag == kOBAOutOfRangeAlertViewTag) {
+        if (buttonIndex == 0) {
+            self.hideFutureOutOfRangeErrors = YES;
+            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Out of Region Alert: NO" value:nil];
+        } else if (buttonIndex == 1) {
+            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Out of Region Alert: YES" value:nil];
+            MKMapRect serviceRect = [self.appDelegate.modelDao.region serviceRect];
+            [self.mapRegionManager setRegion:MKCoordinateRegionForMapRect(serviceRect)];
+        }
+    }
 }
 
 #pragma mark - IBActions
 
 - (IBAction)onCrossHairsButton:(id)sender {
+    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Clicked My Location Button" value:nil];
     OBALogDebug(@"setting auto center on current location");
     self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
     [self refreshCurrentLocation];
+}
+
+- (void)onMapTabBarButton {
+    if (self.isViewLoaded && self.view.window) {
+        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"My Location via Map Tab Button" value:nil];
+        OBALogDebug(@"setting auto center on current location (via tab bar)");
+        self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
+        [self refreshCurrentLocation];
+    }
 }
 
 
@@ -734,7 +784,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     CLLocation * location = lm.currentLocation;
 
     if( location ) {
-        OBALogDebug(@"refreshCurrentLocation: auto center on current location: %d", self.mapRegionManager.lastRegionChangeWasProgramatic);
+        //OBALogDebug(@"refreshCurrentLocation: auto center on current location: %d", self.mapRegionManager.lastRegionChangeWasProgramatic);
         
         if (self.mapRegionManager.lastRegionChangeWasProgramatic) {
             double radius = MAX(location.horizontalAccuracy,kMinMapRadius);
@@ -844,6 +894,10 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     [self refreshSearchToolbar];
     [self checkResults];
+    
+    if (self.appDelegate.modelDao.region && [self outOfServiceArea]) {
+        [self showOutOfRangeAlert];
+    }
 }
 
 - (void) applyMapLabelWithText:(NSString*)labelText {
@@ -876,6 +930,26 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     }
     else {
         return [[CLLocation alloc] initWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude];
+    }
+}
+
+- (void) showOutOfRangeAlert {
+    // Workaround to avoid showing this when the app first loads
+    if (self.firstShowOutOfRangeAlertCall) {
+        self.firstShowOutOfRangeAlertCall = NO;
+        return;
+    }
+    if (!self.hideFutureOutOfRangeErrors) {
+        UIAlertView * view = [[UIAlertView alloc] init];
+        view.delegate = self;
+        view.tag = kOBAOutOfRangeAlertViewTag;
+        NSString *regionName = self.appDelegate.modelDao.region.regionName;
+        view.title = [NSString stringWithFormat:NSLocalizedString(@"Go to %@?",@"Out of range alert title"), regionName];
+        view.message = [NSString stringWithFormat:NSLocalizedString(@"You are out of the %@ service area. Go there now?",@"Out of range alert message"), regionName];
+        [view addButtonWithTitle:NSLocalizedString(@"No",@"Out of range alert Cancel button")];
+        [view addButtonWithTitle:NSLocalizedString(@"Yes",@"Out of range alert OK button")];
+        view.cancelButtonIndex = 0;
+        [view show];
     }
 }
 

@@ -37,11 +37,21 @@
     NSDate * time = [NSDate dateWithTimeIntervalSince1970:(arrival.bestDepartureTime / 1000)];            
     NSTimeInterval interval = [time timeIntervalSinceNow];
     int minutes = interval / 60;
+    NSMutableAttributedString * attributedStatusLabel = [[NSMutableAttributedString alloc]
+                                             initWithString:[NSString stringWithFormat:@"%@ - ",[_timeFormatter stringFromDate:time]]
+                                             attributes:nil];
+    NSMutableAttributedString *statusColoredString = [[NSMutableAttributedString alloc]
+                                                      initWithString:[self getStatusLabelForArrival:arrival time:time minutes:minutes]];
+    
+    [statusColoredString addAttribute:NSForegroundColorAttributeName
+                                value:[self getMinutesColorForArrival:arrival]
+                                range:NSMakeRange(0, [statusColoredString length])];
+    [attributedStatusLabel appendAttributedString:statusColoredString];
     
     cell.destinationLabel.text = [OBAPresentation getTripHeadsignForArrivalAndDeparture:arrival];
     cell.routeLabel.text = [OBAPresentation getRouteShortNameForArrivalAndDeparture:arrival];
-    cell.statusLabel.text = [self getStatusLabelForArrival:arrival time:time minutes:minutes];
     cell.alertStyle = [self getAlertStyleForArrival:arrival];
+    [cell.statusLabel setAttributedText:attributedStatusLabel];
 
     if( arrival.predicted && arrival.predictedDepartureTime == 0 ) {
         if( arrival.distanceFromStop < 500 ) {
@@ -99,7 +109,7 @@
             return [UIColor redColor];
         }
         else if( diff < 1.5 ) {
-            return [UIColor colorWithRed:0.0 green:0.5 blue:0.0 alpha:1.0];
+            return OBALABELGREEN;
         }
         else {
             return [UIColor blueColor];
@@ -159,7 +169,7 @@
             status = NSLocalizedString(@"scheduled arrival",@"minutes >= 0");
     }
     
-    return [NSString stringWithFormat:@"%@ - %@",[_timeFormatter stringFromDate:time],status];    
+    return status;
 }
 
 - (OBAArrivalEntryTableViewCellAlertStyle) getAlertStyleForArrival:(OBAArrivalAndDepartureV2*)arrival {

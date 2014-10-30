@@ -11,6 +11,7 @@
 #import "OBAAgenciesListViewController.h"
 #import "OBASettingsViewController.h"
 #import "OBACreditsViewController.h"
+#import "OBAAnalytics.h"
 
 #define kSettingsRow 0
 #define kAgenciesRow 1
@@ -41,11 +42,8 @@
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableHeaderView = self.headerView;
     self.tableView.frame = self.view.bounds;
-    [TestFlight passCheckpoint:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker set:kGAIScreenName
-                                       value:[NSString stringWithFormat:@"View: %@", [self class]]];
-    [[GAI sharedInstance].defaultTracker
-     send:[[GAIDictionaryBuilder createAppView] build]];
+    
+    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -144,23 +142,13 @@
             break;
         }
         case kFeatureRequests: {
-            [TestFlight passCheckpoint:@"Clicked Feature Request Link"];
-            [[GAI sharedInstance].defaultTracker
-             send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
-                                                          action:@"button_press"
-                                                           label:@"Clicked Feature Request Link"
-                                                           value:nil] build]];
+            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Clicked Feature Request Link" value:nil];
             NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.ideascale.com/a/ideafactory.do?id=8715&mode=top&discussionFilter=byids&discussionID=46166",@"didSelectRowAtIndexPath case 1")];
             [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             break;
         }
         case kPrivacy: {
-            [TestFlight passCheckpoint:@"Clicked Privacy Policy Link"];
-            [[GAI sharedInstance].defaultTracker
-             send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"
-                                                          action:@"button_press"
-                                                           label:@"Clicked Privacy Policy Link"
-                                                           value:nil] build]];
+            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
             NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.org/privacy/",@"didSelectRowAtIndexPath case 3")];
             [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             break;

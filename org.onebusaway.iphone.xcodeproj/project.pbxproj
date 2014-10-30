@@ -267,6 +267,7 @@
 		933C8037160C07440005AAFE /* OBATextEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F58160C07440005AAFE /* OBATextEditViewController.xib */; };
 		933C8038160C07440005AAFE /* OBATextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F59160C07440005AAFE /* OBATextFieldTableViewCell.xib */; };
 		933C8039160C07440005AAFE /* OBAWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F5A160C07440005AAFE /* OBAWebViewController.xib */; };
+		933C803C160C07440005AAFE /* OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C803B160C07440005AAFE /* OBAAnalytics.m */; };
 		935846A717FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358469F17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m */; };
 		935846A817FB9DC30034200C /* TWSReleaseNotesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 935846A117FB9DC30034200C /* TWSReleaseNotesView.m */; };
 		935846A917FB9DC30034200C /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 935846A317FB9DC30034200C /* UIImage+ImageEffects.m */; };
@@ -340,6 +341,7 @@
 		93ADBBB5161618850092994E /* lines@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93ADBBB3161618850092994E /* lines@2x.png */; };
 		93D878C5166450AC00FCEFFB /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = 93D878C3166450AC00FCEFFB /* map.png */; };
 		93D878C6166450AC00FCEFFB /* map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93D878C4166450AC00FCEFFB /* map@2x.png */; };
+		93E0954719CE051700A31BA6 /* OBALaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */; };
 		96ADB3DB17BDD4D700314D65 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ADB3D517BDD4D600314D65 /* libTestFlight.a */; };
 		96ADB3DF17BDD5DA00314D65 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ADB3DE17BDD5DA00314D65 /* libz.dylib */; };
 		A005943E13FC43A9001B397B /* OBASearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005943C13FC43A9001B397B /* OBASearchTableViewCell.xib */; };
@@ -355,8 +357,6 @@
 		D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */; };
 		D69C598913F9BD6900BA90A2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D69C598713F9BD6900BA90A2 /* Localizable.strings */; };
 		FF5331F318AC4DEE00E0C791 /* OBAStopWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF5331F218AC4DEE00E0C791 /* OBAStopWebViewController.m */; };
-		FFA40DFC1894A7F800E37566 /* EMHint.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA40DF91894A7F800E37566 /* EMHint.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FFA40DFD1894A7F800E37566 /* EMHintsView.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA40DFB1894A7F800E37566 /* EMHintsView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FFBFE02A1863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBFE0291863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m */; };
 		FFCA85721863D24200F87DCA /* OBABookmarkGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FFCA85711863D24200F87DCA /* OBABookmarkGroup.m */; };
 		FFE76DCD186F94E10036D121 /* OBAEditBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFE76DCC186F94E10036D121 /* OBAEditBookmarkGroupViewController.m */; };
@@ -719,6 +719,8 @@
 		933C7F58160C07440005AAFE /* OBATextEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBATextEditViewController.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBATextEditViewController.xib"; sourceTree = "<group>"; };
 		933C7F59160C07440005AAFE /* OBATextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBATextFieldTableViewCell.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBATextFieldTableViewCell.xib"; sourceTree = "<group>"; };
 		933C7F5A160C07440005AAFE /* OBAWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBAWebViewController.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBAWebViewController.xib"; sourceTree = "<group>"; };
+		933C803A160C07440005AAFE /* OBAAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAnalytics.h; sourceTree = "<group>"; };
+		933C803B160C07440005AAFE /* OBAAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAnalytics.m; sourceTree = "<group>"; };
 		9358469E17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TWSReleaseNotesDownloadOperation.h; sourceTree = "<group>"; };
 		9358469F17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TWSReleaseNotesDownloadOperation.m; sourceTree = "<group>"; };
 		935846A017FB9DC30034200C /* TWSReleaseNotesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TWSReleaseNotesView.h; sourceTree = "<group>"; };
@@ -856,6 +858,7 @@
 		93ADBBB3161618850092994E /* lines@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lines@2x.png"; path = "../../../../Resources/lines@2x.png"; sourceTree = "<group>"; };
 		93D878C3166450AC00FCEFFB /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = map.png; path = ../../../../Resources/map.png; sourceTree = "<group>"; };
 		93D878C4166450AC00FCEFFB /* map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "map@2x.png"; path = "../../../../Resources/map@2x.png"; sourceTree = "<group>"; };
+		93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBALaunchScreen.xib; path = xibs/OBALaunchScreen.xib; sourceTree = "<group>"; };
 		96ADB3D517BDD4D600314D65 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		96ADB3D617BDD4D700314D65 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		96ADB3D717BDD4D700314D65 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
@@ -886,10 +889,6 @@
 		E81C7B051825DEBF0047C68C /* xcode5.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = xcode5.sh; sourceTree = "<group>"; };
 		FF5331F118AC4DEE00E0C791 /* OBAStopWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopWebViewController.h; sourceTree = "<group>"; };
 		FF5331F218AC4DEE00E0C791 /* OBAStopWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopWebViewController.m; sourceTree = "<group>"; };
-		FFA40DF81894A7F800E37566 /* EMHint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMHint.h; sourceTree = "<group>"; };
-		FFA40DF91894A7F800E37566 /* EMHint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMHint.m; sourceTree = "<group>"; };
-		FFA40DFA1894A7F800E37566 /* EMHintsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMHintsView.h; sourceTree = "<group>"; };
-		FFA40DFB1894A7F800E37566 /* EMHintsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMHintsView.m; sourceTree = "<group>"; };
 		FFBFE0281863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopBookmarkGroupViewController.h; sourceTree = "<group>"; };
 		FFBFE0291863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditStopBookmarkGroupViewController.m; sourceTree = "<group>"; };
 		FFCA85701863D24200F87DCA /* OBABookmarkGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkGroup.h; sourceTree = "<group>"; };
@@ -1090,6 +1089,8 @@
 				933C7E32160C07440005AAFE /* OBALocationManager.m */,
 				933C7E33160C07440005AAFE /* OBALogger.h */,
 				933C7E34160C07440005AAFE /* OBALogger.m */,
+				933C803A160C07440005AAFE /* OBAAnalytics.h */,
+				933C803B160C07440005AAFE /* OBAAnalytics.m */,
 				933C7E35160C07440005AAFE /* OBAModelFactory.h */,
 				933C7E36160C07440005AAFE /* OBAModelFactory.m */,
 				933C7E37160C07440005AAFE /* OBAModelService.h */,
@@ -1742,6 +1743,7 @@
 				933C7F58160C07440005AAFE /* OBATextEditViewController.xib */,
 				933C7F5A160C07440005AAFE /* OBAWebViewController.xib */,
 				A005945513FC49A0001B397B /* OBATripScheduleMapViewController.xib */,
+				93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1763,7 +1765,6 @@
 			isa = PBXGroup;
 			children = (
 				08741E0D18B0358900251C1B /* GoogleAnalytics */,
-				FFA40DF71894A7EF00E37566 /* EMHint */,
 				9358469A17FB9DC30034200C /* TWSReleaseNotesView */,
 				92CAAE96179C4AF40097DD3D /* MarqueeLabel */,
 				933C7E2B160C07440005AAFE /* Common */,
@@ -1790,17 +1791,6 @@
 				E81C7B051825DEBF0047C68C /* xcode5.sh */,
 			);
 			path = travis;
-			sourceTree = "<group>";
-		};
-		FFA40DF71894A7EF00E37566 /* EMHint */ = {
-			isa = PBXGroup;
-			children = (
-				FFA40DF81894A7F800E37566 /* EMHint.h */,
-				FFA40DF91894A7F800E37566 /* EMHint.m */,
-				FFA40DFA1894A7F800E37566 /* EMHintsView.h */,
-				FFA40DFB1894A7F800E37566 /* EMHintsView.m */,
-			);
-			name = EMHint;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1930,6 +1920,7 @@
 				933C7FD2160C07440005AAFE /* Mode-LightRail@2x.png in Resources */,
 				933C7FD3160C07440005AAFE /* Mode-Rail-Selected.png in Resources */,
 				933C7FD4160C07440005AAFE /* Mode-Rail-Selected@2x.png in Resources */,
+				93E0954719CE051700A31BA6 /* OBALaunchScreen.xib in Resources */,
 				933C7FD5160C07440005AAFE /* Mode-Rail.png in Resources */,
 				933C7FD6160C07440005AAFE /* Mode-Rail@2x.png in Resources */,
 				933C7FD7160C07440005AAFE /* Mode-Walk-Selected.png in Resources */,
@@ -2120,7 +2111,6 @@
 				93AD3672160400F500BDF03F /* OBAAgencyWithCoverage.m in Sources */,
 				93AD3673160400F500BDF03F /* OBAArrivalsAndDeparturesForStop.m in Sources */,
 				93AD3674160400F500BDF03F /* OBABookmarkV2.m in Sources */,
-				FFA40DFC1894A7F800E37566 /* EMHint.m in Sources */,
 				93AD3675160400F500BDF03F /* OBANavigationTarget.m in Sources */,
 				93AD3676160400F500BDF03F /* OBAServiceAlertsModel.m in Sources */,
 				93AD3677160400F500BDF03F /* OBATrip.m in Sources */,
@@ -2166,6 +2156,7 @@
 				933C7F5C160C07440005AAFE /* OBALocationManager.m in Sources */,
 				935846AE17FBA2D00034200C /* OBAReleaseNotesManager.m in Sources */,
 				933C7F5D160C07440005AAFE /* OBALogger.m in Sources */,
+				933C803C160C07440005AAFE /* OBAAnalytics.m in Sources */,
 				933C7F5E160C07440005AAFE /* OBAModelFactory.m in Sources */,
 				933C7F5F160C07440005AAFE /* OBAModelService.m in Sources */,
 				935846A817FB9DC30034200C /* TWSReleaseNotesView.m in Sources */,
@@ -2193,7 +2184,6 @@
 				933C7F74160C07440005AAFE /* OBAArrivalAndDepartureV2.m in Sources */,
 				FFE76DCD186F94E10036D121 /* OBAEditBookmarkGroupViewController.m in Sources */,
 				933C7F75160C07440005AAFE /* OBAArrivalsAndDeparturesForStopV2.m in Sources */,
-				FFA40DFD1894A7F800E37566 /* EMHintsView.m in Sources */,
 				933C7F76160C07440005AAFE /* OBACurrentVehicleEstimateV2.m in Sources */,
 				933C7F77160C07440005AAFE /* OBAEntryWithReferencesV2.m in Sources */,
 				933C7F78160C07440005AAFE /* OBAFrequencyV2.m in Sources */,
