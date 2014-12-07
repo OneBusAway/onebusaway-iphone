@@ -59,8 +59,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 @interface OBASearchResultsMapViewController ()
 @property BOOL hideFutureOutOfRangeErrors;
-@property BOOL firstShowOutOfRangeAlertCall;
 @property BOOL hideFutureNetworkErrors;
+@property BOOL doneLoadingMap;
 @property MKCoordinateRegion mostRecentRegion;
 @property(strong) CLLocation *mostRecentLocation;
 @property(strong) NSTimer *refreshTimer;
@@ -137,7 +137,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     if (self) {
         self.title = NSLocalizedString(@"Map", @"Map tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"CrossHairs"];
-        self.firstShowOutOfRangeAlertCall = YES;
     }
     return self;
 }
@@ -541,6 +540,10 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 #pragma mark MKMapViewDelegate Methods
 
+- (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView {
+    self.doneLoadingMap = true;
+}
+
 - (void)mapView:(MKMapView *)aMapView didAddAnnotationViews:(NSArray *)views {
     for (MKAnnotationView *view in views) {
         if ([view.annotation isKindOfClass:[MKUserLocation class]]) {
@@ -893,7 +896,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     [self refreshSearchToolbar];
     [self checkResults];
     
-    if (self.appDelegate.modelDao.region && [self outOfServiceArea]) {
+    if (self.doneLoadingMap && self.appDelegate.modelDao.region && [self outOfServiceArea]) {
         [self showOutOfRangeAlert];
     }
 }
@@ -932,11 +935,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 }
 
 - (void) showOutOfRangeAlert {
-    // Workaround to avoid showing this when the app first loads
-    if (self.firstShowOutOfRangeAlertCall) {
-        self.firstShowOutOfRangeAlertCall = NO;
-        return;
-    }
     if (!self.hideFutureOutOfRangeErrors) {
         UIAlertView * view = [[UIAlertView alloc] init];
         view.delegate = self;
