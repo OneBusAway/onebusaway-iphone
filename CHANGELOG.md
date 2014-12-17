@@ -1,5 +1,9 @@
 # Changelog for OneBusAway for iPhone
 
+## 2.3.1
+
+* Changes out of region alert handling (through use of delegate)
+
 ## 2.3
 
 * Adds notification for when user is outside selected region
