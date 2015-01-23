@@ -266,7 +266,7 @@ static NSString *const kAllowTracking = @"allowTracking";
     if([self.modelDao.readCustomApiUrl isEqualToString:@""]) {
         [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"configured_region" label:[NSString stringWithFormat:@"API Region: %@",self.modelDao.region.regionName] value:nil];
     }else{
-        [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"configured_region" label:[NSString stringWithFormat:@"API Region: %@",self.modelDao.readCustomApiUrl] value:nil];
+        [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"configured_region" label:@"API Region: Custom URL" value:nil];
     }
     [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", (self.modelDao.readSetRegionAutomatically ? @"YES" : @"NO")] value:nil];
 
