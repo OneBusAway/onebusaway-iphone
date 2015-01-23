@@ -144,9 +144,11 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                 				[controller setToRecipients:[NSArray arrayWithObject:contactEmail]];
                 				[controller setSubject:NSLocalizedString(@"OneBusAway iOS Feedback", @"feedback mail subject")];
                 				[controller setMessageBody:[NSString stringWithFormat:@"<br><br>---------------<br>App Version: %@<br>Device: \
-                            <a href='http://stackoverflow.com/a/11197770/1233435'>%@</a><br>iOS Version: %@<br>Current Location: %f, %f", 
+                            <a href='http://stackoverflow.com/a/11197770/1233435'>%@</a><br>iOS Version: %@<br>Current Location: %f, %f \
+                            Set Region Automatically: %@<br>Region: %@<br>Custom API: %@", 
                             appVersionString, [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding], 
-                            [[UIDevice currentDevice] systemVersion], location.coordinate.latitude, location.coordinate.longitude] isHTML:YES]; 
+                            [[UIDevice currentDevice] systemVersion], (_appDelegate.modelDao.readSetRegionAutomatically ? @"YES" : @"NO"), 
+                            _appDelegate.modelDao.region.regionName, _appDelegate.modelDao.readCustomApiUrl, location.coordinate.latitude, location.coordinate.longitude] isHTML:YES]; 
                 				
                         [self presentViewController:controller animated:YES completion:^{ }];
                     }else{
