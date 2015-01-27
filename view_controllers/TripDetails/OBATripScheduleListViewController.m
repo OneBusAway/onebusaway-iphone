@@ -53,7 +53,7 @@ typedef enum {
         _timeFormatter = [[NSDateFormatter alloc] init];
         [_timeFormatter setDateStyle:NSDateFormatterNoStyle];
         [_timeFormatter setTimeStyle:NSDateFormatterShortStyle];
-        [_timeFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        [_timeFormatter setTimeZone:[NSTimeZone localTimeZone]];
         
         CGRect r = CGRectMake(0, 0, 160, 33);
         _progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];
