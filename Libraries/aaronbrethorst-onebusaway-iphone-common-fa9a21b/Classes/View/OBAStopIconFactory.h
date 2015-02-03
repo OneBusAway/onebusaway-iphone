@@ -9,6 +9,7 @@
 
 - (UIImage*) getIconForStop:(OBAStopV2*)stop;
 - (UIImage*) getIconForStop:(OBAStopV2*)stop includeDirection:(BOOL)includeDirection;
+- (UIImage*) getIconForStop:(OBAStopV2*)stop includeDirection:(BOOL)includeDirection isBookmarked:(BOOL)isBookmarked;
 
 - (UIImage*) getModeIconForRoute:(OBARouteV2*)route;
 - (UIImage*) getModeIconForRoute:(OBARouteV2*)route selected:(BOOL)selected;
