@@ -143,9 +143,11 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                         controller.mailComposeDelegate=self;
                 				[controller setToRecipients:[NSArray arrayWithObject:contactEmail]];
                 				[controller setSubject:NSLocalizedString(@"OneBusAway iOS Feedback", @"feedback mail subject")];
-                				[controller setMessageBody:[NSString stringWithFormat:@"<br><br>---------------<br>App Version: %@<br>Device: \
-                            <a href='http://stackoverflow.com/a/11197770/1233435'>%@</a><br>iOS Version: %@<br>Current Location: %f, %f \
-                            Set Region Automatically: %@<br>Region: %@<br>Custom API: %@", 
+                				[controller setMessageBody:[NSString stringWithFormat:@"<br><br>---------------<br> \
+                            The following information is provided for troubleshooting purposes and does not comply with the privacy policy. If you are \
+                            uncomfortable sharing any of the following information you may remove it, however it may affect our ability to assist you.<br> \
+                            App Version: %@<br>Device: <a href='http://stackoverflow.com/a/11197770/1233435'>%@</a><br>iOS Version: %@<br> \
+                            Current Location: %f, %f<br>Set Region Automatically: %@<br>Region: %@<br>Custom API: %@", 
                             appVersionString, [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding], 
                             [[UIDevice currentDevice] systemVersion], (_appDelegate.modelDao.readSetRegionAutomatically ? @"YES" : @"NO"), 
                             _appDelegate.modelDao.region.regionName, _appDelegate.modelDao.readCustomApiUrl, location.coordinate.latitude, location.coordinate.longitude] isHTML:YES]; 
