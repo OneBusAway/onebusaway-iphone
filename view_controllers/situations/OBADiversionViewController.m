@@ -36,6 +36,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     MKMapView *mv = [self mapView];
     NSArray *points = [OBASphericalGeometryLibrary decodePolylineString:self.diversionPath];
 

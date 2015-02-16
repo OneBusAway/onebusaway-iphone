@@ -46,6 +46,7 @@ static const NSString *kShapeContext = @"ShapeContext";
 }
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
     _timeFormatter = [[NSDateFormatter alloc] init];
     [_timeFormatter setDateStyle:NSDateFormatterNoStyle];
     [_timeFormatter setTimeStyle:NSDateFormatterShortStyle];
