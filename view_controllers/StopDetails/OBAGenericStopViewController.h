@@ -21,7 +21,6 @@
 #import "OBAProgressIndicatorView.h"
 #import "OBAArrivalEntryTableViewCellFactory.h"
 #import "OBAShadowLabel.h"
-#import "EMHint.h"
 
 typedef enum {
     OBAStopSectionTypeNone,
@@ -31,7 +30,7 @@ typedef enum {
     OBAStopSectionTypeActions
 } OBAStopSectionType;
 
-@interface OBAGenericStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate, MKMapViewDelegate, EMHintDelegate>
+@interface OBAGenericStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate, MKMapViewDelegate>
 @property(nonatomic, weak) IBOutlet UIView *tableHeaderView;
 @property(nonatomic, weak) IBOutlet MKMapView *mapView;
 @property(nonatomic, strong) OBAShadowLabel *stopName;
