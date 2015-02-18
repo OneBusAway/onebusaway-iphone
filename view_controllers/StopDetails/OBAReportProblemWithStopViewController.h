@@ -4,7 +4,7 @@
 #import "OBATextEditViewController.h"
 #import "OBAListSelectionViewController.h"
 
-@interface OBAReportProblemWithStopViewController : UITableViewController <UITextFieldDelegate,OBAModelServiceDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate, UIAlertViewDelegate> {
+@interface OBAReportProblemWithStopViewController : UITableViewController <UITextFieldDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate, UIAlertViewDelegate> {
     OBAApplicationDelegate * _appDelegate;
     OBAStopV2 * _stop;
     NSMutableArray * _problemIds;

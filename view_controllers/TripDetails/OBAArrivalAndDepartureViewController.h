@@ -5,12 +5,7 @@
 #import "OBAArrivalEntryTableViewCellFactory.h"
 
 
-@interface OBAArrivalAndDepartureViewController : OBARequestDrivenTableViewController {
-    OBAArrivalAndDepartureInstanceRef * _instance;
-    OBAArrivalAndDepartureV2 * _arrivalAndDeparture;
-    OBAArrivalEntryTableViewCellFactory * _arrivalCellFactory;
-    OBAServiceAlertsModel * _serviceAlerts;
-}
+@interface OBAArrivalAndDepartureViewController : OBARequestDrivenTableViewController 
 
 - (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate arrivalAndDepartureInstance:(OBAArrivalAndDepartureInstanceRef*)instance;
 - (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;

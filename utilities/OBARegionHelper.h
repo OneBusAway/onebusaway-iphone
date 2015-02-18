@@ -10,7 +10,7 @@
 #import "OBAModelService.h"
 #import "OBARegionV2.h"
 
-@interface OBARegionHelper : NSObject <OBAModelServiceDelegate,OBALocationManagerDelegate>
+@interface OBARegionHelper : NSObject <OBALocationManagerDelegate>
 
 
 - (void) updateNearestRegion;
