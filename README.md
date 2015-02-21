@@ -1,4 +1,7 @@
-# OneBusAway for iPhone [![Build Status](https://travis-ci.org/OneBusAway/onebusaway-iphone.png)](https://travis-ci.org/OneBusAway/onebusaway-iphone)
+# OneBusAway for iPhone
+[![Build Status](https://img.shields.io/travis/OneBusAway/onebusaway-iphone.svg)](https://travis-ci.org/OneBusAway/onebusaway-iphone)
+[![Visit our IRC channel](http://img.shields.io/badge/IRC-%23OneBusAway-green.svg)](https://kiwiirc.com/client/irc.freenode.net/?nick=obauser|?&theme=basic#OneBusAway)
+[![Visit our IRC channel](https://img.shields.io/badge/IRC-%23OneBusAway--iPhone-green.svg)](https://kiwiirc.com/client/irc.freenode.net/?nick=obauser|?&theme=basic#OneBusAway-iPhone)
 
 ## Test latest development release
 
