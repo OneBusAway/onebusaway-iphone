@@ -5,8 +5,8 @@
 
 - (id) initWithCoder:(NSCoder*)coder {
     if( self = [super init] ) {
-        _name =  [coder decodeObjectForKey:@"name"];
-        _stopIds =  [coder decodeObjectForKey:@"stopIds"];
+        _name = [coder decodeObjectForKey:@"name"];
+        _stopIds = [coder decodeObjectForKey:@"stopIds"];
     }
     return self;
 }

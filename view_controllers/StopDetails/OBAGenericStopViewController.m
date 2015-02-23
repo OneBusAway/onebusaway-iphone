@@ -286,13 +286,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
         [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:[NSString stringWithFormat:@"Loaded StopInfo from %@", region.regionName] value:nil];
 
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0.0")) {
-            OBAStopWebViewController *webViewController = [[OBAStopWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
-            [self.navigationController pushViewController:webViewController animated:YES];
-        }
-        else {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-        }
+        OBAStopWebViewController *webViewController = [[OBAStopWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
+        [self.navigationController pushViewController:webViewController animated:YES];
     }
 
     if (UIAccessibilityIsVoiceOverRunning()) {

@@ -8,13 +8,12 @@
 #import "OBAAnalytics.h"
 
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeVehicleDetails,
     OBASectionTypeTripDetails,
     OBASectionTypeTripSchedule
-} OBASectionType;
-
+};
 
 @interface OBAVehicleDetailsController ()
 

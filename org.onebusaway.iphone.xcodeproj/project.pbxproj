@@ -58,7 +58,6 @@
 		933C7F62160C07440005AAFE /* OBADataSourceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E40160C07440005AAFE /* OBADataSourceConfig.m */; };
 		933C7F63160C07440005AAFE /* OBAJsonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E42160C07440005AAFE /* OBAJsonDataSource.m */; };
 		933C7F64160C07440005AAFE /* OBACallMethodJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E45160C07440005AAFE /* OBACallMethodJsonDigesterRule.m */; };
-		933C7F65160C07440005AAFE /* OBACreateManagedEntityJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E47160C07440005AAFE /* OBACreateManagedEntityJsonDigesterRule.m */; };
 		933C7F66160C07440005AAFE /* OBACreateObjectJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E49160C07440005AAFE /* OBACreateObjectJsonDigesterRule.m */; };
 		933C7F67160C07440005AAFE /* OBAJsonDigester.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E4B160C07440005AAFE /* OBAJsonDigester.m */; };
 		933C7F68160C07440005AAFE /* OBASelectorJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C7E4D160C07440005AAFE /* OBASelectorJsonDigesterRule.m */; };
@@ -277,7 +276,6 @@
 		93631E411604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E3E1604F72900CB7209 /* OBANearbyStopsPageTableViewCell.xib */; };
 		93631E451604F77A00CB7209 /* OBADiversionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631E441604F77A00CB7209 /* OBADiversionViewController.xib */; };
 		93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */; };
-		93631E531604F97D00CB7209 /* OBACommonV1.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E511604F97D00CB7209 /* OBACommonV1.m */; };
 		93631E6E1604F99500CB7209 /* OBAEditStopBookmarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E561604F99500CB7209 /* OBAEditStopBookmarkViewController.m */; };
 		93631E6F1604F99500CB7209 /* OBAEditStopPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E581604F99500CB7209 /* OBAEditStopPreferencesViewController.m */; };
 		93631E701604F99500CB7209 /* OBAGenericStopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E5A1604F99500CB7209 /* OBAGenericStopViewController.m */; };
@@ -299,6 +297,7 @@
 		93631EAB1607FB2F00CB7209 /* OBAInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631EAA1607FB2F00CB7209 /* OBAInfoViewController.m */; };
 		93631EAD1607FB7100CB7209 /* OBAInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93631EAC1607FB7100CB7209 /* OBAInfoViewController.xib */; };
 		9388E9DB1A9BB6EA00C9F6CE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6169A160FC228FB00631BCE /* CoreData.framework */; };
+		9388E9DD1A9BCC8900C9F6CE /* feedback_message_body.html in Resources */ = {isa = PBXBuildFile; fileRef = 9388E9DC1A9BCC8900C9F6CE /* feedback_message_body.html */; };
 		93AA8A541622610300B945E7 /* OBARegionChangeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AA8A531622610300B945E7 /* OBARegionChangeRequest.m */; };
 		93AD36301603FDE300BDF03F /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36231603FDE300BDF03F /* OBAAgenciesListViewController.m */; };
 		93AD36311603FDE300BDF03F /* OBABookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36251603FDE300BDF03F /* OBABookmarksViewController.m */; };
@@ -319,8 +318,6 @@
 		93AD3674160400F500BDF03F /* OBABookmarkV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD3669160400F500BDF03F /* OBABookmarkV2.m */; };
 		93AD3675160400F500BDF03F /* OBANavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD366B160400F500BDF03F /* OBANavigationTarget.m */; };
 		93AD3676160400F500BDF03F /* OBAServiceAlertsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD366D160400F500BDF03F /* OBAServiceAlertsModel.m */; };
-		93AD3677160400F500BDF03F /* OBATrip.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD366F160400F500BDF03F /* OBATrip.m */; };
-		93AD3696160401EF00BDF03F /* OBAEntityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD3691160401EF00BDF03F /* OBAEntityManager.m */; };
 		93AD3697160401EF00BDF03F /* OBAModelDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD3693160401EF00BDF03F /* OBAModelDAO.m */; };
 		93AD3698160401EF00BDF03F /* OBAModelDAOUserPreferencesImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD3695160401EF00BDF03F /* OBAModelDAOUserPreferencesImpl.m */; };
 		93AD369D1604027E00BDF03F /* OBAProgressIndicatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD369B1604027E00BDF03F /* OBAProgressIndicatorImpl.m */; };
@@ -452,8 +449,6 @@
 		933C7E42160C07440005AAFE /* OBAJsonDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAJsonDataSource.m; sourceTree = "<group>"; };
 		933C7E44160C07440005AAFE /* OBACallMethodJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACallMethodJsonDigesterRule.h; sourceTree = "<group>"; };
 		933C7E45160C07440005AAFE /* OBACallMethodJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACallMethodJsonDigesterRule.m; sourceTree = "<group>"; };
-		933C7E46160C07440005AAFE /* OBACreateManagedEntityJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACreateManagedEntityJsonDigesterRule.h; sourceTree = "<group>"; };
-		933C7E47160C07440005AAFE /* OBACreateManagedEntityJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACreateManagedEntityJsonDigesterRule.m; sourceTree = "<group>"; };
 		933C7E48160C07440005AAFE /* OBACreateObjectJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACreateObjectJsonDigesterRule.h; sourceTree = "<group>"; };
 		933C7E49160C07440005AAFE /* OBACreateObjectJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACreateObjectJsonDigesterRule.m; sourceTree = "<group>"; };
 		933C7E4A160C07440005AAFE /* OBAJsonDigester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OBAJsonDigester.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -735,7 +730,6 @@
 		93631E4A1604F96800CB7209 /* OBAApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAApplicationDelegate.h; sourceTree = "<group>"; };
 		93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAApplicationDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		93631E501604F97D00CB7209 /* OBACommonV1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACommonV1.h; sourceTree = "<group>"; };
-		93631E511604F97D00CB7209 /* OBACommonV1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACommonV1.m; sourceTree = "<group>"; };
 		93631E551604F99500CB7209 /* OBAEditStopBookmarkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopBookmarkViewController.h; sourceTree = "<group>"; };
 		93631E561604F99500CB7209 /* OBAEditStopBookmarkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditStopBookmarkViewController.m; sourceTree = "<group>"; };
 		93631E571604F99500CB7209 /* OBAEditStopPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopPreferencesViewController.h; sourceTree = "<group>"; };
@@ -773,6 +767,7 @@
 		93631EA91607FB2F00CB7209 /* OBAInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAInfoViewController.h; sourceTree = "<group>"; };
 		93631EAA1607FB2F00CB7209 /* OBAInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAInfoViewController.m; sourceTree = "<group>"; };
 		93631EAC1607FB7100CB7209 /* OBAInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBAInfoViewController.xib; path = xibs/OBAInfoViewController.xib; sourceTree = "<group>"; };
+		9388E9DC1A9BCC8900C9F6CE /* feedback_message_body.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = feedback_message_body.html; path = Resources/feedback_message_body.html; sourceTree = "<group>"; };
 		93AA8A521622610300B945E7 /* OBARegionChangeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionChangeRequest.h; sourceTree = "<group>"; };
 		93AA8A531622610300B945E7 /* OBARegionChangeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionChangeRequest.m; sourceTree = "<group>"; };
 		93AD36221603FDE300BDF03F /* OBAAgenciesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgenciesListViewController.h; sourceTree = "<group>"; };
@@ -813,10 +808,6 @@
 		93AD366B160400F500BDF03F /* OBANavigationTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTarget.m; sourceTree = "<group>"; };
 		93AD366C160400F500BDF03F /* OBAServiceAlertsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAServiceAlertsModel.h; sourceTree = "<group>"; };
 		93AD366D160400F500BDF03F /* OBAServiceAlertsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAServiceAlertsModel.m; sourceTree = "<group>"; };
-		93AD366E160400F500BDF03F /* OBATrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATrip.h; sourceTree = "<group>"; };
-		93AD366F160400F500BDF03F /* OBATrip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATrip.m; sourceTree = "<group>"; };
-		93AD3690160401EF00BDF03F /* OBAEntityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEntityManager.h; sourceTree = "<group>"; };
-		93AD3691160401EF00BDF03F /* OBAEntityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEntityManager.m; sourceTree = "<group>"; };
 		93AD3692160401EF00BDF03F /* OBAModelDAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelDAO.h; sourceTree = "<group>"; };
 		93AD3693160401EF00BDF03F /* OBAModelDAO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelDAO.m; sourceTree = "<group>"; };
 		93AD3694160401EF00BDF03F /* OBAModelDAOUserPreferencesImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelDAOUserPreferencesImpl.h; sourceTree = "<group>"; };
@@ -976,6 +967,7 @@
 				D69C598713F9BD6900BA90A2 /* Localizable.strings */,
 				D62AC46410A4F6D300CE9212 /* OBAModel.xcdatamodeld */,
 				9330DEE916050CA600E14AF4 /* credits.html */,
+				9388E9DC1A9BCC8900C9F6CE /* feedback_message_body.html */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1107,8 +1099,6 @@
 			children = (
 				933C7E44160C07440005AAFE /* OBACallMethodJsonDigesterRule.h */,
 				933C7E45160C07440005AAFE /* OBACallMethodJsonDigesterRule.m */,
-				933C7E46160C07440005AAFE /* OBACreateManagedEntityJsonDigesterRule.h */,
-				933C7E47160C07440005AAFE /* OBACreateManagedEntityJsonDigesterRule.m */,
 				933C7E48160C07440005AAFE /* OBACreateObjectJsonDigesterRule.h */,
 				933C7E49160C07440005AAFE /* OBACreateObjectJsonDigesterRule.m */,
 				933C7E4A160C07440005AAFE /* OBAJsonDigester.h */,
@@ -1442,7 +1432,6 @@
 			isa = PBXGroup;
 			children = (
 				93631E501604F97D00CB7209 /* OBACommonV1.h */,
-				93631E511604F97D00CB7209 /* OBACommonV1.m */,
 				9211E32017B8236B0008A479 /* OBARegionHelper.h */,
 				9211E32117B8236B0008A479 /* OBARegionHelper.m */,
 				935846AC17FBA2D00034200C /* OBAReleaseNotesManager.h */,
@@ -1630,8 +1619,6 @@
 				93AD366B160400F500BDF03F /* OBANavigationTarget.m */,
 				93AD366C160400F500BDF03F /* OBAServiceAlertsModel.h */,
 				93AD366D160400F500BDF03F /* OBAServiceAlertsModel.m */,
-				93AD366E160400F500BDF03F /* OBATrip.h */,
-				93AD366F160400F500BDF03F /* OBATrip.m */,
 				FFCA85701863D24200F87DCA /* OBABookmarkGroup.h */,
 				FFCA85711863D24200F87DCA /* OBABookmarkGroup.m */,
 			);
@@ -1641,8 +1628,6 @@
 		93AD368F160401EF00BDF03F /* dao */ = {
 			isa = PBXGroup;
 			children = (
-				93AD3690160401EF00BDF03F /* OBAEntityManager.h */,
-				93AD3691160401EF00BDF03F /* OBAEntityManager.m */,
 				93AD3692160401EF00BDF03F /* OBAModelDAO.h */,
 				93AD3693160401EF00BDF03F /* OBAModelDAO.m */,
 				93AD3694160401EF00BDF03F /* OBAModelDAOUserPreferencesImpl.h */,
@@ -1874,6 +1859,7 @@
 				933C7FB8160C07440005AAFE /* CrossHairs.ai in Resources */,
 				933C7FB9160C07440005AAFE /* CrossHairs.png in Resources */,
 				933C7FBA160C07440005AAFE /* CrossHairs@2x.png in Resources */,
+				9388E9DD1A9BCC8900C9F6CE /* feedback_message_body.html in Resources */,
 				933C7FBB160C07440005AAFE /* Gear.ai in Resources */,
 				933C7FBC160C07440005AAFE /* Gear.png in Resources */,
 				933C7FBD160C07440005AAFE /* Gear@2x.png in Resources */,
@@ -2099,8 +2085,6 @@
 				93AD3674160400F500BDF03F /* OBABookmarkV2.m in Sources */,
 				93AD3675160400F500BDF03F /* OBANavigationTarget.m in Sources */,
 				93AD3676160400F500BDF03F /* OBAServiceAlertsModel.m in Sources */,
-				93AD3677160400F500BDF03F /* OBATrip.m in Sources */,
-				93AD3696160401EF00BDF03F /* OBAEntityManager.m in Sources */,
 				93AD3697160401EF00BDF03F /* OBAModelDAO.m in Sources */,
 				FFBFE02A1863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m in Sources */,
 				93AD3698160401EF00BDF03F /* OBAModelDAOUserPreferencesImpl.m in Sources */,
@@ -2109,7 +2093,6 @@
 				93AD36A3160402C000BDF03F /* OBASearchResult.m in Sources */,
 				93AD36A6160402CA00BDF03F /* OBASearchController.m in Sources */,
 				93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */,
-				93631E531604F97D00CB7209 /* OBACommonV1.m in Sources */,
 				93631E6E1604F99500CB7209 /* OBAEditStopBookmarkViewController.m in Sources */,
 				93631E6F1604F99500CB7209 /* OBAEditStopPreferencesViewController.m in Sources */,
 				93631E701604F99500CB7209 /* OBAGenericStopViewController.m in Sources */,
@@ -2142,7 +2125,6 @@
 				933C7F62160C07440005AAFE /* OBADataSourceConfig.m in Sources */,
 				933C7F63160C07440005AAFE /* OBAJsonDataSource.m in Sources */,
 				933C7F64160C07440005AAFE /* OBACallMethodJsonDigesterRule.m in Sources */,
-				933C7F65160C07440005AAFE /* OBACreateManagedEntityJsonDigesterRule.m in Sources */,
 				933C7F66160C07440005AAFE /* OBACreateObjectJsonDigesterRule.m in Sources */,
 				FF5331F318AC4DEE00E0C791 /* OBAStopWebViewController.m in Sources */,
 				933C7F67160C07440005AAFE /* OBAJsonDigester.m in Sources */,
@@ -2720,6 +2702,7 @@
 				93F152FC1A9AE91A0015C141 /* AdHocDistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		96C644801810B4A70000EC49 /* Build configuration list for PBXAggregateTarget "Versioning" */ = {
 			isa = XCConfigurationList;

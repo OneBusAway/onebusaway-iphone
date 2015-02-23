@@ -19,8 +19,6 @@
 
 @implementation OBATextFieldTableViewCell
 
-@synthesize textField = _textField;
-
 + (OBATextFieldTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView {
     static NSString * kCellId = @"OBATextFieldTableViewCell";
     

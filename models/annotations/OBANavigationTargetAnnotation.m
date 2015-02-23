@@ -19,12 +19,6 @@
 
 @implementation OBANavigationTargetAnnotation
 
-@synthesize title = _title;
-@synthesize subtitle = _subtitle;
-@synthesize coordinate = _coordinate;
-@synthesize target = _target;
-@synthesize data = _data;
-
 - (id) initWithTitle:(NSString*)title subtitle:(NSString*)subtitle coordinate:(CLLocationCoordinate2D)coordinate target:(OBANavigationTarget*)target {
 
     if( self = [super init] ) {

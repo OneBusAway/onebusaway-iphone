@@ -16,11 +16,10 @@
 
 #import "OBASetPropertyJsonDigesterRule.h"
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBASetCoordinatePropertyMethod) {
     OBASetCoordinatePropertyMethodArray,
     OBASetCoordinatePropertyMethodLatLon
-}
-OBASetCoordinatePropertyMethod;
+};
 
 @interface OBASetCoordinatePropertyJsonDigesterRule : OBASetPropertyJsonDigesterRule {
     OBASetCoordinatePropertyMethod _method;

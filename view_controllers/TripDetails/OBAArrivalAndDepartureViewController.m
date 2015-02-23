@@ -9,13 +9,13 @@
 #import "OBAAnalytics.h"
 
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeTitle,
     OBASectionTypeServiceAlerts,
     OBASectionTypeSchedule,
     OBASectionTypeActions
-} OBASectionType;
+};
 
 
 @interface OBAArrivalAndDepartureViewController ()

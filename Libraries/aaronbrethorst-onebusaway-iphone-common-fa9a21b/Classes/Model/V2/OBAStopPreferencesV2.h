@@ -8,13 +8,10 @@ typedef enum {
     OBASortTripsByTypeV2 _sortTripsByType;
     NSMutableSet * _routeFilter;
 }
-
-- (id) initWithStopPreferences:(OBAStopPreferencesV2*)preferences;
-- (id) initWithCoder:(NSCoder*)coder;
-
 @property (nonatomic) OBASortTripsByTypeV2 sortTripsByType;
 @property (nonatomic,readonly) NSSet * routeFilter;
 
+- (id) initWithStopPreferences:(OBAStopPreferencesV2*)preferences;
 - (BOOL) isRouteIdEnabled:(NSString*) routeId;
 - (void) setEnabled:(BOOL)isEnabled forRouteId:(NSString*)routeId;
 

@@ -1,10 +1,6 @@
 #import "OBAVehicleMapAnnotation.h"
 
-
-
 @implementation OBAVehicleMapAnnotation
-
-@synthesize showLastKnownLocation = _showLastKnownLocation;
 
 - (id) initWithTripStatus:(OBATripStatusV2*)tripStatus {
     if( self = [super init] ) {

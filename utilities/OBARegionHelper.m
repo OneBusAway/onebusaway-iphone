@@ -11,12 +11,9 @@
 #import "OBAAnalytics.h"
 
 @interface OBARegionHelper ()
-
 @property (nonatomic) NSMutableArray *regions;
 @property (nonatomic) CLLocation *location;
 @property (nonatomic) OBAApplicationDelegate *appDelegate;
-- (void)setNearestRegion;
-- (void)setRegion;
 @end
 
 @implementation OBARegionHelper
@@ -125,7 +122,7 @@
             oldRegion = self.appDelegate.modelDao.region.regionName;
         }
 
-        [self.appDelegate.modelDao setOBARegion:[self.regions objectAtIndex:0]];
+        [self.appDelegate.modelDao setOBARegion:self.regions[0]];
         [self.appDelegate refreshSettings];
         [self.appDelegate.locationManager removeDelegate:self];
         [self.appDelegate.modelDao writeSetRegionAutomatically:YES];
@@ -162,7 +159,7 @@
 }
 
 - (void)locationManager:(OBALocationManager *)manager didFailWithError:(NSError *)error {
-    if (self.appDelegate.modelDao.region == nil) {
+    if (!self.appDelegate.modelDao.region) {
         [self.appDelegate showRegionListViewController];
     }
 

@@ -3,8 +3,6 @@
 
 @implementation OBALegV2
 
-@synthesize streetLegs = _streetLegs;
-
 - (id) init {
     self = [super init];
     if (self) {

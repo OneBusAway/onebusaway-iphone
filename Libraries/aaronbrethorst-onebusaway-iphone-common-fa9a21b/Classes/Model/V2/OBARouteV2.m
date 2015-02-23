@@ -3,13 +3,6 @@
 
 @implementation OBARouteV2 
 
-@synthesize routeId;
-@synthesize shortName;
-@synthesize longName;
-@synthesize routeType;
-@synthesize agencyId;
-
-
 - (OBAAgencyV2*) agency {
     OBAReferencesV2 * refs = [self references];
     return [refs getAgencyForId:self.agencyId];

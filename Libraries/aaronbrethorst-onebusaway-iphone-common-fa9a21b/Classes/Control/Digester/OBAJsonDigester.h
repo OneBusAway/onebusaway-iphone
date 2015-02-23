@@ -41,10 +41,10 @@
 @end
 
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBAJsonDigesterRuleTarget) {
     OBAJsonDigesterRuleTargetBegin,
     OBAJsonDigesterRuleTargetEnd
-} OBAJsonDigesterRuleTarget;
+};
 
 
 @interface OBAJsonDigester : NSObject {

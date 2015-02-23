@@ -1,4 +1,4 @@
-typedef enum {
+typedef NS_ENUM(NSInteger, OBANavigationTargetType) {
     OBANavigationTargetTypeRoot=0,
     OBANavigationTargetTypeSearch,
     OBANavigationTargetTypeSearchResults,
@@ -9,14 +9,15 @@ typedef enum {
     OBANavigationTargetTypeEditStopPreferences,
     OBANavigationTargetTypeSettings,
     OBANavigationTargetTypeContactUs,
-    OBANavigationTargetTypeAgencies
-} OBANavigationTargetType;
+    OBANavigationTargetTypeAgencies,
+};
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBASearchViewType) {
     OBASearchViewTypeByStop = 0,
     OBASearchViewTypeByRoute,
-    OBASearchViewTypeByAddress
-} OBASearchViewType;
+    OBASearchViewTypeByAddress,
+};
+
 
 #define APP_DELEGATE ((OBAApplicationDelegate*)[UIApplication sharedApplication].delegate)
 

@@ -3,9 +3,6 @@
 
 @implementation OBAPlacemarks
 
-@synthesize placemarks = _placemarks;
-@synthesize attributions = _attributions;
-
 - (id) init {
     self = [super init];
     if( self ) {

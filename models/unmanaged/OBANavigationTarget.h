@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-//#import <Foundation/Foundation.h>
+#import <Foundation/Foundation.h>
 #import "OBACommon.h"
-
 
 @interface OBANavigationTarget : NSObject <NSCoding> {
     OBANavigationTargetType _target;
@@ -28,7 +27,6 @@
 
 - (id) initWithTarget:(OBANavigationTargetType)target;
 - (id) initWithTarget:(OBANavigationTargetType)target parameters:(NSDictionary*)parameters;
-- (id) initWithCoder:(NSCoder*)coder;
 
 + (id) target:(OBANavigationTargetType)target;
 + (id) target:(OBANavigationTargetType)target parameters:(NSDictionary*)parameters;

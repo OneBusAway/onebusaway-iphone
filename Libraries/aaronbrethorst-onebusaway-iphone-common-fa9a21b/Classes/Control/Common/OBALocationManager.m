@@ -27,8 +27,6 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 
 @implementation OBALocationManager
 
-@synthesize currentLocation = _currentLocation;
-
 - (id) initWithModelDao:(OBAModelDAO*)modelDao {
     if( self = [super init]) {
         _modelDao = modelDao;

@@ -3,8 +3,6 @@
 
 @implementation OBAItineraryV2
 
-@synthesize legs = _legs;
-
 - (id) init {
     self = [super init];
     if (self) { 

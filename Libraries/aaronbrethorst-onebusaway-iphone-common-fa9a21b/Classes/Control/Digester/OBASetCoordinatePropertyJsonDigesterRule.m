@@ -27,9 +27,6 @@
 
 @implementation OBASetCoordinatePropertyJsonDigesterRule
 
-@synthesize latJsonName;
-@synthesize lonJsonName;
-
 - (id) initWithPropertyName:(NSString*)propertyName method:(OBASetCoordinatePropertyMethod) method {
     self = [super initWithPropertyName:propertyName];
     if( self ) {

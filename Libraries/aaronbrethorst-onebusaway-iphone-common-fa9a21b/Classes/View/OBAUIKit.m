@@ -119,7 +119,7 @@
 }
 
 +(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView style:(UITableViewCellStyle)style {    
-    NSString * cellId = [NSString stringWithFormat:@"DefaultIdentifier-%d",style];
+    NSString * cellId = [NSString stringWithFormat:@"DefaultIdentifier-%@",@(style)];
     return [self getOrCreateCellForTableView:tableView style:style cellId:cellId];
 }
 

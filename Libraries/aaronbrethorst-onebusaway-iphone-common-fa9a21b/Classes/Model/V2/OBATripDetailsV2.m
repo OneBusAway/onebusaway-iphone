@@ -3,11 +3,6 @@
 
 @implementation OBATripDetailsV2
 
-@synthesize tripId;
-@synthesize serviceDate;
-@synthesize schedule;
-@synthesize status;
-
 - (id) initWithReferences:(OBAReferencesV2*)refs {
     self = [super initWithReferences:refs];
     if( self ) {

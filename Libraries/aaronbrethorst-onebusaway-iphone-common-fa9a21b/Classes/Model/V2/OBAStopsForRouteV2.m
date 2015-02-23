@@ -4,8 +4,6 @@
 
 @implementation OBAStopsForRouteV2
 
-@synthesize routeId = _routeId;
-
 - (id) initWithReferences:(OBAReferencesV2*)refs {
     self = [super initWithReferences:refs];
     if (self) {

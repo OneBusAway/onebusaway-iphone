@@ -8,14 +8,14 @@
 
 #import "OBAAnalytics.h"
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeProblem,
     OBASectionTypeComment,
     OBASectionTypeOnTheVehicle,
     OBASectionTypeSubmit,
     OBASectionTypeNotes
-} OBASectionType;
+};
 
 
 @interface OBAReportProblemWithTripViewController (Private)

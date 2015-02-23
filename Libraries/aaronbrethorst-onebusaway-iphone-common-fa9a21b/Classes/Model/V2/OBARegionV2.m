@@ -10,21 +10,6 @@
 #import "OBARegionBoundsV2.h"
 
 @implementation OBARegionV2
-@synthesize siriBaseUrl;
-@synthesize obaVersionInfo;
-@synthesize supportsSiriRealtimeApis;
-@synthesize language;
-@synthesize supportsObaRealtimeApis;
-@synthesize bounds = _bounds;
-@synthesize supportsObaDiscoveryApis;
-@synthesize contactEmail;
-@synthesize twitterUrl;
-@synthesize active;
-@synthesize experimental;
-@synthesize obaBaseUrl;
-@synthesize id_number;
-@synthesize regionName;
-@synthesize stopInfoUrl;
 
 static NSString * kSiriBaseUrl = @"siriBaseUrl";
 static NSString * kObaVersionInfo = @"obaVersionInfo";
