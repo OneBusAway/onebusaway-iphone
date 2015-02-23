@@ -5,7 +5,7 @@
 
 ## Test latest development release
 
-If you would like to help test the latest development release signup on our [TestFlight page](http://tflig.ht/1ac8oEg).
+If you would like to help test the latest development release, email us at [iphone-app@onebusaway.org](mailto:iphone-app@onebusaway.org) to be added to our TestFlight Beta testing group.
 
 Have a jailbroken device? [Install the latest commit build](https://github.com/bbodenmiller/onebusaway-iphone-test-releases)
 
@@ -17,7 +17,7 @@ Our [huboard](http://huboard.com/OneBusAway/onebusaway-iphone/board) lists devel
 
 ### Development environment setup
 
-1. Install Xcode 5 with the iOS 6.0 & 7.0 SDK
+1. Install Xcode 6 with the iOS 8.x SDK
 2. Install [BBUncrustifyPlugin](https://github.com/benoitsan/BBUncrustifyPlugin-Xcode) to keep your code within our style guidelines
 3. `git clone` your fork
 
