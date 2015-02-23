@@ -343,6 +343,10 @@
 		93D878C6166450AC00FCEFFB /* map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93D878C4166450AC00FCEFFB /* map@2x.png */; };
 		93E0954719CE051700A31BA6 /* OBALaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */; };
 		93F152EC1A9ADDD10015C141 /* capitolhill.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 93F152EB1A9ADDD10015C141 /* capitolhill.gpx */; };
+		93F152F61A9AE91A0015C141 /* OneBusAway_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F152F51A9AE91A0015C141 /* OneBusAway_Tests.m */; };
+		93F153001A9AE9740015C141 /* OBAURLHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F152FF1A9AE9740015C141 /* OBAURLHelpers.m */; };
+		93F153021A9AEA500015C141 /* OBAURLHelpers_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F153011A9AEA500015C141 /* OBAURLHelpers_Tests.m */; };
+		96ADB3DB17BDD4D700314D65 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ADB3D517BDD4D600314D65 /* libTestFlight.a */; };
 		96ADB3DF17BDD5DA00314D65 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ADB3DE17BDD5DA00314D65 /* libz.dylib */; };
 		A005943E13FC43A9001B397B /* OBASearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005943C13FC43A9001B397B /* OBASearchTableViewCell.xib */; };
 		A005945713FC49A0001B397B /* OBATripScheduleMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005945513FC49A0001B397B /* OBATripScheduleMapViewController.xib */; };
@@ -363,6 +367,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		93F152F71A9AE91A0015C141 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1D6058900D05DD3D006BFB54;
+			remoteInfo = OneBusAway;
+		};
 		96C644821810B4D80000EC49 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -860,6 +871,18 @@
 		93D878C4166450AC00FCEFFB /* map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "map@2x.png"; path = "../../../../Resources/map@2x.png"; sourceTree = "<group>"; };
 		93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBALaunchScreen.xib; path = xibs/OBALaunchScreen.xib; sourceTree = "<group>"; };
 		93F152EB1A9ADDD10015C141 /* capitolhill.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = capitolhill.gpx; sourceTree = "<group>"; };
+		93F152F11A9AE91A0015C141 /* OneBusAway Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OneBusAway Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		93F152F41A9AE91A0015C141 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93F152F51A9AE91A0015C141 /* OneBusAway_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneBusAway_Tests.m; sourceTree = "<group>"; };
+		93F152FE1A9AE9740015C141 /* OBAURLHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAURLHelpers.h; sourceTree = "<group>"; };
+		93F152FF1A9AE9740015C141 /* OBAURLHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAURLHelpers.m; sourceTree = "<group>"; };
+		93F153011A9AEA500015C141 /* OBAURLHelpers_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAURLHelpers_Tests.m; sourceTree = "<group>"; };
+		96ADB3D517BDD4D600314D65 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		96ADB3D617BDD4D700314D65 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		96ADB3D717BDD4D700314D65 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+		96ADB3D817BDD4D700314D65 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		96ADB3D917BDD4D700314D65 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		96ADB3DA17BDD4D700314D65 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		96ADB3DE17BDD5DA00314D65 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		A005943D13FC43A9001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
 		A005943F13FC43DB001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
@@ -913,6 +936,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		93F152EE1A9AE91A0015C141 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -935,6 +965,7 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* OneBusAway.app */,
+				93F152F11A9AE91A0015C141 /* OneBusAway Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -954,6 +985,7 @@
 				D61A66790FCDB155004D2E91 /* Libraries */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				93F152F21A9AE91A0015C141 /* OneBusAway Tests */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */,
@@ -1464,6 +1496,8 @@
 				9211E32117B8236B0008A479 /* OBARegionHelper.m */,
 				935846AC17FBA2D00034200C /* OBAReleaseNotesManager.h */,
 				935846AD17FBA2D00034200C /* OBAReleaseNotesManager.m */,
+				93F152FE1A9AE9740015C141 /* OBAURLHelpers.h */,
+				93F152FF1A9AE9740015C141 /* OBAURLHelpers.m */,
 			);
 			path = utilities;
 			sourceTree = "<group>";
@@ -1713,6 +1747,37 @@
 			path = protocols;
 			sourceTree = "<group>";
 		};
+		93F152F21A9AE91A0015C141 /* OneBusAway Tests */ = {
+			isa = PBXGroup;
+			children = (
+				93F152F51A9AE91A0015C141 /* OneBusAway_Tests.m */,
+				93F152F31A9AE91A0015C141 /* Supporting Files */,
+				93F153011A9AEA500015C141 /* OBAURLHelpers_Tests.m */,
+			);
+			path = "OneBusAway Tests";
+			sourceTree = "<group>";
+		};
+		93F152F31A9AE91A0015C141 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				93F152F41A9AE91A0015C141 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		96ADB3D417BDD4D600314D65 /* Libraries/TestFlightSDK */ = {
+			isa = PBXGroup;
+			children = (
+				96ADB3D517BDD4D600314D65 /* libTestFlight.a */,
+				96ADB3D617BDD4D700314D65 /* README.md */,
+				96ADB3D717BDD4D700314D65 /* release_notes.md */,
+				96ADB3D817BDD4D700314D65 /* TestFlight+AsyncLogging.h */,
+				96ADB3D917BDD4D700314D65 /* TestFlight+ManualSessions.h */,
+				96ADB3DA17BDD4D700314D65 /* TestFlight.h */,
+			);
+			path = Libraries/TestFlightSDK;
+			sourceTree = "<group>";
+		};
 		D619F88E0FDF1372002893B5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -1797,6 +1862,24 @@
 			productReference = 1D6058910D05DD3D006BFB54 /* OneBusAway.app */;
 			productType = "com.apple.product-type.application";
 		};
+		93F152F01A9AE91A0015C141 /* OneBusAway Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 93F152FD1A9AE91A0015C141 /* Build configuration list for PBXNativeTarget "OneBusAway Tests" */;
+			buildPhases = (
+				93F152ED1A9AE91A0015C141 /* Sources */,
+				93F152EE1A9AE91A0015C141 /* Frameworks */,
+				93F152EF1A9AE91A0015C141 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				93F152F81A9AE91A0015C141 /* PBXTargetDependency */,
+			);
+			name = "OneBusAway Tests";
+			productName = "OneBusAway Tests";
+			productReference = 93F152F11A9AE91A0015C141 /* OneBusAway Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1806,6 +1889,12 @@
 				CLASSPREFIX = OBA;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = OneBusAway;
+				TargetAttributes = {
+					93F152F01A9AE91A0015C141 = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = 1D6058900D05DD3D006BFB54;
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "org.onebusaway.iphone" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1827,6 +1916,7 @@
 			targets = (
 				1D6058900D05DD3D006BFB54 /* OneBusAway */,
 				96C6447B1810B4A70000EC49 /* Versioning */,
+				93F152F01A9AE91A0015C141 /* OneBusAway Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -2016,6 +2106,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		93F152EF1A9AE91A0015C141 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -2185,6 +2282,7 @@
 				933C7F87160C07440005AAFE /* OBAStopsForRouteV2.m in Sources */,
 				933C7F88160C07440005AAFE /* OBAStopV2.m in Sources */,
 				935846A717FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m in Sources */,
+				93F153001A9AE9740015C141 /* OBAURLHelpers.m in Sources */,
 				933C7F89160C07440005AAFE /* OBAStreetLegV2.m in Sources */,
 				933C7F8A160C07440005AAFE /* OBATransitLegV2.m in Sources */,
 				933C7F8B160C07440005AAFE /* OBATripDetailsV2.m in Sources */,
@@ -2222,9 +2320,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		93F152ED1A9AE91A0015C141 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93F153021A9AEA500015C141 /* OBAURLHelpers_Tests.m in Sources */,
+				93F152F61A9AE91A0015C141 /* OneBusAway_Tests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		93F152F81A9AE91A0015C141 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1D6058900D05DD3D006BFB54 /* OneBusAway */;
+			targetProxy = 93F152F71A9AE91A0015C141 /* PBXContainerItemProxy */;
+		};
 		96C644831810B4D80000EC49 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 96C6447B1810B4A70000EC49 /* Versioning */;
@@ -2283,6 +2395,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
@@ -2325,6 +2438,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
@@ -2348,6 +2462,174 @@
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
+		};
+		93F152F91A9AE91A0015C141 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "OneBusAway Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
+			};
+			name = Debug;
+		};
+		93F152FA1A9AE91A0015C141 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "OneBusAway Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		93F152FB1A9AE91A0015C141 /* AppStoreDistribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "OneBusAway Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = AppStoreDistribution;
+		};
+		93F152FC1A9AE91A0015C141 /* AdHocDistribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "OneBusAway Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = AdHocDistribution;
 		};
 		96C6447C1810B4A70000EC49 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2436,6 +2718,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
@@ -2491,6 +2774,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
@@ -2528,6 +2812,16 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		93F152FD1A9AE91A0015C141 /* Build configuration list for PBXNativeTarget "OneBusAway Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93F152F91A9AE91A0015C141 /* Debug */,
+				93F152FA1A9AE91A0015C141 /* Release */,
+				93F152FB1A9AE91A0015C141 /* AppStoreDistribution */,
+				93F152FC1A9AE91A0015C141 /* AdHocDistribution */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		96C644801810B4A70000EC49 /* Build configuration list for PBXAggregateTarget "Versioning" */ = {
 			isa = XCConfigurationList;
