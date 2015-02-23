@@ -16,7 +16,6 @@
 
 #import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
-#import "OBAStop.h"
 #import "OBALocationManager.h"
 #import "OBASearchController.h"
 #import "OBALocationManager.h"

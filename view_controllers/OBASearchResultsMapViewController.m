@@ -15,12 +15,10 @@
  */
 
 #import "OBASearchResultsMapViewController.h"
-#import "OBARoute.h"
 #import "OBAStopV2.h"
 #import "OBARouteV2.h"
 #import "OBAAgencyWithCoverageV2.h"
 #import "OBAGenericAnnotation.h"
-#import "OBAAgencyWithCoverage.h"
 #import "OBANavigationTargetAnnotation.h"
 #import "OBASphericalGeometryLibrary.h"
 #import "OBAProgressIndicatorView.h"
@@ -901,7 +899,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPressed)];
     }
 
-    //[self refreshCurrentLocation];
     [self setAnnotationsFromResults];
     [self setOverlaysFromResults];
     [self setRegionFromResults];
@@ -1161,7 +1158,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (MKCoordinateRegion)computeRegionForStops:(NSArray *)stops {
     double latRun = 0.0, lonRun = 0.0;
 
-    for (OBAStop *stop in stops) {
+    for (OBAStopV2 *stop in stops) {
         latRun += stop.lat;
         lonRun += stop.lon;
     }
@@ -1175,9 +1172,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     return [self computeRegionForStops:stops center:centerLocation];
 }
 
-NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
-    OBAStop *stop1 = (OBAStop *)o1;
-    OBAStop *stop2 = (OBAStop *)o2;
+NSInteger sortStopsByDistanceFromLocation(OBAStopV2* stop1, OBAStopV2* stop2, void *context) {
     CLLocation *location = (__bridge CLLocation *)context;
 
     CLLocation *stopLocation1 = [[CLLocation alloc] initWithLatitude:stop1.lat longitude:stop1.lon];
@@ -1207,7 +1202,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
     MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:center latRadius:kDefaultMapRadius lonRadius:kDefaultMapRadius];
     MKCoordinateSpan span = region.span;
 
-    for (OBAStop *stop in stops) {
+    for (OBAStopV2 *stop in stops) {
         double latDelta = ABS(stop.lat - center.latitude) * 2.0 * kPaddingScaleFactor;
         double lonDelta = ABS(stop.lon - center.longitude) * 2.0 * kPaddingScaleFactor;
 
@@ -1225,7 +1220,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
     NSMutableArray *stopsInRange = [NSMutableArray array];
     CLLocation *center = [self currentLocation];
 
-    for (OBAStop *stop in stops) {
+    for (OBAStopV2 *stop in stops) {
         CLLocation *location = [[CLLocation alloc] initWithLatitude:stop.lat longitude:stop.lon];
         CLLocationDistance d = [location distanceFromLocation:center];
 
@@ -1266,7 +1261,7 @@ NSInteger sortStopsByDistanceFromLocation(id o1, id o2, void *context) {
 
     OBACoordinateBounds *bounds = [OBACoordinateBounds bounds];
 
-    for (OBAAgencyWithCoverage *agencyWithCoverage in agenciesWithCoverage) {
+    for (OBAAgencyWithCoverageV2 *agencyWithCoverage in agenciesWithCoverage) {
         [bounds addCoordinate:agencyWithCoverage.coordinate];
     }
 
