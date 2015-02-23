@@ -50,6 +50,7 @@ typedef enum {
         _timeFormatter = [[NSDateFormatter alloc] init];
         [_timeFormatter setDateStyle:NSDateFormatterNoStyle];
         [_timeFormatter setTimeStyle:NSDateFormatterShortStyle];
+        [_timeFormatter setTimeZone:[NSTimeZone localTimeZone]];
 
         CGRect r = CGRectMake(0, 0, 160, 33);
         _progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];
@@ -313,8 +314,14 @@ typedef enum {
         serviceDate = status.serviceDate;
         scheduleDeviation = status.scheduleDeviation;
     }
+    else {
+        serviceDate = [[NSDate date] timeIntervalSince1970];
+        scheduleDeviation = 0;
+    }
 
-    return [NSDate dateWithTimeIntervalSince1970:(serviceDate / 1000 + stopTime + scheduleDeviation)];
+    NSTimeInterval interval = serviceDate / 1000 + stopTime + scheduleDeviation;
+
+    return [NSDate dateWithTimeIntervalSince1970:interval];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView loadingCellForRowAtIndexPath:(NSIndexPath *)indexPath {
