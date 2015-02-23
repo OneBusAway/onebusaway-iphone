@@ -2,6 +2,7 @@
 #import "OBAModelServiceRequest.h"
 #import "OBASearchController.h"
 #import "OBASphericalGeometryLibrary.h"
+#import "OBAURLHelpers.h"
 
 static const float kSearchRadius = 400;
 static const float kBigSearchRadius = 15000;
@@ -9,7 +10,7 @@ static const float kBigSearchRadius = 15000;
 @implementation OBAModelService
 
 - (id<OBAModelServiceRequest>)requestStopForId:(NSString *)stopId completionBlock:(OBADataSourceCompletion)completion {
-    stopId = [self escapeStringForUrl:stopId];
+    stopId = [OBAURLHelpers escapeStringForUrl:stopId];
 
     NSString *url = [NSString stringWithFormat:@"/api/where/stop/%@.json", stopId];
     NSString *args = @"version=2";
@@ -19,7 +20,7 @@ static const float kBigSearchRadius = 15000;
 }
 
 - (id<OBAModelServiceRequest>)requestStopWithArrivalsAndDeparturesForId:(NSString *)stopId withMinutesBefore:(NSUInteger)minutesBefore withMinutesAfter:(NSUInteger)minutesAfter completionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress {
-    stopId = [self escapeStringForUrl:stopId];
+    stopId = [OBAURLHelpers escapeStringForUrl:stopId];
 
     NSString *url = [NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", stopId];
     NSString *args = [NSString stringWithFormat:@"version=2&minutesBefore=%lu&minutesAfter=%lu", (unsigned long)minutesBefore, (unsigned long)minutesAfter];
@@ -56,7 +57,7 @@ static const float kBigSearchRadius = 15000;
         coord = location.coordinate;
     }
 
-    stopQuery = [self escapeStringForUrl:stopQuery];
+    stopQuery = [OBAURLHelpers escapeStringForUrl:stopQuery];
 
     NSString *url = @"/api/where/stops-for-location.json";
     NSString *args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2&radius=%f", coord.latitude, coord.longitude, stopQuery, radius];
@@ -66,7 +67,7 @@ static const float kBigSearchRadius = 15000;
 }
 
 - (id<OBAModelServiceRequest>)requestStopsForRoute:(NSString *)routeId completionBlock:(OBADataSourceCompletion)completion {
-    routeId = [self escapeStringForUrl:routeId];
+    routeId = [OBAURLHelpers escapeStringForUrl:routeId];
 
     NSString *url = [NSString stringWithFormat:@"/api/where/stops-for-route/%@.json", routeId];
     NSString *args = @"version=2";
@@ -101,7 +102,7 @@ static const float kBigSearchRadius = 15000;
         coord = location.coordinate;
     }
 
-    routeQuery = [self escapeStringForUrl:routeQuery];
+    routeQuery = [OBAURLHelpers escapeStringForUrl:routeQuery];
 
     NSString *url = @"/api/where/routes-for-location.json";
     NSString *args = [NSString stringWithFormat:@"lat=%f&lon=%f&query=%@&version=2&radius=%f", coord.latitude, coord.longitude, routeQuery, radius];
@@ -115,7 +116,7 @@ static const float kBigSearchRadius = 15000;
     CLLocation *location = [self currentOrDefaultLocationToSearch];
     CLLocationCoordinate2D coord = location.coordinate;
 
-    address = [self escapeStringForUrl:address];
+    address = [OBAURLHelpers escapeStringForUrl:address];
     address = [address stringByReplacingOccurrencesOfString:@"%20" withString:@"+"];
 
     NSString *url = @"/maps/api/geocode/json";
@@ -140,7 +141,7 @@ static const float kBigSearchRadius = 15000;
     CLLocation *location = [self currentOrDefaultLocationToSearch];
     CLLocationCoordinate2D coord = location.coordinate;
 
-    name = [self escapeStringForUrl:name];
+    name = [OBAURLHelpers escapeStringForUrl:name];
 
     NSInteger radius = location.horizontalAccuracy;
 
@@ -165,16 +166,16 @@ static const float kBigSearchRadius = 15000;
 }
 
 - (id<OBAModelServiceRequest>)requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef *)instance completionBlock:(OBADataSourceCompletion)completion {
-    NSString *stopId = [self escapeStringForUrl:instance.stopId];
+    NSString *stopId = [OBAURLHelpers escapeStringForUrl:instance.stopId];
     OBATripInstanceRef *tripInstance = instance.tripInstance;
 
     NSString *url = [NSString stringWithFormat:@"/api/where/arrival-and-departure-for-stop/%@.json", stopId];
     NSMutableString *args = [NSMutableString stringWithString:@"version=2"];
 
-    [args appendFormat:@"&tripId=%@", [self escapeStringForUrl:tripInstance.tripId]];
+    [args appendFormat:@"&tripId=%@", [OBAURLHelpers escapeStringForUrl:tripInstance.tripId]];
     [args appendFormat:@"&serviceDate=%lld", tripInstance.serviceDate];
 
-    if (tripInstance.vehicleId) [args appendFormat:@"&vehicleId=%@", [self escapeStringForUrl:tripInstance.vehicleId]];
+    if (tripInstance.vehicleId) [args appendFormat:@"&vehicleId=%@", [OBAURLHelpers escapeStringForUrl:tripInstance.vehicleId]];
 
     if (instance.stopSequence >= 0) [args appendFormat:@"&stopSequence=%ld", (long)instance.stopSequence];
 
@@ -184,13 +185,13 @@ static const float kBigSearchRadius = 15000;
 }
 
 - (id<OBAModelServiceRequest>)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance completionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress {
-    NSString *tripId = [self escapeStringForUrl:tripInstance.tripId];
+    NSString *tripId = [OBAURLHelpers escapeStringForUrl:tripInstance.tripId];
     NSString *url = [NSString stringWithFormat:@"/api/where/trip-details/%@.json", tripId];
     NSMutableString *args = [NSMutableString stringWithString:@"version=2"];
 
     if (tripInstance.serviceDate > 0) [args appendFormat:@"&serviceDate=%lld", tripInstance.serviceDate];
 
-    if (tripInstance.vehicleId) [args appendFormat:@"&vehicleId=%@", [self escapeStringForUrl:tripInstance.vehicleId]];
+    if (tripInstance.vehicleId) [args appendFormat:@"&vehicleId=%@", [OBAURLHelpers escapeStringForUrl:tripInstance.vehicleId]];
 
     SEL selector = @selector(getTripDetailsV2FromJSON:error:);
 
@@ -198,7 +199,7 @@ static const float kBigSearchRadius = 15000;
 }
 
 - (id<OBAModelServiceRequest>)requestVehicleForId:(NSString *)vehicleId completionBlock:(OBADataSourceCompletion)completion {
-    vehicleId = [self escapeStringForUrl:vehicleId];
+    vehicleId = [OBAURLHelpers escapeStringForUrl:vehicleId];
 
     NSString *url = [NSString stringWithFormat:@"/api/where/vehicle/%@.json", vehicleId];
     NSString *args = [NSString stringWithFormat:@"version=2"];
@@ -208,7 +209,7 @@ static const float kBigSearchRadius = 15000;
 }
 
 - (id<OBAModelServiceRequest>)requestShapeForId:(NSString *)shapeId completionBlock:(OBADataSourceCompletion)completion {
-    shapeId = [self escapeStringForUrl:shapeId];
+    shapeId = [OBAURLHelpers escapeStringForUrl:shapeId];
 
     NSString *url = [NSString stringWithFormat:@"/api/where/shape/%@.json", shapeId];
     NSString *args = [NSString stringWithFormat:@"version=2"];
@@ -361,14 +362,10 @@ static const float kBigSearchRadius = 15000;
 
     if (source != _obaJsonDataSource) request.checkCode = NO;
 
-    // if we support background task completion (iOS >= 4.0), allow our requests to complete
-    // even if the user switches the foreground application.
-    if ([[UIDevice currentDevice] isMultitaskingSupported]) {
-        UIApplication *app = [UIApplication sharedApplication];
-        request.bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
-                                  [request endBackgroundTask];
-                              }];
-    }
+    UIApplication *app = [UIApplication sharedApplication];
+    request.bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
+        [request endBackgroundTask];
+    }];
 
     return request;
 }
@@ -383,37 +380,15 @@ static const float kBigSearchRadius = 15000;
     return location;
 }
 
-- (NSString *)escapeStringForUrl:(NSString *)url {
-    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSMutableString *escaped = [NSMutableString stringWithString:url];
-    [escaped replaceOccurrencesOfString:@"&" withString:@"%26" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
-    [escaped replaceOccurrencesOfString:@"+" withString:@"%2B" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
-    [escaped replaceOccurrencesOfString:@"," withString:@"%2C" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
-    [escaped replaceOccurrencesOfString:@"/" withString:@"%2F" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
-    [escaped replaceOccurrencesOfString:@":" withString:@"%3A" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
-    [escaped replaceOccurrencesOfString:@";" withString:@"%3B" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
-    [escaped replaceOccurrencesOfString:@"=" withString:@"%3D" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
-    [escaped replaceOccurrencesOfString:@"?" withString:@"%3F" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
-    [escaped replaceOccurrencesOfString:@"@" withString:@"%40" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
-    [escaped replaceOccurrencesOfString:@" " withString:@"%20" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
-    [escaped replaceOccurrencesOfString:@"\t" withString:@"%09" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
-    [escaped replaceOccurrencesOfString:@"#" withString:@"%23" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
-    [escaped replaceOccurrencesOfString:@"<" withString:@"%3C" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
-    [escaped replaceOccurrencesOfString:@">" withString:@"%3E" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
-    [escaped replaceOccurrencesOfString:@"\"" withString:@"%22" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
-    [escaped replaceOccurrencesOfString:@"\n" withString:@"%0A" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
-    return escaped;
-}
-
 - (NSString *)argsFromDictionary:(NSDictionary *)args {
     NSMutableString *s = [NSMutableString string];
 
     for (NSString *key in args) {
         if ([s length] > 0) [s appendString:@"&"];
 
-        [s appendString:[self escapeStringForUrl:key]];
+        [s appendString:[OBAURLHelpers escapeStringForUrl:key]];
         [s appendString:@"="];
-        [s appendString:[self escapeStringForUrl:args[key]]];
+        [s appendString:[OBAURLHelpers escapeStringForUrl:args[key]]];
     }
 
     return s;
