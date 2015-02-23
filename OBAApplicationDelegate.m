@@ -34,7 +34,6 @@
 #import "OBARegionHelper.h"
 #import "OBAReleaseNotesManager.h"
 
-#import "TestFlight.h"
 #import "OBAAnalytics.h"
 
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
@@ -206,35 +205,21 @@ static NSString *const kAllowTracking = @"allowTracking";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    //setup TestFlight
-#ifdef DEBUG
-    // if beta testing use token for org.onebusaway.iphone.dev
-    [TestFlight takeOff:@"1329bac8-596e-4c80-a180-31aad3eb676a"];
-    NSLog(@"Debug app");
-    static BOOL const kGaDryRun = YES;
-#else
-    // if app store version use token for org.onebusaway.iphone
-    [TestFlight takeOff:@"28959455-6425-40fb-a08c-204cb2a80421"];
-    NSLog(@"Production app");
-    static BOOL const kGaDryRun = NO;
-#endif
-
     //setup Google Analytics
     NSDictionary *appDefaults = @{kAllowTracking: @(YES)};
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
+
     // User must be able to opt out of tracking
-    [GAI sharedInstance].optOut =
-    ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
-    // Initialize Google Analytics with a 120-second dispatch interval. There is a
-    // tradeoff between battery usage and timely dispatch. Default is 120 -- see more details at
-    // https://developers.google.com/analytics/devguides/collection/ios/v3/dispatch
-    [GAI sharedInstance].dispatchInterval = 120;
+    [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
+
     [GAI sharedInstance].trackUncaughtExceptions = YES;
     [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
-//don't report to Google Analytics when developing
+
+    //don't report to Google Analytics when developing
 #ifdef DEBUG
-    [[GAI sharedInstance] setDryRun:kGaDryRun];
-#endif    
+    [[GAI sharedInstance] setDryRun:YES];
+#endif
+
     self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
 
     [self _migrateUserPreferences];
@@ -422,7 +407,8 @@ static NSString *const kAllowTracking = @"allowTracking";
 
     self.window.rootViewController = _regionNavigationController;
 }
-#pragma mark Application's documents directory
+
+#pragma mark - Application's documents directory
 
 /**
  * Returns the path to the application's documents directory.

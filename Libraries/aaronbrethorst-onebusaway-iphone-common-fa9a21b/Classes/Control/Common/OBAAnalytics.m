@@ -18,13 +18,11 @@
 
 + (void)reportEventWithCategory:(NSString *)category action:(NSString*)action label:(NSString*)label value:(id)value
 {
-    [TestFlight passCheckpoint:label];
     [[GAI sharedInstance].defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:category action:action label:label value:value] build]];
 }
 
 + (void)reportScreenView:(NSString *)label
 {
-    [TestFlight passCheckpoint:label];
     [[GAI sharedInstance].defaultTracker set:kGAIScreenName value:label];
     [[GAI sharedInstance].defaultTracker send:[[GAIDictionaryBuilder createAppView] build]];
 }

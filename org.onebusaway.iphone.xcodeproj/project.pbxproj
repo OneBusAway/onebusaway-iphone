@@ -342,7 +342,7 @@
 		93D878C5166450AC00FCEFFB /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = 93D878C3166450AC00FCEFFB /* map.png */; };
 		93D878C6166450AC00FCEFFB /* map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93D878C4166450AC00FCEFFB /* map@2x.png */; };
 		93E0954719CE051700A31BA6 /* OBALaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */; };
-		96ADB3DB17BDD4D700314D65 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ADB3D517BDD4D600314D65 /* libTestFlight.a */; };
+		93F152EC1A9ADDD10015C141 /* capitolhill.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 93F152EB1A9ADDD10015C141 /* capitolhill.gpx */; };
 		96ADB3DF17BDD5DA00314D65 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ADB3DE17BDD5DA00314D65 /* libz.dylib */; };
 		A005943E13FC43A9001B397B /* OBASearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005943C13FC43A9001B397B /* OBASearchTableViewCell.xib */; };
 		A005945713FC49A0001B397B /* OBATripScheduleMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A005945513FC49A0001B397B /* OBATripScheduleMapViewController.xib */; };
@@ -859,12 +859,7 @@
 		93D878C3166450AC00FCEFFB /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = map.png; path = ../../../../Resources/map.png; sourceTree = "<group>"; };
 		93D878C4166450AC00FCEFFB /* map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "map@2x.png"; path = "../../../../Resources/map@2x.png"; sourceTree = "<group>"; };
 		93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBALaunchScreen.xib; path = xibs/OBALaunchScreen.xib; sourceTree = "<group>"; };
-		96ADB3D517BDD4D600314D65 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
-		96ADB3D617BDD4D700314D65 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		96ADB3D717BDD4D700314D65 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
-		96ADB3D817BDD4D700314D65 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
-		96ADB3D917BDD4D700314D65 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
-		96ADB3DA17BDD4D700314D65 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		93F152EB1A9ADDD10015C141 /* capitolhill.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = capitolhill.gpx; sourceTree = "<group>"; };
 		96ADB3DE17BDD5DA00314D65 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		A005943D13FC43A9001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
 		A005943F13FC43DB001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
@@ -911,7 +906,6 @@
 				288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */,
 				D61AC67C0F77E0F7006FA853 /* CoreLocation.framework in Frameworks */,
 				D62255AB0F8BCA8F00F139BA /* libsqlite3.0.dylib in Frameworks */,
-				96ADB3DB17BDD4D700314D65 /* libTestFlight.a in Frameworks */,
 				D62255D00F8BCBF100F139BA /* QuartzCore.framework in Frameworks */,
 				D61E4E4F0FC2000D000C1782 /* MapKit.framework in Frameworks */,
 				D6169A170FC228FB00631BCE /* CoreData.framework in Frameworks */,
@@ -948,6 +942,7 @@
 		29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */ = {
 			isa = PBXGroup;
 			children = (
+				93F152EB1A9ADDD10015C141 /* capitolhill.gpx */,
 				931C42BF160E4AE000435CD3 /* categories */,
 				93631E4D1604F97D00CB7209 /* utilities */,
 				93631E4A1604F96800CB7209 /* OBAApplicationDelegate.h */,
@@ -1718,19 +1713,6 @@
 			path = protocols;
 			sourceTree = "<group>";
 		};
-		96ADB3D417BDD4D600314D65 /* Libraries/TestFlightSDK */ = {
-			isa = PBXGroup;
-			children = (
-				96ADB3D517BDD4D600314D65 /* libTestFlight.a */,
-				96ADB3D617BDD4D700314D65 /* README.md */,
-				96ADB3D717BDD4D700314D65 /* release_notes.md */,
-				96ADB3D817BDD4D700314D65 /* TestFlight+AsyncLogging.h */,
-				96ADB3D917BDD4D700314D65 /* TestFlight+ManualSessions.h */,
-				96ADB3DA17BDD4D700314D65 /* TestFlight.h */,
-			);
-			path = Libraries/TestFlightSDK;
-			sourceTree = "<group>";
-		};
 		D619F88E0FDF1372002893B5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -1768,7 +1750,6 @@
 				9358469A17FB9DC30034200C /* TWSReleaseNotesView */,
 				92CAAE96179C4AF40097DD3D /* MarqueeLabel */,
 				933C7E2B160C07440005AAFE /* Common */,
-				96ADB3D417BDD4D600314D65 /* Libraries/TestFlightSDK */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1964,6 +1945,7 @@
 				933C7FFC160C07440005AAFE /* ExportStopIcons.jsx in Resources */,
 				933C7FFD160C07440005AAFE /* FerryStopIcon.png in Resources */,
 				933C7FFE160C07440005AAFE /* FerryStopIcon@2x.png in Resources */,
+				93F152EC1A9ADDD10015C141 /* capitolhill.gpx in Resources */,
 				933C7FFF160C07440005AAFE /* FerryStopIconE.png in Resources */,
 				933C8000160C07440005AAFE /* FerryStopIconE@2x.png in Resources */,
 				933C8001160C07440005AAFE /* FerryStopIconN.png in Resources */,
@@ -2309,7 +2291,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"$(SRCROOT)/Libraries/TestFlightSDK",
 					"$(SRCROOT)/Libraries/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
@@ -2352,7 +2333,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"$(SRCROOT)/Libraries/TestFlightSDK",
 					"$(SRCROOT)/Libraries/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
@@ -2464,7 +2444,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"$(SRCROOT)/Libraries/TestFlightSDK",
 					"$(SRCROOT)/Libraries/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
@@ -2520,7 +2499,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"$(SRCROOT)/Libraries/TestFlightSDK",
 					"$(SRCROOT)/Libraries/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
