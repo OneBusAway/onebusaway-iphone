@@ -23,7 +23,6 @@
 
 #import "OBAPresentation.h"
 
-#import "OBAStopPreferences.h"
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBAEditStopPreferencesViewController.h"
 #import "OBAArrivalAndDepartureViewController.h"

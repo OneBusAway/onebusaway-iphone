@@ -28,8 +28,6 @@
 #import "OBAStopViewController.h"
 #import "OBAStopIconFactory.h"
 
-#import "OBAUserPreferencesMigration.h"
-
 #import "OBARegionListViewController.h"
 #import "OBARegionHelper.h"
 #import "OBAReleaseNotesManager.h"
@@ -222,7 +220,6 @@ static NSString *const kAllowTracking = @"allowTracking";
 
     self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
 
-    [self _migrateUserPreferences];
     [self _constructUI];
 
     return YES;
@@ -379,14 +376,6 @@ static NSString *const kAllowTracking = @"allowTracking";
     }
     
     return userId;
-}
-
-- (void) _migrateUserPreferences {
-    
-    OBAUserPreferencesMigration * migration = [[OBAUserPreferencesMigration alloc] init];
-    
-    NSString * path = [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"OneBusAway.sqlite"];
-    [migration migrateCoreDataPath:path toDao:_modelDao];
 }
 
 - (void)regionSelected {

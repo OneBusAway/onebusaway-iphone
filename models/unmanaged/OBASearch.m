@@ -17,7 +17,6 @@
 #import "OBASearch.h"
 #import "OBAStopV2.h"
 #import "OBAPlacemark.h"
-#import "OBAAgencyWithCoverage.h"
 #import "OBANavigationTargetAnnotation.h"
 #import "OBAProgressIndicatorImpl.h"
 #import "OBASphericalGeometryLibrary.h"
