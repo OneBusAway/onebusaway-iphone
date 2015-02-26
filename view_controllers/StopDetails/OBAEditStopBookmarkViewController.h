@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, OBABookmarkEditType) {
 };
 
 
-@interface OBAEditStopBookmarkViewController : UITableViewController < OBABookmarkGroupVCDelegate>
+@interface OBAEditStopBookmarkViewController : UITableViewController <OBABookmarkGroupVCDelegate>
 
 - (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType;
 

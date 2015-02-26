@@ -54,14 +54,8 @@
     [super viewWillDisappear:animated];
 }
 
-#pragma mark Table view methods
+#pragma mark - Table view methods
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-
-// Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSUInteger count = [_mostRecentStops count];
     if( count == 0 ) 
@@ -69,8 +63,6 @@
     return count;
 }
 
-
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if( [_mostRecentStops count] == 0 ) {
