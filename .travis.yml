@@ -22,7 +22,9 @@ before_install:
 before_script:
     - chmod -R +x ./scripts
     - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-script: xctool -project org.onebusaway.iphone.xcodeproj -sdk iphonesimulator -scheme Debug build-tests run-tests
+script:
+    - xctool -project org.onebusaway.iphone.xcodeproj -sdk iphonesimulator -scheme Debug build-tests run-tests
+    - xctool -project org.onebusaway.iphone.xcodeproj -sdk iphonesimulator -scheme AppStoreRelease build-tests run-tests  
 env:
   global:
   - APPNAME="OneBusAway"
