@@ -6,13 +6,12 @@
 #import "OBAAnalytics.h"
 
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeActions,
     OBASectionTypeAgencies,
     OBASectionTypeNoAgencies,
-} OBASectionType;
-
+};
 
 @interface OBAAgenciesListViewController ()
 

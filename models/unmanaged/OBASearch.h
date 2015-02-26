@@ -19,12 +19,11 @@
 #import "OBANavigationTarget.h"
 #import "OBAListWithRangeAndReferencesV2.h"
 
-
 extern NSString * kOBASearchTypeParameter;
 extern NSString * kOBASearchControllerSearchArgumentParameter;
 extern NSString * kOBASearchControllerSearchLocationParameter;
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBASearchType) {
     OBASearchTypeNone=0,
     OBASearchTypePending,
     OBASearchTypeRegion,
@@ -33,9 +32,8 @@ typedef enum {
     OBASearchTypeAddress,
     OBASearchTypePlacemark,
     OBASearchTypeStopId,
-    OBASearchTypeAgenciesWithCoverage
-} OBASearchType;
-
+    OBASearchTypeAgenciesWithCoverage,
+};
 
 @interface OBASearch : NSObject
 

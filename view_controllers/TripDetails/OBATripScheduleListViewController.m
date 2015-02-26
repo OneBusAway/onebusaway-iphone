@@ -7,14 +7,13 @@
 #import "OBAAnalytics.h"
 
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeLoading,
     OBASectionTypeSchedule,
     OBASectionTypePreviousStops,
     OBASectionTypeConnections
-} OBASectionType;
-
+};
 
 @interface OBATripScheduleListViewController (Private)
 

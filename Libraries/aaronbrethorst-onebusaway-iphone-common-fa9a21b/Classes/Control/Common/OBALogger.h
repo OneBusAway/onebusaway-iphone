@@ -16,13 +16,12 @@
 
 //#import <Foundation/Foundation.h>
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBALoggerLevel) {
     OBALoggerLevelDebug,
     OBALoggerLevelInfo,
     OBALoggerLevelWarning,
     OBALoggerLevelSevere
-}
-OBALoggerLevel;
+};
 
 #ifdef NDEBUG
 

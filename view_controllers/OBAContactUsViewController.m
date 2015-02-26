@@ -116,49 +116,63 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
     return cell;
 }
 
+- (void)sendFeedbackEmailForRegion:(OBARegionV2 *)region {
+
+    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Clicked Email Link" value:nil];
+
+    if (![MFMailComposeViewController canSendMail]) {
+        [self cantSendEmail];
+        return;
+    }
+
+    MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
+
+    if (!controller) {
+        [self cantSendEmail];
+        return;
+    }
+    
+    // Create and show composer
+    NSString *contactEmail = kOBADefaultContactEmail;
+    if (region) {
+        contactEmail = region.contactEmail;
+    }
+
+    //device model, thanks to http://stackoverflow.com/a/11197770/1233435
+    struct utsname systemInfo;
+    uname(&systemInfo);
+
+    NSString *appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    CLLocation * location = _appDelegate.locationManager.currentLocation;
+
+    controller.mailComposeDelegate = self;
+    [controller setToRecipients:@[contactEmail]];
+    [controller setSubject:NSLocalizedString(@"OneBusAway iOS Feedback", @"feedback mail subject")];
+
+    NSString *unformattedMessageBody = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"feedback_message_body" ofType:@"html"] encoding:NSUTF8StringEncoding error:nil];
+
+    NSString *messageBody = [NSString stringWithFormat:unformattedMessageBody,
+                             appVersionString,
+                             [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding],
+                             [[UIDevice currentDevice] systemVersion],
+                             _appDelegate.modelDao.readSetRegionAutomatically ? @"YES" : @"NO",
+                             _appDelegate.modelDao.region.regionName,
+                             _appDelegate.modelDao.readCustomApiUrl,
+                             location.coordinate.latitude,
+                             location.coordinate.longitude
+                             ];
+
+    [controller setMessageBody:messageBody isHTML:YES];
+
+    [self presentViewController:controller animated:YES completion:nil];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     OBARegionV2 *region = _appDelegate.modelDao.region;
     switch( indexPath.row) {
         case kEmailRow:
             {
-                [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Clicked Email Link" value:nil];
-
-                //check if user can send email
-                if ([MFMailComposeViewController canSendMail]){
-                    // Create and show composer
-                    NSString *contactEmail = kOBADefaultContactEmail;
-                    if (region) {
-                        contactEmail = region.contactEmail;
-                    }
-
-                    //device model, thanks to http://stackoverflow.com/a/11197770/1233435
-                    struct utsname systemInfo;
-                    uname(&systemInfo);
-                    
-                    NSString *appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-                    CLLocation * location = _appDelegate.locationManager.currentLocation;                
-
-                    MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
-                    if (controller != nil){
-                        controller.mailComposeDelegate=self;
-                				[controller setToRecipients:[NSArray arrayWithObject:contactEmail]];
-                				[controller setSubject:NSLocalizedString(@"OneBusAway iOS Feedback", @"feedback mail subject")];
-                				[controller setMessageBody:[NSString stringWithFormat:@"<br><br>---------------<br> \
-                            The following information is provided for troubleshooting purposes and does not comply with the privacy policy. If you are \
-                            uncomfortable sharing any of the following information you may remove it, however it may affect our ability to assist you.<br> \
-                            App Version: %@<br>Device: <a href='http://stackoverflow.com/a/11197770/1233435'>%@</a><br>iOS Version: %@<br> \
-                            Current Location: %f, %f<br>Set Region Automatically: %@<br>Region: %@<br>Custom API: %@", 
-                            appVersionString, [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding], 
-                            [[UIDevice currentDevice] systemVersion], (_appDelegate.modelDao.readSetRegionAutomatically ? @"YES" : @"NO"), 
-                            _appDelegate.modelDao.region.regionName, _appDelegate.modelDao.readCustomApiUrl, location.coordinate.latitude, location.coordinate.longitude] isHTML:YES]; 
-                				
-                        [self presentViewController:controller animated:YES completion:^{ }];
-                    }else{
-                        [self cantSendEmail];
-                    }
-                }else{
-                    [self cantSendEmail];
-                }
+                [self sendFeedbackEmailForRegion:region];
             }
             break;
         case kTwitterRow:

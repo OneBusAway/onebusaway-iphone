@@ -13,12 +13,12 @@
 #import "OBAModelDAO.h"
 #import "OBAAnalytics.h"
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeTitle,
     OBASectionTypeDetails,
     OBASectionTypeMarkAsRead
-} OBASectionType;
+};
 
 
 @interface OBASituationViewController (Private)
@@ -39,11 +39,7 @@ typedef enum {
 
 @implementation OBASituationViewController
 
-@synthesize args;
-
-
-#pragma mark -
-#pragma mark Initialization
+#pragma mark - Initialization
 
 - (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate situation:(OBASituationV2*)situation {
     
@@ -161,7 +157,7 @@ typedef enum {
             [self didSelectMarkAsReadRowAtIndexPath:indexPath tableView:tableView];
             break;
         default:
-            NSLog(@"Unhandled switch value in %s: %d", __PRETTY_FUNCTION__, sectionType);
+            NSLog(@"Unhandled switch value in %s: %@", __PRETTY_FUNCTION__, @(sectionType));
     }
 }
 

@@ -11,7 +11,7 @@
 #import "OBACustomApiViewController.h"
 #import "OBAAnalytics.h"
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeLoading,
     OBASectionTypeTitle,
@@ -20,7 +20,7 @@ typedef enum {
     OBASectionTypeNoRegions,
     OBASectionTypeCustomAPI,
     OBASectionTypeShowExperimentalRegions,
-} OBASectionType;
+};
 
 @interface OBARegionListViewController ()
 

@@ -3,8 +3,6 @@
 
 @implementation OBATripContinuationMapAnnotation
 
-@synthesize tripInstance = _tripInstance;
-
 - (id) initWithTitle:(NSString*)title tripInstance:(OBATripInstanceRef*)tripInstance location:(CLLocationCoordinate2D)location {
     if( self = [super init] ) {
         _title = title; 

@@ -3,24 +3,6 @@
 
 @implementation OBATransitLegV2
 
-@synthesize tripId;
-@synthesize serviceDate;
-@synthesize vehicleId;
-@synthesize frequency;
-@synthesize fromStopId;
-@synthesize fromStopSequence;
-@synthesize toStopId;
-@synthesize toStopSequence;
-@synthesize tripHeadsign;
-@synthesize routeShortName;
-@synthesize routeLongName;
-@synthesize path;
-@synthesize scheduledDepartureTime;
-@synthesize predictedDepartureTime;
-@synthesize scheduledArrivalTime;
-@synthesize predictedArrivalTime;
-
-
 - (OBATripV2*) trip {
     OBAReferencesV2 * refs = self.references;
     return [refs getTripForId:self.tripId];

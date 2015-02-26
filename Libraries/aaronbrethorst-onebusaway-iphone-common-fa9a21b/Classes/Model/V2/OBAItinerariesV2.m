@@ -1,9 +1,6 @@
 #import "OBAItinerariesV2.h"
 
-
 @implementation OBAItinerariesV2
-
-@synthesize itineraries = _itineraries;
 
 -(id)init {
     self = [super init];

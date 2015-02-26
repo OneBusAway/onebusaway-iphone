@@ -22,13 +22,13 @@
 #import "OBAArrivalEntryTableViewCellFactory.h"
 #import "OBAShadowLabel.h"
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBAStopSectionType) {
     OBAStopSectionTypeNone,
     OBAStopSectionTypeArrivals,
     OBAStopSectionTypeFilter,
     OBAStopSectionTypeServiceAlerts,
     OBAStopSectionTypeActions
-} OBAStopSectionType;
+};
 
 @interface OBAGenericStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate, MKMapViewDelegate>
 @property(nonatomic, weak) IBOutlet UIView *tableHeaderView;

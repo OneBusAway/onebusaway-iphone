@@ -26,15 +26,6 @@ NSString * kOBASearchTypeParameter = @"OBASearchTypeParameter";
 NSString * kOBASearchControllerSearchArgumentParameter = @"OBASearchControllerSearchArgumentParameter";
 NSString * kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSearchLocationParameter";
 
-
-@interface OBASearch (Internal)
-
-+ (OBANavigationTarget*) getNavigationTargetForSearchType:(OBASearchType)searchType;
-+ (OBANavigationTarget*) getNavigationTargetForSearchType:(OBASearchType)searchType argument:(id)argument;
-
-@end
-
-
 @implementation OBASearch
 
 + (OBANavigationTarget*) getNavigationTargetForSearchNone {
@@ -103,12 +94,6 @@ NSString * kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSe
     NSDictionary * params = target.parameters;
     return params[kOBASearchControllerSearchArgumentParameter];
 }
-
-@end
-
-
-
-@implementation OBASearch (Internal)
 
 + (OBANavigationTarget*) getNavigationTargetForSearchType:(OBASearchType)searchType {
     return [self getNavigationTargetForSearchType:searchType argument:nil];

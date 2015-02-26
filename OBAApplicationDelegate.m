@@ -44,17 +44,6 @@ static NSString *const kAllowTracking = @"allowTracking";
 @interface OBAApplicationDelegate ()
 @property(nonatomic,readwrite) BOOL active;
 @property(nonatomic) OBARegionHelper *regionHelper;
-
-
-- (void) _constructUI;
-- (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget;
-- (void) _setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController;
-- (UIViewController*) _getViewControllerForTarget:(OBANavigationTarget*)target;
-
-- (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults;
-- (void) _migrateUserPreferences;
-- (NSString *)applicationDocumentsDirectory;
-- (void)_updateSelectedTabIndex;
 @end
 
 @implementation OBAApplicationDelegate
@@ -333,28 +322,7 @@ static NSString *const kAllowTracking = @"allowTracking";
         [self.tabBarController setSelectedViewController:self.bookmarksNavigationController];
     }
     else {
-        NSLog(@"Unhandled target in %s: %d", __PRETTY_FUNCTION__, navigationTarget.target);
-    }
-}
-
-- (void) _setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController {
-    if( ! [viewController conformsToProtocol:@protocol(OBANavigationTargetAware) ] )
-        return;
-    
-    if( ! [viewController respondsToSelector:@selector(setNavigationTarget:) ] )
-        return;
-    
-    id<OBANavigationTargetAware> targetAware = (id<OBANavigationTargetAware>) viewController;
-    [targetAware setNavigationTarget:target];
-}
-
-- (UIViewController*) _getViewControllerForTarget:(OBANavigationTarget*)target {
-    
-    switch (target.target) {
-        case OBANavigationTargetTypeStop:
-            return [[OBAStopViewController alloc] initWithApplicationDelegate:self];
-        default:
-            return nil;
+        NSLog(@"Unhandled target in %s: %@", __PRETTY_FUNCTION__, @(navigationTarget.target));
     }
 }
 
@@ -395,18 +363,6 @@ static NSString *const kAllowTracking = @"allowTracking";
     _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:_regionListViewController];
 
     self.window.rootViewController = _regionNavigationController;
-}
-
-#pragma mark - Application's documents directory
-
-/**
- * Returns the path to the application's documents directory.
- */
-- (NSString *)applicationDocumentsDirectory {
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? paths[0] : nil;
-    return basePath;
 }
 
 @end

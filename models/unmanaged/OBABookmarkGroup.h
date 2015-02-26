@@ -10,12 +10,10 @@
 
 @class OBABookmarkV2;
 
-@interface OBABookmarkGroup : NSObject
-
-- (id) initWithName:(NSString*)name;
-- (id) initWithCoder:(NSCoder*)coder;
-
+@interface OBABookmarkGroup : NSObject<NSCoding>
 @property (nonatomic, strong) NSMutableArray *bookmarks;
 @property (nonatomic, strong) NSString *name;
+
+- (instancetype)initWithName:(NSString*)name;
 
 @end

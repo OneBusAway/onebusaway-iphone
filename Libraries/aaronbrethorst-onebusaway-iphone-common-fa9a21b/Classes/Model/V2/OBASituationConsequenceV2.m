@@ -3,8 +3,5 @@
 
 @implementation OBASituationConsequenceV2
 
-@synthesize condition;
-@synthesize diversionPath;
-
 
 @end
