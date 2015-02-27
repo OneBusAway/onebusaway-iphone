@@ -314,7 +314,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
         scheduleDeviation = status.scheduleDeviation;
     }
     else {
-        serviceDate = [[NSDate date] timeIntervalSince1970];
+        serviceDate = _tripDetails.serviceDate;
         scheduleDeviation = 0;
     }
 
