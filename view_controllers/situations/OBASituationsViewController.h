@@ -5,9 +5,9 @@
     OBAApplicationDelegate * _appDelegate;
     NSArray * _situations;
 }
-
-- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate situations:(NSArray*)situations;
-
 @property (nonatomic,strong) NSDictionary * args;
+
+- (instancetype) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate situations:(NSArray*)situations;
+
 
 @end

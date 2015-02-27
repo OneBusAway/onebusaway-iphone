@@ -3,8 +3,6 @@
 
 @implementation OBAArrivalAndDepartureV2
 
-@synthesize situationIds = _situationIds;
-
 - (id) init {
     self = [super init];
     if (self) {

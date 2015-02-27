@@ -3,10 +3,6 @@
 
 @implementation OBATripInstanceRef
 
-@synthesize tripId = _tripId;
-@synthesize serviceDate = _serviceDate;
-@synthesize vehicleId = _vehicleId;
-
 - (id) initWithTripId:(NSString*)tripId serviceDate:(long long)serviceDate vehicleId:(NSString*)vehicleId {
     self = [super init];
     if( self ) {

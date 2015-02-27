@@ -15,13 +15,9 @@
 
 @implementation OBASituationsViewController
 
+#pragma mark - Initialization
 
-#pragma mark -
-#pragma mark Initialization
-
-@synthesize args;
-
-- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate situations:(NSArray*)situations {
+- (instancetype) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate situations:(NSArray*)situations {
     
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         _appDelegate = appDelegate;

@@ -7,14 +7,14 @@
 #import "OBAAnalytics.h"
 
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeLoading,
     OBASectionTypeTitle,
     OBASectionTypeServiceAlerts,
     OBASectionTypeSchedule,
     OBASectionTypeActions
-} OBASectionType;
+};
 
 
 @interface OBATripDetailsViewController (Private)
@@ -52,7 +52,7 @@ typedef enum {
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+
     [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
@@ -61,17 +61,25 @@ typedef enum {
 }
 
 - (id<OBAModelServiceRequest>)handleRefresh {
-    return [self.appDelegate.modelService requestTripDetailsForTripInstance:self.tripInstance withDelegate:self withContext:nil];
-}
+    return [self.appDelegate.modelService
+            requestTripDetailsForTripInstance:self.tripInstance
+                              completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                                  if (error) {
+                                  [self refreshFailedWithError:error];
+                                  }
+                                  else {
+                                  OBAEntryWithReferencesV2 *entry = jsonData;
 
-- (void)handleData:(id)obj context:(id)context {
-    OBAEntryWithReferencesV2 *entry = obj;
+                                  self.tripDetails = entry.entry;
 
-    self.tripDetails = entry.entry;
-}
+                                  self.serviceAlerts = [self.appDelegate.modelDao
+                                  getServiceAlertsModelForSituations:self.tripDetails.situations];
 
-- (void)handleDataChanged {
-    self.serviceAlerts = [self.appDelegate.modelDao getServiceAlertsModelForSituations:self.tripDetails.situations];
+                                  [self refreshCompleteWithCode:responseCode];
+                                  }
+                              }
+
+                                progressBlock:nil];
 }
 
 #pragma mark Table view methods
@@ -226,12 +234,13 @@ typedef enum {
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     OBATripV2 *trip = self.tripDetails.trip;
-    
+
     NSString *routeName = trip.routeShortName;
+
     if (!routeName) {
         routeName = trip.route.safeShortName;
     }
-    
+
     cell.routeLabel.text = routeName;
     cell.destinationLabel.text = trip.tripHeadsign ? trip.tripHeadsign : @"";
     cell.statusLabel.text = NSLocalizedString(@"Schedule data only", @"cell.detailTextLable.text");
@@ -251,7 +260,7 @@ typedef enum {
 
     cell.minutesLabel.text = @"";
     cell.minutesSubLabel.text = @"";
-    
+
     return cell;
 }
 

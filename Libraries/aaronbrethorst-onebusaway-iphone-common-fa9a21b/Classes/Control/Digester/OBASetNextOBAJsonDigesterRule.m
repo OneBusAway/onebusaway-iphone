@@ -20,8 +20,6 @@
 
 @implementation OBASetNextOBAJsonDigesterRule
 
-@synthesize onlyIfNotNull = _onlyIfNotNull;
-
 - (id) initWithSelector:(SEL)selector {
     self = [super init];
     if( self ) {

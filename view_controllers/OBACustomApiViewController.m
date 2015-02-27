@@ -12,11 +12,11 @@
 #import "UITableViewController+oba_Additions.h"
 #import "OBAAnalytics.h"
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBASectionType) {
 	OBASectionTypeNone,
     OBASectionTypeEditing,
     OBASectionTypeRecent,
-} OBASectionType;
+};
 
 static NSString *editingCellTag = @"editingCell";
 

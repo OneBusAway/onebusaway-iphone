@@ -3,9 +3,7 @@
 #import "OBATripStatusV2.h"
 
 
-@interface OBAVehicleStatusV2 : OBAHasReferencesV2 {
-
-}
+@interface OBAVehicleStatusV2 : OBAHasReferencesV2
 
 @property (nonatomic,strong) NSString * vehicleId;
 @property (nonatomic) long long lastUpdateTime;

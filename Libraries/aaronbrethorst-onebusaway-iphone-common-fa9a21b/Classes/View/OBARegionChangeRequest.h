@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum  {
+typedef NS_ENUM(NSInteger, OBARegionChangeRequestType) {
     OBARegionChangeRequestTypeUser=0,
     OBARegionChangeRequestTypeProgramatic=1
-} OBARegionChangeRequestType;
+};
 
 
 @interface OBARegionChangeRequest : NSObject

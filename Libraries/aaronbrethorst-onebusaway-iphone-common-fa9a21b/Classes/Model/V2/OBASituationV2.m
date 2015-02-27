@@ -11,16 +11,6 @@
 
 @implementation OBASituationV2
 
-@synthesize situationId;
-@synthesize creationTime;
-
-@synthesize summary;
 @synthesize description;
-@synthesize advice;
-
-@synthesize consequences;
-
-@synthesize severity;
-@synthesize sensitivity;
 
 @end

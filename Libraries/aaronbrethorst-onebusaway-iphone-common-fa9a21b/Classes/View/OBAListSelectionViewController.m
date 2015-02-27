@@ -21,6 +21,7 @@
 }
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
     [self hideEmptySeparators];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];

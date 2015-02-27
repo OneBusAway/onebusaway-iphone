@@ -5,12 +5,6 @@
 
 @implementation OBASearchResult
 
-@synthesize searchType = _searchType;
-@synthesize limitExceeded = _limitExceeded;
-@synthesize outOfRange = _outOfRange;
-@synthesize values = _values;
-@synthesize additionalValues = _additionalValues;
-
 + (OBASearchResult*) result {
     return [[OBASearchResult alloc] init];
 }

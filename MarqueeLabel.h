@@ -6,6 +6,7 @@
 #import <UIKit/UIKit.h>
 
 // MarqueeLabel types
+
 typedef enum {
     MLLeftRight = 0,        // Scrolls left first, then back right to the original position
     MLRightLeft,            // Scrolls right first, then back left to the original position

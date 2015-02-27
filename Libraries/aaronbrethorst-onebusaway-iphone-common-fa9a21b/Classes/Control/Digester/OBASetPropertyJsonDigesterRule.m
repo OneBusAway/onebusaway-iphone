@@ -19,8 +19,6 @@
 
 @implementation OBASetPropertyJsonDigesterRule
 
-@synthesize optional = _optional;
-
 - (id) initWithPropertyName:(NSString*)propertyName {
     self = [super init];
     if( self ) {

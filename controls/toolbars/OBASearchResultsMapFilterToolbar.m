@@ -17,24 +17,8 @@
 #import "OBASearchResultsMapFilterToolbar.h"
 #import "OBAApplicationDelegate.h" // for OBAApplicationDelegate.window
 
-
-// hidden declarations
-@interface OBASearchResultsMapFilterToolbar (hidden)
-
--(void) hideInternal;
-
-@end
-
-
-// public implementation
 @implementation OBASearchResultsMapFilterToolbar
 
-// propeties
-@synthesize filterDescription = _filterDescription;
-@synthesize appDelegate = _appDelegate;
-
-
-// methods
 -(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate andappDelegate:(OBAApplicationDelegate*)context {
     self = [super init];
     
@@ -207,13 +191,9 @@
     }
 }
 
-@end
+#pragma mark - Private
 
-
-// hidden implementation
-@implementation OBASearchResultsMapFilterToolbar (hidden)
-
--(void) hideInternal {
+- (void)hideInternal {
     if (_currentlyShowing) {
         [_labelOutput removeFromSuperview];
         [_descOutput  removeFromSuperview];

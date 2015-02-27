@@ -5,23 +5,23 @@
 #import "OBATextEditViewController.h"
 #import "OBAListSelectionViewController.h"
 
-@interface OBAReportProblemWithTripViewController : UITableViewController <UITextFieldDelegate,OBAModelServiceDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate, UIAlertViewDelegate> {
-    OBAApplicationDelegate * _appDelegate;
-    OBATripInstanceRef * _tripInstance;
-    OBATripV2 * _trip;
-    NSMutableArray * _problemIds;
-    NSMutableArray * _problemNames;
+@interface OBAReportProblemWithTripViewController : UITableViewController <UITextFieldDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate, UIAlertViewDelegate> {
+    OBAApplicationDelegate *_appDelegate;
+    OBATripInstanceRef *_tripInstance;
+    OBATripV2 *_trip;
+    NSMutableArray *_problemIds;
+    NSMutableArray *_problemNames;
     NSUInteger _problemIndex;
-    NSString * _comment;
+    NSString *_comment;
     BOOL _onVehicle;
-    NSString * _vehicleNumber;
-    NSString * _vehicleType;
-    
-    OBAModalActivityIndicator * _activityIndicatorView;
+    NSString *_vehicleNumber;
+    NSString *_vehicleType;
+
+    OBAModalActivityIndicator *_activityIndicatorView;
 }
 
-- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate tripInstance:(OBATripInstanceRef*)tripInstance trip:(OBATripV2*)trip;
+- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate tripInstance:(OBATripInstanceRef *)tripInstance trip:(OBATripV2 *)trip;
 
-@property (nonatomic,strong) NSString * currentStopId;
+@property (nonatomic, strong) NSString *currentStopId;
 
 @end

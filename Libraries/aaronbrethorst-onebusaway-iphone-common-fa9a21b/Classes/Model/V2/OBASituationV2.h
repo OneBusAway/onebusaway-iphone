@@ -1,9 +1,7 @@
 #import "OBAHasReferencesV2.h"
 
 
-@interface OBASituationV2 : OBAHasReferencesV2 {
-
-}
+@interface OBASituationV2 : OBAHasReferencesV2
 
 @property (nonatomic,strong) NSString * situationId;
 @property (nonatomic) long long creationTime;

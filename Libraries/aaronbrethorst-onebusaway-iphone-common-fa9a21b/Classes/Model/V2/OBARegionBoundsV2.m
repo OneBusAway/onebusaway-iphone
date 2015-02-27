@@ -9,10 +9,6 @@
 #import "OBARegionBoundsV2.h"
 
 @implementation OBARegionBoundsV2
-@synthesize lat;
-@synthesize latSpan;
-@synthesize lon;
-@synthesize lonSpan;
 
 static NSString * kLatKey = @"lat";
 static NSString * kLatSpanKey = @"latSpan";

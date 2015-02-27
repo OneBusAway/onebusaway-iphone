@@ -15,12 +15,11 @@
  */
 
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBAArrivalEntryTableViewCellAlertStyle) {
     OBAArrivalEntryTableViewCellAlertStyleNone,
     OBAArrivalEntryTableViewCellAlertStyleInactive,
     OBAArrivalEntryTableViewCellAlertStyleActive
-}
-OBAArrivalEntryTableViewCellAlertStyle;
+};
 
 @interface OBAArrivalEntryTableViewCell : UITableViewCell {
     OBAArrivalEntryTableViewCellAlertStyle _alertStyle;

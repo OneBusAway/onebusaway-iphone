@@ -22,20 +22,20 @@
 #import "OBAArrivalEntryTableViewCellFactory.h"
 #import "OBAShadowLabel.h"
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBAStopSectionType) {
     OBAStopSectionTypeNone,
     OBAStopSectionTypeArrivals,
     OBAStopSectionTypeFilter,
     OBAStopSectionTypeServiceAlerts,
     OBAStopSectionTypeActions
-} OBAStopSectionType;
+};
 
-@interface OBAGenericStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate,OBAModelServiceDelegate, MKMapViewDelegate>
-@property(nonatomic,strong) IBOutlet UIView *tableHeaderView;
-@property(nonatomic,strong) IBOutlet MKMapView *mapView;
-@property(nonatomic,strong) IBOutlet OBAShadowLabel *stopName;
-@property(nonatomic,strong) IBOutlet OBAShadowLabel *stopNumber;
-@property(nonatomic, strong) IBOutlet OBAShadowLabel *stopRoutes;
+@interface OBAGenericStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate, MKMapViewDelegate>
+@property(nonatomic, weak) IBOutlet UIView *tableHeaderView;
+@property(nonatomic, weak) IBOutlet MKMapView *mapView;
+@property(nonatomic, strong) OBAShadowLabel *stopName;
+@property(nonatomic, strong) OBAShadowLabel *stopNumber;
+@property(nonatomic, strong) OBAShadowLabel *stopRoutes;
 
 @property(strong,readonly) OBAApplicationDelegate * appDelegate;
 @property(strong,readonly) NSString * stopId;

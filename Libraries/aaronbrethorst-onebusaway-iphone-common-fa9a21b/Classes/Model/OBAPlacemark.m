@@ -19,11 +19,6 @@
 
 @implementation OBAPlacemark
 
-@synthesize name = _name;
-@synthesize address = _address;
-@synthesize coordinate = _coordinate;
-@synthesize icon = _icon;
-
 -(id) initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate {
     self = [super init];
     if( self ) {

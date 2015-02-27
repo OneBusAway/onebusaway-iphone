@@ -11,10 +11,10 @@
 @class OBAApplicationDelegate;
 @class OBABookmarkGroup;
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBABookmarkGroupEditType) {
     OBABookmarkGroupEditNew=0,
-    OBABookmarkGroupEditExisting=1
-} OBABookmarkGroupEditType;
+    OBABookmarkGroupEditExisting,
+};
 
 @interface OBAEditBookmarkGroupViewController : UITableViewController
 

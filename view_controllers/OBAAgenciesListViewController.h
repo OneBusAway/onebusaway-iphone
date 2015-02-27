@@ -5,8 +5,6 @@
 #import "OBAArrivalEntryTableViewCellFactory.h"
 
 
-@interface OBAAgenciesListViewController : OBARequestDrivenTableViewController {
-    NSMutableArray * _agencies;
-}
+@interface OBAAgenciesListViewController : OBARequestDrivenTableViewController 
 
 @end

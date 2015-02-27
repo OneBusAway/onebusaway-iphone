@@ -19,21 +19,13 @@
 #import "OBAEditStopBookmarkGroupViewController.h"
 
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBABookmarkEditType) {
     OBABookmarkEditNew=0,
     OBABookmarkEditExisting=1
-} OBABookmarkEditType;
+};
 
 
-@interface OBAEditStopBookmarkViewController : UITableViewController <OBAModelServiceDelegate, OBABookmarkGroupVCDelegate> {
-    OBAApplicationDelegate * _appDelegate;
-    OBABookmarkEditType _editType;
-    OBABookmarkV2 * _bookmark;
-    OBABookmarkGroup * _selectedGroup;
-    NSMutableArray * _requests;
-    NSMutableDictionary * _stops;
-    UITextField * _textField;
-}
+@interface OBAEditStopBookmarkViewController : UITableViewController < OBABookmarkGroupVCDelegate>
 
 - (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType;
 

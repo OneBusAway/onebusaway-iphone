@@ -3,8 +3,6 @@
 
 @implementation OBAStopPreferencesV2
 
-@synthesize sortTripsByType = _sortTripsByType;
-@synthesize routeFilter = _routeFilter;
 - (id) init {
     self = [super init];
     if( self ) {

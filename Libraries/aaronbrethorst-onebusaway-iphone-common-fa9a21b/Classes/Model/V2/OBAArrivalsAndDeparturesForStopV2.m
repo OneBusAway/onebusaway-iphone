@@ -4,9 +4,6 @@
 
 @implementation OBAArrivalsAndDeparturesForStopV2
 
-@synthesize arrivalsAndDepartures = _arrivalsAndDepartures;
-@synthesize situationIds = _situationIds;
-
 -(id) initWithReferences:(OBAReferencesV2*)refs {
     self = [super initWithReferences:refs];
     if( self ) {
