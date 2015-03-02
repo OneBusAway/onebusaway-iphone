@@ -2024,7 +2024,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nsh ${PROJECT_DIR}/scripts/setBuildVersion.sh";
+			shellScript = "#!/bin/bash\nsh \"${PROJECT_DIR}/scripts/setBuildVersion.sh\"";
 			showEnvVarsInLog = 0;
 		};
 		E81C7AFD1824AE960047C68C /* Set bundle identifier based on current build configuration */ = {
@@ -2039,7 +2039,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nsh ${PROJECT_DIR}/scripts/setBundleIdentifierForAppStore.sh";
+			shellScript = "#!/bin/bash\nsh \"${PROJECT_DIR}/scripts/setBundleIdentifierForAppStore.sh\"";
 			showEnvVarsInLog = 0;
 		};
 		E81C7AFE1824B7C80047C68C /* Remove infoplist.prefix preprocessor file from project temp directory */ = {
