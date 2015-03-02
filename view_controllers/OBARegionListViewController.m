@@ -343,7 +343,13 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
         UIAlertView *view = [[UIAlertView alloc] init];
         view.title = NSLocalizedString(@"Location Services Disabled", @"view.title");
         view.message = NSLocalizedString(@"Location Services are disabled for this app. Some location-aware functionality will be missing.", @"view.message");
-        [view addButtonWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle")];
+        view.delegate = self;
+        [view addButtonWithTitle:NSLocalizedString(@"Okay", @"Ok button")];
+
+        if (&UIApplicationOpenSettingsURLString != NULL) {
+            [view addButtonWithTitle:@"Location Settings"];
+        }
+
         view.cancelButtonIndex = 0;
         [view show];
     }
@@ -517,6 +523,12 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
         }
         else {
             [_toggleSwitch setOn:NO animated:NO];
+        }
+    }
+    else if ([title isEqualToString:@"Location Settings"]) {
+        if (&UIApplicationOpenSettingsURLString != NULL) {
+            NSURL *appSettings = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            [[UIApplication sharedApplication] openURL:appSettings];
         }
     }
 }
