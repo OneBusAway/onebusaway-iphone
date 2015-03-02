@@ -18,7 +18,7 @@ Our [huboard](http://huboard.com/OneBusAway/onebusaway-iphone/board) lists devel
 ### Development environment setup
 
 1. Install Xcode 6 with the iOS 8.x SDK
-2. Install [BBUncrustifyPlugin](https://github.com/benoitsan/BBUncrustifyPlugin-Xcode) to keep your code within our style guidelines
+2. Install [BBUncrustifyPlugin](https://github.com/benoitsan/BBUncrustifyPlugin-Xcode#installation) to keep your code within our style guidelines
 3. `git clone` your fork
 
 You should now be able to build. See our [contributing guidelines](CONTRIBUTING.md) for the specific workflow to add a new feature or bug fix.
