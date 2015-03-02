@@ -7,8 +7,6 @@
 
 If you would like to help test the latest development release, email us at [iphone-app@onebusaway.org](mailto:iphone-app@onebusaway.org) to be added to our TestFlight Beta testing group.
 
-Have a jailbroken device? [Install the latest commit build](https://github.com/bbodenmiller/onebusaway-iphone-test-releases)
-
 ## Contributing
 
 See our [contributing guidelines](CONTRIBUTING.md) and [roadmap](ROADMAP.md).
