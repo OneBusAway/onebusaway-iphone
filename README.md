@@ -31,4 +31,3 @@ You should now be able to build. See our [contributing guidelines](CONTRIBUTING.
 * Create AppStore build
 * Upload to AppStore, use changelog as release notes
 * Create [GitHub release](https://github.com/OneBusAway/onebusaway-iphone/releases) based on changelog
-* Upload [dSYM for AppStore build to crashes page](https://testflightapp.com/dashboard/apps/776859/crashes/) (might have to wait until first crash occurs)
