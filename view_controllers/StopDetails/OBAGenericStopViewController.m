@@ -288,13 +288,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
         OBAStopWebViewController *webViewController = [[OBAStopWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
         [self.navigationController pushViewController:webViewController animated:YES];
-        
-        // Show popup for research survey. Should only be implemented
-        // when a survey is currently being conducted.
-        self.showSurveyAlert = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAShowSurveyAlertKey];
-        if (self.showSurveyAlert) {
-            [self showSurveyPopup];
-        }
     }
 
     if (UIAccessibilityIsVoiceOverRunning()) {
