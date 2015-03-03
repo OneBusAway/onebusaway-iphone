@@ -4,9 +4,6 @@ before_install:
   - brew outdated xctool || brew upgrade xctool
 xcode_project: org.onebusaway.iphone.xcodeproj
 xcode_sdk:
-    - iphonesimulator7.0
-    #- iphonesimulator8.1
-
     #test on latest SDK known to Travis CI
     - iphonesimulator
 xcode_scheme:
