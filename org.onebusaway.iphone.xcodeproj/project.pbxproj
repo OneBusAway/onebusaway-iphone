@@ -28,6 +28,7 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
+		5ED30F451A9FB8C400CFC794 /* OBAURLHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F152FF1A9AE9740015C141 /* OBAURLHelpers.m */; };
 		727E52F515824F1200534646 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 727E52F415824F1200534646 /* MessageUI.framework */; };
 		9211E32217B8236B0008A479 /* OBARegionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9211E32117B8236B0008A479 /* OBARegionHelper.m */; };
 		9211E32517B922D20008A479 /* OBACustomApiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9211E32417B922D20008A479 /* OBACustomApiViewController.m */; };
@@ -2023,7 +2024,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nsh ${PROJECT_DIR}/scripts/setBuildVersion.sh";
+			shellScript = "#!/bin/bash\nsh \"${PROJECT_DIR}/scripts/setBuildVersion.sh\"";
 			showEnvVarsInLog = 0;
 		};
 		E81C7AFD1824AE960047C68C /* Set bundle identifier based on current build configuration */ = {
@@ -2038,7 +2039,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nsh ${PROJECT_DIR}/scripts/setBundleIdentifierForAppStore.sh";
+			shellScript = "#!/bin/bash\nsh \"${PROJECT_DIR}/scripts/setBundleIdentifierForAppStore.sh\"";
 			showEnvVarsInLog = 0;
 		};
 		E81C7AFE1824B7C80047C68C /* Remove infoplist.prefix preprocessor file from project temp directory */ = {
@@ -2206,6 +2207,7 @@
 			files = (
 				93F153021A9AEA500015C141 /* OBAURLHelpers_Tests.m in Sources */,
 				93F152F61A9AE91A0015C141 /* OneBusAway_Tests.m in Sources */,
+				5ED30F451A9FB8C400CFC794 /* OBAURLHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

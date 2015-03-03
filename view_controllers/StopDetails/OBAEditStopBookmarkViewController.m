@@ -50,10 +50,10 @@
         _stops = [[NSMutableDictionary alloc] init];
 
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButton:)];
-        [self.navigationItem setLeftBarButtonItem:cancelButton];
+        self.navigationItem.leftBarButtonItem = cancelButton;
 
         UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onSaveButton:)];
-        [self.navigationItem setRightBarButtonItem:saveButton];
+        self.navigationItem.rightBarButtonItem = saveButton;
 
         switch (_editType) {
             case OBABookmarkEditNew:
@@ -77,7 +77,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
-
 
     OBAModelService *service = _appDelegate.modelService;
     NSArray *stopIds = _bookmark.stopIds;
@@ -107,18 +106,12 @@
     [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
 }
 
-#pragma mark Table view methods
+#pragma mark - Table view methods
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-// Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 3;
 }
 
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
         OBATextFieldTableViewCell *cell =  [OBATextFieldTableViewCell getOrCreateCellForTableView:tableView];
