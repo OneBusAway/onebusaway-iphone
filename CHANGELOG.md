@@ -1,5 +1,9 @@
 # Changelog for OneBusAway for iPhone
 
+## 2.3.2
+
+* Adds a notice to take an external survey (run by UW)
+
 ## 2.3.1
 
 * Changes out of region alert handling (through use of delegate)

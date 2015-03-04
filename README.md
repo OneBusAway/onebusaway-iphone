@@ -1,13 +1,12 @@
 # OneBusAway for iPhone
 [![Build Status](https://img.shields.io/travis/OneBusAway/onebusaway-iphone.svg)](https://travis-ci.org/OneBusAway/onebusaway-iphone)
+[![Join the chat at https://gitter.im/OneBusAway/onebusaway-iphone](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/OneBusAway/onebusaway-iphone?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Visit our IRC channel](http://img.shields.io/badge/IRC-%23OneBusAway-green.svg)](https://kiwiirc.com/client/irc.freenode.net/?nick=obauser|?&theme=basic#OneBusAway)
 [![Visit our IRC channel](https://img.shields.io/badge/IRC-%23OneBusAway--iPhone-green.svg)](https://kiwiirc.com/client/irc.freenode.net/?nick=obauser|?&theme=basic#OneBusAway-iPhone)
 
 ## Test latest development release
 
 If you would like to help test the latest development release, email us at [iphone-app@onebusaway.org](mailto:iphone-app@onebusaway.org) to be added to our TestFlight Beta testing group.
-
-Have a jailbroken device? [Install the latest commit build](https://github.com/bbodenmiller/onebusaway-iphone-test-releases)
 
 ## Contributing
 
@@ -18,7 +17,7 @@ Our [huboard](http://huboard.com/OneBusAway/onebusaway-iphone/board) lists devel
 ### Development environment setup
 
 1. Install Xcode 6 with the iOS 8.x SDK
-2. Install [BBUncrustifyPlugin](https://github.com/benoitsan/BBUncrustifyPlugin-Xcode) to keep your code within our style guidelines
+2. Install [BBUncrustifyPlugin](https://github.com/benoitsan/BBUncrustifyPlugin-Xcode#installation) to keep your code within our style guidelines
 3. `git clone` your fork
 
 You should now be able to build. See our [contributing guidelines](CONTRIBUTING.md) for the specific workflow to add a new feature or bug fix.
@@ -31,4 +30,3 @@ You should now be able to build. See our [contributing guidelines](CONTRIBUTING.
 * Create AppStore build
 * Upload to AppStore, use changelog as release notes
 * Create [GitHub release](https://github.com/OneBusAway/onebusaway-iphone/releases) based on changelog
-* Upload [dSYM for AppStore build to crashes page](https://testflightapp.com/dashboard/apps/776859/crashes/) (might have to wait until first crash occurs)

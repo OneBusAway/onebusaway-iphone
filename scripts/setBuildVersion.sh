@@ -26,5 +26,5 @@ then
     # Set bundle build version
     echo "#define GIT_COMMIT_SHA $gitCommitSHA" >> $PROJECT_TEMP_DIR/infoplist.prefix
     # Tell Xcode to preprocess Info.plist
-    touch $PROJECT_DIR/Info.plist
+    touch "$PROJECT_DIR/Info.plist"
 fi

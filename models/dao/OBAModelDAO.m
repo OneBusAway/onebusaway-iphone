@@ -217,8 +217,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 }
 
 - (void) moveBookmark:(OBABookmarkV2*)bookmark toGroup:(OBABookmarkGroup*)group {
-    if (bookmark.group == group) return;
-    else if (!group) {
+    if (!group) {
         [_bookmarks addObject:bookmark];
         [bookmark.group.bookmarks removeObject:bookmark];
     } else if (bookmark.group != nil) {
