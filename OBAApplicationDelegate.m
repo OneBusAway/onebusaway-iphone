@@ -40,7 +40,6 @@ static NSString * kOBAShowExperimentalRegionsDefaultsKey = @"kOBAShowExperimenta
 static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 static NSString *const kTrackingId = @"UA-2423527-17";
 static NSString *const kAllowTracking = @"allowTracking";
-static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
 
 @interface OBAApplicationDelegate ()
 @property(nonatomic,readwrite) BOOL active;
@@ -192,10 +191,6 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-    //Register alert defaults
-    NSDictionary *alertDefaults = @{kOBAShowSurveyAlertKey: @(YES)};
-    [[NSUserDefaults standardUserDefaults] registerDefaults:alertDefaults];
 
     //setup Google Analytics
     NSDictionary *appDefaults = @{kAllowTracking: @(YES)};

@@ -42,9 +42,6 @@
 
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
-static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
-static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
-
 
 @interface OBAGenericStopViewController ()
 @property (strong, readwrite) OBAApplicationDelegate *appDelegate;
@@ -61,7 +58,6 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 @property (nonatomic, strong) UIButton *highContrastStopInfoButton;
 
 @property (nonatomic, assign) BOOL showInHighContrast;
-@property (nonatomic, assign) BOOL showSurveyAlert;
 @end
 
 @interface OBAGenericStopViewController ()
@@ -271,7 +267,6 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         NSString *userID = [[NSUserDefaults standardUserDefaults] stringForKey:hiddenPreferenceUserId];
 
         if (![region.stopInfoUrl isEqual:[NSNull null]]) {
-        
             url = [NSString stringWithFormat:@"%@/busstops/%@", stopFinderBaseUrl, stop.stopId];
 
             if (userID.length > 0) {
@@ -293,73 +288,10 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
         OBAStopWebViewController *webViewController = [[OBAStopWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
         [self.navigationController pushViewController:webViewController animated:YES];
-        
-        // Show popup for research survey. Should only be implemented
-        // when a survey is currently being conducted.
-        self.showSurveyAlert = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAShowSurveyAlertKey];
-        if (self.showSurveyAlert) {
-            [self showSurveyPopup];
-        }
-        
     }
 
     if (UIAccessibilityIsVoiceOverRunning()) {
         [OBAAnalytics reportEventWithCategory:@"accessibility" action:@"voiceover_on" label:@"Loaded StopInfo with VoiceOver" value:nil];
-    }
-}
-
-// This method should be used only when there is a survey being conducted.
-- (void)showSurveyPopup {
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0.0")){
-        UIAlertController *surveyAlert = [UIAlertController alertControllerWithTitle:@"Help us improve OneBusAway!"
-                                                                       message:@"Tell us why you might contribute information about bus stops, and you could win a $50 gift card!"
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Take survey"
-                                                     style:UIAlertActionStyleDefault
-                                                   handler:^(UIAlertAction *action) {
-                                                       //Open survey in external browser
-                                                       [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kOBASurveyURL]];
-                                                       [[NSUserDefaults standardUserDefaults] setBool:NO
-                                                                                               forKey:kOBAShowSurveyAlertKey];
-                                                       [[NSUserDefaults standardUserDefaults] synchronize];
-                                                       [surveyAlert dismissViewControllerAnimated:YES
-                                                                                       completion:nil];
-                                                       
-                                                       [OBAAnalytics reportEventWithCategory:@"ui_action"
-                                                                                      action:@"button_press"
-                                                                                       label:@"Loaded UW StopInfo survey"
-                                                                                       value:nil];
-                                                   }];
-        
-        UIAlertAction *notNow = [UIAlertAction actionWithTitle:@"Not right now"
-                                                         style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction *action) {
-                                                           [surveyAlert dismissViewControllerAnimated:YES
-                                                                                           completion:nil];
-                                                       }];
-        
-        UIAlertAction *neverShow = [UIAlertAction actionWithTitle:@"Don't show this again"
-                                                         style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction *action) {
-                                                           [[NSUserDefaults standardUserDefaults] setBool:NO
-                                                                                                   forKey:kOBAShowSurveyAlertKey];
-                                                           [[NSUserDefaults standardUserDefaults] synchronize];
-                                                           [surveyAlert dismissViewControllerAnimated:YES
-                                                                                           completion:nil];
-                                                           [OBAAnalytics reportEventWithCategory:@"ui_action"
-                                                                                          action:@"button_press"
-                                                                                           label:@"Never show survey alert"
-                                                                                           value:nil];
-                                                       }];
-        
-        
-        
-        [surveyAlert addAction:ok];
-        [surveyAlert addAction:notNow];
-        [surveyAlert addAction:neverShow];
-        
-        [self presentViewController:surveyAlert animated:YES completion:nil];
     }
 }
 
