@@ -59,6 +59,8 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 @property(strong) OBAServiceAlertsModel * serviceAlerts;
 @property (nonatomic, strong) UIButton *stopInfoButton;
 @property (nonatomic, strong) UIButton *highContrastStopInfoButton;
+@property (nonatomic, strong) UIButton *bookmarkStarButton;
+@property (nonatomic, strong) UIButton *highContrastBookmarkStarButton;
 
 @property (nonatomic, assign) BOOL showInHighContrast;
 @property (nonatomic, assign) BOOL showSurveyAlert;
@@ -110,10 +112,20 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
         _progressView = [[OBAProgressIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 160, 44)];
         [self.navigationItem setTitleView:_progressView];
+        
+        UIImage *starImage = [UIImage imageNamed:@"bookmark_star_deselected"];
+        
+        if ([self existingBookmark]) {
+            starImage = [UIImage imageNamed:@"bookmark_star_selected"];
+        }
+        UIBarButtonItem *starItem = [[UIBarButtonItem alloc] initWithImage:[starImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(addBookmark)];
+        starItem.imageInsets = UIEdgeInsetsMake(10, 10, 10, 10);
+        starItem.tintColor = NULL;
+        [self.navigationItem setRightBarButtonItem:starItem];
 
-        UIBarButtonItem *refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
-        [self.navigationItem setRightBarButtonItem:refreshItem];
-
+        UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+        [refreshControl addTarget:self action:@selector(onRefreshButton:) forControlEvents:UIControlEventValueChanged];
+        [self setRefreshControl:refreshControl];
         _allArrivals = [[NSMutableArray alloc] init];
         _filteredArrivals = [[NSMutableArray alloc] init];
         _showFilteredArrivals = YES;
@@ -240,6 +252,37 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
         [self hideEmptySeparators];
     }
+}
+
+- (void)addBookmark {
+    UIAlertController *bookmarkAlert;
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) { }];
+    
+    bookmarkAlert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    if ([self existingBookmark]) {
+        UIAlertAction *editAction = [UIAlertAction actionWithTitle:@"Edit Bookmark" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            OBABookmarkV2 *bookmark = [self existingBookmark];
+            OBAEditStopBookmarkViewController *vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:self.appDelegate bookmark:bookmark editType:OBABookmarkEditExisting];
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+        UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"Delete Bookmark" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+            [self.appDelegate.modelDao removeBookmark:[self existingBookmark]];
+            [self reloadData];
+        }];
+        [bookmarkAlert addAction:editAction];
+        [bookmarkAlert addAction:deleteAction];
+        
+    } else {
+        UIAlertAction *addAction = [UIAlertAction actionWithTitle:@"Add Bookmark" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            OBABookmarkV2 *bookmark = [self.appDelegate.modelDao createTransientBookmark:self.result.stop];
+            [self.appDelegate.modelDao addNewBookmark:bookmark];
+            [self reloadData];
+        }];
+        [bookmarkAlert addAction:addAction];
+    }
+    
+    [bookmarkAlert addAction:cancelAction];
+    [self presentViewController:bookmarkAlert animated:YES completion:nil];
 }
 
 - (void)refreshContrast {
@@ -525,7 +568,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         }
 
         case OBAStopSectionTypeActions: {
-            return 5;
+            return 4;
         }
 
         default: {
@@ -703,7 +746,6 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 }
 
 - (void)didBeginRefresh {
-    self.navigationItem.rightBarButtonItem.enabled = NO;
     NSArray *arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
     UITableViewCell *cell;
 
@@ -720,7 +762,6 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 }
 
 - (void)didFinishRefresh {
-    self.navigationItem.rightBarButtonItem.enabled = YES;
     NSArray *arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
     UITableViewCell *cell;
 
@@ -734,6 +775,8 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     cell.userInteractionEnabled = YES;
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.textLabel.textColor = [UIColor blackColor];
+    
+    [self.refreshControl endRefreshing];
 }
 
 - (NSUInteger)sectionIndexForSectionType:(OBAStopSectionType)section {
@@ -831,27 +874,16 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
     switch (indexPath.row) {
         case 0: {
-            if ([self existingBookmark]) {
-                cell.textLabel.text = NSLocalizedString(@"Edit Bookmark", @"case 0 edit");
-            }
-            else {
-                cell.textLabel.text = NSLocalizedString(@"Add to Bookmarks", @"case 0");
-            }
-
-            break;
-        }
-
-        case 1: {
             cell.textLabel.text = NSLocalizedString(@"Report a Problem", @"self.navigationItem.title");
             break;
         }
 
-        case 2: {
+        case 1: {
             cell.textLabel.text = NSLocalizedString(@"About This Stop", @"case 2");
             break;
         }
 
-        case 3: {
+        case 2: {
             if (_serviceAlerts.totalCount == 0) {
                 cell.textLabel.text = @"Service Alerts";
             }
@@ -876,7 +908,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
             break;
         }
 
-        case 4: {
+        case 3: {
             cell.textLabel.text = NSLocalizedString(@"Filter & Sort Routes", @"case 1");
             break;
         }
@@ -911,41 +943,23 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 - (void)tableView:(UITableView *)tableView didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 0: {
-            OBAEditStopBookmarkViewController *vc = nil;
-            OBABookmarkV2 *bookmark = [self existingBookmark];
-
-            if (!bookmark) {
-                bookmark = [_appDelegate.modelDao createTransientBookmark:_result.stop];
-
-                vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:_appDelegate bookmark:bookmark editType:OBABookmarkEditNew];
-            }
-            else {
-                vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:_appDelegate bookmark:bookmark editType:OBABookmarkEditExisting];
-            }
-
-            [self.navigationController pushViewController:vc animated:YES];
-
-            break;
-        }
-
-        case 1: {
             OBAReportProblemViewController *vc = [[OBAReportProblemViewController alloc] initWithApplicationDelegate:_appDelegate stop:_result.stop];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
 
-        case 2: {
+        case 1: {
             [self openURLS];
             break;
         }
 
-        case 3: {
+        case 2: {
             NSArray *situations = _result.situations;
             [OBAPresentation showSituations:situations withappDelegate:_appDelegate navigationController:self.navigationController args:nil];
             break;
         }
 
-        case 4: {
+        case 3: {
             OBAEditStopPreferencesViewController *vc = [[OBAEditStopPreferencesViewController alloc] initWithApplicationDelegate:_appDelegate stop:_result.stop];
             [self.navigationController pushViewController:vc animated:YES];
             break;
@@ -1032,6 +1046,12 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void *context) {
     _serviceAlerts = [modelDao getServiceAlertsModelForSituations:_result.situations];
 
     [self.tableView reloadData];
+    
+    if ([self existingBookmark]) {
+        [self.navigationItem.rightBarButtonItem setImage:[UIImage imageNamed:@"bookmark_star_selected"]];
+    } else {
+        [self.navigationItem.rightBarButtonItem setImage:[UIImage imageNamed:@"bookmark_star_deselected"]];
+    }
 }
 
 @end
