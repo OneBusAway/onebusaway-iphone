@@ -23,7 +23,7 @@
 
 - (double)latitudeToPixelSpaceY:(double)latitude
 {
-    return round(MERCATOR_OFFSET - MERCATOR_RADIUS * logf((1 + sinf(latitude * M_PI / 180.0)) / (1 - sinf(latitude * M_PI / 180.0))) / 2.0);
+    return round(MERCATOR_OFFSET - MERCATOR_RADIUS * log((1 + sin(latitude * M_PI / 180.0)) / (1 - sin(latitude * M_PI / 180.0))) / 2.0);
 }
 
 - (double)pixelSpaceXToLongitude:(double)pixelX

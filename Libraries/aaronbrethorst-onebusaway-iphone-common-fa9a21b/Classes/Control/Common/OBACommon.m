@@ -15,6 +15,7 @@
  */
 
 #import "OBACommon.h"
+#import "OBADateHelpers.h"
 
 NSString * const OBAErrorDomain = @"org.onebusaway.iphone2";
 
@@ -45,11 +46,7 @@ NSString * const OBAIncreaseContrastToggledNotification = @"OBAIncreaseContrastT
 @implementation OBACommon
 
 + (NSString*) getTimeAsString {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];    
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    [dateFormatter setDateStyle:kCFDateFormatterNoStyle];    
-    NSString * result = [dateFormatter stringFromDate:[NSDate date]];
-    return result;
+    return [OBADateHelpers formatShortTimeNoDate:[NSDate date]];
 }
 
 + (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName {

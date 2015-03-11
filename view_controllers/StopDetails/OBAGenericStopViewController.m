@@ -655,49 +655,33 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     [self didBeginRefresh];
 
     [self clearPendingRequest];
-    __weak OBAGenericStopViewController *weakVC = self;
-    _request = [_appDelegate.modelService
-                requestStopWithArrivalsAndDeparturesForId:_stopId
-                                        withMinutesBefore:_minutesBefore
-                                         withMinutesAfter:_minutesAfter
-                                          completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-                                              if (error) {
-                                              OBALogWarningWithError(error, @"Error... yay!");
-                                              [weakVC.progressView
-                                              setMessage:NSLocalizedString(@"Error connecting", @"requestDidFail")
-                                              inProgress:NO
-                                              progress:0];
-                                              }
-                                              else if (responseCode >= 300) {
-                                              NSString *message = (404 == responseCode ? NSLocalizedString(@"Stop not found", @"code == 404") : NSLocalizedString(@"Unknown error", @"code # 404"));
-                                              [weakVC.progressView
-                                              setMessage:message
-                                              inProgress:NO
-                                              progress:0];
-                                              }
-                                              else if (responseData) {
-                                              NSString *message = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Updated", @"message"), [OBACommon getTimeAsString]];
-                                              [weakVC.progressView
-                                              setMessage:message
-                                              inProgress:NO
-                                              progress:0];
-                                              weakVC.result = responseData;
+    @weakify(self);
+    _request = [_appDelegate.modelService requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter
+                                                                    completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+        @strongify(self);
+        if (error) {
+            OBALogWarningWithError(error, @"Error... yay!");
+            [self.progressView setMessage:NSLocalizedString(@"Error connecting", @"requestDidFail") inProgress:NO progress:0];
+        }
+        else if (responseCode >= 300) {
+            NSString *message = (404 == responseCode ? NSLocalizedString(@"Stop not found", @"code == 404") : NSLocalizedString(@"Unknown error", @"code # 404"));
+            [self.progressView setMessage:message inProgress:NO progress:0];
+        }
+        else if (responseData) {
+            NSString *message = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Updated", @"message"), [OBACommon getTimeAsString]];
+            [self.progressView setMessage:message inProgress:NO progress:0];
+            self.result = responseData;
 
-                                              // Note the event
-                                              [[NSNotificationCenter defaultCenter]         postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification
-                                                                        object:weakVC.result.stop];
+            // Note the event
+            [[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:self.result.stop];
 
-                                              [weakVC reloadData];
-                                              }
+            [self reloadData];
+        }
 
-                                              [weakVC didFinishRefresh];
-                                          }
-
-                                            progressBlock:^(CGFloat progress) {
-                                                [weakVC.progressView
-                                                setInProgress:YES
-                                                progress:progress];
-                                            }];
+        [self didFinishRefresh];
+    } progressBlock:^(CGFloat progress) {
+        [self.progressView setInProgress:YES progress:progress];
+    }];
     _timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 }
 

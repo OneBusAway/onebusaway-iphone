@@ -54,22 +54,20 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 }
 
 - (id<OBAModelServiceRequest>)handleRefresh {
-    __weak OBAAgenciesListViewController *weakVc = self;
-
-    return [self.appDelegate.modelService
-            requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                if (error) {
-                [weakVc refreshFailedWithError:error];
-                }
-                else {
-                OBAListWithRangeAndReferencesV2 *list = jsonData;
-                weakVc.agencies = [[NSMutableArray alloc] initWithArray:list.values];
-                [weakVc.agencies
-                sortUsingSelector:@selector(compareUsingAgencyName:)];
-                weakVc.progressLabel = @"Agencies";
-                [self refreshCompleteWithCode:responseCode];
-                }
-            }];
+    @weakify(self);
+    return [self.appDelegate.modelService requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        @strongify(self);
+        if (error) {
+            [self refreshFailedWithError:error];
+        }
+        else {
+            OBAListWithRangeAndReferencesV2 *list = jsonData;
+            self.agencies = [[NSMutableArray alloc] initWithArray:list.values];
+            [self.agencies sortUsingSelector:@selector(compareUsingAgencyName:)];
+            self.progressLabel = NSLocalizedString(@"Agencies",@"");
+            [self refreshCompleteWithCode:responseCode];
+        }
+    }];
 }
 
 #pragma mark Table view methods

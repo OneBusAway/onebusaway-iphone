@@ -251,23 +251,30 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     
     NSMutableString * buffer = [NSMutableString stringWithCapacity:0];
     
-    if( _situation.description )
+    if (_situation.description) {
         [buffer appendString:_situation.description];
-    
-    if( [buffer length] > 0 ) 
+    }
+
+    if (buffer.length > 0) {
         [buffer appendString:@"\n\n"];
-    
-    if( _situation.advice )
+    }
+
+    if (_situation.advice) {
         [buffer appendString:_situation.advice];
-    
+    }
+
     /**
      * Is this a terrible hack?  Probably yes.
      */
-    if( htmlify ) {
+    if (htmlify) {
         NSError * error = nil;
-        NSRegularExpression * pattern = [NSRegularExpression regularExpressionWithPattern:@"(http://[^\\s]+)" options:0 error:&error];
-        if( ! error ) {
-            [pattern replaceMatchesInString:buffer options:0 range:NSMakeRange(0, [buffer length]) withTemplate:@"<a href=\"$1\">$1</a>"];
+        NSRegularExpression * pattern = [NSRegularExpression regularExpressionWithPattern:@"(http://[^\\s]+)" options:NSRegularExpressionCaseInsensitive error:&error];
+
+        if (pattern) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wassign-enum"
+            [pattern replaceMatchesInString:buffer options:0 range:NSMakeRange(0, buffer.length) withTemplate:@"<a href=\"$1\">$1</a>"];
+#pragma clang diagnostic pop
         }
         
         [buffer replaceOccurrencesOfString:@"\r\n" withString:@"<br/>" options:NSLiteralSearch range:NSMakeRange(0, [buffer length])];

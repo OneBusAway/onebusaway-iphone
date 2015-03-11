@@ -24,7 +24,7 @@
 
 - (id) initWithFrame:(CGRect)frame;
 
-- (void) setMessage:(NSString*)message inProgress:(BOOL)inProgress progress:(float)progress;
-- (void) setInProgress:(BOOL)inProgress progress:(float)progress;
+- (void) setMessage:(NSString*)message inProgress:(BOOL)inProgress progress:(CGFloat)progress;
+- (void) setInProgress:(BOOL)inProgress progress:(CGFloat)progress;
 
 @end

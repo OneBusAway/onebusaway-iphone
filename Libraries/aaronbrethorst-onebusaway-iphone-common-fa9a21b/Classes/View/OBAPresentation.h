@@ -4,9 +4,7 @@
 #import "OBATransitLegV2.h"
 
 
-@interface OBAPresentation : NSObject {
-    
-}
+@interface OBAPresentation : NSObject
 
 + (NSString*) getRouteShortNameForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
 
@@ -28,7 +26,7 @@
 
 + (UITableViewCell*) tableViewCellForServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts tableView:(UITableView*)tableView;
 
-+ (float) computeStopsForRouteAnnotationScaleFactor:(MKCoordinateRegion)region;
++ (CGFloat)computeStopsForRouteAnnotationScaleFactor:(MKCoordinateRegion)region;
 
 + (void)showSituations:(NSArray*)situations withappDelegate:(OBAApplicationDelegate*)appDelegate navigationController:(UINavigationController*)navController args:(NSDictionary*)args;
 

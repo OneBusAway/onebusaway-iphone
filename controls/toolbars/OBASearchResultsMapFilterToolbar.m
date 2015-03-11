@@ -79,8 +79,8 @@
     const CGFloat filterLabelsWidth = filterLabelTextSize.width + filterLabelAndDescSeparation + filterDescTextSize.width; 
     
     // Calculate origins of UILabels
-    const CGFloat frameCenterX = self.frame.origin.x + self.frame.size.width / 2.0;
-    const CGFloat xOriginOfLabel = frameCenterX - filterLabelsWidth / 2.0;
+    const CGFloat frameCenterX = self.frame.origin.x + self.frame.size.width / 2.f;
+    const CGFloat xOriginOfLabel = frameCenterX - filterLabelsWidth / 2.f;
     const CGFloat xOriginOfDesc  = xOriginOfLabel + filterLabelTextSize.width + filterLabelAndDescSeparation;
     
     // Calculate frames
