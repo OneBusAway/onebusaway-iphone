@@ -28,7 +28,6 @@
         __weak OBARequestDrivenTableViewController *weakSelf = self;
         self.progressCallback =  ^(CGFloat progress) {
             [weakSelf.progressView setInProgress:YES progress:progress];
-            [weakSelf didRefreshEnd];
         };
     }
 
@@ -48,11 +47,12 @@
     _refreshable = refreshable;
 
     if (_refreshable) {
-        UIBarButtonItem *refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
-        [self.navigationItem setRightBarButtonItem:refreshItem];
+        UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+        [refreshControl addTarget:self action:@selector(onRefreshButton:) forControlEvents:UIControlEventValueChanged];
+        [self setRefreshControl:refreshControl];
     }
     else {
-        [self.navigationItem setRightBarButtonItem:nil];
+        [self setRefreshControl:NULL];
     }
 }
 
@@ -67,7 +67,6 @@
 
 - (void)refresh {
     [_progressView setMessage:@"Updating..." inProgress:YES progress:0];
-    [self didRefreshBegin];
     [self clearPendingRequest];
     _request = [self handleRefresh];
     [self checkTimer];
@@ -89,7 +88,6 @@
     else {
         [self checkTimer];
         [self refreshProgressLabel];
-        [self didRefreshEnd];
         [self.tableView reloadData];
     }
 
@@ -118,13 +116,15 @@
         [_progressView setMessage:@"Unknown error" inProgress:NO progress:0];
     }
 
-    [self didRefreshEnd];
+    
+    [self.refreshControl endRefreshing];
 }
 
 - (void)refreshFailedWithError:(NSError *)error {
     OBALogWarningWithError(error, @"Error");
     [_progressView setMessage:@"Error connecting" inProgress:NO progress:0];
-    [self didRefreshEnd];
+    
+    [self.refreshControl endRefreshing];
 }
 
 #pragma mark - Table view methods
@@ -178,18 +178,6 @@
     if (_showUpdateTime) label = [NSString stringWithFormat:@"Updated: %@", [OBACommon getTimeAsString]];
 
     [_progressView setMessage:label inProgress:NO progress:0];
-}
-
-- (void)didRefreshBegin {
-    UIBarButtonItem *refreshItem = [self.navigationItem rightBarButtonItem];
-
-    if (refreshItem) [refreshItem setEnabled:NO];
-}
-
-- (void)didRefreshEnd {
-    UIBarButtonItem *refreshItem = [self.navigationItem rightBarButtonItem];
-
-    if (refreshItem) [refreshItem setEnabled:YES];
 }
 
 @end

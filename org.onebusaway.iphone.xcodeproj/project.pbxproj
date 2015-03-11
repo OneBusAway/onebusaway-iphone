@@ -347,8 +347,14 @@
 		D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */; };
 		D69C598913F9BD6900BA90A2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D69C598713F9BD6900BA90A2 /* Localizable.strings */; };
 		FF5331F318AC4DEE00E0C791 /* OBAStopWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF5331F218AC4DEE00E0C791 /* OBAStopWebViewController.m */; };
+		FF9AA4ED1AAA4E0500AB6A42 /* bookmark_star_deselected.png in Resources */ = {isa = PBXBuildFile; fileRef = FF9AA4EC1AAA4E0500AB6A42 /* bookmark_star_deselected.png */; };
+		FF9AA4EF1AAA526100AB6A42 /* bookmark_star_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = FF9AA4EE1AAA526100AB6A42 /* bookmark_star_selected.png */; };
 		FFBFE02A1863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBFE0291863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m */; };
 		FFCA85721863D24200F87DCA /* OBABookmarkGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FFCA85711863D24200F87DCA /* OBABookmarkGroup.m */; };
+		FFDB53C11AB0AD9D00C6B745 /* bookmark_star_deselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFDB53BD1AB0AD9D00C6B745 /* bookmark_star_deselected@2x.png */; };
+		FFDB53C21AB0AD9D00C6B745 /* bookmark_star_deselected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFDB53BE1AB0AD9D00C6B745 /* bookmark_star_deselected@3x.png */; };
+		FFDB53C31AB0AD9D00C6B745 /* bookmark_star_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFDB53BF1AB0AD9D00C6B745 /* bookmark_star_selected@2x.png */; };
+		FFDB53C41AB0AD9D00C6B745 /* bookmark_star_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFDB53C01AB0AD9D00C6B745 /* bookmark_star_selected@3x.png */; };
 		FFE76DCD186F94E10036D121 /* OBAEditBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFE76DCC186F94E10036D121 /* OBAEditBookmarkGroupViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -863,10 +869,16 @@
 		E81C7B051825DEBF0047C68C /* xcode5.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = xcode5.sh; sourceTree = "<group>"; };
 		FF5331F118AC4DEE00E0C791 /* OBAStopWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopWebViewController.h; sourceTree = "<group>"; };
 		FF5331F218AC4DEE00E0C791 /* OBAStopWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopWebViewController.m; sourceTree = "<group>"; };
+		FF9AA4EC1AAA4E0500AB6A42 /* bookmark_star_deselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookmark_star_deselected.png; sourceTree = "<group>"; };
+		FF9AA4EE1AAA526100AB6A42 /* bookmark_star_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookmark_star_selected.png; sourceTree = "<group>"; };
 		FFBFE0281863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopBookmarkGroupViewController.h; sourceTree = "<group>"; };
 		FFBFE0291863D9B1009DAC8A /* OBAEditStopBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditStopBookmarkGroupViewController.m; sourceTree = "<group>"; };
 		FFCA85701863D24200F87DCA /* OBABookmarkGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkGroup.h; sourceTree = "<group>"; };
 		FFCA85711863D24200F87DCA /* OBABookmarkGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkGroup.m; sourceTree = "<group>"; };
+		FFDB53BD1AB0AD9D00C6B745 /* bookmark_star_deselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookmark_star_deselected@2x.png"; sourceTree = "<group>"; };
+		FFDB53BE1AB0AD9D00C6B745 /* bookmark_star_deselected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookmark_star_deselected@3x.png"; sourceTree = "<group>"; };
+		FFDB53BF1AB0AD9D00C6B745 /* bookmark_star_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookmark_star_selected@2x.png"; sourceTree = "<group>"; };
+		FFDB53C01AB0AD9D00C6B745 /* bookmark_star_selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookmark_star_selected@3x.png"; sourceTree = "<group>"; };
 		FFE76DCB186F94E10036D121 /* OBAEditBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditBookmarkGroupViewController.h; sourceTree = "<group>"; };
 		FFE76DCC186F94E10036D121 /* OBAEditBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditBookmarkGroupViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1255,6 +1267,12 @@
 		933C7EBE160C07440005AAFE /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				FFDB53BD1AB0AD9D00C6B745 /* bookmark_star_deselected@2x.png */,
+				FFDB53BE1AB0AD9D00C6B745 /* bookmark_star_deselected@3x.png */,
+				FFDB53BF1AB0AD9D00C6B745 /* bookmark_star_selected@2x.png */,
+				FFDB53C01AB0AD9D00C6B745 /* bookmark_star_selected@3x.png */,
+				FF9AA4EE1AAA526100AB6A42 /* bookmark_star_selected.png */,
+				FF9AA4EC1AAA4E0500AB6A42 /* bookmark_star_deselected.png */,
 				086804C918ECD9DE006E8F82 /* InfoButton.png */,
 				93D878C3166450AC00FCEFFB /* map.png */,
 				93D878C4166450AC00FCEFFB /* map@2x.png */,
@@ -1842,6 +1860,7 @@
 				9330DEEA16050CA600E14AF4 /* credits.html in Resources */,
 				93631EA61607F40C00CB7209 /* lbs_arrow.png in Resources */,
 				93631EA71607F40C00CB7209 /* lbs_arrow@2x.png in Resources */,
+				FF9AA4ED1AAA4E0500AB6A42 /* bookmark_star_deselected.png in Resources */,
 				93631EAD1607FB7100CB7209 /* OBAInfoViewController.xib in Resources */,
 				933C7F9F160C07440005AAFE /* Agencies.ai in Resources */,
 				933C7FA0160C07440005AAFE /* Agencies.png in Resources */,
@@ -1892,6 +1911,7 @@
 				933C7FCF160C07440005AAFE /* Mode-LightRail-Selected.png in Resources */,
 				933C7FD0160C07440005AAFE /* Mode-LightRail-Selected@2x.png in Resources */,
 				933C7FD1160C07440005AAFE /* Mode-LightRail.png in Resources */,
+				FF9AA4EF1AAA526100AB6A42 /* bookmark_star_selected.png in Resources */,
 				933C7FD2160C07440005AAFE /* Mode-LightRail@2x.png in Resources */,
 				933C7FD3160C07440005AAFE /* Mode-Rail-Selected.png in Resources */,
 				933C7FD4160C07440005AAFE /* Mode-Rail-Selected@2x.png in Resources */,
@@ -1941,9 +1961,11 @@
 				933C7FFE160C07440005AAFE /* FerryStopIcon@2x.png in Resources */,
 				93F152EC1A9ADDD10015C141 /* capitolhill.gpx in Resources */,
 				933C7FFF160C07440005AAFE /* FerryStopIconE.png in Resources */,
+				FFDB53C41AB0AD9D00C6B745 /* bookmark_star_selected@3x.png in Resources */,
 				933C8000160C07440005AAFE /* FerryStopIconE@2x.png in Resources */,
 				933C8001160C07440005AAFE /* FerryStopIconN.png in Resources */,
 				933C8002160C07440005AAFE /* FerryStopIconN@2x.png in Resources */,
+				FFDB53C11AB0AD9D00C6B745 /* bookmark_star_deselected@2x.png in Resources */,
 				933C8003160C07440005AAFE /* FerryStopIconNE.png in Resources */,
 				933C8004160C07440005AAFE /* FerryStopIconNE@2x.png in Resources */,
 				933C8005160C07440005AAFE /* FerryStopIconNW.png in Resources */,
@@ -1976,7 +1998,9 @@
 				933C8020160C07440005AAFE /* LightRailStopIconW@2x.png in Resources */,
 				933C8021160C07440005AAFE /* RailStopIcon.png in Resources */,
 				933C8022160C07440005AAFE /* RailStopIcon@2x.png in Resources */,
+				FFDB53C31AB0AD9D00C6B745 /* bookmark_star_selected@2x.png in Resources */,
 				933C8023160C07440005AAFE /* RailStopIconE.png in Resources */,
+				FFDB53C21AB0AD9D00C6B745 /* bookmark_star_deselected@3x.png in Resources */,
 				933C8024160C07440005AAFE /* RailStopIconE@2x.png in Resources */,
 				933C8025160C07440005AAFE /* RailStopIconN.png in Resources */,
 				933C8026160C07440005AAFE /* RailStopIconN@2x.png in Resources */,
