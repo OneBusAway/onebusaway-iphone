@@ -126,6 +126,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
         [refreshControl addTarget:self action:@selector(onRefreshButton:) forControlEvents:UIControlEventValueChanged];
         [self setRefreshControl:refreshControl];
+        
         _allArrivals = [[NSMutableArray alloc] init];
         _filteredArrivals = [[NSMutableArray alloc] init];
         _showFilteredArrivals = YES;
@@ -254,35 +255,66 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     }
 }
 
-- (void)addBookmark {
-    UIAlertController *bookmarkAlert;
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) { }];
-    
-    bookmarkAlert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([self existingBookmark]) {
-        UIAlertAction *editAction = [UIAlertAction actionWithTitle:@"Edit Bookmark" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        if (buttonIndex == actionSheet.destructiveButtonIndex) {
+            [self.appDelegate.modelDao removeBookmark:[self existingBookmark]];
+            [self reloadData];
+        } else if (buttonIndex != actionSheet.cancelButtonIndex) {
             OBABookmarkV2 *bookmark = [self existingBookmark];
             OBAEditStopBookmarkViewController *vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:self.appDelegate bookmark:bookmark editType:OBABookmarkEditExisting];
             [self.navigationController pushViewController:vc animated:YES];
-        }];
-        UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"Delete Bookmark" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-            [self.appDelegate.modelDao removeBookmark:[self existingBookmark]];
-            [self reloadData];
-        }];
-        [bookmarkAlert addAction:editAction];
-        [bookmarkAlert addAction:deleteAction];
-        
+        }
     } else {
-        UIAlertAction *addAction = [UIAlertAction actionWithTitle:@"Add Bookmark" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        if (buttonIndex != actionSheet.cancelButtonIndex) {
             OBABookmarkV2 *bookmark = [self.appDelegate.modelDao createTransientBookmark:self.result.stop];
             [self.appDelegate.modelDao addNewBookmark:bookmark];
             [self reloadData];
-        }];
-        [bookmarkAlert addAction:addAction];
+        }
     }
-    
-    [bookmarkAlert addAction:cancelAction];
-    [self presentViewController:bookmarkAlert animated:YES completion:nil];
+}
+
+- (void)addBookmark {
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0.0")){
+        UIAlertController *bookmarkAlert;
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) { }];
+        
+        bookmarkAlert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        if ([self existingBookmark]) {
+            UIAlertAction *editAction = [UIAlertAction actionWithTitle:@"Edit Bookmark" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                OBABookmarkV2 *bookmark = [self existingBookmark];
+                OBAEditStopBookmarkViewController *vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:self.appDelegate bookmark:bookmark editType:OBABookmarkEditExisting];
+                [self.navigationController pushViewController:vc animated:YES];
+            }];
+            UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"Delete Bookmark" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+                [self.appDelegate.modelDao removeBookmark:[self existingBookmark]];
+                [self reloadData];
+            }];
+            [bookmarkAlert addAction:editAction];
+            [bookmarkAlert addAction:deleteAction];
+            
+        } else {
+            UIAlertAction *addAction = [UIAlertAction actionWithTitle:@"Add Bookmark" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                OBABookmarkV2 *bookmark = [self.appDelegate.modelDao createTransientBookmark:self.result.stop];
+                [self.appDelegate.modelDao addNewBookmark:bookmark];
+                [self reloadData];
+            }];
+            [bookmarkAlert addAction:addAction];
+        }
+        
+        [bookmarkAlert addAction:cancelAction];
+        [self presentViewController:bookmarkAlert animated:YES completion:nil];
+    } else {
+        UIActionSheet *actionSheet;
+        if ([self existingBookmark]) {
+            actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Edit Bookmark", @"Delete Bookmark", nil];
+            actionSheet.destructiveButtonIndex = 1;
+        } else {
+            actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Add Bookmark", nil];
+        }
+        [actionSheet showInView:self.view];
+        
+    }
 }
 
 - (void)refreshContrast {
