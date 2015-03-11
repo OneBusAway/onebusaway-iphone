@@ -4,8 +4,8 @@
 #import "OBASphericalGeometryLibrary.h"
 #import "OBAURLHelpers.h"
 
-static const float kSearchRadius = 400;
-static const float kBigSearchRadius = 15000;
+static const CLLocationAccuracy kSearchRadius = 400;
+static const CLLocationAccuracy kBigSearchRadius = 15000;
 
 @implementation OBAModelService
 
@@ -143,9 +143,11 @@ static const float kBigSearchRadius = 15000;
 
     name = [OBAURLHelpers escapeStringForUrl:name];
 
-    NSInteger radius = location.horizontalAccuracy;
+    CLLocationAccuracy radius = location.horizontalAccuracy;
 
-    if (radius == 0) radius = kSearchRadius;
+    if (radius == 0) {
+        radius = kSearchRadius;
+    }
 
     NSString *url = @"/maps/api/place/search/json";
     NSString *args = [NSString stringWithFormat:@"location=%f,%f&radius=%ld&name=%@&sensor=true", coord.latitude, coord.longitude, (long)radius, name];
@@ -297,7 +299,7 @@ static const float kBigSearchRadius = 15000;
 
         NSDate *time = location.timestamp;
         NSTimeInterval interval = [time timeIntervalSince1970];
-        long long t = (interval * 1000);
+        long long t = (long long)(interval * 1000);
         [data appendFormat:@"%lld", t];
         [data appendString:@","];
         [data appendFormat:@"%f", location.coordinate.latitude];

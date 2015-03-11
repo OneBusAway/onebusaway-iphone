@@ -4,9 +4,9 @@
 #import "OBASituationsViewController.h"
 #import "OBAApplicationDelegate.h"
 
-static const float kStopForRouteAnnotationMinScale = 0.1;
-static const float kStopForRouteAnnotationMaxScaleDistance = 1500;
-static const float kStopForRouteAnnotationMinScaleDistance = 8000;
+static const CGFloat kStopForRouteAnnotationMinScale = 0.1f;
+static const CGFloat kStopForRouteAnnotationMaxScaleDistance = 1500.f;
+static const CGFloat kStopForRouteAnnotationMinScaleDistance = 8000.f;
 
 
 @implementation OBAPresentation
@@ -116,29 +116,28 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
     return cell;    
 }    
 
-+ (float) computeStopsForRouteAnnotationScaleFactor:(MKCoordinateRegion)region {
++ (CGFloat)computeStopsForRouteAnnotationScaleFactor:(MKCoordinateRegion)region {
         
     MKCoordinateSpan span = region.span;
     CLLocationCoordinate2D center = region.center;
     
-    double lat1 = center.latitude;
-    double lon1 = center.longitude - span.longitudeDelta / 2;
+    CLLocationDegrees lat1 = center.latitude;
+    CLLocationDegrees lon1 = center.longitude - span.longitudeDelta / 2;
     
-    double lat2 = center.latitude;
-    double lon2 = center.longitude + span.longitudeDelta / 2;
+    CLLocationDegrees lat2 = center.latitude;
+    CLLocationDegrees lon2 = center.longitude + span.longitudeDelta / 2;
     
     CLLocation * a = [[CLLocation alloc] initWithLatitude:lat1 longitude:lon1];
     CLLocation * b = [[CLLocation alloc] initWithLatitude:lat2 longitude:lon2];
     
     CLLocationDistance d = [a distanceFromLocation:b];
-    
-    
-    if( d <= kStopForRouteAnnotationMaxScaleDistance ) { 
+
+    if (d <= kStopForRouteAnnotationMaxScaleDistance) {
         return 1.0;
     }
-    else if( d < kStopForRouteAnnotationMinScaleDistance ) {
-        float kStopForRouteAnnotationScaleSlope = (1.0-kStopForRouteAnnotationMinScale) / (kStopForRouteAnnotationMaxScaleDistance-kStopForRouteAnnotationMinScaleDistance);
-        float kStopForRouteAnnotationScaleOffset = 1.0 - kStopForRouteAnnotationScaleSlope * kStopForRouteAnnotationMaxScaleDistance;
+    else if (d < kStopForRouteAnnotationMinScaleDistance) {
+        CGFloat kStopForRouteAnnotationScaleSlope = (1.f-kStopForRouteAnnotationMinScale) / (kStopForRouteAnnotationMaxScaleDistance-kStopForRouteAnnotationMinScaleDistance);
+        CGFloat kStopForRouteAnnotationScaleOffset = 1.f - kStopForRouteAnnotationScaleSlope * kStopForRouteAnnotationMaxScaleDistance;
 
         double scale = kStopForRouteAnnotationScaleSlope * d + kStopForRouteAnnotationScaleOffset;
         return scale;

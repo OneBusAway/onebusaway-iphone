@@ -263,9 +263,10 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     NSError *error = nil;
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wassign-enum"
     id jsonObject = [NSJSONSerialization JSONObjectWithData:self.responseData options:0 error:&error];
-
+#pragma clang diagnostic pop
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.completionBlock) {
             self.completionBlock(jsonObject, self.requestResponse.statusCode, error);

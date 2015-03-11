@@ -53,32 +53,35 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 }
 
 - (id<OBAModelServiceRequest>)handleRefresh {
-    __weak OBAVehicleDetailsController *weakVc = self;
-
-    return [self.appDelegate.modelService
-            requestVehicleForId:_vehicleId
-                completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                    if (error) {
-                    [weakVc refreshFailedWithError:error];
-                    }
-                    else {
-                    OBAEntryWithReferencesV2 *entry = jsonData;
-                    weakVc.vehicleStatus = entry.entry;
-                    [weakVc refreshCompleteWithCode:responseCode];
-                    }
-                }];
+    @weakify(self);
+    return [self.appDelegate.modelService requestVehicleForId:_vehicleId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        @strongify(self);
+        if (error) {
+            [self refreshFailedWithError:error];
+        }
+        else {
+            OBAEntryWithReferencesV2 *entry = jsonData;
+            self.vehicleStatus = entry.entry;
+            [self refreshCompleteWithCode:responseCode];
+        }
+    }];
 }
 
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if ([self isLoading]) return [super numberOfSectionsInTableView:tableView];
+    if ([self isLoading]) {
+        return [super numberOfSectionsInTableView:tableView];
+    }
+    else {
+        NSInteger count = 1;
 
-    int count = 1;
+        if (_vehicleStatus.tripStatus) {
+            count += 2;
+        }
 
-    if (_vehicleStatus.tripStatus) count += 2;
-
-    return count;
+        return count;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -192,8 +195,8 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     cell.textLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Vehicle", @"cell.textLabel.text"), _vehicleStatus.vehicleId];
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    [dateFormatter setDateStyle:kCFDateFormatterNoStyle];
+    dateFormatter.timeStyle = NSDateFormatterShortStyle;
+    dateFormatter.timeStyle = NSDateFormatterNoStyle;
     NSString *result = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:_vehicleStatus.lastUpdateTime / 1000.0]];
 
     cell.detailTextLabel.textColor = [UIColor blackColor];

@@ -215,11 +215,11 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     CALayer *labelLayer = self.mapLabel.layer;
     labelLayer.rasterizationScale = [UIScreen mainScreen].scale;
     labelLayer.shouldRasterize = YES;
-    labelLayer.backgroundColor = [UIColor colorWithWhite:1 alpha:0.9].CGColor;
+    labelLayer.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.9f].CGColor;
     labelLayer.cornerRadius = 7;
 
     labelLayer.shadowColor = [UIColor blackColor].CGColor;
-    labelLayer.shadowOpacity = 0.2;
+    labelLayer.shadowOpacity = 0.2f;
     labelLayer.shadowOffset = CGSizeMake(0, 0);
     labelLayer.shadowRadius = 7;
 
@@ -287,7 +287,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     self.navigationController.tabBarController.tabBar.barTintColor = nil;
     self.navigationController.navigationBar.tintColor = OBAGREEN;
 
-    self.scopeView.backgroundColor = [UIColor colorWithHue:(86. / 360.) saturation:0.68 brightness:0.67 alpha:0.8];
+    self.scopeView.backgroundColor = OBAGREENWITHALPHA(0.8f);
     self.scopeView.tintColor = nil;
 }
 
@@ -585,14 +585,14 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         }
     }
 
-    float scale = 1.0;
-    float alpha = 1.0;
+    CGFloat scale = 1.0;
+    CGFloat alpha = 1.0;
 
     OBASearchResult *result = self.searchController.result;
 
     if (result && OBASearchTypeRouteStops == result.searchType) {
         scale = [OBAPresentation computeStopsForRouteAnnotationScaleFactor:mapView.region];
-        alpha = scale <= 0.11 ? 0.0 : 1.0;
+        alpha = scale <= 0.11f ? 0.f : 1.f;
     }
 
     CGAffineTransform transform = CGAffineTransformMakeScale(scale, scale);
@@ -630,8 +630,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         OBASearchResult *result = self.searchController.result;
 
         if (result && OBASearchTypeRouteStops == result.searchType) {
-            float scale = [OBAPresentation computeStopsForRouteAnnotationScaleFactor:mapView.region];
-            float alpha = scale <= 0.11 ? 0.0 : 1.0;
+            CGFloat scale = [OBAPresentation computeStopsForRouteAnnotationScaleFactor:mapView.region];
+            CGFloat alpha = scale <= 0.11f ? 0.f : 1.f;
 
             view.transform = CGAffineTransformMakeScale(scale, scale);
             view.alpha = alpha;
@@ -1493,18 +1493,18 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
                 CGRect annotationFrame;
 
                 if (stop.direction.length == 2) {
-                    annotationFrame = CGRectMake(annotationPoint.x - 17.5, annotationPoint.y - 17.5, 35, 35);
+                    annotationFrame = CGRectMake(annotationPoint.x - 17.5f, annotationPoint.y - 17.5f, 35.f, 35.f);
                 }
                 else if (stop.direction.length == 1) {
                     if ([stop.direction isEqualToString:@"E"] || [stop.direction isEqualToString:@"W"]) {
-                        annotationFrame = CGRectMake(annotationPoint.x - 20.5, annotationPoint.y - 15, 41, 30);
+                        annotationFrame = CGRectMake(annotationPoint.x - 20.5f, annotationPoint.y - 15.f, 41.f, 30.f);
                     }
                     else {
-                        annotationFrame = CGRectMake(annotationPoint.x - 15, annotationPoint.y - 20.5, 30, 41);
+                        annotationFrame = CGRectMake(annotationPoint.x - 15.f, annotationPoint.y - 20.5f, 30.f, 41.f);
                     }
                 }
                 else {
-                    annotationFrame = CGRectMake(annotationPoint.x - 15, annotationPoint.y - 15, 30, 30);
+                    annotationFrame = CGRectMake(annotationPoint.x - 15.f, annotationPoint.y - 15.f, 30.f, 30.f);
                 }
 
                 MKCoordinateRegion annotationRegion = [self.mapView convertRect:annotationFrame toRegionFromView:self.mapView];

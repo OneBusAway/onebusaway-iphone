@@ -210,7 +210,7 @@ typedef struct {
     int shift = 0;
     
     do {
-        char c = [value characterAtIndex:index++];
+        unichar c = [value characterAtIndex:index++];
         v = c - 63;
         num |= (v & 0x1f) << shift;
         shift += 5;

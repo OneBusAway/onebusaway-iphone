@@ -124,8 +124,8 @@ static const NSString *kShapeContext = @"ShapeContext";
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     if ([annotation isKindOfClass:[OBATripStopTimeMapAnnotation class]]) {
-        float scale = [OBAPresentation computeStopsForRouteAnnotationScaleFactor:mapView.region];
-        float alpha = scale <= 0.11 ? 0.0 : 1.0;
+        CGFloat scale = [OBAPresentation computeStopsForRouteAnnotationScaleFactor:mapView.region];
+        CGFloat alpha = scale <= 0.11f ? 0.0f : 1.0f;
 
         OBATripStopTimeMapAnnotation *an = (OBATripStopTimeMapAnnotation *)annotation;
         static NSString *viewId = @"StopView";
@@ -196,8 +196,8 @@ static const NSString *kShapeContext = @"ShapeContext";
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-    float scale = [OBAPresentation computeStopsForRouteAnnotationScaleFactor:mapView.region];
-    float alpha = scale <= 0.11 ? 0.0 : 1.0;
+    CGFloat scale = [OBAPresentation computeStopsForRouteAnnotationScaleFactor:mapView.region];
+    CGFloat alpha = scale <= 0.11f ? 0.f : 1.f;
 
     NSLog(@"scale=%f alpha=%f", scale, alpha);
 

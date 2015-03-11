@@ -268,6 +268,8 @@
 		933C8038160C07440005AAFE /* OBATextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F59160C07440005AAFE /* OBATextFieldTableViewCell.xib */; };
 		933C8039160C07440005AAFE /* OBAWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933C7F5A160C07440005AAFE /* OBAWebViewController.xib */; };
 		933C803C160C07440005AAFE /* OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C803B160C07440005AAFE /* OBAAnalytics.m */; };
+		934445F31AB0C22E005B3333 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 934445F11AB0C22E005B3333 /* EXTScope.m */; };
+		934445F61AB0D46E005B3333 /* OBADateHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 934445F51AB0D46E005B3333 /* OBADateHelpers.m */; };
 		935846A717FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358469F17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m */; };
 		935846A817FB9DC30034200C /* TWSReleaseNotesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 935846A117FB9DC30034200C /* TWSReleaseNotesView.m */; };
 		935846A917FB9DC30034200C /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 935846A317FB9DC30034200C /* UIImage+ImageEffects.m */; };
@@ -716,6 +718,11 @@
 		933C7F5A160C07440005AAFE /* OBAWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBAWebViewController.xib; path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/OBAWebViewController.xib"; sourceTree = "<group>"; };
 		933C803A160C07440005AAFE /* OBAAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAnalytics.h; sourceTree = "<group>"; };
 		933C803B160C07440005AAFE /* OBAAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAnalytics.m; sourceTree = "<group>"; };
+		934445F01AB0C22E005B3333 /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
+		934445F11AB0C22E005B3333 /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
+		934445F21AB0C22E005B3333 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
+		934445F41AB0D46E005B3333 /* OBADateHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADateHelpers.h; sourceTree = "<group>"; };
+		934445F51AB0D46E005B3333 /* OBADateHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADateHelpers.m; sourceTree = "<group>"; };
 		9358469E17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TWSReleaseNotesDownloadOperation.h; sourceTree = "<group>"; };
 		9358469F17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TWSReleaseNotesDownloadOperation.m; sourceTree = "<group>"; };
 		935846A017FB9DC30034200C /* TWSReleaseNotesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TWSReleaseNotesView.h; sourceTree = "<group>"; };
@@ -1423,6 +1430,17 @@
 			path = "Libraries/aaronbrethorst-onebusaway-iphone-common-fa9a21b/Resources/MapIcons";
 			sourceTree = "<group>";
 		};
+		934445EF1AB0C22E005B3333 /* libextobjc */ = {
+			isa = PBXGroup;
+			children = (
+				934445F01AB0C22E005B3333 /* EXTScope.h */,
+				934445F11AB0C22E005B3333 /* EXTScope.m */,
+				934445F21AB0C22E005B3333 /* metamacros.h */,
+			);
+			name = libextobjc;
+			path = Libraries/libextobjc;
+			sourceTree = "<group>";
+		};
 		9358469A17FB9DC30034200C /* TWSReleaseNotesView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1447,6 +1465,8 @@
 				935846AD17FBA2D00034200C /* OBAReleaseNotesManager.m */,
 				93F152FE1A9AE9740015C141 /* OBAURLHelpers.h */,
 				93F152FF1A9AE9740015C141 /* OBAURLHelpers.m */,
+				934445F41AB0D46E005B3333 /* OBADateHelpers.h */,
+				934445F51AB0D46E005B3333 /* OBADateHelpers.m */,
 			);
 			path = utilities;
 			sourceTree = "<group>";
@@ -1714,6 +1734,7 @@
 		D61A66790FCDB155004D2E91 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				934445EF1AB0C22E005B3333 /* libextobjc */,
 				08741E0D18B0358900251C1B /* GoogleAnalytics */,
 				9358469A17FB9DC30034200C /* TWSReleaseNotesView */,
 				92CAAE96179C4AF40097DD3D /* MarqueeLabel */,
@@ -2126,6 +2147,7 @@
 				935846AE17FBA2D00034200C /* OBAReleaseNotesManager.m in Sources */,
 				933C7F5D160C07440005AAFE /* OBALogger.m in Sources */,
 				933C803C160C07440005AAFE /* OBAAnalytics.m in Sources */,
+				934445F61AB0D46E005B3333 /* OBADateHelpers.m in Sources */,
 				933C7F5E160C07440005AAFE /* OBAModelFactory.m in Sources */,
 				933C7F5F160C07440005AAFE /* OBAModelService.m in Sources */,
 				935846A817FB9DC30034200C /* TWSReleaseNotesView.m in Sources */,
@@ -2147,6 +2169,7 @@
 				933C7F6F160C07440005AAFE /* OBAPlacemark.m in Sources */,
 				933C7F70160C07440005AAFE /* OBAPlacemarks.m in Sources */,
 				933C7F71160C07440005AAFE /* OBAAgencyV2.m in Sources */,
+				934445F31AB0C22E005B3333 /* EXTScope.m in Sources */,
 				933C7F72160C07440005AAFE /* OBAAgencyWithCoverageV2.m in Sources */,
 				933C7F73160C07440005AAFE /* OBAArrivalAndDepartureInstanceRef.m in Sources */,
 				933C7F74160C07440005AAFE /* OBAArrivalAndDepartureV2.m in Sources */,
@@ -2272,7 +2295,18 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUILD_VARIANTS = normal;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = NO;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -2286,7 +2320,12 @@
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
@@ -2318,7 +2357,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = NO;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
@@ -2330,7 +2380,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
@@ -2599,7 +2654,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = NO;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -2611,7 +2677,12 @@
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
@@ -2656,7 +2727,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = NO;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
@@ -2668,7 +2750,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;

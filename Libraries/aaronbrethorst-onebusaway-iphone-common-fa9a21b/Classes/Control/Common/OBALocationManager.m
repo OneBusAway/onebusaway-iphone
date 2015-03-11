@@ -91,11 +91,11 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 
 #pragma mark CLLocationManagerDelegate
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
     _disabled = NO;
-    [_modelDao setHideFutureLocationWarnings:NO];
-    [self handleNewLocation:newLocation];
+    _modelDao.hideFutureLocationWarnings = NO;
+    [self handleNewLocation:locations.lastObject];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {

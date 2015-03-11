@@ -460,20 +460,13 @@ typedef void (^animationCompletionBlock)(void);
     // Calculate expected size
     CGSize expectedLabelSize = CGSizeZero;
     CGSize maximumLabelSize = CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX);
-    // Check for attributed string attributes
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0) {
-        // Calculate based on attributed text
-        expectedLabelSize = [self.subLabel.attributedText boundingRectWithSize:maximumLabelSize
-                                                                       options:0
-                                                                       context:nil].size;
-    } else {
-        // Calculate on base string
-        expectedLabelSize = [self.subLabel.text sizeWithFont:self.font
-                                           constrainedToSize:maximumLabelSize
-                                               lineBreakMode:NSLineBreakByClipping];
-    }
-    
-    expectedLabelSize.width = ceilf(expectedLabelSize.width);
+
+    // Calculate based on attributed text
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wassign-enum"
+    expectedLabelSize = [self.subLabel.attributedText boundingRectWithSize:maximumLabelSize options:0 context:nil].size;
+#pragma clang diagnostic pop
+    expectedLabelSize.width = ceil(expectedLabelSize.width);
     expectedLabelSize.height = self.bounds.size.height;
     
     return expectedLabelSize;
@@ -814,8 +807,8 @@ typedef void (^animationCompletionBlock)(void);
     [super setAdjustsFontSizeToFitWidth:NO];
 }
 
-- (void)setMinimumFontSize:(CGFloat)minimumFontSize {
-    [super setMinimumFontSize:0.0];
+- (void)setMinimumScaleFactor:(CGFloat)minimumScaleFactor {
+    [super setMinimumScaleFactor:0.f];
 }
 
 - (UIBaselineAdjustment)baselineAdjustment {
@@ -829,10 +822,6 @@ typedef void (^animationCompletionBlock)(void);
 - (void)setAdjustsLetterSpacingToFitWidth:(BOOL)adjustsLetterSpacingToFitWidth {
     // By the nature of MarqueeLabel, this is NO
     [super setAdjustsLetterSpacingToFitWidth:NO];
-}
-
-- (void)setMinimumScaleFactor:(CGFloat)minimumScaleFactor {
-    [super setMinimumScaleFactor:0.0f];
 }
 
 #pragma mark - Custom Getters and Setters
@@ -854,7 +843,7 @@ typedef void (^animationCompletionBlock)(void);
     }
     
     // Do not allow negative values
-    _continuousMarqueeExtraBuffer = fabsf(continuousMarqueeExtraBuffer);
+    _continuousMarqueeExtraBuffer = fabs(continuousMarqueeExtraBuffer);
     [self updateSublabelAndLocations];
 }
 

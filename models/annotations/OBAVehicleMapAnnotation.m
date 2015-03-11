@@ -1,4 +1,5 @@
 #import "OBAVehicleMapAnnotation.h"
+#import "OBADateHelpers.h"
 
 @implementation OBAVehicleMapAnnotation
 
@@ -18,13 +19,7 @@
 }
 
 - (NSString*) subtitle {
-
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];    
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    [dateFormatter setDateStyle:kCFDateFormatterNoStyle];    
-    NSString * result = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:_tripStatus.lastUpdateTime/1000.0]];
-    
-    return result;
+    return [OBADateHelpers formatShortTimeNoDate:[NSDate dateWithTimeIntervalSince1970:_tripStatus.lastUpdateTime/1000.0]];
 }
 
 - (CLLocationCoordinate2D) coordinate {
