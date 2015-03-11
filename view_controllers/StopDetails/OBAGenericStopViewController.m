@@ -301,6 +301,13 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
             [self showSurveyPopup];
         }
         
+        // Show popup for research survey. Should only be implemented
+        // when a survey is currently being conducted.
+        self.showSurveyAlert = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAShowSurveyAlertKey];
+        if (self.showSurveyAlert) {
+            [self showSurveyPopup];
+        }
+        
     }
 
     if (UIAccessibilityIsVoiceOverRunning()) {

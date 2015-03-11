@@ -839,6 +839,10 @@
 		A005943D13FC43A9001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
 		A005943F13FC43DB001B397B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OBASearchTableViewCell.xib; sourceTree = "<group>"; };
 		A005945613FC49A0001B397B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBATripScheduleMapViewController.xib; sourceTree = "<group>"; };
+		B52BC5571AAD72E900ED319E /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceFields.h; sourceTree = "<group>"; };
+		B52BC5581AAD72E900ED319E /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
+		B52BC5591AAD72E900ED319E /* GAIEcommerceProductAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProductAction.h; sourceTree = "<group>"; };
+		B52BC55A1AAD72E900ED319E /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommercePromotion.h; sourceTree = "<group>"; };
 		D6169A040FC2258800631BCE /* OBAModel-1.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = "OBAModel-1.xcdatamodel"; sourceTree = "<group>"; };
 		D6169A160FC228FB00631BCE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D61AC67B0F77E0F7006FA853 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -873,18 +877,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				9388E9DB1A9BB6EA00C9F6CE /* CoreData.framework in Frameworks */,
+				D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */,
+				96ADB3DF17BDD5DA00314D65 /* libz.dylib in Frameworks */,
+				D62255AB0F8BCA8F00F139BA /* libsqlite3.0.dylib in Frameworks */,
+				08741E1518B0358900251C1B /* libGoogleAnalyticsServices.a in Frameworks */,
 				727E52F515824F1200534646 /* MessageUI.framework in Frameworks */,
 				935846AB17FB9EA40034200C /* Accelerate.framework in Frameworks */,
-				96ADB3DF17BDD5DA00314D65 /* libz.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
-				08741E1518B0358900251C1B /* libGoogleAnalyticsServices.a in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */,
 				D61AC67C0F77E0F7006FA853 /* CoreLocation.framework in Frameworks */,
-				D62255AB0F8BCA8F00F139BA /* libsqlite3.0.dylib in Frameworks */,
 				D62255D00F8BCBF100F139BA /* QuartzCore.framework in Frameworks */,
 				D61E4E4F0FC2000D000C1782 /* MapKit.framework in Frameworks */,
-				D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -901,6 +905,10 @@
 		08741E0D18B0358900251C1B /* GoogleAnalytics */ = {
 			isa = PBXGroup;
 			children = (
+				B52BC5571AAD72E900ED319E /* GAIEcommerceFields.h */,
+				B52BC5581AAD72E900ED319E /* GAIEcommerceProduct.h */,
+				B52BC5591AAD72E900ED319E /* GAIEcommerceProductAction.h */,
+				B52BC55A1AAD72E900ED319E /* GAIEcommercePromotion.h */,
 				08741E0E18B0358900251C1B /* GAI.h */,
 				08741E0F18B0358900251C1B /* GAIDictionaryBuilder.h */,
 				08741E1018B0358900251C1B /* GAIFields.h */,
@@ -2287,6 +2295,7 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/Libraries/GoogleAnalytics",
+					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2330,6 +2339,7 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/Libraries/GoogleAnalytics",
+					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2610,6 +2620,7 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/Libraries/GoogleAnalytics",
+					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2666,6 +2677,7 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/Libraries/GoogleAnalytics",
+					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
