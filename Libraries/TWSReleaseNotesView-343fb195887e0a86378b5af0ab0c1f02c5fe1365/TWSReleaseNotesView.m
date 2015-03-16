@@ -232,14 +232,14 @@ static const NSTimeInterval kTWSReleaseNotesViewTransitionDuration = 0.2f;
 - (void)setupSubviews
 {
     // Main properties
-    [self setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-    
+    self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+
     // Main text container view
     _popupView = [[UIView alloc] initWithFrame:CGRectZero];
     [_popupView setBackgroundColor:[UIColor clearColor]];
     [_popupView setClipsToBounds:NO];
     [_popupView.layer setCornerRadius:kTWSReleaseNotesViewContainerViewCornerRadius];
-    [_popupView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+    _popupView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self addSubview:_popupView];
     
     // Blurred background view
@@ -247,19 +247,19 @@ static const NSTimeInterval kTWSReleaseNotesViewTransitionDuration = 0.2f;
     [_backgroundBlurredImageView setContentMode:UIViewContentModeCenter];
     [_backgroundBlurredImageView setClipsToBounds:YES];
     [_backgroundBlurredImageView.layer setCornerRadius:kTWSReleaseNotesViewBlurredImageViewCornerRadius];
-    [_backgroundBlurredImageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+    _backgroundBlurredImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [_popupView addSubview:_backgroundBlurredImageView];
     
     // Background overlay view
     _backgroundOverlayView = [[UIView alloc] initWithFrame:CGRectZero];
-    [_backgroundOverlayView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+    _backgroundOverlayView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [_backgroundOverlayView setClipsToBounds:YES];
     [_backgroundOverlayView.layer setCornerRadius:kTWSReleaseNotesViewContainerViewCornerRadius];
     [_backgroundBlurredImageView addSubview:_backgroundOverlayView];
     
     // Main text container view
     _textContainerView = [[UIView alloc] initWithFrame:CGRectZero];
-    [_textContainerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+    _textContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [_textContainerView.layer setBorderWidth:1.0f];
     [_textContainerView.layer setShadowOffset:CGSizeMake(0.0f, 1.0f)];
     [_textContainerView.layer setShadowRadius:0.0f];
@@ -268,7 +268,7 @@ static const NSTimeInterval kTWSReleaseNotesViewTransitionDuration = 0.2f;
     
     // Title label
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    [_titleLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin];
+    _titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
     [_titleLabel setBackgroundColor:[UIColor clearColor]];
     [_titleLabel setNumberOfLines:2];
     [_titleLabel.layer setShadowRadius:0.0f];
@@ -279,7 +279,7 @@ static const NSTimeInterval kTWSReleaseNotesViewTransitionDuration = 0.2f;
     
     // Release notes text view
     _textView = [[TWSUnselectableTextView alloc] initWithFrame:CGRectZero];
-    [_textView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+    _textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [_textView setBackgroundColor:[UIColor clearColor]];
     [_textView.layer setShadowRadius:0.0f];
     [_textView.layer setShadowOpacity:1.0f];
@@ -289,7 +289,7 @@ static const NSTimeInterval kTWSReleaseNotesViewTransitionDuration = 0.2f;
     
     // Close button
     _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_closeButton setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin];
+    _closeButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     [_closeButton setTitle:_closeButtonTitle forState:UIControlStateNormal];
     [_closeButton addTarget:self action:@selector(closeButtonTouchedUp:) forControlEvents:UIControlEventTouchUpInside];
     [_closeButton addTarget:self action:@selector(closeButtonTouchedDown:) forControlEvents:UIControlEventTouchDown];
@@ -310,11 +310,11 @@ static const NSTimeInterval kTWSReleaseNotesViewTransitionDuration = 0.2f;
     
     // Calculate popup view vertical padding
     CGFloat popupViewExpectedHeight = kTWSReleaseNotesViewTitleLabelHeight + textViewContentHeight + kTWSReleaseNotesViewButtonBoxHeight + 2*kTWSReleaseNotesViewSeparatorHeight + 2*kTWSReleaseNotesViewInnerContainerSidePadding;
-    CGFloat popupViewExpectedVerticalPadding = floorf((containerBounds.size.height - popupViewExpectedHeight) / 2.0f);
+    CGFloat popupViewExpectedVerticalPadding = floor((containerBounds.size.height - popupViewExpectedHeight) / 2.f);
     CGFloat popupViewVerticalPadding = MAX(popupViewExpectedVerticalPadding, kTWSReleaseNotesViewContainerViewMinVerticalPadding);
     
     // Popup view
-    [self.popupView setFrame:CGRectInset(containerBounds, floorf((containerBounds.size.width - kTWSReleaseNotesViewContainerViewWidth)/2.0f), popupViewVerticalPadding)];
+    self.popupView.frame = CGRectInset(containerBounds, floor((containerBounds.size.width - kTWSReleaseNotesViewContainerViewWidth)/2.0f), popupViewVerticalPadding);
     [self.popupView.layer setShadowPath:[[UIBezierPath bezierPathWithRect:self.popupView.bounds] CGPath]];
 
     // Background blurred image view
@@ -333,7 +333,7 @@ static const NSTimeInterval kTWSReleaseNotesViewTransitionDuration = 0.2f;
     
     // Top separator
     UIView *topSeparatorView = [self separatorInView:self.textContainerView belowView:self.titleLabel];
-    [topSeparatorView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin];
+    topSeparatorView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
     [self.textContainerView addSubview:topSeparatorView];
     
     // Text view frame
@@ -344,7 +344,7 @@ static const NSTimeInterval kTWSReleaseNotesViewTransitionDuration = 0.2f;
     
     // Bottom separator
     UIView *bottomSeparatorView = [self separatorInView:self.textContainerView belowView:self.textView];
-    [bottomSeparatorView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin];
+    bottomSeparatorView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     [self.textContainerView addSubview:bottomSeparatorView];
     
     // Close button
@@ -367,7 +367,7 @@ static const NSTimeInterval kTWSReleaseNotesViewTransitionDuration = 0.2f;
     [self.popupView.layer setShadowColor:[self.viewShadowColor CGColor]];
     [self.popupView.layer setShadowOffset:self.viewShadowOffset];
     [self.popupView.layer setShadowRadius:self.viewShadowRadius];
-    [self.popupView.layer setShadowOpacity:self.viewShadowOpacity];
+    self.popupView.layer.shadowOpacity = (float)self.viewShadowOpacity;
     
     [self.backgroundOverlayView setBackgroundColor:[self.textViewBackgroundColor colorWithAlphaComponent:self.textViewAlpha]];
     

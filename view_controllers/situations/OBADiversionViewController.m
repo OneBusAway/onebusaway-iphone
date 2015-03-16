@@ -50,39 +50,39 @@
         [mv setRegion:bounds.region];
     }
 
-    OBAArrivalAndDepartureV2 *ad = (self.args)[@"arrivalAndDeparture"];
+    NSString *shapeId = [[self.args[@"arrivalAndDeparture"] trip] shapeId];
 
-    if (ad != nil && _tripEncodedPolyline == nil) {
-        OBATripV2 *trip = ad.trip;
-        NSString *shapeId = trip.shapeId;
-
-        if (shapeId) {
-            OBAApplicationDelegate *context = self.appDelegate;
-            OBAModelService *service = context.modelService;
-            __weak OBADiversionViewController *weakVc = self;
-            _request = [service requestShapeForId:shapeId
-                                  completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                                      if (jsonData) {
-                                      weakVc.tripEncodedPolyline = jsonData;
-                                      NSArray *points = [OBASphericalGeometryLibrary decodePolylineString:weakVc.tripEncodedPolyline];
-
-                                      CLLocationCoordinate2D *pointArr = malloc(sizeof(CLLocationCoordinate2D) * points.count);
-
-                                      for (int i = 0; i < points.count; i++) {
-                                      CLLocation *location = points[i];
-                                      CLLocationCoordinate2D p = location.coordinate;
-                                      pointArr[i] = p;
-                                      }
-
-                                      weakVc.routePolyline = [MKPolyline         polylineWithCoordinates:pointArr
-                                                                                 count:points.count];
-                                      free(pointArr);
-                                      MKMapView *mv = [weakVc mapView];
-                                      [mv addOverlay:weakVc.routePolyline];
-                                      }
-                                  }];
-        }
+    if (!self.tripEncodedPolyline && shapeId) {
+        [self requestShapeForID:shapeId];
     }
+}
+
+- (void)requestShapeForID:(NSString *)shapeId {
+    OBAApplicationDelegate *context = self.appDelegate;
+    OBAModelService *service = context.modelService;
+    @weakify(self);
+    self.request = [service requestShapeForId:shapeId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        @strongify(self);
+
+        if (!jsonData) {
+            return;
+        }
+
+        self.tripEncodedPolyline = jsonData;
+        NSArray *points = [OBASphericalGeometryLibrary decodePolylineString:self.tripEncodedPolyline];
+
+        CLLocationCoordinate2D *pointArr = malloc(sizeof(CLLocationCoordinate2D) * points.count);
+
+        for (NSInteger i = 0; i < points.count; i++) {
+            CLLocation *location = points[i];
+            CLLocationCoordinate2D p = location.coordinate;
+            pointArr[i] = p;
+        }
+
+        self.routePolyline = [MKPolyline polylineWithCoordinates:pointArr count:points.count];
+        free(pointArr);
+        [self.mapView addOverlay:self.routePolyline];
+    }];
 }
 
 #pragma mark MKMapViewDelegate

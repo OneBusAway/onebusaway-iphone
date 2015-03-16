@@ -18,8 +18,6 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     OBASectionTypeRecent,
 };
 
-static NSString *editingCellTag = @"editingCell";
-
 @interface OBACustomApiViewController ()
 @property (nonatomic) OBAApplicationDelegate *appDelegate;
 @property (nonatomic) NSArray *recentUrls;
@@ -181,7 +179,6 @@ static NSString *editingCellTag = @"editingCell";
     //[tableView addSubview:cell]; // make keyboard slide in/out from right.
     cell.textField.placeholder = @"example.onebusaway.org/api/";
     cell.textField.text = self.appDelegate.modelDao.readCustomApiUrl;
-    cell.textField.tag = editingCellTag;
     cell.textField.delegate = self;
     cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
     cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;

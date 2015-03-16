@@ -41,10 +41,10 @@
 }
 
 
-- (void) setMessage:(NSString*)message inProgress:(BOOL)inProgress progress:(float)progress {
+- (void) setMessage:(NSString*)message inProgress:(BOOL)inProgress progress:(CGFloat)progress {
 
-    BOOL hasMessage = (message != nil) && ([message length] > 0);
-    
+    BOOL hasMessage = message.length > 0;
+
     if( inProgress && hasMessage )
         _progressLabel.text = message;
     
@@ -56,7 +56,7 @@
     else
         [_activityIndicator stopAnimating];
     
-    _progressView.progress = progress;
+    _progressView.progress = (float)progress;
     
     _label.hidden = ! (!inProgress && hasMessage);
     _progressLabel.hidden = ! (inProgress  && hasMessage);
@@ -64,7 +64,7 @@
     _progressView.hidden = ! (inProgress && ! hasMessage);
 }
 
-- (void) setInProgress:(BOOL)inProgress progress:(float)progress {
+- (void) setInProgress:(BOOL)inProgress progress:(CGFloat)progress {
     [self setMessage:nil inProgress:inProgress progress:progress];
 }
 

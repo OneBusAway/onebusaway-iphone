@@ -1,17 +1,6 @@
 #import "OBAArrivalEntryTableViewCellFactory.h"
 #import "OBAPresentation.h"
 
-
-@interface OBAArrivalEntryTableViewCellFactory ()
-
-- (NSString*) getMinutesLabelForMinutes:(int)minutes;
-- (UIColor*) getMinutesColorForArrival:(OBAArrivalAndDepartureV2*)arrival;
-- (NSString*) getStatusLabelForArrival:(OBAArrivalAndDepartureV2*)arrival time:(NSDate*)time minutes:(int)minutes;
-- (OBAArrivalEntryTableViewCellAlertStyle) getAlertStyleForArrival:(OBAArrivalAndDepartureV2*)arrival;
-
-@end
-
-
 @implementation OBAArrivalEntryTableViewCellFactory
 
 - (id) initWithappDelegate:(OBAApplicationDelegate*)appDelegate tableView:(UITableView*)tableView {
@@ -36,7 +25,7 @@
     
     NSDate * time = [NSDate dateWithTimeIntervalSince1970:(arrival.bestDepartureTime / 1000)];            
     NSTimeInterval interval = [time timeIntervalSinceNow];
-    int minutes = interval / 60;
+    NSInteger minutes = (NSInteger)(interval / 60.0);
     NSMutableAttributedString * attributedStatusLabel = [[NSMutableAttributedString alloc]
                                              initWithString:[NSString stringWithFormat:@"%@ - ",[_timeFormatter stringFromDate:time]]
                                              attributes:nil];
@@ -94,11 +83,13 @@
     return cell;    
 }
 
-- (NSString*) getMinutesLabelForMinutes:(int)minutes {
-    if(minutes == 0)
+- (NSString*) getMinutesLabelForMinutes:(NSInteger)minutes {
+    if (minutes == 0) {
         return NSLocalizedString(@"NOW",@"minutes == 0");
-    else
-        return [NSString stringWithFormat:@"%d",minutes];
+    }
+    else {
+        return [NSString stringWithFormat:@"%@",@(minutes)];
+    }
 }
 
 - (UIColor*) getMinutesColorForArrival:(OBAArrivalAndDepartureV2*)arrival {
@@ -120,53 +111,53 @@
     }
 }
 
-- (NSString*) getStatusLabelForArrival:(OBAArrivalAndDepartureV2*)arrival time:(NSDate*)time minutes:(int)minutes {
+- (NSString*) getStatusLabelForArrival:(OBAArrivalAndDepartureV2*)arrival time:(NSDate*)time minutes:(NSInteger)minutes {
     
-    if( arrival.frequency ) {
+    if (arrival.frequency) {
         OBAFrequencyV2 * freq = arrival.frequency;
-        int headway = freq.headway / 60;
+        NSInteger headway = freq.headway / 60;
         
         NSDate * now = [NSDate date];
         NSDate * startTime = [NSDate dateWithTimeIntervalSince1970:(freq.startTime / 1000)];
         NSDate * endTime = [NSDate dateWithTimeIntervalSince1970:(freq.endTime / 1000)];
         
         if ([now compare:startTime]  == NSOrderedAscending) {
-            return [NSString stringWithFormat:@"%@ %d %@ %@",NSLocalizedString(@"Every",@"[now compare:startTime]"),headway,NSLocalizedString(@"mins from",@"[now compare:startTime]  == NSOrderedAscending"),[_timeFormatter stringFromDate:startTime]];
+            return [NSString stringWithFormat:@"%@ %@ %@ %@",NSLocalizedString(@"Every",@"[now compare:startTime]"), @(headway), NSLocalizedString(@"mins from", @"[now compare:startTime] == NSOrderedAscending"), [_timeFormatter stringFromDate:startTime]];
         }
         else {
-            return [NSString stringWithFormat:@"%@ %d %@ %@",NSLocalizedString(@"Every",@"[now compare:startTime]"),headway,NSLocalizedString(@"mins until",@"[now compare:startTime] # NSOrderedAscending"),[_timeFormatter stringFromDate:endTime]];
+            return [NSString stringWithFormat:@"%@ %@ %@ %@",NSLocalizedString(@"Every",@"[now compare:startTime]"), @(headway), NSLocalizedString(@"mins until",@"[now compare:startTime] # NSOrderedAscending"), [_timeFormatter stringFromDate:endTime]];
         }
     }
     
-    NSString * status;
+    NSString *status = nil;
     
-    if( arrival.predictedDepartureTime > 0 ) {
-        double diff = (arrival.predictedDepartureTime - arrival.scheduledDepartureTime) / ( 1000.0 * 60.0);
-        int minDiff = (int) abs(diff);
-        if( diff < -1.5) {
-            if( minutes < 0 )
-                status = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"departed",@"minutes < 0"),minDiff,NSLocalizedString(@"min early",@"diff < -1.5")];
+    if (arrival.predictedDepartureTime > 0) {
+        double diff = (arrival.predictedDepartureTime - arrival.scheduledDepartureTime) / (1000.0 * 60.0);
+        NSInteger minDiff = (NSInteger) fabs(diff);
+        if (diff < -1.5) {
+            if (minutes < 0)
+                status = [NSString stringWithFormat:@"%@ %@ %@",NSLocalizedString(@"departed",@"minutes < 0"), @(minDiff), NSLocalizedString(@"min early", @"diff < -1.5")];
             else
-                status = [NSString stringWithFormat:@"%d %@",minDiff,NSLocalizedString(@"min early",@"diff < -1.5")];
+                status = [NSString stringWithFormat:@"%@ %@", @(minDiff), NSLocalizedString(@"min early",@"diff < -1.5")];
         }
-        else if( diff < 1.5 ) {
-            if( minutes < 0 )
+        else if(diff < 1.5) {
+            if (minutes < 0)
                 status = NSLocalizedString(@"departed on time",@"minutes < 0");
             else
                 status = NSLocalizedString(@"on time",@"minutes >= 0");
         }
         else {
-            if( minutes < 0 )
-                status = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"departed",@"minutes < 0"),minDiff,NSLocalizedString(@"min late",@"diff")];
+            if (minutes < 0)
+                status = [NSString stringWithFormat:@"%@ %@ %@",NSLocalizedString(@"departed",@"minutes < 0"), @(minDiff), NSLocalizedString(@"min late",@"diff")];
             else
-                status = [NSString stringWithFormat:@"%d %@",minDiff,NSLocalizedString(@"min delay",@"diff")];
+                status = [NSString stringWithFormat:@"%@ %@", @(minDiff), NSLocalizedString(@"min delay",@"diff")];
         }
     }
     else {
         if( minutes < 0 )
-            status = NSLocalizedString(@"scheduled departure",@"minutes < 0");
+            status = NSLocalizedString(@"scheduled departure", @"minutes < 0");
         else
-            status = NSLocalizedString(@"scheduled arrival",@"minutes >= 0");
+            status = NSLocalizedString(@"scheduled arrival", @"minutes >= 0");
     }
     
     return status;
@@ -174,18 +165,24 @@
 
 - (OBAArrivalEntryTableViewCellAlertStyle) getAlertStyleForArrival:(OBAArrivalAndDepartureV2*)arrival {
     
-    if( ! _showServiceAlerts )
+    if (!_showServiceAlerts) {
         return OBAArrivalEntryTableViewCellAlertStyleNone;
-    
+    }
+
     NSArray * situations = arrival.situations;
-    if( [situations count] == 0 )
+    if (situations.count == 0) {
         return OBAArrivalEntryTableViewCellAlertStyleNone;
+    }
+
     OBAModelDAO * modelDao = _appDelegate.modelDao;
-    OBAServiceAlertsModel * serviceAlerts = [modelDao getServiceAlertsModelForSituations:arrival.situations];
-    if( serviceAlerts.unreadCount > 0 )
+    OBAServiceAlertsModel * serviceAlerts = [modelDao getServiceAlertsModelForSituations:situations];
+
+    if (serviceAlerts.unreadCount > 0) {
         return OBAArrivalEntryTableViewCellAlertStyleActive;
-    else
+    }
+    else {
         return OBAArrivalEntryTableViewCellAlertStyleInactive;
+    }
 }
 
 @end
