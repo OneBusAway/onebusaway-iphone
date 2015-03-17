@@ -12,7 +12,7 @@ If you would like to help test the latest development release, email us at [ipho
 
 See our [contributing guidelines](CONTRIBUTING.md) and [roadmap](ROADMAP.md).
 
-Our [huboard](http://huboard.com/OneBusAway/onebusaway-iphone/board) lists development priorites and status updates.
+Our [huboard](https://huboard.com/OneBusAway/onebusaway-iphone) lists development priorites and status updates.
 
 ### Development environment setup
 
