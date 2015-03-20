@@ -2,7 +2,6 @@
 [![Build Status](https://img.shields.io/travis/OneBusAway/onebusaway-iphone.svg)](https://travis-ci.org/OneBusAway/onebusaway-iphone)
 [![Join the chat at https://gitter.im/OneBusAway/onebusaway-iphone](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/OneBusAway/onebusaway-iphone?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Visit our IRC channel](http://img.shields.io/badge/IRC-%23OneBusAway-green.svg)](https://kiwiirc.com/client/irc.freenode.net/?nick=obauser|?&theme=basic#OneBusAway)
-[![Visit our IRC channel](https://img.shields.io/badge/IRC-%23OneBusAway--iPhone-green.svg)](https://kiwiirc.com/client/irc.freenode.net/?nick=obauser|?&theme=basic#OneBusAway-iPhone)
 
 ## Test latest development release
 
@@ -12,7 +11,7 @@ If you would like to help test the latest development release, email us at [ipho
 
 See our [contributing guidelines](CONTRIBUTING.md) and [roadmap](ROADMAP.md).
 
-Our [huboard](http://huboard.com/OneBusAway/onebusaway-iphone/board) lists development priorites and status updates.
+Our [huboard](https://huboard.com/OneBusAway/onebusaway-iphone) lists development priorites and status updates.
 
 ### Development environment setup
 
