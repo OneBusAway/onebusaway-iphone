@@ -789,7 +789,15 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         OBAArrivalEntryTableViewCell *cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
+        
+        //TODO: Pho - update alert...
+        //      if events == 1 ... !
+        //      if events  > 1 ... !!!
+        NSArray *options = @[@"!",@""];
+        NSUInteger randomIndex = arc4random() % [options count];
+        
+        cell.alertLabel.text = options[randomIndex];
+        
         return cell;
     }
 }
