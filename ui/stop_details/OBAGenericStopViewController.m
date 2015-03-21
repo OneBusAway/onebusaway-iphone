@@ -793,14 +793,22 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         //TODO: Pho - update alert...
         //      if events == 1 ... !
         //      if events  > 1 ... !!!
-        NSArray *options = @[@"!",@""];
+        NSArray *options = @[@"!",@"", @"!!"];
         NSUInteger randomIndex = arc4random() % [options count];
         
         cell.alertLabel.text = options[randomIndex];
         
+        //TODO: Pho - update swipe
+        
         return cell;
     }
 }
+
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
 
 - (void)determineFilterTypeCellText:(UITableViewCell *)filterTypeCell filteringEnabled:(bool)filteringEnabled {
     if (filteringEnabled) filterTypeCell.textLabel.text = NSLocalizedString(@"Show all arrivals", @"filteringEnabled");
@@ -816,9 +824,12 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryNone;
+    
+
 
     return cell;
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
