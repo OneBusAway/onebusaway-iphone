@@ -22,7 +22,6 @@
 #import "OBAModelDAOUserPreferencesImpl.h"
 #import "OBAPlacemark.h"
 #import "OBABookmarkGroup.h"
-#import "OBAAnalytics.h"
 
 const NSInteger kMaxEntriesInMostRecentList = 10;
 
@@ -90,7 +89,6 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 - (void) setOBARegion:(OBARegionV2*)newRegion {
     _region = newRegion;
     [_preferencesDao writeOBARegion:newRegion];
-    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"set_region" label:[NSString stringWithFormat:@"Set Region: %@",newRegion.regionName] value:nil];
 }
 
 
@@ -217,8 +215,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 }
 
 - (void) moveBookmark:(OBABookmarkV2*)bookmark toGroup:(OBABookmarkGroup*)group {
-    if (bookmark.group == group) return;
-    else if (!group) {
+    if (!group) {
         [_bookmarks addObject:bookmark];
         [bookmark.group.bookmarks removeObject:bookmark];
     } else if (bookmark.group != nil) {

@@ -15,12 +15,11 @@
  */
 
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBAArrivalEntryTableViewCellAlertStyle) {
     OBAArrivalEntryTableViewCellAlertStyleNone,
     OBAArrivalEntryTableViewCellAlertStyleInactive,
     OBAArrivalEntryTableViewCellAlertStyleActive
-}
-OBAArrivalEntryTableViewCellAlertStyle;
+};
 
 @interface OBAArrivalEntryTableViewCell : UITableViewCell {
     OBAArrivalEntryTableViewCellAlertStyle _alertStyle;
@@ -35,6 +34,8 @@ OBAArrivalEntryTableViewCellAlertStyle;
 @property (nonatomic, strong) IBOutlet UILabel * minutesSubLabel;
 @property (nonatomic, strong) IBOutlet UIImageView * unreadAlertImage;
 @property (nonatomic, strong) IBOutlet UIImageView * alertImage;
+@property (nonatomic, strong) IBOutlet UILabel * alertLabel;
+@property (nonatomic, strong) IBOutlet UILabel * alertTextLabel;
 
 @property (nonatomic) OBAArrivalEntryTableViewCellAlertStyle alertStyle;
 

@@ -16,7 +16,6 @@
 
 #import "OBAGenericAnnotation.h"
 
-
 @implementation OBAGenericAnnotation
 
 @synthesize coordinate = _coordinate;

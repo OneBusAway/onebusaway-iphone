@@ -1,4 +1,4 @@
-typedef enum {
+typedef NS_ENUM(NSInteger, OBANavigationTargetType) {
     OBANavigationTargetTypeRoot=0,
     OBANavigationTargetTypeSearch,
     OBANavigationTargetTypeSearchResults,
@@ -9,23 +9,25 @@ typedef enum {
     OBANavigationTargetTypeEditStopPreferences,
     OBANavigationTargetTypeSettings,
     OBANavigationTargetTypeContactUs,
-    OBANavigationTargetTypeAgencies
-} OBANavigationTargetType;
+    OBANavigationTargetTypeAgencies,
+};
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OBASearchViewType) {
     OBASearchViewTypeByStop = 0,
     OBASearchViewTypeByRoute,
-    OBASearchViewTypeByAddress
-} OBASearchViewType;
+    OBASearchViewTypeByAddress,
+};
+
 
 #define APP_DELEGATE ((OBAApplicationDelegate*)[UIApplication sharedApplication].delegate)
 
 #define OBARGBCOLOR(__r, __g, __b) [UIColor colorWithRed:(__r / 255.f) green:(__g / 255.f) blue:(__b / 255.f) alpha:1.f]
 #define OBARGBACOLOR(__r, __g, __b, __a) [UIColor colorWithRed:(__r / 255.f) green:(__g / 255.f) blue:(__b / 255.f) alpha:__a]
-#define OBAGREEN [UIColor colorWithHue:(86./360.) saturation:0.68 brightness:0.67 alpha:1];
-#define OBAGREENBACKGROUND [UIColor colorWithHue:(86./360.) saturation:0.68 brightness:0.67 alpha:0.1]
-#define OBADARKGREEN [UIColor colorWithRed:0.2 green:.4 blue:0 alpha:1]
-#define OBALABELGREEN [UIColor colorWithRed:0 green:0.478 blue:0 alpha: 1]
+#define OBAGREENWITHALPHA(__a) [UIColor colorWithHue:(86.f/360.f) saturation:0.68f brightness:0.67f alpha:__a]
+#define OBAGREEN [UIColor colorWithHue:(86.f/360.f) saturation:0.68f brightness:0.67f alpha:1.f]
+#define OBAGREENBACKGROUND [UIColor colorWithHue:(86.f/360.f) saturation:0.68f brightness:0.67f alpha:0.1f]
+#define OBADARKGREEN [UIColor colorWithRed:0.2f green:.4f blue:0.f alpha:1.f]
+#define OBALABELGREEN [UIColor colorWithRed:0.f green:0.478f blue:0.f alpha:1.f]
 
 #define OBAPlacemarkNotification @"OBAPlacemarkNotification"
 #define OBAViewedArrivalsAndDeparturesForStopNotification @"OBAViewedArrivalsAndDeparturesForStopNotification"

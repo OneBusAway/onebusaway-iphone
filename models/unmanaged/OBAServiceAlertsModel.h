@@ -1,6 +1,4 @@
-@interface OBAServiceAlertsModel : NSObject {
-
-}
+@interface OBAServiceAlertsModel : NSObject
 
 @property (nonatomic) NSUInteger unreadCount;
 @property (nonatomic) NSUInteger totalCount;

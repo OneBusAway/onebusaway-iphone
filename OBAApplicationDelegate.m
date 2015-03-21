@@ -28,13 +28,10 @@
 #import "OBAStopViewController.h"
 #import "OBAStopIconFactory.h"
 
-#import "OBAUserPreferencesMigration.h"
-
 #import "OBARegionListViewController.h"
 #import "OBARegionHelper.h"
 #import "OBAReleaseNotesManager.h"
 
-#import "TestFlight.h"
 #import "OBAAnalytics.h"
 
 static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
@@ -48,17 +45,6 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
 @interface OBAApplicationDelegate ()
 @property(nonatomic,readwrite) BOOL active;
 @property(nonatomic) OBARegionHelper *regionHelper;
-
-
-- (void) _constructUI;
-- (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget;
-- (void) _setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController;
-- (UIViewController*) _getViewControllerForTarget:(OBANavigationTarget*)target;
-
-- (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults;
-- (void) _migrateUserPreferences;
-- (NSString *)applicationDocumentsDirectory;
-- (void)_updateSelectedTabIndex;
 @end
 
 @implementation OBAApplicationDelegate
@@ -210,39 +196,24 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
     //Register alert defaults
     NSDictionary *alertDefaults = @{kOBAShowSurveyAlertKey: @(YES)};
     [[NSUserDefaults standardUserDefaults] registerDefaults:alertDefaults];
-    
-    //setup TestFlight
-#ifdef DEBUG
-    // if beta testing use token for org.onebusaway.iphone.dev
-    [TestFlight takeOff:@"1329bac8-596e-4c80-a180-31aad3eb676a"];
-    NSLog(@"Debug app");
-    static BOOL const kGaDryRun = YES;
-#else
-    // if app store version use token for org.onebusaway.iphone
-    [TestFlight takeOff:@"28959455-6425-40fb-a08c-204cb2a80421"];
-    NSLog(@"Production app");
-    static BOOL const kGaDryRun = NO;
-#endif
 
     //setup Google Analytics
     NSDictionary *appDefaults = @{kAllowTracking: @(YES)};
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
+
     // User must be able to opt out of tracking
-    [GAI sharedInstance].optOut =
-    ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
-    // Initialize Google Analytics with a 120-second dispatch interval. There is a
-    // tradeoff between battery usage and timely dispatch. Default is 120 -- see more details at
-    // https://developers.google.com/analytics/devguides/collection/ios/v3/dispatch
-    [GAI sharedInstance].dispatchInterval = 120;
+    [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
+
     [GAI sharedInstance].trackUncaughtExceptions = YES;
     [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
-//don't report to Google Analytics when developing
+
+    //don't report to Google Analytics when developing
 #ifdef DEBUG
-    [[GAI sharedInstance] setDryRun:kGaDryRun];
-#endif    
+    [[GAI sharedInstance] setDryRun:YES];
+#endif
+
     self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
 
-    [self _migrateUserPreferences];
     [self _constructUI];
 
     return YES;
@@ -265,13 +236,11 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
     self.tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
     [GAI sharedInstance].optOut =
     ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
-}
 
-- (void)applicationWillResignActive:(UIApplication *)application {
     if([self.modelDao.readCustomApiUrl isEqualToString:@""]) {
         [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"configured_region" label:[NSString stringWithFormat:@"API Region: %@",self.modelDao.region.regionName] value:nil];
     }else{
-        [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"configured_region" label:[NSString stringWithFormat:@"API Region: %@",self.modelDao.readCustomApiUrl] value:nil];
+        [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"configured_region" label:@"API Region: Custom URL" value:nil];
     }
     [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", (self.modelDao.readSetRegionAutomatically ? @"YES" : @"NO")] value:nil];
 
@@ -279,7 +248,9 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
     if ([[NSUserDefaults standardUserDefaults] boolForKey: @"kOBAShowExperimentalRegionsDefaultsKey"])
         _showExperimentalRegions = [[NSUserDefaults standardUserDefaults] boolForKey: @"kOBAShowExperimentalRegionsDefaultsKey"];
     [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"general" label:[NSString stringWithFormat:@"Show Experimental Regions: %@", (_showExperimentalRegions ? @"YES" : @"NO")] value:nil];
-    
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application {
     self.active = NO;
 }
 
@@ -356,28 +327,7 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
         [self.tabBarController setSelectedViewController:self.bookmarksNavigationController];
     }
     else {
-        NSLog(@"Unhandled target in %s: %d", __PRETTY_FUNCTION__, navigationTarget.target);
-    }
-}
-
-- (void) _setNavigationTarget:(OBANavigationTarget*)target forViewController:(UIViewController*)viewController {
-    if( ! [viewController conformsToProtocol:@protocol(OBANavigationTargetAware) ] )
-        return;
-    
-    if( ! [viewController respondsToSelector:@selector(setNavigationTarget:) ] )
-        return;
-    
-    id<OBANavigationTargetAware> targetAware = (id<OBANavigationTargetAware>) viewController;
-    [targetAware setNavigationTarget:target];
-}
-
-- (UIViewController*) _getViewControllerForTarget:(OBANavigationTarget*)target {
-    
-    switch (target.target) {
-        case OBANavigationTargetTypeStop:
-            return [[OBAStopViewController alloc] initWithApplicationDelegate:self];
-        default:
-            return nil;
+        NSLog(@"Unhandled target in %s: %@", __PRETTY_FUNCTION__, @(navigationTarget.target));
     }
 }
 
@@ -401,14 +351,6 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
     return userId;
 }
 
-- (void) _migrateUserPreferences {
-    
-    OBAUserPreferencesMigration * migration = [[OBAUserPreferencesMigration alloc] init];
-    
-    NSString * path = [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"OneBusAway.sqlite"];
-    [migration migrateCoreDataPath:path toDao:_modelDao];
-}
-
 - (void)regionSelected {
     [_regionNavigationController removeFromParentViewController];
     _regionNavigationController = nil;
@@ -426,17 +368,6 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
     _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:_regionListViewController];
 
     self.window.rootViewController = _regionNavigationController;
-}
-#pragma mark Application's documents directory
-
-/**
- * Returns the path to the application's documents directory.
- */
-- (NSString *)applicationDocumentsDirectory {
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? paths[0] : nil;
-    return basePath;
 }
 
 @end

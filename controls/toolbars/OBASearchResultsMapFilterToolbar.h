@@ -32,7 +32,6 @@
 @property (nonatomic, strong) OBAApplicationDelegate * appDelegate;
 
 -(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate andappDelegate:(OBAApplicationDelegate*)context;
--(void) dealloc;
 
 -(void) showWithDescription:(NSString*)filterDescString animated:(BOOL)animated;
 -(void) hideWithAnimated:(BOOL)animated;

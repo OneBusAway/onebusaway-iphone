@@ -16,11 +16,7 @@
 
 #import "OBANavigationTarget.h"
 
-
 @implementation OBANavigationTarget
-
-@synthesize target = _target;
-@synthesize parameters = _parameters;
 
 - (id) initWithTarget:(OBANavigationTargetType)target {
     return [self initWithTarget:target parameters:@{}];

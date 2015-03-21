@@ -1,8 +1,6 @@
 @class OBABookmarkGroup;
 
-@interface OBABookmarkV2 : NSObject
-
-- (id) initWithCoder:(NSCoder*)coder;
+@interface OBABookmarkV2 : NSObject<NSCoding>
 
 @property (nonatomic, strong) NSString * name;
 @property (nonatomic, strong) NSArray * stopIds;

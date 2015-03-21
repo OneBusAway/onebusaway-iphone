@@ -16,9 +16,9 @@
 
 #import "OBANavigationTarget.h"
 
-typedef enum {
-    OBAAnnotationTypeStop
-} OBAAnnotationType;
+typedef NS_ENUM(NSInteger, OBAAnnotationType) {
+    OBAAnnotationTypeStop,
+};
 
 @interface OBANavigationTargetAnnotation : NSObject<MKAnnotation> {
     NSString * _title;

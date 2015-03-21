@@ -17,24 +17,8 @@
 #import "OBASearchResultsMapFilterToolbar.h"
 #import "OBAApplicationDelegate.h" // for OBAApplicationDelegate.window
 
-
-// hidden declarations
-@interface OBASearchResultsMapFilterToolbar (hidden)
-
--(void) hideInternal;
-
-@end
-
-
-// public implementation
 @implementation OBASearchResultsMapFilterToolbar
 
-// propeties
-@synthesize filterDescription = _filterDescription;
-@synthesize appDelegate = _appDelegate;
-
-
-// methods
 -(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate andappDelegate:(OBAApplicationDelegate*)context {
     self = [super init];
     
@@ -95,8 +79,8 @@
     const CGFloat filterLabelsWidth = filterLabelTextSize.width + filterLabelAndDescSeparation + filterDescTextSize.width; 
     
     // Calculate origins of UILabels
-    const CGFloat frameCenterX = self.frame.origin.x + self.frame.size.width / 2.0;
-    const CGFloat xOriginOfLabel = frameCenterX - filterLabelsWidth / 2.0;
+    const CGFloat frameCenterX = self.frame.origin.x + self.frame.size.width / 2.f;
+    const CGFloat xOriginOfLabel = frameCenterX - filterLabelsWidth / 2.f;
     const CGFloat xOriginOfDesc  = xOriginOfLabel + filterLabelTextSize.width + filterLabelAndDescSeparation;
     
     // Calculate frames
@@ -207,13 +191,9 @@
     }
 }
 
-@end
+#pragma mark - Private
 
-
-// hidden implementation
-@implementation OBASearchResultsMapFilterToolbar (hidden)
-
--(void) hideInternal {
+- (void)hideInternal {
     if (_currentlyShowing) {
         [_labelOutput removeFromSuperview];
         [_descOutput  removeFromSuperview];
