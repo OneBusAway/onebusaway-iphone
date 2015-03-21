@@ -793,22 +793,21 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         //TODO: Pho - update alert...
         //      if events == 1 ... !
         //      if events  > 1 ... !!!
-        NSArray *options = @[@"!",@"", @"!!"];
+        NSArray *options = @[@"!",@"", @"", @""];
         NSUInteger randomIndex = arc4random() % [options count];
         
         cell.alertLabel.text = options[randomIndex];
         
         //TODO: Pho - update swipe
         
+        //TODO: Pho - warning text
+        NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
+
+        cell.alertTextLabel.text = optionsText[randomIndex];
+        
         return cell;
     }
 }
-
-
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-}
-
 
 - (void)determineFilterTypeCellText:(UITableViewCell *)filterTypeCell filteringEnabled:(bool)filteringEnabled {
     if (filteringEnabled) filterTypeCell.textLabel.text = NSLocalizedString(@"Show all arrivals", @"filteringEnabled");
