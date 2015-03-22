@@ -40,7 +40,7 @@
 #import "OBAStopWebViewController.h"
 
 #import "OBAAnalytics.h"
-#import "OBAReport.h"
+#import "OBAProblemReport.h"
 
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
@@ -456,27 +456,6 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     if (UIAccessibilityIsVoiceOverRunning()) {
         [OBAAnalytics reportEventWithCategory:@"accessibility" action:@"voiceover_on" label:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]] value:nil];
     }
-    
-    OBAReport *reportA = [[OBAReport alloc] init];
-    reportA.reportType = 1;
-    reportA.reportId = @"40_28374738";
-    reportA.fullBus = TRUE;
-    OBAReport *reportB = [[OBAReport alloc] init];
-    reportB.reportType = 1;
-    reportB.reportId = @"40_28374738";
-    reportB.fullBus = TRUE;
-    OBAReport *reportC = [[OBAReport alloc] init];
-    reportC.reportType = 1;
-    reportC.reportId = @"40_28374738";
-    reportC.fullBus = TRUE;
-    OBAReport *reportD = [[OBAReport alloc] init];
-    reportD.reportType = 1;
-    reportD.reportId = @"40_28374738";
-    reportD.fullBus = TRUE;
-    [_reportArray addObject:reportA];
-    [_reportArray addObject:reportB];
-    [_reportArray addObject:reportC];
-    [_reportArray addObject:reportD];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -815,31 +794,30 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         OBAArrivalEntryTableViewCell *cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        
-        if (self.reportArray != nil) {
-            if (pa.reportId == nil) {
-                for (OBAReport *report in self.reportArray) {
-                    if ([report.tripId isEqualToString: pa.tripId]) {
-                        pa.reportId = report.reportId;
-                        pa.reportType = report.reportType;
-                    }
-                }
-            }
-        }
-        
-        //TODO: Pho - update alert...
-        //      if events == 1 ... !
-        //      if events  > 1 ... !!!
-        NSArray *options = @[@"!",@"", @"", @""];
-        NSUInteger randomIndex = arc4random() % [options count];
-        
-        cell.alertLabel.text = options[randomIndex];
-        
-        //TODO: Pho - warning text
-        NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
 
-        cell.alertTextLabel.text = optionsText[randomIndex];
-        
+        // TODO: reimplement support for alerts on cells
+//        if (self.reportArray && !pa.reportId) {
+//            for (OBAReport *report in self.reportArray) {
+//                if ([report.tripId isEqualToString: pa.tripId]) {
+//                    pa.reportId = report.reportId;
+//                    pa.reportType = report.reportType;
+//                }
+//            }
+//        }
+//
+//        //TODO: Pho - update alert...
+//        //      if events == 1 ... !
+//        //      if events  > 1 ... !!!
+//        NSArray *options = @[@"!",@"", @"", @""];
+//        NSUInteger randomIndex = arc4random() % [options count];
+//        
+//        cell.alertLabel.text = options[randomIndex];
+//        
+//        //TODO: Pho - warning text
+//        NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
+//
+//        cell.alertTextLabel.text = optionsText[randomIndex];
+//        
         return cell;
     }
 }
