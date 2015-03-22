@@ -15,6 +15,7 @@
  */
 
 #import "MCSwipeTableViewCell.h"
+#import "OBAProblemReport.h"
 
 typedef NS_ENUM(NSInteger, OBAArrivalEntryTableViewCellAlertStyle) {
     OBAArrivalEntryTableViewCellAlertStyleNone,
@@ -38,6 +39,8 @@ typedef NS_ENUM(NSInteger, OBAArrivalEntryTableViewCellAlertStyle) {
 @property (nonatomic, strong) IBOutlet UILabel * alertLabel;
 @property (nonatomic, strong) IBOutlet UILabel * alertTextLabel;
 @property (nonatomic, strong) IBOutlet UIImageView * alertRedImage;
+
+@property (nonatomic, assign) OBAProblemReportType problemReportType;
 
 @property (nonatomic) OBAArrivalEntryTableViewCellAlertStyle alertStyle;
 
