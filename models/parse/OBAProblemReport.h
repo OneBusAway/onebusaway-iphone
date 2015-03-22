@@ -9,7 +9,8 @@
 #import <Parse/Parse.h>
 
 typedef NS_ENUM(NSInteger, OBAProblemReportType) {
-    OBAProblemReportTypeFullBus = 0,
+    OBAProblemReportTypeNone = 0,
+    OBAProblemReportTypeFullBus = 1,
     OBAProblemReportTypeUnknown //Make sure this is always the *last* item in the list
 };
 
@@ -17,6 +18,6 @@ typedef NS_ENUM(NSInteger, OBAProblemReportType) {
 @property(nonatomic,strong) NSString *tripID;
 @property(nonatomic,strong) NSNumber *reportType;
 @property(nonatomic,strong) PFGeoPoint *location;
-
+@property(nonatomic,strong) NSString *comments;
 @property(nonatomic,assign) OBAProblemReportType problemReportType;
 @end
