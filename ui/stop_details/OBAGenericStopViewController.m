@@ -820,17 +820,17 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 //        NSLog(@"2: %@", tempReport.tripID);
 //        NSLog(@"3: %lu", (unsigned long)[self.reportArray count]);
       
-        if (self.reportArray != nil) {
-            if (pa.reportId == nil) {
-                for (OBAProblemReport *report in self.reportArray) {
-                    if ([report.tripID isEqualToString: pa.tripId]) {
-                          // Need OBAProblemReport/Parse model to have reportID
+//        if (self.reportArray != nil) {
+//            if (pa.reportId == nil) {
+//                for (OBAProblemReport *report in self.reportArray) {
+//                    if ([report.tripID isEqualToString: pa.tripId]) {
+//                          // Need OBAProblemReport/Parse model to have reportID
 //                        pa.reportId = report.reportID;
 //                        pa.reportType = report.reportType;
-                    }
-                }
-            }
-        }
+//                    }
+//                }
+//            }
+//        }
         NSLog(@"%@", pa.tripId);
         NSLog(@"%@", pa.reportId);
         NSLog(@"%ld", (long)pa.reportType);
