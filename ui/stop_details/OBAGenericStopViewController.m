@@ -810,11 +810,8 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         //TODO: Pho - warning text
         NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
 
-<<<<<<< HEAD
         cell.alertTextLabel.text = optionsText[randomIndex];
         
-=======
->>>>>>> swipe thing commit
         // iOS 7 separator
         if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
             cell.separatorInset = UIEdgeInsetsZero;
