@@ -464,12 +464,12 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         [OBAAnalytics reportEventWithCategory:@"accessibility" action:@"voiceover_on" label:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]] value:nil];
     }
   
-    // Mock Data
-    OBAProblemReport *reportA = [[OBAProblemReport alloc] init];
-    NSNumber *number = [[NSNumber alloc] initWithInt:0];
-    reportA.reportType = number;
-    //reportA.reportId = @"40_28374738";
-    [_reportArray addObject:reportA];
+//    // Mock Data
+//    OBAProblemReport *reportA = [[OBAProblemReport alloc] init];
+//    NSNumber *number = [[NSNumber alloc] initWithInt:0];
+//    reportA.reportType = number;
+//    //reportA.reportId = @"40_28374738";
+//    [_reportArray addObject:reportA];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -820,16 +820,15 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
       
-        // Mock Data
-        OBAArrivalAndDepartureV2 *arrivalsA = [[OBAArrivalAndDepartureV2 alloc] init];
-        arrivalsA = arrivals[0];
-        NSLog(@"1: %@", arrivalsA.tripId);
-        OBAProblemReport *tempReport = [self.reportArray objectAtIndex:0];
-        tempReport.tripID = arrivalsA.tripId;
-        NSLog(@"2: %@", tempReport.tripID);
-        NSLog(@"3: %lu", (unsigned long)[self.reportArray count]);
+//        // Mock Data
+//        OBAArrivalAndDepartureV2 *arrivalsA = [[OBAArrivalAndDepartureV2 alloc] init];
+//        arrivalsA = arrivals[0];
+//        NSLog(@"1: %@", arrivalsA.tripId);
+//        OBAProblemReport *tempReport = [self.reportArray objectAtIndex:0];
+//        tempReport.tripID = arrivalsA.tripId;
+//        NSLog(@"2: %@", tempReport.tripID);
+//        NSLog(@"3: %lu", (unsigned long)[self.reportArray count]);
       
-  
         if (self.reportArray != nil) {
             if (pa.reportId == nil) {
                 for (OBAProblemReport *report in self.reportArray) {
