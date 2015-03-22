@@ -898,26 +898,6 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-  
-}
-
-- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-  
-  @weakify(self);
-  UITableViewRowAction *helloAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Report Problem" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-    @strongify(self);
-    
-    // do the right thing when report problem is tapped.
-  }];
-  
-  return @[helloAction];
-}
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-  return YES;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
