@@ -58,6 +58,7 @@
     self.alertTextLabel.text = @"";
     self.alertTextLabel.hidden = YES;
     self.alertRedImage.hidden = YES;
+    self.numberOfReports = 0;
 }
 
 - (void)dealloc {
@@ -77,10 +78,21 @@
         self.alertRedImage.hidden = YES;
     }
     else {
-        self.alertTextLabel.text = NSLocalizedString(@"Bus Reported to Be Full", @"");
         self.alertTextLabel.hidden = NO;
         self.alertRedImage.hidden = NO;
     }
+
+    [self buildAlertTextLabel];
+}
+
+- (void)setNumberOfReports:(NSInteger)numberOfReports {
+    _numberOfReports = numberOfReports;
+
+    [self buildAlertTextLabel];
+}
+
+- (void)buildAlertTextLabel {
+    self.alertTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Bus Reported to Be Full (%@ report%@)", @""), @(self.numberOfReports), self.numberOfReports == 1 ? @"" : @"s"];
 }
 
 - (void) setAlertStyle:(OBAArrivalEntryTableViewCellAlertStyle)alertStyle {
@@ -99,7 +111,6 @@
 
     }
     else {
-
         _minutesLabel.alpha = 1.0;
         _unreadAlertImage.alpha = 0.0;
         _alertImage.alpha = 0.0;
