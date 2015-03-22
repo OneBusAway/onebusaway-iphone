@@ -70,10 +70,6 @@
 
 - (void)setProblemReportType:(OBAProblemReportType)problemReportType {
 
-    if (_problemReportType == problemReportType) {
-        return;
-    }
-
     _problemReportType = problemReportType;
 
     if (_problemReportType == OBAProblemReportTypeNone) {

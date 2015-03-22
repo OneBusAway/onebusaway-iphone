@@ -833,6 +833,8 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
             [alertView show];
         }];
 
+//        NSArray *problemReportsForTrip = self.
+
         OBAProblemReport *problemReport = self.problemReports[pa.tripId];
 
         if (problemReport) {
@@ -1124,9 +1126,7 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void *context) {
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             @strongify(self);
 
-            self.problemReports = @{};
-
-            if (objects.count && !error) {
+            if (objects.count) {
                 NSMutableDictionary *reports = [[NSMutableDictionary alloc] init];
 
                 for (OBAProblemReport* report in objects) {
@@ -1135,7 +1135,11 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void *context) {
 
                 self.problemReports = [NSDictionary dictionaryWithDictionary:reports];
             }
-            else if (error) {
+            else {
+                self.problemReports = @{};
+            }
+
+            if (error) {
                 NSLog(@"Error trying to retrieve problem reports!");
             }
             
