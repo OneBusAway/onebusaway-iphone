@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OBAArrivalAndDepartureV2.h"
 
 @interface OBASubmitReportViewController : UIViewController
+
+@property (strong,nonatomic) OBAArrivalAndDepartureV2 *selectedArrivalAndDeparture;
 
 @end

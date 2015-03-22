@@ -7,11 +7,14 @@
 //
 
 #import "OBASubmitReportViewController.h"
-//#import "OBAReport.h"
+#import "OBACommonV1.h"
+#import "OBAProblemReport.h"
+#import "OBAGenericStopViewController.h"
 
 @interface OBASubmitReportViewController ()
-@property (weak, nonatomic) IBOutlet UILabel *busInfoLabel;
-- (IBAction)busFullSwitch:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+@property (weak, nonatomic) IBOutlet UIButton *submitButton;
 
 @end
 
@@ -19,19 +22,38 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+  self.submitButton.backgroundColor = OBADARKGREEN;
+  self.navigationController.title = @"Submit Report";
   
-  self.busInfoLabel.text = @"Hello, user!"; //replace with bus information from previous screen
-  
+  [self.segmentedControl setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:16.0],
+                                                 NSForegroundColorAttributeName: [UIColor blackColor]}
+                                       forState: UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-- (IBAction)busFullSwitch:(id)sender {
+- (IBAction)submitButtonPress:(id)sender {
+  OBAProblemReport *problemReport = [OBAProblemReport object];
+  problemReport.tripID = _selectedArrivalAndDeparture.tripId;
+  problemReport.problemReportType = OBAProblemReportTypeFullBus;
   
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Thanks!" message:@"Your input has been submitted. Your fellow bus riders thank you!" delegate:self cancelButtonTitle:@"Yay!" otherButtonTitles:nil, nil];
+  if (_selectedArrivalAndDeparture.stop) {
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:_selectedArrivalAndDeparture.stop.lat longitude:_selectedArrivalAndDeparture.stop.lon];
+    problemReport.location = [PFGeoPoint geoPointWithLocation:location];
+  }
   
-  [alert show];
+  [problemReport saveInBackground];
+  
+  NSArray *viewControllers = [[self navigationController] viewControllers];
+  for( int i=0;i<[viewControllers count];i++){
+    id obj=[viewControllers objectAtIndex:i];
+    if([obj isKindOfClass:[OBAGenericStopViewController class]]){
+      [[self navigationController] popToViewController:obj animated:YES];
+      return;
+    }
+  }
 }
+
 @end

@@ -353,6 +353,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     switch (indexPath.row) {
         case 0: {
           OBASubmitReportViewController *vc = [[OBASubmitReportViewController alloc] initWithNibName:@"OBASubmitReportViewController" bundle:[NSBundle mainBundle]];
+          vc.selectedArrivalAndDeparture = _arrivalAndDeparture;
           [self.navigationController pushViewController:vc animated:YES];
           break;
         }
