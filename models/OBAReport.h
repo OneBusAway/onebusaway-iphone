@@ -10,9 +10,7 @@
 
 @interface OBAReport : NSObject
 
-- (instancetype)initWithJson:(NSDictionary*)json;
-
--(NSDate *)timestamp;
--(NSString *)tripId;
+@property (strong, nonatomic, readonly) NSDate *timestamp;
+@property (strong, nonatomic, readonly) NSString *tripId;
 
 @end

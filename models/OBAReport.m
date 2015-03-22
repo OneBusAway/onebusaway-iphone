@@ -8,31 +8,11 @@
 
 #import "OBAReport.h"
 
-@interface NSObject ()
-
-@property (strong, nonatomic) NSDate *timestamp;
-@property (strong, nonatomic) NSString *tripId;
+@interface OBAReport ()
 
 @end
 
 @implementation OBAReport
 
-- (instancetype)initWithJson:(NSDictionary*)json {
-    self = [super init];
-    if (self) {
-        self.timestamp = json[@"timestamp"];
-        self.timestamp = json[@"tripId"];
-        
-    }
-    return self;
-}
-
--(NSDate *)timestamp {
-    return self.timestamp;
-}
-
--(NSString *)tripId {
-    return self.tripId;
-}
 
 @end
