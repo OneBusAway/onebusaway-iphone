@@ -42,6 +42,8 @@
 #import "OBAAnalytics.h"
 #import "OBAProblemReport.h"
 
+#import "OBAUser.h"
+
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
@@ -65,6 +67,9 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 @property (nonatomic, assign) BOOL showSurveyAlert;
 
 @property(nonatomic,strong) NSDictionary *problemReports;
+
+@property (strong, nonatomic) OBAUser *user;
+
 @end
 
 @interface OBAGenericStopViewController ()
@@ -124,6 +129,8 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
         self.navigationItem.title = NSLocalizedString(@"Stop", @"stop");
         self.tableView.backgroundColor = [UIColor whiteColor];
+        
+        self.user = [[OBAUser alloc] init];
 
         [self customSetup];
     }
@@ -873,13 +880,29 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
             @strongify(self);
 
             if (succeeded) {
-                [self createAlertViewForReportSubmissionNotification];
+                [self.user addUserPoints:[NSNumber numberWithInt:10]];
+
+                switch ([self.user.points integerValue]) {
+                    case 20:
+                        [self createAlertViewForReportSubmissionMilestoneNotification:[NSString stringWithFormat:@"%ld Points", (long)[self.user.points integerValue]]];
+                        break;
+                    case 50:
+                        [self createAlertViewForReportSubmissionMilestoneNotification:[NSString stringWithFormat:@"%ld Points", (long)[self.user.points integerValue]]];
+                        break;
+                    case 100:
+                        [self createAlertViewForReportSubmissionMilestoneNotification:[NSString stringWithFormat:@"%ld Points", (long)[self.user.points integerValue]]];
+                        break;
+                        
+                    default:
+                        [self createAlertViewForReportSubmissionNotification];
+                        break;
+                }
+                                
                 [self reloadData];
             }
         }];
     }
     
-
     [self.tableView reloadData];
 }
 
@@ -894,15 +917,17 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     [alertView show];
 }
 
--(void)createAlertViewForReportSubmissionMilestoneNotification {
+-(void)createAlertViewForReportSubmissionMilestoneNotification:(NSString*)milestone {
+    NSString *alertTitle = [NSString stringWithFormat:NSLocalizedString(@"%@ Milestone Reached",@""), milestone];
     NSString *alertMessage = NSLocalizedString(@"Thanks for submitting your report", @"");
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"+10 points", @"")
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle
                                                         message:alertMessage
                                                        delegate:self
                                               cancelButtonTitle:NSLocalizedString(@"OK", @"Cancel button label")
                                               otherButtonTitles:nil, nil];
     [alertView show];
+    
 }
 
 - (void)determineFilterTypeCellText:(UITableViewCell *)filterTypeCell filteringEnabled:(bool)filteringEnabled {
