@@ -26,7 +26,7 @@
   self.submitButton.backgroundColor = OBADARKGREEN;
   self.navigationController.title = @"Submit Report";
   
-  [self.segmentedControl setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:16.0],
+  [self.segmentedControl setTitleTextAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:16.f],
                                                  NSForegroundColorAttributeName: [UIColor blackColor]}
                                        forState: UIControlStateNormal];
 }
@@ -38,11 +38,8 @@
 - (IBAction)submitButtonPress:(id)sender {
   OBAProblemReport *problemReport = [OBAProblemReport object];
   problemReport.tripID = _selectedArrivalAndDeparture.tripId;
-  problemReport.problemReportType = OBAProblemReportTypeFullBus;
-  
-  NSString *commentText = [[NSString alloc] init];
-  commentText = _commentTextField.text;
-  problemReport.comments = commentText;
+  problemReport.problemReportType = _segmentedControl.selectedSegmentIndex;
+  problemReport.comments = _commentTextField.text;
   
   if (_selectedArrivalAndDeparture.stop) {
     CLLocation *location = [[CLLocation alloc] initWithLatitude:_selectedArrivalAndDeparture.stop.lat longitude:_selectedArrivalAndDeparture.stop.lon];
