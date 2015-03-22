@@ -771,9 +771,14 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     return [UITableViewCell tableViewCellForUnreadServiceAlerts:_serviceAlerts tableView:tableView];
 }
 
+- (NSArray*)arrivals {
+    return (_showFilteredArrivals ? _filteredArrivals : _allArrivals);
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
-    
+
+    NSArray *arrivals = [self arrivals];
+
     if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
         UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = NSLocalizedString(@"Load more arrivals", @"load more arrivals");
@@ -819,7 +824,9 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
                                                                delegate:nil
                                                       cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel button label")
                                                       otherButtonTitles:NSLocalizedString(@"Report", @""), nil];
-          
+
+            alertView.tag = indexPath.row; // awful hack, but sufficient for our purposes for now. :P
+
             alertView.delegate = self;
             [alertView show];
         }];
@@ -852,9 +859,31 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-  //include API POST call here 
-  
-  [self.tableView reloadData];
+
+    if (buttonIndex != alertView.cancelButtonIndex) {
+
+        NSArray *arrivals = [self arrivals];
+
+        if (alertView.tag >= arrivals.count) {
+            return;
+        }
+
+        OBAArrivalAndDepartureV2 *pa = self.arrivals[alertView.tag];
+        OBAProblemReport *problemReport = [OBAProblemReport object];
+        problemReport.tripID = pa.tripId;
+        problemReport.problemReportType = OBAProblemReportTypeFullBus;
+
+        if (pa.stop) {
+            CLLocation *location = [[CLLocation alloc] initWithLatitude:pa.stop.lat longitude:pa.stop.lon];
+            problemReport.location = [PFGeoPoint geoPointWithLocation:location];
+        }
+
+        [problemReport saveInBackground];
+    }
+
+    //include API POST call here
+
+    [self.tableView reloadData];
 }
 
 - (void)determineFilterTypeCellText:(UITableViewCell *)filterTypeCell filteringEnabled:(bool)filteringEnabled {
@@ -871,8 +900,6 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryNone;
-    
-
 
     return cell;
 }
