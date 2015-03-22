@@ -9,7 +9,8 @@
 #import <Parse/Parse.h>
 
 typedef NS_ENUM(NSInteger, OBAProblemReportType) {
-    OBAProblemReportTypeFullBus = 0,
+    OBAProblemReportTypeNone = 0,
+    OBAProblemReportTypeFullBus = 1,
     OBAProblemReportTypeUnknown //Make sure this is always the *last* item in the list
 };
 
