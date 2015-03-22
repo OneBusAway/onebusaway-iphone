@@ -41,12 +41,50 @@
     return cell;
 }
 
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+
+    if (self) {
+        self.alertTextLabel.hidden = YES;
+        self.alertRedImage.hidden = YES;
+    }
+
+    return self;
+}
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+
+    self.alertTextLabel.text = @"";
+    self.alertTextLabel.hidden = YES;
+    self.alertRedImage.hidden = YES;
+}
+
 - (void)dealloc {
     [self cancelTimer];
 }
 
 - (OBAArrivalEntryTableViewCellAlertStyle) alertStyle {
     return _alertStyle;
+}
+
+- (void)setProblemReportType:(OBAProblemReportType)problemReportType {
+
+    if (_problemReportType == problemReportType) {
+        return;
+    }
+
+    _problemReportType = problemReportType;
+
+    if (_problemReportType == OBAProblemReportTypeNone) {
+        self.alertTextLabel.hidden = YES;
+        self.alertRedImage.hidden = YES;
+    }
+    else {
+        self.alertTextLabel.text = NSLocalizedString(@"Bus Reported to Be Full", @"");
+        self.alertTextLabel.hidden = NO;
+        self.alertRedImage.hidden = NO;
+    }
 }
 
 - (void) setAlertStyle:(OBAArrivalEntryTableViewCellAlertStyle)alertStyle {
@@ -62,7 +100,6 @@
         _alertImage.hidden = YES;        
         _minutesLabel.hidden = NO;
         _alertLabel.hidden = YES;
-        _alertRedImage.hidden = YES;
 
     }
     else {
@@ -73,7 +110,6 @@
         _unreadAlertImage.hidden = NO;
         _alertImage.hidden = NO;
         _alertLabel.hidden = NO;
-        _alertRedImage.hidden = NO;
 
         if( _transitionTimer == nil ) {
             _transitionTimer = [NSTimer scheduledTimerWithTimeInterval:1.2 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
