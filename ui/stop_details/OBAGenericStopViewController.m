@@ -787,8 +787,29 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     else {
         OBAArrivalAndDepartureV2 *pa = arrivals[indexPath.row];
         OBAArrivalEntryTableViewCell *cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+        // iOS 7 separator
+        if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+            cell.separatorInset = UIEdgeInsetsZero;
+        }
+
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 44)];
+        label.text = NSLocalizedString(@"The Bus is Full!", @"");
+        label.textColor = [UIColor whiteColor];
+
+        UIColor *redColor = [UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0];
+
+        [cell setSwipeGestureWithView:label color:redColor mode:MCSwipeTableViewCellModeExit state:MCSwipeTableViewCellState1 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Report that this bus is full", @"")
+                                                                message:NSLocalizedString(@"", @"")
+                                                               delegate:nil
+                                                      cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel button label")
+                                                      otherButtonTitles:NSLocalizedString(@"Report", @""), nil];
+            [alertView show];
+        }];
 
         return cell;
     }
