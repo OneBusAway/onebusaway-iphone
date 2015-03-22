@@ -25,6 +25,7 @@
 		08741E1518B0358900251C1B /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08741E1418B0358900251C1B /* libGoogleAnalyticsServices.a */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DE458A21ABE5FA400D46D8F /* OBAReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE458A11ABE5FA400D46D8F /* OBAReport.m */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
 		5ED30F451A9FB8C400CFC794 /* OBAURLHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F152FF1A9AE9740015C141 /* OBAURLHelpers.m */; };
@@ -244,6 +245,8 @@
 		08741E1418B0358900251C1B /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* OneBusAway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneBusAway.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DE458A01ABE5FA400D46D8F /* OBAReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReport.h; sourceTree = "<group>"; };
+		1DE458A11ABE5FA400D46D8F /* OBAReport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReport.m; sourceTree = "<group>"; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765070DF74369002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AB4B0D9B1048005BE974 /* org_onebusaway_iphone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = org_onebusaway_iphone_Prefix.pch; sourceTree = "<group>"; };
@@ -1100,6 +1103,8 @@
 				93AD368F160401EF00BDF03F /* dao */,
 				93AD3663160400F500BDF03F /* unmanaged */,
 				93AD36561603FFE600BDF03F /* annotations */,
+				1DE458A01ABE5FA400D46D8F /* OBAReport.h */,
+				1DE458A11ABE5FA400D46D8F /* OBAReport.m */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -1351,6 +1356,7 @@
 				TargetAttributes = {
 					93F152F01A9AE91A0015C141 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = R5E9GQR46J;
 						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
 				};
@@ -1602,6 +1608,7 @@
 				934446561AB108BF005B3333 /* OBACurrentVehicleEstimateV2.m in Sources */,
 				9344468F1AB10C56005B3333 /* OBASphericalGeometryLibrary.m in Sources */,
 				9344460B1AB1089B005B3333 /* OBAPlacemark.m in Sources */,
+				1DE458A21ABE5FA400D46D8F /* OBAReport.m in Sources */,
 				9344466D1AB108BF005B3333 /* OBATripInstanceRef.m in Sources */,
 				9344468C1AB10C2B005B3333 /* OBAModelServiceRequest.m in Sources */,
 				934446661AB108BF005B3333 /* OBAStopAccessEventV2.m in Sources */,
