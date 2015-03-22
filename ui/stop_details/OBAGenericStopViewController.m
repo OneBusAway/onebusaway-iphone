@@ -48,7 +48,7 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
 static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
 
-@interface OBAGenericStopViewController ()
+@interface OBAGenericStopViewController () <UIAlertViewDelegate>
 @property (strong, readwrite) OBAApplicationDelegate *appDelegate;
 @property (strong, readwrite) NSString *stopId;
 
@@ -570,6 +570,9 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     }
 }
 
+
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     OBAStopSectionType sectionType = [self sectionTypeForSection:indexPath.section];
 
@@ -789,12 +792,38 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         return cell;
     }
     else {
+      
+        //this adds a swipe gesture on the table cell to report that bus is full
+      
         OBAArrivalAndDepartureV2 *pa = arrivals[indexPath.row];
         NSLog(@"%@", pa);
         OBAArrivalEntryTableViewCell *cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
+        // iOS 7 separator
+        if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+            cell.separatorInset = UIEdgeInsetsZero;
+        }
+
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 44)];
+        label.text = NSLocalizedString(@"The Bus is Full!", @"");
+        label.textColor = [UIColor whiteColor];
+
+        UIColor *redColor = [UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0];
+
+        [cell setSwipeGestureWithView:label color:redColor mode:MCSwipeTableViewCellModeExit state:MCSwipeTableViewCellState1 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Report that this bus is full", @"")
+                                                                message:NSLocalizedString(@"", @"")
+                                                               delegate:nil
+                                                      cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel button label")
+                                                      otherButtonTitles:NSLocalizedString(@"Report", @""), nil];
+          
+            alertView.delegate = self;
+            [alertView show];
+        }];
+      
         // TODO: reimplement support for alerts on cells
 //        if (self.reportArray && !pa.reportId) {
 //            for (OBAReport *report in self.reportArray) {
@@ -817,9 +846,15 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 //        NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
 //
 //        cell.alertTextLabel.text = optionsText[randomIndex];
-//        
+    
         return cell;
     }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+  //include API POST call here 
+  
+  [self.tableView reloadData];
 }
 
 - (void)determineFilterTypeCellText:(UITableViewCell *)filterTypeCell filteringEnabled:(bool)filteringEnabled {
@@ -841,7 +876,6 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
     return cell;
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
@@ -924,11 +958,14 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         self.minutesAfter += 30;
         [self refresh];
     }
-    else if (0 <= indexPath.row && indexPath.row < arrivals.count) {
+   else if (0 <= indexPath.row && indexPath.row < arrivals.count) {
         OBAArrivalAndDepartureV2 *arrivalAndDeparture = arrivals[indexPath.row];
         OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationDelegate:_appDelegate arrivalAndDeparture:arrivalAndDeparture];
         [self.navigationController pushViewController:vc animated:YES];
+  
+
     }
+
 }
 
 - (void)tableView:(UITableView *)tableView didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath {
