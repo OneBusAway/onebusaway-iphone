@@ -868,11 +868,15 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
         UIColor *redColor = [UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0];
 
+        @weakify(self);
         [cell setSwipeGestureWithView:label color:redColor mode:MCSwipeTableViewCellModeExit state:MCSwipeTableViewCellState3 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+            @strongify(self);
+
+            NSString *alertMessage = [NSString stringWithFormat:NSLocalizedString(@"Help other riders and transit operators in %@ know when buses are full.",@""), self.appDelegate.modelDao.region.regionName];
 
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Report that this bus is full", @"")
-                                                                message:NSLocalizedString(@"", @"")
-                                                               delegate:nil
+                                                                message:alertMessage
+                                                               delegate:self
                                                       cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel button label")
                                                       otherButtonTitles:NSLocalizedString(@"Report", @""), nil];
 
@@ -942,8 +946,6 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
         [problemReport saveInBackground];
     }
-
-    //include API POST call here
 
     [self.tableView reloadData];
 }
