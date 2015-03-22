@@ -14,6 +14,7 @@
 @interface OBASubmitReportViewController ()
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+@property (weak, nonatomic) IBOutlet UITextField *commentTextField;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
 
 @end
@@ -38,6 +39,10 @@
   OBAProblemReport *problemReport = [OBAProblemReport object];
   problemReport.tripID = _selectedArrivalAndDeparture.tripId;
   problemReport.problemReportType = OBAProblemReportTypeFullBus;
+  
+  NSString *commentText = [[NSString alloc] init];
+  commentText = _commentTextField.text;
+  problemReport.comments = commentText;
   
   if (_selectedArrivalAndDeparture.stop) {
     CLLocation *location = [[CLLocation alloc] initWithLatitude:_selectedArrivalAndDeparture.stop.lat longitude:_selectedArrivalAndDeparture.stop.lon];

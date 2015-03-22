@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OBASubmitReportViewController">
             <connections>
+                <outlet property="commentTextField" destination="Ozg-ly-si3" id="6yT-8M-RtL"/>
                 <outlet property="segmentedControl" destination="rua-Ji-gbY" id="uRK-21-vmp"/>
                 <outlet property="submitButton" destination="Z6d-vw-Fmy" id="Fpk-8l-0Gh"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -39,7 +40,7 @@
                     </connections>
                 </button>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="rua-Ji-gbY">
-                    <rect key="frame" x="206" y="80" width="189" height="29"/>
+                    <rect key="frame" x="20" y="80" width="560" height="29"/>
                     <segments>
                         <segment title="Bus is FULL"/>
                         <segment title="Disabled Bus"/>
@@ -60,6 +61,8 @@
                 <constraint firstItem="Z6d-vw-Fmy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="3OJ-Us-bOr"/>
                 <constraint firstItem="lKu-Oq-hhE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="5Zc-kH-CDK"/>
                 <constraint firstAttribute="trailing" secondItem="Ozg-ly-si3" secondAttribute="trailing" constant="20" id="6U9-8d-Fg1"/>
+                <constraint firstItem="rua-Ji-gbY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="Ee4-zX-XZz"/>
+                <constraint firstAttribute="trailing" secondItem="rua-Ji-gbY" secondAttribute="trailing" constant="20" id="G5w-TU-DPa"/>
                 <constraint firstItem="Ozg-ly-si3" firstAttribute="top" secondItem="lKu-Oq-hhE" secondAttribute="bottom" constant="8" id="H3f-6A-g3J"/>
                 <constraint firstAttribute="trailing" secondItem="Z6d-vw-Fmy" secondAttribute="trailing" constant="20" id="LNU-EG-vsy"/>
                 <constraint firstItem="rua-Ji-gbY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="80" id="LQW-La-HhM"/>
