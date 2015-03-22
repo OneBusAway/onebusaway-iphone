@@ -40,6 +40,7 @@
 #import "OBAStopWebViewController.h"
 
 #import "OBAAnalytics.h"
+#import "OBAProblemReport.h"
 
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
@@ -47,7 +48,7 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
 static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
 
-@interface OBAGenericStopViewController ()
+@interface OBAGenericStopViewController () <UIAlertViewDelegate>
 @property (strong, readwrite) OBAApplicationDelegate *appDelegate;
 @property (strong, readwrite) NSString *stopId;
 
@@ -63,6 +64,9 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
 @property (nonatomic, assign) BOOL showInHighContrast;
 @property (nonatomic, assign) BOOL showSurveyAlert;
+
+@property (strong, nonatomic) NSMutableArray *reportArray;
+
 @end
 
 @interface OBAGenericStopViewController ()
@@ -114,10 +118,17 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
         UIBarButtonItem *refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
         [self.navigationItem setRightBarButtonItem:refreshItem];
+      
+//        CGRect scrollViewFrame = CGRectMake(0, 0, 320, 460);
+//        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:scrollViewFrame];
+//        [self.view addSubview:scrollView];
+//        CGSize scrollViewContentSize = CGSizeMake(640, 460);
+//        [scrollView setContentSize:scrollViewContentSize];
 
         _allArrivals = [[NSMutableArray alloc] init];
         _filteredArrivals = [[NSMutableArray alloc] init];
         _showFilteredArrivals = YES;
+        _reportArray = [[NSMutableArray alloc] init];
 
         self.navigationItem.title = NSLocalizedString(@"Stop", @"stop");
         self.tableView.backgroundColor = [UIColor whiteColor];
@@ -452,6 +463,13 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     if (UIAccessibilityIsVoiceOverRunning()) {
         [OBAAnalytics reportEventWithCategory:@"accessibility" action:@"voiceover_on" label:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]] value:nil];
     }
+  
+    // Mock Data
+    OBAProblemReport *reportA = [[OBAProblemReport alloc] init];
+    NSNumber *number = [[NSNumber alloc] initWithInt:0];
+    reportA.reportType = number;
+    //reportA.reportId = @"40_28374738";
+    [_reportArray addObject:reportA];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -566,6 +584,9 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     }
 }
 
+
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     OBAStopSectionType sectionType = [self sectionTypeForSection:indexPath.section];
 
@@ -675,7 +696,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
             // Note the event
             [[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:self.result.stop];
-
+            
             [self reloadData];
         }
 
@@ -764,8 +785,13 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     return [UITableViewCell tableViewCellForUnreadServiceAlerts:_serviceAlerts tableView:tableView];
 }
 
+- (NSArray*)arrivals {
+    return (_showFilteredArrivals ? _filteredArrivals : _allArrivals);
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
+
+    NSArray *arrivals = [self arrivals];
 
     if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
         UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
@@ -785,13 +811,141 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         return cell;
     }
     else {
+      
+        //this adds a swipe gesture on the table cell to report that bus is full
+      
         OBAArrivalAndDepartureV2 *pa = arrivals[indexPath.row];
+        //NSLog(@"%@", pa);
         OBAArrivalEntryTableViewCell *cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+      
+        // Mock Data
+        OBAArrivalAndDepartureV2 *arrivalsA = [[OBAArrivalAndDepartureV2 alloc] init];
+        arrivalsA = arrivals[0];
+        NSLog(@"1: %@", arrivalsA.tripId);
+        OBAProblemReport *tempReport = [self.reportArray objectAtIndex:0];
+        tempReport.tripID = arrivalsA.tripId;
+        NSLog(@"2: %@", tempReport.tripID);
+        NSLog(@"3: %lu", (unsigned long)[self.reportArray count]);
+      
+  
+        if (self.reportArray != nil) {
+            if (pa.reportId == nil) {
+                for (OBAProblemReport *report in self.reportArray) {
+                    if ([report.tripID isEqualToString: pa.tripId]) {
+                          // Need OBAProblemReport/Parse model to have reportID
+//                        pa.reportId = report.reportID;
+//                        pa.reportType = report.reportType;
+                    }
+                }
+            }
+        }
+        NSLog(@"%@", pa.tripId);
+        NSLog(@"%@", pa.reportId);
+        NSLog(@"%ld", (long)pa.reportType);
+      
+        
+        //TODO: Pho - update alert...
+        //      if events == 1 ... !
+        //      if events  > 1 ... !!!
+        NSArray *options = @[@"!",@"", @"", @""];
+        NSUInteger randomIndex = arc4random() % [options count];
+        
+        cell.alertLabel.text = options[randomIndex];
+        
+        //TODO: Pho - warning text
+        NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
 
+        // iOS 7 separator
+        if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+            cell.separatorInset = UIEdgeInsetsZero;
+        }
+
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 44)];
+        label.text = NSLocalizedString(@"The Bus is Full!", @"");
+        label.textColor = [UIColor whiteColor];
+
+        UIColor *redColor = [UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0];
+
+        [cell setSwipeGestureWithView:label color:redColor mode:MCSwipeTableViewCellModeExit state:MCSwipeTableViewCellState1 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Report that this bus is full", @"")
+                                                                message:NSLocalizedString(@"", @"")
+                                                               delegate:nil
+                                                      cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel button label")
+                                                      otherButtonTitles:NSLocalizedString(@"Report", @""), nil];
+
+            alertView.tag = indexPath.row; // awful hack, but sufficient for our purposes for now. :P
+
+            alertView.delegate = self;
+            [alertView show];
+        }];
+      
+        // TODO: reimplement support for alerts on cells
+//        if (self.reportArray && !pa.reportId) {
+//            for (OBAReport *report in self.reportArray) {
+//                if ([report.tripId isEqualToString: pa.tripId]) {
+//                    pa.reportId = report.reportId;
+//                    pa.reportType = report.reportType;
+//                }
+//            }
+//        }
+//
+//        //TODO: Pho - update alert...
+//        //      if events == 1 ... !
+//        //      if events  > 1 ... !!!
+//        NSArray *options = @[@"!",@"", @"", @""];
+//        NSUInteger randomIndex = arc4random() % [options count];
+//        
+//        cell.alertLabel.text = options[randomIndex];
+//        
+//        //TODO: Pho - warning text
+//        NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
+//
+//        cell.alertTextLabel.text = optionsText[randomIndex];
+      if (self.reportArray != nil) {
+        if (pa.reportId == nil) {
+          for (OBAProblemReport *report in self.reportArray) {
+            if ([report.tripID isEqualToString: pa.tripId]) {
+              // Need OBAProblemReport/Parse model to have reportID
+              //                        pa.reportId = report.reportID;
+              //                        pa.reportType = report.reportType;
+            }
+          }
+        }
+      }
+    
         return cell;
     }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+
+    if (buttonIndex != alertView.cancelButtonIndex) {
+
+        NSArray *arrivals = [self arrivals];
+
+        if (alertView.tag >= arrivals.count) {
+            return;
+        }
+
+        OBAArrivalAndDepartureV2 *pa = self.arrivals[alertView.tag];
+        OBAProblemReport *problemReport = [OBAProblemReport object];
+        problemReport.tripID = pa.tripId;
+        problemReport.problemReportType = OBAProblemReportTypeFullBus;
+
+        if (pa.stop) {
+            CLLocation *location = [[CLLocation alloc] initWithLatitude:pa.stop.lat longitude:pa.stop.lon];
+            problemReport.location = [PFGeoPoint geoPointWithLocation:location];
+        }
+
+        [problemReport saveInBackground];
+    }
+
+    //include API POST call here
+
+    [self.tableView reloadData];
 }
 
 - (void)determineFilterTypeCellText:(UITableViewCell *)filterTypeCell filteringEnabled:(bool)filteringEnabled {
@@ -893,11 +1047,14 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         self.minutesAfter += 30;
         [self refresh];
     }
-    else if (0 <= indexPath.row && indexPath.row < arrivals.count) {
+   else if (0 <= indexPath.row && indexPath.row < arrivals.count) {
         OBAArrivalAndDepartureV2 *arrivalAndDeparture = arrivals[indexPath.row];
         OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationDelegate:_appDelegate arrivalAndDeparture:arrivalAndDeparture];
         [self.navigationController pushViewController:vc animated:YES];
+  
+
     }
+
 }
 
 - (void)tableView:(UITableView *)tableView didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath {

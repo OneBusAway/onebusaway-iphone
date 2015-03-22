@@ -15,6 +15,7 @@
  */
 
 #import <SystemConfiguration/SystemConfiguration.h>
+#import <Parse/Parse.h>
 #import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
 #import "OBALogger.h"
@@ -192,6 +193,10 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    // Initialize Parse.
+    [Parse setApplicationId:@"fJs3oUmiiROLCIwRUdR0zpO9YnmGJ8P5frsYStku"
+                  clientKey:@"dOL2jSGirOvFHFwS84oJ9BCPhdN0pma8LG9GdPBj"];
 
     //Register alert defaults
     NSDictionary *alertDefaults = @{kOBAShowSurveyAlertKey: @(YES)};
