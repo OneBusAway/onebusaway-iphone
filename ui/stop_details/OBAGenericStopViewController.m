@@ -40,6 +40,7 @@
 #import "OBAStopWebViewController.h"
 
 #import "OBAAnalytics.h"
+#import "OBAReport.h"
 
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
@@ -63,6 +64,9 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
 @property (nonatomic, assign) BOOL showInHighContrast;
 @property (nonatomic, assign) BOOL showSurveyAlert;
+
+@property (strong, nonatomic) NSMutableArray *reportArray;
+
 @end
 
 @interface OBAGenericStopViewController ()
@@ -452,6 +456,27 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     if (UIAccessibilityIsVoiceOverRunning()) {
         [OBAAnalytics reportEventWithCategory:@"accessibility" action:@"voiceover_on" label:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]] value:nil];
     }
+    
+    OBAReport *reportA = [[OBAReport alloc] init];
+    reportA.reportType = 1;
+    reportA.reportId = @"40_28374738";
+    reportA.fullBus = TRUE;
+    OBAReport *reportB = [[OBAReport alloc] init];
+    reportB.reportType = 1;
+    reportB.reportId = @"40_28374738";
+    reportB.fullBus = TRUE;
+    OBAReport *reportC = [[OBAReport alloc] init];
+    reportC.reportType = 1;
+    reportC.reportId = @"40_28374738";
+    reportC.fullBus = TRUE;
+    OBAReport *reportD = [[OBAReport alloc] init];
+    reportD.reportType = 1;
+    reportD.reportId = @"40_28374738";
+    reportD.fullBus = TRUE;
+    [_reportArray addObject:reportA];
+    [_reportArray addObject:reportB];
+    [_reportArray addObject:reportC];
+    [_reportArray addObject:reportD];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -675,7 +700,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
             // Note the event
             [[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:self.result.stop];
-
+            
             [self reloadData];
         }
 
@@ -766,7 +791,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray *arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
-
+    
     if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
         UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = NSLocalizedString(@"Load more arrivals", @"load more arrivals");
@@ -786,9 +811,21 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     }
     else {
         OBAArrivalAndDepartureV2 *pa = arrivals[indexPath.row];
+        NSLog(@"%@", pa);
         OBAArrivalEntryTableViewCell *cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        if (self.reportArray != nil) {
+            if (pa.reportId == nil) {
+                for (OBAReport *report in self.reportArray) {
+                    if ([report.tripId isEqualToString: pa.tripId]) {
+                        pa.reportId = report.reportId;
+                        pa.reportType = report.reportType;
+                    }
+                }
+            }
+        }
         
         //TODO: Pho - update alert...
         //      if events == 1 ... !
@@ -797,8 +834,6 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         NSUInteger randomIndex = arc4random() % [options count];
         
         cell.alertLabel.text = options[randomIndex];
-        
-        //TODO: Pho - update swipe
         
         //TODO: Pho - warning text
         NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
