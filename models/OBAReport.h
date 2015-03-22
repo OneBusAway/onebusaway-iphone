@@ -10,7 +10,11 @@
 
 @interface OBAReport : NSObject
 
-@property (strong, nonatomic, readonly) NSDate *timestamp;
-@property (strong, nonatomic, readonly) NSString *tripId;
+@property (strong, nonatomic) NSString *reportId;
+@property (strong, nonatomic) NSDate *timestamp;
+@property (strong, nonatomic) NSString *tripId;
+@property (nonatomic) NSInteger reportType;
+@property (nonatomic) BOOL fullBus;
+
 
 @end
