@@ -40,14 +40,16 @@
 #import "OBAStopWebViewController.h"
 
 #import "OBAAnalytics.h"
+#import "OBAProblemReport.h"
+
+#import "OBAUser.h"
 
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
 static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
-
-@interface OBAGenericStopViewController ()
+@interface OBAGenericStopViewController () <UIAlertViewDelegate>
 @property (strong, readwrite) OBAApplicationDelegate *appDelegate;
 @property (strong, readwrite) NSString *stopId;
 
@@ -63,6 +65,11 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
 @property (nonatomic, assign) BOOL showInHighContrast;
 @property (nonatomic, assign) BOOL showSurveyAlert;
+
+@property(nonatomic,strong) NSDictionary *problemReports;
+
+@property (strong, nonatomic) OBAUser *user;
+
 @end
 
 @interface OBAGenericStopViewController ()
@@ -107,6 +114,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         _arrivalCellFactory = [[OBAArrivalEntryTableViewCellFactory alloc] initWithappDelegate:_appDelegate tableView:self.tableView];
         _arrivalCellFactory.showServiceAlerts = YES;
 
+        _problemReports = @{};
         _serviceAlerts = [[OBAServiceAlertsModel alloc] init];
 
         _progressView = [[OBAProgressIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 160, 44)];
@@ -114,13 +122,15 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
         UIBarButtonItem *refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
         [self.navigationItem setRightBarButtonItem:refreshItem];
-
+      
         _allArrivals = [[NSMutableArray alloc] init];
         _filteredArrivals = [[NSMutableArray alloc] init];
         _showFilteredArrivals = YES;
 
         self.navigationItem.title = NSLocalizedString(@"Stop", @"stop");
         self.tableView.backgroundColor = [UIColor whiteColor];
+        
+        self.user = [[OBAUser alloc] init];
 
         [self customSetup];
     }
@@ -566,6 +576,9 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     }
 }
 
+
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     OBAStopSectionType sectionType = [self sectionTypeForSection:indexPath.section];
 
@@ -675,7 +688,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
             // Note the event
             [[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:self.result.stop];
-
+            
             [self reloadData];
         }
 
@@ -764,8 +777,13 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     return [UITableViewCell tableViewCellForUnreadServiceAlerts:_serviceAlerts tableView:tableView];
 }
 
+- (NSArray*)arrivals {
+    return (_showFilteredArrivals ? _filteredArrivals : _allArrivals);
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
+
+    NSArray *arrivals = [self arrivals];
 
     if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
         UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
@@ -785,13 +803,141 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         return cell;
     }
     else {
+      
+        //this adds a swipe gesture on the table cell to report that bus is full
+      
         OBAArrivalAndDepartureV2 *pa = arrivals[indexPath.row];
         OBAArrivalEntryTableViewCell *cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+      
+        //TODO: Pho - update alert...
+        //      if events == 1 ... !
+        //      if events  > 1 ... !!!
+        NSArray *options = @[@"!",@"", @"", @""];
+        NSUInteger randomIndex = arc4random() % [options count];
+        
+        cell.alertLabel.text = options[randomIndex];
+        
+        //TODO: Pho - warning text
+        NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
 
+        // iOS 7 separator
+        if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+            cell.separatorInset = UIEdgeInsetsZero;
+        }
+
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 44)];
+        label.text = NSLocalizedString(@"The Bus is Full!", @"");
+        label.textColor = [UIColor whiteColor];
+
+        UIColor *redColor = [UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0];
+
+        @weakify(self);
+        [cell setSwipeGestureWithView:label color:redColor mode:MCSwipeTableViewCellModeExit state:MCSwipeTableViewCellState3 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+            @strongify(self);
+
+            NSString *alertMessage = [NSString stringWithFormat:NSLocalizedString(@"Help other riders and transit operators in %@ know when buses are full.",@""), self.appDelegate.modelDao.region.regionName];
+
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Report that this bus is full", @"")
+                                                                message:alertMessage
+                                                               delegate:self
+                                                      cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel button label")
+                                                      otherButtonTitles:NSLocalizedString(@"Report", @""), nil];
+
+            alertView.tag = indexPath.row; // awful hack, but sufficient for our purposes for now. :P
+
+            alertView.delegate = self;
+            [alertView show];
+        }];
+
+        NSArray *problemReportsForTrip = self.problemReports[pa.tripId];
+
+        if (problemReportsForTrip.count > 0) {
+            OBAProblemReport *firstProblemReport = problemReportsForTrip[0];
+            cell.problemReportType = firstProblemReport.problemReportType;
+            cell.numberOfReports = problemReportsForTrip.count;
+        }
+        else {
+            cell.problemReportType = OBAProblemReportTypeNone;
+        }
         return cell;
     }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+
+    if (buttonIndex != alertView.cancelButtonIndex) {
+
+        NSArray *arrivals = [self arrivals];
+
+        if (alertView.tag >= arrivals.count) {
+            return;
+        }
+
+        OBAArrivalAndDepartureV2 *pa = self.arrivals[alertView.tag];
+        OBAProblemReport *problemReport = [OBAProblemReport object];
+        problemReport.tripID = pa.tripId;
+        problemReport.problemReportType = OBAProblemReportTypeFullBus;
+
+        if (pa.stop) {
+            CLLocation *location = [[CLLocation alloc] initWithLatitude:pa.stop.lat longitude:pa.stop.lon];
+            problemReport.location = [PFGeoPoint geoPointWithLocation:location];
+        }
+
+        @weakify(self);
+        [problemReport saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            @strongify(self);
+
+            if (succeeded) {
+                [self.user addUserPoints:[NSNumber numberWithInt:10]];
+
+                switch ([self.user.points integerValue]) {
+                    case 20:
+                        [self createAlertViewForReportSubmissionMilestoneNotification:[NSString stringWithFormat:@"%ld Points", (long)[self.user.points integerValue]]];
+                        break;
+                    case 50:
+                        [self createAlertViewForReportSubmissionMilestoneNotification:[NSString stringWithFormat:@"%ld Points", (long)[self.user.points integerValue]]];
+                        break;
+                    case 100:
+                        [self createAlertViewForReportSubmissionMilestoneNotification:[NSString stringWithFormat:@"%ld Points", (long)[self.user.points integerValue]]];
+                        break;
+                        
+                    default:
+                        [self createAlertViewForReportSubmissionNotification];
+                        break;
+                }
+                                
+                [self reloadData];
+            }
+        }];
+    }
+    
+    [self.tableView reloadData];
+}
+
+-(void)createAlertViewForReportSubmissionNotification {
+    NSString *alertMessage = NSLocalizedString(@"Thanks for submitting your report", @"");
+
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"+10 points", @"")
+                                                        message:alertMessage
+                                                       delegate:self
+                                              cancelButtonTitle:NSLocalizedString(@"OK", @"Cancel button label")
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
+
+-(void)createAlertViewForReportSubmissionMilestoneNotification:(NSString*)milestone {
+    NSString *alertTitle = [NSString stringWithFormat:NSLocalizedString(@"%@ Milestone Reached",@""), milestone];
+    NSString *alertMessage = NSLocalizedString(@"Thanks for submitting your report", @"");
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle
+                                                        message:alertMessage
+                                                       delegate:self
+                                              cancelButtonTitle:NSLocalizedString(@"OK", @"Cancel button label")
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+    
 }
 
 - (void)determineFilterTypeCellText:(UITableViewCell *)filterTypeCell filteringEnabled:(bool)filteringEnabled {
@@ -893,11 +1039,14 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         self.minutesAfter += 30;
         [self refresh];
     }
-    else if (0 <= indexPath.row && indexPath.row < arrivals.count) {
+   else if (0 <= indexPath.row && indexPath.row < arrivals.count) {
         OBAArrivalAndDepartureV2 *arrivalAndDeparture = arrivals[indexPath.row];
         OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationDelegate:_appDelegate arrivalAndDeparture:arrivalAndDeparture];
         [self.navigationController pushViewController:vc animated:YES];
+  
+
     }
+
 }
 
 - (void)tableView:(UITableView *)tableView didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -966,16 +1115,8 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void *context) {
     return r;
 }
 
-- (void)reloadData {
-    OBAModelDAO *modelDao = _appDelegate.modelDao;
-
-    OBAStopV2 *stop = _result.stop;
-
-    NSArray *predictedArrivals = _result.arrivalsAndDepartures;
-
-    [_allArrivals removeAllObjects];
-    [_filteredArrivals removeAllObjects];
-
+- (void)configureHeaderMapViewForStop:(OBAStopV2*)stop
+{
     if (stop) {
         [self.mapView oba_setCenterCoordinate:CLLocationCoordinate2DMake(stop.lat, stop.lon) zoomLevel:15 animated:NO];
         self.stopName.text = stop.name;
@@ -998,6 +1139,19 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void *context) {
             self.stopInfoButton.hidden = NO;
         }
     }
+}
+
+- (void)reloadData {
+    OBAModelDAO *modelDao = _appDelegate.modelDao;
+
+    OBAStopV2 *stop = _result.stop;
+
+    NSArray *predictedArrivals = _result.arrivalsAndDepartures;
+
+    [_allArrivals removeAllObjects];
+    [_filteredArrivals removeAllObjects];
+
+    [self configureHeaderMapViewForStop:stop];
 
     if (stop && predictedArrivals) {
         OBAStopPreferencesV2 *prefs = [modelDao stopPreferencesForStopWithId:stop.stopId];
@@ -1019,6 +1173,47 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void *context) {
                 [_filteredArrivals sortUsingFunction:predictedArrivalSortByRoute context:nil];
                 break;
         }
+    }
+
+    NSArray *allTripIDs = [self.allArrivals valueForKey:@"tripId"];
+
+    if (allTripIDs.count > 0) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"tripID in %@", allTripIDs];
+        PFQuery *query = [PFQuery queryWithClassName:NSStringFromClass(OBAProblemReport.class) predicate:predicate];
+
+        @weakify(self);
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            @strongify(self);
+
+            if (objects.count) {
+                NSMutableDictionary *reports = [[NSMutableDictionary alloc] init];
+
+                for (OBAProblemReport* report in objects) {
+
+                    NSArray *reportsForTrip = reports[report.tripID];
+
+                    if (!reportsForTrip) {
+                        reportsForTrip = @[report];
+                    }
+                    else {
+                        reportsForTrip = [reportsForTrip arrayByAddingObject:report];
+                    }
+
+                    reports[report.tripID] = reportsForTrip;
+                }
+
+                self.problemReports = [NSDictionary dictionaryWithDictionary:reports];
+            }
+            else {
+                self.problemReports = @{};
+            }
+
+            if (error) {
+                NSLog(@"Error trying to retrieve problem reports!");
+            }
+            
+            [self.tableView reloadData];
+        }];
     }
 
     _serviceAlerts = [modelDao getServiceAlertsModelForSituations:_result.situations];

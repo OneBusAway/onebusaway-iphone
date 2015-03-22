@@ -41,12 +41,58 @@
     return cell;
 }
 
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+
+    if (self) {
+        self.alertTextLabel.hidden = YES;
+        self.alertRedImage.hidden = YES;
+    }
+
+    return self;
+}
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+
+    self.alertTextLabel.text = @"";
+    self.alertTextLabel.hidden = YES;
+    self.alertRedImage.hidden = YES;
+    self.numberOfReports = 0;
+}
+
 - (void)dealloc {
     [self cancelTimer];
 }
 
 - (OBAArrivalEntryTableViewCellAlertStyle) alertStyle {
     return _alertStyle;
+}
+
+- (void)setProblemReportType:(OBAProblemReportType)problemReportType {
+
+    _problemReportType = problemReportType;
+
+    if (_problemReportType == OBAProblemReportTypeNone) {
+        self.alertTextLabel.hidden = YES;
+        self.alertRedImage.hidden = YES;
+    }
+    else {
+        self.alertTextLabel.hidden = NO;
+        self.alertRedImage.hidden = NO;
+    }
+
+    [self buildAlertTextLabel];
+}
+
+- (void)setNumberOfReports:(NSInteger)numberOfReports {
+    _numberOfReports = numberOfReports;
+
+    [self buildAlertTextLabel];
+}
+
+- (void)buildAlertTextLabel {
+    self.alertTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Bus Reported to Be Full (%@ report%@)", @""), @(self.numberOfReports), self.numberOfReports == 1 ? @"" : @"s"];
 }
 
 - (void) setAlertStyle:(OBAArrivalEntryTableViewCellAlertStyle)alertStyle {
@@ -61,14 +107,16 @@
         _unreadAlertImage.hidden = YES;
         _alertImage.hidden = YES;        
         _minutesLabel.hidden = NO;
+        _alertLabel.hidden = YES;
+
     }
     else {
-
         _minutesLabel.alpha = 1.0;
         _unreadAlertImage.alpha = 0.0;
         _alertImage.alpha = 0.0;
         _unreadAlertImage.hidden = NO;
         _alertImage.hidden = NO;
+        _alertLabel.hidden = NO;
 
         if( _transitionTimer == nil ) {
             _transitionTimer = [NSTimer scheduledTimerWithTimeInterval:1.2 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];

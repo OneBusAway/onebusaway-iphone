@@ -8,6 +8,7 @@
 #import "OBAPresentation.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
+#import "OBASubmitReportViewController.h"
 
 typedef NS_ENUM(NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -81,6 +82,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
                                   OBAModelDAO *modelDao = self.appDelegate.modelDao;
                                   self.serviceAlerts = [modelDao getServiceAlertsModelForSituations:self->_arrivalAndDeparture.situations];
                                   [self refreshCompleteWithCode:responseCode];
+                                      
                                   }
                               }];
 }
@@ -90,7 +92,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if ([self isLoading]) return [super numberOfSectionsInTableView:tableView];
 
-    int count = 3;
+    int count = 4; //3
 
     if (_serviceAlerts.unreadCount > 0) count++;
 
@@ -113,7 +115,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
             return 2;
 
         case OBASectionTypeActions: {
-            int count = 2;
+            int count = 3;
 
             if (_arrivalAndDeparture.tripStatus.vehicleId && ![_arrivalAndDeparture.tripStatus.vehicleId isEqualToString:@""]) count++;
 
@@ -203,6 +205,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.alertLabel.text = @"";
     return cell;
 }
 
@@ -235,10 +238,21 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 - (UITableViewCell *)actionCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     switch (indexPath.row) {
         case 0: {
+          UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+          cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+          cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+          cell.textLabel.textColor = [UIColor blackColor];
+          cell.textLabel.textAlignment = NSTextAlignmentLeft;
+          cell.textLabel.font = [UIFont systemFontOfSize:18];
+          cell.textLabel.text = NSLocalizedString(@"Bus is FULL", @"text");
+          return cell;
+        }
+        
+        case 1: {
             return [UITableViewCell tableViewCellForServiceAlerts:_serviceAlerts tableView:tableView];
         }
 
-        case 1: {
+        case 2: {
             UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -249,7 +263,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
             return cell;
         }
 
-        case 2: {
+        case 3: {
             UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -338,11 +352,18 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 - (void)didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     switch (indexPath.row) {
         case 0: {
+          OBASubmitReportViewController *vc = [[OBASubmitReportViewController alloc] initWithNibName:@"OBASubmitReportViewController" bundle:[NSBundle mainBundle]];
+          vc.selectedArrivalAndDeparture = _arrivalAndDeparture;
+          [self.navigationController pushViewController:vc animated:YES];
+          break;
+        }
+        
+        case 1: {
             [self showSituations];
             break;
         }
 
-        case 1: {
+        case 2: {
             OBATripInstanceRef *tripInstance = _arrivalAndDeparture.tripInstance;
             OBAReportProblemWithTripViewController *vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationDelegate:self.appDelegate tripInstance:tripInstance trip:_arrivalAndDeparture.trip];
             vc.currentStopId = _arrivalAndDeparture.stopId;
@@ -350,7 +371,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
             break;
         }
 
-        case 2: {
+        case 3: {
             OBAVehicleDetailsController *vc = [[OBAVehicleDetailsController alloc] initWithApplicationDelegate:self.appDelegate vehicleId:_arrivalAndDeparture.tripStatus.vehicleId];
             [self.navigationController pushViewController:vc animated:YES];
             break;
