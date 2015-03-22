@@ -14,7 +14,5 @@
 @property (strong, nonatomic) NSDate *timestamp;
 @property (strong, nonatomic) NSString *tripId;
 @property (nonatomic) NSInteger reportType;
-@property (nonatomic) BOOL fullBus;
-
 
 @end

@@ -122,6 +122,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         _allArrivals = [[NSMutableArray alloc] init];
         _filteredArrivals = [[NSMutableArray alloc] init];
         _showFilteredArrivals = YES;
+        _reportArray = [[NSMutableArray alloc] init];
 
         self.navigationItem.title = NSLocalizedString(@"Stop", @"stop");
         self.tableView.backgroundColor = [UIColor whiteColor];
@@ -456,27 +457,24 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     if (UIAccessibilityIsVoiceOverRunning()) {
         [OBAAnalytics reportEventWithCategory:@"accessibility" action:@"voiceover_on" label:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]] value:nil];
     }
-    
+  
+    // Mock Data
     OBAReport *reportA = [[OBAReport alloc] init];
     reportA.reportType = 1;
     reportA.reportId = @"40_28374738";
-    reportA.fullBus = TRUE;
-    OBAReport *reportB = [[OBAReport alloc] init];
-    reportB.reportType = 1;
-    reportB.reportId = @"40_28374738";
-    reportB.fullBus = TRUE;
-    OBAReport *reportC = [[OBAReport alloc] init];
-    reportC.reportType = 1;
-    reportC.reportId = @"40_28374738";
-    reportC.fullBus = TRUE;
-    OBAReport *reportD = [[OBAReport alloc] init];
-    reportD.reportType = 1;
-    reportD.reportId = @"40_28374738";
-    reportD.fullBus = TRUE;
     [_reportArray addObject:reportA];
-    [_reportArray addObject:reportB];
-    [_reportArray addObject:reportC];
-    [_reportArray addObject:reportD];
+//    OBAReport *reportB = [[OBAReport alloc] init];
+//    reportB.reportType = 1;
+//    reportB.reportId = @"40_28374738";
+//    OBAReport *reportC = [[OBAReport alloc] init];
+//    reportC.reportType = 1;
+//    reportC.reportId = @"40_28374738";
+//    OBAReport *reportD = [[OBAReport alloc] init];
+//    reportD.reportType = 1;
+//    reportD.reportId = @"40_28374738";
+//    [_reportArray addObject:reportB];
+//    [_reportArray addObject:reportC];
+//    [_reportArray addObject:reportD];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -794,7 +792,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray *arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
-    
+  
     if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
         UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = NSLocalizedString(@"Load more arrivals", @"load more arrivals");
@@ -817,11 +815,21 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         //this adds a swipe gesture on the table cell to report that bus is full
       
         OBAArrivalAndDepartureV2 *pa = arrivals[indexPath.row];
-        NSLog(@"%@", pa);
+        //NSLog(@"%@", pa);
         OBAArrivalEntryTableViewCell *cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        
+      
+        // Mock Data
+        OBAArrivalAndDepartureV2 *arrivalsA = [[OBAArrivalAndDepartureV2 alloc] init];
+        arrivalsA = arrivals[0];
+        NSLog(@"1: %@", arrivalsA.tripId);
+        OBAReport *tempReport = [self.reportArray objectAtIndex:0];
+        tempReport.tripId = arrivalsA.tripId;
+        NSLog(@"2: %@", tempReport.tripId);
+        NSLog(@"3: %lu", (unsigned long)[self.reportArray count]);
+      
+  
         if (self.reportArray != nil) {
             if (pa.reportId == nil) {
                 for (OBAReport *report in self.reportArray) {
@@ -832,6 +840,10 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
                 }
             }
         }
+        NSLog(@"%@", pa.tripId);
+        NSLog(@"%@", pa.reportId);
+        NSLog(@"%ld", (long)pa.reportType);
+      
         
         //TODO: Pho - update alert...
         //      if events == 1 ... !
