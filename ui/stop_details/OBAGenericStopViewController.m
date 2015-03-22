@@ -810,9 +810,31 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         //TODO: Pho - warning text
         NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
 
-        cell.alertTextLabel.text = optionsText[randomIndex];
-        
-        return cell;
+        // iOS 7 separator
+        if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+            cell.separatorInset = UIEdgeInsetsZero;
+        }
+
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 44)];
+        label.text = NSLocalizedString(@"The Bus is Full!", @"");
+        label.textColor = [UIColor whiteColor];
+
+        UIColor *redColor = [UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0];
+
+        [cell setSwipeGestureWithView:label color:redColor mode:MCSwipeTableViewCellModeExit state:MCSwipeTableViewCellState1 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Report that this bus is full", @"")
+                                                                message:NSLocalizedString(@"", @"")
+                                                               delegate:nil
+                                                      cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel button label")
+                                                      otherButtonTitles:NSLocalizedString(@"Report", @""), nil];
+          
+            alertView.delegate = self;
+            [alertView show];
+        }];
+      
+      return cell;
+    
     }
 }
 
@@ -840,26 +862,6 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
 
     return cell;
-}
-
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-  
-}
-
-- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-  
-  @weakify(self);
-  UITableViewRowAction *helloAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Report Problem" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-    @strongify(self);
-    
-    // do the right thing when report problem is tapped.
-  }];
-  
-  return @[helloAction];
-}
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-  return YES;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath {
