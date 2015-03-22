@@ -1399,7 +1399,7 @@
 				TargetAttributes = {
 					93F152F01A9AE91A0015C141 = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = R5E9GQR46J;
+						DevelopmentTeam = 6ALA275LQK;
 						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
 				};
