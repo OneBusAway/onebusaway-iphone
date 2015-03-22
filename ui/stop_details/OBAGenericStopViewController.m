@@ -118,6 +118,12 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
         UIBarButtonItem *refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
         [self.navigationItem setRightBarButtonItem:refreshItem];
+      
+//        CGRect scrollViewFrame = CGRectMake(0, 0, 320, 460);
+//        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:scrollViewFrame];
+//        [self.view addSubview:scrollView];
+//        CGSize scrollViewContentSize = CGSizeMake(640, 460);
+//        [scrollView setContentSize:scrollViewContentSize];
 
         _allArrivals = [[NSMutableArray alloc] init];
         _filteredArrivals = [[NSMutableArray alloc] init];
@@ -464,18 +470,6 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     reportA.reportType = number;
     //reportA.reportId = @"40_28374738";
     [_reportArray addObject:reportA];
-//    OBAReport *reportB = [[OBAReport alloc] init];
-//    reportB.reportType = 1;
-//    reportB.reportId = @"40_28374738";
-//    OBAReport *reportC = [[OBAReport alloc] init];
-//    reportC.reportType = 1;
-//    reportC.reportId = @"40_28374738";
-//    OBAReport *reportD = [[OBAReport alloc] init];
-//    reportD.reportType = 1;
-//    reportD.reportId = @"40_28374738";
-//    [_reportArray addObject:reportB];
-//    [_reportArray addObject:reportC];
-//    [_reportArray addObject:reportD];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -910,6 +904,17 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 //        NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
 //
 //        cell.alertTextLabel.text = optionsText[randomIndex];
+      if (self.reportArray != nil) {
+        if (pa.reportId == nil) {
+          for (OBAProblemReport *report in self.reportArray) {
+            if ([report.tripID isEqualToString: pa.tripId]) {
+              // Need OBAProblemReport/Parse model to have reportID
+              //                        pa.reportId = report.reportID;
+              //                        pa.reportType = report.reportType;
+            }
+          }
+        }
+      }
     
         return cell;
     }

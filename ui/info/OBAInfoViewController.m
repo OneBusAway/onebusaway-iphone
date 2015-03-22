@@ -165,8 +165,8 @@
             break;
         }
         case kUserProfileRow: {
-          [self openUserProfile];
-          break;
+            [self openUserProfile];
+            break;
         }
         default:
             break;
