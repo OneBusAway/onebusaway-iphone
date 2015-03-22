@@ -937,6 +937,17 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     [alertView show];
 }
 
+-(void)createAlertViewForReportSubmissionMilestoneNotification {
+    NSString *alertMessage = NSLocalizedString(@"Thanks for submitting your report", @"");
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"+10 points", @"")
+                                                        message:alertMessage
+                                                       delegate:self
+                                              cancelButtonTitle:NSLocalizedString(@"OK", @"Cancel button label")
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
+
 - (void)determineFilterTypeCellText:(UITableViewCell *)filterTypeCell filteringEnabled:(bool)filteringEnabled {
     if (filteringEnabled) filterTypeCell.textLabel.text = NSLocalizedString(@"Show all arrivals", @"filteringEnabled");
     else filterTypeCell.textLabel.text = NSLocalizedString(@"Show filtered arrivals", @"!filteringEnabled");
