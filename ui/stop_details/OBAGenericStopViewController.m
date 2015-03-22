@@ -64,7 +64,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 @property (nonatomic, assign) BOOL showInHighContrast;
 @property (nonatomic, assign) BOOL showSurveyAlert;
 
-@property(nonatomic,strong) NSArray *problemReports;
+@property(nonatomic,strong) NSDictionary *problemReports;
 @end
 
 @interface OBAGenericStopViewController ()
@@ -109,7 +109,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         _arrivalCellFactory = [[OBAArrivalEntryTableViewCellFactory alloc] initWithappDelegate:_appDelegate tableView:self.tableView];
         _arrivalCellFactory.showServiceAlerts = YES;
 
-        _problemReports = @[];
+        _problemReports = @{};
         _serviceAlerts = [[OBAServiceAlertsModel alloc] init];
 
         _progressView = [[OBAProgressIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 160, 44)];
@@ -804,8 +804,6 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-//        cell.alertLabel.text = options[randomIndex];
-
         // iOS 7 separator
         if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
             cell.separatorInset = UIEdgeInsetsZero;
@@ -835,29 +833,15 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
             [alertView show];
         }];
 
-        // TODO: reimplement support for alerts on cells
-//        if (self.reportArray && !pa.reportId) {
-//            for (OBAReport *report in self.reportArray) {
-//                if ([report.tripId isEqualToString: pa.tripId]) {
-//                    pa.reportId = report.reportId;
-//                    pa.reportType = report.reportType;
-//                }
-//            }
-//        }
-//
-//        //TODO: Pho - update alert...
-//        //      if events == 1 ... !
-//        //      if events  > 1 ... !!!
-//        NSArray *options = @[@"!",@"", @"", @""];
-//        NSUInteger randomIndex = arc4random() % [options count];
-//        
-//        cell.alertLabel.text = options[randomIndex];
-//        
-//        //TODO: Pho - warning text
-//        NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
-//
-//        cell.alertTextLabel.text = optionsText[randomIndex];
-    
+        OBAProblemReport *problemReport = self.problemReports[pa.tripId];
+
+        if (problemReport) {
+            cell.problemReportType = problemReport.problemReportType;
+        }
+        else {
+            cell.problemReportType = OBAProblemReportTypeNone;
+        }
+
         return cell;
     }
 }
@@ -882,7 +866,14 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
             problemReport.location = [PFGeoPoint geoPointWithLocation:location];
         }
 
-        [problemReport saveInBackground];
+        @weakify(self);
+        [problemReport saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            @strongify(self);
+
+            if (succeeded) {
+                [self reloadData];
+            }
+        }];
     }
 
     [self.tableView reloadData];
@@ -1124,22 +1115,33 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void *context) {
     }
 
     NSArray *allTripIDs = [self.allArrivals valueForKey:@"tripId"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"tripID in %@", allTripIDs];
-    PFQuery *query = [PFQuery queryWithClassName:NSStringFromClass(OBAProblemReport.class) predicate:predicate];
 
-    @weakify(self);
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        @strongify(self);
+    if (allTripIDs.count > 0) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"tripID in %@", allTripIDs];
+        PFQuery *query = [PFQuery queryWithClassName:NSStringFromClass(OBAProblemReport.class) predicate:predicate];
 
-        if (objects.count && !error) {
-            self.problemReports = objects;
-        }
-        else if (error) {
-            NSLog(@"Error trying to retrieve problem reports!");
-        }
+        @weakify(self);
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            @strongify(self);
 
-        [self.tableView reloadData];
-    }];
+            self.problemReports = @{};
+
+            if (objects.count && !error) {
+                NSMutableDictionary *reports = [[NSMutableDictionary alloc] init];
+
+                for (OBAProblemReport* report in objects) {
+                    reports[report.tripID] = report;
+                }
+
+                self.problemReports = [NSDictionary dictionaryWithDictionary:reports];
+            }
+            else if (error) {
+                NSLog(@"Error trying to retrieve problem reports!");
+            }
+            
+            [self.tableView reloadData];
+        }];
+    }
 
     _serviceAlerts = [modelDao getServiceAlertsModelForSituations:_result.situations];
 
