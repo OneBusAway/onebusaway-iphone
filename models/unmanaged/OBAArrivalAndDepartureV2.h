@@ -47,6 +47,10 @@
 @property (nonatomic,readonly) NSArray * situationIds;
 @property (weak, nonatomic,readonly) NSArray * situations;
 
+@property (nonatomic) NSInteger reportType;
+@property (nonatomic, strong) NSString * reportId;
+@property (nonatomic) BOOL busFull;
+
 - (void) addSituationId:(NSString*)situationId;
 
 @end
