@@ -40,6 +40,7 @@
 #import "OBAStopWebViewController.h"
 
 #import "OBAAnalytics.h"
+#import "OBASubmitReportViewController.h"
 
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
@@ -566,6 +567,9 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     }
 }
 
+
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     OBAStopSectionType sectionType = [self sectionTypeForSection:indexPath.section];
 
@@ -789,7 +793,22 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         OBAArrivalEntryTableViewCell *cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        //TODO: Pho - update alert...
+        //      if events == 1 ... !
+        //      if events  > 1 ... !!!
+        NSArray *options = @[@"!",@"", @"", @""];
+        NSUInteger randomIndex = arc4random() % [options count];
+        
+        cell.alertLabel.text = options[randomIndex];
+        
+        //TODO: Pho - update swipe
+        
+        //TODO: Pho - warning text
+        NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
 
+        cell.alertTextLabel.text = optionsText[randomIndex];
+        
         return cell;
     }
 }
@@ -808,8 +827,30 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryNone;
+    
+
 
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+  
+}
+
+- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+  
+  @weakify(self);
+  UITableViewRowAction *helloAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Report Problem" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+    @strongify(self);
+    
+    // do the right thing when report problem is tapped.
+  }];
+  
+  return @[helloAction];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+  return YES;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -893,11 +934,14 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         self.minutesAfter += 30;
         [self refresh];
     }
-    else if (0 <= indexPath.row && indexPath.row < arrivals.count) {
+   else if (0 <= indexPath.row && indexPath.row < arrivals.count) {
         OBAArrivalAndDepartureV2 *arrivalAndDeparture = arrivals[indexPath.row];
         OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationDelegate:_appDelegate arrivalAndDeparture:arrivalAndDeparture];
         [self.navigationController pushViewController:vc animated:YES];
+  
+
     }
+
 }
 
 - (void)tableView:(UITableView *)tableView didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath {
