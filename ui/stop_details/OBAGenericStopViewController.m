@@ -48,7 +48,7 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
 static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
 
-@interface OBAGenericStopViewController ()
+@interface OBAGenericStopViewController () <UIAlertViewDelegate>
 @property (strong, readwrite) OBAApplicationDelegate *appDelegate;
 @property (strong, readwrite) NSString *stopId;
 
@@ -789,9 +789,12 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         return cell;
     }
     else {
+      
+        //this adds a swipe gesture on the table cell to report that bus is full
+      
         OBAArrivalAndDepartureV2 *pa = arrivals[indexPath.row];
         OBAArrivalEntryTableViewCell *cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         //TODO: Pho - update alert...
@@ -811,6 +814,12 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         
         return cell;
     }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+  //include API POST call here 
+  
+  [self.tableView reloadData];
 }
 
 - (void)determineFilterTypeCellText:(UITableViewCell *)filterTypeCell filteringEnabled:(bool)filteringEnabled {

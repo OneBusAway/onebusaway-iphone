@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#import "MCSwipeTableViewCell.h"
 
 typedef NS_ENUM(NSInteger, OBAArrivalEntryTableViewCellAlertStyle) {
     OBAArrivalEntryTableViewCellAlertStyleNone,
@@ -21,7 +22,7 @@ typedef NS_ENUM(NSInteger, OBAArrivalEntryTableViewCellAlertStyle) {
     OBAArrivalEntryTableViewCellAlertStyleActive
 };
 
-@interface OBAArrivalEntryTableViewCell : UITableViewCell {
+@interface OBAArrivalEntryTableViewCell : MCSwipeTableViewCell {
     OBAArrivalEntryTableViewCellAlertStyle _alertStyle;
     NSTimer * _transitionTimer;
 }
