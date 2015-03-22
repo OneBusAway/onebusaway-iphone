@@ -591,6 +591,17 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     }
 }
 
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+  
+  if (editingStyle == UITableViewCellEditingStyleDelete) {
+    
+    OBASubmitReportViewController *myNewVC = [[OBASubmitReportViewController alloc] init];
+    [self presentViewController:myNewVC animated:true completion:nil];
+
+  }
+}
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     OBAStopSectionType sectionType = [self sectionTypeForSection:indexPath.section];
 
