@@ -93,6 +93,7 @@
 		9342B42C1ABE64C500A4C366 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9342B42B1ABE64C500A4C366 /* MobileCoreServices.framework */; };
 		9342B42E1ABE64E700A4C366 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9342B42D1ABE64E700A4C366 /* Security.framework */; };
 		9342B4301ABE64F000A4C366 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9342B42F1ABE64F000A4C366 /* StoreKit.framework */; };
+		9342B41B1ABE58FD00A4C366 /* MCSwipeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9342B41A1ABE58FD00A4C366 /* MCSwipeTableViewCell.m */; };
 		934445F31AB0C22E005B3333 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 934445F11AB0C22E005B3333 /* EXTScope.m */; };
 		934445F61AB0D46E005B3333 /* OBADateHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 934445F51AB0D46E005B3333 /* OBADateHelpers.m */; };
 		934445FA1AB105FB005B3333 /* capitolhill.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 934445F81AB105FB005B3333 /* capitolhill.gpx */; };
@@ -356,6 +357,8 @@
 		9342B42B1ABE64C500A4C366 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		9342B42D1ABE64E700A4C366 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		9342B42F1ABE64F000A4C366 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		9342B4191ABE58FD00A4C366 /* MCSwipeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSwipeTableViewCell.h; sourceTree = "<group>"; };
+		9342B41A1ABE58FD00A4C366 /* MCSwipeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCSwipeTableViewCell.m; sourceTree = "<group>"; };
 		934445F01AB0C22E005B3333 /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
 		934445F11AB0C22E005B3333 /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
 		934445F21AB0C22E005B3333 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
@@ -910,6 +913,16 @@
 			path = Libraries/Parse;
 			sourceTree = "<group>";
 		};
+		9342B4181ABE58FD00A4C366 /* MCSwipeTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				9342B4191ABE58FD00A4C366 /* MCSwipeTableViewCell.h */,
+				9342B41A1ABE58FD00A4C366 /* MCSwipeTableViewCell.m */,
+			);
+			name = MCSwipeTableViewCell;
+			path = Libraries/MCSwipeTableViewCell;
+			sourceTree = "<group>";
+		};
 		934445EF1AB0C22E005B3333 /* libextobjc */ = {
 			isa = PBXGroup;
 			children = (
@@ -1288,6 +1301,7 @@
 			isa = PBXGroup;
 			children = (
 				9342B41C1ABE646600A4C366 /* Parse */,
+				9342B4181ABE58FD00A4C366 /* MCSwipeTableViewCell */,
 				934445FC1AB106F8005B3333 /* MarqueeLabel */,
 				934445EF1AB0C22E005B3333 /* libextobjc */,
 				08741E0D18B0358900251C1B /* GoogleAnalytics */,
@@ -1616,6 +1630,7 @@
 				931C42C2160E4B2A00435CD3 /* MKMapView+oba_Additions.m in Sources */,
 				931C42CD160F984000435CD3 /* OBAShadowLabel.m in Sources */,
 				935846A917FB9DC30034200C /* UIImage+ImageEffects.m in Sources */,
+				9342B41B1ABE58FD00A4C366 /* MCSwipeTableViewCell.m in Sources */,
 				934446BE1AB11033005B3333 /* OBATextFieldTableViewCell.m in Sources */,
 				934446551AB108BF005B3333 /* OBAArrivalsAndDeparturesForStopV2.m in Sources */,
 				932BE4BB1AB66D5C0011F2FB /* OBAEditStopPreferencesViewController.m in Sources */,
