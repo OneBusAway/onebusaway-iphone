@@ -873,12 +873,25 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
             @strongify(self);
 
             if (succeeded) {
+                [self createAlertViewForReportSubmissionNotification];
                 [self reloadData];
             }
         }];
     }
+    
 
     [self.tableView reloadData];
+}
+
+-(void)createAlertViewForReportSubmissionNotification {
+    NSString *alertMessage = NSLocalizedString(@"Thanks for submitting your report", @"");
+
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"+10 points", @"")
+                                                        message:alertMessage
+                                                       delegate:self
+                                              cancelButtonTitle:NSLocalizedString(@"OK", @"Cancel button label")
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
 }
 
 - (void)determineFilterTypeCellText:(UITableViewCell *)filterTypeCell filteringEnabled:(bool)filteringEnabled {
