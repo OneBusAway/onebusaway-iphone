@@ -118,10 +118,17 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
         UIBarButtonItem *refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton:)];
         [self.navigationItem setRightBarButtonItem:refreshItem];
+      
+//        CGRect scrollViewFrame = CGRectMake(0, 0, 320, 460);
+//        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:scrollViewFrame];
+//        [self.view addSubview:scrollView];
+//        CGSize scrollViewContentSize = CGSizeMake(640, 460);
+//        [scrollView setContentSize:scrollViewContentSize];
 
         _allArrivals = [[NSMutableArray alloc] init];
         _filteredArrivals = [[NSMutableArray alloc] init];
         _showFilteredArrivals = YES;
+        _reportArray = [[NSMutableArray alloc] init];
 
         self.navigationItem.title = NSLocalizedString(@"Stop", @"stop");
         self.tableView.backgroundColor = [UIColor whiteColor];
@@ -456,6 +463,13 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     if (UIAccessibilityIsVoiceOverRunning()) {
         [OBAAnalytics reportEventWithCategory:@"accessibility" action:@"voiceover_on" label:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]] value:nil];
     }
+  
+    // Mock Data
+    OBAProblemReport *reportA = [[OBAProblemReport alloc] init];
+    NSNumber *number = [[NSNumber alloc] initWithInt:0];
+    reportA.reportType = number;
+    //reportA.reportId = @"40_28374738";
+    [_reportArray addObject:reportA];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -801,10 +815,47 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         //this adds a swipe gesture on the table cell to report that bus is full
       
         OBAArrivalAndDepartureV2 *pa = arrivals[indexPath.row];
-        NSLog(@"%@", pa);
+        //NSLog(@"%@", pa);
         OBAArrivalEntryTableViewCell *cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+      
+        // Mock Data
+        OBAArrivalAndDepartureV2 *arrivalsA = [[OBAArrivalAndDepartureV2 alloc] init];
+        arrivalsA = arrivals[0];
+        NSLog(@"1: %@", arrivalsA.tripId);
+        OBAProblemReport *tempReport = [self.reportArray objectAtIndex:0];
+        tempReport.tripID = arrivalsA.tripId;
+        NSLog(@"2: %@", tempReport.tripID);
+        NSLog(@"3: %lu", (unsigned long)[self.reportArray count]);
+      
+  
+        if (self.reportArray != nil) {
+            if (pa.reportId == nil) {
+                for (OBAProblemReport *report in self.reportArray) {
+                    if ([report.tripID isEqualToString: pa.tripId]) {
+                          // Need OBAProblemReport/Parse model to have reportID
+//                        pa.reportId = report.reportID;
+//                        pa.reportType = report.reportType;
+                    }
+                }
+            }
+        }
+        NSLog(@"%@", pa.tripId);
+        NSLog(@"%@", pa.reportId);
+        NSLog(@"%ld", (long)pa.reportType);
+      
+        
+        //TODO: Pho - update alert...
+        //      if events == 1 ... !
+        //      if events  > 1 ... !!!
+        NSArray *options = @[@"!",@"", @"", @""];
+        NSUInteger randomIndex = arc4random() % [options count];
+        
+        cell.alertLabel.text = options[randomIndex];
+        
+        //TODO: Pho - warning text
+        NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
 
         // iOS 7 separator
         if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
@@ -853,6 +904,17 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 //        NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
 //
 //        cell.alertTextLabel.text = optionsText[randomIndex];
+      if (self.reportArray != nil) {
+        if (pa.reportId == nil) {
+          for (OBAProblemReport *report in self.reportArray) {
+            if ([report.tripID isEqualToString: pa.tripId]) {
+              // Need OBAProblemReport/Parse model to have reportID
+              //                        pa.reportId = report.reportID;
+              //                        pa.reportType = report.reportType;
+            }
+          }
+        }
+      }
     
         return cell;
     }

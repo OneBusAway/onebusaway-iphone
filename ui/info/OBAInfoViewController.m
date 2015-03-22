@@ -12,15 +12,17 @@
 #import "OBASettingsViewController.h"
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
+#import "OBAUserProfileViewController.h"
 
-#define kSettingsRow 0
-#define kAgenciesRow 1
-#define kFeatureRequests 2
-#define kContactUsRow 3
-#define kCreditsRow 4
-#define kPrivacy 5
+#define kUserProfileRow 0
+#define kSettingsRow 1
+#define kAgenciesRow 2
+#define kFeatureRequests 3
+#define kContactUsRow 4
+#define kCreditsRow 5
+#define kPrivacy 6
 
-#define kRowCount 6
+#define kRowCount 7
 
 @implementation OBAInfoViewController
 
@@ -68,6 +70,12 @@
     [self.navigationController pushViewController:pushMe animated:YES];
 }
 
+- (void)openUserProfile {
+  UIViewController *vc = nil;
+  vc = [[OBAUserProfileViewController alloc] init];
+  [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -110,6 +118,9 @@
             cell.textLabel.text = NSLocalizedString(@"Privacy Policy", @"info row privacy");
             break;
         }
+        case kUserProfileRow: {
+          cell.textLabel.text = NSLocalizedString(@"Profile", @"info row user profile");
+        }
         default:
             break;
     }
@@ -151,6 +162,10 @@
             [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
             NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.org/privacy/",@"didSelectRowAtIndexPath case 3")];
             [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+            break;
+        }
+        case kUserProfileRow: {
+            [self openUserProfile];
             break;
         }
         default:

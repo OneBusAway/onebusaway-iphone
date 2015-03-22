@@ -23,6 +23,8 @@
 
 /* Begin PBXBuildFile section */
 		08741E1518B0358900251C1B /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08741E1418B0358900251C1B /* libGoogleAnalyticsServices.a */; };
+		0AEE27791ABEC561008F6FF7 /* OBAUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE27771ABEC560008F6FF7 /* OBAUserProfileViewController.m */; };
+		0AEE277A1ABEC561008F6FF7 /* OBAUserProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AEE27781ABEC560008F6FF7 /* OBAUserProfileViewController.xib */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -246,6 +248,9 @@
 		08741E1218B0358900251C1B /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
 		08741E1318B0358900251C1B /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
 		08741E1418B0358900251C1B /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		0AEE27761ABEC560008F6FF7 /* OBAUserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAUserProfileViewController.h; sourceTree = "<group>"; };
+		0AEE27771ABEC560008F6FF7 /* OBAUserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAUserProfileViewController.m; sourceTree = "<group>"; };
+		0AEE27781ABEC560008F6FF7 /* OBAUserProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAUserProfileViewController.xib; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* OneBusAway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneBusAway.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -760,6 +765,9 @@
 				4E03F8C61ABE27420045AEF0 /* OBASubmitReportViewController.h */,
 				4E03F8C71ABE27420045AEF0 /* OBASubmitReportViewController.m */,
 				4E03F8C81ABE27420045AEF0 /* OBASubmitReportViewController.xib */,
+				0AEE27761ABEC560008F6FF7 /* OBAUserProfileViewController.h */,
+				0AEE27771ABEC560008F6FF7 /* OBAUserProfileViewController.m */,
+				0AEE27781ABEC560008F6FF7 /* OBAUserProfileViewController.xib */,
 				932BE4FC1AB66EF20011F2FB /* recent_stops */,
 				932BE4EF1AB66E990011F2FB /* search */,
 				932BE4E21AB66E3C0011F2FB /* bookmarks */,
@@ -1386,7 +1394,7 @@
 				TargetAttributes = {
 					93F152F01A9AE91A0015C141 = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = R5E9GQR46J;
+						DevelopmentTeam = 6ALA275LQK;
 						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
 				};
@@ -1423,6 +1431,7 @@
 			files = (
 				D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */,
 				D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */,
+				0AEE277A1ABEC561008F6FF7 /* OBAUserProfileViewController.xib in Resources */,
 				932BE50F1AB671EB0011F2FB /* OBAProgressIndicatorView.xib in Resources */,
 				932BE5111AB672170011F2FB /* OBATextEditViewController.xib in Resources */,
 				932BE50B1AB6719D0011F2FB /* OBATripScheduleMapViewController.xib in Resources */,
@@ -1602,6 +1611,7 @@
 				934446571AB108BF005B3333 /* OBAEntryWithReferencesV2.m in Sources */,
 				9344465F1AB108BF005B3333 /* OBARegionBoundsV2.m in Sources */,
 				934446681AB108BF005B3333 /* OBAStopsForRouteV2.m in Sources */,
+				0AEE27791ABEC561008F6FF7 /* OBAUserProfileViewController.m in Sources */,
 				934446721AB108BF005B3333 /* OBAVehicleStatusV2.m in Sources */,
 				9344466F1AB108BF005B3333 /* OBATripStatusV2.m in Sources */,
 				934446631AB108BF005B3333 /* OBARouteV2.m in Sources */,
