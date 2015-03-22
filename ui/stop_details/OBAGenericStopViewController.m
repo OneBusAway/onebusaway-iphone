@@ -567,15 +567,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     }
 }
 
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-  
-  if (editingStyle == UITableViewCellEditingStyleDelete) {
-    
-    OBASubmitReportViewController *myNewVC = [[OBASubmitReportViewController alloc] init];
-    [self presentViewController:myNewVC animated:true completion:nil];
 
-  }
-}
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -841,6 +833,25 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+  
+}
+
+- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+  
+  @weakify(self);
+  UITableViewRowAction *helloAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Report Problem" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+    @strongify(self);
+    
+    // do the right thing when report problem is tapped.
+  }];
+  
+  return @[helloAction];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+  return YES;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
@@ -923,11 +934,14 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         self.minutesAfter += 30;
         [self refresh];
     }
-    else if (0 <= indexPath.row && indexPath.row < arrivals.count) {
+   else if (0 <= indexPath.row && indexPath.row < arrivals.count) {
         OBAArrivalAndDepartureV2 *arrivalAndDeparture = arrivals[indexPath.row];
         OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationDelegate:_appDelegate arrivalAndDeparture:arrivalAndDeparture];
         [self.navigationController pushViewController:vc animated:YES];
+  
+
     }
+
 }
 
 - (void)tableView:(UITableView *)tableView didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath {
