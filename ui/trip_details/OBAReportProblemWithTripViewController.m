@@ -7,7 +7,6 @@
 #import "OBAArrivalAndDepartureViewController.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
-#import "OBAReport.h"
 
 typedef NS_ENUM(NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -121,7 +120,6 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
         case OBASectionTypeProblem:
             title.text = NSLocalizedString(@"What's the problem?", @"OBASectionTypeProblem");
             break;
-        
 
         case OBASectionTypeComment:
             title.text = NSLocalizedString(@"Optional - Comment:", @"OBASectionTypeComment");
