@@ -81,6 +81,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
                                   OBAModelDAO *modelDao = self.appDelegate.modelDao;
                                   self.serviceAlerts = [modelDao getServiceAlertsModelForSituations:self->_arrivalAndDeparture.situations];
                                   [self refreshCompleteWithCode:responseCode];
+                                      
                                   }
                               }];
 }
@@ -90,7 +91,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if ([self isLoading]) return [super numberOfSectionsInTableView:tableView];
 
-    int count = 3;
+    int count = 4; //3
 
     if (_serviceAlerts.unreadCount > 0) count++;
 
@@ -203,6 +204,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.alertLabel.text = @"";
     return cell;
 }
 
