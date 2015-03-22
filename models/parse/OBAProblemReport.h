@@ -18,6 +18,6 @@ typedef NS_ENUM(NSInteger, OBAProblemReportType) {
 @property(nonatomic,strong) NSString *tripID;
 @property(nonatomic,strong) NSNumber *reportType;
 @property(nonatomic,strong) PFGeoPoint *location;
-
+@property(nonatomic,strong) NSString *comments;
 @property(nonatomic,assign) OBAProblemReportType problemReportType;
 @end
