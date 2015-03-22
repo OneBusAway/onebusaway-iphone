@@ -41,6 +41,7 @@ typedef NS_ENUM(NSInteger, OBAArrivalEntryTableViewCellAlertStyle) {
 @property (nonatomic, strong) IBOutlet UIImageView * alertRedImage;
 
 @property (nonatomic, assign) OBAProblemReportType problemReportType;
+@property (nonatomic, assign) NSInteger numberOfReports;
 
 @property (nonatomic) OBAArrivalEntryTableViewCellAlertStyle alertStyle;
 

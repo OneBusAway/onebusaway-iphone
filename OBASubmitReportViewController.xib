@@ -7,6 +7,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OBASubmitReportViewController">
             <connections>
+                <outlet property="commentTextField" destination="Ozg-ly-si3" id="6yT-8M-RtL"/>
+                <outlet property="segmentedControl" destination="rua-Ji-gbY" id="uRK-21-vmp"/>
+                <outlet property="submitButton" destination="Z6d-vw-Fmy" id="Fpk-8l-0Gh"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -15,44 +18,61 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bus info" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wrE-um-IGE">
-                    <rect key="frame" x="48" y="82" width="63" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Is bus full? " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tqF-Wy-ac6">
-                    <rect key="frame" x="48" y="128" width="88" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" onImage="Alert" translatesAutoresizingMaskIntoConstraints="NO" id="cr5-wc-sbp">
-                    <rect key="frame" x="463" y="123" width="51" height="31"/>
-                </switch>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ozg-ly-si3">
-                    <rect key="frame" x="48" y="305" width="184" height="30"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
-                </textField>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Comment" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lKu-Oq-hhE">
-                    <rect key="frame" x="48" y="276" width="76" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lKu-Oq-hhE">
+                    <rect key="frame" x="20" y="118" width="89" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z6d-vw-Fmy">
-                    <rect key="frame" x="276" y="388" width="49" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z6d-vw-Fmy">
+                    <rect key="frame" x="20" y="257" width="560" height="50"/>
+                    <color key="backgroundColor" red="0.0" green="0.61568629740000003" blue="0.96862751250000001" alpha="1" colorSpace="deviceRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="tNl-zn-EJR"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <state key="normal" title="Submit">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="submitButtonPress:" destination="-1" eventType="touchUpInside" id="w2x-my-ucm"/>
+                    </connections>
                 </button>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="rua-Ji-gbY">
+                    <rect key="frame" x="20" y="80" width="560" height="29"/>
+                    <segments>
+                        <segment title="Bus is FULL"/>
+                        <segment title="Disabled Bus"/>
+                    </segments>
+                </segmentedControl>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" borderStyle="line" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ozg-ly-si3">
+                    <rect key="frame" x="20" y="147" width="560" height="100"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="100" id="xH2-mj-Gpy"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="Z6d-vw-Fmy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="3OJ-Us-bOr"/>
+                <constraint firstItem="lKu-Oq-hhE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="5Zc-kH-CDK"/>
+                <constraint firstAttribute="trailing" secondItem="Ozg-ly-si3" secondAttribute="trailing" constant="20" id="6U9-8d-Fg1"/>
+                <constraint firstItem="rua-Ji-gbY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="Ee4-zX-XZz"/>
+                <constraint firstAttribute="trailing" secondItem="rua-Ji-gbY" secondAttribute="trailing" constant="20" id="G5w-TU-DPa"/>
+                <constraint firstItem="Ozg-ly-si3" firstAttribute="top" secondItem="lKu-Oq-hhE" secondAttribute="bottom" constant="8" id="H3f-6A-g3J"/>
+                <constraint firstAttribute="trailing" secondItem="Z6d-vw-Fmy" secondAttribute="trailing" constant="20" id="LNU-EG-vsy"/>
+                <constraint firstItem="rua-Ji-gbY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="80" id="LQW-La-HhM"/>
+                <constraint firstAttribute="centerX" secondItem="rua-Ji-gbY" secondAttribute="centerX" id="Lqo-LN-4dJ"/>
+                <constraint firstItem="Z6d-vw-Fmy" firstAttribute="top" secondItem="Ozg-ly-si3" secondAttribute="bottom" constant="10" id="efj-38-83Z"/>
+                <constraint firstItem="lKu-Oq-hhE" firstAttribute="top" secondItem="rua-Ji-gbY" secondAttribute="bottom" constant="10" id="jRD-5v-gJY"/>
+                <constraint firstItem="Ozg-ly-si3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="oeU-qT-5tE"/>
+            </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+            <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
         </view>
     </objects>
-    <resources>
-        <image name="Alert" width="28" height="26"/>
-    </resources>
 </document>

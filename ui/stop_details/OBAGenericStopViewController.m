@@ -810,6 +810,17 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         OBAArrivalEntryTableViewCell *cell = [_arrivalCellFactory createCellForArrivalAndDeparture:pa];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+      
+        //TODO: Pho - update alert...
+        //      if events == 1 ... !
+        //      if events  > 1 ... !!!
+        NSArray *options = @[@"!",@"", @"", @""];
+        NSUInteger randomIndex = arc4random() % [options count];
+        
+        cell.alertLabel.text = options[randomIndex];
+        
+        //TODO: Pho - warning text
+        NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
 
         // iOS 7 separator
         if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
@@ -840,17 +851,16 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
             [alertView show];
         }];
 
-//        NSArray *problemReportsForTrip = self.
+        NSArray *problemReportsForTrip = self.problemReports[pa.tripId];
 
-        OBAProblemReport *problemReport = self.problemReports[pa.tripId];
-
-        if (problemReport) {
-            cell.problemReportType = problemReport.problemReportType;
+        if (problemReportsForTrip.count > 0) {
+            OBAProblemReport *firstProblemReport = problemReportsForTrip[0];
+            cell.problemReportType = firstProblemReport.problemReportType;
+            cell.numberOfReports = problemReportsForTrip.count;
         }
         else {
             cell.problemReportType = OBAProblemReportTypeNone;
         }
-
         return cell;
     }
 }
@@ -1179,7 +1189,17 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void *context) {
                 NSMutableDictionary *reports = [[NSMutableDictionary alloc] init];
 
                 for (OBAProblemReport* report in objects) {
-                    reports[report.tripID] = report;
+
+                    NSArray *reportsForTrip = reports[report.tripID];
+
+                    if (!reportsForTrip) {
+                        reportsForTrip = @[report];
+                    }
+                    else {
+                        reportsForTrip = [reportsForTrip arrayByAddingObject:report];
+                    }
+
+                    reports[report.tripID] = reportsForTrip;
                 }
 
                 self.problemReports = [NSDictionary dictionaryWithDictionary:reports];

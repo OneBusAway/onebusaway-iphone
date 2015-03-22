@@ -13,6 +13,7 @@
 @dynamic tripID;
 @dynamic reportType;
 @dynamic location;
+@dynamic comments;
 
 + (void)load {
     [self registerSubclass];
