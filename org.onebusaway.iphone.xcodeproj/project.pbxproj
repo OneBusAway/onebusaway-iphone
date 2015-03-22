@@ -28,7 +28,6 @@
 		1DE458A21ABE5FA400D46D8F /* OBAReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE458A11ABE5FA400D46D8F /* OBAReport.m */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
-		4E03F8C31ABE21B00045AEF0 /* OBAReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E03F8C21ABE21B00045AEF0 /* OBAReport.m */; };
 		4E03F8C91ABE27420045AEF0 /* OBASubmitReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E03F8C71ABE27420045AEF0 /* OBASubmitReportViewController.m */; };
 		4E03F8CA1ABE27420045AEF0 /* OBASubmitReportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E03F8C81ABE27420045AEF0 /* OBASubmitReportViewController.xib */; };
 		5ED30F451A9FB8C400CFC794 /* OBAURLHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F152FF1A9AE9740015C141 /* OBAURLHelpers.m */; };
@@ -83,6 +82,7 @@
 		932BE5171AB672B50011F2FB /* OBASearchResultsMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 932BE5161AB672B50011F2FB /* OBASearchResultsMapViewController.xib */; };
 		9330DEEA16050CA600E14AF4 /* credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 9330DEE916050CA600E14AF4 /* credits.html */; };
 		9330DF281606405100E14AF4 /* OBAScopeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DF271606405100E14AF4 /* OBAScopeView.m */; };
+		9342B41B1ABE58FD00A4C366 /* MCSwipeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9342B41A1ABE58FD00A4C366 /* MCSwipeTableViewCell.m */; };
 		9342B4221ABE646600A4C366 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9342B41D1ABE646600A4C366 /* Bolts.framework */; };
 		9342B4231ABE646700A4C366 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9342B41E1ABE646600A4C366 /* Parse.framework */; };
 		9342B4241ABE646700A4C366 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9342B41F1ABE646600A4C366 /* ParseCrashReporting.framework */; };
@@ -93,7 +93,6 @@
 		9342B42C1ABE64C500A4C366 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9342B42B1ABE64C500A4C366 /* MobileCoreServices.framework */; };
 		9342B42E1ABE64E700A4C366 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9342B42D1ABE64E700A4C366 /* Security.framework */; };
 		9342B4301ABE64F000A4C366 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9342B42F1ABE64F000A4C366 /* StoreKit.framework */; };
-		9342B41B1ABE58FD00A4C366 /* MCSwipeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9342B41A1ABE58FD00A4C366 /* MCSwipeTableViewCell.m */; };
 		934445F31AB0C22E005B3333 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 934445F11AB0C22E005B3333 /* EXTScope.m */; };
 		934445F61AB0D46E005B3333 /* OBADateHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 934445F51AB0D46E005B3333 /* OBADateHelpers.m */; };
 		934445FA1AB105FB005B3333 /* capitolhill.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 934445F81AB105FB005B3333 /* capitolhill.gpx */; };
@@ -255,8 +254,6 @@
 		288765070DF74369002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AB4B0D9B1048005BE974 /* org_onebusaway_iphone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = org_onebusaway_iphone_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		4E03F8C11ABE21B00045AEF0 /* OBAReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReport.h; sourceTree = "<group>"; };
-		4E03F8C21ABE21B00045AEF0 /* OBAReport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReport.m; sourceTree = "<group>"; };
 		4E03F8C61ABE27420045AEF0 /* OBASubmitReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBASubmitReportViewController.h; path = ../OBASubmitReportViewController.h; sourceTree = "<group>"; };
 		4E03F8C71ABE27420045AEF0 /* OBASubmitReportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBASubmitReportViewController.m; path = ../OBASubmitReportViewController.m; sourceTree = "<group>"; };
 		4E03F8C81ABE27420045AEF0 /* OBASubmitReportViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBASubmitReportViewController.xib; path = ../OBASubmitReportViewController.xib; sourceTree = "<group>"; };
@@ -347,6 +344,8 @@
 		9330DEE916050CA600E14AF4 /* credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
 		9330DF261606405100E14AF4 /* OBAScopeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAScopeView.h; sourceTree = "<group>"; };
 		9330DF271606405100E14AF4 /* OBAScopeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAScopeView.m; sourceTree = "<group>"; };
+		9342B4191ABE58FD00A4C366 /* MCSwipeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSwipeTableViewCell.h; sourceTree = "<group>"; };
+		9342B41A1ABE58FD00A4C366 /* MCSwipeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCSwipeTableViewCell.m; sourceTree = "<group>"; };
 		9342B41D1ABE646600A4C366 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		9342B41E1ABE646600A4C366 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		9342B41F1ABE646600A4C366 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
@@ -357,8 +356,6 @@
 		9342B42B1ABE64C500A4C366 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		9342B42D1ABE64E700A4C366 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		9342B42F1ABE64F000A4C366 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		9342B4191ABE58FD00A4C366 /* MCSwipeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSwipeTableViewCell.h; sourceTree = "<group>"; };
-		9342B41A1ABE58FD00A4C366 /* MCSwipeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCSwipeTableViewCell.m; sourceTree = "<group>"; };
 		934445F01AB0C22E005B3333 /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
 		934445F11AB0C22E005B3333 /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
 		934445F21AB0C22E005B3333 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
@@ -900,6 +897,16 @@
 			path = containers;
 			sourceTree = "<group>";
 		};
+		9342B4181ABE58FD00A4C366 /* MCSwipeTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				9342B4191ABE58FD00A4C366 /* MCSwipeTableViewCell.h */,
+				9342B41A1ABE58FD00A4C366 /* MCSwipeTableViewCell.m */,
+			);
+			name = MCSwipeTableViewCell;
+			path = Libraries/MCSwipeTableViewCell;
+			sourceTree = "<group>";
+		};
 		9342B41C1ABE646600A4C366 /* Parse */ = {
 			isa = PBXGroup;
 			children = (
@@ -911,16 +918,6 @@
 			);
 			name = Parse;
 			path = Libraries/Parse;
-			sourceTree = "<group>";
-		};
-		9342B4181ABE58FD00A4C366 /* MCSwipeTableViewCell */ = {
-			isa = PBXGroup;
-			children = (
-				9342B4191ABE58FD00A4C366 /* MCSwipeTableViewCell.h */,
-				9342B41A1ABE58FD00A4C366 /* MCSwipeTableViewCell.m */,
-			);
-			name = MCSwipeTableViewCell;
-			path = Libraries/MCSwipeTableViewCell;
 			sourceTree = "<group>";
 		};
 		934445EF1AB0C22E005B3333 /* libextobjc */ = {
@@ -1239,8 +1236,6 @@
 				93AD366D160400F500BDF03F /* OBAServiceAlertsModel.m */,
 				FFCA85701863D24200F87DCA /* OBABookmarkGroup.h */,
 				FFCA85711863D24200F87DCA /* OBABookmarkGroup.m */,
-				4E03F8C11ABE21B00045AEF0 /* OBAReport.h */,
-				4E03F8C21ABE21B00045AEF0 /* OBAReport.m */,
 			);
 			path = unmanaged;
 			sourceTree = "<group>";
@@ -1600,7 +1595,6 @@
 				934446681AB108BF005B3333 /* OBAStopsForRouteV2.m in Sources */,
 				934446721AB108BF005B3333 /* OBAVehicleStatusV2.m in Sources */,
 				9344466F1AB108BF005B3333 /* OBATripStatusV2.m in Sources */,
-				4E03F8C31ABE21B00045AEF0 /* OBAReport.m in Sources */,
 				934446631AB108BF005B3333 /* OBARouteV2.m in Sources */,
 				932BE4BE1AB66D5C0011F2FB /* OBAReportProblemWithRecentTripsViewController.m in Sources */,
 				934446021AB10825005B3333 /* OBABookmarkGroup.m in Sources */,
