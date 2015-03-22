@@ -40,7 +40,7 @@
 #import "OBAStopWebViewController.h"
 
 #import "OBAAnalytics.h"
-#import "OBAReport.h"
+#import "OBAProblemReport.h"
 
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
@@ -459,9 +459,10 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     }
   
     // Mock Data
-    OBAReport *reportA = [[OBAReport alloc] init];
-    reportA.reportType = 1;
-    reportA.reportId = @"40_28374738";
+    OBAProblemReport *reportA = [[OBAProblemReport alloc] init];
+    NSNumber *number = [[NSNumber alloc] initWithInt:0];
+    reportA.reportType = number;
+    //reportA.reportId = @"40_28374738";
     [_reportArray addObject:reportA];
 //    OBAReport *reportB = [[OBAReport alloc] init];
 //    reportB.reportType = 1;
@@ -790,9 +791,14 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     return [UITableViewCell tableViewCellForUnreadServiceAlerts:_serviceAlerts tableView:tableView];
 }
 
+- (NSArray*)arrivals {
+    return (_showFilteredArrivals ? _filteredArrivals : _allArrivals);
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView predictedArrivalCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
-  
+
+    NSArray *arrivals = [self arrivals];
+
     if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
         UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = NSLocalizedString(@"Load more arrivals", @"load more arrivals");
@@ -824,18 +830,19 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         OBAArrivalAndDepartureV2 *arrivalsA = [[OBAArrivalAndDepartureV2 alloc] init];
         arrivalsA = arrivals[0];
         NSLog(@"1: %@", arrivalsA.tripId);
-        OBAReport *tempReport = [self.reportArray objectAtIndex:0];
-        tempReport.tripId = arrivalsA.tripId;
-        NSLog(@"2: %@", tempReport.tripId);
+        OBAProblemReport *tempReport = [self.reportArray objectAtIndex:0];
+        tempReport.tripID = arrivalsA.tripId;
+        NSLog(@"2: %@", tempReport.tripID);
         NSLog(@"3: %lu", (unsigned long)[self.reportArray count]);
       
   
         if (self.reportArray != nil) {
             if (pa.reportId == nil) {
-                for (OBAReport *report in self.reportArray) {
-                    if ([report.tripId isEqualToString: pa.tripId]) {
-                        pa.reportId = report.reportId;
-                        pa.reportType = report.reportType;
+                for (OBAProblemReport *report in self.reportArray) {
+                    if ([report.tripID isEqualToString: pa.tripId]) {
+                          // Need OBAProblemReport/Parse model to have reportID
+//                        pa.reportId = report.reportID;
+//                        pa.reportType = report.reportType;
                     }
                 }
             }
@@ -874,20 +881,66 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
                                                                delegate:nil
                                                       cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel button label")
                                                       otherButtonTitles:NSLocalizedString(@"Report", @""), nil];
-          
+
+            alertView.tag = indexPath.row; // awful hack, but sufficient for our purposes for now. :P
+
             alertView.delegate = self;
             [alertView show];
         }];
       
-      return cell;
+        // TODO: reimplement support for alerts on cells
+//        if (self.reportArray && !pa.reportId) {
+//            for (OBAReport *report in self.reportArray) {
+//                if ([report.tripId isEqualToString: pa.tripId]) {
+//                    pa.reportId = report.reportId;
+//                    pa.reportType = report.reportType;
+//                }
+//            }
+//        }
+//
+//        //TODO: Pho - update alert...
+//        //      if events == 1 ... !
+//        //      if events  > 1 ... !!!
+//        NSArray *options = @[@"!",@"", @"", @""];
+//        NSUInteger randomIndex = arc4random() % [options count];
+//        
+//        cell.alertLabel.text = options[randomIndex];
+//        
+//        //TODO: Pho - warning text
+//        NSArray *optionsText = @[@"Alert: Bus is full",@"", @"", @""];
+//
+//        cell.alertTextLabel.text = optionsText[randomIndex];
     
+        return cell;
     }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-  //include API POST call here 
-  
-  [self.tableView reloadData];
+
+    if (buttonIndex != alertView.cancelButtonIndex) {
+
+        NSArray *arrivals = [self arrivals];
+
+        if (alertView.tag >= arrivals.count) {
+            return;
+        }
+
+        OBAArrivalAndDepartureV2 *pa = self.arrivals[alertView.tag];
+        OBAProblemReport *problemReport = [OBAProblemReport object];
+        problemReport.tripID = pa.tripId;
+        problemReport.problemReportType = OBAProblemReportTypeFullBus;
+
+        if (pa.stop) {
+            CLLocation *location = [[CLLocation alloc] initWithLatitude:pa.stop.lat longitude:pa.stop.lon];
+            problemReport.location = [PFGeoPoint geoPointWithLocation:location];
+        }
+
+        [problemReport saveInBackground];
+    }
+
+    //include API POST call here
+
+    [self.tableView reloadData];
 }
 
 - (void)determineFilterTypeCellText:(UITableViewCell *)filterTypeCell filteringEnabled:(bool)filteringEnabled {
@@ -904,8 +957,6 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryNone;
-    
-
 
     return cell;
 }
