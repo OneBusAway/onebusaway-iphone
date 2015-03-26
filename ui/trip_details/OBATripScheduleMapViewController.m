@@ -89,7 +89,7 @@ static const NSString *kShapeContext = @"ShapeContext";
         [self handleTripDetails];
     }
 
-    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [OBAAnalytics reportViewController:self];
 }
 
 - (void)showList:(id)source {

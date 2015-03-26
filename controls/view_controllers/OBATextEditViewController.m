@@ -69,7 +69,7 @@
         [self.textView becomeFirstResponder];
     }
 
-    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [OBAAnalytics reportViewController:self];
 }
 
 - (NSUInteger)supportedInterfaceOrientations {

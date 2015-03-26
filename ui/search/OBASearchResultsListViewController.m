@@ -61,7 +61,7 @@
     [super viewWillAppear:animated];
     [self reloadData];
 
-    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [OBAAnalytics reportViewController:self];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

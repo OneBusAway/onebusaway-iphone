@@ -77,8 +77,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     [_request cancel];
 }
 
-#pragma mark -
-#pragma mark View lifecycle
+#pragma mark - View lifecycle
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -124,11 +123,10 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
         [self handleTripDetails];
     }
 
-    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [OBAAnalytics reportViewController:self];
 }
 
-#pragma mark -
-#pragma mark Table view data source
+#pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (_tripDetails == nil) return 1;

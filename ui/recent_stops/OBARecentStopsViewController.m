@@ -46,8 +46,8 @@
     OBAModelDAO * modelDao = _appDelegate.modelDao;    
     _mostRecentStops = modelDao.mostRecentStops;
     [self.tableView reloadData];
-    
-    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
+
+    [OBAAnalytics reportViewController:self];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
