@@ -52,26 +52,19 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
+
+    [OBAAnalytics reportViewController:self];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [self saveCustomApiUrl];
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-}
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [self saveCustomApiUrl];
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return 2;
 }
 

@@ -447,7 +447,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
     [self refresh];
 
-    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [OBAAnalytics reportViewController:self];
 
     if (UIAccessibilityIsVoiceOverRunning()) {
         [OBAAnalytics reportEventWithCategory:@"accessibility" action:@"voiceover_on" label:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]] value:nil];

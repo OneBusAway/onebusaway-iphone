@@ -53,8 +53,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
+
+    [OBAAnalytics reportViewController:self];
 }
 
 #pragma mark - View lifecycle
@@ -62,10 +62,12 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSUInteger count = [_situations count];
-    if( count == 0 )
-        count = 1;
-    return count;
+    if (_situations.count == 0) {
+        return 1;
+    }
+    else {
+        return _situations.count;
+    }
 }
 
 // Customize the appearance of table view cells.

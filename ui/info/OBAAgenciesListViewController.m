@@ -46,7 +46,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     [super viewWillAppear:animated];
     [self refresh];
 
-    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [OBAAnalytics reportViewController:self];
 }
 
 - (BOOL)isLoading {

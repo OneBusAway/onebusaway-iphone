@@ -104,7 +104,7 @@
                   }];
     }
 
-    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
+    [OBAAnalytics reportViewController:self];
 }
 
 #pragma mark - Table view methods

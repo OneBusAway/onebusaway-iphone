@@ -18,5 +18,5 @@
 
 + (void)reportEventWithCategory:(NSString *)category action:(NSString*)action label:(NSString*)label value:(id)value;
 + (void)reportScreenView:(NSString *)label;
-
++ (void)reportViewController:(UIViewController*)viewController;
 @end

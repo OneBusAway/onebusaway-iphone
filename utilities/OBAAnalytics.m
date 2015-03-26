@@ -16,15 +16,17 @@
 
 @implementation OBAAnalytics
 
-+ (void)reportEventWithCategory:(NSString *)category action:(NSString*)action label:(NSString*)label value:(id)value
-{
++ (void)reportEventWithCategory:(NSString *)category action:(NSString*)action label:(NSString*)label value:(id)value {
     [[GAI sharedInstance].defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:category action:action label:label value:value] build]];
 }
 
-+ (void)reportScreenView:(NSString *)label
-{
++ (void)reportScreenView:(NSString *)label {
     [[GAI sharedInstance].defaultTracker set:kGAIScreenName value:label];
     [[GAI sharedInstance].defaultTracker send:[[GAIDictionaryBuilder createAppView] build]];
+}
+
++ (void)reportViewController:(UIViewController*)viewController {
+    [self reportScreenView:[NSString stringWithFormat:@"View: %@", viewController.class]];
 }
 
 @end

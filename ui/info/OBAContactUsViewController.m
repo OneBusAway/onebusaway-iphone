@@ -64,16 +64,18 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
     [alert show];
 }
 
-#pragma mark UIViewController
+#pragma mark - UIViewController
 
-- (void) viewDidLoad
-{
+- (void) viewDidLoad {
     [super viewDidLoad];
     [self hideEmptySeparators];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
-    
-    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [OBAAnalytics reportViewController:self];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
