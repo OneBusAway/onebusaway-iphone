@@ -45,8 +45,6 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self refresh];
-
-    [OBAAnalytics reportViewController:self];
 }
 
 - (BOOL)isLoading {

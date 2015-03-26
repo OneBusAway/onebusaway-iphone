@@ -83,8 +83,6 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     else {
         _locationTimedOut = YES;
     }
-
-    [OBAAnalytics reportViewController:self];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

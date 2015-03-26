@@ -181,6 +181,7 @@
 		93AD3698160401EF00BDF03F /* OBAModelDAOUserPreferencesImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD3695160401EF00BDF03F /* OBAModelDAOUserPreferencesImpl.m */; };
 		93AD369D1604027E00BDF03F /* OBAProgressIndicatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD369B1604027E00BDF03F /* OBAProgressIndicatorImpl.m */; };
 		93AD36A3160402C000BDF03F /* OBASearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD36A1160402C000BDF03F /* OBASearchResult.m */; };
+		93B32FF31AC4912F001DC177 /* UIViewController+OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B32FF21AC4912F001DC177 /* UIViewController+OBAAnalytics.m */; };
 		93E0954719CE051700A31BA6 /* OBALaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */; };
 		93F152F61A9AE91A0015C141 /* OneBusAway_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F152F51A9AE91A0015C141 /* OneBusAway_Tests.m */; };
 		93F153001A9AE9740015C141 /* OBAURLHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F152FF1A9AE9740015C141 /* OBAURLHelpers.m */; };
@@ -527,6 +528,8 @@
 		93AD36A0160402C000BDF03F /* OBASearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchResult.h; sourceTree = "<group>"; };
 		93AD36A1160402C000BDF03F /* OBASearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearchResult.m; sourceTree = "<group>"; };
 		93AD36A8160402FD00BDF03F /* OBANavigationTargetAware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTargetAware.h; sourceTree = "<group>"; };
+		93B32FF11AC4912F001DC177 /* UIViewController+OBAAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+OBAAnalytics.h"; sourceTree = "<group>"; };
+		93B32FF21AC4912F001DC177 /* UIViewController+OBAAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+OBAAnalytics.m"; sourceTree = "<group>"; };
 		93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBALaunchScreen.xib; path = Resources/OBALaunchScreen.xib; sourceTree = "<group>"; };
 		93F152F11A9AE91A0015C141 /* OneBusAway Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OneBusAway Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		93F152F41A9AE91A0015C141 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -695,6 +698,8 @@
 				934446B41AB10E67005B3333 /* UINavigationController+oba_Additions.m */,
 				934446B61AB10ECA005B3333 /* UITableViewCell+oba_Additions.h */,
 				934446B71AB10ECA005B3333 /* UITableViewCell+oba_Additions.m */,
+				93B32FF11AC4912F001DC177 /* UIViewController+OBAAnalytics.h */,
+				93B32FF21AC4912F001DC177 /* UIViewController+OBAAnalytics.m */,
 			);
 			path = categories;
 			sourceTree = "<group>";
@@ -1457,6 +1462,7 @@
 				934446C31AB11066005B3333 /* OBAMapRegionManager.m in Sources */,
 				934446591AB108BF005B3333 /* OBAHasReferencesV2.m in Sources */,
 				93AD36A3160402C000BDF03F /* OBASearchResult.m in Sources */,
+				93B32FF31AC4912F001DC177 /* UIViewController+OBAAnalytics.m in Sources */,
 				934446701AB108BF005B3333 /* OBATripStopTimeV2.m in Sources */,
 				932BE49F1AB66D320011F2FB /* OBAInfoViewController.m in Sources */,
 				934446DA1AB12C5D005B3333 /* OBAProgressIndicatorView.m in Sources */,

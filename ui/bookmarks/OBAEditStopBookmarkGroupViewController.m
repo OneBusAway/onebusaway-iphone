@@ -40,8 +40,6 @@
     
     [self _refreshGroups];
     [self.tableView reloadData];
-
-    [OBAAnalytics reportViewController:self];
 }
 
 - (void)onDoneButton:(id)sender {

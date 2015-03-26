@@ -10,7 +10,7 @@
 
 @implementation OBAListSelectionViewController
 
-#pragma mark Initialization
+#pragma mark - Initialization
 
 - (id)initWithValues:(NSArray*)values selectedIndex:(NSIndexPath*)selectedIndex {
     self = [super initWithStyle:UITableViewStylePlain];
@@ -28,13 +28,7 @@
     self.tableView.backgroundColor = [UIColor whiteColor];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    [OBAAnalytics reportViewController:self];
-}
-
-#pragma mark Table view data source
+#pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.values.count;

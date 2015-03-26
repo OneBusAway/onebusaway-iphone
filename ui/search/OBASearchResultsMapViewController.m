@@ -309,8 +309,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     if (self.searchController.unfilteredSearch) {
         [self refreshStopsInRegion];
     }
-
-    [OBAAnalytics reportViewController:self];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

@@ -88,8 +88,6 @@ static const NSString *kShapeContext = @"ShapeContext";
     else {
         [self handleTripDetails];
     }
-
-    [OBAAnalytics reportViewController:self];
 }
 
 - (void)showList:(id)source {

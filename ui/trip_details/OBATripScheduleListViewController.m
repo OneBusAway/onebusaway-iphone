@@ -122,8 +122,6 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     else {
         [self handleTripDetails];
     }
-
-    [OBAAnalytics reportViewController:self];
 }
 
 #pragma mark - Table view data source

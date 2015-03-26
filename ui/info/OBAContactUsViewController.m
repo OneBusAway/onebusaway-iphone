@@ -73,15 +73,6 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
     self.tableView.backgroundColor = [UIColor whiteColor];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [OBAAnalytics reportViewController:self];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-
 #pragma mark Table view methods
 
 // Customize the number of rows in the table view.

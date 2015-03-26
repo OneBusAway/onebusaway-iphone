@@ -19,7 +19,16 @@ NSString * const OBAAnalyticsCategoryUIAction = @"ui_action";
 NSString * const OBAAnalyticsCategoryAccessibility = @"accessibility";
 NSString * const OBAAnalyticsCategorySubmit = @"submit";
 
+NSInteger const OBAnalyticsDimensionVoiceOver = 4;
+
 @implementation OBAAnalytics
+
++ (void)configureVoiceOverStatus {
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        NSString *dimensionValue = @"VoiceOver: ON";
+        [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:OBAnalyticsDimensionVoiceOver] value:dimensionValue];
+    }
+}
 
 + (void)reportEventWithCategory:(NSString *)category action:(NSString*)action label:(NSString*)label value:(id)value {
     [[GAI sharedInstance].defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:category action:action label:label value:value] build]];

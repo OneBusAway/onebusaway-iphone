@@ -44,11 +44,6 @@
     self.tableView.frame = self.view.bounds;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [OBAAnalytics reportViewController:self];
-}
-
 - (void) openContactUs {
     UIViewController *pushMe = nil;
     pushMe = [[OBAContactUsViewController alloc] init];

@@ -50,12 +50,6 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     [self hideEmptySeparators];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    [OBAAnalytics reportViewController:self];
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self saveCustomApiUrl];

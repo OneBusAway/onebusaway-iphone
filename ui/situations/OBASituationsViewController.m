@@ -51,12 +51,6 @@
     [self hideEmptySeparators];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    [OBAAnalytics reportViewController:self];
-}
-
 #pragma mark - View lifecycle
 
 #pragma mark - Table view data source

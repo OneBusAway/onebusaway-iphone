@@ -83,12 +83,6 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     [self hideEmptySeparators];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    [OBAAnalytics reportViewController:self];
-}
-
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
