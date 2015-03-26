@@ -238,16 +238,16 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
     ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
 
     if([self.modelDao.readCustomApiUrl isEqualToString:@""]) {
-        [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"configured_region" label:[NSString stringWithFormat:@"API Region: %@",self.modelDao.region.regionName] value:nil];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:[NSString stringWithFormat:@"API Region: %@",self.modelDao.region.regionName] value:nil];
     }else{
-        [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"configured_region" label:@"API Region: Custom URL" value:nil];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:@"API Region: Custom URL" value:nil];
     }
-    [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", (self.modelDao.readSetRegionAutomatically ? @"YES" : @"NO")] value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", (self.modelDao.readSetRegionAutomatically ? @"YES" : @"NO")] value:nil];
 
     BOOL _showExperimentalRegions = NO;
     if ([[NSUserDefaults standardUserDefaults] boolForKey: @"kOBAShowExperimentalRegionsDefaultsKey"])
         _showExperimentalRegions = [[NSUserDefaults standardUserDefaults] boolForKey: @"kOBAShowExperimentalRegionsDefaultsKey"];
-    [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"general" label:[NSString stringWithFormat:@"Show Experimental Regions: %@", (_showExperimentalRegions ? @"YES" : @"NO")] value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Show Experimental Regions: %@", (_showExperimentalRegions ? @"YES" : @"NO")] value:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -298,7 +298,7 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
             break;
     }
 
-    [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"startup" label:[NSString stringWithFormat:@"Startup View: %@",startupView] value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"startup" label:[NSString stringWithFormat:@"Startup View: %@",startupView] value:nil];
 }
 
 - (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget {

@@ -431,7 +431,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
                else {
                UIAlertView *view = [[UIAlertView alloc] init];
                view.title = NSLocalizedString(@"Submission Successful", @"view.title");
-               [OBAAnalytics reportEventWithCategory:@"submit"
+               [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategorySubmit
                                            action:@"report_problem"
                                             label:@"Reported Problem"
                                             value:nil];

@@ -430,15 +430,15 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
         case OBASectionTypeNearbyRegions:
             region = self.nearbyRegion;
             [self.appDelegate.modelDao writeSetRegionAutomatically:YES];
-            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Set region automatically" value:nil];
-            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"set_region" label:[NSString stringWithFormat:@"Set region automatically: %@",region.regionName] value:nil];
+            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Set region automatically" value:nil];
+            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"set_region" label:[NSString stringWithFormat:@"Set region automatically: %@",region.regionName] value:nil];
             break;
 
         case OBASectionTypeAllRegions:
             region = self.regions[indexPath.row];
             [self.appDelegate.modelDao writeSetRegionAutomatically:NO];
-            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Set region manually" value:nil];
-            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"set_region" label:[NSString stringWithFormat:@"Set region manually: %@",region.regionName] value:nil];
+            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Set region manually" value:nil];
+            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"set_region" label:[NSString stringWithFormat:@"Set region manually: %@",region.regionName] value:nil];
             break;
 
         default:
@@ -527,10 +527,10 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     _didJustBeginShowingExperimental = _showExperimentalRegions;
 
     if (_showExperimentalRegions) {
-        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Turned on Experimental Regions" value:nil];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Turned on Experimental Regions" value:nil];
     }
     else {
-        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Turned off Experimental Regions" value:nil];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Turned off Experimental Regions" value:nil];
     }
 
     if (self.appDelegate.modelDao.region.experimental) {

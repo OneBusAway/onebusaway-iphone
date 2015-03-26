@@ -55,7 +55,7 @@
 - (void)onSaveButton:(id)sender {
     OBAModelDAO *dao = _appDelegate.modelDao;
     _bookmarkGroup.name = _textField.text;
-    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"edit_field" label:@"Edited Bookmark" value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"edit_field" label:@"Edited Bookmark" value:nil];
     [dao addOrSaveBookmarkGroup:_bookmarkGroup];
     [self.navigationController popViewControllerAnimated:YES];
 }

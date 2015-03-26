@@ -12,10 +12,12 @@
  * limitations under the License.
  */
 
-@interface OBAAnalytics : NSObject {
+extern NSString * const OBAAnalyticsCategoryAppSettings;
+extern NSString * const OBAAnalyticsCategoryUIAction;
+extern NSString * const OBAAnalyticsCategoryAccessibility;
+extern NSString * const OBAAnalyticsCategorySubmit;
 
-}
-
+@interface OBAAnalytics : NSObject
 + (void)reportEventWithCategory:(NSString *)category action:(NSString*)action label:(NSString*)label value:(id)value;
 + (void)reportScreenView:(NSString *)label;
 + (void)reportViewController:(UIViewController*)viewController;

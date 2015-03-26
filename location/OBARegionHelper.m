@@ -127,7 +127,7 @@
         [self.appDelegate.locationManager removeDelegate:self];
         [self.appDelegate.modelDao writeSetRegionAutomatically:YES];
 
-        [OBAAnalytics reportEventWithCategory:@"app_settings" action:@"configured_region_auto" label:[NSString stringWithFormat:@"Set Region Automatically: %@; Old Region: %@", self.appDelegate.modelDao.region.regionName, oldRegion] value:nil];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region_auto" label:[NSString stringWithFormat:@"Set Region Automatically: %@; Old Region: %@", self.appDelegate.modelDao.region.regionName, oldRegion] value:nil];
     }
 }
 

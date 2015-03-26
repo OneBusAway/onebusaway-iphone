@@ -264,7 +264,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 }
 
 - (void)setHighContrastStyle {
-    [OBAAnalytics reportEventWithCategory:@"accessibility" action:@"increase_contrast" label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]] value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAccessibility action:@"increase_contrast" label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]] value:nil];
 
     self.searchBar.searchBarStyle = UISearchBarStyleDefault;
     self.searchBar.barTintColor = OBADARKGREEN;
@@ -333,7 +333,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 #pragma mark - UISearchBarDelegate
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Search box selected" value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Search box selected" value:nil];
 
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     [self.navigationItem setRightBarButtonItem:nil animated:YES];
@@ -354,29 +354,29 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Cancel search button clicked" value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Cancel search button clicked" value:nil];
 
     [searchBar endEditing:YES];
     [self cancelPressed];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Search button clicked" value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Search button clicked" value:nil];
 
     OBANavigationTarget *target = nil;
     self.searchController.searchRegion = [self convertVisibleMapIntoCLRegion];
 
     if (kRouteSegmentIndex == self.searchTypeSegmentedControl.selectedSegmentIndex) {
         target = [OBASearch getNavigationTargetForSearchRoute:searchBar.text];
-        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Search: Route" value:nil];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Search: Route" value:nil];
     }
     else if (kAddressSegmentIndex == self.searchTypeSegmentedControl.selectedSegmentIndex) {
         target = [OBASearch getNavigationTargetForSearchAddress:searchBar.text];
-        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Search: Address" value:nil];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Search: Address" value:nil];
     }
     else {
         target = [OBASearch getNavigationTargetForSearchStopCode:searchBar.text];
-        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Search: Stop" value:nil];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Search: Stop" value:nil];
     }
 
     [self.appDelegate navigateToTarget:target];
@@ -743,9 +743,9 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     else if (alertView.tag == kOBAOutOfRangeAlertViewTag) {
         if (buttonIndex == 0) {
             self.hideFutureOutOfRangeErrors = YES;
-            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Out of Region Alert: NO" value:nil];
+            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: NO" value:nil];
         } else if (buttonIndex == 1) {
-            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Out of Region Alert: YES" value:nil];
+            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: YES" value:nil];
             MKMapRect serviceRect = [self.appDelegate.modelDao.region serviceRect];
             [self.mapRegionManager setRegion:MKCoordinateRegionForMapRect(serviceRect)];
         }
@@ -755,7 +755,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 #pragma mark - IBActions
 
 - (IBAction)onCrossHairsButton:(id)sender {
-    [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Clicked My Location Button" value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked My Location Button" value:nil];
     OBALogDebug(@"setting auto center on current location");
     self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
     [self refreshCurrentLocation];
@@ -763,7 +763,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 - (void)onMapTabBarButton {
     if (self.isViewLoaded && self.view.window) {
-        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"My Location via Map Tab Button" value:nil];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"My Location via Map Tab Button" value:nil];
         OBALogDebug(@"setting auto center on current location (via tab bar)");
         self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
         [self refreshCurrentLocation];
