@@ -14,6 +14,11 @@
 
 #import "OBAAnalytics.h"
 
+NSString * const OBAAnalyticsCategoryAppSettings = @"app_settings";
+NSString * const OBAAnalyticsCategoryUIAction = @"ui_action";
+NSString * const OBAAnalyticsCategoryAccessibility = @"accessibility";
+NSString * const OBAAnalyticsCategorySubmit = @"submit";
+
 @implementation OBAAnalytics
 
 + (void)reportEventWithCategory:(NSString *)category action:(NSString*)action label:(NSString*)label value:(id)value {

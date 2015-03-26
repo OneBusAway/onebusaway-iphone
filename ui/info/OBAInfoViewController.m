@@ -141,13 +141,13 @@
             break;
         }
         case kFeatureRequests: {
-            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Clicked Feature Request Link" value:nil];
+            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Feature Request Link" value:nil];
             NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.ideascale.com/a/ideafactory.do?id=8715&mode=top&discussionFilter=byids&discussionID=46166",@"didSelectRowAtIndexPath case 1")];
             [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             break;
         }
         case kPrivacy: {
-            [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
+            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
             NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.org/privacy/",@"didSelectRowAtIndexPath case 3")];
             [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             break;

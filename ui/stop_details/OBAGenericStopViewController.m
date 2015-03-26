@@ -186,7 +186,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
             self.showInHighContrast = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey];
 
             if (self.showInHighContrast) {
-                [OBAAnalytics reportEventWithCategory:@"accessibility" action:@"increase_contrast" label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]] value:nil];
+                [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAccessibility action:@"increase_contrast" label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]] value:nil];
                 self.mapView.hidden = YES;
                 self.tableHeaderView.backgroundColor = OBAGREEN;
             }
@@ -290,7 +290,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
             url = kOBANoStopInformationURL;
         }
 
-        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:[NSString stringWithFormat:@"Loaded StopInfo from %@", region.regionName] value:nil];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:[NSString stringWithFormat:@"Loaded StopInfo from %@", region.regionName] value:nil];
 
         OBAStopWebViewController *webViewController = [[OBAStopWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
         [self.navigationController pushViewController:webViewController animated:YES];
@@ -312,7 +312,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     }
 
     if (UIAccessibilityIsVoiceOverRunning()) {
-        [OBAAnalytics reportEventWithCategory:@"accessibility" action:@"voiceover_on" label:@"Loaded StopInfo with VoiceOver" value:nil];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAccessibility action:@"voiceover_on" label:@"Loaded StopInfo with VoiceOver" value:nil];
     }
 }
 
@@ -334,7 +334,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
                                                        [surveyAlert dismissViewControllerAnimated:YES
                                                                                        completion:nil];
                                                        
-                                                       [OBAAnalytics reportEventWithCategory:@"ui_action"
+                                                       [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction
                                                                                       action:@"button_press"
                                                                                        label:@"Loaded UW StopInfo survey"
                                                                                        value:nil];
@@ -355,7 +355,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
                                                            [[NSUserDefaults standardUserDefaults] synchronize];
                                                            [surveyAlert dismissViewControllerAnimated:YES
                                                                                            completion:nil];
-                                                           [OBAAnalytics reportEventWithCategory:@"ui_action"
+                                                           [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction
                                                                                           action:@"button_press"
                                                                                            label:@"Never show survey alert"
                                                                                            value:nil];
@@ -450,7 +450,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     [OBAAnalytics reportViewController:self];
 
     if (UIAccessibilityIsVoiceOverRunning()) {
-        [OBAAnalytics reportEventWithCategory:@"accessibility" action:@"voiceover_on" label:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]] value:nil];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAccessibility action:@"voiceover_on" label:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]] value:nil];
     }
 }
 
@@ -887,7 +887,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     NSArray *arrivals = _showFilteredArrivals ? _filteredArrivals : _allArrivals;
 
     if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
-        [OBAAnalytics reportEventWithCategory:@"ui_action" action:@"button_press" label:@"Clicked load more arrivals button" value:nil];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked load more arrivals button" value:nil];
 
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         self.minutesAfter += 30;
