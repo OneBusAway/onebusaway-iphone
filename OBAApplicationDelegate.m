@@ -205,7 +205,7 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
     [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
 
     [GAI sharedInstance].trackUncaughtExceptions = YES;
-    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelInfo];
 
     //don't report to Google Analytics when developing
 #ifdef DEBUG
@@ -213,6 +213,8 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
 #endif
 
     self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
+
+    [OBAAnalytics configureVoiceOverStatus];
 
     [self _constructUI];
 

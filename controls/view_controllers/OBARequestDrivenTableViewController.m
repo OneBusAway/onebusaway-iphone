@@ -92,8 +92,6 @@
         [self didRefreshEnd];
         [self.tableView reloadData];
     }
-
-    [OBAAnalytics reportViewController:self];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

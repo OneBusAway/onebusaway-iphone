@@ -308,11 +308,6 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         if (self.showSurveyAlert) {
             [self showSurveyPopup];
         }
-        
-    }
-
-    if (UIAccessibilityIsVoiceOverRunning()) {
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAccessibility action:@"voiceover_on" label:@"Loaded StopInfo with VoiceOver" value:nil];
     }
 }
 
@@ -446,12 +441,6 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
     self.navigationItem.title = @"Stop";
 
     [self refresh];
-
-    [OBAAnalytics reportViewController:self];
-
-    if (UIAccessibilityIsVoiceOverRunning()) {
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAccessibility action:@"voiceover_on" label:[NSString stringWithFormat:@"Loaded view: %@ using VoiceOver", [self class]] value:nil];
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

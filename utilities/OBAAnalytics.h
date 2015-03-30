@@ -18,7 +18,12 @@ extern NSString * const OBAAnalyticsCategoryAccessibility;
 extern NSString * const OBAAnalyticsCategorySubmit;
 
 @interface OBAAnalytics : NSObject
++ (void)configureVoiceOverStatus;
 + (void)reportEventWithCategory:(NSString *)category action:(NSString*)action label:(NSString*)label value:(id)value;
 + (void)reportScreenView:(NSString *)label;
+
+// This is automatically called for every view controller whose class name is prefixed with "OBA"
+// e.g. OBAGenericStopViewController, but not UINavigationController.
+// This is accomplished through method swizzling. See UIViewController+OBAAnalytics.
 + (void)reportViewController:(UIViewController*)viewController;
 @end

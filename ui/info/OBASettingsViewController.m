@@ -56,8 +56,6 @@ static NSString * kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
     [self.tableView reloadData];
-
-    [OBAAnalytics reportViewController:self];
 }
 
 - (void)didReceiveMemoryWarning

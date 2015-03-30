@@ -103,8 +103,6 @@
                       }
                   }];
     }
-
-    [OBAAnalytics reportViewController:self];
 }
 
 #pragma mark - Table view methods

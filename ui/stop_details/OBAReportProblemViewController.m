@@ -31,12 +31,6 @@
     [self hideEmptySeparators];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    [OBAAnalytics reportViewController:self];
-}
-
 #pragma mark - Table view data source
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

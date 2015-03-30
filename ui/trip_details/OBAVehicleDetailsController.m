@@ -42,12 +42,6 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     self.tableView.backgroundColor = [UIColor whiteColor];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    [OBAAnalytics reportViewController:self];
-}
-
 - (BOOL)isLoading {
     return _vehicleStatus == nil;
 }

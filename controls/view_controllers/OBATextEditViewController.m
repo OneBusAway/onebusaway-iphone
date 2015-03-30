@@ -68,8 +68,6 @@
         [self.navigationController setToolbarHidden:YES animated:YES];
         [self.textView becomeFirstResponder];
     }
-
-    [OBAAnalytics reportViewController:self];
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
