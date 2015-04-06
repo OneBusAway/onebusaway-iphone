@@ -24,6 +24,8 @@ typedef void (^OBADataSourceProgress)(CGFloat progress);
 
 - (id)initWithConfig:(OBADataSourceConfig*)config;
 
+- (NSURL*) urlWithPath:(NSString*)path withArgs:(NSString*)args;
+
 - (id<OBADataSourceConnection>) requestWithPath:(NSString*)path
                                 completionBlock:(OBADataSourceCompletion) completion;
 

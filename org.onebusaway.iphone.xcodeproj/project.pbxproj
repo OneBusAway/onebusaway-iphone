@@ -194,6 +194,32 @@
 		D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = D651BB2711C9D5DE001BE733 /* iTunesArtwork */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 		D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */; };
+		FB05458D1AEB838B00BB1AEE /* OBAInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB05458C1AEB838B00BB1AEE /* OBAInterfaceController.m */; };
+		FB0545901AEB83A500BB1AEE /* OBAStopBookmarkWK.m in Sources */ = {isa = PBXBuildFile; fileRef = FB05458F1AEB83A500BB1AEE /* OBAStopBookmarkWK.m */; };
+		FB0545911AEB83A500BB1AEE /* OBAStopBookmarkWK.m in Sources */ = {isa = PBXBuildFile; fileRef = FB05458F1AEB83A500BB1AEE /* OBAStopBookmarkWK.m */; };
+		FB3B9ED81ADC4999003E7F51 /* OBAArrivalAndDepartureWK.m in Sources */ = {isa = PBXBuildFile; fileRef = FB3B9ED71ADC4999003E7F51 /* OBAArrivalAndDepartureWK.m */; };
+		FB3B9ED91ADC4999003E7F51 /* OBAArrivalAndDepartureWK.m in Sources */ = {isa = PBXBuildFile; fileRef = FB3B9ED71ADC4999003E7F51 /* OBAArrivalAndDepartureWK.m */; };
+		FB4767631ACF3ADB008E6FEA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB4767621ACF3ADB008E6FEA /* Images.xcassets */; };
+		FB4767671ACF3ADB008E6FEA /* OneBusAway WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = FB4767661ACF3ADB008E6FEA /* OneBusAway WatchKit App.app */; };
+		FB47676F1ACF3ADB008E6FEA /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB47676D1ACF3ADB008E6FEA /* Interface.storyboard */; };
+		FB4767711ACF3ADB008E6FEA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB4767701ACF3ADB008E6FEA /* Images.xcassets */; };
+		FB4767741ACF3ADB008E6FEA /* OneBusAway WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FB4767581ACF3ADA008E6FEA /* OneBusAway WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FB4767821AD0FB39008E6FEA /* OBABookmarkInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4767811AD0FB39008E6FEA /* OBABookmarkInterfaceController.m */; };
+		FB4767851AD0FB52008E6FEA /* OBAStopInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4767841AD0FB52008E6FEA /* OBAStopInterfaceController.m */; };
+		FB47678B1AD0FC79008E6FEA /* OBAGlanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB47678A1AD0FC79008E6FEA /* OBAGlanceController.m */; };
+		FB47678E1AD1D5FF008E6FEA /* OBAStopRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB47678D1AD1D5FF008E6FEA /* OBAStopRowController.m */; };
+		FB4767911AD1D8A7008E6FEA /* OBABookmarkRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4767901AD1D8A7008E6FEA /* OBABookmarkRowController.m */; };
+		FB7C50281AD868AB00926990 /* OBAModelObjectWK.m in Sources */ = {isa = PBXBuildFile; fileRef = FB7C50271AD868AB00926990 /* OBAModelObjectWK.m */; };
+		FB7C50291AD868AB00926990 /* OBAModelObjectWK.m in Sources */ = {isa = PBXBuildFile; fileRef = FB7C50271AD868AB00926990 /* OBAModelObjectWK.m */; };
+		FB7C502B1AD8729B00926990 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D61AC67B0F77E0F7006FA853 /* CoreLocation.framework */; };
+		FB7C502C1AD872B700926990 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D61E4E4E0FC2000D000C1782 /* MapKit.framework */; };
+		FB7C50331AD9F79600926990 /* OBARouteWK.m in Sources */ = {isa = PBXBuildFile; fileRef = FB7C50321AD9F79600926990 /* OBARouteWK.m */; };
+		FB7C50341AD9F79600926990 /* OBARouteWK.m in Sources */ = {isa = PBXBuildFile; fileRef = FB7C50321AD9F79600926990 /* OBARouteWK.m */; };
+		FB90170B1AD31AF700110B8E /* OBAStopGroupWK.m in Sources */ = {isa = PBXBuildFile; fileRef = FB90170A1AD31AF700110B8E /* OBAStopGroupWK.m */; };
+		FB90170E1AD31C2A00110B8E /* OBAAppleWatchController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB90170D1AD31C2A00110B8E /* OBAAppleWatchController.m */; };
+		FB9017101AD31D5000110B8E /* OBAStopGroupWK.m in Sources */ = {isa = PBXBuildFile; fileRef = FB90170A1AD31AF700110B8E /* OBAStopGroupWK.m */; };
+		FB9017131AD31D9900110B8E /* OBAStopWK.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9017121AD31D9900110B8E /* OBAStopWK.m */; };
+		FB9017141AD31D9900110B8E /* OBAStopWK.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9017121AD31D9900110B8E /* OBAStopWK.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -211,6 +237,20 @@
 			remoteGlobalIDString = 96C6447B1810B4A70000EC49;
 			remoteInfo = Versioning;
 		};
+		FB4767681ACF3ADB008E6FEA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FB4767651ACF3ADB008E6FEA;
+			remoteInfo = "OneBusAway WatchKit App";
+		};
+		FB4767721ACF3ADB008E6FEA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FB4767571ACF3ADA008E6FEA;
+			remoteInfo = "OneBusAway WatchKit Extension";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -221,6 +261,17 @@
 			dstSubfolderSpec = 10;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB47677F1ACF3ADB008E6FEA /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				FB4767741ACF3ADB008E6FEA /* OneBusAway WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -556,6 +607,39 @@
 		E81C7B031825DEBF0047C68C /* accept_license.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = accept_license.sh; sourceTree = "<group>"; };
 		E81C7B041825DEBF0047C68C /* upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = upload.sh; sourceTree = "<group>"; };
 		E81C7B051825DEBF0047C68C /* xcode5.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = xcode5.sh; sourceTree = "<group>"; };
+		FB05458B1AEB838B00BB1AEE /* OBAInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAInterfaceController.h; sourceTree = "<group>"; };
+		FB05458C1AEB838B00BB1AEE /* OBAInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAInterfaceController.m; sourceTree = "<group>"; };
+		FB05458E1AEB83A500BB1AEE /* OBAStopBookmarkWK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopBookmarkWK.h; sourceTree = "<group>"; };
+		FB05458F1AEB83A500BB1AEE /* OBAStopBookmarkWK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopBookmarkWK.m; sourceTree = "<group>"; };
+		FB3B9ED61ADC4999003E7F51 /* OBAArrivalAndDepartureWK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureWK.h; sourceTree = "<group>"; };
+		FB3B9ED71ADC4999003E7F51 /* OBAArrivalAndDepartureWK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureWK.m; sourceTree = "<group>"; };
+		FB4767581ACF3ADA008E6FEA /* OneBusAway WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "OneBusAway WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB47675B1ACF3ADA008E6FEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FB4767621ACF3ADB008E6FEA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		FB4767661ACF3ADB008E6FEA /* OneBusAway WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OneBusAway WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB47676C1ACF3ADB008E6FEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FB47676E1ACF3ADB008E6FEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		FB4767701ACF3ADB008E6FEA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		FB4767801AD0FB39008E6FEA /* OBABookmarkInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkInterfaceController.h; sourceTree = "<group>"; };
+		FB4767811AD0FB39008E6FEA /* OBABookmarkInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkInterfaceController.m; sourceTree = "<group>"; };
+		FB4767831AD0FB52008E6FEA /* OBAStopInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopInterfaceController.h; sourceTree = "<group>"; };
+		FB4767841AD0FB52008E6FEA /* OBAStopInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopInterfaceController.m; sourceTree = "<group>"; };
+		FB4767891AD0FC79008E6FEA /* OBAGlanceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAGlanceController.h; sourceTree = "<group>"; };
+		FB47678A1AD0FC79008E6FEA /* OBAGlanceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAGlanceController.m; sourceTree = "<group>"; };
+		FB47678C1AD1D5FF008E6FEA /* OBAStopRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopRowController.h; sourceTree = "<group>"; };
+		FB47678D1AD1D5FF008E6FEA /* OBAStopRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopRowController.m; sourceTree = "<group>"; };
+		FB47678F1AD1D8A7008E6FEA /* OBABookmarkRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkRowController.h; sourceTree = "<group>"; };
+		FB4767901AD1D8A7008E6FEA /* OBABookmarkRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkRowController.m; sourceTree = "<group>"; };
+		FB7C50261AD868AB00926990 /* OBAModelObjectWK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelObjectWK.h; sourceTree = "<group>"; };
+		FB7C50271AD868AB00926990 /* OBAModelObjectWK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelObjectWK.m; sourceTree = "<group>"; };
+		FB7C50311AD9F79600926990 /* OBARouteWK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARouteWK.h; sourceTree = "<group>"; };
+		FB7C50321AD9F79600926990 /* OBARouteWK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARouteWK.m; sourceTree = "<group>"; };
+		FB9017091AD31AF700110B8E /* OBAStopGroupWK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopGroupWK.h; sourceTree = "<group>"; };
+		FB90170A1AD31AF700110B8E /* OBAStopGroupWK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopGroupWK.m; sourceTree = "<group>"; };
+		FB90170C1AD31C2A00110B8E /* OBAAppleWatchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAppleWatchController.h; sourceTree = "<group>"; };
+		FB90170D1AD31C2A00110B8E /* OBAAppleWatchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAppleWatchController.m; sourceTree = "<group>"; };
+		FB9017111AD31D9900110B8E /* OBAStopWK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopWK.h; sourceTree = "<group>"; };
+		FB9017121AD31D9900110B8E /* OBAStopWK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopWK.m; sourceTree = "<group>"; };
 		FFCA85701863D24200F87DCA /* OBABookmarkGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkGroup.h; sourceTree = "<group>"; };
 		FFCA85711863D24200F87DCA /* OBABookmarkGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkGroup.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -588,6 +672,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FB4767551ACF3ADA008E6FEA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB7C502C1AD872B700926990 /* MapKit.framework in Frameworks */,
+				FB7C502B1AD8729B00926990 /* CoreLocation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -615,6 +708,8 @@
 			children = (
 				1D6058910D05DD3D006BFB54 /* OneBusAway.app */,
 				93F152F11A9AE91A0015C141 /* OneBusAway Tests.xctest */,
+				FB4767581ACF3ADA008E6FEA /* OneBusAway WatchKit Extension.appex */,
+				FB4767661ACF3ADB008E6FEA /* OneBusAway WatchKit App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -630,6 +725,8 @@
 				93631E4D1604F97D00CB7209 /* utilities */,
 				93631E4A1604F96800CB7209 /* OBAApplicationDelegate.h */,
 				93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */,
+				FB90170C1AD31C2A00110B8E /* OBAAppleWatchController.h */,
+				FB90170D1AD31C2A00110B8E /* OBAAppleWatchController.m */,
 				93AD36A7160402FA00BDF03F /* protocols */,
 				93AD36551603FFE300BDF03F /* models */,
 				93AD36371603FE4600BDF03F /* controls */,
@@ -637,6 +734,8 @@
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				93F152F21A9AE91A0015C141 /* OneBusAway Tests */,
+				FB4767591ACF3ADA008E6FEA /* OneBusAway WatchKit Extension */,
+				FB47676A1ACF3ADB008E6FEA /* OneBusAway WatchKit App */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */,
@@ -1254,6 +1353,76 @@
 			path = travis;
 			sourceTree = "<group>";
 		};
+		FB4767591ACF3ADA008E6FEA /* OneBusAway WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				FB9017081AD31A5D00110B8E /* watchkit_model */,
+				FB05458B1AEB838B00BB1AEE /* OBAInterfaceController.h */,
+				FB05458C1AEB838B00BB1AEE /* OBAInterfaceController.m */,
+				FB4767801AD0FB39008E6FEA /* OBABookmarkInterfaceController.h */,
+				FB4767811AD0FB39008E6FEA /* OBABookmarkInterfaceController.m */,
+				FB4767831AD0FB52008E6FEA /* OBAStopInterfaceController.h */,
+				FB4767841AD0FB52008E6FEA /* OBAStopInterfaceController.m */,
+				FB4767891AD0FC79008E6FEA /* OBAGlanceController.h */,
+				FB47678A1AD0FC79008E6FEA /* OBAGlanceController.m */,
+				FB47678F1AD1D8A7008E6FEA /* OBABookmarkRowController.h */,
+				FB4767901AD1D8A7008E6FEA /* OBABookmarkRowController.m */,
+				FB47678C1AD1D5FF008E6FEA /* OBAStopRowController.h */,
+				FB47678D1AD1D5FF008E6FEA /* OBAStopRowController.m */,
+				FB4767621ACF3ADB008E6FEA /* Images.xcassets */,
+				FB47675A1ACF3ADA008E6FEA /* Supporting Files */,
+			);
+			name = "OneBusAway WatchKit Extension";
+			path = OneBusAway_WatchKit_Extension;
+			sourceTree = "<group>";
+		};
+		FB47675A1ACF3ADA008E6FEA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FB47675B1ACF3ADA008E6FEA /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FB47676A1ACF3ADB008E6FEA /* OneBusAway WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				FB47676D1ACF3ADB008E6FEA /* Interface.storyboard */,
+				FB4767701ACF3ADB008E6FEA /* Images.xcassets */,
+				FB47676B1ACF3ADB008E6FEA /* Supporting Files */,
+			);
+			name = "OneBusAway WatchKit App";
+			path = OneBusAway_WatchKit_App;
+			sourceTree = "<group>";
+		};
+		FB47676B1ACF3ADB008E6FEA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FB47676C1ACF3ADB008E6FEA /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FB9017081AD31A5D00110B8E /* watchkit_model */ = {
+			isa = PBXGroup;
+			children = (
+				FB7C50261AD868AB00926990 /* OBAModelObjectWK.h */,
+				FB7C50271AD868AB00926990 /* OBAModelObjectWK.m */,
+				FB9017091AD31AF700110B8E /* OBAStopGroupWK.h */,
+				FB90170A1AD31AF700110B8E /* OBAStopGroupWK.m */,
+				FB05458E1AEB83A500BB1AEE /* OBAStopBookmarkWK.h */,
+				FB05458F1AEB83A500BB1AEE /* OBAStopBookmarkWK.m */,
+				FB9017111AD31D9900110B8E /* OBAStopWK.h */,
+				FB9017121AD31D9900110B8E /* OBAStopWK.m */,
+				FB7C50311AD9F79600926990 /* OBARouteWK.h */,
+				FB7C50321AD9F79600926990 /* OBARouteWK.m */,
+				FB3B9ED61ADC4999003E7F51 /* OBAArrivalAndDepartureWK.h */,
+				FB3B9ED71ADC4999003E7F51 /* OBAArrivalAndDepartureWK.m */,
+			);
+			name = watchkit_model;
+			path = data;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1266,11 +1435,13 @@
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				D6B74DF90F6CA5D80067D68F /* CopyFiles */,
 				E81C7AFE1824B7C80047C68C /* Remove infoplist.prefix preprocessor file from project temp directory */,
+				FB47677F1ACF3ADB008E6FEA /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				96C644831810B4D80000EC49 /* PBXTargetDependency */,
+				FB4767731ACF3ADB008E6FEA /* PBXTargetDependency */,
 			);
 			name = OneBusAway;
 			productName = org.onebusaway.iphone;
@@ -1295,6 +1466,39 @@
 			productReference = 93F152F11A9AE91A0015C141 /* OneBusAway Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		FB4767571ACF3ADA008E6FEA /* OneBusAway WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FB47677E1ACF3ADB008E6FEA /* Build configuration list for PBXNativeTarget "OneBusAway WatchKit Extension" */;
+			buildPhases = (
+				FB4767541ACF3ADA008E6FEA /* Sources */,
+				FB4767551ACF3ADA008E6FEA /* Frameworks */,
+				FB4767561ACF3ADA008E6FEA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FB4767691ACF3ADB008E6FEA /* PBXTargetDependency */,
+			);
+			name = "OneBusAway WatchKit Extension";
+			productName = "OneBusAway WatchKit Extension";
+			productReference = FB4767581ACF3ADA008E6FEA /* OneBusAway WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit-extension";
+		};
+		FB4767651ACF3ADB008E6FEA /* OneBusAway WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FB47677D1ACF3ADB008E6FEA /* Build configuration list for PBXNativeTarget "OneBusAway WatchKit App" */;
+			buildPhases = (
+				FB4767641ACF3ADB008E6FEA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "OneBusAway WatchKit App";
+			productName = "OneBusAway WatchKit App";
+			productReference = FB4767661ACF3ADB008E6FEA /* OneBusAway WatchKit App.app */;
+			productType = "com.apple.product-type.application.watchapp";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1308,6 +1512,12 @@
 					93F152F01A9AE91A0015C141 = {
 						CreatedOnToolsVersion = 6.1.1;
 						TestTargetID = 1D6058900D05DD3D006BFB54;
+					};
+					FB4767571ACF3ADA008E6FEA = {
+						CreatedOnToolsVersion = 6.2;
+					};
+					FB4767651ACF3ADB008E6FEA = {
+						CreatedOnToolsVersion = 6.2;
 					};
 				};
 			};
@@ -1324,6 +1534,7 @@
 				ja,
 				"zh-Hans",
 				"zh-Hant",
+				Base,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */;
 			projectDirPath = "";
@@ -1332,6 +1543,8 @@
 				1D6058900D05DD3D006BFB54 /* OneBusAway */,
 				96C6447B1810B4A70000EC49 /* Versioning */,
 				93F152F01A9AE91A0015C141 /* OneBusAway Tests */,
+				FB4767571ACF3ADA008E6FEA /* OneBusAway WatchKit Extension */,
+				FB4767651ACF3ADB008E6FEA /* OneBusAway WatchKit App */,
 			);
 		};
 /* End PBXProject section */
@@ -1368,6 +1581,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB4767561ACF3ADA008E6FEA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB4767671ACF3ADB008E6FEA /* OneBusAway WatchKit App.app in Resources */,
+				FB4767631ACF3ADB008E6FEA /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB4767641ACF3ADB008E6FEA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB47676F1ACF3ADB008E6FEA /* Interface.storyboard in Resources */,
+				FB4767711ACF3ADB008E6FEA /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1432,6 +1663,7 @@
 				932BE4CF1AB66D710011F2FB /* OBATripDetailsViewController.m in Sources */,
 				9344465D1AB108BF005B3333 /* OBAListWithRangeAndReferencesV2.m in Sources */,
 				934446691AB108BF005B3333 /* OBAStopV2.m in Sources */,
+				FB0545901AEB83A500BB1AEE /* OBAStopBookmarkWK.m in Sources */,
 				93AD36431603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m in Sources */,
 				934446D91AB12C5D005B3333 /* OBAModalActivityIndicator.m in Sources */,
 				93AD36441603FE7E00BDF03F /* OBAArrivalEntryTableViewCellFactory.m in Sources */,
@@ -1491,6 +1723,7 @@
 				93631E871604F9AD00CB7209 /* OBATripStopTimeMapAnnotation.m in Sources */,
 				934446711AB108BF005B3333 /* OBATripV2.m in Sources */,
 				932BE4C11AB66D5C0011F2FB /* OBAStopWebViewController.m in Sources */,
+				FB3B9ED81ADC4999003E7F51 /* OBAArrivalAndDepartureWK.m in Sources */,
 				9330DF281606405100E14AF4 /* OBAScopeView.m in Sources */,
 				935846AE17FBA2D00034200C /* OBAReleaseNotesManager.m in Sources */,
 				934446621AB108BF005B3333 /* OBAReportProblemWithTripV2.m in Sources */,
@@ -1500,6 +1733,7 @@
 				934446031AB1083B005B3333 /* OBASearch.m in Sources */,
 				934446AD1AB10D00005B3333 /* OBASelectorJsonDigesterRule.m in Sources */,
 				932BE4CD1AB66D710011F2FB /* OBAArrivalAndDepartureViewController.m in Sources */,
+				FB9017101AD31D5000110B8E /* OBAStopGroupWK.m in Sources */,
 				9344460A1AB1089B005B3333 /* OBACoordinateBounds.m in Sources */,
 				935846A817FB9DC30034200C /* TWSReleaseNotesView.m in Sources */,
 				932BE49E1AB66D320011F2FB /* OBAContactUsViewController.m in Sources */,
@@ -1526,6 +1760,8 @@
 				932BE4BE1AB66D5C0011F2FB /* OBAReportProblemWithRecentTripsViewController.m in Sources */,
 				934446021AB10825005B3333 /* OBABookmarkGroup.m in Sources */,
 				935846A717FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m in Sources */,
+				FB90170E1AD31C2A00110B8E /* OBAAppleWatchController.m in Sources */,
+				FB7C50331AD9F79600926990 /* OBARouteWK.m in Sources */,
 				93F153001A9AE9740015C141 /* OBAURLHelpers.m in Sources */,
 				934446AA1AB10D00005B3333 /* OBACallMethodJsonDigesterRule.m in Sources */,
 				934446611AB108BF005B3333 /* OBAReportProblemWithStopV2.m in Sources */,
@@ -1544,6 +1780,7 @@
 				934446751AB109E4005B3333 /* OBAAnalytics.m in Sources */,
 				934446951AB10C8A005B3333 /* OBADataSourceConfig.m in Sources */,
 				934446D01AB12B29005B3333 /* OBATextEditViewController.m in Sources */,
+				FB7C50281AD868AB00926990 /* OBAModelObjectWK.m in Sources */,
 				932BE4F71AB66E990011F2FB /* OBASearchResultsListViewController.m in Sources */,
 				934446AF1AB10D00005B3333 /* OBASetDatePropertyJsonDigesterRule.m in Sources */,
 				932BE4A21AB66D320011F2FB /* OBASettingsViewController.m in Sources */,
@@ -1551,6 +1788,7 @@
 				931C42C2160E4B2A00435CD3 /* MKMapView+oba_Additions.m in Sources */,
 				931C42CD160F984000435CD3 /* OBAShadowLabel.m in Sources */,
 				935846A917FB9DC30034200C /* UIImage+ImageEffects.m in Sources */,
+				FB9017131AD31D9900110B8E /* OBAStopWK.m in Sources */,
 				934446BE1AB11033005B3333 /* OBATextFieldTableViewCell.m in Sources */,
 				934446551AB108BF005B3333 /* OBAArrivalsAndDeparturesForStopV2.m in Sources */,
 				932BE4BB1AB66D5C0011F2FB /* OBAEditStopPreferencesViewController.m in Sources */,
@@ -1575,6 +1813,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FB4767541ACF3ADA008E6FEA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB05458D1AEB838B00BB1AEE /* OBAInterfaceController.m in Sources */,
+				FB9017141AD31D9900110B8E /* OBAStopWK.m in Sources */,
+				FB4767851AD0FB52008E6FEA /* OBAStopInterfaceController.m in Sources */,
+				FB47678E1AD1D5FF008E6FEA /* OBAStopRowController.m in Sources */,
+				FB3B9ED91ADC4999003E7F51 /* OBAArrivalAndDepartureWK.m in Sources */,
+				FB47678B1AD0FC79008E6FEA /* OBAGlanceController.m in Sources */,
+				FB4767911AD1D8A7008E6FEA /* OBABookmarkRowController.m in Sources */,
+				FB7C50341AD9F79600926990 /* OBARouteWK.m in Sources */,
+				FB7C50291AD868AB00926990 /* OBAModelObjectWK.m in Sources */,
+				FB90170B1AD31AF700110B8E /* OBAStopGroupWK.m in Sources */,
+				FB0545911AEB83A500BB1AEE /* OBAStopBookmarkWK.m in Sources */,
+				FB4767821AD0FB39008E6FEA /* OBABookmarkInterfaceController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1588,7 +1845,28 @@
 			target = 96C6447B1810B4A70000EC49 /* Versioning */;
 			targetProxy = 96C644821810B4D80000EC49 /* PBXContainerItemProxy */;
 		};
+		FB4767691ACF3ADB008E6FEA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FB4767651ACF3ADB008E6FEA /* OneBusAway WatchKit App */;
+			targetProxy = FB4767681ACF3ADB008E6FEA /* PBXContainerItemProxy */;
+		};
+		FB4767731ACF3ADB008E6FEA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FB4767571ACF3ADA008E6FEA /* OneBusAway WatchKit Extension */;
+			targetProxy = FB4767721ACF3ADB008E6FEA /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FB47676D1ACF3ADB008E6FEA /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FB47676E1ACF3ADB008E6FEA /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
@@ -2084,6 +2362,316 @@
 			};
 			name = AppStoreDistribution;
 		};
+		FB4767751ACF3ADB008E6FEA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = OneBusAway_WatchKit_Extension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		FB4767761ACF3ADB008E6FEA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = OneBusAway_WatchKit_Extension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FB4767771ACF3ADB008E6FEA /* AppStoreDistribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = OneBusAway_WatchKit_Extension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = AppStoreDistribution;
+		};
+		FB4767781ACF3ADB008E6FEA /* AdHocDistribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = OneBusAway_WatchKit_Extension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = AdHocDistribution;
+		};
+		FB4767791ACF3ADB008E6FEA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				IBSC_MODULE = OneBusAway_WatchKit_Extension;
+				INFOPLIST_FILE = OneBusAway_WatchKit_App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Debug;
+		};
+		FB47677A1ACF3ADB008E6FEA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				IBSC_MODULE = OneBusAway_WatchKit_Extension;
+				INFOPLIST_FILE = OneBusAway_WatchKit_App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FB47677B1ACF3ADB008E6FEA /* AppStoreDistribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				IBSC_MODULE = OneBusAway_WatchKit_Extension;
+				INFOPLIST_FILE = OneBusAway_WatchKit_App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = AppStoreDistribution;
+		};
+		FB47677C1ACF3ADB008E6FEA /* AdHocDistribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				IBSC_MODULE = OneBusAway_WatchKit_Extension;
+				INFOPLIST_FILE = OneBusAway_WatchKit_App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = AdHocDistribution;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2127,6 +2715,28 @@
 				C01FCF5008A954540054247B /* Release */,
 				D6BEE73E10474E58003655A1 /* AppStoreDistribution */,
 				D6575AF50FEE8B0900D6D987 /* AdHocDistribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FB47677D1ACF3ADB008E6FEA /* Build configuration list for PBXNativeTarget "OneBusAway WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB4767791ACF3ADB008E6FEA /* Debug */,
+				FB47677A1ACF3ADB008E6FEA /* Release */,
+				FB47677B1ACF3ADB008E6FEA /* AppStoreDistribution */,
+				FB47677C1ACF3ADB008E6FEA /* AdHocDistribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FB47677E1ACF3ADB008E6FEA /* Build configuration list for PBXNativeTarget "OneBusAway WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB4767751ACF3ADB008E6FEA /* Debug */,
+				FB4767761ACF3ADB008E6FEA /* Release */,
+				FB4767771ACF3ADB008E6FEA /* AppStoreDistribution */,
+				FB4767781ACF3ADB008E6FEA /* AdHocDistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

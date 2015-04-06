@@ -16,6 +16,7 @@
 
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "OBAApplicationDelegate.h"
+#import "OBAAppleWatchController.h"
 #import "OBANavigationTargetAware.h"
 #import "OBALogger.h"
 
@@ -370,6 +371,12 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
     _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:_regionListViewController];
 
     self.window.rootViewController = _regionNavigationController;
+}
+
+#pragma mark - Apple Watch
+
+- (void)application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *replyInfo))reply {
+    [[OBAAppleWatchController sharedInstance] handleWatchKitExtensionRequestForAppDelegate:self userInfo:userInfo reply:reply];
 }
 
 @end
