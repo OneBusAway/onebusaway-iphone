@@ -236,13 +236,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-        if (![APP_DELEGATE.locationManager hasRequestedInUseAuthorization]) {
-            [APP_DELEGATE.locationManager requestInUseAuthorization];
-        }
-    }
-    else {
+    
+    if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
         self.mapView.showsUserLocation = YES;
     }
 }
