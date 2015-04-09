@@ -35,6 +35,9 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
         _locationManager.delegate = self;
         _delegates = [[NSMutableArray alloc] init];
         
+        if (![self hasRequestedInUseAuthorization]) {
+            [self requestInUseAuthorization];
+        }
     }
     return self;
 }
@@ -75,7 +78,7 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 #pragma mark - iOS 8 Location Manager Support
 
 - (BOOL)hasRequestedInUseAuthorization {
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+    if ([CLLocationManager respondsToSelector:@selector(authorizationStatus)]) {
         return [CLLocationManager authorizationStatus] != kCLAuthorizationStatusNotDetermined;
     }
     else {
@@ -84,8 +87,8 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 }
 
 - (void)requestInUseAuthorization {
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-        [_locationManager performSelector:@selector(requestWhenInUseAuthorization) withObject:nil];
+    if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [_locationManager requestWhenInUseAuthorization];
     }
 }
 
