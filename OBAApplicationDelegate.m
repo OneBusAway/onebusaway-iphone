@@ -82,7 +82,6 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
 }
 
 - (void)refreshSettings {
-    
     NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
     NSString * apiServerName = nil;
 	if([self.modelDao.readCustomApiUrl isEqualToString:@""]) {
@@ -93,7 +92,6 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
         }
         else {
             self.regionHelper = [[OBARegionHelper alloc] init];
-            [self.modelDao writeSetRegionAutomatically:YES];
             [self.regionHelper updateNearestRegion];
             apiServerName = [NSString stringWithFormat:@"http://%@",apiServerName];
         }

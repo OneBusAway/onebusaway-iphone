@@ -56,6 +56,8 @@
 }
 
 - (void)setNearestRegion {
+    NSString *oldRegion = @"null";
+    
     if (self.regions && self.location) {
         NSMutableArray *notSupportedRegions = [NSMutableArray array];
 
@@ -90,45 +92,44 @@
 
         [self.regions removeObjectsInArray:regionsToRemove];
 
-        if (self.regions.count == 0) {
-            [self.appDelegate.modelDao writeSetRegionAutomatically:NO];
-            [self.appDelegate.locationManager removeDelegate:self];
-            [self.appDelegate showRegionListViewController];
-            return;
+        if (self.regions.count > 0) {
+            [self.regions
+             sortUsingComparator:^(OBARegionV2 *region1, OBARegionV2 *region2) {
+                 CLLocationDistance distance1 = [region1 distanceFromLocation:newLocation];
+                 CLLocationDistance distance2 = [region2 distanceFromLocation:newLocation];
+                 
+                 if (distance1 > distance2) {
+                     return (NSComparisonResult)NSOrderedDescending;
+                 }
+                 else if (distance1 < distance2) {
+                     return (NSComparisonResult)NSOrderedAscending;
+                 }
+                 else {
+                     return (NSComparisonResult)NSOrderedSame;
+                 }
+             }];
+            
+            if (self.appDelegate.modelDao.region) {
+                oldRegion = self.appDelegate.modelDao.region.regionName;
+            }
+            
+            [self.appDelegate.modelDao setOBARegion:self.regions[0]];
+            [self.appDelegate refreshSettings];
+            [self.appDelegate.modelDao writeSetRegionAutomatically:YES];
         }
-
-        [self.regions
-         sortUsingComparator:^(id obj1, id obj2) {
-             OBARegionV2 *region1 = (OBARegionV2 *)obj1;
-             OBARegionV2 *region2 = (OBARegionV2 *)obj2;
-
-             CLLocationDistance distance1 = [region1 distanceFromLocation:newLocation];
-             CLLocationDistance distance2 = [region2 distanceFromLocation:newLocation];
-
-             if (distance1 > distance2) {
-                return (NSComparisonResult)NSOrderedDescending;
-             }
-             else if (distance1 < distance2) {
-                return (NSComparisonResult)NSOrderedAscending;
-             }
-             else {
-                return (NSComparisonResult)NSOrderedSame;
-             }
-         }];
-
-        NSString *oldRegion = @"null";
-
+    }
+    
+    [self.appDelegate.locationManager removeDelegate:self];
+    
+    if (!self.appDelegate.modelDao.region || (self.regions && self.location && self.regions.count == 0)) {
         if (self.appDelegate.modelDao.region != nil) {
             oldRegion = self.appDelegate.modelDao.region.regionName;
         }
-
-        [self.appDelegate.modelDao setOBARegion:self.regions[0]];
-        [self.appDelegate refreshSettings];
-        [self.appDelegate.locationManager removeDelegate:self];
-        [self.appDelegate.modelDao writeSetRegionAutomatically:YES];
-
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region_auto" label:[NSString stringWithFormat:@"Set Region Automatically: %@; Old Region: %@", self.appDelegate.modelDao.region.regionName, oldRegion] value:nil];
+        [self.appDelegate.modelDao writeSetRegionAutomatically:NO];
+        [self.appDelegate showRegionListViewController];
     }
+    
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region_auto" label:[NSString stringWithFormat:@"Set Region Automatically: %@; Old Region: %@", self.appDelegate.modelDao.region.regionName, oldRegion] value:nil];
 }
 
 - (void)setRegion {
