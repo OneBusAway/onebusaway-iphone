@@ -261,7 +261,7 @@ static const NSString *kShapeContext = @"ShapeContext";
 }
 
 - (id<MKAnnotation>)createTripContinuationAnnotation:(OBATripV2 *)trip isNextTrip:(BOOL)isNextTrip stopTimes:(NSArray *)stopTimes {
-    OBATripInstanceRef *tripRef = _tripDetails.tripInstance;
+    OBATripInstanceRef *tripRef = [_tripDetails.tripInstance copyWithNewTripId:trip.tripId];
 
     NSString *format = isNextTrip ? NSLocalizedString(@"Continues as", @"text") : NSLocalizedString(@"Starts as", @"text");
     NSString *tripTitle = [NSString stringWithFormat:@"%@ %@", format, trip.asLabel];
