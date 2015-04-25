@@ -31,15 +31,17 @@
 		669B2F751AEBF92E00CF2367 /* OBAReleaseNotesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F731AEBF92E00CF2367 /* OBAReleaseNotesManager.m */; };
 		669B2F781AEBFCB300CF2367 /* OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F771AEBFCB300CF2367 /* OBAAnalytics.m */; };
 		669B2F791AEBFCB300CF2367 /* OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F771AEBFCB300CF2367 /* OBAAnalytics.m */; };
-		669B2F7D1AEBFDDE00CF2367 /* libOneBusAwaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 669B2F7C1AEBFDDE00CF2367 /* libOneBusAwaySDK.a */; };
 		669B2F801AEBFEBF00CF2367 /* OBARegionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F7F1AEBFEBF00CF2367 /* OBARegionHelper.m */; };
 		669B2F811AEBFEBF00CF2367 /* OBARegionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F7F1AEBFEBF00CF2367 /* OBARegionHelper.m */; };
-		669B2F831AEC00B300CF2367 /* libOneBusAwaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 669B2F821AEC00B200CF2367 /* libOneBusAwaySDK.a */; };
 		669B2F841AEC00B400CF2367 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08741E1418B0358900251C1B /* libGoogleAnalyticsServices.a */; };
 		669B2F851AEC016B00CF2367 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ADB3DE17BDD5DA00314D65 /* libz.dylib */; };
 		669B2F881AEC017B00CF2367 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D62255AA0F8BCA8F00F139BA /* libsqlite3.0.dylib */; };
 		669B2F891AEC01A400CF2367 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */; };
 		669B2F8A1AEC01C000CF2367 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6169A160FC228FB00631BCE /* CoreData.framework */; };
+		669B2F8C1AEC049D00CF2367 /* libOneBusAwaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 669B2F8B1AEC049D00CF2367 /* libOneBusAwaySDK.a */; };
+		669B2F8D1AEC04A100CF2367 /* libOneBusAwaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 669B2F8B1AEC049D00CF2367 /* libOneBusAwaySDK.a */; };
+		669B2F941AEC077900CF2367 /* TWSReleaseNotesDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358469F17FB9DC30034200C /* TWSReleaseNotesDownloadOperation.m */; };
+		669B2F951AEC077C00CF2367 /* TWSReleaseNotesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 935846A117FB9DC30034200C /* TWSReleaseNotesView.m */; };
 		727E52F515824F1200534646 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 727E52F415824F1200534646 /* MessageUI.framework */; };
 		923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */; };
 		928E12B217D7863400FD855E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 928E12B117D7863400FD855E /* Images.xcassets */; };
@@ -179,12 +181,10 @@
 		669B2F731AEBF92E00CF2367 /* OBAReleaseNotesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReleaseNotesManager.m; sourceTree = "<group>"; };
 		669B2F761AEBFCB300CF2367 /* OBAAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAnalytics.h; sourceTree = "<group>"; };
 		669B2F771AEBFCB300CF2367 /* OBAAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAnalytics.m; sourceTree = "<group>"; };
-		669B2F7A1AEBFD7700CF2367 /* libOneBusAwaySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOneBusAwaySDK.a; path = "sdk/build/Debug-iphoneos/libOneBusAwaySDK.a"; sourceTree = "<group>"; };
-		669B2F7C1AEBFDDE00CF2367 /* libOneBusAwaySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOneBusAwaySDK.a; path = "sdk/build/Debug-iphoneos/libOneBusAwaySDK.a"; sourceTree = "<group>"; };
 		669B2F7E1AEBFEBF00CF2367 /* OBARegionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionHelper.h; sourceTree = "<group>"; };
 		669B2F7F1AEBFEBF00CF2367 /* OBARegionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionHelper.m; sourceTree = "<group>"; };
-		669B2F821AEC00B200CF2367 /* libOneBusAwaySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOneBusAwaySDK.a; path = "sdk/build/Debug-iphoneos/libOneBusAwaySDK.a"; sourceTree = "<group>"; };
 		669B2F861AEC016F00CF2367 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		669B2F8B1AEC049D00CF2367 /* libOneBusAwaySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOneBusAwaySDK.a; path = "sdk/build/Debug-iphoneos/libOneBusAwaySDK.a"; sourceTree = "<group>"; };
 		727E52F415824F1200534646 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		923FE67E176082A7009AFDE8 /* UITableViewController+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewController+oba_Additions.h"; sourceTree = "<group>"; };
@@ -354,7 +354,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				669B2F7D1AEBFDDE00CF2367 /* libOneBusAwaySDK.a in Frameworks */,
+				669B2F8C1AEC049D00CF2367 /* libOneBusAwaySDK.a in Frameworks */,
 				9388E9DB1A9BB6EA00C9F6CE /* CoreData.framework in Frameworks */,
 				D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */,
 				96ADB3DF17BDD5DA00314D65 /* libz.dylib in Frameworks */,
@@ -379,7 +379,7 @@
 				669B2F891AEC01A400CF2367 /* SystemConfiguration.framework in Frameworks */,
 				669B2F881AEC017B00CF2367 /* libsqlite3.0.dylib in Frameworks */,
 				669B2F851AEC016B00CF2367 /* libz.dylib in Frameworks */,
-				669B2F831AEC00B300CF2367 /* libOneBusAwaySDK.a in Frameworks */,
+				669B2F8D1AEC04A100CF2367 /* libOneBusAwaySDK.a in Frameworks */,
 				669B2F841AEC00B400CF2367 /* libGoogleAnalyticsServices.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -465,10 +465,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				669B2F8B1AEC049D00CF2367 /* libOneBusAwaySDK.a */,
 				669B2F861AEC016F00CF2367 /* libsqlite3.dylib */,
-				669B2F821AEC00B200CF2367 /* libOneBusAwaySDK.a */,
-				669B2F7C1AEBFDDE00CF2367 /* libOneBusAwaySDK.a */,
-				669B2F7A1AEBFD7700CF2367 /* libOneBusAwaySDK.a */,
 				727E52F415824F1200534646 /* MessageUI.framework */,
 				935846AA17FB9EA40034200C /* Accelerate.framework */,
 				96ADB3DE17BDD5DA00314D65 /* libz.dylib */,
@@ -1101,6 +1099,8 @@
 				669B2F751AEBF92E00CF2367 /* OBAReleaseNotesManager.m in Sources */,
 				669B2F811AEBFEBF00CF2367 /* OBARegionHelper.m in Sources */,
 				93F152F61A9AE91A0015C141 /* OneBusAway_Tests.m in Sources */,
+				669B2F951AEC077C00CF2367 /* TWSReleaseNotesView.m in Sources */,
+				669B2F941AEC077900CF2367 /* TWSReleaseNotesDownloadOperation.m in Sources */,
 				669B2F791AEBFCB300CF2367 /* OBAAnalytics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1265,11 +1265,6 @@
 				INFOPLIST_FILE = "OneBusAway Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/sdk/build/Debug-iphoneos",
-					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
-				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
@@ -1308,11 +1303,6 @@
 				INFOPLIST_FILE = "OneBusAway Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/sdk/build/Debug-iphoneos",
-					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
-				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
@@ -1352,11 +1342,6 @@
 				INFOPLIST_FILE = "OneBusAway Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/sdk/build/Debug-iphoneos",
-					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
-				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
@@ -1396,11 +1381,6 @@
 				INFOPLIST_FILE = "OneBusAway Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/sdk/build/Debug-iphoneos",
-					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
-				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
