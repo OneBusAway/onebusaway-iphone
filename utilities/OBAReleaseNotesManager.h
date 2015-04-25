@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 OneBusAway. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import UIKit;
 
 @interface OBAReleaseNotesManager : NSObject
 + (BOOL)shouldShowReleaseNotes;

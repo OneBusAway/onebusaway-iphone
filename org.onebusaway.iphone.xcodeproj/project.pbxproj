@@ -31,6 +31,15 @@
 		669B2F751AEBF92E00CF2367 /* OBAReleaseNotesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F731AEBF92E00CF2367 /* OBAReleaseNotesManager.m */; };
 		669B2F781AEBFCB300CF2367 /* OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F771AEBFCB300CF2367 /* OBAAnalytics.m */; };
 		669B2F791AEBFCB300CF2367 /* OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F771AEBFCB300CF2367 /* OBAAnalytics.m */; };
+		669B2F7D1AEBFDDE00CF2367 /* libOneBusAwaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 669B2F7C1AEBFDDE00CF2367 /* libOneBusAwaySDK.a */; };
+		669B2F801AEBFEBF00CF2367 /* OBARegionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F7F1AEBFEBF00CF2367 /* OBARegionHelper.m */; };
+		669B2F811AEBFEBF00CF2367 /* OBARegionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F7F1AEBFEBF00CF2367 /* OBARegionHelper.m */; };
+		669B2F831AEC00B300CF2367 /* libOneBusAwaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 669B2F821AEC00B200CF2367 /* libOneBusAwaySDK.a */; };
+		669B2F841AEC00B400CF2367 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08741E1418B0358900251C1B /* libGoogleAnalyticsServices.a */; };
+		669B2F851AEC016B00CF2367 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ADB3DE17BDD5DA00314D65 /* libz.dylib */; };
+		669B2F881AEC017B00CF2367 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D62255AA0F8BCA8F00F139BA /* libsqlite3.0.dylib */; };
+		669B2F891AEC01A400CF2367 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6631B33104DC1BB001C7C90 /* SystemConfiguration.framework */; };
+		669B2F8A1AEC01C000CF2367 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6169A160FC228FB00631BCE /* CoreData.framework */; };
 		727E52F515824F1200534646 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 727E52F415824F1200534646 /* MessageUI.framework */; };
 		923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */; };
 		928E12B217D7863400FD855E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 928E12B117D7863400FD855E /* Images.xcassets */; };
@@ -170,6 +179,12 @@
 		669B2F731AEBF92E00CF2367 /* OBAReleaseNotesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReleaseNotesManager.m; sourceTree = "<group>"; };
 		669B2F761AEBFCB300CF2367 /* OBAAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAnalytics.h; sourceTree = "<group>"; };
 		669B2F771AEBFCB300CF2367 /* OBAAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAnalytics.m; sourceTree = "<group>"; };
+		669B2F7A1AEBFD7700CF2367 /* libOneBusAwaySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOneBusAwaySDK.a; path = "sdk/build/Debug-iphoneos/libOneBusAwaySDK.a"; sourceTree = "<group>"; };
+		669B2F7C1AEBFDDE00CF2367 /* libOneBusAwaySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOneBusAwaySDK.a; path = "sdk/build/Debug-iphoneos/libOneBusAwaySDK.a"; sourceTree = "<group>"; };
+		669B2F7E1AEBFEBF00CF2367 /* OBARegionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionHelper.h; sourceTree = "<group>"; };
+		669B2F7F1AEBFEBF00CF2367 /* OBARegionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionHelper.m; sourceTree = "<group>"; };
+		669B2F821AEC00B200CF2367 /* libOneBusAwaySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOneBusAwaySDK.a; path = "sdk/build/Debug-iphoneos/libOneBusAwaySDK.a"; sourceTree = "<group>"; };
+		669B2F861AEC016F00CF2367 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		727E52F415824F1200534646 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		923FE67E176082A7009AFDE8 /* UITableViewController+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewController+oba_Additions.h"; sourceTree = "<group>"; };
@@ -339,6 +354,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				669B2F7D1AEBFDDE00CF2367 /* libOneBusAwaySDK.a in Frameworks */,
 				9388E9DB1A9BB6EA00C9F6CE /* CoreData.framework in Frameworks */,
 				D6631B34104DC1BB001C7C90 /* SystemConfiguration.framework in Frameworks */,
 				96ADB3DF17BDD5DA00314D65 /* libz.dylib in Frameworks */,
@@ -359,6 +375,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				669B2F8A1AEC01C000CF2367 /* CoreData.framework in Frameworks */,
+				669B2F891AEC01A400CF2367 /* SystemConfiguration.framework in Frameworks */,
+				669B2F881AEC017B00CF2367 /* libsqlite3.0.dylib in Frameworks */,
+				669B2F851AEC016B00CF2367 /* libz.dylib in Frameworks */,
+				669B2F831AEC00B300CF2367 /* libOneBusAwaySDK.a in Frameworks */,
+				669B2F841AEC00B400CF2367 /* libGoogleAnalyticsServices.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,6 +465,10 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				669B2F861AEC016F00CF2367 /* libsqlite3.dylib */,
+				669B2F821AEC00B200CF2367 /* libOneBusAwaySDK.a */,
+				669B2F7C1AEBFDDE00CF2367 /* libOneBusAwaySDK.a */,
+				669B2F7A1AEBFD7700CF2367 /* libOneBusAwaySDK.a */,
 				727E52F415824F1200534646 /* MessageUI.framework */,
 				935846AA17FB9EA40034200C /* Accelerate.framework */,
 				96ADB3DE17BDD5DA00314D65 /* libz.dylib */,
@@ -669,6 +695,8 @@
 		934446791AB10B1D005B3333 /* location */ = {
 			isa = PBXGroup;
 			children = (
+				669B2F7E1AEBFEBF00CF2367 /* OBARegionHelper.h */,
+				669B2F7F1AEBFEBF00CF2367 /* OBARegionHelper.m */,
 			);
 			path = location;
 			sourceTree = "<group>";
@@ -1016,6 +1044,7 @@
 				932BE4BF1AB66D5C0011F2FB /* OBAReportProblemWithStopViewController.m in Sources */,
 				932BE4CE1AB66D710011F2FB /* OBAReportProblemWithTripViewController.m in Sources */,
 				932BE4FB1AB66EDD0011F2FB /* OBAVehicleDetailsController.m in Sources */,
+				669B2F801AEBFEBF00CF2367 /* OBARegionHelper.m in Sources */,
 				934446B81AB10ECA005B3333 /* UITableViewCell+oba_Additions.m in Sources */,
 				932BE4EB1AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.m in Sources */,
 				932BE4C01AB66D5C0011F2FB /* OBAStopViewController.m in Sources */,
@@ -1070,6 +1099,7 @@
 			files = (
 				93F153021A9AEA500015C141 /* OBAURLHelpers_Tests.m in Sources */,
 				669B2F751AEBF92E00CF2367 /* OBAReleaseNotesManager.m in Sources */,
+				669B2F811AEBFEBF00CF2367 /* OBARegionHelper.m in Sources */,
 				93F152F61A9AE91A0015C141 /* OneBusAway_Tests.m in Sources */,
 				669B2F791AEBFCB300CF2367 /* OBAAnalytics.m in Sources */,
 			);
@@ -1094,7 +1124,6 @@
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUILD_VARIANTS = normal;
@@ -1134,12 +1163,6 @@
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)",
-					"$(SRCROOT)/Libraries/GoogleAnalytics",
-					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
-				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					MapKit,
@@ -1149,7 +1172,6 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
@@ -1157,7 +1179,6 @@
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1194,12 +1215,6 @@
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)",
-					"$(SRCROOT)/Libraries/GoogleAnalytics",
-					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
-				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					MapKit,
@@ -1209,7 +1224,6 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = YES;
-				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1217,11 +1231,9 @@
 		93F152F91A9AE91A0015C141 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1253,6 +1265,11 @@
 				INFOPLIST_FILE = "OneBusAway Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/sdk/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
@@ -1262,11 +1279,9 @@
 		93F152FA1A9AE91A0015C141 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1293,6 +1308,11 @@
 				INFOPLIST_FILE = "OneBusAway Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/sdk/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
@@ -1303,11 +1323,9 @@
 		93F152FB1A9AE91A0015C141 /* AppStoreDistribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1334,6 +1352,11 @@
 				INFOPLIST_FILE = "OneBusAway Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/sdk/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
@@ -1344,11 +1367,9 @@
 		93F152FC1A9AE91A0015C141 /* AdHocDistribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1375,6 +1396,11 @@
 				INFOPLIST_FILE = "OneBusAway Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/sdk/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
@@ -1413,48 +1439,59 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/Libraries/**";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/sdk/** $(BUILT_PRODUCTS_DIR)/**";
 			};
 			name = Debug;
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/Libraries/**";
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/sdk/** $(BUILT_PRODUCTS_DIR)/**";
 			};
 			name = Release;
 		};
 		D6575AF50FEE8B0900D6D987 /* AdHocDistribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/Libraries/**";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/sdk/** $(BUILT_PRODUCTS_DIR)/**";
 			};
 			name = AdHocDistribution;
 		};
 		D6575AF60FEE8B0900D6D987 /* AdHocDistribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1491,12 +1528,6 @@
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)",
-					"$(SRCROOT)/Libraries/GoogleAnalytics",
-					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
-				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					MapKit,
@@ -1506,7 +1537,6 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = AdHocDistribution;
@@ -1514,20 +1544,23 @@
 		D6BEE73E10474E58003655A1 /* AppStoreDistribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/Libraries/**";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/sdk/** $(BUILT_PRODUCTS_DIR)/**";
 			};
 			name = AppStoreDistribution;
 		};
 		D6BEE73F10474E58003655A1 /* AppStoreDistribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1564,12 +1597,6 @@
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)",
-					"$(SRCROOT)/Libraries/GoogleAnalytics",
-					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
-				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					MapKit,
@@ -1579,7 +1606,6 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = YES;
-				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = AppStoreDistribution;

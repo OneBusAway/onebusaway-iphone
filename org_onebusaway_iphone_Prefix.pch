@@ -11,8 +11,6 @@
     #import <MapKit/MapKit.h>
     #import "EXTScope.h"
     #import <tgmath.h>
-    #import "OBACommonV1.h"
-    #import "OBACommon.h"
 
     #import "GAI.h"
     #import "GAIFields.h"
