@@ -364,13 +364,20 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
 
     if (source != _obaJsonDataSource) request.checkCode = NO;
 
-    /**
-     TODO - SDK
-    UIApplication *app = [UIApplication sharedApplication];
-    request.bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
-        [request endBackgroundTask];
-    }];
-     */
+    NSObject<OBABackgroundTaskExecutor> * executor = [[self class] sharedBackgroundExecutor];
+    
+    if(executor) {
+        request.bgTask = [executor beginBackgroundTaskWithExpirationHandler:^{
+            if(request.cleanupBlock) {
+                request.cleanupBlock(request.bgTask);
+            }
+        }];
+        
+        [request setCleanupBlock:^(UIBackgroundTaskIdentifier identifier) {
+            return [executor endBackgroundTask:identifier];
+        }];
+    }
+    
     return request;
 }
 
@@ -396,6 +403,18 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
     }
 
     return s;
+}
+
+#pragma mark - OBABackgroundTaskExecutor
+
+static NSObject<OBABackgroundTaskExecutor>* executor;
+
++(NSObject<OBABackgroundTaskExecutor>*) sharedBackgroundExecutor {
+    return executor;
+}
+
++(void) addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*) exc {
+    executor = exc;
 }
 
 @end

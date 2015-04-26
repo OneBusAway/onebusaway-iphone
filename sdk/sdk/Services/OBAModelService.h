@@ -17,8 +17,18 @@
 - (void)cancel;
 @end
 
+/**
+ * This protocol mimics the functionality of UIApplication.  It is placed here to get around Extension only API limitation.
+ */
+@protocol OBABackgroundTaskExecutor <NSObject>
+
+-(UIBackgroundTaskIdentifier) beginBackgroundTaskWithExpirationHandler:(void(^)(void))handler;
+-(UIBackgroundTaskIdentifier) endBackgroundTask:(UIBackgroundTaskIdentifier) task;
+
+@end
 
 @interface OBAModelService : NSObject
+
 
 @property (nonatomic, strong) OBAReferencesV2 *references;
 @property (nonatomic, strong) OBAModelDAO *modelDao;
@@ -30,6 +40,11 @@
 @property (nonatomic, strong) OBALocationManager *locationManager;
 
 @property (nonatomic, strong) NSData *deviceToken;
+
+/**
+ * Registers a background executor to be used by all services.  This method should not be used by extensions.
+ */
++(void) addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*) executor;
 
 /**
  *  Makes an asynchronous request to fetch a stop object.

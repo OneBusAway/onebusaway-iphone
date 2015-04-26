@@ -20,8 +20,9 @@
 }
 
 - (void)dealloc {
-    [self endBackgroundTask];
-}
+    if(self.cleanupBlock) {
+        _bgTask = self.cleanupBlock(_bgTask);
+    }}
 
 - (void)processData:(id)obj withError:(NSError *)error responseCode:(NSUInteger)code completionBlock:(OBADataSourceCompletion)completion {
     NSUInteger responseCode = code;
@@ -56,17 +57,6 @@
     completion(result, responseCode, error);
 }
 
-- (void)endBackgroundTask {
-    /**
-     TODO - SDK
-    if (_bgTask != UIBackgroundTaskInvalid) {
-        UIApplication *app = [UIApplication sharedApplication];
-        [app endBackgroundTask:_bgTask];
-        _bgTask = UIBackgroundTaskInvalid;
-    }
-     */
-}
-
 #pragma mark OBAModelServiceRequest
 
 - (void)cancel {
@@ -80,7 +70,9 @@
     }
 
     self.clean = YES;
-    [self endBackgroundTask];
+    if(self.cleanupBlock) {
+        _bgTask = self.cleanupBlock(_bgTask);
+    }
 }
 
 @end
