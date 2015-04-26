@@ -166,7 +166,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
             self.nearbyRegion = [nearbyRegions objectAtIndex:0];
 
             if (_didJustBeginShowingExperimental && self.nearbyRegion.experimental && _showExperimentalRegions) {
-                [self.appDelegate.modelDao writeSetRegionAutomatically:YES];
+                [self.appDelegate writeSetRegionAutomatically:YES];
                 [self.appDelegate.modelDao setOBARegion:self.nearbyRegion];
                 _didJustBeginShowingExperimental = NO;
             }
@@ -385,7 +385,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
         case OBASectionTypeNearbyRegions:
             region = self.nearbyRegion;
 
-            if ([self.appDelegate.modelDao readSetRegionAutomatically]) {
+            if ([self.appDelegate readSetRegionAutomatically]) {
                 self.checkedItem = indexPath;
             }
 
@@ -394,7 +394,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
         case OBASectionTypeAllRegions:
             region = self.regions[indexPath.row];
 
-            if (![self.appDelegate.modelDao readSetRegionAutomatically] &&
+            if (![self.appDelegate readSetRegionAutomatically] &&
                 [self.appDelegate.modelDao.region.regionName isEqualToString:region.regionName]) {
                 self.checkedItem = indexPath;
             }
@@ -427,14 +427,14 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     switch ([self sectionTypeForSection:indexPath.section]) {
         case OBASectionTypeNearbyRegions:
             region = self.nearbyRegion;
-            [self.appDelegate.modelDao writeSetRegionAutomatically:YES];
+            [self.appDelegate writeSetRegionAutomatically:YES];
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Set region automatically" value:nil];
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"set_region" label:[NSString stringWithFormat:@"Set region automatically: %@",region.regionName] value:nil];
             break;
 
         case OBASectionTypeAllRegions:
             region = self.regions[indexPath.row];
-            [self.appDelegate.modelDao writeSetRegionAutomatically:NO];
+            [self.appDelegate writeSetRegionAutomatically:NO];
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Set region manually" value:nil];
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"set_region" label:[NSString stringWithFormat:@"Set region manually: %@",region.regionName] value:nil];
             break;
@@ -534,12 +534,12 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     if (self.appDelegate.modelDao.region.experimental) {
         //Change to automatic region if available
         if (self.nearbyRegion && !self.nearbyRegion.experimental) {
-            [self.appDelegate.modelDao writeSetRegionAutomatically:YES];
+            [self.appDelegate writeSetRegionAutomatically:YES];
             [self.appDelegate.modelDao setOBARegion:self.nearbyRegion];
         }
         //Otherwise, set region to first in list
         else if (![self isLoading] && _regions.count > 0) {
-            [self.appDelegate.modelDao writeSetRegionAutomatically:NO];
+            [self.appDelegate writeSetRegionAutomatically:NO];
             [self.appDelegate.modelDao setOBARegion:[_regions objectAtIndex:0]];
         }
         //Set region to nil if list is empty

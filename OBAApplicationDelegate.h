@@ -77,4 +77,10 @@
 - (void) regionSelected;
 - (void) showRegionListViewController;
 
+/**
+ * Abstracts OBAModelDAO setters / getters and calls the appropriate analytics methods.
+ */
+-(void) writeSetRegionAutomatically:(BOOL) setRegionAutomatically;
+-(BOOL) readSetRegionAutomatically;
+-(void) setOBARegion:(OBARegionV2*) region;
 @end

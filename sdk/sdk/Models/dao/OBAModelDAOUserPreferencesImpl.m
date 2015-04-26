@@ -207,9 +207,6 @@ static NSString * kMostRecentCustomApiUrlsKey = @"mostRecentCustomApiUrls";
 	}
 	@catch (NSException * e) {
 	}
-/** TODO - SDK
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:region.regionName];
-	*/
 	return region;
 }
 
@@ -218,9 +215,6 @@ static NSString * kMostRecentCustomApiUrlsKey = @"mostRecentCustomApiUrls";
 	NSMutableData * data = [NSMutableData data];
 	[self encodeObject:oBARegion forKey:kOBARegionKey toData:data];
 	[user setObject:data forKey:kOBARegionKey];
-    /** TODO - SDK
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:oBARegion.regionName];
-     */
 }
 
 - (BOOL) readSetRegionAutomatically {
@@ -234,9 +228,6 @@ static NSString * kMostRecentCustomApiUrlsKey = @"mostRecentCustomApiUrls";
     }
     @catch (NSException * e) {
     }
-    /** TODO - SDK
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:(value ? @"YES" : @"NO")];
-    */
     return value;
 }
 
@@ -244,9 +235,6 @@ static NSString * kMostRecentCustomApiUrlsKey = @"mostRecentCustomApiUrls";
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
     NSNumber * v = @(setRegionAutomatically);
     [user setObject:v forKey:kSetRegionAutomaticallyKey];
-    /** TODO - SDK
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:(setRegionAutomatically ? @"YES" : @"NO")];
-     */
 }
 
 - (NSString*) readCustomApiUrl {
