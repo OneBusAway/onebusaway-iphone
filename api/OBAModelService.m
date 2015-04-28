@@ -9,6 +9,15 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
 
 @implementation OBAModelService
 
+- (NSURL*)urlForStopInfoForId:(NSString *)stopId {
+    stopId = [OBAURLHelpers escapeStringForUrl:stopId];
+    
+    NSString *url = [NSString stringWithFormat:@"/api/where/stop/%@.json", stopId];
+    NSString *args = @"version=2";
+    
+    return [self.obaJsonDataSource urlWithPath:url withArgs:args];
+}
+
 - (id<OBAModelServiceRequest>)requestStopForId:(NSString *)stopId completionBlock:(OBADataSourceCompletion)completion {
     stopId = [OBAURLHelpers escapeStringForUrl:stopId];
 
@@ -17,6 +26,15 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
     SEL selector = @selector(getStopFromJSON:error:);
 
     return [self request:url args:args selector:selector completionBlock:completion progressBlock:nil];
+}
+
+- (NSURL*)urlForStopWithArrivalsAndDeparturesForId:(NSString *)stopId {
+    stopId = [OBAURLHelpers escapeStringForUrl:stopId];
+    
+    NSString *url = [NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", stopId];
+    NSString *args = [NSString stringWithFormat:@"version=2"];
+    
+    return [self.obaJsonDataSource urlWithPath:url withArgs:args];
 }
 
 - (id<OBAModelServiceRequest>)requestStopWithArrivalsAndDeparturesForId:(NSString *)stopId withMinutesBefore:(NSUInteger)minutesBefore withMinutesAfter:(NSUInteger)minutesAfter completionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress {

@@ -54,6 +54,11 @@
     [self cancelOpenConnections];
 }
 
+- (NSURL*) urlWithPath:(NSString*)path withArgs:(NSString*)args {
+    NSURL *feedURL = [self.config constructURL:path withArgs:args includeArgs:YES];
+    return feedURL;
+}
+
 - (id<OBADataSourceConnection>)requestWithPath:(NSString *)path completionBlock:(OBADataSourceCompletion)completion {
     return [self requestWithPath:path withArgs:nil completionBlock:completion progressBlock:nil];
 }

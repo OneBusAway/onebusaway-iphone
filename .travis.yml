@@ -9,6 +9,7 @@ xcode_sdk:
 xcode_scheme:
     - Debug
     - AppStoreRelease
+osx_image: beta-xcode6.2
 notifications:
   webhooks:
     urls:
