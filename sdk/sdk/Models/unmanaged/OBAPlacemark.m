@@ -16,46 +16,42 @@
 
 #import "OBAPlacemark.h"
 
-
 @implementation OBAPlacemark
 
--(id) initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate {
+- (id)initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate {
     self = [super init];
-    if( self ) {
+    if (self) {
         _address = address;
         _coordinate = coordinate;
     }
     return self;
 }
 
-- (id) initWithCoder:(NSCoder*)coder {
+- (id)initWithCoder:(NSCoder*)coder {
     self = [super init];
-    if( self ) {
+    if (self) {
         _name = [coder decodeObjectForKey:@"name"];
         _address =  [coder decodeObjectForKey:@"address"];
         _icon =  [coder decodeObjectForKey:@"icon"];
         NSData * data = [coder decodeObjectForKey:@"coordinate"];
-        [data getBytes:&_coordinate];
+        [data getBytes:&_coordinate length:sizeof(CLLocationCoordinate2D)];
     }
     return self;
 }
 
-
-- (CLLocation*) location {
+- (CLLocation*)location {
     return [[CLLocation alloc] initWithLatitude:_coordinate.latitude longitude:_coordinate.longitude];
 }
 
 #pragma mark MKAnnotation
 
-- (NSString*) title {
-    if( _name )
-        return _name;
-    return _address;
+- (NSString*)title {
+    return _name ?: _address;
 }
 
 #pragma mark NSCoder Methods
 
-- (void) encodeWithCoder: (NSCoder *)coder {
+- (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:_name forKey:@"name"];
     [coder encodeObject:_address forKey:@"address"];
     [coder encodeObject:_icon forKey:@"icon"];

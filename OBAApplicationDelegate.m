@@ -179,14 +179,13 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
     [[UINavigationBar appearance] setTintColor:tintColor];
     [[UISearchBar appearance] setTintColor:tintColor];
     [[UISegmentedControl appearance] setTintColor:tintColor];
-    [[UITabBar appearance] setSelectedImageTintColor:tintColor];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        [[UITabBar appearance] setTintColor:tintColor];
-        [[UITextField appearance] setTintColor:tintColor];
-        [[UISegmentedControl appearance] setTitleTextAttributes:@{UITextAttributeTextColor: [UIColor whiteColor]} forState:UIControlStateNormal];
-        [[UISegmentedControl appearance] setTitleTextAttributes:@{UITextAttributeTextColor: [UIColor whiteColor]} forState:UIControlStateSelected];
-    }
-    
+    [[UITabBar appearance] setTintColor:tintColor];
+    [[UITabBar appearance] setTintColor:tintColor];
+    [[UITextField appearance] setTintColor:tintColor];
+    [[UISegmentedControl appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateNormal];
+    [[UISegmentedControl appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateSelected];
+
+
     self.window.rootViewController = self.tabBarController;
     
     if ([self.modelDao.readCustomApiUrl isEqualToString:@""]) {

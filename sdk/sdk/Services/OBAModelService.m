@@ -44,7 +44,7 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
     return [self requestStopsForQuery:stopQuery withRegion:nil completionBlock:completion];
 }
 
-- (id<OBAModelServiceRequest>)requestStopsForQuery:(NSString *)stopQuery withRegion:(CLRegion *)region completionBlock:(OBADataSourceCompletion)completion {
+- (id<OBAModelServiceRequest>)requestStopsForQuery:(NSString *)stopQuery withRegion:(CLCircularRegion *)region completionBlock:(OBADataSourceCompletion)completion {
     CLLocationDistance radius = kBigSearchRadius;
     CLLocationCoordinate2D coord;
 
@@ -89,7 +89,7 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
     return [self requestRoutesForQuery:routeQuery withRegion:nil completionBlock:completion];
 }
 
-- (id<OBAModelServiceRequest>)requestRoutesForQuery:(NSString *)routeQuery withRegion:(CLRegion *)region completionBlock:(OBADataSourceCompletion)completion {
+- (id<OBAModelServiceRequest>)requestRoutesForQuery:(NSString *)routeQuery withRegion:(CLCircularRegion *)region completionBlock:(OBADataSourceCompletion)completion {
     CLLocationDistance radius = kBigSearchRadius;
     CLLocationCoordinate2D coord;
 
@@ -131,7 +131,10 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
 - (id<OBAModelServiceRequest>)requestRegions:(OBADataSourceCompletion)completion {
     NSString *url = @"/regions-v3.json";
     NSString *args = @"";
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
     SEL selector = @selector(getRegionsV2FromJson:error:);
+#pragma clang diagnostic pop
 
     return [self request:self.obaRegionJsonDataSource url:url args:args selector:selector completionBlock:completion progressBlock:nil];
 }

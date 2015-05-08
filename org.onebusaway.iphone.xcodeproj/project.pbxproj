@@ -134,6 +134,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		93D100D41AFC77800035AE2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 669B2D5A1AEBE63800CF2367 /* OneBusAwaySDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 669B2D401AEBE63800CF2367;
+			remoteInfo = OneBusAwaySDK;
+		};
+		93D100D61AFC77800035AE2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 669B2D5A1AEBE63800CF2367 /* OneBusAwaySDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 669B2D4B1AEBE63800CF2367;
+			remoteInfo = OneBusAwaySDKTests;
+		};
 		93F152F71A9AE91A0015C141 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -805,6 +819,15 @@
 			path = protocols;
 			sourceTree = "<group>";
 		};
+		93D100D01AFC77800035AE2A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				93D100D51AFC77800035AE2A /* libOneBusAwaySDK.a */,
+				93D100D71AFC77800035AE2A /* OneBusAwaySDKTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		93F152F21A9AE91A0015C141 /* OneBusAway Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -927,6 +950,12 @@
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 93D100D01AFC77800035AE2A /* Products */;
+					ProjectRef = 669B2D5A1AEBE63800CF2367 /* OneBusAwaySDK.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* OneBusAway */,
@@ -935,6 +964,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		93D100D51AFC77800035AE2A /* libOneBusAwaySDK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libOneBusAwaySDK.a;
+			remoteRef = 93D100D41AFC77800035AE2A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		93D100D71AFC77800035AE2A /* OneBusAwaySDKTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OneBusAwaySDKTests.xctest;
+			remoteRef = 93D100D61AFC77800035AE2A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1D60588D0D05DD3D006BFB54 /* Resources */ = {
@@ -1162,7 +1208,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					MapKit,
@@ -1214,7 +1260,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					MapKit,
@@ -1507,7 +1553,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					MapKit,
@@ -1576,7 +1622,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					MapKit,
