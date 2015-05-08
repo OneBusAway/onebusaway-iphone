@@ -13,6 +13,9 @@
  */
 
 #import "OBAAnalytics.h"
+#import "GAI.h"
+#import "GAIFields.h"
+#import "GAIDictionaryBuilder.h"
 
 NSString * const OBAAnalyticsCategoryAppSettings = @"app_settings";
 NSString * const OBAAnalyticsCategoryUIAction = @"ui_action";

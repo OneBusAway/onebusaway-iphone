@@ -15,6 +15,7 @@
  */
 
 #import "OBAProgressIndicatorView.h"
+#import "OBACommonV1.h"
 
 @interface OBAProgressIndicatorView (Private)
 

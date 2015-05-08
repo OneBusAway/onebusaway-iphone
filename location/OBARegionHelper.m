@@ -91,7 +91,7 @@
         [self.regions removeObjectsInArray:regionsToRemove];
 
         if (self.regions.count == 0) {
-            [self.appDelegate.modelDao writeSetRegionAutomatically:NO];
+            [self.appDelegate writeSetRegionAutomatically:NO];
             [self.appDelegate.locationManager removeDelegate:self];
             [self.appDelegate showRegionListViewController];
             return;
@@ -125,7 +125,7 @@
         [self.appDelegate.modelDao setOBARegion:self.regions[0]];
         [self.appDelegate refreshSettings];
         [self.appDelegate.locationManager removeDelegate:self];
-        [self.appDelegate.modelDao writeSetRegionAutomatically:YES];
+        [self.appDelegate writeSetRegionAutomatically:YES];
 
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region_auto" label:[NSString stringWithFormat:@"Set Region Automatically: %@; Old Region: %@", self.appDelegate.modelDao.region.regionName, oldRegion] value:nil];
     }

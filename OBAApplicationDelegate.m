@@ -42,7 +42,7 @@ static NSString *const kTrackingId = @"UA-2423527-17";
 static NSString *const kAllowTracking = @"allowTracking";
 static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
 
-@interface OBAApplicationDelegate ()
+@interface OBAApplicationDelegate () <OBABackgroundTaskExecutor>
 @property(nonatomic,readwrite) BOOL active;
 @property(nonatomic) OBARegionHelper *regionHelper;
 @end
@@ -77,6 +77,22 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
 }
 
 
+-(void) writeSetRegionAutomatically:(BOOL) setRegionAutomatically {
+    [self.modelDao writeSetRegionAutomatically:setRegionAutomatically];
+    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:(setRegionAutomatically ? @"YES" : @"NO")];
+}
+
+-(BOOL) readSetRegionAutomatically {
+    BOOL readSetRegionAuto = self.modelDao.readSetRegionAutomatically;
+    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:(readSetRegionAuto ? @"YES" : @"NO")];
+    return readSetRegionAuto;
+}
+
+-(void) setOBARegion:(OBARegionV2 *)region {
+    [self.modelDao setOBARegion:region];
+     [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:region.regionName];
+}
+
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget {
     [self performSelector:@selector(_navigateToTargetInternal:) withObject:navigationTarget afterDelay:0];
 }
@@ -93,7 +109,7 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
         }
         else {
             self.regionHelper = [[OBARegionHelper alloc] init];
-            [self.modelDao writeSetRegionAutomatically:YES];
+            [self writeSetRegionAutomatically:YES];
             [self.regionHelper updateNearestRegion];
             apiServerName = [NSString stringWithFormat:@"http://%@",apiServerName];
         }
@@ -189,10 +205,24 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
     }
 }
 
+#pragma mark UIApplicaiton Methods
+
+-(UIBackgroundTaskIdentifier) beginBackgroundTaskWithExpirationHandler:(void(^)(void))handler {
+    return [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:handler];
+}
+
+-(UIBackgroundTaskIdentifier) endBackgroundTask:(UIBackgroundTaskIdentifier) task {
+    [[UIApplication sharedApplication] endBackgroundTask:task];
+    return UIBackgroundTaskInvalid;
+}
+
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
+    //Register a background handler with the model service
+    [OBAModelService addBackgroundExecutor:self];
+    
     //Register alert defaults
     NSDictionary *alertDefaults = @{kOBAShowSurveyAlertKey: @(YES)};
     [[NSUserDefaults standardUserDefaults] registerDefaults:alertDefaults];
@@ -213,7 +243,9 @@ static NSString *kOBAShowSurveyAlertKey = @"OBASurveyAlertDefaultsKey";
 #endif
 
     self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
-
+    
+    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:_modelDao.region.regionName];
+    
     [OBAAnalytics configureVoiceOverStatus];
 
     [self _constructUI];
