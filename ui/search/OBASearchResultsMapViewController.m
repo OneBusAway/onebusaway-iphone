@@ -488,7 +488,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         }
 
         self.hideFutureNetworkErrors = YES;
-        self.navigationItem.title = NSLocalizedString(@"Error connecting", @"self.navigationItem.title");
 
         UIAlertView *view = [[UIAlertView alloc] init];
         view.tag = 1;
