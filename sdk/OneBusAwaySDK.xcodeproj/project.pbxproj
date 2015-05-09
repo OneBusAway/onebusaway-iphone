@@ -972,6 +972,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OneBusAwaySDK;
@@ -983,6 +984,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OneBusAwaySDK;
 				SKIP_INSTALL = YES;
@@ -1061,6 +1063,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OneBusAwaySDK;
 				SKIP_INSTALL = YES;
@@ -1121,6 +1124,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OneBusAwaySDK;
 				SKIP_INSTALL = YES;
@@ -1164,6 +1168,7 @@
 				669B2F921AEC071E00CF2367 /* AdHocDistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		669B2D571AEBE63800CF2367 /* Build configuration list for PBXNativeTarget "OneBusAwaySDKTests" */ = {
 			isa = XCConfigurationList;
@@ -1174,6 +1179,7 @@
 				669B2F931AEC071E00CF2367 /* AdHocDistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

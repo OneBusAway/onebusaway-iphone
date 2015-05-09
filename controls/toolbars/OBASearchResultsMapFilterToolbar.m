@@ -36,7 +36,7 @@
         // set up filter toolbar, with "cancel filter" button
         //-------------------------------------------------
         UIBarButtonItem * clearItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:_filterDelegate action:@selector(onFilterClear)];
-        clearItem.style = UIBarButtonItemStyleBordered;
+        clearItem.style = UIBarButtonItemStylePlain;
         
         // right align the clear buttom
         UIBarButtonItem * flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];

@@ -122,7 +122,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (BOOL)outOfServiceArea;
 
 - (CLLocationDistance)getDistanceFrom:(CLLocationCoordinate2D)start to:(CLLocationCoordinate2D)end;
-- (CLRegion *)convertVisibleMapIntoCLRegion;
+- (CLCircularRegion *)convertVisibleMapIntoCLCircularRegion;
 
 - (BOOL)checkStopsInRegion;
 @end
@@ -151,10 +151,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     CGRect indicatorBounds = CGRectMake(12, 12, 36, 36);
 
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        indicatorBounds.origin.y += self.navigationController.navigationBar.frame.size.height +
-            [UIApplication sharedApplication].statusBarFrame.size.height;
-    }
+    indicatorBounds.origin.y += self.navigationController.navigationBar.frame.size.height +
+    [UIApplication sharedApplication].statusBarFrame.size.height;
 
     self.activityIndicatorWrapper = [[UIView alloc] initWithFrame:indicatorBounds];
     self.activityIndicatorWrapper.backgroundColor = OBARGBACOLOR(0, 0, 0, 0.5);
@@ -191,22 +189,17 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     self.navigationItem.leftBarButtonItem = [self getArrowButton];
 
-    self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStyleBordered target:self action:@selector(showListView:)];
+    self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStylePlain target:self action:@selector(showListView:)];
     self.listBarButtonItem.accessibilityLabel = NSLocalizedString(@"Nearby stops list", @"self.listBarButtonItem.accessibilityLabel");
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
 
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-        self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
-        [self.titleView addSubview:self.searchBar];
-        self.navigationItem.titleView = self.titleView;
+    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    [self.titleView addSubview:self.searchBar];
+    self.navigationItem.titleView = self.titleView;
 
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
-            [self setHighContrastStyle];
-        }
-    }
-    else {
-        self.navigationItem.titleView = self.searchBar;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
+        [self setHighContrastStyle];
     }
 
     self.mapLabel.hidden = YES;
@@ -223,12 +216,10 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     labelLayer.shadowOffset = CGSizeMake(0, 0);
     labelLayer.shadowRadius = 7;
 
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        CGRect mapLabelFrame = self.mapLabel.frame;
-        mapLabelFrame.origin.y += self.navigationController.navigationBar.frame.size.height +
-            [UIApplication sharedApplication].statusBarFrame.size.height;
-        self.mapLabel.frame = mapLabelFrame;
-    }
+    CGRect mapLabelFrame = self.mapLabel.frame;
+    mapLabelFrame.origin.y += self.navigationController.navigationBar.frame.size.height +
+    [UIApplication sharedApplication].statusBarFrame.size.height;
+    self.mapLabel.frame = mapLabelFrame;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contrastToggled) name:OBAIncreaseContrastToggledNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onMapTabBarButton) name:@"OBAMapButtonRecenterNotification" object:nil];
@@ -237,19 +228,15 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-        self.mapView.showsUserLocation = YES;
-    }
+    self.mapView.showsUserLocation = YES;
 }
 
 - (void)contrastToggled {
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
-            [self setHighContrastStyle];
-        }
-        else {
-            [self setRegularStyle];
-        }
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
+        [self setHighContrastStyle];
+    }
+    else {
+        [self setRegularStyle];
     }
 
     for (id<MKAnnotation> annotation in [self.mapView annotations]) {
@@ -316,7 +303,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 }
 
 - (UIBarButtonItem *)getArrowButton {
-    UIBarButtonItem *arrowButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lbs_arrow"] style:UIBarButtonItemStyleBordered target:self action:@selector(onCrossHairsButton:)];
+    UIBarButtonItem *arrowButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lbs_arrow"] style:UIBarButtonItemStylePlain target:self action:@selector(onCrossHairsButton:)];
 
     arrowButton.accessibilityLabel = NSLocalizedString(@"my location", @"arrowButton.accessibilityLabel");
     arrowButton.accessibilityHint = NSLocalizedString(@"centers the map on current location", @"arrowButton.accessibilityHint");
@@ -357,7 +344,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Search button clicked" value:nil];
 
     OBANavigationTarget *target = nil;
-    self.searchController.searchRegion = [self convertVisibleMapIntoCLRegion];
+    self.searchController.searchRegion = [self convertVisibleMapIntoCLCircularRegion];
 
     if (kRouteSegmentIndex == self.searchTypeSegmentedControl.selectedSegmentIndex) {
         target = [OBASearch getNavigationTargetForSearchRoute:searchBar.text];
@@ -385,13 +372,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     CGRect finalScopeFrame = self.scopeView.frame;
 
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        finalScopeFrame.origin.y = self.navigationController.navigationBar.frame.size.height +
-            [UIApplication sharedApplication].statusBarFrame.size.height;
-    }
-    else {
-        finalScopeFrame.origin.y = 0;
-    }
+    finalScopeFrame.origin.y = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+
 
     [UIView animateWithDuration:kScopeViewAnimationDuration
                      animations:^{
@@ -434,7 +416,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         NSDictionary *parameters = target.parameters;
         NSData *data = parameters[kOBASearchControllerSearchArgumentParameter];
         MKCoordinateRegion region;
-        [data getBytes:&region];
+        [data getBytes:&region length:sizeof(MKCoordinateRegion)];
         [self.mapRegionManager setRegion:region changeWasProgramatic:NO];
     }
     else {
@@ -710,13 +692,15 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     }
 }
 
-- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id)overlay {
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id <MKOverlay>)overlay {
+
     if ([overlay isKindOfClass:[MKPolyline class]]) {
-        MKPolylineView *polylineView  = [[MKPolylineView alloc] initWithPolyline:overlay];
-        polylineView.fillColor = [UIColor blackColor];
-        polylineView.strokeColor = [UIColor blackColor];
-        polylineView.lineWidth = 5;
-        return polylineView;
+        MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
+        renderer.fillColor = [UIColor blackColor];
+        renderer.strokeColor = [UIColor blackColor];
+        renderer.lineWidth = 5.f;
+
+        return renderer;
     }
     else {
         return nil;
@@ -1363,12 +1347,7 @@ NSInteger sortStopsByDistanceFromLocation(OBAStopV2* stop1, OBAStopV2* stop2, vo
 }
 
 - (void)cancelPressed {
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        self.navigationItem.titleView = self.titleView;
-    }
-    else {
-        self.navigationItem.titleView = self.searchBar;
-    }
+    self.navigationItem.titleView = self.titleView;
 
     [self.searchController searchWithTarget:[OBASearch getNavigationTargetForSearchNone]];
     [self refreshStopsInRegion];
@@ -1442,7 +1421,7 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
     return distance;
 }
 
-- (CLRegion *)convertVisibleMapIntoCLRegion {
+- (CLCircularRegion *)convertVisibleMapIntoCLCircularRegion {
     MKMapRect mRect = self.mapView.visibleMapRect;
     MKMapPoint neMapPoint = MKMapPointMake(MKMapRectGetMaxX(mRect), mRect.origin.y);
     MKMapPoint swMapPoint = MKMapPointMake(mRect.origin.x, MKMapRectGetMaxY(mRect));
@@ -1450,7 +1429,7 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
     CLLocationCoordinate2D swCoord = MKCoordinateForMapPoint(swMapPoint);
     CLLocationDistance diameter = [self getDistanceFrom:neCoord to:swCoord];
 
-    return [[CLRegion alloc] initCircularRegionWithCenter:self.mapView.centerCoordinate radius:(diameter / 2) identifier:@"mapRegion"];
+    return [[CLCircularRegion alloc] initWithCenter:self.mapView.centerCoordinate radius:(diameter / 2) identifier:@"mapRegion"];
 }
 
 - (BOOL)checkStopsInRegion {
@@ -1464,49 +1443,13 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
         [annotations removeObject:self.mapView.userLocation];
     }
 
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        for (id <MKAnnotation> annotation in annotations) {
-            MKAnnotationView *annotationView = [self.mapView viewForAnnotation:annotation];
-            MKCoordinateRegion annotationRegion = [self.mapView convertRect:annotationView.frame toRegionFromView:self.mapView];
-            MKMapRect annotationRect = MKMapRectForCoordinateRegion(annotationRegion);
+    for (id <MKAnnotation> annotation in annotations) {
+        MKAnnotationView *annotationView = [self.mapView viewForAnnotation:annotation];
+        MKCoordinateRegion annotationRegion = [self.mapView convertRect:annotationView.frame toRegionFromView:self.mapView];
+        MKMapRect annotationRect = MKMapRectForCoordinateRegion(annotationRegion);
 
-            if (MKMapRectIntersectsRect(self.mapView.visibleMapRect, annotationRect)) {
-                return YES;
-            }
-        }
-    }
-    else {
-        for (id <MKAnnotation> annotation in annotations) {
-            if ([annotation isKindOfClass:[OBAStopV2 class]]) {
-                OBAStopV2 *stop = (OBAStopV2 *)annotation;
-                CLLocationCoordinate2D annotationCoord = stop.coordinate;
-
-                CGPoint annotationPoint = [self.mapView convertCoordinate:annotationCoord toPointToView:self.mapView];
-                CGRect annotationFrame;
-
-                if (stop.direction.length == 2) {
-                    annotationFrame = CGRectMake(annotationPoint.x - 17.5f, annotationPoint.y - 17.5f, 35.f, 35.f);
-                }
-                else if (stop.direction.length == 1) {
-                    if ([stop.direction isEqualToString:@"E"] || [stop.direction isEqualToString:@"W"]) {
-                        annotationFrame = CGRectMake(annotationPoint.x - 20.5f, annotationPoint.y - 15.f, 41.f, 30.f);
-                    }
-                    else {
-                        annotationFrame = CGRectMake(annotationPoint.x - 15.f, annotationPoint.y - 20.5f, 30.f, 41.f);
-                    }
-                }
-                else {
-                    annotationFrame = CGRectMake(annotationPoint.x - 15.f, annotationPoint.y - 15.f, 30.f, 30.f);
-                }
-
-                MKCoordinateRegion annotationRegion = [self.mapView convertRect:annotationFrame toRegionFromView:self.mapView];
-
-                MKMapRect annotationRect = MKMapRectForCoordinateRegion(annotationRegion);
-
-                if (MKMapRectIntersectsRect(self.mapView.visibleMapRect, annotationRect)) {
-                    return YES;
-                }
-            }
+        if (MKMapRectIntersectsRect(self.mapView.visibleMapRect, annotationRect)) {
+            return YES;
         }
     }
 

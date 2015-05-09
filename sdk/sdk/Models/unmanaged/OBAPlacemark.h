@@ -16,20 +16,13 @@
 
 @import MapKit;
 
-@interface OBAPlacemark : NSObject <NSCoding,MKAnnotation> {
-    NSString * _name;
-    NSString * _address;
-    NSString * _icon;
-    CLLocationCoordinate2D _coordinate;
-}
-
+@interface OBAPlacemark : NSObject <NSCoding, MKAnnotation>
 @property (nonatomic,strong) NSString * name;
 @property (nonatomic,strong) NSString * address;
 @property (nonatomic,strong) NSString * icon;
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 @property (weak, nonatomic,readonly) CLLocation * location;
 
--(id) initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate;
--(id) initWithCoder:(NSCoder*)coder;
+- (id)initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate;
 
 @end
