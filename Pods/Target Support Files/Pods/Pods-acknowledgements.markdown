@@ -3,8 +3,7 @@ This application makes use of the following third party libraries:
 
 ## GoogleAnalytics-iOS-SDK
 
-Copyright 2009 - 2014 Google, Inc. All rights reserved.
-
+Copyright 2009 - 2015 Google, Inc. All rights reserved.
 
 ## MarqueeLabel
 

@@ -9,20 +9,20 @@
 // GoogleAnalytics-iOS-SDK
 #define COCOAPODS_POD_AVAILABLE_GoogleAnalytics_iOS_SDK
 #define COCOAPODS_VERSION_MAJOR_GoogleAnalytics_iOS_SDK 3
-#define COCOAPODS_VERSION_MINOR_GoogleAnalytics_iOS_SDK 10
+#define COCOAPODS_VERSION_MINOR_GoogleAnalytics_iOS_SDK 11
 #define COCOAPODS_VERSION_PATCH_GoogleAnalytics_iOS_SDK 0
 
 // GoogleAnalytics-iOS-SDK/Core
 #define COCOAPODS_POD_AVAILABLE_GoogleAnalytics_iOS_SDK_Core
 #define COCOAPODS_VERSION_MAJOR_GoogleAnalytics_iOS_SDK_Core 3
-#define COCOAPODS_VERSION_MINOR_GoogleAnalytics_iOS_SDK_Core 10
+#define COCOAPODS_VERSION_MINOR_GoogleAnalytics_iOS_SDK_Core 11
 #define COCOAPODS_VERSION_PATCH_GoogleAnalytics_iOS_SDK_Core 0
 
 // MarqueeLabel
 #define COCOAPODS_POD_AVAILABLE_MarqueeLabel
-#define COCOAPODS_VERSION_MAJOR_MarqueeLabel 1
+#define COCOAPODS_VERSION_MAJOR_MarqueeLabel 2
 #define COCOAPODS_VERSION_MINOR_MarqueeLabel 2
-#define COCOAPODS_VERSION_PATCH_MarqueeLabel 2
+#define COCOAPODS_VERSION_PATCH_MarqueeLabel 3
 
 // TWSReleaseNotesView
 #define COCOAPODS_POD_AVAILABLE_TWSReleaseNotesView

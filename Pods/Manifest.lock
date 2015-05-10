@@ -1,7 +1,7 @@
 PODS:
-  - GoogleAnalytics-iOS-SDK (3.10):
-    - GoogleAnalytics-iOS-SDK/Core (= 3.10)
-  - GoogleAnalytics-iOS-SDK/Core (3.10)
+  - GoogleAnalytics-iOS-SDK (3.11):
+    - GoogleAnalytics-iOS-SDK/Core (= 3.11)
+  - GoogleAnalytics-iOS-SDK/Core (3.11)
   - libextobjc (0.4.1):
     - libextobjc/EXTADT (= 0.4.1)
     - libextobjc/EXTConcreteProtocol (= 0.4.1)
@@ -37,19 +37,19 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
   - libextobjc/UmbrellaHeader (0.4.1)
-  - MarqueeLabel (1.2.2)
+  - MarqueeLabel (2.2.3)
   - TWSReleaseNotesView (1.2.0)
 
 DEPENDENCIES:
-  - GoogleAnalytics-iOS-SDK (= 3.10)
+  - GoogleAnalytics-iOS-SDK
   - libextobjc
-  - MarqueeLabel (= 1.2.2)
+  - MarqueeLabel
   - TWSReleaseNotesView
 
 SPEC CHECKSUMS:
-  GoogleAnalytics-iOS-SDK: 4f98a376c1d61e6ac4ca47951655820314856eef
+  GoogleAnalytics-iOS-SDK: fb15cc7e3d01d06d531653f37443fda90274d53d
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
-  MarqueeLabel: f6910c25f86370eeb7c2630a66974cf9c748f7df
+  MarqueeLabel: f03d12e3a1572893f78ecb22aa5dd774099c7208
   TWSReleaseNotesView: 52cfe9ddf562b171998a5f285ca4f843880ce6f8
 
 COCOAPODS: 0.37.1
