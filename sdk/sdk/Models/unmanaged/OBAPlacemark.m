@@ -35,7 +35,7 @@
         _address =  [coder decodeObjectForKey:@"address"];
         _icon =  [coder decodeObjectForKey:@"icon"];
         NSData * data = [coder decodeObjectForKey:@"coordinate"];
-        [data getBytes:&_coordinate];
+        [data getBytes:&_coordinate length:sizeof(CLLocationCoordinate2D)];
     }
     return self;
 }

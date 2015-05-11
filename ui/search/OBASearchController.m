@@ -148,7 +148,7 @@
         case OBASearchTypeRegion: {
             NSData *data = [OBASearch getSearchTypeParameterForNagivationTarget:target];
             MKCoordinateRegion region;
-            [data getBytes:&region];
+            [data getBytes:&region length:sizeof(MKCoordinateRegion)];
 
             return [_modelService requestStopsForRegion:region
                                         completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {

@@ -102,7 +102,7 @@
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
 - (id<OBAModelServiceRequest>)requestStopsForQuery:(NSString *)stopQuery
-                                        withRegion:(CLRegion *)region
+                                        withRegion:(CLCircularRegion *)region
                                    completionBlock:(OBADataSourceCompletion)completion;
 /**
  *  Makes an asynchronous request to fetch a set of stops that belong to a particular route.
@@ -144,7 +144,7 @@
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
 - (id<OBAModelServiceRequest>)requestRoutesForQuery:(NSString *)routeQuery
-                                         withRegion:(CLRegion *)region
+                                         withRegion:(CLCircularRegion *)region
                                     completionBlock:(OBADataSourceCompletion)completion;
 /**
  *  Makes an asynchronous request to fetch a set of placemarks based on address string

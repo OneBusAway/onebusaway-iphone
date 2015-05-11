@@ -154,7 +154,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         self.stopRoutes.backgroundColor = [UIColor clearColor];
         self.stopRoutes.textColor = [UIColor whiteColor];
         self.stopRoutes.font = [UIFont boldSystemFontOfSize:14];
-        self.stopRoutes.continuousMarqueeExtraBuffer = 80;
+        self.stopRoutes.trailingBuffer = 80;
         self.stopRoutes.tapToScroll = YES;
         self.stopRoutes.animationDelay = 0;
         self.stopRoutes.animationCurve = UIViewAnimationOptionCurveLinear;
@@ -171,7 +171,7 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
         self.stopName.backgroundColor = [UIColor clearColor];
         self.stopName.textColor = [UIColor whiteColor];
         self.stopName.font = [UIFont boldSystemFontOfSize:19];
-        self.stopName.continuousMarqueeExtraBuffer = 80;
+        self.stopName.trailingBuffer = 80;
         self.stopName.tapToScroll = YES;
         self.stopName.animationDelay = 0;
         self.stopName.animationCurve = UIViewAnimationOptionCurveLinear;
@@ -313,57 +313,55 @@ static NSString *kOBASurveyURL = @"http://tinyurl.com/stopinfo";
 
 // This method should be used only when there is a survey being conducted.
 - (void)showSurveyPopup {
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0.0")){
-        UIAlertController *surveyAlert = [UIAlertController alertControllerWithTitle:@"Help us improve OneBusAway!"
-                                                                       message:@"Tell us why you might contribute information about bus stops, and you could win a $50 gift card!"
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Take survey"
+    UIAlertController *surveyAlert = [UIAlertController alertControllerWithTitle:@"Help us improve OneBusAway!"
+                                                                         message:@"Tell us why you might contribute information about bus stops, and you could win a $50 gift card!"
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Take survey"
+                                                 style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction *action) {
+                                                   //Open survey in external browser
+                                                   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kOBASurveyURL]];
+                                                   [[NSUserDefaults standardUserDefaults] setBool:NO
+                                                                                           forKey:kOBAShowSurveyAlertKey];
+                                                   [[NSUserDefaults standardUserDefaults] synchronize];
+                                                   [surveyAlert dismissViewControllerAnimated:YES
+                                                                                   completion:nil];
+                                                   
+                                                   [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction
+                                                                                  action:@"button_press"
+                                                                                   label:@"Loaded UW StopInfo survey"
+                                                                                   value:nil];
+                                               }];
+    
+    UIAlertAction *notNow = [UIAlertAction actionWithTitle:@"Not right now"
                                                      style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction *action) {
-                                                       //Open survey in external browser
-                                                       [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kOBASurveyURL]];
-                                                       [[NSUserDefaults standardUserDefaults] setBool:NO
-                                                                                               forKey:kOBAShowSurveyAlertKey];
-                                                       [[NSUserDefaults standardUserDefaults] synchronize];
                                                        [surveyAlert dismissViewControllerAnimated:YES
                                                                                        completion:nil];
-                                                       
-                                                       [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction
-                                                                                      action:@"button_press"
-                                                                                       label:@"Loaded UW StopInfo survey"
-                                                                                       value:nil];
                                                    }];
-        
-        UIAlertAction *notNow = [UIAlertAction actionWithTitle:@"Not right now"
-                                                         style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction *action) {
-                                                           [surveyAlert dismissViewControllerAnimated:YES
-                                                                                           completion:nil];
-                                                       }];
-        
-        UIAlertAction *neverShow = [UIAlertAction actionWithTitle:@"Don't show this again"
-                                                         style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction *action) {
-                                                           [[NSUserDefaults standardUserDefaults] setBool:NO
-                                                                                                   forKey:kOBAShowSurveyAlertKey];
-                                                           [[NSUserDefaults standardUserDefaults] synchronize];
-                                                           [surveyAlert dismissViewControllerAnimated:YES
-                                                                                           completion:nil];
-                                                           [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction
-                                                                                          action:@"button_press"
-                                                                                           label:@"Never show survey alert"
-                                                                                           value:nil];
-                                                       }];
-        
-        
-        
-        [surveyAlert addAction:ok];
-        [surveyAlert addAction:notNow];
-        [surveyAlert addAction:neverShow];
-        
-        [self presentViewController:surveyAlert animated:YES completion:nil];
-    }
+    
+    UIAlertAction *neverShow = [UIAlertAction actionWithTitle:@"Don't show this again"
+                                                        style:UIAlertActionStyleDefault
+                                                      handler:^(UIAlertAction *action) {
+                                                          [[NSUserDefaults standardUserDefaults] setBool:NO
+                                                                                                  forKey:kOBAShowSurveyAlertKey];
+                                                          [[NSUserDefaults standardUserDefaults] synchronize];
+                                                          [surveyAlert dismissViewControllerAnimated:YES
+                                                                                          completion:nil];
+                                                          [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction
+                                                                                         action:@"button_press"
+                                                                                          label:@"Never show survey alert"
+                                                                                          value:nil];
+                                                      }];
+    
+    
+    
+    [surveyAlert addAction:ok];
+    [surveyAlert addAction:notNow];
+    [surveyAlert addAction:neverShow];
+    
+    [self presentViewController:surveyAlert animated:YES completion:nil];
 }
 
 - (OBABookmarkV2*)existingBookmark {

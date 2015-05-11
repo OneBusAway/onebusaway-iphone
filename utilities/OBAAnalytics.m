@@ -43,7 +43,7 @@ NSInteger const OBAAnalyticsDimensionVoiceOver = 4;
 
 + (void)reportScreenView:(NSString *)label {
     [[GAI sharedInstance].defaultTracker set:kGAIScreenName value:label];
-    [[GAI sharedInstance].defaultTracker send:[[GAIDictionaryBuilder createAppView] build]];
+    [[GAI sharedInstance].defaultTracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 + (void)reportViewController:(UIViewController*)viewController {

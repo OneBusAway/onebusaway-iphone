@@ -238,7 +238,7 @@
         self.responseEncoding = NSUTF8StringEncoding;
     }
 
-    self.expectedLength = [response expectedContentLength];
+    self.expectedLength = (NSInteger)response.expectedContentLength;
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSMutableData *)data {

@@ -49,7 +49,7 @@
 @property (strong,readonly) OBASearchResult * result;
 
 @property (weak, nonatomic,readonly) CLLocation * searchLocation;
-@property (nonatomic,strong) CLRegion *searchRegion;
+@property (nonatomic,strong) CLCircularRegion *searchRegion;
 
 @property (nonatomic,strong) NSObject<OBAProgressIndicatorSource>* progress;
 @property (nonatomic,strong) NSError * error;

@@ -47,7 +47,7 @@
     [super viewDidLoad];
 
     if (self.isModal) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"map"] style:UIBarButtonItemStyleBordered target:self action:@selector(dismissModal)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"map"] style:UIBarButtonItemStylePlain target:self action:@selector(dismissModal)];
     }
 
     CGFloat height = 2.f * CGRectGetHeight(self.view.frame);
