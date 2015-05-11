@@ -18,7 +18,7 @@
         
         self.navigationItem.title = NSLocalizedString(@"Report a Problem",@"self.navigationItem.title");
         
-        UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Report",@"UIBarButtonItem initWithTitle") style:UIBarButtonItemStyleBordered target:nil action:nil];
+        UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Report",@"UIBarButtonItem initWithTitle") style:UIBarButtonItemStylePlain target:nil action:nil];
         self.navigationItem.backBarButtonItem = item;
     }
     return self;

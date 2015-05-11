@@ -36,7 +36,7 @@
         // set up filter toolbar, with "cancel filter" button
         //-------------------------------------------------
         UIBarButtonItem * clearItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:_filterDelegate action:@selector(onFilterClear)];
-        clearItem.style = UIBarButtonItemStyleBordered;
+        clearItem.style = UIBarButtonItemStylePlain;
         
         // right align the clear buttom
         UIBarButtonItem * flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
@@ -68,11 +68,11 @@
     // Find size for the title text
     NSString* filterLabelText     = NSLocalizedString(@"Search: ",@"setupLabels text");
     UIFont*   filterLabelFont     = [UIFont boldSystemFontOfSize:filterFontSize];
-    CGSize    filterLabelTextSize = [filterLabelText sizeWithFont:filterLabelFont];
+    CGSize    filterLabelTextSize = [filterLabelText sizeWithAttributes:@{NSFontAttributeName: filterLabelFont}];
     
     // Find size for the description text
     UIFont*   filterDescFont     = [UIFont systemFontOfSize:filterFontSize];
-    CGSize    filterDescTextSize = [self.filterDescription sizeWithFont:filterLabelFont];
+    CGSize    filterDescTextSize = [self.filterDescription sizeWithAttributes:@{NSFontAttributeName: filterLabelFont}];
     
     // Find total width of concatenated strings
     const CGFloat filterLabelAndDescSeparation = 0.0;

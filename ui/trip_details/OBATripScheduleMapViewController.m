@@ -22,7 +22,7 @@ static const NSString *kShapeContext = @"ShapeContext";
 @property (nonatomic, strong) NSDateFormatter *timeFormatter;
 
 @property (nonatomic, strong) MKPolyline *routePolyline;
-@property (nonatomic, strong) MKPolylineView *routePolylineView;
+@property (nonatomic, strong) MKPolylineRenderer *routePolylineRenderer;
 
 @end
 
@@ -52,7 +52,7 @@ static const NSString *kShapeContext = @"ShapeContext";
     self.navigationItem.rightBarButtonItem.accessibilityLabel = NSLocalizedString(@"Nearby stops list", @"self.navigationItem.rightBarButtonItem.accessibilityLabel");
     self.progressView = [[OBAProgressIndicatorView alloc] initWithFrame:CGRectMake(80, 6, 160, 33)];
     self.navigationItem.titleView = self.progressView;
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Schedule", @"initWithTitle") style:UIBarButtonItemStyleBordered target:nil action:nil];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Schedule", @"initWithTitle") style:UIBarButtonItemStylePlain target:nil action:nil];
     self.navigationItem.backBarButtonItem = backItem;
 }
 
@@ -168,22 +168,20 @@ static const NSString *kShapeContext = @"ShapeContext";
     }
 }
 
-- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id)overlay {
-    MKOverlayView *overlayView = nil;
-
-    if (overlay == _routePolyline) {
-        //if we have not yet created an overlay view for this overlay, create it now.
-        if (_routePolylineView == nil) {
-            _routePolylineView = [[MKPolylineView alloc] initWithPolyline:_routePolyline];
-            _routePolylineView.fillColor = [UIColor blackColor];
-            _routePolylineView.strokeColor = [UIColor blackColor];
-            _routePolylineView.lineWidth = 5;
+- (MKOverlayRenderer*)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
+    if (overlay == self.routePolyline) {
+        if (!self.routePolylineRenderer) {
+            self.routePolylineRenderer = [[MKPolylineRenderer alloc] initWithPolyline:self.routePolyline];
+            self.routePolylineRenderer.fillColor = [UIColor blackColor];
+            self.routePolylineRenderer.strokeColor = [UIColor blackColor];
+            self.routePolylineRenderer.lineWidth = 5;
         }
 
-        overlayView = _routePolylineView;
+        return self.routePolylineRenderer;
     }
-
-    return overlayView;
+    else {
+        return nil;
+    }
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {

@@ -192,11 +192,11 @@
 		932BE4AC1AB66D5C0011F2FB /* OBAGenericStopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAGenericStopViewController.h; sourceTree = "<group>"; };
 		932BE4AD1AB66D5C0011F2FB /* OBAGenericStopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAGenericStopViewController.m; sourceTree = "<group>"; };
 		932BE4AE1AB66D5C0011F2FB /* OBAReportProblemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReportProblemViewController.h; sourceTree = "<group>"; };
-		932BE4AF1AB66D5C0011F2FB /* OBAReportProblemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReportProblemViewController.m; sourceTree = "<group>"; };
+		932BE4AF1AB66D5C0011F2FB /* OBAReportProblemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAReportProblemViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		932BE4B01AB66D5C0011F2FB /* OBAReportProblemWithRecentTripsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReportProblemWithRecentTripsViewController.h; sourceTree = "<group>"; };
 		932BE4B11AB66D5C0011F2FB /* OBAReportProblemWithRecentTripsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReportProblemWithRecentTripsViewController.m; sourceTree = "<group>"; };
 		932BE4B21AB66D5C0011F2FB /* OBAReportProblemWithStopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReportProblemWithStopViewController.h; sourceTree = "<group>"; };
-		932BE4B31AB66D5C0011F2FB /* OBAReportProblemWithStopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReportProblemWithStopViewController.m; sourceTree = "<group>"; };
+		932BE4B31AB66D5C0011F2FB /* OBAReportProblemWithStopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAReportProblemWithStopViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		932BE4B41AB66D5C0011F2FB /* OBAStopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopViewController.h; sourceTree = "<group>"; };
 		932BE4B51AB66D5C0011F2FB /* OBAStopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopViewController.m; sourceTree = "<group>"; };
 		932BE4B61AB66D5C0011F2FB /* OBAStopWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopWebViewController.h; sourceTree = "<group>"; };
@@ -204,13 +204,13 @@
 		932BE4C31AB66D710011F2FB /* OBAArrivalAndDepartureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureViewController.h; sourceTree = "<group>"; };
 		932BE4C41AB66D710011F2FB /* OBAArrivalAndDepartureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureViewController.m; sourceTree = "<group>"; };
 		932BE4C51AB66D710011F2FB /* OBAReportProblemWithTripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReportProblemWithTripViewController.h; sourceTree = "<group>"; };
-		932BE4C61AB66D710011F2FB /* OBAReportProblemWithTripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReportProblemWithTripViewController.m; sourceTree = "<group>"; };
+		932BE4C61AB66D710011F2FB /* OBAReportProblemWithTripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAReportProblemWithTripViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		932BE4C71AB66D710011F2FB /* OBATripDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripDetailsViewController.h; sourceTree = "<group>"; };
 		932BE4C81AB66D710011F2FB /* OBATripDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripDetailsViewController.m; sourceTree = "<group>"; };
 		932BE4C91AB66D710011F2FB /* OBATripScheduleListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripScheduleListViewController.h; sourceTree = "<group>"; };
 		932BE4CA1AB66D710011F2FB /* OBATripScheduleListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripScheduleListViewController.m; sourceTree = "<group>"; };
 		932BE4CB1AB66D710011F2FB /* OBATripScheduleMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripScheduleMapViewController.h; sourceTree = "<group>"; };
-		932BE4CC1AB66D710011F2FB /* OBATripScheduleMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripScheduleMapViewController.m; sourceTree = "<group>"; };
+		932BE4CC1AB66D710011F2FB /* OBATripScheduleMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBATripScheduleMapViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		932BE4D31AB66D890011F2FB /* OBADiversionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADiversionViewController.h; sourceTree = "<group>"; };
 		932BE4D41AB66D890011F2FB /* OBADiversionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADiversionViewController.m; sourceTree = "<group>"; };
 		932BE4D51AB66D890011F2FB /* OBASituationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASituationsViewController.h; sourceTree = "<group>"; };
@@ -232,9 +232,9 @@
 		932BE4F01AB66E990011F2FB /* OBASearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchController.h; sourceTree = "<group>"; };
 		932BE4F11AB66E990011F2FB /* OBASearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearchController.m; sourceTree = "<group>"; };
 		932BE4F21AB66E990011F2FB /* OBASearchResultsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchResultsListViewController.h; sourceTree = "<group>"; };
-		932BE4F31AB66E990011F2FB /* OBASearchResultsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearchResultsListViewController.m; sourceTree = "<group>"; };
+		932BE4F31AB66E990011F2FB /* OBASearchResultsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBASearchResultsListViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		932BE4F41AB66E990011F2FB /* OBASearchResultsMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchResultsMapViewController.h; sourceTree = "<group>"; };
-		932BE4F51AB66E990011F2FB /* OBASearchResultsMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearchResultsMapViewController.m; sourceTree = "<group>"; };
+		932BE4F51AB66E990011F2FB /* OBASearchResultsMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBASearchResultsMapViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		932BE4F91AB66EDD0011F2FB /* OBAVehicleDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAVehicleDetailsController.h; sourceTree = "<group>"; };
 		932BE4FA1AB66EDD0011F2FB /* OBAVehicleDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAVehicleDetailsController.m; sourceTree = "<group>"; };
 		932BE4FD1AB66EF20011F2FB /* OBARecentStopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARecentStopsViewController.h; sourceTree = "<group>"; };
@@ -280,7 +280,7 @@
 		93631E7B1604F9A200CB7209 /* OBANetworkErrorAlertViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANetworkErrorAlertViewDelegate.h; sourceTree = "<group>"; };
 		93631E7C1604F9A200CB7209 /* OBANetworkErrorAlertViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANetworkErrorAlertViewDelegate.m; sourceTree = "<group>"; };
 		93631E7E1604F9A200CB7209 /* OBASearchResultsMapFilterToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchResultsMapFilterToolbar.h; sourceTree = "<group>"; };
-		93631E7F1604F9A200CB7209 /* OBASearchResultsMapFilterToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearchResultsMapFilterToolbar.m; sourceTree = "<group>"; };
+		93631E7F1604F9A200CB7209 /* OBASearchResultsMapFilterToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBASearchResultsMapFilterToolbar.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9388E9DC1A9BCC8900C9F6CE /* feedback_message_body.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = feedback_message_body.html; path = Resources/feedback_message_body.html; sourceTree = "<group>"; };
 		93AD36391603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalEntryTableViewCell.h; sourceTree = "<group>"; };
 		93AD363A1603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalEntryTableViewCell.m; sourceTree = "<group>"; };
@@ -1147,7 +1147,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-weak_framework",
@@ -1201,7 +1201,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-weak_framework",
@@ -1503,7 +1503,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-weak_framework",
@@ -1574,7 +1574,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/infoplist.prefix;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-weak_framework",

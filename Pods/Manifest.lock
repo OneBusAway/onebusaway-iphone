@@ -41,10 +41,10 @@ PODS:
   - TWSReleaseNotesView (1.2.0)
 
 DEPENDENCIES:
-  - GoogleAnalytics-iOS-SDK
-  - libextobjc
-  - MarqueeLabel
-  - TWSReleaseNotesView
+  - GoogleAnalytics-iOS-SDK (= 3.11)
+  - libextobjc (= 0.4.1)
+  - MarqueeLabel (= 2.2.3)
+  - TWSReleaseNotesView (= 1.2.0)
 
 SPEC CHECKSUMS:
   GoogleAnalytics-iOS-SDK: fb15cc7e3d01d06d531653f37443fda90274d53d

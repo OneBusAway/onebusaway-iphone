@@ -10,10 +10,10 @@
 @property (nonatomic, strong) NSString *tripEncodedPolyline;
 
 @property (nonatomic, strong) MKPolyline *routePolyline;
-@property (nonatomic, strong) MKPolylineView *routePolylineView;
+@property (nonatomic, strong) MKPolylineRenderer *routePolylineRenderer;
 
 @property (nonatomic, strong) MKPolyline *reroutePolyline;
-@property (nonatomic, strong) MKPolylineView *reroutePolylineView;
+@property (nonatomic, strong) MKPolylineRenderer *reroutePolylineRenderer;
 
 @property (nonatomic, strong) id<OBAModelServiceRequest> request;
 
@@ -106,30 +106,30 @@
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
 }
 
-- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id)overlay {
-    MKOverlayView *overlayView = nil;
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
+    MKOverlayRenderer *overlayView = nil;
 
     if (overlay == _reroutePolyline) {
         //if we have not yet created an overlay view for this overlay, create it now.
-        if (_reroutePolylineView == nil) {
-            _reroutePolylineView = [[MKPolylineView alloc] initWithPolyline:_reroutePolyline];
-            _reroutePolylineView.fillColor = [UIColor redColor];
-            _reroutePolylineView.strokeColor = [UIColor redColor];
-            _reroutePolylineView.lineWidth = 5;
+        if (_reroutePolylineRenderer == nil) {
+            _reroutePolylineRenderer = [[MKPolylineRenderer alloc] initWithPolyline:_reroutePolyline];
+            _reroutePolylineRenderer.fillColor = [UIColor redColor];
+            _reroutePolylineRenderer.strokeColor = [UIColor redColor];
+            _reroutePolylineRenderer.lineWidth = 5;
         }
 
-        overlayView = _reroutePolylineView;
+        overlayView = _reroutePolylineRenderer;
     }
     else if (overlay == _routePolyline) {
         //if we have not yet created an overlay view for this overlay, create it now.
-        if (_routePolylineView == nil) {
-            _routePolylineView = [[MKPolylineView alloc] initWithPolyline:_routePolyline];
-            _routePolylineView.fillColor = [UIColor blackColor];
-            _routePolylineView.strokeColor = [UIColor blackColor];
-            _routePolylineView.lineWidth = 5;
+        if (_routePolylineRenderer == nil) {
+            _routePolylineRenderer = [[MKPolylineRenderer alloc] initWithPolyline:_routePolyline];
+            _routePolylineRenderer.fillColor = [UIColor blackColor];
+            _routePolylineRenderer.strokeColor = [UIColor blackColor];
+            _routePolylineRenderer.lineWidth = 5;
         }
 
-        overlayView = _routePolylineView;
+        overlayView = _routePolylineRenderer;
     }
 
     return overlayView;

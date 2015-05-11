@@ -47,7 +47,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
         self.navigationItem.title = NSLocalizedString(@"Report a Problem", @"self.navigationItem.title");
 
         UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Custom Title", @"initWithTitle")
-                                                                 style:UIBarButtonItemStyleBordered
+                                                                 style:UIBarButtonItemStylePlain
                                                                 target:nil
                                                                 action:nil];
         self.navigationItem.backBarButtonItem = item;
