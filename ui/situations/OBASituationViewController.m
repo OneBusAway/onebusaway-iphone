@@ -60,7 +60,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
             _diversionPath = diversionPath;
 
         // Mark the situation as visited
-        OBAModelDAO * modelDao = _appDelegate.modelDao;
+        OBAModelDAO * modelDao = [OBAApplication instance].modelDao;
         [modelDao setVisited:YES forSituationWithId:_situation.situationId];
     }
     
@@ -205,7 +205,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 
 - (UITableViewCell*) tableView:(UITableView*)tableView markAsReadCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    OBAModelDAO * modelDao = _appDelegate.modelDao;
+    OBAModelDAO * modelDao = [OBAApplication instance].modelDao;
     BOOL isRead = [modelDao isVisitedSituationWithId:_situation.situationId];
 
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
@@ -231,7 +231,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 
 - (void) didSelectMarkAsReadRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
 
-    OBAModelDAO * modelDao = _appDelegate.modelDao;
+    OBAModelDAO * modelDao = [OBAApplication instance].modelDao;
     BOOL isRead = ! [modelDao isVisitedSituationWithId:_situation.situationId];
     [modelDao setVisited:isRead forSituationWithId:_situation.situationId];
     

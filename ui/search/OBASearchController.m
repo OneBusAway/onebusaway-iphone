@@ -38,7 +38,7 @@
 
 - (id)initWithappDelegate:(OBAApplicationDelegate *)context {
     if (self = [super init]) {
-        _modelService = context.modelService;
+        _modelService = [OBAApplication instance].modelService;
         _searchType = OBASearchTypeNone;
         _progress = [[OBAProgressIndicatorImpl alloc] init];
     }

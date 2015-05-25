@@ -46,8 +46,7 @@
         [routes sortUsingSelector:@selector(compareUsingName:)];
         _routes = routes;
         
-        OBAModelDAO * dao = _appDelegate.modelDao;
-        _preferences = [dao stopPreferencesForStopWithId:stop.stopId];
+        _preferences = [[OBAApplication instance].modelDao stopPreferencesForStopWithId:stop.stopId];
     }
     return self;
 }
@@ -223,8 +222,7 @@
 
 - (IBAction) onSaveButton:(id)sender {
     
-    OBAModelDAO * dao = _appDelegate.modelDao;
-    [dao setStopPreferences:_preferences forStopWithId:_stop.stopId];
+    [[OBAApplication instance].modelDao setStopPreferences:_preferences forStopWithId:_stop.stopId];
     
     // pop to stop view controller are saving settings
     BOOL foundStopViewController = NO;

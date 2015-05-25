@@ -176,7 +176,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         self.tableHeaderView.backgroundColor = OBAGREENBACKGROUND;
         [self.tableHeaderView addSubview:self.stopName];
 
-        OBARegionV2 *region = _appDelegate.modelDao.region;
+        OBARegionV2 *region = [OBAApplication instance].modelDao.region;
 
         if (![region.stopInfoUrl isEqual:[NSNull null]]) {
             self.showInHighContrast = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey];
@@ -257,7 +257,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 }
 
 - (void)openURLS {
-    OBARegionV2 *region = _appDelegate.modelDao.region;
+    OBARegionV2 *region = [OBAApplication instance].modelDao.region;
 
     if (region) {
         NSString *url;
@@ -296,13 +296,13 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (OBABookmarkV2*)existingBookmark {
     OBAStopV2 *stop = _result.stop;
 
-    for (OBABookmarkV2 *bm in [_appDelegate.modelDao bookmarks]) {
+    for (OBABookmarkV2 *bm in [[OBAApplication instance].modelDao bookmarks]) {
         if ([bm.stopIds containsObject:stop.stopId]) {
             return bm;
         }
     }
 
-    for (OBABookmarkGroup *group in [_appDelegate.modelDao bookmarkGroups]) {
+    for (OBABookmarkGroup *group in [[OBAApplication instance].modelDao bookmarkGroups]) {
         for (OBABookmarkV2 *bm in group.bookmarks) {
             if ([bm.stopIds containsObject:stop.stopId]) {
                 return bm;
@@ -573,7 +573,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     [self clearPendingRequest];
     @weakify(self);
-    _request = [_appDelegate.modelService requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter
+    _request = [[OBAApplication instance].modelService requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter
                                                                     completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
         @strongify(self);
         if (error) {
@@ -823,7 +823,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             OBABookmarkV2 *bookmark = [self existingBookmark];
 
             if (!bookmark) {
-                bookmark = [_appDelegate.modelDao createTransientBookmark:_result.stop];
+                bookmark = [[OBAApplication instance].modelDao createTransientBookmark:_result.stop];
 
                 vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:_appDelegate bookmark:bookmark editType:OBABookmarkEditNew];
             }
@@ -883,7 +883,7 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void *context) {
 }
 
 - (void)reloadData {
-    OBAModelDAO *modelDao = _appDelegate.modelDao;
+    OBAModelDAO *modelDao = [OBAApplication instance].modelDao;
 
     OBAStopV2 *stop = _result.stop;
 

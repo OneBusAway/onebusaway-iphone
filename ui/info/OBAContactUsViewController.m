@@ -77,7 +77,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    OBARegionV2 *region = _appDelegate.modelDao.region;
+    OBARegionV2 *region = [OBAApplication instance].modelDao.region;
     if (region.facebookUrl && ![region.facebookUrl isEqualToString:@""]) {
         return kRowCount;
     }
@@ -137,7 +137,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
     uname(&systemInfo);
 
     NSString *appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    CLLocation * location = _appDelegate.locationManager.currentLocation;
+    CLLocation * location = [OBAApplication instance].locationManager.currentLocation;
 
     controller.mailComposeDelegate = self;
     [controller setToRecipients:@[contactEmail]];
@@ -149,9 +149,9 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                              appVersionString,
                              [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding],
                              [[UIDevice currentDevice] systemVersion],
-                             _appDelegate.modelDao.readSetRegionAutomatically ? @"YES" : @"NO",
-                             _appDelegate.modelDao.region.regionName,
-                             _appDelegate.modelDao.readCustomApiUrl,
+                             [OBAApplication instance].modelDao.readSetRegionAutomatically ? @"YES" : @"NO",
+                             [OBAApplication instance].modelDao.region.regionName,
+                             [OBAApplication instance].modelDao.readCustomApiUrl,
                              location.coordinate.latitude,
                              location.coordinate.longitude
                              ];
@@ -162,7 +162,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    OBARegionV2 *region = _appDelegate.modelDao.region;
+    OBARegionV2 *region = [OBAApplication instance].modelDao.region;
     switch( indexPath.row) {
         case kEmailRow:
             {

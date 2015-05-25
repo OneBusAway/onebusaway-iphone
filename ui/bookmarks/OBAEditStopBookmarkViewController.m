@@ -79,13 +79,12 @@
     [super viewWillAppear:animated];
     [self.tableView reloadData];
 
-    OBAModelService *service = _appDelegate.modelService;
     NSArray *stopIds = _bookmark.stopIds;
 
     for (NSUInteger i = 0; i < [stopIds count]; i++) {
         NSString *stopId = stopIds[i];
         NSNumber *index = [NSNumber numberWithInteger:i];
-        [service requestStopForId:stopId
+        [[OBAApplication instance].modelService requestStopForId:stopId
                   completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
                       OBAEntryWithReferencesV2 *entry = responseData;
                       OBAStopV2 *stop = entry.entry;
@@ -166,7 +165,7 @@
 }
 
 - (IBAction)onSaveButton:(id)sender {
-    OBAModelDAO *dao = self.appDelegate.modelDao;
+    OBAModelDAO *dao = [OBAApplication instance].modelDao;
 
     self.bookmark.name = self.textField.text;
 

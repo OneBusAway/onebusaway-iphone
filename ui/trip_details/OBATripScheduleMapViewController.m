@@ -61,7 +61,7 @@ static const NSString *kShapeContext = @"ShapeContext";
 
     if (_tripInstance && !_tripDetails) {
         @weakify(self);
-        _request = [_appDelegate.modelService
+        _request = [[OBAApplication instance].modelService
                     requestTripDetailsForTripInstance:_tripInstance
                                       completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
                                           @strongify(self);
@@ -243,7 +243,7 @@ static const NSString *kShapeContext = @"ShapeContext";
 
     if (trip.shapeId) {
         @weakify(self);
-        _request = [_appDelegate.modelService
+        _request = [[OBAApplication instance].modelService
                     requestShapeForId:trip.shapeId
                       completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
                           @strongify(self);

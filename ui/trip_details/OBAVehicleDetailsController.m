@@ -48,7 +48,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 
 - (id<OBAModelServiceRequest>)handleRefresh {
     @weakify(self);
-    return [self.appDelegate.modelService requestVehicleForId:_vehicleId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+    return [[OBAApplication instance].modelService requestVehicleForId:_vehicleId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
         @strongify(self);
         if (error) {
             [self refreshFailedWithError:error];

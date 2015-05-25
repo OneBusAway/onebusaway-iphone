@@ -204,7 +204,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath  {
     
-    OBAModelDAO * modelDao = self.appDelegate.modelDao;
+    OBAModelDAO * modelDao = [OBAApplication instance].modelDao;
     id obj = [self objectAtRow:indexPath.row];
     if ([obj isMemberOfClass:[OBABookmarkV2 class]]) {
         OBABookmarkV2 * bookmark = (OBABookmarkV2*)obj;
@@ -243,7 +243,7 @@
 
 -(void) tableView: (UITableView *) tableView moveRowAtIndexPath: (NSIndexPath *) oldPath toIndexPath:(NSIndexPath *) newPath {
     OBABookmarkV2 *bookmark = [self objectAtRow:oldPath.row];
-    OBAModelDAO * modelDao = self.appDelegate.modelDao;
+    OBAModelDAO * modelDao = [OBAApplication instance].modelDao;
     
     if (!bookmark.group) {
         NSInteger numOfGroupRows = [self numberOfRowsForBookmarkGroups];
@@ -299,7 +299,7 @@
 }
 
 - (void) _refreshBookmarks {
-    OBAModelDAO * dao = self.appDelegate.modelDao;
+    OBAModelDAO * dao = [OBAApplication instance].modelDao;
     self.bookmarks = dao.bookmarks;
     self.bookmarkGroups = dao.bookmarkGroups;
     self.editButtonItem.enabled = [self canEdit];

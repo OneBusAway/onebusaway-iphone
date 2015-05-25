@@ -412,10 +412,10 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     problem.userComment = _comment;
     problem.userOnVehicle = _onVehicle;
     problem.userVehicleNumber = _vehicleNumber;
-    problem.userLocation = _appDelegate.locationManager.currentLocation;
+    problem.userLocation = [OBAApplication instance].locationManager.currentLocation;
 
     [_activityIndicatorView show:self.view];
-    [_appDelegate.modelService
+    [[OBAApplication instance].modelService
      reportProblemWithTrip:problem
            completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                if (error || !jsonData) {

@@ -58,8 +58,7 @@
 }
 
 - (void)requestShapeForID:(NSString *)shapeId {
-    OBAApplicationDelegate *context = self.appDelegate;
-    OBAModelService *service = context.modelService;
+    OBAModelService *service = [OBAApplication instance].modelService;
     @weakify(self);
     self.request = [service requestShapeForId:shapeId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
         @strongify(self);

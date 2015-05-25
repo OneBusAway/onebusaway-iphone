@@ -273,7 +273,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    OBALocationManager *lm = self.appDelegate.locationManager;
+    OBALocationManager *lm = [OBAApplication instance].locationManager;
     [lm addDelegate:self];
     [lm startUpdatingLocation];
     self.navigationItem.leftBarButtonItem.enabled = lm.locationServicesEnabled;
@@ -288,8 +288,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
-    [self.appDelegate.locationManager stopUpdatingLocation];
-    [self.appDelegate.locationManager removeDelegate:self];
+    [[OBAApplication instance].locationManager stopUpdatingLocation];
+    [[OBAApplication instance].locationManager removeDelegate:self];
 
     [self.filterToolbar hideWithAnimated:NO];
 }
@@ -541,7 +541,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     if (self.searchController.unfilteredSearch) {
         if (self.mapRegionManager.lastRegionChangeWasProgramatic) {
-            OBALocationManager *lm = self.appDelegate.locationManager;
+            OBALocationManager *lm = [OBAApplication instance].locationManager;
             double refreshInterval = [self getRefreshIntervalForLocationAccuracy:lm.currentLocation];
             [self scheduleRefreshOfStopsInRegion:refreshInterval location:lm.currentLocation];
         }
@@ -711,7 +711,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: NO" value:nil];
         } else if (buttonIndex == 1) {
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: YES" value:nil];
-            MKMapRect serviceRect = [self.appDelegate.modelDao.region serviceRect];
+            MKMapRect serviceRect = [[OBAApplication instance].modelDao.region serviceRect];
             [self.mapRegionManager setRegion:MKCoordinateRegionForMapRect(serviceRect)];
         }
     }
@@ -759,7 +759,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 @implementation OBASearchResultsMapViewController (Private)
 
 - (void)refreshCurrentLocation {
-    OBALocationManager *lm = self.appDelegate.locationManager;
+    OBALocationManager *lm = [OBAApplication instance].locationManager;
     CLLocation *location = lm.currentLocation;
 
     if (location) {
@@ -874,7 +874,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     [self refreshSearchToolbar];
     [self checkResults];
     
-    if (self.doneLoadingMap && self.appDelegate.modelDao.region && [self outOfServiceArea]) {
+    if (self.doneLoadingMap && [OBAApplication instance].modelDao.region && [self outOfServiceArea]) {
         [self showOutOfRangeAlert];
     }
 }
@@ -905,8 +905,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 }
 
 - (CLLocation *)currentLocation {
-    if (self.appDelegate.locationManager.currentLocation) {
-        return self.appDelegate.locationManager.currentLocation;
+    if ([OBAApplication instance].locationManager.currentLocation) {
+        return [OBAApplication instance].locationManager.currentLocation;
     }
     else if (self.searchController.searchLocation) {
         return self.searchController.searchLocation;
@@ -921,7 +921,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         UIAlertView * view = [[UIAlertView alloc] init];
         view.delegate = self;
         view.tag = kOBAOutOfRangeAlertViewTag;
-        NSString *regionName = self.appDelegate.modelDao.region.regionName;
+        NSString *regionName = [OBAApplication instance].modelDao.region.regionName;
         view.title = [NSString stringWithFormat:NSLocalizedString(@"Go to %@?",@"Out of range alert title"), regionName];
         view.message = [NSString stringWithFormat:NSLocalizedString(@"You are out of the %@ service area. Go there now?",@"Out of range alert message"), regionName];
         [view addButtonWithTitle:NSLocalizedString(@"No",@"Out of range alert Cancel button")];
@@ -934,8 +934,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (void) showLocationServicesAlert {
     self.navigationItem.leftBarButtonItem.enabled = NO;
 
-    if (![self.appDelegate.modelDao hideFutureLocationWarnings]) {
-        [self.appDelegate.modelDao setHideFutureLocationWarnings:YES];
+    if (![[OBAApplication instance].modelDao hideFutureLocationWarnings]) {
+        [[OBAApplication instance].modelDao setHideFutureLocationWarnings:YES];
 
         UIAlertView *view = [[UIAlertView alloc] init];
         view.title = NSLocalizedString(@"Location Services Disabled", @"view.title");
@@ -1007,7 +1007,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Route", @"route"), param];
 
         case OBASearchTypeRouteStops: {
-            OBARouteV2 *route = [self.appDelegate.references getRouteForId:param];
+            OBARouteV2 *route = [[OBAApplication instance].references getRouteForId:param];
 
             if (route) return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Route", @"route"), [route safeShortName]];
 
@@ -1068,7 +1068,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             break;
     }
 
-    if (self.appDelegate.modelDao.region && [self outOfServiceArea]) {
+    if ([OBAApplication instance].modelDao.region && [self outOfServiceArea]) {
         return NSLocalizedString(@"Out of OneBusAway service area", @"result.outOfRange");
     }
 
@@ -1373,7 +1373,7 @@ NSInteger sortStopsByDistanceFromLocation(OBAStopV2* stop1, OBAStopV2* stop2, vo
 - (BOOL)outOfServiceArea {
     MKMapRect viewRect = self.mapView.visibleMapRect;
 
-    for (OBARegionBoundsV2 *bounds in self.appDelegate.modelDao.region.bounds) {
+    for (OBARegionBoundsV2 *bounds in [OBAApplication instance].modelDao.region.bounds) {
         MKMapPoint a = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
                                                    bounds.lat + bounds.latSpan / 2,
                                                    bounds.lon - bounds.lonSpan / 2));

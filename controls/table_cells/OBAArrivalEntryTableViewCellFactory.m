@@ -174,8 +174,7 @@
         return OBAArrivalEntryTableViewCellAlertStyleNone;
     }
 
-    OBAModelDAO * modelDao = _appDelegate.modelDao;
-    OBAServiceAlertsModel * serviceAlerts = [modelDao getServiceAlertsModelForSituations:situations];
+    OBAServiceAlertsModel * serviceAlerts = [[OBAApplication instance].modelDao getServiceAlertsModelForSituations:situations];
 
     if (serviceAlerts.unreadCount > 0) {
         return OBAArrivalEntryTableViewCellAlertStyleActive;

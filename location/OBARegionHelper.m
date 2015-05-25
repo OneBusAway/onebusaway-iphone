@@ -9,34 +9,24 @@
 #import "OBARegionHelper.h"
 #import "OBAApplicationDelegate.h"
 #import "OBAAnalytics.h"
+#import "OBAApplication.h"
 
 @interface OBARegionHelper ()
 @property (nonatomic) NSMutableArray *regions;
 @property (nonatomic) CLLocation *location;
-@property (nonatomic) OBAApplicationDelegate *appDelegate;
 @end
 
 @implementation OBARegionHelper
 
-- (id)init {
-    self = [super init];
-
-    if (self) {
-        self.appDelegate = APP_DELEGATE;
-    }
-
-    return self;
-}
-
 - (void)updateNearestRegion {
     [self updateRegion];
-    OBALocationManager *lm = self.appDelegate.locationManager;
+    OBALocationManager *lm = [OBAApplication instance].locationManager;
     [lm addDelegate:self];
     [lm startUpdatingLocation];
 }
 
 - (void)updateRegion {
-    [self.appDelegate.modelService
+    [[OBAApplication instance].modelService
      requestRegions:^(id responseData, NSUInteger responseCode, NSError *error) {
          [self processRegionData:responseData];
      }];
@@ -47,7 +37,7 @@
 
     self.regions = [[NSMutableArray alloc] initWithArray:list.values];
 
-    if (self.appDelegate.modelDao.readSetRegionAutomatically && self.appDelegate.locationManager.locationServicesEnabled) {
+    if ([OBAApplication instance].modelDao.readSetRegionAutomatically && [OBAApplication instance].locationManager.locationServicesEnabled) {
         [self setNearestRegion];
     }
     else {
@@ -74,7 +64,7 @@
 
         [self.regions removeObjectsInArray:notSupportedRegions];
 
-        OBALocationManager *lm = self.appDelegate.locationManager;
+        OBALocationManager *lm = [OBAApplication instance].locationManager;
         CLLocation *newLocation = lm.currentLocation;
 
         NSMutableArray *regionsToRemove = [NSMutableArray array];
@@ -91,9 +81,9 @@
         [self.regions removeObjectsInArray:regionsToRemove];
 
         if (self.regions.count == 0) {
-            [self.appDelegate writeSetRegionAutomatically:NO];
-            [self.appDelegate.locationManager removeDelegate:self];
-            [self.appDelegate showRegionListViewController];
+            [APP_DELEGATE writeSetRegionAutomatically:NO];
+            [[OBAApplication instance].locationManager removeDelegate:self];
+            [APP_DELEGATE showRegionListViewController];
             return;
         }
 
@@ -118,32 +108,32 @@
 
         NSString *oldRegion = @"null";
 
-        if (self.appDelegate.modelDao.region != nil) {
-            oldRegion = self.appDelegate.modelDao.region.regionName;
+        if ([OBAApplication instance].modelDao.region != nil) {
+            oldRegion = [OBAApplication instance].modelDao.region.regionName;
         }
 
-        [self.appDelegate.modelDao setOBARegion:self.regions[0]];
-        [self.appDelegate refreshSettings];
-        [self.appDelegate.locationManager removeDelegate:self];
-        [self.appDelegate writeSetRegionAutomatically:YES];
+        [[OBAApplication instance].modelDao setOBARegion:self.regions[0]];
+        [[OBAApplication instance] refreshSettings];
+        [[OBAApplication instance].locationManager removeDelegate:self];
+        [APP_DELEGATE writeSetRegionAutomatically:YES];
 
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region_auto" label:[NSString stringWithFormat:@"Set Region Automatically: %@; Old Region: %@", self.appDelegate.modelDao.region.regionName, oldRegion] value:nil];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region_auto" label:[NSString stringWithFormat:@"Set Region Automatically: %@; Old Region: %@", [OBAApplication instance].modelDao.region.regionName, oldRegion] value:nil];
     }
 }
 
 - (void)setRegion {
-    NSString *regionName = self.appDelegate.modelDao.region.regionName;
+    NSString *regionName = [OBAApplication instance].modelDao.region.regionName;
 
     if (regionName) {
         for (OBARegionV2 *region in self.regions) {
             if ([region.regionName isEqualToString:regionName]) {
-                [self.appDelegate.modelDao setOBARegion:region];
+                [[OBAApplication instance].modelDao setOBARegion:region];
                 break;
             }
         }
     }
     else {
-        [self.appDelegate showRegionListViewController];
+        [APP_DELEGATE showRegionListViewController];
     }
 }
 
@@ -151,19 +141,16 @@
 
 
 - (void)locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
-    OBALocationManager *lm = self.appDelegate.locationManager;
-
-    self.location = lm.currentLocation;
-
-    [self setNearestRegion];
+    self.location = [OBAApplication instance].locationManager.currentLocation;
+   [self setNearestRegion];
 }
 
 - (void)locationManager:(OBALocationManager *)manager didFailWithError:(NSError *)error {
-    if (!self.appDelegate.modelDao.region) {
-        [self.appDelegate showRegionListViewController];
+    if (![OBAApplication instance].modelDao.region) {
+        [APP_DELEGATE showRegionListViewController];
     }
 
-    [self.appDelegate.locationManager removeDelegate:self];
+    [[OBAApplication instance].locationManager removeDelegate:self];
 }
 
 @end

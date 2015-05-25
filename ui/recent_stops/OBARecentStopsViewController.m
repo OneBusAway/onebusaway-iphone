@@ -43,8 +43,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
  
-    OBAModelDAO * modelDao = _appDelegate.modelDao;    
-    _mostRecentStops = modelDao.mostRecentStops;
+    _mostRecentStops = [OBAApplication instance].modelDao.mostRecentStops;
     [self.tableView reloadData];
 }
 

@@ -34,16 +34,14 @@
 
 #import "OBAAnalytics.h"
 
-static NSString * kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 static NSString * kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
 static NSString * kOBAShowExperimentalRegionsDefaultsKey = @"kOBAShowExperimentalRegionsDefaultsKey";
-static NSString * kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
 static NSString *const kTrackingId = @"UA-2423527-17";
 static NSString *const kAllowTracking = @"allowTracking";
 
 @interface OBAApplicationDelegate () <OBABackgroundTaskExecutor>
 @property(nonatomic,readwrite) BOOL active;
-@property(nonatomic) OBARegionHelper *regionHelper;
+@property(nonatomic, strong) OBARegionHelper * regionHelper;
 @end
 
 @implementation OBAApplicationDelegate
@@ -54,97 +52,39 @@ static NSString *const kAllowTracking = @"allowTracking";
     if (self) {
 
         self.active = NO;
-
-        _references = [[OBAReferencesV2 alloc] init];
-        _modelDao = [[OBAModelDAO alloc] init];
-        _locationManager = [[OBALocationManager alloc] initWithModelDao:_modelDao];        
-                
-        _modelService = [[OBAModelService alloc] init];
-        _modelService.references = _references;
-        _modelService.modelDao = _modelDao;
-        
-        OBAModelFactory * modelFactory = [[OBAModelFactory alloc] initWithReferences:_references];
-        _modelService.modelFactory = modelFactory;
-        
-        _modelService.locationManager = _locationManager;
         
         _stopIconFactory = [[OBAStopIconFactory alloc] init];
         
-        [self refreshSettings];
+        [[OBAApplication instance] setRegionRefreshed:^{
+             self.regionHelper = [[OBARegionHelper alloc] init];
+             [self writeSetRegionAutomatically:YES];
+             [self.regionHelper updateNearestRegion];
+        }];
+       
+        [[OBAApplication instance] start];
     }
     return self;
 }
 
 
 -(void) writeSetRegionAutomatically:(BOOL) setRegionAutomatically {
-    [self.modelDao writeSetRegionAutomatically:setRegionAutomatically];
+    [[OBAApplication instance].modelDao writeSetRegionAutomatically:setRegionAutomatically];
     [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:(setRegionAutomatically ? @"YES" : @"NO")];
 }
 
 -(BOOL) readSetRegionAutomatically {
-    BOOL readSetRegionAuto = self.modelDao.readSetRegionAutomatically;
+    BOOL readSetRegionAuto = [OBAApplication instance].modelDao.readSetRegionAutomatically;
     [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:(readSetRegionAuto ? @"YES" : @"NO")];
     return readSetRegionAuto;
 }
 
 -(void) setOBARegion:(OBARegionV2 *)region {
-    [self.modelDao setOBARegion:region];
+    [[OBAApplication instance].modelDao setOBARegion:region];
      [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:region.regionName];
 }
 
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget {
     [self performSelector:@selector(_navigateToTargetInternal:) withObject:navigationTarget afterDelay:0];
-}
-
-- (void)refreshSettings {
-    
-    NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString * apiServerName = nil;
-	if([self.modelDao.readCustomApiUrl isEqualToString:@""]) {
-        if (_modelDao.region != nil) {
-            apiServerName = [NSString stringWithFormat:@"%@", _modelDao.region.obaBaseUrl];
-            // remove the last '/'
-            apiServerName = [apiServerName substringToIndex:[apiServerName length]-1];
-        }
-        else {
-            self.regionHelper = [[OBARegionHelper alloc] init];
-            [self writeSetRegionAutomatically:YES];
-            [self.regionHelper updateNearestRegion];
-            apiServerName = [NSString stringWithFormat:@"http://%@",apiServerName];
-        }
-        
-    } else {
-        apiServerName = [NSString stringWithFormat:@"http://%@",self.modelDao.readCustomApiUrl];
-        if ([apiServerName hasSuffix:@"/"]) {
-            apiServerName = [apiServerName substringToIndex:[apiServerName length]-1];
-        }
-    }
-    
-    NSString * userId = [self userIdFromDefaults:userDefaults];
-    NSString * appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-    NSString * obaArgs = [NSString stringWithFormat:@"key=org.onebusaway.iphone&app_uid=%@&app_ver=%@",userId,appVersion];
-    
-    OBADataSourceConfig * obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:apiServerName args:obaArgs];    
-    OBAJsonDataSource * obaJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:obaDataSourceConfig];
-    _modelService.obaJsonDataSource = obaJsonDataSource;
-    
-    OBADataSourceConfig * googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"https://maps.googleapis.com" args:@"&sensor=true"];
-    OBAJsonDataSource * googleMapsJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
-    _modelService.googleMapsJsonDataSource = googleMapsJsonDataSource;
-    
-    
-    NSString * regionApiServerName = [userDefaults objectForKey:@"oba_region_api_server"];
-    if (regionApiServerName == nil || [regionApiServerName length] == 0) {
-        regionApiServerName = kOBADefaultRegionApiServerName;
-    }
-    
-    regionApiServerName = [NSString stringWithFormat:@"http://%@", regionApiServerName];
-    
-    OBADataSourceConfig * obaRegionDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:regionApiServerName args:obaArgs];
-    OBAJsonDataSource * obaRegionJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:obaRegionDataSourceConfig];
-    _modelService.obaRegionJsonDataSource = obaRegionJsonDataSource;
-    
-    [userDefaults setObject:appVersion forKey:@"oba_application_version"];
 }
 
 - (void)_constructUI
@@ -185,12 +125,12 @@ static NSString *const kAllowTracking = @"allowTracking";
     
     self.window.rootViewController = self.tabBarController;
     
-    if ([self.modelDao.readCustomApiUrl isEqualToString:@""]) {
-        _regionHelper = [[OBARegionHelper alloc] init];
-        if (self.modelDao.readSetRegionAutomatically && self.locationManager.locationServicesEnabled) {
-            [_regionHelper updateNearestRegion];
+    if ([[OBAApplication instance].modelDao.readCustomApiUrl isEqualToString:@""]) {
+        self.regionHelper = [[OBARegionHelper alloc] init];
+        if ([OBAApplication instance].modelDao.readSetRegionAutomatically && [OBAApplication instance].locationManager.locationServicesEnabled) {
+            [self.regionHelper updateNearestRegion];
         } else {
-            [_regionHelper updateRegion];
+            [self.regionHelper updateRegion];
         }
     }
 
@@ -236,7 +176,7 @@ static NSString *const kAllowTracking = @"allowTracking";
 
     self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
     
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:_modelDao.region.regionName];
+    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:[OBAApplication instance].modelDao.region.regionName];
     
     [OBAAnalytics configureVoiceOverStatus];
 
@@ -246,10 +186,10 @@ static NSString *const kAllowTracking = @"allowTracking";
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    CLLocation * location = _locationManager.currentLocation;
+    CLLocation * location = [OBAApplication instance].locationManager.currentLocation;
     if ( location )
     {
-        _modelDao.mostRecentLocation = location;
+        [OBAApplication instance].modelDao.mostRecentLocation = location;
     }
 }
 
@@ -263,12 +203,12 @@ static NSString *const kAllowTracking = @"allowTracking";
     [GAI sharedInstance].optOut =
     ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
 
-    if([self.modelDao.readCustomApiUrl isEqualToString:@""]) {
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:[NSString stringWithFormat:@"API Region: %@",self.modelDao.region.regionName] value:nil];
+    if([[OBAApplication instance].modelDao.readCustomApiUrl isEqualToString:@""]) {
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:[NSString stringWithFormat:@"API Region: %@",[OBAApplication instance].modelDao.region.regionName] value:nil];
     }else{
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:@"API Region: Custom URL" value:nil];
     }
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", (self.modelDao.readSetRegionAutomatically ? @"YES" : @"NO")] value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", ([OBAApplication instance].modelDao.readSetRegionAutomatically ? @"YES" : @"NO")] value:nil];
 
     BOOL _showExperimentalRegions = NO;
     if ([[NSUserDefaults standardUserDefaults] boolForKey: @"kOBAShowExperimentalRegionsDefaultsKey"])
@@ -329,7 +269,7 @@ static NSString *const kAllowTracking = @"allowTracking";
 
 - (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget {
     
-    [_references clear];
+    [[OBAApplication instance].references clear];
     
     [self.mapNavigationController popToRootViewControllerAnimated:NO];
     
@@ -357,32 +297,12 @@ static NSString *const kAllowTracking = @"allowTracking";
     }
 }
 
-- (NSString *)userIdFromDefaults:(NSUserDefaults*)userDefaults {
-    
-    NSString * userId = [userDefaults stringForKey:kOBAHiddenPreferenceUserId];
-    
-    if( ! userId) {
-        CFUUIDRef theUUID = CFUUIDCreate(kCFAllocatorDefault);
-        if (theUUID) {
-            userId = CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, theUUID));
-            CFRelease(theUUID);
-            [userDefaults setObject:userId forKey:kOBAHiddenPreferenceUserId];
-            [userDefaults synchronize];
-        }
-        else {
-            userId = @"anonymous";
-        }
-    }
-    
-    return userId;
-}
-
 - (void)regionSelected {
     [_regionNavigationController removeFromParentViewController];
     _regionNavigationController = nil;
     _regionListViewController = nil;
     
-    [self refreshSettings];
+    [[OBAApplication instance] refreshSettings];
     
     self.window.rootViewController = self.tabBarController;
     [_window makeKeyAndVisible];

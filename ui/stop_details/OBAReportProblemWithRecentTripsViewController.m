@@ -34,7 +34,7 @@
 
         if (arrivalAndDeparture) {
             OBATripInstanceRef *tripInstance = arrivalAndDeparture.tripInstance;
-            [self.appDelegate.modelService
+            [[OBAApplication instance].modelService
              requestTripDetailsForTripInstance:tripInstance
                                completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                    if (jsonData) {

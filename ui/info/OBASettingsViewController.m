@@ -118,10 +118,10 @@ static NSString * kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     
     switch (indexPath.section) {
         case kRegionsSection: {
-            if ([self.appDelegate.modelDao.readCustomApiUrl isEqualToString:@""]) {
-                cell.textLabel.text = self.appDelegate.modelDao.region.regionName;
+            if ([[OBAApplication instance].modelDao.readCustomApiUrl isEqualToString:@""]) {
+                cell.textLabel.text = [OBAApplication instance].modelDao.region.regionName;
             } else {
-                cell.textLabel.text = self.appDelegate.modelDao.readCustomApiUrl;
+                cell.textLabel.text = [OBAApplication instance].modelDao.readCustomApiUrl;
             }
             cell.textLabel.font = [UIFont systemFontOfSize:18];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

@@ -24,7 +24,7 @@
 - (id)initWithAppDelegate:(OBAApplicationDelegate*)appDelegate selectedBookmarkGroup:(OBABookmarkGroup*)group {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         _appDelegate = appDelegate;
-        _groups = [appDelegate.modelDao bookmarkGroups];
+        _groups = [[OBAApplication instance].modelDao bookmarkGroups];
         _selectedGroup = group;
         
         UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onDoneButton:)];
@@ -128,7 +128,7 @@
             [self.delegate didSetBookmarkGroup:nil];
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
-        [self.appDelegate.modelDao removeBookmarkGroup:group];
+        [[OBAApplication instance].modelDao removeBookmarkGroup:group];
         [self _refreshGroups];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
@@ -137,7 +137,7 @@
 #pragma mark - Private
 
 - (void)_refreshGroups {
-    self.groups = [self.appDelegate.modelDao bookmarkGroups];
+    self.groups = [[OBAApplication instance].modelDao bookmarkGroups];
     self.editButtonItem.enabled = (self.groups.count > 0);
 }
 @end

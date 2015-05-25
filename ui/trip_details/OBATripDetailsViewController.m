@@ -56,7 +56,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 }
 
 - (id<OBAModelServiceRequest>)handleRefresh {
-    return [self.appDelegate.modelService
+    return [[OBAApplication instance].modelService
             requestTripDetailsForTripInstance:self.tripInstance
                               completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                   if (error) {
@@ -67,7 +67,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 
                                   self.tripDetails = entry.entry;
 
-                                  self.serviceAlerts = [self.appDelegate.modelDao
+                                  self.serviceAlerts = [[OBAApplication instance].modelDao
                                   getServiceAlertsModelForSituations:self.tripDetails.situations];
 
                                   [self refreshCompleteWithCode:responseCode];

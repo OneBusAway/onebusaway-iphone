@@ -309,10 +309,10 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     problem.stopId = _stop.stopId;
     problem.code = _problemIds[_problemIndex];
     problem.userComment = _comment;
-    problem.userLocation = _appDelegate.locationManager.currentLocation;
+    problem.userLocation = [OBAApplication instance].locationManager.currentLocation;
 
     [_activityIndicatorView show:self.view];
-    [_appDelegate.modelService
+    [[OBAApplication instance].modelService
      reportProblemWithStop:problem
            completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
                if (error || !responseData) {

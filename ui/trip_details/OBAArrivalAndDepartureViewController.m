@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 }
 
 - (id<OBAModelServiceRequest>)handleRefresh {
-    return [self.appDelegate.modelService
+    return [[OBAApplication instance].modelService
             requestArrivalAndDepartureForStop:_instance
                               completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                   if (error) {
@@ -72,8 +72,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
                                   OBAEntryWithReferencesV2 *entry = jsonData;
                                   self.arrivalAndDeparture = entry.entry;
 
-                                  OBAModelDAO *modelDao = self.appDelegate.modelDao;
-                                  self.serviceAlerts = [modelDao getServiceAlertsModelForSituations:self->_arrivalAndDeparture.situations];
+                                  self.serviceAlerts = [[OBAApplication instance].modelDao getServiceAlertsModelForSituations:self->_arrivalAndDeparture.situations];
                                   [self refreshCompleteWithCode:responseCode];
                                   }
                               }];

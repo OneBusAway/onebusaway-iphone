@@ -46,7 +46,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.title = NSLocalizedString(@"Custom API URL", @"title");
-    self.recentUrls = self.appDelegate.modelDao.mostRecentCustomApiUrls;
+    self.recentUrls = [OBAApplication instance].modelDao.mostRecentCustomApiUrls;
     [self hideEmptySeparators];
 }
 
@@ -162,7 +162,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     
     OBATextFieldTableViewCell * cell =  [OBATextFieldTableViewCell getOrCreateCellForTableView:tableView];
     cell.textField.placeholder = @"example.onebusaway.org/api/";
-    cell.textField.text = self.appDelegate.modelDao.readCustomApiUrl;
+    cell.textField.text = [OBAApplication instance].modelDao.readCustomApiUrl;
     cell.textField.delegate = self;
     cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
     cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -191,12 +191,13 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 }
 
 - (void) saveCustomApiUrl {
-    if (![self.customApiUrlTextField.text isEqualToString:self.appDelegate.modelDao.readCustomApiUrl]) {
+    OBAModelDAO * dao = [OBAApplication instance].modelDao;
+    if (![self.customApiUrlTextField.text isEqualToString:dao.readCustomApiUrl]) {
         if ([self.customApiUrlTextField.text length] > 0) {
-            [self.appDelegate.modelDao addCustomApiUrl:self.customApiUrlTextField.text];
-            [self.appDelegate.modelDao writeCustomApiUrl:self.customApiUrlTextField.text];
-            [self.appDelegate.modelDao writeSetRegionAutomatically:NO];
-            [self.appDelegate.modelDao setOBARegion:nil];
+            [dao addCustomApiUrl:self.customApiUrlTextField.text];
+            [dao writeCustomApiUrl:self.customApiUrlTextField.text];
+            [dao writeSetRegionAutomatically:NO];
+            [dao setOBARegion:nil];
             
             [[NSUserDefaults standardUserDefaults] synchronize];
             [self.appDelegate regionSelected];
