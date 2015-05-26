@@ -42,8 +42,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
- 
-    _mostRecentStops = [OBAApplication instance].modelDao.mostRecentStops;
+
+    _mostRecentStops = [OBAApplication sharedApplication].modelDao.mostRecentStops;
     [self.tableView reloadData];
 }
 
@@ -55,23 +55,23 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSUInteger count = [_mostRecentStops count];
-    if( count == 0 ) 
-        count = 1;
+
+    if (count == 0) count = 1;
+
     return count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if( [_mostRecentStops count] == 0 ) {
-        UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-        cell.textLabel.text = NSLocalizedString(@"No recent stops",@"cell.textLabel.text");
+    if ([_mostRecentStops count] == 0) {
+        UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+        cell.textLabel.text = NSLocalizedString(@"No recent stops", @"cell.textLabel.text");
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     else {
-        UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
-        OBAStopAccessEventV2 * event = _mostRecentStops[indexPath.row];
+        UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
+        OBAStopAccessEventV2 *event = _mostRecentStops[indexPath.row];
         cell.textLabel.text = event.title;
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.detailTextLabel.text = event.subtitle;
@@ -83,19 +83,19 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger index = indexPath.row;    
-    if( 0 <= index && index < [_mostRecentStops count] ) {
-        OBAStopAccessEventV2 * event = _mostRecentStops[index];
-        OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationDelegate:_appDelegate stopId:event.stopIds[0]];
+    NSInteger index = indexPath.row;
+
+    if (0 <= index && index < [_mostRecentStops count]) {
+        OBAStopAccessEventV2 *event = _mostRecentStops[index];
+        OBAStopViewController *vc = [[OBAStopViewController alloc] initWithApplicationDelegate:_appDelegate stopId:event.stopIds[0]];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
 #pragma mark OBANavigationTargetAware
 
-- (OBANavigationTarget*) navigationTarget {
+- (OBANavigationTarget *)navigationTarget {
     return [OBANavigationTarget target:OBANavigationTargetTypeRecentStops];
 }
 
 @end
-

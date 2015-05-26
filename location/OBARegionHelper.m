@@ -20,13 +20,13 @@
 
 - (void)updateNearestRegion {
     [self updateRegion];
-    OBALocationManager *lm = [OBAApplication instance].locationManager;
+    OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
     [lm addDelegate:self];
     [lm startUpdatingLocation];
 }
 
 - (void)updateRegion {
-    [[OBAApplication instance].modelService
+    [[OBAApplication sharedApplication].modelService
      requestRegions:^(id responseData, NSUInteger responseCode, NSError *error) {
          [self processRegionData:responseData];
      }];
@@ -37,7 +37,7 @@
 
     self.regions = [[NSMutableArray alloc] initWithArray:list.values];
 
-    if ([OBAApplication instance].modelDao.readSetRegionAutomatically && [OBAApplication instance].locationManager.locationServicesEnabled) {
+    if ([OBAApplication sharedApplication].modelDao.readSetRegionAutomatically && [OBAApplication sharedApplication].locationManager.locationServicesEnabled) {
         [self setNearestRegion];
     }
     else {
@@ -64,7 +64,7 @@
 
         [self.regions removeObjectsInArray:notSupportedRegions];
 
-        OBALocationManager *lm = [OBAApplication instance].locationManager;
+        OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
         CLLocation *newLocation = lm.currentLocation;
 
         NSMutableArray *regionsToRemove = [NSMutableArray array];
@@ -82,7 +82,7 @@
 
         if (self.regions.count == 0) {
             [APP_DELEGATE writeSetRegionAutomatically:NO];
-            [[OBAApplication instance].locationManager removeDelegate:self];
+            [[OBAApplication sharedApplication].locationManager removeDelegate:self];
             [APP_DELEGATE showRegionListViewController];
             return;
         }
@@ -108,26 +108,26 @@
 
         NSString *oldRegion = @"null";
 
-        if ([OBAApplication instance].modelDao.region != nil) {
-            oldRegion = [OBAApplication instance].modelDao.region.regionName;
+        if ([OBAApplication sharedApplication].modelDao.region != nil) {
+            oldRegion = [OBAApplication sharedApplication].modelDao.region.regionName;
         }
 
-        [[OBAApplication instance].modelDao setOBARegion:self.regions[0]];
-        [[OBAApplication instance] refreshSettings];
-        [[OBAApplication instance].locationManager removeDelegate:self];
+        [[OBAApplication sharedApplication].modelDao setOBARegion:self.regions[0]];
+        [[OBAApplication sharedApplication] refreshSettings];
+        [[OBAApplication sharedApplication].locationManager removeDelegate:self];
         [APP_DELEGATE writeSetRegionAutomatically:YES];
 
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region_auto" label:[NSString stringWithFormat:@"Set Region Automatically: %@; Old Region: %@", [OBAApplication instance].modelDao.region.regionName, oldRegion] value:nil];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region_auto" label:[NSString stringWithFormat:@"Set Region Automatically: %@; Old Region: %@", [OBAApplication sharedApplication].modelDao.region.regionName, oldRegion] value:nil];
     }
 }
 
 - (void)setRegion {
-    NSString *regionName = [OBAApplication instance].modelDao.region.regionName;
+    NSString *regionName = [OBAApplication sharedApplication].modelDao.region.regionName;
 
     if (regionName) {
         for (OBARegionV2 *region in self.regions) {
             if ([region.regionName isEqualToString:regionName]) {
-                [[OBAApplication instance].modelDao setOBARegion:region];
+                [[OBAApplication sharedApplication].modelDao setOBARegion:region];
                 break;
             }
         }
@@ -141,16 +141,16 @@
 
 
 - (void)locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
-    self.location = [OBAApplication instance].locationManager.currentLocation;
-   [self setNearestRegion];
+    self.location = [OBAApplication sharedApplication].locationManager.currentLocation;
+    [self setNearestRegion];
 }
 
 - (void)locationManager:(OBALocationManager *)manager didFailWithError:(NSError *)error {
-    if (![OBAApplication instance].modelDao.region) {
+    if (![OBAApplication sharedApplication].modelDao.region) {
         [APP_DELEGATE showRegionListViewController];
     }
 
-    [[OBAApplication instance].locationManager removeDelegate:self];
+    [[OBAApplication sharedApplication].locationManager removeDelegate:self];
 }
 
 @end

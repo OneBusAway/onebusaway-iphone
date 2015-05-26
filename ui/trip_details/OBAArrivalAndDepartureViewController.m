@@ -9,7 +9,7 @@
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 
-typedef NS_ENUM(NSInteger, OBASectionType) {
+typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeTitle,
     OBASectionTypeServiceAlerts,
@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 }
 
 - (id<OBAModelServiceRequest>)handleRefresh {
-    return [[OBAApplication instance].modelService
+    return [[OBAApplication sharedApplication].modelService
             requestArrivalAndDepartureForStop:_instance
                               completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                   if (error) {
@@ -72,7 +72,8 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
                                   OBAEntryWithReferencesV2 *entry = jsonData;
                                   self.arrivalAndDeparture = entry.entry;
 
-                                  self.serviceAlerts = [[OBAApplication instance].modelDao getServiceAlertsModelForSituations:self->_arrivalAndDeparture.situations];
+                                  self.serviceAlerts = [[OBAApplication sharedApplication].modelDao
+                                  getServiceAlertsModelForSituations:self->_arrivalAndDeparture.situations];
                                   [self refreshCompleteWithCode:responseCode];
                                   }
                               }];

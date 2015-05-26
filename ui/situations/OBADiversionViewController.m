@@ -58,30 +58,34 @@
 }
 
 - (void)requestShapeForID:(NSString *)shapeId {
-    OBAModelService *service = [OBAApplication instance].modelService;
+    OBAModelService *service = [OBAApplication sharedApplication].modelService;
+
     @weakify(self);
-    self.request = [service requestShapeForId:shapeId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-        @strongify(self);
+    self.request = [service requestShapeForId:shapeId
+                              completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                                  @strongify(self);
 
-        if (!jsonData) {
-            return;
-        }
+                                  if (!jsonData) {
+                                  return;
+                                  }
 
-        self.tripEncodedPolyline = jsonData;
-        NSArray *points = [OBASphericalGeometryLibrary decodePolylineString:self.tripEncodedPolyline];
+                                  self.tripEncodedPolyline = jsonData;
+                                  NSArray *points = [OBASphericalGeometryLibrary decodePolylineString:self.tripEncodedPolyline];
 
-        CLLocationCoordinate2D *pointArr = malloc(sizeof(CLLocationCoordinate2D) * points.count);
+                                  CLLocationCoordinate2D *pointArr = malloc(sizeof(CLLocationCoordinate2D) * points.count);
 
-        for (NSInteger i = 0; i < points.count; i++) {
-            CLLocation *location = points[i];
-            CLLocationCoordinate2D p = location.coordinate;
-            pointArr[i] = p;
-        }
+                                  for (NSInteger i = 0; i < points.count; i++) {
+                                  CLLocation *location = points[i];
+                                  CLLocationCoordinate2D p = location.coordinate;
+                                  pointArr[i] = p;
+                                  }
 
-        self.routePolyline = [MKPolyline polylineWithCoordinates:pointArr count:points.count];
-        free(pointArr);
-        [self.mapView addOverlay:self.routePolyline];
-    }];
+                                  self.routePolyline = [MKPolyline                 polylineWithCoordinates:pointArr
+                                                                           count:points.count];
+                                  free(pointArr);
+                                  [self.mapView
+                                  addOverlay:self.routePolyline];
+                              }];
 }
 
 #pragma mark MKMapViewDelegate

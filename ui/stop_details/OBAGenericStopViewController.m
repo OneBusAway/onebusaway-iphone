@@ -53,8 +53,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 @property (strong) OBAArrivalsAndDeparturesForStopV2 *result;
 
-@property(strong) OBAProgressIndicatorView * progressView;
-@property(strong) OBAServiceAlertsModel * serviceAlerts;
+@property (strong) OBAProgressIndicatorView *progressView;
+@property (strong) OBAServiceAlertsModel *serviceAlerts;
 @property (nonatomic, strong) UIButton *stopInfoButton;
 @property (nonatomic, strong) UIButton *highContrastStopInfoButton;
 
@@ -176,7 +176,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         self.tableHeaderView.backgroundColor = OBAGREENBACKGROUND;
         [self.tableHeaderView addSubview:self.stopName];
 
-        OBARegionV2 *region = [OBAApplication instance].modelDao.region;
+        OBARegionV2 *region = [OBAApplication sharedApplication].modelDao.region;
 
         if (![region.stopInfoUrl isEqual:[NSNull null]]) {
             self.showInHighContrast = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey];
@@ -194,7 +194,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContrast) name:OBAIncreaseContrastToggledNotification object:nil];
 
             CGFloat infoButtonOriginX = CGRectGetWidth(self.view.bounds) - 25.f - 10.f;
-            
+
             self.highContrastStopInfoButton = [UIButton buttonWithType:UIButtonTypeCustom];
             [self.highContrastStopInfoButton
              setBackgroundImage:[UIImage imageNamed:@"InfoButton.png"]
@@ -257,7 +257,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 }
 
 - (void)openURLS {
-    OBARegionV2 *region = [OBAApplication instance].modelDao.region;
+    OBARegionV2 *region = [OBAApplication sharedApplication].modelDao.region;
 
     if (region) {
         NSString *url;
@@ -268,7 +268,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         NSString *userID = [[NSUserDefaults standardUserDefaults] stringForKey:hiddenPreferenceUserId];
 
         if (![region.stopInfoUrl isEqual:[NSNull null]]) {
-        
             url = [NSString stringWithFormat:@"%@/busstops/%@", stopFinderBaseUrl, stop.stopId];
 
             if (userID.length > 0) {
@@ -293,16 +292,16 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     }
 }
 
-- (OBABookmarkV2*)existingBookmark {
+- (OBABookmarkV2 *)existingBookmark {
     OBAStopV2 *stop = _result.stop;
 
-    for (OBABookmarkV2 *bm in [[OBAApplication instance].modelDao bookmarks]) {
+    for (OBABookmarkV2 *bm in [[OBAApplication sharedApplication].modelDao bookmarks]) {
         if ([bm.stopIds containsObject:stop.stopId]) {
             return bm;
         }
     }
 
-    for (OBABookmarkGroup *group in [[OBAApplication instance].modelDao bookmarkGroups]) {
+    for (OBABookmarkGroup *group in [[OBAApplication sharedApplication].modelDao bookmarkGroups]) {
         for (OBABookmarkV2 *bm in group.bookmarks) {
             if ([bm.stopIds containsObject:stop.stopId]) {
                 return bm;
@@ -573,32 +572,49 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     [self clearPendingRequest];
     @weakify(self);
-    _request = [[OBAApplication instance].modelService requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter
-                                                                    completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-        @strongify(self);
-        if (error) {
-            OBALogWarningWithError(error, @"Error... yay!");
-            [self.progressView setMessage:NSLocalizedString(@"Error connecting", @"requestDidFail") inProgress:NO progress:0];
-        }
-        else if (responseCode >= 300) {
-            NSString *message = (404 == responseCode ? NSLocalizedString(@"Stop not found", @"code == 404") : NSLocalizedString(@"Unknown error", @"code # 404"));
-            [self.progressView setMessage:message inProgress:NO progress:0];
-        }
-        else if (responseData) {
-            NSString *message = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Updated", @"message"), [OBACommon getTimeAsString]];
-            [self.progressView setMessage:message inProgress:NO progress:0];
-            self.result = responseData;
+    _request = [[OBAApplication sharedApplication].modelService
+                requestStopWithArrivalsAndDeparturesForId:_stopId
+                                        withMinutesBefore:_minutesBefore
+                                         withMinutesAfter:_minutesAfter
+                                          completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+                                              @strongify(self);
 
-            // Note the event
-            [[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:self.result.stop];
+                                              if (error) {
+                                              OBALogWarningWithError(error, @"Error... yay!");
+                                              [self.progressView
+                                              setMessage:NSLocalizedString(@"Error connecting", @"requestDidFail")
+                                              inProgress:NO
+                                              progress:0];
+                                              }
+                                              else if (responseCode >= 300) {
+                                              NSString *message = (404 == responseCode ? NSLocalizedString(@"Stop not found", @"code == 404") : NSLocalizedString(@"Unknown error", @"code # 404"));
+                                              [self.progressView
+                                              setMessage:message
+                                              inProgress:NO
+                                              progress:0];
+                                              }
+                                              else if (responseData) {
+                                              NSString *message = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Updated", @"message"), [OBACommon getTimeAsString]];
+                                              [self.progressView
+                                              setMessage:message
+                                              inProgress:NO
+                                              progress:0];
+                                              self.result = responseData;
 
-            [self reloadData];
-        }
+                                              // Note the event
+                                              [[NSNotificationCenter defaultCenter]         postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification
+                                                                        object:self.result.stop];
 
-        [self didFinishRefresh];
-    } progressBlock:^(CGFloat progress) {
-        [self.progressView setInProgress:YES progress:progress];
-    }];
+                                              [self reloadData];
+                                              }
+
+                                              [self didFinishRefresh];
+                                          }
+                                            progressBlock:^(CGFloat progress) {
+                                                [self.progressView
+                                                setInProgress:YES
+                                                progress:progress];
+                                            }];
     _timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 }
 
@@ -823,7 +839,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             OBABookmarkV2 *bookmark = [self existingBookmark];
 
             if (!bookmark) {
-                bookmark = [[OBAApplication instance].modelDao createTransientBookmark:_result.stop];
+                bookmark = [[OBAApplication sharedApplication].modelDao createTransientBookmark:_result.stop];
 
                 vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:_appDelegate bookmark:bookmark editType:OBABookmarkEditNew];
             }
@@ -883,7 +899,7 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void *context) {
 }
 
 - (void)reloadData {
-    OBAModelDAO *modelDao = [OBAApplication instance].modelDao;
+    OBAModelDAO *modelDao = [OBAApplication sharedApplication].modelDao;
 
     OBAStopV2 *stop = _result.stop;
 

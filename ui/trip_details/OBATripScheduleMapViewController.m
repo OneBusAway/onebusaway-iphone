@@ -61,29 +61,37 @@ static const NSString *kShapeContext = @"ShapeContext";
 
     if (_tripInstance && !_tripDetails) {
         @weakify(self);
-        _request = [[OBAApplication instance].modelService
+        _request = [[OBAApplication sharedApplication].modelService
                     requestTripDetailsForTripInstance:_tripInstance
                                       completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
                                           @strongify(self);
+
                                           if (error || responseCode >= 300) {
-                                              [self updateProgressViewWithError:error responseCode:responseCode];
+                                          [self         updateProgressViewWithError:error
+                                             responseCode:responseCode];
                                           }
                                           else {
-                                              OBAEntryWithReferencesV2 *entry = responseData;
-                                              self.tripDetails = entry.entry;
-                                              [self handleTripDetails];
+                                          OBAEntryWithReferencesV2 *entry = responseData;
+                                          self.tripDetails = entry.entry;
+                                          [self handleTripDetails];
                                           }
                                       }
 
-                                      progressBlock:^(CGFloat progress) {
-                                          @strongify(self);
-                                          if (progress > 1.0) {
-                                              [self.progressView setMessage:NSLocalizedString(@"Downloading...", @"message") inProgress:YES progress:progress];
-                                          }
-                                          else {
-                                              [self.progressView setInProgress:YES progress:progress];
-                                          }
-                                      }];
+                                        progressBlock:^(CGFloat progress) {
+                                            @strongify(self);
+
+                                            if (progress > 1.0) {
+                                            [self.progressView
+                                            setMessage:NSLocalizedString(@"Downloading...", @"message")
+                                            inProgress:YES
+                                            progress:progress];
+                                            }
+                                            else {
+                                            [self.progressView
+                                            setInProgress:YES
+                                            progress:progress];
+                                            }
+                                        }];
     }
     else {
         [self handleTripDetails];
@@ -168,7 +176,7 @@ static const NSString *kShapeContext = @"ShapeContext";
     }
 }
 
-- (MKOverlayRenderer*)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
     if (overlay == self.routePolyline) {
         if (!self.routePolylineRenderer) {
             self.routePolylineRenderer = [[MKPolylineRenderer alloc] initWithPolyline:self.routePolyline];
@@ -243,17 +251,22 @@ static const NSString *kShapeContext = @"ShapeContext";
 
     if (trip.shapeId) {
         @weakify(self);
-        _request = [[OBAApplication instance].modelService
+        _request = [[OBAApplication sharedApplication].modelService
                     requestShapeForId:trip.shapeId
                       completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
                           @strongify(self);
+
                           if (responseData) {
-                              NSString *polylineString = responseData;
-                              self.routePolyline = [OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString];
-                              [self.mapView addOverlay:self.routePolyline];
+                          NSString *polylineString = responseData;
+                          self.routePolyline = [OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString];
+                          [self.mapView
+                          addOverlay:self.routePolyline];
                           }
 
-                          [self.progressView setMessage:NSLocalizedString(@"Route Map", @"message") inProgress:NO progress:0];
+                          [self.progressView
+                          setMessage:NSLocalizedString(@"Route Map", @"message")
+                          inProgress:NO
+                          progress:0];
                       }];
     }
 }

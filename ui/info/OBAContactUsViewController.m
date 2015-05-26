@@ -22,11 +22,11 @@
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 
-#define kEmailRow 0
-#define kTwitterRow 1
+#define kEmailRow    0
+#define kTwitterRow  1
 #define kFacebookRow 2
 
-#define kRowCount 3 //including Facebook which is optional
+#define kRowCount    3 //including Facebook which is optional
 
 static NSString *kOBADefaultContactEmail = @"contact@onebusaway.org";
 static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
@@ -39,34 +39,34 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
         self.title = NSLocalizedString(@"Contact Us", @"Contact us tab title");
         self.appDelegate = APP_DELEGATE;
     }
+
     return self;
 }
 
 #pragma mark mail methods
 
-- (void)mailComposeController:(MFMailComposeViewController*)controller  
-          didFinishWithResult:(MFMailComposeResult)result 
-                        error:(NSError*)error;
+- (void)mailComposeController:(MFMailComposeViewController *)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError *)error;
 {
     [self becomeFirstResponder];
     [self dismissViewControllerAnimated:YES completion:nil];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)cantSendEmail
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Setup Mail",@"view.title")
-                                                    message:NSLocalizedString(@"Please setup your Mail app before trying to send an email.",@"view.message")
+- (void)cantSendEmail {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Setup Mail", @"view.title")
+                                                    message:NSLocalizedString(@"Please setup your Mail app before trying to send an email.", @"view.message")
                                                    delegate:nil
                                           cancelButtonTitle:nil
                                           otherButtonTitles:NSLocalizedString(@"Okay", @"Ok button"), nil];
-    
+
     [alert show];
 }
 
 #pragma mark - UIViewController
 
-- (void) viewDidLoad {
+- (void)viewDidLoad {
     [super viewDidLoad];
     [self hideEmptySeparators];
     self.tableView.backgroundView = nil;
@@ -77,31 +77,33 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    OBARegionV2 *region = [OBAApplication instance].modelDao.region;
+    OBARegionV2 *region = [OBAApplication sharedApplication].modelDao.region;
+
     if (region.facebookUrl && ![region.facebookUrl isEqualToString:@""]) {
         return kRowCount;
     }
-    
-    //if no facebook URL 1 less row
-    return (kRowCount-1);
-}
 
+    //if no facebook URL 1 less row
+    return (kRowCount - 1);
+}
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+
     cell.imageView.image = nil;
 
     cell.textLabel.font = [UIFont systemFontOfSize:18];
-    
-    switch( indexPath.row) {
+
+    switch (indexPath.row) {
         case kEmailRow:
             cell.textLabel.text = NSLocalizedString(@"Email", @"Email title");
             break;
+
         case kTwitterRow:
             cell.textLabel.text = NSLocalizedString(@"Twitter", @"Twitter title");
             break;
+
         case kFacebookRow:
             cell.textLabel.text = NSLocalizedString(@"Facebook", @"Facebook title");
             break;
@@ -111,7 +113,6 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 }
 
 - (void)sendFeedbackEmailForRegion:(OBARegionV2 *)region {
-
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Email Link" value:nil];
 
     if (![MFMailComposeViewController canSendMail]) {
@@ -119,15 +120,16 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
         return;
     }
 
-    MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
+    MFMailComposeViewController *controller = [[MFMailComposeViewController alloc] init];
 
     if (!controller) {
         [self cantSendEmail];
         return;
     }
-    
+
     // Create and show composer
     NSString *contactEmail = kOBADefaultContactEmail;
+
     if (region) {
         contactEmail = region.contactEmail;
     }
@@ -137,7 +139,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
     uname(&systemInfo);
 
     NSString *appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    CLLocation * location = [OBAApplication instance].locationManager.currentLocation;
+    CLLocation *location = [OBAApplication sharedApplication].locationManager.currentLocation;
 
     controller.mailComposeDelegate = self;
     [controller setToRecipients:@[contactEmail]];
@@ -147,14 +149,15 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 
     NSString *messageBody = [NSString stringWithFormat:unformattedMessageBody,
                              appVersionString,
-                             [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding],
+                             [NSString stringWithCString:systemInfo.machine
+                                                encoding:NSUTF8StringEncoding],
                              [[UIDevice currentDevice] systemVersion],
-                             [OBAApplication instance].modelDao.readSetRegionAutomatically ? @"YES" : @"NO",
-                             [OBAApplication instance].modelDao.region.regionName,
-                             [OBAApplication instance].modelDao.readCustomApiUrl,
+                             [OBAApplication sharedApplication].modelDao.readSetRegionAutomatically ? @"YES" : @"NO",
+                             [OBAApplication sharedApplication].modelDao.region.regionName,
+                             [OBAApplication sharedApplication].modelDao.readCustomApiUrl,
                              location.coordinate.latitude,
                              location.coordinate.longitude
-                             ];
+        ];
 
     [controller setMessageBody:messageBody isHTML:YES];
 
@@ -162,33 +165,39 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    OBARegionV2 *region = [OBAApplication instance].modelDao.region;
-    switch( indexPath.row) {
-        case kEmailRow:
-            {
-                [self sendFeedbackEmailForRegion:region];
+    OBARegionV2 *region = [OBAApplication sharedApplication].modelDao.region;
+
+    switch (indexPath.row) {
+        case kEmailRow: {
+            [self sendFeedbackEmailForRegion:region];
+        }
+        break;
+
+        case kTwitterRow: {
+            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Twitter Link" value:nil];
+            NSString *twitterUrl = kOBADefaultTwitterURL;
+
+            if (region) {
+                twitterUrl = region.twitterUrl;
             }
-            break;
-        case kTwitterRow:
-            {
-                [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Twitter Link" value:nil];
-                NSString *twitterUrl = kOBADefaultTwitterURL;
-                if (region) {
-                    twitterUrl = region.twitterUrl;
-                }
-                NSString *twitterName = [[twitterUrl componentsSeparatedByString:@"/"] lastObject];
-                if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]]) {
-                    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"app_switch" label:@"Loaded Twitter via App" value:nil];
-                    NSString *url = [NSString stringWithFormat:@"twitter://user?screen_name=%@",twitterName ];
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-                } else {
-                    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"app_switch" label:@"Loaded Twitter via Web" value:nil];
-                    NSString *url = [NSString stringWithFormat:@"http://twitter.com/%@", twitterName];
-                    [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
-                }
+
+            NSString *twitterName = [[twitterUrl componentsSeparatedByString:@"/"] lastObject];
+
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]]) {
+                [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"app_switch" label:@"Loaded Twitter via App" value:nil];
+                NSString *url = [NSString stringWithFormat:@"twitter://user?screen_name=%@", twitterName ];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
             }
-            break;
+            else {
+                [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"app_switch" label:@"Loaded Twitter via Web" value:nil];
+                NSString *url = [NSString stringWithFormat:@"http://twitter.com/%@", twitterName];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+            }
+        }
+        break;
+
         case kFacebookRow:
+
             if (region.facebookUrl) {
                 [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Facebook Link" value:nil];
                 NSString *facebookUrl = region.facebookUrl;
@@ -196,29 +205,28 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 
                 if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"fb://"]]) {
                     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"app_switch" label:@"Loaded Facebook via App" value:nil];
-                    NSString *url = [NSString stringWithFormat:@"fb://profile/%@",facebookPage ];
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
-                } else {
+                    NSString *url = [NSString stringWithFormat:@"fb://profile/%@", facebookPage ];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+                }
+                else {
                     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"app_switch" label:@"Loaded Facebook via Web" value:nil];
                     NSString *url = [NSString stringWithFormat:@"http://facebook.com/%@", facebookPage];
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
                 }
             }
+
             break;
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{        
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 0.0;
 }
 
 #pragma mark OBANavigationTargetAware
 
-- (OBANavigationTarget*) navigationTarget {
+- (OBANavigationTarget *)navigationTarget {
     return [OBANavigationTarget target:OBANavigationTargetTypeContactUs];
 }
 

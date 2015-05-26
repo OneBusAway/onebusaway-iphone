@@ -34,14 +34,16 @@
 
 #import "OBAAnalytics.h"
 
-static NSString * kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
-static NSString * kOBAShowExperimentalRegionsDefaultsKey = @"kOBAShowExperimentalRegionsDefaultsKey";
+static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
+static NSString *kOBAShowExperimentalRegionsDefaultsKey = @"kOBAShowExperimentalRegionsDefaultsKey";
 static NSString *const kTrackingId = @"UA-2423527-17";
 static NSString *const kAllowTracking = @"allowTracking";
 
 @interface OBAApplicationDelegate () <OBABackgroundTaskExecutor>
-@property(nonatomic,readwrite) BOOL active;
-@property(nonatomic, strong) OBARegionHelper * regionHelper;
+@property (nonatomic, readwrite) BOOL active;
+@property (nonatomic, strong) OBARegionHelper *regionHelper;
+@property (nonatomic, strong) id regionObserver;
+
 @end
 
 @implementation OBAApplicationDelegate
@@ -50,45 +52,48 @@ static NSString *const kAllowTracking = @"allowTracking";
     self = [super init];
 
     if (self) {
-
         self.active = NO;
-        
+
         _stopIconFactory = [[OBAStopIconFactory alloc] init];
-        
-        [[OBAApplication instance] setRegionRefreshed:^{
-             self.regionHelper = [[OBARegionHelper alloc] init];
-             [self writeSetRegionAutomatically:YES];
-             [self.regionHelper updateNearestRegion];
-        }];
-       
-        [[OBAApplication instance] start];
+
+
+        self.regionObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kOBAApplicationSettingsRegionRefreshNotification
+                                                                                object:nil
+                                                                                 queue:[NSOperationQueue mainQueue]
+                                                                            usingBlock:^(NSNotification *note) {
+                                                                                self.regionHelper = [[OBARegionHelper alloc] init];
+                                                                                [self writeSetRegionAutomatically:YES];
+                                                                                [self.regionHelper updateNearestRegion];
+                                                                            }];
+
+        [[OBAApplication sharedApplication] start];
     }
+
     return self;
 }
 
-
--(void) writeSetRegionAutomatically:(BOOL) setRegionAutomatically {
-    [[OBAApplication instance].modelDao writeSetRegionAutomatically:setRegionAutomatically];
+- (void)writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
+    [[OBAApplication sharedApplication].modelDao writeSetRegionAutomatically:setRegionAutomatically];
     [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:(setRegionAutomatically ? @"YES" : @"NO")];
 }
 
--(BOOL) readSetRegionAutomatically {
-    BOOL readSetRegionAuto = [OBAApplication instance].modelDao.readSetRegionAutomatically;
+- (BOOL)readSetRegionAutomatically {
+    BOOL readSetRegionAuto = [OBAApplication sharedApplication].modelDao.readSetRegionAutomatically;
+
     [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:(readSetRegionAuto ? @"YES" : @"NO")];
     return readSetRegionAuto;
 }
 
--(void) setOBARegion:(OBARegionV2 *)region {
-    [[OBAApplication instance].modelDao setOBARegion:region];
-     [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:region.regionName];
+- (void)setOBARegion:(OBARegionV2 *)region {
+    [[OBAApplication sharedApplication].modelDao setOBARegion:region];
+    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:region.regionName];
 }
 
-- (void) navigateToTarget:(OBANavigationTarget*)navigationTarget {
+- (void)navigateToTarget:(OBANavigationTarget *)navigationTarget {
     [self performSelector:@selector(_navigateToTargetInternal:) withObject:navigationTarget afterDelay:0];
 }
 
-- (void)_constructUI
-{
+- (void)_constructUI {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor blackColor];
 
@@ -97,7 +102,7 @@ static NSString *const kAllowTracking = @"allowTracking";
     self.mapViewController = [[OBASearchResultsMapViewController alloc] init];
     self.mapViewController.appDelegate = self;
     self.mapNavigationController = [[UINavigationController alloc] initWithRootViewController:self.mapViewController];
-    
+
     self.recentsViewController = [[OBARecentStopsViewController alloc] init];
     self.recentsViewController.appDelegate = self;
     self.recentsNavigationController = [[UINavigationController alloc] initWithRootViewController:self.recentsViewController];
@@ -105,7 +110,7 @@ static NSString *const kAllowTracking = @"allowTracking";
     self.bookmarksViewController = [[OBABookmarksViewController alloc] init];
     self.bookmarksViewController.appDelegate = self;
     self.bookmarksNavigationController = [[UINavigationController alloc] initWithRootViewController:self.bookmarksViewController];
-    
+
     self.infoViewController = [[OBAInfoViewController alloc] init];
     self.infoNavigationController = [[UINavigationController alloc] initWithRootViewController:self.infoViewController];
 
@@ -113,23 +118,25 @@ static NSString *const kAllowTracking = @"allowTracking";
     self.tabBarController.delegate = self;
 
     [self _updateSelectedTabIndex];
-    
+
     UIColor *tintColor = OBAGREEN;
     [[UINavigationBar appearance] setTintColor:tintColor];
     [[UISearchBar appearance] setTintColor:tintColor];
     [[UISegmentedControl appearance] setTintColor:tintColor];
     [[UITabBar appearance] setTintColor:tintColor];
     [[UITextField appearance] setTintColor:tintColor];
-    [[UISegmentedControl appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateNormal];
-    [[UISegmentedControl appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateSelected];
-    
+    [[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateNormal];
+    [[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateSelected];
+
     self.window.rootViewController = self.tabBarController;
-    
-    if ([[OBAApplication instance].modelDao.readCustomApiUrl isEqualToString:@""]) {
+
+    if ([[OBAApplication sharedApplication].modelDao.readCustomApiUrl isEqualToString:@""]) {
         self.regionHelper = [[OBARegionHelper alloc] init];
-        if ([OBAApplication instance].modelDao.readSetRegionAutomatically && [OBAApplication instance].locationManager.locationServicesEnabled) {
+
+        if ([OBAApplication sharedApplication].modelDao.readSetRegionAutomatically && [OBAApplication sharedApplication].locationManager.locationServicesEnabled) {
             [self.regionHelper updateNearestRegion];
-        } else {
+        }
+        else {
             [self.regionHelper updateRegion];
         }
     }
@@ -143,11 +150,11 @@ static NSString *const kAllowTracking = @"allowTracking";
 
 #pragma mark UIApplicaiton Methods
 
--(UIBackgroundTaskIdentifier) beginBackgroundTaskWithExpirationHandler:(void(^)(void))handler {
+- (UIBackgroundTaskIdentifier)beginBackgroundTaskWithExpirationHandler:(void (^)(void))handler {
     return [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:handler];
 }
 
--(UIBackgroundTaskIdentifier) endBackgroundTask:(UIBackgroundTaskIdentifier) task {
+- (UIBackgroundTaskIdentifier)endBackgroundTask:(UIBackgroundTaskIdentifier)task {
     [[UIApplication sharedApplication] endBackgroundTask:task];
     return UIBackgroundTaskInvalid;
 }
@@ -155,12 +162,11 @@ static NSString *const kAllowTracking = @"allowTracking";
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
     //Register a background handler with the model service
     [OBAModelService addBackgroundExecutor:self];
 
     //setup Google Analytics
-    NSDictionary *appDefaults = @{kAllowTracking: @(YES)};
+    NSDictionary *appDefaults = @{ kAllowTracking: @(YES) };
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
 
     // User must be able to opt out of tracking
@@ -175,9 +181,9 @@ static NSString *const kAllowTracking = @"allowTracking";
 #endif
 
     self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
-    
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:[OBAApplication instance].modelDao.region.regionName];
-    
+
+    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:[OBAApplication sharedApplication].modelDao.region.regionName];
+
     [OBAAnalytics configureVoiceOverStatus];
 
     [self _constructUI];
@@ -186,10 +192,10 @@ static NSString *const kAllowTracking = @"allowTracking";
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    CLLocation * location = [OBAApplication instance].locationManager.currentLocation;
-    if ( location )
-    {
-        [OBAApplication instance].modelDao.mostRecentLocation = location;
+    CLLocation *location = [OBAApplication sharedApplication].locationManager.currentLocation;
+
+    if (location) {
+        [OBAApplication sharedApplication].modelDao.mostRecentLocation = location;
     }
 }
 
@@ -201,18 +207,21 @@ static NSString *const kAllowTracking = @"allowTracking";
     self.active = YES;
     self.tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
     [GAI sharedInstance].optOut =
-    ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
+        ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
 
-    if([[OBAApplication instance].modelDao.readCustomApiUrl isEqualToString:@""]) {
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:[NSString stringWithFormat:@"API Region: %@",[OBAApplication instance].modelDao.region.regionName] value:nil];
-    }else{
+    if ([[OBAApplication sharedApplication].modelDao.readCustomApiUrl isEqualToString:@""]) {
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:[NSString stringWithFormat:@"API Region: %@", [OBAApplication sharedApplication].modelDao.region.regionName] value:nil];
+    }
+    else {
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:@"API Region: Custom URL" value:nil];
     }
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", ([OBAApplication instance].modelDao.readSetRegionAutomatically ? @"YES" : @"NO")] value:nil];
+
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", ([OBAApplication sharedApplication].modelDao.readSetRegionAutomatically ? @"YES" : @"NO")] value:nil];
 
     BOOL _showExperimentalRegions = NO;
-    if ([[NSUserDefaults standardUserDefaults] boolForKey: @"kOBAShowExperimentalRegionsDefaultsKey"])
-        _showExperimentalRegions = [[NSUserDefaults standardUserDefaults] boolForKey: @"kOBAShowExperimentalRegionsDefaultsKey"];
+
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"]) _showExperimentalRegions = [[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
+
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Show Experimental Regions: %@", (_showExperimentalRegions ? @"YES" : @"NO")] value:nil];
 }
 
@@ -225,7 +234,8 @@ static NSString *const kAllowTracking = @"allowTracking";
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
     NSUInteger oldIndex = [self.tabBarController.viewControllers indexOfObject:[self.tabBarController selectedViewController]];
     NSUInteger newIndex = [self.tabBarController.viewControllers indexOfObject:viewController];
-    if(newIndex == 0 && newIndex == oldIndex) {
+
+    if (newIndex == 0 && newIndex == oldIndex) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"OBAMapButtonRecenterNotification" object:nil];
     }
 
@@ -239,40 +249,44 @@ static NSString *const kAllowTracking = @"allowTracking";
 
 - (void)_updateSelectedTabIndex {
     NSInteger selectedIndex = 0;
-    NSString * startupView = nil;
+    NSString *startupView = nil;
 
     if ([[NSUserDefaults standardUserDefaults] objectForKey:kOBASelectedTabIndexDefaultsKey]) {
         selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
     }
+
     self.tabBarController.selectedIndex = selectedIndex;
 
     switch (selectedIndex) {
         case 0:
             startupView = @"OBASearchResultsMapViewController";
             break;
+
         case 1:
             startupView = @"OBARecentStopsViewController";
             break;
+
         case 2:
             startupView = @"OBABookmarksViewController";
             break;
+
         case 3:
             startupView = @"OBAInfoViewController";
             break;
+
         default:
             startupView = @"Unknown";
             break;
     }
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"startup" label:[NSString stringWithFormat:@"Startup View: %@",startupView] value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"startup" label:[NSString stringWithFormat:@"Startup View: %@", startupView] value:nil];
 }
 
-- (void) _navigateToTargetInternal:(OBANavigationTarget*)navigationTarget {
-    
-    [[OBAApplication instance].references clear];
-    
+- (void)_navigateToTargetInternal:(OBANavigationTarget *)navigationTarget {
+    [[OBAApplication sharedApplication].references clear];
+
     [self.mapNavigationController popToRootViewControllerAnimated:NO];
-    
+
     if (OBANavigationTargetTypeSearchResults == navigationTarget.target) {
         [self.tabBarController setSelectedViewController:self.mapNavigationController];
         self.mapViewController.navigationTarget = navigationTarget;
@@ -301,15 +315,14 @@ static NSString *const kAllowTracking = @"allowTracking";
     [_regionNavigationController removeFromParentViewController];
     _regionNavigationController = nil;
     _regionListViewController = nil;
-    
-    [[OBAApplication instance] refreshSettings];
-    
+
+    [[OBAApplication sharedApplication] refreshSettings];
+
     self.window.rootViewController = self.tabBarController;
     [_window makeKeyAndVisible];
 }
 
-- (void) showRegionListViewController
-{
+- (void)showRegionListViewController {
     _regionListViewController = [[OBARegionListViewController alloc] initWithApplicationDelegate:self];
     _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:_regionListViewController];
 
@@ -317,4 +330,3 @@ static NSString *const kAllowTracking = @"allowTracking";
 }
 
 @end
-

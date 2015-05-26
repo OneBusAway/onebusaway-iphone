@@ -38,7 +38,7 @@
 
 - (id)initWithappDelegate:(OBAApplicationDelegate *)context {
     if (self = [super init]) {
-        _modelService = [OBAApplication instance].modelService;
+        _modelService = [OBAApplication sharedApplication].modelService;
         _searchType = OBASearchTypeNone;
         _progress = [[OBAProgressIndicatorImpl alloc] init];
     }
@@ -153,7 +153,7 @@
             return [_modelService requestStopsForRegion:region
                                         completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                             WrapperCompletion(jsonData, responseCode, error, ^(id data) {
-                    [self fireUpdateFromList:jsonData];
+                                            [self fireUpdateFromList:jsonData];
                                             });
                                         }];
         }
@@ -164,18 +164,18 @@
                                              withRegion:self.searchRegion
                                         completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                             WrapperCompletion(jsonData, responseCode, error, ^(id data) {
-                    OBAListWithRangeAndReferencesV2 *list = data;
+                                            OBAListWithRangeAndReferencesV2 *list = data;
 
-                    if ([list count] == 1) {
-                        OBARouteV2 *route = (list.values)[0];
-                        OBANavigationTarget *target = [OBASearch getNavigationTargetForSearchRouteStops:route.routeId];
-                        [self performSelector:@selector(searchWithTarget:)
-                                                     withObject:target
-                                                     afterDelay:0];
-                    }
-                    else {
-                        [self fireUpdateFromList:list];
-                    }
+                                            if ([list count] == 1) {
+                                            OBARouteV2 *route = (list.values)[0];
+                                            OBANavigationTarget *target = [OBASearch getNavigationTargetForSearchRouteStops:route.routeId];
+                                            [self performSelector:@selector(searchWithTarget:)
+                                            withObject:target
+                                            afterDelay:0];
+                                            }
+                                            else {
+                                            [self fireUpdateFromList:list];
+                                            }
                                             });
                                         }];
         }
@@ -185,11 +185,11 @@
             return [_modelService requestStopsForRoute:routeId
                                        completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                            WrapperCompletion(jsonData, responseCode, error, ^(id data) {
-                    OBAStopsForRouteV2 *stopsForRoute = data;
-                    OBASearchResult *result = [OBASearchResult result];
-                    result.values = [stopsForRoute stops];
-                    result.additionalValues = stopsForRoute.polylines;
-                    [self fireUpdate:result];
+                                           OBAStopsForRouteV2 *stopsForRoute = data;
+                                           OBASearchResult *result = [OBASearchResult result];
+                                           result.values = [stopsForRoute stops];
+                                           result.additionalValues = stopsForRoute.polylines;
+                                           [self fireUpdate:result];
                                            });
                                        }];
         }
@@ -199,20 +199,20 @@
             return [_modelService placemarksForAddress:addressQuery
                                        completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                            WrapperCompletion(jsonData, responseCode, error, ^(id data) {
-                    NSArray *placemarks = [data placemarks];
+                                           NSArray *placemarks = [data placemarks];
 
-                    if ([placemarks count] == 1) {
-                        OBAPlacemark *placemark = placemarks[0];
-                        OBANavigationTarget *target = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
-                        [self performSelector:@selector(searchWithTarget:)
-                                                    withObject:target
-                                                    afterDelay:0];
-                    }
-                    else {
-                        OBASearchResult *result = [OBASearchResult result];
-                        result.values = placemarks;
-                        [self fireUpdate:result];
-                    }
+                                           if ([placemarks count] == 1) {
+                                           OBAPlacemark *placemark = placemarks[0];
+                                           OBANavigationTarget *target = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
+                                           [self performSelector:@selector(searchWithTarget:)
+                                           withObject:target
+                                           afterDelay:0];
+                                           }
+                                           else {
+                                           OBASearchResult *result = [OBASearchResult result];
+                                           result.values = placemarks;
+                                           [self fireUpdate:result];
+                                           }
                                            });
                                        }];
         }
@@ -222,11 +222,11 @@
             return [_modelService requestStopsForPlacemark:placemark
                                            completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                                WrapperCompletion(jsonData, responseCode, error, ^(id data) {
-                    OBASearchResult *result = [OBASearchResult resultFromList:data];
-                    OBAPlacemark *placemark = [self.target
+                                               OBASearchResult *result = [OBASearchResult resultFromList:data];
+                                               OBAPlacemark *placemark = [self.target
                                                parameterForKey:kOBASearchControllerSearchArgumentParameter];
-                    result.additionalValues = @[placemark];
-                    [self fireUpdate:result];
+                                               result.additionalValues = @[placemark];
+                                               [self fireUpdate:result];
                                                });
                                            }];
         }
@@ -237,7 +237,7 @@
                                             withRegion:self.searchRegion
                                        completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                            WrapperCompletion(jsonData, responseCode, error, ^(id data) {
-                    [self fireUpdateFromList:data];
+                                           [self fireUpdateFromList:data];
                                            });
                                        }];
         }
@@ -245,7 +245,7 @@
         case OBASearchTypeAgenciesWithCoverage:
             return [_modelService requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                       WrapperCompletion(jsonData, responseCode, error, ^(id data) {
-                [self fireUpdateFromList:data];
+                                      [self fireUpdateFromList:data];
                                       });
                                   }];
 

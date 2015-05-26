@@ -24,27 +24,28 @@
 
 @implementation OBAEditBookmarkGroupViewController
 
-- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate bookmarkGroup:(OBABookmarkGroup*)bookmarkGroup editType:(OBABookmarkGroupEditType)editType {
+- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate bookmarkGroup:(OBABookmarkGroup *)bookmarkGroup editType:(OBABookmarkGroupEditType)editType {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         _appDelegate = appDelegate;
         _bookmarkGroup = bookmarkGroup;
-        
-        UIBarButtonItem * cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButton:)];
+
+        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButton:)];
         [self.navigationItem setLeftBarButtonItem:cancelButton];
-        
-        UIBarButtonItem * saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onSaveButton:)];
+
+        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onSaveButton:)];
         [self.navigationItem setRightBarButtonItem:saveButton];
-        
+
         switch (editType) {
             case OBABookmarkGroupEditNew:
                 self.navigationItem.title = NSLocalizedString(@"Add Bookmark Group", @"OBABookmarkGroupEditNew");
                 break;
-                
+
             case OBABookmarkGroupEditExisting:
                 self.navigationItem.title = NSLocalizedString(@"Edit Bookmark Group", @"OBABookmarkGroupEditExisting");
                 break;
         }
     }
+
     return self;
 }
 
@@ -55,31 +56,28 @@
 - (void)onSaveButton:(id)sender {
     _bookmarkGroup.name = _textField.text;
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"edit_field" label:@"Edited Bookmark" value:nil];
-    [[OBAApplication instance].modelDao addOrSaveBookmarkGroup:_bookmarkGroup];
+    [[OBAApplication sharedApplication].modelDao addOrSaveBookmarkGroup:_bookmarkGroup];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     OBATextFieldTableViewCell *cell = [OBATextFieldTableViewCell getOrCreateCellForTableView:tableView];
+
     [cell.textField becomeFirstResponder];
     _textField = cell.textField;
     _textField.text = _bookmarkGroup.name;
     [tableView addSubview:cell];
     return cell;
 }
-
 
 @end
