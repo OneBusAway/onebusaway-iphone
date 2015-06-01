@@ -8,7 +8,7 @@
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 
-typedef NS_ENUM(NSInteger, OBASectionType) {
+typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeVehicleDetails,
     OBASectionTypeTripDetails,
@@ -48,17 +48,20 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 
 - (id<OBAModelServiceRequest>)handleRefresh {
     @weakify(self);
-    return [self.appDelegate.modelService requestVehicleForId:_vehicleId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-        @strongify(self);
-        if (error) {
-            [self refreshFailedWithError:error];
-        }
-        else {
-            OBAEntryWithReferencesV2 *entry = jsonData;
-            self.vehicleStatus = entry.entry;
-            [self refreshCompleteWithCode:responseCode];
-        }
-    }];
+    return [[OBAApplication sharedApplication].modelService
+            requestVehicleForId:_vehicleId
+                completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                    @strongify(self);
+
+                    if (error) {
+                    [self refreshFailedWithError:error];
+                    }
+                    else {
+                    OBAEntryWithReferencesV2 *entry = jsonData;
+                    self.vehicleStatus = entry.entry;
+                    [self refreshCompleteWithCode:responseCode];
+                    }
+                }];
 }
 
 #pragma mark Table view methods
@@ -213,7 +216,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     switch (indexPath.row) {
         case 0: {
-            NSString *routeShortName = trip.route.shortName ?: trip.route.longName;
+            NSString *routeShortName = trip.route.shortName ? : trip.route.longName;
             NSString *tripHeadsign = [OBAPresentation getTripHeadsignForTrip:trip];
             cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", routeShortName, tripHeadsign];
             break;

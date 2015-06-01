@@ -8,7 +8,7 @@
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
 
-typedef NS_ENUM(NSInteger, OBASectionType) {
+typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeProblem,
     OBASectionTypeComment,
@@ -412,10 +412,10 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     problem.userComment = _comment;
     problem.userOnVehicle = _onVehicle;
     problem.userVehicleNumber = _vehicleNumber;
-    problem.userLocation = _appDelegate.locationManager.currentLocation;
+    problem.userLocation = [OBAApplication sharedApplication].locationManager.currentLocation;
 
     [_activityIndicatorView show:self.view];
-    [_appDelegate.modelService
+    [[OBAApplication sharedApplication].modelService
      reportProblemWithTrip:problem
            completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                if (error || !jsonData) {

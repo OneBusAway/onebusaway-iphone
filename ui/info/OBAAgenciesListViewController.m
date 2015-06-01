@@ -6,7 +6,7 @@
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 
-typedef NS_ENUM(NSInteger, OBASectionType) {
+typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeActions,
     OBASectionTypeAgencies,
@@ -53,19 +53,22 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 
 - (id<OBAModelServiceRequest>)handleRefresh {
     @weakify(self);
-    return [self.appDelegate.modelService requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
-        @strongify(self);
-        if (error) {
-            [self refreshFailedWithError:error];
-        }
-        else {
-            OBAListWithRangeAndReferencesV2 *list = jsonData;
-            self.agencies = [[NSMutableArray alloc] initWithArray:list.values];
-            [self.agencies sortUsingSelector:@selector(compareUsingAgencyName:)];
-            self.progressLabel = NSLocalizedString(@"Agencies",@"");
-            [self refreshCompleteWithCode:responseCode];
-        }
-    }];
+    return [[OBAApplication sharedApplication].modelService
+            requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                @strongify(self);
+
+                if (error) {
+                [self refreshFailedWithError:error];
+                }
+                else {
+                OBAListWithRangeAndReferencesV2 *list = jsonData;
+                self.agencies = [[NSMutableArray alloc] initWithArray:list.values];
+                [self.agencies
+                sortUsingSelector:@selector(compareUsingAgencyName:)];
+                self.progressLabel = NSLocalizedString(@"Agencies", @"");
+                [self refreshCompleteWithCode:responseCode];
+                }
+            }];
 }
 
 #pragma mark Table view methods

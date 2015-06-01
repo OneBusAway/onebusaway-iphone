@@ -4,13 +4,13 @@
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
 
-typedef NS_ENUM(NSInteger, OBASectionType) {
+typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeProblem,
     OBASectionTypeComment,
     OBASectionTypeSubmit,
     OBASectionTypeNotes
-} ;
+};
 
 
 @interface OBAReportProblemWithStopViewController (Private)
@@ -309,10 +309,10 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     problem.stopId = _stop.stopId;
     problem.code = _problemIds[_problemIndex];
     problem.userComment = _comment;
-    problem.userLocation = _appDelegate.locationManager.currentLocation;
+    problem.userLocation = [OBAApplication sharedApplication].locationManager.currentLocation;
 
     [_activityIndicatorView show:self.view];
-    [_appDelegate.modelService
+    [[OBAApplication sharedApplication].modelService
      reportProblemWithStop:problem
            completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
                if (error || !responseData) {

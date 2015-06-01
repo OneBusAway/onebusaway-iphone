@@ -79,29 +79,29 @@
     [super viewWillAppear:animated];
     [self.tableView reloadData];
 
-    OBAModelService *service = _appDelegate.modelService;
     NSArray *stopIds = _bookmark.stopIds;
 
     for (NSUInteger i = 0; i < [stopIds count]; i++) {
         NSString *stopId = stopIds[i];
         NSNumber *index = [NSNumber numberWithInteger:i];
-        [service requestStopForId:stopId
-                  completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-                      OBAEntryWithReferencesV2 *entry = responseData;
-                      OBAStopV2 *stop = entry.entry;
+        [[OBAApplication sharedApplication].modelService
+         requestStopForId:stopId
+          completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+              OBAEntryWithReferencesV2 *entry = responseData;
+              OBAStopV2 *stop = entry.entry;
 
-                      NSUInteger idx = [index intValue];
+              NSUInteger idx = [index intValue];
 
-                      if (stop) {
-                      self->_stops[stop.stopId] = stop;
-                      NSIndexPath *path = [NSIndexPath indexPathForRow:idx + 1
+              if (stop) {
+                self->_stops[stop.stopId] = stop;
+                NSIndexPath *path = [NSIndexPath indexPathForRow:idx + 1
                                                        inSection:0];
-                      NSArray *indexPaths = @[path];
-                      [self.tableView
-                      reloadRowsAtIndexPaths:indexPaths
+                NSArray *indexPaths = @[path];
+                [self.tableView
+                 reloadRowsAtIndexPaths:indexPaths
                        withRowAnimation:UITableViewRowAnimationFade];
-                      }
-                  }];
+              }
+          }];
     }
 }
 
@@ -166,7 +166,7 @@
 }
 
 - (IBAction)onSaveButton:(id)sender {
-    OBAModelDAO *dao = self.appDelegate.modelDao;
+    OBAModelDAO *dao = [OBAApplication sharedApplication].modelDao;
 
     self.bookmark.name = self.textField.text;
 

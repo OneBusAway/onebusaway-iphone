@@ -34,7 +34,7 @@
 
         if (arrivalAndDeparture) {
             OBATripInstanceRef *tripInstance = arrivalAndDeparture.tripInstance;
-            [self.appDelegate.modelService
+            [[OBAApplication sharedApplication].modelService
              requestTripDetailsForTripInstance:tripInstance
                                completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                    if (jsonData) {
@@ -48,8 +48,8 @@
                                                                                                                                             trip:tripDetails.trip];
                                    vc.currentStopId = self.stopId;
                                    [self.navigationController
-                                                                          pushViewController:vc
-                                                                                    animated:YES];
+                                   pushViewController:vc
+                                   animated:YES];
                                    }
                                    }
                                }

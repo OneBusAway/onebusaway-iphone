@@ -8,7 +8,7 @@
 #import "UITableViewCell+oba_Additions.h"
 
 
-typedef NS_ENUM(NSInteger, OBASectionType) {
+typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeLoading,
     OBASectionTypeTitle,
@@ -56,7 +56,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 }
 
 - (id<OBAModelServiceRequest>)handleRefresh {
-    return [self.appDelegate.modelService
+    return [[OBAApplication sharedApplication].modelService
             requestTripDetailsForTripInstance:self.tripInstance
                               completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                   if (error) {
@@ -67,7 +67,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 
                                   self.tripDetails = entry.entry;
 
-                                  self.serviceAlerts = [self.appDelegate.modelDao
+                                  self.serviceAlerts = [[OBAApplication sharedApplication].modelDao
                                   getServiceAlertsModelForSituations:self.tripDetails.situations];
 
                                   [self refreshCompleteWithCode:responseCode];

@@ -13,16 +13,16 @@
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 
-#define kRegionsSection 0
+#define kRegionsSection       0
 #define kAccessibilitySection 1
-#define kVersionSection 2
+#define kVersionSection       2
 
-#define kVersionRow 0
+#define kVersionRow           0
 #ifdef DEBUG
-#    define kTypeRow 1
+#    define kTypeRow          1
 #endif
 
-static NSString * kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
+static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 @interface OBASettingsViewController ()
 @property (nonatomic) OBAApplicationDelegate *appDelegate;
@@ -38,6 +38,7 @@ static NSString * kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         self.title = NSLocalizedString(@"Settings", @"");
         self.appDelegate = APP_DELEGATE;
     }
+
     return self;
 }
 
@@ -46,9 +47,9 @@ static NSString * kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
     [self hideEmptySeparators];
-    
+
     self.increaseContrast = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey];
-    
+
     self.toggleSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
     [self.toggleSwitch setOn:self.increaseContrast animated:NO];
 }
@@ -58,14 +59,12 @@ static NSString * kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     [self.tableView reloadData];
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (void)didSwitchStateOfToggle:(UISwitch*)sender
-{
+- (void)didSwitchStateOfToggle:(UISwitch *)sender {
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:kOBAIncreaseContrastKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [[NSNotificationCenter defaultCenter] postNotificationName:OBAIncreaseContrastToggledNotification object:nil userInfo:nil];
@@ -73,69 +72,79 @@ static NSString * kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 3;
 }
 
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     switch (section) {
         case kRegionsSection:
             return NSLocalizedString(@"Region", @"settings region title");
+
         case kAccessibilitySection:
             return @"";
+
         case kVersionSection:
             return @"";
+
         default:
             return @"";
     }
 }
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
 #ifdef DEBUG
-    if (section == kRegionsSection){ 
+
+    if (section == kRegionsSection) {
         return 1;
-    } else if (section == kAccessibilitySection) {
+    }
+    else if (section == kAccessibilitySection) {
         return 1;
-    } else {
+    }
+    else {
         return 2;
     }
+
 #else
     return 1;
-#endif    
+
+#endif
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *identifier = @"CellIdentifier";
-    
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
     }
-    
+
     switch (indexPath.section) {
         case kRegionsSection: {
-            if ([self.appDelegate.modelDao.readCustomApiUrl isEqualToString:@""]) {
-                cell.textLabel.text = self.appDelegate.modelDao.region.regionName;
-            } else {
-                cell.textLabel.text = self.appDelegate.modelDao.readCustomApiUrl;
+            if ([[OBAApplication sharedApplication].modelDao.readCustomApiUrl isEqualToString:@""]) {
+                cell.textLabel.text = [OBAApplication sharedApplication].modelDao.region.regionName;
             }
+            else {
+                cell.textLabel.text = [OBAApplication sharedApplication].modelDao.readCustomApiUrl;
+            }
+
             cell.textLabel.font = [UIFont systemFontOfSize:18];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             break;
         }
+
         case kAccessibilitySection: {
             cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"IncreaseContrastCell"];
-            
-            [self.toggleSwitch addTarget:self
-                              action:@selector(didSwitchStateOfToggle:)
-                    forControlEvents:UIControlEventValueChanged];
+
+            [self.toggleSwitch
+             addTarget:self
+                          action:@selector(didSwitchStateOfToggle:)
+                forControlEvents:UIControlEventValueChanged];
             cell.accessoryView = [[UIView alloc] initWithFrame:self.toggleSwitch.frame];
             [cell.accessoryView addSubview:self.toggleSwitch];
-            
+
             cell.textLabel.textColor = [UIColor blackColor];
             cell.textLabel.textAlignment = NSTextAlignmentLeft;
             cell.textLabel.font = [UIFont systemFontOfSize:18];
@@ -143,6 +152,7 @@ static NSString * kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             break;
         }
+
         case kVersionSection: {
             switch (indexPath.row) {
                 case kVersionRow: {
@@ -155,6 +165,7 @@ static NSString * kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
                     break;
                 }
+
 #ifdef DEBUG
                 case kTypeRow: {
                     cell.textLabel.text = NSLocalizedString(@"Debug Version", @"Debug Version");
@@ -162,24 +173,23 @@ static NSString * kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
                     break;
                 }
+
 #endif
                 default:
                     break;
             }
         }
+
         default:
             break;
     }
-    
+
     return cell;
 }
 
-
-
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     UIViewController *pushMe = nil;
@@ -189,35 +199,37 @@ static NSString * kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             pushMe = [[OBARegionListViewController alloc] initWithApplicationDelegate:self.appDelegate];
             break;
         }
+
         default:
             return;
     }
-    
-    [self.navigationController pushViewController:pushMe animated:YES];
 
+    [self.navigationController pushViewController:pushMe animated:YES];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     switch (section) {
         case kRegionsSection:
             return 40;
+
         case kVersionSection:
         default:
             return 30;
     }
 }
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+
     view.backgroundColor = OBAGREENBACKGROUND;
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
     title.font = [UIFont systemFontOfSize:18];
-    title.backgroundColor = [UIColor clearColor];;
+    title.backgroundColor = [UIColor clearColor];
     switch (section) {
         case kRegionsSection:
             title.text = NSLocalizedString(@"Region", @"settings region title");
             break;
+
         case kVersionSection:
         default:
             break;
@@ -225,4 +237,5 @@ static NSString * kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     [view addSubview:title];
     return view;
 }
+
 @end

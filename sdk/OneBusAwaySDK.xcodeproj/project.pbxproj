@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		669B2D441AEBE63800CF2367 /* OneBusAway.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 669B2D431AEBE63800CF2367 /* OneBusAway.h */; };
-		669B2D461AEBE63800CF2367 /* OneBusAway.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2D451AEBE63800CF2367 /* OneBusAway.m */; };
+		669B2D441AEBE63800CF2367 /* OBAApplication.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 669B2D431AEBE63800CF2367 /* OBAApplication.h */; };
+		669B2D461AEBE63800CF2367 /* OBAApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2D451AEBE63800CF2367 /* OBAApplication.m */; };
 		669B2D4C1AEBE63800CF2367 /* libOneBusAwaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 669B2D401AEBE63800CF2367 /* libOneBusAwaySDK.a */; };
 		669B2EA41AEBE84000CF2367 /* OBAGenericAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E2C1AEBE84000CF2367 /* OBAGenericAnnotation.m */; };
 		669B2EA51AEBE84000CF2367 /* OBAGenericAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E2C1AEBE84000CF2367 /* OBAGenericAnnotation.m */; };
@@ -177,7 +177,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				669B2D441AEBE63800CF2367 /* OneBusAway.h in CopyFiles */,
+				669B2D441AEBE63800CF2367 /* OBAApplication.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,8 +185,8 @@
 
 /* Begin PBXFileReference section */
 		669B2D401AEBE63800CF2367 /* libOneBusAwaySDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOneBusAwaySDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		669B2D431AEBE63800CF2367 /* OneBusAway.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneBusAway.h; sourceTree = "<group>"; };
-		669B2D451AEBE63800CF2367 /* OneBusAway.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneBusAway.m; sourceTree = "<group>"; };
+		669B2D431AEBE63800CF2367 /* OBAApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAApplication.h; sourceTree = "<group>"; };
+		669B2D451AEBE63800CF2367 /* OBAApplication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAApplication.m; sourceTree = "<group>"; };
 		669B2D4B1AEBE63800CF2367 /* OneBusAwaySDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneBusAwaySDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		669B2D511AEBE63800CF2367 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		669B2E2B1AEBE84000CF2367 /* OBAGenericAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAGenericAnnotation.h; sourceTree = "<group>"; };
@@ -387,8 +387,8 @@
 				669B2F4E1AEBEABA00CF2367 /* Location */,
 				669B2D641AEBE73300CF2367 /* Models */,
 				669B2D631AEBE72A00CF2367 /* Services */,
-				669B2D431AEBE63800CF2367 /* OneBusAway.h */,
-				669B2D451AEBE63800CF2367 /* OneBusAway.m */,
+				669B2D431AEBE63800CF2367 /* OBAApplication.h */,
+				669B2D451AEBE63800CF2367 /* OBAApplication.m */,
 			);
 			name = OneBusAwaySDK;
 			path = sdk;
@@ -748,7 +748,7 @@
 				669B2ED81AEBE84000CF2367 /* OBAFrequencyV2.m in Sources */,
 				669B2ED61AEBE84000CF2367 /* OBAEntryWithReferencesV2.m in Sources */,
 				669B2EDC1AEBE84000CF2367 /* OBAItinerariesV2.m in Sources */,
-				669B2D461AEBE63800CF2367 /* OneBusAway.m in Sources */,
+				669B2D461AEBE63800CF2367 /* OBAApplication.m in Sources */,
 				669B2EEA1AEBE84000CF2367 /* OBAReferencesV2.m in Sources */,
 				669B2EAC1AEBE84000CF2367 /* OBAVehicleMapAnnotation.m in Sources */,
 				669B2F281AEBE85600CF2367 /* OBAJsonDataSource.m in Sources */,
@@ -1164,6 +1164,7 @@
 				669B2F921AEC071E00CF2367 /* AdHocDistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		669B2D571AEBE63800CF2367 /* Build configuration list for PBXNativeTarget "OneBusAwaySDKTests" */ = {
 			isa = XCConfigurationList;
@@ -1174,6 +1175,7 @@
 				669B2F931AEC071E00CF2367 /* AdHocDistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

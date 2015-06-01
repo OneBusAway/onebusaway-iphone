@@ -8,7 +8,7 @@
 #import "UITableViewCell+oba_Additions.h"
 #import "UINavigationController+oba_Additions.h"
 
-typedef NS_ENUM(NSInteger, OBASectionType) {
+typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeLoading,
     OBASectionTypeSchedule,
@@ -84,7 +84,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 
     if (_tripDetails == nil && _tripInstance != nil) {
         [self.tableView reloadData];
-        _request = [_appDelegate.modelService
+        _request = [[OBAApplication sharedApplication].modelService
                     requestTripDetailsForTripInstance:_tripInstance
                                       completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
                                           if (responseCode == 404) {

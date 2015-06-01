@@ -35,11 +35,11 @@
 #import "OBAAnalytics.h"
 
 #define kScopeViewAnimationDuration 0.25
-#define kRouteSegmentIndex 0
-#define kAddressSegmentIndex 1
-#define kStopNumberSegmentIndex 2
-#define kMapLabelAnimationDuration 0.25
-#define kOBAOutOfRangeAlertViewTag 3
+#define kRouteSegmentIndex          0
+#define kAddressSegmentIndex        1
+#define kStopNumberSegmentIndex     2
+#define kMapLabelAnimationDuration  0.25
+#define kOBAOutOfRangeAlertViewTag  3
 
 // Radius in meters
 static const double kDefaultMapRadius = 100;
@@ -195,7 +195,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     [self.titleView addSubview:self.searchBar];
     self.navigationItem.titleView = self.titleView;
-    
+
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
         [self setHighContrastStyle];
     }
@@ -216,7 +216,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     CGRect mapLabelFrame = self.mapLabel.frame;
     mapLabelFrame.origin.y += self.navigationController.navigationBar.frame.size.height +
-    [UIApplication sharedApplication].statusBarFrame.size.height;
+        [UIApplication sharedApplication].statusBarFrame.size.height;
     self.mapLabel.frame = mapLabelFrame;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contrastToggled) name:OBAIncreaseContrastToggledNotification object:nil];
@@ -273,7 +273,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    OBALocationManager *lm = self.appDelegate.locationManager;
+    OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
     [lm addDelegate:self];
     [lm startUpdatingLocation];
     self.navigationItem.leftBarButtonItem.enabled = lm.locationServicesEnabled;
@@ -288,8 +288,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
-    [self.appDelegate.locationManager stopUpdatingLocation];
-    [self.appDelegate.locationManager removeDelegate:self];
+    [[OBAApplication sharedApplication].locationManager stopUpdatingLocation];
+    [[OBAApplication sharedApplication].locationManager removeDelegate:self];
 
     [self.filterToolbar hideWithAnimated:NO];
 }
@@ -357,6 +357,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 - (void)animateInScopeView {
     CGRect offscreenScopeFrame = self.scopeView.frame;
+
     offscreenScopeFrame.size.width = CGRectGetWidth(self.view.frame);
     offscreenScopeFrame.origin.y = -offscreenScopeFrame.size.height;
     self.scopeView.frame = offscreenScopeFrame;
@@ -488,7 +489,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 }
 
 - (void)locationManager:(OBALocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-
     // TODO: it would be nice to tell the user how to un-hose themselves
     // if they accidentally deny location services to OBA.
 
@@ -541,7 +541,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     if (self.searchController.unfilteredSearch) {
         if (self.mapRegionManager.lastRegionChangeWasProgramatic) {
-            OBALocationManager *lm = self.appDelegate.locationManager;
+            OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
             double refreshInterval = [self getRefreshIntervalForLocationAccuracy:lm.currentLocation];
             [self scheduleRefreshOfStopsInRegion:refreshInterval location:lm.currentLocation];
         }
@@ -650,7 +650,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         // TODO: verify that this is actually dead code. I am pretty sure this cannot be hit anymore.
         OBAGenericAnnotation *ga = annotation;
 
-        if ([@"currentLocation" isEqual : ga.context]) {
+        if ([@"currentLocation" isEqual:ga.context]) {
             static NSString *viewId = @"CurrentLocationView";
 
             MKAnnotationView *view = [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
@@ -683,7 +683,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     }
 }
 
-- (MKOverlayRenderer*)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
         renderer.fillColor = [UIColor blackColor];
@@ -709,9 +709,10 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         if (buttonIndex == 0) {
             self.hideFutureOutOfRangeErrors = YES;
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: NO" value:nil];
-        } else if (buttonIndex == 1) {
+        }
+        else if (buttonIndex == 1) {
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: YES" value:nil];
-            MKMapRect serviceRect = [self.appDelegate.modelDao.region serviceRect];
+            MKMapRect serviceRect = [[OBAApplication sharedApplication].modelDao.region serviceRect];
             [self.mapRegionManager setRegion:MKCoordinateRegionForMapRect(serviceRect)];
         }
     }
@@ -759,7 +760,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 @implementation OBASearchResultsMapViewController (Private)
 
 - (void)refreshCurrentLocation {
-    OBALocationManager *lm = self.appDelegate.locationManager;
+    OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
     CLLocation *location = lm.currentLocation;
 
     if (location) {
@@ -873,8 +874,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     [self refreshSearchToolbar];
     [self checkResults];
-    
-    if (self.doneLoadingMap && self.appDelegate.modelDao.region && [self outOfServiceArea]) {
+
+    if (self.doneLoadingMap && [OBAApplication sharedApplication].modelDao.region && [self outOfServiceArea]) {
         [self showOutOfRangeAlert];
     }
 }
@@ -905,8 +906,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 }
 
 - (CLLocation *)currentLocation {
-    if (self.appDelegate.locationManager.currentLocation) {
-        return self.appDelegate.locationManager.currentLocation;
+    if ([OBAApplication sharedApplication].locationManager.currentLocation) {
+        return [OBAApplication sharedApplication].locationManager.currentLocation;
     }
     else if (self.searchController.searchLocation) {
         return self.searchController.searchLocation;
@@ -916,26 +917,26 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     }
 }
 
-- (void) showOutOfRangeAlert {
+- (void)showOutOfRangeAlert {
     if (!self.hideFutureOutOfRangeErrors) {
-        UIAlertView * view = [[UIAlertView alloc] init];
+        UIAlertView *view = [[UIAlertView alloc] init];
         view.delegate = self;
         view.tag = kOBAOutOfRangeAlertViewTag;
-        NSString *regionName = self.appDelegate.modelDao.region.regionName;
-        view.title = [NSString stringWithFormat:NSLocalizedString(@"Go to %@?",@"Out of range alert title"), regionName];
-        view.message = [NSString stringWithFormat:NSLocalizedString(@"You are out of the %@ service area. Go there now?",@"Out of range alert message"), regionName];
-        [view addButtonWithTitle:NSLocalizedString(@"No",@"Out of range alert Cancel button")];
-        [view addButtonWithTitle:NSLocalizedString(@"Yes",@"Out of range alert OK button")];
+        NSString *regionName = [OBAApplication sharedApplication].modelDao.region.regionName;
+        view.title = [NSString stringWithFormat:NSLocalizedString(@"Go to %@?", @"Out of range alert title"), regionName];
+        view.message = [NSString stringWithFormat:NSLocalizedString(@"You are out of the %@ service area. Go there now?", @"Out of range alert message"), regionName];
+        [view addButtonWithTitle:NSLocalizedString(@"No", @"Out of range alert Cancel button")];
+        [view addButtonWithTitle:NSLocalizedString(@"Yes", @"Out of range alert OK button")];
         view.cancelButtonIndex = 0;
         [view show];
     }
 }
 
-- (void) showLocationServicesAlert {
+- (void)showLocationServicesAlert {
     self.navigationItem.leftBarButtonItem.enabled = NO;
 
-    if (![self.appDelegate.modelDao hideFutureLocationWarnings]) {
-        [self.appDelegate.modelDao setHideFutureLocationWarnings:YES];
+    if (![[OBAApplication sharedApplication].modelDao hideFutureLocationWarnings]) {
+        [[OBAApplication sharedApplication].modelDao setHideFutureLocationWarnings:YES];
 
         UIAlertView *view = [[UIAlertView alloc] init];
         view.title = NSLocalizedString(@"Location Services Disabled", @"view.title");
@@ -1007,7 +1008,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Route", @"route"), param];
 
         case OBASearchTypeRouteStops: {
-            OBARouteV2 *route = [self.appDelegate.references getRouteForId:param];
+            OBARouteV2 *route = [[OBAApplication sharedApplication].references getRouteForId:param];
 
             if (route) return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Route", @"route"), [route safeShortName]];
 
@@ -1068,7 +1069,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             break;
     }
 
-    if (self.appDelegate.modelDao.region && [self outOfServiceArea]) {
+    if ([OBAApplication sharedApplication].modelDao.region && [self outOfServiceArea]) {
         return NSLocalizedString(@"Out of OneBusAway service area", @"result.outOfRange");
     }
 
@@ -1137,7 +1138,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     return [self computeRegionForStops:stops center:centerLocation];
 }
 
-NSInteger sortStopsByDistanceFromLocation(OBAStopV2* stop1, OBAStopV2* stop2, void *context) {
+NSInteger sortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2, void *context) {
     CLLocation *location = (__bridge CLLocation *)context;
 
     CLLocation *stopLocation1 = [[CLLocation alloc] initWithLatitude:stop1.lat longitude:stop1.lon];
@@ -1373,7 +1374,7 @@ NSInteger sortStopsByDistanceFromLocation(OBAStopV2* stop1, OBAStopV2* stop2, vo
 - (BOOL)outOfServiceArea {
     MKMapRect viewRect = self.mapView.visibleMapRect;
 
-    for (OBARegionBoundsV2 *bounds in self.appDelegate.modelDao.region.bounds) {
+    for (OBARegionBoundsV2 *bounds in [OBAApplication sharedApplication].modelDao.region.bounds) {
         MKMapPoint a = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
                                                    bounds.lat + bounds.latSpan / 2,
                                                    bounds.lon - bounds.lonSpan / 2));
@@ -1417,7 +1418,7 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
     CLLocationCoordinate2D neCoord = MKCoordinateForMapPoint(neMapPoint);
     CLLocationCoordinate2D swCoord = MKCoordinateForMapPoint(swMapPoint);
     CLLocationDistance diameter = [self getDistanceFrom:neCoord to:swCoord];
-    
+
     return [[CLCircularRegion alloc] initWithCenter:self.mapView.centerCoordinate radius:(diameter / 2.0) identifier:@"mapRegion"];
 }
 
@@ -1431,12 +1432,12 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
     if (self.mapView.userLocation) {
         [annotations removeObject:self.mapView.userLocation];
     }
-    
+
     for (id <MKAnnotation> annotation in annotations) {
         MKAnnotationView *annotationView = [self.mapView viewForAnnotation:annotation];
         MKCoordinateRegion annotationRegion = [self.mapView convertRect:annotationView.frame toRegionFromView:self.mapView];
         MKMapRect annotationRect = MKMapRectForCoordinateRegion(annotationRegion);
-        
+
         if (MKMapRectIntersectsRect(self.mapView.visibleMapRect, annotationRect)) {
             return YES;
         }

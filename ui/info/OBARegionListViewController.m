@@ -12,7 +12,7 @@
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 
-typedef NS_ENUM(NSInteger, OBASectionType) {
+typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeLoading,
     OBASectionTypeTitle,
@@ -70,7 +70,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     self.navigationItem.title = NSLocalizedString(@"Select Region", @"self.navigationItem.title");
 
 
-    OBALocationManager *lm = self.appDelegate.locationManager;
+    OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
 
     if (lm.locationServicesEnabled) {
         _locationTimedOut = NO;
@@ -88,8 +88,8 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
-    [self.appDelegate.locationManager stopUpdatingLocation];
-    [self.appDelegate.locationManager removeDelegate:self];
+    [[OBAApplication sharedApplication].locationManager stopUpdatingLocation];
+    [[OBAApplication sharedApplication].locationManager removeDelegate:self];
     [_locationTimer invalidate];
 }
 
@@ -105,7 +105,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 }
 
 - (id<OBAModelServiceRequest>)handleRefresh {
-    return [self.appDelegate.modelService
+    return [[OBAApplication sharedApplication].modelService
             requestRegions:^(id jsonData, NSUInteger responseCode, NSError *error) {
                 if (error) {
                 [self refreshFailedWithError:error];
@@ -167,7 +167,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 
             if (_didJustBeginShowingExperimental && self.nearbyRegion.experimental && _showExperimentalRegions) {
                 [self.appDelegate writeSetRegionAutomatically:YES];
-                [self.appDelegate.modelDao setOBARegion:self.nearbyRegion];
+                [[OBAApplication sharedApplication].modelDao setOBARegion:self.nearbyRegion];
                 _didJustBeginShowingExperimental = NO;
             }
         }
@@ -198,7 +198,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 #pragma mark OBALocationManagerDelegate Methods
 
 - (void)locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
-    OBALocationManager *lm = self.appDelegate.locationManager;
+    OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
     CLLocation *newLocation = lm.currentLocation;
 
     _mostRecentLocation = newLocation;
@@ -336,8 +336,8 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 }
 
 - (void)showLocationServicesAlert {
-    if (![self.appDelegate.modelDao hideFutureLocationWarnings]) {
-        [self.appDelegate.modelDao setHideFutureLocationWarnings:TRUE];
+    if (![[OBAApplication sharedApplication].modelDao hideFutureLocationWarnings]) {
+        [[OBAApplication sharedApplication].modelDao setHideFutureLocationWarnings:TRUE];
 
         UIAlertView *view = [[UIAlertView alloc] init];
         view.title = NSLocalizedString(@"Location Services Disabled", @"view.title");
@@ -395,7 +395,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
             region = self.regions[indexPath.row];
 
             if (![self.appDelegate readSetRegionAutomatically] &&
-                [self.appDelegate.modelDao.region.regionName isEqualToString:region.regionName]) {
+                [[OBAApplication sharedApplication].modelDao.region.regionName isEqualToString:region.regionName]) {
                 self.checkedItem = indexPath;
             }
 
@@ -429,14 +429,14 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
             region = self.nearbyRegion;
             [self.appDelegate writeSetRegionAutomatically:YES];
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Set region automatically" value:nil];
-            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"set_region" label:[NSString stringWithFormat:@"Set region automatically: %@",region.regionName] value:nil];
+            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"set_region" label:[NSString stringWithFormat:@"Set region automatically: %@", region.regionName] value:nil];
             break;
 
         case OBASectionTypeAllRegions:
             region = self.regions[indexPath.row];
             [self.appDelegate writeSetRegionAutomatically:NO];
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Set region manually" value:nil];
-            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"set_region" label:[NSString stringWithFormat:@"Set region manually: %@",region.regionName] value:nil];
+            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"set_region" label:[NSString stringWithFormat:@"Set region manually: %@", region.regionName] value:nil];
             break;
 
         default:
@@ -444,8 +444,8 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
 
             break;
     }
-    [self.appDelegate.modelDao writeCustomApiUrl:@""];
-    [self.appDelegate.modelDao setOBARegion:region];
+    [[OBAApplication sharedApplication].modelDao writeCustomApiUrl:@""];
+    [[OBAApplication sharedApplication].modelDao setOBARegion:region];
     [self.appDelegate regionSelected];
 }
 
@@ -489,7 +489,7 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
     }
     else {
         //if current region is beta, show alert; otherwise, just update list
-        if (self.appDelegate.modelDao.region.experimental) {
+        if ([OBAApplication sharedApplication].modelDao.region.experimental) {
             UIAlertView *currentRegionUnavailableAlert = [[UIAlertView alloc] initWithTitle:@"Discard Current Region?"
                                                                                     message:@"Your current experimental region won't be available! Proceed anyway?"
                                                                                    delegate:self
@@ -531,26 +531,26 @@ typedef NS_ENUM(NSInteger, OBASectionType) {
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Turned off Experimental Regions" value:nil];
     }
 
-    if (self.appDelegate.modelDao.region.experimental) {
+    if ([OBAApplication sharedApplication].modelDao.region.experimental) {
         //Change to automatic region if available
         if (self.nearbyRegion && !self.nearbyRegion.experimental) {
             [self.appDelegate writeSetRegionAutomatically:YES];
-            [self.appDelegate.modelDao setOBARegion:self.nearbyRegion];
+            [[OBAApplication sharedApplication].modelDao setOBARegion:self.nearbyRegion];
         }
         //Otherwise, set region to first in list
         else if (![self isLoading] && _regions.count > 0) {
             [self.appDelegate writeSetRegionAutomatically:NO];
-            [self.appDelegate.modelDao setOBARegion:[_regions objectAtIndex:0]];
+            [[OBAApplication sharedApplication].modelDao setOBARegion:[_regions objectAtIndex:0]];
         }
         //Set region to nil if list is empty
         else if (![self isLoading]) {
             UIAlertView *noAvailableRegionsAlert = [[UIAlertView alloc] initWithTitle:@"No Regions Found" message:@"No available regions were found, recheck your connection and try again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [self.appDelegate.modelDao setOBARegion:nil];
+            [[OBAApplication sharedApplication].modelDao setOBARegion:nil];
             [noAvailableRegionsAlert show];
         }
     }
 
-    [self.appDelegate.modelDao writeCustomApiUrl:@""];
+    [[OBAApplication sharedApplication].modelDao writeCustomApiUrl:@""];
     [self.appDelegate regionSelected];
     [[NSUserDefaults standardUserDefaults] setBool:_showExperimentalRegions
                                             forKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
