@@ -55,12 +55,13 @@ static NSString *const kAllowTracking = @"allowTracking";
         self.active = NO;
 
         _stopIconFactory = [[OBAStopIconFactory alloc] init];
-
-
+    
+        @weakify(self);
         self.regionObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kOBAApplicationSettingsRegionRefreshNotification
                                                                                 object:nil
                                                                                  queue:[NSOperationQueue mainQueue]
                                                                             usingBlock:^(NSNotification *note) {
+                                                                                @strongify(self);
                                                                                 self.regionHelper = [[OBARegionHelper alloc] init];
                                                                                 [self writeSetRegionAutomatically:YES];
                                                                                 [self.regionHelper updateNearestRegion];

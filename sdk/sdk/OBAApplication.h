@@ -3,7 +3,15 @@
 //  OneBusAwaySDK
 //
 //  Created by Dima Belov on 4/25/15.
-//  Copyright (c) 2015 One Bus Away. All rights reserved.
+//
+//  Copyright (c) 2015 Dima Belov
+//  Copyright Sebastian Kießling
+//  Copyright Ben Bodenmiller
+//  Copyright Aaron Brethorst
+//  Copyright Caitlin Bonnar
+//  Copyright Jon Bell
+//  Copyright Andrew Sullivan
+//  Copyright Aengus McMillin
 //
 
 #import <Foundation/Foundation.h>
