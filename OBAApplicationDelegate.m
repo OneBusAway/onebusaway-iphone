@@ -54,8 +54,6 @@ static NSString *const kAllowTracking = @"allowTracking";
     if (self) {
         self.active = NO;
 
-        _stopIconFactory = [[OBAStopIconFactory alloc] init];
-    
         @weakify(self);
         self.regionObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kOBAApplicationSettingsRegionRefreshNotification
                                                                                 object:nil
@@ -163,6 +161,8 @@ static NSString *const kAllowTracking = @"allowTracking";
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    _stopIconFactory = [[OBAStopIconFactory alloc] init];
+    
     //Register a background handler with the model service
     [OBAModelService addBackgroundExecutor:self];
 
