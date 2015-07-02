@@ -2,10 +2,7 @@
 #import "OBARouteV2.h"
 
 
-@interface OBAStopIconFactory : NSObject {
-    NSMutableDictionary * _stopIcons;
-    UIImage * _defaultStopIcon;
-}
+@interface OBAStopIconFactory : NSObject
 
 - (UIImage*) getIconForStop:(OBAStopV2*)stop;
 - (UIImage*) getIconForStop:(OBAStopV2*)stop includeDirection:(BOOL)includeDirection;
