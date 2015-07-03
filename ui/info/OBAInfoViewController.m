@@ -13,23 +13,30 @@
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
 
-#define kSettingsRow 0
-#define kAgenciesRow 1
-#define kFeatureRequests 2
-#define kContactUsRow 3
-#define kCreditsRow 4
-#define kPrivacy 5
+static NSString * const kDonateURLString = @"http://onebusaway.org/donate/";
+static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
+static NSString * const kFeatureRequestsURLString = @"http://onebusaway.ideascale.com/a/ideafactory.do?id=8715&mode=top&discussionFilter=byids&discussionID=46166";
 
-#define kRowCount 6
+#define kDonateRow          0
+#define kSettingsRow        1
+#define kAgenciesRow        2
+#define kFeatureRequestsRow 3
+#define kContactUsRow       4
+#define kCreditsRow         5
+#define kPrivacyRow         6
+
+#define kRowCount           7
 
 @implementation OBAInfoViewController
 
 - (id)init {
     self = [super initWithNibName:@"OBAInfoViewController" bundle:nil];
+
     if (self) {
         self.title = NSLocalizedString(@"Info", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"info"];
     }
+
     return self;
 }
 
@@ -44,20 +51,23 @@
     self.tableView.frame = self.view.bounds;
 }
 
-- (void) openContactUs {
+- (void)openContactUs {
     UIViewController *pushMe = nil;
+
     pushMe = [[OBAContactUsViewController alloc] init];
     [self.navigationController pushViewController:pushMe animated:YES];
 }
 
-- (void) openSettings {
+- (void)openSettings {
     UIViewController *pushMe = nil;
+
     pushMe = [[OBASettingsViewController alloc] init];
     [self.navigationController pushViewController:pushMe animated:YES];
 }
 
-- (void) openAgencies {
+- (void)openAgencies {
     UIViewController *pushMe = nil;
+
     pushMe = [[OBAAgenciesListViewController alloc] init];
     [self.navigationController pushViewController:pushMe animated:YES];
 }
@@ -68,7 +78,7 @@
     return kRowCount;
 }
 
-- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *identifier = @"CellIdentifier";
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
@@ -96,13 +106,16 @@
             cell.textLabel.text = NSLocalizedString(@"Credits", @"info row credits");
             break;
         }
-        case kFeatureRequests: {
+        case kFeatureRequestsRow: {
             cell.textLabel.text = NSLocalizedString(@"Feature Requests", @"info row feture requests");
             break;
         }
-        case kPrivacy: {
+        case kPrivacyRow: {
             cell.textLabel.text = NSLocalizedString(@"Privacy Policy", @"info row privacy");
             break;
+        }
+        case kDonateRow: {
+            cell.textLabel.text = NSLocalizedString(@"Donate", @"info row donate");
         }
         default:
             break;
@@ -112,10 +125,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-    UIViewController *pushMe = nil;
 
     switch (indexPath.row) {
         case kContactUsRow: {
@@ -131,20 +141,23 @@
             break;
         }
         case kCreditsRow: {
-            pushMe = [[OBACreditsViewController alloc] init];
+            UIViewController *pushMe = [[OBACreditsViewController alloc] init];
             [self.navigationController pushViewController:pushMe animated:YES];
             break;
         }
-        case kFeatureRequests: {
+        case kFeatureRequestsRow: {
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Feature Request Link" value:nil];
-            NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.ideascale.com/a/ideafactory.do?id=8715&mode=top&discussionFilter=byids&discussionID=46166",@"didSelectRowAtIndexPath case 1")];
-            [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kFeatureRequestsURLString]];
             break;
         }
-        case kPrivacy: {
+        case kPrivacyRow: {
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
-            NSString *url = [NSString stringWithString: NSLocalizedString(@"http://onebusaway.org/privacy/",@"didSelectRowAtIndexPath case 3")];
-            [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kPrivacyURLString]];
+            break;
+        }
+        case kDonateRow: {
+            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Donate Link" value:nil];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kDonateURLString]];
             break;
         }
         default:
