@@ -171,6 +171,8 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     self.mapRegionManager = [[OBAMapRegionManager alloc] initWithMapView:self.mapView];
     self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
+    
+    self.mapView.rotateEnabled = NO;
 
     self.hideFutureNetworkErrors = NO;
 
