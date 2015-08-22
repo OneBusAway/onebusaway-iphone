@@ -25,7 +25,7 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
     self = [super init];
     if (self) {
         self.mapView = mapView;
-        self.lastRegionChangeWasProgramatic = NO;
+        self.lastRegionChangeWasProgrammatic = NO;
         self.currentlyChangingRegion = NO;
         self.firstRegionChangeRequested = NO;
         self.pendingRegionChangeRequest = nil;
@@ -35,11 +35,11 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
 }
 
 - (void) setRegion:(MKCoordinateRegion)region {
-    [self setMapRegion:region requestType:OBARegionChangeRequestTypeProgramatic];
+    [self setMapRegion:region requestType:OBARegionChangeRequestTypeProgrammatic];
 }
 
-- (void) setRegion:(MKCoordinateRegion)region changeWasProgramatic:(BOOL)changeWasProgramatic {
-    [self setMapRegion:region requestType:(changeWasProgramatic ? OBARegionChangeRequestTypeProgramatic : OBARegionChangeRequestTypeUser)];
+- (void) setRegion:(MKCoordinateRegion)region changeWasProgrammatic:(BOOL)changeWasProgrammatic {
+    [self setMapRegion:region requestType:(changeWasProgrammatic ? OBARegionChangeRequestTypeProgrammatic : OBARegionChangeRequestTypeUser)];
 }
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
@@ -52,8 +52,8 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
     
     /**
      * We need to figure out if this region change came from the user dragging the map                                                                                                                                         
-     * or from an actual programatic request we instigated.  The easiest way to tell is to                                                                                                                                                
-     * keep a list of all our applied programatic region changes and compare them against
+     * or from an actual programmatic request we instigated.  The easiest way to tell is to                                                                                                                                                
+     * keep a list of all our applied programmatic region changes and compare them against
      * the actual map region change.  When the actual map region change doesn't match any
      * of our applied requests, we assume it must have been from a user zoom or pan.
      */
@@ -74,12 +74,12 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
             type = request.type;
     }
     
-    self.lastRegionChangeWasProgramatic = (type == OBARegionChangeRequestTypeProgramatic || !self.firstRegionChangeRequested);
-    //OBALogDebug(@"regionDidChangeAnimated: setting self.lastRegionChangeWasProgramatic to %d", self.lastRegionChangeWasProgramatic);
+    self.lastRegionChangeWasProgrammatic = (type == OBARegionChangeRequestTypeProgrammatic || !self.firstRegionChangeRequested);
+    //OBALogDebug(@"regionDidChangeAnimated: setting self.lastRegionChangeWasprogrammatic to %d", self.lastRegionChangeWasprogrammatic);
     
     BOOL applyingPendingRequest = NO;
     
-    if( self.lastRegionChangeWasProgramatic && self.pendingRegionChangeRequest ) {
+    if( self.lastRegionChangeWasProgrammatic && self.pendingRegionChangeRequest ) {
         //OBALogDebug(@"applying pending reqest");
         [self setMapRegionWithRequest:self.pendingRegionChangeRequest];
         applyingPendingRequest = YES;

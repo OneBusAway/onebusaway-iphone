@@ -170,7 +170,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     self.refreshTimer = nil;
 
     self.mapRegionManager = [[OBAMapRegionManager alloc] initWithMapView:self.mapView];
-    self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
+    self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
     
     self.mapView.rotateEnabled = NO;
 
@@ -411,7 +411,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         NSData *data = parameters[kOBASearchControllerSearchArgumentParameter];
         MKCoordinateRegion region;
         [data getBytes:&region length:sizeof(MKCoordinateRegion)];
-        [self.mapRegionManager setRegion:region changeWasProgramatic:NO];
+        [self.mapRegionManager setRegion:region changeWasProgrammatic:NO];
     }
     else {
         if (self.searchController) {
@@ -429,7 +429,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
 - (void)handleSearchControllerStarted:(OBASearchType)searchType {
     if (OBASearchTypeNone != searchType && OBASearchTypeRegion != searchType) {
-        self.mapRegionManager.lastRegionChangeWasProgramatic = NO;
+        self.mapRegionManager.lastRegionChangeWasProgrammatic = NO;
     }
 }
 
@@ -542,7 +542,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     [self.mapRegionManager mapView:mapView regionDidChangeAnimated:animated];
 
     if (self.searchController.unfilteredSearch) {
-        if (self.mapRegionManager.lastRegionChangeWasProgramatic) {
+        if (self.mapRegionManager.lastRegionChangeWasProgrammatic) {
             OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
             double refreshInterval = [self getRefreshIntervalForLocationAccuracy:lm.currentLocation];
             [self scheduleRefreshOfStopsInRegion:refreshInterval location:lm.currentLocation];
@@ -725,7 +725,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (IBAction)onCrossHairsButton:(id)sender {
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked My Location Button" value:nil];
     OBALogDebug(@"setting auto center on current location");
-    self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
+    self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
     [self refreshCurrentLocation];
 }
 
@@ -733,7 +733,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     if (self.isViewLoaded && self.view.window) {
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"My Location via Map Tab Button" value:nil];
         OBALogDebug(@"setting auto center on current location (via tab bar)");
-        self.mapRegionManager.lastRegionChangeWasProgramatic = YES;
+        self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
         [self refreshCurrentLocation];
     }
 }
@@ -766,12 +766,12 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     CLLocation *location = lm.currentLocation;
 
     if (location) {
-        //OBALogDebug(@"refreshCurrentLocation: auto center on current location: %d", self.mapRegionManager.lastRegionChangeWasProgramatic);
+        //OBALogDebug(@"refreshCurrentLocation: auto center on current location: %d", self.mapRegionManager.lastRegionChangeWasprogrammatic);
 
-        if (self.mapRegionManager.lastRegionChangeWasProgramatic) {
+        if (self.mapRegionManager.lastRegionChangeWasProgrammatic) {
             double radius = MAX(location.horizontalAccuracy, kMinMapRadius);
             MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:location.coordinate latRadius:radius lonRadius:radius];
-            [self.mapRegionManager setRegion:region changeWasProgramatic:YES];
+            [self.mapRegionManager setRegion:region changeWasProgrammatic:YES];
         }
     }
 }
@@ -1084,7 +1084,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     if (needsUpdate) {
         OBALogDebug(@"setRegionFromResults");
-        [self.mapRegionManager setRegion:region changeWasProgramatic:NO];
+        [self.mapRegionManager setRegion:region changeWasProgrammatic:NO];
     }
 }
 

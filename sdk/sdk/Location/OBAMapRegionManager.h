@@ -10,12 +10,12 @@
 #import "OBARegionChangeRequest.h"
 
 @interface OBAMapRegionManager : NSObject
-@property (nonatomic) BOOL lastRegionChangeWasProgramatic;
+@property (nonatomic) BOOL lastRegionChangeWasProgrammatic;
 
 - (id)initWithMapView:(MKMapView*)mapView;
 
 - (void)setRegion:(MKCoordinateRegion)region;
-- (void)setRegion:(MKCoordinateRegion)region changeWasProgramatic:(BOOL)changeWasProgramatic;
+- (void)setRegion:(MKCoordinateRegion)region changeWasProgrammatic:(BOOL)changeWasProgrammatic;
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated;
 
