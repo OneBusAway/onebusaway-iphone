@@ -10,7 +10,7 @@
 
 typedef NS_ENUM(NSInteger, OBARegionChangeRequestType) {
     OBARegionChangeRequestTypeUser=0,
-    OBARegionChangeRequestTypeProgramatic=1
+    OBARegionChangeRequestTypeProgrammatic=1
 };
 
 
