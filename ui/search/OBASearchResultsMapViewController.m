@@ -54,6 +54,7 @@ static const NSUInteger kShowNClosestStops = 4;
 static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
+static NSString *kOBAMapTypeKey = @"OBAMapTypeDefaultsKey";
 
 @interface OBASearchResultsMapViewController ()
 @property BOOL hideFutureOutOfRangeErrors;
@@ -73,6 +74,9 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 @property (nonatomic) BOOL secondSearchTry;
 @property (strong) OBANavigationTarget *savedNavigationTarget;
 @property (nonatomic) UIView *titleView;
+@property (strong, nonatomic) UIButton *satellite;
+@property (strong, nonatomic) UIButton *hybrid;
+@property (strong, nonatomic) UIButton *standard;
 @end
 
 @interface OBASearchResultsMapViewController (Private)
@@ -125,6 +129,13 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (CLCircularRegion *)convertVisibleMapIntoCLCircularRegion;
 
 - (BOOL)checkStopsInRegion;
+
+- (void)setFramesForButtonsInline:(NSArray*)uiButtons;
+- (CGFloat)sumOfButtonWidths:(NSArray*)uiButtons;
+- (void)makeButtonTitleBold:(UIButton*) btn;
+- (void)makeButtonsTitleRegular:(UIButton*) btn;
+- (void)updateMapTypeButtons;
+- (void)removeMapTypeButtonsFromView;
 @end
 
 @implementation OBASearchResultsMapViewController
@@ -173,6 +184,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
     
     self.mapView.rotateEnabled = NO;
+    self.mapView.mapType = [[NSUserDefaults standardUserDefaults] integerForKey:kOBAMapTypeKey];
 
     self.hideFutureNetworkErrors = NO;
 
@@ -223,6 +235,36 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contrastToggled) name:OBAIncreaseContrastToggledNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onMapTabBarButton) name:@"OBAMapButtonRecenterNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mapTypeChanged) name:@"OBAMapTypeChangedNotification" object:nil];
+    
+    self.satelliteBlurView.clipsToBounds = YES;
+    [self.satelliteBlurView.layer setCornerRadius:32.f];
+    
+    UIButton *satellite = [[UIButton alloc]init];
+    UIButton *hybrid = [[UIButton alloc]init];
+    UIButton *standard = [[UIButton alloc] init];
+    
+    [satellite setTitle:NSLocalizedString(@"Satellite", @"settings standard map type") forState:UIControlStateNormal];
+    [hybrid setTitle:NSLocalizedString(@"Hybrid", @"settings hybrid map type") forState:UIControlStateNormal];
+    [standard setTitle:NSLocalizedString(@"Standard", @"settings standard map type") forState:UIControlStateNormal];
+    
+    
+    satellite.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    hybrid.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    standard.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    
+    [standard addTarget:self action:@selector(standardTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [hybrid addTarget:self action:@selector(hybridTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [satellite addTarget:self action:@selector(satelliteTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self setFramesForButtonsInline:@[self.mapTypeButton, standard, hybrid, satellite]];
+    
+    self.standard = standard;
+    self.hybrid = hybrid;
+    self.satellite = satellite;
+    
+    UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    [self.mapView addGestureRecognizer:tapRecognizer];
 }
 
 - (void)contrastToggled {
@@ -237,6 +279,11 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         [self.mapView removeAnnotation:annotation];
         [self.mapView addAnnotation:annotation];
     }
+}
+
+- (void)mapTypeChanged {
+    self.mapView.mapType = [[NSUserDefaults standardUserDefaults] integerForKey:kOBAMapTypeKey];
+    [self updateMapTypeButtons];
 }
 
 - (void)setHighContrastStyle {
@@ -754,6 +801,48 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     [self presentViewController:nav animated:YES completion:nil];
 }
 
+- (IBAction)onMapTypeButton:(UIButton *)sender {
+    if ([self.satelliteContentView.subviews count] == 1)
+    {
+        [UIView animateWithDuration:.1 animations:^(void){
+        // add 3 buttons to view
+        [self updateMapTypeButtons];
+        NSArray *buttons = @[sender, self.standard, self.hybrid, self.satellite];
+        
+        [self.satelliteContentView addSubview:self.standard];
+        [self.satelliteContentView addSubview:self.hybrid];
+        [self.satelliteContentView addSubview:self.satellite];
+        
+        CGFloat barWidth = [self sumOfButtonWidths:buttons] + 8;
+            
+            self.satelliteBlurView.frame = CGRectMake(self.satelliteBlurView.frame.origin.x,
+                                                      self.satelliteBlurView.frame.origin.y,
+                                                      barWidth, self.satelliteBlurView.frame.size.height);
+            
+        }];
+    } else {
+        [self removeMapTypeButtonsFromView];
+    }
+}
+
+- (IBAction)satelliteTapped:(id)sender {
+    [[NSUserDefaults standardUserDefaults] setInteger:MKMapTypeSatellite forKey:kOBAMapTypeKey];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"OBAMapTypeChangedNotification" object:nil];
+    [self removeMapTypeButtonsFromView];
+    
+}
+
+- (IBAction)hybridTapped:(id)sender {
+    [[NSUserDefaults standardUserDefaults] setInteger:MKMapTypeHybrid forKey:kOBAMapTypeKey];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"OBAMapTypeChangedNotification" object:nil];
+    [self removeMapTypeButtonsFromView];
+}
+
+- (IBAction)standardTapped:(id)sender {
+    [[NSUserDefaults standardUserDefaults] setInteger:MKMapTypeStandard forKey:kOBAMapTypeKey];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"OBAMapTypeChangedNotification" object:nil];
+    [self removeMapTypeButtonsFromView];
+}
 @end
 
 
@@ -1448,4 +1537,88 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
     return NO;
 }
 
+
+- (void)setFramesForButtonsInline:(NSArray*)uiButtons {
+    
+    for (int i = 1; i < uiButtons.count; i++)
+    {
+    UIButton* prevButton = (UIButton*) uiButtons[i-1];
+    UIButton* currButton = (UIButton*) uiButtons[i];
+    CGRect prevButtonRect = prevButton.frame;
+    [currButton setFrame:CGRectMake(prevButtonRect.origin.x + prevButtonRect.size.width,
+                                    prevButtonRect.origin.y,
+                                    currButton.intrinsicContentSize.width + 8,
+                                    prevButtonRect.size.height)];
+    }
+    
+}
+
+- (CGFloat)sumOfButtonWidths:(NSArray*)uiButtons {
+    CGFloat sum = 0;
+    for (UIButton* i in uiButtons) {
+        sum += i.frame.size.width;
+    }
+    return sum;
+}
+
+- (void)makeButtonTitleBold:(UIButton*) btn {
+    NSMutableAttributedString *boldText = [[NSMutableAttributedString alloc]initWithString:btn.titleLabel.text];
+    NSRange boldedrange = NSMakeRange(0, [boldText length]);
+    [boldText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:17 weight:UIFontWeightMedium] range:boldedrange];
+    [btn setAttributedTitle:boldText forState:UIControlStateNormal];
+}
+
+- (void)makeButtonsTitleRegular:(UIButton*) btn {
+    NSMutableAttributedString *boldText = [[NSMutableAttributedString alloc]initWithString:btn.titleLabel.text];
+    NSRange boldedrange = NSMakeRange(0, [boldText length]);
+    [boldText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:17 weight:UIFontWeightRegular] range:boldedrange];
+    [btn setAttributedTitle:boldText forState:UIControlStateNormal];
+}
+
+- (void)updateMapTypeButtons {
+    MKMapType maptype = self.mapView.mapType;
+    switch (maptype) {
+        case MKMapTypeHybrid:{
+            [self makeButtonTitleBold:self.hybrid];
+            [self makeButtonsTitleRegular:self.standard];
+            [self makeButtonsTitleRegular:self.satellite];
+            break;
+        }
+        case MKMapTypeStandard: {
+            [self makeButtonTitleBold:self.standard];
+            [self makeButtonsTitleRegular:self.satellite];
+            [self makeButtonsTitleRegular:self.hybrid];
+            break;
+        }
+        case MKMapTypeSatellite:{
+            [self makeButtonTitleBold:self.satellite];
+            [self makeButtonsTitleRegular:self.hybrid];
+            [self makeButtonsTitleRegular:self.standard];
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+- (void)removeMapTypeButtonsFromView {
+    
+    [UIView animateWithDuration:.1 animations:^{
+        self.satelliteBlurView.frame = CGRectMake(self.satelliteBlurView.frame.origin.x,
+                                                  self.satelliteBlurView.frame.origin.y,
+                                                  self.mapTypeButton.frame.size.width,
+                                                  self.mapTypeButton.frame.size.height);
+        self.satelliteContentView.frame = CGRectMake(self.satelliteContentView.frame.origin.x,
+                                                  self.satelliteContentView.frame.origin.y,
+                                                  self.mapTypeButton.frame.size.width,
+                                                  self.mapTypeButton.frame.size.height);
+    }];
+    [self.standard removeFromSuperview];
+    [self.hybrid removeFromSuperview];
+    [self.satellite removeFromSuperview];
+}
+
+- (void)handleTap:(UITapGestureRecognizer* )recognizer{
+    [self removeMapTypeButtonsFromView];
+}
 @end
