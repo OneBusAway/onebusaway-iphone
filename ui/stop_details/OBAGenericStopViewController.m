@@ -43,6 +43,7 @@
 
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
+static NSString *kOBAMapTypeKey = @"OBAMapTypeDefaultsKey";
 
 @interface OBAGenericStopViewController ()
 @property (strong, readwrite) OBAApplicationDelegate *appDelegate;
@@ -59,6 +60,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 @property (nonatomic, strong) UIButton *highContrastStopInfoButton;
 
 @property (nonatomic, assign) BOOL showInHighContrast;
+@property (nonatomic, assign) MKMapType userMapType;
 @end
 
 @interface OBAGenericStopViewController ()
@@ -239,6 +241,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
         [self hideEmptySeparators];
     }
+    self.mapView.mapType = [[NSUserDefaults standardUserDefaults] integerForKey:kOBAMapTypeKey];
 }
 
 - (void)refreshContrast {

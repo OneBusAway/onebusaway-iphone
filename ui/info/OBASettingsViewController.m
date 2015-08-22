@@ -12,22 +12,30 @@
 #import "UITableViewController+oba_Additions.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
+#import "OBAListSelectionViewController.h"
 
 #define kRegionsSection       0
-#define kAccessibilitySection 1
-#define kVersionSection       2
+#define kMapTypeSection       1
+#define kAccessibilitySection 2
+#define kVersionSection       3
 
 #define kVersionRow           0
 #ifdef DEBUG
 #    define kTypeRow          1
 #endif
 
-static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
+#define mapTypeStandardIndex  0
+#define mapTypeHybridIndex    1
+#define mapTypeSatelliteIndex 2
 
-@interface OBASettingsViewController ()
+static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
+static NSString *kOBAMapTypeKey = @"OBAMapTypeDefaultsKey";
+
+@interface OBASettingsViewController () <OBAListSelectionViewControllerDelegate>
 @property (nonatomic) OBAApplicationDelegate *appDelegate;
 @property (nonatomic, strong) UISwitch *toggleSwitch;
 @property (nonatomic, assign) BOOL increaseContrast;
+@property (nonatomic, assign) MKMapType mapType;
 @end
 
 @implementation OBASettingsViewController
@@ -49,6 +57,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     [self hideEmptySeparators];
 
     self.increaseContrast = [[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey];
+    self.mapType = [[NSUserDefaults standardUserDefaults] integerForKey:kOBAMapTypeKey];
 
     self.toggleSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
     [self.toggleSwitch setOn:self.increaseContrast animated:NO];
@@ -73,13 +82,16 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 4;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    // Why is this here? This is superseded by tableView:viewForHeaderInSection:
     switch (section) {
         case kRegionsSection:
             return NSLocalizedString(@"Region", @"settings region title");
+        case kMapTypeSection:
+            return NSLocalizedString(@"Map Type", @"map type");
 
         case kAccessibilitySection:
             return @"";
@@ -97,6 +109,9 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 #ifdef DEBUG
 
     if (section == kRegionsSection) {
+        return 1;
+    }
+    else if (section == kMapTypeSection) {
         return 1;
     }
     else if (section == kAccessibilitySection) {
@@ -128,6 +143,27 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             }
             else {
                 cell.textLabel.text = [OBAApplication sharedApplication].modelDao.readCustomApiUrl;
+            }
+
+            cell.textLabel.font = [UIFont systemFontOfSize:18];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            break;
+        }
+
+        case kMapTypeSection: {
+            cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"mapTypeCell"];
+
+
+            self.mapType = [[NSUserDefaults standardUserDefaults] integerForKey:kOBAMapTypeKey];
+            if (self.mapType == MKMapTypeStandard) {
+                cell.textLabel.text = NSLocalizedString(@"Standard", @"settings standard map type");;
+
+            } else if (self.mapType == MKMapTypeHybrid) {
+                cell.textLabel.text = NSLocalizedString(@"Hybrid", @"settings hybrid map type");
+
+            } else {
+                cell.textLabel.text = NSLocalizedString(@"Satellite", @"settings satellite map type");
+
             }
 
             cell.textLabel.font = [UIFont systemFontOfSize:18];
@@ -199,7 +235,28 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
             pushMe = [[OBARegionListViewController alloc] initWithApplicationDelegate:self.appDelegate];
             break;
         }
+        case kMapTypeSection: {
+            NSString *standard = NSLocalizedString(@"Standard", @"settings standard map type");
+            NSString *hybrid = NSLocalizedString(@"Hybrid", @"settings hybrid map type");
+            NSString *satellite = NSLocalizedString(@"Satellite", @"settings satellite map type");
+            NSArray *possibleValues = [NSArray arrayWithObjects:standard, hybrid, satellite, nil];
 
+            NSIndexPath *selectedIndex;
+            self.mapType = [[NSUserDefaults standardUserDefaults] integerForKey:kOBAMapTypeKey];
+            if (self.mapType == MKMapTypeStandard) {
+                selectedIndex = [NSIndexPath indexPathForRow:mapTypeStandardIndex inSection:0];
+            } else if (self.mapType == MKMapTypeHybrid) {
+                selectedIndex = [NSIndexPath indexPathForRow:mapTypeHybridIndex inSection:0];
+            } else {
+                selectedIndex = [NSIndexPath indexPathForRow:mapTypeSatelliteIndex inSection:0];
+            }
+
+            OBAListSelectionViewController* vc = [[OBAListSelectionViewController alloc] initWithValues:possibleValues
+                                                     selectedIndex:selectedIndex];
+            vc.delegate = self;
+            pushMe = vc;
+            break;
+        }
         default:
             return;
     }
@@ -210,6 +267,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     switch (section) {
         case kRegionsSection:
+        case kMapTypeSection:
             return 40;
 
         case kVersionSection:
@@ -229,7 +287,9 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         case kRegionsSection:
             title.text = NSLocalizedString(@"Region", @"settings region title");
             break;
-
+        case kMapTypeSection:
+            title.text = NSLocalizedString(@"Map Type", @"settings map type title");
+            break;
         case kVersionSection:
         default:
             break;
@@ -238,4 +298,31 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     return view;
 }
 
+#pragma mark - List selection view delegate
+- (void)checkItemWithIndex:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        switch (indexPath.row) {
+            case mapTypeStandardIndex: {
+                [[NSUserDefaults standardUserDefaults] setInteger:MKMapTypeStandard
+                                                           forKey:kOBAMapTypeKey];
+                break;
+            }
+            case mapTypeHybridIndex: {
+                [[NSUserDefaults standardUserDefaults] setInteger:MKMapTypeHybrid
+                                                           forKey:kOBAMapTypeKey];
+                break;
+            }
+            case mapTypeSatelliteIndex: {
+                [[NSUserDefaults standardUserDefaults] setInteger:MKMapTypeSatellite
+                                                           forKey:kOBAMapTypeKey];
+                break;
+            }
+            default:
+                break;
+        }
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"OBAMapTypeChangedNotification" object:nil];
+    }
+
+}
 @end

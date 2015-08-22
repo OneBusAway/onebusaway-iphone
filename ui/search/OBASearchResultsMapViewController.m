@@ -54,6 +54,7 @@ static const NSUInteger kShowNClosestStops = 4;
 static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
+static NSString *kOBAMapTypeKey = @"OBAMapTypeDefaultsKey";
 
 @interface OBASearchResultsMapViewController ()
 @property BOOL hideFutureOutOfRangeErrors;
@@ -173,6 +174,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
     
     self.mapView.rotateEnabled = NO;
+    self.mapView.mapType = [[NSUserDefaults standardUserDefaults] integerForKey:kOBAMapTypeKey];
 
     self.hideFutureNetworkErrors = NO;
 
@@ -223,6 +225,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contrastToggled) name:OBAIncreaseContrastToggledNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onMapTabBarButton) name:@"OBAMapButtonRecenterNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mapTypeChanged) name:@"OBAMapTypeChangedNotification" object:nil];
 }
 
 - (void)contrastToggled {
@@ -237,6 +240,10 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
         [self.mapView removeAnnotation:annotation];
         [self.mapView addAnnotation:annotation];
     }
+}
+
+- (void)mapTypeChanged {
+    self.mapView.mapType = [[NSUserDefaults standardUserDefaults] integerForKey:kOBAMapTypeKey];
 }
 
 - (void)setHighContrastStyle {
