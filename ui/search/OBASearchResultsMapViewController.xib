@@ -63,12 +63,12 @@
                                     </subviews>
                                 </view>
                                 <vibrancyEffect>
-                                    <blurEffect style="extraLight"/>
+                                    <blurEffect style="dark"/>
                                 </vibrancyEffect>
                             </visualEffectView>
                         </subviews>
                     </view>
-                    <blurEffect style="light"/>
+                    <blurEffect style="dark"/>
                 </visualEffectView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
