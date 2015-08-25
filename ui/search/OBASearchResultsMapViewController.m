@@ -130,12 +130,13 @@ static NSString *kOBAMapTypeKey = @"OBAMapTypeDefaultsKey";
 
 - (BOOL)checkStopsInRegion;
 
-- (void)setFramesForButtonsInline:(NSArray*)uiButtons;
-- (CGFloat)sumOfButtonWidths:(NSArray*)uiButtons;
-- (void)makeButtonTitleBold:(UIButton*) btn;
-- (void)makeButtonsTitleRegular:(UIButton*) btn;
+- (void)setFramesForButtonsInline:(NSArray *)uiButtons;
+- (CGFloat)sumOfButtonWidths:(NSArray *)uiButtons;
+- (void)makeButtonTitleBold:(UIButton *) btn;
+- (void)makeButtonsTitleRegular:(UIButton *) btn;
 - (void)updateMapTypeButtons;
 - (void)removeMapTypeButtonsFromView;
+- (void)setMapTypeBlurViewStyle:(UIBlurEffectStyle) style;
 @end
 
 @implementation OBASearchResultsMapViewController
@@ -236,9 +237,7 @@ static NSString *kOBAMapTypeKey = @"OBAMapTypeDefaultsKey";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contrastToggled) name:OBAIncreaseContrastToggledNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onMapTabBarButton) name:@"OBAMapButtonRecenterNotification" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mapTypeChanged) name:@"OBAMapTypeChangedNotification" object:nil];
-    
-    self.satelliteBlurView.clipsToBounds = YES;
-    [self.satelliteBlurView.layer setCornerRadius:32.f];
+    [self mapTypeChanged];
     
     UIButton *satellite = [[UIButton alloc]init];
     UIButton *hybrid = [[UIButton alloc]init];
@@ -283,7 +282,23 @@ static NSString *kOBAMapTypeKey = @"OBAMapTypeDefaultsKey";
 
 - (void)mapTypeChanged {
     self.mapView.mapType = [[NSUserDefaults standardUserDefaults] integerForKey:kOBAMapTypeKey];
-    [self updateMapTypeButtons];
+    if ([self.mapTypeVibrancyView.contentView.subviews count] > 1) {
+        [self updateMapTypeButtons];
+    }
+    switch (self.mapView.mapType) {
+        case MKMapTypeStandard:{
+            [self setMapTypeBlurViewStyle:UIBlurEffectStyleDark];
+            break;
+        }
+        case MKMapTypeHybrid:
+        case MKMapTypeSatellite: {
+            [self setMapTypeBlurViewStyle:UIBlurEffectStyleLight];
+            break;
+        }
+            
+        default:
+            break;
+    }
 }
 
 - (void)setHighContrastStyle {
@@ -802,23 +817,27 @@ static NSString *kOBAMapTypeKey = @"OBAMapTypeDefaultsKey";
 }
 
 - (IBAction)onMapTypeButton:(UIButton *)sender {
-    if ([self.satelliteContentView.subviews count] == 1)
+    if ([self.mapTypeVibrancyView.contentView.subviews count] == 1)
     {
         [UIView animateWithDuration:.1 animations:^(void){
         // add 3 buttons to view
         [self updateMapTypeButtons];
         NSArray *buttons = @[sender, self.standard, self.hybrid, self.satellite];
         
-        [self.satelliteContentView addSubview:self.standard];
-        [self.satelliteContentView addSubview:self.hybrid];
-        [self.satelliteContentView addSubview:self.satellite];
+        [self.mapTypeVibrancyView.contentView addSubview:self.standard];
+        [self.mapTypeVibrancyView.contentView addSubview:self.hybrid];
+        [self.mapTypeVibrancyView.contentView addSubview:self.satellite];
         
         CGFloat barWidth = [self sumOfButtonWidths:buttons] + 8;
             
-            self.satelliteBlurView.frame = CGRectMake(self.satelliteBlurView.frame.origin.x,
-                                                      self.satelliteBlurView.frame.origin.y,
-                                                      barWidth, self.satelliteBlurView.frame.size.height);
-            
+            self.mapTypeBlurView.frame = CGRectMake(self.mapTypeBlurView.frame.origin.x,
+                                                      self.mapTypeBlurView.frame.origin.y,
+                                                      barWidth,
+                                                    self.mapTypeBlurView.frame.size.height);
+            self.mapTypeVibrancyView.frame = CGRectMake(self.mapTypeVibrancyView.frame.origin.x,
+                                                        self.mapTypeVibrancyView.frame.origin.y,
+                                                        barWidth,
+                                                        self.mapTypeVibrancyView.frame.size.height);
         }];
     } else {
         [self removeMapTypeButtonsFromView];
@@ -1582,6 +1601,7 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
             [self makeButtonTitleBold:self.standard];
             [self makeButtonsTitleRegular:self.satellite];
             [self makeButtonsTitleRegular:self.hybrid];
+            
             break;
         }
         case MKMapTypeSatellite:{
@@ -1598,12 +1618,12 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
 - (void)removeMapTypeButtonsFromView {
     
     [UIView animateWithDuration:.1 animations:^{
-        self.satelliteBlurView.frame = CGRectMake(self.satelliteBlurView.frame.origin.x,
-                                                  self.satelliteBlurView.frame.origin.y,
+        self.mapTypeBlurView.frame = CGRectMake(self.mapTypeBlurView.frame.origin.x,
+                                                  self.mapTypeBlurView.frame.origin.y,
                                                   self.mapTypeButton.frame.size.width,
                                                   self.mapTypeButton.frame.size.height);
-        self.satelliteContentView.frame = CGRectMake(self.satelliteContentView.frame.origin.x,
-                                                  self.satelliteContentView.frame.origin.y,
+        self.mapTypeVibrancyView.frame = CGRectMake(self.mapTypeVibrancyView.frame.origin.x,
+                                                  self.mapTypeVibrancyView.frame.origin.y,
                                                   self.mapTypeButton.frame.size.width,
                                                   self.mapTypeButton.frame.size.height);
     }];
@@ -1611,8 +1631,32 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
     [self.hybrid removeFromSuperview];
     [self.satellite removeFromSuperview];
 }
+- (void)setMapTypeBlurViewStyle:(UIBlurEffectStyle) style {
+    // Blurred Effect
+    UIBlurEffect *blurredEffect = [UIBlurEffect effectWithStyle:style];
+    UIVisualEffectView *blurredEffectView = [[UIVisualEffectView alloc]initWithEffect:blurredEffect];
+    blurredEffectView.frame = self.mapTypeBlurView.frame;
+    blurredEffectView.autoresizingMask = self.mapTypeBlurView.autoresizingMask;
+    blurredEffectView.clipsToBounds = YES;
+    [blurredEffectView.layer setCornerRadius:32.f];
+    [self.mapTypeBlurView removeFromSuperview];
+    // Virancy Effect
+    UIVibrancyEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:blurredEffect];
+    UIVisualEffectView *vibrantEffectView = [[UIVisualEffectView alloc]initWithEffect:vibrancyEffect];
+    vibrantEffectView.frame = self.mapTypeVibrancyView.frame;
+    vibrantEffectView.autoresizingMask = self.mapTypeVibrancyView.autoresizingMask;
+    [vibrantEffectView.contentView addSubview:self.mapTypeButton];
+    [blurredEffectView.contentView addSubview:vibrantEffectView];
+    
+    self.mapTypeBlurView = blurredEffectView;
+    self.mapTypeVibrancyView = vibrantEffectView;
+    [self.view addSubview:self.mapTypeBlurView];
+}
 
+#pragma mark UI Gesture Recognizer
 - (void)handleTap:(UITapGestureRecognizer* )recognizer{
     [self removeMapTypeButtonsFromView];
 }
+
+
 @end

@@ -7,10 +7,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OBASearchResultsMapViewController">
             <connections>
                 <outlet property="mapLabel" destination="107" id="114"/>
+                <outlet property="mapTypeBlurView" destination="fBu-Ag-UGw" id="knA-lv-yci"/>
                 <outlet property="mapTypeButton" destination="VgB-IE-Oqk" id="Mi9-5c-3PL"/>
+                <outlet property="mapTypeVibrancyView" destination="Ulm-9H-g6e" id="EjC-bY-nb4"/>
                 <outlet property="mapView" destination="3" id="9"/>
-                <outlet property="satelliteBlurView" destination="fBu-Ag-UGw" id="knA-lv-yci"/>
-                <outlet property="satelliteContentView" destination="Xtf-oV-fGK" id="Aca-Qn-oXJ"/>
                 <outlet property="scopeView" destination="79" id="85"/>
                 <outlet property="searchBar" destination="57" id="59"/>
                 <outlet property="searchTypeSegmentedControl" destination="80" id="86"/>
@@ -63,12 +63,12 @@
                                     </subviews>
                                 </view>
                                 <vibrancyEffect>
-                                    <blurEffect style="dark"/>
+                                    <blurEffect style="light"/>
                                 </vibrancyEffect>
                             </visualEffectView>
                         </subviews>
                     </view>
-                    <blurEffect style="dark"/>
+                    <blurEffect style="light"/>
                 </visualEffectView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

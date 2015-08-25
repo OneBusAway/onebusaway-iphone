@@ -35,8 +35,8 @@
 @property(nonatomic,strong) IBOutlet UISearchBar *searchBar;
 @property(nonatomic,strong) IBOutlet UIToolbar *toolbar;
 @property(nonatomic,strong) IBOutlet UILabel *mapLabel;
-@property (weak, nonatomic) IBOutlet UIVisualEffectView *satelliteBlurView;
-@property (weak, nonatomic) IBOutlet UIView *satelliteContentView;
+@property (weak, nonatomic) IBOutlet UIVisualEffectView *mapTypeBlurView;
+@property (weak, nonatomic) IBOutlet UIVisualEffectView *mapTypeVibrancyView;
 @property (weak, nonatomic) IBOutlet UIButton *mapTypeButton;
 @property (nonatomic,strong) OBASearchResultsMapFilterToolbar * filterToolbar;
 
