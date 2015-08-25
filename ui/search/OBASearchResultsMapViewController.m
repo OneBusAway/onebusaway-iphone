@@ -1562,17 +1562,11 @@ MKMapRect MKMapRectForCoordinateRegion(MKCoordinateRegion region) {
 }
 
 - (void)makeButtonTitleBold:(UIButton*) btn {
-    NSMutableAttributedString *boldText = [[NSMutableAttributedString alloc]initWithString:btn.titleLabel.text];
-    NSRange boldedrange = NSMakeRange(0, [boldText length]);
-    [boldText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:17 weight:UIFontWeightMedium] range:boldedrange];
-    [btn setAttributedTitle:boldText forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont boldSystemFontOfSize:17];
 }
 
 - (void)makeButtonsTitleRegular:(UIButton*) btn {
-    NSMutableAttributedString *boldText = [[NSMutableAttributedString alloc]initWithString:btn.titleLabel.text];
-    NSRange boldedrange = NSMakeRange(0, [boldText length]);
-    [boldText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:17 weight:UIFontWeightRegular] range:boldedrange];
-    [btn setAttributedTitle:boldText forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont systemFontOfSize:17];
 }
 
 - (void)updateMapTypeButtons {
