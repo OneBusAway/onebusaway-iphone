@@ -188,7 +188,7 @@ static NSString *const kAllowTracking = @"allowTracking";
     [OBAAnalytics configureVoiceOverStatus];
 
     [self _constructUI];
-
+    
     return YES;
 }
 
