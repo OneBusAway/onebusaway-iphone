@@ -35,11 +35,6 @@
 	<string>GIT_COMMIT_SHA</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
 	<key>NSLocationUsageDescription</key>
 	<string>Your location will be used to show nearby stops and routes.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -72,5 +67,19 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+        <dict>
+            <key>onebusaway.org</key>
+            <dict>
+                <!-- Turns off all ATS requirements for onebusaway.org -->
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+            </dict>
+        </dict>
+	</dict>
 </dict>
 </plist>
