@@ -61,8 +61,17 @@
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
+		<key>NSExceptionDomains</key>
+        <dict>
+            <key>onebusaway.org</key>
+            <dict>
+                <!-- Turns off all ATS requirements for onebusaway.org -->
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+            </dict>
+        </dict>
 	</dict>
 </dict>
 </plist>
