@@ -216,15 +216,21 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     labelLayer.shadowOffset = CGSizeMake(0, 0);
     labelLayer.shadowRadius = 7;
 
-    CGRect mapLabelFrame = self.mapLabel.frame;
-    mapLabelFrame.origin.y += self.navigationController.navigationBar.frame.size.height +
-        [UIApplication sharedApplication].statusBarFrame.size.height;
-    self.mapLabel.frame = mapLabelFrame;
-
+    [self orientationChanged:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contrastToggled) name:OBAIncreaseContrastToggledNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onMapTabBarButton) name:@"OBAMapButtonRecenterNotification" object:nil];
 }
-
+- (void)orientationChanged:(NSNotification*)notification{
+    [self updateMapLabelFrame];
+}
+- (void)updateMapLabelFrame
+{
+    CGRect mapLabelFrame = self.mapLabel.frame;
+    mapLabelFrame.origin.y = 8 + self.navigationController.navigationBar.frame.size.height +
+    [UIApplication sharedApplication].statusBarFrame.size.height;
+    self.mapLabel.frame = mapLabelFrame;
+}
 - (void)contrastToggled {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
         [self setHighContrastStyle];

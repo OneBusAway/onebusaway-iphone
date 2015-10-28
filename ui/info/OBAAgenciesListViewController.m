@@ -90,7 +90,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             return 1;
 
         case OBASectionTypeAgencies:
-            return [_agencies count] + 1;
+            return [_agencies count];
 
         case OBASectionTypeNoAgencies:
             return 1;
@@ -167,16 +167,26 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     return cell;
 }
 
-- (UITableViewCell *)agenciesCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-    if (indexPath.row == 0) {
-        UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.backgroundView = [[UIView alloc] initWithFrame:cell.frame];
-        cell.backgroundView.backgroundColor = OBAGREENBACKGROUND;
-        return cell;
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *footer = nil;
+    if (section == 0) {
+        footer = [[UIView alloc]init];
+        footer.backgroundColor = OBAGREENBACKGROUND;
     }
+    return footer;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        return 33;
+    }
+    else return 0;
+}
+- (UITableViewCell *)agenciesCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
 
-    OBAAgencyWithCoverageV2 *awc = _agencies[indexPath.row - 1];
+    OBAAgencyWithCoverageV2 *awc = _agencies[indexPath.row];
     OBAAgencyV2 *agency = awc.agency;
 
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
@@ -201,16 +211,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch ([self sectionTypeForSection:indexPath.section]) {
-        case OBASectionTypeAgencies:
-
-            if (indexPath.row == 0) {
-                return 30;
-            }
-
-        default:
-            return 44;
-    }
+    return 44;
 }
 
 - (void)didSelectActionsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
@@ -224,7 +225,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         return;
     }
 
-    OBAAgencyWithCoverageV2 *awc = _agencies[indexPath.row - 1];
+    OBAAgencyWithCoverageV2 *awc = _agencies[indexPath.row];
     OBAAgencyV2 *agency = awc.agency;
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:agency.url]];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
