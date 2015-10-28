@@ -574,44 +574,49 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     [self clearPendingRequest];
     @weakify(self);
-    _request = [[OBAApplication sharedApplication].modelService requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-        @strongify(self);
+    _request = [[OBAApplication sharedApplication].modelService
+                requestStopWithArrivalsAndDeparturesForId:_stopId
+                                        withMinutesBefore:_minutesBefore
+                                         withMinutesAfter:_minutesAfter
+                                          completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+                                              @strongify(self);
 
-        NSString *message = nil;
+                                              if (error) {
+                                              OBALogWarningWithError(error, @"Error... yay!");
+                                              [self.progressView
+                                              setMessage:NSLocalizedString(@"Error connecting", @"requestDidFail")
+                                              inProgress:NO
+                                              progress:0];
+                                              }
+                                              else if (responseCode >= 300) {
+                                              NSString *message = (404 == responseCode ? NSLocalizedString(@"Stop not found", @"code == 404") : NSLocalizedString(@"Unknown error", @"code # 404"));
+                                              [self.progressView
+                                              setMessage:message
+                                              inProgress:NO
+                                              progress:0];
+                                              }
+                                              else if (responseData) {
+                                              NSString *message = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Updated", @"message"), [OBACommon getTimeAsString]];
+                                              [self.progressView
+                                              setMessage:message
+                                              inProgress:NO
+                                              progress:0];
+                                              self.result = responseData;
 
-        if (error) {
-            OBALogWarningWithError(error, @"Error... yay!");
-            message = NSLocalizedString(@"Error connecting", @"requestDidFail");
-        }
-        else if (responseCode == 404) {
-            message = NSLocalizedString(@"Stop not found", @"code == 404");
-        }
-        else if (responseCode >= 300) {
-            message = NSLocalizedString(@"Unknown error", @"code # 404");
-        }
-        else if (responseData) {
-            message = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Updated", @"message"), [OBACommon getTimeAsString]];
+                                              // Note the event
+                                              [[NSNotificationCenter defaultCenter]         postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification
+                                                                        object:self.result.stop];
 
-            self.result = responseData;
+                                              [self reloadData];
+                                              }
 
-            // Note the event
-            [[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:self.result.stop];
-
-            [self reloadData];
-        }
-
-        if (error)
-        {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error Connecting", @"Title for an alert presented when we encounter an unanticipated problem in loading a stop.") message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
-            [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"Default button for an alert.") style:UIAlertActionStyleDefault handler:nil]];
-        }
-
-        [self.progressView setMessage:message inProgress:NO progress:0];
-
-        [self didFinishRefresh];
-    } progressBlock:^(CGFloat progress) {
-        [self.progressView setInProgress:YES progress:progress];
-    }];
+                                              [self didFinishRefresh];
+                                          }
+                                            progressBlock:^(CGFloat progress) {
+                                                [self.progressView
+                                                setInProgress:YES
+                                                progress:progress];
+                                            }];
     _timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 }
 
