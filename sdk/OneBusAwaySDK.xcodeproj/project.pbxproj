@@ -676,7 +676,7 @@
 		669B2D381AEBE63800CF2367 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "One Bus Away";
 				TargetAttributes = {
 					669B2D3F1AEBE63800CF2367 = {
@@ -911,6 +911,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1005,6 +1006,7 @@
 				);
 				INFOPLIST_FILE = sdkTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.onebusaway.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = OneBusAwaySDKTests;
 			};
 			name = Debug;
@@ -1019,6 +1021,7 @@
 				);
 				INFOPLIST_FILE = sdkTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.onebusaway.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = OneBusAwaySDKTests;
 			};
 			name = Release;
@@ -1080,6 +1083,7 @@
 				);
 				INFOPLIST_FILE = sdkTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.onebusaway.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = OneBusAwaySDKTests;
 			};
 			name = AppStoreDistribution;
@@ -1141,6 +1145,7 @@
 				);
 				INFOPLIST_FILE = sdkTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.onebusaway.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = OneBusAwaySDKTests;
 			};
 			name = AdHocDistribution;
