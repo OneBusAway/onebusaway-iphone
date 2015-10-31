@@ -4,6 +4,8 @@
 #import "OBATextEditViewController.h"
 #import "OBAListSelectionViewController.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBAReportProblemWithStopViewController : UITableViewController <UITextFieldDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate, UIAlertViewDelegate> {
     OBAApplicationDelegate * _appDelegate;
     OBAStopV2 * _stop;
@@ -18,3 +20,5 @@
 - (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate stop:(OBAStopV2*)stop;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -18,6 +18,8 @@
 #import "OBACommon.h"
 #import "OBACommonV1.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBANavigationTarget : NSObject <NSCoding> {
     OBANavigationTargetType _target;
     NSMutableDictionary * _parameters;
@@ -36,3 +38,5 @@
 - (void) setParameter:(id)value forKey:(id)key;
 
 @end
+
+NS_ASSUME_NONNULL_END

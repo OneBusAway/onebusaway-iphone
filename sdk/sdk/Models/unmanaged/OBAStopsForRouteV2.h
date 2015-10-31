@@ -1,6 +1,7 @@
 #import "OBAHasReferencesV2.h"
 #import "OBARouteV2.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAStopsForRouteV2 : OBAHasReferencesV2 {
     NSString * _routeId;
@@ -19,3 +20,5 @@
 - (void) addPolyline:(NSString*)polyline;
 
 @end
+
+NS_ASSUME_NONNULL_END

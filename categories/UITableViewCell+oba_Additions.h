@@ -10,6 +10,8 @@
 
 @class OBAServiceAlertsModel;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface UITableViewCell (oba_Additions)
 + (UITableViewCell*)getOrCreateCellForTableView:(UITableView*)tableView cellId:(NSString*)cellId;
 + (UITableViewCell*)getOrCreateCellForTableView:(UITableView*)tableView;
@@ -21,3 +23,5 @@
 + (UITableViewCell*) tableViewCellForUnreadServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts tableView:(UITableView*)tableView;
 + (UITableViewCell*) tableViewCellForServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts tableView:(UITableView*)tableView;
 @end
+
+NS_ASSUME_NONNULL_END

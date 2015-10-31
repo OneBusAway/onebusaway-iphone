@@ -5,6 +5,8 @@
 #import "OBAProgressIndicatorView.h"
 #import "OBARequestDrivenTableViewController.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBATripDetailsViewController : OBARequestDrivenTableViewController {
     OBATripInstanceRef *_tripInstance;
     OBATripDetailsV2 *_tripDetails;
@@ -19,3 +21,5 @@
 @property (nonatomic, strong) NSString *currentStopId;
 
 @end
+
+NS_ASSUME_NONNULL_END

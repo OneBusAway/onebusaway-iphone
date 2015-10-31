@@ -7,6 +7,7 @@
 #import "OBATripInstanceRef.h"
 #import "OBAArrivalAndDepartureInstanceRef.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAArrivalAndDepartureV2 : OBAHasReferencesV2 {
     NSMutableArray * _situationIds;
@@ -50,3 +51,5 @@
 - (void) addSituationId:(NSString*)situationId;
 
 @end
+
+NS_ASSUME_NONNULL_END

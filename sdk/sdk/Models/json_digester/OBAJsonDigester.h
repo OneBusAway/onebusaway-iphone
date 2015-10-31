@@ -16,6 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol OBAJsonDigesterContext
 
@@ -68,3 +69,5 @@ typedef NS_ENUM(NSInteger, OBAJsonDigesterRuleTarget) {
 @property (nonatomic) BOOL verbose;
 
 @end
+
+NS_ASSUME_NONNULL_END

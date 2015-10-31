@@ -3,6 +3,7 @@
 #import "OBATripInstanceRef.h"
 #import "OBAProgressIndicatorView.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBATripScheduleMapViewController : UIViewController <MKMapViewDelegate>
 
@@ -17,3 +18,5 @@
 - (void)showList:(id)source;
 
 @end
+
+NS_ASSUME_NONNULL_END

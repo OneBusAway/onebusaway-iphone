@@ -3,6 +3,7 @@
 #import "OBAHasReferencesV2.h"
 #import "OBAAgencyV2.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAAgencyWithCoverageV2 : OBAHasReferencesV2
 
@@ -13,3 +14,5 @@
 - (NSComparisonResult) compareUsingAgencyName:(OBAAgencyWithCoverageV2*)obj;
 
 @end
+
+NS_ASSUME_NONNULL_END

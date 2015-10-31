@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBARegionBoundsV2 : NSObject<NSCoding>
 
 @property (nonatomic) double lat;
@@ -15,3 +17,5 @@
 @property (nonatomic) double lon;
 @property (nonatomic) double lonSpan;
 @end
+
+NS_ASSUME_NONNULL_END

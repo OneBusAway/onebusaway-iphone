@@ -1,6 +1,7 @@
 #import "OBAApplicationDelegate.h"
 #import "OBATripDetailsV2.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBADiversionViewController : UIViewController <MKMapViewDelegate> 
 
@@ -11,3 +12,5 @@
 @property (nonatomic,strong) NSDictionary * args;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -1,8 +1,9 @@
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol OBAListSelectionViewControllerDelegate <NSObject>
 - (void) checkItemWithIndex:(NSIndexPath*)indexPath;
 @end
-
 
 @interface OBAListSelectionViewController : UITableViewController 
 
@@ -13,3 +14,5 @@
 - (id)initWithValues:(NSArray*)values selectedIndex:(NSIndexPath*)selectedIndex;
 
 @end
+
+NS_ASSUME_NONNULL_END

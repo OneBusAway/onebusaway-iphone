@@ -1,3 +1,6 @@
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBAModalActivityIndicator : NSObject {
     UIView * _modalView;
     UIActivityIndicatorView * _activityIndicatorView;
@@ -7,3 +10,5 @@
 - (void) hide;
 
 @end
+
+NS_ASSUME_NONNULL_END

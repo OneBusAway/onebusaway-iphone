@@ -17,6 +17,7 @@
 #import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBARecentStopsViewController : UITableViewController <OBANavigationTargetAware> {
     NSArray * _mostRecentStops;
@@ -25,3 +26,5 @@
 @property (nonatomic,strong) IBOutlet OBAApplicationDelegate * appDelegate;
 
 @end
+
+NS_ASSUME_NONNULL_END

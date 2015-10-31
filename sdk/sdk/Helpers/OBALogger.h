@@ -16,6 +16,8 @@
 
 @import Foundation;
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSInteger, OBALoggerLevel) {
     OBALoggerLevelDebug,
     OBALoggerLevelInfo,
@@ -56,3 +58,5 @@ typedef NS_ENUM(NSInteger, OBALoggerLevel) {
 + (NSString*) logLevelAsString:(OBALoggerLevel)level;
 
 @end
+
+NS_ASSUME_NONNULL_END

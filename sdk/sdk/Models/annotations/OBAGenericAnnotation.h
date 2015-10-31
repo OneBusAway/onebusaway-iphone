@@ -16,6 +16,8 @@
 
 @import MapKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBAGenericAnnotation : NSObject<MKAnnotation> {
     NSString * _title;
     NSString * _subtitle;
@@ -28,3 +30,5 @@
 - (id) initWithTitle:(NSString*)title subtitle:(NSString*)subtitle coordinate:(CLLocationCoordinate2D)coordinate context:(id)context;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -16,6 +16,7 @@
 
 #import "OBAJsonDigester.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBACallMethodJsonDigesterRule : NSObject <OBAJsonDigesterRule> {
     SEL _selector;
@@ -24,3 +25,5 @@
 - (id) initWithSelector:(SEL)selector;
 
 @end
+
+NS_ASSUME_NONNULL_END

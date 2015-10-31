@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "OBAApplicationDelegate.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBACustomApiViewController : UITableViewController<UITextFieldDelegate>
-
 - (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate;
 @end
+
+NS_ASSUME_NONNULL_END

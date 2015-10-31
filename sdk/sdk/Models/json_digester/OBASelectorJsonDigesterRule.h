@@ -16,6 +16,7 @@
 
 #import "OBAJsonDigester.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, OBASelectorJsonDigesterRuleTarget) {
     OBASelectorJsonDigesterRuleTargetBefore,
@@ -30,3 +31,5 @@ typedef NS_ENUM(NSUInteger, OBASelectorJsonDigesterRuleTarget) {
 - (instancetype) initWithTarget:(NSObject*)target selector:(SEL)selector ruleTarget:(OBAJsonDigesterRuleTarget)ruleTarget;
 
 @end
+
+NS_ASSUME_NONNULL_END

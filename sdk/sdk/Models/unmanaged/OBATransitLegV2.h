@@ -4,9 +4,9 @@
 #import "OBAFrequencyV2.h"
 #import "OBAArrivalAndDepartureInstanceRef.h"
 
-@interface OBATransitLegV2 : OBAHasReferencesV2 {
-    
-}
+NS_ASSUME_NONNULL_BEGIN
+
+@interface OBATransitLegV2 : OBAHasReferencesV2
 
 @property (nonatomic,strong) NSString * tripId;
 @property (nonatomic) long long serviceDate;
@@ -35,5 +35,6 @@
 @property (weak, nonatomic,readonly) OBAArrivalAndDepartureInstanceRef * departureInstanceRef;
 @property (weak, nonatomic,readonly) OBAArrivalAndDepartureInstanceRef * arrivalInstanceRef;
 
-
 @end
+
+NS_ASSUME_NONNULL_END

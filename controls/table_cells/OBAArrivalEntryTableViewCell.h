@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-
 typedef NS_ENUM(NSInteger, OBAArrivalEntryTableViewCellAlertStyle) {
     OBAArrivalEntryTableViewCellAlertStyleNone,
     OBAArrivalEntryTableViewCellAlertStyleInactive,
     OBAArrivalEntryTableViewCellAlertStyleActive
 };
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAArrivalEntryTableViewCell : UITableViewCell {
     OBAArrivalEntryTableViewCellAlertStyle _alertStyle;
@@ -40,3 +41,5 @@ typedef NS_ENUM(NSInteger, OBAArrivalEntryTableViewCellAlertStyle) {
 + (OBAArrivalEntryTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView;
 
 @end
+
+NS_ASSUME_NONNULL_END

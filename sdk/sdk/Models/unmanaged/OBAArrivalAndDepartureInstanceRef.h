@@ -1,5 +1,6 @@
 #import "OBATripInstanceRef.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAArrivalAndDepartureInstanceRef : NSObject
 
@@ -14,3 +15,5 @@
 - (BOOL) isEqualWithOptionalVehicleId:(OBAArrivalAndDepartureInstanceRef*)ref;
 
 @end
+
+NS_ASSUME_NONNULL_END

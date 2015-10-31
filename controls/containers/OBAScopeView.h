@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBAScopeView : UIView
 @property BOOL drawsTopBorder;
 @property BOOL drawsBottomBorder;
 @end
+
+NS_ASSUME_NONNULL_END

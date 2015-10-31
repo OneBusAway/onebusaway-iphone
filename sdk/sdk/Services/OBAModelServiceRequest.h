@@ -1,5 +1,7 @@
 #import "OBAModelService.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef UIBackgroundTaskIdentifier(^OBABackgroundTaskCleanup)(UIBackgroundTaskIdentifier task);
 
 @interface OBAModelServiceRequest : NSObject<OBAModelServiceRequest>
@@ -19,3 +21,5 @@ typedef UIBackgroundTaskIdentifier(^OBABackgroundTaskCleanup)(UIBackgroundTaskId
 
 - (void) processData:(id) obj withError:(NSError *) error responseCode:(NSUInteger) code completionBlock:(OBADataSourceCompletion) completion;
 @end
+
+NS_ASSUME_NONNULL_END

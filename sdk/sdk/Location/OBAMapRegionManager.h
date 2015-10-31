@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "OBARegionChangeRequest.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBAMapRegionManager : NSObject
 @property (nonatomic) BOOL lastRegionChangeWasProgrammatic;
 
@@ -25,3 +27,5 @@
 - (BOOL)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated;
 
 @end
+
+NS_ASSUME_NONNULL_END

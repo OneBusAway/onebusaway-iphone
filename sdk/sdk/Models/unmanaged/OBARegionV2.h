@@ -8,8 +8,9 @@
 @import MapKit;
 #import "OBARegionBoundsV2.h"
 
-@interface OBARegionV2 : NSObject<NSCoding>
-{
+NS_ASSUME_NONNULL_BEGIN
+
+@interface OBARegionV2 : NSObject<NSCoding> {
     NSMutableArray *_bounds;
 }
 
@@ -36,3 +37,5 @@
 - (MKMapRect)serviceRect;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -19,9 +19,11 @@
 #import "OBANavigationTarget.h"
 #import "OBAListWithRangeAndReferencesV2.h"
 
-extern NSString * kOBASearchTypeParameter;
-extern NSString * kOBASearchControllerSearchArgumentParameter;
-extern NSString * kOBASearchControllerSearchLocationParameter;
+extern NSString * _Nonnull const kOBASearchTypeParameter;
+extern NSString * _Nonnull const kOBASearchControllerSearchArgumentParameter;
+extern NSString * _Nonnull const kOBASearchControllerSearchLocationParameter;
+
+NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, OBASearchType) {
     OBASearchTypeNone=0,
@@ -50,5 +52,7 @@ typedef NS_ENUM(NSInteger, OBASearchType) {
 + (id) getSearchTypeParameterForNagivationTarget:(OBANavigationTarget*)target;
 
 @end
+
+NS_ASSUME_NONNULL_END
     
 

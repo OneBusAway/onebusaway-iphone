@@ -16,6 +16,7 @@
 
 #import "OBAJsonDigester.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBACreateObjectJsonDigesterRule : NSObject <OBAJsonDigesterRule> {
     Class _objectClass;
@@ -26,3 +27,5 @@
 @property (nonatomic) BOOL onlyIfNotNull;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class OBABookmarkV2;
 
 @interface OBABookmarkGroup : NSObject<NSCoding>
@@ -17,3 +19,5 @@
 - (instancetype)initWithName:(NSString*)name;
 
 @end
+
+NS_ASSUME_NONNULL_END

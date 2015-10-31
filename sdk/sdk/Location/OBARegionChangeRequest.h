@@ -13,6 +13,7 @@ typedef NS_ENUM(NSInteger, OBARegionChangeRequestType) {
     OBARegionChangeRequestTypeProgrammatic=1
 };
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBARegionChangeRequest : NSObject
 {
@@ -30,3 +31,4 @@ typedef NS_ENUM(NSInteger, OBARegionChangeRequestType) {
 
 @end
 
+NS_ASSUME_NONNULL_END

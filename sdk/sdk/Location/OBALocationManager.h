@@ -17,6 +17,7 @@
 
 #import "OBAModelDAO.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @class OBALocationManager;
 
@@ -56,3 +57,5 @@
 - (void)requestInUseAuthorization;
 
 @end
+
+NS_ASSUME_NONNULL_END

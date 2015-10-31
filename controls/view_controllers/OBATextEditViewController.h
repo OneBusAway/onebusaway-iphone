@@ -1,4 +1,5 @@
 
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol OBATextEditViewControllerDelegate <NSObject>
 - (void) saveText:(NSString*)text;
@@ -15,3 +16,5 @@
 - (IBAction)save:(id)sender;
 
 @end
+
+NS_ASSUME_NONNULL_END

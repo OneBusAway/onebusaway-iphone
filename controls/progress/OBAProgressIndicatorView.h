@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAProgressIndicatorView : UIView {
     UILabel * _label;
@@ -22,9 +23,11 @@
     UIProgressView * _progressView;
 }
 
-- (id) initWithFrame:(CGRect)frame;
+- (id)initWithFrame:(CGRect)frame;
 
-- (void) setMessage:(NSString*)message inProgress:(BOOL)inProgress progress:(CGFloat)progress;
-- (void) setInProgress:(BOOL)inProgress progress:(CGFloat)progress;
+- (void)setMessage:(nullable NSString*)message inProgress:(BOOL)inProgress progress:(CGFloat)progress;
+- (void)setInProgress:(BOOL)inProgress progress:(CGFloat)progress;
 
 @end
+
+NS_ASSUME_NONNULL_END

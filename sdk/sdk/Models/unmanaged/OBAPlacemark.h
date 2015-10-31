@@ -16,6 +16,8 @@
 
 @import MapKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBAPlacemark : NSObject <NSCoding,MKAnnotation> {
     NSString * _name;
     NSString * _address;
@@ -33,3 +35,5 @@
 -(id) initWithCoder:(NSCoder*)coder;
 
 @end
+
+NS_ASSUME_NONNULL_END

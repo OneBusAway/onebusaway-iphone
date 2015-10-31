@@ -27,6 +27,8 @@
 
 @class OBASearchControllerImpl;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate>
 @property(nonatomic,strong) OBAApplicationDelegate * appDelegate;
 @property(nonatomic,strong) IBOutlet OBAScopeView *scopeView;
@@ -41,3 +43,5 @@
 - (IBAction)showListView:(id)sender;
 
 @end
+
+NS_ASSUME_NONNULL_END

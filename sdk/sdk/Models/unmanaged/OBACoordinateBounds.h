@@ -17,6 +17,8 @@
 @import Foundation;
 @import MapKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBACoordinateBounds : NSObject <NSCoding>
 
 - (id) initWithBounds:(OBACoordinateBounds*)bounds;
@@ -41,3 +43,5 @@
 - (void) expandByRatio:(double)ratio;
 
 @end
+
+NS_ASSUME_NONNULL_END

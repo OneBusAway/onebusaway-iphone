@@ -17,6 +17,10 @@
 #import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBABookmarksViewController : UITableViewController <OBANavigationTargetAware>
 @property(nonatomic,strong) IBOutlet OBAApplicationDelegate * appDelegate;
 @end
+
+NS_ASSUME_NONNULL_END
