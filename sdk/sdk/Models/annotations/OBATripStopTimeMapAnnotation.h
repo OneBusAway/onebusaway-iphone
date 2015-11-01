@@ -1,6 +1,7 @@
 #import "OBATripDetailsV2.h"
 #import "OBATripStopTimeV2.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBATripStopTimeMapAnnotation : NSObject <MKAnnotation> {
     OBATripDetailsV2 * _tripDetails;
@@ -12,3 +13,5 @@
 @property (nonatomic,strong) OBATripStopTimeV2 * stopTime;
 
 @end
+
+NS_ASSUME_NONNULL_END

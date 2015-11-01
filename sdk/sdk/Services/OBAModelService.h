@@ -12,6 +12,7 @@
 #import "OBAReportProblemWithStopV2.h"
 #import "OBAReportProblemWithTripV2.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol OBAModelServiceRequest <NSObject>
 - (void)cancel;
@@ -71,7 +72,7 @@
                                                       withMinutesBefore:(NSUInteger)minutesBefore
                                                        withMinutesAfter:(NSUInteger)minutesAfter
                                                         completionBlock:(OBADataSourceCompletion)completion
-                                                          progressBlock:(OBADataSourceProgress)progress;
+                                                          progressBlock:(nullable OBADataSourceProgress)progress;
 /**
  *  Makes an asynchronous request for a set of stops within a given region
  *
@@ -102,7 +103,7 @@
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
 - (id<OBAModelServiceRequest>)requestStopsForQuery:(NSString *)stopQuery
-                                        withRegion:(CLCircularRegion *)region
+                                        withRegion:(nullable CLCircularRegion *)region
                                    completionBlock:(OBADataSourceCompletion)completion;
 /**
  *  Makes an asynchronous request to fetch a set of stops that belong to a particular route.
@@ -144,7 +145,7 @@
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
 - (id<OBAModelServiceRequest>)requestRoutesForQuery:(NSString *)routeQuery
-                                         withRegion:(CLCircularRegion *)region
+                                         withRegion:(nullable CLCircularRegion *)region
                                     completionBlock:(OBADataSourceCompletion)completion;
 /**
  *  Makes an asynchronous request to fetch a set of placemarks based on address string
@@ -205,7 +206,7 @@
  */
 - (id<OBAModelServiceRequest>)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance
                                                 completionBlock:(OBADataSourceCompletion)completion
-                                                  progressBlock:(OBADataSourceProgress)progress;
+                                                  progressBlock:(nullable OBADataSourceProgress)progress;
 /**
  *  Makes an asynchronous request to fetch a vehicle definition based on id
  *
@@ -257,3 +258,5 @@
 - (id<OBAModelServiceRequest>)requestCurrentVehicleEstimatesForLocations:(NSArray *)locations
                                                          completionBlock:(OBADataSourceCompletion)completion;
 @end
+
+NS_ASSUME_NONNULL_END

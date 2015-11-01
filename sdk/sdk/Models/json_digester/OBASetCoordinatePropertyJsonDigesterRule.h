@@ -16,6 +16,8 @@
 
 #import "OBASetPropertyJsonDigesterRule.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSInteger, OBASetCoordinatePropertyMethod) {
     OBASetCoordinatePropertyMethodArray,
     OBASetCoordinatePropertyMethodLatLon
@@ -31,3 +33,5 @@ typedef NS_ENUM(NSInteger, OBASetCoordinatePropertyMethod) {
 @property (nonatomic,strong) NSString * lonJsonName;
 
 @end
+
+NS_ASSUME_NONNULL_END

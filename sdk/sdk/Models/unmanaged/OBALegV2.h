@@ -2,6 +2,7 @@
 #import "OBATransitLegV2.h"
 #import "OBAStreetLegV2.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBALegV2 : OBAHasReferencesV2 {
     NSMutableArray * _streetLegs;
@@ -18,3 +19,5 @@
 - (void) addStreetLeg:(OBAStreetLegV2*)streetLeg;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAFrequencyV2 : NSObject
 
@@ -16,3 +17,5 @@
 @property (nonatomic) int headway;
 
 @end
+
+NS_ASSUME_NONNULL_END

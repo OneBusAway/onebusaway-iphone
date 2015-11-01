@@ -3,6 +3,7 @@
 #import "OBATripInstanceRef.h"
 #import "OBAProgressIndicatorView.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBATripScheduleListViewController : UITableViewController {
     OBAApplicationDelegate *_appDelegate;
@@ -22,3 +23,5 @@
 @property (nonatomic, strong) NSString *currentStopId;
 
 @end
+
+NS_ASSUME_NONNULL_END

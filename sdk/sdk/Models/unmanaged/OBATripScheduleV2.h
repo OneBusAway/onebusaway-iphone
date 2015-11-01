@@ -2,10 +2,9 @@
 #import "OBATripV2.h"
 #import "OBAFrequencyV2.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface OBATripScheduleV2 : OBAHasReferencesV2 {
-
-}
+@interface OBATripScheduleV2 : OBAHasReferencesV2
 
 @property (nonatomic,strong) NSString * timeZone;
 @property (nonatomic,strong) NSArray * stopTimes;
@@ -16,7 +15,6 @@
 @property (weak, nonatomic,readonly) OBATripV2 * previousTrip;
 @property (weak, nonatomic,readonly) OBATripV2 * nextTrip;
 
-
-
-
 @end
+
+NS_ASSUME_NONNULL_END

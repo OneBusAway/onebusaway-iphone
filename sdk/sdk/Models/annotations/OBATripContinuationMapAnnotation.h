@@ -1,6 +1,8 @@
 @import MapKit;
 #import "OBATripInstanceRef.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBATripContinuationMapAnnotation : NSObject <MKAnnotation> {
     NSString * _title;
     OBATripInstanceRef * _tripInstance;
@@ -12,3 +14,5 @@
 @property (nonatomic,readonly) OBATripInstanceRef * tripInstance;
 
 @end
+
+NS_ASSUME_NONNULL_END

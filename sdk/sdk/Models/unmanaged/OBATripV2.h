@@ -1,10 +1,9 @@
 #import "OBAHasReferencesV2.h"
 #import "OBARouteV2.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface OBATripV2 : OBAHasReferencesV2 {
-
-}
+@interface OBATripV2 : OBAHasReferencesV2
 
 @property (nonatomic, strong) NSString * tripId;
 @property (nonatomic, strong) NSString * routeId;
@@ -21,3 +20,5 @@
 @property (weak, nonatomic, readonly) NSString * asLabel;
 
 @end
+
+NS_ASSUME_NONNULL_END

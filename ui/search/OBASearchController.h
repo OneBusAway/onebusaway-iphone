@@ -22,6 +22,7 @@
 #import "OBADataSource.h"
 #import "OBAModelService.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark OBASearchControllerDelegate Protocol
 
@@ -36,7 +37,6 @@
 
 @end
 
-
 #pragma mark OBASearchController
 
 @class OBAProgressIndicatorImpl;
@@ -46,14 +46,13 @@
 @property (nonatomic,weak) id<OBASearchControllerDelegate> delegate;
 @property (nonatomic,readonly) OBASearchType searchType;
 @property (weak, nonatomic,readonly) id searchParameter;
-@property (strong,readonly) OBASearchResult * result;
+@property (strong,readonly,nullable) OBASearchResult * result;
 
 @property (weak, nonatomic,readonly) CLLocation * searchLocation;
 @property (nonatomic,strong) CLCircularRegion *searchRegion;
 
 @property (nonatomic,strong) NSObject<OBAProgressIndicatorSource>* progress;
 @property (nonatomic,strong) NSError * error;
-
 
 - (id) initWithappDelegate:(OBAApplicationDelegate*)context;
 - (BOOL)unfilteredSearch;
@@ -62,5 +61,6 @@
 -(OBANavigationTarget*) getSearchTarget;
 -(void) cancelOpenConnections;
 
-
 @end
+
+NS_ASSUME_NONNULL_END

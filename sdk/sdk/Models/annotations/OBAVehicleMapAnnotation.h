@@ -1,6 +1,7 @@
 @import MapKit;
 #import "OBATripStatusV2.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAVehicleMapAnnotation : NSObject <MKAnnotation> {
     OBATripStatusV2 * _tripStatus;
@@ -12,3 +13,5 @@
 @property (nonatomic) BOOL showLastKnownLocation;
 
 @end
+
+NS_ASSUME_NONNULL_END

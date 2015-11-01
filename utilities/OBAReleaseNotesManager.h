@@ -8,7 +8,11 @@
 
 @import UIKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBAReleaseNotesManager : NSObject
 + (BOOL)shouldShowReleaseNotes;
 + (void)showReleaseNotes:(UIWindow*)window;
 @end
+
+NS_ASSUME_NONNULL_END

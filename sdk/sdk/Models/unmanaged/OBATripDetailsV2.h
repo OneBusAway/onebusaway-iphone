@@ -4,6 +4,8 @@
 #import "OBATripStatusV2.h"
 #import "OBATripInstanceRef.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBATripDetailsV2 : OBAHasReferencesV2 {
     NSMutableArray * _situationIds;
 }
@@ -24,3 +26,5 @@
 - (void) addSituationId:(NSString*)situationId;
 
 @end
+
+NS_ASSUME_NONNULL_END

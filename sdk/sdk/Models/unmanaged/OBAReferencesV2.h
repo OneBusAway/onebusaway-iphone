@@ -5,6 +5,8 @@
 @class OBATripV2;
 @class OBASituationV2;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBAReferencesV2 : NSObject {
     NSMutableDictionary * _agencies;
     NSMutableDictionary * _routes;
@@ -31,3 +33,5 @@
 - (void) clear;
                              
 @end
+
+NS_ASSUME_NONNULL_END

@@ -19,6 +19,8 @@
 #import "GAI.h"
 #import "OBAApplication.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class OBASearchResultsMapViewController;
 @class OBARecentStopsViewController;
 @class OBABookmarksViewController;
@@ -64,3 +66,5 @@
 -(BOOL) readSetRegionAutomatically;
 -(void) setOBARegion:(OBARegionV2*) region;
 @end
+
+NS_ASSUME_NONNULL_END

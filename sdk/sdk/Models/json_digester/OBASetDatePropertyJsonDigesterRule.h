@@ -16,8 +16,9 @@
 
 #import "OBASetPropertyJsonDigesterRule.h"
 
-@interface OBASetDatePropertyJsonDigesterRule : OBASetPropertyJsonDigesterRule {
+NS_ASSUME_NONNULL_BEGIN
 
-}
-
+@interface OBASetDatePropertyJsonDigesterRule : OBASetPropertyJsonDigesterRule
 @end
+
+NS_ASSUME_NONNULL_END

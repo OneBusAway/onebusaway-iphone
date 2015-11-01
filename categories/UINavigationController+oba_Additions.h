@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface UINavigationController (oba_Additions)
--(void) replaceViewController:(UIViewController*)viewController animated:(BOOL)animated;
+- (void)replaceViewController:(UIViewController*)viewController animated:(BOOL)animated;
 @end
+
+NS_ASSUME_NONNULL_END

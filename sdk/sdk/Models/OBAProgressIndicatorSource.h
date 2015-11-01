@@ -16,6 +16,8 @@
 
 @import Foundation;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol OBAProgressIndicatorDelegate
 - (void) progressUpdated;
 @end
@@ -32,3 +34,5 @@
 - (void) setInProgress:(BOOL)inProgress progress:(float)progress;
 
 @end
+
+NS_ASSUME_NONNULL_END

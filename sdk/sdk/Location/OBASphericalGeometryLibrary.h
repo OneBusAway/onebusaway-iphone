@@ -16,11 +16,9 @@
 @import MapKit;
 #import "OBACoordinateBounds.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface OBASphericalGeometryLibrary : NSObject {
-
-}
-
+@interface OBASphericalGeometryLibrary : NSObject
 + (CLLocationCoordinate2D) makeCoordinateLat:(CLLocationDegrees)lat lon:(CLLocationDegrees)lon;
 + (MKCoordinateRegion) createRegionWithCenter:(CLLocationCoordinate2D)center latRadius:(double)latRadiusInMeters lonRadius:(double)lonRadiusInMeters;
 + (CLLocationDistance) getDistanceFromRegion:(MKCoordinateRegion)regionA toRegion:(MKCoordinateRegion)regionB;
@@ -39,3 +37,5 @@
 
 + (CGFloat)computeStopsForRouteAnnotationScaleFactor:(MKCoordinateRegion)region;
 @end
+
+NS_ASSUME_NONNULL_END

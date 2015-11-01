@@ -1,6 +1,8 @@
 #import "OBAHasReferencesV2.h"
 @import MapKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBAStopV2 : OBAHasReferencesV2 <MKAnnotation>
 
 @property (nonatomic, strong) NSString * stopId;
@@ -22,3 +24,5 @@
 - (NSString*) routeNamesAsString;
 
 @end
+
+NS_ASSUME_NONNULL_END

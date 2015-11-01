@@ -5,10 +5,9 @@
 #import "OBATripV2.h"
 #import "OBAFrequencyV2.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface OBATripStatusV2 : OBAHasReferencesV2 {
-
-}
+@interface OBATripStatusV2 : OBAHasReferencesV2
 
 @property (nonatomic,strong) NSString * activeTripId;
 @property (weak, nonatomic,readonly) OBATripV2 * activeTrip;
@@ -27,3 +26,5 @@
 @property (weak, nonatomic,readonly) OBATripInstanceRef * tripInstance;
 
 @end
+
+NS_ASSUME_NONNULL_END

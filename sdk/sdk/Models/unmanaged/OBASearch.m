@@ -21,9 +21,9 @@
 #import "OBASphericalGeometryLibrary.h"
 #import "OBAJsonDataSource.h"
 
-NSString * kOBASearchTypeParameter = @"OBASearchTypeParameter";
-NSString * kOBASearchControllerSearchArgumentParameter = @"OBASearchControllerSearchArgumentParameter";
-NSString * kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSearchLocationParameter";
+NSString * const kOBASearchTypeParameter = @"OBASearchTypeParameter";
+NSString * const kOBASearchControllerSearchArgumentParameter = @"OBASearchControllerSearchArgumentParameter";
+NSString * const kOBASearchControllerSearchLocationParameter = @"OBASearchControllerSearchLocationParameter";
 
 @implementation OBASearch
 

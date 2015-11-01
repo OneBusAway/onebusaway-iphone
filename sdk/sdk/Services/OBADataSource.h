@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 @import Foundation;
+
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol OBADataSourceConnection <NSObject>
 - (void) cancel;
 @end
@@ -24,3 +27,5 @@
 @optional
 - (void)connection:(id<OBADataSourceConnection>)connection withProgress:(float)progress;
 @end
+
+NS_ASSUME_NONNULL_END

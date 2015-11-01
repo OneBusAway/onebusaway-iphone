@@ -18,6 +18,8 @@
 #import "OBAStopV2.h"
 #import "OBAStopPreferencesV2.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBAEditStopPreferencesViewController : UITableViewController {
     OBAApplicationDelegate * _appDelegate;
     OBAStopV2 * _stop;
@@ -34,3 +36,5 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView routeCellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
+
+NS_ASSUME_NONNULL_END

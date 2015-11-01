@@ -9,15 +9,19 @@
 #import "OBAApplicationDelegate.h"
 #import "OBARequestDrivenTableViewController.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBARegionListViewController : OBARequestDrivenTableViewController<OBALocationManagerDelegate> 
 
-@property (nonatomic) OBARegionV2 *nearbyRegion;
-@property (nonatomic) NSIndexPath *checkedItem;
+@property(nonatomic,strong,nullable) OBARegionV2 *nearbyRegion;
+@property(nonatomic,strong,nullable) NSIndexPath *checkedItem;
 
-- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate;
-- (void) sortRegionsByLocation;
-- (void) sortRegionsByName;
-- (void) timeOutLocation:(NSTimer*)theTimer;
-- (void) showLocationServicesAlert;
+- (id)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate;
+- (void)sortRegionsByLocation;
+- (void)sortRegionsByName;
+- (void)timeOutLocation:(NSTimer*)theTimer;
+- (void)showLocationServicesAlert;
 
 @end
+
+NS_ASSUME_NONNULL_END

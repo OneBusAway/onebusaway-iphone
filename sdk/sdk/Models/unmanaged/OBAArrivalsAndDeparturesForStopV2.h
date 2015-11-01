@@ -2,6 +2,7 @@
 #import "OBAStopV2.h"
 #import "OBAArrivalAndDepartureV2.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAArrivalsAndDeparturesForStopV2 : OBAHasReferencesV2 {
     NSMutableArray * _arrivalsAndDepartures;
@@ -18,3 +19,5 @@
 - (void) addSituationId:(NSString*)situationId;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -16,6 +16,7 @@
 
 #import "OBAJsonDigester.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBASetNextOBAJsonDigesterRule : NSObject <OBAJsonDigesterRule> {
     SEL _selector;
@@ -27,3 +28,5 @@
 @property (nonatomic) BOOL onlyIfNotNull;
 
 @end
+
+NS_ASSUME_NONNULL_END

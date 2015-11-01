@@ -16,9 +16,13 @@
 
 @import Foundation;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBADataSourceConfig : NSObject
 @property(strong,readonly) NSString* url;
 @property(strong,readonly) NSString* args;
-- (id)initWithUrl:(NSString*)url args:(NSString*)args;
-- (NSURL*)constructURL:(NSString*)path withArgs:(NSString*)args includeArgs:(BOOL)includeArgs;
+- (id)initWithUrl:(NSString*)url args:(nullable NSString*)args;
+- (NSURL*)constructURL:(NSString*)path withArgs:(nullable NSString*)args includeArgs:(BOOL)includeArgs;
 @end
+
+NS_ASSUME_NONNULL_END

@@ -1,5 +1,6 @@
 #import "OBAPlacemark.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAPlacemarks : NSObject {
     NSMutableArray * _placemarks;
@@ -13,3 +14,5 @@
 - (void) addAttribution:(NSString*)attribution;
 
 @end
+
+NS_ASSUME_NONNULL_END

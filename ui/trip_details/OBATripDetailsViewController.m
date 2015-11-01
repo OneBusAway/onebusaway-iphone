@@ -56,25 +56,21 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (id<OBAModelServiceRequest>)handleRefresh {
-    return [[OBAApplication sharedApplication].modelService
-            requestTripDetailsForTripInstance:self.tripInstance
+    return [[OBAApplication sharedApplication].modelService requestTripDetailsForTripInstance:self.tripInstance
                               completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                   if (error) {
-                                  [self refreshFailedWithError:error];
+                                      [self refreshFailedWithError:error];
                                   }
                                   else {
-                                  OBAEntryWithReferencesV2 *entry = jsonData;
+                                      OBAEntryWithReferencesV2 *entry = jsonData;
+                                      self.tripDetails = entry.entry;
 
-                                  self.tripDetails = entry.entry;
+                                      self.serviceAlerts = [[OBAApplication sharedApplication].modelDao
+                                      getServiceAlertsModelForSituations:self.tripDetails.situations];
 
-                                  self.serviceAlerts = [[OBAApplication sharedApplication].modelDao
-                                  getServiceAlertsModelForSituations:self.tripDetails.situations];
-
-                                  [self refreshCompleteWithCode:responseCode];
+                                      [self refreshCompleteWithCode:responseCode];
                                   }
-                              }
-
-                                progressBlock:nil];
+                              } progressBlock:nil];
 }
 
 #pragma mark Table view methods

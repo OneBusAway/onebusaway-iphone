@@ -17,6 +17,7 @@
 @import UIKit;
 #import "OBALogger.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const OBAErrorDomain;
 extern const NSInteger kOBAErrorDuplicateEntity;
@@ -41,3 +42,4 @@ extern NSString * const OBAIncreaseContrastToggledNotification;
 
 @end
 
+NS_ASSUME_NONNULL_END

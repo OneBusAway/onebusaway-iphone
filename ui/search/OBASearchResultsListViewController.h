@@ -17,6 +17,7 @@
 #import "OBAApplicationDelegate.h"
 #import "OBASearchController.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @class OBASearchResultsMapViewController;
 
@@ -26,5 +27,6 @@
 @property(strong) OBASearchResult *result;
 @property BOOL isModal;
 - (id) initWithContext:(OBAApplicationDelegate*)appDelegate searchControllerResult:(OBASearchResult*)result;
-
 @end
+
+NS_ASSUME_NONNULL_END

@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-//#import <Foundation/Foundation.h>
 #import "OBARegionV2.h"
 
-@interface OBAModelDAOUserPreferencesImpl : NSObject  {
+NS_ASSUME_NONNULL_BEGIN
 
-}
+@interface OBAModelDAOUserPreferencesImpl : NSObject
 
 - (NSArray*) readBookmarks;
 - (void) writeBookmarks:(NSArray*)source;
@@ -55,3 +54,5 @@
 - (void) writeMostRecentCustomApiUrls:(NSArray*)customApiUrls;
 
 @end
+
+NS_ASSUME_NONNULL_END

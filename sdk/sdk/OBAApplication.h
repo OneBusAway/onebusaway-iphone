@@ -20,6 +20,8 @@
 #import "OBAModelService.h"
 #import "OBALocationManager.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  This notification is posted in refernce to a specific refreshSettings event, specifically when modelDao does not have an assigned region.
  */
@@ -49,5 +51,6 @@ extern NSString *const kOBAApplicationSettingsRegionRefreshNotification;
  */
 - (void)refreshSettings;
 
-
 @end
+
+NS_ASSUME_NONNULL_END

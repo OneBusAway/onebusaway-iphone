@@ -18,12 +18,12 @@
 #import "OBABookmarkV2.h"
 #import "OBAEditStopBookmarkGroupViewController.h"
 
-
 typedef NS_ENUM(NSInteger, OBABookmarkEditType) {
     OBABookmarkEditNew=0,
     OBABookmarkEditExisting=1
 };
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAEditStopBookmarkViewController : UITableViewController <OBABookmarkGroupVCDelegate>
 
@@ -33,3 +33,5 @@ typedef NS_ENUM(NSInteger, OBABookmarkEditType) {
 - (IBAction) onSaveButton:(id)sender;
 
 @end
+
+NS_ASSUME_NONNULL_END

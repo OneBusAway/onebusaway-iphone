@@ -19,7 +19,9 @@
 #import "OBADataSource.h"
 #import "OBADataSourceConfig.h"
 
-typedef void (^OBADataSourceCompletion)(id responseData, NSUInteger responseCode, NSError * error);
+NS_ASSUME_NONNULL_BEGIN
+
+typedef void (^OBADataSourceCompletion)(_Nullable id responseData, NSUInteger responseCode, NSError * error);
 typedef void (^OBADataSourceProgress)(CGFloat progress);
 
 @interface OBAJsonDataSource : NSObject
@@ -30,21 +32,23 @@ typedef void (^OBADataSourceProgress)(CGFloat progress);
                                 completionBlock:(OBADataSourceCompletion) completion;
 
 - (id<OBADataSourceConnection>) requestWithPath:(NSString*)path
-                                       withArgs:(NSString*)args
+                                       withArgs:(nullable NSString*)args
                                 completionBlock:(OBADataSourceCompletion) completion
-                                  progressBlock:(OBADataSourceProgress) progress;
+                                  progressBlock:(nullable OBADataSourceProgress) progress;
 
 - (id<OBADataSourceConnection>) requestWithPath:(NSString*)path
-                                       withArgs:(NSString*)args
+                                       withArgs:(nullable NSString*)args
                                  withFileUpload:(NSString*)filePath
                                 completionBlock:(OBADataSourceCompletion) completion
-                                  progressBlock:(OBADataSourceProgress) progress;
+                                  progressBlock:(nullable OBADataSourceProgress) progress;
 
 - (id<OBADataSourceConnection>) postWithPath:(NSString*)url
-                                    withArgs:(NSDictionary*)args
+                                    withArgs:(nullable NSDictionary*)args
                              completionBlock:(OBADataSourceCompletion) completion
-                               progressBlock:(OBADataSourceProgress) progress;
+                               progressBlock:(nullable OBADataSourceProgress) progress;
 
 - (void) cancelOpenConnections;
 
 @end
+
+NS_ASSUME_NONNULL_END

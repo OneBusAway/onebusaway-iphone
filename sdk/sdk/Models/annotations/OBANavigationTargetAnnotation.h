@@ -20,6 +20,8 @@ typedef NS_ENUM(NSInteger, OBAAnnotationType) {
     OBAAnnotationTypeStop,
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBANavigationTargetAnnotation : NSObject<MKAnnotation> {
     NSString * _title;
     NSString * _subtitle;
@@ -34,6 +36,8 @@ typedef NS_ENUM(NSInteger, OBAAnnotationType) {
 @property (nonatomic,readonly) OBANavigationTarget * target;
 @property (nonatomic,strong) id data;
 
-- (id) initWithTitle:(NSString*)title subtitle:(NSString*)subtitle coordinate:(CLLocationCoordinate2D)coordinate target:(OBANavigationTarget*)target;
+- (id) initWithTitle:(NSString*)title subtitle:(nullable NSString*)subtitle coordinate:(CLLocationCoordinate2D)coordinate target:(nullable OBANavigationTarget*)target;
 
 @end
+
+NS_ASSUME_NONNULL_END

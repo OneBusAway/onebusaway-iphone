@@ -1,5 +1,7 @@
 @import Foundation;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBATripInstanceRef : NSObject {
     NSString * _tripId;
     long long _serviceDate;
@@ -19,3 +21,5 @@
 - (BOOL) isEqualWithOptionalVehicleId:(OBATripInstanceRef*)ref;
 
 @end
+
+NS_ASSUME_NONNULL_END

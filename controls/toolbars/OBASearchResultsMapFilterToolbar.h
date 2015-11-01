@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-
 @class OBAApplicationDelegate;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBASearchResultsMapFilterToolbar : UIToolbar {
     NSString * _filterDescription;
@@ -28,8 +29,8 @@
     UILabel * _descOutput;  // "Route 8" or "Transit Agencies", etc
 }
 
-@property (nonatomic, strong) NSString *              filterDescription;
-@property (nonatomic, strong) OBAApplicationDelegate * appDelegate;
+@property (nonatomic,strong,nullable) NSString *filterDescription;
+@property (nonatomic,strong) OBAApplicationDelegate *appDelegate;
 
 -(OBASearchResultsMapFilterToolbar*) initWithDelegate:(id)delegate andappDelegate:(OBAApplicationDelegate*)context;
 
@@ -37,3 +38,5 @@
 -(void) hideWithAnimated:(BOOL)animated;
 
 @end
+
+NS_ASSUME_NONNULL_END

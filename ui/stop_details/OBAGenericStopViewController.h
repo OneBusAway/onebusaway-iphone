@@ -30,6 +30,8 @@ typedef NS_ENUM(NSInteger, OBAStopSectionType) {
     OBAStopSectionTypeActions
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBAGenericStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate, MKMapViewDelegate>
 @property(nonatomic, weak) IBOutlet UIView *tableHeaderView;
 @property(nonatomic, weak) IBOutlet MKMapView *mapView;
@@ -54,3 +56,5 @@ typedef NS_ENUM(NSInteger, OBAStopSectionType) {
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section;
 - (void)refresh;
 @end
+
+NS_ASSUME_NONNULL_END

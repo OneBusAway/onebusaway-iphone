@@ -5,6 +5,8 @@
 #import "OBATextEditViewController.h"
 #import "OBAListSelectionViewController.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBAReportProblemWithTripViewController : UITableViewController <UITextFieldDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate, UIAlertViewDelegate> {
     OBAApplicationDelegate *_appDelegate;
     OBATripInstanceRef *_tripInstance;
@@ -25,3 +27,5 @@
 @property (nonatomic, strong) NSString *currentStopId;
 
 @end
+
+NS_ASSUME_NONNULL_END

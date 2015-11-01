@@ -21,6 +21,8 @@
 #import "OBAServiceAlertsModel.h"
 #import "OBARegionV2.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class OBAModelDAOUserPreferencesImpl;
 
 @interface OBAModelDAO : NSObject {
@@ -35,12 +37,12 @@
     NSMutableArray * _mostRecentCustomApiUrls;
 }
 
-@property (weak, nonatomic,readonly) NSArray * bookmarks;
-@property (weak, nonatomic,readonly) NSArray * bookmarkGroups;
-@property (weak, nonatomic,readonly) NSArray * mostRecentStops;
-@property (nonatomic,weak) CLLocation * mostRecentLocation;
-@property (nonatomic,readonly) OBARegionV2 * region;
-@property (weak, nonatomic,readonly) NSArray * mostRecentCustomApiUrls;
+@property(weak, nonatomic,readonly) NSArray * bookmarks;
+@property(weak, nonatomic,readonly) NSArray * bookmarkGroups;
+@property(weak, nonatomic,readonly) NSArray * mostRecentStops;
+@property(nonatomic,weak) CLLocation * mostRecentLocation;
+@property(nonatomic,readonly) OBARegionV2 * region;
+@property(weak, nonatomic,readonly) NSArray * mostRecentCustomApiUrls;
 
 - (OBABookmarkV2*) createTransientBookmark:(OBAStopV2*)stop;
 
@@ -64,7 +66,7 @@
 
 - (OBAServiceAlertsModel*) getServiceAlertsModelForSituations:(NSArray*)situations;
 
-- (void) setOBARegion:(OBARegionV2*)newRegion;
+- (void) setOBARegion:(nullable OBARegionV2*)newRegion;
 /**
  * We persist hiding location warnings across application settings for users who have disabled location services for the app
  */
@@ -79,3 +81,5 @@
 
 - (void) addCustomApiUrl:(NSString*)customApiUrl;
 @end
+
+NS_ASSUME_NONNULL_END
