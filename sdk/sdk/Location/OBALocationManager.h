@@ -37,8 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableArray * _delegates;
     
     CLLocation * _currentLocation;
-    BOOL _disabled;
-    
 }
 
 - (id) initWithModelDao:(OBAModelDAO*)modelDao;

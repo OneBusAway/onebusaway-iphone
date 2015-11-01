@@ -11,6 +11,7 @@
 #import "OBACustomApiViewController.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
+#import "OBAAlerts.h"
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -336,15 +337,11 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (void)showLocationServicesAlert {
-    if (![[OBAApplication sharedApplication].modelDao hideFutureLocationWarnings]) {
-        [[OBAApplication sharedApplication].modelDao setHideFutureLocationWarnings:TRUE];
+    if (![OBAApplication sharedApplication].modelDao.hideFutureLocationWarnings) {
+        [OBAApplication sharedApplication].modelDao.hideFutureLocationWarnings = YES;
 
-        UIAlertView *view = [[UIAlertView alloc] init];
-        view.title = NSLocalizedString(@"Location Services Disabled", @"view.title");
-        view.message = NSLocalizedString(@"Location Services are disabled for this app. Some location-aware functionality will be missing.", @"view.message");
-        [view addButtonWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle")];
-        view.cancelButtonIndex = 0;
-        [view show];
+        UIAlertController *alert = [OBAAlerts locationServicesDisabledAlert];
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
@@ -484,7 +481,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
                                                                       message:@"Experimental regions may be unstable and without real-time info!"
                                                                      delegate:self
                                                             cancelButtonTitle:@"Cancel"
-                                                            otherButtonTitles:@"OK", nil];
+                                                            otherButtonTitles:NSLocalizedString(@"OK", @"OK button"), nil];
         [unstableRegionAlert show];
     }
     else {
@@ -494,7 +491,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
                                                                                     message:@"Your current experimental region won't be available! Proceed anyway?"
                                                                                    delegate:self
                                                                           cancelButtonTitle:@"Cancel"
-                                                                          otherButtonTitles:@"OK", nil];
+                                                                          otherButtonTitles:NSLocalizedString(@"OK", @"OK button"), nil];
 
             [currentRegionUnavailableAlert show];
         }
@@ -507,7 +504,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
 
-    if ([title isEqualToString:@"OK"]) {
+    if ([title isEqualToString:NSLocalizedString(@"OK", @"OK button")]) {
         [self doNeedToUpdateRegionsList];
     }
     else if ([title isEqualToString:@"Cancel"]) {
@@ -544,7 +541,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         }
         //Set region to nil if list is empty
         else if (![self isLoading]) {
-            UIAlertView *noAvailableRegionsAlert = [[UIAlertView alloc] initWithTitle:@"No Regions Found" message:@"No available regions were found, recheck your connection and try again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            UIAlertView *noAvailableRegionsAlert = [[UIAlertView alloc] initWithTitle:@"No Regions Found" message:@"No available regions were found, recheck your connection and try again" delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK button") otherButtonTitles:nil];
             [[OBAApplication sharedApplication].modelDao setOBARegion:nil];
             [noAvailableRegionsAlert show];
         }

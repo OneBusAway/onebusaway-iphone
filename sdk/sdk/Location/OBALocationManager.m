@@ -30,7 +30,6 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 - (id) initWithModelDao:(OBAModelDAO*)modelDao {
     if( self = [super init]) {
         _modelDao = modelDao;
-        _disabled = NO;
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
         _delegates = [[NSMutableArray alloc] init];
@@ -43,8 +42,8 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 }
 
 
-- (BOOL) locationServicesEnabled {
-    return _disabled ? NO : [CLLocationManager locationServicesEnabled];
+- (BOOL)locationServicesEnabled {
+    return [CLLocationManager locationServicesEnabled];
 }
 
 - (void) addDelegate:(id<OBALocationManagerDelegate>)delegate {
@@ -96,20 +95,17 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    _disabled = NO;
     _modelDao.hideFutureLocationWarnings = NO;
     [self handleNewLocation:locations.lastObject];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     
-    if( [error code] == kCLErrorDenied ) {
-        _disabled = YES;
+    if (error.code == kCLErrorDenied) {
         [self stopUpdatingLocation];
-        for (int i = 0; i < [_delegates count]; i++) {
-            [(id<OBALocationManagerDelegate>)[_delegates objectAtIndex:i ] locationManager:self didFailWithError:error];
+        for (NSInteger i = 0; i < _delegates.count; i++) {
+            [(id<OBALocationManagerDelegate>)_delegates[i] locationManager:self didFailWithError:error];
         }
-
     }
 }
 
@@ -124,16 +120,10 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 
 @end
 
-
-
 @implementation OBALocationManager (Private)
 
--(void) handleNewLocation:(CLLocation*)location {
-    
-    //OBALogDebug(@"location: %@", [location description]);
-    //long long t = [location.timestamp timeIntervalSince1970] * 1000;
-    //NSLog(@"location=%lld,%f,%f,%f", t,location.coordinate.latitude, location.coordinate.longitude, location.horizontalAccuracy);
-    
+- (void)handleNewLocation:(CLLocation*)location {
+
     @synchronized(self) {
         
         /**
@@ -142,16 +132,14 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
          * completed before cell-tower-localization.  We want to ignore the low-accuracy
          * reading
          */
-        if( _currentLocation ) {
-            
+        if (_currentLocation) {
+
             NSDate * currentTime = [_currentLocation timestamp];
             NSDate * newTime = [location timestamp];
 
             NSTimeInterval interval = [newTime timeIntervalSinceDate:currentTime];
-            
-            //OBALogDebug(@"location time diff: %f", interval);
-            
-            if ( interval < kSuccessiveLocationComparisonWindow &&
+
+            if (interval < kSuccessiveLocationComparisonWindow &&
                 [_currentLocation horizontalAccuracy] < [location horizontalAccuracy]) {
                 OBALogDebug(@"pruning location reading with low accuracy");
                 return;

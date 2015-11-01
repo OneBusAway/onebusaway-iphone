@@ -33,6 +33,7 @@
 #import "OBAInfoViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "OBAAnalytics.h"
+#import "OBAAlerts.h"
 
 #define kScopeViewAnimationDuration 0.25
 #define kRouteSegmentIndex          0
@@ -221,9 +222,18 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contrastToggled) name:OBAIncreaseContrastToggledNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onMapTabBarButton) name:@"OBAMapButtonRecenterNotification" object:nil];
 }
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    [self refreshCurrentLocation];
+}
+
 - (void)orientationChanged:(NSNotification*)notification{
     [self updateMapLabelFrame];
 }
+
 - (void)updateMapLabelFrame
 {
     CGRect mapLabelFrame = self.mapLabel.frame;
@@ -231,6 +241,7 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     [UIApplication sharedApplication].statusBarFrame.size.height;
     self.mapLabel.frame = mapLabelFrame;
 }
+
 - (void)contrastToggled {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
         [self setHighContrastStyle];
@@ -284,7 +295,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
     [lm addDelegate:self];
     [lm startUpdatingLocation];
-    self.navigationItem.leftBarButtonItem.enabled = lm.locationServicesEnabled;
 
     [self refreshSearchToolbar];
 
@@ -486,7 +496,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 #pragma mark - OBALocationManagerDelegate Methods
 
 - (void)locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
-    self.navigationItem.leftBarButtonItem.enabled = YES;
     [self refreshCurrentLocation];
 }
 
@@ -497,9 +506,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 }
 
 - (void)locationManager:(OBALocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-    // TODO: it would be nice to tell the user how to un-hose themselves
-    // if they accidentally deny location services to OBA.
-
     if (status != kCLAuthorizationStatusNotDetermined && status != kCLAuthorizationStatusRestricted && status != kCLAuthorizationStatusDenied) {
         self.mapView.showsUserLocation = YES;
     }
@@ -729,10 +735,19 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 #pragma mark - IBActions
 
 - (IBAction)onCrossHairsButton:(id)sender {
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked My Location Button" value:nil];
-    OBALogDebug(@"setting auto center on current location");
-    self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
-    [self refreshCurrentLocation];
+
+    OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
+
+    if (lm.locationServicesEnabled) {
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked My Location Button" value:nil];
+        OBALogDebug(@"setting auto center on current location");
+        self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
+        [self refreshCurrentLocation];
+    }
+    else {
+        UIAlertController *alert = [OBAAlerts locationServicesDisabledAlert];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 - (void)onMapTabBarButton {
@@ -941,17 +956,12 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 }
 
 - (void)showLocationServicesAlert {
-    self.navigationItem.leftBarButtonItem.enabled = NO;
 
     if (![[OBAApplication sharedApplication].modelDao hideFutureLocationWarnings]) {
         [[OBAApplication sharedApplication].modelDao setHideFutureLocationWarnings:YES];
 
-        UIAlertView *view = [[UIAlertView alloc] init];
-        view.title = NSLocalizedString(@"Location Services Disabled", @"view.title");
-        view.message = NSLocalizedString(@"Location Services are disabled for this app. Some location-aware functionality will be missing.", @"view.message");
-        [view addButtonWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle")];
-        view.cancelButtonIndex = 0;
-        [view show];
+        UIAlertController *alert = [OBAAlerts locationServicesDisabledAlert];
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 

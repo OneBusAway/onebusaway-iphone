@@ -59,7 +59,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                                                     message:NSLocalizedString(@"Please setup your Mail app before trying to send an email.", @"view.message")
                                                    delegate:nil
                                           cancelButtonTitle:nil
-                                          otherButtonTitles:NSLocalizedString(@"Okay", @"Ok button"), nil];
+                                          otherButtonTitles:NSLocalizedString(@"OK", @"OK button"), nil];
 
     [alert show];
 }
