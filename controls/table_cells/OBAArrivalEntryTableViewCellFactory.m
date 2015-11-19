@@ -44,24 +44,9 @@
     cell.alertStyle = [self getAlertStyleForArrival:arrival];
     [cell.statusLabel setAttributedText:attributedStatusLabel];
 
-    if (arrival.predicted && arrival.predictedDepartureTime == 0) {
-        if (arrival.distanceFromStop < 500) {
-            cell.minutesLabel.text = [NSString stringWithFormat:@"%ld", (long)arrival.distanceFromStop];
-            cell.minutesSubLabel.text = NSLocalizedString(@"meters", @"cell.minutesSubLabel.text");
-        }
-        else {
-            cell.minutesLabel.text = [NSString stringWithFormat:@"%0.1f", (arrival.distanceFromStop / 1000.0)];
-            cell.minutesSubLabel.text = @"km";
-        }
-
-        cell.minutesLabel.textColor = [UIColor greenColor];
-        cell.minutesSubLabel.hidden = NO;
-    }
-    else {
-        cell.minutesLabel.text = [self getMinutesLabelForMinutes:minutes];
-        cell.minutesLabel.textColor = [self getMinutesColorForArrival:arrival];
-        cell.minutesSubLabel.hidden = YES;
-    }
+    cell.minutesLabel.text = [self getMinutesLabelForMinutes:minutes];
+    cell.minutesLabel.textColor = [self getMinutesColorForArrival:arrival];
+    cell.minutesSubLabel.hidden = YES;
 
     NSString *minutesUntilArrivalText;
 
