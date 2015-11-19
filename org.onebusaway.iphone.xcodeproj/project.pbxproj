@@ -1103,7 +1103,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEPLOYMENT_POSTPROCESSING = YES;
+				DEPLOYMENT_POSTPROCESSING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1315,6 +1315,7 @@
 				OTHER_LDFLAGS = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				STRIP_INSTALLED_PRODUCT = NO;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/sdk/** $(BUILT_PRODUCTS_DIR)/**";
 			};
 			name = Debug;
@@ -1332,6 +1333,7 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/Libraries/**";
 				SDKROOT = iphoneos;
+				STRIP_INSTALLED_PRODUCT = NO;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/sdk/** $(BUILT_PRODUCTS_DIR)/**";
 			};
 			name = Release;
@@ -1351,6 +1353,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/Libraries/**";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				STRIP_INSTALLED_PRODUCT = NO;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/sdk/** $(BUILT_PRODUCTS_DIR)/**";
 			};
 			name = AdHocDistribution;
@@ -1420,6 +1423,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/Libraries/**";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				STRIP_INSTALLED_PRODUCT = NO;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/sdk/** $(BUILT_PRODUCTS_DIR)/**";
 			};
 			name = AppStoreDistribution;
@@ -1445,7 +1449,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEPLOYMENT_POSTPROCESSING = YES;
+				DEPLOYMENT_POSTPROCESSING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
