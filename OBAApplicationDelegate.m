@@ -52,7 +52,8 @@ static NSString *const kAllowTracking = @"allowTracking";
     self = [super init];
 
     if (self) {
-        self.active = NO;
+        _active = NO;
+        _regionHelper = [[OBARegionHelper alloc] init];
 
         @weakify(self);
         self.regionObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kOBAApplicationSettingsRegionRefreshNotification
@@ -60,7 +61,6 @@ static NSString *const kAllowTracking = @"allowTracking";
                                                                                  queue:[NSOperationQueue mainQueue]
                                                                             usingBlock:^(NSNotification *note) {
                                                                                 @strongify(self);
-                                                                                self.regionHelper = [[OBARegionHelper alloc] init];
                                                                                 [self writeSetRegionAutomatically:YES];
                                                                                 [self.regionHelper updateNearestRegion];
                                                                             }];
@@ -130,8 +130,6 @@ static NSString *const kAllowTracking = @"allowTracking";
     self.window.rootViewController = self.tabBarController;
 
     if ([[OBAApplication sharedApplication].modelDao.readCustomApiUrl isEqualToString:@""]) {
-        self.regionHelper = [[OBARegionHelper alloc] init];
-
         if ([OBAApplication sharedApplication].modelDao.readSetRegionAutomatically && [OBAApplication sharedApplication].locationManager.locationServicesEnabled) {
             [self.regionHelper updateNearestRegion];
         }

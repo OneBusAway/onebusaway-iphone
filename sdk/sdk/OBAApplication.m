@@ -55,23 +55,21 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 - (void)refreshSettings {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *apiServerName = nil;
-
-    if ([self.modelDao.readCustomApiUrl isEqualToString:@""]) {
-        if (self.modelDao.region != nil) {
+    
+    if (self.modelDao.readCustomApiUrl.length > 0) {
+        apiServerName = [NSString stringWithFormat:@"http://%@", self.modelDao.readCustomApiUrl];
+    }
+    else {
+        if (self.modelDao.region) {
             apiServerName = [NSString stringWithFormat:@"%@", _modelDao.region.obaBaseUrl];
-            // remove the last '/'
-            apiServerName = [apiServerName substringToIndex:[apiServerName length] - 1];
         }
         else {
             [[NSNotificationCenter defaultCenter] postNotificationName:kOBAApplicationSettingsRegionRefreshNotification object:nil];
         }
     }
-    else {
-        apiServerName = [NSString stringWithFormat:@"http://%@", self.modelDao.readCustomApiUrl];
 
-        if ([apiServerName hasSuffix:@"/"]) {
-            apiServerName = [apiServerName substringToIndex:[apiServerName length] - 1];
-        }
+    if ([apiServerName hasSuffix:@"/"]) {
+        apiServerName = [apiServerName substringToIndex:[apiServerName length] - 1];
     }
 
     NSString *userId = [self userIdFromDefaults:userDefaults];
@@ -86,10 +84,9 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     OBAJsonDataSource *googleMapsJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
     _modelService.googleMapsJsonDataSource = googleMapsJsonDataSource;
 
-
     NSString *regionApiServerName = [userDefaults objectForKey:@"oba_region_api_server"];
 
-    if (regionApiServerName == nil || [regionApiServerName length] == 0) {
+    if (regionApiServerName.length == 0) {
         regionApiServerName = kOBADefaultRegionApiServerName;
     }
 
