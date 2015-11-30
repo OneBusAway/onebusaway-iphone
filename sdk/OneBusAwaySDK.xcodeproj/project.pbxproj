@@ -978,7 +978,9 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OneBusAwaySDK;
+				SEPARATE_STRIP = NO;
 				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
 		};
@@ -988,7 +990,9 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OneBusAwaySDK;
+				SEPARATE_STRIP = NO;
 				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Release;
 		};
@@ -1069,7 +1073,9 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OneBusAwaySDK;
+				SEPARATE_STRIP = NO;
 				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = AppStoreDistribution;
 		};
@@ -1131,7 +1137,9 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OneBusAwaySDK;
+				SEPARATE_STRIP = NO;
 				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = AdHocDistribution;
 		};
