@@ -32,7 +32,12 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>20151118.23</string>
+	<string>20151129.12</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fb</string>
+		<string>twitter</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -58,11 +63,6 @@
 	<true/>
 	<key>UIRequiresFullScreen</key>
 	<false/>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>fb</string>
-		<string>twitter</string>
-	</array>
 	<key>UIStatusBarHidden</key>
 	<false/>
 	<key>UIStatusBarStyle</key>
