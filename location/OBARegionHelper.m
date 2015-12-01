@@ -49,8 +49,7 @@
     if (self.regions && self.location) {
         NSMutableArray *notSupportedRegions = [NSMutableArray array];
 
-        for (id obj in self.regions) {
-            OBARegionV2 *region = (OBARegionV2 *)obj;
+        for (OBARegionV2 *region in self.regions) {
             BOOL showExperimentalRegions = NO;
 
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"]) showExperimentalRegions = [[NSUserDefaults standardUserDefaults]
@@ -69,12 +68,11 @@
 
         NSMutableArray *regionsToRemove = [NSMutableArray array];
 
-        for (id obj in self.regions) {
-            OBARegionV2 *region = (OBARegionV2 *)obj;
+        for (OBARegionV2 *region in self.regions) {
             CLLocationDistance distance = [region distanceFromLocation:newLocation];
 
             if (distance > 160934) { // 100 miles
-                [regionsToRemove addObject:obj];
+                [regionsToRemove addObject:region];
             }
         }
 

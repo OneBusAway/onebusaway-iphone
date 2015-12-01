@@ -123,5 +123,9 @@ static NSString * kStopInfoUrl = @"stopInfoUrl";
     return self;
 }
 
+- (NSString*)description
+{
+    return [NSString stringWithFormat:@"<%@: %p> :: {%@ - obaBaseUrl: %@, bounds: %@, experimental: %@}", self.class, self, self.regionName, self.obaBaseUrl, MKStringFromMapRect(self.serviceRect), self.experimental ? @"YES" : @"NO"];
+}
 
 @end
