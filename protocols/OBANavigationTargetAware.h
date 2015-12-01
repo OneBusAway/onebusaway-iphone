@@ -17,12 +17,13 @@
 
 #import "OBANavigationTarget.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol OBANavigationTargetAware
-
 - (OBANavigationTarget*) navigationTarget;
 
 @optional
 - (void) setNavigationTarget:(OBANavigationTarget*)navigationTarget;
-
 @end
+
+NS_ASSUME_NONNULL_END

@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-#import "OBAModelDAO.h"
-#import "OBAModelFactory.h"
-#import "OBAModelService.h"
 #import "OBADataSourceConfig.h"
-#import "OBALocationManager.h"
 #import "OBANavigationTarget.h"
-#import "OBAReferencesV2.h"
 #import "GAI.h"
+#import "OBAApplication.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class OBASearchResultsMapViewController;
 @class OBARecentStopsViewController;
@@ -31,14 +29,6 @@
 @class OBARegionListViewController;
 
 @interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate> {
-    
-    OBAReferencesV2 * _references;
-    OBAModelDAO * _modelDao;
-    OBAModelService * _modelService;
-    
-    OBALocationManager * _locationManager;
-
-    OBAStopIconFactory * _stopIconFactory;
     
     UINavigationController *_regionNavigationController;
     OBARegionListViewController *_regionListViewController;
@@ -59,22 +49,22 @@
 @property(strong) UINavigationController *infoNavigationController;
 @property(strong) OBAInfoViewController *infoViewController;
 
-
-@property(nonatomic,readonly) OBAReferencesV2 * references;
-@property(nonatomic,readonly) OBAModelDAO * modelDao;
-@property(nonatomic,readonly) OBAModelService * modelService;
-
 @property(nonatomic,readonly) OBAStopIconFactory * stopIconFactory;
-
-@property(nonatomic,readonly) OBALocationManager * locationManager;
 
 @property(nonatomic,readonly) BOOL active;
 
 @property(nonatomic, strong) id<GAITracker> tracker;
 
 - (void) navigateToTarget:(OBANavigationTarget*)navigationTarget;
-- (void) refreshSettings;
 - (void) regionSelected;
 - (void) showRegionListViewController;
 
+/**
+ * Abstracts OBAModelDAO setters / getters and calls the appropriate analytics methods.
+ */
+-(void) writeSetRegionAutomatically:(BOOL) setRegionAutomatically;
+-(BOOL) readSetRegionAutomatically;
+-(void) setOBARegion:(OBARegionV2*) region;
 @end
+
+NS_ASSUME_NONNULL_END

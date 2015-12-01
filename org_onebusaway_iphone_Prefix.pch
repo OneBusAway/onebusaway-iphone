@@ -9,15 +9,14 @@
     #import <CoreLocation/CoreLocation.h>
     #import <QuartzCore/QuartzCore.h>
     #import <MapKit/MapKit.h>
-    #import "OBAUIKit.h"
-    #import "OBACommonV1.h"
-    #import "OBACommon.h"
+    #import "EXTScope.h"
+    #import <tgmath.h>
 
-    #import "TestFlight.h"
     #import "GAI.h"
     #import "GAIFields.h"
     #import "GAITracker.h"
     #import "GAIDictionaryBuilder.h"
+    #define TFLog NSLog
 	#define NSLog(__FORMAT__, ...) TFLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 // useful UI alert for debugging, idea from http://stackoverflow.com/a/7017711

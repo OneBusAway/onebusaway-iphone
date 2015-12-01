@@ -1,33 +1,19 @@
+osx_image: xcode7.1
 language: objective-c
 before_install:
-    #- pwd
-    
-    # print version of os x
-    #- sw_vers
-    
-    # print disk space
-    #- df -h
-    
-    # install all software updates
-    #- sudo softwareupdate -iva
-    
-    #install xcode
-    #- chmod -R +x ./scripts
-    #- ./scripts/travis/xcode5.sh
-
-    #install xctool
-    - brew update
-    - brew remove xctool
-    - brew install xctool
-before_script:
-    - chmod -R +x ./scripts
-    - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-script: xctool -project org.onebusaway.iphone.xcodeproj -scheme Debug archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGN_ENTITLEMENTS="" build-tests run-tests && ./scripts/travis/upload.sh
-env:
-  global:
-  - APPNAME="OneBusAway"
-  - DEPLOY_READONLY_REPO="https://github.com/bbodenmiller/onebusaway-iphone-test-releases.git"
-  - DEPLOY_SSH_REPO="git@github.com:bbodenmiller/onebusaway-iphone-test-releases.git"
-  - DISTRIBUTION_LISTS="Developers"
-
-#details to setup travis to testflight are at https://gist.github.com/johanneswuerbach/5559514 with some tips at https://github.com/OneBusAway/onebusaway-iphone/issues/16
+  - brew update
+  - brew outdated xctool || brew upgrade xctool
+xcode_workspace: org.onebusaway.iphone.xcworkspace
+xcode_sdk:
+    #test on latest SDK known to Travis CI
+    - iphonesimulator
+xcode_scheme:
+    - Debug
+    - AppStoreRelease
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/30e6e2d8791d3099cbe5
+    on_success: always  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: true     # default: false

@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-//#import <Foundation/Foundation.h>
 #import "OBAProgressIndicatorSource.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAProgressIndicatorImpl : NSObject <OBAProgressIndicatorSource> {
     NSString * _message;
     BOOL _inProgress;
     float _progress;
-    
 }
+@property(strong,readonly) NSString * message;
+@property(readonly) BOOL inProgress;
+@property(readonly) float progress;
 
-@property (strong,readonly) NSString * message;
-@property (readonly) BOOL inProgress;
-@property (readonly) float progress;
-
-- (void) setMessage:(NSString*)message inProgress:(BOOL)inProgress progress:(float)progress;
-- (void) setInProgress:(BOOL)inProgress progress:(float)progress;
+- (void)setMessage:(nullable NSString*)message inProgress:(BOOL)inProgress progress:(float)progress;
+- (void)setInProgress:(BOOL)inProgress progress:(float)progress;
 
 @end
+
+NS_ASSUME_NONNULL_END

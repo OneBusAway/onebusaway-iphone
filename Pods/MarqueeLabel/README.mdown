@@ -1,0 +1,120 @@
+Overview
+============
+
+MarqueeLabel is a UILabel subclass adds a scrolling marquee effect when the text of the label outgrows the available width. The label scrolling direction and speed/rate can be specified as well. All standard UILabel properties (where it makes sense) are available in MarqueeLabel and it behaves just like a UILabel.
+
+## MarqueeLabel in Swift!
+
+If you're implementing a project in Swift, be sure to check out the [Swift version of MarqueeLabel](https://github.com/cbpowell/MarqueeLabel-Swift)! As of this writing it's no longer on par with this Objective-C version (and the demo doesn't even build), but feel free to help out and get it back on track!
+
+## How To Get Started
+
+1. Clone MarqueeLabel from Github, and check out the demo project.
+2. Read the [MarqueeLabel CocoaDocs documentation](http://cocoadocs.org/docsets/MarqueeLabel/).
+3. Take a look at the [special notes](https://github.com/cbpowell/MarqueeLabel/blob/master/README.mdown#special-notes) section to be aware of any gotchas.
+4. Drop in MarqueeLabel as a replacement to your lengthy UILabels!
+5. Help out with bug fixes and new features.
+
+#### Important: MarqueeLabel and iOS 8.0.x
+
+Unfortunately, iOS 8.0.x shipped with a bug - the `layoutSubviews` method of UILabel subclasses is _never_ called. MarqueeLabel [version 2.1.0](https://github.com/cbpowell/MarqueeLabel/releases/tag/2.1.0) (and 2.0.9) attempt to fix this for iOS 8.0.x __only__. Fortunately, this issue was fixed in iOS 8.1!
+
+## MarqueeLabel v2.x
+
+MarqueeLabel v2.0 and v2.1 makes some important changes! If you're upgrading from an older version, check out the [release notes for v2.0.0](https://github.com/cbpowell/MarqueeLabel/releases/tag/2.0.0) and [for v2.1.0](https://github.com/cbpowell/MarqueeLabel/releases/tag/2.1.0) to understand what this means for your app!
+
+### Installation with Cocoapods
+
+[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries in your projects.
+
+#### Podfile
+
+If you use CocoaPods, you can install the latest release version of MarqueeLabel by adding the following to your project's Podfile:
+```ruby
+pod 'MarqueeLabel'
+```
+
+#### Manual Installation
+
+1. Add MarqueeLabel.h and MarqueeLabel.m to your project.
+2. Add **QuartzCore.framework** to your project frameworks.
+3. Import MarqueeLabel.h and replace your UILabels with MarqueeLabels as needed.
+
+**Note: MarqueeLabel uses ARC.**
+
+## Usage
+
+MarqueeLabel supports scrolling the label, at either a defined rate (points per second) or over a duration (seconds), whenever the length of the label's text exceeds the space available given the label's frame. There are several options for the marquee type, and the default is `MLContinuous` (which looks just like what Apple typically uses). The animation curve of this scroll can be defined, and defaults to `UIViewAnimationOptionCurveLinear`. MarqueeLabel also features an optional fade at the left and right side view borders, in order to fade the label text into the background rather than simply being chopped off.
+
+To use MarqueeLabel, replace:
+
+	UILabel *lengthyLabel = [[UILabel alloc] initWithFrame:labelCGRectFrame];
+		
+With:
+
+	MarqueeLabel *scrollyLabel = [[MarqueeLabel alloc] initWithFrame:labelCGRectFrame duration:8.0 andFadeLength:10.0f];
+
+This creates a MarqueeLabel that will scroll across its content in 8.0 seconds, and adds 10.0 point long fade at the left and right boundaries.
+
+If you'd rather have a label that scrolls at a specific rate (points per second), instead of completing the scroll in a specific time frame, you can use this instead:
+
+	MarqueeLabel *scrollyLabel = [[MarqueeLabel alloc] initWithFrame:labelCGRectFrame rate:50.0 andFadeLength:10.0f];
+
+### Even More
+
+Check out the [MarqueeLabel documentation](http://cocoadocs.org/docsets/MarqueeLabel/) for more about all the features, including:
+- Bulk-manipulation class methods to conveniently restart, pause, and unpause all labels in a view controller
+- Scrolling direction: left->right, right->left, and continuous looping (both left and right)
+- Label edge fades
+- Pausing/unpausing mid-animation scrolling of the label
+- Tap to scroll
+
+### Special Notes<a id="specialnotes"></a>
+
+#### Automatic Scrolling
+
+MarqueeLabel tries its best to automatically begin scrolling when appropriate, but sometimes the way your view/view controller appears onscreen can trip it up.
+
+To combat this, you can try:
+- Using the `restartLabel` instance method to "manually" start scrolling on a MarqueeLabel
+- Try using the bulk manipulation class methods - but note that these don't currently play well with UIViewController containment. You'll need to pass them the lowest UIViewController in your heirarchy.
+
+#### Use in UITableView and UICollectionView
+
+As noted above, MarqueeLabel can sometimes have trouble detecting when the scroll animation should start. This is particularly true when you've placed it in UITableViews/UICollectionViews, although Release v2.0 has improved this somewhat.
+
+Usually you'll configure the MarqueeLabel instance when building the cell in `tableView:cellForRowAtIndexPath:` (or similar for UICollectionView), but at this point the cell is not onscreen so MarqueeLabel will not begin the scrolling animation. Even when the cell is eventually placed onscreen as the user scrolls, due to timing it's possible that the animation will not fire.
+
+To make sure the scrolling animation _does_ begin as the cell scrolls onscreen, you can use the the `restartLabel` method on your MarqueeLabels inside the `tableView:willDisplayCell:forRowAtIndexPath:` delegate method (or similar for UICollectionView).
+
+**That said** - the UITableView/UICollectionView best practice is to minimize things like excessive animation, subviews, and custom drawing in your cells, in order to get glassy smooth scrolling. The ever-increasing speed of iOS devices is making smooth scrolling easier and easier to achieve, but in general I would recommend against allowing your labels to automatically animate during user scrolling of the UITableView/UICollectionView. I suggest [holding scrolling](http://cocoadocs.org/docsets/MarqueeLabel/2.0.7/Classes/MarqueeLabel.html#//api/name/holdScrolling) or [labelizing](http://cocoadocs.org/docsets/MarqueeLabel/2.0.7/Classes/MarqueeLabel.html#//api/name/labelize) the labels while the user scrolls.
+
+
+#### Labelize
+
+Using the labelize feature will cause a MarqueeLabel to act like a normal UILabel - including the line break mode you've set. This could cause the ellipsis (...) to appear if you leave the `lineBreakMode` property as the default `NSLineBreakByTruncatingTail`.
+
+If you simply wish to pause scrolling with the label at the "home" location, set the `holdScrolling` property to `YES` instead. The automatic scroll animation won't restart until you set `holdScrolling` back to `NO`.
+
+#### Modal View Controllers
+
+Sometimes MarqueeLabel will fail to auto-restart upon the dismissal of a modal view controller or other view controller which blocks the view of your view controller. It's not always necessary, as sometimes the scroll animations will continue happily in the background. However, see the [Important Animation Note](#important-animation-note) section below.
+
+### Important Animation Note<a id="importantanimationnote"></a>
+MarqueeLabel is based on Core Animation, which does cause some problems when views appear and disappear and the repeating animation is stopped by iOS and does not automatically restart.
+
+To combat this, MarqueeLabel provides a few class methods that allow easy "restarting" of all MarqueeLabels associated with a UIViewController. Specifically, the class method `restartLabelsOfController:` should be called by your view controller (which passes in `self` for the `controller` parameter`) when it is revealed or about to be revealed. Keep in mind that presenting a modal view controller can pause repeating UIView animations in the controller that is being covered! 
+
+`controllerLabelsShouldLabelize:` and `controllerLabelsShouldAnimate:` are for convienience, allowing labelizing and re-animating all labels of a UIViewController. Labelizing can be useful for performance, such as labelizing all MarqueeLabels when a UITableView/UIScrollView starts scrolling.
+
+## Todo
+- Ideas?
+
+## About
+
+Charles Powell
+- [GitHub](http://github.com/cbpowell)
+- [Twitter](http://twitter.com/seventhcolumn)
+- [App.net](http://app.net/seventhcolumn)
+
+Give me a shout if you're using this in your project!
