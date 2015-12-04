@@ -1,1 +1,0 @@
-PODS_TWSRELEASENOTESVIEW_OTHER_LDFLAGS = -framework "Accelerate" -framework "CoreGraphics" -framework "Foundation" -framework "QuartzCore" -framework "UIKit"
