@@ -558,8 +558,9 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (void)didSelectCustomAPIRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    UIViewController *pushMe = [[OBACustomApiViewController alloc] initWithApplicationDelegate:self.appDelegate];
-    [self.navigationController pushViewController:pushMe animated:YES];
+    OBACustomApiViewController *customAPIViewController = [[OBACustomApiViewController alloc] initWithApplicationDelegate:self.appDelegate modelDao:[OBAApplication sharedApplication].modelDao];
+    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:customAPIViewController];
+    [self presentViewController:navigation animated:YES completion:nil];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

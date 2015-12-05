@@ -80,6 +80,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) writeCustomApiUrl:(NSString*)customApiUrl;
 
 - (void) addCustomApiUrl:(NSString*)customApiUrl;
+
+- (NSString*)normalizedAPIServerURL;
 @end
 
 NS_ASSUME_NONNULL_END

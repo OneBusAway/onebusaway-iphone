@@ -12,7 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBACustomApiViewController : UITableViewController<UITextFieldDelegate>
-- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate;
+- (instancetype)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate modelDao:(OBAModelDAO*)modelDao;
 @end
 
 NS_ASSUME_NONNULL_END

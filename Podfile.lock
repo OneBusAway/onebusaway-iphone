@@ -38,18 +38,21 @@ PODS:
   - libextobjc/RuntimeExtensions (0.4.1)
   - libextobjc/UmbrellaHeader (0.4.1)
   - MarqueeLabel (2.2.3)
+  - SVProgressHUD (2.0-beta)
   - TWSReleaseNotesView (1.2.0)
 
 DEPENDENCIES:
   - GoogleAnalytics-iOS-SDK (= 3.11)
   - libextobjc (= 0.4.1)
   - MarqueeLabel (= 2.2.3)
+  - SVProgressHUD (= 2.0-beta)
   - TWSReleaseNotesView (= 1.2.0)
 
 SPEC CHECKSUMS:
   GoogleAnalytics-iOS-SDK: fb15cc7e3d01d06d531653f37443fda90274d53d
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   MarqueeLabel: f03d12e3a1572893f78ecb22aa5dd774099c7208
+  SVProgressHUD: c83337f10ed32d701c423d519059a249973c8662
   TWSReleaseNotesView: 52cfe9ddf562b171998a5f285ca4f843880ce6f8
 
 COCOAPODS: 0.39.0

@@ -5,3 +5,4 @@ pod 'TWSReleaseNotesView', '1.2.0', :inhibit_warnings => true
 pod 'GoogleAnalytics-iOS-SDK', '3.11'
 pod 'MarqueeLabel', '2.2.3'
 pod 'libextobjc', '0.4.1'
+pod 'SVProgressHUD', '2.0-beta'
