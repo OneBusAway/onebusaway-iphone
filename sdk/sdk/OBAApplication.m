@@ -53,26 +53,13 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 }
 
 - (void)refreshSettings {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *apiServerName = nil;
+    NSString *apiServerName = [self.modelDao normalizedAPIServerURL];
     
-    if (self.modelDao.readCustomApiUrl.length > 0) {
-        apiServerName = [NSString stringWithFormat:@"http://%@", self.modelDao.readCustomApiUrl];
-    }
-    else {
-        if (self.modelDao.region) {
-            apiServerName = [NSString stringWithFormat:@"%@", _modelDao.region.obaBaseUrl];
-        }
-        else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kOBAApplicationSettingsRegionRefreshNotification object:nil];
-        }
+    if (!apiServerName) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kOBAApplicationSettingsRegionRefreshNotification object:nil];
     }
 
-    if ([apiServerName hasSuffix:@"/"]) {
-        apiServerName = [apiServerName substringToIndex:[apiServerName length] - 1];
-    }
-
-    NSString *userId = [self userIdFromDefaults:userDefaults];
+    NSString *userId = [self userIdFromDefaults:[NSUserDefaults standardUserDefaults]];
     NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
     NSString *obaArgs = [NSString stringWithFormat:@"key=org.onebusaway.iphone&app_uid=%@&app_ver=%@", userId, appVersion];
 
@@ -84,7 +71,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     OBAJsonDataSource *googleMapsJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
     _modelService.googleMapsJsonDataSource = googleMapsJsonDataSource;
 
-    NSString *regionApiServerName = [userDefaults objectForKey:@"oba_region_api_server"];
+    NSString *regionApiServerName = [[NSUserDefaults standardUserDefaults] objectForKey:@"oba_region_api_server"];
 
     if (regionApiServerName.length == 0) {
         regionApiServerName = kOBADefaultRegionApiServerName;
@@ -96,7 +83,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     OBAJsonDataSource *obaRegionJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:obaRegionDataSourceConfig];
     _modelService.obaRegionJsonDataSource = obaRegionJsonDataSource;
 
-    [userDefaults setObject:appVersion forKey:@"oba_application_version"];
+    [[NSUserDefaults standardUserDefaults] setObject:appVersion forKey:@"oba_application_version"];
 }
 
 - (NSString *)userIdFromDefaults:(NSUserDefaults *)userDefaults {

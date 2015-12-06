@@ -159,6 +159,28 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [_preferencesDao writeMostRecentCustomApiUrls:_mostRecentCustomApiUrls];
 }
 
+- (NSString*)normalizedAPIServerURL {
+    NSString *apiServerName = nil;
+    
+    if (self.readCustomApiUrl.length > 0) {
+        if ([self.readCustomApiUrl hasPrefix:@"http://"] || [self.readCustomApiUrl hasPrefix:@"https://"]) {
+            apiServerName = self.readCustomApiUrl;
+        }
+        else {
+            apiServerName = [NSString stringWithFormat:@"http://%@", self.readCustomApiUrl];
+        }
+    }
+    else if (self.region) {
+        apiServerName = self.region.obaBaseUrl;
+    }
+    
+    if ([apiServerName hasSuffix:@"/"]) {
+        apiServerName = [apiServerName substringToIndex:apiServerName.length - 1];
+    }
+    
+    return apiServerName;
+}
+
 - (OBABookmarkV2*) createTransientBookmark:(OBAStopV2*)stop {
     OBABookmarkV2 * bookmark = [[OBABookmarkV2 alloc] init];
     NSString * bookmarkName = stop.name;
