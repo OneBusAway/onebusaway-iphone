@@ -47,14 +47,12 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
         _region = [_preferencesDao readOBARegion];
         _mostRecentCustomApiUrls = [[NSMutableArray alloc] initWithArray:[_preferencesDao readMostRecentCustomApiUrls]];
 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recordPlacemark:) name:OBAPlacemarkNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewedArrivalsAndDeparturesForStop:) name:OBAViewedArrivalsAndDeparturesForStopNotification object:nil];
     }
     return self;
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBAPlacemarkNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OBAViewedArrivalsAndDeparturesForStopNotification object:nil];
 }
 

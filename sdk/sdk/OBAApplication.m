@@ -52,6 +52,28 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     [self refreshSettings];
 }
 
+#pragma mark - OS Settings
+
+- (BOOL)useHighContrastUI {
+    return UIAccessibilityDarkerSystemColorsEnabled() || UIAccessibilityIsReduceTransparencyEnabled();
+}
+
+#pragma mark - Bundle Settings
+
+- (NSString*)formattedAppVersion {
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+}
+
+- (NSString*)formattedAppBuild {
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+}
+
+- (NSString*)fullAppVersionString {
+    return [NSString stringWithFormat:@"%@ (%@)", [self formattedAppVersion], [self formattedAppBuild]];
+}
+
+#pragma mark - Crazy App State Refresh Thing
+
 - (void)refreshSettings {
     NSString *apiServerName = [self.modelDao normalizedAPIServerURL];
     

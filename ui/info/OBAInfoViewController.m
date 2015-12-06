@@ -9,28 +9,19 @@
 #import "OBAInfoViewController.h"
 #import "OBAContactUsViewController.h"
 #import "OBAAgenciesListViewController.h"
-#import "OBASettingsViewController.h"
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
+#import "OBARegionListViewController.h"
+#import "OBAApplicationDelegate.h"
 
 static NSString * const kDonateURLString = @"http://onebusaway.org/donate/";
 static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 static NSString * const kFeatureRequestsURLString = @"http://onebusaway.ideascale.com/a/ideafactory.do?id=8715&mode=top&discussionFilter=byids&discussionID=46166";
 
-#define kDonateRow          0
-#define kSettingsRow        1
-#define kAgenciesRow        2
-#define kFeatureRequestsRow 3
-#define kContactUsRow       4
-#define kCreditsRow         5
-#define kPrivacyRow         6
-
-#define kRowCount           7
-
 @implementation OBAInfoViewController
 
 - (id)init {
-    self = [super initWithNibName:@"OBAInfoViewController" bundle:nil];
+    self = [super init];
 
     if (self) {
         self.title = NSLocalizedString(@"Info", @"");
@@ -40,129 +31,149 @@ static NSString * const kFeatureRequestsURLString = @"http://onebusaway.ideascal
     return self;
 }
 
+#pragma mark - UIViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectZero];
-    footerView.backgroundColor = [UIColor clearColor];
-    [self.tableView setTableFooterView:footerView];
-    self.tableView.backgroundView = nil;
-    self.tableView.backgroundColor = [UIColor whiteColor];
-    self.tableView.tableHeaderView = self.headerView;
-    self.tableView.frame = self.view.bounds;
+
+    self.tableView.tableHeaderView = [self buildTableHeaderView];
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    [self reloadData];
+}
+
+#pragma mark - Table Data
+
+- (void)reloadData {
+    self.sections = @[
+                      [self settingsTableSection],
+                      [self aboutTableSection]
+                    ];
+    [self.tableView reloadData];
+}
+
+- (OBATableSection*)settingsTableSection {
+
+    OBATableRow *region = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Region", @"") action:^{
+        [self.navigationController pushViewController:[[OBARegionListViewController alloc] initWithApplicationDelegate:self.appDelegate] animated:YES];
+    }];
+    region.style = UITableViewCellStyleValue1;
+    region.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    if ([OBAApplication sharedApplication].modelDao.readCustomApiUrl.length == 0) {
+        region.subtitle = [OBAApplication sharedApplication].modelDao.region.regionName;
+    }
+    else {
+        region.subtitle = [OBAApplication sharedApplication].modelDao.readCustomApiUrl;
+    }
+
+    OBATableRow *agencies = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Agencies", @"Info Page Agencies Row Title") action:^{
+        [self openAgencies];
+    }];
+    agencies.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"Your Location", @"Settings section title on info page") rows:@[region,agencies]];
+}
+
+- (OBATableSection*)aboutTableSection {
+
+#if 0
+    OBATableRow *featureRequests = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Feature Requests", @"Info Page Feature Requests Row Title") action:^{
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Feature Request Link" value:nil];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kFeatureRequestsURLString]];
+    }];
+#endif
+
+    OBATableRow *contactUs = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Contact Us", @"Info Page Contact Us Row Title") action:^{
+        [self openContactUs];
+    }];
+    contactUs.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    OBATableRow *credits = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Credits", @"Info Page Credits Row Title") action:^{
+        [self.navigationController pushViewController:[[OBACreditsViewController alloc] init] animated:YES];
+    }];
+    credits.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    OBATableRow *privacy = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Privacy Policy", @"Info Page Privacy Policy Row Title") action:^{
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kPrivacyURLString]];
+    }];
+    privacy.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    OBATableRow *donate = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Donate", @"Info Page Donate Row Title") action:^{
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Donate Link" value:nil];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kDonateURLString]];
+    }];
+    donate.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"About OneBusAway", @"") rows:@[contactUs, credits, privacy, donate]];
+}
+
+#pragma mark - Public Methods
 
 - (void)openContactUs {
-    UIViewController *pushMe = nil;
-
-    pushMe = [[OBAContactUsViewController alloc] init];
-    [self.navigationController pushViewController:pushMe animated:YES];
-}
-
-- (void)openSettings {
-    UIViewController *pushMe = nil;
-
-    pushMe = [[OBASettingsViewController alloc] init];
-    [self.navigationController pushViewController:pushMe animated:YES];
+    [self.navigationController pushViewController:[[OBAContactUsViewController alloc] init] animated:YES];
 }
 
 - (void)openAgencies {
-    UIViewController *pushMe = nil;
-
-    pushMe = [[OBAAgenciesListViewController alloc] init];
-    [self.navigationController pushViewController:pushMe animated:YES];
+    [self.navigationController pushViewController:[[OBAAgenciesListViewController alloc] init] animated:YES];
 }
 
-#pragma mark - UITableViewDataSource
+#pragma mark - Private
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return kRowCount;
+- (UIView*)buildTableHeaderView {
+    UIView *header = [[UIView alloc] initWithFrame:self.view.bounds];
+    header.backgroundColor = OBAGREEN;
+
+    CGRect frame = header.frame;
+    frame.size.height = 160.f;
+    header.frame = frame;
+
+    CGFloat verticalPadding = 8.f;
+
+    UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, verticalPadding, CGRectGetWidth(header.frame), 100)];
+    iconImageView.contentMode = UIViewContentModeScaleAspectFit;
+    iconImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    iconImageView.image = [UIImage imageNamed:@"infoheader"];
+    [header addSubview:iconImageView];
+
+    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(iconImageView.frame), CGRectGetWidth(header.frame), 30.f)];
+    headerLabel.textAlignment = NSTextAlignmentCenter;
+    headerLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    headerLabel.text = NSLocalizedString(@"OneBusAway", @"");
+    headerLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    [self.class resizeLabelHeightToFitText:headerLabel];
+    [header addSubview:headerLabel];
+
+    UILabel *copyrightLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(headerLabel.frame), CGRectGetWidth(header.frame), 30.f)];
+    copyrightLabel.textAlignment = NSTextAlignmentCenter;
+    copyrightLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    copyrightLabel.text = [NSString stringWithFormat:@"%@\r\n%@", [OBAApplication sharedApplication].fullAppVersionString, @"© University of Washington"];
+    copyrightLabel.numberOfLines = 2;
+    copyrightLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+    [self.class resizeLabelHeightToFitText:copyrightLabel];
+    [header addSubview:copyrightLabel];
+
+    frame.size.height = CGRectGetMaxY(copyrightLabel.frame) + verticalPadding;
+    header.frame = frame;
+
+    return header;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *identifier = @"CellIdentifier";
+// TODO: move me into a category or something.
++ (CGRect)resizeLabelHeightToFitText:(UILabel*)label {
+    CGRect calculatedRect = [label.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(label.frame), CGFLOAT_MAX)
+                                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                                  attributes:@{NSFontAttributeName: label.font}
+                                                     context:nil];
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    CGRect labelFrame = label.frame;
+    labelFrame.size.height = CGRectGetHeight(calculatedRect);
+    label.frame = labelFrame;
 
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.textLabel.font = [UIFont systemFontOfSize:19];
-    }
-
-    switch (indexPath.row) {
-        case kContactUsRow: {
-            cell.textLabel.text = NSLocalizedString(@"Contact Us", @"info row contact us");
-            break;
-        }
-        case kSettingsRow: {
-            cell.textLabel.text = NSLocalizedString(@"Settings", @"info row settings");
-            break;
-        }
-        case kAgenciesRow: {
-            cell.textLabel.text = NSLocalizedString(@"Agencies", @"info row agencies");
-            break;
-        }
-        case kCreditsRow: {
-            cell.textLabel.text = NSLocalizedString(@"Credits", @"info row credits");
-            break;
-        }
-        case kFeatureRequestsRow: {
-            cell.textLabel.text = NSLocalizedString(@"Feature Requests", @"info row feture requests");
-            break;
-        }
-        case kPrivacyRow: {
-            cell.textLabel.text = NSLocalizedString(@"Privacy Policy", @"info row privacy");
-            break;
-        }
-        case kDonateRow: {
-            cell.textLabel.text = NSLocalizedString(@"Donate", @"info row donate");
-        }
-        default:
-            break;
-    }
-
-    return cell;
+    return label.frame;
 }
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-    switch (indexPath.row) {
-        case kContactUsRow: {
-            [self openContactUs];
-            break;
-        }
-        case kSettingsRow: {
-            [self openSettings];
-            break;
-        }
-        case kAgenciesRow: {
-            [self openAgencies];
-            break;
-        }
-        case kCreditsRow: {
-            UIViewController *pushMe = [[OBACreditsViewController alloc] init];
-            [self.navigationController pushViewController:pushMe animated:YES];
-            break;
-        }
-        case kFeatureRequestsRow: {
-            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Feature Request Link" value:nil];
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kFeatureRequestsURLString]];
-            break;
-        }
-        case kPrivacyRow: {
-            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kPrivacyURLString]];
-            break;
-        }
-        case kDonateRow: {
-            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Donate Link" value:nil];
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kDonateURLString]];
-            break;
-        }
-        default:
-            break;
-    }
-}
-
 @end
