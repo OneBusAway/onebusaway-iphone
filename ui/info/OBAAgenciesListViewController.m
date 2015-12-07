@@ -195,8 +195,11 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     {
         return 33;
     }
-    else return 0;
+    else {
+        return 0;
+    }
 }
+
 - (UITableViewCell *)agenciesCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
 
     OBAAgencyWithCoverageV2 *awc = self.agencies[indexPath.row];
@@ -204,10 +207,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.textLabel.text = agency.name;
     return cell;
 }
@@ -217,7 +217,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.textLabel.text = NSLocalizedString(@"No agencies found", @"cell.textLabel.text");
     return cell;
