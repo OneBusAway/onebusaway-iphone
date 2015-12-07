@@ -245,7 +245,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)setHighContrastStyle {
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAccessibility action:@"increase_contrast" label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]] value:nil];
 
-    self.searchBar.searchBarStyle = UISearchBarStyleDefault;
     self.searchBar.barTintColor = OBADARKGREEN;
     self.searchBar.tintColor = [UIColor whiteColor];
 
@@ -258,7 +257,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)setRegularStyle {
-    self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     self.searchBar.barTintColor = nil;
     self.searchBar.tintColor = nil;
 
