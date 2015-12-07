@@ -43,8 +43,8 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
     view.backgroundColor = OBAGREENBACKGROUND;
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
-    title.font = [UIFont systemFontOfSize:18];
-    title.backgroundColor = [UIColor clearColor];;
+    title.font = [OBATheme bodyFont];
+    title.backgroundColor = [UIColor clearColor];
     title.text = NSLocalizedString(@"The problem is with:",@"tableView titleForHeaderInSection");
     [view addSubview:title];
     return view;
@@ -60,9 +60,9 @@
     
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];            
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.font = [OBATheme bodyFont];
     switch (indexPath.row) {
         case 0:
             cell.textLabel.text = NSLocalizedString(@"The stop itself",@"case 0 cell.textLabel.text");

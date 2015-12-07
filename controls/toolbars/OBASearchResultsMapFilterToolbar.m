@@ -63,15 +63,14 @@
     //-------------------------------------------------
     // set up filter text labels
     //-------------------------------------------------
-    const CGFloat filterFontSize = [UIFont labelFontSize];
-    
+
     // Find size for the title text
     NSString* filterLabelText     = NSLocalizedString(@"Search: ",@"setupLabels text");
-    UIFont*   filterLabelFont     = [UIFont boldSystemFontOfSize:filterFontSize];
+    UIFont*   filterLabelFont     = [OBATheme boldBodyFont];
     CGSize    filterLabelTextSize = [filterLabelText sizeWithAttributes:@{NSFontAttributeName: filterLabelFont}];
     
     // Find size for the description text
-    UIFont*   filterDescFont     = [UIFont systemFontOfSize:filterFontSize];
+    UIFont*   filterDescFont     = [OBATheme bodyFont];
     CGSize    filterDescTextSize = [self.filterDescription sizeWithAttributes:@{NSFontAttributeName: filterLabelFont}];
     
     // Find total width of concatenated strings

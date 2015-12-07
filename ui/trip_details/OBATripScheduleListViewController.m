@@ -327,7 +327,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.textLabel.text = NSLocalizedString(@"Loading...", @"cell.textLabel.text");
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.font = [OBATheme bodyFont];
 
     return cell;
 }
@@ -348,7 +348,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     NSArray *stopTimes = schedule.stopTimes;
 
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     NSUInteger index = indexPath.row;
@@ -376,9 +376,9 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (UITableViewCell *)tableView:(UITableView *)tableView previousStopsCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.accessoryType = UITableViewCellAccessoryNone;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.font = [OBATheme bodyFont];
     cell.textLabel.text = _showPreviousStops ? NSLocalizedString(@"Hide previous stops", @"_showPreviousStops") : NSLocalizedString(@"Show previous stops", @"!_showPreviousStops");
     return cell;
 }
@@ -386,9 +386,9 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (UITableViewCell *)tableView:(UITableView *)tableView connectionsCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.font = [OBATheme bodyFont];
 
     OBATripScheduleV2 *sched = _tripDetails.schedule;
 
@@ -441,7 +441,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     view.backgroundColor = OBAGREENBACKGROUND;
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
-    title.font = [UIFont systemFontOfSize:18];
+    title.font = [OBATheme bodyFont];
     title.backgroundColor = [UIColor clearColor];
     OBASectionType sectionType = [self sectionTypeForSection:section];
 

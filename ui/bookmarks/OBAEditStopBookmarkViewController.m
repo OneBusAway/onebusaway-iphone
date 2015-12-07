@@ -129,7 +129,7 @@
         if (stop) cell.textLabel.text = [NSString stringWithFormat:@"%@ # %@ - %@", NSLocalizedString(@"Stop", @"stop"), stop.code, stop.name];
         else cell.textLabel.text = NSLocalizedString(@"Loading stop info...", @"!stop");
 
-        cell.textLabel.font = [UIFont systemFontOfSize:12];
+        cell.textLabel.font = [OBATheme bodyFont];
         cell.textLabel.textColor = [UIColor grayColor];
         cell.selectionStyle =  UITableViewCellSelectionStyleNone;
         return cell;

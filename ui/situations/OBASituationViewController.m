@@ -189,7 +189,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (UITableViewCell *)tableView:(UITableView *)tableView detailsCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
 
@@ -211,7 +211,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     cell.textLabel.text = isRead ? NSLocalizedString(@"Mark as Unread", @"isRead") : NSLocalizedString(@"Mark as Read", @"!isRead");
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.accessoryType = UITableViewCellAccessoryNone;
     return cell;
 }

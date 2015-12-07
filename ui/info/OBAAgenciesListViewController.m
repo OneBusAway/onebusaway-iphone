@@ -191,8 +191,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 0)
-    {
+    if (section == 0) {
         return 33;
     }
     else {
@@ -224,7 +223,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (void)didSelectActionsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     OBANavigationTarget *target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
-
     [self.appDelegate navigateToTarget:target];
 }
 

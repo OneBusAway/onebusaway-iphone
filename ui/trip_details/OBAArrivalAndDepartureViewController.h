@@ -8,8 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAArrivalAndDepartureViewController : OBARequestDrivenTableViewController 
 
-- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate arrivalAndDepartureInstance:(OBAArrivalAndDepartureInstanceRef*)instance;
-- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
+- (instancetype)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
 
 @end
 

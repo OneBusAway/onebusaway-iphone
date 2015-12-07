@@ -185,7 +185,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
 
     cell.accessoryType = UITableViewCellAccessoryNone;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
 
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
@@ -213,7 +213,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.font = [OBATheme bodyFont];
     switch (indexPath.row) {
         case 0: {
             NSString *routeShortName = trip.route.shortName ? : trip.route.longName;
@@ -255,10 +255,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.font = [OBATheme bodyFont];
     switch (indexPath.row) {
         case 0:
             cell.textLabel.text = NSLocalizedString(@"Show as map", @"VehicleDetailsController");
@@ -297,7 +297,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     view.backgroundColor = OBAGREENBACKGROUND;
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
-    title.font = [UIFont systemFontOfSize:18];
+    title.font = [OBATheme bodyFont];
     title.backgroundColor = [UIColor clearColor];
     OBASectionType sectionType = [self sectionTypeForSection:section];
 

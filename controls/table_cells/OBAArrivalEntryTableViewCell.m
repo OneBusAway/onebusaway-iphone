@@ -16,12 +16,9 @@
 
 #import "OBAArrivalEntryTableViewCell.h"
 
-@interface OBAArrivalEntryTableViewCell (Private)
-
-- (void) cancelTimer;
-
+@interface OBAArrivalEntryTableViewCell ()
+@property(nonatomic,strong) NSTimer * transitionTimer;
 @end
-
 
 @implementation OBAArrivalEntryTableViewCell
 
@@ -33,8 +30,8 @@
     OBAArrivalEntryTableViewCell *cell = (OBAArrivalEntryTableViewCell *) [tableView dequeueReusableCellWithIdentifier:cellId];
     
     // If no cell is available, create a new one using the given identifier
-    if (cell == nil) {
-        NSArray * nib = [[NSBundle mainBundle] loadNibNamed:cellId owner:self options:nil];
+    if (!cell) {
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:cellId owner:self options:nil];
         cell = nib[0];
     }
     
@@ -45,64 +42,57 @@
     [self cancelTimer];
 }
 
-- (OBAArrivalEntryTableViewCellAlertStyle) alertStyle {
-    return _alertStyle;
-}
-
-- (void) setAlertStyle:(OBAArrivalEntryTableViewCellAlertStyle)alertStyle {
-    
-    if( _alertStyle == alertStyle )
-        return;
+- (void)setAlertStyle:(OBAArrivalEntryTableViewCellAlertStyle)alertStyle {
     
     _alertStyle = alertStyle;
 
-    if( _alertStyle == OBAArrivalEntryTableViewCellAlertStyleNone ) {
+    if (_alertStyle == OBAArrivalEntryTableViewCellAlertStyleNone) {
         [self cancelTimer];
-        _unreadAlertImage.hidden = YES;
         _alertImage.hidden = YES;        
         _minutesLabel.hidden = NO;
     }
     else {
-
         _minutesLabel.alpha = 1.0;
-        _unreadAlertImage.alpha = 0.0;
         _alertImage.alpha = 0.0;
-        _unreadAlertImage.hidden = NO;
         _alertImage.hidden = NO;
 
-        if( _transitionTimer == nil ) {
-            _transitionTimer = [NSTimer scheduledTimerWithTimeInterval:1.2 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
-            
+        if (!self.transitionTimer) {
+            self.transitionTimer = [NSTimer scheduledTimerWithTimeInterval:1.2 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
         }
     }
 }
 
 - (void)timerFired:(NSTimer*)theTimer {
-    [UIView beginAnimations:nil context:nil]; {
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-        [UIView setAnimationDuration:0.5];
-        UIImageView * activeImage = _alertStyle == OBAArrivalEntryTableViewCellAlertStyleActive ? _unreadAlertImage : _alertImage;
-        if (_minutesLabel.alpha == 0.0) {
-            _minutesLabel.alpha = 1.0;
-            activeImage.alpha = 0.0;
+    
+    UIImage *activeImage = nil;
+    if (self.alertStyle == OBAArrivalEntryTableViewCellAlertStyleActive) {
+        activeImage = [UIImage imageNamed:@"Alert"];
+    }
+    else {
+        activeImage = [UIImage imageNamed:@"AlertGrayscale"];
+    }
+    
+    self.alertImage.image = activeImage;
+    
+    [UIView animateWithDuration:0.35 animations:^{
+        if (self.minutesLabel.alpha == 0.0) {
+            self.minutesLabel.alpha = 1.0;
+            self.alertImage.alpha = 0.0;
         }
         else {
-            _minutesLabel.alpha = 0.0;
-            activeImage.alpha = 1.0;
+            self.minutesLabel.alpha = 0.0;
+            self.alertImage.alpha = 1.0;
         }
-    }[UIView commitAnimations];
+    }];
 }
 
-@end
+#pragma mark - Private
 
-@implementation OBAArrivalEntryTableViewCell (Private)
-
-- (void) cancelTimer {
-    if ( _transitionTimer ) {
-        [_transitionTimer invalidate];
-        _transitionTimer = nil;
+- (void)cancelTimer {
+    if (self.transitionTimer) {
+        [self.transitionTimer invalidate];
+        self.transitionTimer = nil;
     }    
 }
 
 @end
-

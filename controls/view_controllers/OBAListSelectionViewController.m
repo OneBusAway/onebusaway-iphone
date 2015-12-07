@@ -40,8 +40,8 @@
     
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.textLabel.font = [OBATheme bodyFont];
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.accessoryType = [self checkedItem].row == indexPath.row ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     cell.textLabel.text = _values[indexPath.row];
     

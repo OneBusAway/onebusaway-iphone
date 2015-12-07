@@ -31,7 +31,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 @implementation OBAArrivalAndDepartureViewController
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate arrivalAndDepartureInstance:(OBAArrivalAndDepartureInstanceRef *)instance {
+- (instancetype)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate arrivalAndDepartureInstance:(OBAArrivalAndDepartureInstanceRef *)instance {
     if (self = [super initWithApplicationDelegate:appDelegate]) {
         _instance = instance;
         _arrivalAndDeparture = nil;
@@ -45,16 +45,16 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     return self;
 }
 
+- (instancetype)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate arrivalAndDeparture:(OBAArrivalAndDepartureV2 *)arrivalAndDeparture {
+    self = [self initWithApplicationDelegate:appDelegate arrivalAndDepartureInstance:arrivalAndDeparture.instance];
+    _arrivalAndDeparture = arrivalAndDeparture;
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
-}
-
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate arrivalAndDeparture:(OBAArrivalAndDepartureV2 *)arrivalAndDeparture {
-    self = [self initWithApplicationDelegate:appDelegate arrivalAndDepartureInstance:arrivalAndDeparture.instance];
-    _arrivalAndDeparture = arrivalAndDeparture;
-    return self;
 }
 
 - (BOOL)isLoading {
@@ -208,10 +208,8 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    cell.textLabel.textColor = [UIColor blackColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
 
     switch (indexPath.row) {
         case 0:
@@ -234,22 +232,18 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
         case 1: {
             UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.textColor = [UIColor blackColor];
             cell.textLabel.textAlignment = NSTextAlignmentLeft;
-            cell.textLabel.font = [UIFont systemFontOfSize:18];
             cell.textLabel.text = NSLocalizedString(@"Report a problem for this trip", @"text");
             return cell;
         }
 
         case 2: {
             UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.textColor = [UIColor blackColor];
             cell.textLabel.textAlignment = NSTextAlignmentLeft;
-            cell.textLabel.font = [UIFont systemFontOfSize:18];
             cell.textLabel.text = NSLocalizedString(@"Vehicle Info", @"cell.textLabel.text");
             return cell;
         }
@@ -287,18 +281,12 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     view.backgroundColor = OBAGREENBACKGROUND;
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
-    title.font = [UIFont systemFontOfSize:18];
+    title.font = [OBATheme boldBodyFont];
     title.backgroundColor = [UIColor clearColor];
-
-
 
     switch ([self sectionTypeForSection:section]) {
         case OBASectionTypeSchedule:
             title.text = NSLocalizedString(@"Trip Details", @"OBASectionTypeSchedule");
-            break;
-
-        case OBASectionTypeActions:
-            //title.text = NSLocalizedString(@"Actions",@"OBASectionTypeActions");
             break;
 
         default:
