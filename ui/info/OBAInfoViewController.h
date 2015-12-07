@@ -7,17 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OBAStaticTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAInfoViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@class OBAApplicationDelegate;
 
+@interface OBAInfoViewController : OBAStaticTableViewController
+@property(nonatomic,weak) OBAApplicationDelegate *appDelegate;
 - (void)openContactUs;
-- (void)openSettings;
 - (void)openAgencies;
-
-@property(nonatomic,strong) IBOutlet UIView *headerView;
-@property(nonatomic,strong) IBOutlet UITableView *tableView;
 @end
 
 NS_ASSUME_NONNULL_END

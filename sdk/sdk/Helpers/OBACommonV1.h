@@ -31,7 +31,6 @@ typedef NS_ENUM(NSInteger, OBASearchViewType) {
 #define OBADARKGREEN [UIColor colorWithRed:0.2f green:.4f blue:0.f alpha:1.f]
 #define OBALABELGREEN [UIColor colorWithRed:0.f green:0.478f blue:0.f alpha:1.f]
 
-#define OBAPlacemarkNotification @"OBAPlacemarkNotification"
 #define OBAViewedArrivalsAndDeparturesForStopNotification @"OBAViewedArrivalsAndDeparturesForStopNotification"
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)

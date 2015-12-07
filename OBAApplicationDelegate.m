@@ -111,6 +111,7 @@ static NSString *const kAllowTracking = @"allowTracking";
     self.bookmarksNavigationController = [[UINavigationController alloc] initWithRootViewController:self.bookmarksViewController];
 
     self.infoViewController = [[OBAInfoViewController alloc] init];
+    self.infoViewController.appDelegate = self;
     self.infoNavigationController = [[UINavigationController alloc] initWithRootViewController:self.infoViewController];
 
     self.tabBarController.viewControllers = @[self.mapNavigationController, self.recentsNavigationController, self.bookmarksNavigationController, self.infoNavigationController];
@@ -296,7 +297,6 @@ static NSString *const kAllowTracking = @"allowTracking";
     }
     else if (OBANavigationTargetTypeSettings == navigationTarget.target) {
         [self.tabBarController setSelectedViewController:self.infoNavigationController];
-        [self.infoViewController openSettings];
     }
     else if (OBANavigationTargetTypeAgencies == navigationTarget.target) {
         [self.tabBarController setSelectedViewController:self.infoNavigationController];
