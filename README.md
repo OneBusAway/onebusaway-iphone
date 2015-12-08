@@ -17,12 +17,11 @@ Our [huboard](https://huboard.com/OneBusAway/onebusaway-iphone) lists developmen
 
 ### Development environment setup
 
-1. Install Xcode 6 with the iOS 8.x SDK
-2. Install [BBUncrustifyPlugin](https://github.com/benoitsan/BBUncrustifyPlugin-Xcode#installation) to keep your code within our style guidelines
-3. `git clone` your fork
-4. `(sudo) gem install cocoapods`
-5. `pod install`
-6. Open `org.onebusaway.iphone.xcworkspace`
+1. Install Xcode 7.x
+2. `git clone` your fork
+3. `(sudo) gem install cocoapods`
+4. `pod install`
+5. Open `org.onebusaway.iphone.xcworkspace`
 
 You should now be able to build. See our [contributing guidelines](CONTRIBUTING.md) for the specific workflow to add a new feature or bug fix.
 
