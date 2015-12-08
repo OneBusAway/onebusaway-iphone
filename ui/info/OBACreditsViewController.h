@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@import WebKit;
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBACreditsViewController : UIViewController <UIWebViewDelegate>
-@property(nonatomic,strong) IBOutlet UIWebView *webView;
+@property(nonatomic,strong) IBOutlet WKWebView *webView;
 @end
 
 NS_ASSUME_NONNULL_END

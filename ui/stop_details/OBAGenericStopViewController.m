@@ -37,9 +37,9 @@
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBABookmarkGroup.h"
-#import "OBAStopWebViewController.h"
 
 #import "OBAAnalytics.h"
+@import SafariServices;
 
 static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusaway.org/testing";
 
@@ -230,8 +230,8 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
 
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:[NSString stringWithFormat:@"Loaded StopInfo from %@", region.regionName] value:nil];
 
-        OBAStopWebViewController *webViewController = [[OBAStopWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
-        [self.navigationController pushViewController:webViewController animated:YES];
+        SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url]];
+        [self presentViewController:svc animated:YES completion:nil];
     }
 }
 

@@ -5,6 +5,7 @@
 #import "OBASearch.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
+@import SafariServices;
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -232,7 +233,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (void)didSelectAgencyRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     OBAAgencyWithCoverageV2 *awc = self.agencies[indexPath.row];
     OBAAgencyV2 *agency = awc.agency;
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:agency.url]];
+    NSURL *url = [NSURL URLWithString:agency.url];
+    SFSafariViewController *svc = [[SFSafariViewController alloc]initWithURL:url];
+    [self presentViewController:svc animated:YES completion:nil];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

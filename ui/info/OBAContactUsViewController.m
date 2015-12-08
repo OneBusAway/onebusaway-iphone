@@ -21,6 +21,7 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
+@import SafariServices;
 
 #define kEmailRow    0
 #define kTwitterRow  1
@@ -191,7 +192,8 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
             else {
                 [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"app_switch" label:@"Loaded Twitter via Web" value:nil];
                 NSString *url = [NSString stringWithFormat:@"http://twitter.com/%@", twitterName];
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+                SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url]];
+                [self presentViewController:svc animated:YES completion:nil];
             }
         }
         break;
@@ -211,7 +213,8 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                 else {
                     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"app_switch" label:@"Loaded Facebook via Web" value:nil];
                     NSString *url = [NSString stringWithFormat:@"http://facebook.com/%@", facebookPage];
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+                    SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url]];
+                    [self presentViewController:svc animated:YES completion:nil];
                 }
             }
 
