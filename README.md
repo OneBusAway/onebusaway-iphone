@@ -1,7 +1,9 @@
 # OneBusAway for iPhone
 [![Build Status](https://img.shields.io/travis/OneBusAway/onebusaway-iphone.svg)](https://travis-ci.org/OneBusAway/onebusaway-iphone)
-[![Join the chat at https://gitter.im/OneBusAway/onebusaway-iphone](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/OneBusAway/onebusaway-iphone?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Visit our IRC channel](http://img.shields.io/badge/IRC-%23OneBusAway-green.svg)](https://kiwiirc.com/client/irc.freenode.net/?nick=obauser|?&theme=basic#OneBusAway)
+
+## Slack Channel
+
+[Come join our Slack channel](https://onebusaway.herokuapp.com)
 
 ## Test latest development release
 
