@@ -40,7 +40,15 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     [super viewDidLoad];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:refreshControl];
     self.navigationItem.rightBarButtonItem = nil;
+}
+
+- (void)refresh:(UIRefreshControl *) refreshControl {
+    [refreshControl endRefreshing];
+    [self handleRefresh];
 }
 
 - (BOOL)isLoading {
