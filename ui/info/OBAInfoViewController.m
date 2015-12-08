@@ -13,6 +13,7 @@
 #import "OBAAnalytics.h"
 #import "OBARegionListViewController.h"
 #import "OBAApplicationDelegate.h"
+@import SafariServices;
 
 static NSString * const kDonateURLString = @"http://onebusaway.org/donate/";
 static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
@@ -99,13 +100,13 @@ static NSString * const kFeatureRequestsURLString = @"http://onebusaway.ideascal
 
     OBATableRow *privacy = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Privacy Policy", @"Info Page Privacy Policy Row Title") action:^{
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kPrivacyURLString]];
+        [self openWithSafariViewController:[NSURL URLWithString:kPrivacyURLString]];
     }];
     privacy.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     OBATableRow *donate = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Donate", @"Info Page Donate Row Title") action:^{
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Donate Link" value:nil];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kDonateURLString]];
+        [self openWithSafariViewController:[NSURL URLWithString:kDonateURLString]];
     }];
     donate.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
@@ -161,6 +162,12 @@ static NSString * const kFeatureRequestsURLString = @"http://onebusaway.ideascal
     header.frame = frame;
 
     return header;
+}
+
+
+- (void)openWithSafariViewController:(NSURL*) url {
+    SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:url];
+    [self presentViewController:svc animated:YES completion:nil];
 }
 
 // TODO: move me into a category or something.

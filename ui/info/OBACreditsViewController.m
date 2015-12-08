@@ -8,7 +8,7 @@
 
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
-
+@import SafariServices;
 @interface OBACreditsViewController ()
 
 @end
@@ -37,7 +37,8 @@
     
     NSArray *nonLocalSchemes = @[@"http", @"https"];
     if (NSNotFound != [nonLocalSchemes indexOfObject:request.URL.scheme]) {
-        [[UIApplication sharedApplication] openURL:request.URL];
+        SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:request.URL];
+        [self presentViewController:svc animated:YES completion:nil];
         return NO;
     }
     else {
