@@ -40,6 +40,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     [super viewDidLoad];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem = nil;
 }
 
 - (BOOL)isLoading {
