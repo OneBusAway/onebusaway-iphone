@@ -114,7 +114,7 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
         }
         else {
             [self.appliedRegionChangeRequests addObject:request];
-            [self.mapView setRegion:request.region animated:YES];
+            [self.mapView setRegion:request.region animated:self.firstRegionChangeRequested];
         }
 
         /**
