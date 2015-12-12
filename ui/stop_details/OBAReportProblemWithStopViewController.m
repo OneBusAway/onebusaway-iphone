@@ -97,7 +97,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     view.backgroundColor = OBAGREENBACKGROUND;
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
-    title.font = [UIFont systemFontOfSize:18];
+    title.font = [OBATheme bodyFont];
     title.backgroundColor = [UIColor clearColor];
     OBASectionType sectionType = [self sectionTypeForSection:section];
 
@@ -154,9 +154,9 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         case OBASectionTypeProblem: {
             UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
             cell.textLabel.textAlignment = NSTextAlignmentLeft;
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.font = [UIFont systemFontOfSize:18];
+            cell.textLabel.font = [OBATheme bodyFont];
             cell.textLabel.text = _problemNames[_problemIndex];
             return cell;
         }
@@ -164,9 +164,9 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         case OBASectionTypeComment: {
             UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
             cell.textLabel.textAlignment = NSTextAlignmentLeft;
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.font = [UIFont systemFontOfSize:18];
+            cell.textLabel.font = [OBATheme bodyFont];
 
             if (_comment && [_comment length] > 0) {
                 cell.textLabel.textColor = [UIColor blackColor];
@@ -183,9 +183,9 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         case OBASectionTypeSubmit: {
             UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
             cell.textLabel.textAlignment = NSTextAlignmentCenter;
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.accessoryType = UITableViewCellAccessoryNone;
-            cell.textLabel.font = [UIFont systemFontOfSize:18];
+            cell.textLabel.font = [OBATheme bodyFont];
 
             cell.textLabel.text = NSLocalizedString(@"Submit", @"cell.textLabel.text");
             return cell;

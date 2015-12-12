@@ -46,7 +46,6 @@
 
     cell.minutesLabel.text = [self getMinutesLabelForMinutes:minutes];
     cell.minutesLabel.textColor = [self getMinutesColorForArrival:arrival];
-    cell.minutesSubLabel.hidden = YES;
 
     NSString *minutesUntilArrivalText;
 
@@ -82,7 +81,7 @@
             return [UIColor redColor];
         }
         else if (diff < 1.5) {
-            return OBALABELGREEN;
+            return [OBATheme onTimeDepartureColor];
         }
         else {
             return [UIColor blueColor];

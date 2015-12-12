@@ -215,7 +215,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
     cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     cell.textField.returnKeyType = UIReturnKeyDone;
-    cell.textField.font = [UIFont systemFontOfSize:18];
     self.customApiUrlTextField = cell.textField;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
@@ -225,10 +224,9 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (UITableViewCell *)recentCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [UIFont systemFontOfSize:16];
     cell.textLabel.text = [self.recentUrls objectAtIndex:indexPath.row];
     return cell;
 }
@@ -255,7 +253,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     view.backgroundColor = OBAGREENBACKGROUND;
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
-    title.font = [UIFont systemFontOfSize:18];
     title.backgroundColor = [UIColor clearColor];
     switch ([self sectionTypeForSection:section]) {
         case OBASectionTypeEditing:

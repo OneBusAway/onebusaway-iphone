@@ -405,10 +405,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     }
 
     cell.accessoryType = self.checkedItem == indexPath ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.font = [OBATheme bodyFont];
 
     cell.textLabel.text = region.regionName;
     return cell;
@@ -457,7 +457,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.font = [OBATheme bodyFont];
     cell.textLabel.text = NSLocalizedString(@"Experimental Regions", @"cell.textLabel.text");
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -467,10 +467,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"CustomAPICell"];
 
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.font = [OBATheme bodyFont];
     cell.textLabel.text = NSLocalizedString(@"Custom API URL", @"cell.textLabel.text");
     return cell;
 }
@@ -584,7 +584,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     view.backgroundColor = OBAGREENWITHALPHA(0.1f);
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 290, 30)];
-    title.font = [UIFont systemFontOfSize:18];
+    title.font = [OBATheme bodyFont];
     title.backgroundColor = [UIColor clearColor];
 
     switch ([self sectionTypeForSection:section]) {

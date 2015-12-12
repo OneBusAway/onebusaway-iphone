@@ -110,7 +110,7 @@
 - (void) setupLabel:(UILabel*)label {
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont boldSystemFontOfSize:16.0];
+    label.font = [OBATheme boldBodyFont];
     label.textColor = [UIColor blackColor];
 }
 

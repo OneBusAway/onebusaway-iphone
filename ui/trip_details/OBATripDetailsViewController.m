@@ -250,7 +250,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     }
 
     cell.minutesLabel.text = @"";
-    cell.minutesSubLabel.text = @"";
 
     return cell;
 }
@@ -259,10 +258,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.font = [OBATheme bodyFont];
 
     switch (indexPath.row) {
         case 0:
@@ -280,11 +279,11 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (UITableViewCell *)tableView:(UITableView *)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.font = [OBATheme bodyFont];
 
 
     switch (indexPath.row) {
@@ -297,7 +296,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             }
             else {
                 cell.textLabel.textColor = [UIColor blackColor];
-                cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             }
 
             break;
@@ -325,7 +324,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     view.backgroundColor = OBAGREENBACKGROUND;
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(11, 5, 200, 30)];
-    title.font = [UIFont systemFontOfSize:18];
+    title.font = [OBATheme bodyFont];
     title.backgroundColor = [UIColor clearColor];
 
     if ([self sectionTypeForSection:section] == OBASectionTypeSchedule) {

@@ -137,8 +137,8 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-    cell.textLabel.text = @"Updating...";
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.text = NSLocalizedString(@"Updating...",@"");
+    cell.textLabel.font = [OBATheme bodyFont];
     cell.textLabel.textColor = [UIColor grayColor];
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
 

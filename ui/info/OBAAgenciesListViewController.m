@@ -191,12 +191,14 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 0)
-    {
+    if (section == 0) {
         return 33;
     }
-    else return 0;
+    else {
+        return 0;
+    }
 }
+
 - (UITableViewCell *)agenciesCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
 
     OBAAgencyWithCoverageV2 *awc = self.agencies[indexPath.row];
@@ -204,10 +206,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.textLabel.text = agency.name;
     return cell;
 }
@@ -217,7 +216,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.textLabel.text = NSLocalizedString(@"No agencies found", @"cell.textLabel.text");
     return cell;
@@ -225,7 +223,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (void)didSelectActionsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     OBANavigationTarget *target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
-
     [self.appDelegate navigateToTarget:target];
 }
 

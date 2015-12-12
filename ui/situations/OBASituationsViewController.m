@@ -71,7 +71,7 @@
         UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = NSLocalizedString(@"No active service alerts",@"cell.textLabel.text");
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
-        cell.textLabel.font = [UIFont systemFontOfSize:18];
+        cell.textLabel.font = [OBATheme bodyFont];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
         return cell;            
@@ -82,7 +82,7 @@
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.textLabel.text = situation.summary;
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;    
 }

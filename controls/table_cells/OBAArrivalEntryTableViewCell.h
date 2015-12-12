@@ -22,21 +22,15 @@ typedef NS_ENUM(NSInteger, OBAArrivalEntryTableViewCellAlertStyle) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAArrivalEntryTableViewCell : UITableViewCell {
-    OBAArrivalEntryTableViewCellAlertStyle _alertStyle;
-    NSTimer * _transitionTimer;
-}
+@interface OBAArrivalEntryTableViewCell : UITableViewCell
+@property(nonatomic,weak) IBOutlet UILabel * routeLabel;
+@property(nonatomic,weak) IBOutlet UIView * labelsView;
+@property(nonatomic,weak) IBOutlet UILabel * destinationLabel;
+@property(nonatomic,weak) IBOutlet UILabel * statusLabel;
+@property(nonatomic,weak) IBOutlet UILabel * minutesLabel;
+@property(nonatomic,weak) IBOutlet UIImageView * alertImage;
 
-@property (nonatomic, strong) IBOutlet UILabel * routeLabel;
-@property (nonatomic, strong) IBOutlet UIView * labelsView;
-@property (nonatomic, strong) IBOutlet UILabel * destinationLabel;
-@property (nonatomic, strong) IBOutlet UILabel * statusLabel;
-@property (nonatomic, strong) IBOutlet UILabel * minutesLabel;
-@property (nonatomic, strong) IBOutlet UILabel * minutesSubLabel;
-@property (nonatomic, strong) IBOutlet UIImageView * unreadAlertImage;
-@property (nonatomic, strong) IBOutlet UIImageView * alertImage;
-
-@property (nonatomic) OBAArrivalEntryTableViewCellAlertStyle alertStyle;
+@property(nonatomic,assign) OBAArrivalEntryTableViewCellAlertStyle alertStyle;
 
 + (OBAArrivalEntryTableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView;
 
