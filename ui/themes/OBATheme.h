@@ -46,4 +46,11 @@
  * The text color used to indicate that the bus is on time for a given stop.
  */
 + (UIColor*)onTimeDepartureColor;
+
+// Pixels (err, points)
+
+/**
+ * The default vertical and horizontal padding in px.
+ */
++ (CGFloat)defaultPadding;
 @end

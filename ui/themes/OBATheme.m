@@ -28,7 +28,7 @@ static UIFont *_headlineFont = nil;
     if (!_bodyFont) {
         _bodyFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     }
-    return _boldBodyFont;
+    return _bodyFont;
 }
 
 + (UIFont*)boldBodyFont {
@@ -56,4 +56,11 @@ static UIFont *_headlineFont = nil;
 + (UIColor*)onTimeDepartureColor {
     return [UIColor colorWithRed:0.f green:0.478f blue:0.f alpha:1.f];
 }
+
+#pragma mark - Pixels, err points
+
++ (CGFloat)defaultPadding {
+    return 8.f;
+}
+
 @end
