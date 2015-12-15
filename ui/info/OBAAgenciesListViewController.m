@@ -36,6 +36,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.refreshable = NO;
     self.showUpdateTime = NO;
     self.tableView.backgroundView = nil;
@@ -48,40 +49,46 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (BOOL)isLoading {
-    return _agencies == nil;
+    return self.agencies == nil;
 }
 
 - (id<OBAModelServiceRequest>)handleRefresh {
     @weakify(self);
-    return [[OBAApplication sharedApplication].modelService
-            requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                @strongify(self);
-
-                if (error) {
-                [self refreshFailedWithError:error];
-                }
-                else {
-                OBAListWithRangeAndReferencesV2 *list = jsonData;
-                self.agencies = [[NSMutableArray alloc] initWithArray:list.values];
-                [self.agencies
-                sortUsingSelector:@selector(compareUsingAgencyName:)];
-                self.progressLabel = NSLocalizedString(@"Agencies", @"");
-                [self refreshCompleteWithCode:responseCode];
-                }
-            }];
+    return [[OBAApplication sharedApplication].modelService requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        @strongify(self);
+        
+        if (error) {
+            [self refreshFailedWithError:error];
+        }
+        else {
+            OBAListWithRangeAndReferencesV2 *list = jsonData;
+            self.agencies = [[NSMutableArray alloc] initWithArray:list.values];
+            [self.agencies sortUsingSelector:@selector(compareUsingAgencyName:)];
+            self.progressLabel = NSLocalizedString(@"Agencies", @"");
+            [self refreshCompleteWithCode:responseCode];
+        }
+    }];
 }
 
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if ([self isLoading]) return [super numberOfSectionsInTableView:tableView];
+    if ([self isLoading]) {
+        return [super numberOfSectionsInTableView:tableView];
+    }
 
-    if ([_agencies count] == 0) return 1;
-    else return 2;
+    if (self.agencies.count == 0) {
+        return 1;
+    }
+    else {
+        return 2;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([self isLoading]) return [super tableView:tableView numberOfRowsInSection:section];
+    if ([self isLoading]) {
+        return [super tableView:tableView numberOfRowsInSection:section];
+    }
 
     OBASectionType sectionType = [self sectionTypeForSection:section];
 
@@ -90,7 +97,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             return 1;
 
         case OBASectionTypeAgencies:
-            return [_agencies count];
+            return self.agencies.count;
 
         case OBASectionTypeNoAgencies:
             return 1;
@@ -101,7 +108,9 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self isLoading]) return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    if ([self isLoading]) {
+        return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    }
 
     OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
 
@@ -144,12 +153,18 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (OBASectionType)sectionTypeForSection:(NSUInteger)section {
-    if ([_agencies count] == 0) {
-        if (section == 0) return OBASectionTypeNoAgencies;
+    if (self.agencies.count == 0) {
+        if (section == 0) {
+            return OBASectionTypeNoAgencies;
+        }
     }
     else {
-        if (section == 0) return OBASectionTypeActions;
-        else if (section == 1) return OBASectionTypeAgencies;
+        if (section == 0) {
+            return OBASectionTypeActions;
+        }
+        else if (section == 1) {
+            return OBASectionTypeAgencies;
+        }
     }
 
     return OBASectionTypeNone;
@@ -159,42 +174,39 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
-    cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.text = NSLocalizedString(@"Show on map", @"AgenciesListViewController");
+    cell.textLabel.text = NSLocalizedString(@"Show on Map", @"AgenciesListViewController");
     return cell;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    UIView *footer = nil;
-    if (section == 0) {
-        footer = [[UIView alloc]init];
+     if (section == 0) {
+        UIView *footer = [[UIView alloc] init];
         footer.backgroundColor = OBAGREENBACKGROUND;
+        return footer;
     }
-    return footer;
+    else {
+        return nil;
+    }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 0)
-    {
+    if (section == 0) {
         return 33;
     }
-    else return 0;
+    else {
+        return 0;
+    }
 }
+
 - (UITableViewCell *)agenciesCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
 
-    OBAAgencyWithCoverageV2 *awc = _agencies[indexPath.row];
+    OBAAgencyWithCoverageV2 *awc = self.agencies[indexPath.row];
     OBAAgencyV2 *agency = awc.agency;
 
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.textLabel.text = agency.name;
     return cell;
 }
@@ -204,28 +216,18 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.textLabel.text = NSLocalizedString(@"No agencies found", @"cell.textLabel.text");
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44;
-}
-
 - (void)didSelectActionsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     OBANavigationTarget *target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
-
     [self.appDelegate navigateToTarget:target];
 }
 
 - (void)didSelectAgencyRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-    if (indexPath.row == 0) {
-        return;
-    }
-
-    OBAAgencyWithCoverageV2 *awc = _agencies[indexPath.row];
+    OBAAgencyWithCoverageV2 *awc = self.agencies[indexPath.row];
     OBAAgencyV2 *agency = awc.agency;
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:agency.url]];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

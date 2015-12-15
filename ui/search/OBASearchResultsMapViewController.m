@@ -54,8 +54,6 @@ static const NSUInteger kShowNClosestStops = 4;
 
 static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
-static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
-
 @interface OBASearchResultsMapViewController ()
 @property BOOL hideFutureOutOfRangeErrors;
 @property BOOL hideFutureNetworkErrors;
@@ -199,8 +197,11 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     [self.titleView addSubview:self.searchBar];
     self.navigationItem.titleView = self.titleView;
 
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
+    if ([[OBAApplication sharedApplication] useHighContrastUI]) {
         [self setHighContrastStyle];
+    }
+    else {
+        [self setRegularStyle];
     }
 
     self.mapLabel.hidden = YES;
@@ -219,7 +220,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
     [self orientationChanged:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contrastToggled) name:OBAIncreaseContrastToggledNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onMapTabBarButton) name:@"OBAMapButtonRecenterNotification" object:nil];
 }
 
@@ -242,24 +242,9 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
     self.mapLabel.frame = mapLabelFrame;
 }
 
-- (void)contrastToggled {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
-        [self setHighContrastStyle];
-    }
-    else {
-        [self setRegularStyle];
-    }
-
-    for (id<MKAnnotation> annotation in [self.mapView annotations]) {
-        [self.mapView removeAnnotation:annotation];
-        [self.mapView addAnnotation:annotation];
-    }
-}
-
 - (void)setHighContrastStyle {
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAccessibility action:@"increase_contrast" label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]] value:nil];
 
-    self.searchBar.searchBarStyle = UISearchBarStyleDefault;
     self.searchBar.barTintColor = OBADARKGREEN;
     self.searchBar.tintColor = [UIColor whiteColor];
 
@@ -272,7 +257,6 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 }
 
 - (void)setRegularStyle {
-    self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     self.searchBar.barTintColor = nil;
     self.searchBar.tintColor = nil;
 
@@ -598,10 +582,12 @@ static NSString *kOBAIncreaseContrastKey = @"OBAIncreaseContrastDefaultsKey";
 
         view.canShowCallout = YES;
         UIButton *rightCalloutButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        rightCalloutButton.tintColor = OBAGREEN;
 
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:kOBAIncreaseContrastKey]) {
+        if ([[OBAApplication sharedApplication] useHighContrastUI]) {
             rightCalloutButton.tintColor = [UIColor blackColor];
+        }
+        else {
+            rightCalloutButton.tintColor = OBAGREEN;
         }
 
         view.rightCalloutAccessoryView = rightCalloutButton;

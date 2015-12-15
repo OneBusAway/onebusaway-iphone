@@ -42,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) long long scheduledDepartureTime;
 @property (nonatomic) long long predictedDepartureTime;
 @property (nonatomic,readonly) long long bestDepartureTime;
+- (BOOL)hasRealTimeData;
 
 @property (nonatomic) double distanceFromStop;
 

@@ -91,10 +91,6 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
-    cell.imageView.image = nil;
-
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
-
     switch (indexPath.row) {
         case kEmailRow:
             cell.textLabel.text = NSLocalizedString(@"Email", @"Email title");

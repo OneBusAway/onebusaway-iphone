@@ -3,17 +3,18 @@ language: objective-c
 before_install:
   - brew update
   - brew outdated xctool || brew upgrade xctool
+  - gem install cocoapods
+  - pod install
 xcode_workspace: org.onebusaway.iphone.xcworkspace
 xcode_sdk:
-    #test on latest SDK known to Travis CI
     - iphonesimulator
 xcode_scheme:
     - Debug
-    - AppStoreRelease
 notifications:
+  slack: onebusaway:kcIbPpOOuJEhNgpzWMd8gkqj
   webhooks:
     urls:
       - https://webhooks.gitter.im/e/30e6e2d8791d3099cbe5
-    on_success: always  # options: [always|never|change] default: always
-    on_failure: always  # options: [always|never|change] default: always
-    on_start: true     # default: false
+    on_success: always
+    on_failure: always
+    on_start: true

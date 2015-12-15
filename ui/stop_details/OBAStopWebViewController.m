@@ -29,32 +29,29 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self updateBackButton];
-}
-
-- (void)updateBackButton {
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(handleBack)];
+    self.webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    self.webView.delegate = self;
+    self.webView.scalesPageToFit = YES;
+    [self.view addSubview:self.webView];
     
-    self.navigationItem.hidesBackButton = YES;
-    self.navigationItem.leftBarButtonItem = backButton;
-}
-
-- (void)loadURL {
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Back", @"") style:UIBarButtonItemStyleDone target:self action:@selector(handleBack)];
+    
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
 }
 
-- (void)loadView {
-    self.view = self.webView;
-    [self loadURL];
-}
+#pragma mark - Actions
 
 - (void)handleBack {
     if ([self.webView canGoBack] && !self.onLastView) {
         [self.webView goBack];
-    } else {
-        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else {
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
+
+#pragma mark - UIWebViewDelegate
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if ([request.URL.absoluteString rangeOfString:@"http://stopinfo.pugetsound.onebusaway.org/about/entry/"].location != NSNotFound) {
@@ -62,14 +59,4 @@
     }
     return YES;
 }
-
-- (UIWebView*)webView {
-    if(!_webView) {
-        _webView = [[UIWebView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        _webView.delegate = self;
-        _webView.scalesPageToFit = YES;
-    }
-    return _webView;
-}
-
 @end

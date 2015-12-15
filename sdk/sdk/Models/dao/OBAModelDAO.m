@@ -47,14 +47,12 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
         _region = [_preferencesDao readOBARegion];
         _mostRecentCustomApiUrls = [[NSMutableArray alloc] initWithArray:[_preferencesDao readMostRecentCustomApiUrls]];
 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recordPlacemark:) name:OBAPlacemarkNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewedArrivalsAndDeparturesForStop:) name:OBAViewedArrivalsAndDeparturesForStopNotification object:nil];
     }
     return self;
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBAPlacemarkNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OBAViewedArrivalsAndDeparturesForStopNotification object:nil];
 }
 
@@ -157,6 +155,28 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
         [_mostRecentCustomApiUrls removeObjectAtIndex:([_mostRecentCustomApiUrls count]-1)];
     
     [_preferencesDao writeMostRecentCustomApiUrls:_mostRecentCustomApiUrls];
+}
+
+- (NSString*)normalizedAPIServerURL {
+    NSString *apiServerName = nil;
+    
+    if (self.readCustomApiUrl.length > 0) {
+        if ([self.readCustomApiUrl hasPrefix:@"http://"] || [self.readCustomApiUrl hasPrefix:@"https://"]) {
+            apiServerName = self.readCustomApiUrl;
+        }
+        else {
+            apiServerName = [NSString stringWithFormat:@"http://%@", self.readCustomApiUrl];
+        }
+    }
+    else if (self.region) {
+        apiServerName = self.region.obaBaseUrl;
+    }
+    
+    if ([apiServerName hasSuffix:@"/"]) {
+        apiServerName = [apiServerName substringToIndex:apiServerName.length - 1];
+    }
+    
+    return apiServerName;
 }
 
 - (OBABookmarkV2*) createTransientBookmark:(OBAStopV2*)stop {

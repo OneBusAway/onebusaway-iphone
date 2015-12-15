@@ -51,6 +51,26 @@ extern NSString *const kOBAApplicationSettingsRegionRefreshNotification;
  */
 - (void)refreshSettings;
 
+/**
+ * Returns YES if the user has enabled darker system colors or reduced transparency.
+ */
+- (BOOL)useHighContrastUI;
+
+/**
+ * e.g. "2.4.2"
+ */
+- (NSString*)formattedAppVersion;
+
+/**
+ * e.g. "20151218.18"
+ */
+- (NSString*)formattedAppBuild;
+
+/**
+ * e.g. "2.4.2 (20151218.18)"
+ */
+- (NSString*)fullAppVersionString;
+
 @end
 
 NS_ASSUME_NONNULL_END

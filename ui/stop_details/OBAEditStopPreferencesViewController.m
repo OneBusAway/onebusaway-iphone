@@ -86,7 +86,7 @@
 
     view.backgroundColor = OBAGREENBACKGROUND;
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
-    title.font = [UIFont systemFontOfSize:18];
+    title.font = [OBATheme boldBodyFont];
     title.backgroundColor = [UIColor clearColor];
     switch (section) {
         case 0:
@@ -155,8 +155,8 @@
     }
 
     cell.accessoryType = checked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    cell.textLabel.font = [OBATheme bodyFont];
 
     return cell;
 }
@@ -177,8 +177,8 @@
 
     BOOL checked = [_preferences isRouteIdEnabled:route.routeId];
     cell.accessoryType = checked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    cell.textLabel.font = [OBATheme bodyFont];
 
     return cell;
 }

@@ -121,7 +121,6 @@
         cell = [UITableViewCell getOrCreateCellForTableView:tableView];
         cell.textLabel.text = NSLocalizedString(@"No bookmarks set", @"[_bookmarks count] == 0");
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
-        cell.textLabel.font = [UIFont systemFontOfSize:18];
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
@@ -138,7 +137,6 @@
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
 
-            cell.textLabel.font = [UIFont systemFontOfSize:18];
             cell.textLabel.text = bookmark.name ? bookmark.name : @"NO NAME";
         }
         else {
@@ -150,7 +148,7 @@
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"BookmarkGroup"];
             }
 
-            cell.textLabel.font = [UIFont boldSystemFontOfSize:18];
+            cell.textLabel.font = [OBATheme boldBodyFont];
             cell.textLabel.text = group.name ? group.name : @"NO NAME";
             cell.detailTextLabel.text = [self.collapsedGroups containsObject:group] ? @">" : @"v";
         }

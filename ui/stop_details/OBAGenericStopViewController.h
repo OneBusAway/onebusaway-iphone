@@ -20,7 +20,6 @@
 #import "OBABookmarkV2.h"
 #import "OBAProgressIndicatorView.h"
 #import "OBAArrivalEntryTableViewCellFactory.h"
-#import "OBAShadowLabel.h"
 
 typedef NS_ENUM(NSInteger, OBAStopSectionType) {
     OBAStopSectionTypeNone,
@@ -32,12 +31,7 @@ typedef NS_ENUM(NSInteger, OBAStopSectionType) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAGenericStopViewController : UITableViewController <OBANavigationTargetAware,UIActionSheetDelegate, MKMapViewDelegate>
-@property(nonatomic, weak) IBOutlet UIView *tableHeaderView;
-@property(nonatomic, weak) IBOutlet MKMapView *mapView;
-@property(nonatomic, strong) OBAShadowLabel *stopName;
-@property(nonatomic, strong) OBAShadowLabel *stopNumber;
-@property(nonatomic, strong) OBAShadowLabel *stopRoutes;
+@interface OBAGenericStopViewController : UITableViewController <OBANavigationTargetAware>
 
 @property(strong,readonly) OBAApplicationDelegate * appDelegate;
 @property(strong,readonly) NSString * stopId;
@@ -51,7 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(strong) NSMutableArray *filteredArrivals;
 @property BOOL showFilteredArrivals;
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate;
 - (id)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate stopId:(NSString*)stopId;
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section;
 - (void)refresh;

@@ -12,6 +12,8 @@
 #import "UITableViewController+oba_Additions.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
+#import <SVProgressHUD/SVProgressHUD.h>
+#import "OBAURLHelpers.h"
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -20,23 +22,20 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 };
 
 @interface OBACustomApiViewController ()
-@property (nonatomic) OBAApplicationDelegate *appDelegate;
+@property (nonatomic,strong) OBAApplicationDelegate *appDelegate;
+@property (nonatomic,strong) OBAModelDAO *modelDao;
 @property (nonatomic) NSArray *recentUrls;
 @property (nonatomic) UITextField *customApiUrlTextField;
-
-- (OBASectionType)sectionTypeForSection:(NSUInteger)section;
-- (UITableViewCell *)editingCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
-- (UITableViewCell *)recentCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
-- (void)saveCustomApiUrl;
 @end
 
 @implementation OBACustomApiViewController
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate {
+- (instancetype)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate modelDao:(OBAModelDAO *)modelDao {
     self = [super initWithStyle:UITableViewStylePlain];
 
     if (self) {
-        self.appDelegate = appDelegate;
+        _appDelegate = appDelegate;
+        _modelDao = modelDao;
     }
 
     return self;
@@ -44,16 +43,99 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"Cancel button title") style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", @"Save button title") style:UIBarButtonItemStyleDone target:self action:@selector(save)];
+
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.title = NSLocalizedString(@"Custom API URL", @"title");
-    self.recentUrls = [OBAApplication sharedApplication].modelDao.mostRecentCustomApiUrls;
+    self.recentUrls = self.modelDao.mostRecentCustomApiUrls;
     [self hideEmptySeparators];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [self saveCustomApiUrl];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    [self.customApiUrlTextField becomeFirstResponder];
+}
+
+#pragma mark - Actions
+
+- (void)cancel {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)save {
+    [SVProgressHUD show];
+    [self saveCustomApiUrl:self.customApiUrlTextField.text];
+}
+
+- (void)showBadURLError:(NSString*)message {
+    [SVProgressHUD dismiss];
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Server Address Invalid", @"Bad custom API URL alert title.") message:message ?: NSLocalizedString(@"Please check the URL and try again.", @"A generic error message for the server address invalid message.") preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"Default alert dismissal button title") style:UIAlertActionStyleDefault handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - Model Data
+
+- (void)saveCustomApiUrl:(NSString*)urlString {
+
+    urlString = [urlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+    if (urlString.length == 0) {
+        [self showBadURLError:nil];
+        return;
+    }
+
+    if ([urlString isEqualToString:self.modelDao.readCustomApiUrl]) {
+        [self showBadURLError:NSLocalizedString(@"It's not necessarily invalid. You just didn't type in a new address.", @"Identical server address to what we already have.")];
+        return;
+    }
+
+    NSURL *currentTimeURL = [OBAURLHelpers normalizeURLPath:@"/where/current-time.json"
+                                          relativeToBaseURL:urlString
+                                                 parameters:@{@"key": @"org.onebusaway.iphone"}];
+
+    NSURLSessionDataTask * task = [[NSURLSession sharedSession] dataTaskWithURL:currentTimeURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+
+        if (error) {
+            [SVProgressHUD showErrorWithStatus:error.userInfo[NSLocalizedDescriptionKey]];
+            return;
+        }
+
+        if (!data) {
+            [self showBadURLError:nil];
+            return;
+        }
+
+        id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:NULL];
+
+        if (!jsonObject) {
+            [self showBadURLError:nil];
+            return;
+        }
+
+        if (jsonObject[@"currentTime"]) {
+            // hooray it actually worked!
+            [SVProgressHUD dismiss];
+            [self writeCustomAPIURLString:urlString];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+    }];
+    [task resume];
+}
+
+- (void)writeCustomAPIURLString:(NSString*)urlString {
+    [self.modelDao addCustomApiUrl:urlString];
+    [self.modelDao writeCustomApiUrl:urlString];
+    [self.modelDao writeSetRegionAutomatically:NO];
+    [self.modelDao setOBARegion:nil];
+
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.appDelegate regionSelected];
 }
 
 #pragma mark - Table view data source
@@ -95,45 +177,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     return [UITableViewCell getOrCreateCellForTableView:tableView];
 }
 
-/*
-   // Override to support conditional editing of the table view.
-   - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-   {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-   }
- */
-
-/*
-   // Override to support editing the table view.
-   - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-   {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }
-   }
- */
-
-/*
-   // Override to support rearranging the table view.
-   - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-   {
-   }
- */
-
-/*
-   // Override to support conditional rearranging of the table view.
-   - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-   {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-   }
- */
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -141,9 +184,11 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
 
     switch (sectionType) {
-        case OBASectionTypeRecent:
-            self.customApiUrlTextField.text = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
-            [self saveCustomApiUrl];
+        case OBASectionTypeRecent: {
+            NSString *urlString = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
+            [self saveCustomApiUrl:urlString];
+            break;
+        }
 
         default:
             break;
@@ -164,13 +209,12 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (UITableViewCell *)editingCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     OBATextFieldTableViewCell *cell =  [OBATextFieldTableViewCell getOrCreateCellForTableView:tableView];
 
-    cell.textField.placeholder = @"example.onebusaway.org/api/";
+    cell.textField.placeholder = @"http://example.onebusaway.org/api/";
     cell.textField.text = [OBAApplication sharedApplication].modelDao.readCustomApiUrl;
     cell.textField.delegate = self;
     cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
     cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     cell.textField.returnKeyType = UIReturnKeyDone;
-    cell.textField.font = [UIFont systemFontOfSize:18];
     self.customApiUrlTextField = cell.textField;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
@@ -180,36 +224,17 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (UITableViewCell *)recentCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [UIFont systemFontOfSize:16];
     cell.textLabel.text = [self.recentUrls objectAtIndex:indexPath.row];
     return cell;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)localTextField {
-    [self saveCustomApiUrl];
     [localTextField resignFirstResponder];
+    [self save];
     return YES;
-}
-
-- (void)saveCustomApiUrl {
-    OBAModelDAO *dao = [OBAApplication sharedApplication].modelDao;
-
-    if (![self.customApiUrlTextField.text isEqualToString:dao.readCustomApiUrl]) {
-        if ([self.customApiUrlTextField.text length] > 0) {
-            [dao addCustomApiUrl:self.customApiUrlTextField.text];
-            [dao writeCustomApiUrl:self.customApiUrlTextField.text];
-            [dao writeSetRegionAutomatically:NO];
-            [dao setOBARegion:nil];
-
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            [self.appDelegate regionSelected];
-        }
-    }
-
-    [self.tableView reloadData];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -228,7 +253,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     view.backgroundColor = OBAGREENBACKGROUND;
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
-    title.font = [UIFont systemFontOfSize:18];
     title.backgroundColor = [UIColor clearColor];
     switch ([self sectionTypeForSection:section]) {
         case OBASectionTypeEditing:

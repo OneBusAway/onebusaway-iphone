@@ -1,7 +1,0 @@
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/GoogleAnalytics-iOS-SDK" "${PODS_ROOT}/Headers/Public/MarqueeLabel" "${PODS_ROOT}/Headers/Public/TWSReleaseNotesView" "${PODS_ROOT}/Headers/Public/libextobjc" $(SDKROOT)/usr/include/libz
-LIBRARY_SEARCH_PATHS = "$(PODS_ROOT)/GoogleAnalytics-iOS-SDK"
-OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/GoogleAnalytics-iOS-SDK" -isystem "${PODS_ROOT}/Headers/Public/MarqueeLabel" -isystem "${PODS_ROOT}/Headers/Public/TWSReleaseNotesView" -isystem "${PODS_ROOT}/Headers/Public/libextobjc"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"GoogleAnalyticsServices" -l"Pods-MarqueeLabel" -l"Pods-TWSReleaseNotesView" -l"Pods-libextobjc" -l"sqlite3" -l"z" -framework "Accelerate" -framework "CFNetwork" -framework "CoreData" -framework "CoreGraphics" -framework "Foundation" -framework "QuartzCore" -framework "SystemConfiguration" -framework "UIKit"
-OTHER_LIBTOOLFLAGS = $(OTHER_LDFLAGS)
-PODS_ROOT = ${SRCROOT}/Pods

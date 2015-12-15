@@ -65,7 +65,7 @@
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:cellId];
     cell.textLabel.text = [NSString stringWithFormat:@"Service alerts: %lu unread",(unsigned long)serviceAlerts.unreadCount];
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     NSString * maxSeverity = serviceAlerts.unreadMaxSeverity;
@@ -84,7 +84,6 @@
     UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:cellId];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
 
     if (serviceAlerts.totalCount == 0) {
         cell.textLabel.text = @"Service Alerts";

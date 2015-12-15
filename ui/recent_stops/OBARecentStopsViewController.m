@@ -77,7 +77,7 @@
         cell.detailTextLabel.text = event.subtitle;
         cell.detailTextLabel.textAlignment = NSTextAlignmentCenter;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         return cell;
     }
 }

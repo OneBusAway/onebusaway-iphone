@@ -52,27 +52,36 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     [self refreshSettings];
 }
 
+#pragma mark - OS Settings
+
+- (BOOL)useHighContrastUI {
+    return UIAccessibilityDarkerSystemColorsEnabled() || UIAccessibilityIsReduceTransparencyEnabled();
+}
+
+#pragma mark - Bundle Settings
+
+- (NSString*)formattedAppVersion {
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+}
+
+- (NSString*)formattedAppBuild {
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+}
+
+- (NSString*)fullAppVersionString {
+    return [NSString stringWithFormat:@"%@ (%@)", [self formattedAppVersion], [self formattedAppBuild]];
+}
+
+#pragma mark - Crazy App State Refresh Thing
+
 - (void)refreshSettings {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *apiServerName = nil;
+    NSString *apiServerName = [self.modelDao normalizedAPIServerURL];
     
-    if (self.modelDao.readCustomApiUrl.length > 0) {
-        apiServerName = [NSString stringWithFormat:@"http://%@", self.modelDao.readCustomApiUrl];
-    }
-    else {
-        if (self.modelDao.region) {
-            apiServerName = [NSString stringWithFormat:@"%@", _modelDao.region.obaBaseUrl];
-        }
-        else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kOBAApplicationSettingsRegionRefreshNotification object:nil];
-        }
+    if (!apiServerName) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kOBAApplicationSettingsRegionRefreshNotification object:nil];
     }
 
-    if ([apiServerName hasSuffix:@"/"]) {
-        apiServerName = [apiServerName substringToIndex:[apiServerName length] - 1];
-    }
-
-    NSString *userId = [self userIdFromDefaults:userDefaults];
+    NSString *userId = [self userIdFromDefaults:[NSUserDefaults standardUserDefaults]];
     NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
     NSString *obaArgs = [NSString stringWithFormat:@"key=org.onebusaway.iphone&app_uid=%@&app_ver=%@", userId, appVersion];
 
@@ -84,7 +93,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     OBAJsonDataSource *googleMapsJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
     _modelService.googleMapsJsonDataSource = googleMapsJsonDataSource;
 
-    NSString *regionApiServerName = [userDefaults objectForKey:@"oba_region_api_server"];
+    NSString *regionApiServerName = [[NSUserDefaults standardUserDefaults] objectForKey:@"oba_region_api_server"];
 
     if (regionApiServerName.length == 0) {
         regionApiServerName = kOBADefaultRegionApiServerName;
@@ -96,7 +105,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     OBAJsonDataSource *obaRegionJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:obaRegionDataSourceConfig];
     _modelService.obaRegionJsonDataSource = obaRegionJsonDataSource;
 
-    [userDefaults setObject:appVersion forKey:@"oba_application_version"];
+    [[NSUserDefaults standardUserDefaults] setObject:appVersion forKey:@"oba_application_version"];
 }
 
 - (NSString *)userIdFromDefaults:(NSUserDefaults *)userDefaults {

@@ -23,8 +23,6 @@ extern NSString * const OBAErrorDomain;
 extern const NSInteger kOBAErrorDuplicateEntity;
 extern const NSInteger kOBAErrorMissingFieldInData;
 
-extern NSString * const OBAIncreaseContrastToggledNotification;
-
 @interface NSString (OBAConvenienceMethods)
 - (NSComparisonResult) compareUsingNumberSearch:(NSString*)aString;
 @end
