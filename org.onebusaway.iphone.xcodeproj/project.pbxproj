@@ -1109,7 +1109,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1154,7 +1154,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1418,7 +1418,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1482,7 +1482,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
