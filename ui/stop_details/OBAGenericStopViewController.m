@@ -437,9 +437,10 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
     }
 
     UILabel *footerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    footerLabel.text = NSLocalizedString(@"*No vehicle location data available", @"");
-    footerLabel.font = [OBATheme footnoteFont];
+    footerLabel.text = NSLocalizedString(@"*'Scheduled': no vehicle location data available", @"");
+    footerLabel.font = [OBATheme boldFootnoteFont];
     footerLabel.textAlignment = NSTextAlignmentCenter;
+    footerLabel.backgroundColor = [OBATheme backgroundColor];
     CGSize size = [footerLabel.text sizeWithAttributes:@{ NSFontAttributeName: footerLabel.font }];
     CGRect footerFrame = footerLabel.frame;
     footerFrame.size.width = CGRectGetWidth(tableView.frame);
@@ -447,7 +448,7 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
     footerLabel.frame = CGRectIntegral(footerFrame);
 
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(tableView.frame), CGRectGetHeight(footerLabel.frame))];
-    footerView.backgroundColor = [UIColor whiteColor];
+    footerView.backgroundColor = [OBATheme backgroundColor];
     [footerView addSubview:footerLabel];
     return footerView;
 }
