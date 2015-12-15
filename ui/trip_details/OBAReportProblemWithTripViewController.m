@@ -231,8 +231,14 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         }
 
         case OBASectionTypeComment: {
-            OBATextEditViewController *vc = [OBATextEditViewController pushOntoViewController:self withText:_comment withTitle:NSLocalizedString(@"Comment", @"withTitle")];
+            OBATextEditViewController *vc = [[OBATextEditViewController alloc] init];
             vc.delegate = self;
+            vc.text = _comment;
+            vc.title = NSLocalizedString(@"Comment", @"withTitle");
+            
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+            [self presentViewController:nav animated:YES completion:nil];
+
             break;
         }
 
