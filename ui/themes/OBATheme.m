@@ -12,6 +12,7 @@ static UIFont *_bodyFont = nil;
 static UIFont *_boldBodyFont = nil;
 static UIFont *_headlineFont = nil;
 static UIFont *_footnoteFont = nil;
+static UIFont *_boldFootnoteFont = nil;
 
 @implementation OBATheme
 
@@ -21,6 +22,8 @@ static UIFont *_footnoteFont = nil;
     _bodyFont = nil;
     _boldBodyFont = nil;
     _headlineFont = nil;
+    _footnoteFont = nil;
+    _boldFootnoteFont = nil;
 }
 
 #pragma mark - UIFont
@@ -53,6 +56,15 @@ static UIFont *_footnoteFont = nil;
         _footnoteFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     }
     return _footnoteFont;
+}
+
++ (UIFont*)boldFootnoteFont {
+    if (!_boldFootnoteFont) {
+        UIFontDescriptor *fontDesciptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
+        UIFontDescriptor *boldFontDescriptor = [fontDesciptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
+        _boldFootnoteFont = [UIFont fontWithDescriptor:boldFontDescriptor size:0.0];
+    }
+    return _boldFootnoteFont;
 }
 
 #pragma mark - UIColor
