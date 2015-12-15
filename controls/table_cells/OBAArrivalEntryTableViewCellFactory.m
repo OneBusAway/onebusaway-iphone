@@ -44,7 +44,7 @@
     cell.alertStyle = [self getAlertStyleForArrival:arrival];
     [cell.statusLabel setAttributedText:attributedStatusLabel];
 
-    cell.minutesLabel.text = [self getMinutesLabelForMinutes:minutes];
+    cell.minutesLabel.text = [self getMinutesLabelForMinutes:minutes arrival:arrival];
     cell.minutesLabel.textColor = [self getMinutesColorForArrival:arrival];
 
     NSString *minutesUntilArrivalText;
@@ -64,17 +64,26 @@
     return cell;
 }
 
-- (NSString *)getMinutesLabelForMinutes:(NSInteger)minutes {
+- (NSString *)getMinutesLabelForMinutes:(NSInteger)minutes arrival:(OBAArrivalAndDepartureV2*)arrival {
+    NSString *timeTil = nil;
+
     if (minutes == 0) {
-        return NSLocalizedString(@"NOW", @"minutes == 0");
+        timeTil = NSLocalizedString(@"NOW", @"minutes == 0");
     }
     else {
-        return [NSString stringWithFormat:@"%@", @(minutes)];
+        timeTil = [NSString stringWithFormat:@"%@", @(minutes)];
+    }
+
+    if (arrival.hasRealTimeData) {
+        return timeTil;
+    }
+    else {
+        return [NSString stringWithFormat:@"%@*", timeTil];
     }
 }
 
 - (UIColor *)getMinutesColorForArrival:(OBAArrivalAndDepartureV2 *)arrival {
-    if (arrival.predictedDepartureTime > 0) {
+    if (arrival.hasRealTimeData) {
         double diff = (arrival.predictedDepartureTime - arrival.scheduledDepartureTime) / (1000.0 * 60.0);
 
         if (diff < -1.5) {

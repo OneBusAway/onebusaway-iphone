@@ -25,6 +25,12 @@
 + (UIFont*)bodyFont;
 
 /**
+ * The appropriate font to use for footer text, or a sidenote.
+ * Please use sparingly.
+ */
++ (UIFont*)footnoteFont;
+
+/**
  * A bold variant of the appropriate font to use for body or label text.
  * Resizes based upon the user's chosen font sizes at the system level.
  */
