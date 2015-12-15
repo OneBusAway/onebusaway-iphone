@@ -44,6 +44,10 @@
     return self.predictedDepartureTime == 0 ? self.scheduledDepartureTime : self.predictedDepartureTime;
 }
 
+- (BOOL)hasRealTimeData {
+    return self.predictedDepartureTime > 0;
+}
+
 - (NSArray*) situations {
     
     NSMutableArray * rSituations = [NSMutableArray array];

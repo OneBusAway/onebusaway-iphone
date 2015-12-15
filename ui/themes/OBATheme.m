@@ -11,6 +11,7 @@
 static UIFont *_bodyFont = nil;
 static UIFont *_boldBodyFont = nil;
 static UIFont *_headlineFont = nil;
+static UIFont *_footnoteFont = nil;
 
 @implementation OBATheme
 
@@ -45,6 +46,13 @@ static UIFont *_headlineFont = nil;
         _headlineFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     }
     return _headlineFont;
+}
+
++ (UIFont*)footnoteFont {
+    if (!_footnoteFont) {
+        _footnoteFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+    }
+    return _footnoteFont;
 }
 
 #pragma mark - UIColor

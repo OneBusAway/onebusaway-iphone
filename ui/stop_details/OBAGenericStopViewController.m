@@ -429,6 +429,51 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
     }
 }
 
+- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    BOOL hasScheduledArrival = [self sectionNeedsExplanatoryFooterMessage:section];
+
+    if (!hasScheduledArrival) {
+        return nil;
+    }
+
+    UILabel *footerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    footerLabel.text = NSLocalizedString(@"*No vehicle location data available", @"");
+    footerLabel.font = [OBATheme footnoteFont];
+    footerLabel.textAlignment = NSTextAlignmentCenter;
+    CGSize size = [footerLabel.text sizeWithAttributes:@{ NSFontAttributeName: footerLabel.font }];
+    CGRect footerFrame = footerLabel.frame;
+    footerFrame.size.width = CGRectGetWidth(tableView.frame);
+    footerFrame.size.height = size.height + 1;
+    footerLabel.frame = CGRectIntegral(footerFrame);
+
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(tableView.frame), CGRectGetHeight(footerLabel.frame))];
+    footerView.backgroundColor = [UIColor whiteColor];
+    [footerView addSubview:footerLabel];
+    return footerView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if ([self sectionNeedsExplanatoryFooterMessage:section]) {
+        return 20;
+    }
+    else {
+        return 0;
+    }
+}
+
+- (BOOL)sectionNeedsExplanatoryFooterMessage:(NSInteger)section {
+    // umm, this *should* be OBAStopSectionTypeArrivals. What am I missing?
+    if (section == 0) {
+        for (OBAArrivalAndDepartureV2* ref in self.allArrivals) {
+            if (!ref.hasRealTimeData) {
+                return YES;
+            }
+        }
+    }
+
+    return NO;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return kSectionHeaderHeight;
 }
