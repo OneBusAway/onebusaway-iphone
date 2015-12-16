@@ -1,6 +1,5 @@
 #import "OBAModelDAO.h"
 #import "OBAModelFactory.h"
-#import "OBADataSourceConfig.h"
 #import "OBAJsonDataSource.h"
 #import "OBALocationManager.h"
 
@@ -22,15 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
  * This protocol mimics the functionality of UIApplication.  It is placed here to get around Extension only API limitation.
  */
 @protocol OBABackgroundTaskExecutor <NSObject>
-
--(UIBackgroundTaskIdentifier) beginBackgroundTaskWithExpirationHandler:(void(^)(void))handler;
--(UIBackgroundTaskIdentifier) endBackgroundTask:(UIBackgroundTaskIdentifier) task;
-
+- (UIBackgroundTaskIdentifier) beginBackgroundTaskWithExpirationHandler:(void(^)(void))handler;
+- (UIBackgroundTaskIdentifier) endBackgroundTask:(UIBackgroundTaskIdentifier) task;
 @end
 
 @interface OBAModelService : NSObject
-
-
 @property (nonatomic, strong) OBAReferencesV2 *references;
 @property (nonatomic, strong) OBAModelDAO *modelDao;
 @property (nonatomic, strong) OBAModelFactory *modelFactory;
@@ -39,8 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) OBAJsonDataSource *googleMapsJsonDataSource;
 @property (nonatomic, strong) OBAJsonDataSource *googlePlacesJsonDataSource;
 @property (nonatomic, strong) OBALocationManager *locationManager;
-
-@property (nonatomic, strong) NSData *deviceToken;
 
 /**
  * Registers a background executor to be used by all services.  This method should not be used by extensions.
@@ -83,16 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (id<OBAModelServiceRequest>)requestStopsForRegion:(MKCoordinateRegion)region
                                     completionBlock:(OBADataSourceCompletion)completion;
-/**
- *  Makes an asynchronous request for a set of stops for a given query
- *
- *  @param stopQuery  A "stopCode" represented by a string
- *  @param completion The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (id<OBAModelServiceRequest>)requestStopsForQuery:(NSString *)stopQuery
-                                   completionBlock:(OBADataSourceCompletion)completion;
+
 /**
  *  Makes an asynchronous request to get a set of stops for a given query, bounded by a region
  *
@@ -125,16 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (id<OBAModelServiceRequest>)requestStopsForPlacemark:(OBAPlacemark *)placemark
                                        completionBlock:(OBADataSourceCompletion)completion;
-/**
- *  Makes an asynchronous request to fetch a set of routes
- *
- *  @param routeQuery Query to identify a route
- *  @param completion The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (id<OBAModelServiceRequest>)requestRoutesForQuery:(NSString *)routeQuery
-                                    completionBlock:(OBADataSourceCompletion)completion;
+
 /**
  *  Makes an asynchronous request to fetch a set of routes
  *
@@ -157,16 +132,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (id<OBAModelServiceRequest>)placemarksForAddress:(NSString *)address
                                    completionBlock:(OBADataSourceCompletion)completion;
-/**
- *  Makes an asynchronous request to fetch a set of placemarks based on their names
- *
- *  @param name       The name to be used to search for placemarks
- *  @param completion The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (id<OBAModelServiceRequest>)placemarksForPlace:(NSString *)name
-                                 completionBlock:(OBADataSourceCompletion)completion;
+
 /**
  *  Makes an asynchronous request to fetch all available OBA regions, including experimental and inactive
  *
@@ -247,16 +213,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (id<OBAModelServiceRequest>)reportProblemWithTrip:(OBAReportProblemWithTripV2 *)problem
                                     completionBlock:(OBADataSourceCompletion)completion;
-/**
- *  Makes an asynchronous request to fetch estimated vehicles times
- *
- *  @param locations  Array of locations for which the data is to be queried
- *  @param completion The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (id<OBAModelServiceRequest>)requestCurrentVehicleEstimatesForLocations:(NSArray *)locations
-                                                         completionBlock:(OBADataSourceCompletion)completion;
+
 @end
 
 NS_ASSUME_NONNULL_END

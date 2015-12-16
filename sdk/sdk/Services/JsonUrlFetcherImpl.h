@@ -10,13 +10,9 @@
 #import "OBADataSource.h"
 
 @interface JsonUrlFetcherImpl : NSObject<NSURLConnectionDelegate, NSURLConnectionDataDelegate, OBADataSourceConnection>
-@property (strong, nonatomic) NSURLConnection *connection;
-@property (assign, nonatomic) NSStringEncoding responseEncoding;
-@property (strong, nonatomic) NSMutableData *responseData;
-@property (strong, nonatomic) NSHTTPURLResponse *requestResponse;
-@property (assign, nonatomic) NSInteger expectedLength;
 @property (nonatomic, copy) OBADataSourceCompletion completionBlock;
 @property (nonatomic, copy) OBADataSourceProgress progressBlock;
-@property (nonatomic, assign) BOOL uploading;
+
+- (instancetype)initWithCompletionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress;
 - (void)loadRequest:(NSURLRequest *)request;
 @end

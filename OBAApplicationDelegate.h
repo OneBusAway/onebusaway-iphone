@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-#import "OBADataSourceConfig.h"
 #import "OBANavigationTarget.h"
 #import "GAI.h"
 #import "OBAApplication.h"

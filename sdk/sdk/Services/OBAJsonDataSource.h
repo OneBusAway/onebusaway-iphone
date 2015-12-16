@@ -25,26 +25,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)initWithConfig:(OBADataSourceConfig*)config;
 
-- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path
-                                completionBlock:(OBADataSourceCompletion) completion;
+- (id<OBADataSourceConnection>)requestWithPath:(NSString*)path
+                                      withArgs:(nullable NSDictionary*)args
+                               completionBlock:(OBADataSourceCompletion) completion
+                                 progressBlock:(nullable OBADataSourceProgress) progress;
 
-- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path
-                                       withArgs:(nullable NSString*)args
-                                completionBlock:(OBADataSourceCompletion) completion
-                                  progressBlock:(nullable OBADataSourceProgress) progress;
-
-- (id<OBADataSourceConnection>) requestWithPath:(NSString*)path
-                                       withArgs:(nullable NSString*)args
-                                 withFileUpload:(NSString*)filePath
-                                completionBlock:(OBADataSourceCompletion) completion
-                                  progressBlock:(nullable OBADataSourceProgress) progress;
-
-- (id<OBADataSourceConnection>) postWithPath:(NSString*)url
-                                    withArgs:(nullable NSDictionary*)args
-                             completionBlock:(OBADataSourceCompletion) completion
-                               progressBlock:(nullable OBADataSourceProgress) progress;
-
-- (void) cancelOpenConnections;
+- (void)cancelOpenConnections;
 
 @end
 

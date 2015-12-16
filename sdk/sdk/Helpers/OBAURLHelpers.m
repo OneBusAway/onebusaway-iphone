@@ -10,18 +10,6 @@
 
 @implementation OBAURLHelpers
 
-+ (NSString *)escapeStringForUrl:(NSString *)url {
-    // http://stackoverflow.com/questions/8088473/url-encode-an-nsstring
-    NSString *encodedString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
-                                                                                                    NULL,
-                                                                                                    (CFStringRef)url,
-                                                                                                    NULL,
-                                                                                                    (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                                                                                    kCFStringEncodingUTF8 ));
-    
-    return encodedString;
-}
-
 + (NSURL*)normalizeURLPath:(NSString*)path relativeToBaseURL:(NSString*)baseURLString parameters:(NSDictionary*)params {
     
     if (![baseURLString hasPrefix:@"http://"] && ![baseURLString hasPrefix:@"https://"]) {
