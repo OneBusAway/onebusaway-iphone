@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@import Foundation;
+@import UIKit;
 
 NS_ASSUME_NONNULL_BEGIN
+
+typedef void (^OBADataSourceCompletion)(_Nullable id responseData, NSUInteger responseCode, NSError * error);
+typedef void (^OBADataSourceProgress)(CGFloat progress);
 
 @protocol OBADataSourceConnection <NSObject>
 - (void) cancel;

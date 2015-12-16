@@ -325,16 +325,9 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
 - (OBAModelServiceRequest *)request:(OBAJsonDataSource *)source url:(NSString *)url args:(NSString *)args selector:(SEL)selector completionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress {
     OBAModelServiceRequest *request = [self request:source selector:selector];
 
-    request.connection = [source requestWithPath:url
-                                        withArgs:args
-                                 completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                                     [request                       processData:jsonData
-                                         withError:error
-                                      responseCode:responseCode
-                                         completionBlock:completion];
-                                 }
-
-                                   progressBlock:progress];
+    request.connection = [source requestWithPath:url withArgs:args completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        [request processData:jsonData withError:error responseCode:responseCode completionBlock:completion];
+    } progressBlock:progress];
     return request;
 }
 
@@ -345,16 +338,9 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
 - (OBAModelServiceRequest *)post:(OBAJsonDataSource *)source url:(NSString *)url args:(NSDictionary *)args selector:(SEL)selector completionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress {
     OBAModelServiceRequest *request = [self request:source selector:selector];
 
-    request.connection = [source postWithPath:url
-                                     withArgs:args
-                              completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-                                  [request                       processData:responseData
-                                         withError:error
-                                      responseCode:responseCode
-                                      completionBlock:completion];
-                              }
-
-                                progressBlock:progress];
+    request.connection = [source postWithPath:url withArgs:args completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+        [request processData:responseData withError:error responseCode:responseCode completionBlock:completion];
+    } progressBlock:progress];
     return request;
 }
 

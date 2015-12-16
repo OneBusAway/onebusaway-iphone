@@ -16,21 +16,7 @@
 
 #import "OBAJsonDataSource.h"
 #import "OBALogger.h"
-
-/****
-* Internal JsonUrlFetcher class that we pass on to our NSURLConnection
-****/
-
-@interface JsonUrlFetcherImpl : NSObject <OBADataSourceConnection>
-
-@property (nonatomic, assign) BOOL uploading;
-
-@property (nonatomic, copy) OBADataSourceCompletion completionBlock;
-@property (nonatomic, copy) OBADataSourceProgress progressBlock;
-
-- (void)loadRequest:(NSURLRequest *)request;
-
-@end
+#import "JsonUrlFetcherImpl.h"
 
 @interface OBAJsonDataSource ()
 
@@ -170,114 +156,6 @@
     NSString *reserved = @";/?:@&=+$,";
 
     return CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)s, NULL, (CFStringRef)reserved, kCFStringEncodingUTF8));
-}
-
-@end
-
-
-@interface JsonUrlFetcherImpl ()<NSURLConnectionDelegate, NSURLConnectionDataDelegate>
-
-@property (strong, nonatomic) NSURLConnection *connection;
-@property (assign, nonatomic) NSStringEncoding responseEncoding;
-@property (strong, nonatomic) NSMutableData *responseData;
-@property (strong, nonatomic) NSHTTPURLResponse *requestResponse;
-@property (assign, nonatomic) NSInteger expectedLength;
-
-@end
-
-@implementation JsonUrlFetcherImpl
-
-- (void)loadRequest:(NSURLRequest *)request {
-    static NSOperationQueue *connectionQueue;
-    static dispatch_once_t onceToken;
-
-    dispatch_once(&onceToken, ^{
-        connectionQueue = [[NSOperationQueue alloc] init];
-    });
-
-    self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
-    [self.connection setDelegateQueue:connectionQueue];
-    [self.connection start];
-}
-
-- (NSMutableData *)responseData {
-    if (!_responseData) {
-        _responseData = [[NSMutableData alloc] init];
-    }
-
-    return _responseData;
-}
-
-- (void)cancel {
-    [self.connection cancel];
-}
-
-#pragma mark NSURLConnection Delegate Methods
-
-- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
-    if (self.uploading) {
-        float progress = ((float)totalBytesWritten) / totalBytesExpectedToWrite;
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if(self.progressBlock) {
-                self.progressBlock(progress);
-            }
-        });
-    }
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    self.requestResponse = (NSHTTPURLResponse *)response;
-
-    NSString *textEncodingName = [response textEncodingName];
-
-    if (textEncodingName) {
-        self.responseEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)textEncodingName));
-    }
-    else {
-        self.responseEncoding = NSUTF8StringEncoding;
-    }
-
-    self.expectedLength = (NSInteger)response.expectedContentLength;
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSMutableData *)data {
-    [self.responseData appendData:data];
-
-    if (self.progressBlock) {
-        float progress = [self.responseData length];
-
-        if (self.expectedLength > 0) {
-            progress = ((float)[self.responseData length]) / self.expectedLength;
-        }
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if(self.progressBlock) {
-                self.progressBlock(progress);
-            }
-        });
-    }
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSError *error = nil;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wassign-enum"
-    id jsonObject = [NSJSONSerialization JSONObjectWithData:self.responseData options:0 error:&error];
-#pragma clang diagnostic pop
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.completionBlock) {
-            self.completionBlock(jsonObject, self.requestResponse.statusCode, error);
-        }
-    });
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.completionBlock) {
-            self.completionBlock(nil, NSUIntegerMax, error);
-        }
-    });
 }
 
 @end
