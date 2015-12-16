@@ -1,12 +1,10 @@
-#import "OBAWebViewController.h"
 
+#import "OBAWebViewController.h"
+#import <SafariServices/SafariServices.h>
 
 @interface OBAWebViewController (Private)
-
--(UIWebView*) webView;
-
+- (UIWebView*) webView;
 @end
-
 
 @implementation OBAWebViewController
 
@@ -32,15 +30,16 @@
 
 #pragma mark UIWebViewDelegate
 
--(BOOL) webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType {
-    
-    if( inType == UIWebViewNavigationTypeLinkClicked ) {
-        [[UIApplication sharedApplication] openURL:[inRequest URL]];
-        return NO;
-    }
-    else {
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)type {
+
+    if (type != UIWebViewNavigationTypeLinkClicked) {
         return YES;
     }
+
+    SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:request.URL];
+    safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:safari animated:YES completion:nil];
+    return NO;
 }
 
 @end
