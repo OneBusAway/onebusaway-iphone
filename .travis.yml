@@ -11,7 +11,11 @@ xcode_sdk:
 xcode_scheme:
     - Debug
 notifications:
-  slack: onebusaway:kcIbPpOOuJEhNgpzWMd8gkqj
+  slack:
+    rooms: 
+      - onebusaway:kcIbPpOOuJEhNgpzWMd8gkqj
+    on_success: change
+    on_failure: always
   webhooks:
     urls:
       - https://webhooks.gitter.im/e/30e6e2d8791d3099cbe5
