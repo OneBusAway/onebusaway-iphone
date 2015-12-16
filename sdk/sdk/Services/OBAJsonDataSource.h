@@ -21,9 +21,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^OBADataSourceCompletion)(_Nullable id responseData, NSUInteger responseCode, NSError * error);
-typedef void (^OBADataSourceProgress)(CGFloat progress);
-
 @interface OBAJsonDataSource : NSObject
 
 - (id)initWithConfig:(OBADataSourceConfig*)config;
