@@ -8,6 +8,7 @@
 
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
+#import <SafariServices/SafariServices.h>
 
 @interface OBACreditsViewController ()
 
@@ -37,7 +38,9 @@
     
     NSArray *nonLocalSchemes = @[@"http", @"https"];
     if (NSNotFound != [nonLocalSchemes indexOfObject:request.URL.scheme]) {
-        [[UIApplication sharedApplication] openURL:request.URL];
+        SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:request.URL];
+        safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [self presentViewController:safari animated:YES completion:nil];
         return NO;
     }
     else {

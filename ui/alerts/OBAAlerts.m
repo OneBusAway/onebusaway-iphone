@@ -18,6 +18,7 @@
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"Dismiss button") style:UIAlertActionStyleDefault handler:nil]];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Fix It", @"Location services alert button.") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSURL *appSettings = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        // Appropriate use of -openURL:. Don't replace.
         [[UIApplication sharedApplication] openURL:appSettings];
     }]];
 
