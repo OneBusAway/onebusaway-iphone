@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
-		60E26094D209E76D5D037634 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2B89E834A0C9E7F5B8FE39B /* libPods.a */; };
+		60E26094D209E76D5D037634 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		669B2F741AEBF92E00CF2367 /* OBAReleaseNotesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F731AEBF92E00CF2367 /* OBAReleaseNotesManager.m */; };
 		669B2F751AEBF92E00CF2367 /* OBAReleaseNotesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F731AEBF92E00CF2367 /* OBAReleaseNotesManager.m */; };
 		669B2F781AEBFCB300CF2367 /* OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F771AEBFCB300CF2367 /* OBAAnalytics.m */; };
@@ -17,7 +17,6 @@
 		669B2F811AEBFEBF00CF2367 /* OBARegionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F7F1AEBFEBF00CF2367 /* OBARegionHelper.m */; };
 		669B2F8C1AEC049D00CF2367 /* libOneBusAwaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 669B2F8B1AEC049D00CF2367 /* libOneBusAwaySDK.a */; };
 		669B2F8D1AEC04A100CF2367 /* libOneBusAwaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 669B2F8B1AEC049D00CF2367 /* libOneBusAwaySDK.a */; };
-		77F1DF137D15E0B33B6AC7F6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2B89E834A0C9E7F5B8FE39B /* libPods.a */; };
 		923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */; };
 		928E12B217D7863400FD855E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 928E12B117D7863400FD855E /* Images.xcassets */; };
 		931C42C2160E4B2A00435CD3 /* MKMapView+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 931C42C1160E4B2A00435CD3 /* MKMapView+oba_Additions.m */; };
@@ -83,6 +82,7 @@
 		9388E9DD1A9BCC8900C9F6CE /* feedback_message_body.html in Resources */ = {isa = PBXBuildFile; fileRef = 9388E9DC1A9BCC8900C9F6CE /* feedback_message_body.html */; };
 		93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A923A11C21DCD600A657C8 /* SafariServices.framework */; };
 		93A923A81C21ED6A00A657C8 /* OBAModelService_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A923A71C21ED6A00A657C8 /* OBAModelService_Tests.m */; };
+		93A923B91C22154600A657C8 /* OBADataSourceConfig_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A923B81C22154600A657C8 /* OBADataSourceConfig_Tests.m */; };
 		93AD36431603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD363A1603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m */; };
 		93AD36441603FE7E00BDF03F /* OBAArrivalEntryTableViewCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD363C1603FE7E00BDF03F /* OBAArrivalEntryTableViewCellFactory.m */; };
 		93AD36451603FE7E00BDF03F /* OBALabelAndTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD363E1603FE7E00BDF03F /* OBALabelAndTextFieldTableViewCell.m */; };
@@ -92,6 +92,8 @@
 		93F152F61A9AE91A0015C141 /* OneBusAway_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F152F51A9AE91A0015C141 /* OneBusAway_Tests.m */; };
 		93F153021A9AEA500015C141 /* OBAURLHelpers_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F153011A9AEA500015C141 /* OBAURLHelpers_Tests.m */; };
 		93F64E971BE5ACC300323527 /* OBAAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F64E961BE5ACC300323527 /* OBAAlerts.m */; };
+		9B1767F94A5051BDFCE96F9D /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57F2834D37D00C38D9A5A117 /* Pods.framework */; };
+		D026E9B444F4E9FC8C97C400 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57F2834D37D00C38D9A5A117 /* Pods.framework */; };
 		D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = D651BB2711C9D5DE001BE733 /* iTunesArtwork */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 /* End PBXBuildFile section */
@@ -127,6 +129,7 @@
 		28A0AB4B0D9B1048005BE974 /* org_onebusaway_iphone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = org_onebusaway_iphone_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		54CB67407CF2B898E5D99654 /* Pods-OneBusAway.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.release.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.release.xcconfig"; sourceTree = "<group>"; };
+		57F2834D37D00C38D9A5A117 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		669B2D5A1AEBE63800CF2367 /* OneBusAwaySDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OneBusAwaySDK.xcodeproj; path = sdk/OneBusAwaySDK.xcodeproj; sourceTree = "<group>"; };
 		669B2F721AEBF92E00CF2367 /* OBAReleaseNotesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReleaseNotesManager.h; sourceTree = "<group>"; };
 		669B2F731AEBF92E00CF2367 /* OBAReleaseNotesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReleaseNotesManager.m; sourceTree = "<group>"; };
@@ -253,6 +256,7 @@
 		939CEB241C0E406500E1D2B7 /* rvtd.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = rvtd.gpx; sourceTree = "<group>"; };
 		93A923A11C21DCD600A657C8 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		93A923A71C21ED6A00A657C8 /* OBAModelService_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelService_Tests.m; sourceTree = "<group>"; };
+		93A923B81C22154600A657C8 /* OBADataSourceConfig_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADataSourceConfig_Tests.m; sourceTree = "<group>"; };
 		93AD36391603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalEntryTableViewCell.h; sourceTree = "<group>"; };
 		93AD363A1603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalEntryTableViewCell.m; sourceTree = "<group>"; };
 		93AD363B1603FE7E00BDF03F /* OBAArrivalEntryTableViewCellFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalEntryTableViewCellFactory.h; sourceTree = "<group>"; };
@@ -272,7 +276,6 @@
 		93F64E951BE5ACC300323527 /* OBAAlerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAlerts.h; sourceTree = "<group>"; };
 		93F64E961BE5ACC300323527 /* OBAAlerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAlerts.m; sourceTree = "<group>"; };
 		9896748DE4027B647D4D41F0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		A2B89E834A0C9E7F5B8FE39B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF4665CA06626C1076EEEE33 /* Pods.appstoredistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstoredistribution.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstoredistribution.xcconfig"; sourceTree = "<group>"; };
 		B565A40323F4842FC230AA07 /* Pods-OneBusAway.appstoredistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.appstoredistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.appstoredistribution.xcconfig"; sourceTree = "<group>"; };
 		D651BB2711C9D5DE001BE733 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = Resources/iTunesArtwork; sourceTree = "<group>"; };
@@ -293,7 +296,7 @@
 			files = (
 				93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */,
 				669B2F8C1AEC049D00CF2367 /* libOneBusAwaySDK.a in Frameworks */,
-				77F1DF137D15E0B33B6AC7F6 /* libPods.a in Frameworks */,
+				D026E9B444F4E9FC8C97C400 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,7 +305,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				669B2F8D1AEC04A100CF2367 /* libOneBusAwaySDK.a in Frameworks */,
-				60E26094D209E76D5D037634 /* libPods.a in Frameworks */,
+				60E26094D209E76D5D037634 /* (null) in Frameworks */,
+				9B1767F94A5051BDFCE96F9D /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,7 +389,7 @@
 			children = (
 				93A923A11C21DCD600A657C8 /* SafariServices.framework */,
 				669B2F8B1AEC049D00CF2367 /* libOneBusAwaySDK.a */,
-				A2B89E834A0C9E7F5B8FE39B /* libPods.a */,
+				57F2834D37D00C38D9A5A117 /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -694,6 +698,7 @@
 				93A923A71C21ED6A00A657C8 /* OBAModelService_Tests.m */,
 				93F152F31A9AE91A0015C141 /* Supporting Files */,
 				93F153011A9AEA500015C141 /* OBAURLHelpers_Tests.m */,
+				93A923B81C22154600A657C8 /* OBADataSourceConfig_Tests.m */,
 			);
 			path = "OneBusAway Tests";
 			sourceTree = "<group>";
@@ -1056,6 +1061,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93A923B91C22154600A657C8 /* OBADataSourceConfig_Tests.m in Sources */,
 				93A923A81C21ED6A00A657C8 /* OBAModelService_Tests.m in Sources */,
 				93F153021A9AEA500015C141 /* OBAURLHelpers_Tests.m in Sources */,
 				669B2F751AEBF92E00CF2367 /* OBAReleaseNotesManager.m in Sources */,

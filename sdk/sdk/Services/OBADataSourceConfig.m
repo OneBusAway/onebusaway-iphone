@@ -17,49 +17,56 @@
 #import "OBADataSourceConfig.h"
 
 @interface OBADataSourceConfig ()
-@property(strong,readwrite) NSString* url;
-@property(strong,readwrite) NSString* args;
+@property(nonatomic,copy) NSURL* baseURL;
+@property(nonatomic,copy) NSDictionary* defaultArgs;
 @end
 
 @implementation OBADataSourceConfig
 
-- (id) initWithUrl:(NSString*)url args:(NSString*)args {
+- (instancetype)initWithURL:(NSURL*)baseURL args:(nullable NSDictionary*)args {
     self = [super init];
     
     if (self) {
-        self.url = url;
-        self.args = args;
+        _baseURL = baseURL;
+        _defaultArgs = args;
     }
     return self;
 }
 
-- (NSURL*)constructURL:(NSString*)path withArgs:(NSString*)args includeArgs:(BOOL)includeArgs {
+- (NSURL*)constructURL:(NSString*)path withArgs:(NSDictionary*)args {
     NSMutableString *constructedURL = [NSMutableString string];
     
-    if (self.url) {
-        [constructedURL appendString:self.url];
+    if (self.baseURL) {
+        [constructedURL appendString:self.baseURL.absoluteString];
     }
     
     [constructedURL appendString:path];
-    
-    if (includeArgs && (args || self.args) ) {
-        [constructedURL appendString:@"?"];
-        if ( _args ) {
-            [constructedURL appendString:_args];
-        }
-            
-        if (args) {
-            if (self.args) {
-                [constructedURL appendString:@"&"];
-            }
-                
-            [constructedURL appendString:args];
-        }
+
+    NSMutableArray<NSURLQueryItem*> *queryItems = [[NSMutableArray alloc] init];
+
+    for (NSString* key in self.defaultArgs) {
+        NSURLQueryItem *item = [[NSURLQueryItem alloc] initWithName:key value:[self.defaultArgs[key] description]];
+        [queryItems addObject:item];
     }
+
+    for (NSString* key in args) {
+        NSURLQueryItem *item = [[NSURLQueryItem alloc] initWithName:key value:[args[key] description]];
+        [queryItems addObject:item];
+    }
+
+    NSURL *URLWithPath = [self.baseURL URLByAppendingPathComponent:path];
+
+    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:URLWithPath resolvingAgainstBaseURL:NO];
+
+    if (queryItems.count > 0) {
+        components.queryItems = queryItems;
+    }
+
+    NSURL *fullURL = components.URL;
+
+    NSLog(@"url=%@",fullURL);
     
-    NSLog(@"url=%@",constructedURL);
-    
-    return [NSURL URLWithString:constructedURL];
+    return fullURL;
 }
 
 @end

@@ -24,11 +24,4 @@ typedef void (^OBADataSourceProgress)(CGFloat progress);
 - (void) cancel;
 @end
 
-@protocol OBADataSourceDelegate
-- (void)connectionDidFinishLoading:(id<OBADataSourceConnection>)connection withObject:(id)obj context:(id)context;
-- (void)connectionDidFail:(id<OBADataSourceConnection>)connection withError:(NSError *)error context:(id)context;
-@optional
-- (void)connection:(id<OBADataSourceConnection>)connection withProgress:(float)progress;
-@end
-
 NS_ASSUME_NONNULL_END

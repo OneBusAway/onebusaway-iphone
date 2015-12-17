@@ -7,6 +7,7 @@
 #import "OBAArrivalAndDepartureViewController.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
+@import SVProgressHUD;
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -66,8 +67,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         [self addProblemWithId:@"wrong_headsign" name:NSLocalizedString(@"Wrong destination shown", @"name")];
         [self addProblemWithId:@"vehicle_does_not_stop_here" name:[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"The", @"name"), _vehicleType, NSLocalizedString(@"doesn't stop here", @"name")]];
         [self addProblemWithId:@"other" name:NSLocalizedString(@"Other", @"name")];
-
-        _activityIndicatorView = [[OBAModalActivityIndicator alloc] init];
     }
 
     return self;
@@ -420,49 +419,46 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     problem.userVehicleNumber = _vehicleNumber;
     problem.userLocation = [OBAApplication sharedApplication].locationManager.currentLocation;
 
-    [_activityIndicatorView show:self.view];
-    [[OBAApplication sharedApplication].modelService
-     reportProblemWithTrip:problem
-           completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-               if (error || !jsonData) {
-               [self showErrorAlert];
-               [self->_activityIndicatorView hide];
-               }
-               else {
-               UIAlertView *view = [[UIAlertView alloc] init];
-               view.title = NSLocalizedString(@"Submission Successful", @"view.title");
-               [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategorySubmit
-                                           action:@"report_problem"
-                                            label:@"Reported Problem"
-                                            value:nil];
+    [SVProgressHUD show];
+    [[OBAApplication sharedApplication].modelService reportProblemWithTrip:problem completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        if (error || !jsonData) {
+            [self showErrorAlert];
+            [SVProgressHUD dismiss];
+            return;
+        }
+        UIAlertView *view = [[UIAlertView alloc] init];
+        view.title = NSLocalizedString(@"Submission Successful", @"view.title");
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategorySubmit
+                                       action:@"report_problem"
+                                        label:@"Reported Problem"
+                                        value:nil];
 
-               view.message = NSLocalizedString(@"The problem was sucessfully reported. Thank you!", @"view.message");
-               [view addButtonWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle")];
-               view.cancelButtonIndex = 0;
-               [view show];
-               [self->_activityIndicatorView hide];
+        view.message = NSLocalizedString(@"The problem was sucessfully reported. Thank you!", @"view.message");
+        [view addButtonWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle")];
+        view.cancelButtonIndex = 0;
+        [view show];
+        [SVProgressHUD dismiss];
 
-               //go back to view that initiated report
-               NSArray *allViewControllers = self.navigationController.viewControllers;
+        //go back to view that initiated report
+        NSArray *allViewControllers = self.navigationController.viewControllers;
 
-               for (NSInteger i = [allViewControllers count] - 1; i >= 0; i--) {
-                id obj = [allViewControllers objectAtIndex:i];
+        for (NSInteger i = [allViewControllers count] - 1; i >= 0; i--) {
+            id obj = [allViewControllers objectAtIndex:i];
 
-                if ([obj isKindOfClass:[OBAArrivalAndDepartureViewController class]]) {
-                    [self.navigationController
-                     popToViewController:obj
-                                animated:YES];
-                    return;
-                }
-                else if ([obj isKindOfClass:[OBAStopViewController class]]) {
-                    [self.navigationController
-                     popToViewController:obj
-                                animated:YES];
-                    return;
-                }
-               }
-               }
-           }];
+            if ([obj isKindOfClass:[OBAArrivalAndDepartureViewController class]]) {
+                [self.navigationController
+                 popToViewController:obj
+                 animated:YES];
+                return;
+            }
+            else if ([obj isKindOfClass:[OBAStopViewController class]]) {
+                [self.navigationController
+                 popToViewController:obj
+                 animated:YES];
+                return;
+            }
+        }
+    }];
 }
 
 #pragma mark UIAlertViewDelegate

@@ -81,15 +81,16 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
         [[NSNotificationCenter defaultCenter] postNotificationName:kOBAApplicationSettingsRegionRefreshNotification object:nil];
     }
 
-    NSString *userId = [self userIdFromDefaults:[NSUserDefaults standardUserDefaults]];
-    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-    NSString *obaArgs = [NSString stringWithFormat:@"key=org.onebusaway.iphone&app_uid=%@&app_ver=%@", userId, appVersion];
+    NSDictionary *obaArgs = @{ @"key":     @"org.onebusaway.iphone",
+                               @"app_uid": [self userIdFromDefaults:[NSUserDefaults standardUserDefaults]],
+                               @"app_ver": [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
+                               @"version": @"2"};
 
-    OBADataSourceConfig *obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:apiServerName args:obaArgs];
+    OBADataSourceConfig *obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:apiServerName] args:obaArgs];
     OBAJsonDataSource *obaJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:obaDataSourceConfig];
     _modelService.obaJsonDataSource = obaJsonDataSource;
 
-    OBADataSourceConfig *googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:@"https://maps.googleapis.com" args:@"&sensor=true"];
+    OBADataSourceConfig *googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:@"https://maps.googleapis.com"] args:@{@"sensor": @"true"}];
     OBAJsonDataSource *googleMapsJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
     _modelService.googleMapsJsonDataSource = googleMapsJsonDataSource;
 
@@ -101,11 +102,9 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 
     regionApiServerName = [NSString stringWithFormat:@"http://%@", regionApiServerName];
 
-    OBADataSourceConfig *obaRegionDataSourceConfig = [[OBADataSourceConfig alloc] initWithUrl:regionApiServerName args:obaArgs];
+    OBADataSourceConfig *obaRegionDataSourceConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:regionApiServerName] args:obaArgs];
     OBAJsonDataSource *obaRegionJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:obaRegionDataSourceConfig];
     _modelService.obaRegionJsonDataSource = obaRegionJsonDataSource;
-
-    [[NSUserDefaults standardUserDefaults] setObject:appVersion forKey:@"oba_application_version"];
 }
 
 - (NSString *)userIdFromDefaults:(NSUserDefaults *)userDefaults {
