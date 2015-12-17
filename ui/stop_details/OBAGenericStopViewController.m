@@ -39,6 +39,7 @@
 #import "OBABookmarkGroup.h"
 #import "OBAStopWebViewController.h"
 #import "OBAAnalytics.h"
+@import SafariServices;
 
 CGFloat kSectionHeaderHeight = 30.f;
 
@@ -157,7 +158,7 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
     
     NSString *hiddenPreferenceUserId = @"OBAApplicationUserId";
     NSString *userID = [[NSUserDefaults standardUserDefaults] stringForKey:hiddenPreferenceUserId];
-    
+
     if (![region.stopInfoUrl isEqual:[NSNull null]]) {
         url = [NSString stringWithFormat:@"%@/busstops/%@", stopFinderBaseUrl, stop.stopId];
         
@@ -174,11 +175,10 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
     }
 
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:[NSString stringWithFormat:@"Loaded StopInfo from %@", region.regionName] value:nil];
-    
-    OBAStopWebViewController *webViewController = [[OBAStopWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
-    UINavigationController *modalNav = [[UINavigationController alloc] initWithRootViewController:webViewController];
-    
-    [self presentViewController:modalNav animated:YES completion:nil];
+
+
+    SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url]];
+    [self presentViewController:safari animated:YES completion:nil];
 }
 
 - (OBABookmarkV2 *)existingBookmark {
