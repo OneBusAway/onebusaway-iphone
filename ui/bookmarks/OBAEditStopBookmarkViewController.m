@@ -79,30 +79,18 @@
     [super viewWillAppear:animated];
     [self.tableView reloadData];
 
-    NSArray *stopIds = _bookmark.stopIds;
+    NSString *stopId = _bookmark.stopID;
+    [[OBAApplication sharedApplication].modelService requestStopForId:stopId completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+        OBAEntryWithReferencesV2 *entry = responseData;
+        OBAStopV2 *stop = entry.entry;
 
-    for (NSUInteger i = 0; i < [stopIds count]; i++) {
-        NSString *stopId = stopIds[i];
-        NSNumber *index = [NSNumber numberWithInteger:i];
-        [[OBAApplication sharedApplication].modelService
-         requestStopForId:stopId
-          completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-              OBAEntryWithReferencesV2 *entry = responseData;
-              OBAStopV2 *stop = entry.entry;
-
-              NSUInteger idx = [index intValue];
-
-              if (stop) {
-                self->_stops[stop.stopId] = stop;
-                NSIndexPath *path = [NSIndexPath indexPathForRow:idx + 1
-                                                       inSection:0];
-                NSArray *indexPaths = @[path];
-                [self.tableView
-                 reloadRowsAtIndexPaths:indexPaths
-                       withRowAnimation:UITableViewRowAnimationFade];
-              }
-          }];
-    }
+        if (stop) {
+            self->_stops[stop.stopId] = stop;
+            NSIndexPath *path = [NSIndexPath indexPathForRow:1 inSection:0];
+            NSArray *indexPaths = @[path];
+            [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+        }
+    }];
 }
 
 #pragma mark - Table view methods
@@ -123,7 +111,7 @@
     else if (indexPath.row == 1) {
         UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
-        NSString *stopId = self.bookmark.stopIds[indexPath.row - 1];
+        NSString *stopId = self.bookmark.stopID;
         OBAStopV2 *stop = self.stops[stopId];
 
         if (stop) cell.textLabel.text = [NSString stringWithFormat:@"%@ # %@ - %@", NSLocalizedString(@"Stop", @"stop"), stop.code, stop.name];

@@ -6,7 +6,17 @@
 - (id) initWithCoder:(NSCoder*)coder {
     if( self = [super init] ) {
         _name = [coder decodeObjectForKey:@"name"];
-        _stopIds = [coder decodeObjectForKey:@"stopIds"];
+
+        // Handle legacy bookmark models.
+        NSArray *stopIds = [coder decodeObjectForKey:@"stopIds"];
+        if (stopIds && stopIds.count > 0) {
+            _stopID = stopIds[0];
+        }
+        else {
+            _stopID = [coder decodeObjectForKey:@"stopID"];
+        }
+
+        _routeShortName = [coder decodeObjectForKey:@"routeShortName"];
     }
     return self;
 }
@@ -15,11 +25,12 @@
 
 - (void) encodeWithCoder: (NSCoder *)coder {
     [coder encodeObject:_name forKey:@"name"];
-    [coder encodeObject:_stopIds forKey:@"stopIds"];
+    [coder encodeObject:_stopID forKey:@"stopID"];
+    [coder encodeObject:_routeShortName forKey:@"routeShortName"];
 }
 
 - (NSString*)debugDescription {
-    return [NSString stringWithFormat:@"<%@: %p> :: {name: %@, group: %@, stopIds: %@}", self.class, self, self.name, self.group, self.stopIds];
+    return [NSString stringWithFormat:@"<%@: %p> :: {name: %@, group: %@, routeShortName: %@, stopID: %@}", self.class, self, self.name, self.group, self.routeShortName, self.stopID];
 }
 
 @end

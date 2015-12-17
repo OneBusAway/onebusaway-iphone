@@ -4,8 +4,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBABookmarkV2 : NSObject<NSCoding>
-@property(nonatomic,strong) NSString *name;
-@property(nonatomic,strong) NSArray *stopIds;
+@property(nonatomic,copy) NSString *name;
+@property(nonatomic,copy) NSString *stopID;
+@property(nonatomic,copy) NSString *routeShortName;
 @property(nonatomic,strong,nullable) OBABookmarkGroup *group;
 @end
 

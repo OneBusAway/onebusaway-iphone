@@ -184,15 +184,15 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
 - (OBABookmarkV2 *)existingBookmark {
     OBAStopV2 *stop = _result.stop;
 
-    for (OBABookmarkV2 *bm in [[OBAApplication sharedApplication].modelDao bookmarks]) {
-        if ([bm.stopIds containsObject:stop.stopId]) {
+    for (OBABookmarkV2 *bm in [OBAApplication sharedApplication].modelDao.bookmarks) {
+        if ([bm.stopID isEqual:stop.stopId]) {
             return bm;
         }
     }
 
     for (OBABookmarkGroup *group in [[OBAApplication sharedApplication].modelDao bookmarkGroups]) {
         for (OBABookmarkV2 *bm in group.bookmarks) {
-            if ([bm.stopIds containsObject:stop.stopId]) {
+            if ([bm.stopID isEqual:stop.stopId]) {
                 return bm;
             }
         }
