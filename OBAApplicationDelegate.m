@@ -25,7 +25,7 @@
 #import "OBAInfoViewController.h"
 
 #import "OBASearchController.h"
-#import "OBAStopViewController.h"
+#import "OBAGenericStopViewController.h"
 #import "OBAStopIconFactory.h"
 
 #import "OBARegionListViewController.h"

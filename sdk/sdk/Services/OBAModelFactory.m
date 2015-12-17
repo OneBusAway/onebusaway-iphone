@@ -26,7 +26,6 @@
 #import "OBATripScheduleV2.h"
 #import "OBATripStopTimeV2.h"
 #import "OBATripStatusV2.h"
-#import "OBAItinerariesV2.h"
 
 #import "OBAVehicleStatusV2.h"
 
@@ -65,12 +64,6 @@ static NSString * const kReferences = @"references";
 - (void) addTripV2RulesWithPrefix:(NSString*)prefix;
 - (void) addSituationV2RulesWithPrefix:(NSString*)prefix;
 - (void) addTripDetailsV2RulesWithPrefix:(NSString*)prefix;
-
-- (void) addItinerariesV2RulesWithPrefix:(NSString*)prefix;
-- (void) addItineraryV2RulesWithPrefix:(NSString*)prefix;
-- (void) addLegV2RulesWithPrefix:(NSString*)prefix;
-- (void) addTransitLegV2RulesWithPrefix:(NSString*)prefix;
-- (void) addStreetLegV2RulesWithPrefix:(NSString*)prefix;
 
 - (void) addAgencyWithCoverageV2RulesWithPrefix:(NSString*)prefix;
 
@@ -312,25 +305,6 @@ static NSString * const kReferences = @"references";
     return list;
 }
 
-- (OBAEntryWithReferencesV2*) getItinerariesV2FromJSON:(NSDictionary*)json error:(NSError**)error {
-    
-    OBAEntryWithReferencesV2 * entry = [[OBAEntryWithReferencesV2 alloc] initWithReferences:_references];
-    
-    OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
-    [digester addReferencesRulesWithPrefix:@"/references"];
-    [digester addItinerariesV2RulesWithPrefix:@"/entry"];
-    [digester addSetNext:@selector(setEntry:) forPrefix:@"/entry"];
-    
-    [digester parse:json withRoot:entry parameters:[self getDigesterParameters] error:error];
-    
-    return entry;
-
-}
-
-- (NSString*) getAlarmIdFromJSON:(NSString*)alarmId error:(NSError*)error {
-    return alarmId;
-}
-
 - (NSString*) getShapeV2FromJSON:(NSDictionary*)json error:(NSError*)error {
     NSDictionary * entry = json[@"entry"];
     return entry[@"points"];
@@ -474,77 +448,6 @@ static NSString * const kReferences = @"references";
     [self addTripStatusV2RulesWithPrefix:tripStatusPrefix];
     [self addSetNext:@selector(setStatus:) forPrefix:tripStatusPrefix];
 }
-
-- (void) addItinerariesV2RulesWithPrefix:(NSString*)prefix {
-    [self addObjectCreateRule:[OBAItinerariesV2 class] forPrefix:prefix];
-    [self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];
-
-    NSString * itineraryPrefix = [self extendPrefix:prefix withValue:@"itineraries/[]"];
-    [self addItineraryV2RulesWithPrefix:itineraryPrefix];
-    [self addSetNext:@selector(addItinerary:) forPrefix:itineraryPrefix];
-}
-
-- (void) addItineraryV2RulesWithPrefix:(NSString*)prefix {
-    [self addObjectCreateRule:[OBAItineraryV2 class] forPrefix:prefix];
-    [self addSetDatePropertyRule:@"startTime" withPrefix:[self extendPrefix:prefix withValue:@"startTime"]];
-    [self addSetDatePropertyRule:@"endTime" withPrefix:[self extendPrefix:prefix withValue:@"endTime"]];
-    [self addSetPropertyRule:@"probability" forPrefix:[self extendPrefix:prefix withValue:@"probability"]];
-    [self addSetPropertyRule:@"selected" forPrefix:[self extendPrefix:prefix withValue:@"selected"]];    
-    [self addSetPropertyRule:@"rawData" forPrefix:prefix];
-    
-    NSString * legPrefix = [self extendPrefix:prefix withValue:@"legs/[]"];
-    [self addLegV2RulesWithPrefix:legPrefix];
-    [self addSetNext:@selector(addLeg:) forPrefix:legPrefix];   
-}
-
-- (void) addLegV2RulesWithPrefix:(NSString*)prefix {
-
-    [self addObjectCreateRule:[OBALegV2 class] forPrefix:prefix];
-    [self addSetDatePropertyRule:@"startTime" withPrefix:[self extendPrefix:prefix withValue:@"startTime"]];
-    [self addSetDatePropertyRule:@"endTime" withPrefix:[self extendPrefix:prefix withValue:@"endTime"]];
-    [self addSetPropertyRule:@"mode" forPrefix:[self extendPrefix:prefix withValue:@"mode"]];
-    [self addSetPropertyRule:@"distance" forPrefix:[self extendPrefix:prefix withValue:@"distance"]];
-
-    NSString * transitLegPrefix = [self extendPrefix:prefix withValue:@"transitLeg"];
-    [self addTransitLegV2RulesWithPrefix:transitLegPrefix];
-    [self addSetNext:@selector(setTransitLeg:) forPrefix:transitLegPrefix];
-    
-    NSString * streetLegPrefix = [self extendPrefix:prefix withValue:@"streetLegs/[]"];
-    [self addStreetLegV2RulesWithPrefix:streetLegPrefix];
-    [self addSetNext:@selector(addStreetLeg:) forPrefix:streetLegPrefix];
-}
-
-- (void) addTransitLegV2RulesWithPrefix:(NSString*)prefix {
-    [self addObjectCreateRule:[OBATransitLegV2 class] forPrefix:prefix];
-    [self addSetOptionalPropertyRule:@"tripId" forPrefix:[self extendPrefix:prefix withValue:@"tripId"]];
-    [self addSetPropertyRule:@"serviceDate" forPrefix:[self extendPrefix:prefix withValue:@"serviceDate"]];
-    [self addSetOptionalPropertyRule:@"vehicleId" forPrefix:[self extendPrefix:prefix withValue:@"vehicleId"]];
-    
-    NSString * frequencyPrefix = [self extendPrefix:prefix withValue:@"frequency"];
-    [self addFrequencyV2RulesWithPrefix:frequencyPrefix];
-    [self addSetNext:@selector(setFrequency:) forPrefix:frequencyPrefix];
-
-    [self addSetOptionalPropertyRule:@"fromStopId" forPrefix:[self extendPrefix:prefix withValue:@"fromStopId"]];
-    [self addSetPropertyRule:@"fromStopSequence" forPrefix:[self extendPrefix:prefix withValue:@"fromStopSequence"]];
-    [self addSetOptionalPropertyRule:@"toStopId" forPrefix:[self extendPrefix:prefix withValue:@"toStopId"]];
-    [self addSetPropertyRule:@"toStopSequence" forPrefix:[self extendPrefix:prefix withValue:@"toStopSequence"]];
-    [self addSetOptionalPropertyRule:@"tripHeadsign" forPrefix:[self extendPrefix:prefix withValue:@"tripHeadsign"]];
-    [self addSetOptionalPropertyRule:@"path" forPrefix:[self extendPrefix:prefix withValue:@"path"]];
-    [self addSetPropertyRule:@"scheduledDepartureTime" forPrefix:[self extendPrefix:prefix withValue:@"scheduledDepartureTime"]];
-    [self addSetPropertyRule:@"predictedDepartureTime" forPrefix:[self extendPrefix:prefix withValue:@"predictedDepartureTime"]];
-    [self addSetPropertyRule:@"scheduledArrivalTime" forPrefix:[self extendPrefix:prefix withValue:@"scheduledArrivalTime"]];
-    [self addSetPropertyRule:@"predictedArrivalTime" forPrefix:[self extendPrefix:prefix withValue:@"predictedArrivalTime"]];
-    [self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];
-}
-
-- (void) addStreetLegV2RulesWithPrefix:(NSString*)prefix { 
-    [self addObjectCreateRule:[OBAStreetLegV2 class] forPrefix:prefix];
-    [self addSetOptionalPropertyRule:@"streetName" forPrefix:[self extendPrefix:prefix withValue:@"streetName"]];
-    [self addSetOptionalPropertyRule:@"path" forPrefix:[self extendPrefix:prefix withValue:@"path"]];
-    [self addSetPropertyRule:@"distance" forPrefix:[self extendPrefix:prefix withValue:@"distance"]];
-}
-
-
 
 - (void) addAgencyWithCoverageV2RulesWithPrefix:(NSString*)prefix {
     [self addObjectCreateRule:[OBAAgencyWithCoverageV2 class] forPrefix:prefix];

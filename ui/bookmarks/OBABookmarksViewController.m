@@ -17,7 +17,7 @@
 #import "OBABookmarksViewController.h"
 #import "OBALogger.h"
 #import "OBAEditStopBookmarkViewController.h"
-#import "OBAStopViewController.h"
+#import "OBAGenericStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
 #import "OBABookmarkGroup.h"
 #import "OBAEditBookmarkGroupViewController.h"
@@ -184,7 +184,7 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
         else {
-            OBAStopViewController *vc = [[OBAStopViewController alloc] initWithApplicationDelegate:self.appDelegate stopId:bookmark.stopIds[0]];
+            OBAGenericStopViewController *vc = [[OBAGenericStopViewController alloc] initWithApplicationDelegate:self.appDelegate stopId:bookmark.stopID];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }

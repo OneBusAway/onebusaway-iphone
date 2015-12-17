@@ -66,12 +66,6 @@
 		669B2ED91AEBE84000CF2367 /* OBAFrequencyV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E631AEBE84000CF2367 /* OBAFrequencyV2.m */; };
 		669B2EDA1AEBE84000CF2367 /* OBAHasReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E651AEBE84000CF2367 /* OBAHasReferencesV2.m */; };
 		669B2EDB1AEBE84000CF2367 /* OBAHasReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E651AEBE84000CF2367 /* OBAHasReferencesV2.m */; };
-		669B2EDC1AEBE84000CF2367 /* OBAItinerariesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E671AEBE84000CF2367 /* OBAItinerariesV2.m */; };
-		669B2EDD1AEBE84000CF2367 /* OBAItinerariesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E671AEBE84000CF2367 /* OBAItinerariesV2.m */; };
-		669B2EDE1AEBE84000CF2367 /* OBAItineraryV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E691AEBE84000CF2367 /* OBAItineraryV2.m */; };
-		669B2EDF1AEBE84000CF2367 /* OBAItineraryV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E691AEBE84000CF2367 /* OBAItineraryV2.m */; };
-		669B2EE01AEBE84000CF2367 /* OBALegV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E6B1AEBE84000CF2367 /* OBALegV2.m */; };
-		669B2EE11AEBE84000CF2367 /* OBALegV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E6B1AEBE84000CF2367 /* OBALegV2.m */; };
 		669B2EE21AEBE84000CF2367 /* OBAListWithRangeAndReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E6D1AEBE84000CF2367 /* OBAListWithRangeAndReferencesV2.m */; };
 		669B2EE31AEBE84000CF2367 /* OBAListWithRangeAndReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E6D1AEBE84000CF2367 /* OBAListWithRangeAndReferencesV2.m */; };
 		669B2EE41AEBE84000CF2367 /* OBANavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E6F1AEBE84000CF2367 /* OBANavigationTarget.m */; };
@@ -110,10 +104,6 @@
 		669B2F051AEBE84000CF2367 /* OBAStopsForRouteV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E8F1AEBE84000CF2367 /* OBAStopsForRouteV2.m */; };
 		669B2F061AEBE84000CF2367 /* OBAStopV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E911AEBE84000CF2367 /* OBAStopV2.m */; };
 		669B2F071AEBE84000CF2367 /* OBAStopV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E911AEBE84000CF2367 /* OBAStopV2.m */; };
-		669B2F081AEBE84000CF2367 /* OBAStreetLegV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E931AEBE84000CF2367 /* OBAStreetLegV2.m */; };
-		669B2F091AEBE84000CF2367 /* OBAStreetLegV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E931AEBE84000CF2367 /* OBAStreetLegV2.m */; };
-		669B2F0A1AEBE84000CF2367 /* OBATransitLegV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E951AEBE84000CF2367 /* OBATransitLegV2.m */; };
-		669B2F0B1AEBE84000CF2367 /* OBATransitLegV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E951AEBE84000CF2367 /* OBATransitLegV2.m */; };
 		669B2F0C1AEBE84000CF2367 /* OBATripDetailsV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E971AEBE84000CF2367 /* OBATripDetailsV2.m */; };
 		669B2F0D1AEBE84000CF2367 /* OBATripDetailsV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E971AEBE84000CF2367 /* OBATripDetailsV2.m */; };
 		669B2F0E1AEBE84000CF2367 /* OBATripInstanceRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2E991AEBE84000CF2367 /* OBATripInstanceRef.m */; };
@@ -246,12 +236,6 @@
 		669B2E631AEBE84000CF2367 /* OBAFrequencyV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAFrequencyV2.m; sourceTree = "<group>"; };
 		669B2E641AEBE84000CF2367 /* OBAHasReferencesV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAHasReferencesV2.h; sourceTree = "<group>"; };
 		669B2E651AEBE84000CF2367 /* OBAHasReferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAHasReferencesV2.m; sourceTree = "<group>"; };
-		669B2E661AEBE84000CF2367 /* OBAItinerariesV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAItinerariesV2.h; sourceTree = "<group>"; };
-		669B2E671AEBE84000CF2367 /* OBAItinerariesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAItinerariesV2.m; sourceTree = "<group>"; };
-		669B2E681AEBE84000CF2367 /* OBAItineraryV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAItineraryV2.h; sourceTree = "<group>"; };
-		669B2E691AEBE84000CF2367 /* OBAItineraryV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAItineraryV2.m; sourceTree = "<group>"; };
-		669B2E6A1AEBE84000CF2367 /* OBALegV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALegV2.h; sourceTree = "<group>"; };
-		669B2E6B1AEBE84000CF2367 /* OBALegV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALegV2.m; sourceTree = "<group>"; };
 		669B2E6C1AEBE84000CF2367 /* OBAListWithRangeAndReferencesV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAListWithRangeAndReferencesV2.h; sourceTree = "<group>"; };
 		669B2E6D1AEBE84000CF2367 /* OBAListWithRangeAndReferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAListWithRangeAndReferencesV2.m; sourceTree = "<group>"; };
 		669B2E6E1AEBE84000CF2367 /* OBANavigationTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTarget.h; sourceTree = "<group>"; };
@@ -290,10 +274,6 @@
 		669B2E8F1AEBE84000CF2367 /* OBAStopsForRouteV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopsForRouteV2.m; sourceTree = "<group>"; };
 		669B2E901AEBE84000CF2367 /* OBAStopV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopV2.h; sourceTree = "<group>"; };
 		669B2E911AEBE84000CF2367 /* OBAStopV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopV2.m; sourceTree = "<group>"; };
-		669B2E921AEBE84000CF2367 /* OBAStreetLegV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStreetLegV2.h; sourceTree = "<group>"; };
-		669B2E931AEBE84000CF2367 /* OBAStreetLegV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStreetLegV2.m; sourceTree = "<group>"; };
-		669B2E941AEBE84000CF2367 /* OBATransitLegV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATransitLegV2.h; sourceTree = "<group>"; };
-		669B2E951AEBE84000CF2367 /* OBATransitLegV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATransitLegV2.m; sourceTree = "<group>"; };
 		669B2E961AEBE84000CF2367 /* OBATripDetailsV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripDetailsV2.h; sourceTree = "<group>"; };
 		669B2E971AEBE84000CF2367 /* OBATripDetailsV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripDetailsV2.m; sourceTree = "<group>"; };
 		669B2E981AEBE84000CF2367 /* OBATripInstanceRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripInstanceRef.h; sourceTree = "<group>"; };
@@ -528,12 +508,6 @@
 				669B2E631AEBE84000CF2367 /* OBAFrequencyV2.m */,
 				669B2E641AEBE84000CF2367 /* OBAHasReferencesV2.h */,
 				669B2E651AEBE84000CF2367 /* OBAHasReferencesV2.m */,
-				669B2E661AEBE84000CF2367 /* OBAItinerariesV2.h */,
-				669B2E671AEBE84000CF2367 /* OBAItinerariesV2.m */,
-				669B2E681AEBE84000CF2367 /* OBAItineraryV2.h */,
-				669B2E691AEBE84000CF2367 /* OBAItineraryV2.m */,
-				669B2E6A1AEBE84000CF2367 /* OBALegV2.h */,
-				669B2E6B1AEBE84000CF2367 /* OBALegV2.m */,
 				669B2E6C1AEBE84000CF2367 /* OBAListWithRangeAndReferencesV2.h */,
 				669B2E6D1AEBE84000CF2367 /* OBAListWithRangeAndReferencesV2.m */,
 				669B2E6E1AEBE84000CF2367 /* OBANavigationTarget.h */,
@@ -572,10 +546,6 @@
 				669B2E8F1AEBE84000CF2367 /* OBAStopsForRouteV2.m */,
 				669B2E901AEBE84000CF2367 /* OBAStopV2.h */,
 				669B2E911AEBE84000CF2367 /* OBAStopV2.m */,
-				669B2E921AEBE84000CF2367 /* OBAStreetLegV2.h */,
-				669B2E931AEBE84000CF2367 /* OBAStreetLegV2.m */,
-				669B2E941AEBE84000CF2367 /* OBATransitLegV2.h */,
-				669B2E951AEBE84000CF2367 /* OBATransitLegV2.m */,
 				669B2E961AEBE84000CF2367 /* OBATripDetailsV2.h */,
 				669B2E971AEBE84000CF2367 /* OBATripDetailsV2.m */,
 				669B2E981AEBE84000CF2367 /* OBATripInstanceRef.h */,
@@ -733,7 +703,6 @@
 				669B2F121AEBE84000CF2367 /* OBATripStatusV2.m in Sources */,
 				669B2EE61AEBE84000CF2367 /* OBAPlacemark.m in Sources */,
 				669B2ECC1AEBE84000CF2367 /* OBAArrivalsAndDeparturesForStopV2.m in Sources */,
-				669B2EDE1AEBE84000CF2367 /* OBAItineraryV2.m in Sources */,
 				669B2F001AEBE84000CF2367 /* OBAStopAccessEventV2.m in Sources */,
 				669B2EBC1AEBE84000CF2367 /* OBASetDatePropertyJsonDigesterRule.m in Sources */,
 				669B2EC81AEBE84000CF2367 /* OBAArrivalAndDepartureInstanceRef.m in Sources */,
@@ -746,13 +715,11 @@
 				669B2F021AEBE84000CF2367 /* OBAStopPreferencesV2.m in Sources */,
 				669B2EC01AEBE84000CF2367 /* OBASetNextOBAJsonDigesterRule.m in Sources */,
 				669B2EEE1AEBE84000CF2367 /* OBARegionV2.m in Sources */,
-				669B2F081AEBE84000CF2367 /* OBAStreetLegV2.m in Sources */,
 				669B2F2A1AEBE85600CF2367 /* OBAModelFactory.m in Sources */,
 				669B2EC41AEBE84000CF2367 /* OBAAgencyV2.m in Sources */,
 				669B2ECE1AEBE84000CF2367 /* OBABookmarkGroup.m in Sources */,
 				669B2ED81AEBE84000CF2367 /* OBAFrequencyV2.m in Sources */,
 				669B2ED61AEBE84000CF2367 /* OBAEntryWithReferencesV2.m in Sources */,
-				669B2EDC1AEBE84000CF2367 /* OBAItinerariesV2.m in Sources */,
 				669B2D461AEBE63800CF2367 /* OBAApplication.m in Sources */,
 				669B2EEA1AEBE84000CF2367 /* OBAReferencesV2.m in Sources */,
 				669B2EAC1AEBE84000CF2367 /* OBAVehicleMapAnnotation.m in Sources */,
@@ -784,7 +751,6 @@
 				669B2F461AEBEAB300CF2367 /* OBAMapRegionManager.m in Sources */,
 				669B2EB21AEBE84000CF2367 /* OBACallMethodJsonDigesterRule.m in Sources */,
 				669B2F561AEBEB4E00CF2367 /* OBALogger.m in Sources */,
-				669B2EE01AEBE84000CF2367 /* OBALegV2.m in Sources */,
 				669B2EE81AEBE84000CF2367 /* OBAPlacemarks.m in Sources */,
 				669B2F6B1AEBEBAF00CF2367 /* OBAPresentation.m in Sources */,
 				669B2EA61AEBE84000CF2367 /* OBANavigationTargetAnnotation.m in Sources */,
@@ -793,7 +759,6 @@
 				669B2EF61AEBE84000CF2367 /* OBASearch.m in Sources */,
 				669B2ECA1AEBE84000CF2367 /* OBAArrivalAndDepartureV2.m in Sources */,
 				669B2EAE1AEBE84000CF2367 /* OBAModelDAO.m in Sources */,
-				669B2F0A1AEBE84000CF2367 /* OBATransitLegV2.m in Sources */,
 				669B2F061AEBE84000CF2367 /* OBAStopV2.m in Sources */,
 				669B2F0E1AEBE84000CF2367 /* OBATripInstanceRef.m in Sources */,
 				669B2EA81AEBE84000CF2367 /* OBATripContinuationMapAnnotation.m in Sources */,
@@ -813,11 +778,9 @@
 				669B2EAD1AEBE84000CF2367 /* OBAVehicleMapAnnotation.m in Sources */,
 				669B2EBB1AEBE84000CF2367 /* OBASetCoordinatePropertyJsonDigesterRule.m in Sources */,
 				669B2F171AEBE84000CF2367 /* OBATripV2.m in Sources */,
-				669B2EDF1AEBE84000CF2367 /* OBAItineraryV2.m in Sources */,
 				669B2EE71AEBE84000CF2367 /* OBAPlacemark.m in Sources */,
 				669B2EBF1AEBE84000CF2367 /* OBASetLocationPropertyJsonDigesterRule.m in Sources */,
 				669B2ECB1AEBE84000CF2367 /* OBAArrivalAndDepartureV2.m in Sources */,
-				669B2F0B1AEBE84000CF2367 /* OBATransitLegV2.m in Sources */,
 				669B2ED91AEBE84000CF2367 /* OBAFrequencyV2.m in Sources */,
 				669B2F701AEBEBAF00CF2367 /* OBAStopIconFactory.m in Sources */,
 				669B2EE91AEBE84000CF2367 /* OBAPlacemarks.m in Sources */,
@@ -839,7 +802,6 @@
 				669B2F681AEBEBAF00CF2367 /* OBACommon.m in Sources */,
 				669B2ED71AEBE84000CF2367 /* OBAEntryWithReferencesV2.m in Sources */,
 				669B2EDB1AEBE84000CF2367 /* OBAHasReferencesV2.m in Sources */,
-				669B2F091AEBE84000CF2367 /* OBAStreetLegV2.m in Sources */,
 				669B2F111AEBE84000CF2367 /* OBATripScheduleV2.m in Sources */,
 				669B2EF91AEBE84000CF2367 /* OBASearchResult.m in Sources */,
 				669B2EF31AEBE84000CF2367 /* OBAReportProblemWithTripV2.m in Sources */,
@@ -848,8 +810,6 @@
 				669B2F191AEBE84000CF2367 /* OBAVehicleStatusV2.m in Sources */,
 				669B2EB71AEBE84000CF2367 /* OBAJsonDigester.m in Sources */,
 				669B2EE31AEBE84000CF2367 /* OBAListWithRangeAndReferencesV2.m in Sources */,
-				669B2EE11AEBE84000CF2367 /* OBALegV2.m in Sources */,
-				669B2EDD1AEBE84000CF2367 /* OBAItinerariesV2.m in Sources */,
 				669B2EA91AEBE84000CF2367 /* OBATripContinuationMapAnnotation.m in Sources */,
 				669B2F291AEBE85600CF2367 /* OBAJsonDataSource.m in Sources */,
 				669B2EC11AEBE84000CF2367 /* OBASetNextOBAJsonDigesterRule.m in Sources */,

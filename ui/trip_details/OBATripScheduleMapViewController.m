@@ -6,7 +6,7 @@
 #import "OBATripStopTimeMapAnnotation.h"
 #import "OBATripContinuationMapAnnotation.h"
 #import "OBACoordinateBounds.h"
-#import "OBAStopViewController.h"
+#import "OBAGenericStopViewController.h"
 #import "OBASphericalGeometryLibrary.h"
 #import "OBATripDetailsViewController.h"
 #import "OBAPresentation.h"
@@ -166,7 +166,7 @@ static const NSString *kShapeContext = @"ShapeContext";
     if ([annotation isKindOfClass:[OBATripStopTimeMapAnnotation class] ]) {
         OBATripStopTimeMapAnnotation *an = (OBATripStopTimeMapAnnotation *)annotation;
         OBATripStopTimeV2 *stopTime = an.stopTime;
-        OBAStopViewController *vc = [[OBAStopViewController alloc] initWithApplicationDelegate:self.appDelegate stopId:stopTime.stopId];
+        OBAGenericStopViewController *vc = [[OBAGenericStopViewController alloc] initWithApplicationDelegate:self.appDelegate stopId:stopTime.stopId];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([annotation isKindOfClass:[OBATripContinuationMapAnnotation class]]) {

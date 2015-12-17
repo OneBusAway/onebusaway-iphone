@@ -17,7 +17,7 @@
 #import "OBAEditStopPreferencesViewController.h"
 #import "OBALogger.h"
 #import "OBARouteV2.h"
-#import "OBAStopViewController.h"
+#import "OBAGenericStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
@@ -223,7 +223,7 @@
     BOOL foundStopViewController = NO;
 
     for (UIViewController *viewController in [self.navigationController viewControllers]) {
-        if ([viewController isKindOfClass:[OBAStopViewController class]]) {
+        if ([viewController isKindOfClass:[OBAGenericStopViewController class]]) {
             [self.navigationController popToViewController:viewController animated:YES];
             foundStopViewController = YES;
             break;

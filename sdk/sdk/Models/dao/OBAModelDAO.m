@@ -182,10 +182,13 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 - (OBABookmarkV2*) createTransientBookmark:(OBAStopV2*)stop {
     OBABookmarkV2 * bookmark = [[OBABookmarkV2 alloc] init];
     NSString * bookmarkName = stop.name;
-    if( stop.direction )
+    if (stop.direction) {
         bookmarkName = [NSString stringWithFormat:@"%@ [%@]",stop.name,stop.direction];
+    }
     bookmark.name = bookmarkName;
-    bookmark.stopIds = @[stop.stopId];
+    bookmark.stopID = stop.stopId;
+//    bookmark.routeShortName = ???
+
     return bookmark;
 }
 

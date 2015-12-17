@@ -48,10 +48,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (OBAListWithRangeAndReferencesV2*) getCurrentVehicleEstimatesV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error;
 
-- (OBAEntryWithReferencesV2*) getItinerariesV2FromJSON:(NSDictionary*)json error:(NSError**)error;
-
-- (NSString*) getAlarmIdFromJSON:(NSString*)alarmId error:(NSError*)error;
-
 - (NSString*) getShapeV2FromJSON:(NSDictionary*)json error:(NSError*)error;
 
 @end
