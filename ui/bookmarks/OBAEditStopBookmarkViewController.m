@@ -17,7 +17,7 @@
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBALogger.h"
 #import "OBATextFieldTableViewCell.h"
-#import "OBAStopViewController.h"
+#import "OBAGenericStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
 #import "OBABookmarkGroup.h"
 #import "OBAEditStopBookmarkGroupViewController.h"
@@ -173,7 +173,7 @@
     BOOL foundStopViewController = NO;
 
     for (UIViewController *viewController in [self.navigationController viewControllers]) {
-        if ([viewController isKindOfClass:[OBAStopViewController class]]) {
+        if ([viewController isKindOfClass:[OBAGenericStopViewController class]]) {
             [self.navigationController popToViewController:viewController animated:YES];
             foundStopViewController = YES;
             break;

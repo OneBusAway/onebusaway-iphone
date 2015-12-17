@@ -25,7 +25,7 @@
 #import "OBASearchResultsListViewController.h"
 #import "OBABookmarksViewController.h"
 #import "OBARecentStopsViewController.h"
-#import "OBAStopViewController.h"
+#import "OBAGenericStopViewController.h"
 #import "OBACoordinateBounds.h"
 #import "OBALogger.h"
 #import "OBAStopIconFactory.h"
@@ -667,7 +667,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     if ([annotation isKindOfClass:[OBAStopV2 class]]) {
         OBAStopV2 *stop = annotation;
-        OBAStopViewController *vc = [[OBAStopViewController alloc] initWithApplicationDelegate:self.appDelegate stopId:stop.stopId];
+        OBAGenericStopViewController *vc = [[OBAGenericStopViewController alloc] initWithApplicationDelegate:self.appDelegate stopId:stop.stopId];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([annotation isKindOfClass:[OBAPlacemark class]]) {

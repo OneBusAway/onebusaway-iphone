@@ -37,7 +37,6 @@
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBABookmarkGroup.h"
-#import "OBAStopWebViewController.h"
 #import "OBAAnalytics.h"
 @import SafariServices;
 

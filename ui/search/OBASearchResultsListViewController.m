@@ -19,7 +19,7 @@
 #import "OBARouteV2.h"
 #import "OBAAgencyWithCoverageV2.h"
 #import "OBASearchResultsMapViewController.h"
-#import "OBAStopViewController.h"
+#import "OBAGenericStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
@@ -182,7 +182,7 @@
         case OBASearchTypeRouteStops: {
             if (self.result.count == 0) break;
             OBAStopV2 * stop = (_result.values)[indexPath.row];
-            OBAStopViewController * vc = [[OBAStopViewController alloc] initWithApplicationDelegate:_appDelegate stopId:stop.stopId];
+            OBAGenericStopViewController * vc = [[OBAGenericStopViewController alloc] initWithApplicationDelegate:_appDelegate stopId:stop.stopId];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
