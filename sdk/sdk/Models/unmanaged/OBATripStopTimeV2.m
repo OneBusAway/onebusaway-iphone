@@ -8,7 +8,7 @@
     return [refs getStopForId:self.stopId];
 }
 
-- (NSString*)description
+- (NSString*)debugDescription
 {
     return [NSString stringWithFormat:@"<%@: %p> :: {arrivalTime: %@, departureTime: %@, stopId: %@, stop: %@}", self.class, self, @(self.arrivalTime), @(self.departureTime), self.stopId, self.stop];
 }

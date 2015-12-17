@@ -18,4 +18,8 @@
     [coder encodeObject:_stopIds forKey:@"stopIds"];
 }
 
+- (NSString*)debugDescription {
+    return [NSString stringWithFormat:@"<%@: %p> :: {name: %@, group: %@, stopIds: %@}", self.class, self, self.name, self.group, self.stopIds];
+}
+
 @end
