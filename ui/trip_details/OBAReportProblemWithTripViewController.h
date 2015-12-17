@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAReportProblemWithTripViewController : UITableViewController <UITextFieldDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate, UIAlertViewDelegate> {
+@interface OBAReportProblemWithTripViewController : UITableViewController <UITextFieldDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate> {
     OBAApplicationDelegate *_appDelegate;
     OBATripInstanceRef *_tripInstance;
     OBATripV2 *_trip;

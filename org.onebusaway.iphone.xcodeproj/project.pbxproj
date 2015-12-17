@@ -74,7 +74,6 @@
 		934446DA1AB12C5D005B3333 /* OBAProgressIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446D81AB12C5D005B3333 /* OBAProgressIndicatorView.m */; };
 		934522601C1BA976006F75BC /* OBATheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 9345225F1C1BA976006F75BC /* OBATheme.m */; };
 		93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */; };
-		93631E801604F9A300CB7209 /* OBANetworkErrorAlertViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E7C1604F9A200CB7209 /* OBANetworkErrorAlertViewDelegate.m */; };
 		93631E811604F9A300CB7209 /* OBASearchResultsMapFilterToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E7F1604F9A200CB7209 /* OBASearchResultsMapFilterToolbar.m */; };
 		936D3EBA1C14E74600091DC9 /* OBATableSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D3EB91C14E74600091DC9 /* OBATableSection.m */; };
 		936D3EBD1C14E83200091DC9 /* OBATableRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D3EBC1C14E83200091DC9 /* OBATableRow.m */; };
@@ -242,8 +241,6 @@
 		9345225F1C1BA976006F75BC /* OBATheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATheme.m; sourceTree = "<group>"; };
 		93631E4A1604F96800CB7209 /* OBAApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAApplicationDelegate.h; sourceTree = "<group>"; };
 		93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAApplicationDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		93631E7B1604F9A200CB7209 /* OBANetworkErrorAlertViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANetworkErrorAlertViewDelegate.h; sourceTree = "<group>"; };
-		93631E7C1604F9A200CB7209 /* OBANetworkErrorAlertViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANetworkErrorAlertViewDelegate.m; sourceTree = "<group>"; };
 		93631E7E1604F9A200CB7209 /* OBASearchResultsMapFilterToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchResultsMapFilterToolbar.h; sourceTree = "<group>"; };
 		93631E7F1604F9A200CB7209 /* OBASearchResultsMapFilterToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBASearchResultsMapFilterToolbar.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		936D3EB81C14E74600091DC9 /* OBATableSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATableSection.h; sourceTree = "<group>"; };
@@ -604,15 +601,6 @@
 			path = themes;
 			sourceTree = "<group>";
 		};
-		93631E7A1604F9A200CB7209 /* alerts */ = {
-			isa = PBXGroup;
-			children = (
-				93631E7B1604F9A200CB7209 /* OBANetworkErrorAlertViewDelegate.h */,
-				93631E7C1604F9A200CB7209 /* OBANetworkErrorAlertViewDelegate.m */,
-			);
-			path = alerts;
-			sourceTree = "<group>";
-		};
 		93631E7D1604F9A200CB7209 /* toolbars */ = {
 			isa = PBXGroup;
 			children = (
@@ -640,7 +628,6 @@
 			children = (
 				934446C81AB12B29005B3333 /* view_controllers */,
 				9330DF251606404100E14AF4 /* containers */,
-				93631E7A1604F9A200CB7209 /* alerts */,
 				93631E7D1604F9A200CB7209 /* toolbars */,
 				93AD36991604027E00BDF03F /* progress */,
 				93AD36381603FE7E00BDF03F /* table_cells */,
@@ -1027,7 +1014,6 @@
 				932BE4E91AB66E3C0011F2FB /* OBAEditBookmarkGroupViewController.m in Sources */,
 				932BE4A11AB66D320011F2FB /* OBARegionListViewController.m in Sources */,
 				932BE4EA1AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.m in Sources */,
-				93631E801604F9A300CB7209 /* OBANetworkErrorAlertViewDelegate.m in Sources */,
 				93631E811604F9A300CB7209 /* OBASearchResultsMapFilterToolbar.m in Sources */,
 				932BE4BC1AB66D5C0011F2FB /* OBAGenericStopViewController.m in Sources */,
 				932BE4C11AB66D5C0011F2FB /* OBAStopWebViewController.m in Sources */,

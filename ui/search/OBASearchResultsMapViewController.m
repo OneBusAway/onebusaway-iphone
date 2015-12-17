@@ -40,7 +40,6 @@
 #define kAddressSegmentIndex        1
 #define kStopNumberSegmentIndex     2
 #define kMapLabelAnimationDuration  0.25
-#define kOBAOutOfRangeAlertViewTag  3
 
 // Radius in meters
 static const double kDefaultMapRadius = 100;
@@ -61,7 +60,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 @property MKCoordinateRegion mostRecentRegion;
 @property (strong) CLLocation *mostRecentLocation;
 @property (strong) NSTimer *refreshTimer;
-@property (strong) OBANetworkErrorAlertViewDelegate *networkErrorAlertViewDelegate;
 @property (strong) OBAMapRegionManager *mapRegionManager;
 @property (strong) OBASearchController *searchController;
 @property (strong) UIView *activityIndicatorWrapper;
@@ -145,8 +143,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.networkErrorAlertViewDelegate = [[OBANetworkErrorAlertViewDelegate alloc] initWithContext:self.appDelegate];
 
     CGRect indicatorBounds = CGRectMake(12, 12, 36, 36);
     indicatorBounds.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -465,15 +461,13 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         self.hideFutureNetworkErrors = YES;
 
-        UIAlertView *view = [[UIAlertView alloc] init];
-        view.tag = 1;
-        view.title = NSLocalizedString(@"Error connecting", @"self.navigationItem.title");
-        view.message = NSLocalizedString(@"There was a problem with your Internet connection.\r\n\r\nPlease check your network connection or contact us if you think the problem is on our end.", @"view.message");
-        view.delegate = self.networkErrorAlertViewDelegate;
-        [view addButtonWithTitle:NSLocalizedString(@"Contact Us", @"view addButtonWithTitle")];
-        [view addButtonWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle")];
-        view.cancelButtonIndex = 1;
-        [view show];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error connecting", @"self.navigationItem.title") message:NSLocalizedString(@"There was a problem with your Internet connection.\r\n\r\nPlease check your network connection or contact us if you think the problem is on our end.", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
+
+        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"") style:UIAlertActionStyleCancel handler:nil]];
+        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self.appDelegate navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
+        }]];
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
@@ -696,28 +690,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 }
 
-#pragma mark - UIAlertViewDelegate Methods
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 1 &&  buttonIndex == 0) {
-    }
-    else if (alertView.tag == 2 && buttonIndex == 0) {
-        OBANavigationTarget *target = [OBANavigationTarget target:OBANavigationTargetTypeAgencies];
-        [self.appDelegate navigateToTarget:target];
-    }
-    else if (alertView.tag == kOBAOutOfRangeAlertViewTag) {
-        if (buttonIndex == 0) {
-            self.hideFutureOutOfRangeErrors = YES;
-            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: NO" value:nil];
-        }
-        else if (buttonIndex == 1) {
-            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: YES" value:nil];
-            MKMapRect serviceRect = [[OBAApplication sharedApplication].modelDao.region serviceRect];
-            [self.mapRegionManager setRegion:MKCoordinateRegionForMapRect(serviceRect)];
-        }
-    }
-}
-
 #pragma mark - IBActions
 
 - (IBAction)onCrossHairsButton:(id)sender {
@@ -927,18 +899,28 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)showOutOfRangeAlert {
-    if (!self.hideFutureOutOfRangeErrors) {
-        UIAlertView *view = [[UIAlertView alloc] init];
-        view.delegate = self;
-        view.tag = kOBAOutOfRangeAlertViewTag;
-        NSString *regionName = [OBAApplication sharedApplication].modelDao.region.regionName;
-        view.title = [NSString stringWithFormat:NSLocalizedString(@"Go to %@?", @"Out of range alert title"), regionName];
-        view.message = [NSString stringWithFormat:NSLocalizedString(@"You are out of the %@ service area. Go there now?", @"Out of range alert message"), regionName];
-        [view addButtonWithTitle:NSLocalizedString(@"No", @"Out of range alert Cancel button")];
-        [view addButtonWithTitle:NSLocalizedString(@"Yes", @"Out of range alert OK button")];
-        view.cancelButtonIndex = 0;
-        [view show];
+    if (self.hideFutureOutOfRangeErrors) {
+        return;
     }
+
+    NSString *regionName = [OBAApplication sharedApplication].modelDao.region.regionName;
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Go to %@?", @"Out of range alert title"), regionName]
+                                                                   message:[NSString stringWithFormat:NSLocalizedString(@"You are out of the %@ service area. Go there now?", @"Out of range alert message"), regionName]
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"No", @"Out of range alert Cancel button") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        self.hideFutureOutOfRangeErrors = YES;
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: NO" value:nil];
+    }]];
+
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Yes", @"Out of range alert OK button") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: YES" value:nil];
+        MKMapRect serviceRect = [[OBAApplication sharedApplication].modelDao.region serviceRect];
+        [self.mapRegionManager setRegion:MKCoordinateRegionForMapRect(serviceRect)];
+    }]];
+
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)showLocationServicesAlert {
@@ -1329,15 +1311,17 @@ NSInteger sortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2, vo
         return;
     }
 
-    UIAlertView *alert = [[UIAlertView alloc] init];
-    alert.tag = 2;
-    alert.title = title;
-    alert.message = [NSString stringWithFormat:@"%@ %@", prompt, NSLocalizedString(@"See the list of supported transit agencies.", @"view.message")];
-    alert.delegate = self;
-    [alert addButtonWithTitle:NSLocalizedString(@"Agencies", @"OBASearchTypeAgenciesWithCoverage")];
-    [alert addButtonWithTitle:NSLocalizedString(@"Dismiss", @"")];
-    alert.cancelButtonIndex = 1;
-    [alert show];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
+                                                                   message:[NSString stringWithFormat:@"%@ %@", prompt, NSLocalizedString(@"See the list of supported transit agencies.", @"view.message")]
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"") style:UIAlertActionStyleCancel handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Agencies", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        OBANavigationTarget *target = [OBANavigationTarget target:OBANavigationTargetTypeAgencies];
+        [self.appDelegate navigateToTarget:target];
+    }]];
+
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)cancelPressed {
@@ -1353,12 +1337,9 @@ NSInteger sortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2, vo
         // Ignore errors if our app isn't currently active
         return NO;
     }
-    else if (self != self.navigationController.visibleViewController) {
-        // Ignore errors if our view isn't currently on top
-        return NO;
-    }
     else {
-        return YES;
+        // Ignore errors if our view isn't currently on top
+        return self == self.navigationController.visibleViewController;
     }
 }
 
