@@ -12,23 +12,13 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNotes
 };
 
-
-@interface OBAReportProblemWithStopViewController (Private)
-
-- (void)addProblemWithId:(NSString *)problemId name:(NSString *)problemName;
-
-- (OBASectionType)sectionTypeForSection:(NSUInteger)section;
-- (NSUInteger)sectionIndexForType:(OBASectionType)type;
-
-- (void)submit;
-- (void)showErrorAlert;
+@interface OBAReportProblemWithStopViewController ()
+@property(nonatomic,strong) OBAModalActivityIndicator * activityIndicatorView;
 @end
-
 
 @implementation OBAReportProblemWithStopViewController
 
-#pragma mark -
-#pragma mark Initialization
+#pragma mark - Initialization
 
 - (id)initWithApplicationDelegate:(OBAApplicationDelegate *)context stop:(OBAStopV2 *)stop {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
@@ -58,7 +48,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     return self;
 }
 
-#pragma mark UIViewController
+#pragma mark - UIViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -68,7 +58,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     [self hideEmptySeparators];
 }
 
-#pragma mark Table view methods
+#pragma mark - Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 3;
@@ -233,14 +223,14 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     }
 }
 
-#pragma mark UITextFieldDelegate
+#pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
 }
 
-#pragma mark OBAListSelectionViewController
+#pragma mark - OBAListSelectionViewController
 
 - (void)checkItemWithIndex:(NSIndexPath *)indexPath {
     _problemIndex = indexPath.row;
@@ -249,7 +239,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     [self.tableView reloadRowsAtIndexPaths:@[reloadIndexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
 
-#pragma mark OBATextEditViewControllerDelegate
+#pragma mark - OBATextEditViewControllerDelegate
 
 - (void)saveText:(NSString *)text {
     _comment = text;
@@ -258,10 +248,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     [self.tableView reloadRowsAtIndexPaths:@[reloadIndexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
 
-@end
-
-
-@implementation OBAReportProblemWithStopViewController (Private)
+#pragma mark - Private
 
 - (void)addProblemWithId:(NSString *)problemId name:(NSString *)problemName {
     [_problemIds addObject:problemId];
@@ -316,53 +303,40 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     problem.userComment = _comment;
     problem.userLocation = [OBAApplication sharedApplication].locationManager.currentLocation;
 
-    [_activityIndicatorView show:self.view];
-    [[OBAApplication sharedApplication].modelService
-     reportProblemWithStop:problem
-           completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-               if (error || !responseData) {
-               [self showErrorAlert];
-               [self->_activityIndicatorView hide];
-               }
-               else {
-               UIAlertView *view = [[UIAlertView alloc] init];
-               view.title = NSLocalizedString(@"Submission Successful", @"view.title");
-               [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategorySubmit
-                                           action:@"report_problem"
-                                            label:@"Reported Problem"
-                                            value:nil];
+    [self.activityIndicatorView show:self.view];
+    [[OBAApplication sharedApplication].modelService reportProblemWithStop:problem completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+        if (error || !responseData) {
+            [self showErrorAlert];
+            [self.activityIndicatorView hide];
+            return;
+        }
 
-               view.message = NSLocalizedString(@"The problem was sucessfully reported. Thank you!", @"view.message");
-               [view addButtonWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle")];
-               view.cancelButtonIndex = 0;
-               [view show];
-               [self->_activityIndicatorView hide];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategorySubmit action:@"report_problem" label:@"Reported Problem" value:nil];
 
-               //go back to stop view
-               NSArray *allViewControllers = self.navigationController.viewControllers;
-               [self.navigationController
-               popToViewController:[allViewControllers objectAtIndex:([allViewControllers count] - 3)]
-                        animated:YES];
-               }
-           }];
-}
+        [self.activityIndicatorView hide];
 
-#pragma mark UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) [_appDelegate navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Submission Successful", @"view.title") message:NSLocalizedString(@"The problem was sucessfully reported. Thank you!", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle") style:UIAlertActionStyleDefault handler:nil]];
+        [self presentViewController:alert animated:YES completion:^{
+            //go back to stop view
+            NSArray *allViewControllers = self.navigationController.viewControllers;
+            UIViewController *target = allViewControllers[allViewControllers.count - 3];
+            [self.navigationController popToViewController:target animated:YES];
+        }];
+    }];
 }
 
 - (void)showErrorAlert {
-    UIAlertView *view = [[UIAlertView alloc] init];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error Submitting", @"view.title")
+                                                                   message:NSLocalizedString(@"An error occurred while reporting the problem. Please contact us directly.", @"view.message")
+                                                            preferredStyle:UIAlertControllerStyleAlert];
 
-    view.title = NSLocalizedString(@"Error Submitting", @"view.title");
-    view.message = NSLocalizedString(@"An error occurred while reporting the problem. Please contact us directly.", @"view.message");
-    view.delegate = self;
-    [view addButtonWithTitle:NSLocalizedString(@"Contact Us", @"view addButtonWithTitle")];
-    [view addButtonWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle")];
-    view.cancelButtonIndex = 1;
-    [view show];
+
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle") style:UIAlertActionStyleDefault handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", @"view addButtonWithTitle") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self->_appDelegate navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
+    }]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end

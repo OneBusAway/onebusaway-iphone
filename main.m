@@ -16,10 +16,21 @@
 
 #import <UIKit/UIKit.h>
 
+BOOL executingTests;
+
+@interface OBATestAppDelegate : UIResponder <UIApplicationDelegate>
+@end
+@implementation OBATestAppDelegate
+@end
+
 int main(int argc, char *argv[]) {
     @autoreleasepool {
-        int retVal = UIApplicationMain(argc, argv, nil, @"OBAApplicationDelegate");
+
+        executingTests = [[[NSProcessInfo processInfo].environment[@"XCInjectBundle"] pathExtension] isEqual:@"xctest"];
+
+        NSString *appDelegateClass = executingTests ? @"OBATestAppDelegate" : @"OBAApplicationDelegate";
+
+        int retVal = UIApplicationMain(argc, argv, nil, appDelegateClass);
         return retVal;
     }
 }
-

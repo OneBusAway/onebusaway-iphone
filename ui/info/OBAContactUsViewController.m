@@ -26,7 +26,6 @@
 #define kEmailRow    0
 #define kTwitterRow  1
 #define kFacebookRow 2
-
 #define kRowCount    3 //including Facebook which is optional
 
 static NSString *kOBADefaultContactEmail = @"contact@onebusaway.org";
@@ -56,13 +55,12 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 }
 
 - (void)cantSendEmail {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Setup Mail", @"view.title")
-                                                    message:NSLocalizedString(@"Please setup your Mail app before trying to send an email.", @"view.message")
-                                                   delegate:nil
-                                          cancelButtonTitle:nil
-                                          otherButtonTitles:NSLocalizedString(@"OK", @"OK button"), nil];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Please setup your Mail app before trying to send an email.", @"view.message")
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleAlert];
 
-    [alert show];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"Dismiss button for alert.") style:UIAlertActionStyleDefault handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - UIViewController

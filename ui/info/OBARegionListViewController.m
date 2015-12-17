@@ -476,44 +476,34 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (void)didSwitchStateOfToggle:(UISwitch *)toggleSwitch {
+
+    UIAlertController *alert = nil;
+
     if (toggleSwitch.on) {
-        UIAlertView *unstableRegionAlert = [[UIAlertView alloc] initWithTitle:@"Enable Regions in Beta?"
-                                                                      message:@"Experimental regions may be unstable and without real-time info!"
-                                                                     delegate:self
-                                                            cancelButtonTitle:@"Cancel"
-                                                            otherButtonTitles:NSLocalizedString(@"OK", @"OK button"), nil];
-        [unstableRegionAlert show];
+        alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Enable Regions in Beta?", @"") message:@"Experimental regions may be unstable and without real-time info!" preferredStyle:UIAlertControllerStyleAlert];
     }
     else {
-        //if current region is beta, show alert; otherwise, just update list
+        // If current region is beta, show alert; otherwise, just update list.
         if ([OBAApplication sharedApplication].modelDao.region.experimental) {
-            UIAlertView *currentRegionUnavailableAlert = [[UIAlertView alloc] initWithTitle:@"Discard Current Region?"
-                                                                                    message:@"Your current experimental region won't be available! Proceed anyway?"
-                                                                                   delegate:self
-                                                                          cancelButtonTitle:@"Cancel"
-                                                                          otherButtonTitles:NSLocalizedString(@"OK", @"OK button"), nil];
-
-            [currentRegionUnavailableAlert show];
+            alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Discard Current Region?", @"") message:@"Your current experimental region won't be available! Proceed anyway?" preferredStyle:UIAlertControllerStyleAlert];
         }
         else {
             [self doNeedToUpdateRegionsList];
         }
     }
-}
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    if (alert) {
+        // The code that this replaces ended up performing the same actions for Cancel and OK
+        // on both alerts that it could present. This sounds like a bug to me...
 
-    if ([title isEqualToString:NSLocalizedString(@"OK", @"OK button")]) {
-        [self doNeedToUpdateRegionsList];
-    }
-    else if ([title isEqualToString:@"Cancel"]) {
-        if (_showExperimentalRegions) {
-            [_toggleSwitch setOn:YES animated:NO];
-        }
-        else {
-            [_toggleSwitch setOn:NO animated:NO];
-        }
+        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            [self.toggleSwitch setOn:self.showExperimentalRegions animated:NO];
+        }]];
+        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self doNeedToUpdateRegionsList];
+        }]];
+
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
@@ -537,13 +527,14 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         //Otherwise, set region to first in list
         else if (![self isLoading] && _regions.count > 0) {
             [self.appDelegate writeSetRegionAutomatically:NO];
-            [[OBAApplication sharedApplication].modelDao setOBARegion:[_regions objectAtIndex:0]];
+            [[OBAApplication sharedApplication].modelDao setOBARegion:self.regions[0]];
         }
         //Set region to nil if list is empty
         else if (![self isLoading]) {
-            UIAlertView *noAvailableRegionsAlert = [[UIAlertView alloc] initWithTitle:@"No Regions Found" message:@"No available regions were found, recheck your connection and try again" delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK button") otherButtonTitles:nil];
             [[OBAApplication sharedApplication].modelDao setOBARegion:nil];
-            [noAvailableRegionsAlert show];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"No Regions Found", @"") message:NSLocalizedString(@"No available regions were found, recheck your connection and try again.", @"") preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"") style:UIAlertActionStyleDefault handler:nil]];
+            [self presentViewController:alert animated:YES completion:nil];
         }
     }
 

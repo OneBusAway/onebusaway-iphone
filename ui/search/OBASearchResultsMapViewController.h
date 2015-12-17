@@ -20,7 +20,6 @@
 #import "OBASearchController.h"
 #import "OBALocationManager.h"
 #import "OBAGenericAnnotation.h"
-#import "OBANetworkErrorAlertViewDelegate.h"
 #import "OBASearchResultsMapFilterToolbar.h"
 #import "OBAMapRegionManager.h"
 #import "OBAScopeView.h"
@@ -29,7 +28,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate>
+@interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate, MKMapViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate>
 @property(nonatomic,strong) OBAApplicationDelegate * appDelegate;
 @property(nonatomic,strong) IBOutlet OBAScopeView *scopeView;
 @property(nonatomic,strong) IBOutlet UISegmentedControl *searchTypeSegmentedControl;
