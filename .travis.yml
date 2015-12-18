@@ -3,6 +3,8 @@ language: objective-c
 xcode_workspace: org.onebusaway.iphone.xcworkspace
 xcode_scheme:
     - Debug
+xcode_sdk:
+    - iphonesimulator
 notifications:
   slack:
     rooms:
