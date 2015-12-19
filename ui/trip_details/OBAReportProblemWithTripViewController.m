@@ -7,7 +7,7 @@
 #import "OBAArrivalAndDepartureViewController.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
-@import SVProgressHUD;
+#import <SVProgressHUD/SVProgressHUD.h>
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
