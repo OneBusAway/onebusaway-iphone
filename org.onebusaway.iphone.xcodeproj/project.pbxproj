@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
-		60E26094D209E76D5D037634 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		2AFE6EFC33840DD55CD1250E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BCC3F4477A5273A098799E6 /* libPods.a */; };
 		669B2F741AEBF92E00CF2367 /* OBAReleaseNotesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F731AEBF92E00CF2367 /* OBAReleaseNotesManager.m */; };
 		669B2F751AEBF92E00CF2367 /* OBAReleaseNotesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F731AEBF92E00CF2367 /* OBAReleaseNotesManager.m */; };
 		669B2F781AEBFCB300CF2367 /* OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F771AEBFCB300CF2367 /* OBAAnalytics.m */; };
@@ -89,8 +89,7 @@
 		93F152F61A9AE91A0015C141 /* OneBusAway_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F152F51A9AE91A0015C141 /* OneBusAway_Tests.m */; };
 		93F153021A9AEA500015C141 /* OBAURLHelpers_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F153011A9AEA500015C141 /* OBAURLHelpers_Tests.m */; };
 		93F64E971BE5ACC300323527 /* OBAAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F64E961BE5ACC300323527 /* OBAAlerts.m */; };
-		9B1767F94A5051BDFCE96F9D /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57F2834D37D00C38D9A5A117 /* Pods.framework */; };
-		D026E9B444F4E9FC8C97C400 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57F2834D37D00C38D9A5A117 /* Pods.framework */; };
+		AA3411246442D88F1EDFC1D3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BCC3F4477A5273A098799E6 /* libPods.a */; };
 		D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = D651BB2711C9D5DE001BE733 /* iTunesArtwork */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 /* End PBXBuildFile section */
@@ -126,7 +125,6 @@
 		28A0AB4B0D9B1048005BE974 /* org_onebusaway_iphone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = org_onebusaway_iphone_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		54CB67407CF2B898E5D99654 /* Pods-OneBusAway.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.release.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.release.xcconfig"; sourceTree = "<group>"; };
-		57F2834D37D00C38D9A5A117 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		669B2D5A1AEBE63800CF2367 /* OneBusAwaySDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OneBusAwaySDK.xcodeproj; path = sdk/OneBusAwaySDK.xcodeproj; sourceTree = "<group>"; };
 		669B2F721AEBF92E00CF2367 /* OBAReleaseNotesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReleaseNotesManager.h; sourceTree = "<group>"; };
 		669B2F731AEBF92E00CF2367 /* OBAReleaseNotesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReleaseNotesManager.m; sourceTree = "<group>"; };
@@ -267,6 +265,7 @@
 		93F64E951BE5ACC300323527 /* OBAAlerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAlerts.h; sourceTree = "<group>"; };
 		93F64E961BE5ACC300323527 /* OBAAlerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAlerts.m; sourceTree = "<group>"; };
 		9896748DE4027B647D4D41F0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		9BCC3F4477A5273A098799E6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF4665CA06626C1076EEEE33 /* Pods.appstoredistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstoredistribution.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstoredistribution.xcconfig"; sourceTree = "<group>"; };
 		B565A40323F4842FC230AA07 /* Pods-OneBusAway.appstoredistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.appstoredistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.appstoredistribution.xcconfig"; sourceTree = "<group>"; };
 		D651BB2711C9D5DE001BE733 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = Resources/iTunesArtwork; sourceTree = "<group>"; };
@@ -287,7 +286,7 @@
 			files = (
 				93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */,
 				669B2F8C1AEC049D00CF2367 /* libOneBusAwaySDK.a in Frameworks */,
-				D026E9B444F4E9FC8C97C400 /* Pods.framework in Frameworks */,
+				2AFE6EFC33840DD55CD1250E /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,8 +295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				669B2F8D1AEC04A100CF2367 /* libOneBusAwaySDK.a in Frameworks */,
-				60E26094D209E76D5D037634 /* (null) in Frameworks */,
-				9B1767F94A5051BDFCE96F9D /* Pods.framework in Frameworks */,
+				AA3411246442D88F1EDFC1D3 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,7 +378,7 @@
 			children = (
 				93A923A11C21DCD600A657C8 /* SafariServices.framework */,
 				669B2F8B1AEC049D00CF2367 /* libOneBusAwaySDK.a */,
-				57F2834D37D00C38D9A5A117 /* Pods.framework */,
+				9BCC3F4477A5273A098799E6 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1142,6 +1140,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1405,6 +1404,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1468,6 +1468,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
