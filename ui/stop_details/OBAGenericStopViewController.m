@@ -475,7 +475,12 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return kSectionHeaderHeight;
+    if (_filteredArrivals.count != _allArrivals.count && section == OBAStopSectionTypeArrivals) {
+        return 0.0f;
+    }
+    else {
+        return kSectionHeaderHeight;
+    }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
