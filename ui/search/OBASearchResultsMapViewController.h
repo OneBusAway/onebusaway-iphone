@@ -20,7 +20,6 @@
 #import "OBASearchController.h"
 #import "OBALocationManager.h"
 #import "OBAGenericAnnotation.h"
-#import "OBASearchResultsMapFilterToolbar.h"
 #import "OBAMapRegionManager.h"
 #import "OBAScopeView.h"
 
@@ -36,7 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong) IBOutlet UISearchBar *searchBar;
 @property(nonatomic,strong) IBOutlet UIToolbar *toolbar;
 @property(nonatomic,strong) IBOutlet UILabel *mapLabel;
-@property (nonatomic,strong) OBASearchResultsMapFilterToolbar * filterToolbar;
 
 - (IBAction)onCrossHairsButton:(id)sender;
 - (IBAction)showListView:(id)sender;

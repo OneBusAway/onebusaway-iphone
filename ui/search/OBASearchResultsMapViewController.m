@@ -79,7 +79,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)scheduleRefreshOfStopsInRegion:(NSTimeInterval)interval location:(CLLocation *)location;
 - (NSTimeInterval)getRefreshIntervalForLocationAccuracy:(CLLocation *)location;
 - (void)refreshStopsInRegion;
-- (void)refreshSearchToolbar;
 
 - (void)reloadData;
 - (CLLocation *)currentLocation;
@@ -170,8 +169,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self.mapView.rotateEnabled = NO;
 
     self.hideFutureNetworkErrors = NO;
-
-    self.filterToolbar = [[OBASearchResultsMapFilterToolbar alloc] initWithDelegate:self andappDelegate:self.appDelegate];
 
     self.searchController = [[OBASearchController alloc] initWithappDelegate:self.appDelegate];
     self.searchController.delegate = self;
@@ -265,7 +262,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)onFilterClear {
-    [self.filterToolbar hideWithAnimated:YES];
     [self refreshStopsInRegion];
 }
 
@@ -276,10 +272,15 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     [lm addDelegate:self];
     [lm startUpdatingLocation];
 
-    [self refreshSearchToolbar];
-
     if (self.searchController.unfilteredSearch) {
         [self refreshStopsInRegion];
+    }
+    
+    if ([OBAApplication sharedApplication].modelDao.region.regionName) {
+        self.searchBar.placeholder = [NSString stringWithFormat:NSLocalizedString(@"Search %@",@"Search {Region Name}"), [OBAApplication sharedApplication].modelDao.region.regionName];
+    }
+    else {
+        self.searchBar.placeholder = NSLocalizedString(@"Search", @"");
     }
 }
 
@@ -288,8 +289,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     [[OBAApplication sharedApplication].locationManager stopUpdatingLocation];
     [[OBAApplication sharedApplication].locationManager removeDelegate:self];
-
-    [self.filterToolbar hideWithAnimated:NO];
 }
 
 - (UIBarButtonItem *)getArrowButton {
@@ -417,8 +416,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
             self.savedNavigationTarget = target;
         }
     }
-
-    [self refreshSearchToolbar];
 }
 
 #pragma mark - OBASearchControllerDelegate Methods
@@ -818,18 +815,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 }
 
-- (void)refreshSearchToolbar {
-    // show the UIToolbar at the bottom of the view controller
-    //
-    UINavigationController *navController = self.navigationController;
-    NSString *searchFilterDesc = [self computeSearchFilterString];
-
-    if (searchFilterDesc != nil && navController.visibleViewController == self) [self.filterToolbar showWithDescription:searchFilterDesc animated:NO];
-    else {
-        [self.filterToolbar hideWithAnimated:YES];
-    }
-}
-
 - (void)reloadData {
     OBASearchResult *result = self.searchController.result;
 
@@ -853,7 +838,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     NSString *label = [self computeLabelForCurrentResults];
     [self applyMapLabelWithText:label];
 
-    [self refreshSearchToolbar];
     [self checkResults];
 
     if (self.doneLoadingMap && [OBAApplication sharedApplication].modelDao.region && [self outOfServiceArea]) {
