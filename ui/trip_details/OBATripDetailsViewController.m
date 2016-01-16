@@ -6,6 +6,7 @@
 #import "OBAArrivalEntryTableViewCell.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
+#import "OBAApplication.h"
 
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
@@ -34,8 +35,8 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 @implementation OBATripDetailsViewController
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate tripInstance:(OBATripInstanceRef *)tripInstance {
-    if (self = [super initWithApplicationDelegate:appDelegate]) {
+- (id)initWithTripInstance:(OBATripInstanceRef *)tripInstance {
+    if (self = [super init]) {
         _tripInstance = tripInstance;
         self.refreshable = YES;
         self.refreshInterval = 30;
@@ -167,7 +168,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (void)didSelectScheduleRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     if (indexPath.row == 0) {
         if (self.tripDetails) {
-            OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc]initWithApplicationDelegate:self.appDelegate];
+            OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] init];
             vc.tripInstance = self.tripInstance;
             vc.tripDetails = self.tripDetails;
             vc.currentStopId = self.currentStopId;
@@ -176,7 +177,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     }
     else if (indexPath.row == 1) {
         if (self.tripDetails) {
-            OBATripScheduleListViewController *vc = [[OBATripScheduleListViewController alloc] initWithApplicationDelegate:self.appDelegate tripInstance:self.tripInstance];
+            OBATripScheduleListViewController *vc = [[OBATripScheduleListViewController alloc] initWithTripInstance:self.tripInstance];
             vc.tripDetails = self.tripDetails;
             vc.currentStopId = self.currentStopId;
             [self.navigationController pushViewController:vc animated:YES];
@@ -187,7 +188,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (void)didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     if (indexPath.row == 0) {
         if (self.tripDetails) {
-            OBAReportProblemWithTripViewController *vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationDelegate:self.appDelegate tripInstance:self.tripInstance trip:self.tripDetails.trip];
+            OBAReportProblemWithTripViewController *vc = [[OBAReportProblemWithTripViewController alloc] initWithTripInstance:self.tripInstance trip:self.tripDetails.trip];
             vc.currentStopId = self.currentStopId;
             [self.navigationController pushViewController:vc animated:YES];
         }

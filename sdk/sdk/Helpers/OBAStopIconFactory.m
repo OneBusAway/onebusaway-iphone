@@ -3,11 +3,11 @@
 
 @implementation OBAStopIconFactory
 
-- (UIImage *)getIconForStop:(OBAStopV2 *)stop {
++ (UIImage *)getIconForStop:(OBAStopV2 *)stop {
     return [self getIconForStop:stop includeDirection:YES];
 }
 
-- (UIImage *)getIconForStop:(OBAStopV2 *)stop includeDirection:(BOOL)includeDirection {
++ (UIImage *)getIconForStop:(OBAStopV2 *)stop includeDirection:(BOOL)includeDirection {
     NSString *routeIconType = [self getRouteIconTypeForStop:stop];
     NSString *direction = @"";
 
@@ -20,23 +20,23 @@
     return [UIImage imageNamed:key];
 }
 
-- (UIImage *)getModeIconForRoute:(OBARouteV2 *)route {
++ (UIImage *)getModeIconForRoute:(OBARouteV2 *)route {
     return [self getModeIconForRoute:route selected:NO];
 }
 
-- (UIImage *)getModeIconForRoute:(OBARouteV2 *)route selected:(BOOL)selected {
++ (UIImage *)getModeIconForRoute:(OBARouteV2 *)route selected:(BOOL)selected {
     NSString *type = [self getRouteIconTypeForRoute:route];
 
     return [self getModeIconForRouteIconType:type selected:selected];
 }
 
-- (UIImage *)getModeIconForRouteIconType:(NSString *)routeType selected:(BOOL)selected {
++ (UIImage *)getModeIconForRouteIconType:(NSString *)routeType selected:(BOOL)selected {
     NSString *format = selected ? @"Mode-%@-Selected" : @"Mode-%@";
 
     return [UIImage imageNamed:[NSString stringWithFormat:format, routeType]];
 }
 
-- (NSString *)getRouteIconTypeForRoutes:(NSArray *)routes {
++ (NSString *)getRouteIconTypeForRoutes:(NSArray *)routes {
     NSMutableSet *routeTypes = [NSMutableSet set];
 
     for (OBARouteV2 *route in routes) {
@@ -50,7 +50,7 @@
 
 #pragma mark - Private
 
-- (NSString *)getRouteIconTypeForStop:(OBAStopV2 *)stop {
++ (NSString *)getRouteIconTypeForStop:(OBAStopV2 *)stop {
     NSMutableSet *routeTypes = [NSMutableSet set];
 
     for (OBARouteV2 *route in stop.routes) {
@@ -62,7 +62,7 @@
     return [self getRouteIconTypeForRouteTypes:routeTypes];
 }
 
-- (NSString *)getRouteIconTypeForRouteTypes:(NSSet *)routeTypes {
++ (NSString *)getRouteIconTypeForRouteTypes:(NSSet *)routeTypes {
     // Heay rail dominations
     if ([routeTypes containsObject:@4]) {
         return @"Ferry";
@@ -78,7 +78,7 @@
     }
 }
 
-- (NSString *)getRouteIconTypeForRoute:(OBARouteV2 *)route {
++ (NSString *)getRouteIconTypeForRoute:(OBARouteV2 *)route {
     switch (route.routeType.integerValue) {
         case 4:
             return @"Ferry";

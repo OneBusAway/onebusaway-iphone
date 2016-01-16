@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @class OBAApplicationDelegate;
 
 @interface OBAInfoViewController : OBAStaticTableViewController
-@property(nonatomic,weak) OBAApplicationDelegate *appDelegate;
 - (void)openContactUs;
 - (void)openAgencies;
 @end

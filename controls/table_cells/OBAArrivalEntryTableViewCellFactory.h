@@ -1,15 +1,14 @@
-#import "OBAApplicationDelegate.h"
 #import "OBAArrivalEntryTableViewCell.h"
+#import "OBAArrivalAndDepartureV2.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAArrivalEntryTableViewCellFactory : NSObject {
-    OBAApplicationDelegate * _appDelegate;
     UITableView * _tableView;
     NSDateFormatter * _timeFormatter;
 }
 
-- (id) initWithappDelegate:(OBAApplicationDelegate*)appDelegate tableView:(UITableView*)tableView;
+- (id) initWithTableView:(UITableView*)tableView;
 
 - (OBAArrivalEntryTableViewCell*) createCellForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrival;
 

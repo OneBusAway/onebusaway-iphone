@@ -7,7 +7,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 +(OBADiversionViewController*) loadFromNibWithappDelegate:(OBAApplicationDelegate*)context;
 
-@property (nonatomic,strong) IBOutlet OBAApplicationDelegate * appDelegate;
 @property (nonatomic,strong) NSString * diversionPath;
 @property (nonatomic,strong) NSDictionary * args;
 

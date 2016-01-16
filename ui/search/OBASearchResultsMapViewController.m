@@ -170,7 +170,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     self.hideFutureNetworkErrors = NO;
 
-    self.searchController = [[OBASearchController alloc] initWithappDelegate:self.appDelegate];
+    self.searchController = [[OBASearchController alloc] init];
     self.searchController.delegate = self;
     self.searchController.progress.delegate = self;
 
@@ -348,7 +348,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Search: Stop" value:nil];
     }
 
-    [self.appDelegate navigateToTarget:target];
+    [APP_DELEGATE navigateToTarget:target];
     [searchBar endEditing:YES];
 }
 
@@ -462,7 +462,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"") style:UIAlertActionStyleCancel handler:nil]];
         [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self.appDelegate navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
+            [APP_DELEGATE navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
         }]];
         [self presentViewController:alert animated:YES completion:nil];
     }
@@ -593,8 +593,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
             view.alpha = alpha;
         }
 
-        OBAStopIconFactory *stopIconFactory = self.appDelegate.stopIconFactory;
-        view.image = [stopIconFactory getIconForStop:stop];
+        view.image = [OBAStopIconFactory getIconForStop:stop];
         return view;
     }
     else if ([annotation isKindOfClass:[OBAPlacemark class]]) {
@@ -664,7 +663,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     if ([annotation isKindOfClass:[OBAStopV2 class]]) {
         OBAStopV2 *stop = annotation;
-        OBAGenericStopViewController *vc = [[OBAGenericStopViewController alloc] initWithApplicationDelegate:self.appDelegate stopId:stop.stopId];
+        OBAGenericStopViewController *vc = [[OBAGenericStopViewController alloc] initWithStopId:stop.stopId];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([annotation isKindOfClass:[OBAPlacemark class]]) {
@@ -722,7 +721,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         result = [result resultsInRegion:self.mapView.region];
     }
 
-    OBASearchResultsListViewController *listViewController = [[OBASearchResultsListViewController alloc]initWithContext:self.appDelegate searchControllerResult:result];
+    OBASearchResultsListViewController *listViewController = [[OBASearchResultsListViewController alloc] initWithSearchControllerResult:result];
     listViewController.isModal = YES;
 
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:listViewController];
@@ -1302,7 +1301,7 @@ NSInteger sortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2, vo
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"") style:UIAlertActionStyleCancel handler:nil]];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Agencies", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         OBANavigationTarget *target = [OBANavigationTarget target:OBANavigationTargetTypeAgencies];
-        [self.appDelegate navigateToTarget:target];
+        [APP_DELEGATE navigateToTarget:target];
     }]];
 
     [self presentViewController:alert animated:YES completion:nil];
@@ -1317,7 +1316,7 @@ NSInteger sortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2, vo
 }
 
 - (BOOL)controllerIsVisibleAndActive {
-    if (!self.appDelegate.active) {
+    if (!APP_DELEGATE.active) {
         // Ignore errors if our app isn't currently active
         return NO;
     }

@@ -2,6 +2,7 @@
 #import "OBALogger.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
+#import "OBACommon.h"
 
 @interface OBARequestDrivenTableViewController ()
 
@@ -13,11 +14,10 @@
 
 @implementation OBARequestDrivenTableViewController
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate {
+- (id)init {
     self = [super initWithStyle:UITableViewStylePlain];
 
     if (self) {
-        _appDelegate = appDelegate;
         CGRect r = CGRectMake(0, 0, 160, 33);
         _progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];
         [self.navigationItem setTitleView:_progressView];

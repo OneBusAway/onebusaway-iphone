@@ -21,13 +21,13 @@
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
+#import "OBAApplication.h"
 
 
 @implementation OBAEditStopPreferencesViewController
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate stop:(OBAStopV2 *)stop {
+- (id)initWithStop:(OBAStopV2 *)stop {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-        _appDelegate = appDelegate;
         _stop = stop;
 
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButton:)];

@@ -11,9 +11,8 @@
 #pragma mark -
 #pragma mark Initialization
 
-- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)context stop:(OBAStopV2*)stop {
+- (id) initWithStop:(OBAStopV2*)stop {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-        _appDelegate = context;
         _stop = stop;
         
         self.navigationItem.title = NSLocalizedString(@"Report a Problem",@"self.navigationItem.title");
@@ -79,12 +78,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 0: {
-            OBAReportProblemWithStopViewController * vc = [[OBAReportProblemWithStopViewController alloc] initWithApplicationDelegate:_appDelegate stop:_stop];
+            OBAReportProblemWithStopViewController * vc = [[OBAReportProblemWithStopViewController alloc] initWithStop:_stop];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
         case 1: {
-            OBAReportProblemWithRecentTripsViewController * vc = [[OBAReportProblemWithRecentTripsViewController alloc] initWithApplicationDelegate:_appDelegate stopId:_stop.stopId];
+            OBAReportProblemWithRecentTripsViewController * vc = [[OBAReportProblemWithRecentTripsViewController alloc] initWithStopId:_stop.stopId];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }

@@ -7,6 +7,8 @@
 #import "OBAPresentation.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
+#import "OBAApplication.h"
+#import "OBACommonV1.h"
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -25,8 +27,8 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 @implementation OBAVehicleDetailsController
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate vehicleId:(NSString *)vehicleId {
-    if (self = [super initWithApplicationDelegate:appDelegate]) {
+- (id)initWithVehicleId:(NSString *)vehicleId {
+    if (self = [super init]) {
         _vehicleId = vehicleId;
         self.refreshable = YES;
         self.refreshInterval = 30;
@@ -330,14 +332,14 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     switch (indexPath.row) {
         case 0: {
-            OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] initWithApplicationDelegate:self.appDelegate];
+            OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] init];
             vc.tripInstance = tripInstance;
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
 
         case 1: {
-            OBATripScheduleListViewController *vc = [[OBATripScheduleListViewController alloc] initWithApplicationDelegate:self.appDelegate tripInstance:tripInstance];
+            OBATripScheduleListViewController *vc = [[OBATripScheduleListViewController alloc] initWithTripInstance:tripInstance];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }

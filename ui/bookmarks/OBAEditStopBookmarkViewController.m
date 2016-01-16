@@ -23,10 +23,10 @@
 #import "OBAEditStopBookmarkGroupViewController.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
+#import "OBAApplication.h"
 
 @interface OBAEditStopBookmarkViewController ()
 
-@property (nonatomic, strong) OBAApplicationDelegate *appDelegate;
 @property (nonatomic, assign) OBABookmarkEditType editType;
 @property (nonatomic, strong) OBABookmarkV2 *bookmark;
 @property (nonatomic, strong) OBABookmarkGroup *selectedGroup;
@@ -37,11 +37,10 @@
 @end
 @implementation OBAEditStopBookmarkViewController
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate bookmark:(OBABookmarkV2 *)bookmark editType:(OBABookmarkEditType)editType {
+- (id)initWithBookmark:(OBABookmarkV2 *)bookmark editType:(OBABookmarkEditType)editType {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         self.tableView.scrollEnabled = NO;
 
-        _appDelegate = appDelegate;
         _bookmark = bookmark;
         _selectedGroup = bookmark.group;
         _editType = editType;
@@ -139,7 +138,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 2) {
-        OBAEditStopBookmarkGroupViewController *groupVC = [[OBAEditStopBookmarkGroupViewController alloc] initWithAppDelegate:_appDelegate selectedBookmarkGroup:self.selectedGroup];
+        OBAEditStopBookmarkGroupViewController *groupVC = [[OBAEditStopBookmarkGroupViewController alloc] initWithSelectedBookmarkGroup:self.selectedGroup];
         groupVC.delegate = self;
         [self.navigationController pushViewController:groupVC animated:YES];
     }

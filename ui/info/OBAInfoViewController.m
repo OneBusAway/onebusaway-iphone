@@ -12,7 +12,6 @@
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
 #import "OBARegionListViewController.h"
-#import "OBAApplicationDelegate.h"
 #import <SafariServices/SafariServices.h>
 
 static NSString * const kDonateURLString = @"http://onebusaway.org/donate/";
@@ -59,7 +58,7 @@ static NSString * const kFeatureRequestsURLString = @"http://onebusaway.ideascal
 - (OBATableSection*)settingsTableSection {
 
     OBATableRow *region = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Region", @"") action:^{
-        [self.navigationController pushViewController:[[OBARegionListViewController alloc] initWithApplicationDelegate:self.appDelegate] animated:YES];
+        [self.navigationController pushViewController:[[OBARegionListViewController alloc] init] animated:YES];
     }];
     region.style = UITableViewCellStyleValue1;
     region.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

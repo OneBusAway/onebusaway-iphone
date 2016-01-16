@@ -36,7 +36,7 @@
 
 @implementation OBASearchController
 
-- (id)initWithappDelegate:(OBAApplicationDelegate *)context {
+- (id)init {
     if (self = [super init]) {
         _modelService = [OBAApplication sharedApplication].modelService;
         _searchType = OBASearchTypeNone;

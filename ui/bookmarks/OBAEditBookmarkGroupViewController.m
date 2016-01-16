@@ -8,15 +8,13 @@
 
 #import "OBAEditBookmarkGroupViewController.h"
 #import "OBATextFieldTableViewCell.h"
-#import "OBAApplicationDelegate.h"
 #import "OBABookmarkGroup.h"
 #import "OBAModelDAO.h"
-
+#import "OBAApplication.h"
 #import "OBAAnalytics.h"
 
 @interface OBAEditBookmarkGroupViewController ()
 {
-    OBAApplicationDelegate *_appDelegate;
     OBABookmarkGroup *_bookmarkGroup;
     UITextField *_textField;
 }
@@ -24,9 +22,8 @@
 
 @implementation OBAEditBookmarkGroupViewController
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate bookmarkGroup:(OBABookmarkGroup *)bookmarkGroup editType:(OBABookmarkGroupEditType)editType {
+- (id)initWithBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup editType:(OBABookmarkGroupEditType)editType {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-        _appDelegate = appDelegate;
         _bookmarkGroup = bookmarkGroup;
 
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButton:)];

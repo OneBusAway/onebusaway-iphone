@@ -23,7 +23,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 @implementation OBAAgenciesListViewController
 
 - (id)init {
-    self = [super initWithApplicationDelegate:APP_DELEGATE];
+    self = [super init];
 
     if (self) {
         self.title = NSLocalizedString(@"Agencies", @"Agencies tab title");
@@ -224,7 +224,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (void)didSelectActionsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     OBANavigationTarget *target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
-    [self.appDelegate navigateToTarget:target];
+    [APP_DELEGATE navigateToTarget:target];
 }
 
 - (void)didSelectAgencyRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {

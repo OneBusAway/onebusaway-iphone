@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class OBAApplicationDelegate;
 @class OBABookmarkGroup;
 
 typedef NS_ENUM(NSInteger, OBABookmarkGroupEditType) {
@@ -20,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAEditBookmarkGroupViewController : UITableViewController
 
-- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate bookmarkGroup:(OBABookmarkGroup*)bookmarkGroup editType:(OBABookmarkGroupEditType)editType;
+- (id) initWithBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup editType:(OBABookmarkGroupEditType)editType;
 
 @end
 

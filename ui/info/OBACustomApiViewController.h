@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OBAApplicationDelegate.h"
+#import "OBAModelDAO.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBACustomApiViewController : UITableViewController<UITextFieldDelegate>
-- (instancetype)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate modelDao:(OBAModelDAO*)modelDao;
+- (instancetype)initWithModelDao:(OBAModelDAO*)modelDao;
 @end
 
 NS_ASSUME_NONNULL_END

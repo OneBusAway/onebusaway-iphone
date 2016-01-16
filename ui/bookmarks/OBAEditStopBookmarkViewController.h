@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-#import "OBAApplicationDelegate.h"
 #import "OBABookmarkV2.h"
 #import "OBAEditStopBookmarkGroupViewController.h"
 
@@ -27,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAEditStopBookmarkViewController : UITableViewController <OBABookmarkGroupVCDelegate>
 
-- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate bookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType;
+- (id) initWithBookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType;
 
 - (IBAction) onCancelButton:(id)sender;
 - (IBAction) onSaveButton:(id)sender;
