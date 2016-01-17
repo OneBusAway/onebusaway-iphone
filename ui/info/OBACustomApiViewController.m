@@ -22,7 +22,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 };
 
 @interface OBACustomApiViewController ()
-@property (nonatomic,strong) OBAApplicationDelegate *appDelegate;
 @property (nonatomic,strong) OBAModelDAO *modelDao;
 @property (nonatomic) NSArray *recentUrls;
 @property (nonatomic) UITextField *customApiUrlTextField;
@@ -30,11 +29,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 @implementation OBACustomApiViewController
 
-- (instancetype)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate modelDao:(OBAModelDAO *)modelDao {
+- (instancetype)initWithModelDao:(OBAModelDAO *)modelDao {
     self = [super initWithStyle:UITableViewStylePlain];
 
     if (self) {
-        _appDelegate = appDelegate;
         _modelDao = modelDao;
     }
 
@@ -135,7 +133,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     [self.modelDao setOBARegion:nil];
 
     [[NSUserDefaults standardUserDefaults] synchronize];
-    [self.appDelegate regionSelected];
+    [APP_DELEGATE regionSelected];
 }
 
 #pragma mark - Table view data source

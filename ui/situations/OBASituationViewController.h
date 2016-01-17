@@ -1,15 +1,13 @@
-#import "OBAApplicationDelegate.h"
 #import "OBASituationV2.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBASituationViewController : UITableViewController {
-    OBAApplicationDelegate * _appDelegate;
     OBASituationV2 * _situation;
     NSString * _diversionPath;
 }
 
-- (id) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate situation:(OBASituationV2*)situation;
+- (id) initWithSituation:(OBASituationV2*)situation;
 
 @property (nonatomic,strong) NSDictionary * args;
 

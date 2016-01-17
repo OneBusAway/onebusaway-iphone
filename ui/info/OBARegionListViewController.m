@@ -12,6 +12,7 @@
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAlerts.h"
+#import "OBAApplicationDelegate.h"
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -40,8 +41,8 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 @implementation OBARegionListViewController
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate {
-    if (self = [super initWithApplicationDelegate:appDelegate]) {
+- (id)init {
+    if (self = [super init]) {
         self.refreshable = NO;
         self.showUpdateTime = NO;
     }
@@ -167,7 +168,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             self.nearbyRegion = [nearbyRegions objectAtIndex:0];
 
             if (_didJustBeginShowingExperimental && self.nearbyRegion.experimental && _showExperimentalRegions) {
-                [self.appDelegate writeSetRegionAutomatically:YES];
+                [APP_DELEGATE writeSetRegionAutomatically:YES];
                 [[OBAApplication sharedApplication].modelDao setOBARegion:self.nearbyRegion];
                 _didJustBeginShowingExperimental = NO;
             }
@@ -382,7 +383,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         case OBASectionTypeNearbyRegions:
             region = self.nearbyRegion;
 
-            if ([self.appDelegate readSetRegionAutomatically]) {
+            if ([APP_DELEGATE readSetRegionAutomatically]) {
                 self.checkedItem = indexPath;
             }
 
@@ -391,7 +392,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         case OBASectionTypeAllRegions:
             region = self.regions[indexPath.row];
 
-            if (![self.appDelegate readSetRegionAutomatically] &&
+            if (![APP_DELEGATE readSetRegionAutomatically] &&
                 [[OBAApplication sharedApplication].modelDao.region.regionName isEqualToString:region.regionName]) {
                 self.checkedItem = indexPath;
             }
@@ -424,14 +425,14 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     switch ([self sectionTypeForSection:indexPath.section]) {
         case OBASectionTypeNearbyRegions:
             region = self.nearbyRegion;
-            [self.appDelegate writeSetRegionAutomatically:YES];
+            [APP_DELEGATE writeSetRegionAutomatically:YES];
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Set region automatically" value:nil];
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"set_region" label:[NSString stringWithFormat:@"Set region automatically: %@", region.regionName] value:nil];
             break;
 
         case OBASectionTypeAllRegions:
             region = self.regions[indexPath.row];
-            [self.appDelegate writeSetRegionAutomatically:NO];
+            [APP_DELEGATE writeSetRegionAutomatically:NO];
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Set region manually" value:nil];
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"set_region" label:[NSString stringWithFormat:@"Set region manually: %@", region.regionName] value:nil];
             break;
@@ -443,7 +444,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     }
     [[OBAApplication sharedApplication].modelDao writeCustomApiUrl:@""];
     [[OBAApplication sharedApplication].modelDao setOBARegion:region];
-    [self.appDelegate regionSelected];
+    [APP_DELEGATE regionSelected];
 }
 
 - (UITableViewCell *)experimentalRegionCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
@@ -521,12 +522,12 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     if ([OBAApplication sharedApplication].modelDao.region.experimental) {
         //Change to automatic region if available
         if (self.nearbyRegion && !self.nearbyRegion.experimental) {
-            [self.appDelegate writeSetRegionAutomatically:YES];
+            [APP_DELEGATE writeSetRegionAutomatically:YES];
             [[OBAApplication sharedApplication].modelDao setOBARegion:self.nearbyRegion];
         }
         //Otherwise, set region to first in list
         else if (![self isLoading] && _regions.count > 0) {
-            [self.appDelegate writeSetRegionAutomatically:NO];
+            [APP_DELEGATE writeSetRegionAutomatically:NO];
             [[OBAApplication sharedApplication].modelDao setOBARegion:self.regions[0]];
         }
         //Set region to nil if list is empty
@@ -539,7 +540,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     }
 
     [[OBAApplication sharedApplication].modelDao writeCustomApiUrl:@""];
-    [self.appDelegate regionSelected];
+    [APP_DELEGATE regionSelected];
     [[NSUserDefaults standardUserDefaults] setBool:_showExperimentalRegions
                                             forKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -549,7 +550,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (void)didSelectCustomAPIRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    OBACustomApiViewController *customAPIViewController = [[OBACustomApiViewController alloc] initWithApplicationDelegate:self.appDelegate modelDao:[OBAApplication sharedApplication].modelDao];
+    OBACustomApiViewController *customAPIViewController = [[OBACustomApiViewController alloc] initWithModelDao:[OBAApplication sharedApplication].modelDao];
     UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:customAPIViewController];
     [self presentViewController:navigation animated:YES completion:nil];
 }

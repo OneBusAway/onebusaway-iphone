@@ -42,9 +42,8 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 #pragma mark - Initialization
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate situation:(OBASituationV2 *)situation {
+- (id)initWithSituation:(OBASituationV2 *)situation {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-        _appDelegate = appDelegate;
         _situation = situation;
 
         NSString *diversionPath = nil;
@@ -221,7 +220,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         [OBAWebViewController pushOntoViewController:self withHtml:[self getDetails:YES] withTitle:NSLocalizedString(@"Details", @"withTitle")];
     }
     else if (indexPath.row == 1 && _diversionPath) {
-        OBADiversionViewController *vc = [OBADiversionViewController loadFromNibWithappDelegate:_appDelegate];
+        OBADiversionViewController *vc = [OBADiversionViewController loadFromNibWithappDelegate:APP_DELEGATE];
         vc.diversionPath = _diversionPath;
         vc.args = self.args;
         [self.navigationController pushViewController:vc animated:YES];

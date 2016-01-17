@@ -49,7 +49,6 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
 @property(nonatomic, strong) MKMapView *mapView;
 @property(nonatomic, strong) UILabel *stopInformationLabel;
 
-@property(strong, readwrite) OBAApplicationDelegate *appDelegate;
 @property(strong, readwrite) NSString *stopId;
 
 @property(strong) id<OBAModelServiceRequest> request;
@@ -65,10 +64,8 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
 
 @implementation OBAGenericStopViewController
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate {
+- (id)init {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-        _appDelegate = appDelegate;
-
         _minutesBefore = 5;
         _minutesAfter = 35;
 
@@ -76,7 +73,7 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
         _showServiceAlerts = YES;
         _showActions = YES;
 
-        _arrivalCellFactory = [[OBAArrivalEntryTableViewCellFactory alloc] initWithappDelegate:_appDelegate tableView:self.tableView];
+        _arrivalCellFactory = [[OBAArrivalEntryTableViewCellFactory alloc] initWithTableView:self.tableView];
         _arrivalCellFactory.showServiceAlerts = YES;
 
         _serviceAlerts = [[OBAServiceAlertsModel alloc] init];
@@ -97,8 +94,8 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
     return self;
 }
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate stopId:(NSString *)stopId {
-    if (self = [self initWithApplicationDelegate:appDelegate]) {
+- (id)initWithStopId:(NSString *)stopId {
+    if (self = [self init]) {
         self.stopId = stopId;
     }
 
@@ -286,8 +283,7 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
 
         view.canShowCallout = NO;
 
-        OBAStopIconFactory *stopIconFactory = self.appDelegate.stopIconFactory;
-        view.image = [stopIconFactory getIconForStop:stop];
+        view.image = [OBAStopIconFactory getIconForStop:stop];
         return view;
     }
 
@@ -767,7 +763,7 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
 - (void)tableView:(UITableView *)tableView didSelectServiceAlertRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray *situations = _result.situations;
 
-    [OBASituationsViewController showSituations:situations withappDelegate:_appDelegate navigationController:self.navigationController args:nil];
+    [OBASituationsViewController showSituations:situations navigationController:self.navigationController args:nil];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -782,7 +778,7 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
     }
     else if (0 <= indexPath.row && indexPath.row < arrivals.count) {
         OBAArrivalAndDepartureV2 *arrivalAndDeparture = arrivals[indexPath.row];
-        OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithApplicationDelegate:_appDelegate arrivalAndDeparture:arrivalAndDeparture];
+        OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:arrivalAndDeparture];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -796,10 +792,10 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
             if (!bookmark) {
                 bookmark = [[OBAApplication sharedApplication].modelDao createTransientBookmark:_result.stop];
 
-                vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:_appDelegate bookmark:bookmark editType:OBABookmarkEditNew];
+                vc = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark editType:OBABookmarkEditNew];
             }
             else {
-                vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:_appDelegate bookmark:bookmark editType:OBABookmarkEditExisting];
+                vc = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark editType:OBABookmarkEditExisting];
             }
 
             [self.navigationController pushViewController:vc animated:YES];
@@ -808,7 +804,7 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
         }
 
         case 1: {
-            OBAReportProblemViewController *vc = [[OBAReportProblemViewController alloc] initWithApplicationDelegate:_appDelegate stop:_result.stop];
+            OBAReportProblemViewController *vc = [[OBAReportProblemViewController alloc] initWithStop:_result.stop];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
@@ -820,12 +816,12 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
 
         case 3: {
             NSArray *situations = _result.situations;
-            [OBASituationsViewController showSituations:situations withappDelegate:_appDelegate navigationController:self.navigationController args:nil];
+            [OBASituationsViewController showSituations:situations navigationController:self.navigationController args:nil];
             break;
         }
 
         case 4: {
-            OBAEditStopPreferencesViewController *vc = [[OBAEditStopPreferencesViewController alloc] initWithApplicationDelegate:_appDelegate stop:_result.stop];
+            OBAEditStopPreferencesViewController *vc = [[OBAEditStopPreferencesViewController alloc] initWithStop:_result.stop];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }

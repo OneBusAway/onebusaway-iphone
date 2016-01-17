@@ -3,7 +3,6 @@
 #import "OBACoordinateBounds.h"
 #import "OBAPlacemark.h"
 
-
 @interface OBADiversionViewController ()
 
 

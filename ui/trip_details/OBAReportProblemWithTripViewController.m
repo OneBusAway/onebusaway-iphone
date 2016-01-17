@@ -7,6 +7,7 @@
 #import "OBAArrivalAndDepartureViewController.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
+#import "OBAApplicationDelegate.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
@@ -27,9 +28,8 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 #pragma mark - Initialization
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate tripInstance:(OBATripInstanceRef *)tripInstance trip:(OBATripV2 *)trip {
+- (id)initWithTripInstance:(OBATripInstanceRef *)tripInstance trip:(OBATripV2 *)trip {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-        _appDelegate = appDelegate;
         _tripInstance = tripInstance;
         _trip = trip;
 
@@ -437,7 +437,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error Submitting", @"view.title") message:NSLocalizedString(@"An error occurred while reporting the problem. Please contact us directly.", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle") style:UIAlertActionStyleCancel handler:nil]];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", @"view addButtonWithTitle") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-        [self->_appDelegate navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
+        [APP_DELEGATE navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
     }]];
     [self presentViewController:alert animated:YES completion:nil];
 }

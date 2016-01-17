@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-#import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
 #import "OBAArrivalsAndDeparturesForStopV2.h"
 #import "OBABookmarkV2.h"
@@ -33,7 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAGenericStopViewController : UITableViewController <OBANavigationTargetAware>
 
-@property(strong,readonly) OBAApplicationDelegate * appDelegate;
 @property(strong,readonly) NSString * stopId;
 @property BOOL showTitle;
 @property BOOL showServiceAlerts;
@@ -45,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(strong) NSMutableArray *filteredArrivals;
 @property BOOL showFilteredArrivals;
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate stopId:(NSString*)stopId;
+- (id)initWithStopId:(NSString*)stopId;
 - (OBAStopSectionType) sectionTypeForSection:(NSUInteger)section;
 - (void)refresh;
 @end

@@ -26,7 +26,6 @@
 
 #import "OBASearchController.h"
 #import "OBAGenericStopViewController.h"
-#import "OBAStopIconFactory.h"
 
 #import "OBARegionListViewController.h"
 #import "OBARegionHelper.h"
@@ -103,7 +102,6 @@ static NSString *const kAllowTracking = @"allowTracking";
     self.mapNavigationController = [[UINavigationController alloc] initWithRootViewController:self.mapViewController];
 
     self.recentsViewController = [[OBARecentStopsViewController alloc] init];
-    self.recentsViewController.appDelegate = self;
     self.recentsNavigationController = [[UINavigationController alloc] initWithRootViewController:self.recentsViewController];
 
     self.bookmarksViewController = [[OBABookmarksViewController alloc] init];
@@ -111,7 +109,6 @@ static NSString *const kAllowTracking = @"allowTracking";
     self.bookmarksNavigationController = [[UINavigationController alloc] initWithRootViewController:self.bookmarksViewController];
 
     self.infoViewController = [[OBAInfoViewController alloc] init];
-    self.infoViewController.appDelegate = self;
     self.infoNavigationController = [[UINavigationController alloc] initWithRootViewController:self.infoViewController];
 
     self.tabBarController.viewControllers = @[self.mapNavigationController, self.recentsNavigationController, self.bookmarksNavigationController, self.infoNavigationController];
@@ -160,8 +157,6 @@ static NSString *const kAllowTracking = @"allowTracking";
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    _stopIconFactory = [[OBAStopIconFactory alloc] init];
-    
     //Register a background handler with the model service
     [OBAModelService addBackgroundExecutor:self];
 
@@ -322,7 +317,7 @@ static NSString *const kAllowTracking = @"allowTracking";
 }
 
 - (void)showRegionListViewController {
-    _regionListViewController = [[OBARegionListViewController alloc] initWithApplicationDelegate:self];
+    _regionListViewController = [[OBARegionListViewController alloc] init];
     _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:_regionListViewController];
 
     self.window.rootViewController = _regionNavigationController;

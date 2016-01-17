@@ -180,11 +180,11 @@
         OBABookmarkV2 *bookmark = (OBABookmarkV2 *)obj;
 
         if (self.tableView.editing) {
-            OBAEditStopBookmarkViewController *vc = [[OBAEditStopBookmarkViewController alloc] initWithApplicationDelegate:self.appDelegate bookmark:bookmark editType:OBABookmarkEditExisting];
+            OBAEditStopBookmarkViewController *vc = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark editType:OBABookmarkEditExisting];
             [self.navigationController pushViewController:vc animated:YES];
         }
         else {
-            OBAGenericStopViewController *vc = [[OBAGenericStopViewController alloc] initWithApplicationDelegate:self.appDelegate stopId:bookmark.stopID];
+            OBAGenericStopViewController *vc = [[OBAGenericStopViewController alloc] initWithStopId:bookmark.stopID];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
@@ -192,7 +192,7 @@
         OBABookmarkGroup *group = (OBABookmarkGroup *)obj;
 
         if (self.tableView.editing) {
-            OBAEditBookmarkGroupViewController *editGroupVC = [[OBAEditBookmarkGroupViewController alloc] initWithApplicationDelegate:self.appDelegate bookmarkGroup:group editType:OBABookmarkGroupEditExisting];
+            OBAEditBookmarkGroupViewController *editGroupVC = [[OBAEditBookmarkGroupViewController alloc] initWithBookmarkGroup:group editType:OBABookmarkGroupEditExisting];
             [self.navigationController pushViewController:editGroupVC animated:YES];
         }
         else {

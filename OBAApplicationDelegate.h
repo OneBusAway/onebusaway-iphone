@@ -24,7 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 @class OBARecentStopsViewController;
 @class OBABookmarksViewController;
 @class OBAInfoViewController;
-@class OBAStopIconFactory;
 @class OBARegionListViewController;
 
 @interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate> {
@@ -47,8 +46,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(strong) UINavigationController *infoNavigationController;
 @property(strong) OBAInfoViewController *infoViewController;
-
-@property(nonatomic,readonly) OBAStopIconFactory * stopIconFactory;
 
 @property(nonatomic,readonly) BOOL active;
 

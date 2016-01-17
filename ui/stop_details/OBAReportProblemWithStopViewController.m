@@ -3,6 +3,7 @@
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
+#import "OBAApplicationDelegate.h"
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -20,9 +21,8 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 #pragma mark - Initialization
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)context stop:(OBAStopV2 *)stop {
+- (id)initWithStop:(OBAStopV2 *)stop {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-        _appDelegate = context;
         _stop = stop;
 
         self.navigationItem.title = NSLocalizedString(@"Report a Problem", @"self.navigationItem.title");
@@ -334,7 +334,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle") style:UIAlertActionStyleDefault handler:nil]];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", @"view addButtonWithTitle") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self->_appDelegate navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
+        [APP_DELEGATE navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
     }]];
     [self presentViewController:alert animated:YES completion:nil];
 }

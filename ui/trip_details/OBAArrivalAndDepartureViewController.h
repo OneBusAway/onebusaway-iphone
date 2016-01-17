@@ -1,4 +1,3 @@
-#import "OBAApplicationDelegate.h"
 #import "OBARequestDrivenTableViewController.h"
 #import "OBAArrivalAndDepartureV2.h"
 #import "OBAArrivalAndDepartureInstanceRef.h"
@@ -8,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAArrivalAndDepartureViewController : OBARequestDrivenTableViewController 
 
-- (instancetype)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
+- (instancetype)initWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
 
 @end
 

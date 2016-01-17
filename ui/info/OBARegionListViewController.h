@@ -6,7 +6,6 @@
 //
 //
 
-#import "OBAApplicationDelegate.h"
 #import "OBARequestDrivenTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -16,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong,nullable) OBARegionV2 *nearbyRegion;
 @property(nonatomic,strong,nullable) NSIndexPath *checkedItem;
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate;
 - (void)sortRegionsByLocation;
 - (void)sortRegionsByName;
 - (void)timeOutLocation:(NSTimer*)theTimer;
