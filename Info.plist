@@ -49,6 +49,25 @@
 	<string>Your location will be used to show nearby stops and routes.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location will be used to show nearby stops and routes.</string>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeLocation</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Current Location</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>org.onebusaway.iphone.shortcut.map</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeBookmark</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Bookmarks</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>org.onebusaway.iphone.shortcut.bookmarks</string>
+		</dict>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>OBALaunchScreen</string>
 	<key>UIPrerenderedIcon</key>
