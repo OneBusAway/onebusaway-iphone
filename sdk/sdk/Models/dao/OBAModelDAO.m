@@ -122,7 +122,8 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     for( int i=0; i<over; i++)
         [_mostRecentStops removeObjectAtIndex:([_mostRecentStops count]-1)];
     
-    [_preferencesDao writeMostRecentStops:_mostRecentStops];    
+    [_preferencesDao writeMostRecentStops:_mostRecentStops];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBAMostRecentStopsChangedNotification object:nil];
 }
 
 - (void) addCustomApiUrl:(NSString *)customApiUrl {

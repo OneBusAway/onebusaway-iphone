@@ -38,10 +38,15 @@ static NSString *kOBAShowExperimentalRegionsDefaultsKey = @"kOBAShowExperimental
 static NSString *const kTrackingId = @"UA-2423527-17";
 static NSString *const kAllowTracking = @"allowTracking";
 
+static NSString *const kApplicationShortcutMap = @"org.onebusaway.iphone.shortcut.map";
+static NSString *const kApplicationShortcutRecents = @"org.onebusaway.iphone.shortcut.recents";
+static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcut.bookmarks";
+
 @interface OBAApplicationDelegate () <OBABackgroundTaskExecutor>
 @property (nonatomic, readwrite) BOOL active;
 @property (nonatomic, strong) OBARegionHelper *regionHelper;
 @property (nonatomic, strong) id regionObserver;
+@property (nonatomic, strong) id recentStopsObserver;
 
 @end
 
@@ -63,11 +68,23 @@ static NSString *const kAllowTracking = @"allowTracking";
                                                                                 [self writeSetRegionAutomatically:YES];
                                                                                 [self.regionHelper updateNearestRegion];
                                                                             }];
-
+        self.recentStopsObserver = [[NSNotificationCenter defaultCenter] addObserverForName:OBAMostRecentStopsChangedNotification
+                                                                                     object:nil
+                                                                                      queue:[NSOperationQueue mainQueue]
+                                                                                 usingBlock:^(NSNotification *note) {
+                                                                                     @strongify(self);
+                                                                                     [self updateShortcutItemsForRecentStops];
+                                                                                 }];
+        
         [[OBAApplication sharedApplication] start];
     }
 
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self.regionObserver];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.recentStopsObserver];
 }
 
 - (void)writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
@@ -222,6 +239,55 @@ static NSString *const kAllowTracking = @"allowTracking";
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     self.active = NO;
+}
+
+#pragma mark Shortcut Items
+
+- (void)application:(UIApplication *)application performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler {
+    NSString *shortcutIdentifier = shortcutItem.type;
+
+    if ([shortcutIdentifier isEqualToString:kApplicationShortcutMap]) {
+        [self.tabBarController setSelectedViewController:self.mapNavigationController];
+
+        [self.mapNavigationController popToRootViewControllerAnimated:NO];
+        [self.mapViewController onCrossHairsButton:self];
+    } else if ([shortcutIdentifier isEqualToString:kApplicationShortcutBookmarks]) {
+        [self.tabBarController setSelectedViewController:self.bookmarksNavigationController];
+
+        [self.bookmarksNavigationController popToRootViewControllerAnimated:NO];
+    } else if ([shortcutIdentifier isEqualToString:kApplicationShortcutRecents]) {
+        [self.tabBarController setSelectedViewController:self.recentsNavigationController];
+
+        NSArray *stopIds = (NSArray *)shortcutItem.userInfo[@"stopIds"];
+        if (stopIds.count > 0) {
+            OBAGenericStopViewController *vc = [[OBAGenericStopViewController alloc] initWithStopId:stopIds[0]];
+            [self.recentsNavigationController popToRootViewControllerAnimated:NO];
+            [self.recentsNavigationController pushViewController:vc animated:YES];
+        }
+    }
+
+    // update kOBASelectedTabIndexDefaultsKey, since the delegate doesn't fire
+    // otherwise applicationDidBecomeActive: will switch us away
+    [self tabBarController:self.tabBarController didSelectViewController:self.tabBarController.selectedViewController];
+
+    completionHandler(YES);
+}
+
+- (void)updateShortcutItemsForRecentStops {
+    NSMutableArray *dynamicShortcuts = [NSMutableArray array];
+    UIApplicationShortcutIcon *clockIcon = [UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypeTime];
+
+    for (OBAStopAccessEventV2 *stopEvent in [OBAApplication sharedApplication].modelDao.mostRecentStops) {
+        UIApplicationShortcutItem *shortcutItem =
+                [[UIApplicationShortcutItem alloc] initWithType:kApplicationShortcutRecents
+                                                 localizedTitle:stopEvent.title
+                                              localizedSubtitle:nil
+                                                           icon:clockIcon
+                                                       userInfo:@{ @"stopIds": stopEvent.stopIds }];
+        [dynamicShortcuts addObject:shortcutItem];
+    }
+
+    [UIApplication sharedApplication].shortcutItems = [dynamicShortcuts subarrayWithRange:NSMakeRange(0, 4)];
 }
 
 #pragma mark - UITabBarControllerDelegate
