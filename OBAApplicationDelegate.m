@@ -32,6 +32,7 @@
 #import "OBAReleaseNotesManager.h"
 
 #import "OBAAnalytics.h"
+#import "NSArray+OBAAdditions.h"
 
 static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
 static NSString *kOBAShowExperimentalRegionsDefaultsKey = @"kOBAShowExperimentalRegionsDefaultsKey";
@@ -287,7 +288,7 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
         [dynamicShortcuts addObject:shortcutItem];
     }
 
-    [UIApplication sharedApplication].shortcutItems = [dynamicShortcuts subarrayWithRange:NSMakeRange(0, 4)];
+    [UIApplication sharedApplication].shortcutItems = [dynamicShortcuts oba_pickFirst:4];
 }
 
 #pragma mark - UITabBarControllerDelegate

@@ -461,7 +461,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error connecting", @"self.navigationItem.title") message:NSLocalizedString(@"There was a problem with your Internet connection.\r\n\r\nPlease check your network connection or contact us if you think the problem is on our end.", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
 
         [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"") style:UIAlertActionStyleCancel handler:nil]];
-        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [APP_DELEGATE navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
         }]];
         [self presentViewController:alert animated:YES completion:nil];

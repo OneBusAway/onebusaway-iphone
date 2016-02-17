@@ -10,6 +10,7 @@
 #import "OBAApplicationDelegate.h"
 #import "OBAAnalytics.h"
 #import "OBAApplication.h"
+#import "OBAMacros.h"
 
 @interface OBARegionHelper ()
 @property (nonatomic) NSMutableArray *regions;

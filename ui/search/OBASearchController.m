@@ -112,11 +112,21 @@
 }
 
 - (void)processError:(NSError *)error responseCode:(NSUInteger)responseCode {
-    if (error) {
+
+    if (responseCode == 0 && error.code == NSURLErrorCancelled) {
+        // This shouldn't be happening, and frankly I'm not entirely sure why it's happening.
+        // But, I do know that it doesn't have any appreciable user impact outside of this
+        // error alert being really annoying. So we'll just log it and eat it.
+
+        NSLog(@"Errored out at launch: %@", error);
+    }
+    else if (error) {
         [self.progress setMessage:NSLocalizedString(@"Error connecting", @"requestDidFail") inProgress:NO progress:0];
         [self fireError:error];
     }
-    else if (responseCode == 404) [self.progress setMessage:NSLocalizedString(@"Not found", @"code == 404") inProgress:NO progress:0];
+    else if (responseCode == 404) {
+        [self.progress setMessage:NSLocalizedString(@"Not found", @"code == 404") inProgress:NO progress:0];
+    }
     else {
         [self.progress setMessage:NSLocalizedString(@"Server error", @"code # 404") inProgress:NO progress:0];
     }

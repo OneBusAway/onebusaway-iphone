@@ -18,6 +18,7 @@
 #import "OBALogger.h"
 #import "OBACommon.h"
 #import "OBACommonV1.h"
+#import "OBAMacros.h"
 #import "OBAStopAccessEventV2.h"
 #import "OBASituationV2.h"
 #import "OBAModelDAOUserPreferencesImpl.h"
