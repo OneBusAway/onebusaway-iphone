@@ -15,6 +15,7 @@
  */
 
 #import "OBADataSourceConfig.h"
+#import "OBAMacros.h"
 
 @interface OBADataSourceConfig ()
 @property(nonatomic,copy) NSURL* baseURL;
@@ -55,6 +56,10 @@
     }
 
     NSURL *URLWithPath = [self.baseURL URLByAppendingPathComponent:path];
+
+    OBAGuard(URLWithPath) else {
+        return nil;
+    }
 
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:URLWithPath resolvingAgainstBaseURL:NO];
 

@@ -321,6 +321,7 @@
 		669B2F601AEBEBAF00CF2367 /* OBAPresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAPresentation.m; path = Helpers/OBAPresentation.m; sourceTree = "<group>"; };
 		669B2F631AEBEBAF00CF2367 /* OBAStopIconFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAStopIconFactory.h; path = Helpers/OBAStopIconFactory.h; sourceTree = "<group>"; };
 		669B2F641AEBEBAF00CF2367 /* OBAStopIconFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBAStopIconFactory.m; path = Helpers/OBAStopIconFactory.m; sourceTree = "<group>"; };
+		93481B801C74158A007CCCC5 /* OBAMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OBAMacros.h; path = Helpers/OBAMacros.h; sourceTree = "<group>"; };
 		93A923AB1C21EF6A00A657C8 /* JsonUrlFetcherImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JsonUrlFetcherImpl.h; path = Services/JsonUrlFetcherImpl.h; sourceTree = "<group>"; };
 		93A923AC1C21EF6A00A657C8 /* JsonUrlFetcherImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JsonUrlFetcherImpl.m; path = Services/JsonUrlFetcherImpl.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -603,6 +604,7 @@
 				669B2F551AEBEB4E00CF2367 /* OBALogger.m */,
 				669B2F501AEBEB2F00CF2367 /* OBAURLHelpers.h */,
 				669B2F511AEBEB2F00CF2367 /* OBAURLHelpers.m */,
+				93481B801C74158A007CCCC5 /* OBAMacros.h */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";

@@ -82,42 +82,29 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if (_tripDetails == nil && _tripInstance != nil) {
-        [self.tableView reloadData];
-        _request = [[OBAApplication sharedApplication].modelService
-                    requestTripDetailsForTripInstance:_tripInstance
-                                      completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-                                          if (responseCode == 404) {
-                                          [self->_progressView
-                                          setMessage:NSLocalizedString(@"Trip not found", @"message")
-                                          inProgress:NO
-                                          progress:0];
-                                          }
-                                          else if (responseCode >= 300) {
-                                          [self->_progressView
-                                          setMessage:NSLocalizedString(@"Unknown error", @"message")
-                                          inProgress:NO
-                                          progress:0];
-                                          }
-                                          else if (error) {
-                                          OBALogWarningWithError(error, @"Error");
-                                          [self->_progressView
-                                          setMessage:NSLocalizedString(@"Error connecting", @"message")
-                                          inProgress:NO
-                                          progress:0];
-                                          }
-                                          else {
-                                          OBAEntryWithReferencesV2 *entry = responseData;
-                                          self->_tripDetails = entry.entry;
-                                          [self handleTripDetails];
-                                          }
-                                      }
+    if (_tripInstance && !_tripDetails) {
 
-                                        progressBlock:^(CGFloat progress) {
-                                            [self->_progressView
-                                            setInProgress:YES
-                                            progress:progress];
-                                        }];
+        [self.tableView reloadData];
+
+        _request = [[OBAApplication sharedApplication].modelService requestTripDetailsForTripInstance:_tripInstance completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            if (responseCode == 404) {
+                [self->_progressView setMessage:NSLocalizedString(@"Trip not found", @"message") inProgress:NO progress:0];
+            }
+            else if (responseCode >= 300) {
+                [self->_progressView setMessage:NSLocalizedString(@"Unknown error", @"message") inProgress:NO progress:0];
+            }
+            else if (error) {
+                OBALogWarningWithError(error, @"Error");
+                [self->_progressView setMessage:NSLocalizedString(@"Error connecting", @"message") inProgress:NO progress:0];
+            }
+            else {
+                OBAEntryWithReferencesV2 *entry = responseData;
+                self->_tripDetails = entry.entry;
+                [self handleTripDetails];
+            }
+        } progressBlock:^(CGFloat progress) {
+            [self->_progressView setInProgress:YES progress:progress];
+        }];
     }
     else {
         [self handleTripDetails];
