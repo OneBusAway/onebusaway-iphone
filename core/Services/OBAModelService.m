@@ -8,6 +8,33 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
 
 @implementation OBAModelService
 
+- (AnyPromise*)requestStopForID:(NSString*)stopID {
+    
+    NSDictionary *args = @{ @"minutesBefore": @(5),
+                            @"minutesAfter":  @(35) };
+    
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self request:self.obaJsonDataSource
+                  url:[NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", stopID]
+                 args:args
+             selector:@selector(getArrivalsAndDeparturesForStopV2FromJSON:error:)
+      completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+          
+          if (error) {
+              resolve(error);
+          }
+          else if (responseCode >= 300) {
+              NSString *message = (404 == responseCode ? NSLocalizedString(@"Stop not found", @"code == 404") : NSLocalizedString(@"Error Connecting", @"code != 404"));
+              error = [NSError errorWithDomain:NSURLErrorDomain code:responseCode userInfo:@{NSLocalizedDescriptionKey: message}];
+              resolve(error);
+          }
+          else {
+              resolve(responseData);
+          }
+      } progressBlock:nil];
+    }];
+}
+
 - (id<OBAModelServiceRequest>)requestStopForId:(NSString *)stopId completionBlock:(OBADataSourceCompletion)completion {
     return [self request:self.obaJsonDataSource
                      url:[NSString stringWithFormat:@"/api/where/stop/%@.json", stopId]

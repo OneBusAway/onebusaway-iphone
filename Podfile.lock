@@ -37,18 +37,40 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
   - libextobjc/UmbrellaHeader (0.4.1)
+  - OMGHTTPURLRQ (3.1.1):
+    - OMGHTTPURLRQ/RQ (= 3.1.1)
+  - OMGHTTPURLRQ/FormURLEncode (3.1.1)
+  - OMGHTTPURLRQ/RQ (3.1.1):
+    - OMGHTTPURLRQ/FormURLEncode
+    - OMGHTTPURLRQ/UserAgent
+  - OMGHTTPURLRQ/UserAgent (3.1.1)
+  - PromiseKit (3.0.2):
+    - PromiseKit/Foundation (= 3.0.2)
+    - PromiseKit/QuartzCore (= 3.0.2)
+    - PromiseKit/UIKit (= 3.0.2)
+  - PromiseKit/CorePromise (3.0.2)
+  - PromiseKit/Foundation (3.0.2):
+    - OMGHTTPURLRQ (~> 3.1.0)
+    - PromiseKit/CorePromise
+  - PromiseKit/QuartzCore (3.0.2):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (3.0.2):
+    - PromiseKit/CorePromise
   - SVProgressHUD (2.0-beta)
   - TWSReleaseNotesView (1.2.0)
 
 DEPENDENCIES:
   - GoogleAnalytics-iOS-SDK (= 3.11)
   - libextobjc (= 0.4.1)
+  - PromiseKit (= 3.0.2)
   - SVProgressHUD (= 2.0-beta)
   - TWSReleaseNotesView (= 1.2.0)
 
 SPEC CHECKSUMS:
   GoogleAnalytics-iOS-SDK: fb15cc7e3d01d06d531653f37443fda90274d53d
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
+  OMGHTTPURLRQ: 633f98ee745aeda02345935a52eec1784cddb589
+  PromiseKit: ab1a380f7a30cf8cce663a2411e8b3580b10313d
   SVProgressHUD: c83337f10ed32d701c423d519059a249973c8662
   TWSReleaseNotesView: 52cfe9ddf562b171998a5f285ca4f843880ce6f8
 
