@@ -32,7 +32,7 @@
 
         if (data.length) {
             NSError *jsonError = nil;
-            responseObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+            responseObject = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:&jsonError];
 
             if (!responseObject && jsonError) {
                 error = jsonError;

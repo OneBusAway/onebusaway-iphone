@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import "OBAURLHelpers.h"
+//#import "OBAURLHelpers.h"
+#import <OBAKit/OBAURLHelpers.h>
 
 @interface OBAURLHelpers_Tests : XCTestCase
 

@@ -20,49 +20,21 @@
                ReferencedContainer = "container:org.onebusaway.iphone.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "93F152F01A9AE91A0015C141"
-               BuildableName = "OneBusAway Tests.xctest"
-               BlueprintName = "OneBusAway Tests"
-               ReferencedContainer = "container:org.onebusaway.iphone.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "669B2D3F1AEBE63800CF2367"
-               BuildableName = "libOneBusAwaySDK.a"
-               BlueprintName = "OneBusAwaySDK"
-               ReferencedContainer = "container:sdk/OneBusAwaySDK.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      buildConfiguration = "AppStoreDistribution"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.GDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "93F152F01A9AE91A0015C141"
-               BuildableName = "OneBusAway Tests.xctest"
-               BlueprintName = "OneBusAway Tests"
+               BlueprintIdentifier = "936F45D81C78D06600C61656"
+               BuildableName = "OneBusAwayTests.xctest"
+               BlueprintName = "OneBusAwayTests"
                ReferencedContainer = "container:org.onebusaway.iphone.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -80,7 +52,7 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "AppStoreDistribution"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       displayScaleIsEnabled = "NO"
@@ -107,7 +79,7 @@
    <ProfileAction
       displayScaleIsEnabled = "NO"
       displayScale = "1.00"
-      buildConfiguration = "AppStoreDistribution"
+      buildConfiguration = "Debug"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
@@ -124,10 +96,10 @@
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "AppStoreDistribution">
+      buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "AppStoreDistribution"
+      buildConfiguration = "AdHocDistribution"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

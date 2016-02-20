@@ -5,6 +5,8 @@ xcode_scheme:
     - Debug
 xcode_sdk:
     - iphonesimulator
+script:
+  - xctool -workspace org.onebusaway.iphone.xcworkspace -scheme OneBusAway -sdk iphonesimulator -configuration Debug test -only OneBusAwayTests ONLY_ACTIVE_ARCH=NO
 notifications:
   slack:
     rooms:

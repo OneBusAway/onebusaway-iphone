@@ -1,19 +1,18 @@
 //
-//  OneBusAway_Tests.m
-//  OneBusAway Tests
+//  OneBusAwayTests.m
+//  OneBusAwayTests
 //
-//  Created by Aaron Brethorst on 2/22/15.
-//  Copyright (c) 2015 OneBusAway. All rights reserved.
+//  Created by Aaron Brethorst on 2/20/16.
+//  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-@interface OneBusAway_Tests : XCTestCase
+@interface OneBusAwayTests : XCTestCase
 
 @end
 
-@implementation OneBusAway_Tests
+@implementation OneBusAwayTests
 
 - (void)setUp {
     [super setUp];
@@ -27,7 +26,7 @@
 
 - (void)testExample {
     // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
+    // Use XCTAssert and related functions to verify your tests produce the correct results.
 }
 
 - (void)testPerformanceExample {

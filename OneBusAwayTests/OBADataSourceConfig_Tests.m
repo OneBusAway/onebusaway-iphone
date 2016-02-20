@@ -29,7 +29,7 @@
     NSURL *testURL = [googleMapsDataSourceConfig constructURL:@"/something-goes-here.json" withArgs:@{@"hello": @"world", @"foo": @"bar"}];
 
     BOOL nonDeterminismSucks = ([testURL.absoluteString isEqual:@"https://maps.googleapis.com/something-goes-here.json?sensor=true&foo=bar&hello=world"] ||
-          [testURL.absoluteString isEqual:@"https://maps.googleapis.com/something-goes-here.json?sensor=true&hello=world&foo=bar"]);
+                                [testURL.absoluteString isEqual:@"https://maps.googleapis.com/something-goes-here.json?sensor=true&hello=world&foo=bar"]);
 
     XCTAssert(nonDeterminismSucks);
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0710"
+   LastUpgradeVersion = "0720"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "669B2D3F1AEBE63800CF2367"
-               BuildableName = "libOneBusAwaySDK.a"
-               BlueprintName = "OneBusAwaySDK"
-               ReferencedContainer = "container:OneBusAwaySDK.xcodeproj">
+               BlueprintIdentifier = "936F44FC1C780E7600C61656"
+               BuildableName = "OBAKit.framework"
+               BlueprintName = "OBAKit"
+               ReferencedContainer = "container:org.onebusaway.iphone.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "669B2D3F1AEBE63800CF2367"
-            BuildableName = "libOneBusAwaySDK.a"
-            BlueprintName = "OneBusAwaySDK"
-            ReferencedContainer = "container:OneBusAwaySDK.xcodeproj">
+            BlueprintIdentifier = "936F44FC1C780E7600C61656"
+            BuildableName = "OBAKit.framework"
+            BlueprintName = "OBAKit"
+            ReferencedContainer = "container:org.onebusaway.iphone.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "669B2D3F1AEBE63800CF2367"
-            BuildableName = "libOneBusAwaySDK.a"
-            BlueprintName = "OneBusAwaySDK"
-            ReferencedContainer = "container:OneBusAwaySDK.xcodeproj">
+            BlueprintIdentifier = "936F44FC1C780E7600C61656"
+            BuildableName = "OBAKit.framework"
+            BlueprintName = "OBAKit"
+            ReferencedContainer = "container:org.onebusaway.iphone.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
