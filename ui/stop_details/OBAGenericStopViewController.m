@@ -536,35 +536,24 @@ static NSString *kOBANoStopInformationURL = @"http://stopinfo.pugetsound.onebusa
 - (void)refresh {
     [_progressView setMessage:NSLocalizedString(@"Updating...", @"refresh") inProgress:YES progress:0];
     [self didBeginRefresh];
-
     [self clearPendingRequest];
-    @weakify(self);
-    _request = [[OBAApplication sharedApplication].modelService requestStopWithArrivalsAndDeparturesForId:_stopId withMinutesBefore:_minutesBefore withMinutesAfter:_minutesAfter completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-        @strongify(self);
+    
+    __block NSString *message = nil;
+    
+    [[OBAApplication sharedApplication].modelService requestStopForID:_stopId].then(^(id responseObject) {
+        message = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Updated", @"message"), [OBACommon getTimeAsString]];
+        self.result = responseObject;
+        
+        // Note the event
+        [[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:self.result.stop];
+        
+        [self reloadData];
+    }).catch(^(NSError *error) {
+        message = error.localizedDescription ?: NSLocalizedString(@"Error connecting", @"requestDidFail");
+    }).finally(^{
+        [self.progressView setMessage:message inProgress:NO progress:0];
+    });
 
-        if (error) {
-            OBALogWarningWithError(error, @"Error... yay!");
-            [self.progressView setMessage:NSLocalizedString(@"Error connecting", @"requestDidFail") inProgress:NO progress:0];
-        }
-        else if (responseCode >= 300) {
-            NSString *message = (404 == responseCode ? NSLocalizedString(@"Stop not found", @"code == 404") : NSLocalizedString(@"Unknown error", @"code # 404"));
-            [self.progressView setMessage:message inProgress:NO progress:0];
-        }
-        else if (responseData) {
-            NSString *message = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Updated", @"message"), [OBACommon getTimeAsString]];
-            [self.progressView setMessage:message inProgress:NO progress:0];
-            self.result = responseData;
-
-            // Note the event
-            [[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:self.result.stop];
-
-            [self reloadData];
-        }
-
-        [self didFinishRefresh];
-    } progressBlock:^(CGFloat progress) {
-        [self.progressView setInProgress:YES progress:progress];
-    }];
     _timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 }
 

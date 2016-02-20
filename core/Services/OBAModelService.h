@@ -10,6 +10,7 @@
 #import "OBAArrivalAndDepartureInstanceRef.h"
 #import "OBAReportProblemWithStopV2.h"
 #import "OBAReportProblemWithTripV2.h"
+#import <PromiseKit/PromiseKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -39,6 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
  * Registers a background executor to be used by all services.  This method should not be used by extensions.
  */
 +(void) addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*) executor;
+
+- (AnyPromise*)requestStopForID:(NSString*)stopID;
 
 /**
  *  Makes an asynchronous request to fetch a stop object.
