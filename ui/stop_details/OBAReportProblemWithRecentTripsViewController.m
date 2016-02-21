@@ -1,62 +1,62 @@
 #import "OBAReportProblemWithRecentTripsViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
 #import "OBAApplication.h"
+#import "OBAPresentation.h"
+#import "OBAClassicDepartureRow.h"
+
+@interface OBAReportProblemWithRecentTripsViewController ()
+@property(nonatomic,copy) NSString *stopID;
+@end
 
 @implementation OBAReportProblemWithRecentTripsViewController
 
-- (void)customSetup {
-    self.showTitle = NO;
-    self.showActions = NO;
-    self.arrivalCellFactory.showServiceAlerts = NO;
-    self.showServiceAlerts = NO;
-    self.minutesBefore = 30;
+- (instancetype)initWithStopID:(NSString*)stopID {
+    self = [super init];
+
+    if (self) {
+        _stopID = [stopID copy];
+        self.title = NSLocalizedString(@"Select a Trip", @"");
+    }
+    return self;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    OBAStopSectionType sectionType = [self sectionTypeForSection:section];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 
-    if (sectionType == OBAStopSectionTypeArrivals) {
-        return NSLocalizedString(@"Select the trip with a problem:", @"sectionType == OBAStopSectionTypeArrivals");
-    }
+    [[OBAApplication sharedApplication].modelService requestStopForID:self.stopID minutesBefore:30 minutesAfter:30].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
 
-    return nil;
+        [self populateTableFromArrivalsAndDeparturesModel:response];
+    }).catch(^(NSError *error) {
+        self.title = error.localizedDescription ?: NSLocalizedString(@"Error connecting", @"requestDidFail");
+    });
 }
 
-- (void)tableView:(UITableView *)tableView didSelectTripRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *arrivals = self.showFilteredArrivals ? self.filteredArrivals : self.allArrivals;
-    
-    if ((arrivals.count == 0 && indexPath.row == 1) || (arrivals.count == indexPath.row && arrivals.count > 0)) {
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-        self.minutesAfter += 30;
-        [self refresh];
+- (void)populateTableFromArrivalsAndDeparturesModel:(OBAArrivalsAndDeparturesForStopV2*)result {
+    NSMutableArray *departureRows = [NSMutableArray array];
+
+    for (OBAArrivalAndDepartureV2 *dep in result.arrivalsAndDepartures) {
+        NSString *dest = [[OBAPresentation getTripHeadsignForArrivalAndDeparture:dep] capitalizedString];
+        OBAClassicDepartureRow *row = [[OBAClassicDepartureRow alloc] initWithRouteName:dep.bestAvailableName destination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)] statusText:[dep statusText] departureStatus:[dep departureStatus] action:^{
+            [self reportProblemWithTrip:dep.tripInstance];
+        }];
+
+        [departureRows addObject:row];
     }
-    else if (arrivals.count > 0) {
-        OBAArrivalAndDepartureV2 *arrivalAndDeparture = arrivals[indexPath.row];
-        
-        if (arrivalAndDeparture) {
-            OBATripInstanceRef *tripInstance = arrivalAndDeparture.tripInstance;
-            [[OBAApplication sharedApplication].modelService
-             requestTripDetailsForTripInstance:tripInstance
-             completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                 if (jsonData) {
-                     OBAEntryWithReferencesV2 *entry = jsonData;
-                     OBATripDetailsV2 *tripDetails = entry.entry;
-                     
-                     if (tripDetails) {
-                         OBATripInstanceRef *tripInstance = tripDetails.tripInstance;
-                         OBAReportProblemWithTripViewController *vc = [[OBAReportProblemWithTripViewController alloc] initWithTripInstance:tripInstance
-                                                                                                                                      trip:tripDetails.trip];
-                         vc.currentStopId = self.stopId;
-                         [self.navigationController
-                          pushViewController:vc
-                          animated:YES];
-                     }
-                 }
-             }
-             
-             progressBlock:nil];
-        }
-    }
+
+    self.sections = @[[[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Report a Problem", @"") rows:departureRows]];
+    [self.tableView reloadData];
+}
+
+- (void)reportProblemWithTrip:(OBATripInstanceRef*)tripInstance {
+
+    [[OBAApplication sharedApplication].modelService requestTripDetailsForTripInstance:tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
+        OBAReportProblemWithTripViewController *vc = [[OBAReportProblemWithTripViewController alloc] initWithTripInstance:tripInstance trip:tripDetails.trip];
+        vc.currentStopId = self.stopID;
+        [self.navigationController pushViewController:vc animated:YES];
+    }).catch(^(NSError *error) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error Connecting", @"") message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+        [self presentViewController:alert animated:YES completion:nil];
+    });
 }
 
 @end

@@ -57,6 +57,26 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OBAViewedArrivalsAndDeparturesForStopNotification object:nil];
 }
 
+#pragma mark - Bookmarks
+
+- (OBABookmarkV2*)bookmarkForStop:(OBAStopV2*)stop {
+    for (OBABookmarkV2 *bm in self.bookmarks) {
+        if ([bm.stopID isEqual:stop.stopId]) {
+            return bm;
+        }
+    }
+
+    for (OBABookmarkGroup *group in self.bookmarkGroups) {
+        for (OBABookmarkV2 *bm in group.bookmarks) {
+            if ([bm.stopID isEqual:stop.stopId]) {
+                return bm;
+            }
+        }
+    }
+
+    return nil;
+}
+
 - (NSArray*) bookmarks {
     return _bookmarks;
 }
@@ -64,6 +84,8 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 - (NSArray *)bookmarkGroups {
     return _bookmarkGroups;
 }
+
+#pragma mark - Recent
 
 - (NSArray*) mostRecentStops {
     return _mostRecentStops;
@@ -81,6 +103,8 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     _mostRecentLocation = location;
     [_preferencesDao writeMostRecentLocation:location];
 }
+
+#pragma mark - Regions
 
 - (OBARegionV2*) region {
     return _region;

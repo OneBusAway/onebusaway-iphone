@@ -17,35 +17,33 @@
 #import "OBAEditStopPreferencesViewController.h"
 #import "OBALogger.h"
 #import "OBARouteV2.h"
-#import "OBAGenericStopViewController.h"
+#import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
 #import "OBAApplication.h"
 
+@interface OBAEditStopPreferencesViewController ()
+@property(nonatomic,strong) OBAStopV2 *stop;
+@property(nonatomic,strong) NSArray *routes;
+@property(nonatomic,strong) OBAStopPreferencesV2 *preferences;
+@end
 
 @implementation OBAEditStopPreferencesViewController
 
-- (id)initWithStop:(OBAStopV2 *)stop {
+- (instancetype)initWithStop:(OBAStopV2 *)stop {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         _stop = stop;
 
-        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButton:)];
-        [self.navigationItem setLeftBarButtonItem:cancelButton];
+        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
+        self.navigationItem.leftBarButtonItem = cancelButton;
 
-        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onSaveButton:)];
-        [self.navigationItem setRightBarButtonItem:saveButton];
+        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
+        self.navigationItem.rightBarButtonItem = saveButton;
 
         self.navigationItem.title = NSLocalizedString(@"Filter & Sort", @"self.navigationItem.title");
 
-        NSMutableArray *routes = [NSMutableArray array];
-
-        for (OBARouteV2 *route in stop.routes) {
-            [routes addObject:route];
-        }
-
-        [routes sortUsingSelector:@selector(compareUsingName:)];
-        _routes = routes;
+        _routes = [_stop.routes sortedArrayUsingSelector:@selector(compareUsingName:)];
 
         _preferences = [[OBAApplication sharedApplication].modelDao stopPreferencesForStopWithId:stop.stopId];
     }
@@ -67,11 +65,7 @@
     [self hideEmptySeparators];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
-#pragma mark Table view methods
+#pragma mark - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
@@ -108,11 +102,7 @@
             return 2;
 
         case 1: {
-            NSInteger c = [_routes count];
-
-            if (c == 0) c = 1;
-
-            return c;
+            return MAX(_routes.count, 1);
         }
     }
     return 0;
@@ -175,7 +165,7 @@
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
     cell.textLabel.text = [route safeShortName];
 
-    BOOL checked = [_preferences isRouteIdEnabled:route.routeId];
+    BOOL checked = ![_preferences isRouteIDDisabled:route.routeId];
     cell.accessoryType = checked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.textLabel.font = [OBATheme bodyFont];
@@ -199,38 +189,26 @@
         }
     }
     else if (indexPath.section == 1) {
-        if ([_routes count] == 0) return;
-
-        OBARouteV2 *route = _routes[indexPath.row];
-        BOOL currentlyChecked = [_preferences isRouteIdEnabled:route.routeId];
-        currentlyChecked = !currentlyChecked;
-        [_preferences setEnabled:currentlyChecked forRouteId:route.routeId];
+        if ([_routes count] == 0) {
+            return;
+        }
 
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        cell.accessoryType = currentlyChecked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+        OBARouteV2 *route = _routes[indexPath.row];
+        cell.accessoryType = [_preferences toggleRouteID:route.routeId] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
 
-- (IBAction)onCancelButton:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+#pragma mark - Actions
+
+- (void)cancel:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)onSaveButton:(id)sender {
+- (void)save:(id)sender {
     [[OBAApplication sharedApplication].modelDao setStopPreferences:_preferences forStopWithId:_stop.stopId];
-
-    // pop to stop view controller are saving settings
-    BOOL foundStopViewController = NO;
-
-    for (UIViewController *viewController in [self.navigationController viewControllers]) {
-        if ([viewController isKindOfClass:[OBAGenericStopViewController class]]) {
-            [self.navigationController popToViewController:viewController animated:YES];
-            foundStopViewController = YES;
-            break;
-        }
-    }
-
-    if (!foundStopViewController) [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

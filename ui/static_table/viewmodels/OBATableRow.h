@@ -6,17 +6,16 @@
 //  Copyright © 2015 OneBusAway. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "OBABaseRow.h"
 
-@interface OBATableRow : NSObject
+@interface OBATableRow : OBABaseRow
 @property(nonatomic,copy) NSString *title;
 @property(nonatomic,copy) NSString *subtitle;
 @property(nonatomic,assign) UITableViewCellStyle style;
 @property(nonatomic,assign) UITableViewCellAccessoryType accessoryType;
-@property(nonatomic,copy) void (^action)();
+@property(nonatomic,strong) UIImage *image;
+@property(nonatomic,assign) NSTextAlignment textAlignment;
 
-+ (instancetype)tableRowWithTitle:(NSString*)title action:(void (^)())action;
 - (instancetype)initWithTitle:(NSString*)title action:(void (^)())action;
-
-- (NSString*)cellReuseIdentifier;
++ (instancetype)tableRowWithTitle:(NSString*)title action:(void (^)())action;
 @end

@@ -2,22 +2,6 @@
 
 @implementation OBAPresentation
 
-+ (NSString*) getRouteShortNameForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
-    if (arrivalAndDeparture.routeShortName) {
-        return arrivalAndDeparture.routeShortName;
-    }
-    else {
-        OBATripV2* trip = arrivalAndDeparture.trip;
-
-        if (trip.routeShortName) {
-            return trip.routeShortName;
-        }
-        else {
-            return trip.route.shortName ?: trip.route.longName;
-        }
-    }
-}
-
 + (NSString*) getTripHeadsignForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
     NSString * name = arrivalAndDeparture.tripHeadsign;
     if( name )

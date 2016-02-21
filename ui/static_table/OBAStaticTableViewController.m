@@ -7,6 +7,8 @@
 //
 
 #import "OBAStaticTableViewController.h"
+#import "OBATableCell.h"
+#import "OBAViewModelRegistry.h"
 
 @interface OBAStaticTableViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong,readwrite) UITableView *tableView;
@@ -21,7 +23,52 @@
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
+    NSArray *registered = [OBAViewModelRegistry registeredClasses];
+
+    for (Class c in registered) {
+        [c registerViewsWithTableView:self.tableView];
+    }
+
     [self.view addSubview:self.tableView];
+}
+
+#pragma mark - UITableView Section Headers
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    UIView *headerView = [self tableView:tableView viewForHeaderInSection:section];
+
+    if (headerView) {
+        return CGRectGetHeight(headerView.frame);
+    }
+    else {
+        return UITableViewAutomaticDimension;
+    }
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return self.sections[section].headerView;
+}
+
+- (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return self.sections[section].title;
+}
+
+#pragma mark - UITableView Section Footers
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    UIView *footerView = [self tableView:tableView viewForFooterInSection:section];
+
+    if (footerView) {
+        return CGRectGetHeight(footerView.frame);
+    }
+    else {
+        return 0.f;
+    }
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return self.sections[section].footerView;
 }
 
 #pragma mark - UITableView
@@ -30,17 +77,12 @@
     return UITableViewAutomaticDimension;
 }
 
-- (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return self.sections[section].title;
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.sections.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex {
     OBATableSection *section = self.sections[sectionIndex];
-    
     return section.rows.count;
 }
 
@@ -48,16 +90,15 @@
     
     OBATableSection *section = self.sections[indexPath.section];
     OBATableRow *row = section.rows[indexPath.row];
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[row cellReuseIdentifier]];
-    
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:row.style reuseIdentifier:row.cellReuseIdentifier];
+    NSString *reuseIdentifier = [row.class cellReuseIdentifier];
+
+    UITableViewCell<OBATableCell> *cell = (UITableViewCell<OBATableCell> *)[tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+
+    OBAGuard([cell conformsToProtocol:@protocol(OBATableCell)]) else {
+        return nil;
     }
-    
-    cell.textLabel.text = row.title;
-    cell.detailTextLabel.text = row.subtitle;
-    cell.accessoryType = row.accessoryType;
+
+    cell.tableRow = row;
     
     return cell;
 }

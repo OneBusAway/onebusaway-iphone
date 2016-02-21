@@ -26,7 +26,7 @@
 #import "OBAInfoViewController.h"
 
 #import "OBASearchController.h"
-#import "OBAGenericStopViewController.h"
+#import "OBAStopViewController.h"
 
 #import "OBARegionListViewController.h"
 #import "OBARegionHelper.h"
@@ -158,7 +158,7 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
 
     self.releaseNotes = [[ABReleaseNotesViewController alloc] initWithAppIdentifier:@"329380089"];
     self.releaseNotes.title = NSLocalizedString(@"What's New", @"");
-    self.releaseNotes.mode = ABReleaseNotesViewControllerModeTesting;
+    self.releaseNotes.mode = ABReleaseNotesViewControllerModeProduction;
 
     [self.releaseNotes checkForUpdates:^(BOOL updated) {
         if (updated) {
@@ -267,7 +267,7 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
 
         NSArray *stopIds = (NSArray *)shortcutItem.userInfo[@"stopIds"];
         if (stopIds.count > 0) {
-            OBAGenericStopViewController *vc = [[OBAGenericStopViewController alloc] initWithStopId:stopIds[0]];
+            UIViewController *vc = [OBAStopViewController stopControllerWithStopID:stopIds[0]];
             [self.recentsNavigationController popToRootViewControllerAnimated:NO];
             [self.recentsNavigationController pushViewController:vc animated:YES];
         }

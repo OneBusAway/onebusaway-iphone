@@ -2,7 +2,7 @@
 #import "OBATripStopTimeV2.h"
 #import "OBATripDetailsViewController.h"
 #import "OBATripScheduleMapViewController.h"
-#import "OBAGenericStopViewController.h"
+#import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
@@ -457,7 +457,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     OBATripStopTimeV2 *stopTime = stopTimes[index];
 
-    OBAGenericStopViewController *vc = [[OBAGenericStopViewController alloc] initWithStopId:stopTime.stopId];
+    UIViewController *vc = [OBAStopViewController stopControllerWithStopID:stopTime.stopId];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

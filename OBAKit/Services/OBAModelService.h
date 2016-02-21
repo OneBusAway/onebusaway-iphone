@@ -41,7 +41,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 +(void) addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*) executor;
 
-- (AnyPromise*)requestStopForID:(NSString*)stopID;
+
+- (AnyPromise*)requestStopForID:(NSString*)stopID minutesBefore:(NSUInteger)minutesBefore minutesAfter:(NSUInteger)minutesAfter;
+
+/**
+ Trip details for the specified OBATripInstanceRef
+
+ @param tripInstance The trip instance reference
+
+ @return An instance of OBATripDetailsV2
+ */
+- (AnyPromise*)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance;
 
 /**
  *  Makes an asynchronous request to fetch a stop object.

@@ -41,7 +41,7 @@
     [attributedStatusLabel appendAttributedString:statusColoredString];
 
     cell.destinationLabel.text = [OBAPresentation getTripHeadsignForArrivalAndDeparture:arrival];
-    cell.routeLabel.text = [OBAPresentation getRouteShortNameForArrivalAndDeparture:arrival];
+    cell.routeLabel.text = arrival.bestAvailableName;
     cell.alertStyle = [self getAlertStyleForArrival:arrival];
     [cell.statusLabel setAttributedText:attributedStatusLabel];
 

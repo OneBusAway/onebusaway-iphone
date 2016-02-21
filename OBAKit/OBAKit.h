@@ -93,3 +93,4 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAModelService.h>
 #import <OBAKit/OBAModelServiceRequest.h>
 #import <OBAKit/OBAImageHelpers.h>
+#import <OBAKit/OBAMapHelpers.h>

@@ -46,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (OBABookmarkV2*) createTransientBookmark:(OBAStopV2*)stop;
 
+- (OBABookmarkV2*)bookmarkForStop:(OBAStopV2*)stop;
 - (void) addNewBookmark:(OBABookmarkV2*)bookmark;
 - (void) saveExistingBookmark:(OBABookmarkV2*)bookmark;
 - (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex;

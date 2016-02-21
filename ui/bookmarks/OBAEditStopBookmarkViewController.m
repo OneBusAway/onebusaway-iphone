@@ -17,7 +17,7 @@
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBALogger.h"
 #import "OBATextFieldTableViewCell.h"
-#import "OBAGenericStopViewController.h"
+#import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
 #import "OBABookmarkGroup.h"
 #import "OBAEditStopBookmarkGroupViewController.h"
@@ -33,41 +33,56 @@
 @property (nonatomic, strong) NSHashTable *requests;
 @property (nonatomic, strong) NSMutableDictionary *stops;
 @property (nonatomic, strong) UITextField *textField;
-
 @end
+
 @implementation OBAEditStopBookmarkViewController
+
+- (instancetype)initWithBookmark:(OBABookmarkV2 *)bookmark forStop:(OBAStopV2*)stop {
+    self = [super init];
+
+    if (self) {
+        OBABookmarkEditType editType = bookmark ? OBABookmarkEditExisting : OBABookmarkEditNew;
+        bookmark = bookmark ?: [[OBAApplication sharedApplication].modelDao createTransientBookmark:stop];
+
+        [self commonInitWithBookmark:bookmark editType:editType];
+    }
+    return self;
+}
 
 - (id)initWithBookmark:(OBABookmarkV2 *)bookmark editType:(OBABookmarkEditType)editType {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-        self.tableView.scrollEnabled = NO;
-
-        _bookmark = bookmark;
-        _selectedGroup = bookmark.group;
-        _editType = editType;
-
-        _requests = [NSHashTable weakObjectsHashTable];
-
-        _stops = [[NSMutableDictionary alloc] init];
-
-        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButton:)];
-        self.navigationItem.leftBarButtonItem = cancelButton;
-
-        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onSaveButton:)];
-        self.navigationItem.rightBarButtonItem = saveButton;
-
-        switch (_editType) {
-            case OBABookmarkEditNew:
-                self.navigationItem.title = NSLocalizedString(@"Add Bookmark", @"OBABookmarkEditNew");
-                break;
-
-            case OBABookmarkEditExisting:
-                self.navigationItem.title = NSLocalizedString(@"Edit Bookmark", @"OBABookmarkEditExisting");
-                break;
-        }
+        [self commonInitWithBookmark:bookmark editType:editType];
     }
 
     return self;
 }
+
+- (void)commonInitWithBookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType {
+    self.tableView.scrollEnabled = NO;
+
+    _bookmark = bookmark;
+    _selectedGroup = bookmark.group;
+    _editType = editType;
+
+    _requests = [NSHashTable weakObjectsHashTable];
+    _stops = [[NSMutableDictionary alloc] init];
+
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
+
+    switch (_editType) {
+        case OBABookmarkEditNew:
+            self.navigationItem.title = NSLocalizedString(@"Add Bookmark", @"OBABookmarkEditNew");
+            break;
+
+        case OBABookmarkEditExisting:
+            self.navigationItem.title = NSLocalizedString(@"Edit Bookmark", @"OBABookmarkEditExisting");
+            break;
+    }
+
+}
+
+#pragma mark - UIViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -92,7 +107,7 @@
     }];
 }
 
-#pragma mark - Table view methods
+#pragma mark - UITableView
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 3;
@@ -148,11 +163,13 @@
     self.selectedGroup = group;
 }
 
-- (IBAction)onCancelButton:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+#pragma mark - Actions
+
+- (void)cancel:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)onSaveButton:(id)sender {
+- (void)save:(id)sender {
     OBAModelDAO *dao = [OBAApplication sharedApplication].modelDao;
 
     self.bookmark.name = self.textField.text;
@@ -168,18 +185,7 @@
         [dao moveBookmark:self.bookmark toGroup:self.selectedGroup];
     }
 
-    // pop to stop view controller are saving settings
-    BOOL foundStopViewController = NO;
-
-    for (UIViewController *viewController in [self.navigationController viewControllers]) {
-        if ([viewController isKindOfClass:[OBAGenericStopViewController class]]) {
-            [self.navigationController popToViewController:viewController animated:YES];
-            foundStopViewController = YES;
-            break;
-        }
-    }
-
-    if (!foundStopViewController) [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
