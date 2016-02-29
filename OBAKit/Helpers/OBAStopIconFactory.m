@@ -1,51 +1,35 @@
+/**
+ * Copyright (C) 2009 bdferris <bdferris@onebusaway.org>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #import "OBAStopIconFactory.h"
 #import "OBARouteV2.h"
 
 @implementation OBAStopIconFactory
 
 + (UIImage *)getIconForStop:(OBAStopV2 *)stop {
-    return [self getIconForStop:stop includeDirection:YES];
-}
-
-+ (UIImage *)getIconForStop:(OBAStopV2 *)stop includeDirection:(BOOL)includeDirection {
     NSString *routeIconType = [self getRouteIconTypeForStop:stop];
     NSString *direction = @"";
 
-    if (includeDirection && stop.direction) {
+    if (stop.direction) {
         direction = stop.direction;
     }
 
     NSString *key = [NSString stringWithFormat:@"%@StopIcon%@", routeIconType, direction];
 
     return [UIImage imageNamed:key];
-}
-
-+ (UIImage *)getModeIconForRoute:(OBARouteV2 *)route {
-    return [self getModeIconForRoute:route selected:NO];
-}
-
-+ (UIImage *)getModeIconForRoute:(OBARouteV2 *)route selected:(BOOL)selected {
-    NSString *type = [self getRouteIconTypeForRoute:route];
-
-    return [self getModeIconForRouteIconType:type selected:selected];
-}
-
-+ (UIImage *)getModeIconForRouteIconType:(NSString *)routeType selected:(BOOL)selected {
-    NSString *format = selected ? @"Mode-%@-Selected" : @"Mode-%@";
-
-    return [UIImage imageNamed:[NSString stringWithFormat:format, routeType]];
-}
-
-+ (NSString *)getRouteIconTypeForRoutes:(NSArray *)routes {
-    NSMutableSet *routeTypes = [NSMutableSet set];
-
-    for (OBARouteV2 *route in routes) {
-        if (route.routeType) {
-            [routeTypes addObject:route.routeType];
-        }
-    }
-
-    return [self getRouteIconTypeForRouteTypes:routeTypes];
 }
 
 #pragma mark - Private
@@ -62,35 +46,19 @@
     return [self getRouteIconTypeForRouteTypes:routeTypes];
 }
 
+// TODO: what about "metro"?
 + (NSString *)getRouteIconTypeForRouteTypes:(NSSet *)routeTypes {
-    // Heay rail dominations
-    if ([routeTypes containsObject:@4]) {
+    if ([routeTypes containsObject:@(OBARouteTypeFerry)]) {
         return @"Ferry";
     }
-    else if ([routeTypes containsObject:@2]) {
+    else if ([routeTypes containsObject:@(OBARouteTypeTrain)]) {
         return @"Rail";
     }
-    else if ([routeTypes containsObject:@0]) {
+    else if ([routeTypes containsObject:@(OBARouteTypeLightRail)]) {
         return @"LightRail";
     }
     else {
         return @"Bus";
-    }
-}
-
-+ (NSString *)getRouteIconTypeForRoute:(OBARouteV2 *)route {
-    switch (route.routeType.integerValue) {
-        case 4:
-            return @"Ferry";
-
-        case 2:
-            return @"Rail";
-
-        case 0:
-            return @"LightRail";
-
-        default:
-            return @"Bus";
     }
 }
 

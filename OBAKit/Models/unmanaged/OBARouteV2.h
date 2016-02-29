@@ -3,6 +3,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, OBARouteType) {
+    OBARouteTypeLightRail = 0,
+    OBARouteTypeMetro = 1,
+    OBARouteTypeTrain = 2,
+    OBARouteTypeBus = 3,
+    OBARouteTypeFerry = 4,
+    OBARouteTypeUnknown = 999
+};
+
 @interface OBARouteV2 : OBAHasReferencesV2
 
 @property (nonatomic, strong) NSString * routeId;

@@ -13,9 +13,3 @@ typedef NS_ENUM(NSInteger, OBANavigationTargetType) {
     OBANavigationTargetTypeContactUs,
     OBANavigationTargetTypeAgencies,
 };
-
-typedef NS_ENUM(NSInteger, OBASearchViewType) {
-    OBASearchViewTypeByStop = 0,
-    OBASearchViewTypeByRoute,
-    OBASearchViewTypeByAddress,
-};

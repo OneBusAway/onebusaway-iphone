@@ -24,7 +24,10 @@
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 #define OBAGuard(CONDITION) \
-if (!CONDITION) { NSParameterAssert(CONDITION); } \
-if (CONDITION) {}
+    if (!CONDITION) { NSParameterAssert(CONDITION); } \
+    if (CONDITION) {}
+
+#define OBAGuardClass(object, typeName) \
+    OBAGuard([object isKindOfClass:[typeName class]])
 
 #endif /* OBAMacros_h */

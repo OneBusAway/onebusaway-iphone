@@ -43,11 +43,36 @@
 + (UIFont*)boldBodyFont;
 
 /**
- * Big, freeform title text. A 'headline,' if you will.
+ * The largest title font.
  */
-+ (UIFont*)headlineFont;
++ (UIFont*)titleFont;
+
+/**
+ * A smaller title font.
+ */
++ (UIFont*)subtitleFont;
+
 
 // Colors
+
+/**
+ Creates a UIColor with color values expressed in more typical 0-255 fashion.
+
+ @param red   Red component: 0-255.
+ @param green Green component: 0-255.
+ @param blue  Blue component: 0-255.
+ @param alpha Alpha component: 0-1.
+
+ @return A UIColor
+ */
++ (UIColor*)colorWithRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue alpha:(CGFloat)alpha;
+
+/**
+ The standard highlight color with a less-than-100% opacity. By default, this is a dark green color.
+
+ @return A UIColor.
+ */
++ (UIColor*)nonOpaquePrimaryColor;
 
 /**
  * The default background color for non-white pages. By default, this is a dark green color.
@@ -59,10 +84,25 @@
  */
 + (UIColor*)onTimeDepartureColor;
 
+/**
+ The text color used to indicate that the bus will depart early. Usually red.
+ */
++ (UIColor*)earlyDepartureColor;
+
+/**
+ The text color used to indicate that the bus will depart late. Usually blue.
+ */
++ (UIColor*)delayedDepartureColor;
+
 // Pixels (err, points)
 
 /**
  * The default vertical and horizontal padding in px.
  */
 + (CGFloat)defaultPadding;
+
+/**
+ The value of +[OBATheme defaultPadding] in the form of UIEdgeInsets.
+ */
++ (UIEdgeInsets)defaultEdgeInsets;
 @end

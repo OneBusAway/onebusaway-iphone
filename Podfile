@@ -9,7 +9,14 @@ pod 'TWSReleaseNotesView', '1.2.0'
 pod 'GoogleAnalytics-iOS-SDK', '3.11'
 pod 'libextobjc', '0.4.1'
 pod 'SVProgressHUD', '2.0-beta'
-pod 'PromiseKit', '3.0.2'
+#pod 'Masonry', '0.6.4'
+#pod 'DateTools', '1.7.0'
+
+# pod 'PromiseKit', '3.0.2'
+pod 'PromiseKit/CorePromise', '3.0.2'
+pod 'PromiseKit/CoreLocation', '3.0.2'
+pod 'PromiseKit/Foundation', '3.0.2'
+pod "PromiseKit/MapKit", '3.0.2'
 
 post_install do |installer_representation|
   installer_representation.pods_project.targets.each do |target|

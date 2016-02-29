@@ -482,7 +482,8 @@ static NSString * const kReferences = @"references";
     [self addSetPropertyRule:@"predictedDepartureTime" forPrefix:[self extendPrefix:prefix withValue:@"predictedDepartureTime"]];
     
     [self addSetPropertyRule:@"distanceFromStop" forPrefix:[self extendPrefix:prefix withValue:@"distanceFromStop"]];
-    
+    [self addSetPropertyRule:@"numberOfStopsAway" forPrefix:[self extendPrefix:prefix withValue:@"numberOfStopsAway"]];
+
     NSString * frequencyPrefix = [self extendPrefix:prefix withValue:@"frequency"];
     [self addFrequencyV2RulesWithPrefix:frequencyPrefix];
     [self addSetNext:@selector(setFrequency:) forPrefix:frequencyPrefix];
