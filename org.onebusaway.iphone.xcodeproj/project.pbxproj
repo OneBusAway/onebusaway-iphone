@@ -66,6 +66,152 @@
 		934446DA1AB12C5D005B3333 /* OBAProgressIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446D81AB12C5D005B3333 /* OBAProgressIndicatorView.m */; };
 		934522601C1BA976006F75BC /* OBATheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 9345225F1C1BA976006F75BC /* OBATheme.m */; };
 		93481B831C74173C007CCCC5 /* NSArray+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93481B821C74173C007CCCC5 /* NSArray+OBAAdditions.m */; };
+		934EA5611C84CD9200B60F06 /* OBACommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4C81C84CD9200B60F06 /* OBACommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5621C84CD9200B60F06 /* OBACommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4C91C84CD9200B60F06 /* OBACommon.m */; };
+		934EA5631C84CD9200B60F06 /* OBACommonV1.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4CA1C84CD9200B60F06 /* OBACommonV1.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5641C84CD9200B60F06 /* OBADateHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4CB1C84CD9200B60F06 /* OBADateHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5651C84CD9200B60F06 /* OBADateHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4CC1C84CD9200B60F06 /* OBADateHelpers.m */; };
+		934EA5661C84CD9200B60F06 /* OBALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4CD1C84CD9200B60F06 /* OBALogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5671C84CD9200B60F06 /* OBALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4CE1C84CD9200B60F06 /* OBALogger.m */; };
+		934EA5681C84CD9200B60F06 /* OBAMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4CF1C84CD9200B60F06 /* OBAMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5691C84CD9200B60F06 /* OBAPresentation.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4D01C84CD9200B60F06 /* OBAPresentation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA56A1C84CD9200B60F06 /* OBAPresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4D11C84CD9200B60F06 /* OBAPresentation.m */; };
+		934EA56B1C84CD9200B60F06 /* OBAStopIconFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4D21C84CD9200B60F06 /* OBAStopIconFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA56C1C84CD9200B60F06 /* OBAStopIconFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4D31C84CD9200B60F06 /* OBAStopIconFactory.m */; };
+		934EA56D1C84CD9200B60F06 /* OBAURLHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4D41C84CD9200B60F06 /* OBAURLHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA56E1C84CD9200B60F06 /* OBAURLHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4D51C84CD9200B60F06 /* OBAURLHelpers.m */; };
+		934EA56F1C84CD9200B60F06 /* OBALocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4D71C84CD9200B60F06 /* OBALocationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5701C84CD9200B60F06 /* OBALocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4D81C84CD9200B60F06 /* OBALocationManager.m */; };
+		934EA5711C84CD9200B60F06 /* OBAMapRegionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4D91C84CD9200B60F06 /* OBAMapRegionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5721C84CD9200B60F06 /* OBAMapRegionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4DA1C84CD9200B60F06 /* OBAMapRegionManager.m */; };
+		934EA5731C84CD9200B60F06 /* OBARegionChangeRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4DB1C84CD9200B60F06 /* OBARegionChangeRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5741C84CD9200B60F06 /* OBARegionChangeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4DC1C84CD9200B60F06 /* OBARegionChangeRequest.m */; };
+		934EA5751C84CD9200B60F06 /* OBASphericalGeometryLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4DD1C84CD9200B60F06 /* OBASphericalGeometryLibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5761C84CD9200B60F06 /* OBASphericalGeometryLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4DE1C84CD9200B60F06 /* OBASphericalGeometryLibrary.m */; };
+		934EA5771C84CD9200B60F06 /* OBAGenericAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4E11C84CD9200B60F06 /* OBAGenericAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5781C84CD9200B60F06 /* OBAGenericAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4E21C84CD9200B60F06 /* OBAGenericAnnotation.m */; };
+		934EA5791C84CD9200B60F06 /* OBANavigationTargetAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4E31C84CD9200B60F06 /* OBANavigationTargetAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA57A1C84CD9200B60F06 /* OBANavigationTargetAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4E41C84CD9200B60F06 /* OBANavigationTargetAnnotation.m */; };
+		934EA57B1C84CD9200B60F06 /* OBATripContinuationMapAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4E51C84CD9200B60F06 /* OBATripContinuationMapAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA57C1C84CD9200B60F06 /* OBATripContinuationMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4E61C84CD9200B60F06 /* OBATripContinuationMapAnnotation.m */; };
+		934EA57D1C84CD9200B60F06 /* OBATripStopTimeMapAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4E71C84CD9200B60F06 /* OBATripStopTimeMapAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA57E1C84CD9200B60F06 /* OBATripStopTimeMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4E81C84CD9200B60F06 /* OBATripStopTimeMapAnnotation.m */; };
+		934EA57F1C84CD9200B60F06 /* OBAVehicleMapAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4E91C84CD9200B60F06 /* OBAVehicleMapAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5801C84CD9200B60F06 /* OBAVehicleMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4EA1C84CD9200B60F06 /* OBAVehicleMapAnnotation.m */; };
+		934EA5811C84CD9200B60F06 /* OBAModelDAO.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4EC1C84CD9200B60F06 /* OBAModelDAO.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5821C84CD9200B60F06 /* OBAModelDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4ED1C84CD9200B60F06 /* OBAModelDAO.m */; };
+		934EA5831C84CD9200B60F06 /* OBAModelDAOUserPreferencesImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4EE1C84CD9200B60F06 /* OBAModelDAOUserPreferencesImpl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5841C84CD9200B60F06 /* OBAModelDAOUserPreferencesImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4EF1C84CD9200B60F06 /* OBAModelDAOUserPreferencesImpl.m */; };
+		934EA5851C84CD9200B60F06 /* OBACallMethodJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4F11C84CD9200B60F06 /* OBACallMethodJsonDigesterRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5861C84CD9200B60F06 /* OBACallMethodJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4F21C84CD9200B60F06 /* OBACallMethodJsonDigesterRule.m */; };
+		934EA5871C84CD9200B60F06 /* OBACreateObjectJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4F31C84CD9200B60F06 /* OBACreateObjectJsonDigesterRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5881C84CD9200B60F06 /* OBACreateObjectJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4F41C84CD9200B60F06 /* OBACreateObjectJsonDigesterRule.m */; };
+		934EA5891C84CD9200B60F06 /* OBAJsonDigester.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4F51C84CD9200B60F06 /* OBAJsonDigester.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA58A1C84CD9200B60F06 /* OBAJsonDigester.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4F61C84CD9200B60F06 /* OBAJsonDigester.m */; };
+		934EA58B1C84CD9200B60F06 /* OBASelectorJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4F71C84CD9200B60F06 /* OBASelectorJsonDigesterRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA58C1C84CD9200B60F06 /* OBASelectorJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4F81C84CD9200B60F06 /* OBASelectorJsonDigesterRule.m */; };
+		934EA58D1C84CD9200B60F06 /* OBASetCoordinatePropertyJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4F91C84CD9200B60F06 /* OBASetCoordinatePropertyJsonDigesterRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA58E1C84CD9200B60F06 /* OBASetCoordinatePropertyJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4FA1C84CD9200B60F06 /* OBASetCoordinatePropertyJsonDigesterRule.m */; };
+		934EA58F1C84CD9200B60F06 /* OBASetDatePropertyJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4FB1C84CD9200B60F06 /* OBASetDatePropertyJsonDigesterRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5901C84CD9200B60F06 /* OBASetDatePropertyJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4FC1C84CD9200B60F06 /* OBASetDatePropertyJsonDigesterRule.m */; };
+		934EA5911C84CD9200B60F06 /* OBASetLocationPropertyJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4FD1C84CD9200B60F06 /* OBASetLocationPropertyJsonDigesterRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5921C84CD9200B60F06 /* OBASetLocationPropertyJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA4FE1C84CD9200B60F06 /* OBASetLocationPropertyJsonDigesterRule.m */; };
+		934EA5931C84CD9200B60F06 /* OBASetNextOBAJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA4FF1C84CD9200B60F06 /* OBASetNextOBAJsonDigesterRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5941C84CD9200B60F06 /* OBASetNextOBAJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5001C84CD9200B60F06 /* OBASetNextOBAJsonDigesterRule.m */; };
+		934EA5951C84CD9200B60F06 /* OBASetPropertyJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5011C84CD9200B60F06 /* OBASetPropertyJsonDigesterRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5961C84CD9200B60F06 /* OBASetPropertyJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5021C84CD9200B60F06 /* OBASetPropertyJsonDigesterRule.m */; };
+		934EA5971C84CD9200B60F06 /* OBAProgressIndicatorSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5031C84CD9200B60F06 /* OBAProgressIndicatorSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5981C84CD9200B60F06 /* OBAAgencyV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5051C84CD9200B60F06 /* OBAAgencyV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5991C84CD9200B60F06 /* OBAAgencyV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5061C84CD9200B60F06 /* OBAAgencyV2.m */; };
+		934EA59A1C84CD9200B60F06 /* OBAAgencyWithCoverageV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5071C84CD9200B60F06 /* OBAAgencyWithCoverageV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA59B1C84CD9200B60F06 /* OBAAgencyWithCoverageV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5081C84CD9200B60F06 /* OBAAgencyWithCoverageV2.m */; };
+		934EA59C1C84CD9200B60F06 /* OBAArrivalAndDepartureInstanceRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5091C84CD9200B60F06 /* OBAArrivalAndDepartureInstanceRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA59D1C84CD9200B60F06 /* OBAArrivalAndDepartureInstanceRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA50A1C84CD9200B60F06 /* OBAArrivalAndDepartureInstanceRef.m */; };
+		934EA59E1C84CD9200B60F06 /* OBAArrivalAndDepartureV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA50B1C84CD9200B60F06 /* OBAArrivalAndDepartureV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA59F1C84CD9200B60F06 /* OBAArrivalAndDepartureV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA50C1C84CD9200B60F06 /* OBAArrivalAndDepartureV2.m */; };
+		934EA5A01C84CD9200B60F06 /* OBAArrivalsAndDeparturesForStopV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA50D1C84CD9200B60F06 /* OBAArrivalsAndDeparturesForStopV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5A11C84CD9200B60F06 /* OBAArrivalsAndDeparturesForStopV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA50E1C84CD9200B60F06 /* OBAArrivalsAndDeparturesForStopV2.m */; };
+		934EA5A21C84CD9200B60F06 /* OBABookmarkGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA50F1C84CD9200B60F06 /* OBABookmarkGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5A31C84CD9200B60F06 /* OBABookmarkGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5101C84CD9200B60F06 /* OBABookmarkGroup.m */; };
+		934EA5A41C84CD9200B60F06 /* OBABookmarkV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5111C84CD9200B60F06 /* OBABookmarkV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5A51C84CD9200B60F06 /* OBABookmarkV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5121C84CD9200B60F06 /* OBABookmarkV2.m */; };
+		934EA5A61C84CD9200B60F06 /* OBACoordinateBounds.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5131C84CD9200B60F06 /* OBACoordinateBounds.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5A71C84CD9200B60F06 /* OBACoordinateBounds.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5141C84CD9200B60F06 /* OBACoordinateBounds.m */; };
+		934EA5A81C84CD9200B60F06 /* OBACurrentVehicleEstimateV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5151C84CD9200B60F06 /* OBACurrentVehicleEstimateV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5A91C84CD9200B60F06 /* OBACurrentVehicleEstimateV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5161C84CD9200B60F06 /* OBACurrentVehicleEstimateV2.m */; };
+		934EA5AA1C84CD9200B60F06 /* OBAEntryWithReferencesV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5171C84CD9200B60F06 /* OBAEntryWithReferencesV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5AB1C84CD9200B60F06 /* OBAEntryWithReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5181C84CD9200B60F06 /* OBAEntryWithReferencesV2.m */; };
+		934EA5AC1C84CD9200B60F06 /* OBAFrequencyV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5191C84CD9200B60F06 /* OBAFrequencyV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5AD1C84CD9200B60F06 /* OBAFrequencyV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA51A1C84CD9200B60F06 /* OBAFrequencyV2.m */; };
+		934EA5AE1C84CD9200B60F06 /* OBAHasReferencesV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA51B1C84CD9200B60F06 /* OBAHasReferencesV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5AF1C84CD9200B60F06 /* OBAHasReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA51C1C84CD9200B60F06 /* OBAHasReferencesV2.m */; };
+		934EA5B01C84CD9200B60F06 /* OBAListWithRangeAndReferencesV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA51D1C84CD9200B60F06 /* OBAListWithRangeAndReferencesV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5B11C84CD9200B60F06 /* OBAListWithRangeAndReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA51E1C84CD9200B60F06 /* OBAListWithRangeAndReferencesV2.m */; };
+		934EA5B21C84CD9200B60F06 /* OBANavigationTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA51F1C84CD9200B60F06 /* OBANavigationTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5B31C84CD9200B60F06 /* OBANavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5201C84CD9200B60F06 /* OBANavigationTarget.m */; };
+		934EA5B41C84CD9200B60F06 /* OBAPlacemark.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5211C84CD9200B60F06 /* OBAPlacemark.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5B51C84CD9200B60F06 /* OBAPlacemark.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5221C84CD9200B60F06 /* OBAPlacemark.m */; };
+		934EA5B61C84CD9200B60F06 /* OBAPlacemarks.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5231C84CD9200B60F06 /* OBAPlacemarks.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5B71C84CD9200B60F06 /* OBAPlacemarks.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5241C84CD9200B60F06 /* OBAPlacemarks.m */; };
+		934EA5B81C84CD9200B60F06 /* OBAReferencesV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5251C84CD9200B60F06 /* OBAReferencesV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5B91C84CD9200B60F06 /* OBAReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5261C84CD9200B60F06 /* OBAReferencesV2.m */; };
+		934EA5BA1C84CD9200B60F06 /* OBARegionBoundsV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5271C84CD9200B60F06 /* OBARegionBoundsV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5BB1C84CD9200B60F06 /* OBARegionBoundsV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5281C84CD9200B60F06 /* OBARegionBoundsV2.m */; };
+		934EA5BC1C84CD9200B60F06 /* OBARegionV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5291C84CD9200B60F06 /* OBARegionV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5BD1C84CD9200B60F06 /* OBARegionV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA52A1C84CD9200B60F06 /* OBARegionV2.m */; };
+		934EA5BE1C84CD9200B60F06 /* OBAReportProblemWithStopV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA52B1C84CD9200B60F06 /* OBAReportProblemWithStopV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5BF1C84CD9200B60F06 /* OBAReportProblemWithStopV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA52C1C84CD9200B60F06 /* OBAReportProblemWithStopV2.m */; };
+		934EA5C01C84CD9200B60F06 /* OBAReportProblemWithTripV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA52D1C84CD9200B60F06 /* OBAReportProblemWithTripV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5C11C84CD9200B60F06 /* OBAReportProblemWithTripV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA52E1C84CD9200B60F06 /* OBAReportProblemWithTripV2.m */; };
+		934EA5C21C84CD9200B60F06 /* OBARouteV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA52F1C84CD9200B60F06 /* OBARouteV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5C31C84CD9200B60F06 /* OBARouteV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5301C84CD9200B60F06 /* OBARouteV2.m */; };
+		934EA5C41C84CD9200B60F06 /* OBASearch.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5311C84CD9200B60F06 /* OBASearch.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5C51C84CD9200B60F06 /* OBASearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5321C84CD9200B60F06 /* OBASearch.m */; };
+		934EA5C61C84CD9200B60F06 /* OBASearchResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5331C84CD9200B60F06 /* OBASearchResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5C71C84CD9200B60F06 /* OBASearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5341C84CD9200B60F06 /* OBASearchResult.m */; };
+		934EA5C81C84CD9200B60F06 /* OBAServiceAlertsModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5351C84CD9200B60F06 /* OBAServiceAlertsModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5C91C84CD9200B60F06 /* OBAServiceAlertsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5361C84CD9200B60F06 /* OBAServiceAlertsModel.m */; };
+		934EA5CA1C84CD9200B60F06 /* OBASituationConsequenceV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5371C84CD9200B60F06 /* OBASituationConsequenceV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5CB1C84CD9200B60F06 /* OBASituationConsequenceV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5381C84CD9200B60F06 /* OBASituationConsequenceV2.m */; };
+		934EA5CC1C84CD9200B60F06 /* OBASituationV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5391C84CD9200B60F06 /* OBASituationV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5CD1C84CD9200B60F06 /* OBASituationV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA53A1C84CD9200B60F06 /* OBASituationV2.m */; };
+		934EA5CE1C84CD9200B60F06 /* OBAStopAccessEventV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA53B1C84CD9200B60F06 /* OBAStopAccessEventV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5CF1C84CD9200B60F06 /* OBAStopAccessEventV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA53C1C84CD9200B60F06 /* OBAStopAccessEventV2.m */; };
+		934EA5D01C84CD9200B60F06 /* OBAStopPreferencesV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA53D1C84CD9200B60F06 /* OBAStopPreferencesV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5D11C84CD9200B60F06 /* OBAStopPreferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA53E1C84CD9200B60F06 /* OBAStopPreferencesV2.m */; };
+		934EA5D21C84CD9200B60F06 /* OBAStopsForRouteV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA53F1C84CD9200B60F06 /* OBAStopsForRouteV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5D31C84CD9200B60F06 /* OBAStopsForRouteV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5401C84CD9200B60F06 /* OBAStopsForRouteV2.m */; };
+		934EA5D41C84CD9200B60F06 /* OBAStopV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5411C84CD9200B60F06 /* OBAStopV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5D51C84CD9200B60F06 /* OBAStopV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5421C84CD9200B60F06 /* OBAStopV2.m */; };
+		934EA5D61C84CD9200B60F06 /* OBATripDetailsV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5431C84CD9200B60F06 /* OBATripDetailsV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5D71C84CD9200B60F06 /* OBATripDetailsV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5441C84CD9200B60F06 /* OBATripDetailsV2.m */; };
+		934EA5D81C84CD9200B60F06 /* OBATripInstanceRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5451C84CD9200B60F06 /* OBATripInstanceRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5D91C84CD9200B60F06 /* OBATripInstanceRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5461C84CD9200B60F06 /* OBATripInstanceRef.m */; };
+		934EA5DA1C84CD9200B60F06 /* OBATripScheduleV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5471C84CD9200B60F06 /* OBATripScheduleV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5DB1C84CD9200B60F06 /* OBATripScheduleV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5481C84CD9200B60F06 /* OBATripScheduleV2.m */; };
+		934EA5DC1C84CD9200B60F06 /* OBATripStatusV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5491C84CD9200B60F06 /* OBATripStatusV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5DD1C84CD9200B60F06 /* OBATripStatusV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA54A1C84CD9200B60F06 /* OBATripStatusV2.m */; };
+		934EA5DE1C84CD9200B60F06 /* OBATripStopTimeV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA54B1C84CD9200B60F06 /* OBATripStopTimeV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5DF1C84CD9200B60F06 /* OBATripStopTimeV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA54C1C84CD9200B60F06 /* OBATripStopTimeV2.m */; };
+		934EA5E01C84CD9200B60F06 /* OBATripV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA54D1C84CD9200B60F06 /* OBATripV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5E11C84CD9200B60F06 /* OBATripV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA54E1C84CD9200B60F06 /* OBATripV2.m */; };
+		934EA5E21C84CD9200B60F06 /* OBAVehicleStatusV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA54F1C84CD9200B60F06 /* OBAVehicleStatusV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5E31C84CD9200B60F06 /* OBAVehicleStatusV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5501C84CD9200B60F06 /* OBAVehicleStatusV2.m */; };
+		934EA5E41C84CD9200B60F06 /* OBAApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5511C84CD9200B60F06 /* OBAApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5E51C84CD9200B60F06 /* OBAApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5521C84CD9200B60F06 /* OBAApplication.m */; };
+		934EA5E61C84CD9200B60F06 /* JsonUrlFetcherImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5541C84CD9200B60F06 /* JsonUrlFetcherImpl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5E71C84CD9200B60F06 /* JsonUrlFetcherImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5551C84CD9200B60F06 /* JsonUrlFetcherImpl.m */; };
+		934EA5E81C84CD9200B60F06 /* OBADataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5561C84CD9200B60F06 /* OBADataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5E91C84CD9200B60F06 /* OBADataSourceConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5571C84CD9200B60F06 /* OBADataSourceConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5EA1C84CD9200B60F06 /* OBADataSourceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5581C84CD9200B60F06 /* OBADataSourceConfig.m */; };
+		934EA5EB1C84CD9200B60F06 /* OBAJsonDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA5591C84CD9200B60F06 /* OBAJsonDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5EC1C84CD9200B60F06 /* OBAJsonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA55A1C84CD9200B60F06 /* OBAJsonDataSource.m */; };
+		934EA5ED1C84CD9200B60F06 /* OBAModelFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA55B1C84CD9200B60F06 /* OBAModelFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5EE1C84CD9200B60F06 /* OBAModelFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA55C1C84CD9200B60F06 /* OBAModelFactory.m */; };
+		934EA5EF1C84CD9200B60F06 /* OBAModelService.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA55D1C84CD9200B60F06 /* OBAModelService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5F01C84CD9200B60F06 /* OBAModelService.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA55E1C84CD9200B60F06 /* OBAModelService.m */; };
+		934EA5F11C84CD9200B60F06 /* OBAModelServiceRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 934EA55F1C84CD9200B60F06 /* OBAModelServiceRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934EA5F21C84CD9200B60F06 /* OBAModelServiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 934EA5601C84CD9200B60F06 /* OBAModelServiceRequest.m */; };
 		93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */; };
 		936D2EDB1C78D7140060B7E1 /* OBADataSourceConfig_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D2EDA1C78D7140060B7E1 /* OBADataSourceConfig_Tests.m */; };
 		936D2EDD1C78D7300060B7E1 /* OBAURLHelpers_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D2EDC1C78D7300060B7E1 /* OBAURLHelpers_Tests.m */; };
@@ -75,152 +221,6 @@
 		936F45001C780E7600C61656 /* OBAKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44FF1C780E7600C61656 /* OBAKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		936F45121C780E7600C61656 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936F44FD1C780E7600C61656 /* OBAKit.framework */; };
 		936F45131C780E7600C61656 /* OBAKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 936F44FD1C780E7600C61656 /* OBAKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		936F451F1C780F6B00C61656 /* OBACommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44191C78015200C61656 /* OBACommon.m */; };
-		936F45201C780F7A00C61656 /* OBADateHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F441C1C78015200C61656 /* OBADateHelpers.m */; };
-		936F45211C780F7A00C61656 /* OBALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F441E1C78015200C61656 /* OBALogger.m */; };
-		936F45221C780F7A00C61656 /* OBAPresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44211C78015200C61656 /* OBAPresentation.m */; };
-		936F45231C780F7A00C61656 /* OBAStopIconFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44231C78015200C61656 /* OBAStopIconFactory.m */; };
-		936F45241C780F7A00C61656 /* OBAURLHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44251C78015200C61656 /* OBAURLHelpers.m */; };
-		936F45251C780F8900C61656 /* OBALocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44281C78015200C61656 /* OBALocationManager.m */; };
-		936F45261C780F8900C61656 /* OBAMapRegionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F442A1C78015200C61656 /* OBAMapRegionManager.m */; };
-		936F45271C780F8900C61656 /* OBARegionChangeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F442C1C78015200C61656 /* OBARegionChangeRequest.m */; };
-		936F45281C780F8900C61656 /* OBASphericalGeometryLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F442E1C78015200C61656 /* OBASphericalGeometryLibrary.m */; };
-		936F45291C780F9A00C61656 /* OBAGenericAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44321C78015200C61656 /* OBAGenericAnnotation.m */; };
-		936F452A1C780F9A00C61656 /* OBANavigationTargetAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44341C78015200C61656 /* OBANavigationTargetAnnotation.m */; };
-		936F452B1C780F9A00C61656 /* OBATripContinuationMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44361C78015200C61656 /* OBATripContinuationMapAnnotation.m */; };
-		936F452C1C780F9A00C61656 /* OBATripStopTimeMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44381C78015200C61656 /* OBATripStopTimeMapAnnotation.m */; };
-		936F452D1C780F9A00C61656 /* OBAVehicleMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F443A1C78015200C61656 /* OBAVehicleMapAnnotation.m */; };
-		936F452E1C780FA200C61656 /* OBAModelDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F443D1C78015200C61656 /* OBAModelDAO.m */; };
-		936F452F1C780FA200C61656 /* OBAModelDAOUserPreferencesImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F443F1C78015200C61656 /* OBAModelDAOUserPreferencesImpl.m */; };
-		936F45301C780FB900C61656 /* OBACallMethodJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44421C78015200C61656 /* OBACallMethodJsonDigesterRule.m */; };
-		936F45311C780FB900C61656 /* OBACreateObjectJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44441C78015200C61656 /* OBACreateObjectJsonDigesterRule.m */; };
-		936F45321C780FB900C61656 /* OBAJsonDigester.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44461C78015200C61656 /* OBAJsonDigester.m */; };
-		936F45331C780FB900C61656 /* OBASelectorJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44481C78015200C61656 /* OBASelectorJsonDigesterRule.m */; };
-		936F45341C780FB900C61656 /* OBASetCoordinatePropertyJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F444A1C78015200C61656 /* OBASetCoordinatePropertyJsonDigesterRule.m */; };
-		936F45351C780FB900C61656 /* OBASetDatePropertyJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F444C1C78015200C61656 /* OBASetDatePropertyJsonDigesterRule.m */; };
-		936F45361C780FB900C61656 /* OBASetLocationPropertyJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F444E1C78015200C61656 /* OBASetLocationPropertyJsonDigesterRule.m */; };
-		936F45371C780FB900C61656 /* OBASetNextOBAJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44501C78015200C61656 /* OBASetNextOBAJsonDigesterRule.m */; };
-		936F45381C780FB900C61656 /* OBASetPropertyJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44521C78015200C61656 /* OBASetPropertyJsonDigesterRule.m */; };
-		936F45391C780FEB00C61656 /* OBAAgencyV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44561C78015200C61656 /* OBAAgencyV2.m */; };
-		936F453A1C780FEB00C61656 /* OBAAgencyWithCoverageV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44581C78015200C61656 /* OBAAgencyWithCoverageV2.m */; };
-		936F453B1C780FEB00C61656 /* OBAArrivalAndDepartureInstanceRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F445A1C78015200C61656 /* OBAArrivalAndDepartureInstanceRef.m */; };
-		936F453C1C780FEB00C61656 /* OBAArrivalAndDepartureV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F445C1C78015200C61656 /* OBAArrivalAndDepartureV2.m */; };
-		936F453D1C780FEB00C61656 /* OBAArrivalsAndDeparturesForStopV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F445E1C78015200C61656 /* OBAArrivalsAndDeparturesForStopV2.m */; };
-		936F453E1C780FEB00C61656 /* OBABookmarkGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44601C78015200C61656 /* OBABookmarkGroup.m */; };
-		936F453F1C780FEB00C61656 /* OBABookmarkV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44621C78015200C61656 /* OBABookmarkV2.m */; };
-		936F45401C780FEB00C61656 /* OBACoordinateBounds.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44641C78015200C61656 /* OBACoordinateBounds.m */; };
-		936F45411C780FEB00C61656 /* OBACurrentVehicleEstimateV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44661C78015200C61656 /* OBACurrentVehicleEstimateV2.m */; };
-		936F45421C780FEB00C61656 /* OBAEntryWithReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44681C78015200C61656 /* OBAEntryWithReferencesV2.m */; };
-		936F45431C780FEB00C61656 /* OBAFrequencyV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F446A1C78015200C61656 /* OBAFrequencyV2.m */; };
-		936F45441C780FEB00C61656 /* OBAHasReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F446C1C78015200C61656 /* OBAHasReferencesV2.m */; };
-		936F45451C780FEB00C61656 /* OBAListWithRangeAndReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F446E1C78015200C61656 /* OBAListWithRangeAndReferencesV2.m */; };
-		936F45461C780FEB00C61656 /* OBANavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44701C78015200C61656 /* OBANavigationTarget.m */; };
-		936F45471C780FEB00C61656 /* OBAPlacemark.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44721C78015200C61656 /* OBAPlacemark.m */; };
-		936F45481C780FEB00C61656 /* OBAPlacemarks.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44741C78015200C61656 /* OBAPlacemarks.m */; };
-		936F45491C780FEB00C61656 /* OBAReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44761C78015200C61656 /* OBAReferencesV2.m */; };
-		936F454A1C780FEB00C61656 /* OBARegionBoundsV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44781C78015200C61656 /* OBARegionBoundsV2.m */; };
-		936F454B1C780FEB00C61656 /* OBARegionV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F447A1C78015200C61656 /* OBARegionV2.m */; };
-		936F454C1C780FEB00C61656 /* OBAReportProblemWithStopV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F447C1C78015200C61656 /* OBAReportProblemWithStopV2.m */; };
-		936F454D1C780FEB00C61656 /* OBAReportProblemWithTripV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F447E1C78015200C61656 /* OBAReportProblemWithTripV2.m */; };
-		936F454E1C780FEB00C61656 /* OBARouteV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44801C78015200C61656 /* OBARouteV2.m */; };
-		936F454F1C780FEB00C61656 /* OBASearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44821C78015200C61656 /* OBASearch.m */; };
-		936F45501C780FEB00C61656 /* OBASearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44841C78015200C61656 /* OBASearchResult.m */; };
-		936F45511C780FEB00C61656 /* OBAServiceAlertsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44861C78015200C61656 /* OBAServiceAlertsModel.m */; };
-		936F45521C780FEB00C61656 /* OBASituationConsequenceV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44881C78015200C61656 /* OBASituationConsequenceV2.m */; };
-		936F45531C780FEB00C61656 /* OBASituationV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F448A1C78015200C61656 /* OBASituationV2.m */; };
-		936F45541C780FEB00C61656 /* OBAStopAccessEventV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F448C1C78015200C61656 /* OBAStopAccessEventV2.m */; };
-		936F45551C780FEB00C61656 /* OBAStopPreferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F448E1C78015200C61656 /* OBAStopPreferencesV2.m */; };
-		936F45561C780FEB00C61656 /* OBAStopsForRouteV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44901C78015200C61656 /* OBAStopsForRouteV2.m */; };
-		936F45571C780FEB00C61656 /* OBAStopV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44921C78015200C61656 /* OBAStopV2.m */; };
-		936F45581C780FEB00C61656 /* OBATripDetailsV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44941C78015200C61656 /* OBATripDetailsV2.m */; };
-		936F45591C780FEB00C61656 /* OBATripInstanceRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44961C78015200C61656 /* OBATripInstanceRef.m */; };
-		936F455A1C780FEB00C61656 /* OBATripScheduleV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44981C78015200C61656 /* OBATripScheduleV2.m */; };
-		936F455B1C780FEB00C61656 /* OBATripStatusV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F449A1C78015200C61656 /* OBATripStatusV2.m */; };
-		936F455C1C780FEB00C61656 /* OBATripStopTimeV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F449C1C78015200C61656 /* OBATripStopTimeV2.m */; };
-		936F455D1C780FEB00C61656 /* OBATripV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F449E1C78015200C61656 /* OBATripV2.m */; };
-		936F455E1C780FEB00C61656 /* OBAVehicleStatusV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44A01C78015200C61656 /* OBAVehicleStatusV2.m */; };
-		936F455F1C780FF000C61656 /* OBAApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44A21C78015200C61656 /* OBAApplication.m */; };
-		936F45601C78100300C61656 /* JsonUrlFetcherImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44A51C78015200C61656 /* JsonUrlFetcherImpl.m */; };
-		936F45611C78100300C61656 /* OBADataSourceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44A81C78015200C61656 /* OBADataSourceConfig.m */; };
-		936F45621C78100300C61656 /* OBAJsonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44AA1C78015200C61656 /* OBAJsonDataSource.m */; };
-		936F45631C78100300C61656 /* OBAModelFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44AC1C78015200C61656 /* OBAModelFactory.m */; };
-		936F45641C78100300C61656 /* OBAModelService.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44AE1C78015200C61656 /* OBAModelService.m */; };
-		936F45651C78100300C61656 /* OBAModelServiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F44B01C78015200C61656 /* OBAModelServiceRequest.m */; };
-		936F45661C78367A00C61656 /* OBACommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44181C78015200C61656 /* OBACommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45671C78367A00C61656 /* OBACommonV1.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F441A1C78015200C61656 /* OBACommonV1.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45681C78367A00C61656 /* OBADateHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F441B1C78015200C61656 /* OBADateHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45691C78367A00C61656 /* OBALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F441D1C78015200C61656 /* OBALogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F456A1C78367A00C61656 /* OBAMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F441F1C78015200C61656 /* OBAMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F456B1C78367A00C61656 /* OBAPresentation.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44201C78015200C61656 /* OBAPresentation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F456C1C78367A00C61656 /* OBAStopIconFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44221C78015200C61656 /* OBAStopIconFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F456D1C78367A00C61656 /* OBAURLHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44241C78015200C61656 /* OBAURLHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F456E1C78368E00C61656 /* OBALocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44271C78015200C61656 /* OBALocationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F456F1C78368E00C61656 /* OBAMapRegionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44291C78015200C61656 /* OBAMapRegionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45701C78368E00C61656 /* OBARegionChangeRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F442B1C78015200C61656 /* OBARegionChangeRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45711C78368E00C61656 /* OBASphericalGeometryLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F442D1C78015200C61656 /* OBASphericalGeometryLibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45721C7836A800C61656 /* OBAGenericAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44311C78015200C61656 /* OBAGenericAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45731C7836A800C61656 /* OBANavigationTargetAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44331C78015200C61656 /* OBANavigationTargetAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45741C7836A800C61656 /* OBATripContinuationMapAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44351C78015200C61656 /* OBATripContinuationMapAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45751C7836A800C61656 /* OBATripStopTimeMapAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44371C78015200C61656 /* OBATripStopTimeMapAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45761C7836A800C61656 /* OBAVehicleMapAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44391C78015200C61656 /* OBAVehicleMapAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45771C7836BB00C61656 /* OBAModelDAO.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F443C1C78015200C61656 /* OBAModelDAO.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45781C7836BB00C61656 /* OBAModelDAOUserPreferencesImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F443E1C78015200C61656 /* OBAModelDAOUserPreferencesImpl.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45791C7836E400C61656 /* OBACallMethodJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44411C78015200C61656 /* OBACallMethodJsonDigesterRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F457A1C7836E400C61656 /* OBACreateObjectJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44431C78015200C61656 /* OBACreateObjectJsonDigesterRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F457B1C7836E400C61656 /* OBAJsonDigester.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44451C78015200C61656 /* OBAJsonDigester.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F457C1C7836E400C61656 /* OBASelectorJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44471C78015200C61656 /* OBASelectorJsonDigesterRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F457D1C7836E400C61656 /* OBASetCoordinatePropertyJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44491C78015200C61656 /* OBASetCoordinatePropertyJsonDigesterRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F457E1C7836E400C61656 /* OBASetDatePropertyJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F444B1C78015200C61656 /* OBASetDatePropertyJsonDigesterRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F457F1C7836E400C61656 /* OBASetLocationPropertyJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F444D1C78015200C61656 /* OBASetLocationPropertyJsonDigesterRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45801C7836E400C61656 /* OBASetNextOBAJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F444F1C78015200C61656 /* OBASetNextOBAJsonDigesterRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45811C7836E400C61656 /* OBASetPropertyJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44511C78015200C61656 /* OBASetPropertyJsonDigesterRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45821C7836E400C61656 /* OBAProgressIndicatorSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44531C78015200C61656 /* OBAProgressIndicatorSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45831C7836F600C61656 /* OBAApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44A11C78015200C61656 /* OBAApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45841C78373400C61656 /* OBAAgencyV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44551C78015200C61656 /* OBAAgencyV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45851C78373400C61656 /* OBAAgencyWithCoverageV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44571C78015200C61656 /* OBAAgencyWithCoverageV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45861C78373400C61656 /* OBAArrivalAndDepartureInstanceRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44591C78015200C61656 /* OBAArrivalAndDepartureInstanceRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45871C78373400C61656 /* OBAArrivalAndDepartureV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F445B1C78015200C61656 /* OBAArrivalAndDepartureV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45881C78373400C61656 /* OBAArrivalsAndDeparturesForStopV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F445D1C78015200C61656 /* OBAArrivalsAndDeparturesForStopV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45891C78373400C61656 /* OBABookmarkGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F445F1C78015200C61656 /* OBABookmarkGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F458A1C78373400C61656 /* OBABookmarkV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44611C78015200C61656 /* OBABookmarkV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F458B1C78373400C61656 /* OBACoordinateBounds.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44631C78015200C61656 /* OBACoordinateBounds.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F458C1C78373400C61656 /* OBACurrentVehicleEstimateV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44651C78015200C61656 /* OBACurrentVehicleEstimateV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F458D1C78373400C61656 /* OBAEntryWithReferencesV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44671C78015200C61656 /* OBAEntryWithReferencesV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F458E1C78373400C61656 /* OBAFrequencyV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44691C78015200C61656 /* OBAFrequencyV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F458F1C78373400C61656 /* OBAHasReferencesV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F446B1C78015200C61656 /* OBAHasReferencesV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45901C78373400C61656 /* OBAListWithRangeAndReferencesV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F446D1C78015200C61656 /* OBAListWithRangeAndReferencesV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45911C78373400C61656 /* OBANavigationTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F446F1C78015200C61656 /* OBANavigationTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45921C78373400C61656 /* OBAPlacemark.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44711C78015200C61656 /* OBAPlacemark.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45931C78373400C61656 /* OBAPlacemarks.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44731C78015200C61656 /* OBAPlacemarks.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45941C78373400C61656 /* OBAReferencesV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44751C78015200C61656 /* OBAReferencesV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45951C78373400C61656 /* OBARegionBoundsV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44771C78015200C61656 /* OBARegionBoundsV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45961C78373400C61656 /* OBARegionV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44791C78015200C61656 /* OBARegionV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45971C78373500C61656 /* OBAReportProblemWithStopV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F447B1C78015200C61656 /* OBAReportProblemWithStopV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45981C78373500C61656 /* OBAReportProblemWithTripV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F447D1C78015200C61656 /* OBAReportProblemWithTripV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45991C78373500C61656 /* OBARouteV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F447F1C78015200C61656 /* OBARouteV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F459A1C78373500C61656 /* OBASearch.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44811C78015200C61656 /* OBASearch.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F459B1C78373500C61656 /* OBASearchResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44831C78015200C61656 /* OBASearchResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F459C1C78373500C61656 /* OBAServiceAlertsModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44851C78015200C61656 /* OBAServiceAlertsModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F459D1C78373500C61656 /* OBASituationConsequenceV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44871C78015200C61656 /* OBASituationConsequenceV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F459E1C78373500C61656 /* OBASituationV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44891C78015200C61656 /* OBASituationV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F459F1C78373500C61656 /* OBAStopAccessEventV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F448B1C78015200C61656 /* OBAStopAccessEventV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45A01C78373500C61656 /* OBAStopPreferencesV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F448D1C78015200C61656 /* OBAStopPreferencesV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45A11C78373500C61656 /* OBAStopsForRouteV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F448F1C78015200C61656 /* OBAStopsForRouteV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45A21C78373500C61656 /* OBAStopV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44911C78015200C61656 /* OBAStopV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45A31C78373500C61656 /* OBATripDetailsV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44931C78015200C61656 /* OBATripDetailsV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45A41C78373500C61656 /* OBATripInstanceRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44951C78015200C61656 /* OBATripInstanceRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45A51C78373500C61656 /* OBATripScheduleV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44971C78015200C61656 /* OBATripScheduleV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45A61C78373500C61656 /* OBATripStatusV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44991C78015200C61656 /* OBATripStatusV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45A71C78373500C61656 /* OBATripStopTimeV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F449B1C78015200C61656 /* OBATripStopTimeV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45A81C78373500C61656 /* OBATripV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F449D1C78015200C61656 /* OBATripV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45A91C78373500C61656 /* OBAVehicleStatusV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F449F1C78015200C61656 /* OBAVehicleStatusV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45AA1C78375500C61656 /* JsonUrlFetcherImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44A41C78015200C61656 /* JsonUrlFetcherImpl.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45AB1C78375500C61656 /* OBADataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44A61C78015200C61656 /* OBADataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45AC1C78375500C61656 /* OBADataSourceConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44A71C78015200C61656 /* OBADataSourceConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45AD1C78375500C61656 /* OBAJsonDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44A91C78015200C61656 /* OBAJsonDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45AE1C78375500C61656 /* OBAModelFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44AB1C78015200C61656 /* OBAModelFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45AF1C78375500C61656 /* OBAModelService.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44AD1C78015200C61656 /* OBAModelService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936F45B01C78375500C61656 /* OBAModelServiceRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44AF1C78015200C61656 /* OBAModelServiceRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		936F45DC1C78D06600C61656 /* OneBusAwayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F45DB1C78D06600C61656 /* OneBusAwayTests.m */; };
 		9388E9DD1A9BCC8900C9F6CE /* feedback_message_body.html in Resources */ = {isa = PBXBuildFile; fileRef = 9388E9DC1A9BCC8900C9F6CE /* feedback_message_body.html */; };
 		939E8E4D1C78DCB1008FCA4C /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939E8E4C1C78DCB1008FCA4C /* Pods.framework */; };
@@ -383,6 +383,152 @@
 		9345225F1C1BA976006F75BC /* OBATheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATheme.m; sourceTree = "<group>"; };
 		93481B811C74173C007CCCC5 /* NSArray+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OBAAdditions.h"; sourceTree = "<group>"; };
 		93481B821C74173C007CCCC5 /* NSArray+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+OBAAdditions.m"; sourceTree = "<group>"; };
+		934EA4C81C84CD9200B60F06 /* OBACommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACommon.h; sourceTree = "<group>"; };
+		934EA4C91C84CD9200B60F06 /* OBACommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACommon.m; sourceTree = "<group>"; };
+		934EA4CA1C84CD9200B60F06 /* OBACommonV1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACommonV1.h; sourceTree = "<group>"; };
+		934EA4CB1C84CD9200B60F06 /* OBADateHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADateHelpers.h; sourceTree = "<group>"; };
+		934EA4CC1C84CD9200B60F06 /* OBADateHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADateHelpers.m; sourceTree = "<group>"; };
+		934EA4CD1C84CD9200B60F06 /* OBALogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALogger.h; sourceTree = "<group>"; };
+		934EA4CE1C84CD9200B60F06 /* OBALogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALogger.m; sourceTree = "<group>"; };
+		934EA4CF1C84CD9200B60F06 /* OBAMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMacros.h; sourceTree = "<group>"; };
+		934EA4D01C84CD9200B60F06 /* OBAPresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAPresentation.h; sourceTree = "<group>"; };
+		934EA4D11C84CD9200B60F06 /* OBAPresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAPresentation.m; sourceTree = "<group>"; };
+		934EA4D21C84CD9200B60F06 /* OBAStopIconFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopIconFactory.h; sourceTree = "<group>"; };
+		934EA4D31C84CD9200B60F06 /* OBAStopIconFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopIconFactory.m; sourceTree = "<group>"; };
+		934EA4D41C84CD9200B60F06 /* OBAURLHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAURLHelpers.h; sourceTree = "<group>"; };
+		934EA4D51C84CD9200B60F06 /* OBAURLHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAURLHelpers.m; sourceTree = "<group>"; };
+		934EA4D71C84CD9200B60F06 /* OBALocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALocationManager.h; sourceTree = "<group>"; };
+		934EA4D81C84CD9200B60F06 /* OBALocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALocationManager.m; sourceTree = "<group>"; };
+		934EA4D91C84CD9200B60F06 /* OBAMapRegionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapRegionManager.h; sourceTree = "<group>"; };
+		934EA4DA1C84CD9200B60F06 /* OBAMapRegionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapRegionManager.m; sourceTree = "<group>"; };
+		934EA4DB1C84CD9200B60F06 /* OBARegionChangeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionChangeRequest.h; sourceTree = "<group>"; };
+		934EA4DC1C84CD9200B60F06 /* OBARegionChangeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionChangeRequest.m; sourceTree = "<group>"; };
+		934EA4DD1C84CD9200B60F06 /* OBASphericalGeometryLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASphericalGeometryLibrary.h; sourceTree = "<group>"; };
+		934EA4DE1C84CD9200B60F06 /* OBASphericalGeometryLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASphericalGeometryLibrary.m; sourceTree = "<group>"; };
+		934EA4E11C84CD9200B60F06 /* OBAGenericAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAGenericAnnotation.h; sourceTree = "<group>"; };
+		934EA4E21C84CD9200B60F06 /* OBAGenericAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAGenericAnnotation.m; sourceTree = "<group>"; };
+		934EA4E31C84CD9200B60F06 /* OBANavigationTargetAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTargetAnnotation.h; sourceTree = "<group>"; };
+		934EA4E41C84CD9200B60F06 /* OBANavigationTargetAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTargetAnnotation.m; sourceTree = "<group>"; };
+		934EA4E51C84CD9200B60F06 /* OBATripContinuationMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripContinuationMapAnnotation.h; sourceTree = "<group>"; };
+		934EA4E61C84CD9200B60F06 /* OBATripContinuationMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripContinuationMapAnnotation.m; sourceTree = "<group>"; };
+		934EA4E71C84CD9200B60F06 /* OBATripStopTimeMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripStopTimeMapAnnotation.h; sourceTree = "<group>"; };
+		934EA4E81C84CD9200B60F06 /* OBATripStopTimeMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripStopTimeMapAnnotation.m; sourceTree = "<group>"; };
+		934EA4E91C84CD9200B60F06 /* OBAVehicleMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAVehicleMapAnnotation.h; sourceTree = "<group>"; };
+		934EA4EA1C84CD9200B60F06 /* OBAVehicleMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAVehicleMapAnnotation.m; sourceTree = "<group>"; };
+		934EA4EC1C84CD9200B60F06 /* OBAModelDAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelDAO.h; sourceTree = "<group>"; };
+		934EA4ED1C84CD9200B60F06 /* OBAModelDAO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelDAO.m; sourceTree = "<group>"; };
+		934EA4EE1C84CD9200B60F06 /* OBAModelDAOUserPreferencesImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelDAOUserPreferencesImpl.h; sourceTree = "<group>"; };
+		934EA4EF1C84CD9200B60F06 /* OBAModelDAOUserPreferencesImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelDAOUserPreferencesImpl.m; sourceTree = "<group>"; };
+		934EA4F11C84CD9200B60F06 /* OBACallMethodJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACallMethodJsonDigesterRule.h; sourceTree = "<group>"; };
+		934EA4F21C84CD9200B60F06 /* OBACallMethodJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACallMethodJsonDigesterRule.m; sourceTree = "<group>"; };
+		934EA4F31C84CD9200B60F06 /* OBACreateObjectJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACreateObjectJsonDigesterRule.h; sourceTree = "<group>"; };
+		934EA4F41C84CD9200B60F06 /* OBACreateObjectJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACreateObjectJsonDigesterRule.m; sourceTree = "<group>"; };
+		934EA4F51C84CD9200B60F06 /* OBAJsonDigester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAJsonDigester.h; sourceTree = "<group>"; };
+		934EA4F61C84CD9200B60F06 /* OBAJsonDigester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAJsonDigester.m; sourceTree = "<group>"; };
+		934EA4F71C84CD9200B60F06 /* OBASelectorJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASelectorJsonDigesterRule.h; sourceTree = "<group>"; };
+		934EA4F81C84CD9200B60F06 /* OBASelectorJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASelectorJsonDigesterRule.m; sourceTree = "<group>"; };
+		934EA4F91C84CD9200B60F06 /* OBASetCoordinatePropertyJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetCoordinatePropertyJsonDigesterRule.h; sourceTree = "<group>"; };
+		934EA4FA1C84CD9200B60F06 /* OBASetCoordinatePropertyJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetCoordinatePropertyJsonDigesterRule.m; sourceTree = "<group>"; };
+		934EA4FB1C84CD9200B60F06 /* OBASetDatePropertyJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetDatePropertyJsonDigesterRule.h; sourceTree = "<group>"; };
+		934EA4FC1C84CD9200B60F06 /* OBASetDatePropertyJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetDatePropertyJsonDigesterRule.m; sourceTree = "<group>"; };
+		934EA4FD1C84CD9200B60F06 /* OBASetLocationPropertyJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetLocationPropertyJsonDigesterRule.h; sourceTree = "<group>"; };
+		934EA4FE1C84CD9200B60F06 /* OBASetLocationPropertyJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetLocationPropertyJsonDigesterRule.m; sourceTree = "<group>"; };
+		934EA4FF1C84CD9200B60F06 /* OBASetNextOBAJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetNextOBAJsonDigesterRule.h; sourceTree = "<group>"; };
+		934EA5001C84CD9200B60F06 /* OBASetNextOBAJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetNextOBAJsonDigesterRule.m; sourceTree = "<group>"; };
+		934EA5011C84CD9200B60F06 /* OBASetPropertyJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetPropertyJsonDigesterRule.h; sourceTree = "<group>"; };
+		934EA5021C84CD9200B60F06 /* OBASetPropertyJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetPropertyJsonDigesterRule.m; sourceTree = "<group>"; };
+		934EA5031C84CD9200B60F06 /* OBAProgressIndicatorSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAProgressIndicatorSource.h; sourceTree = "<group>"; };
+		934EA5051C84CD9200B60F06 /* OBAAgencyV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgencyV2.h; sourceTree = "<group>"; };
+		934EA5061C84CD9200B60F06 /* OBAAgencyV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAgencyV2.m; sourceTree = "<group>"; };
+		934EA5071C84CD9200B60F06 /* OBAAgencyWithCoverageV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgencyWithCoverageV2.h; sourceTree = "<group>"; };
+		934EA5081C84CD9200B60F06 /* OBAAgencyWithCoverageV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAgencyWithCoverageV2.m; sourceTree = "<group>"; };
+		934EA5091C84CD9200B60F06 /* OBAArrivalAndDepartureInstanceRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureInstanceRef.h; sourceTree = "<group>"; };
+		934EA50A1C84CD9200B60F06 /* OBAArrivalAndDepartureInstanceRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureInstanceRef.m; sourceTree = "<group>"; };
+		934EA50B1C84CD9200B60F06 /* OBAArrivalAndDepartureV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureV2.h; sourceTree = "<group>"; };
+		934EA50C1C84CD9200B60F06 /* OBAArrivalAndDepartureV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureV2.m; sourceTree = "<group>"; };
+		934EA50D1C84CD9200B60F06 /* OBAArrivalsAndDeparturesForStopV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalsAndDeparturesForStopV2.h; sourceTree = "<group>"; };
+		934EA50E1C84CD9200B60F06 /* OBAArrivalsAndDeparturesForStopV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalsAndDeparturesForStopV2.m; sourceTree = "<group>"; };
+		934EA50F1C84CD9200B60F06 /* OBABookmarkGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkGroup.h; sourceTree = "<group>"; };
+		934EA5101C84CD9200B60F06 /* OBABookmarkGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkGroup.m; sourceTree = "<group>"; };
+		934EA5111C84CD9200B60F06 /* OBABookmarkV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkV2.h; sourceTree = "<group>"; };
+		934EA5121C84CD9200B60F06 /* OBABookmarkV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkV2.m; sourceTree = "<group>"; };
+		934EA5131C84CD9200B60F06 /* OBACoordinateBounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACoordinateBounds.h; sourceTree = "<group>"; };
+		934EA5141C84CD9200B60F06 /* OBACoordinateBounds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACoordinateBounds.m; sourceTree = "<group>"; };
+		934EA5151C84CD9200B60F06 /* OBACurrentVehicleEstimateV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACurrentVehicleEstimateV2.h; sourceTree = "<group>"; };
+		934EA5161C84CD9200B60F06 /* OBACurrentVehicleEstimateV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACurrentVehicleEstimateV2.m; sourceTree = "<group>"; };
+		934EA5171C84CD9200B60F06 /* OBAEntryWithReferencesV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEntryWithReferencesV2.h; sourceTree = "<group>"; };
+		934EA5181C84CD9200B60F06 /* OBAEntryWithReferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEntryWithReferencesV2.m; sourceTree = "<group>"; };
+		934EA5191C84CD9200B60F06 /* OBAFrequencyV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAFrequencyV2.h; sourceTree = "<group>"; };
+		934EA51A1C84CD9200B60F06 /* OBAFrequencyV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAFrequencyV2.m; sourceTree = "<group>"; };
+		934EA51B1C84CD9200B60F06 /* OBAHasReferencesV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAHasReferencesV2.h; sourceTree = "<group>"; };
+		934EA51C1C84CD9200B60F06 /* OBAHasReferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAHasReferencesV2.m; sourceTree = "<group>"; };
+		934EA51D1C84CD9200B60F06 /* OBAListWithRangeAndReferencesV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAListWithRangeAndReferencesV2.h; sourceTree = "<group>"; };
+		934EA51E1C84CD9200B60F06 /* OBAListWithRangeAndReferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAListWithRangeAndReferencesV2.m; sourceTree = "<group>"; };
+		934EA51F1C84CD9200B60F06 /* OBANavigationTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTarget.h; sourceTree = "<group>"; };
+		934EA5201C84CD9200B60F06 /* OBANavigationTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTarget.m; sourceTree = "<group>"; };
+		934EA5211C84CD9200B60F06 /* OBAPlacemark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAPlacemark.h; sourceTree = "<group>"; };
+		934EA5221C84CD9200B60F06 /* OBAPlacemark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAPlacemark.m; sourceTree = "<group>"; };
+		934EA5231C84CD9200B60F06 /* OBAPlacemarks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAPlacemarks.h; sourceTree = "<group>"; };
+		934EA5241C84CD9200B60F06 /* OBAPlacemarks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAPlacemarks.m; sourceTree = "<group>"; };
+		934EA5251C84CD9200B60F06 /* OBAReferencesV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReferencesV2.h; sourceTree = "<group>"; };
+		934EA5261C84CD9200B60F06 /* OBAReferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReferencesV2.m; sourceTree = "<group>"; };
+		934EA5271C84CD9200B60F06 /* OBARegionBoundsV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionBoundsV2.h; sourceTree = "<group>"; };
+		934EA5281C84CD9200B60F06 /* OBARegionBoundsV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionBoundsV2.m; sourceTree = "<group>"; };
+		934EA5291C84CD9200B60F06 /* OBARegionV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionV2.h; sourceTree = "<group>"; };
+		934EA52A1C84CD9200B60F06 /* OBARegionV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionV2.m; sourceTree = "<group>"; };
+		934EA52B1C84CD9200B60F06 /* OBAReportProblemWithStopV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReportProblemWithStopV2.h; sourceTree = "<group>"; };
+		934EA52C1C84CD9200B60F06 /* OBAReportProblemWithStopV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReportProblemWithStopV2.m; sourceTree = "<group>"; };
+		934EA52D1C84CD9200B60F06 /* OBAReportProblemWithTripV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReportProblemWithTripV2.h; sourceTree = "<group>"; };
+		934EA52E1C84CD9200B60F06 /* OBAReportProblemWithTripV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReportProblemWithTripV2.m; sourceTree = "<group>"; };
+		934EA52F1C84CD9200B60F06 /* OBARouteV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARouteV2.h; sourceTree = "<group>"; };
+		934EA5301C84CD9200B60F06 /* OBARouteV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARouteV2.m; sourceTree = "<group>"; };
+		934EA5311C84CD9200B60F06 /* OBASearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearch.h; sourceTree = "<group>"; };
+		934EA5321C84CD9200B60F06 /* OBASearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearch.m; sourceTree = "<group>"; };
+		934EA5331C84CD9200B60F06 /* OBASearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchResult.h; sourceTree = "<group>"; };
+		934EA5341C84CD9200B60F06 /* OBASearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearchResult.m; sourceTree = "<group>"; };
+		934EA5351C84CD9200B60F06 /* OBAServiceAlertsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAServiceAlertsModel.h; sourceTree = "<group>"; };
+		934EA5361C84CD9200B60F06 /* OBAServiceAlertsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAServiceAlertsModel.m; sourceTree = "<group>"; };
+		934EA5371C84CD9200B60F06 /* OBASituationConsequenceV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASituationConsequenceV2.h; sourceTree = "<group>"; };
+		934EA5381C84CD9200B60F06 /* OBASituationConsequenceV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASituationConsequenceV2.m; sourceTree = "<group>"; };
+		934EA5391C84CD9200B60F06 /* OBASituationV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASituationV2.h; sourceTree = "<group>"; };
+		934EA53A1C84CD9200B60F06 /* OBASituationV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASituationV2.m; sourceTree = "<group>"; };
+		934EA53B1C84CD9200B60F06 /* OBAStopAccessEventV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopAccessEventV2.h; sourceTree = "<group>"; };
+		934EA53C1C84CD9200B60F06 /* OBAStopAccessEventV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopAccessEventV2.m; sourceTree = "<group>"; };
+		934EA53D1C84CD9200B60F06 /* OBAStopPreferencesV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopPreferencesV2.h; sourceTree = "<group>"; };
+		934EA53E1C84CD9200B60F06 /* OBAStopPreferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopPreferencesV2.m; sourceTree = "<group>"; };
+		934EA53F1C84CD9200B60F06 /* OBAStopsForRouteV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopsForRouteV2.h; sourceTree = "<group>"; };
+		934EA5401C84CD9200B60F06 /* OBAStopsForRouteV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopsForRouteV2.m; sourceTree = "<group>"; };
+		934EA5411C84CD9200B60F06 /* OBAStopV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopV2.h; sourceTree = "<group>"; };
+		934EA5421C84CD9200B60F06 /* OBAStopV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopV2.m; sourceTree = "<group>"; };
+		934EA5431C84CD9200B60F06 /* OBATripDetailsV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripDetailsV2.h; sourceTree = "<group>"; };
+		934EA5441C84CD9200B60F06 /* OBATripDetailsV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripDetailsV2.m; sourceTree = "<group>"; };
+		934EA5451C84CD9200B60F06 /* OBATripInstanceRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripInstanceRef.h; sourceTree = "<group>"; };
+		934EA5461C84CD9200B60F06 /* OBATripInstanceRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripInstanceRef.m; sourceTree = "<group>"; };
+		934EA5471C84CD9200B60F06 /* OBATripScheduleV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripScheduleV2.h; sourceTree = "<group>"; };
+		934EA5481C84CD9200B60F06 /* OBATripScheduleV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripScheduleV2.m; sourceTree = "<group>"; };
+		934EA5491C84CD9200B60F06 /* OBATripStatusV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripStatusV2.h; sourceTree = "<group>"; };
+		934EA54A1C84CD9200B60F06 /* OBATripStatusV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripStatusV2.m; sourceTree = "<group>"; };
+		934EA54B1C84CD9200B60F06 /* OBATripStopTimeV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripStopTimeV2.h; sourceTree = "<group>"; };
+		934EA54C1C84CD9200B60F06 /* OBATripStopTimeV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripStopTimeV2.m; sourceTree = "<group>"; };
+		934EA54D1C84CD9200B60F06 /* OBATripV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripV2.h; sourceTree = "<group>"; };
+		934EA54E1C84CD9200B60F06 /* OBATripV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripV2.m; sourceTree = "<group>"; };
+		934EA54F1C84CD9200B60F06 /* OBAVehicleStatusV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAVehicleStatusV2.h; sourceTree = "<group>"; };
+		934EA5501C84CD9200B60F06 /* OBAVehicleStatusV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAVehicleStatusV2.m; sourceTree = "<group>"; };
+		934EA5511C84CD9200B60F06 /* OBAApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAApplication.h; sourceTree = "<group>"; };
+		934EA5521C84CD9200B60F06 /* OBAApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAApplication.m; sourceTree = "<group>"; };
+		934EA5541C84CD9200B60F06 /* JsonUrlFetcherImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonUrlFetcherImpl.h; sourceTree = "<group>"; };
+		934EA5551C84CD9200B60F06 /* JsonUrlFetcherImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JsonUrlFetcherImpl.m; sourceTree = "<group>"; };
+		934EA5561C84CD9200B60F06 /* OBADataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADataSource.h; sourceTree = "<group>"; };
+		934EA5571C84CD9200B60F06 /* OBADataSourceConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADataSourceConfig.h; sourceTree = "<group>"; };
+		934EA5581C84CD9200B60F06 /* OBADataSourceConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADataSourceConfig.m; sourceTree = "<group>"; };
+		934EA5591C84CD9200B60F06 /* OBAJsonDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAJsonDataSource.h; sourceTree = "<group>"; };
+		934EA55A1C84CD9200B60F06 /* OBAJsonDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAJsonDataSource.m; sourceTree = "<group>"; };
+		934EA55B1C84CD9200B60F06 /* OBAModelFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelFactory.h; sourceTree = "<group>"; };
+		934EA55C1C84CD9200B60F06 /* OBAModelFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelFactory.m; sourceTree = "<group>"; };
+		934EA55D1C84CD9200B60F06 /* OBAModelService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelService.h; sourceTree = "<group>"; };
+		934EA55E1C84CD9200B60F06 /* OBAModelService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelService.m; sourceTree = "<group>"; };
+		934EA55F1C84CD9200B60F06 /* OBAModelServiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelServiceRequest.h; sourceTree = "<group>"; };
+		934EA5601C84CD9200B60F06 /* OBAModelServiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelServiceRequest.m; sourceTree = "<group>"; };
 		93631E4A1604F96800CB7209 /* OBAApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAApplicationDelegate.h; sourceTree = "<group>"; };
 		93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAApplicationDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		936D2EDA1C78D7140060B7E1 /* OBADataSourceConfig_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADataSourceConfig_Tests.m; sourceTree = "<group>"; };
@@ -393,152 +539,6 @@
 		936D3EBC1C14E83200091DC9 /* OBATableRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableRow.m; sourceTree = "<group>"; };
 		936D3EBE1C14E94900091DC9 /* OBAStaticTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStaticTableViewController.h; sourceTree = "<group>"; };
 		936D3EBF1C14E94900091DC9 /* OBAStaticTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStaticTableViewController.m; sourceTree = "<group>"; };
-		936F44181C78015200C61656 /* OBACommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACommon.h; sourceTree = "<group>"; };
-		936F44191C78015200C61656 /* OBACommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACommon.m; sourceTree = "<group>"; };
-		936F441A1C78015200C61656 /* OBACommonV1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACommonV1.h; sourceTree = "<group>"; };
-		936F441B1C78015200C61656 /* OBADateHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADateHelpers.h; sourceTree = "<group>"; };
-		936F441C1C78015200C61656 /* OBADateHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADateHelpers.m; sourceTree = "<group>"; };
-		936F441D1C78015200C61656 /* OBALogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALogger.h; sourceTree = "<group>"; };
-		936F441E1C78015200C61656 /* OBALogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALogger.m; sourceTree = "<group>"; };
-		936F441F1C78015200C61656 /* OBAMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMacros.h; sourceTree = "<group>"; };
-		936F44201C78015200C61656 /* OBAPresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAPresentation.h; sourceTree = "<group>"; };
-		936F44211C78015200C61656 /* OBAPresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAPresentation.m; sourceTree = "<group>"; };
-		936F44221C78015200C61656 /* OBAStopIconFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopIconFactory.h; sourceTree = "<group>"; };
-		936F44231C78015200C61656 /* OBAStopIconFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopIconFactory.m; sourceTree = "<group>"; };
-		936F44241C78015200C61656 /* OBAURLHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAURLHelpers.h; sourceTree = "<group>"; };
-		936F44251C78015200C61656 /* OBAURLHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAURLHelpers.m; sourceTree = "<group>"; };
-		936F44271C78015200C61656 /* OBALocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALocationManager.h; sourceTree = "<group>"; };
-		936F44281C78015200C61656 /* OBALocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALocationManager.m; sourceTree = "<group>"; };
-		936F44291C78015200C61656 /* OBAMapRegionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapRegionManager.h; sourceTree = "<group>"; };
-		936F442A1C78015200C61656 /* OBAMapRegionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapRegionManager.m; sourceTree = "<group>"; };
-		936F442B1C78015200C61656 /* OBARegionChangeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionChangeRequest.h; sourceTree = "<group>"; };
-		936F442C1C78015200C61656 /* OBARegionChangeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionChangeRequest.m; sourceTree = "<group>"; };
-		936F442D1C78015200C61656 /* OBASphericalGeometryLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASphericalGeometryLibrary.h; sourceTree = "<group>"; };
-		936F442E1C78015200C61656 /* OBASphericalGeometryLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASphericalGeometryLibrary.m; sourceTree = "<group>"; };
-		936F44311C78015200C61656 /* OBAGenericAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAGenericAnnotation.h; sourceTree = "<group>"; };
-		936F44321C78015200C61656 /* OBAGenericAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAGenericAnnotation.m; sourceTree = "<group>"; };
-		936F44331C78015200C61656 /* OBANavigationTargetAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTargetAnnotation.h; sourceTree = "<group>"; };
-		936F44341C78015200C61656 /* OBANavigationTargetAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTargetAnnotation.m; sourceTree = "<group>"; };
-		936F44351C78015200C61656 /* OBATripContinuationMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripContinuationMapAnnotation.h; sourceTree = "<group>"; };
-		936F44361C78015200C61656 /* OBATripContinuationMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripContinuationMapAnnotation.m; sourceTree = "<group>"; };
-		936F44371C78015200C61656 /* OBATripStopTimeMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripStopTimeMapAnnotation.h; sourceTree = "<group>"; };
-		936F44381C78015200C61656 /* OBATripStopTimeMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripStopTimeMapAnnotation.m; sourceTree = "<group>"; };
-		936F44391C78015200C61656 /* OBAVehicleMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAVehicleMapAnnotation.h; sourceTree = "<group>"; };
-		936F443A1C78015200C61656 /* OBAVehicleMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAVehicleMapAnnotation.m; sourceTree = "<group>"; };
-		936F443C1C78015200C61656 /* OBAModelDAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelDAO.h; sourceTree = "<group>"; };
-		936F443D1C78015200C61656 /* OBAModelDAO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelDAO.m; sourceTree = "<group>"; };
-		936F443E1C78015200C61656 /* OBAModelDAOUserPreferencesImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelDAOUserPreferencesImpl.h; sourceTree = "<group>"; };
-		936F443F1C78015200C61656 /* OBAModelDAOUserPreferencesImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelDAOUserPreferencesImpl.m; sourceTree = "<group>"; };
-		936F44411C78015200C61656 /* OBACallMethodJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACallMethodJsonDigesterRule.h; sourceTree = "<group>"; };
-		936F44421C78015200C61656 /* OBACallMethodJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACallMethodJsonDigesterRule.m; sourceTree = "<group>"; };
-		936F44431C78015200C61656 /* OBACreateObjectJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACreateObjectJsonDigesterRule.h; sourceTree = "<group>"; };
-		936F44441C78015200C61656 /* OBACreateObjectJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACreateObjectJsonDigesterRule.m; sourceTree = "<group>"; };
-		936F44451C78015200C61656 /* OBAJsonDigester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAJsonDigester.h; sourceTree = "<group>"; };
-		936F44461C78015200C61656 /* OBAJsonDigester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAJsonDigester.m; sourceTree = "<group>"; };
-		936F44471C78015200C61656 /* OBASelectorJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASelectorJsonDigesterRule.h; sourceTree = "<group>"; };
-		936F44481C78015200C61656 /* OBASelectorJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASelectorJsonDigesterRule.m; sourceTree = "<group>"; };
-		936F44491C78015200C61656 /* OBASetCoordinatePropertyJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetCoordinatePropertyJsonDigesterRule.h; sourceTree = "<group>"; };
-		936F444A1C78015200C61656 /* OBASetCoordinatePropertyJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetCoordinatePropertyJsonDigesterRule.m; sourceTree = "<group>"; };
-		936F444B1C78015200C61656 /* OBASetDatePropertyJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetDatePropertyJsonDigesterRule.h; sourceTree = "<group>"; };
-		936F444C1C78015200C61656 /* OBASetDatePropertyJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetDatePropertyJsonDigesterRule.m; sourceTree = "<group>"; };
-		936F444D1C78015200C61656 /* OBASetLocationPropertyJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetLocationPropertyJsonDigesterRule.h; sourceTree = "<group>"; };
-		936F444E1C78015200C61656 /* OBASetLocationPropertyJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetLocationPropertyJsonDigesterRule.m; sourceTree = "<group>"; };
-		936F444F1C78015200C61656 /* OBASetNextOBAJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetNextOBAJsonDigesterRule.h; sourceTree = "<group>"; };
-		936F44501C78015200C61656 /* OBASetNextOBAJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetNextOBAJsonDigesterRule.m; sourceTree = "<group>"; };
-		936F44511C78015200C61656 /* OBASetPropertyJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetPropertyJsonDigesterRule.h; sourceTree = "<group>"; };
-		936F44521C78015200C61656 /* OBASetPropertyJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetPropertyJsonDigesterRule.m; sourceTree = "<group>"; };
-		936F44531C78015200C61656 /* OBAProgressIndicatorSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAProgressIndicatorSource.h; sourceTree = "<group>"; };
-		936F44551C78015200C61656 /* OBAAgencyV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgencyV2.h; sourceTree = "<group>"; };
-		936F44561C78015200C61656 /* OBAAgencyV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAgencyV2.m; sourceTree = "<group>"; };
-		936F44571C78015200C61656 /* OBAAgencyWithCoverageV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgencyWithCoverageV2.h; sourceTree = "<group>"; };
-		936F44581C78015200C61656 /* OBAAgencyWithCoverageV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAgencyWithCoverageV2.m; sourceTree = "<group>"; };
-		936F44591C78015200C61656 /* OBAArrivalAndDepartureInstanceRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureInstanceRef.h; sourceTree = "<group>"; };
-		936F445A1C78015200C61656 /* OBAArrivalAndDepartureInstanceRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureInstanceRef.m; sourceTree = "<group>"; };
-		936F445B1C78015200C61656 /* OBAArrivalAndDepartureV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureV2.h; sourceTree = "<group>"; };
-		936F445C1C78015200C61656 /* OBAArrivalAndDepartureV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureV2.m; sourceTree = "<group>"; };
-		936F445D1C78015200C61656 /* OBAArrivalsAndDeparturesForStopV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalsAndDeparturesForStopV2.h; sourceTree = "<group>"; };
-		936F445E1C78015200C61656 /* OBAArrivalsAndDeparturesForStopV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalsAndDeparturesForStopV2.m; sourceTree = "<group>"; };
-		936F445F1C78015200C61656 /* OBABookmarkGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkGroup.h; sourceTree = "<group>"; };
-		936F44601C78015200C61656 /* OBABookmarkGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkGroup.m; sourceTree = "<group>"; };
-		936F44611C78015200C61656 /* OBABookmarkV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkV2.h; sourceTree = "<group>"; };
-		936F44621C78015200C61656 /* OBABookmarkV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkV2.m; sourceTree = "<group>"; };
-		936F44631C78015200C61656 /* OBACoordinateBounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACoordinateBounds.h; sourceTree = "<group>"; };
-		936F44641C78015200C61656 /* OBACoordinateBounds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACoordinateBounds.m; sourceTree = "<group>"; };
-		936F44651C78015200C61656 /* OBACurrentVehicleEstimateV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACurrentVehicleEstimateV2.h; sourceTree = "<group>"; };
-		936F44661C78015200C61656 /* OBACurrentVehicleEstimateV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACurrentVehicleEstimateV2.m; sourceTree = "<group>"; };
-		936F44671C78015200C61656 /* OBAEntryWithReferencesV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEntryWithReferencesV2.h; sourceTree = "<group>"; };
-		936F44681C78015200C61656 /* OBAEntryWithReferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEntryWithReferencesV2.m; sourceTree = "<group>"; };
-		936F44691C78015200C61656 /* OBAFrequencyV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAFrequencyV2.h; sourceTree = "<group>"; };
-		936F446A1C78015200C61656 /* OBAFrequencyV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAFrequencyV2.m; sourceTree = "<group>"; };
-		936F446B1C78015200C61656 /* OBAHasReferencesV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAHasReferencesV2.h; sourceTree = "<group>"; };
-		936F446C1C78015200C61656 /* OBAHasReferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAHasReferencesV2.m; sourceTree = "<group>"; };
-		936F446D1C78015200C61656 /* OBAListWithRangeAndReferencesV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAListWithRangeAndReferencesV2.h; sourceTree = "<group>"; };
-		936F446E1C78015200C61656 /* OBAListWithRangeAndReferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAListWithRangeAndReferencesV2.m; sourceTree = "<group>"; };
-		936F446F1C78015200C61656 /* OBANavigationTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTarget.h; sourceTree = "<group>"; };
-		936F44701C78015200C61656 /* OBANavigationTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTarget.m; sourceTree = "<group>"; };
-		936F44711C78015200C61656 /* OBAPlacemark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAPlacemark.h; sourceTree = "<group>"; };
-		936F44721C78015200C61656 /* OBAPlacemark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAPlacemark.m; sourceTree = "<group>"; };
-		936F44731C78015200C61656 /* OBAPlacemarks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAPlacemarks.h; sourceTree = "<group>"; };
-		936F44741C78015200C61656 /* OBAPlacemarks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAPlacemarks.m; sourceTree = "<group>"; };
-		936F44751C78015200C61656 /* OBAReferencesV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReferencesV2.h; sourceTree = "<group>"; };
-		936F44761C78015200C61656 /* OBAReferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReferencesV2.m; sourceTree = "<group>"; };
-		936F44771C78015200C61656 /* OBARegionBoundsV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionBoundsV2.h; sourceTree = "<group>"; };
-		936F44781C78015200C61656 /* OBARegionBoundsV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionBoundsV2.m; sourceTree = "<group>"; };
-		936F44791C78015200C61656 /* OBARegionV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionV2.h; sourceTree = "<group>"; };
-		936F447A1C78015200C61656 /* OBARegionV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionV2.m; sourceTree = "<group>"; };
-		936F447B1C78015200C61656 /* OBAReportProblemWithStopV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReportProblemWithStopV2.h; sourceTree = "<group>"; };
-		936F447C1C78015200C61656 /* OBAReportProblemWithStopV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReportProblemWithStopV2.m; sourceTree = "<group>"; };
-		936F447D1C78015200C61656 /* OBAReportProblemWithTripV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReportProblemWithTripV2.h; sourceTree = "<group>"; };
-		936F447E1C78015200C61656 /* OBAReportProblemWithTripV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReportProblemWithTripV2.m; sourceTree = "<group>"; };
-		936F447F1C78015200C61656 /* OBARouteV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARouteV2.h; sourceTree = "<group>"; };
-		936F44801C78015200C61656 /* OBARouteV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARouteV2.m; sourceTree = "<group>"; };
-		936F44811C78015200C61656 /* OBASearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearch.h; sourceTree = "<group>"; };
-		936F44821C78015200C61656 /* OBASearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearch.m; sourceTree = "<group>"; };
-		936F44831C78015200C61656 /* OBASearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchResult.h; sourceTree = "<group>"; };
-		936F44841C78015200C61656 /* OBASearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearchResult.m; sourceTree = "<group>"; };
-		936F44851C78015200C61656 /* OBAServiceAlertsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAServiceAlertsModel.h; sourceTree = "<group>"; };
-		936F44861C78015200C61656 /* OBAServiceAlertsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAServiceAlertsModel.m; sourceTree = "<group>"; };
-		936F44871C78015200C61656 /* OBASituationConsequenceV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASituationConsequenceV2.h; sourceTree = "<group>"; };
-		936F44881C78015200C61656 /* OBASituationConsequenceV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASituationConsequenceV2.m; sourceTree = "<group>"; };
-		936F44891C78015200C61656 /* OBASituationV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASituationV2.h; sourceTree = "<group>"; };
-		936F448A1C78015200C61656 /* OBASituationV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASituationV2.m; sourceTree = "<group>"; };
-		936F448B1C78015200C61656 /* OBAStopAccessEventV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopAccessEventV2.h; sourceTree = "<group>"; };
-		936F448C1C78015200C61656 /* OBAStopAccessEventV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopAccessEventV2.m; sourceTree = "<group>"; };
-		936F448D1C78015200C61656 /* OBAStopPreferencesV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopPreferencesV2.h; sourceTree = "<group>"; };
-		936F448E1C78015200C61656 /* OBAStopPreferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopPreferencesV2.m; sourceTree = "<group>"; };
-		936F448F1C78015200C61656 /* OBAStopsForRouteV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopsForRouteV2.h; sourceTree = "<group>"; };
-		936F44901C78015200C61656 /* OBAStopsForRouteV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopsForRouteV2.m; sourceTree = "<group>"; };
-		936F44911C78015200C61656 /* OBAStopV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopV2.h; sourceTree = "<group>"; };
-		936F44921C78015200C61656 /* OBAStopV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopV2.m; sourceTree = "<group>"; };
-		936F44931C78015200C61656 /* OBATripDetailsV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripDetailsV2.h; sourceTree = "<group>"; };
-		936F44941C78015200C61656 /* OBATripDetailsV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripDetailsV2.m; sourceTree = "<group>"; };
-		936F44951C78015200C61656 /* OBATripInstanceRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripInstanceRef.h; sourceTree = "<group>"; };
-		936F44961C78015200C61656 /* OBATripInstanceRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripInstanceRef.m; sourceTree = "<group>"; };
-		936F44971C78015200C61656 /* OBATripScheduleV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripScheduleV2.h; sourceTree = "<group>"; };
-		936F44981C78015200C61656 /* OBATripScheduleV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripScheduleV2.m; sourceTree = "<group>"; };
-		936F44991C78015200C61656 /* OBATripStatusV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripStatusV2.h; sourceTree = "<group>"; };
-		936F449A1C78015200C61656 /* OBATripStatusV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripStatusV2.m; sourceTree = "<group>"; };
-		936F449B1C78015200C61656 /* OBATripStopTimeV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripStopTimeV2.h; sourceTree = "<group>"; };
-		936F449C1C78015200C61656 /* OBATripStopTimeV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripStopTimeV2.m; sourceTree = "<group>"; };
-		936F449D1C78015200C61656 /* OBATripV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripV2.h; sourceTree = "<group>"; };
-		936F449E1C78015200C61656 /* OBATripV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripV2.m; sourceTree = "<group>"; };
-		936F449F1C78015200C61656 /* OBAVehicleStatusV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAVehicleStatusV2.h; sourceTree = "<group>"; };
-		936F44A01C78015200C61656 /* OBAVehicleStatusV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAVehicleStatusV2.m; sourceTree = "<group>"; };
-		936F44A11C78015200C61656 /* OBAApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAApplication.h; sourceTree = "<group>"; };
-		936F44A21C78015200C61656 /* OBAApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAApplication.m; sourceTree = "<group>"; };
-		936F44A41C78015200C61656 /* JsonUrlFetcherImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonUrlFetcherImpl.h; sourceTree = "<group>"; };
-		936F44A51C78015200C61656 /* JsonUrlFetcherImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JsonUrlFetcherImpl.m; sourceTree = "<group>"; };
-		936F44A61C78015200C61656 /* OBADataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADataSource.h; sourceTree = "<group>"; };
-		936F44A71C78015200C61656 /* OBADataSourceConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADataSourceConfig.h; sourceTree = "<group>"; };
-		936F44A81C78015200C61656 /* OBADataSourceConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADataSourceConfig.m; sourceTree = "<group>"; };
-		936F44A91C78015200C61656 /* OBAJsonDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAJsonDataSource.h; sourceTree = "<group>"; };
-		936F44AA1C78015200C61656 /* OBAJsonDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAJsonDataSource.m; sourceTree = "<group>"; };
-		936F44AB1C78015200C61656 /* OBAModelFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelFactory.h; sourceTree = "<group>"; };
-		936F44AC1C78015200C61656 /* OBAModelFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelFactory.m; sourceTree = "<group>"; };
-		936F44AD1C78015200C61656 /* OBAModelService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelService.h; sourceTree = "<group>"; };
-		936F44AE1C78015200C61656 /* OBAModelService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelService.m; sourceTree = "<group>"; };
-		936F44AF1C78015200C61656 /* OBAModelServiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelServiceRequest.h; sourceTree = "<group>"; };
-		936F44B01C78015200C61656 /* OBAModelServiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelServiceRequest.m; sourceTree = "<group>"; };
 		936F44FD1C780E7600C61656 /* OBAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OBAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		936F44FF1C780E7600C61656 /* OBAKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAKit.h; sourceTree = "<group>"; };
 		936F45011C780E7600C61656 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -635,7 +635,6 @@
 		29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */ = {
 			isa = PBXGroup;
 			children = (
-				936F44161C78015200C61656 /* core */,
 				932BE4901AB66D320011F2FB /* ui */,
 				934446791AB10B1D005B3333 /* location */,
 				934445F71AB105FB005B3333 /* gpx_files */,
@@ -898,6 +897,210 @@
 			path = themes;
 			sourceTree = "<group>";
 		};
+		934EA4C71C84CD9200B60F06 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				934EA4C81C84CD9200B60F06 /* OBACommon.h */,
+				934EA4C91C84CD9200B60F06 /* OBACommon.m */,
+				934EA4CA1C84CD9200B60F06 /* OBACommonV1.h */,
+				934EA4CB1C84CD9200B60F06 /* OBADateHelpers.h */,
+				934EA4CC1C84CD9200B60F06 /* OBADateHelpers.m */,
+				934EA4CD1C84CD9200B60F06 /* OBALogger.h */,
+				934EA4CE1C84CD9200B60F06 /* OBALogger.m */,
+				934EA4CF1C84CD9200B60F06 /* OBAMacros.h */,
+				934EA4D01C84CD9200B60F06 /* OBAPresentation.h */,
+				934EA4D11C84CD9200B60F06 /* OBAPresentation.m */,
+				934EA4D21C84CD9200B60F06 /* OBAStopIconFactory.h */,
+				934EA4D31C84CD9200B60F06 /* OBAStopIconFactory.m */,
+				934EA4D41C84CD9200B60F06 /* OBAURLHelpers.h */,
+				934EA4D51C84CD9200B60F06 /* OBAURLHelpers.m */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		934EA4D61C84CD9200B60F06 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				934EA4D71C84CD9200B60F06 /* OBALocationManager.h */,
+				934EA4D81C84CD9200B60F06 /* OBALocationManager.m */,
+				934EA4D91C84CD9200B60F06 /* OBAMapRegionManager.h */,
+				934EA4DA1C84CD9200B60F06 /* OBAMapRegionManager.m */,
+				934EA4DB1C84CD9200B60F06 /* OBARegionChangeRequest.h */,
+				934EA4DC1C84CD9200B60F06 /* OBARegionChangeRequest.m */,
+				934EA4DD1C84CD9200B60F06 /* OBASphericalGeometryLibrary.h */,
+				934EA4DE1C84CD9200B60F06 /* OBASphericalGeometryLibrary.m */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		934EA4DF1C84CD9200B60F06 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				934EA4E01C84CD9200B60F06 /* annotations */,
+				934EA4EB1C84CD9200B60F06 /* dao */,
+				934EA4F01C84CD9200B60F06 /* json_digester */,
+				934EA5031C84CD9200B60F06 /* OBAProgressIndicatorSource.h */,
+				934EA5041C84CD9200B60F06 /* unmanaged */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		934EA4E01C84CD9200B60F06 /* annotations */ = {
+			isa = PBXGroup;
+			children = (
+				934EA4E11C84CD9200B60F06 /* OBAGenericAnnotation.h */,
+				934EA4E21C84CD9200B60F06 /* OBAGenericAnnotation.m */,
+				934EA4E31C84CD9200B60F06 /* OBANavigationTargetAnnotation.h */,
+				934EA4E41C84CD9200B60F06 /* OBANavigationTargetAnnotation.m */,
+				934EA4E51C84CD9200B60F06 /* OBATripContinuationMapAnnotation.h */,
+				934EA4E61C84CD9200B60F06 /* OBATripContinuationMapAnnotation.m */,
+				934EA4E71C84CD9200B60F06 /* OBATripStopTimeMapAnnotation.h */,
+				934EA4E81C84CD9200B60F06 /* OBATripStopTimeMapAnnotation.m */,
+				934EA4E91C84CD9200B60F06 /* OBAVehicleMapAnnotation.h */,
+				934EA4EA1C84CD9200B60F06 /* OBAVehicleMapAnnotation.m */,
+			);
+			path = annotations;
+			sourceTree = "<group>";
+		};
+		934EA4EB1C84CD9200B60F06 /* dao */ = {
+			isa = PBXGroup;
+			children = (
+				934EA4EC1C84CD9200B60F06 /* OBAModelDAO.h */,
+				934EA4ED1C84CD9200B60F06 /* OBAModelDAO.m */,
+				934EA4EE1C84CD9200B60F06 /* OBAModelDAOUserPreferencesImpl.h */,
+				934EA4EF1C84CD9200B60F06 /* OBAModelDAOUserPreferencesImpl.m */,
+			);
+			path = dao;
+			sourceTree = "<group>";
+		};
+		934EA4F01C84CD9200B60F06 /* json_digester */ = {
+			isa = PBXGroup;
+			children = (
+				934EA4F11C84CD9200B60F06 /* OBACallMethodJsonDigesterRule.h */,
+				934EA4F21C84CD9200B60F06 /* OBACallMethodJsonDigesterRule.m */,
+				934EA4F31C84CD9200B60F06 /* OBACreateObjectJsonDigesterRule.h */,
+				934EA4F41C84CD9200B60F06 /* OBACreateObjectJsonDigesterRule.m */,
+				934EA4F51C84CD9200B60F06 /* OBAJsonDigester.h */,
+				934EA4F61C84CD9200B60F06 /* OBAJsonDigester.m */,
+				934EA4F71C84CD9200B60F06 /* OBASelectorJsonDigesterRule.h */,
+				934EA4F81C84CD9200B60F06 /* OBASelectorJsonDigesterRule.m */,
+				934EA4F91C84CD9200B60F06 /* OBASetCoordinatePropertyJsonDigesterRule.h */,
+				934EA4FA1C84CD9200B60F06 /* OBASetCoordinatePropertyJsonDigesterRule.m */,
+				934EA4FB1C84CD9200B60F06 /* OBASetDatePropertyJsonDigesterRule.h */,
+				934EA4FC1C84CD9200B60F06 /* OBASetDatePropertyJsonDigesterRule.m */,
+				934EA4FD1C84CD9200B60F06 /* OBASetLocationPropertyJsonDigesterRule.h */,
+				934EA4FE1C84CD9200B60F06 /* OBASetLocationPropertyJsonDigesterRule.m */,
+				934EA4FF1C84CD9200B60F06 /* OBASetNextOBAJsonDigesterRule.h */,
+				934EA5001C84CD9200B60F06 /* OBASetNextOBAJsonDigesterRule.m */,
+				934EA5011C84CD9200B60F06 /* OBASetPropertyJsonDigesterRule.h */,
+				934EA5021C84CD9200B60F06 /* OBASetPropertyJsonDigesterRule.m */,
+			);
+			path = json_digester;
+			sourceTree = "<group>";
+		};
+		934EA5041C84CD9200B60F06 /* unmanaged */ = {
+			isa = PBXGroup;
+			children = (
+				934EA5051C84CD9200B60F06 /* OBAAgencyV2.h */,
+				934EA5061C84CD9200B60F06 /* OBAAgencyV2.m */,
+				934EA5071C84CD9200B60F06 /* OBAAgencyWithCoverageV2.h */,
+				934EA5081C84CD9200B60F06 /* OBAAgencyWithCoverageV2.m */,
+				934EA5091C84CD9200B60F06 /* OBAArrivalAndDepartureInstanceRef.h */,
+				934EA50A1C84CD9200B60F06 /* OBAArrivalAndDepartureInstanceRef.m */,
+				934EA50B1C84CD9200B60F06 /* OBAArrivalAndDepartureV2.h */,
+				934EA50C1C84CD9200B60F06 /* OBAArrivalAndDepartureV2.m */,
+				934EA50D1C84CD9200B60F06 /* OBAArrivalsAndDeparturesForStopV2.h */,
+				934EA50E1C84CD9200B60F06 /* OBAArrivalsAndDeparturesForStopV2.m */,
+				934EA50F1C84CD9200B60F06 /* OBABookmarkGroup.h */,
+				934EA5101C84CD9200B60F06 /* OBABookmarkGroup.m */,
+				934EA5111C84CD9200B60F06 /* OBABookmarkV2.h */,
+				934EA5121C84CD9200B60F06 /* OBABookmarkV2.m */,
+				934EA5131C84CD9200B60F06 /* OBACoordinateBounds.h */,
+				934EA5141C84CD9200B60F06 /* OBACoordinateBounds.m */,
+				934EA5151C84CD9200B60F06 /* OBACurrentVehicleEstimateV2.h */,
+				934EA5161C84CD9200B60F06 /* OBACurrentVehicleEstimateV2.m */,
+				934EA5171C84CD9200B60F06 /* OBAEntryWithReferencesV2.h */,
+				934EA5181C84CD9200B60F06 /* OBAEntryWithReferencesV2.m */,
+				934EA5191C84CD9200B60F06 /* OBAFrequencyV2.h */,
+				934EA51A1C84CD9200B60F06 /* OBAFrequencyV2.m */,
+				934EA51B1C84CD9200B60F06 /* OBAHasReferencesV2.h */,
+				934EA51C1C84CD9200B60F06 /* OBAHasReferencesV2.m */,
+				934EA51D1C84CD9200B60F06 /* OBAListWithRangeAndReferencesV2.h */,
+				934EA51E1C84CD9200B60F06 /* OBAListWithRangeAndReferencesV2.m */,
+				934EA51F1C84CD9200B60F06 /* OBANavigationTarget.h */,
+				934EA5201C84CD9200B60F06 /* OBANavigationTarget.m */,
+				934EA5211C84CD9200B60F06 /* OBAPlacemark.h */,
+				934EA5221C84CD9200B60F06 /* OBAPlacemark.m */,
+				934EA5231C84CD9200B60F06 /* OBAPlacemarks.h */,
+				934EA5241C84CD9200B60F06 /* OBAPlacemarks.m */,
+				934EA5251C84CD9200B60F06 /* OBAReferencesV2.h */,
+				934EA5261C84CD9200B60F06 /* OBAReferencesV2.m */,
+				934EA5271C84CD9200B60F06 /* OBARegionBoundsV2.h */,
+				934EA5281C84CD9200B60F06 /* OBARegionBoundsV2.m */,
+				934EA5291C84CD9200B60F06 /* OBARegionV2.h */,
+				934EA52A1C84CD9200B60F06 /* OBARegionV2.m */,
+				934EA52B1C84CD9200B60F06 /* OBAReportProblemWithStopV2.h */,
+				934EA52C1C84CD9200B60F06 /* OBAReportProblemWithStopV2.m */,
+				934EA52D1C84CD9200B60F06 /* OBAReportProblemWithTripV2.h */,
+				934EA52E1C84CD9200B60F06 /* OBAReportProblemWithTripV2.m */,
+				934EA52F1C84CD9200B60F06 /* OBARouteV2.h */,
+				934EA5301C84CD9200B60F06 /* OBARouteV2.m */,
+				934EA5311C84CD9200B60F06 /* OBASearch.h */,
+				934EA5321C84CD9200B60F06 /* OBASearch.m */,
+				934EA5331C84CD9200B60F06 /* OBASearchResult.h */,
+				934EA5341C84CD9200B60F06 /* OBASearchResult.m */,
+				934EA5351C84CD9200B60F06 /* OBAServiceAlertsModel.h */,
+				934EA5361C84CD9200B60F06 /* OBAServiceAlertsModel.m */,
+				934EA5371C84CD9200B60F06 /* OBASituationConsequenceV2.h */,
+				934EA5381C84CD9200B60F06 /* OBASituationConsequenceV2.m */,
+				934EA5391C84CD9200B60F06 /* OBASituationV2.h */,
+				934EA53A1C84CD9200B60F06 /* OBASituationV2.m */,
+				934EA53B1C84CD9200B60F06 /* OBAStopAccessEventV2.h */,
+				934EA53C1C84CD9200B60F06 /* OBAStopAccessEventV2.m */,
+				934EA53D1C84CD9200B60F06 /* OBAStopPreferencesV2.h */,
+				934EA53E1C84CD9200B60F06 /* OBAStopPreferencesV2.m */,
+				934EA53F1C84CD9200B60F06 /* OBAStopsForRouteV2.h */,
+				934EA5401C84CD9200B60F06 /* OBAStopsForRouteV2.m */,
+				934EA5411C84CD9200B60F06 /* OBAStopV2.h */,
+				934EA5421C84CD9200B60F06 /* OBAStopV2.m */,
+				934EA5431C84CD9200B60F06 /* OBATripDetailsV2.h */,
+				934EA5441C84CD9200B60F06 /* OBATripDetailsV2.m */,
+				934EA5451C84CD9200B60F06 /* OBATripInstanceRef.h */,
+				934EA5461C84CD9200B60F06 /* OBATripInstanceRef.m */,
+				934EA5471C84CD9200B60F06 /* OBATripScheduleV2.h */,
+				934EA5481C84CD9200B60F06 /* OBATripScheduleV2.m */,
+				934EA5491C84CD9200B60F06 /* OBATripStatusV2.h */,
+				934EA54A1C84CD9200B60F06 /* OBATripStatusV2.m */,
+				934EA54B1C84CD9200B60F06 /* OBATripStopTimeV2.h */,
+				934EA54C1C84CD9200B60F06 /* OBATripStopTimeV2.m */,
+				934EA54D1C84CD9200B60F06 /* OBATripV2.h */,
+				934EA54E1C84CD9200B60F06 /* OBATripV2.m */,
+				934EA54F1C84CD9200B60F06 /* OBAVehicleStatusV2.h */,
+				934EA5501C84CD9200B60F06 /* OBAVehicleStatusV2.m */,
+			);
+			path = unmanaged;
+			sourceTree = "<group>";
+		};
+		934EA5531C84CD9200B60F06 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				934EA5541C84CD9200B60F06 /* JsonUrlFetcherImpl.h */,
+				934EA5551C84CD9200B60F06 /* JsonUrlFetcherImpl.m */,
+				934EA5561C84CD9200B60F06 /* OBADataSource.h */,
+				934EA5571C84CD9200B60F06 /* OBADataSourceConfig.h */,
+				934EA5581C84CD9200B60F06 /* OBADataSourceConfig.m */,
+				934EA5591C84CD9200B60F06 /* OBAJsonDataSource.h */,
+				934EA55A1C84CD9200B60F06 /* OBAJsonDataSource.m */,
+				934EA55B1C84CD9200B60F06 /* OBAModelFactory.h */,
+				934EA55C1C84CD9200B60F06 /* OBAModelFactory.m */,
+				934EA55D1C84CD9200B60F06 /* OBAModelService.h */,
+				934EA55E1C84CD9200B60F06 /* OBAModelService.m */,
+				934EA55F1C84CD9200B60F06 /* OBAModelServiceRequest.h */,
+				934EA5601C84CD9200B60F06 /* OBAModelServiceRequest.m */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		936D3EB71C14E73300091DC9 /* static_table */ = {
 			isa = PBXGroup;
 			children = (
@@ -911,226 +1114,15 @@
 			path = static_table;
 			sourceTree = "<group>";
 		};
-		936F44161C78015200C61656 /* core */ = {
-			isa = PBXGroup;
-			children = (
-				936F44171C78015200C61656 /* Helpers */,
-				936F44261C78015200C61656 /* Location */,
-				936F442F1C78015200C61656 /* Models */,
-				936F44A11C78015200C61656 /* OBAApplication.h */,
-				936F44A21C78015200C61656 /* OBAApplication.m */,
-				936F44A31C78015200C61656 /* Services */,
-			);
-			path = core;
-			sourceTree = "<group>";
-		};
-		936F44171C78015200C61656 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				936F44181C78015200C61656 /* OBACommon.h */,
-				936F44191C78015200C61656 /* OBACommon.m */,
-				936F441A1C78015200C61656 /* OBACommonV1.h */,
-				936F441B1C78015200C61656 /* OBADateHelpers.h */,
-				936F441C1C78015200C61656 /* OBADateHelpers.m */,
-				936F441D1C78015200C61656 /* OBALogger.h */,
-				936F441E1C78015200C61656 /* OBALogger.m */,
-				936F441F1C78015200C61656 /* OBAMacros.h */,
-				936F44201C78015200C61656 /* OBAPresentation.h */,
-				936F44211C78015200C61656 /* OBAPresentation.m */,
-				936F44221C78015200C61656 /* OBAStopIconFactory.h */,
-				936F44231C78015200C61656 /* OBAStopIconFactory.m */,
-				936F44241C78015200C61656 /* OBAURLHelpers.h */,
-				936F44251C78015200C61656 /* OBAURLHelpers.m */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
-		936F44261C78015200C61656 /* Location */ = {
-			isa = PBXGroup;
-			children = (
-				936F44271C78015200C61656 /* OBALocationManager.h */,
-				936F44281C78015200C61656 /* OBALocationManager.m */,
-				936F44291C78015200C61656 /* OBAMapRegionManager.h */,
-				936F442A1C78015200C61656 /* OBAMapRegionManager.m */,
-				936F442B1C78015200C61656 /* OBARegionChangeRequest.h */,
-				936F442C1C78015200C61656 /* OBARegionChangeRequest.m */,
-				936F442D1C78015200C61656 /* OBASphericalGeometryLibrary.h */,
-				936F442E1C78015200C61656 /* OBASphericalGeometryLibrary.m */,
-			);
-			path = Location;
-			sourceTree = "<group>";
-		};
-		936F442F1C78015200C61656 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				936F44301C78015200C61656 /* annotations */,
-				936F443B1C78015200C61656 /* dao */,
-				936F44401C78015200C61656 /* json_digester */,
-				936F44531C78015200C61656 /* OBAProgressIndicatorSource.h */,
-				936F44541C78015200C61656 /* unmanaged */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		936F44301C78015200C61656 /* annotations */ = {
-			isa = PBXGroup;
-			children = (
-				936F44311C78015200C61656 /* OBAGenericAnnotation.h */,
-				936F44321C78015200C61656 /* OBAGenericAnnotation.m */,
-				936F44331C78015200C61656 /* OBANavigationTargetAnnotation.h */,
-				936F44341C78015200C61656 /* OBANavigationTargetAnnotation.m */,
-				936F44351C78015200C61656 /* OBATripContinuationMapAnnotation.h */,
-				936F44361C78015200C61656 /* OBATripContinuationMapAnnotation.m */,
-				936F44371C78015200C61656 /* OBATripStopTimeMapAnnotation.h */,
-				936F44381C78015200C61656 /* OBATripStopTimeMapAnnotation.m */,
-				936F44391C78015200C61656 /* OBAVehicleMapAnnotation.h */,
-				936F443A1C78015200C61656 /* OBAVehicleMapAnnotation.m */,
-			);
-			path = annotations;
-			sourceTree = "<group>";
-		};
-		936F443B1C78015200C61656 /* dao */ = {
-			isa = PBXGroup;
-			children = (
-				936F443C1C78015200C61656 /* OBAModelDAO.h */,
-				936F443D1C78015200C61656 /* OBAModelDAO.m */,
-				936F443E1C78015200C61656 /* OBAModelDAOUserPreferencesImpl.h */,
-				936F443F1C78015200C61656 /* OBAModelDAOUserPreferencesImpl.m */,
-			);
-			path = dao;
-			sourceTree = "<group>";
-		};
-		936F44401C78015200C61656 /* json_digester */ = {
-			isa = PBXGroup;
-			children = (
-				936F44411C78015200C61656 /* OBACallMethodJsonDigesterRule.h */,
-				936F44421C78015200C61656 /* OBACallMethodJsonDigesterRule.m */,
-				936F44431C78015200C61656 /* OBACreateObjectJsonDigesterRule.h */,
-				936F44441C78015200C61656 /* OBACreateObjectJsonDigesterRule.m */,
-				936F44451C78015200C61656 /* OBAJsonDigester.h */,
-				936F44461C78015200C61656 /* OBAJsonDigester.m */,
-				936F44471C78015200C61656 /* OBASelectorJsonDigesterRule.h */,
-				936F44481C78015200C61656 /* OBASelectorJsonDigesterRule.m */,
-				936F44491C78015200C61656 /* OBASetCoordinatePropertyJsonDigesterRule.h */,
-				936F444A1C78015200C61656 /* OBASetCoordinatePropertyJsonDigesterRule.m */,
-				936F444B1C78015200C61656 /* OBASetDatePropertyJsonDigesterRule.h */,
-				936F444C1C78015200C61656 /* OBASetDatePropertyJsonDigesterRule.m */,
-				936F444D1C78015200C61656 /* OBASetLocationPropertyJsonDigesterRule.h */,
-				936F444E1C78015200C61656 /* OBASetLocationPropertyJsonDigesterRule.m */,
-				936F444F1C78015200C61656 /* OBASetNextOBAJsonDigesterRule.h */,
-				936F44501C78015200C61656 /* OBASetNextOBAJsonDigesterRule.m */,
-				936F44511C78015200C61656 /* OBASetPropertyJsonDigesterRule.h */,
-				936F44521C78015200C61656 /* OBASetPropertyJsonDigesterRule.m */,
-			);
-			path = json_digester;
-			sourceTree = "<group>";
-		};
-		936F44541C78015200C61656 /* unmanaged */ = {
-			isa = PBXGroup;
-			children = (
-				936F44551C78015200C61656 /* OBAAgencyV2.h */,
-				936F44561C78015200C61656 /* OBAAgencyV2.m */,
-				936F44571C78015200C61656 /* OBAAgencyWithCoverageV2.h */,
-				936F44581C78015200C61656 /* OBAAgencyWithCoverageV2.m */,
-				936F44591C78015200C61656 /* OBAArrivalAndDepartureInstanceRef.h */,
-				936F445A1C78015200C61656 /* OBAArrivalAndDepartureInstanceRef.m */,
-				936F445B1C78015200C61656 /* OBAArrivalAndDepartureV2.h */,
-				936F445C1C78015200C61656 /* OBAArrivalAndDepartureV2.m */,
-				936F445D1C78015200C61656 /* OBAArrivalsAndDeparturesForStopV2.h */,
-				936F445E1C78015200C61656 /* OBAArrivalsAndDeparturesForStopV2.m */,
-				936F445F1C78015200C61656 /* OBABookmarkGroup.h */,
-				936F44601C78015200C61656 /* OBABookmarkGroup.m */,
-				936F44611C78015200C61656 /* OBABookmarkV2.h */,
-				936F44621C78015200C61656 /* OBABookmarkV2.m */,
-				936F44631C78015200C61656 /* OBACoordinateBounds.h */,
-				936F44641C78015200C61656 /* OBACoordinateBounds.m */,
-				936F44651C78015200C61656 /* OBACurrentVehicleEstimateV2.h */,
-				936F44661C78015200C61656 /* OBACurrentVehicleEstimateV2.m */,
-				936F44671C78015200C61656 /* OBAEntryWithReferencesV2.h */,
-				936F44681C78015200C61656 /* OBAEntryWithReferencesV2.m */,
-				936F44691C78015200C61656 /* OBAFrequencyV2.h */,
-				936F446A1C78015200C61656 /* OBAFrequencyV2.m */,
-				936F446B1C78015200C61656 /* OBAHasReferencesV2.h */,
-				936F446C1C78015200C61656 /* OBAHasReferencesV2.m */,
-				936F446D1C78015200C61656 /* OBAListWithRangeAndReferencesV2.h */,
-				936F446E1C78015200C61656 /* OBAListWithRangeAndReferencesV2.m */,
-				936F446F1C78015200C61656 /* OBANavigationTarget.h */,
-				936F44701C78015200C61656 /* OBANavigationTarget.m */,
-				936F44711C78015200C61656 /* OBAPlacemark.h */,
-				936F44721C78015200C61656 /* OBAPlacemark.m */,
-				936F44731C78015200C61656 /* OBAPlacemarks.h */,
-				936F44741C78015200C61656 /* OBAPlacemarks.m */,
-				936F44751C78015200C61656 /* OBAReferencesV2.h */,
-				936F44761C78015200C61656 /* OBAReferencesV2.m */,
-				936F44771C78015200C61656 /* OBARegionBoundsV2.h */,
-				936F44781C78015200C61656 /* OBARegionBoundsV2.m */,
-				936F44791C78015200C61656 /* OBARegionV2.h */,
-				936F447A1C78015200C61656 /* OBARegionV2.m */,
-				936F447B1C78015200C61656 /* OBAReportProblemWithStopV2.h */,
-				936F447C1C78015200C61656 /* OBAReportProblemWithStopV2.m */,
-				936F447D1C78015200C61656 /* OBAReportProblemWithTripV2.h */,
-				936F447E1C78015200C61656 /* OBAReportProblemWithTripV2.m */,
-				936F447F1C78015200C61656 /* OBARouteV2.h */,
-				936F44801C78015200C61656 /* OBARouteV2.m */,
-				936F44811C78015200C61656 /* OBASearch.h */,
-				936F44821C78015200C61656 /* OBASearch.m */,
-				936F44831C78015200C61656 /* OBASearchResult.h */,
-				936F44841C78015200C61656 /* OBASearchResult.m */,
-				936F44851C78015200C61656 /* OBAServiceAlertsModel.h */,
-				936F44861C78015200C61656 /* OBAServiceAlertsModel.m */,
-				936F44871C78015200C61656 /* OBASituationConsequenceV2.h */,
-				936F44881C78015200C61656 /* OBASituationConsequenceV2.m */,
-				936F44891C78015200C61656 /* OBASituationV2.h */,
-				936F448A1C78015200C61656 /* OBASituationV2.m */,
-				936F448B1C78015200C61656 /* OBAStopAccessEventV2.h */,
-				936F448C1C78015200C61656 /* OBAStopAccessEventV2.m */,
-				936F448D1C78015200C61656 /* OBAStopPreferencesV2.h */,
-				936F448E1C78015200C61656 /* OBAStopPreferencesV2.m */,
-				936F448F1C78015200C61656 /* OBAStopsForRouteV2.h */,
-				936F44901C78015200C61656 /* OBAStopsForRouteV2.m */,
-				936F44911C78015200C61656 /* OBAStopV2.h */,
-				936F44921C78015200C61656 /* OBAStopV2.m */,
-				936F44931C78015200C61656 /* OBATripDetailsV2.h */,
-				936F44941C78015200C61656 /* OBATripDetailsV2.m */,
-				936F44951C78015200C61656 /* OBATripInstanceRef.h */,
-				936F44961C78015200C61656 /* OBATripInstanceRef.m */,
-				936F44971C78015200C61656 /* OBATripScheduleV2.h */,
-				936F44981C78015200C61656 /* OBATripScheduleV2.m */,
-				936F44991C78015200C61656 /* OBATripStatusV2.h */,
-				936F449A1C78015200C61656 /* OBATripStatusV2.m */,
-				936F449B1C78015200C61656 /* OBATripStopTimeV2.h */,
-				936F449C1C78015200C61656 /* OBATripStopTimeV2.m */,
-				936F449D1C78015200C61656 /* OBATripV2.h */,
-				936F449E1C78015200C61656 /* OBATripV2.m */,
-				936F449F1C78015200C61656 /* OBAVehicleStatusV2.h */,
-				936F44A01C78015200C61656 /* OBAVehicleStatusV2.m */,
-			);
-			path = unmanaged;
-			sourceTree = "<group>";
-		};
-		936F44A31C78015200C61656 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				936F44A41C78015200C61656 /* JsonUrlFetcherImpl.h */,
-				936F44A51C78015200C61656 /* JsonUrlFetcherImpl.m */,
-				936F44A61C78015200C61656 /* OBADataSource.h */,
-				936F44A71C78015200C61656 /* OBADataSourceConfig.h */,
-				936F44A81C78015200C61656 /* OBADataSourceConfig.m */,
-				936F44A91C78015200C61656 /* OBAJsonDataSource.h */,
-				936F44AA1C78015200C61656 /* OBAJsonDataSource.m */,
-				936F44AB1C78015200C61656 /* OBAModelFactory.h */,
-				936F44AC1C78015200C61656 /* OBAModelFactory.m */,
-				936F44AD1C78015200C61656 /* OBAModelService.h */,
-				936F44AE1C78015200C61656 /* OBAModelService.m */,
-				936F44AF1C78015200C61656 /* OBAModelServiceRequest.h */,
-				936F44B01C78015200C61656 /* OBAModelServiceRequest.m */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		936F44FE1C780E7600C61656 /* OBAKit */ = {
 			isa = PBXGroup;
 			children = (
+				934EA4C71C84CD9200B60F06 /* Helpers */,
+				934EA4D61C84CD9200B60F06 /* Location */,
+				934EA4DF1C84CD9200B60F06 /* Models */,
+				934EA5511C84CD9200B60F06 /* OBAApplication.h */,
+				934EA5521C84CD9200B60F06 /* OBAApplication.m */,
+				934EA5531C84CD9200B60F06 /* Services */,
 				936F44FF1C780E7600C61656 /* OBAKit.h */,
 				936F45011C780E7600C61656 /* Info.plist */,
 			);
@@ -1238,82 +1230,82 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				934EA5631C84CD9200B60F06 /* OBACommonV1.h in Headers */,
+				934EA5B41C84CD9200B60F06 /* OBAPlacemark.h in Headers */,
+				934EA5BA1C84CD9200B60F06 /* OBARegionBoundsV2.h in Headers */,
+				934EA5C21C84CD9200B60F06 /* OBARouteV2.h in Headers */,
+				934EA57B1C84CD9200B60F06 /* OBATripContinuationMapAnnotation.h in Headers */,
+				934EA5AC1C84CD9200B60F06 /* OBAFrequencyV2.h in Headers */,
+				934EA5ED1C84CD9200B60F06 /* OBAModelFactory.h in Headers */,
+				934EA5E61C84CD9200B60F06 /* JsonUrlFetcherImpl.h in Headers */,
+				934EA5BE1C84CD9200B60F06 /* OBAReportProblemWithStopV2.h in Headers */,
+				934EA58F1C84CD9200B60F06 /* OBASetDatePropertyJsonDigesterRule.h in Headers */,
+				934EA5C61C84CD9200B60F06 /* OBASearchResult.h in Headers */,
+				934EA5691C84CD9200B60F06 /* OBAPresentation.h in Headers */,
+				934EA5CE1C84CD9200B60F06 /* OBAStopAccessEventV2.h in Headers */,
+				934EA5751C84CD9200B60F06 /* OBASphericalGeometryLibrary.h in Headers */,
+				934EA5931C84CD9200B60F06 /* OBASetNextOBAJsonDigesterRule.h in Headers */,
+				934EA5DE1C84CD9200B60F06 /* OBATripStopTimeV2.h in Headers */,
+				934EA5CA1C84CD9200B60F06 /* OBASituationConsequenceV2.h in Headers */,
+				934EA5661C84CD9200B60F06 /* OBALogger.h in Headers */,
+				934EA5DA1C84CD9200B60F06 /* OBATripScheduleV2.h in Headers */,
+				934EA56B1C84CD9200B60F06 /* OBAStopIconFactory.h in Headers */,
+				934EA59A1C84CD9200B60F06 /* OBAAgencyWithCoverageV2.h in Headers */,
+				934EA5711C84CD9200B60F06 /* OBAMapRegionManager.h in Headers */,
+				934EA5E41C84CD9200B60F06 /* OBAApplication.h in Headers */,
+				934EA58D1C84CD9200B60F06 /* OBASetCoordinatePropertyJsonDigesterRule.h in Headers */,
+				934EA58B1C84CD9200B60F06 /* OBASelectorJsonDigesterRule.h in Headers */,
+				934EA5A41C84CD9200B60F06 /* OBABookmarkV2.h in Headers */,
+				934EA5911C84CD9200B60F06 /* OBASetLocationPropertyJsonDigesterRule.h in Headers */,
+				934EA5A81C84CD9200B60F06 /* OBACurrentVehicleEstimateV2.h in Headers */,
+				934EA5E01C84CD9200B60F06 /* OBATripV2.h in Headers */,
+				934EA5DC1C84CD9200B60F06 /* OBATripStatusV2.h in Headers */,
+				934EA5681C84CD9200B60F06 /* OBAMacros.h in Headers */,
+				934EA5EB1C84CD9200B60F06 /* OBAJsonDataSource.h in Headers */,
+				934EA56D1C84CD9200B60F06 /* OBAURLHelpers.h in Headers */,
+				934EA5D61C84CD9200B60F06 /* OBATripDetailsV2.h in Headers */,
+				934EA5771C84CD9200B60F06 /* OBAGenericAnnotation.h in Headers */,
+				934EA5A01C84CD9200B60F06 /* OBAArrivalsAndDeparturesForStopV2.h in Headers */,
+				934EA5C01C84CD9200B60F06 /* OBAReportProblemWithTripV2.h in Headers */,
+				934EA5D41C84CD9200B60F06 /* OBAStopV2.h in Headers */,
+				934EA5A61C84CD9200B60F06 /* OBACoordinateBounds.h in Headers */,
+				934EA5A21C84CD9200B60F06 /* OBABookmarkGroup.h in Headers */,
+				934EA5D81C84CD9200B60F06 /* OBATripInstanceRef.h in Headers */,
+				934EA5851C84CD9200B60F06 /* OBACallMethodJsonDigesterRule.h in Headers */,
+				934EA5B81C84CD9200B60F06 /* OBAReferencesV2.h in Headers */,
+				934EA5F11C84CD9200B60F06 /* OBAModelServiceRequest.h in Headers */,
+				934EA5BC1C84CD9200B60F06 /* OBARegionV2.h in Headers */,
+				934EA5951C84CD9200B60F06 /* OBASetPropertyJsonDigesterRule.h in Headers */,
+				934EA5C41C84CD9200B60F06 /* OBASearch.h in Headers */,
+				934EA5D21C84CD9200B60F06 /* OBAStopsForRouteV2.h in Headers */,
+				934EA5731C84CD9200B60F06 /* OBARegionChangeRequest.h in Headers */,
+				934EA5B61C84CD9200B60F06 /* OBAPlacemarks.h in Headers */,
+				934EA5791C84CD9200B60F06 /* OBANavigationTargetAnnotation.h in Headers */,
+				934EA5D01C84CD9200B60F06 /* OBAStopPreferencesV2.h in Headers */,
+				934EA5C81C84CD9200B60F06 /* OBAServiceAlertsModel.h in Headers */,
+				934EA57D1C84CD9200B60F06 /* OBATripStopTimeMapAnnotation.h in Headers */,
+				934EA5811C84CD9200B60F06 /* OBAModelDAO.h in Headers */,
+				934EA5B21C84CD9200B60F06 /* OBANavigationTarget.h in Headers */,
+				934EA5AE1C84CD9200B60F06 /* OBAHasReferencesV2.h in Headers */,
+				934EA5E91C84CD9200B60F06 /* OBADataSourceConfig.h in Headers */,
+				934EA59E1C84CD9200B60F06 /* OBAArrivalAndDepartureV2.h in Headers */,
+				934EA5971C84CD9200B60F06 /* OBAProgressIndicatorSource.h in Headers */,
+				934EA5871C84CD9200B60F06 /* OBACreateObjectJsonDigesterRule.h in Headers */,
+				934EA5641C84CD9200B60F06 /* OBADateHelpers.h in Headers */,
+				934EA5E21C84CD9200B60F06 /* OBAVehicleStatusV2.h in Headers */,
+				934EA5611C84CD9200B60F06 /* OBACommon.h in Headers */,
+				934EA5981C84CD9200B60F06 /* OBAAgencyV2.h in Headers */,
+				934EA5831C84CD9200B60F06 /* OBAModelDAOUserPreferencesImpl.h in Headers */,
+				934EA5AA1C84CD9200B60F06 /* OBAEntryWithReferencesV2.h in Headers */,
+				934EA56F1C84CD9200B60F06 /* OBALocationManager.h in Headers */,
+				934EA5EF1C84CD9200B60F06 /* OBAModelService.h in Headers */,
+				934EA59C1C84CD9200B60F06 /* OBAArrivalAndDepartureInstanceRef.h in Headers */,
+				934EA5891C84CD9200B60F06 /* OBAJsonDigester.h in Headers */,
+				934EA5E81C84CD9200B60F06 /* OBADataSource.h in Headers */,
+				934EA57F1C84CD9200B60F06 /* OBAVehicleMapAnnotation.h in Headers */,
+				934EA5CC1C84CD9200B60F06 /* OBASituationV2.h in Headers */,
 				936F45001C780E7600C61656 /* OBAKit.h in Headers */,
-				936F45661C78367A00C61656 /* OBACommon.h in Headers */,
-				936F45671C78367A00C61656 /* OBACommonV1.h in Headers */,
-				936F45681C78367A00C61656 /* OBADateHelpers.h in Headers */,
-				936F45691C78367A00C61656 /* OBALogger.h in Headers */,
-				936F456A1C78367A00C61656 /* OBAMacros.h in Headers */,
-				936F456B1C78367A00C61656 /* OBAPresentation.h in Headers */,
-				936F456C1C78367A00C61656 /* OBAStopIconFactory.h in Headers */,
-				936F456D1C78367A00C61656 /* OBAURLHelpers.h in Headers */,
-				936F456E1C78368E00C61656 /* OBALocationManager.h in Headers */,
-				936F456F1C78368E00C61656 /* OBAMapRegionManager.h in Headers */,
-				936F45701C78368E00C61656 /* OBARegionChangeRequest.h in Headers */,
-				936F45711C78368E00C61656 /* OBASphericalGeometryLibrary.h in Headers */,
-				936F45721C7836A800C61656 /* OBAGenericAnnotation.h in Headers */,
-				936F45731C7836A800C61656 /* OBANavigationTargetAnnotation.h in Headers */,
-				936F45741C7836A800C61656 /* OBATripContinuationMapAnnotation.h in Headers */,
-				936F45751C7836A800C61656 /* OBATripStopTimeMapAnnotation.h in Headers */,
-				936F45761C7836A800C61656 /* OBAVehicleMapAnnotation.h in Headers */,
-				936F45771C7836BB00C61656 /* OBAModelDAO.h in Headers */,
-				936F45781C7836BB00C61656 /* OBAModelDAOUserPreferencesImpl.h in Headers */,
-				936F45791C7836E400C61656 /* OBACallMethodJsonDigesterRule.h in Headers */,
-				936F457A1C7836E400C61656 /* OBACreateObjectJsonDigesterRule.h in Headers */,
-				936F457B1C7836E400C61656 /* OBAJsonDigester.h in Headers */,
-				936F457C1C7836E400C61656 /* OBASelectorJsonDigesterRule.h in Headers */,
-				936F457D1C7836E400C61656 /* OBASetCoordinatePropertyJsonDigesterRule.h in Headers */,
-				936F457E1C7836E400C61656 /* OBASetDatePropertyJsonDigesterRule.h in Headers */,
-				936F457F1C7836E400C61656 /* OBASetLocationPropertyJsonDigesterRule.h in Headers */,
-				936F45801C7836E400C61656 /* OBASetNextOBAJsonDigesterRule.h in Headers */,
-				936F45811C7836E400C61656 /* OBASetPropertyJsonDigesterRule.h in Headers */,
-				936F45821C7836E400C61656 /* OBAProgressIndicatorSource.h in Headers */,
-				936F45831C7836F600C61656 /* OBAApplication.h in Headers */,
-				936F45841C78373400C61656 /* OBAAgencyV2.h in Headers */,
-				936F45851C78373400C61656 /* OBAAgencyWithCoverageV2.h in Headers */,
-				936F45861C78373400C61656 /* OBAArrivalAndDepartureInstanceRef.h in Headers */,
-				936F45871C78373400C61656 /* OBAArrivalAndDepartureV2.h in Headers */,
-				936F45881C78373400C61656 /* OBAArrivalsAndDeparturesForStopV2.h in Headers */,
-				936F45891C78373400C61656 /* OBABookmarkGroup.h in Headers */,
-				936F458A1C78373400C61656 /* OBABookmarkV2.h in Headers */,
-				936F458B1C78373400C61656 /* OBACoordinateBounds.h in Headers */,
-				936F458C1C78373400C61656 /* OBACurrentVehicleEstimateV2.h in Headers */,
-				936F458D1C78373400C61656 /* OBAEntryWithReferencesV2.h in Headers */,
-				936F458E1C78373400C61656 /* OBAFrequencyV2.h in Headers */,
-				936F458F1C78373400C61656 /* OBAHasReferencesV2.h in Headers */,
-				936F45901C78373400C61656 /* OBAListWithRangeAndReferencesV2.h in Headers */,
-				936F45911C78373400C61656 /* OBANavigationTarget.h in Headers */,
-				936F45921C78373400C61656 /* OBAPlacemark.h in Headers */,
-				936F45931C78373400C61656 /* OBAPlacemarks.h in Headers */,
-				936F45941C78373400C61656 /* OBAReferencesV2.h in Headers */,
-				936F45951C78373400C61656 /* OBARegionBoundsV2.h in Headers */,
-				936F45961C78373400C61656 /* OBARegionV2.h in Headers */,
-				936F45971C78373500C61656 /* OBAReportProblemWithStopV2.h in Headers */,
-				936F45981C78373500C61656 /* OBAReportProblemWithTripV2.h in Headers */,
-				936F45991C78373500C61656 /* OBARouteV2.h in Headers */,
-				936F459A1C78373500C61656 /* OBASearch.h in Headers */,
-				936F459B1C78373500C61656 /* OBASearchResult.h in Headers */,
-				936F459C1C78373500C61656 /* OBAServiceAlertsModel.h in Headers */,
-				936F459D1C78373500C61656 /* OBASituationConsequenceV2.h in Headers */,
-				936F459E1C78373500C61656 /* OBASituationV2.h in Headers */,
-				936F459F1C78373500C61656 /* OBAStopAccessEventV2.h in Headers */,
-				936F45A01C78373500C61656 /* OBAStopPreferencesV2.h in Headers */,
-				936F45A11C78373500C61656 /* OBAStopsForRouteV2.h in Headers */,
-				936F45A21C78373500C61656 /* OBAStopV2.h in Headers */,
-				936F45A31C78373500C61656 /* OBATripDetailsV2.h in Headers */,
-				936F45A41C78373500C61656 /* OBATripInstanceRef.h in Headers */,
-				936F45A51C78373500C61656 /* OBATripScheduleV2.h in Headers */,
-				936F45A61C78373500C61656 /* OBATripStatusV2.h in Headers */,
-				936F45A71C78373500C61656 /* OBATripStopTimeV2.h in Headers */,
-				936F45A81C78373500C61656 /* OBATripV2.h in Headers */,
-				936F45A91C78373500C61656 /* OBAVehicleStatusV2.h in Headers */,
-				936F45AA1C78375500C61656 /* JsonUrlFetcherImpl.h in Headers */,
-				936F45AB1C78375500C61656 /* OBADataSource.h in Headers */,
-				936F45AC1C78375500C61656 /* OBADataSourceConfig.h in Headers */,
-				936F45AD1C78375500C61656 /* OBAJsonDataSource.h in Headers */,
-				936F45AE1C78375500C61656 /* OBAModelFactory.h in Headers */,
-				936F45AF1C78375500C61656 /* OBAModelService.h in Headers */,
-				936F45B01C78375500C61656 /* OBAModelServiceRequest.h in Headers */,
+				934EA5B01C84CD9200B60F06 /* OBAListWithRangeAndReferencesV2.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1634,77 +1626,77 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				936F454E1C780FEB00C61656 /* OBARouteV2.m in Sources */,
-				936F45231C780F7A00C61656 /* OBAStopIconFactory.m in Sources */,
-				936F452F1C780FA200C61656 /* OBAModelDAOUserPreferencesImpl.m in Sources */,
-				936F453E1C780FEB00C61656 /* OBABookmarkGroup.m in Sources */,
-				936F45581C780FEB00C61656 /* OBATripDetailsV2.m in Sources */,
-				936F45201C780F7A00C61656 /* OBADateHelpers.m in Sources */,
-				936F45341C780FB900C61656 /* OBASetCoordinatePropertyJsonDigesterRule.m in Sources */,
-				936F45271C780F8900C61656 /* OBARegionChangeRequest.m in Sources */,
-				936F45371C780FB900C61656 /* OBASetNextOBAJsonDigesterRule.m in Sources */,
-				936F45421C780FEB00C61656 /* OBAEntryWithReferencesV2.m in Sources */,
-				936F45331C780FB900C61656 /* OBASelectorJsonDigesterRule.m in Sources */,
-				936F45301C780FB900C61656 /* OBACallMethodJsonDigesterRule.m in Sources */,
-				936F45241C780F7A00C61656 /* OBAURLHelpers.m in Sources */,
-				936F455E1C780FEB00C61656 /* OBAVehicleStatusV2.m in Sources */,
-				936F455D1C780FEB00C61656 /* OBATripV2.m in Sources */,
-				936F45361C780FB900C61656 /* OBASetLocationPropertyJsonDigesterRule.m in Sources */,
-				936F455F1C780FF000C61656 /* OBAApplication.m in Sources */,
-				936F45381C780FB900C61656 /* OBASetPropertyJsonDigesterRule.m in Sources */,
-				936F45431C780FEB00C61656 /* OBAFrequencyV2.m in Sources */,
-				936F45351C780FB900C61656 /* OBASetDatePropertyJsonDigesterRule.m in Sources */,
-				936F455B1C780FEB00C61656 /* OBATripStatusV2.m in Sources */,
-				936F45571C780FEB00C61656 /* OBAStopV2.m in Sources */,
-				936F45641C78100300C61656 /* OBAModelService.m in Sources */,
-				936F452C1C780F9A00C61656 /* OBATripStopTimeMapAnnotation.m in Sources */,
-				936F453C1C780FEB00C61656 /* OBAArrivalAndDepartureV2.m in Sources */,
-				936F45281C780F8900C61656 /* OBASphericalGeometryLibrary.m in Sources */,
-				936F45311C780FB900C61656 /* OBACreateObjectJsonDigesterRule.m in Sources */,
-				936F453B1C780FEB00C61656 /* OBAArrivalAndDepartureInstanceRef.m in Sources */,
-				936F45601C78100300C61656 /* JsonUrlFetcherImpl.m in Sources */,
-				936F45291C780F9A00C61656 /* OBAGenericAnnotation.m in Sources */,
-				936F45481C780FEB00C61656 /* OBAPlacemarks.m in Sources */,
-				936F45401C780FEB00C61656 /* OBACoordinateBounds.m in Sources */,
-				936F45631C78100300C61656 /* OBAModelFactory.m in Sources */,
-				936F451F1C780F6B00C61656 /* OBACommon.m in Sources */,
-				936F45251C780F8900C61656 /* OBALocationManager.m in Sources */,
-				936F45221C780F7A00C61656 /* OBAPresentation.m in Sources */,
-				936F45501C780FEB00C61656 /* OBASearchResult.m in Sources */,
-				936F452D1C780F9A00C61656 /* OBAVehicleMapAnnotation.m in Sources */,
-				936F45211C780F7A00C61656 /* OBALogger.m in Sources */,
-				936F453F1C780FEB00C61656 /* OBABookmarkV2.m in Sources */,
-				936F45591C780FEB00C61656 /* OBATripInstanceRef.m in Sources */,
-				936F45391C780FEB00C61656 /* OBAAgencyV2.m in Sources */,
-				936F45491C780FEB00C61656 /* OBAReferencesV2.m in Sources */,
-				936F454A1C780FEB00C61656 /* OBARegionBoundsV2.m in Sources */,
-				936F45321C780FB900C61656 /* OBAJsonDigester.m in Sources */,
-				936F452A1C780F9A00C61656 /* OBANavigationTargetAnnotation.m in Sources */,
-				936F454B1C780FEB00C61656 /* OBARegionV2.m in Sources */,
-				936F45261C780F8900C61656 /* OBAMapRegionManager.m in Sources */,
-				936F45551C780FEB00C61656 /* OBAStopPreferencesV2.m in Sources */,
-				936F454C1C780FEB00C61656 /* OBAReportProblemWithStopV2.m in Sources */,
-				936F45611C78100300C61656 /* OBADataSourceConfig.m in Sources */,
-				936F45621C78100300C61656 /* OBAJsonDataSource.m in Sources */,
-				936F45561C780FEB00C61656 /* OBAStopsForRouteV2.m in Sources */,
-				936F455A1C780FEB00C61656 /* OBATripScheduleV2.m in Sources */,
-				936F45471C780FEB00C61656 /* OBAPlacemark.m in Sources */,
-				936F45451C780FEB00C61656 /* OBAListWithRangeAndReferencesV2.m in Sources */,
-				936F45541C780FEB00C61656 /* OBAStopAccessEventV2.m in Sources */,
-				936F45461C780FEB00C61656 /* OBANavigationTarget.m in Sources */,
-				936F453D1C780FEB00C61656 /* OBAArrivalsAndDeparturesForStopV2.m in Sources */,
-				936F45441C780FEB00C61656 /* OBAHasReferencesV2.m in Sources */,
-				936F45531C780FEB00C61656 /* OBASituationV2.m in Sources */,
-				936F45651C78100300C61656 /* OBAModelServiceRequest.m in Sources */,
-				936F453A1C780FEB00C61656 /* OBAAgencyWithCoverageV2.m in Sources */,
-				936F45511C780FEB00C61656 /* OBAServiceAlertsModel.m in Sources */,
-				936F452B1C780F9A00C61656 /* OBATripContinuationMapAnnotation.m in Sources */,
-				936F45411C780FEB00C61656 /* OBACurrentVehicleEstimateV2.m in Sources */,
-				936F454D1C780FEB00C61656 /* OBAReportProblemWithTripV2.m in Sources */,
-				936F45521C780FEB00C61656 /* OBASituationConsequenceV2.m in Sources */,
-				936F452E1C780FA200C61656 /* OBAModelDAO.m in Sources */,
-				936F455C1C780FEB00C61656 /* OBATripStopTimeV2.m in Sources */,
-				936F454F1C780FEB00C61656 /* OBASearch.m in Sources */,
+				934EA5C31C84CD9200B60F06 /* OBARouteV2.m in Sources */,
+				934EA56C1C84CD9200B60F06 /* OBAStopIconFactory.m in Sources */,
+				934EA5841C84CD9200B60F06 /* OBAModelDAOUserPreferencesImpl.m in Sources */,
+				934EA5A31C84CD9200B60F06 /* OBABookmarkGroup.m in Sources */,
+				934EA5D71C84CD9200B60F06 /* OBATripDetailsV2.m in Sources */,
+				934EA5651C84CD9200B60F06 /* OBADateHelpers.m in Sources */,
+				934EA58E1C84CD9200B60F06 /* OBASetCoordinatePropertyJsonDigesterRule.m in Sources */,
+				934EA5741C84CD9200B60F06 /* OBARegionChangeRequest.m in Sources */,
+				934EA5941C84CD9200B60F06 /* OBASetNextOBAJsonDigesterRule.m in Sources */,
+				934EA5AB1C84CD9200B60F06 /* OBAEntryWithReferencesV2.m in Sources */,
+				934EA58C1C84CD9200B60F06 /* OBASelectorJsonDigesterRule.m in Sources */,
+				934EA5861C84CD9200B60F06 /* OBACallMethodJsonDigesterRule.m in Sources */,
+				934EA56E1C84CD9200B60F06 /* OBAURLHelpers.m in Sources */,
+				934EA5E31C84CD9200B60F06 /* OBAVehicleStatusV2.m in Sources */,
+				934EA5E11C84CD9200B60F06 /* OBATripV2.m in Sources */,
+				934EA5921C84CD9200B60F06 /* OBASetLocationPropertyJsonDigesterRule.m in Sources */,
+				934EA5E51C84CD9200B60F06 /* OBAApplication.m in Sources */,
+				934EA5961C84CD9200B60F06 /* OBASetPropertyJsonDigesterRule.m in Sources */,
+				934EA5AD1C84CD9200B60F06 /* OBAFrequencyV2.m in Sources */,
+				934EA5901C84CD9200B60F06 /* OBASetDatePropertyJsonDigesterRule.m in Sources */,
+				934EA5DD1C84CD9200B60F06 /* OBATripStatusV2.m in Sources */,
+				934EA5D51C84CD9200B60F06 /* OBAStopV2.m in Sources */,
+				934EA5F01C84CD9200B60F06 /* OBAModelService.m in Sources */,
+				934EA57E1C84CD9200B60F06 /* OBATripStopTimeMapAnnotation.m in Sources */,
+				934EA59F1C84CD9200B60F06 /* OBAArrivalAndDepartureV2.m in Sources */,
+				934EA5761C84CD9200B60F06 /* OBASphericalGeometryLibrary.m in Sources */,
+				934EA5881C84CD9200B60F06 /* OBACreateObjectJsonDigesterRule.m in Sources */,
+				934EA59D1C84CD9200B60F06 /* OBAArrivalAndDepartureInstanceRef.m in Sources */,
+				934EA5E71C84CD9200B60F06 /* JsonUrlFetcherImpl.m in Sources */,
+				934EA5781C84CD9200B60F06 /* OBAGenericAnnotation.m in Sources */,
+				934EA5B71C84CD9200B60F06 /* OBAPlacemarks.m in Sources */,
+				934EA5A71C84CD9200B60F06 /* OBACoordinateBounds.m in Sources */,
+				934EA5EE1C84CD9200B60F06 /* OBAModelFactory.m in Sources */,
+				934EA5621C84CD9200B60F06 /* OBACommon.m in Sources */,
+				934EA5701C84CD9200B60F06 /* OBALocationManager.m in Sources */,
+				934EA56A1C84CD9200B60F06 /* OBAPresentation.m in Sources */,
+				934EA5C71C84CD9200B60F06 /* OBASearchResult.m in Sources */,
+				934EA5801C84CD9200B60F06 /* OBAVehicleMapAnnotation.m in Sources */,
+				934EA5671C84CD9200B60F06 /* OBALogger.m in Sources */,
+				934EA5A51C84CD9200B60F06 /* OBABookmarkV2.m in Sources */,
+				934EA5D91C84CD9200B60F06 /* OBATripInstanceRef.m in Sources */,
+				934EA5991C84CD9200B60F06 /* OBAAgencyV2.m in Sources */,
+				934EA5B91C84CD9200B60F06 /* OBAReferencesV2.m in Sources */,
+				934EA5BB1C84CD9200B60F06 /* OBARegionBoundsV2.m in Sources */,
+				934EA58A1C84CD9200B60F06 /* OBAJsonDigester.m in Sources */,
+				934EA57A1C84CD9200B60F06 /* OBANavigationTargetAnnotation.m in Sources */,
+				934EA5BD1C84CD9200B60F06 /* OBARegionV2.m in Sources */,
+				934EA5721C84CD9200B60F06 /* OBAMapRegionManager.m in Sources */,
+				934EA5D11C84CD9200B60F06 /* OBAStopPreferencesV2.m in Sources */,
+				934EA5BF1C84CD9200B60F06 /* OBAReportProblemWithStopV2.m in Sources */,
+				934EA5EA1C84CD9200B60F06 /* OBADataSourceConfig.m in Sources */,
+				934EA5EC1C84CD9200B60F06 /* OBAJsonDataSource.m in Sources */,
+				934EA5D31C84CD9200B60F06 /* OBAStopsForRouteV2.m in Sources */,
+				934EA5DB1C84CD9200B60F06 /* OBATripScheduleV2.m in Sources */,
+				934EA5B51C84CD9200B60F06 /* OBAPlacemark.m in Sources */,
+				934EA5B11C84CD9200B60F06 /* OBAListWithRangeAndReferencesV2.m in Sources */,
+				934EA5CF1C84CD9200B60F06 /* OBAStopAccessEventV2.m in Sources */,
+				934EA5B31C84CD9200B60F06 /* OBANavigationTarget.m in Sources */,
+				934EA5A11C84CD9200B60F06 /* OBAArrivalsAndDeparturesForStopV2.m in Sources */,
+				934EA5AF1C84CD9200B60F06 /* OBAHasReferencesV2.m in Sources */,
+				934EA5CD1C84CD9200B60F06 /* OBASituationV2.m in Sources */,
+				934EA5F21C84CD9200B60F06 /* OBAModelServiceRequest.m in Sources */,
+				934EA59B1C84CD9200B60F06 /* OBAAgencyWithCoverageV2.m in Sources */,
+				934EA5C91C84CD9200B60F06 /* OBAServiceAlertsModel.m in Sources */,
+				934EA57C1C84CD9200B60F06 /* OBATripContinuationMapAnnotation.m in Sources */,
+				934EA5A91C84CD9200B60F06 /* OBACurrentVehicleEstimateV2.m in Sources */,
+				934EA5C11C84CD9200B60F06 /* OBAReportProblemWithTripV2.m in Sources */,
+				934EA5CB1C84CD9200B60F06 /* OBASituationConsequenceV2.m in Sources */,
+				934EA5821C84CD9200B60F06 /* OBAModelDAO.m in Sources */,
+				934EA5DF1C84CD9200B60F06 /* OBATripStopTimeV2.m in Sources */,
+				934EA5C51C84CD9200B60F06 /* OBASearch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
