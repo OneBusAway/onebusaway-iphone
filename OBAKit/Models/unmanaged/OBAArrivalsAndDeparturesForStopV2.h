@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,strong) NSString * stopId;
 @property (weak, nonatomic,readonly) OBAStopV2 * stop;
-@property (nonatomic,readonly) NSArray * arrivalsAndDepartures;
+@property (nonatomic,readonly) NSArray<OBAArrivalAndDepartureV2*> * arrivalsAndDepartures;
 @property (nonatomic,readonly) NSArray * situationIds;
 @property (weak, nonatomic,readonly) NSArray * situations;
 

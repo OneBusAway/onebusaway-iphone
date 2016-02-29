@@ -6,12 +6,11 @@
 #import "OBATripStatusV2.h"
 #import "OBATripInstanceRef.h"
 #import "OBAArrivalAndDepartureInstanceRef.h"
+#import "OBADepartureStatus.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAArrivalAndDepartureV2 : OBAHasReferencesV2 {
-    NSMutableArray * _situationIds;
-}
+@interface OBAArrivalAndDepartureV2 : OBAHasReferencesV2
 
 @property (nonatomic,strong) NSString * routeId;
 @property (weak, nonatomic,readonly) OBARouteV2 * route;
@@ -45,12 +44,28 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)hasRealTimeData;
 
 @property (nonatomic) double distanceFromStop;
+@property (nonatomic) NSInteger numberOfStopsAway;
 
-@property (nonatomic,readonly) NSArray * situationIds;
 @property (weak, nonatomic,readonly) NSArray * situations;
 
 - (void) addSituationId:(NSString*)situationId;
 
+- (OBADepartureStatus)departureStatus;
+- (NSString*)statusText;
+
+/**
+ How far off is this vehicle from its predicted, scheduled time?
+
+ @return `NaN` when real time data is unavailable. Negative is early, positive is delayed.
+ */
+- (double)predictedDepatureTimeDeviationFromScheduleInMinutes;
+
+/**
+ How far away are we right now from the best departure time available to us? Uses real time data when available, and scheduled data otherwise.
+
+ @return The number of minutes until departure, suitable to display to a user.
+ */
+- (NSInteger)minutesUntilBestDeparture;
 @end
 
 NS_ASSUME_NONNULL_END

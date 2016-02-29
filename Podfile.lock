@@ -44,17 +44,13 @@ PODS:
     - OMGHTTPURLRQ/FormURLEncode
     - OMGHTTPURLRQ/UserAgent
   - OMGHTTPURLRQ/UserAgent (3.1.1)
-  - PromiseKit (3.0.2):
-    - PromiseKit/Foundation (= 3.0.2)
-    - PromiseKit/QuartzCore (= 3.0.2)
-    - PromiseKit/UIKit (= 3.0.2)
+  - PromiseKit/CoreLocation (3.0.2):
+    - PromiseKit/CorePromise
   - PromiseKit/CorePromise (3.0.2)
   - PromiseKit/Foundation (3.0.2):
     - OMGHTTPURLRQ (~> 3.1.0)
     - PromiseKit/CorePromise
-  - PromiseKit/QuartzCore (3.0.2):
-    - PromiseKit/CorePromise
-  - PromiseKit/UIKit (3.0.2):
+  - PromiseKit/MapKit (3.0.2):
     - PromiseKit/CorePromise
   - SVProgressHUD (2.0-beta)
   - TWSReleaseNotesView (1.2.0)
@@ -62,7 +58,10 @@ PODS:
 DEPENDENCIES:
   - GoogleAnalytics-iOS-SDK (= 3.11)
   - libextobjc (= 0.4.1)
-  - PromiseKit (= 3.0.2)
+  - PromiseKit/CoreLocation (= 3.0.2)
+  - PromiseKit/CorePromise (= 3.0.2)
+  - PromiseKit/Foundation (= 3.0.2)
+  - PromiseKit/MapKit (= 3.0.2)
   - SVProgressHUD (= 2.0-beta)
   - TWSReleaseNotesView (= 1.2.0)
 

@@ -1,5 +1,9 @@
 #import "OBAArrivalAndDepartureV2.h"
+#import "OBADateHelpers.h"
 
+@interface OBAArrivalAndDepartureV2 ()
+@property(nonatomic,strong) NSMutableArray *situationIds;
+@end
 
 @implementation OBAArrivalAndDepartureV2
 
@@ -49,22 +53,111 @@
 }
 
 - (NSArray*) situations {
-    
+
     NSMutableArray * rSituations = [NSMutableArray array];
-    
+
     OBAReferencesV2 * refs = self.references;
-    
+
     for( NSString * situationId in self.situationIds ) {
         OBASituationV2 * situation = [refs getSituationForId:situationId];
         if( situation )
             [rSituations addObject:situation];
     }
-    
+
     return rSituations;
 }
 
 - (void) addSituationId:(NSString*)situationId {
-    [_situationIds addObject:situationId];
+    [self.situationIds addObject:situationId];
+}
+
+- (OBADepartureStatus)departureStatus {
+
+    if (!self.hasRealTimeData) {
+        return OBADepartureStatusUnknown;
+    }
+
+    double diff = (self.predictedDepartureTime - self.scheduledDepartureTime) / (1000.0 * 60.0);
+
+    if (diff < -1.5) {
+        return OBADepartureStatusEarly;
+    }
+    else if (diff < 1.5) {
+        return OBADepartureStatusOnTime;
+    }
+    else {
+        return OBADepartureStatusDelayed;
+    }
+}
+
++ (NSString*)statusStringFromFrequency:(OBAFrequencyV2*)frequency {
+    NSInteger headway = frequency.headway / 60;
+
+    NSDate *now = [NSDate date];
+    NSDate *startTime = [NSDate dateWithTimeIntervalSince1970:(frequency.startTime / 1000)];
+    NSDate *endTime = [NSDate dateWithTimeIntervalSince1970:(frequency.endTime / 1000)];
+
+    NSString *formatString = NSLocalizedString(@"Every %@ mins %@ %@", @"frequency status string");
+    NSString *fromOrUntil = [now compare:startTime] == NSOrderedAscending ? NSLocalizedString(@"from", @"") :
+    NSLocalizedString(@"until", @"");
+
+    NSDate *terminalDate = [now compare:startTime] == NSOrderedAscending ? startTime : endTime;
+
+    return [NSString stringWithFormat:formatString, @(headway), fromOrUntil, [OBADateHelpers formatShortTimeNoDate:terminalDate]];
+}
+
+- (double)predictedDepatureTimeDeviationFromScheduleInMinutes {
+
+    if (self.departureStatus == OBADepartureStatusUnknown) {
+        return NAN;
+    }
+    else {
+        return (self.predictedDepartureTime - self.scheduledDepartureTime) / (1000.0 * 60.0);
+    }
+}
+
+- (NSInteger)minutesUntilBestDeparture {
+    NSDate *time = [NSDate dateWithTimeIntervalSince1970:(self.bestDepartureTime / 1000)];
+    NSTimeInterval interval = [time timeIntervalSinceNow];
+    return (NSInteger)(interval / 60.0);
+}
+
+- (NSString*)statusText {
+    if (self.frequency) {
+        return [OBAArrivalAndDepartureV2 statusStringFromFrequency:self.frequency];
+    }
+
+    OBADepartureStatus departureStatus = self.departureStatus;
+    NSInteger minutes = [self minutesUntilBestDeparture];
+    NSInteger minDiff = (NSInteger)fabs([self predictedDepatureTimeDeviationFromScheduleInMinutes]);
+
+    if (departureStatus == OBADepartureStatusOnTime) {
+        if (minutes < 0) {
+            return NSLocalizedString(@"departed on time", @"minutes < 0");
+        }
+        else {
+            return NSLocalizedString(@"on time", @"minutes >= 0");
+        }
+    }
+
+    if (departureStatus == OBADepartureStatusUnknown) {
+        if (minutes > 0) {
+            return NSLocalizedString(@"scheduled arrival", @"minutes >= 0");
+        }
+        else {
+            return NSLocalizedString(@"scheduled departure", @"minutes < 0");
+        }
+    }
+
+    NSString *suffixWord = departureStatus == OBADepartureStatusEarly ? NSLocalizedString(@"early", @"") :
+    NSLocalizedString(@"late", @"");
+
+    if (minutes < 0) {
+        return [NSString stringWithFormat:@"departed %@ minutes %@", @(minDiff), suffixWord];
+    }
+    else {
+        return [NSString stringWithFormat:@"%@ minutes %@", @(minDiff), suffixWord];
+    }
 }
 
 @end

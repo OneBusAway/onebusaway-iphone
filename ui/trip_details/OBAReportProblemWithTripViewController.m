@@ -222,7 +222,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             vc.delegate = self;
             vc.text = _comment;
             vc.title = NSLocalizedString(@"Comment", @"withTitle");
-            
+
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
             [self presentViewController:nav animated:YES completion:nil];
 
@@ -373,19 +373,20 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (NSString *)getVehicleTypeLabeForTrip:(OBATripV2 *)trip {
     OBARouteV2 *route = trip.route;
-
-    switch ([route.routeType intValue]) {
-        case 0:
-        case 1:
+    // TODO: The value for light rail seems totally wrong.
+    // And what does "metro" even mean?
+    switch (route.routeType.unsignedIntegerValue) {
+        case OBARouteTypeLightRail:
+        case OBARouteTypeMetro:
             return NSLocalizedString(@"metro", @"routeType 1");
 
-        case 2:
+        case OBARouteTypeTrain:
             return NSLocalizedString(@"train", @"routeType 2");
 
-        case 3:
+        case OBARouteTypeBus:
             return NSLocalizedString(@"bus", @"routeType 3");
 
-        case 4:
+        case OBARouteTypeFerry:
             return NSLocalizedString(@"ferry", @"routeType 4");
 
         default:

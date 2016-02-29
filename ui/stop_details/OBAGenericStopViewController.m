@@ -935,7 +935,7 @@ NSComparisonResult predictedArrivalSortByRoute(id o1, id o2, void *context) {
     self.stopInformationLabel.shadowColor = [UIColor colorWithWhite:0.f alpha:0.5f];
     self.stopInformationLabel.shadowOffset = CGSizeMake(0, 1);
     self.stopInformationLabel.numberOfLines = 0;
-    self.stopInformationLabel.font = [OBATheme headlineFont];
+    self.stopInformationLabel.font = [OBATheme bodyFont];
     self.stopInformationLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     [coverView addSubview:self.stopInformationLabel];
     

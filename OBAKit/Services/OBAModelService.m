@@ -2,6 +2,7 @@
 #import "OBAModelServiceRequest.h"
 #import "OBASphericalGeometryLibrary.h"
 #import "OBAURLHelpers.h"
+#import "OBAMacros.h"
 
 static const CLLocationAccuracy kSearchRadius = 400;
 static const CLLocationAccuracy kBigSearchRadius = 15000;
@@ -9,7 +10,11 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
 @implementation OBAModelService
 
 - (AnyPromise*)requestStopForID:(NSString*)stopID {
-    
+
+    OBAGuard(stopID) else {
+        return nil;
+    }
+
     NSDictionary *args = @{ @"minutesBefore": @(5),
                             @"minutesAfter":  @(35) };
     
