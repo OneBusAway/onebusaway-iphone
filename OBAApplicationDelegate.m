@@ -15,6 +15,7 @@
  */
 
 #import <SystemConfiguration/SystemConfiguration.h>
+#import <ABReleaseNotesViewController/ABReleaseNotesViewController.h>
 #import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
 #import "OBALogger.h"
@@ -29,7 +30,6 @@
 
 #import "OBARegionListViewController.h"
 #import "OBARegionHelper.h"
-#import "OBAReleaseNotesManager.h"
 
 #import "OBAAnalytics.h"
 #import "NSArray+OBAAdditions.h"
@@ -48,7 +48,7 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
 @property (nonatomic, strong) OBARegionHelper *regionHelper;
 @property (nonatomic, strong) id regionObserver;
 @property (nonatomic, strong) id recentStopsObserver;
-
+@property(nonatomic,strong) ABReleaseNotesViewController *releaseNotes;
 @end
 
 @implementation OBAApplicationDelegate
@@ -156,12 +156,18 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
 
     [self.window makeKeyAndVisible];
 
-    if ([OBAReleaseNotesManager shouldShowReleaseNotes]) {
-        [OBAReleaseNotesManager showReleaseNotes:self.window];
-    }
+    self.releaseNotes = [[ABReleaseNotesViewController alloc] initWithAppIdentifier:@"329380089"];
+    self.releaseNotes.title = NSLocalizedString(@"What's New", @"");
+    self.releaseNotes.mode = ABReleaseNotesViewControllerModeTesting;
+
+    [self.releaseNotes checkForUpdates:^(BOOL updated) {
+        if (updated) {
+            [self.tabBarController presentViewController:self.releaseNotes animated:YES completion:nil];
+        }
+    }];
 }
 
-#pragma mark UIApplicaiton Methods
+#pragma mark - UIApplication Methods
 
 - (UIBackgroundTaskIdentifier)beginBackgroundTaskWithExpirationHandler:(void (^)(void))handler {
     return [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:handler];
