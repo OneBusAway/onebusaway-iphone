@@ -1,4 +1,5 @@
 PODS:
+  - ABReleaseNotesViewController (0.1.0)
   - GoogleAnalytics-iOS-SDK (3.11):
     - GoogleAnalytics-iOS-SDK/Core (= 3.11)
   - GoogleAnalytics-iOS-SDK/Core (3.11)
@@ -53,9 +54,9 @@ PODS:
   - PromiseKit/MapKit (3.0.2):
     - PromiseKit/CorePromise
   - SVProgressHUD (2.0-beta)
-  - TWSReleaseNotesView (1.2.0)
 
 DEPENDENCIES:
+  - ABReleaseNotesViewController (= 0.1.0)
   - GoogleAnalytics-iOS-SDK (= 3.11)
   - libextobjc (= 0.4.1)
   - PromiseKit/CoreLocation (= 3.0.2)
@@ -63,14 +64,13 @@ DEPENDENCIES:
   - PromiseKit/Foundation (= 3.0.2)
   - PromiseKit/MapKit (= 3.0.2)
   - SVProgressHUD (= 2.0-beta)
-  - TWSReleaseNotesView (= 1.2.0)
 
 SPEC CHECKSUMS:
+  ABReleaseNotesViewController: b378ca2ec9494027a8ea584320453a0697073e56
   GoogleAnalytics-iOS-SDK: fb15cc7e3d01d06d531653f37443fda90274d53d
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   OMGHTTPURLRQ: 633f98ee745aeda02345935a52eec1784cddb589
   PromiseKit: ab1a380f7a30cf8cce663a2411e8b3580b10313d
   SVProgressHUD: c83337f10ed32d701c423d519059a249973c8662
-  TWSReleaseNotesView: 52cfe9ddf562b171998a5f285ca4f843880ce6f8
 
 COCOAPODS: 0.39.0
