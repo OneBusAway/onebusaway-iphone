@@ -11,7 +11,7 @@ If you would like to help test the latest development release, email us at [ipho
 
 ## Contributing
 
-See our [contributing guidelines](CONTRIBUTING.md) and [roadmap](ROADMAP.md).
+See our [contributing guidelines](CONTRIBUTING.md) and [roadmap](https://github.com/OneBusAway/onebusaway-iphone/wiki/Roadmap).
 
 Our [huboard](https://huboard.com/OneBusAway/onebusaway-iphone) lists development priorites and status updates.
 
