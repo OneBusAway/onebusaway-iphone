@@ -7,9 +7,42 @@
 //
 
 #import "OBAMapHelpers.h"
+#import "OBACoordinateBounds.h"
+#import "OBAAgencyWithCoverageV2.h"
+#import "OBASphericalGeometryLibrary.h"
+#import "OBAStopV2.h"
+#import "OBAPlacemark.h"
+#import "OBARegionBoundsV2.h"
+
+const double OBADefaultMapRadiusInMeters = 100;
+const double OBAMinMapRadiusInMeters = 150;
+const double OBAMaxLatitudeDeltaToShowStops = 0.008;
+const double OBARegionScaleFactor = 1.5;
+const double OBAMaxMapDistanceFromCurrentLocationForNearby = 800;
+const double OBAPaddingScaleFactor = 1.075;
 
 #define MERCATOR_OFFSET 268435456
 #define MERCATOR_RADIUS 85445659.44705395
+
+NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2, void *context) {
+    CLLocation *location = (__bridge CLLocation *)context;
+
+    CLLocation *stopLocation1 = [[CLLocation alloc] initWithLatitude:stop1.lat longitude:stop1.lon];
+    CLLocation *stopLocation2 = [[CLLocation alloc] initWithLatitude:stop2.lat longitude:stop2.lon];
+
+    CLLocationDistance v1 = [location distanceFromLocation:stopLocation1];
+    CLLocationDistance v2 = [location distanceFromLocation:stopLocation2];
+
+    if (v1 < v2) {
+        return NSOrderedAscending;
+    }
+    else if (v1 > v2) {
+        return NSOrderedDescending;
+    }
+    else {
+        return NSOrderedSame;
+    }
+}
 
 @implementation OBAMapHelpers
 
@@ -85,5 +118,165 @@
     });
 
     return [formatter stringFromDistance:distance];
+}
+
++ (CLLocationDistance)getDistanceFrom:(CLLocationCoordinate2D)start to:(CLLocationCoordinate2D)end {
+    CLLocation *startLoc = [[CLLocation alloc] initWithLatitude:start.latitude longitude:start.longitude];
+    CLLocation *endLoc = [[CLLocation alloc] initWithLatitude:end.latitude longitude:end.longitude];
+    CLLocationDistance distance = [startLoc distanceFromLocation:endLoc];
+
+    return distance;
+}
+
++ (CLCircularRegion*)convertVisibleMapRect:(MKMapRect)visibleMapRect intoCircularRegionWithCenter:(CLLocationCoordinate2D)centerCoordinate {
+    MKMapPoint neMapPoint = MKMapPointMake(MKMapRectGetMaxX(visibleMapRect), visibleMapRect.origin.y);
+    MKMapPoint swMapPoint = MKMapPointMake(visibleMapRect.origin.x, MKMapRectGetMaxY(visibleMapRect));
+    CLLocationCoordinate2D neCoord = MKCoordinateForMapPoint(neMapPoint);
+    CLLocationCoordinate2D swCoord = MKCoordinateForMapPoint(swMapPoint);
+    CLLocationDistance diameter = [OBAMapHelpers getDistanceFrom:neCoord to:swCoord];
+
+    return [[CLCircularRegion alloc] initWithCenter:centerCoordinate radius:(diameter / 2.0) identifier:@"mapRegion"];
+}
+
++ (MKMapRect)mapRectForCoordinateRegion:(MKCoordinateRegion)region {
+    MKMapPoint a = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
+                                                                      region.center.latitude + region.span.latitudeDelta / 2,
+                                                                      region.center.longitude - region.span.longitudeDelta / 2));
+    MKMapPoint b = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
+                                                                      region.center.latitude - region.span.latitudeDelta / 2,
+                                                                      region.center.longitude + region.span.longitudeDelta / 2));
+
+    return MKMapRectMake(MIN(a.x, b.x), MIN(a.y, b.y), ABS(a.x - b.x), ABS(a.y - b.y));
+}
+
++ (MKCoordinateRegion)computeRegionForAgenciesWithCoverage:(NSArray*)agenciesWithCoverage defaultRegion:(MKCoordinateRegion)defaultRegion {
+    if (0 == agenciesWithCoverage.count) {
+        return defaultRegion;
+    }
+
+    OBACoordinateBounds *bounds = [OBACoordinateBounds bounds];
+
+    for (OBAAgencyWithCoverageV2 *agencyWithCoverage in agenciesWithCoverage) {
+        [bounds addCoordinate:agencyWithCoverage.coordinate];
+    }
+
+    if (bounds.empty) {
+        return defaultRegion;
+    }
+
+    MKCoordinateRegion region = bounds.region;
+    MKCoordinateRegion minRegion = [OBASphericalGeometryLibrary createRegionWithCenter:region.center latRadius:50000 lonRadius:50000];
+
+    if (region.span.latitudeDelta < minRegion.span.latitudeDelta) {
+        region.span.latitudeDelta = minRegion.span.latitudeDelta;
+    }
+
+    if (region.span.longitudeDelta < minRegion.span.longitudeDelta) {
+        region.span.longitudeDelta = minRegion.span.longitudeDelta;
+    }
+
+    return region;
+}
+
++ (MKCoordinateRegion)computeRegionForStops:(NSArray *)stops center:(CLLocation *)location {
+    CLLocationCoordinate2D center = location.coordinate;
+
+    MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:center latRadius:OBADefaultMapRadiusInMeters lonRadius:OBADefaultMapRadiusInMeters];
+    MKCoordinateSpan span = region.span;
+
+    for (OBAStopV2 *stop in stops) {
+        double latDelta = ABS(stop.lat - center.latitude) * 2.0 * OBAPaddingScaleFactor;
+        double lonDelta = ABS(stop.lon - center.longitude) * 2.0 * OBAPaddingScaleFactor;
+
+        span.latitudeDelta  = MAX(span.latitudeDelta, latDelta);
+        span.longitudeDelta = MAX(span.longitudeDelta, lonDelta);
+    }
+
+    region.center = center;
+    region.span = span;
+
+    return region;
+}
+
++ (MKCoordinateRegion)computeRegionForPlacemarks:(NSArray<OBAPlacemark*>*)placemarks defaultRegion:(MKCoordinateRegion)defaultRegion {
+    OBACoordinateBounds *bounds = [OBACoordinateBounds bounds];
+
+    for (OBAPlacemark *placemark in placemarks) {
+        [bounds addCoordinate:placemark.coordinate];
+    }
+
+    if (bounds.empty) {
+        return defaultRegion;
+    }
+
+    return bounds.region;
+}
+
++ (BOOL)visibleMapRect:(MKMapRect)visibleMapRect isOutOfServiceArea:(NSArray<OBARegionBoundsV2*>*)serviceArea {
+
+    for (OBARegionBoundsV2 *bounds in serviceArea) {
+        MKMapPoint a = MKMapPointForCoordinate(CLLocationCoordinate2DMake(bounds.lat + bounds.latSpan / 2,
+                                                                          bounds.lon - bounds.lonSpan / 2));
+        MKMapPoint b = MKMapPointForCoordinate(CLLocationCoordinate2DMake(bounds.lat - bounds.latSpan / 2,
+                                                                          bounds.lon + bounds.lonSpan / 2));
+
+        MKMapRect serviceRect = MKMapRectMake(MIN(a.x, b.x), MIN(a.y, b.y), ABS(a.x - b.x), ABS(a.y - b.y));
+
+        if (MKMapRectIntersectsRect(serviceRect, visibleMapRect)) {
+            return NO;
+        }
+    }
+
+    return YES;
+}
+
++ (MKCoordinateRegion)computeRegionForNClosestStops:(NSArray *)stops center:(CLLocation *)location numberOfStops:(NSUInteger)numberOfStops {
+    NSMutableArray *stopsSortedByDistance = [NSMutableArray arrayWithArray:stops];
+
+    [stopsSortedByDistance sortUsingFunction:OBASortStopsByDistanceFromLocation context:(__bridge void *)(location)];
+
+    while ([stopsSortedByDistance count] > numberOfStops) {
+        [stopsSortedByDistance removeLastObject];
+    }
+
+    return [OBAMapHelpers computeRegionForStops:stopsSortedByDistance center:location];
+}
+
+
++ (MKCoordinateRegion)computeRegionForStops:(NSArray*)stops {
+    double latRun = 0.0, lonRun = 0.0;
+
+    for (OBAStopV2 *stop in stops) {
+        latRun += stop.lat;
+        lonRun += stop.lon;
+    }
+
+    CLLocationCoordinate2D center;
+    center.latitude = latRun / stops.count;
+    center.longitude = lonRun / stops.count;
+
+    CLLocation *centerLocation = [[CLLocation alloc] initWithLatitude:center.latitude longitude:center.longitude];
+
+    return [OBAMapHelpers computeRegionForStops:stops center:centerLocation];
+}
+
++ (MKCoordinateRegion)computeRegionForCenter:(CLLocation*)center nearbyStops:(NSArray*)stops {
+    NSMutableArray *stopsInRange = [NSMutableArray array];
+
+    for (OBAStopV2 *stop in stops) {
+        CLLocation *location = [[CLLocation alloc] initWithLatitude:stop.lat longitude:stop.lon];
+        CLLocationDistance d = [location distanceFromLocation:center];
+
+        if (d < OBAMaxMapDistanceFromCurrentLocationForNearby) {
+            [stopsInRange addObject:stop];
+        }
+    }
+
+    if (stopsInRange.count > 0) {
+        return [OBAMapHelpers computeRegionForStops:stopsInRange center:center];
+    }
+    else {
+        return [OBAMapHelpers computeRegionForStops:stops];
+    }
 }
 @end

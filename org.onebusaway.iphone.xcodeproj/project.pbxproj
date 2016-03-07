@@ -251,6 +251,7 @@
 		93AD369D1604027E00BDF03F /* OBAProgressIndicatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD369B1604027E00BDF03F /* OBAProgressIndicatorImpl.m */; };
 		93B32FF31AC4912F001DC177 /* UIViewController+OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B32FF21AC4912F001DC177 /* UIViewController+OBAAnalytics.m */; };
 		93E0954719CE051700A31BA6 /* OBALaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */; };
+		93F05A631C8E080000BF36B1 /* OBAAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F05A621C8E080000BF36B1 /* OBAAnimation.m */; };
 		93F64E971BE5ACC300323527 /* OBAAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F64E961BE5ACC300323527 /* OBAAlerts.m */; };
 		D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = D651BB2711C9D5DE001BE733 /* iTunesArtwork */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
@@ -614,6 +615,8 @@
 		93B32FF11AC4912F001DC177 /* UIViewController+OBAAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+OBAAnalytics.h"; sourceTree = "<group>"; };
 		93B32FF21AC4912F001DC177 /* UIViewController+OBAAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+OBAAnalytics.m"; sourceTree = "<group>"; };
 		93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBALaunchScreen.xib; path = Resources/OBALaunchScreen.xib; sourceTree = "<group>"; };
+		93F05A611C8E080000BF36B1 /* OBAAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAnimation.h; sourceTree = "<group>"; };
+		93F05A621C8E080000BF36B1 /* OBAAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAnimation.m; sourceTree = "<group>"; };
 		93F64E951BE5ACC300323527 /* OBAAlerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAlerts.h; sourceTree = "<group>"; };
 		93F64E961BE5ACC300323527 /* OBAAlerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAlerts.m; sourceTree = "<group>"; };
 		9896748DE4027B647D4D41F0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -948,6 +951,8 @@
 			children = (
 				9345225E1C1BA976006F75BC /* OBATheme.h */,
 				9345225F1C1BA976006F75BC /* OBATheme.m */,
+				93F05A611C8E080000BF36B1 /* OBAAnimation.h */,
+				93F05A621C8E080000BF36B1 /* OBAAnimation.m */,
 			);
 			path = themes;
 			sourceTree = "<group>";
@@ -1753,6 +1758,7 @@
 				932BE4D91AB66D890011F2FB /* OBADiversionViewController.m in Sources */,
 				932BE4F61AB66E990011F2FB /* OBASearchController.m in Sources */,
 				934446D01AB12B29005B3333 /* OBATextEditViewController.m in Sources */,
+				93F05A631C8E080000BF36B1 /* OBAAnimation.m in Sources */,
 				932BE4F71AB66E990011F2FB /* OBASearchResultsListViewController.m in Sources */,
 				936D2EF31C7A68260060B7E1 /* OBATableRow.m in Sources */,
 				936D2EF41C7A68260060B7E1 /* OBATableSection.m in Sources */,

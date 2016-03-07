@@ -15,6 +15,7 @@
  */
 
 #import "OBARecentStopsViewController.h"
+#import <OBAKit/OBAKit.h>
 #import "OBAStopAccessEventV2.h"
 #import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"

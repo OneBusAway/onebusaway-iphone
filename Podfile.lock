@@ -45,6 +45,8 @@ PODS:
     - OMGHTTPURLRQ/FormURLEncode
     - OMGHTTPURLRQ/UserAgent
   - OMGHTTPURLRQ/UserAgent (3.1.1)
+  - PromiseKit/CloudKit (3.0.2):
+    - PromiseKit/CorePromise
   - PromiseKit/CoreLocation (3.0.2):
     - PromiseKit/CorePromise
   - PromiseKit/CorePromise (3.0.2)
@@ -61,6 +63,7 @@ DEPENDENCIES:
   - GoogleAnalytics (= 3.14.0)
   - libextobjc (= 0.4.1)
   - Masonry (= 0.6.4)
+  - PromiseKit/CloudKit (= 3.0.2)
   - PromiseKit/CoreLocation (= 3.0.2)
   - PromiseKit/CorePromise (= 3.0.2)
   - PromiseKit/Foundation (= 3.0.2)

@@ -14,16 +14,11 @@
  * limitations under the License.
  */
 
-#import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
-#import "OBALocationManager.h"
 #import "OBASearchController.h"
-#import "OBALocationManager.h"
 #import "OBAGenericAnnotation.h"
 #import "OBAMapRegionManager.h"
 #import "OBAScopeView.h"
-
-@class OBASearchControllerImpl;
 
 NS_ASSUME_NONNULL_BEGIN
 
