@@ -215,6 +215,8 @@
 		934D01481C83924D00A76A90 /* OBAModelService.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D00CB1C83924D00A76A90 /* OBAModelService.m */; };
 		934D01491C83924D00A76A90 /* OBAModelServiceRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D00CC1C83924D00A76A90 /* OBAModelServiceRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934D014A1C83924D00A76A90 /* OBAModelServiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D00CD1C83924D00A76A90 /* OBAModelServiceRequest.m */; };
+		93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93528AAD1C8D50D200783E9A /* MapKit.framework */; };
+		93528AB11C8D517100783E9A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93528AB01C8D517100783E9A /* CloudKit.framework */; };
 		93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */; };
 		936D2EDB1C78D7140060B7E1 /* OBADataSourceConfig_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D2EDA1C78D7140060B7E1 /* OBADataSourceConfig_Tests.m */; };
 		936D2EDD1C78D7300060B7E1 /* OBAURLHelpers_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D2EDC1C78D7300060B7E1 /* OBAURLHelpers_Tests.m */; };
@@ -233,6 +235,7 @@
 		936D62821C8CEA930070152B /* OBADepartureCellHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D62811C8CEA930070152B /* OBADepartureCellHelpers.m */; };
 		936D62851C8CED540070152B /* OBAClassicDepartureSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D62841C8CED540070152B /* OBAClassicDepartureSectionHeaderView.m */; };
 		936D62881C8D00150070152B /* OBALabelFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D62871C8D00150070152B /* OBALabelFooterView.m */; };
+		936D628B1C8D4C5F0070152B /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 		936F45001C780E7600C61656 /* OBAKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 936F44FF1C780E7600C61656 /* OBAKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		936F45121C780E7600C61656 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936F44FD1C780E7600C61656 /* OBAKit.framework */; };
 		936F45131C780E7600C61656 /* OBAKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 936F44FD1C780E7600C61656 /* OBAKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -547,6 +550,9 @@
 		934D00CB1C83924D00A76A90 /* OBAModelService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelService.m; sourceTree = "<group>"; };
 		934D00CC1C83924D00A76A90 /* OBAModelServiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelServiceRequest.h; sourceTree = "<group>"; };
 		934D00CD1C83924D00A76A90 /* OBAModelServiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelServiceRequest.m; sourceTree = "<group>"; };
+		93528AAD1C8D50D200783E9A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		93528AAF1C8D50E900783E9A /* OneBusAway.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OneBusAway.entitlements; path = OneBusAway/OneBusAway.entitlements; sourceTree = "<group>"; };
+		93528AB01C8D517100783E9A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		93631E4A1604F96800CB7209 /* OBAApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAApplicationDelegate.h; sourceTree = "<group>"; };
 		93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAApplicationDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		936D2EDA1C78D7140060B7E1 /* OBADataSourceConfig_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADataSourceConfig_Tests.m; sourceTree = "<group>"; };
@@ -629,8 +635,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93528AB11C8D517100783E9A /* CloudKit.framework in Frameworks */,
 				93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */,
 				936F45121C780E7600C61656 /* OBAKit.framework in Frameworks */,
+				93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */,
 				E238ED5643B2070974316CC3 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -682,6 +690,7 @@
 		29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */ = {
 			isa = PBXGroup;
 			children = (
+				93528AAF1C8D50E900783E9A /* OneBusAway.entitlements */,
 				936F44FE1C780E7600C61656 /* OBAKit */,
 				932BE4901AB66D320011F2FB /* ui */,
 				934446791AB10B1D005B3333 /* location */,
@@ -729,6 +738,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93528AB01C8D517100783E9A /* CloudKit.framework */,
+				93528AAD1C8D50D200783E9A /* MapKit.framework */,
 				939E8E4C1C78DCB1008FCA4C /* Pods.framework */,
 				93A923A11C21DCD600A657C8 /* SafariServices.framework */,
 				5915BB5B4ED79BCFF0C6D8B4 /* Pods.framework */,
@@ -1497,8 +1508,14 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
 							com.apple.Maps.iOS = {
-								enabled = 0;
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
 							};
 						};
 					};
@@ -1564,6 +1581,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				936D628B1C8D4C5F0070152B /* Entitlements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1871,6 +1889,7 @@
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = OneBusAway/OneBusAway.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1923,6 +1942,7 @@
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = OneBusAway/OneBusAway.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1993,11 +2013,11 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = OBAKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.OBAKit;
+				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2042,10 +2062,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = OBAKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.OBAKit;
+				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2091,10 +2111,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = OBAKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.OBAKit;
+				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2140,10 +2160,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = OBAKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.OBAKit;
+				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2357,7 +2377,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_ENTITLEMENTS = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
@@ -2391,6 +2411,7 @@
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = OneBusAway/OneBusAway.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -2426,6 +2447,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
@@ -2459,6 +2481,7 @@
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = OneBusAway/OneBusAway.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
