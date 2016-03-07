@@ -8,7 +8,7 @@ link_with 'OneBusAway', 'OneBusAwayTests'
 pod 'ABReleaseNotesViewController', '0.1.0'
 pod 'GoogleAnalytics-iOS-SDK', '3.11'
 pod 'libextobjc', '0.4.1'
-pod 'SVProgressHUD', '2.0-beta'
+pod 'SVProgressHUD', :git => "https://github.com/aaronbrethorst/SVProgressHUD.git"
 pod 'Masonry', '0.6.4'
 pod 'DateTools', '1.7.0'
 

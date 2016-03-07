@@ -55,7 +55,7 @@ PODS:
     - PromiseKit/CorePromise
   - PromiseKit/MapKit (3.0.2):
     - PromiseKit/CorePromise
-  - SVProgressHUD (2.0-beta)
+  - SVProgressHUD (2.0.0)
 
 DEPENDENCIES:
   - ABReleaseNotesViewController (= 0.1.0)
@@ -67,7 +67,16 @@ DEPENDENCIES:
   - PromiseKit/CorePromise (= 3.0.2)
   - PromiseKit/Foundation (= 3.0.2)
   - PromiseKit/MapKit (= 3.0.2)
-  - SVProgressHUD (= 2.0-beta)
+  - SVProgressHUD (from `https://github.com/aaronbrethorst/SVProgressHUD.git`)
+
+EXTERNAL SOURCES:
+  SVProgressHUD:
+    :git: https://github.com/aaronbrethorst/SVProgressHUD.git
+
+CHECKOUT OPTIONS:
+  SVProgressHUD:
+    :commit: 227836711de8955578530359dbffc3636bca2e9b
+    :git: https://github.com/aaronbrethorst/SVProgressHUD.git
 
 SPEC CHECKSUMS:
   ABReleaseNotesViewController: b378ca2ec9494027a8ea584320453a0697073e56
@@ -77,6 +86,6 @@ SPEC CHECKSUMS:
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   OMGHTTPURLRQ: 633f98ee745aeda02345935a52eec1784cddb589
   PromiseKit: ab1a380f7a30cf8cce663a2411e8b3580b10313d
-  SVProgressHUD: c83337f10ed32d701c423d519059a249973c8662
+  SVProgressHUD: d10505169d392b402f4ea4b7d842324ca797e073
 
 COCOAPODS: 0.39.0

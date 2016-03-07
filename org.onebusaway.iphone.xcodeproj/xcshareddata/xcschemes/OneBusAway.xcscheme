@@ -99,7 +99,7 @@
       buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "AdHocDistribution"
+      buildConfiguration = "AppStoreDistribution"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
