@@ -90,6 +90,20 @@
     }
 }
 
+- (NSString*)bestAvailableName {
+    if (self.routeShortName) {
+        return self.routeShortName;
+    }
+
+    OBATripV2* trip = self.trip;
+
+    if (trip.routeShortName) {
+        return trip.routeShortName;
+    }
+
+    return trip.route.shortName ?: trip.route.longName;
+}
+
 + (NSString*)statusStringFromFrequency:(OBAFrequencyV2*)frequency {
     NSInteger headway = frequency.headway / 60;
 
@@ -98,8 +112,7 @@
     NSDate *endTime = [NSDate dateWithTimeIntervalSince1970:(frequency.endTime / 1000)];
 
     NSString *formatString = NSLocalizedString(@"Every %@ mins %@ %@", @"frequency status string");
-    NSString *fromOrUntil = [now compare:startTime] == NSOrderedAscending ? NSLocalizedString(@"from", @"") :
-    NSLocalizedString(@"until", @"");
+    NSString *fromOrUntil = [now compare:startTime] == NSOrderedAscending ? NSLocalizedString(@"from", @"") : NSLocalizedString(@"until", @"");
 
     NSDate *terminalDate = [now compare:startTime] == NSOrderedAscending ? startTime : endTime;
 

@@ -50,7 +50,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) addSituationId:(NSString*)situationId;
 
+/**
+ Walks through a series of possible options for giving this arrival and departure a user-sensible name.
+
+ @return A string (hopefully) suitable for presenting to the user.
+ */
+- (NSString*)bestAvailableName;
+
 - (OBADepartureStatus)departureStatus;
+
 - (NSString*)statusText;
 
 /**

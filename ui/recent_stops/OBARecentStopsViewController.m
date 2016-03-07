@@ -16,7 +16,7 @@
 
 #import "OBARecentStopsViewController.h"
 #import "OBAStopAccessEventV2.h"
-#import "OBAGenericStopViewController.h"
+#import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
@@ -88,7 +88,7 @@
 
     if (0 <= index && index < [_mostRecentStops count]) {
         OBAStopAccessEventV2 *event = _mostRecentStops[index];
-        OBAGenericStopViewController *vc = [[OBAGenericStopViewController alloc] initWithStopId:event.stopIds[0]];
+        UIViewController *vc = [OBAStopViewController stopControllerWithStopID:event.stopIds[0]];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

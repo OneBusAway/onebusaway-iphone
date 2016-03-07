@@ -7,7 +7,6 @@
 
 @implementation OBAReportProblemViewController
 
-
 #pragma mark -
 #pragma mark Initialization
 
@@ -83,7 +82,7 @@
             break;
         }
         case 1: {
-            OBAReportProblemWithRecentTripsViewController * vc = [[OBAReportProblemWithRecentTripsViewController alloc] initWithStopId:_stop.stopId];
+            OBAReportProblemWithRecentTripsViewController * vc = [[OBAReportProblemWithRecentTripsViewController alloc] initWithStopID:_stop.stopId];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }

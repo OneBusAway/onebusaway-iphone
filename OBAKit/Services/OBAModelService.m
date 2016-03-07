@@ -9,14 +9,14 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
 
 @implementation OBAModelService
 
-- (AnyPromise*)requestStopForID:(NSString*)stopID {
+- (AnyPromise*)requestStopForID:(NSString*)stopID minutesBefore:(NSUInteger)minutesBefore minutesAfter:(NSUInteger)minutesAfter {
 
     OBAGuard(stopID) else {
         return nil;
     }
 
-    NSDictionary *args = @{ @"minutesBefore": @(5),
-                            @"minutesAfter":  @(35) };
+    NSDictionary *args = @{ @"minutesBefore": @(minutesBefore),
+                            @"minutesAfter":  @(minutesAfter) };
     
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         [self request:self.obaJsonDataSource
@@ -37,6 +37,23 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
               resolve(responseData);
           }
       } progressBlock:nil];
+    }];
+}
+
+- (AnyPromise*)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance {
+    OBAGuard(tripInstance) else {
+        return nil;
+    }
+
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestTripDetailsForTripInstance:tripInstance completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            if (error) {
+                resolve(error);
+            }
+            else {
+                resolve([responseData entry]);
+            }
+        } progressBlock:nil];
     }];
 }
 

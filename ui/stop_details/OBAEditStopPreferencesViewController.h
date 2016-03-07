@@ -19,20 +19,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAEditStopPreferencesViewController : UITableViewController {
-    OBAStopV2 * _stop;
-    NSArray * _routes;
-    OBAStopPreferencesV2 * _preferences;
-}
-
-- (id) initWithStop:(OBAStopV2*)stop;
-
-- (IBAction) onCancelButton:(id)sender;
-- (IBAction) onSaveButton:(id)sender;
-
-- (UITableViewCell *)tableView:(UITableView *)tableView sortByCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (UITableViewCell *)tableView:(UITableView *)tableView routeCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-
+@interface OBAEditStopPreferencesViewController : UITableViewController
+- (instancetype)initWithStop:(OBAStopV2*)stop;
 @end
 
 NS_ASSUME_NONNULL_END
