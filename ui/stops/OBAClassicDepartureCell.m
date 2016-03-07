@@ -42,7 +42,7 @@
 
         _routeNameLabel = ({
             UILabel *l = [[UILabel alloc] init];
-            l.minimumScaleFactor = 0.8;
+            l.minimumScaleFactor = 0.8f;
             l.font = [OBATheme bodyFont];
 
             if (kUseDebugColors) {
@@ -53,7 +53,7 @@
 
         _destinationLabel = ({
             UILabel *l = [[UILabel alloc] init];
-            l.minimumScaleFactor = 0.8;
+            l.minimumScaleFactor = 0.8f;
             l.font = [OBATheme bodyFont];
             l.textAlignment = NSTextAlignmentCenter;
 
@@ -66,7 +66,7 @@
 
         _timeAndStatusLabel = ({
             UILabel *l = [[UILabel alloc] init];
-            l.minimumScaleFactor = 0.8;
+            l.minimumScaleFactor = 0.8f;
             l.font = [OBATheme bodyFont];
             l.textAlignment = NSTextAlignmentCenter;
 
@@ -79,7 +79,7 @@
 
         _minutesUntilDepartureLabel = ({
             UILabel *l = [[UILabel alloc] init];
-            l.minimumScaleFactor = 0.8;
+            l.minimumScaleFactor = 0.8f;
             l.font = [OBATheme bodyFont];
             l.textAlignment = NSTextAlignmentRight;
 
