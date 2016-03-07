@@ -1,9 +1,7 @@
 PODS:
   - ABReleaseNotesViewController (0.1.0)
   - DateTools (1.7.0)
-  - GoogleAnalytics-iOS-SDK (3.11):
-    - GoogleAnalytics-iOS-SDK/Core (= 3.11)
-  - GoogleAnalytics-iOS-SDK/Core (3.11)
+  - GoogleAnalytics (3.14.0)
   - libextobjc (0.4.1):
     - libextobjc/EXTADT (= 0.4.1)
     - libextobjc/EXTConcreteProtocol (= 0.4.1)
@@ -60,7 +58,7 @@ PODS:
 DEPENDENCIES:
   - ABReleaseNotesViewController (= 0.1.0)
   - DateTools (= 1.7.0)
-  - GoogleAnalytics-iOS-SDK (= 3.11)
+  - GoogleAnalytics (= 3.14.0)
   - libextobjc (= 0.4.1)
   - Masonry (= 0.6.4)
   - PromiseKit/CoreLocation (= 3.0.2)
@@ -81,7 +79,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   ABReleaseNotesViewController: b378ca2ec9494027a8ea584320453a0697073e56
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
-  GoogleAnalytics-iOS-SDK: fb15cc7e3d01d06d531653f37443fda90274d53d
+  GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   OMGHTTPURLRQ: 633f98ee745aeda02345935a52eec1784cddb589
