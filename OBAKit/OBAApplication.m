@@ -14,12 +14,10 @@ static NSString *const kOBADefaultRegionApiServerName = @"regions.onebusaway.org
 NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplicationSettingsRegionRefreshNotification";
 
 @interface OBAApplication ()
-
 @property (nonatomic, strong, readwrite) OBAReferencesV2 *references;
 @property (nonatomic, strong, readwrite) OBAModelDAO *modelDao;
 @property (nonatomic, strong, readwrite) OBAModelService *modelService;
 @property (nonatomic, strong, readwrite) OBALocationManager *locationManager;
-
 @end
 
 @implementation OBAApplication

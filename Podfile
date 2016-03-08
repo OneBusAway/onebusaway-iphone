@@ -15,8 +15,9 @@ pod 'DateTools', '1.7.0'
 # pod 'PromiseKit', '3.0.2'
 pod 'PromiseKit/CorePromise', '3.0.2'
 pod 'PromiseKit/CoreLocation', '3.0.2'
+pod 'PromiseKit/CloudKit', '3.0.2'
 pod 'PromiseKit/Foundation', '3.0.2'
-pod "PromiseKit/MapKit", '3.0.2'
+pod 'PromiseKit/MapKit', '3.0.2'
 
 post_install do |installer_representation|
   installer_representation.pods_project.targets.each do |target|

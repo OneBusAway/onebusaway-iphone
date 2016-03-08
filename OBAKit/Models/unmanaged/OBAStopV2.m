@@ -77,7 +77,7 @@
 }
 
 - (NSString*) description {
-    return [NSString stringWithFormat:@"Stop: id=%@",self.stopId];
+    return [NSString stringWithFormat:@"<%@ %p> {id: %@, name: %@, code: %@, direction: %@, lat/lng: (%@, %@), routeIDs: %@}", NSStringFromClass(self.class), self, self.stopId, self.name, self.code, self.direction, self.latitude, self.longitude, self.routeIds];
 }
 
 @end

@@ -60,7 +60,7 @@ NSString * const kOBASearchControllerSearchLocationParameter = @"OBASearchContro
     return [self getNavigationTargetForSearchType:OBASearchTypeAgenciesWithCoverage];
 }
 
-+ (OBASearchType) getSearchTypeForNagivationTarget:(OBANavigationTarget*)target {
++ (OBASearchType) getSearchTypeForNavigationTarget:(OBANavigationTarget*)target {
 
     // Update our target parameters
     NSDictionary * parameters = target.parameters;    
@@ -89,7 +89,7 @@ NSString * const kOBASearchControllerSearchLocationParameter = @"OBASearchContro
     }    
 }
 
-+ (id) getSearchTypeParameterForNagivationTarget:(OBANavigationTarget*)target {
++ (id)getSearchTypeParameterForNavigationTarget:(OBANavigationTarget*)target {
     NSDictionary * params = target.parameters;
     return params[kOBASearchControllerSearchArgumentParameter];
 }

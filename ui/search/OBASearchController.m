@@ -54,7 +54,7 @@
     [self cancelOpenConnections];
 
     _target = target;
-    _searchType = [OBASearch getSearchTypeForNagivationTarget:target];
+    _searchType = [OBASearch getSearchTypeForNavigationTarget:target];
 
     // Short circuit if the request is NONE
     if (_searchType == OBASearchTypeNone) {
@@ -80,7 +80,7 @@
 }
 
 - (id)searchParameter {
-    return [OBASearch getSearchTypeParameterForNagivationTarget:_target];
+    return [OBASearch getSearchTypeParameterForNavigationTarget:_target];
 }
 
 - (CLLocation *)searchLocation {
@@ -140,7 +140,7 @@
 
 - (id<OBAModelServiceRequest>)requestForTarget:(OBANavigationTarget *)target {
     // Update our target parameters
-    OBASearchType type = [OBASearch getSearchTypeForNagivationTarget:target];
+    OBASearchType type = [OBASearch getSearchTypeForNavigationTarget:target];
 
 
     void (^ WrapperCompletion)() = ^(id responseData, NSUInteger responseCode, NSError *err, void (^complete)(id responseData)) {
@@ -156,7 +156,7 @@
 
     switch (type) {
         case OBASearchTypeRegion: {
-            NSData *data = [OBASearch getSearchTypeParameterForNagivationTarget:target];
+            NSData *data = [OBASearch getSearchTypeParameterForNavigationTarget:target];
             MKCoordinateRegion region;
             [data getBytes:&region length:sizeof(MKCoordinateRegion)];
 
@@ -169,7 +169,7 @@
         }
 
         case OBASearchTypeRoute: {
-            NSString *routeQuery = [OBASearch getSearchTypeParameterForNagivationTarget:target];
+            NSString *routeQuery = [OBASearch getSearchTypeParameterForNavigationTarget:target];
             return [_modelService requestRoutesForQuery:routeQuery
                                              withRegion:self.searchRegion
                                         completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
@@ -191,7 +191,7 @@
         }
 
         case OBASearchTypeRouteStops: {
-            NSString *routeId = [OBASearch getSearchTypeParameterForNagivationTarget:target];
+            NSString *routeId = [OBASearch getSearchTypeParameterForNavigationTarget:target];
             return [_modelService requestStopsForRoute:routeId
                                        completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                            WrapperCompletion(jsonData, responseCode, error, ^(id data) {
@@ -205,7 +205,7 @@
         }
 
         case OBASearchTypeAddress: {
-            NSString *addressQuery = [OBASearch getSearchTypeParameterForNagivationTarget:target];
+            NSString *addressQuery = [OBASearch getSearchTypeParameterForNavigationTarget:target];
             return [_modelService placemarksForAddress:addressQuery
                                        completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                            WrapperCompletion(jsonData, responseCode, error, ^(id data) {
@@ -228,7 +228,7 @@
         }
 
         case OBASearchTypePlacemark: {
-            OBAPlacemark *placemark = [OBASearch getSearchTypeParameterForNagivationTarget:target];
+            OBAPlacemark *placemark = [OBASearch getSearchTypeParameterForNavigationTarget:target];
             return [_modelService requestStopsForPlacemark:placemark
                                            completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                                WrapperCompletion(jsonData, responseCode, error, ^(id data) {
@@ -242,7 +242,7 @@
         }
 
         case OBASearchTypeStopId: {
-            NSString *stopCode = [OBASearch getSearchTypeParameterForNagivationTarget:target];
+            NSString *stopCode = [OBASearch getSearchTypeParameterForNavigationTarget:target];
             return [_modelService requestStopsForQuery:stopCode
                                             withRegion:self.searchRegion
                                        completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {

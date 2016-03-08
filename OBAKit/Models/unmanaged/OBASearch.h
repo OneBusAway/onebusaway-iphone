@@ -48,8 +48,8 @@ typedef NS_ENUM(NSInteger, OBASearchType) {
 + (OBANavigationTarget*) getNavigationTargetForSearchStopCode:(NSString*)stopIdQuery;
 + (OBANavigationTarget*) getNavigationTargetForSearchAgenciesWithCoverage;
 
-+ (OBASearchType) getSearchTypeForNagivationTarget:(OBANavigationTarget*)target;
-+ (id) getSearchTypeParameterForNagivationTarget:(OBANavigationTarget*)target;
++ (OBASearchType)getSearchTypeForNavigationTarget:(OBANavigationTarget*)target;
++ (id)getSearchTypeParameterForNavigationTarget:(OBANavigationTarget*)target;
 
 @end
 

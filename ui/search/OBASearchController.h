@@ -55,10 +55,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) NSError * error;
 
 - (BOOL)unfilteredSearch;
--(void) searchWithTarget:(OBANavigationTarget*)target;
--(void) searchPending;
--(OBANavigationTarget*) getSearchTarget;
--(void) cancelOpenConnections;
+- (void)searchWithTarget:(OBANavigationTarget*)target;
+- (void)searchPending;
+- (OBANavigationTarget*)getSearchTarget;
+- (void)cancelOpenConnections;
 
 @end
 
