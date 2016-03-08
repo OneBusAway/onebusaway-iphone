@@ -176,6 +176,11 @@ static CGFloat const kTableHeaderHeight = 150.f;
         NSMutableArray *departureRows = [NSMutableArray array];
 
         for (OBAArrivalAndDepartureV2 *dep in result.arrivalsAndDepartures) {
+
+            if (![self shouldShowRouteID:dep.routeId forPrefs:prefs]) {
+                continue;
+            }
+
             NSString *dest = [[OBAPresentation getTripHeadsignForArrivalAndDeparture:dep] capitalizedString];
             OBAClassicDepartureRow *row = [[OBAClassicDepartureRow alloc] initWithRouteName:dep.bestAvailableName destination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)] statusText:[dep statusText] departureStatus:[dep departureStatus] action:^{
                 OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
@@ -202,8 +207,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
                 [sections addObject:[self createDepartureSectionWithTitle:key fromDepartures:departures]];
             }
         }
-
-        // TODO: add a 'scheduled departures' footer.
     }
 
     // "Load More Departures..."
