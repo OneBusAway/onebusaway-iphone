@@ -126,13 +126,18 @@ static CGFloat const kTableHeaderHeight = 150.f;
 #pragma mark - Data Loading
 
 - (void)reloadData:(id)sender {
+    [self reloadDataAnimated:YES];
+}
 
+- (void)reloadDataAnimated:(BOOL)animated {
     // If we're already loading data, then just bail.
     if (![self.reloadLock tryLock]) {
         return;
     }
-    
-    [self.refreshControl beginRefreshing];
+
+    if (animated) {
+        [self.refreshControl beginRefreshing];
+    }
     
     __block NSString *message = nil;
     [[OBAApplication sharedApplication].modelService requestStopForID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
@@ -148,7 +153,9 @@ static CGFloat const kTableHeaderHeight = 150.f;
         message = error.localizedDescription ?: NSLocalizedString(@"Error connecting", @"requestDidFail");
         // TODO: show an error!
     }).finally(^{
-        [self.refreshControl endRefreshing];
+        if (animated) {
+            [self.refreshControl endRefreshing];
+        }
         [self.reloadLock unlock];
     });
 }
@@ -250,7 +257,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     OBATableRow *moreDeparturesRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Load More Departures...", @"") action:^{
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked load more arrivals button" value:nil];
         self.minutesAfter += 30;
-        [self reloadData:nil];
+        [self reloadDataAnimated:NO];
     }];
     moreDeparturesRow.textAlignment = NSTextAlignmentCenter;
     return [[OBATableSection alloc] initWithTitle:nil rows:@[moreDeparturesRow]];
