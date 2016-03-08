@@ -192,7 +192,7 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
     [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
 
     [GAI sharedInstance].trackUncaughtExceptions = YES;
-    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelInfo];
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelWarning];
 
     //don't report to Google Analytics when developing
 #ifdef DEBUG

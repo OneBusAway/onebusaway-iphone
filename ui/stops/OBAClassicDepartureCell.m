@@ -7,6 +7,7 @@
 //
 
 #import "OBAClassicDepartureCell.h"
+#import <Masonry/Masonry.h>
 #import "OBAClassicDepartureRow.h"
 #import "OBADepartureCellHelpers.h"
 
@@ -43,6 +44,7 @@
         _routeNameLabel = ({
             UILabel *l = [[UILabel alloc] init];
             l.minimumScaleFactor = 0.8f;
+            l.adjustsFontSizeToFitWidth = YES;
             l.font = [OBATheme bodyFont];
 
             if (kUseDebugColors) {
@@ -53,7 +55,9 @@
 
         _destinationLabel = ({
             UILabel *l = [[UILabel alloc] init];
+            l.numberOfLines = 0;
             l.minimumScaleFactor = 0.8f;
+            l.adjustsFontSizeToFitWidth = YES;
             l.font = [OBATheme bodyFont];
             l.textAlignment = NSTextAlignmentCenter;
 
@@ -66,7 +70,9 @@
 
         _timeAndStatusLabel = ({
             UILabel *l = [[UILabel alloc] init];
+            l.numberOfLines = 1;
             l.minimumScaleFactor = 0.8f;
+            l.adjustsFontSizeToFitWidth = YES;
             l.font = [OBATheme bodyFont];
             l.textAlignment = NSTextAlignmentCenter;
 
@@ -80,6 +86,7 @@
         _minutesUntilDepartureLabel = ({
             UILabel *l = [[UILabel alloc] init];
             l.minimumScaleFactor = 0.8f;
+            l.adjustsFontSizeToFitWidth = YES;
             l.font = [OBATheme bodyFont];
             l.textAlignment = NSTextAlignmentRight;
 
@@ -90,18 +97,28 @@
             l;
         });
 
-        UIStackView *centerStack = [[UIStackView alloc] initWithArrangedSubviews:@[_destinationLabel, _timeAndStatusLabel]];
-        centerStack.axis = UILayoutConstraintAxisVertical;
-        centerStack.distribution = UIStackViewDistributionEqualSpacing;
+        UIStackView *centerStack = ({
+            UIStackView *sv = [[UIStackView alloc] initWithArrangedSubviews:@[_destinationLabel, _timeAndStatusLabel]];
+            sv.axis = UILayoutConstraintAxisVertical;
+            sv.distribution = UIStackViewDistributionFillProportionally;
+            sv.layoutMarginsRelativeArrangement = YES;
+            sv.layoutMargins = UIEdgeInsetsMake(0, [OBATheme defaultPadding] / 2.f, 0, [OBATheme defaultPadding] / 2.f);
+            sv.distribution = UIStackViewDistributionEqualSpacing;
+            sv;
+        });
 
-        UIStackView *horizontalStack = [[UIStackView alloc] initWithArrangedSubviews:@[_routeNameLabel, centerStack, _minutesUntilDepartureLabel]];
-        horizontalStack.axis = UILayoutConstraintAxisHorizontal;
-        horizontalStack.distribution = UIStackViewDistributionEqualSpacing;
-        horizontalStack.layoutMarginsRelativeArrangement = YES;
-        horizontalStack.layoutMargins = UIEdgeInsetsMake(0, self.layoutMargins.left, 0, self.layoutMargins.right);
-        horizontalStack.frame = self.contentView.bounds;
-        horizontalStack.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        UIStackView *horizontalStack = ({
+            UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[_routeNameLabel, centerStack, _minutesUntilDepartureLabel]];
+            stack.axis = UILayoutConstraintAxisHorizontal;
+            stack.distribution = UIStackViewDistributionEqualSpacing;
+            stack.layoutMarginsRelativeArrangement = YES;
+            stack.layoutMargins = self.layoutMargins; //UIEdgeInsetsMake(0, self.layoutMargins.left, 0, self.layoutMargins.right);
+            stack;
+        });
         [self.contentView addSubview:horizontalStack];
+        [horizontalStack mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.contentView);
+        }];
     }
 
     return self;

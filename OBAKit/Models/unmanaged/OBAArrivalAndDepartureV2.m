@@ -155,10 +155,10 @@
 
     if (departureStatus == OBADepartureStatusUnknown) {
         if (minutes > 0) {
-            return NSLocalizedString(@"scheduled arrival", @"minutes >= 0");
+            return NSLocalizedString(@"scheduled arrival*", @"minutes >= 0");
         }
         else {
-            return NSLocalizedString(@"scheduled departure", @"minutes < 0");
+            return NSLocalizedString(@"scheduled departure*", @"minutes < 0");
         }
     }
 
