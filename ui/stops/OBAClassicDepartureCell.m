@@ -102,7 +102,7 @@
             sv.axis = UILayoutConstraintAxisVertical;
             sv.distribution = UIStackViewDistributionFillProportionally;
             sv.layoutMarginsRelativeArrangement = YES;
-            sv.layoutMargins = UIEdgeInsetsMake(0, [OBATheme defaultPadding] / 2.f, 0, [OBATheme defaultPadding] / 2.f);
+            sv.layoutMargins = UIEdgeInsetsMake(0, [OBATheme halfDefaultPadding], 0, [OBATheme halfDefaultPadding]);
             sv.distribution = UIStackViewDistributionEqualSpacing;
             sv;
         });
@@ -112,7 +112,7 @@
             stack.axis = UILayoutConstraintAxisHorizontal;
             stack.distribution = UIStackViewDistributionEqualSpacing;
             stack.layoutMarginsRelativeArrangement = YES;
-            stack.layoutMargins = self.layoutMargins; //UIEdgeInsetsMake(0, self.layoutMargins.left, 0, self.layoutMargins.right);
+            stack.layoutMargins = UIEdgeInsetsMake([OBATheme halfDefaultPadding], self.layoutMargins.left, [OBATheme halfDefaultPadding], 0);
             stack;
         });
         [self.contentView addSubview:horizontalStack];
