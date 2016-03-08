@@ -189,14 +189,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
         section.headerView = [[OBAClassicDepartureSectionHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 30)];
         section.headerView.layoutMargins = UIEdgeInsetsMake(0, self.tableView.layoutMargins.left, 0, self.tableView.layoutMargins.right);
 
-        if ([self.class departuresLackRealTimeData:result]) {
-            section.footerView = ({
-                OBALabelFooterView *label = [[OBALabelFooterView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 20)];
-                label.text = NSLocalizedString(@"*'Scheduled': no vehicle location data available", @"");
-
-                label;
-            });
-        }
         [sections addObject:section];
     }
     else {
@@ -215,7 +207,16 @@ static CGFloat const kTableHeaderHeight = 150.f;
     }
 
     // "Load More Departures..."
-    [sections addObject:[self createLoadMoreDeparturesSection]];
+    OBATableSection *loadMoreSection = [self createLoadMoreDeparturesSection];
+    if ([self.class departuresLackRealTimeData:result]) {
+        loadMoreSection.footerView = ({
+            OBALabelFooterView *label = [[OBALabelFooterView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 20)];
+            label.text = NSLocalizedString(@"*'Scheduled': no vehicle location data available", @"");
+
+            label;
+        });
+    }
+    [sections addObject:loadMoreSection];
 
     // Toggle showing/hiding filtered routes.
     if (prefs.hasFilteredRoutes) {
