@@ -1,11 +1,16 @@
 #import "OBABookmarkV2.h"
 
+#define IDENTIFIER_SEL NSStringFromSelector(@selector(regionIdentifier))
+#define NAME_SEL NSStringFromSelector(@selector(name))
+#define STOP_ID_SEL NSStringFromSelector(@selector(stopID))
 
 @implementation OBABookmarkV2
 
-- (id) initWithCoder:(NSCoder*)coder {
-    if( self = [super init] ) {
-        _name = [coder decodeObjectForKey:@"name"];
+#pragma mark - NSCoder
+
+- (id)initWithCoder:(NSCoder*)coder {
+    if (self = [super init]) {
+        _name = [coder decodeObjectForKey:NAME_SEL];
 
         // Handle legacy bookmark models.
         NSArray *stopIds = [coder decodeObjectForKey:@"stopIds"];
@@ -13,24 +18,31 @@
             _stopID = stopIds[0];
         }
         else {
-            _stopID = [coder decodeObjectForKey:@"stopID"];
+            _stopID = [coder decodeObjectForKey:STOP_ID_SEL];
         }
 
-        _routeShortName = [coder decodeObjectForKey:@"routeShortName"];
+        // Normally, we'd simply try decoding the object and use the fact that
+        // nil would simply resolve to 0, but the Tampa region has the ID of 0,
+        // so we're stuck trying to be clever here to work around that issue.
+        if ([coder containsValueForKey:IDENTIFIER_SEL]) {
+            _regionIdentifier = [coder decodeIntegerForKey:IDENTIFIER_SEL];
+        }
+        else {
+            _regionIdentifier = NSNotFound;
+        }
     }
     return self;
 }
 
-#pragma mark NSCoder Methods
 
-- (void) encodeWithCoder: (NSCoder *)coder {
-    [coder encodeObject:_name forKey:@"name"];
-    [coder encodeObject:_stopID forKey:@"stopID"];
-    [coder encodeObject:_routeShortName forKey:@"routeShortName"];
+- (void)encodeWithCoder:(NSCoder*)coder {
+    [coder encodeObject:_name forKey:NAME_SEL];
+    [coder encodeObject:_stopID forKey:STOP_ID_SEL];
+    [coder encodeInteger:_regionIdentifier forKey:IDENTIFIER_SEL];
 }
 
-- (NSString*)debugDescription {
-    return [NSString stringWithFormat:@"<%@: %p> :: {name: %@, group: %@, routeShortName: %@, stopID: %@}", self.class, self, self.name, self.group, self.routeShortName, self.stopID];
+- (NSString*)description {
+    return [NSString stringWithFormat:@"<%@: %p> :: {name: %@, group: %@, stopID: %@, regionIdentifier: %@}", self.class, self, self.name, self.group, self.stopID, @(self.regionIdentifier)];
 }
 
 @end

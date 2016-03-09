@@ -27,13 +27,6 @@
 
 const NSInteger kMaxEntriesInMostRecentList = 10;
 
-@interface OBAModelDAO ()
-
-- (void) saveMostRecentLocationLat:(double)lat lon:(double)lon;
-- (NSInteger) getSituationSeverityAsNumericValue:(NSString*)severity;
-
-@end
-
 @implementation OBAModelDAO
 
 - (id) init {
@@ -79,6 +72,16 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
 - (NSArray*) bookmarks {
     return _bookmarks;
+}
+
+- (NSArray*)bookmarksForCurrentRegion {
+    if (self.region) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"regionID IN %@", @[@(self.region.identifier)]];
+        return [self.bookmarks filteredArrayUsingPredicate:predicate];
+    }
+    else {
+        return nil;
+    }
 }
 
 - (NSArray *)bookmarkGroups {
@@ -205,7 +208,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     return apiServerName;
 }
 
-- (OBABookmarkV2*) createTransientBookmark:(OBAStopV2*)stop {
+- (OBABookmarkV2*)createTransientBookmark:(OBAStopV2*)stop {
     OBABookmarkV2 * bookmark = [[OBABookmarkV2 alloc] init];
     NSString * bookmarkName = stop.name;
     if (stop.direction) {
@@ -213,7 +216,10 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     }
     bookmark.name = bookmarkName;
     bookmark.stopID = stop.stopId;
-//    bookmark.routeShortName = ???
+    // Info: https://github.com/OneBusAway/onebusaway-iphone/issues/457
+//    bookmark.routeID = TODO - SOME WAY TO GET A ROUTE ID
+//    bookmark.headsign = stop.
+    bookmark.regionIdentifier = self.region ? self.region.identifier : NSNotFound;
 
     return bookmark;
 }

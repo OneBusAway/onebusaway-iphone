@@ -16,14 +16,24 @@
 
 @implementation OBAStaticTableViewController
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+
+    if (self) {
+        _tableView = ({
+            UITableView *tv = [[UITableView alloc] initWithFrame:CGRectZero];
+            tv.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+            tv.delegate = self;
+            tv.dataSource = self;
+            tv;
+        });
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
-    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    
+
     NSArray *registered = [OBAViewModelRegistry registeredClasses];
 
     for (Class c in registered) {

@@ -24,7 +24,7 @@ static NSString * kFacebookUrl = @"facebookUrl";
 static NSString * kActive = @"active";
 static NSString * kExperimental = @"experimental";
 static NSString * kObaBaseUrl = @"obaBaseUrl";
-static NSString * kId_number = @"id_number";
+static NSString * kIdentifier = @"id_number";
 static NSString * kRegionName = @"regionName";
 static NSString * kStopInfoUrl = @"stopInfoUrl";
 
@@ -97,7 +97,7 @@ static NSString * kStopInfoUrl = @"stopInfoUrl";
     [encoder encodeBool:self.active forKey:kActive];
     [encoder encodeBool:self.experimental forKey:kExperimental];
     [encoder encodeObject:self.obaBaseUrl forKey:kObaBaseUrl];
-    [encoder encodeInteger:self.id_number forKey:kId_number];
+    [encoder encodeInteger:self.identifier forKey:kIdentifier];
     [encoder encodeObject:self.regionName forKey:kRegionName];
     [encoder encodeObject:self.stopInfoUrl forKey:kStopInfoUrl];
 }
@@ -116,7 +116,7 @@ static NSString * kStopInfoUrl = @"stopInfoUrl";
     self.active = [decoder decodeBoolForKey:kActive];
     self.experimental = [decoder decodeBoolForKey:kExperimental];
     self.obaBaseUrl = [decoder decodeObjectForKey:kObaBaseUrl];
-    self.id_number = [decoder decodeIntegerForKey:kId_number];
+    self.identifier = [decoder decodeIntegerForKey:kIdentifier];
     self.regionName = [decoder decodeObjectForKey:kRegionName];
     self.stopInfoUrl = [decoder decodeObjectForKey:kStopInfoUrl];
     
