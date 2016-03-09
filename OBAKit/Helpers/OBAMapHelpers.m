@@ -16,7 +16,8 @@
 
 const double OBADefaultMapRadiusInMeters = 100;
 const double OBAMinMapRadiusInMeters = 150;
-const double OBAMaxLatitudeDeltaToShowStops = 0.008;
+//const double OBAMaxLatitudeDeltaToShowStops = 0.008;
+const double OBAMaxLatitudeDeltaToShowStops = 0.01;
 const double OBARegionScaleFactor = 1.5;
 const double OBAMaxMapDistanceFromCurrentLocationForNearby = 800;
 const double OBAPaddingScaleFactor = 1.075;

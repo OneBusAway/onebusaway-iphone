@@ -97,6 +97,11 @@
 // Pixels (err, points)
 
 /**
+ Half of the default padding. Used in situations where a tighter fit is necessary.
+ */
++ (CGFloat)halfDefaultPadding;
+
+/**
  * The default vertical and horizontal padding in px.
  */
 + (CGFloat)defaultPadding;

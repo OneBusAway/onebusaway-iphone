@@ -147,7 +147,9 @@
         return [directions calculateETA];
     }).then(^(MKETAResponse* ETA) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-        label.numberOfLines = 0;
+        label.numberOfLines = 1;
+        label.adjustsFontSizeToFitWidth = YES;
+        label.minimumScaleFactor = 0.8f;
         [OBAParallaxTableHeaderView applyHeaderStylingToLabel:label];
 
         label.text = [NSString stringWithFormat:@"Walk to stop: %@: %.0f min, arriving at %@.", [OBAMapHelpers stringFromDistance:ETA.distance],
