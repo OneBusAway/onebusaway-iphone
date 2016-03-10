@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OBATableRow.h"
+#import "OBABaseRow.h"
 
 @protocol OBATableCell <NSObject>
-@property(nonatomic,copy) OBATableRow *tableRow;
+@property(nonatomic,copy) OBABaseRow *tableRow;
 @end

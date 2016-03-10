@@ -23,6 +23,7 @@
 #import "OBASearchResultsMapViewController.h"
 #import "OBARecentStopsViewController.h"
 #import "OBABookmarksViewController.h"
+#import "OBABookmarksViewController2.h"
 #import "OBAInfoViewController.h"
 
 #import "OBASearchController.h"
@@ -122,7 +123,7 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
     self.recentsViewController = [[OBARecentStopsViewController alloc] init];
     self.recentsNavigationController = [[UINavigationController alloc] initWithRootViewController:self.recentsViewController];
 
-    self.bookmarksViewController = [[OBABookmarksViewController alloc] init];
+    self.bookmarksViewController = [[OBABookmarksViewController2 alloc] init];
     self.bookmarksNavigationController = [[UINavigationController alloc] initWithRootViewController:self.bookmarksViewController];
 
     self.infoViewController = [[OBAInfoViewController alloc] init];
@@ -257,11 +258,13 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
 
         [self.mapNavigationController popToRootViewControllerAnimated:NO];
         [self.mapViewController onCrossHairsButton:self];
-    } else if ([shortcutIdentifier isEqualToString:kApplicationShortcutBookmarks]) {
+    }
+    else if ([shortcutIdentifier isEqualToString:kApplicationShortcutBookmarks]) {
         [self.tabBarController setSelectedViewController:self.bookmarksNavigationController];
 
         [self.bookmarksNavigationController popToRootViewControllerAnimated:NO];
-    } else if ([shortcutIdentifier isEqualToString:kApplicationShortcutRecents]) {
+    }
+    else if ([shortcutIdentifier isEqualToString:kApplicationShortcutRecents]) {
         [self.tabBarController setSelectedViewController:self.recentsNavigationController];
 
         NSArray *stopIds = (NSArray *)shortcutItem.userInfo[@"stopIds"];
