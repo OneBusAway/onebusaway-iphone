@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(strong) OBARecentStopsViewController *recentsViewController;
 
 @property(strong) UINavigationController *bookmarksNavigationController;
-@property(strong) OBABookmarksViewController *bookmarksViewController;
+@property(strong) UIViewController *bookmarksViewController;
 
 @property(strong) UINavigationController *infoNavigationController;
 @property(strong) OBAInfoViewController *infoViewController;

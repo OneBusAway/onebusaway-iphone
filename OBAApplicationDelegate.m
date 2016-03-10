@@ -123,7 +123,6 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
     self.recentsNavigationController = [[UINavigationController alloc] initWithRootViewController:self.recentsViewController];
 
     self.bookmarksViewController = [[OBABookmarksViewController alloc] init];
-    self.bookmarksViewController.appDelegate = self;
     self.bookmarksNavigationController = [[UINavigationController alloc] initWithRootViewController:self.bookmarksViewController];
 
     self.infoViewController = [[OBAInfoViewController alloc] init];

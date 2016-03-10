@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL supportsObaDiscoveryApis;
 @property (nonatomic) BOOL active;
 @property (nonatomic) BOOL experimental;
-@property (nonatomic) NSInteger id_number;
+@property (nonatomic) NSInteger identifier;
 
 - (void)addBound:(OBARegionBoundsV2*)bound;
 - (CLLocationDistance)distanceFromLocation:(CLLocation*)location;

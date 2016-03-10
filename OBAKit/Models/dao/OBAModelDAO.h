@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
     OBARegionV2 * _region;
     NSMutableArray * _mostRecentCustomApiUrls;
 }
-
+@property(nonatomic,strong,readonly,nullable) NSArray<OBABookmarkV2*> *bookmarksForCurrentRegion;
 @property(weak, nonatomic,readonly) NSArray * bookmarks;
 @property(weak, nonatomic,readonly) NSArray * bookmarkGroups;
 @property(weak, nonatomic,readonly) NSArray * mostRecentStops;
