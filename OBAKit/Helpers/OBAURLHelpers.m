@@ -18,6 +18,13 @@
 
     NSURLComponents *components = [[NSURLComponents alloc] initWithString:baseURLString];
 
+    if (components.path.length == 0) {
+        components.path = @"/api";
+    }
+    else if (![components.path hasSuffix:@"api"] && ![components.path hasSuffix:@"api/"]) {
+        components.path = [components.path stringByAppendingPathComponent:@"api"];
+    }
+
     components.path = [(components.path ?: @"") stringByAppendingPathComponent:path];
 
     if (params.count > 0) {
