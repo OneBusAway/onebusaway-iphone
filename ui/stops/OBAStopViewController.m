@@ -22,6 +22,7 @@
 #import "OBAClassicDepartureSectionHeaderView.h"
 #import "OBAAnalytics.h"
 #import "OBALabelFooterView.h"
+#import "OBASegmentedRow.h"
 
 #define ENABLE_PARALLAX_WHICH_NEEDS_FIXING 0
 
@@ -171,6 +172,11 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
     NSMutableArray *sections = [NSMutableArray array];
 
+    // Toggle showing/hiding filtered routes.
+    if (prefs.hasFilteredRoutes) {
+        [sections addObject:[self createToggleDepartureFilterSection]];
+    }
+
     // Service Alerts
     OBAServiceAlertsModel *serviceAlerts = [modelDao getServiceAlertsModelForSituations:result.situations];
     if (serviceAlerts.totalCount > 0) {
@@ -228,11 +234,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
     }
     [sections addObject:loadMoreSection];
 
-    // Toggle showing/hiding filtered routes.
-    if (prefs.hasFilteredRoutes) {
-        [sections addObject:[self createToggleDepartureFilterSection]];
-    }
-
     // Actions
     [sections addObject:[self createActionSectionWithStop:result.stop modelDAO:modelDao]];
 
@@ -243,14 +244,16 @@ static CGFloat const kTableHeaderHeight = 150.f;
 #pragma mark - Table Section Creation
 
 - (OBATableSection*)createToggleDepartureFilterSection {
-    NSString *rowTitle = self.hideFilteredRoutes ? NSLocalizedString(@"Show All Departures", @"") : NSLocalizedString(@"Show Filtered Departures", @"");
 
-    OBATableRow *filteringRow = [[OBATableRow alloc] initWithTitle:rowTitle action:^{
+    OBASegmentedRow *segmentedRow = [[OBASegmentedRow alloc] initWithSelectionChange:^(NSUInteger selectedIndex) {
         self.hideFilteredRoutes = !self.hideFilteredRoutes;
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
     }];
+    segmentedRow.items = @[NSLocalizedString(@"Show All Departures", @""), NSLocalizedString(@"Show Filtered Departures", @"")];
 
-    return [[OBATableSection alloc] initWithTitle:nil rows:@[filteringRow]];
+    segmentedRow.selectedItemIndex = self.hideFilteredRoutes ? 1 : 0;
+
+    return [[OBATableSection alloc] initWithTitle:nil rows:@[segmentedRow]];
 }
 
 - (OBATableSection*)createLoadMoreDeparturesSection {
