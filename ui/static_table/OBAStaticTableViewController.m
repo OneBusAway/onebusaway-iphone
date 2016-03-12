@@ -16,23 +16,18 @@
 
 @implementation OBAStaticTableViewController
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-
-    if (self) {
-        _tableView = ({
-            UITableView *tv = [[UITableView alloc] initWithFrame:CGRectZero];
-            tv.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-            tv.delegate = self;
-            tv.dataSource = self;
-            tv;
-        });
-    }
-    return self;
-}
+#pragma mark - UIViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.tableView = ({
+        UITableView *tv = [[UITableView alloc] initWithFrame:self.view.bounds];
+        tv.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        tv.delegate = self;
+        tv.dataSource = self;
+        tv;
+    });
 
     NSArray *registered = [OBAViewModelRegistry registeredClasses];
 
@@ -41,6 +36,20 @@
     }
 
     [self.view addSubview:self.tableView];
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
+    [self.tableView setEditing:editing animated:animated];
+}
+
+#pragma mark - Public Methods
+
+- (OBABaseRow*)rowAtIndexPath:(NSIndexPath*)indexPath {
+    OBATableSection *section = self.sections[indexPath.section];
+    OBABaseRow *row = section.rows[indexPath.row];
+
+    return row;
 }
 
 #pragma mark - UITableView Section Headers
@@ -98,8 +107,7 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    OBATableSection *section = self.sections[indexPath.section];
-    OBATableRow *row = section.rows[indexPath.row];
+    OBABaseRow *row = [self rowAtIndexPath:indexPath];
     NSString *reuseIdentifier = [row.class cellReuseIdentifier];
 
     UITableViewCell<OBATableCell> *cell = (UITableViewCell<OBATableCell> *)[tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
@@ -113,14 +121,21 @@
     return cell;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [[self rowAtIndexPath:indexPath] indentationLevel];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    OBATableSection *section = self.sections[indexPath.section];
-    OBATableRow *row = section.rows[indexPath.row];
 
-    if (row.action) {
+    OBABaseRow *row = [self rowAtIndexPath:indexPath];
+
+    if (tableView.editing && row.editAction) {
+        row.editAction();
+    }
+    else if (!tableView.editing && row.action) {
         row.action();
     }
 }
+
 @end

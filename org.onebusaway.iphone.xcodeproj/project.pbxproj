@@ -19,6 +19,7 @@
 		932076451C90C635005F7D4A /* bookmark_with_stopids_array.plist in Resources */ = {isa = PBXBuildFile; fileRef = 932076441C90C635005F7D4A /* bookmark_with_stopids_array.plist */; };
 		932076471C90CE12005F7D4A /* bookmark_without_region_identifier.plist in Resources */ = {isa = PBXBuildFile; fileRef = 932076461C90CE12005F7D4A /* bookmark_without_region_identifier.plist */; };
 		932076491C90CF73005F7D4A /* bookmark_with_region_identifier.plist in Resources */ = {isa = PBXBuildFile; fileRef = 932076481C90CF73005F7D4A /* bookmark_with_region_identifier.plist */; };
+		9320764C1C915441005F7D4A /* OBABookmarksViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 9320764B1C915441005F7D4A /* OBABookmarksViewController2.m */; };
 		932BE49D1AB66D320011F2FB /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4931AB66D320011F2FB /* OBAAgenciesListViewController.m */; };
 		932BE49E1AB66D320011F2FB /* OBAContactUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4951AB66D320011F2FB /* OBAContactUsViewController.m */; };
 		932BE49F1AB66D320011F2FB /* OBAInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4971AB66D320011F2FB /* OBAInfoViewController.m */; };
@@ -320,6 +321,8 @@
 		932076441C90C635005F7D4A /* bookmark_with_stopids_array.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = bookmark_with_stopids_array.plist; sourceTree = "<group>"; };
 		932076461C90CE12005F7D4A /* bookmark_without_region_identifier.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = bookmark_without_region_identifier.plist; sourceTree = "<group>"; };
 		932076481C90CF73005F7D4A /* bookmark_with_region_identifier.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = bookmark_with_region_identifier.plist; sourceTree = "<group>"; };
+		9320764A1C915441005F7D4A /* OBABookmarksViewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarksViewController2.h; sourceTree = "<group>"; };
+		9320764B1C915441005F7D4A /* OBABookmarksViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarksViewController2.m; sourceTree = "<group>"; };
 		932BE4921AB66D320011F2FB /* OBAAgenciesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgenciesListViewController.h; sourceTree = "<group>"; };
 		932BE4931AB66D320011F2FB /* OBAAgenciesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAgenciesListViewController.m; sourceTree = "<group>"; };
 		932BE4941AB66D320011F2FB /* OBAContactUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAContactUsViewController.h; sourceTree = "<group>"; };
@@ -923,6 +926,8 @@
 				932BE4E61AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.m */,
 				932BE4E71AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.h */,
 				932BE4E81AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.m */,
+				9320764A1C915441005F7D4A /* OBABookmarksViewController2.h */,
+				9320764B1C915441005F7D4A /* OBABookmarksViewController2.m */,
 			);
 			path = bookmarks;
 			sourceTree = "<group>";
@@ -1813,6 +1818,7 @@
 				932BE4D91AB66D890011F2FB /* OBADiversionViewController.m in Sources */,
 				932BE4F61AB66E990011F2FB /* OBASearchController.m in Sources */,
 				934446D01AB12B29005B3333 /* OBATextEditViewController.m in Sources */,
+				9320764C1C915441005F7D4A /* OBABookmarksViewController2.m in Sources */,
 				93F05A631C8E080000BF36B1 /* OBAAnimation.m in Sources */,
 				932BE4F71AB66E990011F2FB /* OBASearchResultsListViewController.m in Sources */,
 				936D2EF31C7A68260060B7E1 /* OBATableRow.m in Sources */,

@@ -137,7 +137,7 @@
 
 #pragma mark - OBATableCell
 
-- (void)setTableRow:(OBATableRow *)tableRow {
+- (void)setTableRow:(OBABaseRow *)tableRow {
 
     OBAGuardClass(tableRow, OBAClassicDepartureRow) else {
         return;

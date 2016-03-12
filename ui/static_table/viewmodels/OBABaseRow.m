@@ -31,6 +31,9 @@
 - (id)copyWithZone:(NSZone *)zone {
     OBABaseRow *newRow = [[self.class allocWithZone:zone] init];
     newRow->_action = [_action copyWithZone:zone];
+    newRow->_editAction = [_editAction copyWithZone:zone];
+    newRow->_deleteModel = [_deleteModel copyWithZone:zone];
+    newRow->_indentationLevel = _indentationLevel;
     
     return newRow;
 }

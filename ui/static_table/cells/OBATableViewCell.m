@@ -7,6 +7,7 @@
 //
 
 #import "OBATableViewCell.h"
+#import "OBATableRow.h"
 
 @implementation OBATableViewCell
 @synthesize tableRow = _tableRow;
@@ -28,10 +29,14 @@
 
     _tableRow = [tableRow copy];
 
-    self.textLabel.text = _tableRow.title;
-    self.textLabel.textAlignment = _tableRow.textAlignment;
-    self.detailTextLabel.text = _tableRow.subtitle;
-    self.accessoryType = _tableRow.accessoryType;
-    self.imageView.image = _tableRow.image;
+    self.textLabel.text = [self tableDataRow].title;
+    self.textLabel.textAlignment = [self tableDataRow].textAlignment;
+    self.detailTextLabel.text = [self tableDataRow].subtitle;
+    self.accessoryType = [self tableDataRow].accessoryType;
+    self.imageView.image = [self tableDataRow].image;
+}
+
+- (OBATableRow*)tableDataRow {
+    return (OBATableRow*)self.tableRow;
 }
 @end

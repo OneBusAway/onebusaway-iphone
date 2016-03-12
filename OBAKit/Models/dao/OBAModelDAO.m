@@ -240,13 +240,22 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [_preferencesDao writeBookmarks:_bookmarks];
 }
 
-- (void) removeBookmark:(OBABookmarkV2*)bookmark {
-    if (!bookmark.group) {
+- (void)removeBookmark:(OBABookmarkV2*)bookmark {
+    if (bookmark.group) {
+        OBABookmarkGroup *group = bookmark.group;
+
+        [group.bookmarks removeObject:bookmark];
+
+        // The group is empty. Delete it.
+        if (group.bookmarks.count == 0) {
+            [_bookmarkGroups removeObject:group];
+        }
+
+        [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
+    }
+    else {
         [_bookmarks removeObject:bookmark];
         [_preferencesDao writeBookmarks:_bookmarks];
-    } else {
-        [bookmark.group.bookmarks removeObject:bookmark];
-        [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
     }
 }
 
