@@ -20,6 +20,8 @@
 		932076471C90CE12005F7D4A /* bookmark_without_region_identifier.plist in Resources */ = {isa = PBXBuildFile; fileRef = 932076461C90CE12005F7D4A /* bookmark_without_region_identifier.plist */; };
 		932076491C90CF73005F7D4A /* bookmark_with_region_identifier.plist in Resources */ = {isa = PBXBuildFile; fileRef = 932076481C90CF73005F7D4A /* bookmark_with_region_identifier.plist */; };
 		9320764C1C915441005F7D4A /* OBABookmarksViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 9320764B1C915441005F7D4A /* OBABookmarksViewController2.m */; };
+		9320765F1C94042B005F7D4A /* OBASegmentedControlCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9320765E1C94042B005F7D4A /* OBASegmentedControlCell.m */; };
+		932076621C940519005F7D4A /* OBASegmentedRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 932076611C940519005F7D4A /* OBASegmentedRow.m */; };
 		932BE49D1AB66D320011F2FB /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4931AB66D320011F2FB /* OBAAgenciesListViewController.m */; };
 		932BE49E1AB66D320011F2FB /* OBAContactUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4951AB66D320011F2FB /* OBAContactUsViewController.m */; };
 		932BE49F1AB66D320011F2FB /* OBAInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4971AB66D320011F2FB /* OBAInfoViewController.m */; };
@@ -323,6 +325,10 @@
 		932076481C90CF73005F7D4A /* bookmark_with_region_identifier.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = bookmark_with_region_identifier.plist; sourceTree = "<group>"; };
 		9320764A1C915441005F7D4A /* OBABookmarksViewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarksViewController2.h; sourceTree = "<group>"; };
 		9320764B1C915441005F7D4A /* OBABookmarksViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarksViewController2.m; sourceTree = "<group>"; };
+		9320765D1C94042B005F7D4A /* OBASegmentedControlCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASegmentedControlCell.h; sourceTree = "<group>"; };
+		9320765E1C94042B005F7D4A /* OBASegmentedControlCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASegmentedControlCell.m; sourceTree = "<group>"; };
+		932076601C940519005F7D4A /* OBASegmentedRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASegmentedRow.h; sourceTree = "<group>"; };
+		932076611C940519005F7D4A /* OBASegmentedRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASegmentedRow.m; sourceTree = "<group>"; };
 		932BE4921AB66D320011F2FB /* OBAAgenciesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgenciesListViewController.h; sourceTree = "<group>"; };
 		932BE4931AB66D320011F2FB /* OBAAgenciesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAgenciesListViewController.m; sourceTree = "<group>"; };
 		932BE4941AB66D320011F2FB /* OBAContactUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAContactUsViewController.h; sourceTree = "<group>"; };
@@ -1249,6 +1255,8 @@
 				936D2EEA1C7A3B750060B7E1 /* OBATableCell.h */,
 				936D2EEB1C7A3BAB0060B7E1 /* OBATableViewCell.h */,
 				936D2EEC1C7A3BAB0060B7E1 /* OBATableViewCell.m */,
+				9320765D1C94042B005F7D4A /* OBASegmentedControlCell.h */,
+				9320765E1C94042B005F7D4A /* OBASegmentedControlCell.m */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -1264,6 +1272,8 @@
 				936D2EF21C7A68260060B7E1 /* OBATableSection.m */,
 				936D2EF51C7A68430060B7E1 /* OBAViewModelRegistry.h */,
 				936D2EF61C7A68430060B7E1 /* OBAViewModelRegistry.m */,
+				932076601C940519005F7D4A /* OBASegmentedRow.h */,
+				932076611C940519005F7D4A /* OBASegmentedRow.m */,
 			);
 			path = viewmodels;
 			sourceTree = "<group>";
@@ -1768,12 +1778,14 @@
 				93F64E971BE5ACC300323527 /* OBAAlerts.m in Sources */,
 				934446D41AB12C0C005B3333 /* OBAListSelectionViewController.m in Sources */,
 				934522601C1BA976006F75BC /* OBATheme.m in Sources */,
+				9320765F1C94042B005F7D4A /* OBASegmentedControlCell.m in Sources */,
 				932BE4EE1AB66E640011F2FB /* OBABookmarksViewController.m in Sources */,
 				932BE4BD1AB66D5C0011F2FB /* OBAReportProblemViewController.m in Sources */,
 				936D2EF71C7A68430060B7E1 /* OBAViewModelRegistry.m in Sources */,
 				936D2EFA1C7A6CB20060B7E1 /* OBADepartureRow.m in Sources */,
 				932BE4F81AB66E990011F2FB /* OBASearchResultsMapViewController.m in Sources */,
 				93AD36451603FE7E00BDF03F /* OBALabelAndTextFieldTableViewCell.m in Sources */,
+				932076621C940519005F7D4A /* OBASegmentedRow.m in Sources */,
 				934446B51AB10E67005B3333 /* UINavigationController+oba_Additions.m in Sources */,
 				932BE4BF1AB66D5C0011F2FB /* OBAReportProblemWithStopViewController.m in Sources */,
 				932BE4CE1AB66D710011F2FB /* OBAReportProblemWithTripViewController.m in Sources */,

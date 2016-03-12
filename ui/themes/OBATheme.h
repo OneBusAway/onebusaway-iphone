@@ -68,6 +68,11 @@
 + (UIColor*)colorWithRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue alpha:(CGFloat)alpha;
 
 /**
+ Standard text color.
+ */
++ (UIColor*)textColor;
+
+/**
  The standard highlight color with a less-than-100% opacity. By default, this is a dark green color.
 
  @return A UIColor.
