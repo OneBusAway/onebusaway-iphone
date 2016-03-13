@@ -18,6 +18,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString * const kSetRegionAutomaticallyKey;
+
 @interface OBAModelDAOUserPreferencesImpl : NSObject
 
 - (NSArray*) readBookmarks;
@@ -32,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary*) readStopPreferences;
 - (void) writeStopPreferences:(NSDictionary*)stopPreferences;
 
-- (CLLocation*) readMostRecentLocation;
+- (CLLocation * _Nullable) readMostRecentLocation;
 - (void) writeMostRecentLocation:(CLLocation*)mostRecentLocation;
 
 - (BOOL) hideFutureLocationWarnings;
@@ -41,8 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSSet*) readVisistedSituationIds;
 - (void) writeVisistedSituationIds:(NSSet*)situationIds;
 
-- (OBARegionV2*) readOBARegion;
-- (void) writeOBARegion:(OBARegionV2*)oBARegion;
+- (OBARegionV2 * _Nullable) readOBARegion;
+- (void)writeOBARegion:(OBARegionV2*)region;
 
 - (BOOL) readSetRegionAutomatically;
 - (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically;

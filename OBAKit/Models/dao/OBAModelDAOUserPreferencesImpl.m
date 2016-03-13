@@ -17,289 +17,144 @@
 #import "OBAModelDAOUserPreferencesImpl.h"
 
 
-static NSString * kBookmarksKey = @"bookmarks";
-static NSString * kBookmarkGroupsKey = @"bookmarkGroups";
-static NSString * kMostRecentStopsKey = @"mostRecentStops";
-static NSString * kStopPreferencesKey = @"stopPreferences";
-static NSString * kMostRecentLocationKey = @"mostRecentLocation";
-static NSString * kHideFutureLocationWarningsKey = @"hideFutureLocationWarnings";
-static NSString * kVisitedSituationIdsKey = @"hideFutureLocationWarnings";
-static NSString * kOBARegionKey = @"oBARegion";
-static NSString * kSetRegionAutomaticallyKey = @"setRegionAutomatically";
-static NSString * kCustomApiUrlKey = @"customApiUrl";
-static NSString * kMostRecentCustomApiUrlsKey = @"mostRecentCustomApiUrls";
-
-
-@interface OBAModelDAOUserPreferencesImpl ()
-
-- (void) encodeObject:(id<NSCoding>)object forKey:(NSString*)key toData:(NSMutableData*)data;
-- (id) decodeObjectForKey:(NSString*)key fromData:(NSData*)data;
-
-@end
-
+NSString * const kBookmarksKey = @"bookmarks";
+NSString * const kBookmarkGroupsKey = @"bookmarkGroups";
+NSString * const kMostRecentStopsKey = @"mostRecentStops";
+NSString * const kStopPreferencesKey = @"stopPreferences";
+NSString * const kMostRecentLocationKey = @"mostRecentLocation";
+NSString * const kHideFutureLocationWarningsKey = @"hideFutureLocationWarnings";
+NSString * const kVisitedSituationIdsKey = @"hideFutureLocationWarnings";
+NSString * const kOBARegionKey = @"oBARegion";
+NSString * const kSetRegionAutomaticallyKey = @"setRegionAutomatically";
+NSString * const kCustomApiUrlKey = @"customApiUrl";
+NSString * const kMostRecentCustomApiUrlsKey = @"mostRecentCustomApiUrls";
 
 @implementation OBAModelDAOUserPreferencesImpl
 
-- (NSArray*) readBookmarks {
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSData * data = [user dataForKey:kBookmarksKey];
-    NSArray * bookmarks = nil;
-    @try {
-        bookmarks = [self decodeObjectForKey:kBookmarksKey fromData:data];
+- (NSArray*)readBookmarks {
+    return [self.class loadAndDecodeObjectFromDataForKey:kBookmarksKey] ?: @[];
+}
+
+- (void)writeBookmarks:(NSArray*)source {
+    [self.class writeObjectToUserDefaults:source withKey:kBookmarksKey];
+}
+
+- (NSArray*)readBookmarkGroups {
+    return [self.class loadAndDecodeObjectFromDataForKey:kBookmarkGroupsKey] ?: @[];
+}
+
+- (void)writeBookmarkGroups:(NSArray*)source {
+    [self.class writeObjectToUserDefaults:source withKey:kBookmarkGroupsKey];
+}
+
+- (NSArray*)readMostRecentStops {
+    return [self.class loadAndDecodeObjectFromDataForKey:kMostRecentStopsKey] ?: @[];
+}
+
+- (void)writeMostRecentStops:(NSArray*)source {
+    [self.class writeObjectToUserDefaults:source withKey:kMostRecentStopsKey];
+}
+
+- (NSDictionary*)readStopPreferences {
+    id out = [self.class loadAndDecodeObjectFromDataForKey:kStopPreferencesKey] ?: @{};
+    return out;
+}
+
+- (void)writeStopPreferences:(NSDictionary*)stopPreferences {
+    [self.class writeObjectToUserDefaults:stopPreferences withKey:kStopPreferencesKey];
+}
+
+- (CLLocation*)readMostRecentLocation {
+    return [self.class loadAndDecodeObjectFromDataForKey:kMostRecentLocationKey];
+}
+
+- (void)writeMostRecentLocation:(CLLocation*)mostRecentLocation {
+    [self.class writeObjectToUserDefaults:mostRecentLocation withKey:kMostRecentLocationKey];
+}
+
+- (BOOL)hideFutureLocationWarnings {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kHideFutureLocationWarningsKey];
+}
+
+- (void)setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings {
+    [[NSUserDefaults standardUserDefaults] setBool:hideFutureLocationWarnings forKey:kHideFutureLocationWarningsKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSSet*)readVisistedSituationIds {
+    return [self.class loadAndDecodeObjectFromDataForKey:kVisitedSituationIdsKey] ?: [NSSet set];
+}
+
+- (void)writeVisistedSituationIds:(NSSet*)situationIds {
+    [self.class writeObjectToUserDefaults:situationIds withKey:kVisitedSituationIdsKey];
+}
+
+- (OBARegionV2*)readOBARegion {
+    return [self.class loadAndDecodeObjectFromDataForKey:kOBARegionKey];
+}
+
+- (void)writeOBARegion:(OBARegionV2 *)region {
+    [self.class writeObjectToUserDefaults:region withKey:kOBARegionKey];
+}
+
+- (BOOL)readSetRegionAutomatically {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kSetRegionAutomaticallyKey];
+}
+
+- (void)writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
+    [[NSUserDefaults standardUserDefaults] setBool:setRegionAutomatically forKey:kSetRegionAutomaticallyKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+// TODO: I think the idea of slinging around an empty string instead of nil here is an
+// incredibly bad idea. But, reworking our custom API support is out of scope for the moment.
+- (NSString*)readCustomApiUrl {
+    return [self.class loadAndDecodeObjectFromDataForKey:kCustomApiUrlKey] ?: @"";
+}
+
+- (void)writeCustomApiUrl:(NSString*)customApiUrl {
+    [self.class writeObjectToUserDefaults:customApiUrl withKey:kCustomApiUrlKey];
+}
+
+- (NSArray*)readMostRecentCustomApiUrls {
+    return [self.class loadAndDecodeObjectFromDataForKey:kMostRecentCustomApiUrlsKey] ?: @[];
+}
+
+- (void)writeMostRecentCustomApiUrls:(NSArray*)customApiUrls {
+    [self.class writeObjectToUserDefaults:customApiUrls withKey:kMostRecentCustomApiUrlsKey];
+}
+
+#pragma mark - (De-)Serialization
+
++ (id)loadAndDecodeObjectFromDataForKey:(NSString*)key {
+    NSData *data = [[NSUserDefaults standardUserDefaults] dataForKey:key];
+
+    if (!data) {
+        return nil;
     }
-    @catch (NSException * e) {
-        
-    }
-    
-    if( ! bookmarks )
-        bookmarks = [[NSArray alloc] init];
-    
-    return bookmarks;
-}
 
-- (void) writeBookmarks:(NSArray*)source {
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSMutableData * data = [NSMutableData data];
-    [self encodeObject:source forKey:kBookmarksKey toData:data];
-    [user setObject:data forKey:kBookmarksKey];
-    [user synchronize];
-}
-
-- (NSArray*) readBookmarkGroups {
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSData * data = [user dataForKey:kBookmarkGroupsKey];
-    NSArray * bookmarkGroups = nil;
-    @try {
-        bookmarkGroups = [self decodeObjectForKey:kBookmarkGroupsKey fromData:data];
-    }
-    @catch (NSException * e) {
-    }
-    if (!bookmarkGroups) {
-        bookmarkGroups = [[NSArray alloc] init];
-    }
-    return bookmarkGroups;
-}
-
-- (void) writeBookmarkGroups:(NSArray*)source {
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSMutableData * data = [NSMutableData data];
-    [self encodeObject:source forKey:kBookmarkGroupsKey toData:data];
-    [user setObject:data forKey:kBookmarkGroupsKey];
-    [user synchronize];
-}
-
-- (NSArray*) readMostRecentStops {
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSData * data = [user dataForKey:kMostRecentStopsKey];
-    NSArray * stops = nil;
-    @try {
-        stops = [self decodeObjectForKey:kMostRecentStopsKey fromData:data];
-    }
-    @catch (NSException * e) {
-        
-    }
-    
-    if( ! stops )
-        stops = [[NSArray alloc] init];
-    
-    return stops;
-}
-
-- (void) writeMostRecentStops:(NSArray*)source {
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSMutableData * data = [NSMutableData data];
-    [self encodeObject:source forKey:kMostRecentStopsKey toData:data];
-    [user setObject:data forKey:kMostRecentStopsKey];
-}
-
-- (NSDictionary*) readStopPreferences {
-    NSDictionary * dictionary = nil;
-    @try {
-        NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-        NSData * data = [user dataForKey:kStopPreferencesKey];
-        dictionary = [self decodeObjectForKey:kStopPreferencesKey fromData:data];
-    }
-    @catch (NSException * e) {
-    }
-    
-    if( ! dictionary )
-        dictionary = [[NSDictionary alloc] init];
-    
-    return dictionary;
-}
-
-- (void) writeStopPreferences:(NSDictionary*)stopPreferences {
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSMutableData * data = [NSMutableData data];
-    [self encodeObject:stopPreferences forKey:kStopPreferencesKey toData:data];
-    [user setObject:data forKey:kStopPreferencesKey];
-}
-
-- (CLLocation*) readMostRecentLocation {
-    CLLocation * location = nil;
-    @try {
-        NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-        NSData * data = [user dataForKey:kMostRecentLocationKey];
-        location = [self decodeObjectForKey:kMostRecentLocationKey fromData:data];
-    }
-    @catch (NSException * e) {
-    }
-    
-    return location;
-}
-
-- (void) writeMostRecentLocation:(CLLocation*)mostRecentLocation {
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSMutableData * data = [NSMutableData data];
-    [self encodeObject:mostRecentLocation forKey:kMostRecentLocationKey toData:data];
-    [user setObject:data forKey:kMostRecentLocationKey];
-}
-
-- (BOOL) hideFutureLocationWarnings {
-    @try {
-        NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-        NSNumber * v = [user objectForKey:kHideFutureLocationWarningsKey];
-        if( v )
-            return [v boolValue];
-    }
-    @catch (NSException * e) {
-    }
-    
-    return NO;
-}
-
-- (void) setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings {
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSNumber * v = @(hideFutureLocationWarnings);
-    [user setObject:v forKey:kHideFutureLocationWarningsKey];
-}
-
-- (NSSet*) readVisistedSituationIds {
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSData * data = [user dataForKey:kVisitedSituationIdsKey];
-    NSSet * situationIds = nil;
-    @try {
-        situationIds = [self decodeObjectForKey:kVisitedSituationIdsKey fromData:data];
-    }
-    @catch (NSException * e) {
-        
-    }
-    
-    if( ! situationIds )
-        situationIds = [[NSSet alloc] init];
-    
-    return situationIds;
-}
-
-- (void) writeVisistedSituationIds:(NSSet*)situationIds {
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSMutableData * data = [NSMutableData data];
-    [self encodeObject:situationIds forKey:kVisitedSituationIdsKey toData:data];
-    [user setObject:data forKey:kVisitedSituationIdsKey];
-}
-
-- (OBARegionV2*) readOBARegion {
-	OBARegionV2* region = nil;
-	@try {
-		NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-		NSData * data = [user dataForKey:kOBARegionKey];
-		region = [self decodeObjectForKey:kOBARegionKey fromData:data];
-	}
-	@catch (NSException * e) {
-	}
-	return region;
-}
-
-- (void) writeOBARegion:(OBARegionV2 *)oBARegion {
-	NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-	NSMutableData * data = [NSMutableData data];
-	[self encodeObject:oBARegion forKey:kOBARegionKey toData:data];
-	[user setObject:data forKey:kOBARegionKey];
-}
-
-- (BOOL) readSetRegionAutomatically {
-    BOOL value = YES;
-
-    @try {
-        NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-        NSNumber * v = [user objectForKey:kSetRegionAutomaticallyKey];
-        if( v )
-            value = [v boolValue];
-    }
-    @catch (NSException * e) {
-    }
-    return value;
-}
-
-- (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSNumber * v = @(setRegionAutomatically);
-    [user setObject:v forKey:kSetRegionAutomaticallyKey];
-}
-
-- (NSString*) readCustomApiUrl {
-    NSString *customApiUrl = nil;
-    @try {
-        NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-        NSData * data = [user dataForKey:kCustomApiUrlKey];
-        customApiUrl = [self decodeObjectForKey:kCustomApiUrlKey fromData:data];
-    }
-    @catch (NSException * e) {
-    }
-    
-    if( !customApiUrl )
-        customApiUrl = @"";
-    
-    return customApiUrl;
-}
-
-- (void) writeCustomApiUrl:(NSString*)customApiUrl {
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSMutableData * data = [NSMutableData data];
-    [self encodeObject:customApiUrl forKey:kCustomApiUrlKey toData:data];
-    [user setObject:data forKey:kCustomApiUrlKey];
-}
-
-- (NSArray*) readMostRecentCustomApiUrls {
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSData * data = [user dataForKey:kMostRecentCustomApiUrlsKey];
-    NSArray * customApiUrls = nil;
-    @try {
-        customApiUrls = [self decodeObjectForKey:kMostRecentCustomApiUrlsKey fromData:data];
-    }
-    @catch (NSException * e) {
-        
-    }
-    
-    if(!customApiUrls)
-        customApiUrls = [[NSArray alloc] init];
-    
-    return customApiUrls;
-}
-
-- (void) writeMostRecentCustomApiUrls:(NSArray*)customApiUrls {
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSMutableData * data = [NSMutableData data];
-    [self encodeObject:customApiUrls forKey:kMostRecentCustomApiUrlsKey toData:data];
-    [user setObject:data forKey:kMostRecentCustomApiUrlsKey];
-}
-
-- (void) encodeObject:(id<NSCoding>)object forKey:(NSString*)key toData:(NSMutableData*)data {
-    NSKeyedArchiver * archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-    [archiver encodeObject:object forKey:key];
-    [archiver finishEncoding];
-}
-
-- (id) decodeObjectForKey:(NSString*)key fromData:(NSData*)data {
     id object = nil;
 
-    if (data) {
+    @try {
         NSKeyedUnarchiver * unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
         object = [unarchiver decodeObjectForKey:key];
         [unarchiver finishDecoding];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Unable to decode object for key %@ - %@", key, exception);
     }
 
     return object;
 }
 
++ (void)writeObjectToUserDefaults:(id<NSCoding>)object withKey:(NSString*)key {
+    NSMutableData * data = [NSMutableData data];
+
+    NSKeyedArchiver * archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:object forKey:key];
+    [archiver finishEncoding];
+
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 @end

@@ -832,8 +832,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         }
     }
 
-    OBALogDebug(@"Annotations to remove: %lu", (unsigned long)[toRemove count]);
-    OBALogDebug(@"Annotations to add: %lu", (unsigned long)[toAdd count]);
+    OBALogDebug(@"Annotations to remove: %@", @(toRemove.count));
+    OBALogDebug(@"Annotations to add: %@", @(toAdd.count));
 
     [self.mapView removeAnnotations:toRemove];
     [self.mapView addAnnotations:toAdd];
