@@ -798,10 +798,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 }
 
-- (void)didCompleteNetworkRequest {
-    self.hideFutureNetworkErrors = NO;
-}
-
 - (void)setAnnotationsFromResults {
     NSMutableArray *annotations = [[NSMutableArray alloc] init];
 

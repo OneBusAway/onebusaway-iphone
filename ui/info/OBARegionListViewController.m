@@ -13,6 +13,7 @@
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAlerts.h"
 #import "OBAApplicationDelegate.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -50,17 +51,24 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     return self;
 }
 
+- (void)dealloc {
+    _regions = nil;
+    _mostRecentLocation = nil;
+    _locationTimer = nil;
+    _toggleSwitch = nil;
+}
+
+#pragma mark - UIViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.refreshable = NO;
     self.showUpdateTime = NO;
     self.progressLabel = NSLocalizedString(@"Regions", @"regions title");
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
-    _showExperimentalRegions = NO;
-
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"]) _showExperimentalRegions = [[NSUserDefaults standardUserDefaults]
-                                                                                                                                  boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
+    _showExperimentalRegions = [[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
 
     _toggleSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
     [_toggleSwitch setOn:_showExperimentalRegions animated:NO];
@@ -70,7 +78,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     [super viewWillAppear:animated];
 
     self.navigationItem.title = NSLocalizedString(@"Select Region", @"self.navigationItem.title");
-
 
     OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
 
@@ -95,37 +102,35 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     [_locationTimer invalidate];
 }
 
-- (void)dealloc {
-    _regions = nil;
-    _mostRecentLocation = nil;
-    _locationTimer = nil;
-    _toggleSwitch = nil;
-}
+#pragma mark - Network
 
 - (BOOL)isLoading {
-    return _regions == nil || (_mostRecentLocation == nil && !_locationTimedOut);
+    return !_regions || (!_mostRecentLocation && !_locationTimedOut);
 }
 
 - (id<OBAModelServiceRequest>)handleRefresh {
-    return [[OBAApplication sharedApplication].modelService
-            requestRegions:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                if (error) {
-                [self refreshFailedWithError:error];
-                }
-                else {
-                OBAListWithRangeAndReferencesV2 *list = jsonData;
-                self.regions = [list.values
+
+    [SVProgressHUD show];
+
+    return [[OBAApplication sharedApplication].modelService requestRegions:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        [SVProgressHUD dismiss];
+        if (error) {
+            [self refreshFailedWithError:error];
+        }
+        else {
+            OBAListWithRangeAndReferencesV2 *list = jsonData;
+            self.regions = [list.values
                             filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL (id evaluatedObject, NSDictionary *bindings) {
                 OBARegionV2 *region = (OBARegionV2 *)evaluatedObject;
                 return !((!region.supportsObaRealtimeApis || !region.active)
                          || (region.experimental && !self->_showExperimentalRegions));
-                }]];
+            }]];
 
-                [self sortRegionsByName];
+            [self sortRegionsByName];
 
-                [self refreshCompleteWithCode:responseCode];
-                }
-            }];
+            [self refreshCompleteWithCode:responseCode];
+        }
+    }];
 }
 
 - (void)sortRegionsByLocation {
@@ -146,23 +151,20 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         [nearbyRegions removeObjectsInArray:regionsToRemove];
 
 
-        [nearbyRegions sortUsingComparator:^(id obj1, id obj2) {
-                           OBARegionV2 *region1 = (OBARegionV2 *)obj1;
-                           OBARegionV2 *region2 = (OBARegionV2 *)obj2;
+        [nearbyRegions sortUsingComparator:^(OBARegionV2 *region1, OBARegionV2 *region2) {
+            CLLocationDistance distance1 = [region1 distanceFromLocation:self->_mostRecentLocation];
+            CLLocationDistance distance2 = [region2 distanceFromLocation:self->_mostRecentLocation];
 
-                           CLLocationDistance distance1 = [region1 distanceFromLocation:self->_mostRecentLocation];
-                           CLLocationDistance distance2 = [region2 distanceFromLocation:self->_mostRecentLocation];
-
-                           if (distance1 > distance2) {
-                           return (NSComparisonResult)NSOrderedDescending;
-                           }
-                           else if (distance1 < distance2) {
-                           return (NSComparisonResult)NSOrderedAscending;
-                           }
-                           else {
-                           return (NSComparisonResult)NSOrderedSame;
-                           }
-                       }];
+            if (distance1 > distance2) {
+                return (NSComparisonResult)NSOrderedDescending;
+            }
+            else if (distance1 < distance2) {
+                return (NSComparisonResult)NSOrderedAscending;
+            }
+            else {
+                return (NSComparisonResult)NSOrderedSame;
+            }
+        }];
 
         if (nearbyRegions.count > 0) {
             self.nearbyRegion = [nearbyRegions objectAtIndex:0];
@@ -182,22 +184,18 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (void)sortRegionsByName {
-    self.regions = [_regions sortedArrayUsingComparator:^(id obj1, id obj2) {
-                                 OBARegionV2 *region1 = (OBARegionV2 *)obj1;
-                                 OBARegionV2 *region2 = (OBARegionV2 *)obj2;
-
-                                 return [region1.regionName
-                                 compare:region2.regionName];
-                             }];
+    self.regions = [_regions sortedArrayUsingComparator:^(OBARegionV2 *region1, OBARegionV2 *region2) {
+        return [region1.regionName compare:region2.regionName];
+    }];
 }
 
 - (void)timeOutLocation:(NSTimer *)theTimer {
-    _locationTimedOut = TRUE;
+    _locationTimedOut = YES;
 
     [self sortRegionsByLocation];
 }
 
-#pragma mark OBALocationManagerDelegate Methods
+#pragma mark - OBALocationManagerDelegate
 
 - (void)locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
     OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
@@ -209,16 +207,25 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (void)locationManager:(OBALocationManager *)manager didFailWithError:(NSError *)error {
-    if ([error domain] == kCLErrorDomain && [error code] == kCLErrorDenied) {
+    if (error.domain == kCLErrorDomain && error.code == kCLErrorDenied) {
         [self showLocationServicesAlert];
     }
 
     [_locationTimer invalidate];
-    _locationTimedOut = TRUE;
+    _locationTimedOut = YES;
     [self sortRegionsByLocation];
 }
 
-#pragma mark Table view methods
+- (void)showLocationServicesAlert {
+    if (![OBAApplication sharedApplication].modelDao.hideFutureLocationWarnings) {
+        [OBAApplication sharedApplication].modelDao.hideFutureLocationWarnings = YES;
+
+        UIAlertController *alert = [OBAAlerts locationServicesDisabledAlert];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+#pragma mark - UITableView
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if ([self isLoading]) return 2;
@@ -333,18 +340,61 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     }
 }
 
-- (void)didCompleteNetworkRequest {
-    _hideFutureNetworkErrors = NO;
-}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    switch ([self sectionTypeForSection:section]) {
+        case OBASectionTypeAllRegions:
+        case OBASectionTypeNearbyRegions:
+        case OBASectionTypeLoading:
+        case OBASectionTypeNoRegions:
+            return 40;
 
-- (void)showLocationServicesAlert {
-    if (![OBAApplication sharedApplication].modelDao.hideFutureLocationWarnings) {
-        [OBAApplication sharedApplication].modelDao.hideFutureLocationWarnings = YES;
+        case OBASectionTypeTitle:
+            return 70;
 
-        UIAlertController *alert = [OBAAlerts locationServicesDisabledAlert];
-        [self presentViewController:alert animated:YES completion:nil];
+        default:
+            return 30;
     }
 }
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+
+    view.backgroundColor = OBAGREENWITHALPHA(0.1f);
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 290, 30)];
+    title.font = [OBATheme bodyFont];
+    title.backgroundColor = [UIColor clearColor];
+
+    switch ([self sectionTypeForSection:section]) {
+        case OBASectionTypeLoading:
+            title.text = NSLocalizedString(@"Loading available regions...", @"OBASectionTypeLoading title");
+            break;
+
+        case OBASectionTypeTitle:
+            title.text =  NSLocalizedString(@"Select the region where you wish to use OneBusAway", @"OBASectionTypeTitle title");
+            title.frame = CGRectMake(15, 5, 290, 60);
+            title.numberOfLines = 2;
+            break;
+
+        case OBASectionTypeNearbyRegions:
+            title.text =  NSLocalizedString(@"Set Region Automatically", @"OBASectionTypeNearbyRegions title");
+            break;
+
+        case OBASectionTypeAllRegions:
+            title.text =  NSLocalizedString(@"Manually Select Region", @"OBASectionTypeAllRegions title");
+            break;
+
+        case OBASectionTypeNoRegions:
+            title.text =  NSLocalizedString(@"No regions found", @"OBASectionTypeNoRegions title");
+            break;
+
+        default:
+            break;
+    }
+    [view addSubview:title];
+    return view;
+}
+
+#pragma mark - Custom Table Stuff
 
 - (OBASectionType)sectionTypeForSection:(NSUInteger)section {
     if (_regions == nil) {
@@ -450,9 +500,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (UITableViewCell *)experimentalRegionCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"ExperimentalRegionCell"];
 
-    [_toggleSwitch addTarget:self
-                      action:@selector(didSwitchStateOfToggle:)
-            forControlEvents:UIControlEventValueChanged];
+    [_toggleSwitch addTarget:self action:@selector(didSwitchStateOfToggle:) forControlEvents:UIControlEventValueChanged];
     cell.accessoryView = [[UIView alloc] initWithFrame:_toggleSwitch.frame];
     [cell.accessoryView addSubview:_toggleSwitch];
 
@@ -474,6 +522,14 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     cell.textLabel.font = [OBATheme bodyFont];
     cell.textLabel.text = NSLocalizedString(@"Custom API URL", @"cell.textLabel.text");
     return cell;
+}
+
+- (void)didSelectCustomAPIRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    OBACustomApiViewController *customAPIViewController = [[OBACustomApiViewController alloc] initWithModelDao:[OBAApplication sharedApplication].modelDao];
+    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:customAPIViewController];
+    [self presentViewController:navigation animated:YES completion:nil];
 }
 
 - (void)didSwitchStateOfToggle:(UISwitch *)toggleSwitch {
@@ -503,7 +559,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self doNeedToUpdateRegionsList];
         }]];
-
+        
         [self presentViewController:alert animated:YES completion:nil];
     }
 }
@@ -545,68 +601,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
                                             forKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self handleRefresh];
-}
-
-- (void)didSelectCustomAPIRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-    OBACustomApiViewController *customAPIViewController = [[OBACustomApiViewController alloc] initWithModelDao:[OBAApplication sharedApplication].modelDao];
-    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:customAPIViewController];
-    [self presentViewController:navigation animated:YES completion:nil];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    switch ([self sectionTypeForSection:section]) {
-        case OBASectionTypeAllRegions:
-        case OBASectionTypeNearbyRegions:
-        case OBASectionTypeLoading:
-        case OBASectionTypeNoRegions:
-            return 40;
-
-        case OBASectionTypeTitle:
-            return 70;
-
-        default:
-            return 30;
-    }
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-
-    view.backgroundColor = OBAGREENWITHALPHA(0.1f);
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 290, 30)];
-    title.font = [OBATheme bodyFont];
-    title.backgroundColor = [UIColor clearColor];
-
-    switch ([self sectionTypeForSection:section]) {
-        case OBASectionTypeLoading:
-            title.text = NSLocalizedString(@"Loading available regions...", @"OBASectionTypeLoading title");
-            break;
-
-        case OBASectionTypeTitle:
-            title.text =  NSLocalizedString(@"Select the region where you wish to use OneBusAway", @"OBASectionTypeTitle title");
-            title.frame = CGRectMake(15, 5, 290, 60);
-            title.numberOfLines = 2;
-            break;
-
-        case OBASectionTypeNearbyRegions:
-            title.text =  NSLocalizedString(@"Set Region Automatically", @"OBASectionTypeNearbyRegions title");
-            break;
-
-        case OBASectionTypeAllRegions:
-            title.text =  NSLocalizedString(@"Manually Select Region", @"OBASectionTypeAllRegions title");
-            break;
-
-        case OBASectionTypeNoRegions:
-            title.text =  NSLocalizedString(@"No regions found", @"OBASectionTypeNoRegions title");
-            break;
-
-        default:
-            break;
-    }
-    [view addSubview:title];
-    return view;
 }
 
 @end

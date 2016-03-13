@@ -14,6 +14,9 @@
 #import "UITableViewCell+oba_Additions.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "OBAURLHelpers.h"
+#import <PromiseKit/PromiseKit.h>
+
+static NSInteger const OBABadCustomAPIServerErrorCode = 1;
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -88,47 +91,32 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         return;
     }
 
-    if ([urlString isEqualToString:self.modelDao.readCustomApiUrl]) {
-        [self showBadURLError:NSLocalizedString(@"It's not necessarily invalid. You just didn't type in a new address.", @"Identical server address to what we already have.")];
-        return;
-    }
-
     NSURL *currentTimeURL = [OBAURLHelpers normalizeURLPath:@"/where/current-time.json"
                                           relativeToBaseURL:urlString
                                                  parameters:@{@"key": @"org.onebusaway.iphone"}];
 
-    NSURLSessionDataTask * task = [[NSURLSession sharedSession] dataTaskWithURL:currentTimeURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    [SVProgressHUD show];
+    [NSURLConnection GET:currentTimeURL].then(^(id data) {
 
-        if (error) {
-            [SVProgressHUD showErrorWithStatus:error.userInfo[NSLocalizedDescriptionKey]];
-            return;
-        }
-
-        if (!data) {
-            [self showBadURLError:nil];
-            return;
-        }
-
-        id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:NULL];
-
-        if (!jsonObject) {
-            [self showBadURLError:nil];
-            return;
-        }
-
-        if (jsonObject[@"currentTime"]) {
-            // hooray it actually worked!
-            [SVProgressHUD dismiss];
-            [self writeCustomAPIURLString:urlString];
+        if ([data isKindOfClass:[NSDictionary class]] && [data objectForKey:@"currentTime"]) {
+            [self writeCustomAPIURL:[OBAURLHelpers normalizeURLPath:@"/" relativeToBaseURL:urlString parameters:nil]];
             [self dismissViewControllerAnimated:YES completion:nil];
         }
-    }];
-    [task resume];
+        else {
+            NSString *errorMessage = [NSString stringWithFormat:NSLocalizedString(@"Please make sure that %@ is a functioning OBA API endpoint.", @""), currentTimeURL.absoluteString];
+
+            @throw [NSError errorWithDomain:NSURLErrorDomain code:OBABadCustomAPIServerErrorCode userInfo:@{NSLocalizedDescriptionKey: errorMessage}];
+        }
+    }).catch(^(NSError *error) {
+        [self showBadURLError:error.localizedDescription];
+    }).finally(^{
+        [SVProgressHUD dismiss];
+    });
 }
 
-- (void)writeCustomAPIURLString:(NSString*)urlString {
-    [self.modelDao addCustomApiUrl:urlString];
-    [self.modelDao writeCustomApiUrl:urlString];
+- (void)writeCustomAPIURL:(NSURL*)URL {
+    [self.modelDao addCustomApiUrl:URL.absoluteString];
+    [self.modelDao writeCustomApiUrl:URL.absoluteString];
     [self.modelDao writeSetRegionAutomatically:NO];
     [self.modelDao setOBARegion:nil];
 
