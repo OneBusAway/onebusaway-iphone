@@ -118,95 +118,15 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [_preferencesDao writeOBARegion:newRegion];
 }
 
-
-- (void) addStopAccessEvent:(OBAStopAccessEventV2*)event {
-
-    OBAStopAccessEventV2 * existingEvent = nil;
-    
-    NSArray * stopIds = event.stopIds;
-    
-    for( OBAStopAccessEventV2 * stopEvent in _mostRecentStops ) {
-        if( [stopEvent.stopIds isEqual:stopIds] ) {
-            existingEvent = stopEvent;
-            break;
-        }
-    }
-    
-    if( existingEvent ) {
-        [_mostRecentStops removeObject:existingEvent];
-        [_mostRecentStops insertObject:existingEvent atIndex:0];
-    }
-    else {
-        existingEvent = [[OBAStopAccessEventV2 alloc] init];
-        existingEvent.stopIds = stopIds;
-        [_mostRecentStops insertObject:existingEvent atIndex:0];
-
-    }
-    
-    existingEvent.title = event.title;
-    existingEvent.subtitle = event.subtitle;
-    
-    NSInteger over = [_mostRecentStops count] - kMaxEntriesInMostRecentList;
-    for( int i=0; i<over; i++)
-        [_mostRecentStops removeObjectAtIndex:([_mostRecentStops count]-1)];
-    
-    [_preferencesDao writeMostRecentStops:_mostRecentStops];
-    [[NSNotificationCenter defaultCenter] postNotificationName:OBAMostRecentStopsChangedNotification object:nil];
+- (BOOL) readSetRegionAutomatically {
+    return [_preferencesDao readSetRegionAutomatically];
 }
 
-- (void) addCustomApiUrl:(NSString *)customApiUrl {
-    
-    if(!customApiUrl) {
-        return;
-    }
-    
-    NSString *existingCustomApiUrl = nil;
-    
-    for( NSString * recentCustomApiUrl in _mostRecentCustomApiUrls ) {
-        if( [recentCustomApiUrl isEqualToString:customApiUrl] ) {
-            existingCustomApiUrl = customApiUrl;
-            break;
-        }
-    }
-    
-    if( existingCustomApiUrl ) {
-        [_mostRecentCustomApiUrls removeObject:existingCustomApiUrl];
-        [_mostRecentCustomApiUrls insertObject:existingCustomApiUrl atIndex:0];
-    }
-    else {
-
-        [_mostRecentCustomApiUrls insertObject:customApiUrl atIndex:0];
-        
-    }
-    
-    NSInteger over = [_mostRecentCustomApiUrls count] - kMaxEntriesInMostRecentList;
-    for( int i=0; i<over; i++)
-        [_mostRecentCustomApiUrls removeObjectAtIndex:([_mostRecentCustomApiUrls count]-1)];
-    
-    [_preferencesDao writeMostRecentCustomApiUrls:_mostRecentCustomApiUrls];
+- (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
+    [_preferencesDao writeSetRegionAutomatically:setRegionAutomatically];
 }
 
-- (NSString*)normalizedAPIServerURL {
-    NSString *apiServerName = nil;
-    
-    if (self.readCustomApiUrl.length > 0) {
-        if ([self.readCustomApiUrl hasPrefix:@"http://"] || [self.readCustomApiUrl hasPrefix:@"https://"]) {
-            apiServerName = self.readCustomApiUrl;
-        }
-        else {
-            apiServerName = [NSString stringWithFormat:@"http://%@", self.readCustomApiUrl];
-        }
-    }
-    else if (self.region) {
-        apiServerName = self.region.obaBaseUrl;
-    }
-    
-    if ([apiServerName hasSuffix:@"/"]) {
-        apiServerName = [apiServerName substringToIndex:apiServerName.length - 1];
-    }
-    
-    return apiServerName;
-}
+#pragma mark - Bookmarks
 
 - (OBABookmarkV2*)createTransientBookmark:(OBAStopV2*)stop {
     OBABookmarkV2 * bookmark = [[OBABookmarkV2 alloc] init];
@@ -302,6 +222,8 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
 }
 
+#pragma mark - Stop Preferences
+
 - (OBAStopPreferencesV2*) stopPreferencesForStopWithId:(NSString*)stopId {
     OBAStopPreferencesV2 * prefs = _stopPreferences[stopId];
     if( ! prefs )
@@ -314,22 +236,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [_preferencesDao writeStopPreferences:_stopPreferences];
 }
 
-#pragma mark OBAActivityListener
-
-- (void)recordPlacemark:(NSNotification*)note {
-    OBAPlacemark * placemark = [note object];
-    CLLocationCoordinate2D coordinate = placemark.coordinate;
-    [self saveMostRecentLocationLat:coordinate.latitude lon:coordinate.longitude];
-}
-
-- (void)viewedArrivalsAndDeparturesForStop:(NSNotification*)note {
-    OBAStopV2* stop = [note object];
-    OBAStopAccessEventV2 * event = [[OBAStopAccessEventV2 alloc] init];
-    event.stopIds = @[stop.stopId];
-    event.title = stop.title;
-    event.subtitle = stop.subtitle;
-    [self addStopAccessEvent:event];
-}
+#pragma mark - Location Warnings
 
 - (BOOL) hideFutureLocationWarnings {
     return [_preferencesDao hideFutureLocationWarnings];
@@ -339,12 +246,49 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [_preferencesDao setHideFutureLocationWarnings:hideFutureLocationWarnings];
 }
 
-- (BOOL) readSetRegionAutomatically {
-    return [_preferencesDao readSetRegionAutomatically];
+#pragma mark - Stop Viewing
+
+- (void) addStopAccessEvent:(OBAStopAccessEventV2*)event {
+
+    OBAStopAccessEventV2 * existingEvent = nil;
+
+    NSArray * stopIds = event.stopIds;
+
+    for( OBAStopAccessEventV2 * stopEvent in _mostRecentStops ) {
+        if( [stopEvent.stopIds isEqual:stopIds] ) {
+            existingEvent = stopEvent;
+            break;
+        }
+    }
+
+    if( existingEvent ) {
+        [_mostRecentStops removeObject:existingEvent];
+        [_mostRecentStops insertObject:existingEvent atIndex:0];
+    }
+    else {
+        existingEvent = [[OBAStopAccessEventV2 alloc] init];
+        existingEvent.stopIds = stopIds;
+        [_mostRecentStops insertObject:existingEvent atIndex:0];
+    }
+
+    existingEvent.title = event.title;
+    existingEvent.subtitle = event.subtitle;
+
+    NSInteger over = [_mostRecentStops count] - kMaxEntriesInMostRecentList;
+    for( int i=0; i<over; i++)
+        [_mostRecentStops removeObjectAtIndex:([_mostRecentStops count]-1)];
+
+    [_preferencesDao writeMostRecentStops:_mostRecentStops];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBAMostRecentStopsChangedNotification object:nil];
 }
 
-- (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
-    [_preferencesDao writeSetRegionAutomatically:setRegionAutomatically];
+- (void)viewedArrivalsAndDeparturesForStop:(NSNotification*)note {
+    OBAStopV2* stop = [note object];
+    OBAStopAccessEventV2 * event = [[OBAStopAccessEventV2 alloc] init];
+    event.stopIds = @[stop.stopId];
+    event.title = stop.title;
+    event.subtitle = stop.subtitle;
+    [self addStopAccessEvent:event];
 }
 
 - (BOOL) isVisitedSituationWithId:(NSString*)situationId {
@@ -399,18 +343,6 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     }
 }
 
-- (NSString*) readCustomApiUrl {
-    return [_preferencesDao readCustomApiUrl];
-}
-- (void) writeCustomApiUrl:(NSString*)customApiUrl {
-    [_preferencesDao writeCustomApiUrl:customApiUrl];
-}
-
-- (void) saveMostRecentLocationLat:(double)lat lon:(double)lon {    
-    CLLocation *location = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
-    [self setMostRecentLocation:location];
-}
-
 - (NSInteger) getSituationSeverityAsNumericValue:(NSString*)severity {
     if( ! severity )
         return -1;
@@ -431,6 +363,70 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     if( [severity isEqualToString:@"normal"] )
         return 5;
     return -1;
+}
+
+#pragma mark - Custom API Server
+
+- (void) addCustomApiUrl:(NSString *)customApiUrl {
+
+    if(!customApiUrl) {
+        return;
+    }
+
+    NSString *existingCustomApiUrl = nil;
+
+    for( NSString * recentCustomApiUrl in _mostRecentCustomApiUrls ) {
+        if( [recentCustomApiUrl isEqualToString:customApiUrl] ) {
+            existingCustomApiUrl = customApiUrl;
+            break;
+        }
+    }
+
+    if( existingCustomApiUrl ) {
+        [_mostRecentCustomApiUrls removeObject:existingCustomApiUrl];
+        [_mostRecentCustomApiUrls insertObject:existingCustomApiUrl atIndex:0];
+    }
+    else {
+
+        [_mostRecentCustomApiUrls insertObject:customApiUrl atIndex:0];
+
+    }
+
+    NSInteger over = [_mostRecentCustomApiUrls count] - kMaxEntriesInMostRecentList;
+    for( int i=0; i<over; i++)
+        [_mostRecentCustomApiUrls removeObjectAtIndex:([_mostRecentCustomApiUrls count]-1)];
+
+    [_preferencesDao writeMostRecentCustomApiUrls:_mostRecentCustomApiUrls];
+}
+
+- (NSString*)normalizedAPIServerURL {
+    NSString *apiServerName = nil;
+
+    if (self.readCustomApiUrl.length > 0) {
+        if ([self.readCustomApiUrl hasPrefix:@"http://"] || [self.readCustomApiUrl hasPrefix:@"https://"]) {
+            apiServerName = self.readCustomApiUrl;
+        }
+        else {
+            apiServerName = [NSString stringWithFormat:@"http://%@", self.readCustomApiUrl];
+        }
+    }
+    else if (self.region) {
+        apiServerName = self.region.obaBaseUrl;
+    }
+
+    if ([apiServerName hasSuffix:@"/"]) {
+        apiServerName = [apiServerName substringToIndex:apiServerName.length - 1];
+    }
+
+    return apiServerName;
+}
+
+- (NSString*) readCustomApiUrl {
+    return [_preferencesDao readCustomApiUrl];
+}
+
+- (void) writeCustomApiUrl:(NSString*)customApiUrl {
+    [_preferencesDao writeCustomApiUrl:customApiUrl];
 }
 
 @end
