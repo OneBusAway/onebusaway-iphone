@@ -7,6 +7,7 @@
 //
 
 #import "OBAParallaxTableHeaderView.h"
+#import <OBAKit/OBAKit.h>
 #import <Masonry/Masonry.h>
 #import <PromiseKit/PromiseKit.h>
 #import <DateTools/DateTools.h>
@@ -22,6 +23,7 @@
 @property(nonatomic,strong,readwrite) UIImageView *headerImageView;
 @property(nonatomic,strong,readwrite) UILabel *stopInformationLabel;
 @property(nonatomic,strong,readwrite) UIStackView *directionsAndDistanceView;
+@property(nonatomic,copy) void (^presenter)(UIViewController *viewController);
 @end
 
 @implementation OBAParallaxTableHeaderView
@@ -43,11 +45,9 @@
         [self addSubview:_headerImageView];
 
         _stopInformationLabel = ({
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-            [self.class applyHeaderStylingToLabel:label];
+            UILabel *label = [OBAUIBuilder label];
             label.numberOfLines = 0;
-            label.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-
+            [self.class applyHeaderStylingToLabel:label];
             label;
         });
 
@@ -146,15 +146,17 @@
         })];
         return [directions calculateETA];
     }).then(^(MKETAResponse* ETA) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-        label.numberOfLines = 1;
-        label.adjustsFontSizeToFitWidth = YES;
-        label.minimumScaleFactor = 0.8f;
+        UILabel *label = [OBAUIBuilder label];
         [OBAParallaxTableHeaderView applyHeaderStylingToLabel:label];
 
-        label.text = [NSString stringWithFormat:@"Walk to stop: %@: %.0f min, arriving at %@.", [OBAMapHelpers stringFromDistance:ETA.distance],
+        label.text = [NSString stringWithFormat:@"Walk to stop: %@ — %.0f min, arriving at %@.", [OBAMapHelpers stringFromDistance:ETA.distance],
                       [[NSDate dateWithTimeIntervalSinceNow:ETA.expectedTravelTime] minutesUntil],
                       [OBADateHelpers formatShortTimeNoDate:ETA.expectedArrivalDate]];
+
+        label.userInteractionEnabled = YES;
+
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showWalkingDirections:)];
+        [label addGestureRecognizer:tapRecognizer];
 
         [self.directionsAndDistanceView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         [self.directionsAndDistanceView addArrangedSubview:label];
@@ -164,6 +166,18 @@
     }).finally(^{
         iterations = 0;
     });
+}
+
+#pragma mark - Show Walking Directions
+
+- (void)showWalkingDirections:(UITapGestureRecognizer*)tap {
+    if (self.presenter) {
+        //
+    }
+}
+
+- (void)requestsPresentationOfViewController:(void (^)(UIViewController*))presenter {
+    self.presenter = presenter;
 }
 
 #pragma mark - Private Helpers
