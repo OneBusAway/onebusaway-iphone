@@ -45,7 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(weak, nonatomic,readonly) NSArray * mostRecentCustomApiUrls;
 
 - (OBABookmarkV2*) createTransientBookmark:(OBAStopV2*)stop;
-
 - (OBABookmarkV2*)bookmarkForStop:(OBAStopV2*)stop;
 - (void) addNewBookmark:(OBABookmarkV2*)bookmark;
 - (void) saveExistingBookmark:(OBABookmarkV2*)bookmark;
