@@ -33,4 +33,11 @@
 
 + (void)registerViewsWithTableView:(UITableView*)tableView;
 + (NSString*)cellReuseIdentifier;
+
+/**
+ By default, this simply returns the class method of the same name. However,
+ this gives you the ability to return different cellReuseIdentifiers based
+ upon different configurations of your table row.
+ */
+- (NSString*)cellReuseIdentifier;
 @end
