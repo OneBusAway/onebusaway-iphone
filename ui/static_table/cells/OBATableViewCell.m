@@ -40,3 +40,36 @@
     return (OBATableRow*)self.tableRow;
 }
 @end
+
+@implementation OBATableViewCellValue1
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseIdentifier];
+
+    if (self) {
+        // no-op, i suppose?
+    }
+    return self;
+}
+@end
+
+@implementation OBATableViewCellValue2
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:reuseIdentifier];
+
+    if (self) {
+        // no-op, i suppose?
+    }
+    return self;
+}
+@end
+
+@implementation OBATableViewCellSubtitle
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
+
+    if (self) {
+        // no-op, i suppose?
+    }
+    return self;
+}
+@end

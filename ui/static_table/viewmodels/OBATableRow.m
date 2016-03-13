@@ -10,6 +10,11 @@
 #import "OBAViewModelRegistry.h"
 #import "OBATableViewCell.h"
 
+static NSString * const OBACellStyleDefaultReuseIdentifier = @"OBAUITableViewCellStyleDefaultCellIdentifier";
+static NSString * const OBACellStyleValue1ReuseIdentifier = @"OBACellStyleValue1ReuseIdentifier";
+static NSString * const OBACellStyleValue2ReuseIdentifier = @"OBACellStyleValue2ReuseIdentifier";
+static NSString * const OBACellStyleSubtitleReuseIdentifier = @"OBACellStyleSubtitleReuseIdentifier";
+
 @implementation OBATableRow
 
 + (void)load {
@@ -45,10 +50,23 @@
 #pragma mark - Public
 
 + (void)registerViewsWithTableView:(UITableView *)tableView {
-    [tableView registerClass:[OBATableViewCell class] forCellReuseIdentifier:[self cellReuseIdentifier]];
+    [tableView registerClass:[OBATableViewCell class] forCellReuseIdentifier:OBACellStyleDefaultReuseIdentifier];
+    [tableView registerClass:[OBATableViewCellValue1 class] forCellReuseIdentifier:OBACellStyleValue1ReuseIdentifier];
+    [tableView registerClass:[OBATableViewCellValue2 class] forCellReuseIdentifier:OBACellStyleValue2ReuseIdentifier];
+    [tableView registerClass:[OBATableViewCellSubtitle class] forCellReuseIdentifier:OBACellStyleSubtitleReuseIdentifier];
 }
 
-+ (NSString*)cellReuseIdentifier {
-    return NSStringFromClass(self.class);
+- (NSString*)cellReuseIdentifier {
+    switch (self.style) {
+        case UITableViewCellStyleValue1:
+            return OBACellStyleValue1ReuseIdentifier;
+        case UITableViewCellStyleValue2:
+            return OBACellStyleValue2ReuseIdentifier;
+        case UITableViewCellStyleSubtitle:
+            return OBACellStyleSubtitleReuseIdentifier;
+        case UITableViewCellStyleDefault:
+        default:
+            return OBACellStyleDefaultReuseIdentifier;
+    }
 }
 @end

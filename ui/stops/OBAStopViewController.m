@@ -149,7 +149,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
         [self.parallaxHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
-        [self.parallaxHeaderView loadETAToLocation:self.arrivalsAndDepartures.stop.coordinate];
     }).catch(^(NSError *error) {
         message = error.localizedDescription ?: NSLocalizedString(@"Error connecting", @"requestDidFail");
         // TODO: show an error!
@@ -378,9 +377,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
 - (void)createTableHeaderView {
     self.parallaxHeaderView = [[OBAParallaxTableHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), kTableHeaderHeight)];
     self.parallaxHeaderView.highContrastMode = [[OBAApplication sharedApplication] useHighContrastUI];
-    [self.parallaxHeaderView requestsPresentationOfViewController:^(UIViewController* viewController) {
-        [self.navigationController pushViewController:viewController animated:YES];
-    }];
 
 #if ENABLE_PARALLAX_WHICH_NEEDS_FIXING
     [self.tableView addSubview:self.parallaxHeaderView];

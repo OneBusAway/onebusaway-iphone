@@ -13,6 +13,4 @@
 @interface OBAParallaxTableHeaderView : UIView
 @property(nonatomic,assign) BOOL highContrastMode;
 - (void)populateTableHeaderFromArrivalsAndDeparturesModel:(OBAArrivalsAndDeparturesForStopV2*)result;
-- (void)loadETAToLocation:(CLLocationCoordinate2D)coordinate;
-- (void)requestsPresentationOfViewController:(void (^)(UIViewController*))presenter;
 @end

@@ -10,5 +10,13 @@
 #import "OBATableCell.h"
 
 @interface OBATableViewCell : UITableViewCell<OBATableCell>
+@end
 
+@interface OBATableViewCellValue1 : OBATableViewCell
+@end
+
+@interface OBATableViewCellValue2 : OBATableViewCell
+@end
+
+@interface OBATableViewCellSubtitle : OBATableViewCell
 @end

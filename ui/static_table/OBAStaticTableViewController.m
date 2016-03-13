@@ -108,7 +108,7 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     OBABaseRow *row = [self rowAtIndexPath:indexPath];
-    NSString *reuseIdentifier = [row.class cellReuseIdentifier];
+    NSString *reuseIdentifier = [row cellReuseIdentifier];
 
     UITableViewCell<OBATableCell> *cell = (UITableViewCell<OBATableCell> *)[tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
 

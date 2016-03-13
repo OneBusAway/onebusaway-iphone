@@ -48,4 +48,8 @@
     return NSStringFromClass(self.class);
 }
 
+- (NSString*)cellReuseIdentifier {
+    return [self.class cellReuseIdentifier];
+}
+
 @end
