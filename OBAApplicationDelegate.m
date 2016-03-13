@@ -24,7 +24,6 @@
 #import "OBASearchResultsMapViewController.h"
 #import "OBARecentStopsViewController.h"
 #import "OBABookmarksViewController.h"
-#import "OBABookmarksViewController2.h"
 #import "OBAInfoViewController.h"
 
 #import "OBASearchController.h"
@@ -124,7 +123,7 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
     self.recentsViewController = [[OBARecentStopsViewController alloc] init];
     self.recentsNavigationController = [[UINavigationController alloc] initWithRootViewController:self.recentsViewController];
 
-    self.bookmarksViewController = [[OBABookmarksViewController2 alloc] init];
+    self.bookmarksViewController = [[OBABookmarksViewController alloc] init];
     self.bookmarksNavigationController = [[UINavigationController alloc] initWithRootViewController:self.bookmarksViewController];
 
     self.infoViewController = [[OBAInfoViewController alloc] init];

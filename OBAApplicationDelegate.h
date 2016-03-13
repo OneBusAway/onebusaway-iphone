@@ -22,7 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class OBASearchResultsMapViewController;
 @class OBARecentStopsViewController;
-@class OBABookmarksViewController;
 @class OBAInfoViewController;
 @class OBARegionListViewController;
 
