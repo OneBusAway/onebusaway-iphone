@@ -166,10 +166,10 @@
     NSLocalizedString(@"late", @"");
 
     if (minutes < 0) {
-        return [NSString stringWithFormat:@"departed %@ minutes %@", @(minDiff), suffixWord];
+        return [NSString stringWithFormat:NSLocalizedString(@"departed %@ min %@", @"e.g. departed 5 min late"), @(minDiff), suffixWord];
     }
     else {
-        return [NSString stringWithFormat:@"%@ minutes %@", @(minDiff), suffixWord];
+        return [NSString stringWithFormat:NSLocalizedString(@"%@ min %@", @"e.g. 3 min early"), @(minDiff), suffixWord];
     }
 }
 

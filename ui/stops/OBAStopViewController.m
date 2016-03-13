@@ -288,9 +288,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
         OBAStopSectionHeaderView *header = [[OBAStopSectionHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 44.f)];
         header.layoutMargins = self.tableView.layoutMargins;
         header.routeNameText = title;
-        [header setFavoriteButtonTapped:^(BOOL selected) {
-            // TODO!
-        }];
         header;
     });
     return section;
@@ -381,6 +378,9 @@ static CGFloat const kTableHeaderHeight = 150.f;
 - (void)createTableHeaderView {
     self.parallaxHeaderView = [[OBAParallaxTableHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), kTableHeaderHeight)];
     self.parallaxHeaderView.highContrastMode = [[OBAApplication sharedApplication] useHighContrastUI];
+    [self.parallaxHeaderView requestsPresentationOfViewController:^(UIViewController* viewController) {
+        [self.navigationController pushViewController:viewController animated:YES];
+    }];
 
 #if ENABLE_PARALLAX_WHICH_NEEDS_FIXING
     [self.tableView addSubview:self.parallaxHeaderView];

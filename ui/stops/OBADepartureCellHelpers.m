@@ -35,12 +35,12 @@
         return [OBATheme delayedDepartureColor];
     }
     else {
-        return [UIColor blackColor];
+        return [OBATheme textColor];
     }
 }
 
 + (UIFont*)fontForStatus:(OBADepartureStatus)status {
-    return status == OBADepartureStatusDelayed || status == OBADepartureStatusEarly ? [OBATheme boldBodyFont] : [OBATheme bodyFont];
+    return [OBATheme bodyFont];
 }
 
 @end
