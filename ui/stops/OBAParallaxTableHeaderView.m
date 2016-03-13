@@ -24,6 +24,7 @@
 @property(nonatomic,strong,readwrite) UILabel *stopInformationLabel;
 @property(nonatomic,strong,readwrite) UIStackView *directionsAndDistanceView;
 @property(nonatomic,copy) void (^presenter)(UIViewController *viewController);
+@property(nonatomic,strong) OBAStopV2 *stop;
 @end
 
 @implementation OBAParallaxTableHeaderView
@@ -76,13 +77,15 @@
 
 - (void)populateTableHeaderFromArrivalsAndDeparturesModel:(OBAArrivalsAndDeparturesForStopV2*)result {
 
+    self.stop = result.stop;
+
     if (self.highContrastMode) {
         self.headerImageView.backgroundColor = OBAGREEN;
     }
     else {
         MKMapSnapshotter *snapshotter = ({
             MKMapSnapshotOptions *options = [[MKMapSnapshotOptions alloc] init];
-            options.region = [OBAMapHelpers coordinateRegionWithCenterCoordinate:result.stop.coordinate zoomLevel:15 viewSize:self.headerImageView.frame.size];
+            options.region = [OBAMapHelpers coordinateRegionWithCenterCoordinate:self.stop.coordinate zoomLevel:15 viewSize:self.headerImageView.frame.size];
             options.size = self.headerImageView.frame.size;
             options.scale = [[UIScreen mainScreen] scale];
             [[MKMapSnapshotter alloc] initWithOptions:options];
@@ -91,7 +94,7 @@
         [snapshotter promise].thenInBackground(^(MKMapSnapshot *snapshot) {
             UIImage *annotatedImage = [OBAImageHelpers draw:[OBAStopIconFactory getIconForStop:result.stop]
                                                        onto:snapshot.image
-                                                    atPoint:[snapshot pointForCoordinate:result.stop.coordinate]];
+                                                    atPoint:[snapshot pointForCoordinate:self.stop.coordinate]];
             return [OBAImageHelpers colorizeImage:annotatedImage withColor:kHeaderImageViewBackgroundColor];
         }).then(^(UIImage *colorizedImage) {
             self.headerImageView.image = colorizedImage;
@@ -120,6 +123,8 @@
     }
 
     self.stopInformationLabel.text = [stopMetadata componentsJoinedByString:@"\r\n"];
+
+    [self loadETAToLocation:self.stop.coordinate];
 }
 
 - (void)loadETAToLocation:(CLLocationCoordinate2D)coordinate {
@@ -171,13 +176,15 @@
 #pragma mark - Show Walking Directions
 
 - (void)showWalkingDirections:(UITapGestureRecognizer*)tap {
-    if (self.presenter) {
-        //
-    }
-}
+    MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:self.stop.coordinate addressDictionary:nil];
+    MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
+    mapItem.name = self.stop.name;
 
-- (void)requestsPresentationOfViewController:(void (^)(UIViewController*))presenter {
-    self.presenter = presenter;
+    [mapItem openInMapsWithLaunchOptions:@{
+                                           MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking,
+                                           MKLaunchOptionsMapTypeKey: @(MKMapTypeStandard),
+                                           MKLaunchOptionsShowsTrafficKey: @NO
+                                           }];
 }
 
 #pragma mark - Private Helpers
