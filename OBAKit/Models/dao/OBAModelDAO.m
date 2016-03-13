@@ -80,7 +80,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
         return [self.bookmarks filteredArrayUsingPredicate:predicate];
     }
     else {
-        return nil;
+        return @[];
     }
 }
 
@@ -129,18 +129,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 #pragma mark - Bookmarks
 
 - (OBABookmarkV2*)createTransientBookmark:(OBAStopV2*)stop {
-    OBABookmarkV2 * bookmark = [[OBABookmarkV2 alloc] init];
-    NSString * bookmarkName = stop.name;
-    if (stop.direction) {
-        bookmarkName = [NSString stringWithFormat:@"%@ [%@]",stop.name,stop.direction];
-    }
-    bookmark.name = bookmarkName;
-    bookmark.stopID = stop.stopId;
-    // Info: https://github.com/OneBusAway/onebusaway-iphone/issues/457
-//    bookmark.routeID = TODO - SOME WAY TO GET A ROUTE ID
-//    bookmark.headsign = stop.
-    bookmark.regionIdentifier = self.region ? self.region.identifier : NSNotFound;
-
+    OBABookmarkV2 * bookmark = [[OBABookmarkV2 alloc] initWithStop:stop region:self.region];
     return bookmark;
 }
 

@@ -147,11 +147,15 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
         self.arrivalsAndDepartures = response;
 
+        // This will update existing bookmarks as they are accessed and ensure
+        // that they have the correct coordinate and region set on them.
+        [OBAStopViewController updateBookmarkForStop:self.arrivalsAndDepartures.stop inModelDAO:[OBAApplication sharedApplication].modelDao];
+
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
         [self.parallaxHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
     }).catch(^(NSError *error) {
         message = error.localizedDescription ?: NSLocalizedString(@"Error connecting", @"requestDidFail");
-        // TODO: show an error!
+        self.navigationItem.title = message;
     }).finally(^{
         if (animated) {
             [self.refreshControl endRefreshing];
@@ -402,6 +406,18 @@ static CGFloat const kTableHeaderHeight = 150.f;
     }
 
     return NO;
+}
+
+#pragma mark - Private
+
++ (void)updateBookmarkForStop:(OBAStopV2*)stop inModelDAO:(OBAModelDAO*)modelDAO {
+    OBABookmarkV2 *bookmark = [modelDAO bookmarkForStop:stop];
+
+    if (bookmark) {
+        bookmark.coordinate = stop.coordinate;
+        bookmark.regionIdentifier = modelDAO.region.identifier;
+        [modelDAO saveExistingBookmark:bookmark];
+    }
 }
 
 @end
