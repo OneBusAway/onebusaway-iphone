@@ -1,0 +1,434 @@
+{
+  "code": 200, 
+  "text": "OK", 
+  "version": 3, 
+  "data": {
+    "list": [
+      {
+        "siriBaseUrl": "http://tampa.onebusaway.org/siri/", 
+        "obaVersionInfo": "1.1.11-SNAPSHOT|1|1|11|SNAPSHOT|6950d86123a7a9e5f12065bcbec0c516f35d86d9", 
+        "supportsSiriRealtimeApis": true, 
+        "supportsObaDiscoveryApis": true, 
+        "language": "en_US", 
+        "twitterUrl": "http://mobile.twitter.com/OBA_tampa", 
+        "supportsObaRealtimeApis": true, 
+        "bounds": [
+          {
+            "lat": 27.976910500000002, 
+            "latSpan": 0.5424609999999994, 
+            "lon": -82.445851, 
+            "lonSpan": 0.576357999999999
+          }
+        ], 
+        "open311Servers": [
+          {
+            "juridisctionId": null, 
+            "apiKey": "937033cad3054ec58a1a8156dcdd6ad8a416af2f", 
+            "baseUrl": "http://test.seeclickfix.com/open311/v2/"
+          }, 
+          {
+            "juridisctionId": null, 
+            "apiKey": "937033cad3054ec58a1a8156dcdd6ad8a416af2f", 
+            "baseUrl": "http://www.publicstuff.com/api/open311/"
+          }
+        ], 
+        "contactEmail": "onebusaway@gohart.org", 
+        "stopInfoUrl": null, 
+        "active": true, 
+        "facebookUrl": "", 
+        "obaBaseUrl": "http://api.tampa.onebusaway.org/api/", 
+        "id": 0, 
+        "experimental": false, 
+        "regionName": "Tampa"
+      }, 
+      {
+        "siriBaseUrl": null, 
+        "obaVersionInfo": "1.1.7|1|1|7||c8ee3d4906dd55ecafdd124f31f39c0f54a37b52", 
+        "supportsSiriRealtimeApis": false, 
+        "supportsObaDiscoveryApis": true, 
+        "language": "en_US", 
+        "twitterUrl": "http://mobile.twitter.com/oba_pugetsound", 
+        "supportsObaRealtimeApis": true, 
+        "bounds": [
+          {
+            "lat": 47.221315, 
+            "latSpan": 0.33704, 
+            "lon": -122.4051325, 
+            "lonSpan": 0.440483
+          }, 
+          {
+            "lat": 47.5607395, 
+            "latSpan": 0.743251, 
+            "lon": -122.1462785, 
+            "lonSpan": 0.720901
+          }, 
+          {
+            "lat": 47.556288, 
+            "latSpan": 0.090694, 
+            "lon": -122.4013255, 
+            "lonSpan": 0.126793
+          }, 
+          {
+            "lat": 47.093563, 
+            "latSpan": 0.320892, 
+            "lon": -122.701637, 
+            "lonSpan": 0.55098
+          }, 
+          {
+            "lat": 47.5346090123, 
+            "latSpan": 0.889378024643, 
+            "lon": -122.3294835, 
+            "lonSpan": 0.621109
+          }, 
+          {
+            "lat": 47.9747595, 
+            "latSpan": 1.336481, 
+            "lon": -122.8512, 
+            "lonSpan": 1.0904
+          }, 
+          {
+            "lat": 47.6204755, 
+            "latSpan": 0.014397, 
+            "lon": -122.335392, 
+            "lonSpan": 0.00635600000001
+          }, 
+          {
+            "lat": 47.64585, 
+            "latSpan": 0.0669, 
+            "lon": -122.2963, 
+            "lonSpan": 0.0802
+          }, 
+          {
+            "lat": 47.9347358907, 
+            "latSpan": 0.68796117128, 
+            "lon": -121.993246104, 
+            "lonSpan": 0.784555996061
+          }
+        ], 
+        "open311Servers": [], 
+        "contactEmail": "onebusaway@soundtransit.org", 
+        "stopInfoUrl": null, 
+        "active": true, 
+        "facebookUrl": "https://www.facebook.com/pages/OneBusAway/216091804930", 
+        "obaBaseUrl": "http://api.pugetsound.onebusaway.org/", 
+        "id": 1, 
+        "experimental": false, 
+        "regionName": "Puget Sound"
+      }, 
+      {
+        "siriBaseUrl": "http://bustime.mta.info/api/", 
+        "obaVersionInfo": "", 
+        "supportsSiriRealtimeApis": true, 
+        "supportsObaDiscoveryApis": true, 
+        "language": "en_US", 
+        "twitterUrl": "http://mobile.twitter.com/nyctbusstop", 
+        "supportsObaRealtimeApis": false, 
+        "bounds": [
+          {
+            "lat": 40.707678, 
+            "latSpan": 0.4093900000000019, 
+            "lon": -74.01768100000001, 
+            "lonSpan": 0.4686659999999989
+          }, 
+          {
+            "lat": 40.8192825, 
+            "latSpan": 0.228707, 
+            "lon": -73.89908199999999, 
+            "lonSpan": 0.23146799999999246
+          }
+        ], 
+        "open311Servers": [], 
+        "contactEmail": "MTABusTime@mtahq.org", 
+        "stopInfoUrl": null, 
+        "active": true, 
+        "facebookUrl": "https://www.facebook.com/pages/MTA-New-York-City-Transit/232635164606", 
+        "obaBaseUrl": "http://bustime.mta.info/", 
+        "id": 2, 
+        "experimental": false, 
+        "regionName": "MTA New York"
+      }, 
+      {
+        "siriBaseUrl": null, 
+        "obaVersionInfo": "1.1.14-SNAPSHOT|1|1|14|SNAPSHOT|440e5cb692a1ed195de7f0686d69f5ceecbe9a41", 
+        "supportsSiriRealtimeApis": false, 
+        "supportsObaDiscoveryApis": true, 
+        "language": "en_US", 
+        "twitterUrl": "http://mobile.twitter.com/OBA_atlanta", 
+        "supportsObaRealtimeApis": true, 
+        "bounds": [
+          {
+            "lat": 33.7901797681045, 
+            "latSpan": 0.002537628406997783, 
+            "lon": -84.39483216212469, 
+            "lonSpan": 0.016058977126604645
+          }, 
+          {
+            "lat": 33.84859251766493, 
+            "latSpan": 0.006806584025866869, 
+            "lon": -84.36189486914657, 
+            "lonSpan": 0.035245473959491846
+          }, 
+          {
+            "lat": 34.22444908498577, 
+            "latSpan": 0.06626826841780087, 
+            "lon": -84.48419886031866, 
+            "lonSpan": 0.051677923063323306
+          }, 
+          {
+            "lat": 33.78784752284655, 
+            "latSpan": 0.026695928046905237, 
+            "lon": -84.31082746240949, 
+            "lonSpan": 0.028927748099008
+          }, 
+          {
+            "lat": 33.8079649176, 
+            "latSpan": 0.8443565223999983, 
+            "lon": -84.34070523855, 
+            "lonSpan": 0.8666740198999889
+          }, 
+          {
+            "lat": 33.7842061834795, 
+            "latSpan": 0.030916824823002287, 
+            "lon": -84.36385552465549, 
+            "lonSpan": 0.08416295068897739
+          }, 
+          {
+            "lat": 33.8105225, 
+            "latSpan": 0.5874290000000002, 
+            "lon": -84.37966800000001, 
+            "lonSpan": 0.5820399999999921
+          }
+        ], 
+        "open311Servers": [], 
+        "contactEmail": "onebusaway@ce.gatech.edu", 
+        "stopInfoUrl": null, 
+        "active": true, 
+        "facebookUrl": "https://www.facebook.com/pages/ObaAtlanta/136662306506627", 
+        "obaBaseUrl": "http://atlanta.onebusaway.org/api/", 
+        "id": 3, 
+        "experimental": false, 
+        "regionName": "Atlanta"
+      }, 
+      {
+        "siriBaseUrl": null, 
+        "obaVersionInfo": "", 
+        "supportsSiriRealtimeApis": false, 
+        "supportsObaDiscoveryApis": true, 
+        "language": "en_US", 
+        "twitterUrl": "", 
+        "supportsObaRealtimeApis": true, 
+        "bounds": [
+          {
+            "lat": 38.895090499999995, 
+            "latSpan": 0.5927969999999974, 
+            "lon": -77.059198, 
+            "lonSpan": 0.7805180000000007
+          }, 
+          {
+            "lat": 38.8941925, 
+            "latSpan": 0.06883300000000503, 
+            "lon": -77.0180425, 
+            "lonSpan": 0.10683699999999874
+          }
+        ], 
+        "open311Servers": [], 
+        "contactEmail": "kurt@kurtraschke.com", 
+        "stopInfoUrl": null, 
+        "active": true, 
+        "facebookUrl": "", 
+        "obaBaseUrl": "http://developer.onebusaway.org/wmata-api/", 
+        "id": 4, 
+        "experimental": true, 
+        "regionName": "Washington, D.C. (beta)"
+      }, 
+      {
+        "siriBaseUrl": null, 
+        "obaVersionInfo": "1.1.7|1|1|7||c8ee3d4906dd55ecafdd124f31f39c0f54a37b52", 
+        "supportsSiriRealtimeApis": false, 
+        "supportsObaDiscoveryApis": true, 
+        "language": "en_CA", 
+        "twitterUrl": "https://mobile.twitter.com/YRTViva", 
+        "supportsObaRealtimeApis": true, 
+        "bounds": [
+          {
+            "lat": 44.0248945, 
+            "latSpan": 0.6089630000000028, 
+            "lon": -79.43752, 
+            "lonSpan": 0.49329600000000084
+          }
+        ], 
+        "open311Servers": [], 
+        "contactEmail": "transitinfo@york.ca", 
+        "stopInfoUrl": null, 
+        "active": true, 
+        "facebookUrl": "https://www.facebook.com/198178906967045", 
+        "obaBaseUrl": "http://oba.yrt.ca/", 
+        "id": 5, 
+        "experimental": false, 
+        "regionName": "York"
+      }, 
+      {
+        "siriBaseUrl": null, 
+        "obaVersionInfo": "1.1.7|1|1|7|d3bbb9109a652359845bdee516dc2cbd1ba35e49", 
+        "supportsSiriRealtimeApis": false, 
+        "supportsObaDiscoveryApis": true, 
+        "language": "en_US", 
+        "twitterUrl": "https://mobile.twitter.com/CalParking", 
+        "supportsObaRealtimeApis": true, 
+        "bounds": [
+          {
+            "lat": 37.8917275, 
+            "latSpan": 0.0492929999999987, 
+            "lon": -122.28957750000001, 
+            "lonSpan": 0.10181500000000199
+          }
+        ], 
+        "open311Servers": [], 
+        "contactEmail": "bear-transit@v-a.io", 
+        "stopInfoUrl": null, 
+        "active": true, 
+        "facebookUrl": "https://www.facebook.com/pages/Bear-Transit/109669175726418", 
+        "obaBaseUrl": "http://bt.v-a.io/onebusaway/", 
+        "id": 6, 
+        "experimental": true, 
+        "regionName": "Bear Transit (beta)"
+      }, 
+      {
+        "siriBaseUrl": null, 
+        "obaVersionInfo": "", 
+        "supportsSiriRealtimeApis": false, 
+        "supportsObaDiscoveryApis": true, 
+        "language": "en_US", 
+        "twitterUrl": "", 
+        "supportsObaRealtimeApis": true, 
+        "bounds": [
+          {
+            "lat": 42.367244, 
+            "latSpan": 0.014910000000000423, 
+            "lon": -71.023894, 
+            "lonSpan": 0.011874000000005935
+          }, 
+          {
+            "lat": 42.1893185, 
+            "latSpan": 1.2170369999999977, 
+            "lon": -71.210252, 
+            "lonSpan": 1.1692720000000065
+          }
+        ], 
+        "open311Servers": [], 
+        "contactEmail": "sbrown@camsys.com", 
+        "stopInfoUrl": null, 
+        "active": true, 
+        "facebookUrl": "", 
+        "obaBaseUrl": "http://developer.onebusaway.org/mbta-api/", 
+        "id": 7, 
+        "experimental": true, 
+        "regionName": "Boston (beta)"
+      }, 
+      {
+        "siriBaseUrl": null, 
+        "obaVersionInfo": "1.1.13|1|1|13||ef9f836500eafee955381b17799b3105b525e93b", 
+        "supportsSiriRealtimeApis": false, 
+        "supportsObaDiscoveryApis": true, 
+        "language": "fi_FI", 
+        "twitterUrl": "", 
+        "supportsObaRealtimeApis": true, 
+        "bounds": [
+          {
+            "lat": 61.05999415916385, 
+            "latSpan": 0.07303466470629871, 
+            "lon": 28.197898391353952, 
+            "lonSpan": 0.2674852336517013
+          }
+        ], 
+        "open311Servers": [], 
+        "contactEmail": "obasupport@octo3.fi", 
+        "stopInfoUrl": null, 
+        "active": true, 
+        "facebookUrl": "", 
+        "obaBaseUrl": "http://194.89.230.196:8080/", 
+        "id": 8, 
+        "experimental": true, 
+        "regionName": "Lappeenranta (beta)"
+      }, 
+      {
+        "siriBaseUrl": null, 
+        "obaVersionInfo": "", 
+        "supportsSiriRealtimeApis": false, 
+        "supportsObaDiscoveryApis": true, 
+        "language": "en_US", 
+        "twitterUrl": "", 
+        "supportsObaRealtimeApis": true, 
+        "bounds": [
+          {
+            "lat": 42.309802394046, 
+            "latSpan": 0.2679752119080021, 
+            "lon": -122.82026350000001, 
+            "lonSpan": 0.2974530000000044
+          }
+        ], 
+        "open311Servers": [], 
+        "contactEmail": "info@rvtd.org", 
+        "stopInfoUrl": null, 
+        "active": true, 
+        "facebookUrl": "", 
+        "obaBaseUrl": "http://oba.rvtd.org:8080/onebusaway-api-webapp/", 
+        "id": 9, 
+        "experimental": false, 
+        "regionName": "Rogue Valley, Oregon"
+      }, 
+      {
+        "siriBaseUrl": null, 
+        "obaVersionInfo": "1.1.12-SNAPSHOT|1|1|12|SNAPSHOT|", 
+        "supportsSiriRealtimeApis": false, 
+        "supportsObaDiscoveryApis": true, 
+        "language": "en_US", 
+        "twitterUrl": "", 
+        "supportsObaRealtimeApis": true, 
+        "bounds": [
+          {
+            "lat": 37.9337345, 
+            "latSpan": 0.39840300000000184, 
+            "lon": -121.3456095, 
+            "lonSpan": 0.4220969999999937
+          }
+        ], 
+        "open311Servers": [], 
+        "contactEmail": "jespejo@sanjoaquinrtd.com", 
+        "stopInfoUrl": null, 
+        "active": true, 
+        "facebookUrl": "", 
+        "obaBaseUrl": "http://www.obartd.com/onebusaway-api-webapp/", 
+        "id": 10, 
+        "experimental": true, 
+        "regionName": "San Joaquin RTD (beta)"
+      }, 
+      {
+        "siriBaseUrl": null, 
+        "obaVersionInfo": "1.1.14|1|1|14|73aea0d ", 
+        "supportsSiriRealtimeApis": false, 
+        "supportsObaDiscoveryApis": true, 
+        "language": "en_US", 
+        "twitterUrl": "", 
+        "supportsObaRealtimeApis": true, 
+        "bounds": [
+          {
+            "lat": 32.9002948657295, 
+            "latSpan": 0.7131838699909991, 
+            "lon": -116.73142875280399, 
+            "lonSpan": 1.093941754416008
+          }
+        ], 
+        "open311Servers": [], 
+        "contactEmail": "helpdesk@sdmts.com", 
+        "stopInfoUrl": null, 
+        "active": true, 
+        "facebookUrl": "", 
+        "obaBaseUrl": "http://realtime.sdmts.com/api/", 
+        "id": 11, 
+        "experimental": false, 
+        "regionName": "San Diego MTS"
+      }
+    ]
+  }
+}
