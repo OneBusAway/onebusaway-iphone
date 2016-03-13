@@ -28,8 +28,8 @@
     self = [super init];
     
     if (self) {
-        _baseURL = baseURL;
-        _defaultArgs = args;
+        _baseURL = [baseURL copy];
+        _defaultArgs = [args copy];
     }
     return self;
 }

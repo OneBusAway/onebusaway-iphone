@@ -16,6 +16,7 @@
 
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <ABReleaseNotesViewController/ABReleaseNotesViewController.h>
+#import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
 #import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
 #import "OBALogger.h"
@@ -185,7 +186,7 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
     [OBAModelService addBackgroundExecutor:self];
 
     //setup Google Analytics
-    NSDictionary *appDefaults = @{ kAllowTracking: @(YES) };
+    NSDictionary *appDefaults = @{ kAllowTracking: @(YES), kSetRegionAutomaticallyKey: @(YES)};
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
 
     // User must be able to opt out of tracking
