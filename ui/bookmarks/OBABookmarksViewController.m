@@ -162,6 +162,12 @@
 
     for (OBABookmarkV2 *bm in bookmarks) {
 
+        if (bm.stopID.length == 0) {
+            // bookmark was somehow corrupted. Skip it and continue on.
+            NSLog(@"Corrupted bookmark: %@", bm);
+            continue;
+        }
+
         if (bm.regionIdentifier != NSNotFound && bm.regionIdentifier != [self currentRegion].identifier) {
             // We are special-casing bookmarks that don't have a region set on them, as there's no way to know
             // for sure which region they belong to. However, if this bookmark has a valid regionIdentifier and
@@ -174,6 +180,9 @@
             OBAStopViewController *controller = [[OBAStopViewController alloc] initWithStopID:bm.stopID];
             [self.navigationController pushViewController:controller animated:YES];
         }];
+
+        row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
         [row setEditAction:^{
             OBAEditStopBookmarkViewController *editor = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bm editType:OBABookmarkEditExisting];
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:editor];
