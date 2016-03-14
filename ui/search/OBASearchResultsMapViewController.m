@@ -853,8 +853,11 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (NSArray*)bookmarkAnnotations {
-    NSArray *bookmarks = [OBAApplication sharedApplication].modelDao.bookmarks;
-
+//    NSArray *bookmarks = [OBAApplication sharedApplication].modelDao.bookmarksForCurrentRegion;
+//
+//    return [bookmarks filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OBABookmarkV2* bookmark, NSDictionary *bindings) {
+//        return CLLocationCoordinate2DIsValid(bookmark.coordinate) && bookmark.coordinate.latitude != 0 && bookmark.coordinate.longitude != 0;
+//    }]];
     return @[];
 }
 
