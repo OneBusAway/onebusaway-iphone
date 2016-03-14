@@ -82,6 +82,14 @@ static UIFont *_boldFootnoteFont = nil;
     return [UIColor colorWithRed:((CGFloat)red / 255.f) green:((CGFloat)green / 255.f) blue:((CGFloat)blue / 255.f) alpha:alpha];
 }
 
++ (UIColor*)darkDisabledColor {
+    return [UIColor darkGrayColor];
+}
+
++ (UIColor*)lightDisabledColor {
+    return [UIColor grayColor];
+}
+
 + (UIColor*)textColor {
     return [UIColor blackColor];
 }

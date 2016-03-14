@@ -11,6 +11,7 @@ pod 'libextobjc', '0.4.1'
 pod 'SVProgressHUD', :git => "https://github.com/aaronbrethorst/SVProgressHUD.git"
 pod 'Masonry', '0.6.4'
 pod 'DateTools', '1.7.0'
+pod 'DZNEmptyDataSet', '1.7.3'
 
 # pod 'PromiseKit', '3.0.2'
 pod 'PromiseKit/CorePromise', '3.0.2'
