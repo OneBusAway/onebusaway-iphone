@@ -80,7 +80,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 
-    [self reloadData:nil];
+    [self reloadDataAnimated:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
