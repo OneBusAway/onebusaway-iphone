@@ -68,6 +68,16 @@
 + (UIColor*)colorWithRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue alpha:(CGFloat)alpha;
 
 /**
+ Use this for UI elements that are not enabled or non-interactable.
+ */
++ (UIColor*)darkDisabledColor;
+
+/**
+ Use this for UI elements that are not enabled or non-interactable.
+ */
++ (UIColor*)lightDisabledColor;
+
+/**
  Standard text color.
  */
 + (UIColor*)textColor;
