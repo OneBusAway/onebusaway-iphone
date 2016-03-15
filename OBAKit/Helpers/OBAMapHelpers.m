@@ -19,11 +19,13 @@ const double OBAMinMapRadiusInMeters = 150;
 //const double OBAMaxLatitudeDeltaToShowStops = 0.008;
 const double OBAMaxLatitudeDeltaToShowStops = 0.05;
 const double OBARegionScaleFactor = 1.5;
+const double OBARegionZoomLevelThreshold = 1;
 const double OBAMaxMapDistanceFromCurrentLocationForNearby = 800;
 const double OBAPaddingScaleFactor = 1.075;
 
 #define MERCATOR_OFFSET 268435456
 #define MERCATOR_RADIUS 85445659.44705395
+#define MAXIMUM_ZOOM                20
 
 NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2, void *context) {
     CLLocation *location = (__bridge CLLocation *)context;
@@ -280,4 +282,14 @@ NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2,
         return [OBAMapHelpers computeRegionForStops:stops];
     }
 }
+
++ (NSUInteger)zoomLevelForMapRect:(MKMapRect)mRect withMapViewSizeInPixels:(CGSize)viewSizeInPixels
+{
+    NSUInteger zoomLevel = MAXIMUM_ZOOM;
+    MKZoomScale zoomScale = mRect.size.width / viewSizeInPixels.width; //MKZoomScale is just a CGFloat typedef
+    double zoomExponent = log2(zoomScale);
+    zoomLevel = (NSUInteger)(MAXIMUM_ZOOM - ceil(zoomExponent));
+    return zoomLevel;
+}
+
 @end

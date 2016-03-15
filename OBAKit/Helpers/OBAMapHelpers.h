@@ -15,6 +15,7 @@ extern const double OBAMaxLatitudeDeltaToShowStops;
 extern const double OBARegionScaleFactor;
 extern const double OBAMaxMapDistanceFromCurrentLocationForNearby;
 extern const double OBAPaddingScaleFactor;
+extern const double OBARegionZoomLevelThreshold;
 
 @class OBAPlacemark;
 @class OBARegionBoundsV2;
@@ -105,4 +106,5 @@ NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2,
 + (MKCoordinateRegion)computeRegionForNClosestStops:(NSArray *)stops center:(CLLocation *)location numberOfStops:(NSUInteger)numberOfStops;
 + (MKCoordinateRegion)computeRegionForStops:(NSArray*)stops;
 + (MKCoordinateRegion)computeRegionForCenter:(CLLocation*)center nearbyStops:(NSArray*)stops;
++ (NSUInteger)zoomLevelForMapRect:(MKMapRect)mRect withMapViewSizeInPixels:(CGSize)viewSizeInPixels;
 @end
