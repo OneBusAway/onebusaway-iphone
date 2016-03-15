@@ -427,30 +427,36 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 }
 
-- (MKAnnotationView*)mapView:(MKMapView*)mapView annotationViewForStop:(OBAStopV2*)stop {
-    static NSString *viewId = @"StopView";
++ (MKAnnotationView*)viewForAnnotation:(id<MKAnnotation>)annotation forMapView:(MKMapView*)mapView {
 
-    MKAnnotationView *view = [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
+    NSString *reuseIdentifier = NSStringFromClass([annotation class]);
+
+    MKAnnotationView *view = [mapView dequeueReusableAnnotationViewWithIdentifier:reuseIdentifier];
 
     if (!view) {
-        view = [[MKAnnotationView alloc] initWithAnnotation:stop reuseIdentifier:viewId];
+        view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     }
 
     view.canShowCallout = YES;
-    UIButton *rightCalloutButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    view.rightCalloutAccessoryView = ({
+        UIButton *rightCalloutButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        if ([[OBAApplication sharedApplication] useHighContrastUI]) {
+            rightCalloutButton.tintColor = [UIColor blackColor];
+        }
+        else {
+            rightCalloutButton.tintColor = OBAGREEN;
+        }
+        rightCalloutButton;
+    });
 
-    if ([[OBAApplication sharedApplication] useHighContrastUI]) {
-        rightCalloutButton.tintColor = [UIColor blackColor];
-    }
-    else {
-        rightCalloutButton.tintColor = OBAGREEN;
-    }
+    return view;
+}
 
-    view.rightCalloutAccessoryView = rightCalloutButton;
-
+- (MKAnnotationView*)mapView:(MKMapView*)mapView annotationViewForStop:(OBAStopV2*)stop {
+    MKAnnotationView *view = [self.class viewForAnnotation:stop forMapView:mapView];
     OBASearchResult *result = self.searchController.result;
 
-    if (result && OBASearchTypeRouteStops == result.searchType) {
+    if (OBASearchTypeRouteStops == result.searchType) {
         CGFloat scale = [OBASphericalGeometryLibrary computeStopsForRouteAnnotationScaleFactor:mapView.region];
         CGFloat alpha = scale <= 0.11f ? 0.f : 1.f;
 
@@ -459,6 +465,25 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 
     view.image = [OBAStopIconFactory getIconForStop:stop];
+
+    return view;
+}
+
+- (MKAnnotationView*)mapView:(MKMapView*)mapView annotationViewForBookmark:(OBABookmarkV2*)bookmark {
+    MKAnnotationView *view = [self.class viewForAnnotation:bookmark forMapView:mapView];
+
+    UIImage *stopImage = nil;
+
+    if (bookmark.stop) {
+        stopImage = [OBAStopIconFactory getIconForStop:bookmark.stop];
+        stopImage = [OBAImageHelpers colorizeImage:stopImage withColor:[OBATheme mapBookmarkTintColor]];
+    }
+    else {
+        stopImage = [UIImage imageNamed:@"Bookmarks"];
+    }
+
+    view.image = stopImage;
+
     return view;
 }
 
@@ -528,7 +553,10 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     if ([annotation isKindOfClass:[OBAStopV2 class]]) {
-        return [self mapView:mapView annotationViewForStop:annotation];
+        return [self mapView:mapView annotationViewForStop:(OBAStopV2*)annotation];
+    }
+    else if ([annotation isKindOfClass:[OBABookmarkV2 class]]) {
+        return [self mapView:mapView annotationViewForBookmark:(OBABookmarkV2*)annotation];
     }
     else if ([annotation isKindOfClass:[OBAPlacemark class]]) {
         return [self mapView:mapView viewForPlacemark:(OBAPlacemark*)annotation];
@@ -546,9 +574,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
     id annotation = view.annotation;
 
-    if ([annotation isKindOfClass:[OBAStopV2 class]]) {
-        OBAStopV2 *stop = annotation;
-        UIViewController *vc = [OBAStopViewController stopControllerWithStopID:stop.stopId];
+    if ([annotation respondsToSelector:@selector(stopId)]) {
+        UIViewController *vc = [OBAStopViewController stopControllerWithStopID:[annotation stopId]];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([annotation isKindOfClass:[OBAPlacemark class]]) {
@@ -720,7 +747,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPressed)];
     }
 
-    [self setAnnotationsFromResults];
+    [self.class setAnnotationsForMapView:self.mapView fromSearchResult:self.searchController.result bookmarkAnnotations:[self bookmarkAnnotations]];
     [self setOverlaysFromResults];
     [self setRegionFromResults];
 
@@ -803,36 +830,44 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 }
 
-- (void)setAnnotationsFromResults {
-    NSMutableArray *annotations = [[NSMutableArray alloc] init];
+/* I feel like 2/3's of this method could be replaced
+   by using an NSSet instead of an array. Something to
+   consider going forward. */
++ (void)setAnnotationsForMapView:(MKMapView*)mapView fromSearchResult:(OBASearchResult*)result bookmarkAnnotations:(NSArray*)bookmarks {
+    NSMutableArray *allCurrentAnnotations = [[NSMutableArray alloc] init];
+    [allCurrentAnnotations addObjectsFromArray:bookmarks];
 
-    OBASearchResult *result = self.searchController.result;
-
-    if (result) {
-        [annotations addObjectsFromArray:result.values];
-
-        if (result.searchType == OBASearchTypeAgenciesWithCoverage) {
-            for (OBAAgencyWithCoverageV2 *agencyWithCoverage in result.values) {
-                OBAAgencyV2 *agency = agencyWithCoverage.agency;
-                OBANavigationTargetAnnotation *an = [[OBANavigationTargetAnnotation alloc] initWithTitle:agency.name subtitle:nil coordinate:agencyWithCoverage.coordinate target:nil];
-                [annotations addObject:an];
-            }
+    if (result.values.count > 0) {
+        @autoreleasepool {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (stopId IN %@)", [bookmarks valueForKey:@"stopId"]];
+            [allCurrentAnnotations addObjectsFromArray:[result.values filteredArrayUsingPredicate:predicate]];
         }
     }
 
-    [annotations addObjectsFromArray:[self bookmarkAnnotations]];
+    if (result.searchType == OBASearchTypeAgenciesWithCoverage) {
+        for (OBAAgencyWithCoverageV2 *agencyWithCoverage in result.values) {
+            OBAAgencyV2 *agency = agencyWithCoverage.agency;
+            OBANavigationTargetAnnotation *an = [[OBANavigationTargetAnnotation alloc] initWithTitle:agency.name subtitle:nil coordinate:agencyWithCoverage.coordinate target:nil];
+            [allCurrentAnnotations addObject:an];
+        }
+    }
 
     NSMutableArray *toAdd = [[NSMutableArray alloc] init];
     NSMutableArray *toRemove = [[NSMutableArray alloc] init];
 
-    for (id annotation in self.mapView.annotations) {
-        if (![annotations containsObject:annotation] && [annotation class] != MKUserLocation.class) {
-            [toRemove addObject:annotation];
+    for (id<MKAnnotation> installedAnnotation in mapView.annotations) {
+
+        if ([installedAnnotation isKindOfClass:[MKUserLocation class]]) {
+            continue;
+        }
+
+        if (![allCurrentAnnotations containsObject:installedAnnotation]) {
+            [toRemove addObject:installedAnnotation];
         }
     }
 
-    for (id annotation in annotations) {
-        if (![self.mapView.annotations containsObject:annotation]) {
+    for (id annotation in allCurrentAnnotations) {
+        if (![mapView.annotations containsObject:annotation]) {
             [toAdd addObject:annotation];
         }
     }
@@ -840,8 +875,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     OBALogDebug(@"Annotations to remove: %@", @(toRemove.count));
     OBALogDebug(@"Annotations to add: %@", @(toAdd.count));
 
-    [self.mapView removeAnnotations:toRemove];
-    [self.mapView addAnnotations:toAdd];
+    [mapView removeAnnotations:toRemove];
+    [mapView addAnnotations:toAdd];
 }
 
 - (void)setOverlaysFromResults {
@@ -858,12 +893,13 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (NSArray*)bookmarkAnnotations {
-//    NSArray *bookmarks = [OBAApplication sharedApplication].modelDao.bookmarksForCurrentRegion;
-//
-//    return [bookmarks filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OBABookmarkV2* bookmark, NSDictionary *bindings) {
-//        return CLLocationCoordinate2DIsValid(bookmark.coordinate) && bookmark.coordinate.latitude != 0 && bookmark.coordinate.longitude != 0;
-//    }]];
-    return @[];
+    NSArray *bookmarks = [OBAApplication sharedApplication].modelDao.bookmarksForCurrentRegion;
+
+    NSArray *filtered = [bookmarks filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OBABookmarkV2* bookmark, NSDictionary *bindings) {
+        return bookmark.stopId && CLLocationCoordinate2DIsValid(bookmark.coordinate) && bookmark.coordinate.latitude != 0 && bookmark.coordinate.longitude != 0;
+    }]];
+
+    return filtered;
 }
 
 - (NSString *)computeSearchFilterString {
@@ -928,10 +964,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         case OBASearchTypePlacemark:
         case OBASearchTypeRegion: {
-            if (result.limitExceeded) {
-                return NSLocalizedString(@"Too many stops. Zoom in for more detail", @"result.limitExceeded");
-            }
-
             if (![self checkStopsInRegion] && span.latitudeDelta <= OBAMaxLatitudeDeltaToShowStops) {
                 defaultLabel = NSLocalizedString(@"No stops at this location", @"[values count] == 0");
             }

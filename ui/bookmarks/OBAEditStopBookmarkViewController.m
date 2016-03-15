@@ -93,7 +93,7 @@
     [super viewWillAppear:animated];
     [self.tableView reloadData];
 
-    NSString *stopId = _bookmark.stopID;
+    NSString *stopId = _bookmark.stopId;
     [[OBAApplication sharedApplication].modelService requestStopForId:stopId completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
         OBAEntryWithReferencesV2 *entry = responseData;
         OBAStopV2 *stop = entry.entry;
@@ -125,7 +125,7 @@
     else if (indexPath.row == 1) {
         UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
-        NSString *stopId = self.bookmark.stopID;
+        NSString *stopId = self.bookmark.stopId;
         OBAStopV2 *stop = self.stops[stopId];
 
         if (stop) cell.textLabel.text = [NSString stringWithFormat:@"%@ # %@ - %@", NSLocalizedString(@"Stop", @"stop"), stop.code, stop.name];

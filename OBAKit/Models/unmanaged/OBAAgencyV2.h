@@ -2,7 +2,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAAgencyV2 : OBAHasReferencesV2
+@interface OBAAgencyV2 : OBAHasReferencesV2<NSCopying,NSCoding>
 
 @property (nonatomic, strong) NSString *agencyId;
 @property (nonatomic, strong) NSString *url;

@@ -34,31 +34,19 @@
 
 #pragma mark - Private
 
-+ (NSString *)getRouteIconTypeForStop:(OBAStopV2 *)stop {
-    NSMutableSet *routeTypes = [NSMutableSet set];
-
-    for (OBARouteV2 *route in stop.routes) {
-        if (route.routeType) {
-            [routeTypes addObject:route.routeType];
-        }
-    }
-
-    return [self getRouteIconTypeForRouteTypes:routeTypes];
-}
-
 // TODO: what about "metro"?
-+ (NSString *)getRouteIconTypeForRouteTypes:(NSSet *)routeTypes {
-    if ([routeTypes containsObject:@(OBARouteTypeFerry)]) {
-        return @"Ferry";
-    }
-    else if ([routeTypes containsObject:@(OBARouteTypeTrain)]) {
-        return @"Rail";
-    }
-    else if ([routeTypes containsObject:@(OBARouteTypeLightRail)]) {
-        return @"LightRail";
-    }
-    else {
-        return @"Bus";
++ (NSString *)getRouteIconTypeForStop:(OBAStopV2 *)stop {
+    OBARouteType routeType = stop.firstAvailableRouteTypeForStop;
+
+    switch (routeType) {
+        case OBARouteTypeFerry:
+            return @"Ferry";
+        case OBARouteTypeTrain:
+            return @"Rail";
+        case OBARouteTypeLightRail:
+            return @"LightRail";
+        default:
+            return @"Bus";
     }
 }
 

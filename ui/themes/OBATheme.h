@@ -95,6 +95,11 @@
 + (UIColor*)backgroundColor;
 
 /**
+ Used to tint bookmarks on the map view.
+*/
++ (UIColor*)mapBookmarkTintColor;
+
+/**
  * The text color used to indicate that the bus is on time for a given stop.
  */
 + (UIColor*)onTimeDepartureColor;

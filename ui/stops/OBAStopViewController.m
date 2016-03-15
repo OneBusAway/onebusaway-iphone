@@ -414,7 +414,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     OBABookmarkV2 *bookmark = [modelDAO bookmarkForStop:stop];
 
     if (bookmark) {
-        bookmark.coordinate = stop.coordinate;
+        bookmark.stop = stop;
         bookmark.regionIdentifier = modelDAO.region.identifier;
         [modelDAO saveExistingBookmark:bookmark];
     }
