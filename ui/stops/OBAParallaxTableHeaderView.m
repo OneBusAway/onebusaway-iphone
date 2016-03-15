@@ -34,11 +34,12 @@
 
     if (self) {
         self.backgroundColor = [OBATheme backgroundColor];
+        self.clipsToBounds = YES;
 
         _headerImageView = ({
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.bounds];
             imageView.backgroundColor = kHeaderImageViewBackgroundColor;
-            imageView.contentMode = UIViewContentModeScaleAspectFill;
+            imageView.contentMode = UIViewContentModeCenter;
             imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
             imageView.alpha = 1.f;
             imageView;
@@ -85,8 +86,12 @@
     else {
         MKMapSnapshotter *snapshotter = ({
             MKMapSnapshotOptions *options = [[MKMapSnapshotOptions alloc] init];
-            options.region = [OBAMapHelpers coordinateRegionWithCenterCoordinate:self.stop.coordinate zoomLevel:15 viewSize:self.headerImageView.frame.size];
-            options.size = self.headerImageView.frame.size;
+
+            CGFloat squareDimension = MAX(CGRectGetWidth([UIScreen mainScreen].bounds), CGRectGetHeight([UIScreen mainScreen].bounds));
+            CGSize squareSize = CGSizeMake(squareDimension, squareDimension);
+
+            options.region = [OBAMapHelpers coordinateRegionWithCenterCoordinate:self.stop.coordinate zoomLevel:15 viewSize:squareSize];
+            options.size = squareSize;
             options.scale = [[UIScreen mainScreen] scale];
             [[MKMapSnapshotter alloc] initWithOptions:options];
         });
