@@ -38,6 +38,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 @property(nonatomic,assign) BOOL hideFutureNetworkErrors;
 @property(nonatomic,assign) BOOL doneLoadingMap;
 @property(nonatomic,assign) MKCoordinateRegion mostRecentRegion;
+@property(nonatomic,assign) NSUInteger mostRecentZoomLevel;
 @property(nonatomic,strong) CLLocation *mostRecentLocation;
 @property(nonatomic,strong) NSTimer *refreshTimer;
 @property(nonatomic,strong) OBAMapRegionManager *mapRegionManager;
@@ -627,7 +628,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     if (location) {
         //OBALogDebug(@"refreshCurrentLocation: auto center on current location: %d", self.mapRegionManager.lastRegionChangeWasprogrammatic);
-
+        
         if (self.mapRegionManager.lastRegionChangeWasProgrammatic) {
             double radius = MAX(location.horizontalAccuracy, OBAMinMapRadiusInMeters);
             MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:location.coordinate latRadius:radius lonRadius:radius];
@@ -642,15 +643,19 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     BOOL moreAccurateRegion = self.mostRecentLocation != nil && location != nil && location.horizontalAccuracy < self.mostRecentLocation.horizontalAccuracy;
     BOOL containedRegion = [OBASphericalGeometryLibrary isRegion:region containedBy:self.mostRecentRegion];
 
+    NSUInteger zoomLevel = [OBAMapHelpers zoomLevelForMapRect:self.mapView.visibleMapRect withMapViewSizeInPixels:self.mapView.frame.size];
+    BOOL zoomLevelChanged = (ABS((int) self.mostRecentZoomLevel - (int) zoomLevel) >= OBARegionZoomLevelThreshold);
+
     OBALogDebug(@"scheduleRefreshOfStopsInRegion: %f %d %d", interval, moreAccurateRegion, containedRegion);
 
-    if (!moreAccurateRegion && containedRegion) {
+    if (!moreAccurateRegion && containedRegion && !zoomLevelChanged) {
         NSString *label = [self computeLabelForCurrentResults];
         [self applyMapLabelWithText:label];
         return;
     }
 
     self.mostRecentLocation = location;
+    self.mostRecentZoomLevel = zoomLevel;
 
     if (self.refreshTimer) {
         [self.refreshTimer invalidate];
