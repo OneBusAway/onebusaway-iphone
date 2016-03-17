@@ -1,28 +1,19 @@
 #import "OBAHasReferencesV2.h"
 #import "OBAAgencyV2.h"
+#import "OBARouteType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, OBARouteType) {
-    OBARouteTypeLightRail = 0,
-    OBARouteTypeMetro = 1,
-    OBARouteTypeTrain = 2,
-    OBARouteTypeBus = 3,
-    OBARouteTypeFerry = 4,
-    OBARouteTypeUnknown = 999
-};
-
-@interface OBARouteV2 : OBAHasReferencesV2
+@interface OBARouteV2 : OBAHasReferencesV2<NSCopying,NSCoding>
 
 @property (nonatomic, strong) NSString * routeId;
 @property (nonatomic, strong) NSString * shortName;
 @property (nonatomic, strong) NSString * longName;
 @property (nonatomic, strong) NSNumber * routeType;
 
-@property (nonatomic, strong) NSString * agencyId;
-@property (weak, nonatomic, readonly) OBAAgencyV2 * agency;
-
-@property (weak, nonatomic, readonly) NSString * safeShortName;
+@property(nonatomic, strong) NSString * agencyId;
+@property(nonatomic, copy, readonly) OBAAgencyV2 *agency;
+@property(nonatomic, copy, readonly) NSString * safeShortName;
 
 - (NSComparisonResult) compareUsingName:(OBARouteV2*)aRoute;
 

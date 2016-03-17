@@ -29,7 +29,7 @@
     OBABookmarkV2 *bookmark = [OBATestHelpers unarchiveBundledTestFile:@"bookmark_with_stopids_array.plist"];
     XCTAssertEqualObjects(bookmark.name, @"Test Bookmark");
     XCTAssertNil(bookmark.group);
-    XCTAssertEqualObjects(bookmark.stopID, @"1_12345");
+    XCTAssertEqualObjects(bookmark.stopId, @"1_12345");
     XCTAssertEqual(bookmark.regionIdentifier, 1337);
 }
 
@@ -37,14 +37,14 @@
     OBABookmarkV2 *bm = [OBATestHelpers unarchiveBundledTestFile:@"bookmark_without_region_identifier.plist"];
 
     XCTAssertEqualObjects(bm.name, @"Test Bookmark");
-    XCTAssertEqualObjects(bm.stopID, @"1_12345");
+    XCTAssertEqualObjects(bm.stopId, @"1_12345");
     XCTAssertEqual(bm.regionIdentifier, NSNotFound);
 }
 
 - (void)testBookmarkWithRegionIdentifier {
     OBABookmarkV2 *bm = [OBATestHelpers unarchiveBundledTestFile:@"bookmark_with_region_identifier.plist"];
     XCTAssertEqualObjects(bm.name, @"Happy, up to date bookmark.");
-    XCTAssertEqualObjects(bm.stopID, @"1_123456");
+    XCTAssertEqualObjects(bm.stopId, @"1_123456");
     XCTAssertEqual(bm.regionIdentifier, 1);
 }
 

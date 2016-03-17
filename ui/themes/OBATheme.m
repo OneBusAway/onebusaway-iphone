@@ -102,6 +102,10 @@ static UIFont *_boldFootnoteFont = nil;
     return [self colorWithRed:235 green:242 blue:224 alpha:1.f];
 }
 
++ (UIColor*)mapBookmarkTintColor {
+    return [OBATheme colorWithRed:255 green:200 blue:39 alpha:1.f];
+}
+
 #pragma mark - Named Colors
 
 + (UIColor*)onTimeDepartureColor {

@@ -54,14 +54,14 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
 - (OBABookmarkV2*)bookmarkForStop:(OBAStopV2*)stop {
     for (OBABookmarkV2 *bm in self.bookmarks) {
-        if ([bm.stopID isEqual:stop.stopId]) {
+        if ([bm.stopId isEqual:stop.stopId]) {
             return bm;
         }
     }
 
     for (OBABookmarkGroup *group in self.bookmarkGroups) {
         for (OBABookmarkV2 *bm in group.bookmarks) {
-            if ([bm.stopID isEqual:stop.stopId]) {
+            if ([bm.stopId isEqual:stop.stopId]) {
                 return bm;
             }
         }
@@ -76,7 +76,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
 - (NSArray*)bookmarksForCurrentRegion {
     if (self.region) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"regionID IN %@", @[@(self.region.identifier)]];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K IN %@", NSStringFromSelector(@selector(regionIdentifier)), @[@(self.region.identifier)]];
         return [self.bookmarks filteredArrayUsingPredicate:predicate];
     }
     else {

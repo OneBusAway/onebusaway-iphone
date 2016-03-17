@@ -162,7 +162,7 @@
 
     for (OBABookmarkV2 *bm in bookmarks) {
 
-        if (bm.stopID.length == 0) {
+        if (bm.stopId.length == 0) {
             // bookmark was somehow corrupted. Skip it and continue on.
             NSLog(@"Corrupted bookmark: %@", bm);
             continue;
@@ -177,7 +177,7 @@
         }
 
         OBATableRow *row = [[OBATableRow alloc] initWithTitle:bm.name action:^{
-            OBAStopViewController *controller = [[OBAStopViewController alloc] initWithStopID:bm.stopID];
+            OBAStopViewController *controller = [[OBAStopViewController alloc] initWithStopID:bm.stopId];
             [self.navigationController pushViewController:controller animated:YES];
         }];
 

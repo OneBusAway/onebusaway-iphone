@@ -4,9 +4,8 @@
 
 static NSString * const kRegionIdentifier = @"regionIdentifier";
 static NSString * const kName = @"name";
-static NSString * const kStopID = @"stopID";
-static NSString * const kLatitude = @"latitude";
-static NSString * const kLongitude = @"longitude";
+static NSString * const kStopId = @"stopId";
+static NSString * const kStop = @"stop";
 
 @implementation OBABookmarkV2
 
@@ -15,11 +14,11 @@ static NSString * const kLongitude = @"longitude";
 
     if (self) {
         _name = stop.direction ? [NSString stringWithFormat:@"%@ [%@]",stop.name,stop.direction] : [stop.name copy];
-        _stopID = [stop.stopId copy];
-        _coordinate = stop.coordinate;
+        _stopId = [stop.stopId copy];
         //    bookmark.routeID = TODO - SOME WAY TO GET A ROUTE ID
         //    bookmark.headsign = stop.
         _regionIdentifier = region.identifier;
+        _stop = [stop copy];
     }
     return self;
 }
@@ -33,10 +32,10 @@ static NSString * const kLongitude = @"longitude";
         // Handle legacy bookmark models.
         NSArray *stopIds = [coder decodeObjectForKey:@"stopIds"];
         if (stopIds && stopIds.count > 0) {
-            _stopID = stopIds[0];
+            _stopId = stopIds[0];
         }
         else {
-            _stopID = [coder decodeObjectForKey:kStopID];
+            _stopId = [coder decodeObjectForKey:kStopId];
         }
 
         // Normally, we'd simply try decoding the object and use the fact that
@@ -50,20 +49,16 @@ static NSString * const kLongitude = @"longitude";
             _regionIdentifier = NSNotFound;
         }
 
-        _coordinate = kCLLocationCoordinate2DInvalid;
-        if ([coder containsValueForKey:kLatitude] && [coder containsValueForKey:kLongitude]) {
-            _coordinate = CLLocationCoordinate2DMake([coder decodeDoubleForKey:kLatitude], [coder decodeDoubleForKey:kLongitude]);
-        }
+        _stop = [coder decodeObjectForKey:kStop];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder*)coder {
     [coder encodeObject:_name forKey:kName];
-    [coder encodeObject:_stopID forKey:kStopID];
+    [coder encodeObject:_stopId forKey:kStopId];
+    [coder encodeObject:_stop forKey:kStop];
     [coder encodeInteger:_regionIdentifier forKey:kRegionIdentifier];
-    [coder encodeDouble:_coordinate.latitude forKey:kLatitude];
-    [coder encodeDouble:_coordinate.longitude forKey:kLongitude];
 }
 
 #pragma mark - MKAnnotation
@@ -73,13 +68,36 @@ static NSString * const kLongitude = @"longitude";
 }
 
 - (NSString*)subtitle {
-    return @"TBD!";
+    if (self.stop) {
+        return self.stop.routeNamesAsString;
+    }
+    else {
+        return nil;
+    }
+}
+
+- (CLLocationCoordinate2D)coordinate {
+    return self.stop.coordinate;
+}
+
+#pragma mark - Misc
+
+// Belt and suspenders, but necessary?
+- (NSString*)stopId {
+    if (!_stopId && _stop) {
+        _stopId = _stop.stopId;
+    }
+    return _stopId;
+}
+
+- (OBARouteType)routeType {
+    return self.stop.firstAvailableRouteTypeForStop;
 }
 
 #pragma mark - NSObject
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<%@: %p> :: {name: %@, group: %@, stopID: %@, regionIdentifier: %@}", self.class, self, self.name, self.group, self.stopID, @(self.regionIdentifier)];
+    return [NSString stringWithFormat:@"<%@: %p> :: {name: %@, group: %@, stopID: %@, regionIdentifier: %@}", self.class, self, self.name, self.group, self.stopId, @(self.regionIdentifier)];
 }
 
 @end
