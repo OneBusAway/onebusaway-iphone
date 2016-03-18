@@ -9,7 +9,6 @@
 #import "OBAStopViewController.h"
 #import "OBASphericalGeometryLibrary.h"
 #import "OBATripDetailsViewController.h"
-#import "OBAPresentation.h"
 #import "OBAAnalytics.h"
 #import "UINavigationController+oba_Additions.h"
 #import "OBAApplicationDelegate.h"

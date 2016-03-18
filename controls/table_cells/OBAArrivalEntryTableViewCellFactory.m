@@ -1,5 +1,4 @@
 #import "OBAArrivalEntryTableViewCellFactory.h"
-#import "OBAPresentation.h"
 #import "OBAServiceAlertsModel.h"
 #import "OBAApplication.h"
 
@@ -40,7 +39,7 @@
                                 range:NSMakeRange(0, [statusColoredString length])];
     [attributedStatusLabel appendAttributedString:statusColoredString];
 
-    cell.destinationLabel.text = [OBAPresentation getTripHeadsignForArrivalAndDeparture:arrival];
+    cell.destinationLabel.text = arrival.tripHeadsign;
     cell.routeLabel.text = arrival.bestAvailableName;
     cell.alertStyle = [self getAlertStyleForArrival:arrival];
     [cell.statusLabel setAttributedText:attributedStatusLabel];

@@ -1,7 +1,6 @@
 #import "OBAReportProblemWithRecentTripsViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
 #import "OBAApplication.h"
-#import "OBAPresentation.h"
 #import "OBAClassicDepartureRow.h"
 
 @interface OBAReportProblemWithRecentTripsViewController ()
@@ -35,7 +34,7 @@
     NSMutableArray *departureRows = [NSMutableArray array];
 
     for (OBAArrivalAndDepartureV2 *dep in result.arrivalsAndDepartures) {
-        NSString *dest = [[OBAPresentation getTripHeadsignForArrivalAndDeparture:dep] capitalizedString];
+        NSString *dest = dep.tripHeadsign.capitalizedString;
         OBAClassicDepartureRow *row = [[OBAClassicDepartureRow alloc] initWithRouteName:dep.bestAvailableName destination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)] statusText:[dep statusText] departureStatus:[dep departureStatus] action:^{
             [self reportProblemWithTrip:dep.tripInstance];
         }];

@@ -1,23 +1,16 @@
 #import "OBAHasReferencesV2.h"
 #import "OBAStopV2.h"
 #import "OBAArrivalAndDepartureV2.h"
+#import "OBAHasServiceAlerts.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAArrivalsAndDeparturesForStopV2 : OBAHasReferencesV2 {
-    NSMutableArray * _arrivalsAndDepartures;
-    NSMutableArray * _situationIds;
-}
+@interface OBAArrivalsAndDeparturesForStopV2 : OBAHasReferencesV2<OBAHasServiceAlerts>
+@property(nonatomic,strong) NSString *stopId;
+@property(weak, nonatomic,readonly) OBAStopV2 *stop;
+@property(nonatomic,strong,readonly) NSArray<OBAArrivalAndDepartureV2*> *arrivalsAndDepartures;
 
-@property (nonatomic,strong) NSString * stopId;
-@property (weak, nonatomic,readonly) OBAStopV2 * stop;
-@property (nonatomic,readonly) NSArray<OBAArrivalAndDepartureV2*> * arrivalsAndDepartures;
-@property (nonatomic,readonly) NSArray * situationIds;
-@property (weak, nonatomic,readonly) NSArray * situations;
-
-- (void) addArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
-- (void) addSituationId:(NSString*)situationId;
-
+- (void)addArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
 @end
 
 NS_ASSUME_NONNULL_END

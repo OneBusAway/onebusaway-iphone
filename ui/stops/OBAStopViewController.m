@@ -12,7 +12,6 @@
 #import <DateTools/DateTools.h>
 #import "OBAStopSectionHeaderView.h"
 #import "OBASeparatorSectionView.h"
-#import "OBAArrivalAndDepartureViewController.h"
 #import "OBAReportProblemViewController.h"
 #import "OBASituationsViewController.h"
 #import "OBAEditStopPreferencesViewController.h"
@@ -23,6 +22,8 @@
 #import "OBAAnalytics.h"
 #import "OBALabelFooterView.h"
 #import "OBASegmentedRow.h"
+#import "OBAArrivalAndDepartureViewController.h"
+#import "OBAStaticTableViewController+Builders.h"
 
 #define ENABLE_PARALLAX_WHICH_NEEDS_FIXING 0
 
@@ -183,7 +184,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     // Service Alerts
     OBAServiceAlertsModel *serviceAlerts = [modelDao getServiceAlertsModelForSituations:result.situations];
     if (serviceAlerts.totalCount > 0) {
-        [sections addObject:[self createServiceAlertsSection:result serviceAlerts:serviceAlerts]];
+        [sections addObject:[self.class createServiceAlertsSection:result serviceAlerts:serviceAlerts navigationController:self.navigationController]];
     }
 
     // Departures
@@ -197,7 +198,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
                 continue;
             }
 
-            NSString *dest = [[OBAPresentation getTripHeadsignForArrivalAndDeparture:dep] capitalizedString];
+            NSString *dest = dep.tripHeadsign.capitalizedString;
             OBAClassicDepartureRow *row = [[OBAClassicDepartureRow alloc] initWithRouteName:dep.bestAvailableName destination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)] statusText:[dep statusText] departureStatus:[dep departureStatus] action:^{
                 OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
                 [self.navigationController pushViewController:vc animated:YES];
@@ -275,7 +276,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
     for (OBAArrivalAndDepartureV2* dep in departures) {
 
-        NSString *dest = [[OBAPresentation getTripHeadsignForArrivalAndDeparture:dep] capitalizedString];
+        NSString *dest = dep.tripHeadsign.capitalizedString;
         NSString *status = [dep statusText];
 
         OBADepartureRow *row = [[OBADepartureRow alloc] initWithDestination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)] statusText:status departureStatus:[dep departureStatus] action:^{
@@ -337,29 +338,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     return actionSection;
 }
 
-- (OBATableSection*)createServiceAlertsSection:(OBAArrivalsAndDeparturesForStopV2 *)result serviceAlerts:(OBAServiceAlertsModel*)serviceAlerts {
-    OBATableRow *serviceAlertsRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"View Service Alerts", @"") action:^{
-        [OBASituationsViewController showSituations:result.situations navigationController:self.navigationController args:nil];
-    }];
-
-    serviceAlertsRow.image = [self.class iconForServiceAlerts:serviceAlerts];
-
-    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:@[serviceAlertsRow]];
-    return section;
-}
-
 #pragma mark - Miscellaneous UI and Utilities
-
-+ (UIImage*)iconForServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts {
-    if (serviceAlerts.unreadCount > 0) {
-        NSString *imageName = [serviceAlerts.unreadMaxSeverity isEqual:@"noImpact"] ? @"Alert-Info" : @"Alert";
-        return [UIImage imageNamed:imageName];
-    }
-    else {
-        NSString *imageName = [serviceAlerts.maxSeverity isEqual:@"noImpact"] ? @"Alert-Info-Grayscale" : @"AlertGrayscale";
-        return [UIImage imageNamed:imageName];
-    }
-}
 
 + (NSDictionary*)groupPredictedArrivalsOnRoute:(NSArray<OBAArrivalAndDepartureV2*> *)predictedArrivals {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
