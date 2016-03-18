@@ -74,10 +74,19 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     return _bookmarks;
 }
 
+- (NSArray*)allBookmarks {
+    NSMutableArray *all = [[NSMutableArray alloc] init];
+    for (OBABookmarkGroup *group in self.bookmarkGroups) {
+        [all addObjectsFromArray:group.bookmarks];
+    }
+    return [NSArray arrayWithArray:all];
+}
+
 - (NSArray*)bookmarksForCurrentRegion {
     if (self.region) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K IN %@", NSStringFromSelector(@selector(regionIdentifier)), @[@(self.region.identifier)]];
-        return [self.bookmarks filteredArrayUsingPredicate:predicate];
+
+        return [self.allBookmarks filteredArrayUsingPredicate:predicate];
     }
     else {
         return @[];
@@ -138,8 +147,13 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [_preferencesDao writeBookmarks:_bookmarks];
 }
 
-- (void) saveExistingBookmark:(OBABookmarkV2*)bookmark {
-    [_preferencesDao writeBookmarks:_bookmarks];
+- (void)saveExistingBookmark:(OBABookmarkV2*)bookmark {
+    if (bookmark.group) {
+        [self addOrSaveBookmarkGroup:bookmark.group];
+    }
+    else {
+        [_preferencesDao writeBookmarks:_bookmarks];
+    }
 }
 
 - (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex {
