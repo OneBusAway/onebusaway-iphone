@@ -16,14 +16,14 @@
 #import "OBAImageHelpers.h"
 #import "OBAStopIconFactory.h"
 #import "OBADateHelpers.h"
+#import "OBAAnimation.h"
 
 #define kHeaderImageViewBackgroundColor [UIColor colorWithWhite:0.f alpha:0.4f]
 
 @interface OBAParallaxTableHeaderView ()
-@property(nonatomic,strong,readwrite) UIImageView *headerImageView;
-@property(nonatomic,strong,readwrite) UILabel *stopInformationLabel;
-@property(nonatomic,strong,readwrite) UIStackView *directionsAndDistanceView;
-@property(nonatomic,copy) void (^presenter)(UIViewController *viewController);
+@property(nonatomic,strong) UIImageView *headerImageView;
+@property(nonatomic,strong) UILabel *stopInformationLabel;
+@property(nonatomic,strong) UILabel *directionsLabel;
 @property(nonatomic,strong) OBAStopV2 *stop;
 @end
 
@@ -53,25 +53,48 @@
             label;
         });
 
-        _directionsAndDistanceView = ({
-            UIActivityIndicatorView *activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-            [activity startAnimating];
-            UILabel *loading = [[UILabel alloc] initWithFrame:CGRectZero];
-            [self.class applyHeaderStylingToLabel:loading];
-            loading.text = NSLocalizedString(@"Determining walk time", @"");
-            UIStackView *sv = [[UIStackView alloc] initWithArrangedSubviews:@[activity, loading]];
-            sv;
+        _directionsLabel = ({
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+            [self.class applyHeaderStylingToLabel:label];
+            label.numberOfLines = 0;
+            [label setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+
+            label.userInteractionEnabled = YES;
+            label.text = NSLocalizedString(@"Determining walk time ", @"");
+            label;
         });
 
-        UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[_stopInformationLabel, _directionsAndDistanceView]];
-        stack.spacing = [OBATheme defaultPadding];
-        stack.axis = UILayoutConstraintAxisVertical;
-        [self addSubview:stack];
-        [stack mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self).insets(UIEdgeInsetsMake([OBATheme defaultPadding], [OBATheme defaultPadding], [OBATheme defaultPadding], [OBATheme defaultPadding]));
-        }];
+        UIView *wrapper = [[UIView alloc] initWithFrame:self.bounds];
+        wrapper.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        [self addSubview:wrapper];
+
+        [wrapper addSubview:_stopInformationLabel];
+        [wrapper addSubview:_directionsLabel];
     }
     return self;
+}
+
+#pragma mark - Auto Layout
+
++ (BOOL)requiresConstraintBasedLayout {
+    return YES;
+}
+
+- (void)updateConstraints {
+
+    UIView *superview = self.stopInformationLabel.superview;
+
+    [self.directionsLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.and.right.equalTo(superview).insets(UIEdgeInsetsMake(0.f, [OBATheme defaultPadding], [OBATheme defaultPadding], [OBATheme defaultPadding]));
+    }];
+
+    [self.stopInformationLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.and.right.equalTo(superview).insets(UIEdgeInsetsMake([OBATheme defaultPadding], [OBATheme defaultPadding], 0, [OBATheme defaultPadding]));
+        make.bottom.equalTo(self.directionsLabel.mas_top).offset(-[OBATheme defaultPadding]);
+    }];
+
+    // According to Apple, -super should be called at end of method
+    [super updateConstraints];
 }
 
 #pragma mark - Public
@@ -156,23 +179,19 @@
         })];
         return [directions calculateETA];
     }).then(^(MKETAResponse* ETA) {
-        UILabel *label = [OBAUIBuilder label];
-        [OBAParallaxTableHeaderView applyHeaderStylingToLabel:label];
-
-        label.text = [NSString stringWithFormat:@"Walk to stop: %@ — %.0f min, arriving at %@.", [OBAMapHelpers stringFromDistance:ETA.distance],
+        self.directionsLabel.text = [NSString stringWithFormat:@"Walk to stop: %@ — %.0f min, arriving at %@.", [OBAMapHelpers stringFromDistance:ETA.distance],
                       [[NSDate dateWithTimeIntervalSinceNow:ETA.expectedTravelTime] minutesUntil],
                       [OBADateHelpers formatShortTimeNoDate:ETA.expectedArrivalDate]];
 
-        label.userInteractionEnabled = YES;
-
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showWalkingDirections:)];
-        [label addGestureRecognizer:tapRecognizer];
+        [self.directionsLabel addGestureRecognizer:tapRecognizer];
 
-        [self.directionsAndDistanceView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        [self.directionsAndDistanceView addArrangedSubview:label];
+        [OBAAnimation performAnimations:^{
+            [self setNeedsUpdateConstraints];
+        }];
     }).catch(^(NSError *error) {
         NSLog(@"Unable to calculate walk time to stop: %@", error);
-        [self.directionsAndDistanceView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        [self.directionsLabel removeFromSuperview];
     }).finally(^{
         iterations = 0;
     });
