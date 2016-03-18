@@ -36,7 +36,7 @@ Please send a pull request with a tested solution or a pull request with a faili
 
 ## Pull requests
 
-We welcome pull requests with fixes and improvements to OneBusAway for iPhone code, tests, and/or documentation. The features we would really like a pull request for are listed in the [ROADMAP](ROADMAP.md) but other improvements are also welcome.
+We welcome pull requests with fixes and improvements to OneBusAway for iPhone code, tests, and/or documentation. The features we would really like a pull request for are listed in the [ROADMAP](https://github.com/OneBusAway/onebusaway-iphone/wiki/Roadmap) but other improvements are also welcome.
 
 ### Pull request guidelines
 

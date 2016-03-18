@@ -21,11 +21,11 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
+#import <SafariServices/SafariServices.h>
 
 #define kEmailRow    0
 #define kTwitterRow  1
 #define kFacebookRow 2
-
 #define kRowCount    3 //including Facebook which is optional
 
 static NSString *kOBADefaultContactEmail = @"contact@onebusaway.org";
@@ -55,13 +55,12 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 }
 
 - (void)cantSendEmail {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Setup Mail", @"view.title")
-                                                    message:NSLocalizedString(@"Please setup your Mail app before trying to send an email.", @"view.message")
-                                                   delegate:nil
-                                          cancelButtonTitle:nil
-                                          otherButtonTitles:NSLocalizedString(@"OK", @"OK button"), nil];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Please setup your Mail app before trying to send an email.", @"view.message")
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleAlert];
 
-    [alert show];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"Dismiss button for alert.") style:UIAlertActionStyleDefault handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - UIViewController
@@ -181,13 +180,16 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 
             if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]]) {
                 [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"app_switch" label:@"Loaded Twitter via App" value:nil];
-                NSString *url = [NSString stringWithFormat:@"twitter://user?screen_name=%@", twitterName ];
+                NSString *url = [NSString stringWithFormat:@"twitter://user?screen_name=%@", twitterName];
+                // Appropriate use of -openURL:. Don't replace.
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
             }
             else {
                 [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"app_switch" label:@"Loaded Twitter via Web" value:nil];
                 NSString *url = [NSString stringWithFormat:@"http://twitter.com/%@", twitterName];
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+                SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url]];
+                safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
+                [self presentViewController:safari animated:YES completion:nil];
             }
         }
         break;
@@ -201,13 +203,17 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
 
                 if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"fb://"]]) {
                     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"app_switch" label:@"Loaded Facebook via App" value:nil];
-                    NSString *url = [NSString stringWithFormat:@"fb://profile/%@", facebookPage ];
+                    NSString *url = [NSString stringWithFormat:@"fb://profile/%@", facebookPage];
+
+                    // Appropriate use of -openURL:. Don't replace.
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
                 }
                 else {
                     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"app_switch" label:@"Loaded Facebook via Web" value:nil];
                     NSString *url = [NSString stringWithFormat:@"http://facebook.com/%@", facebookPage];
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+                    SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url]];
+                    safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
+                    [self presentViewController:safari animated:YES completion:nil];
                 }
             }
 

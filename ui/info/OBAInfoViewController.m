@@ -12,7 +12,7 @@
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
 #import "OBARegionListViewController.h"
-#import "OBAApplicationDelegate.h"
+#import <SafariServices/SafariServices.h>
 
 static NSString * const kDonateURLString = @"http://onebusaway.org/donate/";
 static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
@@ -58,7 +58,7 @@ static NSString * const kFeatureRequestsURLString = @"http://onebusaway.ideascal
 - (OBATableSection*)settingsTableSection {
 
     OBATableRow *region = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Region", @"") action:^{
-        [self.navigationController pushViewController:[[OBARegionListViewController alloc] initWithApplicationDelegate:self.appDelegate] animated:YES];
+        [self.navigationController pushViewController:[[OBARegionListViewController alloc] init] animated:YES];
     }];
     region.style = UITableViewCellStyleValue1;
     region.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -80,13 +80,6 @@ static NSString * const kFeatureRequestsURLString = @"http://onebusaway.ideascal
 
 - (OBATableSection*)aboutTableSection {
 
-#if 0
-    OBATableRow *featureRequests = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Feature Requests", @"Info Page Feature Requests Row Title") action:^{
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Feature Request Link" value:nil];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kFeatureRequestsURLString]];
-    }];
-#endif
-
     OBATableRow *contactUs = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Contact Us", @"Info Page Contact Us Row Title") action:^{
         [self openContactUs];
     }];
@@ -99,13 +92,17 @@ static NSString * const kFeatureRequestsURLString = @"http://onebusaway.ideascal
 
     OBATableRow *privacy = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Privacy Policy", @"Info Page Privacy Policy Row Title") action:^{
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kPrivacyURLString]];
+        SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:kPrivacyURLString]];
+        safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [self presentViewController:safari animated:YES completion:nil];
     }];
     privacy.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     OBATableRow *donate = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Donate", @"Info Page Donate Row Title") action:^{
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Donate Link" value:nil];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kDonateURLString]];
+        SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:kDonateURLString]];
+        safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [self presentViewController:safari animated:YES completion:nil];
     }];
     donate.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
@@ -176,4 +173,5 @@ static NSString * const kFeatureRequestsURLString = @"http://onebusaway.ideascal
 
     return label.frame;
 }
+
 @end

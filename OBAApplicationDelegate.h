@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-#import "OBADataSourceConfig.h"
 #import "OBANavigationTarget.h"
 #import "GAI.h"
 #import "OBAApplication.h"
@@ -23,9 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class OBASearchResultsMapViewController;
 @class OBARecentStopsViewController;
-@class OBABookmarksViewController;
 @class OBAInfoViewController;
-@class OBAStopIconFactory;
 @class OBARegionListViewController;
 
 @interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate> {
@@ -44,12 +41,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(strong) OBARecentStopsViewController *recentsViewController;
 
 @property(strong) UINavigationController *bookmarksNavigationController;
-@property(strong) OBABookmarksViewController *bookmarksViewController;
+@property(strong) UIViewController *bookmarksViewController;
 
 @property(strong) UINavigationController *infoNavigationController;
 @property(strong) OBAInfoViewController *infoViewController;
-
-@property(nonatomic,readonly) OBAStopIconFactory * stopIconFactory;
 
 @property(nonatomic,readonly) BOOL active;
 

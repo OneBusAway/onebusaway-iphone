@@ -10,7 +10,8 @@
 
 static UIFont *_bodyFont = nil;
 static UIFont *_boldBodyFont = nil;
-static UIFont *_headlineFont = nil;
+static UIFont *_titleFont = nil;
+static UIFont *_subtitleFont = nil;
 static UIFont *_footnoteFont = nil;
 static UIFont *_boldFootnoteFont = nil;
 
@@ -21,7 +22,8 @@ static UIFont *_boldFootnoteFont = nil;
 + (void)resetTheme {
     _bodyFont = nil;
     _boldBodyFont = nil;
-    _headlineFont = nil;
+    _titleFont = nil;
+    _subtitleFont = nil;
     _footnoteFont = nil;
     _boldFootnoteFont = nil;
 }
@@ -44,11 +46,18 @@ static UIFont *_boldFootnoteFont = nil;
     return _boldBodyFont;
 }
 
-+ (UIFont*)headlineFont {
-    if (!_headlineFont) {
-        _headlineFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
++ (UIFont*)titleFont {
+    if (!_titleFont) {
+        _titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleTitle1];
     }
-    return _headlineFont;
+    return _titleFont;
+}
+
++ (UIFont*)subtitleFont {
+    if (!_subtitleFont) {
+        _subtitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleTitle2];
+    }
+    return _subtitleFont;
 }
 
 + (UIFont*)footnoteFont {
@@ -69,18 +78,60 @@ static UIFont *_boldFootnoteFont = nil;
 
 #pragma mark - UIColor
 
-+ (UIColor*)backgroundColor {
-    return [UIColor colorWithRed:0.92f green:0.95f blue:0.88f alpha:0.67f];
++ (UIColor*)colorWithRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue alpha:(CGFloat)alpha {
+    return [UIColor colorWithRed:((CGFloat)red / 255.f) green:((CGFloat)green / 255.f) blue:((CGFloat)blue / 255.f) alpha:alpha];
 }
+
++ (UIColor*)darkDisabledColor {
+    return [UIColor darkGrayColor];
+}
+
++ (UIColor*)lightDisabledColor {
+    return [UIColor grayColor];
+}
+
++ (UIColor*)textColor {
+    return [UIColor blackColor];
+}
+
++ (UIColor*)nonOpaquePrimaryColor {
+    return [self colorWithRed:152 green:216 blue:69 alpha:0.8f];
+}
+
++ (UIColor*)backgroundColor {
+    return [self colorWithRed:235 green:242 blue:224 alpha:1.f];
+}
+
++ (UIColor*)mapBookmarkTintColor {
+    return [OBATheme colorWithRed:255 green:200 blue:39 alpha:1.f];
+}
+
+#pragma mark - Named Colors
 
 + (UIColor*)onTimeDepartureColor {
     return [UIColor colorWithRed:0.f green:0.478f blue:0.f alpha:1.f];
 }
 
++ (UIColor*)earlyDepartureColor {
+    return [UIColor redColor];
+}
+
++ (UIColor*)delayedDepartureColor {
+    return [UIColor blueColor];
+}
+
 #pragma mark - Pixels, err points
+
++ (CGFloat)halfDefaultPadding {
+    return self.defaultPadding / 2.f;
+}
 
 + (CGFloat)defaultPadding {
     return 8.f;
+}
+
++ (UIEdgeInsets)defaultEdgeInsets {
+    return UIEdgeInsetsMake([self defaultPadding], [self defaultPadding], [self defaultPadding], [self defaultPadding]);
 }
 
 @end

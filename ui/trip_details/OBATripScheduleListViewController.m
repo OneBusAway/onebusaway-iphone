@@ -7,6 +7,7 @@
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "UINavigationController+oba_Additions.h"
+#import "OBAApplication.h"
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -40,9 +41,8 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 @implementation OBATripScheduleListViewController
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)context tripInstance:(OBATripInstanceRef *)tripInstance {
+- (id)initWithTripInstance:(OBATripInstanceRef *)tripInstance {
     if ((self = [super initWithStyle:UITableViewStylePlain])) {
-        _appDelegate = context;
         _tripInstance = tripInstance;
         _currentStopIndex = -1;
         _showPreviousStops = NO;
@@ -82,42 +82,29 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if (_tripDetails == nil && _tripInstance != nil) {
-        [self.tableView reloadData];
-        _request = [[OBAApplication sharedApplication].modelService
-                    requestTripDetailsForTripInstance:_tripInstance
-                                      completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-                                          if (responseCode == 404) {
-                                          [self->_progressView
-                                          setMessage:NSLocalizedString(@"Trip not found", @"message")
-                                          inProgress:NO
-                                          progress:0];
-                                          }
-                                          else if (responseCode >= 300) {
-                                          [self->_progressView
-                                          setMessage:NSLocalizedString(@"Unknown error", @"message")
-                                          inProgress:NO
-                                          progress:0];
-                                          }
-                                          else if (error) {
-                                          OBALogWarningWithError(error, @"Error");
-                                          [self->_progressView
-                                          setMessage:NSLocalizedString(@"Error connecting", @"message")
-                                          inProgress:NO
-                                          progress:0];
-                                          }
-                                          else {
-                                          OBAEntryWithReferencesV2 *entry = responseData;
-                                          self->_tripDetails = entry.entry;
-                                          [self handleTripDetails];
-                                          }
-                                      }
+    if (_tripInstance && !_tripDetails) {
 
-                                        progressBlock:^(CGFloat progress) {
-                                            [self->_progressView
-                                            setInProgress:YES
-                                            progress:progress];
-                                        }];
+        [self.tableView reloadData];
+
+        _request = [[OBAApplication sharedApplication].modelService requestTripDetailsForTripInstance:_tripInstance completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            if (responseCode == 404) {
+                [self->_progressView setMessage:NSLocalizedString(@"Trip not found", @"message") inProgress:NO progress:0];
+            }
+            else if (responseCode >= 300) {
+                [self->_progressView setMessage:NSLocalizedString(@"Unknown error", @"message") inProgress:NO progress:0];
+            }
+            else if (error) {
+                OBALogWarningWithError(error, @"Error");
+                [self->_progressView setMessage:NSLocalizedString(@"Error connecting", @"message") inProgress:NO progress:0];
+            }
+            else {
+                OBAEntryWithReferencesV2 *entry = responseData;
+                self->_tripDetails = entry.entry;
+                [self handleTripDetails];
+            }
+        } progressBlock:^(CGFloat progress) {
+            [self->_progressView setInProgress:YES progress:progress];
+        }];
     }
     else {
         [self handleTripDetails];
@@ -227,7 +214,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (void)showMap:(id)sender {
-    OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] initWithApplicationDelegate:_appDelegate];
+    OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] init];
 
     vc.tripDetails = _tripDetails;
     vc.currentStopId = self.currentStopId;
@@ -470,7 +457,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     OBATripStopTimeV2 *stopTime = stopTimes[index];
 
-    OBAStopViewController *vc = [[OBAStopViewController alloc] initWithApplicationDelegate:_appDelegate stopId:stopTime.stopId];
+    UIViewController *vc = [OBAStopViewController stopControllerWithStopID:stopTime.stopId];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -488,7 +475,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     if (sched.previousTripId != nil) {
         if (indexPath.row == offset) {
             OBATripInstanceRef *prevTripInstance = [tripInstance copyWithNewTripId:sched.previousTripId];
-            OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithApplicationDelegate:_appDelegate tripInstance:prevTripInstance];
+            OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:prevTripInstance];
             [self.navigationController pushViewController:vc animated:YES];
             return;
         }
@@ -499,7 +486,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     if (sched.nextTripId != nil) {
         if (indexPath.row == offset) {
             OBATripInstanceRef *nextTripInstance = [tripInstance copyWithNewTripId:sched.nextTripId];
-            OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithApplicationDelegate:_appDelegate tripInstance:nextTripInstance];
+            OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:nextTripInstance];
             [self.navigationController pushViewController:vc animated:YES];
             return;
         }

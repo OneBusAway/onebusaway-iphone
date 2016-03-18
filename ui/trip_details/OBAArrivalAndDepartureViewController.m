@@ -8,6 +8,9 @@
 #import "OBAPresentation.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
+#import "OBAModelServiceRequest.h"
+#import "OBAApplication.h"
+#import "OBACommonV1.h"
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -31,11 +34,11 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 @implementation OBAArrivalAndDepartureViewController
 
-- (instancetype)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate arrivalAndDepartureInstance:(OBAArrivalAndDepartureInstanceRef *)instance {
-    if (self = [super initWithApplicationDelegate:appDelegate]) {
+- (instancetype)initWithArrivalAndDepartureInstance:(OBAArrivalAndDepartureInstanceRef *)instance {
+    if (self = [super init]) {
         _instance = instance;
         _arrivalAndDeparture = nil;
-        _arrivalCellFactory = [[OBAArrivalEntryTableViewCellFactory alloc] initWithappDelegate:appDelegate tableView:self.tableView];
+        _arrivalCellFactory = [[OBAArrivalEntryTableViewCellFactory alloc] initWithTableView:self.tableView];
         _arrivalCellFactory.showServiceAlerts = NO;
         self.refreshable = YES;
         self.refreshInterval = 30;
@@ -45,8 +48,8 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     return self;
 }
 
-- (instancetype)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate arrivalAndDeparture:(OBAArrivalAndDepartureV2 *)arrivalAndDeparture {
-    self = [self initWithApplicationDelegate:appDelegate arrivalAndDepartureInstance:arrivalAndDeparture.instance];
+- (instancetype)initWithArrivalAndDeparture:(OBAArrivalAndDepartureV2 *)arrivalAndDeparture {
+    self = [self initWithArrivalAndDepartureInstance:arrivalAndDeparture.instance];
     _arrivalAndDeparture = arrivalAndDeparture;
     return self;
 }
@@ -305,13 +308,13 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     OBATripInstanceRef *tripInstance = _arrivalAndDeparture.tripInstance;
 
     if (indexPath.row == 0) {
-        OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] initWithApplicationDelegate:self.appDelegate];
+        OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] init];
         vc.tripInstance = tripInstance;
         vc.currentStopId = _arrivalAndDeparture.stopId;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row == 1) {
-        OBATripScheduleListViewController *vc = [[OBATripScheduleListViewController alloc] initWithApplicationDelegate:self.appDelegate tripInstance:tripInstance];
+        OBATripScheduleListViewController *vc = [[OBATripScheduleListViewController alloc] initWithTripInstance:tripInstance];
         vc.currentStopId = _arrivalAndDeparture.stopId;
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -326,14 +329,14 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
         case 1: {
             OBATripInstanceRef *tripInstance = _arrivalAndDeparture.tripInstance;
-            OBAReportProblemWithTripViewController *vc = [[OBAReportProblemWithTripViewController alloc] initWithApplicationDelegate:self.appDelegate tripInstance:tripInstance trip:_arrivalAndDeparture.trip];
+            OBAReportProblemWithTripViewController *vc = [[OBAReportProblemWithTripViewController alloc] initWithTripInstance:tripInstance trip:_arrivalAndDeparture.trip];
             vc.currentStopId = _arrivalAndDeparture.stopId;
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
 
         case 2: {
-            OBAVehicleDetailsController *vc = [[OBAVehicleDetailsController alloc] initWithApplicationDelegate:self.appDelegate vehicleId:_arrivalAndDeparture.tripStatus.vehicleId];
+            OBAVehicleDetailsController *vc = [[OBAVehicleDetailsController alloc] initWithVehicleId:_arrivalAndDeparture.tripStatus.vehicleId];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
@@ -343,7 +346,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (void)showSituations {
     NSDictionary *args = @{ @"arrivalAndDeparture": _arrivalAndDeparture };
 
-    [OBASituationsViewController showSituations:_arrivalAndDeparture.situations withappDelegate:self.appDelegate navigationController:self.navigationController args:args];
+    [OBASituationsViewController showSituations:_arrivalAndDeparture.situations navigationController:self.navigationController args:args];
 }
 
 @end

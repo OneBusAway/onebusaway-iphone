@@ -12,6 +12,8 @@
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAlerts.h"
+#import "OBAApplicationDelegate.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -40,8 +42,8 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 @implementation OBARegionListViewController
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate {
-    if (self = [super initWithApplicationDelegate:appDelegate]) {
+- (id)init {
+    if (self = [super init]) {
         self.refreshable = NO;
         self.showUpdateTime = NO;
     }
@@ -49,17 +51,24 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     return self;
 }
 
+- (void)dealloc {
+    _regions = nil;
+    _mostRecentLocation = nil;
+    _locationTimer = nil;
+    _toggleSwitch = nil;
+}
+
+#pragma mark - UIViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.refreshable = NO;
     self.showUpdateTime = NO;
     self.progressLabel = NSLocalizedString(@"Regions", @"regions title");
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
-    _showExperimentalRegions = NO;
-
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"]) _showExperimentalRegions = [[NSUserDefaults standardUserDefaults]
-                                                                                                                                  boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
+    _showExperimentalRegions = [[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
 
     _toggleSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
     [_toggleSwitch setOn:_showExperimentalRegions animated:NO];
@@ -69,7 +78,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     [super viewWillAppear:animated];
 
     self.navigationItem.title = NSLocalizedString(@"Select Region", @"self.navigationItem.title");
-
 
     OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
 
@@ -94,37 +102,35 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     [_locationTimer invalidate];
 }
 
-- (void)dealloc {
-    _regions = nil;
-    _mostRecentLocation = nil;
-    _locationTimer = nil;
-    _toggleSwitch = nil;
-}
+#pragma mark - Network
 
 - (BOOL)isLoading {
-    return _regions == nil || (_mostRecentLocation == nil && !_locationTimedOut);
+    return !_regions || (!_mostRecentLocation && !_locationTimedOut);
 }
 
 - (id<OBAModelServiceRequest>)handleRefresh {
-    return [[OBAApplication sharedApplication].modelService
-            requestRegions:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                if (error) {
-                [self refreshFailedWithError:error];
-                }
-                else {
-                OBAListWithRangeAndReferencesV2 *list = jsonData;
-                self.regions = [list.values
+
+    [SVProgressHUD show];
+
+    return [[OBAApplication sharedApplication].modelService requestRegions:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        [SVProgressHUD dismiss];
+        if (error) {
+            [self refreshFailedWithError:error];
+        }
+        else {
+            OBAListWithRangeAndReferencesV2 *list = jsonData;
+            self.regions = [list.values
                             filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL (id evaluatedObject, NSDictionary *bindings) {
                 OBARegionV2 *region = (OBARegionV2 *)evaluatedObject;
                 return !((!region.supportsObaRealtimeApis || !region.active)
                          || (region.experimental && !self->_showExperimentalRegions));
-                }]];
+            }]];
 
-                [self sortRegionsByName];
+            [self sortRegionsByName];
 
-                [self refreshCompleteWithCode:responseCode];
-                }
-            }];
+            [self refreshCompleteWithCode:responseCode];
+        }
+    }];
 }
 
 - (void)sortRegionsByLocation {
@@ -145,29 +151,26 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         [nearbyRegions removeObjectsInArray:regionsToRemove];
 
 
-        [nearbyRegions sortUsingComparator:^(id obj1, id obj2) {
-                           OBARegionV2 *region1 = (OBARegionV2 *)obj1;
-                           OBARegionV2 *region2 = (OBARegionV2 *)obj2;
+        [nearbyRegions sortUsingComparator:^(OBARegionV2 *region1, OBARegionV2 *region2) {
+            CLLocationDistance distance1 = [region1 distanceFromLocation:self->_mostRecentLocation];
+            CLLocationDistance distance2 = [region2 distanceFromLocation:self->_mostRecentLocation];
 
-                           CLLocationDistance distance1 = [region1 distanceFromLocation:self->_mostRecentLocation];
-                           CLLocationDistance distance2 = [region2 distanceFromLocation:self->_mostRecentLocation];
-
-                           if (distance1 > distance2) {
-                           return (NSComparisonResult)NSOrderedDescending;
-                           }
-                           else if (distance1 < distance2) {
-                           return (NSComparisonResult)NSOrderedAscending;
-                           }
-                           else {
-                           return (NSComparisonResult)NSOrderedSame;
-                           }
-                       }];
+            if (distance1 > distance2) {
+                return (NSComparisonResult)NSOrderedDescending;
+            }
+            else if (distance1 < distance2) {
+                return (NSComparisonResult)NSOrderedAscending;
+            }
+            else {
+                return (NSComparisonResult)NSOrderedSame;
+            }
+        }];
 
         if (nearbyRegions.count > 0) {
             self.nearbyRegion = [nearbyRegions objectAtIndex:0];
 
             if (_didJustBeginShowingExperimental && self.nearbyRegion.experimental && _showExperimentalRegions) {
-                [self.appDelegate writeSetRegionAutomatically:YES];
+                [APP_DELEGATE writeSetRegionAutomatically:YES];
                 [[OBAApplication sharedApplication].modelDao setOBARegion:self.nearbyRegion];
                 _didJustBeginShowingExperimental = NO;
             }
@@ -181,22 +184,18 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (void)sortRegionsByName {
-    self.regions = [_regions sortedArrayUsingComparator:^(id obj1, id obj2) {
-                                 OBARegionV2 *region1 = (OBARegionV2 *)obj1;
-                                 OBARegionV2 *region2 = (OBARegionV2 *)obj2;
-
-                                 return [region1.regionName
-                                 compare:region2.regionName];
-                             }];
+    self.regions = [_regions sortedArrayUsingComparator:^(OBARegionV2 *region1, OBARegionV2 *region2) {
+        return [region1.regionName compare:region2.regionName];
+    }];
 }
 
 - (void)timeOutLocation:(NSTimer *)theTimer {
-    _locationTimedOut = TRUE;
+    _locationTimedOut = YES;
 
     [self sortRegionsByLocation];
 }
 
-#pragma mark OBALocationManagerDelegate Methods
+#pragma mark - OBALocationManagerDelegate
 
 - (void)locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
     OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
@@ -208,16 +207,25 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (void)locationManager:(OBALocationManager *)manager didFailWithError:(NSError *)error {
-    if ([error domain] == kCLErrorDomain && [error code] == kCLErrorDenied) {
+    if (error.domain == kCLErrorDomain && error.code == kCLErrorDenied) {
         [self showLocationServicesAlert];
     }
 
     [_locationTimer invalidate];
-    _locationTimedOut = TRUE;
+    _locationTimedOut = YES;
     [self sortRegionsByLocation];
 }
 
-#pragma mark Table view methods
+- (void)showLocationServicesAlert {
+    if (![OBAApplication sharedApplication].modelDao.hideFutureLocationWarnings) {
+        [OBAApplication sharedApplication].modelDao.hideFutureLocationWarnings = YES;
+
+        UIAlertController *alert = [OBAAlerts locationServicesDisabledAlert];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+#pragma mark - UITableView
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if ([self isLoading]) return 2;
@@ -332,237 +340,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     }
 }
 
-- (void)didCompleteNetworkRequest {
-    _hideFutureNetworkErrors = NO;
-}
-
-- (void)showLocationServicesAlert {
-    if (![OBAApplication sharedApplication].modelDao.hideFutureLocationWarnings) {
-        [OBAApplication sharedApplication].modelDao.hideFutureLocationWarnings = YES;
-
-        UIAlertController *alert = [OBAAlerts locationServicesDisabledAlert];
-        [self presentViewController:alert animated:YES completion:nil];
-    }
-}
-
-- (OBASectionType)sectionTypeForSection:(NSUInteger)section {
-    if (_regions == nil) {
-        if (section == 0) return OBASectionTypeLoading;
-        else if (section == 1) return OBASectionTypeShowExperimentalRegions;
-        else if (section == 2) return OBASectionTypeCustomAPI;
-    }
-    else if ([_regions count] == 0) {
-        if (section == 0) return OBASectionTypeNoRegions;
-        else if (section == 1) return OBASectionTypeShowExperimentalRegions;
-        else if (section == 2) return OBASectionTypeCustomAPI;
-    }
-    else {
-        if (section == 0) return OBASectionTypeTitle;
-        else if (self.nearbyRegion == nil) {
-            if (section == 1) return OBASectionTypeAllRegions;
-            else if (section == 2) return OBASectionTypeShowExperimentalRegions;
-            else if (section == 3) return OBASectionTypeCustomAPI;
-        }
-        else {
-            if (section == 1) return OBASectionTypeNearbyRegions;
-            else if (section == 2) return OBASectionTypeAllRegions;
-            else if (section == 3) return OBASectionTypeShowExperimentalRegions;
-            else if (section == 4) return OBASectionTypeCustomAPI;
-        }
-    }
-
-    return OBASectionTypeNone;
-}
-
-- (UITableViewCell *)regionsCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-    OBARegionV2 *region = nil;
-    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"RegionsCell"];
-
-    switch ([self sectionTypeForSection:indexPath.section]) {
-        case OBASectionTypeNearbyRegions:
-            region = self.nearbyRegion;
-
-            if ([self.appDelegate readSetRegionAutomatically]) {
-                self.checkedItem = indexPath;
-            }
-
-            break;
-
-        case OBASectionTypeAllRegions:
-            region = self.regions[indexPath.row];
-
-            if (![self.appDelegate readSetRegionAutomatically] &&
-                [[OBAApplication sharedApplication].modelDao.region.regionName isEqualToString:region.regionName]) {
-                self.checkedItem = indexPath;
-            }
-
-            break;
-
-        default:
-            return nil;
-
-            break;
-    }
-
-    cell.accessoryType = self.checkedItem == indexPath ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-    cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [OBATheme bodyFont];
-
-    cell.textLabel.text = region.regionName;
-    return cell;
-}
-
-- (void)didSelectRegionRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-    OBARegionV2 *region = nil;
-
-    [[tableView cellForRowAtIndexPath:self.checkedItem] setAccessoryType:UITableViewCellAccessoryNone];
-    [[tableView cellForRowAtIndexPath:indexPath] setAccessoryType:UITableViewCellAccessoryCheckmark];
-    self.checkedItem = indexPath;
-
-    switch ([self sectionTypeForSection:indexPath.section]) {
-        case OBASectionTypeNearbyRegions:
-            region = self.nearbyRegion;
-            [self.appDelegate writeSetRegionAutomatically:YES];
-            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Set region automatically" value:nil];
-            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"set_region" label:[NSString stringWithFormat:@"Set region automatically: %@", region.regionName] value:nil];
-            break;
-
-        case OBASectionTypeAllRegions:
-            region = self.regions[indexPath.row];
-            [self.appDelegate writeSetRegionAutomatically:NO];
-            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Set region manually" value:nil];
-            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"set_region" label:[NSString stringWithFormat:@"Set region manually: %@", region.regionName] value:nil];
-            break;
-
-        default:
-            return;
-
-            break;
-    }
-    [[OBAApplication sharedApplication].modelDao writeCustomApiUrl:@""];
-    [[OBAApplication sharedApplication].modelDao setOBARegion:region];
-    [self.appDelegate regionSelected];
-}
-
-- (UITableViewCell *)experimentalRegionCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"ExperimentalRegionCell"];
-
-    [_toggleSwitch addTarget:self
-                      action:@selector(didSwitchStateOfToggle:)
-            forControlEvents:UIControlEventValueChanged];
-    cell.accessoryView = [[UIView alloc] initWithFrame:_toggleSwitch.frame];
-    [cell.accessoryView addSubview:_toggleSwitch];
-
-    cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [OBATheme bodyFont];
-    cell.textLabel.text = NSLocalizedString(@"Experimental Regions", @"cell.textLabel.text");
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
-}
-
-- (UITableViewCell *)customAPICellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"CustomAPICell"];
-
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-    cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [OBATheme bodyFont];
-    cell.textLabel.text = NSLocalizedString(@"Custom API URL", @"cell.textLabel.text");
-    return cell;
-}
-
-- (void)didSwitchStateOfToggle:(UISwitch *)toggleSwitch {
-    if (toggleSwitch.on) {
-        UIAlertView *unstableRegionAlert = [[UIAlertView alloc] initWithTitle:@"Enable Regions in Beta?"
-                                                                      message:@"Experimental regions may be unstable and without real-time info!"
-                                                                     delegate:self
-                                                            cancelButtonTitle:@"Cancel"
-                                                            otherButtonTitles:NSLocalizedString(@"OK", @"OK button"), nil];
-        [unstableRegionAlert show];
-    }
-    else {
-        //if current region is beta, show alert; otherwise, just update list
-        if ([OBAApplication sharedApplication].modelDao.region.experimental) {
-            UIAlertView *currentRegionUnavailableAlert = [[UIAlertView alloc] initWithTitle:@"Discard Current Region?"
-                                                                                    message:@"Your current experimental region won't be available! Proceed anyway?"
-                                                                                   delegate:self
-                                                                          cancelButtonTitle:@"Cancel"
-                                                                          otherButtonTitles:NSLocalizedString(@"OK", @"OK button"), nil];
-
-            [currentRegionUnavailableAlert show];
-        }
-        else {
-            [self doNeedToUpdateRegionsList];
-        }
-    }
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-
-    if ([title isEqualToString:NSLocalizedString(@"OK", @"OK button")]) {
-        [self doNeedToUpdateRegionsList];
-    }
-    else if ([title isEqualToString:@"Cancel"]) {
-        if (_showExperimentalRegions) {
-            [_toggleSwitch setOn:YES animated:NO];
-        }
-        else {
-            [_toggleSwitch setOn:NO animated:NO];
-        }
-    }
-}
-
-- (void)doNeedToUpdateRegionsList {
-    _showExperimentalRegions = !_showExperimentalRegions;
-    _didJustBeginShowingExperimental = _showExperimentalRegions;
-
-    if (_showExperimentalRegions) {
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Turned on Experimental Regions" value:nil];
-    }
-    else {
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Turned off Experimental Regions" value:nil];
-    }
-
-    if ([OBAApplication sharedApplication].modelDao.region.experimental) {
-        //Change to automatic region if available
-        if (self.nearbyRegion && !self.nearbyRegion.experimental) {
-            [self.appDelegate writeSetRegionAutomatically:YES];
-            [[OBAApplication sharedApplication].modelDao setOBARegion:self.nearbyRegion];
-        }
-        //Otherwise, set region to first in list
-        else if (![self isLoading] && _regions.count > 0) {
-            [self.appDelegate writeSetRegionAutomatically:NO];
-            [[OBAApplication sharedApplication].modelDao setOBARegion:[_regions objectAtIndex:0]];
-        }
-        //Set region to nil if list is empty
-        else if (![self isLoading]) {
-            UIAlertView *noAvailableRegionsAlert = [[UIAlertView alloc] initWithTitle:@"No Regions Found" message:@"No available regions were found, recheck your connection and try again" delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK button") otherButtonTitles:nil];
-            [[OBAApplication sharedApplication].modelDao setOBARegion:nil];
-            [noAvailableRegionsAlert show];
-        }
-    }
-
-    [[OBAApplication sharedApplication].modelDao writeCustomApiUrl:@""];
-    [self.appDelegate regionSelected];
-    [[NSUserDefaults standardUserDefaults] setBool:_showExperimentalRegions
-                                            forKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    [self handleRefresh];
-}
-
-- (void)didSelectCustomAPIRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-    OBACustomApiViewController *customAPIViewController = [[OBACustomApiViewController alloc] initWithApplicationDelegate:self.appDelegate modelDao:[OBAApplication sharedApplication].modelDao];
-    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:customAPIViewController];
-    [self presentViewController:navigation animated:YES completion:nil];
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     switch ([self sectionTypeForSection:section]) {
         case OBASectionTypeAllRegions:
@@ -615,6 +392,215 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     }
     [view addSubview:title];
     return view;
+}
+
+#pragma mark - Custom Table Stuff
+
+- (OBASectionType)sectionTypeForSection:(NSUInteger)section {
+    if (_regions == nil) {
+        if (section == 0) return OBASectionTypeLoading;
+        else if (section == 1) return OBASectionTypeShowExperimentalRegions;
+        else if (section == 2) return OBASectionTypeCustomAPI;
+    }
+    else if ([_regions count] == 0) {
+        if (section == 0) return OBASectionTypeNoRegions;
+        else if (section == 1) return OBASectionTypeShowExperimentalRegions;
+        else if (section == 2) return OBASectionTypeCustomAPI;
+    }
+    else {
+        if (section == 0) return OBASectionTypeTitle;
+        else if (self.nearbyRegion == nil) {
+            if (section == 1) return OBASectionTypeAllRegions;
+            else if (section == 2) return OBASectionTypeShowExperimentalRegions;
+            else if (section == 3) return OBASectionTypeCustomAPI;
+        }
+        else {
+            if (section == 1) return OBASectionTypeNearbyRegions;
+            else if (section == 2) return OBASectionTypeAllRegions;
+            else if (section == 3) return OBASectionTypeShowExperimentalRegions;
+            else if (section == 4) return OBASectionTypeCustomAPI;
+        }
+    }
+
+    return OBASectionTypeNone;
+}
+
+- (UITableViewCell *)regionsCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
+    OBARegionV2 *region = nil;
+    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"RegionsCell"];
+
+    switch ([self sectionTypeForSection:indexPath.section]) {
+        case OBASectionTypeNearbyRegions:
+            region = self.nearbyRegion;
+
+            if ([APP_DELEGATE readSetRegionAutomatically]) {
+                self.checkedItem = indexPath;
+            }
+
+            break;
+
+        case OBASectionTypeAllRegions:
+            region = self.regions[indexPath.row];
+
+            if (![APP_DELEGATE readSetRegionAutomatically] &&
+                [[OBAApplication sharedApplication].modelDao.region.regionName isEqualToString:region.regionName]) {
+                self.checkedItem = indexPath;
+            }
+
+            break;
+
+        default:
+            return nil;
+
+            break;
+    }
+
+    cell.accessoryType = self.checkedItem == indexPath ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    cell.textLabel.textColor = [UIColor blackColor];
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
+    cell.textLabel.font = [OBATheme bodyFont];
+
+    cell.textLabel.text = region.regionName;
+    return cell;
+}
+
+- (void)didSelectRegionRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
+    OBARegionV2 *region = nil;
+
+    [[tableView cellForRowAtIndexPath:self.checkedItem] setAccessoryType:UITableViewCellAccessoryNone];
+    [[tableView cellForRowAtIndexPath:indexPath] setAccessoryType:UITableViewCellAccessoryCheckmark];
+    self.checkedItem = indexPath;
+
+    switch ([self sectionTypeForSection:indexPath.section]) {
+        case OBASectionTypeNearbyRegions:
+            region = self.nearbyRegion;
+            [APP_DELEGATE writeSetRegionAutomatically:YES];
+            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Set region automatically" value:nil];
+            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"set_region" label:[NSString stringWithFormat:@"Set region automatically: %@", region.regionName] value:nil];
+            break;
+
+        case OBASectionTypeAllRegions:
+            region = self.regions[indexPath.row];
+            [APP_DELEGATE writeSetRegionAutomatically:NO];
+            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Set region manually" value:nil];
+            [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"set_region" label:[NSString stringWithFormat:@"Set region manually: %@", region.regionName] value:nil];
+            break;
+
+        default:
+            return;
+
+            break;
+    }
+    [[OBAApplication sharedApplication].modelDao writeCustomApiUrl:@""];
+    [[OBAApplication sharedApplication].modelDao setOBARegion:region];
+    [APP_DELEGATE regionSelected];
+}
+
+- (UITableViewCell *)experimentalRegionCellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
+    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"ExperimentalRegionCell"];
+
+    [_toggleSwitch addTarget:self action:@selector(didSwitchStateOfToggle:) forControlEvents:UIControlEventValueChanged];
+    cell.accessoryView = [[UIView alloc] initWithFrame:_toggleSwitch.frame];
+    [cell.accessoryView addSubview:_toggleSwitch];
+
+    cell.textLabel.textColor = [UIColor blackColor];
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
+    cell.textLabel.font = [OBATheme bodyFont];
+    cell.textLabel.text = NSLocalizedString(@"Experimental Regions", @"cell.textLabel.text");
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
+}
+
+- (UITableViewCell *)customAPICellForRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
+    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"CustomAPICell"];
+
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    cell.textLabel.textColor = [UIColor blackColor];
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
+    cell.textLabel.font = [OBATheme bodyFont];
+    cell.textLabel.text = NSLocalizedString(@"Custom API URL", @"cell.textLabel.text");
+    return cell;
+}
+
+- (void)didSelectCustomAPIRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    OBACustomApiViewController *customAPIViewController = [[OBACustomApiViewController alloc] initWithModelDao:[OBAApplication sharedApplication].modelDao];
+    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:customAPIViewController];
+    [self presentViewController:navigation animated:YES completion:nil];
+}
+
+- (void)didSwitchStateOfToggle:(UISwitch *)toggleSwitch {
+
+    UIAlertController *alert = nil;
+
+    if (toggleSwitch.on) {
+        alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Enable Regions in Beta?", @"") message:@"Experimental regions may be unstable and without real-time info!" preferredStyle:UIAlertControllerStyleAlert];
+    }
+    else {
+        // If current region is beta, show alert; otherwise, just update list.
+        if ([OBAApplication sharedApplication].modelDao.region.experimental) {
+            alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Discard Current Region?", @"") message:@"Your current experimental region won't be available! Proceed anyway?" preferredStyle:UIAlertControllerStyleAlert];
+        }
+        else {
+            [self doNeedToUpdateRegionsList];
+        }
+    }
+
+    if (alert) {
+        // The code that this replaces ended up performing the same actions for Cancel and OK
+        // on both alerts that it could present. This sounds like a bug to me...
+
+        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            [self.toggleSwitch setOn:self.showExperimentalRegions animated:NO];
+        }]];
+        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self doNeedToUpdateRegionsList];
+        }]];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+- (void)doNeedToUpdateRegionsList {
+    _showExperimentalRegions = !_showExperimentalRegions;
+    _didJustBeginShowingExperimental = _showExperimentalRegions;
+
+    if (_showExperimentalRegions) {
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Turned on Experimental Regions" value:nil];
+    }
+    else {
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Turned off Experimental Regions" value:nil];
+    }
+
+    if ([OBAApplication sharedApplication].modelDao.region.experimental) {
+        //Change to automatic region if available
+        if (self.nearbyRegion && !self.nearbyRegion.experimental) {
+            [APP_DELEGATE writeSetRegionAutomatically:YES];
+            [[OBAApplication sharedApplication].modelDao setOBARegion:self.nearbyRegion];
+        }
+        //Otherwise, set region to first in list
+        else if (![self isLoading] && _regions.count > 0) {
+            [APP_DELEGATE writeSetRegionAutomatically:NO];
+            [[OBAApplication sharedApplication].modelDao setOBARegion:self.regions[0]];
+        }
+        //Set region to nil if list is empty
+        else if (![self isLoading]) {
+            [[OBAApplication sharedApplication].modelDao setOBARegion:nil];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"No Regions Found", @"") message:NSLocalizedString(@"No available regions were found, recheck your connection and try again.", @"") preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"") style:UIAlertActionStyleDefault handler:nil]];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+    }
+
+    [[OBAApplication sharedApplication].modelDao writeCustomApiUrl:@""];
+    [APP_DELEGATE regionSelected];
+    [[NSUserDefaults standardUserDefaults] setBool:_showExperimentalRegions
+                                            forKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self handleRefresh];
 }
 
 @end

@@ -5,6 +5,7 @@
 #import "OBASearch.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
+#import <SafariServices/SafariServices.h>
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -22,7 +23,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 @implementation OBAAgenciesListViewController
 
 - (id)init {
-    self = [super initWithApplicationDelegate:APP_DELEGATE];
+    self = [super init];
 
     if (self) {
         self.title = NSLocalizedString(@"Agencies", @"Agencies tab title");
@@ -223,13 +224,16 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (void)didSelectActionsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     OBANavigationTarget *target = [OBASearch getNavigationTargetForSearchAgenciesWithCoverage];
-    [self.appDelegate navigateToTarget:target];
+    [APP_DELEGATE navigateToTarget:target];
 }
 
 - (void)didSelectAgencyRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     OBAAgencyWithCoverageV2 *awc = self.agencies[indexPath.row];
     OBAAgencyV2 *agency = awc.agency;
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:agency.url]];
+
+    SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:agency.url]];
+    safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:safari animated:YES completion:nil];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

@@ -36,7 +36,7 @@
 
 @implementation OBASearchController
 
-- (id)initWithappDelegate:(OBAApplicationDelegate *)context {
+- (id)init {
     if (self = [super init]) {
         _modelService = [OBAApplication sharedApplication].modelService;
         _searchType = OBASearchTypeNone;
@@ -54,7 +54,7 @@
     [self cancelOpenConnections];
 
     _target = target;
-    _searchType = [OBASearch getSearchTypeForNagivationTarget:target];
+    _searchType = [OBASearch getSearchTypeForNavigationTarget:target];
 
     // Short circuit if the request is NONE
     if (_searchType == OBASearchTypeNone) {
@@ -80,7 +80,7 @@
 }
 
 - (id)searchParameter {
-    return [OBASearch getSearchTypeParameterForNagivationTarget:_target];
+    return [OBASearch getSearchTypeParameterForNavigationTarget:_target];
 }
 
 - (CLLocation *)searchLocation {
@@ -112,11 +112,21 @@
 }
 
 - (void)processError:(NSError *)error responseCode:(NSUInteger)responseCode {
-    if (error) {
+
+    if (responseCode == 0 && error.code == NSURLErrorCancelled) {
+        // This shouldn't be happening, and frankly I'm not entirely sure why it's happening.
+        // But, I do know that it doesn't have any appreciable user impact outside of this
+        // error alert being really annoying. So we'll just log it and eat it.
+
+        NSLog(@"Errored out at launch: %@", error);
+    }
+    else if (error) {
         [self.progress setMessage:NSLocalizedString(@"Error connecting", @"requestDidFail") inProgress:NO progress:0];
         [self fireError:error];
     }
-    else if (responseCode == 404) [self.progress setMessage:NSLocalizedString(@"Not found", @"code == 404") inProgress:NO progress:0];
+    else if (responseCode == 404) {
+        [self.progress setMessage:NSLocalizedString(@"Not found", @"code == 404") inProgress:NO progress:0];
+    }
     else {
         [self.progress setMessage:NSLocalizedString(@"Server error", @"code # 404") inProgress:NO progress:0];
     }
@@ -130,7 +140,7 @@
 
 - (id<OBAModelServiceRequest>)requestForTarget:(OBANavigationTarget *)target {
     // Update our target parameters
-    OBASearchType type = [OBASearch getSearchTypeForNagivationTarget:target];
+    OBASearchType type = [OBASearch getSearchTypeForNavigationTarget:target];
 
 
     void (^ WrapperCompletion)() = ^(id responseData, NSUInteger responseCode, NSError *err, void (^complete)(id responseData)) {
@@ -146,7 +156,7 @@
 
     switch (type) {
         case OBASearchTypeRegion: {
-            NSData *data = [OBASearch getSearchTypeParameterForNagivationTarget:target];
+            NSData *data = [OBASearch getSearchTypeParameterForNavigationTarget:target];
             MKCoordinateRegion region;
             [data getBytes:&region length:sizeof(MKCoordinateRegion)];
 
@@ -159,7 +169,7 @@
         }
 
         case OBASearchTypeRoute: {
-            NSString *routeQuery = [OBASearch getSearchTypeParameterForNagivationTarget:target];
+            NSString *routeQuery = [OBASearch getSearchTypeParameterForNavigationTarget:target];
             return [_modelService requestRoutesForQuery:routeQuery
                                              withRegion:self.searchRegion
                                         completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
@@ -181,7 +191,7 @@
         }
 
         case OBASearchTypeRouteStops: {
-            NSString *routeId = [OBASearch getSearchTypeParameterForNagivationTarget:target];
+            NSString *routeId = [OBASearch getSearchTypeParameterForNavigationTarget:target];
             return [_modelService requestStopsForRoute:routeId
                                        completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                            WrapperCompletion(jsonData, responseCode, error, ^(id data) {
@@ -195,7 +205,7 @@
         }
 
         case OBASearchTypeAddress: {
-            NSString *addressQuery = [OBASearch getSearchTypeParameterForNagivationTarget:target];
+            NSString *addressQuery = [OBASearch getSearchTypeParameterForNavigationTarget:target];
             return [_modelService placemarksForAddress:addressQuery
                                        completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                            WrapperCompletion(jsonData, responseCode, error, ^(id data) {
@@ -218,7 +228,7 @@
         }
 
         case OBASearchTypePlacemark: {
-            OBAPlacemark *placemark = [OBASearch getSearchTypeParameterForNagivationTarget:target];
+            OBAPlacemark *placemark = [OBASearch getSearchTypeParameterForNavigationTarget:target];
             return [_modelService requestStopsForPlacemark:placemark
                                            completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                                                WrapperCompletion(jsonData, responseCode, error, ^(id data) {
@@ -232,7 +242,7 @@
         }
 
         case OBASearchTypeStopId: {
-            NSString *stopCode = [OBASearch getSearchTypeParameterForNagivationTarget:target];
+            NSString *stopCode = [OBASearch getSearchTypeParameterForNavigationTarget:target];
             return [_modelService requestStopsForQuery:stopCode
                                             withRegion:self.searchRegion
                                        completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {

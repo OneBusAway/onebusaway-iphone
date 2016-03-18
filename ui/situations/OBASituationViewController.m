@@ -42,9 +42,8 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 #pragma mark - Initialization
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate situation:(OBASituationV2 *)situation {
+- (id)initWithSituation:(OBASituationV2 *)situation {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-        _appDelegate = appDelegate;
         _situation = situation;
 
         NSString *diversionPath = nil;
@@ -221,7 +220,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         [OBAWebViewController pushOntoViewController:self withHtml:[self getDetails:YES] withTitle:NSLocalizedString(@"Details", @"withTitle")];
     }
     else if (indexPath.row == 1 && _diversionPath) {
-        OBADiversionViewController *vc = [OBADiversionViewController loadFromNibWithappDelegate:_appDelegate];
+        OBADiversionViewController *vc = [OBADiversionViewController loadFromNibWithappDelegate:APP_DELEGATE];
         vc.diversionPath = _diversionPath;
         vc.args = self.args;
         [self.navigationController pushViewController:vc animated:YES];
@@ -271,7 +270,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         [buffer replaceOccurrencesOfString:@"\r\n" withString:@"<br/>" options:NSLiteralSearch range:NSMakeRange(0, [buffer length])];
         [buffer replaceOccurrencesOfString:@"\n" withString:@"<br/>" options:NSLiteralSearch range:NSMakeRange(0, [buffer length])];
 
-        [buffer appendString:@"<style> body { background: #fff; font-family: Arial, Helvetica, Helvetica Neue, Verdana, sans-serif; font-size: 16px; line-height: 20px; color: #000;}</style>"];
+        [buffer appendString:@"<style> body { background: #fff; font-family: '-apple-system','HelveticaNeue',sans-serif; font-size: 16px; line-height: 20px; color: #000;}</style>"];
     }
 
     return buffer;

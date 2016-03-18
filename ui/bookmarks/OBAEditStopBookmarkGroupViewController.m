@@ -11,9 +11,9 @@
 #import "OBABookmarkGroup.h"
 #import "OBATextFieldTableViewCell.h"
 #import "OBAEditBookmarkGroupViewController.h"
-#import "OBAApplicationDelegate.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
+#import "OBAApplication.h"
 
 @interface OBAEditStopBookmarkGroupViewController ()
 
@@ -21,9 +21,8 @@
 
 @implementation OBAEditStopBookmarkGroupViewController
 
-- (id)initWithAppDelegate:(OBAApplicationDelegate *)appDelegate selectedBookmarkGroup:(OBABookmarkGroup *)group {
+- (id)initWithSelectedBookmarkGroup:(OBABookmarkGroup *)group {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-        _appDelegate = appDelegate;
         _groups = [[OBAApplication sharedApplication].modelDao bookmarkGroups];
         _selectedGroup = group;
 
@@ -90,7 +89,7 @@
             [self.delegate didSetBookmarkGroup:newGroup];
         }
 
-        OBAEditBookmarkGroupViewController *editBookmarkGroupVC = [[OBAEditBookmarkGroupViewController alloc] initWithApplicationDelegate:self.appDelegate bookmarkGroup:newGroup editType:OBABookmarkGroupEditNew];
+        OBAEditBookmarkGroupViewController *editBookmarkGroupVC = [[OBAEditBookmarkGroupViewController alloc] initWithBookmarkGroup:newGroup editType:OBABookmarkGroupEditNew];
         [self.navigationController pushViewController:editBookmarkGroupVC animated:YES];
     }
     else if (indexPath.row == 1) {
@@ -105,7 +104,7 @@
     }
     else {
         if (self.editing) {
-            OBAEditBookmarkGroupViewController *editBookmarkGroupVC = [[OBAEditBookmarkGroupViewController alloc] initWithApplicationDelegate:self.appDelegate bookmarkGroup:self.groups[indexPath.row - 2] editType:OBABookmarkGroupEditExisting];
+            OBAEditBookmarkGroupViewController *editBookmarkGroupVC = [[OBAEditBookmarkGroupViewController alloc] initWithBookmarkGroup:self.groups[indexPath.row - 2] editType:OBABookmarkGroupEditExisting];
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"edit_field" label:@"Edited Bookmark Group" value:nil];
             [self.navigationController pushViewController:editBookmarkGroupVC animated:YES];
         }

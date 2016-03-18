@@ -1,14 +1,10 @@
-#import "OBAApplicationDelegate.h"
 #import "OBAProgressIndicatorView.h"
 #import "UITableViewController+oba_Additions.h"
+#import "OBAModelServiceRequest.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBARequestDrivenTableViewController : UITableViewController
-
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate;
-
-@property (nonatomic, strong) OBAApplicationDelegate *appDelegate;
 
 @property (nonatomic, strong) NSString *progressLabel;
 @property (nonatomic) BOOL showUpdateTime;

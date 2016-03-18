@@ -54,12 +54,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) NSObject<OBAProgressIndicatorSource>* progress;
 @property (nonatomic,strong) NSError * error;
 
-- (id) initWithappDelegate:(OBAApplicationDelegate*)context;
 - (BOOL)unfilteredSearch;
--(void) searchWithTarget:(OBANavigationTarget*)target;
--(void) searchPending;
--(OBANavigationTarget*) getSearchTarget;
--(void) cancelOpenConnections;
+- (void)searchWithTarget:(OBANavigationTarget*)target;
+- (void)searchPending;
+- (OBANavigationTarget*)getSearchTarget;
+- (void)cancelOpenConnections;
 
 @end
 

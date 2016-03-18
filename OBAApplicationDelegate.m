@@ -15,6 +15,8 @@
  */
 
 #import <SystemConfiguration/SystemConfiguration.h>
+#import <ABReleaseNotesViewController/ABReleaseNotesViewController.h>
+#import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
 #import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
 #import "OBALogger.h"
@@ -26,24 +28,28 @@
 
 #import "OBASearchController.h"
 #import "OBAStopViewController.h"
-#import "OBAStopIconFactory.h"
 
 #import "OBARegionListViewController.h"
 #import "OBARegionHelper.h"
-#import "OBAReleaseNotesManager.h"
 
 #import "OBAAnalytics.h"
+#import "NSArray+OBAAdditions.h"
 
 static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
 static NSString *kOBAShowExperimentalRegionsDefaultsKey = @"kOBAShowExperimentalRegionsDefaultsKey";
 static NSString *const kTrackingId = @"UA-2423527-17";
 static NSString *const kAllowTracking = @"allowTracking";
 
+static NSString *const kApplicationShortcutMap = @"org.onebusaway.iphone.shortcut.map";
+static NSString *const kApplicationShortcutRecents = @"org.onebusaway.iphone.shortcut.recents";
+static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcut.bookmarks";
+
 @interface OBAApplicationDelegate () <OBABackgroundTaskExecutor>
 @property (nonatomic, readwrite) BOOL active;
 @property (nonatomic, strong) OBARegionHelper *regionHelper;
 @property (nonatomic, strong) id regionObserver;
-
+@property (nonatomic, strong) id recentStopsObserver;
+@property(nonatomic,strong) ABReleaseNotesViewController *releaseNotes;
 @end
 
 @implementation OBAApplicationDelegate
@@ -64,11 +70,23 @@ static NSString *const kAllowTracking = @"allowTracking";
                                                                                 [self writeSetRegionAutomatically:YES];
                                                                                 [self.regionHelper updateNearestRegion];
                                                                             }];
-
+        self.recentStopsObserver = [[NSNotificationCenter defaultCenter] addObserverForName:OBAMostRecentStopsChangedNotification
+                                                                                     object:nil
+                                                                                      queue:[NSOperationQueue mainQueue]
+                                                                                 usingBlock:^(NSNotification *note) {
+                                                                                     @strongify(self);
+                                                                                     [self updateShortcutItemsForRecentStops];
+                                                                                 }];
+        
         [[OBAApplication sharedApplication] start];
     }
 
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self.regionObserver];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.recentStopsObserver];
 }
 
 - (void)writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
@@ -103,15 +121,12 @@ static NSString *const kAllowTracking = @"allowTracking";
     self.mapNavigationController = [[UINavigationController alloc] initWithRootViewController:self.mapViewController];
 
     self.recentsViewController = [[OBARecentStopsViewController alloc] init];
-    self.recentsViewController.appDelegate = self;
     self.recentsNavigationController = [[UINavigationController alloc] initWithRootViewController:self.recentsViewController];
 
     self.bookmarksViewController = [[OBABookmarksViewController alloc] init];
-    self.bookmarksViewController.appDelegate = self;
     self.bookmarksNavigationController = [[UINavigationController alloc] initWithRootViewController:self.bookmarksViewController];
 
     self.infoViewController = [[OBAInfoViewController alloc] init];
-    self.infoViewController.appDelegate = self;
     self.infoNavigationController = [[UINavigationController alloc] initWithRootViewController:self.infoViewController];
 
     self.tabBarController.viewControllers = @[self.mapNavigationController, self.recentsNavigationController, self.bookmarksNavigationController, self.infoNavigationController];
@@ -141,12 +156,18 @@ static NSString *const kAllowTracking = @"allowTracking";
 
     [self.window makeKeyAndVisible];
 
-    if ([OBAReleaseNotesManager shouldShowReleaseNotes]) {
-        [OBAReleaseNotesManager showReleaseNotes:self.window];
-    }
+    self.releaseNotes = [[ABReleaseNotesViewController alloc] initWithAppIdentifier:@"329380089"];
+    self.releaseNotes.title = NSLocalizedString(@"What's New", @"");
+    self.releaseNotes.mode = ABReleaseNotesViewControllerModeProduction;
+
+    [self.releaseNotes checkForUpdates:^(BOOL updated) {
+        if (updated) {
+            [self.tabBarController presentViewController:self.releaseNotes animated:YES completion:nil];
+        }
+    }];
 }
 
-#pragma mark UIApplicaiton Methods
+#pragma mark - UIApplication Methods
 
 - (UIBackgroundTaskIdentifier)beginBackgroundTaskWithExpirationHandler:(void (^)(void))handler {
     return [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:handler];
@@ -160,20 +181,18 @@ static NSString *const kAllowTracking = @"allowTracking";
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    _stopIconFactory = [[OBAStopIconFactory alloc] init];
-    
     //Register a background handler with the model service
     [OBAModelService addBackgroundExecutor:self];
 
     //setup Google Analytics
-    NSDictionary *appDefaults = @{ kAllowTracking: @(YES) };
+    NSDictionary *appDefaults = @{ kAllowTracking: @(YES), kSetRegionAutomaticallyKey: @(YES)};
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
 
     // User must be able to opt out of tracking
     [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
 
     [GAI sharedInstance].trackUncaughtExceptions = YES;
-    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelInfo];
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelWarning];
 
     //don't report to Google Analytics when developing
 #ifdef DEBUG
@@ -227,6 +246,57 @@ static NSString *const kAllowTracking = @"allowTracking";
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     self.active = NO;
+}
+
+#pragma mark Shortcut Items
+
+- (void)application:(UIApplication *)application performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler {
+    NSString *shortcutIdentifier = shortcutItem.type;
+
+    if ([shortcutIdentifier isEqualToString:kApplicationShortcutMap]) {
+        [self.tabBarController setSelectedViewController:self.mapNavigationController];
+
+        [self.mapNavigationController popToRootViewControllerAnimated:NO];
+        [self.mapViewController onCrossHairsButton:self];
+    }
+    else if ([shortcutIdentifier isEqualToString:kApplicationShortcutBookmarks]) {
+        [self.tabBarController setSelectedViewController:self.bookmarksNavigationController];
+
+        [self.bookmarksNavigationController popToRootViewControllerAnimated:NO];
+    }
+    else if ([shortcutIdentifier isEqualToString:kApplicationShortcutRecents]) {
+        [self.tabBarController setSelectedViewController:self.recentsNavigationController];
+
+        NSArray *stopIds = (NSArray *)shortcutItem.userInfo[@"stopIds"];
+        if (stopIds.count > 0) {
+            UIViewController *vc = [OBAStopViewController stopControllerWithStopID:stopIds[0]];
+            [self.recentsNavigationController popToRootViewControllerAnimated:NO];
+            [self.recentsNavigationController pushViewController:vc animated:YES];
+        }
+    }
+
+    // update kOBASelectedTabIndexDefaultsKey, since the delegate doesn't fire
+    // otherwise applicationDidBecomeActive: will switch us away
+    [self tabBarController:self.tabBarController didSelectViewController:self.tabBarController.selectedViewController];
+
+    completionHandler(YES);
+}
+
+- (void)updateShortcutItemsForRecentStops {
+    NSMutableArray *dynamicShortcuts = [NSMutableArray array];
+    UIApplicationShortcutIcon *clockIcon = [UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypeTime];
+
+    for (OBAStopAccessEventV2 *stopEvent in [OBAApplication sharedApplication].modelDao.mostRecentStops) {
+        UIApplicationShortcutItem *shortcutItem =
+                [[UIApplicationShortcutItem alloc] initWithType:kApplicationShortcutRecents
+                                                 localizedTitle:stopEvent.title
+                                              localizedSubtitle:nil
+                                                           icon:clockIcon
+                                                       userInfo:@{ @"stopIds": stopEvent.stopIds }];
+        [dynamicShortcuts addObject:shortcutItem];
+    }
+
+    [UIApplication sharedApplication].shortcutItems = [dynamicShortcuts oba_pickFirst:4];
 }
 
 #pragma mark - UITabBarControllerDelegate
@@ -322,7 +392,7 @@ static NSString *const kAllowTracking = @"allowTracking";
 }
 
 - (void)showRegionListViewController {
-    _regionListViewController = [[OBARegionListViewController alloc] initWithApplicationDelegate:self];
+    _regionListViewController = [[OBARegionListViewController alloc] init];
     _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:_regionListViewController];
 
     self.window.rootViewController = _regionNavigationController;

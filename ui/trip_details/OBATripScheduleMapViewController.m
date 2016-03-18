@@ -12,6 +12,7 @@
 #import "OBAPresentation.h"
 #import "OBAAnalytics.h"
 #import "UINavigationController+oba_Additions.h"
+#import "OBAApplicationDelegate.h"
 
 static const NSString *kTripDetailsContext = @"TripDetails";
 static const NSString *kShapeContext = @"ShapeContext";
@@ -29,12 +30,8 @@ static const NSString *kShapeContext = @"ShapeContext";
 
 @implementation OBATripScheduleMapViewController
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate {
+- (id)init {
     self = [super initWithNibName:@"OBATripScheduleMapViewController" bundle:nil];
-
-    if (self) {
-        self.appDelegate = appDelegate;
-    }
 
     return self;
 }
@@ -99,7 +96,7 @@ static const NSString *kShapeContext = @"ShapeContext";
 }
 
 - (void)showList:(id)source {
-    OBATripScheduleListViewController *vc = [[OBATripScheduleListViewController alloc] initWithApplicationDelegate:self.appDelegate tripInstance:_tripInstance];
+    OBATripScheduleListViewController *vc = [[OBATripScheduleListViewController alloc] initWithTripInstance:_tripInstance];
 
     vc.tripDetails = self.tripDetails;
     vc.currentStopId = self.currentStopId;
@@ -137,8 +134,7 @@ static const NSString *kShapeContext = @"ShapeContext";
 
         view.canShowCallout = YES;
         view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        OBAStopIconFactory *stopIconFactory = [[self appDelegate] stopIconFactory];
-        view.image = [stopIconFactory getIconForStop:an.stopTime.stop];
+        view.image = [OBAStopIconFactory getIconForStop:an.stopTime.stop];
         view.transform = CGAffineTransformMakeScale(scale, scale);
         view.alpha = alpha;
         return view;
@@ -166,12 +162,12 @@ static const NSString *kShapeContext = @"ShapeContext";
     if ([annotation isKindOfClass:[OBATripStopTimeMapAnnotation class] ]) {
         OBATripStopTimeMapAnnotation *an = (OBATripStopTimeMapAnnotation *)annotation;
         OBATripStopTimeV2 *stopTime = an.stopTime;
-        OBAStopViewController *vc = [[OBAStopViewController alloc] initWithApplicationDelegate:self.appDelegate stopId:stopTime.stopId];
+        UIViewController *vc = [OBAStopViewController stopControllerWithStopID:stopTime.stopId];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([annotation isKindOfClass:[OBATripContinuationMapAnnotation class]]) {
         OBATripContinuationMapAnnotation *an = (OBATripContinuationMapAnnotation *)annotation;
-        OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithApplicationDelegate:_appDelegate tripInstance:an.tripInstance];
+        OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:an.tripInstance];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

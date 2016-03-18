@@ -1,13 +1,14 @@
 #import "OBAArrivalEntryTableViewCellFactory.h"
 #import "OBAPresentation.h"
+#import "OBAServiceAlertsModel.h"
+#import "OBAApplication.h"
 
 @implementation OBAArrivalEntryTableViewCellFactory
 
-- (id)initWithappDelegate:(OBAApplicationDelegate *)appDelegate tableView:(UITableView *)tableView {
+- (id)initWithTableView:(UITableView *)tableView {
     self = [super init];
 
     if (self) {
-        _appDelegate = appDelegate;
         _tableView = tableView;
 
         _timeFormatter = [[NSDateFormatter alloc] init];
@@ -40,7 +41,7 @@
     [attributedStatusLabel appendAttributedString:statusColoredString];
 
     cell.destinationLabel.text = [OBAPresentation getTripHeadsignForArrivalAndDeparture:arrival];
-    cell.routeLabel.text = [OBAPresentation getRouteShortNameForArrivalAndDeparture:arrival];
+    cell.routeLabel.text = arrival.bestAvailableName;
     cell.alertStyle = [self getAlertStyleForArrival:arrival];
     [cell.statusLabel setAttributedText:attributedStatusLabel];
 

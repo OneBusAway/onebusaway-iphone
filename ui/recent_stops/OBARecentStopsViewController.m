@@ -15,11 +15,13 @@
  */
 
 #import "OBARecentStopsViewController.h"
+#import <OBAKit/OBAKit.h>
 #import "OBAStopAccessEventV2.h"
 #import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
+#import "OBAApplication.h"
 
 @implementation OBARecentStopsViewController
 
@@ -87,7 +89,7 @@
 
     if (0 <= index && index < [_mostRecentStops count]) {
         OBAStopAccessEventV2 *event = _mostRecentStops[index];
-        OBAStopViewController *vc = [[OBAStopViewController alloc] initWithApplicationDelegate:_appDelegate stopId:event.stopIds[0]];
+        UIViewController *vc = [OBAStopViewController stopControllerWithStopID:event.stopIds[0]];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

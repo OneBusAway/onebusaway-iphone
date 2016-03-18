@@ -14,22 +14,15 @@
  * limitations under the License.
  */
 
-#import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
-#import "OBALocationManager.h"
 #import "OBASearchController.h"
-#import "OBALocationManager.h"
 #import "OBAGenericAnnotation.h"
-#import "OBANetworkErrorAlertViewDelegate.h"
-#import "OBASearchResultsMapFilterToolbar.h"
 #import "OBAMapRegionManager.h"
 #import "OBAScopeView.h"
 
-@class OBASearchControllerImpl;
-
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate, MKMapViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate>
+@interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate, MKMapViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate>
 @property(nonatomic,strong) OBAApplicationDelegate * appDelegate;
 @property(nonatomic,strong) IBOutlet OBAScopeView *scopeView;
 @property(nonatomic,strong) IBOutlet UISegmentedControl *searchTypeSegmentedControl;
@@ -37,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong) IBOutlet UISearchBar *searchBar;
 @property(nonatomic,strong) IBOutlet UIToolbar *toolbar;
 @property(nonatomic,strong) IBOutlet UILabel *mapLabel;
-@property (nonatomic,strong) OBASearchResultsMapFilterToolbar * filterToolbar;
+
 
 - (IBAction)onCrossHairsButton:(id)sender;
 - (IBAction)showListView:(id)sender;

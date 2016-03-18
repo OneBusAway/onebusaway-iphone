@@ -18,24 +18,23 @@
 
 #pragma mark - Initialization
 
-+ (void)showSituations:(NSArray*)situations withappDelegate:(OBAApplicationDelegate*)appDelegate navigationController:(UINavigationController*)navigationController args:(NSDictionary*)args {
++ (void)showSituations:(NSArray*)situations navigationController:(UINavigationController*)navigationController args:(NSDictionary*)args {
     if( [situations count] == 1 ) {
         OBASituationV2 * situation = [situations objectAtIndex:0];
-        OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationDelegate:appDelegate situation:situation];
+        OBASituationViewController * vc = [[OBASituationViewController alloc] initWithSituation:situation];
         vc.args = args;
         [navigationController pushViewController:vc animated:YES];
     }
     else {
-        OBASituationsViewController * vc = [[OBASituationsViewController alloc] initWithApplicationDelegate:appDelegate situations:situations];
+        OBASituationsViewController * vc = [[OBASituationsViewController alloc] initWithSituations:situations];
         vc.args = args;
         [navigationController pushViewController:vc animated:YES];
     }
 }
 
-- (instancetype) initWithApplicationDelegate:(OBAApplicationDelegate*)appDelegate situations:(NSArray*)situations {
+- (instancetype) initWithSituations:(NSArray*)situations {
     
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-        _appDelegate = appDelegate;
         _situations = situations;
         self.navigationItem.title = NSLocalizedString(@"Service Alerts",@"self.navigationItem.title");
     }
@@ -91,7 +90,7 @@
     
     if( [_situations count] > 0) {
         OBASituationV2 * situation = _situations[indexPath.row];
-        OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationDelegate:_appDelegate situation:situation];
+        OBASituationViewController * vc = [[OBASituationViewController alloc] initWithSituation:situation];
         vc.args = self.args;
         [self.navigationController pushViewController:vc animated:YES];
     }

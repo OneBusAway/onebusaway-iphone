@@ -1,9 +1,9 @@
-#import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
 #import "OBATripDetailsV2.h"
 #import "OBATripInstanceRef.h"
 #import "OBAProgressIndicatorView.h"
 #import "OBARequestDrivenTableViewController.h"
+#import "OBAServiceAlertsModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
     OBAServiceAlertsModel *_serviceAlerts;
 }
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate tripInstance:(OBATripInstanceRef *)tripInstance;
+- (id)initWithTripInstance:(OBATripInstanceRef *)tripInstance;
 
 @property (nonatomic, strong) OBATripInstanceRef *tripInstance;
 @property (nonatomic, strong) OBATripDetailsV2 *tripDetails;

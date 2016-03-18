@@ -1,4 +1,3 @@
-#import "OBAApplicationDelegate.h"
 #import "OBATripDetailsV2.h"
 #import "OBAModalActivityIndicator.h"
 #import "OBATripInstanceRef.h"
@@ -7,8 +6,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAReportProblemWithTripViewController : UITableViewController <UITextFieldDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate, UIAlertViewDelegate> {
-    OBAApplicationDelegate *_appDelegate;
+@interface OBAReportProblemWithTripViewController : UITableViewController <UITextFieldDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate> {
     OBATripInstanceRef *_tripInstance;
     OBATripV2 *_trip;
     NSMutableArray *_problemIds;
@@ -22,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
     OBAModalActivityIndicator *_activityIndicatorView;
 }
 
-- (id)initWithApplicationDelegate:(OBAApplicationDelegate *)appDelegate tripInstance:(OBATripInstanceRef *)tripInstance trip:(OBATripV2 *)trip;
+- (id)initWithTripInstance:(OBATripInstanceRef *)tripInstance trip:(OBATripV2 *)trip;
 
 @property (nonatomic, strong) NSString *currentStopId;
 
