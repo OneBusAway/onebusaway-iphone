@@ -94,10 +94,29 @@ static NSString * const kStop = @"stop";
     return self.stop.firstAvailableRouteTypeForStop;
 }
 
+#pragma mark - Equality
+
+- (BOOL)isEqual:(id)object {
+    if (![super isEqual:object]) {
+        return NO;
+    }
+
+    if (![object isKindOfClass:self.class]) {
+        return NO;
+    }
+
+    return self.regionIdentifier == [object regionIdentifier] && [self.stopId isEqual:[object stopId]];
+}
+
+- (NSUInteger)hash {
+    return [[NSString stringWithFormat:@"%@_%@_%@", NSStringFromClass(self.class), @(self.regionIdentifier), self.stopId] hash];
+}
+
 #pragma mark - NSObject
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<%@: %p> :: {name: %@, group: %@, stopID: %@, regionIdentifier: %@}", self.class, self, self.name, self.group, self.stopId, @(self.regionIdentifier)];
+    return [NSString stringWithFormat:@"<%@: %p> :: {name: %@, group: %@, stopID: %@, stop: %@, regionIdentifier: %@}", self.class, self, self.name, self.group, self.stopId, self.stop, @(self.regionIdentifier)];
 }
+
 
 @end
