@@ -27,7 +27,7 @@
 		932076691C95361A005F7D4A /* OBAUIBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 932076671C95361A005F7D4A /* OBAUIBuilder.m */; };
 		9320771A1C993A4D005F7D4A /* OBARouteType.h in Headers */ = {isa = PBXBuildFile; fileRef = 932077191C9939F9005F7D4A /* OBARouteType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		932077281C9C84EC005F7D4A /* OBAStaticTableViewController+Builders.m in Sources */ = {isa = PBXBuildFile; fileRef = 932077271C9C84EC005F7D4A /* OBAStaticTableViewController+Builders.m */; };
-		9320772A1C9C85F4005F7D4A /* OBAHasServiceAlerts.h in Headers */ = {isa = PBXBuildFile; fileRef = 932077291C9C85F4005F7D4A /* OBAHasServiceAlerts.h */; };
+		9320772A1C9C85F4005F7D4A /* OBAHasServiceAlerts.h in Headers */ = {isa = PBXBuildFile; fileRef = 932077291C9C85F4005F7D4A /* OBAHasServiceAlerts.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		932BE49D1AB66D320011F2FB /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4931AB66D320011F2FB /* OBAAgenciesListViewController.m */; };
 		932BE49E1AB66D320011F2FB /* OBAContactUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4951AB66D320011F2FB /* OBAContactUsViewController.m */; };
 		932BE49F1AB66D320011F2FB /* OBAInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4971AB66D320011F2FB /* OBAInfoViewController.m */; };
@@ -1455,7 +1455,6 @@
 				934D003B1C83924400A76A90 /* OBAMapHelpers.h in Headers */,
 				934D013E1C83924D00A76A90 /* JsonUrlFetcherImpl.h in Headers */,
 				934D01261C83924D00A76A90 /* OBAStopAccessEventV2.h in Headers */,
-				9320772A1C9C85F4005F7D4A /* OBAHasServiceAlerts.h in Headers */,
 				934D00471C83924400A76A90 /* OBARegionChangeRequest.h in Headers */,
 				934D00F51C83924D00A76A90 /* OBAArrivalAndDepartureV2.h in Headers */,
 				934D01061C83924D00A76A90 /* OBAHasReferencesV2.h in Headers */,
@@ -1525,6 +1524,7 @@
 				934D00381C83924400A76A90 /* OBALogger.h in Headers */,
 				934D00D41C83924D00A76A90 /* OBATripStopTimeMapAnnotation.h in Headers */,
 				932076681C95361A005F7D4A /* OBAUIBuilder.h in Headers */,
+				9320772A1C9C85F4005F7D4A /* OBAHasServiceAlerts.h in Headers */,
 				934D00DE1C83924D00A76A90 /* OBACreateObjectJsonDigesterRule.h in Headers */,
 				9320771A1C993A4D005F7D4A /* OBARouteType.h in Headers */,
 			);

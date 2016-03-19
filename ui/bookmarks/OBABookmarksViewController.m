@@ -118,6 +118,8 @@
 
 #pragma mark - DZNEmptyDataSet
 
+#pragma mark TODO - This is duplicated from the Recent Stops controller. DRY up!
+
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
     NSString *text = NSLocalizedString(@"No Bookmarks", @"");
 

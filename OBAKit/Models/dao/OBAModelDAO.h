@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong,readonly) NSArray<OBABookmarkV2*> *bookmarksForCurrentRegion;
 @property(weak, nonatomic,readonly) NSArray * bookmarks;
 @property(weak, nonatomic,readonly) NSArray * bookmarkGroups;
-@property(weak, nonatomic,readonly) NSArray * mostRecentStops;
+@property(weak, nonatomic,readonly) NSArray<OBAStopAccessEventV2*> * mostRecentStops;
 @property(nonatomic,weak) CLLocation * mostRecentLocation;
 @property(nonatomic,readonly) OBARegionV2 * region;
 @property(weak, nonatomic,readonly) NSArray * mostRecentCustomApiUrls;
