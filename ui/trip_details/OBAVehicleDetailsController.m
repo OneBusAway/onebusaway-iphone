@@ -4,7 +4,6 @@
 #import "OBAReportProblemWithTripViewController.h"
 #import "OBASituationsViewController.h"
 #import "OBALogger.h"
-#import "OBAPresentation.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAApplication.h"
@@ -219,7 +218,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     switch (indexPath.row) {
         case 0: {
             NSString *routeShortName = trip.route.shortName ? : trip.route.longName;
-            NSString *tripHeadsign = [OBAPresentation getTripHeadsignForTrip:trip];
+            NSString *tripHeadsign = trip.tripHeadsign;
             cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", routeShortName, tripHeadsign];
             break;
         }

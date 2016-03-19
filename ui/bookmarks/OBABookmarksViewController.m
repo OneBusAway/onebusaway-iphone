@@ -37,7 +37,6 @@
     // Set up the empty data set UI.
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
-    self.tableView.tableFooterView = [UIView new];
 
     self.tableView.allowsSelectionDuringEditing = YES;
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
@@ -118,6 +117,8 @@
 }
 
 #pragma mark - DZNEmptyDataSet
+
+#pragma mark TODO - This is duplicated from the Recent Stops controller. DRY up!
 
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
     NSString *text = NSLocalizedString(@"No Bookmarks", @"");

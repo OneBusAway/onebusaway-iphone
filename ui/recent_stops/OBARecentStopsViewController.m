@@ -16,6 +16,7 @@
 
 #import "OBARecentStopsViewController.h"
 #import <OBAKit/OBAKit.h>
+#import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #import "OBAStopAccessEventV2.h"
 #import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
@@ -23,10 +24,13 @@
 #import "OBAAnalytics.h"
 #import "OBAApplication.h"
 
+@interface OBARecentStopsViewController ()<DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@end
+
 @implementation OBARecentStopsViewController
 
 - (id)init {
-    self = [super initWithStyle:UITableViewStylePlain];
+    self = [super init];
 
     if (self) {
         self.title = NSLocalizedString(@"Recent", @"Recent stops tab title");
@@ -38,60 +42,56 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _mostRecentStops = [[NSArray alloc] init];
-    [self hideEmptySeparators];
+
+    // Set up the empty data set UI.
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self reloadData];
+}
 
-    _mostRecentStops = [OBAApplication sharedApplication].modelDao.mostRecentStops;
+- (void)reloadData {
+
+    OBATableSection *section = [[OBATableSection alloc] init];
+
+    for (OBAStopAccessEventV2* stop in [OBAApplication sharedApplication].modelDao.mostRecentStops) {
+
+        [section addRow:^OBABaseRow*{
+            OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:stop.title action:^{
+                UIViewController *vc = [OBAStopViewController stopControllerWithStopID:stop.stopIds[0]];
+                [self.navigationController pushViewController:vc animated:YES];
+            }];
+            tableRow.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            tableRow.style = UITableViewCellStyleSubtitle;
+            tableRow.subtitle = stop.subtitle;
+            return tableRow;
+        }];
+    }
+
+    self.sections = @[section];
     [self.tableView reloadData];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
+#pragma mark - DZNEmptyDataSet
+
+#pragma mark TODO - This is duplicated from the Bookmarks controller. DRY up!
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    NSString *text = NSLocalizedString(@"No Recent Stops", @"");
+
+    NSDictionary *attributes = @{NSFontAttributeName: [OBATheme titleFont],
+                                 NSForegroundColorAttributeName: [OBATheme darkDisabledColor]};
+
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
-#pragma mark - Table view methods
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSUInteger count = [_mostRecentStops count];
-
-    if (count == 0) count = 1;
-
-    return count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([_mostRecentStops count] == 0) {
-        UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-        cell.textLabel.text = NSLocalizedString(@"No recent stops", @"cell.textLabel.text");
-        cell.textLabel.textAlignment = NSTextAlignmentCenter;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
-    }
-    else {
-        UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
-        OBAStopAccessEventV2 *event = _mostRecentStops[indexPath.row];
-        cell.textLabel.text = event.title;
-        cell.textLabel.textAlignment = NSTextAlignmentCenter;
-        cell.detailTextLabel.text = event.subtitle;
-        cell.detailTextLabel.textAlignment = NSTextAlignmentCenter;
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-        return cell;
-    }
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger index = indexPath.row;
-
-    if (0 <= index && index < [_mostRecentStops count]) {
-        OBAStopAccessEventV2 *event = _mostRecentStops[index];
-        UIViewController *vc = [OBAStopViewController stopControllerWithStopID:event.stopIds[0]];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
+{
+    // Totally arbitrary value. It just 'looks right'.
+    return -44;
 }
 
 #pragma mark OBANavigationTargetAware

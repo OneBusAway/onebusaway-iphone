@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class OBABaseRow;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBATableSection : NSObject
@@ -18,6 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)tableSectionWithTitle:(nullable NSString*)title rows:(NSArray*)rows;
 - (instancetype)initWithTitle:(nullable NSString*)title rows:(NSArray*)rows NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTitle:(nullable NSString*)title;
+
+- (void)addRow:(OBABaseRow* (^)(void))addBlock;
 @end
 
 NS_ASSUME_NONNULL_END

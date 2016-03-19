@@ -29,7 +29,26 @@
 - (OBATripV2*) trip {
     OBAReferencesV2 * refs = [self references];
     return [refs getTripForId:self.tripId];
+}
 
+- (NSString*)tripHeadsign {
+    if (_tripHeadsign.length > 0) {
+        return _tripHeadsign;
+    }
+
+    if (self.trip.tripHeadsign) {
+        return self.trip.tripHeadsign;
+    }
+
+    if (self.trip.route.longName) {
+        return self.trip.route.longName;
+    }
+
+    if (self.trip.route.shortName) {
+        return self.trip.route.shortName;
+    }
+
+    return nil;
 }
 
 - (OBAArrivalAndDepartureInstanceRef *) instance {
@@ -52,7 +71,9 @@
     return self.predictedDepartureTime > 0;
 }
 
-- (NSArray*) situations {
+#pragma mark - OBAHasServiceAlerts
+
+- (NSArray<OBASituationV2*>*)situations {
 
     NSMutableArray * rSituations = [NSMutableArray array];
 

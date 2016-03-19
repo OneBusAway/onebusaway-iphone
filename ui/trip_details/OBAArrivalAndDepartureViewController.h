@@ -1,14 +1,16 @@
-#import "OBARequestDrivenTableViewController.h"
-#import "OBAArrivalAndDepartureV2.h"
-#import "OBAArrivalAndDepartureInstanceRef.h"
-#import "OBAArrivalEntryTableViewCellFactory.h"
+//
+//  OBAArrivalAndDepartureViewController.h
+//  org.onebusaway.iphone
+//
+//  Created by Aaron Brethorst on 3/18/16.
+//  Copyright © 2016 OneBusAway. All rights reserved.
+//
 
-NS_ASSUME_NONNULL_BEGIN
+#import "OBAStaticTableViewController.h"
 
-@interface OBAArrivalAndDepartureViewController : OBARequestDrivenTableViewController 
+@class OBAArrivalAndDepartureV2;
 
+@interface OBAArrivalAndDepartureViewController : OBAStaticTableViewController
+@property(nonatomic,strong) OBAArrivalAndDepartureV2* arrivalAndDeparture;
 - (instancetype)initWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
-
 @end
-
-NS_ASSUME_NONNULL_END
