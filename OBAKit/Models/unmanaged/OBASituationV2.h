@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) NSString * severity;
 @property (nonatomic,strong) NSString * sensitivity;
 
+- (NSInteger)severityAsNumericValue;
+
 @end
 
 NS_ASSUME_NONNULL_END

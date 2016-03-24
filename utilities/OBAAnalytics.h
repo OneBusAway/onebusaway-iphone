@@ -20,6 +20,12 @@ extern NSString * _Nonnull const OBAAnalyticsCategorySubmit;
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ We report "YES" and "NO" to Google Analytics in several places. This method
+ DRYs those up.
+ */
+NSString * OBAStringFromBool(BOOL yn);
+
 @interface OBAAnalytics : NSObject
 + (void)configureVoiceOverStatus;
 + (void)reportEventWithCategory:(NSString *)category action:(NSString*)action label:(NSString*)label value:(nullable id)value;

@@ -27,7 +27,17 @@
 
 const NSInteger kMaxEntriesInMostRecentList = 10;
 
-@implementation OBAModelDAO
+@implementation OBAModelDAO {
+    OBAModelDAOUserPreferencesImpl * _preferencesDao;
+    NSMutableArray * _bookmarks;
+    NSMutableArray * _bookmarkGroups;
+    NSMutableArray * _mostRecentStops;
+    NSMutableDictionary * _stopPreferences;
+    CLLocation * _mostRecentLocation;
+    NSMutableSet * _visitedSituationIds;
+    OBARegionV2 * _region;
+    NSMutableArray * _mostRecentCustomApiUrls;
+}
 
 - (id) init {
     if( self = [super init] ) {
@@ -294,11 +304,11 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [self addStopAccessEvent:event];
 }
 
-- (BOOL) isVisitedSituationWithId:(NSString*)situationId {
+- (BOOL)isVisitedSituationWithId:(NSString*)situationId {
     return [_visitedSituationIds containsObject:situationId];
 }
 
-- (OBAServiceAlertsModel*) getServiceAlertsModelForSituations:(NSArray*)situations {
+- (OBAServiceAlertsModel*)getServiceAlertsModelForSituations:(NSArray*)situations {
 
     OBAServiceAlertsModel * model = [[OBAServiceAlertsModel alloc] init];
 
@@ -307,22 +317,20 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     NSInteger maxUnreadSeverityValue = -99;
     NSInteger maxSeverityValue = -99;
     
-    for( OBASituationV2 * situation in situations ) {
-        
+    for (OBASituationV2 * situation in situations) {
         NSString * severity = situation.severity;
-        NSInteger severityValue = [self getSituationSeverityAsNumericValue:severity];
+        NSInteger severityValue = [situation severityAsNumericValue];
 
-        if( ! [self isVisitedSituationWithId:situation.situationId] ) {
+        if (![self isVisitedSituationWithId:situation.situationId]) {
+            model.unreadCount += 1;
             
-            model.unreadCount++;
-            
-            if( model.unreadMaxSeverity == nil || severityValue > maxUnreadSeverityValue) {
+            if (!model.unreadMaxSeverity || severityValue > maxUnreadSeverityValue) {
                 model.unreadMaxSeverity = severity;
                 maxUnreadSeverityValue = severityValue;
             }
         }
         
-        if( model.maxSeverity == nil || severityValue > maxSeverityValue) {
+        if (!model.maxSeverity || severityValue > maxSeverityValue) {
             model.maxSeverity = severity;
             maxSeverityValue = severityValue;
         }
@@ -331,73 +339,53 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     return model;
 }
 
-
-- (void) setVisited:(BOOL)visited forSituationWithId:(NSString*)situationId {
+- (void)setVisited:(BOOL)visited forSituationWithId:(NSString*)situationId {
     
     BOOL prevVisited = [_visitedSituationIds containsObject:situationId];
 
-    if( visited != prevVisited ) {
-        if( visited ) 
-            [_visitedSituationIds addObject:situationId];
-        else 
-            [_visitedSituationIds removeObject:situationId];
-        
-        [_preferencesDao writeVisistedSituationIds:_visitedSituationIds];
+    if (visited == prevVisited) {
+        return;
     }
-}
 
-- (NSInteger) getSituationSeverityAsNumericValue:(NSString*)severity {
-    if( ! severity )
-        return -1;
-    if( [severity isEqualToString:@"noImpact"] )
-        return -2;
-    if( [severity isEqualToString:@"undefined"] )
-        return -1;
-    if( [severity isEqualToString:@"unknown"] )
-        return 0;
-    if( [severity isEqualToString:@"verySlight"] )
-        return 1;
-    if( [severity isEqualToString:@"slight"] )
-        return 2;
-    if( [severity isEqualToString:@"normal"] )
-        return 3;
-    if( [severity isEqualToString:@"normal"] )
-        return 4;
-    if( [severity isEqualToString:@"normal"] )
-        return 5;
-    return -1;
+    if (visited) {
+        [_visitedSituationIds addObject:situationId];
+    }
+    else {
+        [_visitedSituationIds removeObject:situationId];
+    }
+
+    [_preferencesDao writeVisistedSituationIds:_visitedSituationIds];
 }
 
 #pragma mark - Custom API Server
 
-- (void) addCustomApiUrl:(NSString *)customApiUrl {
+- (void)addCustomApiUrl:(NSString *)customApiUrl {
 
-    if(!customApiUrl) {
+    if (!customApiUrl) {
         return;
     }
 
     NSString *existingCustomApiUrl = nil;
 
-    for( NSString * recentCustomApiUrl in _mostRecentCustomApiUrls ) {
-        if( [recentCustomApiUrl isEqualToString:customApiUrl] ) {
+    for (NSString *recentCustomApiUrl in _mostRecentCustomApiUrls) {
+        if ([recentCustomApiUrl isEqualToString:customApiUrl]) {
             existingCustomApiUrl = customApiUrl;
             break;
         }
     }
 
-    if( existingCustomApiUrl ) {
+    if (existingCustomApiUrl) {
         [_mostRecentCustomApiUrls removeObject:existingCustomApiUrl];
         [_mostRecentCustomApiUrls insertObject:existingCustomApiUrl atIndex:0];
     }
     else {
-
         [_mostRecentCustomApiUrls insertObject:customApiUrl atIndex:0];
-
     }
 
     NSInteger over = [_mostRecentCustomApiUrls count] - kMaxEntriesInMostRecentList;
-    for( int i=0; i<over; i++)
-        [_mostRecentCustomApiUrls removeObjectAtIndex:([_mostRecentCustomApiUrls count]-1)];
+    for (NSInteger i=0; i<over; i++) {
+        [_mostRecentCustomApiUrls removeObjectAtIndex:_mostRecentCustomApiUrls.count - 1];
+    }
 
     [_preferencesDao writeMostRecentCustomApiUrls:_mostRecentCustomApiUrls];
 }
@@ -424,11 +412,11 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     return apiServerName;
 }
 
-- (NSString*) readCustomApiUrl {
+- (NSString*)readCustomApiUrl {
     return [_preferencesDao readCustomApiUrl];
 }
 
-- (void) writeCustomApiUrl:(NSString*)customApiUrl {
+- (void)writeCustomApiUrl:(NSString*)customApiUrl {
     [_preferencesDao writeCustomApiUrl:customApiUrl];
 }
 

@@ -25,4 +25,12 @@
     return [self subarrayWithRange:NSMakeRange(0, count)];
 }
 
+- (NSArray*)oba_subarrayFromIndex:(NSUInteger)index {
+    if (index >= self.count) {
+        return @[];
+    }
+
+    return [self subarrayWithRange:NSMakeRange(index, self.count - index)];
+}
+
 @end
