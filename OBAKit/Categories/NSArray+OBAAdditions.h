@@ -11,5 +11,5 @@
 @interface NSArray (OBAAdditions)
 
 - (NSArray*)oba_pickFirst:(NSUInteger)count;
-
+- (NSArray*)oba_subarrayFromIndex:(NSUInteger)index;
 @end

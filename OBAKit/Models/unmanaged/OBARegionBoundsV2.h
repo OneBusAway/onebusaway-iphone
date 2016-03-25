@@ -12,10 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBARegionBoundsV2 : NSObject<NSCoding>
 
-@property (nonatomic) double lat;
-@property (nonatomic) double latSpan;
-@property (nonatomic) double lon;
-@property (nonatomic) double lonSpan;
+@property(nonatomic,assign) double lat;
+@property(nonatomic,assign) double latSpan;
+@property(nonatomic,assign) double lon;
+@property(nonatomic,assign) double lonSpan;
 @end
 
 NS_ASSUME_NONNULL_END

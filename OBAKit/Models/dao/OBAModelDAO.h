@@ -25,17 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class OBAModelDAOUserPreferencesImpl;
 
-@interface OBAModelDAO : NSObject {
-    OBAModelDAOUserPreferencesImpl * _preferencesDao;
-    NSMutableArray * _bookmarks;
-    NSMutableArray * _bookmarkGroups;
-    NSMutableArray * _mostRecentStops;
-    NSMutableDictionary * _stopPreferences;
-    CLLocation * _mostRecentLocation;
-    NSMutableSet * _visitedSituationIds;
-    OBARegionV2 * _region;
-    NSMutableArray * _mostRecentCustomApiUrls;
-}
+@interface OBAModelDAO : NSObject
 @property(nonatomic,strong,readonly) NSArray<OBABookmarkV2*> *bookmarksForCurrentRegion;
 @property(weak, nonatomic,readonly) NSArray * bookmarks;
 @property(weak, nonatomic,readonly) NSArray * bookmarkGroups;

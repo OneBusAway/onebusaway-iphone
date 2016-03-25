@@ -91,13 +91,14 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
 
 - (void)writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
     [[OBAApplication sharedApplication].modelDao writeSetRegionAutomatically:setRegionAutomatically];
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:(setRegionAutomatically ? @"YES" : @"NO")];
+
+    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:OBAStringFromBool(setRegionAutomatically)];
 }
 
 - (BOOL)readSetRegionAutomatically {
     BOOL readSetRegionAuto = [OBAApplication sharedApplication].modelDao.readSetRegionAutomatically;
 
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:(readSetRegionAuto ? @"YES" : @"NO")];
+    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:OBAStringFromBool(readSetRegionAuto)];
     return readSetRegionAuto;
 }
 
@@ -134,14 +135,7 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
 
     [self _updateSelectedTabIndex];
 
-    UIColor *tintColor = OBAGREEN;
-    [[UINavigationBar appearance] setTintColor:tintColor];
-    [[UISearchBar appearance] setTintColor:tintColor];
-    [[UISegmentedControl appearance] setTintColor:tintColor];
-    [[UITabBar appearance] setTintColor:tintColor];
-    [[UITextField appearance] setTintColor:tintColor];
-    [[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateNormal];
-    [[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateSelected];
+    [OBATheme setAppearanceProxies];
 
     self.window.rootViewController = self.tabBarController;
 
@@ -218,10 +212,6 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
     }
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application {
-    [self applicationDidEnterBackground:application]; // call for iOS < 4.0 devices
-}
-
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     self.active = YES;
     self.tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
@@ -235,13 +225,13 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:@"API Region: Custom URL" value:nil];
     }
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", ([OBAApplication sharedApplication].modelDao.readSetRegionAutomatically ? @"YES" : @"NO")] value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", OBAStringFromBool([OBAApplication sharedApplication].modelDao.readSetRegionAutomatically)] value:nil];
 
     BOOL _showExperimentalRegions = NO;
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"]) _showExperimentalRegions = [[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Show Experimental Regions: %@", (_showExperimentalRegions ? @"YES" : @"NO")] value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Show Experimental Regions: %@", OBAStringFromBool(_showExperimentalRegions)] value:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

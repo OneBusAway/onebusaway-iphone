@@ -8,8 +8,7 @@
 
 #import "OBARegionV2.h"
 #import "OBARegionBoundsV2.h"
-
-@implementation OBARegionV2
+#import "NSArray+OBAAdditions.h"
 
 static NSString * kSiriBaseUrl = @"siriBaseUrl";
 static NSString * kObaVersionInfo = @"obaVersionInfo";
@@ -26,18 +25,65 @@ static NSString * kExperimental = @"experimental";
 static NSString * kObaBaseUrl = @"obaBaseUrl";
 static NSString * kIdentifier = @"id_number";
 static NSString * kRegionName = @"regionName";
-static NSString * kStopInfoUrl = @"stopInfoUrl";
+
+@implementation OBARegionV2
 
 - (id)init {
     self = [super init];
     if (self) {
-        _bounds = [[NSMutableArray alloc] init];
+        _bounds = @[];
     }
     return self;
 }
 
+#pragma mark - NSCoding
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeObject:self.siriBaseUrl forKey:kSiriBaseUrl];
+    [encoder encodeObject:self.obaVersionInfo forKey:kObaVersionInfo];
+    [encoder encodeBool:self.supportsSiriRealtimeApis forKey:kSupportsSiriRealtimeApis];
+    [encoder encodeObject:self.language forKey:kLanguage];
+    [encoder encodeBool:self.supportsObaRealtimeApis forKey:kSupportsObaRealtimeApis];
+    [encoder encodeObject:self.bounds forKey:kBounds];
+    [encoder encodeBool:self.supportsObaDiscoveryApis forKey:kSupportsObaDiscoveryApis];
+    [encoder encodeObject:self.contactEmail forKey:kContactEmail];
+    [encoder encodeObject:self.twitterUrl forKey:kTwitterUrl];
+    [encoder encodeObject:self.facebookUrl forKey:kFacebookUrl];
+    [encoder encodeBool:self.active forKey:kActive];
+    [encoder encodeBool:self.experimental forKey:kExperimental];
+    [encoder encodeObject:self.obaBaseUrl forKey:kObaBaseUrl];
+    [encoder encodeInteger:self.identifier forKey:kIdentifier];
+    [encoder encodeObject:self.regionName forKey:kRegionName];
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    self = [super init];
+
+    if (self) {
+        _siriBaseUrl = [decoder decodeObjectForKey:kSiriBaseUrl];
+        _obaVersionInfo = [decoder decodeObjectForKey:kObaVersionInfo];
+        _supportsSiriRealtimeApis = [decoder decodeBoolForKey:kSupportsSiriRealtimeApis];
+        _language = [decoder decodeObjectForKey:kLanguage];
+        _supportsObaRealtimeApis = [decoder decodeBoolForKey:kSupportsObaRealtimeApis];
+        _bounds = [NSArray arrayWithArray:[decoder decodeObjectForKey:kBounds]];
+        _supportsObaDiscoveryApis = [decoder decodeBoolForKey:kSupportsObaDiscoveryApis];
+        _contactEmail = [decoder decodeObjectForKey:kContactEmail];
+        _twitterUrl = [decoder decodeObjectForKey:kTwitterUrl];
+        _facebookUrl = [decoder decodeObjectForKey:kFacebookUrl];
+        _active = [decoder decodeBoolForKey:kActive];
+        _experimental = [decoder decodeBoolForKey:kExperimental];
+        _obaBaseUrl = [decoder decodeObjectForKey:kObaBaseUrl];
+        _identifier = [decoder decodeIntegerForKey:kIdentifier];
+        _regionName = [decoder decodeObjectForKey:kRegionName];
+    }
+
+    return self;
+}
+
+#pragma mark - Public Methods
+
 - (void)addBound:(OBARegionBoundsV2*)bound {
-    [_bounds addObject:bound];
+    self.bounds = [self.bounds arrayByAddingObject:bound];
 }
 
 - (CLLocationDistance)distanceFromLocation:(CLLocation*)location {
@@ -69,12 +115,10 @@ static NSString * kStopInfoUrl = @"stopInfoUrl";
     double maxX = DBL_MIN;
     double maxY = DBL_MIN;
     for (OBARegionBoundsV2 *bounds in self.bounds) {
-        MKMapPoint a = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
-                                                bounds.lat+ bounds.latSpan/ 2,
-                                                bounds.lon - bounds.lonSpan/ 2));
-        MKMapPoint b = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
-                                                bounds.lat - bounds.latSpan / 2,
-                                                bounds.lon + bounds.lonSpan / 2));
+        MKMapPoint a = MKMapPointForCoordinate(CLLocationCoordinate2DMake(bounds.lat + bounds.latSpan / 2,
+                                                                          bounds.lon - bounds.lonSpan / 2));
+        MKMapPoint b = MKMapPointForCoordinate(CLLocationCoordinate2DMake(bounds.lat - bounds.latSpan / 2,
+                                                                          bounds.lon + bounds.lonSpan / 2));
         minX = MIN(minX, MIN(a.x, b.x));
         minY = MIN(minY, MIN(a.y, b.y));
         maxX = MAX(maxX, MAX(a.x, b.x));
@@ -83,49 +127,11 @@ static NSString * kStopInfoUrl = @"stopInfoUrl";
     return MKMapRectMake(minX, minY, maxX - minX, maxY - minY);
 }
 
-- (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeObject:self.siriBaseUrl forKey:kSiriBaseUrl];
-    [encoder encodeObject:self.obaVersionInfo forKey:kObaVersionInfo];
-    [encoder encodeBool:self.supportsSiriRealtimeApis forKey:kSupportsSiriRealtimeApis];
-    [encoder encodeObject:self.language forKey:kLanguage];
-    [encoder encodeBool:self.supportsObaRealtimeApis forKey:kSupportsObaRealtimeApis];
-    [encoder encodeObject:self.bounds forKey:kBounds];
-    [encoder encodeBool:self.supportsObaDiscoveryApis forKey:kSupportsObaDiscoveryApis];
-    [encoder encodeObject:self.contactEmail forKey:kContactEmail];
-    [encoder encodeObject:self.twitterUrl forKey:kTwitterUrl];
-    [encoder encodeObject:self.facebookUrl forKey:kFacebookUrl];
-    [encoder encodeBool:self.active forKey:kActive];
-    [encoder encodeBool:self.experimental forKey:kExperimental];
-    [encoder encodeObject:self.obaBaseUrl forKey:kObaBaseUrl];
-    [encoder encodeInteger:self.identifier forKey:kIdentifier];
-    [encoder encodeObject:self.regionName forKey:kRegionName];
-    [encoder encodeObject:self.stopInfoUrl forKey:kStopInfoUrl];
-}
+#pragma mark - NSObject
 
-- (id)initWithCoder:(NSCoder *)decoder {
-    self.siriBaseUrl = [decoder decodeObjectForKey:kSiriBaseUrl];
-    self.obaVersionInfo = [decoder decodeObjectForKey:kObaVersionInfo];
-    self.supportsSiriRealtimeApis = [decoder decodeBoolForKey:kSupportsSiriRealtimeApis];
-    self.language = [decoder decodeObjectForKey:kLanguage];
-    self.supportsObaRealtimeApis = [decoder decodeBoolForKey:kSupportsObaRealtimeApis];
-    self.bounds = [decoder decodeObjectForKey:kBounds];
-    self.supportsObaRealtimeApis = [decoder decodeBoolForKey:kSupportsObaRealtimeApis];
-    self.contactEmail = [decoder decodeObjectForKey:kContactEmail];
-    self.twitterUrl = [decoder decodeObjectForKey:kTwitterUrl];
-    self.facebookUrl = [decoder decodeObjectForKey:kFacebookUrl];
-    self.active = [decoder decodeBoolForKey:kActive];
-    self.experimental = [decoder decodeBoolForKey:kExperimental];
-    self.obaBaseUrl = [decoder decodeObjectForKey:kObaBaseUrl];
-    self.identifier = [decoder decodeIntegerForKey:kIdentifier];
-    self.regionName = [decoder decodeObjectForKey:kRegionName];
-    self.stopInfoUrl = [decoder decodeObjectForKey:kStopInfoUrl];
-    
-    return self;
-}
-
-- (NSString*)debugDescription
+- (NSString*)description
 {
-    return [NSString stringWithFormat:@"<%@: %p> :: {%@ - obaBaseUrl: %@, bounds: %@, experimental: %@}", self.class, self, self.regionName, self.obaBaseUrl, MKStringFromMapRect(self.serviceRect), self.experimental ? @"YES" : @"NO"];
+    return [NSString stringWithFormat:@"<%@: %p> :: {%@ - obaBaseUrl: %@, bounds: %@, experimental: %@}", self.class, self, self.regionName, self.obaBaseUrl, self.bounds, self.experimental ? @"YES" : @"NO"];
 }
 
 @end

@@ -20,6 +20,11 @@
 + (NSString*)pathToTestFile:(NSString*)fileName;
 
 /**
+ Returns the deserialized object from the JSON file specified.
+ */
++ (id)jsonObjectFromFile:(NSString*)fileName;
+
+/**
  Used to help create test fixture data. It archives the NSCoding-conforming object to path, which can be outside of the iOS app sandbox.
 
  @param object Any object that conforms to NSCoding
