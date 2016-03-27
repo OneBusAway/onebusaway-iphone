@@ -1,7 +1,7 @@
 #import "OBAAgencyV2.h"
 
 
-@implementation OBAAgencyV2 
+@implementation OBAAgencyV2
 
 #pragma mark - NSCoding
 
