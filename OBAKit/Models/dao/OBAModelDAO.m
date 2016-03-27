@@ -75,7 +75,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 }
 
 - (NSArray*)allBookmarks {
-    NSMutableArray *all = [[NSMutableArray alloc] init];
+    NSMutableArray *all = [[NSMutableArray alloc] initWithArray:self.bookmarks];
     for (OBABookmarkGroup *group in self.bookmarkGroups) {
         [all addObjectsFromArray:group.bookmarks];
     }
