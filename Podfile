@@ -5,7 +5,7 @@ use_frameworks!
 
 link_with 'OneBusAway', 'OneBusAwayTests'
 
-pod 'ABReleaseNotesViewController', '0.1.0'
+pod 'ABReleaseNotesViewController', '0.1.1'
 pod 'GoogleAnalytics', '3.14.0'
 pod 'libextobjc', '0.4.1'
 pod 'SVProgressHUD', :git => "https://github.com/aaronbrethorst/SVProgressHUD.git"
