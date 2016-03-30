@@ -31,7 +31,6 @@ static NSTimeInterval const kRefreshTimeInterval = 30.0;
 static CGFloat const kTableHeaderHeight = 150.f;
 
 @interface OBAStopViewController ()<UIScrollViewDelegate>
-@property(nonatomic,strong) UIRefreshControl *refreshControl;
 @property(nonatomic,strong) NSTimer *refreshTimer;
 @property(nonatomic,strong) NSLock *reloadLock;
 @property(nonatomic,strong) OBAArrivalsAndDeparturesForStopV2 *arrivalsAndDepartures;
@@ -69,14 +68,12 @@ static CGFloat const kTableHeaderHeight = 150.f;
     self.tableView.contentOffset = CGPointMake(0, -kTableHeaderHeight);
 #endif
 
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(reloadData:) forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:self.refreshControl];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData:)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+
     self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimeInterval target:self selector:@selector(reloadData:) userInfo:nil repeats:YES];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -95,6 +92,11 @@ static CGFloat const kTableHeaderHeight = 150.f;
 #pragma mark - Notifications
 
 - (void)willEnterForeground:(NSNotification*)note {
+
+    // First, reload the table so that times adjust properly.
+    [self.tableView reloadData];
+
+    // And then reload remote data.
     [self reloadData:nil];
 }
 
@@ -137,10 +139,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
         return;
     }
 
-    if (animated) {
-        [self.refreshControl beginRefreshing];
-    }
-    
     __block NSString *message = nil;
     [[OBAApplication sharedApplication].modelService requestStopForID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
         self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Updated", @"message"), [OBACommon getTimeAsString]];
@@ -158,9 +156,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
         message = error.localizedDescription ?: NSLocalizedString(@"Error connecting", @"requestDidFail");
         self.navigationItem.title = message;
     }).finally(^{
-        if (animated) {
-            [self.refreshControl endRefreshing];
-        }
         [self.reloadLock unlock];
     });
 }
