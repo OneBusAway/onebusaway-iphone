@@ -92,6 +92,11 @@ static CGFloat const kTableHeaderHeight = 150.f;
 #pragma mark - Notifications
 
 - (void)willEnterForeground:(NSNotification*)note {
+
+    // First, reload the table so that times adjust properly.
+    [self.tableView reloadData];
+
+    // And then reload remote data.
     [self reloadData:nil];
 }
 
