@@ -60,7 +60,6 @@
             [label setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
 
             label.userInteractionEnabled = YES;
-            label.text = NSLocalizedString(@"Determining walk time ", @"");
             label;
         });
 

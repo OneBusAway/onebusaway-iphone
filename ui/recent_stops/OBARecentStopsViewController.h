@@ -15,13 +15,11 @@
  */
 
 #import "OBANavigationTargetAware.h"
+#import "OBAStaticTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBARecentStopsViewController : UITableViewController <OBANavigationTargetAware> {
-    NSArray * _mostRecentStops;
-}
-
+@interface OBARecentStopsViewController : OBAStaticTableViewController <OBANavigationTargetAware>
 @end
 
 NS_ASSUME_NONNULL_END

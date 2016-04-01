@@ -46,6 +46,7 @@
             l.minimumScaleFactor = 0.8f;
             l.adjustsFontSizeToFitWidth = YES;
             l.font = [OBATheme bodyFont];
+            [l setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
 
             if (kUseDebugColors) {
                 l.backgroundColor = [UIColor greenColor];
@@ -89,6 +90,7 @@
             l.adjustsFontSizeToFitWidth = YES;
             l.font = [OBATheme bodyFont];
             l.textAlignment = NSTextAlignmentRight;
+            [l setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
 
             if (kUseDebugColors) {
                 l.backgroundColor = [UIColor yellowColor];

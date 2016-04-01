@@ -3,11 +3,11 @@
 #import "OBALabelAndTextFieldTableViewCell.h"
 #import "OBALogger.h"
 #import "UITableViewController+oba_Additions.h"
-#import "OBAArrivalAndDepartureViewController.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
 #import "OBAApplicationDelegate.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "OBAArrivalAndDepartureViewController.h"
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -423,7 +423,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             //go back to view that initiated report
             NSArray *allViewControllers = self.navigationController.viewControllers;
             for (UIViewController* vc in allViewControllers.reverseObjectEnumerator) {
-                if ([vc isKindOfClass:[OBAArrivalAndDepartureViewController class]] || [vc isKindOfClass:[OBAArrivalAndDepartureViewController class]]) {
+                if ([vc isKindOfClass:[OBAArrivalAndDepartureViewController class]]) {
                     [self.navigationController popToViewController:vc animated:YES];
                     break;
                 }
