@@ -1,5 +1,5 @@
 PODS:
-  - ABReleaseNotesViewController (0.1.0)
+  - ABReleaseNotesViewController (0.1.1)
   - DateTools (1.7.0)
   - DZNEmptyDataSet (1.7.3)
   - GoogleAnalytics (3.14.0)
@@ -59,7 +59,7 @@ PODS:
   - SVProgressHUD (2.0.0)
 
 DEPENDENCIES:
-  - ABReleaseNotesViewController (= 0.1.0)
+  - ABReleaseNotesViewController (= 0.1.1)
   - DateTools (= 1.7.0)
   - DZNEmptyDataSet (= 1.7.3)
   - GoogleAnalytics (= 3.14.0)
@@ -82,7 +82,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/aaronbrethorst/SVProgressHUD.git
 
 SPEC CHECKSUMS:
-  ABReleaseNotesViewController: b378ca2ec9494027a8ea584320453a0697073e56
+  ABReleaseNotesViewController: 98de9eb73a806192341b228a7a36e37d42d7c174
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   DZNEmptyDataSet: dd7cca17c1d07dfa78956859b1e70a52505678ef
   GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc

@@ -57,6 +57,19 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
     }];
 }
 
+- (AnyPromise*)requestArrivalAndDeparture:(OBAArrivalAndDepartureInstanceRef*)instanceRef {
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestArrivalAndDepartureForStop:instanceRef completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            if (error) {
+                resolve(error);
+            }
+            else {
+                resolve([responseData entry]);
+            }
+        }];
+    }];
+}
+
 - (id<OBAModelServiceRequest>)requestStopForId:(NSString *)stopId completionBlock:(OBADataSourceCompletion)completion {
     return [self request:self.obaJsonDataSource
                      url:[NSString stringWithFormat:@"/api/where/stop/%@.json", stopId]

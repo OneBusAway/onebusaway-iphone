@@ -54,6 +54,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (AnyPromise*)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance;
 
 /**
+ Retrieves an up-to-date OBAArrivalAndDepartureV2 object.
+
+ @param instanceRef The OBAArrivalAndDepartureInstanceRef whose parent object we're updating (I think? The model architecture is still confusing to me.)
+
+ @return A promise that resolves to a OBAArrivalAndDepartureV2 object.
+ */
+- (AnyPromise*)requestArrivalAndDeparture:(OBAArrivalAndDepartureInstanceRef*)instanceRef;
+
+/**
  *  Makes an asynchronous request to fetch a stop object.
  *
  *  @param stopId     The string identifier of the stop to be fetched

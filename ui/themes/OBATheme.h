@@ -16,6 +16,13 @@
  */
 + (void)resetTheme;
 
+// Appearance Proxies
+
+/**
+ Sets tint colors, title text attributes, etc. for UIKit controls.
+ */
++ (void)setAppearanceProxies;
+
 // Fonts
 
 /**

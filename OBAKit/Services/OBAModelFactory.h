@@ -46,8 +46,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (OBAEntryWithReferencesV2*) getVehicleStatusV2FromJSON:(NSDictionary*)json error:(NSError**)error;
 
-- (OBAListWithRangeAndReferencesV2*) getCurrentVehicleEstimatesV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error;
-
 - (NSString*) getShapeV2FromJSON:(NSDictionary*)json error:(NSError*)error;
 
 @end

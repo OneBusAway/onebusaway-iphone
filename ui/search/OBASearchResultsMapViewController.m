@@ -50,6 +50,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 @property(nonatomic,assign) BOOL secondSearchTry;
 @property(nonatomic,strong) OBANavigationTarget *savedNavigationTarget;
 @property(nonatomic,strong) UIView *titleView;
+@property(nonatomic,strong) MKUserTrackingBarButtonItem *trackingBarButtonItem;
 @end
 
 @implementation OBASearchResultsMapViewController
@@ -110,7 +111,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         self.savedNavigationTarget = nil;
     }
 
-    self.navigationItem.leftBarButtonItem = [self getArrowButton];
+    self.navigationItem.leftBarButtonItem = self.trackingBarButtonItem;
 
     self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStylePlain target:self action:@selector(showListView:)];
     self.listBarButtonItem.accessibilityLabel = NSLocalizedString(@"Nearby stops list", @"self.listBarButtonItem.accessibilityLabel");
@@ -183,7 +184,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
     [self.navigationItem setRightBarButtonItem:self.listBarButtonItem animated:YES];
-    [self.navigationItem setLeftBarButtonItem:[self getArrowButton] animated:YES];
+    [self.navigationItem setLeftBarButtonItem:self.trackingBarButtonItem animated:YES];
     [searchBar setShowsCancelButton:NO animated:YES];
     [self animateOutScopeView];
 
@@ -1243,12 +1244,11 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self.scopeView.tintColor = nil;
 }
 
-- (UIBarButtonItem *)getArrowButton {
-    UIBarButtonItem *arrowButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lbs_arrow"] style:UIBarButtonItemStylePlain target:self action:@selector(onCrossHairsButton:)];
-
-    arrowButton.accessibilityLabel = NSLocalizedString(@"my location", @"arrowButton.accessibilityLabel");
-    arrowButton.accessibilityHint = NSLocalizedString(@"centers the map on current location", @"arrowButton.accessibilityHint");
-    return arrowButton;
+- (MKUserTrackingBarButtonItem*)trackingBarButtonItem {
+    if (!_trackingBarButtonItem) {
+        _trackingBarButtonItem = [[MKUserTrackingBarButtonItem alloc] initWithMapView:self.mapView];
+    }
+    return _trackingBarButtonItem;
 }
 
 @end

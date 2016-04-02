@@ -7,10 +7,11 @@
 #import "OBATripInstanceRef.h"
 #import "OBAArrivalAndDepartureInstanceRef.h"
 #import "OBADepartureStatus.h"
+#import "OBAHasServiceAlerts.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAArrivalAndDepartureV2 : OBAHasReferencesV2
+@interface OBAArrivalAndDepartureV2 : OBAHasReferencesV2<OBAHasServiceAlerts>
 
 @property (nonatomic,strong) NSString * routeId;
 @property (weak, nonatomic,readonly) OBARouteV2 * route;
@@ -46,10 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) double distanceFromStop;
 @property (nonatomic) NSInteger numberOfStopsAway;
 
-@property (weak, nonatomic,readonly) NSArray * situations;
-
-- (void) addSituationId:(NSString*)situationId;
-
 /**
  Walks through a series of possible options for giving this arrival and departure a user-sensible name.
 
@@ -74,6 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return The number of minutes until departure, suitable to display to a user.
  */
 - (NSInteger)minutesUntilBestDeparture;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -26,6 +26,8 @@
         tv.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         tv.delegate = self;
         tv.dataSource = self;
+        tv.tableFooterView = [UIView new];
+
         tv;
     });
 

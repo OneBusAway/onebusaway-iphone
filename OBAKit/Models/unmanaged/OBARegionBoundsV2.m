@@ -15,6 +15,20 @@ static NSString * kLatSpanKey = @"latSpan";
 static NSString * kLonKey = @"lon";
 static NSString * kLonSpanKey = @"lonSpan";
 
+#pragma mark - NSCoder
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    self = [super init];
+
+    if (self) {
+        self.lat = [decoder decodeDoubleForKey:kLatKey];
+        self.lon = [decoder decodeDoubleForKey:kLonKey];
+        self.latSpan = [decoder decodeDoubleForKey:kLatSpanKey];
+        self.lonSpan = [decoder decodeDoubleForKey:kLonSpanKey];
+    }
+
+    return self;
+}
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [encoder encodeDouble:self.lat forKey:kLatKey];
@@ -23,14 +37,31 @@ static NSString * kLonSpanKey = @"lonSpan";
     [encoder encodeDouble:self.lonSpan forKey:kLonSpanKey];
 }
 
-- (id)initWithCoder:(NSCoder *)decoder {
-    self.lat = [decoder decodeDoubleForKey:kLatKey];
-    self.lon = [decoder decodeDoubleForKey:kLonKey];
-    self.latSpan = [decoder decodeDoubleForKey:kLatSpanKey];
-    self.lonSpan = [decoder decodeDoubleForKey:kLonSpanKey];
-    
-    return self;
+#pragma mark - Equality
+
+- (BOOL)isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    }
+
+    if (![object isKindOfClass:self.class]) {
+        return NO;
+    }
+
+    return self.lat == [object lat] &&
+           self.lon == [object lon] &&
+           self.latSpan == [object latSpan] &&
+           self.lonSpan == [object lonSpan];
 }
 
+- (NSUInteger)hash {
+    return [[NSString stringWithFormat:@"%f_%f_%f_%f", self.lat, self.lon, self.latSpan, self.lonSpan] hash];
+}
+
+#pragma mark - NSObject
+
+- (NSString*)description {
+    return [NSString stringWithFormat:@"<%@: %p> :: {lat: %@ +/- %@ :: lon: %@ +/- %@}", self.class, self, @(self.lat), @(self.latSpan), @(self.lon), @(self.lonSpan)];
+}
 
 @end

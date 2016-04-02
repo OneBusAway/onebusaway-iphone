@@ -147,7 +147,7 @@ static NSString *kOBADefaultTwitterURL = @"http://twitter.com/onebusaway";
                              [NSString stringWithCString:systemInfo.machine
                                                 encoding:NSUTF8StringEncoding],
                              [[UIDevice currentDevice] systemVersion],
-                             [OBAApplication sharedApplication].modelDao.readSetRegionAutomatically ? @"YES" : @"NO",
+                             OBAStringFromBool([OBAApplication sharedApplication].modelDao.readSetRegionAutomatically),
                              [OBAApplication sharedApplication].modelDao.region.regionName,
                              [OBAApplication sharedApplication].modelDao.readCustomApiUrl,
                              location.coordinate.latitude,

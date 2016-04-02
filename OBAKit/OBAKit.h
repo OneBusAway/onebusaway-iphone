@@ -22,7 +22,6 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBADateHelpers.h>
 #import <OBAKit/OBALogger.h>
 #import <OBAKit/OBAMacros.h>
-#import <OBAKit/OBAPresentation.h>
 #import <OBAKit/OBAStopIconFactory.h>
 #import <OBAKit/OBAURLHelpers.h>
 #import <OBAKit/OBALocationManager.h>
@@ -54,7 +53,6 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBABookmarkGroup.h>
 #import <OBAKit/OBABookmarkV2.h>
 #import <OBAKit/OBACoordinateBounds.h>
-#import <OBAKit/OBACurrentVehicleEstimateV2.h>
 #import <OBAKit/OBAEntryWithReferencesV2.h>
 #import <OBAKit/OBAFrequencyV2.h>
 #import <OBAKit/OBAHasReferencesV2.h>
@@ -95,3 +93,4 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAImageHelpers.h>
 #import <OBAKit/OBAMapHelpers.h>
 #import <OBAKit/OBAUIBuilder.h>
+#import <OBAKit/NSArray+OBAAdditions.h>

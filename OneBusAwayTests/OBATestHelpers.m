@@ -14,6 +14,12 @@
     return [[NSBundle bundleForClass:self.class] pathForResource:[fileName stringByDeletingPathExtension] ofType:[fileName pathExtension]];
 }
 
++ (id)jsonObjectFromFile:(NSString*)fileName {
+    NSString *filePath = [OBATestHelpers pathToTestFile:fileName];
+    NSData *data = [[NSData alloc] initWithContentsOfFile:filePath];
+    return [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+}
+
 + (void)archiveObject:(id<NSCoding>)object toPath:(NSString*)path {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:object];
     [data writeToFile:path atomically:YES];

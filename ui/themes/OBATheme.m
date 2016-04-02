@@ -28,6 +28,19 @@ static UIFont *_boldFootnoteFont = nil;
     _boldFootnoteFont = nil;
 }
 
+#pragma mark - Appearance Proxies
+
++ (void)setAppearanceProxies {
+    UIColor *tintColor = OBAGREEN;
+    [[UINavigationBar appearance] setTintColor:tintColor];
+    [[UISearchBar appearance] setTintColor:tintColor];
+    [[UISegmentedControl appearance] setTintColor:tintColor];
+    [[UITabBar appearance] setTintColor:tintColor];
+    [[UITextField appearance] setTintColor:tintColor];
+    [[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateNormal];
+    [[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateSelected];
+}
+
 #pragma mark - UIFont
 
 + (UIFont*)bodyFont {
