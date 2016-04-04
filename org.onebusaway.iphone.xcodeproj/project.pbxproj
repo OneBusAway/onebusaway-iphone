@@ -105,6 +105,9 @@
 		932BE5171AB672B50011F2FB /* OBASearchResultsMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 932BE5161AB672B50011F2FB /* OBASearchResultsMapViewController.xib */; };
 		9330DEEA16050CA600E14AF4 /* credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 9330DEE916050CA600E14AF4 /* credits.html */; };
 		9330DF281606405100E14AF4 /* OBAScopeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DF271606405100E14AF4 /* OBAScopeView.m */; };
+		93392E251CB23D0000A46B61 /* OBAModelDAO_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93392E241CB23D0000A46B61 /* OBAModelDAO_Tests.m */; };
+		93392E271CB23F5C00A46B61 /* OBAModelPersistenceLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 93392E261CB23F5C00A46B61 /* OBAModelPersistenceLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93392E2A1CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 93392E291CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.m */; };
 		934446B51AB10E67005B3333 /* UINavigationController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446B41AB10E67005B3333 /* UINavigationController+oba_Additions.m */; };
 		934446B81AB10ECA005B3333 /* UITableViewCell+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446B71AB10ECA005B3333 /* UITableViewCell+oba_Additions.m */; };
 		934446BD1AB11033005B3333 /* OBALabelAndSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446BA1AB11033005B3333 /* OBALabelAndSwitchTableViewCell.m */; };
@@ -479,6 +482,10 @@
 		9330DEE916050CA600E14AF4 /* credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
 		9330DF261606405100E14AF4 /* OBAScopeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAScopeView.h; sourceTree = "<group>"; };
 		9330DF271606405100E14AF4 /* OBAScopeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAScopeView.m; sourceTree = "<group>"; };
+		93392E241CB23D0000A46B61 /* OBAModelDAO_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelDAO_Tests.m; sourceTree = "<group>"; };
+		93392E261CB23F5C00A46B61 /* OBAModelPersistenceLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelPersistenceLayer.h; sourceTree = "<group>"; };
+		93392E281CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATestHarnessPersistenceLayer.h; sourceTree = "<group>"; };
+		93392E291CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATestHarnessPersistenceLayer.m; sourceTree = "<group>"; };
 		934445F81AB105FB005B3333 /* capitolhill.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = capitolhill.gpx; sourceTree = "<group>"; };
 		934446B31AB10E67005B3333 /* UINavigationController+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+oba_Additions.h"; sourceTree = "<group>"; };
 		934446B41AB10E67005B3333 /* UINavigationController+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+oba_Additions.m"; sourceTree = "<group>"; };
@@ -951,6 +958,7 @@
 				9302B6BA1CA5A0DC002B6AC7 /* OBAVehicleStatusV2_Tests.m */,
 				9302B60A1CA4FEB0002B6AC7 /* OBARegionV2_Tests.m */,
 				932076381C909F76005F7D4A /* OBABookmarkV2_Tests.m */,
+				93392E241CB23D0000A46B61 /* OBAModelDAO_Tests.m */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -1246,6 +1254,7 @@
 				934D00591C83924D00A76A90 /* OBAModelDAO.m */,
 				934D005A1C83924D00A76A90 /* OBAModelDAOUserPreferencesImpl.h */,
 				934D005B1C83924D00A76A90 /* OBAModelDAOUserPreferencesImpl.m */,
+				93392E261CB23F5C00A46B61 /* OBAModelPersistenceLayer.h */,
 			);
 			path = dao;
 			sourceTree = "<group>";
@@ -1474,6 +1483,8 @@
 				936D2EDC1C78D7300060B7E1 /* OBAURLHelpers_Tests.m */,
 				9320763F1C90B948005F7D4A /* OBATestHelpers.h */,
 				932076401C90B948005F7D4A /* OBATestHelpers.m */,
+				93392E281CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.h */,
+				93392E291CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.m */,
 			);
 			path = OneBusAwayTests;
 			sourceTree = "<group>";
@@ -1658,6 +1669,7 @@
 				932076681C95361A005F7D4A /* OBAUIBuilder.h in Headers */,
 				9320772A1C9C85F4005F7D4A /* OBAHasServiceAlerts.h in Headers */,
 				934D00DE1C83924D00A76A90 /* OBACreateObjectJsonDigesterRule.h in Headers */,
+				93392E271CB23F5C00A46B61 /* OBAModelPersistenceLayer.h in Headers */,
 				9302B6081CA4CCDA002B6AC7 /* NSArray+OBAAdditions.h in Headers */,
 				9320771A1C993A4D005F7D4A /* OBARouteType.h in Headers */,
 			);
@@ -2105,6 +2117,7 @@
 				9302B6C31CA5A0DC002B6AC7 /* OBAFrequencyV2_Tests.m in Sources */,
 				9302B6BB1CA5A0DC002B6AC7 /* OBAAgencyV2_Tests.m in Sources */,
 				9302B6D81CA5A0DC002B6AC7 /* OBATripInstanceRef_Tests.m in Sources */,
+				93392E2A1CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.m in Sources */,
 				9302B6DB1CA5A0DC002B6AC7 /* OBATripStopTimeV2_Tests.m in Sources */,
 				932076411C90B948005F7D4A /* OBATestHelpers.m in Sources */,
 				9302B6C11CA5A0DC002B6AC7 /* OBACoordinateBounds_Tests.m in Sources */,
@@ -2124,6 +2137,7 @@
 				9302B6D51CA5A0DC002B6AC7 /* OBAStopsForRouteV2_Tests.m in Sources */,
 				932076391C909F76005F7D4A /* OBABookmarkV2_Tests.m in Sources */,
 				9302B6D31CA5A0DC002B6AC7 /* OBAStopAccessEventV2_Tests.m in Sources */,
+				93392E251CB23D0000A46B61 /* OBAModelDAO_Tests.m in Sources */,
 				9302B6D41CA5A0DC002B6AC7 /* OBAStopPreferencesV2_Tests.m in Sources */,
 				936D2EDD1C78D7300060B7E1 /* OBAURLHelpers_Tests.m in Sources */,
 				9302B6C51CA5A0DC002B6AC7 /* OBAListWithRangeAndReferencesV2_Tests.m in Sources */,

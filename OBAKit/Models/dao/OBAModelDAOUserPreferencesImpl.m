@@ -16,7 +16,6 @@
 
 #import "OBAModelDAOUserPreferencesImpl.h"
 
-
 NSString * const kBookmarksKey = @"bookmarks";
 NSString * const kBookmarkGroupsKey = @"bookmarkGroups";
 NSString * const kMostRecentStopsKey = @"mostRecentStops";

@@ -7,6 +7,7 @@
 //
 
 #import "OBAApplication.h"
+#import "OBAModelDAOUserPreferencesImpl.h"
 
 static NSString *const kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 static NSString *const kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
@@ -35,7 +36,8 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 
 - (void)start {
     self.references = [[OBAReferencesV2 alloc] init];
-    self.modelDao = [[OBAModelDAO alloc] init];
+    id<OBAModelPersistenceLayer> persistence = [[OBAModelDAOUserPreferencesImpl alloc] init];
+    self.modelDao = [[OBAModelDAO alloc] initWithModelPersistenceLayer:persistence];
     self.locationManager = [[OBALocationManager alloc] initWithModelDao:self.modelDao];
 
     self.modelService = [[OBAModelService alloc] init];
