@@ -16,6 +16,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong,readonly) UITableView *tableView;
 @property(nonatomic,strong) NSArray<OBATableSection*> *sections;
 
+/**
+ A large label that will be displayed on this view controller when it does not contain any data.
+ e.g. "No Recent Stops"
+ */
+@property(nonatomic,copy,nullable) NSString *emptyDataSetTitle;
+
+/**
+ A slightly smaller label that will be displayed on this view controller when it does not contain any data.
+ e.g. "Visit a bus stop in the app to make stuff appear here."
+ */
+@property(nonatomic,copy,nullable) NSString *emptyDataSetDescription;
+
 - (OBABaseRow*)rowAtIndexPath:(NSIndexPath*)indexPath;
 @end
 

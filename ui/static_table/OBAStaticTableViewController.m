@@ -7,10 +7,11 @@
 //
 
 #import "OBAStaticTableViewController.h"
+#import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #import "OBATableCell.h"
 #import "OBAViewModelRegistry.h"
 
-@interface OBAStaticTableViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface OBAStaticTableViewController ()<UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property(nonatomic,strong,readwrite) UITableView *tableView;
 @end
 
@@ -38,6 +39,9 @@
     }
 
     [self.view addSubview:self.tableView];
+
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -138,6 +142,43 @@
     else if (!tableView.editing && row.action) {
         row.action();
     }
+}
+
+#pragma mark - DZNEmptyDataSet
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+
+    if (!self.emptyDataSetTitle) {
+        return nil;
+    }
+
+    NSDictionary *attributes = @{NSFontAttributeName: [OBATheme titleFont],
+                                 NSForegroundColorAttributeName: [OBATheme darkDisabledColor]};
+
+    return [[NSAttributedString alloc] initWithString:self.emptyDataSetTitle attributes:attributes];
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
+{
+    if (!self.emptyDataSetDescription) {
+        return nil;
+    }
+
+    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
+    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraph.alignment = NSTextAlignmentCenter;
+
+    NSDictionary *attributes = @{NSFontAttributeName: [OBATheme bodyFont],
+                                 NSForegroundColorAttributeName: [OBATheme lightDisabledColor],
+                                 NSParagraphStyleAttributeName: paragraph};
+
+    return [[NSAttributedString alloc] initWithString:self.emptyDataSetDescription attributes:attributes];
+}
+
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
+{
+    // Totally arbitrary value. It just 'looks right'.
+    return -44;
 }
 
 @end

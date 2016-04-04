@@ -35,17 +35,10 @@
     if (self) {
         self.title = NSLocalizedString(@"Recent", @"Recent stops tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Clock"];
+        self.emptyDataSetTitle = NSLocalizedString(@"No Recent Stops", @"");
     }
 
     return self;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    // Set up the empty data set UI.
-    self.tableView.emptyDataSetSource = self;
-    self.tableView.emptyDataSetDelegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -73,25 +66,6 @@
 
     self.sections = @[section];
     [self.tableView reloadData];
-}
-
-#pragma mark - DZNEmptyDataSet
-
-#pragma mark TODO - This is duplicated from the Bookmarks controller. DRY up!
-
-- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    NSString *text = NSLocalizedString(@"No Recent Stops", @"");
-
-    NSDictionary *attributes = @{NSFontAttributeName: [OBATheme titleFont],
-                                 NSForegroundColorAttributeName: [OBATheme darkDisabledColor]};
-
-    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
-}
-
-- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
-{
-    // Totally arbitrary value. It just 'looks right'.
-    return -44;
 }
 
 #pragma mark OBANavigationTargetAware

@@ -7,15 +7,10 @@
 //
 
 #import "OBABookmarksViewController.h"
-#import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #import "OBAApplication.h"
 #import "OBABookmarkGroup.h"
 #import "OBAStopViewController.h"
 #import "OBAEditStopBookmarkViewController.h"
-
-@interface OBABookmarksViewController ()<DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
-
-@end
 
 @implementation OBABookmarksViewController
 
@@ -25,6 +20,8 @@
     if (self) {
         self.tabBarItem.title = NSLocalizedString(@"Bookmarks", @"Bookmarks tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Bookmarks"];
+        self.emptyDataSetTitle = NSLocalizedString(@"No Bookmarks", @"");
+        self.emptyDataSetDescription = NSLocalizedString(@"Tap 'Add to Bookmarks' from a stop to save a bookmark to this screen.", @"");
     }
     return self;
 }
@@ -33,10 +30,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    // Set up the empty data set UI.
-    self.tableView.emptyDataSetSource = self;
-    self.tableView.emptyDataSetDelegate = self;
 
     self.tableView.allowsSelectionDuringEditing = YES;
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
@@ -114,40 +107,6 @@
     }
 
     [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
-
-#pragma mark - DZNEmptyDataSet
-
-#pragma mark TODO - This is duplicated from the Recent Stops controller. DRY up!
-
-- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    NSString *text = NSLocalizedString(@"No Bookmarks", @"");
-
-    NSDictionary *attributes = @{NSFontAttributeName: [OBATheme titleFont],
-                                 NSForegroundColorAttributeName: [OBATheme darkDisabledColor]};
-
-    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
-}
-
-- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
-{
-    NSString *text = NSLocalizedString(@"Tap 'Add to Bookmarks' from a stop to save a bookmark to this screen.", @"");
-
-    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
-    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
-    paragraph.alignment = NSTextAlignmentCenter;
-
-    NSDictionary *attributes = @{NSFontAttributeName: [OBATheme bodyFont],
-                                 NSForegroundColorAttributeName: [OBATheme lightDisabledColor],
-                                 NSParagraphStyleAttributeName: paragraph};
-
-    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
-}
-
-- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
-{
-    // Totally arbitrary value. It just 'looks right'.
-    return -44;
 }
 
 #pragma mark - Accessors
