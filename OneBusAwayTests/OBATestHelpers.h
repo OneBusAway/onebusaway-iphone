@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class OBARegionV2;
+
 @interface OBATestHelpers : NSObject
 
 /**
@@ -40,5 +42,9 @@
  @return The unarchived object
  */
 + (id)unarchiveBundledTestFile:(NSString*)fileName;
+
+// Fixture Helpers
+
++ (OBARegionV2*)pugetSoundRegion;
 
 @end

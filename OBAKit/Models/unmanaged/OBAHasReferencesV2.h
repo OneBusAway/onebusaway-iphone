@@ -2,13 +2,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAHasReferencesV2 : NSObject {
-    OBAReferencesV2 * _references;
-}
+@interface OBAHasReferencesV2 : NSObject
+@property(nonatomic,strong) OBAReferencesV2 *references;
 
-- (id) initWithReferences:(OBAReferencesV2*)refs;
-
-@property (nonatomic,strong) OBAReferencesV2 * references;
+- (instancetype)initWithReferences:(OBAReferencesV2*)refs;
 
 @end
 

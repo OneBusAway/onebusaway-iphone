@@ -171,7 +171,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
             if (_didJustBeginShowingExperimental && self.nearbyRegion.experimental && _showExperimentalRegions) {
                 [APP_DELEGATE writeSetRegionAutomatically:YES];
-                [[OBAApplication sharedApplication].modelDao setOBARegion:self.nearbyRegion];
+                [[OBAApplication sharedApplication].modelDao setRegion:self.nearbyRegion];
                 _didJustBeginShowingExperimental = NO;
             }
         }
@@ -493,7 +493,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             break;
     }
     [[OBAApplication sharedApplication].modelDao writeCustomApiUrl:@""];
-    [[OBAApplication sharedApplication].modelDao setOBARegion:region];
+    [[OBAApplication sharedApplication].modelDao setRegion:region];
     [APP_DELEGATE regionSelected];
 }
 
@@ -579,16 +579,16 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         //Change to automatic region if available
         if (self.nearbyRegion && !self.nearbyRegion.experimental) {
             [APP_DELEGATE writeSetRegionAutomatically:YES];
-            [[OBAApplication sharedApplication].modelDao setOBARegion:self.nearbyRegion];
+            [[OBAApplication sharedApplication].modelDao setRegion:self.nearbyRegion];
         }
         //Otherwise, set region to first in list
         else if (![self isLoading] && _regions.count > 0) {
             [APP_DELEGATE writeSetRegionAutomatically:NO];
-            [[OBAApplication sharedApplication].modelDao setOBARegion:self.regions[0]];
+            [[OBAApplication sharedApplication].modelDao setRegion:self.regions[0]];
         }
         //Set region to nil if list is empty
         else if (![self isLoading]) {
-            [[OBAApplication sharedApplication].modelDao setOBARegion:nil];
+            [[OBAApplication sharedApplication].modelDao setRegion:nil];
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"No Regions Found", @"") message:NSLocalizedString(@"No available regions were found, recheck your connection and try again.", @"") preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"") style:UIAlertActionStyleDefault handler:nil]];
             [self presentViewController:alert animated:YES completion:nil];

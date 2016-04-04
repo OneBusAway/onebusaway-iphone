@@ -1,15 +1,17 @@
 #import "OBAHasReferencesV2.h"
 
-
 @implementation OBAHasReferencesV2
 
-- (id) initWithReferences:(OBAReferencesV2*)refs {
+- (instancetype)init {
+    return [self initWithReferences:[[OBAReferencesV2 alloc] init]];
+}
+
+- (instancetype)initWithReferences:(OBAReferencesV2*)refs {
     self = [super init];
-    if( self ) {
+    if (self) {
         _references = refs;
     }
     return self;
 }
-
 
 @end

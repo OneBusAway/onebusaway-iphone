@@ -38,9 +38,9 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     NSMutableDictionary * _stopPreferences;
     CLLocation * _mostRecentLocation;
     NSMutableSet * _visitedSituationIds;
-    OBARegionV2 * _region;
     NSMutableArray * _mostRecentCustomApiUrls;
 }
+@dynamic hideFutureLocationWarnings;
 
 - (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer {
     self = [super init];
@@ -64,6 +64,44 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OBAViewedArrivalsAndDeparturesForStopNotification object:nil];
+}
+
+#pragma mark - Recent
+
+- (NSArray*) mostRecentStops {
+    return _mostRecentStops;
+}
+
+- (NSArray*) mostRecentCustomApiUrls {
+    return _mostRecentCustomApiUrls;
+}
+
+- (CLLocation*) mostRecentLocation {
+    return _mostRecentLocation;
+}
+
+- (void) setMostRecentLocation:(CLLocation*)location {
+    _mostRecentLocation = location;
+    [_preferencesDao writeMostRecentLocation:location];
+}
+
+#pragma mark - Regions
+
+- (void)setRegion:(OBARegionV2 *)region {
+    if (_region == region) {
+        return;
+    }
+
+    _region = region;
+    [_preferencesDao writeOBARegion:region];
+}
+
+- (BOOL) readSetRegionAutomatically {
+    return [_preferencesDao readSetRegionAutomatically];
+}
+
+- (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
+    [_preferencesDao writeSetRegionAutomatically:setRegionAutomatically];
 }
 
 #pragma mark - Bookmarks
@@ -112,46 +150,6 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 - (NSArray *)bookmarkGroups {
     return _bookmarkGroups;
 }
-
-#pragma mark - Recent
-
-- (NSArray*) mostRecentStops {
-    return _mostRecentStops;
-}
-
-- (NSArray*) mostRecentCustomApiUrls {
-    return _mostRecentCustomApiUrls;
-}
-
-- (CLLocation*) mostRecentLocation {
-    return _mostRecentLocation;
-}
-
-- (void) setMostRecentLocation:(CLLocation*)location {
-    _mostRecentLocation = location;
-    [_preferencesDao writeMostRecentLocation:location];
-}
-
-#pragma mark - Regions
-
-- (OBARegionV2*) region {
-    return _region;
-}
-
-- (void) setOBARegion:(OBARegionV2*)newRegion {
-    _region = newRegion;
-    [_preferencesDao writeOBARegion:newRegion];
-}
-
-- (BOOL) readSetRegionAutomatically {
-    return [_preferencesDao readSetRegionAutomatically];
-}
-
-- (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
-    [_preferencesDao writeSetRegionAutomatically:setRegionAutomatically];
-}
-
-#pragma mark - Bookmarks
 
 - (OBABookmarkV2*)createTransientBookmark:(OBAStopV2*)stop {
     OBABookmarkV2 * bookmark = [[OBABookmarkV2 alloc] initWithStop:stop region:self.region];
@@ -222,7 +220,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     if (!group) {
         [_bookmarks addObject:bookmark];
         [bookmark.group.bookmarks removeObject:bookmark];
-    } else if (bookmark.group != nil) {
+    } else if (bookmark.group) {
         [bookmark.group.bookmarks removeObject:bookmark];
         [group.bookmarks addObject:bookmark];
     } else {

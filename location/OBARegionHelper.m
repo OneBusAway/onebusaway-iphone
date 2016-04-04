@@ -144,7 +144,7 @@
             oldRegion = [OBAApplication sharedApplication].modelDao.region.regionName;
         }
 
-        [[OBAApplication sharedApplication].modelDao setOBARegion:self.regions[0]];
+        [OBAApplication sharedApplication].modelDao.region = self.regions[0];
         [[OBAApplication sharedApplication] refreshSettings];
         [[OBAApplication sharedApplication].locationManager removeDelegate:self];
         [APP_DELEGATE writeSetRegionAutomatically:YES];
@@ -159,7 +159,7 @@
     if (regionName) {
         for (OBARegionV2 *region in self.regions) {
             if ([region.regionName isEqualToString:regionName]) {
-                [[OBAApplication sharedApplication].modelDao setOBARegion:region];
+                [OBAApplication sharedApplication].modelDao.region = region;
                 break;
             }
         }

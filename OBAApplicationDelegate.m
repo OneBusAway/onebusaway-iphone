@@ -102,11 +102,6 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
     return readSetRegionAuto;
 }
 
-- (void)setOBARegion:(OBARegionV2 *)region {
-    [[OBAApplication sharedApplication].modelDao setOBARegion:region];
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:region.regionName];
-}
-
 - (void)navigateToTarget:(OBANavigationTarget *)navigationTarget {
     [self performSelector:@selector(_navigateToTargetInternal:) withObject:navigationTarget afterDelay:0];
 }

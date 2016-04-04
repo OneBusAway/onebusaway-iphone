@@ -32,8 +32,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(weak, nonatomic,readonly) NSArray * bookmarkGroups;
 @property(weak, nonatomic,readonly) NSArray<OBAStopAccessEventV2*> * mostRecentStops;
 @property(nonatomic,weak) CLLocation * mostRecentLocation;
-@property(nonatomic,readonly) OBARegionV2 * region;
+@property(nonatomic,strong,nullable) OBARegionV2 *region;
 @property(weak, nonatomic,readonly) NSArray * mostRecentCustomApiUrls;
+@property(nonatomic,assign) BOOL hideFutureLocationWarnings;
 
 - (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer;
 
@@ -56,13 +57,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) setVisited:(BOOL)visited forSituationWithId:(NSString*)situationId;
 
 - (OBAServiceAlertsModel*) getServiceAlertsModelForSituations:(NSArray*)situations;
-
-- (void) setOBARegion:(nullable OBARegionV2*)newRegion;
-/**
- * We persist hiding location warnings across application settings for users who have disabled location services for the app
- */
-- (BOOL) hideFutureLocationWarnings;
-- (void) setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings;
 
 - (BOOL) readSetRegionAutomatically;
 - (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically;
