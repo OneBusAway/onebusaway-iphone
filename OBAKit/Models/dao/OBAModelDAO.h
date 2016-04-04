@@ -20,6 +20,7 @@
 #import "OBAStopPreferencesV2.h"
 #import "OBAServiceAlertsModel.h"
 #import "OBARegionV2.h"
+#import "OBAModelPersistenceLayer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -33,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,weak) CLLocation * mostRecentLocation;
 @property(nonatomic,readonly) OBARegionV2 * region;
 @property(weak, nonatomic,readonly) NSArray * mostRecentCustomApiUrls;
+
+- (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer;
 
 - (OBABookmarkV2*)createTransientBookmark:(OBAStopV2*)stop;
 - (OBABookmarkV2*)bookmarkForStop:(OBAStopV2*)stop;

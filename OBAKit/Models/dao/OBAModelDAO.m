@@ -27,8 +27,11 @@
 
 const NSInteger kMaxEntriesInMostRecentList = 10;
 
+@interface OBAModelDAO ()
+@property(nonatomic,strong) id<OBAModelPersistenceLayer> preferencesDao;
+@end
+
 @implementation OBAModelDAO {
-    OBAModelDAOUserPreferencesImpl * _preferencesDao;
     NSMutableArray * _bookmarks;
     NSMutableArray * _bookmarkGroups;
     NSMutableArray * _mostRecentStops;
@@ -39,9 +42,11 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     NSMutableArray * _mostRecentCustomApiUrls;
 }
 
-- (id) init {
-    if( self = [super init] ) {
-        _preferencesDao = [[OBAModelDAOUserPreferencesImpl alloc] init];
+- (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer {
+    self = [super init];
+
+    if (self) {
+        _preferencesDao = persistenceLayer;
         _bookmarks = [[NSMutableArray alloc] initWithArray:[_preferencesDao readBookmarks]];
         _bookmarkGroups = [[NSMutableArray alloc] initWithArray:[_preferencesDao readBookmarkGroups]];
         _mostRecentStops = [[NSMutableArray alloc] initWithArray:[_preferencesDao readMostRecentStops]];
@@ -53,6 +58,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewedArrivalsAndDeparturesForStop:) name:OBAViewedArrivalsAndDeparturesForStopNotification object:nil];
     }
+
     return self;
 }
 
