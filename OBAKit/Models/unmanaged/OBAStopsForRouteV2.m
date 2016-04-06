@@ -23,7 +23,7 @@
 }
 
 - (OBARouteV2*) route {
-    return [_references getRouteForId:_routeId];
+    return [self.references getRouteForId:_routeId];
 }
 
 - (NSArray*) stops {

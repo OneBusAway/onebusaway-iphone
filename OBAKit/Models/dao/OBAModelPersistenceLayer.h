@@ -11,6 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol OBAModelPersistenceLayer <NSObject>
+@property(nonatomic,assign) BOOL hideFutureLocationWarnings;
+
 - (NSArray*) readBookmarks;
 - (void) writeBookmarks:(NSArray*)source;
 
@@ -25,9 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (CLLocation * _Nullable) readMostRecentLocation;
 - (void) writeMostRecentLocation:(CLLocation*)mostRecentLocation;
-
-- (BOOL) hideFutureLocationWarnings;
-- (void) setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings;
 
 - (NSSet*) readVisistedSituationIds;
 - (void) writeVisistedSituationIds:(NSSet*)situationIds;

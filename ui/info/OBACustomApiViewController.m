@@ -118,7 +118,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     [self.modelDao addCustomApiUrl:URL.absoluteString];
     [self.modelDao writeCustomApiUrl:URL.absoluteString];
     [self.modelDao writeSetRegionAutomatically:NO];
-    [self.modelDao setOBARegion:nil];
+    [self.modelDao setRegion:nil];
 
     [[NSUserDefaults standardUserDefaults] synchronize];
     [APP_DELEGATE regionSelected];

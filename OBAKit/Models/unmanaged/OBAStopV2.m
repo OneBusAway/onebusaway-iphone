@@ -131,11 +131,16 @@
 
 #pragma mark NSObject
 
-- (BOOL) isEqual:(id)object {
-    if (![object isKindOfClass:[OBAStopV2 class]])
+- (BOOL)isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    }
+
+    if (![object isKindOfClass:[OBAStopV2 class]]) {
         return NO;
-    OBAStopV2 * stop = object;
-    return [self.stopId isEqual:stop.stopId];
+    }
+
+    return [self.stopId isEqual:[object stopId]];
 }
 
 - (NSString*) description {

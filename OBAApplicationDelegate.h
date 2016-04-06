@@ -57,9 +57,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Abstracts OBAModelDAO setters / getters and calls the appropriate analytics methods.
  */
--(void) writeSetRegionAutomatically:(BOOL) setRegionAutomatically;
--(BOOL) readSetRegionAutomatically;
--(void) setOBARegion:(OBARegionV2*) region;
+- (void)writeSetRegionAutomatically:(BOOL) setRegionAutomatically;
+- (BOOL)readSetRegionAutomatically;
 @end
 
 NS_ASSUME_NONNULL_END

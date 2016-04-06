@@ -10,14 +10,28 @@
 #import <MapKit/MapKit.h>
 #import "OBARegionV2.h"
 
+@interface OBATestHarnessPersistenceLayer ()
+@property(nonatomic,strong) NSArray *bookmarks;
+@end
+
 @implementation OBATestHarnessPersistenceLayer
+@synthesize hideFutureLocationWarnings;
+
+- (instancetype)init {
+    self = [super init];
+
+    if (self) {
+        self.bookmarks = @[];
+    }
+    return self;
+}
 
 - (NSArray*)readBookmarks {
-    return nil;
+    return self.bookmarks;
 }
 
 - (void)writeBookmarks:(NSArray*)source {
-    //
+    self.bookmarks = source;
 }
 
 - (NSArray*)readBookmarkGroups {
@@ -49,14 +63,6 @@
 }
 
 - (void)writeMostRecentLocation:(CLLocation*)mostRecentLocation {
-    //
-}
-
-- (BOOL)hideFutureLocationWarnings {
-    return NO;
-}
-
-- (void)setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings {
     //
 }
 

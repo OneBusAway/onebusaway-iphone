@@ -7,6 +7,7 @@
 //
 
 #import "OBATestHelpers.h"
+#import <OBAKit/OBAKit.h>
 
 @implementation OBATestHelpers
 
@@ -31,4 +32,9 @@
     return [NSKeyedUnarchiver unarchiveObjectWithData:data];
 }
 
++ (OBARegionV2*)pugetSoundRegion {
+    OBAModelFactory *modelFactory = [[OBAModelFactory alloc] initWithReferences:[[OBAReferencesV2 alloc] init]];
+    NSArray *regions = [[modelFactory getRegionsV2FromJson:[OBATestHelpers jsonObjectFromFile:@"regions-v3.json"] error:nil] values];
+    return regions[1];
+}
 @end
