@@ -38,4 +38,10 @@
     [coder encodeObject:_bookmarks forKey:@"bookmarks"];
 }
 
+#pragma mark - NSObject
+
+- (NSString*) description {
+    return [NSString stringWithFormat:@"<%@ %p> {name: %@, bookmarks: [%@]}", NSStringFromClass(self.class), self, self.name, self.bookmarks];
+}
+
 @end

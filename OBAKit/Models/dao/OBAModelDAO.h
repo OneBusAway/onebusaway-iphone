@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(weak, nonatomic,readonly) NSArray * bookmarks;
 @property(weak, nonatomic,readonly) NSArray * bookmarkGroups;
 @property(weak, nonatomic,readonly) NSArray<OBAStopAccessEventV2*> * mostRecentStops;
-@property(nonatomic,weak) CLLocation * mostRecentLocation;
+@property(nonatomic,strong) CLLocation *mostRecentLocation;
 @property(nonatomic,strong,nullable) OBARegionV2 *region;
 @property(weak, nonatomic,readonly) NSArray * mostRecentCustomApiUrls;
 @property(nonatomic,assign) BOOL hideFutureLocationWarnings;
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (OBABookmarkV2*)bookmarkForStop:(OBAStopV2*)stop;
 - (void) addNewBookmark:(OBABookmarkV2*)bookmark;
 - (void) saveExistingBookmark:(OBABookmarkV2*)bookmark;
-- (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex;
+- (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex;
 - (void) removeBookmark:(OBABookmarkV2*) bookmark;
 
 - (void) addOrSaveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup;
