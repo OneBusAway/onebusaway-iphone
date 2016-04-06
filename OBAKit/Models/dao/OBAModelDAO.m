@@ -170,7 +170,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     }
 }
 
-- (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex {
+- (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex {
     OBABookmarkV2 * bm = _bookmarks[startIndex];
     [_bookmarks removeObjectAtIndex:startIndex];
     [_bookmarks insertObject:bm atIndex:endIndex];

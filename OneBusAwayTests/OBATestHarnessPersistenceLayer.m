@@ -12,6 +12,8 @@
 
 @interface OBATestHarnessPersistenceLayer ()
 @property(nonatomic,strong) NSArray *bookmarks;
+@property(nonatomic,strong) CLLocation *mostRecentLocation;
+@property(nonatomic,assign) BOOL automaticallySetRegion;
 @end
 
 @implementation OBATestHarnessPersistenceLayer
@@ -22,6 +24,7 @@
 
     if (self) {
         self.bookmarks = @[];
+        self.automaticallySetRegion = YES; // per the NSUD-default setting that happens in OBAApplicationDelegate.m
     }
     return self;
 }
@@ -59,11 +62,11 @@
 }
 
 - (CLLocation *)readMostRecentLocation {
-    return nil;
+    return self.mostRecentLocation;
 }
 
 - (void)writeMostRecentLocation:(CLLocation*)mostRecentLocation {
-    //
+    self.mostRecentLocation = mostRecentLocation;
 }
 
 - (NSSet*)readVisistedSituationIds {
@@ -83,11 +86,11 @@
 }
 
 - (BOOL)readSetRegionAutomatically {
-    return NO;
+    return self.automaticallySetRegion;
 }
 
 - (void)writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
-    //
+    self.automaticallySetRegion = setRegionAutomatically;
 }
 
 - (NSString*)readCustomApiUrl {
