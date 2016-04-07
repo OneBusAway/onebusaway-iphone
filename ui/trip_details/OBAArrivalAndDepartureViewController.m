@@ -65,6 +65,17 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [self cancelTimer];
 }
 
+#pragma mark - Notifications
+
+- (void)willEnterForeground:(NSNotification*)note {
+
+    // First, reload the table so that times adjust properly.
+    [self.tableView reloadData];
+
+    // And then reload remote data.
+    [self reloadData:nil];
+}
+
 #pragma mark - Timer/Refresh Control
 
 - (void)reloadData:(id)sender {
