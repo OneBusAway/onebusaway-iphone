@@ -31,6 +31,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30.0;
 static CGFloat const kTableHeaderHeight = 150.f;
 
 @interface OBAStopViewController ()<UIScrollViewDelegate>
+@property(nonatomic,strong) UIRefreshControl *refreshControl;
 @property(nonatomic,strong) NSTimer *refreshTimer;
 @property(nonatomic,strong) NSLock *reloadLock;
 @property(nonatomic,strong) OBAArrivalsAndDeparturesForStopV2 *arrivalsAndDepartures;
@@ -69,11 +70,14 @@ static CGFloat const kTableHeaderHeight = 150.f;
 #endif
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData:)];
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(reloadData:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.refreshControl];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
+    
     self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimeInterval target:self selector:@selector(reloadData:) userInfo:nil repeats:YES];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -139,6 +143,12 @@ static CGFloat const kTableHeaderHeight = 150.f;
         return;
     }
 
+    if (animated) {
+        [self.refreshControl beginRefreshing];
+    }
+
+    self.navigationItem.title = NSLocalizedString(@"Updating...", @"Title of the Stop UI Controller while it is updating its content.");
+    
     __block NSString *message = nil;
     [[OBAApplication sharedApplication].modelService requestStopForID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
         self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Updated", @"message"), [OBACommon getTimeAsString]];
@@ -156,6 +166,9 @@ static CGFloat const kTableHeaderHeight = 150.f;
         message = error.localizedDescription ?: NSLocalizedString(@"Error connecting", @"requestDidFail");
         self.navigationItem.title = message;
     }).finally(^{
+        if (animated) {
+            [self.refreshControl endRefreshing];
+        }
         [self.reloadLock unlock];
     });
 }
