@@ -11,6 +11,7 @@
 #import "OBATestHelpers.h"
 #import "OBATestHarnessPersistenceLayer.h"
 #import "OBABookmarkGroup.h"
+#import "OBABookmarkV2.h"
 
 @interface OBAModelDAO_Tests : XCTestCase
 @property(nonatomic,strong) OBATestHarnessPersistenceLayer *persistenceLayer;
@@ -43,11 +44,10 @@
 
 #pragma mark - Bookmarks
 
-// It doesn't touch the persistence layer
-- (void)testCreateTransientBookmark {
+- (void)testTransientBookmarksDontTouchPersistenceLayer {
     OBAStopV2 *stop = [[OBAStopV2 alloc] init];
     stop.stopId = @"1234567890";
-    OBABookmarkV2 *bookmark = [self.modelDAO createTransientBookmark:stop];
+    OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithStop:stop region:self.modelDAO.region];
     XCTAssertEqual(self.persistenceLayer.readBookmarks.count, 0);
 
     XCTAssertEqualObjects(bookmark.stop, stop);
@@ -61,7 +61,7 @@
 - (void)testBookmarkForStop {
     OBAStopV2 *stop = [self.class generateStop];
     OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithStop:stop region:self.modelDAO.region];
-    [self.modelDAO addNewBookmark:bookmark];
+    [self.modelDAO saveBookmark:bookmark];
 
     XCTAssertEqualObjects([self.modelDAO bookmarkForStop:stop], bookmark);
 }
@@ -83,7 +83,7 @@
     OBABookmarkV2 *looseBookmark = [self generateBookmark];
     OBABookmarkV2 *groupedBookmark = [self generateBookmark];
     OBABookmarkGroup *group = [self groupWithBookmark:groupedBookmark];
-    [self.modelDAO addNewBookmark:looseBookmark];
+    [self.modelDAO saveBookmark:looseBookmark];
     [self.modelDAO addOrSaveBookmarkGroup:group];
 
     NSSet *allBookmarks = [NSSet setWithArray:[self.modelDAO bookmarksForCurrentRegion]];
@@ -92,22 +92,54 @@
     XCTAssertEqualObjects(allBookmarks, local);
 }
 
+#pragma mark - Create New Bookmark
+
+- (void)testAddNewLooseBookmark {
+    OBABookmarkV2 *looseBookmark = [self generateBookmark];
+    [self.modelDAO saveBookmark:looseBookmark];
+    XCTAssertEqual(self.modelDAO.bookmarks.count, 1);
+    XCTAssertEqualObjects(self.persistenceLayer.readBookmarks, @[looseBookmark]);
+}
+
+- (void)testAddNewGroupedBookmark {
+    OBABookmarkV2 *groupedBookmark = [self generateBookmark];
+    OBABookmarkGroup *group = [self groupWithBookmark:groupedBookmark];
+    [self.modelDAO addOrSaveBookmarkGroup:group];
+
+    XCTAssertEqual(self.persistenceLayer.readBookmarkGroups.count, 1);
+}
+
 #pragma mark - Save Existing Bookmark
 
-- (void)testBookmarkDoesntYetExist {
-    //
+- (void)testSaveExistingBookmarkWhenItDoesntYetExist {
+    OBABookmarkV2 *bookmark = [self generateBookmark];
+    XCTAssertEqual(self.modelDAO.bookmarks.count,0);
+    [self.modelDAO saveBookmark:bookmark];
+    XCTAssertEqual(self.persistenceLayer.readBookmarks.count, 1);
 }
 
-- (void)testBookmarkBelongsToGroup {
-    //
+- (void)testSaveExistingBookmarkWhenItBelongsToAGroup {
+    OBABookmarkV2 *bookmark = [self generateBookmark];
+    OBABookmarkGroup *group = [self groupWithBookmark:bookmark];
+    [self.modelDAO addOrSaveBookmarkGroup:group];
+    XCTAssertEqual(self.modelDAO.bookmarks.count,0);
+    XCTAssertEqual(self.persistenceLayer.readBookmarks.count, 0);
+    XCTAssertEqual(self.modelDAO.bookmarkGroups.count, 1);
+    XCTAssertEqual(self.persistenceLayer.readBookmarkGroups.count, 1);
+    XCTAssertEqual([self.persistenceLayer.readBookmarkGroups.firstObject bookmarks].count, 1);
+    bookmark.name = @"I AM NOW CHANGED";
+    [self.modelDAO saveBookmark:bookmark];
+    XCTAssertEqual(self.persistenceLayer.readBookmarks.count, 0);
+    XCTAssertEqualObjects([[[self.persistenceLayer.readBookmarkGroups.firstObject bookmarks] firstObject] name], bookmark.name);
 }
 
-- (void)testBookmarkIsLoose {
-    //
-}
-
-- (void)testBookmarkIsInvalidIsThisReallyAThing {
-    //
+- (void)testSavingLoosePreexistingBookmark {
+    NSString *bookmarkName = @"NEW TITLE - LOREM IPSUM DOLOR SIT AMET";
+    OBABookmarkV2 *bookmark = [self generateBookmark];
+    [self.modelDAO saveBookmark:bookmark];
+    bookmark.name = bookmarkName;
+    [self.modelDAO saveBookmark:bookmark];
+    XCTAssertEqualObjects([self.persistenceLayer.readBookmarks.firstObject name], bookmarkName);
 }
 
 #pragma mark - Move Bookmark
@@ -173,6 +205,7 @@
 - (OBABookmarkGroup*)groupWithBookmark:(OBABookmarkV2*)bookmark {
     OBABookmarkGroup *g = [[OBABookmarkGroup alloc] initWithName:@"Bookmark Group"];
     [g.bookmarks addObject:bookmark];
+    bookmark.group = g;
 
     return g;
 }
@@ -188,6 +221,7 @@
 + (OBAStopV2*)generateStop {
     OBAStopV2 *stop = [[OBAStopV2 alloc] init];
     stop.stopId = [[NSUUID UUID] UUIDString];
+    stop.name = stop.stopId;
     return stop;
 }
 

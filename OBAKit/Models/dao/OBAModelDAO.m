@@ -151,21 +151,15 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     return _bookmarkGroups;
 }
 
-- (OBABookmarkV2*)createTransientBookmark:(OBAStopV2*)stop {
-    OBABookmarkV2 * bookmark = [[OBABookmarkV2 alloc] initWithStop:stop region:self.region];
-    return bookmark;
-}
-
-- (void) addNewBookmark:(OBABookmarkV2*)bookmark {
-    [_bookmarks addObject:bookmark];
-    [_preferencesDao writeBookmarks:_bookmarks];
-}
-
-- (void)saveExistingBookmark:(OBABookmarkV2*)bookmark {
+- (void)saveBookmark:(OBABookmarkV2*)bookmark {
     if (bookmark.group) {
         [self addOrSaveBookmarkGroup:bookmark.group];
     }
     else {
+        if (![_bookmarks containsObject:bookmark]) {
+            [_bookmarks addObject:bookmark];
+        }
+
         [_preferencesDao writeBookmarks:_bookmarks];
     }
 }

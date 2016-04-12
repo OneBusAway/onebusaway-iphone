@@ -14,22 +14,15 @@
  * limitations under the License.
  */
 
-#import "OBABookmarkV2.h"
+#import <OBAKit/OBABookmarkV2.h>
 #import "OBAEditStopBookmarkGroupViewController.h"
 
 @class OBAStopV2;
 
-typedef NS_ENUM(NSInteger, OBABookmarkEditType) {
-    OBABookmarkEditNew=0,
-    OBABookmarkEditExisting=1
-};
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAEditStopBookmarkViewController : UITableViewController <OBABookmarkGroupVCDelegate>
-
 - (instancetype)initWithBookmark:(OBABookmarkV2 *)bookmark forStop:(OBAStopV2*)stop;
-- (id)initWithBookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType __deprecated;
 @end
 
 NS_ASSUME_NONNULL_END

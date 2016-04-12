@@ -14,6 +14,7 @@
 @property(nonatomic,strong) NSArray *bookmarks;
 @property(nonatomic,strong) CLLocation *mostRecentLocation;
 @property(nonatomic,assign) BOOL automaticallySetRegion;
+@property(nonatomic,strong) NSArray *bookmarkGroups;
 @end
 
 @implementation OBATestHarnessPersistenceLayer
@@ -24,6 +25,7 @@
 
     if (self) {
         self.bookmarks = @[];
+        self.bookmarkGroups = @[];
         self.automaticallySetRegion = YES; // per the NSUD-default setting that happens in OBAApplicationDelegate.m
     }
     return self;
@@ -38,11 +40,11 @@
 }
 
 - (NSArray*)readBookmarkGroups {
-    return nil;
+    return self.bookmarkGroups;
 }
 
 - (void)writeBookmarkGroups:(NSArray*)source {
-    //
+    self.bookmarkGroups = source;
 }
 
 - (NSArray*)readMostRecentStops {

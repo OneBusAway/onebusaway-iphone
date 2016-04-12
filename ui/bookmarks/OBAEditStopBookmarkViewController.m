@@ -26,8 +26,6 @@
 #import "OBAApplication.h"
 
 @interface OBAEditStopBookmarkViewController ()
-
-@property (nonatomic, assign) OBABookmarkEditType editType;
 @property (nonatomic, strong) OBABookmarkV2 *bookmark;
 @property (nonatomic, strong) OBABookmarkGroup *selectedGroup;
 @property (nonatomic, strong) NSHashTable *requests;
@@ -41,45 +39,20 @@
     self = [super init];
 
     if (self) {
-        OBABookmarkEditType editType = bookmark ? OBABookmarkEditExisting : OBABookmarkEditNew;
-        bookmark = bookmark ?: [[OBAApplication sharedApplication].modelDao createTransientBookmark:stop];
+        self.tableView.scrollEnabled = NO;
 
-        [self commonInitWithBookmark:bookmark editType:editType];
+        _bookmark = bookmark ?: [[OBABookmarkV2 alloc] initWithStop:stop region:[OBAApplication sharedApplication].modelDao.region];
+        _selectedGroup = _bookmark.group;
+
+        _requests = [NSHashTable weakObjectsHashTable];
+        _stops = [[NSMutableDictionary alloc] init];
+
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
+
+        self.navigationItem.title = NSLocalizedString(@"Edit Bookmark", @"OBABookmarkEditExisting");
     }
     return self;
-}
-
-- (id)initWithBookmark:(OBABookmarkV2 *)bookmark editType:(OBABookmarkEditType)editType {
-    if (self = [super initWithStyle:UITableViewStylePlain]) {
-        [self commonInitWithBookmark:bookmark editType:editType];
-    }
-
-    return self;
-}
-
-- (void)commonInitWithBookmark:(OBABookmarkV2*)bookmark editType:(OBABookmarkEditType)editType {
-    self.tableView.scrollEnabled = NO;
-
-    _bookmark = bookmark;
-    _selectedGroup = bookmark.group;
-    _editType = editType;
-
-    _requests = [NSHashTable weakObjectsHashTable];
-    _stops = [[NSMutableDictionary alloc] init];
-
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
-
-    switch (_editType) {
-        case OBABookmarkEditNew:
-            self.navigationItem.title = NSLocalizedString(@"Add Bookmark", @"OBABookmarkEditNew");
-            break;
-
-        case OBABookmarkEditExisting:
-            self.navigationItem.title = NSLocalizedString(@"Edit Bookmark", @"OBABookmarkEditExisting");
-            break;
-    }
-
 }
 
 #pragma mark - UIViewController
@@ -175,11 +148,7 @@
     self.bookmark.name = self.textField.text;
 
     if (!self.bookmark.group && !self.selectedGroup) {
-        if (self.editType == OBABookmarkEditNew) {
-            [dao addNewBookmark:self.bookmark];
-        }
-
-        [dao saveExistingBookmark:self.bookmark];
+        [dao saveBookmark:self.bookmark];
     }
     else {
         [dao moveBookmark:self.bookmark toGroup:self.selectedGroup];
