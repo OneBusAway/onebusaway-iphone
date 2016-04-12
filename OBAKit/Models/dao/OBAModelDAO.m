@@ -153,7 +153,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
 - (void)saveBookmark:(OBABookmarkV2*)bookmark {
     if (bookmark.group) {
-        [self addOrSaveBookmarkGroup:bookmark.group];
+        [self saveBookmarkGroup:bookmark.group];
     }
     else {
         if (![_bookmarks containsObject:bookmark]) {
@@ -165,10 +165,27 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 }
 
 - (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex {
-    OBABookmarkV2 * bm = _bookmarks[startIndex];
-    [_bookmarks removeObjectAtIndex:startIndex];
-    [_bookmarks insertObject:bm atIndex:endIndex];
-    [_preferencesDao writeBookmarks:_bookmarks];
+    if (startIndex == endIndex) {
+        return;
+    }
+
+    if (startIndex >= _bookmarks.count) {
+        return;
+    }
+
+    @synchronized (self) {
+        NSUInteger bookmarksCount = _bookmarks.count;
+
+        OBABookmarkV2 * bm = _bookmarks[startIndex];
+        [_bookmarks removeObjectAtIndex:startIndex];
+
+        // If the caller put this bookmark out of bounds, then
+        // just stick the bookmark at the end of the array and
+        // call it a day.
+        endIndex = MIN(endIndex, bookmarksCount - 1);
+        [_bookmarks insertObject:bm atIndex:endIndex];
+        [_preferencesDao writeBookmarks:_bookmarks];
+    }
 }
 
 - (void)removeBookmark:(OBABookmarkV2*)bookmark {
@@ -190,7 +207,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     }
 }
 
-- (void) addOrSaveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup {
+- (void)saveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup {
     if (![_bookmarkGroups containsObject:bookmarkGroup]) {
         [_bookmarkGroups addObject:bookmarkGroup];
     }
@@ -210,14 +227,16 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
 }
 
-- (void) moveBookmark:(OBABookmarkV2*)bookmark toGroup:(OBABookmarkGroup*)group {
+- (void)moveBookmark:(OBABookmarkV2*)bookmark toGroup:(OBABookmarkGroup*)group {
     if (!group) {
         [_bookmarks addObject:bookmark];
         [bookmark.group.bookmarks removeObject:bookmark];
-    } else if (bookmark.group) {
+    }
+    else if (bookmark.group) {
         [bookmark.group.bookmarks removeObject:bookmark];
         [group.bookmarks addObject:bookmark];
-    } else {
+    }
+    else {
         [_bookmarks removeObject:bookmark];
         [group.bookmarks addObject:bookmark];
     }
@@ -226,7 +245,11 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
 }
 
-- (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex inGroup:(OBABookmarkGroup*)group {
+- (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex inGroup:(OBABookmarkGroup*)group {
+    if (startIndex == endIndex) {
+        return;
+    }
+
     OBABookmarkV2 *bm = group.bookmarks[startIndex];
     [group.bookmarks removeObjectAtIndex:startIndex];
     [group.bookmarks insertObject:bm atIndex:endIndex];
