@@ -43,10 +43,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex;
 - (void)removeBookmark:(OBABookmarkV2*) bookmark;
 
-- (void)addOrSaveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup;
+- (void)saveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup;
 - (void)removeBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup;
 - (void)moveBookmark:(OBABookmarkV2*)bookmark toGroup:(OBABookmarkGroup*)group;
-- (void)moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex inGroup:(OBABookmarkGroup*)group;
+- (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex inGroup:(OBABookmarkGroup*)group;
 
 - (OBAStopPreferencesV2*)stopPreferencesForStopWithId:(NSString*)stopId;
 - (void)setStopPreferences:(OBAStopPreferencesV2*)preferences forStopWithId:(NSString*)stopId;
