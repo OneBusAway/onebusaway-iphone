@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAModelDAO : NSObject
 @property(nonatomic,strong,readonly) NSArray<OBABookmarkV2*> *bookmarksForCurrentRegion;
-@property(weak, nonatomic,readonly) NSArray * bookmarks;
+@property(weak, nonatomic,readonly) NSArray *ungroupedBookmarks;
 @property(weak, nonatomic,readonly) NSArray * bookmarkGroups;
 @property(weak, nonatomic,readonly) NSArray<OBAStopAccessEventV2*> * mostRecentStops;
 @property(nonatomic,strong) CLLocation *mostRecentLocation;
@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (OBABookmarkV2*)bookmarkForStop:(OBAStopV2*)stop;
 - (void)saveBookmark:(OBABookmarkV2*)bookmark;
 - (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex;
-- (void)removeBookmark:(OBABookmarkV2*) bookmark;
+- (void)removeBookmark:(OBABookmarkV2*)bookmark;
 
 - (void)saveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup;
 - (void)removeBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup;

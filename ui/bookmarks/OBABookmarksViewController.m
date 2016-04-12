@@ -72,7 +72,7 @@
         }
     }
 
-    OBATableSection *looseBookmarks = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Bookmarks", @"") rows:[self tableRowsFromBookmarks:modelDAO.bookmarks]];
+    OBATableSection *looseBookmarks = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Bookmarks", @"") rows:[self tableRowsFromBookmarks:modelDAO.ungroupedBookmarks]];
     if (looseBookmarks.rows.count > 0) {
         [sections addObject:looseBookmarks];
     }

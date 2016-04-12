@@ -107,7 +107,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 #pragma mark - Bookmarks
 
 - (OBABookmarkV2*)bookmarkForStop:(OBAStopV2*)stop {
-    for (OBABookmarkV2 *bm in self.bookmarks) {
+    for (OBABookmarkV2 *bm in self.ungroupedBookmarks) {
         if ([bm.stopId isEqual:stop.stopId]) {
             return bm;
         }
@@ -124,12 +124,12 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     return nil;
 }
 
-- (NSArray*) bookmarks {
+- (NSArray*)ungroupedBookmarks {
     return _bookmarks;
 }
 
 - (NSArray*)allBookmarks {
-    NSMutableArray *all = [[NSMutableArray alloc] initWithArray:self.bookmarks];
+    NSMutableArray *all = [[NSMutableArray alloc] initWithArray:self.ungroupedBookmarks];
     for (OBABookmarkGroup *group in self.bookmarkGroups) {
         [all addObjectsFromArray:group.bookmarks];
     }
@@ -250,10 +250,22 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
         return;
     }
 
-    OBABookmarkV2 *bm = group.bookmarks[startIndex];
-    [group.bookmarks removeObjectAtIndex:startIndex];
-    [group.bookmarks insertObject:bm atIndex:endIndex];
-    [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
+    NSUInteger bookmarksCount = group.bookmarks.count;
+
+    if (startIndex >= bookmarksCount) {
+        return;
+    }
+
+    @synchronized (self) {
+        OBABookmarkV2 *bm = group.bookmarks[startIndex];
+        [group.bookmarks removeObjectAtIndex:startIndex];
+
+        // If the caller put this bookmark out of bounds, then
+        // just stick the bookmark at the end of the array and
+        // call it a day.
+        [group.bookmarks insertObject:bm atIndex:MIN(endIndex, bookmarksCount - 1)];
+        [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
+    }
 }
 
 #pragma mark - Stop Preferences
