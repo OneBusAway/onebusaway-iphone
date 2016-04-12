@@ -38,20 +38,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer;
 
-- (OBABookmarkV2*)createTransientBookmark:(OBAStopV2*)stop;
 - (OBABookmarkV2*)bookmarkForStop:(OBAStopV2*)stop;
-- (void) addNewBookmark:(OBABookmarkV2*)bookmark;
-- (void) saveExistingBookmark:(OBABookmarkV2*)bookmark;
+- (void)saveBookmark:(OBABookmarkV2*)bookmark;
 - (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex;
-- (void) removeBookmark:(OBABookmarkV2*) bookmark;
+- (void)removeBookmark:(OBABookmarkV2*) bookmark;
 
-- (void) addOrSaveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup;
-- (void) removeBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup;
-- (void) moveBookmark:(OBABookmarkV2*)bookmark toGroup:(OBABookmarkGroup*)group;
-- (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex inGroup:(OBABookmarkGroup*)group;
+- (void)addOrSaveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup;
+- (void)removeBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup;
+- (void)moveBookmark:(OBABookmarkV2*)bookmark toGroup:(OBABookmarkGroup*)group;
+- (void)moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex inGroup:(OBABookmarkGroup*)group;
 
-- (OBAStopPreferencesV2*) stopPreferencesForStopWithId:(NSString*)stopId;
-- (void) setStopPreferences:(OBAStopPreferencesV2*)preferences forStopWithId:(NSString*)stopId;
+- (OBAStopPreferencesV2*)stopPreferencesForStopWithId:(NSString*)stopId;
+- (void)setStopPreferences:(OBAStopPreferencesV2*)preferences forStopWithId:(NSString*)stopId;
 
 - (BOOL) isVisitedSituationWithId:(NSString*)situationId;
 - (void) setVisited:(BOOL)visited forSituationWithId:(NSString*)situationId;

@@ -403,7 +403,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     if (bookmark) {
         bookmark.stop = stop;
         bookmark.regionIdentifier = modelDAO.region.identifier;
-        [modelDAO saveExistingBookmark:bookmark];
+        [modelDAO saveBookmark:bookmark];
     }
 }
 

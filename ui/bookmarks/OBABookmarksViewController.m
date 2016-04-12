@@ -144,7 +144,7 @@
         row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
         [row setEditAction:^{
-            OBAEditStopBookmarkViewController *editor = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bm editType:OBABookmarkEditExisting];
+            OBAEditStopBookmarkViewController *editor = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bm forStop:bm.stop];
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:editor];
             [self presentViewController:nav animated:YES completion:nil];
         }];
