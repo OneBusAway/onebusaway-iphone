@@ -253,11 +253,37 @@
 }
 
 - (void)testMoveBookmarkFromInvalidIndexToValidIndex {
-    //
+    OBABookmarkV2 *pos0 = [self generateBookmark];
+    pos0.name = @"Pos 0";
+
+    OBABookmarkV2 *pos1 = [self generateBookmark];
+    pos1.name = @"Pos 1";
+
+    [self.modelDAO saveBookmark:pos0];
+    [self.modelDAO saveBookmark:pos1];
+
+    [self.modelDAO moveBookmark:37 to:0];
+
+    NSArray *bookmarks = @[pos0, pos1];
+
+    XCTAssertEqualObjects(self.modelDAO.bookmarks, bookmarks);
 }
 
 - (void)testMoveBookmarkFromInvalidIndexToInvalidIndex {
-    //
+    OBABookmarkV2 *pos0 = [self generateBookmark];
+    pos0.name = @"Pos 0";
+
+    OBABookmarkV2 *pos1 = [self generateBookmark];
+    pos1.name = @"Pos 1";
+
+    [self.modelDAO saveBookmark:pos0];
+    [self.modelDAO saveBookmark:pos1];
+
+    [self.modelDAO moveBookmark:37 to:40];
+
+    NSArray *bookmarks = @[pos0, pos1];
+
+    XCTAssertEqualObjects(self.modelDAO.bookmarks, bookmarks);
 }
 
 #pragma mark - Deleting Bookmarks
