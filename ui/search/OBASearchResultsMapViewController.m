@@ -836,20 +836,22 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
    consider going forward. */
 + (void)setAnnotationsForMapView:(MKMapView*)mapView fromSearchResult:(OBASearchResult*)result bookmarkAnnotations:(NSArray*)bookmarks {
     NSMutableArray *allCurrentAnnotations = [[NSMutableArray alloc] init];
-    [allCurrentAnnotations addObjectsFromArray:bookmarks];
-
-    if (result.values.count > 0) {
-        @autoreleasepool {
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (stopId IN %@)", [bookmarks valueForKey:@"stopId"]];
-            [allCurrentAnnotations addObjectsFromArray:[result.values filteredArrayUsingPredicate:predicate]];
-        }
-    }
 
     if (result.searchType == OBASearchTypeAgenciesWithCoverage) {
         for (OBAAgencyWithCoverageV2 *agencyWithCoverage in result.values) {
             OBAAgencyV2 *agency = agencyWithCoverage.agency;
             OBANavigationTargetAnnotation *an = [[OBANavigationTargetAnnotation alloc] initWithTitle:agency.name subtitle:nil coordinate:agencyWithCoverage.coordinate target:nil];
             [allCurrentAnnotations addObject:an];
+        }
+    }
+    else {
+        [allCurrentAnnotations addObjectsFromArray:bookmarks];
+
+        if (result.values.count > 0) {
+            @autoreleasepool {
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (stopId IN %@)", [bookmarks valueForKey:@"stopId"]];
+                [allCurrentAnnotations addObjectsFromArray:[result.values filteredArrayUsingPredicate:predicate]];
+            }
         }
     }
 
