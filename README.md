@@ -1,9 +1,4 @@
-# OneBusAway for iPhone
-[![Build Status](https://img.shields.io/travis/OneBusAway/onebusaway-iphone.svg)](https://travis-ci.org/OneBusAway/onebusaway-iphone)
-
-## Slack Channel
-
-[Come join our Slack channel](https://onebusaway.herokuapp.com)
+# OneBusAway for iPhone [![Build Status](https://img.shields.io/travis/OneBusAway/onebusaway-iphone.svg)](https://travis-ci.org/OneBusAway/onebusaway-iphone) [![Join the OneBusAway chat on Slack](https://onebusaway.herokuapp.com/badge.svg)](https://onebusaway.herokuapp.com/)
 
 ## Test latest development release
 
