@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) addAgency:(OBAAgencyV2*)agency;
 - (OBAAgencyV2*) getAgencyForId:(NSString*)agencyId;
+- (NSDictionary*) getAllAgencies;
 
 - (void) addRoute:(OBARouteV2*)route;
 - (OBARouteV2*) getRouteForId:(NSString*)routeId;

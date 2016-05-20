@@ -27,7 +27,11 @@
 
 - (OBAAgencyV2*) getAgencyForId:(NSString*)agencyId {
     return _agencies[agencyId];
-}    
+}
+
+- (NSDictionary*) getAllAgencies {
+    return [NSDictionary dictionaryWithDictionary:_agencies];;
+}
 
 - (void) addRoute:(OBARouteV2*)route {
     _routes[route.routeId] = route;
