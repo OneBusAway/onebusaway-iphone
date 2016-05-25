@@ -13,12 +13,9 @@
 #import <OBAKit/OBAReferencesV2.h>
 #import <OBAKit/OBAAgencyV2.h>
 
-/**
- TODO: WRITE TESTS
- */
-
 @interface OBAAgencyV2_Tests : XCTestCase
 @property(nonatomic,strong) OBAModelFactory *modelFactory;
+@property(nonatomic,strong) OBAReferencesV2 *references;
 @end
 
 @implementation OBAAgencyV2_Tests
@@ -26,8 +23,8 @@
 - (void)setUp {
     [super setUp];
 
-    OBAReferencesV2 *references = [[OBAReferencesV2 alloc] init];
-    self.modelFactory = [[OBAModelFactory alloc] initWithReferences:references];
+    self.references = [[OBAReferencesV2 alloc] init];
+    self.modelFactory = [[OBAModelFactory alloc] initWithReferences:self.references];
 }
 
 - (void)tearDown {
@@ -35,8 +32,28 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    XCTAssertTrue(YES);
+#pragma mark - NSCoding
+
+- (void)testCoding {
+    OBAAgencyV2 *agency = [[OBAAgencyV2 alloc] initWithReferences:self.references];
+    agency.agencyId = @"an_id";
+    agency.url = @"http://example.com/an_id";
+    agency.name = @"a name";
+
+    NSData *archivedData = [NSKeyedArchiver archivedDataWithRootObject:agency];
+
+    OBAAgencyV2 *unarchived = [NSKeyedUnarchiver unarchiveObjectWithData:archivedData];
+
+    XCTAssertNotEqual(agency, unarchived);
+
+    XCTAssertNotNil(unarchived.agencyId);
+    XCTAssertEqualObjects(agency.agencyId, unarchived.agencyId);
+
+    XCTAssertNotNil(unarchived.url);
+    XCTAssertEqualObjects(agency.url, unarchived.url);
+
+    XCTAssertNotNil(unarchived.name);
+    XCTAssertEqualObjects(agency.name, unarchived.name);
 }
 
 @end
