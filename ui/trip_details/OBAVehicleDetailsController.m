@@ -1,6 +1,5 @@
 #import "OBAVehicleDetailsController.h"
 #import "OBATripScheduleMapViewController.h"
-#import "OBATripScheduleListViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
 #import "OBASituationsViewController.h"
 #import "OBALogger.h"
@@ -12,8 +11,7 @@
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeVehicleDetails,
-    OBASectionTypeTripDetails,
-    OBASectionTypeTripSchedule
+    OBASectionTypeTripDetails
 };
 
 @interface OBAVehicleDetailsController ()
@@ -94,9 +92,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         case OBASectionTypeTripDetails:
             return 2;
 
-        case OBASectionTypeTripSchedule:
-            return 2;
-
         default:
             return 0;
     }
@@ -113,9 +108,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
         case OBASectionTypeTripDetails:
             return NSLocalizedString(@"Active Trip Details:", @"OBASectionTypeTripDetails");
-
-        case OBASectionTypeTripSchedule:
-            return NSLocalizedString(@"Active Trip Schedule:", @"OBASectionTypeTripSchedule");
 
         default:
             return nil;
@@ -134,32 +126,11 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         case OBASectionTypeTripDetails:
             return [self tripDetailsCellForRowAtIndexPath:indexPath tableView:tableView];
 
-        case OBASectionTypeTripSchedule:
-            return [self tripScheduleCellForRowAtIndexPath:indexPath tableView:tableView];
-
         default:
             break;
     }
 
     return [UITableViewCell getOrCreateCellForTableView:tableView];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self isLoading]) {
-        [self tableView:tableView didSelectRowAtIndexPath:indexPath];
-        return;
-    }
-
-    OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
-
-    switch (sectionType) {
-        case OBASectionTypeTripSchedule:
-            [self didSelectTripScheduleRowAtIndexPath:indexPath tableView:tableView];
-            break;
-
-        default:
-            break;
-    }
 }
 
 - (OBASectionType)sectionTypeForSection:(NSUInteger)section {
@@ -174,9 +145,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
         offset++;
 
-        if (offset == section) return OBASectionTypeTripSchedule;
-
-        offset++;
     }
 
     return OBASectionTypeNone;
@@ -275,24 +243,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    OBASectionType sectionType = [self sectionTypeForSection:section];
-
-    if (![self isLoading]) {
-        switch (sectionType) {
-            case OBASectionTypeVehicleDetails:
-            case OBASectionTypeTripDetails:
-            case OBASectionTypeTripSchedule:
-                return 40;
-
-            default:
-                break;
-        }
-    }
-
-    return 0;
-}
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
 
@@ -312,10 +262,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
                 title.text = NSLocalizedString(@"Active Trip Details:", @"OBASectionTypeTripDetails");
                 break;
 
-            case OBASectionTypeTripSchedule:
-                title.text = NSLocalizedString(@"Active Trip Schedule:", @"OBASectionTypeTripSchedule");
-                break;
-
             default:
                 break;
         }
@@ -323,26 +269,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     [view addSubview:title];
     return view;
-}
-
-- (void)didSelectTripScheduleRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-    OBATripStatusV2 *tripStatus = _vehicleStatus.tripStatus;
-    OBATripInstanceRef *tripInstance = tripStatus.tripInstance;
-
-    switch (indexPath.row) {
-        case 0: {
-            OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] init];
-            vc.tripInstance = tripInstance;
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-
-        case 1: {
-            OBATripScheduleListViewController *vc = [[OBATripScheduleListViewController alloc] initWithTripInstance:tripInstance];
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-    }
 }
 
 @end

@@ -12,9 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) NSString * previousTripId;
 @property (nonatomic,strong) NSString * nextTripId;
 
-@property (weak, nonatomic,readonly) OBATripV2 * previousTrip;
-@property (weak, nonatomic,readonly) OBATripV2 * nextTrip;
-
+- (nullable OBATripV2*)previousTrip;
+- (nullable OBATripV2*)nextTrip;
 @end
 
 NS_ASSUME_NONNULL_END

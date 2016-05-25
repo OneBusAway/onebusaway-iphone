@@ -1,11 +1,11 @@
 #import "OBAArrivalAndDepartureInstanceRef.h"
 
-
 @implementation OBAArrivalAndDepartureInstanceRef
 
-- (id) initWithTripInstance:(OBATripInstanceRef*)tripInstance stopId:(NSString*)stopId stopSequence:(NSInteger)stopSequence {
+- (instancetype)initWithTripInstance:(OBATripInstanceRef*)tripInstance stopId:(NSString*)stopId stopSequence:(NSInteger)stopSequence {
     self = [super init];
-    if( self ) {
+
+    if (self) {
         _tripInstance = tripInstance;
         _stopId = stopId;
         _stopSequence = stopSequence;
@@ -13,40 +13,33 @@
     return self;
 }
 
+- (BOOL)isEqual:(OBAArrivalAndDepartureInstanceRef*)instanceRef {
 
-+ (OBAArrivalAndDepartureInstanceRef*) refWithTripInstance:(OBATripInstanceRef*)tripInstance stopId:(NSString*)stopId stopSequence:(NSInteger)stopSequence {
-    return [[self alloc] initWithTripInstance:tripInstance stopId:stopId stopSequence:stopSequence];
-}
-
-- (BOOL) isEqualWithOptionalVehicleId:(OBAArrivalAndDepartureInstanceRef*)ref {
-    if ( ![_tripInstance isEqualWithOptionalVehicleId:ref.tripInstance] )
-        return NO;
-    if ( ![_stopId isEqualToString:ref.stopId] )
-        return NO;
-    if ( _stopSequence != ref.stopSequence )
-        return NO;
-    return YES;
-}
-
-- (BOOL) isEqual:(id)object {
-    if (self == object)
+    if (self == instanceRef) {
         return YES;
-    if (object == nil)
+    }
+
+    if (![instanceRef isKindOfClass:self.class]) {
         return NO;
-    if ( ![object isKindOfClass:[OBAArrivalAndDepartureInstanceRef class]] )
+    }
+
+    if (![self.tripInstance isEqual:instanceRef.tripInstance]) {
         return NO;
-    OBAArrivalAndDepartureInstanceRef * instanceRef = object;
-    if ( ![_tripInstance isEqual:instanceRef.tripInstance] )
+    }
+
+    if (![self.stopId isEqual:instanceRef.stopId]) {
         return NO;
-    if ( ![_stopId isEqualToString:instanceRef.stopId] )
+    }
+
+    if (self.stopSequence != instanceRef.stopSequence) {
         return NO;
-    if ( _stopSequence != instanceRef.stopSequence )
-        return NO;
+    }
+
     return YES;
 }
 
-- (NSString*) description {
-    return [NSString stringWithFormat:@"(tripInstance=%@, stopId=%@, stopSequence=%ld)",[_tripInstance description],_stopId,(long)_stopSequence];
+- (NSString*)description {
+    return [NSString stringWithFormat:@"<%@: %p> (tripInstance=%@, stopId=%@, stopSequence=%@)", self.class, self, self.tripInstance, self.stopId, @(self.stopSequence)];
 }
 
 @end

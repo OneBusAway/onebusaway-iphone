@@ -1,6 +1,5 @@
 #import "OBATripScheduleListViewController.h"
 #import "OBATripStopTimeV2.h"
-#import "OBATripDetailsViewController.h"
 #import "OBATripScheduleMapViewController.h"
 #import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
@@ -8,49 +7,29 @@
 #import "UITableViewCell+oba_Additions.h"
 #import "UINavigationController+oba_Additions.h"
 #import "OBAApplication.h"
+#import <OBAKit/OBADateHelpers.h>
+#import "OBATripScheduleSectionBuilder.h"
 
-typedef NS_ENUM (NSInteger, OBASectionType) {
-    OBASectionTypeNone,
+typedef NS_ENUM(NSUInteger, OBASectionType) {
+    OBASectionTypeNone = 0,
     OBASectionTypeLoading,
     OBASectionTypeSchedule,
     OBASectionTypePreviousStops,
     OBASectionTypeConnections
 };
 
-@interface OBATripScheduleListViewController (Private)
-
-- (void)handleTripDetails;
-
-- (OBASectionType)sectionTypeForSection:(NSUInteger)section;
-
-- (BOOL)hasTripConnections;
-- (NSUInteger)computeNumberOfScheduleRows;
-- (NSDate *)getStopTimeAsDate:(NSInteger)stopTime;
-
-- (UITableViewCell *)tableView:(UITableView *)tableView loadingCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (UITableViewCell *)tableView:(UITableView *)tableView scheduleCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (UITableViewCell *)tableView:(UITableView *)tableView previousStopsCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (UITableViewCell *)tableView:(UITableView *)tableView connectionsCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-
-- (void)tableView:(UITableView *)tableView didSelectScheduleRowAtIndexPath:(NSIndexPath *)indexPath;
-- (void)tableView:(UITableView *)tableView didSelectPreviousStopsRowAtIndexPath:(NSIndexPath *)indexPath;
-- (void)tableView:(UITableView *)tableView didSelectConnectionsRowAtIndexPath:(NSIndexPath *)indexPath;
-
+@interface OBATripScheduleListViewController ()
+@property(nonatomic,strong) OBATripInstanceRef *tripInstance;
+@property(nonatomic,strong) OBAProgressIndicatorView *progressView;
 @end
-
 
 @implementation OBATripScheduleListViewController
 
-- (id)initWithTripInstance:(OBATripInstanceRef *)tripInstance {
-    if ((self = [super initWithStyle:UITableViewStylePlain])) {
-        _tripInstance = tripInstance;
-        _currentStopIndex = -1;
-        _showPreviousStops = NO;
+- (instancetype)initWithTripInstance:(OBATripInstanceRef *)tripInstance {
+    self = [super init];
 
-        _timeFormatter = [[NSDateFormatter alloc] init];
-        [_timeFormatter setDateStyle:NSDateFormatterNoStyle];
-        [_timeFormatter setTimeStyle:NSDateFormatterShortStyle];
-        [_timeFormatter setTimeZone:[NSTimeZone localTimeZone]];
+    if (self) {
+        _tripInstance = tripInstance;
 
         CGRect r = CGRectMake(0, 0, 160, 33);
         _progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];
@@ -66,152 +45,58 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.tableView.backgroundView = nil;
-    self.tableView.backgroundColor = [UIColor whiteColor];
-    [self hideEmptySeparators];
-}
-
-- (void)dealloc {
-    [_request cancel];
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if (_tripInstance && !_tripDetails) {
-
-        [self.tableView reloadData];
-
-        _request = [[OBAApplication sharedApplication].modelService requestTripDetailsForTripInstance:_tripInstance completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (responseCode == 404) {
-                [self->_progressView setMessage:NSLocalizedString(@"Trip not found", @"message") inProgress:NO progress:0];
-            }
-            else if (responseCode >= 300) {
-                [self->_progressView setMessage:NSLocalizedString(@"Unknown error", @"message") inProgress:NO progress:0];
-            }
-            else if (error) {
-                OBALogWarningWithError(error, @"Error");
-                [self->_progressView setMessage:NSLocalizedString(@"Error connecting", @"message") inProgress:NO progress:0];
-            }
-            else {
-                OBAEntryWithReferencesV2 *entry = responseData;
-                self->_tripDetails = entry.entry;
-                [self handleTripDetails];
-            }
-        } progressBlock:^(CGFloat progress) {
-            [self->_progressView setInProgress:YES progress:progress];
-        }];
+    if (self.tripDetails) {
+        [self buildUI];
+        return;
     }
-    else {
-        [self handleTripDetails];
-    }
-}
 
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (_tripDetails == nil) return 1;
-
-    NSInteger sections = 1;
-
-    if (_currentStopIndex > 0) sections++;
-
-    if ([self hasTripConnections]) sections++;
-
-    return sections;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    OBASectionType sectionType = [self sectionTypeForSection:section];
-
-    switch (sectionType) {
-        case OBASectionTypeConnections:
-            return NSLocalizedString(@"Connections:", @"OBASectionTypeConnections");
-
-        default:
-            return nil;
-    }
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    OBASectionType sectionType = [self sectionTypeForSection:section];
-
-    switch (sectionType) {
-        case OBASectionTypeLoading:
-            return 1;
-
-        case OBASectionTypeSchedule:
-            return [self computeNumberOfScheduleRows];
-
-            break;
-
-        case OBASectionTypePreviousStops:
-            return 1;
-
-        case OBASectionTypeConnections: {
-            NSInteger count = 0;
-
-            if (_tripDetails.schedule.previousTripId) count++;
-
-            if (_tripDetails.schedule.nextTripId) count++;
-
-            return count;
+    [[OBAApplication sharedApplication].modelService requestTripDetailsForTripInstance:self.tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
+        self.tripDetails = tripDetails;
+        [self buildUI];
+    }).catch(^(NSError *error) {
+        if (error.code == 404) {
+            [self.progressView setMessage:NSLocalizedString(@"Trip not found", @"message") inProgress:NO progress:0];
         }
+        else if (error.code >= 300) {
+            [self.progressView setMessage:NSLocalizedString(@"Unknown error", @"message") inProgress:NO progress:0];
+        }
+        else {
+            OBALogWarningWithError(error, @"Error");
+            [self.progressView setMessage:NSLocalizedString(@"Error connecting", @"message") inProgress:NO progress:0];
+        }
+    });
+}
 
-        default:
-            return 0;
+#pragma mark - Static tables
+
+- (void)buildUI {
+    NSMutableArray *sections = [[NSMutableArray alloc] init];
+
+    OBATableSection *stopsSection = [OBATripScheduleSectionBuilder buildStopsSection:self.tripDetails navigationController:self.navigationController];
+
+    [sections addObject:stopsSection];
+
+    if ([self.tripDetails hasTripConnections]) {
+        OBATableSection *connectionsSection = [OBATripScheduleSectionBuilder buildConnectionsSectionWithTripDetails:self.tripDetails tripInstance:self.tripInstance navigationController:self.navigationController];
+        [sections addObject:connectionsSection];
+    }
+
+    self.sections = [NSArray arrayWithArray:sections];
+    [self.tableView reloadData];
+
+    NSUInteger stopIndex = [self currentStopIndex];
+    if (stopIndex != NSNotFound) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:stopIndex inSection:[self.sections indexOfObject:stopsSection]];
+        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
 }
 
-// Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
-
-    switch (sectionType) {
-        case OBASectionTypeLoading:
-            return [self tableView:tableView loadingCellForRowAtIndexPath:indexPath];
-
-        case OBASectionTypeSchedule:
-            return [self tableView:tableView scheduleCellForRowAtIndexPath:indexPath];
-
-        case OBASectionTypePreviousStops:
-            return [self tableView:tableView previousStopsCellForRowAtIndexPath:indexPath];
-
-        case OBASectionTypeConnections:
-            return [self tableView:tableView connectionsCellForRowAtIndexPath:indexPath];
-
-        default:
-            return [UITableViewCell getOrCreateCellForTableView:tableView];
-    }
-}
-
-#pragma mark -
-#pragma mark Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
-
-    switch (sectionType) {
-        case OBASectionTypeSchedule:
-            [self tableView:tableView didSelectScheduleRowAtIndexPath:indexPath];
-            break;
-
-        case OBASectionTypePreviousStops:
-            [self tableView:tableView didSelectPreviousStopsRowAtIndexPath:indexPath];
-            break;
-
-        case OBASectionTypeConnections:
-            [self tableView:tableView didSelectConnectionsRowAtIndexPath:indexPath];
-            break;
-
-        default:
-            break;
-    }
-}
+#pragma mark - Actions
 
 - (void)showMap:(id)sender {
     OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] init];
@@ -221,278 +106,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     [self.navigationController replaceViewController:vc animated:YES];
 }
 
-@end
+#pragma mark - Private
 
-
-@implementation OBATripScheduleListViewController (Private)
-
-- (void)handleTripDetails {
-    [_progressView setMessage:NSLocalizedString(@"Trip Schedule", @"message") inProgress:NO progress:0];
-
-    NSString *stopId = self.currentStopId;
-    OBATripScheduleV2 *sched = _tripDetails.schedule;
-    NSInteger index = 0;
-
-    for (OBATripStopTimeV2 *stopTime in sched.stopTimes) {
-        if ([stopTime.stopId isEqual:stopId]) {
-            _currentStopIndex = index;
-            [self.tableView reloadData];
-            return;
-        }
-
-        index++;
-    }
-
-    _currentStopIndex = -1;
-    [self.tableView reloadData];
-}
-
-- (OBASectionType)sectionTypeForSection:(NSUInteger)section {
-    if (_tripDetails == nil) return OBASectionTypeLoading;
-
-    NSInteger offset = 0;
-
-    if (_currentStopIndex > 0) {
-        if (section == offset) return OBASectionTypePreviousStops;
-
-        offset++;
-    }
-
-    if (section == offset) return OBASectionTypeSchedule;
-
-    offset++;
-
-    if ([self hasTripConnections]) {
-        if (section == offset) return OBASectionTypeConnections;
-
-        offset++;
-    }
-
-    return OBASectionTypeNone;
-}
-
-- (BOOL)hasTripConnections {
-    OBATripScheduleV2 *sched = _tripDetails.schedule;
-
-    return sched.previousTripId != nil || sched.nextTripId != nil;
-}
-
-- (NSUInteger)computeNumberOfScheduleRows {
-    OBATripScheduleV2 *sched = _tripDetails.schedule;
-    NSArray *stopTimes = sched.stopTimes;
-    NSUInteger count = [stopTimes count];
-
-    if (!_showPreviousStops && _currentStopIndex > 0) count = 1 + MAX(0, count - _currentStopIndex);
-
-    return count;
-}
-
-- (NSDate *)getStopTimeAsDate:(NSInteger)stopTime {
-    long long serviceDate = 0;
-    NSInteger scheduleDeviation = 0;
-
-    OBATripStatusV2 *status = _tripDetails.status;
-
-    if (status) {
-        serviceDate = status.serviceDate;
-        scheduleDeviation = status.scheduleDeviation;
-    }
-    else {
-        serviceDate = _tripDetails.serviceDate;
-        scheduleDeviation = 0;
-    }
-
-    NSTimeInterval interval = serviceDate / 1000 + stopTime + scheduleDeviation;
-
-    return [NSDate dateWithTimeIntervalSince1970:interval];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView loadingCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleDefault];
-
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.accessoryType = UITableViewCellAccessoryNone;
-    cell.textLabel.text = NSLocalizedString(@"Loading...", @"cell.textLabel.text");
-    cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    cell.textLabel.font = [OBATheme bodyFont];
-
-    return cell;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView scheduleCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    BOOL hidingPreviousStops = !_showPreviousStops && _currentStopIndex > 0;
-
-    if (hidingPreviousStops && indexPath.row == 0) {
-        UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleDefault];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.textLabel.text = [NSString stringWithFormat:@"%@ %ld %@", NSLocalizedString(@"Hiding", @"hidingPreviousStops && indexPath.row == 0"), (long)_currentStopIndex, NSLocalizedString(@"previous stops", @"hidingPreviousStops && indexPath.row == 0")];
-        cell.textLabel.textColor = [UIColor grayColor];
-        return cell;
-    }
-
-    OBATripScheduleV2 *schedule = _tripDetails.schedule;
-    NSArray *stopTimes = schedule.stopTimes;
-
-    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView style:UITableViewCellStyleSubtitle];
-    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-    NSUInteger index = indexPath.row;
-
-    if (hidingPreviousStops) index += _currentStopIndex - 1;
-
-    OBATripStopTimeV2 *stopTime = stopTimes[index];
-    OBAStopV2 *stop = stopTime.stop;
-    cell.textLabel.text = stop.name;
-    cell.textLabel.textColor = [UIColor blackColor];
-
-    if (schedule.frequency) {
-        OBATripStopTimeV2 *firstStopTime = stopTimes[0];
-        NSInteger minutes = (stopTime.arrivalTime - firstStopTime.departureTime) / 60;
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld %@", (long)minutes, NSLocalizedString(@"mins", @"minutes")];
-    }
-    else {
-        NSDate *time = [self getStopTimeAsDate:stopTime.arrivalTime];
-        cell.detailTextLabel.text = [_timeFormatter stringFromDate:time];
-    }
-
-    return cell;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView previousStopsCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-
-    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-    cell.accessoryType = UITableViewCellAccessoryNone;
-    cell.textLabel.font = [OBATheme bodyFont];
-    cell.textLabel.text = _showPreviousStops ? NSLocalizedString(@"Hide previous stops", @"_showPreviousStops") : NSLocalizedString(@"Show previous stops", @"!_showPreviousStops");
-    return cell;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView connectionsCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
-
-    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.font = [OBATheme bodyFont];
-
-    OBATripScheduleV2 *sched = _tripDetails.schedule;
-
-    NSInteger offset = 0;
-
-    if (sched.previousTripId != nil) {
-        if (indexPath.row == offset) {
-            OBATripV2 *trip = [sched previousTrip];
-            cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Starts as", @"text"), trip.asLabel];
-        }
-
-        offset++;
-    }
-
-    if (sched.nextTripId != nil) {
-        if (indexPath.row == offset) {
-            OBATripV2 *trip = [sched nextTrip];
-            cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Continues as", @"text"), trip.asLabel];
-        }
-
-        offset++;
-    }
-
-    return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    OBASectionType sectionType = [self sectionTypeForSection:section];
-
-    switch (sectionType) {
-        case OBASectionTypeLoading:
-            return 0;
-
-        case OBASectionTypeSchedule:
-            return 0;
-
-        case OBASectionTypePreviousStops:
-            return 0;
-
-        case OBASectionTypeConnections:
-            return 40;
-
-        default:
-            return 0;
-    }
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-
-    view.backgroundColor = OBAGREENBACKGROUND;
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
-    title.font = [OBATheme bodyFont];
-    title.backgroundColor = [UIColor clearColor];
-    OBASectionType sectionType = [self sectionTypeForSection:section];
-
-    switch (sectionType) {
-        case OBASectionTypeConnections:
-            title.text = NSLocalizedString(@"Connections:", @"OBASectionTypeConnections");
-            break;
-
-        default:
-            break;
-    }
-    [view addSubview:title];
-    return view;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectScheduleRowAtIndexPath:(NSIndexPath *)indexPath {
-    BOOL hidingPreviousStops = !_showPreviousStops && _currentStopIndex > 0;
-
-    if (hidingPreviousStops && indexPath.row == 0) return;
-
-    NSArray *stopTimes = _tripDetails.schedule.stopTimes;
-
-    NSUInteger index = indexPath.row;
-
-    if (hidingPreviousStops) index += _currentStopIndex - 1;
-
-    OBATripStopTimeV2 *stopTime = stopTimes[index];
-
-    UIViewController *vc = [OBAStopViewController stopControllerWithStopID:stopTime.stopId];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectPreviousStopsRowAtIndexPath:(NSIndexPath *)indexPath {
-    _showPreviousStops = !_showPreviousStops;
-    [self.tableView reloadData];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectConnectionsRowAtIndexPath:(NSIndexPath *)indexPath {
-    OBATripScheduleV2 *sched = _tripDetails.schedule;
-    OBATripInstanceRef *tripInstance = _tripDetails.tripInstance;
-
-    NSInteger offset = 0;
-
-    if (sched.previousTripId != nil) {
-        if (indexPath.row == offset) {
-            OBATripInstanceRef *prevTripInstance = [tripInstance copyWithNewTripId:sched.previousTripId];
-            OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:prevTripInstance];
-            [self.navigationController pushViewController:vc animated:YES];
-            return;
-        }
-
-        offset++;
-    }
-
-    if (sched.nextTripId != nil) {
-        if (indexPath.row == offset) {
-            OBATripInstanceRef *nextTripInstance = [tripInstance copyWithNewTripId:sched.nextTripId];
-            OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:nextTripInstance];
-            [self.navigationController pushViewController:vc animated:YES];
-            return;
-        }
-
-        offset++;
-    }
+- (NSUInteger)currentStopIndex {
+    return [OBATripScheduleSectionBuilder indexOfStopID:self.currentStopId inSchedule:self.tripDetails.schedule];
 }
 
 @end

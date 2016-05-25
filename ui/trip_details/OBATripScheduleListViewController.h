@@ -1,26 +1,16 @@
-#import "OBATripDetailsV2.h"
-#import "OBATripInstanceRef.h"
-#import "OBAProgressIndicatorView.h"
-#import "OBAModelServiceRequest.h"
+#import <UIKit/UIKit.h>
+#import "OBAStaticTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBATripScheduleListViewController : UITableViewController {
-    OBATripInstanceRef *_tripInstance;
-    OBATripDetailsV2 *_tripDetails;
-    id<OBAModelServiceRequest> _request;
-    BOOL _showPreviousStops;
-    NSInteger _currentStopIndex;
+@class OBATripDetailsV2;
+@class OBATripInstanceRef;
 
-    NSDateFormatter *_timeFormatter;
-    OBAProgressIndicatorView *_progressView;
-}
+@interface OBATripScheduleListViewController : OBAStaticTableViewController
+@property(nonatomic,strong) OBATripDetailsV2 *tripDetails;
+@property(nonatomic,copy) NSString *currentStopId;
 
-- (id)initWithTripInstance:(OBATripInstanceRef *)tripInstance;
-
-@property (nonatomic, strong) OBATripDetailsV2 *tripDetails;
-@property (nonatomic, strong) NSString *currentStopId;
-
+- (instancetype)initWithTripInstance:(OBATripInstanceRef *)tripInstance;
 @end
 
 NS_ASSUME_NONNULL_END

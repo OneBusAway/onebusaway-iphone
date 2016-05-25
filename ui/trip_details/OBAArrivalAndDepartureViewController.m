@@ -11,14 +11,17 @@
 #import "OBAApplication.h"
 #import "OBAClassicDepartureRow.h"
 #import "OBATripScheduleMapViewController.h"
-#import "OBATripScheduleListViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
 #import "OBAVehicleDetailsController.h"
 #import "OBASeparatorSectionView.h"
+#import "OBAClassicDepartureView.h"
+#import "OBATripScheduleSectionBuilder.h"
 
 static NSTimeInterval const kRefreshTimeInterval = 30;
 
 @interface OBAArrivalAndDepartureViewController ()
+@property(nonatomic,strong) OBATripDetailsV2 *tripDetails;
+@property(nonatomic,strong) OBAClassicDepartureView *tableHeaderView;
 @property(nonatomic,strong) NSTimer *refreshTimer;
 @property(nonatomic,strong) UIRefreshControl *refreshControl;
 @property(nonatomic,strong) NSLock *reloadLock;
@@ -42,6 +45,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"map"] style:UIBarButtonItemStylePlain target:self action:@selector(showMap:)];
+
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reloadData:) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
@@ -63,6 +68,17 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 
     [self cancelTimer];
+}
+
+#pragma mark - Actions
+
+- (void)showMap:(id)sender {
+    OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] init];
+    vc.tripInstance = self.arrivalAndDeparture.tripInstance;
+    vc.currentStopId = self.arrivalAndDeparture.stopId;
+
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 #pragma mark - Notifications
@@ -101,9 +117,12 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
     [[OBAApplication sharedApplication].modelService requestArrivalAndDeparture:self.arrivalAndDeparture.instance].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
         self.arrivalAndDeparture = arrivalAndDeparture;
-        [self populateTableWithArrivalAndDeparture:self.arrivalAndDeparture];
+        return [[OBAApplication sharedApplication].modelService requestTripDetailsForTripInstance:self.arrivalAndDeparture.tripInstance];
+    }).then(^(OBATripDetailsV2 *tripDetails) {
+        self.tripDetails = tripDetails;
+        [self populateTableWithArrivalAndDeparture:self.arrivalAndDeparture tripDetails:self.tripDetails];
     }).catch(^(NSError *error) {
-        // handle error.
+        // TODO: handle error.
     }).finally(^{
         if (animated) {
             [self.refreshControl endRefreshing];
@@ -112,52 +131,81 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     });
 }
 
-+ (OBATableSection*)createDepartureSection:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+- (void)populateTableWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture tripDetails:(OBATripDetailsV2*)tripDetails {
+
+    NSMutableArray *sections = [[NSMutableArray alloc] init];
+
+    OBATableSection *serviceAlertsSection = [self.class createServiceAlertsSection:arrivalAndDeparture navigationController:self.navigationController];
+    if (serviceAlertsSection) {
+        [sections addObject:serviceAlertsSection];
+    }
+
+    NSArray<OBATableSection*> *tripDetailsSections = [self createTripDetailsSectionsWithArrivalAndDeparture:arrivalAndDeparture tripDetails:tripDetails];
+    if (tripDetailsSections.count > 0) {
+        [sections addObjectsFromArray:tripDetailsSections];
+    }
+
+    [sections addObject:[self.class createActionsSection:arrivalAndDeparture navigationController:self.navigationController]];
+
+    self.sections = sections;
+    [self.tableView reloadData];
+
+    // Scroll the user's current stop to the top of the list
+    NSUInteger index = [OBATripScheduleSectionBuilder indexOfStopID:arrivalAndDeparture.stopId inSchedule:tripDetails.schedule];
+    if (index != NSNotFound) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    }
+}
+
+#pragma mark - Section/Row Construction
+
++ (OBAClassicDepartureRow *)createDepartureRow:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
     NSString *dest = arrivalAndDeparture.tripHeadsign.capitalizedString;
     OBAClassicDepartureRow *departureRow = [[OBAClassicDepartureRow alloc] initWithRouteName:arrivalAndDeparture.bestAvailableName destination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(arrivalAndDeparture.bestDepartureTime / 1000)] statusText:[arrivalAndDeparture statusText] departureStatus:[arrivalAndDeparture departureStatus] action:nil];
 
-    OBATableSection *departureSection = [[OBATableSection alloc] initWithTitle:nil rows:@[departureRow]];
-
-    return departureSection;
+    return departureRow;
 }
 
 + (nullable OBATableSection*)createServiceAlertsSection:(OBAArrivalAndDepartureV2*)arrivalAndDeparture navigationController:(UINavigationController*)navigationController {
     OBAServiceAlertsModel* serviceAlerts = [[OBAApplication sharedApplication].modelDao getServiceAlertsModelForSituations:arrivalAndDeparture.situations];
-    if (serviceAlerts.totalCount > 0) {
-        return [self createServiceAlertsSection:arrivalAndDeparture serviceAlerts:serviceAlerts navigationController:navigationController];
-    }
-    else {
+
+    if (serviceAlerts.totalCount == 0) {
         return nil;
     }
+
+    return [self createServiceAlertsSection:arrivalAndDeparture serviceAlerts:serviceAlerts navigationController:navigationController];
 }
 
-+ (OBATableSection*)createTripDetailsSection:(OBAArrivalAndDepartureV2*)arrivalAndDeparture navigationController:(UINavigationController*)navigationController {
-    OBATableSection *tripDetails = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Trip Details", @"OBASectionTypeSchedule")];
+- (NSArray<OBATableSection*>*)createTripDetailsSectionsWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture tripDetails:(OBATripDetailsV2*)tripDetails {
 
-    [tripDetails addRow:^OBABaseRow * {
-        OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Show as Map", @"") action:^{
-            OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] init];
-            vc.tripInstance = arrivalAndDeparture.tripInstance;
-            vc.currentStopId = arrivalAndDeparture.stopId;
-            [navigationController pushViewController:vc animated:YES];
-        }];
-        tableRow.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    OBATableSection *stopsSection = [OBATripScheduleSectionBuilder buildStopsSection:tripDetails navigationController:self.navigationController];
 
-        return tableRow;
-    }];
+    self.tableHeaderView = [self buildTableHeaderViewWithArrivalAndDeparture:arrivalAndDeparture];
+    stopsSection.headerView = [self buildTableHeaderWrapperView:self.tableHeaderView];
 
-    [tripDetails addRow:^OBABaseRow * {
-        OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Show as List", @"") action:^{
-            OBATripScheduleListViewController *vc = [[OBATripScheduleListViewController alloc] initWithTripInstance:arrivalAndDeparture.tripInstance];
-            vc.currentStopId = arrivalAndDeparture.stopId;
-            [navigationController pushViewController:vc animated:YES];
-        }];
-        tableRow.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    OBATableSection *connectionsSection = [OBATripScheduleSectionBuilder buildConnectionsSectionWithTripDetails:tripDetails tripInstance:arrivalAndDeparture.tripInstance navigationController:self.navigationController];
 
-        return tableRow;
-    }];
+    return connectionsSection ? @[stopsSection, connectionsSection] : @[stopsSection];
+}
 
-    return tripDetails;
+- (OBAClassicDepartureView*)buildTableHeaderViewWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+    OBAClassicDepartureView *tableHeaderView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
+    tableHeaderView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    tableHeaderView.classicDepartureRow = [self.class createDepartureRow:arrivalAndDeparture];
+
+    return tableHeaderView;
+}
+
+- (UIView*)buildTableHeaderWrapperView:(UIView*)tableHeaderView {
+    UIView *headerWrapperView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 60)];
+    headerWrapperView.backgroundColor = [UIColor whiteColor];
+    headerWrapperView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+
+    tableHeaderView.frame = CGRectInset(headerWrapperView.bounds, [OBATheme defaultPadding], 0);
+    [headerWrapperView addSubview:self.tableHeaderView];
+
+    return headerWrapperView;
 }
 
 + (OBATableSection*)createActionsSection:(OBAArrivalAndDepartureV2*)arrivalAndDeparture navigationController:(UINavigationController*)navigationController {
@@ -184,24 +232,4 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     return actionsSection;
 }
 
-- (void)populateTableWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
-
-    NSMutableArray *sections = [[NSMutableArray alloc] init];
-
-    [sections addObject:[self.class createDepartureSection:arrivalAndDeparture]];
-
-    OBATableSection *serviceAlertsSection = [self.class createServiceAlertsSection:arrivalAndDeparture navigationController:self.navigationController];
-    if (serviceAlertsSection) {
-        [sections addObject:serviceAlertsSection];
-    }
-
-    [sections addObject:[self.class createTripDetailsSection:arrivalAndDeparture navigationController:self.navigationController]];
-
-    // Actions
-
-    [sections addObject:[self.class createActionsSection:arrivalAndDeparture navigationController:self.navigationController]];
-
-    self.sections = sections;
-    [self.tableView reloadData];
-}
 @end

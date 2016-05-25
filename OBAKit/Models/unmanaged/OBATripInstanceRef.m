@@ -18,26 +18,8 @@
     return [[OBATripInstanceRef alloc] initWithTripId:tripId serviceDate:serviceDate vehicleId:vehicleId];
 }
 
-- (OBATripInstanceRef*) copyWithNewTripId:(NSString*)newTripId {
+- (OBATripInstanceRef*)copyWithNewTripId:(NSString*)newTripId {
     return [OBATripInstanceRef tripInstance:newTripId serviceDate:self.serviceDate vehicleId:self.vehicleId];
-}
-
-- (BOOL) isEqualWithOptionalVehicleId:(OBATripInstanceRef*)ref {
-    if ( ![_tripId isEqualToString:ref.tripId] )
-        return NO;
-    if ( _serviceDate != ref.serviceDate )
-        return NO;
-    /**
-     * With the optional vehicle id semantics, the only time we consider the vehicle ids
-     * not to match is when they are both set AND not equal.  This helps us fuzzy match
-     * between two instances where real-time previously wasn't available (vehicleId==nil)
-     * vs one where it is available (vehicleId!=nil)
-     */
-    if (_vehicleId != nil && ref.vehicleId != nil) {
-        if ( ! [_vehicleId isEqualToString:_vehicleId] )
-            return NO;
-    }    
-    return YES;
 }
 
 - (BOOL) isEqual:(id)object {
