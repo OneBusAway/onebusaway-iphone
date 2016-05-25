@@ -530,8 +530,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     return view;
 }
 
+// TODO: verify that this is actually dead code. I am pretty sure this cannot be hit anymore.
 - (MKAnnotationView*)mapView:(MKMapView *)mapView viewForGenericAnnotation:(OBAGenericAnnotation*)annotation {
-    // TODO: verify that this is actually dead code. I am pretty sure this cannot be hit anymore.
     OBAGenericAnnotation *ga = annotation;
 
     if ([ga.context isEqual:@"currentLocation"]) {

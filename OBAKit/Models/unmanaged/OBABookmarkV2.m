@@ -34,12 +34,6 @@ static NSString * const kStop = @"stop";
         if (stopIds && stopIds.count > 0) {
             _stopId = stopIds[0];
         }
-        else if ([coder containsValueForKey:@"stopID"]) {
-            // TODO: remove this block of code once 2.5.1 ships.
-            // It's the result of a dumb bug I introduced in one
-            // beta version of 2.5.0.
-            _stopId = [coder decodeObjectForKey:@"stopID"];
-        }
         else {
             _stopId = [coder decodeObjectForKey:kStopId];
         }

@@ -14,9 +14,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 };
 
 @interface OBAAgenciesListViewController ()
-
-@property (nonatomic, strong) NSMutableArray *agencies;
-
+@property(nonatomic,copy) NSArray<OBAAgencyWithCoverageV2 *> *agencies;
 @end
 
 @implementation OBAAgenciesListViewController
@@ -62,8 +60,8 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         }
         else {
             OBAListWithRangeAndReferencesV2 *list = jsonData;
-            self.agencies = [[NSMutableArray alloc] initWithArray:list.values];
-            [self.agencies sortUsingSelector:@selector(compareUsingAgencyName:)];
+            self.agencies = [NSArray arrayWithArray:list.values];
+            self.agencies = [self.agencies sortedArrayUsingSelector:@selector(compareUsingAgencyName:)];
             self.progressLabel = NSLocalizedString(@"Agencies", @"");
             [self refreshCompleteWithCode:responseCode];
         }
