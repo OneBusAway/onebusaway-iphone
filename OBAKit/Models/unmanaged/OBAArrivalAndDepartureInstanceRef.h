@@ -3,17 +3,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAArrivalAndDepartureInstanceRef : NSObject
+@property(nonatomic,strong,readonly) OBATripInstanceRef * tripInstance;
+@property(nonatomic,strong,readonly) NSString * stopId;
+@property(nonatomic,assign,readonly) NSInteger stopSequence;
 
-- (id) initWithTripInstance:(OBATripInstanceRef*)tripInstance stopId:(NSString*)stopId stopSequence:(NSInteger)stopSequence;
-
-+ (OBAArrivalAndDepartureInstanceRef*) refWithTripInstance:(OBATripInstanceRef*)tripInstance stopId:(NSString*)stopId stopSequence:(NSInteger)stopSequence;
-
-@property (nonatomic,readonly) OBATripInstanceRef * tripInstance;
-@property (nonatomic,readonly) NSString * stopId;
-@property (nonatomic,readonly) NSInteger stopSequence;
-
-- (BOOL) isEqualWithOptionalVehicleId:(OBAArrivalAndDepartureInstanceRef*)ref;
-
+- (instancetype)initWithTripInstance:(OBATripInstanceRef*)tripInstance stopId:(NSString*)stopId stopSequence:(NSInteger)stopSequence;
 @end
 
 NS_ASSUME_NONNULL_END

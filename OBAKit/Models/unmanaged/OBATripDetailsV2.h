@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) addSituationId:(NSString*)situationId;
 
+- (BOOL)hasTripConnections;
+
 @end
 
 NS_ASSUME_NONNULL_END

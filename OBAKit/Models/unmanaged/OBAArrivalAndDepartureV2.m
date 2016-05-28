@@ -52,7 +52,7 @@
 }
 
 - (OBAArrivalAndDepartureInstanceRef *) instance {
-    return [OBAArrivalAndDepartureInstanceRef refWithTripInstance:self.tripInstance stopId:self.stopId stopSequence:self.stopSequence];
+    return [[OBAArrivalAndDepartureInstanceRef alloc] initWithTripInstance:self.tripInstance stopId:self.stopId stopSequence:self.stopSequence];
 }
 
 - (OBATripInstanceRef *) tripInstance {

@@ -45,4 +45,8 @@
     [_situationIds addObject:situationId];
 }
 
+- (BOOL)hasTripConnections {
+    return self.schedule.previousTripId || self.schedule.nextTripId;
+}
+
 @end

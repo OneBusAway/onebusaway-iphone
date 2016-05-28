@@ -18,8 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (OBATripInstanceRef*) copyWithNewTripId:(NSString*)newTripId;
 
-- (BOOL) isEqualWithOptionalVehicleId:(OBATripInstanceRef*)ref;
-
 @end
 
 NS_ASSUME_NONNULL_END
