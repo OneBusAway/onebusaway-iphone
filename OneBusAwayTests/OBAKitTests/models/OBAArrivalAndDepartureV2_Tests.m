@@ -30,13 +30,13 @@
     self.modelFactory = [[OBAModelFactory alloc] initWithReferences:references];
 }
 
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
+- (void)testBookmarkKey {
+    OBAArrivalAndDepartureV2 *dep = [[OBAArrivalAndDepartureV2 alloc] init];
+    dep.routeId = @"ROUTE";
+    dep.tripHeadsign = @"HEADSIGN";
+    dep.routeShortName = @"SHORTROUTE";
 
-- (void)testExample {
-    XCTAssertTrue(YES);
+    XCTAssertEqualObjects(dep.bookmarkKey, @"ROUTE_HEADSIGN_SHORTROUTE");
 }
 
 @end

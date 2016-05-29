@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+@class CLLocation;
+@class OBARegionV2;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol OBAModelPersistenceLayer <NSObject>

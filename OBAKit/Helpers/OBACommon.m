@@ -17,6 +17,8 @@
 #import "OBACommon.h"
 #import "OBADateHelpers.h"
 
+static BOOL obaCommonRunningInsideTests = NO;
+
 NSString * const OBAErrorDomain = @"org.onebusaway.iphone2";
 
 const NSInteger kOBAErrorDuplicateEntity = 1000;
@@ -44,8 +46,15 @@ NSString * OBAStringFromBool(BOOL yn) {
 
 @end
 
-
 @implementation OBACommon
+
++ (void)setRunningInsideTests:(BOOL)runningInsideTests {
+    obaCommonRunningInsideTests = runningInsideTests;
+}
+
++ (BOOL)isRunningInsideTests {
+    return obaCommonRunningInsideTests;
+}
 
 + (NSString*) getTimeAsString {
     return [OBADateHelpers formatShortTimeNoDate:[NSDate date]];

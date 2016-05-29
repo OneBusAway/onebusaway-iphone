@@ -125,7 +125,7 @@ static const NSString *kShapeContext = @"ShapeContext";
     if ([annotation isKindOfClass:[OBATripStopTimeMapAnnotation class] ]) {
         OBATripStopTimeMapAnnotation *an = (OBATripStopTimeMapAnnotation *)annotation;
         OBATripStopTimeV2 *stopTime = an.stopTime;
-        UIViewController *vc = [OBAStopViewController stopControllerWithStopID:stopTime.stopId];
+        OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stopTime.stopId];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([annotation isKindOfClass:[OBATripContinuationMapAnnotation class]]) {

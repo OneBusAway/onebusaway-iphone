@@ -36,11 +36,10 @@ static NSString * const OBACellStyleSubtitleReuseIdentifier = @"OBACellStyleSubt
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    OBATableRow *newRow = [[self.class allocWithZone:zone] init];
+    OBATableRow *newRow = [super copyWithZone:zone];
     newRow->_title = [_title copyWithZone:zone];
     newRow->_subtitle = [_subtitle copyWithZone:zone];
     newRow->_style = _style;
-    newRow->_accessoryType = _accessoryType;
     newRow->_image = _image;
     newRow->_textAlignment = _textAlignment;
 

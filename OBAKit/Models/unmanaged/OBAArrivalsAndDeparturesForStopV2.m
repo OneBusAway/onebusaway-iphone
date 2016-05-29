@@ -1,5 +1,6 @@
 #import "OBAArrivalsAndDeparturesForStopV2.h"
 #import "OBASituationV2.h"
+#import "NSObject+OBADescription.h"
 
 @interface OBAArrivalsAndDeparturesForStopV2 ()
 @property(nonatomic,strong) NSMutableArray *arrivalsAndDeparturesM;
@@ -17,7 +18,7 @@
     return self;
 }
 
--(OBAStopV2*) stop {
+- (OBAStopV2*) stop {
     OBAReferencesV2 * refs = [self references];
     return [refs getStopForId:self.stopId];
 }
@@ -49,6 +50,12 @@
 
 - (void) addSituationId:(NSString*)situationId {
     [_situationIds addObject:situationId];
+}
+
+#pragma mark - NSObject
+
+- (NSString*)description {
+    return [self oba_description:@[@"stopId", @"stop", @"arrivalsAndDepartures"]];
 }
 
 @end

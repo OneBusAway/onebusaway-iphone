@@ -16,6 +16,7 @@
 #import "OBASeparatorSectionView.h"
 #import "OBAClassicDepartureView.h"
 #import "OBATripScheduleSectionBuilder.h"
+#import "OBAArrivalAndDepartureSectionBuilder.h"
 
 static NSTimeInterval const kRefreshTimeInterval = 30;
 
@@ -160,13 +161,6 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
 #pragma mark - Section/Row Construction
 
-+ (OBAClassicDepartureRow *)createDepartureRow:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
-    NSString *dest = arrivalAndDeparture.tripHeadsign.capitalizedString;
-    OBAClassicDepartureRow *departureRow = [[OBAClassicDepartureRow alloc] initWithRouteName:arrivalAndDeparture.bestAvailableName destination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(arrivalAndDeparture.bestDepartureTime / 1000)] statusText:[arrivalAndDeparture statusText] departureStatus:[arrivalAndDeparture departureStatus] action:nil];
-
-    return departureRow;
-}
-
 + (nullable OBATableSection*)createServiceAlertsSection:(OBAArrivalAndDepartureV2*)arrivalAndDeparture navigationController:(UINavigationController*)navigationController {
     OBAServiceAlertsModel* serviceAlerts = [[OBAApplication sharedApplication].modelDao getServiceAlertsModelForSituations:arrivalAndDeparture.situations];
 
@@ -192,7 +186,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 - (OBAClassicDepartureView*)buildTableHeaderViewWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
     OBAClassicDepartureView *tableHeaderView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
     tableHeaderView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    tableHeaderView.classicDepartureRow = [self.class createDepartureRow:arrivalAndDeparture];
+    tableHeaderView.classicDepartureRow = [OBAArrivalAndDepartureSectionBuilder createDepartureRow:arrivalAndDeparture];
 
     return tableHeaderView;
 }

@@ -36,6 +36,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 
 - (void)start {
     self.references = [[OBAReferencesV2 alloc] init];
+
     id<OBAModelPersistenceLayer> persistence = [[OBAModelDAOUserPreferencesImpl alloc] init];
     self.modelDao = [[OBAModelDAO alloc] initWithModelPersistenceLayer:persistence];
     self.locationManager = [[OBALocationManager alloc] initWithModelDao:self.modelDao];
@@ -111,17 +112,8 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     NSString *userId = [userDefaults stringForKey:kOBAHiddenPreferenceUserId];
 
     if (!userId) {
-        CFUUIDRef theUUID = CFUUIDCreate(kCFAllocatorDefault);
-
-        if (theUUID) {
-            userId = CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, theUUID));
-            CFRelease(theUUID);
-            [userDefaults setObject:userId forKey:kOBAHiddenPreferenceUserId];
-            [userDefaults synchronize];
-        }
-        else {
-            userId = @"anonymous";
-        }
+        [userDefaults setObject:[[NSUUID UUID] UUIDString] forKey:kOBAHiddenPreferenceUserId];
+        [userDefaults synchronize];
     }
 
     return userId;

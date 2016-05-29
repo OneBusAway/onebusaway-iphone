@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAArrivalsAndDeparturesForStopV2 : OBAHasReferencesV2<OBAHasServiceAlerts>
 @property(nonatomic,strong) NSString *stopId;
-@property(weak, nonatomic,readonly) OBAStopV2 *stop;
+@property(nonatomic,weak,readonly) OBAStopV2 *stop;
 @property(nonatomic,strong,readonly) NSArray<OBAArrivalAndDepartureV2*> *arrivalsAndDepartures;
 
 - (void)addArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;

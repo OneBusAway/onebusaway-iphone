@@ -1,4 +1,5 @@
 #import "OBARouteV2.h"
+#import "NSObject+OBADescription.h"
 
 @interface OBARouteV2 ()
 @property(nonatomic,copy,readwrite) OBAAgencyV2 *agency;
@@ -63,6 +64,12 @@
     NSString * name1 = [self safeShortName];
     NSString * name2 = [aRoute safeShortName];
     return [name1 compare:name2 options:NSNumericSearch];
+}
+
+#pragma mark - NSObject
+
+- (NSString*)description {
+    return [self oba_description:@[@"routeId", @"shortName", @"longName", @"routeType", @"agencyId", @"agency", @"safeShortName"]];
 }
 
 @end

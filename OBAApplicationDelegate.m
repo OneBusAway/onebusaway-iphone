@@ -259,7 +259,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
         NSArray *stopIds = (NSArray *)shortcutItem.userInfo[@"stopIds"];
         if (stopIds.count > 0) {
-            UIViewController *vc = [OBAStopViewController stopControllerWithStopID:stopIds[0]];
+            OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stopIds[0]];
             [self.recentsNavigationController popToRootViewControllerAnimated:NO];
             [self.recentsNavigationController pushViewController:vc animated:YES];
         }

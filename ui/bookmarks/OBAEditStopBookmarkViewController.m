@@ -24,24 +24,25 @@
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAApplication.h"
+#import <OBAKit/OBAKit.h>
 
 @interface OBAEditStopBookmarkViewController ()
-@property (nonatomic, strong) OBABookmarkV2 *bookmark;
-@property (nonatomic, strong) OBABookmarkGroup *selectedGroup;
-@property (nonatomic, strong) NSHashTable *requests;
-@property (nonatomic, strong) NSMutableDictionary *stops;
-@property (nonatomic, strong) UITextField *textField;
+@property(nonatomic,strong) OBABookmarkV2 *bookmark;
+@property(nonatomic,strong) OBABookmarkGroup *selectedGroup;
+@property(nonatomic,strong) NSHashTable *requests;
+@property(nonatomic,strong) NSMutableDictionary *stops;
+@property(nonatomic,strong) UITextField *textField;
 @end
 
 @implementation OBAEditStopBookmarkViewController
 
-- (instancetype)initWithBookmark:(OBABookmarkV2 *)bookmark forStop:(OBAStopV2*)stop {
+- (instancetype)initWithBookmark:(OBABookmarkV2 *)bookmark {
     self = [super init];
 
     if (self) {
         self.tableView.scrollEnabled = NO;
 
-        _bookmark = bookmark ?: [[OBABookmarkV2 alloc] initWithStop:stop region:[OBAApplication sharedApplication].modelDao.region];
+        _bookmark = bookmark;
         _selectedGroup = _bookmark.group;
 
         _requests = [NSHashTable weakObjectsHashTable];

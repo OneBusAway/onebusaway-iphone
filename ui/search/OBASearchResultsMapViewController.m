@@ -576,8 +576,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     id annotation = view.annotation;
 
     if ([annotation respondsToSelector:@selector(stopId)]) {
-        UIViewController *vc = [OBAStopViewController stopControllerWithStopID:[annotation stopId]];
-        [self.navigationController pushViewController:vc animated:YES];
+        OBAStopViewController *stopController = [[OBAStopViewController alloc] initWithStopID:[annotation stopId]];
+        [self.navigationController pushViewController:stopController animated:YES];
     }
     else if ([annotation isKindOfClass:[OBAPlacemark class]]) {
         OBAPlacemark *placemark = annotation;

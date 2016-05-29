@@ -23,7 +23,7 @@
 
         [stopsSection addRow:^OBABaseRow *{
             OBATableRow *row = [[OBATableRow alloc] initWithTitle:stop.name action:^{
-                UIViewController *vc = [OBAStopViewController stopControllerWithStopID:stopTime.stopId];
+                OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stopTime.stopId];
                 [navigationController pushViewController:vc animated:YES];
             }];
             row.subtitle = [self formattedStopTime:stopTime tripDetails:tripDetails];

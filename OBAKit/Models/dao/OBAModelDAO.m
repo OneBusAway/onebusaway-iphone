@@ -106,22 +106,32 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
 #pragma mark - Bookmarks
 
-- (OBABookmarkV2*)bookmarkForStop:(OBAStopV2*)stop {
+- (OBABookmarkV2*)bookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrival {
     for (OBABookmarkV2 *bm in self.ungroupedBookmarks) {
-        if ([bm.stopId isEqual:stop.stopId]) {
+        if ([bm matchesArrivalAndDeparture:arrival]) {
             return bm;
         }
     }
 
     for (OBABookmarkGroup *group in self.bookmarkGroups) {
         for (OBABookmarkV2 *bm in group.bookmarks) {
-            if ([bm.stopId isEqual:stop.stopId]) {
+            if ([bm matchesArrivalAndDeparture:arrival]) {
                 return bm;
             }
         }
     }
 
     return nil;
+}
+
+- (nullable OBABookmarkV2*)bookmarkAtIndex:(NSUInteger)index inGroup:(nullable OBABookmarkGroup*)group {
+    NSArray *bookmarks = group ? group.bookmarks : self.ungroupedBookmarks;
+
+    OBAGuard(bookmarks.count > index) else {
+        return nil;
+    }
+
+    return bookmarks[index];
 }
 
 - (NSArray*)ungroupedBookmarks {
@@ -137,14 +147,12 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 }
 
 - (NSArray*)bookmarksForCurrentRegion {
-    if (self.region) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K IN %@", NSStringFromSelector(@selector(regionIdentifier)), @[@(self.region.identifier)]];
-
-        return [self.allBookmarks filteredArrayUsingPredicate:predicate];
-    }
-    else {
+    if (!self.region) {
         return @[];
     }
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K IN %@", NSStringFromSelector(@selector(regionIdentifier)), @[@(self.region.identifier)]];
+    return [self.allBookmarks filteredArrayUsingPredicate:predicate];
 }
 
 - (NSArray *)bookmarkGroups {
@@ -173,7 +181,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
         return;
     }
 
-    @synchronized (self) {
+    @synchronized(self) {
         NSUInteger bookmarksCount = _bookmarks.count;
 
         OBABookmarkV2 * bm = _bookmarks[startIndex];
@@ -227,9 +235,11 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
 }
 
-- (void)moveBookmark:(OBABookmarkV2*)bookmark toGroup:(OBABookmarkGroup*)group {
+- (void)moveBookmark:(OBABookmarkV2*)bookmark toGroup:(nullable OBABookmarkGroup*)group {
     if (!group) {
-        [_bookmarks addObject:bookmark];
+        if (![_bookmarks containsObject:bookmark]) {
+            [_bookmarks addObject:bookmark];
+        }
         [bookmark.group.bookmarks removeObject:bookmark];
     }
     else if (bookmark.group) {
@@ -268,12 +278,32 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     }
 }
 
+- (void)moveBookmark:(OBABookmarkV2*)bookmark toIndex:(NSUInteger)index inGroup:(nullable OBABookmarkGroup*)group {
+    OBAGuard(bookmark) else {
+        return;
+    }
+
+    [self moveBookmark:bookmark toGroup:group];
+
+    if (group) {
+        NSUInteger idx = [group.bookmarks indexOfObject:bookmark];
+        [self moveBookmark:idx to:index inGroup:group];
+    }
+    else {
+        NSUInteger idx = [self.ungroupedBookmarks indexOfObject:bookmark];
+        [self moveBookmark:idx to:index];
+    }
+}
+
 #pragma mark - Stop Preferences
 
 - (OBAStopPreferencesV2*) stopPreferencesForStopWithId:(NSString*)stopId {
     OBAStopPreferencesV2 * prefs = _stopPreferences[stopId];
-    if( ! prefs )
+
+    if (!prefs) {
         return [[OBAStopPreferencesV2 alloc] init];
+    }
+
     return [[OBAStopPreferencesV2 alloc] initWithStopPreferences:prefs];
 }
 
@@ -373,10 +403,8 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 }
 
 - (void)setVisited:(BOOL)visited forSituationWithId:(NSString*)situationId {
-    
-    BOOL prevVisited = [_visitedSituationIds containsObject:situationId];
 
-    if (visited == prevVisited) {
+    if ([_visitedSituationIds containsObject:situationId]) {
         return;
     }
 

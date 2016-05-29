@@ -13,8 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class OBABookmarkV2;
 
 @interface OBABookmarkGroup : NSObject<NSCoding>
-@property (nonatomic, strong) NSMutableArray *bookmarks;
-@property (nonatomic, strong) NSString *name;
+@property(nonatomic,strong) NSMutableArray *bookmarks;
+@property(nonatomic,copy) NSString *name;
 
 - (instancetype)initWithName:(NSString*)name;
 
