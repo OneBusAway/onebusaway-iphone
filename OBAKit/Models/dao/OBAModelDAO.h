@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)saveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup;
 - (void)removeBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup;
-- (void)moveBookmark:(OBABookmarkV2*)bookmark toGroup:(OBABookmarkGroup*)group;
+- (void)moveBookmark:(OBABookmarkV2*)bookmark toGroup:(nullable OBABookmarkGroup*)group;
 - (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex inGroup:(OBABookmarkGroup*)group;
 
 - (OBAStopPreferencesV2*)stopPreferencesForStopWithId:(NSString*)stopId;

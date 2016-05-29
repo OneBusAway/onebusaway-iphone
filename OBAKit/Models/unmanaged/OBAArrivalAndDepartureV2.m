@@ -7,7 +7,7 @@
 
 @implementation OBAArrivalAndDepartureV2
 
-- (id) init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         _situationIds = [[NSMutableArray alloc] init];
@@ -192,6 +192,15 @@
     else {
         return [NSString stringWithFormat:NSLocalizedString(@"%@ min %@", @"e.g. 3 min early"), @(minDiff), suffixWord];
     }
+}
+
+#pragma mark - NSObject
+
+- (NSString*)description {
+
+    NSDictionary *dict = [self dictionaryWithValuesForKeys:@[@"routeId", @"route", @"routeShortName", @"tripId", @"trip", @"tripHeadsign", @"serviceDate", @"instance", @"tripInstance", @"stopId", @"stop", @"stopSequence", @"tripStatus", @"frequency", @"predicted", @"scheduledArrivalTime", @"predictedArrivalTime", @"bestArrivalTime", @"scheduledDepartureTime", @"predictedDepartureTime", @"bestDepartureTime", @"distanceFromStop", @"numberOfStopsAway"]];
+
+    return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, dict];
 }
 
 @end
