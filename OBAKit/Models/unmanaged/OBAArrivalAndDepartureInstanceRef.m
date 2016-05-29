@@ -1,4 +1,5 @@
 #import "OBAArrivalAndDepartureInstanceRef.h"
+#import "NSObject+OBADescription.h"
 
 @implementation OBAArrivalAndDepartureInstanceRef
 
@@ -39,7 +40,7 @@
 }
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<%@: %p> (tripInstance=%@, stopId=%@, stopSequence=%@)", self.class, self, self.tripInstance, self.stopId, @(self.stopSequence)];
+    return [self oba_description:@[@"tripInstance", @"stopId", @"stopSequence"]];
 }
 
 @end

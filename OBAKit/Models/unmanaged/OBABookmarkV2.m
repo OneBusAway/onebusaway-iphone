@@ -1,6 +1,7 @@
 #import "OBABookmarkV2.h"
 #import "OBAStopV2.h"
 #import "OBARegionV2.h"
+#import "NSObject+OBADescription.h"
 
 static NSString * const kRegionIdentifier = @"regionIdentifier";
 static NSString * const kName = @"name";
@@ -115,7 +116,7 @@ static NSString * const kStop = @"stop";
 #pragma mark - NSObject
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<%@: %p> :: {name: %@, group: %@, stopID: %@, stop: %@, regionIdentifier: %@}", self.class, self, self.name, self.group, self.stopId, self.stop, @(self.regionIdentifier)];
+    return [self oba_description:@[@"name", @"group", @"stopId", @"stop", @"regionIdentifier", @"routeType"]];
 }
 
 

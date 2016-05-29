@@ -1,5 +1,7 @@
 #import "OBAStopPreferencesV2.h"
+#import "NSObject+OBADescription.h"
 
+NSString * _Nullable NSStringFromOBASortTripsByTypeV2(OBASortTripsByTypeV2 val);
 NSString * _Nullable NSStringFromOBASortTripsByTypeV2(OBASortTripsByTypeV2 val) {
     switch (val) {
         case OBASortTripsByDepartureTimeV2:
@@ -84,10 +86,14 @@ NSString * _Nullable NSStringFromOBASortTripsByTypeV2(OBASortTripsByTypeV2 val) 
     return self.routeFilter.count > 0;
 }
 
+- (NSString*)formattedSortTripsByType {
+    return NSStringFromOBASortTripsByTypeV2(self.sortTripsByType);
+}
+
 #pragma mark - NSObject
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<%@ %p> {type: %@, routeFilter: %@}", NSStringFromClass(self.class), self, NSStringFromOBASortTripsByTypeV2(self.sortTripsByType), self.routeFilter];
+    return [self oba_description:@[@"formattedSortTripsByType", @"routeFilter", @"hasFilteredRoutes"]];
 }
 
 @end

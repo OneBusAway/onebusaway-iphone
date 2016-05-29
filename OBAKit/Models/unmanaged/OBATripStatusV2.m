@@ -1,5 +1,5 @@
 #import "OBATripStatusV2.h"
-
+#import "NSObject+OBADescription.h"
 
 @implementation OBATripStatusV2
 
@@ -13,7 +13,6 @@
 }
 
 - (NSString*)description {
-    NSDictionary *dict = [self dictionaryWithValuesForKeys:@[@"activeTripId", @"activeTrip", @"serviceDate", @"frequency", @"location", @"predicted", @"scheduleDeviation", @"vehicleId", @"lastUpdateTime", @"lastKnownLocation", @"tripInstance"]];
-    return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, dict];
+    return [self oba_description:@[@"activeTripId", @"activeTrip", @"serviceDate", @"frequency", @"location", @"predicted", @"scheduleDeviation", @"vehicleId", @"lastUpdateTime", @"lastKnownLocation", @"tripInstance"]];
 }
 @end

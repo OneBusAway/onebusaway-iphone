@@ -5,8 +5,6 @@ typedef NS_ENUM(NSUInteger, OBASortTripsByTypeV2) {
     OBASortTripsByRouteNameV2 = 1
 };
 
-NSString * _Nullable NSStringFromOBASortTripsByTypeV2(OBASortTripsByTypeV2 val);
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAStopPreferencesV2 : NSObject <NSCoding> {
@@ -14,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableSet * _routeFilter;
 }
 @property(nonatomic,assign) OBASortTripsByTypeV2 sortTripsByType;
+@property(nonatomic,copy,readonly) NSString *formattedSortTripsByType;
 @property(nonatomic,strong,readonly) NSSet * routeFilter;
 
 /**
