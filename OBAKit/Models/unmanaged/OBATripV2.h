@@ -15,9 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString * directionId;
 @property (nonatomic, strong) NSString * blockId;
 
-@property (weak, nonatomic, readonly) OBARouteV2 * route;
+@property(weak, nonatomic, readonly) OBARouteV2 * route;
 
-@property (weak, nonatomic, readonly) NSString * asLabel;
+@property(nonatomic,copy,readonly) NSString *asLabel;
 
 @end
 

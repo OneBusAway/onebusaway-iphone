@@ -13,40 +13,40 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAArrivalAndDepartureV2 : OBAHasReferencesV2<OBAHasServiceAlerts>
 
-@property (nonatomic,strong) NSString * routeId;
-@property (weak, nonatomic,readonly) OBARouteV2 * route;
-@property (nonatomic,strong) NSString * routeShortName;
+@property(nonatomic,strong) NSString * routeId;
+@property(nonatomic,weak,readonly) OBARouteV2 * route;
+@property(nonatomic,strong) NSString * routeShortName;
 
-@property (nonatomic,strong) NSString * tripId;
-@property (weak, nonatomic,readonly) OBATripV2 * trip;
-@property (nonatomic,strong) NSString * tripHeadsign;
-@property (nonatomic) long long serviceDate;
+@property(nonatomic,strong) NSString * tripId;
+@property(nonatomic,weak,readonly) OBATripV2 * trip;
+@property(nonatomic,strong) NSString * tripHeadsign;
+@property(nonatomic,assign) long long serviceDate;
 
-@property (weak, nonatomic,readonly) OBAArrivalAndDepartureInstanceRef * instance;
-@property (weak, nonatomic,readonly) OBATripInstanceRef * tripInstance;
+@property(nonatomic,weak,readonly) OBAArrivalAndDepartureInstanceRef * instance;
+@property(nonatomic,weak,readonly) OBATripInstanceRef * tripInstance;
 
-@property (nonatomic,strong) NSString * stopId;
-@property (weak, nonatomic,readonly) OBAStopV2 * stop;
-@property (nonatomic) NSInteger stopSequence;
+@property(nonatomic,strong) NSString * stopId;
+@property(nonatomic,weak,readonly) OBAStopV2 * stop;
+@property(nonatomic,assign) NSInteger stopSequence;
 
-@property (nonatomic,strong) OBATripStatusV2 * tripStatus;
+@property(nonatomic,strong) OBATripStatusV2 * tripStatus;
 
-@property (nonatomic,strong) OBAFrequencyV2 * frequency;
+@property(nonatomic,strong) OBAFrequencyV2 * frequency;
 
-@property (nonatomic) BOOL predicted;
+@property(nonatomic,assign) BOOL predicted;
 
-@property (nonatomic) long long scheduledArrivalTime;
-@property (nonatomic) long long predictedArrivalTime;
-@property (nonatomic,readonly) long long bestArrivalTime;
+@property(nonatomic,assign) long long scheduledArrivalTime;
+@property(nonatomic,assign) long long predictedArrivalTime;
+@property(nonatomic,assign,readonly) long long bestArrivalTime;
 
-@property (nonatomic) long long scheduledDepartureTime;
-@property (nonatomic) long long predictedDepartureTime;
-@property (nonatomic,readonly) long long bestDepartureTime;
+@property(nonatomic,assign) long long scheduledDepartureTime;
+@property(nonatomic,assign) long long predictedDepartureTime;
+@property(nonatomic,assign,readonly) long long bestDepartureTime;
+
+@property(nonatomic,assign) double distanceFromStop;
+@property(nonatomic,assign) NSInteger numberOfStopsAway;
 
 - (BOOL)hasRealTimeData;
-
-@property (nonatomic) double distanceFromStop;
-@property (nonatomic) NSInteger numberOfStopsAway;
 
 /**
  Walks through a series of possible options for giving this arrival and departure a user-sensible name.

@@ -12,4 +12,8 @@
     return [OBATripInstanceRef tripInstance:self.activeTripId serviceDate:self.serviceDate vehicleId:self.vehicleId];
 }
 
+- (NSString*)description {
+    NSDictionary *dict = [self dictionaryWithValuesForKeys:@[@"activeTripId", @"activeTrip", @"serviceDate", @"frequency", @"location", @"predicted", @"scheduleDeviation", @"vehicleId", @"lastUpdateTime", @"lastKnownLocation", @"tripInstance"]];
+    return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, dict];
+}
 @end
