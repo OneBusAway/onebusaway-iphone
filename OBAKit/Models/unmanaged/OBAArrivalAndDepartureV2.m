@@ -1,5 +1,6 @@
 #import "OBAArrivalAndDepartureV2.h"
 #import "OBADateHelpers.h"
+#import "NSObject+OBADescription.h"
 
 @interface OBAArrivalAndDepartureV2 ()
 @property(nonatomic,strong) NSMutableArray *situationIds;
@@ -197,10 +198,7 @@
 #pragma mark - NSObject
 
 - (NSString*)description {
-
-    NSDictionary *dict = [self dictionaryWithValuesForKeys:@[@"routeId", @"route", @"routeShortName", @"tripId", @"trip", @"tripHeadsign", @"serviceDate", @"instance", @"tripInstance", @"stopId", @"stop", @"stopSequence", @"tripStatus", @"frequency", @"predicted", @"scheduledArrivalTime", @"predictedArrivalTime", @"bestArrivalTime", @"scheduledDepartureTime", @"predictedDepartureTime", @"bestDepartureTime", @"distanceFromStop", @"numberOfStopsAway"]];
-
-    return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, dict];
+    return [self oba_description:@[@"routeId", @"route", @"routeShortName", @"tripId", @"trip", @"tripHeadsign", @"serviceDate", @"instance", @"tripInstance", @"stopId", @"stop", @"stopSequence", @"tripStatus", @"frequency", @"predicted", @"scheduledArrivalTime", @"predictedArrivalTime", @"bestArrivalTime", @"scheduledDepartureTime", @"predictedDepartureTime", @"bestDepartureTime", @"distanceFromStop", @"numberOfStopsAway"]];
 }
 
 @end

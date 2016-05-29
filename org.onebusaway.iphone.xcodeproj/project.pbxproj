@@ -119,6 +119,8 @@
 		934446DA1AB12C5D005B3333 /* OBAProgressIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446D81AB12C5D005B3333 /* OBAProgressIndicatorView.m */; };
 		934522601C1BA976006F75BC /* OBATheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 9345225F1C1BA976006F75BC /* OBATheme.m */; };
 		934B62971CF825D200D8FA85 /* OBATripScheduleSectionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 934B62961CF825D200D8FA85 /* OBATripScheduleSectionBuilder.m */; };
+		934B62A21CFBA5FA00D8FA85 /* NSObject+OBADescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 934B62A01CFBA5FA00D8FA85 /* NSObject+OBADescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934B62A31CFBA5FA00D8FA85 /* NSObject+OBADescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 934B62A11CFBA5FA00D8FA85 /* NSObject+OBADescription.m */; };
 		934D00311C83924400A76A90 /* OBACommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D00161C83924400A76A90 /* OBACommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934D00321C83924400A76A90 /* OBACommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D00171C83924400A76A90 /* OBACommon.m */; };
 		934D00331C83924400A76A90 /* OBACommonV1.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D00181C83924400A76A90 /* OBACommonV1.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -512,6 +514,8 @@
 		9345225F1C1BA976006F75BC /* OBATheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATheme.m; sourceTree = "<group>"; };
 		934B62951CF825D200D8FA85 /* OBATripScheduleSectionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripScheduleSectionBuilder.h; sourceTree = "<group>"; };
 		934B62961CF825D200D8FA85 /* OBATripScheduleSectionBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripScheduleSectionBuilder.m; sourceTree = "<group>"; };
+		934B62A01CFBA5FA00D8FA85 /* NSObject+OBADescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+OBADescription.h"; sourceTree = "<group>"; };
+		934B62A11CFBA5FA00D8FA85 /* NSObject+OBADescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+OBADescription.m"; sourceTree = "<group>"; };
 		934D00161C83924400A76A90 /* OBACommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACommon.h; sourceTree = "<group>"; };
 		934D00171C83924400A76A90 /* OBACommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACommon.m; sourceTree = "<group>"; };
 		934D00181C83924400A76A90 /* OBACommonV1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACommonV1.h; sourceTree = "<group>"; };
@@ -885,6 +889,8 @@
 		9302B6051CA4CCDA002B6AC7 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				934B62A01CFBA5FA00D8FA85 /* NSObject+OBADescription.h */,
+				934B62A11CFBA5FA00D8FA85 /* NSObject+OBADescription.m */,
 				9302B6061CA4CCDA002B6AC7 /* NSArray+OBAAdditions.h */,
 				9302B6071CA4CCDA002B6AC7 /* NSArray+OBAAdditions.m */,
 			);
@@ -1680,6 +1686,7 @@
 				9320772A1C9C85F4005F7D4A /* OBAHasServiceAlerts.h in Headers */,
 				934D00DE1C83924D00A76A90 /* OBACreateObjectJsonDigesterRule.h in Headers */,
 				93392E271CB23F5C00A46B61 /* OBAModelPersistenceLayer.h in Headers */,
+				934B62A21CFBA5FA00D8FA85 /* NSObject+OBADescription.h in Headers */,
 				9302B6081CA4CCDA002B6AC7 /* NSArray+OBAAdditions.h in Headers */,
 				9320771A1C993A4D005F7D4A /* OBARouteType.h in Headers */,
 			);
@@ -2042,6 +2049,7 @@
 				934D00DD1C83924D00A76A90 /* OBACallMethodJsonDigesterRule.m in Sources */,
 				934D010D1C83924D00A76A90 /* OBAPlacemark.m in Sources */,
 				934D01291C83924D00A76A90 /* OBAStopPreferencesV2.m in Sources */,
+				934B62A31CFBA5FA00D8FA85 /* NSObject+OBADescription.m in Sources */,
 				934D00E91C83924D00A76A90 /* OBASetLocationPropertyJsonDigesterRule.m in Sources */,
 				934D01251C83924D00A76A90 /* OBASituationV2.m in Sources */,
 				934D00391C83924400A76A90 /* OBALogger.m in Sources */,

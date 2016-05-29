@@ -7,6 +7,7 @@
 //
 
 #import "OBARegionBoundsV2.h"
+#import "NSObject+OBADescription.h"
 
 @implementation OBARegionBoundsV2
 
@@ -61,7 +62,7 @@ static NSString * kLonSpanKey = @"lonSpan";
 #pragma mark - NSObject
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<%@: %p> :: {lat: %@ +/- %@ :: lon: %@ +/- %@}", self.class, self, @(self.lat), @(self.latSpan), @(self.lon), @(self.lonSpan)];
+    return [self oba_description:@[@"lat", @"latSpan", @"lon", @"lonSpan"]];
 }
 
 @end

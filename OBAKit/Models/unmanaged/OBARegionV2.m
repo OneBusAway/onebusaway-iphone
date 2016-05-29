@@ -9,6 +9,7 @@
 #import "OBARegionV2.h"
 #import "OBARegionBoundsV2.h"
 #import "NSArray+OBAAdditions.h"
+#import "NSObject+OBADescription.h"
 
 static NSString * kSiriBaseUrl = @"siriBaseUrl";
 static NSString * kObaVersionInfo = @"obaVersionInfo";
@@ -131,7 +132,7 @@ static NSString * kRegionName = @"regionName";
 
 - (NSString*)description
 {
-    return [NSString stringWithFormat:@"<%@: %p> :: {%@ - obaBaseUrl: %@, bounds: %@, experimental: %@}", self.class, self, self.regionName, self.obaBaseUrl, self.bounds, self.experimental ? @"YES" : @"NO"];
+    return [self oba_description:@[@"siriBaseUrl", @"obaVersionInfo", @"language", @"bounds", @"contactEmail", @"twitterUrl", @"obaBaseUrl", @"facebookUrl", @"regionName", @"supportsSiriRealtimeApis", @"supportsObaRealtimeApis", @"supportsObaDiscoveryApis", @"active", @"experimental", @"identifier"]];
 }
 
 @end
