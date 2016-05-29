@@ -14,7 +14,7 @@ Our [huboard](https://huboard.com/OneBusAway/onebusaway-iphone) lists developmen
 
 1. Install Xcode 7.x
 2. `git clone` your fork
-3. `(sudo) gem install cocoapods`
+3. `(sudo) gem install cocoapods -v 0.39.0` (not yet compatible with cocoapods 1.0)
 4. `pod install`
 5. Open `org.onebusaway.iphone.xcworkspace`
 
