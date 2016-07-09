@@ -27,10 +27,6 @@ NSString * const OBAAnalyticsDimensionOff = @"OFF";
 
 NSInteger const OBAAnalyticsDimensionVoiceOver = 4;
 
-NSString * OBAStringFromBool(BOOL yn) {
-    return yn ? @"YES" : @"NO";
-}
-
 @implementation OBAAnalytics
 
 + (void)configureVoiceOverStatus {

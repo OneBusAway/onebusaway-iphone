@@ -22,6 +22,15 @@
 + (NSString*)pathToTestFile:(NSString*)fileName;
 
 /**
+ Returns a string containing the contents of the provided file name. The file must be part of the test target.
+
+ @param fileName The name of the file to load, with extension.
+
+ @return The contents of the file as a UTF-8 string.
+ */
++ (NSString*)contentsOfTestFile:(NSString*)fileName;
+
+/**
  Returns the deserialized object from the JSON file specified.
  */
 + (id)jsonObjectFromFile:(NSString*)fileName;

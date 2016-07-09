@@ -34,6 +34,7 @@
 
 #import "OBAAnalytics.h"
 #import "NSArray+OBAAdditions.h"
+#import <Apptentive/Apptentive.h>
 
 static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
 static NSString *kOBAShowExperimentalRegionsDefaultsKey = @"kOBAShowExperimentalRegionsDefaultsKey";
@@ -43,6 +44,7 @@ static NSString *const kAllowTracking = @"allowTracking";
 static NSString *const kApplicationShortcutMap = @"org.onebusaway.iphone.shortcut.map";
 static NSString *const kApplicationShortcutRecents = @"org.onebusaway.iphone.shortcut.recents";
 static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcut.bookmarks";
+static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc9f70ef38378a9d5a15ac7d4926";
 
 @interface OBAApplicationDelegate () <OBABackgroundTaskExecutor>
 @property (nonatomic, readwrite) BOOL active;
@@ -170,10 +172,13 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    //Register a background handler with the model service
+    // Register a background handler with the model service
     [OBAModelService addBackgroundExecutor:self];
 
-    //setup Google Analytics
+    // Configure the Apptentive feedback system
+    [Apptentive sharedConnection].APIKey = kApptentiveKey;
+
+    // Set up Google Analytics
     NSDictionary *appDefaults = @{ kAllowTracking: @(YES), kSetRegionAutomaticallyKey: @(YES)};
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
 
@@ -348,7 +353,6 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
     }
     else if (OBANavigationTargetTypeContactUs == navigationTarget.target) {
         [self.tabBarController setSelectedViewController:self.infoNavigationController];
-        [self.infoViewController openContactUs];
     }
     else if (OBANavigationTargetTypeSettings == navigationTarget.target) {
         [self.tabBarController setSelectedViewController:self.infoNavigationController];

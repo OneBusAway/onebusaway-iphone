@@ -7,16 +7,20 @@
 //
 
 #import "OBAInfoViewController.h"
-#import "OBAContactUsViewController.h"
 #import "OBAAgenciesListViewController.h"
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
 #import "OBARegionListViewController.h"
 #import <SafariServices/SafariServices.h>
+#import <Apptentive/Apptentive.h>
+#import <OBAKit/OBAEmailHelper.h>
 
 static NSString * const kDonateURLString = @"http://onebusaway.org/donate/";
 static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
-static NSString * const kFeatureRequestsURLString = @"http://onebusaway.ideascale.com/a/ideafactory.do?id=8715&mode=top&discussionFilter=byids&discussionID=46166";
+
+@interface OBAInfoViewController ()<MFMailComposeViewControllerDelegate>
+
+@end
 
 @implementation OBAInfoViewController
 
@@ -42,6 +46,20 @@ static NSString * const kFeatureRequestsURLString = @"http://onebusaway.ideascal
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMessageCountChanged:) name:ApptentiveMessageCenterUnreadCountChangedNotification object:nil];
+
+    [self reloadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:ApptentiveMessageCenterUnreadCountChangedNotification object:nil];
+}
+
+#pragma mark - Notifications
+
+- (void)unreadMessageCountChanged:(NSNotification*)note {
     [self reloadData];
 }
 
@@ -50,6 +68,7 @@ static NSString * const kFeatureRequestsURLString = @"http://onebusaway.ideascal
 - (void)reloadData {
     self.sections = @[
                       [self settingsTableSection],
+                      [self contactTableSection],
                       [self aboutTableSection]
                     ];
     [self.tableView reloadData];
@@ -78,12 +97,28 @@ static NSString * const kFeatureRequestsURLString = @"http://onebusaway.ideascal
     return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"Your Location", @"Settings section title on info page") rows:@[region,agencies]];
 }
 
-- (OBATableSection*)aboutTableSection {
+- (OBATableSection*)contactTableSection {
 
-    OBATableRow *contactUs = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Contact Us", @"Info Page Contact Us Row Title") action:^{
+    OBATableRow *contactUs = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Data & Schedule Issues", @"Info Page Contact Us Row Title") action:^{
         [self openContactUs];
     }];
     contactUs.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    OBATableRow *reportAppIssue = [OBATableRow tableRowWithTitle:NSLocalizedString(@"App Bugs & Feature Requests", @"A row in the Info tab's table view") action:^{
+        [[Apptentive sharedConnection] presentMessageCenterFromViewController:self];
+    }];
+    reportAppIssue.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    NSUInteger unreadMessageCount = [[Apptentive sharedConnection] unreadMessageCount];
+    if (unreadMessageCount > 0) {
+        reportAppIssue.subtitle = [NSString stringWithFormat:NSLocalizedString(@"%@ unread", @"Unread messages count. e.g. 2 unread"), @(unreadMessageCount)];
+        reportAppIssue.style = UITableViewCellStyleValue1;
+    }
+
+    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"Contact Us", @"") rows:@[contactUs, reportAppIssue]];
+}
+
+- (OBATableSection*)aboutTableSection {
 
     OBATableRow *credits = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Credits", @"Info Page Credits Row Title") action:^{
         [self.navigationController pushViewController:[[OBACreditsViewController alloc] init] animated:YES];
@@ -106,17 +141,51 @@ static NSString * const kFeatureRequestsURLString = @"http://onebusaway.ideascal
     }];
     donate.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"About OneBusAway", @"") rows:@[contactUs, credits, privacy, donate]];
+    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"About OneBusAway", @"") rows:@[credits, privacy, donate]];
+}
+
+#pragma mark - Email
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    [self becomeFirstResponder];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)cantSendEmail {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Please set up your Mail app before trying to send an email.", @"view.message")
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"Dismiss button for alert.") style:UIAlertActionStyleDefault handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)openContactUs {
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Email Link" value:nil];
+
+    MFMailComposeViewController *composer = [OBAEmailHelper mailComposeViewControllerForModelDAO:[OBAApplication sharedApplication].modelDao
+                                                                                 currentLocation:[OBAApplication sharedApplication].locationManager.currentLocation];
+
+    if (composer) {
+        composer.mailComposeDelegate = self;
+        [self presentViewController:composer animated:YES completion:nil];
+    }
+    else {
+        [self cantSendEmail];
+    }
 }
 
 #pragma mark - Public Methods
 
-- (void)openContactUs {
-    [self.navigationController pushViewController:[[OBAContactUsViewController alloc] init] animated:YES];
-}
-
 - (void)openAgencies {
     [self.navigationController pushViewController:[[OBAAgenciesListViewController alloc] init] animated:YES];
+}
+
+#pragma mark OBANavigationTargetAware
+
+- (OBANavigationTarget *)navigationTarget {
+    return [OBANavigationTarget target:OBANavigationTargetTypeContactUs];
 }
 
 #pragma mark - Private

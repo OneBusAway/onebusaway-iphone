@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		31040260B414257944BD0C2D /* Pods_OneBusAway.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73CB0AC7A68F6DE563855845 /* Pods_OneBusAway.framework */; };
 		669B2F781AEBFCB300CF2367 /* OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F771AEBFCB300CF2367 /* OBAAnalytics.m */; };
 		669B2F801AEBFEBF00CF2367 /* OBARegionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F7F1AEBFEBF00CF2367 /* OBARegionHelper.m */; };
 		923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */; };
@@ -69,7 +70,6 @@
 		932077281C9C84EC005F7D4A /* OBAStaticTableViewController+Builders.m in Sources */ = {isa = PBXBuildFile; fileRef = 932077271C9C84EC005F7D4A /* OBAStaticTableViewController+Builders.m */; };
 		9320772A1C9C85F4005F7D4A /* OBAHasServiceAlerts.h in Headers */ = {isa = PBXBuildFile; fileRef = 932077291C9C85F4005F7D4A /* OBAHasServiceAlerts.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		932BE49D1AB66D320011F2FB /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4931AB66D320011F2FB /* OBAAgenciesListViewController.m */; };
-		932BE49E1AB66D320011F2FB /* OBAContactUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4951AB66D320011F2FB /* OBAContactUsViewController.m */; };
 		932BE49F1AB66D320011F2FB /* OBAInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4971AB66D320011F2FB /* OBAInfoViewController.m */; };
 		932BE4A11AB66D320011F2FB /* OBARegionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE49A1AB66D320011F2FB /* OBARegionListViewController.m */; };
 		932BE4BB1AB66D5C0011F2FB /* OBAEditStopPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4AB1AB66D5C0011F2FB /* OBAEditStopPreferencesViewController.m */; };
@@ -104,6 +104,10 @@
 		932BE5171AB672B50011F2FB /* OBASearchResultsMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 932BE5161AB672B50011F2FB /* OBASearchResultsMapViewController.xib */; };
 		9330DEEA16050CA600E14AF4 /* credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 9330DEE916050CA600E14AF4 /* credits.html */; };
 		9330DF281606405100E14AF4 /* OBAScopeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DF271606405100E14AF4 /* OBAScopeView.m */; };
+		9337D6C81D32A85F00D237D6 /* OBAEmailHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 9337D6C61D32A85F00D237D6 /* OBAEmailHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9337D6C91D32A85F00D237D6 /* OBAEmailHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9337D6C71D32A85F00D237D6 /* OBAEmailHelper.m */; };
+		9337D6CC1D32AFE300D237D6 /* OBAEmailHelper_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9337D6CB1D32AFE300D237D6 /* OBAEmailHelper_Tests.m */; };
+		9337D6CF1D32B21C00D237D6 /* testMessageBodyForModelDAO.html in Resources */ = {isa = PBXBuildFile; fileRef = 9337D6CE1D32B21C00D237D6 /* testMessageBodyForModelDAO.html */; };
 		93392E251CB23D0000A46B61 /* OBAModelDAO_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93392E241CB23D0000A46B61 /* OBAModelDAO_Tests.m */; };
 		93392E271CB23F5C00A46B61 /* OBAModelPersistenceLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 93392E261CB23F5C00A46B61 /* OBAModelPersistenceLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93392E2A1CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 93392E291CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.m */; };
@@ -295,7 +299,6 @@
 		936F45DC1C78D06600C61656 /* OneBusAwayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F45DB1C78D06600C61656 /* OneBusAwayTests.m */; };
 		9388E9DD1A9BCC8900C9F6CE /* feedback_message_body.html in Resources */ = {isa = PBXBuildFile; fileRef = 9388E9DC1A9BCC8900C9F6CE /* feedback_message_body.html */; };
 		9399E3DF1C8930C300962292 /* OBASeparatorSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9399E3DE1C8930C300962292 /* OBASeparatorSectionView.m */; };
-		939E8E4D1C78DCB1008FCA4C /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939E8E4C1C78DCB1008FCA4C /* Pods.framework */; };
 		939E8E5B1C7B815E008FCA4C /* OBABaseRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E8E5A1C7B815E008FCA4C /* OBABaseRow.m */; };
 		93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A923A11C21DCD600A657C8 /* SafariServices.framework */; };
 		93AD36431603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD363A1603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m */; };
@@ -309,10 +312,10 @@
 		93E4A7621CE65B2100E769B0 /* atlanta.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 93E4A7611CE65B2100E769B0 /* atlanta.gpx */; };
 		93F05A631C8E080000BF36B1 /* OBAAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F05A621C8E080000BF36B1 /* OBAAnimation.m */; };
 		93F64E971BE5ACC300323527 /* OBAAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F64E961BE5ACC300323527 /* OBAAlerts.m */; };
+		C4402BFD381C435E877939FF /* Pods_OneBusAwayTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEDB575BE5B5DDBA090E58E0 /* Pods_OneBusAwayTests.framework */; };
 		D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = D651BB2711C9D5DE001BE733 /* iTunesArtwork */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
-		E238ED5643B2070974316CC3 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5915BB5B4ED79BCFF0C6D8B4 /* Pods.framework */; };
-		F5DE989070011DA095DEC6A2 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5915BB5B4ED79BCFF0C6D8B4 /* Pods.framework */; };
+		DF31D866B1AD43244F6F895C /* Pods_OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 741F0C356CB603573A7466C1 /* Pods_OBAKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -347,17 +350,21 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		13105E482CCDE283CE77C92E /* Pods.adhocdistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.adhocdistribution.xcconfig; path = "Pods/Target Support Files/Pods/Pods.adhocdistribution.xcconfig"; sourceTree = "<group>"; };
+		1B31A724F5B9E5B3A8276FE6 /* Pods-OneBusAwayTests.appstoredistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAwayTests.appstoredistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAwayTests/Pods-OneBusAwayTests.appstoredistribution.xcconfig"; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* OneBusAway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneBusAway.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		26DE16A6837EFF5DCD23D805 /* Pods-OneBusAway.adhocdistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.adhocdistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.adhocdistribution.xcconfig"; sourceTree = "<group>"; };
+		2090FA85E96D4CC26E750866 /* Pods-OneBusAway.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.debug.xcconfig"; sourceTree = "<group>"; };
 		28A0AB4B0D9B1048005BE974 /* org_onebusaway_iphone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = org_onebusaway_iphone_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		54CB67407CF2B898E5D99654 /* Pods-OneBusAway.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.release.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.release.xcconfig"; sourceTree = "<group>"; };
+		2B80B704E740E0E6BB8699E7 /* Pods-OneBusAwayTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAwayTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAwayTests/Pods-OneBusAwayTests.release.xcconfig"; sourceTree = "<group>"; };
+		4F8EB54B20802AD353BBD9F0 /* Pods-OneBusAway.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.release.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.release.xcconfig"; sourceTree = "<group>"; };
 		5915BB5B4ED79BCFF0C6D8B4 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		669B2F761AEBFCB300CF2367 /* OBAAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAnalytics.h; sourceTree = "<group>"; };
 		669B2F771AEBFCB300CF2367 /* OBAAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAnalytics.m; sourceTree = "<group>"; };
 		669B2F7E1AEBFEBF00CF2367 /* OBARegionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionHelper.h; sourceTree = "<group>"; };
 		669B2F7F1AEBFEBF00CF2367 /* OBARegionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionHelper.m; sourceTree = "<group>"; };
+		73CB0AC7A68F6DE563855845 /* Pods_OneBusAway.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneBusAway.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		741F0C356CB603573A7466C1 /* Pods_OBAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OBAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		82DA38BE906163123EC2DB6B /* Pods-OBAKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OBAKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OBAKit/Pods-OBAKit.debug.xcconfig"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		923FE67E176082A7009AFDE8 /* UITableViewController+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewController+oba_Additions.h"; sourceTree = "<group>"; };
 		923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewController+oba_Additions.m"; sourceTree = "<group>"; };
@@ -425,8 +432,6 @@
 		932077291C9C85F4005F7D4A /* OBAHasServiceAlerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAHasServiceAlerts.h; sourceTree = "<group>"; };
 		932BE4921AB66D320011F2FB /* OBAAgenciesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgenciesListViewController.h; sourceTree = "<group>"; };
 		932BE4931AB66D320011F2FB /* OBAAgenciesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAgenciesListViewController.m; sourceTree = "<group>"; };
-		932BE4941AB66D320011F2FB /* OBAContactUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAContactUsViewController.h; sourceTree = "<group>"; };
-		932BE4951AB66D320011F2FB /* OBAContactUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAContactUsViewController.m; sourceTree = "<group>"; };
 		932BE4961AB66D320011F2FB /* OBAInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAInfoViewController.h; sourceTree = "<group>"; };
 		932BE4971AB66D320011F2FB /* OBAInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAInfoViewController.m; sourceTree = "<group>"; };
 		932BE4991AB66D320011F2FB /* OBARegionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionListViewController.h; sourceTree = "<group>"; };
@@ -485,6 +490,10 @@
 		9330DEE916050CA600E14AF4 /* credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
 		9330DF261606405100E14AF4 /* OBAScopeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAScopeView.h; sourceTree = "<group>"; };
 		9330DF271606405100E14AF4 /* OBAScopeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAScopeView.m; sourceTree = "<group>"; };
+		9337D6C61D32A85F00D237D6 /* OBAEmailHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEmailHelper.h; sourceTree = "<group>"; };
+		9337D6C71D32A85F00D237D6 /* OBAEmailHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEmailHelper.m; sourceTree = "<group>"; };
+		9337D6CB1D32AFE300D237D6 /* OBAEmailHelper_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEmailHelper_Tests.m; sourceTree = "<group>"; };
+		9337D6CE1D32B21C00D237D6 /* testMessageBodyForModelDAO.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = testMessageBodyForModelDAO.html; sourceTree = "<group>"; };
 		93392E241CB23D0000A46B61 /* OBAModelDAO_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelDAO_Tests.m; sourceTree = "<group>"; };
 		93392E261CB23F5C00A46B61 /* OBAModelPersistenceLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelPersistenceLayer.h; sourceTree = "<group>"; };
 		93392E281CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATestHarnessPersistenceLayer.h; sourceTree = "<group>"; };
@@ -736,18 +745,21 @@
 		93F05A621C8E080000BF36B1 /* OBAAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAnimation.m; sourceTree = "<group>"; };
 		93F64E951BE5ACC300323527 /* OBAAlerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAlerts.h; sourceTree = "<group>"; };
 		93F64E961BE5ACC300323527 /* OBAAlerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAlerts.m; sourceTree = "<group>"; };
-		9896748DE4027B647D4D41F0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		AF4665CA06626C1076EEEE33 /* Pods.appstoredistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstoredistribution.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstoredistribution.xcconfig"; sourceTree = "<group>"; };
-		B565A40323F4842FC230AA07 /* Pods-OneBusAway.appstoredistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.appstoredistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.appstoredistribution.xcconfig"; sourceTree = "<group>"; };
+		9ABEF18E98158A7476ECDB64 /* Pods-OneBusAway.adhocdistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.adhocdistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.adhocdistribution.xcconfig"; sourceTree = "<group>"; };
+		A553375C73FCAF3CA3D5D44A /* Pods-OneBusAway.appstoredistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.appstoredistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.appstoredistribution.xcconfig"; sourceTree = "<group>"; };
+		B522CE42A9FA4C2EBC350330 /* Pods-OneBusAwayTests.adhocdistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAwayTests.adhocdistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAwayTests/Pods-OneBusAwayTests.adhocdistribution.xcconfig"; sourceTree = "<group>"; };
+		BA6BA44B6944F6B63ED3CA83 /* Pods-OBAKit.adhocdistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OBAKit.adhocdistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OBAKit/Pods-OBAKit.adhocdistribution.xcconfig"; sourceTree = "<group>"; };
+		C54ED455ED75F06702811BF3 /* Pods-OneBusAwayTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAwayTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAwayTests/Pods-OneBusAwayTests.debug.xcconfig"; sourceTree = "<group>"; };
+		CB006C6E74245A8F0E8C52DA /* Pods-OBAKit.appstoredistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OBAKit.appstoredistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OBAKit/Pods-OBAKit.appstoredistribution.xcconfig"; sourceTree = "<group>"; };
 		D651BB2711C9D5DE001BE733 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = Resources/iTunesArtwork; sourceTree = "<group>"; };
 		D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
-		DEDC11A41EBF4F89626093D8 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E81C7B001825DEBF0047C68C /* setBuildVersion.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = setBuildVersion.sh; sourceTree = "<group>"; };
 		E81C7B011825DEBF0047C68C /* setBundleIdentifierForAppStore.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = setBundleIdentifierForAppStore.sh; sourceTree = "<group>"; };
 		E81C7B031825DEBF0047C68C /* accept_license.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = accept_license.sh; sourceTree = "<group>"; };
 		E81C7B041825DEBF0047C68C /* upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = upload.sh; sourceTree = "<group>"; };
 		E81C7B051825DEBF0047C68C /* xcode5.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = xcode5.sh; sourceTree = "<group>"; };
-		F9474B9020835B3BBE8BB77C /* Pods-OneBusAway.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.debug.xcconfig"; sourceTree = "<group>"; };
+		F68AD55F1E252FAE01D981BB /* Pods-OBAKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OBAKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-OBAKit/Pods-OBAKit.release.xcconfig"; sourceTree = "<group>"; };
+		FEDB575BE5B5DDBA090E58E0 /* Pods_OneBusAwayTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneBusAwayTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -759,7 +771,7 @@
 				93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */,
 				936F45121C780E7600C61656 /* OBAKit.framework in Frameworks */,
 				93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */,
-				E238ED5643B2070974316CC3 /* Pods.framework in Frameworks */,
+				31040260B414257944BD0C2D /* Pods_OneBusAway.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -767,7 +779,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				939E8E4D1C78DCB1008FCA4C /* Pods.framework in Frameworks */,
+				DF31D866B1AD43244F6F895C /* Pods_OBAKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -776,24 +788,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				9320763A1C909FB2005F7D4A /* OBAKit.framework in Frameworks */,
-				F5DE989070011DA095DEC6A2 /* Pods.framework in Frameworks */,
+				C4402BFD381C435E877939FF /* Pods_OneBusAwayTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0084CA56FF32BA45A8E8327E /* Pods */ = {
+		07443E7076E8FB0A2522ADC1 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F9474B9020835B3BBE8BB77C /* Pods-OneBusAway.debug.xcconfig */,
-				54CB67407CF2B898E5D99654 /* Pods-OneBusAway.release.xcconfig */,
-				B565A40323F4842FC230AA07 /* Pods-OneBusAway.appstoredistribution.xcconfig */,
-				26DE16A6837EFF5DCD23D805 /* Pods-OneBusAway.adhocdistribution.xcconfig */,
-				DEDC11A41EBF4F89626093D8 /* Pods.debug.xcconfig */,
-				9896748DE4027B647D4D41F0 /* Pods.release.xcconfig */,
-				AF4665CA06626C1076EEEE33 /* Pods.appstoredistribution.xcconfig */,
-				13105E482CCDE283CE77C92E /* Pods.adhocdistribution.xcconfig */,
+				82DA38BE906163123EC2DB6B /* Pods-OBAKit.debug.xcconfig */,
+				F68AD55F1E252FAE01D981BB /* Pods-OBAKit.release.xcconfig */,
+				CB006C6E74245A8F0E8C52DA /* Pods-OBAKit.appstoredistribution.xcconfig */,
+				BA6BA44B6944F6B63ED3CA83 /* Pods-OBAKit.adhocdistribution.xcconfig */,
+				2090FA85E96D4CC26E750866 /* Pods-OneBusAway.debug.xcconfig */,
+				4F8EB54B20802AD353BBD9F0 /* Pods-OneBusAway.release.xcconfig */,
+				A553375C73FCAF3CA3D5D44A /* Pods-OneBusAway.appstoredistribution.xcconfig */,
+				9ABEF18E98158A7476ECDB64 /* Pods-OneBusAway.adhocdistribution.xcconfig */,
+				C54ED455ED75F06702811BF3 /* Pods-OneBusAwayTests.debug.xcconfig */,
+				2B80B704E740E0E6BB8699E7 /* Pods-OneBusAwayTests.release.xcconfig */,
+				1B31A724F5B9E5B3A8276FE6 /* Pods-OneBusAwayTests.appstoredistribution.xcconfig */,
+				B522CE42A9FA4C2EBC350330 /* Pods-OneBusAwayTests.adhocdistribution.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -828,7 +844,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */,
-				0084CA56FF32BA45A8E8327E /* Pods */,
+				07443E7076E8FB0A2522ADC1 /* Pods */,
 			);
 			name = org.onebusaway.iphone;
 			sourceTree = "<group>";
@@ -865,6 +881,9 @@
 				939E8E4C1C78DCB1008FCA4C /* Pods.framework */,
 				93A923A11C21DCD600A657C8 /* SafariServices.framework */,
 				5915BB5B4ED79BCFF0C6D8B4 /* Pods.framework */,
+				741F0C356CB603573A7466C1 /* Pods_OBAKit.framework */,
+				73CB0AC7A68F6DE563855845 /* Pods_OneBusAway.framework */,
+				FEDB575BE5B5DDBA090E58E0 /* Pods_OneBusAwayTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -925,6 +944,7 @@
 		932076361C909F63005F7D4A /* OBAKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				9337D6CA1D32AFD000D237D6 /* helpers */,
 				932076371C909F63005F7D4A /* models */,
 			);
 			path = OBAKitTests;
@@ -978,6 +998,7 @@
 		9320763B1C90B82A005F7D4A /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
+				9337D6CD1D32B12700D237D6 /* Emails */,
 				9302B6DE1CA5A3F9002B6AC7 /* Stops */,
 				9302B6021CA4BE9E002B6AC7 /* Regions */,
 				9320763C1C90B82A005F7D4A /* Bookmarks */,
@@ -1041,8 +1062,6 @@
 				932BE4DD1AB66DA90011F2FB /* OBACustomApiViewController.m */,
 				932BE4921AB66D320011F2FB /* OBAAgenciesListViewController.h */,
 				932BE4931AB66D320011F2FB /* OBAAgenciesListViewController.m */,
-				932BE4941AB66D320011F2FB /* OBAContactUsViewController.h */,
-				932BE4951AB66D320011F2FB /* OBAContactUsViewController.m */,
 				932BE4961AB66D320011F2FB /* OBAInfoViewController.h */,
 				932BE4971AB66D320011F2FB /* OBAInfoViewController.m */,
 				932BE4991AB66D320011F2FB /* OBARegionListViewController.h */,
@@ -1148,6 +1167,22 @@
 			path = containers;
 			sourceTree = "<group>";
 		};
+		9337D6CA1D32AFD000D237D6 /* helpers */ = {
+			isa = PBXGroup;
+			children = (
+				9337D6CB1D32AFE300D237D6 /* OBAEmailHelper_Tests.m */,
+			);
+			path = helpers;
+			sourceTree = "<group>";
+		};
+		9337D6CD1D32B12700D237D6 /* Emails */ = {
+			isa = PBXGroup;
+			children = (
+				9337D6CE1D32B21C00D237D6 /* testMessageBodyForModelDAO.html */,
+			);
+			path = Emails;
+			sourceTree = "<group>";
+		};
 		934445F71AB105FB005B3333 /* gpx_files */ = {
 			isa = PBXGroup;
 			children = (
@@ -1213,6 +1248,8 @@
 				934D00251C83924400A76A90 /* OBAStopIconFactory.m */,
 				934D00261C83924400A76A90 /* OBAURLHelpers.h */,
 				934D00271C83924400A76A90 /* OBAURLHelpers.m */,
+				9337D6C61D32A85F00D237D6 /* OBAEmailHelper.h */,
+				9337D6C71D32A85F00D237D6 /* OBAEmailHelper.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1688,6 +1725,7 @@
 				93392E271CB23F5C00A46B61 /* OBAModelPersistenceLayer.h in Headers */,
 				934B62A21CFBA5FA00D8FA85 /* NSObject+OBADescription.h in Headers */,
 				9302B6081CA4CCDA002B6AC7 /* NSArray+OBAAdditions.h in Headers */,
+				9337D6C81D32A85F00D237D6 /* OBAEmailHelper.h in Headers */,
 				9320771A1C993A4D005F7D4A /* OBARouteType.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1699,13 +1737,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "OneBusAway" */;
 			buildPhases = (
-				6B6B7A45241BAC04AEF592F6 /* Check Pods Manifest.lock */,
+				F9A354531576F3A28F831CE1 /* [CP] Check Pods Manifest.lock */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
-				CCD9E7D7D1BC4AE93C05BC2C /* Copy Pods Resources */,
-				9249CA403954520FB6FA712D /* Embed Pods Frameworks */,
 				936F45191C780E7700C61656 /* Embed Frameworks */,
+				7CC267D8D0C9388B96943A56 /* [CP] Embed Pods Frameworks */,
+				C4C182D5C5A086C81F675007 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1721,10 +1759,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 936F45141C780E7700C61656 /* Build configuration list for PBXNativeTarget "OBAKit" */;
 			buildPhases = (
+				4D4837E515810CCD74E5E0FC /* [CP] Check Pods Manifest.lock */,
 				936F44F81C780E7600C61656 /* Sources */,
 				936F44F91C780E7600C61656 /* Frameworks */,
 				936F44FA1C780E7600C61656 /* Headers */,
 				936F44FB1C780E7600C61656 /* Resources */,
+				2BF31FA2274F36A879F668C2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1739,12 +1779,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 936F45E01C78D06600C61656 /* Build configuration list for PBXNativeTarget "OneBusAwayTests" */;
 			buildPhases = (
-				EDFC3E1A9AE32A1238FF0C15 /* Check Pods Manifest.lock */,
+				13954338828A4D39C030EA9A /* [CP] Check Pods Manifest.lock */,
 				936F45D51C78D06600C61656 /* Sources */,
 				936F45D61C78D06600C61656 /* Frameworks */,
 				936F45D71C78D06600C61656 /* Resources */,
-				0A4CB080EB16E4245EF79109 /* Embed Pods Frameworks */,
-				5BC0CCFE51E0556A68BEC6BB /* Copy Pods Resources */,
+				FF4DC2CE340932A1C9FC03C5 /* [CP] Embed Pods Frameworks */,
+				14B998CB4B6A068D1009B955 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1856,50 +1896,21 @@
 				9302B6E01CA5A3F9002B6AC7 /* SEA_4thPike_East.json in Resources */,
 				932076451C90C635005F7D4A /* bookmark_with_stopids_array.plist in Resources */,
 				932076491C90CF73005F7D4A /* bookmark_with_region_identifier.plist in Resources */,
+				9337D6CF1D32B21C00D237D6 /* testMessageBodyForModelDAO.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0A4CB080EB16E4245EF79109 /* Embed Pods Frameworks */ = {
+		13954338828A4D39C030EA9A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5BC0CCFE51E0556A68BEC6BB /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6B6B7A45241BAC04AEF592F6 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1907,49 +1918,109 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		9249CA403954520FB6FA712D /* Embed Pods Frameworks */ = {
+		14B998CB4B6A068D1009B955 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OneBusAwayTests/Pods-OneBusAwayTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CCD9E7D7D1BC4AE93C05BC2C /* Copy Pods Resources */ = {
+		2BF31FA2274F36A879F668C2 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OBAKit/Pods-OBAKit-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EDFC3E1A9AE32A1238FF0C15 /* Check Pods Manifest.lock */ = {
+		4D4837E515810CCD74E5E0FC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7CC267D8D0C9388B96943A56 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C4C182D5C5A086C81F675007 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F9A354531576F3A28F831CE1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FF4DC2CE340932A1C9FC03C5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OneBusAwayTests/Pods-OneBusAwayTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2004,7 +2075,6 @@
 				932BE4EA1AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.m in Sources */,
 				9399E3DF1C8930C300962292 /* OBASeparatorSectionView.m in Sources */,
 				9330DF281606405100E14AF4 /* OBAScopeView.m in Sources */,
-				932BE49E1AB66D320011F2FB /* OBAContactUsViewController.m in Sources */,
 				932BE4DB1AB66D890011F2FB /* OBASituationViewController.m in Sources */,
 				936D3EC01C14E94A00091DC9 /* OBAStaticTableViewController.m in Sources */,
 				93E4A3011CF7D42300EF9595 /* OBAClassicDepartureView.m in Sources */,
@@ -2101,6 +2171,7 @@
 				934D01331C83924D00A76A90 /* OBATripScheduleV2.m in Sources */,
 				934D01421C83924D00A76A90 /* OBADataSourceConfig.m in Sources */,
 				934D00D71C83924D00A76A90 /* OBAVehicleMapAnnotation.m in Sources */,
+				9337D6C91D32A85F00D237D6 /* OBAEmailHelper.m in Sources */,
 				934D012B1C83924D00A76A90 /* OBAStopsForRouteV2.m in Sources */,
 				934D00D31C83924D00A76A90 /* OBATripContinuationMapAnnotation.m in Sources */,
 				934D00DF1C83924D00A76A90 /* OBACreateObjectJsonDigesterRule.m in Sources */,
@@ -2142,6 +2213,7 @@
 				932076411C90B948005F7D4A /* OBATestHelpers.m in Sources */,
 				9302B6C11CA5A0DC002B6AC7 /* OBACoordinateBounds_Tests.m in Sources */,
 				936F45DC1C78D06600C61656 /* OneBusAwayTests.m in Sources */,
+				9337D6CC1D32AFE300D237D6 /* OBAEmailHelper_Tests.m in Sources */,
 				9302B6CF1CA5A0DC002B6AC7 /* OBASearchResult_Tests.m in Sources */,
 				9302B6C71CA5A0DC002B6AC7 /* OBAPlacemark_Tests.m in Sources */,
 				9302B6CC1CA5A0DC002B6AC7 /* OBAReportProblemWithTripV2_Tests.m in Sources */,
@@ -2185,7 +2257,7 @@
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DEDC11A41EBF4F89626093D8 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 2090FA85E96D4CC26E750866 /* Pods-OneBusAway.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2208,7 +2280,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2240,7 +2312,7 @@
 		};
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9896748DE4027B647D4D41F0 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 4F8EB54B20802AD353BBD9F0 /* Pods-OneBusAway.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2263,7 +2335,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
@@ -2289,6 +2361,7 @@
 		};
 		936F45151C780E7700C61656 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82DA38BE906163123EC2DB6B /* Pods-OBAKit.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -2343,6 +2416,7 @@
 		};
 		936F45161C780E7700C61656 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F68AD55F1E252FAE01D981BB /* Pods-OBAKit.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -2392,6 +2466,7 @@
 		};
 		936F45171C780E7700C61656 /* AppStoreDistribution */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB006C6E74245A8F0E8C52DA /* Pods-OBAKit.appstoredistribution.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -2441,6 +2516,7 @@
 		};
 		936F45181C780E7700C61656 /* AdHocDistribution */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BA6BA44B6944F6B63ED3CA83 /* Pods-OBAKit.adhocdistribution.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -2490,7 +2566,7 @@
 		};
 		936F45E11C78D06600C61656 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DEDC11A41EBF4F89626093D8 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = C54ED455ED75F06702811BF3 /* Pods-OneBusAwayTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2533,7 +2609,7 @@
 		};
 		936F45E21C78D06600C61656 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9896748DE4027B647D4D41F0 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 2B80B704E740E0E6BB8699E7 /* Pods-OneBusAwayTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2572,7 +2648,7 @@
 		};
 		936F45E31C78D06600C61656 /* AppStoreDistribution */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AF4665CA06626C1076EEEE33 /* Pods.appstoredistribution.xcconfig */;
+			baseConfigurationReference = 1B31A724F5B9E5B3A8276FE6 /* Pods-OneBusAwayTests.appstoredistribution.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2611,7 +2687,7 @@
 		};
 		936F45E41C78D06600C61656 /* AdHocDistribution */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 13105E482CCDE283CE77C92E /* Pods.adhocdistribution.xcconfig */;
+			baseConfigurationReference = B522CE42A9FA4C2EBC350330 /* Pods-OneBusAwayTests.adhocdistribution.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2710,7 +2786,7 @@
 		};
 		D6575AF60FEE8B0900D6D987 /* AdHocDistribution */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 13105E482CCDE283CE77C92E /* Pods.adhocdistribution.xcconfig */;
+			baseConfigurationReference = 9ABEF18E98158A7476ECDB64 /* Pods-OneBusAway.adhocdistribution.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2731,7 +2807,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2781,7 +2857,7 @@
 		};
 		D6BEE73F10474E58003655A1 /* AppStoreDistribution */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AF4665CA06626C1076EEEE33 /* Pods.appstoredistribution.xcconfig */;
+			baseConfigurationReference = A553375C73FCAF3CA3D5D44A /* Pods-OneBusAway.appstoredistribution.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2803,7 +2879,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
