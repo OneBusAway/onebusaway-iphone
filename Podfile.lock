@@ -1,5 +1,6 @@
 PODS:
   - ABReleaseNotesViewController (0.1.1)
+  - apptentive-ios (3.1.1)
   - DateTools (1.7.0)
   - DZNEmptyDataSet (1.7.3)
   - GoogleAnalytics (3.14.0)
@@ -39,13 +40,13 @@ PODS:
   - libextobjc/RuntimeExtensions (0.4.1)
   - libextobjc/UmbrellaHeader (0.4.1)
   - Masonry (0.6.4)
-  - OMGHTTPURLRQ (3.1.1):
-    - OMGHTTPURLRQ/RQ (= 3.1.1)
-  - OMGHTTPURLRQ/FormURLEncode (3.1.1)
-  - OMGHTTPURLRQ/RQ (3.1.1):
+  - OMGHTTPURLRQ (3.1.2):
+    - OMGHTTPURLRQ/RQ (= 3.1.2)
+  - OMGHTTPURLRQ/FormURLEncode (3.1.2)
+  - OMGHTTPURLRQ/RQ (3.1.2):
     - OMGHTTPURLRQ/FormURLEncode
     - OMGHTTPURLRQ/UserAgent
-  - OMGHTTPURLRQ/UserAgent (3.1.1)
+  - OMGHTTPURLRQ/UserAgent (3.1.2)
   - PromiseKit/CloudKit (3.0.2):
     - PromiseKit/CorePromise
   - PromiseKit/CoreLocation (3.0.2):
@@ -60,6 +61,7 @@ PODS:
 
 DEPENDENCIES:
   - ABReleaseNotesViewController (= 0.1.1)
+  - apptentive-ios (= 3.1.1)
   - DateTools (= 1.7.0)
   - DZNEmptyDataSet (= 1.7.3)
   - GoogleAnalytics (= 3.14.0)
@@ -83,13 +85,16 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   ABReleaseNotesViewController: 98de9eb73a806192341b228a7a36e37d42d7c174
+  apptentive-ios: 0a479d4918b608cd60b42711ecfeaa1b2afd5421
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   DZNEmptyDataSet: dd7cca17c1d07dfa78956859b1e70a52505678ef
   GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
-  OMGHTTPURLRQ: 633f98ee745aeda02345935a52eec1784cddb589
+  OMGHTTPURLRQ: 38316b56d88125c600bcdb16df8329147da2b0ee
   PromiseKit: ab1a380f7a30cf8cce663a2411e8b3580b10313d
   SVProgressHUD: d10505169d392b402f4ea4b7d842324ca797e073
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: c9daf1be4c6de0a1e003c3cd1a40c69bbed51354
+
+COCOAPODS: 1.0.1

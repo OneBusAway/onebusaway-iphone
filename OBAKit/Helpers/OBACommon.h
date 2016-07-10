@@ -23,6 +23,12 @@ extern NSString * const OBAErrorDomain;
 extern const NSInteger kOBAErrorDuplicateEntity;
 extern const NSInteger kOBAErrorMissingFieldInData;
 
+/**
+ We report "YES" and "NO" to Google Analytics in several places. This method
+ DRYs those up.
+ */
+NSString * OBAStringFromBool(BOOL yn);
+
 @interface NSString (OBAConvenienceMethods)
 - (NSComparisonResult) compareUsingNumberSearch:(NSString*)aString;
 @end
@@ -30,7 +36,6 @@ extern const NSInteger kOBAErrorMissingFieldInData;
 @interface UIView (OBAConvenienceMethods)
 - (void) setOrigin:(CGPoint)point;
 @end
-
 
 @interface OBACommon : NSObject
 

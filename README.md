@@ -8,13 +8,11 @@ If you would like to help test the latest development release, email us at [ipho
 
 See our [contributing guidelines](CONTRIBUTING.md) and [roadmap](https://github.com/OneBusAway/onebusaway-iphone/wiki/Roadmap).
 
-Our [huboard](https://huboard.com/OneBusAway/onebusaway-iphone) lists development priorites and status updates.
-
 ### Development environment setup
 
 1. Install Xcode 7.x
 2. `git clone` your fork
-3. `(sudo) gem install cocoapods -v 0.39.0` (not yet compatible with cocoapods 1.0)
+3. `(sudo) gem install cocoapods` (We are now compatible with Cocoapods 1.0. Make sure you upgrade!)
 4. `pod install`
 5. Open `org.onebusaway.iphone.xcworkspace`
 

@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "OBAStaticTableViewController.h"
+#import "OBANavigationTargetAware.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class OBAApplicationDelegate;
 
-@interface OBAInfoViewController : OBAStaticTableViewController
-- (void)openContactUs;
+@interface OBAInfoViewController : OBAStaticTableViewController<OBANavigationTargetAware>
 - (void)openAgencies;
 @end
 

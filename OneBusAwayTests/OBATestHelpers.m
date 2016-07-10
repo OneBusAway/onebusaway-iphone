@@ -15,6 +15,10 @@
     return [[NSBundle bundleForClass:self.class] pathForResource:[fileName stringByDeletingPathExtension] ofType:[fileName pathExtension]];
 }
 
++ (NSString*)contentsOfTestFile:(NSString*)fileName {
+    return [NSString stringWithContentsOfFile:[self pathToTestFile:fileName] encoding:NSUTF8StringEncoding error:nil];
+}
+
 + (id)jsonObjectFromFile:(NSString*)fileName {
     NSString *filePath = [OBATestHelpers pathToTestFile:fileName];
     NSData *data = [[NSData alloc] initWithContentsOfFile:filePath];
