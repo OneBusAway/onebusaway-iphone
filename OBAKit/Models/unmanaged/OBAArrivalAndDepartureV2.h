@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,copy) NSString * tripId;
 @property(nonatomic,weak,readonly) OBATripV2 * trip;
-@property(nonatomic,copy) NSString * tripHeadsign;
+@property(nonatomic,copy,nullable) NSString * tripHeadsign;
 @property(nonatomic,assign) long long serviceDate;
 
 @property(nonatomic,weak,readonly) OBAArrivalAndDepartureInstanceRef * instance;

@@ -36,7 +36,28 @@
     dep.tripHeadsign = @"HEADSIGN";
     dep.routeShortName = @"SHORTROUTE";
 
-    XCTAssertEqualObjects(dep.bookmarkKey, @"ROUTE_HEADSIGN_SHORTROUTE");
+    XCTAssertEqualObjects(dep.bookmarkKey, @"ROUTE_Headsign_SHORTROUTE");
+}
+
+- (void)testNilHeadsign {
+    OBAArrivalAndDepartureV2 *dep = [[OBAArrivalAndDepartureV2 alloc] init];
+    dep.tripHeadsign = nil;
+
+    XCTAssertNil(dep.tripHeadsign);
+}
+
+- (void)testMixedCaseHeadsign {
+    OBAArrivalAndDepartureV2 *dep = [[OBAArrivalAndDepartureV2 alloc] init];
+    dep.tripHeadsign = @"Downtown Seattle - 15TH";
+
+    XCTAssertEqualObjects(@"Downtown Seattle - 15TH", dep.tripHeadsign);
+}
+
+- (void)testAllCapsHeadsign {
+    OBAArrivalAndDepartureV2 *dep = [[OBAArrivalAndDepartureV2 alloc] init];
+    dep.tripHeadsign = @"DOWNTOWN SEATTLE - 15TH";
+
+    XCTAssertEqualObjects(@"Downtown Seattle - 15Th", dep.tripHeadsign);
 }
 
 @end
