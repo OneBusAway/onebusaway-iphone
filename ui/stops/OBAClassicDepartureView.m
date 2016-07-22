@@ -22,6 +22,10 @@
 
 @implementation OBAClassicDepartureView
 
+- (instancetype)init {
+    return [self initWithFrame:CGRectZero];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
 
@@ -32,11 +36,6 @@
             l.adjustsFontSizeToFitWidth = YES;
             l.font = [OBATheme bodyFont];
             [l setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-
-            if (kUseDebugColors) {
-                l.backgroundColor = [UIColor greenColor];
-            }
-
             l;
         });
 
@@ -47,11 +46,6 @@
             l.adjustsFontSizeToFitWidth = YES;
             l.font = [OBATheme bodyFont];
             l.textAlignment = NSTextAlignmentCenter;
-
-            if (kUseDebugColors) {
-                l.backgroundColor = [UIColor redColor];
-            }
-
             l;
         });
 
@@ -62,11 +56,6 @@
             l.adjustsFontSizeToFitWidth = YES;
             l.font = [OBATheme bodyFont];
             l.textAlignment = NSTextAlignmentCenter;
-
-            if (kUseDebugColors) {
-                l.backgroundColor = [UIColor purpleColor];
-            }
-
             l;
         });
 
@@ -77,20 +66,21 @@
             l.font = [OBATheme bodyFont];
             l.textAlignment = NSTextAlignmentRight;
             [l setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-
-            if (kUseDebugColors) {
-                l.backgroundColor = [UIColor yellowColor];
-            }
-
             l;
         });
+
+        if (kUseDebugColors) {
+            self.backgroundColor = [UIColor purpleColor];
+            _routeNameLabel.backgroundColor = [UIColor greenColor];
+            _destinationLabel.backgroundColor = [UIColor blueColor];
+            _timeAndStatusLabel.backgroundColor = [UIColor redColor];
+            _minutesUntilDepartureLabel.backgroundColor = [UIColor magentaColor];
+        }
 
         UIStackView *centerStack = ({
             UIStackView *sv = [[UIStackView alloc] initWithArrangedSubviews:@[_destinationLabel, _timeAndStatusLabel]];
             sv.axis = UILayoutConstraintAxisVertical;
             sv.distribution = UIStackViewDistributionFillProportionally;
-            sv.layoutMarginsRelativeArrangement = YES;
-            sv.layoutMargins = UIEdgeInsetsMake(0, [OBATheme halfDefaultPadding], 0, [OBATheme halfDefaultPadding]);
             sv.distribution = UIStackViewDistributionEqualSpacing;
             sv;
         });
@@ -99,8 +89,6 @@
             UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[_routeNameLabel, centerStack, _minutesUntilDepartureLabel]];
             stack.axis = UILayoutConstraintAxisHorizontal;
             stack.distribution = UIStackViewDistributionEqualSpacing;
-            stack.layoutMarginsRelativeArrangement = YES;
-            stack.layoutMargins = UIEdgeInsetsMake([OBATheme halfDefaultPadding], self.layoutMargins.left, [OBATheme halfDefaultPadding], 0);
             stack;
         });
         [self addSubview:horizontalStack];

@@ -181,7 +181,7 @@
         case OBASearchTypeRouteStops: {
             if (self.result.count == 0) break;
             OBAStopV2 * stop = (_result.values)[indexPath.row];
-            UIViewController *vc = [OBAStopViewController stopControllerWithStopID:stop.stopId];
+            OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stop.stopId];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }

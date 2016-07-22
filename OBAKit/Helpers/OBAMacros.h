@@ -6,6 +6,8 @@
 //  Copyright © 2016 One Bus Away. All rights reserved.
 //
 
+#import "OBACommon.h"
+
 #ifndef OBAMacros_h
 #define OBAMacros_h
 
@@ -23,8 +25,11 @@
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
+#define OBAAssert(__param) \
+    if (![OBACommon isRunningInsideTests]) { NSParameterAssert(__param); }
+
 #define OBAGuard(CONDITION) \
-    if (!CONDITION) { NSParameterAssert(CONDITION); } \
+    if (!(CONDITION)) { OBAAssert(CONDITION); } \
     if (CONDITION) {}
 
 #define OBAGuardClass(object, typeName) \

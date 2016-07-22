@@ -8,13 +8,14 @@
 
 #import "OBABookmarkGroup.h"
 #import "OBABookmarkV2.h"
+#import "NSObject+OBADescription.h"
 
 @implementation OBABookmarkGroup
 
 - (id)initWithName:(NSString *)name
 {
     if (self = [super init]) {
-        _name = name;
+        _name = [name copy];
         _bookmarks = [NSMutableArray array];
     }
     return self;
@@ -40,8 +41,8 @@
 
 #pragma mark - NSObject
 
-- (NSString*) description {
-    return [NSString stringWithFormat:@"<%@ %p> {name: %@, bookmarks: [%@]}", NSStringFromClass(self.class), self, self.name, self.bookmarks];
+- (NSString*)description {
+    return [self oba_description:@[@"name", @"bookmarks"]];
 }
 
 @end

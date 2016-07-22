@@ -23,9 +23,12 @@
 
     if (self) {
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        _departureView = [[OBAClassicDepartureView alloc] initWithFrame:self.contentView.bounds];
-        _departureView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        _departureView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:_departureView];
+
+        [_departureView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.contentView).insets(self.layoutMargins);
+        }];
     }
 
     return self;
@@ -51,6 +54,8 @@
     }
 
     _tableRow = [tableRow copy];
+
+    self.accessoryType = [self classicDepartureRow].accessoryType;
 
     self.departureView.classicDepartureRow = [self classicDepartureRow];
 }

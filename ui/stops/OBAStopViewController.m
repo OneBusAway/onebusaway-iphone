@@ -24,8 +24,7 @@
 #import "OBASegmentedRow.h"
 #import "OBAArrivalAndDepartureViewController.h"
 #import "OBAStaticTableViewController+Builders.h"
-
-#define ENABLE_PARALLAX_WHICH_NEEDS_FIXING 0
+#import "OBABookmarkRouteDisambiguationViewController.h"
 
 static NSTimeInterval const kRefreshTimeInterval = 30.0;
 static CGFloat const kTableHeaderHeight = 150.f;
@@ -41,10 +40,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
 @end
 
 @implementation OBAStopViewController
-
-+ (UIViewController*)stopControllerWithStopID:(NSString*)stopID {
-    return [[OBAStopViewController alloc] initWithStopID:stopID];
-}
 
 - (instancetype)initWithStopID:(NSString*)stopID {
     self = [super initWithNibName:nil bundle:nil];
@@ -63,11 +58,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
     [super viewDidLoad];
 
     [self createTableHeaderView];
-
-#if ENABLE_PARALLAX_WHICH_NEEDS_FIXING
-    self.tableView.contentInset = UIEdgeInsetsMake(kTableHeaderHeight, 0, 0, 0);
-    self.tableView.contentOffset = CGPointMake(0, -kTableHeaderHeight);
-#endif
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData:)];
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -104,22 +94,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
     [self reloadData:nil];
 }
 
-#pragma mark - UIScrollViewDelegate
-
-#if ENABLE_PARALLAX_WHICH_NEEDS_FIXING
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
-    CGRect headerRect = CGRectMake(0, -kTableHeaderHeight, CGRectGetWidth(scrollView.frame), kTableHeaderHeight);
-    
-    if (scrollView.contentOffset.y < -kTableHeaderHeight) {
-        headerRect.origin.y = scrollView.contentOffset.y;
-        headerRect.size.height = -scrollView.contentOffset.y;
-    }
-
-    self.parallaxHeaderView.frame = headerRect;
-}
-#endif
-
 #pragma mark - OBANavigationTargetAware
 
 - (OBANavigationTarget *)navigationTarget {
@@ -129,6 +103,15 @@ static CGFloat const kTableHeaderHeight = 150.f;
 - (void)setNavigationTarget:(OBANavigationTarget *)navigationTarget {
     _stopID = [[navigationTarget parameterForKey:@"stopId"] copy];
     [self reloadData:nil];
+}
+
+#pragma mark - Accessors
+
+- (OBAModelDAO*)modelDAO {
+    if (!_modelDAO) {
+        _modelDAO = [OBAApplication sharedApplication].modelDao;
+    }
+    return _modelDAO;
 }
 
 #pragma mark - Data Loading
@@ -155,10 +138,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
         [[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:response.stop];
 
         self.arrivalsAndDepartures = response;
-
-        // This will update existing bookmarks as they are accessed and ensure
-        // that they have the correct coordinate and region set on them.
-        [OBAStopViewController updateBookmarkForStop:self.arrivalsAndDepartures.stop inModelDAO:[OBAApplication sharedApplication].modelDao];
 
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
         [self.parallaxHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
@@ -198,27 +177,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     // Departures
     // TODO: DRY up this whole thing.
     if (prefs.sortTripsByType == OBASortTripsByDepartureTimeV2) {
-        NSMutableArray *departureRows = [NSMutableArray array];
-
-        for (OBAArrivalAndDepartureV2 *dep in result.arrivalsAndDepartures) {
-
-            if (![self shouldShowRouteID:dep.routeId forPrefs:prefs]) {
-                continue;
-            }
-
-            NSString *dest = dep.tripHeadsign.capitalizedString;
-            OBAClassicDepartureRow *row = [[OBAClassicDepartureRow alloc] initWithRouteName:dep.bestAvailableName destination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)] statusText:[dep statusText] departureStatus:[dep departureStatus] action:^{
-                OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
-                [self.navigationController pushViewController:vc animated:YES];
-            }];
-
-            [departureRows addObject:row];
-        }
-
-        OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:departureRows];
-        section.headerView = [[OBAClassicDepartureSectionHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 30)];
-        section.headerView.layoutMargins = UIEdgeInsetsMake(0, self.tableView.layoutMargins.left, 0, self.tableView.layoutMargins.right);
-
+        OBATableSection *section = [self buildClassicDepartureSectionWithDeparture:result prefs:prefs];
         [sections addObject:section];
     }
     else {
@@ -253,15 +212,77 @@ static CGFloat const kTableHeaderHeight = 150.f;
     [self.tableView reloadData];
 }
 
+- (OBATableSection *)buildClassicDepartureSectionWithDeparture:(OBAArrivalsAndDeparturesForStopV2 *)result prefs:(OBAStopPreferencesV2 *)prefs {
+    NSMutableArray *departureRows = [NSMutableArray array];
+
+    for (OBAArrivalAndDepartureV2 *dep in result.arrivalsAndDepartures) {
+
+        if (![self shouldShowRouteID:dep.routeId forPrefs:prefs]) {
+            continue;
+        }
+
+        NSString *dest = dep.tripHeadsign.capitalizedString;
+        OBAClassicDepartureRow *row = [[OBAClassicDepartureRow alloc] initWithRouteName:dep.bestAvailableName destination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)] statusText:[dep statusText] departureStatus:[dep departureStatus] action:^{
+            OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+
+        row.rowActions = @[[self tableViewRowActionForArrivalAndDeparture:dep]];
+        [departureRows addObject:row];
+    }
+
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:departureRows];
+    section.headerView = [[OBAClassicDepartureSectionHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 30)];
+    section.headerView.layoutMargins = UIEdgeInsetsMake(0, self.tableView.layoutMargins.left, 0, self.tableView.layoutMargins.right);
+    return section;
+}
+
+#pragma mark - Row Actions
+
+- (UITableViewRowAction*)tableViewRowActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+    UITableViewRowAction *rowAction = nil;
+
+    if ([self hasBookmarkForArrivalAndDeparture:dep]) {
+        rowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedString(@"Remove\r\nBookmark", @"") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+            [self promptToRemoveBookmarkForArrivalAndDeparture:dep];
+        }];
+    }
+    else {
+        rowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedString(@"Add Bookmark", @"") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+            OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.region];
+            OBAEditStopBookmarkViewController *editor = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:editor];
+            [self.navigationController presentViewController:nav animated:YES completion:nil];
+        }];
+        rowAction.backgroundColor = [OBATheme nonOpaquePrimaryColor];
+    }
+    return rowAction;
+}
+
+#pragma mark - Bookmarks
+
+- (BOOL)hasBookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+    return !![self.modelDAO bookmarkForArrivalAndDeparture:arrivalAndDeparture];
+}
+
+- (void)promptToRemoveBookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Are you sure you want to remove this bookmark?", @"Tap on Remove Bookmarks on OBAStopViewController.") message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Remove", @"") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        OBABookmarkV2 *bookmark = [self.modelDAO bookmarkForArrivalAndDeparture:dep];
+        [self.modelDAO removeBookmark:bookmark];
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"") style:UIAlertActionStyleCancel handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 #pragma mark - Table Section Creation
 
 - (OBATableSection*)createToggleDepartureFilterSection {
-
     OBASegmentedRow *segmentedRow = [[OBASegmentedRow alloc] initWithSelectionChange:^(NSUInteger selectedIndex) {
         self.hideFilteredRoutes = !self.hideFilteredRoutes;
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
     }];
-    segmentedRow.items = @[NSLocalizedString(@"Show All Departures", @""), NSLocalizedString(@"Show Filtered Departures", @"")];
+    segmentedRow.items = @[NSLocalizedString(@"All Departures", @""), NSLocalizedString(@"Filtered Departures", @"")];
 
     segmentedRow.selectedItemIndex = self.hideFilteredRoutes ? 1 : 0;
 
@@ -310,11 +331,10 @@ static CGFloat const kTableHeaderHeight = 150.f;
     NSMutableArray *actionRows = [[NSMutableArray alloc] init];
 
     // Add to Bookmarks
-    OBABookmarkV2 *bookmark = [modelDAO bookmarkForStop:stop];
-    NSString *bookmarksTitle = bookmark ? NSLocalizedString(@"Edit Bookmark", @"") : NSLocalizedString(@"Add to Bookmarks", @"");
+    NSString *bookmarksTitle = NSLocalizedString(@"Add Bookmark", @"");
     OBATableRow *addToBookmarks = [[OBATableRow alloc] initWithTitle:bookmarksTitle action:^{
-        OBAEditStopBookmarkViewController *viewController = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark forStop:stop];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:viewController];
+        OBABookmarkRouteDisambiguationViewController *disambiguator = [[OBABookmarkRouteDisambiguationViewController alloc] initWithArrivalsAndDeparturesForStop:self.arrivalsAndDepartures];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:disambiguator];
         [self presentViewController:nav animated:YES completion:nil];
     }];
     [actionRows addObject:addToBookmarks];
@@ -369,11 +389,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     self.parallaxHeaderView = [[OBAParallaxTableHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), kTableHeaderHeight)];
     self.parallaxHeaderView.highContrastMode = [[OBAApplication sharedApplication] useHighContrastUI];
 
-#if ENABLE_PARALLAX_WHICH_NEEDS_FIXING
-    [self.tableView addSubview:self.parallaxHeaderView];
-#else
     self.tableView.tableHeaderView = self.parallaxHeaderView;
-#endif
 }
 
 - (BOOL)shouldShowRouteID:(NSString*)routeID forPrefs:(OBAStopPreferencesV2*)prefs {
@@ -393,18 +409,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
     }
 
     return NO;
-}
-
-#pragma mark - Private
-
-+ (void)updateBookmarkForStop:(OBAStopV2*)stop inModelDAO:(OBAModelDAO*)modelDAO {
-    OBABookmarkV2 *bookmark = [modelDAO bookmarkForStop:stop];
-
-    if (bookmark) {
-        bookmark.stop = stop;
-        bookmark.regionIdentifier = modelDAO.region.identifier;
-        [modelDAO saveBookmark:bookmark];
-    }
 }
 
 @end

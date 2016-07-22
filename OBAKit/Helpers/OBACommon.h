@@ -39,6 +39,9 @@ NSString * OBAStringFromBool(BOOL yn);
 
 @interface OBACommon : NSObject
 
++ (void)setRunningInsideTests:(BOOL)runningInsideTests;
++ (BOOL)isRunningInsideTests;
+
 + (NSString*) getTimeAsString;
 + (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName;
 + (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName third:(NSString*)thirdName;

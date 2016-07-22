@@ -52,11 +52,11 @@
     return nil;
 }
 
-- (OBAArrivalAndDepartureInstanceRef *) instance {
+- (OBAArrivalAndDepartureInstanceRef*)instance {
     return [[OBAArrivalAndDepartureInstanceRef alloc] initWithTripInstance:self.tripInstance stopId:self.stopId stopSequence:self.stopSequence];
 }
 
-- (OBATripInstanceRef *) tripInstance {
+- (OBATripInstanceRef*)tripInstance {
     return [OBATripInstanceRef tripInstance:self.tripId serviceDate:self.serviceDate vehicleId:self.tripStatus.vehicleId];
 }
 
@@ -75,26 +75,23 @@
 #pragma mark - OBAHasServiceAlerts
 
 - (NSArray<OBASituationV2*>*)situations {
+    NSMutableArray *rSituations = [NSMutableArray array];
 
-    NSMutableArray * rSituations = [NSMutableArray array];
-
-    OBAReferencesV2 * refs = self.references;
-
-    for( NSString * situationId in self.situationIds ) {
-        OBASituationV2 * situation = [refs getSituationForId:situationId];
-        if( situation )
+    for (NSString *situationId in self.situationIds) {
+        OBASituationV2 *situation = [self.references getSituationForId:situationId];
+        if (situation) {
             [rSituations addObject:situation];
+        }
     }
 
-    return rSituations;
+    return [NSArray arrayWithArray:rSituations];
 }
 
-- (void) addSituationId:(NSString*)situationId {
+- (void)addSituationId:(NSString*)situationId {
     [self.situationIds addObject:situationId];
 }
 
 - (OBADepartureStatus)departureStatus {
-
     if (!self.hasRealTimeData) {
         return OBADepartureStatusUnknown;
     }
@@ -122,8 +119,12 @@
     if (trip.routeShortName) {
         return trip.routeShortName;
     }
-
-    return trip.route.shortName ?: trip.route.longName;
+    else if (trip.route.shortName) {
+        return trip.route.shortName;
+    }
+    else {
+        return trip.route.longName;
+    }
 }
 
 + (NSString*)statusStringFromFrequency:(OBAFrequencyV2*)frequency {
@@ -135,7 +136,6 @@
 
     NSString *formatString = NSLocalizedString(@"Every %@ mins %@ %@", @"frequency status string");
     NSString *fromOrUntil = [now compare:startTime] == NSOrderedAscending ? NSLocalizedString(@"from", @"") : NSLocalizedString(@"until", @"");
-
     NSDate *terminalDate = [now compare:startTime] == NSOrderedAscending ? startTime : endTime;
 
     return [NSString stringWithFormat:formatString, @(headway), fromOrUntil, [OBADateHelpers formatShortTimeNoDate:terminalDate]];
@@ -193,6 +193,12 @@
     else {
         return [NSString stringWithFormat:NSLocalizedString(@"%@ min %@", @"e.g. 3 min early"), @(minDiff), suffixWord];
     }
+}
+
+#pragma mark - Bookmarks
+
+- (NSString*)bookmarkKey {
+    return [NSString stringWithFormat:@"%@_%@_%@", self.routeId, self.tripHeadsign, self.bestAvailableName];
 }
 
 #pragma mark - NSObject

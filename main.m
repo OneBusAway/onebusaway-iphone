@@ -15,8 +15,7 @@
  */
 
 #import <UIKit/UIKit.h>
-
-BOOL executingTests;
+#import <OBAKit/OBAKit.h>
 
 @interface OBATestAppDelegate : UIResponder <UIApplicationDelegate>
 @end
@@ -25,12 +24,19 @@ BOOL executingTests;
 
 int main(int argc, char *argv[]) {
     @autoreleasepool {
+        NSDictionary *processInfoEnv = [NSProcessInfo processInfo].environment;
 
-        executingTests = [[[NSProcessInfo processInfo].environment[@"XCInjectBundle"] pathExtension] isEqual:@"xctest"];
+        BOOL executingTests = [[processInfoEnv[@"XCInjectBundle"] pathExtension] isEqual:@"xctest"];
+        if (!executingTests) {
+            executingTests = !!processInfoEnv[@"XCInjectBundleInto"];
+        }
 
         NSString *appDelegateClass = executingTests ? @"OBATestAppDelegate" : @"OBAApplicationDelegate";
+
+        [OBACommon setRunningInsideTests:executingTests];
 
         int retVal = UIApplicationMain(argc, argv, nil, appDelegateClass);
         return retVal;
     }
 }
+

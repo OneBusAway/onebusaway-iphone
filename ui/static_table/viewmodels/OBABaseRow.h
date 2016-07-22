@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBABaseRow : NSObject<NSCopying>
 
 /**
@@ -21,6 +23,11 @@
 @property(nonatomic,copy) void (^editAction)();
 
 /**
+ Optional 'swipe to reveal' buttons for this row.
+ */
+@property(nullable,nonatomic,copy) NSArray<UITableViewRowAction*> *rowActions;
+
+/**
  This block is provided as a convenience for table views where you can delete models. Since it may be difficult
  to associate your row with a model (due to sorting differences or whatever), this block provides an easy way
  to get back to—and delete—the underlying data.
@@ -29,7 +36,9 @@
 
 @property(nonatomic,assign) NSUInteger indentationLevel;
 
-- (instancetype)initWithAction:(void (^)())action NS_DESIGNATED_INITIALIZER;
+@property(nonatomic,assign) UITableViewCellAccessoryType accessoryType;
+
+- (instancetype)initWithAction:(nullable void (^)())action NS_DESIGNATED_INITIALIZER;
 
 + (void)registerViewsWithTableView:(UITableView*)tableView;
 + (NSString*)cellReuseIdentifier;
@@ -41,3 +50,5 @@
  */
 - (NSString*)cellReuseIdentifier;
 @end
+
+NS_ASSUME_NONNULL_END

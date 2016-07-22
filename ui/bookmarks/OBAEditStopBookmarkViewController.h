@@ -17,12 +17,12 @@
 #import <OBAKit/OBABookmarkV2.h>
 #import "OBAEditStopBookmarkGroupViewController.h"
 
-@class OBAStopV2;
+@class OBAArrivalAndDepartureV2;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAEditStopBookmarkViewController : UITableViewController <OBABookmarkGroupVCDelegate>
-- (instancetype)initWithBookmark:(OBABookmarkV2 *)bookmark forStop:(OBAStopV2*)stop;
+- (instancetype)initWithBookmark:(OBABookmarkV2 *)bookmark;
 @end
 
 NS_ASSUME_NONNULL_END

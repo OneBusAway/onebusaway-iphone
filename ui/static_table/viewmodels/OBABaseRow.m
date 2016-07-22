@@ -34,7 +34,8 @@
     newRow->_editAction = [_editAction copyWithZone:zone];
     newRow->_deleteModel = [_deleteModel copyWithZone:zone];
     newRow->_indentationLevel = _indentationLevel;
-    
+    newRow->_accessoryType = _accessoryType;
+
     return newRow;
 }
 

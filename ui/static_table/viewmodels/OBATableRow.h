@@ -12,7 +12,6 @@
 @property(nonatomic,copy) NSString *title;
 @property(nonatomic,copy) NSString *subtitle;
 @property(nonatomic,assign) UITableViewCellStyle style;
-@property(nonatomic,assign) UITableViewCellAccessoryType accessoryType;
 @property(nonatomic,strong) UIImage *image;
 @property(nonatomic,assign) NSTextAlignment textAlignment;
 

@@ -1,25 +1,35 @@
 #import "OBABookmarkV2.h"
+#import "OBAArrivalAndDepartureV2.h"
+#import "OBAArrivalsAndDeparturesForStopV2.h"
 #import "OBAStopV2.h"
 #import "OBARegionV2.h"
 #import "NSObject+OBADescription.h"
 
 static NSString * const kRegionIdentifier = @"regionIdentifier";
 static NSString * const kName = @"name";
+static NSString * const kRouteShortName = @"routeShortName";
 static NSString * const kStopId = @"stopId";
 static NSString * const kStop = @"stop";
+static NSString * const kRouteID = @"routeID";
+static NSString * const kTripHeadsign = @"tripHeadsign";
+static NSString * const kSortOrder = @"sortOrder";
+static NSString * const kBookmarkVersion = @"bookmarkVersion";
 
 @implementation OBABookmarkV2
 
-- (instancetype)initWithStop:(OBAStopV2*)stop region:(OBARegionV2*)region {
+- (instancetype)initWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture region:(OBARegionV2*)region {
     self = [self init];
 
     if (self) {
-        _name = stop.direction ? [NSString stringWithFormat:@"%@ [%@]",stop.name,stop.direction] : [stop.name copy];
+        OBAStopV2 *stop = arrivalAndDeparture.stop;
+        _routeShortName = [arrivalAndDeparture.routeShortName copy];
+        _routeID = [arrivalAndDeparture.routeId copy];
+        _tripHeadsign = [arrivalAndDeparture.tripHeadsign copy];
+        _name = stop.direction ? [NSString stringWithFormat:@"%@ [%@]", stop.name,stop.direction] : [stop.name copy];
         _stopId = [stop.stopId copy];
-        //    bookmark.routeID = TODO - SOME WAY TO GET A ROUTE ID
-        //    bookmark.headsign = stop.
         _regionIdentifier = region.identifier;
         _stop = [stop copy];
+        _bookmarkVersion = OBABookmarkVersion260;
     }
     return self;
 }
@@ -51,6 +61,13 @@ static NSString * const kStop = @"stop";
         }
 
         _stop = [coder decodeObjectForKey:kStop];
+
+        // New in 2.6.0
+        _routeShortName = [coder decodeObjectForKey:kRouteShortName];
+        _tripHeadsign = [coder decodeObjectForKey:kTripHeadsign];
+        _routeID = [coder decodeObjectForKey:kRouteID];
+        _sortOrder = [coder decodeIntegerForKey:kSortOrder];
+        _bookmarkVersion = [coder decodeIntegerForKey:kBookmarkVersion];
     }
     return self;
 }
@@ -60,6 +77,31 @@ static NSString * const kStop = @"stop";
     [coder encodeObject:_stopId forKey:kStopId];
     [coder encodeObject:_stop forKey:kStop];
     [coder encodeInteger:_regionIdentifier forKey:kRegionIdentifier];
+
+    // New in 2.6.0
+    [coder encodeObject:_routeShortName forKey:kRouteShortName];
+    [coder encodeObject:_tripHeadsign forKey:kTripHeadsign];
+    [coder encodeObject:_routeID forKey:kRouteID];
+    [coder encodeInteger:_sortOrder forKey:kSortOrder];
+    [coder encodeInteger:_bookmarkVersion forKey:kBookmarkVersion];
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone*)zone {
+    OBABookmarkV2 *bookmark = [[self.class alloc] init];
+    bookmark->_name = [_name copyWithZone:zone];
+    bookmark->_routeShortName = [_routeShortName copyWithZone:zone];
+    bookmark->_stopId = [_stopId copyWithZone:zone];
+    bookmark->_tripHeadsign = [_tripHeadsign copyWithZone:zone];
+    bookmark->_routeID = [_routeID copyWithZone:zone];
+    bookmark->_stop = [_stop copyWithZone:zone];
+    bookmark->_group = _group;
+    bookmark->_regionIdentifier = _regionIdentifier;
+    bookmark->_sortOrder = _sortOrder;
+    bookmark->_bookmarkVersion = _bookmarkVersion;
+
+    return bookmark;
 }
 
 #pragma mark - MKAnnotation
@@ -83,6 +125,18 @@ static NSString * const kStop = @"stop";
 
 #pragma mark - Misc
 
+- (NSArray<OBAArrivalAndDepartureV2*>*)matchingArrivalsAndDeparturesForStop:(OBAArrivalsAndDeparturesForStopV2*)dep {
+    NSMutableArray *matches = [NSMutableArray array];
+
+    for (OBAArrivalAndDepartureV2 *ad in dep.arrivalsAndDepartures) {
+        if ([self matchesArrivalAndDeparture:ad]) {
+            [matches addObject:ad];
+        }
+    }
+
+    return [NSArray arrayWithArray:matches];
+}
+
 // Belt and suspenders, but necessary?
 - (NSString*)stopId {
     if (!_stopId && _stop) {
@@ -93,6 +147,22 @@ static NSString * const kStop = @"stop";
 
 - (OBARouteType)routeType {
     return self.stop.firstAvailableRouteTypeForStop;
+}
+
+- (BOOL)matchesArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+    if (![self.stop isEqual:arrivalAndDeparture.stop]) {
+        return NO;
+    }
+
+    if (![self.routeID isEqual:arrivalAndDeparture.routeId]) {
+        return NO;
+    }
+
+    if (![self.tripHeadsign isEqual:arrivalAndDeparture.tripHeadsign]) {
+        return NO;
+    }
+
+    return YES;
 }
 
 #pragma mark - Equality
@@ -106,7 +176,31 @@ static NSString * const kStop = @"stop";
         return NO;
     }
 
-    return self.regionIdentifier == [object regionIdentifier] && [self.stopId isEqual:[object stopId]];
+    if (self.regionIdentifier != [object regionIdentifier]) {
+        return NO;
+    }
+
+    if (![self.stopId isEqual:[object stopId]]) {
+        return NO;
+    }
+
+    if (![self.routeShortName isEqual:[object routeShortName]]) {
+        return NO;
+    }
+
+    if (![self.tripHeadsign isEqual:[object tripHeadsign]]) {
+        return NO;
+    }
+
+    if (![self.routeID isEqual:[object routeID]]) {
+        return NO;
+    }
+
+    if (self.bookmarkVersion != [object bookmarkVersion]) {
+        return NO;
+    }
+
+    return YES;
 }
 
 - (NSUInteger)hash {
@@ -116,7 +210,7 @@ static NSString * const kStop = @"stop";
 #pragma mark - NSObject
 
 - (NSString*)description {
-    return [self oba_description:@[@"name", @"group", @"stopId", @"stop", @"regionIdentifier", @"routeType"]];
+    return [self oba_description:@[@"name", @"routeShortName", @"stopId", @"stop", @"regionIdentifier", @"routeType", @"routeID", @"tripHeadsign"] keyPaths:@[@"group.name"]];
 }
 
 

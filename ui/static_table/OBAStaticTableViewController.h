@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy,nullable) NSString *emptyDataSetDescription;
 
 - (OBABaseRow*)rowAtIndexPath:(NSIndexPath*)indexPath;
+
+- (nullable NSIndexPath*)indexPathForRow:(OBABaseRow*)row;
 @end
 
 NS_ASSUME_NONNULL_END

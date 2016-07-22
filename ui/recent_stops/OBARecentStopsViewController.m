@@ -54,7 +54,7 @@
 
         [section addRow:^OBABaseRow*{
             OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:stop.title action:^{
-                UIViewController *vc = [OBAStopViewController stopControllerWithStopID:stop.stopIds[0]];
+                OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stop.stopIds[0]];
                 [self.navigationController pushViewController:vc animated:YES];
             }];
             tableRow.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

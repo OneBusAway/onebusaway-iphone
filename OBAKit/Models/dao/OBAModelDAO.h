@@ -38,9 +38,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer;
 
-- (OBABookmarkV2*)bookmarkForStop:(OBAStopV2*)stop;
+- (OBABookmarkV2*)bookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrival;
+- (nullable OBABookmarkV2*)bookmarkAtIndex:(NSUInteger)index inGroup:(nullable OBABookmarkGroup*)group;
 - (void)saveBookmark:(OBABookmarkV2*)bookmark;
 - (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex;
+- (void)moveBookmark:(OBABookmarkV2*)bookmark toIndex:(NSUInteger)index inGroup:(nullable OBABookmarkGroup*)group;
 - (void)removeBookmark:(OBABookmarkV2*)bookmark;
 
 - (void)saveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup;

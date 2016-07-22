@@ -11,7 +11,15 @@
 @implementation NSObject (OBADescription)
 
 - (NSString*)oba_description:(NSArray<NSString*>*)keys {
-    NSDictionary *dict = [self dictionaryWithValuesForKeys:keys];
+    return [self oba_description:keys keyPaths:nil];
+}
+
+- (NSString*)oba_description:(NSArray<NSString*>*)keys keyPaths:(NSArray<NSString *> *)keyPaths {
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self dictionaryWithValuesForKeys:keys]];
+
+    for (NSString *keyPath in keyPaths) {
+        dict[keyPath] = [self valueForKeyPath:keyPath];
+    }
 
     return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, dict];
 }

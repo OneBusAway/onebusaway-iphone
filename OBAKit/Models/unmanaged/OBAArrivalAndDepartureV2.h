@@ -13,19 +13,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAArrivalAndDepartureV2 : OBAHasReferencesV2<OBAHasServiceAlerts>
 
-@property(nonatomic,strong) NSString * routeId;
+@property(nonatomic,copy) NSString *routeId;
 @property(nonatomic,weak,readonly) OBARouteV2 * route;
-@property(nonatomic,strong) NSString * routeShortName;
+@property(nonatomic,copy) NSString *routeShortName;
 
-@property(nonatomic,strong) NSString * tripId;
+@property(nonatomic,copy) NSString * tripId;
 @property(nonatomic,weak,readonly) OBATripV2 * trip;
-@property(nonatomic,strong) NSString * tripHeadsign;
+@property(nonatomic,copy) NSString * tripHeadsign;
 @property(nonatomic,assign) long long serviceDate;
 
 @property(nonatomic,weak,readonly) OBAArrivalAndDepartureInstanceRef * instance;
 @property(nonatomic,weak,readonly) OBATripInstanceRef * tripInstance;
 
-@property(nonatomic,strong) NSString * stopId;
+@property(nonatomic,copy) NSString * stopId;
 @property(nonatomic,weak,readonly) OBAStopV2 * stop;
 @property(nonatomic,assign) NSInteger stopSequence;
 
@@ -47,6 +47,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) NSInteger numberOfStopsAway;
 
 - (BOOL)hasRealTimeData;
+
+/**
+ This string is composed of this object's routeId, tripHeadsign, and bestAvailableName.
+ It is designed to offer a unique key for determining bookmark existence during the process of creating one.
+ */
+- (NSString*)bookmarkKey;
 
 /**
  Walks through a series of possible options for giving this arrival and departure a user-sensible name.

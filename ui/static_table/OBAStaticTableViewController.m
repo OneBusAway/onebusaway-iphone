@@ -58,6 +58,21 @@
     return row;
 }
 
+- (nullable NSIndexPath*)indexPathForRow:(OBABaseRow*)row {
+    for (NSInteger i=0; i<self.sections.count; i++) {
+        OBATableSection *section = self.sections[i];
+        for (NSInteger j=0; j<section.rows.count; j++) {
+            OBABaseRow *candidate = section.rows[j];
+
+            if ([row isEqual:candidate]) {
+                return [NSIndexPath indexPathForRow:j inSection:i];
+            }
+        }
+    }
+
+    return nil;
+}
+
 #pragma mark - UITableView Section Headers
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -142,6 +157,16 @@
     else if (!tableView.editing && row.action) {
         row.action();
     }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    OBABaseRow *row = [self rowAtIndexPath:indexPath];
+    return row.rowActions.count > 0;
+}
+
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    OBABaseRow *row = [self rowAtIndexPath:indexPath];
+    return row.rowActions ?: @[];
 }
 
 #pragma mark - DZNEmptyDataSet

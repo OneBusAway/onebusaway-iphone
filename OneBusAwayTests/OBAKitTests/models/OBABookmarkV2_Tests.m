@@ -7,25 +7,30 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
 #import "OBATestHelpers.h"
 #import <OBAKit/OBABookmarkV2.h>
+#import <OBAKit/OBAArrivalsAndDeparturesForStopV2.h>
+#import "OBAModelDAO.h"
+#import "OBATestHarnessPersistenceLayer.h"
 
 /**
  TODO: WRITE *MORE* TESTS
  */
 
 @interface OBABookmarkV2_Tests : XCTestCase
+@property(nonatomic,strong) OBATestHarnessPersistenceLayer *persistenceLayer;
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
 @end
 
 @implementation OBABookmarkV2_Tests
 
 - (void)setUp {
     [super setUp];
-}
 
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
+    self.persistenceLayer = [[OBATestHarnessPersistenceLayer alloc] init];
+    self.modelDAO = [[OBAModelDAO alloc] initWithModelPersistenceLayer:self.persistenceLayer];
+    self.modelDAO.region = [OBATestHelpers pugetSoundRegion];
 }
 
 - (void)testMigratingBookmarkWithStopIDsArray {
