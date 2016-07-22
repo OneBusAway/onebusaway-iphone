@@ -33,23 +33,36 @@
 }
 
 - (NSString*)tripHeadsign {
+
+    NSString *headsign = nil;
+
     if (_tripHeadsign.length > 0) {
-        return _tripHeadsign;
+        headsign = _tripHeadsign;
+    }
+    else if (self.trip.tripHeadsign) {
+        headsign = self.trip.tripHeadsign;
+    }
+    else if (self.trip.route.longName) {
+        headsign = self.trip.route.longName;
+    }
+    else if (self.trip.route.shortName) {
+        headsign = self.trip.route.shortName;
     }
 
-    if (self.trip.tripHeadsign) {
-        return self.trip.tripHeadsign;
+    if (!headsign) {
+        return nil;
     }
 
-    if (self.trip.route.longName) {
-        return self.trip.route.longName;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[a-z]" options:0 error:nil];
+    if ([regex numberOfMatchesInString:headsign options:0 range:NSMakeRange(0, headsign.length)] > 0) {
+        // Headsign contains a mix of uppercase and lowercase letters. Let it be.
+        return headsign;
     }
-
-    if (self.trip.route.shortName) {
-        return self.trip.route.shortName;
+    else {
+        // No lowercase letters anywhere in the headsign.
+        // Return a Cap Case String in order to prevent SCREAMING CAPS.
+        return headsign.capitalizedString;
     }
-
-    return nil;
 }
 
 - (OBAArrivalAndDepartureInstanceRef*)instance {

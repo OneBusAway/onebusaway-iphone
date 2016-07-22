@@ -11,10 +11,13 @@
 @implementation OBAArrivalAndDepartureSectionBuilder
 
 + (OBAClassicDepartureRow *)createDepartureRow:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
-    NSString *dest = arrivalAndDeparture.tripHeadsign.capitalizedString;
-    OBAClassicDepartureRow *departureRow = [[OBAClassicDepartureRow alloc] initWithRouteName:arrivalAndDeparture.bestAvailableName destination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(arrivalAndDeparture.bestDepartureTime / 1000)] statusText:[arrivalAndDeparture statusText] departureStatus:[arrivalAndDeparture departureStatus] action:nil];
+    NSString *routeName = arrivalAndDeparture.bestAvailableName;
+    NSString *destination = arrivalAndDeparture.tripHeadsign;
+    NSDate *departsAt = [NSDate dateWithTimeIntervalSince1970:(arrivalAndDeparture.bestDepartureTime / 1000)];
+    NSString *statusText = [arrivalAndDeparture statusText];
+    OBADepartureStatus departureStatus = [arrivalAndDeparture departureStatus];
 
-    return departureRow;
+    return [[OBAClassicDepartureRow alloc] initWithRouteName:routeName destination:destination departsAt:departsAt statusText:statusText departureStatus:departureStatus action:nil];
 }
 
 @end
