@@ -20,7 +20,6 @@
 #define OBAGREENBACKGROUND [UIColor colorWithRed:0.92f green:0.95f blue:0.88f alpha:.67f]
 #define OBADARKGREEN [UIColor colorWithRed:0.2f green:.4f blue:0.f alpha:1.f]
 
-#define OBAViewedArrivalsAndDeparturesForStopNotification @"OBAViewedArrivalsAndDeparturesForStopNotification"
 #define OBAMostRecentStopsChangedNotification @"OBAMostRecentStopsChangedNotification"
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)

@@ -29,17 +29,15 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
 @interface OBAModelDAO ()
 @property(nonatomic,strong) id<OBAModelPersistenceLayer> preferencesDao;
+@property(nonatomic,strong,readwrite) NSMutableArray *bookmarks;
+@property(nonatomic,strong,readwrite) NSMutableArray *bookmarkGroups;
+@property(nonatomic,strong,readwrite) NSMutableArray *mostRecentStops;
+@property(nonatomic,strong,readwrite) NSMutableDictionary *stopPreferences;
+@property(nonatomic,strong) NSMutableSet *visitedSituationIds;
+@property(nonatomic,strong) NSMutableArray *mostRecentCustomApiUrls;
 @end
 
-@implementation OBAModelDAO {
-    NSMutableArray * _bookmarks;
-    NSMutableArray * _bookmarkGroups;
-    NSMutableArray * _mostRecentStops;
-    NSMutableDictionary * _stopPreferences;
-    CLLocation * _mostRecentLocation;
-    NSMutableSet * _visitedSituationIds;
-    NSMutableArray * _mostRecentCustomApiUrls;
-}
+@implementation OBAModelDAO
 @dynamic hideFutureLocationWarnings;
 
 - (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer {
@@ -55,34 +53,16 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
         _visitedSituationIds = [[NSMutableSet alloc] initWithSet:[_preferencesDao readVisistedSituationIds]];
         _region = [_preferencesDao readOBARegion];
         _mostRecentCustomApiUrls = [[NSMutableArray alloc] initWithArray:[_preferencesDao readMostRecentCustomApiUrls]];
-
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewedArrivalsAndDeparturesForStop:) name:OBAViewedArrivalsAndDeparturesForStopNotification object:nil];
     }
 
     return self;
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBAViewedArrivalsAndDeparturesForStopNotification object:nil];
-}
-
 #pragma mark - Recent
 
-- (NSArray*) mostRecentStops {
-    return _mostRecentStops;
-}
-
-- (NSArray*) mostRecentCustomApiUrls {
-    return _mostRecentCustomApiUrls;
-}
-
-- (CLLocation*) mostRecentLocation {
-    return _mostRecentLocation;
-}
-
-- (void) setMostRecentLocation:(CLLocation*)location {
-    _mostRecentLocation = location;
-    [_preferencesDao writeMostRecentLocation:location];
+- (void)setMostRecentLocation:(CLLocation*)location {
+    _mostRecentLocation = [location copy];
+    [_preferencesDao writeMostRecentLocation:_mostRecentLocation];
 }
 
 #pragma mark - Regions
@@ -324,7 +304,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
 #pragma mark - Stop Viewing
 
-- (void) addStopAccessEvent:(OBAStopAccessEventV2*)event {
+- (void)addStopAccessEvent:(OBAStopAccessEventV2*)event {
 
     OBAStopAccessEventV2 * existingEvent = nil;
 
@@ -358,8 +338,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [[NSNotificationCenter defaultCenter] postNotificationName:OBAMostRecentStopsChangedNotification object:nil];
 }
 
-- (void)viewedArrivalsAndDeparturesForStop:(NSNotification*)note {
-    OBAStopV2* stop = [note object];
+- (void)viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop {
     OBAStopAccessEventV2 * event = [[OBAStopAccessEventV2 alloc] init];
     event.stopIds = @[stop.stopId];
     event.title = stop.title;
@@ -368,7 +347,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 }
 
 - (BOOL)isVisitedSituationWithId:(NSString*)situationId {
-    return [_visitedSituationIds containsObject:situationId];
+    return [self.visitedSituationIds containsObject:situationId];
 }
 
 - (OBAServiceAlertsModel*)getServiceAlertsModelForSituations:(NSArray*)situations {
