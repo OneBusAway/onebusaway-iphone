@@ -13,6 +13,12 @@
 @interface OBATestHelpers : NSObject
 
 /**
+ First, serializes an NSCoding compatible object into an NSData object, and then deserializes it back
+ into the original kind of object that it was. Useful for testing NSCoding implementations.
+ */
++ (id)roundtripObjectThroughNSCoding:(id<NSCoding>)obj;
+
+/**
  Locates the file with the specified file name in the test bundle.
 
  @param fileName The name of the file to load, with extension.

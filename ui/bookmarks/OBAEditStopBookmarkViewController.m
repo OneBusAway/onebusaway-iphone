@@ -102,8 +102,12 @@
         NSString *stopId = self.bookmark.stopId;
         OBAStopV2 *stop = self.stops[stopId];
 
-        if (stop) cell.textLabel.text = [NSString stringWithFormat:@"%@ # %@ - %@", NSLocalizedString(@"Stop", @"stop"), stop.code, stop.name];
-        else cell.textLabel.text = NSLocalizedString(@"Loading stop info...", @"!stop");
+        if (stop) {
+            cell.textLabel.text = [NSString stringWithFormat:@"%@ # %@ - %@", NSLocalizedString(@"Stop", @"stop"), @"", stop.name];
+        }
+        else {
+            cell.textLabel.text = NSLocalizedString(@"Loading stop info...", @"!stop");
+        }
 
         cell.textLabel.font = [OBATheme bodyFont];
         cell.textLabel.textColor = [UIColor grayColor];

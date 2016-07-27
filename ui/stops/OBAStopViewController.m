@@ -135,7 +135,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     __block NSString *message = nil;
     [[OBAApplication sharedApplication].modelService requestStopForID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
         self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Updated", @"message"), [OBACommon getTimeAsString]];
-        [[NSNotificationCenter defaultCenter] postNotificationName:OBAViewedArrivalsAndDeparturesForStopNotification object:response.stop];
+        [self.modelDAO viewedArrivalsAndDeparturesForStop:response.stop];
 
         self.arrivalsAndDepartures = response;
 

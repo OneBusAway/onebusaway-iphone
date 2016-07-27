@@ -41,22 +41,22 @@ PODS:
   - libextobjc/UmbrellaHeader (0.4.1)
   - Masonry (0.6.4)
   - OCMock (3.3.1)
-  - OMGHTTPURLRQ (3.1.2):
-    - OMGHTTPURLRQ/RQ (= 3.1.2)
-  - OMGHTTPURLRQ/FormURLEncode (3.1.2)
-  - OMGHTTPURLRQ/RQ (3.1.2):
+  - OMGHTTPURLRQ (3.2.0):
+    - OMGHTTPURLRQ/RQ (= 3.2.0)
+  - OMGHTTPURLRQ/FormURLEncode (3.2.0)
+  - OMGHTTPURLRQ/RQ (3.2.0):
     - OMGHTTPURLRQ/FormURLEncode
     - OMGHTTPURLRQ/UserAgent
-  - OMGHTTPURLRQ/UserAgent (3.1.2)
-  - PromiseKit/CloudKit (3.2.0):
+  - OMGHTTPURLRQ/UserAgent (3.2.0)
+  - PromiseKit/CloudKit (3.3.0):
     - PromiseKit/CorePromise
-  - PromiseKit/CoreLocation (3.2.0):
+  - PromiseKit/CoreLocation (3.3.0):
     - PromiseKit/CorePromise
-  - PromiseKit/CorePromise (3.2.0)
-  - PromiseKit/Foundation (3.2.0):
-    - OMGHTTPURLRQ (~> 3.1.0)
+  - PromiseKit/CorePromise (3.3.0)
+  - PromiseKit/Foundation (3.3.0):
+    - OMGHTTPURLRQ (~> 3.2.0)
     - PromiseKit/CorePromise
-  - PromiseKit/MapKit (3.2.0):
+  - PromiseKit/MapKit (3.3.0):
     - PromiseKit/CorePromise
   - SVProgressHUD (2.0.3)
 
@@ -69,11 +69,11 @@ DEPENDENCIES:
   - libextobjc (= 0.4.1)
   - Masonry (= 0.6.4)
   - OCMock (~> 3.3)
-  - PromiseKit/CloudKit (= 3.2.0)
-  - PromiseKit/CoreLocation (= 3.2.0)
-  - PromiseKit/CorePromise (= 3.2.0)
-  - PromiseKit/Foundation (= 3.2.0)
-  - PromiseKit/MapKit (= 3.2.0)
+  - PromiseKit/CloudKit (= 3.3.0)
+  - PromiseKit/CoreLocation (= 3.3.0)
+  - PromiseKit/CorePromise (= 3.3.0)
+  - PromiseKit/Foundation (= 3.3.0)
+  - PromiseKit/MapKit (= 3.3.0)
   - SVProgressHUD (= 2.0.3)
 
 SPEC CHECKSUMS:
@@ -85,10 +85,10 @@ SPEC CHECKSUMS:
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   OCMock: f3f61e6eaa16038c30caa5798c5e49d3307b6f22
-  OMGHTTPURLRQ: 38316b56d88125c600bcdb16df8329147da2b0ee
-  PromiseKit: 1db024241265f428137a9f3c00ff9590740c4be6
+  OMGHTTPURLRQ: 1e54807cb7d5dbb506926e53498e1e9ac5720c79
+  PromiseKit: 3af62d9226430bdf0b3321e4de899e539d9c178f
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
 
-PODFILE CHECKSUM: 44fe2e8c0ca8bb61cc678d0acb53f65df32f2d1a
+PODFILE CHECKSUM: 608da0f60a6c5ce75fb188a449b9ea4d51d4f916
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.0.beta.1

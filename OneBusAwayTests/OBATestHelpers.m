@@ -11,6 +11,11 @@
 
 @implementation OBATestHelpers
 
++ (id)roundtripObjectThroughNSCoding:(id<NSCoding>)obj {
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:obj];
+    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+}
+
 + (NSString*)pathToTestFile:(NSString*)fileName {
     return [[NSBundle bundleForClass:self.class] pathForResource:[fileName stringByDeletingPathExtension] ofType:[fileName pathExtension]];
 }

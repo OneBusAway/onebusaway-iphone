@@ -8,17 +8,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString * stopId;
 @property (nonatomic, strong) NSString * name;
+
+/**
+ The stop number. A unique identifier for the stop
+ within its transit system. In Puget Sound, e.g.,
+ these stop numbers are actually written on the bus stops.
+ */
 @property (nonatomic, strong) NSString * code;
 @property (nonatomic, strong) NSString * direction;
-@property (nonatomic, strong) NSNumber * latitude;
-@property (nonatomic, strong) NSNumber * longitude;
 @property (nonatomic, strong) NSArray<NSString*> *routeIds;
 
 @property(nonatomic,strong,readonly) NSArray<OBARouteV2*> *routes;
 
-@property (nonatomic,readonly) double lat;
-@property (nonatomic,readonly) double lon;
-@property (nonatomic,readonly) CLLocationCoordinate2D coordinate;
+@property(nonatomic,assign) double lat;
+@property(nonatomic,assign) double lon;
+@property(nonatomic,readonly) CLLocationCoordinate2D coordinate;
 
 - (NSComparisonResult)compareUsingName:(OBAStopV2*)aStop;
 

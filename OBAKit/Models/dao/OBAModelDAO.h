@@ -28,12 +28,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAModelDAO : NSObject
 @property(nonatomic,strong,readonly) NSArray<OBABookmarkV2*> *bookmarksForCurrentRegion;
-@property(weak, nonatomic,readonly) NSArray *ungroupedBookmarks;
-@property(weak, nonatomic,readonly) NSArray * bookmarkGroups;
-@property(weak, nonatomic,readonly) NSArray<OBAStopAccessEventV2*> * mostRecentStops;
-@property(nonatomic,strong) CLLocation *mostRecentLocation;
+@property(strong,nonatomic,readonly) NSArray *ungroupedBookmarks;
+@property(strong,nonatomic,readonly) NSArray * bookmarkGroups;
+@property(strong,nonatomic,readonly) NSArray<OBAStopAccessEventV2*> * mostRecentStops;
+@property(nonatomic,copy) CLLocation *mostRecentLocation;
 @property(nonatomic,strong,nullable) OBARegionV2 *region;
-@property(weak, nonatomic,readonly) NSArray * mostRecentCustomApiUrls;
+@property(strong,nonatomic,readonly) NSArray * mostRecentCustomApiUrls;
 @property(nonatomic,assign) BOOL hideFutureLocationWarnings;
 
 - (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer;
@@ -67,6 +67,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) addCustomApiUrl:(NSString*)customApiUrl;
 
 - (NSString*)normalizedAPIServerURL;
+
+- (void)viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop;
+
 @end
 
 NS_ASSUME_NONNULL_END
