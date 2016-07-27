@@ -501,8 +501,10 @@
 - (void)testMostRecentLocation {
     CLLocation *location = [[CLLocation alloc] initWithLatitude:47.623971 longitude:-122.3132352];
     self.modelDAO.mostRecentLocation = location;
-    XCTAssertEqualObjects(self.modelDAO.mostRecentLocation, location);
-    XCTAssertEqualObjects(self.persistenceLayer.readMostRecentLocation, location);
+    XCTAssertEqual(self.modelDAO.mostRecentLocation.coordinate.latitude, location.coordinate.latitude);
+    XCTAssertEqual(self.modelDAO.mostRecentLocation.coordinate.longitude, location.coordinate.longitude);
+    XCTAssertEqual(self.persistenceLayer.readMostRecentLocation.coordinate.latitude, location.coordinate.latitude);
+    XCTAssertEqual(self.persistenceLayer.readMostRecentLocation.coordinate.longitude, location.coordinate.longitude);
 }
 
 #pragma mark - Helpers
