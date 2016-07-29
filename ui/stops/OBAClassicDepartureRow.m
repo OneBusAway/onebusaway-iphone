@@ -12,7 +12,7 @@
 
 @implementation OBAClassicDepartureRow
 
-- (instancetype)initWithRouteName:(NSString*)routeName destination:(NSString*)destination departsAt:(NSDate*)departsAt statusText:(NSString*)statusText departureStatus:(OBADepartureStatus)departureStatus action:(void(^)(void))action {
+- (instancetype)initWithRouteName:(NSString*)routeName destination:(NSString*)destination departsAt:(NSDate*)departsAt statusText:(NSString*)statusText departureStatus:(OBADepartureStatus)departureStatus action:(void(^)(OBABaseRow *row))action {
     self = [super initWithDestination:destination departsAt:departsAt statusText:statusText departureStatus:departureStatus action:action];
 
     if (self) {

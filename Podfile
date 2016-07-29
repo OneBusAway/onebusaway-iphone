@@ -1,16 +1,14 @@
 # Uncomment this line to define a global platform for your project
 platform :ios, '9.0'
 
-use_pk_400 = !ENV['xcode8'].nil?
-
 inhibit_all_warnings!
 
 def pod_promise_kit
-  pod 'PromiseKit/CorePromise', '3.3.0'
-  pod 'PromiseKit/CoreLocation', '3.3.0'
-  pod 'PromiseKit/CloudKit', '3.3.0'
-  pod 'PromiseKit/Foundation', '3.3.0'
-  pod 'PromiseKit/MapKit', '3.3.0'
+  pod 'PromiseKit/CorePromise', '3.4.3'
+  pod 'PromiseKit/CoreLocation', '3.4.3'
+  pod 'PromiseKit/CloudKit', '3.4.3'
+  pod 'PromiseKit/Foundation', '3.4.3'
+  pod 'PromiseKit/MapKit', '3.4.3'
 end
 
 target 'OBAKit' do
@@ -22,7 +20,6 @@ target 'OneBusAway' do
   use_frameworks!
 
   # Pods for OneBusAway
-  pod 'ABReleaseNotesViewController', '0.1.1'
   pod 'GoogleAnalytics', '3.14.0'
   pod 'libextobjc', '0.4.1'
   pod 'SVProgressHUD', '2.0.3'

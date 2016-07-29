@@ -121,6 +121,11 @@
  */
 + (UIColor*)delayedDepartureColor;
 
+/**
+ Table view section header background color.
+ */
++ (UIColor*)tableViewSectionHeaderBackgroundColor;
+
 // Pixels (err, points)
 
 /**

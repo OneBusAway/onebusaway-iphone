@@ -24,31 +24,35 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class OBAModelDAOUserPreferencesImpl;
+extern NSString * const OBAUngroupedBookmarksIdentifier;
 
 @interface OBAModelDAO : NSObject
 @property(nonatomic,strong,readonly) NSArray<OBABookmarkV2*> *bookmarksForCurrentRegion;
-@property(strong,nonatomic,readonly) NSArray *ungroupedBookmarks;
-@property(strong,nonatomic,readonly) NSArray * bookmarkGroups;
+@property(strong,nonatomic,readonly) NSArray<OBABookmarkV2*> *ungroupedBookmarks;
+@property(strong,nonatomic,readonly) NSArray<OBABookmarkGroup*> *bookmarkGroups;
 @property(strong,nonatomic,readonly) NSArray<OBAStopAccessEventV2*> * mostRecentStops;
 @property(nonatomic,copy) CLLocation *mostRecentLocation;
 @property(nonatomic,strong,nullable) OBARegionV2 *region;
 @property(strong,nonatomic,readonly) NSArray * mostRecentCustomApiUrls;
 @property(nonatomic,assign) BOOL hideFutureLocationWarnings;
+@property(nonatomic,assign) BOOL ungroupedBookmarksOpen;
 
 - (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer;
 
 - (OBABookmarkV2*)bookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrival;
-- (nullable OBABookmarkV2*)bookmarkAtIndex:(NSUInteger)index inGroup:(nullable OBABookmarkGroup*)group;
 - (void)saveBookmark:(OBABookmarkV2*)bookmark;
 - (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex;
-- (void)moveBookmark:(OBABookmarkV2*)bookmark toIndex:(NSUInteger)index inGroup:(nullable OBABookmarkGroup*)group;
 - (void)removeBookmark:(OBABookmarkV2*)bookmark;
 
-- (void)saveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup;
-- (void)removeBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup;
+- (nullable OBABookmarkV2*)bookmarkAtIndex:(NSUInteger)index inGroup:(nullable OBABookmarkGroup*)group;
+- (void)moveBookmark:(OBABookmarkV2*)bookmark toIndex:(NSUInteger)index inGroup:(nullable OBABookmarkGroup*)group;
 - (void)moveBookmark:(OBABookmarkV2*)bookmark toGroup:(nullable OBABookmarkGroup*)group;
 - (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex inGroup:(OBABookmarkGroup*)group;
+
+- (void)moveBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup toIndex:(NSUInteger)index;
+- (void)saveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup;
+- (void)removeBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup;
+- (void)persistGroups;
 
 - (OBAStopPreferencesV2*)stopPreferencesForStopWithId:(NSString*)stopId;
 - (void)setStopPreferences:(OBAStopPreferencesV2*)preferences forStopWithId:(NSString*)stopId;

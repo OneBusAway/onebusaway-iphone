@@ -27,8 +27,18 @@ NSString * const kOBARegionKey = @"oBARegion";
 NSString * const kSetRegionAutomaticallyKey = @"setRegionAutomatically";
 NSString * const kCustomApiUrlKey = @"customApiUrl";
 NSString * const kMostRecentCustomApiUrlsKey = @"mostRecentCustomApiUrls";
+NSString * const kUngroupedBookmarksOpenKey = @"UngroupedBookmarksOpen";
 
 @implementation OBAModelDAOUserPreferencesImpl
+
+- (void)setUngroupedBookmarksOpen:(BOOL)ungroupedBookmarksOpen {
+    [[NSUserDefaults standardUserDefaults] setBool:ungroupedBookmarksOpen forKey:kUngroupedBookmarksOpenKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)ungroupedBookmarksOpen {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kUngroupedBookmarksOpenKey];
+}
 
 - (NSArray*)readBookmarks {
     return [self.class loadAndDecodeObjectFromDataForKey:kBookmarksKey] ?: @[];

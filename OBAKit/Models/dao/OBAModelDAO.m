@@ -25,12 +25,14 @@
 #import "OBAPlacemark.h"
 #import "OBABookmarkGroup.h"
 
+NSString * const OBAUngroupedBookmarksIdentifier = @"OBAUngroupedBookmarksIdentifier";
+
 const NSInteger kMaxEntriesInMostRecentList = 10;
 
 @interface OBAModelDAO ()
 @property(nonatomic,strong) id<OBAModelPersistenceLayer> preferencesDao;
-@property(nonatomic,strong,readwrite) NSMutableArray *bookmarks;
-@property(nonatomic,strong,readwrite) NSMutableArray *bookmarkGroups;
+@property(nonatomic,strong,readwrite) NSMutableArray<OBABookmarkV2*> *bookmarks;
+@property(nonatomic,strong,readwrite) NSMutableArray<OBABookmarkGroup*> *bookmarkGroups;
 @property(nonatomic,strong,readwrite) NSMutableArray *mostRecentStops;
 @property(nonatomic,strong,readwrite) NSMutableDictionary *stopPreferences;
 @property(nonatomic,strong) NSMutableSet *visitedSituationIds;
@@ -39,6 +41,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
 @implementation OBAModelDAO
 @dynamic hideFutureLocationWarnings;
+@dynamic ungroupedBookmarksOpen;
 
 - (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer {
     self = [super init];
@@ -102,16 +105,6 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     }
 
     return nil;
-}
-
-- (nullable OBABookmarkV2*)bookmarkAtIndex:(NSUInteger)index inGroup:(nullable OBABookmarkGroup*)group {
-    NSArray *bookmarks = group ? group.bookmarks : self.ungroupedBookmarks;
-
-    OBAGuard(bookmarks.count > index) else {
-        return nil;
-    }
-
-    return bookmarks[index];
 }
 
 - (NSArray*)ungroupedBookmarks {
@@ -187,7 +180,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
             [_bookmarkGroups removeObject:group];
         }
 
-        [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
+        [self persistGroups];
     }
     else {
         [_bookmarks removeObject:bookmark];
@@ -195,24 +188,20 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     }
 }
 
-- (void)saveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup {
-    if (![_bookmarkGroups containsObject:bookmarkGroup]) {
-        [_bookmarkGroups addObject:bookmarkGroup];
-    }
-    [_bookmarkGroups sortUsingComparator:^NSComparisonResult(OBABookmarkGroup *obj1, OBABookmarkGroup *obj2) {
-        return [obj1.name compare:obj2.name];
-    }];
+- (void)persistGroups {
     [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
 }
 
-- (void)removeBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup {
-    for (OBABookmarkV2 *bm in bookmarkGroup.bookmarks) {
-        [_bookmarks addObject:bm];
-        bm.group = nil;
+#pragma mark - Bookmarks in Groups
+
+- (nullable OBABookmarkV2*)bookmarkAtIndex:(NSUInteger)index inGroup:(nullable OBABookmarkGroup*)group {
+    NSArray *bookmarks = group ? group.bookmarks : self.ungroupedBookmarks;
+
+    OBAGuard(bookmarks.count > index) else {
+        return nil;
     }
-    [_bookmarkGroups removeObject:bookmarkGroup];
-    [_preferencesDao writeBookmarks:_bookmarks];
-    [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
+
+    return bookmarks[index];
 }
 
 - (void)moveBookmark:(OBABookmarkV2*)bookmark toGroup:(nullable OBABookmarkGroup*)group {
@@ -232,7 +221,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     }
     bookmark.group = group;
     [_preferencesDao writeBookmarks:_bookmarks];
-    [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
+    [self persistGroups];
 }
 
 - (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex inGroup:(OBABookmarkGroup*)group {
@@ -254,7 +243,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
         // just stick the bookmark at the end of the array and
         // call it a day.
         [group.bookmarks insertObject:bm atIndex:MIN(endIndex, bookmarksCount - 1)];
-        [_preferencesDao writeBookmarkGroups:_bookmarkGroups];
+        [self persistGroups];
     }
 }
 
@@ -273,6 +262,83 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
         NSUInteger idx = [self.ungroupedBookmarks indexOfObject:bookmark];
         [self moveBookmark:idx to:index];
     }
+}
+
+#pragma mark - Bookmark Groups
+
+- (void)moveBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup toIndex:(NSUInteger)index {
+    OBAGuard(bookmarkGroup) else {
+        return;
+    }
+
+    NSUInteger currentIndex = [_bookmarkGroups indexOfObject:bookmarkGroup];
+
+    if (currentIndex == index) {
+        // no-op.
+        return;
+    }
+
+    // check to see if the index is out of bounds for groups array.
+    // If it is out of bounds, reset the target index to be the end
+    // of the array.
+    if (index >= _bookmarkGroups.count) {
+        index = _bookmarkGroups.count - 1;
+    }
+
+    // remove the group from the array.
+    [_bookmarkGroups removeObject:bookmarkGroup];
+
+    // reinsert the group at the specified index.
+    [_bookmarkGroups insertObject:bookmarkGroup atIndex:index];
+
+    // rewrite sort orders to ensure values increase monotonically
+    [self rewriteBookmarkGroupSortOrderToIncreaseMonotonically];
+
+    [self persistGroups];
+}
+
+- (void)saveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup {
+
+    // Add the bookmark group to the list if it doesn't yet exist.
+    if (![_bookmarkGroups containsObject:bookmarkGroup]) {
+        bookmarkGroup.sortOrder = self.bookmarkGroups.count;
+        [_bookmarkGroups addObject:bookmarkGroup];
+    }
+
+    // Sort the bookmark groups by sort order.
+    [_bookmarkGroups sortUsingSelector:@selector(compare:)];
+
+    // Rewrite their sort orders to ensure that
+    // the values increase monotonically.
+    [self rewriteBookmarkGroupSortOrderToIncreaseMonotonically];
+
+    [self persistGroups];
+}
+
+- (void)removeBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup {
+    for (OBABookmarkV2 *bm in bookmarkGroup.bookmarks) {
+        [_bookmarks addObject:bm];
+        bm.group = nil;
+    }
+    [_bookmarkGroups removeObject:bookmarkGroup];
+    [_preferencesDao writeBookmarks:_bookmarks];
+    [self persistGroups];
+}
+
+- (void)rewriteBookmarkGroupSortOrderToIncreaseMonotonically {
+    for (NSUInteger i=0;i<_bookmarkGroups.count;i++) {
+        _bookmarkGroups[i].sortOrder = i;
+    }
+}
+
+#pragma mark - Misc
+
+- (void)setUngroupedBookmarksOpen:(BOOL)open {
+    self.preferencesDao.ungroupedBookmarksOpen = open;
+}
+
+- (BOOL)ungroupedBookmarksOpen {
+    return self.preferencesDao.ungroupedBookmarksOpen;
 }
 
 #pragma mark - Stop Preferences

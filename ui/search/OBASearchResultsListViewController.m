@@ -85,7 +85,7 @@
             case OBASearchTypeRouteStops: {
                 OBAStopV2 *stop = obj;
                 tableRow.title = stop.name;
-                [tableRow setAction:^{
+                [tableRow setAction:^(OBABaseRow *row) {
                     OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stop.stopId];
                     [self.navigationController pushViewController:vc animated:YES];
                 }];
@@ -96,7 +96,7 @@
                 OBARouteV2 *route = obj;
                 tableRow.title = route.fullRouteName;
                 tableRow.subtitle = route.agency.name;
-                [tableRow setAction:^{
+                [tableRow setAction:^(OBABaseRow* row){
                     OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchRouteStops:route.routeId];
                     [APP_DELEGATE navigateToTarget:target];
                     [self dismissModal];
@@ -107,7 +107,7 @@
                 OBAPlacemark *placemark = obj;
                 tableRow.title = placemark.title;
                 tableRow.style = UITableViewCellStyleDefault;
-                [tableRow setAction:^{
+                [tableRow setAction:^(OBABaseRow *row){
                     OBANavigationTarget * target = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
                     [APP_DELEGATE navigateToTarget:target];
                     [self dismissModal];
