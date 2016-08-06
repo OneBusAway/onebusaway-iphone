@@ -25,7 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 @class OBAModelDAO;
 
 @interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate, MKMapViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate>
-@property(nonatomic,strong) OBAApplicationDelegate * appDelegate;
 @property(nonatomic,strong) IBOutlet OBAScopeView *scopeView;
 @property(nonatomic,strong) IBOutlet UISegmentedControl *searchTypeSegmentedControl;
 @property(nonatomic,strong) IBOutlet MKMapView * mapView;

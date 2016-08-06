@@ -23,6 +23,7 @@
     self = [super init];
 
     if (self) {
+        self.title = NSLocalizedString(@"Bookmarks", @"");
         self.tabBarItem.title = NSLocalizedString(@"Bookmarks", @"Bookmarks tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Bookmarks"];
         self.emptyDataSetTitle = NSLocalizedString(@"No Bookmarks", @"");

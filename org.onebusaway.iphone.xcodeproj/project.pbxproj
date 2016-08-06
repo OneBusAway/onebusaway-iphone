@@ -313,6 +313,8 @@
 		93B8BA291C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B8BA281C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m */; };
 		93DEE5831D45207700042803 /* stop_with_obj_lat_long.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93DEE5821D45207700042803 /* stop_with_obj_lat_long.plist */; };
 		93E0954719CE051700A31BA6 /* OBALaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */; };
+		93E0D19F1D569E7B00D9AA63 /* UIViewController+OBAContainment.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E0D19E1D569E7B00D9AA63 /* UIViewController+OBAContainment.m */; };
+		93E0D1A21D579CA300D9AA63 /* OBAApplicationUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E0D1A11D579CA300D9AA63 /* OBAApplicationUI.m */; };
 		93E4A3011CF7D42300EF9595 /* OBAClassicDepartureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E4A3001CF7D42300EF9595 /* OBAClassicDepartureView.m */; };
 		93E4A7621CE65B2100E769B0 /* atlanta.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 93E4A7611CE65B2100E769B0 /* atlanta.gpx */; };
 		93F05A631C8E080000BF36B1 /* OBAAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F05A621C8E080000BF36B1 /* OBAAnimation.m */; };
@@ -752,6 +754,10 @@
 		93B8BA281C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureViewController.m; sourceTree = "<group>"; };
 		93DEE5821D45207700042803 /* stop_with_obj_lat_long.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = stop_with_obj_lat_long.plist; sourceTree = "<group>"; };
 		93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBALaunchScreen.xib; path = Resources/OBALaunchScreen.xib; sourceTree = "<group>"; };
+		93E0D19D1D569E7B00D9AA63 /* UIViewController+OBAContainment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+OBAContainment.h"; sourceTree = "<group>"; };
+		93E0D19E1D569E7B00D9AA63 /* UIViewController+OBAContainment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+OBAContainment.m"; sourceTree = "<group>"; };
+		93E0D1A01D579CA300D9AA63 /* OBAApplicationUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAApplicationUI.h; sourceTree = "<group>"; };
+		93E0D1A11D579CA300D9AA63 /* OBAApplicationUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAApplicationUI.m; sourceTree = "<group>"; };
 		93E4A2FF1CF7D42300EF9595 /* OBAClassicDepartureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureView.h; sourceTree = "<group>"; };
 		93E4A3001CF7D42300EF9595 /* OBAClassicDepartureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicDepartureView.m; sourceTree = "<group>"; };
 		93E4A7611CE65B2100E769B0 /* atlanta.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = atlanta.gpx; sourceTree = "<group>"; };
@@ -954,6 +960,8 @@
 				934446B71AB10ECA005B3333 /* UITableViewCell+oba_Additions.m */,
 				93B32FF11AC4912F001DC177 /* UIViewController+OBAAnalytics.h */,
 				93B32FF21AC4912F001DC177 /* UIViewController+OBAAnalytics.m */,
+				93E0D19D1D569E7B00D9AA63 /* UIViewController+OBAContainment.h */,
+				93E0D19E1D569E7B00D9AA63 /* UIViewController+OBAContainment.m */,
 			);
 			path = categories;
 			sourceTree = "<group>";
@@ -1248,6 +1256,8 @@
 				9345225F1C1BA976006F75BC /* OBATheme.m */,
 				93F05A611C8E080000BF36B1 /* OBAAnimation.h */,
 				93F05A621C8E080000BF36B1 /* OBAAnimation.m */,
+				93E0D1A01D579CA300D9AA63 /* OBAApplicationUI.h */,
+				93E0D1A11D579CA300D9AA63 /* OBAApplicationUI.m */,
 			);
 			path = themes;
 			sourceTree = "<group>";
@@ -2097,6 +2107,7 @@
 				934446B81AB10ECA005B3333 /* UITableViewCell+oba_Additions.m in Sources */,
 				932BE4EB1AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.m in Sources */,
 				93AD369D1604027E00BDF03F /* OBAProgressIndicatorImpl.m in Sources */,
+				93E0D19F1D569E7B00D9AA63 /* UIViewController+OBAContainment.m in Sources */,
 				936D2EE51C79B4190060B7E1 /* OBAStopSectionHeaderView.m in Sources */,
 				93B32FF31AC4912F001DC177 /* UIViewController+OBAAnalytics.m in Sources */,
 				936D62851C8CED540070152B /* OBAClassicDepartureSectionHeaderView.m in Sources */,
@@ -2111,6 +2122,7 @@
 				932BE4E91AB66E3C0011F2FB /* OBAEditBookmarkGroupViewController.m in Sources */,
 				93F8F4431D375B77008659D2 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */,
 				932BE4A11AB66D320011F2FB /* OBARegionListViewController.m in Sources */,
+				93E0D1A21D579CA300D9AA63 /* OBAApplicationUI.m in Sources */,
 				932BE4EA1AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.m in Sources */,
 				9399E3DF1C8930C300962292 /* OBASeparatorSectionView.m in Sources */,
 				9330DF281606405100E14AF4 /* OBAScopeView.m in Sources */,

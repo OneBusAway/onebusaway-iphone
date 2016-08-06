@@ -25,27 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class OBAInfoViewController;
 @class OBARegionListViewController;
 
-@interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate> {
-    
-    UINavigationController *_regionNavigationController;
-    OBARegionListViewController *_regionListViewController;
-}
-
+@interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate>
 @property(nonatomic, strong) UIWindow *window;
-@property(nonatomic, strong) UITabBarController *tabBarController;
-
-@property(nonatomic, strong) UINavigationController *mapNavigationController;
-@property(strong) OBASearchResultsMapViewController *mapViewController;
-
-@property(strong) UINavigationController *recentsNavigationController;
-@property(strong) OBARecentStopsViewController *recentsViewController;
-
-@property(strong) UINavigationController *bookmarksNavigationController;
-@property(strong) UIViewController *bookmarksViewController;
-
-@property(strong) UINavigationController *infoNavigationController;
-@property(strong) OBAInfoViewController *infoViewController;
-
 @property(nonatomic,readonly) BOOL active;
 
 @property(nonatomic, strong) id<GAITracker> tracker;
