@@ -25,6 +25,7 @@
 #import "OBAAlerts.h"
 #import "OBAAnimation.h"
 #import <OBAKit/OBAKit.h>
+#import "OBAMapActivityIndicatorView.h"
 
 #define kRouteSegmentIndex          0
 #define kAddressSegmentIndex        1
@@ -43,10 +44,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 @property(nonatomic,strong) NSTimer *refreshTimer;
 @property(nonatomic,strong) OBAMapRegionManager *mapRegionManager;
 @property(nonatomic,strong) OBASearchController *searchController;
-@property(nonatomic,strong) UIView *activityIndicatorWrapper;
-@property(nonatomic,strong) UIActivityIndicatorView *activityIndicatorView;
+@property(nonatomic,strong) OBAMapActivityIndicatorView *mapActivityIndicatorView;
 @property(nonatomic,strong) UIBarButtonItem *listBarButtonItem;
-@property(nonatomic,strong) OBASearchResultsListViewController *searchResultsListViewController;
 @property(nonatomic,assign) BOOL secondSearchTry;
 @property(nonatomic,strong) OBANavigationTarget *savedNavigationTarget;
 @property(nonatomic,strong) UIView *titleView;
@@ -61,12 +60,14 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     if (self) {
         self.title = NSLocalizedString(@"Map", @"Map tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"CrossHairs"];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
     }
 
     return self;
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     [self.searchController cancelOpenConnections];
 }
 
@@ -78,17 +79,9 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     CGRect indicatorBounds = CGRectMake(12, 12, 36, 36);
     indicatorBounds.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
 
-    self.activityIndicatorWrapper = [[UIView alloc] initWithFrame:indicatorBounds];
-    self.activityIndicatorWrapper.backgroundColor = OBARGBACOLOR(0, 0, 0, 0.5);
-    self.activityIndicatorWrapper.layer.cornerRadius = 4.f;
-    self.activityIndicatorWrapper.layer.shouldRasterize = YES;
-    self.activityIndicatorWrapper.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    self.activityIndicatorWrapper.hidden = YES;
-
-    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectInset(self.activityIndicatorWrapper.bounds, 4, 4)];
-    self.activityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
-    [self.activityIndicatorWrapper addSubview:self.activityIndicatorView];
-    [self.view addSubview:self.activityIndicatorWrapper];
+    self.mapActivityIndicatorView = [[OBAMapActivityIndicatorView alloc] initWithFrame:indicatorBounds];
+    self.mapActivityIndicatorView.hidden = YES;
+    [self.view addSubview:self.mapActivityIndicatorView];
 
     CLLocationCoordinate2D p = { 0, 0 };
     self.mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0, 0));
@@ -132,8 +125,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     [self configureMapLabel:self.mapLabel];
 
     [self orientationChanged:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onMapTabBarButton) name:@"OBAMapButtonRecenterNotification" object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -360,12 +351,12 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     id<OBAProgressIndicatorSource> progress = self.searchController.progress;
 
     if (progress.inProgress) {
-        self.activityIndicatorWrapper.hidden = NO;
-        [self.activityIndicatorView startAnimating];
+        self.mapActivityIndicatorView.hidden = NO;
+        [self.mapActivityIndicatorView startAnimating];
     }
     else {
-        self.activityIndicatorWrapper.hidden = YES;
-        [self.activityIndicatorView stopAnimating];
+        self.mapActivityIndicatorView.hidden = YES;
+        [self.mapActivityIndicatorView stopAnimating];
     }
 }
 
@@ -399,7 +390,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     if (self.searchController.unfilteredSearch) {
         if (self.mapRegionManager.lastRegionChangeWasProgrammatic) {
             OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
-            double refreshInterval = [self getRefreshIntervalForLocationAccuracy:lm.currentLocation];
+            NSTimeInterval refreshInterval = [self.class refreshIntervalForLocationAccuracy:lm.currentLocation];
             [self scheduleRefreshOfStopsInRegion:refreshInterval location:lm.currentLocation];
         }
         else {
@@ -617,19 +608,19 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 }
 
-#pragma mark - Notifications
-
-- (void)orientationChanged:(NSNotification*)notification {
-    [self updateMapLabelFrame];
-}
-
-- (void)onMapTabBarButton {
+- (void)recenterMap {
     if (self.isViewLoaded && self.view.window) {
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"My Location via Map Tab Button" value:nil];
         OBALogDebug(@"setting auto center on current location (via tab bar)");
         self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
         [self refreshCurrentLocation];
     }
+}
+
+#pragma mark - Notifications
+
+- (void)orientationChanged:(NSNotification*)notification {
+    [self updateMapLabelFrame];
 }
 
 - (IBAction)showListView:(id)sender {
@@ -689,16 +680,26 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(refreshStopsInRegion) userInfo:nil repeats:NO];
 }
 
-- (NSTimeInterval)getRefreshIntervalForLocationAccuracy:(CLLocation *)location {
-    if (location == nil) return kStopsInRegionRefreshDelayOnDrag;
++ (NSTimeInterval)refreshIntervalForLocationAccuracy:(CLLocation *)location {
+    if (location == nil) {
+        return kStopsInRegionRefreshDelayOnDrag;
+    }
 
-    if (location.horizontalAccuracy < 20) return 0;
+    if (location.horizontalAccuracy < 20) {
+        return 0;
+    }
 
-    if (location.horizontalAccuracy < 200) return 0.25;
+    if (location.horizontalAccuracy < 200) {
+        return 0.25;
+    }
 
-    if (location.horizontalAccuracy < 500) return 0.5;
+    if (location.horizontalAccuracy < 500) {
+        return 0.5;
+    }
 
-    if (location.horizontalAccuracy < 1000) return 1;
+    if (location.horizontalAccuracy < 1000) {
+        return 1;
+    }
 
     return 1.5;
 }
