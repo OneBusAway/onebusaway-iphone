@@ -15,16 +15,10 @@
  */
 
 #import <SystemConfiguration/SystemConfiguration.h>
-#import <ABReleaseNotesViewController/ABReleaseNotesViewController.h>
 #import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
 #import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
 #import "OBALogger.h"
-
-#import "OBASearchResultsMapViewController.h"
-#import "OBARecentStopsViewController.h"
-#import "OBABookmarksViewController.h"
-#import "OBAInfoViewController.h"
 
 #import "OBASearchController.h"
 #import "OBAStopViewController.h"
@@ -36,22 +30,22 @@
 #import "NSArray+OBAAdditions.h"
 #import <Apptentive/Apptentive.h>
 
-static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
+#import "OBAApplicationUI.h"
+
 static NSString *kOBAShowExperimentalRegionsDefaultsKey = @"kOBAShowExperimentalRegionsDefaultsKey";
 static NSString *const kTrackingId = @"UA-2423527-17";
-static NSString *const kAllowTracking = @"allowTracking";
+static NSString *const kOptOutOfTracking = @"OptOutOfTracking";
 
-static NSString *const kApplicationShortcutMap = @"org.onebusaway.iphone.shortcut.map";
-static NSString *const kApplicationShortcutRecents = @"org.onebusaway.iphone.shortcut.recents";
-static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcut.bookmarks";
 static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc9f70ef38378a9d5a15ac7d4926";
 
 @interface OBAApplicationDelegate () <OBABackgroundTaskExecutor>
+@property (nonatomic, strong) UINavigationController *regionNavigationController;
+@property (nonatomic, strong) OBARegionListViewController *regionListViewController;
 @property (nonatomic, readwrite) BOOL active;
 @property (nonatomic, strong) OBARegionHelper *regionHelper;
 @property (nonatomic, strong) id regionObserver;
 @property (nonatomic, strong) id recentStopsObserver;
-@property(nonatomic,strong) ABReleaseNotesViewController *releaseNotes;
+@property(nonatomic,strong) OBAApplicationUI *applicationUI;
 @end
 
 @implementation OBAApplicationDelegate
@@ -112,29 +106,13 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor blackColor];
 
-    self.tabBarController = [[UITabBarController alloc] init];
+    self.applicationUI = [[OBAApplicationUI alloc] init];
 
-    self.mapViewController = [[OBASearchResultsMapViewController alloc] init];
-    self.mapViewController.appDelegate = self;
-    self.mapNavigationController = [[UINavigationController alloc] initWithRootViewController:self.mapViewController];
-
-    self.recentsViewController = [[OBARecentStopsViewController alloc] init];
-    self.recentsNavigationController = [[UINavigationController alloc] initWithRootViewController:self.recentsViewController];
-
-    self.bookmarksViewController = [[OBABookmarksViewController alloc] init];
-    self.bookmarksNavigationController = [[UINavigationController alloc] initWithRootViewController:self.bookmarksViewController];
-
-    self.infoViewController = [[OBAInfoViewController alloc] init];
-    self.infoNavigationController = [[UINavigationController alloc] initWithRootViewController:self.infoViewController];
-
-    self.tabBarController.viewControllers = @[self.mapNavigationController, self.recentsNavigationController, self.bookmarksNavigationController, self.infoNavigationController];
-    self.tabBarController.delegate = self;
-
-    [self _updateSelectedTabIndex];
+    [self.applicationUI updateSelectedTabIndex];
 
     [OBATheme setAppearanceProxies];
 
-    self.window.rootViewController = self.tabBarController;
+    self.window.rootViewController = self.applicationUI.rootViewController;
 
     if ([[OBAApplication sharedApplication].modelDao.readCustomApiUrl isEqualToString:@""]) {
         if ([OBAApplication sharedApplication].modelDao.readSetRegionAutomatically && [OBAApplication sharedApplication].locationManager.locationServicesEnabled) {
@@ -146,16 +124,6 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     }
 
     [self.window makeKeyAndVisible];
-
-    self.releaseNotes = [[ABReleaseNotesViewController alloc] initWithAppIdentifier:@"329380089"];
-    self.releaseNotes.title = NSLocalizedString(@"What's New", @"");
-    self.releaseNotes.mode = ABReleaseNotesViewControllerModeProduction;
-
-    [self.releaseNotes checkForUpdates:^(BOOL updated) {
-        if (updated) {
-            [self.tabBarController presentViewController:self.releaseNotes animated:YES completion:nil];
-        }
-    }];
 }
 
 #pragma mark - UIApplication Methods
@@ -179,11 +147,11 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     [Apptentive sharedConnection].APIKey = kApptentiveKey;
 
     // Set up Google Analytics
-    NSDictionary *appDefaults = @{ kAllowTracking: @(YES), kSetRegionAutomaticallyKey: @(YES)};
+    NSDictionary *appDefaults = @{ kOptOutOfTracking: @(NO), kSetRegionAutomaticallyKey: @(YES)};
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
 
     // User must be able to opt out of tracking
-    [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
+    [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:kOptOutOfTracking];
 
     [GAI sharedInstance].trackUncaughtExceptions = YES;
     [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelWarning];
@@ -214,22 +182,27 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     self.active = YES;
-    self.tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
-    [GAI sharedInstance].optOut =
-        ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
 
+    [self.applicationUI applicationDidBecomeActive];
+
+    [GAI sharedInstance].optOut = [[NSUserDefaults standardUserDefaults] boolForKey:kOptOutOfTracking];
+
+    NSString *label = nil;
     if ([[OBAApplication sharedApplication].modelDao.readCustomApiUrl isEqualToString:@""]) {
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:[NSString stringWithFormat:@"API Region: %@", [OBAApplication sharedApplication].modelDao.region.regionName] value:nil];
+        label = [NSString stringWithFormat:@"API Region: %@", [OBAApplication sharedApplication].modelDao.region.regionName];
     }
     else {
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:@"API Region: Custom URL" value:nil];
+        label = @"API Region: Custom URL";
     }
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:label value:nil];
 
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", OBAStringFromBool([OBAApplication sharedApplication].modelDao.readSetRegionAutomatically)] value:nil];
 
     BOOL _showExperimentalRegions = NO;
 
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"]) _showExperimentalRegions = [[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"]) {
+        _showExperimentalRegions = [[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
+    }
 
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Show Experimental Regions: %@", OBAStringFromBool(_showExperimentalRegions)] value:nil];
 }
@@ -241,35 +214,8 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 #pragma mark Shortcut Items
 
 - (void)application:(UIApplication *)application performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler {
-    NSString *shortcutIdentifier = shortcutItem.type;
 
-    if ([shortcutIdentifier isEqualToString:kApplicationShortcutMap]) {
-        [self.tabBarController setSelectedViewController:self.mapNavigationController];
-
-        [self.mapNavigationController popToRootViewControllerAnimated:NO];
-        [self.mapViewController onCrossHairsButton:self];
-    }
-    else if ([shortcutIdentifier isEqualToString:kApplicationShortcutBookmarks]) {
-        [self.tabBarController setSelectedViewController:self.bookmarksNavigationController];
-
-        [self.bookmarksNavigationController popToRootViewControllerAnimated:NO];
-    }
-    else if ([shortcutIdentifier isEqualToString:kApplicationShortcutRecents]) {
-        [self.tabBarController setSelectedViewController:self.recentsNavigationController];
-
-        NSArray *stopIds = (NSArray *)shortcutItem.userInfo[@"stopIds"];
-        if (stopIds.count > 0) {
-            OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stopIds[0]];
-            [self.recentsNavigationController popToRootViewControllerAnimated:NO];
-            [self.recentsNavigationController pushViewController:vc animated:YES];
-        }
-    }
-
-    // update kOBASelectedTabIndexDefaultsKey, since the delegate doesn't fire
-    // otherwise applicationDidBecomeActive: will switch us away
-    [self tabBarController:self.tabBarController didSelectViewController:self.tabBarController.selectedViewController];
-
-    completionHandler(YES);
+    [self.applicationUI performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler];
 }
 
 - (void)updateShortcutItemsForRecentStops {
@@ -289,84 +235,10 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     [UIApplication sharedApplication].shortcutItems = [dynamicShortcuts oba_pickFirst:4];
 }
 
-#pragma mark - UITabBarControllerDelegate
-
-- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
-    NSUInteger oldIndex = [self.tabBarController.viewControllers indexOfObject:[self.tabBarController selectedViewController]];
-    NSUInteger newIndex = [self.tabBarController.viewControllers indexOfObject:viewController];
-
-    if (newIndex == 0 && newIndex == oldIndex) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"OBAMapButtonRecenterNotification" object:nil];
-    }
-
-    return YES;
-}
-
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    [[NSUserDefaults standardUserDefaults] setInteger:tabBarController.selectedIndex forKey:kOBASelectedTabIndexDefaultsKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)_updateSelectedTabIndex {
-    NSInteger selectedIndex = 0;
-    NSString *startupView = nil;
-
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:kOBASelectedTabIndexDefaultsKey]) {
-        selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
-    }
-
-    self.tabBarController.selectedIndex = selectedIndex;
-
-    switch (selectedIndex) {
-        case 0:
-            startupView = @"OBASearchResultsMapViewController";
-            break;
-
-        case 1:
-            startupView = @"OBARecentStopsViewController";
-            break;
-
-        case 2:
-            startupView = @"OBABookmarksViewController";
-            break;
-
-        case 3:
-            startupView = @"OBAInfoViewController";
-            break;
-
-        default:
-            startupView = @"Unknown";
-            break;
-    }
-
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"startup" label:[NSString stringWithFormat:@"Startup View: %@", startupView] value:nil];
-}
-
 - (void)_navigateToTargetInternal:(OBANavigationTarget *)navigationTarget {
     [[OBAApplication sharedApplication].references clear];
 
-    [self.mapNavigationController popToRootViewControllerAnimated:NO];
-
-    if (OBANavigationTargetTypeSearchResults == navigationTarget.target) {
-        [self.tabBarController setSelectedViewController:self.mapNavigationController];
-        self.mapViewController.navigationTarget = navigationTarget;
-    }
-    else if (OBANavigationTargetTypeContactUs == navigationTarget.target) {
-        [self.tabBarController setSelectedViewController:self.infoNavigationController];
-    }
-    else if (OBANavigationTargetTypeSettings == navigationTarget.target) {
-        [self.tabBarController setSelectedViewController:self.infoNavigationController];
-    }
-    else if (OBANavigationTargetTypeAgencies == navigationTarget.target) {
-        [self.tabBarController setSelectedViewController:self.infoNavigationController];
-        [self.infoViewController openAgencies];
-    }
-    else if (OBANavigationTargetTypeBookmarks == navigationTarget.target) {
-        [self.tabBarController setSelectedViewController:self.bookmarksNavigationController];
-    }
-    else {
-        NSLog(@"Unhandled target in %s: %@", __PRETTY_FUNCTION__, @(navigationTarget.target));
-    }
+    [self.applicationUI navigateToTargetInternal:navigationTarget];
 }
 
 - (void)regionSelected {
@@ -376,8 +248,8 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
     [[OBAApplication sharedApplication] refreshSettings];
 
-    self.window.rootViewController = self.tabBarController;
-    [_window makeKeyAndVisible];
+    self.window.rootViewController = self.applicationUI.rootViewController;
+    [self.window makeKeyAndVisible];
 }
 
 - (void)showRegionListViewController {
