@@ -26,6 +26,8 @@
 #import "OBAAnimation.h"
 #import <OBAKit/OBAKit.h>
 #import "OBAMapActivityIndicatorView.h"
+#import <Masonry/Masonry.h>
+#import "OBAVibrantBlurContainerView.h"
 
 #define kRouteSegmentIndex          0
 #define kAddressSegmentIndex        1
@@ -34,7 +36,23 @@
 static const NSUInteger kShowNClosestStops = 4;
 static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
-@interface OBASearchResultsMapViewController ()
+@interface OBASearchResultsMapViewController ()<MKMapViewDelegate, UISearchBarDelegate>
+
+// IB UI
+@property(nonatomic,strong) IBOutlet OBAScopeView *scopeView;
+@property(nonatomic,strong) IBOutlet UISegmentedControl *searchTypeSegmentedControl;
+@property(nonatomic,strong) IBOutlet MKMapView * mapView;
+@property(nonatomic,strong) IBOutlet UISearchBar *searchBar;
+@property(nonatomic,strong) IBOutlet UILabel *mapLabel;
+@property(nonatomic,strong) OBAVibrantBlurContainerView *mapLabelContainer;
+
+// Programmatic UI
+@property(nonatomic,strong) OBAMapActivityIndicatorView *mapActivityIndicatorView;
+@property(nonatomic,strong) UIBarButtonItem *listBarButtonItem;
+@property(nonatomic,strong) UIView *titleView;
+@property(nonatomic,strong) MKUserTrackingBarButtonItem *trackingBarButtonItem;
+
+// Everything Else
 @property(nonatomic,assign) BOOL hideFutureOutOfRangeErrors;
 @property(nonatomic,assign) BOOL hideFutureNetworkErrors;
 @property(nonatomic,assign) BOOL doneLoadingMap;
@@ -44,12 +62,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 @property(nonatomic,strong) NSTimer *refreshTimer;
 @property(nonatomic,strong) OBAMapRegionManager *mapRegionManager;
 @property(nonatomic,strong) OBASearchController *searchController;
-@property(nonatomic,strong) OBAMapActivityIndicatorView *mapActivityIndicatorView;
-@property(nonatomic,strong) UIBarButtonItem *listBarButtonItem;
 @property(nonatomic,assign) BOOL secondSearchTry;
 @property(nonatomic,strong) OBANavigationTarget *savedNavigationTarget;
-@property(nonatomic,strong) UIView *titleView;
-@property(nonatomic,strong) MKUserTrackingBarButtonItem *trackingBarButtonItem;
 @end
 
 @implementation OBASearchResultsMapViewController
@@ -60,14 +74,12 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     if (self) {
         self.title = NSLocalizedString(@"Map", @"Map tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"CrossHairs"];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
     }
 
     return self;
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     [self.searchController cancelOpenConnections];
 }
 
@@ -76,14 +88,9 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    CGRect indicatorBounds = CGRectMake(12, 12, 36, 36);
-    indicatorBounds.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+    [self configureMapActivityIndicator];
 
-    self.mapActivityIndicatorView = [[OBAMapActivityIndicatorView alloc] initWithFrame:indicatorBounds];
-    self.mapActivityIndicatorView.hidden = YES;
-    [self.view addSubview:self.mapActivityIndicatorView];
-
-    CLLocationCoordinate2D p = { 0, 0 };
+    CLLocationCoordinate2D p = CLLocationCoordinate2DMake(0, 0);
     self.mostRecentRegion = MKCoordinateRegionMake(p, MKCoordinateSpanMake(0, 0));
 
     self.refreshTimer = nil;
@@ -104,16 +111,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         self.savedNavigationTarget = nil;
     }
 
-    self.navigationItem.leftBarButtonItem = self.trackingBarButtonItem;
-
-    self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStylePlain target:self action:@selector(showListView:)];
-    self.listBarButtonItem.accessibilityLabel = NSLocalizedString(@"Nearby stops list", @"self.listBarButtonItem.accessibilityLabel");
-    self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
-
-    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
-    [self.titleView addSubview:self.searchBar];
-    self.navigationItem.titleView = self.titleView;
+    [self configureNavigationBar];
 
     if ([[OBAApplication sharedApplication] useHighContrastUI]) {
         [self setHighContrastStyle];
@@ -122,9 +120,37 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         [self setRegularStyle];
     }
 
-    [self configureMapLabel:self.mapLabel];
+    [self configureMapLabel];
+}
 
-    [self orientationChanged:nil];
+- (void)configureMapActivityIndicator {
+    CGRect indicatorBounds = CGRectMake(12, 12, 36, 36);
+    indicatorBounds.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+
+    self.mapActivityIndicatorView = [[OBAMapActivityIndicatorView alloc] initWithFrame:indicatorBounds];
+    self.mapActivityIndicatorView.hidden = YES;
+    [self.view addSubview:self.mapActivityIndicatorView];
+}
+
+- (void)configureNavigationBar {
+    self.navigationItem.leftBarButtonItem = self.trackingBarButtonItem;
+
+    self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStylePlain target:self action:@selector(showListView:)];
+    self.listBarButtonItem.accessibilityLabel = NSLocalizedString(@"Nearby stops list", @"self.listBarButtonItem.accessibilityLabel");
+    self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
+
+    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    self.searchBar = ({
+        UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
+        searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        searchBar.searchBarStyle = UISearchBarStyleMinimal;
+        searchBar.placeholder = NSLocalizedString(@"Search", @"");
+        searchBar.delegate = self;
+        searchBar;
+    });
+    [self.titleView addSubview:self.searchBar];
+    [self.searchBar sizeToFit];
+    self.navigationItem.titleView = self.titleView;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -609,12 +635,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 }
 
-#pragma mark - Notifications
-
-- (void)orientationChanged:(NSNotification*)notification {
-    [self updateMapLabelFrame];
-}
-
 - (IBAction)showListView:(id)sender {
     OBASearchResult *result = self.searchController.result;
 
@@ -751,23 +771,21 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)applyMapLabelWithText:(NSString *)labelText {
-    if (labelText && self.mapLabel.hidden) {
-        self.mapLabel.text = labelText;
-        self.mapLabel.alpha = 0.f;
-        self.mapLabel.hidden = NO;
+    self.mapLabel.text = labelText;
+
+    if (labelText.length > 0 && self.mapLabelContainer.hidden) {
+        self.mapLabelContainer.alpha = 0.f;
+        self.mapLabelContainer.hidden = NO;
 
         [OBAAnimation performAnimations:^{
-            self.mapLabel.alpha = 1.f;
+            self.mapLabelContainer.alpha = 1.f;
         }];
     }
-    else if (labelText) {
-        self.mapLabel.text = labelText;
-    }
-    else if (!labelText) {
+    else if (labelText.length == 0) {
         [OBAAnimation performAnimations:^{
-            self.mapLabel.alpha = 0.f;
+            self.mapLabelContainer.alpha = 0.f;
         } completion:^(BOOL finished) {
-            self.mapLabel.hidden = YES;
+            self.mapLabelContainer.hidden = YES;
         }];
     }
 }
@@ -1179,24 +1197,30 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 #pragma mark - Private Configuration Junk
 
-- (void)configureMapLabel:(UILabel*)mapLabel {
-    mapLabel.hidden = YES;
-    mapLabel.alpha = 0;
-    mapLabel.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    mapLabel.layer.shouldRasterize = YES;
-    mapLabel.layer.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.9f].CGColor;
-    mapLabel.layer.cornerRadius = 7;
-    mapLabel.layer.shadowColor = [UIColor blackColor].CGColor;
-    mapLabel.layer.shadowOpacity = 0.2f;
-    mapLabel.layer.shadowOffset = CGSizeMake(0, 0);
-    mapLabel.layer.shadowRadius = 7;
-}
+- (void)configureMapLabel {
+    self.mapLabelContainer = [[OBAVibrantBlurContainerView alloc] initWithFrame:CGRectZero];
+    self.mapLabelContainer.blurEffectStyle = UIBlurEffectStyleDark;
+    self.mapLabelContainer.hidden = YES;
+    self.mapLabelContainer.alpha = 0;
+    self.mapLabelContainer.layer.cornerRadius = [OBATheme defaultCornerRadius];
+    self.mapLabelContainer.layer.masksToBounds = YES;
 
-- (void)updateMapLabelFrame {
-    CGRect mapLabelFrame = self.mapLabel.frame;
-    mapLabelFrame.origin.y = 8 + self.navigationController.navigationBar.frame.size.height +
-    [UIApplication sharedApplication].statusBarFrame.size.height;
-    self.mapLabel.frame = mapLabelFrame;
+    self.mapLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.mapLabel.textAlignment = NSTextAlignmentCenter;
+    self.mapLabel.textColor = [UIColor blackColor];
+    self.mapLabel.font = [OBATheme boldBodyFont];
+
+    [self.mapLabelContainer.vibrancyEffectView.contentView addSubview:self.mapLabel];
+    [self.view addSubview:self.mapLabelContainer];
+
+    [self.mapLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.mapLabelContainer).insets(UIEdgeInsetsMake([OBATheme compactPadding], [OBATheme defaultPadding], [OBATheme compactPadding], [OBATheme defaultPadding]));
+    }];
+
+    [self.mapLabelContainer mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.top.equalTo(self.mas_topLayoutGuideBottom).offset([OBATheme defaultPadding]);
+    }];
 }
 
 - (void)setHighContrastStyle {
