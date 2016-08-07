@@ -171,7 +171,7 @@ NSString * const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcu
     NSUInteger newIndex = [self.tabBarController.viewControllers indexOfObject:viewController];
 
     if (newIndex == 0 && newIndex == oldIndex) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"OBAMapButtonRecenterNotification" object:nil];
+        [self.mapViewController recenterMap];
     }
 
     return YES;
