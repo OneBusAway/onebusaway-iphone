@@ -75,7 +75,7 @@ NSString * const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcu
         [self.tabBarController setSelectedViewController:self.mapNavigationController];
 
         [self.mapNavigationController popToRootViewControllerAnimated:NO];
-        [self.mapViewController onCrossHairsButton:self];
+        [self.mapViewController updateLocation:self];
     }
     else if ([shortcutIdentifier isEqualToString:kApplicationShortcutBookmarks]) {
         [self.tabBarController setSelectedViewController:self.bookmarksNavigationController];

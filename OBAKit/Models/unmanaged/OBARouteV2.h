@@ -8,6 +8,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong) NSString * routeId;
 @property(nonatomic,strong) NSString * shortName;
 @property(nonatomic,strong) NSString * longName;
+
+/**
+ An amalgamation of shortName and longName
+ */
+@property(nonatomic,copy,readonly) NSString *fullRouteName;
 @property(nonatomic,strong) NSNumber * routeType;
 
 @property(nonatomic,strong) NSString * agencyId;
