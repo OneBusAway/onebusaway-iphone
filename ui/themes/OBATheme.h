@@ -126,12 +126,17 @@
 /**
  Half of the default padding. Used in situations where a tighter fit is necessary.
  */
-+ (CGFloat)halfDefaultPadding;
++ (CGFloat)compactPadding;
 
 /**
  * The default vertical and horizontal padding in px.
  */
 + (CGFloat)defaultPadding;
+
+/**
+ The default corner radius to apply to views that require rounded edges.
+ */
++ (CGFloat)defaultCornerRadius;
 
 /**
  The value of +[OBATheme defaultPadding] in the form of UIEdgeInsets.

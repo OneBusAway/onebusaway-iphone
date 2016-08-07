@@ -135,12 +135,16 @@ static UIFont *_boldFootnoteFont = nil;
 
 #pragma mark - Pixels, err points
 
-+ (CGFloat)halfDefaultPadding {
++ (CGFloat)compactPadding {
     return self.defaultPadding / 2.f;
 }
 
 + (CGFloat)defaultPadding {
     return 8.f;
+}
+
++ (CGFloat)defaultCornerRadius {
+    return [self compactPadding];
 }
 
 + (UIEdgeInsets)defaultEdgeInsets {

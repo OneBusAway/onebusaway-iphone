@@ -9,6 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface OBAMapActivityIndicatorView : UIView
-- (void)startAnimating;
-- (void)stopAnimating;
+@property(nonatomic,assign) BOOL animating;
 @end
