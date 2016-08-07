@@ -316,6 +316,7 @@
 		93E0D19F1D569E7B00D9AA63 /* UIViewController+OBAContainment.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E0D19E1D569E7B00D9AA63 /* UIViewController+OBAContainment.m */; };
 		93E0D1A21D579CA300D9AA63 /* OBAApplicationUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E0D1A11D579CA300D9AA63 /* OBAApplicationUI.m */; };
 		93E0D1A51D57D34E00D9AA63 /* OBAMapActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E0D1A41D57D34E00D9AA63 /* OBAMapActivityIndicatorView.m */; };
+		93E0D1AB1D57EAAD00D9AA63 /* OBAVibrantBlurContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E0D1AA1D57EAAD00D9AA63 /* OBAVibrantBlurContainerView.m */; };
 		93E4A3011CF7D42300EF9595 /* OBAClassicDepartureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E4A3001CF7D42300EF9595 /* OBAClassicDepartureView.m */; };
 		93E4A7621CE65B2100E769B0 /* atlanta.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 93E4A7611CE65B2100E769B0 /* atlanta.gpx */; };
 		93F05A631C8E080000BF36B1 /* OBAAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F05A621C8E080000BF36B1 /* OBAAnimation.m */; };
@@ -761,6 +762,8 @@
 		93E0D1A11D579CA300D9AA63 /* OBAApplicationUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAApplicationUI.m; sourceTree = "<group>"; };
 		93E0D1A31D57D34E00D9AA63 /* OBAMapActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapActivityIndicatorView.h; sourceTree = "<group>"; };
 		93E0D1A41D57D34E00D9AA63 /* OBAMapActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapActivityIndicatorView.m; sourceTree = "<group>"; };
+		93E0D1A91D57EAAD00D9AA63 /* OBAVibrantBlurContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAVibrantBlurContainerView.h; sourceTree = "<group>"; };
+		93E0D1AA1D57EAAD00D9AA63 /* OBAVibrantBlurContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAVibrantBlurContainerView.m; sourceTree = "<group>"; };
 		93E4A2FF1CF7D42300EF9595 /* OBAClassicDepartureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureView.h; sourceTree = "<group>"; };
 		93E4A3001CF7D42300EF9595 /* OBAClassicDepartureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicDepartureView.m; sourceTree = "<group>"; };
 		93E4A7611CE65B2100E769B0 /* atlanta.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = atlanta.gpx; sourceTree = "<group>"; };
@@ -1194,6 +1197,8 @@
 		9330DF251606404100E14AF4 /* containers */ = {
 			isa = PBXGroup;
 			children = (
+				93E0D1A91D57EAAD00D9AA63 /* OBAVibrantBlurContainerView.h */,
+				93E0D1AA1D57EAAD00D9AA63 /* OBAVibrantBlurContainerView.m */,
 				9330DF261606405100E14AF4 /* OBAScopeView.h */,
 				9330DF271606405100E14AF4 /* OBAScopeView.m */,
 			);
@@ -2134,6 +2139,7 @@
 				932BE4DB1AB66D890011F2FB /* OBASituationViewController.m in Sources */,
 				936D3EC01C14E94A00091DC9 /* OBAStaticTableViewController.m in Sources */,
 				93E4A3011CF7D42300EF9595 /* OBAClassicDepartureView.m in Sources */,
+				93E0D1AB1D57EAAD00D9AA63 /* OBAVibrantBlurContainerView.m in Sources */,
 				939E8E5B1C7B815E008FCA4C /* OBABaseRow.m in Sources */,
 				934446CF1AB12B29005B3333 /* OBARequestDrivenTableViewController.m in Sources */,
 				939C23B91D371DE8002A4145 /* OBABookmarkedRouteCell.m in Sources */,

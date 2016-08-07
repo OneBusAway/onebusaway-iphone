@@ -349,15 +349,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)progressUpdated {
     id<OBAProgressIndicatorSource> progress = self.searchController.progress;
-
-    if (progress.inProgress) {
-        self.mapActivityIndicatorView.hidden = NO;
-        [self.mapActivityIndicatorView startAnimating];
-    }
-    else {
-        self.mapActivityIndicatorView.hidden = YES;
-        [self.mapActivityIndicatorView stopAnimating];
-    }
+    [self.mapActivityIndicatorView setAnimating:progress.inProgress];
 }
 
 #pragma mark - MKMapViewDelegate Methods
@@ -643,8 +635,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     CLLocation *location = lm.currentLocation;
 
     if (location) {
-        //OBALogDebug(@"refreshCurrentLocation: auto center on current location: %d", self.mapRegionManager.lastRegionChangeWasprogrammatic);
-        
         if (self.mapRegionManager.lastRegionChangeWasProgrammatic) {
             double radius = MAX(location.horizontalAccuracy, OBAMinMapRadiusInMeters);
             MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:location.coordinate latRadius:radius lonRadius:radius];
@@ -1157,15 +1147,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     if (self.searchBar.isFirstResponder) {
         [self searchBarCancelButtonClicked:self.searchBar];
     }
-}
-
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-}
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 }
 
 - (BOOL)outOfServiceArea {
