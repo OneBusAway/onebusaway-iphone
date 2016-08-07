@@ -66,6 +66,18 @@
     return [name1 compare:name2 options:NSNumericSearch];
 }
 
+- (NSString*)fullRouteName {
+    NSMutableArray *pieces = [NSMutableArray array];
+
+    if (self.shortName) {
+        [pieces addObject:self.shortName];
+    }
+    if (self.longName) {
+        [pieces addObject:self.longName];
+    }
+    return [pieces componentsJoinedByString:@" - "];
+}
+
 #pragma mark - NSObject
 
 - (NSString*)description {

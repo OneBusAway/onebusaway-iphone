@@ -30,7 +30,6 @@ static NSString * const OBACellStyleSubtitleReuseIdentifier = @"OBACellStyleSubt
     
     if (self) {
         _title = [title copy];
-        _textAlignment = NSTextAlignmentLeft;
     }
     return self;
 }

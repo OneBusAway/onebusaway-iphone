@@ -601,7 +601,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 #pragma mark - IBActions
 
-- (IBAction)onCrossHairsButton:(id)sender {
+- (IBAction)updateLocation:(id)sender {
 
     OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
 
@@ -641,10 +641,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 
     OBASearchResultsListViewController *listViewController = [[OBASearchResultsListViewController alloc] initWithSearchControllerResult:result];
-    listViewController.isModal = YES;
-
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:listViewController];
-    nav.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:nav animated:YES completion:nil];
 }
 

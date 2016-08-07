@@ -29,11 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong) IBOutlet UISegmentedControl *searchTypeSegmentedControl;
 @property(nonatomic,strong) IBOutlet MKMapView * mapView;
 @property(nonatomic,strong) IBOutlet UISearchBar *searchBar;
-@property(nonatomic,strong) IBOutlet UIToolbar *toolbar;
 @property(nonatomic,strong) IBOutlet UILabel *mapLabel;
 
 
-- (IBAction)onCrossHairsButton:(id)sender;
+- (IBAction)updateLocation:(id)sender;
 - (IBAction)showListView:(id)sender;
 
 @end
