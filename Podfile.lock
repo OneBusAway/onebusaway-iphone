@@ -58,6 +58,7 @@ PODS:
     - PromiseKit/CorePromise
   - PromiseKit/MapKit (3.3.0):
     - PromiseKit/CorePromise
+  - Pulley (1.0.0)
   - SVProgressHUD (2.0.3)
 
 DEPENDENCIES:
@@ -74,6 +75,7 @@ DEPENDENCIES:
   - PromiseKit/CorePromise (= 3.3.0)
   - PromiseKit/Foundation (= 3.3.0)
   - PromiseKit/MapKit (= 3.3.0)
+  - Pulley (= 1.0.0)
   - SVProgressHUD (= 2.0.3)
 
 SPEC CHECKSUMS:
@@ -87,8 +89,9 @@ SPEC CHECKSUMS:
   OCMock: f3f61e6eaa16038c30caa5798c5e49d3307b6f22
   OMGHTTPURLRQ: 1e54807cb7d5dbb506926e53498e1e9ac5720c79
   PromiseKit: 3af62d9226430bdf0b3321e4de899e539d9c178f
+  Pulley: 4dc1d5568d18bdbf9c8cb8d4d7cd0cf76692ddfe
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
 
-PODFILE CHECKSUM: 608da0f60a6c5ce75fb188a449b9ea4d51d4f916
+PODFILE CHECKSUM: f92630d8cd3decc87daff3e9d15ddd054c5c9fdd
 
 COCOAPODS: 1.1.0.beta.1

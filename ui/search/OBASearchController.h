@@ -24,17 +24,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma mark OBASearchControllerDelegate Protocol
+extern NSString * const OBASearchControllerDidUpdateNotification;
+extern NSString * const OBASearchControllerUserInfoDataKey;
 
 @protocol OBASearchControllerDelegate <NSObject>
-
-- (void) handleSearchControllerUpdate:(OBASearchResult*)result;
+- (void)handleSearchControllerUpdate:(OBASearchResult*)result;
 
 @optional
-
-- (void) handleSearchControllerStarted:(OBASearchType)searchType;
-- (void) handleSearchControllerError:(NSError*)error;
-
+- (void)handleSearchControllerStarted:(OBASearchType)searchType;
+- (void)handleSearchControllerError:(NSError*)error;
 @end
 
 #pragma mark OBASearchController

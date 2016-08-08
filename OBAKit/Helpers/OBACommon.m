@@ -20,6 +20,9 @@
 static BOOL obaCommonRunningInsideTests = NO;
 
 NSString * const OBAErrorDomain = @"org.onebusaway.iphone2";
+NSString * const kApplicationShortcutMap = @"org.onebusaway.iphone.shortcut.map";
+NSString * const kApplicationShortcutRecents = @"org.onebusaway.iphone.shortcut.recents";
+NSString * const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcut.bookmarks";
 
 const NSInteger kOBAErrorDuplicateEntity = 1000;
 const NSInteger kOBAErrorMissingFieldInData = 1001;

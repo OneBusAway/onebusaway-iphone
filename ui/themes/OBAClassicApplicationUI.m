@@ -1,12 +1,12 @@
 //
-//  OBAApplicationUI.m
+//  OBAClassicApplicationUI.m
 //  org.onebusaway.iphone
 //
 //  Created by Aaron Brethorst on 8/7/16.
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import "OBAApplicationUI.h"
+#import "OBAClassicApplicationUI.h"
 #import "OBASearchResultsMapViewController.h"
 #import "OBARecentStopsViewController.h"
 #import "OBABookmarksViewController.h"
@@ -15,11 +15,8 @@
 #import "OBAAnalytics.h"
 
 static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
-NSString * const kApplicationShortcutMap = @"org.onebusaway.iphone.shortcut.map";
-NSString * const kApplicationShortcutRecents = @"org.onebusaway.iphone.shortcut.recents";
-NSString * const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcut.bookmarks";
 
-@interface OBAApplicationUI ()<UITabBarControllerDelegate>
+@interface OBAClassicApplicationUI ()<UITabBarControllerDelegate>
 @property(nonatomic, strong,readwrite) UITabBarController *tabBarController;
 
 @property(nonatomic, strong) UINavigationController *mapNavigationController;
@@ -35,7 +32,7 @@ NSString * const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcu
 @property(strong) OBAInfoViewController *infoViewController;
 @end
 
-@implementation OBAApplicationUI
+@implementation OBAClassicApplicationUI
 
 - (instancetype)init {
 
@@ -96,7 +93,7 @@ NSString * const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcu
     // update kOBASelectedTabIndexDefaultsKey, since the delegate doesn't fire
     // otherwise applicationDidBecomeActive: will switch us away
     [self tabBarController:self.tabBarController didSelectViewController:self.tabBarController.selectedViewController];
-    
+
     completionHandler(YES);
 }
 

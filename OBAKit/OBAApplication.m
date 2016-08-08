@@ -112,7 +112,8 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     NSString *userId = [userDefaults stringForKey:kOBAHiddenPreferenceUserId];
 
     if (!userId) {
-        [userDefaults setObject:[[NSUUID UUID] UUIDString] forKey:kOBAHiddenPreferenceUserId];
+        userId = [[NSUUID UUID] UUIDString];
+        [userDefaults setObject:userId forKey:kOBAHiddenPreferenceUserId];
         [userDefaults synchronize];
     }
 

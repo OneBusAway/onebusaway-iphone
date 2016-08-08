@@ -19,6 +19,9 @@
 #import "OBAProgressIndicatorImpl.h"
 #import "OBALogger.h"
 
+NSString * const OBASearchControllerDidUpdateNotification = @"OBASearchControllerDidUpdateNotification";
+NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserInfoDataKey";
+
 @interface OBASearchController ()
 
 @property (nonatomic, strong, readwrite) OBASearchResult *result;
@@ -299,6 +302,12 @@
 - (void)fireUpdate:(OBASearchResult *)result {
     result.searchType = _searchType;
     self.result = result;
+
+    NSDictionary *userInfo = self.result ? @{OBASearchControllerUserInfoDataKey: self.result} : nil;
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBASearchControllerDidUpdateNotification
+                                                        object:self
+                                                      userInfo:userInfo];
 
     if (_delegate) [_delegate handleSearchControllerUpdate:self.result];
 }

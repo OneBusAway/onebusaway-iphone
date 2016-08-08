@@ -11,11 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString * const kApplicationShortcutMap;
-extern NSString * const kApplicationShortcutRecents;
-extern NSString * const kApplicationShortcutBookmarks;
-
-@interface OBAApplicationUI : NSObject
+@protocol OBAApplicationUI<NSObject>
 @property(nonatomic,strong,readonly) UIViewController *rootViewController;
 
 - (void)performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler;

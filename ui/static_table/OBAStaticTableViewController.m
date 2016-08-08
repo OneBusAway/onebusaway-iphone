@@ -10,27 +10,35 @@
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #import "OBATableCell.h"
 #import "OBAViewModelRegistry.h"
+#import "OBAVibrantBlurContainerView.h"
 
 @interface OBAStaticTableViewController ()<UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property(nonatomic,strong,readwrite) UITableView *tableView;
+@property(nonatomic,strong) UIVisualEffectView *blurContainer;
 @end
 
 @implementation OBAStaticTableViewController
 
 #pragma mark - UIViewController
 
+- (void)loadView {
+    if (self.rootViewStyle == OBARootViewStyleBlur) {
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
+        UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+        blurEffectView.frame = [UIScreen mainScreen].bounds;
+        self.view = blurEffectView;
+        _blurContainer = blurEffectView;
+    }
+    else {
+        self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.tableView = ({
-        UITableView *tv = [[UITableView alloc] initWithFrame:self.view.bounds];
-        tv.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        tv.delegate = self;
-        tv.dataSource = self;
-        tv.tableFooterView = [UIView new];
-
-        tv;
-    });
+    self.tableView.frame = self.view.bounds;
 
     NSArray *registered = [OBAViewModelRegistry registeredClasses];
 
@@ -38,7 +46,13 @@
         [c registerViewsWithTableView:self.tableView];
     }
 
-    [self.view addSubview:self.tableView];
+    if (self.blurContainer) {
+        self.tableView.backgroundColor = [UIColor clearColor];
+        [self.blurContainer.contentView addSubview:self.tableView];
+    }
+    else {
+        [self.view addSubview:self.tableView];
+    }
 
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
@@ -47,6 +61,19 @@
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
     [self.tableView setEditing:editing animated:animated];
+}
+
+#pragma mark - Lazy Object Creation Accessor
+
+- (UITableView*)tableView {
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero];
+        _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.tableFooterView = [UIView new];
+    }
+    return _tableView;
 }
 
 #pragma mark - Public Methods
@@ -135,6 +162,12 @@
 
     OBAGuard([cell conformsToProtocol:@protocol(OBATableCell)]) else {
         return nil;
+    }
+
+    if (self.rootViewStyle == OBARootViewStyleBlur) {
+        // visual effect view backgrounds require clear
+        // background colored cells.
+        cell.backgroundColor = [UIColor clearColor];
     }
 
     cell.tableRow = row;

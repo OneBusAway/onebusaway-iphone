@@ -643,7 +643,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         result = [result resultsInRegion:self.mapView.region];
     }
 
-    OBASearchResultsListViewController *listViewController = [[OBASearchResultsListViewController alloc] initWithSearchControllerResult:result];
+    OBASearchResultsListViewController *listViewController = [[OBASearchResultsListViewController alloc] init];
+    listViewController.result = result;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:listViewController];
     [self presentViewController:nav animated:YES completion:nil];
 }
