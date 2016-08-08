@@ -142,4 +142,9 @@
  The value of +[OBATheme defaultPadding] in the form of UIEdgeInsets.
  */
 + (UIEdgeInsets)defaultEdgeInsets;
+
+/**
+ The value of +[OBATheme compactPadding] in the form of UIEdgeInsets.
+ */
++ (UIEdgeInsets)compactEdgeInsets;
 @end

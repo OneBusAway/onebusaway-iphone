@@ -151,4 +151,8 @@ static UIFont *_boldFootnoteFont = nil;
     return UIEdgeInsetsMake([self defaultPadding], [self defaultPadding], [self defaultPadding], [self defaultPadding]);
 }
 
++ (UIEdgeInsets)compactEdgeInsets {
+    return UIEdgeInsetsMake([self compactPadding], [self compactPadding], [self compactPadding], [self compactPadding]);
+}
+
 @end
