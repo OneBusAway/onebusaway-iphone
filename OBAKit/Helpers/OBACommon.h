@@ -23,6 +23,11 @@ extern NSString * const OBAErrorDomain;
 extern const NSInteger kOBAErrorDuplicateEntity;
 extern const NSInteger kOBAErrorMissingFieldInData;
 
+// 3D Touch Quick Actions
+extern NSString * const kApplicationShortcutMap;
+extern NSString * const kApplicationShortcutRecents;
+extern NSString * const kApplicationShortcutBookmarks;
+
 /**
  We report "YES" and "NO" to Google Analytics in several places. This method
  DRYs those up.

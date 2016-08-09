@@ -30,6 +30,7 @@ target 'OneBusAway' do
   pod 'DateTools', '1.7.0'
   pod 'DZNEmptyDataSet', '1.7.3'
   pod 'apptentive-ios', '3.1.1'
+  pod 'Pulley', '1.0.0'
 
   pod_promise_kit
 

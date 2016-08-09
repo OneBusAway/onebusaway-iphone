@@ -12,7 +12,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, OBARootViewStyle) {
+    OBARootViewStyleNormal = 0,
+    OBARootViewStyleBlur,
+};
+
 @interface OBAStaticTableViewController : UIViewController
+@property(nonatomic,assign) OBARootViewStyle rootViewStyle;
 @property(nonatomic,strong,readonly) UITableView *tableView;
 @property(nonatomic,strong) NSArray<OBATableSection*> *sections;
 

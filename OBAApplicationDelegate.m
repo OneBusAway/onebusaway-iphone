@@ -31,6 +31,8 @@
 #import <Apptentive/Apptentive.h>
 
 #import "OBAApplicationUI.h"
+#import "OBAClassicApplicationUI.h"
+#import "OBADrawerUI.h"
 
 static NSString *kOBAShowExperimentalRegionsDefaultsKey = @"kOBAShowExperimentalRegionsDefaultsKey";
 static NSString *const kTrackingId = @"UA-2423527-17";
@@ -45,7 +47,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 @property (nonatomic, strong) OBARegionHelper *regionHelper;
 @property (nonatomic, strong) id regionObserver;
 @property (nonatomic, strong) id recentStopsObserver;
-@property(nonatomic,strong) OBAApplicationUI *applicationUI;
+@property(nonatomic,strong) id<OBAApplicationUI> applicationUI;
 @end
 
 @implementation OBAApplicationDelegate
@@ -106,7 +108,8 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor blackColor];
 
-    self.applicationUI = [[OBAApplicationUI alloc] init];
+    self.applicationUI = [[OBAClassicApplicationUI alloc] init];
+//    self.applicationUI = [[OBADrawerUI alloc] init];
 
     [self.applicationUI updateSelectedTabIndex];
 

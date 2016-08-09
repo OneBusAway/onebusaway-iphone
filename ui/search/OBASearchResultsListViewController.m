@@ -22,17 +22,23 @@
 #import <OBAKit/OBASearchResult.h>
 #import "OBAMacros.h"
 #import "OBAApplicationDelegate.h"
+#import "OBASearchController.h"
 
 @implementation OBASearchResultsListViewController
 
-- (instancetype) initWithSearchControllerResult:(OBASearchResult*)result {
-    if (self = [super init]) {
-        _result = result;
-        self.title = [self.class titleFromSearchResult:_result];
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        self.title = NSLocalizedString(@"Nearby", @"");
         self.emptyDataSetTitle = NSLocalizedString(@"No Results Found", @"");
         self.emptyDataSetDescription = NSLocalizedString(@"No results were found for the searched area. Zoom out or move the map around to choose a different area.", @"");
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataUpdated:) name:OBASearchControllerDidUpdateNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBASearchControllerDidUpdateNotification object:nil];
 }
 
 - (void)viewDidLoad {
@@ -47,6 +53,19 @@
 
 - (void)dismissModal {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Settrs
+
+- (void)setResult:(OBASearchResult *)result {
+    _result = result;
+    [self loadData];
+}
+
+#pragma mark - Notifications
+
+- (void)dataUpdated:(NSNotification*)note {
+    self.result = note.userInfo[OBASearchControllerUserInfoDataKey];
 }
 
 #pragma mark - Table Data
@@ -113,6 +132,7 @@
 
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:rows];
     self.sections = @[section];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Private

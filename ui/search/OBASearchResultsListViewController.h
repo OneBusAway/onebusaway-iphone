@@ -22,7 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBASearchResultsListViewController : OBAStaticTableViewController
 @property(nonatomic,strong) OBASearchResult *result;
-- (instancetype)initWithSearchControllerResult:(OBASearchResult*)result;
 @end
 
 NS_ASSUME_NONNULL_END
