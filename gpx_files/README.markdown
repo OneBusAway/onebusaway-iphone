@@ -7,7 +7,21 @@ It can be used to describe waypoints, tracks, and routes. The format is open and
 
 (courtesy of Wikipedia - http://en.wikipedia.org/wiki/GPS_Exchange_Format)
 
-Purpose in OBA
+Purpose in OneBusAway
 ===
 
 We use GPX files to provide simulated locations to the app while running in the iOS Simulator.
+
+Files for the following regions are included:
+
+* [Atlanta, Georgia](atlanta.gpx)
+* [Rogue Valley, Oregon](rvtd.gpx)
+* [San Diego, California](sandiego.gpx)
+* [Seattle/Tacoma/Puget Sound, Washington](capitolhill.gpx)
+* [Tampa Bay, Florida](tampa.gpx)
+* [Washington, D.C.](washingtondc.gpx)
+* [York Region Transit (Canada)](yorkca.gpx)
+
+The following files are also included for test scenarios:
+
+* [Invalid location (0.0, 0.0)](invalid.gpx)
