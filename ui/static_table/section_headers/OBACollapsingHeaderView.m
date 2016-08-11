@@ -1,0 +1,73 @@
+//
+//  OBACollapsingHeaderView.m
+//  org.onebusaway.iphone
+//
+//  Created by Aaron Brethorst on 8/10/16.
+//  Copyright © 2016 OneBusAway. All rights reserved.
+//
+
+#import "OBACollapsingHeaderView.h"
+#import <Masonry/Masonry.h>
+#import "OBARotatingButton.h"
+#import "OBATheme.h"
+#import "OBAAnimation.h"
+
+@interface OBACollapsingHeaderView ()
+@property(nonatomic,strong) OBARotatingButton *toggleButton;
+@end
+
+@implementation OBACollapsingHeaderView
+@dynamic title;
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+
+    if (self) {
+        self.backgroundColor = [OBATheme tableViewSectionHeaderBackgroundColor];
+
+        _toggleButton = ({
+            OBARotatingButton *btn = [OBARotatingButton buttonWithType:UIButtonTypeCustom];
+            [btn setImage:[UIImage imageNamed:@"chevron"] forState:UIControlStateNormal];
+            btn.titleLabel.font = [OBATheme boldBodyFont];
+            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [btn addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];
+            btn;
+        });
+        [self addSubview:_toggleButton];
+
+        [_toggleButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.and.bottom.equalTo(self).insets(self.layoutMargins);
+            make.height.greaterThanOrEqualTo(@40);
+        }];
+    }
+    return self;
+}
+
+#pragma mark - Accessors
+
+- (void)setTitle:(NSString *)title {
+    [self.toggleButton setTitle:title forState:UIControlStateNormal];
+}
+
+- (NSString*)title {
+    return [self.toggleButton titleForState:UIControlStateNormal];
+}
+
+- (void)setIsOpen:(BOOL)isOpen {
+    _isOpen = isOpen;
+
+    [OBAAnimation performAnimations:^{
+        self.toggleButton.imageView.transform = isOpen ? CGAffineTransformMakeRotation(M_PI_2) : CGAffineTransformIdentity;
+    }];
+}
+
+#pragma mark - Actions
+
+- (void)buttonTapped {
+    self.isOpen = !self.isOpen;
+
+    if (self.tapped) {
+        self.tapped(self.isOpen);
+    }
+}
+@end

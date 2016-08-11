@@ -17,7 +17,7 @@
     [OBAViewModelRegistry registerClass:self.class];
 }
 
-- (instancetype)initWithDestination:(NSString*)destination departsAt:(NSDate*)departsAt statusText:(NSString*)statusText departureStatus:(OBADepartureStatus)departureStatus action:(void(^)(void))action {
+- (instancetype)initWithDestination:(NSString*)destination departsAt:(NSDate*)departsAt statusText:(NSString*)statusText departureStatus:(OBADepartureStatus)departureStatus action:(void(^)(OBABaseRow *row))action {
     self = [super initWithAction:action];
     
     if (self) {

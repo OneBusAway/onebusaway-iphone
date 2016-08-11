@@ -222,7 +222,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
         }
 
         NSString *dest = dep.tripHeadsign.capitalizedString;
-        OBAClassicDepartureRow *row = [[OBAClassicDepartureRow alloc] initWithRouteName:dep.bestAvailableName destination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)] statusText:[dep statusText] departureStatus:[dep departureStatus] action:^{
+        OBAClassicDepartureRow *row = [[OBAClassicDepartureRow alloc] initWithRouteName:dep.bestAvailableName destination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)] statusText:[dep statusText] departureStatus:[dep departureStatus] action:^(OBABaseRow *row){
             OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
             [self.navigationController pushViewController:vc animated:YES];
         }];
@@ -308,7 +308,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
         NSString *dest = dep.tripHeadsign.capitalizedString;
         NSString *status = [dep statusText];
 
-        OBADepartureRow *row = [[OBADepartureRow alloc] initWithDestination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)] statusText:status departureStatus:[dep departureStatus] action:^{
+        OBADepartureRow *row = [[OBADepartureRow alloc] initWithDestination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)] statusText:status departureStatus:[dep departureStatus] action:^(OBABaseRow *row){
             OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
             [self.navigationController pushViewController:vc animated:YES];
         }];

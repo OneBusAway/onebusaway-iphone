@@ -188,7 +188,7 @@
         row.editAction();
     }
     else if (!tableView.editing && row.action) {
-        row.action();
+        row.action(row);
     }
 }
 
@@ -210,6 +210,14 @@
         return nil;
     }
 
+    // There are some goofy circumstances, like on the bookmarks
+    // controller, where the empty data set title and description
+    // should be hidden even if there are no rows in the table due
+    // to the toggleable row display features used on that view.
+    if (self.sections.count >= 2) {
+        return nil;
+    }
+
     NSDictionary *attributes = @{NSFontAttributeName: [OBATheme titleFont],
                                  NSForegroundColorAttributeName: [OBATheme darkDisabledColor]};
 
@@ -219,6 +227,14 @@
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
     if (!self.emptyDataSetDescription) {
+        return nil;
+    }
+
+    // There are some goofy circumstances, like on the bookmarks
+    // controller, where the empty data set title and description
+    // should be hidden even if there are no rows in the table due
+    // to the toggleable row display features used on that view.
+    if (self.sections.count >= 2) {
         return nil;
     }
 

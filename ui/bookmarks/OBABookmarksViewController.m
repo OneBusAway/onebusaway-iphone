@@ -16,6 +16,12 @@
 #import "OBABookmarkedRouteRow.h"
 #import "OBAArrivalAndDepartureSectionBuilder.h"
 #import "OBAClassicDepartureRow.h"
+#import "OBACollapsingHeaderView.h"
+#import "OBABookmarkGroupsViewController.h"
+
+@interface OBABookmarksViewController ()
+@property(nonatomic,strong) UIRefreshControl *refreshControl;
+@end
 
 @implementation OBABookmarksViewController
 
@@ -37,22 +43,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshData:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.refreshControl];
+
     self.tableView.estimatedRowHeight = 80.f;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
 
     self.tableView.allowsSelectionDuringEditing = YES;
+
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Groups", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editGroups)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    NSString *title = nil;
+    NSMutableString *title = [NSMutableString stringWithString:NSLocalizedString(@"Bookmarks", @"")];
     if (self.currentRegion) {
-        title = [NSString stringWithFormat:NSLocalizedString(@"Bookmarks - %@", @""), self.currentRegion.regionName];
-    }
-    else {
-        title = NSLocalizedString(@"Bookmarks", @"");
+        [title appendFormat:@" - %@", self.currentRegion.regionName];
     }
     self.navigationItem.title = title;
 
@@ -67,92 +76,119 @@
 
 #pragma mark - Data Loading
 
-- (void)loadData {
-    OBAModelDAO *modelDAO = [OBAApplication sharedApplication].modelDao;
+- (void)refreshData:(UIRefreshControl*)refreshControl {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [refreshControl endRefreshing];
+    });
+    [self loadData];
+}
 
+- (void)loadData {
+    [self loadDataWithTableReload:YES];
+}
+
+- (void)loadDataWithTableReload:(BOOL)tableReload {
     NSMutableArray *sections = [[NSMutableArray alloc] init];
 
-    for (OBABookmarkGroup *group in modelDAO.bookmarkGroups) {
-        NSArray *rows = [self tableRowsFromBookmarks:group.bookmarks];
-        OBATableSection *section = [[OBATableSection alloc] initWithTitle:group.name rows:rows];
-        [sections addObject:section];
-    }
+    // If there are no bookmarks anywhere in the system, ungrouped or otherwise, then skip
+    // over this code and instead show the empty table message.
+    if (self.modelDAO.bookmarkGroups.count != 0 || self.modelDAO.ungroupedBookmarks.count != 0) {
+        for (OBABookmarkGroup *group in [self.modelDAO.bookmarkGroups sortedArrayUsingSelector:@selector(compare:)]) {
+            OBATableSection *section = [self tableSectionFromBookmarks:group.bookmarks group:group];
+            [sections addObject:section];
+        }
 
-    OBATableSection *looseBookmarks = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Bookmarks", @"") rows:[self tableRowsFromBookmarks:modelDAO.ungroupedBookmarks]];
-    if (looseBookmarks.rows.count > 0) {
+        OBATableSection *looseBookmarks = [self tableSectionFromBookmarks:self.modelDAO.ungroupedBookmarks group:nil];
         [sections addObject:looseBookmarks];
     }
 
     self.sections = sections;
-    [self.tableView reloadData];
-}
 
-#pragma mark - Editing
-
-- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
-    [super setEditing:editing animated:animated];
-
-    UIBarButtonItem *rightBarItem = nil;
-
-    if (editing) {
-        rightBarItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add Group", @"") style:UIBarButtonItemStylePlain target:self action:@selector(addBookmarkGroup)];
+    if (tableReload) {
+        [self.tableView reloadData];
     }
-
-    self.navigationItem.rightBarButtonItem = rightBarItem;
 }
 
 #pragma mark - Actions
 
-- (void)addBookmarkGroup {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Add Bookmark Group", @"") message:nil preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = NSLocalizedString(@"Name of Group", @"");
-    }];
-
-    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"") style:UIAlertActionStyleCancel handler:nil]];
-    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Save", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        OBABookmarkGroup *group = [[OBABookmarkGroup alloc] initWithName:alertController.textFields[0].text];
-        [self.modelDAO saveBookmarkGroup:group];
-        [self loadData];
-    }]];
-
-    [self presentViewController:alertController animated:YES completion:nil];
+- (void)editGroups {
+    OBABookmarkGroupsViewController *groups = [[OBABookmarkGroupsViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:groups];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
-#pragma mark - UITableView
+#pragma mark - UITableView Editing
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-
-- (BOOL)tableView:(UITableView*)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+    // only rows that are backed by models can be edited.
+    return !![self rowAtIndexPath:indexPath].model;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self deleteRowAtIndexPath:indexPath tableView:tableView];
     }
 }
 
-- (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    OBABookmarkGroup *sourceGroup = sourceIndexPath.section == self.modelDAO.bookmarkGroups.count ? nil : self.modelDAO.bookmarkGroups[sourceIndexPath.section];
-    OBABookmarkGroup *destinationGroup = destinationIndexPath.section == self.modelDAO.bookmarkGroups.count ? nil : self.modelDAO.bookmarkGroups[destinationIndexPath.section];
-
-    OBABookmarkV2 *bookmark = [self.modelDAO bookmarkAtIndex:sourceIndexPath.row inGroup:sourceGroup];
-
-    if (bookmark) {
-        [self.modelDAO moveBookmark:bookmark toIndex:destinationIndexPath.row inGroup:destinationGroup];
-    }
-}
+#pragma mark - Table Row Actions (context menu thingy)
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewRowAction *action = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedString(@"Delete", @"Title of delete bookmark row action.") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+
+    OBABaseRow *tableRow = [self rowAtIndexPath:indexPath];
+
+    if (!tableRow.model) {
+        // rows not backed by models don't get actions.
+        return nil;
+    }
+
+    NSMutableArray<UITableViewRowAction *> *actions = [NSMutableArray array];
+
+    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedString(@"Delete", @"Title of delete bookmark row action.") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
         [self deleteRowAtIndexPath:indexPath tableView:tableView];
     }];
+    [actions addObject:delete];
 
-    return @[action];
+    if (tableRow.editAction) {
+        UITableViewRowAction *edit = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedString(@"Edit", @"Title of edit bookmark/group row action.") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+            tableRow.editAction();
+        }];
+        [actions addObject:edit];
+    }
+    return actions;
+}
+
+#pragma mark - Moving Table Cells
+
+- (BOOL)tableView:(UITableView*)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Only rows backed by a model can be moved.
+    return !![self rowAtIndexPath:indexPath].model;
+}
+
+- (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    OBABaseRow *tableRow = [self rowAtIndexPath:sourceIndexPath];
+    OBATableSection *sourceSection = self.sections[sourceIndexPath.section];
+    OBATableSection *destinationSection = self.sections[destinationIndexPath.section];
+    OBABookmarkV2 *bookmark = tableRow.model;
+
+    OBAGuard(bookmark) else {
+        return;
+    }
+
+    OBABookmarkGroup *destinationGroup = self.sections[destinationIndexPath.section].model;
+
+    [tableView beginUpdates];
+
+    [self.modelDAO moveBookmark:bookmark toIndex:destinationIndexPath.row inGroup:destinationGroup];
+
+    NSMutableArray *sourceRows = [NSMutableArray arrayWithArray:sourceSection.rows];
+    [sourceRows removeObjectAtIndex:sourceIndexPath.row];
+    sourceSection.rows = [NSArray arrayWithArray:sourceRows];
+
+    NSMutableArray *destinationRows = [NSMutableArray arrayWithArray:destinationSection.rows];
+    [destinationRows insertObject:tableRow atIndex:destinationIndexPath.row];
+    destinationSection.rows = [NSArray arrayWithArray:destinationRows];
+
+    [tableView endUpdates];
 }
 
 #pragma mark - Table Row Deletion
@@ -161,15 +197,19 @@
     OBATableSection *tableSection = self.sections[indexPath.section];
     OBATableRow *tableRow = tableSection.rows[indexPath.row];
 
+    NSMutableArray *deletedRows = [NSMutableArray new];
+
     NSMutableArray *rows = [NSMutableArray arrayWithArray:tableSection.rows];
     [rows removeObjectAtIndex:indexPath.row];
     tableSection.rows = rows;
+
+    [deletedRows addObject:indexPath];
 
     if (tableRow.deleteModel) {
         tableRow.deleteModel();
     }
 
-    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [tableView deleteRowsAtIndexPaths:deletedRows withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - Accessors
@@ -194,22 +234,46 @@
 
 #pragma mark - Private
 
-- (NSArray<OBATableRow*>*)tableRowsFromBookmarks:(NSArray<OBABookmarkV2*>*)bookmarks {
-    NSMutableArray *rows = [NSMutableArray array];
+/*
+ TODO: aggressively refactor me! This code is really ugly, and can definitely stand to be improved.
+ */
+- (OBATableSection*)tableSectionFromBookmarks:(NSArray<OBABookmarkV2*>*)bookmarks group:(nullable OBABookmarkGroup*)group {
+    NSArray<OBABaseRow*>* rows = @[];
+
+    NSString *groupName = group ? group.name : NSLocalizedString(@"Bookmarks", @"");
+    BOOL groupOpen = group ? group.open : self.modelDAO.ungroupedBookmarksOpen;
+
+    if (groupOpen) {
+        rows = [self tableRowsFromBookmarks:bookmarks];
+    }
+
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:groupName rows:rows];
+    section.model = group;
+    OBACollapsingHeaderView *header = [[OBACollapsingHeaderView alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+    header.isOpen = groupOpen;
+    header.title = groupName;
+    [header setTapped:^(BOOL open) {
+        if (group) {
+            group.open = open;
+            [self.modelDAO persistGroups];
+        }
+        else {
+            self.modelDAO.ungroupedBookmarksOpen = open;
+        }
+        section.rows = open ? [self tableRowsFromBookmarks:bookmarks] : @[];
+        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[self.sections indexOfObject:section]];
+        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+    }];
+    section.headerView = header;
+
+    return section;
+}
+
+- (NSArray*)tableRowsFromBookmarks:(NSArray<OBABookmarkV2*>*)bookmarks {
+    NSMutableArray *rows = [NSMutableArray new];
 
     for (OBABookmarkV2 *bm in bookmarks) {
-
-        if (bm.stopId.length == 0) {
-            // bookmark was somehow corrupted. Skip it and continue on.
-            NSLog(@"Corrupted bookmark: %@", bm);
-            continue;
-        }
-
-        if (bm.regionIdentifier != NSNotFound && bm.regionIdentifier != [self currentRegion].identifier) {
-            // We are special-casing bookmarks that don't have a region set on them, as there's no way to know
-            // for sure which region they belong to. However, if this bookmark has a valid regionIdentifier and
-            // the current region's identifier doesn't match the bookmark, then this bookmark belongs to a
-            // different region. Skip it.
+        if (![self.class isValidBookmark:bm forRegion:[self currentRegion]]) {
             continue;
         }
 
@@ -221,9 +285,27 @@
     return rows;
 }
 
++ (BOOL)isValidBookmark:(OBABookmarkV2*)bookmark forRegion:(OBARegionV2*)region {
+    if (bookmark.stopId.length == 0) {
+        // bookmark was somehow corrupted. Skip it and continue on.
+        NSLog(@"Corrupted bookmark: %@", bookmark);
+        return NO;
+    }
+
+    if (bookmark.regionIdentifier != NSNotFound && bookmark.regionIdentifier != region.identifier) {
+        // We are special-casing bookmarks that don't have a region set on them, as there's no way to know
+        // for sure which region they belong to. However, if this bookmark has a valid regionIdentifier and
+        // the current region's identifier doesn't match the bookmark, then this bookmark belongs to a
+        // different region. Skip it.
+        return NO;
+    }
+
+    return YES;
+}
+
 #pragma mark - Row Builders
 
-/** 
+/**
  This is the entry point to all of the row builders.
  */
 - (OBABaseRow*)tableRowForBookmark:(OBABookmarkV2*)bookmark {
@@ -247,7 +329,7 @@
 }
 
 - (OBABaseRow*)rowForBookmarkVersion260:(OBABookmarkV2*)bookmark {
-    OBABookmarkedRouteRow *row = [[OBABookmarkedRouteRow alloc] initWithAction:^{
+    OBABookmarkedRouteRow *row = [[OBABookmarkedRouteRow alloc] initWithAction:^(OBABaseRow *row){
         OBAStopViewController *controller = [[OBAStopViewController alloc] initWithStopID:bookmark.stopId];
         [self.navigationController pushViewController:controller animated:YES];
     }];
@@ -268,6 +350,7 @@
 }
 
 - (void)performCommonBookmarkRowConfiguration:(OBABaseRow*)row forBookmark:(OBABookmarkV2*)bookmark {
+    row.model = bookmark;
     row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     [row setEditAction:^{
@@ -277,7 +360,7 @@
     }];
 
     [row setDeleteModel:^{
-        [[OBAApplication sharedApplication].modelDao removeBookmark:bookmark];
+        [self.modelDAO removeBookmark:bookmark];
     }];
 }
 

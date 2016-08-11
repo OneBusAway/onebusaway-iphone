@@ -150,7 +150,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     [Apptentive sharedConnection].APIKey = kApptentiveKey;
 
     // Set up Google Analytics
-    NSDictionary *appDefaults = @{ kOptOutOfTracking: @(NO), kSetRegionAutomaticallyKey: @(YES)};
+    NSDictionary *appDefaults = @{ kOptOutOfTracking: @(NO), kSetRegionAutomaticallyKey: @(YES), kUngroupedBookmarksOpenKey: @(YES)};
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
 
     // User must be able to opt out of tracking

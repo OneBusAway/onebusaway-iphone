@@ -19,6 +19,7 @@
 
 @implementation OBATestHarnessPersistenceLayer
 @synthesize hideFutureLocationWarnings;
+@synthesize ungroupedBookmarksOpen;
 
 - (instancetype)init {
     self = [super init];

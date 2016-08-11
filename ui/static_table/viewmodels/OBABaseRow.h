@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The action taken (pushing a view controller, etc.) when the row is tapped.
  */
-@property(nonatomic,copy) void (^action)();
+@property(nonatomic,copy) void (^action)(OBABaseRow *row);
 
 /**
  The action taken (editing the underlying model, etc.) when the row is tapped while the table is in edit mode.
@@ -28,6 +28,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nullable,nonatomic,copy) NSArray<UITableViewRowAction*> *rowActions;
 
 /**
+ Optionally, you can attach the represented model in order to 
+ make it easier to change the underlying data. You are responsible
+ for setting this in your view controllers.
+ */
+@property(nullable,nonatomic,weak) id model;
+
+/**
  This block is provided as a convenience for table views where you can delete models. Since it may be difficult
  to associate your row with a model (due to sorting differences or whatever), this block provides an easy way
  to get back to—and delete—the underlying data.
@@ -38,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,assign) UITableViewCellAccessoryType accessoryType;
 
-- (instancetype)initWithAction:(nullable void (^)())action NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithAction:(nullable void (^)(OBABaseRow *row))action NS_DESIGNATED_INITIALIZER;
 
 + (void)registerViewsWithTableView:(UITableView*)tableView;
 + (NSString*)cellReuseIdentifier;

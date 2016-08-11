@@ -303,6 +303,58 @@
     XCTAssertEqual(1, group.bookmarks.count);
 }
 
+#pragma mark - Reordering Bookmark Groups
+
+- (void)testBookmarkGroupsAreAppendedToEndAtSave {
+    OBABookmarkGroup *group0 = [self generateBookmarkGroupNamed:@"Zeroth" bookmarkCount:1];
+    [self.modelDAO saveBookmarkGroup:group0];
+
+    OBABookmarkGroup *group1 = [self generateBookmarkGroupNamed:@"First" bookmarkCount:1];
+    [self.modelDAO saveBookmarkGroup:group1];
+
+    XCTAssertEqual(group0.sortOrder, 0);
+    XCTAssertEqual(group1.sortOrder, 1);
+}
+
+- (void)testMovingBookmarkGroupToItsCurrentIndex {
+    OBABookmarkGroup *group0 = [self generateBookmarkGroupNamed:@"Zeroth" bookmarkCount:1];
+    [self.modelDAO saveBookmarkGroup:group0];
+
+    OBABookmarkGroup *group1 = [self generateBookmarkGroupNamed:@"First" bookmarkCount:1];
+    [self.modelDAO saveBookmarkGroup:group1];
+
+    [self.modelDAO moveBookmarkGroup:group0 toIndex:0];
+
+    XCTAssertEqual(group0.sortOrder, 0);
+    XCTAssertEqual(group1.sortOrder, 1);
+}
+
+- (void)testMovingBookmarkGroupToExistingPosition {
+    OBABookmarkGroup *group0 = [self generateBookmarkGroupNamed:@"Zeroth" bookmarkCount:1];
+    [self.modelDAO saveBookmarkGroup:group0];
+
+    OBABookmarkGroup *group1 = [self generateBookmarkGroupNamed:@"First" bookmarkCount:1];
+    [self.modelDAO saveBookmarkGroup:group1];
+
+    [self.modelDAO moveBookmarkGroup:group1 toIndex:0];
+
+    XCTAssertEqual(group0.sortOrder, 1);
+    XCTAssertEqual(group1.sortOrder, 0);
+}
+
+- (void)testMovingBookmarkGroupToBadIndex {
+    OBABookmarkGroup *group0 = [self generateBookmarkGroupNamed:@"Zeroth" bookmarkCount:1];
+    [self.modelDAO saveBookmarkGroup:group0];
+
+    OBABookmarkGroup *group1 = [self generateBookmarkGroupNamed:@"First" bookmarkCount:1];
+    [self.modelDAO saveBookmarkGroup:group1];
+
+    [self.modelDAO moveBookmarkGroup:group0 toIndex:999];
+
+    XCTAssertEqual(group0.sortOrder, 1);
+    XCTAssertEqual(group1.sortOrder, 0);
+}
+
 #pragma mark - Deleting Bookmarks
 
 - (void)testRemovingOneOfManyLooseBookmarks {
@@ -397,9 +449,12 @@
     OBABookmarkGroup *group = [self generateBookmarkGroupNamed:@"Group 1" bookmarkCount:1];
     [self.modelDAO saveBookmarkGroup:group];
 
+    XCTAssertEqual(self.modelDAO.ungroupedBookmarks.count, (NSInteger)0);
     XCTAssertEqual(self.modelDAO.bookmarkGroups.count, (NSInteger)1);
 
     [self.modelDAO removeBookmarkGroup:group];
+
+    XCTAssertEqual(self.modelDAO.ungroupedBookmarks.count, (NSInteger)1);
     XCTAssertEqual(self.modelDAO.bookmarkGroups.count, (NSInteger)0);
 }
 
