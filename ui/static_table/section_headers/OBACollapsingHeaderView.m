@@ -29,15 +29,16 @@
             OBARotatingButton *btn = [OBARotatingButton buttonWithType:UIButtonTypeCustom];
             [btn setImage:[UIImage imageNamed:@"chevron"] forState:UIControlStateNormal];
             btn.titleLabel.font = [OBATheme boldBodyFont];
+            btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
             [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [btn addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];
+            btn.contentEdgeInsets = self.layoutMargins;
             btn;
         });
         [self addSubview:_toggleButton];
 
         [_toggleButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.left.and.bottom.equalTo(self).insets(self.layoutMargins);
-            make.height.greaterThanOrEqualTo(@40);
+            make.edges.equalTo(self);
         }];
     }
     return self;

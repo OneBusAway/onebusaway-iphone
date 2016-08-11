@@ -14,6 +14,7 @@
 #import <SafariServices/SafariServices.h>
 #import <Apptentive/Apptentive.h>
 #import <OBAKit/OBAEmailHelper.h>
+#import "UILabel+OBAAdditions.h"
 
 static NSString * const kDonateURLString = @"http://onebusaway.org/donate/";
 static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
@@ -211,7 +212,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     headerLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     headerLabel.text = NSLocalizedString(@"OneBusAway", @"");
     headerLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-    [self.class resizeLabelHeightToFitText:headerLabel];
+    [headerLabel oba_resizeHeightToFit];
     [header addSubview:headerLabel];
 
     UILabel *copyrightLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(headerLabel.frame), CGRectGetWidth(header.frame), 30.f)];
@@ -220,27 +221,13 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     copyrightLabel.text = [NSString stringWithFormat:@"%@\r\n%@", [OBAApplication sharedApplication].fullAppVersionString, @"© University of Washington"];
     copyrightLabel.numberOfLines = 2;
     copyrightLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
-    [self.class resizeLabelHeightToFitText:copyrightLabel];
+    [copyrightLabel oba_resizeHeightToFit];
     [header addSubview:copyrightLabel];
 
     frame.size.height = CGRectGetMaxY(copyrightLabel.frame) + verticalPadding;
     header.frame = frame;
 
     return header;
-}
-
-// TODO: move me into a category or something.
-+ (CGRect)resizeLabelHeightToFitText:(UILabel*)label {
-    CGRect calculatedRect = [label.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(label.frame), CGFLOAT_MAX)
-                                                     options:NSStringDrawingUsesLineFragmentOrigin
-                                                  attributes:@{NSFontAttributeName: label.font}
-                                                     context:nil];
-
-    CGRect labelFrame = label.frame;
-    labelFrame.size.height = CGRectGetHeight(calculatedRect);
-    label.frame = labelFrame;
-
-    return label.frame;
 }
 
 @end

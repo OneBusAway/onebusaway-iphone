@@ -249,7 +249,7 @@
 
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:groupName rows:rows];
     section.model = group;
-    OBACollapsingHeaderView *header = [[OBACollapsingHeaderView alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+    OBACollapsingHeaderView *header = [[OBACollapsingHeaderView alloc] initWithFrame:CGRectMake(0, 0, 100, 35)];
     header.isOpen = groupOpen;
     header.title = groupName;
     [header setTapped:^(BOOL open) {
