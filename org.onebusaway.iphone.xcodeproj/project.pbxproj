@@ -315,6 +315,7 @@
 		93AD36451603FE7E00BDF03F /* OBALabelAndTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD363E1603FE7E00BDF03F /* OBALabelAndTextFieldTableViewCell.m */; };
 		93AD369D1604027E00BDF03F /* OBAProgressIndicatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD369B1604027E00BDF03F /* OBAProgressIndicatorImpl.m */; };
 		93B32FF31AC4912F001DC177 /* UIViewController+OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B32FF21AC4912F001DC177 /* UIViewController+OBAAnalytics.m */; };
+		93B35AA11D5EFF440025DA4D /* OBATableFooterLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B35AA01D5EFF440025DA4D /* OBATableFooterLabelView.m */; };
 		93B8BA291C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B8BA281C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m */; };
 		93C921461D59289E00CA8868 /* OBADrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C921451D59289E00CA8868 /* OBADrawerViewController.m */; };
 		93DEE5831D45207700042803 /* stop_with_obj_lat_long.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93DEE5821D45207700042803 /* stop_with_obj_lat_long.plist */; };
@@ -327,6 +328,7 @@
 		93F05A631C8E080000BF36B1 /* OBAAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F05A621C8E080000BF36B1 /* OBAAnimation.m */; };
 		93F64E971BE5ACC300323527 /* OBAAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F64E961BE5ACC300323527 /* OBAAlerts.m */; };
 		93F8F4431D375B77008659D2 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F8F4421D375B77008659D2 /* OBAArrivalAndDepartureSectionBuilder.m */; };
+		93FDDEB01D5E7B2C00C5158F /* UILabel+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FDDEAF1D5E7B2C00C5158F /* UILabel+OBAAdditions.m */; };
 		C4402BFD381C435E877939FF /* Pods_OneBusAwayTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEDB575BE5B5DDBA090E58E0 /* Pods_OneBusAwayTests.framework */; };
 		D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = D651BB2711C9D5DE001BE733 /* iTunesArtwork */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
@@ -767,6 +769,8 @@
 		93AD36A8160402FD00BDF03F /* OBANavigationTargetAware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTargetAware.h; sourceTree = "<group>"; };
 		93B32FF11AC4912F001DC177 /* UIViewController+OBAAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+OBAAnalytics.h"; sourceTree = "<group>"; };
 		93B32FF21AC4912F001DC177 /* UIViewController+OBAAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+OBAAnalytics.m"; sourceTree = "<group>"; };
+		93B35A9F1D5EFF440025DA4D /* OBATableFooterLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATableFooterLabelView.h; sourceTree = "<group>"; };
+		93B35AA01D5EFF440025DA4D /* OBATableFooterLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableFooterLabelView.m; sourceTree = "<group>"; };
 		93B8BA271C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureViewController.h; sourceTree = "<group>"; };
 		93B8BA281C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureViewController.m; sourceTree = "<group>"; };
 		93C921441D59289E00CA8868 /* OBADrawerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADrawerViewController.h; sourceTree = "<group>"; };
@@ -789,6 +793,8 @@
 		93F64E961BE5ACC300323527 /* OBAAlerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAlerts.m; sourceTree = "<group>"; };
 		93F8F4411D375B77008659D2 /* OBAArrivalAndDepartureSectionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureSectionBuilder.h; sourceTree = "<group>"; };
 		93F8F4421D375B77008659D2 /* OBAArrivalAndDepartureSectionBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureSectionBuilder.m; sourceTree = "<group>"; };
+		93FDDEAE1D5E7B2C00C5158F /* UILabel+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+OBAAdditions.h"; sourceTree = "<group>"; };
+		93FDDEAF1D5E7B2C00C5158F /* UILabel+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+OBAAdditions.m"; sourceTree = "<group>"; };
 		9ABEF18E98158A7476ECDB64 /* Pods-OneBusAway.adhocdistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.adhocdistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.adhocdistribution.xcconfig"; sourceTree = "<group>"; };
 		A553375C73FCAF3CA3D5D44A /* Pods-OneBusAway.appstoredistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.appstoredistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.appstoredistribution.xcconfig"; sourceTree = "<group>"; };
 		B522CE42A9FA4C2EBC350330 /* Pods-OneBusAwayTests.adhocdistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAwayTests.adhocdistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAwayTests/Pods-OneBusAwayTests.adhocdistribution.xcconfig"; sourceTree = "<group>"; };
@@ -984,6 +990,8 @@
 				93B32FF21AC4912F001DC177 /* UIViewController+OBAAnalytics.m */,
 				93E0D19D1D569E7B00D9AA63 /* UIViewController+OBAContainment.h */,
 				93E0D19E1D569E7B00D9AA63 /* UIViewController+OBAContainment.m */,
+				93FDDEAE1D5E7B2C00C5158F /* UILabel+OBAAdditions.h */,
+				93FDDEAF1D5E7B2C00C5158F /* UILabel+OBAAdditions.m */,
 			);
 			path = categories;
 			sourceTree = "<group>";
@@ -1650,6 +1658,7 @@
 		93AD36371603FE4600BDF03F /* controls */ = {
 			isa = PBXGroup;
 			children = (
+				93B35A9E1D5EFF320025DA4D /* table */,
 				931FA94C1D502B9200E12D62 /* controls */,
 				934446C81AB12B29005B3333 /* view_controllers */,
 				9330DF251606404100E14AF4 /* containers */,
@@ -1702,6 +1711,15 @@
 				93AD36A8160402FD00BDF03F /* OBANavigationTargetAware.h */,
 			);
 			path = protocols;
+			sourceTree = "<group>";
+		};
+		93B35A9E1D5EFF320025DA4D /* table */ = {
+			isa = PBXGroup;
+			children = (
+				93B35A9F1D5EFF440025DA4D /* OBATableFooterLabelView.h */,
+				93B35AA01D5EFF440025DA4D /* OBATableFooterLabelView.m */,
+			);
+			path = table;
 			sourceTree = "<group>";
 		};
 		93F64E921BE5ACB900323527 /* alerts */ = {
@@ -2138,6 +2156,7 @@
 				931FA94F1D502B9E00E12D62 /* OBARotatingButton.m in Sources */,
 				932BE4CF1AB66D710011F2FB /* OBATripDetailsViewController.m in Sources */,
 				93AD36431603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m in Sources */,
+				93B35AA11D5EFF440025DA4D /* OBATableFooterLabelView.m in Sources */,
 				934446D91AB12C5D005B3333 /* OBAModalActivityIndicator.m in Sources */,
 				93AD36441603FE7E00BDF03F /* OBAArrivalEntryTableViewCellFactory.m in Sources */,
 				93B8BA291C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m in Sources */,
@@ -2162,6 +2181,7 @@
 				934446B81AB10ECA005B3333 /* UITableViewCell+oba_Additions.m in Sources */,
 				932BE4EB1AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.m in Sources */,
 				93AD369D1604027E00BDF03F /* OBAProgressIndicatorImpl.m in Sources */,
+				93FDDEB01D5E7B2C00C5158F /* UILabel+OBAAdditions.m in Sources */,
 				93E0D19F1D569E7B00D9AA63 /* UIViewController+OBAContainment.m in Sources */,
 				936D2EE51C79B4190060B7E1 /* OBAStopSectionHeaderView.m in Sources */,
 				93B32FF31AC4912F001DC177 /* UIViewController+OBAAnalytics.m in Sources */,

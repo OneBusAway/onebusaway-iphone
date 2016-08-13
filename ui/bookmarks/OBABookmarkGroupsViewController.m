@@ -10,7 +10,11 @@
 #import <OBAKit/OBAApplication.h>
 #import <OBAKit/OBAModelDAO.h>
 #import <OBAKit/OBABookmarkGroup.h>
+#import <Masonry/Masonry.h>
 #import "OBALabelFooterView.h"
+#import "UILabel+OBAAdditions.h"
+#import "OBATheme.h"
+#import "OBATableFooterLabelView.h"
 
 @implementation OBABookmarkGroupsViewController
 
@@ -19,19 +23,23 @@
 
     self.title = NSLocalizedString(@"Bookmark Groups", @"");
 
+    self.tableView.allowsSelectionDuringEditing = YES;
+
     self.emptyDataSetTitle = NSLocalizedString(@"No Bookmark Groups", @"");
     self.emptyDataSetDescription = NSLocalizedString(@"Tap the '+' button to create one.", @"");
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(close)];
-
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addGroup)];
 
     self.tableView.tableFooterView = ({
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
-        label.text = NSLocalizedString(@"Deleting a group does not delete its bookmarks. The bookmarks will instead be moved to the 'Bookmarks' group.", @"");
-        label.numberOfLines = 0;
-        label;
+        OBATableFooterLabelView *footerLabel = [[OBATableFooterLabelView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 100)];
+        footerLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        footerLabel.label.text = NSLocalizedString(@"Deleting a group does not delete its bookmarks. The bookmarks will instead be moved to the 'Bookmarks' group.", @"");
+        [footerLabel resizeToFitText];
+        footerLabel;
     });
+
+    self.editing = YES;
 
     [self loadData];
 }
@@ -75,6 +83,20 @@
 
     for (OBABookmarkGroup *group in self.modelDAO.bookmarkGroups) {
         OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:group.name action:nil];
+        tableRow.model = group;
+        [tableRow setEditAction:^(OBABaseRow *row) {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Edit Group Name", @"") message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [alert addTextFieldWithConfigurationHandler:^(UITextField * textField) {
+                textField.text = group.name;
+            }];
+            [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"") style:UIAlertActionStyleCancel handler:nil]];
+            [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Save", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                group.name = alert.textFields.firstObject.text;
+                [self.modelDAO persistGroups];
+                [self loadData];
+            }]];
+            [self presentViewController:alert animated:YES completion:nil];
+        }];
         [rows addObject:tableRow];
     }
 
@@ -97,43 +119,16 @@
     }
 }
 
-#pragma mark - Table Row Actions (context menu thingy)
-
-- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    OBABaseRow *tableRow = [self rowAtIndexPath:indexPath];
-
-    if (!tableRow.model) {
-        // rows not backed by models don't get actions.
-        return nil;
-    }
-
-    NSMutableArray<UITableViewRowAction *> *actions = [NSMutableArray array];
-
-    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedString(@"Delete", @"Title of delete bookmark group row action.") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        [self deleteRowAtIndexPath:indexPath tableView:tableView];
-    }];
-    [actions addObject:delete];
-
-    if (tableRow.editAction) {
-        UITableViewRowAction *edit = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedString(@"Edit", @"Title of edit bookmark/group row action.") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-            tableRow.editAction();
-        }];
-        [actions addObject:edit];
-    }
-    return actions;
+- (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    OBABookmarkGroup *group = [self rowAtIndexPath:sourceIndexPath].model;
+    [self.modelDAO moveBookmarkGroup:group toIndex:destinationIndexPath.row];
+    [self loadData];
 }
 
 #pragma mark - Moving Table Cells
 
 - (BOOL)tableView:(UITableView*)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
-}
-
-- (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    OBABaseRow *tableRow = [self rowAtIndexPath:sourceIndexPath];
-    OBABookmarkGroup *group = tableRow.model;
-    [self.modelDAO moveBookmarkGroup:group toIndex:destinationIndexPath.section];
 }
 
 #pragma mark - Table Row Deletion
@@ -150,9 +145,7 @@
 
     [deletedRows addObject:indexPath];
 
-    if (tableRow.deleteModel) {
-        tableRow.deleteModel();
-    }
+    [self.modelDAO removeBookmarkGroup:tableRow.model];
 
     [tableView deleteRowsAtIndexPaths:deletedRows withRowAnimation:UITableViewRowAnimationAutomatic];
 }
