@@ -9,6 +9,8 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
 
 @implementation OBAModelService
 
+#pragma mark - Promise-based Requests
+
 - (AnyPromise*)requestStopForID:(NSString*)stopID minutesBefore:(NSUInteger)minutesBefore minutesAfter:(NSUInteger)minutesAfter {
 
     OBAGuard(stopID) else {
@@ -68,6 +70,30 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
             }
         }];
     }];
+}
+
+- (AnyPromise*)requestCurrentTime {
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestCurrentTimeWithCompletionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            if (error) {
+                resolve(error);
+            }
+            else {
+                resolve(responseData[@"entry"][@"time"]);
+            }
+        }];
+    }];
+}
+
+#pragma mark - Old School Requests
+
+- (id<OBAModelServiceRequest>)requestCurrentTimeWithCompletionBlock:(OBADataSourceCompletion)completion {
+    return [self request:self.obaJsonDataSource
+                     url:@"/api/where/current-time.json"
+                    args:nil
+                selector:nil
+         completionBlock:completion
+           progressBlock:nil];
 }
 
 - (id<OBAModelServiceRequest>)requestStopForId:(NSString *)stopId completionBlock:(OBADataSourceCompletion)completion {

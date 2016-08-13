@@ -316,6 +316,8 @@
 		93AD369D1604027E00BDF03F /* OBAProgressIndicatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD369B1604027E00BDF03F /* OBAProgressIndicatorImpl.m */; };
 		93B32FF31AC4912F001DC177 /* UIViewController+OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B32FF21AC4912F001DC177 /* UIViewController+OBAAnalytics.m */; };
 		93B35AA11D5EFF440025DA4D /* OBATableFooterLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B35AA01D5EFF440025DA4D /* OBATableFooterLabelView.m */; };
+		93B35AA41D5FCCA70025DA4D /* OBAUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B35AA21D5FCCA70025DA4D /* OBAUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93B35AA51D5FCCA70025DA4D /* OBAUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B35AA31D5FCCA70025DA4D /* OBAUser.m */; };
 		93B8BA291C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B8BA281C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m */; };
 		93C921461D59289E00CA8868 /* OBADrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C921451D59289E00CA8868 /* OBADrawerViewController.m */; };
 		93DEE5831D45207700042803 /* stop_with_obj_lat_long.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93DEE5821D45207700042803 /* stop_with_obj_lat_long.plist */; };
@@ -771,6 +773,8 @@
 		93B32FF21AC4912F001DC177 /* UIViewController+OBAAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+OBAAnalytics.m"; sourceTree = "<group>"; };
 		93B35A9F1D5EFF440025DA4D /* OBATableFooterLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATableFooterLabelView.h; sourceTree = "<group>"; };
 		93B35AA01D5EFF440025DA4D /* OBATableFooterLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableFooterLabelView.m; sourceTree = "<group>"; };
+		93B35AA21D5FCCA70025DA4D /* OBAUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAUser.h; sourceTree = "<group>"; };
+		93B35AA31D5FCCA70025DA4D /* OBAUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAUser.m; sourceTree = "<group>"; };
 		93B8BA271C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureViewController.h; sourceTree = "<group>"; };
 		93B8BA281C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureViewController.m; sourceTree = "<group>"; };
 		93C921441D59289E00CA8868 /* OBADrawerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADrawerViewController.h; sourceTree = "<group>"; };
@@ -1330,6 +1334,8 @@
 				934D00271C83924400A76A90 /* OBAURLHelpers.m */,
 				9337D6C61D32A85F00D237D6 /* OBAEmailHelper.h */,
 				9337D6C71D32A85F00D237D6 /* OBAEmailHelper.m */,
+				93B35AA21D5FCCA70025DA4D /* OBAUser.h */,
+				93B35AA31D5FCCA70025DA4D /* OBAUser.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1840,6 +1846,7 @@
 				93392E271CB23F5C00A46B61 /* OBAModelPersistenceLayer.h in Headers */,
 				934B62A21CFBA5FA00D8FA85 /* NSObject+OBADescription.h in Headers */,
 				9302B6081CA4CCDA002B6AC7 /* NSArray+OBAAdditions.h in Headers */,
+				93B35AA41D5FCCA70025DA4D /* OBAUser.h in Headers */,
 				9337D6C81D32A85F00D237D6 /* OBAEmailHelper.h in Headers */,
 				9320771A1C993A4D005F7D4A /* OBARouteType.h in Headers */,
 			);
@@ -2284,6 +2291,7 @@
 				934D010B1C83924D00A76A90 /* OBANavigationTarget.m in Sources */,
 				934D011D1C83924D00A76A90 /* OBASearch.m in Sources */,
 				934D010F1C83924D00A76A90 /* OBAPlacemarks.m in Sources */,
+				93B35AA51D5FCCA70025DA4D /* OBAUser.m in Sources */,
 				934D00E31C83924D00A76A90 /* OBASelectorJsonDigesterRule.m in Sources */,
 				934D01441C83924D00A76A90 /* OBAJsonDataSource.m in Sources */,
 				934D00401C83924400A76A90 /* OBAStopIconFactory.m in Sources */,

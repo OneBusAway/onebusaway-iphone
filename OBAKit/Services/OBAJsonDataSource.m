@@ -38,6 +38,20 @@
     [self cancelOpenConnections];
 }
 
+#pragma mark - Factory Helpers
+
++ (instancetype)JSONDataSourceWithBaseURL:(NSURL*)URL userID:(NSString*)userID {
+    OBADataSourceConfig *obaDataSourceConfig = [OBADataSourceConfig dataSourceConfigWithBaseURL:URL userID:userID];
+    return [[OBAJsonDataSource alloc] initWithConfig:obaDataSourceConfig];
+}
+
++ (instancetype)googleMapsJSONDataSource {
+    OBADataSourceConfig *googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:@"https://maps.googleapis.com"] args:@{@"sensor": @"true"}];
+    return [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
+}
+
+#pragma mark - Public Methods
+
 - (id<OBADataSourceConnection>)requestWithPath:(NSString *)path withArgs:(NSDictionary *)args completionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress {
 
     NSURL *feedURL = [self.config constructURL:path withArgs:args];

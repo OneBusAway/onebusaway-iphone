@@ -19,6 +19,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBADataSourceConfig : NSObject
++ (instancetype)dataSourceConfigWithBaseURL:(NSURL*)URL userID:(NSString*)userID;
+
 - (instancetype)initWithURL:(NSURL*)baseURL args:(nullable NSDictionary*)args;
 - (NSURL*)constructURL:(NSString*)path withArgs:(nullable NSDictionary*)args;
 @end

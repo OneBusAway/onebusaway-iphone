@@ -15,8 +15,7 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "OBAURLHelpers.h"
 #import <PromiseKit/PromiseKit.h>
-
-static NSInteger const OBABadCustomAPIServerErrorCode = 1;
+#import <OBAKit/OBAUser.h>
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -25,9 +24,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 };
 
 @interface OBACustomApiViewController ()
-@property (nonatomic,strong) OBAModelDAO *modelDao;
-@property (nonatomic) NSArray *recentUrls;
-@property (nonatomic) UITextField *customApiUrlTextField;
+@property(nonatomic,strong) OBAModelDAO *modelDao;
+@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic) NSArray *recentUrls;
+@property(nonatomic) UITextField *customApiUrlTextField;
 @end
 
 @implementation OBACustomApiViewController
@@ -37,6 +37,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     if (self) {
         _modelDao = modelDao;
+        _modelService = [[OBAModelService alloc] init];
     }
 
     return self;
@@ -91,22 +92,11 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         return;
     }
 
-    NSURL *currentTimeURL = [OBAURLHelpers normalizeURLPath:@"/where/current-time.json"
-                                          relativeToBaseURL:urlString
-                                                 parameters:@{@"key": @"org.onebusaway.iphone"}];
-
     [SVProgressHUD show];
-    [NSURLConnection GET:currentTimeURL].then(^(id data) {
-
-        if ([data isKindOfClass:[NSDictionary class]] && [data objectForKey:@"currentTime"]) {
-            [self writeCustomAPIURL:[OBAURLHelpers normalizeURLPath:@"/" relativeToBaseURL:urlString parameters:nil]];
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }
-        else {
-            NSString *errorMessage = [NSString stringWithFormat:NSLocalizedString(@"Please make sure that %@ is a functioning OBA API endpoint.", @""), currentTimeURL.absoluteString];
-
-            @throw [NSError errorWithDomain:NSURLErrorDomain code:OBABadCustomAPIServerErrorCode userInfo:@{NSLocalizedDescriptionKey: errorMessage}];
-        }
+    self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:urlString] userID:[OBAUser userIdFromDefaults]];
+    [self.modelService requestCurrentTime].then(^(NSNumber* milliseconds) {
+        [self writeCustomAPIURL:[OBAURLHelpers normalizeURLPath:@"/" relativeToBaseURL:urlString parameters:nil]];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }).catch(^(NSError *error) {
         [self showBadURLError:error.localizedDescription];
     }).finally(^{
