@@ -7,11 +7,10 @@
 //
 
 #import "OBAApplication.h"
+#import "OBAUser.h"
 #import "OBAModelDAOUserPreferencesImpl.h"
 
-static NSString *const kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
-static NSString *const kOBADefaultRegionApiServerName = @"regions.onebusaway.org";
-
+static NSString *const kOBADefaultRegionApiServerName = @"http://regions.onebusaway.org";
 NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplicationSettingsRegionRefreshNotification";
 
 @interface OBAApplication ()
@@ -82,42 +81,9 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
         [[NSNotificationCenter defaultCenter] postNotificationName:kOBAApplicationSettingsRegionRefreshNotification object:nil];
     }
 
-    NSDictionary *obaArgs = @{ @"key":     @"org.onebusaway.iphone",
-                               @"app_uid": [self userIdFromDefaults:[NSUserDefaults standardUserDefaults]],
-                               @"app_ver": [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
-                               @"version": @"2"};
-
-    OBADataSourceConfig *obaDataSourceConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:apiServerName] args:obaArgs];
-    OBAJsonDataSource *obaJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:obaDataSourceConfig];
-    _modelService.obaJsonDataSource = obaJsonDataSource;
-
-    OBADataSourceConfig *googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:@"https://maps.googleapis.com"] args:@{@"sensor": @"true"}];
-    OBAJsonDataSource *googleMapsJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
-    _modelService.googleMapsJsonDataSource = googleMapsJsonDataSource;
-
-    NSString *regionApiServerName = [[NSUserDefaults standardUserDefaults] objectForKey:@"oba_region_api_server"];
-
-    if (regionApiServerName.length == 0) {
-        regionApiServerName = kOBADefaultRegionApiServerName;
-    }
-
-    regionApiServerName = [NSString stringWithFormat:@"http://%@", regionApiServerName];
-
-    OBADataSourceConfig *obaRegionDataSourceConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:regionApiServerName] args:obaArgs];
-    OBAJsonDataSource *obaRegionJsonDataSource = [[OBAJsonDataSource alloc] initWithConfig:obaRegionDataSourceConfig];
-    _modelService.obaRegionJsonDataSource = obaRegionJsonDataSource;
-}
-
-- (NSString *)userIdFromDefaults:(NSUserDefaults *)userDefaults {
-    NSString *userId = [userDefaults stringForKey:kOBAHiddenPreferenceUserId];
-
-    if (!userId) {
-        userId = [[NSUUID UUID] UUIDString];
-        [userDefaults setObject:userId forKey:kOBAHiddenPreferenceUserId];
-        [userDefaults synchronize];
-    }
-
-    return userId;
+    self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:apiServerName] userID:[OBAUser userIdFromDefaults]];
+    self.modelService.googleMapsJsonDataSource = [OBAJsonDataSource googleMapsJSONDataSource];
+    self.modelService.obaRegionJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:kOBADefaultRegionApiServerName] userID:[OBAUser userIdFromDefaults]];
 }
 
 @end

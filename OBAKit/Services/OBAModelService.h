@@ -63,6 +63,22 @@ NS_ASSUME_NONNULL_BEGIN
 - (AnyPromise*)requestArrivalAndDeparture:(OBAArrivalAndDepartureInstanceRef*)instanceRef;
 
 /**
+ Retrieves the current server time as an NSNumber representing the number of milliseconds since January 1, 1970.
+
+ @return A promise that resolves to an NSNumber object.
+ */
+- (AnyPromise*)requestCurrentTime;
+
+/**
+ *  Makes an asynchronous request to fetch the current server time.
+ *
+ *  @param completion The block to be called once the request completes, this is always executed on the main thread.
+ *
+ *  @return The OBAModelServiceRequest object that allows request cancellation
+ */
+- (id<OBAModelServiceRequest>)requestCurrentTimeWithCompletionBlock:(OBADataSourceCompletion)completion;
+
+/**
  *  Makes an asynchronous request to fetch a stop object.
  *
  *  @param stopId     The string identifier of the stop to be fetched

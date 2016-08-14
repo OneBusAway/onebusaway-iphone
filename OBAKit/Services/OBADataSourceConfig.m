@@ -34,6 +34,17 @@
     return self;
 }
 
++ (instancetype)dataSourceConfigWithBaseURL:(NSURL*)URL userID:(NSString*)userID {
+    NSDictionary *obaArgs = @{ @"key":     @"org.onebusaway.iphone",
+                               @"app_uid": userID,
+                               @"app_ver": [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
+                               @"version": @"2"};
+
+    return [[OBADataSourceConfig alloc] initWithURL:URL args:obaArgs];
+}
+
+#pragma mark - Public Methods
+
 - (NSURL*)constructURL:(NSString*)path withArgs:(NSDictionary*)args {
     NSMutableString *constructedURL = [NSMutableString string];
     
