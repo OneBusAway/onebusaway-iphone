@@ -34,23 +34,12 @@ extern NSString * const kApplicationShortcutBookmarks;
  */
 NSString * OBAStringFromBool(BOOL yn);
 
-@interface NSString (OBAConvenienceMethods)
-- (NSComparisonResult) compareUsingNumberSearch:(NSString*)aString;
-@end
-
-@interface UIView (OBAConvenienceMethods)
-- (void) setOrigin:(CGPoint)point;
-@end
-
 @interface OBACommon : NSObject
 
 + (void)setRunningInsideTests:(BOOL)runningInsideTests;
 + (BOOL)isRunningInsideTests;
 
 + (NSString*) getTimeAsString;
-+ (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName;
-+ (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName third:(NSString*)thirdName;
-
 @end
 
 NS_ASSUME_NONNULL_END
