@@ -158,7 +158,10 @@ static NSString * const kBookmarkVersion = @"bookmarkVersion";
         return NO;
     }
 
-    if (![self.tripHeadsign isEqual:arrivalAndDeparture.tripHeadsign]) {
+    // because of the trip headsign munging that sometimes takes place elsewhere in the codebase,
+    // we need to do a case insensitive comparison to ensure that these headsigns match. Ideally,
+    // we wouldn't have to do such a fragile comparison in the first place...
+    if ([self.tripHeadsign compare:arrivalAndDeparture.tripHeadsign options:NSCaseInsensitiveSearch] != NSOrderedSame) {
         return NO;
     }
 
@@ -168,10 +171,6 @@ static NSString * const kBookmarkVersion = @"bookmarkVersion";
 #pragma mark - Equality
 
 - (BOOL)isEqual:(id)object {
-    if (![super isEqual:object]) {
-        return NO;
-    }
-
     if (![object isKindOfClass:self.class]) {
         return NO;
     }
@@ -204,7 +203,7 @@ static NSString * const kBookmarkVersion = @"bookmarkVersion";
 }
 
 - (NSUInteger)hash {
-    return [[NSString stringWithFormat:@"%@_%@_%@", NSStringFromClass(self.class), @(self.regionIdentifier), self.stopId] hash];
+    return [[NSString stringWithFormat:@"%@_%@_%@_%@_%@_%@", NSStringFromClass(self.class), @(self.regionIdentifier), self.stopId, self.routeShortName, self.tripHeadsign, self.routeID] hash];
 }
 
 #pragma mark - NSObject

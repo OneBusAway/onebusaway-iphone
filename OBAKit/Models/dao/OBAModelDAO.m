@@ -89,6 +89,16 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
 #pragma mark - Bookmarks
 
+- (NSArray<OBABookmarkV2*>*)bookmarksMatchingPredicate:(NSPredicate*)predicate {
+    OBAGuard(predicate) else {
+        return @[];
+    }
+
+    NSArray<OBABookmarkV2*> *allBookmarks = [self allBookmarks];
+
+    return [allBookmarks filteredArrayUsingPredicate:predicate];
+}
+
 - (OBABookmarkV2*)bookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrival {
     for (OBABookmarkV2 *bm in self.ungroupedBookmarks) {
         if ([bm matchesArrivalAndDeparture:arrival]) {
