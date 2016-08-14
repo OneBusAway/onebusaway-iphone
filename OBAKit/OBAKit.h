@@ -96,3 +96,4 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/NSArray+OBAAdditions.h>
 #import <OBAKit/NSObject+OBADescription.h>
 #import <OBAKit/OBAEmailHelper.h>
+#import <OBAKit/OBAUser.h>

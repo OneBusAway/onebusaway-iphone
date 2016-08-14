@@ -31,24 +31,6 @@ NSString * OBAStringFromBool(BOOL yn) {
     return yn ? @"YES" : @"NO";
 }
 
-@implementation NSString (OBAConvenienceMethods)
-
-- (NSComparisonResult) compareUsingNumberSearch:(NSString*)aString {
-    return [self compare:aString options:NSNumericSearch];
-}
-
-@end
-
-@implementation UIView (OBAConvenienceMethods)
-
-- (void) setOrigin:(CGPoint)point {
-    CGRect rect = self.bounds;
-    rect.origin = point;
-    [self setFrame:rect];
-}
-
-@end
-
 @implementation OBACommon
 
 + (void)setRunningInsideTests:(BOOL)runningInsideTests {
@@ -63,19 +45,6 @@ NSString * OBAStringFromBool(BOOL yn) {
     return [OBADateHelpers formatShortTimeNoDate:[NSDate date]];
 }
 
-+ (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName {
-    if( firstName && [firstName length] > 0 )
-        return firstName;
-    return secondName;
-}
-
-+ (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName third:(NSString*)thirdName {
-    if( firstName && [firstName length] > 0 )
-        return firstName;
-    if( secondName && [secondName length] > 0 )
-        return secondName;
-    return thirdName;
-}
 @end
 
 
