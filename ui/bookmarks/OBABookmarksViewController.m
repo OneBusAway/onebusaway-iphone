@@ -18,9 +18,14 @@
 #import "OBAClassicDepartureRow.h"
 #import "OBACollapsingHeaderView.h"
 #import "OBABookmarkGroupsViewController.h"
+#import "OBATableCell.h"
+
+static NSTimeInterval const kRefreshTimerInterval = 30.0;
 
 @interface OBABookmarksViewController ()
 @property(nonatomic,strong) UIRefreshControl *refreshControl;
+@property(nonatomic,strong) NSTimer *refreshBookmarksTimer;
+@property(nonatomic,strong) NSMutableDictionary<OBABookmarkV2*,OBABaseRow*> *bookmarksToRowsMap;
 @end
 
 @implementation OBABookmarksViewController
@@ -34,8 +39,14 @@
         self.tabBarItem.image = [UIImage imageNamed:@"Bookmarks"];
         self.emptyDataSetTitle = NSLocalizedString(@"No Bookmarks", @"");
         self.emptyDataSetDescription = NSLocalizedString(@"Tap 'Add to Bookmarks' from a stop to save a bookmark to this screen.", @"");
+        _bookmarksToRowsMap = [[NSMutableDictionary alloc] init];
     }
     return self;
+}
+
+- (void)dealloc {
+    [self.refreshBookmarksTimer invalidate];
+    self.refreshBookmarksTimer = nil;
 }
 
 #pragma mark - UIViewController
@@ -65,7 +76,44 @@
     }
     self.navigationItem.title = title;
 
+    self.refreshBookmarksTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimerInterval target:self selector:@selector(refreshBookmarkDepartures:) userInfo:nil repeats:YES];
+
     [self loadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+
+    [self.refreshBookmarksTimer invalidate];
+    self.refreshBookmarksTimer = nil;
+}
+
+#pragma mark - Refresh Bookmarks
+
+- (void)refreshBookmarkDepartures:(NSTimer*)timer {
+    NSArray<OBABookmarkV2*> *allBookmarks = [self.modelDAO bookmarksMatchingPredicate:[NSPredicate predicateWithFormat:@"%K == %@", NSStringFromSelector(@selector(bookmarkVersion)), @(OBABookmarkVersion260)]];
+
+    for (OBABookmarkV2 *bookmark in allBookmarks) {
+        [self.modelService requestStopForID:bookmark.stopId minutesBefore:0 minutesAfter:35].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
+            NSArray<OBAArrivalAndDepartureV2*> *matchingDepartures = [bookmark matchingArrivalsAndDeparturesForStop:response];
+            OBABaseRow *row = self.bookmarksToRowsMap[bookmark];
+
+            if ([row isKindOfClass:[OBABookmarkedRouteRow class]]) {
+                ((OBABookmarkedRouteRow*)row).nextDeparture = matchingDepartures.firstObject;
+            }
+
+            NSIndexPath *indexPath = [self indexPathForRow:row];
+            UITableViewCell<OBATableCell> *cell = (UITableViewCell<OBATableCell> *)[self.tableView cellForRowAtIndexPath:indexPath];
+
+            if (cell) {
+                cell.tableRow = row;
+                [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+
+        }).catch(^(NSError *error) {
+            NSLog(@"Failed to load departure for bookmark: %@", error);
+        });
+    }
 }
 
 #pragma mark -  OBANavigationTargetAware
@@ -103,6 +151,8 @@
     }
 
     self.sections = sections;
+
+    [self refreshBookmarkDepartures:nil];
 
     if (tableReload) {
         [self.tableView reloadData];
@@ -278,6 +328,7 @@
         }
 
         OBABaseRow *row = [self tableRowForBookmark:bm];
+        self.bookmarksToRowsMap[bm] = row;
 
         [rows addObject:row];
     }
@@ -334,15 +385,6 @@
         [self.navigationController pushViewController:controller animated:YES];
     }];
     row.bookmark = bookmark;
-
-    [self.modelService requestStopForID:bookmark.stopId minutesBefore:0 minutesAfter:35].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
-        NSArray<OBAArrivalAndDepartureV2*> *matchingDepartures = [bookmark matchingArrivalsAndDeparturesForStop:response];
-        ((OBABookmarkedRouteRow*)row).nextDeparture = matchingDepartures.firstObject;
-        NSIndexPath *indexPath = [self indexPathForRow:row];
-        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }).catch(^(NSError *error) {
-        NSLog(@"Failed to load departure for bookmark: %@", error);
-    });
 
     [self performCommonBookmarkRowConfiguration:row forBookmark:bookmark];
 

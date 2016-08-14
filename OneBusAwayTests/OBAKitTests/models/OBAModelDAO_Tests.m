@@ -38,6 +38,26 @@
     XCTAssertTrue(self.modelDAO.hideFutureLocationWarnings);
 }
 
+#pragma mark - Bookmark Searching w/ Predicate
+
+- (void)testANilPredicateReturnsEmptyArray {
+    NSPredicate *blah = nil;
+    NSArray *output = [self.modelDAO bookmarksMatchingPredicate:blah];
+    XCTAssertEqualObjects([NSArray array], output);
+}
+
+- (void)testBasicPredicatesWork {
+    OBABookmarkV2 *bookmark = [self generateBookmarkWithName:@"hello"];
+    NSArray *bookmarkArray = @[bookmark];
+    [self.modelDAO saveBookmark:bookmark];
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", bookmark.name];
+
+    NSArray *matches = [self.modelDAO bookmarksMatchingPredicate:predicate];
+
+    XCTAssertEqualObjects(matches, bookmarkArray);
+}
+
 #pragma mark - Bookmarks
 
 - (void)testTransientBookmarksDontTouchPersistenceLayer {
