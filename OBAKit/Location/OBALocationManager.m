@@ -15,7 +15,6 @@
  */
 
 #import "OBALocationManager.h"
-#import "OBALogger.h"
 
 static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 
@@ -141,7 +140,7 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 
             if (interval < kSuccessiveLocationComparisonWindow &&
                 [_currentLocation horizontalAccuracy] < [location horizontalAccuracy]) {
-                OBALogDebug(@"pruning location reading with low accuracy");
+                NSLog(@"pruning location reading with low accuracy");
                 return;
             }
         }

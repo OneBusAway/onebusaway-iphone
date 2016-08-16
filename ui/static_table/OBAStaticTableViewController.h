@@ -35,8 +35,19 @@ typedef NS_ENUM(NSUInteger, OBARootViewStyle) {
 @property(nonatomic,copy,nullable) NSString *emptyDataSetDescription;
 
 - (OBABaseRow*)rowAtIndexPath:(NSIndexPath*)indexPath;
-
 - (nullable NSIndexPath*)indexPathForRow:(OBABaseRow*)row;
+
+/**
+ returns the index path for the row that contains a link
+ to the specified model.
+
+ @param model The model for which you want to find an index path.
+
+ @return The located index path
+ */
+- (nullable NSIndexPath*)indexPathForModel:(id)model;
+
+- (void)replaceRowAtIndexPath:(NSIndexPath*)indexPath withRow:(OBABaseRow*)row;
 @end
 
 NS_ASSUME_NONNULL_END

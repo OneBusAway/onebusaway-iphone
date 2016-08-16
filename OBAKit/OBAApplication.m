@@ -18,6 +18,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 @property (nonatomic, strong, readwrite) OBAModelDAO *modelDao;
 @property (nonatomic, strong, readwrite) OBAModelService *modelService;
 @property (nonatomic, strong, readwrite) OBALocationManager *locationManager;
+@property (nonatomic, strong, readwrite) OBAReachability *reachability;
 @end
 
 @implementation OBAApplication
@@ -48,6 +49,8 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     self.modelService.modelFactory = modelFactory;
 
     self.modelService.locationManager = self.locationManager;
+
+    self.reachability = [OBAReachability reachabilityWithHostname:@"api.onebusaway.org"];
 
     [self refreshSettings];
 }

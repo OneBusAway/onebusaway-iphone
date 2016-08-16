@@ -15,7 +15,6 @@
  */
 
 #import "OBAModelDAO.h"
-#import "OBALogger.h"
 #import "OBACommon.h"
 #import "OBACommonV1.h"
 #import "OBAMacros.h"

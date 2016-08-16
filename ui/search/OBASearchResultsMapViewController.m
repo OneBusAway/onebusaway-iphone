@@ -616,7 +616,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     if (lm.locationServicesEnabled) {
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked My Location Button" value:nil];
-        OBALogDebug(@"setting auto center on current location");
+        NSLog(@"setting auto center on current location");
         self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
         [self refreshCurrentLocation];
     }
@@ -629,7 +629,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)recenterMap {
     if (self.isViewLoaded && self.view.window) {
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"My Location via Map Tab Button" value:nil];
-        OBALogDebug(@"setting auto center on current location (via tab bar)");
+        NSLog(@"setting auto center on current location (via tab bar)");
         self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
         [self refreshCurrentLocation];
     }
@@ -673,7 +673,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     NSUInteger zoomLevel = [OBAMapHelpers zoomLevelForMapRect:self.mapView.visibleMapRect withMapViewSizeInPixels:self.mapView.frame.size];
     BOOL zoomLevelChanged = (ABS((int) self.mostRecentZoomLevel - (int) zoomLevel) >= OBARegionZoomLevelThreshold);
 
-    OBALogDebug(@"scheduleRefreshOfStopsInRegion: %f %d %d", interval, moreAccurateRegion, containedRegion);
+    NSLog(@"scheduleRefreshOfStopsInRegion: %f %d %d", interval, moreAccurateRegion, containedRegion);
 
     if (!moreAccurateRegion && containedRegion && !zoomLevelChanged) {
         NSString *label = [self computeLabelForCurrentResults];
@@ -882,8 +882,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         }
     }
 
-    OBALogDebug(@"Annotations to remove: %@", @(toRemove.count));
-    OBALogDebug(@"Annotations to add: %@", @(toAdd.count));
+    NSLog(@"Annotations to remove: %@", @(toRemove.count));
+    NSLog(@"Annotations to add: %@", @(toAdd.count));
 
     [mapView removeAnnotations:toRemove];
     [mapView addAnnotations:toAdd];
@@ -998,7 +998,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     MKCoordinateRegion region = [self computeRegionForCurrentResults:&needsUpdate];
 
     if (needsUpdate) {
-        OBALogDebug(@"setRegionFromResults");
+        NSLog(@"setRegionFromResults");
         [self.mapRegionManager setRegion:region changeWasProgrammatic:NO];
     }
 }

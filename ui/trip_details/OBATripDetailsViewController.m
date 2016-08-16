@@ -2,7 +2,6 @@
 #import "OBATripScheduleMapViewController.h"
 #import "OBATripScheduleListViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
-#import "OBALogger.h"
 #import "OBAArrivalEntryTableViewCell.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"

@@ -21,6 +21,8 @@
     OBABookmarkedRouteRow *row = [super copyWithZone:zone];
     row->_bookmark = [_bookmark copyWithZone:zone];
     row->_nextDeparture = _nextDeparture;
+    row->_supplementaryMessage = [_supplementaryMessage copyWithZone:zone];
+    row->_state = _state;
 
     return row;
 }

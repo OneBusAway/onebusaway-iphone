@@ -15,7 +15,6 @@
  */
 
 #import "OBAEditStopPreferencesViewController.h"
-#import "OBALogger.h"
 #import "OBARouteV2.h"
 #import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"

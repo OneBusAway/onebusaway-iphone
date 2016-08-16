@@ -23,9 +23,8 @@
 static NSTimeInterval const kRefreshTimerInterval = 30.0;
 
 @interface OBABookmarksViewController ()
-@property(nonatomic,strong) UIRefreshControl *refreshControl;
 @property(nonatomic,strong) NSTimer *refreshBookmarksTimer;
-@property(nonatomic,strong) NSMutableDictionary<OBABookmarkV2*,OBABaseRow*> *bookmarksToRowsMap;
+@property(nonatomic,strong) NSMutableDictionary<OBABookmarkV2*,OBAArrivalAndDepartureV2*> *bookmarksAndDepartures;
 @end
 
 @implementation OBABookmarksViewController
@@ -39,24 +38,19 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
         self.tabBarItem.image = [UIImage imageNamed:@"Bookmarks"];
         self.emptyDataSetTitle = NSLocalizedString(@"No Bookmarks", @"");
         self.emptyDataSetDescription = NSLocalizedString(@"Tap 'Add to Bookmarks' from a stop to save a bookmark to this screen.", @"");
-        _bookmarksToRowsMap = [[NSMutableDictionary alloc] init];
+        _bookmarksAndDepartures = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
 - (void)dealloc {
-    [self.refreshBookmarksTimer invalidate];
-    self.refreshBookmarksTimer = nil;
+    [self cancelTimer];
 }
 
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(refreshData:) forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:self.refreshControl];
 
     self.tableView.estimatedRowHeight = 80.f;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
@@ -70,48 +64,70 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+
     NSMutableString *title = [NSMutableString stringWithString:NSLocalizedString(@"Bookmarks", @"")];
     if (self.currentRegion) {
         [title appendFormat:@" - %@", self.currentRegion.regionName];
     }
     self.navigationItem.title = title;
 
-    self.refreshBookmarksTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimerInterval target:self selector:@selector(refreshBookmarkDepartures:) userInfo:nil repeats:YES];
-
     [self loadData];
+
+    [self startTimer];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
-    [self.refreshBookmarksTimer invalidate];
-    self.refreshBookmarksTimer = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+
+    [self cancelTimer];
 }
 
 #pragma mark - Refresh Bookmarks
 
+- (void)cancelTimer {
+    [self.refreshBookmarksTimer invalidate];
+    self.refreshBookmarksTimer = nil;
+}
+
+- (void)startTimer {
+    self.refreshBookmarksTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimerInterval target:self selector:@selector(refreshBookmarkDepartures:) userInfo:nil repeats:YES];
+    [self refreshBookmarkDepartures:nil];
+}
+
 - (void)refreshBookmarkDepartures:(NSTimer*)timer {
     NSArray<OBABookmarkV2*> *allBookmarks = [self.modelDAO bookmarksMatchingPredicate:[NSPredicate predicateWithFormat:@"%K == %@", NSStringFromSelector(@selector(bookmarkVersion)), @(OBABookmarkVersion260)]];
 
+    NSUInteger minutes = 35;
+
     for (OBABookmarkV2 *bookmark in allBookmarks) {
-        [self.modelService requestStopForID:bookmark.stopId minutesBefore:0 minutesAfter:35].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
+        OBABookmarkedRouteRow *row = [self rowForBookmarkVersion260:bookmark];
+
+        [self.modelService requestStopForID:bookmark.stopId minutesBefore:0 minutesAfter:minutes].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
             NSArray<OBAArrivalAndDepartureV2*> *matchingDepartures = [bookmark matchingArrivalsAndDeparturesForStop:response];
-            OBABaseRow *row = self.bookmarksToRowsMap[bookmark];
+            OBAArrivalAndDepartureV2 *departure = matchingDepartures.firstObject;
 
-            if ([row isKindOfClass:[OBABookmarkedRouteRow class]]) {
-                ((OBABookmarkedRouteRow*)row).nextDeparture = matchingDepartures.firstObject;
+            if (departure) {
+                self.bookmarksAndDepartures[bookmark] = departure;
+                row.supplementaryMessage = nil;
+            }
+            else {
+                row.supplementaryMessage = [NSString stringWithFormat:@"No departure scheduled for the next %@ minutes", @(minutes)];
             }
 
-            NSIndexPath *indexPath = [self indexPathForRow:row];
-            UITableViewCell<OBATableCell> *cell = (UITableViewCell<OBATableCell> *)[self.tableView cellForRowAtIndexPath:indexPath];
-
-            if (cell) {
-                cell.tableRow = row;
-                [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-
+            row.nextDeparture = departure;
+            row.state = OBABookmarkedRouteRowStateComplete;
         }).catch(^(NSError *error) {
             NSLog(@"Failed to load departure for bookmark: %@", error);
+            row.nextDeparture = nil;
+            row.state = OBABookmarkedRouteRowStateError;
+            row.supplementaryMessage = [error localizedDescription];
+        }).finally(^{
+            NSIndexPath *indexPath = [self indexPathForModel:bookmark];
+            [self replaceRowAtIndexPath:indexPath withRow:row];
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         });
     }
 }
@@ -122,14 +138,20 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
     return [OBANavigationTarget target:OBANavigationTargetTypeBookmarks];
 }
 
-#pragma mark - Data Loading
+#pragma mark - Reachability
 
-- (void)refreshData:(UIRefreshControl*)refreshControl {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [refreshControl endRefreshing];
-    });
-    [self loadData];
+- (void)reachabilityChanged:(NSNotification*)note {
+
+    // Automatically refresh whenever the connection goes from offline -> online
+    if ([OBAApplication sharedApplication].reachability.isReachable) {
+        [self startTimer];
+    }
+    else {
+        [self cancelTimer];
+    }
 }
+
+#pragma mark - Data Loading
 
 - (void)loadData {
     [self loadDataWithTableReload:YES];
@@ -151,8 +173,6 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
     }
 
     self.sections = sections;
-
-    [self refreshBookmarkDepartures:nil];
 
     if (tableReload) {
         [self.tableView reloadData];
@@ -328,7 +348,6 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
         }
 
         OBABaseRow *row = [self tableRowForBookmark:bm];
-        self.bookmarksToRowsMap[bm] = row;
 
         [rows addObject:row];
     }
@@ -379,12 +398,13 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
     return row;
 }
 
-- (OBABaseRow*)rowForBookmarkVersion260:(OBABookmarkV2*)bookmark {
+- (OBABookmarkedRouteRow *)rowForBookmarkVersion260:(OBABookmarkV2*)bookmark {
     OBABookmarkedRouteRow *row = [[OBABookmarkedRouteRow alloc] initWithAction:^(OBABaseRow *row){
         OBAStopViewController *controller = [[OBAStopViewController alloc] initWithStopID:bookmark.stopId];
         [self.navigationController pushViewController:controller animated:YES];
     }];
     row.bookmark = bookmark;
+    row.nextDeparture = self.bookmarksAndDepartures[bookmark];
 
     [self performCommonBookmarkRowConfiguration:row forBookmark:bookmark];
 

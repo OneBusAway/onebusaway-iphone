@@ -20,7 +20,6 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBACommon.h>
 #import <OBAKit/OBACommonV1.h>
 #import <OBAKit/OBADateHelpers.h>
-#import <OBAKit/OBALogger.h>
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBAStopIconFactory.h>
 #import <OBAKit/OBAURLHelpers.h>
@@ -97,3 +96,4 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/NSObject+OBADescription.h>
 #import <OBAKit/OBAEmailHelper.h>
 #import <OBAKit/OBAUser.h>
+#import <OBAKit/OBAReachability.h>

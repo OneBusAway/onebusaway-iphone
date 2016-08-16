@@ -116,7 +116,14 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
         reportAppIssue.style = UITableViewCellStyleValue1;
     }
 
-    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"Contact Us", @"") rows:@[contactUs, reportAppIssue]];
+    OBATableRow *makeItBetter = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Help Make OneBusAway Better", @"") action:^{
+        NSURL *URL = [NSURL URLWithString:@"https://www.github.com/onebusaway/onebusaway-iphone"];
+        [[UIApplication sharedApplication] openURL:URL];
+    }];
+
+    OBATableSection *section = [OBATableSection tableSectionWithTitle:NSLocalizedString(@"Contact Us", @"") rows:@[contactUs, reportAppIssue, makeItBetter]];
+
+    return section;
 }
 
 - (OBATableSection*)aboutTableSection {

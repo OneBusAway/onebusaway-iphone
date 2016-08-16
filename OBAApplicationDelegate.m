@@ -18,7 +18,6 @@
 #import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
 #import "OBAApplicationDelegate.h"
 #import "OBANavigationTargetAware.h"
-#import "OBALogger.h"
 
 #import "OBASearchController.h"
 #import "OBAStopViewController.h"
@@ -186,6 +185,8 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     self.active = YES;
 
+    [[OBAApplication sharedApplication].reachability startNotifier];
+
     [self.applicationUI applicationDidBecomeActive];
 
     [GAI sharedInstance].optOut = [[NSUserDefaults standardUserDefaults] boolForKey:kOptOutOfTracking];
@@ -212,6 +213,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     self.active = NO;
+    [[OBAApplication sharedApplication].reachability stopNotifier];
 }
 
 #pragma mark Shortcut Items

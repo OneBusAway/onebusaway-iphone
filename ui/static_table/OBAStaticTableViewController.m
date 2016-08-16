@@ -100,6 +100,28 @@
     return nil;
 }
 
+- (NSIndexPath*)indexPathForModel:(id)model {
+    for (NSInteger i=0; i<self.sections.count; i++) {
+        OBATableSection *section = self.sections[i];
+        for (NSInteger j=0; j<section.rows.count; j++) {
+            OBABaseRow *candidate = section.rows[j];
+
+            if ([candidate.model isEqual:model]) {
+                return [NSIndexPath indexPathForRow:j inSection:i];
+            }
+        }
+    }
+
+    return nil;
+}
+
+- (void)replaceRowAtIndexPath:(NSIndexPath*)indexPath withRow:(OBABaseRow*)row {
+    OBATableSection *section = self.sections[indexPath.section];
+    NSMutableArray *rows = [NSMutableArray arrayWithArray:section.rows];
+    [rows replaceObjectAtIndex:indexPath.row withObject:row];
+    section.rows = [NSArray arrayWithArray:rows];
+}
+
 #pragma mark - UITableView Section Headers
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

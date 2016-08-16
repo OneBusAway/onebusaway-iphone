@@ -72,6 +72,9 @@
 		9320771A1C993A4D005F7D4A /* OBARouteType.h in Headers */ = {isa = PBXBuildFile; fileRef = 932077191C9939F9005F7D4A /* OBARouteType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		932077281C9C84EC005F7D4A /* OBAStaticTableViewController+Builders.m in Sources */ = {isa = PBXBuildFile; fileRef = 932077271C9C84EC005F7D4A /* OBAStaticTableViewController+Builders.m */; };
 		9320772A1C9C85F4005F7D4A /* OBAHasServiceAlerts.h in Headers */ = {isa = PBXBuildFile; fileRef = 932077291C9C85F4005F7D4A /* OBAHasServiceAlerts.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93283CC81D69437600A8180D /* OBALabelActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93283CC71D69437600A8180D /* OBALabelActivityIndicatorView.m */; };
+		93283CCB1D69553700A8180D /* OBAReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 93283CC91D69553700A8180D /* OBAReachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93283CCC1D69553700A8180D /* OBAReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 93283CCA1D69553700A8180D /* OBAReachability.m */; };
 		932BE49D1AB66D320011F2FB /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4931AB66D320011F2FB /* OBAAgenciesListViewController.m */; };
 		932BE49F1AB66D320011F2FB /* OBAInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4971AB66D320011F2FB /* OBAInfoViewController.m */; };
 		932BE4A11AB66D320011F2FB /* OBARegionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE49A1AB66D320011F2FB /* OBARegionListViewController.m */; };
@@ -136,8 +139,6 @@
 		934D00351C83924400A76A90 /* OBADateHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D001A1C83924400A76A90 /* OBADateHelpers.m */; };
 		934D00361C83924400A76A90 /* OBAImageHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D001B1C83924400A76A90 /* OBAImageHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934D00371C83924400A76A90 /* OBAImageHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D001C1C83924400A76A90 /* OBAImageHelpers.m */; };
-		934D00381C83924400A76A90 /* OBALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D001D1C83924400A76A90 /* OBALogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		934D00391C83924400A76A90 /* OBALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D001E1C83924400A76A90 /* OBALogger.m */; };
 		934D003A1C83924400A76A90 /* OBAMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D001F1C83924400A76A90 /* OBAMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934D003B1C83924400A76A90 /* OBAMapHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D00201C83924400A76A90 /* OBAMapHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934D003C1C83924400A76A90 /* OBAMapHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D00211C83924400A76A90 /* OBAMapHelpers.m */; };
@@ -455,6 +456,10 @@
 		932077261C9C84EC005F7D4A /* OBAStaticTableViewController+Builders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OBAStaticTableViewController+Builders.h"; sourceTree = "<group>"; };
 		932077271C9C84EC005F7D4A /* OBAStaticTableViewController+Builders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OBAStaticTableViewController+Builders.m"; sourceTree = "<group>"; };
 		932077291C9C85F4005F7D4A /* OBAHasServiceAlerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAHasServiceAlerts.h; sourceTree = "<group>"; };
+		93283CC61D69437600A8180D /* OBALabelActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALabelActivityIndicatorView.h; sourceTree = "<group>"; };
+		93283CC71D69437600A8180D /* OBALabelActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALabelActivityIndicatorView.m; sourceTree = "<group>"; };
+		93283CC91D69553700A8180D /* OBAReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReachability.h; sourceTree = "<group>"; };
+		93283CCA1D69553700A8180D /* OBAReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReachability.m; sourceTree = "<group>"; };
 		932BE4921AB66D320011F2FB /* OBAAgenciesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgenciesListViewController.h; sourceTree = "<group>"; };
 		932BE4931AB66D320011F2FB /* OBAAgenciesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAgenciesListViewController.m; sourceTree = "<group>"; };
 		932BE4961AB66D320011F2FB /* OBAInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAInfoViewController.h; sourceTree = "<group>"; };
@@ -558,8 +563,6 @@
 		934D001A1C83924400A76A90 /* OBADateHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADateHelpers.m; sourceTree = "<group>"; };
 		934D001B1C83924400A76A90 /* OBAImageHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAImageHelpers.h; sourceTree = "<group>"; };
 		934D001C1C83924400A76A90 /* OBAImageHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAImageHelpers.m; sourceTree = "<group>"; };
-		934D001D1C83924400A76A90 /* OBALogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALogger.h; sourceTree = "<group>"; };
-		934D001E1C83924400A76A90 /* OBALogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALogger.m; sourceTree = "<group>"; };
 		934D001F1C83924400A76A90 /* OBAMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMacros.h; sourceTree = "<group>"; };
 		934D00201C83924400A76A90 /* OBAMapHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapHelpers.h; sourceTree = "<group>"; };
 		934D00211C83924400A76A90 /* OBAMapHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapHelpers.m; sourceTree = "<group>"; };
@@ -570,7 +573,7 @@
 		934D00291C83924400A76A90 /* OBALocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALocationManager.h; sourceTree = "<group>"; };
 		934D002A1C83924400A76A90 /* OBALocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALocationManager.m; sourceTree = "<group>"; };
 		934D002B1C83924400A76A90 /* OBAMapRegionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapRegionManager.h; sourceTree = "<group>"; };
-		934D002C1C83924400A76A90 /* OBAMapRegionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapRegionManager.m; sourceTree = "<group>"; };
+		934D002C1C83924400A76A90 /* OBAMapRegionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAMapRegionManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		934D002D1C83924400A76A90 /* OBARegionChangeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionChangeRequest.h; sourceTree = "<group>"; };
 		934D002E1C83924400A76A90 /* OBARegionChangeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionChangeRequest.m; sourceTree = "<group>"; };
 		934D002F1C83924400A76A90 /* OBASphericalGeometryLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASphericalGeometryLibrary.h; sourceTree = "<group>"; };
@@ -592,9 +595,9 @@
 		934D005D1C83924D00A76A90 /* OBACallMethodJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACallMethodJsonDigesterRule.h; sourceTree = "<group>"; };
 		934D005E1C83924D00A76A90 /* OBACallMethodJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACallMethodJsonDigesterRule.m; sourceTree = "<group>"; };
 		934D005F1C83924D00A76A90 /* OBACreateObjectJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACreateObjectJsonDigesterRule.h; sourceTree = "<group>"; };
-		934D00601C83924D00A76A90 /* OBACreateObjectJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACreateObjectJsonDigesterRule.m; sourceTree = "<group>"; };
+		934D00601C83924D00A76A90 /* OBACreateObjectJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBACreateObjectJsonDigesterRule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		934D00611C83924D00A76A90 /* OBAJsonDigester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAJsonDigester.h; sourceTree = "<group>"; };
-		934D00621C83924D00A76A90 /* OBAJsonDigester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAJsonDigester.m; sourceTree = "<group>"; };
+		934D00621C83924D00A76A90 /* OBAJsonDigester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAJsonDigester.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		934D00631C83924D00A76A90 /* OBASelectorJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASelectorJsonDigesterRule.h; sourceTree = "<group>"; };
 		934D00641C83924D00A76A90 /* OBASelectorJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASelectorJsonDigesterRule.m; sourceTree = "<group>"; };
 		934D00651C83924D00A76A90 /* OBASetCoordinatePropertyJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetCoordinatePropertyJsonDigesterRule.h; sourceTree = "<group>"; };
@@ -604,7 +607,7 @@
 		934D00691C83924D00A76A90 /* OBASetLocationPropertyJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetLocationPropertyJsonDigesterRule.h; sourceTree = "<group>"; };
 		934D006A1C83924D00A76A90 /* OBASetLocationPropertyJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetLocationPropertyJsonDigesterRule.m; sourceTree = "<group>"; };
 		934D006B1C83924D00A76A90 /* OBASetNextOBAJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetNextOBAJsonDigesterRule.h; sourceTree = "<group>"; };
-		934D006C1C83924D00A76A90 /* OBASetNextOBAJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetNextOBAJsonDigesterRule.m; sourceTree = "<group>"; };
+		934D006C1C83924D00A76A90 /* OBASetNextOBAJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBASetNextOBAJsonDigesterRule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		934D006D1C83924D00A76A90 /* OBASetPropertyJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetPropertyJsonDigesterRule.h; sourceTree = "<group>"; };
 		934D006E1C83924D00A76A90 /* OBASetPropertyJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetPropertyJsonDigesterRule.m; sourceTree = "<group>"; };
 		934D006F1C83924D00A76A90 /* OBAProgressIndicatorSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAProgressIndicatorSource.h; sourceTree = "<group>"; };
@@ -1316,6 +1319,8 @@
 		934D00151C83924400A76A90 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				93283CC91D69553700A8180D /* OBAReachability.h */,
+				93283CCA1D69553700A8180D /* OBAReachability.m */,
 				934D00161C83924400A76A90 /* OBACommon.h */,
 				934D00171C83924400A76A90 /* OBACommon.m */,
 				934D00181C83924400A76A90 /* OBACommonV1.h */,
@@ -1323,8 +1328,6 @@
 				934D001A1C83924400A76A90 /* OBADateHelpers.m */,
 				934D001B1C83924400A76A90 /* OBAImageHelpers.h */,
 				934D001C1C83924400A76A90 /* OBAImageHelpers.m */,
-				934D001D1C83924400A76A90 /* OBALogger.h */,
-				934D001E1C83924400A76A90 /* OBALogger.m */,
 				934D001F1C83924400A76A90 /* OBAMacros.h */,
 				934D00201C83924400A76A90 /* OBAMapHelpers.h */,
 				934D00211C83924400A76A90 /* OBAMapHelpers.m */,
@@ -1707,6 +1710,8 @@
 				93AD369B1604027E00BDF03F /* OBAProgressIndicatorImpl.m */,
 				93E0D1A31D57D34E00D9AA63 /* OBAMapActivityIndicatorView.h */,
 				93E0D1A41D57D34E00D9AA63 /* OBAMapActivityIndicatorView.m */,
+				93283CC61D69437600A8180D /* OBALabelActivityIndicatorView.h */,
+				93283CC71D69437600A8180D /* OBALabelActivityIndicatorView.m */,
 			);
 			path = progress;
 			sourceTree = "<group>";
@@ -1838,7 +1843,6 @@
 				936F45001C780E7600C61656 /* OBAKit.h in Headers */,
 				934D01081C83924D00A76A90 /* OBAListWithRangeAndReferencesV2.h in Headers */,
 				934D011A1C83924D00A76A90 /* OBARouteV2.h in Headers */,
-				934D00381C83924400A76A90 /* OBALogger.h in Headers */,
 				934D00D41C83924D00A76A90 /* OBATripStopTimeMapAnnotation.h in Headers */,
 				932076681C95361A005F7D4A /* OBAUIBuilder.h in Headers */,
 				9320772A1C9C85F4005F7D4A /* OBAHasServiceAlerts.h in Headers */,
@@ -1848,6 +1852,7 @@
 				9302B6081CA4CCDA002B6AC7 /* NSArray+OBAAdditions.h in Headers */,
 				93B35AA41D5FCCA70025DA4D /* OBAUser.h in Headers */,
 				9337D6C81D32A85F00D237D6 /* OBAEmailHelper.h in Headers */,
+				93283CCB1D69553700A8180D /* OBAReachability.h in Headers */,
 				9320771A1C993A4D005F7D4A /* OBARouteType.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1930,6 +1935,7 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = THEWY9596Q;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -2216,6 +2222,7 @@
 				93E0D1AB1D57EAAD00D9AA63 /* OBAVibrantBlurContainerView.m in Sources */,
 				939E8E5B1C7B815E008FCA4C /* OBABaseRow.m in Sources */,
 				934446CF1AB12B29005B3333 /* OBARequestDrivenTableViewController.m in Sources */,
+				93283CC81D69437600A8180D /* OBALabelActivityIndicatorView.m in Sources */,
 				934E7EE71D586240003A343D /* OBADrawerUI.m in Sources */,
 				939C23B91D371DE8002A4145 /* OBABookmarkedRouteCell.m in Sources */,
 				936D627F1C8CE24A0070152B /* OBAClassicDepartureCell.m in Sources */,
@@ -2260,9 +2267,9 @@
 				934D010D1C83924D00A76A90 /* OBAPlacemark.m in Sources */,
 				934D01291C83924D00A76A90 /* OBAStopPreferencesV2.m in Sources */,
 				934B62A31CFBA5FA00D8FA85 /* NSObject+OBADescription.m in Sources */,
+				93283CCC1D69553700A8180D /* OBAReachability.m in Sources */,
 				934D00E91C83924D00A76A90 /* OBASetLocationPropertyJsonDigesterRule.m in Sources */,
 				934D01251C83924D00A76A90 /* OBASituationV2.m in Sources */,
-				934D00391C83924400A76A90 /* OBALogger.m in Sources */,
 				934D011B1C83924D00A76A90 /* OBARouteV2.m in Sources */,
 				934D00421C83924400A76A90 /* OBAURLHelpers.m in Sources */,
 				934D01111C83924D00A76A90 /* OBAReferencesV2.m in Sources */,
@@ -2447,6 +2454,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_VERSION = 2.3;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
@@ -2496,6 +2504,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_VERSION = 2.3;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -2972,6 +2981,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_VERSION = 2.3;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = AdHocDistribution;
@@ -3040,6 +3050,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_VERSION = 2.3;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = AppStoreDistribution;

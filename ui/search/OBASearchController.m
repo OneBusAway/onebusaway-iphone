@@ -17,7 +17,6 @@
 #import "OBASearchController.h"
 #import "OBAPlacemark.h"
 #import "OBAProgressIndicatorImpl.h"
-#import "OBALogger.h"
 
 NSString * const OBASearchControllerDidUpdateNotification = @"OBASearchControllerDidUpdateNotification";
 NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserInfoDataKey";

@@ -1,5 +1,4 @@
 #import "OBARequestDrivenTableViewController.h"
-#import "OBALogger.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBACommon.h"
@@ -120,7 +119,7 @@
 }
 
 - (void)refreshFailedWithError:(NSError *)error {
-    OBALogWarningWithError(error, @"Error");
+    NSLog(@"Error: %@", error);
     [_progressView setMessage:@"Error connecting" inProgress:NO progress:0];
     [self didRefreshEnd];
 }

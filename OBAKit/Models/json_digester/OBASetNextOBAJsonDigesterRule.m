@@ -15,8 +15,6 @@
  */
 
 #import "OBASetNextOBAJsonDigesterRule.h"
-#import "OBALogger.h"
-
 
 @implementation OBASetNextOBAJsonDigesterRule
 
@@ -38,7 +36,7 @@
     id<NSObject> b = [context peek:1];
     
     if (context.verbose) {
-        OBALogDebug(@"setNext");
+        NSLog(@"setNext");
     }
 
     if (a && b && [b respondsToSelector:_selector]) {
@@ -49,7 +47,7 @@
 #pragma clang diagnostic pop
     }
     else if (context.verbose) {
-        OBALogDebug(@"setNext selector not supported");
+        NSLog(@"setNext selector not supported");
     }
 }
 
