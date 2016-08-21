@@ -15,7 +15,6 @@
  */
 @import Foundation;
 @import UIKit;
-#import "OBALogger.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

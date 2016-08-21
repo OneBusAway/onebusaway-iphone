@@ -30,6 +30,7 @@
             [btn setImage:[UIImage imageNamed:@"chevron"] forState:UIControlStateNormal];
             btn.titleLabel.font = [OBATheme boldBodyFont];
             btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            btn.titleEdgeInsets = UIEdgeInsetsMake(0, [OBATheme compactPadding], 0, 0);
             [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [btn addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];
             btn.contentEdgeInsets = self.layoutMargins;

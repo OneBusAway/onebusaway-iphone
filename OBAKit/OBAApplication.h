@@ -19,6 +19,7 @@
 #import "OBAModelDAO.h"
 #import "OBAModelService.h"
 #import "OBALocationManager.h"
+#import "OBAReachability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -33,6 +34,7 @@ extern NSString *const kOBAApplicationSettingsRegionRefreshNotification;
 @property (nonatomic, strong, readonly) OBAModelDAO *modelDao;
 @property (nonatomic, strong, readonly) OBAModelService *modelService;
 @property (nonatomic, strong, readonly) OBALocationManager *locationManager;
+@property (nonatomic, strong, readonly) OBAReachability *reachability;
 
 /**
  *  This method should always be used to get an instance of this class.  This class should not be initialized directly.

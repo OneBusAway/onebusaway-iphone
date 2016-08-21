@@ -1,5 +1,4 @@
 #import "OBAReportProblemWithStopViewController.h"
-#import "OBALogger.h"
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"

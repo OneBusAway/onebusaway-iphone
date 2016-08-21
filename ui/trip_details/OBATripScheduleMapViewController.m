@@ -68,7 +68,7 @@ static const NSString *kShapeContext = @"ShapeContext";
         [_progressView setMessage:NSLocalizedString(@"Unknown error", @"message") inProgress:NO progress:0];
     }
     else if (error) {
-        OBALogWarningWithError(error, @"Error");
+        NSLog(@"Error: %@", error);
         [_progressView setMessage:NSLocalizedString(@"Error connecting", @"message") inProgress:NO progress:0];
     }
 }

@@ -20,8 +20,6 @@
 #import "OBASetPropertyJsonDigesterRule.h"
 #import "OBASetNextOBAJsonDigesterRule.h"
 #import "OBASelectorJsonDigesterRule.h"
-#import "OBALogger.h"
-
 
 #pragma mark OBAJsonDigesterContextImpl Interface
 
@@ -157,7 +155,7 @@
     NSString * fullName = [self extendPrefix:prefix withValue:name];
     
     if( _verbose )
-        OBALogDebug(@"path=%@",fullName);
+        NSLog(@"path=%@",fullName);
     
     NSArray * rules = _rulesByPrefix[fullName];
     

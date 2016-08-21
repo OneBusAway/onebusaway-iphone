@@ -15,10 +15,12 @@
 #import <OBAKit/OBAUIBuilder.h>
 #import <OBAKit/OBABookmarkV2.h>
 #import "OBAArrivalAndDepartureSectionBuilder.h"
+#import "OBALabelActivityIndicatorView.h"
 
 @interface OBABookmarkedRouteCell ()
 @property(nonatomic,strong) UILabel *titleLabel;
 @property(nonatomic,strong) OBAClassicDepartureView *departureView;
+@property(nonatomic,strong) OBALabelActivityIndicatorView *activityIndicatorView;
 @end
 
 @implementation OBABookmarkedRouteCell
@@ -39,6 +41,10 @@
         _departureView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:_departureView];
 
+        _activityIndicatorView = [[OBALabelActivityIndicatorView alloc] initWithFrame:CGRectZero];
+        _activityIndicatorView.hidden = YES;
+        [self.contentView addSubview:_activityIndicatorView];
+
         [self setupConstraints];
     }
     return self;
@@ -52,6 +58,11 @@
     [self.departureView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.mas_bottom);
         make.left.right.and.bottom.equalTo(self.contentView).insets(self.layoutMargins);
+        make.height.greaterThanOrEqualTo(@40);
+    }];
+
+    [self.activityIndicatorView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.departureView).insets(self.layoutMargins);
     }];
 }
 
@@ -64,6 +75,8 @@
     self.departureView.destinationLabel.text = nil;
     self.departureView.timeAndStatusLabel.text = nil;
     self.departureView.minutesUntilDepartureLabel.text = nil;
+
+    [self.activityIndicatorView prepareForReuse];
 }
 
 - (void)setTableRow:(OBATableRow *)tableRow
@@ -77,7 +90,18 @@
     self.titleLabel.text = [self tableDataRow].bookmark.name;
 
     if ([self tableDataRow].nextDeparture) {
+        self.activityIndicatorView.hidden = YES;
+        [self.activityIndicatorView stopAnimating];
         self.departureView.classicDepartureRow = [OBAArrivalAndDepartureSectionBuilder createDepartureRow:[self tableDataRow].nextDeparture];
+    }
+    else if ([self tableDataRow].state == OBABookmarkedRouteRowStateLoading) {
+        [self.activityIndicatorView startAnimating];
+        self.activityIndicatorView.hidden = NO;
+    }
+    else { // error state.
+        self.activityIndicatorView.hidden = NO;
+        [self.activityIndicatorView stopAnimating];
+        self.activityIndicatorView.textLabel.text = [self tableDataRow].supplementaryMessage;
     }
 }
 

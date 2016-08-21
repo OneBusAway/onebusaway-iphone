@@ -15,7 +15,6 @@
  */
 
 #import "OBAJsonDataSource.h"
-#import "OBALogger.h"
 #import "JsonUrlFetcherImpl.h"
 
 @interface OBAJsonDataSource ()
