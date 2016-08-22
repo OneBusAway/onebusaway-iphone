@@ -6,6 +6,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAStopV2 : OBAHasReferencesV2 <MKAnnotation,NSCoding,NSCopying>
 
+@property(nonatomic,copy,readonly) NSString *nameWithDirection;
+
 @property (nonatomic, strong) NSString * stopId;
 @property (nonatomic, strong) NSString * name;
 

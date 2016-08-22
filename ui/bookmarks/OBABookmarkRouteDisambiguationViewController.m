@@ -33,21 +33,21 @@
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
 
-    OBATableSection *section = [[OBATableSection alloc] init];
+    OBATableSection *stopSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Bookmark the Stop", @"")];
+    [stopSection addRow:^OBABaseRow *{
+        OBATableRow *row = [[OBATableRow alloc] initWithTitle:self.arrivalsAndDepartures.stop.nameWithDirection action:^{
+            OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithStop:self.arrivalsAndDepartures.stop region:self.region];
+            OBAEditStopBookmarkViewController *bookmarkViewController = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
+            [self.navigationController pushViewController:bookmarkViewController animated:YES];
+        }];
+        row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        return row;
+    }];
 
-    NSMutableSet *representedItems = [NSMutableSet set];
+    OBATableSection *routeSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Bookmark a Route at the Stop", @"")];
 
     for (OBAArrivalAndDepartureV2 *dep in self.arrivalsAndDepartures.arrivalsAndDepartures) {
-
-        // make sure we don't double up bookmarks :-|
-        if ([representedItems containsObject:dep.bookmarkKey]) {
-            continue;
-        }
-        else {
-            [representedItems addObject:dep.bookmarkKey];
-        }
-
-        [section addRow:^OBABaseRow *{
+        [routeSection addRow:^OBABaseRow *{
             OBATableRow *row = [[OBATableRow alloc] initWithTitle:[NSString stringWithFormat:@"%@ - %@", dep.bestAvailableName, dep.tripHeadsign] action:^{
                 OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:dep region:self.region];
                 OBAEditStopBookmarkViewController *bookmarkViewController = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
@@ -57,7 +57,7 @@
             return row;
         }];
     }
-    self.sections = @[section];
+    self.sections = @[stopSection, routeSection];
 }
 
 #pragma mark - Actions
