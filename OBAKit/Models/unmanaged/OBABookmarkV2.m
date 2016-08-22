@@ -25,12 +25,26 @@ static NSString * const kBookmarkVersion = @"bookmarkVersion";
         _routeShortName = [arrivalAndDeparture.routeShortName copy];
         _routeID = [arrivalAndDeparture.routeId copy];
         _tripHeadsign = [arrivalAndDeparture.tripHeadsign copy];
-        _name = stop.direction ? [NSString stringWithFormat:@"%@ [%@]", stop.name,stop.direction] : [stop.name copy];
+        _name = [stop.nameWithDirection copy];
         _stopId = [stop.stopId copy];
         _regionIdentifier = region.identifier;
         _stop = [stop copy];
         _bookmarkVersion = OBABookmarkVersion260;
     }
+    return self;
+}
+
+- (instancetype)initWithStop:(OBAStopV2*)stop region:(OBARegionV2*)region {
+    self = [super init];
+
+    if (self) {
+        _name = [stop.nameWithDirection copy];
+        _stopId = [stop.stopId copy];
+        _regionIdentifier = region.identifier;
+        _stop = [stop copy];
+        _bookmarkVersion = OBABookmarkVersion252;
+    }
+
     return self;
 }
 

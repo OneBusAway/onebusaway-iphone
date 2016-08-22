@@ -28,7 +28,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) NSUInteger sortOrder;
 @property(nonatomic,assign) OBABookmarkVersion bookmarkVersion;
 
+/**
+ Used to create OBABookmarkVersion260-type bookmarks.
+ */
 - (instancetype)initWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture region:(OBARegionV2*)region;
+
+/**
+ Used to create OBABookmarkVersion252-type bookmarks.
+ */
+- (instancetype)initWithStop:(OBAStopV2*)stop region:(OBARegionV2*)region;
 
 /**
  Basically, an -isEqual: for comparing bookmarks to OBAArrivalAndDepartureV2 objects.

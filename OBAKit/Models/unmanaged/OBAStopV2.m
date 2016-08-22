@@ -111,6 +111,14 @@
     return OBARouteTypeUnknown;
 }
 
+- (NSString*)nameWithDirection {
+    if (self.direction) {
+        return [NSString stringWithFormat:@"%@ [%@]", self.name, self.direction];
+    }
+    else {
+        return [self.name copy];
+    }
+}
 
 #pragma mark - MKAnnotation
 
