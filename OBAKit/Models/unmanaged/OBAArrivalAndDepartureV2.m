@@ -208,6 +208,12 @@
     }
 }
 
+#pragma mark - Compare
+
+- (NSComparisonResult)compareRouteName:(OBAArrivalAndDepartureV2*)dep {
+    return [self.routeShortName compare:dep.routeShortName options:NSNumericSearch];
+}
+
 #pragma mark - Bookmarks
 
 - (NSString*)bookmarkKey {
@@ -215,6 +221,33 @@
 }
 
 #pragma mark - NSObject
+
+- (NSUInteger)hash {
+    return [NSString stringWithFormat:@"%@_%@_%@", self.stopId, self.routeId, self.tripHeadsign.lowercaseString].hash;
+}
+
+- (BOOL)isEqual:(OBAArrivalAndDepartureV2*)object {
+    if (![object isKindOfClass:OBAArrivalAndDepartureV2.class]) {
+        return NO;
+    }
+
+    if (![self.stopId isEqual:object.stopId]) {
+        return NO;
+    }
+
+    if (![self.routeId isEqual:object.routeId]) {
+        return NO;
+    }
+
+    // because of the trip headsign munging that sometimes takes place elsewhere in the codebase,
+    // we need to do a case insensitive comparison to ensure that these headsigns match. Ideally,
+    // we wouldn't have to do such a fragile comparison in the first place...
+    if ([self.tripHeadsign compare:object.tripHeadsign options:NSCaseInsensitiveSearch] != NSOrderedSame) {
+        return NO;
+    }
+
+    return YES;
+}
 
 - (NSString*)description {
     return [self oba_description:@[@"routeId", @"route", @"routeShortName", @"tripId", @"trip", @"tripHeadsign", @"serviceDate", @"instance", @"tripInstance", @"stopId", @"stop", @"stopSequence", @"tripStatus", @"frequency", @"predicted", @"scheduledArrivalTime", @"predictedArrivalTime", @"bestArrivalTime", @"scheduledDepartureTime", @"predictedDepartureTime", @"bestDepartureTime", @"distanceFromStop", @"numberOfStopsAway"]];

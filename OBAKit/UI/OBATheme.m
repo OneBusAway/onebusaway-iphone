@@ -31,7 +31,7 @@ static UIFont *_boldFootnoteFont = nil;
 #pragma mark - Appearance Proxies
 
 + (void)setAppearanceProxies {
-    UIColor *tintColor = OBAGREEN;
+    UIColor *tintColor = [self OBAGreen];
     [[UINavigationBar appearance] setTintColor:tintColor];
     [[UISearchBar appearance] setTintColor:tintColor];
     [[UISegmentedControl appearance] setTintColor:tintColor];
@@ -118,6 +118,24 @@ static UIFont *_boldFootnoteFont = nil;
 
 + (UIColor*)mapBookmarkTintColor {
     return [OBATheme colorWithRed:255 green:200 blue:39 alpha:1.f];
+}
+
+#pragma mark - Brand Colors
+
++ (UIColor*)OBAGreen {
+    return [self colorWithRed:121 green:171 blue:55 alpha:1.f];
+}
+
++ (UIColor*)OBAGreenBackground {
+    return [self colorWithRed:242 green:242 blue:224 alpha:.67f];
+}
+
++ (UIColor*)OBAGreenWithAlpha:(CGFloat)alpha {
+    return [[self OBAGreen] colorWithAlphaComponent:alpha];
+}
+
++ (UIColor*)OBADarkGreen {
+    return [self colorWithRed:51 green:102 blue:0 alpha:1.f];
 }
 
 #pragma mark - Named Colors

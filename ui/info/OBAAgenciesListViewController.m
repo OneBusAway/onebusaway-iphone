@@ -179,7 +179,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 {
      if (section == 0) {
         UIView *footer = [[UIView alloc] init];
-        footer.backgroundColor = OBAGREENBACKGROUND;
+        footer.backgroundColor = [OBATheme OBAGreenBackground];
         return footer;
     }
     else {

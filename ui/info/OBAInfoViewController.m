@@ -200,7 +200,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 - (UIView*)buildTableHeaderView {
     UIView *header = [[UIView alloc] initWithFrame:self.view.bounds];
-    header.backgroundColor = OBAGREEN;
+    header.backgroundColor = [OBATheme OBAGreen];
 
     CGRect frame = header.frame;
     frame.size.height = 160.f;

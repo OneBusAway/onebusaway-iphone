@@ -16,7 +16,6 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <OBAKit/PublicHeader.h>
 
-
 #import <OBAKit/OBACommon.h>
 #import <OBAKit/OBACommonV1.h>
 #import <OBAKit/OBADateHelpers.h>
@@ -97,3 +96,8 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAEmailHelper.h>
 #import <OBAKit/OBAUser.h>
 #import <OBAKit/OBAReachability.h>
+#import <OBAKit/OBARouteFilter.h>
+
+// Explicitly UI classes - Maybe part of an eventual OBAUIKit vs OBAFoundation?
+#import <OBAKit/OBATableFooterLabelView.h>
+#import <OBAKit/OBATheme.h>

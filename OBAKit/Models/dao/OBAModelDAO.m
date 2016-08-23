@@ -25,7 +25,7 @@
 #import "OBABookmarkGroup.h"
 
 NSString * const OBAUngroupedBookmarksIdentifier = @"OBAUngroupedBookmarksIdentifier";
-
+NSString * const OBAMostRecentStopsChangedNotification = @"OBAMostRecentStopsChangedNotification";
 const NSInteger kMaxEntriesInMostRecentList = 10;
 
 @interface OBAModelDAO ()

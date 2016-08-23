@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OBATableFooterLabelView.h"
 
 @interface OBAUIBuilder : NSObject
 + (UILabel*)label;
++ (OBATableFooterLabelView*)footerLabelWithText:(NSString*)text tableView:(UITableView*)tableView;
 @end
