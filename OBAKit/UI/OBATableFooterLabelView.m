@@ -25,7 +25,6 @@
         _label.numberOfLines = 0;
         _label.font = [OBATheme footnoteFont];
         _label.textAlignment = NSTextAlignmentCenter;
-        [_label oba_resizeHeightToFit];
 
         CGRect frame = self.frame;
         frame.size.height = CGRectGetMaxY(_label.frame) + self.layoutMargins.bottom;

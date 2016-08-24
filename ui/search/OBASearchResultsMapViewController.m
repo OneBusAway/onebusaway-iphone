@@ -454,7 +454,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
             rightCalloutButton.tintColor = [UIColor blackColor];
         }
         else {
-            rightCalloutButton.tintColor = OBAGREEN;
+            rightCalloutButton.tintColor = [OBATheme OBAGreen];
         }
         rightCalloutButton;
     });
@@ -1227,7 +1227,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)setHighContrastStyle {
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAccessibility action:@"increase_contrast" label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]] value:nil];
 
-    self.searchBar.barTintColor = OBADARKGREEN;
+    self.searchBar.barTintColor = [OBATheme OBADarkGreen];
     self.searchBar.tintColor = [UIColor whiteColor];
 
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
@@ -1235,7 +1235,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 
     self.scopeView.backgroundColor = [UIColor blackColor];
-    self.scopeView.tintColor = OBADARKGREEN;
+    self.scopeView.tintColor = [OBATheme OBADarkGreen];
 }
 
 - (void)setRegularStyle {
@@ -1244,9 +1244,9 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     self.navigationController.navigationBar.barTintColor = nil;
     self.navigationController.tabBarController.tabBar.barTintColor = nil;
-    self.navigationController.navigationBar.tintColor = OBAGREEN;
+    self.navigationController.navigationBar.tintColor = [OBATheme OBAGreen];
 
-    self.scopeView.backgroundColor = OBAGREENWITHALPHA(0.8f);
+    self.scopeView.backgroundColor = [OBATheme OBAGreenWithAlpha:0.8f];
     self.scopeView.tintColor = nil;
 }
 

@@ -25,6 +25,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const OBAUngroupedBookmarksIdentifier;
+extern NSString * const OBAMostRecentStopsChangedNotification;
 
 @interface OBAModelDAO : NSObject
 @property(nonatomic,strong,readonly) NSArray<OBABookmarkV2*> *bookmarksForCurrentRegion;

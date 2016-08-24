@@ -75,6 +75,26 @@
 + (UIColor*)colorWithRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue alpha:(CGFloat)alpha;
 
 /**
+ Formerly known as OBAGREEN.
+ */
++ (UIColor*)OBAGreen;
+
+/**
+ Formerly known as OBAGREENWITHALPHA.
+ */
++ (UIColor*)OBAGreenWithAlpha:(CGFloat)alpha;
+
+/**
+ Formerly known as OBAGREENBACKGROUND. Very, very pale green. Semi-transparent.
+ */
++ (UIColor*)OBAGreenBackground;
+
+/**
+ Formerly known as OBADARKGREEN.
+ */
++ (UIColor*)OBADarkGreen;
+
+/**
  Use this for UI elements that are not enabled or non-interactable.
  */
 + (UIColor*)darkDisabledColor;

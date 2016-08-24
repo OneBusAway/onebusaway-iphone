@@ -103,7 +103,7 @@
     self.stop = result.stop;
 
     if (self.highContrastMode) {
-        self.headerImageView.backgroundColor = OBAGREEN;
+        self.headerImageView.backgroundColor = [OBATheme OBAGreen];
     }
     else {
         MKMapSnapshotter *snapshotter = ({

@@ -17,4 +17,13 @@
     label.minimumScaleFactor = 0.8f;
     return label;
 }
+
++ (OBATableFooterLabelView*)footerLabelWithText:(NSString*)text tableView:(UITableView*)tableView {
+    OBATableFooterLabelView *footerLabel = [[OBATableFooterLabelView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(tableView.frame), 100)];
+    footerLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    footerLabel.label.text = text;
+    [footerLabel resizeToFitText];
+    return footerLabel;
+}
+
 @end

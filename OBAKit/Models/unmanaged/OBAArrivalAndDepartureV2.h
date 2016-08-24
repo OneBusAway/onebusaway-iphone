@@ -79,6 +79,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSInteger)minutesUntilBestDeparture;
 
+- (NSComparisonResult)compareRouteName:(OBAArrivalAndDepartureV2*)dep;
+
 @end
 
 NS_ASSUME_NONNULL_END

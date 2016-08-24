@@ -11,11 +11,16 @@
 
 @class OBAArrivalsAndDeparturesForStopV2;
 @class OBARegionV2;
+@class OBAModelDAO;
+@class OBARouteFilter;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBABookmarkRouteDisambiguationViewController : OBAStaticTableViewController
 @property(nonatomic,strong) OBARegionV2 *region;
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
+@property(nonatomic,strong) OBARouteFilter *routeFilter;
+
 - (instancetype)initWithArrivalsAndDeparturesForStop:(OBAArrivalsAndDeparturesForStopV2*)arrivalsAndDepartures;
 @end
 
