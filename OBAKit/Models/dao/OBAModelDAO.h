@@ -67,14 +67,19 @@ extern NSString * const OBAMostRecentStopsChangedNotification;
 - (BOOL) readSetRegionAutomatically;
 - (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically;
 
+// Recent Stops
+
+- (void)clearMostRecentStops;
+- (void)viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop;
+
+// Custom API
+
 - (NSString*) readCustomApiUrl;
 - (void) writeCustomApiUrl:(NSString*)customApiUrl;
 
 - (void) addCustomApiUrl:(NSString*)customApiUrl;
 
 - (NSString*)normalizedAPIServerURL;
-
-- (void)viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop;
 
 @end
 

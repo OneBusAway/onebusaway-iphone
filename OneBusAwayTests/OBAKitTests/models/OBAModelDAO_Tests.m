@@ -7,12 +7,9 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "OBAModelDAO.h"
+#import <OBAKit/OBAKit.h>
 #import "OBATestHelpers.h"
 #import "OBATestHarnessPersistenceLayer.h"
-#import "OBABookmarkGroup.h"
-#import "OBABookmarkV2.h"
-#import "OBAArrivalAndDepartureV2.h"
 
 @interface OBAModelDAO_Tests : XCTestCase
 @property(nonatomic,strong) OBATestHarnessPersistenceLayer *persistenceLayer;
@@ -569,6 +566,35 @@
 - (void)testNullRegionReturnsEmptyArray {
     self.modelDAO.region = nil;
     XCTAssertEqualObjects(self.modelDAO.bookmarksForCurrentRegion, @[]);
+}
+
+#pragma mark - Most Recent Stops
+
+- (void)testViewingStopAffectsMostRecentStops {
+    OBAStopV2 *stop = [self.class generateStop];
+    [self.modelDAO viewedArrivalsAndDeparturesForStop:stop];
+
+    XCTAssertEqual(1, self.modelDAO.mostRecentStops.count);
+
+}
+
+- (void)testClearingMostRecentStops {
+    OBAStopV2 *stop = [self.class generateStop];
+    [self.modelDAO viewedArrivalsAndDeparturesForStop:stop];
+    [self.modelDAO clearMostRecentStops];
+
+    XCTAssertEqual(0, self.modelDAO.mostRecentStops.count);
+}
+
+- (void)testClearingMostRecentStopsTriggersNotification {
+    OBAStopV2 *stop = [self.class generateStop];
+    [self.modelDAO viewedArrivalsAndDeparturesForStop:stop];
+
+    [self expectationForNotification:OBAMostRecentStopsChangedNotification object:nil handler:nil];
+
+    [self.modelDAO clearMostRecentStops];
+
+    [self waitForExpectationsWithTimeout:5 handler:nil];
 }
 
 #pragma mark - Location
