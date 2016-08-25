@@ -379,20 +379,26 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
 #pragma mark - Stop Viewing
 
+- (void)clearMostRecentStops {
+    [_mostRecentStops removeAllObjects];
+    [_preferencesDao writeMostRecentStops:_mostRecentStops];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBAMostRecentStopsChangedNotification object:nil];
+}
+
 - (void)addStopAccessEvent:(OBAStopAccessEventV2*)event {
 
     OBAStopAccessEventV2 * existingEvent = nil;
 
     NSArray * stopIds = event.stopIds;
 
-    for( OBAStopAccessEventV2 * stopEvent in _mostRecentStops ) {
-        if( [stopEvent.stopIds isEqual:stopIds] ) {
+    for (OBAStopAccessEventV2 * stopEvent in _mostRecentStops) {
+        if ([stopEvent.stopIds isEqual:stopIds]) {
             existingEvent = stopEvent;
             break;
         }
     }
 
-    if( existingEvent ) {
+    if (existingEvent) {
         [_mostRecentStops removeObject:existingEvent];
         [_mostRecentStops insertObject:existingEvent atIndex:0];
     }
@@ -406,14 +412,19 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     existingEvent.subtitle = event.subtitle;
 
     NSInteger over = [_mostRecentStops count] - kMaxEntriesInMostRecentList;
-    for( int i=0; i<over; i++)
+    for (int i=0; i<over; i++) {
         [_mostRecentStops removeObjectAtIndex:([_mostRecentStops count]-1)];
+    }
 
     [_preferencesDao writeMostRecentStops:_mostRecentStops];
     [[NSNotificationCenter defaultCenter] postNotificationName:OBAMostRecentStopsChangedNotification object:nil];
 }
 
 - (void)viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop {
+    OBAGuard(stop) else {
+        return;
+    }
+
     OBAStopAccessEventV2 * event = [[OBAStopAccessEventV2 alloc] init];
     event.stopIds = @[stop.stopId];
     event.title = stop.title;
