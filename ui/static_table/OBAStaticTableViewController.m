@@ -116,9 +116,23 @@
 }
 
 - (void)replaceRowAtIndexPath:(NSIndexPath*)indexPath withRow:(OBABaseRow*)row {
+    OBAGuard(indexPath && row) else {
+        return;
+    }
+
     OBATableSection *section = self.sections[indexPath.section];
+    if (!section) {
+        return;
+    }
+
     NSMutableArray *rows = [NSMutableArray arrayWithArray:section.rows];
-    [rows replaceObjectAtIndex:indexPath.row withObject:row];
+
+    if (indexPath.row < rows.count) {
+        [rows replaceObjectAtIndex:indexPath.row withObject:row];
+    }
+    else {
+        [rows addObject:row];
+    }
     section.rows = [NSArray arrayWithArray:rows];
 }
 
