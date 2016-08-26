@@ -7,6 +7,16 @@
 static const CLLocationAccuracy kSearchRadius = 400;
 static const CLLocationAccuracy kBigSearchRadius = 15000;
 
+/*
+ See https://github.com/OneBusAway/onebusaway-iphone/issues/601
+ for more information on this. In short, the issue is that
+ the route disambiguation UI should always appears when there are
+ multiple routes whose names contain the same search string, but
+ sometimes this doesn't happen. It's a result of routes-for-location
+ searches not having a wide enough radius.
+ */
+static const CLLocationAccuracy kRegionalRadius = 40000;
+
 @implementation OBAModelService
 
 #pragma mark - Promise-based Requests
@@ -167,7 +177,7 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
     CLLocationCoordinate2D coord;
 
     if (region) {
-        radius = MAX(region.radius, kBigSearchRadius);
+        radius = MAX(region.radius, kRegionalRadius);
         coord = region.center;
     }
     else {
