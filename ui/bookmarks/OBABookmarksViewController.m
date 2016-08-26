@@ -126,8 +126,15 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
             row.supplementaryMessage = [error localizedDescription];
         }).finally(^{
             NSIndexPath *indexPath = [self indexPathForModel:bookmark];
-            [self replaceRowAtIndexPath:indexPath withRow:row];
-            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+
+            if (self.sections.count > indexPath.section) {
+                OBATableSection *section = self.sections[indexPath.section];
+
+                if (section.rows.count > indexPath.row) {
+                    [self replaceRowAtIndexPath:indexPath withRow:row];
+                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                }
+            }
         });
     }
 }
