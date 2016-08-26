@@ -8,6 +8,12 @@ If you would like to help test the latest development release, email us at [ipho
 
 See our [contributing guidelines](CONTRIBUTING.md) and [roadmap](https://github.com/OneBusAway/onebusaway-iphone/wiki/Roadmap).
 
+### Picking an appropriate first-time issue
+
+You are welcome to work on any bug or feature you would like, but we know that getting started in a new codebase can be intimidating. To that end, we recommend that you take a look at issues labeled as [Your First PR](https://github.com/OneBusAway/onebusaway-iphone/labels/Your%20First%20PR). These issues are relatively small and self-contained, and should be perfect for anyone who is interested in getting their feet wet with the OneBusAway codebase.
+
+(h/t to Microsoft's [ChakraCore](https://github.com/Microsoft/ChakraCore) project for the idea of the first PR)
+
 ### Development environment setup
 
 1. Install Xcode 7.3.x
