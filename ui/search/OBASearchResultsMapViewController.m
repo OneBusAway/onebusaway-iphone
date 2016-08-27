@@ -1144,6 +1144,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)cancelPressed {
+    self.navigationItem.title = NSLocalizedString(@"Map", @"Map tab title");
     self.navigationItem.titleView = self.titleView;
 
     [self.searchController searchWithTarget:[OBASearch getNavigationTargetForSearchNone]];
