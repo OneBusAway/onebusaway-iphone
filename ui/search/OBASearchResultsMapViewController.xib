@@ -39,8 +39,11 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
             <subviews>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="80">
-                    <rect key="frame" x="20" y="7" width="280" height="30"/>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="80">
+                    <rect key="frame" x="20" y="7.5" width="280" height="29"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="280" id="lxv-XU-Svn"/>
+                    </constraints>
                     <segments>
                         <segment title="Route"/>
                         <segment title="Address"/>
@@ -49,6 +52,10 @@
                 </segmentedControl>
             </subviews>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="80" firstAttribute="centerX" secondItem="79" secondAttribute="centerX" id="PIF-hl-DCZ"/>
+                <constraint firstItem="80" firstAttribute="centerY" secondItem="79" secondAttribute="centerY" id="RgG-Yt-PnR"/>
+            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
