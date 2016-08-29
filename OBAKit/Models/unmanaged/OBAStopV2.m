@@ -69,17 +69,19 @@
 
 - (NSArray<OBARouteV2*>*)routes {
 
-    if (!_routes) {
-        NSMutableArray *routes = [NSMutableArray array];
+    @synchronized (self) {
+        if (!_routes) {
+            NSMutableArray *routes = [NSMutableArray array];
 
-        for (NSString *routeId in _routeIds) {
-            OBARouteV2 *route = [self.references getRouteForId:routeId];
-            [routes addObject:route];
+            for (NSString *routeId in _routeIds) {
+                OBARouteV2 *route = [self.references getRouteForId:routeId];
+                [routes addObject:route];
+            }
+
+            [routes sortUsingSelector:@selector(compareUsingName:)];
+
+            _routes = [[NSArray alloc] initWithArray:routes copyItems:YES];
         }
-
-        [routes sortUsingSelector:@selector(compareUsingName:)];
-
-        _routes = [[NSArray alloc] initWithArray:routes copyItems:YES];
     }
 
     return _routes;
