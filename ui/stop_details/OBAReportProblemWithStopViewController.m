@@ -3,6 +3,7 @@
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
 #import "OBAApplicationDelegate.h"
+#import <OBAKit/OBAKit.h>
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -315,7 +316,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         [self.activityIndicatorView hide];
 
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Submission Successful", @"view.title") message:NSLocalizedString(@"The problem was sucessfully reported. Thank you!", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle") style:UIAlertActionStyleDefault handler:nil]];
+        [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleDefault handler:nil]];
         [self presentViewController:alert animated:YES completion:^{
             //go back to stop view
             NSArray *allViewControllers = self.navigationController.viewControllers;
@@ -331,7 +332,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
                                                             preferredStyle:UIAlertControllerStyleAlert];
 
 
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle") style:UIAlertActionStyleDefault handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleDefault handler:nil]];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", @"view addButtonWithTitle") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [APP_DELEGATE navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
     }]];

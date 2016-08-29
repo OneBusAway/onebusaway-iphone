@@ -23,7 +23,7 @@
 
     self.persistenceLayer = [[OBATestHarnessPersistenceLayer alloc] init];
     self.modelDAO = [[OBAModelDAO alloc] initWithModelPersistenceLayer:self.persistenceLayer];
-    self.modelDAO.region = [OBATestHelpers pugetSoundRegion];
+    self.modelDAO.currentRegion = [OBATestHelpers pugetSoundRegion];
 }
 
 #pragma mark - hideFutureLocationWarnings
@@ -70,7 +70,7 @@
 - (void)testBookmarkForAAndD {
     OBAStopV2 *stop = [self.class generateStop];
     OBAArrivalAndDepartureV2 *arrivalAndDeparture = [self generateArrivalAndDepartureWithStop:stop];
-    OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:arrivalAndDeparture region:self.modelDAO.region];
+    OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:arrivalAndDeparture region:self.modelDAO.currentRegion];
     [self.modelDAO saveBookmark:bookmark];
 
     OBABookmarkV2 *match = [self.modelDAO bookmarkForArrivalAndDeparture:arrivalAndDeparture];
@@ -80,7 +80,7 @@
 - (void)testBookmarkForAAndDInGroup {
     OBAStopV2 *stop = [self.class generateStop];
     OBAArrivalAndDepartureV2 *arrivalAndDeparture = [self generateArrivalAndDepartureWithStop:stop];
-    OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:arrivalAndDeparture region:self.modelDAO.region];
+    OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:arrivalAndDeparture region:self.modelDAO.currentRegion];
     OBABookmarkGroup *group = ({
         OBABookmarkGroup *g = [[OBABookmarkGroup alloc] initWithName:@"yay my group"];
         [g.bookmarks addObject:bookmark];
@@ -547,24 +547,24 @@
 #pragma mark - Region
 
 - (void)testSettingAlreadySetRegion {
-    OBARegionV2 *region = self.modelDAO.region;
-    self.modelDAO.region = region;
-    XCTAssertEqualObjects(self.modelDAO.region, region);
+    OBARegionV2 *region = self.modelDAO.currentRegion;
+    self.modelDAO.currentRegion = region;
+    XCTAssertEqualObjects(self.modelDAO.currentRegion, region);
 }
 
 - (void)testDefaultValueForAutomaticallySetRegion {
     XCTAssertTrue([self.persistenceLayer readSetRegionAutomatically]);
-    XCTAssertTrue(self.modelDAO.readSetRegionAutomatically);
+    XCTAssertTrue(self.modelDAO.automaticallySelectRegion);
 }
 
 - (void)testSettingAutomaticallySetRegion {
-    [self.modelDAO writeSetRegionAutomatically:NO];
-    XCTAssertFalse(self.modelDAO.readSetRegionAutomatically);
+    self.modelDAO.automaticallySelectRegion = NO;
+    XCTAssertFalse(self.modelDAO.automaticallySelectRegion);
     XCTAssertFalse(self.persistenceLayer.readSetRegionAutomatically);
 }
 
 - (void)testNullRegionReturnsEmptyArray {
-    self.modelDAO.region = nil;
+    self.modelDAO.currentRegion = nil;
     XCTAssertEqualObjects(self.modelDAO.bookmarksForCurrentRegion, @[]);
 }
 
@@ -642,7 +642,7 @@
 
 - (OBABookmarkV2*)generateBookmarkWithStop:(OBAStopV2*)stop name:(nullable NSString*)name {
     OBAArrivalAndDepartureV2 *arrivalAndDeparture = [self generateArrivalAndDepartureWithStop:stop];
-    OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:arrivalAndDeparture region:self.modelDAO.region];
+    OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:arrivalAndDeparture region:self.modelDAO.currentRegion];
     bookmark.name = name;
     return bookmark;
 }

@@ -58,6 +58,7 @@ PODS:
   - PromiseKit/MapKit (3.5.0):
     - PromiseKit/CorePromise
   - Pulley (1.0.0)
+  - SMFloatingLabelTextField (0.2.0)
   - SVProgressHUD (2.0.3)
   - SwiftMessages (1.1.1)
 
@@ -75,6 +76,7 @@ DEPENDENCIES:
   - PromiseKit/Foundation (= 3.5.0)
   - PromiseKit/MapKit (= 3.5.0)
   - Pulley (= 1.0.0)
+  - SMFloatingLabelTextField (~> 0.2)
   - SVProgressHUD (= 2.0.3)
   - SwiftMessages (~> 1.1)
 
@@ -89,9 +91,10 @@ SPEC CHECKSUMS:
   OMGHTTPURLRQ: 1e54807cb7d5dbb506926e53498e1e9ac5720c79
   PromiseKit: 3a8a529c0571f8c2c423dba0897ff39bc060bf92
   Pulley: 4dc1d5568d18bdbf9c8cb8d4d7cd0cf76692ddfe
+  SMFloatingLabelTextField: 0ba68e9fbb58186effade627beff866e20bf78fb
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   SwiftMessages: 5419699a94516ddf2af21c0e067f2e7e3c2b6b29
 
-PODFILE CHECKSUM: 08f1d12d31d19c0e7a0e67322e0422ecc371dbd8
+PODFILE CHECKSUM: 146b371a1af34a7a85ccd5f86a42d68cb87b1693
 
 COCOAPODS: 1.1.0.beta.1

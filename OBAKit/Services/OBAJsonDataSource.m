@@ -18,7 +18,6 @@
 #import "JsonUrlFetcherImpl.h"
 
 @interface OBAJsonDataSource ()
-@property(nonatomic,strong) OBADataSourceConfig *config;
 @property(nonatomic,strong) NSHashTable *openConnections;
 @end
 

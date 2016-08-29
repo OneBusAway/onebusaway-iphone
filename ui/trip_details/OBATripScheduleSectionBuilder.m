@@ -21,7 +21,7 @@
     for (OBATripStopTimeV2 *stopTime in schedule.stopTimes) {
         OBAStopV2 *stop = stopTime.stop;
 
-        [stopsSection addRow:^OBABaseRow *{
+        [stopsSection addRowWithBlock:^OBABaseRow *{
             OBATableRow *row = [[OBATableRow alloc] initWithTitle:stop.name action:^{
                 OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stopTime.stopId];
                 [navigationController pushViewController:vc animated:YES];
@@ -58,7 +58,7 @@
     OBATableSection *connectionsSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Connections", @"Connections section at the bottom of the Trip Schedule List view controller")];
 
     if (tripDetails.schedule.previousTrip) {
-        [connectionsSection addRow:^OBABaseRow *{
+        [connectionsSection addRowWithBlock:^OBABaseRow *{
             NSString *labelText = [NSString stringWithFormat:NSLocalizedString(@"Starts as %@", @""), [tripDetails.schedule.previousTrip asLabel]];
             OBATableRow *row = [[OBATableRow alloc] initWithTitle:labelText action:^{
                 OBATripInstanceRef *prevTripInstance = [tripInstance copyWithNewTripId:tripDetails.schedule.previousTripId];
@@ -70,7 +70,7 @@
     }
 
     if (tripDetails.schedule.nextTrip) {
-        [connectionsSection addRow:^OBABaseRow *{
+        [connectionsSection addRowWithBlock:^OBABaseRow *{
             NSString *labelText = [NSString stringWithFormat:NSLocalizedString(@"Continues as %@", @""), [tripDetails.schedule.nextTrip asLabel]];
             OBATableRow *row = [[OBATableRow alloc] initWithTitle:labelText action:^{
                 OBATripInstanceRef *nextTripInstance = [tripInstance copyWithNewTripId:tripDetails.schedule.nextTripId];

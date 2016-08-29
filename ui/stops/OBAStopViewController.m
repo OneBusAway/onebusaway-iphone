@@ -271,7 +271,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     }
     else {
         rowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedString(@"Add Bookmark", @"") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-            OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.region];
+            OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
             OBAEditStopBookmarkViewController *editor = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:editor];
             [self.navigationController presentViewController:nav animated:YES completion:nil];
@@ -293,7 +293,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
         OBABookmarkV2 *bookmark = [self.modelDAO bookmarkForArrivalAndDeparture:dep];
         [self.modelDAO removeBookmark:bookmark];
     }]];
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"") style:UIAlertActionStyleCancel handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alert animated:YES completion:nil];
 }
 

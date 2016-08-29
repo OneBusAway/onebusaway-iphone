@@ -88,6 +88,7 @@
     //
 }
 
+
 - (BOOL)readSetRegionAutomatically {
     return self.automaticallySetRegion;
 }
@@ -96,19 +97,15 @@
     self.automaticallySetRegion = setRegionAutomatically;
 }
 
-- (NSString*)readCustomApiUrl {
-    return nil;
+- (NSSet<OBARegionV2*>*)customRegions {
+    return [NSSet set];
 }
 
-- (void)writeCustomApiUrl:(NSString*)customApiUrl {
+- (void)addCustomRegion:(OBARegionV2*)region {
     //
 }
 
-- (NSArray*)readMostRecentCustomApiUrls {
-    return nil;
-}
-
-- (void)writeMostRecentCustomApiUrls:(NSArray*)customApiUrls {
+- (void)removeCustomRegion:(OBARegionV2*)region {
     //
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "OBATextEditViewController.h"
+#import <OBAKit/OBAKit.h>
 
 static NSInteger const kMaximumCharacters = 255;
 
@@ -65,9 +66,9 @@ static NSInteger const kMaximumCharacters = 255;
     });
     [self.view addSubview:self.textView];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"Cancel button text for a bar button item.") style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:OBAStrings.cancel style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", @"Save button text for a bar button item.") style:UIBarButtonItemStyleDone target:self action:@selector(save:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:OBAStrings.save style:UIBarButtonItemStyleDone target:self action:@selector(save:)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

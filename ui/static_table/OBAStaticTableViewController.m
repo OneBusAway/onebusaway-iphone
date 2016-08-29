@@ -58,6 +58,18 @@
     self.tableView.emptyDataSetDelegate = self;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    [self registerKeyboardNotifications];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+
+    [self unregisterKeyboardNotifications];
+}
+
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
     [self.tableView setEditing:editing animated:animated];
@@ -79,10 +91,17 @@
 #pragma mark - Public Methods
 
 - (OBABaseRow*)rowAtIndexPath:(NSIndexPath*)indexPath {
-    OBATableSection *section = self.sections[indexPath.section];
-    OBABaseRow *row = section.rows[indexPath.row];
+    OBAGuard(indexPath && indexPath.section < self.sections.count) else {
+        return nil;
+    }
 
-    return row;
+    OBATableSection *section = self.sections[indexPath.section];
+
+    OBAGuard(indexPath.row < section.rows.count) else {
+        return nil;
+    }
+
+    return section.rows[indexPath.row];
 }
 
 - (nullable NSIndexPath*)indexPathForRow:(OBABaseRow*)row {
@@ -134,6 +153,21 @@
         [rows addObject:row];
     }
     section.rows = [NSArray arrayWithArray:rows];
+}
+
+- (void)deleteRowAtIndexPath:(NSIndexPath*)indexPath {
+    OBABaseRow *tableRow = [self rowAtIndexPath:indexPath];
+
+    OBAGuard(tableRow.deleteModel) else {
+        return;
+    }
+
+    OBATableSection *section = self.sections[indexPath.section];
+    [section removeRowAtIndex:indexPath.row];
+
+    tableRow.deleteModel();
+
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - UITableView Section Headers
@@ -289,6 +323,34 @@
 {
     // Totally arbitrary value. It just 'looks right'.
     return -44;
+}
+
+#pragma mark - Keyboard Management
+
+/**
+ Adapted from http://stackoverflow.com/a/13163543
+ */
+
+- (void)registerKeyboardNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)unregisterKeyboardNotifications {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)keyboardWasShown:(NSNotification*)aNotification {
+    CGSize kbSize = [aNotification.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(self.tableView.contentInset.top, 0.0, kbSize.height, 0.0);
+    self.tableView.contentInset = contentInsets;
+    self.tableView.scrollIndicatorInsets = contentInsets;
+}
+
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification  {
+    self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top, 0, 0, 0);
+    self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
 }
 
 @end

@@ -7,6 +7,8 @@
 static const CLLocationAccuracy kSearchRadius = 400;
 static const CLLocationAccuracy kBigSearchRadius = 15000;
 
+NSString * const OBAAgenciesWithCoverageAPIPath = @"/api/where/agencies-with-coverage.json";
+
 /*
  See https://github.com/OneBusAway/onebusaway-iphone/issues/601
  for more information on this. In short, the issue is that
@@ -18,6 +20,16 @@ static const CLLocationAccuracy kBigSearchRadius = 15000;
 static const CLLocationAccuracy kRegionalRadius = 40000;
 
 @implementation OBAModelService
+
++ (instancetype)modelServiceWithBaseURL:(NSURL*)URL {
+    OBAModelService *service = [[OBAModelService alloc] init];
+    OBAModelFactory *modelFactory = [OBAModelFactory modelFactory];
+    service.modelFactory = modelFactory;
+    service.references = modelFactory.references;
+    service.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:URL userID:@"test"];
+
+    return service;
+}
 
 #pragma mark - Promise-based Requests
 
@@ -91,6 +103,22 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
             else {
                 resolve(responseData[@"entry"][@"time"]);
             }
+        }];
+    }];
+}
+
+- (AnyPromise*)requestRegions {
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestRegions:^(id responseData, NSUInteger responseCode, NSError *error) {
+            resolve(error ?: [responseData values]);
+        }];
+    }];
+}
+
+- (AnyPromise*)requestAgenciesWithCoverage {
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestAgenciesWithCoverage:^(id responseData, NSUInteger responseCode, NSError *error) {
+            resolve(error ?: [responseData values]);
         }];
     }];
 }
@@ -222,7 +250,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (id<OBAModelServiceRequest>)requestAgenciesWithCoverage:(OBADataSourceCompletion)completion {
     return [self request:self.obaJsonDataSource
-                     url:@"/api/where/agencies-with-coverage.json"
+                     url:OBAAgenciesWithCoverageAPIPath
                     args:nil
                 selector:@selector(getAgenciesWithCoverageV2FromJson:error:)
          completionBlock:completion

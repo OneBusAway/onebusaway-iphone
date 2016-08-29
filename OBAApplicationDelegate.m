@@ -22,8 +22,7 @@
 #import "OBASearchController.h"
 #import "OBAStopViewController.h"
 
-#import "OBARegionListViewController.h"
-#import "OBARegionHelper.h"
+#import "OneBusAway-Swift.h"
 
 #import "OBAAnalytics.h"
 #import "NSArray+OBAAdditions.h"
@@ -33,17 +32,15 @@
 #import "OBAClassicApplicationUI.h"
 #import "OBADrawerUI.h"
 
-static NSString *kOBAShowExperimentalRegionsDefaultsKey = @"kOBAShowExperimentalRegionsDefaultsKey";
 static NSString *const kTrackingId = @"UA-2423527-17";
 static NSString *const kOptOutOfTracking = @"OptOutOfTracking";
 
 static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc9f70ef38378a9d5a15ac7d4926";
 
-@interface OBAApplicationDelegate () <OBABackgroundTaskExecutor>
+@interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate>
 @property (nonatomic, strong) UINavigationController *regionNavigationController;
-@property (nonatomic, strong) OBARegionListViewController *regionListViewController;
+@property (nonatomic, strong) RegionListViewController *regionListViewController;
 @property (nonatomic, readwrite) BOOL active;
-@property (nonatomic, strong) OBARegionHelper *regionHelper;
 @property (nonatomic, strong) id regionObserver;
 @property (nonatomic, strong) id recentStopsObserver;
 @property(nonatomic,strong) id<OBAApplicationUI> applicationUI;
@@ -56,26 +53,21 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
     if (self) {
         _active = NO;
-        _regionHelper = [[OBARegionHelper alloc] init];
 
+        self.regionObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kOBAApplicationSettingsRegionRefreshNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+            [OBAApplication sharedApplication].modelDao.automaticallySelectRegion = YES;
+            [[OBAApplication sharedApplication].regionHelper updateNearestRegion];
+            [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:OBAStringFromBool(YES)];
+        }];
         @weakify(self);
-        self.regionObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kOBAApplicationSettingsRegionRefreshNotification
-                                                                                object:nil
-                                                                                 queue:[NSOperationQueue mainQueue]
-                                                                            usingBlock:^(NSNotification *note) {
-                                                                                @strongify(self);
-                                                                                [self writeSetRegionAutomatically:YES];
-                                                                                [self.regionHelper updateNearestRegion];
-                                                                            }];
-        self.recentStopsObserver = [[NSNotificationCenter defaultCenter] addObserverForName:OBAMostRecentStopsChangedNotification
-                                                                                     object:nil
-                                                                                      queue:[NSOperationQueue mainQueue]
-                                                                                 usingBlock:^(NSNotification *note) {
-                                                                                     @strongify(self);
-                                                                                     [self updateShortcutItemsForRecentStops];
-                                                                                 }];
-        
+        self.recentStopsObserver = [[NSNotificationCenter defaultCenter] addObserverForName:OBAMostRecentStopsChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+            @strongify(self);
+            [self updateShortcutItemsForRecentStops];
+        }];
+
         [[OBAApplication sharedApplication] start];
+
+        [OBAApplication sharedApplication].regionHelper.delegate = self;
     }
 
     return self;
@@ -84,19 +76,6 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self.regionObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self.recentStopsObserver];
-}
-
-- (void)writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
-    [[OBAApplication sharedApplication].modelDao writeSetRegionAutomatically:setRegionAutomatically];
-
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:OBAStringFromBool(setRegionAutomatically)];
-}
-
-- (BOOL)readSetRegionAutomatically {
-    BOOL readSetRegionAuto = [OBAApplication sharedApplication].modelDao.readSetRegionAutomatically;
-
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:OBAStringFromBool(readSetRegionAuto)];
-    return readSetRegionAuto;
 }
 
 - (void)navigateToTarget:(OBANavigationTarget *)navigationTarget {
@@ -116,13 +95,11 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
     self.window.rootViewController = self.applicationUI.rootViewController;
 
-    if ([[OBAApplication sharedApplication].modelDao.readCustomApiUrl isEqualToString:@""]) {
-        if ([OBAApplication sharedApplication].modelDao.readSetRegionAutomatically && [OBAApplication sharedApplication].locationManager.locationServicesEnabled) {
-            [self.regionHelper updateNearestRegion];
-        }
-        else {
-            [self.regionHelper updateRegion];
-        }
+    if ([OBAApplication sharedApplication].modelDao.automaticallySelectRegion && [OBAApplication sharedApplication].locationManager.locationServicesEnabled) {
+        [[OBAApplication sharedApplication].regionHelper updateNearestRegion];
+    }
+    else {
+        [[OBAApplication sharedApplication].regionHelper updateRegion];
     }
 
     [self.window makeKeyAndVisible];
@@ -165,7 +142,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
     self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
 
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:[OBAApplication sharedApplication].modelDao.region.regionName];
+    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:[OBAApplication sharedApplication].modelDao.currentRegion.regionName];
 
     [OBAAnalytics configureVoiceOverStatus];
 
@@ -191,24 +168,11 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
     [GAI sharedInstance].optOut = [[NSUserDefaults standardUserDefaults] boolForKey:kOptOutOfTracking];
 
-    NSString *label = nil;
-    if ([[OBAApplication sharedApplication].modelDao.readCustomApiUrl isEqualToString:@""]) {
-        label = [NSString stringWithFormat:@"API Region: %@", [OBAApplication sharedApplication].modelDao.region.regionName];
-    }
-    else {
-        label = @"API Region: Custom URL";
-    }
+    NSString *label = [NSString stringWithFormat:@"API Region: %@", [OBAApplication sharedApplication].modelDao.currentRegion.regionName];
+
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:label value:nil];
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", OBAStringFromBool([OBAApplication sharedApplication].modelDao.readSetRegionAutomatically)] value:nil];
-
-    BOOL _showExperimentalRegions = NO;
-
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"]) {
-        _showExperimentalRegions = [[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
-    }
-
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Show Experimental Regions: %@", OBAStringFromBool(_showExperimentalRegions)] value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", OBAStringFromBool([OBAApplication sharedApplication].modelDao.automaticallySelectRegion)] value:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -246,6 +210,8 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     [self.applicationUI navigateToTargetInternal:navigationTarget];
 }
 
+#pragma mark - RegionListDelegate
+
 - (void)regionSelected {
     [_regionNavigationController removeFromParentViewController];
     _regionNavigationController = nil;
@@ -257,8 +223,11 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     [self.window makeKeyAndVisible];
 }
 
-- (void)showRegionListViewController {
-    _regionListViewController = [[OBARegionListViewController alloc] init];
+#pragma mark - OBARegionHelperDelegate
+
+- (void)regionHelperShowRegionListController:(OBARegionHelper *)regionHelper {
+    _regionListViewController = [[RegionListViewController alloc] init];
+    _regionListViewController.delegate = self;
     _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:_regionListViewController];
 
     self.window.rootViewController = _regionNavigationController;

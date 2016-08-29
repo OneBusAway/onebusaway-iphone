@@ -12,6 +12,7 @@
 #import <OBAKit/OBABookmarkGroup.h>
 #import <Masonry/Masonry.h>
 #import "OBALabelFooterView.h"
+#import <OBAKit/OBAKit.h>
 #import "UILabel+OBAAdditions.h"
 #import "OBATheme.h"
 #import "OBATableFooterLabelView.h"
@@ -65,8 +66,8 @@
         textField.placeholder = NSLocalizedString(@"Name of Group", @"");
     }];
 
-    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"") style:UIAlertActionStyleCancel handler:nil]];
-    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Save", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
+    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.save style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         OBABookmarkGroup *group = [[OBABookmarkGroup alloc] initWithName:alertController.textFields[0].text];
         [self.modelDAO saveBookmarkGroup:group];
         [self loadData];
@@ -89,8 +90,8 @@
             [alert addTextFieldWithConfigurationHandler:^(UITextField * textField) {
                 textField.text = group.name;
             }];
-            [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"") style:UIAlertActionStyleCancel handler:nil]];
-            [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Save", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
+            [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.save style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 group.name = alert.textFields.firstObject.text;
                 [self.modelDAO persistGroups];
                 [self loadData];

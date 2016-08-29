@@ -206,7 +206,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     OBATableSection *actionsSection = [[OBATableSection alloc] init];
     actionsSection.headerView = [OBASeparatorSectionView new];
 
-    [actionsSection addRow:^OBABaseRow * {
+    [actionsSection addRowWithBlock:^OBABaseRow * {
         OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Report a problem for this trip", @"") action:^{
             OBAReportProblemWithTripViewController *vc = [[OBAReportProblemWithTripViewController alloc] initWithTripInstance:arrivalAndDeparture.tripInstance trip:arrivalAndDeparture.trip];
             vc.currentStopId = arrivalAndDeparture.stopId;
@@ -215,7 +215,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         return tableRow;
     }];
 
-    [actionsSection addRow:^OBABaseRow * {
+    [actionsSection addRowWithBlock:^OBABaseRow * {
         OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Vehicle Info", @"") action:^{
             OBAVehicleDetailsController *vc = [[OBAVehicleDetailsController alloc] initWithVehicleId:arrivalAndDeparture.tripStatus.vehicleId];
             [navigationController pushViewController:vc animated:YES];

@@ -19,6 +19,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 @property (nonatomic, strong, readwrite) OBAModelService *modelService;
 @property (nonatomic, strong, readwrite) OBALocationManager *locationManager;
 @property (nonatomic, strong, readwrite) OBAReachability *reachability;
+@property (nonatomic, strong, readwrite) OBARegionHelper *regionHelper;
 @end
 
 @implementation OBAApplication
@@ -39,7 +40,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 
     id<OBAModelPersistenceLayer> persistence = [[OBAModelDAOUserPreferencesImpl alloc] init];
     self.modelDao = [[OBAModelDAO alloc] initWithModelPersistenceLayer:persistence];
-    self.locationManager = [[OBALocationManager alloc] initWithModelDao:self.modelDao];
+    self.locationManager = [[OBALocationManager alloc] initWithModelDAO:self.modelDao];
 
     self.modelService = [[OBAModelService alloc] init];
     self.modelService.references = self.references;
@@ -51,6 +52,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     self.modelService.locationManager = self.locationManager;
 
     self.reachability = [OBAReachability reachabilityWithHostname:@"api.onebusaway.org"];
+    self.regionHelper = [[OBARegionHelper alloc] init];
 
     [self refreshSettings];
 }
@@ -78,13 +80,13 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 #pragma mark - Crazy App State Refresh Thing
 
 - (void)refreshSettings {
-    NSString *apiServerName = [self.modelDao normalizedAPIServerURL];
+    NSURL *apiURL = [NSURL URLWithString:self.modelDao.currentRegion.obaBaseUrl];
     
-    if (!apiServerName) {
+    if (!apiURL) {
         [[NSNotificationCenter defaultCenter] postNotificationName:kOBAApplicationSettingsRegionRefreshNotification object:nil];
     }
 
-    self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:apiServerName] userID:[OBAUser userIdFromDefaults]];
+    self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:apiURL userID:[OBAUser userIdFromDefaults]];
     self.modelService.googleMapsJsonDataSource = [OBAJsonDataSource googleMapsJSONDataSource];
     self.modelService.obaRegionJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:kOBADefaultRegionApiServerName] userID:[OBAUser userIdFromDefaults]];
 }

@@ -33,10 +33,10 @@ extern NSString * const OBAMostRecentStopsChangedNotification;
 @property(strong,nonatomic,readonly) NSArray<OBABookmarkGroup*> *bookmarkGroups;
 @property(strong,nonatomic,readonly) NSArray<OBAStopAccessEventV2*> * mostRecentStops;
 @property(nonatomic,copy) CLLocation *mostRecentLocation;
-@property(nonatomic,strong,nullable) OBARegionV2 *region;
-@property(strong,nonatomic,readonly) NSArray * mostRecentCustomApiUrls;
+@property(nonatomic,strong,nullable) OBARegionV2 *currentRegion;
 @property(nonatomic,assign) BOOL hideFutureLocationWarnings;
 @property(nonatomic,assign) BOOL ungroupedBookmarksOpen;
+@property(nonatomic,assign) BOOL automaticallySelectRegion;
 
 - (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer;
 
@@ -64,22 +64,16 @@ extern NSString * const OBAMostRecentStopsChangedNotification;
 
 - (OBAServiceAlertsModel*) getServiceAlertsModelForSituations:(NSArray*)situations;
 
-- (BOOL) readSetRegionAutomatically;
-- (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically;
-
 // Recent Stops
 
 - (void)clearMostRecentStops;
 - (void)viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop;
 
-// Custom API
+// Regions
 
-- (NSString*) readCustomApiUrl;
-- (void) writeCustomApiUrl:(NSString*)customApiUrl;
-
-- (void) addCustomApiUrl:(NSString*)customApiUrl;
-
-- (NSString*)normalizedAPIServerURL;
+- (NSArray<OBARegionV2*>*)customRegions;
+- (void)addCustomRegion:(OBARegionV2*)region;
+- (void)removeCustomRegion:(OBARegionV2*)region;
 
 @end
 

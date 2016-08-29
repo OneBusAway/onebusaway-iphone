@@ -35,12 +35,15 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 @property(nonatomic,strong,readwrite) NSMutableArray *mostRecentStops;
 @property(nonatomic,strong,readwrite) NSMutableDictionary *stopPreferences;
 @property(nonatomic,strong) NSMutableSet *visitedSituationIds;
-@property(nonatomic,strong) NSMutableArray *mostRecentCustomApiUrls;
 @end
 
 @implementation OBAModelDAO
 @dynamic hideFutureLocationWarnings;
 @dynamic ungroupedBookmarksOpen;
+@dynamic automaticallySelectRegion;
+
+// i feel like i must be missing something dumb. this shouldn't be required.
+@synthesize currentRegion = _currentRegion;
 
 - (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer {
     self = [super init];
@@ -53,8 +56,6 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
         _stopPreferences = [[NSMutableDictionary alloc] initWithDictionary:[_preferencesDao readStopPreferences]];
         _mostRecentLocation = [_preferencesDao readMostRecentLocation];
         _visitedSituationIds = [[NSMutableSet alloc] initWithSet:[_preferencesDao readVisistedSituationIds]];
-        _region = [_preferencesDao readOBARegion];
-        _mostRecentCustomApiUrls = [[NSMutableArray alloc] initWithArray:[_preferencesDao readMostRecentCustomApiUrls]];
     }
 
     return self;
@@ -69,21 +70,38 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
 #pragma mark - Regions
 
-- (void)setRegion:(OBARegionV2 *)region {
-    if (_region == region) {
-        return;
-    }
-
-    _region = region;
-    [_preferencesDao writeOBARegion:region];
+- (void)setCurrentRegion:(OBARegionV2 *)currentRegion {
+    _currentRegion = currentRegion;
+    [_preferencesDao writeOBARegion:currentRegion];
 }
 
-- (BOOL) readSetRegionAutomatically {
+- (OBARegionV2*)currentRegion {
+    if (!_currentRegion) {
+        _currentRegion = [_preferencesDao readOBARegion];
+    }
+    return _currentRegion;
+}
+
+- (BOOL)automaticallySelectRegion {
     return [_preferencesDao readSetRegionAutomatically];
 }
 
-- (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
-    [_preferencesDao writeSetRegionAutomatically:setRegionAutomatically];
+- (void)setAutomaticallySelectRegion:(BOOL)automaticallySelectRegion {
+    [_preferencesDao writeSetRegionAutomatically:automaticallySelectRegion];
+}
+
+- (NSArray*)customRegions {
+    NSSet *regions = [_preferencesDao customRegions];
+    NSArray *sortedRegions = [regions.allObjects sortedArrayUsingSelector:@selector(compare:)];
+    return sortedRegions;
+}
+
+- (void)addCustomRegion:(OBARegionV2*)region {
+    [_preferencesDao addCustomRegion:region];
+}
+
+- (void)removeCustomRegion:(OBARegionV2*)region {
+    [_preferencesDao removeCustomRegion:region];
 }
 
 #pragma mark - Bookmarks
@@ -129,11 +147,11 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 }
 
 - (NSArray*)bookmarksForCurrentRegion {
-    if (!self.region) {
+    if (!self.currentRegion) {
         return @[];
     }
 
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K IN %@", NSStringFromSelector(@selector(regionIdentifier)), @[@(self.region.identifier)]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K IN %@", NSStringFromSelector(@selector(regionIdentifier)), @[@(self.currentRegion.identifier)]];
     return [self.allBookmarks filteredArrayUsingPredicate:predicate];
 }
 
@@ -481,69 +499,6 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     }
 
     [_preferencesDao writeVisistedSituationIds:_visitedSituationIds];
-}
-
-#pragma mark - Custom API Server
-
-- (void)addCustomApiUrl:(NSString *)customApiUrl {
-
-    if (!customApiUrl) {
-        return;
-    }
-
-    NSString *existingCustomApiUrl = nil;
-
-    for (NSString *recentCustomApiUrl in _mostRecentCustomApiUrls) {
-        if ([recentCustomApiUrl isEqualToString:customApiUrl]) {
-            existingCustomApiUrl = customApiUrl;
-            break;
-        }
-    }
-
-    if (existingCustomApiUrl) {
-        [_mostRecentCustomApiUrls removeObject:existingCustomApiUrl];
-        [_mostRecentCustomApiUrls insertObject:existingCustomApiUrl atIndex:0];
-    }
-    else {
-        [_mostRecentCustomApiUrls insertObject:customApiUrl atIndex:0];
-    }
-
-    NSInteger over = [_mostRecentCustomApiUrls count] - kMaxEntriesInMostRecentList;
-    for (NSInteger i=0; i<over; i++) {
-        [_mostRecentCustomApiUrls removeObjectAtIndex:_mostRecentCustomApiUrls.count - 1];
-    }
-
-    [_preferencesDao writeMostRecentCustomApiUrls:_mostRecentCustomApiUrls];
-}
-
-- (NSString*)normalizedAPIServerURL {
-    NSString *apiServerName = nil;
-
-    if (self.readCustomApiUrl.length > 0) {
-        if ([self.readCustomApiUrl hasPrefix:@"http://"] || [self.readCustomApiUrl hasPrefix:@"https://"]) {
-            apiServerName = self.readCustomApiUrl;
-        }
-        else {
-            apiServerName = [NSString stringWithFormat:@"http://%@", self.readCustomApiUrl];
-        }
-    }
-    else if (self.region) {
-        apiServerName = self.region.obaBaseUrl;
-    }
-
-    if ([apiServerName hasSuffix:@"/"]) {
-        apiServerName = [apiServerName substringToIndex:apiServerName.length - 1];
-    }
-
-    return apiServerName;
-}
-
-- (NSString*)readCustomApiUrl {
-    return [_preferencesDao readCustomApiUrl];
-}
-
-- (void)writeCustomApiUrl:(NSString*)customApiUrl {
-    [_preferencesDao writeCustomApiUrl:customApiUrl];
 }
 
 @end

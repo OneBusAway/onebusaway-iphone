@@ -10,11 +10,12 @@
 #import "OBAAgenciesListViewController.h"
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
-#import "OBARegionListViewController.h"
 #import <SafariServices/SafariServices.h>
 #import <Apptentive/Apptentive.h>
 #import <OBAKit/OBAEmailHelper.h>
 #import "UILabel+OBAAdditions.h"
+#import "OneBusAway-Swift.h"
+#import <OBAKit/OBAKit.h>
 
 static NSString * const kDonateURLString = @"http://onebusaway.org/donate/";
 static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
@@ -78,17 +79,11 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 - (OBATableSection*)settingsTableSection {
 
     OBATableRow *region = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Region", @"") action:^{
-        [self.navigationController pushViewController:[[OBARegionListViewController alloc] init] animated:YES];
+        [self.navigationController pushViewController:[[RegionListViewController alloc] init] animated:YES];
     }];
     region.style = UITableViewCellStyleValue1;
     region.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-    if ([OBAApplication sharedApplication].modelDao.readCustomApiUrl.length == 0) {
-        region.subtitle = [OBAApplication sharedApplication].modelDao.region.regionName;
-    }
-    else {
-        region.subtitle = [OBAApplication sharedApplication].modelDao.readCustomApiUrl;
-    }
+    region.subtitle = [OBAApplication sharedApplication].modelDao.currentRegion.regionName;
 
     OBATableRow *agencies = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Agencies", @"Info Page Agencies Row Title") action:^{
         [self openAgencies];
@@ -165,7 +160,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleAlert];
 
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"Dismiss button for alert.") style:UIAlertActionStyleDefault handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleDefault handler:nil]];
     [self presentViewController:alert animated:YES completion:nil];
 }
 

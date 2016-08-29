@@ -7,9 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <OBAKit/OBAEmailHelper.h>
+#import <OBAKit/OBAKit.h>
 
-#import "OBAModelDAO.h"
 #import "OBATestHelpers.h"
 #import "OBATestHarnessPersistenceLayer.h"
 
@@ -34,11 +33,11 @@ static NSString * const kAppVersion = @"2.6.OBA_SIM";
     [OBAEmailHelper setAppVersion:kAppVersion];
     self.persistenceLayer = [[OBATestHarnessPersistenceLayer alloc] init];
     self.modelDAO = [[OBAModelDAO alloc] initWithModelPersistenceLayer:self.persistenceLayer];
-    self.modelDAO.region = [OBATestHelpers pugetSoundRegion];
+    self.modelDAO.currentRegion = [OBATestHelpers pugetSoundRegion];
 }
 
 - (void)testMessageBodyForModelDAO {
-    CLLocation *location = [[CLLocation alloc] initWithLatitude:45.0 longitude:45.0];
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:45.12 longitude:45.99];
 
     NSString *messageBody = [OBAEmailHelper messageBodyForModelDAO:self.modelDAO currentLocation:location];
     NSString *expectedBody = [OBATestHelpers contentsOfTestFile:@"testMessageBodyForModelDAO.html"];

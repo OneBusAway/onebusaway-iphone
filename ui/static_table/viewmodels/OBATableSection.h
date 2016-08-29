@@ -42,10 +42,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,weak,nullable) id model;
 
 + (instancetype)tableSectionWithTitle:(nullable NSString*)title rows:(NSArray*)rows;
-- (instancetype)initWithTitle:(nullable NSString*)title rows:(NSArray*)rows NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTitle:(nullable NSString*)title rows:(nullable NSArray*)rows NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithTitle:(nullable NSString*)title;
 
-- (void)addRow:(OBABaseRow* (^)(void))addBlock;
+- (void)addRowWithBlock:(OBABaseRow* (^)(void))addBlock;
+- (void)addRow:(OBABaseRow*)row;
+
+- (void)removeRowAtIndex:(NSUInteger)index;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -41,12 +41,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL) readSetRegionAutomatically;
 - (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically;
 
-- (NSString*) readCustomApiUrl;
-- (void) writeCustomApiUrl:(NSString*)customApiUrl;
-
-- (NSArray*) readMostRecentCustomApiUrls;
-- (void) writeMostRecentCustomApiUrls:(NSArray*)customApiUrls;
-
+- (NSSet<OBARegionV2*>*)customRegions;
+- (void)addCustomRegion:(OBARegionV2*)region;
+- (void)removeCustomRegion:(OBARegionV2*)region;
 @end
 
 NS_ASSUME_NONNULL_END

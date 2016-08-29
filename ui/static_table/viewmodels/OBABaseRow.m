@@ -36,6 +36,7 @@
     newRow->_indentationLevel = _indentationLevel;
     newRow->_accessoryType = _accessoryType;
     newRow->_model = _model;
+    newRow->_dataKey = [_dataKey copyWithZone:zone];
 
     return newRow;
 }

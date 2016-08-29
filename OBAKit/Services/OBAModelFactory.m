@@ -43,12 +43,16 @@
 
 static NSString * const kReferences = @"references";
 
+@interface OBAModelFactory ()
+@property(nonatomic,strong,readwrite) OBAReferencesV2 *references;
+@property(nonatomic,strong) NSMutableDictionary *entityIdMappings;
+@end
+
 @interface OBAModelFactory (Private)
 
 - (NSDictionary*) getDigesterParameters;
 
 @end
-
 
 @interface OBAJsonDigester (CustomDigesterRules)
 
@@ -88,8 +92,7 @@ static NSString * const kReferences = @"references";
 
 @implementation OBAModelFactory
 
-- (id) initWithReferences:(OBAReferencesV2*)references {
-    
+- (instancetype)initWithReferences:(OBAReferencesV2*)references {
     self = [super init];
     
     if( self ) {
@@ -97,6 +100,12 @@ static NSString * const kReferences = @"references";
         _entityIdMappings = [[NSMutableDictionary alloc] init];
     }
     return self;
+}
+
++ (instancetype)modelFactory {
+
+    OBAModelFactory *modelFactory = [[OBAModelFactory alloc] initWithReferences:[[OBAReferencesV2 alloc] init]];
+    return modelFactory;
 }
 
 - (OBAEntryWithReferencesV2*) getStopFromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error {
@@ -376,8 +385,6 @@ static NSString * const kReferences = @"references";
 }
 
 - (void) addSituationV2RulesWithPrefix:(NSString*)prefix {
-    
-    
     [self addObjectCreateRule:[OBASituationV2 class] forPrefix:prefix];
     [self addSetPropertyRule:@"situationId" forPrefix:[self extendPrefix:prefix withValue:@"id"]];    
     [self addSetPropertyRule:@"creationTime" forPrefix:[self extendPrefix:prefix withValue:@"creationTime"]];
@@ -438,8 +445,14 @@ static NSString * const kReferences = @"references";
 
 - (void) addAgencyWithCoverageV2RulesWithPrefix:(NSString*)prefix {
     [self addObjectCreateRule:[OBAAgencyWithCoverageV2 class] forPrefix:prefix];
-    [self addSetPropertyRule:@"agencyId" forPrefix:[self extendPrefix:prefix withValue:@"agencyId"]];    
+    [self addSetPropertyRule:@"agencyId" forPrefix:[self extendPrefix:prefix withValue:@"agencyId"]];
     [self addSetCoordinatePropertyRule:@"coordinate" withPrefix:prefix method:OBASetCoordinatePropertyMethodLatLon];
+
+    [self addSetPropertyRule:@"lat" forPrefix:[self extendPrefix:prefix withValue:@"lat"]];
+    [self addSetPropertyRule:@"latSpan" forPrefix:[self extendPrefix:prefix withValue:@"latSpan"]];
+    [self addSetPropertyRule:@"lon" forPrefix:[self extendPrefix:prefix withValue:@"lon"]];
+    [self addSetPropertyRule:@"lonSpan" forPrefix:[self extendPrefix:prefix withValue:@"lonSpan"]];
+
     [self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];
 }
 

@@ -14,6 +14,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString * const OBAAgenciesWithCoverageAPIPath;
+
 @protocol OBAModelServiceRequest <NSObject>
 - (void)cancel;
 @end
@@ -37,10 +39,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) OBALocationManager *locationManager;
 
 /**
+ Convenience method for constructing an entire
+ model service/factory/references stack.
+ */
++ (instancetype)modelServiceWithBaseURL:(NSURL*)URL;
+
+/**
  * Registers a background executor to be used by all services.  This method should not be used by extensions.
  */
 +(void) addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*) executor;
-
 
 - (AnyPromise*)requestStopForID:(NSString*)stopID minutesBefore:(NSUInteger)minutesBefore minutesAfter:(NSUInteger)minutesAfter;
 
@@ -68,6 +75,20 @@ NS_ASSUME_NONNULL_BEGIN
  @return A promise that resolves to an NSNumber object.
  */
 - (AnyPromise*)requestCurrentTime;
+
+/**
+ Retrieves all available OBA regions, including experimental and inactive regions. Returns an array of OBARegionV2 objects.
+ *
+ *  @return A promise that resolves to NSArray<OBARegionV2*>*.
+ */
+- (AnyPromise*)requestRegions;
+
+/**
+ Retrieves all available OBA regions, including experimental and inactive regions. Returns an array of OBARegionV2 objects.
+ *
+ *  @return A promise that resolves to NSArray<OBAAgencyWithCoverageV2*>*.
+ */
+- (AnyPromise*)requestAgenciesWithCoverage;
 
 /**
  *  Makes an asynchronous request to fetch the current server time.

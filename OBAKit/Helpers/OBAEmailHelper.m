@@ -46,26 +46,42 @@ static NSString * appVersion = nil;
     return appVersion;
 }
 
-#pragma mark - Public Methods
-
-+ (NSString*)messageBodyForModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)location {
++ (NSString*)deviceInfo {
     //device model, thanks to http://stackoverflow.com/a/11197770/1233435
     struct utsname systemInfo;
     uname(&systemInfo);
+    NSString *deviceInfo = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
 
-    NSString *unformattedMessageBody = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"feedback_message_body" ofType:@"html"] encoding:NSUTF8StringEncoding error:nil];
+    return deviceInfo;
+}
 
-    NSString *messageBody = [NSString stringWithFormat:unformattedMessageBody,
-                             [self appVersion],
-                             [NSString stringWithCString:systemInfo.machine
-                                                encoding:NSUTF8StringEncoding],
-                             [self OSVersion],
-                             OBAStringFromBool(modelDAO.readSetRegionAutomatically),
-                             modelDAO.region.regionName,
-                             modelDAO.readCustomApiUrl,
-                             location.coordinate.latitude,
-                             location.coordinate.longitude
-                             ];
+#pragma mark - Public Methods
+
++ (NSString*)messageBodyForModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)location {
+
+    NSMutableString *messageBody = [NSMutableString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"feedback_message_body" ofType:@"html"] encoding:NSUTF8StringEncoding error:nil];
+
+    [messageBody replaceOccurrencesOfString:@"{{app_version}}" withString:[self appVersion] options:NSCaseInsensitiveSearch range:NSMakeRange(0, messageBody.length)];
+
+    [messageBody replaceOccurrencesOfString:@"{{device}}" withString:[self deviceInfo] options:NSCaseInsensitiveSearch range:NSMakeRange(0, messageBody.length)];
+
+    [messageBody replaceOccurrencesOfString:@"{{ios_version}}" withString:[self OSVersion] options:NSCaseInsensitiveSearch range:NSMakeRange(0, messageBody.length)];
+
+    [messageBody replaceOccurrencesOfString:@"{{set_region_automatically}}" withString:OBAStringFromBool(modelDAO.automaticallySelectRegion) options:NSCaseInsensitiveSearch range:NSMakeRange(0, messageBody.length)];
+
+    [messageBody replaceOccurrencesOfString:@"{{region_name}}" withString:modelDAO.currentRegion.regionName options:NSCaseInsensitiveSearch range:NSMakeRange(0, messageBody.length)];
+
+    [messageBody replaceOccurrencesOfString:@"{{region_identifier}}" withString:[@(modelDAO.currentRegion.identifier) description] options:NSCaseInsensitiveSearch range:NSMakeRange(0, messageBody.length)];
+
+    [messageBody replaceOccurrencesOfString:@"{{region_base_api_url}}" withString:modelDAO.currentRegion.obaBaseUrl options:NSCaseInsensitiveSearch range:NSMakeRange(0, messageBody.length)];
+
+    NSString *locationString = @"Unknown";
+    if (location) {
+        locationString = [NSString stringWithFormat:@"(%@, %@)", @(location.coordinate.latitude), @(location.coordinate.longitude)];
+    }
+
+    [messageBody replaceOccurrencesOfString:@"{{location}}" withString:locationString options:NSCaseInsensitiveSearch range:NSMakeRange(0, messageBody.length)];
+
     return messageBody;
 }
 
@@ -75,7 +91,7 @@ static NSString * appVersion = nil;
         return nil;
     }
 
-    NSString *emailAddress = modelDAO.region.contactEmail ?: kDefaultEmailAddress;
+    NSString *emailAddress = modelDAO.currentRegion.contactEmail ?: kDefaultEmailAddress;
     NSString *messageBody = [self messageBodyForModelDAO:modelDAO currentLocation:location];
 
     MFMailComposeViewController *composer = [[MFMailComposeViewController alloc] init];

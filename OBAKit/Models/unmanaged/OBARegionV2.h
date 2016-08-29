@@ -11,15 +11,15 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBARegionV2 : NSObject<NSCoding>
-@property(nonatomic,strong) NSString * siriBaseUrl;
-@property(nonatomic,strong) NSString * obaVersionInfo;
-@property(nonatomic,strong) NSString * language;
+@property(nonatomic,copy,nullable) NSString * siriBaseUrl;
+@property(nonatomic,copy,nullable) NSString * obaVersionInfo;
+@property(nonatomic,copy,nullable) NSString * language;
 @property(nonatomic,strong) NSArray * bounds;
-@property(nonatomic,strong) NSString * contactEmail;
-@property(nonatomic,strong) NSString * twitterUrl;
-@property(nonatomic,strong) NSString * obaBaseUrl;
-@property(nonatomic,strong) NSString * facebookUrl;
-@property(nonatomic,strong) NSString * regionName;
+@property(nonatomic,copy,nullable) NSString * contactEmail;
+@property(nonatomic,copy,nullable) NSString * twitterUrl;
+@property(nonatomic,copy) NSString * obaBaseUrl;
+@property(nonatomic,copy,nullable) NSString * facebookUrl;
+@property(nonatomic,copy) NSString * regionName;
 @property(nonatomic,assign) BOOL supportsSiriRealtimeApis;
 @property(nonatomic,assign) BOOL supportsObaRealtimeApis;
 @property(nonatomic,assign) BOOL supportsObaDiscoveryApis;
@@ -27,9 +27,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) BOOL experimental;
 @property(nonatomic,assign) NSInteger identifier;
 
+/**
+ Signifies that this was created in the RegionBuilderViewController
+ */
+@property(nonatomic,assign) BOOL custom;
+
 - (void)addBound:(OBARegionBoundsV2*)bound;
 - (CLLocationDistance)distanceFromLocation:(CLLocation*)location;
 - (MKMapRect)serviceRect;
+
+/**
+ Tests whether this is a valid region object.
+ */
+- (BOOL)validateModel;
 
 @end
 

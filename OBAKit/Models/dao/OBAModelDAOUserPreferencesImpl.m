@@ -15,6 +15,7 @@
  */
 
 #import "OBAModelDAOUserPreferencesImpl.h"
+#import "OBAMacros.h"
 
 NSString * const kBookmarksKey = @"bookmarks";
 NSString * const kBookmarkGroupsKey = @"bookmarkGroups";
@@ -24,9 +25,8 @@ NSString * const kMostRecentLocationKey = @"mostRecentLocation";
 NSString * const kHideFutureLocationWarningsKey = @"hideFutureLocationWarnings";
 NSString * const kVisitedSituationIdsKey = @"hideFutureLocationWarnings";
 NSString * const kOBARegionKey = @"oBARegion";
+NSString * const kCustomRegionsKey = @"customRegions";
 NSString * const kSetRegionAutomaticallyKey = @"setRegionAutomatically";
-NSString * const kCustomApiUrlKey = @"customApiUrl";
-NSString * const kMostRecentCustomApiUrlsKey = @"mostRecentCustomApiUrls";
 NSString * const kUngroupedBookmarksOpenKey = @"UngroupedBookmarksOpen";
 
 @implementation OBAModelDAOUserPreferencesImpl
@@ -98,12 +98,50 @@ NSString * const kUngroupedBookmarksOpenKey = @"UngroupedBookmarksOpen";
     [self.class writeObjectToUserDefaults:situationIds withKey:kVisitedSituationIdsKey];
 }
 
+#pragma mark - Regions
+
 - (OBARegionV2*)readOBARegion {
     return [self.class loadAndDecodeObjectFromDataForKey:kOBARegionKey];
 }
 
 - (void)writeOBARegion:(OBARegionV2 *)region {
     [self.class writeObjectToUserDefaults:region withKey:kOBARegionKey];
+}
+
+- (NSSet<OBARegionV2*>*)customRegions {
+    @synchronized (self) {
+        return [self.class loadAndDecodeObjectFromDataForKey:kCustomRegionsKey] ?: [NSSet set];
+    }
+}
+
+- (void)addCustomRegion:(OBARegionV2*)region {
+    OBAGuard(region) else {
+        return;
+    }
+
+    @synchronized (self) {
+        // n.b. it seems non-optimal to repeat these lines of code from -customRegions,
+        // but I'm more concerned about the effects of nesting @synchronized() directives.
+        NSSet *regions = [self.class loadAndDecodeObjectFromDataForKey:kCustomRegionsKey] ?: [NSSet set];
+        NSMutableSet *set = [NSMutableSet setWithSet:regions];
+        [set addObject:region];
+        [self.class writeObjectToUserDefaults:set withKey:kCustomRegionsKey];
+    }
+}
+
+- (void)removeCustomRegion:(OBARegionV2*)region {
+    OBAGuard(region) else {
+        return;
+    }
+
+    @synchronized (self) {
+        // n.b. it seems non-optimal to repeat these lines of code from -customRegions,
+        // but I'm more concerned about the effects of nesting @synchronized() directives.
+        NSSet *regions = [self.class loadAndDecodeObjectFromDataForKey:kCustomRegionsKey] ?: [NSSet set];
+        NSMutableSet *set = [NSMutableSet setWithSet:regions];
+        [set removeObject:region];
+        [self.class writeObjectToUserDefaults:set withKey:kCustomRegionsKey];
+    }
 }
 
 - (BOOL)readSetRegionAutomatically {
@@ -113,24 +151,6 @@ NSString * const kUngroupedBookmarksOpenKey = @"UngroupedBookmarksOpen";
 - (void)writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
     [[NSUserDefaults standardUserDefaults] setBool:setRegionAutomatically forKey:kSetRegionAutomaticallyKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-// TODO: I think the idea of slinging around an empty string instead of nil here is an
-// incredibly bad idea. But, reworking our custom API support is out of scope for the moment.
-- (NSString*)readCustomApiUrl {
-    return [self.class loadAndDecodeObjectFromDataForKey:kCustomApiUrlKey] ?: @"";
-}
-
-- (void)writeCustomApiUrl:(NSString*)customApiUrl {
-    [self.class writeObjectToUserDefaults:customApiUrl withKey:kCustomApiUrlKey];
-}
-
-- (NSArray*)readMostRecentCustomApiUrls {
-    return [self.class loadAndDecodeObjectFromDataForKey:kMostRecentCustomApiUrlsKey] ?: @[];
-}
-
-- (void)writeMostRecentCustomApiUrls:(NSArray*)customApiUrls {
-    [self.class writeObjectToUserDefaults:customApiUrls withKey:kMostRecentCustomApiUrlsKey];
 }
 
 #pragma mark - (De-)Serialization
