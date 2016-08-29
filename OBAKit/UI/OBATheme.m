@@ -8,6 +8,8 @@
 
 #import "OBATheme.h"
 
+static CGFloat const kMaxFontSize = 24.f;
+
 static UIFont *_bodyFont = nil;
 static UIFont *_boldBodyFont = nil;
 static UIFont *_titleFont = nil;
@@ -46,48 +48,57 @@ static UIFont *_boldFootnoteFont = nil;
 
 + (UIFont*)bodyFont {
     if (!_bodyFont) {
-        _bodyFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+        _bodyFont = [self fontWithTextStyle:UIFontTextStyleBody];
     }
     return _bodyFont;
 }
 
 + (UIFont*)boldBodyFont {
     if (!_boldBodyFont) {
-        UIFontDescriptor *bodyFontDesciptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
-        UIFontDescriptor *boldBodyFontDescriptor = [bodyFontDesciptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
-        _boldBodyFont = [UIFont fontWithDescriptor:boldBodyFontDescriptor size:0.0];
+        _boldBodyFont = [self boldFontWithTextStyle:UIFontTextStyleBody];
     }
     return _boldBodyFont;
 }
 
 + (UIFont*)titleFont {
     if (!_titleFont) {
-        _titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleTitle1];
+        _titleFont = [self fontWithTextStyle:UIFontTextStyleTitle1];
     }
     return _titleFont;
 }
 
 + (UIFont*)subtitleFont {
     if (!_subtitleFont) {
-        _subtitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleTitle2];
+        _subtitleFont = [self fontWithTextStyle:UIFontTextStyleTitle2];
     }
     return _subtitleFont;
 }
 
 + (UIFont*)footnoteFont {
     if (!_footnoteFont) {
-        _footnoteFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _footnoteFont = [self fontWithTextStyle:UIFontTextStyleFootnote];
     }
     return _footnoteFont;
 }
 
 + (UIFont*)boldFootnoteFont {
     if (!_boldFootnoteFont) {
-        UIFontDescriptor *fontDesciptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
-        UIFontDescriptor *boldFontDescriptor = [fontDesciptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
-        _boldFootnoteFont = [UIFont fontWithDescriptor:boldFontDescriptor size:0.0];
+        _boldFootnoteFont = [self boldFontWithTextStyle:UIFontTextStyleFootnote];
     }
     return _boldFootnoteFont;
+}
+
+#pragma mark - Private Font Helpers
+
++ (UIFont*)fontWithTextStyle:(NSString*)textStyle {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:textStyle];
+    return [UIFont fontWithDescriptor:descriptor size:MIN(descriptor.pointSize, kMaxFontSize)];
+}
+
++ (UIFont*)boldFontWithTextStyle:(NSString*)textStyle {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:textStyle];
+    UIFontDescriptor *boldDescriptor = [descriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
+    return [UIFont fontWithDescriptor:boldDescriptor size:MIN(boldDescriptor.pointSize, kMaxFontSize)];
 }
 
 #pragma mark - UIColor
