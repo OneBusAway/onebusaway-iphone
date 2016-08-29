@@ -59,6 +59,7 @@ PODS:
     - PromiseKit/CorePromise
   - Pulley (1.0.0)
   - SVProgressHUD (2.0.3)
+  - SwiftMessages (1.1.1)
 
 DEPENDENCIES:
   - apptentive-ios (= 3.2.1)
@@ -75,6 +76,7 @@ DEPENDENCIES:
   - PromiseKit/MapKit (= 3.5.0)
   - Pulley (= 1.0.0)
   - SVProgressHUD (= 2.0.3)
+  - SwiftMessages (~> 1.1)
 
 SPEC CHECKSUMS:
   apptentive-ios: bb0b126f7d2a3bc87fac843da3a71df7f50d433e
@@ -88,7 +90,8 @@ SPEC CHECKSUMS:
   PromiseKit: 3a8a529c0571f8c2c423dba0897ff39bc060bf92
   Pulley: 4dc1d5568d18bdbf9c8cb8d4d7cd0cf76692ddfe
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
+  SwiftMessages: 5419699a94516ddf2af21c0e067f2e7e3c2b6b29
 
-PODFILE CHECKSUM: b6d4990abcd8045964263109521b8046800a3fe4
+PODFILE CHECKSUM: 08f1d12d31d19c0e7a0e67322e0422ecc371dbd8
 
 COCOAPODS: 1.1.0.beta.1

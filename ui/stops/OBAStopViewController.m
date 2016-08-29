@@ -10,6 +10,7 @@
 #import <OBAKit/OBAKit.h>
 #import <PromiseKit/PromiseKit.h>
 #import <DateTools/DateTools.h>
+#import "OneBusAway-Swift.h"
 #import "OBAStopSectionHeaderView.h"
 #import "OBASeparatorSectionView.h"
 #import "OBAReportProblemViewController.h"
@@ -151,8 +152,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     }
 
     self.navigationItem.title = NSLocalizedString(@"Updating...", @"Title of the Stop UI Controller while it is updating its content.");
-    
-    __block NSString *message = nil;
+
     [[OBAApplication sharedApplication].modelService requestStopForID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
         self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Updated", @"message"), [OBACommon getTimeAsString]];
         [self.modelDAO viewedArrivalsAndDeparturesForStop:response.stop];
@@ -162,8 +162,8 @@ static CGFloat const kTableHeaderHeight = 150.f;
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
         [self.parallaxHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
     }).catch(^(NSError *error) {
-        message = error.localizedDescription ?: NSLocalizedString(@"Error connecting", @"requestDidFail");
-        self.navigationItem.title = message;
+        self.navigationItem.title = NSLocalizedString(@"Error", @"");
+        [AlertPresenter showWarning:NSLocalizedString(@"Error", @"") body:error.localizedDescription ?: NSLocalizedString(@"Error connecting", @"requestDidFail")];
     }).finally(^{
         if (animated) {
             [self.refreshControl endRefreshing];
