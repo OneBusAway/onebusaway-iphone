@@ -28,6 +28,7 @@ target 'OneBusAway' do
   pod 'DZNEmptyDataSet', '1.8.1'
   pod 'apptentive-ios', '3.2.1'
   pod 'Pulley', '1.0.0'
+  pod 'SwiftMessages', '~> 1.1'
 
   pod_promise_kit
 

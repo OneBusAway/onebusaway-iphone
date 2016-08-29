@@ -128,6 +128,7 @@
 		934446D91AB12C5D005B3333 /* OBAModalActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446D61AB12C5D005B3333 /* OBAModalActivityIndicator.m */; };
 		934446DA1AB12C5D005B3333 /* OBAProgressIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446D81AB12C5D005B3333 /* OBAProgressIndicatorView.m */; };
 		9347860E1D3453E9002A5627 /* sandiego.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 9347860D1D3453E9002A5627 /* sandiego.gpx */; };
+		9347B0631D73CB5C00DFBEE0 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9347B0621D73CB5C00DFBEE0 /* AlertPresenter.swift */; };
 		934B62971CF825D200D8FA85 /* OBATripScheduleSectionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 934B62961CF825D200D8FA85 /* OBATripScheduleSectionBuilder.m */; };
 		934B62A21CFBA5FA00D8FA85 /* NSObject+OBADescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 934B62A01CFBA5FA00D8FA85 /* NSObject+OBADescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934B62A31CFBA5FA00D8FA85 /* NSObject+OBADescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 934B62A11CFBA5FA00D8FA85 /* NSObject+OBADescription.m */; };
@@ -554,6 +555,7 @@
 		934446D71AB12C5D005B3333 /* OBAProgressIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAProgressIndicatorView.h; sourceTree = "<group>"; };
 		934446D81AB12C5D005B3333 /* OBAProgressIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAProgressIndicatorView.m; sourceTree = "<group>"; };
 		9347860D1D3453E9002A5627 /* sandiego.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sandiego.gpx; sourceTree = "<group>"; };
+		9347B0621D73CB5C00DFBEE0 /* AlertPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		934B62951CF825D200D8FA85 /* OBATripScheduleSectionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripScheduleSectionBuilder.h; sourceTree = "<group>"; };
 		934B62961CF825D200D8FA85 /* OBATripScheduleSectionBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripScheduleSectionBuilder.m; sourceTree = "<group>"; };
 		934B62A01CFBA5FA00D8FA85 /* NSObject+OBADescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+OBADescription.h"; sourceTree = "<group>"; };
@@ -1737,6 +1739,7 @@
 			isa = PBXGroup;
 			children = (
 				93F64E951BE5ACC300323527 /* OBAAlerts.h */,
+				9347B0621D73CB5C00DFBEE0 /* AlertPresenter.swift */,
 				93F64E961BE5ACC300323527 /* OBAAlerts.m */,
 			);
 			path = alerts;
@@ -1933,6 +1936,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = OBA;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = OneBusAway;
 				TargetAttributes = {
@@ -2187,6 +2191,7 @@
 				932076621C940519005F7D4A /* OBASegmentedRow.m in Sources */,
 				934446B51AB10E67005B3333 /* UINavigationController+oba_Additions.m in Sources */,
 				932BE4BF1AB66D5C0011F2FB /* OBAReportProblemWithStopViewController.m in Sources */,
+				9347B0631D73CB5C00DFBEE0 /* AlertPresenter.swift in Sources */,
 				932BE4CE1AB66D710011F2FB /* OBAReportProblemWithTripViewController.m in Sources */,
 				932BE4FB1AB66EDD0011F2FB /* OBAVehicleDetailsController.m in Sources */,
 				936D2EED1C7A3BAB0060B7E1 /* OBATableViewCell.m in Sources */,
@@ -2414,6 +2419,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_VARIANTS = normal;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -2458,6 +2464,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 2.3;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2469,6 +2476,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -2950,6 +2958,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -3022,6 +3031,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
