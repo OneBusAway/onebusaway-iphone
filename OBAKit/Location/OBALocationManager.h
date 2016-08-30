@@ -30,19 +30,11 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@interface OBALocationManager : NSObject <CLLocationManagerDelegate> {
+@interface OBALocationManager : NSObject <CLLocationManagerDelegate>
+@property(nonatomic,copy,readonly) CLLocation * currentLocation;
+@property(nonatomic,assign,readonly) BOOL locationServicesEnabled;
 
-    OBAModelDAO * _modelDao;
-    CLLocationManager * _locationManager;
-    NSMutableArray * _delegates;
-    
-    CLLocation * _currentLocation;
-}
-
-- (id) initWithModelDao:(OBAModelDAO*)modelDao;
-
-@property (nonatomic,strong) CLLocation * currentLocation;
-@property (readonly, nonatomic) BOOL locationServicesEnabled;
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO;
 
 - (void)addDelegate:(id<OBALocationManagerDelegate>)delegate;
 - (void)removeDelegate:(id<OBALocationManagerDelegate>)delegate;

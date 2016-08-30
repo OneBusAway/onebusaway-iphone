@@ -270,6 +270,8 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
 
 #pragma mark - Table Row Deletion
 
+// TODO: get rid of this and use the newly built-in feature on OBAStaticTableViewController
+// to handle row deletion instead!
 - (void)deleteRowAtIndexPath:(NSIndexPath*)indexPath tableView:(UITableView*)tableView {
     OBATableSection *tableSection = self.sections[indexPath.section];
     OBATableRow *tableRow = tableSection.rows[indexPath.row];
@@ -292,7 +294,7 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
 #pragma mark - Accessors
 
 - (OBARegionV2*)currentRegion {
-    return [OBAApplication sharedApplication].modelDao.region;
+    return [OBAApplication sharedApplication].modelDao.currentRegion;
 }
 
 - (OBAModelDAO*)modelDAO {

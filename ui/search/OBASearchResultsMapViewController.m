@@ -170,8 +170,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         [self refreshStopsInRegion];
     }
     
-    if ([OBAApplication sharedApplication].modelDao.region.regionName) {
-        self.searchBar.placeholder = [NSString stringWithFormat:NSLocalizedString(@"Search %@",@"Search {Region Name}"), [OBAApplication sharedApplication].modelDao.region.regionName];
+    if ([OBAApplication sharedApplication].modelDao.currentRegion.regionName) {
+        self.searchBar.placeholder = [NSString stringWithFormat:NSLocalizedString(@"Search %@",@"Search {Region Name}"), [OBAApplication sharedApplication].modelDao.currentRegion.regionName];
     }
     else {
         self.searchBar.placeholder = NSLocalizedString(@"Search", @"");
@@ -345,7 +345,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error connecting", @"self.navigationItem.title") message:NSLocalizedString(@"There was a problem with your Internet connection.\r\n\r\nPlease check your network connection or contact us if you think the problem is on our end.", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
 
-        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"") style:UIAlertActionStyleCancel handler:nil]];
+        [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleCancel handler:nil]];
         [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [APP_DELEGATE navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
         }]];
@@ -366,7 +366,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)locationManager:(OBALocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-    if (status != kCLAuthorizationStatusNotDetermined && status != kCLAuthorizationStatusRestricted && status != kCLAuthorizationStatusDenied) {
+    if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
         self.mapView.showsUserLocation = YES;
     }
 }
@@ -766,7 +766,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     [self checkResults];
 
-    if (self.doneLoadingMap && [OBAApplication sharedApplication].modelDao.region && [self outOfServiceArea]) {
+    if (self.doneLoadingMap && [OBAApplication sharedApplication].modelDao.currentRegion && [self outOfServiceArea]) {
         [self showOutOfRangeAlert];
     }
 }
@@ -808,7 +808,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         return;
     }
 
-    NSString *regionName = [OBAApplication sharedApplication].modelDao.region.regionName;
+    NSString *regionName = [OBAApplication sharedApplication].modelDao.currentRegion.regionName;
 
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Go to %@?", @"Out of range alert title"), regionName]
                                                                    message:[NSString stringWithFormat:NSLocalizedString(@"You are out of the %@ service area. Go there now?", @"Out of range alert message"), regionName]
@@ -821,7 +821,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Yes", @"Out of range alert OK button") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: YES" value:nil];
-        MKMapRect serviceRect = [[OBAApplication sharedApplication].modelDao.region serviceRect];
+        MKMapRect serviceRect = [[OBAApplication sharedApplication].modelDao.currentRegion serviceRect];
         [self.mapRegionManager setRegion:MKCoordinateRegionForMapRect(serviceRect)];
     }]];
 
@@ -986,7 +986,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
             break;
     }
 
-    if ([OBAApplication sharedApplication].modelDao.region && [self outOfServiceArea]) {
+    if ([OBAApplication sharedApplication].modelDao.currentRegion && [self outOfServiceArea]) {
         return NSLocalizedString(@"Out of OneBusAway service area", @"result.outOfRange");
     }
 
@@ -1134,7 +1134,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
                                                                    message:[NSString stringWithFormat:@"%@ %@", prompt, NSLocalizedString(@"See the list of supported transit agencies.", @"view.message")]
                                                             preferredStyle:UIAlertControllerStyleAlert];
 
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"") style:UIAlertActionStyleCancel handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleCancel handler:nil]];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Agencies", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         OBANavigationTarget *target = [OBANavigationTarget target:OBANavigationTargetTypeAgencies];
         [APP_DELEGATE navigateToTarget:target];
@@ -1170,7 +1170,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (BOOL)outOfServiceArea {
-    return [OBAMapHelpers visibleMapRect:self.mapView.visibleMapRect isOutOfServiceArea:[OBAApplication sharedApplication].modelDao.region.bounds];
+    return [OBAMapHelpers visibleMapRect:self.mapView.visibleMapRect isOutOfServiceArea:[OBAApplication sharedApplication].modelDao.currentRegion.bounds];
 }
 
 - (BOOL)checkStopsInRegion {

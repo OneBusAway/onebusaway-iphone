@@ -30,7 +30,7 @@
 
     self.persistenceLayer = [[OBATestHarnessPersistenceLayer alloc] init];
     self.modelDAO = [[OBAModelDAO alloc] initWithModelPersistenceLayer:self.persistenceLayer];
-    self.modelDAO.region = [OBATestHelpers pugetSoundRegion];
+    self.modelDAO.currentRegion = [OBATestHelpers pugetSoundRegion];
 }
 
 - (void)testMigratingBookmarkWithStopIDsArray {

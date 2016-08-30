@@ -38,6 +38,15 @@ typedef NS_ENUM(NSUInteger, OBARootViewStyle) {
 - (nullable NSIndexPath*)indexPathForRow:(OBABaseRow*)row;
 
 /**
+ n.b. This requires you to set a `deleteModel` block on your row.
+
+ Removes the row at indexPath from section[section].rows[row],
+ performs table view row deletion animations, and calls the 
+ deleteModel block of the row.
+ */
+- (void)deleteRowAtIndexPath:(NSIndexPath*)indexPath;
+
+/**
  returns the index path for the row that contains a link
  to the specified model.
 

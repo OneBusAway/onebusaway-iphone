@@ -75,7 +75,7 @@
 
     for (OBAStopAccessEventV2* stop in [OBAApplication sharedApplication].modelDao.mostRecentStops) {
 
-        [section addRow:^OBABaseRow*{
+        [section addRowWithBlock:^OBABaseRow*{
             OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:stop.title action:^{
                 OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stop.stopIds[0]];
                 [self.navigationController pushViewController:vc animated:YES];

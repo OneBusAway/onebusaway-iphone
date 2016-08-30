@@ -52,7 +52,19 @@
     return [NSArray arrayWithArray:_rows];
 }
 
-- (void)addRow:(OBABaseRow* (^)(void))addBlock {
+- (void)addRowWithBlock:(OBABaseRow* (^)(void))addBlock {
     [_rows addObject:addBlock()];
+}
+
+- (void)addRow:(OBABaseRow*)row {
+    [_rows addObject:row];
+}
+
+- (void)removeRowAtIndex:(NSUInteger)index {
+    OBAGuard(index < self.rows.count) else {
+        return;
+    }
+
+    [_rows removeObjectAtIndex:index];
 }
 @end

@@ -15,7 +15,7 @@
  */
 
 #import "OBANavigationTarget.h"
-#import "GAI.h"
+#import <GoogleAnalytics/GAITracker.h>
 #import "OBAApplication.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -23,23 +23,14 @@ NS_ASSUME_NONNULL_BEGIN
 @class OBASearchResultsMapViewController;
 @class OBARecentStopsViewController;
 @class OBAInfoViewController;
-@class OBARegionListViewController;
 
 @interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate>
-@property(nonatomic, strong) UIWindow *window;
+@property(nonatomic,strong) UIWindow *window;
 @property(nonatomic,readonly) BOOL active;
-
 @property(nonatomic, strong) id<GAITracker> tracker;
 
-- (void) navigateToTarget:(OBANavigationTarget*)navigationTarget;
-- (void) regionSelected;
-- (void) showRegionListViewController;
-
-/**
- * Abstracts OBAModelDAO setters / getters and calls the appropriate analytics methods.
- */
-- (void)writeSetRegionAutomatically:(BOOL) setRegionAutomatically;
-- (BOOL)readSetRegionAutomatically;
+- (void)navigateToTarget:(OBANavigationTarget*)navigationTarget;
+- (void)regionSelected;
 @end
 
 NS_ASSUME_NONNULL_END

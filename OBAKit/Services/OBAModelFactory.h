@@ -23,12 +23,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAModelFactory : NSObject {
-    OBAReferencesV2 * _references;
-    NSMutableDictionary * _entityIdMappings;
-}
+@interface OBAModelFactory : NSObject
+@property(nonatomic,strong,readonly) OBAReferencesV2 *references;
 
-- (id) initWithReferences:(OBAReferencesV2*)references;
+- (instancetype)initWithReferences:(OBAReferencesV2*)references;
+
+/**
+ Convenience initializer with `references` plumbed in.
+ */
++ (instancetype)modelFactory;
 
 - (OBAListWithRangeAndReferencesV2*) getRoutesV2FromJSON:(NSDictionary*)jsonArray error:(NSError**)error;
 

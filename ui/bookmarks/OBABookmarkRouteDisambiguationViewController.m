@@ -33,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:OBAStrings.cancel style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
 
     [self loadData];
 }
@@ -55,7 +55,7 @@
 
 - (OBARegionV2*)region {
     if (!_region) {
-        _region = self.modelDAO.region;
+        _region = self.modelDAO.currentRegion;
     }
     return _region;
 }
@@ -72,7 +72,7 @@
 
 - (void)loadData {
     OBATableSection *stopSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Bookmark the Stop", @"")];
-    [stopSection addRow:^OBABaseRow *{
+    [stopSection addRowWithBlock:^OBABaseRow *{
         OBATableRow *row = [[OBATableRow alloc] initWithTitle:self.arrivalsAndDepartures.stop.nameWithDirection action:^{
             OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithStop:self.arrivalsAndDepartures.stop region:self.region];
             OBAEditStopBookmarkViewController *bookmarkViewController = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
@@ -85,7 +85,7 @@
     OBATableSection *routeSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Bookmark a Route at Stop", @"")];
 
     if (self.routeFilter.hasFilteredRoutes) {
-        [routeSection addRow:^OBABaseRow *{
+        [routeSection addRowWithBlock:^OBABaseRow *{
             OBASegmentedRow *segmentedRow = [[OBASegmentedRow alloc] initWithSelectionChange:^(NSUInteger selectedIndex) {
                 self.routeFilter.showFilteredRoutes = !self.routeFilter.showFilteredRoutes;
                 [self loadData];
@@ -110,7 +110,7 @@
         }
         [set addObject:dep];
 
-        [routeSection addRow:^OBABaseRow *{
+        [routeSection addRowWithBlock:^OBABaseRow *{
             OBATableRow *row = [[OBATableRow alloc] initWithTitle:[NSString stringWithFormat:@"%@ - %@", dep.bestAvailableName, dep.tripHeadsign] action:^{
                 OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:dep region:self.region];
                 OBAEditStopBookmarkViewController *bookmarkViewController = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];

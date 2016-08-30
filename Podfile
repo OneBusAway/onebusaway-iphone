@@ -29,6 +29,7 @@ target 'OneBusAway' do
   pod 'apptentive-ios', '3.2.1'
   pod 'Pulley', '1.0.0'
   pod 'SwiftMessages', '~> 1.1'
+  pod 'SMFloatingLabelTextField', '~> 0.2'
 
   pod_promise_kit
 

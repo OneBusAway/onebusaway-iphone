@@ -20,21 +20,22 @@
 #import "OBAModelService.h"
 #import "OBALocationManager.h"
 #import "OBAReachability.h"
+#import "OBARegionHelper.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  This notification is posted in refernce to a specific refreshSettings event, specifically when modelDao does not have an assigned region.
+ *  This notification is posted in reference to a specific refreshSettings event, specifically when modelDao does not have an assigned region.
  */
 extern NSString *const kOBAApplicationSettingsRegionRefreshNotification;
 
 @interface OBAApplication : NSObject
-
 @property (nonatomic, strong, readonly) OBAReferencesV2 *references;
 @property (nonatomic, strong, readonly) OBAModelDAO *modelDao;
 @property (nonatomic, strong, readonly) OBAModelService *modelService;
 @property (nonatomic, strong, readonly) OBALocationManager *locationManager;
 @property (nonatomic, strong, readonly) OBAReachability *reachability;
+@property (nonatomic, strong, readonly) OBARegionHelper *regionHelper;
 
 /**
  *  This method should always be used to get an instance of this class.  This class should not be initialized directly.

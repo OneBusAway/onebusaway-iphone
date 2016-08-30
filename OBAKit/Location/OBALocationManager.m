@@ -18,17 +18,18 @@
 
 static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 
-@interface OBALocationManager (Private)
-
-- (void)handleNewLocation:(CLLocation*)location;
-
+@interface OBALocationManager ()
+@property(nonatomic,strong) OBAModelDAO *modelDao;
+@property(nonatomic,strong) CLLocationManager *locationManager;
+@property(nonatomic,strong) NSMutableArray *delegates;
+@property(nonatomic,copy,readwrite) CLLocation *currentLocation;
 @end
 
 @implementation OBALocationManager
 
-- (id) initWithModelDao:(OBAModelDAO*)modelDao {
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO {
     if( self = [super init]) {
-        _modelDao = modelDao;
+        _modelDao = modelDAO;
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
         _delegates = [[NSMutableArray alloc] init];
@@ -76,18 +77,11 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 #pragma mark - iOS 8 Location Manager Support
 
 - (BOOL)hasRequestedInUseAuthorization {
-    if ([CLLocationManager respondsToSelector:@selector(authorizationStatus)]) {
-        return [CLLocationManager authorizationStatus] != kCLAuthorizationStatusNotDetermined;
-    }
-    else {
-        return YES;
-    }
+    return [CLLocationManager authorizationStatus] != kCLAuthorizationStatusNotDetermined;
 }
 
 - (void)requestInUseAuthorization {
-    if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
-        [_locationManager requestWhenInUseAuthorization];
-    }
+    [_locationManager requestWhenInUseAuthorization];
 }
 
 #pragma mark CLLocationManagerDelegate
@@ -117,9 +111,7 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
     }
 }
 
-@end
-
-@implementation OBALocationManager (Private)
+#pragma mark - Private
 
 - (void)handleNewLocation:(CLLocation*)location {
 

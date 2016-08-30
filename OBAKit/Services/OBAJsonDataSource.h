@@ -22,6 +22,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAJsonDataSource : NSObject
+@property(nonatomic,strong) OBADataSourceConfig *config;
 
 + (instancetype)JSONDataSourceWithBaseURL:(NSURL*)URL userID:(NSString*)userID;
 + (instancetype)googleMapsJSONDataSource;
