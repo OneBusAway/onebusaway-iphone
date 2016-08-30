@@ -33,6 +33,8 @@
 #define kAddressSegmentIndex        1
 #define kStopNumberSegmentIndex     2
 
+#define kDefaultTitle NSLocalizedString(@"Map", @"Map tab title")
+
 static const NSUInteger kShowNClosestStops = 4;
 static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
@@ -72,7 +74,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self = [super initWithNibName:@"OBASearchResultsMapViewController" bundle:nil];
 
     if (self) {
-        self.title = NSLocalizedString(@"Map", @"Map tab title");
+        self.title = kDefaultTitle;
         self.tabBarItem.image = [UIImage imageNamed:@"CrossHairs"];
     }
 
@@ -1144,7 +1146,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)cancelPressed {
-    self.navigationItem.title = NSLocalizedString(@"Map", @"Map tab title");
+    self.navigationItem.title = kDefaultTitle;
     self.navigationItem.titleView = self.titleView;
 
     [self.searchController searchWithTarget:[OBASearch getNavigationTargetForSearchNone]];
@@ -1153,13 +1155,13 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (BOOL)controllerIsVisibleAndActive {
-    if (!APP_DELEGATE.active) {
-        // Ignore errors if our app isn't currently active
-        return NO;
-    }
-    else {
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         // Ignore errors if our view isn't currently on top
         return self == self.navigationController.visibleViewController;
+    }
+    else {
+        // Ignore errors if our app isn't currently active
+        return NO;
     }
 }
 
