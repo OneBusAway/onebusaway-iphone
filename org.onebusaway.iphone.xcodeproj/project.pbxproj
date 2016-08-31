@@ -288,8 +288,6 @@
 		9364BF851CFE9F420039F7D4 /* OBABookmarkRouteDisambiguationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9364BF841CFE9F420039F7D4 /* OBABookmarkRouteDisambiguationViewController.m */; };
 		936564301D6CABA200F226C0 /* OBARouteFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 9365642E1D6CABA200F226C0 /* OBARouteFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		936564311D6CABA200F226C0 /* OBARouteFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9365642F1D6CABA200F226C0 /* OBARouteFilter.m */; };
-		936564341D6D7C5000F226C0 /* OBATableFooterLabelView.h in Headers */ = {isa = PBXBuildFile; fileRef = 936564321D6D7C5000F226C0 /* OBATableFooterLabelView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936564351D6D7C5000F226C0 /* OBATableFooterLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936564331D6D7C5000F226C0 /* OBATableFooterLabelView.m */; };
 		936564381D6D7CD500F226C0 /* OBATheme.h in Headers */ = {isa = PBXBuildFile; fileRef = 936564361D6D7CD500F226C0 /* OBATheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		936564391D6D7CD500F226C0 /* OBATheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 936564371D6D7CD500F226C0 /* OBATheme.m */; };
 		936D2EDB1C78D7140060B7E1 /* OBADataSourceConfig_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D2EDA1C78D7140060B7E1 /* OBADataSourceConfig_Tests.m */; };
@@ -729,8 +727,6 @@
 		9364BF841CFE9F420039F7D4 /* OBABookmarkRouteDisambiguationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkRouteDisambiguationViewController.m; sourceTree = "<group>"; };
 		9365642E1D6CABA200F226C0 /* OBARouteFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARouteFilter.h; sourceTree = "<group>"; };
 		9365642F1D6CABA200F226C0 /* OBARouteFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARouteFilter.m; sourceTree = "<group>"; };
-		936564321D6D7C5000F226C0 /* OBATableFooterLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATableFooterLabelView.h; sourceTree = "<group>"; };
-		936564331D6D7C5000F226C0 /* OBATableFooterLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableFooterLabelView.m; sourceTree = "<group>"; };
 		936564361D6D7CD500F226C0 /* OBATheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATheme.h; sourceTree = "<group>"; };
 		936564371D6D7CD500F226C0 /* OBATheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATheme.m; sourceTree = "<group>"; };
 		936D2EDA1C78D7140060B7E1 /* OBADataSourceConfig_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADataSourceConfig_Tests.m; sourceTree = "<group>"; };
@@ -1124,8 +1120,6 @@
 			children = (
 				936564361D6D7CD500F226C0 /* OBATheme.h */,
 				936564371D6D7CD500F226C0 /* OBATheme.m */,
-				936564321D6D7C5000F226C0 /* OBATableFooterLabelView.h */,
-				936564331D6D7C5000F226C0 /* OBATableFooterLabelView.m */,
 				932076661C95361A005F7D4A /* OBAUIBuilder.h */,
 				932076671C95361A005F7D4A /* OBAUIBuilder.m */,
 			);
@@ -1894,7 +1888,6 @@
 				9337D6C81D32A85F00D237D6 /* OBAEmailHelper.h in Headers */,
 				9363D5981D6AE2C300A7021A /* OBARegionHelper.h in Headers */,
 				93283CCB1D69553700A8180D /* OBAReachability.h in Headers */,
-				936564341D6D7C5000F226C0 /* OBATableFooterLabelView.h in Headers */,
 				937E71F71D6EE408007A62D8 /* OBAStrings.h in Headers */,
 				936564381D6D7CD500F226C0 /* OBATheme.h in Headers */,
 				936564301D6CABA200F226C0 /* OBARouteFilter.h in Headers */,
@@ -2370,7 +2363,6 @@
 				934D00F41C83924D00A76A90 /* OBAArrivalAndDepartureInstanceRef.m in Sources */,
 				934D014A1C83924D00A76A90 /* OBAModelServiceRequest.m in Sources */,
 				934D01461C83924D00A76A90 /* OBAModelFactory.m in Sources */,
-				936564351D6D7C5000F226C0 /* OBATableFooterLabelView.m in Sources */,
 				934D00F01C83924D00A76A90 /* OBAAgencyV2.m in Sources */,
 				934D01331C83924D00A76A90 /* OBATripScheduleV2.m in Sources */,
 				934D01421C83924D00A76A90 /* OBADataSourceConfig.m in Sources */,
