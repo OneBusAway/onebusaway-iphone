@@ -99,7 +99,4 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBARouteFilter.h>
 #import <OBAKit/OBARegionHelper.h>
 #import <OBAKit/OBAStrings.h>
-
-// Explicitly UI classes - Maybe part of an eventual OBAUIKit vs OBAFoundation?
 #import <OBAKit/OBATheme.h>
-#import <OBAKit/OBATableFooterLabelView.h>

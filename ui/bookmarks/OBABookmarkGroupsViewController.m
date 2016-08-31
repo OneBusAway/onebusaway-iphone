@@ -15,7 +15,10 @@
 #import <OBAKit/OBAKit.h>
 #import "UILabel+OBAAdditions.h"
 #import "OBATheme.h"
-#import "OBATableFooterLabelView.h"
+
+@interface OBABookmarkGroupsViewController ()
+@property(nonatomic,strong) UIView *footerView;
+@end
 
 @implementation OBABookmarkGroupsViewController
 
@@ -30,19 +33,22 @@
     self.emptyDataSetDescription = NSLocalizedString(@"Tap the '+' button to create one.", @"");
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(close)];
+
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addGroup)];
 
-    self.tableView.tableFooterView = ({
-        OBATableFooterLabelView *footerLabel = [[OBATableFooterLabelView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 100)];
-        footerLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        footerLabel.label.text = NSLocalizedString(@"Deleting a group does not delete its bookmarks. The bookmarks will instead be moved to the 'Bookmarks' group.", @"");
-        [footerLabel resizeToFitText];
-        footerLabel;
-    });
-
-    self.editing = YES;
-
     [self loadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    [self setEditing:YES animated:YES];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+
+    [self setEditing:NO animated:NO];
 }
 
 #pragma mark - Accessors
@@ -109,10 +115,33 @@
 
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:rows];
 
+    if (rows.count > 0) {
+        [self showTableFooter];
+    }
+    else {
+        [self hideTableFooter];
+    }
+
     self.sections = @[section];
     [self.tableView reloadData];
 }
 
+#pragma mark - Table Footer
+
+- (UIView*)footerView {
+    if (!_footerView) {
+        _footerView = [OBAUIBuilder footerViewWithText:NSLocalizedString(@"Deleting a group does not delete its bookmarks. Its contents will be moved to the 'Bookmarks' group.", @"") maximumWidth:CGRectGetWidth(self.tableView.frame)];
+    }
+    return _footerView;
+}
+
+- (void)showTableFooter {
+    self.tableView.tableFooterView = self.footerView;
+}
+
+- (void)hideTableFooter {
+    self.tableView.tableFooterView = nil;
+}
 
 #pragma mark - UITableView Editing
 
@@ -136,25 +165,6 @@
 
 - (BOOL)tableView:(UITableView*)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
-}
-
-#pragma mark - Table Row Deletion
-
-- (void)deleteRowAtIndexPath:(NSIndexPath*)indexPath tableView:(UITableView*)tableView {
-    OBATableSection *tableSection = self.sections[indexPath.section];
-    OBATableRow *tableRow = tableSection.rows[indexPath.row];
-
-    NSMutableArray *deletedRows = [NSMutableArray new];
-
-    NSMutableArray *rows = [NSMutableArray arrayWithArray:tableSection.rows];
-    [rows removeObjectAtIndex:indexPath.row];
-    tableSection.rows = rows;
-
-    [deletedRows addObject:indexPath];
-
-    [self.modelDAO removeBookmarkGroup:tableRow.model];
-
-    [tableView deleteRowsAtIndexPaths:deletedRows withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 @end

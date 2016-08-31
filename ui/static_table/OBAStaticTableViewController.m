@@ -269,7 +269,7 @@
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     OBABaseRow *row = [self rowAtIndexPath:indexPath];
-    return row.rowActions ?: @[];
+    return row.rowActions;
 }
 
 #pragma mark - DZNEmptyDataSet
