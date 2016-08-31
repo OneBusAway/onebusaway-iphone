@@ -85,6 +85,7 @@
     for (OBABookmarkGroup *group in self.modelDAO.bookmarkGroups) {
         OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:group.name action:nil];
         tableRow.model = group;
+
         [tableRow setEditAction:^(OBABaseRow *row) {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Edit Group Name", @"") message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addTextFieldWithConfigurationHandler:^(UITextField * textField) {
@@ -98,6 +99,11 @@
             }]];
             [self presentViewController:alert animated:YES completion:nil];
         }];
+
+        [tableRow setDeleteModel:^(OBABaseRow *row){
+            [self.modelDAO removeBookmarkGroup:row.model];
+        }];
+
         [rows addObject:tableRow];
     }
 
@@ -116,7 +122,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self deleteRowAtIndexPath:indexPath tableView:tableView];
+        [self deleteRowAtIndexPath:indexPath];
     }
 }
 

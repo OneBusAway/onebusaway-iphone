@@ -203,7 +203,7 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self deleteRowAtIndexPath:indexPath tableView:tableView];
+        [self deleteRowAtIndexPath:indexPath];
     }
 }
 
@@ -221,7 +221,7 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
     NSMutableArray<UITableViewRowAction *> *actions = [NSMutableArray array];
 
     UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedString(@"Delete", @"Title of delete bookmark row action.") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        [self deleteRowAtIndexPath:indexPath tableView:tableView];
+        [self deleteRowAtIndexPath:indexPath];
     }];
     [actions addObject:delete];
 
@@ -266,29 +266,6 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
     destinationSection.rows = [NSArray arrayWithArray:destinationRows];
 
     [tableView endUpdates];
-}
-
-#pragma mark - Table Row Deletion
-
-// TODO: get rid of this and use the newly built-in feature on OBAStaticTableViewController
-// to handle row deletion instead!
-- (void)deleteRowAtIndexPath:(NSIndexPath*)indexPath tableView:(UITableView*)tableView {
-    OBATableSection *tableSection = self.sections[indexPath.section];
-    OBATableRow *tableRow = tableSection.rows[indexPath.row];
-
-    NSMutableArray *deletedRows = [NSMutableArray new];
-
-    NSMutableArray *rows = [NSMutableArray arrayWithArray:tableSection.rows];
-    [rows removeObjectAtIndex:indexPath.row];
-    tableSection.rows = rows;
-
-    [deletedRows addObject:indexPath];
-
-    if (tableRow.deleteModel) {
-        tableRow.deleteModel();
-    }
-
-    [tableView deleteRowsAtIndexPaths:deletedRows withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - Accessors
@@ -430,8 +407,8 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
         [self presentViewController:nav animated:YES completion:nil];
     }];
 
-    [row setDeleteModel:^{
-        [self.modelDAO removeBookmark:bookmark];
+    [row setDeleteModel:^(OBABaseRow *row){
+        [self.modelDAO removeBookmark:row.model];
     }];
 }
 

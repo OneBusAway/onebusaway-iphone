@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  to associate your row with a model (due to sorting differences or whatever), this block provides an easy way
  to get back to—and delete—the underlying data.
  */
-@property(nonatomic,copy) void (^deleteModel)();
+@property(nonatomic,copy) void (^deleteModel)(OBABaseRow *row);
 
 @property(nonatomic,assign) NSUInteger indentationLevel;
 

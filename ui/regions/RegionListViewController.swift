@@ -209,7 +209,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
             let row: OBATableRow = OBATableRow.init(title: region.regionName, action: action)
 
             row.model = region
-            row.deleteModel = {
+            row.deleteModel = { row in
                 let alert = UIAlertController.init(title: NSLocalizedString("Are you sure you want to delete this region?", comment: ""), message: nil, preferredStyle: .Alert)
                 alert.addAction(UIAlertAction.init(title: OBAStrings.cancel(), style: .Cancel, handler: nil))
                 alert.addAction(UIAlertAction.init(title: OBAStrings.delete(), style: .Destructive, handler: { action in
