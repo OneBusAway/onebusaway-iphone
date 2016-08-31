@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class OBAInfoViewController;
 
 @interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate>
+@property (nullable, nonatomic, strong) UIWindow *window;
 - (void)navigateToTarget:(OBANavigationTarget*)navigationTarget;
 - (void)regionSelected;
 @end

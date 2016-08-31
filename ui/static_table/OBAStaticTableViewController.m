@@ -165,7 +165,7 @@
     OBATableSection *section = self.sections[indexPath.section];
     [section removeRowAtIndex:indexPath.row];
 
-    tableRow.deleteModel();
+    tableRow.deleteModel(tableRow);
 
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
