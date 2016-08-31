@@ -34,13 +34,11 @@
 
 static NSString *const kTrackingId = @"UA-2423527-17";
 static NSString *const kOptOutOfTracking = @"OptOutOfTracking";
-
 static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc9f70ef38378a9d5a15ac7d4926";
 
 @interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate>
 @property (nonatomic, strong) UINavigationController *regionNavigationController;
 @property (nonatomic, strong) RegionListViewController *regionListViewController;
-@property (nonatomic, readwrite) BOOL active;
 @property (nonatomic, strong) id regionObserver;
 @property (nonatomic, strong) id recentStopsObserver;
 @property(nonatomic,strong) id<OBAApplicationUI> applicationUI;
@@ -52,8 +50,6 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     self = [super init];
 
     if (self) {
-        _active = NO;
-
         self.regionObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kOBAApplicationSettingsRegionRefreshNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
             [OBAApplication sharedApplication].modelDao.automaticallySelectRegion = YES;
             [[OBAApplication sharedApplication].regionHelper updateNearestRegion];
@@ -131,16 +127,13 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
     // User must be able to opt out of tracking
     [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:kOptOutOfTracking];
-
     [GAI sharedInstance].trackUncaughtExceptions = YES;
-    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelWarning];
+    [GAI sharedInstance].logger.logLevel = kGAILogLevelWarning;
 
     //don't report to Google Analytics when developing
 #ifdef DEBUG
     [[GAI sharedInstance] setDryRun:YES];
 #endif
-
-    self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
 
     [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:[OBAApplication sharedApplication].modelDao.currentRegion.regionName];
 
@@ -160,8 +153,6 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    self.active = YES;
-
     [[OBAApplication sharedApplication].reachability startNotifier];
 
     [self.applicationUI applicationDidBecomeActive];
@@ -176,7 +167,6 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-    self.active = NO;
     [[OBAApplication sharedApplication].reachability stopNotifier];
 }
 

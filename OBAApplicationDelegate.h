@@ -25,10 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 @class OBAInfoViewController;
 
 @interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate>
-@property(nonatomic,strong) UIWindow *window;
-@property(nonatomic,readonly) BOOL active;
-@property(nonatomic, strong) id<GAITracker> tracker;
-
 - (void)navigateToTarget:(OBANavigationTarget*)navigationTarget;
 - (void)regionSelected;
 @end
