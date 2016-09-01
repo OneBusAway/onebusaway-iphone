@@ -14,10 +14,8 @@
 #define kUseDebugColors 0
 
 @interface OBAClassicDepartureView ()
-@property(nonatomic,strong,readwrite) UILabel *routeNameLabel;
-@property(nonatomic,strong,readwrite) UILabel *destinationLabel;
-@property(nonatomic,strong,readwrite) UILabel *timeAndStatusLabel;
-@property(nonatomic,strong,readwrite) UILabel *minutesUntilDepartureLabel;
+@property(nonatomic,strong) UILabel *routeLabel;
+@property(nonatomic,strong,readwrite) UILabel *minutesLabel;
 @end
 
 @implementation OBAClassicDepartureView
@@ -30,39 +28,15 @@
     self = [super initWithFrame:frame];
 
     if (self) {
-        _routeNameLabel = ({
+        _routeLabel = ({
             UILabel *l = [[UILabel alloc] init];
-            l.minimumScaleFactor = 0.8f;
-            l.adjustsFontSizeToFitWidth = YES;
-            l.font = [OBATheme bodyFont];
+            l.numberOfLines = 0;
             [l setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
             l;
         });
 
-        _destinationLabel = ({
+        _minutesLabel = ({
             UILabel *l = [[UILabel alloc] init];
-            l.numberOfLines = 0;
-            l.minimumScaleFactor = 0.8f;
-            l.adjustsFontSizeToFitWidth = YES;
-            l.font = [OBATheme bodyFont];
-            l.textAlignment = NSTextAlignmentCenter;
-            l;
-        });
-
-        _timeAndStatusLabel = ({
-            UILabel *l = [[UILabel alloc] init];
-            l.numberOfLines = 1;
-            l.minimumScaleFactor = 0.8f;
-            l.adjustsFontSizeToFitWidth = YES;
-            l.font = [OBATheme bodyFont];
-            l.textAlignment = NSTextAlignmentCenter;
-            l;
-        });
-
-        _minutesUntilDepartureLabel = ({
-            UILabel *l = [[UILabel alloc] init];
-            l.minimumScaleFactor = 0.8f;
-            l.adjustsFontSizeToFitWidth = YES;
             l.font = [OBATheme bodyFont];
             l.textAlignment = NSTextAlignmentRight;
             [l setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
@@ -71,24 +45,14 @@
 
         if (kUseDebugColors) {
             self.backgroundColor = [UIColor purpleColor];
-            _routeNameLabel.backgroundColor = [UIColor greenColor];
-            _destinationLabel.backgroundColor = [UIColor blueColor];
-            _timeAndStatusLabel.backgroundColor = [UIColor redColor];
-            _minutesUntilDepartureLabel.backgroundColor = [UIColor magentaColor];
+            _routeLabel.backgroundColor = [UIColor greenColor];
+            _minutesLabel.backgroundColor = [UIColor magentaColor];
         }
 
-        UIStackView *centerStack = ({
-            UIStackView *sv = [[UIStackView alloc] initWithArrangedSubviews:@[_destinationLabel, _timeAndStatusLabel]];
-            sv.axis = UILayoutConstraintAxisVertical;
-            sv.distribution = UIStackViewDistributionFillProportionally;
-            sv.distribution = UIStackViewDistributionEqualSpacing;
-            sv;
-        });
-
         UIStackView *horizontalStack = ({
-            UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[_routeNameLabel, centerStack, _minutesUntilDepartureLabel]];
+            UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[_routeLabel, _minutesLabel]];
             stack.axis = UILayoutConstraintAxisHorizontal;
-            stack.distribution = UIStackViewDistributionEqualSpacing;
+            stack.distribution = UIStackViewDistributionFill;
             stack;
         });
         [self addSubview:horizontalStack];
@@ -99,6 +63,15 @@
     return self;
 }
 
+#pragma mark - Reuse
+
+- (void)prepareForReuse {
+    self.routeLabel.text = nil;
+    self.minutesLabel.text = nil;
+}
+
+#pragma mark - Row Logic
+
 - (void)setClassicDepartureRow:(OBAClassicDepartureRow *)classicDepartureRow {
     if (_classicDepartureRow == classicDepartureRow) {
         return;
@@ -106,13 +79,19 @@
 
     _classicDepartureRow = [classicDepartureRow copy];
 
-    self.routeNameLabel.text = [self classicDepartureRow].routeName;
-    self.destinationLabel.text = [self classicDepartureRow].destination;
-    self.timeAndStatusLabel.attributedText = [OBADepartureCellHelpers attributedDepartureTime:[self classicDepartureRow].formattedNextDepartureTime
-                                                                                   statusText:[self classicDepartureRow].statusText
-                                                                              departureStatus:[self classicDepartureRow].departureStatus];
+    // TODO: clean me up once we've verified that users aren't losing their minds over the change.
+    NSString *firstLineText = [NSString stringWithFormat:NSLocalizedString(@"%@ to %@\r\n", @"Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE>"), [self classicDepartureRow].routeName, [self classicDepartureRow].destination];
 
-    self.minutesUntilDepartureLabel.text = [self classicDepartureRow].formattedMinutesUntilNextDeparture;
-    self.minutesUntilDepartureLabel.textColor = [OBADepartureCellHelpers colorForStatus:[self classicDepartureRow].departureStatus];
+    NSMutableAttributedString *routeText = [[NSMutableAttributedString alloc] initWithString:firstLineText attributes:@{NSFontAttributeName: [OBATheme bodyFont]}];
+    NSAttributedString *departureTime = [OBADepartureCellHelpers attributedDepartureTime:[self classicDepartureRow].formattedNextDepartureTime
+                                                                              statusText:[self classicDepartureRow].statusText
+                                                                         departureStatus:[self classicDepartureRow].departureStatus];
+
+    [routeText appendAttributedString:departureTime];
+
+    self.routeLabel.attributedText = routeText;
+
+    self.minutesLabel.text = [self classicDepartureRow].formattedMinutesUntilNextDeparture;
+    self.minutesLabel.textColor = [OBADepartureCellHelpers colorForStatus:[self classicDepartureRow].departureStatus];
 }
 @end
