@@ -71,10 +71,7 @@
 
     self.titleLabel.text = nil;
 
-    self.departureView.routeNameLabel.text = nil;
-    self.departureView.destinationLabel.text = nil;
-    self.departureView.timeAndStatusLabel.text = nil;
-    self.departureView.minutesUntilDepartureLabel.text = nil;
+    [self.departureView prepareForReuse];
 
     [self.activityIndicatorView prepareForReuse];
 }

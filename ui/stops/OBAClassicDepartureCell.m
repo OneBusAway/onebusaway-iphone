@@ -39,10 +39,7 @@
 - (void)prepareForReuse {
     [super prepareForReuse];
 
-    self.departureView.routeNameLabel.text = nil;
-    self.departureView.destinationLabel.text = nil;
-    self.departureView.timeAndStatusLabel.text = nil;
-    self.departureView.minutesUntilDepartureLabel.text = nil;
+    [self.departureView prepareForReuse];
 }
 
 #pragma mark - OBATableCell

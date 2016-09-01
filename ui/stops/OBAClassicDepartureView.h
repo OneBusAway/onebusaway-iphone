@@ -13,12 +13,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAClassicDepartureView : UIView
-@property(nonatomic,strong,readonly) UILabel *routeNameLabel;
-@property(nonatomic,strong,readonly) UILabel *destinationLabel;
-@property(nonatomic,strong,readonly) UILabel *timeAndStatusLabel;
-@property(nonatomic,strong,readonly) UILabel *minutesUntilDepartureLabel;
-
 @property(nonatomic,copy) OBAClassicDepartureRow *classicDepartureRow;
+
+- (void)prepareForReuse;
 @end
 
 NS_ASSUME_NONNULL_END
