@@ -12,9 +12,6 @@
 @interface OBATableViewCell : UITableViewCell<OBATableCell>
 @end
 
-@interface OBATableViewCellValue1 : OBATableViewCell
-@end
-
 @interface OBATableViewCellValue2 : OBATableViewCell
 @end
 

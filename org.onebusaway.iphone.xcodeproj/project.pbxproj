@@ -321,6 +321,7 @@
 		939C23B11D36228A002A4145 /* OBABookmarkedRouteRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 939C23B01D36228A002A4145 /* OBABookmarkedRouteRow.m */; };
 		939C23B91D371DE8002A4145 /* OBABookmarkedRouteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 939C23B81D371DE8002A4145 /* OBABookmarkedRouteCell.m */; };
 		939E8E5B1C7B815E008FCA4C /* OBABaseRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E8E5A1C7B815E008FCA4C /* OBABaseRow.m */; };
+		93A41C7F1D7C90770080500F /* OBATableViewCellValue1.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A41C7E1D7C90770080500F /* OBATableViewCellValue1.m */; };
 		93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A923A11C21DCD600A657C8 /* SafariServices.framework */; };
 		93AD36431603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD363A1603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m */; };
 		93AD36441603FE7E00BDF03F /* OBAArrivalEntryTableViewCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD363C1603FE7E00BDF03F /* OBAArrivalEntryTableViewCellFactory.m */; };
@@ -785,6 +786,8 @@
 		939E8E4C1C78DCB1008FCA4C /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		939E8E591C7B815E008FCA4C /* OBABaseRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABaseRow.h; sourceTree = "<group>"; };
 		939E8E5A1C7B815E008FCA4C /* OBABaseRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABaseRow.m; sourceTree = "<group>"; };
+		93A41C7D1D7C90770080500F /* OBATableViewCellValue1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATableViewCellValue1.h; sourceTree = "<group>"; };
+		93A41C7E1D7C90770080500F /* OBATableViewCellValue1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableViewCellValue1.m; sourceTree = "<group>"; };
 		93A923A11C21DCD600A657C8 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		93AD36391603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalEntryTableViewCell.h; sourceTree = "<group>"; };
 		93AD363A1603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalEntryTableViewCell.m; sourceTree = "<group>"; };
@@ -1602,6 +1605,8 @@
 				938EAC7E1D6A9BB400B174B9 /* OBASwitchCell.m */,
 				93FF25EA1D6E342B00A58E72 /* OBATextFieldCell.h */,
 				93FF25EB1D6E342B00A58E72 /* OBATextFieldCell.m */,
+				93A41C7D1D7C90770080500F /* OBATableViewCellValue1.h */,
+				93A41C7E1D7C90770080500F /* OBATableViewCellValue1.m */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -2214,6 +2219,7 @@
 				932BE4CF1AB66D710011F2FB /* OBATripDetailsViewController.m in Sources */,
 				93AD36431603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m in Sources */,
 				934446D91AB12C5D005B3333 /* OBAModalActivityIndicator.m in Sources */,
+				93A41C7F1D7C90770080500F /* OBATableViewCellValue1.m in Sources */,
 				93AD36441603FE7E00BDF03F /* OBAArrivalEntryTableViewCellFactory.m in Sources */,
 				93B8BA291C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m in Sources */,
 				932BE4D01AB66D710011F2FB /* OBATripScheduleListViewController.m in Sources */,
