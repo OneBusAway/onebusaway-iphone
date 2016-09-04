@@ -132,7 +132,7 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
 
                 if (section.rows.count > indexPath.row) {
                     [self replaceRowAtIndexPath:indexPath withRow:row];
-                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
                 }
             }
         });
@@ -318,7 +318,7 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
         }
         section.rows = open ? [self tableRowsFromBookmarks:bookmarks] : @[];
         NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[self.sections indexOfObject:section]];
-        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
     }];
     section.headerView = header;
 

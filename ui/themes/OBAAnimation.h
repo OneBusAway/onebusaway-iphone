@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSTimeInterval const OBALongAnimationDuration;
+
 @interface OBAAnimation : NSObject
 
 /**
