@@ -153,9 +153,19 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
     // Scroll the user's current stop to the top of the list
     NSUInteger index = [OBATripScheduleSectionBuilder indexOfStopID:arrivalAndDeparture.stopId inSchedule:tripDetails.schedule];
+
     if (index != NSNotFound) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+
+        // only scroll if the indexPath actually exists...
+        // but that does raise the question of how we'd end
+        // up in a situation where that was not the case.
+        if (self.sections.count > indexPath.section && self.sections[indexPath.section].rows.count > indexPath.row) {
+            [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        }
+        else {
+            NSLog(@"%s: We really shouldn't end up here...", __PRETTY_FUNCTION__);
+        }
     }
 }
 
