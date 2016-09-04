@@ -35,6 +35,7 @@
         self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 
         _titleLabel = [OBAUIBuilder label];
+        _titleLabel.font = [OBATheme subtitleFont];
         _titleLabel.numberOfLines = 0;
         [self.contentView addSubview:_titleLabel];
 
@@ -55,15 +56,14 @@
         make.left.top.and.right.equalTo(self.contentView).insets(self.layoutMargins);
     }];
 
-    [self.departureView mas_makeConstraints:^(MASConstraintMaker *make) {
+    void (^constraintBlock)(MASConstraintMaker *make) = ^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.mas_bottom);
         make.left.right.and.bottom.equalTo(self.contentView).insets(self.layoutMargins);
         make.height.greaterThanOrEqualTo(@40);
-    }];
+    };
 
-    [self.activityIndicatorView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.departureView).insets(self.layoutMargins);
-    }];
+    [self.departureView mas_makeConstraints:constraintBlock];
+    [self.activityIndicatorView mas_makeConstraints:constraintBlock];
 }
 
 - (void)prepareForReuse {

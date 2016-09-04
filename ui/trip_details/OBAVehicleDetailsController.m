@@ -1,5 +1,4 @@
 #import "OBAVehicleDetailsController.h"
-#import "OBATripScheduleMapViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
 #import "OBASituationsViewController.h"
 #import "OBAAnalytics.h"

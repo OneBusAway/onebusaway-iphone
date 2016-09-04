@@ -21,7 +21,9 @@
     self = [super initWithFrame:frame];
 
     if (self) {
+        self.clipsToBounds = YES;
         _textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _textLabel.numberOfLines = 0;
         _textLabel.text = NSLocalizedString(@"Loading", @"");
 
         _activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -30,7 +32,9 @@
         [self addSubview:_activity];
 
         [_textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self);
+            make.centerX.equalTo(self);
+            make.top.and.bottom.equalTo(self);
+            make.width.lessThanOrEqualTo(self);
         }];
 
         [_activity mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -41,6 +45,8 @@
 
     return self;
 }
+
+#pragma mark - Public Methods
 
 - (void)startAnimating {
     [self.activity startAnimating];
