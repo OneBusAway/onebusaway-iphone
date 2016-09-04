@@ -114,7 +114,7 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
                 row.supplementaryMessage = nil;
             }
             else {
-                row.supplementaryMessage = [NSString stringWithFormat:@"No departure scheduled for the next %@ minutes", @(minutes)];
+                row.supplementaryMessage = [NSString stringWithFormat:NSLocalizedString(@"%@: No departure scheduled for the next %@ minutes", @""), bookmark.routeShortName, @(minutes)];
             }
 
             row.nextDeparture = departure;

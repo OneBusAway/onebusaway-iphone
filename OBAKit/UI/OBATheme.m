@@ -62,14 +62,14 @@ static UIFont *_boldFootnoteFont = nil;
 
 + (UIFont*)titleFont {
     if (!_titleFont) {
-        _titleFont = [self fontWithTextStyle:UIFontTextStyleTitle1];
+        _titleFont = [self fontWithTextStyle:UIFontTextStyleTitle2];
     }
     return _titleFont;
 }
 
 + (UIFont*)subtitleFont {
     if (!_subtitleFont) {
-        _subtitleFont = [self fontWithTextStyle:UIFontTextStyleTitle2];
+        _subtitleFont = [self fontWithTextStyle:UIFontTextStyleTitle3];
     }
     return _subtitleFont;
 }
