@@ -21,6 +21,7 @@
 #import "OBATableCell.h"
 
 static NSTimeInterval const kRefreshTimerInterval = 30.0;
+static NSUInteger const kMinutes = 30;
 
 @interface OBABookmarksViewController ()
 @property(nonatomic,strong) NSTimer *refreshBookmarksTimer;
@@ -104,51 +105,67 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
 - (void)refreshBookmarkDepartures:(NSTimer*)timer {
     NSArray<OBABookmarkV2*> *allBookmarks = [self.modelDAO bookmarksMatchingPredicate:[NSPredicate predicateWithFormat:@"%K == %@", NSStringFromSelector(@selector(bookmarkVersion)), @(OBABookmarkVersion260)]];
 
-    NSUInteger minutes = 35;
-
     for (OBABookmarkV2 *bookmark in allBookmarks) {
-        OBABookmarkedRouteRow *row = [self rowForBookmarkVersion260:bookmark];
-
-        [self.modelService requestStopForID:bookmark.stopId minutesBefore:0 minutesAfter:minutes].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
-            NSArray<OBAArrivalAndDepartureV2*> *matchingDepartures = [bookmark matchingArrivalsAndDeparturesForStop:response];
-            OBAArrivalAndDepartureV2 *departure = matchingDepartures.firstObject;
-
-            if (departure) {
-                self.bookmarksAndDepartures[bookmark] = departure;
-                row.supplementaryMessage = nil;
-            }
-            else {
-                row.supplementaryMessage = [NSString stringWithFormat:NSLocalizedString(@"%@: No departure scheduled for the next %@ minutes", @""), bookmark.routeShortName, @(minutes)];
-            }
-
-            row.nextDeparture = departure;
-            row.state = OBABookmarkedRouteRowStateComplete;
-        }).catch(^(NSError *error) {
-            NSLog(@"Failed to load departure for bookmark: %@", error);
-            row.nextDeparture = nil;
-            row.state = OBABookmarkedRouteRowStateError;
-            row.supplementaryMessage = [error localizedDescription];
-        }).finally(^{
-            NSIndexPath *indexPath = [self indexPathForModel:bookmark];
-
-            if (self.sections.count > indexPath.section) {
-                OBATableSection *section = self.sections[indexPath.section];
-
-                if (section.rows.count > indexPath.row) {
-
-                    // if our expectation of what's in the table is in sync with reality,
-                    // then we will reload just the row at indexPath. Otherwise, we will
-                    // reload the entire table.
-                    if ([self replaceRowAtIndexPath:indexPath withRow:row]) {
-                        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-                    }
-                    else {
-                        [self.tableView reloadData];
-                    }
-                }
-            }
-        });
+        [self refreshDataForBookmark:bookmark];
     }
+}
+
+- (void)refreshDataForBookmark:(OBABookmarkV2*)bookmark {
+    OBABookmarkedRouteRow *row = [self rowForBookmarkVersion260:bookmark];
+
+    [self.modelService requestStopForID:bookmark.stopId minutesBefore:0 minutesAfter:kMinutes].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
+        NSArray<OBAArrivalAndDepartureV2*> *matchingDepartures = [bookmark matchingArrivalsAndDeparturesForStop:response];
+        OBAArrivalAndDepartureV2 *departure = matchingDepartures.firstObject;
+
+        if (departure) {
+            self.bookmarksAndDepartures[bookmark] = departure;
+            row.supplementaryMessage = nil;
+        }
+        else {
+            row.supplementaryMessage = [NSString stringWithFormat:NSLocalizedString(@"%@: No departure scheduled for the next %@ minutes", @""), bookmark.routeShortName, @(kMinutes)];
+        }
+
+        row.nextDeparture = departure;
+        row.state = OBABookmarkedRouteRowStateComplete;
+    }).catch(^(NSError *error) {
+        NSLog(@"Failed to load departure for bookmark: %@", error);
+        row.nextDeparture = nil;
+        row.state = OBABookmarkedRouteRowStateError;
+        row.supplementaryMessage = [error localizedDescription];
+    }).finally(^{
+        NSIndexPath *indexPath = [self indexPathForModel:bookmark];
+
+        if (indexPath.section >= self.sections.count) {
+            return;
+        }
+
+        OBATableSection *section = self.sections[indexPath.section];
+
+        if (indexPath.row >= section.rows.count) {
+            return;
+        }
+
+        // There seems to be a circumstance when the app first
+        // launches where this request is canceled almost as soon
+        // as it starts. For reasons I cannot ascertain, PromiseKit
+        // doesn't bother sending us the error, which means we end
+        // up in the `finally` block instead of the error block.
+        // So, on the occasions when this happens, simply retry the
+        // download.
+        if (row.state == OBABookmarkedRouteRowStateLoading) {
+            [self refreshDataForBookmark:bookmark];
+        }
+
+        // if our expectation of what's in the table is in sync with reality,
+        // then we will reload just the row at indexPath. Otherwise, we will
+        // reload the entire table.
+        if ([self replaceRowAtIndexPath:indexPath withRow:row]) {
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        }
+        else {
+            [self.tableView reloadData];
+        }
+    });
 }
 
 #pragma mark -  OBANavigationTargetAware
@@ -160,7 +177,6 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
 #pragma mark - Reachability
 
 - (void)reachabilityChanged:(NSNotification*)note {
-
     // Automatically refresh whenever the connection goes from offline -> online
     if ([OBAApplication sharedApplication].reachability.isReachable) {
         [self startTimer];
