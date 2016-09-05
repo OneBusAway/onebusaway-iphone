@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>20160814.22</string>
+	<string>20160905.10</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -48,7 +48,7 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>onebusaway.org</key>
+			<key>194.89.230.196</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
 				<true/>
@@ -69,21 +69,14 @@
 				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-			<key>wmata.com</key>
+			<key>obartd.com</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
 				<true/>
 				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-			<key>yrt.ca</key>
-			<dict>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-			<key>v-a.io</key>
+			<key>onebusaway.org</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
 				<true/>
@@ -97,13 +90,6 @@
 				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-			<key>obartd.com</key>
-			<dict>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
 			<key>sdmts.com</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
@@ -111,7 +97,21 @@
 				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-			<key>194.89.230.196</key>
+			<key>v-a.io</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+			<key>wmata.com</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+			<key>yrt.ca</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
 				<true/>
