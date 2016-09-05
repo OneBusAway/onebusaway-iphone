@@ -110,6 +110,12 @@
 + (UIColor*)textColor;
 
 /**
+ Use this when a control changes value on screen and you want to highlight
+ its changed value for the user.
+ */
++ (UIColor*)propertyChangedColor;
+
+/**
  The standard highlight color with a less-than-100% opacity. By default, this is a dark green color.
 
  @return A UIColor.

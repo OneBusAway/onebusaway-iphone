@@ -119,6 +119,10 @@ static UIFont *_boldFootnoteFont = nil;
     return [UIColor blackColor];
 }
 
++ (UIColor*)propertyChangedColor {
+    return [OBATheme colorWithRed:255 green:255 blue:128 alpha:0.7];
+}
+
 + (UIColor*)nonOpaquePrimaryColor {
     return [self colorWithRed:152 green:216 blue:69 alpha:0.8f];
 }
