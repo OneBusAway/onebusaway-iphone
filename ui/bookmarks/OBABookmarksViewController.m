@@ -93,8 +93,12 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
 }
 
 - (void)startTimer {
-    self.refreshBookmarksTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimerInterval target:self selector:@selector(refreshBookmarkDepartures:) userInfo:nil repeats:YES];
-    [self refreshBookmarkDepartures:nil];
+    @synchronized (self) {
+        if (!self.refreshBookmarksTimer) {
+            self.refreshBookmarksTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimerInterval target:self selector:@selector(refreshBookmarkDepartures:) userInfo:nil repeats:YES];
+            [self refreshBookmarkDepartures:nil];
+        }
+    }
 }
 
 - (void)refreshBookmarkDepartures:(NSTimer*)timer {
