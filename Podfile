@@ -4,11 +4,11 @@ platform :ios, '9.0'
 inhibit_all_warnings!
 
 def pod_promise_kit
-  pod 'PromiseKit/CorePromise', '3.5.0'
-  pod 'PromiseKit/CoreLocation', '3.5.0'
-  pod 'PromiseKit/CloudKit', '3.5.0'
-  pod 'PromiseKit/Foundation', '3.5.0'
-  pod 'PromiseKit/MapKit', '3.5.0'
+  pod 'PromiseKit/CorePromise', '3.5.1'
+  pod 'PromiseKit/CoreLocation', '3.5.1'
+  pod 'PromiseKit/CloudKit', '3.5.1'
+  pod 'PromiseKit/Foundation', '3.5.1'
+  pod 'PromiseKit/MapKit', '3.5.1'
 end
 
 target 'OBAKit' do
@@ -28,8 +28,8 @@ target 'OneBusAway' do
   pod 'DZNEmptyDataSet', '1.8.1'
   pod 'apptentive-ios', '3.2.1'
   pod 'Pulley', '1.0.0'
-  pod 'SwiftMessages', '~> 1.1'
-  pod 'SMFloatingLabelTextField', '~> 0.2'
+  pod 'SwiftMessages', '1.1.3'
+  pod 'SMFloatingLabelTextField', '0.2.0'
 
   pod_promise_kit
 
