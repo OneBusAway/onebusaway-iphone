@@ -134,14 +134,14 @@
     return nil;
 }
 
-- (void)replaceRowAtIndexPath:(NSIndexPath*)indexPath withRow:(OBABaseRow*)row {
-    OBAGuard(indexPath && row) else {
-        return;
+- (BOOL)replaceRowAtIndexPath:(NSIndexPath*)indexPath withRow:(OBABaseRow*)row {
+    if (!indexPath || !row) {
+        return NO;
     }
 
     OBATableSection *section = self.sections[indexPath.section];
     if (!section) {
-        return;
+        return NO;
     }
 
     NSMutableArray *rows = [NSMutableArray arrayWithArray:section.rows];
@@ -153,6 +153,8 @@
         [rows addObject:row];
     }
     section.rows = [NSArray arrayWithArray:rows];
+
+    return YES;
 }
 
 - (void)deleteRowAtIndexPath:(NSIndexPath*)indexPath {
