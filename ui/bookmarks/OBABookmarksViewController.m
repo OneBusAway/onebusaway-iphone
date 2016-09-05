@@ -135,8 +135,16 @@ static NSTimeInterval const kRefreshTimerInterval = 30.0;
                 OBATableSection *section = self.sections[indexPath.section];
 
                 if (section.rows.count > indexPath.row) {
-                    [self replaceRowAtIndexPath:indexPath withRow:row];
-                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+
+                    // if our expectation of what's in the table is in sync with reality,
+                    // then we will reload just the row at indexPath. Otherwise, we will
+                    // reload the entire table.
+                    if ([self replaceRowAtIndexPath:indexPath withRow:row]) {
+                        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                    }
+                    else {
+                        [self.tableView reloadData];
+                    }
                 }
             }
         });
