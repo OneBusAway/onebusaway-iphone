@@ -39,7 +39,7 @@
         _routeLabel = ({
             UILabel *l = [[UILabel alloc] init];
             l.numberOfLines = 0;
-            [l setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+            [l setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
             l;
         });
 
@@ -50,14 +50,14 @@
             UILabel *l = [[UILabel alloc] init];
             l.font = [OBATheme bodyFont];
             l.textAlignment = NSTextAlignmentRight;
-            [l setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+            [l setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
             l;
         });
         [minutesWrapper addSubview:_minutesLabel];
+
         [_minutesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(minutesWrapper);
-            make.width.greaterThanOrEqualTo(@20);
-            make.right.equalTo(minutesWrapper);
+            make.left.and.right.equalTo(minutesWrapper);
         }];
 
         if (kUseDebugColors) {
