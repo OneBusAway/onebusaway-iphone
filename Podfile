@@ -28,7 +28,9 @@ target 'OneBusAway' do
   pod 'DZNEmptyDataSet', '1.8.1'
   pod 'apptentive-ios', '3.2.1'
   pod 'Pulley', '1.0.0'
-  pod 'SwiftMessages', '1.1.3'
+  # pod 'SwiftMessages', '1.1.3'
+  pod 'SwiftMessages', git: 'https://github.com/SwiftKickMobile/SwiftMessages.git', :branch => 'swift2.3'
+  
   pod 'SMFloatingLabelTextField', '0.2.0'
 
   pod_promise_kit
