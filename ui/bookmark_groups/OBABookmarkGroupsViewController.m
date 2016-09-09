@@ -17,6 +17,7 @@
 #import "OBATheme.h"
 
 @interface OBABookmarkGroupsViewController ()
+@property(nonatomic,strong) UIView *originalFooterView;
 @property(nonatomic,strong) UIView *footerView;
 @end
 
@@ -28,6 +29,17 @@
     self.title = NSLocalizedString(@"Bookmark Groups", @"");
 
     self.tableView.allowsSelectionDuringEditing = YES;
+
+    // Normally, if a table view is empty, it will still
+    // display its row separators. This looks bad when you
+    // want to display an 'empty data set' message. So, we
+    // get around this by displaying an empty footer view
+    // on the table, which 'tricks' it into not showing the
+    // row separators. Unfortunately, because we have a
+    // real table footer view that is, on occasion, displayed,
+    // we need to make sure that gets saved for later rendering
+    // when needed.
+    self.originalFooterView = self.tableView.tableFooterView;
 
     self.emptyDataSetTitle = NSLocalizedString(@"No Bookmark Groups", @"");
     self.emptyDataSetDescription = NSLocalizedString(@"Tap the '+' button to create one.", @"");
@@ -140,7 +152,7 @@
 }
 
 - (void)hideTableFooter {
-    self.tableView.tableFooterView = nil;
+    self.tableView.tableFooterView = self.originalFooterView;
 }
 
 #pragma mark - UITableView Editing
