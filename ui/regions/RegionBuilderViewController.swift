@@ -145,7 +145,7 @@ class RegionBuilderViewController: OBAStaticTableViewController {
         }.always {
             SVProgressHUD.dismiss()
         }.error { error in
-            let msg = String(format: NSLocalizedString("Unable to load data from %@. Please check the URL and try again.\r\n\r\n%@", comment: ""), URL.absoluteString, (error as NSError).localizedDescription)
+            let msg = String(format: NSLocalizedString("Unable to load data from %@. Please check the URL and try again.\r\n\r\n%@", comment: ""), URL.absoluteString!, (error as NSError).localizedDescription)
             let alert = UIAlertController.init(title: NSLocalizedString("Invalid Region Base URL", comment: ""), message: msg, preferredStyle: .Alert)
             alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss(), style: .Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
