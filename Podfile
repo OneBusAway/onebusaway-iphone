@@ -30,7 +30,7 @@ target 'OneBusAway' do
   pod 'Pulley', '1.0.0'
   # pod 'SwiftMessages', '1.1.3'
   pod 'SwiftMessages', git: 'https://github.com/SwiftKickMobile/SwiftMessages.git', :branch => 'swift2.3'
-  
+
   pod 'SMFloatingLabelTextField', '0.2.0'
 
   pod_promise_kit
@@ -47,7 +47,8 @@ post_install do |installer_representation|
   installer_representation.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
       config.build_settings['ONLY_ACTIVE_ARCH'] = 'NO'
-      config.build_settings['ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES'] = 'NO'
+      # config.build_settings['ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES'] = 'NO'
+      config.build_settings['ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES'] = 'YES'
     end
   end
 end
