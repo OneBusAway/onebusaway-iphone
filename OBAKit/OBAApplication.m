@@ -23,6 +23,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 @end
 
 @implementation OBAApplication
+@dynamic isServerReachable;
 
 + (instancetype)sharedApplication {
     static OBAApplication *oba;
@@ -33,6 +34,19 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     });
 
     return oba;
+}
+
+- (instancetype)init {
+    self = [super init];
+
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(regionUpdated:) name:OBARegionDidUpdateNotification object:nil];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBARegionDidUpdateNotification object:nil];
 }
 
 - (void)start {
@@ -51,10 +65,42 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 
     self.modelService.locationManager = self.locationManager;
 
-    self.reachability = [OBAReachability reachabilityWithHostname:@"api.onebusaway.org"];
+    [self restartReachability];
+
     self.regionHelper = [[OBARegionHelper alloc] init];
 
     [self refreshSettings];
+}
+
+#pragma mark - Reachability
+
+- (void)startReachabilityNotifier {
+    [self.reachability startNotifier];
+}
+
+- (void)stopReachabilityNotifier {
+    [self.reachability stopNotifier];
+}
+
+- (BOOL)isServerReachable {
+    return self.reachability.isReachable;
+}
+
+- (void)restartReachability {
+    [self.reachability stopNotifier];
+    self.reachability = nil;
+
+    NSURL *apiURL = [NSURL URLWithString:self.modelDao.currentRegion.obaBaseUrl];
+    NSString *hostname = apiURL ? apiURL.host : @"api.onebusaway.org";
+
+    self.reachability = [OBAReachability reachabilityWithHostname:hostname];
+    [self.reachability startNotifier];
+}
+
+#pragma mark - Region
+
+- (void)regionUpdated:(NSNotification*)note {
+    [self restartReachability];
 }
 
 #pragma mark - OS Settings

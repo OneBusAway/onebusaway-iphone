@@ -55,7 +55,6 @@
 		931C42C2160E4B2A00435CD3 /* MKMapView+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 931C42C1160E4B2A00435CD3 /* MKMapView+oba_Additions.m */; };
 		931FA94F1D502B9E00E12D62 /* OBARotatingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 931FA94E1D502B9E00E12D62 /* OBARotatingButton.m */; };
 		93203EA11D5BAD2500E6100C /* OBACollapsingHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93203EA01D5BAD2500E6100C /* OBACollapsingHeaderView.m */; };
-		93203EA41D5BCB9900E6100C /* OBABookmarkGroupsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93203EA31D5BCB9900E6100C /* OBABookmarkGroupsViewController.m */; };
 		932076391C909F76005F7D4A /* OBABookmarkV2_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 932076381C909F76005F7D4A /* OBABookmarkV2_Tests.m */; };
 		9320763A1C909FB2005F7D4A /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936F44FD1C780E7600C61656 /* OBAKit.framework */; };
 		932076411C90B948005F7D4A /* OBATestHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 932076401C90B948005F7D4A /* OBATestHelpers.m */; };
@@ -88,8 +87,6 @@
 		932BE4DA1AB66D890011F2FB /* OBASituationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4D61AB66D890011F2FB /* OBASituationsViewController.m */; };
 		932BE4DB1AB66D890011F2FB /* OBASituationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4D81AB66D890011F2FB /* OBASituationViewController.m */; };
 		932BE4E11AB66DBD0011F2FB /* OBACreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4E01AB66DBD0011F2FB /* OBACreditsViewController.m */; };
-		932BE4E91AB66E3C0011F2FB /* OBAEditBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4E41AB66E3C0011F2FB /* OBAEditBookmarkGroupViewController.m */; };
-		932BE4EA1AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4E61AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.m */; };
 		932BE4EB1AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4E81AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.m */; };
 		932BE4F61AB66E990011F2FB /* OBASearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4F11AB66E990011F2FB /* OBASearchController.m */; };
 		932BE4F71AB66E990011F2FB /* OBASearchResultsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4F31AB66E990011F2FB /* OBASearchResultsListViewController.m */; };
@@ -314,6 +311,9 @@
 		936F45DC1C78D06600C61656 /* OneBusAwayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F45DB1C78D06600C61656 /* OneBusAwayTests.m */; };
 		937E71F71D6EE408007A62D8 /* OBAStrings.h in Headers */ = {isa = PBXBuildFile; fileRef = 937E71F51D6EE408007A62D8 /* OBAStrings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		937E71F81D6EE408007A62D8 /* OBAStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = 937E71F61D6EE408007A62D8 /* OBAStrings.m */; };
+		938081C51D837C53006CFF8C /* OBABookmarkGroupsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 938081C01D837C53006CFF8C /* OBABookmarkGroupsViewController.m */; };
+		938081C61D837C53006CFF8C /* OBAEditBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 938081C21D837C53006CFF8C /* OBAEditBookmarkGroupViewController.m */; };
+		938081C71D837C53006CFF8C /* OBAEditStopBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 938081C41D837C53006CFF8C /* OBAEditStopBookmarkGroupViewController.m */; };
 		9388E9DD1A9BCC8900C9F6CE /* feedback_message_body.html in Resources */ = {isa = PBXBuildFile; fileRef = 9388E9DC1A9BCC8900C9F6CE /* feedback_message_body.html */; };
 		938EAC7C1D6A9B0600B174B9 /* OBASwitchRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 938EAC7B1D6A9B0600B174B9 /* OBASwitchRow.m */; };
 		938EAC7F1D6A9BB400B174B9 /* OBASwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 938EAC7E1D6A9BB400B174B9 /* OBASwitchCell.m */; };
@@ -347,6 +347,7 @@
 		93FF25E61D6E329A00A58E72 /* RegionBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FF25E51D6E329A00A58E72 /* RegionBuilderViewController.swift */; };
 		93FF25E91D6E332D00A58E72 /* OBATextFieldRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FF25E81D6E332D00A58E72 /* OBATextFieldRow.m */; };
 		93FF25EC1D6E342B00A58E72 /* OBATextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FF25EB1D6E342B00A58E72 /* OBATextFieldCell.m */; };
+		93FF4D4A1D83C87C00DDFF2D /* CardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93FF4D491D83C87C00DDFF2D /* CardView.xib */; };
 		C4402BFD381C435E877939FF /* Pods_OneBusAwayTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEDB575BE5B5DDBA090E58E0 /* Pods_OneBusAwayTests.framework */; };
 		D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = D651BB2711C9D5DE001BE733 /* iTunesArtwork */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
@@ -448,8 +449,6 @@
 		931FA94E1D502B9E00E12D62 /* OBARotatingButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARotatingButton.m; sourceTree = "<group>"; };
 		93203E9F1D5BAD2500E6100C /* OBACollapsingHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACollapsingHeaderView.h; sourceTree = "<group>"; };
 		93203EA01D5BAD2500E6100C /* OBACollapsingHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACollapsingHeaderView.m; sourceTree = "<group>"; };
-		93203EA21D5BCB9900E6100C /* OBABookmarkGroupsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkGroupsViewController.h; sourceTree = "<group>"; };
-		93203EA31D5BCB9900E6100C /* OBABookmarkGroupsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkGroupsViewController.m; sourceTree = "<group>"; };
 		932076381C909F76005F7D4A /* OBABookmarkV2_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkV2_Tests.m; sourceTree = "<group>"; };
 		9320763F1C90B948005F7D4A /* OBATestHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATestHelpers.h; sourceTree = "<group>"; };
 		932076401C90B948005F7D4A /* OBATestHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATestHelpers.m; sourceTree = "<group>"; };
@@ -501,10 +500,6 @@
 		932BE4D81AB66D890011F2FB /* OBASituationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASituationViewController.m; sourceTree = "<group>"; };
 		932BE4DF1AB66DBD0011F2FB /* OBACreditsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACreditsViewController.h; sourceTree = "<group>"; };
 		932BE4E01AB66DBD0011F2FB /* OBACreditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACreditsViewController.m; sourceTree = "<group>"; };
-		932BE4E31AB66E3C0011F2FB /* OBAEditBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditBookmarkGroupViewController.h; sourceTree = "<group>"; };
-		932BE4E41AB66E3C0011F2FB /* OBAEditBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditBookmarkGroupViewController.m; sourceTree = "<group>"; };
-		932BE4E51AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopBookmarkGroupViewController.h; sourceTree = "<group>"; };
-		932BE4E61AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditStopBookmarkGroupViewController.m; sourceTree = "<group>"; };
 		932BE4E71AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopBookmarkViewController.h; sourceTree = "<group>"; };
 		932BE4E81AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditStopBookmarkViewController.m; sourceTree = "<group>"; };
 		932BE4F01AB66E990011F2FB /* OBASearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchController.h; sourceTree = "<group>"; };
@@ -771,6 +766,12 @@
 		936F45DD1C78D06600C61656 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		937E71F51D6EE408007A62D8 /* OBAStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStrings.h; sourceTree = "<group>"; };
 		937E71F61D6EE408007A62D8 /* OBAStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStrings.m; sourceTree = "<group>"; };
+		938081BF1D837C53006CFF8C /* OBABookmarkGroupsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkGroupsViewController.h; sourceTree = "<group>"; };
+		938081C01D837C53006CFF8C /* OBABookmarkGroupsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkGroupsViewController.m; sourceTree = "<group>"; };
+		938081C11D837C53006CFF8C /* OBAEditBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditBookmarkGroupViewController.h; sourceTree = "<group>"; };
+		938081C21D837C53006CFF8C /* OBAEditBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditBookmarkGroupViewController.m; sourceTree = "<group>"; };
+		938081C31D837C53006CFF8C /* OBAEditStopBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopBookmarkGroupViewController.h; sourceTree = "<group>"; };
+		938081C41D837C53006CFF8C /* OBAEditStopBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditStopBookmarkGroupViewController.m; sourceTree = "<group>"; };
 		9388E9DC1A9BCC8900C9F6CE /* feedback_message_body.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = feedback_message_body.html; path = Resources/feedback_message_body.html; sourceTree = "<group>"; };
 		938EAC7A1D6A9B0600B174B9 /* OBASwitchRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASwitchRow.h; sourceTree = "<group>"; };
 		938EAC7B1D6A9B0600B174B9 /* OBASwitchRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASwitchRow.m; sourceTree = "<group>"; };
@@ -833,6 +834,7 @@
 		93FF25E81D6E332D00A58E72 /* OBATextFieldRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATextFieldRow.m; sourceTree = "<group>"; };
 		93FF25EA1D6E342B00A58E72 /* OBATextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATextFieldCell.h; sourceTree = "<group>"; };
 		93FF25EB1D6E342B00A58E72 /* OBATextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATextFieldCell.m; sourceTree = "<group>"; };
+		93FF4D491D83C87C00DDFF2D /* CardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CardView.xib; path = Resources/CardView.xib; sourceTree = "<group>"; };
 		9ABEF18E98158A7476ECDB64 /* Pods-OneBusAway.adhocdistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.adhocdistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.adhocdistribution.xcconfig"; sourceTree = "<group>"; };
 		A553375C73FCAF3CA3D5D44A /* Pods-OneBusAway.appstoredistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.appstoredistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.appstoredistribution.xcconfig"; sourceTree = "<group>"; };
 		B522CE42A9FA4C2EBC350330 /* Pods-OneBusAwayTests.adhocdistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAwayTests.adhocdistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAwayTests/Pods-OneBusAwayTests.adhocdistribution.xcconfig"; sourceTree = "<group>"; };
@@ -949,6 +951,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				93FF4D491D83C87C00DDFF2D /* CardView.xib */,
 				932076631C94E6F2005F7D4A /* regions-v3.json */,
 				93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */,
 				928E12B117D7863400FD855E /* Images.xcassets */,
@@ -1150,6 +1153,7 @@
 				932BE4FC1AB66EF20011F2FB /* recent_stops */,
 				932BE4EF1AB66E990011F2FB /* search */,
 				932BE4E21AB66E3C0011F2FB /* bookmarks */,
+				938081BE1D837C53006CFF8C /* bookmark_groups */,
 				932BE4D21AB66D890011F2FB /* situations */,
 				932BE4C21AB66D710011F2FB /* trip_details */,
 				932BE4A31AB66D5C0011F2FB /* stop_details */,
@@ -1228,18 +1232,12 @@
 			isa = PBXGroup;
 			children = (
 				939C23AE1D362209002A4145 /* tableview */,
-				932BE4E31AB66E3C0011F2FB /* OBAEditBookmarkGroupViewController.h */,
-				932BE4E41AB66E3C0011F2FB /* OBAEditBookmarkGroupViewController.m */,
-				932BE4E51AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.h */,
-				932BE4E61AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.m */,
 				932BE4E71AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.h */,
 				932BE4E81AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.m */,
 				9320764A1C915441005F7D4A /* OBABookmarksViewController.h */,
 				9320764B1C915441005F7D4A /* OBABookmarksViewController.m */,
 				9364BF831CFE9F420039F7D4 /* OBABookmarkRouteDisambiguationViewController.h */,
 				9364BF841CFE9F420039F7D4 /* OBABookmarkRouteDisambiguationViewController.m */,
-				93203EA21D5BCB9900E6100C /* OBABookmarkGroupsViewController.h */,
-				93203EA31D5BCB9900E6100C /* OBABookmarkGroupsViewController.m */,
 			);
 			path = bookmarks;
 			sourceTree = "<group>";
@@ -1679,6 +1677,19 @@
 			path = OneBusAwayTests;
 			sourceTree = "<group>";
 		};
+		938081BE1D837C53006CFF8C /* bookmark_groups */ = {
+			isa = PBXGroup;
+			children = (
+				938081BF1D837C53006CFF8C /* OBABookmarkGroupsViewController.h */,
+				938081C01D837C53006CFF8C /* OBABookmarkGroupsViewController.m */,
+				938081C11D837C53006CFF8C /* OBAEditBookmarkGroupViewController.h */,
+				938081C21D837C53006CFF8C /* OBAEditBookmarkGroupViewController.m */,
+				938081C31D837C53006CFF8C /* OBAEditStopBookmarkGroupViewController.h */,
+				938081C41D837C53006CFF8C /* OBAEditStopBookmarkGroupViewController.m */,
+			);
+			path = bookmark_groups;
+			sourceTree = "<group>";
+		};
 		9399E3DC1C89309300962292 /* section_headers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1974,7 +1985,7 @@
 			attributes = {
 				CLASSPREFIX = OBA;
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = OneBusAway;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
@@ -2033,6 +2044,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */,
+				93FF4D4A1D83C87C00DDFF2D /* CardView.xib in Resources */,
 				9363D5941D6ADE6600A7021A /* washingtondc.gpx in Resources */,
 				D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */,
 				9363D5921D6ADE6600A7021A /* invalid.gpx in Resources */,
@@ -2224,6 +2236,7 @@
 				93B8BA291C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m in Sources */,
 				932BE4D01AB66D710011F2FB /* OBATripScheduleListViewController.m in Sources */,
 				93F64E971BE5ACC300323527 /* OBAAlerts.m in Sources */,
+				938081C71D837C53006CFF8C /* OBAEditStopBookmarkGroupViewController.m in Sources */,
 				934446D41AB12C0C005B3333 /* OBAListSelectionViewController.m in Sources */,
 				9320765F1C94042B005F7D4A /* OBASegmentedControlCell.m in Sources */,
 				932BE4BD1AB66D5C0011F2FB /* OBAReportProblemViewController.m in Sources */,
@@ -2254,13 +2267,10 @@
 				934B62971CF825D200D8FA85 /* OBATripScheduleSectionBuilder.m in Sources */,
 				934446DA1AB12C5D005B3333 /* OBAProgressIndicatorView.m in Sources */,
 				93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */,
-				93203EA41D5BCB9900E6100C /* OBABookmarkGroupsViewController.m in Sources */,
 				934446BD1AB11033005B3333 /* OBALabelAndSwitchTableViewCell.m in Sources */,
 				932BE49D1AB66D320011F2FB /* OBAAgenciesListViewController.m in Sources */,
 				669B2F781AEBFCB300CF2367 /* OBAAnalytics.m in Sources */,
-				932BE4E91AB66E3C0011F2FB /* OBAEditBookmarkGroupViewController.m in Sources */,
 				93F8F4431D375B77008659D2 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */,
-				932BE4EA1AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.m in Sources */,
 				93FF25E91D6E332D00A58E72 /* OBATextFieldRow.m in Sources */,
 				938EAC7F1D6A9BB400B174B9 /* OBASwitchCell.m in Sources */,
 				9399E3DF1C8930C300962292 /* OBASeparatorSectionView.m in Sources */,
@@ -2280,6 +2290,7 @@
 				932BE4D11AB66D710011F2FB /* OBATripScheduleMapViewController.m in Sources */,
 				936D2EE81C7A378D0060B7E1 /* OBADepartureCell.m in Sources */,
 				932BE4DA1AB66D890011F2FB /* OBASituationsViewController.m in Sources */,
+				938081C61D837C53006CFF8C /* OBAEditBookmarkGroupViewController.m in Sources */,
 				932077281C9C84EC005F7D4A /* OBAStaticTableViewController+Builders.m in Sources */,
 				93E0D1A51D57D34E00D9AA63 /* OBAMapActivityIndicatorView.m in Sources */,
 				936D62881C8D00150070152B /* OBALabelFooterView.m in Sources */,
@@ -2301,6 +2312,7 @@
 				932BE4BB1AB66D5C0011F2FB /* OBAEditStopPreferencesViewController.m in Sources */,
 				932BE4E11AB66DBD0011F2FB /* OBACreditsViewController.m in Sources */,
 				923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */,
+				938081C51D837C53006CFF8C /* OBABookmarkGroupsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2589,7 +2601,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
@@ -2647,7 +2659,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
@@ -2699,7 +2711,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
@@ -2751,7 +2763,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
@@ -2949,13 +2961,29 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "";
@@ -2971,17 +2999,34 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/sdk/** $(BUILT_PRODUCTS_DIR)/**";
 			};
 			name = Release;
@@ -2989,13 +3034,29 @@
 		D6575AF50FEE8B0900D6D987 /* AdHocDistribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "";
@@ -3064,13 +3125,29 @@
 		D6BEE73E10474E58003655A1 /* AppStoreDistribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "";

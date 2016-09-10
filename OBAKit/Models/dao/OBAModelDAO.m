@@ -26,6 +26,8 @@
 
 NSString * const OBAUngroupedBookmarksIdentifier = @"OBAUngroupedBookmarksIdentifier";
 NSString * const OBAMostRecentStopsChangedNotification = @"OBAMostRecentStopsChangedNotification";
+NSString * const OBARegionDidUpdateNotification = @"OBARegionDidUpdateNotification";
+
 const NSInteger kMaxEntriesInMostRecentList = 10;
 
 @interface OBAModelDAO ()
@@ -73,6 +75,8 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 - (void)setCurrentRegion:(OBARegionV2 *)currentRegion {
     _currentRegion = currentRegion;
     [_preferencesDao writeOBARegion:currentRegion];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBARegionDidUpdateNotification object:nil];
 }
 
 - (OBARegionV2*)currentRegion {

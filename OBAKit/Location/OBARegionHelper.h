@@ -12,8 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString * const OBARegionDidUpdateNotification;
-
 @class OBARegionHelper;
 @protocol OBARegionHelperDelegate <NSObject>
 - (void)regionHelperShowRegionListController:(OBARegionHelper*)regionHelper;
