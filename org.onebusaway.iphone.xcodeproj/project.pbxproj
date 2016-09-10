@@ -347,6 +347,7 @@
 		93FF25E61D6E329A00A58E72 /* RegionBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FF25E51D6E329A00A58E72 /* RegionBuilderViewController.swift */; };
 		93FF25E91D6E332D00A58E72 /* OBATextFieldRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FF25E81D6E332D00A58E72 /* OBATextFieldRow.m */; };
 		93FF25EC1D6E342B00A58E72 /* OBATextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FF25EB1D6E342B00A58E72 /* OBATextFieldCell.m */; };
+		93FF4D4A1D83C87C00DDFF2D /* CardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93FF4D491D83C87C00DDFF2D /* CardView.xib */; };
 		C4402BFD381C435E877939FF /* Pods_OneBusAwayTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEDB575BE5B5DDBA090E58E0 /* Pods_OneBusAwayTests.framework */; };
 		D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = D651BB2711C9D5DE001BE733 /* iTunesArtwork */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
@@ -833,6 +834,7 @@
 		93FF25E81D6E332D00A58E72 /* OBATextFieldRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATextFieldRow.m; sourceTree = "<group>"; };
 		93FF25EA1D6E342B00A58E72 /* OBATextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATextFieldCell.h; sourceTree = "<group>"; };
 		93FF25EB1D6E342B00A58E72 /* OBATextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATextFieldCell.m; sourceTree = "<group>"; };
+		93FF4D491D83C87C00DDFF2D /* CardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CardView.xib; path = Resources/CardView.xib; sourceTree = "<group>"; };
 		9ABEF18E98158A7476ECDB64 /* Pods-OneBusAway.adhocdistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.adhocdistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.adhocdistribution.xcconfig"; sourceTree = "<group>"; };
 		A553375C73FCAF3CA3D5D44A /* Pods-OneBusAway.appstoredistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.appstoredistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.appstoredistribution.xcconfig"; sourceTree = "<group>"; };
 		B522CE42A9FA4C2EBC350330 /* Pods-OneBusAwayTests.adhocdistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAwayTests.adhocdistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAwayTests/Pods-OneBusAwayTests.adhocdistribution.xcconfig"; sourceTree = "<group>"; };
@@ -949,6 +951,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				93FF4D491D83C87C00DDFF2D /* CardView.xib */,
 				932076631C94E6F2005F7D4A /* regions-v3.json */,
 				93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */,
 				928E12B117D7863400FD855E /* Images.xcassets */,
@@ -2041,6 +2044,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */,
+				93FF4D4A1D83C87C00DDFF2D /* CardView.xib in Resources */,
 				9363D5941D6ADE6600A7021A /* washingtondc.gpx in Resources */,
 				D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */,
 				9363D5921D6ADE6600A7021A /* invalid.gpx in Resources */,

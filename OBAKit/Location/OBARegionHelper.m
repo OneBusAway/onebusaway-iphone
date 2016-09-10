@@ -11,8 +11,6 @@
 #import "OBAMacros.h"
 #import <OBAKit/OBAKit.h>
 
-NSString * const OBARegionDidUpdateNotification = @"OBARegionDidUpdateNotification";
-
 @interface OBARegionHelper ()
 @property (nonatomic) NSMutableArray *regions;
 @property (nonatomic) CLLocation *location;
@@ -144,8 +142,6 @@ NSString * const OBARegionDidUpdateNotification = @"OBARegionDidUpdateNotificati
     [[OBAApplication sharedApplication] refreshSettings];
     [[OBAApplication sharedApplication].locationManager removeDelegate:self];
     [OBAApplication sharedApplication].modelDao.automaticallySelectRegion = YES;
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:OBARegionDidUpdateNotification object:nil];
 }
 
 - (void)setRegion {
@@ -165,8 +161,7 @@ NSString * const OBARegionDidUpdateNotification = @"OBARegionDidUpdateNotificati
     }
 }
 
-#pragma mark OBALocationManagerDelegate Methods
-
+#pragma mark - OBALocationManagerDelegate Methods
 
 - (void)locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
     self.location = [OBAApplication sharedApplication].locationManager.currentLocation;

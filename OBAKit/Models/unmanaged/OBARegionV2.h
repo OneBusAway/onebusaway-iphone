@@ -41,6 +41,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)validateModel;
 
+/**
+ obaBaseUrl converted into an NSURL
+ */
+@property(nonatomic,copy,readonly) NSURL *baseURL;
+
 @end
 
 NS_ASSUME_NONNULL_END

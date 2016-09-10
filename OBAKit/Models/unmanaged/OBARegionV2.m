@@ -29,6 +29,7 @@ static NSString * kRegionName = @"regionName";
 static NSString * kCustom = @"custom";
 
 @implementation OBARegionV2
+@dynamic baseURL;
 
 - (id)init {
     self = [super init];
@@ -88,6 +89,10 @@ static NSString * kCustom = @"custom";
 
 - (BOOL)validateModel {
     return [NSURL URLWithString:self.obaBaseUrl] && self.regionName.length > 0;
+}
+
+- (NSURL*)baseURL {
+    return [NSURL URLWithString:self.obaBaseUrl];
 }
 
 #pragma mark - Public Location-Related Methods

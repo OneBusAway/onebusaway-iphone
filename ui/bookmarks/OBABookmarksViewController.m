@@ -178,7 +178,7 @@ static NSUInteger const kMinutes = 30;
 
 - (void)reachabilityChanged:(NSNotification*)note {
     // Automatically refresh whenever the connection goes from offline -> online
-    if ([OBAApplication sharedApplication].reachability.isReachable) {
+    if ([OBAApplication sharedApplication].isServerReachable) {
         [self startTimer];
     }
     else {

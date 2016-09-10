@@ -61,6 +61,8 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
             [self updateShortcutItemsForRecentStops];
         }];
 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+
         [[OBAApplication sharedApplication] start];
 
         [OBAApplication sharedApplication].regionHelper.delegate = self;
@@ -72,6 +74,8 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self.regionObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self.recentStopsObserver];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+
 }
 
 - (void)navigateToTarget:(OBANavigationTarget *)navigationTarget {
@@ -153,7 +157,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    [[OBAApplication sharedApplication].reachability startNotifier];
+    [[OBAApplication sharedApplication] startReachabilityNotifier];
 
     [self.applicationUI applicationDidBecomeActive];
 
@@ -167,7 +171,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-    [[OBAApplication sharedApplication].reachability stopNotifier];
+    [[OBAApplication sharedApplication] stopReachabilityNotifier];
 }
 
 #pragma mark Shortcut Items
@@ -198,6 +202,21 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     [[OBAApplication sharedApplication].references clear];
 
     [self.applicationUI navigateToTargetInternal:navigationTarget];
+}
+
+#pragma mark - Reachability
+
+- (void)reachabilityChanged:(NSNotification*)note {
+
+    OBAReachability *reachability = note.object;
+
+    if (!reachability.isReachable) {
+
+        NSString *host = [OBAApplication sharedApplication].modelDao.currentRegion.baseURL.host;
+        NSString *body = [NSString stringWithFormat:NSLocalizedString(@"Cannot connect to %@", @"Global reachablity alert body format string"), host];
+
+        [AlertPresenter showWarning:NSLocalizedString(@"Lost Connection", @"Global reachability alert title") body:body];
+    }
 }
 
 #pragma mark - RegionListDelegate
