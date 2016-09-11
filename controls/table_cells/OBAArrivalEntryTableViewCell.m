@@ -48,13 +48,13 @@
 
     if (_alertStyle == OBAArrivalEntryTableViewCellAlertStyleNone) {
         [self cancelTimer];
-        _alertImage.hidden = YES;        
-        _minutesLabel.hidden = NO;
+        self.alertImage.hidden = YES;
+        self.minutesLabel.hidden = NO;
     }
     else {
-        _minutesLabel.alpha = 1.0;
-        _alertImage.alpha = 0.0;
-        _alertImage.hidden = NO;
+        self.minutesLabel.alpha = 1.0;
+        self.alertImage.alpha = 0.0;
+        self.alertImage.hidden = NO;
 
         if (!self.transitionTimer) {
             self.transitionTimer = [NSTimer scheduledTimerWithTimeInterval:1.2 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];

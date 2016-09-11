@@ -183,7 +183,8 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     cell.textLabel.font = [OBATheme bodyFont];
     switch (indexPath.row) {
         case 0: {
-            NSString *routeShortName = trip.route.shortName ? : trip.route.longName;
+            OBARouteV2 *route = trip.route;
+            NSString *routeShortName = route.shortName ? : route.longName;
             NSString *tripHeadsign = trip.tripHeadsign;
             cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", routeShortName, tripHeadsign];
             break;

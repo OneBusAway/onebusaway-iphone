@@ -133,6 +133,9 @@
 
         overlayView = _routePolylineRenderer;
     }
+    else {
+        overlayView = [[MKOverlayRenderer alloc] init];
+    }
 
     return overlayView;
 }

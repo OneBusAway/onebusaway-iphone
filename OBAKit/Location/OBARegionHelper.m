@@ -132,12 +132,6 @@
         }
      }];
 
-    NSString *oldRegion = @"null";
-
-    if ([OBAApplication sharedApplication].modelDao.currentRegion) {
-        oldRegion = [OBAApplication sharedApplication].modelDao.currentRegion.regionName;
-    }
-
     [OBAApplication sharedApplication].modelDao.currentRegion = self.regions[0];
     [[OBAApplication sharedApplication] refreshSettings];
     [[OBAApplication sharedApplication].locationManager removeDelegate:self];

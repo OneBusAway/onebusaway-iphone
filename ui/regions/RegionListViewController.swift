@@ -86,7 +86,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
     // MARK: - Table View Editing/Deletion
 
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        guard let region = self.rowAtIndexPath(indexPath).model else {
+        guard let region = self.rowAtIndexPath(indexPath)!.model else {
             return false
         }
 
@@ -102,7 +102,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
         let row = self.rowAtIndexPath(indexPath)
-        guard let region = row.model as? OBARegionV2 else {
+        guard let region = row!.model as? OBARegionV2 else {
             return nil
         }
 

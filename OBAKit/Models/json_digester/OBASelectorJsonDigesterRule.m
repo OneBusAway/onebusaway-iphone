@@ -48,8 +48,9 @@
     
     if( self.ruleTarget != ruleTarget )
         return;
-    
-    NSMethodSignature * methodSig = [self.target methodSignatureForSelector:self.selector];
+
+    id target = self.target;
+    NSMethodSignature * methodSig = [target methodSignatureForSelector:self.selector];
     
     if(!methodSig) {
         NSLog(@"selector not found for target object in OBASelectorJSONDigesterRule");
@@ -57,7 +58,7 @@
     }
     
     NSInvocation * invoker = [NSInvocation invocationWithMethodSignature:methodSig];
-    [invoker setTarget:self.target];
+    [invoker setTarget:target];
     [invoker setSelector:self.selector];
     [invoker setArgument:&context atIndex:2];
     [invoker setArgument:&name atIndex:3];

@@ -58,9 +58,12 @@
 - (void)setIsOpen:(BOOL)isOpen {
     _isOpen = isOpen;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
     [OBAAnimation performAnimations:^{
         self.toggleButton.imageView.transform = isOpen ? CGAffineTransformMakeRotation(M_PI_2) : CGAffineTransformIdentity;
     }];
+#pragma clang diagnostic pop
 }
 
 #pragma mark - Actions
