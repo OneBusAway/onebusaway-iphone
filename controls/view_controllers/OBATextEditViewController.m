@@ -118,8 +118,9 @@ static NSInteger const kMaximumCharacters = 255;
 }
 
 - (IBAction)save:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(saveText:)]) {
-        [self.delegate saveText:self.textView.text];
+    id delegate = self.delegate;
+    if ([delegate respondsToSelector:@selector(saveText:)]) {
+        [delegate saveText:self.textView.text];
     }
 
     [self dismissViewControllerAnimated:YES completion:nil];

@@ -134,6 +134,7 @@
         overlayView = _routePolylineRenderer;
     }
 
+    // TODO: can't return nil here, MKMapViewDelegate says NONNULL
     return overlayView;
 }
 

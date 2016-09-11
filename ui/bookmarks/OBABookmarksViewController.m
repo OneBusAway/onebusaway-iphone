@@ -248,13 +248,13 @@ static NSUInteger const kMinutes = 30;
 
     NSMutableArray<UITableViewRowAction *> *actions = [NSMutableArray array];
 
-    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedString(@"Delete", @"Title of delete bookmark row action.") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        [self deleteRowAtIndexPath:indexPath];
+    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedString(@"Delete", @"Title of delete bookmark row action.") handler:^(UITableViewRowAction *action, NSIndexPath *rowIndexPath) {
+        [self deleteRowAtIndexPath:rowIndexPath];
     }];
     [actions addObject:delete];
 
     if (tableRow.editAction) {
-        UITableViewRowAction *edit = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedString(@"Edit", @"Title of edit bookmark/group row action.") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        UITableViewRowAction *edit = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedString(@"Edit", @"Title of edit bookmark/group row action.") handler:^(UITableViewRowAction *action, NSIndexPath *rowIndexPath) {
             tableRow.editAction();
         }];
         [actions addObject:edit];
@@ -413,7 +413,7 @@ static NSUInteger const kMinutes = 30;
 }
 
 - (OBABookmarkedRouteRow *)rowForBookmarkVersion260:(OBABookmarkV2*)bookmark {
-    OBABookmarkedRouteRow *row = [[OBABookmarkedRouteRow alloc] initWithAction:^(OBABaseRow *row){
+    OBABookmarkedRouteRow *row = [[OBABookmarkedRouteRow alloc] initWithAction:^(OBABaseRow *baseRow){
         OBAStopViewController *controller = [[OBAStopViewController alloc] initWithStopID:bookmark.stopId];
         [self.navigationController pushViewController:controller animated:YES];
     }];
@@ -435,8 +435,8 @@ static NSUInteger const kMinutes = 30;
         [self presentViewController:nav animated:YES completion:nil];
     }];
 
-    [row setDeleteModel:^(OBABaseRow *row){
-        [self.modelDAO removeBookmark:row.model];
+    [row setDeleteModel:^(OBABaseRow *deleteRow){
+        [self.modelDAO removeBookmark:deleteRow.model];
     }];
 }
 

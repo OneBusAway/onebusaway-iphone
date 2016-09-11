@@ -28,10 +28,10 @@
     NSUInteger responseCode = code;
 
     if (self.checkCode && [obj respondsToSelector:@selector(valueForKey:)]) {
-        NSNumber *code = [obj valueForKey:@"code"];
+        NSNumber *dataCode = [obj valueForKey:@"code"];
 
-        if (code) {
-            responseCode = [code unsignedIntegerValue];
+        if (dataCode) {
+            responseCode = [dataCode unsignedIntegerValue];
         }
 
         obj = [obj valueForKey:@"data"];

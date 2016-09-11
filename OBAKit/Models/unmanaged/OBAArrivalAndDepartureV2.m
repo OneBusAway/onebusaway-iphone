@@ -35,26 +35,29 @@
 - (NSString*)tripHeadsign {
 
     NSString *headsign = nil;
+    
+    OBATripV2 *trip = self.trip;
+    OBARouteV2 *route = trip.route;
 
     if (_tripHeadsign.length > 0) {
         headsign = _tripHeadsign;
     }
-    else if (self.trip.tripHeadsign) {
-        headsign = self.trip.tripHeadsign;
+    else if (trip.tripHeadsign) {
+        headsign = trip.tripHeadsign;
     }
-    else if (self.trip.route.longName) {
-        headsign = self.trip.route.longName;
+    else if (route.longName) {
+        headsign = route.longName;
     }
-    else if (self.trip.route.shortName) {
-        headsign = self.trip.route.shortName;
+    else if (route.shortName) {
+        headsign = route.shortName;
     }
 
     if (!headsign) {
         return nil;
     }
 
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[a-z]" options:0 error:nil];
-    if ([regex numberOfMatchesInString:headsign options:0 range:NSMakeRange(0, headsign.length)] > 0) {
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[a-z]" options:(NSRegularExpressionOptions)0 error:nil];
+    if ([regex numberOfMatchesInString:headsign options:(NSMatchingOptions)0 range:NSMakeRange(0, headsign.length)] > 0) {
         // Headsign contains a mix of uppercase and lowercase letters. Let it be.
         return headsign;
     }
@@ -127,16 +130,17 @@
         return self.routeShortName;
     }
 
-    OBATripV2* trip = self.trip;
+    OBATripV2 *trip = self.trip;
+    OBARouteV2 *route = trip.route;
 
     if (trip.routeShortName) {
         return trip.routeShortName;
     }
-    else if (trip.route.shortName) {
-        return trip.route.shortName;
+    else if (route.shortName) {
+        return route.shortName;
     }
     else {
-        return trip.route.longName;
+        return route.longName;
     }
 }
 

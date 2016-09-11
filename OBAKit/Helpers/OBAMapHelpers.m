@@ -286,7 +286,7 @@ NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2,
 + (NSUInteger)zoomLevelForMapRect:(MKMapRect)mRect withMapViewSizeInPixels:(CGSize)viewSizeInPixels
 {
     NSUInteger zoomLevel = MAXIMUM_ZOOM;
-    MKZoomScale zoomScale = mRect.size.width / viewSizeInPixels.width; //MKZoomScale is just a CGFloat typedef
+    MKZoomScale zoomScale = (CGFloat) mRect.size.width / viewSizeInPixels.width; //MKZoomScale is just a CGFloat typedef
     double zoomExponent = log2(zoomScale);
     zoomLevel = (NSUInteger)(MAXIMUM_ZOOM - ceil(zoomExponent));
     return zoomLevel;

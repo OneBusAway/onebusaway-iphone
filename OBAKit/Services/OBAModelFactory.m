@@ -196,7 +196,7 @@ static NSString * const kReferences = @"references";
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"regions-v3" ofType:@"json"];
     NSData *data = [[NSData alloc] initWithContentsOfFile:filePath];
 
-    return [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    return [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:nil];
 }
 
 - (OBAArrivalsAndDeparturesForStopV2*) getArrivalsAndDeparturesForStopV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error {

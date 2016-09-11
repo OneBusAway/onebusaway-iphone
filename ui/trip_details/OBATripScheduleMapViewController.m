@@ -147,6 +147,7 @@ static const NSString *kShapeContext = @"ShapeContext";
         return self.routePolylineRenderer;
     }
     else {
+        // TODO: Can't return nil here, MKMapViewDelegate specifies NONNULL for this
         return nil;
     }
 }
