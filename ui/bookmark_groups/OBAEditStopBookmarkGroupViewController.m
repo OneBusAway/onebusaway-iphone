@@ -58,10 +58,10 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
 
     if (indexPath.row == 0) {
-        cell.textLabel.text = @"Add";
+        cell.textLabel.text = NSLocalizedString(@"Add",);
     }
     else if (indexPath.row == 1) {
-        cell.textLabel.text = @"None";
+        cell.textLabel.text = NSLocalizedString(@"None",);
 
         if (self.selectedGroup == nil) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;

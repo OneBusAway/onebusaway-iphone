@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)dataSourceConfigWithBaseURL:(NSURL*)URL userID:(NSString*)userID;
 
 - (instancetype)initWithURL:(NSURL*)baseURL args:(nullable NSDictionary*)args;
-- (NSURL*)constructURL:(NSString*)path withArgs:(nullable NSDictionary*)args;
+- (nullable NSURL*)constructURL:(NSString*)path withArgs:(nullable NSDictionary*)args;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -444,14 +444,14 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 #pragma mark - OBABackgroundTaskExecutor
 
-static NSObject<OBABackgroundTaskExecutor>* executor;
+static NSObject<OBABackgroundTaskExecutor>* sharedExecutor;
 
 + (NSObject<OBABackgroundTaskExecutor>*)sharedBackgroundExecutor {
-    return executor;
+    return sharedExecutor;
 }
 
 + (void)addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*)exc {
-    executor = exc;
+    sharedExecutor = exc;
 }
 
 @end

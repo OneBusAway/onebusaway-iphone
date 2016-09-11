@@ -128,11 +128,13 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 - (void)refreshSettings {
     NSURL *apiURL = [NSURL URLWithString:self.modelDao.currentRegion.obaBaseUrl];
     
-    if (!apiURL) {
+    if (apiURL) {
+        self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:apiURL userID:[OBAUser userIdFromDefaults]];
+    }
+    else {
         [[NSNotificationCenter defaultCenter] postNotificationName:kOBAApplicationSettingsRegionRefreshNotification object:nil];
     }
 
-    self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:apiURL userID:[OBAUser userIdFromDefaults]];
     self.modelService.googleMapsJsonDataSource = [OBAJsonDataSource googleMapsJSONDataSource];
     self.modelService.obaRegionJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:kOBADefaultRegionApiServerName] userID:[OBAUser userIdFromDefaults]];
 }

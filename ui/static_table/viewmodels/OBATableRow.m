@@ -22,10 +22,6 @@ static NSString * const OBACellStyleSubtitleReuseIdentifier = @"OBACellStyleSubt
     [OBAViewModelRegistry registerClass:self.class];
 }
 
-+ (instancetype)tableRowWithTitle:(NSString*)title action:(void (^)())action {
-    return [[self alloc] initWithTitle:title action:action];
-}
-
 - (instancetype)initWithTitle:(NSString*)title action:(void (^)())action {
     self = [super initWithAction:action];
     

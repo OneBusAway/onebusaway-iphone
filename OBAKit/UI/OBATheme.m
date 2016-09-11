@@ -120,7 +120,7 @@ static UIFont *_boldFootnoteFont = nil;
 }
 
 + (UIColor*)propertyChangedColor {
-    return [OBATheme colorWithRed:255 green:255 blue:128 alpha:0.7];
+    return [OBATheme colorWithRed:255 green:255 blue:128 alpha:0.7f];
 }
 
 + (UIColor*)nonOpaquePrimaryColor {
