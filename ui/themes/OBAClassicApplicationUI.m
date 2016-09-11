@@ -36,6 +36,8 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
 
 - (instancetype)init {
 
+    self = [super init];
+
     if (self) {
         _tabBarController = [[UITabBarController alloc] init];
 

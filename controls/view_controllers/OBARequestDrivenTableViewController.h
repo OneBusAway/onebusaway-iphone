@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL refreshable;
 @property (nonatomic) NSInteger refreshInterval;
 
-@property (nonatomic, strong) NSTimer *timer;
-@property (nonatomic, strong) id<OBAModelServiceRequest> request;
+@property (nonatomic, strong, nullable) NSTimer *timer;
+@property (nonatomic, strong, nullable) id<OBAModelServiceRequest> request;
 @property (nonatomic, copy, readonly) OBADataSourceProgress progressCallback;
 
 - (BOOL)isLoading;
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
     Once the operation completes or fails, the two methods below must be called
     to update the refresh control state.
  */
-- (id<OBAModelServiceRequest>)handleRefresh;
+- (nullable id<OBAModelServiceRequest>)handleRefresh;
 
 /**
     Must be called with an HTTP status code to property update the UI of the

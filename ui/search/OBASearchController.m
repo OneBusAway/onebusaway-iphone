@@ -162,7 +162,7 @@ NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserI
             [data getBytes:&region length:sizeof(MKCoordinateRegion)];
 
             return [_modelService requestStopsForRegion:region completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                WrapperCompletion(jsonData, responseCode, error, ^(id data) {
+                WrapperCompletion(jsonData, responseCode, error, ^(id blockData) {
                     [self fireUpdateFromList:jsonData];
                 });
             }];
@@ -176,9 +176,9 @@ NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserI
 
                     if ([list count] == 1) {
                         OBARouteV2 *route = (list.values)[0];
-                        OBANavigationTarget *target = [OBASearch getNavigationTargetForSearchRouteStops:route.routeId];
+                        OBANavigationTarget *navTarget = [OBASearch getNavigationTargetForSearchRouteStops:route.routeId];
                         [self performSelector:@selector(searchWithTarget:)
-                                   withObject:target
+                                   withObject:navTarget
                                    afterDelay:0];
                     }
                     else {
@@ -209,9 +209,9 @@ NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserI
 
                     if ([placemarks count] == 1) {
                         OBAPlacemark *placemark = placemarks[0];
-                        OBANavigationTarget *target = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
+                        OBANavigationTarget *navTarget = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
                         [self performSelector:@selector(searchWithTarget:)
-                                   withObject:target
+                                   withObject:navTarget
                                    afterDelay:0];
                     }
                     else {
@@ -228,8 +228,8 @@ NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserI
             return [_modelService requestStopsForPlacemark:placemark completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                 WrapperCompletion(jsonData, responseCode, error, ^(id data) {
                     OBASearchResult *result = [OBASearchResult resultFromList:data];
-                    OBAPlacemark *placemark = [self.target parameterForKey:kOBASearchControllerSearchArgumentParameter];
-                    result.additionalValues = @[placemark];
+                    OBAPlacemark *newMark = [self.target parameterForKey:kOBASearchControllerSearchArgumentParameter];
+                    result.additionalValues = @[newMark];
                     [self fireUpdate:result];
                 });
             }];
@@ -308,14 +308,18 @@ NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserI
                                                         object:self
                                                       userInfo:userInfo];
 
-    if (_delegate) [_delegate handleSearchControllerUpdate:self.result];
+    id<OBASearchControllerDelegate> delegate = _delegate;
+    if (delegate) {
+        [delegate handleSearchControllerUpdate:self.result];
+    }
 }
 
 - (void)fireError:(NSError *)error {
     self.error = error;
 
-    if (_delegate && [_delegate respondsToSelector:@selector(handleSearchControllerError:)]) {
-        [_delegate handleSearchControllerError:error];
+    id delegate = _delegate;
+    if (delegate && [delegate respondsToSelector:@selector(handleSearchControllerError:)]) {
+        [delegate handleSearchControllerError:error];
     }
 }
 

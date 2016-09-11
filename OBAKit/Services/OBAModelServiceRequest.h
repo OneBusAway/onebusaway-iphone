@@ -7,7 +7,7 @@ typedef UIBackgroundTaskIdentifier(^OBABackgroundTaskCleanup)(UIBackgroundTaskId
 @interface OBAModelServiceRequest : NSObject<OBAModelServiceRequest>
 
 @property(strong) OBAModelFactory * modelFactory;
-@property(assign) SEL modelFactorySelector;
+@property(assign, nullable) SEL modelFactorySelector;
 @property(copy) OBABackgroundTaskCleanup cleanupBlock;
 
 @property BOOL checkCode;

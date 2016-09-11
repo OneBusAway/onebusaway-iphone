@@ -128,6 +128,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             return [self tableView:tableView markAsReadCellForRowAtIndexPath:indexPath];
 
         default:
+            // TODO: Can't return nil here; declaration in UITableView is NONNULL
             return nil;
     }
 }

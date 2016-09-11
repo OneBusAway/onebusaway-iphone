@@ -606,6 +606,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         return renderer;
     }
     else {
+        // TODO: can't return nil here, MKMapViewDelegate says NONNULL
         return nil;
     }
 }
@@ -638,7 +639,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (IBAction)showListView:(id)sender {
-    OBASearchResult *result = self.searchController.result;
+    OBASearchResult * __nonnull result = self.searchController.result;
 
     if (result) {
         // Prune down the results to show only what's currently in the map view
@@ -794,11 +795,12 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (CLLocation *)currentLocation {
+    CLLocation *loc = self.searchController.searchLocation;
     if ([OBAApplication sharedApplication].locationManager.currentLocation) {
         return [OBAApplication sharedApplication].locationManager.currentLocation;
     }
-    else if (self.searchController.searchLocation) {
-        return self.searchController.searchLocation;
+    else if (loc) {
+        return loc;
     }
     else {
         return [[CLLocation alloc] initWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude];

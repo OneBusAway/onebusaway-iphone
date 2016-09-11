@@ -23,7 +23,7 @@ static NSString * const OBACellStyleSubtitleReuseIdentifier = @"OBACellStyleSubt
 }
 
 + (instancetype)tableRowWithTitle:(NSString*)title action:(void (^)())action {
-    return [[self alloc] initWithTitle:title action:action];
+    return [[OBATableRow alloc] initWithTitle:title action:action];
 }
 
 - (instancetype)initWithTitle:(NSString*)title action:(void (^)())action {

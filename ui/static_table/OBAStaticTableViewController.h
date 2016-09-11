@@ -34,7 +34,7 @@ typedef NS_ENUM(NSUInteger, OBARootViewStyle) {
  */
 @property(nonatomic,copy,nullable) NSString *emptyDataSetDescription;
 
-- (OBABaseRow*)rowAtIndexPath:(NSIndexPath*)indexPath;
+- (nullable OBABaseRow*)rowAtIndexPath:(NSIndexPath*)indexPath;
 - (nullable NSIndexPath*)indexPathForRow:(OBABaseRow*)row;
 
 /**

@@ -61,9 +61,10 @@
 
 // TODO: animate this.
 - (void)segmentSelected:(id)sender {
-    [self oba_removeChildViewController:self.visibleViewController];
+    UIViewController *controller = self.visibleViewController;
+    [self oba_removeChildViewController:controller];
     self.visibleViewController = self.viewControllers[self.segmentedControl.selectedSegmentIndex];
-    [self oba_addChildViewController:self.visibleViewController];
+    [self oba_addChildViewController:controller];
 }
 
 @end
