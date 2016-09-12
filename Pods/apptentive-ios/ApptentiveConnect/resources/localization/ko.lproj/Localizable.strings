@@ -1,0 +1,123 @@
+/* Accessibility label for 'show about' button */
+"About Apptentive" = "Apptentive 정보";
+
+/* About apptentive introductory message */
+"Apptentive is a service that allows you to have a conversation with the makers of this app. Your input and feedback can help to provide you with a better overall experience.\n\nYour feedback is hosted by Apptentive and is subject to both Apptentive’s privacy policy and the privacy policy of this app’s developer." = "Apptentive는 이 앱의 개발자와 대화를 할 수 있게 하는 서비스입니다. 귀하의 의견 및 피드백은 전반적으로 개선된 경험을 제공하는데 도움이 됩니다.\n\n귀하의 피드백은 Apptentive가 관리하며 Apptentive 및 이 앱의 개발자의 개인정보 취급방침 모두의 적용을 받습니다.";
+
+/* About apptentive privacy button label */
+"Apptentive’s Privacy Policy" = "Apptentive 개인정보 취급방침";
+
+/* Accessibility label for 'attach' button */
+"Attach" = "첨부";
+
+/* Accessibility hint for 'attach' */
+"Attaches a photo or screenshot" = "사진이나 스크린샷 첨부";
+
+/* Placeholder name for attachment */
+"Attachment %@" = "첨부 %@";
+
+/* No comment provided by engineer. */
+"Authentication Failed" = "인증 실패";
+
+/* Button that closes Message Center. */
+"Close" = "닫기";
+
+/* Accessibility hint for 'close' button */
+"Closes Message Center." = "메시지 센터를 닫습니다.";
+
+/* Accessibility label for 'discard' button */
+"Discard" = "취소";
+
+/* Accessibility hint for 'discard' button */
+"Discards the message." = "메시지를 취소합니다.";
+
+/* Accessibilty hint for 'show about' button */
+"Displays information about this feature." = "이 기능에 대한 정보를 표시합니다.";
+
+/* Accessibility hint for 'edit profile' button */
+"Displays name and email editor." = "이름 및 이메일 편집기를 표시합니다.";
+
+/* Title for enjoyment alert view. Parameter is app name. */
+"Do you love %@?" = "%@ 앱이 마음에 드세요?";
+
+/* Message failed to send. */
+"Failed" = "실패";
+
+/* No comment provided by engineer. */
+"Invalid response from server." = "서버로부터의 응답이 잘못되었습니다.";
+
+/* About apptentive link button label */
+"Learn about Apptentive" = "Apptentive에 대해 자세히 보기";
+
+/* Message Center default title */
+"Message Center" = "메시지 센터";
+
+/* No comment provided by engineer. */
+"Network Connection Error" = "네트워크 연결 오류";
+
+/* no */
+"No" = "아니오";
+
+/* cancel title for app rating dialog */
+"No Thanks" = "아니오, 괜찮습니다";
+
+/* OK button title */
+"OK" = "확인";
+
+/* Unable to load the App Store title */
+"Oops!" = "문제 발생!";
+
+/* Powered by followed by Apptentive logo. */
+"Powered by" = "기술 제공:";
+
+/* Accessibility label for 'edit profile' button */
+"Profile" = "프로필";
+
+/* Rate app button title */
+"Rate %@" = "%@ 평가";
+
+/* Remind me later button title */
+"Remind Me Later" = "다음에";
+
+/* No comment provided by engineer. */
+"required" = "필수";
+
+/* Message is sending. */
+"Sending…" = "보내는 중...";
+
+/* Accessibility hint for 'send' button */
+"Sends the message." = "메시지를 보냅니다.";
+
+/* Message sent successfully */
+"Sent" = "전송 완료";
+
+/* No comment provided by engineer. */
+"Server did not return properly formatted JSON." = "서버가 올바른 형식의 JSON을 반환하지 않았습니다.";
+
+/* No comment provided by engineer. */
+"Server error." = "서버 오류.";
+
+/* Rate app title. */
+"Thank You" = "감사합니다";
+
+/* Attachment download failed alert title */
+"Unable to Download Attachment" = "첨부 파일을 다운로드할 수 없음";
+
+/* Unable to load the App Store message */
+"Unable to load the App Store" = "App Store를 불러올 수 없습니다";
+
+/* Rate app message. Parameter is app name. */
+"We're so happy to hear that you love %@! It'd be really helpful if you rated us. Thanks so much for spending some time with us." = "%@ 앱이 마음에 드신다니 기쁩니다! 이 앱을 평가해주시면 큰 도움이 됩니다. 시간을 내어주셔서 정말로 감사합니다.";
+
+/* Message Center configuration is waiting to be downloaded or encountered a server error. */
+"We’re attempting to connect. Thanks for your patience!" = "현재 연결을 시도하는 중입니다. 잠시 기다려주십시오!";
+
+/* No comment provided by engineer. */
+"Wrong username and/or password." = "사용자 이름 또는 비밀번호가 잘못되었습니다.";
+
+/* yes */
+"Yes" = "예";
+
+/* Message Center configuration hasn't downloaded due to connection problem. */
+"You must connect to the internet before you can send feedback." = "피드백을 보내려면 인터넷에 연결해야 합니다.";
+

@@ -1,0 +1,123 @@
+/* Accessibility label for 'show about' button */
+"About Apptentive" = "Σχετικά με την Apptentive";
+
+/* About apptentive introductory message */
+"Apptentive is a service that allows you to have a conversation with the makers of this app. Your input and feedback can help to provide you with a better overall experience.\n\nYour feedback is hosted by Apptentive and is subject to both Apptentive’s privacy policy and the privacy policy of this app’s developer." = "Η Apptentive είναι μια υπηρεσία που σας επιτρέπει να συνομιλήσετε με τους κατασκευαστές αυτού του app. Η γνώμη και τα σχόλιά σας μπορούν να μας βοηθήσουν να σας προσφέρουμε μια καλύτερη εμπειρία στο σύνολό σας.\n\nΤα σχόλιά σας φιλοξενούνται από την Apptentive και υπόκεινται τόσο στην πολιτική περί ιδιωτικού απορρήτου της Apptentive όσο και στην πολιτική περί ιδιωτικού απορρήτου του προγραμματιστή του app.";
+
+/* About apptentive privacy button label */
+"Apptentive’s Privacy Policy" = "Πολιτική Ιδιωτικού Απορρήτου της Apptentive";
+
+/* Accessibility label for 'attach' button */
+"Attach" = "Επισυνάψτε";
+
+/* Accessibility hint for 'attach' */
+"Attaches a photo or screenshot" = "Επισυνάπτει μία φωτογραφία ή ένα στιγμιότυπο οθόνης";
+
+/* Placeholder name for attachment */
+"Attachment %@" = "Συννημένο %@";
+
+/* No comment provided by engineer. */
+"Authentication Failed" = "Ο έλεγχος ταυτότητας απέτυχε";
+
+/* Button that closes Message Center. */
+"Close" = "Κλείσιμο";
+
+/* Accessibility hint for 'close' button */
+"Closes Message Center." = "Κλείνει το Κέντρο Μηνυμάτων.";
+
+/* Accessibility label for 'discard' button */
+"Discard" = "Απόρριψη";
+
+/* Accessibility hint for 'discard' button */
+"Discards the message." = "Απορρίπτει το μήνυμα.";
+
+/* Accessibilty hint for 'show about' button */
+"Displays information about this feature." = "Προβάλλει πληροφορίες για αυτό το χαρακτηριστικό.";
+
+/* Accessibility hint for 'edit profile' button */
+"Displays name and email editor." = "Προβάλλει το όνομα και το πρόγραμμα επεξεργασίας e-mail.";
+
+/* Title for enjoyment alert view. Parameter is app name. */
+"Do you love %@?" = "Απολαμβάνετε την εφαρμογή %@;";
+
+/* Message failed to send. */
+"Failed" = "Απέτυχε";
+
+/* No comment provided by engineer. */
+"Invalid response from server." = "Μη έγκυρη απόκριση από τον διακομιστή.";
+
+/* About apptentive link button label */
+"Learn about Apptentive" = "Μάθετε για την Apptentive";
+
+/* Message Center default title */
+"Message Center" = "Κέντρο μηνυμάτων";
+
+/* No comment provided by engineer. */
+"Network Connection Error" = "Σφάλμα σύνδεσης δικτύου";
+
+/* no */
+"No" = "Όχι";
+
+/* cancel title for app rating dialog */
+"No Thanks" = "Όχι, ευχαριστώ";
+
+/* OK button title */
+"OK" = "ΟΚ";
+
+/* Unable to load the App Store title */
+"Oops!" = "Ωχ!";
+
+/* Powered by followed by Apptentive logo. */
+"Powered by" = "Με την υποστήριξη της";
+
+/* Accessibility label for 'edit profile' button */
+"Profile" = "Προφίλ";
+
+/* Rate app button title */
+"Rate %@" = "Βαθμολογήστε την %@";
+
+/* Remind me later button title */
+"Remind Me Later" = "Θύμισέ το μου αργότερα";
+
+/* No comment provided by engineer. */
+"required" = "υποχρεωτικό";
+
+/* Message is sending. */
+"Sending…" = "Αποστολή…";
+
+/* Accessibility hint for 'send' button */
+"Sends the message." = "Στέλνει το μήνυμα.";
+
+/* Message sent successfully */
+"Sent" = "Στάλθηκε";
+
+/* No comment provided by engineer. */
+"Server did not return properly formatted JSON." = "Ο διακομιστής δεν επέστρεψε κατάλληλα μορφοποιημένο JSON.";
+
+/* No comment provided by engineer. */
+"Server error." = "Σφάλμα διακομιστή.";
+
+/* Rate app title. */
+"Thank You" = "Ευχαριστούμε";
+
+/* Attachment download failed alert title */
+"Unable to Download Attachment" = "Δεν είναι Δυνατή η Λήψη του Συνημμένου";
+
+/* Unable to load the App Store message */
+"Unable to load the App Store" = "Δεν είναι δυνατή η φόρτωση του App Store";
+
+/* Rate app message. Parameter is app name. */
+"We're so happy to hear that you love %@! It'd be really helpful if you rated us. Thanks so much for spending some time with us." = "Είμαστε πολύ χαρούμενοι που διαβάζουμε ότι σας αρέσει η εφαρμογή %@! Θα μας βοηθούσατε πραγματικά εάν βαθμολογούσατε την εφαρμογή μας. Σας ευχαριστούμε θερμά για τον χρόνο σας.";
+
+/* Message Center configuration is waiting to be downloaded or encountered a server error. */
+"We’re attempting to connect. Thanks for your patience!" = "Προσπαθούμε να συνδεθούμε. Ευχαριστούμε για την υπομονή σας!";
+
+/* No comment provided by engineer. */
+"Wrong username and/or password." = "Λάθος όνομα χρήστη και/ή κωδικός πρόσβασης.";
+
+/* yes */
+"Yes" = "Ναι";
+
+/* Message Center configuration hasn't downloaded due to connection problem. */
+"You must connect to the internet before you can send feedback." = "Πρέπει να συνδεθείτε στο Διαδίκτυο για να μπορέσετε να στείλετε τα σχόλιά σας.";
+

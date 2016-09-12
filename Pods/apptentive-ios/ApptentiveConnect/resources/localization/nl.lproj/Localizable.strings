@@ -1,0 +1,123 @@
+/* Accessibility label for 'show about' button */
+"About Apptentive" = "Over Apptentive";
+
+/* About apptentive introductory message */
+"Apptentive is a service that allows you to have a conversation with the makers of this app. Your input and feedback can help to provide you with a better overall experience.\n\nYour feedback is hosted by Apptentive and is subject to both Apptentive’s privacy policy and the privacy policy of this app’s developer." = "Apptentive is een service waarmee u in contact kunt komen met de makers van deze app. Met uw reacties en feedback kunt u zorgen voor een betere ervaring.\n\nUw feedback wordt gehost door Apptentive en is onderworpen aan het privacybeleid van zowel Apptentive als aan dat van de maker van deze app.";
+
+/* About apptentive privacy button label */
+"Apptentive’s Privacy Policy" = "Privacybeleid van Apptentive";
+
+/* Accessibility label for 'attach' button */
+"Attach" = "Bijlage toevoegen";
+
+/* Accessibility hint for 'attach' */
+"Attaches a photo or screenshot" = "Voegt een foto of screenshot toe als bijlage";
+
+/* Placeholder name for attachment */
+"Attachment %@" = "Bijlage %@";
+
+/* No comment provided by engineer. */
+"Authentication Failed" = "Verificatie mislukt";
+
+/* Button that closes Message Center. */
+"Close" = "Sluit";
+
+/* Accessibility hint for 'close' button */
+"Closes Message Center." = "Sluit Berichten.";
+
+/* Accessibility label for 'discard' button */
+"Discard" = "Verwijderen";
+
+/* Accessibility hint for 'discard' button */
+"Discards the message." = "Verwijdert het bericht.";
+
+/* Accessibilty hint for 'show about' button */
+"Displays information about this feature." = "Geeft informatie weer over deze functie.";
+
+/* Accessibility hint for 'edit profile' button */
+"Displays name and email editor." = "Geeft functie voor bewerken naam en e-mailadres weer.";
+
+/* Title for enjoyment alert view. Parameter is app name. */
+"Do you love %@?" = "Bent u gek op %@?";
+
+/* Message failed to send. */
+"Failed" = "Mislukt";
+
+/* No comment provided by engineer. */
+"Invalid response from server." = "Ongeldige reactie van de server.";
+
+/* About apptentive link button label */
+"Learn about Apptentive" = "Meer informatie over Apptentive";
+
+/* Message Center default title */
+"Message Center" = "Berichten";
+
+/* No comment provided by engineer. */
+"Network Connection Error" = "Netwerkverbindingsfout";
+
+/* no */
+"No" = "Nee";
+
+/* cancel title for app rating dialog */
+"No Thanks" = "Nee bedankt";
+
+/* OK button title */
+"OK" = "OK";
+
+/* Unable to load the App Store title */
+"Oops!" = "Oeps!";
+
+/* Powered by followed by Apptentive logo. */
+"Powered by" = "Mogelijk gemaakt door";
+
+/* Accessibility label for 'edit profile' button */
+"Profile" = "Profiel";
+
+/* Rate app button title */
+"Rate %@" = "Beoordeel %@";
+
+/* Remind me later button title */
+"Remind Me Later" = "Herinner me later";
+
+/* No comment provided by engineer. */
+"required" = "verplicht";
+
+/* Message is sending. */
+"Sending…" = "Verzenden…";
+
+/* Accessibility hint for 'send' button */
+"Sends the message." = "Verstuurt het bericht.";
+
+/* Message sent successfully */
+"Sent" = "Verzonden";
+
+/* No comment provided by engineer. */
+"Server did not return properly formatted JSON." = "Server heeft geen correct geformatteerde JSON teruggestuurd.";
+
+/* No comment provided by engineer. */
+"Server error." = "Serverfout.";
+
+/* Rate app title. */
+"Thank You" = "Bedankt";
+
+/* Attachment download failed alert title */
+"Unable to Download Attachment" = "Kan bijlage niet downloaden";
+
+/* Unable to load the App Store message */
+"Unable to load the App Store" = "Laden van de App Store mislukt";
+
+/* Rate app message. Parameter is app name. */
+"We're so happy to hear that you love %@! It'd be really helpful if you rated us. Thanks so much for spending some time with us." = "Wat geweldig om te horen dat u zo gek bent op %@! Het zou ontzettend behulpzaam zijn als u ons beoordeelde. Bedankt voor het gebruiken van deze app.";
+
+/* Message Center configuration is waiting to be downloaded or encountered a server error. */
+"We’re attempting to connect. Thanks for your patience!" = "We proberen verbinding te maken. Bedankt voor uw geduld!";
+
+/* No comment provided by engineer. */
+"Wrong username and/or password." = "Verkeerde gebruikersnaam en/of verkeerd wachtwoord.";
+
+/* yes */
+"Yes" = "Ja";
+
+/* Message Center configuration hasn't downloaded due to connection problem. */
+"You must connect to the internet before you can send feedback." = "U moet verbinding maken met internet voordat u feedback kunt verzenden.";
+

@@ -1,0 +1,123 @@
+/* Accessibility label for 'show about' button */
+"About Apptentive" = "關於 Apptentive";
+
+/* About apptentive introductory message */
+"Apptentive is a service that allows you to have a conversation with the makers of this app. Your input and feedback can help to provide you with a better overall experience.\n\nYour feedback is hosted by Apptentive and is subject to both Apptentive’s privacy policy and the privacy policy of this app’s developer." = "Apptentive 是一款可讓您與此應用程式製作者對話的服務。您的想法與意見將可協助提供您更出色的整體使用體驗。\n\n您的意見回饋是由 Apptentive 所擁有，且受 Apptentive 隱私政策及該應用程式開發者之約束。";
+
+/* About apptentive privacy button label */
+"Apptentive’s Privacy Policy" = "Apptentive 的隱私權政策";
+
+/* Accessibility label for 'attach' button */
+"Attach" = "添加附件";
+
+/* Accessibility hint for 'attach' */
+"Attaches a photo or screenshot" = "附上一張照片或螢幕截圖";
+
+/* Placeholder name for attachment */
+"Attachment %@" = "附件%@";
+
+/* No comment provided by engineer. */
+"Authentication Failed" = "認證失敗";
+
+/* Button that closes Message Center. */
+"Close" = "關閉";
+
+/* Accessibility hint for 'close' button */
+"Closes Message Center." = "關閉訊息中心。";
+
+/* Accessibility label for 'discard' button */
+"Discard" = "捨棄";
+
+/* Accessibility hint for 'discard' button */
+"Discards the message." = "捨棄訊息。";
+
+/* Accessibilty hint for 'show about' button */
+"Displays information about this feature." = "顯示關於此功能的資訊。";
+
+/* Accessibility hint for 'edit profile' button */
+"Displays name and email editor." = "顯示名稱與電子郵件編輯工具。";
+
+/* Title for enjoyment alert view. Parameter is app name. */
+"Do you love %@?" = "你喜歡 %@ 嗎？";
+
+/* Message failed to send. */
+"Failed" = "失敗";
+
+/* No comment provided by engineer. */
+"Invalid response from server." = "來自伺服器的無效回應。";
+
+/* About apptentive link button label */
+"Learn about Apptentive" = "瞭解 Apptentive";
+
+/* Message Center default title */
+"Message Center" = "訊息中心";
+
+/* No comment provided by engineer. */
+"Network Connection Error" = "網路連線錯誤";
+
+/* no */
+"No" = "不喜歡";
+
+/* cancel title for app rating dialog */
+"No Thanks" = "不用了，謝謝";
+
+/* OK button title */
+"OK" = "確定";
+
+/* Unable to load the App Store title */
+"Oops!" = "糟糕！";
+
+/* Powered by followed by Apptentive logo. */
+"Powered by" = "技術提供者";
+
+/* Accessibility label for 'edit profile' button */
+"Profile" = "個人資料";
+
+/* Rate app button title */
+"Rate %@" = "評等 %@";
+
+/* Remind me later button title */
+"Remind Me Later" = "稍後提醒我";
+
+/* No comment provided by engineer. */
+"required" = "必填";
+
+/* Message is sending. */
+"Sending…" = "正在傳送...";
+
+/* Accessibility hint for 'send' button */
+"Sends the message." = "傳送訊息。";
+
+/* Message sent successfully */
+"Sent" = "已傳送";
+
+/* No comment provided by engineer. */
+"Server did not return properly formatted JSON." = "伺服器未正確傳回格式化的 JSON。";
+
+/* No comment provided by engineer. */
+"Server error." = "伺服器錯誤。";
+
+/* Rate app title. */
+"Thank You" = "謝謝您";
+
+/* Attachment download failed alert title */
+"Unable to Download Attachment" = "無法下載附件";
+
+/* Unable to load the App Store message */
+"Unable to load the App Store" = "無法載入 App Store";
+
+/* Rate app message. Parameter is app name. */
+"We're so happy to hear that you love %@! It'd be really helpful if you rated us. Thanks so much for spending some time with us." = "我們很高興聽到您喜歡 %@！若您能給予評等，我們將獲益良多。非常感謝您寶貴的時間。";
+
+/* Message Center configuration is waiting to be downloaded or encountered a server error. */
+"We’re attempting to connect. Thanks for your patience!" = "我們正嘗試連接。謝謝您的耐心等候！";
+
+/* No comment provided by engineer. */
+"Wrong username and/or password." = "錯誤的使用者名稱及/或密碼。";
+
+/* yes */
+"Yes" = "喜歡";
+
+/* Message Center configuration hasn't downloaded due to connection problem. */
+"You must connect to the internet before you can send feedback." = "在傳送意見回饋前需先連接網際網路。";
+
