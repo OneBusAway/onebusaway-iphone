@@ -233,6 +233,7 @@
     UITableViewCell<OBATableCell> *cell = (UITableViewCell<OBATableCell> *)[tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
 
     OBAGuard([cell conformsToProtocol:@protocol(OBATableCell)]) else {
+        // TODO: Can't return nil here; declaration in UITableViewDataSource is NONNULL
         return nil;
     }
 

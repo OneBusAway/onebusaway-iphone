@@ -27,7 +27,7 @@
 + (id)jsonObjectFromFile:(NSString*)fileName {
     NSString *filePath = [OBATestHelpers pathToTestFile:fileName];
     NSData *data = [[NSData alloc] initWithContentsOfFile:filePath];
-    return [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    return [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:nil];
 }
 
 + (void)archiveObject:(id<NSCoding>)object toPath:(NSString*)path {

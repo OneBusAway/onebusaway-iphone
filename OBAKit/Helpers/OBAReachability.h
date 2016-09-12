@@ -95,7 +95,6 @@ typedef void (^NetworkReachability)(OBAReachability * reachability, SCNetworkCon
 -(BOOL)isInterventionRequired;
 
 -(NetworkStatus)currentReachabilityStatus;
--(SCNetworkReachabilityFlags)reachabilityFlags;
 -(NSString*)currentReachabilityString;
 -(NSString*)currentReachabilityFlags;
 

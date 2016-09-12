@@ -20,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) UITableViewCellSelectionStyle selectionStyle;
 
 - (instancetype)initWithTitle:(NSString*)title action:( void (^ _Nullable )())action;
-+ (instancetype)tableRowWithTitle:(NSString*)title action:( void (^ _Nullable )())action;
 @end
 
 NS_ASSUME_NONNULL_END

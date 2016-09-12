@@ -14,7 +14,7 @@
 
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:nextDepartureTime attributes:@{NSFontAttributeName: [OBATheme bodyFont]}];
 
-    [string appendAttributedString:[[NSAttributedString alloc] initWithString:@" - "]];
+    [string appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@" - ",)]];
 
     NSDictionary *attributes = @{NSFontAttributeName: [self fontForStatus:departureStatus], NSForegroundColorAttributeName: [self colorForStatus:departureStatus]};
     NSAttributedString *attributedStatus = [[NSAttributedString alloc] initWithString:statusText attributes:attributes];

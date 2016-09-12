@@ -14,7 +14,10 @@
 - (void)setSelected:(BOOL)selected {
     [super setSelected:selected];
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
     CGAffineTransform transform = selected ? CGAffineTransformMakeRotation(M_PI_2) : CGAffineTransformIdentity;
+#pragma clang diagnostic pop
 
     [OBAAnimation performAnimations:^{
         self.transform = transform;

@@ -290,7 +290,7 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 {
 #if	TARGET_OS_IPHONE
 
-    SCNetworkReachabilityFlags flags = 0;
+    SCNetworkReachabilityFlags flags;
     
     if(SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags))
     {
@@ -311,7 +311,7 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
 -(BOOL)isReachableViaWiFi 
 {
-    SCNetworkReachabilityFlags flags = 0;
+    SCNetworkReachabilityFlags flags;
     
     if(SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags))
     {
@@ -398,18 +398,6 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
     return NotReachable;
 }
 
--(SCNetworkReachabilityFlags)reachabilityFlags
-{
-    SCNetworkReachabilityFlags flags = 0;
-    
-    if(SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags)) 
-    {
-        return flags;
-    }
-    
-    return 0;
-}
-
 -(NSString*)currentReachabilityString
 {
 	NetworkStatus temp = [self currentReachabilityStatus];
@@ -429,7 +417,9 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
 -(NSString*)currentReachabilityFlags
 {
-    return reachabilityFlags([self reachabilityFlags]);
+    SCNetworkReachabilityFlags flags;
+    SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags);
+    return reachabilityFlags(flags);
 }
 
 #pragma mark - Callback function calls this method

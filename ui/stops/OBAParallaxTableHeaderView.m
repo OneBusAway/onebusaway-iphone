@@ -119,7 +119,7 @@
         });
 
         [snapshotter promise].thenInBackground(^(MKMapSnapshot *snapshot) {
-            UIImage *annotatedImage = [OBAImageHelpers draw:[OBAStopIconFactory getIconForStop:result.stop]
+            UIImage *annotatedImage = [OBAImageHelpers draw:[OBAStopIconFactory getIconForStop:self.stop]
                                                        onto:snapshot.image
                                                     atPoint:[snapshot pointForCoordinate:self.stop.coordinate]];
             return [OBAImageHelpers colorizeImage:annotatedImage withColor:kHeaderImageViewBackgroundColor];
@@ -130,21 +130,21 @@
 
     NSMutableArray *stopMetadata = [[NSMutableArray alloc] init];
 
-    if (result.stop.name) {
-        [stopMetadata addObject:result.stop.name];
+    if (self.stop.name) {
+        [stopMetadata addObject:self.stop.name];
     }
 
     NSString *stopNumber = nil;
 
-    if (result.stop.direction) {
-        stopNumber = [NSString stringWithFormat:@"%@ #%@ - %@ %@", NSLocalizedString(@"Stop", @"text"), result.stop.code, result.stop.direction, NSLocalizedString(@"bound", @"text")];
+    if (self.stop.direction) {
+        stopNumber = [NSString stringWithFormat:@"%@ #%@ - %@ %@", NSLocalizedString(@"Stop", @"text"), self.stop.code, self.stop.direction, NSLocalizedString(@"bound", @"text")];
     }
     else {
-        stopNumber = [NSString stringWithFormat:@"%@ #%@", NSLocalizedString(@"Stop", @"text"), result.stop.code];
+        stopNumber = [NSString stringWithFormat:@"%@ #%@", NSLocalizedString(@"Stop", @"text"), self.stop.code];
     }
     [stopMetadata addObject:stopNumber];
 
-    NSString *stopRoutes = [result.stop routeNamesAsString];
+    NSString *stopRoutes = [self.stop routeNamesAsString];
     if (stopRoutes) {
         [stopMetadata addObject:[NSString stringWithFormat:NSLocalizedString(@"Routes: %@", @""), stopRoutes]];
     }

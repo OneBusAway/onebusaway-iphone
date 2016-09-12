@@ -9,14 +9,15 @@
 }
 
 - (NSString*)asLabel {
-    NSString * rShortName = self.routeShortName ?: self.route.safeShortName;
+    OBARouteV2 *route = self.route;
+    NSString * rShortName = self.routeShortName ?: route.safeShortName;
     NSString *headsign = nil;
 
     if (self.tripHeadsign) {
         headsign = self.tripHeadsign;
     }
-    else if (self.route.longName) {
-        headsign = self.route.longName;
+    else if (route.longName) {
+        headsign = route.longName;
     }
     else {
         headsign = NSLocalizedString(@"Headed somewhere...",@"");
