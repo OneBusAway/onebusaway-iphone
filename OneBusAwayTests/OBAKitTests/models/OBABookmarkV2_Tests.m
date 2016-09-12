@@ -7,7 +7,6 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <OCMock/OCMock.h>
 #import "OBATestHelpers.h"
 #import <OBAKit/OBABookmarkV2.h>
 #import <OBAKit/OBAArrivalsAndDeparturesForStopV2.h>

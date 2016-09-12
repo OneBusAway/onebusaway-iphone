@@ -7,7 +7,7 @@
 //
 
 #import "OBASetLocationPropertyJsonDigesterRule.h"
-@import CoreLocation;
+#import <CoreLocation/CoreLocation.h>
 
 @implementation OBASetLocationPropertyJsonDigesterRule
 

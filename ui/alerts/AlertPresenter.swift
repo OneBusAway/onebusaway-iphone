@@ -9,22 +9,22 @@
 import UIKit
 import SwiftMessages
 
-@objc public class AlertPresenter: NSObject {
+@objc open class AlertPresenter: NSObject {
 
-    public class func showWarning(title: String, body: String) {
+    open class func showWarning(_ title: String, body: String) {
 
         var config = SwiftMessages.Config()
-        config.presentationContext = .Window(windowLevel: UIWindowLevelStatusBar)
-        config.duration = .Seconds(seconds: 5)
-        config.dimMode = .Gray(interactive: true)
+        config.presentationContext = .window(windowLevel: UIWindowLevelStatusBar)
+        config.duration = .seconds(seconds: 5)
+        config.dimMode = .gray(interactive: true)
         config.interactiveHide = true
-        config.preferredStatusBarStyle = .LightContent
+        config.preferredStatusBarStyle = .lightContent
 
         // Instantiate a message view from the provided card view layout. SwiftMessages searches for nib
         // files in the main bundle first, so you can easily copy them into your project and make changes.
         let view = MessageView.viewFromNib(layout: .CardView)
-        view.button?.hidden = true
-        view.configureTheme(.Warning)
+        view.button?.isHidden = true
+        view.configureTheme(.warning)
         view.configureDropShadow()
         view.configureContent(title: title, body: body)
 

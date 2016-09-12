@@ -7,6 +7,7 @@
 //
 
 #import "OBASwitchCell.h"
+#import <OBAKit/OBAKit.h>
 #import "OBASwitchRow.h"
 
 @interface OBASwitchCell ()

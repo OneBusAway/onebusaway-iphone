@@ -164,7 +164,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     }).catch(^(NSError *error) {
         self.navigationItem.title = NSLocalizedString(@"Error", @"");
         [AlertPresenter showWarning:NSLocalizedString(@"Error", @"") body:error.localizedDescription ?: NSLocalizedString(@"Error connecting", @"requestDidFail")];
-    }).finally(^{
+    }).always(^{
         if (animated) {
             [self.refreshControl endRefreshing];
         }

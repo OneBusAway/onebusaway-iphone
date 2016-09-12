@@ -1,4 +1,5 @@
 #import "OBATripDetailsV2.h"
+#import <MapKit/MapKit.h>
 #import "OBATripInstanceRef.h"
 #import "OBAProgressIndicatorView.h"
 

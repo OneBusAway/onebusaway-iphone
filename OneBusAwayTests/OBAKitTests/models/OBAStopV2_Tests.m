@@ -8,10 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "OBATestHelpers.h"
-
-#import <OBAKit/OBAModelFactory.h>
-#import <OBAKit/OBAReferencesV2.h>
-#import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBAKit.h>
 
 /**
  TODO: WRITE TESTS

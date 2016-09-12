@@ -1,4 +1,5 @@
-@import Foundation;
+#import <Foundation/Foundation.h>
+
 @class OBAAgencyV2;
 @class OBARouteV2;
 @class OBAStopV2;

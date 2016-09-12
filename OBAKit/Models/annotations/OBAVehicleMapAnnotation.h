@@ -1,4 +1,4 @@
-@import MapKit;
+#import <MapKit/MapKit.h>
 #import "OBATripStatusV2.h"
 
 NS_ASSUME_NONNULL_BEGIN

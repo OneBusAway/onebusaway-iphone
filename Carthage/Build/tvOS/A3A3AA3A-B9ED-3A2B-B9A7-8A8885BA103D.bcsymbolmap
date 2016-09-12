@@ -1,0 +1,102 @@
+BCSymbolMap Version: 2.0
+-[MKMapSnapshotter(PromiseKit) start]
+___37-[MKMapSnapshotter(PromiseKit) start]_block_invoke
+___37-[MKMapSnapshotter(PromiseKit) start]_block_invoke_2
+___copy_helper_block_
+___destroy_helper_block_
+___copy_helper_block_.1
+___destroy_helper_block_.2
+___block_descriptor_tmp
+___block_descriptor_tmp.4
+Apple LLVM version 8.0.0 (clang-800.0.38)
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/MapKit/Sources/MKMapSnapshotter+AnyPromise.m
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/MapKit
+__destroy_helper_block_
+__copy_helper_block_
+__37-[MKMapSnapshotter(PromiseKit) start]_block_invoke_2
+__37-[MKMapSnapshotter(PromiseKit) start]_block_invoke
+-[MKDirections(PromiseKit) calculateDirections]
+___47-[MKDirections(PromiseKit) calculateDirections]_block_invoke
+___47-[MKDirections(PromiseKit) calculateDirections]_block_invoke_2
+-[MKDirections(PromiseKit) calculateETA]
+___40-[MKDirections(PromiseKit) calculateETA]_block_invoke
+___40-[MKDirections(PromiseKit) calculateETA]_block_invoke_2
+___copy_helper_block_.7
+___destroy_helper_block_.8
+___copy_helper_block_.12
+___destroy_helper_block_.13
+___block_descriptor_tmp.9
+___block_descriptor_tmp.14
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/MapKit/Sources/MKDirections+AnyPromise.m
+__40-[MKDirections(PromiseKit) calculateETA]_block_invoke_2
+__40-[MKDirections(PromiseKit) calculateETA]_block_invoke
+__47-[MKDirections(PromiseKit) calculateDirections]_block_invoke_2
+__47-[MKDirections(PromiseKit) calculateDirections]_block_invoke
+_rt_swift_deallocObject
+_rt_swift_allocObject
+__TPA__TTOFCSo16MKMapSnapshotter5startfT17completionHandlerFTGSqCSo13MKMapSnapshot_GSqPs5Error___T__T_
+_rt_swift_release
+__TTRXFo_oGSqCSo13MKMapSnapshot_oGSqPs5Error____XFdCb_dGSqS__dGSqCSo7NSError___
+__TPA__TTRXFo_oXFo_oGSqCSo13MKMapSnapshot_oGSqPs5Error_____zoPS0___XFo_oXFo_iGSqS__oGSqPS0______zoPS0___
+_rt_swift_retain
+_rt_swift_getInitializedObjCClass
+__TPA__TTRXFo_iGSqCSo13MKMapSnapshot_oGSqPs5Error____XFo_oGSqS__oGSqPS0_____
+_block_copy_helper
+_block_destroy_helper
+__TMLCSo13MKMapSnapshot
+__swift_FORCE_LOAD_$_swiftFoundation_$_PMKMapKit
+__swift_FORCE_LOAD_$_swiftObjectiveC_$_PMKMapKit
+__swift_FORCE_LOAD_$_swiftDarwin_$_PMKMapKit
+__swift_FORCE_LOAD_$_swiftDispatch_$_PMKMapKit
+__swift_FORCE_LOAD_$_swiftCoreGraphics_$_PMKMapKit
+__swift_FORCE_LOAD_$_swiftCoreLocation_$_PMKMapKit
+__swift_FORCE_LOAD_$_swiftUIKit_$_PMKMapKit
+__swift_FORCE_LOAD_$_swiftCoreImage_$_PMKMapKit
+_block_descriptor
+-emit-bc /Users/aaron/repos/onebusaway/Carthage/Checkouts/MapKit/Sources/MKMapSnapshotter+Promise.swift /Users/aaron/repos/onebusaway/Carthage/Checkouts/MapKit/Sources/MKDirections+Promise.swift -target arm64-apple-tvos9.2 -Xllvm -aarch64-use-tbi -enable-objc-interop -sdk /Applications/Xcode.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS10.0.sdk -I /Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Products/Release-appletvos -F /Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Products/Release-appletvos -F /Users/aaron/repos/onebusaway/Carthage/Checkouts/MapKit/Carthage/Build/tvOS -application-extension -g -import-underlying-module -module-cache-path /Users/aaron/Library/Developer/Xcode/DerivedData/ModuleCache -serialize-debugging-options -Xcc -I/Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/Release-appletvos/PMKMapKit.build/swift-overrides.hmap -Xcc -iquote -Xcc /Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/Release-appletvos/PMKMapKit.build/PMKMapKit-generated-files.hmap -Xcc -I/Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/Release-appletvos/PMKMapKit.build/PMKMapKit-own-target-headers.hmap -Xcc -I/Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/Release-appletvos/PMKMapKit.build/PMKMapKit-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/all-product-headers.yaml -Xcc -iquote -Xcc /Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/Release-appletvos/PMKMapKit.build/PMKMapKit-project-headers.hmap -Xcc -I/Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Products/Release-appletvos/include -Xcc -I/Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/Release-appletvos/PMKMapKit.build/DerivedSources/arm64 -Xcc -I/Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/Release-appletvos/PMKMapKit.build/DerivedSources -Xcc -ivfsoverlay -Xcc /Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/Release-appletvos/PMKMapKit.build/unextended-module-overlay.yaml -Xcc -working-directory/Users/aaron/repos/onebusaway/Carthage/Checkouts/MapKit -emit-module-doc-path /Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/Release-appletvos/PMKMapKit.build/Objects-normal/arm64/PMKMapKit.swiftdoc -O -module-name PMKMapKit -emit-module-path /Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/Release-appletvos/PMKMapKit.build/Objects-normal/arm64/PMKMapKit.swiftmodule -emit-objc-header-path /Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/Release-appletvos/PMKMapKit.build/Objects-normal/arm64/PMKMapKit-Swift.h -serialize-diagnostics-path /Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/Release-appletvos/PMKMapKit.build/Objects-normal/arm64/MKMapSnapshotter+Promise.dia -emit-dependencies-path /Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/Release-appletvos/PMKMapKit.build/Objects-normal/arm64/MKMapSnapshotter+Promise.d -num-threads 4 -o /Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/Release-appletvos/PMKMapKit.build/Objects-normal/arm64/MKMapSnapshotter+Promise.bc -o /Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/Release-appletvos/PMKMapKit.build/Objects-normal/arm64/MKDirections+Promise.bc -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift
+<swift-imported-modules>
+Apple Swift version 3.0 (swiftlang-800.0.46.2 clang-800.0.38)
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/MapKit/Sources/MKMapSnapshotter+Promise.swift
+block_destroy_helper
+MKMapSnapshotter+Promise.swift
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/MapKit/Sources
+block_copy_helper
+_TPA__TTRXFo_iGSqCSo13MKMapSnapshot_oGSqPs5Error____XFo_oGSqS__oGSqPS0_____
+_TTRXFo_iGSqCSo13MKMapSnapshot_oGSqPs5Error____XFo_oGSqS__oGSqPS0_____
+_TPA__TTRXFo_oXFo_oGSqCSo13MKMapSnapshot_oGSqPs5Error_____zoPS0___XFo_oXFo_iGSqS__oGSqPS0______zoPS0___
+_TTRXFo_oXFo_oGSqCSo13MKMapSnapshot_oGSqPs5Error_____zoPS0___XFo_oXFo_iGSqS__oGSqPS0______zoPS0___
+objectdestroy.2
+_TTRXFo_oGSqCSo13MKMapSnapshot_oGSqPs5Error____XFdCb_dGSqS__dGSqCSo7NSError___
+_TPA__TTOFCSo16MKMapSnapshotter5startfT17completionHandlerFTGSqCSo13MKMapSnapshot_GSqPs5Error___T__T_
+start
+objectdestroy
+_TMaCSo13MKMapSnapshot
+__TPA__TTOFCSo12MKDirections9calculatefT17completionHandlerFTGSqCSo20MKDirectionsResponse_GSqPs5Error___T__T_
+__TPA__TTRXFo_oXFo_oGSqCSo20MKDirectionsResponse_oGSqPs5Error_____zoPS0___XFo_oXFo_iGSqS__oGSqPS0______zoPS0___
+__TPA__TTOFCSo12MKDirections12calculateETAfT17completionHandlerFTGSqCSo13MKETAResponse_GSqPs5Error___T__T_
+__TPA__TTOFCSo12MKDirections9calculatefT17completionHandlerFTGSqCSo20MKDirectionsResponse_GSqPs5Error___T__T__merged
+__TTRXFo_oGSqCSo13MKETAResponse_oGSqPs5Error____XFdCb_dGSqS__dGSqCSo7NSError___
+__TPA__TTRXFo_oXFo_oGSqCSo13MKETAResponse_oGSqPs5Error_____zoPS0___XFo_oXFo_iGSqS__oGSqPS0______zoPS0___
+__TPA__TTRXFo_oXFo_oGSqCSo20MKDirectionsResponse_oGSqPs5Error_____zoPS0___XFo_oXFo_iGSqS__oGSqPS0______zoPS0____merged
+__TPA__TTRXFo_iGSqCSo13MKETAResponse_oGSqPs5Error____XFo_oGSqS__oGSqPS0_____
+__TPA__TTRXFo_iGSqCSo20MKDirectionsResponse_oGSqPs5Error____XFo_oGSqS__oGSqPS0_____
+_block_destroy_helper.17
+__TTRXFo_oGSqCSo20MKDirectionsResponse_oGSqPs5Error____XFdCb_dGSqS__dGSqCSo7NSError___
+_block_copy_helper.16
+__TMLCSo20MKDirectionsResponse
+__TMLCSo13MKETAResponse
+_block_descriptor.18
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/MapKit/Sources/MKDirections+Promise.swift
+MKDirections+Promise.swift
+_TPA__TTRXFo_iGSqCSo13MKETAResponse_oGSqPs5Error____XFo_oGSqS__oGSqPS0_____
+_TTRXFo_iGSqCSo13MKETAResponse_oGSqPs5Error____XFo_oGSqS__oGSqPS0_____
+objectdestroy.11
+_TPA__TTRXFo_oXFo_oGSqCSo20MKDirectionsResponse_oGSqPs5Error_____zoPS0___XFo_oXFo_iGSqS__oGSqPS0______zoPS0___
+_TTRXFo_oXFo_oGSqCSo20MKDirectionsResponse_oGSqPs5Error_____zoPS0___XFo_oXFo_iGSqS__oGSqPS0______zoPS0___
+_TTRXFo_oGSqCSo13MKETAResponse_oGSqPs5Error____XFdCb_dGSqS__dGSqCSo7NSError___
+_TPA__TTOFCSo12MKDirections9calculatefT17completionHandlerFTGSqCSo20MKDirectionsResponse_GSqPs5Error___T__T_
+calculate
+calculateETA
+_TMaCSo13MKETAResponse
+_TMaCSo20MKDirectionsResponse
+/Users/aaron/Library/Developer/Xcode/DerivedData/PMKMapKit-apvatibrqrcvrxfdshrznewgodev/Build/Intermediates/PMKMapKit.build/Release-appletvos/PMKMapKit.build/DerivedSources/PMKMapKit_vers.c

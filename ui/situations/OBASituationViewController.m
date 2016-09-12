@@ -7,12 +7,14 @@
 //
 
 #import "OBASituationViewController.h"
+#import <OBAKit/OBAKit.h>
 #import "OBASituationConsequenceV2.h"
 #import "OBADiversionViewController.h"
 #import "OBAWebViewController.h"
 #import "OBAModelDAO.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
+#import "OBAApplicationDelegate.h"
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,

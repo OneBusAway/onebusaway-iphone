@@ -8,7 +8,7 @@
 
 #import "OBATableViewCellValue1.h"
 #import "OBATableRow.h"
-#import "OBATheme.h"
+#import <OBAKit/OBAKit.h>
 #import <Masonry/Masonry.h>
 
 @interface OBATableViewCellValue1 ()

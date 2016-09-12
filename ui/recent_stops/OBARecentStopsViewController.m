@@ -17,12 +17,10 @@
 #import "OBARecentStopsViewController.h"
 #import <OBAKit/OBAKit.h>
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
-#import "OBAStopAccessEventV2.h"
 #import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
-#import "OBAApplication.h"
 
 @interface OBARecentStopsViewController ()<DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @end

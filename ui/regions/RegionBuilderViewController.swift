@@ -11,7 +11,7 @@ import OBAKit
 import SVProgressHUD
 
 @objc protocol RegionBuilderDelegate {
-    func regionBuilderDidCreateRegion(region: OBARegionV2)
+    func regionBuilderDidCreateRegion(_ region: OBARegionV2)
 }
 
 class RegionBuilderViewController: OBAStaticTableViewController {
@@ -70,8 +70,8 @@ class RegionBuilderViewController: OBAStaticTableViewController {
 
     lazy var contactEmailRow: OBATextFieldRow = {
         let row = OBATextFieldRow.init(labelText: NSLocalizedString("Contact Email", comment: ""), textFieldText: self.region.contactEmail)
-        row.keyboardType = .EmailAddress
-        row.autocapitalizationType = .None
+        row.keyboardType = .emailAddress
+        row.autocapitalizationType = .none
         RegionBuilderViewController.applyPropertiesToTextRow(row, model: self.userDataModel)
         return row
     }()
@@ -80,8 +80,8 @@ class RegionBuilderViewController: OBAStaticTableViewController {
         super.viewDidLoad()
 
         self.title = NSLocalizedString("Add Region", comment: "")
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(title: OBAStrings.cancel(), style: .Plain, target: self, action: #selector(cancel))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: OBAStrings.save(), style: .Done, target: self, action: #selector(save))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(title: OBAStrings.cancel(), style: .plain, target: self, action: #selector(cancel))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: OBAStrings.save(), style: .done, target: self, action: #selector(save))
 
         let requiredSection = OBATableSection.init(title: NSLocalizedString("Required", comment: ""))
 
@@ -97,11 +97,11 @@ class RegionBuilderViewController: OBAStaticTableViewController {
         self.sections = [requiredSection, optionalSection]
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        let indexPath = self.indexPathForRow(self.baseURLRow)
-        if let cell: OBATextFieldCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! OBATextFieldCell? {
+        let indexPath = self.indexPath(for: self.baseURLRow)
+        if let cell: OBATextFieldCell = self.tableView.cellForRow(at: indexPath!) as! OBATextFieldCell? {
             cell.textField.becomeFirstResponder()
         }
     }
@@ -109,7 +109,7 @@ class RegionBuilderViewController: OBAStaticTableViewController {
     // MARK: - Actions
 
     func cancel() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 
     func save() {
@@ -119,15 +119,15 @@ class RegionBuilderViewController: OBAStaticTableViewController {
         self.loadDataIntoRegion()
 
         guard self.region.isValidModel() else {
-            let alert = UIAlertController.init(title: NSLocalizedString("Invalid Region", comment: ""), message: NSLocalizedString("The region you have specified is not valid. Please specify at least a base URL and a name.", comment: ""), preferredStyle: .Alert)
-            alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss(), style: .Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController.init(title: NSLocalizedString("Invalid Region", comment: ""), message: NSLocalizedString("The region you have specified is not valid. Please specify at least a base URL and a name.", comment: ""), preferredStyle: .alert)
+            alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss(), style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
             return
         }
 
         SVProgressHUD.show()
 
-        self.modelService = OBAModelService(baseURL: NSURL.init(string: self.region.obaBaseUrl)!)
+        self.modelService = OBAModelService(baseURL: Foundation.URL.init(string: self.region.obaBaseUrl)!)
         let URL = self.modelService!.obaJsonDataSource.config.constructURL(OBAAgenciesWithCoverageAPIPath, withArgs: nil)
 
         self.modelService!.requestAgenciesWithCoverage().then { agencies -> Void in
@@ -141,14 +141,14 @@ class RegionBuilderViewController: OBAStaticTableViewController {
                 delegate.regionBuilderDidCreateRegion(self.region)
             }
 
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }.always {
             SVProgressHUD.dismiss()
-        }.error { error in
-            let msg = String(format: NSLocalizedString("Unable to load data from %@. Please check the URL and try again.\r\n\r\n%@", comment: ""), URL!.absoluteString!, (error as NSError).localizedDescription)
-            let alert = UIAlertController.init(title: NSLocalizedString("Invalid Region Base URL", comment: ""), message: msg, preferredStyle: .Alert)
-            alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss(), style: .Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+        }.catch { error in
+            let msg = String(format: NSLocalizedString("Unable to load data from %@. Please check the URL and try again.\r\n\r\n%@", comment: ""), URL!.absoluteString, (error as NSError).localizedDescription)
+            let alert = UIAlertController.init(title: NSLocalizedString("Invalid Region Base URL", comment: ""), message: msg, preferredStyle: .alert)
+            alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss(), style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
     }
 
@@ -157,12 +157,12 @@ class RegionBuilderViewController: OBAStaticTableViewController {
     /**
         Common configuration for lazily loaded properties.
      */
-    private class func applyPropertiesToTextRow(row: OBATextFieldRow, model: NSMutableDictionary) {
+    fileprivate class func applyPropertiesToTextRow(_ row: OBATextFieldRow, model: NSMutableDictionary) {
         row.dataKey = row.labelText
         row.model = model
     }
 
-    private func loadDataIntoRegion() {
+    fileprivate func loadDataIntoRegion() {
         // Required Fields
         if let text = self.userDataModel[self.baseURLRow.dataKey!] {
             self.region.obaBaseUrl = text as! String

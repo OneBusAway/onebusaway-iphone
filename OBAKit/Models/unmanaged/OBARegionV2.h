@@ -5,7 +5,7 @@
 //  Created by chaya3 on 5/22/13.
 //
 //
-@import MapKit;
+#import <MapKit/MapKit.h>
 #import "OBARegionBoundsV2.h"
 
 NS_ASSUME_NONNULL_BEGIN

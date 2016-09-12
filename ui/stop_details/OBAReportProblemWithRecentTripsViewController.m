@@ -1,6 +1,6 @@
 #import "OBAReportProblemWithRecentTripsViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
-#import "OBAApplication.h"
+#import <OBAKit/OBAKit.h>
 #import "OBAClassicDepartureRow.h"
 
 @interface OBAReportProblemWithRecentTripsViewController ()

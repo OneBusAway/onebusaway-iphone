@@ -15,12 +15,11 @@
  */
 
 #import "OBAEditStopPreferencesViewController.h"
-#import "OBARouteV2.h"
+#import <OBAKit/OBAKit.h>
 #import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
-#import "OBAApplication.h"
 
 @interface OBAEditStopPreferencesViewController ()
 @property(nonatomic,strong) OBAStopV2 *stop;

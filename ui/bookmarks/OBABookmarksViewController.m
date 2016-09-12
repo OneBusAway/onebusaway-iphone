@@ -7,12 +7,9 @@
 //
 
 #import "OBABookmarksViewController.h"
-#import "OBAApplication.h"
-#import "OBABookmarkGroup.h"
+#import <OBAKit/OBAKit.h>
 #import "OBAStopViewController.h"
 #import "OBAEditStopBookmarkViewController.h"
-#import <OBAKit/OBAModelDAO.h>
-#import <OBAKit/OBAArrivalAndDepartureV2.h>
 #import "OBABookmarkedRouteRow.h"
 #import "OBAArrivalAndDepartureSectionBuilder.h"
 #import "OBAClassicDepartureRow.h"
@@ -132,7 +129,7 @@ static NSUInteger const kMinutes = 30;
         row.nextDeparture = nil;
         row.state = OBABookmarkedRouteRowStateError;
         row.supplementaryMessage = [error localizedDescription];
-    }).finally(^{
+    }).always(^{
         NSIndexPath *indexPath = [self indexPathForModel:bookmark];
 
         if (indexPath.section >= self.sections.count) {

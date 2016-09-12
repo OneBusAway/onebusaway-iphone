@@ -7,13 +7,13 @@
 //
 
 #import "OBADrawerUI.h"
-#import <Pulley/Pulley-Swift.h>
+#import "OneBusAway-Swift.h"
 #import "OBADrawerViewController.h"
 #import "OBASearchResultsMapViewController.h"
 #import "OBASearchResultsListViewController.h"
 #import "OBARecentStopsViewController.h"
 #import "OBABookmarksViewController.h"
-#import <OBAKit/OBASearchResult.h>
+#import <OBAKit/OBAKit.h>
 
 @interface OBADrawerUI ()
 @property(nonatomic,strong) PulleyViewController *pulleyController;

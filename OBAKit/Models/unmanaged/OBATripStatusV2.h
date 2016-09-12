@@ -1,5 +1,4 @@
-@import CoreLocation;
-
+#import <CoreLocation/CoreLocation.h>
 #import "OBAHasReferencesV2.h"
 #import "OBATripInstanceRef.h"
 #import "OBATripV2.h"

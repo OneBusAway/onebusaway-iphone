@@ -7,9 +7,8 @@
 //
 
 #import "OBARegionHelper.h"
-#import "OBAApplication.h"
-#import "OBAMacros.h"
 #import <OBAKit/OBAKit.h>
+#import "OBAMacros.h"
 
 @interface OBARegionHelper ()
 @property (nonatomic) NSMutableArray *regions;
