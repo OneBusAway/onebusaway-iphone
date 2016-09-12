@@ -78,14 +78,14 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 - (OBATableSection*)settingsTableSection {
 
-    OBATableRow *region = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Region", @"") action:^{
+    OBATableRow *region = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Region", @"") action:^{
         [self.navigationController pushViewController:[[RegionListViewController alloc] init] animated:YES];
     }];
     region.style = UITableViewCellStyleValue1;
     region.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     region.subtitle = [OBAApplication sharedApplication].modelDao.currentRegion.regionName;
 
-    OBATableRow *agencies = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Agencies", @"Info Page Agencies Row Title") action:^{
+    OBATableRow *agencies = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Agencies", @"Info Page Agencies Row Title") action:^{
         [self openAgencies];
     }];
     agencies.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -95,12 +95,12 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 - (OBATableSection*)contactTableSection {
 
-    OBATableRow *contactUs = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Data & Schedule Issues", @"Info Page Contact Us Row Title") action:^{
+    OBATableRow *contactUs = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Data & Schedule Issues", @"Info Page Contact Us Row Title") action:^{
         [self openContactUs];
     }];
     contactUs.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    OBATableRow *reportAppIssue = [OBATableRow tableRowWithTitle:NSLocalizedString(@"App Bugs & Feature Requests", @"A row in the Info tab's table view") action:^{
+    OBATableRow *reportAppIssue = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"App Bugs & Feature Requests", @"A row in the Info tab's table view") action:^{
         [[Apptentive sharedConnection] presentMessageCenterFromViewController:self];
     }];
     reportAppIssue.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -111,7 +111,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
         reportAppIssue.style = UITableViewCellStyleValue1;
     }
 
-    OBATableRow *makeItBetter = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Help Make OneBusAway Better", @"") action:^{
+    OBATableRow *makeItBetter = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Help Make OneBusAway Better", @"") action:^{
         NSURL *URL = [NSURL URLWithString:@"https://www.github.com/onebusaway/onebusaway-iphone"];
         [[UIApplication sharedApplication] openURL:URL];
     }];
@@ -123,12 +123,12 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 - (OBATableSection*)aboutTableSection {
 
-    OBATableRow *credits = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Credits", @"Info Page Credits Row Title") action:^{
+    OBATableRow *credits = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Credits", @"Info Page Credits Row Title") action:^{
         [self.navigationController pushViewController:[[OBACreditsViewController alloc] init] animated:YES];
     }];
     credits.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    OBATableRow *privacy = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Privacy Policy", @"Info Page Privacy Policy Row Title") action:^{
+    OBATableRow *privacy = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Privacy Policy", @"Info Page Privacy Policy Row Title") action:^{
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
         SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:kPrivacyURLString]];
         safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
@@ -136,7 +136,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     }];
     privacy.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    OBATableRow *donate = [OBATableRow tableRowWithTitle:NSLocalizedString(@"Donate", @"Info Page Donate Row Title") action:^{
+    OBATableRow *donate = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Donate", @"Info Page Donate Row Title") action:^{
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Donate Link" value:nil];
         SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:kDonateURLString]];
         safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
