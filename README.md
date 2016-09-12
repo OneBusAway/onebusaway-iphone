@@ -16,9 +16,9 @@ You are welcome to work on any bug or feature you would like, but we know that g
 
 ### Development environment setup
 
-1. Install Xcode 7.3.x
+1. Install Xcode 8.0.x
 2. `git clone` your fork
-3. `(sudo) gem install cocoapods --pre` (We require Cocoapods 1.1.0.beta.2 or higher!)
+3. `(sudo) gem install cocoapods --pre` (We require Cocoapods 1.1.0.rc.1 or higher!)
 4. `pod install`
 5. Open `org.onebusaway.iphone.xcworkspace`
 

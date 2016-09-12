@@ -1,0 +1,123 @@
+/* Accessibility label for 'show about' button */
+"About Apptentive" = "نبذة عن أبتينتيف";
+
+/* About apptentive introductory message */
+"Apptentive is a service that allows you to have a conversation with the makers of this app. Your input and feedback can help to provide you with a better overall experience.\n\nYour feedback is hosted by Apptentive and is subject to both Apptentive’s privacy policy and the privacy policy of this app’s developer." = "Apptentive هي خدمة تتيح لك إجراء المحادثة مع صناع هذا التطبيق. من شأن إدخالك وتعليقاتك أن تساعد في تقديم خدمة أفضل بشكل كلي.\n\n\nتتم استضافة تعليقاتك بواسطة Apptentive وهي تخضع لسياسة خصوصية Apptentive وسياسة خصوصية مطور التطبيق هذا.";
+
+/* About apptentive privacy button label */
+"Apptentive’s Privacy Policy" = "السياسة الخصوصية لـApptentive";
+
+/* Accessibility label for 'attach' button */
+"Attach" = "الإرفاق";
+
+/* Accessibility hint for 'attach' */
+"Attaches a photo or screenshot" = "قم بإرفاق صورة أو لقطة شاشة";
+
+/* Placeholder name for attachment */
+"Attachment %@" = "المرفق رقم %@";
+
+/* No comment provided by engineer. */
+"Authentication Failed" = "فشلت المصادقة";
+
+/* Button that closes Message Center. */
+"Close" = "إغلاق";
+
+/* Accessibility hint for 'close' button */
+"Closes Message Center." = "إغلاق مركز الرسائل.";
+
+/* Accessibility label for 'discard' button */
+"Discard" = "تجاهل";
+
+/* Accessibility hint for 'discard' button */
+"Discards the message." = "تجاهل الرسالة.";
+
+/* Accessibilty hint for 'show about' button */
+"Displays information about this feature." = "عرض المعلومات حول هذه الميزة.";
+
+/* Accessibility hint for 'edit profile' button */
+"Displays name and email editor." = "عرض محرر  الاسم والبريد الإلكتروني.";
+
+/* Title for enjoyment alert view. Parameter is app name. */
+"Do you love %@?" = "هل يعجبك %@؟";
+
+/* Message failed to send. */
+"Failed" = "فشل";
+
+/* No comment provided by engineer. */
+"Invalid response from server." = "استجابة غير صالحة من الخادم.";
+
+/* About apptentive link button label */
+"Learn about Apptentive" = "اعرف عن Apptentive";
+
+/* Message Center default title */
+"Message Center" = "مركز الرسائل";
+
+/* No comment provided by engineer. */
+"Network Connection Error" = "خطأ في الاتصال بالشبكة";
+
+/* no */
+"No" = "لا";
+
+/* cancel title for app rating dialog */
+"No Thanks" = "لا، شكراً";
+
+/* OK button title */
+"OK" = "موافق";
+
+/* Unable to load the App Store title */
+"Oops!" = "عفوا!";
+
+/* Powered by followed by Apptentive logo. */
+"Powered by" = "بواسطة";
+
+/* Accessibility label for 'edit profile' button */
+"Profile" = "الملف التعريفي";
+
+/* Rate app button title */
+"Rate %@" = "تقييم %@";
+
+/* Remind me later button title */
+"Remind Me Later" = "ذكرني لاحقاً";
+
+/* No comment provided by engineer. */
+"required" = "مطلوب";
+
+/* Message is sending. */
+"Sending…" = "جاري الإرسال...";
+
+/* Accessibility hint for 'send' button */
+"Sends the message." = "إرسال رسالة.";
+
+/* Message sent successfully */
+"Sent" = "تم الإرسال";
+
+/* No comment provided by engineer. */
+"Server did not return properly formatted JSON." = "لم يرجع الخادم JSON منسق بشكل صحيح.";
+
+/* No comment provided by engineer. */
+"Server error." = "خطأ في الخادم.";
+
+/* Rate app title. */
+"Thank You" = "شكراً لك";
+
+/* Attachment download failed alert title */
+"Unable to Download Attachment" = "لم نتمكن من تحميل المرفق";
+
+/* Unable to load the App Store message */
+"Unable to load the App Store" = "تعذر تحميل متجر التطبيقات";
+
+/* Rate app message. Parameter is app name. */
+"We're so happy to hear that you love %@! It'd be really helpful if you rated us. Thanks so much for spending some time with us." = "يسعدنا أن %@ قد أعجبك! سيكون من المفيد حقاً إذا قمت بتقييمنا. شكراً جزيلاً لقضاء بعض الوقت معنا.";
+
+/* Message Center configuration is waiting to be downloaded or encountered a server error. */
+"We’re attempting to connect. Thanks for your patience!" = "نحن نحاول الاتصال بك. شكراً لصبرك!";
+
+/* No comment provided by engineer. */
+"Wrong username and/or password." = "خطأ في اسم المستخدم و/أو كلمة المرور.";
+
+/* yes */
+"Yes" = "نعم";
+
+/* Message Center configuration hasn't downloaded due to connection problem. */
+"You must connect to the internet before you can send feedback." = "يجب عليك الاتصال بالإنترنت قبل أن تتمكن من إرسال التعليقات.";
+

@@ -1,0 +1,123 @@
+/* Accessibility label for 'show about' button */
+"About Apptentive" = "Om Apptentive";
+
+/* About apptentive introductory message */
+"Apptentive is a service that allows you to have a conversation with the makers of this app. Your input and feedback can help to provide you with a better overall experience.\n\nYour feedback is hosted by Apptentive and is subject to both Apptentive’s privacy policy and the privacy policy of this app’s developer." = "Apptentive er en tjeneste, som giver dig mulighed for at kommunikere med skaberne af denne app. Dit input og feedback kan hjælpe med at give dig en bedre oplevelse.\n\nDit feedback er hostet af Apptentive og er omfattet af både Apptentives privatlivspolitik og privatlivspolitikken for denne apps udvikler.";
+
+/* About apptentive privacy button label */
+"Apptentive’s Privacy Policy" = "Apptentives privatlivspolitik";
+
+/* Accessibility label for 'attach' button */
+"Attach" = "Vedhæft";
+
+/* Accessibility hint for 'attach' */
+"Attaches a photo or screenshot" = "Vedhæfter et foto eller skærmbillede";
+
+/* Placeholder name for attachment */
+"Attachment %@" = "Vedhæftning %@";
+
+/* No comment provided by engineer. */
+"Authentication Failed" = "Godkendelse mislykkedes";
+
+/* Button that closes Message Center. */
+"Close" = "Luk";
+
+/* Accessibility hint for 'close' button */
+"Closes Message Center." = "Lukker Meddelelser.";
+
+/* Accessibility label for 'discard' button */
+"Discard" = "Slet";
+
+/* Accessibility hint for 'discard' button */
+"Discards the message." = "Sletter besked.";
+
+/* Accessibilty hint for 'show about' button */
+"Displays information about this feature." = "Viser oplysninger om denne funktion.";
+
+/* Accessibility hint for 'edit profile' button */
+"Displays name and email editor." = "Rediger navn og e-mail.";
+
+/* Title for enjoyment alert view. Parameter is app name. */
+"Do you love %@?" = "Er du vild med %@?";
+
+/* Message failed to send. */
+"Failed" = "Mislykkedes";
+
+/* No comment provided by engineer. */
+"Invalid response from server." = "Ugyldigt svar fra server.";
+
+/* About apptentive link button label */
+"Learn about Apptentive" = "Få oplysninger om Apptentive";
+
+/* Message Center default title */
+"Message Center" = "Beskeder";
+
+/* No comment provided by engineer. */
+"Network Connection Error" = "Netværkforbindelsesfejl";
+
+/* no */
+"No" = "Nej";
+
+/* cancel title for app rating dialog */
+"No Thanks" = "Nej tak";
+
+/* OK button title */
+"OK" = "Ok";
+
+/* Unable to load the App Store title */
+"Oops!" = "Ups!";
+
+/* Powered by followed by Apptentive logo. */
+"Powered by" = "Leveret af";
+
+/* Accessibility label for 'edit profile' button */
+"Profile" = "Profil";
+
+/* Rate app button title */
+"Rate %@" = "Bedøm %@";
+
+/* Remind me later button title */
+"Remind Me Later" = "Påmind mig senere";
+
+/* No comment provided by engineer. */
+"required" = "påkrævet";
+
+/* Message is sending. */
+"Sending…" = "Sender…";
+
+/* Accessibility hint for 'send' button */
+"Sends the message." = "Sender beskeden.";
+
+/* Message sent successfully */
+"Sent" = "Sendt";
+
+/* No comment provided by engineer. */
+"Server did not return properly formatted JSON." = "Server har ikke returneret en korrekt formateret JSON.";
+
+/* No comment provided by engineer. */
+"Server error." = "Serverfejl.";
+
+/* Rate app title. */
+"Thank You" = "Tak";
+
+/* Attachment download failed alert title */
+"Unable to Download Attachment" = "Ikke i stand til at downloade vedhæftede fil";
+
+/* Unable to load the App Store message */
+"Unable to load the App Store" = "Kunne ikke indlæse App Store";
+
+/* Rate app message. Parameter is app name. */
+"We're so happy to hear that you love %@! It'd be really helpful if you rated us. Thanks so much for spending some time with us." = "Vi er så glade for at høre, at du er vild med %@! Det ville hjælpe os meget, hvis du bedømmer os. Mange tak for den tid, du har brugt sammen med os.";
+
+/* Message Center configuration is waiting to be downloaded or encountered a server error. */
+"We’re attempting to connect. Thanks for your patience!" = "Vi forsøger at oprette forbindelse. Tak for din tålmodighed!";
+
+/* No comment provided by engineer. */
+"Wrong username and/or password." = "Forkert brugernavn og/eller adgangskode.";
+
+/* yes */
+"Yes" = "Ja";
+
+/* Message Center configuration hasn't downloaded due to connection problem. */
+"You must connect to the internet before you can send feedback." = "Du skal oprette forbindelse til internettet, før du kan sende feedback.";
+

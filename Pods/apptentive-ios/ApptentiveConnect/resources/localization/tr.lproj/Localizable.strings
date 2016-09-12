@@ -1,0 +1,123 @@
+/* Accessibility label for 'show about' button */
+"About Apptentive" = "Apptentive hakkında";
+
+/* About apptentive introductory message */
+"Apptentive is a service that allows you to have a conversation with the makers of this app. Your input and feedback can help to provide you with a better overall experience.\n\nYour feedback is hosted by Apptentive and is subject to both Apptentive’s privacy policy and the privacy policy of this app’s developer." = "Appentive bu uygulamanın geliştiricileriyle bir görüşme yapmanıza olanak sağlayan bir hizmettir. Katkınız ve geribildiriminiz daha iyi bir genel deneyiminin sağlanmasına yardımcı olabilir.\n\nGeribildiriminiz Appentive tarafından barındırılmaktadır ve Appentive'in gizlilik politikası ile uygulama geliştiricisinin gizlilik politikasına tâbidir.";
+
+/* About apptentive privacy button label */
+"Apptentive’s Privacy Policy" = "Appentive Gizlilik Politikası";
+
+/* Accessibility label for 'attach' button */
+"Attach" = "Ekle";
+
+/* Accessibility hint for 'attach' */
+"Attaches a photo or screenshot" = "Bir fotoğraf ya da ekran resmi ekler";
+
+/* Placeholder name for attachment */
+"Attachment %@" = "Eklenti %@";
+
+/* No comment provided by engineer. */
+"Authentication Failed" = "Kimlik Doğrulaması Başarısız";
+
+/* Button that closes Message Center. */
+"Close" = "Kapat";
+
+/* Accessibility hint for 'close' button */
+"Closes Message Center." = "Mesaj Merkezini kapatır.";
+
+/* Accessibility label for 'discard' button */
+"Discard" = "At";
+
+/* Accessibility hint for 'discard' button */
+"Discards the message." = "Mesajı atar.";
+
+/* Accessibilty hint for 'show about' button */
+"Displays information about this feature." = "Bu özellik hakkındaki bilgiyi görüntüler.";
+
+/* Accessibility hint for 'edit profile' button */
+"Displays name and email editor." = "Adı ve e-posta düzenleyicisini görüntüler.";
+
+/* Title for enjoyment alert view. Parameter is app name. */
+"Do you love %@?" = "%@ uygulamasını seviyor musunuz?";
+
+/* Message failed to send. */
+"Failed" = "Başarısız";
+
+/* No comment provided by engineer. */
+"Invalid response from server." = "Sunucudan geçersiz yanıt.";
+
+/* About apptentive link button label */
+"Learn about Apptentive" = "Appentive'i Öğren";
+
+/* Message Center default title */
+"Message Center" = "Mesaj Merkezi";
+
+/* No comment provided by engineer. */
+"Network Connection Error" = "Ağ Bağlantı Hatası";
+
+/* no */
+"No" = "Hayır";
+
+/* cancel title for app rating dialog */
+"No Thanks" = "Hayır, Teşekkürler";
+
+/* OK button title */
+"OK" = "Tamam";
+
+/* Unable to load the App Store title */
+"Oops!" = "Eyvah!";
+
+/* Powered by followed by Apptentive logo. */
+"Powered by" = "Destekleyen";
+
+/* Accessibility label for 'edit profile' button */
+"Profile" = "Profil";
+
+/* Rate app button title */
+"Rate %@" = "%@ Uygulamasını Derecelendir";
+
+/* Remind me later button title */
+"Remind Me Later" = "Daha Sonra Anımsat";
+
+/* No comment provided by engineer. */
+"required" = "gerekli";
+
+/* Message is sending. */
+"Sending…" = "Gönderiliyor…";
+
+/* Accessibility hint for 'send' button */
+"Sends the message." = "Mesajı gönderir.";
+
+/* Message sent successfully */
+"Sent" = "Gönderildi";
+
+/* No comment provided by engineer. */
+"Server did not return properly formatted JSON." = "Sunucu, uygun biçimlendirilmiş JSON dönüşü yapmadı.";
+
+/* No comment provided by engineer. */
+"Server error." = "Sunucu hatası.";
+
+/* Rate app title. */
+"Thank You" = "Teşekkür Ederiz";
+
+/* Attachment download failed alert title */
+"Unable to Download Attachment" = "Eklenti İndirilemiyor";
+
+/* Unable to load the App Store message */
+"Unable to load the App Store" = "App Store'a yüklenemiyor";
+
+/* Rate app message. Parameter is app name. */
+"We're so happy to hear that you love %@! It'd be really helpful if you rated us. Thanks so much for spending some time with us." = "%@ uygulamasını sevdiğinizi duymaktan dolayı çok mutluyuz! Bizi derecelendirirseniz, çok yardımcı olacak. Bizimle zaman geçirdiğiniz için çok teşekkürler.";
+
+/* Message Center configuration is waiting to be downloaded or encountered a server error. */
+"We’re attempting to connect. Thanks for your patience!" = "Bağlanmaya çalışıyoruz. Sabır gösterdiğiniz için teşekkür ederiz!";
+
+/* No comment provided by engineer. */
+"Wrong username and/or password." = "Yanlış kullanıcı adı ve/veya parola.";
+
+/* yes */
+"Yes" = "Evet";
+
+/* Message Center configuration hasn't downloaded due to connection problem. */
+"You must connect to the internet before you can send feedback." = "Geribildirim göndermeden önce İnternet'e bağlı olmalısınız.";
+

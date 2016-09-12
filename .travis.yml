@@ -1,19 +1,6 @@
-osx_image: xcode8.0
 language: objective-c
-cache:
-  - bundler
-  - cocoapods
-before_install:
-  - bundle install
-  - pod repo update
-install: bundle exec pod install
-xcode_workspace: org.onebusaway.iphone.xcworkspace
-xcode_scheme:
-    - Debug
-xcode_sdk:
-    - iphonesimulator
-script:
-  - set -o pipefail && xcodebuild -workspace org.onebusaway.iphone.xcworkspace -scheme OneBusAway -sdk iphonesimulator -configuration Debug test ONLY_ACTIVE_ARCH=NO | xcpretty
+osx_image: xcode8
+script: set -o pipefail && xcodebuild clean test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -workspace org.onebusaway.iphone.xcworkspace -scheme OneBusAway -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.0' ONLY_ACTIVE_ARCH=NO | xcpretty
 notifications:
   slack:
     rooms:

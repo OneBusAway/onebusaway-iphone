@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15E65" minimumToolsVersion="Xcode 4.3">
+    <entity name="ATEvent" representedClassName="ApptentiveEvent" parentEntity="ATRecord" syncable="YES">
+        <attribute name="dictionaryData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pendingEventID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+    </entity>
+    <entity name="ATFileAttachment" representedClassName="ApptentiveFileAttachment" syncable="YES">
+        <attribute name="localPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mimeType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="remoteThumbnailURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="remoteURL" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="message" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ATMessage" inverseName="attachments" inverseEntity="ATMessage" syncable="YES"/>
+    </entity>
+    <entity name="ATMessage" representedClassName="ApptentiveMessage" parentEntity="ATRecord" syncable="YES">
+        <attribute name="automated" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="body" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="customData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="errorMessageJSON" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="errorOccurred" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="hidden" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="pendingMessageID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="pendingState" attributeType="Integer 32" defaultValueString="YES" syncable="YES"/>
+        <attribute name="priority" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="seenByUser" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="sentByUser" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="attachments" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ATFileAttachment" inverseName="message" inverseEntity="ATFileAttachment" syncable="YES"/>
+        <relationship name="sender" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="ATMessageSender" inverseName="sentMessages" inverseEntity="ATMessageSender" syncable="YES"/>
+    </entity>
+    <entity name="ATMessageSender" representedClassName="ApptentiveMessageSender" syncable="YES">
+        <attribute name="apptentiveID" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="emailAddress" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profilePhotoURL" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="sentMessages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ATMessage" inverseName="sender" inverseEntity="ATMessage" syncable="YES"/>
+    </entity>
+    <entity name="ATRecord" representedClassName="ApptentiveRecord" isAbstract="YES" syncable="YES">
+        <attribute name="apptentiveID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="clientCreationTime" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="clientCreationTimezone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="clientCreationUTCOffset" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="creationTime" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+    </entity>
+    <entity name="ATSurveyResponse" representedClassName="ApptentiveSurveyResponse" parentEntity="ATRecord" syncable="YES">
+        <attribute name="answersData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="pendingState" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="pendingSurveyResponseID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="surveyID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="ATEvent" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="ATFileAttachment" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="ATMessageSender" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="ATRecord" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="ATSurveyResponse" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="ATMessage" positionX="0" positionY="0" width="128" height="255"/>
+    </elements>
+</model>

@@ -1,0 +1,123 @@
+/* Accessibility label for 'show about' button */
+"About Apptentive" = "Sobre o Apptentive";
+
+/* About apptentive introductory message */
+"Apptentive is a service that allows you to have a conversation with the makers of this app. Your input and feedback can help to provide you with a better overall experience.\n\nYour feedback is hosted by Apptentive and is subject to both Apptentive’s privacy policy and the privacy policy of this app’s developer." = "Apptentive é um serviço que permite que você tenha uma conversa com quem criou esse aplicativo. Seu feedback e seus comentários podem ajudar a oferecer uma experiência geral melhor.\n\nSeu feedback fica hospedado na Apptentive e está sujeito às políticas de privacidade da Apptentive e do desenvolvedor do aplicativo.";
+
+/* About apptentive privacy button label */
+"Apptentive’s Privacy Policy" = "Política de privacidade da Apptentive";
+
+/* Accessibility label for 'attach' button */
+"Attach" = "Anexar";
+
+/* Accessibility hint for 'attach' */
+"Attaches a photo or screenshot" = "Anexar uma foto ou imagem";
+
+/* Placeholder name for attachment */
+"Attachment %@" = "Anexo %@";
+
+/* No comment provided by engineer. */
+"Authentication Failed" = "Falha de autenticação";
+
+/* Button that closes Message Center. */
+"Close" = "Fechar";
+
+/* Accessibility hint for 'close' button */
+"Closes Message Center." = "Fecha a Central de mensagens.";
+
+/* Accessibility label for 'discard' button */
+"Discard" = "Descartar";
+
+/* Accessibility hint for 'discard' button */
+"Discards the message." = "Descarta a mensagem.";
+
+/* Accessibilty hint for 'show about' button */
+"Displays information about this feature." = "Exibe informações sobre este recurso.";
+
+/* Accessibility hint for 'edit profile' button */
+"Displays name and email editor." = "Exibe editor de nome e e-mail.";
+
+/* Title for enjoyment alert view. Parameter is app name. */
+"Do you love %@?" = "Você adorou %@?";
+
+/* Message failed to send. */
+"Failed" = "Falha";
+
+/* No comment provided by engineer. */
+"Invalid response from server." = "Resposta inválida do servidor.";
+
+/* About apptentive link button label */
+"Learn about Apptentive" = "Aprenda sobre o Apptentive";
+
+/* Message Center default title */
+"Message Center" = "Central de mensagens";
+
+/* No comment provided by engineer. */
+"Network Connection Error" = "Erro de conexão de rede";
+
+/* no */
+"No" = "Não";
+
+/* cancel title for app rating dialog */
+"No Thanks" = "Não, obrigado";
+
+/* OK button title */
+"OK" = "OK";
+
+/* Unable to load the App Store title */
+"Oops!" = "Opa!";
+
+/* Powered by followed by Apptentive logo. */
+"Powered by" = "Usa";
+
+/* Accessibility label for 'edit profile' button */
+"Profile" = "Perfil";
+
+/* Rate app button title */
+"Rate %@" = "Classificar %@";
+
+/* Remind me later button title */
+"Remind Me Later" = "Lembre-me depois";
+
+/* No comment provided by engineer. */
+"required" = "obrigatório";
+
+/* Message is sending. */
+"Sending…" = "Enviando…";
+
+/* Accessibility hint for 'send' button */
+"Sends the message." = "Envia a mensagem.";
+
+/* Message sent successfully */
+"Sent" = "Enviada";
+
+/* No comment provided by engineer. */
+"Server did not return properly formatted JSON." = "O servidor não retornou um JSON formatado adequadamente.";
+
+/* No comment provided by engineer. */
+"Server error." = "Erro de servidor.";
+
+/* Rate app title. */
+"Thank You" = "Obrigado";
+
+/* Attachment download failed alert title */
+"Unable to Download Attachment" = "Não é possível baixar o Anexo";
+
+/* Unable to load the App Store message */
+"Unable to load the App Store" = "Impossível carregar a App Store";
+
+/* Rate app message. Parameter is app name. */
+"We're so happy to hear that you love %@! It'd be really helpful if you rated us. Thanks so much for spending some time with us." = "Estamos muito felizes de saber que você adora %@! Seria muito útil se você nos classificasse. Obrigado por dedicar um tempinho para nós.";
+
+/* Message Center configuration is waiting to be downloaded or encountered a server error. */
+"We’re attempting to connect. Thanks for your patience!" = "Estamos tentando conectar. Obrigado pela sua paciência!";
+
+/* No comment provided by engineer. */
+"Wrong username and/or password." = "Nome de usuário e/ou senha errados.";
+
+/* yes */
+"Yes" = "Sim";
+
+/* Message Center configuration hasn't downloaded due to connection problem. */
+"You must connect to the internet before you can send feedback." = "Você precisa se conectar à internet antes de poder enviar feedback.";
+

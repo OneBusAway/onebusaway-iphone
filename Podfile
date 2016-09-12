@@ -1,7 +1,4 @@
-# Uncomment this line to define a global platform for your project
-platform :ios, '9.0'
-
-inhibit_all_warnings!
+platform :ios, '9.3'
 
 def pod_promise_kit
   pod 'PromiseKit/CorePromise', '3.5.1'
@@ -47,8 +44,6 @@ post_install do |installer_representation|
   installer_representation.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
       config.build_settings['ONLY_ACTIVE_ARCH'] = 'NO'
-      # config.build_settings['ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES'] = 'NO'
-      config.build_settings['ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES'] = 'YES'
     end
   end
 end

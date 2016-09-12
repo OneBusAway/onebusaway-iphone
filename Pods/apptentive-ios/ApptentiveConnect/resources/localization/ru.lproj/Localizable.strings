@@ -1,0 +1,123 @@
+/* Accessibility label for 'show about' button */
+"About Apptentive" = "О Apptentive";
+
+/* About apptentive introductory message */
+"Apptentive is a service that allows you to have a conversation with the makers of this app. Your input and feedback can help to provide you with a better overall experience.\n\nYour feedback is hosted by Apptentive and is subject to both Apptentive’s privacy policy and the privacy policy of this app’s developer." = "Apptentive — это служба, которая позволяет вам общаться с создателями этого приложения. Ваш отзыв помогает нам улучшать опыт пользования службой.\n\nВаш отзыв размещается на Apptentive и подлежит политике конфиденциальности Apptentive и разработчика этого приложения.";
+
+/* About apptentive privacy button label */
+"Apptentive’s Privacy Policy" = "Политика конфиденциальности Apptentive";
+
+/* Accessibility label for 'attach' button */
+"Attach" = "Приложить";
+
+/* Accessibility hint for 'attach' */
+"Attaches a photo or screenshot" = "Прикладывает фото или скриншот";
+
+/* Placeholder name for attachment */
+"Attachment %@" = "Приложение %@";
+
+/* No comment provided by engineer. */
+"Authentication Failed" = "Ошибка аутентификации";
+
+/* Button that closes Message Center. */
+"Close" = "Закрыть";
+
+/* Accessibility hint for 'close' button */
+"Closes Message Center." = "Закрывает центр сообщений.";
+
+/* Accessibility label for 'discard' button */
+"Discard" = "Удалить";
+
+/* Accessibility hint for 'discard' button */
+"Discards the message." = "Удаляет сообщение.";
+
+/* Accessibilty hint for 'show about' button */
+"Displays information about this feature." = "Отображает информацию об этой функции.";
+
+/* Accessibility hint for 'edit profile' button */
+"Displays name and email editor." = "Отображает имя и электронную почту.";
+
+/* Title for enjoyment alert view. Parameter is app name. */
+"Do you love %@?" = "Вы любите %@?";
+
+/* Message failed to send. */
+"Failed" = "Ошибка";
+
+/* No comment provided by engineer. */
+"Invalid response from server." = "Недопустимый ответ сервера.";
+
+/* About apptentive link button label */
+"Learn about Apptentive" = "Подробнее об Apptentive";
+
+/* Message Center default title */
+"Message Center" = "Центр сообщений";
+
+/* No comment provided by engineer. */
+"Network Connection Error" = "Ошибка сетевого подключения";
+
+/* no */
+"No" = "Нет";
+
+/* cancel title for app rating dialog */
+"No Thanks" = "Нет, спасибо";
+
+/* OK button title */
+"OK" = "ОK";
+
+/* Unable to load the App Store title */
+"Oops!" = "Ой!";
+
+/* Powered by followed by Apptentive logo. */
+"Powered by" = "Разработано";
+
+/* Accessibility label for 'edit profile' button */
+"Profile" = "Профиль";
+
+/* Rate app button title */
+"Rate %@" = "Оценить %@";
+
+/* Remind me later button title */
+"Remind Me Later" = "Напомнить позже";
+
+/* No comment provided by engineer. */
+"required" = "обязательно";
+
+/* Message is sending. */
+"Sending…" = "Отправка...";
+
+/* Accessibility hint for 'send' button */
+"Sends the message." = "Отправляет сообщение.";
+
+/* Message sent successfully */
+"Sent" = "Отправлено";
+
+/* No comment provided by engineer. */
+"Server did not return properly formatted JSON." = "Сервер вернул JSON в неправильном формате.";
+
+/* No comment provided by engineer. */
+"Server error." = "Ошибка сервера.";
+
+/* Rate app title. */
+"Thank You" = "Спасибо";
+
+/* Attachment download failed alert title */
+"Unable to Download Attachment" = "Не удается скачать приложение";
+
+/* Unable to load the App Store message */
+"Unable to load the App Store" = "Не удается загрузить App Store";
+
+/* Rate app message. Parameter is app name. */
+"We're so happy to hear that you love %@! It'd be really helpful if you rated us. Thanks so much for spending some time with us." = "Так приятно знать, что вы любите %@! Если вы оцените нас, нам это очень поможет! Спасибо за то, что уделили нам свое время.";
+
+/* Message Center configuration is waiting to be downloaded or encountered a server error. */
+"We’re attempting to connect. Thanks for your patience!" = "Мы пытаетесь подключиться. Спасибо за терпение!";
+
+/* No comment provided by engineer. */
+"Wrong username and/or password." = "Неверное имя пользователя и/или пароль.";
+
+/* yes */
+"Yes" = "Да";
+
+/* Message Center configuration hasn't downloaded due to connection problem. */
+"You must connect to the internet before you can send feedback." = "Прежде чем отправлять отзыв, нужно подключиться к Интернету.";
+
