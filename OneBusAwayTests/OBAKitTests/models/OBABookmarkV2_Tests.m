@@ -56,4 +56,15 @@
     XCTAssertEqual(bm.regionIdentifier, 1);
 }
 
+- (void)testValidateModelPassing {
+    OBABookmarkV2 *bm = [OBATestHelpers unarchiveBundledTestFile:@"bookmark_with_region_identifier.plist"];
+    XCTAssertTrue([bm isValidModel]);
+}
+
+- (void)testValidateModelFailing {
+    OBABookmarkV2 *bm = [OBATestHelpers unarchiveBundledTestFile:@"bookmark_with_region_identifier.plist"];
+    bm.name = @"";
+    XCTAssertFalse([bm isValidModel]);
+}
+
 @end

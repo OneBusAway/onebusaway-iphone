@@ -139,6 +139,14 @@ static NSString * const kBookmarkVersion = @"bookmarkVersion";
 
 #pragma mark - Misc
 
+- (BOOL)isValidModel {
+    // TODO: this should really be smarter and check for a variety of
+    // properties depending on whether it is a 252 or 260-style bookmark.
+    // However, for the purposes of fixing https://github.com/OneBusAway/onebusaway-iphone/issues/711,
+    // the check for the name is sufficient.
+    return self.name.length > 0;
+}
+
 - (NSArray<OBAArrivalAndDepartureV2*>*)matchingArrivalsAndDeparturesForStop:(OBAArrivalsAndDeparturesForStopV2*)dep {
     NSMutableArray *matches = [NSMutableArray array];
 
