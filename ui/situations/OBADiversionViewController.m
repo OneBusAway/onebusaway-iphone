@@ -137,6 +137,7 @@
         overlayView = [[MKOverlayRenderer alloc] init];
     }
 
+    // TODO: can't return nil here, MKMapViewDelegate says NONNULL
     return overlayView;
 }
 
