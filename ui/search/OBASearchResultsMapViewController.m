@@ -606,8 +606,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         return renderer;
     }
     else {
-        // TODO: can't return nil here, MKMapViewDelegate says NONNULL
-        return nil;
+        return [[MKOverlayRenderer alloc] init];
     }
 }
 

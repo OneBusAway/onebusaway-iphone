@@ -2474,7 +2474,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2090FA85E96D4CC26E750866 /* Pods-OneBusAway.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = OneBusAway/OneBusAway.entitlements;
@@ -2509,7 +2508,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4F8EB54B20802AD353BBD9F0 /* Pods-OneBusAway.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = OneBusAway/OneBusAway.entitlements;
@@ -3088,7 +3086,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9ABEF18E98158A7476ECDB64 /* Pods-OneBusAway.adhocdistribution.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = OneBusAway/OneBusAway.entitlements;
@@ -3184,7 +3181,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A553375C73FCAF3CA3D5D44A /* Pods-OneBusAway.appstoredistribution.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = OneBusAway/OneBusAway.entitlements;
