@@ -118,7 +118,7 @@ class RegionBuilderViewController: OBAStaticTableViewController {
 
         self.loadDataIntoRegion()
 
-        guard self.region.validateModel() else {
+        guard self.region.isValidModel() else {
             let alert = UIAlertController.init(title: NSLocalizedString("Invalid Region", comment: ""), message: NSLocalizedString("The region you have specified is not valid. Please specify at least a base URL and a name.", comment: ""), preferredStyle: .Alert)
             alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss(), style: .Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)

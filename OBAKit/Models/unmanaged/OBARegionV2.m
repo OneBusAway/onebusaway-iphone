@@ -87,7 +87,7 @@ static NSString * kCustom = @"custom";
 
 #pragma mark - Other Public Methods
 
-- (BOOL)validateModel {
+- (BOOL)isValidModel {
     return [NSURL URLWithString:self.obaBaseUrl] && self.regionName.length > 0;
 }
 

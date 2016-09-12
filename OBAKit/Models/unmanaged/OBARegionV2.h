@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Tests whether this is a valid region object.
  */
-- (BOOL)validateModel;
+- (BOOL)isValidModel;
 
 /**
  obaBaseUrl converted into an NSURL

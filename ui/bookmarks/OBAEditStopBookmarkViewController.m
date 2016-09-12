@@ -24,6 +24,7 @@
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAApplication.h"
 #import <OBAKit/OBAKit.h>
+#import "OneBusAway-Swift.h"
 
 @interface OBAEditStopBookmarkViewController ()
 @property(nonatomic,strong) OBABookmarkV2 *bookmark;
@@ -150,6 +151,11 @@
     OBAModelDAO *dao = [OBAApplication sharedApplication].modelDao;
 
     self.bookmark.name = self.textField.text;
+
+    if (![self.bookmark isValidModel]) {
+        [AlertPresenter showWarning:NSLocalizedString(@"Can't Create Bookmark", @"Title of the alert shown when a bookmark can't be created") body:NSLocalizedString(@"Bookmarks must have a name. Please add a name and then try again.", @"Body of the alert shown when a bookmark can't be created.")];
+        return;
+    }
 
     if (!self.bookmark.group && !self.selectedGroup) {
         [dao saveBookmark:self.bookmark];

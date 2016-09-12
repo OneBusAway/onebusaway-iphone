@@ -39,6 +39,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithStop:(OBAStopV2*)stop region:(OBARegionV2*)region;
 
 /**
+ Tests whether this is a valid bookmark model.
+
+ @return True if it is valid and false if it is invalid.
+ */
+- (BOOL)isValidModel;
+
+/**
  Basically, an -isEqual: for comparing bookmarks to OBAArrivalAndDepartureV2 objects.
  */
 - (BOOL)matchesArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
