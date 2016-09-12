@@ -11,7 +11,9 @@
 #import "OBALabelFooterView.h"
 #import <OBAKit/OBAKit.h>
 
-@implementation OBABookmarkGroupsViewController
+@implementation OBABookmarkGroupsViewController {
+    UIAlertAction *_saveButton;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -22,9 +24,13 @@
 
     self.emptyDataSetTitle = NSLocalizedString(@"No Bookmark Groups", @"");
     self.emptyDataSetDescription = NSLocalizedString(@"Tap the '+' button to create one.", @"");
+
     self.tableFooterView = [self buildFooterView];
 
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(close)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+                                             initWithBarButtonSystemItem:self.enableGroupEditing ? UIBarButtonSystemItemDone : UIBarButtonSystemItemCancel
+                                             target:self
+                                             action:@selector(close)];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addGroup)];
 
@@ -34,7 +40,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    [self setEditing:YES animated:YES];
+    [self setEditing:self.enableGroupEditing animated:YES];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -59,22 +65,59 @@
 }
 
 - (void)addGroup {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Add Bookmark Group", @"") message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [self addEditGroupName:nil];
+}
+
+- (void)addEditGroupName:(OBABookmarkGroup *)group {
+    NSString *title = group ? NSLocalizedString(@"Edit Group Name",) : NSLocalizedString(@"Add Bookmark Group",);
+
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = NSLocalizedString(@"Name of Group", @"");
+        textField.placeholder = NSLocalizedString(@"Name of Group",);
+        textField.text = group.name;
+        [textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     }];
 
-    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
-    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.save style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        OBABookmarkGroup *group = [[OBABookmarkGroup alloc] initWithName:alertController.textFields[0].text];
-        [self.modelDAO saveBookmarkGroup:group];
+    void (^addGroup)(UIAlertAction *action) = ^(UIAlertAction *action) {
+        OBABookmarkGroup *newGroup = [[OBABookmarkGroup alloc] initWithName:alertController.textFields.firstObject.text];
+        [self.modelDAO saveBookmarkGroup:newGroup];
         [self loadData];
-    }]];
+    };
+
+    void (^editGroup)(UIAlertAction *action) = ^(UIAlertAction *action) {
+        group.name = alertController.textFields.firstObject.text;
+        [self.modelDAO persistGroups];
+        [self loadData];
+    };
+
+    _saveButton = [UIAlertAction actionWithTitle:OBAStrings.save style:UIAlertActionStyleDefault
+                                         handler:(group) ? editGroup : addGroup];
+
+    _saveButton.enabled = (group.name.length > 0);
+    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
+    [alertController addAction:_saveButton];
 
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
+- (void)textFieldDidChange:(UITextField *)textField {
+    if (_saveButton) {
+        _saveButton.enabled = (textField.text.length > 0);
+    }
+}
+
 #pragma mark - Table Data
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    OBABookmarkGroup *group = [self rowAtIndexPath:indexPath].model;
+
+    if ([self.delegate respondsToSelector:@selector(didSetBookmarkGroup:)]) {
+        [self.delegate didSetBookmarkGroup:group];
+    }
+
+    [self close];
+}
 
 - (void)loadData {
 
@@ -85,17 +128,7 @@
         tableRow.model = group;
 
         [tableRow setEditAction:^(OBABaseRow *row) {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Edit Group Name", @"") message:nil preferredStyle:UIAlertControllerStyleAlert];
-            [alert addTextFieldWithConfigurationHandler:^(UITextField * textField) {
-                textField.text = group.name;
-            }];
-            [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
-            [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.save style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                group.name = alert.textFields.firstObject.text;
-                [self.modelDAO persistGroups];
-                [self loadData];
-            }]];
-            [self presentViewController:alert animated:YES completion:nil];
+            [self addEditGroupName:group];
         }];
 
         [tableRow setDeleteModel:^(OBABaseRow *row){
@@ -138,7 +171,11 @@
 #pragma mark - Private
 
 - (UIView*)buildFooterView {
-    return [OBAUIBuilder footerViewWithText:NSLocalizedString(@"Deleting a group does not delete its bookmarks. Its contents will be moved to the 'Bookmarks' group.", @"") maximumWidth:CGRectGetWidth(self.tableView.frame)];
+    NSString *message = self.enableGroupEditing ?
+    NSLocalizedString(@"Deleting a group does not delete its bookmarks. Its contents will be moved to the 'Bookmarks' group.",) :
+    NSLocalizedString(@"Select a group for the bookmark,\nor '+' to add it to a new group.",);
+
+    return [OBAUIBuilder footerViewWithText:message maximumWidth:CGRectGetWidth(self.tableView.frame)];
 }
 
 @end

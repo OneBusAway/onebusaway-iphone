@@ -233,6 +233,7 @@ static NSUInteger const kMinutes = 30;
 
 - (void)editGroups {
     OBABookmarkGroupsViewController *groups = [[OBABookmarkGroupsViewController alloc] init];
+    groups.enableGroupEditing = YES;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:groups];
     [self presentViewController:nav animated:YES completion:nil];
 }

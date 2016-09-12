@@ -18,7 +18,6 @@
 #import "OBATextFieldTableViewCell.h"
 #import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
-#import "OBAEditStopBookmarkGroupViewController.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 #import <OBAKit/OBAKit.h>
@@ -145,9 +144,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 2) {
-        OBAEditStopBookmarkGroupViewController *groupVC = [[OBAEditStopBookmarkGroupViewController alloc] initWithModelDAO:self.modelDAO selectedBookmarkGroup:self.selectedGroup];
-        groupVC.delegate = self;
-        [self.navigationController pushViewController:groupVC animated:YES];
+        OBABookmarkGroupsViewController *groups = [[OBABookmarkGroupsViewController alloc] init];
+        groups.enableGroupEditing = NO;
+        groups.delegate = self;
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:groups];
+        [self presentViewController:nav animated:YES completion:nil];
     }
 }
 
