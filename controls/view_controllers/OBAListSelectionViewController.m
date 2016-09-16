@@ -2,6 +2,7 @@
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
+#import <OBAKit/OBAKit.h>
 
 @interface OBAListSelectionViewController ()
 @property (nonatomic) NSArray *values;

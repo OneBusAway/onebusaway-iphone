@@ -7,10 +7,8 @@
 //
 
 #import "OBAEditBookmarkGroupViewController.h"
+#import <OBAKit/OBAKit.h>
 #import "OBATextFieldTableViewCell.h"
-#import "OBABookmarkGroup.h"
-#import "OBAModelDAO.h"
-#import "OBAApplication.h"
 #import "OBAAnalytics.h"
 
 @interface OBAEditBookmarkGroupViewController ()

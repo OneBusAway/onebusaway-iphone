@@ -1,5 +1,5 @@
 #import "OBAHasReferencesV2.h"
-@import MapKit;
+#import <MapKit/MapKit.h>
 #import "OBARouteType.h"
 
 NS_ASSUME_NONNULL_BEGIN

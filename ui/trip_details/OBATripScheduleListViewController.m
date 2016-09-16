@@ -6,8 +6,7 @@
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "UINavigationController+oba_Additions.h"
-#import "OBAApplication.h"
-#import <OBAKit/OBADateHelpers.h>
+#import <OBAKit/OBAKit.h>
 #import "OBATripScheduleSectionBuilder.h"
 
 typedef NS_ENUM(NSUInteger, OBASectionType) {

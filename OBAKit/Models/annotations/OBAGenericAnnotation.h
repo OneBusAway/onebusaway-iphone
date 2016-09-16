@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@import MapKit;
+#import <MapKit/MapKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

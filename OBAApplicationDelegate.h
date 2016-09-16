@@ -15,8 +15,6 @@
  */
 
 #import "OBANavigationTarget.h"
-#import <GoogleAnalytics/GAITracker.h>
-#import "OBAApplication.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

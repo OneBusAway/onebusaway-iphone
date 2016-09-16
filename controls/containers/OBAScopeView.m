@@ -8,7 +8,7 @@
 
 #import "OBAScopeView.h"
 #import <QuartzCore/QuartzCore.h>
-#import "OBACommonV1.h"
+#import <OBAKit/OBAKit.h>
 
 @interface OBAScopeView ()
 - (void)_configureOBAScopeView;

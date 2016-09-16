@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-@import Foundation;
-@import MapKit;
+#import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

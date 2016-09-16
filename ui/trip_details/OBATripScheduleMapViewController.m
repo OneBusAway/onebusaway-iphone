@@ -1,16 +1,11 @@
 #import "OBATripScheduleMapViewController.h"
-#import "OBAStopV2.h"
-#import "OBATripStopTimeV2.h"
-#import "OBAStopIconFactory.h"
-#import "OBATripStopTimeMapAnnotation.h"
-#import "OBATripContinuationMapAnnotation.h"
-#import "OBACoordinateBounds.h"
 #import "OBAStopViewController.h"
-#import "OBASphericalGeometryLibrary.h"
 #import "OBATripDetailsViewController.h"
 #import "OBAAnalytics.h"
 #import "UINavigationController+oba_Additions.h"
 #import "OBAApplicationDelegate.h"
+#import "EXTScope.h"
+#import <OBAKit/OBAKit.h>
 
 static const NSString *kTripDetailsContext = @"TripDetails";
 static const NSString *kShapeContext = @"ShapeContext";

@@ -3,8 +3,8 @@
 #import "OBASituationsViewController.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
-#import "OBAApplication.h"
-#import "OBACommonV1.h"
+#import "EXTScope.h"
+#import <OBAKit/OBAKit.h>
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -45,20 +45,18 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (id<OBAModelServiceRequest>)handleRefresh {
     @weakify(self);
-    return [[OBAApplication sharedApplication].modelService
-            requestVehicleForId:_vehicleId
-                completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                    @strongify(self);
+    return [[OBAApplication sharedApplication].modelService requestVehicleForId:_vehicleId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        @strongify(self);
 
-                    if (error) {
-                    [self refreshFailedWithError:error];
-                    }
-                    else {
-                    OBAEntryWithReferencesV2 *entry = jsonData;
-                    self.vehicleStatus = entry.entry;
-                    [self refreshCompleteWithCode:responseCode];
-                    }
-                }];
+        if (error) {
+            [self refreshFailedWithError:error];
+        }
+        else {
+            OBAEntryWithReferencesV2 *entry = jsonData;
+            self.vehicleStatus = entry.entry;
+            [self refreshCompleteWithCode:responseCode];
+        }
+    }];
 }
 
 #pragma mark Table view methods

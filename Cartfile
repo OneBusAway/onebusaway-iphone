@@ -1,0 +1,21 @@
+github "mxcl/PromiseKit" ~>4.0.1
+github "PromiseKit/Foundation" ~>1.0.0
+github "PromiseKit/CoreLocation" ~>1.0.1
+github "PromiseKit/MapKit" ~>1.0.1
+github "akashivskyy/GoogleAnalytics-Framework" ~>3.16
+github "SVProgressHUD/SVProgressHUD" ~>2.0.3
+github "SnapKit/Masonry" ~>1.0.2
+github "MatthewYork/DateTools" ~>1.7.0
+github "dzenbot/DZNEmptyDataSet" ~>1.8.1
+github "SwiftKickMobile/SwiftMessages" "swift3"
+
+# These repositories do not work properly with Carthage.
+# I am currently copying the source files present in Carthage/Checkouts
+# and copying them to the externals folder. So, we're at least getting
+# a decent level of version control, but it's less than ideal.
+github "jspahrsummers/libextobjc" ~>0.5.0
+github "52inc/Pulley" ~>1.1.0
+github "AzimoLabs/SMFloatingLabelTextField" ~>0.2.0
+
+# Having issues, needs work.
+# github "apptentive/apptentive-ios" ~>3.2.1

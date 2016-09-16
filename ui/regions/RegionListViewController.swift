@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import OBAKit
 import PromiseKit
+import PMKCoreLocation
 import SVProgressHUD
 
 @objc protocol RegionListDelegate {
@@ -21,7 +22,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
     var regions: [OBARegionV2]?
     weak var delegate: RegionListDelegate?
 
-    lazy var modelDAO: OBAModelDAO = OBAApplication.sharedApplication().modelDao
+    lazy var modelDAO: OBAModelDAO = OBAApplication.shared().modelDao
     lazy var modelService: OBAModelService = OBAModelService.init()
 
     // MARK: - UIViewController
@@ -29,21 +30,21 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .Add, target: self, action: #selector(addCustomAPI))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addCustomAPI))
 
         self.updateData()
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(selectedRegionDidChange), name: OBARegionDidUpdateNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(selectedRegionDidChange), name: NSNotification.Name.OBARegionDidUpdate, object: nil)
     }
 
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: OBARegionDidUpdateNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.OBARegionDidUpdate, object: nil)
     }
 
     // MARK: - Region Builder
@@ -52,17 +53,17 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
         self.buildRegion(nil)
     }
 
-    func buildRegion(region: OBARegionV2?) {
+    func buildRegion(_ region: OBARegionV2?) {
         let builder = RegionBuilderViewController.init()
         if region != nil {
             builder.region = region!
         }
         builder.delegate = self
         let nav = UINavigationController.init(rootViewController: builder)
-        self.presentViewController(nav, animated: true, completion: nil)
+        self.present(nav, animated: true, completion: nil)
     }
 
-    func regionBuilderDidCreateRegion(region: OBARegionV2) {
+    func regionBuilderDidCreateRegion(_ region: OBARegionV2) {
         // If the user is editing an existing region, then we
         // can ensure that it is properly updated by removing
         // it and then re-adding it.
@@ -71,22 +72,22 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
         self.modelDAO.automaticallySelectRegion = false
         self.modelDAO.currentRegion = region
-        OBAApplication.sharedApplication().refreshSettings()
+        OBAApplication.shared().refreshSettings()
 
         self.loadData()
     }
 
     // MARK: - Notifications
 
-    func selectedRegionDidChange(note: NSNotification) {
+    func selectedRegionDidChange(_ note: Notification) {
         SVProgressHUD.dismiss()
         self.loadData()
     }
 
     // MARK: - Table View Editing/Deletion
 
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        guard let region = self.rowAtIndexPath(indexPath)!.model else {
+    func tableView(_ tableView: UITableView, canEditRowAtIndexPath indexPath: IndexPath) -> Bool {
+        guard let region = self.row(at: indexPath)!.model else {
             return false
         }
 
@@ -94,14 +95,14 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
         return region.custom
     }
 
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            self.deleteRowAtIndexPath(indexPath)
+    func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
+        if editingStyle == .delete {
+            self.deleteRow(at: indexPath)
         }
     }
 
-    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        let row = self.rowAtIndexPath(indexPath)
+    func tableView(_ tableView: UITableView, editActionsForRowAtIndexPath indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let row = self.row(at: indexPath)
         guard let region = row!.model as? OBARegionV2 else {
             return nil
         }
@@ -111,12 +112,12 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
             return nil;
         }
 
-        let edit = UITableViewRowAction.init(style: .Normal, title: OBAStrings.edit()) { (action, indexPath) in
+        let edit = UITableViewRowAction.init(style: .normal, title: OBAStrings.edit()) { (action, indexPath) in
             self.buildRegion(region)
         }
 
-        let delete = UITableViewRowAction.init(style: .Destructive, title: OBAStrings.delete()) { (action, indexPath) in
-            self.deleteRowAtIndexPath(indexPath)
+        let delete = UITableViewRowAction.init(style: .destructive, title: OBAStrings.delete()) { (action, indexPath) in
+            self.deleteRow(at: indexPath)
         }
 
         return [edit, delete]
@@ -125,27 +126,30 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
     // MARK: - Data Loading
 
     func updateData() {
-        SVProgressHUD.show()
 
-        firstly {
-            return Promise { fulfill, reject in
-                CLLocationManager.promise().then { location in
-                    fulfill(location)
-                }.error { error in
-                    fulfill(nil)
-                }
-            }
-        }.then { location in
-            self.currentLocation = location as? CLLocation
-            return OBAApplication.sharedApplication().modelService.requestRegions()
-        }.then { regions -> Void in
-            self.regions = regions as? [OBARegionV2]
-            self.loadData()
-        }.always {
-            SVProgressHUD.dismiss()
-        }.error { error in
-            AlertPresenter.showWarning(NSLocalizedString("Unable to Load Regions", comment: ""), body: (error as NSError).localizedDescription)
-        }
+        // abxoxo - TODO - PUT ME BACK!
+
+//        SVProgressHUD.show()
+//
+//        firstly {
+//            return Promise { fulfill, reject in
+//                CLLocationManager.promise().then { location in
+//                    fulfill(location)
+//                }.catch { error in
+//                    _ = fulfill(nil)
+//                }
+//            }
+//        }.then { location in
+//            self.currentLocation = location as? CLLocation
+//            return OBAApplication.sharedApplication().modelService.requestRegions()
+//        }.then { regions -> Void in
+//            self.regions = regions as? [OBARegionV2]
+//            self.loadData()
+//        }.always {
+//            SVProgressHUD.dismiss()
+//        }.catch { error in
+//            AlertPresenter.showWarning(NSLocalizedString("Unable to Load Regions", comment: ""), body: (error as NSError).localizedDescription)
+//        }
     }
 
     /**
@@ -161,7 +165,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
             self.modelDAO.automaticallySelectRegion = !self.modelDAO.automaticallySelectRegion
 
             if (self.modelDAO.automaticallySelectRegion) {
-                OBAApplication.sharedApplication().regionHelper.updateNearestRegion()
+                OBAApplication.shared().regionHelper.updateNearestRegion()
                 SVProgressHUD.show()
             }
             else {
@@ -194,15 +198,15 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
      
      - Returns: an array of `OBATableRow`
     */
-    func tableRowsFromRegions(regions: [OBARegionV2]) -> [OBATableRow] {
-        return regions.sort { r1, r2 -> Bool in
+    func tableRowsFromRegions(_ regions: [OBARegionV2]) -> [OBATableRow] {
+        return regions.sorted { r1, r2 -> Bool in
             r1.regionName < r2.regionName
         }.map { region in
             let autoSelect = self.modelDAO.automaticallySelectRegion
 
             let action: (() -> Void)? = autoSelect ? nil : {
                 self.modelDAO.currentRegion = region
-                OBAApplication.sharedApplication().refreshSettings()
+                OBAApplication.shared().refreshSettings()
                 self.loadData()
             }
 
@@ -210,21 +214,21 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
             row.model = region
             row.deleteModel = { row in
-                let alert = UIAlertController.init(title: NSLocalizedString("Are you sure you want to delete this region?", comment: ""), message: nil, preferredStyle: .Alert)
-                alert.addAction(UIAlertAction.init(title: OBAStrings.cancel(), style: .Cancel, handler: nil))
-                alert.addAction(UIAlertAction.init(title: OBAStrings.delete(), style: .Destructive, handler: { action in
+                let alert = UIAlertController.init(title: NSLocalizedString("Are you sure you want to delete this region?", comment: ""), message: nil, preferredStyle: .alert)
+                alert.addAction(UIAlertAction.init(title: OBAStrings.cancel(), style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction.init(title: OBAStrings.delete(), style: .destructive, handler: { action in
                     self.modelDAO.removeCustomRegion(region)
                 }))
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
             }
 
             if (autoSelect) {
                 row.titleColor = OBATheme.darkDisabledColor()
-                row.selectionStyle = .None
+                row.selectionStyle = .none
             }
 
             if (self.modelDAO.currentRegion == region) {
-                row.accessoryType = .Checkmark
+                row.accessoryType = .checkmark
             }
 
             return row

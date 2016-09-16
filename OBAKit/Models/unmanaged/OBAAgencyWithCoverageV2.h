@@ -1,4 +1,4 @@
-@import MapKit;
+#import <MapKit/MapKit.h>
 
 #import "OBAHasReferencesV2.h"
 #import "OBAAgencyV2.h"

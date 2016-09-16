@@ -10,6 +10,8 @@
 #import <OBAKit/OBAKit.h>
 #import <Masonry/Masonry.h>
 #import <PromiseKit/PromiseKit.h>
+#import <PMKMapKit/PMKMapKit.h>
+#import <PMKCoreLocation/PMKCoreLocation.h>
 #import <DateTools/DateTools.h>
 #import "OBAArrivalsAndDeparturesForStopV2.h"
 #import "OBAMapHelpers.h"
@@ -118,7 +120,7 @@
             [[MKMapSnapshotter alloc] initWithOptions:options];
         });
 
-        [snapshotter promise].thenInBackground(^(MKMapSnapshot *snapshot) {
+        [snapshotter start].thenInBackground(^(MKMapSnapshot *snapshot) {
             UIImage *annotatedImage = [OBAImageHelpers draw:[OBAStopIconFactory getIconForStop:self.stop]
                                                        onto:snapshot.image
                                                     atPoint:[snapshot pointForCoordinate:self.stop.coordinate]];
@@ -191,7 +193,7 @@
     }).catch(^(NSError *error) {
         NSLog(@"Unable to calculate walk time to stop: %@", error);
         [self.directionsLabel removeFromSuperview];
-    }).finally(^{
+    }).always(^{
         iterations = 0;
     });
 }

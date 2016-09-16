@@ -1,0 +1,10 @@
+framework module PMKMapKit {
+  umbrella header "PMKMapKit.h"
+
+  export *
+  module * { export * }
+}
+
+module PMKMapKit.Swift {
+    header "PMKMapKit-Swift.h"
+}

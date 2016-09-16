@@ -8,8 +8,8 @@
 
 #import "OBASegmentedControlCell.h"
 #import <Masonry/Masonry.h>
+#import <OBAKit/OBAKit.h>
 #import "OBASegmentedRow.h"
-#import "OBATheme.h"
 
 @interface OBASegmentedControlCell ()
 @property(nonatomic,strong) UISegmentedControl *segmentedControl;

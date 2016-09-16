@@ -7,17 +7,11 @@
 //
 
 #import "OBAEditStopBookmarkGroupViewController.h"
-#import "OBAModelDAO.h"
-#import "OBABookmarkGroup.h"
+#import <OBAKit/OBAKit.h>
 #import "OBATextFieldTableViewCell.h"
 #import "OBAEditBookmarkGroupViewController.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
-#import "OBAApplication.h"
-
-@interface OBAEditStopBookmarkGroupViewController ()
-
-@end
 
 @implementation OBAEditStopBookmarkGroupViewController
 

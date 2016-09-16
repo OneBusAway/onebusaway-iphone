@@ -1,7 +1,8 @@
 #import "OBARequestDrivenTableViewController.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
-#import "OBACommon.h"
+#import <OBAKit/OBAKit.h>
+#import "EXTScope.h"
 
 @interface OBARequestDrivenTableViewController ()
 

@@ -1,6 +1,6 @@
 language: objective-c
 osx_image: xcode8
-script: set -o pipefail && xcodebuild clean test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -workspace org.onebusaway.iphone.xcworkspace -scheme OneBusAway -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.0' ONLY_ACTIVE_ARCH=NO | xcpretty
+script: set -o pipefail && xcodebuild clean test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -project org.onebusaway.iphone.xcodeproj -scheme OneBusAway -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.0' ONLY_ACTIVE_ARCH=NO | xcpretty
 notifications:
   slack:
     rooms:

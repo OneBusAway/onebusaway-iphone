@@ -1,4 +1,5 @@
 #import "OBAReportProblemViewController.h"
+#import <OBAKit/OBAKit.h>
 #import "OBAReportProblemWithStopViewController.h"
 #import "OBAReportProblemWithRecentTripsViewController.h"
 #import "UITableViewController+oba_Additions.h"

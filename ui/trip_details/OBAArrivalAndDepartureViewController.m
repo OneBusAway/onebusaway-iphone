@@ -7,8 +7,8 @@
 //
 
 #import "OBAArrivalAndDepartureViewController.h"
+#import <OBAKit/OBAKit.h>
 #import "OBAStaticTableViewController+Builders.h"
-#import "OBAApplication.h"
 #import "OBAClassicDepartureRow.h"
 #import "OBATripScheduleMapViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
@@ -124,7 +124,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         [self populateTableWithArrivalAndDeparture:self.arrivalAndDeparture tripDetails:self.tripDetails];
     }).catch(^(NSError *error) {
         // TODO: handle error.
-    }).finally(^{
+    }).always(^{
         if (animated) {
             [self.refreshControl endRefreshing];
         }

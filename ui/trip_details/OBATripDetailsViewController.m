@@ -5,8 +5,7 @@
 #import "OBAArrivalEntryTableViewCell.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
-#import "OBAApplication.h"
-
+#import <OBAKit/OBAKit.h>
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,

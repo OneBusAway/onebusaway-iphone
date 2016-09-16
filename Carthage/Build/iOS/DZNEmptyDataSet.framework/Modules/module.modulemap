@@ -1,0 +1,6 @@
+framework module DZNEmptyDataSet {
+  umbrella header "DZNEmptyDataSet.h"
+
+  export *
+  module * { export * }
+}

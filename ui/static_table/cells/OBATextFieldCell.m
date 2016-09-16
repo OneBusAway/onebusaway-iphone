@@ -10,7 +10,7 @@
 #import "OBATextFieldRow.h"
 #import <OBAKit/OBAKit.h>
 #import <Masonry/Masonry.h>
-#import <SMFloatingLabelTextField/SMFloatingLabelTextField.h>
+#import "SMFloatingLabelTextField.h"
 
 @interface OBATextFieldCell ()<UITextFieldDelegate>
 @property(nonatomic,strong) SMFloatingLabelTextField *textField;

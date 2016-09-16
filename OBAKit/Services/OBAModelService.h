@@ -10,7 +10,7 @@
 #import "OBAArrivalAndDepartureInstanceRef.h"
 #import "OBAReportProblemWithStopV2.h"
 #import "OBAReportProblemWithTripV2.h"
-#import <PromiseKit/PromiseKit.h>
+@import PromiseKit;
 
 NS_ASSUME_NONNULL_BEGIN
 
