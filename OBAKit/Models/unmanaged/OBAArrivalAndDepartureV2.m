@@ -39,7 +39,10 @@
     OBATripV2 *trip = self.trip;
     OBARouteV2 *route = trip.route;
 
-    if (_tripHeadsign.length > 0) {
+    // TODO: figure out how an NSNull is slipping through the
+    // model layer :( Maybe this is an indication that we
+    // need to move to a more modern modeling framework.
+    if (![_tripHeadsign isEqual:NSNull.null] && _tripHeadsign.length > 0) {
         headsign = _tripHeadsign;
     }
     else if (trip.tripHeadsign) {
@@ -52,7 +55,7 @@
         headsign = route.shortName;
     }
 
-    if (!headsign) {
+    if (!headsign || [headsign isEqual:NSNull.null]) {
         return nil;
     }
 

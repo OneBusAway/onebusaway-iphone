@@ -103,7 +103,14 @@
 
 - (void)renderRouteLabel {
     // TODO: clean me up once we've verified that users aren't losing their minds over the change.
-    NSString *firstLineText = [NSString stringWithFormat:NSLocalizedString(@"%@ to %@\r\n", @"Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE>"), [self classicDepartureRow].routeName, [self classicDepartureRow].destination];
+    NSString *firstLineText = nil;
+
+    if ([self classicDepartureRow].destination) {
+        firstLineText = [NSString stringWithFormat:NSLocalizedString(@"%@ to %@\r\n", @"Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE>"), [self classicDepartureRow].routeName, [self classicDepartureRow].destination];
+    }
+    else {
+        firstLineText = [NSString stringWithFormat:@"%@\r\n", [self classicDepartureRow].routeName];
+    }
 
     NSMutableAttributedString *routeText = [[NSMutableAttributedString alloc] initWithString:firstLineText attributes:@{NSFontAttributeName: [OBATheme bodyFont]}];
 
