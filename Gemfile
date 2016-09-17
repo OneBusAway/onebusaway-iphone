@@ -1,4 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'cocoapods', '~>1.1.0.rc.1'
+group :development do
+  gem 'earlgrey', '~> 0.0.11'
+end
+
 gem 'xcpretty'
+
