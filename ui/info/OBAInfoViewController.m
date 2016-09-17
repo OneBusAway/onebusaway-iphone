@@ -11,7 +11,7 @@
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
 #import <SafariServices/SafariServices.h>
-//#import "Apptentive.h"
+#import "Apptentive.h"
 #import <OBAKit/OBAEmailHelper.h>
 #import "UILabel+OBAAdditions.h"
 #import "OneBusAway-Swift.h"
@@ -48,7 +48,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMessageCountChanged:) name:ApptentiveMessageCenterUnreadCountChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMessageCountChanged:) name:ApptentiveMessageCenterUnreadCountChangedNotification object:nil];
 
     [self reloadData];
 }
@@ -56,7 +56,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:ApptentiveMessageCenterUnreadCountChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:ApptentiveMessageCenterUnreadCountChangedNotification object:nil];
 }
 
 #pragma mark - Notifications
@@ -100,16 +100,16 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     }];
     contactUs.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-//    OBATableRow *reportAppIssue = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"App Bugs & Feature Requests", @"A row in the Info tab's table view") action:^{
-//        [[Apptentive sharedConnection] presentMessageCenterFromViewController:self];
-//    }];
-//    reportAppIssue.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    OBATableRow *reportAppIssue = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"App Bugs & Feature Requests", @"A row in the Info tab's table view") action:^{
+        [[Apptentive sharedConnection] presentMessageCenterFromViewController:self];
+    }];
+    reportAppIssue.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-//    NSUInteger unreadMessageCount = [[Apptentive sharedConnection] unreadMessageCount];
-//    if (unreadMessageCount > 0) {
-//        reportAppIssue.subtitle = [NSString stringWithFormat:NSLocalizedString(@"%@ unread", @"Unread messages count. e.g. 2 unread"), @(unreadMessageCount)];
-//        reportAppIssue.style = UITableViewCellStyleValue1;
-//    }
+    NSUInteger unreadMessageCount = [[Apptentive sharedConnection] unreadMessageCount];
+    if (unreadMessageCount > 0) {
+        reportAppIssue.subtitle = [NSString stringWithFormat:NSLocalizedString(@"%@ unread", @"Unread messages count. e.g. 2 unread"), @(unreadMessageCount)];
+        reportAppIssue.style = UITableViewCellStyleValue1;
+    }
 
     OBATableRow *makeItBetter = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Help Make OneBusAway Better", @"") action:^{
         NSURL *URL = [NSURL URLWithString:@"https://www.github.com/onebusaway/onebusaway-iphone"];
