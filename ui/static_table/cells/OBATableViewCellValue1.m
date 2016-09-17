@@ -42,11 +42,10 @@
         _stackView.axis = UILayoutConstraintAxisHorizontal;
         _stackView.alignment = UIStackViewAlignmentFill;
         _stackView.spacing = [OBATheme defaultPadding];
-        _stackView.layoutMargins = self.layoutMargins;
-        _stackView.layoutMarginsRelativeArrangement = YES;
+
         [self.contentView addSubview:_stackView];
         [_stackView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.contentView);
+            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(0, 2 * [OBATheme defaultPadding], 0, [OBATheme defaultPadding]));
             make.height.greaterThanOrEqualTo(@44);
         }];
     }

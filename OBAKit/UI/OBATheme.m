@@ -42,6 +42,9 @@ static UIFont *_boldFootnoteFont = nil;
     [[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateNormal];
     [[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateSelected];
     [[UISegmentedControl appearanceWhenContainedInInstancesOfClasses:@[UINavigationBar.class]] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor blackColor] } forState:UIControlStateNormal];
+
+    [[UITableViewCell appearance] setPreservesSuperviewLayoutMargins:YES];
+    [[[UITableViewCell appearance] contentView] setPreservesSuperviewLayoutMargins:YES];
 }
 
 #pragma mark - UIFont
