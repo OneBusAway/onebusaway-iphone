@@ -15,9 +15,6 @@
 @property(nonatomic,strong) UILabel *obaTextLabel;
 @property(nonatomic,strong) UILabel *obaDetailTextLabel;
 @property(nonatomic,strong) UIStackView *stackView;
-
-// stack views seem to require spacing views for some scenarios, like ours. Lame.
-@property(nonatomic,strong) UIView *stupidSpacingView;
 @end
 
 @implementation OBATableViewCellValue1
@@ -36,9 +33,10 @@
         _obaDetailTextLabel.textColor = [UIColor darkGrayColor];
         [_obaDetailTextLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
 
-        _stupidSpacingView = [[UIView alloc] initWithFrame:CGRectZero];
+        // stack views seem to require spacing views for some scenarios, like ours. Lame.
+        UIView *stupidSpacingView = [[UIView alloc] initWithFrame:CGRectZero];
 
-        _stackView = [[UIStackView alloc] initWithArrangedSubviews:@[_obaTextLabel, _stupidSpacingView, _obaDetailTextLabel]];
+        _stackView = [[UIStackView alloc] initWithArrangedSubviews:@[_obaTextLabel, stupidSpacingView, _obaDetailTextLabel]];
         _stackView.axis = UILayoutConstraintAxisHorizontal;
         _stackView.alignment = UIStackViewAlignmentFill;
         _stackView.spacing = [OBATheme defaultPadding];
