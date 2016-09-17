@@ -18,4 +18,4 @@ github "52inc/Pulley" ~>1.1.0
 github "AzimoLabs/SMFloatingLabelTextField" ~>0.2.0
 
 # Having issues, needs work.
-# github "apptentive/apptentive-ios" ~>3.2.1
+# github "apptentive/apptentive-ios" ~>3.3.0

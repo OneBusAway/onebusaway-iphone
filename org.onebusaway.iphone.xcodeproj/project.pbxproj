@@ -353,6 +353,8 @@
 		93C393841D8A81210080F370 /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84261D8689F400DB0AF0 /* PMKCoreLocation.framework */; };
 		93C393851D8A81210080F370 /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84271D8689F400DB0AF0 /* PMKFoundation.framework */; };
 		93C393861D8A81210080F370 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84281D8689F400DB0AF0 /* PromiseKit.framework */; };
+		93C3938F1D8CE6100080F370 /* ApptentiveResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 93C393881D8CE6100080F370 /* ApptentiveResources.bundle */; };
+		93C393911D8CE6100080F370 /* libApptentiveConnect.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3938C1D8CE6100080F370 /* libApptentiveConnect.a */; };
 		93C921461D59289E00CA8868 /* OBADrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C921451D59289E00CA8868 /* OBADrawerViewController.m */; };
 		93DEE5831D45207700042803 /* stop_with_obj_lat_long.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93DEE5821D45207700042803 /* stop_with_obj_lat_long.plist */; };
 		93E0954719CE051700A31BA6 /* OBALaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */; };
@@ -834,6 +836,9 @@
 		93C393761D8A708A0080F370 /* PulleyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyViewController.swift; sourceTree = "<group>"; };
 		93C3937C1D8A708A0080F370 /* SMFloatingLabelTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMFloatingLabelTextField.h; sourceTree = "<group>"; };
 		93C3937D1D8A708A0080F370 /* SMFloatingLabelTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMFloatingLabelTextField.m; sourceTree = "<group>"; };
+		93C393881D8CE6100080F370 /* ApptentiveResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ApptentiveResources.bundle; sourceTree = "<group>"; };
+		93C3938B1D8CE6100080F370 /* Apptentive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Apptentive.h; sourceTree = "<group>"; };
+		93C3938C1D8CE6100080F370 /* libApptentiveConnect.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libApptentiveConnect.a; sourceTree = "<group>"; };
 		93C921441D59289E00CA8868 /* OBADrawerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADrawerViewController.h; sourceTree = "<group>"; };
 		93C921451D59289E00CA8868 /* OBADrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADrawerViewController.m; sourceTree = "<group>"; };
 		93DEE5821D45207700042803 /* stop_with_obj_lat_long.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = stop_with_obj_lat_long.plist; sourceTree = "<group>"; };
@@ -879,6 +884,7 @@
 				93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */,
 				93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */,
 				93528AB11C8D517100783E9A /* CloudKit.framework in Frameworks */,
+				93C393911D8CE6100080F370 /* libApptentiveConnect.a in Frameworks */,
 				93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */,
 				936F45121C780E7600C61656 /* OBAKit.framework in Frameworks */,
 				93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */,
@@ -1806,6 +1812,7 @@
 		93C3932B1D89B3F40080F370 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				93C393871D8CE6100080F370 /* apptentive */,
 				93C393701D8A708A0080F370 /* extobjc */,
 				93C393741D8A708A0080F370 /* pulley */,
 				93C393771D8A708A0080F370 /* SMFloatingLabelTextField */,
@@ -1850,6 +1857,25 @@
 				93C3937D1D8A708A0080F370 /* SMFloatingLabelTextField.m */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		93C393871D8CE6100080F370 /* apptentive */ = {
+			isa = PBXGroup;
+			children = (
+				93C393881D8CE6100080F370 /* ApptentiveResources.bundle */,
+				93C3938A1D8CE6100080F370 /* include */,
+				93C3938C1D8CE6100080F370 /* libApptentiveConnect.a */,
+			);
+			name = apptentive;
+			path = externals/apptentive;
+			sourceTree = "<group>";
+		};
+		93C3938A1D8CE6100080F370 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				93C3938B1D8CE6100080F370 /* Apptentive.h */,
+			);
+			path = include;
 			sourceTree = "<group>";
 		};
 		93F64E921BE5ACB900323527 /* alerts */ = {
@@ -2122,6 +2148,7 @@
 				9347860E1D3453E9002A5627 /* sandiego.gpx in Resources */,
 				932BE5031AB66FCB0011F2FB /* OBACreditsViewController.xib in Resources */,
 				9330DEEA16050CA600E14AF4 /* credits.html in Resources */,
+				93C3938F1D8CE6100080F370 /* ApptentiveResources.bundle in Resources */,
 				9363D5951D6ADE6600A7021A /* yorkca.gpx in Resources */,
 				9388E9DD1A9BCC8900C9F6CE /* feedback_message_body.html in Resources */,
 				932BE5071AB671000011F2FB /* OBALabelAndSwitchTableViewCell.xib in Resources */,
@@ -2472,8 +2499,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Externals/**",
+					"$(PROJECT_DIR)/externals/apptentive",
 				);
-				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
 				PROVISIONING_PROFILE = "";
@@ -2511,8 +2542,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Externals/**",
+					"$(PROJECT_DIR)/externals/apptentive",
 				);
-				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
 				PROVISIONING_PROFILE = "";
@@ -3123,8 +3158,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Externals/**",
+					"$(PROJECT_DIR)/externals/apptentive",
 				);
-				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
 				PROVISIONING_PROFILE = "";
@@ -3222,8 +3261,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Externals/**",
+					"$(PROJECT_DIR)/externals/apptentive",
 				);
-				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
 				PROVISIONING_PROFILE = "";

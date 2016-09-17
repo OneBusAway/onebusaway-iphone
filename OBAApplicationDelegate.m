@@ -28,7 +28,7 @@
 
 #import "OBAAnalytics.h"
 #import "NSArray+OBAAdditions.h"
-//#import "Apptentive.h"
+#import "Apptentive.h"
 
 #import "OBAApplicationUI.h"
 #import "OBAClassicApplicationUI.h"
@@ -37,7 +37,7 @@
 
 static NSString *const kTrackingId = @"UA-2423527-17";
 static NSString *const kOptOutOfTracking = @"OptOutOfTracking";
-//static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc9f70ef38378a9d5a15ac7d4926";
+static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc9f70ef38378a9d5a15ac7d4926";
 
 @interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate>
 @property (nonatomic, strong) UINavigationController *regionNavigationController;
@@ -126,7 +126,7 @@ static NSString *const kOptOutOfTracking = @"OptOutOfTracking";
     [OBAModelService addBackgroundExecutor:self];
 
     // Configure the Apptentive feedback system
-//    [Apptentive sharedConnection].APIKey = kApptentiveKey;
+    [Apptentive sharedConnection].APIKey = kApptentiveKey;
 
     // Set up Google Analytics
     NSDictionary *appDefaults = @{ kOptOutOfTracking: @(NO), kSetRegionAutomaticallyKey: @(YES), kUngroupedBookmarksOpenKey: @(YES)};
