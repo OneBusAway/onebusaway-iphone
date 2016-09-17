@@ -9,8 +9,10 @@
 #import "OBABaseRow.h"
 #import <OBAKit/OBAKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBADepartureRow : OBABaseRow
-@property(nonatomic,copy) NSString *destination;
+@property(nonatomic,copy,nullable) NSString *destination;
 @property(nonatomic,copy) NSDate *departsAt;
 @property(nonatomic,copy) NSString *statusText;
 @property(nonatomic,assign) OBADepartureStatus departureStatus;
@@ -20,6 +22,8 @@
 
 - (NSString *)formattedNextDepartureTime;
 
-- (instancetype)initWithAction:(void (^)(OBABaseRow *row))action NS_UNAVAILABLE;
-- (instancetype)initWithDestination:(NSString*)destination departsAt:(NSDate*)departsAt statusText:(NSString*)statusText departureStatus:(OBADepartureStatus)departureStatus action:(void(^)(OBABaseRow *row))action NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithAction:(void (^ _Nullable)(OBABaseRow *row))action NS_UNAVAILABLE;
+- (instancetype)initWithDestination:(nullable NSString*)destination departsAt:(NSDate*)departsAt statusText:(NSString*)statusText departureStatus:(OBADepartureStatus)departureStatus action:(void(^)(OBABaseRow *row))action NS_DESIGNATED_INITIALIZER;
 @end
+
+NS_ASSUME_NONNULL_END
