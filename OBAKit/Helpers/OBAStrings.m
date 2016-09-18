@@ -34,4 +34,8 @@
     return NSLocalizedString(@"Save", @"Standard 'Save' button text.");
 }
 
++ (NSString*)scheduledDepartureExplanation {
+    return NSLocalizedString(@"*'Scheduled': no vehicle location data available", @"The explanatory text displayed when a non-realtime trip is displayed on-screen.");
+}
+
 @end

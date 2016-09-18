@@ -37,12 +37,15 @@ static NSUInteger const kMinutes = 30;
         self.emptyDataSetTitle = NSLocalizedString(@"No Bookmarks", @"");
         self.emptyDataSetDescription = NSLocalizedString(@"Tap 'Add to Bookmarks' from a stop to save a bookmark to this screen.", @"");
         _bookmarksAndDepartures = [[NSMutableDictionary alloc] init];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
 }
 
 - (void)dealloc {
     [self cancelTimer];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
 #pragma mark - UIViewController
@@ -83,6 +86,14 @@ static NSUInteger const kMinutes = 30;
     [self cancelTimer];
 }
 
+#pragma mark - Notifications
+
+- (void)applicationDidEnterBackground:(NSNotification*)note {
+    // Wipe out the 'scheduled arrival/departure' footer message when the
+    // application is backgrounded to ensure that it doesn't hang out forever.
+    self.tableFooterView = nil;
+}
+
 #pragma mark - Refresh Bookmarks
 
 - (void)cancelTimer {
@@ -120,6 +131,13 @@ static NSUInteger const kMinutes = 30;
         }
         else {
             row.supplementaryMessage = [NSString stringWithFormat:NSLocalizedString(@"%@: No departure scheduled for the next %@ minutes", @""), bookmark.routeShortName, @(kMinutes)];
+        }
+
+        // This will result in some 'false positive' instances where the
+        // footer is displayed even when there is all real time data.
+        // Hopefully that will be ok. Let's see though, eh?
+        if (!departure.hasRealTimeData && !self.tableFooterView) {
+            self.tableFooterView = [OBAUIBuilder footerViewWithText:[OBAStrings scheduledDepartureExplanation] maximumWidth:CGRectGetWidth(self.tableView.frame)];
         }
 
         row.nextDeparture = departure;

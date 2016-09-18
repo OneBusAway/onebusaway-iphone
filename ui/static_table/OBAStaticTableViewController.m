@@ -76,7 +76,7 @@
     [self.tableView setEditing:editing animated:animated];
 }
 
-#pragma mark - Lazy Object Creation Accessor
+#pragma mark - Accessors
 
 - (UITableView*)tableView {
     if (!_tableView) {
@@ -87,6 +87,20 @@
         _tableView.tableFooterView = [UIView new];
     }
     return _tableView;
+}
+
+- (void)setTableFooterView:(UIView *)tableFooterView {
+    if (_tableFooterView == tableFooterView) {
+        return;
+    }
+
+    _tableFooterView = tableFooterView;
+
+    if (self.isViewLoaded) {
+        if (!self.tableView.emptyDataSetVisible) {
+            self.tableView.tableFooterView = _tableFooterView;
+        }
+    }
 }
 
 #pragma mark - Public Methods
@@ -327,6 +341,16 @@
 {
     // Totally arbitrary value. It just 'looks right'.
     return -44;
+}
+
+- (void)emptyDataSetWillAppear:(UIScrollView *)scrollView {
+    self.tableView.tableFooterView = [UIView new];
+}
+
+- (void)emptyDataSetWillDisappear:(UIScrollView *)scrollView {
+    if (self.tableFooterView) {
+        self.tableView.tableFooterView = self.tableFooterView;
+    }
 }
 
 #pragma mark - Keyboard Management

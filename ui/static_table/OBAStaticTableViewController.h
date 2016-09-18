@@ -23,6 +23,14 @@ typedef NS_ENUM(NSUInteger, OBARootViewStyle) {
 @property(nonatomic,strong) NSArray<OBATableSection*> *sections;
 
 /**
+ The empty data set treatment requires that the table view's footer view
+ never gets directly modified. Instead, set this property and the table
+ view's footer will be set with this view when appropriate. (i.e. when
+ the empty data set title and description are not visible.)
+ */
+@property(nonatomic,strong,nullable) UIView *tableFooterView;
+
+/**
  A large label that will be displayed on this view controller when it does not contain any data.
  e.g. "No Recent Stops"
  */
