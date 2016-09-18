@@ -26,7 +26,6 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAMapRegionManager.h>
 #import <OBAKit/OBARegionChangeRequest.h>
 #import <OBAKit/OBASphericalGeometryLibrary.h>
-#import <OBAKit/OBAGenericAnnotation.h>
 #import <OBAKit/OBANavigationTargetAnnotation.h>
 #import <OBAKit/OBATripContinuationMapAnnotation.h>
 #import <OBAKit/OBATripStopTimeMapAnnotation.h>

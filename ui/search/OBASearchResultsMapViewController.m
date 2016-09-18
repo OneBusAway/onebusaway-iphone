@@ -538,28 +538,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     return view;
 }
 
-// TODO: verify that this is actually dead code. I am pretty sure this cannot be hit anymore.
-- (MKAnnotationView*)mapView:(MKMapView *)mapView viewForGenericAnnotation:(OBAGenericAnnotation*)annotation {
-    OBAGenericAnnotation *ga = annotation;
-
-    if ([ga.context isEqual:@"currentLocation"]) {
-        static NSString *viewId = @"CurrentLocationView";
-
-        MKAnnotationView *view = [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
-
-        if (!view) {
-            view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
-        }
-
-        view.canShowCallout = NO;
-        view.image = [UIImage imageNamed:@"BlueMarker.png"];
-        return view;
-    }
-    else {
-        return nil;
-    }
-}
-
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     if ([annotation isKindOfClass:[OBAStopV2 class]]) {
         return [self mapView:mapView annotationViewForStop:(OBAStopV2*)annotation];
@@ -572,9 +550,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
     else if ([annotation isKindOfClass:[OBANavigationTargetAnnotation class]]) {
         return [self mapView:mapView viewForNavigationTarget:annotation];
-    }
-    else if ([annotation isKindOfClass:[OBAGenericAnnotation class]]) {
-        return [self mapView:mapView viewForGenericAnnotation:annotation];
     }
 
     return nil;

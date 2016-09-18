@@ -142,10 +142,13 @@
 #pragma mark - Actions
 
 - (void)cancel:(id)sender {
+    [self.view endEditing:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)save:(id)sender {
+    [self.view endEditing:YES];
+
     OBAModelDAO *dao = [OBAApplication sharedApplication].modelDao;
 
     self.bookmark.name = self.textField.text;
