@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <OBAKit/OBASituationV2.h>
 
 NS_ASSUME_NONNULL_BEGIN
