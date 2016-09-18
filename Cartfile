@@ -9,6 +9,8 @@ github "MatthewYork/DateTools" ~>1.7.0
 github "dzenbot/DZNEmptyDataSet" ~>1.8.1
 github "SwiftKickMobile/SwiftMessages" "swift3"
 
+github "google/EarlGrey" ~>1.3.0
+
 # These repositories do not work properly with Carthage.
 # I am currently copying the source files present in Carthage/Checkouts
 # and copying them to the externals folder. So, we're at least getting

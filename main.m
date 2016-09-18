@@ -15,7 +15,15 @@
  */
 
 #import <UIKit/UIKit.h>
+
+#if OBA_RUNNING_TESTS
 #import <OBAKit/OBAKit.h>
+#import <CoreLocation/CoreLocation.h>
+
+@interface CLLocationManager (TestInterface)
++ (void)setAuthorizationStatus:(BOOL)authStatus forBundleIdentifier:(NSString*)bundleIdentifier;
+@end
+#endif
 
 @interface OBATestAppDelegate : UIResponder <UIApplicationDelegate>
 @end
@@ -24,18 +32,13 @@
 
 int main(int argc, char *argv[]) {
     @autoreleasepool {
-        NSDictionary *processInfoEnv = [NSProcessInfo processInfo].environment;
 
-        BOOL executingTests = [[processInfoEnv[@"XCInjectBundle"] pathExtension] isEqual:@"xctest"];
-        if (!executingTests) {
-            executingTests = !!processInfoEnv[@"XCInjectBundleInto"];
-        }
+#if OBA_RUNNING_TESTS
+        [CLLocationManager setAuthorizationStatus:YES forBundleIdentifier:[[NSBundle mainBundle] bundleIdentifier]];
+        [OBACommon setRunningInsideTests:YES];
+#endif
 
-        NSString *appDelegateClass = executingTests ? @"OBATestAppDelegate" : @"OBAApplicationDelegate";
-
-        [OBACommon setRunningInsideTests:executingTests];
-
-        int retVal = UIApplicationMain(argc, argv, nil, appDelegateClass);
+        int retVal = UIApplicationMain(argc, argv, nil, @"OBAApplicationDelegate");
         return retVal;
     }
 }
