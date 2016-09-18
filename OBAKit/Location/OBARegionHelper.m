@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 OneBusAway. All rights reserved.
 //
 
-#import "OBARegionHelper.h"
-#import <OBAKit/OBAKit.h>
-#import "OBAMacros.h"
+#import <OBAKit/OBARegionHelper.h>
+#import <OBAKit/OBAApplication.h>
+#import <OBAKit/OBAMacros.h>
 
 @interface OBARegionHelper ()
 @property (nonatomic) NSMutableArray *regions;

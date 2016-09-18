@@ -1,5 +1,4 @@
-#import "OBATripInstanceRef.h"
-
+#import <OBAKit/OBATripInstanceRef.h>
 
 @implementation OBATripInstanceRef
 

@@ -1,12 +1,11 @@
 #import "OBATripScheduleListViewController.h"
-#import "OBATripStopTimeV2.h"
+#import <OBAKit/OBAKit.h>
 #import "OBATripScheduleMapViewController.h"
 #import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "UINavigationController+oba_Additions.h"
-#import <OBAKit/OBAKit.h>
 #import "OBATripScheduleSectionBuilder.h"
 
 typedef NS_ENUM(NSUInteger, OBASectionType) {

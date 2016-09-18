@@ -14,8 +14,8 @@
 * limitations under the License.
 */
 
-#import "OBAStopV2.h"
-#import "OBARouteV2.h"
+#import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBARouteV2.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

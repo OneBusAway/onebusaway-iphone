@@ -1,5 +1,5 @@
-#import "OBAArrivalAndDepartureInstanceRef.h"
-#import "NSObject+OBADescription.h"
+#import <OBAKit/OBAArrivalAndDepartureInstanceRef.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 @implementation OBAArrivalAndDepartureInstanceRef
 

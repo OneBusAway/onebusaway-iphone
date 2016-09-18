@@ -1,6 +1,5 @@
-#import "OBAStopsForRouteV2.h"
-#import "OBAStopV2.h"
-
+#import <OBAKit/OBAStopsForRouteV2.h>
+#import <OBAKit/OBAStopV2.h>
 
 @implementation OBAStopsForRouteV2
 

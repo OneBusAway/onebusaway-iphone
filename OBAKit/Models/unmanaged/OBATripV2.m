@@ -1,5 +1,5 @@
-#import "OBATripV2.h"
-#import "NSObject+OBADescription.h"
+#import <OBAKit/OBATripV2.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 @implementation OBATripV2
 

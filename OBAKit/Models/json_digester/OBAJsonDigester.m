@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-#import "OBAJsonDigester.h"
-#import "OBACreateObjectJsonDigesterRule.h"
-#import "OBACallMethodJsonDigesterRule.h"
-#import "OBASetPropertyJsonDigesterRule.h"
-#import "OBASetNextOBAJsonDigesterRule.h"
-#import "OBASelectorJsonDigesterRule.h"
+#import <OBAKit/OBAJsonDigester.h>
+#import <OBAKit/OBACreateObjectJsonDigesterRule.h>
+#import <OBAKit/OBACallMethodJsonDigesterRule.h>
+#import <OBAKit/OBASetPropertyJsonDigesterRule.h>
+#import <OBAKit/OBASetNextOBAJsonDigesterRule.h>
+#import <OBAKit/OBASelectorJsonDigesterRule.h>
 
 #pragma mark OBAJsonDigesterContextImpl Interface
 

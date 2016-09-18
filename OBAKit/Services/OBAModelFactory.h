@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-#import "OBAReferencesV2.h"
-#import "OBAEntryWithReferencesV2.h"
-#import "OBAListWithRangeAndReferencesV2.h"
-#import "OBAArrivalsAndDeparturesForStopV2.h"
-#import "OBAStopsForRouteV2.h"
-#import "OBAPlacemarks.h"
+#import <OBAKit/OBAReferencesV2.h>
+#import <OBAKit/OBAEntryWithReferencesV2.h>
+#import <OBAKit/OBAListWithRangeAndReferencesV2.h>
+#import <OBAKit/OBAArrivalsAndDeparturesForStopV2.h>
+#import <OBAKit/OBAStopsForRouteV2.h>
+#import <OBAKit/OBAPlacemarks.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

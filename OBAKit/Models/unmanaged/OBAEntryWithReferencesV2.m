@@ -1,5 +1,4 @@
-#import "OBAEntryWithReferencesV2.h"
-
+#import <OBAKit/OBAEntryWithReferencesV2.h>
 
 @implementation OBAEntryWithReferencesV2
 

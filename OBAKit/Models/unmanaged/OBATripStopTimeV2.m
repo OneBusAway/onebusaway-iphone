@@ -1,5 +1,4 @@
-#import "OBATripStopTimeV2.h"
-
+#import <OBAKit/OBATripStopTimeV2.h>
 
 @implementation OBATripStopTimeV2
 

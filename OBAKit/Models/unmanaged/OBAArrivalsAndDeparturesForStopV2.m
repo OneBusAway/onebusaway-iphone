@@ -1,6 +1,6 @@
-#import "OBAArrivalsAndDeparturesForStopV2.h"
-#import "OBASituationV2.h"
-#import "NSObject+OBADescription.h"
+#import <OBAKit/OBAArrivalsAndDeparturesForStopV2.h>
+#import <OBAKit/OBASituationV2.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 @interface OBAArrivalsAndDeparturesForStopV2 ()
 @property(nonatomic,strong) NSMutableArray *arrivalsAndDeparturesM;

@@ -6,7 +6,7 @@
 //
 //
 #import <MapKit/MapKit.h>
-#import "OBARegionBoundsV2.h"
+#import <OBAKit/OBARegionBoundsV2.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

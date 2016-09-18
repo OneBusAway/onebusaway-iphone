@@ -7,17 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <OBAKit/OBABookmarkV2.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
-@class OBABookmarkV2;
 
 @interface OBABookmarkGroup : NSObject<NSCoding>
 
 /**
  The set of bookmarks contained in this group.
  */
-@property(nonatomic,strong) NSMutableArray *bookmarks;
+@property(nonatomic,strong) NSMutableArray<OBABookmarkV2*> *bookmarks;
 
 /**
  The name of this group.

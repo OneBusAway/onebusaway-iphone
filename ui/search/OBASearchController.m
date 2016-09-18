@@ -15,7 +15,6 @@
  */
 
 #import "OBASearchController.h"
-#import <OBAKit/OBAKit.h>
 #import "OBAProgressIndicatorImpl.h"
 
 NSString * const OBASearchControllerDidUpdateNotification = @"OBASearchControllerDidUpdateNotification";

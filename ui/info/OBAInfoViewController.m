@@ -12,8 +12,6 @@
 #import "OBAAnalytics.h"
 #import <SafariServices/SafariServices.h>
 #import "Apptentive.h"
-#import <OBAKit/OBAEmailHelper.h>
-#import "UILabel+OBAAdditions.h"
 #import "OneBusAway-Swift.h"
 #import <OBAKit/OBAKit.h>
 

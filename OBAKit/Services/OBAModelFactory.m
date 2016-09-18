@@ -14,32 +14,18 @@
  * limitations under the License.
  */
 
-#import "OBAModelFactory.h"
-#import "OBAReferencesV2.h"
-#import "OBAAgencyV2.h"
-#import "OBARouteV2.h"
-#import "OBAStopV2.h"
-#import "OBATripV2.h"
-#import "OBATripDetailsV2.h"
-#import "OBATripScheduleV2.h"
-#import "OBATripStopTimeV2.h"
-#import "OBATripStatusV2.h"
-
-#import "OBAVehicleStatusV2.h"
-
-#import "OBASituationV2.h"
-#import "OBASituationConsequenceV2.h"
-
-#import "OBAAgencyWithCoverageV2.h"
-#import "OBAPlacemark.h"
-
-#import "OBAJsonDigester.h"
-#import "OBASetCoordinatePropertyJsonDigesterRule.h"
-#import "OBASetLocationPropertyJsonDigesterRule.h"
-#import "OBASetDatePropertyJsonDigesterRule.h"
-
-#import "OBARegionV2.h"
-#import "OBARegionBoundsV2.h"
+#import <OBAKit/OBAModelFactory.h>
+#import <OBAKit/OBAAgencyWithCoverageV2.h>
+#import <OBAKit/OBARegionV2.h>
+#import <OBAKit/OBASetCoordinatePropertyJsonDigesterRule.h>
+#import <OBAKit/OBASetDatePropertyJsonDigesterRule.h>
+#import <OBAKit/OBASetLocationPropertyJsonDigesterRule.h>
+#import <OBAKit/OBASituationConsequenceV2.h>
+#import <OBAKit/OBASituationV2.h>
+#import <OBAKit/OBATripDetailsV2.h>
+#import <OBAKit/OBATripScheduleV2.h>
+#import <OBAKit/OBATripStopTimeV2.h>
+#import <OBAKit/OBAVehicleStatusV2.h>
 
 static NSString * const kReferences = @"references";
 

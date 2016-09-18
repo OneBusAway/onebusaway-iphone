@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 #import <MapKit/MapKit.h>
-#import "OBANavigationTarget.h"
+#import <OBAKit/OBANavigationTarget.h>
 
 typedef NS_ENUM(NSInteger, OBAAnnotationType) {
     OBAAnnotationTypeStop,

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OBANavigationTarget.h"
+#import <OBAKit/OBANavigationTarget.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

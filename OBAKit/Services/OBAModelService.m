@@ -1,8 +1,8 @@
-#import "OBAModelService.h"
-#import "OBAModelServiceRequest.h"
-#import "OBASphericalGeometryLibrary.h"
-#import "OBAURLHelpers.h"
-#import "OBAMacros.h"
+#import <OBAKit/OBAModelService.h>
+#import <OBAKit/OBAModelServiceRequest.h>
+#import <OBAKit/OBASphericalGeometryLibrary.h>
+#import <OBAKit/OBAURLHelpers.h>
+#import <OBAKit/OBAMacros.h>
 
 static const CLLocationAccuracy kSearchRadius = 400;
 static const CLLocationAccuracy kBigSearchRadius = 15000;

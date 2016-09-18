@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OBAModelService.h"
-#import "OBARegionV2.h"
+#import <OBAKit/OBAModelService.h>
+#import <OBAKit/OBARegionV2.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

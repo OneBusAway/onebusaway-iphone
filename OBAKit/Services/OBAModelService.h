@@ -1,15 +1,15 @@
-#import "OBAModelDAO.h"
-#import "OBAModelFactory.h"
-#import "OBAJsonDataSource.h"
-#import "OBALocationManager.h"
 
-#import "OBAReferencesV2.h"
-#import "OBAStopV2.h"
-#import "OBAPlacemark.h"
-#import "OBATripInstanceRef.h"
-#import "OBAArrivalAndDepartureInstanceRef.h"
-#import "OBAReportProblemWithStopV2.h"
-#import "OBAReportProblemWithTripV2.h"
+#import <OBAKit/OBAModelDAO.h>
+#import <OBAKit/OBAModelFactory.h>
+#import <OBAKit/OBAJsonDataSource.h>
+#import <OBAKit/OBAReferencesV2.h>
+#import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBAPlacemark.h>
+#import <OBAKit/OBATripInstanceRef.h>
+#import <OBAKit/OBAArrivalAndDepartureInstanceRef.h>
+#import <OBAKit/OBAReportProblemWithStopV2.h>
+#import <OBAKit/OBAReportProblemWithTripV2.h>
+#import <OBAKit/OBALocationManager.h>
 @import PromiseKit;
 
 NS_ASSUME_NONNULL_BEGIN

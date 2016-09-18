@@ -1,5 +1,5 @@
-#import "OBAStopV2.h"
-#import "OBARouteV2.h"
+#import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBARouteV2.h>
 
 @interface OBAStopV2 ()
 @property(nonatomic,strong,readwrite) NSArray<OBARouteV2*> *routes;

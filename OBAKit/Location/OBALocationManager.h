@@ -15,7 +15,7 @@
  */
 
 
-#import "OBAModelDAO.h"
+#import <OBAKit/OBAModelDAO.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

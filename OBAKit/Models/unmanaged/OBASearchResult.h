@@ -1,4 +1,4 @@
-#import "OBASearch.h"
+#import <OBAKit/OBASearch.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

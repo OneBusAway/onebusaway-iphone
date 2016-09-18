@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 One Bus Away. All rights reserved.
 //
 
-#import "OBAApplication.h"
-#import "OBAUser.h"
-#import "OBAModelDAOUserPreferencesImpl.h"
+#import <OBAKit/OBAApplication.h>
+#import <OBAKit/OBAUser.h>
+#import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
 
 static NSString *const kOBADefaultRegionApiServerName = @"http://regions.onebusaway.org";
 NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplicationSettingsRegionRefreshNotification";

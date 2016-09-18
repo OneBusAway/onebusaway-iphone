@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#import "OBADataSourceConfig.h"
-#import "OBAMacros.h"
+#import <OBAKit/OBADataSourceConfig.h>
+#import <OBAKit/OBAMacros.h>
 
 @interface OBADataSourceConfig ()
 @property(nonatomic,copy) NSURL* baseURL;

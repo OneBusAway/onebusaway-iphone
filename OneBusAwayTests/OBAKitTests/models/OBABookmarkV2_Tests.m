@@ -8,9 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "OBATestHelpers.h"
-#import <OBAKit/OBABookmarkV2.h>
-#import <OBAKit/OBAArrivalsAndDeparturesForStopV2.h>
-#import "OBAModelDAO.h"
+#import <OBAKit/OBAKit.h>
 #import "OBATestHarnessPersistenceLayer.h"
 
 /**

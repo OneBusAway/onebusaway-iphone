@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OBADataSource.h"
+#import <OBAKit/OBADataSource.h>
 
 @interface JsonUrlFetcherImpl : NSObject<NSURLConnectionDelegate, NSURLConnectionDataDelegate, OBADataSourceConnection>
 @property (nonatomic, copy) OBADataSourceCompletion completionBlock;

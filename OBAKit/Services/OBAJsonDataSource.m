@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#import "OBAJsonDataSource.h"
-#import "JsonUrlFetcherImpl.h"
+#import <OBAKit/OBAJsonDataSource.h>
+#import <OBAKit/JsonUrlFetcherImpl.h>
 
 @interface OBAJsonDataSource ()
 @property(nonatomic,strong) NSHashTable *openConnections;

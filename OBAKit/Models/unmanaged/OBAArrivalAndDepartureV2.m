@@ -1,6 +1,6 @@
-#import "OBAArrivalAndDepartureV2.h"
-#import "OBADateHelpers.h"
-#import "NSObject+OBADescription.h"
+#import <OBAKit/OBAArrivalAndDepartureV2.h>
+#import <OBAKit/OBADateHelpers.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 @interface OBAArrivalAndDepartureV2 ()
 @property(nonatomic,strong) NSMutableArray *situationIds;

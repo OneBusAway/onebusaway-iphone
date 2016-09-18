@@ -6,7 +6,7 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import "OBAUser.h"
+#import <OBAKit/OBAUser.h>
 
 static NSString * const kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 

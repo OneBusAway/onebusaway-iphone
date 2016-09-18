@@ -1,5 +1,4 @@
-#import "OBASituationConsequenceV2.h"
-
+#import <OBAKit/OBASituationConsequenceV2.h>
 
 @implementation OBASituationConsequenceV2
 

@@ -1,9 +1,9 @@
-#import "OBAReferencesV2.h"
-#import "OBAAgencyV2.h"
-#import "OBARouteV2.h"
-#import "OBAStopV2.h"
-#import "OBATripV2.h"
-#import "OBASituationV2.h"
+#import <OBAKit/OBAReferencesV2.h>
+#import <OBAKit/OBAAgencyV2.h>
+#import <OBAKit/OBARouteV2.h>
+#import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBATripV2.h>
+#import <OBAKit/OBASituationV2.h>
 
 
 @implementation OBAReferencesV2

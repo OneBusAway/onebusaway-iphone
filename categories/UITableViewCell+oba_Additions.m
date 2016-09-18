@@ -7,7 +7,7 @@
 //
 
 #import "UITableViewCell+oba_Additions.h"
-#import "OBAServiceAlertsModel.h"
+#import <OBAKit/OBAKit.h>
 
 @implementation UITableViewCell (oba_Additions)
 

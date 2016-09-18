@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBAStopV2.h"
-#import "OBAStopPreferencesV2.h"
+#import <OBAKit/OBAKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

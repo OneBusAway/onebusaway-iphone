@@ -1,5 +1,5 @@
-#import "OBARouteV2.h"
-#import "NSObject+OBADescription.h"
+#import <OBAKit/OBARouteV2.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 @interface OBARouteV2 ()
 @property(nonatomic,copy,readwrite) OBAAgencyV2 *agency;

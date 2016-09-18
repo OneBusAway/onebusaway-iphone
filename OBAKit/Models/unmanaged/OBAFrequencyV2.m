@@ -6,8 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "OBAFrequencyV2.h"
-
+#import <OBAKit/OBAFrequencyV2.h>
 
 @implementation OBAFrequencyV2
 

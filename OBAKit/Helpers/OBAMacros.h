@@ -6,7 +6,7 @@
 //  Copyright © 2016 One Bus Away. All rights reserved.
 //
 
-#import "OBACommon.h"
+#import <OBAKit/OBACommon.h>
 
 #ifndef OBAMacros_h
 #define OBAMacros_h

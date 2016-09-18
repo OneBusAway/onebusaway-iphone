@@ -1,5 +1,5 @@
-#import "OBAMapRegionManager.h"
-#import "OBASphericalGeometryLibrary.h"
+#import <OBAKit/OBAMapRegionManager.h>
+#import <OBAKit/OBASphericalGeometryLibrary.h>
 
 static const double kMinRegionDeltaToDetectUserDrag = 50;
 static const double kRegionChangeRequestsTimeToLive = 3.0;

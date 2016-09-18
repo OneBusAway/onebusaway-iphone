@@ -1,8 +1,8 @@
-#import "OBAHasReferencesV2.h"
-#import "OBATripV2.h"
-#import "OBATripScheduleV2.h"
-#import "OBATripStatusV2.h"
-#import "OBATripInstanceRef.h"
+#import <OBAKit/OBAHasReferencesV2.h>
+#import <OBAKit/OBATripV2.h>
+#import <OBAKit/OBATripScheduleV2.h>
+#import <OBAKit/OBATripStatusV2.h>
+#import <OBAKit/OBATripInstanceRef.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

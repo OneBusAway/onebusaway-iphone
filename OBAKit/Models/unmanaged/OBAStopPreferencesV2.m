@@ -1,5 +1,5 @@
-#import "OBAStopPreferencesV2.h"
-#import "NSObject+OBADescription.h"
+#import <OBAKit/OBAStopPreferencesV2.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 NSString * _Nullable NSStringFromOBASortTripsByTypeV2(OBASortTripsByTypeV2 val);
 NSString * _Nullable NSStringFromOBASortTripsByTypeV2(OBASortTripsByTypeV2 val) {

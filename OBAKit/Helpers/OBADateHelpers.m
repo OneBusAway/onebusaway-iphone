@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 OneBusAway. All rights reserved.
 //
 
-#import "OBADateHelpers.h"
-#import "OBATripDetailsV2.h"
-#import "OBATripStopTimeV2.h"
+#import <OBAKit/OBADateHelpers.h>
+#import <OBAKit/OBATripDetailsV2.h>
+#import <OBAKit/OBATripStopTimeV2.h>
 
 @implementation OBADateHelpers
 

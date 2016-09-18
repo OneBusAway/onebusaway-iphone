@@ -1,6 +1,5 @@
-#import "OBATripDetailsV2.h"
+#import <OBAKit/OBAKit.h>
 #import "OBAModalActivityIndicator.h"
-#import "OBATripInstanceRef.h"
 #import "OBATextEditViewController.h"
 #import "OBAListSelectionViewController.h"
 

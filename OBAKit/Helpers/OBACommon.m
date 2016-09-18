@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#import "OBACommon.h"
-#import "OBADateHelpers.h"
+#import <OBAKit/OBACommon.h>
+#import <OBAKit/OBADateHelpers.h>
 
 static BOOL obaCommonRunningInsideTests = NO;
 

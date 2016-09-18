@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 OneBusAway. All rights reserved.
 //
 
-#import "OBAURLHelpers.h"
+#import <OBAKit/OBAURLHelpers.h>
 
 @implementation OBAURLHelpers
 

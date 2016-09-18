@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBASetDatePropertyJsonDigesterRule.h"
-
+#import <OBAKit/OBASetDatePropertyJsonDigesterRule.h>
 
 @implementation OBASetDatePropertyJsonDigesterRule
 

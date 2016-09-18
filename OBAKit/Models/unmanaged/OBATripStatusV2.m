@@ -1,5 +1,5 @@
-#import "OBATripStatusV2.h"
-#import "NSObject+OBADescription.h"
+#import <OBAKit/OBATripStatusV2.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 @implementation OBATripStatusV2
 

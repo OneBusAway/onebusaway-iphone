@@ -15,7 +15,6 @@
  */
 
 #import "OBAProgressIndicatorImpl.h"
-#import "OBACommon.h"
 
 @interface OBAProgressIndicatorImpl ()
 @property (strong,readwrite) NSString * message;

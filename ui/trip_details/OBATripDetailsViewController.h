@@ -1,9 +1,7 @@
 #import "OBANavigationTargetAware.h"
-#import "OBATripDetailsV2.h"
-#import "OBATripInstanceRef.h"
 #import "OBAProgressIndicatorView.h"
 #import "OBARequestDrivenTableViewController.h"
-#import "OBAServiceAlertsModel.h"
+#import <OBAKit/OBAKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

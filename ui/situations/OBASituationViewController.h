@@ -1,4 +1,4 @@
-#import "OBASituationV2.h"
+#import <OBAKit/OBASituationV2.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

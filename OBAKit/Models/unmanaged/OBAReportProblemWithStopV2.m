@@ -1,4 +1,4 @@
-#import "OBAReportProblemWithStopV2.h"
+#import <OBAKit/OBAReportProblemWithStopV2.h>
 
 @implementation OBAReportProblemWithStopV2
 

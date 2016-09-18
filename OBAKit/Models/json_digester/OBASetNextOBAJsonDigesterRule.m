@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBASetNextOBAJsonDigesterRule.h"
+#import <OBAKit/OBASetNextOBAJsonDigesterRule.h>
 
 @implementation OBASetNextOBAJsonDigesterRule
 

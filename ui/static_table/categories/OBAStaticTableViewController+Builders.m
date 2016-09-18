@@ -8,8 +8,6 @@
 
 #import "OBAStaticTableViewController+Builders.h"
 #import "OBASituationsViewController.h"
-#import "OBAArrivalsAndDeparturesForStopV2.h"
-#import "OBAServiceAlertsModel.h"
 
 @implementation OBAStaticTableViewController (Builders)
 

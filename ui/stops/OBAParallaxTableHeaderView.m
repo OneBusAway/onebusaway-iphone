@@ -13,11 +13,6 @@
 #import <PMKMapKit/PMKMapKit.h>
 #import <PMKCoreLocation/PMKCoreLocation.h>
 #import <DateTools/DateTools.h>
-#import "OBAArrivalsAndDeparturesForStopV2.h"
-#import "OBAMapHelpers.h"
-#import "OBAImageHelpers.h"
-#import "OBAStopIconFactory.h"
-#import "OBADateHelpers.h"
 #import "OBAAnimation.h"
 
 #define kHeaderImageViewBackgroundColor [UIColor colorWithWhite:0.f alpha:0.4f]

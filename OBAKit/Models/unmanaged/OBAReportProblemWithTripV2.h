@@ -1,4 +1,4 @@
-#import "OBATripInstanceRef.h"
+#import <OBAKit/OBATripInstanceRef.h>
 #import <CoreLocation/CoreLocation.h>
 
 NS_ASSUME_NONNULL_BEGIN

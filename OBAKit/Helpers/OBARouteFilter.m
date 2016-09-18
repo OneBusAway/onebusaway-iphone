@@ -6,7 +6,7 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import "OBARouteFilter.h"
+#import <OBAKit/OBARouteFilter.h>
 
 @implementation OBARouteFilter
 

@@ -27,7 +27,6 @@
 #import "OneBusAway-Swift.h"
 
 #import "OBAAnalytics.h"
-#import "NSArray+OBAAdditions.h"
 #import "Apptentive.h"
 
 #import "OBAApplicationUI.h"

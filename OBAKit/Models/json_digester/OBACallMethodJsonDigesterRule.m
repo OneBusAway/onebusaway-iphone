@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBACallMethodJsonDigesterRule.h"
+#import <OBAKit/OBACallMethodJsonDigesterRule.h>
 
 @implementation OBACallMethodJsonDigesterRule
 

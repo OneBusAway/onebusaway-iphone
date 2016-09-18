@@ -8,7 +8,7 @@
 
 #import "OBALabelActivityIndicatorView.h"
 #import <Masonry/Masonry.h>
-#import "OBATheme.h"
+#import <OBAKit/OBAKit.h>
 
 @interface OBALabelActivityIndicatorView ()
 @property(nonatomic,strong,readwrite) UILabel *textLabel;

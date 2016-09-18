@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBALocationManager.h"
+#import <OBAKit/OBALocationManager.h>
 
 static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 

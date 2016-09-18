@@ -1,5 +1,4 @@
-#import "OBATripContinuationMapAnnotation.h"
-
+#import <OBAKit/OBATripContinuationMapAnnotation.h>
 
 @implementation OBATripContinuationMapAnnotation
 

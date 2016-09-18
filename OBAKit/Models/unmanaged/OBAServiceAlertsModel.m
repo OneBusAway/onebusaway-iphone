@@ -1,4 +1,4 @@
-#import "OBAServiceAlertsModel.h"
+#import <OBAKit/OBAServiceAlertsModel.h>
 
 @implementation OBAServiceAlertsModel
 

@@ -8,8 +8,8 @@
 
 #import "OBACollapsingHeaderView.h"
 #import <Masonry/Masonry.h>
+#import <OBAKit/OBAKit.h>
 #import "OBARotatingButton.h"
-#import "OBATheme.h"
 #import "OBAAnimation.h"
 
 @interface OBACollapsingHeaderView ()

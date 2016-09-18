@@ -1,5 +1,4 @@
-#import "OBATripScheduleV2.h"
-
+#import <OBAKit/OBATripScheduleV2.h>
 
 @implementation OBATripScheduleV2
 

@@ -1,6 +1,6 @@
-#import "OBAHasReferencesV2.h"
-#import "OBATripV2.h"
-#import "OBAFrequencyV2.h"
+#import <OBAKit/OBAHasReferencesV2.h>
+#import <OBAKit/OBATripV2.h>
+#import <OBAKit/OBAFrequencyV2.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

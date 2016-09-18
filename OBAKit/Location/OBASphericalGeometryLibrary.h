@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 #import <MapKit/MapKit.h>
-#import "OBACoordinateBounds.h"
+#import <OBAKit/OBACoordinateBounds.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -15,9 +15,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "OBADataSource.h"
-#import "OBADataSourceConfig.h"
+#import <OBAKit/OBADataSource.h>
+#import <OBAKit/OBADataSourceConfig.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -25,7 +25,7 @@
  POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#import "OBAReachability.h"
+#import <OBAKit/OBAReachability.h>
 
 #import <sys/socket.h>
 #import <netinet/in.h>

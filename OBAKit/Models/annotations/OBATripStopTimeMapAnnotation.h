@@ -1,5 +1,5 @@
-#import "OBATripDetailsV2.h"
-#import "OBATripStopTimeV2.h"
+#import <OBAKit/OBATripDetailsV2.h>
+#import <OBAKit/OBATripStopTimeV2.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
