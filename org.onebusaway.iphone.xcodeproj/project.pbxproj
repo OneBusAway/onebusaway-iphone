@@ -147,8 +147,6 @@
 		934D00481C83924400A76A90 /* OBARegionChangeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D002E1C83924400A76A90 /* OBARegionChangeRequest.m */; };
 		934D00491C83924400A76A90 /* OBASphericalGeometryLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D002F1C83924400A76A90 /* OBASphericalGeometryLibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934D004A1C83924400A76A90 /* OBASphericalGeometryLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D00301C83924400A76A90 /* OBASphericalGeometryLibrary.m */; };
-		934D00CE1C83924D00A76A90 /* OBAGenericAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D004D1C83924D00A76A90 /* OBAGenericAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		934D00CF1C83924D00A76A90 /* OBAGenericAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D004E1C83924D00A76A90 /* OBAGenericAnnotation.m */; };
 		934D00D01C83924D00A76A90 /* OBANavigationTargetAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D004F1C83924D00A76A90 /* OBANavigationTargetAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934D00D11C83924D00A76A90 /* OBANavigationTargetAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D00501C83924D00A76A90 /* OBANavigationTargetAnnotation.m */; };
 		934D00D21C83924D00A76A90 /* OBATripContinuationMapAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D00511C83924D00A76A90 /* OBATripContinuationMapAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -595,8 +593,6 @@
 		934D002E1C83924400A76A90 /* OBARegionChangeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionChangeRequest.m; sourceTree = "<group>"; };
 		934D002F1C83924400A76A90 /* OBASphericalGeometryLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASphericalGeometryLibrary.h; sourceTree = "<group>"; };
 		934D00301C83924400A76A90 /* OBASphericalGeometryLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASphericalGeometryLibrary.m; sourceTree = "<group>"; };
-		934D004D1C83924D00A76A90 /* OBAGenericAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAGenericAnnotation.h; sourceTree = "<group>"; };
-		934D004E1C83924D00A76A90 /* OBAGenericAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAGenericAnnotation.m; sourceTree = "<group>"; };
 		934D004F1C83924D00A76A90 /* OBANavigationTargetAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTargetAnnotation.h; sourceTree = "<group>"; };
 		934D00501C83924D00A76A90 /* OBANavigationTargetAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTargetAnnotation.m; sourceTree = "<group>"; };
 		934D00511C83924D00A76A90 /* OBATripContinuationMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripContinuationMapAnnotation.h; sourceTree = "<group>"; };
@@ -1430,8 +1426,6 @@
 		934D004C1C83924D00A76A90 /* annotations */ = {
 			isa = PBXGroup;
 			children = (
-				934D004D1C83924D00A76A90 /* OBAGenericAnnotation.h */,
-				934D004E1C83924D00A76A90 /* OBAGenericAnnotation.m */,
 				934D004F1C83924D00A76A90 /* OBANavigationTargetAnnotation.h */,
 				934D00501C83924D00A76A90 /* OBANavigationTargetAnnotation.m */,
 				934D00511C83924D00A76A90 /* OBATripContinuationMapAnnotation.h */,
@@ -1964,7 +1958,6 @@
 				934D00F91C83924D00A76A90 /* OBABookmarkGroup.h in Headers */,
 				934D01401C83924D00A76A90 /* OBADataSource.h in Headers */,
 				934D01411C83924D00A76A90 /* OBADataSourceConfig.h in Headers */,
-				934D00CE1C83924D00A76A90 /* OBAGenericAnnotation.h in Headers */,
 				934D00FD1C83924D00A76A90 /* OBACoordinateBounds.h in Headers */,
 				934D01431C83924D00A76A90 /* OBAJsonDataSource.h in Headers */,
 				934D012E1C83924D00A76A90 /* OBATripDetailsV2.h in Headers */,
@@ -2357,7 +2350,6 @@
 				934D00DB1C83924D00A76A90 /* OBAModelDAOUserPreferencesImpl.m in Sources */,
 				934D01231C83924D00A76A90 /* OBASituationConsequenceV2.m in Sources */,
 				934D01371C83924D00A76A90 /* OBATripStopTimeV2.m in Sources */,
-				934D00CF1C83924D00A76A90 /* OBAGenericAnnotation.m in Sources */,
 				934D00D51C83924D00A76A90 /* OBATripStopTimeMapAnnotation.m in Sources */,
 				93C393971D8E0ECE0080F370 /* UILabel+OBAAdditions.m in Sources */,
 				934D01271C83924D00A76A90 /* OBAStopAccessEventV2.m in Sources */,
