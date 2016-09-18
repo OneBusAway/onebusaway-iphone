@@ -11,21 +11,33 @@
 #import <OBAKit/OBAMacros.h>
 
 @interface OBARegionHelper ()
-@property (nonatomic) NSMutableArray *regions;
-@property (nonatomic) CLLocation *location;
+@property(nonatomic,strong) NSMutableArray *regions;
+@property(nonatomic,copy) CLLocation *location;
 @end
 
 @implementation OBARegionHelper
 
+- (instancetype)initWithLocationManager:(OBALocationManager*)locationManager {
+    self = [super init];
+
+    if (self) {
+        _locationManager = locationManager;
+        [self registerForLocationNotifications];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [self unregisterFromLocationNotifications];
+}
+
 - (void)updateNearestRegion {
     [self updateRegion];
-    OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
-    [lm addDelegate:self];
-    [lm startUpdatingLocation];
+    [self.locationManager startUpdatingLocation];
 }
 
 - (void)updateRegion {
-    [[OBAApplication sharedApplication].modelService requestRegions:^(id responseData, NSUInteger responseCode, NSError *error) {
+    [self.modelService requestRegions:^(id responseData, NSUInteger responseCode, NSError *error) {
         if (error && !responseData) {
             responseData = [self loadDefaultRegions];
         }
@@ -34,10 +46,9 @@
 }
 
 - (OBAListWithRangeAndReferencesV2*)loadDefaultRegions {
-
     NSLog(@"Unable to retrieve regions file. Loading default regions from the app bundle.");
 
-    OBAModelFactory *factory = [OBAApplication sharedApplication].modelService.modelFactory;
+    OBAModelFactory *factory = self.modelService.modelFactory;
     NSError *error = nil;
 
     NSData *data = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"regions-v3" ofType:@"json"]];
@@ -70,7 +81,7 @@
 
     self.regions = [[NSMutableArray alloc] initWithArray:regionData.values];
 
-    if ([OBAApplication sharedApplication].modelDao.automaticallySelectRegion && [OBAApplication sharedApplication].locationManager.locationServicesEnabled) {
+    if (self.modelDAO.automaticallySelectRegion && self.locationManager.locationServicesEnabled) {
         [self setNearestRegion];
     }
     else {
@@ -93,8 +104,7 @@
 
     [self.regions removeObjectsInArray:notSupportedRegions];
 
-    OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
-    CLLocation *newLocation = lm.currentLocation;
+    CLLocation *newLocation = self.locationManager.currentLocation;
 
     NSMutableArray *regionsToRemove = [NSMutableArray array];
 
@@ -109,9 +119,7 @@
     [self.regions removeObjectsInArray:regionsToRemove];
 
     if (self.regions.count == 0) {
-        [OBAApplication sharedApplication].modelDao.automaticallySelectRegion = NO;
-        [[OBAApplication sharedApplication].locationManager removeDelegate:self];
-
+        self.modelDAO.automaticallySelectRegion = NO;
         [self.delegate regionHelperShowRegionListController:self];
         return;
     }
@@ -131,14 +139,17 @@
         }
      }];
 
-    [OBAApplication sharedApplication].modelDao.currentRegion = self.regions[0];
+    self.modelDAO.currentRegion = self.regions[0];
+
+    // the continued existence of this line is not ideal, but
+    // things are still quite improved over where they were.
+    // babysteps...
     [[OBAApplication sharedApplication] refreshSettings];
-    [[OBAApplication sharedApplication].locationManager removeDelegate:self];
-    [OBAApplication sharedApplication].modelDao.automaticallySelectRegion = YES;
+    self.modelDAO.automaticallySelectRegion = YES;
 }
 
 - (void)setRegion {
-    NSString *regionName = [OBAApplication sharedApplication].modelDao.currentRegion.regionName;
+    NSString *regionName = self.modelDAO.currentRegion.regionName;
 
     if (!regionName) {
         [self.delegate regionHelperShowRegionListController:self];
@@ -148,25 +159,50 @@
     // TODO: instead of comparing name, the regions' identifiers should be used instead.
     for (OBARegionV2 *region in self.regions) {
         if ([region.regionName isEqual:regionName]) {
-            [OBAApplication sharedApplication].modelDao.currentRegion = region;
+            self.modelDAO.currentRegion = region;
             break;
         }
     }
 }
 
-#pragma mark - OBALocationManagerDelegate Methods
+#pragma mark - Lazy Loaders
 
-- (void)locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
-    self.location = [OBAApplication sharedApplication].locationManager.currentLocation;
+- (OBAModelDAO*)modelDAO {
+    if (!_modelDAO) {
+        _modelDAO = [OBAApplication sharedApplication].modelDao;
+    }
+    return _modelDAO;
+}
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
+}
+
+#pragma mark - OBALocationManager Notifications
+
+- (void)registerForLocationNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidUpdateLocation:) name:OBALocationDidUpdateNotification object:self.locationManager];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidFailWithError:) name:OBALocationManagerDidFailWithErrorNotification object:self.locationManager];
+}
+
+- (void)unregisterFromLocationNotifications {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBALocationDidUpdateNotification object:self.locationManager];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBALocationManagerDidFailWithErrorNotification object:self.locationManager];
+}
+
+- (void)locationManagerDidUpdateLocation:(NSNotification*)note {
+    self.location = self.locationManager.currentLocation;
     [self setNearestRegion];
 }
 
-- (void)locationManager:(OBALocationManager *)manager didFailWithError:(NSError *)error {
-    if (![OBAApplication sharedApplication].modelDao.currentRegion) {
+- (void)locationManagerDidFailWithError:(NSNotification*)note {
+    if (!self.modelDAO.currentRegion) {
         [self.delegate regionHelperShowRegionListController:self];
     }
-
-    [[OBAApplication sharedApplication].locationManager removeDelegate:self];
 }
 
 @end

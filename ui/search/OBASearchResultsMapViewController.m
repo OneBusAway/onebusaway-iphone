@@ -161,9 +161,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
-    [lm addDelegate:self];
-    [lm startUpdatingLocation];
+    [self registerForLocationNotifications];
+    [[OBAApplication sharedApplication].locationManager startUpdatingLocation];
 
     if (self.searchController.unfilteredSearch) {
         [self refreshStopsInRegion];
@@ -181,7 +180,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     [super viewWillDisappear:animated];
 
     [[OBAApplication sharedApplication].locationManager stopUpdatingLocation];
-    [[OBAApplication sharedApplication].locationManager removeDelegate:self];
+    [self unregisterFromLocationNotifications];
 }
 
 #pragma mark - UISearchBarDelegate
@@ -352,19 +351,35 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 }
 
-#pragma mark - OBALocationManagerDelegate Methods
+#pragma mark - OBALocationManager Notifications
 
-- (void)locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location {
+- (void)registerForLocationNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidUpdateLocation:) name:OBALocationDidUpdateNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidFailWithError:) name:OBALocationManagerDidFailWithErrorNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidChangeAuthorizationStatus:) name:OBALocationAuthorizationStatusChangedNotification object:nil];
+}
+
+- (void)unregisterFromLocationNotifications {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBALocationDidUpdateNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBALocationManagerDidFailWithErrorNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBALocationAuthorizationStatusChangedNotification object:nil];
+}
+
+- (void)locationManagerDidUpdateLocation:(NSNotification*)note {
     [self refreshCurrentLocation];
 }
 
-- (void)locationManager:(OBALocationManager *)manager didFailWithError:(NSError *)error {
+- (void)locationManagerDidFailWithError:(NSNotification*)note {
+    NSError *error = note.userInfo[OBALocationErrorUserInfoKey];
     if (kCLErrorDomain == error.domain && kCLErrorDenied == error.code) {
         [self showLocationServicesAlert];
     }
 }
 
-- (void)locationManager:(OBALocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+- (void)locationManagerDidChangeAuthorizationStatus:(NSNotification*)note {
+    CLAuthorizationStatus status = (CLAuthorizationStatus)[note.userInfo[OBALocationAuthorizationStatusUserInfoKey] integerValue];
     if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
         self.mapView.showsUserLocation = YES;
     }
