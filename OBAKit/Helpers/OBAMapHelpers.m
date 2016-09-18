@@ -6,17 +6,16 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import "OBAMapHelpers.h"
-#import "OBACoordinateBounds.h"
-#import "OBAAgencyWithCoverageV2.h"
-#import "OBASphericalGeometryLibrary.h"
-#import "OBAStopV2.h"
-#import "OBAPlacemark.h"
-#import "OBARegionBoundsV2.h"
+#import <OBAKit/OBAMapHelpers.h>
+#import <OBAKit/OBACoordinateBounds.h>
+#import <OBAKit/OBAAgencyWithCoverageV2.h>
+#import <OBAKit/OBASphericalGeometryLibrary.h>
+#import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBAPlacemark.h>
+#import <OBAKit/OBARegionBoundsV2.h>
 
 const double OBADefaultMapRadiusInMeters = 100;
 const double OBAMinMapRadiusInMeters = 150;
-//const double OBAMaxLatitudeDeltaToShowStops = 0.008;
 const double OBAMaxLatitudeDeltaToShowStops = 0.05;
 const double OBARegionScaleFactor = 1.5;
 const double OBARegionZoomLevelThreshold = 1;

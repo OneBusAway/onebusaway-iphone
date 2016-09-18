@@ -1,13 +1,13 @@
-#import "OBAHasReferencesV2.h"
-#import "OBARouteV2.h"
-#import "OBAStopV2.h"
-#import "OBATripV2.h"
-#import "OBAFrequencyV2.h"
-#import "OBATripStatusV2.h"
-#import "OBATripInstanceRef.h"
-#import "OBAArrivalAndDepartureInstanceRef.h"
-#import "OBADepartureStatus.h"
-#import "OBAHasServiceAlerts.h"
+#import <OBAKit/OBAHasReferencesV2.h>
+#import <OBAKit/OBARouteV2.h>
+#import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBATripV2.h>
+#import <OBAKit/OBAFrequencyV2.h>
+#import <OBAKit/OBATripStatusV2.h>
+#import <OBAKit/OBATripInstanceRef.h>
+#import <OBAKit/OBAArrivalAndDepartureInstanceRef.h>
+#import <OBAKit/OBADepartureStatus.h>
+#import <OBAKit/OBAHasServiceAlerts.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -6,8 +6,8 @@
 //
 //
 
-#import "OBARegionBoundsV2.h"
-#import "NSObject+OBADescription.h"
+#import <OBAKit/OBARegionBoundsV2.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 @implementation OBARegionBoundsV2
 

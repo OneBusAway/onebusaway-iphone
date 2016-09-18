@@ -15,12 +15,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OBAReferencesV2.h"
-#import "OBAModelDAO.h"
-#import "OBAModelService.h"
-#import "OBALocationManager.h"
-#import "OBAReachability.h"
-#import "OBARegionHelper.h"
+#import <OBAKit/OBAReferencesV2.h>
+#import <OBAKit/OBAModelDAO.h>
+#import <OBAKit/OBAModelService.h>
+#import <OBAKit/OBALocationManager.h>
+#import <OBAKit/OBAReachability.h>
+#import <OBAKit/OBARegionHelper.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

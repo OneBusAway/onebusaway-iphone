@@ -1,4 +1,4 @@
-#import "OBAHasReferencesV2.h"
+#import <OBAKit/OBAHasReferencesV2.h>
 
 @implementation OBAHasReferencesV2
 

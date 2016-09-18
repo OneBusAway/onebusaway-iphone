@@ -15,12 +15,9 @@
  */
 
 #import "OBASearchResultsMapViewController.h"
-#import "OBAAgencyWithCoverageV2.h"
-#import "OBANavigationTargetAnnotation.h"
+#import <OBAKit/OBAKit.h>
 #import "OBASearchResultsListViewController.h"
 #import "OBAStopViewController.h"
-#import "OBAStopIconFactory.h"
-#import "OBASphericalGeometryLibrary.h"
 #import "OBAAnalytics.h"
 #import "OBAAlerts.h"
 #import "OBAAnimation.h"

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OBAStopPreferencesV2.h"
+#import <OBAKit/OBAStopPreferencesV2.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -1,5 +1,5 @@
-#import "OBAAgencyWithCoverageV2.h"
-#import "NSObject+OBADescription.h"
+#import <OBAKit/OBAAgencyWithCoverageV2.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 @implementation OBAAgencyWithCoverageV2
 

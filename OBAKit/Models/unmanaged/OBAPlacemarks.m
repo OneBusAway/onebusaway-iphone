@@ -1,5 +1,4 @@
-#import "OBAPlacemarks.h"
-
+#import <OBAKit/OBAPlacemarks.h>
 
 @implementation OBAPlacemarks
 

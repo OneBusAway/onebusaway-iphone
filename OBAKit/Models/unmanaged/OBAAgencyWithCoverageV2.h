@@ -1,8 +1,8 @@
 #import <MapKit/MapKit.h>
 
-#import "OBAHasReferencesV2.h"
-#import "OBAAgencyV2.h"
-#import "OBARegionBoundsV2.h"
+#import <OBAKit/OBAHasReferencesV2.h>
+#import <OBAKit/OBAAgencyV2.h>
+#import <OBAKit/OBARegionBoundsV2.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

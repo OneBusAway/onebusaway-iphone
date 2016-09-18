@@ -1,6 +1,5 @@
-#import "OBATripDetailsV2.h"
+#import <OBAKit/OBAKit.h>
 #import <MapKit/MapKit.h>
-#import "OBATripInstanceRef.h"
 #import "OBAProgressIndicatorView.h"
 
 NS_ASSUME_NONNULL_BEGIN

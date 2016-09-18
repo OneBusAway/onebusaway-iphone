@@ -6,9 +6,9 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import "OBAUIBuilder.h"
-#import "OBATheme.h"
-#import "UILabel+OBAAdditions.h"
+#import <OBAKit/OBAUIBuilder.h>
+#import <OBAKit/OBATheme.h>
+#import <OBAKit/UILabel+OBAAdditions.h>
 
 @implementation OBAUIBuilder
 

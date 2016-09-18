@@ -1,5 +1,4 @@
-#import "OBAListWithRangeAndReferencesV2.h"
-
+#import <OBAKit/OBAListWithRangeAndReferencesV2.h>
 
 @implementation OBAListWithRangeAndReferencesV2
 

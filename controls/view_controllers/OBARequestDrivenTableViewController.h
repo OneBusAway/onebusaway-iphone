@@ -1,6 +1,6 @@
 #import "OBAProgressIndicatorView.h"
 #import "UITableViewController+oba_Additions.h"
-#import "OBAModelServiceRequest.h"
+#import <OBAKit/OBAKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

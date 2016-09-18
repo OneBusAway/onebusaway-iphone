@@ -6,7 +6,7 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import "OBAStrings.h"
+#import <OBAKit/OBAStrings.h>
 
 @implementation OBAStrings
 

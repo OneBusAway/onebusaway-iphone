@@ -1,5 +1,5 @@
-#import "OBAHasReferencesV2.h"
-#import "OBARouteV2.h"
+#import <OBAKit/OBAHasReferencesV2.h>
+#import <OBAKit/OBARouteV2.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

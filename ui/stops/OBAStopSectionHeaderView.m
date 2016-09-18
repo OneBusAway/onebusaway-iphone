@@ -7,7 +7,7 @@
 //
 
 #import "OBAStopSectionHeaderView.h"
-#import "OBATheme.h"
+#import <OBAKit/OBAKit.h>
 
 #define SHOW_PER_SECTION_BOOKMARK_BUTTON 0
 

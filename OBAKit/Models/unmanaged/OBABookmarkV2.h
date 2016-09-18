@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
-#import "OBARouteType.h"
+#import <OBAKit/OBARouteType.h>
 
 @class OBARegionV2;
 @class OBAStopV2;

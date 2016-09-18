@@ -6,7 +6,7 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import "UILabel+OBAAdditions.h"
+#import <OBAKit/UILabel+OBAAdditions.h>
 
 @implementation UILabel (OBAAdditions)
 

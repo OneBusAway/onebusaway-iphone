@@ -1,7 +1,7 @@
-#import "OBAHasReferencesV2.h"
-#import "OBAStopV2.h"
-#import "OBAArrivalAndDepartureV2.h"
-#import "OBAHasServiceAlerts.h"
+#import <OBAKit/OBAHasReferencesV2.h>
+#import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBAArrivalAndDepartureV2.h>
+#import <OBAKit/OBAHasServiceAlerts.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

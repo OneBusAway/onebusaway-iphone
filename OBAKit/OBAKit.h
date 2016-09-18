@@ -100,3 +100,4 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBARegionHelper.h>
 #import <OBAKit/OBAStrings.h>
 #import <OBAKit/OBATheme.h>
+#import <OBAKit/UILabel+OBAAdditions.h>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBACreateObjectJsonDigesterRule.h"
+#import <OBAKit/OBACreateObjectJsonDigesterRule.h>
 
 @interface OBACreateObjectJsonDigesterRule ()
 - (BOOL)shouldDigestValue:(id)value;

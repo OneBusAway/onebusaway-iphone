@@ -1,5 +1,4 @@
-#import "OBATripStopTimeMapAnnotation.h"
-
+#import <OBAKit/OBATripStopTimeMapAnnotation.h>
 
 @implementation OBATripStopTimeMapAnnotation
 

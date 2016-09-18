@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBASelectorJsonDigesterRule.h"
+#import <OBAKit/OBASelectorJsonDigesterRule.h>
 
 @interface OBASelectorJsonDigesterRule()
 

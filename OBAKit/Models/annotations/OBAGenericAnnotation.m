@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBAGenericAnnotation.h"
+#import <OBAKit/OBAGenericAnnotation.h>
 
 @implementation OBAGenericAnnotation
 

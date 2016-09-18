@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-#import "OBAModelDAOUserPreferencesImpl.h"
-#import "OBAMacros.h"
+#import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
+#import <OBAKit/OBAMacros.h>
+#import <OBAKit/OBARegionV2.h>
+#import <CoreLocation/CoreLocation.h>
 
 NSString * const kBookmarksKey = @"bookmarks";
 NSString * const kBookmarkGroupsKey = @"bookmarkGroups";

@@ -14,13 +14,8 @@
  * limitations under the License.
  */
 
-#import "OBASearch.h"
-#import "OBASearchResult.h"
+#import <OBAKit/OBAKit.h>
 #import "OBAApplicationDelegate.h"
-#import "OBAProgressIndicatorSource.h"
-#import "OBAPlacemark.h"
-#import "OBADataSource.h"
-#import "OBAModelService.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

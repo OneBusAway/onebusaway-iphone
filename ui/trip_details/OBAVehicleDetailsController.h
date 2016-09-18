@@ -1,5 +1,5 @@
 #import "OBARequestDrivenTableViewController.h"
-#import "OBAVehicleStatusV2.h"
+#import <OBAKit/OBAKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

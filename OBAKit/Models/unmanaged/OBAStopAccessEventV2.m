@@ -1,5 +1,4 @@
-#import "OBAStopAccessEventV2.h"
-
+#import <OBAKit/OBAStopAccessEventV2.h>
 
 @implementation OBAStopAccessEventV2
 

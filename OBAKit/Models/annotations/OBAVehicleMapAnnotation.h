@@ -1,5 +1,5 @@
 #import <MapKit/MapKit.h>
-#import "OBATripStatusV2.h"
+#import <OBAKit/OBATripStatusV2.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

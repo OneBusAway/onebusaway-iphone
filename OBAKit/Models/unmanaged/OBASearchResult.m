@@ -1,7 +1,6 @@
-#import "OBASearchResult.h"
-#import "OBASphericalGeometryLibrary.h"
-#import "OBAStopV2.h"
-
+#import <OBAKit/OBASearchResult.h>
+#import <OBAKit/OBASphericalGeometryLibrary.h>
+#import <OBAKit/OBAStopV2.h>
 
 @implementation OBASearchResult
 

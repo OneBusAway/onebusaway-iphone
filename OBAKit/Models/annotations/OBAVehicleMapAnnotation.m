@@ -1,5 +1,5 @@
-#import "OBAVehicleMapAnnotation.h"
-#import "OBADateHelpers.h"
+#import <OBAKit/OBAVehicleMapAnnotation.h>
+#import <OBAKit/OBADateHelpers.h>
 
 @implementation OBAVehicleMapAnnotation
 

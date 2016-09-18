@@ -6,7 +6,7 @@
 //  Copyright © 2015 OneBusAway. All rights reserved.
 //
 
-#import "OBATheme.h"
+#import <OBAKit/OBATheme.h>
 
 static CGFloat const kMaxFontSize = 24.f;
 

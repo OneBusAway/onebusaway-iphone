@@ -1,9 +1,9 @@
-#import "OBABookmarkV2.h"
-#import "OBAArrivalAndDepartureV2.h"
-#import "OBAArrivalsAndDeparturesForStopV2.h"
-#import "OBAStopV2.h"
-#import "OBARegionV2.h"
-#import "NSObject+OBADescription.h"
+#import <OBAKit/OBABookmarkV2.h>
+#import <OBAKit/OBAArrivalAndDepartureV2.h>
+#import <OBAKit/OBAArrivalsAndDeparturesForStopV2.h>
+#import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBARegionV2.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 static NSString * const kRegionIdentifier = @"regionIdentifier";
 static NSString * const kName = @"name";

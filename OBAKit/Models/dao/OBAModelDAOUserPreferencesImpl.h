@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#import "OBARegionV2.h"
-#import "OBAModelPersistenceLayer.h"
+#import <Foundation/Foundation.h>
+#import <OBAKit/OBAModelPersistenceLayer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -6,7 +6,7 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-#import "OBASetPropertyJsonDigesterRule.h"
+#import <OBAKit/OBASetPropertyJsonDigesterRule.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

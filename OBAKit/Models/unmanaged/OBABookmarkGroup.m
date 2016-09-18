@@ -6,10 +6,9 @@
 //  Copyright (c) 2013 OneBusAway. All rights reserved.
 //
 
-#import "OBABookmarkGroup.h"
-#import "OBABookmarkV2.h"
-#import "NSObject+OBADescription.h"
-#import "OBAMacros.h"
+#import <OBAKit/OBABookmarkGroup.h>
+#import <OBAKit/NSObject+OBADescription.h>
+#import <OBAKit/OBAMacros.h>
 
 static NSString * const kNameKey = @"name";
 static NSString * const kBookmarksKey = @"bookmarks";

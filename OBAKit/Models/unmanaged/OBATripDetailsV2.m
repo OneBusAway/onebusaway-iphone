@@ -1,5 +1,4 @@
-#import "OBATripDetailsV2.h"
-
+#import <OBAKit/OBATripDetailsV2.h>
 
 @implementation OBATripDetailsV2
 

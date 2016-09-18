@@ -6,7 +6,7 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import "NSObject+OBADescription.h"
+#import <OBAKit/NSObject+OBADescription.h>
 
 @implementation NSObject (OBADescription)
 

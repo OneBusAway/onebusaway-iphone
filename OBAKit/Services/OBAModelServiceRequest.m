@@ -1,4 +1,4 @@
-#import "OBAModelServiceRequest.h"
+#import <OBAKit/OBAModelServiceRequest.h>
 
 @interface OBAModelServiceRequest ()
 @property BOOL clean;

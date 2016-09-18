@@ -1,5 +1,4 @@
-#import "OBAVehicleStatusV2.h"
-
+#import <OBAKit/OBAVehicleStatusV2.h>
 
 @implementation OBAVehicleStatusV2
 

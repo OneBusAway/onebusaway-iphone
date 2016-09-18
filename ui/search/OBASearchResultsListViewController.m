@@ -20,7 +20,6 @@
 #import <OBAKit/OBARouteV2.h>
 #import <OBAKit/OBAAgencyWithCoverageV2.h>
 #import <OBAKit/OBASearchResult.h>
-#import "OBAMacros.h"
 #import "OBAApplicationDelegate.h"
 #import "OBASearchController.h"
 

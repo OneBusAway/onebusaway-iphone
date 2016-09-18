@@ -1,5 +1,4 @@
-#import "OBAReportProblemWithTripV2.h"
-
+#import <OBAKit/OBAReportProblemWithTripV2.h>
 
 @implementation OBAReportProblemWithTripV2
 

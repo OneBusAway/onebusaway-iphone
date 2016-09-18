@@ -6,10 +6,10 @@
 //
 //
 
-#import "OBARegionV2.h"
-#import "OBARegionBoundsV2.h"
-#import "NSArray+OBAAdditions.h"
-#import "NSObject+OBADescription.h"
+#import <OBAKit/OBARegionV2.h>
+#import <OBAKit/OBARegionBoundsV2.h>
+#import <OBAKit/NSArray+OBAAdditions.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 static NSString * kSiriBaseUrl = @"siriBaseUrl";
 static NSString * kObaVersionInfo = @"obaVersionInfo";
