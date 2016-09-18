@@ -77,7 +77,7 @@
       <AdditionalOptions>
       </AdditionalOptions>
       <LocationScenarioReference
-         identifier = "../gpx_files/capitolhill.gpx"
+         identifier = "../../gpx_files/capitolhill.gpx"
          referenceType = "0">
       </LocationScenarioReference>
    </LaunchAction>

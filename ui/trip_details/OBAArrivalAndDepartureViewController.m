@@ -226,10 +226,21 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     }];
 
     [actionsSection addRowWithBlock:^OBABaseRow * {
-        OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Vehicle Info", @"") action:^{
-            OBAVehicleDetailsController *vc = [[OBAVehicleDetailsController alloc] initWithVehicleId:arrivalAndDeparture.tripStatus.vehicleId];
-            [navigationController pushViewController:vc animated:YES];
-        }];
+
+        OBATableRow *tableRow = nil;
+
+        if (arrivalAndDeparture.tripStatus.vehicleId.length > 0) {
+            tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Vehicle Info", @"") action:^{
+                OBAVehicleDetailsController *vc = [[OBAVehicleDetailsController alloc] initWithVehicleId:arrivalAndDeparture.tripStatus.vehicleId];
+                [navigationController pushViewController:vc animated:YES];
+            }];
+        }
+        else {
+            tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"No Vehicle Info Available", @"") action:nil];
+            tableRow.selectionStyle = UITableViewCellSelectionStyleNone;
+            tableRow.titleColor = [OBATheme darkDisabledColor];
+        }
+
         return tableRow;
     }];
 
