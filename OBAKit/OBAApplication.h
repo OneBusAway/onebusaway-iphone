@@ -25,8 +25,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  This notification is posted in reference to a specific refreshSettings event, specifically when modelDao does not have an assigned region.
+ This notification is posted when the region changes and the app cannot generate an API URL from it.
  */
+// TODO: give it a better name.
 extern NSString *const kOBAApplicationSettingsRegionRefreshNotification;
 
 @interface OBAApplication : NSObject
@@ -47,11 +48,6 @@ extern NSString *const kOBAApplicationSettingsRegionRefreshNotification;
  *  Call this when the object has been fully configured.
  */
 - (void)start;
-
-/**
- *  Refreshes the internal in-memory state by reading the latest persisted data.
- */
-- (void)refreshSettings;
 
 /**
  * Returns YES if the user has enabled darker system colors or reduced transparency.

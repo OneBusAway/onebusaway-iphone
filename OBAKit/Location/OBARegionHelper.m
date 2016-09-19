@@ -140,11 +140,6 @@
      }];
 
     self.modelDAO.currentRegion = self.regions[0];
-
-    // the continued existence of this line is not ideal, but
-    // things are still quite improved over where they were.
-    // babysteps...
-    [[OBAApplication sharedApplication] refreshSettings];
     self.modelDAO.automaticallySelectRegion = YES;
 }
 

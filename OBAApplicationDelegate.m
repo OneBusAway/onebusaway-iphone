@@ -228,8 +228,6 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     _regionNavigationController = nil;
     _regionListViewController = nil;
 
-    [[OBAApplication sharedApplication] refreshSettings];
-
     self.window.rootViewController = self.applicationUI.rootViewController;
     [self.window makeKeyAndVisible];
 }
