@@ -127,29 +127,23 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
     func updateData() {
 
-        // abxoxo - TODO - PUT ME BACK!
+        SVProgressHUD.show()
 
-//        SVProgressHUD.show()
-//
-//        firstly {
-//            return Promise { fulfill, reject in
-//                CLLocationManager.promise().then { location in
-//                    fulfill(location)
-//                }.catch { error in
-//                    _ = fulfill(nil)
-//                }
-//            }
-//        }.then { location in
-//            self.currentLocation = location as? CLLocation
-//            return OBAApplication.sharedApplication().modelService.requestRegions()
-//        }.then { regions -> Void in
-//            self.regions = regions as? [OBARegionV2]
-//            self.loadData()
-//        }.always {
-//            SVProgressHUD.dismiss()
-//        }.catch { error in
-//            AlertPresenter.showWarning(NSLocalizedString("Unable to Load Regions", comment: ""), body: (error as NSError).localizedDescription)
-//        }
+        CLLocationManager.promise().recover { error -> CLLocation in
+            return CLLocation.init(latitude: 0, longitude: 0)
+        }.then { location -> Void in
+            self.currentLocation = location as CLLocation
+        }.then { _ in
+            OBAApplication.shared().modelService.requestRegions()
+        }.then { regions in
+            self.regions = regions as? [OBARegionV2]
+        }.then { _ in
+            self.loadData()
+        }.always {
+            SVProgressHUD.dismiss()
+        }.catch { error in
+            AlertPresenter.showWarning(NSLocalizedString("Unable to Load Regions", comment: ""), body: (error as NSError).localizedDescription)
+        }
     }
 
     /**
