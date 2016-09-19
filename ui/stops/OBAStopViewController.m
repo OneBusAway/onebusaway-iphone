@@ -217,11 +217,10 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
     // "Load More Departures..."
     OBATableSection *loadMoreSection = [self createLoadMoreDeparturesSection];
-    if ([self.class departuresLackRealTimeData:result]) {
+    if (result.lacksRealTimeData) {
         loadMoreSection.footerView = ({
             OBALabelFooterView *label = [[OBALabelFooterView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 20)];
-            label.text = NSLocalizedString(@"*'Scheduled': no vehicle location data available", @"");
-
+            label.text = [OBAStrings scheduledDepartureExplanation];
             label;
         });
     }
@@ -412,16 +411,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
     self.parallaxHeaderView.highContrastMode = [[OBAApplication sharedApplication] useHighContrastUI];
 
     self.tableView.tableHeaderView = self.parallaxHeaderView;
-}
-
-+ (BOOL)departuresLackRealTimeData:(OBAArrivalsAndDeparturesForStopV2*)dep {
-    for (OBAArrivalAndDepartureV2 *ref in dep.arrivalsAndDepartures) {
-        if (!ref.hasRealTimeData) {
-            return YES;
-        }
-    }
-
-    return NO;
 }
 
 @end

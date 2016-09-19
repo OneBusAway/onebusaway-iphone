@@ -11,11 +11,6 @@
 #import "OBALabelFooterView.h"
 #import <OBAKit/OBAKit.h>
 
-@interface OBABookmarkGroupsViewController ()
-@property(nonatomic,strong) UIView *originalFooterView;
-@property(nonatomic,strong) UIView *footerView;
-@end
-
 @implementation OBABookmarkGroupsViewController
 
 - (void)viewDidLoad {
@@ -25,19 +20,9 @@
 
     self.tableView.allowsSelectionDuringEditing = YES;
 
-    // Normally, if a table view is empty, it will still
-    // display its row separators. This looks bad when you
-    // want to display an 'empty data set' message. So, we
-    // get around this by displaying an empty footer view
-    // on the table, which 'tricks' it into not showing the
-    // row separators. Unfortunately, because we have a
-    // real table footer view that is, on occasion, displayed,
-    // we need to make sure that gets saved for later rendering
-    // when needed.
-    self.originalFooterView = self.tableView.tableFooterView;
-
     self.emptyDataSetTitle = NSLocalizedString(@"No Bookmark Groups", @"");
     self.emptyDataSetDescription = NSLocalizedString(@"Tap the '+' button to create one.", @"");
+    self.tableFooterView = [self buildFooterView];
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(close)];
 
@@ -122,32 +107,8 @@
 
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:rows];
 
-    if (rows.count > 0) {
-        [self showTableFooter];
-    }
-    else {
-        [self hideTableFooter];
-    }
-
     self.sections = @[section];
     [self.tableView reloadData];
-}
-
-#pragma mark - Table Footer
-
-- (UIView*)footerView {
-    if (!_footerView) {
-        _footerView = [OBAUIBuilder footerViewWithText:NSLocalizedString(@"Deleting a group does not delete its bookmarks. Its contents will be moved to the 'Bookmarks' group.", @"") maximumWidth:CGRectGetWidth(self.tableView.frame)];
-    }
-    return _footerView;
-}
-
-- (void)showTableFooter {
-    self.tableView.tableFooterView = self.footerView;
-}
-
-- (void)hideTableFooter {
-    self.tableView.tableFooterView = self.originalFooterView;
 }
 
 #pragma mark - UITableView Editing
@@ -172,6 +133,12 @@
 
 - (BOOL)tableView:(UITableView*)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
+}
+
+#pragma mark - Private
+
+- (UIView*)buildFooterView {
+    return [OBAUIBuilder footerViewWithText:NSLocalizedString(@"Deleting a group does not delete its bookmarks. Its contents will be moved to the 'Bookmarks' group.", @"") maximumWidth:CGRectGetWidth(self.tableView.frame)];
 }
 
 @end

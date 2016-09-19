@@ -49,6 +49,15 @@
     return [NSArray arrayWithArray:self.arrivalsAndDeparturesM];
 }
 
+- (BOOL)lacksRealTimeData {
+    for (OBAArrivalAndDepartureV2 *ref in self.arrivalsAndDepartures) {
+        if (!ref.hasRealTimeData) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 #pragma mark - OBAHasServiceAlerts
 
 - (NSArray<OBASituationV2*>*)situations {

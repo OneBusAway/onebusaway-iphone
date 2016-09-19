@@ -27,6 +27,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong,readonly) NSArray<OBAArrivalAndDepartureV2*> *arrivalsAndDepartures;
 
 - (void)addArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
+
+/**
+ Tells the caller whether any scheduled arrivals or departures are represented in this object.
+
+ @return true if some scheduled data exists, false if it is all realtime data.
+ */
+- (BOOL)lacksRealTimeData;
+
 @end
 
 NS_ASSUME_NONNULL_END
