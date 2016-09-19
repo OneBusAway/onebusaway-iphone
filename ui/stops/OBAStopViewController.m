@@ -121,6 +121,13 @@ static CGFloat const kTableHeaderHeight = 150.f;
     return _modelDAO;
 }
 
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
+}
+
 - (OBAStopPreferencesV2*)stopPreferences {
     if (!_stopPreferences) {
         _stopPreferences = [self.modelDAO stopPreferencesForStopWithId:self.stopID];
@@ -153,7 +160,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
     self.navigationItem.title = NSLocalizedString(@"Updating...", @"Title of the Stop UI Controller while it is updating its content.");
 
-    [[OBAApplication sharedApplication].modelService requestStopForID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
+    [self.modelService requestStopForID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
         self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Updated", @"message"), [OBACommon getTimeAsString]];
         [self.modelDAO viewedArrivalsAndDeparturesForStop:response.stop];
 
@@ -193,7 +200,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     // Service Alerts
     OBAServiceAlertsModel *serviceAlerts = [self.modelDAO getServiceAlertsModelForSituations:result.situations];
     if (serviceAlerts.totalCount > 0) {
-        [sections addObject:[self.class createServiceAlertsSection:result serviceAlerts:serviceAlerts navigationController:self.navigationController]];
+        [sections addObject:[self createServiceAlertsSection:result serviceAlerts:serviceAlerts]];
     }
 
     // Departures
@@ -370,7 +377,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
     // Filter/Sort Arrivals
     OBATableRow *filter = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Filter & Sort Routes", @"") action:^{
-        OBAEditStopPreferencesViewController *vc = [[OBAEditStopPreferencesViewController alloc] initWithStop:stop];
+        OBAEditStopPreferencesViewController *vc = [[OBAEditStopPreferencesViewController alloc] initWithModelDAO:modelDAO stop:stop];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         [self presentViewController:nav animated:YES completion:nil];
     }];
@@ -408,7 +415,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
 - (void)createTableHeaderView {
     self.parallaxHeaderView = [[OBAParallaxTableHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), kTableHeaderHeight)];
-    self.parallaxHeaderView.highContrastMode = [[OBAApplication sharedApplication] useHighContrastUI];
+    self.parallaxHeaderView.highContrastMode = [OBAApplication sharedApplication].useHighContrastUI;
 
     self.tableView.tableHeaderView = self.parallaxHeaderView;
 }

@@ -16,7 +16,6 @@
 
 #import "OBAReportProblemWithRecentTripsViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
-#import <OBAKit/OBAKit.h>
 #import "OBAClassicDepartureRow.h"
 
 @interface OBAReportProblemWithRecentTripsViewController ()
@@ -38,8 +37,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    [[OBAApplication sharedApplication].modelService requestStopForID:self.stopID minutesBefore:30 minutesAfter:30].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
-
+    [self.modelService requestStopForID:self.stopID minutesBefore:30 minutesAfter:30].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
         [self populateTableFromArrivalsAndDeparturesModel:response];
     }).catch(^(NSError *error) {
         self.title = error.localizedDescription ?: NSLocalizedString(@"Error connecting", @"requestDidFail");
@@ -63,8 +61,7 @@
 }
 
 - (void)reportProblemWithTrip:(OBATripInstanceRef*)tripInstance {
-
-    [[OBAApplication sharedApplication].modelService requestTripDetailsForTripInstance:tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
+    [self.modelService requestTripDetailsForTripInstance:tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
         OBAReportProblemWithTripViewController *vc = [[OBAReportProblemWithTripViewController alloc] initWithTripInstance:tripInstance trip:tripDetails.trip];
         vc.currentStopId = self.stopID;
         [self.navigationController pushViewController:vc animated:YES];
@@ -72,6 +69,15 @@
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error Connecting", @"") message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
         [self presentViewController:alert animated:YES completion:nil];
     });
+}
+
+#pragma mark - Lazy Loading
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
 }
 
 @end

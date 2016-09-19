@@ -21,7 +21,6 @@
 #import "OBAArrivalEntryTableViewCell.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
-#import <OBAKit/OBAKit.h>
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -32,22 +31,11 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeActions
 };
 
-
-@interface OBATripDetailsViewController (Private)
-
-- (OBASectionType)sectionTypeForSection:(NSUInteger)section;
-
-- (UITableViewCell *)tableView:(UITableView *)tableView titleCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (UITableViewCell *)tableView:(UITableView *)tableView scheduleCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (UITableViewCell *)tableView:(UITableView *)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-
-- (void)didSelectScheduleRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
-- (void)didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
-
-@end
-
-
-@implementation OBATripDetailsViewController
+@implementation OBATripDetailsViewController {
+    OBATripInstanceRef *_tripInstance;
+    OBATripDetailsV2 *_tripDetails;
+    OBAServiceAlertsModel *_serviceAlerts;
+}
 
 - (id)initWithTripInstance:(OBATripInstanceRef *)tripInstance {
     if (self = [super init]) {
@@ -71,31 +59,47 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (id<OBAModelServiceRequest>)handleRefresh {
-    return [[OBAApplication sharedApplication].modelService requestTripDetailsForTripInstance:self.tripInstance
-                              completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                                  if (error) {
-                                      [self refreshFailedWithError:error];
-                                  }
-                                  else {
-                                      OBAEntryWithReferencesV2 *entry = jsonData;
-                                      self.tripDetails = entry.entry;
+    return [self.modelService requestTripDetailsForTripInstance:self.tripInstance completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        if (error) {
+            [self refreshFailedWithError:error];
+        }
+        else {
+            OBAEntryWithReferencesV2 *entry = jsonData;
+            self.tripDetails = entry.entry;
 
-                                      self.serviceAlerts = [[OBAApplication sharedApplication].modelDao
-                                      getServiceAlertsModelForSituations:self.tripDetails.situations];
+            self.serviceAlerts = [self.modelDAO getServiceAlertsModelForSituations:self.tripDetails.situations];
 
-                                      [self refreshCompleteWithCode:responseCode];
-                                  }
-                              } progressBlock:nil];
+            [self refreshCompleteWithCode:responseCode];
+        }
+    } progressBlock:nil];
 }
 
-#pragma mark Table view methods
+#pragma mark - Lazily Loaded Properties
+
+- (OBAModelDAO*)modelDAO {
+    if (!_modelDAO) {
+        _modelDAO = [OBAApplication sharedApplication].modelDao;
+    }
+    return _modelDAO;
+}
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
+}
+
+#pragma mark - Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if ([self isLoading]) {
         return [super numberOfSectionsInTableView:tableView];
     }
 
-    if (_tripDetails) return 3;
+    if (_tripDetails) {
+        return 3;
+    }
 
     return 1;
 }
@@ -174,10 +178,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     }
 }
 
-@end
-
-
-@implementation OBATripDetailsViewController (Private)
+#pragma mark - Private
 
 - (void)didSelectScheduleRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     if (indexPath.row == 0) {

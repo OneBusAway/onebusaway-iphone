@@ -51,8 +51,17 @@
 - (void)onSaveButton:(id)sender {
     _bookmarkGroup.name = _textField.text;
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"edit_field" label:@"Edited Bookmark" value:nil];
-    [[OBAApplication sharedApplication].modelDao saveBookmarkGroup:_bookmarkGroup];
+    [self.modelDAO saveBookmarkGroup:_bookmarkGroup];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - Lazy Loading
+
+- (OBAModelDAO*)modelDAO {
+    if (!_modelDAO) {
+        _modelDAO = [OBAApplication sharedApplication].modelDao;
+    }
+    return _modelDAO;
 }
 
 #pragma mark - Table view data source

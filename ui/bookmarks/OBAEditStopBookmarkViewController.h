@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-#import <OBAKit/OBABookmarkV2.h>
+#import <OBAKit/OBAKit.h>
 #import "OBAEditStopBookmarkGroupViewController.h"
-
-@class OBAArrivalAndDepartureV2;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAEditStopBookmarkViewController : UITableViewController <OBABookmarkGroupVCDelegate>
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
+@property(nonatomic,strong) OBAModelService *modelService;
 - (instancetype)initWithBookmark:(OBABookmarkV2 *)bookmark;
 @end
 

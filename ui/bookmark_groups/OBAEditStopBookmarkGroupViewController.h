@@ -18,11 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface OBAEditStopBookmarkGroupViewController : UITableViewController <UITextFieldDelegate>
-@property (nonatomic,strong) NSArray *groups;
-@property (nonatomic,strong,nullable) OBABookmarkGroup *selectedGroup;
-@property (nonatomic,strong) id <OBABookmarkGroupVCDelegate> delegate;
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
+@property(nonatomic,strong,nullable) OBABookmarkGroup *selectedGroup;
+@property(nonatomic,strong) id <OBABookmarkGroupVCDelegate> delegate;
 
-- (id)initWithSelectedBookmarkGroup:(OBABookmarkGroup*)group;
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO selectedBookmarkGroup:(OBABookmarkGroup*)group;
 
 @end
 

@@ -101,7 +101,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     self.hideFutureNetworkErrors = NO;
 
-    self.searchController = [[OBASearchController alloc] init];
+    self.searchController = [[OBASearchController alloc] initWithModelService:self.modelService];
     self.searchController.delegate = self;
     self.searchController.progress.delegate = self;
 
@@ -266,6 +266,15 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     } completion:^(BOOL finished) {
         [self.scopeView removeFromSuperview];
     }];
+}
+
+#pragma mark - Lazily Loaded Properties
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
 }
 
 #pragma mark - OBANavigationTargetAware

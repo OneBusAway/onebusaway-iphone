@@ -34,16 +34,23 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNotes
 };
 
+@implementation OBAReportProblemWithTripViewController {
+    OBATripInstanceRef *_tripInstance;
+    OBATripV2 *_trip;
+    NSMutableArray *_problemIds;
+    NSMutableArray *_problemNames;
+    NSUInteger _problemIndex;
+    NSString *_comment;
+    BOOL _onVehicle;
+    NSString *_vehicleNumber;
+    NSString *_vehicleType;
 
-@interface OBAReportProblemWithTripViewController ()
-@end
-
-
-@implementation OBAReportProblemWithTripViewController
+    OBAModalActivityIndicator *_activityIndicatorView;
+}
 
 #pragma mark - Initialization
 
-- (id)initWithTripInstance:(OBATripInstanceRef *)tripInstance trip:(OBATripV2 *)trip {
+- (instancetype)initWithTripInstance:(OBATripInstanceRef *)tripInstance trip:(OBATripV2 *)trip {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         _tripInstance = tripInstance;
         _trip = trip;
@@ -83,6 +90,22 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
     [self hideEmptySeparators];
+}
+
+#pragma mark - Lazily Loaded Properties
+
+- (OBALocationManager*)locationManager {
+    if (!_locationManager) {
+        _locationManager = [OBAApplication sharedApplication].locationManager;
+    }
+    return _locationManager;
+}
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
 }
 
 #pragma mark - Table view methods
@@ -418,10 +441,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     problem.userComment = _comment;
     problem.userOnVehicle = _onVehicle;
     problem.userVehicleNumber = _vehicleNumber;
-    problem.userLocation = [OBAApplication sharedApplication].locationManager.currentLocation;
+    problem.userLocation = self.locationManager.currentLocation;
 
     [SVProgressHUD show];
-    [[OBAApplication sharedApplication].modelService reportProblemWithTrip:problem completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+    [self.modelService reportProblemWithTrip:problem completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
         [SVProgressHUD dismiss];
 
         if (error || !jsonData) {

@@ -20,7 +20,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAVehicleDetailsController : OBARequestDrivenTableViewController
-- (id) initWithVehicleId:(NSString*)vehicleId;
+@property(nonatomic,strong) OBAModelService *modelService;
+
+- (instancetype)initWithVehicleId:(NSString*)vehicleId;
 @end
 
 NS_ASSUME_NONNULL_END

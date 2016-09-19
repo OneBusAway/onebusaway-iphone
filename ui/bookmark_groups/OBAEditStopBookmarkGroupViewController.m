@@ -15,9 +15,9 @@
 
 @implementation OBAEditStopBookmarkGroupViewController
 
-- (id)initWithSelectedBookmarkGroup:(OBABookmarkGroup *)group {
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO selectedBookmarkGroup:(OBABookmarkGroup*)group {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-        _groups = [[OBAApplication sharedApplication].modelDao bookmarkGroups];
+        _modelDAO = modelDAO;
         _selectedGroup = group;
 
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onDoneButton:)];
@@ -43,7 +43,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.groups.count + 2;
+    return self.modelDAO.bookmarkGroups.count + 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -62,7 +62,7 @@
         }
     }
     else {
-        OBABookmarkGroup *group = self.groups[indexPath.row - 2];
+        OBABookmarkGroup *group = self.modelDAO.bookmarkGroups[indexPath.row - 2];
 
         if (group == self.selectedGroup) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -87,7 +87,7 @@
         [self.navigationController pushViewController:editBookmarkGroupVC animated:YES];
     }
     else if (indexPath.row == 1) {
-        NSInteger oldGroupRow = self.selectedGroup ? ([self.groups indexOfObject:self.selectedGroup] + 2) : -1;
+        NSInteger oldGroupRow = self.selectedGroup ? ([self.modelDAO.bookmarkGroups indexOfObject:self.selectedGroup] + 2) : -1;
         self.selectedGroup = nil;
         [self.delegate didSetBookmarkGroup:nil];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -98,14 +98,14 @@
     }
     else {
         if (self.editing) {
-            OBAEditBookmarkGroupViewController *editBookmarkGroupVC = [[OBAEditBookmarkGroupViewController alloc] initWithBookmarkGroup:self.groups[indexPath.row - 2] editType:OBABookmarkGroupEditExisting];
+            OBAEditBookmarkGroupViewController *editBookmarkGroupVC = [[OBAEditBookmarkGroupViewController alloc] initWithBookmarkGroup:self.modelDAO.bookmarkGroups[indexPath.row - 2] editType:OBABookmarkGroupEditExisting];
             [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"edit_field" label:@"Edited Bookmark Group" value:nil];
             [self.navigationController pushViewController:editBookmarkGroupVC animated:YES];
         }
         else {
-            NSInteger oldGroupRow = self.selectedGroup ? ([self.groups indexOfObject:self.selectedGroup] + 2) : 1;
+            NSInteger oldGroupRow = self.selectedGroup ? ([self.modelDAO.bookmarkGroups indexOfObject:self.selectedGroup] + 2) : 1;
             NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:oldGroupRow inSection:0];
-            self.selectedGroup = self.groups[indexPath.row - 2];
+            self.selectedGroup = self.modelDAO.bookmarkGroups[indexPath.row - 2];
             [self.delegate didSetBookmarkGroup:self.selectedGroup];
 
             if ([indexPath isEqual:oldIndexPath]) {
@@ -124,7 +124,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        OBABookmarkGroup *group = self.groups[indexPath.row - 2];
+        OBABookmarkGroup *group = self.modelDAO.bookmarkGroups[indexPath.row - 2];
 
         if (self.selectedGroup == group) {
             self.selectedGroup = nil;
@@ -132,7 +132,7 @@
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
 
-        [[OBAApplication sharedApplication].modelDao removeBookmarkGroup:group];
+        [self.modelDAO removeBookmarkGroup:group];
         [self _refreshGroups];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
@@ -141,8 +141,7 @@
 #pragma mark - Private
 
 - (void)_refreshGroups {
-    self.groups = [[OBAApplication sharedApplication].modelDao bookmarkGroups];
-    self.editButtonItem.enabled = (self.groups.count > 0);
+    self.editButtonItem.enabled = (self.modelDAO.bookmarkGroups.count > 0);
 }
 
 @end

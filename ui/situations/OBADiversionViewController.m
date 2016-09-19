@@ -19,8 +19,6 @@
 #import "EXTScope.h"
 
 @interface OBADiversionViewController ()
-
-
 @property (nonatomic, strong) NSString *tripEncodedPolyline;
 
 @property (nonatomic, strong) MKPolyline *routePolyline;
@@ -30,10 +28,6 @@
 @property (nonatomic, strong) MKPolylineRenderer *reroutePolylineRenderer;
 
 @property (nonatomic, strong) id<OBAModelServiceRequest> request;
-
-- (MKMapView *)mapView;
-
-
 @end
 
 @implementation OBADiversionViewController
@@ -71,11 +65,20 @@
     }
 }
 
-- (void)requestShapeForID:(NSString *)shapeId {
-    OBAModelService *service = [OBAApplication sharedApplication].modelService;
+#pragma mark - Lazy Loading
 
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
+}
+
+#pragma mark - Data Loading
+
+- (void)requestShapeForID:(NSString *)shapeId {
     @weakify(self);
-    self.request = [service requestShapeForId:shapeId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+    self.request = [self.modelService requestShapeForId:shapeId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
         @strongify(self);
 
         if (!jsonData) {

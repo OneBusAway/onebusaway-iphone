@@ -7,7 +7,6 @@
 //
 
 #import "OBAArrivalAndDepartureViewController.h"
-#import <OBAKit/OBAKit.h>
 #import "OBAStaticTableViewController+Builders.h"
 #import "OBAClassicDepartureRow.h"
 #import "OBATripScheduleMapViewController.h"
@@ -104,6 +103,22 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     self.refreshTimer = nil;
 }
 
+#pragma mark - Lazy Loading
+
+- (OBAModelDAO*)modelDAO {
+    if (!_modelDAO) {
+        _modelDAO = [OBAApplication sharedApplication].modelDao;
+    }
+    return _modelDAO;
+}
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
+}
+
 #pragma mark - Data Loading
 
 - (void)reloadDataAnimated:(BOOL)animated {
@@ -116,9 +131,9 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         [self.refreshControl beginRefreshing];
     }
 
-    [[OBAApplication sharedApplication].modelService requestArrivalAndDeparture:self.arrivalAndDeparture.instance].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
+    [self.modelService requestArrivalAndDeparture:self.arrivalAndDeparture.instance].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
         self.arrivalAndDeparture = arrivalAndDeparture;
-        return [[OBAApplication sharedApplication].modelService requestTripDetailsForTripInstance:self.arrivalAndDeparture.tripInstance];
+        return [self.modelService requestTripDetailsForTripInstance:self.arrivalAndDeparture.tripInstance];
     }).then(^(OBATripDetailsV2 *tripDetails) {
         self.tripDetails = tripDetails;
         [self populateTableWithArrivalAndDeparture:self.arrivalAndDeparture tripDetails:self.tripDetails];
@@ -136,7 +151,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
     NSMutableArray *sections = [[NSMutableArray alloc] init];
 
-    OBATableSection *serviceAlertsSection = [self.class createServiceAlertsSection:arrivalAndDeparture navigationController:self.navigationController];
+    OBATableSection *serviceAlertsSection = [self createServiceAlertsSection:arrivalAndDeparture];
     if (serviceAlertsSection) {
         [sections addObject:serviceAlertsSection];
     }
@@ -171,14 +186,14 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
 #pragma mark - Section/Row Construction
 
-+ (nullable OBATableSection*)createServiceAlertsSection:(OBAArrivalAndDepartureV2*)arrivalAndDeparture navigationController:(UINavigationController*)navigationController {
-    OBAServiceAlertsModel* serviceAlerts = [[OBAApplication sharedApplication].modelDao getServiceAlertsModelForSituations:arrivalAndDeparture.situations];
+- (nullable OBATableSection*)createServiceAlertsSection:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+    OBAServiceAlertsModel* serviceAlerts = [self.modelDAO getServiceAlertsModelForSituations:arrivalAndDeparture.situations];
 
     if (serviceAlerts.totalCount == 0) {
         return nil;
     }
 
-    return [self createServiceAlertsSection:arrivalAndDeparture serviceAlerts:serviceAlerts navigationController:navigationController];
+    return [self createServiceAlertsSection:arrivalAndDeparture serviceAlerts:serviceAlerts];
 }
 
 - (NSArray<OBATableSection*>*)createTripDetailsSectionsWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture tripDetails:(OBATripDetailsV2*)tripDetails {

@@ -37,9 +37,9 @@ NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserI
 
 @implementation OBASearchController
 
-- (id)init {
+- (instancetype)initWithModelService:(OBAModelService*)modelService {
     if (self = [super init]) {
-        _modelService = [OBAApplication sharedApplication].modelService;
+        _modelService = modelService;
         _searchType = OBASearchTypeNone;
         _progress = [[OBAProgressIndicatorImpl alloc] init];
     }

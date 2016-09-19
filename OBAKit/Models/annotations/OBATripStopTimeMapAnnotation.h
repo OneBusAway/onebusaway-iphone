@@ -25,7 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id) initWithTripDetails:(OBATripDetailsV2*)tripDetails stopTime:(OBATripStopTimeV2*)stopTime;
 
-@property (nonatomic,strong) NSDateFormatter * timeFormatter;
 @property (nonatomic,strong) OBATripStopTimeV2 * stopTime;
 
 @end

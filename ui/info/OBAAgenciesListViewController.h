@@ -20,7 +20,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAAgenciesListViewController : OBARequestDrivenTableViewController 
+@interface OBAAgenciesListViewController : OBARequestDrivenTableViewController
+@property(nonatomic,strong) OBAModelService *modelService;
 @end
 
 NS_ASSUME_NONNULL_END

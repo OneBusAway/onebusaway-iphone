@@ -21,18 +21,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBATripDetailsViewController : OBARequestDrivenTableViewController {
-    OBATripInstanceRef *_tripInstance;
-    OBATripDetailsV2 *_tripDetails;
-    OBAServiceAlertsModel *_serviceAlerts;
-}
+@interface OBATripDetailsViewController : OBARequestDrivenTableViewController
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
+@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) OBATripInstanceRef *tripInstance;
+@property(nonatomic,strong) OBATripDetailsV2 *tripDetails;
+@property(nonatomic,strong) OBAServiceAlertsModel *serviceAlerts;
+@property(nonatomic,copy) NSString *currentStopId;
 
-- (id)initWithTripInstance:(OBATripInstanceRef *)tripInstance;
-
-@property (nonatomic, strong) OBATripInstanceRef *tripInstance;
-@property (nonatomic, strong) OBATripDetailsV2 *tripDetails;
-@property (nonatomic, strong) OBAServiceAlertsModel *serviceAlerts;
-@property (nonatomic, strong) NSString *currentStopId;
+- (instancetype)initWithTripInstance:(OBATripInstanceRef *)tripInstance;
 
 @end
 

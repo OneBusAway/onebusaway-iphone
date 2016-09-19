@@ -27,7 +27,6 @@ static const NSString *kTripDetailsContext = @"TripDetails";
 static const NSString *kShapeContext = @"ShapeContext";
 
 @interface OBATripScheduleMapViewController ()
-@property(nonatomic,strong) NSDateFormatter *timeFormatter;
 @property(nonatomic,strong) MKPolyline *routePolyline;
 @property(nonatomic,strong) MKPolylineRenderer *routePolylineRenderer;
 @property(nonatomic,strong) id<OBAModelServiceRequest> request;
@@ -49,10 +48,6 @@ static const NSString *kShapeContext = @"ShapeContext";
     self.mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     self.mapView.delegate = self;
     [self.view addSubview:self.mapView];
-
-    self.timeFormatter = [[NSDateFormatter alloc] init];
-    self.timeFormatter.dateStyle = NSDateFormatterNoStyle;
-    self.timeFormatter.timeStyle = NSDateFormatterShortStyle;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -63,7 +58,7 @@ static const NSString *kShapeContext = @"ShapeContext";
         return;
     }
 
-    [[OBAApplication sharedApplication].modelService requestTripDetailsForTripInstance:self.tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
+    [self.modelService requestTripDetailsForTripInstance:self.tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
         self.tripDetails = tripDetails;
         [self handleTripDetails];
     }).catch(^(NSError *error) {
@@ -82,6 +77,15 @@ static const NSString *kShapeContext = @"ShapeContext";
         NSLog(@"Error: %@", error);
         [_progressView setMessage:NSLocalizedString(@"Error connecting", @"message") inProgress:NO progress:0];
     }
+}
+
+#pragma mark - Lazily Loaded Properties
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
 }
 
 #pragma mark - Actions
@@ -193,7 +197,6 @@ static const NSString *kShapeContext = @"ShapeContext";
 
     for (OBATripStopTimeV2 *stopTime in stopTimes) {
         OBATripStopTimeMapAnnotation *an = [[OBATripStopTimeMapAnnotation alloc] initWithTripDetails:self.tripDetails stopTime:stopTime];
-        an.timeFormatter = _timeFormatter;
         [annotations addObject:an];
 
         OBAStopV2 *stop = stopTime.stop;
@@ -220,7 +223,7 @@ static const NSString *kShapeContext = @"ShapeContext";
 
     if (trip.shapeId) {
         @weakify(self);
-        _request = [[OBAApplication sharedApplication].modelService requestShapeForId:trip.shapeId completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+        _request = [self.modelService requestShapeForId:trip.shapeId completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
 
             @strongify(self);
 

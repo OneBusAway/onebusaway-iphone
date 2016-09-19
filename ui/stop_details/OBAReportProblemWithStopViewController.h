@@ -14,23 +14,18 @@
  * limitations under the License.
  */
 
-#import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBAKit.h>
 #import "OBAModalActivityIndicator.h"
 #import "OBATextEditViewController.h"
 #import "OBAListSelectionViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAReportProblemWithStopViewController : UITableViewController <UITextFieldDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate> {
-    OBAStopV2 * _stop;
-    NSMutableArray * _problemIds;
-    NSMutableArray * _problemNames;
-    NSUInteger _problemIndex;
-    NSString * _comment;
-}
+@interface OBAReportProblemWithStopViewController : UITableViewController <UITextFieldDelegate, OBATextEditViewControllerDelegate, OBAListSelectionViewControllerDelegate> 
+@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) OBALocationManager *locationManager;
 
-- (id) initWithStop:(OBAStopV2*)stop;
-
+- (instancetype)initWithStop:(OBAStopV2*)stop;
 @end
 
 NS_ASSUME_NONNULL_END
