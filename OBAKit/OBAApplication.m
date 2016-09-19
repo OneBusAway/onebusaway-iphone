@@ -101,6 +101,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 
 - (void)regionUpdated:(NSNotification*)note {
     [self restartReachability];
+    [self refreshSettings];
 }
 
 #pragma mark - OS Settings
@@ -123,7 +124,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     return [NSString stringWithFormat:@"%@ (%@)", [self formattedAppVersion], [self formattedAppBuild]];
 }
 
-#pragma mark - Crazy App State Refresh Thing
+#pragma mark - App/Region/API State
 
 - (void)refreshSettings {
     NSURL *apiURL = [NSURL URLWithString:self.modelDao.currentRegion.obaBaseUrl];

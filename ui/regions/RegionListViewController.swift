@@ -72,7 +72,6 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
         self.modelDAO.automaticallySelectRegion = false
         self.modelDAO.currentRegion = region
-        OBAApplication.shared().refreshSettings()
 
         self.loadData()
     }
@@ -200,8 +199,11 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
             let action: (() -> Void)? = autoSelect ? nil : {
                 self.modelDAO.currentRegion = region
-                OBAApplication.shared().refreshSettings()
                 self.loadData()
+
+                if let delegate = self.delegate {
+                    delegate.regionSelected()
+                }
             }
 
             let row: OBATableRow = OBATableRow.init(title: region.regionName, action: action)
