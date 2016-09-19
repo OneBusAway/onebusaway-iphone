@@ -67,7 +67,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 
     [self restartReachability];
 
-    self.regionHelper = [[OBARegionHelper alloc] init];
+    self.regionHelper = [[OBARegionHelper alloc] initWithLocationManager:self.locationManager];
 
     [self refreshSettings];
 }

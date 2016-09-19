@@ -16,28 +16,22 @@
 
 
 #import <OBAKit/OBAModelDAO.h>
+#import <CoreLocation/CoreLocation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class OBALocationManager;
+extern NSString * const OBALocationDidUpdateNotification;
+extern NSString * const OBALocationAuthorizationStatusChangedNotification;
+extern NSString * const OBALocationManagerDidFailWithErrorNotification;
 
-@protocol OBALocationManagerDelegate <NSObject>
-- (void) locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location;
-- (void) locationManager:(OBALocationManager *)manager didFailWithError:(NSError*)error;
-
-@optional
-- (void)locationManager:(OBALocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status;
-@end
-
+extern NSString * const OBALocationAuthorizationStatusUserInfoKey;
+extern NSString * const OBALocationErrorUserInfoKey;
 
 @interface OBALocationManager : NSObject <CLLocationManagerDelegate>
 @property(nonatomic,copy,readonly) CLLocation * currentLocation;
 @property(nonatomic,assign,readonly) BOOL locationServicesEnabled;
 
 - (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO;
-
-- (void)addDelegate:(id<OBALocationManagerDelegate>)delegate;
-- (void)removeDelegate:(id<OBALocationManagerDelegate>)delegate;
 
 - (void)startUpdatingLocation;
 - (void)stopUpdatingLocation;

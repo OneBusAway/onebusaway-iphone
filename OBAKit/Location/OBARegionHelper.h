@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <OBAKit/OBAModelService.h>
 #import <OBAKit/OBARegionV2.h>
+#import <OBAKit/OBALocationManager.h>
+#import <OBAKit/OBAModelDAO.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,8 +19,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)regionHelperShowRegionListController:(OBARegionHelper*)regionHelper;
 @end
 
-@interface OBARegionHelper : NSObject <OBALocationManagerDelegate>
+@interface OBARegionHelper : NSObject
+@property(nonatomic,strong) OBALocationManager *locationManager;
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
+@property(nonatomic,strong) OBAModelService *modelService;
 @property(nonatomic,weak) id<OBARegionHelperDelegate> delegate;
+
+- (instancetype)initWithLocationManager:(OBALocationManager*)locationManager NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_UNAVAILABLE;
+
 - (void)updateNearestRegion;
 - (void)updateRegion;
 @end
