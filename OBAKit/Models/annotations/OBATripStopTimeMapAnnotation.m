@@ -15,6 +15,7 @@
  */
 
 #import <OBAKit/OBATripStopTimeMapAnnotation.h>
+#import <OBAKit/OBADateHelpers.h>
 
 @implementation OBATripStopTimeMapAnnotation
 
@@ -54,7 +55,7 @@
     NSInteger stopTime = _stopTime.arrivalTime;
     
     NSDate * date = [NSDate dateWithTimeIntervalSince1970:(serviceDate/1000 + stopTime + scheduleDeviation)];
-    return [self.timeFormatter stringFromDate:date];
+    return [OBADateHelpers formatShortTimeNoDate:date];
 }
 
 - (CLLocationCoordinate2D) coordinate {

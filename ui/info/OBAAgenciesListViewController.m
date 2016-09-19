@@ -67,7 +67,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (id<OBAModelServiceRequest>)handleRefresh {
     @weakify(self);
-    return [[OBAApplication sharedApplication].modelService requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
+    return [self.modelService requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
         @strongify(self);
         
         if (error) {
@@ -81,6 +81,15 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             [self refreshCompleteWithCode:responseCode];
         }
     }];
+}
+
+#pragma mark - Lazy Loading
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
 }
 
 #pragma mark Table view methods

@@ -15,13 +15,13 @@
  */
 
 #import "OBAEditStopPreferencesViewController.h"
-#import <OBAKit/OBAKit.h>
 #import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
 
 @interface OBAEditStopPreferencesViewController ()
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
 @property(nonatomic,strong) OBAStopV2 *stop;
 @property(nonatomic,strong) NSArray *routes;
 @property(nonatomic,strong) OBAStopPreferencesV2 *preferences;
@@ -29,9 +29,12 @@
 
 @implementation OBAEditStopPreferencesViewController
 
-- (instancetype)initWithStop:(OBAStopV2 *)stop {
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO stop:(OBAStopV2 *)stop {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         _stop = stop;
+        _modelDAO = modelDAO;
+        _preferences = [_modelDAO stopPreferencesForStopWithId:_stop.stopId];
+        _routes = [_stop.routes sortedArrayUsingSelector:@selector(compareUsingName:)];
 
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
         self.navigationItem.leftBarButtonItem = cancelButton;
@@ -40,10 +43,6 @@
         self.navigationItem.rightBarButtonItem = saveButton;
 
         self.navigationItem.title = NSLocalizedString(@"Filter & Sort", @"self.navigationItem.title");
-
-        _routes = [_stop.routes sortedArrayUsingSelector:@selector(compareUsingName:)];
-
-        _preferences = [[OBAApplication sharedApplication].modelDao stopPreferencesForStopWithId:stop.stopId];
     }
 
     return self;
@@ -205,7 +204,7 @@
 }
 
 - (void)save:(id)sender {
-    [[OBAApplication sharedApplication].modelDao setStopPreferences:_preferences forStopWithId:_stop.stopId];
+    [self.modelDAO setStopPreferences:self.preferences forStopWithId:self.stop.stopId];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

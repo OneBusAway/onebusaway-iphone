@@ -15,14 +15,13 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <OBAKit/OBAKit.h>
 #import "OBAStaticTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class OBATripDetailsV2;
-@class OBATripInstanceRef;
-
 @interface OBATripScheduleListViewController : OBAStaticTableViewController
+@property(nonatomic,strong) OBAModelService *modelService;
 @property(nonatomic,strong) OBATripDetailsV2 *tripDetails;
 @property(nonatomic,copy) NSString *currentStopId;
 

@@ -66,7 +66,7 @@
     [self.tableView reloadData];
 
     NSString *stopId = _bookmark.stopId;
-    [[OBAApplication sharedApplication].modelService requestStopForId:stopId completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+    [self.modelService requestStopForId:stopId completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
         OBAEntryWithReferencesV2 *entry = responseData;
         OBAStopV2 *stop = entry.entry;
 
@@ -77,6 +77,22 @@
             [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
         }
     }];
+}
+
+#pragma mark - Lazy Loading
+
+- (OBAModelDAO*)modelDAO {
+    if (!_modelDAO) {
+        _modelDAO = [OBAApplication sharedApplication].modelDao;
+    }
+    return _modelDAO;
+}
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
 }
 
 #pragma mark - UITableView
@@ -129,7 +145,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 2) {
-        OBAEditStopBookmarkGroupViewController *groupVC = [[OBAEditStopBookmarkGroupViewController alloc] initWithSelectedBookmarkGroup:self.selectedGroup];
+        OBAEditStopBookmarkGroupViewController *groupVC = [[OBAEditStopBookmarkGroupViewController alloc] initWithModelDAO:self.modelDAO selectedBookmarkGroup:self.selectedGroup];
         groupVC.delegate = self;
         [self.navigationController pushViewController:groupVC animated:YES];
     }
@@ -149,8 +165,6 @@
 - (void)save:(id)sender {
     [self.view endEditing:YES];
 
-    OBAModelDAO *dao = [OBAApplication sharedApplication].modelDao;
-
     self.bookmark.name = self.textField.text;
 
     if (![self.bookmark isValidModel]) {
@@ -159,10 +173,10 @@
     }
 
     if (!self.bookmark.group && !self.selectedGroup) {
-        [dao saveBookmark:self.bookmark];
+        [self.modelDAO saveBookmark:self.bookmark];
     }
     else {
-        [dao moveBookmark:self.bookmark toGroup:self.selectedGroup];
+        [self.modelDAO moveBookmark:self.bookmark toGroup:self.selectedGroup];
     }
 
     [self dismissViewControllerAnimated:YES completion:nil];

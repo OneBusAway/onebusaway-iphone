@@ -62,16 +62,7 @@
 }
 
 - (NSString *)formattedNextDepartureTime {
-    
-    static NSDateFormatter *formatter = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        formatter = [[NSDateFormatter alloc] init];
-        formatter.dateStyle = NSDateFormatterNoStyle;
-        formatter.timeStyle = NSDateFormatterShortStyle;
-    });
-
-    return [formatter stringFromDate:self.departsAt];
+    return [OBADateHelpers formatShortTimeNoDate:self.departsAt];
 }
 
 @end

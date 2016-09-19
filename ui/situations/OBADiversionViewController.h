@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 +(OBADiversionViewController*) loadFromNibWithappDelegate:(OBAApplicationDelegate*)context;
 
+@property(nonatomic,strong) OBAModelService *modelService;
+
 @property (nonatomic,strong) NSString * diversionPath;
 @property (nonatomic,strong) NSDictionary * args;
 

@@ -63,6 +63,15 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [self reloadData];
 }
 
+#pragma mark - Lazy Loading
+
+- (OBAModelDAO*)modelDAO {
+    if (!_modelDAO) {
+        _modelDAO = [OBAApplication sharedApplication].modelDao;
+    }
+    return _modelDAO;
+}
+
 #pragma mark - Table Data
 
 - (void)reloadData {
@@ -81,7 +90,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     }];
     region.style = UITableViewCellStyleValue1;
     region.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    region.subtitle = [OBAApplication sharedApplication].modelDao.currentRegion.regionName;
+    region.subtitle = self.modelDAO.currentRegion.regionName;
 
     OBATableRow *agencies = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Agencies", @"Info Page Agencies Row Title") action:^{
         [self openAgencies];
@@ -165,7 +174,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 - (void)openContactUs {
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Email Link" value:nil];
 
-    MFMailComposeViewController *composer = [OBAEmailHelper mailComposeViewControllerForModelDAO:[OBAApplication sharedApplication].modelDao
+    MFMailComposeViewController *composer = [OBAEmailHelper mailComposeViewControllerForModelDAO:self.modelDAO
                                                                                  currentLocation:[OBAApplication sharedApplication].locationManager.currentLocation];
 
     if (composer) {

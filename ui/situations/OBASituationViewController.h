@@ -16,19 +16,15 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <OBAKit/OBASituationV2.h>
+#import <OBAKit/OBAKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBASituationViewController : UITableViewController {
-    OBASituationV2 * _situation;
-    NSString * _diversionPath;
-}
-
-- (id) initWithSituation:(OBASituationV2*)situation;
-
+@interface OBASituationViewController : UITableViewController
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
 @property (nonatomic,strong) NSDictionary * args;
 
+- (instancetype)initWithSituation:(OBASituationV2*)situation;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -19,7 +19,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAEditStopPreferencesViewController : UITableViewController
-- (instancetype)initWithStop:(OBAStopV2*)stop;
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO stop:(OBAStopV2*)stop;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -6,15 +6,15 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
+#import <OBAKit/OBAKit.h>
 #import "OBAStaticTableViewController.h"
 #import "OBANavigationTargetAware.h"
-
-@class OBAModelDAO;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAStopViewController : OBAStaticTableViewController<OBANavigationTargetAware>
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
+@property(nonatomic,strong) OBAModelService *modelService;
 @property(nonatomic,copy,readonly) NSString *stopID;
 @property(nonatomic,assign) NSUInteger minutesBefore;
 @property(nonatomic,assign) NSUInteger minutesAfter;

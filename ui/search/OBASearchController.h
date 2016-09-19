@@ -47,6 +47,8 @@ extern NSString * const OBASearchControllerUserInfoDataKey;
 @property (nonatomic,strong) NSObject<OBAProgressIndicatorSource>* progress;
 @property (nonatomic,strong) NSError * error;
 
+- (instancetype)initWithModelService:(OBAModelService*)modelService;
+
 - (BOOL)unfilteredSearch;
 - (void)searchWithTarget:(OBANavigationTarget*)target;
 - (void)searchPending;

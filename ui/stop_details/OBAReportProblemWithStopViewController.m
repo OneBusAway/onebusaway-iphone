@@ -33,7 +33,13 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 @property(nonatomic,strong) OBAModalActivityIndicator * activityIndicatorView;
 @end
 
-@implementation OBAReportProblemWithStopViewController
+@implementation OBAReportProblemWithStopViewController{
+    OBAStopV2 * _stop;
+    NSMutableArray * _problemIds;
+    NSMutableArray * _problemNames;
+    NSUInteger _problemIndex;
+    NSString * _comment;
+}
 
 #pragma mark - Initialization
 
@@ -317,10 +323,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     problem.stopId = _stop.stopId;
     problem.code = _problemIds[_problemIndex];
     problem.userComment = _comment;
-    problem.userLocation = [OBAApplication sharedApplication].locationManager.currentLocation;
+    problem.userLocation = self.locationManager.currentLocation;
 
     [self.activityIndicatorView show:self.view];
-    [[OBAApplication sharedApplication].modelService reportProblemWithStop:problem completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+    [self.modelService reportProblemWithStop:problem completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
         if (error || !responseData) {
             [self showErrorAlert];
             [self.activityIndicatorView hide];
@@ -353,6 +359,22 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         [APP_DELEGATE navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
     }]];
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - Lazy Loading
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
+}
+
+- (OBALocationManager*)locationManager {
+    if (!_locationManager) {
+        _locationManager = [OBAApplication sharedApplication].locationManager;
+    }
+    return _locationManager;
 }
 
 @end

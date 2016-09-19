@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <OBAKit/OBAKit.h>
 #import "OBAStaticTableViewController.h"
 #import "OBANavigationTargetAware.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class OBAApplicationDelegate;
-
 @interface OBAInfoViewController : OBAStaticTableViewController<OBANavigationTargetAware>
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
 - (void)openAgencies;
 @end
 

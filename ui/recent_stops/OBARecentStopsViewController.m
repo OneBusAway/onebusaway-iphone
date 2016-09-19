@@ -59,10 +59,19 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Clear Recent Stops", @"") message:NSLocalizedString(@"Are you sure you want to clear your recent stops?", @"") preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"") style:UIAlertActionStyleCancel handler:nil]];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Clear Stops", @"") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-        [[OBAApplication sharedApplication].modelDao clearMostRecentStops];
+        [self.modelDAO clearMostRecentStops];
         [self reloadData];
     }]];
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - Lazy Loading
+
+- (OBAModelDAO*)modelDAO {
+    if (!_modelDAO) {
+        _modelDAO = [OBAApplication sharedApplication].modelDao;
+    }
+    return _modelDAO;
 }
 
 #pragma mark - Data Loading
@@ -71,8 +80,7 @@
 
     OBATableSection *section = [[OBATableSection alloc] init];
 
-    for (OBAStopAccessEventV2* stop in [OBAApplication sharedApplication].modelDao.mostRecentStops) {
-
+    for (OBAStopAccessEventV2* stop in self.modelDAO.mostRecentStops) {
         [section addRowWithBlock:^OBABaseRow*{
             OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:stop.title action:^{
                 OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stop.stopIds[0]];
@@ -89,7 +97,7 @@
     [self.tableView reloadData];
 }
 
-#pragma mark OBANavigationTargetAware
+#pragma mark - OBANavigationTargetAware
 
 - (OBANavigationTarget *)navigationTarget {
     return [OBANavigationTarget target:OBANavigationTargetTypeRecentStops];

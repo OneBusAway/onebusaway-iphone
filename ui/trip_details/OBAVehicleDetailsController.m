@@ -28,10 +28,8 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 };
 
 @interface OBAVehicleDetailsController ()
-
-@property (nonatomic, strong) NSString *vehicleId;
-@property (nonatomic, strong) OBAVehicleStatusV2 *vehicleStatus;
-
+@property (nonatomic,copy) NSString *vehicleId;
+@property (nonatomic,strong) OBAVehicleStatusV2 *vehicleStatus;
 @end
 
 
@@ -39,7 +37,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (id)initWithVehicleId:(NSString *)vehicleId {
     if (self = [super init]) {
-        _vehicleId = vehicleId;
+        _vehicleId = [vehicleId copy];
         self.refreshable = YES;
         self.refreshInterval = 30;
         self.showUpdateTime = YES;
@@ -60,7 +58,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (id<OBAModelServiceRequest>)handleRefresh {
     @weakify(self);
-    return [[OBAApplication sharedApplication].modelService requestVehicleForId:_vehicleId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+    return [self.modelService requestVehicleForId:_vehicleId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
         @strongify(self);
 
         if (error) {
@@ -72,6 +70,15 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             [self refreshCompleteWithCode:responseCode];
         }
     }];
+}
+
+#pragma mark - Lazily Loaded Properties
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
 }
 
 #pragma mark Table view methods
@@ -171,10 +178,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Vehicle", @"cell.textLabel.text"), _vehicleStatus.vehicleId];
 
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.timeStyle = NSDateFormatterShortStyle;
-    dateFormatter.timeStyle = NSDateFormatterNoStyle;
-    NSString *result = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:_vehicleStatus.lastUpdateTime / 1000.0]];
+    NSString *result = [OBADateHelpers formatShortTimeNoDate:[NSDate dateWithTimeIntervalSince1970:_vehicleStatus.lastUpdateTime / 1000.0]];
 
     cell.detailTextLabel.textColor = [UIColor blackColor];
     cell.detailTextLabel.textAlignment = NSTextAlignmentLeft;

@@ -69,10 +69,12 @@ typedef NS_ENUM(NSUInteger, OBASectionType) {
         return;
     }
 
-    [[OBAApplication sharedApplication].modelService requestTripDetailsForTripInstance:self.tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
+    [self.modelService requestTripDetailsForTripInstance:self.tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
         self.tripDetails = tripDetails;
         [self buildUI];
     }).catch(^(NSError *error) {
+
+        // TODO: replace this with an AlertPresenter.
         if (error.code == 404) {
             [self.progressView setMessage:NSLocalizedString(@"Trip not found", @"message") inProgress:NO progress:0];
         }
@@ -84,6 +86,15 @@ typedef NS_ENUM(NSUInteger, OBASectionType) {
             [self.progressView setMessage:NSLocalizedString(@"Error connecting", @"message") inProgress:NO progress:0];
         }
     });
+}
+
+#pragma mark - Lazily Loaded Properties
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
 }
 
 #pragma mark - Static tables
