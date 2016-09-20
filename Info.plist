@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>20160915.01</string>
+	<string>20160919.23</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -124,6 +124,8 @@
 	<string>Your location will be used to show nearby stops and routes.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location will be used to show nearby stops and routes.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Your screenshots can help us diagnose problems that you experience with OneBusAway.</string>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>
