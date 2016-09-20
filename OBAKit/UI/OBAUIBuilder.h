@@ -10,4 +10,5 @@
 
 @interface OBAUIBuilder : NSObject
 + (UILabel*)label;
++ (UIView*)footerViewWithText:(NSString*)text maximumWidth:(CGFloat)width;
 @end

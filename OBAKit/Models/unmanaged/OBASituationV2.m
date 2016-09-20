@@ -6,8 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "OBASituationV2.h"
-
+#import <OBAKit/OBASituationV2.h>
 
 @implementation OBASituationV2
 

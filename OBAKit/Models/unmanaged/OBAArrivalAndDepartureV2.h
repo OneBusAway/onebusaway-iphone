@@ -1,51 +1,74 @@
-#import "OBAHasReferencesV2.h"
-#import "OBARouteV2.h"
-#import "OBAStopV2.h"
-#import "OBATripV2.h"
-#import "OBAFrequencyV2.h"
-#import "OBATripStatusV2.h"
-#import "OBATripInstanceRef.h"
-#import "OBAArrivalAndDepartureInstanceRef.h"
-#import "OBADepartureStatus.h"
-#import "OBAHasServiceAlerts.h"
+/*
+ * Copyright (C) 2009-2016 bdferris <bdferris@onebusaway.org>, University of Washington
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#import <OBAKit/OBAHasReferencesV2.h>
+#import <OBAKit/OBARouteV2.h>
+#import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBATripV2.h>
+#import <OBAKit/OBAFrequencyV2.h>
+#import <OBAKit/OBATripStatusV2.h>
+#import <OBAKit/OBATripInstanceRef.h>
+#import <OBAKit/OBAArrivalAndDepartureInstanceRef.h>
+#import <OBAKit/OBADepartureStatus.h>
+#import <OBAKit/OBAHasServiceAlerts.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAArrivalAndDepartureV2 : OBAHasReferencesV2<OBAHasServiceAlerts>
 
-@property (nonatomic,strong) NSString * routeId;
-@property (weak, nonatomic,readonly) OBARouteV2 * route;
-@property (nonatomic,strong) NSString * routeShortName;
+@property(nonatomic,copy) NSString *routeId;
+@property(nonatomic,weak,readonly) OBARouteV2 * route;
+@property(nonatomic,copy) NSString *routeShortName;
 
-@property (nonatomic,strong) NSString * tripId;
-@property (weak, nonatomic,readonly) OBATripV2 * trip;
-@property (nonatomic,strong) NSString * tripHeadsign;
-@property (nonatomic) long long serviceDate;
+@property(nonatomic,copy) NSString * tripId;
+@property(nonatomic,weak,readonly) OBATripV2 * trip;
+@property(nonatomic,copy,nullable) NSString * tripHeadsign;
+@property(nonatomic,assign) long long serviceDate;
 
-@property (weak, nonatomic,readonly) OBAArrivalAndDepartureInstanceRef * instance;
-@property (weak, nonatomic,readonly) OBATripInstanceRef * tripInstance;
+@property(nonatomic,weak,readonly) OBAArrivalAndDepartureInstanceRef * instance;
+@property(nonatomic,weak,readonly) OBATripInstanceRef * tripInstance;
 
-@property (nonatomic,strong) NSString * stopId;
-@property (weak, nonatomic,readonly) OBAStopV2 * stop;
-@property (nonatomic) NSInteger stopSequence;
+@property(nonatomic,copy) NSString * stopId;
+@property(nonatomic,weak,readonly) OBAStopV2 * stop;
+@property(nonatomic,assign) NSInteger stopSequence;
 
-@property (nonatomic,strong) OBATripStatusV2 * tripStatus;
+@property(nonatomic,strong) OBATripStatusV2 * tripStatus;
 
-@property (nonatomic,strong) OBAFrequencyV2 * frequency;
+@property(nonatomic,strong) OBAFrequencyV2 * frequency;
 
-@property (nonatomic) BOOL predicted;
+@property(nonatomic,assign) BOOL predicted;
 
-@property (nonatomic) long long scheduledArrivalTime;
-@property (nonatomic) long long predictedArrivalTime;
-@property (nonatomic,readonly) long long bestArrivalTime;
+@property(nonatomic,assign) long long scheduledArrivalTime;
+@property(nonatomic,assign) long long predictedArrivalTime;
+@property(nonatomic,assign,readonly) long long bestArrivalTime;
 
-@property (nonatomic) long long scheduledDepartureTime;
-@property (nonatomic) long long predictedDepartureTime;
-@property (nonatomic,readonly) long long bestDepartureTime;
+@property(nonatomic,assign) long long scheduledDepartureTime;
+@property(nonatomic,assign) long long predictedDepartureTime;
+@property(nonatomic,assign,readonly) long long bestDepartureTime;
+
+@property(nonatomic,assign) double distanceFromStop;
+@property(nonatomic,assign) NSInteger numberOfStopsAway;
+
 - (BOOL)hasRealTimeData;
 
-@property (nonatomic) double distanceFromStop;
-@property (nonatomic) NSInteger numberOfStopsAway;
+/**
+ This string is composed of this object's routeId, tripHeadsign, and bestAvailableName.
+ It is designed to offer a unique key for determining bookmark existence during the process of creating one.
+ */
+- (NSString*)bookmarkKey;
 
 /**
  Walks through a series of possible options for giving this arrival and departure a user-sensible name.
@@ -71,6 +94,8 @@ NS_ASSUME_NONNULL_BEGIN
  @return The number of minutes until departure, suitable to display to a user.
  */
 - (NSInteger)minutesUntilBestDeparture;
+
+- (NSComparisonResult)compareRouteName:(OBAArrivalAndDepartureV2*)dep;
 
 @end
 

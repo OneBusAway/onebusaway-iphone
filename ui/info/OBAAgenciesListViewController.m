@@ -1,10 +1,25 @@
+/**
+ * Copyright (C) 2009-2016 bdferris <bdferris@onebusaway.org>, University of Washington
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #import "OBAAgenciesListViewController.h"
-#import "OBALogger.h"
-#import "OBAAgencyWithCoverageV2.h"
-#import "OBASearch.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 #import <SafariServices/SafariServices.h>
+#import "EXTScope.h"
+#import "OBAApplicationDelegate.h"
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -14,9 +29,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 };
 
 @interface OBAAgenciesListViewController ()
-
-@property (nonatomic, strong) NSMutableArray *agencies;
-
+@property(nonatomic,copy) NSArray<OBAAgencyWithCoverageV2 *> *agencies;
 @end
 
 @implementation OBAAgenciesListViewController
@@ -54,7 +67,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (id<OBAModelServiceRequest>)handleRefresh {
     @weakify(self);
-    return [[OBAApplication sharedApplication].modelService requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
+    return [self.modelService requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
         @strongify(self);
         
         if (error) {
@@ -62,12 +75,21 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         }
         else {
             OBAListWithRangeAndReferencesV2 *list = jsonData;
-            self.agencies = [[NSMutableArray alloc] initWithArray:list.values];
-            [self.agencies sortUsingSelector:@selector(compareUsingAgencyName:)];
+            self.agencies = [NSArray arrayWithArray:list.values];
+            self.agencies = [self.agencies sortedArrayUsingSelector:@selector(compareUsingAgencyName:)];
             self.progressLabel = NSLocalizedString(@"Agencies", @"");
             [self refreshCompleteWithCode:responseCode];
         }
     }];
+}
+
+#pragma mark - Lazy Loading
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
 }
 
 #pragma mark Table view methods
@@ -182,7 +204,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 {
      if (section == 0) {
         UIView *footer = [[UIView alloc] init];
-        footer.backgroundColor = OBAGREENBACKGROUND;
+        footer.backgroundColor = [OBATheme OBAGreenBackground];
         return footer;
     }
     else {

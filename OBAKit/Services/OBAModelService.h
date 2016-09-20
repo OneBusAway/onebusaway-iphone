@@ -1,18 +1,35 @@
-#import "OBAModelDAO.h"
-#import "OBAModelFactory.h"
-#import "OBAJsonDataSource.h"
-#import "OBALocationManager.h"
+/**
+ * Copyright (C) 2009-2016 bdferris <bdferris@onebusaway.org>, University of Washington
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-#import "OBAReferencesV2.h"
-#import "OBAStopV2.h"
-#import "OBAPlacemark.h"
-#import "OBATripInstanceRef.h"
-#import "OBAArrivalAndDepartureInstanceRef.h"
-#import "OBAReportProblemWithStopV2.h"
-#import "OBAReportProblemWithTripV2.h"
-#import <PromiseKit/PromiseKit.h>
+#import <OBAKit/OBAModelDAO.h>
+#import <OBAKit/OBAModelFactory.h>
+#import <OBAKit/OBAJsonDataSource.h>
+#import <OBAKit/OBAReferencesV2.h>
+#import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBAPlacemark.h>
+#import <OBAKit/OBATripInstanceRef.h>
+#import <OBAKit/OBAArrivalAndDepartureInstanceRef.h>
+#import <OBAKit/OBAReportProblemWithStopV2.h>
+#import <OBAKit/OBAReportProblemWithTripV2.h>
+#import <OBAKit/OBALocationManager.h>
+@import PromiseKit;
 
 NS_ASSUME_NONNULL_BEGIN
+
+extern NSString * const OBAAgenciesWithCoverageAPIPath;
 
 @protocol OBAModelServiceRequest <NSObject>
 - (void)cancel;
@@ -37,10 +54,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) OBALocationManager *locationManager;
 
 /**
+ Convenience method for constructing an entire
+ model service/factory/references stack.
+ */
++ (instancetype)modelServiceWithBaseURL:(NSURL*)URL;
+
+/**
  * Registers a background executor to be used by all services.  This method should not be used by extensions.
  */
 +(void) addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*) executor;
-
 
 - (AnyPromise*)requestStopForID:(NSString*)stopID minutesBefore:(NSUInteger)minutesBefore minutesAfter:(NSUInteger)minutesAfter;
 
@@ -61,6 +83,36 @@ NS_ASSUME_NONNULL_BEGIN
  @return A promise that resolves to a OBAArrivalAndDepartureV2 object.
  */
 - (AnyPromise*)requestArrivalAndDeparture:(OBAArrivalAndDepartureInstanceRef*)instanceRef;
+
+/**
+ Retrieves the current server time as an NSNumber representing the number of milliseconds since January 1, 1970.
+
+ @return A promise that resolves to an NSNumber object.
+ */
+- (AnyPromise*)requestCurrentTime;
+
+/**
+ Retrieves all available OBA regions, including experimental and inactive regions. Returns an array of OBARegionV2 objects.
+ *
+ *  @return A promise that resolves to NSArray<OBARegionV2*>*.
+ */
+- (AnyPromise*)requestRegions;
+
+/**
+ Retrieves all available OBA regions, including experimental and inactive regions. Returns an array of OBARegionV2 objects.
+ *
+ *  @return A promise that resolves to NSArray<OBAAgencyWithCoverageV2*>*.
+ */
+- (AnyPromise*)requestAgenciesWithCoverage;
+
+/**
+ *  Makes an asynchronous request to fetch the current server time.
+ *
+ *  @param completion The block to be called once the request completes, this is always executed on the main thread.
+ *
+ *  @return The OBAModelServiceRequest object that allows request cancellation
+ */
+- (id<OBAModelServiceRequest>)requestCurrentTimeWithCompletionBlock:(OBADataSourceCompletion)completion;
 
 /**
  *  Makes an asynchronous request to fetch a stop object.

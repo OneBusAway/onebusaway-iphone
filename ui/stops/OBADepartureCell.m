@@ -8,7 +8,7 @@
 
 #import "OBADepartureCell.h"
 #import "OBADepartureRow.h"
-#import "OBATheme.h"
+#import <OBAKit/OBAKit.h>
 #import <Masonry/Masonry.h>
 #import "OBADepartureCellHelpers.h"
 

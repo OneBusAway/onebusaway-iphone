@@ -1,13 +1,29 @@
+/**
+ * Copyright (C) 2009-2016 bdferris <bdferris@onebusaway.org>, University of Washington
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #import "OBAReportProblemWithTripViewController.h"
 #import "OBALabelAndSwitchTableViewCell.h"
 #import "OBALabelAndTextFieldTableViewCell.h"
-#import "OBALogger.h"
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
 #import "OBAApplicationDelegate.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "OBAArrivalAndDepartureViewController.h"
+#import <OBAKit/OBAKit.h>
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -18,16 +34,23 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNotes
 };
 
+@implementation OBAReportProblemWithTripViewController {
+    OBATripInstanceRef *_tripInstance;
+    OBATripV2 *_trip;
+    NSMutableArray *_problemIds;
+    NSMutableArray *_problemNames;
+    NSUInteger _problemIndex;
+    NSString *_comment;
+    BOOL _onVehicle;
+    NSString *_vehicleNumber;
+    NSString *_vehicleType;
 
-@interface OBAReportProblemWithTripViewController ()
-@end
-
-
-@implementation OBAReportProblemWithTripViewController
+    OBAModalActivityIndicator *_activityIndicatorView;
+}
 
 #pragma mark - Initialization
 
-- (id)initWithTripInstance:(OBATripInstanceRef *)tripInstance trip:(OBATripV2 *)trip {
+- (instancetype)initWithTripInstance:(OBATripInstanceRef *)tripInstance trip:(OBATripV2 *)trip {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         _tripInstance = tripInstance;
         _trip = trip;
@@ -69,6 +92,22 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     [self hideEmptySeparators];
 }
 
+#pragma mark - Lazily Loaded Properties
+
+- (OBALocationManager*)locationManager {
+    if (!_locationManager) {
+        _locationManager = [OBAApplication sharedApplication].locationManager;
+    }
+    return _locationManager;
+}
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
+}
+
 #pragma mark - Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -90,7 +129,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
 
-    view.backgroundColor = OBAGREENBACKGROUND;
+    view.backgroundColor = [OBATheme OBAGreenBackground];
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 290, 30)];
     title.font = [OBATheme bodyFont];
     title.backgroundColor = [UIColor clearColor];
@@ -402,10 +441,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     problem.userComment = _comment;
     problem.userOnVehicle = _onVehicle;
     problem.userVehicleNumber = _vehicleNumber;
-    problem.userLocation = [OBAApplication sharedApplication].locationManager.currentLocation;
+    problem.userLocation = self.locationManager.currentLocation;
 
     [SVProgressHUD show];
-    [[OBAApplication sharedApplication].modelService reportProblemWithTrip:problem completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+    [self.modelService reportProblemWithTrip:problem completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
         [SVProgressHUD dismiss];
 
         if (error || !jsonData) {
@@ -419,7 +458,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
                                                                        message:NSLocalizedString(@"The problem was sucessfully reported. Thank you!", @"view.message")
                                                                 preferredStyle:UIAlertControllerStyleAlert];
 
-        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             //go back to view that initiated report
             NSArray *allViewControllers = self.navigationController.viewControllers;
             for (UIViewController* vc in allViewControllers.reverseObjectEnumerator) {
@@ -435,7 +474,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (void)showErrorAlert {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error Submitting", @"view.title") message:NSLocalizedString(@"An error occurred while reporting the problem. Please contact us directly.", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle") style:UIAlertActionStyleCancel handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleCancel handler:nil]];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", @"view addButtonWithTitle") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         [APP_DELEGATE navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
     }]];

@@ -7,13 +7,14 @@
 //
 
 #import "OBASeparatorSectionView.h"
+#import <OBAKit/OBAKit.h>
 
 @implementation OBASeparatorSectionView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = OBAGREEN;
+        self.backgroundColor = [OBATheme OBAGreen];
     }
     return self;
 }

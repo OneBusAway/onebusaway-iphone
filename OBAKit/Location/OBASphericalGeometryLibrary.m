@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBASphericalGeometryLibrary.h"
+#import <OBAKit/OBASphericalGeometryLibrary.h>
 
 static const CGFloat kStopForRouteAnnotationMinScale = 0.1f;
 static const CGFloat kStopForRouteAnnotationMaxScaleDistance = 1500.f;

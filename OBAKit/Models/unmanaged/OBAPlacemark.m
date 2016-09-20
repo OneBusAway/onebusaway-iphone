@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBAPlacemark.h"
-
+#import <OBAKit/OBAPlacemark.h>
 
 @implementation OBAPlacemark
 

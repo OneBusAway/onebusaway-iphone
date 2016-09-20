@@ -11,7 +11,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@import UIKit;
+#import <UIKit/UIKit.h>
+#import <GoogleAnalytics/GoogleAnalytics.h>
 
 extern NSString * _Nonnull const OBAAnalyticsCategoryAppSettings;
 extern NSString * _Nonnull const OBAAnalyticsCategoryUIAction;
@@ -19,12 +20,6 @@ extern NSString * _Nonnull const OBAAnalyticsCategoryAccessibility;
 extern NSString * _Nonnull const OBAAnalyticsCategorySubmit;
 
 NS_ASSUME_NONNULL_BEGIN
-
-/**
- We report "YES" and "NO" to Google Analytics in several places. This method
- DRYs those up.
- */
-NSString * OBAStringFromBool(BOOL yn);
 
 @interface OBAAnalytics : NSObject
 + (void)configureVoiceOverStatus;

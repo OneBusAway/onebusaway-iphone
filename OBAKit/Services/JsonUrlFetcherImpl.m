@@ -6,7 +6,7 @@
 //  Copyright © 2015 One Bus Away. All rights reserved.
 //
 
-#import "JsonUrlFetcherImpl.h"
+#import <OBAKit/JsonUrlFetcherImpl.h>
 
 @interface JsonUrlFetcherImpl ()
 @property(nonatomic,strong) NSURLSessionDataTask *task;

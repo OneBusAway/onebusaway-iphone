@@ -14,42 +14,36 @@
  * limitations under the License.
  */
 
-#import <SystemConfiguration/SystemConfiguration.h>
-#import <ABReleaseNotesViewController/ABReleaseNotesViewController.h>
-#import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
 #import "OBAApplicationDelegate.h"
-#import "OBANavigationTargetAware.h"
-#import "OBALogger.h"
+#import <SystemConfiguration/SystemConfiguration.h>
+#import <GoogleAnalytics/GoogleAnalytics.h>
+#import <OBAKit/OBAKit.h>
 
-#import "OBASearchResultsMapViewController.h"
-#import "OBARecentStopsViewController.h"
-#import "OBABookmarksViewController.h"
-#import "OBAInfoViewController.h"
+#import "OBANavigationTargetAware.h"
 
 #import "OBASearchController.h"
 #import "OBAStopViewController.h"
 
-#import "OBARegionListViewController.h"
-#import "OBARegionHelper.h"
+#import "OneBusAway-Swift.h"
 
 #import "OBAAnalytics.h"
-#import "NSArray+OBAAdditions.h"
+#import "Apptentive.h"
 
-static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
-static NSString *kOBAShowExperimentalRegionsDefaultsKey = @"kOBAShowExperimentalRegionsDefaultsKey";
+#import "OBAApplicationUI.h"
+#import "OBAClassicApplicationUI.h"
+#import "OBADrawerUI.h"
+#import "EXTScope.h"
+
 static NSString *const kTrackingId = @"UA-2423527-17";
-static NSString *const kAllowTracking = @"allowTracking";
+static NSString *const kOptOutOfTracking = @"OptOutOfTracking";
+static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc9f70ef38378a9d5a15ac7d4926";
 
-static NSString *const kApplicationShortcutMap = @"org.onebusaway.iphone.shortcut.map";
-static NSString *const kApplicationShortcutRecents = @"org.onebusaway.iphone.shortcut.recents";
-static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcut.bookmarks";
-
-@interface OBAApplicationDelegate () <OBABackgroundTaskExecutor>
-@property (nonatomic, readwrite) BOOL active;
-@property (nonatomic, strong) OBARegionHelper *regionHelper;
+@interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate>
+@property (nonatomic, strong) UINavigationController *regionNavigationController;
+@property (nonatomic, strong) RegionListViewController *regionListViewController;
 @property (nonatomic, strong) id regionObserver;
 @property (nonatomic, strong) id recentStopsObserver;
-@property(nonatomic,strong) ABReleaseNotesViewController *releaseNotes;
+@property(nonatomic,strong) id<OBAApplicationUI> applicationUI;
 @end
 
 @implementation OBAApplicationDelegate
@@ -58,27 +52,22 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
     self = [super init];
 
     if (self) {
-        _active = NO;
-        _regionHelper = [[OBARegionHelper alloc] init];
-
+        self.regionObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kOBAApplicationSettingsRegionRefreshNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+            [OBAApplication sharedApplication].modelDao.automaticallySelectRegion = YES;
+            [[OBAApplication sharedApplication].regionHelper updateNearestRegion];
+            [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:OBAStringFromBool(YES)];
+        }];
         @weakify(self);
-        self.regionObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kOBAApplicationSettingsRegionRefreshNotification
-                                                                                object:nil
-                                                                                 queue:[NSOperationQueue mainQueue]
-                                                                            usingBlock:^(NSNotification *note) {
-                                                                                @strongify(self);
-                                                                                [self writeSetRegionAutomatically:YES];
-                                                                                [self.regionHelper updateNearestRegion];
-                                                                            }];
-        self.recentStopsObserver = [[NSNotificationCenter defaultCenter] addObserverForName:OBAMostRecentStopsChangedNotification
-                                                                                     object:nil
-                                                                                      queue:[NSOperationQueue mainQueue]
-                                                                                 usingBlock:^(NSNotification *note) {
-                                                                                     @strongify(self);
-                                                                                     [self updateShortcutItemsForRecentStops];
-                                                                                 }];
-        
+        self.recentStopsObserver = [[NSNotificationCenter defaultCenter] addObserverForName:OBAMostRecentStopsChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+            @strongify(self);
+            [self updateShortcutItemsForRecentStops];
+        }];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+
         [[OBAApplication sharedApplication] start];
+
+        [OBAApplication sharedApplication].regionHelper.delegate = self;
     }
 
     return self;
@@ -87,24 +76,8 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self.regionObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self.recentStopsObserver];
-}
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 
-- (void)writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
-    [[OBAApplication sharedApplication].modelDao writeSetRegionAutomatically:setRegionAutomatically];
-
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:OBAStringFromBool(setRegionAutomatically)];
-}
-
-- (BOOL)readSetRegionAutomatically {
-    BOOL readSetRegionAuto = [OBAApplication sharedApplication].modelDao.readSetRegionAutomatically;
-
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:OBAStringFromBool(readSetRegionAuto)];
-    return readSetRegionAuto;
-}
-
-- (void)setOBARegion:(OBARegionV2 *)region {
-    [[OBAApplication sharedApplication].modelDao setOBARegion:region];
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:region.regionName];
 }
 
 - (void)navigateToTarget:(OBANavigationTarget *)navigationTarget {
@@ -115,50 +88,23 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor blackColor];
 
-    self.tabBarController = [[UITabBarController alloc] init];
+    self.applicationUI = [[OBAClassicApplicationUI alloc] init];
+//    self.applicationUI = [[OBADrawerUI alloc] init];
 
-    self.mapViewController = [[OBASearchResultsMapViewController alloc] init];
-    self.mapViewController.appDelegate = self;
-    self.mapNavigationController = [[UINavigationController alloc] initWithRootViewController:self.mapViewController];
-
-    self.recentsViewController = [[OBARecentStopsViewController alloc] init];
-    self.recentsNavigationController = [[UINavigationController alloc] initWithRootViewController:self.recentsViewController];
-
-    self.bookmarksViewController = [[OBABookmarksViewController alloc] init];
-    self.bookmarksNavigationController = [[UINavigationController alloc] initWithRootViewController:self.bookmarksViewController];
-
-    self.infoViewController = [[OBAInfoViewController alloc] init];
-    self.infoNavigationController = [[UINavigationController alloc] initWithRootViewController:self.infoViewController];
-
-    self.tabBarController.viewControllers = @[self.mapNavigationController, self.recentsNavigationController, self.bookmarksNavigationController, self.infoNavigationController];
-    self.tabBarController.delegate = self;
-
-    [self _updateSelectedTabIndex];
+    [self.applicationUI updateSelectedTabIndex];
 
     [OBATheme setAppearanceProxies];
 
-    self.window.rootViewController = self.tabBarController;
+    self.window.rootViewController = self.applicationUI.rootViewController;
 
-    if ([[OBAApplication sharedApplication].modelDao.readCustomApiUrl isEqualToString:@""]) {
-        if ([OBAApplication sharedApplication].modelDao.readSetRegionAutomatically && [OBAApplication sharedApplication].locationManager.locationServicesEnabled) {
-            [self.regionHelper updateNearestRegion];
-        }
-        else {
-            [self.regionHelper updateRegion];
-        }
+    if ([OBAApplication sharedApplication].modelDao.automaticallySelectRegion && [OBAApplication sharedApplication].locationManager.locationServicesEnabled) {
+        [[OBAApplication sharedApplication].regionHelper updateNearestRegion];
+    }
+    else {
+        [[OBAApplication sharedApplication].regionHelper updateRegion];
     }
 
     [self.window makeKeyAndVisible];
-
-    self.releaseNotes = [[ABReleaseNotesViewController alloc] initWithAppIdentifier:@"329380089"];
-    self.releaseNotes.title = NSLocalizedString(@"What's New", @"");
-    self.releaseNotes.mode = ABReleaseNotesViewControllerModeProduction;
-
-    [self.releaseNotes checkForUpdates:^(BOOL updated) {
-        if (updated) {
-            [self.tabBarController presentViewController:self.releaseNotes animated:YES completion:nil];
-        }
-    }];
 }
 
 #pragma mark - UIApplication Methods
@@ -175,27 +121,27 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    //Register a background handler with the model service
+    // Register a background handler with the model service
     [OBAModelService addBackgroundExecutor:self];
 
-    //setup Google Analytics
-    NSDictionary *appDefaults = @{ kAllowTracking: @(YES), kSetRegionAutomaticallyKey: @(YES)};
+    // Configure the Apptentive feedback system
+    [Apptentive sharedConnection].APIKey = kApptentiveKey;
+
+    // Set up Google Analytics
+    NSDictionary *appDefaults = @{ kOptOutOfTracking: @(NO), kSetRegionAutomaticallyKey: @(YES), kUngroupedBookmarksOpenKey: @(YES)};
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
 
     // User must be able to opt out of tracking
-    [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
-
+    [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:kOptOutOfTracking];
     [GAI sharedInstance].trackUncaughtExceptions = YES;
-    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelWarning];
+    [GAI sharedInstance].logger.logLevel = kGAILogLevelWarning;
 
     //don't report to Google Analytics when developing
 #ifdef DEBUG
     [[GAI sharedInstance] setDryRun:YES];
 #endif
 
-    self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
-
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:[OBAApplication sharedApplication].modelDao.region.regionName];
+    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:[OBAApplication sharedApplication].modelDao.currentRegion.regionName];
 
     [OBAAnalytics configureVoiceOverStatus];
 
@@ -213,63 +159,28 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    self.active = YES;
-    self.tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
-    [GAI sharedInstance].optOut =
-        ![[NSUserDefaults standardUserDefaults] boolForKey:kAllowTracking];
+    [[OBAApplication sharedApplication] startReachabilityNotifier];
 
-    if ([[OBAApplication sharedApplication].modelDao.readCustomApiUrl isEqualToString:@""]) {
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:[NSString stringWithFormat:@"API Region: %@", [OBAApplication sharedApplication].modelDao.region.regionName] value:nil];
-    }
-    else {
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:@"API Region: Custom URL" value:nil];
-    }
+    [self.applicationUI applicationDidBecomeActive];
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", OBAStringFromBool([OBAApplication sharedApplication].modelDao.readSetRegionAutomatically)] value:nil];
+    [GAI sharedInstance].optOut = [[NSUserDefaults standardUserDefaults] boolForKey:kOptOutOfTracking];
 
-    BOOL _showExperimentalRegions = NO;
+    NSString *label = [NSString stringWithFormat:@"API Region: %@", [OBAApplication sharedApplication].modelDao.currentRegion.regionName];
 
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"]) _showExperimentalRegions = [[NSUserDefaults standardUserDefaults] boolForKey:@"kOBAShowExperimentalRegionsDefaultsKey"];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:label value:nil];
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Show Experimental Regions: %@", OBAStringFromBool(_showExperimentalRegions)] value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", OBAStringFromBool([OBAApplication sharedApplication].modelDao.automaticallySelectRegion)] value:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-    self.active = NO;
+    [[OBAApplication sharedApplication] stopReachabilityNotifier];
 }
 
 #pragma mark Shortcut Items
 
 - (void)application:(UIApplication *)application performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler {
-    NSString *shortcutIdentifier = shortcutItem.type;
 
-    if ([shortcutIdentifier isEqualToString:kApplicationShortcutMap]) {
-        [self.tabBarController setSelectedViewController:self.mapNavigationController];
-
-        [self.mapNavigationController popToRootViewControllerAnimated:NO];
-        [self.mapViewController onCrossHairsButton:self];
-    }
-    else if ([shortcutIdentifier isEqualToString:kApplicationShortcutBookmarks]) {
-        [self.tabBarController setSelectedViewController:self.bookmarksNavigationController];
-
-        [self.bookmarksNavigationController popToRootViewControllerAnimated:NO];
-    }
-    else if ([shortcutIdentifier isEqualToString:kApplicationShortcutRecents]) {
-        [self.tabBarController setSelectedViewController:self.recentsNavigationController];
-
-        NSArray *stopIds = (NSArray *)shortcutItem.userInfo[@"stopIds"];
-        if (stopIds.count > 0) {
-            UIViewController *vc = [OBAStopViewController stopControllerWithStopID:stopIds[0]];
-            [self.recentsNavigationController popToRootViewControllerAnimated:NO];
-            [self.recentsNavigationController pushViewController:vc animated:YES];
-        }
-    }
-
-    // update kOBASelectedTabIndexDefaultsKey, since the delegate doesn't fire
-    // otherwise applicationDidBecomeActive: will switch us away
-    [self tabBarController:self.tabBarController didSelectViewController:self.tabBarController.selectedViewController];
-
-    completionHandler(YES);
+    [self.applicationUI performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler];
 }
 
 - (void)updateShortcutItemsForRecentStops {
@@ -289,100 +200,43 @@ static NSString *const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.s
     [UIApplication sharedApplication].shortcutItems = [dynamicShortcuts oba_pickFirst:4];
 }
 
-#pragma mark - UITabBarControllerDelegate
-
-- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
-    NSUInteger oldIndex = [self.tabBarController.viewControllers indexOfObject:[self.tabBarController selectedViewController]];
-    NSUInteger newIndex = [self.tabBarController.viewControllers indexOfObject:viewController];
-
-    if (newIndex == 0 && newIndex == oldIndex) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"OBAMapButtonRecenterNotification" object:nil];
-    }
-
-    return YES;
-}
-
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    [[NSUserDefaults standardUserDefaults] setInteger:tabBarController.selectedIndex forKey:kOBASelectedTabIndexDefaultsKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)_updateSelectedTabIndex {
-    NSInteger selectedIndex = 0;
-    NSString *startupView = nil;
-
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:kOBASelectedTabIndexDefaultsKey]) {
-        selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
-    }
-
-    self.tabBarController.selectedIndex = selectedIndex;
-
-    switch (selectedIndex) {
-        case 0:
-            startupView = @"OBASearchResultsMapViewController";
-            break;
-
-        case 1:
-            startupView = @"OBARecentStopsViewController";
-            break;
-
-        case 2:
-            startupView = @"OBABookmarksViewController";
-            break;
-
-        case 3:
-            startupView = @"OBAInfoViewController";
-            break;
-
-        default:
-            startupView = @"Unknown";
-            break;
-    }
-
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"startup" label:[NSString stringWithFormat:@"Startup View: %@", startupView] value:nil];
-}
-
 - (void)_navigateToTargetInternal:(OBANavigationTarget *)navigationTarget {
     [[OBAApplication sharedApplication].references clear];
 
-    [self.mapNavigationController popToRootViewControllerAnimated:NO];
+    [self.applicationUI navigateToTargetInternal:navigationTarget];
+}
 
-    if (OBANavigationTargetTypeSearchResults == navigationTarget.target) {
-        [self.tabBarController setSelectedViewController:self.mapNavigationController];
-        self.mapViewController.navigationTarget = navigationTarget;
-    }
-    else if (OBANavigationTargetTypeContactUs == navigationTarget.target) {
-        [self.tabBarController setSelectedViewController:self.infoNavigationController];
-        [self.infoViewController openContactUs];
-    }
-    else if (OBANavigationTargetTypeSettings == navigationTarget.target) {
-        [self.tabBarController setSelectedViewController:self.infoNavigationController];
-    }
-    else if (OBANavigationTargetTypeAgencies == navigationTarget.target) {
-        [self.tabBarController setSelectedViewController:self.infoNavigationController];
-        [self.infoViewController openAgencies];
-    }
-    else if (OBANavigationTargetTypeBookmarks == navigationTarget.target) {
-        [self.tabBarController setSelectedViewController:self.bookmarksNavigationController];
-    }
-    else {
-        NSLog(@"Unhandled target in %s: %@", __PRETTY_FUNCTION__, @(navigationTarget.target));
+#pragma mark - Reachability
+
+- (void)reachabilityChanged:(NSNotification*)note {
+
+    OBAReachability *reachability = note.object;
+
+    if (!reachability.isReachable) {
+
+        NSString *host = [OBAApplication sharedApplication].modelDao.currentRegion.baseURL.host;
+        NSString *body = [NSString stringWithFormat:NSLocalizedString(@"Cannot connect to %@", @"Global reachablity alert body format string"), host];
+
+        [AlertPresenter showWarning:NSLocalizedString(@"Lost Connection", @"Global reachability alert title") body:body];
     }
 }
+
+#pragma mark - RegionListDelegate
 
 - (void)regionSelected {
     [_regionNavigationController removeFromParentViewController];
     _regionNavigationController = nil;
     _regionListViewController = nil;
 
-    [[OBAApplication sharedApplication] refreshSettings];
-
-    self.window.rootViewController = self.tabBarController;
-    [_window makeKeyAndVisible];
+    self.window.rootViewController = self.applicationUI.rootViewController;
+    [self.window makeKeyAndVisible];
 }
 
-- (void)showRegionListViewController {
-    _regionListViewController = [[OBARegionListViewController alloc] init];
+#pragma mark - OBARegionHelperDelegate
+
+- (void)regionHelperShowRegionListController:(OBARegionHelper *)regionHelper {
+    _regionListViewController = [[RegionListViewController alloc] init];
+    _regionListViewController.delegate = self;
     _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:_regionListViewController];
 
     self.window.rootViewController = _regionNavigationController;

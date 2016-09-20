@@ -1,11 +1,24 @@
+/**
+ * Copyright (C) 2009-2016 bdferris <bdferris@onebusaway.org>, University of Washington
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #import "OBADiversionViewController.h"
-#import "OBASphericalGeometryLibrary.h"
-#import "OBACoordinateBounds.h"
-#import "OBAPlacemark.h"
+#import <OBAKit/OBAKit.h>
+#import "EXTScope.h"
 
 @interface OBADiversionViewController ()
-
-
 @property (nonatomic, strong) NSString *tripEncodedPolyline;
 
 @property (nonatomic, strong) MKPolyline *routePolyline;
@@ -15,10 +28,6 @@
 @property (nonatomic, strong) MKPolylineRenderer *reroutePolylineRenderer;
 
 @property (nonatomic, strong) id<OBAModelServiceRequest> request;
-
-- (MKMapView *)mapView;
-
-
 @end
 
 @implementation OBADiversionViewController
@@ -56,35 +65,41 @@
     }
 }
 
+#pragma mark - Lazy Loading
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
+}
+
+#pragma mark - Data Loading
+
 - (void)requestShapeForID:(NSString *)shapeId {
-    OBAModelService *service = [OBAApplication sharedApplication].modelService;
-
     @weakify(self);
-    self.request = [service requestShapeForId:shapeId
-                              completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                                  @strongify(self);
+    self.request = [self.modelService requestShapeForId:shapeId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        @strongify(self);
 
-                                  if (!jsonData) {
-                                  return;
-                                  }
+        if (!jsonData) {
+            return;
+        }
 
-                                  self.tripEncodedPolyline = jsonData;
-                                  NSArray *points = [OBASphericalGeometryLibrary decodePolylineString:self.tripEncodedPolyline];
+        self.tripEncodedPolyline = jsonData;
+        NSArray *points = [OBASphericalGeometryLibrary decodePolylineString:self.tripEncodedPolyline];
 
-                                  CLLocationCoordinate2D *pointArr = malloc(sizeof(CLLocationCoordinate2D) * points.count);
+        CLLocationCoordinate2D *pointArr = malloc(sizeof(CLLocationCoordinate2D) * points.count);
 
-                                  for (NSInteger i = 0; i < points.count; i++) {
-                                  CLLocation *location = points[i];
-                                  CLLocationCoordinate2D p = location.coordinate;
-                                  pointArr[i] = p;
-                                  }
+        for (NSInteger i = 0; i < points.count; i++) {
+            CLLocation *location = points[i];
+            CLLocationCoordinate2D p = location.coordinate;
+            pointArr[i] = p;
+        }
 
-                                  self.routePolyline = [MKPolyline                 polylineWithCoordinates:pointArr
-                                                                           count:points.count];
-                                  free(pointArr);
-                                  [self.mapView
-                                  addOverlay:self.routePolyline];
-                              }];
+        self.routePolyline = [MKPolyline polylineWithCoordinates:pointArr count:points.count];
+        free(pointArr);
+        [self.mapView addOverlay:self.routePolyline];
+    }];
 }
 
 #pragma mark MKMapViewDelegate
@@ -132,6 +147,9 @@
         }
 
         overlayView = _routePolylineRenderer;
+    }
+    else {
+        overlayView = [[MKOverlayRenderer alloc] init];
     }
 
     return overlayView;

@@ -14,21 +14,24 @@
  * limitations under the License.
  */
 
-#import "OBAReferencesV2.h"
-#import "OBAEntryWithReferencesV2.h"
-#import "OBAListWithRangeAndReferencesV2.h"
-#import "OBAArrivalsAndDeparturesForStopV2.h"
-#import "OBAStopsForRouteV2.h"
-#import "OBAPlacemarks.h"
+#import <OBAKit/OBAReferencesV2.h>
+#import <OBAKit/OBAEntryWithReferencesV2.h>
+#import <OBAKit/OBAListWithRangeAndReferencesV2.h>
+#import <OBAKit/OBAArrivalsAndDeparturesForStopV2.h>
+#import <OBAKit/OBAStopsForRouteV2.h>
+#import <OBAKit/OBAPlacemarks.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAModelFactory : NSObject {
-    OBAReferencesV2 * _references;
-    NSMutableDictionary * _entityIdMappings;
-}
+@interface OBAModelFactory : NSObject
+@property(nonatomic,strong,readonly) OBAReferencesV2 *references;
 
-- (id) initWithReferences:(OBAReferencesV2*)references;
+- (instancetype)initWithReferences:(OBAReferencesV2*)references;
+
+/**
+ Convenience initializer with `references` plumbed in.
+ */
++ (instancetype)modelFactory;
 
 - (OBAListWithRangeAndReferencesV2*) getRoutesV2FromJSON:(NSDictionary*)jsonArray error:(NSError**)error;
 

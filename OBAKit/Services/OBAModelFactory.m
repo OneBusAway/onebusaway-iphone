@@ -14,43 +14,31 @@
  * limitations under the License.
  */
 
-#import "OBAModelFactory.h"
-#import "OBALogger.h"
-
-#import "OBAReferencesV2.h"
-#import "OBAAgencyV2.h"
-#import "OBARouteV2.h"
-#import "OBAStopV2.h"
-#import "OBATripV2.h"
-#import "OBATripDetailsV2.h"
-#import "OBATripScheduleV2.h"
-#import "OBATripStopTimeV2.h"
-#import "OBATripStatusV2.h"
-
-#import "OBAVehicleStatusV2.h"
-
-#import "OBASituationV2.h"
-#import "OBASituationConsequenceV2.h"
-
-#import "OBAAgencyWithCoverageV2.h"
-#import "OBAPlacemark.h"
-
-#import "OBAJsonDigester.h"
-#import "OBASetCoordinatePropertyJsonDigesterRule.h"
-#import "OBASetLocationPropertyJsonDigesterRule.h"
-#import "OBASetDatePropertyJsonDigesterRule.h"
-
-#import "OBARegionV2.h"
-#import "OBARegionBoundsV2.h"
+#import <OBAKit/OBAModelFactory.h>
+#import <OBAKit/OBAAgencyWithCoverageV2.h>
+#import <OBAKit/OBARegionV2.h>
+#import <OBAKit/OBASetCoordinatePropertyJsonDigesterRule.h>
+#import <OBAKit/OBASetDatePropertyJsonDigesterRule.h>
+#import <OBAKit/OBASetLocationPropertyJsonDigesterRule.h>
+#import <OBAKit/OBASituationConsequenceV2.h>
+#import <OBAKit/OBASituationV2.h>
+#import <OBAKit/OBATripDetailsV2.h>
+#import <OBAKit/OBATripScheduleV2.h>
+#import <OBAKit/OBATripStopTimeV2.h>
+#import <OBAKit/OBAVehicleStatusV2.h>
 
 static NSString * const kReferences = @"references";
+
+@interface OBAModelFactory ()
+@property(nonatomic,strong,readwrite) OBAReferencesV2 *references;
+@property(nonatomic,strong) NSMutableDictionary *entityIdMappings;
+@end
 
 @interface OBAModelFactory (Private)
 
 - (NSDictionary*) getDigesterParameters;
 
 @end
-
 
 @interface OBAJsonDigester (CustomDigesterRules)
 
@@ -90,8 +78,7 @@ static NSString * const kReferences = @"references";
 
 @implementation OBAModelFactory
 
-- (id) initWithReferences:(OBAReferencesV2*)references {
-    
+- (instancetype)initWithReferences:(OBAReferencesV2*)references {
     self = [super init];
     
     if( self ) {
@@ -101,6 +88,11 @@ static NSString * const kReferences = @"references";
     return self;
 }
 
++ (instancetype)modelFactory {
+
+    OBAModelFactory *modelFactory = [[OBAModelFactory alloc] initWithReferences:[[OBAReferencesV2 alloc] init]];
+    return modelFactory;
+}
 
 - (OBAEntryWithReferencesV2*) getStopFromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error {
     
@@ -190,7 +182,7 @@ static NSString * const kReferences = @"references";
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"regions-v3" ofType:@"json"];
     NSData *data = [[NSData alloc] initWithContentsOfFile:filePath];
 
-    return [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    return [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:nil];
 }
 
 - (OBAArrivalsAndDeparturesForStopV2*) getArrivalsAndDeparturesForStopV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error {
@@ -358,8 +350,8 @@ static NSString * const kReferences = @"references";
     [self addSetPropertyRule:@"name" forPrefix:[self extendPrefix:prefix withValue:@"name"]];
     [self addSetOptionalPropertyRule:@"code" forPrefix:[self extendPrefix:prefix withValue:@"code"]]; // Optional
     [self addSetOptionalPropertyRule:@"direction" forPrefix:[self extendPrefix:prefix withValue:@"direction"]]; // Optional
-    [self addSetPropertyRule:@"latitude" forPrefix:[self extendPrefix:prefix withValue:@"lat"]];
-    [self addSetPropertyRule:@"longitude" forPrefix:[self extendPrefix:prefix withValue:@"lon"]];
+    [self addSetPropertyRule:@"lat" forPrefix:[self extendPrefix:prefix withValue:@"lat"]];
+    [self addSetPropertyRule:@"lon" forPrefix:[self extendPrefix:prefix withValue:@"lon"]];
     [self addSetPropertyRule:@"routeIds" forPrefix:[self extendPrefix:prefix withValue:@"routeIds"]];
     [self addTarget:self selector:@selector(addStopToReferences:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];
 }
@@ -379,8 +371,6 @@ static NSString * const kReferences = @"references";
 }
 
 - (void) addSituationV2RulesWithPrefix:(NSString*)prefix {
-    
-    
     [self addObjectCreateRule:[OBASituationV2 class] forPrefix:prefix];
     [self addSetPropertyRule:@"situationId" forPrefix:[self extendPrefix:prefix withValue:@"id"]];    
     [self addSetPropertyRule:@"creationTime" forPrefix:[self extendPrefix:prefix withValue:@"creationTime"]];
@@ -441,8 +431,14 @@ static NSString * const kReferences = @"references";
 
 - (void) addAgencyWithCoverageV2RulesWithPrefix:(NSString*)prefix {
     [self addObjectCreateRule:[OBAAgencyWithCoverageV2 class] forPrefix:prefix];
-    [self addSetPropertyRule:@"agencyId" forPrefix:[self extendPrefix:prefix withValue:@"agencyId"]];    
+    [self addSetPropertyRule:@"agencyId" forPrefix:[self extendPrefix:prefix withValue:@"agencyId"]];
     [self addSetCoordinatePropertyRule:@"coordinate" withPrefix:prefix method:OBASetCoordinatePropertyMethodLatLon];
+
+    [self addSetPropertyRule:@"lat" forPrefix:[self extendPrefix:prefix withValue:@"lat"]];
+    [self addSetPropertyRule:@"latSpan" forPrefix:[self extendPrefix:prefix withValue:@"latSpan"]];
+    [self addSetPropertyRule:@"lon" forPrefix:[self extendPrefix:prefix withValue:@"lon"]];
+    [self addSetPropertyRule:@"lonSpan" forPrefix:[self extendPrefix:prefix withValue:@"lonSpan"]];
+
     [self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];
 }
 

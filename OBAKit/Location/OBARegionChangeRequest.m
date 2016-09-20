@@ -6,8 +6,8 @@
 //
 //
 
-#import "OBARegionChangeRequest.h"
-#import "OBASphericalGeometryLibrary.h"
+#import <OBAKit/OBARegionChangeRequest.h>
+#import <OBAKit/OBASphericalGeometryLibrary.h>
 
 @interface OBARegionChangeRequest ()
 @property(readwrite) OBARegionChangeRequestType type;

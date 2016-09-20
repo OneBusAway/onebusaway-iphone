@@ -1,7 +1,21 @@
-#import "OBAMapRegionManager.h"
-#import "OBASphericalGeometryLibrary.h"
-#import "OBALogger.h"
+/**
+ * Copyright (C) 2009-2016 bdferris <bdferris@onebusaway.org>, University of Washington
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
+#import <OBAKit/OBAMapRegionManager.h>
+#import <OBAKit/OBASphericalGeometryLibrary.h>
 
 static const double kMinRegionDeltaToDetectUserDrag = 50;
 static const double kRegionChangeRequestsTimeToLive = 3.0;
@@ -60,27 +74,27 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
     MKCoordinateRegion region = self.mapView.region;
     OBARegionChangeRequestType type = OBARegionChangeRequestTypeUser;
     
-    //OBALogDebug(@"=== regionDidChangeAnimated: requests=%d",[self.appliedRegionChangeRequests count]);
-    //OBALogDebug(@"region=%@", [OBASphericalGeometryLibrary regionAsString:region]);
+    //NSLog(@"=== regionDidChangeAnimated: requests=%d",[self.appliedRegionChangeRequests count]);
+    //NSLog(@"region=%@", [OBASphericalGeometryLibrary regionAsString:region]);
     
     OBARegionChangeRequest * request = [self getBestRegionChangeRequestForRegion:region];
     if( request ) {
         double score = [request compareRegion:region];
         BOOL oldRegionContainsNewRegion = [OBASphericalGeometryLibrary isRegion:region containedBy:request.region];
         BOOL newRegionContainsOldRegion = [OBASphericalGeometryLibrary isRegion:request.region containedBy:region];
-        //OBALogDebug(@"regionDidChangeAnimated: score=%f", score);
-        //OBALogDebug(@"subregion=%@", [OBASphericalGeometryLibrary regionAsString:request.region]);
+        //NSLog(@"regionDidChangeAnimated: score=%f", score);
+        //NSLog(@"subregion=%@", [OBASphericalGeometryLibrary regionAsString:request.region]);
         if( score < kMinRegionDeltaToDetectUserDrag && !oldRegionContainsNewRegion && !newRegionContainsOldRegion)
             type = request.type;
     }
     
     self.lastRegionChangeWasProgrammatic = (type == OBARegionChangeRequestTypeProgrammatic || !self.firstRegionChangeRequested);
-    //OBALogDebug(@"regionDidChangeAnimated: setting self.lastRegionChangeWasprogrammatic to %d", self.lastRegionChangeWasprogrammatic);
+    //NSLog(@"regionDidChangeAnimated: setting self.lastRegionChangeWasprogrammatic to %d", self.lastRegionChangeWasprogrammatic);
     
     BOOL applyingPendingRequest = NO;
     
     if( self.lastRegionChangeWasProgrammatic && self.pendingRegionChangeRequest ) {
-        //OBALogDebug(@"applying pending reqest");
+        //NSLog(@"applying pending reqest");
         [self setMapRegionWithRequest:self.pendingRegionChangeRequest];
         applyingPendingRequest = YES;
     }
@@ -102,14 +116,14 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
 - (void) setMapRegionWithRequest:(OBARegionChangeRequest*)request {
 
     @synchronized(self) {
-        //OBALogDebug(@"setMapRegion: requestType=%d region=%@",request.type,[OBASphericalGeometryLibrary regionAsString:request.region]);
+        //NSLog(@"setMapRegion: requestType=%d region=%@",request.type,[OBASphericalGeometryLibrary regionAsString:request.region]);
 
         /**
          * If we are currently in the process of changing the map region, we save the region change request as pending.
          * Otherwise, we apply the region change.
          */
         if ( self.currentlyChangingRegion ) {
-            //OBALogDebug(@"saving pending request");
+            //NSLog(@"saving pending request");
             self.pendingRegionChangeRequest = request;
         }
         else {

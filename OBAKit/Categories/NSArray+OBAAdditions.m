@@ -6,7 +6,7 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import "NSArray+OBAAdditions.h"
+#import <OBAKit/NSArray+OBAAdditions.h>
 
 @implementation NSArray (OBAAdditions)
 

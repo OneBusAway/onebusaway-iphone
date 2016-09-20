@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-#import "OBASearchController.h"
+#import "OBAStaticTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class OBASearchResultsMapViewController;
+@class OBASearchResult;
 
-@interface OBASearchResultsListViewController : UITableViewController
-
-@property(strong) OBASearchResult *result;
-@property BOOL isModal;
-- (id) initWithSearchControllerResult:(OBASearchResult*)result;
+@interface OBASearchResultsListViewController : OBAStaticTableViewController
+@property(nonatomic,strong) OBASearchResult *result;
 @end
 
 NS_ASSUME_NONNULL_END

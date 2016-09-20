@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#import "OBADataSourceConfig.h"
-#import "OBAMacros.h"
+#import <OBAKit/OBADataSourceConfig.h>
+#import <OBAKit/OBAMacros.h>
 
 @interface OBADataSourceConfig ()
 @property(nonatomic,copy) NSURL* baseURL;
@@ -33,6 +33,17 @@
     }
     return self;
 }
+
++ (instancetype)dataSourceConfigWithBaseURL:(NSURL*)URL userID:(NSString*)userID {
+    NSDictionary *obaArgs = @{ @"key":     @"org.onebusaway.iphone",
+                               @"app_uid": userID,
+                               @"app_ver": [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
+                               @"version": @"2"};
+
+    return [[OBADataSourceConfig alloc] initWithURL:URL args:obaArgs];
+}
+
+#pragma mark - Public Methods
 
 - (NSURL*)constructURL:(NSString*)path withArgs:(NSDictionary*)args {
     NSMutableString *constructedURL = [NSMutableString string];

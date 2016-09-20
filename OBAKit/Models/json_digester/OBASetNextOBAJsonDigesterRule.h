@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBAJsonDigester.h"
+#import <OBAKit/OBAJsonDigester.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

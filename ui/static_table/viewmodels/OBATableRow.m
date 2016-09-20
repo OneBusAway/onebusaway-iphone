@@ -9,6 +9,7 @@
 #import "OBATableRow.h"
 #import "OBAViewModelRegistry.h"
 #import "OBATableViewCell.h"
+#import "OBATableViewCellValue1.h"
 
 static NSString * const OBACellStyleDefaultReuseIdentifier = @"OBAUITableViewCellStyleDefaultCellIdentifier";
 static NSString * const OBACellStyleValue1ReuseIdentifier = @"OBACellStyleValue1ReuseIdentifier";
@@ -21,28 +22,25 @@ static NSString * const OBACellStyleSubtitleReuseIdentifier = @"OBACellStyleSubt
     [OBAViewModelRegistry registerClass:self.class];
 }
 
-+ (instancetype)tableRowWithTitle:(NSString*)title action:(void (^)())action {
-    return [[self alloc] initWithTitle:title action:action];
-}
-
 - (instancetype)initWithTitle:(NSString*)title action:(void (^)())action {
     self = [super initWithAction:action];
     
     if (self) {
         _title = [title copy];
-        _textAlignment = NSTextAlignmentLeft;
+        _selectionStyle = UITableViewCellSelectionStyleDefault;
     }
     return self;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    OBATableRow *newRow = [[self.class allocWithZone:zone] init];
+    OBATableRow *newRow = [super copyWithZone:zone];
     newRow->_title = [_title copyWithZone:zone];
     newRow->_subtitle = [_subtitle copyWithZone:zone];
     newRow->_style = _style;
-    newRow->_accessoryType = _accessoryType;
     newRow->_image = _image;
     newRow->_textAlignment = _textAlignment;
+    newRow->_titleColor = [_titleColor copyWithZone:zone];
+    newRow->_selectionStyle = _selectionStyle;
 
     return newRow;
 }

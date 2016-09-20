@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OBARegionChangeRequest.h"
+#import <OBAKit/OBARegionChangeRequest.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@import CoreLocation;
-#import "OBASetCoordinatePropertyJsonDigesterRule.h"
+
+#import <CoreLocation/CoreLocation.h>
+#import <OBAKit/OBASetCoordinatePropertyJsonDigesterRule.h>
 
 @interface OBASetCoordinatePropertyJsonDigesterRule (Private)
-
 - (void) arrayMethod:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
 - (void) latLonMethod:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value;
 - (void) setCoordinate:(id<OBAJsonDigesterContext>)context name:(NSString*)name lat:(NSNumber*)lat lon:(NSNumber*)lon;
-
 @end
-
 
 @implementation OBASetCoordinatePropertyJsonDigesterRule
 

@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-#import "OBAJsonDataSource.h"
-#import "OBALogger.h"
-#import "JsonUrlFetcherImpl.h"
+#import <OBAKit/OBAJsonDataSource.h>
+#import <OBAKit/JsonUrlFetcherImpl.h>
 
 @interface OBAJsonDataSource ()
-@property(nonatomic,strong) OBADataSourceConfig *config;
 @property(nonatomic,strong) NSHashTable *openConnections;
 @end
 
@@ -37,6 +35,20 @@
 - (void)dealloc {
     [self cancelOpenConnections];
 }
+
+#pragma mark - Factory Helpers
+
++ (instancetype)JSONDataSourceWithBaseURL:(NSURL*)URL userID:(NSString*)userID {
+    OBADataSourceConfig *obaDataSourceConfig = [OBADataSourceConfig dataSourceConfigWithBaseURL:URL userID:userID];
+    return [[OBAJsonDataSource alloc] initWithConfig:obaDataSourceConfig];
+}
+
++ (instancetype)googleMapsJSONDataSource {
+    OBADataSourceConfig *googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:@"https://maps.googleapis.com"] args:@{@"sensor": @"true"}];
+    return [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
+}
+
+#pragma mark - Public Methods
 
 - (id<OBADataSourceConnection>)requestWithPath:(NSString *)path withArgs:(NSDictionary *)args completionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress {
 
