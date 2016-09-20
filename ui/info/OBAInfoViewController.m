@@ -123,7 +123,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
         [[UIApplication sharedApplication] openURL:URL];
     }];
 
-    OBATableSection *section = [OBATableSection tableSectionWithTitle:NSLocalizedString(@"Contact Us", @"") rows:@[contactUs, /*reportAppIssue,*/ makeItBetter]];
+    OBATableSection *section = [OBATableSection tableSectionWithTitle:NSLocalizedString(@"Contact Us", @"") rows:@[contactUs, reportAppIssue, makeItBetter]];
 
     return section;
 }
