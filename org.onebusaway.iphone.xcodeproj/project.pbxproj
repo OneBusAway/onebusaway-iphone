@@ -309,8 +309,6 @@
 		937E71F71D6EE408007A62D8 /* OBAStrings.h in Headers */ = {isa = PBXBuildFile; fileRef = 937E71F51D6EE408007A62D8 /* OBAStrings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		937E71F81D6EE408007A62D8 /* OBAStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = 937E71F61D6EE408007A62D8 /* OBAStrings.m */; };
 		938081C51D837C53006CFF8C /* OBABookmarkGroupsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 938081C01D837C53006CFF8C /* OBABookmarkGroupsViewController.m */; };
-		938081C61D837C53006CFF8C /* OBAEditBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 938081C21D837C53006CFF8C /* OBAEditBookmarkGroupViewController.m */; };
-		938081C71D837C53006CFF8C /* OBAEditStopBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 938081C41D837C53006CFF8C /* OBAEditStopBookmarkGroupViewController.m */; };
 		9388E9DD1A9BCC8900C9F6CE /* feedback_message_body.html in Resources */ = {isa = PBXBuildFile; fileRef = 9388E9DC1A9BCC8900C9F6CE /* feedback_message_body.html */; };
 		938B84251D8689E900DB0AF0 /* GoogleAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84241D8689E900DB0AF0 /* GoogleAnalytics.framework */; };
 		938B84291D8689F400DB0AF0 /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84261D8689F400DB0AF0 /* PMKCoreLocation.framework */; };
@@ -777,10 +775,6 @@
 		937E71F61D6EE408007A62D8 /* OBAStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStrings.m; sourceTree = "<group>"; };
 		938081BF1D837C53006CFF8C /* OBABookmarkGroupsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkGroupsViewController.h; sourceTree = "<group>"; };
 		938081C01D837C53006CFF8C /* OBABookmarkGroupsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkGroupsViewController.m; sourceTree = "<group>"; };
-		938081C11D837C53006CFF8C /* OBAEditBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditBookmarkGroupViewController.h; sourceTree = "<group>"; };
-		938081C21D837C53006CFF8C /* OBAEditBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditBookmarkGroupViewController.m; sourceTree = "<group>"; };
-		938081C31D837C53006CFF8C /* OBAEditStopBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopBookmarkGroupViewController.h; sourceTree = "<group>"; };
-		938081C41D837C53006CFF8C /* OBAEditStopBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditStopBookmarkGroupViewController.m; sourceTree = "<group>"; };
 		9388E9DC1A9BCC8900C9F6CE /* feedback_message_body.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = feedback_message_body.html; path = Resources/feedback_message_body.html; sourceTree = "<group>"; };
 		938B84241D8689E900DB0AF0 /* GoogleAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAnalytics.framework; path = Carthage/Build/iOS/GoogleAnalytics.framework; sourceTree = "<group>"; };
 		938B84261D8689F400DB0AF0 /* PMKCoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKCoreLocation.framework; path = Carthage/Build/iOS/PMKCoreLocation.framework; sourceTree = "<group>"; };
@@ -1704,10 +1698,6 @@
 			children = (
 				938081BF1D837C53006CFF8C /* OBABookmarkGroupsViewController.h */,
 				938081C01D837C53006CFF8C /* OBABookmarkGroupsViewController.m */,
-				938081C11D837C53006CFF8C /* OBAEditBookmarkGroupViewController.h */,
-				938081C21D837C53006CFF8C /* OBAEditBookmarkGroupViewController.m */,
-				938081C31D837C53006CFF8C /* OBAEditStopBookmarkGroupViewController.h */,
-				938081C41D837C53006CFF8C /* OBAEditStopBookmarkGroupViewController.m */,
 			);
 			path = bookmark_groups;
 			sourceTree = "<group>";
@@ -2226,7 +2216,6 @@
 				93C3937F1D8A708A0080F370 /* PulleyPassthroughScrollView.swift in Sources */,
 				932BE4D01AB66D710011F2FB /* OBATripScheduleListViewController.m in Sources */,
 				93F64E971BE5ACC300323527 /* OBAAlerts.m in Sources */,
-				938081C71D837C53006CFF8C /* OBAEditStopBookmarkGroupViewController.m in Sources */,
 				934446D41AB12C0C005B3333 /* OBAListSelectionViewController.m in Sources */,
 				9320765F1C94042B005F7D4A /* OBASegmentedControlCell.m in Sources */,
 				932BE4BD1AB66D5C0011F2FB /* OBAReportProblemViewController.m in Sources */,
@@ -2282,7 +2271,6 @@
 				932BE4D11AB66D710011F2FB /* OBATripScheduleMapViewController.m in Sources */,
 				936D2EE81C7A378D0060B7E1 /* OBADepartureCell.m in Sources */,
 				932BE4DA1AB66D890011F2FB /* OBASituationsViewController.m in Sources */,
-				938081C61D837C53006CFF8C /* OBAEditBookmarkGroupViewController.m in Sources */,
 				932077281C9C84EC005F7D4A /* OBAStaticTableViewController+Builders.m in Sources */,
 				93E0D1A51D57D34E00D9AA63 /* OBAMapActivityIndicatorView.m in Sources */,
 				936D62881C8D00150070152B /* OBALabelFooterView.m in Sources */,

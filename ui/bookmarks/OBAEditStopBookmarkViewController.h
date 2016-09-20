@@ -15,7 +15,7 @@
  */
 
 #import <OBAKit/OBAKit.h>
-#import "OBAEditStopBookmarkGroupViewController.h"
+#import "OBABookmarkGroupsViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

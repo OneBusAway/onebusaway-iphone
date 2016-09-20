@@ -9,8 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "OBAStaticTableViewController.h"
 
+@class OBABookmarkGroup;
 @class OBAModelDAO;
 
+@protocol OBABookmarkGroupVCDelegate <NSObject>
+@optional
+- (void)didSetBookmarkGroup:(nullable OBABookmarkGroup*)group;
+@end
+
 @interface OBABookmarkGroupsViewController : OBAStaticTableViewController
-@property(nonatomic,strong) OBAModelDAO *modelDAO;
+@property(nonatomic,assign) BOOL enableGroupEditing;
+@property(nonatomic,strong,nullable) OBAModelDAO *modelDAO;
+@property(nonatomic,strong,nullable) id<OBABookmarkGroupVCDelegate> delegate;
 @end
