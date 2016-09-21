@@ -19,7 +19,7 @@
 
 @interface OBADataSourceConfig ()
 @property(nonatomic,copy) NSURL* baseURL;
-@property(nonatomic,copy) NSDictionary* defaultArgs;
+@property(nonatomic,copy) NSArray<NSURLQueryItem*>* defaultArgs;
 @end
 
 @implementation OBADataSourceConfig
@@ -29,7 +29,7 @@
     
     if (self) {
         _baseURL = [baseURL copy];
-        _defaultArgs = [args copy];
+        _defaultArgs = [self.class dictionaryToQueryItems:args];
     }
     return self;
 }
@@ -46,25 +46,8 @@
 #pragma mark - Public Methods
 
 - (NSURL*)constructURL:(NSString*)path withArgs:(NSDictionary*)args {
-    NSMutableString *constructedURL = [NSMutableString string];
-    
-    if (self.baseURL) {
-        [constructedURL appendString:self.baseURL.absoluteString];
-    }
-    
-    [constructedURL appendString:path];
-
-    NSMutableArray<NSURLQueryItem*> *queryItems = [[NSMutableArray alloc] init];
-
-    for (NSString* key in self.defaultArgs) {
-        NSURLQueryItem *item = [[NSURLQueryItem alloc] initWithName:key value:[self.defaultArgs[key] description]];
-        [queryItems addObject:item];
-    }
-
-    for (NSString* key in args) {
-        NSURLQueryItem *item = [[NSURLQueryItem alloc] initWithName:key value:[args[key] description]];
-        [queryItems addObject:item];
-    }
+    NSMutableArray<NSURLQueryItem*> *queryItems = [[NSMutableArray alloc] initWithArray:self.defaultArgs];
+    [queryItems addObjectsFromArray:[self.class dictionaryToQueryItems:args]];
 
     NSURL *URLWithPath = [self.baseURL URLByAppendingPathComponent:path];
 
@@ -74,15 +57,34 @@
 
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:URLWithPath resolvingAgainstBaseURL:NO];
 
-    if (queryItems.count > 0) {
-        components.queryItems = queryItems;
-    }
+    // This exists to work around the issue described in
+    // https://github.com/OneBusAway/onebusaway-iphone/issues/755
+    components.path = [components.path stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
+
+    components.queryItems = queryItems;
 
     NSURL *fullURL = components.URL;
 
     NSLog(@"url=%@",fullURL);
     
     return fullURL;
+}
+
+#pragma mark - Private
+
++ (NSArray<NSURLQueryItem*>*)dictionaryToQueryItems:(nullable NSDictionary*)dictionary {
+    if (!dictionary) {
+        return @[];
+    }
+
+    NSMutableArray<NSURLQueryItem*> *queryArgs = [[NSMutableArray alloc] init];
+
+    for (NSString* key in dictionary) {
+        NSURLQueryItem *item = [[NSURLQueryItem alloc] initWithName:key value:[dictionary[key] description]];
+        [queryArgs addObject:item];
+    }
+
+    return [queryArgs copy];
 }
 
 @end
