@@ -88,7 +88,7 @@ static NSString * kCustom = @"custom";
 #pragma mark - Other Public Methods
 
 - (BOOL)isValidModel {
-    return [NSURL URLWithString:self.obaBaseUrl] && self.regionName.length > 0;
+    return self.baseURL && self.regionName.length > 0;
 }
 
 - (NSURL*)baseURL {
@@ -167,7 +167,7 @@ static NSString * kCustom = @"custom";
 
 - (NSString*)description
 {
-    return [self oba_description:@[@"obaBaseUrl", @"custom", @"regionName", @"siriBaseUrl", @"obaVersionInfo", @"language", @"bounds", @"contactEmail", @"twitterUrl", @"facebookUrl", @"supportsSiriRealtimeApis", @"supportsObaRealtimeApis", @"supportsObaDiscoveryApis", @"active", @"experimental", @"identifier"]];
+    return [self oba_description:@[@"baseURL", @"custom", @"regionName", @"siriBaseUrl", @"obaVersionInfo", @"language", @"bounds", @"contactEmail", @"twitterUrl", @"facebookUrl", @"supportsSiriRealtimeApis", @"supportsObaRealtimeApis", @"supportsObaDiscoveryApis", @"active", @"experimental", @"identifier"]];
 }
 
 @end

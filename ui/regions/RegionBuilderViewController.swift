@@ -6,6 +6,7 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import OBAKit
 import SVProgressHUD
@@ -40,7 +41,7 @@ class RegionBuilderViewController: OBAStaticTableViewController {
     }()
 
     lazy var baseURLRow: OBATextFieldRow = {
-        let row = OBATextFieldRow.init(labelText: NSLocalizedString("Base URL", comment: ""), textFieldText: self.region.obaBaseUrl)
+        let row = OBATextFieldRow.init(labelText: NSLocalizedString("Base URL", comment: ""), textFieldText: self.region.baseURL?.absoluteString)
         row.keyboardType = .URL
         RegionBuilderViewController.applyPropertiesToTextRow(row, model: self.userDataModel)
         return row
@@ -127,7 +128,7 @@ class RegionBuilderViewController: OBAStaticTableViewController {
 
         SVProgressHUD.show()
 
-        self.modelService = OBAModelService(baseURL: Foundation.URL.init(string: self.region.obaBaseUrl)!)
+        self.modelService = OBAModelService(baseURL: self.region.baseURL!)
         let URL = self.modelService!.obaJsonDataSource.config.constructURL(OBAAgenciesWithCoverageAPIPath, withArgs: nil)
 
         self.modelService!.requestAgenciesWithCoverage().then { agencies -> Void in
