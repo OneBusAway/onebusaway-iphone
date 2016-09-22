@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  obaBaseUrl converted into an NSURL
  */
-@property(nonatomic,copy,readonly) NSURL *baseURL;
+@property(nonatomic,copy,nullable,readonly) NSURL *baseURL;
 
 @end
 

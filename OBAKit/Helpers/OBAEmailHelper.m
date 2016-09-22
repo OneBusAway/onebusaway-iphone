@@ -73,7 +73,7 @@ static NSString * appVersion = nil;
 
     [messageBody replaceOccurrencesOfString:@"{{region_identifier}}" withString:[@(modelDAO.currentRegion.identifier) description] options:NSCaseInsensitiveSearch range:NSMakeRange(0, messageBody.length)];
 
-    [messageBody replaceOccurrencesOfString:@"{{region_base_api_url}}" withString:modelDAO.currentRegion.obaBaseUrl options:NSCaseInsensitiveSearch range:NSMakeRange(0, messageBody.length)];
+    [messageBody replaceOccurrencesOfString:@"{{region_base_api_url}}" withString:modelDAO.currentRegion.baseURL.absoluteString options:NSCaseInsensitiveSearch range:NSMakeRange(0, messageBody.length)];
 
     NSString *locationString = @"Unknown";
     if (location) {

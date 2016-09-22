@@ -90,7 +90,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     [self.reachability stopNotifier];
     self.reachability = nil;
 
-    NSURL *apiURL = [NSURL URLWithString:self.modelDao.currentRegion.obaBaseUrl];
+    NSURL *apiURL = self.modelDao.currentRegion.baseURL;
     NSString *hostname = apiURL ? apiURL.host : @"api.onebusaway.org";
 
     self.reachability = [OBAReachability reachabilityWithHostname:hostname];
@@ -126,11 +126,9 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 
 #pragma mark - App/Region/API State
 
-- (void)refreshSettings {
-    NSURL *apiURL = [NSURL URLWithString:self.modelDao.currentRegion.obaBaseUrl];
-    
-    if (apiURL) {
-        self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:apiURL userID:[OBAUser userIdFromDefaults]];
+- (void)refreshSettings {    
+    if (self.modelDao.currentRegion.baseURL) {
+        self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:self.modelDao.currentRegion.baseURL userID:[OBAUser userIdFromDefaults]];
     }
     else {
         [[NSNotificationCenter defaultCenter] postNotificationName:kOBAApplicationSettingsRegionRefreshNotification object:nil];
