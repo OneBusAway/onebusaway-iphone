@@ -12,7 +12,7 @@
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBABookmarkedRouteRow.h"
 #import "OBAArrivalAndDepartureSectionBuilder.h"
-#import "OBAClassicDepartureRow.h"
+#import "OBADepartureRow.h"
 #import "OBACollapsingHeaderView.h"
 #import "OBABookmarkGroupsViewController.h"
 #import "OBATableCell.h"

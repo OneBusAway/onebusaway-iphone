@@ -8,7 +8,6 @@
 
 #import "OBAArrivalAndDepartureViewController.h"
 #import "OBAStaticTableViewController+Builders.h"
-#import "OBAClassicDepartureRow.h"
 #import "OBATripScheduleMapViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
 #import "OBAVehicleDetailsController.h"
@@ -211,7 +210,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 - (OBAClassicDepartureView*)buildTableHeaderViewWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
     OBAClassicDepartureView *tableHeaderView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
     tableHeaderView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    tableHeaderView.classicDepartureRow = [OBAArrivalAndDepartureSectionBuilder createDepartureRow:arrivalAndDeparture];
+    tableHeaderView.departureRow = [OBAArrivalAndDepartureSectionBuilder createDepartureRow:arrivalAndDeparture];
 
     return tableHeaderView;
 }

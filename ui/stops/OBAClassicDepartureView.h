@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class OBAClassicDepartureRow;
+@class OBADepartureRow;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAClassicDepartureView : UIView
-@property(nonatomic,copy) OBAClassicDepartureRow *classicDepartureRow;
+@property(nonatomic,copy) OBADepartureRow *departureRow;
 
 - (void)prepareForReuse;
 @end

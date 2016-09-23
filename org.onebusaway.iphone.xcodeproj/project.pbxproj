@@ -295,7 +295,6 @@
 		936D2EFA1C7A6CB20060B7E1 /* OBADepartureRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D2EF91C7A6CB20060B7E1 /* OBADepartureRow.m */; };
 		936D3EC01C14E94A00091DC9 /* OBAStaticTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D3EBF1C14E94900091DC9 /* OBAStaticTableViewController.m */; };
 		936D62791C8A64240070152B /* OBAParallaxTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D62781C8A64240070152B /* OBAParallaxTableHeaderView.m */; };
-		936D627C1C8CE2390070152B /* OBAClassicDepartureRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D627B1C8CE2390070152B /* OBAClassicDepartureRow.m */; };
 		936D627F1C8CE24A0070152B /* OBAClassicDepartureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D627E1C8CE24A0070152B /* OBAClassicDepartureCell.m */; };
 		936D62821C8CEA930070152B /* OBADepartureCellHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D62811C8CEA930070152B /* OBADepartureCellHelpers.m */; };
 		936D62851C8CED540070152B /* OBAClassicDepartureSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D62841C8CED540070152B /* OBAClassicDepartureSectionHeaderView.m */; };
@@ -754,8 +753,6 @@
 		936D3EBF1C14E94900091DC9 /* OBAStaticTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStaticTableViewController.m; sourceTree = "<group>"; };
 		936D62771C8A64240070152B /* OBAParallaxTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAParallaxTableHeaderView.h; sourceTree = "<group>"; };
 		936D62781C8A64240070152B /* OBAParallaxTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAParallaxTableHeaderView.m; sourceTree = "<group>"; };
-		936D627A1C8CE2390070152B /* OBAClassicDepartureRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureRow.h; sourceTree = "<group>"; };
-		936D627B1C8CE2390070152B /* OBAClassicDepartureRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicDepartureRow.m; sourceTree = "<group>"; };
 		936D627D1C8CE24A0070152B /* OBAClassicDepartureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureCell.h; sourceTree = "<group>"; };
 		936D627E1C8CE24A0070152B /* OBAClassicDepartureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicDepartureCell.m; sourceTree = "<group>"; };
 		936D62801C8CEA930070152B /* OBADepartureCellHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADepartureCellHelpers.h; sourceTree = "<group>"; };
@@ -1594,8 +1591,6 @@
 				936D2EF91C7A6CB20060B7E1 /* OBADepartureRow.m */,
 				936D62771C8A64240070152B /* OBAParallaxTableHeaderView.h */,
 				936D62781C8A64240070152B /* OBAParallaxTableHeaderView.m */,
-				936D627A1C8CE2390070152B /* OBAClassicDepartureRow.h */,
-				936D627B1C8CE2390070152B /* OBAClassicDepartureRow.m */,
 				936D627D1C8CE24A0070152B /* OBAClassicDepartureCell.h */,
 				936D627E1C8CE24A0070152B /* OBAClassicDepartureCell.m */,
 				936D62801C8CEA930070152B /* OBADepartureCellHelpers.h */,
@@ -2238,7 +2233,6 @@
 				932BE4CE1AB66D710011F2FB /* OBAReportProblemWithTripViewController.m in Sources */,
 				932BE4FB1AB66EDD0011F2FB /* OBAVehicleDetailsController.m in Sources */,
 				936D2EED1C7A3BAB0060B7E1 /* OBATableViewCell.m in Sources */,
-				936D627C1C8CE2390070152B /* OBAClassicDepartureRow.m in Sources */,
 				934446B81AB10ECA005B3333 /* UITableViewCell+oba_Additions.m in Sources */,
 				932BE4EB1AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.m in Sources */,
 				93AD369D1604027E00BDF03F /* OBAProgressIndicatorImpl.m in Sources */,

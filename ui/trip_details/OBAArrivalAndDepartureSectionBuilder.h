@@ -8,9 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <OBAKit/OBAKit.h>
-#import "OBAClassicDepartureRow.h"
+#import "OBADepartureRow.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAArrivalAndDepartureSectionBuilder : NSObject
-+ (OBAClassicDepartureRow *)createDepartureRow:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
-
++ (nullable OBADepartureRow *)createDepartureRow:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
 @end
+
+NS_ASSUME_NONNULL_END

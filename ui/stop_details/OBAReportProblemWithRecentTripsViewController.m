@@ -16,7 +16,7 @@
 
 #import "OBAReportProblemWithRecentTripsViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
-#import "OBAClassicDepartureRow.h"
+#import "OBADepartureRow.h"
 
 @interface OBAReportProblemWithRecentTripsViewController ()
 @property(nonatomic,copy) NSString *stopID;
@@ -48,10 +48,15 @@
     NSMutableArray *departureRows = [NSMutableArray array];
 
     for (OBAArrivalAndDepartureV2 *dep in result.arrivalsAndDepartures) {
-        NSString *dest = dep.tripHeadsign.capitalizedString;
-        OBAClassicDepartureRow *row = [[OBAClassicDepartureRow alloc] initWithRouteName:dep.bestAvailableName destination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)] statusText:[dep statusText] departureStatus:[dep departureStatus] action:^(OBABaseRow *blockRow){
+        OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:^(OBABaseRow *blockRow){
             [self reportProblemWithTrip:dep.tripInstance];
         }];
+        row.routeName = dep.bestAvailableName;
+        row.destination = dep.tripHeadsign.capitalizedString;
+        row.departsAt = [NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)];
+        row.statusText = dep.statusText;
+        row.departureStatus = dep.departureStatus;
+        row.cellReuseIdentifier = OBAClassicDepartureCellReuseIdentifier;
 
         [departureRows addObject:row];
     }

@@ -37,6 +37,7 @@
     newRow->_accessoryType = _accessoryType;
     newRow->_model = _model;
     newRow->_dataKey = [_dataKey copyWithZone:zone];
+    newRow->_cellReuseIdentifier = [_cellReuseIdentifier copyWithZone:zone];
 
     return newRow;
 }
@@ -52,7 +53,10 @@
 }
 
 - (NSString*)cellReuseIdentifier {
-    return [self.class cellReuseIdentifier];
+    if (!_cellReuseIdentifier) {
+        _cellReuseIdentifier = [self.class cellReuseIdentifier];
+    }
+    return _cellReuseIdentifier;
 }
 
 @end

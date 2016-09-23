@@ -56,6 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithAction:(nullable void (^)(OBABaseRow *row))action NS_DESIGNATED_INITIALIZER;
 
 + (void)registerViewsWithTableView:(UITableView*)tableView;
+
 + (NSString*)cellReuseIdentifier;
 
 /**
@@ -63,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
  this gives you the ability to return different cellReuseIdentifiers based
  upon different configurations of your table row.
  */
-- (NSString*)cellReuseIdentifier;
+@property(nonatomic,copy,null_resettable) NSString *cellReuseIdentifier;
 @end
 
 NS_ASSUME_NONNULL_END

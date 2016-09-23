@@ -8,7 +8,7 @@
 
 #import "OBAClassicDepartureCell.h"
 #import <Masonry/Masonry.h>
-#import "OBAClassicDepartureRow.h"
+#import "OBADepartureRow.h"
 #import "OBAClassicDepartureView.h"
 
 @interface OBAClassicDepartureCell ()
@@ -46,19 +46,19 @@
 
 - (void)setTableRow:(OBABaseRow *)tableRow {
 
-    OBAGuardClass(tableRow, OBAClassicDepartureRow) else {
+    OBAGuardClass(tableRow, OBADepartureRow) else {
         return;
     }
 
     _tableRow = [tableRow copy];
 
-    self.accessoryType = [self classicDepartureRow].accessoryType;
+    self.accessoryType = [self departureRow].accessoryType;
 
-    self.departureView.classicDepartureRow = [self classicDepartureRow];
+    self.departureView.departureRow = [self departureRow];
 }
 
-- (OBAClassicDepartureRow*)classicDepartureRow {
-    return (OBAClassicDepartureRow*)[self tableRow];
+- (OBADepartureRow*)departureRow {
+    return (OBADepartureRow*)[self tableRow];
 }
 
 @end

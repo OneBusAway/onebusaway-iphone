@@ -89,7 +89,7 @@
     if ([self tableDataRow].nextDeparture) {
         self.activityIndicatorView.hidden = YES;
         [self.activityIndicatorView stopAnimating];
-        self.departureView.classicDepartureRow = [OBAArrivalAndDepartureSectionBuilder createDepartureRow:[self tableDataRow].nextDeparture];
+        self.departureView.departureRow = [OBAArrivalAndDepartureSectionBuilder createDepartureRow:[self tableDataRow].nextDeparture];
     }
     else if ([self tableDataRow].state == OBABookmarkedRouteRowStateLoading) {
         [self.activityIndicatorView startAnimating];
