@@ -18,7 +18,7 @@
 #import "OBAEditStopPreferencesViewController.h"
 #import "OBAParallaxTableHeaderView.h"
 #import "OBAEditStopBookmarkViewController.h"
-#import "OBAClassicDepartureRow.h"
+#import "OBADepartureRow.h"
 #import "OBAClassicDepartureSectionHeaderView.h"
 #import "OBAAnalytics.h"
 #import "OBALabelFooterView.h"
@@ -249,13 +249,18 @@ static CGFloat const kTableHeaderHeight = 150.f;
             continue;
         }
 
-        NSString *dest = dep.tripHeadsign.capitalizedString;
-        OBAClassicDepartureRow *row = [[OBAClassicDepartureRow alloc] initWithRouteName:dep.bestAvailableName destination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)] statusText:[dep statusText] departureStatus:[dep departureStatus] action:^(OBABaseRow *blockRow){
+        OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:^(OBABaseRow *blockRow) {
             OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
             [self.navigationController pushViewController:vc animated:YES];
         }];
-
+        row.routeName = dep.bestAvailableName;
+        row.destination = dep.tripHeadsign.capitalizedString;
+        row.departsAt = [NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)];
+        row.statusText = dep.statusText;
+        row.departureStatus = dep.departureStatus;
         row.rowActions = @[[self tableViewRowActionForArrivalAndDeparture:dep]];
+        row.cellReuseIdentifier = OBAClassicDepartureCellReuseIdentifier;
+
         [departureRows addObject:row];
     }
 
@@ -332,15 +337,14 @@ static CGFloat const kTableHeaderHeight = 150.f;
     NSMutableArray *rows = [[NSMutableArray alloc] init];
 
     for (OBAArrivalAndDepartureV2* dep in departures) {
-
-        NSString *dest = dep.tripHeadsign.capitalizedString;
-        NSString *status = [dep statusText];
-
-        OBADepartureRow *row = [[OBADepartureRow alloc] initWithDestination:dest departsAt:[NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)] statusText:status departureStatus:[dep departureStatus] action:^(OBABaseRow *blockRow){
+        OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:^(OBABaseRow *blockRow){
             OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
             [self.navigationController pushViewController:vc animated:YES];
         }];
-
+        row.destination = dep.tripHeadsign.capitalizedString;
+        row.departsAt = [NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)];
+        row.statusText = dep.statusText;
+        row.departureStatus = dep.departureStatus;
         [rows addObject:row];
     }
 
