@@ -13,7 +13,7 @@
 #import "OneBusAway-Swift.h"
 #import "OBAStopSectionHeaderView.h"
 #import "OBASeparatorSectionView.h"
-#import "OBAReportProblemViewController.h"
+#import "OBAReportProblemWithRecentTripsViewController.h"
 #import "OBASituationsViewController.h"
 #import "OBAEditStopPreferencesViewController.h"
 #import "OBAParallaxTableHeaderView.h"
@@ -373,10 +373,10 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
     // Report a Problem
     OBATableRow *problem = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Report a Problem", @"") action:^{
-        OBAReportProblemViewController *vc = [[OBAReportProblemViewController alloc] initWithStop:stop];
-        [self.navigationController pushViewController:vc animated:YES];
+        OBAReportProblemWithRecentTripsViewController * vc = [[OBAReportProblemWithRecentTripsViewController alloc] initWithStopID:stop.stopId];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:nav animated:YES completion:nil];
     }];
-    problem.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     [actionRows addObject:problem];
 
     // Filter/Sort Arrivals

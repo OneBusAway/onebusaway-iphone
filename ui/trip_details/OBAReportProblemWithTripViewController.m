@@ -44,8 +44,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     BOOL _onVehicle;
     NSString *_vehicleNumber;
     NSString *_vehicleType;
-
-    OBAModalActivityIndicator *_activityIndicatorView;
 }
 
 #pragma mark - Initialization

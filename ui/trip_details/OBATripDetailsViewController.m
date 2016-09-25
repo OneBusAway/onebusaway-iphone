@@ -108,7 +108,7 @@
         return row;
     }];
 
-    OBATableSection *reportProblemSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Report a Problem",)];
+    OBATableSection *reportProblemSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Report Problem",)];
     [sections addObject:reportProblemSection];
     [reportProblemSection addRowWithBlock:^OBABaseRow *{
         OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Report a Problem with this Trip",) action:^{

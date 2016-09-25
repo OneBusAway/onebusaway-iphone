@@ -17,30 +17,31 @@
 #import "OBAWebViewController.h"
 #import <SafariServices/SafariServices.h>
 
-@interface OBAWebViewController (Private)
-- (UIWebView*) webView;
+@interface OBAWebViewController ()<UIWebViewDelegate>
+@property(nonatomic,copy) NSString *HTML;
+@property(nonatomic,strong) UIWebView *webView;
 @end
 
 @implementation OBAWebViewController
 
-+(OBAWebViewController*)pushOntoViewController:(UIViewController*)parent withHtml:(NSString*)html withTitle:(NSString*)title {
-    NSArray* wired = [[NSBundle mainBundle] loadNibNamed:@"OBAWebViewController" owner:parent options:nil];
-    OBAWebViewController* controller = wired[0];
-    [controller setTitle:title];
-    
-    UIWebView * webView = [controller webView];
-    
-    [webView loadHTMLString:html baseURL:nil];
-    
-    [[parent navigationController] pushViewController:controller animated:YES];
-    return controller;
+- (instancetype)initWithHTML:(NSString*)HTML {
+    self = [super initWithNibName:nil bundle:nil];
+
+    if (self) {
+        _HTML = [HTML copy];
+    }
+    return self;
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
 
-#pragma mark UIViewController
+    self.webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    self.webView.delegate = self;
+    self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:self.webView];
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskAllButUpsideDown;
+    [self.webView loadHTMLString:self.HTML baseURL:nil];
 }
 
 #pragma mark UIWebViewDelegate
@@ -55,14 +56,6 @@
     safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
     [self presentViewController:safari animated:YES completion:nil];
     return NO;
-}
-
-@end
-
-@implementation OBAWebViewController (Private)
-
--(UIWebView*)webView {
-    return (UIWebView*)[self view];
 }
 
 @end
