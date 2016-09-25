@@ -115,7 +115,7 @@
             return [self tableView:tableView routeCellForRowAtIndexPath:indexPath];
 
         default: {
-            UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+            UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
             cell.textLabel.text = NSLocalizedString(@"Unknown cell", @"cell.textLabel.text");
             return cell;
         }
@@ -123,7 +123,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView sortByCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
     BOOL checked = NO;
 
     switch (indexPath.row) {
@@ -150,7 +150,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView routeCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([_routes count] == 0) {
-        UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+        UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.text = NSLocalizedString(@"No routes at this stop", @"[_routes count] == 0");
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -159,7 +159,7 @@
 
     OBARouteV2 *route = _routes[indexPath.row];
 
-    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
     cell.textLabel.text = [route safeShortName];
 
     BOOL checked = ![_preferences isRouteIDDisabled:route.routeId];

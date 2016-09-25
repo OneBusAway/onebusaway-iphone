@@ -28,6 +28,24 @@
     return [OBATripInstanceRef tripInstance:self.activeTripId serviceDate:self.serviceDate vehicleId:self.vehicleId];
 }
 
+- (NSString*)formattedScheduleDeviation {
+    NSInteger sd = self.scheduleDeviation;
+    NSString *label = @" ";
+
+    if (sd > 0) {
+        label = NSLocalizedString(@" late", @"sd > 0");
+    }
+    else if (sd < 0) {
+        label = NSLocalizedString(@" early", @"sd < 0");
+        sd = -sd;
+    }
+
+    NSInteger mins = sd / 60;
+    NSInteger secs = sd % 60;
+
+    return [NSString stringWithFormat:@"%@: %ldm %lds%@", NSLocalizedString(@"Schedule deviation", @"cell.textLabel.text"), (long)mins, (long)secs, label];
+}
+
 - (NSString*)description {
     return [self oba_description:@[@"activeTripId", @"activeTrip", @"serviceDate", @"frequency", @"location", @"predicted", @"scheduleDeviation", @"vehicleId", @"lastUpdateTime", @"lastKnownLocation", @"tripInstance"]];
 }

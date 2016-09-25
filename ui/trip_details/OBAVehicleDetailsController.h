@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-#import "OBARequestDrivenTableViewController.h"
+#import <UIKit/UIKit.h>
 #import <OBAKit/OBAKit.h>
+#import "OBAStaticTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAVehicleDetailsController : OBARequestDrivenTableViewController
+@interface OBAVehicleDetailsController : OBAStaticTableViewController
 @property(nonatomic,strong) OBAModelService *modelService;
 
 - (instancetype)initWithVehicleId:(NSString*)vehicleId;

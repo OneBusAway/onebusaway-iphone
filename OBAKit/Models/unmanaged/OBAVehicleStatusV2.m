@@ -23,4 +23,8 @@
     return [refs getTripForId:self.tripId];
 }
 
+- (NSDate*)lastUpdate {
+    return [NSDate dateWithTimeIntervalSince1970:self.lastUpdateTime / 1000.0];
+}
+
 @end
