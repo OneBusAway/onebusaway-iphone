@@ -11,7 +11,7 @@
 #import "OBADepartureRow.h"
 #import "OBADepartureCellHelpers.h"
 #import "OBAAnimation.h"
-#import "OBADepartureTimeLabel.h"
+#import <OBAKit/OBADepartureTimeLabel.h>
 
 #define kUseDebugColors 0
 
