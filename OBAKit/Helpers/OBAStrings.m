@@ -26,6 +26,10 @@
     return NSLocalizedString(@"Edit", @"As in 'edit object'.");
 }
 
++ (NSString*)error {
+    return NSLocalizedString(@"Error", @"The text 'Error'");
+}
+
 + (NSString*)ok {
     return NSLocalizedString(@"OK", @"Standard 'OK' button text.");
 }
