@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-#import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBAKit.h>
+#import "OBAStaticTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAReportProblemViewController : UITableViewController {
-    OBAStopV2 * _stop;
-}
-- (id) initWithStop:(OBAStopV2*)stop;
-
+@interface OBAReportProblemViewController : OBAStaticTableViewController
+- (instancetype)initWithStop:(OBAStopV2*)stop;
 @end
 
 NS_ASSUME_NONNULL_END
