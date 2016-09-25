@@ -114,7 +114,6 @@
 		934446D01AB12B29005B3333 /* OBATextEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446CC1AB12B29005B3333 /* OBATextEditViewController.m */; };
 		934446D11AB12B29005B3333 /* OBAWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446CE1AB12B29005B3333 /* OBAWebViewController.m */; };
 		934446D41AB12C0C005B3333 /* OBAListSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446D31AB12C0C005B3333 /* OBAListSelectionViewController.m */; };
-		934446D91AB12C5D005B3333 /* OBAModalActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446D61AB12C5D005B3333 /* OBAModalActivityIndicator.m */; };
 		934446DA1AB12C5D005B3333 /* OBAProgressIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446D81AB12C5D005B3333 /* OBAProgressIndicatorView.m */; };
 		9347860E1D3453E9002A5627 /* sandiego.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 9347860D1D3453E9002A5627 /* sandiego.gpx */; };
 		9347B0631D73CB5C00DFBEE0 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9347B0621D73CB5C00DFBEE0 /* AlertPresenter.swift */; };
@@ -546,8 +545,6 @@
 		934446CE1AB12B29005B3333 /* OBAWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAWebViewController.m; sourceTree = "<group>"; };
 		934446D21AB12C0C005B3333 /* OBAListSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAListSelectionViewController.h; sourceTree = "<group>"; };
 		934446D31AB12C0C005B3333 /* OBAListSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAListSelectionViewController.m; sourceTree = "<group>"; };
-		934446D51AB12C5D005B3333 /* OBAModalActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModalActivityIndicator.h; sourceTree = "<group>"; };
-		934446D61AB12C5D005B3333 /* OBAModalActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModalActivityIndicator.m; sourceTree = "<group>"; };
 		934446D71AB12C5D005B3333 /* OBAProgressIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAProgressIndicatorView.h; sourceTree = "<group>"; };
 		934446D81AB12C5D005B3333 /* OBAProgressIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAProgressIndicatorView.m; sourceTree = "<group>"; };
 		9347860D1D3453E9002A5627 /* sandiego.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sandiego.gpx; sourceTree = "<group>"; };
@@ -1734,8 +1731,6 @@
 		93AD36991604027E00BDF03F /* progress */ = {
 			isa = PBXGroup;
 			children = (
-				934446D51AB12C5D005B3333 /* OBAModalActivityIndicator.h */,
-				934446D61AB12C5D005B3333 /* OBAModalActivityIndicator.m */,
 				934446D71AB12C5D005B3333 /* OBAProgressIndicatorView.h */,
 				934446D81AB12C5D005B3333 /* OBAProgressIndicatorView.m */,
 				932BE50E1AB671EB0011F2FB /* OBAProgressIndicatorView.xib */,
@@ -2189,7 +2184,6 @@
 				931FA94F1D502B9E00E12D62 /* OBARotatingButton.m in Sources */,
 				938EAC7C1D6A9B0600B174B9 /* OBASwitchRow.m in Sources */,
 				932BE4CF1AB66D710011F2FB /* OBATripDetailsViewController.m in Sources */,
-				934446D91AB12C5D005B3333 /* OBAModalActivityIndicator.m in Sources */,
 				93A41C7F1D7C90770080500F /* OBATableViewCellValue1.m in Sources */,
 				93B8BA291C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m in Sources */,
 				93C3937F1D8A708A0080F370 /* PulleyPassthroughScrollView.swift in Sources */,

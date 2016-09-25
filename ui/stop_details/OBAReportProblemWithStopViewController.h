@@ -15,7 +15,6 @@
  */
 
 #import <OBAKit/OBAKit.h>
-#import "OBAModalActivityIndicator.h"
 #import "OBATextEditViewController.h"
 #import "OBAListSelectionViewController.h"
 
