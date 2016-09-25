@@ -19,19 +19,14 @@
 
         UILabel *routeLabel = [[UILabel alloc] init];
         routeLabel.font = [OBATheme bodyFont];
-        routeLabel.text = NSLocalizedString(@"Route", @"");
-
-        UILabel *destinationLabel = [[UILabel alloc] init];
-        destinationLabel.font = [OBATheme bodyFont];
-        destinationLabel.textAlignment = NSTextAlignmentCenter;
-        destinationLabel.text = NSLocalizedString(@"Destination", @"");
+        routeLabel.text = NSLocalizedString(@"Route/Destination", @"");
 
         UILabel *minutesLabel = [[UILabel alloc] init];
         minutesLabel.font = [OBATheme bodyFont];
         minutesLabel.textAlignment = NSTextAlignmentRight;
         minutesLabel.text = NSLocalizedString(@"Minutes", @"");
 
-        UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[routeLabel, destinationLabel, minutesLabel]];
+        UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[routeLabel, minutesLabel]];
         stackView.axis = UILayoutConstraintAxisHorizontal;
         stackView.distribution = UIStackViewDistributionEqualSpacing;
         stackView.layoutMarginsRelativeArrangement = YES;

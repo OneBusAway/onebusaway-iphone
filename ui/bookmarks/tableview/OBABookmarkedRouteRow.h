@@ -8,6 +8,8 @@
 
 #import "OBABaseRow.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class OBABookmarkV2;
 @class OBAArrivalAndDepartureV2;
 
@@ -19,7 +21,9 @@ typedef NS_ENUM(NSUInteger, OBABookmarkedRouteRowState) {
 
 @interface OBABookmarkedRouteRow : OBABaseRow
 @property(nonatomic,copy) OBABookmarkV2 *bookmark;
-@property(nonatomic,strong) OBAArrivalAndDepartureV2 *nextDeparture;
+@property(nonatomic,copy,nullable) NSArray<OBAArrivalAndDepartureV2*> *upcomingDepartures;
 @property(nonatomic,assign) OBABookmarkedRouteRowState state;
-@property(nonatomic,copy) NSString *supplementaryMessage;
+@property(nonatomic,copy,nullable) NSString *supplementaryMessage;
 @end
+
+NS_ASSUME_NONNULL_END

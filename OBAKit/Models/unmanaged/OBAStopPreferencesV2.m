@@ -17,25 +17,12 @@
 #import <OBAKit/OBAStopPreferencesV2.h>
 #import <OBAKit/NSObject+OBADescription.h>
 
-NSString * _Nullable NSStringFromOBASortTripsByTypeV2(OBASortTripsByTypeV2 val);
-NSString * _Nullable NSStringFromOBASortTripsByTypeV2(OBASortTripsByTypeV2 val) {
-    switch (val) {
-        case OBASortTripsByDepartureTimeV2:
-            return @"OBASortTripsByDepartureTimeV2";
-        case OBASortTripsByRouteNameV2:
-            return @"OBASortTripsByRouteNameV2";
-        default:
-            return nil;
-    }
-}
-
 @implementation OBAStopPreferencesV2
 @dynamic hasFilteredRoutes;
 
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _sortTripsByType = OBASortTripsByDepartureTimeV2;
         _routeFilter = [[NSMutableSet alloc] init];
     }
     return self;
@@ -44,7 +31,6 @@ NSString * _Nullable NSStringFromOBASortTripsByTypeV2(OBASortTripsByTypeV2 val) 
 - (instancetype)initWithStopPreferences:(OBAStopPreferencesV2*)preferences {
     self = [super init];
     if( self ) {
-        _sortTripsByType = preferences.sortTripsByType;
         _routeFilter = [[NSMutableSet alloc] initWithSet:preferences.routeFilter];
     }
     return self;    
@@ -55,18 +41,14 @@ NSString * _Nullable NSStringFromOBASortTripsByTypeV2(OBASortTripsByTypeV2 val) 
 - (instancetype)initWithCoder:(NSCoder*)coder {
     self = [super init];
     if( self ) {
-        NSNumber * sortTripsByType = [coder decodeObjectForKey:@"sortTripsByType"];
-        _sortTripsByType = [sortTripsByType unsignedIntegerValue];
         _routeFilter = [coder decodeObjectForKey:@"routeFilter"];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder*)coder {
-    [coder encodeObject:[NSNumber numberWithInt:_sortTripsByType] forKey:@"sortTripsByType"];
     [coder encodeObject:_routeFilter forKey:@"routeFilter"];
 }
-
 
 #pragma mark - Public Methods
 
@@ -102,14 +84,10 @@ NSString * _Nullable NSStringFromOBASortTripsByTypeV2(OBASortTripsByTypeV2 val) 
     return self.routeFilter.count > 0;
 }
 
-- (NSString*)formattedSortTripsByType {
-    return NSStringFromOBASortTripsByTypeV2(self.sortTripsByType);
-}
-
 #pragma mark - NSObject
 
 - (NSString*)description {
-    return [self oba_description:@[@"formattedSortTripsByType", @"routeFilter", @"hasFilteredRoutes"]];
+    return [self oba_description:@[@"routeFilter", @"hasFilteredRoutes"]];
 }
 
 @end

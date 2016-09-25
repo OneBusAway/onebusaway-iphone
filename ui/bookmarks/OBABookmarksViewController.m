@@ -22,7 +22,7 @@ static NSUInteger const kMinutes = 30;
 
 @interface OBABookmarksViewController ()
 @property(nonatomic,strong) NSTimer *refreshBookmarksTimer;
-@property(nonatomic,strong) NSMutableDictionary<OBABookmarkV2*,OBAArrivalAndDepartureV2*> *bookmarksAndDepartures;
+@property(nonatomic,strong) NSMutableDictionary<OBABookmarkV2*,NSArray<OBAArrivalAndDepartureV2*>*> *bookmarksAndDepartures;
 @end
 
 @implementation OBABookmarksViewController
@@ -118,15 +118,23 @@ static NSUInteger const kMinutes = 30;
     }
 }
 
++ (BOOL)allResultsHaveRealTimeData:(NSArray<OBAArrivalAndDepartureV2*>*)departures {
+    for (OBAArrivalAndDepartureV2 *dep in departures) {
+        if (!dep.hasRealTimeData) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
 - (void)refreshDataForBookmark:(OBABookmarkV2*)bookmark {
     OBABookmarkedRouteRow *row = [self rowForBookmarkVersion260:bookmark];
 
     [self.modelService requestStopForID:bookmark.stopId minutesBefore:0 minutesAfter:kMinutes].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
         NSArray<OBAArrivalAndDepartureV2*> *matchingDepartures = [bookmark matchingArrivalsAndDeparturesForStop:response];
-        OBAArrivalAndDepartureV2 *departure = matchingDepartures.firstObject;
 
-        if (departure) {
-            self.bookmarksAndDepartures[bookmark] = departure;
+        if (matchingDepartures.count > 0) {
+            self.bookmarksAndDepartures[bookmark] = matchingDepartures;
             row.supplementaryMessage = nil;
         }
         else {
@@ -136,15 +144,15 @@ static NSUInteger const kMinutes = 30;
         // This will result in some 'false positive' instances where the
         // footer is displayed even when there is all real time data.
         // Hopefully that will be ok. Let's see though, eh?
-        if (!departure.hasRealTimeData && !self.tableFooterView) {
+        if (![self.class allResultsHaveRealTimeData:matchingDepartures] && !self.tableFooterView) {
             self.tableFooterView = [OBAUIBuilder footerViewWithText:[OBAStrings scheduledDepartureExplanation] maximumWidth:CGRectGetWidth(self.tableView.frame)];
         }
 
-        row.nextDeparture = departure;
+        row.upcomingDepartures = matchingDepartures;
         row.state = OBABookmarkedRouteRowStateComplete;
     }).catch(^(NSError *error) {
         NSLog(@"Failed to load departure for bookmark: %@", error);
-        row.nextDeparture = nil;
+        row.upcomingDepartures = nil;
         row.state = OBABookmarkedRouteRowStateError;
         row.supplementaryMessage = [error localizedDescription];
     }).always(^{
@@ -434,7 +442,7 @@ static NSUInteger const kMinutes = 30;
         [self.navigationController pushViewController:controller animated:YES];
     }];
     row.bookmark = bookmark;
-    row.nextDeparture = self.bookmarksAndDepartures[bookmark];
+    row.upcomingDepartures = self.bookmarksAndDepartures[bookmark];
 
     [self performCommonBookmarkRowConfiguration:row forBookmark:bookmark];
 
