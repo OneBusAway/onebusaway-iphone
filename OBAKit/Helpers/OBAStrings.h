@@ -32,6 +32,11 @@
 + (NSString*)edit;
 
 /**
+ The text 'Error'.
+ */
++ (NSString*)error;
+
+/**
  The text 'OK'.
  */
 + (NSString*)ok;
