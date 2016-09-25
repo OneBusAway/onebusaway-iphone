@@ -35,8 +35,8 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
 #import <OBAKit/OBACallMethodJsonDigesterRule.h>
 #import <OBAKit/OBACreateObjectJsonDigesterRule.h>
-#import <OBAKit/OBAJsonDigester.h>
 #import <OBAKit/OBASelectorJsonDigesterRule.h>
+#import <OBAKit/OBAJsonDigester.h>
 #import <OBAKit/OBASetCoordinatePropertyJsonDigesterRule.h>
 #import <OBAKit/OBASetDatePropertyJsonDigesterRule.h>
 #import <OBAKit/OBASetLocationPropertyJsonDigesterRule.h>

@@ -15,19 +15,14 @@
  */
 
 #import "OBANavigationTargetAware.h"
-#import "OBAProgressIndicatorView.h"
-#import "OBARequestDrivenTableViewController.h"
 #import <OBAKit/OBAKit.h>
+#import "OBAStaticTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBATripDetailsViewController : OBARequestDrivenTableViewController
+@interface OBATripDetailsViewController : OBAStaticTableViewController
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
 @property(nonatomic,strong) OBAModelService *modelService;
-@property(nonatomic,strong) OBATripInstanceRef *tripInstance;
-@property(nonatomic,strong) OBATripDetailsV2 *tripDetails;
-@property(nonatomic,strong) OBAServiceAlertsModel *serviceAlerts;
-@property(nonatomic,copy) NSString *currentStopId;
 
 - (instancetype)initWithTripInstance:(OBATripInstanceRef *)tripInstance;
 
