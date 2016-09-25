@@ -73,7 +73,7 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];            
+    UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];            
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

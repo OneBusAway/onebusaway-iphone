@@ -14,8 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UITableViewCell (oba_Additions)
 + (UITableViewCell*)getOrCreateCellForTableView:(UITableView*)tableView cellId:(NSString*)cellId;
-+ (UITableViewCell*)getOrCreateCellForTableView:(UITableView*)tableView;
-+ (UITableViewCell*)getOrCreateCellForTableView:(UITableView*)tableView style:(UITableViewCellStyle)style;
 @end
 
 NS_ASSUME_NONNULL_END

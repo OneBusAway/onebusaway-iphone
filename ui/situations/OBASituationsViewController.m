@@ -65,7 +65,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if( [_situations count] == 0 ) {
-        UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+        UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
         cell.textLabel.text = NSLocalizedString(@"No active service alerts",@"cell.textLabel.text");
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.textLabel.font = [OBATheme bodyFont];
@@ -76,7 +76,7 @@
     
     OBASituationV2 * situation = _situations[indexPath.row];
     
-    UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+    UITableViewCell * cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
     cell.textLabel.text = situation.summary;
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
