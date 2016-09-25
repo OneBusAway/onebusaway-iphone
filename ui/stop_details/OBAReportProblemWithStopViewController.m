@@ -339,12 +339,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Submission Successful", @"view.title") message:NSLocalizedString(@"The problem was sucessfully reported. Thank you!", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleDefault handler:nil]];
-        [self presentViewController:alert animated:YES completion:^{
-            //go back to stop view
-            NSArray *allViewControllers = self.navigationController.viewControllers;
-            UIViewController *target = allViewControllers[allViewControllers.count - 3];
-            [self.navigationController popToViewController:target animated:YES];
-        }];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 

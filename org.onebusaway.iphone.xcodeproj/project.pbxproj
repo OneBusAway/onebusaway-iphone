@@ -75,7 +75,6 @@
 		932BE49D1AB66D320011F2FB /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4931AB66D320011F2FB /* OBAAgenciesListViewController.m */; };
 		932BE49F1AB66D320011F2FB /* OBAInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4971AB66D320011F2FB /* OBAInfoViewController.m */; };
 		932BE4BB1AB66D5C0011F2FB /* OBAEditStopPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4AB1AB66D5C0011F2FB /* OBAEditStopPreferencesViewController.m */; };
-		932BE4BD1AB66D5C0011F2FB /* OBAReportProblemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4AF1AB66D5C0011F2FB /* OBAReportProblemViewController.m */; };
 		932BE4BE1AB66D5C0011F2FB /* OBAReportProblemWithRecentTripsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4B11AB66D5C0011F2FB /* OBAReportProblemWithRecentTripsViewController.m */; };
 		932BE4BF1AB66D5C0011F2FB /* OBAReportProblemWithStopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4B31AB66D5C0011F2FB /* OBAReportProblemWithStopViewController.m */; };
 		932BE4CE1AB66D710011F2FB /* OBAReportProblemWithTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4C61AB66D710011F2FB /* OBAReportProblemWithTripViewController.m */; };
@@ -482,8 +481,6 @@
 		932BE4971AB66D320011F2FB /* OBAInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAInfoViewController.m; sourceTree = "<group>"; };
 		932BE4AA1AB66D5C0011F2FB /* OBAEditStopPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopPreferencesViewController.h; sourceTree = "<group>"; };
 		932BE4AB1AB66D5C0011F2FB /* OBAEditStopPreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditStopPreferencesViewController.m; sourceTree = "<group>"; };
-		932BE4AE1AB66D5C0011F2FB /* OBAReportProblemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReportProblemViewController.h; sourceTree = "<group>"; };
-		932BE4AF1AB66D5C0011F2FB /* OBAReportProblemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAReportProblemViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		932BE4B01AB66D5C0011F2FB /* OBAReportProblemWithRecentTripsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReportProblemWithRecentTripsViewController.h; sourceTree = "<group>"; };
 		932BE4B11AB66D5C0011F2FB /* OBAReportProblemWithRecentTripsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReportProblemWithRecentTripsViewController.m; sourceTree = "<group>"; };
 		932BE4B21AB66D5C0011F2FB /* OBAReportProblemWithStopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReportProblemWithStopViewController.h; sourceTree = "<group>"; };
@@ -1187,8 +1184,6 @@
 			children = (
 				932BE4AA1AB66D5C0011F2FB /* OBAEditStopPreferencesViewController.h */,
 				932BE4AB1AB66D5C0011F2FB /* OBAEditStopPreferencesViewController.m */,
-				932BE4AE1AB66D5C0011F2FB /* OBAReportProblemViewController.h */,
-				932BE4AF1AB66D5C0011F2FB /* OBAReportProblemViewController.m */,
 				932BE4B01AB66D5C0011F2FB /* OBAReportProblemWithRecentTripsViewController.h */,
 				932BE4B11AB66D5C0011F2FB /* OBAReportProblemWithRecentTripsViewController.m */,
 				932BE4B21AB66D5C0011F2FB /* OBAReportProblemWithStopViewController.h */,
@@ -2202,7 +2197,6 @@
 				93F64E971BE5ACC300323527 /* OBAAlerts.m in Sources */,
 				934446D41AB12C0C005B3333 /* OBAListSelectionViewController.m in Sources */,
 				9320765F1C94042B005F7D4A /* OBASegmentedControlCell.m in Sources */,
-				932BE4BD1AB66D5C0011F2FB /* OBAReportProblemViewController.m in Sources */,
 				936D2EF71C7A68430060B7E1 /* OBAViewModelRegistry.m in Sources */,
 				936D2EFA1C7A6CB20060B7E1 /* OBADepartureRow.m in Sources */,
 				932BE4F81AB66E990011F2FB /* OBASearchResultsMapViewController.m in Sources */,
