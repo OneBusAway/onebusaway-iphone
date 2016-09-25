@@ -213,7 +213,9 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (void)didSelectDetailsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     if (indexPath.row == 0) {
-        [OBAWebViewController pushOntoViewController:self withHtml:[self getDetails:YES] withTitle:NSLocalizedString(@"Details", @"withTitle")];
+        OBAWebViewController *webController = [[OBAWebViewController alloc] initWithHTML:[self getDetails:YES]];
+        webController.title = NSLocalizedString(@"Details", @"withTitle");
+        [self.navigationController pushViewController:webController animated:YES];
     }
     else if (indexPath.row == 1 && _diversionPath) {
         OBADiversionViewController *vc = [OBADiversionViewController loadFromNibWithappDelegate:APP_DELEGATE];
