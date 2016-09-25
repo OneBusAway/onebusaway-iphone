@@ -20,6 +20,7 @@
 #import "OBAAnalytics.h"
 #import "OBAApplicationDelegate.h"
 #import <OBAKit/OBAKit.h>
+#import "OneBusAway-Swift.h"
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -337,9 +338,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
         [self.activityIndicatorView hide];
 
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Submission Successful", @"view.title") message:NSLocalizedString(@"The problem was sucessfully reported. Thank you!", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleDefault handler:nil]];
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [AlertPresenter showSuccess:NSLocalizedString(@"Submission Successful",) body:NSLocalizedString(@"The problem was sucessfully reported. Thank you!",)];
     }];
 }
 
