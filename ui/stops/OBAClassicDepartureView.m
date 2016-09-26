@@ -11,16 +11,13 @@
 #import "OBADepartureRow.h"
 #import "OBADepartureCellHelpers.h"
 #import "OBAAnimation.h"
+#import "OBADepartureTimeLabel.h"
 
 #define kUseDebugColors 0
 
 @interface OBAClassicDepartureView ()
-@property(nonatomic,assign) BOOL firstRenderPass;
 @property(nonatomic,strong) UILabel *routeLabel;
-@property(nonatomic,strong,readwrite) UILabel *minutesLabel;
-
-@property(nonatomic,copy) NSString *previousMinutesText;
-@property(nonatomic,copy) UIColor *previousMinutesColor;
+@property(nonatomic,strong,readwrite) OBADepartureTimeLabel *minutesLabel;
 @end
 
 @implementation OBAClassicDepartureView
@@ -34,7 +31,6 @@
 
     if (self) {
         self.clipsToBounds = YES;
-        _firstRenderPass = YES;
 
         _routeLabel = ({
             UILabel *l = [[UILabel alloc] init];
@@ -47,7 +43,7 @@
         minutesWrapper.clipsToBounds = YES;
 
         _minutesLabel = ({
-            UILabel *l = [[UILabel alloc] init];
+            OBADepartureTimeLabel *l = [[OBADepartureTimeLabel alloc] init];
             l.font = [OBATheme bodyFont];
             l.textAlignment = NSTextAlignmentRight;
             [l setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
@@ -98,8 +94,10 @@
     _departureRow = [departureRow copy];
 
     [self renderRouteLabel];
-    [self renderMinutesLabel];
+    [self.minutesLabel renderTimeLabel:[self departureRow].formattedMinutesUntilNextDeparture forStatus:[self departureRow].departureStatus];
 }
+
+#pragma mark - Label Logic
 
 - (void)renderRouteLabel {
     // TODO: clean me up once we've verified that users aren't losing their minds over the change.
@@ -123,37 +121,6 @@
     [routeText appendAttributedString:departureTime];
 
     self.routeLabel.attributedText = routeText;
-}
-
-- (void)renderMinutesLabel {
-    NSString *formattedMinutes = [self departureRow].formattedMinutesUntilNextDeparture;
-    UIColor *formattedColor = [OBADepartureCellHelpers colorForStatus:[self departureRow].departureStatus];
-
-    BOOL textChanged = ![formattedMinutes isEqual:self.previousMinutesText];
-    BOOL colorChanged = ![formattedColor isEqual:self.previousMinutesColor];
-
-    self.previousMinutesText = formattedMinutes;
-    self.minutesLabel.text = formattedMinutes;
-
-    self.previousMinutesColor = formattedColor;
-    self.minutesLabel.textColor = formattedColor;
-
-    // don't animate the first rendering of the cell.
-    if (self.firstRenderPass) {
-        self.firstRenderPass = NO;
-        return;
-    }
-
-    if (textChanged || colorChanged) {
-        [self animateLabelChange];
-    }
-}
-
-- (void)animateLabelChange {
-    self.minutesLabel.layer.backgroundColor = [OBATheme propertyChangedColor].CGColor;
-    [UIView animateWithDuration:OBALongAnimationDuration animations:^{
-        self.minutesLabel.layer.backgroundColor = self.backgroundColor.CGColor;
-    }];
 }
 
 @end
