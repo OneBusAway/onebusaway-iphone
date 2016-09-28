@@ -16,25 +16,17 @@
 
 #import "OBANavigationTargetAware.h"
 #import "OBASearchController.h"
-#import "OBAGenericAnnotation.h"
-#import "OBAMapRegionManager.h"
 #import "OBAScopeView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate, MKMapViewDelegate,OBALocationManagerDelegate,OBAProgressIndicatorDelegate, UISearchBarDelegate>
-@property(nonatomic,strong) OBAApplicationDelegate * appDelegate;
-@property(nonatomic,strong) IBOutlet OBAScopeView *scopeView;
-@property(nonatomic,strong) IBOutlet UISegmentedControl *searchTypeSegmentedControl;
-@property(nonatomic,strong) IBOutlet MKMapView * mapView;
-@property(nonatomic,strong) IBOutlet UISearchBar *searchBar;
-@property(nonatomic,strong) IBOutlet UIToolbar *toolbar;
-@property(nonatomic,strong) IBOutlet UILabel *mapLabel;
+@class OBAModelDAO;
 
-
-- (IBAction)onCrossHairsButton:(id)sender;
+@interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate, OBAProgressIndicatorDelegate>
+@property(nonatomic,strong) OBAModelService *modelService;
+- (IBAction)updateLocation:(id)sender;
 - (IBAction)showListView:(id)sender;
-
+- (void)recenterMap;
 @end
 
 NS_ASSUME_NONNULL_END

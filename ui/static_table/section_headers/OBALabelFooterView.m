@@ -7,6 +7,7 @@
 //
 
 #import "OBALabelFooterView.h"
+#import <OBAKit/OBAKit.h>
 
 @interface OBALabelFooterView ()
 @property(nonatomic,strong) UILabel *footer;

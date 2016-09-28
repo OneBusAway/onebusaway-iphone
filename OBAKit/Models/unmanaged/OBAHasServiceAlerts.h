@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OBASituationV2.h"
+#import <OBAKit/OBASituationV2.h>
 
 @protocol OBAHasServiceAlerts <NSObject>
 - (NSArray<OBASituationV2*>*)situations;

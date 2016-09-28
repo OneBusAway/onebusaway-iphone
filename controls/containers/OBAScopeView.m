@@ -8,7 +8,7 @@
 
 #import "OBAScopeView.h"
 #import <QuartzCore/QuartzCore.h>
-#import "OBACommonV1.h"
+#import <OBAKit/OBAKit.h>
 
 @interface OBAScopeView ()
 - (void)_configureOBAScopeView;
@@ -23,7 +23,7 @@
 - (void)_configureOBAScopeView {
     self.drawsBottomBorder = YES;
     self.drawsTopBorder = NO;
-    self.backgroundColor = OBAGREENWITHALPHA(0.8f);
+    self.backgroundColor = [OBATheme OBAGreenWithAlpha:0.8f];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -46,8 +46,8 @@
 
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
-    
-    [OBARGBCOLOR(122, 137, 148) set];
+
+    [[UIColor colorWithRed:(122.f / 255.f) green:(137.f / 255.f) blue:(148.f / 255.f) alpha:1.f] set];
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(context,1.f);
     

@@ -16,12 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (UITableViewCell*)getOrCreateCellForTableView:(UITableView*)tableView cellId:(NSString*)cellId;
 + (UITableViewCell*)getOrCreateCellForTableView:(UITableView*)tableView;
 + (UITableViewCell*)getOrCreateCellForTableView:(UITableView*)tableView style:(UITableViewCellStyle)style;
-+ (UITableViewCell*)getOrCreateCellForTableView:(UITableView*)tableView style:(UITableViewCellStyle)style cellId:(NSString*)cellId;
-+ (UITableViewCell*)getOrCreateCellForTableView:(UITableView*)tableView fromResource:(NSString*)resourceName;
-
-// TODO - move these somewhere, ANYWHERE, but here.
-+ (UITableViewCell*) tableViewCellForUnreadServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts tableView:(UITableView*)tableView;
-+ (UITableViewCell*) tableViewCellForServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts tableView:(UITableView*)tableView;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <OBAKit/OBAKit.h>
 #import "OBANavigationTargetAware.h"
 #import "OBAStaticTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBARecentStopsViewController : OBAStaticTableViewController <OBANavigationTargetAware>
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
 @end
 
 NS_ASSUME_NONNULL_END

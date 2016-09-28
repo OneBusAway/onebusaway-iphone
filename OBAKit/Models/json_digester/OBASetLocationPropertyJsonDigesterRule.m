@@ -6,8 +6,8 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-#import "OBASetLocationPropertyJsonDigesterRule.h"
-@import CoreLocation;
+#import <OBAKit/OBASetLocationPropertyJsonDigesterRule.h>
+#import <CoreLocation/CoreLocation.h>
 
 @implementation OBASetLocationPropertyJsonDigesterRule
 

@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBACoordinateBounds.h"
-
+#import <OBAKit/OBACoordinateBounds.h>
 
 @implementation OBACoordinateBounds
 

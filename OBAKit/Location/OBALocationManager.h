@@ -15,37 +15,23 @@
  */
 
 
-#import "OBAModelDAO.h"
+#import <OBAKit/OBAModelDAO.h>
+#import <CoreLocation/CoreLocation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class OBALocationManager;
+extern NSString * const OBALocationDidUpdateNotification;
+extern NSString * const OBALocationAuthorizationStatusChangedNotification;
+extern NSString * const OBALocationManagerDidFailWithErrorNotification;
 
-@protocol OBALocationManagerDelegate <NSObject>
-- (void) locationManager:(OBALocationManager *)manager didUpdateLocation:(CLLocation *)location;
-- (void) locationManager:(OBALocationManager *)manager didFailWithError:(NSError*)error;
+extern NSString * const OBALocationAuthorizationStatusUserInfoKey;
+extern NSString * const OBALocationErrorUserInfoKey;
 
-@optional
-- (void)locationManager:(OBALocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status;
-@end
+@interface OBALocationManager : NSObject <CLLocationManagerDelegate>
+@property(nonatomic,copy,readonly) CLLocation * currentLocation;
+@property(nonatomic,assign,readonly) BOOL locationServicesEnabled;
 
-
-@interface OBALocationManager : NSObject <CLLocationManagerDelegate> {
-
-    OBAModelDAO * _modelDao;
-    CLLocationManager * _locationManager;
-    NSMutableArray * _delegates;
-    
-    CLLocation * _currentLocation;
-}
-
-- (id) initWithModelDao:(OBAModelDAO*)modelDao;
-
-@property (nonatomic,strong) CLLocation * currentLocation;
-@property (readonly, nonatomic) BOOL locationServicesEnabled;
-
-- (void)addDelegate:(id<OBALocationManagerDelegate>)delegate;
-- (void)removeDelegate:(id<OBALocationManagerDelegate>)delegate;
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO;
 
 - (void)startUpdatingLocation;
 - (void)stopUpdatingLocation;

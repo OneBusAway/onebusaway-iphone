@@ -14,52 +14,18 @@
  * limitations under the License.
  */
 
-#import "OBANavigationTarget.h"
-#import "GAI.h"
-#import "OBAApplication.h"
+#import <OBAKit/OBANavigationTarget.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class OBASearchResultsMapViewController;
 @class OBARecentStopsViewController;
 @class OBAInfoViewController;
-@class OBARegionListViewController;
 
-@interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate> {
-    
-    UINavigationController *_regionNavigationController;
-    OBARegionListViewController *_regionListViewController;
-}
-
-@property(nonatomic, strong) UIWindow *window;
-@property(nonatomic, strong) UITabBarController *tabBarController;
-
-@property(nonatomic, strong) UINavigationController *mapNavigationController;
-@property(strong) OBASearchResultsMapViewController *mapViewController;
-
-@property(strong) UINavigationController *recentsNavigationController;
-@property(strong) OBARecentStopsViewController *recentsViewController;
-
-@property(strong) UINavigationController *bookmarksNavigationController;
-@property(strong) UIViewController *bookmarksViewController;
-
-@property(strong) UINavigationController *infoNavigationController;
-@property(strong) OBAInfoViewController *infoViewController;
-
-@property(nonatomic,readonly) BOOL active;
-
-@property(nonatomic, strong) id<GAITracker> tracker;
-
-- (void) navigateToTarget:(OBANavigationTarget*)navigationTarget;
-- (void) regionSelected;
-- (void) showRegionListViewController;
-
-/**
- * Abstracts OBAModelDAO setters / getters and calls the appropriate analytics methods.
- */
--(void) writeSetRegionAutomatically:(BOOL) setRegionAutomatically;
--(BOOL) readSetRegionAutomatically;
--(void) setOBARegion:(OBARegionV2*) region;
+@interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate>
+@property (nullable, nonatomic, strong) UIWindow *window;
+- (void)navigateToTarget:(OBANavigationTarget*)navigationTarget;
+- (void)regionSelected;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+extern NSTimeInterval const OBALongAnimationDuration;
 
 @interface OBAAnimation : NSObject
 

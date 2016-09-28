@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-#import "OBAProgressIndicatorSource.h"
-#import "OBAPlacemark.h"
-#import "OBANavigationTarget.h"
-#import "OBAListWithRangeAndReferencesV2.h"
+#import <OBAKit/OBAProgressIndicatorSource.h>
+#import <OBAKit/OBAPlacemark.h>
+#import <OBAKit/OBANavigationTarget.h>
+#import <OBAKit/OBAListWithRangeAndReferencesV2.h>
 
 extern NSString * _Nonnull const kOBASearchTypeParameter;
 extern NSString * _Nonnull const kOBASearchControllerSearchArgumentParameter;

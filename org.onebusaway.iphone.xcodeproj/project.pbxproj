@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		669B2F781AEBFCB300CF2367 /* OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F771AEBFCB300CF2367 /* OBAAnalytics.m */; };
-		669B2F801AEBFEBF00CF2367 /* OBARegionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F7F1AEBFEBF00CF2367 /* OBARegionHelper.m */; };
 		923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */; };
 		928E12B217D7863400FD855E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 928E12B117D7863400FD855E /* Images.xcassets */; };
 		9302B6041CA4BE9E002B6AC7 /* regions-v3.json in Resources */ = {isa = PBXBuildFile; fileRef = 9302B6031CA4BE9E002B6AC7 /* regions-v3.json */; };
@@ -53,6 +52,8 @@
 		9302B6DD1CA5A0DC002B6AC7 /* OBAVehicleStatusV2_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9302B6BA1CA5A0DC002B6AC7 /* OBAVehicleStatusV2_Tests.m */; };
 		9302B6E01CA5A3F9002B6AC7 /* SEA_4thPike_East.json in Resources */ = {isa = PBXBuildFile; fileRef = 9302B6DF1CA5A3F9002B6AC7 /* SEA_4thPike_East.json */; };
 		931C42C2160E4B2A00435CD3 /* MKMapView+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 931C42C1160E4B2A00435CD3 /* MKMapView+oba_Additions.m */; };
+		931FA94F1D502B9E00E12D62 /* OBARotatingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 931FA94E1D502B9E00E12D62 /* OBARotatingButton.m */; };
+		93203EA11D5BAD2500E6100C /* OBACollapsingHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93203EA01D5BAD2500E6100C /* OBACollapsingHeaderView.m */; };
 		932076391C909F76005F7D4A /* OBABookmarkV2_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 932076381C909F76005F7D4A /* OBABookmarkV2_Tests.m */; };
 		9320763A1C909FB2005F7D4A /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936F44FD1C780E7600C61656 /* OBAKit.framework */; };
 		932076411C90B948005F7D4A /* OBATestHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 932076401C90B948005F7D4A /* OBATestHelpers.m */; };
@@ -68,10 +69,11 @@
 		9320771A1C993A4D005F7D4A /* OBARouteType.h in Headers */ = {isa = PBXBuildFile; fileRef = 932077191C9939F9005F7D4A /* OBARouteType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		932077281C9C84EC005F7D4A /* OBAStaticTableViewController+Builders.m in Sources */ = {isa = PBXBuildFile; fileRef = 932077271C9C84EC005F7D4A /* OBAStaticTableViewController+Builders.m */; };
 		9320772A1C9C85F4005F7D4A /* OBAHasServiceAlerts.h in Headers */ = {isa = PBXBuildFile; fileRef = 932077291C9C85F4005F7D4A /* OBAHasServiceAlerts.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93283CC81D69437600A8180D /* OBALabelActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93283CC71D69437600A8180D /* OBALabelActivityIndicatorView.m */; };
+		93283CCB1D69553700A8180D /* OBAReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 93283CC91D69553700A8180D /* OBAReachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93283CCC1D69553700A8180D /* OBAReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 93283CCA1D69553700A8180D /* OBAReachability.m */; };
 		932BE49D1AB66D320011F2FB /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4931AB66D320011F2FB /* OBAAgenciesListViewController.m */; };
-		932BE49E1AB66D320011F2FB /* OBAContactUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4951AB66D320011F2FB /* OBAContactUsViewController.m */; };
 		932BE49F1AB66D320011F2FB /* OBAInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4971AB66D320011F2FB /* OBAInfoViewController.m */; };
-		932BE4A11AB66D320011F2FB /* OBARegionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE49A1AB66D320011F2FB /* OBARegionListViewController.m */; };
 		932BE4BB1AB66D5C0011F2FB /* OBAEditStopPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4AB1AB66D5C0011F2FB /* OBAEditStopPreferencesViewController.m */; };
 		932BE4BD1AB66D5C0011F2FB /* OBAReportProblemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4AF1AB66D5C0011F2FB /* OBAReportProblemViewController.m */; };
 		932BE4BE1AB66D5C0011F2FB /* OBAReportProblemWithRecentTripsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4B11AB66D5C0011F2FB /* OBAReportProblemWithRecentTripsViewController.m */; };
@@ -83,10 +85,7 @@
 		932BE4D91AB66D890011F2FB /* OBADiversionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4D41AB66D890011F2FB /* OBADiversionViewController.m */; };
 		932BE4DA1AB66D890011F2FB /* OBASituationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4D61AB66D890011F2FB /* OBASituationsViewController.m */; };
 		932BE4DB1AB66D890011F2FB /* OBASituationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4D81AB66D890011F2FB /* OBASituationViewController.m */; };
-		932BE4DE1AB66DA90011F2FB /* OBACustomApiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4DD1AB66DA90011F2FB /* OBACustomApiViewController.m */; };
 		932BE4E11AB66DBD0011F2FB /* OBACreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4E01AB66DBD0011F2FB /* OBACreditsViewController.m */; };
-		932BE4E91AB66E3C0011F2FB /* OBAEditBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4E41AB66E3C0011F2FB /* OBAEditBookmarkGroupViewController.m */; };
-		932BE4EA1AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4E61AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.m */; };
 		932BE4EB1AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4E81AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.m */; };
 		932BE4F61AB66E990011F2FB /* OBASearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4F11AB66E990011F2FB /* OBASearchController.m */; };
 		932BE4F71AB66E990011F2FB /* OBASearchResultsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 932BE4F31AB66E990011F2FB /* OBASearchResultsListViewController.m */; };
@@ -97,7 +96,6 @@
 		932BE5031AB66FCB0011F2FB /* OBACreditsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 932BE5021AB66FCB0011F2FB /* OBACreditsViewController.xib */; };
 		932BE5051AB6705F0011F2FB /* OBADiversionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 932BE5041AB6705F0011F2FB /* OBADiversionViewController.xib */; };
 		932BE5071AB671000011F2FB /* OBALabelAndSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 932BE5061AB671000011F2FB /* OBALabelAndSwitchTableViewCell.xib */; };
-		932BE50B1AB6719D0011F2FB /* OBATripScheduleMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 932BE50A1AB6719D0011F2FB /* OBATripScheduleMapViewController.xib */; };
 		932BE50D1AB671BD0011F2FB /* OBALabelAndTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 932BE50C1AB671BD0011F2FB /* OBALabelAndTextFieldTableViewCell.xib */; };
 		932BE50F1AB671EB0011F2FB /* OBAProgressIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 932BE50E1AB671EB0011F2FB /* OBAProgressIndicatorView.xib */; };
 		932BE5131AB672730011F2FB /* OBAWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 932BE5121AB672730011F2FB /* OBAWebViewController.xib */; };
@@ -105,6 +103,13 @@
 		932BE5171AB672B50011F2FB /* OBASearchResultsMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 932BE5161AB672B50011F2FB /* OBASearchResultsMapViewController.xib */; };
 		9330DEEA16050CA600E14AF4 /* credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 9330DEE916050CA600E14AF4 /* credits.html */; };
 		9330DF281606405100E14AF4 /* OBAScopeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330DF271606405100E14AF4 /* OBAScopeView.m */; };
+		9337D6C81D32A85F00D237D6 /* OBAEmailHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 9337D6C61D32A85F00D237D6 /* OBAEmailHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9337D6C91D32A85F00D237D6 /* OBAEmailHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9337D6C71D32A85F00D237D6 /* OBAEmailHelper.m */; };
+		9337D6CC1D32AFE300D237D6 /* OBAEmailHelper_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9337D6CB1D32AFE300D237D6 /* OBAEmailHelper_Tests.m */; };
+		9337D6CF1D32B21C00D237D6 /* testMessageBodyForModelDAO.html in Resources */ = {isa = PBXBuildFile; fileRef = 9337D6CE1D32B21C00D237D6 /* testMessageBodyForModelDAO.html */; };
+		93392E251CB23D0000A46B61 /* OBAModelDAO_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93392E241CB23D0000A46B61 /* OBAModelDAO_Tests.m */; };
+		93392E271CB23F5C00A46B61 /* OBAModelPersistenceLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 93392E261CB23F5C00A46B61 /* OBAModelPersistenceLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93392E2A1CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 93392E291CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.m */; };
 		934446B51AB10E67005B3333 /* UINavigationController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446B41AB10E67005B3333 /* UINavigationController+oba_Additions.m */; };
 		934446B81AB10ECA005B3333 /* UITableViewCell+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446B71AB10ECA005B3333 /* UITableViewCell+oba_Additions.m */; };
 		934446BD1AB11033005B3333 /* OBALabelAndSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446BA1AB11033005B3333 /* OBALabelAndSwitchTableViewCell.m */; };
@@ -115,7 +120,11 @@
 		934446D41AB12C0C005B3333 /* OBAListSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446D31AB12C0C005B3333 /* OBAListSelectionViewController.m */; };
 		934446D91AB12C5D005B3333 /* OBAModalActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446D61AB12C5D005B3333 /* OBAModalActivityIndicator.m */; };
 		934446DA1AB12C5D005B3333 /* OBAProgressIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446D81AB12C5D005B3333 /* OBAProgressIndicatorView.m */; };
-		934522601C1BA976006F75BC /* OBATheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 9345225F1C1BA976006F75BC /* OBATheme.m */; };
+		9347860E1D3453E9002A5627 /* sandiego.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 9347860D1D3453E9002A5627 /* sandiego.gpx */; };
+		9347B0631D73CB5C00DFBEE0 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9347B0621D73CB5C00DFBEE0 /* AlertPresenter.swift */; };
+		934B62971CF825D200D8FA85 /* OBATripScheduleSectionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 934B62961CF825D200D8FA85 /* OBATripScheduleSectionBuilder.m */; };
+		934B62A21CFBA5FA00D8FA85 /* NSObject+OBADescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 934B62A01CFBA5FA00D8FA85 /* NSObject+OBADescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934B62A31CFBA5FA00D8FA85 /* NSObject+OBADescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 934B62A11CFBA5FA00D8FA85 /* NSObject+OBADescription.m */; };
 		934D00311C83924400A76A90 /* OBACommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D00161C83924400A76A90 /* OBACommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934D00321C83924400A76A90 /* OBACommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D00171C83924400A76A90 /* OBACommon.m */; };
 		934D00331C83924400A76A90 /* OBACommonV1.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D00181C83924400A76A90 /* OBACommonV1.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -123,8 +132,6 @@
 		934D00351C83924400A76A90 /* OBADateHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D001A1C83924400A76A90 /* OBADateHelpers.m */; };
 		934D00361C83924400A76A90 /* OBAImageHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D001B1C83924400A76A90 /* OBAImageHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934D00371C83924400A76A90 /* OBAImageHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D001C1C83924400A76A90 /* OBAImageHelpers.m */; };
-		934D00381C83924400A76A90 /* OBALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D001D1C83924400A76A90 /* OBALogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		934D00391C83924400A76A90 /* OBALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D001E1C83924400A76A90 /* OBALogger.m */; };
 		934D003A1C83924400A76A90 /* OBAMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D001F1C83924400A76A90 /* OBAMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934D003B1C83924400A76A90 /* OBAMapHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D00201C83924400A76A90 /* OBAMapHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934D003C1C83924400A76A90 /* OBAMapHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D00211C83924400A76A90 /* OBAMapHelpers.m */; };
@@ -140,8 +147,6 @@
 		934D00481C83924400A76A90 /* OBARegionChangeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D002E1C83924400A76A90 /* OBARegionChangeRequest.m */; };
 		934D00491C83924400A76A90 /* OBASphericalGeometryLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D002F1C83924400A76A90 /* OBASphericalGeometryLibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934D004A1C83924400A76A90 /* OBASphericalGeometryLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D00301C83924400A76A90 /* OBASphericalGeometryLibrary.m */; };
-		934D00CE1C83924D00A76A90 /* OBAGenericAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D004D1C83924D00A76A90 /* OBAGenericAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		934D00CF1C83924D00A76A90 /* OBAGenericAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D004E1C83924D00A76A90 /* OBAGenericAnnotation.m */; };
 		934D00D01C83924D00A76A90 /* OBANavigationTargetAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D004F1C83924D00A76A90 /* OBANavigationTargetAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934D00D11C83924D00A76A90 /* OBANavigationTargetAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D00501C83924D00A76A90 /* OBANavigationTargetAnnotation.m */; };
 		934D00D21C83924D00A76A90 /* OBATripContinuationMapAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D00511C83924D00A76A90 /* OBATripContinuationMapAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -263,10 +268,22 @@
 		934D01481C83924D00A76A90 /* OBAModelService.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D00CB1C83924D00A76A90 /* OBAModelService.m */; };
 		934D01491C83924D00A76A90 /* OBAModelServiceRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 934D00CC1C83924D00A76A90 /* OBAModelServiceRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934D014A1C83924D00A76A90 /* OBAModelServiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D00CD1C83924D00A76A90 /* OBAModelServiceRequest.m */; };
+		934E7EDA1D585D23003A343D /* OBAClassicApplicationUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 934E7ED91D585D23003A343D /* OBAClassicApplicationUI.m */; };
+		934E7EE71D586240003A343D /* OBADrawerUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 934E7EE61D586240003A343D /* OBADrawerUI.m */; };
 		93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93528AAD1C8D50D200783E9A /* MapKit.framework */; };
 		93528AB11C8D517100783E9A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93528AB01C8D517100783E9A /* CloudKit.framework */; };
 		93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */; };
-		936D2EDB1C78D7140060B7E1 /* OBADataSourceConfig_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D2EDA1C78D7140060B7E1 /* OBADataSourceConfig_Tests.m */; };
+		9363D5921D6ADE6600A7021A /* invalid.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 9363D58E1D6ADE6600A7021A /* invalid.gpx */; };
+		9363D5931D6ADE6600A7021A /* tampa.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 9363D58F1D6ADE6600A7021A /* tampa.gpx */; };
+		9363D5941D6ADE6600A7021A /* washingtondc.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 9363D5901D6ADE6600A7021A /* washingtondc.gpx */; };
+		9363D5951D6ADE6600A7021A /* yorkca.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 9363D5911D6ADE6600A7021A /* yorkca.gpx */; };
+		9363D5981D6AE2C300A7021A /* OBARegionHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 9363D5961D6AE2C300A7021A /* OBARegionHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9363D5991D6AE2C300A7021A /* OBARegionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9363D5971D6AE2C300A7021A /* OBARegionHelper.m */; };
+		9364BF851CFE9F420039F7D4 /* OBABookmarkRouteDisambiguationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9364BF841CFE9F420039F7D4 /* OBABookmarkRouteDisambiguationViewController.m */; };
+		936564301D6CABA200F226C0 /* OBARouteFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 9365642E1D6CABA200F226C0 /* OBARouteFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		936564311D6CABA200F226C0 /* OBARouteFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9365642F1D6CABA200F226C0 /* OBARouteFilter.m */; };
+		936564381D6D7CD500F226C0 /* OBATheme.h in Headers */ = {isa = PBXBuildFile; fileRef = 936564361D6D7CD500F226C0 /* OBATheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		936564391D6D7CD500F226C0 /* OBATheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 936564371D6D7CD500F226C0 /* OBATheme.m */; };
 		936D2EDD1C78D7300060B7E1 /* OBAURLHelpers_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D2EDC1C78D7300060B7E1 /* OBAURLHelpers_Tests.m */; };
 		936D2EE21C79B4030060B7E1 /* OBAStopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D2EE11C79B4030060B7E1 /* OBAStopViewController.m */; };
 		936D2EE51C79B4190060B7E1 /* OBAStopSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936D2EE41C79B4190060B7E1 /* OBAStopSectionHeaderView.m */; };
@@ -288,24 +305,71 @@
 		936F45121C780E7600C61656 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936F44FD1C780E7600C61656 /* OBAKit.framework */; };
 		936F45131C780E7600C61656 /* OBAKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 936F44FD1C780E7600C61656 /* OBAKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		936F45DC1C78D06600C61656 /* OneBusAwayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 936F45DB1C78D06600C61656 /* OneBusAwayTests.m */; };
+		937E71F71D6EE408007A62D8 /* OBAStrings.h in Headers */ = {isa = PBXBuildFile; fileRef = 937E71F51D6EE408007A62D8 /* OBAStrings.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		937E71F81D6EE408007A62D8 /* OBAStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = 937E71F61D6EE408007A62D8 /* OBAStrings.m */; };
+		938081C51D837C53006CFF8C /* OBABookmarkGroupsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 938081C01D837C53006CFF8C /* OBABookmarkGroupsViewController.m */; };
 		9388E9DD1A9BCC8900C9F6CE /* feedback_message_body.html in Resources */ = {isa = PBXBuildFile; fileRef = 9388E9DC1A9BCC8900C9F6CE /* feedback_message_body.html */; };
+		938B84251D8689E900DB0AF0 /* GoogleAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84241D8689E900DB0AF0 /* GoogleAnalytics.framework */; };
+		938B84291D8689F400DB0AF0 /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84261D8689F400DB0AF0 /* PMKCoreLocation.framework */; };
+		938B842A1D8689F400DB0AF0 /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84271D8689F400DB0AF0 /* PMKFoundation.framework */; };
+		938B842B1D8689F400DB0AF0 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84281D8689F400DB0AF0 /* PromiseKit.framework */; };
+		938B842C1D868A0500DB0AF0 /* GoogleAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84241D8689E900DB0AF0 /* GoogleAnalytics.framework */; };
+		938B842D1D868A0500DB0AF0 /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84261D8689F400DB0AF0 /* PMKCoreLocation.framework */; };
+		938B842E1D868A0500DB0AF0 /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84271D8689F400DB0AF0 /* PMKFoundation.framework */; };
+		938B842F1D868A0500DB0AF0 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84281D8689F400DB0AF0 /* PromiseKit.framework */; };
+		938B84351D868A0500DB0AF0 /* DateTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84301D868A0500DB0AF0 /* DateTools.framework */; };
+		938B84361D868A0500DB0AF0 /* DZNEmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84311D868A0500DB0AF0 /* DZNEmptyDataSet.framework */; };
+		938B84371D868A0500DB0AF0 /* PMKMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84321D868A0500DB0AF0 /* PMKMapKit.framework */; };
+		938B84381D868A0500DB0AF0 /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84331D868A0500DB0AF0 /* SVProgressHUD.framework */; };
+		938B84391D868A0500DB0AF0 /* SwiftMessages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84341D868A0500DB0AF0 /* SwiftMessages.framework */; };
+		938EAC7C1D6A9B0600B174B9 /* OBASwitchRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 938EAC7B1D6A9B0600B174B9 /* OBASwitchRow.m */; };
+		938EAC7F1D6A9BB400B174B9 /* OBASwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 938EAC7E1D6A9BB400B174B9 /* OBASwitchCell.m */; };
 		9399E3DF1C8930C300962292 /* OBASeparatorSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9399E3DE1C8930C300962292 /* OBASeparatorSectionView.m */; };
-		939E8E4D1C78DCB1008FCA4C /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939E8E4C1C78DCB1008FCA4C /* Pods.framework */; };
+		939C23B11D36228A002A4145 /* OBABookmarkedRouteRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 939C23B01D36228A002A4145 /* OBABookmarkedRouteRow.m */; };
+		939C23B91D371DE8002A4145 /* OBABookmarkedRouteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 939C23B81D371DE8002A4145 /* OBABookmarkedRouteCell.m */; };
 		939E8E5B1C7B815E008FCA4C /* OBABaseRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E8E5A1C7B815E008FCA4C /* OBABaseRow.m */; };
+		93A41C7F1D7C90770080500F /* OBATableViewCellValue1.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A41C7E1D7C90770080500F /* OBATableViewCellValue1.m */; };
 		93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A923A11C21DCD600A657C8 /* SafariServices.framework */; };
 		93AD36431603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD363A1603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m */; };
-		93AD36441603FE7E00BDF03F /* OBAArrivalEntryTableViewCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD363C1603FE7E00BDF03F /* OBAArrivalEntryTableViewCellFactory.m */; };
 		93AD36451603FE7E00BDF03F /* OBALabelAndTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD363E1603FE7E00BDF03F /* OBALabelAndTextFieldTableViewCell.m */; };
 		93AD369D1604027E00BDF03F /* OBAProgressIndicatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD369B1604027E00BDF03F /* OBAProgressIndicatorImpl.m */; };
 		93B32FF31AC4912F001DC177 /* UIViewController+OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B32FF21AC4912F001DC177 /* UIViewController+OBAAnalytics.m */; };
+		93B35AA41D5FCCA70025DA4D /* OBAUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B35AA21D5FCCA70025DA4D /* OBAUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93B35AA51D5FCCA70025DA4D /* OBAUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B35AA31D5FCCA70025DA4D /* OBAUser.m */; };
+		93B35AA91D60FD050025DA4D /* RegionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B35AA81D60FD050025DA4D /* RegionListViewController.swift */; };
 		93B8BA291C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B8BA281C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m */; };
+		93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936A1D8A3A4D0080F370 /* UIKit.framework */; };
+		93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936C1D8A3A530080F370 /* Foundation.framework */; };
+		93C3936F1D8A3AC20080F370 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936E1D8A3AC20080F370 /* Masonry.framework */; };
+		93C3937E1D8A708A0080F370 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C393721D8A708A0080F370 /* EXTScope.m */; };
+		93C3937F1D8A708A0080F370 /* PulleyPassthroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C393751D8A708A0080F370 /* PulleyPassthroughScrollView.swift */; };
+		93C393801D8A708A0080F370 /* PulleyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C393761D8A708A0080F370 /* PulleyViewController.swift */; };
+		93C393831D8A708A0080F370 /* SMFloatingLabelTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C3937D1D8A708A0080F370 /* SMFloatingLabelTextField.m */; };
+		93C393841D8A81210080F370 /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84261D8689F400DB0AF0 /* PMKCoreLocation.framework */; };
+		93C393851D8A81210080F370 /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84271D8689F400DB0AF0 /* PMKFoundation.framework */; };
+		93C393861D8A81210080F370 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84281D8689F400DB0AF0 /* PromiseKit.framework */; };
+		93C3938F1D8CE6100080F370 /* ApptentiveResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 93C393881D8CE6100080F370 /* ApptentiveResources.bundle */; };
+		93C393911D8CE6100080F370 /* libApptentiveConnect.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3938C1D8CE6100080F370 /* libApptentiveConnect.a */; };
+		93C393961D8E0ECE0080F370 /* UILabel+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 93C393941D8E0ECE0080F370 /* UILabel+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93C393971D8E0ECE0080F370 /* UILabel+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C393951D8E0ECE0080F370 /* UILabel+OBAAdditions.m */; };
+		93C921461D59289E00CA8868 /* OBADrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C921451D59289E00CA8868 /* OBADrawerViewController.m */; };
+		93DEE5831D45207700042803 /* stop_with_obj_lat_long.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93DEE5821D45207700042803 /* stop_with_obj_lat_long.plist */; };
 		93E0954719CE051700A31BA6 /* OBALaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */; };
+		93E0D19F1D569E7B00D9AA63 /* UIViewController+OBAContainment.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E0D19E1D569E7B00D9AA63 /* UIViewController+OBAContainment.m */; };
+		93E0D1A51D57D34E00D9AA63 /* OBAMapActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E0D1A41D57D34E00D9AA63 /* OBAMapActivityIndicatorView.m */; };
+		93E0D1AB1D57EAAD00D9AA63 /* OBAVibrantBlurContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E0D1AA1D57EAAD00D9AA63 /* OBAVibrantBlurContainerView.m */; };
+		93E4A3011CF7D42300EF9595 /* OBAClassicDepartureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E4A3001CF7D42300EF9595 /* OBAClassicDepartureView.m */; };
+		93E4A7621CE65B2100E769B0 /* atlanta.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 93E4A7611CE65B2100E769B0 /* atlanta.gpx */; };
+		93EBC2ED1D9331B300B731A3 /* OBADataSourceConfig_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EBC2EC1D9331B300B731A3 /* OBADataSourceConfig_Tests.m */; };
 		93F05A631C8E080000BF36B1 /* OBAAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F05A621C8E080000BF36B1 /* OBAAnimation.m */; };
 		93F64E971BE5ACC300323527 /* OBAAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F64E961BE5ACC300323527 /* OBAAlerts.m */; };
+		93F8F4431D375B77008659D2 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F8F4421D375B77008659D2 /* OBAArrivalAndDepartureSectionBuilder.m */; };
+		93FF25E61D6E329A00A58E72 /* RegionBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FF25E51D6E329A00A58E72 /* RegionBuilderViewController.swift */; };
+		93FF25E91D6E332D00A58E72 /* OBATextFieldRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FF25E81D6E332D00A58E72 /* OBATextFieldRow.m */; };
+		93FF25EC1D6E342B00A58E72 /* OBATextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FF25EB1D6E342B00A58E72 /* OBATextFieldCell.m */; };
+		93FF4D4A1D83C87C00DDFF2D /* CardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93FF4D491D83C87C00DDFF2D /* CardView.xib */; };
 		D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = D651BB2711C9D5DE001BE733 /* iTunesArtwork */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
-		E238ED5643B2070974316CC3 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5915BB5B4ED79BCFF0C6D8B4 /* Pods.framework */; };
-		F5DE989070011DA095DEC6A2 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5915BB5B4ED79BCFF0C6D8B4 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -340,17 +404,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		13105E482CCDE283CE77C92E /* Pods.adhocdistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.adhocdistribution.xcconfig; path = "Pods/Target Support Files/Pods/Pods.adhocdistribution.xcconfig"; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* OneBusAway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneBusAway.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		26DE16A6837EFF5DCD23D805 /* Pods-OneBusAway.adhocdistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.adhocdistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.adhocdistribution.xcconfig"; sourceTree = "<group>"; };
-		28A0AB4B0D9B1048005BE974 /* org_onebusaway_iphone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = org_onebusaway_iphone_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		54CB67407CF2B898E5D99654 /* Pods-OneBusAway.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.release.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.release.xcconfig"; sourceTree = "<group>"; };
-		5915BB5B4ED79BCFF0C6D8B4 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		669B2F761AEBFCB300CF2367 /* OBAAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAnalytics.h; sourceTree = "<group>"; };
 		669B2F771AEBFCB300CF2367 /* OBAAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAnalytics.m; sourceTree = "<group>"; };
-		669B2F7E1AEBFEBF00CF2367 /* OBARegionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionHelper.h; sourceTree = "<group>"; };
-		669B2F7F1AEBFEBF00CF2367 /* OBARegionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionHelper.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		923FE67E176082A7009AFDE8 /* UITableViewController+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewController+oba_Additions.h"; sourceTree = "<group>"; };
 		923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewController+oba_Additions.m"; sourceTree = "<group>"; };
@@ -397,6 +454,10 @@
 		9302B6DF1CA5A3F9002B6AC7 /* SEA_4thPike_East.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SEA_4thPike_East.json; sourceTree = "<group>"; };
 		931C42C0160E4B2A00435CD3 /* MKMapView+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+oba_Additions.h"; sourceTree = "<group>"; };
 		931C42C1160E4B2A00435CD3 /* MKMapView+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+oba_Additions.m"; sourceTree = "<group>"; };
+		931FA94D1D502B9E00E12D62 /* OBARotatingButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARotatingButton.h; sourceTree = "<group>"; };
+		931FA94E1D502B9E00E12D62 /* OBARotatingButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARotatingButton.m; sourceTree = "<group>"; };
+		93203E9F1D5BAD2500E6100C /* OBACollapsingHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACollapsingHeaderView.h; sourceTree = "<group>"; };
+		93203EA01D5BAD2500E6100C /* OBACollapsingHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACollapsingHeaderView.m; sourceTree = "<group>"; };
 		932076381C909F76005F7D4A /* OBABookmarkV2_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkV2_Tests.m; sourceTree = "<group>"; };
 		9320763F1C90B948005F7D4A /* OBATestHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATestHelpers.h; sourceTree = "<group>"; };
 		932076401C90B948005F7D4A /* OBATestHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATestHelpers.m; sourceTree = "<group>"; };
@@ -416,14 +477,14 @@
 		932077261C9C84EC005F7D4A /* OBAStaticTableViewController+Builders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OBAStaticTableViewController+Builders.h"; sourceTree = "<group>"; };
 		932077271C9C84EC005F7D4A /* OBAStaticTableViewController+Builders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OBAStaticTableViewController+Builders.m"; sourceTree = "<group>"; };
 		932077291C9C85F4005F7D4A /* OBAHasServiceAlerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAHasServiceAlerts.h; sourceTree = "<group>"; };
+		93283CC61D69437600A8180D /* OBALabelActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALabelActivityIndicatorView.h; sourceTree = "<group>"; };
+		93283CC71D69437600A8180D /* OBALabelActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALabelActivityIndicatorView.m; sourceTree = "<group>"; };
+		93283CC91D69553700A8180D /* OBAReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReachability.h; sourceTree = "<group>"; };
+		93283CCA1D69553700A8180D /* OBAReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReachability.m; sourceTree = "<group>"; };
 		932BE4921AB66D320011F2FB /* OBAAgenciesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgenciesListViewController.h; sourceTree = "<group>"; };
 		932BE4931AB66D320011F2FB /* OBAAgenciesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAgenciesListViewController.m; sourceTree = "<group>"; };
-		932BE4941AB66D320011F2FB /* OBAContactUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAContactUsViewController.h; sourceTree = "<group>"; };
-		932BE4951AB66D320011F2FB /* OBAContactUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAContactUsViewController.m; sourceTree = "<group>"; };
 		932BE4961AB66D320011F2FB /* OBAInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAInfoViewController.h; sourceTree = "<group>"; };
 		932BE4971AB66D320011F2FB /* OBAInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAInfoViewController.m; sourceTree = "<group>"; };
-		932BE4991AB66D320011F2FB /* OBARegionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionListViewController.h; sourceTree = "<group>"; };
-		932BE49A1AB66D320011F2FB /* OBARegionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionListViewController.m; sourceTree = "<group>"; };
 		932BE4AA1AB66D5C0011F2FB /* OBAEditStopPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopPreferencesViewController.h; sourceTree = "<group>"; };
 		932BE4AB1AB66D5C0011F2FB /* OBAEditStopPreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditStopPreferencesViewController.m; sourceTree = "<group>"; };
 		932BE4AE1AB66D5C0011F2FB /* OBAReportProblemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReportProblemViewController.h; sourceTree = "<group>"; };
@@ -446,14 +507,8 @@
 		932BE4D61AB66D890011F2FB /* OBASituationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASituationsViewController.m; sourceTree = "<group>"; };
 		932BE4D71AB66D890011F2FB /* OBASituationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASituationViewController.h; sourceTree = "<group>"; };
 		932BE4D81AB66D890011F2FB /* OBASituationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASituationViewController.m; sourceTree = "<group>"; };
-		932BE4DC1AB66DA90011F2FB /* OBACustomApiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACustomApiViewController.h; sourceTree = "<group>"; };
-		932BE4DD1AB66DA90011F2FB /* OBACustomApiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACustomApiViewController.m; sourceTree = "<group>"; };
 		932BE4DF1AB66DBD0011F2FB /* OBACreditsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACreditsViewController.h; sourceTree = "<group>"; };
 		932BE4E01AB66DBD0011F2FB /* OBACreditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACreditsViewController.m; sourceTree = "<group>"; };
-		932BE4E31AB66E3C0011F2FB /* OBAEditBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditBookmarkGroupViewController.h; sourceTree = "<group>"; };
-		932BE4E41AB66E3C0011F2FB /* OBAEditBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditBookmarkGroupViewController.m; sourceTree = "<group>"; };
-		932BE4E51AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopBookmarkGroupViewController.h; sourceTree = "<group>"; };
-		932BE4E61AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditStopBookmarkGroupViewController.m; sourceTree = "<group>"; };
 		932BE4E71AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopBookmarkViewController.h; sourceTree = "<group>"; };
 		932BE4E81AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditStopBookmarkViewController.m; sourceTree = "<group>"; };
 		932BE4F01AB66E990011F2FB /* OBASearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchController.h; sourceTree = "<group>"; };
@@ -470,7 +525,6 @@
 		932BE5021AB66FCB0011F2FB /* OBACreditsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBACreditsViewController.xib; sourceTree = "<group>"; };
 		932BE5041AB6705F0011F2FB /* OBADiversionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBADiversionViewController.xib; sourceTree = "<group>"; };
 		932BE5061AB671000011F2FB /* OBALabelAndSwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBALabelAndSwitchTableViewCell.xib; sourceTree = "<group>"; };
-		932BE50A1AB6719D0011F2FB /* OBATripScheduleMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBATripScheduleMapViewController.xib; sourceTree = "<group>"; };
 		932BE50C1AB671BD0011F2FB /* OBALabelAndTextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBALabelAndTextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		932BE50E1AB671EB0011F2FB /* OBAProgressIndicatorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAProgressIndicatorView.xib; sourceTree = "<group>"; };
 		932BE5121AB672730011F2FB /* OBAWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAWebViewController.xib; sourceTree = "<group>"; };
@@ -479,6 +533,14 @@
 		9330DEE916050CA600E14AF4 /* credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
 		9330DF261606405100E14AF4 /* OBAScopeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAScopeView.h; sourceTree = "<group>"; };
 		9330DF271606405100E14AF4 /* OBAScopeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAScopeView.m; sourceTree = "<group>"; };
+		9337D6C61D32A85F00D237D6 /* OBAEmailHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEmailHelper.h; sourceTree = "<group>"; };
+		9337D6C71D32A85F00D237D6 /* OBAEmailHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEmailHelper.m; sourceTree = "<group>"; };
+		9337D6CB1D32AFE300D237D6 /* OBAEmailHelper_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEmailHelper_Tests.m; sourceTree = "<group>"; };
+		9337D6CE1D32B21C00D237D6 /* testMessageBodyForModelDAO.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = testMessageBodyForModelDAO.html; sourceTree = "<group>"; };
+		93392E241CB23D0000A46B61 /* OBAModelDAO_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelDAO_Tests.m; sourceTree = "<group>"; };
+		93392E261CB23F5C00A46B61 /* OBAModelPersistenceLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelPersistenceLayer.h; sourceTree = "<group>"; };
+		93392E281CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATestHarnessPersistenceLayer.h; sourceTree = "<group>"; };
+		93392E291CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATestHarnessPersistenceLayer.m; sourceTree = "<group>"; };
 		934445F81AB105FB005B3333 /* capitolhill.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = capitolhill.gpx; sourceTree = "<group>"; };
 		934446B31AB10E67005B3333 /* UINavigationController+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+oba_Additions.h"; sourceTree = "<group>"; };
 		934446B41AB10E67005B3333 /* UINavigationController+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+oba_Additions.m"; sourceTree = "<group>"; };
@@ -500,8 +562,12 @@
 		934446D61AB12C5D005B3333 /* OBAModalActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModalActivityIndicator.m; sourceTree = "<group>"; };
 		934446D71AB12C5D005B3333 /* OBAProgressIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAProgressIndicatorView.h; sourceTree = "<group>"; };
 		934446D81AB12C5D005B3333 /* OBAProgressIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAProgressIndicatorView.m; sourceTree = "<group>"; };
-		9345225E1C1BA976006F75BC /* OBATheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATheme.h; sourceTree = "<group>"; };
-		9345225F1C1BA976006F75BC /* OBATheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATheme.m; sourceTree = "<group>"; };
+		9347860D1D3453E9002A5627 /* sandiego.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sandiego.gpx; sourceTree = "<group>"; };
+		9347B0621D73CB5C00DFBEE0 /* AlertPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
+		934B62951CF825D200D8FA85 /* OBATripScheduleSectionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripScheduleSectionBuilder.h; sourceTree = "<group>"; };
+		934B62961CF825D200D8FA85 /* OBATripScheduleSectionBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripScheduleSectionBuilder.m; sourceTree = "<group>"; };
+		934B62A01CFBA5FA00D8FA85 /* NSObject+OBADescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+OBADescription.h"; sourceTree = "<group>"; };
+		934B62A11CFBA5FA00D8FA85 /* NSObject+OBADescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+OBADescription.m"; sourceTree = "<group>"; };
 		934D00161C83924400A76A90 /* OBACommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACommon.h; sourceTree = "<group>"; };
 		934D00171C83924400A76A90 /* OBACommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACommon.m; sourceTree = "<group>"; };
 		934D00181C83924400A76A90 /* OBACommonV1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACommonV1.h; sourceTree = "<group>"; };
@@ -509,8 +575,6 @@
 		934D001A1C83924400A76A90 /* OBADateHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADateHelpers.m; sourceTree = "<group>"; };
 		934D001B1C83924400A76A90 /* OBAImageHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAImageHelpers.h; sourceTree = "<group>"; };
 		934D001C1C83924400A76A90 /* OBAImageHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAImageHelpers.m; sourceTree = "<group>"; };
-		934D001D1C83924400A76A90 /* OBALogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALogger.h; sourceTree = "<group>"; };
-		934D001E1C83924400A76A90 /* OBALogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALogger.m; sourceTree = "<group>"; };
 		934D001F1C83924400A76A90 /* OBAMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMacros.h; sourceTree = "<group>"; };
 		934D00201C83924400A76A90 /* OBAMapHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapHelpers.h; sourceTree = "<group>"; };
 		934D00211C83924400A76A90 /* OBAMapHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapHelpers.m; sourceTree = "<group>"; };
@@ -521,13 +585,11 @@
 		934D00291C83924400A76A90 /* OBALocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALocationManager.h; sourceTree = "<group>"; };
 		934D002A1C83924400A76A90 /* OBALocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALocationManager.m; sourceTree = "<group>"; };
 		934D002B1C83924400A76A90 /* OBAMapRegionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapRegionManager.h; sourceTree = "<group>"; };
-		934D002C1C83924400A76A90 /* OBAMapRegionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapRegionManager.m; sourceTree = "<group>"; };
+		934D002C1C83924400A76A90 /* OBAMapRegionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAMapRegionManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		934D002D1C83924400A76A90 /* OBARegionChangeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionChangeRequest.h; sourceTree = "<group>"; };
 		934D002E1C83924400A76A90 /* OBARegionChangeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionChangeRequest.m; sourceTree = "<group>"; };
 		934D002F1C83924400A76A90 /* OBASphericalGeometryLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASphericalGeometryLibrary.h; sourceTree = "<group>"; };
 		934D00301C83924400A76A90 /* OBASphericalGeometryLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASphericalGeometryLibrary.m; sourceTree = "<group>"; };
-		934D004D1C83924D00A76A90 /* OBAGenericAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAGenericAnnotation.h; sourceTree = "<group>"; };
-		934D004E1C83924D00A76A90 /* OBAGenericAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAGenericAnnotation.m; sourceTree = "<group>"; };
 		934D004F1C83924D00A76A90 /* OBANavigationTargetAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTargetAnnotation.h; sourceTree = "<group>"; };
 		934D00501C83924D00A76A90 /* OBANavigationTargetAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTargetAnnotation.m; sourceTree = "<group>"; };
 		934D00511C83924D00A76A90 /* OBATripContinuationMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripContinuationMapAnnotation.h; sourceTree = "<group>"; };
@@ -543,9 +605,9 @@
 		934D005D1C83924D00A76A90 /* OBACallMethodJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACallMethodJsonDigesterRule.h; sourceTree = "<group>"; };
 		934D005E1C83924D00A76A90 /* OBACallMethodJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACallMethodJsonDigesterRule.m; sourceTree = "<group>"; };
 		934D005F1C83924D00A76A90 /* OBACreateObjectJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACreateObjectJsonDigesterRule.h; sourceTree = "<group>"; };
-		934D00601C83924D00A76A90 /* OBACreateObjectJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACreateObjectJsonDigesterRule.m; sourceTree = "<group>"; };
+		934D00601C83924D00A76A90 /* OBACreateObjectJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBACreateObjectJsonDigesterRule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		934D00611C83924D00A76A90 /* OBAJsonDigester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAJsonDigester.h; sourceTree = "<group>"; };
-		934D00621C83924D00A76A90 /* OBAJsonDigester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAJsonDigester.m; sourceTree = "<group>"; };
+		934D00621C83924D00A76A90 /* OBAJsonDigester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAJsonDigester.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		934D00631C83924D00A76A90 /* OBASelectorJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASelectorJsonDigesterRule.h; sourceTree = "<group>"; };
 		934D00641C83924D00A76A90 /* OBASelectorJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASelectorJsonDigesterRule.m; sourceTree = "<group>"; };
 		934D00651C83924D00A76A90 /* OBASetCoordinatePropertyJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetCoordinatePropertyJsonDigesterRule.h; sourceTree = "<group>"; };
@@ -555,7 +617,7 @@
 		934D00691C83924D00A76A90 /* OBASetLocationPropertyJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetLocationPropertyJsonDigesterRule.h; sourceTree = "<group>"; };
 		934D006A1C83924D00A76A90 /* OBASetLocationPropertyJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetLocationPropertyJsonDigesterRule.m; sourceTree = "<group>"; };
 		934D006B1C83924D00A76A90 /* OBASetNextOBAJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetNextOBAJsonDigesterRule.h; sourceTree = "<group>"; };
-		934D006C1C83924D00A76A90 /* OBASetNextOBAJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetNextOBAJsonDigesterRule.m; sourceTree = "<group>"; };
+		934D006C1C83924D00A76A90 /* OBASetNextOBAJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBASetNextOBAJsonDigesterRule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		934D006D1C83924D00A76A90 /* OBASetPropertyJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetPropertyJsonDigesterRule.h; sourceTree = "<group>"; };
 		934D006E1C83924D00A76A90 /* OBASetPropertyJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetPropertyJsonDigesterRule.m; sourceTree = "<group>"; };
 		934D006F1C83924D00A76A90 /* OBAProgressIndicatorSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAProgressIndicatorSource.h; sourceTree = "<group>"; };
@@ -649,12 +711,27 @@
 		934D00CB1C83924D00A76A90 /* OBAModelService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelService.m; sourceTree = "<group>"; };
 		934D00CC1C83924D00A76A90 /* OBAModelServiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelServiceRequest.h; sourceTree = "<group>"; };
 		934D00CD1C83924D00A76A90 /* OBAModelServiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelServiceRequest.m; sourceTree = "<group>"; };
+		934E7ED81D585D23003A343D /* OBAClassicApplicationUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicApplicationUI.h; sourceTree = "<group>"; };
+		934E7ED91D585D23003A343D /* OBAClassicApplicationUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicApplicationUI.m; sourceTree = "<group>"; };
+		934E7EE51D586240003A343D /* OBADrawerUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADrawerUI.h; sourceTree = "<group>"; };
+		934E7EE61D586240003A343D /* OBADrawerUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADrawerUI.m; sourceTree = "<group>"; };
 		93528AAD1C8D50D200783E9A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		93528AAF1C8D50E900783E9A /* OneBusAway.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OneBusAway.entitlements; path = OneBusAway/OneBusAway.entitlements; sourceTree = "<group>"; };
 		93528AB01C8D517100783E9A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		93631E4A1604F96800CB7209 /* OBAApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAApplicationDelegate.h; sourceTree = "<group>"; };
 		93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAApplicationDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		936D2EDA1C78D7140060B7E1 /* OBADataSourceConfig_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADataSourceConfig_Tests.m; sourceTree = "<group>"; };
+		9363D58E1D6ADE6600A7021A /* invalid.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = invalid.gpx; sourceTree = "<group>"; };
+		9363D58F1D6ADE6600A7021A /* tampa.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = tampa.gpx; sourceTree = "<group>"; };
+		9363D5901D6ADE6600A7021A /* washingtondc.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = washingtondc.gpx; sourceTree = "<group>"; };
+		9363D5911D6ADE6600A7021A /* yorkca.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = yorkca.gpx; sourceTree = "<group>"; };
+		9363D5961D6AE2C300A7021A /* OBARegionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionHelper.h; sourceTree = "<group>"; };
+		9363D5971D6AE2C300A7021A /* OBARegionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionHelper.m; sourceTree = "<group>"; };
+		9364BF831CFE9F420039F7D4 /* OBABookmarkRouteDisambiguationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkRouteDisambiguationViewController.h; sourceTree = "<group>"; };
+		9364BF841CFE9F420039F7D4 /* OBABookmarkRouteDisambiguationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkRouteDisambiguationViewController.m; sourceTree = "<group>"; };
+		9365642E1D6CABA200F226C0 /* OBARouteFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARouteFilter.h; sourceTree = "<group>"; };
+		9365642F1D6CABA200F226C0 /* OBARouteFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARouteFilter.m; sourceTree = "<group>"; };
+		936564361D6D7CD500F226C0 /* OBATheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATheme.h; sourceTree = "<group>"; };
+		936564371D6D7CD500F226C0 /* OBATheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATheme.m; sourceTree = "<group>"; };
 		936D2EDC1C78D7300060B7E1 /* OBAURLHelpers_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAURLHelpers_Tests.m; sourceTree = "<group>"; };
 		936D2EE01C79B4030060B7E1 /* OBAStopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopViewController.h; sourceTree = "<group>"; };
 		936D2EE11C79B4030060B7E1 /* OBAStopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopViewController.m; sourceTree = "<group>"; };
@@ -693,18 +770,38 @@
 		936F45D91C78D06600C61656 /* OneBusAwayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneBusAwayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		936F45DB1C78D06600C61656 /* OneBusAwayTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneBusAwayTests.m; sourceTree = "<group>"; };
 		936F45DD1C78D06600C61656 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		937E71F51D6EE408007A62D8 /* OBAStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStrings.h; sourceTree = "<group>"; };
+		937E71F61D6EE408007A62D8 /* OBAStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStrings.m; sourceTree = "<group>"; };
+		938081BF1D837C53006CFF8C /* OBABookmarkGroupsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkGroupsViewController.h; sourceTree = "<group>"; };
+		938081C01D837C53006CFF8C /* OBABookmarkGroupsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkGroupsViewController.m; sourceTree = "<group>"; };
 		9388E9DC1A9BCC8900C9F6CE /* feedback_message_body.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = feedback_message_body.html; path = Resources/feedback_message_body.html; sourceTree = "<group>"; };
+		938B84241D8689E900DB0AF0 /* GoogleAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAnalytics.framework; path = Carthage/Build/iOS/GoogleAnalytics.framework; sourceTree = "<group>"; };
+		938B84261D8689F400DB0AF0 /* PMKCoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKCoreLocation.framework; path = Carthage/Build/iOS/PMKCoreLocation.framework; sourceTree = "<group>"; };
+		938B84271D8689F400DB0AF0 /* PMKFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKFoundation.framework; path = Carthage/Build/iOS/PMKFoundation.framework; sourceTree = "<group>"; };
+		938B84281D8689F400DB0AF0 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
+		938B84301D868A0500DB0AF0 /* DateTools.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DateTools.framework; path = Carthage/Build/iOS/DateTools.framework; sourceTree = "<group>"; };
+		938B84311D868A0500DB0AF0 /* DZNEmptyDataSet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DZNEmptyDataSet.framework; path = Carthage/Build/iOS/DZNEmptyDataSet.framework; sourceTree = "<group>"; };
+		938B84321D868A0500DB0AF0 /* PMKMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKMapKit.framework; path = Carthage/Build/iOS/PMKMapKit.framework; sourceTree = "<group>"; };
+		938B84331D868A0500DB0AF0 /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
+		938B84341D868A0500DB0AF0 /* SwiftMessages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftMessages.framework; path = Carthage/Build/iOS/SwiftMessages.framework; sourceTree = "<group>"; };
+		938EAC7A1D6A9B0600B174B9 /* OBASwitchRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASwitchRow.h; sourceTree = "<group>"; };
+		938EAC7B1D6A9B0600B174B9 /* OBASwitchRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASwitchRow.m; sourceTree = "<group>"; };
+		938EAC7D1D6A9BB400B174B9 /* OBASwitchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASwitchCell.h; sourceTree = "<group>"; };
+		938EAC7E1D6A9BB400B174B9 /* OBASwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASwitchCell.m; sourceTree = "<group>"; };
 		9399E3DD1C8930C300962292 /* OBASeparatorSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASeparatorSectionView.h; sourceTree = "<group>"; };
 		9399E3DE1C8930C300962292 /* OBASeparatorSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASeparatorSectionView.m; sourceTree = "<group>"; };
+		939C23AF1D36228A002A4145 /* OBABookmarkedRouteRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkedRouteRow.h; sourceTree = "<group>"; };
+		939C23B01D36228A002A4145 /* OBABookmarkedRouteRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkedRouteRow.m; sourceTree = "<group>"; };
+		939C23B71D371DE8002A4145 /* OBABookmarkedRouteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkedRouteCell.h; sourceTree = "<group>"; };
+		939C23B81D371DE8002A4145 /* OBABookmarkedRouteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkedRouteCell.m; sourceTree = "<group>"; };
 		939CEB241C0E406500E1D2B7 /* rvtd.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = rvtd.gpx; sourceTree = "<group>"; };
-		939E8E4C1C78DCB1008FCA4C /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		939E8E591C7B815E008FCA4C /* OBABaseRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABaseRow.h; sourceTree = "<group>"; };
 		939E8E5A1C7B815E008FCA4C /* OBABaseRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABaseRow.m; sourceTree = "<group>"; };
+		93A41C7D1D7C90770080500F /* OBATableViewCellValue1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATableViewCellValue1.h; sourceTree = "<group>"; };
+		93A41C7E1D7C90770080500F /* OBATableViewCellValue1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableViewCellValue1.m; sourceTree = "<group>"; };
 		93A923A11C21DCD600A657C8 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		93AD36391603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalEntryTableViewCell.h; sourceTree = "<group>"; };
 		93AD363A1603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalEntryTableViewCell.m; sourceTree = "<group>"; };
-		93AD363B1603FE7E00BDF03F /* OBAArrivalEntryTableViewCellFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalEntryTableViewCellFactory.h; sourceTree = "<group>"; };
-		93AD363C1603FE7E00BDF03F /* OBAArrivalEntryTableViewCellFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalEntryTableViewCellFactory.m; sourceTree = "<group>"; };
 		93AD363D1603FE7E00BDF03F /* OBALabelAndTextFieldTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALabelAndTextFieldTableViewCell.h; sourceTree = "<group>"; };
 		93AD363E1603FE7E00BDF03F /* OBALabelAndTextFieldTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALabelAndTextFieldTableViewCell.m; sourceTree = "<group>"; };
 		93AD369A1604027E00BDF03F /* OBAProgressIndicatorImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAProgressIndicatorImpl.h; sourceTree = "<group>"; };
@@ -712,25 +809,61 @@
 		93AD36A8160402FD00BDF03F /* OBANavigationTargetAware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTargetAware.h; sourceTree = "<group>"; };
 		93B32FF11AC4912F001DC177 /* UIViewController+OBAAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+OBAAnalytics.h"; sourceTree = "<group>"; };
 		93B32FF21AC4912F001DC177 /* UIViewController+OBAAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+OBAAnalytics.m"; sourceTree = "<group>"; };
+		93B35AA21D5FCCA70025DA4D /* OBAUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAUser.h; sourceTree = "<group>"; };
+		93B35AA31D5FCCA70025DA4D /* OBAUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAUser.m; sourceTree = "<group>"; };
+		93B35AA71D60FD040025DA4D /* OneBusAway-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OneBusAway-Bridging-Header.h"; sourceTree = "<group>"; };
+		93B35AA81D60FD050025DA4D /* RegionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionListViewController.swift; sourceTree = "<group>"; };
 		93B8BA271C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureViewController.h; sourceTree = "<group>"; };
 		93B8BA281C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureViewController.m; sourceTree = "<group>"; };
+		93C3936A1D8A3A4D0080F370 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		93C3936C1D8A3A530080F370 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		93C3936E1D8A3AC20080F370 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
+		93C393711D8A708A0080F370 /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
+		93C393721D8A708A0080F370 /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
+		93C393731D8A708A0080F370 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
+		93C393751D8A708A0080F370 /* PulleyPassthroughScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyPassthroughScrollView.swift; sourceTree = "<group>"; };
+		93C393761D8A708A0080F370 /* PulleyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyViewController.swift; sourceTree = "<group>"; };
+		93C3937C1D8A708A0080F370 /* SMFloatingLabelTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMFloatingLabelTextField.h; sourceTree = "<group>"; };
+		93C3937D1D8A708A0080F370 /* SMFloatingLabelTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMFloatingLabelTextField.m; sourceTree = "<group>"; };
+		93C393881D8CE6100080F370 /* ApptentiveResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ApptentiveResources.bundle; sourceTree = "<group>"; };
+		93C3938B1D8CE6100080F370 /* Apptentive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Apptentive.h; sourceTree = "<group>"; };
+		93C3938C1D8CE6100080F370 /* libApptentiveConnect.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libApptentiveConnect.a; sourceTree = "<group>"; };
+		93C393941D8E0ECE0080F370 /* UILabel+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+OBAAdditions.h"; sourceTree = "<group>"; };
+		93C393951D8E0ECE0080F370 /* UILabel+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+OBAAdditions.m"; sourceTree = "<group>"; };
+		93C921441D59289E00CA8868 /* OBADrawerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADrawerViewController.h; sourceTree = "<group>"; };
+		93C921451D59289E00CA8868 /* OBADrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADrawerViewController.m; sourceTree = "<group>"; };
+		93DEE5821D45207700042803 /* stop_with_obj_lat_long.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = stop_with_obj_lat_long.plist; sourceTree = "<group>"; };
 		93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OBALaunchScreen.xib; path = Resources/OBALaunchScreen.xib; sourceTree = "<group>"; };
+		93E0D19D1D569E7B00D9AA63 /* UIViewController+OBAContainment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+OBAContainment.h"; sourceTree = "<group>"; };
+		93E0D19E1D569E7B00D9AA63 /* UIViewController+OBAContainment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+OBAContainment.m"; sourceTree = "<group>"; };
+		93E0D1A01D579CA300D9AA63 /* OBAApplicationUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAApplicationUI.h; sourceTree = "<group>"; };
+		93E0D1A31D57D34E00D9AA63 /* OBAMapActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapActivityIndicatorView.h; sourceTree = "<group>"; };
+		93E0D1A41D57D34E00D9AA63 /* OBAMapActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapActivityIndicatorView.m; sourceTree = "<group>"; };
+		93E0D1A91D57EAAD00D9AA63 /* OBAVibrantBlurContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAVibrantBlurContainerView.h; sourceTree = "<group>"; };
+		93E0D1AA1D57EAAD00D9AA63 /* OBAVibrantBlurContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAVibrantBlurContainerView.m; sourceTree = "<group>"; };
+		93E4A2FF1CF7D42300EF9595 /* OBAClassicDepartureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureView.h; sourceTree = "<group>"; };
+		93E4A3001CF7D42300EF9595 /* OBAClassicDepartureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicDepartureView.m; sourceTree = "<group>"; };
+		93E4A7611CE65B2100E769B0 /* atlanta.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = atlanta.gpx; sourceTree = "<group>"; };
+		93EBC2EC1D9331B300B731A3 /* OBADataSourceConfig_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADataSourceConfig_Tests.m; sourceTree = "<group>"; };
 		93F05A611C8E080000BF36B1 /* OBAAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAnimation.h; sourceTree = "<group>"; };
 		93F05A621C8E080000BF36B1 /* OBAAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAnimation.m; sourceTree = "<group>"; };
 		93F64E951BE5ACC300323527 /* OBAAlerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAlerts.h; sourceTree = "<group>"; };
 		93F64E961BE5ACC300323527 /* OBAAlerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAlerts.m; sourceTree = "<group>"; };
-		9896748DE4027B647D4D41F0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		AF4665CA06626C1076EEEE33 /* Pods.appstoredistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstoredistribution.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstoredistribution.xcconfig"; sourceTree = "<group>"; };
-		B565A40323F4842FC230AA07 /* Pods-OneBusAway.appstoredistribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.appstoredistribution.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.appstoredistribution.xcconfig"; sourceTree = "<group>"; };
+		93F8F4411D375B77008659D2 /* OBAArrivalAndDepartureSectionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureSectionBuilder.h; sourceTree = "<group>"; };
+		93F8F4421D375B77008659D2 /* OBAArrivalAndDepartureSectionBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureSectionBuilder.m; sourceTree = "<group>"; };
+		93FF25E51D6E329A00A58E72 /* RegionBuilderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionBuilderViewController.swift; sourceTree = "<group>"; };
+		93FF25E71D6E332D00A58E72 /* OBATextFieldRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATextFieldRow.h; sourceTree = "<group>"; };
+		93FF25E81D6E332D00A58E72 /* OBATextFieldRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATextFieldRow.m; sourceTree = "<group>"; };
+		93FF25EA1D6E342B00A58E72 /* OBATextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATextFieldCell.h; sourceTree = "<group>"; };
+		93FF25EB1D6E342B00A58E72 /* OBATextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATextFieldCell.m; sourceTree = "<group>"; };
+		93FF4D491D83C87C00DDFF2D /* CardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CardView.xib; path = Resources/CardView.xib; sourceTree = "<group>"; };
 		D651BB2711C9D5DE001BE733 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = Resources/iTunesArtwork; sourceTree = "<group>"; };
 		D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
-		DEDC11A41EBF4F89626093D8 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E81C7B001825DEBF0047C68C /* setBuildVersion.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = setBuildVersion.sh; sourceTree = "<group>"; };
 		E81C7B011825DEBF0047C68C /* setBundleIdentifierForAppStore.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = setBundleIdentifierForAppStore.sh; sourceTree = "<group>"; };
 		E81C7B031825DEBF0047C68C /* accept_license.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = accept_license.sh; sourceTree = "<group>"; };
 		E81C7B041825DEBF0047C68C /* upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = upload.sh; sourceTree = "<group>"; };
 		E81C7B051825DEBF0047C68C /* xcode5.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = xcode5.sh; sourceTree = "<group>"; };
-		F9474B9020835B3BBE8BB77C /* Pods-OneBusAway.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneBusAway.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneBusAway/Pods-OneBusAway.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -738,11 +871,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */,
+				93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */,
 				93528AB11C8D517100783E9A /* CloudKit.framework in Frameworks */,
+				93C393911D8CE6100080F370 /* libApptentiveConnect.a in Frameworks */,
 				93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */,
 				936F45121C780E7600C61656 /* OBAKit.framework in Frameworks */,
 				93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */,
-				E238ED5643B2070974316CC3 /* Pods.framework in Frameworks */,
+				938B84351D868A0500DB0AF0 /* DateTools.framework in Frameworks */,
+				938B84361D868A0500DB0AF0 /* DZNEmptyDataSet.framework in Frameworks */,
+				938B84371D868A0500DB0AF0 /* PMKMapKit.framework in Frameworks */,
+				93C3936F1D8A3AC20080F370 /* Masonry.framework in Frameworks */,
+				938B84381D868A0500DB0AF0 /* SVProgressHUD.framework in Frameworks */,
+				938B84391D868A0500DB0AF0 /* SwiftMessages.framework in Frameworks */,
+				938B842C1D868A0500DB0AF0 /* GoogleAnalytics.framework in Frameworks */,
+				938B842D1D868A0500DB0AF0 /* PMKCoreLocation.framework in Frameworks */,
+				938B842E1D868A0500DB0AF0 /* PMKFoundation.framework in Frameworks */,
+				938B842F1D868A0500DB0AF0 /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -750,7 +895,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				939E8E4D1C78DCB1008FCA4C /* Pods.framework in Frameworks */,
+				938B84251D8689E900DB0AF0 /* GoogleAnalytics.framework in Frameworks */,
+				938B84291D8689F400DB0AF0 /* PMKCoreLocation.framework in Frameworks */,
+				938B842A1D8689F400DB0AF0 /* PMKFoundation.framework in Frameworks */,
+				938B842B1D8689F400DB0AF0 /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -759,28 +907,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				9320763A1C909FB2005F7D4A /* OBAKit.framework in Frameworks */,
-				F5DE989070011DA095DEC6A2 /* Pods.framework in Frameworks */,
+				93C393841D8A81210080F370 /* PMKCoreLocation.framework in Frameworks */,
+				93C393851D8A81210080F370 /* PMKFoundation.framework in Frameworks */,
+				93C393861D8A81210080F370 /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0084CA56FF32BA45A8E8327E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				F9474B9020835B3BBE8BB77C /* Pods-OneBusAway.debug.xcconfig */,
-				54CB67407CF2B898E5D99654 /* Pods-OneBusAway.release.xcconfig */,
-				B565A40323F4842FC230AA07 /* Pods-OneBusAway.appstoredistribution.xcconfig */,
-				26DE16A6837EFF5DCD23D805 /* Pods-OneBusAway.adhocdistribution.xcconfig */,
-				DEDC11A41EBF4F89626093D8 /* Pods.debug.xcconfig */,
-				9896748DE4027B647D4D41F0 /* Pods.release.xcconfig */,
-				AF4665CA06626C1076EEEE33 /* Pods.appstoredistribution.xcconfig */,
-				13105E482CCDE283CE77C92E /* Pods.adhocdistribution.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -795,9 +930,9 @@
 			isa = PBXGroup;
 			children = (
 				93528AAF1C8D50E900783E9A /* OneBusAway.entitlements */,
+				93C3932B1D89B3F40080F370 /* Externals */,
 				936F44FE1C780E7600C61656 /* OBAKit */,
 				932BE4901AB66D320011F2FB /* ui */,
-				934446791AB10B1D005B3333 /* location */,
 				934445F71AB105FB005B3333 /* gpx_files */,
 				931C42BF160E4AE000435CD3 /* categories */,
 				93631E4A1604F96800CB7209 /* OBAApplicationDelegate.h */,
@@ -811,7 +946,6 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */,
-				0084CA56FF32BA45A8E8327E /* Pods */,
 			);
 			name = org.onebusaway.iphone;
 			sourceTree = "<group>";
@@ -819,7 +953,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				28A0AB4B0D9B1048005BE974 /* org_onebusaway_iphone_Prefix.pch */,
+				93B35AA71D60FD040025DA4D /* OneBusAway-Bridging-Header.h */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
@@ -828,6 +962,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				93FF4D491D83C87C00DDFF2D /* CardView.xib */,
 				932076631C94E6F2005F7D4A /* regions-v3.json */,
 				93E0954619CE051700A31BA6 /* OBALaunchScreen.xib */,
 				928E12B117D7863400FD855E /* Images.xcassets */,
@@ -843,11 +978,21 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93C3936E1D8A3AC20080F370 /* Masonry.framework */,
+				93C3936C1D8A3A530080F370 /* Foundation.framework */,
+				93C3936A1D8A3A4D0080F370 /* UIKit.framework */,
+				938B84301D868A0500DB0AF0 /* DateTools.framework */,
+				938B84311D868A0500DB0AF0 /* DZNEmptyDataSet.framework */,
+				938B84321D868A0500DB0AF0 /* PMKMapKit.framework */,
+				938B84331D868A0500DB0AF0 /* SVProgressHUD.framework */,
+				938B84341D868A0500DB0AF0 /* SwiftMessages.framework */,
+				938B84261D8689F400DB0AF0 /* PMKCoreLocation.framework */,
+				938B84271D8689F400DB0AF0 /* PMKFoundation.framework */,
+				938B84281D8689F400DB0AF0 /* PromiseKit.framework */,
+				938B84241D8689E900DB0AF0 /* GoogleAnalytics.framework */,
 				93528AB01C8D517100783E9A /* CloudKit.framework */,
 				93528AAD1C8D50D200783E9A /* MapKit.framework */,
-				939E8E4C1C78DCB1008FCA4C /* Pods.framework */,
 				93A923A11C21DCD600A657C8 /* SafariServices.framework */,
-				5915BB5B4ED79BCFF0C6D8B4 /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -872,6 +1017,10 @@
 		9302B6051CA4CCDA002B6AC7 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				93C393941D8E0ECE0080F370 /* UILabel+OBAAdditions.h */,
+				93C393951D8E0ECE0080F370 /* UILabel+OBAAdditions.m */,
+				934B62A01CFBA5FA00D8FA85 /* NSObject+OBADescription.h */,
+				934B62A11CFBA5FA00D8FA85 /* NSObject+OBADescription.m */,
 				9302B6061CA4CCDA002B6AC7 /* NSArray+OBAAdditions.h */,
 				9302B6071CA4CCDA002B6AC7 /* NSArray+OBAAdditions.m */,
 			);
@@ -881,6 +1030,7 @@
 		9302B6DE1CA5A3F9002B6AC7 /* Stops */ = {
 			isa = PBXGroup;
 			children = (
+				93DEE5821D45207700042803 /* stop_with_obj_lat_long.plist */,
 				9302B6DF1CA5A3F9002B6AC7 /* SEA_4thPike_East.json */,
 			);
 			path = Stops;
@@ -899,13 +1049,26 @@
 				934446B71AB10ECA005B3333 /* UITableViewCell+oba_Additions.m */,
 				93B32FF11AC4912F001DC177 /* UIViewController+OBAAnalytics.h */,
 				93B32FF21AC4912F001DC177 /* UIViewController+OBAAnalytics.m */,
+				93E0D19D1D569E7B00D9AA63 /* UIViewController+OBAContainment.h */,
+				93E0D19E1D569E7B00D9AA63 /* UIViewController+OBAContainment.m */,
 			);
 			path = categories;
+			sourceTree = "<group>";
+		};
+		931FA94C1D502B9200E12D62 /* controls */ = {
+			isa = PBXGroup;
+			children = (
+				931FA94D1D502B9E00E12D62 /* OBARotatingButton.h */,
+				931FA94E1D502B9E00E12D62 /* OBARotatingButton.m */,
+			);
+			path = controls;
 			sourceTree = "<group>";
 		};
 		932076361C909F63005F7D4A /* OBAKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				93EBC2EB1D93317D00B731A3 /* services */,
+				9337D6CA1D32AFD000D237D6 /* helpers */,
 				932076371C909F63005F7D4A /* models */,
 			);
 			path = OBAKitTests;
@@ -951,6 +1114,7 @@
 				9302B6BA1CA5A0DC002B6AC7 /* OBAVehicleStatusV2_Tests.m */,
 				9302B60A1CA4FEB0002B6AC7 /* OBARegionV2_Tests.m */,
 				932076381C909F76005F7D4A /* OBABookmarkV2_Tests.m */,
+				93392E241CB23D0000A46B61 /* OBAModelDAO_Tests.m */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -958,6 +1122,7 @@
 		9320763B1C90B82A005F7D4A /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
+				9337D6CD1D32B12700D237D6 /* Emails */,
 				9302B6DE1CA5A3F9002B6AC7 /* Stops */,
 				9302B6021CA4BE9E002B6AC7 /* Regions */,
 				9320763C1C90B82A005F7D4A /* Bookmarks */,
@@ -978,6 +1143,8 @@
 		932076651C95360E005F7D4A /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				936564361D6D7CD500F226C0 /* OBATheme.h */,
+				936564371D6D7CD500F226C0 /* OBATheme.m */,
 				932076661C95361A005F7D4A /* OBAUIBuilder.h */,
 				932076671C95361A005F7D4A /* OBAUIBuilder.m */,
 			);
@@ -996,6 +1163,8 @@
 		932BE4901AB66D320011F2FB /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				93B35AA61D60FCE80025DA4D /* regions */,
+				934E7EDB1D58600D003A343D /* drawer */,
 				936D2EDF1C79B3E10060B7E1 /* stops */,
 				9345225B1C1BA961006F75BC /* themes */,
 				936D3EB71C14E73300091DC9 /* static_table */,
@@ -1003,6 +1172,7 @@
 				932BE4FC1AB66EF20011F2FB /* recent_stops */,
 				932BE4EF1AB66E990011F2FB /* search */,
 				932BE4E21AB66E3C0011F2FB /* bookmarks */,
+				938081BE1D837C53006CFF8C /* bookmark_groups */,
 				932BE4D21AB66D890011F2FB /* situations */,
 				932BE4C21AB66D710011F2FB /* trip_details */,
 				932BE4A31AB66D5C0011F2FB /* stop_details */,
@@ -1017,16 +1187,10 @@
 				932BE4DF1AB66DBD0011F2FB /* OBACreditsViewController.h */,
 				932BE4E01AB66DBD0011F2FB /* OBACreditsViewController.m */,
 				932BE5021AB66FCB0011F2FB /* OBACreditsViewController.xib */,
-				932BE4DC1AB66DA90011F2FB /* OBACustomApiViewController.h */,
-				932BE4DD1AB66DA90011F2FB /* OBACustomApiViewController.m */,
 				932BE4921AB66D320011F2FB /* OBAAgenciesListViewController.h */,
 				932BE4931AB66D320011F2FB /* OBAAgenciesListViewController.m */,
-				932BE4941AB66D320011F2FB /* OBAContactUsViewController.h */,
-				932BE4951AB66D320011F2FB /* OBAContactUsViewController.m */,
 				932BE4961AB66D320011F2FB /* OBAInfoViewController.h */,
 				932BE4971AB66D320011F2FB /* OBAInfoViewController.m */,
-				932BE4991AB66D320011F2FB /* OBARegionListViewController.h */,
-				932BE49A1AB66D320011F2FB /* OBARegionListViewController.m */,
 			);
 			path = info;
 			sourceTree = "<group>";
@@ -1059,9 +1223,12 @@
 				932BE4CA1AB66D710011F2FB /* OBATripScheduleListViewController.m */,
 				932BE4CB1AB66D710011F2FB /* OBATripScheduleMapViewController.h */,
 				932BE4CC1AB66D710011F2FB /* OBATripScheduleMapViewController.m */,
-				932BE50A1AB6719D0011F2FB /* OBATripScheduleMapViewController.xib */,
 				93B8BA271C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.h */,
 				93B8BA281C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m */,
+				934B62951CF825D200D8FA85 /* OBATripScheduleSectionBuilder.h */,
+				934B62961CF825D200D8FA85 /* OBATripScheduleSectionBuilder.m */,
+				93F8F4411D375B77008659D2 /* OBAArrivalAndDepartureSectionBuilder.h */,
+				93F8F4421D375B77008659D2 /* OBAArrivalAndDepartureSectionBuilder.m */,
 			);
 			path = trip_details;
 			sourceTree = "<group>";
@@ -1083,14 +1250,13 @@
 		932BE4E21AB66E3C0011F2FB /* bookmarks */ = {
 			isa = PBXGroup;
 			children = (
-				932BE4E31AB66E3C0011F2FB /* OBAEditBookmarkGroupViewController.h */,
-				932BE4E41AB66E3C0011F2FB /* OBAEditBookmarkGroupViewController.m */,
-				932BE4E51AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.h */,
-				932BE4E61AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.m */,
+				939C23AE1D362209002A4145 /* tableview */,
 				932BE4E71AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.h */,
 				932BE4E81AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.m */,
 				9320764A1C915441005F7D4A /* OBABookmarksViewController.h */,
 				9320764B1C915441005F7D4A /* OBABookmarksViewController.m */,
+				9364BF831CFE9F420039F7D4 /* OBABookmarkRouteDisambiguationViewController.h */,
+				9364BF841CFE9F420039F7D4 /* OBABookmarkRouteDisambiguationViewController.m */,
 			);
 			path = bookmarks;
 			sourceTree = "<group>";
@@ -1121,28 +1287,43 @@
 		9330DF251606404100E14AF4 /* containers */ = {
 			isa = PBXGroup;
 			children = (
+				93E0D1A91D57EAAD00D9AA63 /* OBAVibrantBlurContainerView.h */,
+				93E0D1AA1D57EAAD00D9AA63 /* OBAVibrantBlurContainerView.m */,
 				9330DF261606405100E14AF4 /* OBAScopeView.h */,
 				9330DF271606405100E14AF4 /* OBAScopeView.m */,
 			);
 			path = containers;
 			sourceTree = "<group>";
 		};
+		9337D6CA1D32AFD000D237D6 /* helpers */ = {
+			isa = PBXGroup;
+			children = (
+				9337D6CB1D32AFE300D237D6 /* OBAEmailHelper_Tests.m */,
+			);
+			path = helpers;
+			sourceTree = "<group>";
+		};
+		9337D6CD1D32B12700D237D6 /* Emails */ = {
+			isa = PBXGroup;
+			children = (
+				9337D6CE1D32B21C00D237D6 /* testMessageBodyForModelDAO.html */,
+			);
+			path = Emails;
+			sourceTree = "<group>";
+		};
 		934445F71AB105FB005B3333 /* gpx_files */ = {
 			isa = PBXGroup;
 			children = (
+				9363D58E1D6ADE6600A7021A /* invalid.gpx */,
+				9363D58F1D6ADE6600A7021A /* tampa.gpx */,
+				9363D5901D6ADE6600A7021A /* washingtondc.gpx */,
+				9363D5911D6ADE6600A7021A /* yorkca.gpx */,
+				9347860D1D3453E9002A5627 /* sandiego.gpx */,
+				93E4A7611CE65B2100E769B0 /* atlanta.gpx */,
 				939CEB241C0E406500E1D2B7 /* rvtd.gpx */,
 				934445F81AB105FB005B3333 /* capitolhill.gpx */,
 			);
 			path = gpx_files;
-			sourceTree = "<group>";
-		};
-		934446791AB10B1D005B3333 /* location */ = {
-			isa = PBXGroup;
-			children = (
-				669B2F7E1AEBFEBF00CF2367 /* OBARegionHelper.h */,
-				669B2F7F1AEBFEBF00CF2367 /* OBARegionHelper.m */,
-			);
-			path = location;
 			sourceTree = "<group>";
 		};
 		934446C81AB12B29005B3333 /* view_controllers */ = {
@@ -1164,10 +1345,13 @@
 		9345225B1C1BA961006F75BC /* themes */ = {
 			isa = PBXGroup;
 			children = (
-				9345225E1C1BA976006F75BC /* OBATheme.h */,
-				9345225F1C1BA976006F75BC /* OBATheme.m */,
 				93F05A611C8E080000BF36B1 /* OBAAnimation.h */,
 				93F05A621C8E080000BF36B1 /* OBAAnimation.m */,
+				93E0D1A01D579CA300D9AA63 /* OBAApplicationUI.h */,
+				934E7ED81D585D23003A343D /* OBAClassicApplicationUI.h */,
+				934E7ED91D585D23003A343D /* OBAClassicApplicationUI.m */,
+				934E7EE51D586240003A343D /* OBADrawerUI.h */,
+				934E7EE61D586240003A343D /* OBADrawerUI.m */,
 			);
 			path = themes;
 			sourceTree = "<group>";
@@ -1175,6 +1359,8 @@
 		934D00151C83924400A76A90 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				93283CC91D69553700A8180D /* OBAReachability.h */,
+				93283CCA1D69553700A8180D /* OBAReachability.m */,
 				934D00161C83924400A76A90 /* OBACommon.h */,
 				934D00171C83924400A76A90 /* OBACommon.m */,
 				934D00181C83924400A76A90 /* OBACommonV1.h */,
@@ -1182,8 +1368,6 @@
 				934D001A1C83924400A76A90 /* OBADateHelpers.m */,
 				934D001B1C83924400A76A90 /* OBAImageHelpers.h */,
 				934D001C1C83924400A76A90 /* OBAImageHelpers.m */,
-				934D001D1C83924400A76A90 /* OBALogger.h */,
-				934D001E1C83924400A76A90 /* OBALogger.m */,
 				934D001F1C83924400A76A90 /* OBAMacros.h */,
 				934D00201C83924400A76A90 /* OBAMapHelpers.h */,
 				934D00211C83924400A76A90 /* OBAMapHelpers.m */,
@@ -1191,6 +1375,14 @@
 				934D00251C83924400A76A90 /* OBAStopIconFactory.m */,
 				934D00261C83924400A76A90 /* OBAURLHelpers.h */,
 				934D00271C83924400A76A90 /* OBAURLHelpers.m */,
+				9337D6C61D32A85F00D237D6 /* OBAEmailHelper.h */,
+				9337D6C71D32A85F00D237D6 /* OBAEmailHelper.m */,
+				93B35AA21D5FCCA70025DA4D /* OBAUser.h */,
+				93B35AA31D5FCCA70025DA4D /* OBAUser.m */,
+				9365642E1D6CABA200F226C0 /* OBARouteFilter.h */,
+				9365642F1D6CABA200F226C0 /* OBARouteFilter.m */,
+				937E71F51D6EE408007A62D8 /* OBAStrings.h */,
+				937E71F61D6EE408007A62D8 /* OBAStrings.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1198,6 +1390,8 @@
 		934D00281C83924400A76A90 /* Location */ = {
 			isa = PBXGroup;
 			children = (
+				9363D5961D6AE2C300A7021A /* OBARegionHelper.h */,
+				9363D5971D6AE2C300A7021A /* OBARegionHelper.m */,
 				934D00291C83924400A76A90 /* OBALocationManager.h */,
 				934D002A1C83924400A76A90 /* OBALocationManager.m */,
 				934D002B1C83924400A76A90 /* OBAMapRegionManager.h */,
@@ -1225,8 +1419,6 @@
 		934D004C1C83924D00A76A90 /* annotations */ = {
 			isa = PBXGroup;
 			children = (
-				934D004D1C83924D00A76A90 /* OBAGenericAnnotation.h */,
-				934D004E1C83924D00A76A90 /* OBAGenericAnnotation.m */,
 				934D004F1C83924D00A76A90 /* OBANavigationTargetAnnotation.h */,
 				934D00501C83924D00A76A90 /* OBANavigationTargetAnnotation.m */,
 				934D00511C83924D00A76A90 /* OBATripContinuationMapAnnotation.h */,
@@ -1246,6 +1438,7 @@
 				934D00591C83924D00A76A90 /* OBAModelDAO.m */,
 				934D005A1C83924D00A76A90 /* OBAModelDAOUserPreferencesImpl.h */,
 				934D005B1C83924D00A76A90 /* OBAModelDAOUserPreferencesImpl.m */,
+				93392E261CB23F5C00A46B61 /* OBAModelPersistenceLayer.h */,
 			);
 			path = dao;
 			sourceTree = "<group>";
@@ -1379,6 +1572,15 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		934E7EDB1D58600D003A343D /* drawer */ = {
+			isa = PBXGroup;
+			children = (
+				93C921441D59289E00CA8868 /* OBADrawerViewController.h */,
+				93C921451D59289E00CA8868 /* OBADrawerViewController.m */,
+			);
+			path = drawer;
+			sourceTree = "<group>";
+		};
 		936D2EDF1C79B3E10060B7E1 /* stops */ = {
 			isa = PBXGroup;
 			children = (
@@ -1400,6 +1602,8 @@
 				936D62811C8CEA930070152B /* OBADepartureCellHelpers.m */,
 				936D62831C8CED540070152B /* OBAClassicDepartureSectionHeaderView.h */,
 				936D62841C8CED540070152B /* OBAClassicDepartureSectionHeaderView.m */,
+				93E4A2FF1CF7D42300EF9595 /* OBAClassicDepartureView.h */,
+				93E4A3001CF7D42300EF9595 /* OBAClassicDepartureView.m */,
 			);
 			path = stops;
 			sourceTree = "<group>";
@@ -1412,6 +1616,12 @@
 				936D2EEC1C7A3BAB0060B7E1 /* OBATableViewCell.m */,
 				9320765D1C94042B005F7D4A /* OBASegmentedControlCell.h */,
 				9320765E1C94042B005F7D4A /* OBASegmentedControlCell.m */,
+				938EAC7D1D6A9BB400B174B9 /* OBASwitchCell.h */,
+				938EAC7E1D6A9BB400B174B9 /* OBASwitchCell.m */,
+				93FF25EA1D6E342B00A58E72 /* OBATextFieldCell.h */,
+				93FF25EB1D6E342B00A58E72 /* OBATextFieldCell.m */,
+				93A41C7D1D7C90770080500F /* OBATableViewCellValue1.h */,
+				93A41C7E1D7C90770080500F /* OBATableViewCellValue1.m */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -1429,6 +1639,10 @@
 				936D2EF61C7A68430060B7E1 /* OBAViewModelRegistry.m */,
 				932076601C940519005F7D4A /* OBASegmentedRow.h */,
 				932076611C940519005F7D4A /* OBASegmentedRow.m */,
+				938EAC7A1D6A9B0600B174B9 /* OBASwitchRow.h */,
+				938EAC7B1D6A9B0600B174B9 /* OBASwitchRow.m */,
+				93FF25E71D6E332D00A58E72 /* OBATextFieldRow.h */,
+				93FF25E81D6E332D00A58E72 /* OBATextFieldRow.m */,
 			);
 			path = viewmodels;
 			sourceTree = "<group>";
@@ -1470,12 +1684,22 @@
 				932076361C909F63005F7D4A /* OBAKitTests */,
 				936F45DB1C78D06600C61656 /* OneBusAwayTests.m */,
 				936F45DD1C78D06600C61656 /* Info.plist */,
-				936D2EDA1C78D7140060B7E1 /* OBADataSourceConfig_Tests.m */,
 				936D2EDC1C78D7300060B7E1 /* OBAURLHelpers_Tests.m */,
 				9320763F1C90B948005F7D4A /* OBATestHelpers.h */,
 				932076401C90B948005F7D4A /* OBATestHelpers.m */,
+				93392E281CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.h */,
+				93392E291CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.m */,
 			);
 			path = OneBusAwayTests;
+			sourceTree = "<group>";
+		};
+		938081BE1D837C53006CFF8C /* bookmark_groups */ = {
+			isa = PBXGroup;
+			children = (
+				938081BF1D837C53006CFF8C /* OBABookmarkGroupsViewController.h */,
+				938081C01D837C53006CFF8C /* OBABookmarkGroupsViewController.m */,
+			);
+			path = bookmark_groups;
 			sourceTree = "<group>";
 		};
 		9399E3DC1C89309300962292 /* section_headers */ = {
@@ -1485,13 +1709,27 @@
 				9399E3DE1C8930C300962292 /* OBASeparatorSectionView.m */,
 				936D62861C8D00150070152B /* OBALabelFooterView.h */,
 				936D62871C8D00150070152B /* OBALabelFooterView.m */,
+				93203E9F1D5BAD2500E6100C /* OBACollapsingHeaderView.h */,
+				93203EA01D5BAD2500E6100C /* OBACollapsingHeaderView.m */,
 			);
 			path = section_headers;
+			sourceTree = "<group>";
+		};
+		939C23AE1D362209002A4145 /* tableview */ = {
+			isa = PBXGroup;
+			children = (
+				939C23AF1D36228A002A4145 /* OBABookmarkedRouteRow.h */,
+				939C23B01D36228A002A4145 /* OBABookmarkedRouteRow.m */,
+				939C23B71D371DE8002A4145 /* OBABookmarkedRouteCell.h */,
+				939C23B81D371DE8002A4145 /* OBABookmarkedRouteCell.m */,
+			);
+			path = tableview;
 			sourceTree = "<group>";
 		};
 		93AD36371603FE4600BDF03F /* controls */ = {
 			isa = PBXGroup;
 			children = (
+				931FA94C1D502B9200E12D62 /* controls */,
 				934446C81AB12B29005B3333 /* view_controllers */,
 				9330DF251606404100E14AF4 /* containers */,
 				93AD36991604027E00BDF03F /* progress */,
@@ -1512,8 +1750,6 @@
 				93AD36391603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.h */,
 				93AD363A1603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m */,
 				932BE5001AB66F990011F2FB /* OBAArrivalEntryTableViewCell.xib */,
-				93AD363B1603FE7E00BDF03F /* OBAArrivalEntryTableViewCellFactory.h */,
-				93AD363C1603FE7E00BDF03F /* OBAArrivalEntryTableViewCellFactory.m */,
 				93AD363D1603FE7E00BDF03F /* OBALabelAndTextFieldTableViewCell.h */,
 				93AD363E1603FE7E00BDF03F /* OBALabelAndTextFieldTableViewCell.m */,
 				932BE50C1AB671BD0011F2FB /* OBALabelAndTextFieldTableViewCell.xib */,
@@ -1531,6 +1767,10 @@
 				932BE50E1AB671EB0011F2FB /* OBAProgressIndicatorView.xib */,
 				93AD369A1604027E00BDF03F /* OBAProgressIndicatorImpl.h */,
 				93AD369B1604027E00BDF03F /* OBAProgressIndicatorImpl.m */,
+				93E0D1A31D57D34E00D9AA63 /* OBAMapActivityIndicatorView.h */,
+				93E0D1A41D57D34E00D9AA63 /* OBAMapActivityIndicatorView.m */,
+				93283CC61D69437600A8180D /* OBALabelActivityIndicatorView.h */,
+				93283CC71D69437600A8180D /* OBALabelActivityIndicatorView.m */,
 			);
 			path = progress;
 			sourceTree = "<group>";
@@ -1543,10 +1783,97 @@
 			path = protocols;
 			sourceTree = "<group>";
 		};
+		93B35AA61D60FCE80025DA4D /* regions */ = {
+			isa = PBXGroup;
+			children = (
+				93B35AA81D60FD050025DA4D /* RegionListViewController.swift */,
+				93FF25E51D6E329A00A58E72 /* RegionBuilderViewController.swift */,
+			);
+			path = regions;
+			sourceTree = "<group>";
+		};
+		93C3932B1D89B3F40080F370 /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				93C393871D8CE6100080F370 /* apptentive */,
+				93C393701D8A708A0080F370 /* extobjc */,
+				93C393741D8A708A0080F370 /* pulley */,
+				93C393771D8A708A0080F370 /* SMFloatingLabelTextField */,
+			);
+			name = Externals;
+			sourceTree = "<group>";
+		};
+		93C393701D8A708A0080F370 /* extobjc */ = {
+			isa = PBXGroup;
+			children = (
+				93C393711D8A708A0080F370 /* EXTScope.h */,
+				93C393721D8A708A0080F370 /* EXTScope.m */,
+				93C393731D8A708A0080F370 /* metamacros.h */,
+			);
+			name = extobjc;
+			path = externals/extobjc;
+			sourceTree = "<group>";
+		};
+		93C393741D8A708A0080F370 /* pulley */ = {
+			isa = PBXGroup;
+			children = (
+				93C393751D8A708A0080F370 /* PulleyPassthroughScrollView.swift */,
+				93C393761D8A708A0080F370 /* PulleyViewController.swift */,
+			);
+			name = pulley;
+			path = externals/pulley;
+			sourceTree = "<group>";
+		};
+		93C393771D8A708A0080F370 /* SMFloatingLabelTextField */ = {
+			isa = PBXGroup;
+			children = (
+				93C3937A1D8A708A0080F370 /* Classes */,
+			);
+			name = SMFloatingLabelTextField;
+			path = externals/SMFloatingLabelTextField;
+			sourceTree = "<group>";
+		};
+		93C3937A1D8A708A0080F370 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				93C3937C1D8A708A0080F370 /* SMFloatingLabelTextField.h */,
+				93C3937D1D8A708A0080F370 /* SMFloatingLabelTextField.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		93C393871D8CE6100080F370 /* apptentive */ = {
+			isa = PBXGroup;
+			children = (
+				93C393881D8CE6100080F370 /* ApptentiveResources.bundle */,
+				93C3938A1D8CE6100080F370 /* include */,
+				93C3938C1D8CE6100080F370 /* libApptentiveConnect.a */,
+			);
+			name = apptentive;
+			path = externals/apptentive;
+			sourceTree = "<group>";
+		};
+		93C3938A1D8CE6100080F370 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				93C3938B1D8CE6100080F370 /* Apptentive.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		93EBC2EB1D93317D00B731A3 /* services */ = {
+			isa = PBXGroup;
+			children = (
+				93EBC2EC1D9331B300B731A3 /* OBADataSourceConfig_Tests.m */,
+			);
+			path = services;
+			sourceTree = "<group>";
+		};
 		93F64E921BE5ACB900323527 /* alerts */ = {
 			isa = PBXGroup;
 			children = (
 				93F64E951BE5ACC300323527 /* OBAAlerts.h */,
+				9347B0621D73CB5C00DFBEE0 /* AlertPresenter.swift */,
 				93F64E961BE5ACC300323527 /* OBAAlerts.m */,
 			);
 			path = alerts;
@@ -1627,7 +1954,6 @@
 				934D00F91C83924D00A76A90 /* OBABookmarkGroup.h in Headers */,
 				934D01401C83924D00A76A90 /* OBADataSource.h in Headers */,
 				934D01411C83924D00A76A90 /* OBADataSourceConfig.h in Headers */,
-				934D00CE1C83924D00A76A90 /* OBAGenericAnnotation.h in Headers */,
 				934D00FD1C83924D00A76A90 /* OBACoordinateBounds.h in Headers */,
 				934D01431C83924D00A76A90 /* OBAJsonDataSource.h in Headers */,
 				934D012E1C83924D00A76A90 /* OBATripDetailsV2.h in Headers */,
@@ -1644,7 +1970,6 @@
 				934D00431C83924400A76A90 /* OBALocationManager.h in Headers */,
 				934D01361C83924D00A76A90 /* OBATripStopTimeV2.h in Headers */,
 				934D012A1C83924D00A76A90 /* OBAStopsForRouteV2.h in Headers */,
-				934D00311C83924400A76A90 /* OBACommon.h in Headers */,
 				934D01181C83924D00A76A90 /* OBAReportProblemWithTripV2.h in Headers */,
 				934D00EA1C83924D00A76A90 /* OBASetNextOBAJsonDigesterRule.h in Headers */,
 				934D01161C83924D00A76A90 /* OBAReportProblemWithStopV2.h in Headers */,
@@ -1653,13 +1978,23 @@
 				936F45001C780E7600C61656 /* OBAKit.h in Headers */,
 				934D01081C83924D00A76A90 /* OBAListWithRangeAndReferencesV2.h in Headers */,
 				934D011A1C83924D00A76A90 /* OBARouteV2.h in Headers */,
-				934D00381C83924400A76A90 /* OBALogger.h in Headers */,
 				934D00D41C83924D00A76A90 /* OBATripStopTimeMapAnnotation.h in Headers */,
 				932076681C95361A005F7D4A /* OBAUIBuilder.h in Headers */,
 				9320772A1C9C85F4005F7D4A /* OBAHasServiceAlerts.h in Headers */,
 				934D00DE1C83924D00A76A90 /* OBACreateObjectJsonDigesterRule.h in Headers */,
+				93392E271CB23F5C00A46B61 /* OBAModelPersistenceLayer.h in Headers */,
+				934B62A21CFBA5FA00D8FA85 /* NSObject+OBADescription.h in Headers */,
 				9302B6081CA4CCDA002B6AC7 /* NSArray+OBAAdditions.h in Headers */,
+				93B35AA41D5FCCA70025DA4D /* OBAUser.h in Headers */,
+				9337D6C81D32A85F00D237D6 /* OBAEmailHelper.h in Headers */,
+				9363D5981D6AE2C300A7021A /* OBARegionHelper.h in Headers */,
+				93283CCB1D69553700A8180D /* OBAReachability.h in Headers */,
+				937E71F71D6EE408007A62D8 /* OBAStrings.h in Headers */,
+				936564381D6D7CD500F226C0 /* OBATheme.h in Headers */,
+				936564301D6CABA200F226C0 /* OBARouteFilter.h in Headers */,
+				93C393961D8E0ECE0080F370 /* UILabel+OBAAdditions.h in Headers */,
 				9320771A1C993A4D005F7D4A /* OBARouteType.h in Headers */,
+				934D00311C83924400A76A90 /* OBACommon.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1670,13 +2005,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "OneBusAway" */;
 			buildPhases = (
-				6B6B7A45241BAC04AEF592F6 /* Check Pods Manifest.lock */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
-				CCD9E7D7D1BC4AE93C05BC2C /* Copy Pods Resources */,
-				9249CA403954520FB6FA712D /* Embed Pods Frameworks */,
 				936F45191C780E7700C61656 /* Embed Frameworks */,
+				938B84231D8686B800DB0AF0 /* Carthage Integration */,
 			);
 			buildRules = (
 			);
@@ -1710,12 +2043,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 936F45E01C78D06600C61656 /* Build configuration list for PBXNativeTarget "OneBusAwayTests" */;
 			buildPhases = (
-				EDFC3E1A9AE32A1238FF0C15 /* Check Pods Manifest.lock */,
 				936F45D51C78D06600C61656 /* Sources */,
 				936F45D61C78D06600C61656 /* Frameworks */,
 				936F45D71C78D06600C61656 /* Resources */,
-				0A4CB080EB16E4245EF79109 /* Embed Pods Frameworks */,
-				5BC0CCFE51E0556A68BEC6BB /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1734,11 +2064,14 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = OBA;
-				LastUpgradeCheck = 0710;
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = OneBusAway;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = THEWY9596Q;
+						LastSwiftMigration = 0800;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -1753,9 +2086,11 @@
 					};
 					936F44FC1C780E7600C61656 = {
 						CreatedOnToolsVersion = 7.2.1;
+						ProvisioningStyle = Manual;
 					};
 					936F45D81C78D06600C61656 = {
 						CreatedOnToolsVersion = 7.2.1;
+						ProvisioningStyle = Manual;
 						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
 				};
@@ -1775,6 +2110,7 @@
 				"zh-Hant",
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */;
+			productRefGroup = 19C28FACFE9D520D11CA2CBB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -1791,20 +2127,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */,
+				93FF4D4A1D83C87C00DDFF2D /* CardView.xib in Resources */,
+				9363D5941D6ADE6600A7021A /* washingtondc.gpx in Resources */,
 				D651BB2811C9D5DE001BE733 /* iTunesArtwork in Resources */,
+				9363D5921D6ADE6600A7021A /* invalid.gpx in Resources */,
 				932BE50F1AB671EB0011F2FB /* OBAProgressIndicatorView.xib in Resources */,
-				932BE50B1AB6719D0011F2FB /* OBATripScheduleMapViewController.xib in Resources */,
 				932BE5171AB672B50011F2FB /* OBASearchResultsMapViewController.xib in Resources */,
+				93E4A7621CE65B2100E769B0 /* atlanta.gpx in Resources */,
 				932BE5011AB66F990011F2FB /* OBAArrivalEntryTableViewCell.xib in Resources */,
 				932BE5151AB672940011F2FB /* OBATextFieldTableViewCell.xib in Resources */,
+				9347860E1D3453E9002A5627 /* sandiego.gpx in Resources */,
 				932BE5031AB66FCB0011F2FB /* OBACreditsViewController.xib in Resources */,
 				9330DEEA16050CA600E14AF4 /* credits.html in Resources */,
+				93C3938F1D8CE6100080F370 /* ApptentiveResources.bundle in Resources */,
+				9363D5951D6ADE6600A7021A /* yorkca.gpx in Resources */,
 				9388E9DD1A9BCC8900C9F6CE /* feedback_message_body.html in Resources */,
 				932BE5071AB671000011F2FB /* OBALabelAndSwitchTableViewCell.xib in Resources */,
 				932BE5051AB6705F0011F2FB /* OBADiversionViewController.xib in Resources */,
 				932076641C94E6F2005F7D4A /* regions-v3.json in Resources */,
 				93E0954719CE051700A31BA6 /* OBALaunchScreen.xib in Resources */,
 				932BE5131AB672730011F2FB /* OBAWebViewController.xib in Resources */,
+				9363D5931D6ADE6600A7021A /* tampa.gpx in Resources */,
 				928E12B217D7863400FD855E /* Images.xcassets in Resources */,
 				932BE50D1AB671BD0011F2FB /* OBALabelAndTextFieldTableViewCell.xib in Resources */,
 			);
@@ -1823,105 +2166,41 @@
 			buildActionMask = 2147483647;
 			files = (
 				9302B6041CA4BE9E002B6AC7 /* regions-v3.json in Resources */,
+				93DEE5831D45207700042803 /* stop_with_obj_lat_long.plist in Resources */,
 				932076471C90CE12005F7D4A /* bookmark_without_region_identifier.plist in Resources */,
 				9302B6E01CA5A3F9002B6AC7 /* SEA_4thPike_East.json in Resources */,
 				932076451C90C635005F7D4A /* bookmark_with_stopids_array.plist in Resources */,
 				932076491C90CF73005F7D4A /* bookmark_with_region_identifier.plist in Resources */,
+				9337D6CF1D32B21C00D237D6 /* testMessageBodyForModelDAO.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0A4CB080EB16E4245EF79109 /* Embed Pods Frameworks */ = {
+		938B84231D8686B800DB0AF0 /* Carthage Integration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/DateTools.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/DZNEmptyDataSet.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/GoogleAnalytics.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/PMKCoreLocation.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/PMKFoundation.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/PMKMapKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SVProgressHUD.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftMessages.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Masonry.framework",
 			);
-			name = "Embed Pods Frameworks";
+			name = "Carthage Integration";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5BC0CCFE51E0556A68BEC6BB /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6B6B7A45241BAC04AEF592F6 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		9249CA403954520FB6FA712D /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CCD9E7D7D1BC4AE93C05BC2C /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EDFC3E1A9AE32A1238FF0C15 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1932,16 +2211,20 @@
 			files = (
 				932BE4FF1AB66EF20011F2FB /* OBARecentStopsViewController.m in Sources */,
 				936D62821C8CEA930070152B /* OBADepartureCellHelpers.m in Sources */,
+				934E7EDA1D585D23003A343D /* OBAClassicApplicationUI.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				939C23B11D36228A002A4145 /* OBABookmarkedRouteRow.m in Sources */,
+				931FA94F1D502B9E00E12D62 /* OBARotatingButton.m in Sources */,
+				938EAC7C1D6A9B0600B174B9 /* OBASwitchRow.m in Sources */,
 				932BE4CF1AB66D710011F2FB /* OBATripDetailsViewController.m in Sources */,
 				93AD36431603FE7E00BDF03F /* OBAArrivalEntryTableViewCell.m in Sources */,
 				934446D91AB12C5D005B3333 /* OBAModalActivityIndicator.m in Sources */,
-				93AD36441603FE7E00BDF03F /* OBAArrivalEntryTableViewCellFactory.m in Sources */,
+				93A41C7F1D7C90770080500F /* OBATableViewCellValue1.m in Sources */,
 				93B8BA291C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m in Sources */,
+				93C3937F1D8A708A0080F370 /* PulleyPassthroughScrollView.swift in Sources */,
 				932BE4D01AB66D710011F2FB /* OBATripScheduleListViewController.m in Sources */,
 				93F64E971BE5ACC300323527 /* OBAAlerts.m in Sources */,
 				934446D41AB12C0C005B3333 /* OBAListSelectionViewController.m in Sources */,
-				934522601C1BA976006F75BC /* OBATheme.m in Sources */,
 				9320765F1C94042B005F7D4A /* OBASegmentedControlCell.m in Sources */,
 				932BE4BD1AB66D5C0011F2FB /* OBAReportProblemViewController.m in Sources */,
 				936D2EF71C7A68430060B7E1 /* OBAViewModelRegistry.m in Sources */,
@@ -1951,43 +2234,57 @@
 				932076621C940519005F7D4A /* OBASegmentedRow.m in Sources */,
 				934446B51AB10E67005B3333 /* UINavigationController+oba_Additions.m in Sources */,
 				932BE4BF1AB66D5C0011F2FB /* OBAReportProblemWithStopViewController.m in Sources */,
+				9347B0631D73CB5C00DFBEE0 /* AlertPresenter.swift in Sources */,
 				932BE4CE1AB66D710011F2FB /* OBAReportProblemWithTripViewController.m in Sources */,
 				932BE4FB1AB66EDD0011F2FB /* OBAVehicleDetailsController.m in Sources */,
 				936D2EED1C7A3BAB0060B7E1 /* OBATableViewCell.m in Sources */,
 				936D627C1C8CE2390070152B /* OBAClassicDepartureRow.m in Sources */,
-				669B2F801AEBFEBF00CF2367 /* OBARegionHelper.m in Sources */,
 				934446B81AB10ECA005B3333 /* UITableViewCell+oba_Additions.m in Sources */,
 				932BE4EB1AB66E3C0011F2FB /* OBAEditStopBookmarkViewController.m in Sources */,
 				93AD369D1604027E00BDF03F /* OBAProgressIndicatorImpl.m in Sources */,
+				93E0D19F1D569E7B00D9AA63 /* UIViewController+OBAContainment.m in Sources */,
 				936D2EE51C79B4190060B7E1 /* OBAStopSectionHeaderView.m in Sources */,
 				93B32FF31AC4912F001DC177 /* UIViewController+OBAAnalytics.m in Sources */,
+				93C921461D59289E00CA8868 /* OBADrawerViewController.m in Sources */,
+				93203EA11D5BAD2500E6100C /* OBACollapsingHeaderView.m in Sources */,
 				936D62851C8CED540070152B /* OBAClassicDepartureSectionHeaderView.m in Sources */,
 				932BE49F1AB66D320011F2FB /* OBAInfoViewController.m in Sources */,
+				93C393831D8A708A0080F370 /* SMFloatingLabelTextField.m in Sources */,
 				936D2EE21C79B4030060B7E1 /* OBAStopViewController.m in Sources */,
+				934B62971CF825D200D8FA85 /* OBATripScheduleSectionBuilder.m in Sources */,
 				934446DA1AB12C5D005B3333 /* OBAProgressIndicatorView.m in Sources */,
 				93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */,
 				934446BD1AB11033005B3333 /* OBALabelAndSwitchTableViewCell.m in Sources */,
+				93C393801D8A708A0080F370 /* PulleyViewController.swift in Sources */,
 				932BE49D1AB66D320011F2FB /* OBAAgenciesListViewController.m in Sources */,
 				669B2F781AEBFCB300CF2367 /* OBAAnalytics.m in Sources */,
-				932BE4E91AB66E3C0011F2FB /* OBAEditBookmarkGroupViewController.m in Sources */,
-				932BE4A11AB66D320011F2FB /* OBARegionListViewController.m in Sources */,
-				932BE4EA1AB66E3C0011F2FB /* OBAEditStopBookmarkGroupViewController.m in Sources */,
+				93C3937E1D8A708A0080F370 /* EXTScope.m in Sources */,
+				93F8F4431D375B77008659D2 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */,
+				93FF25E91D6E332D00A58E72 /* OBATextFieldRow.m in Sources */,
+				938EAC7F1D6A9BB400B174B9 /* OBASwitchCell.m in Sources */,
 				9399E3DF1C8930C300962292 /* OBASeparatorSectionView.m in Sources */,
 				9330DF281606405100E14AF4 /* OBAScopeView.m in Sources */,
-				932BE49E1AB66D320011F2FB /* OBAContactUsViewController.m in Sources */,
+				93B35AA91D60FD050025DA4D /* RegionListViewController.swift in Sources */,
 				932BE4DB1AB66D890011F2FB /* OBASituationViewController.m in Sources */,
 				936D3EC01C14E94A00091DC9 /* OBAStaticTableViewController.m in Sources */,
+				93E4A3011CF7D42300EF9595 /* OBAClassicDepartureView.m in Sources */,
+				93E0D1AB1D57EAAD00D9AA63 /* OBAVibrantBlurContainerView.m in Sources */,
 				939E8E5B1C7B815E008FCA4C /* OBABaseRow.m in Sources */,
+				93FF25EC1D6E342B00A58E72 /* OBATextFieldCell.m in Sources */,
 				934446CF1AB12B29005B3333 /* OBARequestDrivenTableViewController.m in Sources */,
+				93283CC81D69437600A8180D /* OBALabelActivityIndicatorView.m in Sources */,
+				934E7EE71D586240003A343D /* OBADrawerUI.m in Sources */,
+				939C23B91D371DE8002A4145 /* OBABookmarkedRouteCell.m in Sources */,
 				936D627F1C8CE24A0070152B /* OBAClassicDepartureCell.m in Sources */,
 				932BE4D11AB66D710011F2FB /* OBATripScheduleMapViewController.m in Sources */,
-				932BE4DE1AB66DA90011F2FB /* OBACustomApiViewController.m in Sources */,
 				936D2EE81C7A378D0060B7E1 /* OBADepartureCell.m in Sources */,
 				932BE4DA1AB66D890011F2FB /* OBASituationsViewController.m in Sources */,
 				932077281C9C84EC005F7D4A /* OBAStaticTableViewController+Builders.m in Sources */,
+				93E0D1A51D57D34E00D9AA63 /* OBAMapActivityIndicatorView.m in Sources */,
 				936D62881C8D00150070152B /* OBALabelFooterView.m in Sources */,
 				936D62791C8A64240070152B /* OBAParallaxTableHeaderView.m in Sources */,
 				934446D11AB12B29005B3333 /* OBAWebViewController.m in Sources */,
+				9364BF851CFE9F420039F7D4 /* OBABookmarkRouteDisambiguationViewController.m in Sources */,
 				932BE4BE1AB66D5C0011F2FB /* OBAReportProblemWithRecentTripsViewController.m in Sources */,
 				932BE4D91AB66D890011F2FB /* OBADiversionViewController.m in Sources */,
 				932BE4F61AB66E990011F2FB /* OBASearchController.m in Sources */,
@@ -1997,11 +2294,13 @@
 				932BE4F71AB66E990011F2FB /* OBASearchResultsListViewController.m in Sources */,
 				936D2EF31C7A68260060B7E1 /* OBATableRow.m in Sources */,
 				936D2EF41C7A68260060B7E1 /* OBATableSection.m in Sources */,
+				93FF25E61D6E329A00A58E72 /* RegionBuilderViewController.swift in Sources */,
 				931C42C2160E4B2A00435CD3 /* MKMapView+oba_Additions.m in Sources */,
 				934446BE1AB11033005B3333 /* OBATextFieldTableViewCell.m in Sources */,
 				932BE4BB1AB66D5C0011F2FB /* OBAEditStopPreferencesViewController.m in Sources */,
 				932BE4E11AB66DBD0011F2FB /* OBACreditsViewController.m in Sources */,
 				923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */,
+				938081C51D837C53006CFF8C /* OBABookmarkGroupsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2018,9 +2317,11 @@
 				934D00DD1C83924D00A76A90 /* OBACallMethodJsonDigesterRule.m in Sources */,
 				934D010D1C83924D00A76A90 /* OBAPlacemark.m in Sources */,
 				934D01291C83924D00A76A90 /* OBAStopPreferencesV2.m in Sources */,
+				934B62A31CFBA5FA00D8FA85 /* NSObject+OBADescription.m in Sources */,
+				93283CCC1D69553700A8180D /* OBAReachability.m in Sources */,
+				936564391D6D7CD500F226C0 /* OBATheme.m in Sources */,
 				934D00E91C83924D00A76A90 /* OBASetLocationPropertyJsonDigesterRule.m in Sources */,
 				934D01251C83924D00A76A90 /* OBASituationV2.m in Sources */,
-				934D00391C83924400A76A90 /* OBALogger.m in Sources */,
 				934D011B1C83924D00A76A90 /* OBARouteV2.m in Sources */,
 				934D00421C83924400A76A90 /* OBAURLHelpers.m in Sources */,
 				934D01111C83924D00A76A90 /* OBAReferencesV2.m in Sources */,
@@ -2029,6 +2330,7 @@
 				934D01391C83924D00A76A90 /* OBATripV2.m in Sources */,
 				934D00EB1C83924D00A76A90 /* OBASetNextOBAJsonDigesterRule.m in Sources */,
 				934D00E11C83924D00A76A90 /* OBAJsonDigester.m in Sources */,
+				937E71F81D6EE408007A62D8 /* OBAStrings.m in Sources */,
 				934D00351C83924400A76A90 /* OBADateHelpers.m in Sources */,
 				934D01211C83924D00A76A90 /* OBAServiceAlertsModel.m in Sources */,
 				932076691C95361A005F7D4A /* OBAUIBuilder.m in Sources */,
@@ -2042,13 +2344,14 @@
 				934D00DB1C83924D00A76A90 /* OBAModelDAOUserPreferencesImpl.m in Sources */,
 				934D01231C83924D00A76A90 /* OBASituationConsequenceV2.m in Sources */,
 				934D01371C83924D00A76A90 /* OBATripStopTimeV2.m in Sources */,
-				934D00CF1C83924D00A76A90 /* OBAGenericAnnotation.m in Sources */,
 				934D00D51C83924D00A76A90 /* OBATripStopTimeMapAnnotation.m in Sources */,
+				93C393971D8E0ECE0080F370 /* UILabel+OBAAdditions.m in Sources */,
 				934D01271C83924D00A76A90 /* OBAStopAccessEventV2.m in Sources */,
 				934D00371C83924400A76A90 /* OBAImageHelpers.m in Sources */,
 				934D010B1C83924D00A76A90 /* OBANavigationTarget.m in Sources */,
 				934D011D1C83924D00A76A90 /* OBASearch.m in Sources */,
 				934D010F1C83924D00A76A90 /* OBAPlacemarks.m in Sources */,
+				93B35AA51D5FCCA70025DA4D /* OBAUser.m in Sources */,
 				934D00E31C83924D00A76A90 /* OBASelectorJsonDigesterRule.m in Sources */,
 				934D01441C83924D00A76A90 /* OBAJsonDataSource.m in Sources */,
 				934D00401C83924400A76A90 /* OBAStopIconFactory.m in Sources */,
@@ -2059,6 +2362,7 @@
 				934D01351C83924D00A76A90 /* OBATripStatusV2.m in Sources */,
 				934D012F1C83924D00A76A90 /* OBATripDetailsV2.m in Sources */,
 				934D00481C83924400A76A90 /* OBARegionChangeRequest.m in Sources */,
+				9363D5991D6AE2C300A7021A /* OBARegionHelper.m in Sources */,
 				934D013F1C83924D00A76A90 /* JsonUrlFetcherImpl.m in Sources */,
 				9302B6091CA4CCDA002B6AC7 /* NSArray+OBAAdditions.m in Sources */,
 				934D00E71C83924D00A76A90 /* OBASetDatePropertyJsonDigesterRule.m in Sources */,
@@ -2069,6 +2373,8 @@
 				934D01331C83924D00A76A90 /* OBATripScheduleV2.m in Sources */,
 				934D01421C83924D00A76A90 /* OBADataSourceConfig.m in Sources */,
 				934D00D71C83924D00A76A90 /* OBAVehicleMapAnnotation.m in Sources */,
+				936564311D6CABA200F226C0 /* OBARouteFilter.m in Sources */,
+				9337D6C91D32A85F00D237D6 /* OBAEmailHelper.m in Sources */,
 				934D012B1C83924D00A76A90 /* OBAStopsForRouteV2.m in Sources */,
 				934D00D31C83924D00A76A90 /* OBATripContinuationMapAnnotation.m in Sources */,
 				934D00DF1C83924D00A76A90 /* OBACreateObjectJsonDigesterRule.m in Sources */,
@@ -2093,6 +2399,7 @@
 				9302B6C21CA5A0DC002B6AC7 /* OBAEntryWithReferencesV2_Tests.m in Sources */,
 				9302B6D21CA5A0DC002B6AC7 /* OBASituationV2_Tests.m in Sources */,
 				9302B6BE1CA5A0DC002B6AC7 /* OBAArrivalAndDepartureV2_Tests.m in Sources */,
+				93EBC2ED1D9331B300B731A3 /* OBADataSourceConfig_Tests.m in Sources */,
 				9302B6CD1CA5A0DC002B6AC7 /* OBARouteV2_Tests.m in Sources */,
 				9302B6BF1CA5A0DC002B6AC7 /* OBAArrivalsAndDeparturesForStopV2_Tests.m in Sources */,
 				9302B6C81CA5A0DC002B6AC7 /* OBAPlacemarks_Tests.m in Sources */,
@@ -2105,16 +2412,17 @@
 				9302B6C31CA5A0DC002B6AC7 /* OBAFrequencyV2_Tests.m in Sources */,
 				9302B6BB1CA5A0DC002B6AC7 /* OBAAgencyV2_Tests.m in Sources */,
 				9302B6D81CA5A0DC002B6AC7 /* OBATripInstanceRef_Tests.m in Sources */,
+				93392E2A1CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.m in Sources */,
 				9302B6DB1CA5A0DC002B6AC7 /* OBATripStopTimeV2_Tests.m in Sources */,
 				932076411C90B948005F7D4A /* OBATestHelpers.m in Sources */,
 				9302B6C11CA5A0DC002B6AC7 /* OBACoordinateBounds_Tests.m in Sources */,
 				936F45DC1C78D06600C61656 /* OneBusAwayTests.m in Sources */,
+				9337D6CC1D32AFE300D237D6 /* OBAEmailHelper_Tests.m in Sources */,
 				9302B6CF1CA5A0DC002B6AC7 /* OBASearchResult_Tests.m in Sources */,
 				9302B6C71CA5A0DC002B6AC7 /* OBAPlacemark_Tests.m in Sources */,
 				9302B6CC1CA5A0DC002B6AC7 /* OBAReportProblemWithTripV2_Tests.m in Sources */,
 				9302B6BD1CA5A0DC002B6AC7 /* OBAArrivalAndDepartureInstanceRef_Tests.m in Sources */,
 				9302B6CA1CA5A0DC002B6AC7 /* OBARegionBoundsV2_Tests.m in Sources */,
-				936D2EDB1C78D7140060B7E1 /* OBADataSourceConfig_Tests.m in Sources */,
 				9302B6CE1CA5A0DC002B6AC7 /* OBASearch_Tests.m in Sources */,
 				9302B6BC1CA5A0DC002B6AC7 /* OBAAgencyWithCoverageV2_Tests.m in Sources */,
 				9302B6DD1CA5A0DC002B6AC7 /* OBAVehicleStatusV2_Tests.m in Sources */,
@@ -2124,6 +2432,7 @@
 				9302B6D51CA5A0DC002B6AC7 /* OBAStopsForRouteV2_Tests.m in Sources */,
 				932076391C909F76005F7D4A /* OBABookmarkV2_Tests.m in Sources */,
 				9302B6D31CA5A0DC002B6AC7 /* OBAStopAccessEventV2_Tests.m in Sources */,
+				93392E251CB23D0000A46B61 /* OBAModelDAO_Tests.m in Sources */,
 				9302B6D41CA5A0DC002B6AC7 /* OBAStopPreferencesV2_Tests.m in Sources */,
 				936D2EDD1C78D7300060B7E1 /* OBAURLHelpers_Tests.m in Sources */,
 				9302B6C51CA5A0DC002B6AC7 /* OBAListWithRangeAndReferencesV2_Tests.m in Sources */,
@@ -2151,104 +2460,91 @@
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DEDC11A41EBF4F89626093D8 /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BUILD_VARIANTS = normal;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_ASSIGN_ENUM = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = NO;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
-				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
-				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = OneBusAway/OneBusAway.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				DEFINES_MODULE = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = THEWY9596Q;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					DEBUG,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNKNOWN_PRAGMAS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Externals/**",
+					"$(PROJECT_DIR)/externals/apptentive",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "249df833-9031-4660-aa36-b1a55831b0aa";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE_SPECIFIER = "XC iOS: org.onebusaway.iphone";
 				SDKROOT = iphoneos;
-				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "OneBusAway-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9896748DE4027B647D4D41F0 /* Pods.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_ASSIGN_ENUM = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = NO;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
-				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
-				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = OneBusAway/OneBusAway.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				DEFINES_MODULE = NO;
-				DEPLOYMENT_POSTPROCESSING = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = THEWY9596Q;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNKNOWN_PRAGMAS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Externals/**",
+					"$(PROJECT_DIR)/externals/apptentive",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "249df833-9031-4660-aa36-b1a55831b0aa";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE_SPECIFIER = "XC iOS: org.onebusaway.iphone";
 				SDKROOT = iphoneos;
-				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "OneBusAway-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -2257,8 +2553,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -2266,19 +2564,21 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2289,18 +2589,19 @@
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = OBAKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2311,8 +2612,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -2320,35 +2623,37 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = OBAKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2360,8 +2665,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -2369,35 +2676,37 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = OBAKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2409,8 +2718,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -2418,35 +2729,37 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = OBAKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2456,7 +2769,6 @@
 		};
 		936F45E11C78D06600C61656 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DEDC11A41EBF4F89626093D8 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2473,7 +2785,12 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2499,7 +2816,6 @@
 		};
 		936F45E21C78D06600C61656 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9896748DE4027B647D4D41F0 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2516,8 +2832,13 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2538,7 +2859,6 @@
 		};
 		936F45E31C78D06600C61656 /* AppStoreDistribution */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AF4665CA06626C1076EEEE33 /* Pods.appstoredistribution.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2555,8 +2875,13 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2577,7 +2902,6 @@
 		};
 		936F45E41C78D06600C61656 /* AdHocDistribution */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 13105E482CCDE283CE77C92E /* Pods.adhocdistribution.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2594,8 +2918,13 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2617,13 +2946,53 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CLANG_WARN__EXIT_TIME_DESTRUCTORS = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "";
@@ -2632,95 +3001,175 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/sdk/** $(BUILT_PRODUCTS_DIR)/**";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CLANG_WARN__EXIT_TIME_DESTRUCTORS = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/sdk/** $(BUILT_PRODUCTS_DIR)/**";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};
 		D6575AF50FEE8B0900D6D987 /* AdHocDistribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CLANG_WARN__EXIT_TIME_DESTRUCTORS = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/sdk/** $(BUILT_PRODUCTS_DIR)/**";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = AdHocDistribution;
 		};
 		D6575AF60FEE8B0900D6D987 /* AdHocDistribution */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 13105E482CCDE283CE77C92E /* Pods.adhocdistribution.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_ASSIGN_ENUM = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = NO;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
-				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
-				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = OneBusAway/OneBusAway.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = THEWY9596Q;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					DEBUG,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNKNOWN_PRAGMAS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Externals/**",
+					"$(PROJECT_DIR)/externals/apptentive",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "249df833-9031-4660-aa36-b1a55831b0aa";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE_SPECIFIER = "XC iOS: org.onebusaway.iphone";
 				SDKROOT = iphoneos;
-				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "OneBusAway-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = AdHocDistribution;
@@ -2728,67 +3177,103 @@
 		D6BEE73E10474E58003655A1 /* AppStoreDistribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CLANG_WARN__EXIT_TIME_DESTRUCTORS = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/sdk/** $(BUILT_PRODUCTS_DIR)/**";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = AppStoreDistribution;
 		};
 		D6BEE73F10474E58003655A1 /* AppStoreDistribution */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AF4665CA06626C1076EEEE33 /* Pods.appstoredistribution.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_ASSIGN_ENUM = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = NO;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
-				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
-				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = OneBusAway/OneBusAway.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				DEPLOYMENT_POSTPROCESSING = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = org_onebusaway_iphone_Prefix.pch;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = THEWY9596Q;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNKNOWN_PRAGMAS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Externals/**",
+					"$(PROJECT_DIR)/externals/apptentive",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "249df833-9031-4660-aa36-b1a55831b0aa";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE_SPECIFIER = "XC iOS: org.onebusaway.iphone";
 				SDKROOT = iphoneos;
-				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "OneBusAway-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = AppStoreDistribution;

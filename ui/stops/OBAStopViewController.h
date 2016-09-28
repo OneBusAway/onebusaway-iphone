@@ -6,12 +6,15 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
+#import <OBAKit/OBAKit.h>
 #import "OBAStaticTableViewController.h"
 #import "OBANavigationTargetAware.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAStopViewController : OBAStaticTableViewController<OBANavigationTargetAware>
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
+@property(nonatomic,strong) OBAModelService *modelService;
 @property(nonatomic,copy,readonly) NSString *stopID;
 @property(nonatomic,assign) NSUInteger minutesBefore;
 @property(nonatomic,assign) NSUInteger minutesAfter;
@@ -20,9 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
 - (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
-
-// This allows us to quickly and easily switch between the old stop UI and the new stop UI.
-+ (UIViewController*)stopControllerWithStopID:(NSString*)stopID;
 @end
 
 NS_ASSUME_NONNULL_END

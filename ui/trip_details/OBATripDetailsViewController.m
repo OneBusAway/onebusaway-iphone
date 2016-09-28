@@ -1,13 +1,26 @@
+/**
+ * Copyright (C) 2009-2016 bdferris <bdferris@onebusaway.org>, University of Washington
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #import "OBATripDetailsViewController.h"
 #import "OBATripScheduleMapViewController.h"
 #import "OBATripScheduleListViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
-#import "OBALogger.h"
 #import "OBAArrivalEntryTableViewCell.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
-#import "OBAApplication.h"
-
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -18,22 +31,11 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeActions
 };
 
-
-@interface OBATripDetailsViewController (Private)
-
-- (OBASectionType)sectionTypeForSection:(NSUInteger)section;
-
-- (UITableViewCell *)tableView:(UITableView *)tableView titleCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (UITableViewCell *)tableView:(UITableView *)tableView scheduleCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (UITableViewCell *)tableView:(UITableView *)tableView actionCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-
-- (void)didSelectScheduleRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
-- (void)didSelectActionRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
-
-@end
-
-
-@implementation OBATripDetailsViewController
+@implementation OBATripDetailsViewController {
+    OBATripInstanceRef *_tripInstance;
+    OBATripDetailsV2 *_tripDetails;
+    OBAServiceAlertsModel *_serviceAlerts;
+}
 
 - (id)initWithTripInstance:(OBATripInstanceRef *)tripInstance {
     if (self = [super init]) {
@@ -57,31 +59,47 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (id<OBAModelServiceRequest>)handleRefresh {
-    return [[OBAApplication sharedApplication].modelService requestTripDetailsForTripInstance:self.tripInstance
-                              completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                                  if (error) {
-                                      [self refreshFailedWithError:error];
-                                  }
-                                  else {
-                                      OBAEntryWithReferencesV2 *entry = jsonData;
-                                      self.tripDetails = entry.entry;
+    return [self.modelService requestTripDetailsForTripInstance:self.tripInstance completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        if (error) {
+            [self refreshFailedWithError:error];
+        }
+        else {
+            OBAEntryWithReferencesV2 *entry = jsonData;
+            self.tripDetails = entry.entry;
 
-                                      self.serviceAlerts = [[OBAApplication sharedApplication].modelDao
-                                      getServiceAlertsModelForSituations:self.tripDetails.situations];
+            self.serviceAlerts = [self.modelDAO getServiceAlertsModelForSituations:self.tripDetails.situations];
 
-                                      [self refreshCompleteWithCode:responseCode];
-                                  }
-                              } progressBlock:nil];
+            [self refreshCompleteWithCode:responseCode];
+        }
+    } progressBlock:nil];
 }
 
-#pragma mark Table view methods
+#pragma mark - Lazily Loaded Properties
+
+- (OBAModelDAO*)modelDAO {
+    if (!_modelDAO) {
+        _modelDAO = [OBAApplication sharedApplication].modelDao;
+    }
+    return _modelDAO;
+}
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
+}
+
+#pragma mark - Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if ([self isLoading]) {
         return [super numberOfSectionsInTableView:tableView];
     }
 
-    if (_tripDetails) return 3;
+    if (_tripDetails) {
+        return 3;
+    }
 
     return 1;
 }
@@ -160,10 +178,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     }
 }
 
-@end
-
-
-@implementation OBATripDetailsViewController (Private)
+#pragma mark - Private
 
 - (void)didSelectScheduleRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     if (indexPath.row == 0) {
@@ -323,7 +338,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
 
-    view.backgroundColor = OBAGREENBACKGROUND;
+    view.backgroundColor = [OBATheme OBAGreenBackground];
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(11, 5, 200, 30)];
     title.font = [OBATheme bodyFont];
     title.backgroundColor = [UIColor clearColor];

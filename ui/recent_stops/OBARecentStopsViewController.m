@@ -17,12 +17,10 @@
 #import "OBARecentStopsViewController.h"
 #import <OBAKit/OBAKit.h>
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
-#import "OBAStopAccessEventV2.h"
 #import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
-#import "OBAApplication.h"
 
 @interface OBARecentStopsViewController ()<DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @end
@@ -35,33 +33,57 @@
     if (self) {
         self.title = NSLocalizedString(@"Recent", @"Recent stops tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Clock"];
+        self.emptyDataSetTitle = NSLocalizedString(@"No Recent Stops", @"");
     }
 
     return self;
 }
 
+#pragma mark - UIViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    // Set up the empty data set UI.
-    self.tableView.emptyDataSetSource = self;
-    self.tableView.emptyDataSetDelegate = self;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Clear Stops", @"") style:UIBarButtonItemStylePlain target:self action:@selector(clearRecentList)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
     [self reloadData];
 }
+
+#pragma mark - Actions
+
+- (void)clearRecentList {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Clear Recent Stops", @"") message:NSLocalizedString(@"Are you sure you want to clear your recent stops?", @"") preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"") style:UIAlertActionStyleCancel handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Clear Stops", @"") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        [self.modelDAO clearMostRecentStops];
+        [self reloadData];
+    }]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - Lazy Loading
+
+- (OBAModelDAO*)modelDAO {
+    if (!_modelDAO) {
+        _modelDAO = [OBAApplication sharedApplication].modelDao;
+    }
+    return _modelDAO;
+}
+
+#pragma mark - Data Loading
 
 - (void)reloadData {
 
     OBATableSection *section = [[OBATableSection alloc] init];
 
-    for (OBAStopAccessEventV2* stop in [OBAApplication sharedApplication].modelDao.mostRecentStops) {
-
-        [section addRow:^OBABaseRow*{
+    for (OBAStopAccessEventV2* stop in self.modelDAO.mostRecentStops) {
+        [section addRowWithBlock:^OBABaseRow*{
             OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:stop.title action:^{
-                UIViewController *vc = [OBAStopViewController stopControllerWithStopID:stop.stopIds[0]];
+                OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stop.stopIds[0]];
                 [self.navigationController pushViewController:vc animated:YES];
             }];
             tableRow.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -75,26 +97,7 @@
     [self.tableView reloadData];
 }
 
-#pragma mark - DZNEmptyDataSet
-
-#pragma mark TODO - This is duplicated from the Bookmarks controller. DRY up!
-
-- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    NSString *text = NSLocalizedString(@"No Recent Stops", @"");
-
-    NSDictionary *attributes = @{NSFontAttributeName: [OBATheme titleFont],
-                                 NSForegroundColorAttributeName: [OBATheme darkDisabledColor]};
-
-    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
-}
-
-- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
-{
-    // Totally arbitrary value. It just 'looks right'.
-    return -44;
-}
-
-#pragma mark OBANavigationTargetAware
+#pragma mark - OBANavigationTargetAware
 
 - (OBANavigationTarget *)navigationTarget {
     return [OBANavigationTarget target:OBANavigationTargetTypeRecentStops];

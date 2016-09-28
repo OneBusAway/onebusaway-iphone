@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#import "OBAStopIconFactory.h"
-#import "OBARouteV2.h"
+#import <OBAKit/OBAStopIconFactory.h>
+#import <OBAKit/OBARouteV2.h>
 
 @implementation OBAStopIconFactory
 

@@ -14,52 +14,37 @@
  * limitations under the License.
  */
 
-#import "OBACommon.h"
-#import "OBADateHelpers.h"
+#import <OBAKit/OBACommon.h>
+#import <OBAKit/OBADateHelpers.h>
+
+static BOOL obaCommonRunningInsideTests = NO;
 
 NSString * const OBAErrorDomain = @"org.onebusaway.iphone2";
+NSString * const kApplicationShortcutMap = @"org.onebusaway.iphone.shortcut.map";
+NSString * const kApplicationShortcutRecents = @"org.onebusaway.iphone.shortcut.recents";
+NSString * const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcut.bookmarks";
 
 const NSInteger kOBAErrorDuplicateEntity = 1000;
 const NSInteger kOBAErrorMissingFieldInData = 1001;
 
-@implementation NSString (OBAConvenienceMethods)
-
-- (NSComparisonResult) compareUsingNumberSearch:(NSString*)aString {
-    return [self compare:aString options:NSNumericSearch];
+NSString * OBAStringFromBool(BOOL yn) {
+    return yn ? @"YES" : @"NO";
 }
-
-@end
-
-@implementation UIView (OBAConvenienceMethods)
-
-- (void) setOrigin:(CGPoint)point {
-    CGRect rect = self.bounds;
-    rect.origin = point;
-    [self setFrame:rect];
-}
-
-@end
-
 
 @implementation OBACommon
+
++ (void)setRunningInsideTests:(BOOL)runningInsideTests {
+    obaCommonRunningInsideTests = runningInsideTests;
+}
+
++ (BOOL)isRunningInsideTests {
+    return obaCommonRunningInsideTests;
+}
 
 + (NSString*) getTimeAsString {
     return [OBADateHelpers formatShortTimeNoDate:[NSDate date]];
 }
 
-+ (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName {
-    if( firstName && [firstName length] > 0 )
-        return firstName;
-    return secondName;
-}
-
-+ (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName third:(NSString*)thirdName {
-    if( firstName && [firstName length] > 0 )
-        return firstName;
-    if( secondName && [secondName length] > 0 )
-        return secondName;
-    return thirdName;
-}
 @end
 
 

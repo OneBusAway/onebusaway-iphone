@@ -15,8 +15,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "OBACommon.h"
-#import "OBACommonV1.h"
+#import <OBAKit/OBACommon.h>
+#import <OBAKit/OBACommonV1.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

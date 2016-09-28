@@ -7,11 +7,8 @@
 //
 
 #import "OBAStaticTableViewController.h"
-#import "OBAHasServiceAlerts.h"
-
-@class OBAArrivalsAndDeparturesForStopV2;
-@class OBAServiceAlertsModel;
+#import <OBAKit/OBAKit.h>
 
 @interface OBAStaticTableViewController (Builders)
-+ (OBATableSection*)createServiceAlertsSection:(id<OBAHasServiceAlerts>)result serviceAlerts:(OBAServiceAlertsModel*)serviceAlerts navigationController:(UINavigationController*)navigationController;
+- (OBATableSection*)createServiceAlertsSection:(id<OBAHasServiceAlerts>)result serviceAlerts:(OBAServiceAlertsModel*)serviceAlerts;
 @end

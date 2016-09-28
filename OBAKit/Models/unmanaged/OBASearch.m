@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-#import "OBASearch.h"
-#import "OBAStopV2.h"
-#import "OBAPlacemark.h"
-#import "OBANavigationTargetAnnotation.h"
-#import "OBASphericalGeometryLibrary.h"
-#import "OBAJsonDataSource.h"
+#import <OBAKit/OBASearch.h>
+#import <OBAKit/OBANavigationTargetAnnotation.h>
+#import <OBAKit/OBASphericalGeometryLibrary.h>
+#import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBAPlacemark.h>
+#import <OBAKit/OBAJsonDataSource.h>
 
 NSString * const kOBASearchTypeParameter = @"OBASearchTypeParameter";
 NSString * const kOBASearchControllerSearchArgumentParameter = @"OBASearchControllerSearchArgumentParameter";

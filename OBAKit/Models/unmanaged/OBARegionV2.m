@@ -6,9 +6,10 @@
 //
 //
 
-#import "OBARegionV2.h"
-#import "OBARegionBoundsV2.h"
-#import "NSArray+OBAAdditions.h"
+#import <OBAKit/OBARegionV2.h>
+#import <OBAKit/OBARegionBoundsV2.h>
+#import <OBAKit/NSArray+OBAAdditions.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 static NSString * kSiriBaseUrl = @"siriBaseUrl";
 static NSString * kObaVersionInfo = @"obaVersionInfo";
@@ -25,8 +26,10 @@ static NSString * kExperimental = @"experimental";
 static NSString * kObaBaseUrl = @"obaBaseUrl";
 static NSString * kIdentifier = @"id_number";
 static NSString * kRegionName = @"regionName";
+static NSString * kCustom = @"custom";
 
 @implementation OBARegionV2
+@dynamic baseURL;
 
 - (id)init {
     self = [super init];
@@ -54,6 +57,7 @@ static NSString * kRegionName = @"regionName";
     [encoder encodeObject:self.obaBaseUrl forKey:kObaBaseUrl];
     [encoder encodeInteger:self.identifier forKey:kIdentifier];
     [encoder encodeObject:self.regionName forKey:kRegionName];
+    [encoder encodeBool:self.custom forKey:kCustom];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
@@ -75,12 +79,23 @@ static NSString * kRegionName = @"regionName";
         _obaBaseUrl = [decoder decodeObjectForKey:kObaBaseUrl];
         _identifier = [decoder decodeIntegerForKey:kIdentifier];
         _regionName = [decoder decodeObjectForKey:kRegionName];
+        _custom = [decoder decodeBoolForKey:kCustom];
     }
 
     return self;
 }
 
-#pragma mark - Public Methods
+#pragma mark - Other Public Methods
+
+- (BOOL)isValidModel {
+    return self.baseURL && self.regionName.length > 0;
+}
+
+- (NSURL*)baseURL {
+    return [NSURL URLWithString:self.obaBaseUrl];
+}
+
+#pragma mark - Public Location-Related Methods
 
 - (void)addBound:(OBARegionBoundsV2*)bound {
     self.bounds = [self.bounds arrayByAddingObject:bound];
@@ -129,9 +144,30 @@ static NSString * kRegionName = @"regionName";
 
 #pragma mark - NSObject
 
+- (NSComparisonResult)compare:(id)obj {
+    if ([obj respondsToSelector:@selector(regionName)]) {
+        return [self.regionName compare:[obj regionName]];
+    }
+    else {
+        return NSOrderedAscending;
+    }
+}
+
+- (NSUInteger)hash {
+    return [NSString stringWithFormat:@"%@_%ld", NSStringFromClass(self.class), (long)self.identifier].hash;
+}
+
+- (BOOL)isEqual:(OBARegionV2*)object {
+    if (![object isKindOfClass:self.class]) {
+        return NO;
+    }
+
+    return self.identifier == object.identifier;
+}
+
 - (NSString*)description
 {
-    return [NSString stringWithFormat:@"<%@: %p> :: {%@ - obaBaseUrl: %@, bounds: %@, experimental: %@}", self.class, self, self.regionName, self.obaBaseUrl, self.bounds, self.experimental ? @"YES" : @"NO"];
+    return [self oba_description:@[@"baseURL", @"custom", @"regionName", @"siriBaseUrl", @"obaVersionInfo", @"language", @"bounds", @"contactEmail", @"twitterUrl", @"facebookUrl", @"supportsSiriRealtimeApis", @"supportsObaRealtimeApis", @"supportsObaDiscoveryApis", @"active", @"experimental", @"identifier"]];
 }
 
 @end

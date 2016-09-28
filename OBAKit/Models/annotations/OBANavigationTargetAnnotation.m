@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBANavigationTargetAnnotation.h"
-
+#import <OBAKit/OBANavigationTargetAnnotation.h>
 
 @implementation OBANavigationTargetAnnotation
 

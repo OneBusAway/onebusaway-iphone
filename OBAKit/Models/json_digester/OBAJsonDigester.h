@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol OBAJsonDigesterContext
 
 -(void) pushValue:(id)value;
--(id) peek:(NSUInteger)index;
+-(nullable id) peek:(NSUInteger)index;
 -(void) popValue;
 
 - (id) getParameterForKey:(id)key;

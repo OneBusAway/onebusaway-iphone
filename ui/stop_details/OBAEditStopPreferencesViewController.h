@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-#import "OBAStopV2.h"
-#import "OBAStopPreferencesV2.h"
+#import <OBAKit/OBAKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAEditStopPreferencesViewController : UITableViewController
-- (instancetype)initWithStop:(OBAStopV2*)stop;
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO stop:(OBAStopV2*)stop;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -14,26 +14,30 @@
  * limitations under the License.
  */
 
-#import "OBALocationManager.h"
-#import "OBALogger.h"
+#import <OBAKit/OBALocationManager.h>
 
 static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 
-@interface OBALocationManager (Private)
+NSString * const OBALocationDidUpdateNotification = @"OBALocationDidUpdateNotification";
+NSString * const OBALocationAuthorizationStatusChangedNotification = @"OBALocationAuthorizationStatusChangedNotification";
+NSString * const OBALocationAuthorizationStatusUserInfoKey = @"OBALocationAuthorizationStatusUserInfoKey";
+NSString * const OBALocationManagerDidFailWithErrorNotification = @"OBALocationManagerDidFailWithErrorNotification";
+NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
 
-- (void)handleNewLocation:(CLLocation*)location;
-
+@interface OBALocationManager ()
+@property(nonatomic,strong) OBAModelDAO *modelDao;
+@property(nonatomic,strong) CLLocationManager *locationManager;
+@property(nonatomic,copy,readwrite) CLLocation *currentLocation;
 @end
 
 @implementation OBALocationManager
 
-- (id) initWithModelDao:(OBAModelDAO*)modelDao {
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO {
     if( self = [super init]) {
-        _modelDao = modelDao;
+        _modelDao = modelDAO;
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
-        _delegates = [[NSMutableArray alloc] init];
-        
+
         if (![self hasRequestedInUseAuthorization]) {
             [self requestInUseAuthorization];
         }
@@ -46,56 +50,37 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
     return [CLLocationManager locationServicesEnabled];
 }
 
-- (void) addDelegate:(id<OBALocationManagerDelegate>)delegate {
-    @synchronized(self) {
-        [_delegates addObject:delegate];
-    }
-}
-
-- (void) removeDelegate:(id<OBALocationManagerDelegate>)delegate {
-    @synchronized(self) {
-        [_delegates removeObject:delegate];
-    }
-}
-
--(void) startUpdatingLocation {
-    if( [CLLocationManager locationServicesEnabled] ) {
-        [_locationManager startUpdatingLocation];
+- (void)startUpdatingLocation {
+    if ([CLLocationManager locationServicesEnabled]) {
+        [self.locationManager startUpdatingLocation];
     }
     else {
-        if (! [_modelDao hideFutureLocationWarnings]) {
-            [_locationManager startUpdatingLocation];
-            [_modelDao setHideFutureLocationWarnings:YES];            
+        if (!self.modelDao.hideFutureLocationWarnings) {
+            [self.locationManager startUpdatingLocation];
+            self.modelDao.hideFutureLocationWarnings = YES;
         }
     }
 }
 
--(void) stopUpdatingLocation {
-    [_locationManager stopUpdatingLocation];
+- (void)stopUpdatingLocation {
+    [self.locationManager stopUpdatingLocation];
 }
 
-#pragma mark - iOS 8 Location Manager Support
+#pragma mark - "In-Use" Location Manager Permissions
 
 - (BOOL)hasRequestedInUseAuthorization {
-    if ([CLLocationManager respondsToSelector:@selector(authorizationStatus)]) {
-        return [CLLocationManager authorizationStatus] != kCLAuthorizationStatusNotDetermined;
-    }
-    else {
-        return YES;
-    }
+    return [CLLocationManager authorizationStatus] != kCLAuthorizationStatusNotDetermined;
 }
 
 - (void)requestInUseAuthorization {
-    if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
-        [_locationManager requestWhenInUseAuthorization];
-    }
+    [self.locationManager requestWhenInUseAuthorization];
 }
 
-#pragma mark CLLocationManagerDelegate
+#pragma mark - CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    _modelDao.hideFutureLocationWarnings = NO;
+    self.modelDao.hideFutureLocationWarnings = NO;
     [self handleNewLocation:locations.lastObject];
 }
 
@@ -103,57 +88,41 @@ static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
     
     if (error.code == kCLErrorDenied) {
         [self stopUpdatingLocation];
-        for (NSInteger i = 0; i < _delegates.count; i++) {
-            [(id<OBALocationManagerDelegate>)_delegates[i] locationManager:self didFailWithError:error];
-        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:OBALocationManagerDidFailWithErrorNotification object:self userInfo:@{OBALocationErrorUserInfoKey: error}];
     }
 }
 
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
-    for (id<OBALocationManagerDelegate> d in _delegates) {
-        if ([d respondsToSelector:@selector(locationManager:didChangeAuthorizationStatus:)]) {
-            [d locationManager:self didChangeAuthorizationStatus:status];
-        }
-    }
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBALocationAuthorizationStatusChangedNotification object:self userInfo:@{OBALocationAuthorizationStatusUserInfoKey: @(status)}];
 }
 
-@end
-
-@implementation OBALocationManager (Private)
+#pragma mark - Private
 
 - (void)handleNewLocation:(CLLocation*)location {
-
     @synchronized(self) {
-        
         /**
          * We have this issue where we get a high-accuracy location reading immediately
          * followed by a low-accuracy location reading, such as if wifi-localization
          * completed before cell-tower-localization.  We want to ignore the low-accuracy
          * reading
          */
-        if (_currentLocation) {
+        if (self.currentLocation) {
 
-            NSDate * currentTime = [_currentLocation timestamp];
+            NSDate * currentTime = [self.currentLocation timestamp];
             NSDate * newTime = [location timestamp];
 
             NSTimeInterval interval = [newTime timeIntervalSinceDate:currentTime];
 
             if (interval < kSuccessiveLocationComparisonWindow &&
-                [_currentLocation horizontalAccuracy] < [location horizontalAccuracy]) {
-                OBALogDebug(@"pruning location reading with low accuracy");
+                [self.currentLocation horizontalAccuracy] < [location horizontalAccuracy]) {
+                NSLog(@"pruning location reading with low accuracy");
                 return;
             }
         }
         _currentLocation = location;
-        
-        for (int i = 0; i < [_delegates count]; i++) {
-            [(id<OBALocationManagerDelegate>)[_delegates objectAtIndex:i ] locationManager:self didUpdateLocation:_currentLocation];
-        }
-    }    
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:OBALocationDidUpdateNotification object:self userInfo:nil];
+    }
 }
 
 @end
-
-
-

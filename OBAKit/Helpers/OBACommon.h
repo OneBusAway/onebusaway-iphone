@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@import Foundation;
-@import UIKit;
-#import "OBALogger.h"
+
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,21 +23,23 @@ extern NSString * const OBAErrorDomain;
 extern const NSInteger kOBAErrorDuplicateEntity;
 extern const NSInteger kOBAErrorMissingFieldInData;
 
-@interface NSString (OBAConvenienceMethods)
-- (NSComparisonResult) compareUsingNumberSearch:(NSString*)aString;
-@end
+// 3D Touch Quick Actions
+extern NSString * const kApplicationShortcutMap;
+extern NSString * const kApplicationShortcutRecents;
+extern NSString * const kApplicationShortcutBookmarks;
 
-@interface UIView (OBAConvenienceMethods)
-- (void) setOrigin:(CGPoint)point;
-@end
-
+/**
+ We report "YES" and "NO" to Google Analytics in several places. This method
+ DRYs those up.
+ */
+NSString * OBAStringFromBool(BOOL yn);
 
 @interface OBACommon : NSObject
 
-+ (NSString*) getTimeAsString;
-+ (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName;
-+ (NSString*) getBestNameFirst:(NSString*)firstName second:(NSString*)secondName third:(NSString*)thirdName;
++ (void)setRunningInsideTests:(BOOL)runningInsideTests;
++ (BOOL)isRunningInsideTests;
 
++ (NSString*) getTimeAsString;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -1,26 +1,35 @@
+/**
+ * Copyright (C) 2009-2016 bdferris <bdferris@onebusaway.org>, University of Washington
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #import "OBAVehicleDetailsController.h"
-#import "OBATripScheduleMapViewController.h"
-#import "OBATripScheduleListViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
 #import "OBASituationsViewController.h"
-#import "OBALogger.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
-#import "OBAApplication.h"
-#import "OBACommonV1.h"
+#import "EXTScope.h"
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
     OBASectionTypeVehicleDetails,
-    OBASectionTypeTripDetails,
-    OBASectionTypeTripSchedule
+    OBASectionTypeTripDetails
 };
 
 @interface OBAVehicleDetailsController ()
-
-@property (nonatomic, strong) NSString *vehicleId;
-@property (nonatomic, strong) OBAVehicleStatusV2 *vehicleStatus;
-
+@property (nonatomic,copy) NSString *vehicleId;
+@property (nonatomic,strong) OBAVehicleStatusV2 *vehicleStatus;
 @end
 
 
@@ -28,7 +37,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (id)initWithVehicleId:(NSString *)vehicleId {
     if (self = [super init]) {
-        _vehicleId = vehicleId;
+        _vehicleId = [vehicleId copy];
         self.refreshable = YES;
         self.refreshInterval = 30;
         self.showUpdateTime = YES;
@@ -49,20 +58,27 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (id<OBAModelServiceRequest>)handleRefresh {
     @weakify(self);
-    return [[OBAApplication sharedApplication].modelService
-            requestVehicleForId:_vehicleId
-                completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                    @strongify(self);
+    return [self.modelService requestVehicleForId:_vehicleId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+        @strongify(self);
 
-                    if (error) {
-                    [self refreshFailedWithError:error];
-                    }
-                    else {
-                    OBAEntryWithReferencesV2 *entry = jsonData;
-                    self.vehicleStatus = entry.entry;
-                    [self refreshCompleteWithCode:responseCode];
-                    }
-                }];
+        if (error) {
+            [self refreshFailedWithError:error];
+        }
+        else {
+            OBAEntryWithReferencesV2 *entry = jsonData;
+            self.vehicleStatus = entry.entry;
+            [self refreshCompleteWithCode:responseCode];
+        }
+    }];
+}
+
+#pragma mark - Lazily Loaded Properties
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
 }
 
 #pragma mark Table view methods
@@ -94,9 +110,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         case OBASectionTypeTripDetails:
             return 2;
 
-        case OBASectionTypeTripSchedule:
-            return 2;
-
         default:
             return 0;
     }
@@ -113,9 +126,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
         case OBASectionTypeTripDetails:
             return NSLocalizedString(@"Active Trip Details:", @"OBASectionTypeTripDetails");
-
-        case OBASectionTypeTripSchedule:
-            return NSLocalizedString(@"Active Trip Schedule:", @"OBASectionTypeTripSchedule");
 
         default:
             return nil;
@@ -134,32 +144,11 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         case OBASectionTypeTripDetails:
             return [self tripDetailsCellForRowAtIndexPath:indexPath tableView:tableView];
 
-        case OBASectionTypeTripSchedule:
-            return [self tripScheduleCellForRowAtIndexPath:indexPath tableView:tableView];
-
         default:
             break;
     }
 
     return [UITableViewCell getOrCreateCellForTableView:tableView];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self isLoading]) {
-        [self tableView:tableView didSelectRowAtIndexPath:indexPath];
-        return;
-    }
-
-    OBASectionType sectionType = [self sectionTypeForSection:indexPath.section];
-
-    switch (sectionType) {
-        case OBASectionTypeTripSchedule:
-            [self didSelectTripScheduleRowAtIndexPath:indexPath tableView:tableView];
-            break;
-
-        default:
-            break;
-    }
 }
 
 - (OBASectionType)sectionTypeForSection:(NSUInteger)section {
@@ -174,9 +163,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
         offset++;
 
-        if (offset == section) return OBASectionTypeTripSchedule;
-
-        offset++;
     }
 
     return OBASectionTypeNone;
@@ -192,10 +178,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Vehicle", @"cell.textLabel.text"), _vehicleStatus.vehicleId];
 
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.timeStyle = NSDateFormatterShortStyle;
-    dateFormatter.timeStyle = NSDateFormatterNoStyle;
-    NSString *result = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:_vehicleStatus.lastUpdateTime / 1000.0]];
+    NSString *result = [OBADateHelpers formatShortTimeNoDate:[NSDate dateWithTimeIntervalSince1970:_vehicleStatus.lastUpdateTime / 1000.0]];
 
     cell.detailTextLabel.textColor = [UIColor blackColor];
     cell.detailTextLabel.textAlignment = NSTextAlignmentLeft;
@@ -217,7 +200,8 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     cell.textLabel.font = [OBATheme bodyFont];
     switch (indexPath.row) {
         case 0: {
-            NSString *routeShortName = trip.route.shortName ? : trip.route.longName;
+            OBARouteV2 *route = trip.route;
+            NSString *routeShortName = route.shortName ? : route.longName;
             NSString *tripHeadsign = trip.tripHeadsign;
             cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", routeShortName, tripHeadsign];
             break;
@@ -275,28 +259,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    OBASectionType sectionType = [self sectionTypeForSection:section];
-
-    if (![self isLoading]) {
-        switch (sectionType) {
-            case OBASectionTypeVehicleDetails:
-            case OBASectionTypeTripDetails:
-            case OBASectionTypeTripSchedule:
-                return 40;
-
-            default:
-                break;
-        }
-    }
-
-    return 0;
-}
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
 
-    view.backgroundColor = OBAGREENBACKGROUND;
+    view.backgroundColor = [OBATheme OBAGreenBackground];
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
     title.font = [OBATheme bodyFont];
     title.backgroundColor = [UIColor clearColor];
@@ -312,10 +278,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
                 title.text = NSLocalizedString(@"Active Trip Details:", @"OBASectionTypeTripDetails");
                 break;
 
-            case OBASectionTypeTripSchedule:
-                title.text = NSLocalizedString(@"Active Trip Schedule:", @"OBASectionTypeTripSchedule");
-                break;
-
             default:
                 break;
         }
@@ -323,26 +285,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     [view addSubview:title];
     return view;
-}
-
-- (void)didSelectTripScheduleRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-    OBATripStatusV2 *tripStatus = _vehicleStatus.tripStatus;
-    OBATripInstanceRef *tripInstance = tripStatus.tripInstance;
-
-    switch (indexPath.row) {
-        case 0: {
-            OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] init];
-            vc.tripInstance = tripInstance;
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-
-        case 1: {
-            OBATripScheduleListViewController *vc = [[OBATripScheduleListViewController alloc] initWithTripInstance:tripInstance];
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-    }
 }
 
 @end

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@import MapKit;
+#import <MapKit/MapKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,8 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 @property (weak, nonatomic,readonly) CLLocation * location;
 
--(id) initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate;
--(id) initWithCoder:(NSCoder*)coder;
+- (instancetype)initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate;
 
 @end
 

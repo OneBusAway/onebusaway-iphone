@@ -8,24 +8,26 @@
 
 #import <XCTest/XCTest.h>
 #import "OBATestHelpers.h"
-#import <OBAKit/OBABookmarkV2.h>
+#import <OBAKit/OBAKit.h>
+#import "OBATestHarnessPersistenceLayer.h"
 
 /**
  TODO: WRITE *MORE* TESTS
  */
 
 @interface OBABookmarkV2_Tests : XCTestCase
+@property(nonatomic,strong) OBATestHarnessPersistenceLayer *persistenceLayer;
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
 @end
 
 @implementation OBABookmarkV2_Tests
 
 - (void)setUp {
     [super setUp];
-}
 
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
+    self.persistenceLayer = [[OBATestHarnessPersistenceLayer alloc] init];
+    self.modelDAO = [[OBAModelDAO alloc] initWithModelPersistenceLayer:self.persistenceLayer];
+    self.modelDAO.currentRegion = [OBATestHelpers pugetSoundRegion];
 }
 
 - (void)testMigratingBookmarkWithStopIDsArray {
@@ -49,6 +51,17 @@
     XCTAssertEqualObjects(bm.name, @"Happy, up to date bookmark.");
     XCTAssertEqualObjects(bm.stopId, @"1_123456");
     XCTAssertEqual(bm.regionIdentifier, 1);
+}
+
+- (void)testValidateModelPassing {
+    OBABookmarkV2 *bm = [OBATestHelpers unarchiveBundledTestFile:@"bookmark_with_region_identifier.plist"];
+    XCTAssertTrue([bm isValidModel]);
+}
+
+- (void)testValidateModelFailing {
+    OBABookmarkV2 *bm = [OBATestHelpers unarchiveBundledTestFile:@"bookmark_with_region_identifier.plist"];
+    bm.name = @"";
+    XCTAssertFalse([bm isValidModel]);
 }
 
 @end

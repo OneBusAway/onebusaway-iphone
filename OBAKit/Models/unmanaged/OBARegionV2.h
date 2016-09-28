@@ -1,25 +1,34 @@
-//
-//  OBARegionV2.h
-//  org.onebusaway.iphone
-//
-//  Created by chaya3 on 5/22/13.
-//
-//
-@import MapKit;
-#import "OBARegionBoundsV2.h"
+/**
+ * Copyright (C) 2009-2016 bdferris <bdferris@onebusaway.org>, University of Washington
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#import <MapKit/MapKit.h>
+#import <OBAKit/OBARegionBoundsV2.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBARegionV2 : NSObject<NSCoding>
-@property(nonatomic,strong) NSString * siriBaseUrl;
-@property(nonatomic,strong) NSString * obaVersionInfo;
-@property(nonatomic,strong) NSString * language;
+@property(nonatomic,copy,nullable) NSString * siriBaseUrl;
+@property(nonatomic,copy,nullable) NSString * obaVersionInfo;
+@property(nonatomic,copy,nullable) NSString * language;
 @property(nonatomic,strong) NSArray * bounds;
-@property(nonatomic,strong) NSString * contactEmail;
-@property(nonatomic,strong) NSString * twitterUrl;
-@property(nonatomic,strong) NSString * obaBaseUrl;
-@property(nonatomic,strong) NSString * facebookUrl;
-@property(nonatomic,strong) NSString * regionName;
+@property(nonatomic,copy,nullable) NSString * contactEmail;
+@property(nonatomic,copy,nullable) NSString * twitterUrl;
+@property(nonatomic,copy) NSString * obaBaseUrl;
+@property(nonatomic,copy,nullable) NSString * facebookUrl;
+@property(nonatomic,copy) NSString * regionName;
 @property(nonatomic,assign) BOOL supportsSiriRealtimeApis;
 @property(nonatomic,assign) BOOL supportsObaRealtimeApis;
 @property(nonatomic,assign) BOOL supportsObaDiscoveryApis;
@@ -27,9 +36,24 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) BOOL experimental;
 @property(nonatomic,assign) NSInteger identifier;
 
+/**
+ Signifies that this was created in the RegionBuilderViewController
+ */
+@property(nonatomic,assign) BOOL custom;
+
 - (void)addBound:(OBARegionBoundsV2*)bound;
 - (CLLocationDistance)distanceFromLocation:(CLLocation*)location;
 - (MKMapRect)serviceRect;
+
+/**
+ Tests whether this is a valid region object.
+ */
+- (BOOL)isValidModel;
+
+/**
+ obaBaseUrl converted into an NSURL
+ */
+@property(nonatomic,copy,nullable,readonly) NSURL *baseURL;
 
 @end
 

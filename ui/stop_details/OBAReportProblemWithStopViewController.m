@@ -1,9 +1,25 @@
+/**
+ * Copyright (C) 2009-2016 bdferris <bdferris@onebusaway.org>, University of Washington
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #import "OBAReportProblemWithStopViewController.h"
-#import "OBALogger.h"
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
 #import "OBAApplicationDelegate.h"
+#import <OBAKit/OBAKit.h>
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -17,7 +33,13 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 @property(nonatomic,strong) OBAModalActivityIndicator * activityIndicatorView;
 @end
 
-@implementation OBAReportProblemWithStopViewController
+@implementation OBAReportProblemWithStopViewController{
+    OBAStopV2 * _stop;
+    NSMutableArray * _problemIds;
+    NSMutableArray * _problemNames;
+    NSUInteger _problemIndex;
+    NSString * _comment;
+}
 
 #pragma mark - Initialization
 
@@ -85,7 +107,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
 
-    view.backgroundColor = OBAGREENBACKGROUND;
+    view.backgroundColor = [OBATheme OBAGreenBackground];
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
     title.font = [OBATheme bodyFont];
     title.backgroundColor = [UIColor clearColor];
@@ -301,10 +323,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     problem.stopId = _stop.stopId;
     problem.code = _problemIds[_problemIndex];
     problem.userComment = _comment;
-    problem.userLocation = [OBAApplication sharedApplication].locationManager.currentLocation;
+    problem.userLocation = self.locationManager.currentLocation;
 
     [self.activityIndicatorView show:self.view];
-    [[OBAApplication sharedApplication].modelService reportProblemWithStop:problem completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+    [self.modelService reportProblemWithStop:problem completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
         if (error || !responseData) {
             [self showErrorAlert];
             [self.activityIndicatorView hide];
@@ -316,7 +338,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         [self.activityIndicatorView hide];
 
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Submission Successful", @"view.title") message:NSLocalizedString(@"The problem was sucessfully reported. Thank you!", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle") style:UIAlertActionStyleDefault handler:nil]];
+        [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleDefault handler:nil]];
         [self presentViewController:alert animated:YES completion:^{
             //go back to stop view
             NSArray *allViewControllers = self.navigationController.viewControllers;
@@ -332,11 +354,27 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
                                                             preferredStyle:UIAlertControllerStyleAlert];
 
 
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"view addButtonWithTitle") style:UIAlertActionStyleDefault handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleDefault handler:nil]];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", @"view addButtonWithTitle") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [APP_DELEGATE navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
     }]];
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - Lazy Loading
+
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
+}
+
+- (OBALocationManager*)locationManager {
+    if (!_locationManager) {
+        _locationManager = [OBAApplication sharedApplication].locationManager;
+    }
+    return _locationManager;
 }
 
 @end

@@ -14,27 +14,20 @@
  * limitations under the License.
  */
 
-#import "OBASearch.h"
-#import "OBASearchResult.h"
+#import <OBAKit/OBAKit.h>
 #import "OBAApplicationDelegate.h"
-#import "OBAProgressIndicatorSource.h"
-#import "OBAPlacemark.h"
-#import "OBADataSource.h"
-#import "OBAModelService.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma mark OBASearchControllerDelegate Protocol
+extern NSString * const OBASearchControllerDidUpdateNotification;
+extern NSString * const OBASearchControllerUserInfoDataKey;
 
 @protocol OBASearchControllerDelegate <NSObject>
-
-- (void) handleSearchControllerUpdate:(OBASearchResult*)result;
+- (void)handleSearchControllerUpdate:(OBASearchResult*)result;
 
 @optional
-
-- (void) handleSearchControllerStarted:(OBASearchType)searchType;
-- (void) handleSearchControllerError:(NSError*)error;
-
+- (void)handleSearchControllerStarted:(OBASearchType)searchType;
+- (void)handleSearchControllerError:(NSError*)error;
 @end
 
 #pragma mark OBASearchController
@@ -53,6 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,strong) NSObject<OBAProgressIndicatorSource>* progress;
 @property (nonatomic,strong) NSError * error;
+
+- (instancetype)initWithModelService:(OBAModelService*)modelService;
 
 - (BOOL)unfilteredSearch;
 - (void)searchWithTarget:(OBANavigationTarget*)target;

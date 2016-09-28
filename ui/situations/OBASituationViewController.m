@@ -7,12 +7,12 @@
 //
 
 #import "OBASituationViewController.h"
-#import "OBASituationConsequenceV2.h"
+#import <OBAKit/OBAKit.h>
 #import "OBADiversionViewController.h"
 #import "OBAWebViewController.h"
-#import "OBAModelDAO.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
+#import "OBAApplicationDelegate.h"
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -21,24 +21,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeMarkAsRead
 };
 
-
-@interface OBASituationViewController (Private)
-
-- (OBASectionType)sectionTypeForSection:(NSUInteger)section;
-
-- (UITableViewCell *)tableView:(UITableView *)tableView titleCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (UITableViewCell *)tableView:(UITableView *)tableView detailsCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (UITableViewCell *)tableView:(UITableView *)tableView markAsReadCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-
-- (void)didSelectDetailsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
-- (void)didSelectMarkAsReadRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView;
-
-- (NSString *)getDetails:(BOOL)htmlify;
-
-@end
-
-
-@implementation OBASituationViewController
+@implementation OBASituationViewController {
+    OBASituationV2 * _situation;
+    NSString * _diversionPath;
+}
 
 #pragma mark - Initialization
 
@@ -51,14 +37,14 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         NSArray *consequences = _situation.consequences;
 
         for (OBASituationConsequenceV2 *consequence in consequences) {
-            if (consequence.diversionPath) diversionPath = consequence.diversionPath;
+            if (consequence.diversionPath) {
+                diversionPath = consequence.diversionPath;
+            }
         }
 
-        if (diversionPath) _diversionPath = diversionPath;
-
-        // Mark the situation as visited
-        OBAModelDAO *modelDao = [OBAApplication sharedApplication].modelDao;
-        [modelDao setVisited:YES forSituationWithId:_situation.situationId];
+        if (diversionPath) {
+            _diversionPath = diversionPath;
+        }
     }
 
     return self;
@@ -66,8 +52,21 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    // Mark the situation as visited
+    [self.modelDAO setVisited:YES forSituationWithId:_situation.situationId];
+
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
+}
+
+#pragma mark - Lazy Loading
+
+- (OBAModelDAO*)modelDAO {
+    if (!_modelDAO) {
+        _modelDAO = [OBAApplication sharedApplication].modelDao;
+    }
+    return _modelDAO;
 }
 
 #pragma mark - Table view data source
@@ -128,6 +127,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             return [self tableView:tableView markAsReadCellForRowAtIndexPath:indexPath];
 
         default:
+            // TODO: Can't return nil here; declaration in UITableView is NONNULL
             return nil;
     }
 }
@@ -152,10 +152,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     }
 }
 
-@end
-
-
-@implementation OBASituationViewController (Private)
+#pragma mark - Private
 
 - (OBASectionType)sectionTypeForSection:(NSUInteger)section {
     int offset = 0;
@@ -203,8 +200,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView markAsReadCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    OBAModelDAO *modelDao = [OBAApplication sharedApplication].modelDao;
-    BOOL isRead = [modelDao isVisitedSituationWithId:_situation.situationId];
+    BOOL isRead = [self.modelDAO isVisitedSituationWithId:_situation.situationId];
 
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
 
@@ -228,10 +224,9 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (void)didSelectMarkAsReadRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-    OBAModelDAO *modelDao = [OBAApplication sharedApplication].modelDao;
-    BOOL isRead = ![modelDao isVisitedSituationWithId:_situation.situationId];
+    BOOL isRead = ![self.modelDAO isVisitedSituationWithId:_situation.situationId];
 
-    [modelDao setVisited:isRead forSituationWithId:_situation.situationId];
+    [self.modelDAO setVisited:isRead forSituationWithId:_situation.situationId];
 
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.textLabel.text = isRead ? NSLocalizedString(@"Mark as Unread", @"isRead") : NSLocalizedString(@"Mark as Read", @"!isRead");
@@ -254,7 +249,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     }
 
     /**
-     * Is this a terrible hack?  Probably yes.
+     * Is this a terrible hack? Definitely yes. Remove please.
      */
     if (htmlify) {
         NSError *error = nil;

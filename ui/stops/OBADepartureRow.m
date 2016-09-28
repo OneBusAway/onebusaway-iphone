@@ -17,7 +17,7 @@
     [OBAViewModelRegistry registerClass:self.class];
 }
 
-- (instancetype)initWithDestination:(NSString*)destination departsAt:(NSDate*)departsAt statusText:(NSString*)statusText departureStatus:(OBADepartureStatus)departureStatus action:(void(^)(void))action {
+- (instancetype)initWithDestination:(nullable NSString*)destination departsAt:(NSDate*)departsAt statusText:(NSString*)statusText departureStatus:(OBADepartureStatus)departureStatus action:(void(^)(OBABaseRow *row))action {
     self = [super initWithAction:action];
     
     if (self) {
@@ -62,16 +62,7 @@
 }
 
 - (NSString *)formattedNextDepartureTime {
-    
-    static NSDateFormatter *formatter = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        formatter = [[NSDateFormatter alloc] init];
-        formatter.dateStyle = NSDateFormatterNoStyle;
-        formatter.timeStyle = NSDateFormatterShortStyle;
-    });
-
-    return [formatter stringFromDate:self.departsAt];
+    return [OBADateHelpers formatShortTimeNoDate:self.departsAt];
 }
 
 @end

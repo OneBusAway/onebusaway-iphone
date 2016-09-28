@@ -14,62 +14,68 @@
  * limitations under the License.
  */
 
-#import "OBAStopV2.h"
-#import "OBABookmarkV2.h"
-#import "OBAStopAccessEventV2.h"
-#import "OBAStopPreferencesV2.h"
-#import "OBAServiceAlertsModel.h"
-#import "OBARegionV2.h"
+#import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBABookmarkV2.h>
+#import <OBAKit/OBAStopAccessEventV2.h>
+#import <OBAKit/OBAStopPreferencesV2.h>
+#import <OBAKit/OBAServiceAlertsModel.h>
+#import <OBAKit/OBARegionV2.h>
+#import <OBAKit/OBAModelPersistenceLayer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class OBAModelDAOUserPreferencesImpl;
+extern NSString * const OBAUngroupedBookmarksIdentifier;
+extern NSString * const OBAMostRecentStopsChangedNotification;
+extern NSString * const OBARegionDidUpdateNotification;
 
 @interface OBAModelDAO : NSObject
 @property(nonatomic,strong,readonly) NSArray<OBABookmarkV2*> *bookmarksForCurrentRegion;
-@property(weak, nonatomic,readonly) NSArray * bookmarks;
-@property(weak, nonatomic,readonly) NSArray * bookmarkGroups;
-@property(weak, nonatomic,readonly) NSArray<OBAStopAccessEventV2*> * mostRecentStops;
-@property(nonatomic,weak) CLLocation * mostRecentLocation;
-@property(nonatomic,readonly) OBARegionV2 * region;
-@property(weak, nonatomic,readonly) NSArray * mostRecentCustomApiUrls;
+@property(strong,nonatomic,readonly) NSArray<OBABookmarkV2*> *ungroupedBookmarks;
+@property(strong,nonatomic,readonly) NSArray<OBABookmarkGroup*> *bookmarkGroups;
+@property(strong,nonatomic,readonly) NSArray<OBAStopAccessEventV2*> * mostRecentStops;
+@property(nonatomic,copy) CLLocation *mostRecentLocation;
+@property(nonatomic,strong,nullable) OBARegionV2 *currentRegion;
+@property(nonatomic,assign) BOOL hideFutureLocationWarnings;
+@property(nonatomic,assign) BOOL ungroupedBookmarksOpen;
+@property(nonatomic,assign) BOOL automaticallySelectRegion;
 
-- (OBABookmarkV2*)createTransientBookmark:(OBAStopV2*)stop;
-- (OBABookmarkV2*)bookmarkForStop:(OBAStopV2*)stop;
-- (void) addNewBookmark:(OBABookmarkV2*)bookmark;
-- (void) saveExistingBookmark:(OBABookmarkV2*)bookmark;
-- (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex;
-- (void) removeBookmark:(OBABookmarkV2*) bookmark;
+- (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer;
 
-- (void) addOrSaveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup;
-- (void) removeBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup;
-- (void) moveBookmark:(OBABookmarkV2*)bookmark toGroup:(OBABookmarkGroup*)group;
-- (void) moveBookmark:(NSInteger)startIndex to:(NSInteger)endIndex inGroup:(OBABookmarkGroup*)group;
+- (NSArray<OBABookmarkV2*>*)bookmarksMatchingPredicate:(NSPredicate*)predicate;
+- (nullable OBABookmarkV2*)bookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrival;
+- (void)saveBookmark:(OBABookmarkV2*)bookmark;
+- (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex;
+- (void)removeBookmark:(OBABookmarkV2*)bookmark;
 
-- (OBAStopPreferencesV2*) stopPreferencesForStopWithId:(NSString*)stopId;
-- (void) setStopPreferences:(OBAStopPreferencesV2*)preferences forStopWithId:(NSString*)stopId;
+- (nullable OBABookmarkV2*)bookmarkAtIndex:(NSUInteger)index inGroup:(nullable OBABookmarkGroup*)group;
+- (void)moveBookmark:(OBABookmarkV2*)bookmark toIndex:(NSUInteger)index inGroup:(nullable OBABookmarkGroup*)group;
+- (void)moveBookmark:(OBABookmarkV2*)bookmark toGroup:(nullable OBABookmarkGroup*)group;
+- (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex inGroup:(OBABookmarkGroup*)group;
+
+- (void)moveBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup toIndex:(NSUInteger)index;
+- (void)saveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup;
+- (void)removeBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup;
+- (void)persistGroups;
+
+- (OBAStopPreferencesV2*)stopPreferencesForStopWithId:(NSString*)stopId;
+- (void)setStopPreferences:(OBAStopPreferencesV2*)preferences forStopWithId:(NSString*)stopId;
 
 - (BOOL) isVisitedSituationWithId:(NSString*)situationId;
 - (void) setVisited:(BOOL)visited forSituationWithId:(NSString*)situationId;
 
 - (OBAServiceAlertsModel*) getServiceAlertsModelForSituations:(NSArray*)situations;
 
-- (void) setOBARegion:(nullable OBARegionV2*)newRegion;
-/**
- * We persist hiding location warnings across application settings for users who have disabled location services for the app
- */
-- (BOOL) hideFutureLocationWarnings;
-- (void) setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings;
+// Recent Stops
 
-- (BOOL) readSetRegionAutomatically;
-- (void) writeSetRegionAutomatically:(BOOL)setRegionAutomatically;
+- (void)clearMostRecentStops;
+- (void)viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop;
 
-- (NSString*) readCustomApiUrl;
-- (void) writeCustomApiUrl:(NSString*)customApiUrl;
+// Regions
 
-- (void) addCustomApiUrl:(NSString*)customApiUrl;
+- (NSArray<OBARegionV2*>*)customRegions;
+- (void)addCustomRegion:(OBARegionV2*)region;
+- (void)removeCustomRegion:(OBARegionV2*)region;
 
-- (NSString*)normalizedAPIServerURL;
 @end
 
 NS_ASSUME_NONNULL_END

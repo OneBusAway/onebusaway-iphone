@@ -93,6 +93,7 @@
     XCTAssertTrue(tampa.active);
     XCTAssertEqualObjects(tampa.facebookUrl, @"");
     XCTAssertEqualObjects(tampa.obaBaseUrl, @"http://api.tampa.onebusaway.org/api/");
+    XCTAssertEqualObjects(tampa.baseURL, [NSURL URLWithString:@"http://api.tampa.onebusaway.org/api/"]);
     XCTAssertEqual(tampa.identifier, 0);
     XCTAssertEqualObjects(tampa.regionName, @"Tampa Bay");
     XCTAssertEqualObjects(tampa.contactEmail, @"onebusaway@gohart.org");

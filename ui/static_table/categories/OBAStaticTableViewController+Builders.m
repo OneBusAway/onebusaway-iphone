@@ -8,14 +8,12 @@
 
 #import "OBAStaticTableViewController+Builders.h"
 #import "OBASituationsViewController.h"
-#import "OBAArrivalsAndDeparturesForStopV2.h"
-#import "OBAServiceAlertsModel.h"
 
 @implementation OBAStaticTableViewController (Builders)
 
-+ (OBATableSection*)createServiceAlertsSection:(id<OBAHasServiceAlerts>)result serviceAlerts:(OBAServiceAlertsModel*)serviceAlerts navigationController:(UINavigationController*)navigationController {
+- (OBATableSection*)createServiceAlertsSection:(id<OBAHasServiceAlerts>)result serviceAlerts:(OBAServiceAlertsModel*)serviceAlerts {
     OBATableRow *serviceAlertsRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"View Service Alerts", @"") action:^{
-        [OBASituationsViewController showSituations:result.situations navigationController:navigationController args:nil];
+        [OBASituationsViewController showSituations:result.situations navigationController:self.navigationController args:nil];
     }];
 
     serviceAlertsRow.image = [self.class iconForServiceAlerts:serviceAlerts];

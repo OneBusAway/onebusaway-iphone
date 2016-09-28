@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBACreateObjectJsonDigesterRule.h"
-#import "OBALogger.h"
+#import <OBAKit/OBACreateObjectJsonDigesterRule.h>
 
 @interface OBACreateObjectJsonDigesterRule ()
 - (BOOL)shouldDigestValue:(id)value;
@@ -38,7 +37,7 @@
         id obj = [[_objectClass alloc] init];
         [context pushValue:obj];
         if( context.verbose )
-            OBALogDebug(@"Creating object: class=%@",[_objectClass description]);
+            NSLog(@"Creating object: class=%@",[_objectClass description]);
     }
 }
 

@@ -19,7 +19,7 @@
     return [self initWithAction:nil];
 }
 
-- (instancetype)initWithAction:(void (^)())action {
+- (instancetype)initWithAction:(void (^)(OBABaseRow *row))action {
     self = [super init];
     
     if (self) {
@@ -34,7 +34,10 @@
     newRow->_editAction = [_editAction copyWithZone:zone];
     newRow->_deleteModel = [_deleteModel copyWithZone:zone];
     newRow->_indentationLevel = _indentationLevel;
-    
+    newRow->_accessoryType = _accessoryType;
+    newRow->_model = _model;
+    newRow->_dataKey = [_dataKey copyWithZone:zone];
+
     return newRow;
 }
 

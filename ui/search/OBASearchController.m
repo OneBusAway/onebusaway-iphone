@@ -15,9 +15,10 @@
  */
 
 #import "OBASearchController.h"
-#import "OBAPlacemark.h"
 #import "OBAProgressIndicatorImpl.h"
-#import "OBALogger.h"
+
+NSString * const OBASearchControllerDidUpdateNotification = @"OBASearchControllerDidUpdateNotification";
+NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserInfoDataKey";
 
 @interface OBASearchController ()
 
@@ -36,9 +37,9 @@
 
 @implementation OBASearchController
 
-- (id)init {
+- (instancetype)initWithModelService:(OBAModelService*)modelService {
     if (self = [super init]) {
-        _modelService = [OBAApplication sharedApplication].modelService;
+        _modelService = modelService;
         _searchType = OBASearchTypeNone;
         _progress = [[OBAProgressIndicatorImpl alloc] init];
     }
@@ -142,7 +143,6 @@
     // Update our target parameters
     OBASearchType type = [OBASearch getSearchTypeForNavigationTarget:target];
 
-
     void (^ WrapperCompletion)() = ^(id responseData, NSUInteger responseCode, NSError *err, void (^complete)(id responseData)) {
         if (err || responseCode >= 300) {
             [self processError:err responseCode:responseCode];
@@ -160,104 +160,95 @@
             MKCoordinateRegion region;
             [data getBytes:&region length:sizeof(MKCoordinateRegion)];
 
-            return [_modelService requestStopsForRegion:region
-                                        completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                                            WrapperCompletion(jsonData, responseCode, error, ^(id data) {
-                                            [self fireUpdateFromList:jsonData];
-                                            });
-                                        }];
+            return [_modelService requestStopsForRegion:region completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                WrapperCompletion(jsonData, responseCode, error, ^(id blockData) {
+                    [self fireUpdateFromList:jsonData];
+                });
+            }];
         }
 
         case OBASearchTypeRoute: {
             NSString *routeQuery = [OBASearch getSearchTypeParameterForNavigationTarget:target];
-            return [_modelService requestRoutesForQuery:routeQuery
-                                             withRegion:self.searchRegion
-                                        completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                                            WrapperCompletion(jsonData, responseCode, error, ^(id data) {
-                                            OBAListWithRangeAndReferencesV2 *list = data;
+            return [_modelService requestRoutesForQuery:routeQuery withRegion:self.searchRegion completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                WrapperCompletion(jsonData, responseCode, error, ^(id data) {
+                    OBAListWithRangeAndReferencesV2 *list = data;
 
-                                            if ([list count] == 1) {
-                                            OBARouteV2 *route = (list.values)[0];
-                                            OBANavigationTarget *target = [OBASearch getNavigationTargetForSearchRouteStops:route.routeId];
-                                            [self performSelector:@selector(searchWithTarget:)
-                                            withObject:target
-                                            afterDelay:0];
-                                            }
-                                            else {
-                                            [self fireUpdateFromList:list];
-                                            }
-                                            });
-                                        }];
+                    if ([list count] == 1) {
+                        OBARouteV2 *route = (list.values)[0];
+                        OBANavigationTarget *navTarget = [OBASearch getNavigationTargetForSearchRouteStops:route.routeId];
+                        [self performSelector:@selector(searchWithTarget:)
+                                   withObject:navTarget
+                                   afterDelay:0];
+                    }
+                    else {
+                        [self fireUpdateFromList:list];
+                    }
+                });
+            }];
         }
 
         case OBASearchTypeRouteStops: {
             NSString *routeId = [OBASearch getSearchTypeParameterForNavigationTarget:target];
-            return [_modelService requestStopsForRoute:routeId
-                                       completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                                           WrapperCompletion(jsonData, responseCode, error, ^(id data) {
-                                           OBAStopsForRouteV2 *stopsForRoute = data;
-                                           OBASearchResult *result = [OBASearchResult result];
-                                           result.values = [stopsForRoute stops];
-                                           result.additionalValues = stopsForRoute.polylines;
-                                           [self fireUpdate:result];
-                                           });
-                                       }];
+            return [_modelService requestStopsForRoute:routeId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                WrapperCompletion(jsonData, responseCode, error, ^(id data) {
+                    OBAStopsForRouteV2 *stopsForRoute = data;
+                    OBASearchResult *result = [OBASearchResult result];
+                    result.values = [stopsForRoute stops];
+                    result.additionalValues = stopsForRoute.polylines;
+                    [self fireUpdate:result];
+                });
+            }];
         }
 
         case OBASearchTypeAddress: {
             NSString *addressQuery = [OBASearch getSearchTypeParameterForNavigationTarget:target];
-            return [_modelService placemarksForAddress:addressQuery
-                                       completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                                           WrapperCompletion(jsonData, responseCode, error, ^(id data) {
-                                           NSArray *placemarks = [data placemarks];
+            return [_modelService placemarksForAddress:addressQuery completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                WrapperCompletion(jsonData, responseCode, error, ^(id data) {
+                    NSArray *placemarks = [data placemarks];
 
-                                           if ([placemarks count] == 1) {
-                                           OBAPlacemark *placemark = placemarks[0];
-                                           OBANavigationTarget *target = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
-                                           [self performSelector:@selector(searchWithTarget:)
-                                           withObject:target
-                                           afterDelay:0];
-                                           }
-                                           else {
-                                           OBASearchResult *result = [OBASearchResult result];
-                                           result.values = placemarks;
-                                           [self fireUpdate:result];
-                                           }
-                                           });
-                                       }];
+                    if ([placemarks count] == 1) {
+                        OBAPlacemark *placemark = placemarks[0];
+                        OBANavigationTarget *navTarget = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
+                        [self performSelector:@selector(searchWithTarget:)
+                                   withObject:navTarget
+                                   afterDelay:0];
+                    }
+                    else {
+                        OBASearchResult *result = [OBASearchResult result];
+                        result.values = placemarks;
+                        [self fireUpdate:result];
+                    }
+                });
+            }];
         }
 
         case OBASearchTypePlacemark: {
             OBAPlacemark *placemark = [OBASearch getSearchTypeParameterForNavigationTarget:target];
-            return [_modelService requestStopsForPlacemark:placemark
-                                           completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                                               WrapperCompletion(jsonData, responseCode, error, ^(id data) {
-                                               OBASearchResult *result = [OBASearchResult resultFromList:data];
-                                               OBAPlacemark *placemark = [self.target
-                                               parameterForKey:kOBASearchControllerSearchArgumentParameter];
-                                               result.additionalValues = @[placemark];
-                                               [self fireUpdate:result];
-                                               });
-                                           }];
+            return [_modelService requestStopsForPlacemark:placemark completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                WrapperCompletion(jsonData, responseCode, error, ^(id data) {
+                    OBASearchResult *result = [OBASearchResult resultFromList:data];
+                    OBAPlacemark *newMark = [self.target parameterForKey:kOBASearchControllerSearchArgumentParameter];
+                    result.additionalValues = @[newMark];
+                    [self fireUpdate:result];
+                });
+            }];
         }
 
         case OBASearchTypeStopId: {
             NSString *stopCode = [OBASearch getSearchTypeParameterForNavigationTarget:target];
-            return [_modelService requestStopsForQuery:stopCode
-                                            withRegion:self.searchRegion
-                                       completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                                           WrapperCompletion(jsonData, responseCode, error, ^(id data) {
-                                           [self fireUpdateFromList:data];
-                                           });
-                                       }];
+            return [_modelService requestStopsForQuery:stopCode withRegion:self.searchRegion completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+                WrapperCompletion(jsonData, responseCode, error, ^(id data) {
+                    [self fireUpdateFromList:data];
+                });
+            }];
         }
 
         case OBASearchTypeAgenciesWithCoverage:
             return [_modelService requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                                      WrapperCompletion(jsonData, responseCode, error, ^(id data) {
-                                      [self fireUpdateFromList:data];
-                                      });
-                                  }];
+                WrapperCompletion(jsonData, responseCode, error, ^(id data) {
+                    [self fireUpdateFromList:data];
+                });
+            }];
 
         default:
             break;
@@ -310,14 +301,24 @@
     result.searchType = _searchType;
     self.result = result;
 
-    if (_delegate) [_delegate handleSearchControllerUpdate:self.result];
+    NSDictionary *userInfo = self.result ? @{OBASearchControllerUserInfoDataKey: self.result} : nil;
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBASearchControllerDidUpdateNotification
+                                                        object:self
+                                                      userInfo:userInfo];
+
+    id<OBASearchControllerDelegate> delegate = _delegate;
+    if (delegate) {
+        [delegate handleSearchControllerUpdate:self.result];
+    }
 }
 
 - (void)fireError:(NSError *)error {
     self.error = error;
 
-    if (_delegate && [_delegate respondsToSelector:@selector(handleSearchControllerError:)]) {
-        [_delegate handleSearchControllerError:error];
+    id delegate = _delegate;
+    if (delegate && [delegate respondsToSelector:@selector(handleSearchControllerError:)]) {
+        [delegate handleSearchControllerError:error];
     }
 }
 

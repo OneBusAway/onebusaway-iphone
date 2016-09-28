@@ -1,105 +1,69 @@
+/**
+ * Copyright (C) 2009-2016 bdferris <bdferris@onebusaway.org>, University of Washington
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #import "OBATripScheduleMapViewController.h"
-#import "OBATripScheduleListViewController.h"
-#import "OBAStopV2.h"
-#import "OBATripStopTimeV2.h"
-#import "OBAStopIconFactory.h"
-#import "OBATripStopTimeMapAnnotation.h"
-#import "OBATripContinuationMapAnnotation.h"
-#import "OBACoordinateBounds.h"
 #import "OBAStopViewController.h"
-#import "OBASphericalGeometryLibrary.h"
 #import "OBATripDetailsViewController.h"
 #import "OBAAnalytics.h"
 #import "UINavigationController+oba_Additions.h"
 #import "OBAApplicationDelegate.h"
+#import "EXTScope.h"
+#import <OBAKit/OBAKit.h>
 
 static const NSString *kTripDetailsContext = @"TripDetails";
 static const NSString *kShapeContext = @"ShapeContext";
 
 @interface OBATripScheduleMapViewController ()
-
-@property (nonatomic, strong) id<OBAModelServiceRequest> request;
-@property (nonatomic, strong) NSDateFormatter *timeFormatter;
-
-@property (nonatomic, strong) MKPolyline *routePolyline;
-@property (nonatomic, strong) MKPolylineRenderer *routePolylineRenderer;
-
+@property(nonatomic,strong) MKPolyline *routePolyline;
+@property(nonatomic,strong) MKPolylineRenderer *routePolylineRenderer;
+@property(nonatomic,strong) id<OBAModelServiceRequest> request;
 @end
-
 
 @implementation OBATripScheduleMapViewController
 
-- (id)init {
-    self = [super initWithNibName:@"OBATripScheduleMapViewController" bundle:nil];
-
-    return self;
-}
-
 - (void)dealloc {
-    [_request cancel];
+    [self.request cancel];
+    self.request = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _timeFormatter = [[NSDateFormatter alloc] init];
-    [_timeFormatter setDateStyle:NSDateFormatterNoStyle];
-    [_timeFormatter setTimeStyle:NSDateFormatterShortStyle];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStylePlain target:self action:@selector(showList:)];
-    self.navigationItem.rightBarButtonItem.accessibilityLabel = NSLocalizedString(@"Nearby stops list", @"self.navigationItem.rightBarButtonItem.accessibilityLabel");
-    self.progressView = [[OBAProgressIndicatorView alloc] initWithFrame:CGRectMake(80, 6, 160, 33)];
-    self.navigationItem.titleView = self.progressView;
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Schedule", @"initWithTitle") style:UIBarButtonItemStylePlain target:nil action:nil];
-    self.navigationItem.backBarButtonItem = backItem;
+
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"") style:UIBarButtonItemStylePlain target:self action:@selector(close:)];
+
+    self.mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
+    self.mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    self.mapView.delegate = self;
+    [self.view addSubview:self.mapView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if (_tripInstance && !_tripDetails) {
-        @weakify(self);
-        _request = [[OBAApplication sharedApplication].modelService
-                    requestTripDetailsForTripInstance:_tripInstance
-                                      completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-                                          @strongify(self);
-
-                                          if (error || responseCode >= 300) {
-                                          [self         updateProgressViewWithError:error
-                                             responseCode:responseCode];
-                                          }
-                                          else {
-                                          OBAEntryWithReferencesV2 *entry = responseData;
-                                          self.tripDetails = entry.entry;
-                                          [self handleTripDetails];
-                                          }
-                                      }
-
-                                        progressBlock:^(CGFloat progress) {
-                                            @strongify(self);
-
-                                            if (progress > 1.0) {
-                                            [self.progressView
-                                            setMessage:NSLocalizedString(@"Downloading...", @"message")
-                                            inProgress:YES
-                                            progress:progress];
-                                            }
-                                            else {
-                                            [self.progressView
-                                            setInProgress:YES
-                                            progress:progress];
-                                            }
-                                        }];
-    }
-    else {
+    if (self.tripDetails) {
         [self handleTripDetails];
+        return;
     }
-}
 
-- (void)showList:(id)source {
-    OBATripScheduleListViewController *vc = [[OBATripScheduleListViewController alloc] initWithTripInstance:_tripInstance];
-
-    vc.tripDetails = self.tripDetails;
-    vc.currentStopId = self.currentStopId;
-    [self.navigationController replaceViewController:vc animated:YES];
+    [self.modelService requestTripDetailsForTripInstance:self.tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
+        self.tripDetails = tripDetails;
+        [self handleTripDetails];
+    }).catch(^(NSError *error) {
+        [self updateProgressViewWithError:error responseCode:error.code];
+    });
 }
 
 - (void)updateProgressViewWithError:(NSError *)error responseCode:(NSInteger)responseCode {
@@ -110,14 +74,29 @@ static const NSString *kShapeContext = @"ShapeContext";
         [_progressView setMessage:NSLocalizedString(@"Unknown error", @"message") inProgress:NO progress:0];
     }
     else if (error) {
-        OBALogWarningWithError(error, @"Error");
+        NSLog(@"Error: %@", error);
         [_progressView setMessage:NSLocalizedString(@"Error connecting", @"message") inProgress:NO progress:0];
     }
 }
 
-#pragma mark MKMapViewDelegate
+#pragma mark - Lazily Loaded Properties
 
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
+}
+
+#pragma mark - Actions
+
+- (void)close:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - MKMapViewDelegate
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     if ([annotation isKindOfClass:[OBATripStopTimeMapAnnotation class]]) {
         CGFloat scale = [OBASphericalGeometryLibrary computeStopsForRouteAnnotationScaleFactor:mapView.region];
         CGFloat alpha = scale <= 0.11f ? 0.0f : 1.0f;
@@ -127,7 +106,7 @@ static const NSString *kShapeContext = @"ShapeContext";
 
         MKAnnotationView *view = [mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
 
-        if (view == nil) {
+        if (!view) {
             view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
         }
 
@@ -161,7 +140,7 @@ static const NSString *kShapeContext = @"ShapeContext";
     if ([annotation isKindOfClass:[OBATripStopTimeMapAnnotation class] ]) {
         OBATripStopTimeMapAnnotation *an = (OBATripStopTimeMapAnnotation *)annotation;
         OBATripStopTimeV2 *stopTime = an.stopTime;
-        UIViewController *vc = [OBAStopViewController stopControllerWithStopID:stopTime.stopId];
+        OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stopTime.stopId];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([annotation isKindOfClass:[OBATripContinuationMapAnnotation class]]) {
@@ -183,6 +162,7 @@ static const NSString *kShapeContext = @"ShapeContext";
         return self.routePolylineRenderer;
     }
     else {
+        // TODO: Can't return nil here, MKMapViewDelegate specifies NONNULL for this
         return nil;
     }
 }
@@ -204,10 +184,6 @@ static const NSString *kShapeContext = @"ShapeContext";
     }
 }
 
-- (MKMapView *)mapView {
-    return (MKMapView *)self.view;
-}
-
 - (void)handleTripDetails {
     [_progressView setMessage:NSLocalizedString(@"Route Map", @"message") inProgress:NO progress:0];
 
@@ -221,48 +197,44 @@ static const NSString *kShapeContext = @"ShapeContext";
 
     for (OBATripStopTimeV2 *stopTime in stopTimes) {
         OBATripStopTimeMapAnnotation *an = [[OBATripStopTimeMapAnnotation alloc] initWithTripDetails:self.tripDetails stopTime:stopTime];
-        an.timeFormatter = _timeFormatter;
         [annotations addObject:an];
 
         OBAStopV2 *stop = stopTime.stop;
         [bounds addLat:stop.lat lon:stop.lon];
     }
 
-    if (sched.nextTripId && [stopTimes count] > 0) {
+    if (sched.nextTripId && stopTimes.count > 0) {
         id<MKAnnotation> an = [self createTripContinuationAnnotation:sched.nextTrip isNextTrip:YES stopTimes:stopTimes];
         [annotations addObject:an];
     }
 
-    if (sched.previousTripId && [stopTimes count] > 0) {
+    if (sched.previousTripId && stopTimes.count > 0) {
         id<MKAnnotation> an = [self createTripContinuationAnnotation:sched.previousTrip isNextTrip:NO stopTimes:stopTimes];
         [annotations addObject:an];
     }
 
     [mapView addAnnotations:annotations];
 
-    if (!bounds.empty) [mapView setRegion:bounds.region];
+    if (!bounds.empty) {
+        [mapView setRegion:bounds.region];
+    }
 
     OBATripV2 *trip = _tripDetails.trip;
 
     if (trip.shapeId) {
         @weakify(self);
-        _request = [[OBAApplication sharedApplication].modelService
-                    requestShapeForId:trip.shapeId
-                      completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-                          @strongify(self);
+        _request = [self.modelService requestShapeForId:trip.shapeId completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
 
-                          if (responseData) {
-                          NSString *polylineString = responseData;
-                          self.routePolyline = [OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString];
-                          [self.mapView
-                          addOverlay:self.routePolyline];
-                          }
+            @strongify(self);
 
-                          [self.progressView
-                          setMessage:NSLocalizedString(@"Route Map", @"message")
-                          inProgress:NO
-                          progress:0];
-                      }];
+            if (responseData) {
+                NSString *polylineString = responseData;
+                self.routePolyline = [OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString];
+                [self.mapView addOverlay:self.routePolyline];
+            }
+
+            [self.progressView setMessage:NSLocalizedString(@"Route Map", @"message") inProgress:NO progress:0];
+        }];
     }
 }
 

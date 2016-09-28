@@ -7,12 +7,10 @@
 //
 
 #import "OBASituationsViewController.h"
-#import "OBASituationV2.h"
 #import "OBASituationViewController.h"
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
-
 
 @implementation OBASituationsViewController
 
@@ -93,6 +91,16 @@
         OBASituationViewController * vc = [[OBASituationViewController alloc] initWithSituation:situation];
         vc.args = self.args;
         [self.navigationController pushViewController:vc animated:YES];
+        [self reportAnalytics:situation];
+    }
+}
+
+- (void) reportAnalytics:(OBASituationV2 *) situation {
+    
+    NSDictionary *agencies = [[situation references] getAllAgencies];
+    for(id key in agencies) {
+        OBAAgencyV2 * agency = agencies[key];
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"service_alerts" label:[NSString stringWithFormat:@"Clicked Service Alerts from: %@", agency.name] value:nil];
     }
 }
 

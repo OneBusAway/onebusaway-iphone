@@ -1,5 +1,22 @@
-#import "OBAArrivalAndDepartureV2.h"
-#import "OBADateHelpers.h"
+/**
+ * Copyright (C) 2009-2016 bdferris <bdferris@onebusaway.org>, University of Washington
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#import <OBAKit/OBAArrivalAndDepartureV2.h>
+#import <OBAKit/OBADateHelpers.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 @interface OBAArrivalAndDepartureV2 ()
 @property(nonatomic,strong) NSMutableArray *situationIds;
@@ -7,7 +24,7 @@
 
 @implementation OBAArrivalAndDepartureV2
 
-- (id) init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         _situationIds = [[NSMutableArray alloc] init];
@@ -32,30 +49,49 @@
 }
 
 - (NSString*)tripHeadsign {
-    if (_tripHeadsign.length > 0) {
-        return _tripHeadsign;
+
+    NSString *headsign = nil;
+    
+    OBATripV2 *trip = self.trip;
+    OBARouteV2 *route = trip.route;
+
+    // TODO: figure out how an NSNull is slipping through the
+    // model layer :( Maybe this is an indication that we
+    // need to move to a more modern modeling framework.
+    if (![_tripHeadsign isEqual:NSNull.null] && _tripHeadsign.length > 0) {
+        headsign = _tripHeadsign;
+    }
+    else if (trip.tripHeadsign) {
+        headsign = trip.tripHeadsign;
+    }
+    else if (route.longName) {
+        headsign = route.longName;
+    }
+    else if (route.shortName) {
+        headsign = route.shortName;
     }
 
-    if (self.trip.tripHeadsign) {
-        return self.trip.tripHeadsign;
+    if (!headsign || [headsign isEqual:NSNull.null]) {
+        return nil;
     }
 
-    if (self.trip.route.longName) {
-        return self.trip.route.longName;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[a-z]" options:(NSRegularExpressionOptions)0 error:nil];
+    if ([regex numberOfMatchesInString:headsign options:(NSMatchingOptions)0 range:NSMakeRange(0, headsign.length)] > 0) {
+        // Headsign contains a mix of uppercase and lowercase letters. Let it be.
+        return headsign;
     }
-
-    if (self.trip.route.shortName) {
-        return self.trip.route.shortName;
+    else {
+        // No lowercase letters anywhere in the headsign.
+        // Return a Cap Case String in order to prevent SCREAMING CAPS.
+        return headsign.capitalizedString;
     }
-
-    return nil;
 }
 
-- (OBAArrivalAndDepartureInstanceRef *) instance {
-    return [OBAArrivalAndDepartureInstanceRef refWithTripInstance:self.tripInstance stopId:self.stopId stopSequence:self.stopSequence];
+- (OBAArrivalAndDepartureInstanceRef*)instance {
+    return [[OBAArrivalAndDepartureInstanceRef alloc] initWithTripInstance:self.tripInstance stopId:self.stopId stopSequence:self.stopSequence];
 }
 
-- (OBATripInstanceRef *) tripInstance {
+- (OBATripInstanceRef*)tripInstance {
     return [OBATripInstanceRef tripInstance:self.tripId serviceDate:self.serviceDate vehicleId:self.tripStatus.vehicleId];
 }
 
@@ -74,26 +110,23 @@
 #pragma mark - OBAHasServiceAlerts
 
 - (NSArray<OBASituationV2*>*)situations {
+    NSMutableArray *rSituations = [NSMutableArray array];
 
-    NSMutableArray * rSituations = [NSMutableArray array];
-
-    OBAReferencesV2 * refs = self.references;
-
-    for( NSString * situationId in self.situationIds ) {
-        OBASituationV2 * situation = [refs getSituationForId:situationId];
-        if( situation )
+    for (NSString *situationId in self.situationIds) {
+        OBASituationV2 *situation = [self.references getSituationForId:situationId];
+        if (situation) {
             [rSituations addObject:situation];
+        }
     }
 
-    return rSituations;
+    return [NSArray arrayWithArray:rSituations];
 }
 
-- (void) addSituationId:(NSString*)situationId {
+- (void)addSituationId:(NSString*)situationId {
     [self.situationIds addObject:situationId];
 }
 
 - (OBADepartureStatus)departureStatus {
-
     if (!self.hasRealTimeData) {
         return OBADepartureStatusUnknown;
     }
@@ -116,13 +149,18 @@
         return self.routeShortName;
     }
 
-    OBATripV2* trip = self.trip;
+    OBATripV2 *trip = self.trip;
+    OBARouteV2 *route = trip.route;
 
     if (trip.routeShortName) {
         return trip.routeShortName;
     }
-
-    return trip.route.shortName ?: trip.route.longName;
+    else if (route.shortName) {
+        return route.shortName;
+    }
+    else {
+        return route.longName;
+    }
 }
 
 + (NSString*)statusStringFromFrequency:(OBAFrequencyV2*)frequency {
@@ -134,7 +172,6 @@
 
     NSString *formatString = NSLocalizedString(@"Every %@ mins %@ %@", @"frequency status string");
     NSString *fromOrUntil = [now compare:startTime] == NSOrderedAscending ? NSLocalizedString(@"from", @"") : NSLocalizedString(@"until", @"");
-
     NSDate *terminalDate = [now compare:startTime] == NSOrderedAscending ? startTime : endTime;
 
     return [NSString stringWithFormat:formatString, @(headway), fromOrUntil, [OBADateHelpers formatShortTimeNoDate:terminalDate]];
@@ -192,6 +229,51 @@
     else {
         return [NSString stringWithFormat:NSLocalizedString(@"%@ min %@", @"e.g. 3 min early"), @(minDiff), suffixWord];
     }
+}
+
+#pragma mark - Compare
+
+- (NSComparisonResult)compareRouteName:(OBAArrivalAndDepartureV2*)dep {
+    return [self.routeShortName compare:dep.routeShortName options:NSNumericSearch];
+}
+
+#pragma mark - Bookmarks
+
+- (NSString*)bookmarkKey {
+    return [NSString stringWithFormat:@"%@_%@_%@", self.routeId, self.tripHeadsign, self.bestAvailableName];
+}
+
+#pragma mark - NSObject
+
+- (NSUInteger)hash {
+    return [NSString stringWithFormat:@"%@_%@_%@", self.stopId, self.routeId, self.tripHeadsign.lowercaseString].hash;
+}
+
+- (BOOL)isEqual:(OBAArrivalAndDepartureV2*)object {
+    if (![object isKindOfClass:OBAArrivalAndDepartureV2.class]) {
+        return NO;
+    }
+
+    if (![self.stopId isEqual:object.stopId]) {
+        return NO;
+    }
+
+    if (![self.routeId isEqual:object.routeId]) {
+        return NO;
+    }
+
+    // because of the trip headsign munging that sometimes takes place elsewhere in the codebase,
+    // we need to do a case insensitive comparison to ensure that these headsigns match. Ideally,
+    // we wouldn't have to do such a fragile comparison in the first place...
+    if ([self.tripHeadsign compare:object.tripHeadsign options:NSCaseInsensitiveSearch] != NSOrderedSame) {
+        return NO;
+    }
+
+    return YES;
+}
+
+- (NSString*)description {
+    return [self oba_description:@[@"routeId", @"route", @"routeShortName", @"tripId", @"trip", @"tripHeadsign", @"serviceDate", @"instance", @"tripInstance", @"stopId", @"stop", @"stopSequence", @"tripStatus", @"frequency", @"predicted", @"scheduledArrivalTime", @"predictedArrivalTime", @"bestArrivalTime", @"scheduledDepartureTime", @"predictedDepartureTime", @"bestDepartureTime", @"distanceFromStop", @"numberOfStopsAway"]];
 }
 
 @end

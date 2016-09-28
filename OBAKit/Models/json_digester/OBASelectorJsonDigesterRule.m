@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBASelectorJsonDigesterRule.h"
-#import "OBALogger.h"
+#import <OBAKit/OBASelectorJsonDigesterRule.h>
 
 @interface OBASelectorJsonDigesterRule()
 
@@ -49,16 +48,17 @@
     
     if( self.ruleTarget != ruleTarget )
         return;
-    
-    NSMethodSignature * methodSig = [self.target methodSignatureForSelector:self.selector];
+
+    id target = self.target;
+    NSMethodSignature * methodSig = [target methodSignatureForSelector:self.selector];
     
     if(!methodSig) {
-        OBALogSevere(@"selector not found for target object in OBASelectorJSONDigesterRule");
+        NSLog(@"selector not found for target object in OBASelectorJSONDigesterRule");
         return;
     }
     
     NSInvocation * invoker = [NSInvocation invocationWithMethodSignature:methodSig];
-    [invoker setTarget:self.target];
+    [invoker setTarget:target];
     [invoker setSelector:self.selector];
     [invoker setArgument:&context atIndex:2];
     [invoker setArgument:&name atIndex:3];

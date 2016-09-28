@@ -8,6 +8,8 @@
 
 #import "OBAAnimation.h"
 
+NSTimeInterval const OBALongAnimationDuration = 2.0;
+
 @implementation OBAAnimation
 
 + (void)performAnimations:(void (^)(void))animations {
