@@ -102,7 +102,7 @@ typedef NS_ENUM(NSUInteger, OBASectionType) {
 - (void)buildUI {
     NSMutableArray *sections = [[NSMutableArray alloc] init];
 
-    OBATableSection *stopsSection = [OBATripScheduleSectionBuilder buildStopsSection:self.tripDetails navigationController:self.navigationController];
+    OBATableSection *stopsSection = [OBATripScheduleSectionBuilder buildStopsSection:self.tripDetails currentStopIndex:INT_MAX navigationController:self.navigationController];
 
     [sections addObject:stopsSection];
 
