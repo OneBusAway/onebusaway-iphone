@@ -30,7 +30,7 @@
 
 #pragma mark - Label Logic
 
--(void)renderTimeLabel:(NSString *)minutesUntilDeparture forStatus:(OBADepartureStatus)status {
+-(void)setText:(NSString *)minutesUntilDeparture forStatus:(OBADepartureStatus)status {
     UIColor *backgroundColor = [OBADepartureCellHelpers colorForStatus:status];
 
     BOOL textChanged = ![minutesUntilDeparture isEqual:self.previousMinutesText];

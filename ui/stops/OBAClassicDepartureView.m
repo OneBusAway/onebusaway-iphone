@@ -94,7 +94,8 @@
     _departureRow = [departureRow copy];
 
     [self renderRouteLabel];
-    [self.minutesLabel renderTimeLabel:[self departureRow].formattedMinutesUntilNextDeparture forStatus:[self departureRow].departureStatus];
+    [self.minutesLabel setText:[self departureRow].formattedMinutesUntilNextDeparture
+                     forStatus:[self departureRow].departureStatus];
 }
 
 #pragma mark - Label Logic
