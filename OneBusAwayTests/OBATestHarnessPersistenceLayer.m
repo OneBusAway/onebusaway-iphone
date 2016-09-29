@@ -15,6 +15,7 @@
 @property(nonatomic,strong) CLLocation *mostRecentLocation;
 @property(nonatomic,assign) BOOL automaticallySetRegion;
 @property(nonatomic,strong) NSArray *bookmarkGroups;
+@property(nonatomic,strong) OBARegionV2 *currentRegion;
 @end
 
 @implementation OBATestHarnessPersistenceLayer
@@ -81,11 +82,11 @@
 }
 
 - (OBARegionV2 *)readOBARegion {
-    return nil;
+    return self.currentRegion;
 }
 
 - (void)writeOBARegion:(OBARegionV2*)region {
-    //
+    self.currentRegion = region;
 }
 
 

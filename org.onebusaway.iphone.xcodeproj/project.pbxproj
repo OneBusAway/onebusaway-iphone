@@ -331,6 +331,7 @@
 		93B35AA51D5FCCA70025DA4D /* OBAUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B35AA31D5FCCA70025DA4D /* OBAUser.m */; };
 		93B35AA91D60FD050025DA4D /* RegionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B35AA81D60FD050025DA4D /* RegionListViewController.swift */; };
 		93B8BA291C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B8BA281C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m */; };
+		93BD181F1D9D7D91003A64C4 /* OBARegionHelper_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BD181E1D9D7D91003A64C4 /* OBARegionHelper_Tests.m */; };
 		93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936A1D8A3A4D0080F370 /* UIKit.framework */; };
 		93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936C1D8A3A530080F370 /* Foundation.framework */; };
 		93C3936F1D8A3AC20080F370 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936E1D8A3AC20080F370 /* Masonry.framework */; };
@@ -796,6 +797,7 @@
 		93B35AA81D60FD050025DA4D /* RegionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionListViewController.swift; sourceTree = "<group>"; };
 		93B8BA271C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureViewController.h; sourceTree = "<group>"; };
 		93B8BA281C9C646E0079A3DA /* OBAArrivalAndDepartureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureViewController.m; sourceTree = "<group>"; };
+		93BD181E1D9D7D91003A64C4 /* OBARegionHelper_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionHelper_Tests.m; sourceTree = "<group>"; };
 		93C3936A1D8A3A4D0080F370 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		93C3936C1D8A3A530080F370 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		93C3936E1D8A3AC20080F370 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
@@ -1048,6 +1050,7 @@
 		932076361C909F63005F7D4A /* OBAKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				93BD181D1D9D7D82003A64C4 /* location */,
 				93EBC2EB1D93317D00B731A3 /* services */,
 				9337D6CA1D32AFD000D237D6 /* helpers */,
 				932076371C909F63005F7D4A /* models */,
@@ -1761,6 +1764,14 @@
 			path = regions;
 			sourceTree = "<group>";
 		};
+		93BD181D1D9D7D82003A64C4 /* location */ = {
+			isa = PBXGroup;
+			children = (
+				93BD181E1D9D7D91003A64C4 /* OBARegionHelper_Tests.m */,
+			);
+			path = location;
+			sourceTree = "<group>";
+		};
 		93C3932B1D89B3F40080F370 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
@@ -2384,6 +2395,7 @@
 				9302B6C71CA5A0DC002B6AC7 /* OBAPlacemark_Tests.m in Sources */,
 				9302B6CC1CA5A0DC002B6AC7 /* OBAReportProblemWithTripV2_Tests.m in Sources */,
 				9302B6BD1CA5A0DC002B6AC7 /* OBAArrivalAndDepartureInstanceRef_Tests.m in Sources */,
+				93BD181F1D9D7D91003A64C4 /* OBARegionHelper_Tests.m in Sources */,
 				9302B6CA1CA5A0DC002B6AC7 /* OBARegionBoundsV2_Tests.m in Sources */,
 				9302B6CE1CA5A0DC002B6AC7 /* OBASearch_Tests.m in Sources */,
 				9302B6BC1CA5A0DC002B6AC7 /* OBAAgencyWithCoverageV2_Tests.m in Sources */,
