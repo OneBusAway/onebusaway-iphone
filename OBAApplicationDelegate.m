@@ -213,11 +213,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     OBAReachability *reachability = note.object;
 
     if (!reachability.isReachable) {
-
-        NSString *host = [OBAApplication sharedApplication].modelDao.currentRegion.baseURL.host;
-        NSString *body = [NSString stringWithFormat:NSLocalizedString(@"Cannot connect to %@", @"Global reachablity alert body format string"), host];
-
-        [AlertPresenter showWarning:NSLocalizedString(@"Lost Connection", @"Global reachability alert title") body:body];
+        [AlertPresenter showWarning:NSLocalizedString(@"Cannot connect to the Internet", @"Reachability alert title") body:NSLocalizedString(@"Please check your Internet connection and try again.", @"Reachability alert body")];
     }
 }
 
