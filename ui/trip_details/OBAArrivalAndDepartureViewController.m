@@ -44,7 +44,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"map"] style:UIBarButtonItemStylePlain target:self action:@selector(showMap:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Show Map",) style:UIBarButtonItemStylePlain target:self action:@selector(showMap:)];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reloadData:) forControlEvents:UIControlEventValueChanged];
@@ -150,26 +150,34 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
     NSMutableArray *sections = [[NSMutableArray alloc] init];
 
+    NSUInteger currentStopIndex = [OBATripScheduleSectionBuilder indexOfStopID:arrivalAndDeparture.stopId inSchedule:tripDetails.schedule];
+
+    // Service Alerts Section
     OBATableSection *serviceAlertsSection = [self createServiceAlertsSection:arrivalAndDeparture];
     if (serviceAlertsSection) {
         [sections addObject:serviceAlertsSection];
     }
 
-    NSArray<OBATableSection*> *tripDetailsSections = [self createTripDetailsSectionsWithArrivalAndDeparture:arrivalAndDeparture tripDetails:tripDetails];
-    if (tripDetailsSections.count > 0) {
-        [sections addObjectsFromArray:tripDetailsSections];
+    // Stops Section
+    OBATableSection *stopsSection = [OBATripScheduleSectionBuilder buildStopsSection:tripDetails currentStopIndex:currentStopIndex navigationController:self.navigationController];
+    stopsSection.headerView = [self buildTableHeaderViewWithArrivalAndDeparture:arrivalAndDeparture];
+    [sections addObject:stopsSection];
+
+    // Connections Section
+    OBATableSection *connectionsSection = [OBATripScheduleSectionBuilder buildConnectionsSectionWithTripDetails:tripDetails tripInstance:arrivalAndDeparture.tripInstance navigationController:self.navigationController];
+    if (connectionsSection) {
+        [sections addObject:connectionsSection];
     }
 
+    // Actions Section
     [sections addObject:[self.class createActionsSection:arrivalAndDeparture navigationController:self.navigationController]];
 
     self.sections = sections;
     [self.tableView reloadData];
 
     // Scroll the user's current stop to the top of the list
-    NSUInteger index = [OBATripScheduleSectionBuilder indexOfStopID:arrivalAndDeparture.stopId inSchedule:tripDetails.schedule];
-
-    if (index != NSNotFound) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    if (currentStopIndex != NSNotFound) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:currentStopIndex inSection:0];
 
         // only scroll if the indexPath actually exists...
         // but that does raise the question of how we'd end
@@ -195,35 +203,24 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     return [self createServiceAlertsSection:arrivalAndDeparture serviceAlerts:serviceAlerts];
 }
 
-- (NSArray<OBATableSection*>*)createTripDetailsSectionsWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture tripDetails:(OBATripDetailsV2*)tripDetails {
-
-    OBATableSection *stopsSection = [OBATripScheduleSectionBuilder buildStopsSection:tripDetails navigationController:self.navigationController];
-
-    self.tableHeaderView = [self buildTableHeaderViewWithArrivalAndDeparture:arrivalAndDeparture];
-    stopsSection.headerView = [self buildTableHeaderWrapperView:self.tableHeaderView];
-
-    OBATableSection *connectionsSection = [OBATripScheduleSectionBuilder buildConnectionsSectionWithTripDetails:tripDetails tripInstance:arrivalAndDeparture.tripInstance navigationController:self.navigationController];
-
-    return connectionsSection ? @[stopsSection, connectionsSection] : @[stopsSection];
-}
-
-- (OBAClassicDepartureView*)buildTableHeaderViewWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+- (UIView*)buildTableHeaderViewWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
     OBAClassicDepartureView *tableHeaderView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
     tableHeaderView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     tableHeaderView.departureRow = [OBAArrivalAndDepartureSectionBuilder createDepartureRow:arrivalAndDeparture];
 
-    return tableHeaderView;
+    return [self buildTableHeaderWrapperView:tableHeaderView];
 }
 
 - (UIView*)buildTableHeaderWrapperView:(UIView*)tableHeaderView {
-    UIView *headerWrapperView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 60)];
-    headerWrapperView.backgroundColor = [UIColor whiteColor];
-    headerWrapperView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIVisualEffectView *blurContainer = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    blurContainer.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    blurContainer.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 60);
 
-    tableHeaderView.frame = CGRectInset(headerWrapperView.bounds, [OBATheme defaultPadding], 0);
-    [headerWrapperView addSubview:self.tableHeaderView];
+    tableHeaderView.frame = CGRectInset(blurContainer.bounds, [OBATheme defaultPadding], 0);
+    [blurContainer.contentView addSubview:tableHeaderView];
 
-    return headerWrapperView;
+    return blurContainer;
 }
 
 + (OBATableSection*)createActionsSection:(OBAArrivalAndDepartureV2*)arrivalAndDeparture navigationController:(UINavigationController*)navigationController {

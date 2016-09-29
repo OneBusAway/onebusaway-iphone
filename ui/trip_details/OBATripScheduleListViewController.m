@@ -48,7 +48,7 @@ typedef NS_ENUM(NSUInteger, OBASectionType) {
         CGRect r = CGRectMake(0, 0, 160, 33);
         _progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];
         [self.navigationItem setTitleView:_progressView];
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"map"] style:UIBarButtonItemStylePlain target:self action:@selector(showMap:)];
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Show Map",) style:UIBarButtonItemStylePlain target:self action:@selector(showMap:)];
         item.accessibilityLabel = NSLocalizedString(@"Map", @"initWithTitle");
         self.navigationItem.rightBarButtonItem = item;
 
@@ -102,7 +102,7 @@ typedef NS_ENUM(NSUInteger, OBASectionType) {
 - (void)buildUI {
     NSMutableArray *sections = [[NSMutableArray alloc] init];
 
-    OBATableSection *stopsSection = [OBATripScheduleSectionBuilder buildStopsSection:self.tripDetails navigationController:self.navigationController];
+    OBATableSection *stopsSection = [OBATripScheduleSectionBuilder buildStopsSection:self.tripDetails currentStopIndex:INT_MAX navigationController:self.navigationController];
 
     [sections addObject:stopsSection];
 

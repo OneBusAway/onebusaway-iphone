@@ -14,24 +14,28 @@
 
 @implementation OBATripScheduleSectionBuilder
 
-+ (OBATableSection*)buildStopsSection:(OBATripDetailsV2*)tripDetails navigationController:(UINavigationController*)navigationController {
++ (OBATableSection*)buildStopsSection:(OBATripDetailsV2*)tripDetails currentStopIndex:(NSUInteger)currentStopIndex navigationController:(UINavigationController*)navigationController {
     OBATripScheduleV2 *schedule = tripDetails.schedule;
-
     OBATableSection *stopsSection = [[OBATableSection alloc] initWithTitle:nil];
-    for (OBATripStopTimeV2 *stopTime in schedule.stopTimes) {
+
+    for (NSUInteger i=0; i<schedule.stopTimes.count; i++) {
+        OBATripStopTimeV2 *stopTime = schedule.stopTimes[i];
         OBAStopV2 *stop = stopTime.stop;
 
-        [stopsSection addRowWithBlock:^OBABaseRow *{
-            OBATableRow *row = [[OBATableRow alloc] initWithTitle:stop.name action:^{
-                OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stopTime.stopId];
-                [navigationController pushViewController:vc animated:YES];
-            }];
-            row.subtitle = [self formattedStopTime:stopTime tripDetails:tripDetails];
-            row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            row.style = UITableViewCellStyleValue1;
-
-            return row;
+        OBATableRow *row = [[OBATableRow alloc] initWithTitle:stop.name action:^{
+            OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stopTime.stopId];
+            [navigationController pushViewController:vc animated:YES];
         }];
+
+        if (currentStopIndex > i) {
+            row.titleColor = [OBATheme lightDisabledColor];
+        }
+
+        row.subtitle = [self formattedStopTime:stopTime tripDetails:tripDetails];
+        row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        row.style = UITableViewCellStyleValue1;
+
+        [stopsSection addRow:row];
     }
 
     return stopsSection;
