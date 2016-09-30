@@ -325,7 +325,7 @@
 "No Results Found" = "No se Encontraron Resultados";
 
 /* No comment provided by engineer. */
-"No Vehicle Info Available" = "Sin Información Dispible del Vehículo";
+"No Vehicle Info Available" = "Sin Información Disponible del Vehículo";
 
 /* cell.textLabel.text */
 "No active service alerts" = "No hay alertas de servicio activas";
@@ -691,3 +691,8 @@ o '+' para adicionarlo en un nuevo grupo.";
 /* routeType default */
 "vehicle" = "vehículo";
 
+/* No comment provided by engineer. */
+"Walk to stop: %@ — %.0f min, arriving at %@." = "Caminar a la parada: %@ — %.0f min, llegando a las %@.";
+
+/* No comment provided by engineer. */
+"Show Map" = "Mostrar Mapa";
