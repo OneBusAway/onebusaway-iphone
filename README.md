@@ -22,12 +22,3 @@ You are welcome to work on any bug or feature you would like, but we know that g
 4. `open org.onebusaway.iphone.xcodeproj`
 
 You should now be able to build. See our [contributing guidelines](CONTRIBUTING.md) for the specific workflow to add a new feature or bug fix.
-
-### Releasing
-
-* Update the [CHANGELOG](CHANGELOG.md) to reflect the changes in this release
-* Update the [version number](https://github.com/OneBusAway/onebusaway-iphone/blob/develop/Info.plist#L20)
-* Merge in to `master` branch
-* Create AppStore build
-* Upload to AppStore, use changelog as release notes
-* Create [GitHub release](https://github.com/OneBusAway/onebusaway-iphone/releases) based on changelog
