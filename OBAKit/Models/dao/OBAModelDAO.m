@@ -73,6 +73,10 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 #pragma mark - Regions
 
 - (void)setCurrentRegion:(OBARegionV2 *)currentRegion {
+    if ([_currentRegion isEqual:currentRegion]) {
+        return;
+    }
+
     _currentRegion = currentRegion;
     [_preferencesDao writeOBARegion:currentRegion];
 

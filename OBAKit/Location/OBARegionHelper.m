@@ -89,7 +89,7 @@
 }
 
 - (void)setNearestRegion {
-    OBAGuard(self.regions.count > 0) else {
+    if (self.regions.count == 0) {
         return;
     }
 
