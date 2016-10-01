@@ -11,6 +11,6 @@
 
 @interface OBADepartureTimeLabel : UILabel
 
--(void)setText:(NSString *)minutesUntilDeparture forStatus:(OBADepartureStatus)status;
+- (void)setText:(NSString *)minutesUntilDeparture forStatus:(OBADepartureStatus)status;
 
 @end

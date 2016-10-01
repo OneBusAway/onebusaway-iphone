@@ -15,9 +15,9 @@
 
 @interface OBAClassicDepartureView ()
 @property(nonatomic,strong) UILabel *routeLabel;
-@property(nonatomic,strong,readwrite) UILabel *leadingMinutesLabel;
-@property(nonatomic,strong,readwrite) UILabel *centerMinutesLabel;
-@property(nonatomic,strong,readwrite) UILabel *trailingMinutesLabel;
+@property(nonatomic,strong,readwrite) OBADepartureTimeLabel *leadingMinutesLabel;
+@property(nonatomic,strong,readwrite) OBADepartureTimeLabel *centerMinutesLabel;
+@property(nonatomic,strong,readwrite) OBADepartureTimeLabel *trailingMinutesLabel;
 @end
 
 @implementation OBAClassicDepartureView
@@ -66,8 +66,8 @@
     return self;
 }
 
-+ (UILabel*)buildLabel {
-    UILabel *l = [[UILabel alloc] init];
++ (OBADepartureTimeLabel*)buildLabel {
+    OBADepartureTimeLabel *l = [[OBADepartureTimeLabel alloc] init];
     l.font = [OBATheme bodyFont];
     [l setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     return l;
