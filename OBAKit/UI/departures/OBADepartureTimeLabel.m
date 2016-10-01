@@ -7,8 +7,8 @@
 //
 
 #import "OBADepartureTimeLabel.h"
-#import "OBADepartureCellHelpers.h"
-#import "OBAAnimation.h"
+#import <OBAKit/OBADepartureCellHelpers.h>
+#import <OBAKit/OBAAnimation.h>
 
 @interface OBADepartureTimeLabel()
 @property(nonatomic,copy) NSString *previousMinutesText;

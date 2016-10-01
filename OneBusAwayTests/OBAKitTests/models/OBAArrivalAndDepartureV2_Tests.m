@@ -36,7 +36,7 @@
     dep.tripHeadsign = @"HEADSIGN";
     dep.routeShortName = @"SHORTROUTE";
 
-    XCTAssertEqualObjects(dep.bookmarkKey, @"ROUTE_Headsign_SHORTROUTE");
+    XCTAssertEqualObjects(dep.bookmarkKey, @"SHORTROUTE_headsign_ROUTE");
 }
 
 - (void)testNilHeadsign {

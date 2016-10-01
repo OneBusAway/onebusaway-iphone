@@ -7,12 +7,14 @@
 //
 
 #import "OBADepartureCellHelpers.h"
+#import <DateTools/DateTools.h>
 
 @implementation OBADepartureCellHelpers
 
-+ (NSAttributedString*)attributedDepartureTime:(NSString*)nextDepartureTime statusText:(NSString*)statusText departureStatus:(OBADepartureStatus)departureStatus {
++ (NSAttributedString*)attributedDepartureTime:(NSString*)nextDepartureTime statusText:(NSString*)statusText departureStatus:(OBADepartureStatus)departureStatus prependedText:(nullable NSString*)prependedText {
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:prependedText ?: @"" attributes:@{NSFontAttributeName: [OBATheme bodyFont]}];
 
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:nextDepartureTime attributes:@{NSFontAttributeName: [OBATheme bodyFont]}];
+    [string appendAttributedString:[[NSAttributedString alloc] initWithString:nextDepartureTime attributes:@{NSFontAttributeName: [OBATheme boldBodyFont]}]];
 
     [string appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@" - ",)]];
 
@@ -41,6 +43,17 @@
 
 + (UIFont*)fontForStatus:(OBADepartureStatus)status {
     return [OBATheme bodyFont];
+}
+
++ (NSString*)formatDateAsMinutes:(NSDate*)date {
+    double minutesFrom = [date minutesFrom:[NSDate date]];
+
+    if (fabs(minutesFrom) < 1.0) {
+        return NSLocalizedString(@"NOW", @"");
+    }
+    else {
+        return [NSString stringWithFormat:@"%.0fm", minutesFrom];
+    }
 }
 
 @end

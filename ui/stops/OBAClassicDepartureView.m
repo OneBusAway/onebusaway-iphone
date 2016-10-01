@@ -9,15 +9,15 @@
 #import "OBAClassicDepartureView.h"
 #import <Masonry/Masonry.h>
 #import "OBADepartureRow.h"
-#import "OBADepartureCellHelpers.h"
-#import "OBAAnimation.h"
-#import "OBADepartureTimeLabel.h"
+#import <OBAKit/OBAKit.h>
 
 #define kUseDebugColors 0
 
 @interface OBAClassicDepartureView ()
 @property(nonatomic,strong) UILabel *routeLabel;
-@property(nonatomic,strong,readwrite) OBADepartureTimeLabel *minutesLabel;
+@property(nonatomic,strong,readwrite) OBADepartureTimeLabel *leadingMinutesLabel;
+@property(nonatomic,strong,readwrite) OBADepartureTimeLabel *centerMinutesLabel;
+@property(nonatomic,strong,readwrite) OBADepartureTimeLabel *trailingMinutesLabel;
 @end
 
 @implementation OBAClassicDepartureView
@@ -39,34 +39,23 @@
             l;
         });
 
-        UIView *minutesWrapper = [[UIView alloc] initWithFrame:CGRectZero];
-        minutesWrapper.clipsToBounds = YES;
-
-        _minutesLabel = ({
-            OBADepartureTimeLabel *l = [[OBADepartureTimeLabel alloc] init];
-            l.font = [OBATheme bodyFont];
-            l.textAlignment = NSTextAlignmentRight;
-            [l setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-            l;
-        });
-        [minutesWrapper addSubview:_minutesLabel];
-
-        [_minutesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(minutesWrapper);
-            make.left.and.right.equalTo(minutesWrapper);
-        }];
+        _leadingMinutesLabel = [self.class buildLabel];
+        _centerMinutesLabel = [self.class buildLabel];
+        _trailingMinutesLabel = [self.class buildLabel];
 
         if (kUseDebugColors) {
             self.backgroundColor = [UIColor purpleColor];
             _routeLabel.backgroundColor = [UIColor greenColor];
-            _minutesLabel.backgroundColor = [UIColor magentaColor];
-            minutesWrapper.backgroundColor = [UIColor redColor];
+            _leadingMinutesLabel.backgroundColor = [UIColor magentaColor];
+            _centerMinutesLabel.backgroundColor = [UIColor blueColor];
+            _trailingMinutesLabel.backgroundColor = [UIColor redColor];
         }
 
         UIStackView *horizontalStack = ({
-            UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[_routeLabel, minutesWrapper]];
+            UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[_routeLabel, _leadingMinutesLabel, _centerMinutesLabel, _trailingMinutesLabel]];
             stack.axis = UILayoutConstraintAxisHorizontal;
             stack.distribution = UIStackViewDistributionFill;
+            stack.spacing = [OBATheme compactPadding];
             stack;
         });
         [self addSubview:horizontalStack];
@@ -77,11 +66,20 @@
     return self;
 }
 
++ (OBADepartureTimeLabel*)buildLabel {
+    OBADepartureTimeLabel *l = [[OBADepartureTimeLabel alloc] init];
+    l.font = [OBATheme bodyFont];
+    [l setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+    return l;
+}
+
 #pragma mark - Reuse
 
 - (void)prepareForReuse {
     self.routeLabel.text = nil;
-    self.minutesLabel.text = nil;
+    self.leadingMinutesLabel.text = nil;
+    self.centerMinutesLabel.text = nil;
+    self.trailingMinutesLabel.text = nil;
 }
 
 #pragma mark - Row Logic
@@ -94,8 +92,7 @@
     _departureRow = [departureRow copy];
 
     [self renderRouteLabel];
-    [self.minutesLabel setText:[self departureRow].formattedMinutesUntilNextDeparture
-                     forStatus:[self departureRow].departureStatus];
+    [self renderMinutesLabels];
 }
 
 #pragma mark - Label Logic
@@ -115,13 +112,36 @@
 
     [routeText addAttribute:NSFontAttributeName value:[OBATheme boldBodyFont] range:NSMakeRange(0, [self departureRow].routeName.length)];
 
+    NSString *prependedText = nil;
+    if ([self departureRow].upcomingDepartures.count > 1) {
+        prependedText = NSLocalizedString(@"Next: ", @"Used in context of a departure. e.g. Next: 1:38PM - on time");
+    }
+
     NSAttributedString *departureTime = [OBADepartureCellHelpers attributedDepartureTime:[self departureRow].formattedNextDepartureTime
                                                                               statusText:[self departureRow].statusText
-                                                                         departureStatus:[self departureRow].departureStatus];
+                                                                         departureStatus:[self departureRow].departureStatus
+                                                                           prependedText:prependedText];
 
     [routeText appendAttributedString:departureTime];
 
     self.routeLabel.attributedText = routeText;
+}
+
+- (void)renderMinutesLabels {
+
+    NSArray *upcomingDepartures = [self departureRow].upcomingDepartures;
+
+    if (upcomingDepartures.count > 0) {
+        self.leadingMinutesLabel.text = [OBADepartureCellHelpers formatDateAsMinutes:upcomingDepartures[0]];
+    }
+
+    if (upcomingDepartures.count > 1) {
+        self.centerMinutesLabel.text = [OBADepartureCellHelpers formatDateAsMinutes:upcomingDepartures[1]];
+    }
+
+    if (upcomingDepartures.count > 2) {
+        self.trailingMinutesLabel.text = [OBADepartureCellHelpers formatDateAsMinutes:upcomingDepartures[2]];
+    }
 }
 
 @end

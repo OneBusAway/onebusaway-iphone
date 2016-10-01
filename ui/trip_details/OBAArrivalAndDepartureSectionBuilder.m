@@ -10,20 +10,19 @@
 
 @implementation OBAArrivalAndDepartureSectionBuilder
 
-+ (OBADepartureRow *)createDepartureRow:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
-    OBAGuard(arrivalAndDeparture) else {
++ (nullable OBADepartureRow *)createDepartureRow:(NSArray<OBAArrivalAndDepartureV2*>*)arrivalAndDepartures {
+    OBAGuard(arrivalAndDepartures.count > 0) else {
         return nil;
     }
 
     OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:nil];
+    OBAArrivalAndDepartureV2 *dep = arrivalAndDepartures.firstObject;
 
-    row.routeName = arrivalAndDeparture.bestAvailableName;
-    row.destination = arrivalAndDeparture.tripHeadsign;
-    row.departsAt = [NSDate dateWithTimeIntervalSince1970:(arrivalAndDeparture.bestDepartureTime / 1000)];
-    row.statusText = [arrivalAndDeparture statusText];
-    row.departureStatus = [arrivalAndDeparture departureStatus];
-
-    row.cellReuseIdentifier = OBAClassicDepartureCellReuseIdentifier;
+    row.routeName = dep.bestAvailableName;
+    row.destination = dep.tripHeadsign;
+    row.upcomingDepartures = [arrivalAndDepartures valueForKey:NSStringFromSelector(@selector(bestDeparture))];
+    row.statusText = dep.statusText;
+    row.departureStatus = dep.departureStatus;
 
     return row;
 }

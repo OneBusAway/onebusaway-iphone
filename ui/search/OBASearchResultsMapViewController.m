@@ -20,7 +20,6 @@
 #import "OBAStopViewController.h"
 #import "OBAAnalytics.h"
 #import "OBAAlerts.h"
-#import "OBAAnimation.h"
 #import <OBAKit/OBAKit.h>
 #import "OBAMapActivityIndicatorView.h"
 #import <Masonry/Masonry.h>

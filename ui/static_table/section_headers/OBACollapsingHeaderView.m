@@ -10,7 +10,6 @@
 #import <Masonry/Masonry.h>
 #import <OBAKit/OBAKit.h>
 #import "OBARotatingButton.h"
-#import "OBAAnimation.h"
 
 @interface OBACollapsingHeaderView ()
 @property(nonatomic,strong) OBARotatingButton *toggleButton;

@@ -16,20 +16,12 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, OBASortTripsByTypeV2) {
-    OBASortTripsByDepartureTimeV2 = 0,
-    OBASortTripsByRouteNameV2 = 1
-};
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAStopPreferencesV2 : NSObject <NSCoding> {
-    OBASortTripsByTypeV2 _sortTripsByType;
     NSMutableSet * _routeFilter;
 }
-@property(nonatomic,assign) OBASortTripsByTypeV2 sortTripsByType;
-@property(nonatomic,copy,readonly) NSString *formattedSortTripsByType;
-@property(nonatomic,strong,readonly) NSSet * routeFilter;
+@property(nonatomic,strong,readonly) NSSet *routeFilter;
 
 /**
  This property will return YES if this stop has any filtered (i.e. hidden) routes.

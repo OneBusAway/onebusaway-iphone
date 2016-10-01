@@ -33,4 +33,27 @@
     return [self subarrayWithRange:NSMakeRange(index, self.count - index)];
 }
 
+- (NSDictionary*)oba_groupByKey:(NSString*)key {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+
+    for (id obj in [self copy]) {
+        id result = [obj valueForKey:key];
+
+        if (!result) {
+            continue;
+        }
+
+        NSMutableArray *list = dict[result];
+
+        if (!list) {
+            list = [[NSMutableArray alloc] init];
+            dict[result] = list;
+        }
+
+        [list addObject:obj];
+    }
+
+    return [[NSDictionary alloc] initWithDictionary:dict];
+}
+
 @end

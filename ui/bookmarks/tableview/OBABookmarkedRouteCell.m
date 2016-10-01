@@ -86,10 +86,10 @@
 
     self.titleLabel.text = [self tableDataRow].bookmark.name;
 
-    if ([self tableDataRow].nextDeparture) {
+    if ([self tableDataRow].upcomingDepartures.count > 0) {
         self.activityIndicatorView.hidden = YES;
         [self.activityIndicatorView stopAnimating];
-        self.departureView.departureRow = [OBAArrivalAndDepartureSectionBuilder createDepartureRow:[self tableDataRow].nextDeparture];
+        self.departureView.departureRow = [OBAArrivalAndDepartureSectionBuilder createDepartureRow:[self tableDataRow].upcomingDepartures];
     }
     else if ([self tableDataRow].state == OBABookmarkedRouteRowStateLoading) {
         [self.activityIndicatorView startAnimating];
