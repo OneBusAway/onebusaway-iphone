@@ -268,6 +268,7 @@
 		934E7EE71D586240003A343D /* OBADrawerUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 934E7EE61D586240003A343D /* OBADrawerUI.m */; };
 		93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93528AAD1C8D50D200783E9A /* MapKit.framework */; };
 		93528AB11C8D517100783E9A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93528AB01C8D517100783E9A /* CloudKit.framework */; };
+		935640341DA03B810017AB87 /* san_joaquin.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 935640331DA03B810017AB87 /* san_joaquin.gpx */; };
 		93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */; };
 		9363D5921D6ADE6600A7021A /* invalid.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 9363D58E1D6ADE6600A7021A /* invalid.gpx */; };
 		9363D5931D6ADE6600A7021A /* tampa.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 9363D58F1D6ADE6600A7021A /* tampa.gpx */; };
@@ -707,6 +708,7 @@
 		93528AAD1C8D50D200783E9A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		93528AAF1C8D50E900783E9A /* OneBusAway.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OneBusAway.entitlements; path = OneBusAway/OneBusAway.entitlements; sourceTree = "<group>"; };
 		93528AB01C8D517100783E9A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		935640331DA03B810017AB87 /* san_joaquin.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = san_joaquin.gpx; sourceTree = "<group>"; };
 		93631E4A1604F96800CB7209 /* OBAApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAApplicationDelegate.h; sourceTree = "<group>"; };
 		93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OBAApplicationDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9363D58E1D6ADE6600A7021A /* invalid.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = invalid.gpx; sourceTree = "<group>"; };
@@ -1299,6 +1301,7 @@
 		934445F71AB105FB005B3333 /* gpx_files */ = {
 			isa = PBXGroup;
 			children = (
+				935640331DA03B810017AB87 /* san_joaquin.gpx */,
 				9363D58E1D6ADE6600A7021A /* invalid.gpx */,
 				9363D58F1D6ADE6600A7021A /* tampa.gpx */,
 				9363D5901D6ADE6600A7021A /* washingtondc.gpx */,
@@ -2121,6 +2124,7 @@
 				93E4A7621CE65B2100E769B0 /* atlanta.gpx in Resources */,
 				932BE5151AB672940011F2FB /* OBATextFieldTableViewCell.xib in Resources */,
 				9347860E1D3453E9002A5627 /* sandiego.gpx in Resources */,
+				935640341DA03B810017AB87 /* san_joaquin.gpx in Resources */,
 				932BE5031AB66FCB0011F2FB /* OBACreditsViewController.xib in Resources */,
 				9330DEEA16050CA600E14AF4 /* credits.html in Resources */,
 				93C3938F1D8CE6100080F370 /* ApptentiveResources.bundle in Resources */,

@@ -78,11 +78,26 @@ static NSString * kCustom = @"custom";
         _experimental = [decoder decodeBoolForKey:kExperimental];
         _obaBaseUrl = [decoder decodeObjectForKey:kObaBaseUrl];
         _identifier = [decoder decodeIntegerForKey:kIdentifier];
-        _regionName = [decoder decodeObjectForKey:kRegionName];
+        _regionName = [self.class cleanUpRegionName:[decoder decodeObjectForKey:kRegionName]];
         _custom = [decoder decodeBoolForKey:kCustom];
     }
 
     return self;
+}
+
+#pragma mark - Region Name
+
+- (void)setRegionName:(NSString *)regionName {
+    _regionName = [self.class cleanUpRegionName:regionName];
+}
+
++ (NSString*)cleanUpRegionName:(NSString*)regionName {
+    if (regionName.length == 0) {
+        return regionName;
+    }
+
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\s?\\(?beta\\)?" options:NSRegularExpressionCaseInsensitive error:nil];
+    return [regex stringByReplacingMatchesInString:regionName options:(NSMatchingOptions)0 range:NSMakeRange(0, regionName.length) withTemplate:@""];
 }
 
 #pragma mark - Other Public Methods

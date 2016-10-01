@@ -151,7 +151,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
     func loadData() {
         let regions = self.regions!
         let customRows = tableRowsFromRegions(self.modelDAO.customRegions())
-        let activeRows = tableRowsFromRegions(regions.filter { $0.active })
+        let activeRows = tableRowsFromRegions(regions.filter { $0.active && !$0.experimental })
         let experimentalRows = tableRowsFromRegions(regions.filter { $0.experimental })
 
         let autoSelectRow = OBASwitchRow.init(title: NSLocalizedString("Automatically Select Region", comment: ""), action: { row in
@@ -177,7 +177,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
         sections.append(OBATableSection.init(title: NSLocalizedString("Active Regions", comment: ""), rows: activeRows))
 
         if experimentalRows.count > 0 {
-            sections.append(OBATableSection.init(title: NSLocalizedString("Experimental Regions", comment: ""), rows: experimentalRows))
+            sections.append(OBATableSection.init(title: NSLocalizedString("Newest Regions", comment: ""), rows: experimentalRows))
         }
 
         self.sections = sections
