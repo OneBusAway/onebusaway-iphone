@@ -22,6 +22,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/NSObject+OBADescription.h>
 #import <OBAKit/OBAAgencyV2.h>
 #import <OBAKit/OBAAgencyWithCoverageV2.h>
+#import <OBAKit/OBAAnimation.h>
 #import <OBAKit/OBAApplication.h>
 #import <OBAKit/OBAArrivalAndDepartureInstanceRef.h>
 #import <OBAKit/OBAArrivalAndDepartureV2.h>
@@ -36,6 +37,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBADataSource.h>
 #import <OBAKit/OBADataSourceConfig.h>
 #import <OBAKit/OBADateHelpers.h>
+#import <OBAKit/OBADepartureCellHelpers.h>
 #import <OBAKit/OBADepartureStatus.h>
 #import <OBAKit/OBADepartureTimeLabel.h>
 #import <OBAKit/OBAEmailHelper.h>

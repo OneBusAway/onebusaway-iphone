@@ -9,9 +9,7 @@
 #import "OBAClassicDepartureView.h"
 #import <Masonry/Masonry.h>
 #import "OBADepartureRow.h"
-#import "OBADepartureCellHelpers.h"
-#import "OBAAnimation.h"
-#import <OBAKit/OBADepartureTimeLabel.h>
+#import <OBAKit/OBAKit.h>
 
 #define kUseDebugColors 0
 
