@@ -11,18 +11,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString * const OBAClassicDepartureCellReuseIdentifier;
-
 @interface OBADepartureRow : OBABaseRow
 @property(nonatomic,copy,nullable) NSString *destination;
-@property(nonatomic,copy) NSDate *departsAt;
+@property(nonatomic,copy) NSArray<NSDate*> *upcomingDepartures;
 @property(nonatomic,copy) NSString *statusText;
 @property(nonatomic,assign) OBADepartureStatus departureStatus;
 @property(nonatomic,copy) NSString *routeName;
 
-- (double)minutesUntilDeparture;
-- (NSString *)formattedMinutesUntilNextDeparture;
-- (NSString *)formattedNextDepartureTime;
+- (nullable NSString *)formattedNextDepartureTime;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -7,12 +7,8 @@
 //
 
 #import "OBADepartureRow.h"
-#import <DateTools/DateTools.h>
 #import "OBAViewModelRegistry.h"
-#import "OBADepartureCell.h"
 #import "OBAClassicDepartureCell.h"
-
-NSString * const OBAClassicDepartureCellReuseIdentifier = @"OBAClassicDepartureCellReuseIdentifier";
 
 @implementation OBADepartureRow
 
@@ -23,7 +19,7 @@ NSString * const OBAClassicDepartureCellReuseIdentifier = @"OBAClassicDepartureC
 - (id)copyWithZone:(NSZone *)zone {
     OBADepartureRow *row = [super copyWithZone:zone];
     row->_destination = [_destination copyWithZone:zone];
-    row->_departsAt = [_departsAt copyWithZone:zone];
+    row->_upcomingDepartures = [_upcomingDepartures copyWithZone:zone];
     row->_statusText = [_statusText copyWithZone:zone];
     row->_departureStatus = _departureStatus;
     row->_routeName = [_routeName copyWithZone:zone];
@@ -32,30 +28,17 @@ NSString * const OBAClassicDepartureCellReuseIdentifier = @"OBAClassicDepartureC
 }
 
 + (void)registerViewsWithTableView:(UITableView*)tableView {
-    [tableView registerClass:[OBADepartureCell class] forCellReuseIdentifier:[self cellReuseIdentifier]];
-    [tableView registerClass:[OBAClassicDepartureCell class] forCellReuseIdentifier:@"OBAClassicDepartureCellReuseIdentifier"];
+    [tableView registerClass:[OBAClassicDepartureCell class] forCellReuseIdentifier:[self cellReuseIdentifier]];
 }
 
 #pragma mark - Public
 
-- (double)minutesUntilDeparture {
-    return [self.departsAt minutesFrom:[NSDate date]];
-}
-
-- (NSString *)formattedMinutesUntilNextDeparture {
-    
-    double minutesFrom = [self minutesUntilDeparture];
-
-    if (fabs(minutesFrom) < 1.0) {
-        return NSLocalizedString(@"NOW", @"");
+- (nullable NSString *)formattedNextDepartureTime {
+    if (self.upcomingDepartures.count == 0) {
+        return nil;
     }
-    else {
-        return [NSString stringWithFormat:@"%.0fm", minutesFrom];
-    }
-}
 
-- (NSString *)formattedNextDepartureTime {
-    return [OBADateHelpers formatShortTimeNoDate:self.departsAt];
+    return [OBADateHelpers formatShortTimeNoDate:self.upcomingDepartures[0]];
 }
 
 @end

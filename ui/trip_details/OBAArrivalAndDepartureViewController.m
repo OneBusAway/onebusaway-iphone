@@ -206,7 +206,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 - (UIView*)buildTableHeaderViewWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
     OBAClassicDepartureView *tableHeaderView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
     tableHeaderView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    tableHeaderView.departureRow = [OBAArrivalAndDepartureSectionBuilder createDepartureRow:arrivalAndDeparture];
+    tableHeaderView.departureRow = [OBAArrivalAndDepartureSectionBuilder createDepartureRow:@[arrivalAndDeparture]];
 
     return [self buildTableHeaderWrapperView:tableHeaderView];
 }

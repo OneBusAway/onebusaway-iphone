@@ -70,10 +70,9 @@
         }];
         row.routeName = dep.bestAvailableName;
         row.destination = dep.tripHeadsign.capitalizedString;
-        row.departsAt = [NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)];
+        row.upcomingDepartures = @[dep.bestDeparture];
         row.statusText = dep.statusText;
         row.departureStatus = dep.departureStatus;
-        row.cellReuseIdentifier = OBAClassicDepartureCellReuseIdentifier;
         row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
         [departureRows addObject:row];

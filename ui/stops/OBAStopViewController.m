@@ -29,6 +29,7 @@
 
 static NSTimeInterval const kRefreshTimeInterval = 30.0;
 static CGFloat const kTableHeaderHeight = 150.f;
+static NSUInteger kMinutesBefore = 5;
 
 @interface OBAStopViewController ()<UIScrollViewDelegate>
 @property(nonatomic,strong) UIRefreshControl *refreshControl;
@@ -48,7 +49,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
     if (self) {
         _reloadLock = [[NSLock alloc] init];
         _stopID = [stopID copy];
-        _minutesBefore = 5;
         _minutesAfter = 35;
     }
     return self;
@@ -81,7 +81,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
     // Nil these out to ensure that they are recreated once the
     // view comes back into focus, which is important if the user
-    // has exited this view to go to the filter & sort view controller.
+    // has exited this view to go to the filter routes view controller.
     self.routeFilter = nil;
     self.stopPreferences = nil;
 
@@ -160,7 +160,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
     self.navigationItem.title = NSLocalizedString(@"Updating...", @"Title of the Stop UI Controller while it is updating its content.");
 
-    [self.modelService requestStopForID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
+    [self.modelService requestStopForID:self.stopID minutesBefore:kMinutesBefore minutesAfter:self.minutesAfter].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
         self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Updated", @"message"), [OBACommon getTimeAsString]];
         [self.modelDAO viewedArrivalsAndDeparturesForStop:response.stop];
 
@@ -185,7 +185,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
 }
 
 - (void)populateTableFromArrivalsAndDeparturesModel:(OBAArrivalsAndDeparturesForStopV2 *)result {
-
     if (!result) {
         return;
     }
@@ -203,24 +202,8 @@ static CGFloat const kTableHeaderHeight = 150.f;
         [sections addObject:[self createServiceAlertsSection:result serviceAlerts:serviceAlerts]];
     }
 
-    // Departures
-    // TODO: DRY up this whole thing.
-    if (self.stopPreferences.sortTripsByType == OBASortTripsByDepartureTimeV2) {
-        OBATableSection *section = [self buildClassicDepartureSectionWithDeparture:result];
-        [sections addObject:section];
-    }
-    else {
-        NSDictionary *groupedArrivals = [OBAStopViewController groupPredictedArrivalsOnRoute:result.arrivalsAndDepartures];
-        NSArray *arrivalKeys = [groupedArrivals.allKeys sortedArrayUsingSelector:@selector(localizedStandardCompare:)];
-        for (NSString *key in arrivalKeys) {
-            NSArray<OBAArrivalAndDepartureV2*> *departures = groupedArrivals[key];
-
-            // Exclude table sections for routes that the user has disabled and routes without departures.
-            if (departures.count > 0 && [self.routeFilter shouldShowRouteID:departures[0].routeId]) {
-                [sections addObject:[self createDepartureSectionWithTitle:key fromDepartures:departures]];
-            }
-        }
-    }
+    OBATableSection* departureSection = [self buildDepartureSectionWithArrivalsAndDeparturesForStop:result];
+    [sections addObject:departureSection];
 
     // "Load More Departures..."
     OBATableSection *loadMoreSection = [self createLoadMoreDeparturesSection];
@@ -240,11 +223,11 @@ static CGFloat const kTableHeaderHeight = 150.f;
     [self.tableView reloadData];
 }
 
-- (OBATableSection *)buildClassicDepartureSectionWithDeparture:(OBAArrivalsAndDeparturesForStopV2 *)result {
-    NSMutableArray *departureRows = [NSMutableArray array];
+- (OBATableSection*)buildDepartureSectionWithArrivalsAndDeparturesForStop:(OBAArrivalsAndDeparturesForStopV2*)result {
+    NSMutableArray *rows = [[NSMutableArray alloc] init];
 
     for (OBAArrivalAndDepartureV2 *dep in result.arrivalsAndDepartures) {
-
+        // Exclude table sections for routes that the user has disabled
         if (![self.routeFilter shouldShowRouteID:dep.routeId]) {
             continue;
         }
@@ -255,16 +238,14 @@ static CGFloat const kTableHeaderHeight = 150.f;
         }];
         row.routeName = dep.bestAvailableName;
         row.destination = dep.tripHeadsign.capitalizedString;
-        row.departsAt = [NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)];
+        row.upcomingDepartures = @[dep.bestDeparture];
         row.statusText = dep.statusText;
         row.departureStatus = dep.departureStatus;
-        row.rowActions = @[[self tableViewRowActionForArrivalAndDeparture:dep]];
-        row.cellReuseIdentifier = OBAClassicDepartureCellReuseIdentifier;
 
-        [departureRows addObject:row];
+        [rows addObject:row];
     }
 
-    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:departureRows];
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:rows];
     section.headerView = [[OBAClassicDepartureSectionHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 30)];
     section.headerView.layoutMargins = UIEdgeInsetsMake(0, self.tableView.layoutMargins.left, 0, self.tableView.layoutMargins.right);
     return section;
@@ -332,32 +313,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
     return [[OBATableSection alloc] initWithTitle:nil rows:@[moreDeparturesRow]];
 }
 
-- (OBATableSection*)createDepartureSectionWithTitle:(NSString*)title fromDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)departures {
-
-    NSMutableArray *rows = [[NSMutableArray alloc] init];
-
-    for (OBAArrivalAndDepartureV2* dep in departures) {
-        OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:^(OBABaseRow *blockRow){
-            OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
-            [self.navigationController pushViewController:vc animated:YES];
-        }];
-        row.destination = dep.tripHeadsign.capitalizedString;
-        row.departsAt = [NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)];
-        row.statusText = dep.statusText;
-        row.departureStatus = dep.departureStatus;
-        [rows addObject:row];
-    }
-
-    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:rows];
-    section.headerView = ({
-        OBAStopSectionHeaderView *header = [[OBAStopSectionHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 44.f)];
-        header.layoutMargins = self.tableView.layoutMargins;
-        header.routeNameText = title;
-        header;
-    });
-    return section;
-}
-
 - (OBATableSection*)createActionSectionWithStop:(OBAStopV2*)stop modelDAO:(OBAModelDAO*)modelDAO {
 
     NSMutableArray *actionRows = [[NSMutableArray alloc] init];
@@ -380,7 +335,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     [actionRows addObject:problem];
 
     // Filter/Sort Arrivals
-    OBATableRow *filter = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Filter & Sort Routes", @"") action:^{
+    OBATableRow *filter = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Filter Routes", @"") action:^{
         OBAEditStopPreferencesViewController *vc = [[OBAEditStopPreferencesViewController alloc] initWithModelDAO:modelDAO stop:stop];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         [self presentViewController:nav animated:YES completion:nil];
@@ -399,23 +354,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
 }
 
 #pragma mark - Miscellaneous UI and Utilities
-
-+ (NSDictionary*)groupPredictedArrivalsOnRoute:(NSArray<OBAArrivalAndDepartureV2*> *)predictedArrivals {
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-
-    for (OBAArrivalAndDepartureV2 *dep in predictedArrivals) {
-        NSMutableArray *departures = dict[dep.bestAvailableName];
-
-        if (!departures) {
-            departures = [[NSMutableArray alloc] init];
-            dict[dep.bestAvailableName] = departures;
-        }
-
-        [departures addObject:dep];
-    }
-
-    return [NSDictionary dictionaryWithDictionary:dict];
-}
 
 - (void)createTableHeaderView {
     self.parallaxHeaderView = [[OBAParallaxTableHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), kTableHeaderHeight)];

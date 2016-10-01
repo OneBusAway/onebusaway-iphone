@@ -13,7 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAArrivalAndDepartureSectionBuilder : NSObject
-+ (nullable OBADepartureRow *)createDepartureRow:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
++ (nullable OBADepartureRow *)createDepartureRow:(NSArray<OBAArrivalAndDepartureV2*>*)arrivalAndDepartures;
 @end
 
 NS_ASSUME_NONNULL_END
