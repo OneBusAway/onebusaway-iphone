@@ -12,6 +12,11 @@
 
 + (NSAttributedString*)attributedDepartureTime:(NSString*)nextDepartureTime statusText:(NSString*)statusText departureStatus:(OBADepartureStatus)departureStatus {
 
+    OBAGuard(nextDepartureTime.length > 0 && statusText.length > 0) else {
+        NSLog(@"Status and departure time should have length > 0.");
+        return [[NSAttributedString alloc] init];
+    }
+
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:nextDepartureTime attributes:@{NSFontAttributeName: [OBATheme bodyFont]}];
 
     [string appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@" - ",)]];

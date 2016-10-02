@@ -149,7 +149,10 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
      Builds a list of sections and rows from available region and location data.
      */
     func loadData() {
-        let regions = self.regions!
+        guard let regions = self.regions else {
+            return
+        }
+
         let customRows = tableRowsFromRegions(self.modelDAO.customRegions())
         let activeRows = tableRowsFromRegions(regions.filter { $0.active && !$0.experimental })
         let experimentalRows = tableRowsFromRegions(regions.filter { $0.experimental })
