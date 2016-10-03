@@ -6,7 +6,7 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @interface UILabel (OBAAdditions)
 - (void)oba_resizeHeightToFit;

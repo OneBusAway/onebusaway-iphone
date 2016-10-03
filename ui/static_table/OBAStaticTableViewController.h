@@ -6,7 +6,7 @@
 //  Copyright © 2015 OneBusAway. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 #import "OBATableSection.h"
 #import "OBATableRow.h"
 

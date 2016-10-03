@@ -23,7 +23,7 @@
 #import "OBAApplicationDelegate.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "OBAArrivalAndDepartureViewController.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,

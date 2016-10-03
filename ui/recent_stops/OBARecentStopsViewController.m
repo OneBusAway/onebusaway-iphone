@@ -15,7 +15,7 @@
  */
 
 #import "OBARecentStopsViewController.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"

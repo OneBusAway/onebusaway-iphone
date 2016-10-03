@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 OneBusAway. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @class OBATripDetailsV2;
 @class OBATripStopTimeV2;

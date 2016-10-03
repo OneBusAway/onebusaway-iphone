@@ -7,8 +7,8 @@
 //
 
 #import "OBATestHarnessPersistenceLayer.h"
-#import <MapKit/MapKit.h>
-#import <OBAKit/OBAKit.h>
+@import MapKit;
+@import OBAKit;
 
 @interface OBATestHarnessPersistenceLayer ()
 @property(nonatomic,strong) NSArray *bookmarks;

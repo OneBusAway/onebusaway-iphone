@@ -7,7 +7,7 @@
 //
 
 #import "OBABaseRow.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 NS_ASSUME_NONNULL_BEGIN
 

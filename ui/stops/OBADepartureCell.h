@@ -6,7 +6,7 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 #import "OBATableCell.h"
 
 @interface OBADepartureCell : UITableViewCell<OBATableCell>

@@ -13,7 +13,7 @@
 #import <SafariServices/SafariServices.h>
 #import "Apptentive.h"
 #import "OneBusAway-Swift.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 static NSString * const kDonateURLString = @"http://onebusaway.org/donate/";
 static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";

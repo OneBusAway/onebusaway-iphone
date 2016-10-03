@@ -9,7 +9,7 @@
 #import "OBABookmarkGroupsViewController.h"
 #import <Masonry/Masonry.h>
 #import "OBALabelFooterView.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 @implementation OBABookmarkGroupsViewController {
     UIAlertAction *_saveButton;

@@ -15,8 +15,8 @@
  */
 
 #import "OBAApplicationDelegate.h"
-#import <OBAKit/OBAKit.h>
-#import <MapKit/MapKit.h>
+@import OBAKit;
+@import MapKit;
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 OneBusAway. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 NS_ASSUME_NONNULL_BEGIN
 

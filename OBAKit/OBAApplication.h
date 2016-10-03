@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import <OBAKit/OBAReferencesV2.h>
 #import <OBAKit/OBAModelDAO.h>
 #import <OBAKit/OBAModelService.h>

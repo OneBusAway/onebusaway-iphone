@@ -8,7 +8,7 @@
 
 #import "OBATableViewCell.h"
 #import "OBATableRow.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 @implementation OBATableViewCell
 @synthesize tableRow = _tableRow;

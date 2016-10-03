@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-#import <OBAKit/OBAKit.h>
+@import Foundation;
+#import <OBAKit/OBAModelService.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
-typedef UIBackgroundTaskIdentifier(^OBABackgroundTaskCleanup)(UIBackgroundTaskIdentifier task);
 
 @interface OBAModelServiceRequest : NSObject<OBAModelServiceRequest>
 
 @property(strong) OBAModelFactory * modelFactory;
-@property(assign, nullable) SEL modelFactorySelector;
-@property(copy) OBABackgroundTaskCleanup cleanupBlock;
+@property(assign,nullable) SEL modelFactorySelector;
+@property(copy,nullable) UIBackgroundTaskIdentifier (^cleanupBlock)(UIBackgroundTaskIdentifier task);
 
 @property BOOL checkCode;
 

@@ -7,7 +7,7 @@
 //
 
 #import "UITableViewCell+oba_Additions.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 @implementation UITableViewCell (oba_Additions)
 

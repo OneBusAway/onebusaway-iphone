@@ -7,7 +7,7 @@
 //
 
 #import "OBATableSection.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 @interface OBATableSection () {
     NSMutableArray *_rows;

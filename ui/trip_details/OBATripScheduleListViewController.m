@@ -15,7 +15,7 @@
  */
 
 #import "OBATripScheduleListViewController.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 #import "OBATripScheduleMapViewController.h"
 #import "OBAStopViewController.h"
 #import "UITableViewController+oba_Additions.h"

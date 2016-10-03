@@ -3,11 +3,11 @@
 //  org.onebusaway.iphone
 //
 //  Created by Brian Ferris on 11/17/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 OneBusAway. All rights reserved.
 //
 
 #import "OBASituationViewController.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 #import "OBADiversionViewController.h"
 #import "OBAWebViewController.h"
 #import "OBAAnalytics.h"

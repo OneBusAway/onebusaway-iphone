@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import <OBAKit/OBACommon.h>
 #import <OBAKit/OBACommonV1.h>
 

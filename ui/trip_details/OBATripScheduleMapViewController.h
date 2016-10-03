@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#import <OBAKit/OBAKit.h>
-#import <MapKit/MapKit.h>
+@import OBAKit;
+@import MapKit;
 #import "OBAProgressIndicatorView.h"
 
 NS_ASSUME_NONNULL_BEGIN

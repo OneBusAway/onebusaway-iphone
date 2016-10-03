@@ -6,8 +6,8 @@
 //
 //
 
-#import <UIKit/UIKit.h>
-#import <OBAKit/OBAKit.h>
+@import UIKit;
+@import OBAKit;
 #import "OBAStaticTableViewController.h"
 #import "OBANavigationTargetAware.h"
 

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#import <UIKit/UIKit.h>
-#import <OBAKit/OBAKit.h>
+@import UIKit;
+@import OBAKit;
 #import "OBAStaticTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN

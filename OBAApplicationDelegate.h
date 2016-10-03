@@ -15,6 +15,7 @@
  */
 
 #import <OBAKit/OBANavigationTarget.h>
+@import UIKit;
 
 NS_ASSUME_NONNULL_BEGIN
 

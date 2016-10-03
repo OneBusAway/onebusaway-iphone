@@ -6,8 +6,8 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+@import Foundation;
+@import UIKit;
 
 //! Project version number for OBAKit.
 FOUNDATION_EXPORT double OBAKitVersionNumber;

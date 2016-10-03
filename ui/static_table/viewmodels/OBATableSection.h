@@ -6,8 +6,8 @@
 //  Copyright © 2015 OneBusAway. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+@import Foundation;
+@import UIKit;
 
 @class OBABaseRow;
 

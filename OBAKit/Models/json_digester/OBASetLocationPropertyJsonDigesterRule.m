@@ -3,11 +3,11 @@
 //  org.onebusaway.iphone
 //
 //  Created by Brian Ferris on 10/15/09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 OneBusAway. All rights reserved.
 //
 
 #import <OBAKit/OBASetLocationPropertyJsonDigesterRule.h>
-#import <CoreLocation/CoreLocation.h>
+@import CoreLocation;
 
 @implementation OBASetLocationPropertyJsonDigesterRule
 

@@ -6,8 +6,7 @@
 //  Copyright © 2015 OneBusAway. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @interface OBAAlerts : NSObject
 + (UIAlertController*)locationServicesDisabledAlert;

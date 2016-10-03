@@ -13,7 +13,7 @@
 #import "OBASearchResultsListViewController.h"
 #import "OBARecentStopsViewController.h"
 #import "OBABookmarksViewController.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 @interface OBADrawerUI ()
 @property(nonatomic,strong) PulleyViewController *pulleyController;

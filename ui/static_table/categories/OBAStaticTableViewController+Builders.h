@@ -7,7 +7,7 @@
 //
 
 #import "OBAStaticTableViewController.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 @interface OBAStaticTableViewController (Builders)
 - (OBATableSection*)createServiceAlertsSection:(id<OBAHasServiceAlerts>)result serviceAlerts:(OBAServiceAlertsModel*)serviceAlerts;
