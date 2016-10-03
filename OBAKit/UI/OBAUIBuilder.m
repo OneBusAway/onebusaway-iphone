@@ -9,6 +9,7 @@
 #import <OBAKit/OBAUIBuilder.h>
 #import <OBAKit/OBATheme.h>
 #import <OBAKit/UILabel+OBAAdditions.h>
+@import QuartzCore;
 
 @implementation OBAUIBuilder
 
@@ -34,4 +35,19 @@
 
     return wrapper;
 }
+
++ (UIButton*)borderedButtonWithTitle:(NSString*)title {
+
+    UIColor *color = [UIColor blackColor];
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    button.layer.borderColor = color.CGColor;
+    [button setTitleColor:color forState:UIControlStateNormal];
+    button.layer.borderWidth = 1.f;
+    button.layer.cornerRadius = [OBATheme compactPadding];
+    [button setTitle:title forState:UIControlStateNormal];
+
+    return button;
+}
+
 @end

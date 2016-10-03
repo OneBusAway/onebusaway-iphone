@@ -33,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) CLLocation * location;
 @property (nonatomic) BOOL predicted;
 @property (nonatomic) NSInteger scheduleDeviation;
+@property(nonatomic,copy,readonly) NSString *formattedScheduleDeviation;
 @property (nonatomic,strong) NSString * vehicleId;
 
 @property (nonatomic) long long lastUpdateTime;

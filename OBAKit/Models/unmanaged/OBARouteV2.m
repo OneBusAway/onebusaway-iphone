@@ -72,6 +72,7 @@
     return _agency;
 }
 
+// TODO: I gave this an awful name. Rename to -bestAvailableName or something.
 - (NSString *)safeShortName {
     return [(self.shortName ?: self.longName) copy];
 }

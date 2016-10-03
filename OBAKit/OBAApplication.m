@@ -65,8 +65,6 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 
     self.modelService.locationManager = self.locationManager;
 
-    [self restartReachability];
-
     self.regionHelper = [[OBARegionHelper alloc] initWithLocationManager:self.locationManager];
 
     [self refreshSettings];
@@ -86,21 +84,16 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     return self.reachability.isReachable;
 }
 
-- (void)restartReachability {
-    [self.reachability stopNotifier];
-    self.reachability = nil;
-
-    NSURL *apiURL = self.modelDao.currentRegion.baseURL;
-    NSString *hostname = apiURL ? apiURL.host : @"api.onebusaway.org";
-
-    self.reachability = [OBAReachability reachabilityWithHostname:hostname];
-    [self.reachability startNotifier];
+- (OBAReachability*)reachability {
+    if (!_reachability) {
+        _reachability = [OBAReachability reachabilityForInternetConnection];
+    }
+    return _reachability;
 }
 
 #pragma mark - Region
 
 - (void)regionUpdated:(NSNotification*)note {
-    [self restartReachability];
     [self refreshSettings];
 }
 

@@ -10,23 +10,14 @@
 #import <DateTools/DateTools.h>
 #import "OBAViewModelRegistry.h"
 #import "OBADepartureCell.h"
+#import "OBAClassicDepartureCell.h"
+
+NSString * const OBAClassicDepartureCellReuseIdentifier = @"OBAClassicDepartureCellReuseIdentifier";
 
 @implementation OBADepartureRow
 
 + (void)load {
     [OBAViewModelRegistry registerClass:self.class];
-}
-
-- (instancetype)initWithDestination:(nullable NSString*)destination departsAt:(NSDate*)departsAt statusText:(NSString*)statusText departureStatus:(OBADepartureStatus)departureStatus action:(void(^)(OBABaseRow *row))action {
-    self = [super initWithAction:action];
-    
-    if (self) {
-        _destination = [destination copy];
-        _departsAt = [departsAt copy];
-        _statusText = [statusText copy];
-        _departureStatus = departureStatus;
-    }
-    return self;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -35,12 +26,14 @@
     row->_departsAt = [_departsAt copyWithZone:zone];
     row->_statusText = [_statusText copyWithZone:zone];
     row->_departureStatus = _departureStatus;
+    row->_routeName = [_routeName copyWithZone:zone];
 
     return row;
 }
 
 + (void)registerViewsWithTableView:(UITableView*)tableView {
     [tableView registerClass:[OBADepartureCell class] forCellReuseIdentifier:[self cellReuseIdentifier]];
+    [tableView registerClass:[OBAClassicDepartureCell class] forCellReuseIdentifier:@"OBAClassicDepartureCellReuseIdentifier"];
 }
 
 #pragma mark - Public

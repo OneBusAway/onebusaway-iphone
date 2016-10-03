@@ -21,15 +21,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAVehicleStatusV2 : OBAHasReferencesV2
-
-@property (nonatomic,strong) NSString * vehicleId;
-@property (nonatomic) long long lastUpdateTime;
-
-@property (nonatomic,strong) NSString * tripId;
-@property (weak, nonatomic,readonly) OBATripV2 * trip;
-
-@property (nonatomic,strong) OBATripStatusV2 * tripStatus;
-
+@property(nonatomic,copy) NSString *vehicleId;
+@property(nonatomic) long long lastUpdateTime;
+@property(nonatomic,copy,readonly) NSDate *lastUpdate;
+@property(nonatomic,copy) NSString * tripId;
+@property(weak,nonatomic,readonly) OBATripV2 *trip;
+@property(nonatomic,strong) OBATripStatusV2 * tripStatus;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -12,7 +12,6 @@
 
 @interface OBARegionHelper ()
 @property(nonatomic,strong) NSMutableArray *regions;
-@property(nonatomic,copy) CLLocation *location;
 @end
 
 @implementation OBARegionHelper
@@ -90,7 +89,7 @@
 }
 
 - (void)setNearestRegion {
-    if (!self.regions || !self.location) {
+    if (self.regions.count == 0) {
         return;
     }
 
@@ -190,8 +189,9 @@
 }
 
 - (void)locationManagerDidUpdateLocation:(NSNotification*)note {
-    self.location = self.locationManager.currentLocation;
-    [self setNearestRegion];
+    if (self.modelDAO.automaticallySelectRegion) {
+        [self setNearestRegion];
+    }
 }
 
 - (void)locationManagerDidFailWithError:(NSNotification*)note {

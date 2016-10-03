@@ -110,7 +110,7 @@
         return cell;
     }
     else if (indexPath.row == 1) {
-        UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+        UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
 
         NSString *stopId = self.bookmark.stopId;
         OBAStopV2 *stop = self.stops[stopId];

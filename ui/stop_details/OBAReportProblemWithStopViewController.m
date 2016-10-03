@@ -20,6 +20,8 @@
 #import "OBAAnalytics.h"
 #import "OBAApplicationDelegate.h"
 #import <OBAKit/OBAKit.h>
+#import "OneBusAway-Swift.h"
+@import SVProgressHUD;
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeNone,
@@ -28,10 +30,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     OBASectionTypeSubmit,
     OBASectionTypeNotes
 };
-
-@interface OBAReportProblemWithStopViewController ()
-@property(nonatomic,strong) OBAModalActivityIndicator * activityIndicatorView;
-@end
 
 @implementation OBAReportProblemWithStopViewController{
     OBAStopV2 * _stop;
@@ -63,8 +61,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         [self addProblemWithId:@"stop_location_wrong" name:NSLocalizedString(@"Stop location is wrong", @"name")];
         [self addProblemWithId:@"route_or_trip_missing" name:NSLocalizedString(@"Route or scheduled trip is missing", @"name")];
         [self addProblemWithId:@"other" name:NSLocalizedString(@"Other", @"name")];
-
-        _activityIndicatorView = [[OBAModalActivityIndicator alloc] init];
     }
 
     return self;
@@ -164,7 +160,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     switch (sectionType) {
         case OBASectionTypeProblem: {
-            UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+            UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
             cell.textLabel.textAlignment = NSTextAlignmentLeft;
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -174,7 +170,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         }
 
         case OBASectionTypeComment: {
-            UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+            UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
             cell.textLabel.textAlignment = NSTextAlignmentLeft;
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -193,7 +189,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         }
 
         case OBASectionTypeSubmit: {
-            UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+            UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
             cell.textLabel.textAlignment = NSTextAlignmentCenter;
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -207,7 +203,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             break;
     }
 
-    return [UITableViewCell getOrCreateCellForTableView:tableView];
+    return [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -325,40 +321,21 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     problem.userComment = _comment;
     problem.userLocation = self.locationManager.currentLocation;
 
-    [self.activityIndicatorView show:self.view];
+    [SVProgressHUD show];
     [self.modelService reportProblemWithStop:problem completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+        [SVProgressHUD dismiss];
+
         if (error || !responseData) {
-            [self showErrorAlert];
-            [self.activityIndicatorView hide];
+            [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription];
             return;
         }
 
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategorySubmit action:@"report_problem" label:@"Reported Problem" value:nil];
 
-        [self.activityIndicatorView hide];
-
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Submission Successful", @"view.title") message:NSLocalizedString(@"The problem was sucessfully reported. Thank you!", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleDefault handler:nil]];
-        [self presentViewController:alert animated:YES completion:^{
-            //go back to stop view
-            NSArray *allViewControllers = self.navigationController.viewControllers;
-            UIViewController *target = allViewControllers[allViewControllers.count - 3];
-            [self.navigationController popToViewController:target animated:YES];
+        [self dismissViewControllerAnimated:YES completion:^{
+            [AlertPresenter showSuccess:NSLocalizedString(@"Submission Successful",) body:NSLocalizedString(@"The problem was sucessfully reported. Thank you!",)];
         }];
     }];
-}
-
-- (void)showErrorAlert {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error Submitting", @"view.title")
-                                                                   message:NSLocalizedString(@"An error occurred while reporting the problem. Please contact us directly.", @"view.message")
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-
-
-    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleDefault handler:nil]];
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", @"view addButtonWithTitle") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [APP_DELEGATE navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
-    }]];
-    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - Lazy Loading

@@ -139,6 +139,14 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }];
 }
 
+- (AnyPromise*)requestVehicleForID:(NSString*)vehicleID {
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestVehicleForId:vehicleID completionBlock:^(OBAEntryWithReferencesV2 *responseData, NSUInteger responseCode, NSError *error) {
+            resolve(error ?: responseData.entry);
+        }];
+    }];
+}
+
 #pragma mark - Old School Requests
 
 - (id<OBAModelServiceRequest>)requestCurrentTimeWithCompletionBlock:(OBADataSourceCompletion)completion {

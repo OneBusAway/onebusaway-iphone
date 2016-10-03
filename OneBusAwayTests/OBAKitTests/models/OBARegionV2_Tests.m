@@ -43,6 +43,37 @@
     XCTAssertEqual(regions.count, 12);
 }
 
+#pragma mark - Region Name
+
+- (void)testRemovalOfBetaTextFromName {
+    OBARegionV2 *region = [[OBARegionV2 alloc] init];
+    region.regionName = @"San Joaquin RTD (beta)";
+    XCTAssertEqualObjects(region.regionName, @"San Joaquin RTD");
+}
+
+- (void)testRemovalOfBetaTextFromNameCaseInsensitive {
+    OBARegionV2 *region = [[OBARegionV2 alloc] init];
+    region.regionName = @"San Joaquin RTD (BETA)";
+    XCTAssertEqualObjects(region.regionName, @"San Joaquin RTD");
+}
+
+- (void)testRemovalOfBetaTextSansParentheses {
+    OBARegionV2 *region = [[OBARegionV2 alloc] init];
+    region.regionName = @"San Joaquin RTD BETA";
+    XCTAssertEqualObjects(region.regionName, @"San Joaquin RTD");
+}
+
+- (void)testRegionNameWithoutBeta {
+    OBARegionV2 *region = [[OBARegionV2 alloc] init];
+    region.regionName = @"Puget Sound";
+    XCTAssertEqualObjects(region.regionName, @"Puget Sound");
+}
+
+- (void)testNilRegionName {
+    OBARegionV2 *region = [[OBARegionV2 alloc] init];
+    XCTAssertNil(region.regionName);
+}
+
 #pragma mark - Tampa
 
 - (void)testTampa {
@@ -106,14 +137,14 @@
 
 - (void)testBoston {
     NSArray<OBARegionV2*>* regions = [self getRegions];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"regionName == %@", @"Boston (beta)"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"regionName == %@", @"Boston"];
     OBARegionV2 *boston = [[regions filteredArrayUsingPredicate:predicate] firstObject];
     [self testBostonWithRegion:boston];
 }
 
 - (void)testUnarchivingBoston {
     NSArray<OBARegionV2*>* regions = [self getRegions];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"regionName == %@", @"Boston (beta)"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"regionName == %@", @"Boston"];
     OBARegionV2 *boston = [[regions filteredArrayUsingPredicate:predicate] firstObject];
 
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:boston];

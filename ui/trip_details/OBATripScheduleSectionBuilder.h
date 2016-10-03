@@ -13,7 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBATripScheduleSectionBuilder : NSObject
-+ (OBATableSection*)buildStopsSection:(OBATripDetailsV2*)tripDetails navigationController:(UINavigationController*)navigationController;
++ (OBATableSection*)buildStopsSection:(OBATripDetailsV2*)tripDetails currentStopIndex:(NSUInteger)currentStopIndex navigationController:(UINavigationController*)navigationController;
 + (nullable OBATableSection*)buildConnectionsSectionWithTripDetails:(OBATripDetailsV2*)tripDetails tripInstance:(OBATripInstanceRef*)tripInstance navigationController:(UINavigationController*)navigationController;
 + (NSUInteger)indexOfStopID:(NSString*)stopID inSchedule:(OBATripScheduleV2*)tripSchedule;
 @end

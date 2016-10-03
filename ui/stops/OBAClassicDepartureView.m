@@ -8,7 +8,7 @@
 
 #import "OBAClassicDepartureView.h"
 #import <Masonry/Masonry.h>
-#import "OBAClassicDepartureRow.h"
+#import "OBADepartureRow.h"
 #import "OBADepartureCellHelpers.h"
 #import "OBAAnimation.h"
 
@@ -90,12 +90,12 @@
 
 #pragma mark - Row Logic
 
-- (void)setClassicDepartureRow:(OBAClassicDepartureRow *)classicDepartureRow {
-    if (_classicDepartureRow == classicDepartureRow) {
+- (void)setDepartureRow:(OBADepartureRow *)departureRow {
+    if (_departureRow == departureRow) {
         return;
     }
 
-    _classicDepartureRow = [classicDepartureRow copy];
+    _departureRow = [departureRow copy];
 
     [self renderRouteLabel];
     [self renderMinutesLabel];
@@ -105,20 +105,20 @@
     // TODO: clean me up once we've verified that users aren't losing their minds over the change.
     NSString *firstLineText = nil;
 
-    if ([self classicDepartureRow].destination) {
-        firstLineText = [NSString stringWithFormat:NSLocalizedString(@"%@ to %@\r\n", @"Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE>"), [self classicDepartureRow].routeName, [self classicDepartureRow].destination];
+    if ([self departureRow].destination) {
+        firstLineText = [NSString stringWithFormat:NSLocalizedString(@"%@ to %@\r\n", @"Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE>"), [self departureRow].routeName, [self departureRow].destination];
     }
     else {
-        firstLineText = [NSString stringWithFormat:@"%@\r\n", [self classicDepartureRow].routeName];
+        firstLineText = [NSString stringWithFormat:@"%@\r\n", [self departureRow].routeName];
     }
 
     NSMutableAttributedString *routeText = [[NSMutableAttributedString alloc] initWithString:firstLineText attributes:@{NSFontAttributeName: [OBATheme bodyFont]}];
 
-    [routeText addAttribute:NSFontAttributeName value:[OBATheme boldBodyFont] range:NSMakeRange(0, [self classicDepartureRow].routeName.length)];
+    [routeText addAttribute:NSFontAttributeName value:[OBATheme boldBodyFont] range:NSMakeRange(0, [self departureRow].routeName.length)];
 
-    NSAttributedString *departureTime = [OBADepartureCellHelpers attributedDepartureTime:[self classicDepartureRow].formattedNextDepartureTime
-                                                                              statusText:[self classicDepartureRow].statusText
-                                                                         departureStatus:[self classicDepartureRow].departureStatus];
+    NSAttributedString *departureTime = [OBADepartureCellHelpers attributedDepartureTime:[self departureRow].formattedNextDepartureTime
+                                                                              statusText:[self departureRow].statusText
+                                                                         departureStatus:[self departureRow].departureStatus];
 
     [routeText appendAttributedString:departureTime];
 
@@ -126,8 +126,8 @@
 }
 
 - (void)renderMinutesLabel {
-    NSString *formattedMinutes = [self classicDepartureRow].formattedMinutesUntilNextDeparture;
-    UIColor *formattedColor = [OBADepartureCellHelpers colorForStatus:[self classicDepartureRow].departureStatus];
+    NSString *formattedMinutes = [self departureRow].formattedMinutesUntilNextDeparture;
+    UIColor *formattedColor = [OBADepartureCellHelpers colorForStatus:[self departureRow].departureStatus];
 
     BOOL textChanged = ![formattedMinutes isEqual:self.previousMinutesText];
     BOOL colorChanged = ![formattedColor isEqual:self.previousMinutesColor];

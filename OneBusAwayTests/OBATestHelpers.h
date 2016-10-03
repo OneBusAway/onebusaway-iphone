@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OBATestHarnessPersistenceLayer.h"
 
 @class OBARegionV2;
 
@@ -61,5 +62,7 @@
 // Fixture Helpers
 
 + (OBARegionV2*)pugetSoundRegion;
+
++ (OBARegionV2*)tampaRegion;
 
 @end

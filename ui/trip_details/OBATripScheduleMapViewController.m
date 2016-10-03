@@ -47,6 +47,7 @@ static const NSString *kShapeContext = @"ShapeContext";
     self.mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
     self.mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     self.mapView.delegate = self;
+    self.mapView.showsUserLocation = YES;
     [self.view addSubview:self.mapView];
 }
 

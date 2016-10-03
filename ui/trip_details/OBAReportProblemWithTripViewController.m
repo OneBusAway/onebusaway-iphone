@@ -44,8 +44,6 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     BOOL _onVehicle;
     NSString *_vehicleNumber;
     NSString *_vehicleType;
-
-    OBAModalActivityIndicator *_activityIndicatorView;
 }
 
 #pragma mark - Initialization
@@ -193,7 +191,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     switch (sectionType) {
         case OBASectionTypeProblem: {
-            UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+            UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
             cell.textLabel.textAlignment = NSTextAlignmentLeft;
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -203,7 +201,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         }
 
         case OBASectionTypeComment: {
-            UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+            UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
             cell.textLabel.textAlignment = NSTextAlignmentLeft;
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -225,7 +223,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             return [self tableView:tableView vehicleCellForRowAtIndexPath:indexPath];
 
         case OBASectionTypeSubmit: {
-            UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+            UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
             cell.textLabel.textAlignment = NSTextAlignmentCenter;
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -238,7 +236,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             break;
     }
 
-    return [UITableViewCell getOrCreateCellForTableView:tableView];
+    return [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -406,7 +404,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             break;
     }
 
-    return [UITableViewCell getOrCreateCellForTableView:tableView];
+    return [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
 }
 
 - (NSString *)getVehicleTypeLabeForTrip:(OBATripV2 *)trip {

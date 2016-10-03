@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
+#import <UIKit/UIKit.h>
 #import "OBAApplicationDelegate.h"
-#import "OBARequestDrivenTableViewController.h"
 #import <OBAKit/OBAKit.h>
+#import "OBAStaticTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAAgenciesListViewController : OBARequestDrivenTableViewController
+@interface OBAAgenciesListViewController : OBAStaticTableViewController
 @property(nonatomic,strong) OBAModelService *modelService;
 @end
 

@@ -78,11 +78,26 @@ static NSString * kCustom = @"custom";
         _experimental = [decoder decodeBoolForKey:kExperimental];
         _obaBaseUrl = [decoder decodeObjectForKey:kObaBaseUrl];
         _identifier = [decoder decodeIntegerForKey:kIdentifier];
-        _regionName = [decoder decodeObjectForKey:kRegionName];
+        _regionName = [self.class cleanUpRegionName:[decoder decodeObjectForKey:kRegionName]];
         _custom = [decoder decodeBoolForKey:kCustom];
     }
 
     return self;
+}
+
+#pragma mark - Region Name
+
+- (void)setRegionName:(NSString *)regionName {
+    _regionName = [self.class cleanUpRegionName:regionName];
+}
+
++ (NSString*)cleanUpRegionName:(NSString*)regionName {
+    if (regionName.length == 0) {
+        return regionName;
+    }
+
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\s?\\(?beta\\)?" options:NSRegularExpressionCaseInsensitive error:nil];
+    return [regex stringByReplacingMatchesInString:regionName options:(NSMatchingOptions)0 range:NSMakeRange(0, regionName.length) withTemplate:@""];
 }
 
 #pragma mark - Other Public Methods
@@ -162,7 +177,71 @@ static NSString * kCustom = @"custom";
         return NO;
     }
 
-    return self.identifier == object.identifier;
+    if (![self.siriBaseUrl isEqual:object.siriBaseUrl]) {
+        return NO;
+    }
+
+    if (![self.obaVersionInfo isEqual:object.obaVersionInfo]) {
+        return NO;
+    }
+
+    if (![self.language isEqual:object.language]) {
+        return NO;
+    }
+
+    if (![self.bounds isEqual:object.bounds]) {
+        return NO;
+    }
+
+    if (![self.contactEmail isEqual:object.contactEmail]) {
+        return NO;
+    }
+
+    if (![self.twitterUrl isEqual:object.twitterUrl]) {
+        return NO;
+    }
+
+    if (![self.facebookUrl isEqual:object.facebookUrl]) {
+        return NO;
+    }
+
+    if (![self.obaBaseUrl isEqual:object.obaBaseUrl]) {
+        return NO;
+    }
+    
+    if (![self.regionName isEqual:object.regionName]) {
+        return NO;
+    }
+
+    if (self.supportsSiriRealtimeApis != object.supportsSiriRealtimeApis) {
+        return NO;
+    }
+
+    if (self.supportsObaRealtimeApis != object.supportsObaRealtimeApis) {
+        return NO;
+    }
+
+    if (self.supportsObaDiscoveryApis != object.supportsObaDiscoveryApis) {
+        return NO;
+    }
+
+    if (self.active != object.active) {
+        return NO;
+    }
+
+    if (self.experimental != object.experimental) {
+        return NO;
+    }
+
+    if (self.identifier != object.identifier) {
+        return NO;
+    }
+
+    if (self.custom != object.custom) {
+        return NO;
+    }
+
+    return YES;
 }
 
 - (NSString*)description

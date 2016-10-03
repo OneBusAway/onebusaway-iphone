@@ -173,7 +173,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView titleCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
 
     cell.textLabel.text = _situation.summary;
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
@@ -183,7 +183,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView detailsCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
 
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -202,7 +202,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 - (UITableViewCell *)tableView:(UITableView *)tableView markAsReadCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     BOOL isRead = [self.modelDAO isVisitedSituationWithId:_situation.situationId];
 
-    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView];
+    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
 
     cell.textLabel.text = isRead ? NSLocalizedString(@"Mark as Unread", @"isRead") : NSLocalizedString(@"Mark as Read", @"!isRead");
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
@@ -213,7 +213,9 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (void)didSelectDetailsRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     if (indexPath.row == 0) {
-        [OBAWebViewController pushOntoViewController:self withHtml:[self getDetails:YES] withTitle:NSLocalizedString(@"Details", @"withTitle")];
+        OBAWebViewController *webController = [[OBAWebViewController alloc] initWithHTML:[self getDetails:YES]];
+        webController.title = NSLocalizedString(@"Details", @"withTitle");
+        [self.navigationController pushViewController:webController animated:YES];
     }
     else if (indexPath.row == 1 && _diversionPath) {
         OBADiversionViewController *vc = [OBADiversionViewController loadFromNibWithappDelegate:APP_DELEGATE];

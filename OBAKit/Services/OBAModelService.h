@@ -106,6 +106,15 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 - (AnyPromise*)requestAgenciesWithCoverage;
 
 /**
+ Retrieves the OBAVehicleStatusV2 object for the specified vehicleID.
+
+ @param vehicleID The ID for the vehicle to retrieve.
+
+ @return A promise that that resolves to OBAVehicleStatusV2
+ */
+- (AnyPromise*)requestVehicleForID:(NSString*)vehicleID;
+
+/**
  *  Makes an asynchronous request to fetch the current server time.
  *
  *  @param completion The block to be called once the request completes, this is always executed on the main thread.
