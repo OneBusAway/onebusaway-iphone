@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 #import "OBABookmarkGroupsViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN

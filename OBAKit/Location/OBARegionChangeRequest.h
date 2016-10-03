@@ -6,7 +6,7 @@
 //
 //
 
-#import <MapKit/MapKit.h>
+@import MapKit;
 
 typedef NS_ENUM(NSInteger, OBARegionChangeRequestType) {
     OBARegionChangeRequestTypeUser=0,

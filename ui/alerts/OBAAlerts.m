@@ -7,7 +7,7 @@
 //
 
 #import "OBAAlerts.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 @implementation OBAAlerts
 

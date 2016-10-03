@@ -7,7 +7,7 @@
 //
 
 #import "OBAParallaxTableHeaderView.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 #import <Masonry/Masonry.h>
 #import <PromiseKit/PromiseKit.h>
 #import <PMKMapKit/PMKMapKit.h>

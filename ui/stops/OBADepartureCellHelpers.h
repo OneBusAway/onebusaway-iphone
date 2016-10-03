@@ -6,8 +6,8 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <OBAKit/OBAKit.h>
+@import UIKit;
+@import OBAKit;
 
 @interface OBADepartureCellHelpers : NSObject
 

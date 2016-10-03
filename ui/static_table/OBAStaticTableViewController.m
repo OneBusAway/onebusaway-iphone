@@ -7,7 +7,7 @@
 //
 
 #import "OBAStaticTableViewController.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #import "OBATableCell.h"
 #import "OBAViewModelRegistry.h"

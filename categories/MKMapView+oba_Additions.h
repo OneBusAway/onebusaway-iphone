@@ -8,7 +8,7 @@
 
 // From http://troybrant.net/blog/2010/01/set-the-zoom-level-of-an-mkmapview/
 
-#import <MapKit/MapKit.h>
+@import MapKit;
 
 NS_ASSUME_NONNULL_BEGIN
 

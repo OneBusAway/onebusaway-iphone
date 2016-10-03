@@ -7,7 +7,7 @@
 //
 
 #import "OBAClassicDepartureSectionHeaderView.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 @implementation OBAClassicDepartureSectionHeaderView
 

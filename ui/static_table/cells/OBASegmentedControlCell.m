@@ -8,7 +8,7 @@
 
 #import "OBASegmentedControlCell.h"
 #import <Masonry/Masonry.h>
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 #import "OBASegmentedRow.h"
 
 @interface OBASegmentedControlCell ()

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import <MapKit/MapKit.h>
+@import MapKit;
 #import <OBAKit/OBATripInstanceRef.h>
 
 NS_ASSUME_NONNULL_BEGIN

@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#import <MapKit/MapKit.h>
-
+@import MapKit;
 #import <OBAKit/OBAHasReferencesV2.h>
 #import <OBAKit/OBAAgencyV2.h>
 #import <OBAKit/OBARegionBoundsV2.h>

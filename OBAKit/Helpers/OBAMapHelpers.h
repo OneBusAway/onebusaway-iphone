@@ -6,8 +6,8 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <MapKit/MapKit.h>
+@import Foundation;
+@import MapKit;
 
 extern const double OBADefaultMapRadiusInMeters;
 extern const double OBAMinMapRadiusInMeters;

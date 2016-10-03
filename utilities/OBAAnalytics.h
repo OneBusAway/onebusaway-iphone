@@ -11,8 +11,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#import <UIKit/UIKit.h>
-#import <GoogleAnalytics/GoogleAnalytics.h>
+
+@import UIKit;
+@import GoogleAnalytics;
 
 extern NSString * _Nonnull const OBAAnalyticsCategoryAppSettings;
 extern NSString * _Nonnull const OBAAnalyticsCategoryUIAction;

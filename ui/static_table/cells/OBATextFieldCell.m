@@ -8,7 +8,7 @@
 
 #import "OBATextFieldCell.h"
 #import "OBATextFieldRow.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 #import <Masonry/Masonry.h>
 #import "SMFloatingLabelTextField.h"
 

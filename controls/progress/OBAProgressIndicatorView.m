@@ -15,7 +15,7 @@
  */
 
 #import "OBAProgressIndicatorView.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 @interface OBAProgressIndicatorView (Private)
 

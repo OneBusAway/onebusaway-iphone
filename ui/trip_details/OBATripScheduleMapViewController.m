@@ -21,7 +21,7 @@
 #import "UINavigationController+oba_Additions.h"
 #import "OBAApplicationDelegate.h"
 #import "EXTScope.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 static const NSString *kTripDetailsContext = @"TripDetails";
 static const NSString *kShapeContext = @"ShapeContext";

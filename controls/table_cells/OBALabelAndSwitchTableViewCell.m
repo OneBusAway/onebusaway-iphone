@@ -3,7 +3,7 @@
 //  org.onebusaway.iphone
 //
 //  Created by Brian Ferris on 8/21/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 OneBusAway. All rights reserved.
 //
 
 #import "OBALabelAndSwitchTableViewCell.h"

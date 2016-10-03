@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 OneBusAway. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import <OBAKit/OBABookmarkV2.h>
 
 NS_ASSUME_NONNULL_BEGIN

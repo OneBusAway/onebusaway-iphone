@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+@import Foundation;
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#import <Foundation/Foundation.h>
-#import <MapKit/MapKit.h>
+@import Foundation;
+@import MapKit;
 #import <OBAKit/OBARouteType.h>
 
 @class OBARegionV2;

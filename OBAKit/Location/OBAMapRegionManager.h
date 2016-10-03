@@ -3,10 +3,10 @@
 //  org.onebusaway.iphone2
 //
 //  Created by Brian Ferris on 5/8/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 OneBusAway. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import <OBAKit/OBARegionChangeRequest.h>
 
 NS_ASSUME_NONNULL_BEGIN

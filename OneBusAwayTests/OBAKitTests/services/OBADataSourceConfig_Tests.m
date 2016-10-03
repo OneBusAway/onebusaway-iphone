@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 @interface OBADataSourceConfig_Tests : XCTestCase
 

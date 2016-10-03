@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 OneBusAway. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import <OBAKit/OBAModelService.h>
 #import <OBAKit/OBARegionV2.h>
 #import <OBAKit/OBALocationManager.h>

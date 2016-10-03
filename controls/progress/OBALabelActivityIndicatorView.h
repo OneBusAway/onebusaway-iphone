@@ -6,7 +6,7 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @interface OBALabelActivityIndicatorView : UIView
 @property(nonatomic,strong,readonly) UILabel *textLabel;

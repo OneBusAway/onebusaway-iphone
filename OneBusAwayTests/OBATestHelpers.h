@@ -6,7 +6,7 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "OBATestHarnessPersistenceLayer.h"
 
 @class OBARegionV2;

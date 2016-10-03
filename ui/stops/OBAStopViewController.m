@@ -7,7 +7,7 @@
 //
 
 #import "OBAStopViewController.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 #import <PromiseKit/PromiseKit.h>
 #import <DateTools/DateTools.h>
 #import "OneBusAway-Swift.h"

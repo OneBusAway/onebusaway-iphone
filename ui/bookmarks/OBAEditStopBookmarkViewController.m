@@ -20,7 +20,7 @@
 #import "UITableViewController+oba_Additions.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 #import "OneBusAway-Swift.h"
 
 @interface OBAEditStopBookmarkViewController ()

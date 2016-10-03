@@ -15,7 +15,7 @@
  */
 
 #import "OBADiversionViewController.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 #import "EXTScope.h"
 
 @interface OBADiversionViewController ()

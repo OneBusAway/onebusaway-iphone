@@ -15,13 +15,13 @@
  */
 
 #import "OBASearchResultsMapViewController.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 #import "OBASearchResultsListViewController.h"
 #import "OBAStopViewController.h"
 #import "OBAAnalytics.h"
 #import "OBAAlerts.h"
 #import "OBAAnimation.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 #import "OBAMapActivityIndicatorView.h"
 #import <Masonry/Masonry.h>
 #import "OBAVibrantBlurContainerView.h"

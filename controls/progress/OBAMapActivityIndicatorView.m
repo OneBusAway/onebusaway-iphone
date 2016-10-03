@@ -8,7 +8,7 @@
 
 #import "OBAMapActivityIndicatorView.h"
 #import "OBAVibrantBlurContainerView.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 @interface OBAMapActivityIndicatorView ()
 @property(nonatomic,strong) OBAVibrantBlurContainerView *blurContainer;

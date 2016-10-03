@@ -25,8 +25,8 @@
  POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#import <Foundation/Foundation.h>
-#import <SystemConfiguration/SystemConfiguration.h>
+@import Foundation;
+@import SystemConfiguration;
 
 //! Project version number for MacOSReachability.
 FOUNDATION_EXPORT double OBAReachabilityVersionNumber;

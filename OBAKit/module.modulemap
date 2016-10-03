@@ -1,0 +1,6 @@
+framework module OBAKit {
+    umbrella header "OBAKit.h"
+
+    module * { export * }
+    export *
+}

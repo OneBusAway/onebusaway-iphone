@@ -17,7 +17,7 @@
 #import "OBAApplicationDelegate.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <GoogleAnalytics/GoogleAnalytics.h>
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 #import "OBANavigationTargetAware.h"
 

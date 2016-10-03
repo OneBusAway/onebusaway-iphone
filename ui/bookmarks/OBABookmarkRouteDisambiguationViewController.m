@@ -7,7 +7,7 @@
 //
 
 #import "OBABookmarkRouteDisambiguationViewController.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 #import "OBATableRow.h"
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBASegmentedRow.h"

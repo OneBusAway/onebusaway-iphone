@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#import <UIKit/UIKit.h>
-#import <OBAKit/OBAKit.h>
+@import UIKit;
+@import OBAKit;
 
 @interface OBATestAppDelegate : UIResponder <UIApplicationDelegate>
 @end

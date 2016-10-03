@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "OBATestHelpers.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 #import "OBATestHarnessPersistenceLayer.h"
 
 /**

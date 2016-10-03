@@ -7,7 +7,7 @@
 //
 
 #import "OBABookmarkedRouteRow.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 #import "OBAViewModelRegistry.h"
 #import "OBABookmarkedRouteCell.h"
 

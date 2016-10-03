@@ -6,8 +6,9 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <OBAKit/OBASituationV2.h>
+@import Foundation;
+
+@class OBASituationV2;
 
 @protocol OBAHasServiceAlerts <NSObject>
 - (NSArray<OBASituationV2*>*)situations;

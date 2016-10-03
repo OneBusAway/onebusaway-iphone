@@ -7,7 +7,7 @@
 //
 
 #import "OBASeparatorSectionView.h"
-#import <OBAKit/OBAKit.h>
+@import OBAKit;
 
 @implementation OBASeparatorSectionView
 
