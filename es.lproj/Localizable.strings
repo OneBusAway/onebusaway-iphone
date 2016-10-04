@@ -1,0 +1,698 @@
+/* No comment provided by engineer. */
+" - " = " - ";
+
+/* sd < 0 */
+" early" = " antes";
+
+/* sd > 0 */
+" late" = " tarde";
+
+/* No comment provided by engineer. */
+"%@ bound - Routes: %@" = "%@ bound - Rutas: %@";
+
+/* e.g. 3 min early */
+"%@ min %@" = "%@ min %@";
+
+/* Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE> */
+"%@ to %@\r\n" = "%@ hacia %@\r\n";
+
+/* Unread messages count. e.g. 2 unread */
+"%@ unread" = "%@ sin leer";
+
+/* No comment provided by engineer. */
+"%@: No departure scheduled for the next %@ minutes" = "%@: No hay horarios de salida para los próximos %@ minutos";
+
+/* The explanatory text displayed when a non-realtime trip is displayed on-screen. */
+"*'Scheduled': no vehicle location data available" = "*'Planificada': sin datos de ubicación de vehículos disponibles";
+
+/* No comment provided by engineer. */
+"A vehicle at this stop" = "Un vehículo en esta parada";
+
+/* No comment provided by engineer. */
+"About OneBusAway" = "Acerca de OneBusAway";
+
+/* No comment provided by engineer. */
+"Active Regions" = "Regiones Activas";
+
+/* OBASectionTypeTripDetails */
+"Active Trip Details:" = "Detalles del Viaje Activo:";
+
+/* No comment provided by engineer. */
+"Add Bookmark" = "Añadir a Favoritos";
+
+/* No comment provided by engineer. */
+"Add Bookmark Group" = "Añadir Grupo a Favoritos";
+
+/* No comment provided by engineer. */
+"Add Region" = "Añadir una Región";
+
+/* Agencies tab title
+   Info Page Agencies Row Title
+   OBASearchTypeAgenciesWithCoverage
+   self.navigationItem.title */
+"Agencies" = "Agencias";
+
+/* No comment provided by engineer. */
+"All Departures" = "Todas las Salidas";
+
+/* No comment provided by engineer. */
+"An error occurred loading this trip. Please try again." = "Se produjo un error mientras se cargaba este viaje. Por favor intenta de nuevo.";
+
+/* view.message */
+"An error occurred while reporting the problem. Please contact us directly." = "Se produjo un error mientras reportabamos el problema. Por favor contáctanos directamente.";
+
+/* A row in the Info tab's table view */
+"App Bugs & Feature Requests" = "Bugs de la App & Solicitud de Funciones";
+
+/* No comment provided by engineer. */
+"Are you sure you want to clear your recent stops?" = "¿Estás seguro de que deseas borrar tus paradas recientes?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete this region?" = "¿Estás seguro de que deseas borrar esta región?";
+
+/* Tap on Remove Bookmarks on OBAStopViewController. */
+"Are you sure you want to remove this bookmark?" = "¿Está seguro de que desea eliminar este favorito?";
+
+/* No comment provided by engineer. */
+"Automatically Select Region" = "Región Seleccionada Automáticamente";
+
+/* No comment provided by engineer. */
+"Base URL" = "URL base";
+
+/* No comment provided by engineer. */
+"Bookmark Groups" = "Grupos de Favoritos";
+
+/* No comment provided by engineer. */
+"Bookmark a Route at Stop" = "Añadir a Favoritos una Ruta a la Parada";
+
+/* No comment provided by engineer. */
+"Bookmark the Stop" = "Añadir la Parada a Favoritos";
+
+/* Bookmarks tab title */
+"Bookmarks" = "Favoritos";
+
+/* Body of the alert shown when a bookmark can't be created. */
+"Bookmarks must have a name. Please add a name and then try again." = "Los Favoritos deben tener un nombre. Por favor adiciona un nombre e intenta de nuevo.";
+
+/* Title of the alert shown when a bookmark can't be created */
+"Can't Create Bookmark" = "No se puede Crear el Favorito";
+
+/* Typically used on alerts and other modal actions. A 'cancel' button. */
+"Cancel" = "Cancelar";
+
+/* No comment provided by engineer. */
+"Cancel" = "Cancelar";
+
+/* Global reachablity alert body format string */
+"Cannot connect to %@" = "No se puede conectar a %@";
+
+/* No comment provided by engineer. */
+"Cellular" = "Celular";
+
+/* Title of OBABookmarkRouteDisambiguationViewController */
+"Choose a Route" = "Elegir una Ruta";
+
+/* No comment provided by engineer. */
+"Clear Recent Stops" = "Limpiar Paradas Recientes";
+
+/* No comment provided by engineer. */
+"Clear Stops" = "Limpiar Paradas";
+
+/* No comment provided by engineer. */
+"Close" = "Cerrar";
+
+/* withTitle */
+"Comment" = "Comentario";
+
+/* searchWithTarget _progress */
+"Connecting..." = "Connecting...";
+
+/* Connections section at the bottom of the Trip Schedule List view controller */
+"Connections" = "Conexiones";
+
+/* No comment provided by engineer. */
+"Contact Email" = "Email de Contacto";
+
+/* view addButtonWithTitle */
+"Contact Us" = "Contáctanos";
+
+/* text */
+"Continues as" = "Continúa como";
+
+/* No comment provided by engineer. */
+"Continues as %@" = "Continúa como %@";
+
+/* Info Page Credits Row Title
+   Title of credits view controller */
+"Credits" = "Créditos";
+
+/* No comment provided by engineer. */
+"Custom Regions" = "Regiones Personalizadas";
+
+/* initWithTitle
+   UIBarButtonItem * item */
+"Custom Title" = "Título Personalizado";
+
+/* Info Page Contact Us Row Title */
+"Data & Schedule Issues" = "Problemas con Datos & Horarios";
+
+/* Title of delete bookmark row action. */
+"Delete" = "Borrar";
+
+/* No comment provided by engineer. */
+"Deleting a group does not delete its bookmarks. Its contents will be moved to the 'Bookmarks' group." = "La eliminación de un grupo no elimina sus favoritos. Este contenido será movido a el grupo 'Favoritos'.";
+
+/* OBASortTripsByDepartureTimeV2 */
+"Departure Time" = "Tiempo de Salida";
+
+/* No comment provided by engineer. */
+"Destination" = "Destino";
+
+/* withTitle */
+"Details" = "Detalles";
+
+/* OBASectionTypeDetails */
+"Details:" = "Detalles:";
+
+/* Used on alerts. iOS tends to use 'Dismiss' instead of 'OK' on alerts that the user isn't actually agreeing to. */
+"Dismiss" = "Omitir";
+
+/* Info Page Donate Row Title */
+"Donate" = "Donar";
+
+/* Title of edit bookmark/group row action. */
+"Edit" = "Editar";
+
+/* OBABookmarkEditExisting */
+"Edit Bookmark" = "Editar Favorito";
+
+/* No comment provided by engineer. */
+"Edit Group Name" = "Editar Nombre del Grupo";
+
+/* No comment provided by engineer. */
+"Error" = "Error";
+
+/* view.title */
+"Error Submitting" = "Error al Enviar";
+
+/* message
+   requestDidFail
+   self.navigationItem.title */
+"Error connecting" = "Error al conectar";
+
+/* frequency status string */
+"Every %@ mins %@ %@" = "Cada %@ mins %@ %@";
+
+/* No comment provided by engineer. */
+"Experimental Regions" = "Regiones Experimentales";
+
+/* self.navigationItem.title */
+"Filter & Sort" = "Filtrar & Ordenar";
+
+/* No comment provided by engineer. */
+"Filter & Sort Routes" = "Filtrar & Ordenar Rutas";
+
+/* No comment provided by engineer. */
+"Filtered Departures" = "Salidas Filtradas";
+
+/* Location services alert button. */
+"Fix It" = "Arreglarlo";
+
+/* Out of range alert title */
+"Go to %@?" = "¿Ir a %@?";
+
+/* No comment provided by engineer. */
+"Groups" = "Grupos";
+
+/* No comment provided by engineer. */
+"Headed somewhere..." = "Encabezados en algún lugar...";
+
+/* No comment provided by engineer. */
+"Help Make OneBusAway Better" = "Ayuda a hacer a OneBusAway Mejor";
+
+/* No comment provided by engineer. */
+"Info" = "Información";
+
+/* No comment provided by engineer. */
+"Invalid Region" = "La Región es Inválida";
+
+/* No comment provided by engineer. */
+"Invalid Region Base URL" = "La URL base de la Región es Inválida";
+
+/* No comment provided by engineer. */
+"Is Active" = "Esta Activa";
+
+/* name */
+"It came earlier than predicted" = "Llegó antes de lo previsto";
+
+/* name */
+"It came later than predicted" = "Llegó después de lo previsto";
+
+/* No comment provided by engineer. */
+"Last update: %@" = "Última actualización: %@";
+
+/* No comment provided by engineer. */
+"Load More Departures..." = "Cargar Más Salidas...";
+
+/* No comment provided by engineer. */
+"Loading" = "Cargando";
+
+/* !stop */
+"Loading stop info..." = "Cargando la información de la parada...";
+
+/* view.title */
+"Location Services Disabled" = "Servicios de Ubicación Deshabilitados";
+
+/* view.message */
+"Location Services are disabled for this app. Some location-aware functionality will be missing." = "Los Servicios de Ubicación estan deshabilitados para esta App. Las funcionalidades de reonocimiento de la ubicación se perderá.";
+
+/* Global reachability alert title */
+"Lost Connection" = "Conexión Perdida";
+
+/* initWithTitle
+   Map tab title */
+"Map" = "Mapa";
+
+/* !isRead */
+"Mark as Read" = "Marcar como Leído";
+
+/* isRead */
+"Mark as Unread" = "Marcar como No Leído";
+
+/* No comment provided by engineer. */
+"Mark this route and stop as a favorite." = "Marcar esta ruta y parada como un favorito.";
+
+/* No comment provided by engineer. */
+"Minutes" = "Minutos";
+
+/* No comment provided by engineer. */
+"NOW" = "AHORA";
+
+/* No comment provided by engineer. */
+"Name" = "Nombre";
+
+/* No comment provided by engineer. */
+"Name of Group" = "Nombre del Grupo";
+
+/* No comment provided by engineer. */
+"Nearby" = "Cerca";
+
+/* self.listBarButtonItem.accessibilityLabel */
+"Nearby stops list" = "Lista de pardas cercanas";
+
+/* Out of range alert Cancel button */
+"No" = "No";
+
+/* No comment provided by engineer. */
+"No Agencies" = "Sin Agencias";
+
+/* No comment provided by engineer. */
+"No Bookmark Groups" = "Sin Grupos de Favoritos";
+
+/* No comment provided by engineer. */
+"No Bookmarks" = "Sin Favoritos";
+
+/* No comment provided by engineer. */
+"No Connection" = "Sin Conexión";
+
+/* No comment provided by engineer. */
+"No Recent Stops" = "Sin Paradas Recientes";
+
+/* OBASearchTypeNone */
+"No Results" = "No hay Resultados";
+
+/* No comment provided by engineer. */
+"No Results Found" = "No se Encontraron Resultados";
+
+/* No comment provided by engineer. */
+"No Vehicle Info Available" = "Sin Información Disponible del Vehículo";
+
+/* cell.textLabel.text */
+"No active service alerts" = "No hay alertas de servicio activas";
+
+/* showNoResultsAlertWithTitle */
+"No places found" = "No se encontraron lugares";
+
+/* prompt */
+"No places were found for your search." = "No se encontraron lugares para tu búsqueda.";
+
+/* No comment provided by engineer. */
+"No results were found for the searched area. Zoom out or move the map around to choose a different area." = "No se encontraron resultados para el área de búsqueda. Aleja o mueve el mapa para elegir un área diferente.";
+
+/* [_routes count] == 0 */
+"No routes at this stop" = "No  hay rutas para esta parada";
+
+/* showNoResultsAlertWithTitle */
+"No routes found" = "No se encontraron rutas";
+
+/* prompt */
+"No routes were found for your search." = "No se encontraron rutas para tu búsqueda.";
+
+/* [values count] == 0 */
+"No stops at this location" = "No hay paradas en esta ubicación";
+
+/* showNoResultsAlertWithTitle */
+"No stops found" = "No hay paradas para esta ubicación";
+
+/* prompt */
+"No stops were found for your search." = "No se encontraron paradas para tu búsqueda.";
+
+/* code == 404 */
+"Not found" = "No se encontró";
+
+/* cell.label.text */
+"Number" = "Número";
+
+/* Standard 'OK' button text. */
+"OK" = "Aceptar";
+
+/* cell.label.text */
+"On this" = "En este";
+
+/* No comment provided by engineer. */
+"OneBusAway" = "OneBusAway";
+
+/* feedback mail subject */
+"OneBusAway iOS Feedback" = "Envio de Comentarios de OneBusAway iOS";
+
+/* No comment provided by engineer. */
+"Optional" = "Opcional";
+
+/* OBASectionTypeOnTheVehicle */
+"Optional - Are you on this" = "Opcional - ¿Está en esta";
+
+/* OBASectionTypeComment */
+"Optional - Comment:" = "Opcional - Comentario:";
+
+/* name */
+"Other" = "Otro";
+
+/* result.outOfRange */
+"Out of OneBusAway service area" = "Fuera del área de servicio de OneBusAway";
+
+/* showNoResultsAlertWithTitle */
+"Out of range" = "Fuera de rango";
+
+/* OBASearchTypeAddress */
+"Places" = "Lugares";
+
+/* view.message */
+"Please set up your Mail app before trying to send an email." = "Por favor configure tu aplicación de Correo antes de intentar enviar un correo electrónico.";
+
+/* Info Page Privacy Policy Row Title */
+"Privacy Policy" = "Política de Privacidad";
+
+/* self.navigationItem.backBarButtonItem.title */
+"Problem" = "Problema";
+
+/* Recent stops tab title */
+"Recent" = "Reciente";
+
+/* No comment provided by engineer. */
+"Region" = "Región";
+
+/* No comment provided by engineer. */
+"Remove" = "Remover";
+
+/* No comment provided by engineer. */
+"Remove\r\nBookmark" = "Remover\r\nFavorito";
+
+/* No comment provided by engineer. */
+"Report Problem" = "Reportar Problema";
+
+/* self.navigationItem.title */
+"Report a Problem" = "Reportar un Problema";
+
+/* No comment provided by engineer. */
+"Report a Problem with this Stop" = "Reportar un Problema con esta Parada";
+
+/* No comment provided by engineer. */
+"Report a Problem with this Trip" = "Reportar un Problema con este Viaje";
+
+/* No comment provided by engineer. */
+"Report a problem for this trip" = "Reportar un problema para este viaje";
+
+/* No comment provided by engineer. */
+"Required" = "Requerido";
+
+/* OBASortTripsByRouteNameV2
+   route */
+"Route" = "Ruta";
+
+/* message */
+"Route Map" = "Mapa de Ruta";
+
+/* name */
+"Route or scheduled trip is missing" = "Ruta o viaje planificado no se encuentra";
+
+/* OBASearchTypeRoute */
+"Routes" = "Rutas";
+
+/* No comment provided by engineer. */
+"Routes: %@" = "Rutas: %@";
+
+/* Standard 'Save' button text. */
+"Save" = "Guardar";
+
+/* initWithTitle */
+"Schedule" = "Planificada";
+
+/* cell.textLabel.text */
+"Schedule deviation" = "Desviación";
+
+/* No comment provided by engineer. */
+"Search" = "Buscar";
+
+/* Search {Region Name} */
+"Search %@" = "Buscar %@";
+
+/* view.message */
+"See the list of supported transit agencies." = "Vea la lista de agencias de transporte soportadas.";
+
+/* No comment provided by engineer. */
+"Select a group for the bookmark,
+or '+' to add it to a new group." = "Selecciona un grupo para el favorito,
+o '+' para adicionarlo en un nuevo grupo.";
+
+/* code # 404 */
+"Server error" = "Error de Servidor";
+
+/* self.navigationItem.title */
+"Service Alerts" = "Alertas de Servicios";
+
+/* section == 1 */
+"Show Routes" = "Mostrar las Rutas";
+
+/* No comment provided by engineer. */
+"Show as List" = "Mostrar como Lista";
+
+/* No comment provided by engineer. */
+"Show as Map" = "Mostrar como Mapa";
+
+/* cell.textLabel.text */
+"Show reroute" = "Mostrar el redireccionamiento";
+
+/* section == 0 */
+"Sort" = "Ordenar";
+
+/* text */
+"Starts as" = "Inicia como";
+
+/* No comment provided by engineer. */
+"Starts as %@" = "Inicia como %@";
+
+/* OBASearchTypeStopId
+   stop
+   text */
+"Stop" = "Parada";
+
+/* name */
+"Stop location is wrong" = "La ubicación de la parada está mal";
+
+/* name */
+"Stop name is wrong" = "El nombre de la parada está mal";
+
+/* code == 404 */
+"Stop not found" = "La Parada no fue encontrada";
+
+/* name */
+"Stop number is wrong" = "El número de parada está mal";
+
+/* OBASearchTypeRouteStops */
+"Stops" = "Paradas";
+
+/* view.title */
+"Submission Successful" = "Envío exitoso";
+
+/* cell.textLabel.text */
+"Submit" = "Enviar";
+
+/* No comment provided by engineer. */
+"Supports OBA Realtime APIs" = "Soporta las APIs de Tiempo Real de OBA";
+
+/* No comment provided by engineer. */
+"Tap 'Add to Bookmarks' from a stop to save a bookmark to this screen." = "Toca en 'Añadir a Favoritos' de una parada para guardar un favorito en está pantalla.";
+
+/* No comment provided by engineer. */
+"Tap the '+' button to create one." = "Toca el botón '+' para crear uno.";
+
+/* name */
+"The" = "El";
+
+/* No comment provided by engineer. */
+"The Stop Itself" = "La Parada Misma";
+
+/* view.message */
+"The problem was sucessfully reported. Thank you!" = "El problema fue reportado exitosamente. ¡Gracias!";
+
+/* No comment provided by engineer. */
+"The region you have specified is not valid. Please specify at least a base URL and a name." = "La región que ha especificado no es válido. Por favor especificar al menos una dirección URL base y un nombre.";
+
+/* view.message */
+"There was a problem with your Internet connection.\r\n\r\nPlease check your network connection or contact us if you think the problem is on our end." = "Hubo un problema con tu conexión a Internet.\r\n\r\nPor favor, compruebe su conexión a la red o contáctanos si crees que el problema es nuestro.";
+
+/* cell.textLabel.text */
+"Touch to edit" = "Toca para editar";
+
+/* OBASearchTypeAgenciesWithCoverage */
+"Transit Agencies" = "Agencias de Transito";
+
+/* No comment provided by engineer. */
+"Trip Schedule" = "Horario de Viaje";
+
+/* message */
+"Trip not found" = "El viaje no fue encontrado";
+
+/* No comment provided by engineer. */
+"Unable to load data from %@. Please check the URL and try again.\r\n\r\n%@" = "No se pueden cargar los datos desde %@. Por favor verifica la URL e intenta de nuevo.\r\n\r\n%@";
+
+/* No comment provided by engineer. */
+"Unable to Load Regions" = "No se pueden Cargar las Regiones";
+
+/* cell.textLabel.text */
+"Unknown cell" = "Celda desconocida";
+
+/* message */
+"Unknown error" = "Error desconocido";
+
+/* message */
+"Updated" = "Actualizado";
+
+/* Title of the Stop UI Controller while it is updating its content. */
+"Updating..." = "Actualizando...";
+
+/* cell.statusLabel.text */
+"Vehicle" = "Vehículo";
+
+/* No comment provided by engineer. */
+"Vehicle Details" = "Detalles del Vehículo";
+
+/* OBASectionTypeVehicleDetails */
+"Vehicle Details:" = "Detalles del Vehículo:";
+
+/* No comment provided by engineer. */
+"Vehicle Info" = "Información del Vehículo";
+
+/* No comment provided by engineer. */
+"Vehicle: %@" = "Vehículo: %@";
+
+/* No comment provided by engineer. */
+"View Service Alerts" = "Ver Alertas de Servicio";
+
+/* No comment provided by engineer. */
+"We could not find any transit agencies near your current location." = "No hemos podido encontrar agencias de transporte público cerca de tu ubicación actual.";
+
+/* OBASectionTypeProblem
+   vc.title */
+"What's the problem?" = "¿Cuál es el problema?";
+
+/* No comment provided by engineer. */
+"WiFi" = "WiFi";
+
+/* name */
+"Wrong destination shown" = "Muestra un destino equivocado";
+
+/* Out of range alert OK button */
+"Yes" = "Si";
+
+/* Out of range alert message */
+"You are out of the %@ service area. Go there now?" = "Usted esta por fuera del área de servicio de %@. ¿Ir allí ahora?";
+
+/* prompt */
+"You are outside the OneBusAway service area." = "Se encuentra fuera del área de servicio de OneBusAway.";
+
+/* Settings section title on info page */
+"Your Location" = "Tú Ubicación";
+
+/* OBASectionTypeNotes
+   OBASectionTypeSubmit */
+"Your reports help OneBusAway find and fix problems with the system." = "Tus reportes ayudan a OneBusAway a encontrar y arreglar los problemas con el sistema.";
+
+/* span.latitudeDelta > kMaxLatDeltaToShowStops */
+"Zoom in to look for stops" = "Acercate para buscar paradas";
+
+/* text */
+"bound" = "bound";
+
+/* routeType 3 */
+"bus" = "bus";
+
+/* e.g. departed 5 min late */
+"departed %@ min %@" = "salió %@ min %@";
+
+/* minutes < 0 */
+"departed on time" = "salió a tiempo";
+
+/* name */
+"doesn't stop here" = "no se detuvo aquí";
+
+/* No comment provided by engineer. */
+"early" = "antes";
+
+/* routeType 4 */
+"ferry" = "transbordador";
+
+/* No comment provided by engineer. */
+"from" = "de";
+
+/* No comment provided by engineer. */
+"late" = "tarde";
+
+/* routeType 1 */
+"metro" = "metro";
+
+/* minutes */
+"mins" = "mins";
+
+/* scheduleDeviation <= -2 */
+"minutes early" = "minutos antes";
+
+/* scheduleDeviation >= 2 */
+"minutes late" = "minutos tarde";
+
+/* name */
+"never came" = "nunca llegó";
+
+/* scheduleDeviation < 2 */
+"on time" = "a tiempo";
+
+/* minutes >= 0 */
+"scheduled arrival*" = "llegada planificada*";
+
+/* minutes < 0 */
+"scheduled departure*" = "salida planificada*";
+
+/* routeType 2 */
+"train" = "tren";
+
+/* No comment provided by engineer. */
+"until" = "hasta";
+
+/* routeType default */
+"vehicle" = "vehículo";
+
+/* No comment provided by engineer. */
+"Walk to stop: %@ — %.0f min, arriving at %@." = "Caminar a la parada: %@ — %.0f min, llegando a las %@.";
+
+/* No comment provided by engineer. */
+"Show Map" = "Mostrar Mapa";

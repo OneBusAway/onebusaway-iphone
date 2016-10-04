@@ -1,0 +1,99 @@
+/* sd < 0 */
+" early" = " antes";
+
+/* sd > 0 */
+" late" = " tarde";
+
+/* No comment provided by engineer. */
+"%@ bound - Routes: %@" = "%@ bound - Rutas: %@";
+
+/* e.g. 3 min early */
+"%@ min %@" = "%@ min %@";
+
+/* The explanatory text displayed when a non-realtime trip is displayed on-screen. */
+"*'Scheduled': no vehicle location data available" = "*'Planificada': sin datos de ubicación de vehículos disponibles";
+
+/* Typically used on alerts and other modal actions. A 'cancel' button. */
+"Cancel" = "Cancelar";
+
+/* No comment provided by engineer. */
+"Cellular" = "Celular";
+
+/* Typically used on alerts and other modal actions. A 'delete' button. */
+"Delete" = "Borrar";
+
+/* Used on alerts. iOS tends to use 'Dismiss' instead of 'OK' on alerts that the user isn't actually agreeing to. */
+"Dismiss" = "Omitir";
+
+/* As in 'edit object'. */
+"Edit" = "Editar";
+
+/* The text 'Error' */
+"Error" = "Error";
+
+/* code != 404 */
+"Error Connecting" = "Error al Conectar";
+
+/* frequency status string */
+"Every %@ mins %@ %@" = "Cada %@ mins %@ %@";
+
+/* No comment provided by engineer. */
+"Headed somewhere..." = "Encabezados en algún lugar...";
+
+/* No comment provided by engineer. */
+"No Connection" = "Sin Conexión";
+
+/* Standard 'OK' button text. */
+"OK" = "Aceptar";
+
+/* feedback mail subject */
+"OneBusAway iOS Feedback" = "Envio de Comentarios de OneBusAway iOS";
+
+/* No comment provided by engineer. */
+"Routes: %@" = "Rutas: %@";
+
+/* Standard 'Save' button text. */
+"Save" = "Guardar";
+
+/* cell.textLabel.text */
+"Schedule deviation" = "Desviación";
+
+/* code == 404 */
+"Stop not found" = "La Parada no fue encontrada";
+
+/* title */
+"Vehicle" = "Vehículo";
+
+/* No comment provided by engineer. */
+"WiFi" = "WiFi";
+
+/* e.g. departed 5 min late */
+"departed %@ min %@" = "salió %@ min %@";
+
+/* minutes < 0 */
+"departed on time" = "salió a tiempo";
+
+/* No comment provided by engineer. */
+"early" = "antes";
+
+/* No comment provided by engineer. */
+"from" = "de";
+
+/* No comment provided by engineer. */
+"late" = "tarde";
+
+/* minutes */
+"mins" = "mins";
+
+/* minutes >= 0 */
+"on time" = "a tiempo";
+
+/* minutes >= 0 */
+"scheduled arrival*" = "llegada planificada*";
+
+/* minutes < 0 */
+"scheduled departure*" = "salida planificada*";
+
+/* No comment provided by engineer. */
+"until" = "hasta";
+
