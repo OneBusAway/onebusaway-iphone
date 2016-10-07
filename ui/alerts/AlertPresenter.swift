@@ -39,7 +39,7 @@ import SwiftMessages
         // files in the main bundle first, so you can easily copy them into your project and make changes.
         let view = MessageView.viewFromNib(layout: .CardView)
         view.button?.isHidden = true
-        view.configureTheme(.success)
+        view.configureTheme(theme)
         view.configureDropShadow()
         view.configureContent(title: title, body: body)
 

@@ -51,16 +51,18 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (AnyPromise*)requestStopForID:(NSString*)stopID minutesBefore:(NSUInteger)minutesBefore minutesAfter:(NSUInteger)minutesAfter {
 
-    OBAGuard(stopID) else {
+    OBAGuard(stopID.length > 0) else {
         return nil;
     }
+
+    NSString *escapedStopID = [stopID stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
 
     NSDictionary *args = @{ @"minutesBefore": @(minutesBefore),
                             @"minutesAfter":  @(minutesAfter) };
     
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         [self request:self.obaJsonDataSource
-                  url:[NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", stopID]
+                  url:[NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", escapedStopID]
                  args:args
              selector:@selector(getArrivalsAndDeparturesForStopV2FromJSON:error:)
       completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
