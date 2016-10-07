@@ -104,23 +104,28 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 - (OBATableSection*)contactTableSection {
 
+    NSMutableArray *rows = [[NSMutableArray alloc] init];
+
     OBATableRow *contactUs = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Data & Schedule Issues", @"Info Page Contact Us Row Title") action:^{
         [self openContactUs];
     }];
     contactUs.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [rows addObject:contactUs];
 
-    OBATableRow *reportAppIssue = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"App Bugs & Feature Requests", @"A row in the Info tab's table view") action:^{
-        [[Apptentive sharedConnection] presentMessageCenterFromViewController:self];
-    }];
-    reportAppIssue.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    if ([Apptentive sharedConnection].canShowMessageCenter) {
+        OBATableRow *reportAppIssue = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"App Bugs & Feature Requests", @"A row in the Info tab's table view") action:^{
+            [[Apptentive sharedConnection] presentMessageCenterFromViewController:self];
+        }];
+        reportAppIssue.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    NSUInteger unreadMessageCount = [[Apptentive sharedConnection] unreadMessageCount];
-    if (unreadMessageCount > 0) {
-        reportAppIssue.subtitle = [NSString stringWithFormat:NSLocalizedString(@"%@ unread", @"Unread messages count. e.g. 2 unread"), @(unreadMessageCount)];
-        reportAppIssue.style = UITableViewCellStyleValue1;
+        if ([Apptentive sharedConnection].unreadMessageCount > 0) {
+            reportAppIssue.accessoryView = [[Apptentive sharedConnection] unreadMessageCountAccessoryView:YES];
+        }
+
+        [rows addObject:reportAppIssue];
     }
 
-    OBATableSection *section = [OBATableSection tableSectionWithTitle:NSLocalizedString(@"Contact Us", @"") rows:@[contactUs, reportAppIssue]];
+    OBATableSection *section = [OBATableSection tableSectionWithTitle:NSLocalizedString(@"Contact Us", @"") rows:rows];
 
     return section;
 }

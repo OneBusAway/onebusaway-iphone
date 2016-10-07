@@ -41,6 +41,7 @@ static NSString * const OBACellStyleSubtitleReuseIdentifier = @"OBACellStyleSubt
     newRow->_textAlignment = _textAlignment;
     newRow->_titleColor = [_titleColor copyWithZone:zone];
     newRow->_selectionStyle = _selectionStyle;
+    newRow->_accessoryView = _accessoryView;
 
     return newRow;
 }
