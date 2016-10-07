@@ -145,7 +145,8 @@ static CGFloat const kTableHeaderHeight = 150.f;
 #pragma mark - Data Loading
 
 - (void)reloadData:(id)sender {
-    [self reloadDataAnimated:YES];
+    BOOL animated = ![sender isEqual:self.navigationItem.rightBarButtonItem];
+    [self reloadDataAnimated:animated];
 }
 
 - (void)reloadDataAnimated:(BOOL)animated {
