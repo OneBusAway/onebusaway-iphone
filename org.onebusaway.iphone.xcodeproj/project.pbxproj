@@ -358,6 +358,7 @@
 		93E4A7621CE65B2100E769B0 /* atlanta.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 93E4A7611CE65B2100E769B0 /* atlanta.gpx */; };
 		93EBC2ED1D9331B300B731A3 /* OBADataSourceConfig_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EBC2EC1D9331B300B731A3 /* OBADataSourceConfig_Tests.m */; };
 		93F05A631C8E080000BF36B1 /* OBAAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F05A621C8E080000BF36B1 /* OBAAnimation.m */; };
+		93F5CF8F1DA820A4003947A8 /* boston.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 93F5CF8E1DA820A4003947A8 /* boston.gpx */; };
 		93F64E971BE5ACC300323527 /* OBAAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F64E961BE5ACC300323527 /* OBAAlerts.m */; };
 		93F8F4431D375B77008659D2 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F8F4421D375B77008659D2 /* OBAArrivalAndDepartureSectionBuilder.m */; };
 		93FF25E61D6E329A00A58E72 /* RegionBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FF25E51D6E329A00A58E72 /* RegionBuilderViewController.swift */; };
@@ -836,6 +837,7 @@
 		93EBC2EC1D9331B300B731A3 /* OBADataSourceConfig_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADataSourceConfig_Tests.m; sourceTree = "<group>"; };
 		93F05A611C8E080000BF36B1 /* OBAAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAnimation.h; sourceTree = "<group>"; };
 		93F05A621C8E080000BF36B1 /* OBAAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAnimation.m; sourceTree = "<group>"; };
+		93F5CF8E1DA820A4003947A8 /* boston.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = boston.gpx; sourceTree = "<group>"; };
 		93F64E951BE5ACC300323527 /* OBAAlerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAlerts.h; sourceTree = "<group>"; };
 		93F64E961BE5ACC300323527 /* OBAAlerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAlerts.m; sourceTree = "<group>"; };
 		93F8F4411D375B77008659D2 /* OBAArrivalAndDepartureSectionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureSectionBuilder.h; sourceTree = "<group>"; };
@@ -1302,6 +1304,7 @@
 		934445F71AB105FB005B3333 /* gpx_files */ = {
 			isa = PBXGroup;
 			children = (
+				93F5CF8E1DA820A4003947A8 /* boston.gpx */,
 				935640331DA03B810017AB87 /* san_joaquin.gpx */,
 				9363D58E1D6ADE6600A7021A /* invalid.gpx */,
 				9363D58F1D6ADE6600A7021A /* tampa.gpx */,
@@ -2128,6 +2131,7 @@
 				9347860E1D3453E9002A5627 /* sandiego.gpx in Resources */,
 				935640341DA03B810017AB87 /* san_joaquin.gpx in Resources */,
 				932BE5031AB66FCB0011F2FB /* OBACreditsViewController.xib in Resources */,
+				93F5CF8F1DA820A4003947A8 /* boston.gpx in Resources */,
 				9330DEEA16050CA600E14AF4 /* credits.html in Resources */,
 				93C3938F1D8CE6100080F370 /* ApptentiveResources.bundle in Resources */,
 				9363D5951D6ADE6600A7021A /* yorkca.gpx in Resources */,
