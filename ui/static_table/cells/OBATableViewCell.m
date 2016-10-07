@@ -39,6 +39,7 @@
     self.accessoryType = [self tableDataRow].accessoryType;
     self.imageView.image = [self tableDataRow].image;
     self.selectionStyle = [self tableDataRow].selectionStyle;
+    self.accessoryView = [self tableDataRow].accessoryView;
 }
 
 - (OBATableRow*)tableDataRow {

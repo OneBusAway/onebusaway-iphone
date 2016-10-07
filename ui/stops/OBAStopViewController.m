@@ -26,6 +26,7 @@
 #import "OBAArrivalAndDepartureViewController.h"
 #import "OBAStaticTableViewController+Builders.h"
 #import "OBABookmarkRouteDisambiguationViewController.h"
+#import "Apptentive.h"
 
 static NSTimeInterval const kRefreshTimeInterval = 30.0;
 static CGFloat const kTableHeaderHeight = 150.f;
@@ -38,6 +39,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
 @property(nonatomic,strong) OBAStopPreferencesV2 *stopPreferences;
 @property(nonatomic,strong) OBARouteFilter *routeFilter;
 @property(nonatomic,strong) OBAParallaxTableHeaderView *parallaxHeaderView;
+@property(nonatomic,strong) NSTimer *apptentiveTimer;
 @end
 
 @implementation OBAStopViewController
@@ -54,6 +56,20 @@ static CGFloat const kTableHeaderHeight = 150.f;
     return self;
 }
 
+- (void)dealloc {
+    [self cancelTimers];
+}
+
+- (void)cancelTimers {
+    [self.refreshTimer invalidate];
+    self.refreshTimer = nil;
+
+    [self.apptentiveTimer invalidate];
+    self.apptentiveTimer = nil;
+}
+
+#pragma mark - UIViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -69,6 +85,12 @@ static CGFloat const kTableHeaderHeight = 150.f;
     [super viewWillAppear:animated];
     
     self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimeInterval target:self selector:@selector(reloadData:) userInfo:nil repeats:YES];
+
+    // this timer is responsible for recording the user's access of the stop controller. it fires after 10 seconds
+    // to ensure that the user has the opportunity to look up their departure information without a prompt appearing
+    // on screen in the midst of their task. I would use -performSelector:afterDelay: or dispatch_after(), except
+    // that I also want to make sure that I can appropriately cancel this timer and only show prompts from this controller.
+    self.apptentiveTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(recordUserVisit:) userInfo:nil repeats:NO];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 
@@ -87,7 +109,13 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
     
-    [self cancelTimer];
+    [self cancelTimers];
+}
+
+#pragma mark - Apptentive
+
+- (void)recordUserVisit:(NSTimer*)timer {
+    [[Apptentive sharedConnection] engage:@"stop_view_controller" fromViewController:self];
 }
 
 #pragma mark - Notifications
@@ -178,11 +206,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
         }
         [self.reloadLock unlock];
     });
-}
-
-- (void)cancelTimer {
-    [self.refreshTimer invalidate];
-    self.refreshTimer = nil;
 }
 
 - (void)populateTableFromArrivalsAndDeparturesModel:(OBAArrivalsAndDeparturesForStopV2 *)result {
