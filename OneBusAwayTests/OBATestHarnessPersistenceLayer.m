@@ -21,6 +21,9 @@
 @implementation OBATestHarnessPersistenceLayer
 @synthesize hideFutureLocationWarnings;
 @synthesize ungroupedBookmarksOpen;
+@synthesize shareLogsPII;
+@synthesize shareRegionPII;
+@synthesize shareLocationPII;
 
 - (instancetype)init {
     self = [super init];
