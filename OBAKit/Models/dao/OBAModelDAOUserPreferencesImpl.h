@@ -21,6 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const kUngroupedBookmarksOpenKey;
 extern NSString * const kSetRegionAutomaticallyKey;
+extern NSString * const OBAShareRegionPIIUserDefaultsKey;
+extern NSString * const OBAShareLocationPIIUserDefaultsKey;
+extern NSString * const OBAShareLogsPIIUserDefaultsKey;
 
 @interface OBAModelDAOUserPreferencesImpl : NSObject<OBAModelPersistenceLayer>
 

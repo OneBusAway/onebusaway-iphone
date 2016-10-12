@@ -160,7 +160,7 @@
 -(void) recursivelyParse:(OBAJsonDigesterContextImpl*)context jsonValue:(id)value prefix:(NSString*)prefix name:(NSString*)name {
     
     NSString * fullName = [self extendPrefix:prefix withValue:name];
-    
+
     DDLogVerbose(@"path=%@",fullName);
     
     NSArray * rules = _rulesByPrefix[fullName];

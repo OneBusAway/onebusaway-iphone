@@ -18,9 +18,10 @@
 @synthesize tableRow = _tableRow;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseIdentifier];
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 
     if (self) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         _switchCtl = [[UISwitch alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
         [_switchCtl addTarget:self action:@selector(switchToggled) forControlEvents:UIControlEventValueChanged];
         self.accessoryView = _switchCtl;

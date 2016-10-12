@@ -7,7 +7,7 @@
 //
 
 @import UIKit;
-#import <OBAKit/OBADepartureStatus.h>
+@import OBAKit;
 
 @interface OBADepartureTimeLabel : UILabel
 

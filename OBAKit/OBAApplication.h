@@ -22,6 +22,9 @@
 #import <OBAKit/OBAReachability.h>
 #import <OBAKit/OBARegionHelper.h>
 
+@class PrivacyBroker;
+@class OBAConsoleLogger;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -36,6 +39,8 @@ extern NSString *const kOBAApplicationSettingsRegionRefreshNotification;
 @property (nonatomic, strong, readonly) OBAModelService *modelService;
 @property (nonatomic, strong, readonly) OBALocationManager *locationManager;
 @property (nonatomic, strong, readonly) OBARegionHelper *regionHelper;
+@property (nonatomic, strong, readonly) PrivacyBroker *privacyBroker;
+@property (nonatomic, strong, readonly) OBAConsoleLogger *consoleLogger;
 
 /**
  *  This method should always be used to get an instance of this class.  This class should not be initialized directly.
@@ -45,9 +50,11 @@ extern NSString *const kOBAApplicationSettingsRegionRefreshNotification;
 + (instancetype)sharedApplication;
 
 /**
- *  Call this when the object has been fully configured.
+ Call this when the object has been fully configured.
+
+ @param defaults The defaults dictionary to register with NSUserDefaults
  */
-- (void)start;
+- (void)startWithAppDefaults:(NSDictionary*)appDefaults;
 
 /**
  * Returns YES if the user has enabled darker system colors or reduced transparency.
@@ -84,6 +91,12 @@ extern NSString *const kOBAApplicationSettingsRegionRefreshNotification;
  is currently reachable  and false if it is inaccessible.
  */
 @property(nonatomic,assign,readonly) BOOL isServerReachable;
+
+/**
+ Retrieved from the file logger. This is an array of the available
+ application logs on disk as strings.
+ */
+@property(nonatomic,copy,readonly) NSArray<NSData*> *logFileData;
 
 @end
 

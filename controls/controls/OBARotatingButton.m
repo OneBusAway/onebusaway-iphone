@@ -11,6 +11,12 @@
 
 @implementation OBARotatingButton
 
++ (instancetype)rotatingButton {
+    OBARotatingButton *button = [OBARotatingButton buttonWithType:UIButtonTypeCustom];
+    [button setImage:[UIImage imageNamed:@"chevron"] forState:UIControlStateNormal];
+    return button;
+}
+
 - (void)setSelected:(BOOL)selected {
     [super setSelected:selected];
 

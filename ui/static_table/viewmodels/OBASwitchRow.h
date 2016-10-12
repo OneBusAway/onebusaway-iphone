@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBASwitchRow : OBATableRow
 @property(nonatomic,assign) BOOL switchValue;
-- (instancetype)initWithTitle:(NSString*)title action:(void (^)())action switchValue:(BOOL)switchValue;
+- (instancetype)initWithTitle:(NSString*)title action:(nullable void (^)())action switchValue:(BOOL)switchValue;
 @end
 
 NS_ASSUME_NONNULL_END

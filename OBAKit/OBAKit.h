@@ -17,7 +17,6 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <OBAKit/PublicHeader.h>
 
-#import <OBAKit/JsonUrlFetcherImpl.h>
 #import <OBAKit/NSArray+OBAAdditions.h>
 #import <OBAKit/NSObject+OBADescription.h>
 #import <OBAKit/OBAAgencyV2.h>
@@ -28,11 +27,10 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAArrivalsAndDeparturesForStopV2.h>
 #import <OBAKit/OBABookmarkGroup.h>
 #import <OBAKit/OBABookmarkV2.h>
-#import <OBAKit/OBACallMethodJsonDigesterRule.h>
 #import <OBAKit/OBACommon.h>
 #import <OBAKit/OBACommonV1.h>
+#import <OBAKit/OBAConsoleLogger.h>
 #import <OBAKit/OBACoordinateBounds.h>
-#import <OBAKit/OBACreateObjectJsonDigesterRule.h>
 #import <OBAKit/OBADataSource.h>
 #import <OBAKit/OBADataSourceConfig.h>
 #import <OBAKit/OBADateHelpers.h>
@@ -52,7 +50,6 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAMapHelpers.h>
 #import <OBAKit/OBAMapRegionManager.h>
 #import <OBAKit/OBAModelDAO.h>
-#import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
 #import <OBAKit/OBAModelFactory.h>
 #import <OBAKit/OBAModelPersistenceLayer.h>
 #import <OBAKit/OBAModelService.h>
@@ -75,13 +72,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBARouteV2.h>
 #import <OBAKit/OBASearch.h>
 #import <OBAKit/OBASearchResult.h>
-#import <OBAKit/OBASelectorJsonDigesterRule.h>
 #import <OBAKit/OBAServiceAlertsModel.h>
-#import <OBAKit/OBASetCoordinatePropertyJsonDigesterRule.h>
-#import <OBAKit/OBASetDatePropertyJsonDigesterRule.h>
-#import <OBAKit/OBASetLocationPropertyJsonDigesterRule.h>
-#import <OBAKit/OBASetNextOBAJsonDigesterRule.h>
-#import <OBAKit/OBASetPropertyJsonDigesterRule.h>
 #import <OBAKit/OBASituationConsequenceV2.h>
 #import <OBAKit/OBASituationV2.h>
 #import <OBAKit/OBASphericalGeometryLibrary.h>

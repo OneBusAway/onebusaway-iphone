@@ -45,7 +45,7 @@
     [b performSelector:_selector withObject:a];
 #pragma clang diagnostic pop
     }
-    else if (context.verbose) {
+    else {
         DDLogVerbose(@"setNext selector not supported");
     }
 }

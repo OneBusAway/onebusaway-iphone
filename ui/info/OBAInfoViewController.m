@@ -7,14 +7,14 @@
 //
 
 #import "OBAInfoViewController.h"
+@import SafariServices;
+@import Masonry;
+
 #import "OBAAgenciesListViewController.h"
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
-#import <SafariServices/SafariServices.h>
 #import "Apptentive.h"
 #import "OneBusAway-Swift.h"
-@import OBAKit;
-@import Masonry;
 
 static NSString * const kRepoURLString = @"https://www.github.com/onebusaway/onebusaway-iphone";
 static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
@@ -74,12 +74,27 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     return _modelDAO;
 }
 
+- (PrivacyBroker*)privacyBroker {
+    if (!_privacyBroker) {
+        _privacyBroker = [OBAApplication sharedApplication].privacyBroker;
+    }
+    return _privacyBroker;
+}
+
+- (OBALocationManager*)locationManager {
+    if (!_locationManager) {
+        _locationManager = [OBAApplication sharedApplication].locationManager;
+    }
+    return _locationManager;
+}
+
 #pragma mark - Table Data
 
 - (void)reloadData {
     self.sections = @[
                       [self settingsTableSection],
                       [self contactTableSection],
+                      [self privacyTableSection],
                       [self aboutTableSection]
                     ];
     [self.tableView reloadData];
@@ -103,7 +118,6 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 }
 
 - (OBATableSection*)contactTableSection {
-
     NSMutableArray *rows = [[NSMutableArray alloc] init];
 
     OBATableRow *contactUs = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Data & Schedule Issues", @"Info Page Contact Us Row Title") action:^{
@@ -111,21 +125,41 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     }];
     contactUs.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     [rows addObject:contactUs];
-
+    
     if ([Apptentive sharedConnection].canShowMessageCenter) {
-        OBATableRow *reportAppIssue = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"App Bugs & Feature Requests", @"A row in the Info tab's table view") action:^{
-            [[Apptentive sharedConnection] presentMessageCenterFromViewController:self];
-        }];
-        reportAppIssue.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-        if ([Apptentive sharedConnection].unreadMessageCount > 0) {
-            reportAppIssue.accessoryView = [[Apptentive sharedConnection] unreadMessageCountAccessoryView:YES];
-        }
-
-        [rows addObject:reportAppIssue];
+      OBATableRow *reportAppIssue = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"App Bugs & Feature Requests",) action:^{
+          [self presentApptentiveMessageCenter];
+      }];
+      reportAppIssue.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+      if ([Apptentive sharedConnection].unreadMessageCount > 0) {
+          reportAppIssue.accessoryView = [[Apptentive sharedConnection] unreadMessageCountAccessoryView:YES];
+      }
+      
+      [rows addObject:reportAppIssue];
     }
 
     OBATableSection *section = [OBATableSection tableSectionWithTitle:NSLocalizedString(@"Contact Us", @"") rows:rows];
+
+    return section;
+}
+
+- (OBATableSection*)privacyTableSection {
+    OBATableRow *privacy = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Privacy Policy", @"Info Page Privacy Policy Row Title") action:^{
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
+        SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:kPrivacyURLString]];
+        safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [self presentViewController:safari animated:YES completion:nil];
+    }];
+    privacy.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    OBATableRow *PII = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Information for Support",) action:^{
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Opened PII controller" value:nil];
+        PIIViewController *PIIController = [[PIIViewController alloc] init];
+        [self.navigationController pushViewController:PIIController animated:YES];
+    }];
+    PII.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Privacy",) rows:@[privacy, PII]];
 
     return section;
 }
@@ -137,15 +171,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     }];
     credits.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    OBATableRow *privacy = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Privacy Policy", @"Info Page Privacy Policy Row Title") action:^{
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
-        SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:kPrivacyURLString]];
-        safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        [self presentViewController:safari animated:YES completion:nil];
-    }];
-    privacy.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"About OneBusAway", @"") rows:@[credits, privacy]];
+    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"About OneBusAway", @"") rows:@[credits]];
 }
 
 #pragma mark - Email
@@ -193,6 +219,37 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 }
 
 #pragma mark - Private
+
+- (void)presentApptentiveMessageCenter {
+    // Information that cannot be used to uniquely identify the user is shared automatically.
+    [[Apptentive sharedConnection] addCustomPersonDataBool:self.modelDAO.automaticallySelectRegion withKey:@"Automatically Select Region"];
+    [[Apptentive sharedConnection] addCustomPersonDataBool:(!!self.modelDAO.currentRegion) withKey:@"Region Selected"];
+    [[Apptentive sharedConnection] addCustomPersonDataString:locationAuthorizationStatusToString(self.locationManager.authorizationStatus) withKey:@"Location Auth Status"];
+
+    // Information that can be used to uniquely identify the user is not shared automatically.
+
+    if (self.privacyBroker.shareableLocationInformation) {
+        [[Apptentive sharedConnection] addCustomPersonDataString:self.privacyBroker.shareableLocationInformation withKey:@"Location"];
+    }
+    else {
+        [[Apptentive sharedConnection] removeCustomPersonDataWithKey:@"Location"];
+    }
+
+    NSDictionary *regionInfo = self.privacyBroker.shareableRegionInformation;
+    for (NSString *key in regionInfo) {
+        if (self.privacyBroker.canShareRegionInformation) {
+            [[Apptentive sharedConnection] addCustomPersonDataString:regionInfo[key] withKey:key];
+        }
+        else {
+            [[Apptentive sharedConnection] removeCustomPersonDataWithKey:key];
+        }
+    }
+
+    for (NSData *logData in self.privacyBroker.shareableLogData) {
+        [[Apptentive sharedConnection] sendAttachmentFile:logData withMimeType:@"text/plain"];
+    }
+    [[Apptentive sharedConnection] presentMessageCenterFromViewController:self];
+}
 
 - (void)openGitHub {
     NSURL *URL = [NSURL URLWithString:kRepoURLString];

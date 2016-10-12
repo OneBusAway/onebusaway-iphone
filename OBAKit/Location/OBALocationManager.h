@@ -20,6 +20,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NSString* locationAuthorizationStatusToString(CLAuthorizationStatus status);
+
 extern NSString * const OBALocationDidUpdateNotification;
 extern NSString * const OBALocationAuthorizationStatusChangedNotification;
 extern NSString * const OBALocationManagerDidFailWithErrorNotification;
@@ -28,8 +30,9 @@ extern NSString * const OBALocationAuthorizationStatusUserInfoKey;
 extern NSString * const OBALocationErrorUserInfoKey;
 
 @interface OBALocationManager : NSObject <CLLocationManagerDelegate>
-@property(nonatomic,copy,readonly) CLLocation * currentLocation;
+@property(nonatomic,copy,nullable,readonly) CLLocation * currentLocation;
 @property(nonatomic,assign,readonly) BOOL locationServicesEnabled;
+@property(nonatomic,assign,readonly) CLAuthorizationStatus authorizationStatus;
 
 - (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO;
 
