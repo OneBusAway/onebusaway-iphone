@@ -10,8 +10,15 @@
 @import CocoaLumberjack;
 @import CocoaLumberjackSwift;
 
+NS_ASSUME_NONNULL_BEGIN
+
+@class OBAConsoleLogger;
+
 extern const DDLogLevel ddLogLevel;
 
 @interface OBALogging : NSObject
-+ (void)configureLogging;
+@property(nonatomic,strong,readonly) OBAConsoleLogger *consoleLogger;
+- (NSArray<NSData*>*)logFileData;
 @end
+
+NS_ASSUME_NONNULL_END

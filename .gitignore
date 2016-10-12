@@ -34,6 +34,9 @@ xcuserdata
 !Carthage
 !Carthage/Build
 Carthage/Checkouts
+Carthage/Build/Mac
+Carthage/Build/tvOS
+Carthage/Build/watchOS
 
 # fastlane
 #

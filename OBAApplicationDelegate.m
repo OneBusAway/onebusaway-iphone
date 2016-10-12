@@ -39,10 +39,10 @@ static NSString *const kOptOutOfTracking = @"OptOutOfTracking";
 static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc9f70ef38378a9d5a15ac7d4926";
 
 @interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate>
-@property (nonatomic, strong) UINavigationController *regionNavigationController;
-@property (nonatomic, strong) RegionListViewController *regionListViewController;
-@property (nonatomic, strong) id regionObserver;
-@property (nonatomic, strong) id recentStopsObserver;
+@property(nonatomic,strong) UINavigationController *regionNavigationController;
+@property(nonatomic,strong) RegionListViewController *regionListViewController;
+@property(nonatomic,strong) id regionObserver;
+@property(nonatomic,strong) id recentStopsObserver;
 @property(nonatomic,strong) id<OBAApplicationUI> applicationUI;
 @end
 
@@ -65,7 +65,8 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 
-        [[OBAApplication sharedApplication] start];
+        NSDictionary *appDefaults = @{ kOptOutOfTracking: @(NO) };
+        [[OBAApplication sharedApplication] startWithAppDefaults:appDefaults];
 
         [OBAApplication sharedApplication].regionHelper.delegate = self;
     }
@@ -77,7 +78,6 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     [[NSNotificationCenter defaultCenter] removeObserver:self.regionObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self.recentStopsObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
-
 }
 
 - (void)navigateToTarget:(OBANavigationTarget *)navigationTarget {
@@ -127,11 +127,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     // Configure the Apptentive feedback system
     [Apptentive sharedConnection].APIKey = kApptentiveKey;
 
-    // Set up Google Analytics
-    NSDictionary *appDefaults = @{ kOptOutOfTracking: @(NO), kSetRegionAutomaticallyKey: @(YES), kUngroupedBookmarksOpenKey: @(YES)};
-    [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
-
-    // User must be able to opt out of tracking
+    // Set up Google Analytics. User must be able to opt out of tracking.
     [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:kOptOutOfTracking];
     [GAI sharedInstance].trackUncaughtExceptions = YES;
     [GAI sharedInstance].logger.logLevel = kGAILogLevelWarning;

@@ -7,7 +7,7 @@
 //
 
 #import "MKMapView+oba_Additions.h"
-#import <OBAKit/OBAMapHelpers.h>
+@import OBAKit;
 
 @implementation MKMapView (oba_Additions)
 

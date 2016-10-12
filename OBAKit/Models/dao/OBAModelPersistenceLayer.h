@@ -16,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol OBAModelPersistenceLayer <NSObject>
 @property(nonatomic,assign) BOOL hideFutureLocationWarnings;
 @property(nonatomic,assign) BOOL ungroupedBookmarksOpen;
+@property(nonatomic,assign) BOOL shareRegionPII;
+@property(nonatomic,assign) BOOL shareLocationPII;
+@property(nonatomic,assign) BOOL shareLogsPII;
 
 - (NSArray*) readBookmarks;
 - (void) writeBookmarks:(NSArray*)source;

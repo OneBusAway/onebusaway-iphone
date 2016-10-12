@@ -9,5 +9,5 @@
 @import UIKit;
 
 @interface OBARotatingButton : UIButton
-
++ (instancetype)rotatingButton;
 @end

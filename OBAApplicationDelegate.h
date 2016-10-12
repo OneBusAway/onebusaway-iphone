@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#import <OBAKit/OBANavigationTarget.h>
 @import UIKit;
+@import OBAKit;
 
 NS_ASSUME_NONNULL_BEGIN
 

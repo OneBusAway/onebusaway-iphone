@@ -7,7 +7,7 @@
 //
 
 #import "OBACollapsingHeaderView.h"
-#import <Masonry/Masonry.h>
+@import Masonry;
 @import OBAKit;
 #import "OBARotatingButton.h"
 #import "OBAAnimation.h"
@@ -26,8 +26,7 @@
         self.backgroundColor = [OBATheme tableViewSectionHeaderBackgroundColor];
 
         _toggleButton = ({
-            OBARotatingButton *btn = [OBARotatingButton buttonWithType:UIButtonTypeCustom];
-            [btn setImage:[UIImage imageNamed:@"chevron"] forState:UIControlStateNormal];
+            OBARotatingButton *btn = [OBARotatingButton rotatingButton];
             btn.titleLabel.font = [OBATheme boldBodyFont];
             btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
             btn.titleEdgeInsets = UIEdgeInsetsMake(0, [OBATheme compactPadding], 0, 0);

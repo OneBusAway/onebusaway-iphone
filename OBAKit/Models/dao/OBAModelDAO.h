@@ -76,6 +76,12 @@ extern NSString * const OBARegionDidUpdateNotification;
 - (void)addCustomRegion:(OBARegionV2*)region;
 - (void)removeCustomRegion:(OBARegionV2*)region;
 
+// PII/Privacy
+
+@property(nonatomic,assign) BOOL shareRegionPII;
+@property(nonatomic,assign) BOOL shareLocationPII;
+@property(nonatomic,assign) BOOL shareLogsPII;
+
 @end
 
 NS_ASSUME_NONNULL_END

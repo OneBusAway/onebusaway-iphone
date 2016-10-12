@@ -77,7 +77,7 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
     
     DDLogVerbose(@"=== regionDidChangeAnimated: requests=%lu",(unsigned long)[self.appliedRegionChangeRequests count]);
     DDLogVerbose(@"region=%@", [OBASphericalGeometryLibrary regionAsString:region]);
-    
+
     OBARegionChangeRequest * request = [self getBestRegionChangeRequestForRegion:region];
     if( request ) {
         double score = [request compareRegion:region];
@@ -91,7 +91,7 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
     
     self.lastRegionChangeWasProgrammatic = (type == OBARegionChangeRequestTypeProgrammatic || !self.firstRegionChangeRequested);
     DDLogVerbose(@"regionDidChangeAnimated: setting self.lastRegionChangeWasprogrammatic to %d", self.lastRegionChangeWasProgrammatic);
-    
+
     BOOL applyingPendingRequest = NO;
     
     if( self.lastRegionChangeWasProgrammatic && self.pendingRegionChangeRequest ) {

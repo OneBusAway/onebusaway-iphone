@@ -11,9 +11,8 @@
 #import "OBABookmarkedRouteRow.h"
 #import "OBATableRow.h"
 
-#import <Masonry/Masonry.h>
-#import <OBAKit/OBAUIBuilder.h>
-#import <OBAKit/OBABookmarkV2.h>
+@import Masonry;
+@import OBAKit;
 #import "OBAArrivalAndDepartureSectionBuilder.h"
 #import "OBALabelActivityIndicatorView.h"
 

@@ -15,6 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAInfoViewController : OBAStaticTableViewController<OBANavigationTargetAware>
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
+@property(nonatomic,strong) PrivacyBroker *privacyBroker;
+@property(nonatomic,strong) OBALocationManager *locationManager;
+
 - (void)openAgencies;
 @end
 

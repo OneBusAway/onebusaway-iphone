@@ -46,7 +46,7 @@
 }
 
 - (OBAListWithRangeAndReferencesV2*)loadDefaultRegions {
-    DDLogInfo(@"Unable to retrieve regions file. Loading default regions from the app bundle.");
+    DDLogWarn(@"Unable to retrieve regions file. Loading default regions from the app bundle.");
 
     OBAModelFactory *factory = self.modelService.modelFactory;
     NSError *error = nil;

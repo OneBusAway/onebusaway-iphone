@@ -17,6 +17,29 @@
 #import <OBAKit/OBALocationManager.h>
 #import <OBAKit/OBALogging.h>
 
+NSString* locationAuthorizationStatusToString(CLAuthorizationStatus status) {
+    switch (status) {
+        case kCLAuthorizationStatusNotDetermined: {
+            return @"Not Determined";
+        }
+        case kCLAuthorizationStatusRestricted: {
+            return @"Restricted";
+        }
+        case kCLAuthorizationStatusDenied: {
+            return @"Denied";
+        }
+        case kCLAuthorizationStatusAuthorizedAlways: {
+            return @"Always";
+        }
+        case kCLAuthorizationStatusAuthorizedWhenInUse: {
+            return @"When in Use";
+        }
+        default: {
+            return [NSString stringWithFormat:@"Unknown value: %@", @(status)];
+        }
+    }
+}
+
 static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 
 NSString * const OBALocationDidUpdateNotification = @"OBALocationDidUpdateNotification";
@@ -46,11 +69,6 @@ NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
     return self;
 }
 
-
-- (BOOL)locationServicesEnabled {
-    return [CLLocationManager locationServicesEnabled];
-}
-
 - (void)startUpdatingLocation {
     if ([CLLocationManager locationServicesEnabled]) {
         [self.locationManager startUpdatingLocation];
@@ -67,7 +85,7 @@ NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
     [self.locationManager stopUpdatingLocation];
 }
 
-#pragma mark - "In-Use" Location Manager Permissions
+#pragma mark - Location Manager Permissions
 
 - (BOOL)hasRequestedInUseAuthorization {
     return [CLLocationManager authorizationStatus] != kCLAuthorizationStatusNotDetermined;
@@ -75,6 +93,15 @@ NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
 
 - (void)requestInUseAuthorization {
     [self.locationManager requestWhenInUseAuthorization];
+}
+
+- (CLAuthorizationStatus)authorizationStatus {
+    return [CLLocationManager authorizationStatus];
+}
+
+
+- (BOOL)locationServicesEnabled {
+    return [CLLocationManager locationServicesEnabled];
 }
 
 #pragma mark - CLLocationManagerDelegate
@@ -108,14 +135,12 @@ NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
          * reading
          */
         if (self.currentLocation) {
-
             NSDate * currentTime = [self.currentLocation timestamp];
             NSDate * newTime = [location timestamp];
 
             NSTimeInterval interval = [newTime timeIntervalSinceDate:currentTime];
 
-            if (interval < kSuccessiveLocationComparisonWindow &&
-                [self.currentLocation horizontalAccuracy] < [location horizontalAccuracy]) {
+            if (interval < kSuccessiveLocationComparisonWindow && self.currentLocation.horizontalAccuracy < location.horizontalAccuracy) {
                 DDLogWarn(@"pruning location reading with low accuracy");
                 return;
             }

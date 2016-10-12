@@ -16,10 +16,7 @@
 
 #import "OBASearchResultsListViewController.h"
 #import "OBAStopViewController.h"
-#import <OBAKit/OBAStopV2.h>
-#import <OBAKit/OBARouteV2.h>
-#import <OBAKit/OBAAgencyWithCoverageV2.h>
-#import <OBAKit/OBASearchResult.h>
+@import OBAKit;
 #import "OBAApplicationDelegate.h"
 #import "OBASearchController.h"
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import <OBAKit/OBAProgressIndicatorSource.h>
+@import OBAKit;
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -52,6 +52,4 @@
     return !(_onlyIfNotNull && valueIsNull);
 }
 
-
-
 @end
