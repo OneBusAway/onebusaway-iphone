@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		6326AF211DABECD500279B86 /* OBACanvasView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6326AF1F1DABECD500279B86 /* OBACanvasView.h */; };
+		6326AF221DABECD500279B86 /* OBACanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6326AF201DABECD500279B86 /* OBACanvasView.m */; };
 		63F985AE1D9843050075031B /* OBADepartureTimeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F985AD1D9843050075031B /* OBADepartureTimeLabel.m */; };
 		669B2F781AEBFCB300CF2367 /* OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 669B2F771AEBFCB300CF2367 /* OBAAnalytics.m */; };
 		923FE680176082A7009AFDE8 /* UITableViewController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 923FE67F176082A7009AFDE8 /* UITableViewController+oba_Additions.m */; };
@@ -408,6 +410,8 @@
 /* Begin PBXFileReference section */
 		1D6058910D05DD3D006BFB54 /* OneBusAway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneBusAway.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6326AF1F1DABECD500279B86 /* OBACanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACanvasView.h; sourceTree = "<group>"; };
+		6326AF201DABECD500279B86 /* OBACanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACanvasView.m; sourceTree = "<group>"; };
 		63F985AC1D9843050075031B /* OBADepartureTimeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADepartureTimeLabel.h; sourceTree = "<group>"; };
 		63F985AD1D9843050075031B /* OBADepartureTimeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADepartureTimeLabel.m; sourceTree = "<group>"; };
 		669B2F761AEBFCB300CF2367 /* OBAAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAnalytics.h; sourceTree = "<group>"; };
@@ -1418,6 +1422,8 @@
 				937E71F61D6EE408007A62D8 /* OBAStrings.m */,
 				934195281DAE150C004BBBB7 /* OBALogging.h */,
 				934195291DAE150C004BBBB7 /* OBALogging.m */,
+				6326AF1F1DABECD500279B86 /* OBACanvasView.h */,
+				6326AF201DABECD500279B86 /* OBACanvasView.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1992,6 +1998,7 @@
 				934D01141C83924D00A76A90 /* OBARegionV2.h in Headers */,
 				934D01241C83924D00A76A90 /* OBASituationV2.h in Headers */,
 				934D00D21C83924D00A76A90 /* OBATripContinuationMapAnnotation.h in Headers */,
+				6326AF211DABECD500279B86 /* OBACanvasView.h in Headers */,
 				934D00D01C83924D00A76A90 /* OBANavigationTargetAnnotation.h in Headers */,
 				934D01301C83924D00A76A90 /* OBATripInstanceRef.h in Headers */,
 				934D010C1C83924D00A76A90 /* OBAPlacemark.h in Headers */,
@@ -2393,6 +2400,7 @@
 				93A519C41DA84679007247B3 /* OBAConsoleLogger.m in Sources */,
 				934D01231C83924D00A76A90 /* OBASituationConsequenceV2.m in Sources */,
 				934D01371C83924D00A76A90 /* OBATripStopTimeV2.m in Sources */,
+				6326AF221DABECD500279B86 /* OBACanvasView.m in Sources */,
 				934D00D51C83924D00A76A90 /* OBATripStopTimeMapAnnotation.m in Sources */,
 				93C393971D8E0ECE0080F370 /* UILabel+OBAAdditions.m in Sources */,
 				934D01271C83924D00A76A90 /* OBAStopAccessEventV2.m in Sources */,
