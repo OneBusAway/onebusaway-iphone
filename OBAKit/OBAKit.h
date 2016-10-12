@@ -47,6 +47,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAJsonDigester.h>
 #import <OBAKit/OBAListWithRangeAndReferencesV2.h>
 #import <OBAKit/OBALocationManager.h>
+#import <OBAKit/OBALogging.h>
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBAMapHelpers.h>
 #import <OBAKit/OBAMapRegionManager.h>

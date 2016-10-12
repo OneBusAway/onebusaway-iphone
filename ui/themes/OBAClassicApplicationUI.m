@@ -175,7 +175,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
         [self.tabBarController setSelectedViewController:self.bookmarksNavigationController];
     }
     else {
-        NSLog(@"Unhandled target in %s: %@", __PRETTY_FUNCTION__, @(navigationTarget.target));
+        DDLogError(@"Unhandled target in %s: %@", __PRETTY_FUNCTION__, @(navigationTarget.target));
     }
 }
 

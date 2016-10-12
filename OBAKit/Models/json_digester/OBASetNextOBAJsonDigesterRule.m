@@ -15,6 +15,7 @@
  */
 
 #import <OBAKit/OBASetNextOBAJsonDigesterRule.h>
+#import <OBAKit/OBALogging.h>
 
 @implementation OBASetNextOBAJsonDigesterRule
 
@@ -34,10 +35,8 @@
     
     id a = [context peek:0];
     id<NSObject> b = [context peek:1];
-    
-    if (context.verbose) {
-        NSLog(@"setNext");
-    }
+
+    DDLogVerbose(@"setNext");
 
     if (a && b && [b respondsToSelector:_selector]) {
 // note: I think that silencing warnings like this is gross.
@@ -47,7 +46,7 @@
 #pragma clang diagnostic pop
     }
     else if (context.verbose) {
-        NSLog(@"setNext selector not supported");
+        DDLogVerbose(@"setNext selector not supported");
     }
 }
 

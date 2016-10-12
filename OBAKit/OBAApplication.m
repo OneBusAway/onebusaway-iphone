@@ -9,6 +9,7 @@
 #import <OBAKit/OBAApplication.h>
 #import <OBAKit/OBAUser.h>
 #import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
+#import <OBAKit/OBALogging.h>
 
 static NSString *const kOBADefaultRegionApiServerName = @"http://regions.onebusaway.org";
 NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplicationSettingsRegionRefreshNotification";
@@ -40,6 +41,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     self = [super init];
 
     if (self) {
+        [OBALogging configureLogging];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(regionUpdated:) name:OBARegionDidUpdateNotification object:nil];
     }
     return self;

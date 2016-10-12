@@ -6,6 +6,7 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
+@import OBAKit;
 #import "OBAStaticTableViewController.h"
 #import "OBANavigationTargetAware.h"
 

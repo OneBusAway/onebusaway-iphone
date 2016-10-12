@@ -7,7 +7,6 @@
 //
 
 #import "OBABookmarksViewController.h"
-@import OBAKit;
 #import "OBAStopViewController.h"
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBABookmarkedRouteRow.h"
@@ -143,7 +142,7 @@ static NSUInteger const kMinutes = 30;
         row.nextDeparture = departure;
         row.state = OBABookmarkedRouteRowStateComplete;
     }).catch(^(NSError *error) {
-        NSLog(@"Failed to load departure for bookmark: %@", error);
+        DDLogError(@"Failed to load departure for bookmark: %@", error);
         row.nextDeparture = nil;
         row.state = OBABookmarkedRouteRowStateError;
         row.supplementaryMessage = [error localizedDescription];
@@ -388,7 +387,7 @@ static NSUInteger const kMinutes = 30;
 + (BOOL)isValidBookmark:(OBABookmarkV2*)bookmark forRegion:(OBARegionV2*)region {
     if (bookmark.stopId.length == 0) {
         // bookmark was somehow corrupted. Skip it and continue on.
-        NSLog(@"Corrupted bookmark: %@", bookmark);
+        DDLogError(@"Corrupted bookmark: %@", bookmark);
         return NO;
     }
 

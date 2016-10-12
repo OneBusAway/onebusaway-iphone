@@ -75,7 +75,7 @@ static const NSString *kShapeContext = @"ShapeContext";
         [_progressView setMessage:NSLocalizedString(@"Unknown error", @"message") inProgress:NO progress:0];
     }
     else if (error) {
-        NSLog(@"Error: %@", error);
+        DDLogError(@"Error: %@", error);
         [_progressView setMessage:NSLocalizedString(@"Error connecting", @"message") inProgress:NO progress:0];
     }
 }
@@ -172,7 +172,7 @@ static const NSString *kShapeContext = @"ShapeContext";
     CGFloat scale = [OBASphericalGeometryLibrary computeStopsForRouteAnnotationScaleFactor:mapView.region];
     CGFloat alpha = scale <= 0.11f ? 0.f : 1.f;
 
-    NSLog(@"scale=%f alpha=%f", scale, alpha);
+    DDLogInfo(@"scale=%f alpha=%f", scale, alpha);
 
     CGAffineTransform transform = CGAffineTransformMakeScale(scale, scale);
 

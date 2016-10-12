@@ -82,7 +82,7 @@ typedef NS_ENUM(NSUInteger, OBASectionType) {
             [self.progressView setMessage:NSLocalizedString(@"Unknown error", @"message") inProgress:NO progress:0];
         }
         else {
-            NSLog(@"Error: %@", error);
+            DDLogError(@"Error: %@", error);
             [self.progressView setMessage:NSLocalizedString(@"Error connecting", @"message") inProgress:NO progress:0];
         }
     });

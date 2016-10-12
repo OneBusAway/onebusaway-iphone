@@ -9,6 +9,7 @@
 #import <OBAKit/OBARegionHelper.h>
 #import <OBAKit/OBAApplication.h>
 #import <OBAKit/OBAMacros.h>
+#import <OBAKit/OBALogging.h>
 
 @interface OBARegionHelper ()
 @property(nonatomic,strong) NSMutableArray *regions;
@@ -45,7 +46,7 @@
 }
 
 - (OBAListWithRangeAndReferencesV2*)loadDefaultRegions {
-    NSLog(@"Unable to retrieve regions file. Loading default regions from the app bundle.");
+    DDLogInfo(@"Unable to retrieve regions file. Loading default regions from the app bundle.");
 
     OBAModelFactory *factory = self.modelService.modelFactory;
     NSError *error = nil;
@@ -53,21 +54,21 @@
     NSData *data = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"regions-v3" ofType:@"json"]];
 
     OBAGuard(data.length > 0) else {
-        NSLog(@"Unable to load regions from app bundle.");
+        DDLogError(@"Unable to load regions from app bundle.");
         return nil;
     }
 
     id defaultJSONData = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:&error];
 
     if (!defaultJSONData) {
-        NSLog(@"Unable to convert bundled regions into an object. %@", error);
+        DDLogError(@"Unable to convert bundled regions into an object. %@", error);
         return nil;
     }
 
     OBAListWithRangeAndReferencesV2 *references = [factory getRegionsV2FromJson:defaultJSONData error:&error];
 
     if (error) {
-        NSLog(@"Issue parsing bundled JSON data: %@", error);
+        DDLogError(@"Issue parsing bundled JSON data: %@", error);
     }
 
     return references;
