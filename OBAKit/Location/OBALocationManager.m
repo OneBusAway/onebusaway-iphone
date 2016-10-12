@@ -15,6 +15,7 @@
  */
 
 #import <OBAKit/OBALocationManager.h>
+#import <OBAKit/OBALogging.h>
 
 static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;
 
@@ -115,7 +116,7 @@ NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
 
             if (interval < kSuccessiveLocationComparisonWindow &&
                 [self.currentLocation horizontalAccuracy] < [location horizontalAccuracy]) {
-                NSLog(@"pruning location reading with low accuracy");
+                DDLogWarn(@"pruning location reading with low accuracy");
                 return;
             }
         }

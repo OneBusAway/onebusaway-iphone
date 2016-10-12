@@ -148,7 +148,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             break;
 
         default:
-            NSLog(@"Unhandled switch value in %s: %@", __PRETTY_FUNCTION__, @(sectionType));
+            DDLogError(@"Unhandled switch value in %s: %@", __PRETTY_FUNCTION__, @(sectionType));
     }
 }
 

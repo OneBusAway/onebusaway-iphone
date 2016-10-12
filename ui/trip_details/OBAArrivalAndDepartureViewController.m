@@ -186,7 +186,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
             [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
         }
         else {
-            NSLog(@"%s: We really shouldn't end up here...", __PRETTY_FUNCTION__);
+            DDLogError(@"%s: We really shouldn't end up here...", __PRETTY_FUNCTION__);
         }
     }
 }

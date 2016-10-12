@@ -108,6 +108,12 @@
 		93392E251CB23D0000A46B61 /* OBAModelDAO_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93392E241CB23D0000A46B61 /* OBAModelDAO_Tests.m */; };
 		93392E271CB23F5C00A46B61 /* OBAModelPersistenceLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 93392E261CB23F5C00A46B61 /* OBAModelPersistenceLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93392E2A1CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 93392E291CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.m */; };
+		934195231DAE12E6004BBBB7 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934195211DAE12E6004BBBB7 /* CocoaLumberjack.framework */; };
+		934195241DAE12E6004BBBB7 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934195211DAE12E6004BBBB7 /* CocoaLumberjack.framework */; };
+		934195251DAE12E6004BBBB7 /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934195221DAE12E6004BBBB7 /* CocoaLumberjackSwift.framework */; };
+		934195261DAE12E6004BBBB7 /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934195221DAE12E6004BBBB7 /* CocoaLumberjackSwift.framework */; };
+		9341952A1DAE150C004BBBB7 /* OBALogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195281DAE150C004BBBB7 /* OBALogging.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9341952B1DAE150C004BBBB7 /* OBALogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195291DAE150C004BBBB7 /* OBALogging.m */; };
 		934446B51AB10E67005B3333 /* UINavigationController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446B41AB10E67005B3333 /* UINavigationController+oba_Additions.m */; };
 		934446B81AB10ECA005B3333 /* UITableViewCell+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446B71AB10ECA005B3333 /* UITableViewCell+oba_Additions.m */; };
 		934446BD1AB11033005B3333 /* OBALabelAndSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 934446BA1AB11033005B3333 /* OBALabelAndSwitchTableViewCell.m */; };
@@ -536,6 +542,10 @@
 		93392E261CB23F5C00A46B61 /* OBAModelPersistenceLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAModelPersistenceLayer.h; sourceTree = "<group>"; };
 		93392E281CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATestHarnessPersistenceLayer.h; sourceTree = "<group>"; };
 		93392E291CB2442C00A46B61 /* OBATestHarnessPersistenceLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATestHarnessPersistenceLayer.m; sourceTree = "<group>"; };
+		934195211DAE12E6004BBBB7 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
+		934195221DAE12E6004BBBB7 /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = Carthage/Build/iOS/CocoaLumberjackSwift.framework; sourceTree = "<group>"; };
+		934195281DAE150C004BBBB7 /* OBALogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALogging.h; sourceTree = "<group>"; };
+		934195291DAE150C004BBBB7 /* OBALogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALogging.m; sourceTree = "<group>"; };
 		934445F81AB105FB005B3333 /* capitolhill.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = capitolhill.gpx; sourceTree = "<group>"; };
 		934446B31AB10E67005B3333 /* UINavigationController+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+oba_Additions.h"; sourceTree = "<group>"; };
 		934446B41AB10E67005B3333 /* UINavigationController+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+oba_Additions.m"; sourceTree = "<group>"; };
@@ -869,9 +879,11 @@
 				93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */,
 				936F45121C780E7600C61656 /* OBAKit.framework in Frameworks */,
 				93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */,
+				934195251DAE12E6004BBBB7 /* CocoaLumberjackSwift.framework in Frameworks */,
 				938B84351D868A0500DB0AF0 /* DateTools.framework in Frameworks */,
 				938B84361D868A0500DB0AF0 /* DZNEmptyDataSet.framework in Frameworks */,
 				938B84371D868A0500DB0AF0 /* PMKMapKit.framework in Frameworks */,
+				934195231DAE12E6004BBBB7 /* CocoaLumberjack.framework in Frameworks */,
 				93C3936F1D8A3AC20080F370 /* Masonry.framework in Frameworks */,
 				938B84381D868A0500DB0AF0 /* SVProgressHUD.framework in Frameworks */,
 				938B84391D868A0500DB0AF0 /* SwiftMessages.framework in Frameworks */,
@@ -888,6 +900,8 @@
 			files = (
 				938B84251D8689E900DB0AF0 /* GoogleAnalytics.framework in Frameworks */,
 				938B84291D8689F400DB0AF0 /* PMKCoreLocation.framework in Frameworks */,
+				934195261DAE12E6004BBBB7 /* CocoaLumberjackSwift.framework in Frameworks */,
+				934195241DAE12E6004BBBB7 /* CocoaLumberjack.framework in Frameworks */,
 				938B842A1D8689F400DB0AF0 /* PMKFoundation.framework in Frameworks */,
 				938B842B1D8689F400DB0AF0 /* PromiseKit.framework in Frameworks */,
 			);
@@ -969,6 +983,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				934195211DAE12E6004BBBB7 /* CocoaLumberjack.framework */,
+				934195221DAE12E6004BBBB7 /* CocoaLumberjackSwift.framework */,
 				93C3936E1D8A3AC20080F370 /* Masonry.framework */,
 				93C3936C1D8A3A530080F370 /* Foundation.framework */,
 				93C3936A1D8A3A4D0080F370 /* UIKit.framework */,
@@ -1372,6 +1388,8 @@
 				9365642F1D6CABA200F226C0 /* OBARouteFilter.m */,
 				937E71F51D6EE408007A62D8 /* OBAStrings.h */,
 				937E71F61D6EE408007A62D8 /* OBAStrings.m */,
+				934195281DAE150C004BBBB7 /* OBALogging.h */,
+				934195291DAE150C004BBBB7 /* OBALogging.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1986,6 +2004,7 @@
 				936564381D6D7CD500F226C0 /* OBATheme.h in Headers */,
 				936564301D6CABA200F226C0 /* OBARouteFilter.h in Headers */,
 				93C393961D8E0ECE0080F370 /* UILabel+OBAAdditions.h in Headers */,
+				9341952A1DAE150C004BBBB7 /* OBALogging.h in Headers */,
 				9320771A1C993A4D005F7D4A /* OBARouteType.h in Headers */,
 				934D00311C83924400A76A90 /* OBACommon.h in Headers */,
 			);
@@ -2187,6 +2206,8 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SVProgressHUD.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftMessages.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Masonry.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/CocoaLumberjack.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/CocoaLumberjackSwift.framework",
 			);
 			name = "Carthage Integration";
 			outputPaths = (
@@ -2301,6 +2322,7 @@
 				934D01131C83924D00A76A90 /* OBARegionBoundsV2.m in Sources */,
 				934D01091C83924D00A76A90 /* OBAListWithRangeAndReferencesV2.m in Sources */,
 				934D01191C83924D00A76A90 /* OBAReportProblemWithTripV2.m in Sources */,
+				9341952B1DAE150C004BBBB7 /* OBALogging.m in Sources */,
 				934D00E51C83924D00A76A90 /* OBASetCoordinatePropertyJsonDigesterRule.m in Sources */,
 				934D003C1C83924400A76A90 /* OBAMapHelpers.m in Sources */,
 				934D00DD1C83924D00A76A90 /* OBACallMethodJsonDigesterRule.m in Sources */,

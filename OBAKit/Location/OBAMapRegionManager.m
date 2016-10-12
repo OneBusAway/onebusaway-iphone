@@ -16,6 +16,7 @@
 
 #import <OBAKit/OBAMapRegionManager.h>
 #import <OBAKit/OBASphericalGeometryLibrary.h>
+#import <OBAKit/OBALogging.h>
 
 static const double kMinRegionDeltaToDetectUserDrag = 50;
 static const double kRegionChangeRequestsTimeToLive = 3.0;
@@ -74,27 +75,27 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
     MKCoordinateRegion region = self.mapView.region;
     OBARegionChangeRequestType type = OBARegionChangeRequestTypeUser;
     
-    //NSLog(@"=== regionDidChangeAnimated: requests=%d",[self.appliedRegionChangeRequests count]);
-    //NSLog(@"region=%@", [OBASphericalGeometryLibrary regionAsString:region]);
+    DDLogVerbose(@"=== regionDidChangeAnimated: requests=%lu",(unsigned long)[self.appliedRegionChangeRequests count]);
+    DDLogVerbose(@"region=%@", [OBASphericalGeometryLibrary regionAsString:region]);
     
     OBARegionChangeRequest * request = [self getBestRegionChangeRequestForRegion:region];
     if( request ) {
         double score = [request compareRegion:region];
         BOOL oldRegionContainsNewRegion = [OBASphericalGeometryLibrary isRegion:region containedBy:request.region];
         BOOL newRegionContainsOldRegion = [OBASphericalGeometryLibrary isRegion:request.region containedBy:region];
-        //NSLog(@"regionDidChangeAnimated: score=%f", score);
-        //NSLog(@"subregion=%@", [OBASphericalGeometryLibrary regionAsString:request.region]);
+        DDLogVerbose(@"regionDidChangeAnimated: score=%f", score);
+        DDLogVerbose(@"subregion=%@", [OBASphericalGeometryLibrary regionAsString:request.region]);
         if( score < kMinRegionDeltaToDetectUserDrag && !oldRegionContainsNewRegion && !newRegionContainsOldRegion)
             type = request.type;
     }
     
     self.lastRegionChangeWasProgrammatic = (type == OBARegionChangeRequestTypeProgrammatic || !self.firstRegionChangeRequested);
-    //NSLog(@"regionDidChangeAnimated: setting self.lastRegionChangeWasprogrammatic to %d", self.lastRegionChangeWasprogrammatic);
+    DDLogVerbose(@"regionDidChangeAnimated: setting self.lastRegionChangeWasprogrammatic to %d", self.lastRegionChangeWasProgrammatic);
     
     BOOL applyingPendingRequest = NO;
     
     if( self.lastRegionChangeWasProgrammatic && self.pendingRegionChangeRequest ) {
-        //NSLog(@"applying pending reqest");
+        DDLogVerbose(@"applying pending reqest");
         [self setMapRegionWithRequest:self.pendingRegionChangeRequest];
         applyingPendingRequest = YES;
     }
@@ -116,14 +117,14 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
 - (void) setMapRegionWithRequest:(OBARegionChangeRequest*)request {
 
     @synchronized(self) {
-        //NSLog(@"setMapRegion: requestType=%d region=%@",request.type,[OBASphericalGeometryLibrary regionAsString:request.region]);
+        DDLogVerbose(@"setMapRegion: requestType=%ld region=%@",(long)request.type,[OBASphericalGeometryLibrary regionAsString:request.region]);
 
         /**
          * If we are currently in the process of changing the map region, we save the region change request as pending.
          * Otherwise, we apply the region change.
          */
         if ( self.currentlyChangingRegion ) {
-            //NSLog(@"saving pending request");
+            DDLogVerbose(@"saving pending request");
             self.pendingRegionChangeRequest = request;
         }
         else {

@@ -15,6 +15,7 @@
  */
 
 #import <OBAKit/OBACreateObjectJsonDigesterRule.h>
+#import <OBAKit/OBALogging.h>
 
 @interface OBACreateObjectJsonDigesterRule ()
 - (BOOL)shouldDigestValue:(id)value;
@@ -36,8 +37,7 @@
     if([self shouldDigestValue:value]) {
         id obj = [[_objectClass alloc] init];
         [context pushValue:obj];
-        if( context.verbose )
-            NSLog(@"Creating object: class=%@",[_objectClass description]);
+        DDLogVerbose(@"Creating object: class=%@",[_objectClass description]);
     }
 }
 

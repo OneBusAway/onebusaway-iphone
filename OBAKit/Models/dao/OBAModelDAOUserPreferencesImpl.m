@@ -17,7 +17,8 @@
 #import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBARegionV2.h>
-#import <CoreLocation/CoreLocation.h>
+#import <OBAKit/OBALogging.h>
+@import CoreLocation;
 
 NSString * const kBookmarksKey = @"bookmarks";
 NSString * const kBookmarkGroupsKey = @"bookmarkGroups";
@@ -172,7 +173,7 @@ NSString * const kUngroupedBookmarksOpenKey = @"UngroupedBookmarksOpen";
         [unarchiver finishDecoding];
     }
     @catch (NSException *exception) {
-        NSLog(@"Unable to decode object for key %@ - %@", key, exception);
+        DDLogError(@"Unable to decode object for key %@ - %@", key, exception);
     }
 
     return object;

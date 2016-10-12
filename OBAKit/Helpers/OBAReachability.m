@@ -26,6 +26,7 @@
  */
 
 #import <OBAKit/OBAReachability.h>
+#import <OBAKit/OBALogging.h>
 
 #import <sys/socket.h>
 #import <netinet/in.h>
@@ -33,7 +34,6 @@
 #import <arpa/inet.h>
 #import <ifaddrs.h>
 #import <netdb.h>
-
 
 NSString *const kReachabilityChangedNotification = @"kReachabilityChangedNotification";
 
@@ -209,7 +209,7 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
         else
         {
 #ifdef DEBUG
-            NSLog(@"SCNetworkReachabilitySetDispatchQueue() failed: %s", SCErrorString(SCError()));
+            DDLogError(@"SCNetworkReachabilitySetDispatchQueue() failed: %s", SCErrorString(SCError()));
 #endif
 
             // UH OH - FAILURE - stop any callbacks!
@@ -219,7 +219,7 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
     else
     {
 #ifdef DEBUG
-        NSLog(@"SCNetworkReachabilitySetCallback() failed: %s", SCErrorString(SCError()));
+        DDLogError(@"SCNetworkReachabilitySetCallback() failed: %s", SCErrorString(SCError()));
 #endif
     }
 

@@ -186,7 +186,7 @@
             [self setNeedsUpdateConstraints];
         }];
     }).catch(^(NSError *error) {
-        NSLog(@"Unable to calculate walk time to stop: %@", error);
+        DDLogError(@"Unable to calculate walk time to stop: %@", error);
         [self.directionsLabel removeFromSuperview];
     }).always(^{
         iterations = 0;

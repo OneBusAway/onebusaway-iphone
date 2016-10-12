@@ -119,7 +119,7 @@ NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserI
         // But, I do know that it doesn't have any appreciable user impact outside of this
         // error alert being really annoying. So we'll just log it and eat it.
 
-        NSLog(@"Errored out at launch: %@", error);
+        DDLogError(@"Errored out at launch: %@", error);
     }
     else if (error) {
         [self.progress setMessage:NSLocalizedString(@"Error connecting", @"requestDidFail") inProgress:NO progress:0];
