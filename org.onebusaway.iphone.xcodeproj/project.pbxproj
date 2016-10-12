@@ -328,7 +328,6 @@
 		939E8E5B1C7B815E008FCA4C /* OBABaseRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E8E5A1C7B815E008FCA4C /* OBABaseRow.m */; };
 		93A41C7F1D7C90770080500F /* OBATableViewCellValue1.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A41C7E1D7C90770080500F /* OBATableViewCellValue1.m */; };
 		93A519931DA23948007247B3 /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A519911DA23948007247B3 /* CocoaLumberjackSwift.framework */; };
-		93A519B51DA3838F007247B3 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A519B41DA3838F007247B3 /* CocoaLumberjack.framework */; };
 		93A519B81DA39929007247B3 /* PTERootController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A519B71DA39929007247B3 /* PTERootController.m */; };
 		93A519BC1DA6DFA1007247B3 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A519B41DA3838F007247B3 /* CocoaLumberjack.framework */; };
 		93A519C31DA84679007247B3 /* OBAConsoleLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 93A519C11DA84679007247B3 /* OBAConsoleLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
