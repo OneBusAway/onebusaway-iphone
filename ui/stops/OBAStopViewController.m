@@ -279,11 +279,9 @@ static CGFloat const kTableHeaderHeight = 150.f;
         }];
         row.routeName = dep.bestAvailableName;
         row.destination = dep.tripHeadsign.capitalizedString;
-        row.departsAt = [NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)];
+        row.upcomingDepartures = @[[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestDeparture departureStatus:dep.departureStatus]];
         row.statusText = dep.statusText;
-        row.departureStatus = dep.departureStatus;
         row.rowActions = @[[self tableViewRowActionForArrivalAndDeparture:dep]];
-        row.cellReuseIdentifier = OBAClassicDepartureCellReuseIdentifier;
 
         [departureRows addObject:row];
     }
@@ -366,9 +364,11 @@ static CGFloat const kTableHeaderHeight = 150.f;
             [self.navigationController pushViewController:vc animated:YES];
         }];
         row.destination = dep.tripHeadsign.capitalizedString;
-        row.departsAt = [NSDate dateWithTimeIntervalSince1970:(dep.bestDepartureTime / 1000)];
         row.statusText = dep.statusText;
-        row.departureStatus = dep.departureStatus;
+
+        OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestDeparture departureStatus:dep.departureStatus];
+
+        row.upcomingDepartures = @[upcoming];
         [rows addObject:row];
     }
 

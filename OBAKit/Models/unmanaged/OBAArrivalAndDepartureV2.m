@@ -16,6 +16,7 @@
 
 #import <OBAKit/OBAArrivalAndDepartureV2.h>
 #import <OBAKit/OBADateHelpers.h>
+#import <OBAKit/OBAMacros.h>
 #import <OBAKit/NSObject+OBADescription.h>
 
 @interface OBAArrivalAndDepartureV2 ()
@@ -23,6 +24,7 @@
 @end
 
 @implementation OBAArrivalAndDepartureV2
+@dynamic bestDeparture;
 
 - (instancetype)init {
     self = [super init];
@@ -126,6 +128,8 @@
     [self.situationIds addObject:situationId];
 }
 
+#pragma mark - Public methods
+
 - (OBADepartureStatus)departureStatus {
     if (!self.hasRealTimeData) {
         return OBADepartureStatusUnknown;
@@ -167,8 +171,9 @@
     NSInteger headway = frequency.headway / 60;
 
     NSDate *now = [NSDate date];
-    NSDate *startTime = [NSDate dateWithTimeIntervalSince1970:(frequency.startTime / 1000)];
-    NSDate *endTime = [NSDate dateWithTimeIntervalSince1970:(frequency.endTime / 1000)];
+
+    NSDate *startTime = [OBADateHelpers dateWithMillisecondsSince1970:frequency.startTime];
+    NSDate *endTime = [OBADateHelpers dateWithMillisecondsSince1970:frequency.endTime];
 
     NSString *formatString = NSLocalizedString(@"Every %@ mins %@ %@", @"frequency status string");
     NSString *fromOrUntil = [now compare:startTime] == NSOrderedAscending ? NSLocalizedString(@"from", @"") : NSLocalizedString(@"until", @"");
@@ -188,9 +193,7 @@
 }
 
 - (NSInteger)minutesUntilBestDeparture {
-    NSDate *time = [NSDate dateWithTimeIntervalSince1970:(self.bestDepartureTime / 1000)];
-    NSTimeInterval interval = [time timeIntervalSinceNow];
-    return (NSInteger)(interval / 60.0);
+    return (NSInteger)(self.bestDeparture.timeIntervalSinceNow / 60.0);
 }
 
 - (NSString*)statusText {
@@ -231,6 +234,18 @@
     }
 }
 
+- (BOOL)routesAreEquivalent:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+    OBAGuard(arrivalAndDeparture) else {
+        return NO;
+    }
+
+    return [self.bookmarkKey isEqual:arrivalAndDeparture.bookmarkKey];
+}
+
+- (NSDate*)bestDeparture {
+    return [OBADateHelpers dateWithMillisecondsSince1970:self.bestDepartureTime];
+}
+
 #pragma mark - Compare
 
 - (NSComparisonResult)compareRouteName:(OBAArrivalAndDepartureV2*)dep {
@@ -240,13 +255,13 @@
 #pragma mark - Bookmarks
 
 - (NSString*)bookmarkKey {
-    return [NSString stringWithFormat:@"%@_%@_%@", self.routeId, self.tripHeadsign, self.bestAvailableName];
+    return [NSString stringWithFormat:@"%@_%@_%@", self.bestAvailableName, self.tripHeadsign.lowercaseString, self.routeId];
 }
 
 #pragma mark - NSObject
 
 - (NSUInteger)hash {
-    return [NSString stringWithFormat:@"%@_%@_%@", self.stopId, self.routeId, self.tripHeadsign.lowercaseString].hash;
+    return self.bookmarkKey.hash;
 }
 
 - (BOOL)isEqual:(OBAArrivalAndDepartureV2*)object {
@@ -254,22 +269,7 @@
         return NO;
     }
 
-    if (![self.stopId isEqual:object.stopId]) {
-        return NO;
-    }
-
-    if (![self.routeId isEqual:object.routeId]) {
-        return NO;
-    }
-
-    // because of the trip headsign munging that sometimes takes place elsewhere in the codebase,
-    // we need to do a case insensitive comparison to ensure that these headsigns match. Ideally,
-    // we wouldn't have to do such a fragile comparison in the first place...
-    if ([self.tripHeadsign compare:object.tripHeadsign options:NSCaseInsensitiveSearch] != NSOrderedSame) {
-        return NO;
-    }
-
-    return YES;
+    return [self routesAreEquivalent:object];
 }
 
 - (NSString*)description {

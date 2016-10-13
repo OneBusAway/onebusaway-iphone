@@ -58,6 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) long long scheduledDepartureTime;
 @property(nonatomic,assign) long long predictedDepartureTime;
 @property(nonatomic,assign,readonly) long long bestDepartureTime;
+@property(nonatomic,copy,readonly) NSDate *bestDeparture;
 
 @property(nonatomic,assign) double distanceFromStop;
 @property(nonatomic,assign) NSInteger numberOfStopsAway;
@@ -96,6 +97,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSInteger)minutesUntilBestDeparture;
 
 - (NSComparisonResult)compareRouteName:(OBAArrivalAndDepartureV2*)dep;
+
+/**
+ Determines whether the receiver and the arrivalAndDeparture parameter
+ have equivalent trip IDs, headsigns, and stop IDs. In other words,
+ do they represent the same trip, regardless of when that trip occurs?
+
+ @param arrivalAndDeparture The arrival and departure object to compare to the receiver.
+
+ @return true if they represent the same route, and false otherwise.
+ */
+- (BOOL)routesAreEquivalent:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
+
 
 @end
 
