@@ -1,6 +1,5 @@
 github "aaronbrethorst/CocoaLumberjack" "845ff8043fb6b902cc0e09d34ecf28bdf6d1cee1"
 github "dzenbot/DZNEmptyDataSet" "v1.8.1"
-github "MatthewYork/DateTools" "v1.7.0"
 github "SnapKit/Masonry" "v1.0.2"
 github "mxcl/PromiseKit" "4.0.3"
 github "52inc/Pulley" "1.2.2"

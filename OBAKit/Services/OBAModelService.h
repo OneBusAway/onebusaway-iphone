@@ -259,7 +259,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 /**
  *  Makes an asynchronous request to fetch a vehicle definition based on id
  *
- *  @param vehileId  The identifier of the vehicle to be fetched
+ *  @param vehicleId  The identifier of the vehicle to be fetched
  *  @param completion The block to be called once the request completes, this is always executed on the main thread.
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation

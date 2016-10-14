@@ -9,7 +9,7 @@
 #import <OBAKit/OBADateHelpers.h>
 #import <OBAKit/OBATripDetailsV2.h>
 #import <OBAKit/OBATripStopTimeV2.h>
-@import DateTools;
+#import <OBAKit/NSDate+DateTools.h>
 
 @implementation OBADateHelpers
 

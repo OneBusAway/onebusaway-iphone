@@ -52,7 +52,7 @@ extern NSString *const kOBAApplicationSettingsRegionRefreshNotification;
 /**
  Call this when the object has been fully configured.
 
- @param defaults The defaults dictionary to register with NSUserDefaults
+ @param appDefaults The defaults dictionary to register with NSUserDefaults
  */
 - (void)startWithAppDefaults:(NSDictionary*)appDefaults;
 
