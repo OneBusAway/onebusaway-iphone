@@ -19,8 +19,9 @@
 #import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
+#import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
-@interface OBAEditStopPreferencesViewController ()
+@interface OBAEditStopPreferencesViewController ()<DZNEmptyDataSetSource>
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
 @property(nonatomic,strong) OBAStopV2 *stop;
 @property(nonatomic,strong) NSArray *routes;
@@ -42,7 +43,7 @@
         UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
         self.navigationItem.rightBarButtonItem = saveButton;
 
-        self.navigationItem.title = NSLocalizedString(@"Filter & Sort", @"self.navigationItem.title");
+        self.navigationItem.title = NSLocalizedString(@"Filter Routes",);
     }
 
     return self;
@@ -57,107 +58,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tableView.backgroundView = nil;
-    self.tableView.backgroundColor = [UIColor whiteColor];
-    [self hideEmptySeparators];
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.tableFooterView = [UIView new];
+}
+
+#pragma mark - DZNEmptyDataSetSource
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    return [[NSAttributedString alloc] initWithString:NSLocalizedString(@"No Routes Found",)];
 }
 
 #pragma mark - Table View
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 40;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-
-    view.backgroundColor = [OBATheme OBAGreenBackground];
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, 200, 30)];
-    title.font = [OBATheme boldBodyFont];
-    title.backgroundColor = [UIColor clearColor];
-    switch (section) {
-        case 0:
-            title.text =  NSLocalizedString(@"Sort", @"section == 0");
-            break;
-
-        case 1:
-            title.text = NSLocalizedString(@"Show Routes", @"section == 1");
-            break;
-    }
-    [view addSubview:title];
-    return view;
-}
-
-// Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    switch (section) {
-        case 0:
-            return 2;
-
-        case 1: {
-            return MAX(_routes.count, 1);
-        }
-    }
-    return 0;
+    return self.routes.count;
 }
 
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.section) {
-        case 0:
-            return [self tableView:tableView sortByCellForRowAtIndexPath:indexPath];
-
-        case 1:
-            return [self tableView:tableView routeCellForRowAtIndexPath:indexPath];
-
-        default: {
-            UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
-            cell.textLabel.text = NSLocalizedString(@"Unknown cell", @"cell.textLabel.text");
-            return cell;
-        }
-    }
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView sortByCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
-    BOOL checked = NO;
-
-    switch (indexPath.row) {
-        case OBASortTripsByDepartureTimeV2:
-            checked = _preferences.sortTripsByType == OBASortTripsByDepartureTimeV2;
-            cell.textLabel.text = NSLocalizedString(@"Departure Time", @"OBASortTripsByDepartureTimeV2");
-            break;
-
-        case OBASortTripsByRouteNameV2:
-            checked = _preferences.sortTripsByType == OBASortTripsByRouteNameV2;
-            cell.textLabel.text = NSLocalizedString(@"Route", @"OBASortTripsByRouteNameV2");
-            break;
-
-        default:
-            cell.textLabel.text = NSLocalizedString(@"Unknown cell", @"cell.textLabel.text");
-    }
-
-    cell.accessoryType = checked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-    cell.textLabel.font = [OBATheme bodyFont];
-
-    return cell;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView routeCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([_routes count] == 0) {
-        UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.textLabel.text = NSLocalizedString(@"No routes at this stop", @"[_routes count] == 0");
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
-    }
-
-    OBARouteV2 *route = _routes[indexPath.row];
+    OBARouteV2 *route = self.routes[indexPath.row];
 
     UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
     cell.textLabel.text = [route safeShortName];
@@ -171,30 +89,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        if (_preferences.sortTripsByType != indexPath.row) {
-            _preferences.sortTripsByType = (int)indexPath.row;
-
-            for (int i = 0; i < 2; i++) {
-                NSIndexPath *cellIndex = [NSIndexPath indexPathForRow:i inSection:0];
-                BOOL checked = (i == indexPath.row);
-
-                UITableViewCell *cell = [tableView cellForRowAtIndexPath:cellIndex];
-                cell.accessoryType = checked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-                [tableView deselectRowAtIndexPath:indexPath animated:YES];
-            }
-        }
-    }
-    else if (indexPath.section == 1) {
-        if ([_routes count] == 0) {
-            return;
-        }
-
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        OBARouteV2 *route = _routes[indexPath.row];
-        cell.accessoryType = [_preferences toggleRouteID:route.routeId] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    }
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    OBARouteV2 *route = _routes[indexPath.row];
+    cell.accessoryType = [_preferences toggleRouteID:route.routeId] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - Actions

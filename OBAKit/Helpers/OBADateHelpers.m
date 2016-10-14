@@ -9,6 +9,7 @@
 #import <OBAKit/OBADateHelpers.h>
 #import <OBAKit/OBATripDetailsV2.h>
 #import <OBAKit/OBATripStopTimeV2.h>
+@import DateTools;
 
 @implementation OBADateHelpers
 
@@ -44,5 +45,19 @@
     NSTimeInterval interval = serviceDate / 1000 + departureTime + scheduleDeviation;
 
     return [NSDate dateWithTimeIntervalSince1970:interval];
+}
+
++ (NSString*)formatMinutesUntilDate:(NSDate*)date {
+    double minutesFrom = [date minutesFrom:[NSDate date]];
+    if (fabs(minutesFrom) < 1.0) {
+        return NSLocalizedString(@"NOW", @"");
+    }
+    else {
+        return [NSString stringWithFormat:@"%.0fm", minutesFrom];
+    }
+}
+
++ (NSDate*)dateWithMillisecondsSince1970:(long long)milliseconds {
+    return [NSDate dateWithTimeIntervalSince1970:(milliseconds / 1000)];
 }
 @end

@@ -19,11 +19,10 @@
 
     row.routeName = arrivalAndDeparture.bestAvailableName;
     row.destination = arrivalAndDeparture.tripHeadsign;
-    row.departsAt = [NSDate dateWithTimeIntervalSince1970:(arrivalAndDeparture.bestDepartureTime / 1000)];
     row.statusText = [arrivalAndDeparture statusText];
-    row.departureStatus = [arrivalAndDeparture departureStatus];
 
-    row.cellReuseIdentifier = OBAClassicDepartureCellReuseIdentifier;
+    OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:arrivalAndDeparture.bestDeparture departureStatus:arrivalAndDeparture.departureStatus];
+    row.upcomingDepartures = @[upcoming];
 
     return row;
 }
