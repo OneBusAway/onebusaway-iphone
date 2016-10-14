@@ -19,9 +19,6 @@ github "SVProgressHUD/SVProgressHUD" ~>2.0.3
 # https://github.com/SnapKit/Masonry/releases
 github "SnapKit/Masonry" ~>1.0.2
 
-# https://github.com/MatthewYork/DateTools/releases
-github "MatthewYork/DateTools" ~>1.7.0
-
 # https://github.com/dzenbot/DZNEmptyDataSet/releases
 github "dzenbot/DZNEmptyDataSet" ~>1.8.1
 
