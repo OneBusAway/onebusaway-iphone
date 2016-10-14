@@ -15,6 +15,7 @@
  */
 
 #import <OBAKit/OBAHasReferencesV2.h>
+#import <OBAKit/OBASituationConsequenceV2.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,16 +24,34 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) NSString * situationId;
 @property (nonatomic) long long creationTime;
 
+/**
+ Short summary
+ */
 @property (nonatomic,strong) NSString * summary;
+
+/**
+ Longer description
+ */
 @property (nonatomic,strong) NSString * description;
+
+/**
+ Advice to the rider
+ */
 @property (nonatomic,strong) NSString * advice;
 
-@property (nonatomic,strong) NSArray * consequences;
+@property(nonatomic,copy,readonly) NSString *diversionPath;
+
+/**
+ consquences captures a list of OBASituationConsequenceV2 objects that provide details about the consequences of the service alert. Right now, we mostly use this to share reroute information.
+ */
+@property (nonatomic,strong) NSArray<OBASituationConsequenceV2*> *consequences;
 
 @property (nonatomic,strong) NSString * severity;
 @property (nonatomic,strong) NSString * sensitivity;
 
 - (NSInteger)severityAsNumericValue;
+
+@property(nonatomic,copy,readonly) NSString *formattedDetails;
 
 @end
 

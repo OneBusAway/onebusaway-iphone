@@ -15,11 +15,13 @@
  */
 
 @import UIKit;
+@import OBAKit;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAWebViewController : UIViewController
-- (instancetype)initWithHTML:(NSString*)HTML;
+@interface OBAServiceAlertsViewController : UITableViewController
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
+- (instancetype)initWithSituations:(NSArray<OBASituationV2*>*)situations;
 @end
 
 NS_ASSUME_NONNULL_END

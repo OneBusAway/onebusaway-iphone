@@ -12,6 +12,7 @@
 @import Masonry;
 
 @interface OBATableViewCellValue1 ()
+@property(nonatomic,strong) UIImageView *obaImageView;
 @property(nonatomic,strong) UILabel *obaTextLabel;
 @property(nonatomic,strong) UILabel *obaDetailTextLabel;
 @property(nonatomic,strong) UIStackView *stackView;
@@ -24,6 +25,10 @@
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
 
     if (self) {
+
+        _obaImageView = [[UIImageView alloc] init];
+        _obaImageView.contentMode = UIViewContentModeScaleAspectFit;
+
         _obaTextLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _obaTextLabel.numberOfLines = 0;
         [_obaTextLabel setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
@@ -36,7 +41,7 @@
         // stack views seem to require spacing views for some scenarios, like ours. Lame.
         UIView *stupidSpacingView = [[UIView alloc] initWithFrame:CGRectZero];
 
-        _stackView = [[UIStackView alloc] initWithArrangedSubviews:@[_obaTextLabel, stupidSpacingView, _obaDetailTextLabel]];
+        _stackView = [[UIStackView alloc] initWithArrangedSubviews:@[_obaImageView, _obaTextLabel, stupidSpacingView, _obaDetailTextLabel]];
         _stackView.axis = UILayoutConstraintAxisHorizontal;
         _stackView.alignment = UIStackViewAlignmentFill;
         _stackView.spacing = [OBATheme defaultPadding];
@@ -54,6 +59,11 @@
 - (void)prepareForReuse {
     [super prepareForReuse];
 
+    self.obaImageView.image = nil;
+    self.obaImageView.hidden = YES;
+    self.obaTextLabel.text = nil;
+    self.obaTextLabel.font = nil;
+    self.obaDetailTextLabel.font = nil;
     self.textLabel.text = nil;
     self.textLabel.textColor = nil;
     self.detailTextLabel.text = nil;
@@ -71,12 +81,16 @@
 
     _tableRow = [tableRow copy];
 
+    self.obaImageView.image = [self tableDataRow].image;
+    self.obaImageView.hidden = !self.obaImageView.image;
+
+    self.obaImageView.image = [self tableDataRow].image;
+    self.obaTextLabel.font = [self tableDataRow].titleFont;
     self.obaTextLabel.text = [self tableDataRow].title;
     self.obaTextLabel.textColor = [self tableDataRow].titleColor;
     self.obaTextLabel.textAlignment = [self tableDataRow].textAlignment;
     self.obaDetailTextLabel.text = [self tableDataRow].subtitle;
     self.accessoryType = [self tableDataRow].accessoryType;
-    self.imageView.image = [self tableDataRow].image;
     self.selectionStyle = [self tableDataRow].selectionStyle;
 }
 

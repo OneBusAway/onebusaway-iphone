@@ -7,15 +7,18 @@
 //
 
 #import "OBAStaticTableViewController+Builders.h"
-#import "OBASituationsViewController.h"
+#import "OBAServiceAlertsViewController.h"
 
 @implementation OBAStaticTableViewController (Builders)
 
 - (OBATableSection*)createServiceAlertsSection:(id<OBAHasServiceAlerts>)result serviceAlerts:(OBAServiceAlertsModel*)serviceAlerts {
     OBATableRow *serviceAlertsRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"View Service Alerts", @"") action:^{
-        [OBASituationsViewController showSituations:result.situations navigationController:self.navigationController args:nil];
+        OBAServiceAlertsViewController *situations = [[OBAServiceAlertsViewController alloc] initWithSituations:result.situations];
+        [self.navigationController pushViewController:situations animated:YES];
     }];
-
+    serviceAlertsRow.style = UITableViewCellStyleValue1;
+    serviceAlertsRow.subtitle = [@(serviceAlerts.unreadCount) description];
+    serviceAlertsRow.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     serviceAlertsRow.image = [self.class iconForServiceAlerts:serviceAlerts];
 
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:@[serviceAlertsRow]];

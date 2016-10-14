@@ -13,7 +13,6 @@
 #import "OBAStopSectionHeaderView.h"
 #import "OBASeparatorSectionView.h"
 #import "OBAReportProblemWithRecentTripsViewController.h"
-#import "OBASituationsViewController.h"
 #import "OBAEditStopPreferencesViewController.h"
 #import "OBAParallaxTableHeaderView.h"
 #import "OBAEditStopBookmarkViewController.h"

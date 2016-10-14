@@ -13,9 +13,19 @@
 @implementation OBATableViewCell
 @synthesize tableRow = _tableRow;
 
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+
+    if (self) {
+        self.textLabel.numberOfLines = 0;
+    }
+    return self;
+}
+
 - (void)prepareForReuse {
     [super prepareForReuse];
 
+    self.textLabel.font = nil;
     self.textLabel.text = nil;
     self.textLabel.textColor = nil;
     self.detailTextLabel.text = nil;
@@ -32,6 +42,7 @@
 
     _tableRow = [tableRow copy];
 
+    self.textLabel.font = [self tableDataRow].titleFont;
     self.textLabel.text = [self tableDataRow].title;
     self.textLabel.textColor = [self tableDataRow].titleColor;
     self.textLabel.textAlignment = [self tableDataRow].textAlignment;
