@@ -8,6 +8,10 @@
 
 #import <OBAKit/OBASituationV2.h>
 
+@interface OBASituationV2 ()
+@property(nonatomic,copy,readwrite) NSString *diversionPath;
+@end
+
 @implementation OBASituationV2
 
 @synthesize description;
@@ -43,4 +47,34 @@
         return -1;
     }
 }
+
+// TODO: figure out why the code has the diversion path continually
+// getting overwritten and if that is desirable. It sure looks like a bug...
+- (NSString*)diversionPath {
+    if (!_diversionPath) {
+        for (OBASituationConsequenceV2 *consequence in self.consequences) {
+            if (consequence.diversionPath) {
+                _diversionPath = consequence.diversionPath;
+            }
+        }
+    }
+    return _diversionPath;
+}
+
+#pragma mark - Details
+
+- (NSString*)formattedDetails {
+    NSMutableArray *parts = [[NSMutableArray alloc] init];
+
+    if (self.description.length > 0) {
+        [parts addObject:self.description];
+    }
+
+    if (self.advice.length > 0) {
+        [parts addObject:self.advice];
+    }
+
+    return [parts componentsJoinedByString:@"\r\n\r\n"];
+}
+
 @end
