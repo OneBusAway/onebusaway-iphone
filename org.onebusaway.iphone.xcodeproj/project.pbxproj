@@ -176,6 +176,7 @@
 		938B84381D868A0500DB0AF0 /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84331D868A0500DB0AF0 /* SVProgressHUD.framework */; };
 		938B84391D868A0500DB0AF0 /* SwiftMessages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84341D868A0500DB0AF0 /* SwiftMessages.framework */; };
 		93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A923A11C21DCD600A657C8 /* SafariServices.framework */; };
+		93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934198CA1DB0C56D004BBBB7 /* OBAKit.framework */; };
 		93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936A1D8A3A4D0080F370 /* UIKit.framework */; };
 		93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936C1D8A3A530080F370 /* Foundation.framework */; };
 		93C3936F1D8A3AC20080F370 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936E1D8A3AC20080F370 /* Masonry.framework */; };
@@ -206,6 +207,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1D6058900D05DD3D006BFB54;
 			remoteInfo = OneBusAway;
+		};
+		93BBB3F51DB4B30E00694940 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 934198C41DB0C56D004BBBB7 /* OBAKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 934195381DB0B013004BBBB7;
+			remoteInfo = OBAKit;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -496,6 +504,7 @@
 		938B84341D868A0500DB0AF0 /* SwiftMessages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftMessages.framework; path = Carthage/Build/iOS/SwiftMessages.framework; sourceTree = "<group>"; };
 		939CEB241C0E406500E1D2B7 /* rvtd.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = rvtd.gpx; sourceTree = "<group>"; };
 		93A923A11C21DCD600A657C8 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		93BBB4001DB4BA7200694940 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = OneBusAway/Info.plist; sourceTree = SOURCE_ROOT; };
 		93C3936A1D8A3A4D0080F370 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		93C3936C1D8A3A530080F370 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		93C3936E1D8A3AC20080F370 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
@@ -525,6 +534,7 @@
 				934197E01DB0C14C004BBBB7 /* libApptentiveConnect.a in Frameworks */,
 				938B842D1D868A0500DB0AF0 /* PMKCoreLocation.framework in Frameworks */,
 				938B842E1D868A0500DB0AF0 /* PMKFoundation.framework in Frameworks */,
+				93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */,
 				938B842F1D868A0500DB0AF0 /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1103,6 +1113,7 @@
 		9341982D1DB0C1E9004BBBB7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				93BBB4001DB4BA7200694940 /* Info.plist */,
 				934198D61DB0C886004BBBB7 /* Launch Screen.storyboard */,
 				9341982E1DB0C1E9004BBBB7 /* CardView.xib */,
 				9341982F1DB0C1E9004BBBB7 /* feedback_message_body.html */,
@@ -1308,6 +1319,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				93BBB3F61DB4B30E00694940 /* PBXTargetDependency */,
 			);
 			name = OneBusAway;
 			productName = org.onebusaway.iphone;
@@ -1344,7 +1356,6 @@
 				ORGANIZATIONNAME = OneBusAway;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = THEWY9596Q;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
@@ -1637,6 +1648,11 @@
 			target = 1D6058900D05DD3D006BFB54 /* OneBusAway */;
 			targetProxy = 936F45DE1C78D06600C61656 /* PBXContainerItemProxy */;
 		};
+		93BBB3F61DB4B30E00694940 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OBAKit;
+			targetProxy = 93BBB3F51DB4B30E00694940 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -1648,8 +1664,8 @@
 				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/OneBusAway/Resources/OneBusAway.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = THEWY9596Q;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1676,9 +1692,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
-				PROVISIONING_PROFILE = "249df833-9031-4660-aa36-b1a55831b0aa";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				PROVISIONING_PROFILE_SPECIFIER = "XC iOS: org.onebusaway.iphone";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/OneBusAway/OneBusAway-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -1694,8 +1710,8 @@
 				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/OneBusAway/Resources/OneBusAway.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = THEWY9596Q;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1706,7 +1722,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
-				INFOPLIST_FILE = "$(SRCROOT)/OneBusAway/OneBusAwayTests/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/OneBusAway/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -1719,9 +1735,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
-				PROVISIONING_PROFILE = "249df833-9031-4660-aa36-b1a55831b0aa";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				PROVISIONING_PROFILE_SPECIFIER = "XC iOS: org.onebusaway.iphone";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/OneBusAway/OneBusAway-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -2096,8 +2112,8 @@
 				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/OneBusAway/Resources/OneBusAway.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = THEWY9596Q;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2112,7 +2128,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
-				INFOPLIST_FILE = "$(SRCROOT)/OneBusAway/OneBusAwayTests/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/OneBusAway/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -2125,9 +2141,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
-				PROVISIONING_PROFILE = "249df833-9031-4660-aa36-b1a55831b0aa";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				PROVISIONING_PROFILE_SPECIFIER = "XC iOS: org.onebusaway.iphone";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/OneBusAway/OneBusAway-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -2203,8 +2219,8 @@
 				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/OneBusAway/Resources/OneBusAway.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = THEWY9596Q;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2215,7 +2231,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
-				INFOPLIST_FILE = "$(SRCROOT)/OneBusAway/OneBusAwayTests/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/OneBusAway/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -2228,9 +2244,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone;
 				PRODUCT_NAME = OneBusAway;
-				PROVISIONING_PROFILE = "249df833-9031-4660-aa36-b1a55831b0aa";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				PROVISIONING_PROFILE_SPECIFIER = "XC iOS: org.onebusaway.iphone";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/OneBusAway/OneBusAway-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
