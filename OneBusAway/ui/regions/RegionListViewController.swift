@@ -18,7 +18,6 @@ import SVProgressHUD
 }
 
 class RegionListViewController: OBAStaticTableViewController, RegionBuilderDelegate {
-    var currentLocation: CLLocation?
     var regions: [OBARegionV2]?
     weak var delegate: RegionListDelegate?
 
@@ -37,6 +36,8 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
+        self.title = NSLocalizedString("Pick Your Location", comment: "Title of the Region List Controller")
 
         NotificationCenter.default.addObserver(self, selector: #selector(selectedRegionDidChange), name: NSNotification.Name.OBARegionDidUpdate, object: nil)
     }
@@ -126,13 +127,9 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
     func updateData() {
 
-        SVProgressHUD.show()
+        SVProgressHUD.show(withStatus: NSLocalizedString("Loading Regions", comment: "Progress HUD status when first locating the user on the Region List Controller"))
 
-        CLLocationManager.promise().recover { error -> CLLocation in
-            return CLLocation.init(latitude: 0, longitude: 0)
-        }.then { location -> Void in
-            self.currentLocation = location as CLLocation
-        }.then { _ in
+        firstly { _ in
             OBAApplication.shared().modelService.requestRegions()
         }.then { regions in
             self.regions = regions as? [OBARegionV2]

@@ -112,11 +112,10 @@ NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    
     if (error.code == kCLErrorDenied) {
         [self stopUpdatingLocation];
-        [[NSNotificationCenter defaultCenter] postNotificationName:OBALocationManagerDidFailWithErrorNotification object:self userInfo:@{OBALocationErrorUserInfoKey: error}];
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBALocationManagerDidFailWithErrorNotification object:self userInfo:@{OBALocationErrorUserInfoKey: error}];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {

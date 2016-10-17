@@ -188,6 +188,7 @@
 
 - (void)locationManagerDidFailWithError:(NSNotification*)note {
     if (!self.modelDAO.currentRegion) {
+        self.modelDAO.automaticallySelectRegion = NO;
         [self.delegate regionHelperShowRegionListController:self];
     }
 }
