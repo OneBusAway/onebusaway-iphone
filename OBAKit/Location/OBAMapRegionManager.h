@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OBAMapRegionManager : NSObject
 @property (nonatomic) BOOL lastRegionChangeWasProgrammatic;
 
-- (id)initWithMapView:(MKMapView*)mapView;
+- (instancetype)initWithMapView:(MKMapView*)mapView;
 
 - (void)setRegion:(MKCoordinateRegion)region;
 - (void)setRegion:(MKCoordinateRegion)region changeWasProgrammatic:(BOOL)changeWasProgrammatic;
@@ -22,8 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated;
 
 /**
- * @return TRUE, if applying a pending region-change request, otherwise false
+ * @return YES, if applying a pending region-change request, otherwise false
  */
+
 - (BOOL)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated;
 
 @end

@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class OBAModelDAO;
 
 @interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate, OBAProgressIndicatorDelegate>
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
 @property(nonatomic,strong) OBAModelService *modelService;
 - (IBAction)updateLocation:(id)sender;
 - (IBAction)showListView:(id)sender;
