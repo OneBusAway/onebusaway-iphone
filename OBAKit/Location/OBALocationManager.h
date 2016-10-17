@@ -31,7 +31,15 @@ extern NSString * const OBALocationErrorUserInfoKey;
 
 @interface OBALocationManager : NSObject <CLLocationManagerDelegate>
 @property(nonatomic,copy,nullable,readonly) CLLocation * currentLocation;
+
+/**
+ Informs the caller whether or not location services are enabled for the app.
+
+ Returns true if device-level location services are enabled and the user has
+ authorized location services for the app.
+ */
 @property(nonatomic,assign,readonly) BOOL locationServicesEnabled;
+
 @property(nonatomic,assign,readonly) CLAuthorizationStatus authorizationStatus;
 
 - (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO;

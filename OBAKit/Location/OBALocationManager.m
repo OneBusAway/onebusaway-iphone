@@ -99,9 +99,8 @@ NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
     return [CLLocationManager authorizationStatus];
 }
 
-
 - (BOOL)locationServicesEnabled {
-    return [CLLocationManager locationServicesEnabled];
+    return [CLLocationManager locationServicesEnabled] && self.authorizationStatus == kCLAuthorizationStatusAuthorizedWhenInUse;
 }
 
 #pragma mark - CLLocationManagerDelegate
@@ -121,6 +120,11 @@ NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+
+    if (status == kCLAuthorizationStatusRestricted || status == kCLAuthorizationStatusDenied) {
+        self.modelDao.automaticallySelectRegion = NO;
+    }
+
     [[NSNotificationCenter defaultCenter] postNotificationName:OBALocationAuthorizationStatusChangedNotification object:self userInfo:@{OBALocationAuthorizationStatusUserInfoKey: @(status)}];
 }
 

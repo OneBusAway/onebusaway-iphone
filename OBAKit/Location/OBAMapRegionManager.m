@@ -36,7 +36,7 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
 
 @implementation OBAMapRegionManager
 
-- (id) initWithMapView:(MKMapView*)mapView {
+- (instancetype)initWithMapView:(MKMapView*)mapView {
     self = [super init];
     if (self) {
         self.mapView = mapView;
@@ -108,7 +108,7 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
 #pragma mark - Private Methods
 
 
-- (void) setMapRegion:(MKCoordinateRegion)region requestType:(OBARegionChangeRequestType)requestType {
+- (void)setMapRegion:(MKCoordinateRegion)region requestType:(OBARegionChangeRequestType)requestType {
 
     OBARegionChangeRequest * request = [[OBARegionChangeRequest alloc] initWithRegion:region type:requestType];
     [self setMapRegionWithRequest:request];

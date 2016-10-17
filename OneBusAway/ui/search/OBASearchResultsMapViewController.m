@@ -276,6 +276,13 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     return _modelService;
 }
 
+- (OBAModelDAO*)modelDAO {
+    if (!_modelDAO) {
+        _modelDAO = [OBAApplication sharedApplication].modelDao;
+    }
+    return _modelDAO;
+}
+
 #pragma mark - OBANavigationTargetAware
 
 - (OBANavigationTarget *)navigationTarget {
@@ -658,6 +665,10 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
             MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:location.coordinate latRadius:radius lonRadius:radius];
             [self.mapRegionManager setRegion:region changeWasProgrammatic:YES];
         }
+    }
+    else if (self.modelDAO.currentRegion) {
+        MKCoordinateRegion coordinateRegion = MKCoordinateRegionForMapRect(self.modelDAO.currentRegion.serviceRect);
+        [self.mapRegionManager setRegion:coordinateRegion changeWasProgrammatic:YES];
     }
 }
 

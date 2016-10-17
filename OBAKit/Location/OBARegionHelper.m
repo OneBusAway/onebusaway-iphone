@@ -27,10 +27,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [self unregisterFromLocationNotifications];
-}
-
 - (void)updateNearestRegion {
     [self updateRegion];
     [self.locationManager startUpdatingLocation];
@@ -146,7 +142,7 @@
 - (void)setRegion {
     NSString *regionName = self.modelDAO.currentRegion.regionName;
 
-    if (!regionName) {
+    if (!regionName && self.locationManager.hasRequestedInUseAuthorization) {
         [self.delegate regionHelperShowRegionListController:self];
         return;
     }
@@ -182,11 +178,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidUpdateLocation:) name:OBALocationDidUpdateNotification object:self.locationManager];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidFailWithError:) name:OBALocationManagerDidFailWithErrorNotification object:self.locationManager];
-}
-
-- (void)unregisterFromLocationNotifications {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBALocationDidUpdateNotification object:self.locationManager];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBALocationManagerDidFailWithErrorNotification object:self.locationManager];
 }
 
 - (void)locationManagerDidUpdateLocation:(NSNotification*)note {
