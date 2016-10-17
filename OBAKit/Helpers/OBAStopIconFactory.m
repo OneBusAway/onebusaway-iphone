@@ -47,8 +47,8 @@
 // These constants define the geometry of the stop icon, the glyph and text
 // placement, and the size and position of the direction chevron.
 
-#define IconCornerRadiusPercentage  0.1f    // Radius of icon corner, relative to overall size
-#define StrokeWidthPercentage       0.038f  // Width of stroke for all borders, relative to overall size
+#define IconCornerRadiusPercentage  0.1f    // Radius of icon corner, relative to overall width
+#define StrokeWidthPercentage       0.038f  // Width of stroke for all borders, relative to overall width
 #define IconInsetPercentage         0.21f   // Amount of padding to inset the icon (leaving room for chevron), relative to overall size
 #define GlyphAreaPercentage         0.7f    // Amount of icon height reserved for glyph
 #define TextAreaPercentage          (1.0f - GlyphAreaPercentage) // Amount of icon height reserved for text
@@ -182,7 +182,7 @@ static NSCache *iconCache = nil;
     // Add the text panel at the bottom of the icon
     OBACanvasView *textView = [[OBACanvasView alloc] initWithFrame:textRect drawRectBlock:^void (CGRect rect) {
         // Inset the rectangle by half of the stroke width so that the stroke fits
-        CGRect blockRect = CGRectInset(rect, strokeWidth / 2, strokeWidth / 2);
+        CGRect blockRect = rect;
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wassign-enum"
@@ -197,22 +197,20 @@ static NSCache *iconCache = nil;
         [textBackgroundColor setFill];
         [rectanglePath fill];
 
-        CGRect labelRect = CGRectInset(blockRect, strokeWidth, strokeWidth);
+        CGRect labelRect = CGRectInset(blockRect, strokeWidth * 2, strokeWidth * 2);
         CGFloat fontSize = [self findFontSizeForFrame:labelRect forFace:stopLabelFaceName withText:stopLabelText];
 
         NSDictionary *attributes = @{ NSFontAttributeName:[UIFont fontWithName:stopLabelFaceName size:fontSize],
                                       NSForegroundColorAttributeName:textColor,
                                       NSParagraphStyleAttributeName:[NSParagraphStyle new]};
-        NSString *label = stopLabelText;
-        CGSize labelSize = [label sizeWithAttributes:attributes];
-
+        CGSize labelSize = [stopLabelText sizeWithAttributes:attributes];
         CGRect textDrawingRect = CGRectMake(
-                                            blockRect.origin.x + ceilf((float)(blockRect.size.width - labelSize.width) / 2.f),
-                                            blockRect.origin.y + ceilf((float)(blockRect.size.height - labelSize.height) / 2.f),
+                                            blockRect.origin.x + floorf((float)(blockRect.size.width - labelSize.width) / 2.f),
+                                            blockRect.origin.y + floorf((float)(blockRect.size.height - labelSize.height) / 2.f),
                                             labelSize.width,
                                             labelSize.height);
 
-        [label drawInRect:textDrawingRect withAttributes:attributes];
+        [stopLabelText drawInRect:textDrawingRect withAttributes:attributes];
     }];
     [view addSubview:textView];
 
@@ -310,7 +308,7 @@ static NSCache *iconCache = nil;
         }
     }
 
-    return currentFontSize - 1;
+    return currentFontSize;
 }
 
 @end
