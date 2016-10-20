@@ -17,8 +17,6 @@
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBATextFieldTableViewCell.h"
 #import "OBAStopViewController.h"
-#import "UITableViewController+oba_Additions.h"
-#import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 @import OBAKit;
 #import "OneBusAway-Swift.h"
@@ -26,8 +24,6 @@
 @interface OBAEditStopBookmarkViewController ()
 @property(nonatomic,strong) OBABookmarkV2 *bookmark;
 @property(nonatomic,strong) OBABookmarkGroup *selectedGroup;
-@property(nonatomic,strong) NSHashTable *requests;
-@property(nonatomic,strong) NSMutableDictionary *stops;
 @property(nonatomic,strong) UITextField *textField;
 @end
 
@@ -42,9 +38,6 @@
         _bookmark = bookmark;
         _selectedGroup = _bookmark.group;
 
-        _requests = [NSHashTable weakObjectsHashTable];
-        _stops = [[NSMutableDictionary alloc] init];
-
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
 
@@ -57,25 +50,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self hideEmptySeparators];
+
+    self.tableView.tableFooterView = [UIView new];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
-
-    NSString *stopId = _bookmark.stopId;
-    [self.modelService requestStopForId:stopId completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-        OBAEntryWithReferencesV2 *entry = responseData;
-        OBAStopV2 *stop = entry.entry;
-
-        if (stop) {
-            self->_stops[stop.stopId] = stop;
-            NSIndexPath *path = [NSIndexPath indexPathForRow:1 inSection:0];
-            NSArray *indexPaths = @[path];
-            [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
-        }
-    }];
 }
 
 #pragma mark - Lazy Loading
@@ -97,7 +78,7 @@
 #pragma mark - UITableView
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -107,24 +88,6 @@
         self.textField = cell.textField;
         [self.textField becomeFirstResponder];
         [tableView addSubview:cell]; // make keyboard slide in/out from right.
-        return cell;
-    }
-    else if (indexPath.row == 1) {
-        UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
-
-        NSString *stopId = self.bookmark.stopId;
-        OBAStopV2 *stop = self.stops[stopId];
-
-        if (stop) {
-            cell.textLabel.text = [NSString stringWithFormat:@"%@ # %@ - %@", NSLocalizedString(@"Stop", @"stop"), @"", stop.name];
-        }
-        else {
-            cell.textLabel.text = NSLocalizedString(@"Loading stop info...", @"!stop");
-        }
-
-        cell.textLabel.font = [OBATheme bodyFont];
-        cell.textLabel.textColor = [UIColor grayColor];
-        cell.selectionStyle =  UITableViewCellSelectionStyleNone;
         return cell;
     }
     else {
@@ -143,7 +106,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 2) {
+    if (indexPath.row == 1) {
         OBABookmarkGroupsViewController *groups = [[OBABookmarkGroupsViewController alloc] init];
         groups.enableGroupEditing = NO;
         groups.delegate = self;

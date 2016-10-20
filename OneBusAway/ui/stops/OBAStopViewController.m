@@ -402,7 +402,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     [actionRows addObject:problem];
 
     // Filter/Sort Arrivals
-    OBATableRow *filter = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Filter & Sort Routes", @"") action:^{
+    OBATableRow *filter = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Filter Routes",) action:^{
         OBAEditStopPreferencesViewController *vc = [[OBAEditStopPreferencesViewController alloc] initWithModelDAO:modelDAO stop:stop];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         [self presentViewController:nav animated:YES completion:nil];

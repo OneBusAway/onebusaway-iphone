@@ -53,7 +53,7 @@
 - (id<OBADataSourceConnection>)requestWithPath:(NSString *)path withArgs:(NSDictionary *)args completionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress {
 
     NSURL *feedURL = [self.config constructURL:path withArgs:args];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:feedURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:feedURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15];
     [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
 
     JsonUrlFetcherImpl *fetcher = [[JsonUrlFetcherImpl alloc] initWithCompletionBlock:completion progressBlock:progress];

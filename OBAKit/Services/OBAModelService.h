@@ -64,6 +64,15 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  */
 +(void) addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*) executor;
 
+/**
+ Stop data with arrivals and departures for the specified stopID.
+
+ @param stopID        The ID of the stop that will be returned.
+ @param minutesBefore How many minutes of elapsed departures should be included.
+ @param minutesAfter  How many minutes into the future should be returned.
+
+ @return A promise that resolves to an OBAArrivalsAndDeparturesForStopV2 object
+ */
 - (AnyPromise*)requestStopForID:(NSString*)stopID minutesBefore:(NSUInteger)minutesBefore minutesAfter:(NSUInteger)minutesAfter;
 
 /**
@@ -123,16 +132,6 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  */
 - (id<OBAModelServiceRequest>)requestCurrentTimeWithCompletionBlock:(OBADataSourceCompletion)completion;
 
-/**
- *  Makes an asynchronous request to fetch a stop object.
- *
- *  @param stopId     The string identifier of the stop to be fetched
- *  @param completion The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (id<OBAModelServiceRequest>)requestStopForId:(NSString *)stopId
-                               completionBlock:(OBADataSourceCompletion)completion;
 /**
  *  Makes an asynchronous request to fetch a stop object that is also inflated with additional data for arrival and departure time
  *
