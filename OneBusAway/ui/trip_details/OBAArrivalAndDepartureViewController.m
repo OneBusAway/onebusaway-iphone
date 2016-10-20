@@ -44,7 +44,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Show Map",) style:UIBarButtonItemStylePlain target:self action:@selector(showMap:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Show Map", @"") style:UIBarButtonItemStylePlain target:self action:@selector(showMap:)];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reloadData:) forControlEvents:UIControlEventValueChanged];

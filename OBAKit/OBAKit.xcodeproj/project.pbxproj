@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B7C4A5F1DB96E8100853DD5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A611DB96E8100853DD5 /* InfoPlist.strings */; };
+		5B7C4A641DB96E8200853DD5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A661DB96E8200853DD5 /* Localizable.strings */; };
+		5B7C4A691DB96E8300853DD5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A6B1DB96E8300853DD5 /* InfoPlist.strings */; };
 		934195431DB0B013004BBBB7 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934195391DB0B013004BBBB7 /* OBAKit.framework */; };
 		934195481DB0B013004BBBB7 /* OBAKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195471DB0B013004BBBB7 /* OBAKitTests.m */; };
 		934195F81DB0B099004BBBB7 /* NSArray+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195541DB0B099004BBBB7 /* NSArray+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -206,6 +209,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5B7C4A601DB96E8100853DD5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5B7C4A651DB96E8200853DD5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5B7C4A6A1DB96E8300853DD5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		934195391DB0B013004BBBB7 /* OBAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OBAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		934195421DB0B013004BBBB7 /* OBAKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OBAKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		934195471DB0B013004BBBB7 /* OBAKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAKitTests.m; sourceTree = "<group>"; };
@@ -426,6 +432,8 @@
 		9341952F1DB0B013004BBBB7 = {
 			isa = PBXGroup;
 			children = (
+				5B7C4A6B1DB96E8300853DD5 /* InfoPlist.strings */,
+				5B7C4A661DB96E8200853DD5 /* Localizable.strings */,
 				934196CB1DB0B369004BBBB7 /* Info.plist */,
 				934196CC1DB0B369004BBBB7 /* module.modulemap */,
 				934196CD1DB0B369004BBBB7 /* OBAKit.h */,
@@ -455,6 +463,7 @@
 		934195461DB0B013004BBBB7 /* OBAKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				5B7C4A611DB96E8100853DD5 /* InfoPlist.strings */,
 				934195471DB0B013004BBBB7 /* OBAKitTests.m */,
 				934195491DB0B013004BBBB7 /* Info.plist */,
 			);
@@ -916,6 +925,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B7C4A641DB96E8200853DD5 /* Localizable.strings in Resources */,
+				5B7C4A691DB96E8300853DD5 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -923,6 +934,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B7C4A5F1DB96E8100853DD5 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1038,6 +1050,33 @@
 			targetProxy = 934195441DB0B013004BBBB7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		5B7C4A611DB96E8100853DD5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5B7C4A601DB96E8100853DD5 /* es */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		5B7C4A661DB96E8200853DD5 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5B7C4A651DB96E8200853DD5 /* es */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		5B7C4A6B1DB96E8300853DD5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5B7C4A6A1DB96E8300853DD5 /* es */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		9341954B1DB0B013004BBBB7 /* Debug */ = {
