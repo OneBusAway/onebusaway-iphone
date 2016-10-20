@@ -6,7 +6,8 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import <Foundation/NSArray.h>
+@import Foundation;
+@import UIKit;
 
 @interface NSArray (OBAAdditions)
 

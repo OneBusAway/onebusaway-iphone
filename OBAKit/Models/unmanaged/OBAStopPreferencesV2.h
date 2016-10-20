@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 typedef NS_ENUM(NSUInteger, OBASortTripsByTypeV2) {
     OBASortTripsByDepartureTimeV2 = 0,

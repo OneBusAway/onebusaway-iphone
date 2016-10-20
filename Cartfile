@@ -1,20 +1,43 @@
-github "mxcl/PromiseKit" ~>4.0.1
+# https://github.com/mxcl/promisekit/releases
+github "mxcl/PromiseKit" ~>4.0.3
+
+# https://github.com/PromiseKit/Foundation/releases
 github "PromiseKit/Foundation" ~>1.0.0
+
+# https://github.com/PromiseKit/CoreLocation/releases
 github "PromiseKit/CoreLocation" ~>1.0.1
+
+# https://github.com/PromiseKit/MapKit/releases
 github "PromiseKit/MapKit" ~>1.0.1
-github "akashivskyy/GoogleAnalytics-Framework" ~>3.16
+
+# https://github.com/akashivskyy/GoogleAnalytics-Framework/releases
+github "akashivskyy/GoogleAnalytics-Framework" ~>3.17
+
+# https://github.com/SVProgressHUD/SVProgressHUD/releases
 github "SVProgressHUD/SVProgressHUD" ~>2.0.3
+
+# https://github.com/SnapKit/Masonry/releases
 github "SnapKit/Masonry" ~>1.0.2
-github "MatthewYork/DateTools" ~>1.7.0
+
+# https://github.com/dzenbot/DZNEmptyDataSet/releases
 github "dzenbot/DZNEmptyDataSet" ~>1.8.1
-github "SwiftKickMobile/SwiftMessages" "swift3"
+
+# https://github.com/SwiftKickMobile/SwiftMessages/releases
+github "SwiftKickMobile/SwiftMessages" ~>3.0.1
+
+# https://github.com/CocoaLumberjack/CocoaLumberjack/releases
+github "aaronbrethorst/CocoaLumberjack" "oba-compat"
 
 # These repositories do not work properly with Carthage.
 # I am currently copying the source files present in Carthage/Checkouts
 # and copying them to the externals folder. So, we're at least getting
 # a decent level of version control, but it's less than ideal.
 github "jspahrsummers/libextobjc" ~>0.5.0
-github "52inc/Pulley" ~>1.1.0
+
+# https://github.com/52inc/Pulley/releases
+github "52inc/Pulley" ~>1.2.2
+
+# https://github.com/AzimoLabs/SMFloatingLabelTextField/releases
 github "AzimoLabs/SMFloatingLabelTextField" ~>0.2.0
 
 # Having issues, needs work.

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import <MapKit/MapKit.h>
+@import MapKit;
 #import <OBAKit/OBARegionBoundsV2.h>
 
 NS_ASSUME_NONNULL_BEGIN

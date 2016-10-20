@@ -16,6 +16,7 @@
 
 #import <OBAKit/OBADataSourceConfig.h>
 #import <OBAKit/OBAMacros.h>
+#import <OBAKit/OBALogging.h>
 
 @interface OBADataSourceConfig ()
 @property(nonatomic,copy) NSURL* baseURL;
@@ -65,7 +66,7 @@
 
     NSURL *fullURL = components.URL;
 
-    NSLog(@"url=%@",fullURL);
+    DDLogInfo(@"url=%@",fullURL);
     
     return fullURL;
 }

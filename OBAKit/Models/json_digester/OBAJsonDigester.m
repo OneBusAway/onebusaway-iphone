@@ -20,6 +20,7 @@
 #import <OBAKit/OBASetPropertyJsonDigesterRule.h>
 #import <OBAKit/OBASetNextOBAJsonDigesterRule.h>
 #import <OBAKit/OBASelectorJsonDigesterRule.h>
+#import <OBAKit/OBALogging.h>
 
 #pragma mark OBAJsonDigesterContextImpl Interface
 
@@ -159,9 +160,8 @@
 -(void) recursivelyParse:(OBAJsonDigesterContextImpl*)context jsonValue:(id)value prefix:(NSString*)prefix name:(NSString*)name {
     
     NSString * fullName = [self extendPrefix:prefix withValue:name];
-    
-    if( _verbose )
-        NSLog(@"path=%@",fullName);
+
+    DDLogVerbose(@"path=%@",fullName);
     
     NSArray * rules = _rulesByPrefix[fullName];
     
@@ -238,7 +238,7 @@
 -(id) peek:(NSUInteger)index {
     NSInteger objIndex = [_stack count] - 1 - index;
     if (objIndex < 0 || objIndex > [_stack count]) {
-        NSLog(@"OBAJsonDigesterContextImpl: peek - index out of bounds: %lu => %ld", (unsigned long)index, (long)objIndex);
+        DDLogError(@"OBAJsonDigesterContextImpl: peek - index out of bounds: %lu => %ld", (unsigned long)index, (long)objIndex);
         return nil;
     }
     return _stack[objIndex];

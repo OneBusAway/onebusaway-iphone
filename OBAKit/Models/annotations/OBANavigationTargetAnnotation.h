@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#import <MapKit/MapKit.h>
+@import MapKit;
 #import <OBAKit/OBANavigationTarget.h>
 
 typedef NS_ENUM(NSInteger, OBAAnnotationType) {

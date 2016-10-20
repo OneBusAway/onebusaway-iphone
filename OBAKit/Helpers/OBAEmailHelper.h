@@ -6,9 +6,9 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <MessageUI/MessageUI.h>
-#import <CoreLocation/CoreLocation.h>
+@import Foundation;
+@import MessageUI;
+@import CoreLocation;
 
 NS_ASSUME_NONNULL_BEGIN
 

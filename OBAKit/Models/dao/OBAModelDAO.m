@@ -509,5 +509,31 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [_preferencesDao writeVisistedSituationIds:_visitedSituationIds];
 }
 
+#pragma mark - PII/Privacy
+
+- (void)setShareRegionPII:(BOOL)shareRegionPII {
+    [_preferencesDao setShareRegionPII:shareRegionPII];
+}
+
+- (BOOL)shareRegionPII {
+    return [_preferencesDao shareRegionPII];
+}
+
+- (void)setShareLocationPII:(BOOL)shareLocationPII {
+    [_preferencesDao setShareLocationPII:shareLocationPII];
+}
+
+- (BOOL)shareLocationPII {
+    return [_preferencesDao shareLocationPII];
+}
+
+- (void)setShareLogsPII:(BOOL)shareLogsPII {
+    [_preferencesDao setShareLogsPII:shareLogsPII];
+}
+
+- (BOOL)shareLogsPII {
+    return [_preferencesDao shareLogsPII];
+}
+
 @end
 

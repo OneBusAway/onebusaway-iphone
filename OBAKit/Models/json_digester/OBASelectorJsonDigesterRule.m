@@ -15,6 +15,7 @@
  */
 
 #import <OBAKit/OBASelectorJsonDigesterRule.h>
+#import <OBAKit/OBALogging.h>
 
 @interface OBASelectorJsonDigesterRule()
 
@@ -53,7 +54,7 @@
     NSMethodSignature * methodSig = [target methodSignatureForSelector:self.selector];
     
     if(!methodSig) {
-        NSLog(@"selector not found for target object in OBASelectorJSONDigesterRule");
+        DDLogError(@"selector not found for target object in OBASelectorJSONDigesterRule");
         return;
     }
     

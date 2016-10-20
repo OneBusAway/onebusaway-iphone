@@ -20,7 +20,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAStopIconFactory : NSObject
-+ (UIImage*)getIconForStop:(OBAStopV2*)stop;
+
++ (UIImage*)getIconForStop:(OBAStopV2 *)stop;
++ (UIImage *)getIconForStop:(OBAStopV2 *)stop withSize:(CGSize)size;
+
 @end
 
 NS_ASSUME_NONNULL_END

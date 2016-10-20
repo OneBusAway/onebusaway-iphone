@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import <OBAKit/OBAModelPersistenceLayer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const kUngroupedBookmarksOpenKey;
 extern NSString * const kSetRegionAutomaticallyKey;
+extern NSString * const OBAShareRegionPIIUserDefaultsKey;
+extern NSString * const OBAShareLocationPIIUserDefaultsKey;
+extern NSString * const OBAShareLogsPIIUserDefaultsKey;
 
 @interface OBAModelDAOUserPreferencesImpl : NSObject<OBAModelPersistenceLayer>
 

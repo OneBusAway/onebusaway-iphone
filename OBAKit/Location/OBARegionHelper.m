@@ -9,6 +9,7 @@
 #import <OBAKit/OBARegionHelper.h>
 #import <OBAKit/OBAApplication.h>
 #import <OBAKit/OBAMacros.h>
+#import <OBAKit/OBALogging.h>
 
 @interface OBARegionHelper ()
 @property(nonatomic,strong) NSMutableArray *regions;
@@ -26,10 +27,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [self unregisterFromLocationNotifications];
-}
-
 - (void)updateNearestRegion {
     [self updateRegion];
     [self.locationManager startUpdatingLocation];
@@ -45,7 +42,7 @@
 }
 
 - (OBAListWithRangeAndReferencesV2*)loadDefaultRegions {
-    NSLog(@"Unable to retrieve regions file. Loading default regions from the app bundle.");
+    DDLogWarn(@"Unable to retrieve regions file. Loading default regions from the app bundle.");
 
     OBAModelFactory *factory = self.modelService.modelFactory;
     NSError *error = nil;
@@ -53,21 +50,21 @@
     NSData *data = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"regions-v3" ofType:@"json"]];
 
     OBAGuard(data.length > 0) else {
-        NSLog(@"Unable to load regions from app bundle.");
+        DDLogError(@"Unable to load regions from app bundle.");
         return nil;
     }
 
     id defaultJSONData = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:&error];
 
     if (!defaultJSONData) {
-        NSLog(@"Unable to convert bundled regions into an object. %@", error);
+        DDLogError(@"Unable to convert bundled regions into an object. %@", error);
         return nil;
     }
 
     OBAListWithRangeAndReferencesV2 *references = [factory getRegionsV2FromJson:defaultJSONData error:&error];
 
     if (error) {
-        NSLog(@"Issue parsing bundled JSON data: %@", error);
+        DDLogError(@"Issue parsing bundled JSON data: %@", error);
     }
 
     return references;
@@ -145,7 +142,7 @@
 - (void)setRegion {
     NSString *regionName = self.modelDAO.currentRegion.regionName;
 
-    if (!regionName) {
+    if (!regionName && self.locationManager.hasRequestedInUseAuthorization) {
         [self.delegate regionHelperShowRegionListController:self];
         return;
     }
@@ -183,11 +180,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidFailWithError:) name:OBALocationManagerDidFailWithErrorNotification object:self.locationManager];
 }
 
-- (void)unregisterFromLocationNotifications {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBALocationDidUpdateNotification object:self.locationManager];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBALocationManagerDidFailWithErrorNotification object:self.locationManager];
-}
-
 - (void)locationManagerDidUpdateLocation:(NSNotification*)note {
     if (self.modelDAO.automaticallySelectRegion) {
         [self setNearestRegion];
@@ -196,6 +188,7 @@
 
 - (void)locationManagerDidFailWithError:(NSNotification*)note {
     if (!self.modelDAO.currentRegion) {
+        self.modelDAO.automaticallySelectRegion = NO;
         [self.delegate regionHelperShowRegionListController:self];
     }
 }

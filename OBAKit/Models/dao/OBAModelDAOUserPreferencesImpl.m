@@ -15,9 +15,10 @@
  */
 
 #import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
+@import CoreLocation;
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBARegionV2.h>
-#import <CoreLocation/CoreLocation.h>
+#import <OBAKit/OBALogging.h>
 
 NSString * const kBookmarksKey = @"bookmarks";
 NSString * const kBookmarkGroupsKey = @"bookmarkGroups";
@@ -25,13 +26,19 @@ NSString * const kMostRecentStopsKey = @"mostRecentStops";
 NSString * const kStopPreferencesKey = @"stopPreferences";
 NSString * const kMostRecentLocationKey = @"mostRecentLocation";
 NSString * const kHideFutureLocationWarningsKey = @"hideFutureLocationWarnings";
-NSString * const kVisitedSituationIdsKey = @"hideFutureLocationWarnings";
+NSString * const kVisitedSituationIdsKey = @"visitedSituationIdsKey";
 NSString * const kOBARegionKey = @"oBARegion";
 NSString * const kCustomRegionsKey = @"customRegions";
 NSString * const kSetRegionAutomaticallyKey = @"setRegionAutomatically";
 NSString * const kUngroupedBookmarksOpenKey = @"UngroupedBookmarksOpen";
+NSString * const OBAShareRegionPIIUserDefaultsKey = @"OBAShareRegionPIIUserDefaultsKey";
+NSString * const OBAShareLocationPIIUserDefaultsKey = @"OBAShareLocationPIIUserDefaultsKey";
+NSString * const OBAShareLogsPIIUserDefaultsKey = @"OBAShareLogsPIIUserDefaultsKey";
 
 @implementation OBAModelDAOUserPreferencesImpl
+@dynamic shareRegionPII;
+@dynamic shareLocationPII;
+@dynamic shareLogsPII;
 
 - (void)setUngroupedBookmarksOpen:(BOOL)ungroupedBookmarksOpen {
     [[NSUserDefaults standardUserDefaults] setBool:ungroupedBookmarksOpen forKey:kUngroupedBookmarksOpenKey];
@@ -155,6 +162,35 @@ NSString * const kUngroupedBookmarksOpenKey = @"UngroupedBookmarksOpen";
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+#pragma mark - Privacy/PII
+
+- (BOOL)shareRegionPII {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:OBAShareRegionPIIUserDefaultsKey];
+}
+
+- (void)setShareRegionPII:(BOOL)shareRegionPII {
+    [[NSUserDefaults standardUserDefaults] setBool:shareRegionPII forKey:OBAShareRegionPIIUserDefaultsKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)shareLocationPII {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:OBAShareLocationPIIUserDefaultsKey];
+}
+
+- (void)setShareLocationPII:(BOOL)shareLocationPII {
+    [[NSUserDefaults standardUserDefaults] setBool:shareLocationPII forKey:OBAShareLocationPIIUserDefaultsKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)shareLogsPII {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:OBAShareLogsPIIUserDefaultsKey];
+}
+
+- (void)setShareLogsPII:(BOOL)shareLogsPII {
+    [[NSUserDefaults standardUserDefaults] setBool:shareLogsPII forKey:OBAShareLogsPIIUserDefaultsKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 #pragma mark - (De-)Serialization
 
 + (id)loadAndDecodeObjectFromDataForKey:(NSString*)key {
@@ -172,7 +208,7 @@ NSString * const kUngroupedBookmarksOpenKey = @"UngroupedBookmarksOpen";
         [unarchiver finishDecoding];
     }
     @catch (NSException *exception) {
-        NSLog(@"Unable to decode object for key %@ - %@", key, exception);
+        DDLogError(@"Unable to decode object for key %@ - %@", key, exception);
     }
 
     return object;

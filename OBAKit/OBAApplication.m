@@ -9,6 +9,8 @@
 #import <OBAKit/OBAApplication.h>
 #import <OBAKit/OBAUser.h>
 #import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
+#import <OBAKit/OBALogging.h>
+#import <OBAKit/OBAKit-Swift.h>
 
 static NSString *const kOBADefaultRegionApiServerName = @"http://regions.onebusaway.org";
 NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplicationSettingsRegionRefreshNotification";
@@ -20,10 +22,13 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 @property (nonatomic, strong, readwrite) OBALocationManager *locationManager;
 @property (nonatomic, strong, readwrite) OBAReachability *reachability;
 @property (nonatomic, strong, readwrite) OBARegionHelper *regionHelper;
+@property (nonatomic, strong, readwrite) PrivacyBroker *privacyBroker;
+@property (nonatomic, strong, readwrite) OBALogging *loggingManager;
 @end
 
 @implementation OBAApplication
 @dynamic isServerReachable;
+@dynamic consoleLogger;
 
 + (instancetype)sharedApplication {
     static OBAApplication *oba;
@@ -40,6 +45,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     self = [super init];
 
     if (self) {
+        _loggingManager = [[OBALogging alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(regionUpdated:) name:OBARegionDidUpdateNotification object:nil];
     }
     return self;
@@ -49,7 +55,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OBARegionDidUpdateNotification object:nil];
 }
 
-- (void)start {
+- (void)startWithAppDefaults:(NSDictionary *)appDefaults {
     self.references = [[OBAReferencesV2 alloc] init];
 
     id<OBAModelPersistenceLayer> persistence = [[OBAModelDAOUserPreferencesImpl alloc] init];
@@ -67,7 +73,29 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 
     self.regionHelper = [[OBARegionHelper alloc] initWithLocationManager:self.locationManager];
 
+    self.privacyBroker = [[PrivacyBroker alloc] initWithModelDAO:self.modelDao locationManager:self.locationManager];
+
+    [self registerAppDefaults:appDefaults];
+
     [self refreshSettings];
+}
+
+#pragma mark - Defaults
+
+- (void)registerAppDefaults:(NSDictionary*)appDefaults {
+    NSMutableDictionary *defaults = [[NSMutableDictionary alloc] init];
+
+    defaults[OBAShareRegionPIIUserDefaultsKey] = @(YES);
+    defaults[OBAShareLocationPIIUserDefaultsKey] = @(YES);
+    defaults[OBAShareLogsPIIUserDefaultsKey] = @(YES);
+    defaults[kSetRegionAutomaticallyKey] = @(YES);
+    defaults[kUngroupedBookmarksOpenKey] = @(YES);
+
+    for (id key in appDefaults) {
+        defaults[key] = appDefaults[key];
+    }
+
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 }
 
 #pragma mark - Reachability
@@ -129,6 +157,16 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 
     self.modelService.googleMapsJsonDataSource = [OBAJsonDataSource googleMapsJSONDataSource];
     self.modelService.obaRegionJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:kOBADefaultRegionApiServerName] userID:[OBAUser userIdFromDefaults]];
+}
+
+#pragma mark - Logging
+
+- (NSArray<NSData*>*)logFileData {
+    return self.loggingManager.logFileData;
+}
+
+- (OBAConsoleLogger*)consoleLogger {
+    return self.loggingManager.consoleLogger;
 }
 
 @end
