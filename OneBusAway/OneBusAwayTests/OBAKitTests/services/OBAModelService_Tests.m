@@ -33,25 +33,25 @@
 
 - (void)testEncodingOfStopIDsWithAlphanumerics {
     NSURL *URL = [self URLForRequestWithStopID:@"1234" minutesBefore:5 minutesAfter:30];
-    NSString *goodURLString = [NSString stringWithFormat:@"http://api.tampa.onebusaway.org/api/where/arrivals-and-departures-for-stop/1234.json?key=org.onebusaway.iphone&app_uid=test&app_ver=%@&version=2&minutesAfter=30&minutesBefore=5", self.appVersion];
+    NSString *goodURLString = [NSString stringWithFormat:@"http://api.tampa.onebusaway.org/api/api/where/arrivals-and-departures-for-stop/1234.json?key=org.onebusaway.iphone&app_uid=test&app_ver=%@&version=2&minutesAfter=30&minutesBefore=5", self.appVersion];
     XCTAssertEqualObjects(URL.absoluteString, goodURLString);
 }
 
 - (void)testEncodingOfStopIDsWithSlashes {
     NSURL *URL = [self URLForRequestWithStopID:@"Foo/Bar" minutesBefore:5 minutesAfter:30];
-    NSString *goodURLString = [NSString stringWithFormat:@"http://api.tampa.onebusaway.org/api/where/arrivals-and-departures-for-stop/Foo%%2FBar.json?key=org.onebusaway.iphone&app_uid=test&app_ver=%@&version=2&minutesAfter=30&minutesBefore=5",self.appVersion];
+    NSString *goodURLString = [NSString stringWithFormat:@"http://api.tampa.onebusaway.org/api/api/where/arrivals-and-departures-for-stop/Foo%%2FBar.json?key=org.onebusaway.iphone&app_uid=test&app_ver=%@&version=2&minutesAfter=30&minutesBefore=5",self.appVersion];
     XCTAssertEqualObjects(goodURLString, URL.absoluteString);
 }
 
 - (void)testEncodingOfStopIDsWithSpaces {
     NSURL *URL = [self URLForRequestWithStopID:@"Foo Bar" minutesBefore:5 minutesAfter:30];
-    NSString *goodURLString = [NSString stringWithFormat:@"http://api.tampa.onebusaway.org/api/where/arrivals-and-departures-for-stop/Foo%%20Bar.json?key=org.onebusaway.iphone&app_uid=test&app_ver=%@&version=2&minutesAfter=30&minutesBefore=5", self.appVersion];
+    NSString *goodURLString = [NSString stringWithFormat:@"http://api.tampa.onebusaway.org/api/api/where/arrivals-and-departures-for-stop/Foo%%20Bar.json?key=org.onebusaway.iphone&app_uid=test&app_ver=%@&version=2&minutesAfter=30&minutesBefore=5", self.appVersion];
     XCTAssertEqualObjects(goodURLString, URL.absoluteString);
 }
 
 - (void)testEncodingOfStopIDsWithSlashesAndSpaces {
     NSURL *URL = [self URLForRequestWithStopID:@"Foo/Bar Baz" minutesBefore:5 minutesAfter:30];
-    NSString *goodURLString = [NSString stringWithFormat:@"http://api.tampa.onebusaway.org/api/where/arrivals-and-departures-for-stop/Foo%%2FBar%%20Baz.json?key=org.onebusaway.iphone&app_uid=test&app_ver=%@&version=2&minutesAfter=30&minutesBefore=5", self.appVersion];
+    NSString *goodURLString = [NSString stringWithFormat:@"http://api.tampa.onebusaway.org/api/api/where/arrivals-and-departures-for-stop/Foo%%2FBar%%20Baz.json?key=org.onebusaway.iphone&app_uid=test&app_ver=%@&version=2&minutesAfter=30&minutesBefore=5", self.appVersion];
     XCTAssertEqualObjects(goodURLString, URL.absoluteString);
 }
 

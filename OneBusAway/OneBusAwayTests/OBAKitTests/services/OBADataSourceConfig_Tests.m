@@ -39,7 +39,7 @@
     constructedComponents.queryItems = nil;
     NSURL *constructedURL = constructedComponents.URL;
 
-    NSURL *goodURL = [NSURL URLWithString:@"http://api.tampa.onebusaway.org/api/where/stops-for-location.json"];
+    NSURL *goodURL = [NSURL URLWithString:@"http://api.tampa.onebusaway.org/api/api/where/stops-for-location.json"];
 
     NSArray *goodQueryItems = @[
                                 [NSURLQueryItem queryItemWithName:@"key" value:@"org.onebusaway.iphone"],
@@ -78,7 +78,5 @@
                                                       @"version": @2
                                                       }];
 }
-
-
 
 @end
