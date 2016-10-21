@@ -7,7 +7,6 @@
 //
 
 #import "OBATestHelpers.h"
-@import OBAKit;
 
 @implementation OBATestHelpers
 

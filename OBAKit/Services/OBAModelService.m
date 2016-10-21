@@ -50,35 +50,24 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 #pragma mark - Promise-based Requests
 
 - (AnyPromise*)requestStopForID:(NSString*)stopID minutesBefore:(NSUInteger)minutesBefore minutesAfter:(NSUInteger)minutesAfter {
-
     OBAGuard(stopID.length > 0) else {
         return nil;
     }
 
-    NSString *escapedStopID = [stopID stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-
-    NSDictionary *args = @{ @"minutesBefore": @(minutesBefore),
-                            @"minutesAfter":  @(minutesAfter) };
-    
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self request:self.obaJsonDataSource
-                  url:[NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", escapedStopID]
-                 args:args
-             selector:@selector(getArrivalsAndDeparturesForStopV2FromJSON:error:)
-      completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-          
-          if (error) {
-              resolve(error);
-          }
-          else if (responseCode >= 300) {
-              NSString *message = (404 == responseCode ? NSLocalizedString(@"Stop not found", @"code == 404") : NSLocalizedString(@"Error Connecting", @"code != 404"));
-              error = [NSError errorWithDomain:NSURLErrorDomain code:responseCode userInfo:@{NSLocalizedDescriptionKey: message}];
-              resolve(error);
-          }
-          else {
-              resolve(responseData);
-          }
-      } progressBlock:nil];
+        [self requestStopWithArrivalsAndDeparturesForId:stopID withMinutesBefore:minutesBefore withMinutesAfter:minutesAfter completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            if (error) {
+                resolve(error);
+            }
+            else if (responseCode >= 300) {
+                NSString *message = (404 == responseCode ? NSLocalizedString(@"Stop not found", @"code == 404") : NSLocalizedString(@"Error Connecting", @"code != 404"));
+                error = [NSError errorWithDomain:NSURLErrorDomain code:responseCode userInfo:@{NSLocalizedDescriptionKey: message}];
+                resolve(error);
+            }
+            else {
+                resolve(responseData);
+            }
+        } progressBlock:nil];
     }];
 }
 
@@ -160,22 +149,15 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
            progressBlock:nil];
 }
 
-- (id<OBAModelServiceRequest>)requestStopForId:(NSString *)stopId completionBlock:(OBADataSourceCompletion)completion {
-    return [self request:self.obaJsonDataSource
-                     url:[NSString stringWithFormat:@"/api/where/stop/%@.json", stopId]
-                    args:nil
-                selector:@selector(getStopFromJSON:error:)
-         completionBlock:completion
-           progressBlock:nil];
-}
-
 - (id<OBAModelServiceRequest>)requestStopWithArrivalsAndDeparturesForId:(NSString *)stopId withMinutesBefore:(NSUInteger)minutesBefore withMinutesAfter:(NSUInteger)minutesAfter completionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress {
 
     NSDictionary *args = @{ @"minutesBefore": @(minutesBefore),
                             @"minutesAfter":  @(minutesAfter) };
 
+    NSString *escapedStopID = [self.class escapePathVariable:stopId];
+
     return [self request:self.obaJsonDataSource
-                     url:[NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", stopId]
+                     url:[NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", escapedStopID]
                     args:args
                 selector:@selector(getArrivalsAndDeparturesForStopV2FromJSON:error:)
          completionBlock:completion
@@ -212,7 +194,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (id<OBAModelServiceRequest>)requestStopsForRoute:(NSString *)routeId completionBlock:(OBADataSourceCompletion)completion {
     return [self request:self.obaJsonDataSource
-                     url:[NSString stringWithFormat:@"/api/where/stops-for-route/%@.json", routeId]
+                     url:[NSString stringWithFormat:@"/api/where/stops-for-route/%@.json", [self.class escapePathVariable:routeId]]
                     args:nil
                 selector:@selector(getStopsForRouteV2FromJSON:error:)
          completionBlock:completion
@@ -300,7 +282,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }
 
     return [self request:self.obaJsonDataSource
-                     url:[NSString stringWithFormat:@"/api/where/arrival-and-departure-for-stop/%@.json", instance.stopId]
+                     url:[NSString stringWithFormat:@"/api/where/arrival-and-departure-for-stop/%@.json", [self.class escapePathVariable:instance.stopId]]
                     args:args
                 selector:@selector(getArrivalAndDepartureForStopV2FromJSON:error:)
          completionBlock:completion
@@ -319,7 +301,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }
 
     return [self request:self.obaJsonDataSource
-                     url:[NSString stringWithFormat:@"/api/where/trip-details/%@.json", tripInstance.tripId]
+                     url:[NSString stringWithFormat:@"/api/where/trip-details/%@.json", [self.class escapePathVariable:tripInstance.tripId]]
                     args:args
                 selector:@selector(getTripDetailsV2FromJSON:error:)
          completionBlock:completion
@@ -328,7 +310,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (id<OBAModelServiceRequest>)requestVehicleForId:(NSString *)vehicleId completionBlock:(OBADataSourceCompletion)completion {
     return [self request:self.obaJsonDataSource
-                     url:[NSString stringWithFormat:@"/api/where/vehicle/%@.json", vehicleId]
+                     url:[NSString stringWithFormat:@"/api/where/vehicle/%@.json", [self.class escapePathVariable:vehicleId]]
                     args:nil
                 selector:@selector(getVehicleStatusV2FromJSON:error:)
          completionBlock:completion
@@ -337,7 +319,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (id<OBAModelServiceRequest>)requestShapeForId:(NSString *)shapeId completionBlock:(OBADataSourceCompletion)completion {
     return [self request:self.obaJsonDataSource
-                     url:[NSString stringWithFormat:@"/api/where/shape/%@.json", shapeId]
+                     url:[NSString stringWithFormat:@"/api/where/shape/%@.json", [self.class escapePathVariable:shapeId]]
                     args:nil
                 selector:@selector(getShapeV2FromJSON:error:)
          completionBlock:completion
@@ -478,6 +460,16 @@ static NSObject<OBABackgroundTaskExecutor>* sharedExecutor;
 
 + (void)addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*)exc {
     sharedExecutor = exc;
+}
+
+#pragma mark - Private Helpers
+
++ (NSString*)escapePathVariable:(NSString*)pathVariable {
+    NSString *escaped = [pathVariable stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
+    // Apparently -stringByAddingPercentEncodingWithAllowedCharacters: won't remove
+    // '/' characters from paths, so we get to do that manually here. Boo.
+    // https://github.com/OneBusAway/onebusaway-iphone/issues/817
+    return [escaped stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
 }
 
 @end
