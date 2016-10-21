@@ -20,6 +20,7 @@
 
 @interface OBADataSourceConfig ()
 @property(nonatomic,copy) NSURL* baseURL;
+@property(nonatomic,copy) NSString *basePath;
 @property(nonatomic,copy) NSArray<NSURLQueryItem*>* defaultArgs;
 @end
 
@@ -30,6 +31,7 @@
     
     if (self) {
         _baseURL = [baseURL copy];
+        _basePath = [[NSURLComponents componentsWithURL:_baseURL resolvingAgainstBaseURL:NO] percentEncodedPath];
         _defaultArgs = [self.class dictionaryToQueryItems:args];
     }
     return self;
@@ -51,12 +53,8 @@
     [queryItems addObjectsFromArray:[self.class dictionaryToQueryItems:args]];
 
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.baseURL resolvingAgainstBaseURL:NO];
-    components.percentEncodedPath = path;
 
-    // This exists to work around the issue described in
-    // https://github.com/OneBusAway/onebusaway-iphone/issues/755
-    components.percentEncodedPath = [path stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
-
+    components.percentEncodedPath = [self fullPathWithPathComponent:path];
     components.queryItems = queryItems;
 
     NSURL *fullURL = components.URL;
@@ -67,6 +65,22 @@
 }
 
 #pragma mark - Private
+
+- (NSString*)fullPathWithPathComponent:(NSString*)pathComponent {
+
+    NSString *fullPath = nil;
+
+    if (self.basePath.length > 0) {
+        fullPath = [self.basePath stringByAppendingPathComponent:pathComponent];
+    }
+    else {
+        fullPath = pathComponent;
+    }
+
+    // This exists to work around the issue described in
+    // https://github.com/OneBusAway/onebusaway-iphone/issues/755
+    return [fullPath stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
+}
 
 + (NSArray<NSURLQueryItem*>*)dictionaryToQueryItems:(nullable NSDictionary*)dictionary {
     if (!dictionary) {
