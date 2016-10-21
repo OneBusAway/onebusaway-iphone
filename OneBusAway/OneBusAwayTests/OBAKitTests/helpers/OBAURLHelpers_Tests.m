@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 OneBusAway. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
-#import <OBAKit/OBAURLHelpers.h>
+@import XCTest;
+@import OBAKit;
 
 @interface OBAURLHelpers_Tests : XCTestCase
 
