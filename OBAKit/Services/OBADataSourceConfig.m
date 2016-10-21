@@ -50,17 +50,12 @@
     NSMutableArray<NSURLQueryItem*> *queryItems = [[NSMutableArray alloc] initWithArray:self.defaultArgs];
     [queryItems addObjectsFromArray:[self.class dictionaryToQueryItems:args]];
 
-    NSURL *URLWithPath = [self.baseURL URLByAppendingPathComponent:path];
-
-    OBAGuard(URLWithPath) else {
-        return nil;
-    }
-
-    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:URLWithPath resolvingAgainstBaseURL:NO];
+    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.baseURL resolvingAgainstBaseURL:NO];
+    components.percentEncodedPath = path;
 
     // This exists to work around the issue described in
     // https://github.com/OneBusAway/onebusaway-iphone/issues/755
-    components.path = [components.path stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
+    components.percentEncodedPath = [path stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
 
     components.queryItems = queryItems;
 
