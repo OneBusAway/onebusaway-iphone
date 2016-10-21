@@ -1140,13 +1140,14 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
-                                                                   message:[NSString stringWithFormat:@"%@ %@", prompt, NSLocalizedString(@"See the list of supported transit agencies.", @"view.message")]
+                                                                   message:NSLocalizedString(@"Would you like to go to your currently selected region?",)
                                                             preferredStyle:UIAlertControllerStyleAlert];
 
     [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleCancel handler:nil]];
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Agencies", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-        OBANavigationTarget *target = [OBANavigationTarget target:OBANavigationTargetTypeAgencies];
-        [APP_DELEGATE navigateToTarget:target];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Go to Region",) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        if (self.modelDAO.currentRegion) {
+            [self.mapView setRegion:MKCoordinateRegionForMapRect(self.modelDAO.currentRegion.serviceRect)];
+        }
     }]];
 
     [self presentViewController:alert animated:YES completion:nil];
