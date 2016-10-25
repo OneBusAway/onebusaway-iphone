@@ -24,32 +24,24 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAReferencesV2 : NSObject {
-    NSMutableDictionary * _agencies;
-    NSMutableDictionary * _routes;
-    NSMutableDictionary * _stops;
-    NSMutableDictionary * _trips;
-    NSMutableDictionary * _situations;
-}
-
-- (void) addAgency:(OBAAgencyV2*)agency;
-- (OBAAgencyV2*) getAgencyForId:(NSString*)agencyId;
+@interface OBAReferencesV2 : NSObject
+- (void)addAgency:(OBAAgencyV2*)agency;
+- (nullable OBAAgencyV2*)getAgencyForId:(NSString*)agencyId;
 - (NSDictionary*) getAllAgencies;
 
-- (void) addRoute:(OBARouteV2*)route;
-- (OBARouteV2*) getRouteForId:(NSString*)routeId;
+- (void)addRoute:(OBARouteV2*)route;
+- (nullable OBARouteV2*)getRouteForId:(NSString*)routeId;
 
-- (void) addStop:(OBAStopV2*)stop;
-- (OBAStopV2*) getStopForId:(NSString*)stopId;
+- (void)addStop:(OBAStopV2*)stop;
+- (nullable OBAStopV2*)getStopForId:(NSString*)stopId;
 
-- (void) addTrip:(OBATripV2*)trip;
-- (OBATripV2*) getTripForId:(NSString*)tripId;
+- (void)addTrip:(OBATripV2*)trip;
+- (nullable OBATripV2*)getTripForId:(NSString*)tripId;
 
-- (void) addSituation:(OBASituationV2*)situation;
-- (OBASituationV2*) getSituationForId:(NSString*)situationId;
+- (void)addSituation:(OBASituationV2*)situation;
+- (nullable OBASituationV2*)getSituationForId:(NSString*)situationId;
 
-- (void) clear;
-                             
+- (void)clear;
 @end
 
 NS_ASSUME_NONNULL_END

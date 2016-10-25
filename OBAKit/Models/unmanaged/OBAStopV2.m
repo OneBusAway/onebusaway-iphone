@@ -164,7 +164,7 @@
 
 #pragma mark NSObject
 
-- (BOOL)isEqual:(id)object {
+- (BOOL)isEqual:(OBAStopV2*)object {
     if (self == object) {
         return YES;
     }
@@ -173,7 +173,7 @@
         return NO;
     }
 
-    return [self.stopId isEqual:[object stopId]];
+    return [self.stopId isEqual:object.stopId];
 }
 
 - (NSString*) description {
