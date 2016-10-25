@@ -84,14 +84,16 @@
 #pragma mark - Public
 
 - (NSArray<OBARouteV2*>*)routes {
-
     @synchronized (self) {
         if (!_routes) {
             NSMutableArray *routes = [NSMutableArray array];
 
             for (NSString *routeId in _routeIds) {
                 OBARouteV2 *route = [self.references getRouteForId:routeId];
-                [routes addObject:route];
+
+                if (route) {
+                    [routes addObject:route];
+                }
             }
 
             [routes sortUsingSelector:@selector(compareUsingName:)];
