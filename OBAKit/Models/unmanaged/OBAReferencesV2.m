@@ -21,11 +21,17 @@
 #import <OBAKit/OBATripV2.h>
 #import <OBAKit/OBASituationV2.h>
 
-@implementation OBAReferencesV2
+@implementation OBAReferencesV2 {
+    NSMutableDictionary * _agencies;
+    NSMutableDictionary * _routes;
+    NSMutableDictionary * _stops;
+    NSMutableDictionary * _trips;
+    NSMutableDictionary * _situations;
+}
 
--(id) init {
+- (instancetype)init {
     self = [super init];
-    if( self ) {
+    if (self) {
         _agencies = [[NSMutableDictionary alloc] init];
         _routes = [[NSMutableDictionary alloc] init];
         _stops = [[NSMutableDictionary alloc] init];
@@ -35,28 +41,27 @@
     return self;
 }
 
-
-- (void) addAgency:(OBAAgencyV2*)agency {
+- (void)addAgency:(OBAAgencyV2*)agency {
     _agencies[agency.agencyId] = agency;
 }
 
-- (OBAAgencyV2*) getAgencyForId:(NSString*)agencyId {
+- (OBAAgencyV2*)getAgencyForId:(NSString*)agencyId {
     return _agencies[agencyId];
 }
 
-- (NSDictionary*) getAllAgencies {
-    return [NSDictionary dictionaryWithDictionary:_agencies];;
+- (NSDictionary*)getAllAgencies {
+    return [NSDictionary dictionaryWithDictionary:_agencies];
 }
 
-- (void) addRoute:(OBARouteV2*)route {
+- (void)addRoute:(OBARouteV2*)route {
     _routes[route.routeId] = route;
 }
 
-- (OBARouteV2*) getRouteForId:(NSString*)routeId {
+- (OBARouteV2*)getRouteForId:(NSString*)routeId {
     return _routes[routeId];
 }    
 
-- (void) addStop:(OBAStopV2*)stop {
+- (void)addStop:(OBAStopV2*)stop {
     _stops[stop.stopId] = stop;
 }
 

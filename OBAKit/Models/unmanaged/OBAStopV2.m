@@ -84,14 +84,16 @@
 #pragma mark - Public
 
 - (NSArray<OBARouteV2*>*)routes {
-
     @synchronized (self) {
         if (!_routes) {
             NSMutableArray *routes = [NSMutableArray array];
 
             for (NSString *routeId in _routeIds) {
                 OBARouteV2 *route = [self.references getRouteForId:routeId];
-                [routes addObject:route];
+
+                if (route) {
+                    [routes addObject:route];
+                }
             }
 
             [routes sortUsingSelector:@selector(compareUsingName:)];
@@ -162,7 +164,7 @@
 
 #pragma mark NSObject
 
-- (BOOL)isEqual:(id)object {
+- (BOOL)isEqual:(OBAStopV2*)object {
     if (self == object) {
         return YES;
     }
@@ -171,7 +173,7 @@
         return NO;
     }
 
-    return [self.stopId isEqual:[object stopId]];
+    return [self.stopId isEqual:object.stopId];
 }
 
 - (NSString*) description {
