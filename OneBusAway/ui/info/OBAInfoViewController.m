@@ -138,6 +138,20 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
       [rows addObject:reportAppIssue];
     }
 
+    OBATableRow *logs = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Send Logs to Support",) action:^{
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Send Logs to Support?",) message:NSLocalizedString(@"This will send your log data to app support. This may be necessary to help diagnose bugs. Check the \"Information for Support\" section to see what your logs contain.",) preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
+        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Send",) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            for (NSData *logData in self.privacyBroker.shareableLogData) {
+                [[Apptentive sharedConnection] sendAttachmentFile:logData withMimeType:@"text/plain"];
+            }
+
+            [AlertPresenter showSuccess:NSLocalizedString(@"Log Files Sent",) body:NSLocalizedString(@"Thank you!",)];
+        }]];
+        [self presentViewController:alert animated:YES completion:nil];
+    }];
+    [rows addObject:logs];
+
     OBATableSection *section = [OBATableSection tableSectionWithTitle:NSLocalizedString(@"Contact Us", @"") rows:rows];
 
     return section;
@@ -245,9 +259,6 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
         }
     }
 
-    for (NSData *logData in self.privacyBroker.shareableLogData) {
-        [[Apptentive sharedConnection] sendAttachmentFile:logData withMimeType:@"text/plain"];
-    }
     [[Apptentive sharedConnection] presentMessageCenterFromViewController:self];
 }
 
