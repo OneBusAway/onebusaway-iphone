@@ -18,7 +18,6 @@
 @import OBAKit;
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #import "OBAStopViewController.h"
-#import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
 

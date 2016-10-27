@@ -15,7 +15,6 @@
  */
 
 #import "OBAListSelectionViewController.h"
-#import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
 @import OBAKit;
@@ -40,7 +39,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self hideEmptySeparators];
+    self.tableView.tableFooterView = [UIView new];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
 }
