@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B7C4A501DB96E6700853DD5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A521DB96E6700853DD5 /* InfoPlist.strings */; };
+		5B7C4A551DB96E6800853DD5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A571DB96E6800853DD5 /* InfoPlist.strings */; };
+		5B7C4A5A1DB96E6A00853DD5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */; };
+		5BF981001DBA55E40094C0BD /* OBASearchResultsMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BF981021DBA55E40094C0BD /* OBASearchResultsMapViewController.xib */; };
 		934195231DAE12E6004BBBB7 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934195211DAE12E6004BBBB7 /* CocoaLumberjack.framework */; };
 		934195251DAE12E6004BBBB7 /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934195221DAE12E6004BBBB7 /* CocoaLumberjackSwift.framework */; };
 		934196E21DB0C124004BBBB7 /* MKMapView+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196D71DB0C124004BBBB7 /* MKMapView+oba_Additions.m */; };
@@ -35,7 +39,6 @@
 		9341978E1DB0C140004BBBB7 /* OBASearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197111DB0C13F004BBBB7 /* OBASearchController.m */; };
 		9341978F1DB0C140004BBBB7 /* OBASearchResultsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197131DB0C13F004BBBB7 /* OBASearchResultsListViewController.m */; };
 		934197901DB0C140004BBBB7 /* OBASearchResultsMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197151DB0C13F004BBBB7 /* OBASearchResultsMapViewController.m */; };
-		934197911DB0C140004BBBB7 /* OBASearchResultsMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 934197161DB0C13F004BBBB7 /* OBASearchResultsMapViewController.xib */; };
 		934197921DB0C140004BBBB7 /* OBADiversionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197191DB0C13F004BBBB7 /* OBADiversionViewController.m */; };
 		934197931DB0C140004BBBB7 /* OBADiversionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9341971A1DB0C13F004BBBB7 /* OBADiversionViewController.xib */; };
 		934197941DB0C140004BBBB7 /* OBAServiceAlertsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341971C1DB0C13F004BBBB7 /* OBAServiceAlertsViewController.m */; };
@@ -233,6 +236,11 @@
 
 /* Begin PBXFileReference section */
 		1D6058910D05DD3D006BFB54 /* OneBusAway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneBusAway.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B7C4A511DB96E6700853DD5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5B7C4A561DB96E6800853DD5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5B7C4A5B1DB96E6A00853DD5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5BF981011DBA55E40094C0BD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBASearchResultsMapViewController.xib; sourceTree = "<group>"; };
+		5BF981041DBA55EB0094C0BD /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OBASearchResultsMapViewController.xib; sourceTree = "<group>"; };
 		934195211DAE12E6004BBBB7 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
 		934195221DAE12E6004BBBB7 /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = Carthage/Build/iOS/CocoaLumberjackSwift.framework; sourceTree = "<group>"; };
 		934196D61DB0C124004BBBB7 /* MKMapView+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+oba_Additions.h"; sourceTree = "<group>"; };
@@ -282,7 +290,6 @@
 		934197131DB0C13F004BBBB7 /* OBASearchResultsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearchResultsListViewController.m; sourceTree = "<group>"; };
 		934197141DB0C13F004BBBB7 /* OBASearchResultsMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchResultsMapViewController.h; sourceTree = "<group>"; };
 		934197151DB0C13F004BBBB7 /* OBASearchResultsMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearchResultsMapViewController.m; sourceTree = "<group>"; };
-		934197161DB0C13F004BBBB7 /* OBASearchResultsMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBASearchResultsMapViewController.xib; sourceTree = "<group>"; };
 		934197181DB0C13F004BBBB7 /* OBADiversionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADiversionViewController.h; sourceTree = "<group>"; };
 		934197191DB0C13F004BBBB7 /* OBADiversionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADiversionViewController.m; sourceTree = "<group>"; };
 		9341971A1DB0C13F004BBBB7 /* OBADiversionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBADiversionViewController.xib; sourceTree = "<group>"; };
@@ -762,7 +769,7 @@
 				934197131DB0C13F004BBBB7 /* OBASearchResultsListViewController.m */,
 				934197141DB0C13F004BBBB7 /* OBASearchResultsMapViewController.h */,
 				934197151DB0C13F004BBBB7 /* OBASearchResultsMapViewController.m */,
-				934197161DB0C13F004BBBB7 /* OBASearchResultsMapViewController.xib */,
+				5BF981021DBA55E40094C0BD /* OBASearchResultsMapViewController.xib */,
 			);
 			path = search;
 			sourceTree = "<group>";
@@ -1113,6 +1120,8 @@
 		9341982D1DB0C1E9004BBBB7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */,
+				5B7C4A521DB96E6700853DD5 /* InfoPlist.strings */,
 				93BBB4001DB4BA7200694940 /* Info.plist */,
 				934198D61DB0C886004BBBB7 /* Launch Screen.storyboard */,
 				9341982E1DB0C1E9004BBBB7 /* CardView.xib */,
@@ -1128,6 +1137,7 @@
 		934198441DB0C218004BBBB7 /* OneBusAwayTests */ = {
 			isa = PBXGroup;
 			children = (
+				5B7C4A571DB96E6800853DD5 /* InfoPlist.strings */,
 				934198451DB0C218004BBBB7 /* Fixtures */,
 				934198511DB0C219004BBBB7 /* Info.plist */,
 				934198521DB0C219004BBBB7 /* OBAKitTests */,
@@ -1434,7 +1444,8 @@
 				9341983C1DB0C1E9004BBBB7 /* Images.xcassets in Resources */,
 				934198201DB0C1BA004BBBB7 /* OBALabelAndTextFieldTableViewCell.xib in Resources */,
 				934198401DB0C1E9004BBBB7 /* regions-v3.json in Resources */,
-				934197911DB0C140004BBBB7 /* OBASearchResultsMapViewController.xib in Resources */,
+				5B7C4A501DB96E6700853DD5 /* InfoPlist.strings in Resources */,
+				5BF981001DBA55E40094C0BD /* OBASearchResultsMapViewController.xib in Resources */,
 				934198221DB0C1BA004BBBB7 /* OBATextFieldTableViewCell.xib in Resources */,
 				934198D71DB0C886004BBBB7 /* Launch Screen.storyboard in Resources */,
 				D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */,
@@ -1442,6 +1453,7 @@
 				9341983A1DB0C1E9004BBBB7 /* CardView.xib in Resources */,
 				9341983B1DB0C1E9004BBBB7 /* feedback_message_body.html in Resources */,
 				934197881DB0C140004BBBB7 /* OBACreditsViewController.xib in Resources */,
+				5B7C4A5A1DB96E6A00853DD5 /* Localizable.strings in Resources */,
 				9341981E1DB0C1BA004BBBB7 /* OBALabelAndSwitchTableViewCell.xib in Resources */,
 				934197DE1DB0C14C004BBBB7 /* ApptentiveResources.bundle in Resources */,
 			);
@@ -1452,6 +1464,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9341988B1DB0C219004BBBB7 /* SEA_4thPike_East.json in Resources */,
+				5B7C4A551DB96E6800853DD5 /* InfoPlist.strings in Resources */,
 				9341988C1DB0C219004BBBB7 /* stop_with_obj_lat_long.plist in Resources */,
 				9341988A1DB0C219004BBBB7 /* regions-v3.json in Resources */,
 				934198881DB0C219004BBBB7 /* bookmark_without_region_identifier.plist in Resources */,
@@ -1654,6 +1667,44 @@
 			targetProxy = 93BBB3F51DB4B30E00694940 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		5B7C4A521DB96E6700853DD5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5B7C4A511DB96E6700853DD5 /* es */,
+			);
+			name = InfoPlist.strings;
+			path = OneBusAway;
+			sourceTree = SOURCE_ROOT;
+		};
+		5B7C4A571DB96E6800853DD5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5B7C4A561DB96E6800853DD5 /* es */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5B7C4A5B1DB96E6A00853DD5 /* es */,
+			);
+			name = Localizable.strings;
+			path = OneBusAway;
+			sourceTree = SOURCE_ROOT;
+		};
+		5BF981021DBA55E40094C0BD /* OBASearchResultsMapViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5BF981011DBA55E40094C0BD /* en */,
+				5BF981041DBA55EB0094C0BD /* es */,
+			);
+			name = OBASearchResultsMapViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {

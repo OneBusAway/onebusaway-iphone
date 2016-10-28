@@ -48,7 +48,7 @@ typedef NS_ENUM(NSUInteger, OBASectionType) {
         CGRect r = CGRectMake(0, 0, 160, 33);
         _progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];
         [self.navigationItem setTitleView:_progressView];
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Show Map",) style:UIBarButtonItemStylePlain target:self action:@selector(showMap:)];
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Show Map", @"") style:UIBarButtonItemStylePlain target:self action:@selector(showMap:)];
         item.accessibilityLabel = NSLocalizedString(@"Map", @"initWithTitle");
         self.navigationItem.rightBarButtonItem = item;
 

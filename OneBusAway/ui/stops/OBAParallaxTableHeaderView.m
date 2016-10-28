@@ -174,7 +174,7 @@
         })];
         return [directions calculateETA];
     }).then(^(MKETAResponse* ETA) {
-        self.directionsLabel.text = [NSString stringWithFormat:@"Walk to stop: %@ — %.0f min, arriving at %@.", [OBAMapHelpers stringFromDistance:ETA.distance],
+        self.directionsLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Walk to stop: %@ — %.0f min, arriving at %@.", @""), [OBAMapHelpers stringFromDistance:ETA.distance],
                       [[NSDate dateWithTimeIntervalSinceNow:ETA.expectedTravelTime] minutesUntil],
                       [OBADateHelpers formatShortTimeNoDate:ETA.expectedArrivalDate]];
 
