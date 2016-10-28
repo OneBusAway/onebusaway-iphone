@@ -15,9 +15,10 @@
  */
 
 #import "OBAApplicationDelegate.h"
-#import <SystemConfiguration/SystemConfiguration.h>
-#import <GoogleAnalytics/GoogleAnalytics.h>
+@import SystemConfiguration;
+@import GoogleAnalytics;
 @import OBAKit;
+@import SVProgressHUD;
 
 #import "OBANavigationTargetAware.h"
 
@@ -44,6 +45,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 @property(nonatomic,strong) id regionObserver;
 @property(nonatomic,strong) id recentStopsObserver;
 @property(nonatomic,strong) id<OBAApplicationUI> applicationUI;
+@property(nonatomic,strong) OBADeepLinkRouter *deepLinkRouter;
 @end
 
 @implementation OBAApplicationDelegate
@@ -62,6 +64,8 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
             @strongify(self);
             [self updateShortcutItemsForRecentStops];
         }];
+
+        _deepLinkRouter = [self.class setupDeepLinkRouterWithModelDAO:[OBAApplication sharedApplication].modelDao appDelegate:self];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 
@@ -90,8 +94,6 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
     self.applicationUI = [[OBAClassicApplicationUI alloc] init];
 //    self.applicationUI = [[OBADrawerUI alloc] init];
-
-    [self.applicationUI updateSelectedTabIndex];
 
     [OBATheme setAppearanceProxies];
 
@@ -174,9 +176,64 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     [[OBAApplication sharedApplication] stopReachabilityNotifier];
 }
 
-#pragma mark Shortcut Items
+#pragma mark - Deep Linking
 
-- (void)application:(UIApplication *)application performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler {
+#define kDeepLinkTripPattern @"\\/regions\\/(\\d+).*\\/stops\\/(.*)\\/arrivals\\/?"
+
++ (OBADeepLinkRouter*)setupDeepLinkRouterWithModelDAO:(OBAModelDAO*)modelDAO appDelegate:(OBAApplicationDelegate*)appDelegate {
+    OBADeepLinkRouter *deepLinkRouter = [[OBADeepLinkRouter alloc] init];
+
+    [deepLinkRouter routePattern:kDeepLinkTripPattern toAction:^(NSArray<NSString *> *matchGroupResults, NSURLComponents *URLComponents) {
+        OBAGuard(matchGroupResults.count == 2) else {
+            return;
+        }
+
+        NSInteger regionIdentifier = [matchGroupResults[0] integerValue];
+        NSString *stopID = matchGroupResults[1];
+        NSDictionary *queryItems = [NSURLQueryItem oba_dictionaryFromQueryItems:URLComponents.queryItems];
+
+        OBATripDeepLink *tripDeepLink = [[OBATripDeepLink alloc] init];
+        tripDeepLink.regionIdentifier = regionIdentifier;
+        tripDeepLink.stopID = stopID;
+        tripDeepLink.tripID = queryItems[@"trip_id"];
+        tripDeepLink.serviceDate = [queryItems[@"service_date"] longLongValue];
+        tripDeepLink.stopSequence = [queryItems[@"stop_sequence"] integerValue];
+
+        [SVProgressHUD show];
+
+        [[OBAApplication sharedApplication].modelService requestArrivalAndDepartureWithTripDeepLink:tripDeepLink].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
+            tripDeepLink.name = arrivalAndDeparture.bestAvailableNameWithHeadsign;
+
+            // OK, it works, so write it into the model DAO.
+            [[OBAApplication sharedApplication].modelDao addSharedTrip:tripDeepLink];
+
+            OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeRecentStops];
+            target.object = tripDeepLink;
+            [appDelegate navigateToTarget:target];
+        }).catch(^(NSError *error) {
+            NSString *body = [NSString stringWithFormat:NSLocalizedString(@"Sorry, we can't show you that shared trip. If this continues, please let us know. Error: %@", @"Error message displayed to the user when something goes wrong with a just-tapped shared trip."), error.localizedDescription];
+            [AlertPresenter showWarning:NSLocalizedString(@"Something Went Wrong",) body:body];
+        }).always(^{
+            [SVProgressHUD dismiss];
+        });
+    }];
+
+    return deepLinkRouter;
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *))restorationHandler {
+
+    NSURL *URL = userActivity.webpageURL;
+    if (!URL) {
+        return NO;
+    }
+
+    return [self.deepLinkRouter performActionForURL:URL];
+}
+
+#pragma mark - Shortcut Items
+
+- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
 
     [self.applicationUI performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler];
 }

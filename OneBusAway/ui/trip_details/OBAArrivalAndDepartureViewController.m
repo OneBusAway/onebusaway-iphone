@@ -24,6 +24,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 @property(nonatomic,strong) NSTimer *refreshTimer;
 @property(nonatomic,strong) UIRefreshControl *refreshControl;
 @property(nonatomic,strong) NSLock *reloadLock;
+@property(nonatomic,copy) OBATripDeepLink *link;
 @end
 
 // TODO: lots of this is duplicated from OBAStopViewController.
@@ -31,15 +32,34 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
 @implementation OBAArrivalAndDepartureViewController
 
-- (instancetype)initWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+- (instancetype)init {
     self = [super init];
 
-    if (self) {
+    if (self ) {
         _reloadLock = [[NSLock alloc] init];
+    }
+    return self;
+}
+
+- (instancetype)initWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+    self = [self init];
+
+    if (self) {
         _arrivalAndDeparture = arrivalAndDeparture;
     }
     return self;
 }
+
+- (instancetype)initWithTripDeepLink:(OBATripDeepLink*)link {
+    self = [self init];
+
+    if (self) {
+        _link = [link copy];
+    }
+    return self;
+}
+
+#pragma mark - View Controller
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -53,6 +73,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
+    OBALogFunction();
 
     self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimeInterval target:self selector:@selector(reloadData:) userInfo:nil repeats:YES];
 
@@ -130,7 +152,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         [self.refreshControl beginRefreshing];
     }
 
-    [self.modelService requestArrivalAndDeparture:self.arrivalAndDeparture.instance].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
+    [self promiseArrivalDeparture].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
         self.arrivalAndDeparture = arrivalAndDeparture;
         return [self.modelService requestTripDetailsForTripInstance:self.arrivalAndDeparture.tripInstance];
     }).then(^(OBATripDetailsV2 *tripDetails) {
@@ -144,6 +166,15 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         }
         [self.reloadLock unlock];
     });
+}
+
+- (AnyPromise*)promiseArrivalDeparture {
+    if (self.link) {
+        return [self.modelService requestArrivalAndDepartureWithTripDeepLink:self.link];
+    }
+    else {
+        return [self.modelService requestArrivalAndDeparture:self.arrivalAndDeparture.instance];
+    }
 }
 
 - (void)populateTableWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture tripDetails:(OBATripDetailsV2*)tripDetails {

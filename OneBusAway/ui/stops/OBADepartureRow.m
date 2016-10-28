@@ -22,6 +22,9 @@
     row->_upcomingDepartures = [_upcomingDepartures copyWithZone:zone];
     row->_statusText = [_statusText copyWithZone:zone];
     row->_routeName = [_routeName copyWithZone:zone];
+    row->_toggleBookmarkAction = [_toggleBookmarkAction copyWithZone:zone];
+    row->_shareAction = [_shareAction copyWithZone:zone];
+    row->_bookmarkExists = _bookmarkExists;
 
     return row;
 }

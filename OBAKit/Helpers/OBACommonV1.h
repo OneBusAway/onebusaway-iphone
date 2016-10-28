@@ -17,15 +17,10 @@
 @import Foundation;
 
 typedef NS_ENUM(NSInteger, OBANavigationTargetType) {
-    OBANavigationTargetTypeRoot=0,
-    OBANavigationTargetTypeSearch,
+    OBANavigationTargetTypeUndefined=0,
+    OBANavigationTargetTypeMap,
     OBANavigationTargetTypeSearchResults,
-    OBANavigationTargetTypeBookmarks,
     OBANavigationTargetTypeRecentStops,
-    OBANavigationTargetTypeStop,
-    OBANavigationTargetTypeEditBookmark,
-    OBANavigationTargetTypeEditStopPreferences,
-    OBANavigationTargetTypeSettings,
+    OBANavigationTargetTypeBookmarks,
     OBANavigationTargetTypeContactUs,
-    OBANavigationTargetTypeAgencies,
 };

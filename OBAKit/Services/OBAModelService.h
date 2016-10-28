@@ -25,6 +25,8 @@
 #import <OBAKit/OBAReportProblemWithStopV2.h>
 #import <OBAKit/OBAReportProblemWithTripV2.h>
 #import <OBAKit/OBALocationManager.h>
+#import <OBAKit/OBATripDeepLink.h>
+
 @import PromiseKit;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -92,6 +94,14 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  @return A promise that resolves to a OBAArrivalAndDepartureV2 object.
  */
 - (AnyPromise*)requestArrivalAndDeparture:(OBAArrivalAndDepartureInstanceRef*)instanceRef;
+
+/**
+ Retrieves an OBAArrivalAndDepartureV2 object from the server given a trip deep link object.
+
+ @param tripDeepLink A trip deep link object
+ @return A promise that resolves to an OBAArrivalAndDepartureV2 object
+ */
+- (AnyPromise*)requestArrivalAndDepartureWithTripDeepLink:(OBATripDeepLink*)tripDeepLink;
 
 /**
  Retrieves the current server time as an NSNumber representing the number of milliseconds since January 1, 1970.

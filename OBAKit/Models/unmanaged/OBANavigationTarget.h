@@ -20,22 +20,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBANavigationTarget : NSObject <NSCoding> {
-    OBANavigationTargetType _target;
-    NSMutableDictionary * _parameters;
-}
+extern NSString * const OBAStopIDNavigationTargetParameter;
 
-@property (nonatomic,readonly) OBANavigationTargetType target;
-@property (nonatomic,readonly) NSDictionary * parameters;
+@interface OBANavigationTarget : NSObject <NSCoding>
+@property(nonatomic,assign,readonly) OBANavigationTargetType target;
+@property(nonatomic,strong,readonly) NSMutableDictionary * parameters;
+@property(nonatomic,strong) id object;
 
-- (id) initWithTarget:(OBANavigationTargetType)target;
-- (id) initWithTarget:(OBANavigationTargetType)target parameters:(NSDictionary*)parameters;
-
-+ (id) target:(OBANavigationTargetType)target;
-+ (id) target:(OBANavigationTargetType)target parameters:(NSDictionary*)parameters;
-
-- (id) parameterForKey:(id)key;
-- (void) setParameter:(id)value forKey:(id)key;
++ (instancetype)navigationTarget:(OBANavigationTargetType)target;
++ (instancetype)navigationTarget:(OBANavigationTargetType)target parameters:(nullable NSDictionary*)parameters;
 
 @end
 

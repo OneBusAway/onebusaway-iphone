@@ -30,7 +30,8 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
     if (self) {
         self.title = NSLocalizedString(@"Info", @"");
-        self.tabBarItem.image = [UIImage imageNamed:@"info"];
+        self.tabBarItem.image = [UIImage imageNamed:@"Info"];
+        self.tabBarItem.selectedImage = [UIImage imageNamed:@"Info_Selected"];
     }
 
     return self;
@@ -47,6 +48,8 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
+    OBALogFunction();
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMessageCountChanged:) name:ApptentiveMessageCenterUnreadCountChangedNotification object:nil];
 
@@ -229,7 +232,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 #pragma mark - OBANavigationTargetAware
 
 - (OBANavigationTarget *)navigationTarget {
-    return [OBANavigationTarget target:OBANavigationTargetTypeContactUs];
+    return [OBANavigationTarget navigationTarget:OBANavigationTargetTypeContactUs];
 }
 
 #pragma mark - Private

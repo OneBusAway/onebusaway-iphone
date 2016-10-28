@@ -20,6 +20,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/NSArray+OBAAdditions.h>
 #import <OBAKit/NSDate+DateTools.h>
 #import <OBAKit/NSObject+OBADescription.h>
+#import <OBAKit/NSURLQueryItem+OBAAdditions.h>
 #import <OBAKit/OBAAgencyV2.h>
 #import <OBAKit/OBAAgencyWithCoverageV2.h>
 #import <OBAKit/OBAApplication.h>
@@ -36,6 +37,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBADataSource.h>
 #import <OBAKit/OBADataSourceConfig.h>
 #import <OBAKit/OBADateHelpers.h>
+#import <OBAKit/OBADeepLinkRouter.h>
 #import <OBAKit/OBADepartureStatus.h>
 #import <OBAKit/OBAEmailHelper.h>
 #import <OBAKit/OBAEntryWithReferencesV2.h>
@@ -86,6 +88,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAStrings.h>
 #import <OBAKit/OBATheme.h>
 #import <OBAKit/OBATripContinuationMapAnnotation.h>
+#import <OBAKit/OBATripDeepLink.h>
 #import <OBAKit/OBATripDetailsV2.h>
 #import <OBAKit/OBATripInstanceRef.h>
 #import <OBAKit/OBATripScheduleV2.h>

@@ -83,9 +83,4 @@
     // TODO
 }
 
-- (void)updateSelectedTabIndex {
-    // TODO
-}
-
-
 @end

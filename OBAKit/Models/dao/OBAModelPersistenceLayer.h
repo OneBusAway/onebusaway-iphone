@@ -10,6 +10,7 @@
 
 @class CLLocation;
 @class OBARegionV2;
+@class OBATripDeepLink;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -47,6 +48,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSSet<OBARegionV2*>*)customRegions;
 - (void)addCustomRegion:(OBARegionV2*)region;
 - (void)removeCustomRegion:(OBARegionV2*)region;
+
+- (NSSet<OBATripDeepLink*>*)sharedTrips;
+- (void)addSharedTrip:(OBATripDeepLink*)sharedTrip;
+- (void)removeSharedTrip:(OBATripDeepLink*)sharedTrip;
+
 @end
 
 NS_ASSUME_NONNULL_END

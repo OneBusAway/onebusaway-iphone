@@ -30,8 +30,8 @@ static NSUInteger const kMinutes = 30;
 
     if (self) {
         self.title = NSLocalizedString(@"Bookmarks", @"");
-        self.tabBarItem.title = NSLocalizedString(@"Bookmarks", @"Bookmarks tab title");
-        self.tabBarItem.image = [UIImage imageNamed:@"Bookmarks"];
+        self.tabBarItem.image = [UIImage imageNamed:@"Favorites"];
+        self.tabBarItem.selectedImage = [UIImage imageNamed:@"Favorites_Selected"];
         self.emptyDataSetTitle = NSLocalizedString(@"No Bookmarks", @"");
         self.emptyDataSetDescription = NSLocalizedString(@"Tap 'Add to Bookmarks' from a stop to save a bookmark to this screen.", @"");
         _bookmarksAndDepartures = [[NSMutableDictionary alloc] init];
@@ -63,6 +63,8 @@ static NSUInteger const kMinutes = 30;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    OBALogFunction();
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 
     NSMutableString *title = [NSMutableString stringWithString:NSLocalizedString(@"Bookmarks", @"")];
@@ -82,6 +84,12 @@ static NSUInteger const kMinutes = 30;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 
     [self cancelTimer];
+}
+
+#pragma mark - OBANavigationTargetAware
+
+- (OBANavigationTarget*)navigationTarget {
+    return [OBANavigationTarget navigationTarget:OBANavigationTargetTypeBookmarks];
 }
 
 #pragma mark - Notifications
@@ -197,12 +205,6 @@ static NSUInteger const kMinutes = 30;
             [self.tableView reloadData];
         }
     });
-}
-
-#pragma mark -  OBANavigationTargetAware
-
-- (OBANavigationTarget *)navigationTarget {
-    return [OBANavigationTarget target:OBANavigationTargetTypeBookmarks];
 }
 
 #pragma mark - Reachability

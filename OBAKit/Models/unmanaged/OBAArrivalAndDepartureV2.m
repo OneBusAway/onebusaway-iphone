@@ -167,6 +167,17 @@
     }
 }
 
+- (NSString*)bestAvailableNameWithHeadsign {
+    NSString *name = [self bestAvailableName];
+    NSString *headsign = [self tripHeadsign];
+
+    if (!headsign) {
+        return name;
+    }
+
+    return [NSString stringWithFormat:NSLocalizedString(@"%@ to %@", @"<Route Number> to <Location>. e.g. 10 to Downtown Seattle"), name, self.tripHeadsign];
+}
+
 + (NSString*)statusStringFromFrequency:(OBAFrequencyV2*)frequency {
     NSInteger headway = frequency.headway / 60;
 

@@ -17,6 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy,nullable) NSArray<OBAUpcomingDeparture*> *upcomingDepartures;
 @property(nonatomic,copy) NSString *statusText;
 @property(nonatomic,copy) NSString *routeName;
+@property(nonatomic,copy,nullable) void (^toggleBookmarkAction)();
+@property(nonatomic,copy,nullable) void (^shareAction)();
+@property(nonatomic,assign) BOOL bookmarkExists;
 @end
 
 NS_ASSUME_NONNULL_END

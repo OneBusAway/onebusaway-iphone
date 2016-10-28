@@ -85,11 +85,13 @@ NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserI
 }
 
 - (CLLocation *)searchLocation {
-    return [_target parameterForKey:kOBASearchControllerSearchLocationParameter];
+    return _target.parameters[kOBASearchControllerSearchLocationParameter];
 }
 
 - (void)setSearchLocation:(CLLocation *)location {
-    if (location) [_target setParameter:location forKey:kOBASearchControllerSearchLocationParameter];
+    if (location) {
+        _target.parameters[kOBASearchControllerSearchLocationParameter] = location;
+    }
 }
 
 - (void)cancelOpenConnections {
@@ -227,7 +229,7 @@ NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserI
             return [_modelService requestStopsForPlacemark:placemark completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
                 WrapperCompletion(jsonData, responseCode, error, ^(id data) {
                     OBASearchResult *result = [OBASearchResult resultFromList:data];
-                    OBAPlacemark *newMark = [self.target parameterForKey:kOBASearchControllerSearchArgumentParameter];
+                    OBAPlacemark *newMark = self.target.parameters[kOBASearchControllerSearchArgumentParameter];
                     result.additionalValues = @[newMark];
                     [self fireUpdate:result];
                 });
