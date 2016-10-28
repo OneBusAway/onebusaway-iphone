@@ -38,6 +38,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithStopPreferences:(OBAStopPreferencesV2*)preferences;
 
+
+/**
+ Toggles the value of `formattedSortTripsByType`
+ from one value to the other.
+ */
+- (void)toggleTripSorting;
+
 /**
  Has the specified route ID been disabled by the user in the filtering and sorting prefences for this stop?
 
@@ -47,7 +54,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)isRouteIDDisabled:(NSString*)routeID;
 
-- (BOOL)isRouteIdEnabled:(NSString*)routeId __deprecated;
+/**
+ Has the specified route ID been disabled by the user in the filtering and sorting prefences for this stop?
+
+ Returns the opposite of -isRouteIDDisabled:
+
+ @param routeId The route ID string.
+
+ @return Whether this route has been enabled by the user.
+ */
+- (BOOL)isRouteIdEnabled:(NSString*)routeId;
+
 - (void)setEnabled:(BOOL)isEnabled forRouteId:(NSString*)routeId;
 
 /**

@@ -70,12 +70,21 @@ NSString * _Nullable NSStringFromOBASortTripsByTypeV2(OBASortTripsByTypeV2 val) 
 
 #pragma mark - Public Methods
 
+- (void)toggleTripSorting {
+    if (self.sortTripsByType == OBASortTripsByDepartureTimeV2) {
+        self.sortTripsByType = OBASortTripsByRouteNameV2;
+    }
+    else {
+        self.sortTripsByType = OBASortTripsByDepartureTimeV2;
+    }
+}
+
 - (BOOL)isRouteIDDisabled:(NSString*)routeID {
     return [_routeFilter containsObject:routeID];
 }
 
 - (BOOL)isRouteIdEnabled:(NSString*)routeId {
-    return ![_routeFilter containsObject:routeId];
+    return ![self isRouteIDDisabled:routeId];
 }
         
 - (void)setEnabled:(BOOL)isEnabled forRouteId:(NSString*)routeId {

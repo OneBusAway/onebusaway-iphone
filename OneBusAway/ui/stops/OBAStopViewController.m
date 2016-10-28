@@ -10,7 +10,6 @@
 @import OBAKit;
 @import PromiseKit;
 #import "OneBusAway-Swift.h"
-#import "OBAStopSectionHeaderView.h"
 #import "OBASeparatorSectionView.h"
 #import "OBAReportProblemWithRecentTripsViewController.h"
 #import "OBAEditStopPreferencesViewController.h"
@@ -353,7 +352,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
 }
 
 - (OBATableSection*)createDepartureSectionWithTitle:(NSString*)title fromDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)departures {
-
     NSMutableArray *rows = [[NSMutableArray alloc] init];
 
     for (OBAArrivalAndDepartureV2* dep in departures) {
@@ -361,6 +359,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
             OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
             [self.navigationController pushViewController:vc animated:YES];
         }];
+        row.routeName = dep.bestAvailableName;
         row.destination = dep.tripHeadsign.capitalizedString;
         row.statusText = dep.statusText;
 
@@ -370,18 +369,11 @@ static CGFloat const kTableHeaderHeight = 150.f;
         [rows addObject:row];
     }
 
-    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:rows];
-    section.headerView = ({
-        OBAStopSectionHeaderView *header = [[OBAStopSectionHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 44.f)];
-        header.layoutMargins = self.tableView.layoutMargins;
-        header.routeNameText = title;
-        header;
-    });
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:title rows:rows];
     return section;
 }
 
 - (OBATableSection*)createActionSectionWithStop:(OBAStopV2*)stop modelDAO:(OBAModelDAO*)modelDAO {
-
     NSMutableArray *actionRows = [[NSMutableArray alloc] init];
 
     // Add to Bookmarks
@@ -402,7 +394,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     [actionRows addObject:problem];
 
     // Filter/Sort Arrivals
-    OBATableRow *filter = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Filter Routes",) action:^{
+    OBATableRow *filter = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Sort & Filter Routes",) action:^{
         OBAEditStopPreferencesViewController *vc = [[OBAEditStopPreferencesViewController alloc] initWithModelDAO:modelDAO stop:stop];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         [self presentViewController:nav animated:YES completion:nil];

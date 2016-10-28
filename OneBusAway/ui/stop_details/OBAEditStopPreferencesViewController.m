@@ -15,95 +15,103 @@
  */
 
 #import "OBAEditStopPreferencesViewController.h"
-#import "OBAStopViewController.h"
-#import "UITableViewController+oba_Additions.h"
-#import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
-#import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
-@interface OBAEditStopPreferencesViewController ()<DZNEmptyDataSetSource>
+@interface OBAEditStopPreferencesViewController ()
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
 @property(nonatomic,strong) OBAStopV2 *stop;
-@property(nonatomic,strong) NSArray *routes;
 @property(nonatomic,strong) OBAStopPreferencesV2 *preferences;
 @end
 
 @implementation OBAEditStopPreferencesViewController
 
-- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO stop:(OBAStopV2 *)stop {
-    if (self = [super initWithStyle:UITableViewStylePlain]) {
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO stop:(OBAStopV2*)stop {
+    self = [super init];
+
+    if (self) {
         _stop = stop;
         _modelDAO = modelDAO;
         _preferences = [_modelDAO stopPreferencesForStopWithId:_stop.stopId];
-        _routes = [_stop.routes sortedArrayUsingSelector:@selector(compareUsingName:)];
-
-        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
-        self.navigationItem.leftBarButtonItem = cancelButton;
-
-        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
-        self.navigationItem.rightBarButtonItem = saveButton;
-
-        self.navigationItem.title = NSLocalizedString(@"Filter Routes",);
     }
-
     return self;
+}
+
+#pragma mark - UIViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.title = NSLocalizedString(@"Sort & Filter Routes", @"Title for the Edit Stop Preferences Controller");
+
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
+
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
+
+    [self loadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.tableView reloadData];
-
     [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.tableView.emptyDataSetSource = self;
-    self.tableView.tableFooterView = [UIView new];
-}
-
-#pragma mark - DZNEmptyDataSetSource
-
-- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    return [[NSAttributedString alloc] initWithString:NSLocalizedString(@"No Routes Found",)];
-}
-
-#pragma mark - Table View
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.routes.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    OBARouteV2 *route = self.routes[indexPath.row];
-
-    UITableViewCell *cell = [UITableViewCell getOrCreateCellForTableView:tableView cellId:@"identifier"];
-    cell.textLabel.text = [route safeShortName];
-
-    BOOL checked = ![_preferences isRouteIDDisabled:route.routeId];
-    cell.accessoryType = checked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-    cell.textLabel.font = [OBATheme bodyFont];
-
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    OBARouteV2 *route = _routes[indexPath.row];
-    cell.accessoryType = [_preferences toggleRouteID:route.routeId] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - Actions
 
-- (void)cancel:(id)sender {
+- (void)cancel {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)save:(id)sender {
+- (void)save {
     [self.modelDAO setStopPreferences:self.preferences forStopWithId:self.stop.stopId];
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Static Table View
+
+- (void)loadData {
+    OBATableSection *sortSection = [self buildSortSection];
+    OBATableSection *filterSection = [self buildFilterSection];
+
+    self.sections = @[sortSection, filterSection];
+    [self.tableView reloadData];
+}
+
+- (OBATableSection*)buildSortSection {
+    OBATableSection *sortSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Sorting",)];
+    OBATableRow *row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Sort by Time",) action:^{
+        [self.preferences toggleTripSorting];
+        [self loadData];
+    }];
+    if (self.preferences.sortTripsByType == OBASortTripsByDepartureTimeV2) {
+        row.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    [sortSection addRow:row];
+    row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Sort by Route",) action:^{
+        [self.preferences toggleTripSorting];
+        [self loadData];
+    }];
+    if (self.preferences.sortTripsByType == OBASortTripsByRouteNameV2) {
+        row.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    [sortSection addRow:row];
+
+    return sortSection;
+}
+
+- (OBATableSection*)buildFilterSection {
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Routes",)];
+
+    for (OBARouteV2 *route in [self.stop.routes sortedArrayUsingSelector:@selector(compareUsingName:)]) {
+        OBATableRow *row = [[OBATableRow alloc] initWithTitle:route.safeShortName action:^{
+            [self.preferences toggleRouteID:route.routeId];
+            [self loadData];
+        }];
+        BOOL checked = [self.preferences isRouteIdEnabled:route.routeId];
+        row.accessoryType = checked ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+        [section addRow:row];
+    }
+
+    return section;
 }
 
 @end

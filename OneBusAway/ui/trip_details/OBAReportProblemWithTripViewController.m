@@ -17,7 +17,6 @@
 #import "OBAReportProblemWithTripViewController.h"
 #import "OBALabelAndSwitchTableViewCell.h"
 #import "OBALabelAndTextFieldTableViewCell.h"
-#import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
 #import "OBAApplicationDelegate.h"
@@ -87,7 +86,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     self.navigationItem.backBarButtonItem.title = NSLocalizedString(@"Problem", @"self.navigationItem.backBarButtonItem.title");
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
-    [self hideEmptySeparators];
+    self.tableView.tableFooterView = [UIView new];
 }
 
 #pragma mark - Lazily Loaded Properties

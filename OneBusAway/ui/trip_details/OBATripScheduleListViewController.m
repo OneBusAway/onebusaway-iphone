@@ -18,7 +18,6 @@
 @import OBAKit;
 #import "OBATripScheduleMapViewController.h"
 #import "OBAStopViewController.h"
-#import "UITableViewController+oba_Additions.h"
 #import "OBAAnalytics.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "UINavigationController+oba_Additions.h"
