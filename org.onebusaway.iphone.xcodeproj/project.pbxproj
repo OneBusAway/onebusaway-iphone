@@ -11,8 +11,13 @@
 		5B7C4A551DB96E6800853DD5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A571DB96E6800853DD5 /* InfoPlist.strings */; };
 		5B7C4A5A1DB96E6A00853DD5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */; };
 		5BF981001DBA55E40094C0BD /* OBASearchResultsMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BF981021DBA55E40094C0BD /* OBASearchResultsMapViewController.xib */; };
-		934195231DAE12E6004BBBB7 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934195211DAE12E6004BBBB7 /* CocoaLumberjack.framework */; };
-		934195251DAE12E6004BBBB7 /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934195221DAE12E6004BBBB7 /* CocoaLumberjackSwift.framework */; };
+		932CCEC31DC3D2DB001C8405 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEBC1DC3D2DB001C8405 /* CocoaLumberjack.framework */; };
+		932CCEC41DC3D2DB001C8405 /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEBD1DC3D2DB001C8405 /* CocoaLumberjackSwift.framework */; };
+		932CCEC51DC3D2DB001C8405 /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEBE1DC3D2DB001C8405 /* PMKCoreLocation.framework */; };
+		932CCEC61DC3D2DB001C8405 /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEBF1DC3D2DB001C8405 /* PMKFoundation.framework */; };
+		932CCEC71DC3D2DB001C8405 /* PMKMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEC01DC3D2DB001C8405 /* PMKMapKit.framework */; };
+		932CCEC81DC3D2DB001C8405 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEC11DC3D2DB001C8405 /* PromiseKit.framework */; };
+		932CCEC91DC3D2DB001C8405 /* SwiftMessages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEC21DC3D2DB001C8405 /* SwiftMessages.framework */; };
 		934196E21DB0C124004BBBB7 /* MKMapView+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196D71DB0C124004BBBB7 /* MKMapView+oba_Additions.m */; };
 		934196E31DB0C124004BBBB7 /* UINavigationController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196D91DB0C124004BBBB7 /* UINavigationController+oba_Additions.m */; };
 		934196E41DB0C124004BBBB7 /* UITableViewCell+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196DB1DB0C124004BBBB7 /* UITableViewCell+oba_Additions.m */; };
@@ -168,22 +173,14 @@
 		93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */; };
 		9368E5C01DB1584900C329D0 /* OBAEmptyDataSetSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9368E5BF1DB1584900C329D0 /* OBAEmptyDataSetSource.m */; };
 		938B842C1D868A0500DB0AF0 /* GoogleAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84241D8689E900DB0AF0 /* GoogleAnalytics.framework */; };
-		938B842D1D868A0500DB0AF0 /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84261D8689F400DB0AF0 /* PMKCoreLocation.framework */; };
-		938B842E1D868A0500DB0AF0 /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84271D8689F400DB0AF0 /* PMKFoundation.framework */; };
-		938B842F1D868A0500DB0AF0 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84281D8689F400DB0AF0 /* PromiseKit.framework */; };
 		938B84361D868A0500DB0AF0 /* DZNEmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84311D868A0500DB0AF0 /* DZNEmptyDataSet.framework */; };
-		938B84371D868A0500DB0AF0 /* PMKMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84321D868A0500DB0AF0 /* PMKMapKit.framework */; };
 		938B84381D868A0500DB0AF0 /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84331D868A0500DB0AF0 /* SVProgressHUD.framework */; };
-		938B84391D868A0500DB0AF0 /* SwiftMessages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84341D868A0500DB0AF0 /* SwiftMessages.framework */; };
 		93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A923A11C21DCD600A657C8 /* SafariServices.framework */; };
 		93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934198CA1DB0C56D004BBBB7 /* OBAKit.framework */; };
 		93BBB4291DB952FC00694940 /* OBAURLHelpers_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BBB4271DB9525000694940 /* OBAURLHelpers_Tests.m */; };
 		93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936A1D8A3A4D0080F370 /* UIKit.framework */; };
 		93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936C1D8A3A530080F370 /* Foundation.framework */; };
 		93C3936F1D8A3AC20080F370 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936E1D8A3AC20080F370 /* Masonry.framework */; };
-		93C393841D8A81210080F370 /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84261D8689F400DB0AF0 /* PMKCoreLocation.framework */; };
-		93C393851D8A81210080F370 /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84271D8689F400DB0AF0 /* PMKFoundation.framework */; };
-		93C393861D8A81210080F370 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84281D8689F400DB0AF0 /* PromiseKit.framework */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 /* End PBXBuildFile section */
 
@@ -239,8 +236,13 @@
 		5B7C4A5B1DB96E6A00853DD5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5BF981011DBA55E40094C0BD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBASearchResultsMapViewController.xib; sourceTree = "<group>"; };
 		5BF981041DBA55EB0094C0BD /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OBASearchResultsMapViewController.xib; sourceTree = "<group>"; };
-		934195211DAE12E6004BBBB7 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
-		934195221DAE12E6004BBBB7 /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = Carthage/Build/iOS/CocoaLumberjackSwift.framework; sourceTree = "<group>"; };
+		932CCEBC1DC3D2DB001C8405 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
+		932CCEBD1DC3D2DB001C8405 /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = Carthage/Build/iOS/CocoaLumberjackSwift.framework; sourceTree = "<group>"; };
+		932CCEBE1DC3D2DB001C8405 /* PMKCoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKCoreLocation.framework; path = Carthage/Build/iOS/PMKCoreLocation.framework; sourceTree = "<group>"; };
+		932CCEBF1DC3D2DB001C8405 /* PMKFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKFoundation.framework; path = Carthage/Build/iOS/PMKFoundation.framework; sourceTree = "<group>"; };
+		932CCEC01DC3D2DB001C8405 /* PMKMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKMapKit.framework; path = Carthage/Build/iOS/PMKMapKit.framework; sourceTree = "<group>"; };
+		932CCEC11DC3D2DB001C8405 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
+		932CCEC21DC3D2DB001C8405 /* SwiftMessages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftMessages.framework; path = Carthage/Build/iOS/SwiftMessages.framework; sourceTree = "<group>"; };
 		934196D61DB0C124004BBBB7 /* MKMapView+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+oba_Additions.h"; sourceTree = "<group>"; };
 		934196D71DB0C124004BBBB7 /* MKMapView+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+oba_Additions.m"; sourceTree = "<group>"; };
 		934196D81DB0C124004BBBB7 /* UINavigationController+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+oba_Additions.h"; sourceTree = "<group>"; };
@@ -495,13 +497,8 @@
 		9368E5BF1DB1584900C329D0 /* OBAEmptyDataSetSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEmptyDataSetSource.m; sourceTree = "<group>"; };
 		936F45D91C78D06600C61656 /* OneBusAwayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneBusAwayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		938B84241D8689E900DB0AF0 /* GoogleAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAnalytics.framework; path = Carthage/Build/iOS/GoogleAnalytics.framework; sourceTree = "<group>"; };
-		938B84261D8689F400DB0AF0 /* PMKCoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKCoreLocation.framework; path = Carthage/Build/iOS/PMKCoreLocation.framework; sourceTree = "<group>"; };
-		938B84271D8689F400DB0AF0 /* PMKFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKFoundation.framework; path = Carthage/Build/iOS/PMKFoundation.framework; sourceTree = "<group>"; };
-		938B84281D8689F400DB0AF0 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		938B84311D868A0500DB0AF0 /* DZNEmptyDataSet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DZNEmptyDataSet.framework; path = Carthage/Build/iOS/DZNEmptyDataSet.framework; sourceTree = "<group>"; };
-		938B84321D868A0500DB0AF0 /* PMKMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKMapKit.framework; path = Carthage/Build/iOS/PMKMapKit.framework; sourceTree = "<group>"; };
 		938B84331D868A0500DB0AF0 /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
-		938B84341D868A0500DB0AF0 /* SwiftMessages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftMessages.framework; path = Carthage/Build/iOS/SwiftMessages.framework; sourceTree = "<group>"; };
 		939CEB241C0E406500E1D2B7 /* rvtd.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = rvtd.gpx; sourceTree = "<group>"; };
 		93A923A11C21DCD600A657C8 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		93BBB4001DB4BA7200694940 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = OneBusAway/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -520,23 +517,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */,
+				932CCEC61DC3D2DB001C8405 /* PMKFoundation.framework in Frameworks */,
 				93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */,
 				93528AB11C8D517100783E9A /* CloudKit.framework in Frameworks */,
+				932CCEC51DC3D2DB001C8405 /* PMKCoreLocation.framework in Frameworks */,
 				93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */,
 				93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */,
-				934195251DAE12E6004BBBB7 /* CocoaLumberjackSwift.framework in Frameworks */,
+				932CCEC81DC3D2DB001C8405 /* PromiseKit.framework in Frameworks */,
 				938B84361D868A0500DB0AF0 /* DZNEmptyDataSet.framework in Frameworks */,
-				938B84371D868A0500DB0AF0 /* PMKMapKit.framework in Frameworks */,
-				934195231DAE12E6004BBBB7 /* CocoaLumberjack.framework in Frameworks */,
 				93C3936F1D8A3AC20080F370 /* Masonry.framework in Frameworks */,
 				938B84381D868A0500DB0AF0 /* SVProgressHUD.framework in Frameworks */,
-				938B84391D868A0500DB0AF0 /* SwiftMessages.framework in Frameworks */,
+				932CCEC41DC3D2DB001C8405 /* CocoaLumberjackSwift.framework in Frameworks */,
 				938B842C1D868A0500DB0AF0 /* GoogleAnalytics.framework in Frameworks */,
 				934197E01DB0C14C004BBBB7 /* libApptentiveConnect.a in Frameworks */,
-				938B842D1D868A0500DB0AF0 /* PMKCoreLocation.framework in Frameworks */,
-				938B842E1D868A0500DB0AF0 /* PMKFoundation.framework in Frameworks */,
+				932CCEC91DC3D2DB001C8405 /* SwiftMessages.framework in Frameworks */,
+				932CCEC71DC3D2DB001C8405 /* PMKMapKit.framework in Frameworks */,
+				932CCEC31DC3D2DB001C8405 /* CocoaLumberjack.framework in Frameworks */,
 				93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */,
-				938B842F1D868A0500DB0AF0 /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,9 +541,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93C393841D8A81210080F370 /* PMKCoreLocation.framework in Frameworks */,
-				93C393851D8A81210080F370 /* PMKFoundation.framework in Frameworks */,
-				93C393861D8A81210080F370 /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,18 +592,18 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				934195211DAE12E6004BBBB7 /* CocoaLumberjack.framework */,
-				934195221DAE12E6004BBBB7 /* CocoaLumberjackSwift.framework */,
+				932CCEBC1DC3D2DB001C8405 /* CocoaLumberjack.framework */,
+				932CCEBD1DC3D2DB001C8405 /* CocoaLumberjackSwift.framework */,
+				932CCEBE1DC3D2DB001C8405 /* PMKCoreLocation.framework */,
+				932CCEBF1DC3D2DB001C8405 /* PMKFoundation.framework */,
+				932CCEC01DC3D2DB001C8405 /* PMKMapKit.framework */,
+				932CCEC11DC3D2DB001C8405 /* PromiseKit.framework */,
+				932CCEC21DC3D2DB001C8405 /* SwiftMessages.framework */,
 				93C3936E1D8A3AC20080F370 /* Masonry.framework */,
 				93C3936C1D8A3A530080F370 /* Foundation.framework */,
 				93C3936A1D8A3A4D0080F370 /* UIKit.framework */,
 				938B84311D868A0500DB0AF0 /* DZNEmptyDataSet.framework */,
-				938B84321D868A0500DB0AF0 /* PMKMapKit.framework */,
 				938B84331D868A0500DB0AF0 /* SVProgressHUD.framework */,
-				938B84341D868A0500DB0AF0 /* SwiftMessages.framework */,
-				938B84261D8689F400DB0AF0 /* PMKCoreLocation.framework */,
-				938B84271D8689F400DB0AF0 /* PMKFoundation.framework */,
-				938B84281D8689F400DB0AF0 /* PromiseKit.framework */,
 				938B84241D8689E900DB0AF0 /* GoogleAnalytics.framework */,
 				93528AB01C8D517100783E9A /* CloudKit.framework */,
 				93528AAD1C8D50D200783E9A /* MapKit.framework */,
