@@ -377,7 +377,19 @@ static NSUInteger const kMinutes = 30;
             self.modelDAO.ungroupedBookmarksOpen = open;
         }
         section.rows = open ? [self tableRowsFromBookmarks:bookmarks] : @[];
-        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[self.sections indexOfObject:section]];
+
+        if (!section) {
+            [self.tableView reloadData];
+            return;
+        }
+
+        NSUInteger index = [self.sections indexOfObject:section];
+        if (index == NSNotFound) {
+            [self.tableView reloadData];
+            return;
+        }
+
+        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:index];
         [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
     }];
     section.headerView = header;
