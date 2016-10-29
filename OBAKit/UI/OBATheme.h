@@ -104,6 +104,13 @@
  */
 + (UIColor*)lightDisabledColor;
 
+
+/**
+ Used for border lines on containers and the like. The same color that is used on the bottom
+ of a navigation bar, for instance.
+ */
++ (UIColor*)borderColor;
+
 /**
  Standard text color.
  */
