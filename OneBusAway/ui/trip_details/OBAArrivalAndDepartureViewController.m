@@ -220,6 +220,11 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     tableHeaderView.frame = CGRectInset(blurContainer.bounds, [OBATheme defaultPadding], 0);
     [blurContainer.contentView addSubview:tableHeaderView];
 
+    UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, 59, CGRectGetWidth(blurContainer.contentView.frame), 1)];
+    bottomLine.backgroundColor = [OBATheme borderColor];
+    bottomLine.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
+    [blurContainer.contentView addSubview:bottomLine];
+
     return blurContainer;
 }
 

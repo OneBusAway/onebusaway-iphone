@@ -118,6 +118,10 @@ static UIFont *_boldFootnoteFont = nil;
     return [UIColor grayColor];
 }
 
++ (UIColor*)borderColor {
+    return [OBATheme colorWithRed:177 green:177 blue:177 alpha:0.7f];
+}
+
 + (UIColor*)textColor {
     return [UIColor blackColor];
 }
