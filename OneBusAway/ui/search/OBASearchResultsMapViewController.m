@@ -42,7 +42,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 @property(nonatomic,strong) IBOutlet MKMapView * mapView;
 @property(nonatomic,strong) IBOutlet UISearchBar *searchBar;
 @property(nonatomic,strong) IBOutlet UILabel *mapLabel;
-@property(nonatomic,strong) OBAVibrantBlurContainerView *mapLabelContainer;
+@property(nonatomic,strong) UIView *mapLabelContainer;
 
 // Programmatic UI
 @property(nonatomic,strong) OBAMapActivityIndicatorView *mapActivityIndicatorView;
@@ -1210,8 +1210,22 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 #pragma mark - Private Configuration Junk
 
 - (void)configureMapLabel {
-    self.mapLabelContainer = [[OBAVibrantBlurContainerView alloc] initWithFrame:CGRectZero];
-    self.mapLabelContainer.blurEffectStyle = UIBlurEffectStyleDark;
+
+    UIView *mapLabelParentView = nil;
+
+    if ([OBAApplication sharedApplication].useHighContrastUI) {
+        UIView *container = [[OBAVibrantBlurContainerView alloc] initWithFrame:CGRectZero];
+        container.backgroundColor = [UIColor darkGrayColor];
+        self.mapLabelContainer = container;
+        mapLabelParentView = container;
+    }
+    else {
+        OBAVibrantBlurContainerView *container = [[OBAVibrantBlurContainerView alloc] initWithFrame:CGRectZero];
+        container.blurEffectStyle = UIBlurEffectStyleDark;
+        self.mapLabelContainer = container;
+        mapLabelParentView = container.vibrancyEffectView.contentView;
+    }
+
     self.mapLabelContainer.hidden = YES;
     self.mapLabelContainer.alpha = 0;
     self.mapLabelContainer.layer.cornerRadius = [OBATheme defaultCornerRadius];
@@ -1219,10 +1233,10 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     self.mapLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.mapLabel.textAlignment = NSTextAlignmentCenter;
-    self.mapLabel.textColor = [UIColor blackColor];
+    self.mapLabel.textColor = [OBATheme darkBlurLabelTextColor];
     self.mapLabel.font = [OBATheme boldBodyFont];
 
-    [self.mapLabelContainer.vibrancyEffectView.contentView addSubview:self.mapLabel];
+    [mapLabelParentView addSubview:self.mapLabel];
     [self.view addSubview:self.mapLabelContainer];
 
     [self.mapLabel mas_makeConstraints:^(MASConstraintMaker *make) {

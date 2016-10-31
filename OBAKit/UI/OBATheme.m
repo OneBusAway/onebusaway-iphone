@@ -178,6 +178,15 @@ static UIFont *_boldFootnoteFont = nil;
     return [OBATheme colorWithRed:247.f green:247.f blue:247.f alpha:1.f];
 }
 
++ (UIColor*)darkBlurLabelTextColor {
+    if (UIAccessibilityIsReduceTransparencyEnabled()) {
+        return [UIColor whiteColor];
+    }
+    else {
+        return [UIColor blackColor];
+    }
+}
+
 #pragma mark - Pixels, err points
 
 + (CGFloat)compactPadding {

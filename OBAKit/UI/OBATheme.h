@@ -159,6 +159,11 @@
  */
 + (UIColor*)tableViewSectionHeaderBackgroundColor;
 
+/**
+ The color used on a label's textColor property when the label sits on a dark blurred background.
+ */
++ (UIColor*)darkBlurLabelTextColor;
+
 // Pixels (err, points)
 
 /**
