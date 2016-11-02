@@ -97,6 +97,9 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
     
     self.mapView.rotateEnabled = NO;
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        self.mapView.showsUserLocation = YES;
+    }
 
     self.hideFutureNetworkErrors = NO;
 
