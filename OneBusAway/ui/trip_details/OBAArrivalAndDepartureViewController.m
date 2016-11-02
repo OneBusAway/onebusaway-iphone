@@ -159,15 +159,9 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     }
 
     // Stops Section
-    OBATableSection *stopsSection = [OBATripScheduleSectionBuilder buildStopsSection:tripDetails currentStopIndex:currentStopIndex navigationController:self.navigationController];
+    OBATableSection *stopsSection = [OBATripScheduleSectionBuilder buildStopsSection:tripDetails tripInstance:arrivalAndDeparture.tripInstance currentStopIndex:currentStopIndex navigationController:self.navigationController];
     stopsSection.headerView = [self buildTableHeaderViewWithArrivalAndDeparture:arrivalAndDeparture];
     [sections addObject:stopsSection];
-
-    // Connections Section
-    OBATableSection *connectionsSection = [OBATripScheduleSectionBuilder buildConnectionsSectionWithTripDetails:tripDetails tripInstance:arrivalAndDeparture.tripInstance navigationController:self.navigationController];
-    if (connectionsSection) {
-        [sections addObject:connectionsSection];
-    }
 
     // Actions Section
     [sections addObject:[self.class createActionsSection:arrivalAndDeparture navigationController:self.navigationController]];
