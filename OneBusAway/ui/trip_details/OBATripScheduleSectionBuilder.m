@@ -14,9 +14,16 @@
 
 @implementation OBATripScheduleSectionBuilder
 
-+ (OBATableSection*)buildStopsSection:(OBATripDetailsV2*)tripDetails currentStopIndex:(NSUInteger)currentStopIndex navigationController:(UINavigationController*)navigationController {
++ (OBATableSection*)buildStopsSection:(OBATripDetailsV2*)tripDetails tripInstance:(OBATripInstanceRef*)tripInstance currentStopIndex:(NSUInteger)currentStopIndex navigationController:(UINavigationController*)navigationController {
     OBATripScheduleV2 *schedule = tripDetails.schedule;
     OBATableSection *stopsSection = [[OBATableSection alloc] initWithTitle:nil];
+
+    OBATableRow *previousRow = [self buildPreviousConnectionRowWithTripDetails:tripDetails tripInstance:tripInstance navigationController:navigationController];
+    OBATableRow *continuingRow = [self buildNextConnectionRowWithTripDetails:tripDetails tripInstance:tripInstance navigationController:navigationController];
+
+    if (previousRow) {
+        [stopsSection addRow:previousRow];
+    }
 
     for (NSUInteger i=0; i<schedule.stopTimes.count; i++) {
         OBATripStopTimeV2 *stopTime = schedule.stopTimes[i];
@@ -38,6 +45,10 @@
         [stopsSection addRow:row];
     }
 
+    if (continuingRow) {
+        [stopsSection addRow:continuingRow];
+    }
+
     return stopsSection;
 }
 
@@ -53,39 +64,36 @@
     }
 }
 
-+ (nullable OBATableSection*)buildConnectionsSectionWithTripDetails:(OBATripDetailsV2*)tripDetails tripInstance:(OBATripInstanceRef*)tripInstance navigationController:(UINavigationController*)navigationController {
++ (nullable OBATableRow*)buildPreviousConnectionRowWithTripDetails:(OBATripDetailsV2*)tripDetails tripInstance:(OBATripInstanceRef*)tripInstance navigationController:(UINavigationController*)navigationController {
 
-    if (!tripDetails.schedule.previousTripId && !tripDetails.schedule.nextTripId) {
+    if (!tripDetails.schedule.previousTrip) {
         return nil;
     }
 
-    OBATableSection *connectionsSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Connections", @"Connections section at the bottom of the Trip Schedule List view controller")];
+    NSString *labelText = [NSString stringWithFormat:NSLocalizedString(@"Starts as %@", @""), [tripDetails.schedule.previousTrip asLabel]];
+    OBATableRow *row = [[OBATableRow alloc] initWithTitle:labelText action:^{
+        OBATripInstanceRef *prevTripInstance = [tripInstance copyWithNewTripId:tripDetails.schedule.previousTripId];
+        OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:prevTripInstance];
+        [navigationController pushViewController:vc animated:YES];
+    }];
+    row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    return row;
+}
 
-    if (tripDetails.schedule.previousTrip) {
-        [connectionsSection addRowWithBlock:^OBABaseRow *{
-            NSString *labelText = [NSString stringWithFormat:NSLocalizedString(@"Starts as %@", @""), [tripDetails.schedule.previousTrip asLabel]];
-            OBATableRow *row = [[OBATableRow alloc] initWithTitle:labelText action:^{
-                OBATripInstanceRef *prevTripInstance = [tripInstance copyWithNewTripId:tripDetails.schedule.previousTripId];
-                OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:prevTripInstance];
-                [navigationController pushViewController:vc animated:YES];
-            }];
-            return row;
-        }];
++ (nullable OBATableRow*)buildNextConnectionRowWithTripDetails:(OBATripDetailsV2*)tripDetails tripInstance:(OBATripInstanceRef*)tripInstance navigationController:(UINavigationController*)navigationController {
+
+    if (!tripDetails.schedule.nextTrip) {
+        return nil;
     }
 
-    if (tripDetails.schedule.nextTrip) {
-        [connectionsSection addRowWithBlock:^OBABaseRow *{
-            NSString *labelText = [NSString stringWithFormat:NSLocalizedString(@"Continues as %@", @""), [tripDetails.schedule.nextTrip asLabel]];
-            OBATableRow *row = [[OBATableRow alloc] initWithTitle:labelText action:^{
-                OBATripInstanceRef *nextTripInstance = [tripInstance copyWithNewTripId:tripDetails.schedule.nextTripId];
-                OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:nextTripInstance];
-                [navigationController pushViewController:vc animated:YES];
-            }];
-            return row;
-        }];
-    }
-
-    return connectionsSection;
+    NSString *labelText = [NSString stringWithFormat:NSLocalizedString(@"Continues as %@", @""), [tripDetails.schedule.nextTrip asLabel]];
+    OBATableRow *row = [[OBATableRow alloc] initWithTitle:labelText action:^{
+        OBATripInstanceRef *nextTripInstance = [tripInstance copyWithNewTripId:tripDetails.schedule.nextTripId];
+        OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:nextTripInstance];
+        [navigationController pushViewController:vc animated:YES];
+    }];
+    row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    return row;
 }
 
 + (NSUInteger)indexOfStopID:(NSString*)stopID inSchedule:(OBATripScheduleV2*)tripSchedule {
