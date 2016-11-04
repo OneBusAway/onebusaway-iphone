@@ -101,6 +101,19 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }];
 }
 
+- (AnyPromise*)requestArrivalAndDepartureWithTripDeepLink:(OBATripDeepLink*)tripDeepLink {
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestArrivalAndDepartureForStopID:tripDeepLink.stopID tripID:tripDeepLink.tripID serviceDate:tripDeepLink.serviceDate vehicleID:tripDeepLink.vehicleID stopSequence:tripDeepLink.stopSequence completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            if (error) {
+                resolve(error);
+            }
+            else {
+                resolve([responseData entry]);
+            }
+        }];
+    }];
+}
+
 - (AnyPromise*)requestCurrentTime {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         [self requestCurrentTimeWithCompletionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
@@ -154,7 +167,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     NSDictionary *args = @{ @"minutesBefore": @(minutesBefore),
                             @"minutesAfter":  @(minutesAfter) };
 
-    NSString *escapedStopID = [self.class escapePathVariable:stopId];
+    NSString *escapedStopID = [OBAURLHelpers escapePathVariable:stopId];
 
     return [self request:self.obaJsonDataSource
                      url:[NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", escapedStopID]
@@ -194,7 +207,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (id<OBAModelServiceRequest>)requestStopsForRoute:(NSString *)routeId completionBlock:(OBADataSourceCompletion)completion {
     return [self request:self.obaJsonDataSource
-                     url:[NSString stringWithFormat:@"/api/where/stops-for-route/%@.json", [self.class escapePathVariable:routeId]]
+                     url:[NSString stringWithFormat:@"/api/where/stops-for-route/%@.json", [OBAURLHelpers escapePathVariable:routeId]]
                     args:nil
                 selector:@selector(getStopsForRouteV2FromJSON:error:)
          completionBlock:completion
@@ -265,24 +278,48 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
            progressBlock:nil];
 }
 
+- (NSURL*)deepLinkURLForArrivalAndDepartureInstanceRef:(OBAArrivalAndDepartureInstanceRef *)instance {
+    NSString *stopID = [self.class escapePathVariable:instance.stopId];
+
+    NSURLComponents *URLComponents = [NSURLComponents componentsWithString:@"https://www.onebusaway.co"];
+    URLComponents.path = [NSString stringWithFormat:@"/regions/%@/stops/%@/arrivals", @(self.modelDao.currentRegion.identifier), stopID];
+
+    URLComponents.queryItems = @[
+                                 [NSURLQueryItem queryItemWithName:@"trip_id" value:instance.tripInstance.tripId],
+                                 [NSURLQueryItem queryItemWithName:@"service_date" value:@(instance.tripInstance.serviceDate).description]
+                                 ];
+
+    return URLComponents.URL;
+}
+
 - (id<OBAModelServiceRequest>)requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef *)instance completionBlock:(OBADataSourceCompletion)completion {
     OBATripInstanceRef *tripInstance = instance.tripInstance;
 
+    return [self requestArrivalAndDepartureForStopID:instance.stopId tripID:tripInstance.tripId serviceDate:tripInstance.serviceDate vehicleID:tripInstance.vehicleId stopSequence:instance.stopSequence completionBlock:completion];
+}
+
+- (id<OBAModelServiceRequest>)requestArrivalAndDepartureForStopID:(NSString*)stopID
+                                                           tripID:(NSString*)tripID
+                                                      serviceDate:(long long)serviceDate
+                                                        vehicleID:(nullable NSString*)vehicleID
+                                                     stopSequence:(NSInteger)stopSequence
+                                                completionBlock:(OBADataSourceCompletion)completion {
+
     NSMutableDictionary *args = [[NSMutableDictionary alloc] init];
 
-    args[@"tripId"] = tripInstance.tripId;
-    args[@"serviceDate"] = @(tripInstance.serviceDate);
+    args[@"tripId"] = tripID;
+    args[@"serviceDate"] = @(serviceDate);
 
-    if (tripInstance.vehicleId) {
-        args[@"vehicleId"] = tripInstance.vehicleId;
+    if (vehicleID) {
+        args[@"vehicleId"] = vehicleID;
     }
 
-    if (instance.stopSequence >= 0) {
-        args[@"stopSequence"] = @(instance.stopSequence);
+    if (stopSequence >= 0) {
+        args[@"stopSequence"] = @(stopSequence);
     }
 
     return [self request:self.obaJsonDataSource
-                     url:[NSString stringWithFormat:@"/api/where/arrival-and-departure-for-stop/%@.json", [self.class escapePathVariable:instance.stopId]]
+                     url:[NSString stringWithFormat:@"/api/where/arrival-and-departure-for-stop/%@.json", [OBAURLHelpers escapePathVariable:stopID]]
                     args:args
                 selector:@selector(getArrivalAndDepartureForStopV2FromJSON:error:)
          completionBlock:completion
@@ -301,7 +338,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }
 
     return [self request:self.obaJsonDataSource
-                     url:[NSString stringWithFormat:@"/api/where/trip-details/%@.json", [self.class escapePathVariable:tripInstance.tripId]]
+                     url:[NSString stringWithFormat:@"/api/where/trip-details/%@.json", [OBAURLHelpers escapePathVariable:tripInstance.tripId]]
                     args:args
                 selector:@selector(getTripDetailsV2FromJSON:error:)
          completionBlock:completion
@@ -310,7 +347,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (id<OBAModelServiceRequest>)requestVehicleForId:(NSString *)vehicleId completionBlock:(OBADataSourceCompletion)completion {
     return [self request:self.obaJsonDataSource
-                     url:[NSString stringWithFormat:@"/api/where/vehicle/%@.json", [self.class escapePathVariable:vehicleId]]
+                     url:[NSString stringWithFormat:@"/api/where/vehicle/%@.json", [OBAURLHelpers escapePathVariable:vehicleId]]
                     args:nil
                 selector:@selector(getVehicleStatusV2FromJSON:error:)
          completionBlock:completion
@@ -319,7 +356,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (id<OBAModelServiceRequest>)requestShapeForId:(NSString *)shapeId completionBlock:(OBADataSourceCompletion)completion {
     return [self request:self.obaJsonDataSource
-                     url:[NSString stringWithFormat:@"/api/where/shape/%@.json", [self.class escapePathVariable:shapeId]]
+                     url:[NSString stringWithFormat:@"/api/where/shape/%@.json", [OBAURLHelpers escapePathVariable:shapeId]]
                     args:nil
                 selector:@selector(getShapeV2FromJSON:error:)
          completionBlock:completion
@@ -460,16 +497,6 @@ static NSObject<OBABackgroundTaskExecutor>* sharedExecutor;
 
 + (void)addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*)exc {
     sharedExecutor = exc;
-}
-
-#pragma mark - Private Helpers
-
-+ (NSString*)escapePathVariable:(NSString*)pathVariable {
-    NSString *escaped = [pathVariable stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
-    // Apparently -stringByAddingPercentEncodingWithAllowedCharacters: won't remove
-    // '/' characters from paths, so we get to do that manually here. Boo.
-    // https://github.com/OneBusAway/onebusaway-iphone/issues/817
-    return [escaped stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
 }
 
 @end

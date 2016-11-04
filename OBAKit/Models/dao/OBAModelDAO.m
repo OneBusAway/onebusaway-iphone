@@ -403,7 +403,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [_preferencesDao setHideFutureLocationWarnings:hideFutureLocationWarnings];
 }
 
-#pragma mark - Stop Viewing
+#pragma mark - Recent Stops
 
 - (void)clearMostRecentStops {
     [_mostRecentStops removeAllObjects];
@@ -457,6 +457,14 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     event.subtitle = stop.subtitle;
     [self addStopAccessEvent:event];
 }
+
+- (void)removeRecentStop:(OBAStopAccessEventV2*)recentStop {
+    [_mostRecentStops removeObject:recentStop];
+    [_preferencesDao writeMostRecentStops:_mostRecentStops];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBAMostRecentStopsChangedNotification object:nil];
+}
+
+#pragma mark - Service Alerts
 
 - (BOOL)isVisitedSituationWithId:(NSString*)situationId {
     return [self.visitedSituationIds containsObject:situationId];
@@ -533,6 +541,42 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
 - (BOOL)shareLogsPII {
     return [_preferencesDao shareLogsPII];
+}
+
+#pragma mark - Shared Trips
+
+- (NSArray<OBATripDeepLink*>*)sharedTrips {
+    return [[_preferencesDao sharedTrips].allObjects sortedArrayUsingSelector:@selector(compare:)];
+}
+
+- (void)addSharedTrip:(OBATripDeepLink*)sharedTrip {
+    [_preferencesDao addSharedTrip:sharedTrip];
+}
+
+- (void)removeSharedTrip:(OBATripDeepLink*)sharedTrip {
+    [_preferencesDao removeSharedTrip:sharedTrip];
+}
+
+- (void)clearSharedTrips {
+    NSArray<OBATripDeepLink*> *sharedTrips = self.sharedTrips;
+    for (OBATripDeepLink *link in sharedTrips) {
+        [self removeSharedTrip:link];
+    }
+}
+
+- (void)clearSharedTripsOlderThan24Hours {
+    NSMutableArray *toPurge = [NSMutableArray new];
+    NSDate *purgeDate = [NSDate dateWithTimeIntervalSinceNow:-86400.0]; // 86,400 seconds in a day.
+
+    for (OBATripDeepLink *link in self.sharedTrips) {
+        if ([link.createdAt timeIntervalSinceDate:purgeDate] < 0) {
+            [toPurge addObject:link];
+        }
+    }
+
+    for (OBATripDeepLink *link in toPurge) {
+        [self removeSharedTrip:link];
+    }
 }
 
 @end

@@ -176,11 +176,17 @@
 		938B84361D868A0500DB0AF0 /* DZNEmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84311D868A0500DB0AF0 /* DZNEmptyDataSet.framework */; };
 		938B84381D868A0500DB0AF0 /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84331D868A0500DB0AF0 /* SVProgressHUD.framework */; };
 		93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A923A11C21DCD600A657C8 /* SafariServices.framework */; };
+		93ADC5151DCA6C540024FBD6 /* UITableViewCell+Swipe.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ADC50D1DCA6C540024FBD6 /* UITableViewCell+Swipe.m */; };
+		93ADC5161DCA6C540024FBD6 /* YMOneButtonSwipeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ADC50F1DCA6C540024FBD6 /* YMOneButtonSwipeView.m */; };
+		93ADC5171DCA6C540024FBD6 /* YMTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ADC5121DCA6C540024FBD6 /* YMTableViewCell.m */; };
+		93ADC5181DCA6C540024FBD6 /* YMTwoButtonSwipeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ADC5141DCA6C540024FBD6 /* YMTwoButtonSwipeView.m */; };
+		93ADC51B1DCB1EBE0024FBD6 /* credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 93ADC51A1DCB1EBE0024FBD6 /* credits.html */; };
 		93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934198CA1DB0C56D004BBBB7 /* OBAKit.framework */; };
 		93BBB4291DB952FC00694940 /* OBAURLHelpers_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BBB4271DB9525000694940 /* OBAURLHelpers_Tests.m */; };
 		93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936A1D8A3A4D0080F370 /* UIKit.framework */; };
 		93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936C1D8A3A530080F370 /* Foundation.framework */; };
 		93C3936F1D8A3AC20080F370 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936E1D8A3AC20080F370 /* Masonry.framework */; };
+		93CD35BE1DCC63270024DD3D /* OBAStackedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CD35BD1DCC63270024DD3D /* OBAStackedButton.m */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 /* End PBXBuildFile section */
 
@@ -501,11 +507,22 @@
 		938B84331D868A0500DB0AF0 /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
 		939CEB241C0E406500E1D2B7 /* rvtd.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = rvtd.gpx; sourceTree = "<group>"; };
 		93A923A11C21DCD600A657C8 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		93ADC50C1DCA6C540024FBD6 /* UITableViewCell+Swipe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+Swipe.h"; sourceTree = "<group>"; };
+		93ADC50D1DCA6C540024FBD6 /* UITableViewCell+Swipe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+Swipe.m"; sourceTree = "<group>"; };
+		93ADC50E1DCA6C540024FBD6 /* YMOneButtonSwipeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMOneButtonSwipeView.h; sourceTree = "<group>"; };
+		93ADC50F1DCA6C540024FBD6 /* YMOneButtonSwipeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YMOneButtonSwipeView.m; sourceTree = "<group>"; };
+		93ADC5111DCA6C540024FBD6 /* YMTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMTableViewCell.h; sourceTree = "<group>"; };
+		93ADC5121DCA6C540024FBD6 /* YMTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YMTableViewCell.m; sourceTree = "<group>"; };
+		93ADC5131DCA6C540024FBD6 /* YMTwoButtonSwipeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMTwoButtonSwipeView.h; sourceTree = "<group>"; };
+		93ADC5141DCA6C540024FBD6 /* YMTwoButtonSwipeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YMTwoButtonSwipeView.m; sourceTree = "<group>"; };
+		93ADC51A1DCB1EBE0024FBD6 /* credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = credits.html; path = OneBusAway/credits.html; sourceTree = SOURCE_ROOT; };
 		93BBB4001DB4BA7200694940 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = OneBusAway/Info.plist; sourceTree = SOURCE_ROOT; };
 		93BBB4271DB9525000694940 /* OBAURLHelpers_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAURLHelpers_Tests.m; sourceTree = "<group>"; };
 		93C3936A1D8A3A4D0080F370 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		93C3936C1D8A3A530080F370 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		93C3936E1D8A3AC20080F370 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
+		93CD35BC1DCC63270024DD3D /* OBAStackedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStackedButton.h; sourceTree = "<group>"; };
+		93CD35BD1DCC63270024DD3D /* OBAStackedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStackedButton.m; sourceTree = "<group>"; };
 		93E4A7611CE65B2100E769B0 /* atlanta.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = atlanta.gpx; sourceTree = "<group>"; };
 		93F5CF8E1DA820A4003947A8 /* boston.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = boston.gpx; sourceTree = "<group>"; };
 		D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = OneBusAway/Entitlements.plist; sourceTree = "<group>"; };
@@ -932,6 +949,7 @@
 		934197BF1DB0C14C004BBBB7 /* externals */ = {
 			isa = PBXGroup;
 			children = (
+				93ADC50B1DCA6C540024FBD6 /* YMSwipeTableViewCell */,
 				934197C01DB0C14C004BBBB7 /* apptentive */,
 				934197C81DB0C14C004BBBB7 /* extobjc */,
 				934197CC1DB0C14C004BBBB7 /* LumberjackConsole */,
@@ -1044,6 +1062,8 @@
 			children = (
 				934197F81DB0C1BA004BBBB7 /* OBARotatingButton.h */,
 				934197F91DB0C1BA004BBBB7 /* OBARotatingButton.m */,
+				93CD35BC1DCC63270024DD3D /* OBAStackedButton.h */,
+				93CD35BD1DCC63270024DD3D /* OBAStackedButton.m */,
 			);
 			path = controls;
 			sourceTree = "<group>";
@@ -1104,6 +1124,7 @@
 		9341982D1DB0C1E9004BBBB7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				93ADC51A1DCB1EBE0024FBD6 /* credits.html */,
 				5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */,
 				5B7C4A521DB96E6700853DD5 /* InfoPlist.strings */,
 				93BBB4001DB4BA7200694940 /* Info.plist */,
@@ -1297,6 +1318,21 @@
 			path = empty_data_sets;
 			sourceTree = "<group>";
 		};
+		93ADC50B1DCA6C540024FBD6 /* YMSwipeTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				93ADC50C1DCA6C540024FBD6 /* UITableViewCell+Swipe.h */,
+				93ADC50D1DCA6C540024FBD6 /* UITableViewCell+Swipe.m */,
+				93ADC50E1DCA6C540024FBD6 /* YMOneButtonSwipeView.h */,
+				93ADC50F1DCA6C540024FBD6 /* YMOneButtonSwipeView.m */,
+				93ADC5111DCA6C540024FBD6 /* YMTableViewCell.h */,
+				93ADC5121DCA6C540024FBD6 /* YMTableViewCell.m */,
+				93ADC5131DCA6C540024FBD6 /* YMTwoButtonSwipeView.h */,
+				93ADC5141DCA6C540024FBD6 /* YMTwoButtonSwipeView.m */,
+			);
+			path = YMSwipeTableViewCell;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1350,13 +1386,17 @@
 				ORGANIZATIONNAME = OneBusAway;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = THEWY9596Q;
 						LastSwiftMigration = 0800;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
 							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+							com.apple.SafariKeychain = {
 								enabled = 1;
 							};
 							com.apple.iCloud = {
@@ -1424,6 +1464,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93ADC51B1DCB1EBE0024FBD6 /* credits.html in Resources */,
 				9341981C1DB0C1BA004BBBB7 /* OBAProgressIndicatorView.xib in Resources */,
 				9341983C1DB0C1E9004BBBB7 /* Images.xcassets in Resources */,
 				934198201DB0C1BA004BBBB7 /* OBALabelAndTextFieldTableViewCell.xib in Resources */,
@@ -1499,6 +1540,7 @@
 				934197EA1DB0C14C004BBBB7 /* PulleyPassthroughScrollView.swift in Sources */,
 				934197B81DB0C140004BBBB7 /* OBAArrivalAndDepartureViewController.m in Sources */,
 				9341978C1DB0C140004BBBB7 /* RegionBuilderViewController.swift in Sources */,
+				93ADC5151DCA6C540024FBD6 /* UITableViewCell+Swipe.m in Sources */,
 				934197871DB0C140004BBBB7 /* OBACreditsViewController.m in Sources */,
 				934197991DB0C140004BBBB7 /* OBATableViewCell.m in Sources */,
 				934197921DB0C140004BBBB7 /* OBADiversionViewController.m in Sources */,
@@ -1524,7 +1566,9 @@
 				9341977E1DB0C140004BBBB7 /* OBAAlerts.m in Sources */,
 				934197BA1DB0C140004BBBB7 /* OBATripDetailsViewController.m in Sources */,
 				934197801DB0C140004BBBB7 /* OBABookmarkRouteDisambiguationViewController.m in Sources */,
+				93ADC5161DCA6C540024FBD6 /* YMOneButtonSwipeView.m in Sources */,
 				9341978B1DB0C140004BBBB7 /* OBARecentStopsViewController.m in Sources */,
+				93CD35BE1DCC63270024DD3D /* OBAStackedButton.m in Sources */,
 				934197A71DB0C140004BBBB7 /* OBAEditStopPreferencesViewController.m in Sources */,
 				934197E31DB0C14C004BBBB7 /* EXTScope.m in Sources */,
 				93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */,
@@ -1534,11 +1578,13 @@
 				934197891DB0C140004BBBB7 /* OBAInfoViewController.m in Sources */,
 				934197861DB0C140004BBBB7 /* OBAAgenciesListViewController.m in Sources */,
 				934197BB1DB0C140004BBBB7 /* OBATripScheduleListViewController.m in Sources */,
+				93ADC5171DCA6C540024FBD6 /* YMTableViewCell.m in Sources */,
 				934197811DB0C140004BBBB7 /* OBABookmarksViewController.m in Sources */,
 				934197A11DB0C140004BBBB7 /* OBASegmentedRow.m in Sources */,
 				9341977D1DB0C140004BBBB7 /* AlertPresenter.swift in Sources */,
 				934197BD1DB0C140004BBBB7 /* OBATripScheduleSectionBuilder.m in Sources */,
 				934198181DB0C1BA004BBBB7 /* OBALabelActivityIndicatorView.m in Sources */,
+				93ADC5181DCA6C540024FBD6 /* YMTwoButtonSwipeView.m in Sources */,
 				934197961DB0C140004BBBB7 /* OBAStaticTableViewController+Builders.m in Sources */,
 				9341979B1DB0C140004BBBB7 /* OBATextFieldCell.m in Sources */,
 				9341979A1DB0C140004BBBB7 /* OBATableViewCellValue1.m in Sources */,
@@ -1698,7 +1744,7 @@
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/OneBusAway/Resources/OneBusAway.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = THEWY9596Q;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",

@@ -80,6 +80,8 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
+    OBALogFunction();
     
     self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimeInterval target:self selector:@selector(reloadData:) userInfo:nil repeats:YES];
 
@@ -123,17 +125,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
     [self.tableView reloadData];
 
     // And then reload remote data.
-    [self reloadData:nil];
-}
-
-#pragma mark - OBANavigationTargetAware
-
-- (OBANavigationTarget *)navigationTarget {
-    return [OBANavigationTarget target:OBANavigationTargetTypeStop parameters:@{ @"stopId": self.stopID }];
-}
-
-- (void)setNavigationTarget:(OBANavigationTarget *)navigationTarget {
-    _stopID = [(NSObject *)[navigationTarget parameterForKey:@"stopId"] copy];
     [self reloadData:nil];
 }
 
@@ -197,6 +188,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     }).catch(^(NSError *error) {
         self.navigationItem.title = NSLocalizedString(@"Error", @"");
         [AlertPresenter showWarning:NSLocalizedString(@"Error", @"") body:error.localizedDescription ?: NSLocalizedString(@"Error connecting", @"requestDidFail")];
+        DDLogError(@"An error occurred while displaying a stop: %@", error);
     }).always(^{
         if (animated) {
             [self.refreshControl endRefreshing];
@@ -278,7 +270,14 @@ static CGFloat const kTableHeaderHeight = 150.f;
         row.destination = dep.tripHeadsign.capitalizedString;
         row.upcomingDepartures = @[[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestDeparture departureStatus:dep.departureStatus]];
         row.statusText = dep.statusText;
-        row.rowActions = @[[self tableViewRowActionForArrivalAndDeparture:dep]];
+        row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
+
+        [row setToggleBookmarkAction:^{
+            [self toggleBookmarkActionForArrivalAndDeparture:dep];
+        }];
+        [row setShareAction:^{
+            [self shareActionForArrivalAndDeparture:dep];
+        }];
 
         [departureRows addObject:row];
     }
@@ -291,24 +290,22 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
 #pragma mark - Row Actions
 
-- (UITableViewRowAction*)tableViewRowActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
-    UITableViewRowAction *rowAction = nil;
-
+- (void)toggleBookmarkActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
     if ([self hasBookmarkForArrivalAndDeparture:dep]) {
-        rowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedString(@"Remove\r\nBookmark", @"") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-            [self promptToRemoveBookmarkForArrivalAndDeparture:dep];
-        }];
+        [self promptToRemoveBookmarkForArrivalAndDeparture:dep];
     }
     else {
-        rowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedString(@"Add Bookmark", @"") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-            OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
-            OBAEditStopBookmarkViewController *editor = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
-            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:editor];
-            [self.navigationController presentViewController:nav animated:YES completion:nil];
-        }];
-        rowAction.backgroundColor = [OBATheme nonOpaquePrimaryColor];
+        [self.tableView setEditing:NO animated:YES];
+        OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
+        OBAEditStopBookmarkViewController *editor = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:editor];
+        [self.navigationController presentViewController:nav animated:YES completion:nil];
     }
-    return rowAction;
+}
+
+- (void)shareActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+    OBATripDeepLink *deepLink = [[OBATripDeepLink alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
+    [self shareDeepLinkURL:deepLink.deepLinkURL];
 }
 
 #pragma mark - Bookmarks
@@ -436,6 +433,14 @@ static CGFloat const kTableHeaderHeight = 150.f;
     self.parallaxHeaderView.highContrastMode = [OBAApplication sharedApplication].useHighContrastUI;
 
     self.tableView.tableHeaderView = self.parallaxHeaderView;
+}
+
+- (void)shareDeepLinkURL:(NSURL*)URL {
+    NSString *activityItem = [NSString stringWithFormat:NSLocalizedString(@"Follow my trip: %@", @"Sharing link activity item in the stop view controller"), URL.absoluteString];
+
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[activityItem] applicationActivities:nil];
+
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 @end

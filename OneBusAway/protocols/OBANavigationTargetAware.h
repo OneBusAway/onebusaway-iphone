@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (OBANavigationTarget*) navigationTarget;
 
 @optional
-- (void) setNavigationTarget:(OBANavigationTarget*)navigationTarget;
+- (void)setNavigationTarget:(OBANavigationTarget*)navigationTarget;
 @end
 
 NS_ASSUME_NONNULL_END

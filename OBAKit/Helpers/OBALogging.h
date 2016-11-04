@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern const DDLogLevel ddLogLevel;
 
+#define OBALogFunction() DDLogInfo(@"%s", __PRETTY_FUNCTION__)
+
 @interface OBALogging : NSObject
 @property(nonatomic,strong,readonly) OBAConsoleLogger *consoleLogger;
 - (NSArray<NSData*>*)logFileData;

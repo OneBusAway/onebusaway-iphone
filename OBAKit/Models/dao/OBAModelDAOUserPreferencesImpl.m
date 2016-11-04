@@ -29,6 +29,7 @@ NSString * const kHideFutureLocationWarningsKey = @"hideFutureLocationWarnings";
 NSString * const kVisitedSituationIdsKey = @"visitedSituationIdsKey";
 NSString * const kOBARegionKey = @"oBARegion";
 NSString * const kCustomRegionsKey = @"customRegions";
+NSString * const kSharedTripsKey = @"sharedTrips";
 NSString * const kSetRegionAutomaticallyKey = @"setRegionAutomatically";
 NSString * const kUngroupedBookmarksOpenKey = @"UngroupedBookmarksOpen";
 NSString * const OBAShareRegionPIIUserDefaultsKey = @"OBAShareRegionPIIUserDefaultsKey";
@@ -124,33 +125,11 @@ NSString * const OBAShareLogsPIIUserDefaultsKey = @"OBAShareLogsPIIUserDefaultsK
 }
 
 - (void)addCustomRegion:(OBARegionV2*)region {
-    OBAGuard(region) else {
-        return;
-    }
-
-    @synchronized (self) {
-        // n.b. it seems non-optimal to repeat these lines of code from -customRegions,
-        // but I'm more concerned about the effects of nesting @synchronized() directives.
-        NSSet *regions = [self.class loadAndDecodeObjectFromDataForKey:kCustomRegionsKey] ?: [NSSet set];
-        NSMutableSet *set = [NSMutableSet setWithSet:regions];
-        [set addObject:region];
-        [self.class writeObjectToUserDefaults:set withKey:kCustomRegionsKey];
-    }
+    [self addObject:region toSetWithKey:kCustomRegionsKey];
 }
 
 - (void)removeCustomRegion:(OBARegionV2*)region {
-    OBAGuard(region) else {
-        return;
-    }
-
-    @synchronized (self) {
-        // n.b. it seems non-optimal to repeat these lines of code from -customRegions,
-        // but I'm more concerned about the effects of nesting @synchronized() directives.
-        NSSet *regions = [self.class loadAndDecodeObjectFromDataForKey:kCustomRegionsKey] ?: [NSSet set];
-        NSMutableSet *set = [NSMutableSet setWithSet:regions];
-        [set removeObject:region];
-        [self.class writeObjectToUserDefaults:set withKey:kCustomRegionsKey];
-    }
+    [self removeObject:region fromSetWithKey:kCustomRegionsKey];
 }
 
 - (BOOL)readSetRegionAutomatically {
@@ -189,6 +168,50 @@ NSString * const OBAShareLogsPIIUserDefaultsKey = @"OBAShareLogsPIIUserDefaultsK
 - (void)setShareLogsPII:(BOOL)shareLogsPII {
     [[NSUserDefaults standardUserDefaults] setBool:shareLogsPII forKey:OBAShareLogsPIIUserDefaultsKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+#pragma mark - Shared Trips
+
+- (NSSet<OBATripDeepLink*>*)sharedTrips {
+    @synchronized (self) {
+        return [self.class loadAndDecodeObjectFromDataForKey:kSharedTripsKey] ?: [NSSet set];
+    }
+}
+
+- (void)addSharedTrip:(OBATripDeepLink*)sharedTrip {
+    [self addObject:sharedTrip toSetWithKey:kSharedTripsKey];
+}
+
+- (void)removeSharedTrip:(OBATripDeepLink*)sharedTrip {
+    [self removeObject:sharedTrip fromSetWithKey:kSharedTripsKey];
+}
+
+#pragma mark - Generic Set Management Methods
+
+- (void)addObject:(id)object toSetWithKey:(NSString*)key {
+    OBAGuard(object && key.length > 0) else {
+        return;
+    }
+
+    @synchronized (self) {
+        NSSet *set = [self.class loadAndDecodeObjectFromDataForKey:key] ?: [NSSet set];
+        NSMutableSet *mutableSet = [NSMutableSet setWithSet:set];
+        [mutableSet addObject:object];
+        [self.class writeObjectToUserDefaults:mutableSet withKey:key];
+    }
+}
+
+- (void)removeObject:(id)object fromSetWithKey:(NSString*)key {
+    OBAGuard(object && key.length > 0) else {
+        return;
+    }
+
+    @synchronized (self) {
+        NSSet *set = [self.class loadAndDecodeObjectFromDataForKey:key] ?: [NSSet set];
+        NSMutableSet *mutableSet = [NSMutableSet setWithSet:set];
+        [mutableSet removeObject:object];
+        [self.class writeObjectToUserDefaults:mutableSet withKey:key];
+    }
 }
 
 #pragma mark - (De-)Serialization

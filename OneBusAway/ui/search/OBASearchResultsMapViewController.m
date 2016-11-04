@@ -71,7 +71,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     if (self) {
         self.title = kDefaultTitle;
-        self.tabBarItem.image = [UIImage imageNamed:@"CrossHairs"];
+        self.tabBarItem.image = [UIImage imageNamed:@"Map"];
+        self.tabBarItem.selectedImage = [UIImage imageNamed:@"Map_Selected"];
     }
 
     return self;
@@ -162,6 +163,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
+    OBALogFunction();
 
     [self registerForLocationNotifications];
     [[OBAApplication sharedApplication].locationManager startUpdatingLocation];
@@ -363,7 +366,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleCancel handler:nil]];
         [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [APP_DELEGATE navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
+            [APP_DELEGATE navigateToTarget:[OBANavigationTarget navigationTarget:OBANavigationTargetTypeContactUs]];
         }]];
         [self presentViewController:alert animated:YES completion:nil];
     }

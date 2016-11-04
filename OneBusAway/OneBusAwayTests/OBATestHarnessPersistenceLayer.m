@@ -113,4 +113,18 @@
     //
 }
 
+#pragma mark - Shared Trips
+
+- (NSSet<OBATripDeepLink*>*)sharedTrips {
+    return [NSSet set];
+}
+
+- (void)addSharedTrip:(OBATripDeepLink*)sharedTrip {
+    //
+}
+
+- (void)removeSharedTrip:(OBATripDeepLink*)sharedTrip {
+    //
+}
+
 @end

@@ -8,11 +8,10 @@
 
 @import OBAKit;
 #import "OBAStaticTableViewController.h"
-#import "OBANavigationTargetAware.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAStopViewController : OBAStaticTableViewController<OBANavigationTargetAware>
+@interface OBAStopViewController : OBAStaticTableViewController
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
 @property(nonatomic,strong) OBAModelService *modelService;
 @property(nonatomic,copy,readonly) NSString *stopID;

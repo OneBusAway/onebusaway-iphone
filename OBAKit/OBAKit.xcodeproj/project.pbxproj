@@ -16,6 +16,8 @@
 		932CCED31DC3D315001C8405 /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCECD1DC3D315001C8405 /* PMKFoundation.framework */; };
 		932CCED41DC3D315001C8405 /* PMKMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCECE1DC3D315001C8405 /* PMKMapKit.framework */; };
 		932CCED51DC3D315001C8405 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCECF1DC3D315001C8405 /* PromiseKit.framework */; };
+		932CCEE21DC40221001C8405 /* OBADeepLinkRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 932CCEE01DC40221001C8405 /* OBADeepLinkRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		932CCEE31DC40221001C8405 /* OBADeepLinkRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 932CCEE11DC40221001C8405 /* OBADeepLinkRouter.m */; };
 		934195431DB0B013004BBBB7 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934195391DB0B013004BBBB7 /* OBAKit.framework */; };
 		934195481DB0B013004BBBB7 /* OBAKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195471DB0B013004BBBB7 /* OBAKitTests.m */; };
 		934195F81DB0B099004BBBB7 /* NSArray+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195541DB0B099004BBBB7 /* NSArray+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -196,6 +198,10 @@
 		934196CF1DB0B369004BBBB7 /* OBAKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 934196CD1DB0B369004BBBB7 /* OBAKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196D31DB0C02F004BBBB7 /* NSDate+DateTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 934196D11DB0C02F004BBBB7 /* NSDate+DateTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196D41DB0C02F004BBBB7 /* NSDate+DateTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196D21DB0C02F004BBBB7 /* NSDate+DateTools.m */; };
+		93B282C41DC664C7005013D7 /* OBATripDeepLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B282C21DC664C7005013D7 /* OBATripDeepLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93B282C51DC664C7005013D7 /* OBATripDeepLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B282C31DC664C7005013D7 /* OBATripDeepLink.m */; };
+		93B282C81DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93B282C91DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B282C71DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -218,6 +224,8 @@
 		932CCECD1DC3D315001C8405 /* PMKFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKFoundation.framework; path = ../Carthage/Build/iOS/PMKFoundation.framework; sourceTree = "<group>"; };
 		932CCECE1DC3D315001C8405 /* PMKMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKMapKit.framework; path = ../Carthage/Build/iOS/PMKMapKit.framework; sourceTree = "<group>"; };
 		932CCECF1DC3D315001C8405 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = ../Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
+		932CCEE01DC40221001C8405 /* OBADeepLinkRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADeepLinkRouter.h; sourceTree = "<group>"; };
+		932CCEE11DC40221001C8405 /* OBADeepLinkRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADeepLinkRouter.m; sourceTree = "<group>"; };
 		934195391DB0B013004BBBB7 /* OBAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OBAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		934195421DB0B013004BBBB7 /* OBAKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OBAKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		934195471DB0B013004BBBB7 /* OBAKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAKitTests.m; sourceTree = "<group>"; };
@@ -402,6 +410,10 @@
 		934196CD1DB0B369004BBBB7 /* OBAKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAKit.h; sourceTree = "<group>"; };
 		934196D11DB0C02F004BBBB7 /* NSDate+DateTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DateTools.h"; sourceTree = "<group>"; };
 		934196D21DB0C02F004BBBB7 /* NSDate+DateTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DateTools.m"; sourceTree = "<group>"; };
+		93B282C21DC664C7005013D7 /* OBATripDeepLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripDeepLink.h; sourceTree = "<group>"; };
+		93B282C31DC664C7005013D7 /* OBATripDeepLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripDeepLink.m; sourceTree = "<group>"; };
+		93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLQueryItem+OBAAdditions.h"; sourceTree = "<group>"; };
+		93B282C71DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLQueryItem+OBAAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -481,6 +493,8 @@
 				934195591DB0B099004BBBB7 /* UILabel+OBAAdditions.m */,
 				934196D11DB0C02F004BBBB7 /* NSDate+DateTools.h */,
 				934196D21DB0C02F004BBBB7 /* NSDate+DateTools.m */,
+				93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */,
+				93B282C71DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -518,6 +532,8 @@
 				934195761DB0B099004BBBB7 /* OBAURLHelpers.m */,
 				934195771DB0B099004BBBB7 /* OBAUser.h */,
 				934195781DB0B099004BBBB7 /* OBAUser.m */,
+				932CCEE01DC40221001C8405 /* OBADeepLinkRouter.h */,
+				932CCEE11DC40221001C8405 /* OBADeepLinkRouter.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -692,6 +708,8 @@
 				934195F51DB0B099004BBBB7 /* OBATripV2.m */,
 				934195F61DB0B099004BBBB7 /* OBAVehicleStatusV2.h */,
 				934195F71DB0B099004BBBB7 /* OBAVehicleStatusV2.m */,
+				93B282C21DC664C7005013D7 /* OBATripDeepLink.h */,
+				93B282C31DC664C7005013D7 /* OBATripDeepLink.m */,
 			);
 			path = unmanaged;
 			sourceTree = "<group>";
@@ -755,6 +773,7 @@
 				934196821DB0B099004BBBB7 /* OBAStopsForRouteV2.h in Headers */,
 				934196001DB0B099004BBBB7 /* OBACommon.h in Headers */,
 				934196101DB0B099004BBBB7 /* OBAReachability.h in Headers */,
+				93B282C81DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h in Headers */,
 				934196861DB0B099004BBBB7 /* OBATripDetailsV2.h in Headers */,
 				9341966B1DB0B099004BBBB7 /* OBARegionV2.h in Headers */,
 				9341964B1DB0B099004BBBB7 /* OBAArrivalAndDepartureInstanceRef.h in Headers */,
@@ -829,6 +848,8 @@
 				934196B41DB0B0AF004BBBB7 /* OBAModelService.h in Headers */,
 				934196D31DB0C02F004BBBB7 /* NSDate+DateTools.h in Headers */,
 				934196CF1DB0B369004BBBB7 /* OBAKit.h in Headers */,
+				932CCEE21DC40221001C8405 /* OBADeepLinkRouter.h in Headers */,
+				93B282C41DC664C7005013D7 /* OBATripDeepLink.h in Headers */,
 				9341965C1DB0B099004BBBB7 /* OBAHasReferencesV2.h in Headers */,
 				934196431DB0B099004BBBB7 /* OBASetPropertyJsonDigesterRule.h in Headers */,
 				934196411DB0B099004BBBB7 /* OBASetNextOBAJsonDigesterRule.h in Headers */,
@@ -966,6 +987,8 @@
 				934196191DB0B099004BBBB7 /* OBAURLHelpers.m in Sources */,
 				934195FB1DB0B099004BBBB7 /* NSObject+OBADescription.m in Sources */,
 				9341962B1DB0B099004BBBB7 /* OBATripStopTimeMapAnnotation.m in Sources */,
+				93B282C91DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m in Sources */,
+				93B282C51DC664C7005013D7 /* OBATripDeepLink.m in Sources */,
 				934195FD1DB0B099004BBBB7 /* UILabel+OBAAdditions.m in Sources */,
 				9341961B1DB0B099004BBBB7 /* OBAUser.m in Sources */,
 				9341961F1DB0B099004BBBB7 /* OBAMapRegionManager.m in Sources */,
@@ -994,6 +1017,7 @@
 				934196B71DB0B0AF004BBBB7 /* OBAModelServiceRequest.m in Sources */,
 				9341963A1DB0B099004BBBB7 /* OBASelectorJsonDigesterRule.m in Sources */,
 				934196171DB0B099004BBBB7 /* OBAStrings.m in Sources */,
+				932CCEE31DC40221001C8405 /* OBADeepLinkRouter.m in Sources */,
 				934196401DB0B099004BBBB7 /* OBASetLocationPropertyJsonDigesterRule.m in Sources */,
 				934196B91DB0B0AF004BBBB7 /* OBATheme.m in Sources */,
 				934196871DB0B099004BBBB7 /* OBATripDetailsV2.m in Sources */,

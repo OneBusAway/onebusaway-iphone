@@ -28,7 +28,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
 @property(strong) OBARecentStopsViewController *recentsViewController;
 
 @property(strong) UINavigationController *bookmarksNavigationController;
-@property(strong) UIViewController *bookmarksViewController;
+@property(strong) OBABookmarksViewController *bookmarksViewController;
 
 @property(strong) UINavigationController *infoNavigationController;
 @property(strong) OBAInfoViewController *infoViewController;
@@ -82,46 +82,37 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
     return self.tabBarController;
 }
 
-- (void)performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler {
+- (void)performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
+    NSDictionary *parameters = nil;
+    OBANavigationTargetType navigationTargetType = OBANavigationTargetTypeUndefined;
 
-    NSString *shortcutIdentifier = shortcutItem.type;
-
-    if ([shortcutIdentifier isEqualToString:kApplicationShortcutMap]) {
-        [self.tabBarController setSelectedViewController:self.mapNavigationController];
-
-        [self.mapNavigationController popToRootViewControllerAnimated:NO];
-        [self.mapViewController updateLocation:self];
+    if ([shortcutItem.type isEqual:kApplicationShortcutMap]) {
+        navigationTargetType = OBANavigationTargetTypeMap;
     }
-    else if ([shortcutIdentifier isEqualToString:kApplicationShortcutBookmarks]) {
-        [self.tabBarController setSelectedViewController:self.bookmarksNavigationController];
-
-        [self.bookmarksNavigationController popToRootViewControllerAnimated:NO];
+    else if ([shortcutItem.type isEqual:kApplicationShortcutBookmarks]) {
+        navigationTargetType = OBANavigationTargetTypeBookmarks;
     }
-    else if ([shortcutIdentifier isEqualToString:kApplicationShortcutRecents]) {
-        [self.tabBarController setSelectedViewController:self.recentsNavigationController];
-
-        NSArray *stopIds = (NSArray *)shortcutItem.userInfo[@"stopIds"];
-        if (stopIds.count > 0) {
-            OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stopIds[0]];
-            [self.recentsNavigationController popToRootViewControllerAnimated:NO];
-            [self.recentsNavigationController pushViewController:vc animated:YES];
+    else if ([shortcutItem.type isEqual:kApplicationShortcutRecents]) {
+        navigationTargetType = OBANavigationTargetTypeRecentStops;
+        NSArray *stopIDs = (NSArray*)shortcutItem.userInfo[@"stopIds"];
+        if (stopIDs.count > 0) {
+            parameters = @{OBAStopIDNavigationTargetParameter: stopIDs.firstObject};
         }
     }
 
-    // update kOBASelectedTabIndexDefaultsKey, since the delegate doesn't fire
-    // otherwise applicationDidBecomeActive: will switch us away
-    [self tabBarController:self.tabBarController didSelectViewController:self.tabBarController.selectedViewController];
+    OBANavigationTarget *navigationTarget = [OBANavigationTarget navigationTarget:navigationTargetType parameters:parameters];
+    [self navigateToTargetInternal:navigationTarget];
 
     completionHandler(YES);
 }
 
 - (void)applicationDidBecomeActive {
-    self.tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
+    [self updateSelectedTabIndex];
 }
 
 - (void)updateSelectedTabIndex {
     NSInteger selectedIndex = 0;
-    NSString *startupView = nil;
+    NSString *startingTab = nil;
 
     if ([[NSUserDefaults standardUserDefaults] objectForKey:kOBASelectedTabIndexDefaultsKey]) {
         selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
@@ -131,52 +122,77 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
 
     switch (selectedIndex) {
         case 0:
-            startupView = @"OBASearchResultsMapViewController";
+            startingTab = @"OBASearchResultsMapViewController";
             break;
 
         case 1:
-            startupView = @"OBARecentStopsViewController";
+            startingTab = @"OBARecentStopsViewController";
             break;
 
         case 2:
-            startupView = @"OBABookmarksViewController";
+            startingTab = @"OBABookmarksViewController";
             break;
 
         case 3:
-            startupView = @"OBAInfoViewController";
+            startingTab = @"OBAInfoViewController";
             break;
 
         default:
-            startupView = @"Unknown";
+            startingTab = @"Unknown";
             break;
     }
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"startup" label:[NSString stringWithFormat:@"Startup View: %@", startupView] value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"startup" label:[NSString stringWithFormat:@"Startup View: %@", startingTab] value:nil];
 }
 
 - (void)navigateToTargetInternal:(OBANavigationTarget*)navigationTarget {
     [self.mapNavigationController popToRootViewControllerAnimated:NO];
 
-    if (OBANavigationTargetTypeSearchResults == navigationTarget.target) {
-        [self.tabBarController setSelectedViewController:self.mapNavigationController];
-        self.mapViewController.navigationTarget = navigationTarget;
+    UIViewController<OBANavigationTargetAware> *viewController = nil;
+
+    switch (navigationTarget.target) {
+        case OBANavigationTargetTypeMap: {
+            [self.tabBarController setSelectedViewController:self.mapNavigationController];
+            viewController = self.mapViewController;
+            break;
+        }
+
+        case OBANavigationTargetTypeSearchResults: {
+            [self.tabBarController setSelectedViewController:self.mapNavigationController];
+            viewController = self.mapViewController;
+            break;
+        }
+
+        case OBANavigationTargetTypeRecentStops: {
+            self.tabBarController.selectedViewController = self.recentsNavigationController;
+            viewController = self.recentsViewController;
+            break;
+        }
+
+        case OBANavigationTargetTypeBookmarks: {
+            self.tabBarController.selectedViewController = self.bookmarksNavigationController;
+            viewController = self.bookmarksViewController;
+            break;
+        }
+            
+        case OBANavigationTargetTypeContactUs: {
+            [self.tabBarController setSelectedViewController:self.infoNavigationController];
+            viewController = self.infoViewController;
+            break;
+        }
+
+        case OBANavigationTargetTypeUndefined:
+        default: {
+            DDLogError(@"Unhandled target in %s: %@", __PRETTY_FUNCTION__, @(navigationTarget.target));
+        }
     }
-    else if (OBANavigationTargetTypeContactUs == navigationTarget.target) {
-        [self.tabBarController setSelectedViewController:self.infoNavigationController];
+
+    if ([viewController respondsToSelector:@selector(setNavigationTarget:)]) {
+        [viewController setNavigationTarget:navigationTarget];
     }
-    else if (OBANavigationTargetTypeSettings == navigationTarget.target) {
-        [self.tabBarController setSelectedViewController:self.infoNavigationController];
-    }
-    else if (OBANavigationTargetTypeAgencies == navigationTarget.target) {
-        [self.tabBarController setSelectedViewController:self.infoNavigationController];
-        [self.infoViewController openAgencies];
-    }
-    else if (OBANavigationTargetTypeBookmarks == navigationTarget.target) {
-        [self.tabBarController setSelectedViewController:self.bookmarksNavigationController];
-    }
-    else {
-        DDLogError(@"Unhandled target in %s: %@", __PRETTY_FUNCTION__, @(navigationTarget.target));
-    }
+
+    // update kOBASelectedTabIndexDefaultsKey, otherwise -applicationDidBecomeActive: will switch us away.
+    [self tabBarController:self.tabBarController didSelectViewController:self.tabBarController.selectedViewController];
 }
 
 #pragma mark - UITabBarControllerDelegate

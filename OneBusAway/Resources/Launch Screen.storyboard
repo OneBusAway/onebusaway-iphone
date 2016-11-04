@@ -1,8 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,12 +22,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qqv-oa-8Ro">
+                                <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <items>
-                                    <tabBarItem title="Map" image="CrossHairs" id="ZEy-hw-S0U"/>
-                                    <tabBarItem title="Recent" image="Clock" id="0pE-aN-Fa4"/>
-                                    <tabBarItem title="Bookmarks" image="Bookmarks" id="Puy-ea-4VL"/>
-                                    <tabBarItem title="Info" image="info" id="MyU-un-Fv6"/>
+                                    <tabBarItem title="" image="Map" id="ZEy-hw-S0U"/>
+                                    <tabBarItem title="" image="Recent" id="0pE-aN-Fa4"/>
+                                    <tabBarItem title="" image="Favorites" id="Puy-ea-4VL"/>
+                                    <tabBarItem title="" image="Info" id="MyU-un-Fv6"/>
                                 </items>
                             </tabBar>
                         </subviews>
@@ -42,9 +46,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Bookmarks" width="29" height="24"/>
-        <image name="Clock" width="25" height="24"/>
-        <image name="CrossHairs" width="24" height="24"/>
-        <image name="info" width="24" height="24"/>
+        <image name="Favorites" width="24" height="24"/>
+        <image name="Info" width="24" height="24"/>
+        <image name="Map" width="24" height="24"/>
+        <image name="Recent" width="24" height="24"/>
     </resources>
 </document>

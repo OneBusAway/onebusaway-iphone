@@ -16,21 +16,34 @@
 
 #import <OBAKit/OBANavigationTarget.h>
 
+NSString * const OBAStopIDNavigationTargetParameter = @"stopId";
+
+@interface OBANavigationTarget ()
+@property(nonatomic,assign,readwrite) OBANavigationTargetType target;
+@property(nonatomic,strong,readwrite) NSMutableDictionary *parameters;
+@end
+
 @implementation OBANavigationTarget
 
-- (id) initWithTarget:(OBANavigationTargetType)target {
-    return [self initWithTarget:target parameters:@{}];
-}
-
-- (id) initWithTarget:(OBANavigationTargetType)target parameters:(NSDictionary*)parameters {
-    if( self = [super init] ) {
+- (instancetype)initWithTarget:(OBANavigationTargetType)target parameters:(nullable NSDictionary*)parameters {
+    if (self = [super init]) {
         _target = target;
-        _parameters = [[NSMutableDictionary alloc] initWithDictionary:parameters];
+        _parameters = [[NSMutableDictionary alloc] initWithDictionary:parameters ?: @{}];
     }
     return self;
 }
 
-- (id) initWithCoder:(NSCoder*)coder {
++ (instancetype)navigationTarget:(OBANavigationTargetType)target {
+    return [self navigationTarget:target parameters:@{}];
+}
+
++ (instancetype)navigationTarget:(OBANavigationTargetType)target parameters:(NSDictionary*)parameters {
+    return [[self alloc] initWithTarget:target parameters:parameters];
+}
+
+#pragma mark - NSCoding
+
+- (id)initWithCoder:(NSCoder*)coder {
     if( self = [super init] ) {
         
         NSNumber * target = [coder decodeObjectForKey:@"target"];
@@ -38,34 +51,18 @@
 
         NSDictionary * dictionary = [coder decodeObjectForKey:@"parameters"];
         _parameters = [[NSMutableDictionary alloc] initWithDictionary:dictionary];
+
+        _object = [coder decodeObjectForKey:@"object"];
     }
     return self;
 }
 
-+ (id) target:(OBANavigationTargetType)target {
-    return [[self alloc] initWithTarget:target];    
-}
-
-+ (id) target:(OBANavigationTargetType)target parameters:(NSDictionary*)parameters {
-    return [[self alloc] initWithTarget:target parameters:parameters];
-}
-
-
-
-- (id) parameterForKey:(id)key {
-    return _parameters[key];
-}
-
-- (void) setParameter:(id)value forKey:(id)key {
-    _parameters[key] = value;
-}
-
-#pragma mark NSCoder Methods
-
-- (void) encodeWithCoder: (NSCoder *)coder {
+- (void)encodeWithCoder: (NSCoder *)coder {
     [coder encodeObject:[NSNumber numberWithInt:_target] forKey:@"target"];
     [coder encodeObject:_parameters forKey:@"parameters"];
+    if ([_object conformsToProtocol:@protocol(NSCoding)]) {
+        [coder encodeObject:_object forKey:@"object"];
+    }
 }
-
 
 @end

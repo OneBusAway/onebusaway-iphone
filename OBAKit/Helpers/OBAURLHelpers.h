@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAURLHelpers : NSObject
 + (NSURL*)normalizeURLPath:(NSString*)path relativeToBaseURL:(NSString*)baseURLString parameters:(NSDictionary* _Nullable)params;
++ (NSString*)escapePathVariable:(NSString*)pathVariable;
 @end
 
 NS_ASSUME_NONNULL_END

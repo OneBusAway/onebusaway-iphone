@@ -78,6 +78,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSString*)bestAvailableName;
 
+@property(nonatomic,copy,readonly) NSString *bestAvailableNameWithHeadsign;
+
 - (OBADepartureStatus)departureStatus;
 
 - (NSString*)statusText;

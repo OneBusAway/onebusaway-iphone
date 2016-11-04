@@ -13,7 +13,7 @@
 @class OBAModelDAO;
 @class OBAModelService;
 
-@interface OBABookmarksViewController : OBAStaticTableViewController <OBANavigationTargetAware>
+@interface OBABookmarksViewController : OBAStaticTableViewController<OBANavigationTargetAware>
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
 @property(nonatomic,strong) OBAModelService *modelService;
 @end

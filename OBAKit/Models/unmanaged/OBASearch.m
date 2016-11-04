@@ -105,7 +105,7 @@ NSString * const kOBASearchControllerSearchLocationParameter = @"OBASearchContro
     if( argument )
         params[kOBASearchControllerSearchArgumentParameter] = argument;
     
-    return [[OBANavigationTarget alloc] initWithTarget:OBANavigationTargetTypeSearchResults parameters:params];
+    return [OBANavigationTarget navigationTarget:OBANavigationTargetTypeSearchResults parameters:params];
 }
 
 @end

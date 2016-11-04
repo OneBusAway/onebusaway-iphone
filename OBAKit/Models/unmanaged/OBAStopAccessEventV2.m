@@ -18,22 +18,40 @@
 
 @implementation OBAStopAccessEventV2
 
-- (id) initWithCoder:(NSCoder*)coder {
+#pragma mark - NSCoder Methods
+
+- (id)initWithCoder:(NSCoder*)coder {
     self = [super init];
-    if( self ) {
-        _title =  [coder decodeObjectForKey:@"title"];
-        _subtitle =  [coder decodeObjectForKey:@"subtitle"];
-        _stopIds =  [coder decodeObjectForKey:@"stopIds"];
+    if (self) {
+        _title = [coder decodeObjectForKey:@"title"];
+        _subtitle = [coder decodeObjectForKey:@"subtitle"];
+        _stopIds = [coder decodeObjectForKey:@"stopIds"];
     }
     return self;
 }
 
-#pragma mark NSCoder Methods
-
-- (void) encodeWithCoder: (NSCoder *)coder {
+- (void)encodeWithCoder:(NSCoder*)coder {
     [coder encodeObject:self.title forKey:@"title"];
     [coder encodeObject:self.subtitle forKey:@"subtitle"];
     [coder encodeObject:self.stopIds forKey:@"stopIds"];
+}
+
+#pragma mark - Equality
+
+- (BOOL)isEqual:(OBAStopAccessEventV2*)object {
+    if (self == object) {
+        return YES;
+    }
+
+    if (![object isKindOfClass:self.class]) {
+        return NO;
+    }
+
+    return self.hash == object.hash;
+}
+
+- (NSUInteger)hash {
+    return [NSString stringWithFormat:@"%@_%@_%@", self.title, self.subtitle, [self.stopIds componentsJoinedByString:@"_"]].hash;
 }
 
 @end
