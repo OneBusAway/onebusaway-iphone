@@ -121,7 +121,7 @@ NSString * const OBADeepLinkURL = @"https://www.onebusaway.co";
     NSString *stopID = [OBAURLHelpers escapePathVariable:self.stopID];
 
     NSURLComponents *URLComponents = [NSURLComponents componentsWithString:OBADeepLinkURL];
-    URLComponents.path = [NSString stringWithFormat:@"/regions/%@/stops/%@/arrivals", @(self.regionIdentifier), stopID];
+    URLComponents.path = [NSString stringWithFormat:@"/regions/%@/stops/%@/trips", @(self.regionIdentifier), stopID];
 
     URLComponents.queryItems = @[
                                  [NSURLQueryItem queryItemWithName:@"trip_id" value:self.tripID],
