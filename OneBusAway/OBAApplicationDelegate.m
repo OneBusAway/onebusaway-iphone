@@ -36,7 +36,6 @@
 #import "EXTScope.h"
 
 static NSString *const kTrackingId = @"UA-2423527-17";
-static NSString *const kOptOutOfTracking = @"OptOutOfTracking";
 static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc9f70ef38378a9d5a15ac7d4926";
 
 @interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate>
@@ -69,7 +68,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 
-        NSDictionary *appDefaults = @{ kOptOutOfTracking: @(NO) };
+        NSDictionary *appDefaults = @{ OBAOptInToTrackingDefaultsKey: @(YES) };
         [[OBAApplication sharedApplication] startWithAppDefaults:appDefaults];
 
         [OBAApplication sharedApplication].regionHelper.delegate = self;
@@ -130,7 +129,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     [Apptentive sharedConnection].APIKey = kApptentiveKey;
 
     // Set up Google Analytics. User must be able to opt out of tracking.
-    [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:kOptOutOfTracking];
+    [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
     [GAI sharedInstance].trackUncaughtExceptions = YES;
     [GAI sharedInstance].logger.logLevel = kGAILogLevelWarning;
 
@@ -161,7 +160,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
     [self.applicationUI applicationDidBecomeActive];
 
-    [GAI sharedInstance].optOut = [[NSUserDefaults standardUserDefaults] boolForKey:kOptOutOfTracking];
+    [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
 
     NSString *label = [NSString stringWithFormat:@"API Region: %@", [OBAApplication sharedApplication].modelDao.currentRegion.regionName];
 

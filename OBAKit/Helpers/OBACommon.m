@@ -24,6 +24,8 @@ NSString * const kApplicationShortcutMap = @"org.onebusaway.iphone.shortcut.map"
 NSString * const kApplicationShortcutRecents = @"org.onebusaway.iphone.shortcut.recents";
 NSString * const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcut.bookmarks";
 
+NSString * const OBAOptInToTrackingDefaultsKey = @"OBAOptInToTrackingDefaultsKey";
+
 const NSInteger kOBAErrorDuplicateEntity = 1000;
 const NSInteger kOBAErrorMissingFieldInData = 1001;
 

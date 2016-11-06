@@ -11,6 +11,7 @@
 @import Masonry;
 
 #import "OBAAgenciesListViewController.h"
+#import "OBASettingsViewController.h"
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
 #import "Apptentive.h"
@@ -41,6 +42,8 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"Settings bar button item title on the info view controller.") style:UIBarButtonItemStylePlain target:self action:@selector(showSettings)];
 
     UIView *header = [self buildTableHeaderView];
     [self setTableViewHeader:header];
@@ -236,6 +239,13 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 }
 
 #pragma mark - Private
+
+- (void)showSettings {
+    OBASettingsViewController *settings = [[OBASettingsViewController alloc] init];
+    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:settings];
+
+    [self presentViewController:navigation animated:YES completion:nil];
+}
 
 - (void)presentApptentiveMessageCenter {
     // Information that cannot be used to uniquely identify the user is shared automatically.
