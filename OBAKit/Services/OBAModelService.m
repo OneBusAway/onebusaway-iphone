@@ -278,20 +278,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
            progressBlock:nil];
 }
 
-- (NSURL*)deepLinkURLForArrivalAndDepartureInstanceRef:(OBAArrivalAndDepartureInstanceRef *)instance {
-    NSString *stopID = [self.class escapePathVariable:instance.stopId];
-
-    NSURLComponents *URLComponents = [NSURLComponents componentsWithString:@"https://www.onebusaway.co"];
-    URLComponents.path = [NSString stringWithFormat:@"/regions/%@/stops/%@/arrivals", @(self.modelDao.currentRegion.identifier), stopID];
-
-    URLComponents.queryItems = @[
-                                 [NSURLQueryItem queryItemWithName:@"trip_id" value:instance.tripInstance.tripId],
-                                 [NSURLQueryItem queryItemWithName:@"service_date" value:@(instance.tripInstance.serviceDate).description]
-                                 ];
-
-    return URLComponents.URL;
-}
-
 - (id<OBAModelServiceRequest>)requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef *)instance completionBlock:(OBADataSourceCompletion)completion {
     OBATripInstanceRef *tripInstance = instance.tripInstance;
 
