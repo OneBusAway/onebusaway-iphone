@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic,strong) NSString * advice;
 
-@property(nonatomic,copy,readonly) NSString *diversionPath;
+@property(nonatomic,copy,nullable,readonly) NSString *diversionPath;
 
 /**
  consquences captures a list of OBASituationConsequenceV2 objects that provide details about the consequences of the service alert. Right now, we mostly use this to share reroute information.

@@ -27,12 +27,10 @@
 
 + (UIImage*)iconForServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts {
     if (serviceAlerts.unreadCount > 0) {
-        NSString *imageName = [serviceAlerts.unreadMaxSeverity isEqual:@"noImpact"] ? @"Alert-Info" : @"Alert";
-        return [UIImage imageNamed:imageName];
+        return [UIImage imageNamed:@"warning_filled"];
     }
     else {
-        NSString *imageName = [serviceAlerts.maxSeverity isEqual:@"noImpact"] ? @"Alert-Info-Grayscale" : @"AlertGrayscale";
-        return [UIImage imageNamed:imageName];
+        return [UIImage imageNamed:@"warning"];
     }
 }
 @end
