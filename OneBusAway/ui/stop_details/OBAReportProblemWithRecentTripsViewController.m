@@ -65,6 +65,12 @@
     NSMutableArray *departureRows = [NSMutableArray array];
 
     for (OBAArrivalAndDepartureV2 *dep in self.arrivalsAndDepartures.arrivalsAndDepartures) {
+
+        // only show departures.
+        if (dep.arrivalDepartureState == OBAArrivalDepartureStateArriving) {
+            continue;
+        }
+
         OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:^(OBABaseRow *blockRow){
             [self reportProblemWithTrip:dep.tripInstance];
         }];
