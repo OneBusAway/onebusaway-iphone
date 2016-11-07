@@ -151,6 +151,14 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }];
 }
 
+- (AnyPromise*)requestStopsNear:(CLLocationCoordinate2D)coordinate {
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestStopsForCoordinate:coordinate completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            resolve(error ?: [responseData values]);
+        }];
+    }];
+}
+
 #pragma mark - Old School Requests
 
 - (id<OBAModelServiceRequest>)requestCurrentTimeWithCompletionBlock:(OBADataSourceCompletion)completion {
@@ -182,6 +190,19 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
                             @"lon": @(region.center.longitude),
                             @"latSpan": @(region.span.latitudeDelta),
                             @"lonSpan": @(region.span.longitudeDelta) };
+
+    return [self request:self.obaJsonDataSource
+                     url:@"/api/where/stops-for-location.json"
+                    args:args
+                selector:@selector(getStopsV2FromJSON:error:)
+         completionBlock:completion
+           progressBlock:nil];
+}
+
+- (id<OBAModelServiceRequest>)requestStopsForCoordinate:(CLLocationCoordinate2D)coordinate
+                                        completionBlock:(OBADataSourceCompletion)completion {
+    NSDictionary *args = @{ @"lat": @(coordinate.latitude),
+                            @"lon": @(coordinate.longitude) };
 
     return [self request:self.obaJsonDataSource
                      url:@"/api/where/stops-for-location.json"

@@ -382,6 +382,14 @@ static CGFloat const kTableHeaderHeight = 150.f;
     }];
     [actionRows addObject:addToBookmarks];
 
+    // Nearby Stops
+    OBATableRow *nearbyStops = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Nearby Stops",) action:^{
+        NearbyStopsViewController *nearby = [[NearbyStopsViewController alloc] initWithStop:self.arrivalsAndDepartures.stop];
+        [self.navigationController pushViewController:nearby animated:YES];
+    }];
+    nearbyStops.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [actionRows addObject:nearbyStops];
+
     // Report a Problem
     OBATableRow *problem = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Report a Problem", @"") action:^{
         OBAReportProblemWithRecentTripsViewController * vc = [[OBAReportProblemWithRecentTripsViewController alloc] initWithStopID:stop.stopId];

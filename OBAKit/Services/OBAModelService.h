@@ -134,6 +134,15 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 - (AnyPromise*)requestVehicleForID:(NSString*)vehicleID;
 
 /**
+   Retrieves the stops near the specified coordiante
+ 
+   @param coordinate     Center coordinate for retrieving stops
+
+   @return A promise that resolves to NSArray<OBAStopV2*>*
+ */
+- (AnyPromise*)requestStopsNear:(CLLocationCoordinate2D)coordinate;
+
+/**
  *  Makes an asynchronous request to fetch the current server time.
  *
  *  @param completion The block to be called once the request completes, this is always executed on the main thread.
@@ -168,6 +177,17 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  */
 - (id<OBAModelServiceRequest>)requestStopsForRegion:(MKCoordinateRegion)region
                                     completionBlock:(OBADataSourceCompletion)completion;
+
+/**
+ *  Makes an asynchronous request for a set of stops near the given coordinate
+ *
+ *  @param coordinate     Coordinate for which the stops are returned
+ *  @param completion The block to be called once the request completes, this is always executed on the main thread.
+ *
+ *  @return The OBAModelServiceRequest object that allows request cancellation
+ */
+- (id<OBAModelServiceRequest>)requestStopsForCoordinate:(CLLocationCoordinate2D)coordinate
+                                        completionBlock:(OBADataSourceCompletion)completion;
 
 /**
  *  Makes an asynchronous request to get a set of stops for a given query, bounded by a region
