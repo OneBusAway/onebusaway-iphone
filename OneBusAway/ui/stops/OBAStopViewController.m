@@ -13,7 +13,7 @@
 #import "OBASeparatorSectionView.h"
 #import "OBAReportProblemWithRecentTripsViewController.h"
 #import "OBAEditStopPreferencesViewController.h"
-#import "OBAParallaxTableHeaderView.h"
+#import "OBAStopTableHeaderView.h"
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBADepartureRow.h"
 #import "OBAAnalytics.h"
@@ -23,9 +23,11 @@
 #import "OBAStaticTableViewController+Builders.h"
 #import "OBABookmarkRouteDisambiguationViewController.h"
 #import "Apptentive.h"
+#import "OBAWalkableRow.h"
 
 static NSTimeInterval const kRefreshTimeInterval = 30.0;
 static CGFloat const kTableHeaderHeight = 150.f;
+static NSInteger kStopsSectionTag = 101;
 
 @interface OBAStopViewController ()<UIScrollViewDelegate>
 @property(nonatomic,strong) UIRefreshControl *refreshControl;
@@ -34,7 +36,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
 @property(nonatomic,strong) OBAArrivalsAndDeparturesForStopV2 *arrivalsAndDepartures;
 @property(nonatomic,strong) OBAStopPreferencesV2 *stopPreferences;
 @property(nonatomic,strong) OBARouteFilter *routeFilter;
-@property(nonatomic,strong) OBAParallaxTableHeaderView *parallaxHeaderView;
+@property(nonatomic,strong) OBAStopTableHeaderView *stopHeaderView;
 @property(nonatomic,strong) NSTimer *apptentiveTimer;
 @end
 
@@ -42,7 +44,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
 - (instancetype)initWithStopID:(NSString*)stopID {
     self = [super initWithNibName:nil bundle:nil];
-    
+
     if (self) {
         _reloadLock = [[NSLock alloc] init];
         _stopID = [stopID copy];
@@ -81,7 +83,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     [super viewWillAppear:animated];
 
     OBALogFunction();
-    
+
     self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimeInterval target:self selector:@selector(reloadData:) userInfo:nil repeats:YES];
 
     // this timer is responsible for recording the user's access of the stop controller. it fires after 10 seconds
@@ -106,7 +108,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     self.stopPreferences = nil;
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
-    
+
     [self cancelTimers];
 }
 
@@ -183,11 +185,19 @@ static CGFloat const kTableHeaderHeight = 150.f;
         self.arrivalsAndDepartures = response;
 
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
-        [self.parallaxHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
+        [self.stopHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
     }).catch(^(NSError *error) {
-        self.navigationItem.title = NSLocalizedString(@"Error", @"");
-        [AlertPresenter showWarning:NSLocalizedString(@"Error", @"") body:error.localizedDescription ?: NSLocalizedString(@"Error connecting", @"requestDidFail")];
+        [AlertPresenter showWarning:NSLocalizedString(@"Error", @"") body:error.localizedDescription ?: NSLocalizedString(@"Error connecting.", @"requestDidFail")];
         DDLogError(@"An error occurred while displaying a stop: %@", error);
+        return error;
+    }).then(^{
+        return [OBAWalkingDirections requestWalkingETA:self.arrivalsAndDepartures.stop.coordinate];
+    }).then(^(MKETAResponse *ETA) {
+        [self insertWalkingIndicatorIntoTable:ETA];
+        self.stopHeaderView.walkingETA = ETA;
+    }).catch(^(NSError *error) {
+        DDLogError(@"Unable to calculate walk time to stop: %@", error);
+        self.stopHeaderView.walkingETA = nil;
     }).always(^{
         if (animated) {
             [self.refreshControl endRefreshing];
@@ -197,7 +207,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
 }
 
 - (void)populateTableFromArrivalsAndDeparturesModel:(OBAArrivalsAndDeparturesForStopV2 *)result {
-
     if (!result) {
         return;
     }
@@ -270,6 +279,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
             OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
             [self.navigationController pushViewController:vc animated:YES];
         }];
+        row.model = dep;
         row.routeName = dep.bestAvailableName;
         row.destination = dep.tripHeadsign.capitalizedString;
         row.upcomingDepartures = @[[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestDeparture departureStatus:dep.departureStatus]];
@@ -287,6 +297,8 @@ static CGFloat const kTableHeaderHeight = 150.f;
     }
 
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:departureRows];
+    section.tag = kStopsSectionTag;
+
     return section;
 }
 
@@ -324,6 +336,67 @@ static CGFloat const kTableHeaderHeight = 150.f;
     }]];
     [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - Walking
+
+- (void)insertWalkingIndicatorIntoTable:(MKETAResponse*)ETA {
+    OBAGuard(ETA) else {
+        return;
+    }
+
+    NSMutableArray<NSIndexPath*> *indexPaths = [NSMutableArray array];
+
+    NSArray *sections = self.sections;
+    for (NSUInteger i=0; i<sections.count; i++) {
+        OBATableSection *section = sections[i];
+
+        if (section.tag != kStopsSectionTag) {
+            continue;
+        }
+
+        for (NSUInteger j=0; j<section.rows.count; j++) {
+            OBADepartureRow *row = section.rows[j];
+            OBAArrivalAndDepartureV2 *model = row.model;
+
+            if (![row isKindOfClass:[OBADepartureRow class]]) {
+                continue;
+            }
+
+            if (![model isKindOfClass:[OBAArrivalAndDepartureV2 class]]) {
+                continue;
+            }
+
+            if (model.timeIntervalUntilBestDeparture > ETA.expectedTravelTime) {
+                // this is the first row that departs after our walk time. Use it.
+                [indexPaths addObject:[NSIndexPath indexPathForRow:j inSection:i]];
+                break;
+            }
+        }
+    }
+
+    [self.tableView beginUpdates];
+
+    for (NSIndexPath *path in indexPaths) {
+        [self insertRow:[[OBAWalkableRow alloc] init] atIndexPath:path animation:UITableViewRowAnimationAutomatic];
+    }
+
+    [self.tableView endUpdates];
+}
+
+#pragma mark - Table View Hacks
+
+// This is used to hide the table view separator underneath an OBAWalkableRow, so
+// that an effect like what is seen in the mockup in the following issue can be
+// properly displayed: https://github.com/OneBusAway/onebusaway-iphone/issues/829
+- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    OBABaseRow *row = [self rowAtIndexPath:indexPath];
+    OBABaseRow *nextRow = [self rowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:indexPath.section]];
+    CGRect bounds = tableView.bounds;
+
+    if ([row isKindOfClass:[OBAWalkableRow class]] || [nextRow isKindOfClass:[OBAWalkableRow class]]) {
+        cell.separatorInset = UIEdgeInsetsMake(0, CGRectGetWidth(bounds)/2.f, 0, CGRectGetWidth(bounds)/2.f);
+    }
 }
 
 #pragma mark - Table Section Creation
@@ -367,6 +440,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
         row.routeName = dep.bestAvailableName;
         row.destination = dep.tripHeadsign.capitalizedString;
         row.statusText = dep.statusText;
+        row.model = dep;
 
         OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestDeparture departureStatus:dep.departureStatus];
 
@@ -375,6 +449,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     }
 
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:title rows:rows];
+    section.tag = kStopsSectionTag;
     return section;
 }
 
@@ -445,10 +520,10 @@ static CGFloat const kTableHeaderHeight = 150.f;
 }
 
 - (void)createTableHeaderView {
-    self.parallaxHeaderView = [[OBAParallaxTableHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), kTableHeaderHeight)];
-    self.parallaxHeaderView.highContrastMode = [OBAApplication sharedApplication].useHighContrastUI;
+    self.stopHeaderView = [[OBAStopTableHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), kTableHeaderHeight)];
+    self.stopHeaderView.highContrastMode = [OBAApplication sharedApplication].useHighContrastUI;
 
-    self.tableView.tableHeaderView = self.parallaxHeaderView;
+    self.tableView.tableHeaderView = self.stopHeaderView;
 }
 
 - (void)shareDeepLinkURL:(NSURL*)URL {

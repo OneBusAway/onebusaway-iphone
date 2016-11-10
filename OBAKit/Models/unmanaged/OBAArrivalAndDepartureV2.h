@@ -109,6 +109,13 @@ typedef NS_ENUM(NSUInteger, OBAArrivalDepartureState) {
  */
 - (NSInteger)minutesUntilBestDeparture;
 
+/**
+ How far away are we right now from the best departure time available to us? Uses real time data when available, and scheduled data otherwise.
+
+ @return The number of seconds until departure.
+ */
+- (NSTimeInterval)timeIntervalUntilBestDeparture;
+
 - (NSComparisonResult)compareRouteName:(OBAArrivalAndDepartureV2*)dep;
 
 /**

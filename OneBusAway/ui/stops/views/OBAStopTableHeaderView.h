@@ -1,5 +1,5 @@
 //
-//  OBAParallaxTableHeaderView.h
+//  OBAStopTableHeaderView.h
 //  org.onebusaway.iphone
 //
 //  Created by Aaron Brethorst on 3/4/16.
@@ -7,10 +7,16 @@
 //
 
 @import UIKit;
+@import MapKit;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class OBAArrivalsAndDeparturesForStopV2;
 
-@interface OBAParallaxTableHeaderView : UIView
+@interface OBAStopTableHeaderView : UIView
 @property(nonatomic,assign) BOOL highContrastMode;
+@property(nonatomic,strong,nullable) MKETAResponse *walkingETA;
 - (void)populateTableHeaderFromArrivalsAndDeparturesModel:(OBAArrivalsAndDeparturesForStopV2*)result;
 @end
+
+NS_ASSUME_NONNULL_END

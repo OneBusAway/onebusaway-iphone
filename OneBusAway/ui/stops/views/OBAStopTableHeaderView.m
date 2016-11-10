@@ -1,12 +1,12 @@
 //
-//  OBAParallaxTableHeaderView.m
+//  OBAStopTableHeaderView.m
 //  org.onebusaway.iphone
 //
 //  Created by Aaron Brethorst on 3/4/16.
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import "OBAParallaxTableHeaderView.h"
+#import "OBAStopTableHeaderView.h"
 @import OBAKit;
 @import Masonry;
 @import PromiseKit;
@@ -16,14 +16,14 @@
 
 #define kHeaderImageViewBackgroundColor [UIColor colorWithWhite:0.f alpha:0.4f]
 
-@interface OBAParallaxTableHeaderView ()
+@interface OBAStopTableHeaderView ()
 @property(nonatomic,strong) UIImageView *headerImageView;
 @property(nonatomic,strong) UILabel *stopInformationLabel;
 @property(nonatomic,strong) UILabel *directionsLabel;
 @property(nonatomic,strong) OBAStopV2 *stop;
 @end
 
-@implementation OBAParallaxTableHeaderView
+@implementation OBAStopTableHeaderView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -98,6 +98,100 @@
 
     self.stop = result.stop;
 
+    [self populateHeaderBackground];
+
+    NSMutableArray *stopMetadata = [[NSMutableArray alloc] init];
+
+    if (self.stop.name) {
+        [stopMetadata addObject:self.stop.name];
+    }
+
+    NSString *stopNumber = nil;
+
+    if (self.stop.direction) {
+        stopNumber = [NSString stringWithFormat:@"%@ #%@ - %@ %@", NSLocalizedString(@"Stop", @"text"), self.stop.code, self.stop.direction, NSLocalizedString(@"bound", @"text")];
+    }
+    else {
+        stopNumber = [NSString stringWithFormat:@"%@ #%@", NSLocalizedString(@"Stop", @"text"), self.stop.code];
+    }
+    [stopMetadata addObject:stopNumber];
+
+    NSString *stopRoutes = [self.stop routeNamesAsString];
+    if (stopRoutes) {
+        [stopMetadata addObject:[NSString stringWithFormat:NSLocalizedString(@"Routes: %@", @""), stopRoutes]];
+    }
+
+    self.stopInformationLabel.text = [stopMetadata componentsJoinedByString:@"\r\n"];
+}
+
+#pragma mark - Walking Distance
+
+- (void)setWalkingETA:(MKETAResponse *)walkingETA {
+    if (_walkingETA == walkingETA) {
+        return;
+    }
+
+    _walkingETA = walkingETA;
+
+    if (!_walkingETA) {
+        [self.directionsLabel removeFromSuperview];
+        return;
+    }
+
+    NSString *walkText = [NSString stringWithFormat:NSLocalizedString(@"Walk to stop: %@ — %.0f min, arriving at %@.",), [OBAMapHelpers stringFromDistance:_walkingETA.distance],
+                                 [[NSDate dateWithTimeIntervalSinceNow:_walkingETA.expectedTravelTime] minutesUntil],
+                                 [OBADateHelpers formatShortTimeNoDate:_walkingETA.expectedArrivalDate]];
+
+    UIImage *walkImage = [[UIImage imageNamed:@"walkTransport"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.directionsLabel.attributedText = [self attributedStringWithValue:walkText image:walkImage];
+
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showWalkingDirections:)];
+    [self.directionsLabel addGestureRecognizer:tapRecognizer];
+
+    [OBAAnimation performAnimations:^{
+        [self setNeedsUpdateConstraints];
+    }];
+}
+
+- (NSAttributedString *)attributedStringWithValue:(NSString *)string image:(UIImage *)image {
+    NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
+    attachment.bounds = CGRectMake(0, 0, 12, 16);
+    attachment.image = image;
+
+    NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:attachment];
+    NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+    [mutableAttributedString appendAttributedString:attachmentString];
+    [mutableAttributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:0] range:NSMakeRange(0, mutableAttributedString.length)]; // Put font size 0 to prevent offset
+    [mutableAttributedString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, mutableAttributedString.length)];
+    [mutableAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+
+    NSAttributedString *ratingText = [[NSAttributedString alloc] initWithString:string];
+    [mutableAttributedString appendAttributedString:ratingText];
+    return mutableAttributedString;
+}
+
+- (void)showWalkingDirections:(UITapGestureRecognizer*)tap {
+    MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:self.stop.coordinate addressDictionary:nil];
+    MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
+    mapItem.name = self.stop.name;
+
+    [mapItem openInMapsWithLaunchOptions:@{
+                                           MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking,
+                                           MKLaunchOptionsMapTypeKey: @(MKMapTypeStandard),
+                                           MKLaunchOptionsShowsTrafficKey: @NO
+                                           }];
+}
+
+#pragma mark - Private Helpers
+
++ (void)applyHeaderStylingToLabel:(UILabel*)label {
+    label.textColor = [UIColor whiteColor];
+    label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.5f];
+    label.shadowOffset = CGSizeMake(0, 1);
+    label.font = [OBATheme bodyFont];
+}
+
+- (void)populateHeaderBackground {
     if (self.highContrastMode) {
         self.headerImageView.backgroundColor = [OBATheme OBAGreen];
     }
@@ -123,96 +217,6 @@
             self.headerImageView.image = colorizedImage;
         });
     }
-
-    NSMutableArray *stopMetadata = [[NSMutableArray alloc] init];
-
-    if (self.stop.name) {
-        [stopMetadata addObject:self.stop.name];
-    }
-
-    NSString *stopNumber = nil;
-
-    if (self.stop.direction) {
-        stopNumber = [NSString stringWithFormat:@"%@ #%@ - %@ %@", NSLocalizedString(@"Stop", @"text"), self.stop.code, self.stop.direction, NSLocalizedString(@"bound", @"text")];
-    }
-    else {
-        stopNumber = [NSString stringWithFormat:@"%@ #%@", NSLocalizedString(@"Stop", @"text"), self.stop.code];
-    }
-    [stopMetadata addObject:stopNumber];
-
-    NSString *stopRoutes = [self.stop routeNamesAsString];
-    if (stopRoutes) {
-        [stopMetadata addObject:[NSString stringWithFormat:NSLocalizedString(@"Routes: %@", @""), stopRoutes]];
-    }
-
-    self.stopInformationLabel.text = [stopMetadata componentsJoinedByString:@"\r\n"];
-
-    [self loadETAToLocation:self.stop.coordinate];
-}
-
-- (void)loadETAToLocation:(CLLocationCoordinate2D)coordinate {
-
-    static NSUInteger iterations = 0;
-
-    [CLLocationManager until:^BOOL(CLLocation *location) {
-        iterations += 1;
-        if (iterations >= 5) {
-            return YES;
-        }
-        else {
-            return location.horizontalAccuracy <= kCLLocationAccuracyNearestTenMeters;
-        }
-    }].thenInBackground(^(CLLocation* currentLocation) {
-        MKPlacemark *sourcePlacemark = [[MKPlacemark alloc] initWithCoordinate:currentLocation.coordinate addressDictionary:nil];
-        MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:nil];
-        MKDirections *directions = [[MKDirections alloc] initWithRequest:({
-            MKDirectionsRequest *r = [[MKDirectionsRequest alloc] init];
-            r.source = [[MKMapItem alloc] initWithPlacemark:sourcePlacemark];
-            r.destination = [[MKMapItem alloc] initWithPlacemark:destinationPlacemark];
-            r.transportType = MKDirectionsTransportTypeWalking;
-            r;
-        })];
-        return [directions calculateETA];
-    }).then(^(MKETAResponse* ETA) {
-        self.directionsLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Walk to stop: %@ — %.0f min, arriving at %@.", @""), [OBAMapHelpers stringFromDistance:ETA.distance],
-                      [[NSDate dateWithTimeIntervalSinceNow:ETA.expectedTravelTime] minutesUntil],
-                      [OBADateHelpers formatShortTimeNoDate:ETA.expectedArrivalDate]];
-
-        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showWalkingDirections:)];
-        [self.directionsLabel addGestureRecognizer:tapRecognizer];
-
-        [OBAAnimation performAnimations:^{
-            [self setNeedsUpdateConstraints];
-        }];
-    }).catch(^(NSError *error) {
-        DDLogError(@"Unable to calculate walk time to stop: %@", error);
-        [self.directionsLabel removeFromSuperview];
-    }).always(^{
-        iterations = 0;
-    });
-}
-
-#pragma mark - Show Walking Directions
-
-- (void)showWalkingDirections:(UITapGestureRecognizer*)tap {
-    MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:self.stop.coordinate addressDictionary:nil];
-    MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
-    mapItem.name = self.stop.name;
-
-    [mapItem openInMapsWithLaunchOptions:@{
-                                           MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking,
-                                           MKLaunchOptionsMapTypeKey: @(MKMapTypeStandard),
-                                           MKLaunchOptionsShowsTrafficKey: @NO
-                                           }];
-}
-
-#pragma mark - Private Helpers
-
-+ (void)applyHeaderStylingToLabel:(UILabel*)label {
-    label.textColor = [UIColor whiteColor];
-    label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.5f];
-    label.shadowOffset = CGSizeMake(0, 1);
-    label.font = [OBATheme bodyFont];
 }
 
 @end

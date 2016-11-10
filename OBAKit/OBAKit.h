@@ -101,4 +101,5 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAUser.h>
 #import <OBAKit/OBAVehicleMapAnnotation.h>
 #import <OBAKit/OBAVehicleStatusV2.h>
+#import <OBAKit/OBAWalkingDirections.h>
 #import <OBAKit/UILabel+OBAAdditions.h>

@@ -42,6 +42,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic,weak,nullable) id model;
 
+/**
+ An arbitrary piece of data that you can associate with a table section object to help you identify it later.
+ */
+@property(nonatomic,assign) NSInteger tag;
+
 + (instancetype)tableSectionWithTitle:(nullable NSString*)title rows:(NSArray*)rows;
 - (instancetype)initWithTitle:(nullable NSString*)title rows:(nullable NSArray*)rows NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithTitle:(nullable NSString*)title;
