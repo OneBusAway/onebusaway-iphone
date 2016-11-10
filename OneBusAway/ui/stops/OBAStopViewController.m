@@ -47,7 +47,7 @@ static CGFloat const kTableHeaderHeight = 150.f;
     if (self) {
         _reloadLock = [[NSLock alloc] init];
         _stopID = [stopID copy];
-        _minutesBefore = 5;
+        _minutesBefore = 0;
         _minutesAfter = 35;
     }
     return self;
