@@ -6,7 +6,7 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import "OBACanvasView.h"
+#import <OBAKit/OBACanvasView.h>
 
 // This is a lightweight view derived from UIView to offer only an opportunity
 // to have a custom drawRect implementation with a reusable class rather than

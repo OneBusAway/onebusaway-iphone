@@ -55,6 +55,15 @@ typedef NS_ENUM(NSUInteger, OBARootViewStyle) {
 - (void)deleteRowAtIndexPath:(NSIndexPath*)indexPath;
 
 /**
+ Inserts a new row into the table view, optionally with animation.
+
+ @param row An instance or subclass of OBABaseRow that will be inserted into the table's data.
+ @param indexPath The index path where the row will be inserted.
+ @param animation The desired insertion animation
+ */
+- (void)insertRow:(OBABaseRow*)row atIndexPath:(NSIndexPath*)indexPath animation:(UITableViewRowAnimation)animation;
+
+/**
  returns the index path for the row that contains a link
  to the specified model.
 

@@ -52,7 +52,7 @@
 - (NSString*)tripHeadsign {
 
     NSString *headsign = nil;
-    
+
     OBATripV2 *trip = self.trip;
     OBARouteV2 *route = trip.route;
 
@@ -206,8 +206,12 @@
     return [OBADateHelpers dateWithMillisecondsSince1970:self.bestDepartureTime];
 }
 
+- (NSTimeInterval)timeIntervalUntilBestDeparture {
+    return self.bestDeparture.timeIntervalSinceNow;
+}
+
 - (NSInteger)minutesUntilBestDeparture {
-    return (NSInteger)(self.bestDeparture.timeIntervalSinceNow / 60.0);
+    return (NSInteger)(self.timeIntervalUntilBestDeparture / 60.0);
 }
 
 - (NSString*)statusText {

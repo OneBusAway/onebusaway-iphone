@@ -106,13 +106,17 @@
 #pragma mark - Public Methods
 
 - (OBABaseRow*)rowAtIndexPath:(NSIndexPath*)indexPath {
-    OBAGuard(indexPath && indexPath.section < self.sections.count) else {
+    OBAGuard(indexPath) else {
+        return nil;
+    }
+
+    if (indexPath.section >= self.sections.count) {
         return nil;
     }
 
     OBATableSection *section = self.sections[indexPath.section];
 
-    OBAGuard(indexPath.row < section.rows.count) else {
+    if (indexPath.row >= section.rows.count) {
         return nil;
     }
 
@@ -185,6 +189,24 @@
     tableRow.deleteModel(tableRow);
 
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)insertRow:(OBABaseRow*)row atIndexPath:(NSIndexPath*)indexPath animation:(UITableViewRowAnimation)animation {
+    OBAGuard(row && indexPath) else {
+        return;
+    }
+
+    OBAGuard(indexPath.section < self.sections.count) else {
+        return;
+    }
+
+    OBATableSection *section = self.sections[indexPath.section];
+    NSMutableArray *rows = [NSMutableArray arrayWithArray:section.rows];
+
+    [rows insertObject:row atIndex:MIN(indexPath.row, section.rows.count)];
+    section.rows = [NSArray arrayWithArray:rows];
+
+    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:animation];
 }
 
 #pragma mark - UITableView Section Headers

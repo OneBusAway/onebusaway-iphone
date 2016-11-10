@@ -11,6 +11,8 @@
 		5B7C4A641DB96E8200853DD5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A661DB96E8200853DD5 /* Localizable.strings */; };
 		5B7C4A691DB96E8300853DD5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A6B1DB96E8300853DD5 /* InfoPlist.strings */; };
 		930AFE901DD0717A0092AE82 /* Array+Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE8F1DD0717A0092AE82 /* Array+Functional.swift */; };
+		930AFE9E1DD183720092AE82 /* OBAWalkingDirections.h in Headers */ = {isa = PBXBuildFile; fileRef = 930AFE9C1DD183720092AE82 /* OBAWalkingDirections.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		930AFE9F1DD183720092AE82 /* OBAWalkingDirections.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE9D1DD183720092AE82 /* OBAWalkingDirections.m */; };
 		932CCED01DC3D315001C8405 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCECA1DC3D315001C8405 /* CocoaLumberjack.framework */; };
 		932CCED11DC3D315001C8405 /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCECB1DC3D315001C8405 /* CocoaLumberjackSwift.framework */; };
 		932CCED21DC3D315001C8405 /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCECC1DC3D315001C8405 /* PMKCoreLocation.framework */; };
@@ -220,6 +222,8 @@
 		5B7C4A651DB96E8200853DD5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5B7C4A6A1DB96E8300853DD5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		930AFE8F1DD0717A0092AE82 /* Array+Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Functional.swift"; sourceTree = "<group>"; };
+		930AFE9C1DD183720092AE82 /* OBAWalkingDirections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAWalkingDirections.h; sourceTree = "<group>"; };
+		930AFE9D1DD183720092AE82 /* OBAWalkingDirections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAWalkingDirections.m; sourceTree = "<group>"; };
 		932CCECA1DC3D315001C8405 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = ../Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
 		932CCECB1DC3D315001C8405 /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = ../Carthage/Build/iOS/CocoaLumberjackSwift.framework; sourceTree = "<group>"; };
 		932CCECC1DC3D315001C8405 /* PMKCoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKCoreLocation.framework; path = ../Carthage/Build/iOS/PMKCoreLocation.framework; sourceTree = "<group>"; };
@@ -537,6 +541,8 @@
 				934195781DB0B099004BBBB7 /* OBAUser.m */,
 				932CCEE01DC40221001C8405 /* OBADeepLinkRouter.h */,
 				932CCEE11DC40221001C8405 /* OBADeepLinkRouter.m */,
+				930AFE9C1DD183720092AE82 /* OBAWalkingDirections.h */,
+				930AFE9D1DD183720092AE82 /* OBAWalkingDirections.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -839,6 +845,7 @@
 				934196761DB0B099004BBBB7 /* OBASearchResult.h in Headers */,
 				9341960E1DB0B099004BBBB7 /* OBAMapHelpers.h in Headers */,
 				9341964F1DB0B099004BBBB7 /* OBAArrivalsAndDeparturesForStopV2.h in Headers */,
+				930AFE9E1DD183720092AE82 /* OBAWalkingDirections.h in Headers */,
 				934196091DB0B099004BBBB7 /* OBAImageHelpers.h in Headers */,
 				934196281DB0B099004BBBB7 /* OBATripContinuationMapAnnotation.h in Headers */,
 				934196551DB0B099004BBBB7 /* OBACoordinateBounds.h in Headers */,
@@ -1047,6 +1054,7 @@
 				934196061DB0B099004BBBB7 /* OBADateHelpers.m in Sources */,
 				934196771DB0B099004BBBB7 /* OBASearchResult.m in Sources */,
 				934196381DB0B099004BBBB7 /* OBAJsonDigester.m in Sources */,
+				930AFE9F1DD183720092AE82 /* OBAWalkingDirections.m in Sources */,
 				934196AF1DB0B0AF004BBBB7 /* OBADataSourceConfig.m in Sources */,
 				9341964E1DB0B099004BBBB7 /* OBAArrivalAndDepartureV2.m in Sources */,
 				934196421DB0B099004BBBB7 /* OBASetNextOBAJsonDigesterRule.m in Sources */,
