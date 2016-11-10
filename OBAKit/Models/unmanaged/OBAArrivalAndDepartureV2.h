@@ -27,6 +27,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, OBAArrivalDepartureState) {
+    OBAArrivalDepartureStateArriving = 0,
+    OBAArrivalDepartureStateDeparting
+};
+
 @interface OBAArrivalAndDepartureV2 : OBAHasReferencesV2<OBAHasServiceAlerts>
 
 @property(nonatomic,copy) NSString *routeId;
@@ -59,6 +64,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) long long predictedDepartureTime;
 @property(nonatomic,assign,readonly) long long bestDepartureTime;
 @property(nonatomic,copy,readonly) NSDate *bestDeparture;
+
+/**
+ Answers the question: Does this represent the vehicle arriving, or the vehicle departing?
+ */
+@property(nonatomic,assign) OBAArrivalDepartureState arrivalDepartureState;
+
 
 @property(nonatomic,assign) double distanceFromStop;
 @property(nonatomic,assign) NSInteger numberOfStopsAway;

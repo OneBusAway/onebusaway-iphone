@@ -14,7 +14,6 @@
 		930AFE781DD04CCA0092AE82 /* OBADepartureRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE751DD04CCA0092AE82 /* OBADepartureRow.m */; };
 		930AFE791DD04CCA0092AE82 /* OBAUpcomingDeparture.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE771DD04CCA0092AE82 /* OBAUpcomingDeparture.m */; };
 		930AFE871DD04D2F0092AE82 /* OBAClassicDepartureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE7C1DD04D2F0092AE82 /* OBAClassicDepartureCell.m */; };
-		930AFE881DD04D2F0092AE82 /* OBAClassicDepartureSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE7E1DD04D2F0092AE82 /* OBAClassicDepartureSectionHeaderView.m */; };
 		930AFE891DD04D2F0092AE82 /* OBAClassicDepartureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE801DD04D2F0092AE82 /* OBAClassicDepartureView.m */; };
 		930AFE8A1DD04D2F0092AE82 /* OBADepartureCellHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE821DD04D2F0092AE82 /* OBADepartureCellHelpers.m */; };
 		930AFE8B1DD04D2F0092AE82 /* OBADepartureTimeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE841DD04D2F0092AE82 /* OBADepartureTimeLabel.m */; };
@@ -251,8 +250,6 @@
 		930AFE771DD04CCA0092AE82 /* OBAUpcomingDeparture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAUpcomingDeparture.m; sourceTree = "<group>"; };
 		930AFE7B1DD04D2F0092AE82 /* OBAClassicDepartureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureCell.h; sourceTree = "<group>"; };
 		930AFE7C1DD04D2F0092AE82 /* OBAClassicDepartureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicDepartureCell.m; sourceTree = "<group>"; };
-		930AFE7D1DD04D2F0092AE82 /* OBAClassicDepartureSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureSectionHeaderView.h; sourceTree = "<group>"; };
-		930AFE7E1DD04D2F0092AE82 /* OBAClassicDepartureSectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicDepartureSectionHeaderView.m; sourceTree = "<group>"; };
 		930AFE7F1DD04D2F0092AE82 /* OBAClassicDepartureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureView.h; sourceTree = "<group>"; };
 		930AFE801DD04D2F0092AE82 /* OBAClassicDepartureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicDepartureView.m; sourceTree = "<group>"; };
 		930AFE811DD04D2F0092AE82 /* OBADepartureCellHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADepartureCellHelpers.h; sourceTree = "<group>"; };
@@ -652,8 +649,6 @@
 			children = (
 				930AFE7B1DD04D2F0092AE82 /* OBAClassicDepartureCell.h */,
 				930AFE7C1DD04D2F0092AE82 /* OBAClassicDepartureCell.m */,
-				930AFE7D1DD04D2F0092AE82 /* OBAClassicDepartureSectionHeaderView.h */,
-				930AFE7E1DD04D2F0092AE82 /* OBAClassicDepartureSectionHeaderView.m */,
 				930AFE7F1DD04D2F0092AE82 /* OBAClassicDepartureView.h */,
 				930AFE801DD04D2F0092AE82 /* OBAClassicDepartureView.m */,
 				930AFE811DD04D2F0092AE82 /* OBADepartureCellHelpers.h */,
@@ -1646,7 +1641,6 @@
 				934197A81DB0C140004BBBB7 /* OBAReportProblemWithRecentTripsViewController.m in Sources */,
 				934197B71DB0C140004BBBB7 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */,
 				9341981F1DB0C1BA004BBBB7 /* OBALabelAndTextFieldTableViewCell.m in Sources */,
-				930AFE881DD04D2F0092AE82 /* OBAClassicDepartureSectionHeaderView.m in Sources */,
 				934197A61DB0C140004BBBB7 /* OBAViewModelRegistry.m in Sources */,
 				9368E5C01DB1584900C329D0 /* OBAEmptyDataSetSource.m in Sources */,
 				934197A41DB0C140004BBBB7 /* OBATableSection.m in Sources */,

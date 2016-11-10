@@ -24,7 +24,6 @@
 @end
 
 @implementation OBAArrivalAndDepartureV2
-@dynamic bestDeparture;
 
 - (instancetype)init {
     self = [super init];
@@ -203,6 +202,10 @@
     }
 }
 
+- (NSDate*)bestDeparture {
+    return [OBADateHelpers dateWithMillisecondsSince1970:self.bestDepartureTime];
+}
+
 - (NSInteger)minutesUntilBestDeparture {
     return (NSInteger)(self.bestDeparture.timeIntervalSinceNow / 60.0);
 }
@@ -253,8 +256,13 @@
     return [self.bookmarkKey isEqual:arrivalAndDeparture.bookmarkKey];
 }
 
-- (NSDate*)bestDeparture {
-    return [OBADateHelpers dateWithMillisecondsSince1970:self.bestDepartureTime];
+- (OBAArrivalDepartureState)arrivalDepartureState {
+    if (self.stopSequence != 0) {
+        return OBAArrivalDepartureStateDeparting;
+    }
+    else {
+        return OBAArrivalDepartureStateArriving;
+    }
 }
 
 #pragma mark - Compare

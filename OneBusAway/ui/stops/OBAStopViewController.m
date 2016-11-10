@@ -16,7 +16,6 @@
 #import "OBAParallaxTableHeaderView.h"
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBADepartureRow.h"
-#import "OBAClassicDepartureSectionHeaderView.h"
 #import "OBAAnalytics.h"
 #import "OBALabelFooterView.h"
 #import "OBASegmentedRow.h"
@@ -258,6 +257,11 @@ static CGFloat const kTableHeaderHeight = 150.f;
 
     for (OBAArrivalAndDepartureV2 *dep in result.arrivalsAndDepartures) {
 
+        // only show departures.
+        if (dep.arrivalDepartureState == OBAArrivalDepartureStateArriving) {
+            continue;
+        }
+
         if (![self.routeFilter shouldShowRouteID:dep.routeId]) {
             continue;
         }
@@ -283,8 +287,6 @@ static CGFloat const kTableHeaderHeight = 150.f;
     }
 
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:departureRows];
-    section.headerView = [[OBAClassicDepartureSectionHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 30)];
-    section.headerView.layoutMargins = UIEdgeInsetsMake(0, self.tableView.layoutMargins.left, 0, self.tableView.layoutMargins.right);
     return section;
 }
 
@@ -352,6 +354,12 @@ static CGFloat const kTableHeaderHeight = 150.f;
     NSMutableArray *rows = [[NSMutableArray alloc] init];
 
     for (OBAArrivalAndDepartureV2* dep in departures) {
+
+        // only show departures.
+        if (dep.arrivalDepartureState == OBAArrivalDepartureStateArriving) {
+            continue;
+        }
+
         OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:^(OBABaseRow *blockRow){
             OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
             [self.navigationController pushViewController:vc animated:YES];
