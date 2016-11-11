@@ -9,7 +9,7 @@
 #import "AFMSlidingCell.h"
 #import "AFMSlidingButtonContainer.h"
 
-static const CGFloat kAnimationDuration = 0.2;
+static const CGFloat kAnimationDuration = 0.2f;
 
 typedef NS_ENUM(NSUInteger, AFMSlidingCellState) {
     kCoolSlidingStateButtonsHidden = 0,
@@ -212,8 +212,8 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 
     CGFloat positionX = self.actualPanPosition.x + dx;
     // Disabling bounce to the right
-    if (positionX > self.frame.size.width / 2.0)
-        positionX = self.frame.size.width / 2.0;
+    if (positionX > self.frame.size.width / 2.f)
+        positionX = self.frame.size.width / 2.f;
     // Moving contentView's layer accordingly. This ensures that it stays the same size, is moved within the
     // cell, and buttons are clickable, as they are included into view's frame
     self.contentView.layer.position = CGPointMake(positionX, self.contentView.layer.position.y);
@@ -230,7 +230,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         frame.origin.x = self.frame.size.width - delta;
         [self.buttonContainer setFrame:frame];
     }
-    CGFloat pivot = self.buttonContainer.bothButtonsWidth / 2.0;
+    CGFloat pivot = self.buttonContainer.bothButtonsWidth / 2.f;
     if (delta >= pivot) {
         // If scrolled over more than a half of buttons' view, buttons are ready to become fully shown
         // This does not apply if buttons are already active
