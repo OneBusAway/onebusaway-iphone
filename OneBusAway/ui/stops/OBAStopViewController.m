@@ -265,12 +265,6 @@ static NSInteger kStopsSectionTag = 101;
     NSMutableArray *departureRows = [NSMutableArray array];
 
     for (OBAArrivalAndDepartureV2 *dep in result.arrivalsAndDepartures) {
-
-        // only show departures.
-        if (dep.arrivalDepartureState == OBAArrivalDepartureStateArriving) {
-            continue;
-        }
-
         if (![self.routeFilter shouldShowRouteID:dep.routeId]) {
             continue;
         }
@@ -427,12 +421,6 @@ static NSInteger kStopsSectionTag = 101;
     NSMutableArray *rows = [[NSMutableArray alloc] init];
 
     for (OBAArrivalAndDepartureV2* dep in departures) {
-
-        // only show departures.
-        if (dep.arrivalDepartureState == OBAArrivalDepartureStateArriving) {
-            continue;
-        }
-
         OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:^(OBABaseRow *blockRow){
             OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
             [self.navigationController pushViewController:vc animated:YES];
