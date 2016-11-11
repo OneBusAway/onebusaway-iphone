@@ -48,7 +48,7 @@ static NSInteger kStopsSectionTag = 101;
     if (self) {
         _reloadLock = [[NSLock alloc] init];
         _stopID = [stopID copy];
-        _minutesBefore = 0;
+        _minutesBefore = 5;
         _minutesAfter = 35;
     }
     return self;
