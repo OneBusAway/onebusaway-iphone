@@ -127,10 +127,6 @@ static NSUInteger const kMinutes = 30;
 + (NSArray<OBAUpcomingDeparture*>*)upcomingDeparturesFromArrivalsAndDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)matchingDepartures {
     NSMutableArray *upcomingDepartures = [NSMutableArray array];
     for (OBAArrivalAndDepartureV2 *dep in matchingDepartures) {
-        // only show departures.
-        if (dep.arrivalDepartureState == OBAArrivalDepartureStateArriving) {
-            continue;
-        }
         [upcomingDepartures addObject:[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestDeparture departureStatus:dep.departureStatus]];
     }
     return [NSArray arrayWithArray:upcomingDepartures];
