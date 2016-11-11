@@ -115,7 +115,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     [self configureNavigationBar];
 
-    if ([[OBAApplication sharedApplication] useHighContrastUI]) {
+    if ([OBATheme useHighContrastUI]) {
         [self setHighContrastStyle];
     }
     else {
@@ -485,7 +485,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     view.canShowCallout = YES;
     view.rightCalloutAccessoryView = ({
         UIButton *rightCalloutButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        if ([[OBAApplication sharedApplication] useHighContrastUI]) {
+        if ([OBATheme useHighContrastUI]) {
             rightCalloutButton.tintColor = [UIColor blackColor];
         }
         else {
@@ -1219,7 +1219,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     UIView *mapLabelParentView = nil;
 
-    if ([OBAApplication sharedApplication].useHighContrastUI) {
+    if ([OBATheme useHighContrastUI]) {
         UIView *container = [[OBAVibrantBlurContainerView alloc] initWithFrame:CGRectZero];
         container.backgroundColor = [UIColor darkGrayColor];
         self.mapLabelContainer = container;

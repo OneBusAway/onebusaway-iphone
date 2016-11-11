@@ -68,8 +68,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 
-        NSDictionary *appDefaults = @{ OBAOptInToTrackingDefaultsKey: @(YES) };
-        [[OBAApplication sharedApplication] startWithAppDefaults:appDefaults];
+        [[OBAApplication sharedApplication] start];
 
         [OBAApplication sharedApplication].regionHelper.delegate = self;
     }
@@ -135,6 +134,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
     //don't report to Google Analytics when developing
 #ifdef DEBUG
+    DDLogInfo(@"In DEBUG mode. Not reporting to Google Analytics.");
     [[GAI sharedInstance] setDryRun:YES];
 #endif
 
@@ -148,6 +148,8 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    DDLogInfo(@"Application entered background.");
+
     CLLocation *location = [OBAApplication sharedApplication].locationManager.currentLocation;
 
     if (location) {
@@ -156,6 +158,8 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    DDLogInfo(@"Application became active");
+
     [[OBAApplication sharedApplication] startReachabilityNotifier];
 
     [self.applicationUI applicationDidBecomeActive];

@@ -509,7 +509,7 @@ static NSInteger kStopsSectionTag = 101;
 
 - (void)createTableHeaderView {
     self.stopHeaderView = [[OBAStopTableHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), kTableHeaderHeight)];
-    self.stopHeaderView.highContrastMode = [OBAApplication sharedApplication].useHighContrastUI;
+    self.stopHeaderView.highContrastMode = [OBATheme useHighContrastUI];
 
     self.tableView.tableHeaderView = self.stopHeaderView;
 }

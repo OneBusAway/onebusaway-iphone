@@ -11,6 +11,7 @@
 #import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
 #import <OBAKit/OBALogging.h>
 #import <OBAKit/OBAKit-Swift.h>
+#import <OBAKit/OBACommon.h>
 
 static NSString *const kOBADefaultRegionApiServerName = @"http://regions.onebusaway.org";
 NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplicationSettingsRegionRefreshNotification";
@@ -55,7 +56,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OBARegionDidUpdateNotification object:nil];
 }
 
-- (void)startWithAppDefaults:(NSDictionary *)appDefaults {
+- (void)start {
     self.references = [[OBAReferencesV2 alloc] init];
 
     id<OBAModelPersistenceLayer> persistence = [[OBAModelDAOUserPreferencesImpl alloc] init];
@@ -75,14 +76,14 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 
     self.privacyBroker = [[PrivacyBroker alloc] initWithModelDAO:self.modelDao locationManager:self.locationManager];
 
-    [self registerAppDefaults:appDefaults];
+    [self registerAppDefaults];
 
     [self refreshSettings];
 }
 
 #pragma mark - Defaults
 
-- (void)registerAppDefaults:(NSDictionary*)appDefaults {
+- (void)registerAppDefaults {
     NSMutableDictionary *defaults = [[NSMutableDictionary alloc] init];
 
     defaults[OBAShareRegionPIIUserDefaultsKey] = @(YES);
@@ -90,10 +91,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     defaults[OBAShareLogsPIIUserDefaultsKey] = @(YES);
     defaults[kSetRegionAutomaticallyKey] = @(YES);
     defaults[kUngroupedBookmarksOpenKey] = @(YES);
-
-    for (id key in appDefaults) {
-        defaults[key] = appDefaults[key];
-    }
+    defaults[OBAOptInToTrackingDefaultsKey] = @(YES);
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 }
@@ -123,12 +121,6 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 
 - (void)regionUpdated:(NSNotification*)note {
     [self refreshSettings];
-}
-
-#pragma mark - OS Settings
-
-- (BOOL)useHighContrastUI {
-    return UIAccessibilityDarkerSystemColorsEnabled() || UIAccessibilityIsReduceTransparencyEnabled();
 }
 
 #pragma mark - Bundle Settings

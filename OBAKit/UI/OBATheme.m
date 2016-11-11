@@ -104,7 +104,11 @@ static UIFont *_boldFootnoteFont = nil;
     return [UIFont fontWithDescriptor:boldDescriptor size:MIN(boldDescriptor.pointSize, kMaxFontSize)];
 }
 
-#pragma mark - UIColor
+#pragma mark - Colors
+
++ (BOOL)useHighContrastUI {
+    return UIAccessibilityDarkerSystemColorsEnabled() || UIAccessibilityIsReduceTransparencyEnabled();
+}
 
 + (UIColor*)colorWithRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue alpha:(CGFloat)alpha {
     return [UIColor colorWithRed:((CGFloat)red / 255.f) green:((CGFloat)green / 255.f) blue:((CGFloat)blue / 255.f) alpha:alpha];
