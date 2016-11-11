@@ -63,6 +63,11 @@
 // Colors
 
 /**
+ * Returns YES if the user has enabled darker system colors or reduced transparency.
+ */
++ (BOOL)useHighContrastUI;
+
+/**
  Creates a UIColor with color values expressed in more typical 0-255 fashion.
 
  @param red   Red component: 0-255.
