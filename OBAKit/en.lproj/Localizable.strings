@@ -1,108 +1,108 @@
 /* sd < 0 */
-" early" = " antes";
+" early" = " early";
 
 /* sd > 0 */
-" late" = " tarde";
+" late" = " late";
 
 /* No comment provided by engineer. */
-"%@ bound - Routes: %@" = "%@ bound - Rutas: %@";
+"%@ bound - Routes: %@" = "%@ bound - Routes: %@";
 
 /* e.g. 3 min early */
 "%@ min %@" = "%@ min %@";
 
 /* <Route Number> to <Location>. e.g. 10 to Downtown Seattle */
-"%@ to %@" = "%@ hacia %@";
+"%@ to %@" = "%@ to %@";
 
 /* The explanatory text displayed when a non-realtime trip is displayed on-screen. */
-"*'Scheduled': no vehicle location data available" = "*'Planificada': sin datos de ubicación de vehículos disponibles";
+"*'Scheduled': no vehicle location data available" = "*'Scheduled': no vehicle location data available";
 
 /* Typically used on alerts and other modal actions. A 'cancel' button. */
-"Cancel" = "Cancelar";
+"Cancel" = "Cancel";
 
 /* No comment provided by engineer. */
-"Cellular" = "Celular";
+"Cellular" = "Cellular";
 
 /* Typically used on alerts and other modal actions. A 'delete' button. */
-"Delete" = "Borrar";
+"Delete" = "Delete";
 
 /* Used on alerts. iOS tends to use 'Dismiss' instead of 'OK' on alerts that the user isn't actually agreeing to. */
-"Dismiss" = "Omitir";
+"Dismiss" = "Dismiss";
 
 /* As in 'edit object'. */
-"Edit" = "Editar";
+"Edit" = "Edit";
 
 /* The text 'Error' */
 "Error" = "Error";
 
 /* code != 404 */
-"Error Connecting" = "Error al Conectar";
+"Error Connecting" = "Error Connecting";
 
 /* frequency status string */
-"Every %@ mins %@ %@" = "Cada %@ mins %@ %@";
+"Every %@ mins %@ %@" = "Every %@ mins %@ %@";
 
 /* No comment provided by engineer. */
-"Headed somewhere..." = "Encabezados en algún lugar...";
+"Headed somewhere..." = "Headed somewhere...";
 
 /* No comment provided by engineer. */
-"NOW" = "AHORA";
+"NOW" = "NOW";
 
 /* No comment provided by engineer. */
-"No Connection" = "Sin Conexión";
+"No Connection" = "No Connection";
 
 /* Standard 'OK' button text. */
-"OK" = "Aceptar";
+"OK" = "OK";
 
 /* feedback mail subject */
-"OneBusAway iOS Feedback" = "Envio de Comentarios de OneBusAway iOS";
+"OneBusAway iOS Feedback" = "OneBusAway iOS Feedback";
 
 /* No comment provided by engineer. */
-"Routes: %@" = "Rutas: %@";
+"Routes: %@" = "Routes: %@";
 
 /* No comment provided by engineer. */
-"STOP" = "PARADA";
+"STOP" = "STOP";
 
 /* Standard 'Save' button text. */
-"Save" = "Guardar";
+"Save" = "Save";
 
 /* cell.textLabel.text */
-"Schedule deviation" = "Desviación";
+"Schedule deviation" = "Schedule deviation";
 
 /* code == 404 */
-"Stop not found" = "La Parada no fue encontrada";
+"Stop not found" = "Stop not found";
 
 /* title */
-"Vehicle" = "Vehículo";
+"Vehicle" = "Vehicle";
 
 /* No comment provided by engineer. */
 "WiFi" = "WiFi";
 
 /* e.g. departed 5 min late */
-"departed %@ min %@" = "salió %@ min %@";
+"departed %@ min %@" = "departed %@ min %@";
 
 /* minutes < 0 */
-"departed on time" = "salió a tiempo";
+"departed on time" = "departed on time";
 
 /* No comment provided by engineer. */
-"early" = "antes";
+"early" = "early";
 
 /* No comment provided by engineer. */
-"from" = "de";
+"from" = "from";
 
 /* No comment provided by engineer. */
-"late" = "tarde";
+"late" = "late";
 
 /* minutes */
 "mins" = "mins";
 
 /* minutes >= 0 */
-"on time" = "a tiempo";
+"on time" = "on time";
 
 /* minutes >= 0 */
-"scheduled arrival*" = "llegada planificada*";
+"scheduled arrival*" = "scheduled arrival*";
 
 /* minutes < 0 */
-"scheduled departure*" = "salida planificada*";
+"scheduled departure*" = "scheduled departure*";
 
 /* No comment provided by engineer. */
-"until" = "hasta";
+"until" = "until";
 

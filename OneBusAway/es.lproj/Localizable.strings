@@ -20,6 +20,9 @@
 "Active Trip Details:" = "Detalles del Viaje Activo:";
 
 /* No comment provided by engineer. */
+"Add" = "Añadir";
+
+/* No comment provided by engineer. */
 "Add Bookmark" = "Añadir a Favoritos";
 
 /* No comment provided by engineer. */
@@ -70,7 +73,7 @@
 /* No comment provided by engineer. */
 "Bookmark the Stop" = "Añadir la Parada a Favoritos";
 
-/* Bookmarks tab title */
+/* No comment provided by engineer. */
 "Bookmarks" = "Favoritos";
 
 /* Body of the alert shown when a bookmark can't be created. */
@@ -106,9 +109,6 @@
 /* searchWithTarget _progress */
 "Connecting..." = "Connecting...";
 
-/* Connections section at the bottom of the Trip Schedule List view controller */
-"Connections" = "Conexiones";
-
 /* No comment provided by engineer. */
 "Contact Email" = "Email de Contacto";
 
@@ -141,8 +141,8 @@
 /* No comment provided by engineer. */
 "Deleting a group does not delete its bookmarks. Its contents will be moved to the 'Bookmarks' group." = "La eliminación de un grupo no elimina sus favoritos. Este contenido será movido a el grupo 'Favoritos'.";
 
-/* No comment provided by engineer. */
-"Destination" = "Destino";
+/* As in 'going to the east.' */
+"Eastbound" = "hacia el Este";
 
 /* Title of edit bookmark/group row action. */
 "Edit" = "Editar";
@@ -152,6 +152,9 @@
 
 /* No comment provided by engineer. */
 "Edit Group Name" = "Editar Nombre del Grupo";
+
+/* A switch option's text for enabling and disabling Google Analytics */
+"Enable Google Analytics" = "Habilitar Google Analytics";
 
 /* No comment provided by engineer. */
 "Error" = "Error";
@@ -164,11 +167,8 @@
    self.navigationItem.title */
 "Error connecting" = "Error al conectar";
 
-/* No comment provided by engineer. */
-"Filter & Sort Routes" = "Filtrar & Ordenar Rutas";
-
-/* No comment provided by engineer. */
-"Filter Routes" = "Filtrar Rutas";
+/* requestDidFail */
+"Error connecting." = "Error conectando.";
 
 /* No comment provided by engineer. */
 "Filtered Departures" = "Salidas Filtradas";
@@ -176,8 +176,14 @@
 /* Location services alert button. */
 "Fix It" = "Arreglarlo";
 
+/* Sharing link activity item in the stop view controller */
+"Follow my trip: %@" = "Sigue mi viaje: %@";
+
 /* Out of range alert title */
 "Go to %@?" = "¿Ir a %@?";
+
+/* No comment provided by engineer. */
+"Go to Region" = "Ir a la Región";
 
 /* No comment provided by engineer. */
 "Groups" = "Grupos";
@@ -215,9 +221,6 @@
 /* Progress HUD status when first locating the user on the Region List Controller */
 "Loading Regions" = "Cargando Regiones";
 
-/* !stop */
-"Loading stop info..." = "Cargando la información de la parada...";
-
 /* Location section title on PII controller */
 "Location" = "Ubicación";
 
@@ -226,6 +229,9 @@
 
 /* view.message */
 "Location Services are disabled for this app. Some location-aware functionality will be missing." = "Los Servicios de Ubicación estan deshabilitados para esta App. Las funcionalidades de reonocimiento de la ubicación se perderá.";
+
+/* No comment provided by engineer. */
+"Log Files Sent" = "Enviar Archivos de Log";
 
 /* Logs table section in the PII controller */
 "Logs" = "Registros";
@@ -238,12 +244,6 @@
 "Mark" = "Marcar";
 
 /* No comment provided by engineer. */
-"Mark this route and stop as a favorite." = "Marcar esta ruta y parada como un favorito.";
-
-/* No comment provided by engineer. */
-"Minutes" = "Minutos";
-
-/* No comment provided by engineer. */
 "Name" = "Nombre";
 
 /* No comment provided by engineer. */
@@ -251,6 +251,9 @@
 
 /* No comment provided by engineer. */
 "Nearby" = "Cerca";
+
+/* Title of the Nearby Stops view controller */
+"Nearby Stops" = "Paradas Cercanas";
 
 /* self.listBarButtonItem.accessibilityLabel */
 "Nearby stops list" = "Lista de pardas cercanas";
@@ -282,8 +285,8 @@
 /* No comment provided by engineer. */
 "No Results Found" = "No se Encontraron Resultados";
 
-/* No comment provided by engineer. */
-"No Routes Found" = "No se Encontraron Rutas";
+/* Empty data set title for the Nearby Stops controller */
+"No Stops Found" = "No se Encontraron Paradas";
 
 /* No comment provided by engineer. */
 "No Vehicle Info Available" = "Sin Información Dispible del Vehículo";
@@ -311,6 +314,9 @@
 
 /* prompt */
 "No stops were found for your search." = "No se encontraron paradas para tu búsqueda.";
+
+/* As in 'going to the north.' */
+"Northbound" = "hacia el Norte";
 
 /* code == 404 */
 "Not found" = "No se encontró";
@@ -369,6 +375,9 @@
 /* Recent stops tab title */
 "Recent" = "Reciente";
 
+/* No comment provided by engineer. */
+"Recent Stops" = "Paradas Recientes";
+
 /* Region section title on PII controller */
 "Region" = "Región";
 
@@ -376,7 +385,7 @@
 "Remove" = "Remover";
 
 /* No comment provided by engineer. */
-"Remove\r\nBookmark" = "Remover\r\nFavorito";
+"Remove Bookmark" = "Remover Favorito";
 
 /* No comment provided by engineer. */
 "Report Problem" = "Reportar Problema";
@@ -408,7 +417,7 @@
 /* OBASearchTypeRoute */
 "Routes" = "Rutas";
 
-/* No comment provided by engineer. */
+/* e.g. Routes: 10, 12, 43 */
 "Routes: %@" = "Rutas: %@";
 
 /* initWithTitle */
@@ -420,17 +429,27 @@
 /* Search {Region Name} */
 "Search %@" = "Buscar %@";
 
-/* view.message */
-"See the list of supported transit agencies." = "Vea la lista de agencias de transporte soportadas.";
-
 /* No comment provided by engineer. */
 "Select a group for the bookmark,\nor '+' to add it to a new group." = "Selecciona un grupo para el favorito,\no '+' para adicionarlo en un nuevo grupo.";
+
+/* No comment provided by engineer. */
+"Send" = "Enviar";
+
+/* No comment provided by engineer. */
+"Send Logs to Support" = "Enviar Logs para Soporte";
+
+/* No comment provided by engineer. */
+"Send Logs to Support?" = "¿Enviar Logs para Soporte?";
 
 /* code # 404 */
 "Server error" = "Error de Servidor";
 
 /* No comment provided by engineer. */
 "Service Alerts" = "Alertas de Servicios";
+
+/* Settings bar button item title on the info view controller.
+   title of OBASettingsViewController */
+"Settings" = "Configuraciones";
 
 /* No comment provided by engineer. */
 "Share" = "Compartir";
@@ -444,14 +463,41 @@
 /* Share logs action row title in the PII controller */
 "Share Logs" = "Compartir Registros";
 
+/* Section title for the shared trips section in the 'Recent' tab. */
+"Shared Trips" = "Viajes Compartidos";
+
 /* No comment provided by engineer. */
-"Show Map" = "Mostrar el Mapa";
+"Show Map" = "Mostrar Mapa";
 
 /* No comment provided by engineer. */
 "Show as List" = "Mostrar como Lista";
 
 /* No comment provided by engineer. */
 "Show as Map" = "Mostrar como Mapa";
+
+/* Analytics explanation on the Settings view controller. */
+"Some information about how you use this app is sent to Google Analytics in non-personally identifiable form to help us better understand how to improve the app. To learn more, please read our Privacy Policy." = "Alguna información sobre como usas esta aplicación es enviada a Google Analytics de forma anónima para ayudarnos a entender mejor como mejorar la aplicación. Para conocer más, por favor lee nuestra Política de Privacidad.";
+
+/* No comment provided by engineer. */
+"Something Went Wrong" = "Algo Salío Mal";
+
+/* Error message displayed to the user when something goes wrong with a just-tapped shared trip. */
+"Sorry, we can't show you that shared trip. If this continues, please let us know. Error: %@" = "Lo sentimos, no podemos mostrar ese viaje compartido. Si esto continua, por favor informanos. Error: %@";
+
+/* Title for the Edit Stop Preferences Controller */
+"Sort & Filter Routes" = "Ordenar & Filtrar Rutas";
+
+/* No comment provided by engineer. */
+"Sort by Route" = "Ordenar por Ruta";
+
+/* No comment provided by engineer. */
+"Sort by Time" = "Ordenar por Tiempo";
+
+/* No comment provided by engineer. */
+"Sorting" = "Ordenando";
+
+/* As in 'going to the south.' */
+"Southbound" = "hacia el Sur";
 
 /* text */
 "Starts as" = "Inicia como";
@@ -460,7 +506,6 @@
 "Starts as %@" = "Inicia como %@";
 
 /* OBASearchTypeStopId
-   stop
    text */
 "Stop" = "Parada";
 
@@ -491,6 +536,9 @@
 /* No comment provided by engineer. */
 "Tap the '+' button to create one." = "Toca el botón '+' para crear uno.";
 
+/* No comment provided by engineer. */
+"Thank you!" = "¡Gracias!";
+
 /* name */
 "The" = "El";
 
@@ -509,6 +557,9 @@
 /* The footer label on the PIIViewController */
 "This information is only sent to OneBusAway when you submit a support request. You can disable sending us any or all of this data, but it will limit our ability to diagnose and fix problems you are experiencing." = "Esta información sólo se envía a OneBusAway en el momento de enviar una solicitud de soporte. Puedes desactivar el envío de cualquiera o todos estos datos, pero va a limitar nuestra capacidad para diagnosticar y solucionar los problemas que estás experimentando.";
 
+/* No comment provided by engineer. */
+"This will send your log data to app support. This may be necessary to help diagnose bugs. Check the \"Information for Support\" section to see what your logs contain." = "Esto enviará tus datos de log al soporte de la aplicación. Esto es necesario para ayudarnos a diagnosticar fallas. Mira la sección \"Información para Soporte\" para ver que contienen tus logs.";
+
 /* cell.textLabel.text */
 "Touch to edit" = "Toca para editar";
 
@@ -522,10 +573,10 @@
 "Trip not found" = "El viaje no fue encontrado";
 
 /* No comment provided by engineer. */
-"Unable to load data from %@. Please check the URL and try again.\r\n\r\n%@" = "No se pueden cargar los datos desde %@. Por favor verifica la URL e intenta de nuevo.\r\n\r\n%@";
+"Unable to Load Regions" = "No se pueden Cargar las Regiones";
 
 /* No comment provided by engineer. */
-"Unable to Load Regions" = "No se pueden Cargar las Regiones";
+"Unable to load data from %@. Please check the URL and try again.\r\n\r\n%@" = "No se pueden cargar los datos desde %@. Por favor verifica la URL e intenta de nuevo.\r\n\r\n%@";
 
 /* message */
 "Unknown error" = "Error desconocido";
@@ -554,7 +605,7 @@
 /* View data row on PII controller */
 "View Data" = "Mostrar Datos";
 
-/* No comment provided by engineer. */
+/* Toolbar button item on the Service Alert Details controller */
 "View Reroute" = "Mostrar el redireccionamiento";
 
 /* No comment provided by engineer. */
@@ -564,11 +615,23 @@
 "Visit Us" = "Visitanos";
 
 /* No comment provided by engineer. */
+"Walk to stop: %@ — %.0f min, arriving at %@." = "Caminar a la parada: %@ — %.0f min, llegando a las %@.";
+
+/* No comment provided by engineer. */
 "We could not find any transit agencies near your current location." = "No hemos podido encontrar agencias de transporte público cerca de tu ubicación actual.";
+
+/* Empty data set description for the Nearby Stops controller */
+"We couldn't find any other stops within our search radius." = "No pudimos encontrar otras paradas dentro de nuestra zona de búsqueda.";
+
+/* As in 'going to the west.' */
+"Westbound" = "hacia el Oeste";
 
 /* OBASectionTypeProblem
    vc.title */
 "What's the problem?" = "¿Cuál es el problema?";
+
+/* No comment provided by engineer. */
+"Would you like to go to your currently selected region?" = "¿Quieres ir a la región que seleccionaste?";
 
 /* name */
 "Wrong destination shown" = "Muestra un destino equivocado";
@@ -639,6 +702,9 @@
 
 /* e.g. 3 min early */
 "%@ min %@" = "%@ min %@";
+
+/* <Route Number> to <Location>. e.g. 10 to Downtown Seattle */
+"%@ to %@" = "%@ hacia %@";
 
 /* The explanatory text displayed when a non-realtime trip is displayed on-screen. */
 "*'Scheduled': no vehicle location data available" = "*'Planificada': sin datos de ubicación de vehículos disponibles";
@@ -732,9 +798,3 @@
 
 /* No comment provided by engineer. */
 "until" = "hasta";
-
-/* No comment provided by engineer. */
-"Walk to stop: %@ — %.0f min, arriving at %@." = "Caminar a la parada: %@ — %.0f min, llegando a las %@.";
-
-/* No comment provided by engineer. */
-"Show Map" = "Mostrar Mapa";
