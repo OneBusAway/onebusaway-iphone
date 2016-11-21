@@ -50,7 +50,7 @@
 + (NSString*)formatMinutesUntilDate:(NSDate*)date {
     double minutesFrom = [date minutesFrom:[NSDate date]];
     if (fabs(minutesFrom) < 1.0) {
-        return NSLocalizedString(@"NOW", @"");
+        return NSLocalizedString(@"msg_now", @"");
     }
     else {
         return [NSString stringWithFormat:@"%.0fm", minutesFrom];

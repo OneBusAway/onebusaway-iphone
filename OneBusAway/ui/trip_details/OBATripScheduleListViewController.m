@@ -47,11 +47,11 @@ typedef NS_ENUM(NSUInteger, OBASectionType) {
         CGRect r = CGRectMake(0, 0, 160, 33);
         _progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];
         [self.navigationItem setTitleView:_progressView];
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Show Map", @"") style:UIBarButtonItemStylePlain target:self action:@selector(showMap:)];
-        item.accessibilityLabel = NSLocalizedString(@"Map", @"initWithTitle");
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_show_map", @"") style:UIBarButtonItemStylePlain target:self action:@selector(showMap:)];
+        item.accessibilityLabel = NSLocalizedString(@"msg_map", @"initWithTitle");
         self.navigationItem.rightBarButtonItem = item;
 
-        UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Schedule", @"initWithTitle") style:UIBarButtonItemStylePlain target:nil action:nil];
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_schedule", @"initWithTitle") style:UIBarButtonItemStylePlain target:nil action:nil];
         self.navigationItem.backBarButtonItem = backItem;
     }
 
@@ -75,14 +75,14 @@ typedef NS_ENUM(NSUInteger, OBASectionType) {
 
         // TODO: replace this with an AlertPresenter.
         if (error.code == 404) {
-            [self.progressView setMessage:NSLocalizedString(@"Trip not found", @"message") inProgress:NO progress:0];
+            [self.progressView setMessage:NSLocalizedString(@"msg_trip_not_found", @"message") inProgress:NO progress:0];
         }
         else if (error.code >= 300) {
-            [self.progressView setMessage:NSLocalizedString(@"Unknown error", @"message") inProgress:NO progress:0];
+            [self.progressView setMessage:NSLocalizedString(@"msg_unknown_error", @"message") inProgress:NO progress:0];
         }
         else {
             DDLogError(@"Error: %@", error);
-            [self.progressView setMessage:NSLocalizedString(@"Error connecting", @"message") inProgress:NO progress:0];
+            [self.progressView setMessage:NSLocalizedString(@"msg_error_min_connecting", @"message") inProgress:NO progress:0];
         }
     });
 }

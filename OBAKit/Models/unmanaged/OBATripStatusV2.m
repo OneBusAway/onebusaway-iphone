@@ -33,17 +33,17 @@
     NSString *label = @" ";
 
     if (sd > 0) {
-        label = NSLocalizedString(@" late", @"sd > 0");
+        label = NSLocalizedString(@"msg_space_late", @"sd > 0");
     }
     else if (sd < 0) {
-        label = NSLocalizedString(@" early", @"sd < 0");
+        label = NSLocalizedString(@"msg_space_early", @"sd < 0");
         sd = -sd;
     }
 
     NSInteger mins = sd / 60;
     NSInteger secs = sd % 60;
 
-    return [NSString stringWithFormat:@"%@: %ldm %lds%@", NSLocalizedString(@"Schedule deviation", @"cell.textLabel.text"), (long)mins, (long)secs, label];
+    return [NSString stringWithFormat:@"%@: %ldm %lds%@", NSLocalizedString(@"msg_schedule_deviation", @"cell.textLabel.text"), (long)mins, (long)secs, label];
 }
 
 - (NSString*)description {

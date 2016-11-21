@@ -67,7 +67,7 @@ NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserI
     }
 
     _request = [self requestForTarget:target];
-    [_progress setMessage:NSLocalizedString(@"Connecting...", @"searchWithTarget _progress") inProgress:YES progress:0];
+    [_progress setMessage:NSLocalizedString(@"msg_connecting_dots", @"searchWithTarget _progress") inProgress:YES progress:0];
 }
 
 - (void)searchPending {
@@ -124,14 +124,14 @@ NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserI
         DDLogError(@"Errored out at launch: %@", error);
     }
     else if (error) {
-        [self.progress setMessage:NSLocalizedString(@"Error connecting", @"requestDidFail") inProgress:NO progress:0];
+        [self.progress setMessage:NSLocalizedString(@"msg_error_min_connecting", @"requestDidFail") inProgress:NO progress:0];
         [self fireError:error];
     }
     else if (responseCode == 404) {
-        [self.progress setMessage:NSLocalizedString(@"Not found", @"code == 404") inProgress:NO progress:0];
+        [self.progress setMessage:NSLocalizedString(@"msg_not_found", @"code == 404") inProgress:NO progress:0];
     }
     else {
-        [self.progress setMessage:NSLocalizedString(@"Server error", @"code # 404") inProgress:NO progress:0];
+        [self.progress setMessage:NSLocalizedString(@"msg_server_error", @"code # 404") inProgress:NO progress:0];
     }
 }
 
@@ -271,19 +271,19 @@ NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserI
         case OBASearchTypePlacemark:
         case OBASearchTypeStopId:
         case OBASearchTypeRouteStops:
-            title = NSLocalizedString(@"Stops", @"OBASearchTypeRouteStops");
+            title = NSLocalizedString(@"msg_stops", @"OBASearchTypeRouteStops");
             break;
 
         case OBASearchTypeRoute:
-            title = NSLocalizedString(@"Routes", @"OBASearchTypeRoute");
+            title = NSLocalizedString(@"msg_routes", @"OBASearchTypeRoute");
             break;
 
         case OBASearchTypeAddress:
-            title = NSLocalizedString(@"Places", @"OBASearchTypeAddress");
+            title = NSLocalizedString(@"msg_places", @"OBASearchTypeAddress");
             break;
 
         case OBASearchTypeAgenciesWithCoverage:
-            title = NSLocalizedString(@"Agencies", @"OBASearchTypeAgenciesWithCoverage");
+            title = NSLocalizedString(@"msg_agencies", @"OBASearchTypeAgenciesWithCoverage");
             break;
 
         default:

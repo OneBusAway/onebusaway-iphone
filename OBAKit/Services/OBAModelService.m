@@ -60,7 +60,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
                 resolve(error);
             }
             else if (responseCode >= 300) {
-                NSString *message = (404 == responseCode ? NSLocalizedString(@"Stop not found", @"code == 404") : NSLocalizedString(@"Error Connecting", @"code != 404"));
+                NSString *message = (404 == responseCode ? NSLocalizedString(@"mgs_stop_not_found", @"code == 404") : NSLocalizedString(@"msg_error_connecting", @"code != 404"));
                 error = [NSError errorWithDomain:NSURLErrorDomain code:responseCode userInfo:@{NSLocalizedDescriptionKey: message}];
                 resolve(error);
             }

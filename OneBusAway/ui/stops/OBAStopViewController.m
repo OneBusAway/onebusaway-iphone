@@ -176,10 +176,10 @@ static NSInteger kStopsSectionTag = 101;
         [self.refreshControl beginRefreshing];
     }
 
-    self.navigationItem.title = NSLocalizedString(@"Updating...", @"Title of the Stop UI Controller while it is updating its content.");
+    self.navigationItem.title = NSLocalizedString(@"msg_updating_dots", @"Title of the Stop UI Controller while it is updating its content.");
 
     [self.modelService requestStopForID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
-        self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Updated", @"message"), [OBACommon getTimeAsString]];
+        self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"msg_updated", @"message"), [OBACommon getTimeAsString]];
         [self.modelDAO viewedArrivalsAndDeparturesForStop:response.stop];
 
         self.arrivalsAndDepartures = response;
@@ -187,7 +187,7 @@ static NSInteger kStopsSectionTag = 101;
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
         [self.stopHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
     }).catch(^(NSError *error) {
-        [AlertPresenter showWarning:NSLocalizedString(@"Error", @"") body:error.localizedDescription ?: NSLocalizedString(@"Error connecting.", @"requestDidFail")];
+        [AlertPresenter showWarning:NSLocalizedString(@"msg_error", @"") body:error.localizedDescription ?: NSLocalizedString(@"msg_error_min_connecting_dot", @"requestDidFail")];
         DDLogError(@"An error occurred while displaying a stop: %@", error);
         return error;
     }).then(^{
@@ -323,8 +323,8 @@ static NSInteger kStopsSectionTag = 101;
 }
 
 - (void)promptToRemoveBookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Are you sure you want to remove this bookmark?", @"Tap on Remove Bookmarks on OBAStopViewController.") message:nil preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Remove", @"") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_ask_remove_bookmark", @"Tap on Remove Bookmarks on OBAStopViewController.") message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_remove", @"") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
         OBABookmarkV2 *bookmark = [self.modelDAO bookmarkForArrivalAndDeparture:dep];
         [self.modelDAO removeBookmark:bookmark];
     }]];
@@ -400,7 +400,7 @@ static NSInteger kStopsSectionTag = 101;
         self.routeFilter.showFilteredRoutes = !self.routeFilter.showFilteredRoutes;
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
     }];
-    segmentedRow.items = @[NSLocalizedString(@"All Departures", @""), NSLocalizedString(@"Filtered Departures", @"")];
+    segmentedRow.items = @[NSLocalizedString(@"msg_all_departures", @""), NSLocalizedString(@"msg_filtered_departures", @"")];
 
     segmentedRow.selectedItemIndex = self.routeFilter.showFilteredRoutes ? 0 : 1;
 
@@ -408,7 +408,7 @@ static NSInteger kStopsSectionTag = 101;
 }
 
 - (OBATableSection*)createLoadMoreDeparturesSection {
-    OBATableRow *moreDeparturesRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Load More Departures...", @"") action:^{
+    OBATableRow *moreDeparturesRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_load_more_departures_dots", @"") action:^{
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked load more arrivals button" value:nil];
         self.minutesAfter += 30;
         [self reloadDataAnimated:NO];
@@ -445,7 +445,7 @@ static NSInteger kStopsSectionTag = 101;
     NSMutableArray *actionRows = [[NSMutableArray alloc] init];
 
     // Add to Bookmarks
-    NSString *bookmarksTitle = NSLocalizedString(@"Add Bookmark", @"");
+    NSString *bookmarksTitle = NSLocalizedString(@"msg_add_bookmark", @"");
     OBATableRow *addToBookmarks = [[OBATableRow alloc] initWithTitle:bookmarksTitle action:^{
         OBABookmarkRouteDisambiguationViewController *disambiguator = [[OBABookmarkRouteDisambiguationViewController alloc] initWithArrivalsAndDeparturesForStop:self.arrivalsAndDepartures];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:disambiguator];
@@ -454,7 +454,7 @@ static NSInteger kStopsSectionTag = 101;
     [actionRows addObject:addToBookmarks];
 
     // Nearby Stops
-    OBATableRow *nearbyStops = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Nearby Stops",) action:^{
+    OBATableRow *nearbyStops = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_nearby_stops",) action:^{
         NearbyStopsViewController *nearby = [[NearbyStopsViewController alloc] initWithStop:self.arrivalsAndDepartures.stop];
         [self.navigationController pushViewController:nearby animated:YES];
     }];
@@ -462,7 +462,7 @@ static NSInteger kStopsSectionTag = 101;
     [actionRows addObject:nearbyStops];
 
     // Report a Problem
-    OBATableRow *problem = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Report a Problem", @"") action:^{
+    OBATableRow *problem = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_report_a_problem", @"") action:^{
         OBAReportProblemWithRecentTripsViewController * vc = [[OBAReportProblemWithRecentTripsViewController alloc] initWithStopID:stop.stopId];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         [self presentViewController:nav animated:YES completion:nil];
@@ -470,7 +470,7 @@ static NSInteger kStopsSectionTag = 101;
     [actionRows addObject:problem];
 
     // Filter/Sort Arrivals
-    OBATableRow *filter = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Sort & Filter Routes",) action:^{
+    OBATableRow *filter = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_sort_and_filter_routes",) action:^{
         OBAEditStopPreferencesViewController *vc = [[OBAEditStopPreferencesViewController alloc] initWithModelDAO:modelDAO stop:stop];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         [self presentViewController:nav animated:YES completion:nil];
@@ -515,7 +515,7 @@ static NSInteger kStopsSectionTag = 101;
 }
 
 - (void)shareDeepLinkURL:(NSURL*)URL {
-    NSString *activityItem = [NSString stringWithFormat:NSLocalizedString(@"Follow my trip: %@", @"Sharing link activity item in the stop view controller"), URL.absoluteString];
+    NSString *activityItem = [NSString stringWithFormat:NSLocalizedString(@"text_follow_my_trip_param", @"Sharing link activity item in the stop view controller"), URL.absoluteString];
 
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[activityItem] applicationActivities:nil];
 

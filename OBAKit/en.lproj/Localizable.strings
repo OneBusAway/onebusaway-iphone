@@ -1,107 +1,107 @@
 /* sd < 0 */
-"msg_space_early" = " antes";
+"msg_space_early" = " early";
 
 /* sd > 0 */
-"msg_space_late" = " tarde";
+"msg_space_late" = " late";
 
 /* No comment provided by engineer. */
-"text_bound_and_routes_params" = "%@ bound - Rutas: %@";
+"text_bound_and_routes_params" = "%@ bound - Routes: %@";
 
 /* e.g. 3 min early */
 "text_time_min_desviation_params" = "%@ min %@";
 
 /* <Route Number> to <Location>. e.g. 10 to Downtown Seattle */
-"text_route_to_orientation_params" = "%@ hacia %@";
+"text_route_to_orientation_params" = "%@ to %@";
 
 /* The explanatory text displayed when a non-realtime trip is displayed on-screen. */
-"msg_scheduled_explanatory" = "*'Planificada': sin datos de ubicación de vehículos disponibles";
+"msg_scheduled_explanatory" = "*'Scheduled': no vehicle location data available";
 
 /* Typically used on alerts and other modal actions. A 'cancel' button. */
-"msg_cancel" = "Cancelar";
+"msg_cancel" = "Cancel";
 
 /* No comment provided by engineer. */
-"msg_cellular" = "Celular";
+"msg_cellular" = "Cellular";
 
 /* Typically used on alerts and other modal actions. A 'delete' button. */
-"msg_delete" = "Borrar";
+"msg_delete" = "Delete";
 
 /* Used on alerts. iOS tends to use 'Dismiss' instead of 'OK' on alerts that the user isn't actually agreeing to. */
-"msg_dismiss" = "Omitir";
+"msg_dismiss" = "Dismiss";
 
 /* As in 'edit object'. */
-"msg_edit" = "Editar";
+"msg_edit" = "Edit";
 
 /* The text 'Error' */
 "msg_error" = "Error";
 
 /* code != 404 */
-"msg_error_connecting" = "Error al Conectar";
+"msg_error_connecting" = "Error Connecting";
 
 /* frequency status string */
-"text_frequency_status_params" = "Cada %@ mins %@ %@";
+"text_frequency_status_params" = "Every %@ mins %@ %@";
 
 /* No comment provided by engineer. */
-"msg_headed_somewhere_dots" = "Encabezados en algún lugar...";
+"msg_headed_somewhere_dots" = "Headed somewhere...";
 
 /* No comment provided by engineer. */
-"msg_now" = "AHORA";
+"msg_now" = "NOW";
 
 /* No comment provided by engineer. */
-"msg_no_connection" = "Sin Conexión";
+"msg_no_connection" = "No Connection";
 
 /* Standard 'OK' button text. */
-"msg_ok" = "Aceptar";
+"msg_ok" = "OK";
 
 /* feedback mail subject */
-"msg_oba_ios_feedback" = "Envio de Comentarios de OneBusAway iOS";
+"msg_oba_ios_feedback" = "OneBusAway iOS Feedback";
 
 /* No comment provided by engineer. */
-"text_only_routes_colon_param" = "Rutas: %@";
+"text_only_routes_colon_param" = "Routes: %@";
 
 /* No comment provided by engineer. */
-"msg_stop_mayus" = "PARADA";
+"msg_stop_mayus" = "STOP";
 
 /* Standard 'Save' button text. */
-"msg_save" = "Guardar";
+"msg_save" = "Save";
 
 /* cell.textLabel.text */
-"msg_schedule_deviation" = "Desviación";
+"msg_schedule_deviation" = "Schedule deviation";
 
 /* code == 404 */
-"mgs_stop_not_found" = "La Parada no fue encontrada";
+"mgs_stop_not_found" = "Stop not found";
 
 /* title */
-"msg_mayus_vehicle" = "Vehículo";
+"msg_mayus_vehicle" = "Vehicle";
 
 /* No comment provided by engineer. */
 "msg_wifi" = "WiFi";
 
 /* e.g. departed 5 min late */
-"text_departed_time_min_desviation_params" = "salió %@ min %@";
+"text_departed_time_min_desviation_params" = "departed %@ min %@";
 
 /* minutes < 0 */
-"msg_departed_on_time" = "salió a tiempo";
+"msg_departed_on_time" = "departed on time";
 
 /* No comment provided by engineer. */
-"msg_early" = "antes";
+"msg_early" = "early";
 
 /* No comment provided by engineer. */
-"msg_from" = "de";
+"msg_from" = "from";
 
 /* No comment provided by engineer. */
-"msg_late" = "tarde";
+"msg_late" = "late";
 
 /* minutes */
 "msg_mins" = "mins";
 
 /* minutes >= 0 */
-"msg_on_time" = "a tiempo";
+"msg_on_time" = "on time";
 
 /* minutes >= 0 */
-"msg_scheduled_arrival_asterisk" = "llegada planificada*";
+"msg_scheduled_arrival_asterisk" = "scheduled arrival*";
 
 /* minutes < 0 */
-"msg_scheduled_departure_asterisk" = "salida planificada*";
+"msg_scheduled_departure_asterisk" = "scheduled departure*";
 
 /* No comment provided by engineer. */
-"msg_until" = "hasta";
+"msg_until" = "until";

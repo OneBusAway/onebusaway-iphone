@@ -42,7 +42,7 @@ static const NSString *kShapeContext = @"ShapeContext";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"") style:UIBarButtonItemStylePlain target:self action:@selector(close:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_close", @"") style:UIBarButtonItemStylePlain target:self action:@selector(close:)];
 
     self.mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
     self.mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
@@ -69,14 +69,14 @@ static const NSString *kShapeContext = @"ShapeContext";
 
 - (void)updateProgressViewWithError:(NSError *)error responseCode:(NSInteger)responseCode {
     if (responseCode == 404) {
-        [_progressView setMessage:NSLocalizedString(@"Trip not found", @"message") inProgress:NO progress:0];
+        [_progressView setMessage:NSLocalizedString(@"msg_trip_not_found", @"message") inProgress:NO progress:0];
     }
     else if (responseCode >= 300) {
-        [_progressView setMessage:NSLocalizedString(@"Unknown error", @"message") inProgress:NO progress:0];
+        [_progressView setMessage:NSLocalizedString(@"msg_unknown_error", @"message") inProgress:NO progress:0];
     }
     else if (error) {
         DDLogError(@"Error: %@", error);
-        [_progressView setMessage:NSLocalizedString(@"Error connecting", @"message") inProgress:NO progress:0];
+        [_progressView setMessage:NSLocalizedString(@"msg_error_min_connecting", @"message") inProgress:NO progress:0];
     }
 }
 
@@ -186,7 +186,7 @@ static const NSString *kShapeContext = @"ShapeContext";
 }
 
 - (void)handleTripDetails {
-    [_progressView setMessage:NSLocalizedString(@"Route Map", @"message") inProgress:NO progress:0];
+    [_progressView setMessage:NSLocalizedString(@"msg_route_map", @"message") inProgress:NO progress:0];
 
     OBATripScheduleV2 *sched = _tripDetails.schedule;
     NSArray *stopTimes = sched.stopTimes;
@@ -234,7 +234,7 @@ static const NSString *kShapeContext = @"ShapeContext";
                 [self.mapView addOverlay:self.routePolyline];
             }
 
-            [self.progressView setMessage:NSLocalizedString(@"Route Map", @"message") inProgress:NO progress:0];
+            [self.progressView setMessage:NSLocalizedString(@"msg_route_map", @"message") inProgress:NO progress:0];
         }];
     }
 }
@@ -242,7 +242,7 @@ static const NSString *kShapeContext = @"ShapeContext";
 - (id<MKAnnotation>)createTripContinuationAnnotation:(OBATripV2 *)trip isNextTrip:(BOOL)isNextTrip stopTimes:(NSArray *)stopTimes {
     OBATripInstanceRef *tripRef = [_tripDetails.tripInstance copyWithNewTripId:trip.tripId];
 
-    NSString *format = isNextTrip ? NSLocalizedString(@"Continues as", @"text") : NSLocalizedString(@"Starts as", @"text");
+    NSString *format = isNextTrip ? NSLocalizedString(@"msg_continues_as", @"text") : NSLocalizedString(@"msg_starts_as", @"text");
     NSString *tripTitle = [NSString stringWithFormat:@"%@ %@", format, trip.asLabel];
     NSInteger index = isNextTrip ? ([stopTimes count] - 1) : 0;
     OBATripStopTimeV2 *stopTime = stopTimes[index];
