@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = NSLocalizedString(@"Logs",);
+    self.title = NSLocalizedString(@"msg_logs",);
 
     self.view.backgroundColor = [UIColor blackColor];
 
@@ -53,9 +53,9 @@
 }
 
 - (NSArray<UIBarButtonItem*>*)constructToolbarItems {
-    UIBarButtonItem *markBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Mark",) style:UIBarButtonItemStylePlain target:self action:@selector(markConsole)];
+    UIBarButtonItem *markBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_mark",) style:UIBarButtonItemStylePlain target:self action:@selector(markConsole)];
 
-    UIBarButtonItem *clearBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Clear",) style:UIBarButtonItemStylePlain target:self action:@selector(clearConsole)];
+    UIBarButtonItem *clearBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_clear",) style:UIBarButtonItemStylePlain target:self action:@selector(clearConsole)];
 
     UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 

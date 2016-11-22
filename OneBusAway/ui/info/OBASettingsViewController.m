@@ -19,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = NSLocalizedString(@"Settings", @"title of OBASettingsViewController");
+    self.title = NSLocalizedString(@"msg_settings", @"title of OBASettingsViewController");
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(close)];
 
@@ -38,12 +38,12 @@
     OBATableSection *analyticsSection = [[OBATableSection alloc] initWithTitle:nil];
 
     BOOL analyticsValue = [[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
-    OBASwitchRow *switchRow = [[OBASwitchRow alloc] initWithTitle:NSLocalizedString(@"Enable Google Analytics", @"A switch option's text for enabling and disabling Google Analytics") action:^{
+    OBASwitchRow *switchRow = [[OBASwitchRow alloc] initWithTitle:NSLocalizedString(@"msg_enable_google_analytics", @"A switch option's text for enabling and disabling Google Analytics") action:^{
         [[NSUserDefaults standardUserDefaults] setBool:!analyticsValue forKey:OBAOptInToTrackingDefaultsKey];
     } switchValue:analyticsValue];
     [analyticsSection addRow:switchRow];
 
-    analyticsSection.footerView = [OBAUIBuilder footerViewWithText:NSLocalizedString(@"Some information about how you use this app is sent to Google Analytics in non-personally identifiable form to help us better understand how to improve the app. To learn more, please read our Privacy Policy.", @"Analytics explanation on the Settings view controller.") maximumWidth:CGRectGetWidth(self.tableView.frame)];
+    analyticsSection.footerView = [OBAUIBuilder footerViewWithText:NSLocalizedString(@"msg_explanatory_google_analytics", @"Analytics explanation on the Settings view controller.") maximumWidth:CGRectGetWidth(self.tableView.frame)];
 
     self.sections = @[analyticsSection];
     [self.tableView reloadData];

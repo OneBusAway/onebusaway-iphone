@@ -41,20 +41,20 @@ class RegionBuilderViewController: OBAStaticTableViewController {
     }()
 
     lazy var baseURLRow: OBATextFieldRow = {
-        let row = OBATextFieldRow.init(labelText: NSLocalizedString("Base URL", comment: ""), textFieldText: self.region.baseURL?.absoluteString)
+        let row = OBATextFieldRow.init(labelText: NSLocalizedString("msg_base_url", comment: ""), textFieldText: self.region.baseURL?.absoluteString)
         row.keyboardType = .URL
         RegionBuilderViewController.applyPropertiesToTextRow(row, model: self.userDataModel)
         return row
     }()
 
     lazy var nameRow: OBATextFieldRow = {
-        let row = OBATextFieldRow.init(labelText: NSLocalizedString("Name", comment: ""), textFieldText: self.region.regionName)
+        let row = OBATextFieldRow.init(labelText: NSLocalizedString("msg_name", comment: ""), textFieldText: self.region.regionName)
         RegionBuilderViewController.applyPropertiesToTextRow(row, model: self.userDataModel)
         return row
     }()
 
     lazy var obaRealTimeRow: OBASwitchRow = {
-        let row = OBASwitchRow.init(title: NSLocalizedString("Supports OBA Realtime APIs", comment: ""), action: nil)
+        let row = OBASwitchRow.init(title: NSLocalizedString("msg_supports_oba_realtime_apis", comment: ""), action: nil)
         row.switchValue = self.region.supportsObaRealtimeApis
         row.dataKey = row.title
         row.model = self.userDataModel
@@ -62,7 +62,7 @@ class RegionBuilderViewController: OBAStaticTableViewController {
     }()
 
     lazy var isActiveRow: OBASwitchRow = {
-        let row = OBASwitchRow.init(title: NSLocalizedString("Is Active", comment: ""), action: nil)
+        let row = OBASwitchRow.init(title: NSLocalizedString("msg_is_active", comment: ""), action: nil)
         row.switchValue = self.region.active
         row.dataKey = row.title
         row.model = self.userDataModel
@@ -70,7 +70,7 @@ class RegionBuilderViewController: OBAStaticTableViewController {
     }()
 
     lazy var contactEmailRow: OBATextFieldRow = {
-        let row = OBATextFieldRow.init(labelText: NSLocalizedString("Contact Email", comment: ""), textFieldText: self.region.contactEmail)
+        let row = OBATextFieldRow.init(labelText: NSLocalizedString("msg_contact_email", comment: ""), textFieldText: self.region.contactEmail)
         row.keyboardType = .emailAddress
         row.autocapitalizationType = .none
         RegionBuilderViewController.applyPropertiesToTextRow(row, model: self.userDataModel)
@@ -80,16 +80,16 @@ class RegionBuilderViewController: OBAStaticTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = NSLocalizedString("Add Region", comment: "")
+        self.title = NSLocalizedString("msg_add_region", comment: "")
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(title: OBAStrings.cancel(), style: .plain, target: self, action: #selector(cancel))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: OBAStrings.save(), style: .done, target: self, action: #selector(save))
 
-        let requiredSection = OBATableSection.init(title: NSLocalizedString("Required", comment: ""))
+        let requiredSection = OBATableSection.init(title: NSLocalizedString("msg_required", comment: ""))
 
         requiredSection.addRow(self.baseURLRow)
         requiredSection.addRow(self.nameRow)
 
-        let optionalSection = OBATableSection.init(title: NSLocalizedString("Optional", comment: ""))
+        let optionalSection = OBATableSection.init(title: NSLocalizedString("msg_optional", comment: ""))
 
         optionalSection.addRow(self.obaRealTimeRow)
         optionalSection.addRow(self.isActiveRow)
@@ -120,7 +120,7 @@ class RegionBuilderViewController: OBAStaticTableViewController {
         self.loadDataIntoRegion()
 
         guard self.region.isValidModel() else {
-            let alert = UIAlertController.init(title: NSLocalizedString("Invalid Region", comment: ""), message: NSLocalizedString("The region you have specified is not valid. Please specify at least a base URL and a name.", comment: ""), preferredStyle: .alert)
+            let alert = UIAlertController.init(title: NSLocalizedString("msg_invalid_region", comment: ""), message: NSLocalizedString("msg_alert_custom_region_not_valid", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss(), style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             return
@@ -146,8 +146,8 @@ class RegionBuilderViewController: OBAStaticTableViewController {
         }.always {
             SVProgressHUD.dismiss()
         }.catch { error in
-            let msg = String(format: NSLocalizedString("Unable to load data from %@. Please check the URL and try again.\r\n\r\n%@", comment: ""), URL!.absoluteString, (error as NSError).localizedDescription)
-            let alert = UIAlertController.init(title: NSLocalizedString("Invalid Region Base URL", comment: ""), message: msg, preferredStyle: .alert)
+            let msg = String(format: NSLocalizedString("text_unable_load_data_region_param", comment: ""), URL!.absoluteString, (error as NSError).localizedDescription)
+            let alert = UIAlertController.init(title: NSLocalizedString("msg_invalid_region_base_url", comment: ""), message: msg, preferredStyle: .alert)
             alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss(), style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }

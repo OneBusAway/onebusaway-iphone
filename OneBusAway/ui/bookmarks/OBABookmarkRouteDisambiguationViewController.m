@@ -22,7 +22,7 @@
     self = [super init];
 
     if (self) {
-        self.title = NSLocalizedString(@"Choose a Route", @"Title of OBABookmarkRouteDisambiguationViewController");
+        self.title = NSLocalizedString(@"msg_choose_a_route", @"Title of OBABookmarkRouteDisambiguationViewController");
         _arrivalsAndDepartures = arrivalsAndDepartures;
     }
     return self;
@@ -69,7 +69,7 @@
 #pragma mark - Data Loading
 
 - (void)loadData {
-    OBATableSection *stopSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Bookmark the Stop", @"")];
+    OBATableSection *stopSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_bookmark_the_stop", @"")];
     [stopSection addRowWithBlock:^OBABaseRow *{
         OBATableRow *row = [[OBATableRow alloc] initWithTitle:self.arrivalsAndDepartures.stop.nameWithDirection action:^{
             OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithStop:self.arrivalsAndDepartures.stop region:self.region];
@@ -80,7 +80,7 @@
         return row;
     }];
 
-    OBATableSection *routeSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Bookmark a Route at Stop", @"")];
+    OBATableSection *routeSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_bookmark_a_route_at_stop", @"")];
 
     if (self.routeFilter.hasFilteredRoutes) {
         [routeSection addRowWithBlock:^OBABaseRow *{
@@ -88,7 +88,7 @@
                 self.routeFilter.showFilteredRoutes = !self.routeFilter.showFilteredRoutes;
                 [self loadData];
             }];
-            segmentedRow.items = @[NSLocalizedString(@"All Departures", @""), NSLocalizedString(@"Filtered Departures", @"")];
+            segmentedRow.items = @[NSLocalizedString(@"msg_all_departures", @""), NSLocalizedString(@"msg_filtered_departures", @"")];
             segmentedRow.selectedItemIndex = self.routeFilter.showFilteredRoutes ? 0 : 1;
             return segmentedRow;
         }];

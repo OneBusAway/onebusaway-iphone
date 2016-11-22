@@ -36,7 +36,7 @@
         headsign = route.longName;
     }
     else {
-        headsign = NSLocalizedString(@"Headed somewhere...",@"");
+        headsign = NSLocalizedString(@"msg_headed_somewhere_dots",@"");
     }
 
     return [NSString stringWithFormat:@"%@ - %@",rShortName, headsign];

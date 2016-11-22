@@ -109,16 +109,16 @@
     NSString *stopNumber = nil;
 
     if (self.stop.direction) {
-        stopNumber = [NSString stringWithFormat:@"%@ #%@ - %@ %@", NSLocalizedString(@"Stop", @"text"), self.stop.code, self.stop.direction, NSLocalizedString(@"bound", @"text")];
+        stopNumber = [NSString stringWithFormat:@"%@ #%@ - %@ %@", NSLocalizedString(@"msg_stop", @"text"), self.stop.code, self.stop.direction, NSLocalizedString(@"msg_bound", @"text")];
     }
     else {
-        stopNumber = [NSString stringWithFormat:@"%@ #%@", NSLocalizedString(@"Stop", @"text"), self.stop.code];
+        stopNumber = [NSString stringWithFormat:@"%@ #%@", NSLocalizedString(@"msg_stop", @"text"), self.stop.code];
     }
     [stopMetadata addObject:stopNumber];
 
     NSString *stopRoutes = [self.stop routeNamesAsString];
     if (stopRoutes) {
-        [stopMetadata addObject:[NSString stringWithFormat:NSLocalizedString(@"Routes: %@", @""), stopRoutes]];
+        [stopMetadata addObject:[NSString stringWithFormat:NSLocalizedString(@"text_only_routes_colon_param", @""), stopRoutes]];
     }
 
     self.stopInformationLabel.text = [stopMetadata componentsJoinedByString:@"\r\n"];
@@ -138,7 +138,7 @@
         return;
     }
 
-    NSString *walkText = [NSString stringWithFormat:NSLocalizedString(@"Walk to stop: %@ — %.0f min, arriving at %@.",), [OBAMapHelpers stringFromDistance:_walkingETA.distance],
+    NSString *walkText = [NSString stringWithFormat:NSLocalizedString(@"text_walk_to_stop_info_params",), [OBAMapHelpers stringFromDistance:_walkingETA.distance],
                                  [[NSDate dateWithTimeIntervalSinceNow:_walkingETA.expectedTravelTime] minutesUntil],
                                  [OBADateHelpers formatShortTimeNoDate:_walkingETA.expectedArrivalDate]];
 

@@ -32,9 +32,9 @@ class NearbyStopsViewController: OBAStaticTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = NSLocalizedString("Nearby Stops", comment: "Title of the Nearby Stops view controller")
-        self.emptyDataSetTitle = NSLocalizedString("No Stops Found", comment: "Empty data set title for the Nearby Stops controller")
-        self.emptyDataSetDescription = NSLocalizedString("We couldn't find any other stops within our search radius.", comment: "Empty data set description for the Nearby Stops controller")
+        self.title = NSLocalizedString("msg_nearby_stops", comment: "Title of the Nearby Stops view controller")
+        self.emptyDataSetTitle = NSLocalizedString("msg_mayus_no_stops_found", comment: "Empty data set title for the Nearby Stops controller")
+        self.emptyDataSetDescription = NSLocalizedString("msg_coulnt_find_other_stops_on_radius", comment: "Empty data set description for the Nearby Stops controller")
 
         self.loadData()
     }
@@ -69,7 +69,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
                     let stopController = OBAStopViewController.init(stopID: stop.stopId)
                     self.navigationController?.pushViewController(stopController, animated: true)
                 })
-                row.subtitle = String.localizedStringWithFormat(NSLocalizedString("Routes: %@", comment: "e.g. Routes: 10, 12, 43"), stop.routeNamesAsString())
+                row.subtitle = String.localizedStringWithFormat(NSLocalizedString("text_only_routes_colon_param", comment: "e.g. Routes: 10, 12, 43"), stop.routeNamesAsString())
                 row.style = .subtitle
                 row.accessoryType = .disclosureIndicator
                 return row
@@ -86,13 +86,13 @@ class NearbyStopsViewController: OBAStaticTableViewController {
     func cardinalDirectionFromAbbreviation(_ abbreviation: String) -> String {
         switch abbreviation {
         case "N":
-            return NSLocalizedString("Northbound", comment: "As in 'going to the north.'")
+            return NSLocalizedString("msg_northbound", comment: "As in 'going to the north.'")
         case "E":
-            return NSLocalizedString("Eastbound", comment: "As in 'going to the east.'")
+            return NSLocalizedString("msg_eastbound", comment: "As in 'going to the east.'")
         case "S":
-            return NSLocalizedString("Southbound", comment: "As in 'going to the south.'")
+            return NSLocalizedString("msg_southbound", comment: "As in 'going to the south.'")
         case "W":
-            return NSLocalizedString("Westbound", comment: "As in 'going to the west.'")
+            return NSLocalizedString("msg_westbound", comment: "As in 'going to the west.'")
         default:
             return "\(abbreviation)-bound"
         }

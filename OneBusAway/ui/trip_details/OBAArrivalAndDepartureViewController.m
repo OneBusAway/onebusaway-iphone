@@ -64,7 +64,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Show Map", @"") style:UIBarButtonItemStylePlain target:self action:@selector(showMap:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_show_map", @"") style:UIBarButtonItemStylePlain target:self action:@selector(showMap:)];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reloadData:) forControlEvents:UIControlEventValueChanged];
@@ -258,7 +258,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     actionsSection.headerView = [OBASeparatorSectionView new];
 
     [actionsSection addRowWithBlock:^OBABaseRow * {
-        OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Report a problem for this trip", @"") action:^{
+        OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_minus_report_problem_this_trip", @"") action:^{
             OBAReportProblemWithTripViewController *vc = [[OBAReportProblemWithTripViewController alloc] initWithTripInstance:arrivalAndDeparture.tripInstance trip:arrivalAndDeparture.trip];
             vc.currentStopId = arrivalAndDeparture.stopId;
             [navigationController pushViewController:vc animated:YES];
@@ -271,13 +271,13 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         OBATableRow *tableRow = nil;
 
         if (arrivalAndDeparture.tripStatus.vehicleId.length > 0) {
-            tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Vehicle Info", @"") action:^{
+            tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_vehicle_info", @"") action:^{
                 OBAVehicleDetailsController *vc = [[OBAVehicleDetailsController alloc] initWithVehicleId:arrivalAndDeparture.tripStatus.vehicleId];
                 [navigationController pushViewController:vc animated:YES];
             }];
         }
         else {
-            tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"No Vehicle Info Available", @"") action:nil];
+            tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_no_vehicle_info_available", @"") action:nil];
             tableRow.selectionStyle = UITableViewCellSelectionStyleNone;
             tableRow.titleColor = [OBATheme darkDisabledColor];
         }

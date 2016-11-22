@@ -28,7 +28,7 @@
 - (id)initWithVehicleId:(NSString *)vehicleId {
     if (self = [super init]) {
         _vehicleId = [vehicleId copy];
-        self.title = NSLocalizedString(@"Vehicle Details",);
+        self.title = NSLocalizedString(@"msg_vehicle_details",);
     }
 
     return self;
@@ -57,16 +57,16 @@
 }
 
 - (void)loadData {
-    OBATableSection *vehicleDetails = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Vehicle Details:", @"OBASectionTypeVehicleDetails")];
+    OBATableSection *vehicleDetails = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_vehicle_details_colon", @"OBASectionTypeVehicleDetails")];
 
     [vehicleDetails addRowWithBlock:^OBABaseRow *{
-        OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Vehicle: %@",), self.vehicleStatus.vehicleId] action:nil];
+        OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"text_vehicle_colon_param",), self.vehicleStatus.vehicleId] action:nil];
         tableRow.style = UITableViewCellStyleSubtitle;
-        tableRow.subtitle = [NSString stringWithFormat:NSLocalizedString(@"Last update: %@",), [OBADateHelpers formatShortTimeNoDate:self.vehicleStatus.lastUpdate]];
+        tableRow.subtitle = [NSString stringWithFormat:NSLocalizedString(@"text_last_update_param",), [OBADateHelpers formatShortTimeNoDate:self.vehicleStatus.lastUpdate]];
         return tableRow;
     }];
 
-    OBATableSection *activeTripDetails = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Active Trip Details:", @"OBASectionTypeTripDetails")];
+    OBATableSection *activeTripDetails = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_active_trip_details_colon", @"OBASectionTypeTripDetails")];
 
     OBATripStatusV2 *tripStatus = self.vehicleStatus.tripStatus;
 

@@ -1,108 +1,107 @@
 /* sd < 0 */
-" early" = " early";
+"msg_space_early" = " early";
 
 /* sd > 0 */
-" late" = " late";
+"msg_space_late" = " late";
 
 /* No comment provided by engineer. */
-"%@ bound - Routes: %@" = "%@ bound - Routes: %@";
+"text_bound_and_routes_params" = "%@ bound - Routes: %@";
 
 /* e.g. 3 min early */
-"%@ min %@" = "%@ min %@";
+"text_time_min_desviation_params" = "%@ min %@";
 
 /* <Route Number> to <Location>. e.g. 10 to Downtown Seattle */
-"%@ to %@" = "%@ to %@";
+"text_route_to_orientation_params" = "%@ to %@";
 
 /* The explanatory text displayed when a non-realtime trip is displayed on-screen. */
-"*'Scheduled': no vehicle location data available" = "*'Scheduled': no vehicle location data available";
+"msg_scheduled_explanatory" = "*'Scheduled': no vehicle location data available";
 
 /* Typically used on alerts and other modal actions. A 'cancel' button. */
-"Cancel" = "Cancel";
+"msg_cancel" = "Cancel";
 
 /* No comment provided by engineer. */
-"Cellular" = "Cellular";
+"msg_cellular" = "Cellular";
 
 /* Typically used on alerts and other modal actions. A 'delete' button. */
-"Delete" = "Delete";
+"msg_delete" = "Delete";
 
 /* Used on alerts. iOS tends to use 'Dismiss' instead of 'OK' on alerts that the user isn't actually agreeing to. */
-"Dismiss" = "Dismiss";
+"msg_dismiss" = "Dismiss";
 
 /* As in 'edit object'. */
-"Edit" = "Edit";
+"msg_edit" = "Edit";
 
 /* The text 'Error' */
-"Error" = "Error";
+"msg_error" = "Error";
 
 /* code != 404 */
-"Error Connecting" = "Error Connecting";
+"msg_error_connecting" = "Error Connecting";
 
 /* frequency status string */
-"Every %@ mins %@ %@" = "Every %@ mins %@ %@";
+"text_frequency_status_params" = "Every %@ mins %@ %@";
 
 /* No comment provided by engineer. */
-"Headed somewhere..." = "Headed somewhere...";
+"msg_headed_somewhere_dotse" = "Headed somewhere...";
 
 /* No comment provided by engineer. */
-"NOW" = "NOW";
+"msg_now" = "NOW";
 
 /* No comment provided by engineer. */
-"No Connection" = "No Connection";
+"msg_no_connection" = "No Connection";
 
 /* Standard 'OK' button text. */
-"OK" = "OK";
+"msg_ok" = "OK";
 
 /* feedback mail subject */
-"OneBusAway iOS Feedback" = "OneBusAway iOS Feedback";
+"msg_oba_ios_feedback" = "OneBusAway iOS Feedback";
 
 /* No comment provided by engineer. */
-"Routes: %@" = "Routes: %@";
+"text_only_routes_colon_param" = "Routes: %@";
 
 /* No comment provided by engineer. */
-"STOP" = "STOP";
+"msg_stop_mayus" = "STOP";
 
 /* Standard 'Save' button text. */
-"Save" = "Save";
+"msg_save" = "Save";
 
 /* cell.textLabel.text */
-"Schedule deviation" = "Schedule deviation";
+"msg_schedule_deviation" = "Schedule deviation";
 
 /* code == 404 */
-"Stop not found" = "Stop not found";
+"mgs_stop_not_found" = "Stop not found";
 
 /* title */
-"Vehicle" = "Vehicle";
+"msg_vehicle" = "Vehicle";
 
 /* No comment provided by engineer. */
-"WiFi" = "WiFi";
+"msg_wifi" = "WiFi";
 
 /* e.g. departed 5 min late */
-"departed %@ min %@" = "departed %@ min %@";
+"text_departed_time_min_desviation_params" = "departed %@ min %@";
 
 /* minutes < 0 */
-"departed on time" = "departed on time";
+"msg_departed_on_time" = "departed on time";
 
 /* No comment provided by engineer. */
-"early" = "early";
+"msg_early" = "early";
 
 /* No comment provided by engineer. */
-"from" = "from";
+"msg_from" = "from";
 
 /* No comment provided by engineer. */
-"late" = "late";
+"msg_late" = "late";
 
 /* minutes */
-"mins" = "mins";
+"msg_mins" = "mins";
 
 /* minutes >= 0 */
-"on time" = "on time";
+"msg_on_time" = "on time";
 
 /* minutes >= 0 */
-"scheduled arrival*" = "scheduled arrival*";
+"msg_scheduled_arrival_asterisk" = "scheduled arrival*";
 
 /* minutes < 0 */
-"scheduled departure*" = "scheduled departure*";
+"msg_scheduled_departure_asterisk" = "scheduled departure*";
 
 /* No comment provided by engineer. */
-"until" = "until";
-
+"msg_until" = "until";

@@ -150,10 +150,10 @@
     NSString * r = [self routeNamesAsString];
 
     if (self.direction) {
-        return [NSString stringWithFormat:NSLocalizedString(@"%@ bound - Routes: %@", @""), self.direction, r];
+        return [NSString stringWithFormat:NSLocalizedString(@"text_bound_and_routes_params", @""), self.direction, r];
     }
     else {
-        return [NSString stringWithFormat:NSLocalizedString(@"Routes: %@", @""), r];
+        return [NSString stringWithFormat:NSLocalizedString(@"text_only_routes_colon_param", @""), r];
     }
 }
 

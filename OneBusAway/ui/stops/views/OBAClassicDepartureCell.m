@@ -49,7 +49,7 @@ static CGFloat const kSwipeButtonWidth = 80.f;
         _shareButton = ({
             UIButton *button = [OBAStackedButton buttonWithType:UIButtonTypeSystem];
             [button setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
-            [button setTitle:NSLocalizedString(@"Share",) forState:UIControlStateNormal];
+            [button setTitle:NSLocalizedString(@"msg_share",) forState:UIControlStateNormal];
             button.backgroundColor = [UIColor lightGrayColor];
             [button addTarget:self action:@selector(shareDeparture) forControlEvents:UIControlEventTouchUpInside];
             [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -80,13 +80,13 @@ static CGFloat const kSwipeButtonWidth = 80.f;
     if (bookmarkExists) {
         backgroundColor = [UIColor redColor];
 
-        title = NSLocalizedString(@"Remove",);
-        accessibilityLabel = NSLocalizedString(@"Remove Bookmark",);
+        title = NSLocalizedString(@"msg_remove",);
+        accessibilityLabel = NSLocalizedString(@"msg_remove_bookmark",);
     }
     else {
         backgroundColor = [UIColor greenColor];
-        title = NSLocalizedString(@"Add",);
-        accessibilityLabel = NSLocalizedString(@"Add Bookmark",);
+        title = NSLocalizedString(@"msg_add",);
+        accessibilityLabel = NSLocalizedString(@"msg_add_bookmark",);
     }
 
     [self.bookmarkButton setBackgroundColor:backgroundColor];

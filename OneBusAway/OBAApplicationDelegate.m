@@ -214,8 +214,8 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
             target.object = tripDeepLink;
             [appDelegate navigateToTarget:target];
         }).catch(^(NSError *error) {
-            NSString *body = [NSString stringWithFormat:NSLocalizedString(@"Sorry, we can't show you that shared trip. If this continues, please let us know. Error: %@", @"Error message displayed to the user when something goes wrong with a just-tapped shared trip."), error.localizedDescription];
-            [AlertPresenter showWarning:NSLocalizedString(@"Something Went Wrong",) body:body];
+            NSString *body = [NSString stringWithFormat:NSLocalizedString(@"text_error_cant_show_shared_trip_param", @"Error message displayed to the user when something goes wrong with a just-tapped shared trip."), error.localizedDescription];
+            [AlertPresenter showWarning:NSLocalizedString(@"msg_something_went_wrong",) body:body];
         }).always(^{
             [SVProgressHUD dismiss];
         });
@@ -271,7 +271,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     OBAReachability *reachability = note.object;
 
     if (!reachability.isReachable) {
-        [AlertPresenter showWarning:NSLocalizedString(@"Cannot connect to the Internet", @"Reachability alert title") body:NSLocalizedString(@"Please check your Internet connection and try again.", @"Reachability alert body")];
+        [AlertPresenter showWarning:NSLocalizedString(@"msg_cannot_connect_to_the_internet", @"Reachability alert title") body:NSLocalizedString(@"msg_check_internet_connection", @"Reachability alert body")];
     }
 }
 

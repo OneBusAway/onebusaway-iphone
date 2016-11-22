@@ -41,7 +41,7 @@
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
 
-        self.navigationItem.title = NSLocalizedString(@"Edit Bookmark", @"OBABookmarkEditExisting");
+        self.navigationItem.title = NSLocalizedString(@"msg_edit_bookmark", @"OBABookmarkEditExisting");
     }
     return self;
 }
@@ -132,7 +132,7 @@
     self.bookmark.name = self.textField.text;
 
     if (![self.bookmark isValidModel]) {
-        [AlertPresenter showWarning:NSLocalizedString(@"Can't Create Bookmark", @"Title of the alert shown when a bookmark can't be created") body:NSLocalizedString(@"Bookmarks must have a name. Please add a name and then try again.", @"Body of the alert shown when a bookmark can't be created.")];
+        [AlertPresenter showWarning:NSLocalizedString(@"msg_cant_create_bookmark", @"Title of the alert shown when a bookmark can't be created") body:NSLocalizedString(@"msg_alert_bookmarks_must_have_name", @"Body of the alert shown when a bookmark can't be created.")];
         return;
     }
 

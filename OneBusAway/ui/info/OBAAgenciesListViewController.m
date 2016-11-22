@@ -36,9 +36,9 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     self = [super init];
 
     if (self) {
-        self.title = NSLocalizedString(@"Agencies", @"Agencies tab title");
-        self.emptyDataSetTitle = NSLocalizedString(@"No Agencies", @"");
-        self.emptyDataSetDescription = NSLocalizedString(@"We could not find any transit agencies near your current location.", @"");
+        self.title = NSLocalizedString(@"msg_agencies", @"Agencies tab title");
+        self.emptyDataSetTitle = NSLocalizedString(@"msg_no_agencies", @"");
+        self.emptyDataSetDescription = NSLocalizedString(@"msg_explanatory_no_agencies", @"");
     }
 
     return self;

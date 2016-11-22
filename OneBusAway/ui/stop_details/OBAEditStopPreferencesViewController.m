@@ -41,7 +41,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = NSLocalizedString(@"Sort & Filter Routes", @"Title for the Edit Stop Preferences Controller");
+    self.title = NSLocalizedString(@"msg_sort_and_filter_routes", @"Title for the Edit Stop Preferences Controller");
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
 
@@ -77,8 +77,8 @@
 }
 
 - (OBATableSection*)buildSortSection {
-    OBATableSection *sortSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Sorting",)];
-    OBATableRow *row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Sort by Time",) action:^{
+    OBATableSection *sortSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_sorting",)];
+    OBATableRow *row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_sort_by_time",) action:^{
         [self.preferences toggleTripSorting];
         [self loadData];
     }];
@@ -86,7 +86,7 @@
         row.accessoryType = UITableViewCellAccessoryCheckmark;
     }
     [sortSection addRow:row];
-    row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Sort by Route",) action:^{
+    row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_sort_by_route",) action:^{
         [self.preferences toggleTripSorting];
         [self loadData];
     }];
@@ -99,7 +99,7 @@
 }
 
 - (OBATableSection*)buildFilterSection {
-    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Routes",)];
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_routes",)];
 
     for (OBARouteV2 *route in [self.stop.routes sortedArrayUsingSelector:@selector(compareUsingName:)]) {
         OBATableRow *row = [[OBATableRow alloc] initWithTitle:route.safeShortName action:^{

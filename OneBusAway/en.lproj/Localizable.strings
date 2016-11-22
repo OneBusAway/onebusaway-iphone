@@ -2,799 +2,799 @@
 " - " = " - ";
 
 /* Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE> */
-"%@ to %@\r\n" = "%@ to %@\r\n";
+"text_route_to_orientation_newline_params" = "%@ to %@\r\n";
 
 /* No comment provided by engineer. */
-"%@: No departure scheduled for the next %@ minutes" = "%@: No departure scheduled for the next %@ minutes";
+"text_no_departure_next_time_minutes_params" = "%@: No departure scheduled for the next %@ minutes";
 
 /* No comment provided by engineer. */
-"A vehicle at this stop" = "A vehicle at this stop";
+"msg_vehicle_this_stop" = "A vehicle at this stop";
 
 /* No comment provided by engineer. */
-"About OneBusAway" = "About OneBusAway";
+"msg_about_oba" = "About OneBusAway";
 
 /* No comment provided by engineer. */
-"Active Regions" = "Active Regions";
+"msg_active_regions" = "Active Regions";
 
 /* OBASectionTypeTripDetails */
-"Active Trip Details:" = "Active Trip Details:";
+"msg_active_trip_details_colon" = "Active Trip Details:";
 
 /* No comment provided by engineer. */
-"Add" = "Add";
+"msg_add" = "Add";
 
 /* No comment provided by engineer. */
-"Add Bookmark" = "Add Bookmark";
+"msg_add_bookmark" = "Add Bookmark";
 
 /* No comment provided by engineer. */
-"Add Bookmark Group" = "Add Bookmark Group";
+"msg_add_bookmark_group" = "Add Bookmark Group";
 
 /* No comment provided by engineer. */
-"Add Region" = "Add Region";
+"msg_add_region" = "Add Region";
 
 /* Agencies tab title
    Info Page Agencies Row Title
    OBASearchTypeAgenciesWithCoverage
    self.navigationItem.title */
-"Agencies" = "Agencies";
+"msg_agencies" = "Agencies";
 
 /* No comment provided by engineer. */
-"All Departures" = "All Departures";
+"msg_all_departures" = "All Departures";
 
 /* No comment provided by engineer. */
-"An error occurred loading this trip. Please try again." = "An error occurred loading this trip. Please try again.";
+"msg_error_loading_trip" = "An error occurred loading this trip. Please try again.";
 
 /* view.message */
-"An error occurred while reporting the problem. Please contact us directly." = "An error occurred while reporting the problem. Please contact us directly.";
+"msg_error_reporting_problem" = "An error occurred while reporting the problem. Please contact us directly.";
 
 /* No comment provided by engineer. */
-"App Bugs & Feature Requests" = "App Bugs & Feature Requests";
+"msg_app_bugs_feature_requests" = "App Bugs & Feature Requests";
 
 /* No comment provided by engineer. */
-"Are you sure you want to clear your recent stops?" = "Are you sure you want to clear your recent stops?";
+"msg_ask_clear_recent_stops" = "Are you sure you want to clear your recent stops?";
 
 /* No comment provided by engineer. */
-"Are you sure you want to delete this region?" = "Are you sure you want to delete this region?";
+"msg_ask_delete_region" = "Are you sure you want to delete this region?";
 
 /* Tap on Remove Bookmarks on OBAStopViewController. */
-"Are you sure you want to remove this bookmark?" = "Are you sure you want to remove this bookmark?";
+"msg_ask_remove_bookmark" = "Are you sure you want to remove this bookmark?";
 
 /* No comment provided by engineer. */
-"Automatically Select Region" = "Automatically Select Region";
+"msg_automatically_select_region" = "Automatically Select Region";
 
 /* No comment provided by engineer. */
-"Base URL" = "Base URL";
+"msg_base_url" = "Base URL";
 
 /* No comment provided by engineer. */
-"Bookmark Groups" = "Bookmark Groups";
+"msg_bookmark_groups" = "Bookmark Groups";
 
 /* No comment provided by engineer. */
-"Bookmark a Route at Stop" = "Bookmark a Route at Stop";
+"msg_bookmark_a_route_at_stop" = "Bookmark a Route at Stop";
 
 /* No comment provided by engineer. */
-"Bookmark the Stop" = "Bookmark the Stop";
+"msg_bookmark_the_stop" = "Bookmark the Stop";
 
 /* No comment provided by engineer. */
-"Bookmarks" = "Bookmarks";
+"msg_bookmarks" = "Bookmarks";
 
 /* Body of the alert shown when a bookmark can't be created. */
-"Bookmarks must have a name. Please add a name and then try again." = "Bookmarks must have a name. Please add a name and then try again.";
+"msg_alert_bookmarks_must_have_name" = "Bookmarks must have a name. Please add a name and then try again.";
 
 /* Title of the alert shown when a bookmark can't be created */
-"Can't Create Bookmark" = "Can't Create Bookmark";
+"msg_cant_create_bookmark" = "Can't Create Bookmark";
 
 /* No comment provided by engineer. */
-"Cancel" = "Cancel";
+"msg_cancel" = "Cancel";
 
 /* Reachability alert title */
-"Cannot connect to the Internet" = "Cannot connect to the Internet";
+"msg_cannot_connect_to_the_internet" = "Cannot connect to the Internet";
 
 /* Title of OBABookmarkRouteDisambiguationViewController */
-"Choose a Route" = "Choose a Route";
+"msg_choose_a_route" = "Choose a Route";
 
 /* No comment provided by engineer. */
-"Clear" = "Clear";
+"msg_clear" = "Clear";
 
 /* No comment provided by engineer. */
-"Clear Recent Stops" = "Clear Recent Stops";
+"msg_clear_recent_stops" = "Clear Recent Stops";
 
 /* No comment provided by engineer. */
-"Clear Stops" = "Clear Stops";
+"msg_clear_stops" = "Clear Stops";
 
 /* No comment provided by engineer. */
-"Close" = "Close";
+"msg_close" = "Close";
 
 /* withTitle */
-"Comment" = "Comment";
+"msg_comment" = "Comment";
 
 /* searchWithTarget _progress */
-"Connecting..." = "Connecting...";
+"msg_connecting_dots" = "Connecting...";
 
 /* No comment provided by engineer. */
-"Contact Email" = "Contact Email";
+"msg_contact_email" = "Contact Email";
 
 /* view addButtonWithTitle */
-"Contact Us" = "Contact Us";
+"msg_contact_us" = "Contact Us";
 
 /* text */
-"Continues as" = "Continues as";
+"msg_continues_as" = "Continues as";
 
 /* No comment provided by engineer. */
-"Continues as %@" = "Continues as %@";
+"text_continues_as_param" = "Continues as %@";
 
 /* Info Page Credits Row Title
    Title of credits view controller */
-"Credits" = "Credits";
+"msg_credits" = "Credits";
 
 /* No comment provided by engineer. */
-"Custom Regions" = "Custom Regions";
+"msg_custom_regions" = "Custom Regions";
 
 /* initWithTitle
    UIBarButtonItem * item */
-"Custom Title" = "Custom Title";
+"msg_custom_title" = "Custom Title";
 
 /* Info Page Contact Us Row Title */
-"Data & Schedule Issues" = "Data & Schedule Issues";
+"msg_data_schedule_issues" = "Data & Schedule Issues";
 
 /* Title of delete bookmark row action. */
-"Delete" = "Delete";
+"msg_delete" = "Delete";
 
 /* No comment provided by engineer. */
-"Deleting a group does not delete its bookmarks. Its contents will be moved to the 'Bookmarks' group." = "Deleting a group does not delete its bookmarks. Its contents will be moved to the 'Bookmarks' group.";
+"msg_explanatory_delete_group_bookmarks" = "Deleting a group does not delete its bookmarks. Its contents will be moved to the 'Bookmarks' group.";
 
 /* As in 'going to the east.' */
-"Eastbound" = "Eastbound";
+"msg_eastbound" = "Eastbound";
 
 /* Title of edit bookmark/group row action. */
-"Edit" = "Edit";
+"msg_edit" = "Edit";
 
 /* OBABookmarkEditExisting */
-"Edit Bookmark" = "Edit Bookmark";
+"msg_edit_bookmark" = "Edit Bookmark";
 
 /* No comment provided by engineer. */
-"Edit Group Name" = "Edit Group Name";
+"msg_edit_group_name" = "Edit Group Name";
 
 /* A switch option's text for enabling and disabling Google Analytics */
-"Enable Google Analytics" = "Enable Google Analytics";
+"msg_enable_google_analytics" = "Enable Google Analytics";
 
 /* No comment provided by engineer. */
-"Error" = "Error";
+"msg_error" = "Error";
 
 /* view.title */
-"Error Submitting" = "Error Submitting";
+"msg_error_submitting" = "Error Submitting";
 
 /* message
    requestDidFail
    self.navigationItem.title */
-"Error connecting" = "Error connecting";
+"msg_error_min_connecting" = "Error connecting";
 
 /* requestDidFail */
-"Error connecting." = "Error connecting.";
+"msg_error_min_connecting_dot" = "Error connecting.";
 
 /* No comment provided by engineer. */
-"Filtered Departures" = "Filtered Departures";
+"msg_filtered_departures" = "Filtered Departures";
 
 /* Location services alert button. */
-"Fix It" = "Fix It";
+"msg_fix_it" = "Fix It";
 
 /* Sharing link activity item in the stop view controller */
-"Follow my trip: %@" = "Follow my trip: %@";
+"text_follow_my_trip_param" = "Follow my trip: %@";
 
 /* Out of range alert title */
-"Go to %@?" = "Go to %@?";
+"text_ask_go_to_region_param" = "Go to %@?";
 
 /* No comment provided by engineer. */
-"Go to Region" = "Go to Region";
+"msg_go_to_region" = "Go to Region";
 
 /* No comment provided by engineer. */
-"Groups" = "Groups";
+"msg_groups" = "Groups";
 
 /* No comment provided by engineer. */
-"Info" = "Info";
+"msg_info" = "Info";
 
 /* Title of the PIIViewController */
-"Information for Support" = "Information for Support";
+"msg_information_for_support" = "Information for Support";
 
 /* No comment provided by engineer. */
-"Invalid Region" = "Invalid Region";
+"msg_invalid_region" = "Invalid Region";
 
 /* No comment provided by engineer. */
-"Invalid Region Base URL" = "Invalid Region Base URL";
+"msg_invalid_region_base_url" = "Invalid Region Base URL";
 
 /* No comment provided by engineer. */
-"Is Active" = "Is Active";
+"msg_is_active" = "Is Active";
 
 /* name */
-"It came earlier than predicted" = "It came earlier than predicted";
+"msg_it_came_earlier_than_predicted" = "It came earlier than predicted";
 
 /* name */
-"It came later than predicted" = "It came later than predicted";
+"msg_it_came_later_than_predicted" = "It came later than predicted";
 
 /* No comment provided by engineer. */
-"Last update: %@" = "Last update: %@";
+"text_last_update_param" = "Last update: %@";
 
 /* No comment provided by engineer. */
-"Load More Departures..." = "Load More Departures...";
+"msg_load_more_departures_dots" = "Load More Departures...";
 
 /* No comment provided by engineer. */
-"Loading" = "Loading";
+"msg_loading" = "Loading";
 
 /* Progress HUD status when first locating the user on the Region List Controller */
-"Loading Regions" = "Loading Regions";
+"msg_loading_regions" = "Loading Regions";
 
 /* Location section title on PII controller */
-"Location" = "Location";
+"msg_location" = "Location";
 
 /* view.title */
-"Location Services Disabled" = "Location Services Disabled";
+"msg_location_services_disabled" = "Location Services Disabled";
 
 /* view.message */
-"Location Services are disabled for this app. Some location-aware functionality will be missing." = "Location Services are disabled for this app. Some location-aware functionality will be missing.";
+"msg_alert_location_services_disabled" = "Location Services are disabled for this app. Some location-aware functionality will be missing.";
 
 /* No comment provided by engineer. */
-"Log Files Sent" = "Log Files Sent";
+"msg_log_files_sent" = "Log Files Sent";
 
 /* Logs table section in the PII controller */
-"Logs" = "Logs";
+"msg_logs" = "Logs";
 
 /* initWithTitle
    Map tab title */
-"Map" = "Map";
+"msg_map" = "Map";
 
 /* No comment provided by engineer. */
-"Mark" = "Mark";
+"msg_mark" = "Mark";
 
 /* No comment provided by engineer. */
-"Name" = "Name";
+"msg_name" = "Name";
 
 /* No comment provided by engineer. */
-"Name of Group" = "Name of Group";
+"msg_name_of_group" = "Name of Group";
 
 /* No comment provided by engineer. */
-"Nearby" = "Nearby";
+"msg_nearby" = "Nearby";
 
 /* Title of the Nearby Stops view controller */
-"Nearby Stops" = "Nearby Stops";
+"msg_nearby_stops" = "Nearby Stops";
 
 /* self.listBarButtonItem.accessibilityLabel */
-"Nearby stops list" = "Nearby stops list";
+"msg_nearby_stops_list" = "Nearby stops list";
 
 /* No comment provided by engineer. */
-"Newest Regions" = "Newest Regions";
+"msg_newest_regions" = "Newest Regions";
 
 /* Out of range alert Cancel button */
-"No" = "No";
+"msg_no" = "No";
 
 /* No comment provided by engineer. */
-"No Active Service Alerts" = "No Active Service Alerts";
+"msg_no_active_service_alerts" = "No Active Service Alerts";
 
 /* No comment provided by engineer. */
-"No Agencies" = "No Agencies";
+"msg_no_agencies" = "No Agencies";
 
 /* No comment provided by engineer. */
-"No Bookmark Groups" = "No Bookmark Groups";
+"msg_no_bookmark_groups" = "No Bookmark Groups";
 
 /* No comment provided by engineer. */
-"No Bookmarks" = "No Bookmarks";
+"msg_no_bookmarks" = "No Bookmarks";
 
 /* No comment provided by engineer. */
-"No Recent Stops" = "No Recent Stops";
+"msg_no_recent_stops" = "No Recent Stops";
 
 /* OBASearchTypeNone */
-"No Results" = "No Results";
+"msg_no_results" = "No Results";
 
 /* No comment provided by engineer. */
-"No Results Found" = "No Results Found";
+"msg_no_results_found" = "No Results Found";
 
 /* Empty data set title for the Nearby Stops controller */
-"No Stops Found" = "No Stops Found";
+"msg_mayus_no_stops_found" = "No Stops Found";
 
 /* No comment provided by engineer. */
-"No Vehicle Info Available" = "No Vehicle Info Available";
+"msg_no_vehicle_info_available" = "No Vehicle Info Available";
 
 /* showNoResultsAlertWithTitle */
-"No places found" = "No places found";
+"msg_no_places_found" = "No places found";
 
 /* prompt */
-"No places were found for your search." = "No places were found for your search.";
+"msg_explanatory_no_places_found." = "No places were found for your search.";
 
 /* No comment provided by engineer. */
-"No results were found for the searched area. Zoom out or move the map around to choose a different area." = "No results were found for the searched area. Zoom out or move the map around to choose a different area.";
+"msg_no_result_map_area" = "No results were found for the searched area. Zoom out or move the map around to choose a different area.";
 
 /* showNoResultsAlertWithTitle */
-"No routes found" = "No routes found";
+"msg_no_routes_found" = "No routes found";
 
 /* prompt */
-"No routes were found for your search." = "No routes were found for your search.";
+"msg_explanatory_no_routes_found" = "No routes were found for your search.";
 
 /* [values count] == 0 */
-"No stops at this location" = "No stops at this location";
+"msg_no_stops_location_map" = "No stops at this location";
 
 /* showNoResultsAlertWithTitle */
-"No stops found" = "No stops found";
+"msg_minus_no_stops_found" = "No stops found";
 
 /* prompt */
-"No stops were found for your search." = "No stops were found for your search.";
+"msg_explanatory_minus_no_stops_found" = "No stops were found for your search.";
 
 /* As in 'going to the north.' */
-"Northbound" = "Northbound";
+"msg_northbound" = "Northbound";
 
 /* code == 404 */
-"Not found" = "Not found";
+"msg_not_found" = "Not found";
 
 /* cell.label.text */
-"Number" = "Number";
+"msg_number" = "Number";
 
 /* cell.label.text */
-"On this" = "On this";
+"msg_on_this" = "On this";
 
 /* No comment provided by engineer. */
-"OneBusAway" = "OneBusAway";
+"msg_oba_name" = "OneBusAway";
 
 /* No comment provided by engineer. */
-"OneBusAway for iOS is made and supported by volunteers. To help, tap the button below." = "OneBusAway for iOS is made and supported by volunteers. To help, tap the button below.";
+"msg_onebusaway_made_by_volunteers" = "OneBusAway for iOS is made and supported by volunteers. To help, tap the button below.";
 
 /* No comment provided by engineer. */
-"Optional" = "Optional";
+"msg_optional" = "Optional";
 
 /* OBASectionTypeOnTheVehicle */
-"Optional - Are you on this" = "Optional - Are you on this";
+"msg_optional_are_you_on_this" = "Optional - Are you on this";
 
 /* OBASectionTypeComment */
-"Optional - Comment:" = "Optional - Comment:";
+"msg_optional_comment" = "Optional - Comment:";
 
 /* name */
-"Other" = "Other";
+"msg_other" = "Other";
 
 /* result.outOfRange */
-"Out of OneBusAway service area" = "Out of OneBusAway service area";
+"msg_out_oba_service_area" = "Out of OneBusAway service area";
 
 /* showNoResultsAlertWithTitle */
-"Out of range" = "Out of range";
+"msg_out_of_range" = "Out of range";
 
 /* Title of the Region List Controller */
-"Pick Your Location" = "Pick Your Location";
+"msg_pick_your_location" = "Pick Your Location";
 
 /* OBASearchTypeAddress */
-"Places" = "Places";
+"msg_places" = "Places";
 
 /* Reachability alert body */
-"Please check your Internet connection and try again." = "Please check your Internet connection and try again.";
+"msg_check_internet_connection" = "Please check your Internet connection and try again.";
 
 /* view.message */
-"Please set up your Mail app before trying to send an email." = "Please set up your Mail app before trying to send an email.";
+"msg_set_up_mail_to_send_email" = "Please set up your Mail app before trying to send an email.";
 
 /* No comment provided by engineer. */
-"Privacy" = "Privacy";
+"msg_privacy" = "Privacy";
 
 /* Info Page Privacy Policy Row Title */
-"Privacy Policy" = "Privacy Policy";
+"msg_privacy_policy" = "Privacy Policy";
 
 /* self.navigationItem.backBarButtonItem.title */
-"Problem" = "Problem";
+"msg_problem" = "Problem";
 
 /* Recent stops tab title */
-"Recent" = "Recent";
+"msg_recent" = "Recent";
 
 /* No comment provided by engineer. */
-"Recent Stops" = "Recent Stops";
+"msg_recent_stops" = "Recent Stops";
 
 /* Region section title on PII controller */
-"Region" = "Region";
+"msg_region" = "Region";
 
 /* No comment provided by engineer. */
-"Remove" = "Remove";
+"msg_remove" = "Remove";
 
 /* No comment provided by engineer. */
-"Remove Bookmark" = "Remove Bookmark";
+"msg_remove_bookmark" = "Remove Bookmark";
 
 /* No comment provided by engineer. */
-"Report Problem" = "Report Problem";
+"msg_report_problem" = "Report Problem";
 
 /* self.navigationItem.title */
-"Report a Problem" = "Report a Problem";
+"msg_report_a_problem" = "Report a Problem";
 
 /* No comment provided by engineer. */
-"Report a Problem with this Stop" = "Report a Problem with this Stop";
+"msg_report_problem_this_stop" = "Report a Problem with this Stop";
 
 /* No comment provided by engineer. */
-"Report a Problem with this Trip" = "Report a Problem with this Trip";
+"msg_mayus_report_problem_this_trip" = "Report a Problem with this Trip";
 
 /* No comment provided by engineer. */
-"Report a problem for this trip" = "Report a problem for this trip";
+"msg_minus_report_problem_this_trip" = "Report a problem for this trip";
 
 /* No comment provided by engineer. */
-"Required" = "Required";
+"msg_required" = "Required";
 
 /* route */
-"Route" = "Route";
+"msg_route" = "Route";
 
 /* message */
-"Route Map" = "Route Map";
+"msg_route_map" = "Route Map";
 
 /* name */
-"Route or scheduled trip is missing" = "Route or scheduled trip is missing";
+"msg_route_or_trip_missing" = "Route or scheduled trip is missing";
 
 /* OBASearchTypeRoute */
-"Routes" = "Routes";
+"msg_routes" = "Routes";
 
 /* e.g. Routes: 10, 12, 43 */
-"Routes: %@" = "Routes: %@";
+"text_only_routes_colon_param" = "Routes: %@";
 
 /* initWithTitle */
-"Schedule" = "Schedule";
+"msg_schedule" = "Schedule";
 
 /* No comment provided by engineer. */
-"Search" = "Search";
+"msg_search" = "Search";
 
 /* Search {Region Name} */
-"Search %@" = "Search %@";
+"text_search_param" = "Search %@";
 
 /* No comment provided by engineer. */
-"Select a group for the bookmark,\nor '+' to add it to a new group." = "Select a group for the bookmark,\nor '+' to add it to a new group.";
+"msg_select_or_add_to_group_bookmark" = "Select a group for the bookmark,\nor '+' to add it to a new group.";
 
 /* No comment provided by engineer. */
-"Send" = "Send";
+"msg_send" = "Send";
 
 /* No comment provided by engineer. */
-"Send Logs to Support" = "Send Logs to Support";
+"msg_send_logs" = "Send Logs to Support";
 
 /* No comment provided by engineer. */
-"Send Logs to Support?" = "Send Logs to Support?";
+"msg_ask_send_logs" = "Send Logs to Support?";
 
 /* code # 404 */
-"Server error" = "Server error";
+"msg_server_error" = "Server error";
 
 /* No comment provided by engineer. */
-"Service Alerts" = "Service Alerts";
+"msg_service_alerts" = "Service Alerts";
 
 /* Settings bar button item title on the info view controller.
    title of OBASettingsViewController */
-"Settings" = "Settings";
+"msg_settings" = "Settings";
 
 /* No comment provided by engineer. */
-"Share" = "Share";
+"msg_share" = "Share";
 
 /* Region switch row on PII Controller */
-"Share Current Region" = "Share Current Region";
+"msg_share_current_region" = "Share Current Region";
 
 /* Location switch row on PII Controller */
-"Share Location" = "Share Location";
+"msg_share_location" = "Share Location";
 
 /* Share logs action row title in the PII controller */
-"Share Logs" = "Share Logs";
+"msg_share_logs" = "Share Logs";
 
 /* Section title for the shared trips section in the 'Recent' tab. */
-"Shared Trips" = "Shared Trips";
+"msg_shared_trips" = "Shared Trips";
 
 /* No comment provided by engineer. */
-"Show Map" = "Show Map";
+"msg_show_map" = "Show Map";
 
 /* No comment provided by engineer. */
-"Show as List" = "Show as List";
+"msg_show_as_list" = "Show as List";
 
 /* No comment provided by engineer. */
-"Show as Map" = "Show as Map";
+"msg_show_as_map" = "Show as Map";
 
 /* Analytics explanation on the Settings view controller. */
-"Some information about how you use this app is sent to Google Analytics in non-personally identifiable form to help us better understand how to improve the app. To learn more, please read our Privacy Policy." = "Some information about how you use this app is sent to Google Analytics in non-personally identifiable form to help us better understand how to improve the app. To learn more, please read our Privacy Policy.";
+"msg_explanatory_google_analytics" = "Some information about how you use this app is sent to Google Analytics in non-personally identifiable form to help us better understand how to improve the app. To learn more, please read our Privacy Policy.";
 
 /* No comment provided by engineer. */
-"Something Went Wrong" = "Something Went Wrong";
+"msg_something_went_wrong" = "Something Went Wrong";
 
 /* Error message displayed to the user when something goes wrong with a just-tapped shared trip. */
-"Sorry, we can't show you that shared trip. If this continues, please let us know. Error: %@" = "Sorry, we can't show you that shared trip. If this continues, please let us know. Error: %@";
+"text_error_cant_show_shared_trip_param" = "Sorry, we can't show you that shared trip. If this continues, please let us know. Error: %@";
 
 /* Title for the Edit Stop Preferences Controller */
-"Sort & Filter Routes" = "Sort & Filter Routes";
+"msg_sort_and_filter_routes" = "Sort & Filter Routes";
 
 /* No comment provided by engineer. */
-"Sort by Route" = "Sort by Route";
+"msg_sort_by_route" = "Sort by Route";
 
 /* No comment provided by engineer. */
-"Sort by Time" = "Sort by Time";
+"msg_sort_by_time" = "Sort by Time";
 
 /* No comment provided by engineer. */
-"Sorting" = "Sorting";
+"msg_sorting" = "Sorting";
 
 /* As in 'going to the south.' */
-"Southbound" = "Southbound";
+"msg_southbound" = "Southbound";
 
 /* text */
-"Starts as" = "Starts as";
+"msg_starts_as" = "Starts as";
 
 /* No comment provided by engineer. */
-"Starts as %@" = "Starts as %@";
+"text_starts_as_param" = "Starts as %@";
 
 /* OBASearchTypeStopId
    text */
-"Stop" = "Stop";
+"msg_stop" = "Stop";
 
 /* name */
-"Stop location is wrong" = "Stop location is wrong";
+"msg_stop_location_wrong" = "Stop location is wrong";
 
 /* name */
-"Stop name is wrong" = "Stop name is wrong";
+"msg_stop_name_wrong" = "Stop name is wrong";
 
 /* name */
-"Stop number is wrong" = "Stop number is wrong";
+"msg_stop_number_wrong" = "Stop number is wrong";
 
 /* OBASearchTypeRouteStops */
-"Stops" = "Stops";
+"msg_stops" = "Stops";
 
 /* view.title */
-"Submission Successful" = "Submission Successful";
+"msg_submission_successful" = "Submission Successful";
 
 /* cell.textLabel.text */
-"Submit" = "Submit";
+"msg_submit" = "Submit";
 
 /* No comment provided by engineer. */
-"Supports OBA Realtime APIs" = "Supports OBA Realtime APIs";
+"msg_supports_oba_realtime_apis" = "Supports OBA Realtime APIs";
 
 /* No comment provided by engineer. */
-"Tap 'Add to Bookmarks' from a stop to save a bookmark to this screen." = "Tap 'Add to Bookmarks' from a stop to save a bookmark to this screen.";
+"msg_explanatory_add_bookmark_from_stop" = "Tap 'Add to Bookmarks' from a stop to save a bookmark to this screen.";
 
 /* No comment provided by engineer. */
-"Tap the '+' button to create one." = "Tap the '+' button to create one.";
+"msg_explanatory_add_bookmark_group" = "Tap the '+' button to create one.";
 
 /* No comment provided by engineer. */
-"Thank you!" = "Thank you!";
+"msg_thank_you_exclamation" = "Thank you!";
 
 /* name */
-"The" = "The";
+"msg_the" = "The";
 
 /* No comment provided by engineer. */
-"The Stop Itself" = "The Stop Itself";
+"msg_the_stop_itself" = "The Stop Itself";
 
 /* view.message */
-"The problem was sucessfully reported. Thank you!" = "The problem was sucessfully reported. Thank you!";
+"msg_sucessfull_report_send" = "The problem was sucessfully reported. Thank you!";
 
 /* No comment provided by engineer. */
-"The region you have specified is not valid. Please specify at least a base URL and a name." = "The region you have specified is not valid. Please specify at least a base URL and a name.";
+"msg_alert_custom_region_not_valid" = "The region you have specified is not valid. Please specify at least a base URL and a name.";
 
 /* view.message */
-"There was a problem with your Internet connection.\r\n\r\nPlease check your network connection or contact us if you think the problem is on our end." = "There was a problem with your Internet connection.\r\n\r\nPlease check your network connection or contact us if you think the problem is on our end.";
+"msg_problem_internet_connection_on_map" = "There was a problem with your Internet connection.\r\n\r\nPlease check your network connection or contact us if you think the problem is on our end.";
 
 /* The footer label on the PIIViewController */
-"This information is only sent to OneBusAway when you submit a support request. You can disable sending us any or all of this data, but it will limit our ability to diagnose and fix problems you are experiencing." = "This information is only sent to OneBusAway when you submit a support request. You can disable sending us any or all of this data, but it will limit our ability to diagnose and fix problems you are experiencing.";
+"msg_explanatory_information_send_on_submit_request" = "This information is only sent to OneBusAway when you submit a support request. You can disable sending us any or all of this data, but it will limit our ability to diagnose and fix problems you are experiencing.";
 
 /* No comment provided by engineer. */
-"This will send your log data to app support. This may be necessary to help diagnose bugs. Check the \"Information for Support\" section to see what your logs contain." = "This will send your log data to app support. This may be necessary to help diagnose bugs. Check the \"Information for Support\" section to see what your logs contain.";
+"msg_explanatory_send_log_data" = "This will send your log data to app support. This may be necessary to help diagnose bugs. Check the \"Information for Support\" section to see what your logs contain.";
 
 /* cell.textLabel.text */
-"Touch to edit" = "Touch to edit";
+"msg_touch_to_edit" = "Touch to edit";
 
 /* OBASearchTypeAgenciesWithCoverage */
-"Transit Agencies" = "Transit Agencies";
+"msg_transit_agencies" = "Transit Agencies";
 
 /* No comment provided by engineer. */
-"Trip Schedule" = "Trip Schedule";
+"msg_trip_schedule" = "Trip Schedule";
 
 /* message */
-"Trip not found" = "Trip not found";
+"msg_trip_not_found" = "Trip not found";
 
 /* No comment provided by engineer. */
-"Unable to Load Regions" = "Unable to Load Regions";
+"msg_unable_load_regions" = "Unable to Load Regions";
 
 /* No comment provided by engineer. */
-"Unable to load data from %@. Please check the URL and try again.\r\n\r\n%@" = "Unable to load data from %@. Please check the URL and try again.\r\n\r\n%@";
+"text_unable_load_data_region_param" = "Unable to load data from %@. Please check the URL and try again.\r\n\r\n%@";
 
 /* message */
-"Unknown error" = "Unknown error";
+"msg_unknown_error" = "Unknown error";
 
 /* message */
-"Updated" = "Updated";
+"msg_updated" = "Updated";
 
 /* Title of the Stop UI Controller while it is updating its content. */
-"Updating..." = "Updating...";
+"msg_updating_dots" = "Updating...";
 
 /* cell.statusLabel.text */
-"Vehicle" = "Vehicle";
+"msg_mayus_vehicle" = "Vehicle";
 
 /* No comment provided by engineer. */
-"Vehicle Details" = "Vehicle Details";
+"msg_vehicle_details" = "Vehicle Details";
 
 /* OBASectionTypeVehicleDetails */
-"Vehicle Details:" = "Vehicle Details:";
+"msg_vehicle_details_colon" = "Vehicle Details:";
 
 /* No comment provided by engineer. */
-"Vehicle Info" = "Vehicle Info";
+"msg_vehicle_info" = "Vehicle Info";
 
 /* No comment provided by engineer. */
-"Vehicle: %@" = "Vehicle: %@";
+"text_vehicle_colon_param" = "Vehicle: %@";
 
 /* View data row on PII controller */
-"View Data" = "View Data";
+"msg_view_data" = "View Data";
 
 /* Toolbar button item on the Service Alert Details controller */
-"View Reroute" = "View Reroute";
+"msg_view_reroute" = "View Reroute";
 
 /* No comment provided by engineer. */
-"View Service Alerts" = "View Service Alerts";
+"msg_view_service_alerts" = "View Service Alerts";
 
 /* No comment provided by engineer. */
-"Visit Us" = "Visit Us";
+"msg_visit_us" = "Visit Us";
 
 /* No comment provided by engineer. */
-"Walk to stop: %@ — %.0f min, arriving at %@." = "Walk to stop: %@ — %.0f min, arriving at %@.";
+"text_walk_to_stop_info_params" = "Walk to stop: %@ — %.0f min, arriving at %@.";
 
 /* No comment provided by engineer. */
-"We could not find any transit agencies near your current location." = "We could not find any transit agencies near your current location.";
+"msg_explanatory_no_agencies" = "We could not find any transit agencies near your current location.";
 
 /* Empty data set description for the Nearby Stops controller */
-"We couldn't find any other stops within our search radius." = "We couldn't find any other stops within our search radius.";
+"msg_coulnt_find_other_stops_on_radius" = "We couldn't find any other stops within our search radius.";
 
 /* As in 'going to the west.' */
-"Westbound" = "Westbound";
+"msg_westbound" = "Westbound";
 
 /* OBASectionTypeProblem
    vc.title */
-"What's the problem?" = "What's the problem?";
+"msg_ask_whats_the_problem" = "What's the problem?";
 
 /* No comment provided by engineer. */
-"Would you like to go to your currently selected region?" = "Would you like to go to your currently selected region?";
+"msg_ask_go_selected_region" = "Would you like to go to your currently selected region?";
 
 /* name */
-"Wrong destination shown" = "Wrong destination shown";
+"msg_wrong_destination_shown" = "Wrong destination shown";
 
 /* Out of range alert OK button */
-"Yes" = "Yes";
+"msg_yes" = "Yes";
 
 /* Out of range alert message */
-"You are out of the %@ service area. Go there now?" = "You are out of the %@ service area. Go there now?";
+"text_ask_go_to_service_area_param" = "You are out of the %@ service area. Go there now?";
 
 /* prompt */
-"You are outside the OneBusAway service area." = "You are outside the OneBusAway service area.";
+"msg_explanatory_out_of_range" = "You are outside the OneBusAway service area.";
 
 /* Settings section title on info page */
-"Your Location" = "Your Location";
+"msg_your_location" = "Your Location";
 
 /* OBASectionTypeNotes
    OBASectionTypeSubmit */
-"Your reports help OneBusAway find and fix problems with the system." = "Your reports help OneBusAway find and fix problems with the system.";
+"msg_explanatory_send_reports" = "Your reports help OneBusAway find and fix problems with the system.";
 
 /* span.latitudeDelta > kMaxLatDeltaToShowStops */
-"Zoom in to look for stops" = "Zoom in to look for stops";
+"msg_zoom_on_map_for_look_stop" = "Zoom in to look for stops";
 
 /* text */
-"bound" = "bound";
+"msg_bound" = "bound";
 
 /* routeType 3 */
-"bus" = "bus";
+"msg_bus" = "bus";
 
 /* name */
-"doesn't stop here" = "doesn't stop here";
+"msg_doesnt_stop_here" = "doesn't stop here";
 
 /* routeType 4 */
-"ferry" = "ferry";
+"msg_ferry" = "ferry";
 
 /* routeType 1 */
-"metro" = "metro";
+"msg_metro" = "metro";
 
 /* minutes */
-"mins" = "mins";
+"msg_mins" = "mins";
 
 /* scheduleDeviation <= -2 */
-"minutes early" = "minutes early";
+"msg_minutes_early" = "minutes early";
 
 /* scheduleDeviation >= 2 */
-"minutes late" = "minutes late";
+"msg_minutes_late" = "minutes late";
 
 /* name */
-"never came" = "never came";
+"msg_never_came" = "never came";
 
 /* scheduleDeviation < 2 */
-"on time" = "on time";
+"msg_on_time" = "on time";
 
 /* routeType 2 */
-"train" = "train";
+"msg_train" = "train";
 
 /* routeType default */
-"vehicle" = "vehicle";
+"msg_vehicle" = "vehicle";
 
 /* sd < 0 */
-" early" = " early";
+"msg_space_early" = " early";
 
 /* sd > 0 */
-" late" = " late";
+"msg_space_late" = " late";
 
 /* No comment provided by engineer. */
-"%@ bound - Routes: %@" = "%@ bound - Routes: %@";
+"text_bound_and_routes_params" = "%@ bound - Routes: %@";
 
 /* e.g. 3 min early */
-"%@ min %@" = "%@ min %@";
+"text_time_min_desviation_params" = "%@ min %@";
 
 /* <Route Number> to <Location>. e.g. 10 to Downtown Seattle */
-"%@ to %@" = "%@ to %@";
+"text_route_to_orientation_params" = "%@ to %@";
 
 /* The explanatory text displayed when a non-realtime trip is displayed on-screen. */
-"*'Scheduled': no vehicle location data available" = "*'Scheduled': no vehicle location data available";
+"msg_scheduled_explanatory" = "*'Scheduled': no vehicle location data available";
 
 /* Typically used on alerts and other modal actions. A 'cancel' button. */
-"Cancel" = "Cancel";
+"msg_cancel" = "Cancel";
 
 /* No comment provided by engineer. */
-"Cellular" = "Cellular";
+"msg_cellular" = "Cellular";
 
 /* Typically used on alerts and other modal actions. A 'delete' button. */
-"Delete" = "Delete";
+"msg_delete" = "Delete";
 
 /* Used on alerts. iOS tends to use 'Dismiss' instead of 'OK' on alerts that the user isn't actually agreeing to. */
-"Dismiss" = "Dismiss";
+"msg_dismiss" = "Dismiss";
 
 /* As in 'edit object'. */
-"Edit" = "Edit";
+"msg_edit" = "Edit";
 
 /* The text 'Error' */
-"Error" = "Error";
+"msg_error" = "Error";
 
 /* code != 404 */
-"Error Connecting" = "Error Connecting";
+"msg_error_connecting" = "Error Connecting";
 
 /* frequency status string */
-"Every %@ mins %@ %@" = "Every %@ mins %@ %@";
+"text_frequency_status_params" = "Every %@ mins %@ %@";
 
 /* No comment provided by engineer. */
-"Headed somewhere..." = "Headed somewhere...";
+"msg_headed_somewhere_dots" = "Headed somewhere...";
 
 /* No comment provided by engineer. */
-"NOW" = "NOW";
+"msg_now" = "NOW";
 
 /* No comment provided by engineer. */
-"No Connection" = "No Connection";
+"msg_no_connection" = "No Connection";
 
 /* Standard 'OK' button text. */
-"OK" = "OK";
+"msg_ok" = "OK";
 
 /* feedback mail subject */
-"OneBusAway iOS Feedback" = "OneBusAway iOS Feedback";
+"msg_oba_ios_feedback" = "OneBusAway iOS Feedback";
 
 /* No comment provided by engineer. */
-"Routes: %@" = "Routes: %@";
+"text_only_routes_colon_param" = "Routes: %@";
 
 /* No comment provided by engineer. */
-"STOP" = "STOP";
+"msg_stop_mayus" = "STOP";
 
 /* Standard 'Save' button text. */
-"Save" = "Save";
+"msg_save" = "Save";
 
 /* cell.textLabel.text */
-"Schedule deviation" = "Schedule deviation";
+"msg_schedule_deviation" = "Schedule deviation";
 
 /* code == 404 */
-"Stop not found" = "Stop not found";
+"mgs_stop_not_found" = "Stop not found";
 
 /* title */
-"Vehicle" = "Vehicle";
+"msg_mayus_vehicle" = "Vehicle";
 
 /* No comment provided by engineer. */
-"WiFi" = "WiFi";
+"msg_wifi" = "WiFi";
 
 /* e.g. departed 5 min late */
-"departed %@ min %@" = "departed %@ min %@";
+"text_departed_time_min_desviation_params" = "departed %@ min %@";
 
 /* minutes < 0 */
-"departed on time" = "departed on time";
+"msg_departed_on_time" = "departed on time";
 
 /* No comment provided by engineer. */
-"early" = "early";
+"msg_early" = "early";
 
 /* No comment provided by engineer. */
-"from" = "from";
+"msg_from" = "from";
 
 /* No comment provided by engineer. */
-"late" = "late";
+"msg_late" = "late";
 
 /* minutes */
-"mins" = "mins";
+"msg_mins" = "mins";
 
 /* minutes >= 0 */
-"on time" = "on time";
+"msg_on_time" = "on time";
 
 /* minutes >= 0 */
-"scheduled arrival*" = "scheduled arrival*";
+"msg_scheduled_arrival_asterisk" = "scheduled arrival*";
 
 /* minutes < 0 */
-"scheduled departure*" = "scheduled departure*";
+"msg_scheduled_departure_asterisk" = "scheduled departure*";
 
 /* No comment provided by engineer. */
-"until" = "until";
+"msg_until" = "until";

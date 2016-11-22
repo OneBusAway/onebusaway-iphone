@@ -22,7 +22,7 @@
     self = [super init];
 
     if (self) {
-        self.title = NSLocalizedString(@"OneBusAway", @"");
+        self.title = NSLocalizedString(@"msg_oba_name", @"");
         self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[]];
         [self.segmentedControl addTarget:self action:@selector(segmentSelected:) forControlEvents:UIControlEventValueChanged];
         self.navigationItem.titleView = self.segmentedControl;

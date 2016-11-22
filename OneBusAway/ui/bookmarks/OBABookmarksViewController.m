@@ -29,11 +29,11 @@ static NSUInteger const kMinutes = 30;
     self = [super init];
 
     if (self) {
-        self.title = NSLocalizedString(@"Bookmarks", @"");
+        self.title = NSLocalizedString(@"msg_bookmarks", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"Favorites"];
         self.tabBarItem.selectedImage = [UIImage imageNamed:@"Favorites_Selected"];
-        self.emptyDataSetTitle = NSLocalizedString(@"No Bookmarks", @"");
-        self.emptyDataSetDescription = NSLocalizedString(@"Tap 'Add to Bookmarks' from a stop to save a bookmark to this screen.", @"");
+        self.emptyDataSetTitle = NSLocalizedString(@"msg_no_bookmarks", @"");
+        self.emptyDataSetDescription = NSLocalizedString(@"msg_explanatory_add_bookmark_from_stop", @"");
         _bookmarksAndDepartures = [[NSMutableDictionary alloc] init];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -57,7 +57,7 @@ static NSUInteger const kMinutes = 30;
     self.tableView.allowsSelectionDuringEditing = YES;
 
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Groups", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editGroups)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_groups", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editGroups)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -67,7 +67,7 @@ static NSUInteger const kMinutes = 30;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 
-    NSMutableString *title = [NSMutableString stringWithString:NSLocalizedString(@"Bookmarks", @"")];
+    NSMutableString *title = [NSMutableString stringWithString:NSLocalizedString(@"msg_bookmarks", @"")];
     if (self.currentRegion) {
         [title appendFormat:@" - %@", self.currentRegion.regionName];
     }
@@ -152,7 +152,7 @@ static NSUInteger const kMinutes = 30;
             row.supplementaryMessage = nil;
         }
         else {
-            row.supplementaryMessage = [NSString stringWithFormat:NSLocalizedString(@"%@: No departure scheduled for the next %@ minutes", @""), bookmark.routeShortName, @(kMinutes)];
+            row.supplementaryMessage = [NSString stringWithFormat:NSLocalizedString(@"text_no_departure_next_time_minutes_params", @""), bookmark.routeShortName, @(kMinutes)];
         }
 
         // This will result in some 'false positive' instances where the
@@ -282,13 +282,13 @@ static NSUInteger const kMinutes = 30;
 
     NSMutableArray<UITableViewRowAction *> *actions = [NSMutableArray array];
 
-    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedString(@"Delete", @"Title of delete bookmark row action.") handler:^(UITableViewRowAction *action, NSIndexPath *rowIndexPath) {
+    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedString(@"msg_delete", @"Title of delete bookmark row action.") handler:^(UITableViewRowAction *action, NSIndexPath *rowIndexPath) {
         [self deleteRowAtIndexPath:rowIndexPath];
     }];
     [actions addObject:delete];
 
     if (tableRow.editAction) {
-        UITableViewRowAction *edit = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedString(@"Edit", @"Title of edit bookmark/group row action.") handler:^(UITableViewRowAction *action, NSIndexPath *rowIndexPath) {
+        UITableViewRowAction *edit = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedString(@"msg_edit", @"Title of edit bookmark/group row action.") handler:^(UITableViewRowAction *action, NSIndexPath *rowIndexPath) {
             tableRow.editAction();
         }];
         [actions addObject:edit];
@@ -358,7 +358,7 @@ static NSUInteger const kMinutes = 30;
 - (OBATableSection*)tableSectionFromBookmarks:(NSArray<OBABookmarkV2*>*)bookmarks group:(nullable OBABookmarkGroup*)group {
     NSArray<OBABaseRow*>* rows = @[];
 
-    NSString *groupName = group ? group.name : NSLocalizedString(@"Bookmarks", @"");
+    NSString *groupName = group ? group.name : NSLocalizedString(@"msg_bookmarks", @"");
     BOOL groupOpen = group ? group.open : self.modelDAO.ungroupedBookmarksOpen;
 
     if (groupOpen) {
