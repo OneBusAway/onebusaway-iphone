@@ -482,7 +482,7 @@
 "msg_something_went_wrong" = "Algo Salío Mal";
 
 /* Error message displayed to the user when something goes wrong with a just-tapped shared trip. */
-"msg_error_cant_show_shared_trip_param" = "Lo sentimos, no podemos mostrar ese viaje compartido. Si esto continua, por favor informanos. Error: %@";
+"text_error_cant_show_shared_trip_param" = "Lo sentimos, no podemos mostrar ese viaje compartido. Si esto continua, por favor informanos. Error: %@";
 
 /* Title for the Edit Stop Preferences Controller */
 "msg_sort_and_filter_routes" = "Ordenar & Filtrar Rutas";

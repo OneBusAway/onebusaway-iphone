@@ -25,7 +25,7 @@ class PIIViewController: OBAStaticTableViewController {
 
         self.reloadData()
 
-//        self.tableFooterView = OBAUIBuilder.footerView(text: NSLocalizedString("This information is only sent to OneBusAway when you submit a support request. You can disable sending us any or all of this data, but it will limit our ability to diagnose and fix problems you are experiencing.", comment: "The footer label on the PIIViewController"), maximumWidth: self.tableView.frame.width)
+//        self.tableFooterView = OBAUIBuilder.footerView(text: NSLocalizedString("msg_explanatory_information_send_on_submit_request", comment: "The footer label on the PIIViewController"), maximumWidth: self.tableView.frame.width)
     }
 
     // MARK: - Table Sections
