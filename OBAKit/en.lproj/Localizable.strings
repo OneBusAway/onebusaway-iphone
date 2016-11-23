@@ -41,7 +41,7 @@
 "text_frequency_status_params" = "Every %@ mins %@ %@";
 
 /* No comment provided by engineer. */
-"msg_headed_somewhere_dotse" = "Headed somewhere...";
+"msg_headed_somewhere_dots" = "Headed somewhere...";
 
 /* No comment provided by engineer. */
 "msg_now" = "NOW";
