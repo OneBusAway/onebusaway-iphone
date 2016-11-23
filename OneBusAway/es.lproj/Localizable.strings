@@ -764,7 +764,7 @@
 "mgs_stop_not_found" = "La Parada no fue encontrada";
 
 /* title */
-"msg__mayus_vehicle" = "Vehículo";
+"msg_mayus_vehicle" = "Vehículo";
 
 /* No comment provided by engineer. */
 "msg_wifi" = "WiFi";

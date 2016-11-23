@@ -71,7 +71,7 @@
 "mgs_stop_not_found" = "Stop not found";
 
 /* title */
-"msg_vehicle" = "Vehicle";
+"msg_mayus_vehicle" = "Vehicle";
 
 /* No comment provided by engineer. */
 "msg_wifi" = "WiFi";
