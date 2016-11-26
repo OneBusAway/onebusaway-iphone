@@ -70,9 +70,9 @@
         }];
         row.routeName = dep.bestAvailableName;
         row.destination = dep.tripHeadsign.capitalizedString;
-        row.statusText = dep.statusText;
+        row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
 
-        OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestDeparture departureStatus:dep.departureStatus];
+        OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState];
         row.upcomingDepartures = @[upcoming];
 
         row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

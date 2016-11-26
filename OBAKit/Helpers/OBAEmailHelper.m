@@ -11,6 +11,7 @@
 #import <OBAKit/OBAModelDAO.h>
 #import <OBAKit/OBARegionV2.h>
 #import <OBAKit/OBACommon.h>
+#import <OBAKit/OBAMacros.h>
 
 static NSString const * kDefaultEmailAddress = @"contact@onebusaway.org";
 
@@ -96,7 +97,7 @@ static NSString * appVersion = nil;
 
     MFMailComposeViewController *composer = [[MFMailComposeViewController alloc] init];
     [composer setToRecipients:@[emailAddress]];
-    [composer setSubject:NSLocalizedString(@"msg_oba_ios_feedback", @"feedback mail subject")];
+    [composer setSubject:OBALocalized(@"msg_oba_ios_feedback", @"feedback mail subject")];
     [composer setMessageBody:messageBody isHTML:YES];
 
     return composer;

@@ -82,9 +82,6 @@
 /* Title of the alert shown when a bookmark can't be created */
 "msg_cant_create_bookmark" = "No se puede Crear el Favorito";
 
-/* No comment provided by engineer. */
-"msg_cancel" = "Cancelar";
-
 /* Reachability alert title */
 "msg_cannot_connect_to_the_internet" = "No se puede conectar a Internet";
 
@@ -135,17 +132,11 @@
 /* Info Page Contact Us Row Title */
 "msg_data_schedule_issues" = "Problemas con Datos & Horarios";
 
-/* Title of delete bookmark row action. */
-"msg_delete" = "Borrar";
-
 /* No comment provided by engineer. */
 "msg_explanatory_delete_group_bookmarks" = "La eliminación de un grupo no elimina sus favoritos. Este contenido será movido a el grupo 'Favoritos'.";
 
 /* As in 'going to the east.' */
 "msg_eastbound" = "hacia el Este";
-
-/* Title of edit bookmark/group row action. */
-"msg_edit" = "Editar";
 
 /* OBABookmarkEditExisting */
 "msg_edit_bookmark" = "Editar Favorito";
@@ -155,9 +146,6 @@
 
 /* A switch option's text for enabling and disabling Google Analytics */
 "msg_enable_google_analytics" = "Habilitar Google Analytics";
-
-/* No comment provided by engineer. */
-"msg_error" = "Error";
 
 /* view.title */
 "msg_error_submitting" = "Error al Enviar";
@@ -585,7 +573,7 @@
 "msg_updated" = "Actualizado";
 
 /* Title of the Stop UI Controller while it is updating its content. */
-"msg_updating_dots" = "Actualizando...";
+"stops_controller.title.updating" = "Actualizando...";
 
 /* cell.statusLabel.text */
 "msg_mayus_vehicle" = "Vehículo";
@@ -682,9 +670,6 @@
 /* name */
 "msg_never_came" = "nunca llegó";
 
-/* scheduleDeviation < 2 */
-"msg_on_time" = "a tiempo";
-
 /* routeType 2 */
 "msg_train" = "tren";
 
@@ -700,36 +685,6 @@
 /* No comment provided by engineer. */
 "text_bound_and_routes_params" = "%@ bound - Rutas: %@";
 
-/* e.g. 3 min early */
-"text_time_min_desviation_params" = "%@ min %@";
-
-/* <Route Number> to <Location>. e.g. 10 to Downtown Seattle */
-"text_route_to_orientation_params" = "%@ hacia %@";
-
-/* The explanatory text displayed when a non-realtime trip is displayed on-screen. */
-"msg_scheduled_explanatory" = "*'Planificada': sin datos de ubicación de vehículos disponibles";
-
-/* Typically used on alerts and other modal actions. A 'cancel' button. */
-"msg_cancel" = "Cancelar";
-
-/* No comment provided by engineer. */
-"msg_cellular" = "Celular";
-
-/* Typically used on alerts and other modal actions. A 'delete' button. */
-"msg_delete" = "Borrar";
-
-/* Used on alerts. iOS tends to use 'Dismiss' instead of 'OK' on alerts that the user isn't actually agreeing to. */
-"msg_dismiss" = "Omitir";
-
-/* As in 'edit object'. */
-"msg_edit" = "Editar";
-
-/* The text 'Error' */
-"msg_error" = "Error";
-
-/* code != 404 */
-"msg_error_connecting" = "Error al Conectar";
-
 /* frequency status string */
 "text_frequency_status_params" = "Cada %@ mins %@ %@";
 
@@ -737,52 +692,19 @@
 "msg_headed_somewhere_dots" = "Encabezados en algún lugar...";
 
 /* No comment provided by engineer. */
-"msg_now" = "AHORA";
-
-/* No comment provided by engineer. */
-"msg_no_connection" = "Sin Conexión";
-
-/* Standard 'OK' button text. */
-"msg_ok" = "Aceptar";
-
-/* feedback mail subject */
-"msg_oba_ios_feedback" = "Envio de Comentarios de OneBusAway iOS";
-
-/* No comment provided by engineer. */
 "text_only_routes_colon_param" = "Rutas: %@";
-
-/* No comment provided by engineer. */
-"msg_stop_mayus" = "PARADA";
-
-/* Standard 'Save' button text. */
-"msg_save" = "Guardar";
 
 /* cell.textLabel.text */
 "msg_schedule_deviation" = "Desviación";
 
-/* code == 404 */
-"mgs_stop_not_found" = "La Parada no fue encontrada";
-
 /* title */
 "msg_mayus_vehicle" = "Vehículo";
-
-/* No comment provided by engineer. */
-"msg_wifi" = "WiFi";
-
-/* e.g. departed 5 min late */
-"text_departed_time_min_desviation_params" = "salió %@ min %@";
 
 /* minutes < 0 */
 "msg_departed_on_time" = "salió a tiempo";
 
 /* No comment provided by engineer. */
-"msg_early" = "antes";
-
-/* No comment provided by engineer. */
 "msg_from" = "de";
-
-/* No comment provided by engineer. */
-"msg_late" = "tarde";
 
 /* minutes */
 "msg_mins" = "mins";

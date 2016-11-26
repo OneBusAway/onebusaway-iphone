@@ -16,6 +16,7 @@
 
 #import <OBAKit/OBATripStopTimeMapAnnotation.h>
 #import <OBAKit/OBADateHelpers.h>
+#import <OBAKit/OBAMacros.h>
 
 @implementation OBATripStopTimeMapAnnotation
 
@@ -49,7 +50,7 @@
     if( schedule.frequency ) {
         OBATripStopTimeV2 * firstStopTime = (schedule.stopTimes)[0];
         NSInteger minutes = (_stopTime.arrivalTime - firstStopTime.departureTime) / 60;
-        return [NSString stringWithFormat:@"%ld %@",(long)minutes,NSLocalizedString(@"msg_mins",@"minutes")];                                      
+        return [NSString stringWithFormat:@"%ld %@",(long)minutes, OBALocalized(@"msg_mins",@"minutes")];
     }
     
     NSInteger stopTime = _stopTime.arrivalTime;

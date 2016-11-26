@@ -7,39 +7,40 @@
 //
 
 #import <OBAKit/OBAStrings.h>
+#import <OBAKit/OBAMacros.h>
 
 @implementation OBAStrings
 
 + (NSString*)cancel {
-    return NSLocalizedString(@"msg_cancel", @"Typically used on alerts and other modal actions. A 'cancel' button.");
+    return OBALocalized(@"msg_cancel", @"Typically used on alerts and other modal actions. A 'cancel' button.");
 }
 
 + (NSString*)delete {
-    return NSLocalizedString(@"msg_delete", @"Typically used on alerts and other modal actions. A 'delete' button.");
+    return OBALocalized(@"msg_delete", @"Typically used on alerts and other modal actions. A 'delete' button.");
 }
 
 + (NSString*)dismiss {
-    return NSLocalizedString(@"msg_dismiss", @"Used on alerts. iOS tends to use 'Dismiss' instead of 'OK' on alerts that the user isn't actually agreeing to.");
+    return OBALocalized(@"msg_dismiss", @"Used on alerts. iOS tends to use 'Dismiss' instead of 'OK' on alerts that the user isn't actually agreeing to.");
 }
 
 + (NSString*)edit {
-    return NSLocalizedString(@"msg_edit", @"As in 'edit object'.");
+    return OBALocalized(@"msg_edit", @"As in 'edit object'.");
 }
 
 + (NSString*)error {
-    return NSLocalizedString(@"msg_error", @"The text 'Error'");
+    return OBALocalized(@"msg_error", @"The text 'Error'");
 }
 
 + (NSString*)ok {
-    return NSLocalizedString(@"msg_ok", @"Standard 'OK' button text.");
+    return OBALocalized(@"msg_ok", @"Standard 'OK' button text.");
 }
 
 + (NSString*)save {
-    return NSLocalizedString(@"msg_save", @"Standard 'Save' button text.");
+    return OBALocalized(@"msg_save", @"Standard 'Save' button text.");
 }
 
 + (NSString*)scheduledDepartureExplanation {
-    return NSLocalizedString(@"msg_scheduled_explanatory", @"The explanatory text displayed when a non-realtime trip is displayed on-screen.");
+    return OBALocalized(@"msg_scheduled_explanatory", @"The explanatory text displayed when a non-realtime trip is displayed on-screen.");
 }
 
 @end

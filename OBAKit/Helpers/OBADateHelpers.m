@@ -10,6 +10,7 @@
 #import <OBAKit/OBATripDetailsV2.h>
 #import <OBAKit/OBATripStopTimeV2.h>
 #import <OBAKit/NSDate+DateTools.h>
+#import <OBAKit/OBAMacros.h>
 
 @implementation OBADateHelpers
 
@@ -50,7 +51,7 @@
 + (NSString*)formatMinutesUntilDate:(NSDate*)date {
     double minutesFrom = [date minutesFrom:[NSDate date]];
     if (fabs(minutesFrom) < 1.0) {
-        return NSLocalizedString(@"msg_now", @"");
+        return OBALocalized(@"msg_now", @"e.g. 'NOW'. As in right now, with emphasis.");
     }
     else {
         return [NSString stringWithFormat:@"%.0fm", minutesFrom];

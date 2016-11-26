@@ -41,7 +41,6 @@ typedef NS_ENUM(NSUInteger, OBAArrivalDepartureState) {
 @property(nonatomic,copy) NSString * tripId;
 @property(nonatomic,weak,readonly) OBATripV2 * trip;
 @property(nonatomic,copy,nullable) NSString * tripHeadsign;
-@property(nonatomic,assign) long long serviceDate;
 
 @property(nonatomic,weak,readonly) OBAArrivalAndDepartureInstanceRef * instance;
 @property(nonatomic,weak,readonly) OBATripInstanceRef * tripInstance;
@@ -54,22 +53,16 @@ typedef NS_ENUM(NSUInteger, OBAArrivalDepartureState) {
 
 @property(nonatomic,strong) OBAFrequencyV2 * frequency;
 
-@property(nonatomic,assign) BOOL predicted;
-
-@property(nonatomic,assign) long long scheduledArrivalTime;
-@property(nonatomic,assign) long long predictedArrivalTime;
-@property(nonatomic,assign,readonly) long long bestArrivalTime;
-
-@property(nonatomic,assign) long long scheduledDepartureTime;
-@property(nonatomic,assign) long long predictedDepartureTime;
-@property(nonatomic,assign,readonly) long long bestDepartureTime;
-@property(nonatomic,copy,readonly) NSDate *bestDeparture;
-
 /**
  Answers the question: Does this represent the vehicle arriving, or the vehicle departing?
  */
 @property(nonatomic,assign) OBAArrivalDepartureState arrivalDepartureState;
 
+/**
+ Returns the best available arrival date if this object is marked as an arrival,
+ and the best available departure date if it is marked as a departure.
+ */
+@property(nonatomic,copy,readonly) NSDate *bestArrivalDepartureDate;
 
 @property(nonatomic,assign) double distanceFromStop;
 @property(nonatomic,assign) NSInteger numberOfStopsAway;
@@ -92,8 +85,6 @@ typedef NS_ENUM(NSUInteger, OBAArrivalDepartureState) {
 @property(nonatomic,copy,readonly) NSString *bestAvailableNameWithHeadsign;
 
 - (OBADepartureStatus)departureStatus;
-
-- (NSString*)statusText;
 
 /**
  How far off is this vehicle from its predicted, scheduled time?
@@ -128,7 +119,6 @@ typedef NS_ENUM(NSUInteger, OBAArrivalDepartureState) {
  @return true if they represent the same route, and false otherwise.
  */
 - (BOOL)routesAreEquivalent:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
-
 
 @end
 

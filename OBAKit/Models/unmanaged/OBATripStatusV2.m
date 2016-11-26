@@ -16,6 +16,7 @@
 
 #import <OBAKit/OBATripStatusV2.h>
 #import <OBAKit/NSObject+OBADescription.h>
+#import <OBAKit/OBAMacros.h>
 
 @implementation OBATripStatusV2
 
@@ -33,17 +34,17 @@
     NSString *label = @" ";
 
     if (sd > 0) {
-        label = NSLocalizedString(@"msg_space_late", @"sd > 0");
+        label = OBALocalized(@"msg_space_late", @"sd > 0");
     }
     else if (sd < 0) {
-        label = NSLocalizedString(@"msg_space_early", @"sd < 0");
+        label = OBALocalized(@"msg_space_early", @"sd < 0");
         sd = -sd;
     }
 
     NSInteger mins = sd / 60;
     NSInteger secs = sd % 60;
 
-    return [NSString stringWithFormat:@"%@: %ldm %lds%@", NSLocalizedString(@"msg_schedule_deviation", @"cell.textLabel.text"), (long)mins, (long)secs, label];
+    return [NSString stringWithFormat:@"%@: %ldm %lds%@", OBALocalized(@"msg_schedule_deviation", @"cell.textLabel.text"), (long)mins, (long)secs, label];
 }
 
 - (NSString*)description {

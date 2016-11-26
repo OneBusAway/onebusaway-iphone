@@ -16,6 +16,7 @@
 
 #import <OBAKit/OBATripV2.h>
 #import <OBAKit/NSObject+OBADescription.h>
+#import <OBAKit/OBAMacros.h>
 
 @implementation OBATripV2
 
@@ -36,7 +37,7 @@
         headsign = route.longName;
     }
     else {
-        headsign = NSLocalizedString(@"msg_headed_somewhere_dots",@"");
+        headsign = OBALocalized(@"msg_headed_somewhere_dots",@"");
     }
 
     return [NSString stringWithFormat:@"%@ - %@",rShortName, headsign];

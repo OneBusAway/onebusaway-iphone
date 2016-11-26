@@ -19,9 +19,9 @@
 
     row.routeName = arrivalAndDeparture.bestAvailableName;
     row.destination = arrivalAndDeparture.tripHeadsign;
-    row.statusText = [arrivalAndDeparture statusText];
+    row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:arrivalAndDeparture];
 
-    OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:arrivalAndDeparture.bestDeparture departureStatus:arrivalAndDeparture.departureStatus];
+    OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:arrivalAndDeparture.bestArrivalDepartureDate departureStatus:arrivalAndDeparture.departureStatus arrivalDepartureState:arrivalAndDeparture.arrivalDepartureState];
     row.upcomingDepartures = @[upcoming];
 
     return row;

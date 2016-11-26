@@ -43,10 +43,6 @@ NSString * OBAStringFromBool(BOOL yn) {
     return obaCommonRunningInsideTests;
 }
 
-+ (NSString*) getTimeAsString {
-    return [OBADateHelpers formatShortTimeNoDate:[NSDate date]];
-}
-
 @end
 
 

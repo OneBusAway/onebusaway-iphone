@@ -200,6 +200,10 @@
 		934196CF1DB0B369004BBBB7 /* OBAKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 934196CD1DB0B369004BBBB7 /* OBAKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196D31DB0C02F004BBBB7 /* NSDate+DateTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 934196D11DB0C02F004BBBB7 /* NSDate+DateTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196D41DB0C02F004BBBB7 /* NSDate+DateTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196D21DB0C02F004BBBB7 /* NSDate+DateTools.m */; };
+		9358CDAE1DEA1AB000132CDE /* OBADepartureCellHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 9358CDAC1DEA1AB000132CDE /* OBADepartureCellHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9358CDAF1DEA1AB000132CDE /* OBADepartureCellHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358CDAD1DEA1AB000132CDE /* OBADepartureCellHelpers.m */; };
+		9358CDB21DEA242B00132CDE /* OBAUpcomingDeparture.h in Headers */ = {isa = PBXBuildFile; fileRef = 9358CDB01DEA242B00132CDE /* OBAUpcomingDeparture.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9358CDB31DEA242B00132CDE /* OBAUpcomingDeparture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358CDB11DEA242B00132CDE /* OBAUpcomingDeparture.m */; };
 		93B282C41DC664C7005013D7 /* OBATripDeepLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B282C21DC664C7005013D7 /* OBATripDeepLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93B282C51DC664C7005013D7 /* OBATripDeepLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B282C31DC664C7005013D7 /* OBATripDeepLink.m */; };
 		93B282C81DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -416,6 +420,10 @@
 		934196CD1DB0B369004BBBB7 /* OBAKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAKit.h; sourceTree = "<group>"; };
 		934196D11DB0C02F004BBBB7 /* NSDate+DateTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DateTools.h"; sourceTree = "<group>"; };
 		934196D21DB0C02F004BBBB7 /* NSDate+DateTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DateTools.m"; sourceTree = "<group>"; };
+		9358CDAC1DEA1AB000132CDE /* OBADepartureCellHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADepartureCellHelpers.h; sourceTree = "<group>"; };
+		9358CDAD1DEA1AB000132CDE /* OBADepartureCellHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADepartureCellHelpers.m; sourceTree = "<group>"; };
+		9358CDB01DEA242B00132CDE /* OBAUpcomingDeparture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAUpcomingDeparture.h; sourceTree = "<group>"; };
+		9358CDB11DEA242B00132CDE /* OBAUpcomingDeparture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAUpcomingDeparture.m; sourceTree = "<group>"; };
 		93B282C21DC664C7005013D7 /* OBATripDeepLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripDeepLink.h; sourceTree = "<group>"; };
 		93B282C31DC664C7005013D7 /* OBATripDeepLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripDeepLink.m; sourceTree = "<group>"; };
 		93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLQueryItem+OBAAdditions.h"; sourceTree = "<group>"; };
@@ -745,6 +753,7 @@
 		934196A61DB0B0AF004BBBB7 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				9358CDAB1DEA1AB000132CDE /* Departures */,
 				934196A71DB0B0AF004BBBB7 /* OBATheme.h */,
 				934196A81DB0B0AF004BBBB7 /* OBATheme.m */,
 				934196A91DB0B0AF004BBBB7 /* OBAUIBuilder.h */,
@@ -764,6 +773,17 @@
 				932CCECF1DC3D315001C8405 /* PromiseKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9358CDAB1DEA1AB000132CDE /* Departures */ = {
+			isa = PBXGroup;
+			children = (
+				9358CDB01DEA242B00132CDE /* OBAUpcomingDeparture.h */,
+				9358CDB11DEA242B00132CDE /* OBAUpcomingDeparture.m */,
+				9358CDAC1DEA1AB000132CDE /* OBADepartureCellHelpers.h */,
+				9358CDAD1DEA1AB000132CDE /* OBADepartureCellHelpers.m */,
+			);
+			path = Departures;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -788,6 +808,7 @@
 				9341965E1DB0B099004BBBB7 /* OBAHasServiceAlerts.h in Headers */,
 				934195FA1DB0B099004BBBB7 /* NSObject+OBADescription.h in Headers */,
 				934196451DB0B099004BBBB7 /* OBAProgressIndicatorSource.h in Headers */,
+				9358CDB21DEA242B00132CDE /* OBAUpcomingDeparture.h in Headers */,
 				934196491DB0B099004BBBB7 /* OBAAgencyWithCoverageV2.h in Headers */,
 				934196BA1DB0B0AF004BBBB7 /* OBAUIBuilder.h in Headers */,
 				934196021DB0B099004BBBB7 /* OBACommonV1.h in Headers */,
@@ -831,6 +852,7 @@
 				934196781DB0B099004BBBB7 /* OBAServiceAlertsModel.h in Headers */,
 				934196671DB0B099004BBBB7 /* OBAReferencesV2.h in Headers */,
 				9341961C1DB0B099004BBBB7 /* OBALocationManager.h in Headers */,
+				9358CDAE1DEA1AB000132CDE /* OBADepartureCellHelpers.h in Headers */,
 				9341968C1DB0B099004BBBB7 /* OBATripStatusV2.h in Headers */,
 				934196161DB0B099004BBBB7 /* OBAStrings.h in Headers */,
 				934196531DB0B099004BBBB7 /* OBABookmarkV2.h in Headers */,
@@ -979,6 +1001,7 @@
 				934196271DB0B099004BBBB7 /* OBANavigationTargetAnnotation.m in Sources */,
 				934196311DB0B099004BBBB7 /* OBAModelDAOUserPreferencesImpl.m in Sources */,
 				9341968B1DB0B099004BBBB7 /* OBATripScheduleV2.m in Sources */,
+				9358CDB31DEA242B00132CDE /* OBAUpcomingDeparture.m in Sources */,
 				934196011DB0B099004BBBB7 /* OBACommon.m in Sources */,
 				934196811DB0B099004BBBB7 /* OBAStopPreferencesV2.m in Sources */,
 				934196831DB0B099004BBBB7 /* OBAStopsForRouteV2.m in Sources */,
@@ -1047,6 +1070,7 @@
 				9341967F1DB0B099004BBBB7 /* OBAStopAccessEventV2.m in Sources */,
 				934196B11DB0B0AF004BBBB7 /* OBAJsonDataSource.m in Sources */,
 				934196481DB0B099004BBBB7 /* OBAAgencyV2.m in Sources */,
+				9358CDAF1DEA1AB000132CDE /* OBADepartureCellHelpers.m in Sources */,
 				934196341DB0B099004BBBB7 /* OBACallMethodJsonDigesterRule.m in Sources */,
 				9341962F1DB0B099004BBBB7 /* OBAModelDAO.m in Sources */,
 				934196061DB0B099004BBBB7 /* OBADateHelpers.m in Sources */,

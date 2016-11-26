@@ -7,9 +7,6 @@
 /* No comment provided by engineer. */
 "text_bound_and_routes_params" = "%@ bound - Rutas: %@";
 
-/* e.g. 3 min early */
-"text_time_min_desviation_params" = "%@ min %@";
-
 /* <Route Number> to <Location>. e.g. 10 to Downtown Seattle */
 "text_route_to_orientation_params" = "%@ hacia %@";
 
@@ -76,20 +73,11 @@
 /* No comment provided by engineer. */
 "msg_wifi" = "WiFi";
 
-/* e.g. departed 5 min late */
-"text_departed_time_min_desviation_params" = "salió %@ min %@";
-
 /* minutes < 0 */
 "msg_departed_on_time" = "salió a tiempo";
 
 /* No comment provided by engineer. */
-"msg_early" = "antes";
-
-/* No comment provided by engineer. */
 "msg_from" = "de";
-
-/* No comment provided by engineer. */
-"msg_late" = "tarde";
 
 /* minutes */
 "msg_mins" = "mins";

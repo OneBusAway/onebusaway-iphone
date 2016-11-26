@@ -38,6 +38,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBADataSourceConfig.h>
 #import <OBAKit/OBADateHelpers.h>
 #import <OBAKit/OBADeepLinkRouter.h>
+#import <OBAKit/OBADepartureCellHelpers.h>
 #import <OBAKit/OBADepartureStatus.h>
 #import <OBAKit/OBAEmailHelper.h>
 #import <OBAKit/OBAEntryWithReferencesV2.h>
@@ -97,6 +98,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBATripStopTimeV2.h>
 #import <OBAKit/OBATripV2.h>
 #import <OBAKit/OBAUIBuilder.h>
+#import <OBAKit/OBAUpcomingDeparture.h>
 #import <OBAKit/OBAURLHelpers.h>
 #import <OBAKit/OBAUser.h>
 #import <OBAKit/OBAVehicleMapAnnotation.h>

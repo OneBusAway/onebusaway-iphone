@@ -29,3 +29,15 @@ You are welcome to work on any bug or feature you would like, but we know that g
 4. `open org.onebusaway.iphone.xcodeproj`
 
 You should now be able to build. See our [contributing guidelines](CONTRIBUTING.md) for the specific workflow to add a new feature or bug fix.
+
+### Localization Notes
+
+It is vital that any user-facing strings in this project are localized. If your changes reside within the OBA app itself, you must use the `NSLocalizedString` macro to wrap your localizable strings. If your changes reside within OBAKit, you must make sure that you import the `OBAMacros.h` header file and use the `OBALocalized` macro to localize your strings.
+
+#### Localizers: README
+
+If you are localizing the app: a) thank you so much, and b) you must supply the `-s` option to `genstrings` for OBAKit's custom localization macro, like so:
+
+```
+genstrings -s OBALocalized
+```

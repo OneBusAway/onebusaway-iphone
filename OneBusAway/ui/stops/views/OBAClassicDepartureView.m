@@ -8,8 +8,8 @@
 
 #import "OBAClassicDepartureView.h"
 @import Masonry;
+@import OBAKit;
 #import "OBADepartureRow.h"
-#import "OBADepartureCellHelpers.h"
 #import "OBAAnimation.h"
 #import "OBADepartureTimeLabel.h"
 
@@ -134,7 +134,7 @@
     [routeText addAttribute:NSFontAttributeName value:[OBATheme boldBodyFont] range:NSMakeRange(0, [self departureRow].routeName.length)];
 
     OBAUpcomingDeparture *upcoming = [self departureRow].upcomingDepartures.firstObject;
-    NSAttributedString *departureTime = [OBADepartureCellHelpers attributedDepartureTime:[OBADateHelpers formatShortTimeNoDate:upcoming.departureDate] statusText:[self departureRow].statusText departureStatus:upcoming.departureStatus];
+    NSAttributedString *departureTime = [OBADepartureCellHelpers attributedDepartureTimeWithStatusText:[self departureRow].statusText upcomingDeparture:upcoming];
 
     [routeText appendAttributedString:departureTime];
 

@@ -7,7 +7,7 @@
 //
 
 #import "OBADepartureTimeLabel.h"
-#import "OBADepartureCellHelpers.h"
+@import OBAKit;
 #import "OBAAnimation.h"
 
 @interface OBADepartureTimeLabel()
