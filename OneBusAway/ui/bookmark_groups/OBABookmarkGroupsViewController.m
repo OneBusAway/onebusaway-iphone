@@ -18,12 +18,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = NSLocalizedString(@"Bookmark Groups", @"");
+    self.title = NSLocalizedString(@"msg_bookmark_groups", @"");
 
     self.tableView.allowsSelectionDuringEditing = YES;
 
-    self.emptyDataSetTitle = NSLocalizedString(@"No Bookmark Groups", @"");
-    self.emptyDataSetDescription = NSLocalizedString(@"Tap the '+' button to create one.", @"");
+    self.emptyDataSetTitle = NSLocalizedString(@"msg_no_bookmark_groups", @"");
+    self.emptyDataSetDescription = NSLocalizedString(@"msg_explanatory_add_bookmark_group", @"");
 
     self.tableFooterView = [self buildFooterView];
 
@@ -69,12 +69,12 @@
 }
 
 - (void)addEditGroupName:(OBABookmarkGroup *)group {
-    NSString *title = group ? NSLocalizedString(@"Edit Group Name",) : NSLocalizedString(@"Add Bookmark Group",);
+    NSString *title = group ? NSLocalizedString(@"msg_edit_group_name",) : NSLocalizedString(@"msg_add_bookmark_group",);
 
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
 
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = NSLocalizedString(@"Name of Group",);
+        textField.placeholder = NSLocalizedString(@"msg_name_of_group",);
         textField.text = group.name;
         [textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     }];
@@ -172,8 +172,8 @@
 
 - (UIView*)buildFooterView {
     NSString *message = self.enableGroupEditing ?
-    NSLocalizedString(@"Deleting a group does not delete its bookmarks. Its contents will be moved to the 'Bookmarks' group.",) :
-    NSLocalizedString(@"Select a group for the bookmark,\nor '+' to add it to a new group.",);
+    NSLocalizedString(@"msg_explanatory_delete_group_bookmarks",) :
+    NSLocalizedString(@"msg_select_or_add_to_group_bookmark",);
 
     return [OBAUIBuilder footerViewWithText:message maximumWidth:CGRectGetWidth(self.tableView.frame)];
 }

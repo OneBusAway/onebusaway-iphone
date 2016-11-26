@@ -23,7 +23,7 @@
 - (instancetype) initWithSituations:(NSArray*)situations {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         _situations = situations;
-        self.title = NSLocalizedString(@"Service Alerts",);
+        self.title = NSLocalizedString(@"msg_service_alerts",);
     }
     
     return self;
@@ -33,7 +33,7 @@
     [super viewDidLoad];
     self.tableView.tableFooterView = [UIView new];
 
-    OBAEmptyDataSetSource *emptyDataSource = [[OBAEmptyDataSetSource alloc] initWithTitle:NSLocalizedString(@"No Active Service Alerts",) description:nil];
+    OBAEmptyDataSetSource *emptyDataSource = [[OBAEmptyDataSetSource alloc] initWithTitle:NSLocalizedString(@"msg_no_active_service_alerts",) description:nil];
     self.tableView.emptyDataSetSource = emptyDataSource;
 }
 

@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B7C4A501DB96E6700853DD5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A521DB96E6700853DD5 /* InfoPlist.strings */; };
-		5B7C4A551DB96E6800853DD5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A571DB96E6800853DD5 /* InfoPlist.strings */; };
 		5B7C4A5A1DB96E6A00853DD5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */; };
 		5BF981001DBA55E40094C0BD /* OBASearchResultsMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BF981021DBA55E40094C0BD /* OBASearchResultsMapViewController.xib */; };
 		930AFE781DD04CCA0092AE82 /* OBADepartureRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE751DD04CCA0092AE82 /* OBADepartureRow.m */; };
@@ -239,8 +237,7 @@
 
 /* Begin PBXFileReference section */
 		1D6058910D05DD3D006BFB54 /* OneBusAway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneBusAway.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		5B7C4A511DB96E6700853DD5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		5B7C4A561DB96E6800853DD5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5B175F3F1DE3806300F9E93C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5B7C4A5B1DB96E6A00853DD5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5BF981011DBA55E40094C0BD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBASearchResultsMapViewController.xib; sourceTree = "<group>"; };
 		5BF981041DBA55EB0094C0BD /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OBASearchResultsMapViewController.xib; sourceTree = "<group>"; };
@@ -1163,7 +1160,6 @@
 			children = (
 				93ADC51A1DCB1EBE0024FBD6 /* credits.html */,
 				5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */,
-				5B7C4A521DB96E6700853DD5 /* InfoPlist.strings */,
 				93BBB4001DB4BA7200694940 /* Info.plist */,
 				934198D61DB0C886004BBBB7 /* Launch Screen.storyboard */,
 				9341982E1DB0C1E9004BBBB7 /* CardView.xib */,
@@ -1179,7 +1175,6 @@
 		934198441DB0C218004BBBB7 /* OneBusAwayTests */ = {
 			isa = PBXGroup;
 			children = (
-				5B7C4A571DB96E6800853DD5 /* InfoPlist.strings */,
 				934198451DB0C218004BBBB7 /* Fixtures */,
 				934198511DB0C219004BBBB7 /* Info.plist */,
 				934198521DB0C219004BBBB7 /* OBAKitTests */,
@@ -1491,7 +1486,6 @@
 				9341983C1DB0C1E9004BBBB7 /* Images.xcassets in Resources */,
 				934198201DB0C1BA004BBBB7 /* OBALabelAndTextFieldTableViewCell.xib in Resources */,
 				934198401DB0C1E9004BBBB7 /* regions-v3.json in Resources */,
-				5B7C4A501DB96E6700853DD5 /* InfoPlist.strings in Resources */,
 				5BF981001DBA55E40094C0BD /* OBASearchResultsMapViewController.xib in Resources */,
 				934198221DB0C1BA004BBBB7 /* OBATextFieldTableViewCell.xib in Resources */,
 				934198D71DB0C886004BBBB7 /* Launch Screen.storyboard in Resources */,
@@ -1511,7 +1505,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9341988B1DB0C219004BBBB7 /* SEA_4thPike_East.json in Resources */,
-				5B7C4A551DB96E6800853DD5 /* InfoPlist.strings in Resources */,
 				9341988C1DB0C219004BBBB7 /* stop_with_obj_lat_long.plist in Resources */,
 				9341988A1DB0C219004BBBB7 /* regions-v3.json in Resources */,
 				934198881DB0C219004BBBB7 /* bookmark_without_region_identifier.plist in Resources */,
@@ -1721,27 +1714,11 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		5B7C4A521DB96E6700853DD5 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5B7C4A511DB96E6700853DD5 /* es */,
-			);
-			name = InfoPlist.strings;
-			path = OneBusAway;
-			sourceTree = SOURCE_ROOT;
-		};
-		5B7C4A571DB96E6800853DD5 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5B7C4A561DB96E6800853DD5 /* es */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				5B7C4A5B1DB96E6A00853DD5 /* es */,
+				5B175F3F1DE3806300F9E93C /* en */,
 			);
 			name = Localizable.strings;
 			path = OneBusAway;

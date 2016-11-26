@@ -48,7 +48,7 @@ class ServiceAlertDetailsViewController: UIViewController, UITextViewDelegate {
 
         if self.serviceAlert.diversionPath != nil {
             toolbarItems.append(UIBarButtonItem.init(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
-            let diversionButton = UIBarButtonItem.init(title: NSLocalizedString("View Reroute", comment: "Toolbar button item on the Service Alert Details controller"), style: .plain, target: self, action: #selector(viewReroute))
+            let diversionButton = UIBarButtonItem.init(title: NSLocalizedString("msg_view_reroute", comment: "Toolbar button item on the Service Alert Details controller"), style: .plain, target: self, action: #selector(viewReroute))
             toolbarItems.append(diversionButton)
         }
 

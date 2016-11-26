@@ -123,7 +123,7 @@
     NSString *firstLineText = nil;
 
     if ([self departureRow].destination) {
-        firstLineText = [NSString stringWithFormat:NSLocalizedString(@"%@ to %@\r\n", @"Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE>"), [self departureRow].routeName, [self departureRow].destination];
+        firstLineText = [NSString stringWithFormat:NSLocalizedString(@"text_route_to_orientation_newline_params", @"Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE>"), [self departureRow].routeName, [self departureRow].destination];
     }
     else {
         firstLineText = [NSString stringWithFormat:@"%@\r\n", [self departureRow].routeName];

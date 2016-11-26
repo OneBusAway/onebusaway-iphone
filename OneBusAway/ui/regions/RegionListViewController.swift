@@ -37,7 +37,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        self.title = NSLocalizedString("Pick Your Location", comment: "Title of the Region List Controller")
+        self.title = NSLocalizedString("msg_pick_your_location", comment: "Title of the Region List Controller")
 
         NotificationCenter.default.addObserver(self, selector: #selector(selectedRegionDidChange), name: NSNotification.Name.OBARegionDidUpdate, object: nil)
     }
@@ -127,7 +127,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
     func updateData() {
 
-        SVProgressHUD.show(withStatus: NSLocalizedString("Loading Regions", comment: "Progress HUD status when first locating the user on the Region List Controller"))
+        SVProgressHUD.show(withStatus: NSLocalizedString("msg_loading_regions", comment: "Progress HUD status when first locating the user on the Region List Controller"))
 
         firstly { _ in
             OBAApplication.shared().modelService.requestRegions()
@@ -138,7 +138,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
         }.always {
             SVProgressHUD.dismiss()
         }.catch { error in
-            AlertPresenter.showWarning(NSLocalizedString("Unable to Load Regions", comment: ""), body: (error as NSError).localizedDescription)
+            AlertPresenter.showWarning(NSLocalizedString("msg_unable_load_regions", comment: ""), body: (error as NSError).localizedDescription)
         }
     }
 
@@ -154,7 +154,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
         let activeRows = tableRowsFromRegions(regions.filter { $0.active && !$0.experimental })
         let experimentalRows = tableRowsFromRegions(regions.filter { $0.experimental })
 
-        let autoSelectRow = OBASwitchRow.init(title: NSLocalizedString("Automatically Select Region", comment: ""), action: { row in
+        let autoSelectRow = OBASwitchRow.init(title: NSLocalizedString("msg_automatically_select_region", comment: ""), action: { row in
             self.modelDAO.automaticallySelectRegion = !self.modelDAO.automaticallySelectRegion
 
             if (self.modelDAO.automaticallySelectRegion) {
@@ -171,13 +171,13 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
         sections.append(OBATableSection.init(title: nil, rows: [autoSelectRow]))
 
         if customRows.count > 0 {
-            sections.append(OBATableSection.init(title: NSLocalizedString("Custom Regions", comment: ""), rows: customRows))
+            sections.append(OBATableSection.init(title: NSLocalizedString("msg_custom_regions", comment: ""), rows: customRows))
         }
 
-        sections.append(OBATableSection.init(title: NSLocalizedString("Active Regions", comment: ""), rows: activeRows))
+        sections.append(OBATableSection.init(title: NSLocalizedString("msg_active_regions", comment: ""), rows: activeRows))
 
         if experimentalRows.count > 0 {
-            sections.append(OBATableSection.init(title: NSLocalizedString("Newest Regions", comment: ""), rows: experimentalRows))
+            sections.append(OBATableSection.init(title: NSLocalizedString("msg_newest_regions", comment: ""), rows: experimentalRows))
         }
 
         self.sections = sections
@@ -210,7 +210,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
             row.model = region
             row.deleteModel = { row in
-                let alert = UIAlertController.init(title: NSLocalizedString("Are you sure you want to delete this region?", comment: ""), message: nil, preferredStyle: .alert)
+                let alert = UIAlertController.init(title: NSLocalizedString("msg_ask_delete_region", comment: ""), message: nil, preferredStyle: .alert)
                 alert.addAction(UIAlertAction.init(title: OBAStrings.cancel(), style: .cancel, handler: nil))
                 alert.addAction(UIAlertAction.init(title: OBAStrings.delete(), style: .destructive, handler: { action in
                     self.modelDAO.removeCustomRegion(region)

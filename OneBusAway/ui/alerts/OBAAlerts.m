@@ -13,11 +13,11 @@
 
 + (UIAlertController*)locationServicesDisabledAlert
 {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Location Services Disabled", @"view.title")
-                                                                   message:NSLocalizedString(@"Location Services are disabled for this app. Some location-aware functionality will be missing.", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_location_services_disabled", @"view.title")
+                                                                   message:NSLocalizedString(@"msg_alert_location_services_disabled", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
 
     [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleDefault handler:nil]];
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Fix It", @"Location services alert button.") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_fix_it", @"Location services alert button.") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSURL *appSettings = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
         // Appropriate use of -openURL:. Don't replace.
         [[UIApplication sharedApplication] openURL:appSettings];

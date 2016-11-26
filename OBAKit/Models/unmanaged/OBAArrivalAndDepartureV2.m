@@ -174,7 +174,7 @@
         return name;
     }
 
-    return [NSString stringWithFormat:NSLocalizedString(@"%@ to %@", @"<Route Number> to <Location>. e.g. 10 to Downtown Seattle"), name, self.tripHeadsign];
+    return [NSString stringWithFormat:NSLocalizedString(@"text_route_to_orientation_params", @"<Route Number> to <Location>. e.g. 10 to Downtown Seattle"), name, self.tripHeadsign];
 }
 
 + (NSString*)statusStringFromFrequency:(OBAFrequencyV2*)frequency {
@@ -185,8 +185,8 @@
     NSDate *startTime = [OBADateHelpers dateWithMillisecondsSince1970:frequency.startTime];
     NSDate *endTime = [OBADateHelpers dateWithMillisecondsSince1970:frequency.endTime];
 
-    NSString *formatString = NSLocalizedString(@"Every %@ mins %@ %@", @"frequency status string");
-    NSString *fromOrUntil = [now compare:startTime] == NSOrderedAscending ? NSLocalizedString(@"from", @"") : NSLocalizedString(@"until", @"");
+    NSString *formatString = NSLocalizedString(@"text_frequency_status_params", @"frequency status string");
+    NSString *fromOrUntil = [now compare:startTime] == NSOrderedAscending ? NSLocalizedString(@"msg_from", @"") : NSLocalizedString(@"msg_until", @"");
     NSDate *terminalDate = [now compare:startTime] == NSOrderedAscending ? startTime : endTime;
 
     return [NSString stringWithFormat:formatString, @(headway), fromOrUntil, [OBADateHelpers formatShortTimeNoDate:terminalDate]];
@@ -225,30 +225,30 @@
 
     if (departureStatus == OBADepartureStatusOnTime) {
         if (minutes < 0) {
-            return NSLocalizedString(@"departed on time", @"minutes < 0");
+            return NSLocalizedString(@"msg_departed_on_time", @"minutes < 0");
         }
         else {
-            return NSLocalizedString(@"on time", @"minutes >= 0");
+            return NSLocalizedString(@"msg_on_time", @"minutes >= 0");
         }
     }
 
     if (departureStatus == OBADepartureStatusUnknown) {
         if (minutes > 0) {
-            return NSLocalizedString(@"scheduled arrival*", @"minutes >= 0");
+            return NSLocalizedString(@"msg_scheduled_arrival_asterisk", @"minutes >= 0");
         }
         else {
-            return NSLocalizedString(@"scheduled departure*", @"minutes < 0");
+            return NSLocalizedString(@"msg_scheduled_departure_asterisk", @"minutes < 0");
         }
     }
 
-    NSString *suffixWord = departureStatus == OBADepartureStatusEarly ? NSLocalizedString(@"early", @"") :
-    NSLocalizedString(@"late", @"");
+    NSString *suffixWord = departureStatus == OBADepartureStatusEarly ? NSLocalizedString(@"msg_early", @"") :
+    NSLocalizedString(@"msg_late", @"");
 
     if (minutes < 0) {
-        return [NSString stringWithFormat:NSLocalizedString(@"departed %@ min %@", @"e.g. departed 5 min late"), @(minDiff), suffixWord];
+        return [NSString stringWithFormat:NSLocalizedString(@"text_departed_time_min_desviation_params", @"e.g. departed 5 min late"), @(minDiff), suffixWord];
     }
     else {
-        return [NSString stringWithFormat:NSLocalizedString(@"%@ min %@", @"e.g. 3 min early"), @(minDiff), suffixWord];
+        return [NSString stringWithFormat:NSLocalizedString(@"text_time_min_desviation_params", @"e.g. 3 min early"), @(minDiff), suffixWord];
     }
 }
 

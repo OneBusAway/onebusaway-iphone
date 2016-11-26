@@ -82,7 +82,7 @@ static NSCache *iconCache = nil;
     dispatch_once(&onceToken, ^{
         iconCache = [[NSCache alloc] init];
 
-        stopLabelText = NSLocalizedString(@"STOP",);
+        stopLabelText = NSLocalizedString(@"msg_stop_mayus",);
 
         // I chose "Helvetica" because it's the official typeface of the MTA
         stopLabelFaceName = [OBATheme titleFont].familyName;

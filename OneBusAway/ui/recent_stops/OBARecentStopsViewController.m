@@ -24,10 +24,10 @@
     self = [super init];
 
     if (self) {
-        self.title = NSLocalizedString(@"Recent", @"Recent stops tab title");
+        self.title = NSLocalizedString(@"msg_recent", @"Recent stops tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Recent"];
         self.tabBarItem.selectedImage = [UIImage imageNamed:@"Recent_Selected"];
-        self.emptyDataSetTitle = NSLocalizedString(@"No Recent Stops", @"");
+        self.emptyDataSetTitle = NSLocalizedString(@"msg_no_recent_stops", @"");
     }
 
     return self;
@@ -39,7 +39,7 @@
     [super viewDidLoad];
 
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Clear Stops", @"") style:UIBarButtonItemStylePlain target:self action:@selector(clearRecentList)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_clear_stops", @"") style:UIBarButtonItemStylePlain target:self action:@selector(clearRecentList)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -55,9 +55,9 @@
 #pragma mark - Actions
 
 - (void)clearRecentList {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Clear Recent Stops", @"") message:NSLocalizedString(@"Are you sure you want to clear your recent stops?", @"") preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"") style:UIAlertActionStyleCancel handler:nil]];
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Clear Stops", @"") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_clear_recent_stops", @"") message:NSLocalizedString(@"msg_ask_clear_recent_stops", @"") preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_cancel", @"") style:UIAlertActionStyleCancel handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_clear_stops", @"") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
         [self.modelDAO clearMostRecentStops];
         [self.modelDAO clearSharedTrips];
         [self reloadData];
@@ -104,7 +104,7 @@
         return nil;
     }
 
-    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Shared Trips", @"Section title for the shared trips section in the 'Recent' tab.")];
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_shared_trips", @"Section title for the shared trips section in the 'Recent' tab.")];
 
     for (OBATripDeepLink *link in sharedTrips) {
         OBATableRow *row = [[OBATableRow alloc] initWithTitle:link.name action:^{
@@ -133,7 +133,7 @@
         return nil;
     }
 
-    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Recent Stops",)];
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_recent_stops",)];
 
     for (OBAStopAccessEventV2* stop in self.modelDAO.mostRecentStops) {
         OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:stop.title action:^{

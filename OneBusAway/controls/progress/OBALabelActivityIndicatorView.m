@@ -24,7 +24,7 @@
         self.clipsToBounds = YES;
         _textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _textLabel.numberOfLines = 0;
-        _textLabel.text = NSLocalizedString(@"Loading", @"");
+        _textLabel.text = NSLocalizedString(@"msg_loading", @"");
 
         _activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 
@@ -57,7 +57,7 @@
 }
 
 - (void)prepareForReuse {
-    self.textLabel.text = NSLocalizedString(@"Loading", @"");
+    self.textLabel.text = NSLocalizedString(@"msg_loading", @"");
     [self.activity stopAnimating];
 }
 

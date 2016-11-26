@@ -11,35 +11,35 @@
 @implementation OBAStrings
 
 + (NSString*)cancel {
-    return NSLocalizedString(@"Cancel", @"Typically used on alerts and other modal actions. A 'cancel' button.");
+    return NSLocalizedString(@"msg_cancel", @"Typically used on alerts and other modal actions. A 'cancel' button.");
 }
 
 + (NSString*)delete {
-    return NSLocalizedString(@"Delete", @"Typically used on alerts and other modal actions. A 'delete' button.");
+    return NSLocalizedString(@"msg_delete", @"Typically used on alerts and other modal actions. A 'delete' button.");
 }
 
 + (NSString*)dismiss {
-    return NSLocalizedString(@"Dismiss", @"Used on alerts. iOS tends to use 'Dismiss' instead of 'OK' on alerts that the user isn't actually agreeing to.");
+    return NSLocalizedString(@"msg_dismiss", @"Used on alerts. iOS tends to use 'Dismiss' instead of 'OK' on alerts that the user isn't actually agreeing to.");
 }
 
 + (NSString*)edit {
-    return NSLocalizedString(@"Edit", @"As in 'edit object'.");
+    return NSLocalizedString(@"msg_edit", @"As in 'edit object'.");
 }
 
 + (NSString*)error {
-    return NSLocalizedString(@"Error", @"The text 'Error'");
+    return NSLocalizedString(@"msg_error", @"The text 'Error'");
 }
 
 + (NSString*)ok {
-    return NSLocalizedString(@"OK", @"Standard 'OK' button text.");
+    return NSLocalizedString(@"msg_ok", @"Standard 'OK' button text.");
 }
 
 + (NSString*)save {
-    return NSLocalizedString(@"Save", @"Standard 'Save' button text.");
+    return NSLocalizedString(@"msg_save", @"Standard 'Save' button text.");
 }
 
 + (NSString*)scheduledDepartureExplanation {
-    return NSLocalizedString(@"*'Scheduled': no vehicle location data available", @"The explanatory text displayed when a non-realtime trip is displayed on-screen.");
+    return NSLocalizedString(@"msg_scheduled_explanatory", @"The explanatory text displayed when a non-realtime trip is displayed on-screen.");
 }
 
 @end

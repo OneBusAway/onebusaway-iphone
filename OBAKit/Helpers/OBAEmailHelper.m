@@ -96,7 +96,7 @@ static NSString * appVersion = nil;
 
     MFMailComposeViewController *composer = [[MFMailComposeViewController alloc] init];
     [composer setToRecipients:@[emailAddress]];
-    [composer setSubject:NSLocalizedString(@"OneBusAway iOS Feedback", @"feedback mail subject")];
+    [composer setSubject:NSLocalizedString(@"msg_oba_ios_feedback", @"feedback mail subject")];
     [composer setMessageBody:messageBody isHTML:YES];
 
     return composer;

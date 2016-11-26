@@ -20,7 +20,7 @@
 {
     self = [super initWithNibName:@"OBACreditsViewController" bundle:nil];
     if (self) {
-        self.title = NSLocalizedString(@"Credits", @"Title of credits view controller");
+        self.title = NSLocalizedString(@"msg_credits", @"Title of credits view controller");
     }
     return self;
 }

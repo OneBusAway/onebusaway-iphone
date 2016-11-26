@@ -56,7 +56,7 @@
     if (tripDetails.schedule.frequency) {
         OBATripStopTimeV2 *firstStopTime = tripDetails.schedule.stopTimes[0];
         NSInteger minutes = (stopTime.arrivalTime - firstStopTime.departureTime) / 60;
-        return [NSString stringWithFormat:@"%@ %@", @(minutes), NSLocalizedString(@"mins", @"minutes")];
+        return [NSString stringWithFormat:@"%@ %@", @(minutes), NSLocalizedString(@"msg_mins", @"minutes")];
     }
     else {
         NSDate *time = [OBADateHelpers getTripStopTimeAsDate:stopTime tripDetails:tripDetails];
@@ -70,7 +70,7 @@
         return nil;
     }
 
-    NSString *labelText = [NSString stringWithFormat:NSLocalizedString(@"Starts as %@", @""), [tripDetails.schedule.previousTrip asLabel]];
+    NSString *labelText = [NSString stringWithFormat:NSLocalizedString(@"text_starts_as_param", @""), [tripDetails.schedule.previousTrip asLabel]];
     OBATableRow *row = [[OBATableRow alloc] initWithTitle:labelText action:^{
         OBATripInstanceRef *prevTripInstance = [tripInstance copyWithNewTripId:tripDetails.schedule.previousTripId];
         OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:prevTripInstance];
@@ -86,7 +86,7 @@
         return nil;
     }
 
-    NSString *labelText = [NSString stringWithFormat:NSLocalizedString(@"Continues as %@", @""), [tripDetails.schedule.nextTrip asLabel]];
+    NSString *labelText = [NSString stringWithFormat:NSLocalizedString(@"text_continues_as_param", @""), [tripDetails.schedule.nextTrip asLabel]];
     OBATableRow *row = [[OBATableRow alloc] initWithTitle:labelText action:^{
         OBATripInstanceRef *nextTripInstance = [tripInstance copyWithNewTripId:tripDetails.schedule.nextTripId];
         OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:nextTripInstance];
