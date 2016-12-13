@@ -110,15 +110,6 @@
                 }];
                 break;
             }
-            case OBASearchTypeAgenciesWithCoverage: {
-                // There's no action to take when an agency is selected.
-                // hence the lack of a -setAction: call.
-                OBAAgencyWithCoverageV2 * awc = obj;
-                tableRow.style = UITableViewCellStyleDefault;
-                tableRow.title = awc.agency.name;
-                tableRow.accessoryType = UITableViewCellAccessoryNone;
-                break;
-            }
             default: {
                 // no-op.
             }
@@ -146,8 +137,6 @@
             return NSLocalizedString(@"msg_routes",@"OBASearchTypeRoute");
         case OBASearchTypeAddress:
             return NSLocalizedString(@"msg_places",@"OBASearchTypeAddress");
-        case OBASearchTypeAgenciesWithCoverage:
-            return NSLocalizedString(@"msg_agencies",@"OBASearchTypeAgenciesWithCoverage");
         default:
             return nil;
     }

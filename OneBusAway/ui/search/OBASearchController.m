@@ -245,13 +245,6 @@ NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserI
             }];
         }
 
-        case OBASearchTypeAgenciesWithCoverage:
-            return [_modelService requestAgenciesWithCoverage:^(id jsonData, NSUInteger responseCode, NSError *error) {
-                WrapperCompletion(jsonData, responseCode, error, ^(id data) {
-                    [self fireUpdateFromList:data];
-                });
-            }];
-
         default:
             break;
     }
@@ -280,10 +273,6 @@ NSString * const OBASearchControllerUserInfoDataKey = @"OBASearchControllerUserI
 
         case OBASearchTypeAddress:
             title = NSLocalizedString(@"msg_places", @"OBASearchTypeAddress");
-            break;
-
-        case OBASearchTypeAgenciesWithCoverage:
-            title = NSLocalizedString(@"msg_agencies", @"OBASearchTypeAgenciesWithCoverage");
             break;
 
         default:
