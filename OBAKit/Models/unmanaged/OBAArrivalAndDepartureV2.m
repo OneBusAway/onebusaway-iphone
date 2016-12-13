@@ -21,6 +21,15 @@
 
 @interface OBAArrivalAndDepartureV2 ()
 @property(nonatomic,strong) NSMutableArray *situationIds;
+
+@property(nonatomic,assign) long long scheduledArrivalTime;
+@property(nonatomic,assign) long long predictedArrivalTime;
+@property(nonatomic,assign,readonly) long long bestArrivalTime;
+@property(nonatomic,assign) long long scheduledDepartureTime;
+@property(nonatomic,assign) long long predictedDepartureTime;
+@property(nonatomic,assign,readonly) long long bestDepartureTime;
+@property(nonatomic,assign) long long serviceDate;
+@property(nonatomic,assign) BOOL predicted;
 @end
 
 @implementation OBAArrivalAndDepartureV2
@@ -174,22 +183,7 @@
         return name;
     }
 
-    return [NSString stringWithFormat:NSLocalizedString(@"text_route_to_orientation_params", @"<Route Number> to <Location>. e.g. 10 to Downtown Seattle"), name, self.tripHeadsign];
-}
-
-+ (NSString*)statusStringFromFrequency:(OBAFrequencyV2*)frequency {
-    NSInteger headway = frequency.headway / 60;
-
-    NSDate *now = [NSDate date];
-
-    NSDate *startTime = [OBADateHelpers dateWithMillisecondsSince1970:frequency.startTime];
-    NSDate *endTime = [OBADateHelpers dateWithMillisecondsSince1970:frequency.endTime];
-
-    NSString *formatString = NSLocalizedString(@"text_frequency_status_params", @"frequency status string");
-    NSString *fromOrUntil = [now compare:startTime] == NSOrderedAscending ? NSLocalizedString(@"msg_from", @"") : NSLocalizedString(@"msg_until", @"");
-    NSDate *terminalDate = [now compare:startTime] == NSOrderedAscending ? startTime : endTime;
-
-    return [NSString stringWithFormat:formatString, @(headway), fromOrUntil, [OBADateHelpers formatShortTimeNoDate:terminalDate]];
+    return [NSString stringWithFormat:OBALocalized(@"text_route_to_orientation_params", @"<Route Number> to <Location>. e.g. 10 to Downtown Seattle"), name, self.tripHeadsign];
 }
 
 - (double)predictedDepatureTimeDeviationFromScheduleInMinutes {
@@ -202,54 +196,12 @@
     }
 }
 
-- (NSDate*)bestDeparture {
-    return [OBADateHelpers dateWithMillisecondsSince1970:self.bestDepartureTime];
-}
-
 - (NSTimeInterval)timeIntervalUntilBestDeparture {
-    return self.bestDeparture.timeIntervalSinceNow;
+    return self.bestArrivalDepartureDate.timeIntervalSinceNow;
 }
 
 - (NSInteger)minutesUntilBestDeparture {
     return (NSInteger)(self.timeIntervalUntilBestDeparture / 60.0);
-}
-
-- (NSString*)statusText {
-    if (self.frequency) {
-        return [OBAArrivalAndDepartureV2 statusStringFromFrequency:self.frequency];
-    }
-
-    OBADepartureStatus departureStatus = self.departureStatus;
-    NSInteger minutes = [self minutesUntilBestDeparture];
-    NSInteger minDiff = (NSInteger)fabs([self predictedDepatureTimeDeviationFromScheduleInMinutes]);
-
-    if (departureStatus == OBADepartureStatusOnTime) {
-        if (minutes < 0) {
-            return NSLocalizedString(@"msg_departed_on_time", @"minutes < 0");
-        }
-        else {
-            return NSLocalizedString(@"msg_on_time", @"minutes >= 0");
-        }
-    }
-
-    if (departureStatus == OBADepartureStatusUnknown) {
-        if (minutes > 0) {
-            return NSLocalizedString(@"msg_scheduled_arrival_asterisk", @"minutes >= 0");
-        }
-        else {
-            return NSLocalizedString(@"msg_scheduled_departure_asterisk", @"minutes < 0");
-        }
-    }
-
-    NSString *suffixWord = departureStatus == OBADepartureStatusEarly ? NSLocalizedString(@"msg_early", @"") :
-    NSLocalizedString(@"msg_late", @"");
-
-    if (minutes < 0) {
-        return [NSString stringWithFormat:NSLocalizedString(@"text_departed_time_min_desviation_params", @"e.g. departed 5 min late"), @(minDiff), suffixWord];
-    }
-    else {
-        return [NSString stringWithFormat:NSLocalizedString(@"text_time_min_desviation_params", @"e.g. 3 min early"), @(minDiff), suffixWord];
-    }
 }
 
 - (BOOL)routesAreEquivalent:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
@@ -261,11 +213,20 @@
 }
 
 - (OBAArrivalDepartureState)arrivalDepartureState {
-    if (self.stopSequence != 0) {
-        return OBAArrivalDepartureStateDeparting;
+    if (self.stopSequence == 0) {
+        return OBAArrivalDepartureStateArriving;
     }
     else {
-        return OBAArrivalDepartureStateArriving;
+        return OBAArrivalDepartureStateDeparting;
+    }
+}
+
+- (NSDate*)bestArrivalDepartureDate {
+    if (self.arrivalDepartureState == OBAArrivalDepartureStateArriving) {
+        return [OBADateHelpers dateWithMillisecondsSince1970:self.bestArrivalTime];
+    }
+    else {
+        return [OBADateHelpers dateWithMillisecondsSince1970:self.bestDepartureTime];
     }
 }
 

@@ -56,7 +56,7 @@
 
 - (void)clearRecentList {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_clear_recent_stops", @"") message:NSLocalizedString(@"msg_ask_clear_recent_stops", @"") preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_cancel", @"") style:UIAlertActionStyleCancel handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_clear_stops", @"") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
         [self.modelDAO clearMostRecentStops];
         [self.modelDAO clearSharedTrips];

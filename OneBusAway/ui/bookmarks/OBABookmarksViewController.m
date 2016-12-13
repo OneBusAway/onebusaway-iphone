@@ -127,7 +127,7 @@ static NSUInteger const kMinutes = 30;
 + (NSArray<OBAUpcomingDeparture*>*)upcomingDeparturesFromArrivalsAndDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)matchingDepartures {
     NSMutableArray *upcomingDepartures = [NSMutableArray array];
     for (OBAArrivalAndDepartureV2 *dep in matchingDepartures) {
-        [upcomingDepartures addObject:[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestDeparture departureStatus:dep.departureStatus]];
+        [upcomingDepartures addObject:[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState]];
     }
     return [NSArray arrayWithArray:upcomingDepartures];
 }
@@ -282,13 +282,13 @@ static NSUInteger const kMinutes = 30;
 
     NSMutableArray<UITableViewRowAction *> *actions = [NSMutableArray array];
 
-    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedString(@"msg_delete", @"Title of delete bookmark row action.") handler:^(UITableViewRowAction *action, NSIndexPath *rowIndexPath) {
+    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:OBAStrings.delete handler:^(UITableViewRowAction *action, NSIndexPath *rowIndexPath) {
         [self deleteRowAtIndexPath:rowIndexPath];
     }];
     [actions addObject:delete];
 
     if (tableRow.editAction) {
-        UITableViewRowAction *edit = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedString(@"msg_edit", @"Title of edit bookmark/group row action.") handler:^(UITableViewRowAction *action, NSIndexPath *rowIndexPath) {
+        UITableViewRowAction *edit = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:OBAStrings.edit handler:^(UITableViewRowAction *action, NSIndexPath *rowIndexPath) {
             tableRow.editAction();
         }];
         [actions addObject:edit];
@@ -482,7 +482,7 @@ static NSUInteger const kMinutes = 30;
     }
     row.routeName = arrivalAndDeparture.bestAvailableName;
     row.destination = arrivalAndDeparture.tripHeadsign;
-    row.statusText = arrivalAndDeparture.statusText;
+    row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:arrivalAndDeparture];
 }
 
 - (void)performCommonBookmarkRowConfiguration:(OBABaseRow*)row forBookmark:(OBABookmarkV2*)bookmark {

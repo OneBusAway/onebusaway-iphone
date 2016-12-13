@@ -82,9 +82,6 @@
 /* Title of the alert shown when a bookmark can't be created */
 "msg_cant_create_bookmark" = "Can't Create Bookmark";
 
-/* No comment provided by engineer. */
-"msg_cancel" = "Cancel";
-
 /* Reachability alert title */
 "msg_cannot_connect_to_the_internet" = "Cannot connect to the Internet";
 
@@ -135,17 +132,11 @@
 /* Info Page Contact Us Row Title */
 "msg_data_schedule_issues" = "Data & Schedule Issues";
 
-/* Title of delete bookmark row action. */
-"msg_delete" = "Delete";
-
 /* No comment provided by engineer. */
 "msg_explanatory_delete_group_bookmarks" = "Deleting a group does not delete its bookmarks. Its contents will be moved to the 'Bookmarks' group.";
 
 /* As in 'going to the east.' */
 "msg_eastbound" = "Eastbound";
-
-/* Title of edit bookmark/group row action. */
-"msg_edit" = "Edit";
 
 /* OBABookmarkEditExisting */
 "msg_edit_bookmark" = "Edit Bookmark";
@@ -155,9 +146,6 @@
 
 /* A switch option's text for enabling and disabling Google Analytics */
 "msg_enable_google_analytics" = "Enable Google Analytics";
-
-/* No comment provided by engineer. */
-"msg_error" = "Error";
 
 /* view.title */
 "msg_error_submitting" = "Error Submitting";
@@ -585,7 +573,7 @@
 "msg_updated" = "Updated";
 
 /* Title of the Stop UI Controller while it is updating its content. */
-"msg_updating_dots" = "Updating...";
+"stops_controller.title.updating" = "Updating...";
 
 /* cell.statusLabel.text */
 "msg_mayus_vehicle" = "Vehicle";
@@ -682,9 +670,6 @@
 /* name */
 "msg_never_came" = "never came";
 
-/* scheduleDeviation < 2 */
-"msg_on_time" = "on time";
-
 /* routeType 2 */
 "msg_train" = "train";
 
@@ -700,36 +685,6 @@
 /* No comment provided by engineer. */
 "text_bound_and_routes_params" = "%@ bound - Routes: %@";
 
-/* e.g. 3 min early */
-"text_time_min_desviation_params" = "%@ min %@";
-
-/* <Route Number> to <Location>. e.g. 10 to Downtown Seattle */
-"text_route_to_orientation_params" = "%@ to %@";
-
-/* The explanatory text displayed when a non-realtime trip is displayed on-screen. */
-"msg_scheduled_explanatory" = "*'Scheduled': no vehicle location data available";
-
-/* Typically used on alerts and other modal actions. A 'cancel' button. */
-"msg_cancel" = "Cancel";
-
-/* No comment provided by engineer. */
-"msg_cellular" = "Cellular";
-
-/* Typically used on alerts and other modal actions. A 'delete' button. */
-"msg_delete" = "Delete";
-
-/* Used on alerts. iOS tends to use 'Dismiss' instead of 'OK' on alerts that the user isn't actually agreeing to. */
-"msg_dismiss" = "Dismiss";
-
-/* As in 'edit object'. */
-"msg_edit" = "Edit";
-
-/* The text 'Error' */
-"msg_error" = "Error";
-
-/* code != 404 */
-"msg_error_connecting" = "Error Connecting";
-
 /* frequency status string */
 "text_frequency_status_params" = "Every %@ mins %@ %@";
 
@@ -737,64 +692,25 @@
 "msg_headed_somewhere_dots" = "Headed somewhere...";
 
 /* No comment provided by engineer. */
-"msg_now" = "NOW";
-
-/* No comment provided by engineer. */
-"msg_no_connection" = "No Connection";
-
-/* Standard 'OK' button text. */
-"msg_ok" = "OK";
-
-/* feedback mail subject */
-"msg_oba_ios_feedback" = "OneBusAway iOS Feedback";
-
-/* No comment provided by engineer. */
 "text_only_routes_colon_param" = "Routes: %@";
-
-/* No comment provided by engineer. */
-"msg_stop_mayus" = "STOP";
-
-/* Standard 'Save' button text. */
-"msg_save" = "Save";
 
 /* cell.textLabel.text */
 "msg_schedule_deviation" = "Schedule deviation";
 
-/* code == 404 */
-"mgs_stop_not_found" = "Stop not found";
-
 /* title */
 "msg_mayus_vehicle" = "Vehicle";
-
-/* No comment provided by engineer. */
-"msg_wifi" = "WiFi";
-
-/* e.g. departed 5 min late */
-"text_departed_time_min_desviation_params" = "departed %@ min %@";
 
 /* minutes < 0 */
 "msg_departed_on_time" = "departed on time";
 
 /* No comment provided by engineer. */
-"msg_early" = "early";
-
-/* No comment provided by engineer. */
 "msg_from" = "from";
-
-/* No comment provided by engineer. */
-"msg_late" = "late";
 
 /* minutes */
 "msg_mins" = "mins";
 
 /* minutes >= 0 */
-"msg_on_time" = "on time";
-
-/* minutes >= 0 */
-"msg_scheduled_arrival_asterisk" = "scheduled arrival*";
-
-/* minutes < 0 */
-"msg_scheduled_departure_asterisk" = "scheduled departure*";
+"msg_on_time" = "departs on time";
 
 /* No comment provided by engineer. */
 "msg_until" = "until";

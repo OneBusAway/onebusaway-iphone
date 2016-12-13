@@ -37,11 +37,8 @@ extern NSString * const OBAOptInToTrackingDefaultsKey;
 NSString * OBAStringFromBool(BOOL yn);
 
 @interface OBACommon : NSObject
-
 + (void)setRunningInsideTests:(BOOL)runningInsideTests;
 + (BOOL)isRunningInsideTests;
-
-+ (NSString*) getTimeAsString;
 @end
 
 NS_ASSUME_NONNULL_END

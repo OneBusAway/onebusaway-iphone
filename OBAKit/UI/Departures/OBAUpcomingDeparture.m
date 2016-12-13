@@ -6,15 +6,16 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import "OBAUpcomingDeparture.h"
+#import <OBAKit/OBAUpcomingDeparture.h>
 
 @implementation OBAUpcomingDeparture
 
-- (instancetype)initWithDepartureDate:(NSDate*)departureDate departureStatus:(OBADepartureStatus)departureStatus {
+- (instancetype)initWithDepartureDate:(NSDate*)departureDate departureStatus:(OBADepartureStatus)departureStatus arrivalDepartureState:(OBAArrivalDepartureState)arrivalDepartureState {
     self = [super init];
     if (self) {
         _departureDate = [departureDate copy];
         _departureStatus = departureStatus;
+        _arrivalDepartureState = arrivalDepartureState;
     }
     return self;
 }
@@ -23,6 +24,8 @@
     OBAUpcomingDeparture *departure = [[OBAUpcomingDeparture alloc] init];
     departure->_departureDate = [_departureDate copyWithZone:zone];
     departure->_departureStatus = _departureStatus;
+    departure->_arrivalDepartureState = _arrivalDepartureState;
+
     return departure;
 }
 

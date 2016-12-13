@@ -176,10 +176,10 @@ static NSInteger kStopsSectionTag = 101;
         [self.refreshControl beginRefreshing];
     }
 
-    self.navigationItem.title = NSLocalizedString(@"msg_updating_dots", @"Title of the Stop UI Controller while it is updating its content.");
+    self.navigationItem.title = NSLocalizedString(@"stops_controller.title.updating", @"Title of the Stop UI Controller while it is updating its content.");
 
     [self.modelService requestStopForID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
-        self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"msg_updated", @"message"), [OBACommon getTimeAsString]];
+        self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"msg_updated", @"message"), [OBADateHelpers formatShortTimeNoDate:[NSDate date]]];
         [self.modelDAO viewedArrivalsAndDeparturesForStop:response.stop];
 
         self.arrivalsAndDepartures = response;
@@ -187,7 +187,7 @@ static NSInteger kStopsSectionTag = 101;
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
         [self.stopHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
     }).catch(^(NSError *error) {
-        [AlertPresenter showWarning:NSLocalizedString(@"msg_error", @"") body:error.localizedDescription ?: NSLocalizedString(@"msg_error_min_connecting_dot", @"requestDidFail")];
+        [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription ?: NSLocalizedString(@"msg_error_min_connecting_dot", @"requestDidFail")];
         DDLogError(@"An error occurred while displaying a stop: %@", error);
         return error;
     }).then(^{
@@ -264,7 +264,25 @@ static NSInteger kStopsSectionTag = 101;
 - (OBATableSection *)buildClassicDepartureSectionWithDeparture:(OBAArrivalsAndDeparturesForStopV2 *)result {
     NSMutableArray *departureRows = [NSMutableArray array];
 
-    for (OBAArrivalAndDepartureV2 *dep in result.arrivalsAndDepartures) {
+    NSArray<OBAArrivalAndDepartureV2*> *arrivalsAndDepartures = [result.arrivalsAndDepartures sortedArrayUsingComparator:^NSComparisonResult(OBAArrivalAndDepartureV2* obj1, OBAArrivalAndDepartureV2* obj2) {
+
+        if (obj1.minutesUntilBestDeparture != obj2.minutesUntilBestDeparture) {
+            return [obj1.bestArrivalDepartureDate compare:obj2.bestArrivalDepartureDate];
+        }
+
+        if (obj1.arrivalDepartureState == obj2.arrivalDepartureState) {
+            return NSOrderedSame;
+        }
+
+        if (obj1.arrivalDepartureState == OBAArrivalDepartureStateArriving) {
+            return NSOrderedAscending;
+        }
+        else {
+            return NSOrderedDescending;
+        }
+    }];
+
+    for (OBAArrivalAndDepartureV2 *dep in arrivalsAndDepartures) {
         if (![self.routeFilter shouldShowRouteID:dep.routeId]) {
             continue;
         }
@@ -276,8 +294,8 @@ static NSInteger kStopsSectionTag = 101;
         row.model = dep;
         row.routeName = dep.bestAvailableName;
         row.destination = dep.tripHeadsign.capitalizedString;
-        row.upcomingDepartures = @[[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestDeparture departureStatus:dep.departureStatus]];
-        row.statusText = dep.statusText;
+        row.upcomingDepartures = @[[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState]];
+        row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
         row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
 
         [row setToggleBookmarkAction:^{
@@ -427,10 +445,10 @@ static NSInteger kStopsSectionTag = 101;
         }];
         row.routeName = dep.bestAvailableName;
         row.destination = dep.tripHeadsign.capitalizedString;
-        row.statusText = dep.statusText;
+        row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
         row.model = dep;
 
-        OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestDeparture departureStatus:dep.departureStatus];
+        OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState];
 
         row.upcomingDepartures = @[upcoming];
         [rows addObject:row];

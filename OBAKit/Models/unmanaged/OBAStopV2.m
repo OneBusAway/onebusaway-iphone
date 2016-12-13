@@ -16,6 +16,7 @@
 
 #import <OBAKit/OBAStopV2.h>
 #import <OBAKit/OBARouteV2.h>
+#import <OBAKit/OBAMacros.h>
 
 @interface OBAStopV2 ()
 @property(nonatomic,strong,readwrite) NSArray<OBARouteV2*> *routes;
@@ -150,10 +151,10 @@
     NSString * r = [self routeNamesAsString];
 
     if (self.direction) {
-        return [NSString stringWithFormat:NSLocalizedString(@"text_bound_and_routes_params", @""), self.direction, r];
+        return [NSString stringWithFormat:OBALocalized(@"text_bound_and_routes_params", @""), self.direction, r];
     }
     else {
-        return [NSString stringWithFormat:NSLocalizedString(@"text_only_routes_colon_param", @""), r];
+        return [NSString stringWithFormat:OBALocalized(@"text_only_routes_colon_param", @""), r];
     }
 }
 

@@ -18,6 +18,7 @@
 #import <OBAKit/OBARouteV2.h>
 #import <OBAKit/OBACanvasView.h>
 #import <OBAKit/OBATheme.h>
+#import <OBAKit/OBAMacros.h>
 
 @implementation OBAStopIconFactory
 
@@ -82,9 +83,9 @@ static NSCache *iconCache = nil;
     dispatch_once(&onceToken, ^{
         iconCache = [[NSCache alloc] init];
 
-        stopLabelText = NSLocalizedString(@"msg_stop_mayus",);
+        stopLabelText = OBALocalized(@"msg_stop_mayus",);
 
-        // I chose "Helvetica" because it's the official typeface of the MTA
+        // Use the system font.
         stopLabelFaceName = [OBATheme titleFont].familyName;
 
         // Color selections

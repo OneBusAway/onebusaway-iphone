@@ -7,7 +7,6 @@
 //
 
 #import "OBABaseRow.h"
-#import "OBAUpcomingDeparture.h"
 @import OBAKit;
 
 NS_ASSUME_NONNULL_BEGIN

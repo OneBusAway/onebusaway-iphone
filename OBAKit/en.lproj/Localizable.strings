@@ -7,9 +7,6 @@
 /* No comment provided by engineer. */
 "text_bound_and_routes_params" = "%@ bound - Routes: %@";
 
-/* e.g. 3 min early */
-"text_time_min_desviation_params" = "%@ min %@";
-
 /* <Route Number> to <Location>. e.g. 10 to Downtown Seattle */
 "text_route_to_orientation_params" = "%@ to %@";
 
@@ -76,26 +73,17 @@
 /* No comment provided by engineer. */
 "msg_wifi" = "WiFi";
 
-/* e.g. departed 5 min late */
-"text_departed_time_min_desviation_params" = "departed %@ min %@";
-
 /* minutes < 0 */
 "msg_departed_on_time" = "departed on time";
 
 /* No comment provided by engineer. */
-"msg_early" = "early";
-
-/* No comment provided by engineer. */
 "msg_from" = "from";
-
-/* No comment provided by engineer. */
-"msg_late" = "late";
 
 /* minutes */
 "msg_mins" = "mins";
 
 /* minutes >= 0 */
-"msg_on_time" = "on time";
+"msg_on_time" = "departs on time";
 
 /* minutes >= 0 */
 "msg_scheduled_arrival_asterisk" = "scheduled arrival*";
@@ -105,3 +93,33 @@
 
 /* No comment provided by engineer. */
 "msg_until" = "until";
+
+/* e.g. 'arrived 3 min early' - note the past tense */
+"departure_cell_helpers.arrived_x_minutes_early" = "arrived %@ min early";
+
+/* e.g. 'arriving 5 min early' - note the future tense */
+"departure_cell_helpers.arriving_x_minutes_early" = "arriving %@ min early";
+
+/* Indicates that the vehicle arrived on time. Note past tense. */
+"departure_cell_helpers.arrived_on_time" = "arrived on time";
+
+/* Indicates that the vehicle is arriving on time. Note future tense. */
+"departure_cell_helpers.arriving_on_time" = "arriving on time";
+
+/* e.g. 'arrived 5 min late'. Note the past tense. */
+"departure_cell_helpers.arrived_x_min_late" = "arrived %@ min late";
+
+/* e.g. 'arriving 5 min late'. Note the future tense. */
+"departure_cell_helpers.arriving_x_min_late" = "arriving %@ min late";
+
+/* e.g. 'departed 1 min early'. Note the past tense. */
+"departure_cell_helpers.departed_x_min_early" = "departed %@ min early";
+
+/* e.g. 'departs 1 min early'. Note the future tense. */
+"departure_cell_helpers.departs_x_min_early" = "departs %@ min early";
+
+/* e.g. 'departed 20 min late'. Note the past tense */
+"departure_cell_helpers.departed_x_min_late" = "departed %@ min late";
+
+/* e.g. 'departs 12 min late'. Note the future tense */
+"departure_cell_helpers.departs_x_min_late" = "departs %@ min late";
