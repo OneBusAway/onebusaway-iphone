@@ -765,12 +765,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         return;
     }
 
-    if (result && result.searchType == OBASearchTypeAgenciesWithCoverage) {
-        self.navigationItem.titleView = nil;
-        self.navigationItem.title = NSLocalizedString(@"msg_agencies", @"self.navigationItem.title");
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPressed)];
-    }
-
     [self.class setAnnotationsForMapView:self.mapView fromSearchResult:self.searchController.result bookmarkAnnotations:[self bookmarkAnnotations]];
     [self setOverlaysFromResults];
     [self setRegionFromResults];
@@ -859,22 +853,31 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 + (void)setAnnotationsForMapView:(MKMapView*)mapView fromSearchResult:(OBASearchResult*)result bookmarkAnnotations:(NSArray*)bookmarks {
     NSMutableArray *allCurrentAnnotations = [[NSMutableArray alloc] init];
 
-    if (result.searchType == OBASearchTypeAgenciesWithCoverage) {
-        for (OBAAgencyWithCoverageV2 *agencyWithCoverage in result.values) {
-            OBAAgencyV2 *agency = agencyWithCoverage.agency;
-            OBANavigationTargetAnnotation *an = [[OBANavigationTargetAnnotation alloc] initWithTitle:agency.name subtitle:nil coordinate:agencyWithCoverage.coordinate target:nil];
-            [allCurrentAnnotations addObject:an];
-        }
-    }
-    else {
-        [allCurrentAnnotations addObjectsFromArray:bookmarks];
+    [allCurrentAnnotations addObjectsFromArray:bookmarks];
 
-        if (result.values.count > 0) {
-            @autoreleasepool {
-                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (stopId IN %@)", [bookmarks valueForKey:@"stopId"]];
-                [allCurrentAnnotations addObjectsFromArray:[result.values filteredArrayUsingPredicate:predicate]];
-            }
+    NSSet *bookmarkStopIDs = [NSSet setWithArray:[bookmarks valueForKey:@"stopId"]];
+
+    // prospectiveAnnotation *should* be an OBAStopV2, but there are some indications that this
+    // is not always the case. To that end, we'll just go belt and suspenders on it and see if
+    // the object responds to the appropriate selector. Additionally, I've added a type check
+    // to validate my own assumptions about this.
+    // https://github.com/OneBusAway/onebusaway-iphone/issues/825
+    for (id prospectiveAnnotation in result.values) {
+        OBAGuardClass(prospectiveAnnotation, OBAStopV2) else {
+            DDLogError(@"prospectiveAnnotation is an instance of %@, and not OBAStopV2!", NSStringFromClass([prospectiveAnnotation class]));
         }
+
+        if (![prospectiveAnnotation respondsToSelector:@selector(stopId)]) {
+            continue;
+        }
+
+        NSString *stopID = [prospectiveAnnotation stopId];
+
+        if ([bookmarkStopIDs containsObject:stopID]) {
+            continue;
+        }
+
+        [allCurrentAnnotations addObject:prospectiveAnnotation];
     }
 
     NSMutableArray *toAdd = [[NSMutableArray alloc] init];
@@ -946,9 +949,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         case OBASearchTypeStopId:
             return [NSString stringWithFormat:@"%@ # %@", NSLocalizedString(@"msg_stop", @"OBASearchTypeStopId"), param];
 
-        case OBASearchTypeAgenciesWithCoverage:
-            return NSLocalizedString(@"msg_transit_agencies", @"OBASearchTypeAgenciesWithCoverage");
-
         case OBASearchTypeAddress:
             return param;
 
@@ -983,7 +983,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         case OBASearchTypeRoute:
         case OBASearchTypeRouteStops:
         case OBASearchTypeAddress:
-        case OBASearchTypeAgenciesWithCoverage:
         case OBASearchTypeStopId:
             return nil;
 
@@ -1041,9 +1040,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         case OBASearchTypeAddress:
             return [OBAMapHelpers computeRegionForPlacemarks:result.values defaultRegion:self.mapView.region];
-
-        case OBASearchTypeAgenciesWithCoverage:
-            return [OBAMapHelpers computeRegionForAgenciesWithCoverage:result.values defaultRegion:self.mapView.region];
 
         case OBASearchTypeNone:
         case OBASearchTypeRegion:

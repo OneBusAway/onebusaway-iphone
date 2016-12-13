@@ -34,7 +34,6 @@ typedef NS_ENUM(NSInteger, OBASearchType) {
     OBASearchTypeAddress,
     OBASearchTypePlacemark,
     OBASearchTypeStopId,
-    OBASearchTypeAgenciesWithCoverage,
 };
 
 @interface OBASearch : NSObject
@@ -46,7 +45,6 @@ typedef NS_ENUM(NSInteger, OBASearchType) {
 + (OBANavigationTarget*) getNavigationTargetForSearchAddress:(NSString*)addressQuery;
 + (OBANavigationTarget*) getNavigationTargetForSearchPlacemark:(OBAPlacemark*)placemark;
 + (OBANavigationTarget*) getNavigationTargetForSearchStopCode:(NSString*)stopIdQuery;
-+ (OBANavigationTarget*) getNavigationTargetForSearchAgenciesWithCoverage;
 
 + (OBASearchType)getSearchTypeForNavigationTarget:(OBANavigationTarget*)target;
 + (id)getSearchTypeParameterForNavigationTarget:(OBANavigationTarget*)target;

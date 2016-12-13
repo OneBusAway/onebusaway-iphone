@@ -56,10 +56,6 @@ NSString * const kOBASearchControllerSearchLocationParameter = @"OBASearchContro
     return [self getNavigationTargetForSearchType:OBASearchTypeStopId argument:stopIdQuery];    
 }
 
-+ (OBANavigationTarget*) getNavigationTargetForSearchAgenciesWithCoverage {
-    return [self getNavigationTargetForSearchType:OBASearchTypeAgenciesWithCoverage];
-}
-
 + (OBASearchType) getSearchTypeForNavigationTarget:(OBANavigationTarget*)target {
 
     // Update our target parameters
@@ -82,8 +78,6 @@ NSString * const kOBASearchControllerSearchLocationParameter = @"OBASearchContro
             return OBASearchTypePlacemark;
         case OBASearchTypeStopId:
             return OBASearchTypeStopId;
-        case OBASearchTypeAgenciesWithCoverage:
-            return OBASearchTypeAgenciesWithCoverage;
         default:
             return OBASearchTypeNone;
     }    

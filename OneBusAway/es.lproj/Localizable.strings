@@ -33,7 +33,6 @@
 
 /* Agencies tab title
    Info Page Agencies Row Title
-   OBASearchTypeAgenciesWithCoverage
    self.navigationItem.title */
 "msg_agencies" = "Agencias";
 
@@ -550,9 +549,6 @@
 
 /* cell.textLabel.text */
 "msg_touch_to_edit" = "Toca para editar";
-
-/* OBASearchTypeAgenciesWithCoverage */
-"msg_transit_agencies" = "Agencias de Transito";
 
 /* No comment provided by engineer. */
 "msg_trip_schedule" = "Horario de Viaje";

@@ -64,16 +64,6 @@ NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2,
 + (MKMapRect)mapRectForCoordinateRegion:(MKCoordinateRegion)region;
 
 /**
- This method is used to determine the correct coordinate region to display on the map when rendering a collection of agencies.
-
- @param agenciesWithCoverage The list of agencies to display.
- @param defaultRegion        The fallback region to display if something goes wrong.
-
- @return An MKCoordinateRegion to display in an MKMapView.
- */
-+ (MKCoordinateRegion)computeRegionForAgenciesWithCoverage:(NSArray*)agenciesWithCoverage defaultRegion:(MKCoordinateRegion)defaultRegion;
-
-/**
  Calculate the coordinate region for the list of stops provided with a provided center location.
 
  @param stops    The list of stops from which to calculate a region.
