@@ -83,7 +83,7 @@
 "msg_mins" = "mins";
 
 /* minutes >= 0 */
-"msg_on_time" = "a tiempo";
+"msg_on_time" = "sale a tiempo";
 
 /* minutes >= 0 */
 "msg_scheduled_arrival_asterisk" = "llegada planificada*";
@@ -93,3 +93,33 @@
 
 /* No comment provided by engineer. */
 "msg_until" = "hasta";
+
+/* e.g. 'arrived 3 min early' - note the past tense */
+"departure_cell_helpers.arrived_x_minutes_early" = "llegó %@ min antes";
+
+/* e.g. 'arriving 5 min early' - note the future tense */
+"departure_cell_helpers.arriving_x_minutes_early" = "llegando %@ min antes";
+
+/* Indicates that the vehicle arrived on time. Note past tense. */
+"departure_cell_helpers.arrived_on_time" = "llegó a tiempo";
+
+/* Indicates that the vehicle is arriving on time. Note future tense. */
+"departure_cell_helpers.arriving_on_time" = "llegando a tiempo";
+
+/* e.g. 'arrived 5 min late'. Note the past tense. */
+"departure_cell_helpers.arrived_x_min_late" = "llegó %@ min tarde";
+
+/* e.g. 'arriving 5 min late'. Note the future tense. */
+"departure_cell_helpers.arriving_x_min_late" = "llegando %@ min tarde";
+
+/* e.g. 'departed 1 min early'. Note the past tense. */
+"departure_cell_helpers.departed_x_min_early" = "salió %@ min antes";
+
+/* e.g. 'departs 1 min early'. Note the future tense. */
+"departure_cell_helpers.departs_x_min_early" = "sale %@ min antes";
+
+/* e.g. 'departed 20 min late'. Note the past tense */
+"departure_cell_helpers.departed_x_min_late" = "salió %@ min tarde";
+
+/* e.g. 'departs 12 min late'. Note the future tense */
+"departure_cell_helpers.departs_x_min_late" = "sale %@ min tarde";
