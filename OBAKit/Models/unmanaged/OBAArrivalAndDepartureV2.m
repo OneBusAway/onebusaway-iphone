@@ -213,7 +213,7 @@
 }
 
 - (OBAArrivalDepartureState)arrivalDepartureState {
-    if (self.stopSequence == 0) {
+    if (self.stopSequence != 0) {
         return OBAArrivalDepartureStateArriving;
     }
     else {
