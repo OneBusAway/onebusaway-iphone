@@ -190,6 +190,11 @@ static NSInteger kStopsSectionTag = 101;
         [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription ?: NSLocalizedString(@"msg_error_min_connecting_dot", @"requestDidFail")];
         DDLogError(@"An error occurred while displaying a stop: %@", error);
         return error;
+    }).always(^{
+        if (animated) {
+            [self.refreshControl endRefreshing];
+        }
+        [self.reloadLock unlock];
     }).then(^{
         return [OBAWalkingDirections requestWalkingETA:self.arrivalsAndDepartures.stop.coordinate];
     }).then(^(MKETAResponse *ETA) {
@@ -198,11 +203,6 @@ static NSInteger kStopsSectionTag = 101;
     }).catch(^(NSError *error) {
         DDLogError(@"Unable to calculate walk time to stop: %@", error);
         self.stopHeaderView.walkingETA = nil;
-    }).always(^{
-        if (animated) {
-            [self.refreshControl endRefreshing];
-        }
-        [self.reloadLock unlock];
     });
 }
 
