@@ -716,3 +716,6 @@
 
 /* No comment provided by engineer. */
 "msg_until" = "hasta";
+
+/* Title for the tutorial balloon that shows the user where to find the share and bookmark context menu items */
+"stop_view_controller.context_menu_tutorial_title" = "TODO - needs to be filled in for Spanish";
