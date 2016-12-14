@@ -24,6 +24,8 @@
 #import "OBABookmarkRouteDisambiguationViewController.h"
 #import "Apptentive.h"
 #import "OBAWalkableRow.h"
+#import "AFMSlidingCell.h"
+#import "BTBalloon.h"
 
 static NSTimeInterval const kRefreshTimeInterval = 30.0;
 static CGFloat const kTableHeaderHeight = 150.f;
@@ -203,7 +205,36 @@ static NSInteger kStopsSectionTag = 101;
     }).catch(^(NSError *error) {
         DDLogError(@"Unable to calculate walk time to stop: %@", error);
         self.stopHeaderView.walkingETA = nil;
+    }).always(^{
+        [self tryShowingTutorial];
     });
+}
+
+- (void)tryShowingTutorial {
+    NSString *stopViewTutorialViewedDefaultsKey = @"StopView265TutorialViewed";
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:stopViewTutorialViewedDefaultsKey]) {
+        for (id cell in self.tableView.visibleCells) {
+            if ([cell respondsToSelector:@selector(showButtonViewAnimated:)]) {
+                if ([self.reloadLock tryLock]) {
+                    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:stopViewTutorialViewedDefaultsKey];
+                    [self showTutorialForSlidingCell:cell];
+                    break;
+                }
+            }
+        }
+    }
+}
+
+- (void)showTutorialForSlidingCell:(AFMSlidingCell*)cell {
+    [cell showButtonViewAnimated:YES];
+    [[BTBalloon sharedInstance] showWithTitle:NSLocalizedString(@"stop_view_controller.context_menu_tutorial_title", @"Title for the tutorial balloon that shows the user where to find the share and bookmark context menu items")
+                                        image:nil
+                                 anchorToView:cell
+                                  buttonTitle:OBAStrings.ok
+                               buttonCallback:^{
+                                   [[BTBalloon sharedInstance] hideWithAnimation:YES];
+                                   [self.reloadLock unlock];
+                               } afterDelay:1];
 }
 
 - (void)populateTableFromArrivalsAndDeparturesModel:(OBAArrivalsAndDeparturesForStopV2 *)result {

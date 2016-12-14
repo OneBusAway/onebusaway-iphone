@@ -710,3 +710,6 @@
 
 /* No comment provided by engineer. */
 "msg_until" = "until";
+
+/* Title for the tutorial balloon that shows the user where to find the share and bookmark context menu items */
+"stop_view_controller.context_menu_tutorial_title" = "Swipe on a cell to add a route to your Bookmarks or share your trip with a friend.";
