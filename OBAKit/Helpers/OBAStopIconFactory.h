@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (UIImage*)getIconForStop:(OBAStopV2 *)stop;
 + (UIImage *)getIconForStop:(OBAStopV2 *)stop withSize:(CGSize)size;
++ (UIImage*)imageForRouteType:(OBARouteType)routeType;
 
 @end
 

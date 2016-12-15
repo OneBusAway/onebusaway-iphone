@@ -713,3 +713,9 @@
 
 /* Title for the tutorial balloon that shows the user where to find the share and bookmark context menu items */
 "stop_view_controller.context_menu_tutorial_title" = "Swipe on a cell to add a route to your Bookmarks or share your trip with a friend.";
+
+/* Back button title representing going back to the stop controller. */
+"stop_view_controller.stop_back_title" = "Stop";
+
+/* The vehicle is currently closest to <STOP NAME> */
+"arrival_departure_cell.closest_stop" = "The vehicle is currently closest to %@";

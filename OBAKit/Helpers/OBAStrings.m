@@ -43,4 +43,30 @@
     return OBALocalized(@"msg_scheduled_explanatory", @"The explanatory text displayed when a non-realtime trip is displayed on-screen.");
 }
 
++ (nullable NSAttributedString*)attributedStringWithPrependedImage:(UIImage*)image string:(NSString*)string {
+    return [self attributedStringWithPrependedImage:image string:string color:nil];
+}
+
++ (NSAttributedString*)attributedStringWithPrependedImage:(UIImage*)image string:(NSString*)string color:(nullable UIColor*)color {
+    OBAGuard(image && string) else {
+        return nil;
+    }
+
+    color = color ?: [UIColor whiteColor];
+
+    NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
+    attachment.bounds = CGRectMake(0, 0, 12, 16);
+    attachment.image = image;
+
+    NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:attachment];
+    NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+    [mutableAttributedString appendAttributedString:attachmentString];
+    [mutableAttributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:0] range:NSMakeRange(0, mutableAttributedString.length)]; // Put font size 0 to prevent offset
+    [mutableAttributedString addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(0, mutableAttributedString.length)];
+    [mutableAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+
+    [mutableAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:string]];
+    return mutableAttributedString;
+}
+
 @end

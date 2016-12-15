@@ -28,7 +28,12 @@
 @property(nonatomic,assign) long long scheduledDepartureTime;
 @property(nonatomic,assign) long long predictedDepartureTime;
 @property(nonatomic,assign,readonly) long long bestDepartureTime;
+
+/**
+ time, in ms since the unix epoch, of midnight for start of the service date for the trip
+ */
 @property(nonatomic,assign) long long serviceDate;
+
 @property(nonatomic,assign) BOOL predicted;
 @end
 

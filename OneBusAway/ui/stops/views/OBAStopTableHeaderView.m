@@ -143,7 +143,7 @@
                                  [OBADateHelpers formatShortTimeNoDate:_walkingETA.expectedArrivalDate]];
 
     UIImage *walkImage = [[UIImage imageNamed:@"walkTransport"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    self.directionsLabel.attributedText = [self attributedStringWithValue:walkText image:walkImage];
+    self.directionsLabel.attributedText = [OBAStrings attributedStringWithPrependedImage:walkImage string:walkText];
 
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showWalkingDirections:)];
     [self.directionsLabel addGestureRecognizer:tapRecognizer];
@@ -151,23 +151,6 @@
     [OBAAnimation performAnimations:^{
         [self setNeedsUpdateConstraints];
     }];
-}
-
-- (NSAttributedString *)attributedStringWithValue:(NSString *)string image:(UIImage *)image {
-    NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
-    attachment.bounds = CGRectMake(0, 0, 12, 16);
-    attachment.image = image;
-
-    NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:attachment];
-    NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-    [mutableAttributedString appendAttributedString:attachmentString];
-    [mutableAttributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:0] range:NSMakeRange(0, mutableAttributedString.length)]; // Put font size 0 to prevent offset
-    [mutableAttributedString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, mutableAttributedString.length)];
-    [mutableAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-
-    NSAttributedString *ratingText = [[NSAttributedString alloc] initWithString:string];
-    [mutableAttributedString appendAttributedString:ratingText];
-    return mutableAttributedString;
 }
 
 - (void)showWalkingDirections:(UITapGestureRecognizer*)tap {

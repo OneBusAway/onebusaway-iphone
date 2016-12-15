@@ -17,10 +17,14 @@
 		930AFE8E1DD04D3D0092AE82 /* NearbyStopsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE8D1DD04D3D0092AE82 /* NearbyStopsViewController.swift */; };
 		930AFE961DD11ECB0092AE82 /* OBAWalkableRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE951DD11ECB0092AE82 /* OBAWalkableRow.m */; };
 		930AFE991DD11EF90092AE82 /* OBAWalkableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE981DD11EF90092AE82 /* OBAWalkableCell.m */; };
+		931A6A291E03EAA100131242 /* OBATimelineBarRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A281E03EAA100131242 /* OBATimelineBarRow.m */; };
+		931A6A2D1E03EAAE00131242 /* OBATimelineBarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A2C1E03EAAE00131242 /* OBATimelineBarCell.m */; };
 		931CED8B1E01E1B600BB0723 /* BTBalloon.m in Sources */ = {isa = PBXBuildFile; fileRef = 931CED881E01E1B600BB0723 /* BTBalloon.m */; };
 		931CED8C1E01E1B600BB0723 /* BTBalloonArrow.m in Sources */ = {isa = PBXBuildFile; fileRef = 931CED8A1E01E1B600BB0723 /* BTBalloonArrow.m */; };
 		931E3A0D1DD566810064D680 /* AFMSlidingButtonContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 931E3A0A1DD566810064D680 /* AFMSlidingButtonContainer.m */; };
 		931E3A0E1DD566810064D680 /* AFMSlidingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 931E3A0C1DD566810064D680 /* AFMSlidingCell.m */; };
+		9327DEF91E023BD400502F06 /* OBAArrivalDepartureRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9327DEF81E023BD400502F06 /* OBAArrivalDepartureRow.m */; };
+		9327DEFC1E023BE400502F06 /* OBAArrivalDepartureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9327DEFB1E023BE400502F06 /* OBAArrivalDepartureCell.m */; };
 		932CCEC31DC3D2DB001C8405 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEBC1DC3D2DB001C8405 /* CocoaLumberjack.framework */; };
 		932CCEC41DC3D2DB001C8405 /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEBD1DC3D2DB001C8405 /* CocoaLumberjackSwift.framework */; };
 		932CCEC51DC3D2DB001C8405 /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEBE1DC3D2DB001C8405 /* PMKCoreLocation.framework */; };
@@ -257,6 +261,10 @@
 		930AFE951DD11ECB0092AE82 /* OBAWalkableRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAWalkableRow.m; sourceTree = "<group>"; };
 		930AFE971DD11EF90092AE82 /* OBAWalkableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAWalkableCell.h; sourceTree = "<group>"; };
 		930AFE981DD11EF90092AE82 /* OBAWalkableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAWalkableCell.m; sourceTree = "<group>"; };
+		931A6A271E03EAA100131242 /* OBATimelineBarRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATimelineBarRow.h; sourceTree = "<group>"; };
+		931A6A281E03EAA100131242 /* OBATimelineBarRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATimelineBarRow.m; sourceTree = "<group>"; };
+		931A6A2B1E03EAAE00131242 /* OBATimelineBarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATimelineBarCell.h; sourceTree = "<group>"; };
+		931A6A2C1E03EAAE00131242 /* OBATimelineBarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATimelineBarCell.m; sourceTree = "<group>"; };
 		931CED871E01E1B600BB0723 /* BTBalloon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTBalloon.h; sourceTree = "<group>"; };
 		931CED881E01E1B600BB0723 /* BTBalloon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTBalloon.m; sourceTree = "<group>"; };
 		931CED891E01E1B600BB0723 /* BTBalloonArrow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTBalloonArrow.h; sourceTree = "<group>"; };
@@ -265,6 +273,10 @@
 		931E3A0A1DD566810064D680 /* AFMSlidingButtonContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFMSlidingButtonContainer.m; sourceTree = "<group>"; };
 		931E3A0B1DD566810064D680 /* AFMSlidingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFMSlidingCell.h; sourceTree = "<group>"; };
 		931E3A0C1DD566810064D680 /* AFMSlidingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFMSlidingCell.m; sourceTree = "<group>"; };
+		9327DEF71E023BD400502F06 /* OBAArrivalDepartureRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalDepartureRow.h; sourceTree = "<group>"; };
+		9327DEF81E023BD400502F06 /* OBAArrivalDepartureRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalDepartureRow.m; sourceTree = "<group>"; };
+		9327DEFA1E023BE400502F06 /* OBAArrivalDepartureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalDepartureCell.h; sourceTree = "<group>"; };
+		9327DEFB1E023BE400502F06 /* OBAArrivalDepartureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalDepartureCell.m; sourceTree = "<group>"; };
 		932CCEBC1DC3D2DB001C8405 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
 		932CCEBD1DC3D2DB001C8405 /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = Carthage/Build/iOS/CocoaLumberjackSwift.framework; sourceTree = "<group>"; };
 		932CCEBE1DC3D2DB001C8405 /* PMKCoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKCoreLocation.framework; path = Carthage/Build/iOS/PMKCoreLocation.framework; sourceTree = "<group>"; };
@@ -682,6 +694,21 @@
 			path = AFMSlidingCell;
 			sourceTree = "<group>";
 		};
+		9327DEF51E023BB900502F06 /* table_cells */ = {
+			isa = PBXGroup;
+			children = (
+				9327DEF71E023BD400502F06 /* OBAArrivalDepartureRow.h */,
+				9327DEF81E023BD400502F06 /* OBAArrivalDepartureRow.m */,
+				9327DEFA1E023BE400502F06 /* OBAArrivalDepartureCell.h */,
+				9327DEFB1E023BE400502F06 /* OBAArrivalDepartureCell.m */,
+				931A6A271E03EAA100131242 /* OBATimelineBarRow.h */,
+				931A6A281E03EAA100131242 /* OBATimelineBarRow.m */,
+				931A6A2B1E03EAAE00131242 /* OBATimelineBarCell.h */,
+				931A6A2C1E03EAAE00131242 /* OBATimelineBarCell.m */,
+			);
+			path = table_cells;
+			sourceTree = "<group>";
+		};
 		934196D51DB0C124004BBBB7 /* categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -969,6 +996,7 @@
 		9341976C1DB0C140004BBBB7 /* trip_details */ = {
 			isa = PBXGroup;
 			children = (
+				9327DEF51E023BB900502F06 /* table_cells */,
 				9341976D1DB0C140004BBBB7 /* OBAArrivalAndDepartureSectionBuilder.h */,
 				9341976E1DB0C140004BBBB7 /* OBAArrivalAndDepartureSectionBuilder.m */,
 				9341976F1DB0C140004BBBB7 /* OBAArrivalAndDepartureViewController.h */,
@@ -1579,6 +1607,7 @@
 				9341978E1DB0C140004BBBB7 /* OBASearchController.m in Sources */,
 				934197EE1DB0C14C004BBBB7 /* SMFloatingLabelTextField.m in Sources */,
 				9341981B1DB0C1BA004BBBB7 /* OBAProgressIndicatorView.m in Sources */,
+				9327DEFC1E023BE400502F06 /* OBAArrivalDepartureCell.m in Sources */,
 				9385EC3B1DCF14C60020CCB2 /* OBASettingsViewController.m in Sources */,
 				934197EA1DB0C14C004BBBB7 /* PulleyPassthroughScrollView.swift in Sources */,
 				934197B81DB0C140004BBBB7 /* OBAArrivalAndDepartureViewController.m in Sources */,
@@ -1608,6 +1637,7 @@
 				9341977E1DB0C140004BBBB7 /* OBAAlerts.m in Sources */,
 				934197BA1DB0C140004BBBB7 /* OBATripDetailsViewController.m in Sources */,
 				930AFE871DD04D2F0092AE82 /* OBAClassicDepartureCell.m in Sources */,
+				931A6A2D1E03EAAE00131242 /* OBATimelineBarCell.m in Sources */,
 				934197801DB0C140004BBBB7 /* OBABookmarkRouteDisambiguationViewController.m in Sources */,
 				9341978B1DB0C140004BBBB7 /* OBARecentStopsViewController.m in Sources */,
 				930AFE891DD04D2F0092AE82 /* OBAClassicDepartureView.m in Sources */,
@@ -1629,6 +1659,7 @@
 				934198181DB0C1BA004BBBB7 /* OBALabelActivityIndicatorView.m in Sources */,
 				930AFE961DD11ECB0092AE82 /* OBAWalkableRow.m in Sources */,
 				934197961DB0C140004BBBB7 /* OBAStaticTableViewController+Builders.m in Sources */,
+				9327DEF91E023BD400502F06 /* OBAArrivalDepartureRow.m in Sources */,
 				9341979B1DB0C140004BBBB7 /* OBATextFieldCell.m in Sources */,
 				9341979A1DB0C140004BBBB7 /* OBATableViewCellValue1.m in Sources */,
 				931E3A0E1DD566810064D680 /* AFMSlidingCell.m in Sources */,
@@ -1651,6 +1682,7 @@
 				934197B61DB0C140004BBBB7 /* OBADrawerUI.m in Sources */,
 				934197901DB0C140004BBBB7 /* OBASearchResultsMapViewController.m in Sources */,
 				934197A51DB0C140004BBBB7 /* OBATextFieldRow.m in Sources */,
+				931A6A291E03EAA100131242 /* OBATimelineBarRow.m in Sources */,
 				934197EB1DB0C14C004BBBB7 /* PulleyViewController.swift in Sources */,
 				934198151DB0C1BA004BBBB7 /* OBAScopeView.m in Sources */,
 				934196E21DB0C124004BBBB7 /* MKMapView+oba_Additions.m in Sources */,

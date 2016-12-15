@@ -73,6 +73,8 @@ static NSInteger kStopsSectionTag = 101;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.navigationItem.title = NSLocalizedString(@"stop_view_controller.stop_back_title", @"Back button title representing going back to the stop controller.");
+
     [self createTableHeaderView];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData:)];
@@ -102,6 +104,8 @@ static NSInteger kStopsSectionTag = 101;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+
+    [[BTBalloon sharedInstance] hideWithAnimation:NO];
 
     // Nil these out to ensure that they are recreated once the
     // view comes back into focus, which is important if the user

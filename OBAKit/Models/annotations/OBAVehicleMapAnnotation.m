@@ -47,7 +47,7 @@
         return _tripStatus.lastKnownLocation.coordinate;
     }
     else {
-        return _tripStatus.location.coordinate;
+        return _tripStatus.position.coordinate;
     }
 }
 

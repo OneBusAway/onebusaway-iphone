@@ -10,6 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/*
+ IMPORTANT NOTE FOR SUBCLASSERS:
+ 
+ If you decide to subclass OBATableRow, be sure to override the
+ implementation of -cellReuseIdentifier. Otherwise, the cell you
+ expect to see appear will not!
+ */
+
 @interface OBATableRow : OBABaseRow
 @property(nonatomic,copy,nullable) UIColor *titleColor;
 @property(nonatomic,copy,nullable) NSString *title;
