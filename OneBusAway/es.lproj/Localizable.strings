@@ -708,14 +708,8 @@
 /* minutes >= 0 */
 "msg_on_time" = "a tiempo";
 
-/* minutes >= 0 */
-"msg_scheduled_arrival_asterisk" = "llegada planificada*";
-
-/* minutes < 0 */
-"msg_scheduled_departure_asterisk" = "salida planificada*";
-
 /* No comment provided by engineer. */
 "msg_until" = "hasta";
 
 /* Title for the tutorial balloon that shows the user where to find the share and bookmark context menu items */
-"stop_view_controller.context_menu_tutorial_title" = "TODO - needs to be filled in for Spanish";
+"stop_view_controller.context_menu_tutorial_title" = "Desliza el dedo en una celda para agregar una ruta a tus Favoritos o compartir tu viaje con un amigo.";
