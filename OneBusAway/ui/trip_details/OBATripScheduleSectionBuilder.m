@@ -11,9 +11,16 @@
 #import "OBATableRow.h"
 #import "OBAStopViewController.h"
 #import "OBATripDetailsViewController.h"
+#import "OBAArrivalDepartureRow.h"
+#import "OBATimelineBarRow.h"
 
 @implementation OBATripScheduleSectionBuilder
 
+// TODO: This and the next method are very nearly duplicates. I am including this for the
+// moment because I want to keep making forward progress without getting bogged down in
+// the (I hope) soon-to-be-unnecessary view controllers that still use this method.
+// The ideal solution, to my mind, would be to delete this method and the view controllers
+// that depend on it.
 + (OBATableSection*)buildStopsSection:(OBATripDetailsV2*)tripDetails tripInstance:(OBATripInstanceRef*)tripInstance currentStopIndex:(NSUInteger)currentStopIndex navigationController:(UINavigationController*)navigationController {
     OBATripScheduleV2 *schedule = tripDetails.schedule;
     OBATableSection *stopsSection = [[OBATableSection alloc] initWithTitle:nil];
@@ -29,18 +36,51 @@
         OBATripStopTimeV2 *stopTime = schedule.stopTimes[i];
         OBAStopV2 *stop = stopTime.stop;
 
-        OBATableRow *row = [[OBATableRow alloc] initWithTitle:stop.name action:^{
+        OBAArrivalDepartureRow *row = [[OBAArrivalDepartureRow alloc] initWithTitle:stop.name action:^{
             OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stopTime.stopId];
             [navigationController pushViewController:vc animated:YES];
         }];
 
-        if (currentStopIndex > i) {
-            row.titleColor = [OBATheme lightDisabledColor];
-        }
-
+        row.routeType = stop.firstAvailableRouteTypeForStop;
         row.subtitle = [self formattedStopTime:stopTime tripDetails:tripDetails];
         row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        row.style = UITableViewCellStyleValue1;
+
+        [stopsSection addRow:row];
+    }
+
+    if (continuingRow) {
+        [stopsSection addRow:continuingRow];
+    }
+    
+    return stopsSection;
+}
+
++ (OBATableSection*)buildStopsSection:(OBATripDetailsV2*)tripDetails arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture currentStopIndex:(NSUInteger)currentStopIndex navigationController:(UINavigationController*)navigationController {
+    OBATripInstanceRef *tripInstance = arrivalAndDeparture.tripInstance;
+    OBATripScheduleV2 *schedule = tripDetails.schedule;
+    OBATableSection *stopsSection = [[OBATableSection alloc] initWithTitle:nil];
+
+    OBATableRow *previousRow = [self buildPreviousConnectionRowWithTripDetails:tripDetails tripInstance:tripInstance navigationController:navigationController];
+    OBATableRow *continuingRow = [self buildNextConnectionRowWithTripDetails:tripDetails tripInstance:tripInstance navigationController:navigationController];
+
+    if (previousRow) {
+        [stopsSection addRow:previousRow];
+    }
+
+    for (NSUInteger i=0; i<schedule.stopTimes.count; i++) {
+        OBATripStopTimeV2 *stopTime = schedule.stopTimes[i];
+        OBAStopV2 *stop = stopTime.stop;
+
+        OBAArrivalDepartureRow *row = [[OBAArrivalDepartureRow alloc] initWithTitle:stop.name action:^{
+            OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stopTime.stopId];
+            [navigationController pushViewController:vc animated:YES];
+        }];
+
+        row.selectedStopForRider = [stop.stopId isEqual:arrivalAndDeparture.stopId];
+        row.closestStopToVehicle = [stop.stopId isEqual:arrivalAndDeparture.tripStatus.closestStopID];
+        row.routeType = stop.firstAvailableRouteTypeForStop;
+        row.subtitle = [self formattedStopTime:stopTime tripDetails:tripDetails];
+        row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
         [stopsSection addRow:row];
     }
@@ -71,7 +111,7 @@
     }
 
     NSString *labelText = [NSString stringWithFormat:NSLocalizedString(@"text_starts_as_param", @""), [tripDetails.schedule.previousTrip asLabel]];
-    OBATableRow *row = [[OBATableRow alloc] initWithTitle:labelText action:^{
+    OBATimelineBarRow *row = [[OBATimelineBarRow alloc] initWithTitle:labelText action:^{
         OBATripInstanceRef *prevTripInstance = [tripInstance copyWithNewTripId:tripDetails.schedule.previousTripId];
         OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:prevTripInstance];
         [navigationController pushViewController:vc animated:YES];
@@ -87,7 +127,7 @@
     }
 
     NSString *labelText = [NSString stringWithFormat:NSLocalizedString(@"text_continues_as_param", @""), [tripDetails.schedule.nextTrip asLabel]];
-    OBATableRow *row = [[OBATableRow alloc] initWithTitle:labelText action:^{
+    OBATimelineBarRow *row = [[OBATimelineBarRow alloc] initWithTitle:labelText action:^{
         OBATripInstanceRef *nextTripInstance = [tripInstance copyWithNewTripId:tripDetails.schedule.nextTripId];
         OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:nextTripInstance];
         [navigationController pushViewController:vc animated:YES];

@@ -18,21 +18,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBATripInstanceRef : NSObject {
-    NSString * _tripId;
-    long long _serviceDate;
-    NSString * _vehicleId;
-}
+@interface OBATripInstanceRef : NSObject
+@property(nonatomic,copy) NSString *tripId;
+@property(nonatomic,assign) long long serviceDate;
+@property(nonatomic,copy) NSString *vehicleId;
 
-- (id) initWithTripId:(NSString*)tripId serviceDate:(long long)serviceDate vehicleId:(NSString*)vehicleId;
+- (instancetype)initWithTripId:(NSString*)tripId serviceDate:(long long)serviceDate vehicleId:(NSString*)vehicleId;
 
-+ (OBATripInstanceRef*) tripInstance:(NSString*)tripId serviceDate:(long long)serviceDate vehicleId:(NSString*)vehicleId;
-
-@property (nonatomic,readonly) NSString * tripId;
-@property (nonatomic,readonly) long long serviceDate;
-@property (nonatomic,readonly) NSString * vehicleId;
-
-- (OBATripInstanceRef*) copyWithNewTripId:(NSString*)newTripId;
++ (OBATripInstanceRef*)tripInstance:(NSString*)tripId serviceDate:(long long)serviceDate vehicleId:(NSString*)vehicleId;
+- (OBATripInstanceRef*)copyWithNewTripId:(NSString*)newTripId;
 
 @end
 

@@ -34,21 +34,39 @@ typedef NS_ENUM(NSUInteger, OBAArrivalDepartureState) {
 
 @interface OBAArrivalAndDepartureV2 : OBAHasReferencesV2<OBAHasServiceAlerts>
 
+/**
+ the route id for the arriving vehicle
+ */
 @property(nonatomic,copy) NSString *routeId;
+
 @property(nonatomic,weak,readonly) OBARouteV2 * route;
 @property(nonatomic,copy) NSString *routeShortName;
 
+/**
+  the trip id for the arriving vehicle
+ */
 @property(nonatomic,copy) NSString * tripId;
+
 @property(nonatomic,weak,readonly) OBATripV2 * trip;
 @property(nonatomic,copy,nullable) NSString * tripHeadsign;
 
 @property(nonatomic,weak,readonly) OBAArrivalAndDepartureInstanceRef * instance;
 @property(nonatomic,weak,readonly) OBATripInstanceRef * tripInstance;
 
+/**
+ the stop id of the stop the vehicle is arriving at
+ */
 @property(nonatomic,copy) NSString * stopId;
 @property(nonatomic,weak,readonly) OBAStopV2 * stop;
+
+/**
+ the index of the stop into the sequence of stops that make up the trip for this arrival
+ */
 @property(nonatomic,assign) NSInteger stopSequence;
 
+/**
+ Gives trip-specific status for the arriving transit vehicle
+ */
 @property(nonatomic,strong) OBATripStatusV2 * tripStatus;
 
 @property(nonatomic,strong) OBAFrequencyV2 * frequency;

@@ -520,11 +520,12 @@ static NSString * const kReferences = @"references";
     [self addFrequencyV2RulesWithPrefix:frequencyPrefix];
     [self addSetNext:@selector(setFrequency:) forPrefix:frequencyPrefix];
     
-    [self addSetLocationPropertyRule:@"location" withPrefix:[self extendPrefix:prefix withValue:@"position"]];
+    [self addSetLocationPropertyRule:@"position" withPrefix:[self extendPrefix:prefix withValue:@"position"]];
     [self addSetPropertyRule:@"predicted" forPrefix:[self extendPrefix:prefix withValue:@"predicted"]];
     [self addSetPropertyRule:@"scheduleDeviation" forPrefix:[self extendPrefix:prefix withValue:@"scheduleDeviation"]];
     [self addSetPropertyRule:@"vehicleId" forPrefix:[self extendPrefix:prefix withValue:@"vehicleId"]];
-    
+    [self addSetPropertyRule:@"closestStopID" forPrefix:[self extendPrefix:prefix withValue:@"closestStop"]];
+
     [self addSetPropertyRule:@"lastUpdateTime" forPrefix:[self extendPrefix:prefix withValue:@"lastUpdateTime"]];
     [self addSetLocationPropertyRule:@"lastKnownLocation" withPrefix:[self extendPrefix:prefix withValue:@"lastKnownLocation"]];
     [self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];

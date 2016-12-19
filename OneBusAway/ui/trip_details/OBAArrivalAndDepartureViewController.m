@@ -15,6 +15,7 @@
 #import "OBAClassicDepartureView.h"
 #import "OBATripScheduleSectionBuilder.h"
 #import "OBAArrivalAndDepartureSectionBuilder.h"
+#import "OBAArrivalDepartureRow.h"
 
 static NSTimeInterval const kRefreshTimeInterval = 30;
 
@@ -63,6 +64,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_show_map", @"") style:UIBarButtonItemStylePlain target:self action:@selector(showMap:)];
 
@@ -190,7 +193,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     }
 
     // Stops Section
-    OBATableSection *stopsSection = [OBATripScheduleSectionBuilder buildStopsSection:tripDetails tripInstance:arrivalAndDeparture.tripInstance currentStopIndex:currentStopIndex navigationController:self.navigationController];
+    OBATableSection *stopsSection = [OBATripScheduleSectionBuilder buildStopsSection:tripDetails arrivalAndDeparture:arrivalAndDeparture currentStopIndex:currentStopIndex navigationController:self.navigationController];
     stopsSection.headerView = [self buildTableHeaderViewWithArrivalAndDeparture:arrivalAndDeparture];
     [sections addObject:stopsSection];
 

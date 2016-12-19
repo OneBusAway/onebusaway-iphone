@@ -191,6 +191,10 @@ static UIFont *_boldFootnoteFont = nil;
     }
 }
 
++ (UIColor*)tableViewSeparatorLineColor {
+    return [OBATheme colorWithRed:200 green:199 blue:204 alpha:1.f];
+}
+
 #pragma mark - Pixels, err points
 
 + (CGFloat)compactPadding {

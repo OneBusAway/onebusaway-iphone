@@ -110,7 +110,7 @@ static NSCache *iconCache = nil;
 
     // First, let's compose the cache key out of the name and orientation, then
     // see if we've already got one that matches.
-    NSString *routeIconType = [self getGlyphNameForRouteType:stop.firstAvailableRouteTypeForStop];
+    NSString *routeIconType = [self imageNameForRouteType:stop.firstAvailableRouteTypeForStop];
     NSString *cachedImageKey = [NSString stringWithFormat:@"%@:%@(%fx%f)",
                                 routeIconType,
                                 stop.direction ?: @"",
@@ -218,7 +218,7 @@ static NSCache *iconCache = nil;
     // Add glyph for the specific route type
     UIImageView *glyphView = [[UIImageView alloc] initWithFrame:glyphRect];
     glyphView.contentMode = UIViewContentModeScaleAspectFit;
-    NSString *transportGlyphName = [NSString stringWithFormat:@"%@Transport", [self getGlyphNameForRouteType:stop.firstAvailableRouteTypeForStop]];
+    NSString *transportGlyphName = [NSString stringWithFormat:@"%@Transport", [self imageNameForRouteType:stop.firstAvailableRouteTypeForStop]];
     glyphView.image = [UIImage imageNamed:transportGlyphName];
     [view addSubview:glyphView];
 
@@ -265,7 +265,12 @@ static NSCache *iconCache = nil;
     return view;
 }
 
-+ (NSString *)getGlyphNameForRouteType:(OBARouteType)routeType {
++ (UIImage*)imageForRouteType:(OBARouteType)routeType {
+    NSString *imageName = [NSString stringWithFormat:@"%@Transport", [self imageNameForRouteType:routeType]];
+    return [UIImage imageNamed:imageName];
+}
+
++ (NSString *)imageNameForRouteType:(OBARouteType)routeType {
     // These names, added to "Transport" must match resource names, e.g. "busTransport"
     switch (routeType) {
         case OBARouteTypeMetro:

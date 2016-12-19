@@ -165,6 +165,11 @@
 + (UIColor*)tableViewSectionHeaderBackgroundColor;
 
 /**
+ The color of the line that separates one table view cell from another.
+ */
++ (UIColor*)tableViewSeparatorLineColor;
+
+/**
  The color used on a label's textColor property when the label sits on a dark blurred background.
  */
 + (UIColor*)darkBlurLabelTextColor;

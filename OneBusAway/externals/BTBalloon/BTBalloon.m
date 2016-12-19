@@ -279,15 +279,15 @@ static CGFloat const margin = 10.0f;
 {
     switch (interfaceOrientation) {
         case UIInterfaceOrientationLandscapeRight:
-            self.transform = CGAffineTransformRotate(CGAffineTransformIdentity, M_PI_2);
+            self.transform = CGAffineTransformRotate(CGAffineTransformIdentity, (CGFloat)M_PI_2);
             break;
             
         case UIInterfaceOrientationLandscapeLeft:
-            self.transform =  CGAffineTransformRotate(CGAffineTransformIdentity, -M_PI_2);
+            self.transform =  CGAffineTransformRotate(CGAffineTransformIdentity, (CGFloat)-M_PI_2);
             break;
             
         case UIInterfaceOrientationPortraitUpsideDown:
-            self.transform =  CGAffineTransformRotate(CGAffineTransformIdentity, M_PI);
+            self.transform =  CGAffineTransformRotate(CGAffineTransformIdentity, (CGFloat)M_PI);
             break;
             
         case UIInterfaceOrientationPortrait:
@@ -467,6 +467,8 @@ static CGFloat const margin = 10.0f;
 - (void)hideWithAnimation:(BOOL)animated
 {
 //    NSLog(@"Hiding balloon");
+
+    [self.class cancelPreviousPerformRequestsWithTarget:self];
     
     CGFloat duration = animated ? 0.3f : 0;
     [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
