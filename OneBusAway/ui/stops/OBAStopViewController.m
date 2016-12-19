@@ -281,11 +281,11 @@ static NSInteger kStopsSectionTag = 101;
     // "Load More Departures..."
     OBATableSection *loadMoreSection = [self createLoadMoreDeparturesSection];
     if (result.lacksRealTimeData) {
-        loadMoreSection.footerView = ({
-            OBALabelFooterView *label = [[OBALabelFooterView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 20)];
-            label.text = [OBAStrings scheduledDepartureExplanation];
-            label;
-        });
+        OBATableRow *scheduledExplanationRow = [[OBATableRow alloc] initWithTitle:[OBAStrings scheduledDepartureExplanation] action:nil];
+        scheduledExplanationRow.textAlignment = NSTextAlignmentCenter;
+        scheduledExplanationRow.titleFont = [OBATheme italicFootnoteFont];
+        scheduledExplanationRow.selectionStyle = UITableViewCellSelectionStyleNone;
+        [loadMoreSection addRow:scheduledExplanationRow];
     }
     [sections addObject:loadMoreSection];
 

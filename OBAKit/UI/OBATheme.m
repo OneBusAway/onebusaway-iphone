@@ -16,6 +16,7 @@ static UIFont *_titleFont = nil;
 static UIFont *_subtitleFont = nil;
 static UIFont *_footnoteFont = nil;
 static UIFont *_boldFootnoteFont = nil;
+static UIFont *_italicFootnoteFont = nil;
 
 @implementation OBATheme
 
@@ -28,6 +29,7 @@ static UIFont *_boldFootnoteFont = nil;
     _subtitleFont = nil;
     _footnoteFont = nil;
     _boldFootnoteFont = nil;
+    _italicFootnoteFont = nil;
 }
 
 #pragma mark - Appearance Proxies
@@ -91,6 +93,13 @@ static UIFont *_boldFootnoteFont = nil;
     return _boldFootnoteFont;
 }
 
++ (UIFont*)italicFootnoteFont {
+    if (!_italicFootnoteFont) {
+        _italicFootnoteFont = [self italicFontWithTextStyle:UIFontTextStyleFootnote];
+    }
+    return _italicFootnoteFont;
+}
+
 #pragma mark - Private Font Helpers
 
 + (UIFont*)fontWithTextStyle:(NSString*)textStyle {
@@ -99,9 +108,17 @@ static UIFont *_boldFootnoteFont = nil;
 }
 
 + (UIFont*)boldFontWithTextStyle:(NSString*)textStyle {
+    return [self fontWithTextStyle:textStyle symbolicTraits:UIFontDescriptorTraitBold];
+}
+
++ (UIFont*)italicFontWithTextStyle:(NSString*)textStyle {
+    return [self fontWithTextStyle:textStyle symbolicTraits:UIFontDescriptorTraitItalic];
+}
+
++ (UIFont*)fontWithTextStyle:(NSString*)textStyle symbolicTraits:(UIFontDescriptorSymbolicTraits)symbolicTraits {
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:textStyle];
-    UIFontDescriptor *boldDescriptor = [descriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
-    return [UIFont fontWithDescriptor:boldDescriptor size:MIN(boldDescriptor.pointSize, kMaxFontSize)];
+    UIFontDescriptor *augmentedDescriptor = [descriptor fontDescriptorWithSymbolicTraits:symbolicTraits];
+    return [UIFont fontWithDescriptor:augmentedDescriptor size:MIN(augmentedDescriptor.pointSize, kMaxFontSize)];
 }
 
 #pragma mark - Colors
