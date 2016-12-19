@@ -114,13 +114,12 @@ class RegionBuilderViewController: OBAStaticTableViewController {
     }
 
     func save() {
-
         self.view.endEditing(true)
 
         self.loadDataIntoRegion()
 
         guard self.region.isValidModel() else {
-            let alert = UIAlertController.init(title: NSLocalizedString("msg_invalid_region", comment: ""), message: NSLocalizedString("msg_alert_custom_region_not_valid", comment: ""), preferredStyle: .alert)
+            let alert = UIAlertController.init(title: NSLocalizedString("msg_invalid_region", comment: ""), message: NSLocalizedString("msg_alert_custom_region_not_valid", comment: "Invalid region error message"), preferredStyle: .alert)
             alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss(), style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             return

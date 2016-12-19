@@ -535,8 +535,8 @@
 /* view.message */
 "msg_sucessfull_report_send" = "The problem was sucessfully reported. Thank you!";
 
-/* No comment provided by engineer. */
-"msg_alert_custom_region_not_valid" = "The region you have specified is not valid. Please specify at least a base URL and a name.";
+/* Invalid region error message */
+"msg_alert_custom_region_not_valid" = "The region you have specified is not valid. Please specify at least a base URL (HTTPS) and a name.";
 
 /* view.message */
 "msg_problem_internet_connection_on_map" = "There was a problem with your Internet connection.\r\n\r\nPlease check your network connection or contact us if you think the problem is on our end.";
