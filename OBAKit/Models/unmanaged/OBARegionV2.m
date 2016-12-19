@@ -103,7 +103,7 @@ static NSString * kCustom = @"custom";
 #pragma mark - Other Public Methods
 
 - (BOOL)isValidModel {
-    return self.baseURL && self.regionName.length > 0;
+    return [self.baseURL.scheme isEqual:@"https"] && self.regionName.length > 0;
 }
 
 - (NSURL*)baseURL {
