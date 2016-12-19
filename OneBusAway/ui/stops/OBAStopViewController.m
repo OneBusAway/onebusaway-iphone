@@ -406,6 +406,14 @@ static NSInteger kStopsSectionTag = 101;
             OBADepartureRow *row = section.rows[j];
             OBAArrivalAndDepartureV2 *model = row.model;
 
+            if ([row isKindOfClass:[OBAWalkableRow class]]) {
+                // If we already have a WalkableRow in this section
+                // for whatever reason, then just bail and move on
+                // to the next section.
+                // https://github.com/OneBusAway/onebusaway-iphone/issues/890
+                break;
+            }
+
             if (![row isKindOfClass:[OBADepartureRow class]]) {
                 continue;
             }
