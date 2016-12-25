@@ -1,0 +1,189 @@
+BCSymbolMap Version: 2.0
++[MarqueeLabel restartLabelsOfController:]
++[MarqueeLabel controllerViewWillAppear:]
++[MarqueeLabel controllerViewDidAppear:]
++[MarqueeLabel controllerViewAppearing:]
++[MarqueeLabel controllerLabelsShouldLabelize:]
++[MarqueeLabel controllerLabelsShouldAnimate:]
++[MarqueeLabel notifyController:withMessage:]
+-[MarqueeLabel viewControllerShouldRestart:]
+-[MarqueeLabel labelsShouldLabelize:]
+-[MarqueeLabel labelsShouldAnimate:]
+-[MarqueeLabel initWithFrame:]
+-[MarqueeLabel initWithFrame:duration:andFadeLength:]
+-[MarqueeLabel initWithFrame:rate:andFadeLength:]
+-[MarqueeLabel initWithCoder:]
+-[MarqueeLabel awakeFromNib]
+-[MarqueeLabel prepareForInterfaceBuilder]
++[MarqueeLabel layerClass]
+-[MarqueeLabel repliLayer]
+-[MarqueeLabel maskLayer]
+-[MarqueeLabel drawLayer:inContext:]
+-[MarqueeLabel forwardPropertiesToSubLabel]
+-[MarqueeLabel setupLabel]
+-[MarqueeLabel minimizeLabelFrameWithMaximumSize:adjustHeight:]
+-[MarqueeLabel didMoveToSuperview]
+-[MarqueeLabel layoutSubviews]
+-[MarqueeLabel willMoveToWindow:]
+-[MarqueeLabel didMoveToWindow]
+-[MarqueeLabel updateSublabel]
+-[MarqueeLabel updateSublabelAndBeginScroll:]
+-[MarqueeLabel subLabelSize]
+-[MarqueeLabel sizeThatFits:]
+-[MarqueeLabel labelShouldScroll]
+-[MarqueeLabel labelReadyForScroll]
+-[MarqueeLabel beginScroll]
+-[MarqueeLabel beginScrollWithDelay:]
+-[MarqueeLabel returnLabelToOriginImmediately]
+-[MarqueeLabel scrollAwayWithInterval:]
+-[MarqueeLabel scrollAwayWithInterval:delay:]
+-[MarqueeLabel scrollAwayWithInterval:delayAmount:]
+___51-[MarqueeLabel scrollAwayWithInterval:delayAmount:]_block_invoke
+___copy_helper_block_
+___destroy_helper_block_
+-[MarqueeLabel scrollContinuousWithInterval:after:]
+-[MarqueeLabel scrollContinuousWithInterval:after:labelAnimation:gradientAnimation:]
+___84-[MarqueeLabel scrollContinuousWithInterval:after:labelAnimation:gradientAnimation:]_block_invoke
+___copy_helper_block_.267
+___destroy_helper_block_.268
+-[MarqueeLabel applyGradientMaskForFadeLength:animated:]
+-[MarqueeLabel removeGradientMask]
+-[MarqueeLabel keyFrameAnimationForGradientFadeLength:interval:delay:]
+-[MarqueeLabel keyFrameAnimationForProperty:values:interval:delay:]
+-[MarqueeLabel timingFunctionForAnimationOptions:]
+-[MarqueeLabel animationDidStop:finished:]
+-[MarqueeLabel restartLabel]
+-[MarqueeLabel resetLabel]
+-[MarqueeLabel shutdownLabel]
+-[MarqueeLabel pauseLabel]
+-[MarqueeLabel unpauseLabel]
+-[MarqueeLabel labelWasTapped:]
+-[MarqueeLabel triggerScrollStart]
+-[MarqueeLabel labelWillBeginScroll]
+-[MarqueeLabel labelReturnedToHome:]
+-[MarqueeLabel setFrame:]
+-[MarqueeLabel setBounds:]
+-[MarqueeLabel viewForBaselineLayout]
+-[MarqueeLabel viewForLastBaselineLayout]
+-[MarqueeLabel viewForFirstBaselineLayout]
+-[MarqueeLabel text]
+-[MarqueeLabel setText:]
+-[MarqueeLabel attributedText]
+-[MarqueeLabel setAttributedText:]
+-[MarqueeLabel font]
+-[MarqueeLabel setFont:]
+-[MarqueeLabel textColor]
+-[MarqueeLabel setTextColor:]
+-[MarqueeLabel backgroundColor]
+-[MarqueeLabel setBackgroundColor:]
+-[MarqueeLabel shadowColor]
+-[MarqueeLabel setShadowColor:]
+-[MarqueeLabel shadowOffset]
+-[MarqueeLabel setShadowOffset:]
+-[MarqueeLabel highlightedTextColor]
+-[MarqueeLabel setHighlightedTextColor:]
+-[MarqueeLabel isHighlighted]
+-[MarqueeLabel setHighlighted:]
+-[MarqueeLabel isEnabled]
+-[MarqueeLabel setEnabled:]
+-[MarqueeLabel setNumberOfLines:]
+-[MarqueeLabel setAdjustsFontSizeToFitWidth:]
+-[MarqueeLabel setMinimumFontSize:]
+-[MarqueeLabel baselineAdjustment]
+-[MarqueeLabel setBaselineAdjustment:]
+-[MarqueeLabel tintColor]
+-[MarqueeLabel setTintColor:]
+-[MarqueeLabel tintColorDidChange]
+-[MarqueeLabel intrinsicContentSize]
+-[MarqueeLabel setAdjustsLetterSpacingToFitWidth:]
+-[MarqueeLabel setMinimumScaleFactor:]
+-[MarqueeLabel setRate:]
+-[MarqueeLabel setScrollDuration:]
+-[MarqueeLabel setAnimationCurve:]
+-[MarqueeLabel setLeadingBuffer:]
+-[MarqueeLabel setTrailingBuffer:]
+-[MarqueeLabel setContinuousMarqueeExtraBuffer:]
+-[MarqueeLabel continuousMarqueeExtraBuffer]
+-[MarqueeLabel setFadeLength:]
+-[MarqueeLabel setTapToScroll:]
+-[MarqueeLabel setMarqueeType:]
+-[MarqueeLabel setLabelize:]
+-[MarqueeLabel setHoldScrolling:]
+-[MarqueeLabel awayFromHome]
+-[MarqueeLabel gradientColors]
+-[MarqueeLabel dealloc]
+-[MarqueeLabel animationCurve]
+-[MarqueeLabel labelize]
+-[MarqueeLabel holdScrolling]
+-[MarqueeLabel tapToScroll]
+-[MarqueeLabel marqueeType]
+-[MarqueeLabel scrollDuration]
+-[MarqueeLabel rate]
+-[MarqueeLabel leadingBuffer]
+-[MarqueeLabel trailingBuffer]
+-[MarqueeLabel fadeLength]
+-[MarqueeLabel animationDelay]
+-[MarqueeLabel setAnimationDelay:]
+-[MarqueeLabel animationDuration]
+-[MarqueeLabel setAnimationDuration:]
+-[MarqueeLabel isPaused]
+-[MarqueeLabel setIsPaused:]
+-[MarqueeLabel subLabel]
+-[MarqueeLabel setSubLabel:]
+-[MarqueeLabel tapRecognizer]
+-[MarqueeLabel setTapRecognizer:]
+-[MarqueeLabel homeLabelFrame]
+-[MarqueeLabel setHomeLabelFrame:]
+-[MarqueeLabel awayOffset]
+-[MarqueeLabel setAwayOffset:]
+-[MarqueeLabel scrollCompletionBlock]
+-[MarqueeLabel setScrollCompletionBlock:]
+-[MarqueeLabel setGradientColors:]
+-[MarqueeLabel .cxx_destruct]
+-[UIView(MarqueeLabelHelpers) firstAvailableViewController]
+-[UIView(MarqueeLabelHelpers) traverseResponderChainForFirstViewController]
+-[CAMediaTimingFunction(MarqueeLabelHelpers) durationPercentageForPositionPercentage:withDuration:]
+-[CAMediaTimingFunction(MarqueeLabelHelpers) solveTForY:withEpsilon:controlPoints:]
+-[CAMediaTimingFunction(MarqueeLabelHelpers) YforCurveAt:withControlPoints:]
+-[CAMediaTimingFunction(MarqueeLabelHelpers) XforCurveAt:withControlPoints:]
+-[CAMediaTimingFunction(MarqueeLabelHelpers) derivativeYValueForCurveAt:withControlPoints:]
+-[CAMediaTimingFunction(MarqueeLabelHelpers) controlPoints]
+_OBJC_IVAR_$_MarqueeLabel._scrollDuration
+_OBJC_IVAR_$_MarqueeLabel._rate
+_OBJC_IVAR_$_MarqueeLabel._marqueeType
+_OBJC_IVAR_$_MarqueeLabel._awayOffset
+_OBJC_IVAR_$_MarqueeLabel._animationCurve
+_OBJC_IVAR_$_MarqueeLabel._labelize
+_OBJC_IVAR_$_MarqueeLabel._holdScrolling
+_OBJC_IVAR_$_MarqueeLabel._tapToScroll
+_OBJC_IVAR_$_MarqueeLabel._isPaused
+_OBJC_IVAR_$_MarqueeLabel._fadeLength
+_OBJC_IVAR_$_MarqueeLabel._animationDelay
+_OBJC_IVAR_$_MarqueeLabel._animationDuration
+_OBJC_IVAR_$_MarqueeLabel._leadingBuffer
+_OBJC_IVAR_$_MarqueeLabel._trailingBuffer
+___block_descriptor_tmp
+___block_descriptor_tmp.270
+_OBJC_IVAR_$_MarqueeLabel._gradientColors
+_OBJC_IVAR_$_MarqueeLabel._subLabel
+_OBJC_IVAR_$_MarqueeLabel._tapRecognizer
+_OBJC_IVAR_$_MarqueeLabel._homeLabelFrame
+_OBJC_IVAR_$_MarqueeLabel._scrollCompletionBlock
+l_OBJC_PROTOCOL_$_NSObject
+l_OBJC_LABEL_PROTOCOL_$_NSObject
+l_OBJC_PROTOCOL_$_CAAnimationDelegate
+l_OBJC_LABEL_PROTOCOL_$_CAAnimationDelegate
+Apple LLVM version 8.0.0 (clang-800.0.42.1)
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/MarqueeLabel/Sources/ObjC/MarqueeLabel.m
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/MarqueeLabel/MarqueeLabel
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/MarqueeLabel/Sources/ObjC/MarqueeLabel.h
+CGPointMake
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CGGeometry.h
+__destroy_helper_block_
+__copy_helper_block_
+__84-[MarqueeLabel scrollContinuousWithInterval:after:labelAnimation:gradientAnimation:]_block_invoke
+MLOffsetCGPoint
+__51-[MarqueeLabel scrollAwayWithInterval:delayAmount:]_block_invoke
+CGRectMake
+__CGSizeEqualToSize
+/Users/aaron/Library/Developer/Xcode/DerivedData/MarqueeLabel-cxrdpmjfioyfbbebdpfdvhnnnpjy/Build/Intermediates/MarqueeLabel.build/Release-iphoneos/MarqueeLabel.build/DerivedSources/MarqueeLabel_vers.c
