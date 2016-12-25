@@ -8,6 +8,8 @@
 
 @import UIKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBAImageHelpers : NSObject
 
 /**
@@ -31,4 +33,35 @@
  */
 + (UIImage*)draw:(UIImage*)image onto:(UIImage*)baseImage atPoint:(CGPoint)point;
 
+/**
+ Creates a circle of the specified size in light gray color, optionally compositing an
+ image in to the center.
+
+ @param size Size of the circle
+ @param image The image to composite into the center
+ @return A circle with an optionally composited image
+ */
++ (UIImage*)circleImageWithSize:(CGSize)size contents:(nullable UIImage*)image;
+
+/**
+ Creates a circle of the specified size in light gray color, optionally compositing an
+ image in to the center.
+
+ @param size Size of the circle
+ @param image The image to composite into the center
+ @param backgroundColor The interior color of the circle. Defaults to white if nil.
+ @return A circle with an optionally composited image
+ */
++ (UIImage*)circleImageWithSize:(CGSize)size contents:(nullable UIImage*)image backgroundColor:(nullable UIColor*)backgroundColor;
+
+/**
+ Rotates the supplied UIImage by the specified number of degrees.
+
+ @param image An image to rotate.
+ @param degrees The number of degrees to rotate the image. Can be positive or negative.
+ @return A rotated UIImage.
+ */
++ (UIImage*)rotateImage:(UIImage *)image degrees:(CGFloat)degrees;
 @end
+
+NS_ASSUME_NONNULL_END

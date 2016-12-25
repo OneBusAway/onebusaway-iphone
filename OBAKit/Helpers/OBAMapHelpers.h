@@ -25,10 +25,6 @@ NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2,
 
 @interface OBAMapHelpers : NSObject
 
-+ (double)longitudeToPixelSpaceX:(double)longitude;
-+ (double)latitudeToPixelSpaceY:(double)latitude;
-+ (double)pixelSpaceXToLongitude:(double)pixelX;
-+ (double)pixelSpaceYToLatitude:(double)pixelY;
 + (MKCoordinateSpan)coordinateSpanWithCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate zoomLevel:(NSUInteger)zoomLevel viewSize:(CGSize)size;
 + (MKCoordinateRegion)coordinateRegionWithCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate zoomLevel:(NSUInteger)zoomLevel viewSize:(CGSize)size;
 

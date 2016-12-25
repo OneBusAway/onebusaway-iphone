@@ -719,3 +719,9 @@
 
 /* The vehicle is currently closest to <STOP NAME> */
 "arrival_departure_cell.closest_stop" = "The vehicle is currently closest to %@";
+
+/* Last report: <TIME> */
+"arrival_departure_controller.last_report" = "Last report: %@";
+
+/* An accessibility label for the map size toggle button on the Vehicle Map Controller. */
+"vehicle_map_controller.toggle_button_accessibility_label" = "Toggle Map Size";

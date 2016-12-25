@@ -189,14 +189,13 @@ static const NSString *kShapeContext = @"ShapeContext";
     [_progressView setMessage:NSLocalizedString(@"msg_route_map", @"message") inProgress:NO progress:0];
 
     OBATripScheduleV2 *sched = _tripDetails.schedule;
-    NSArray *stopTimes = sched.stopTimes;
     MKMapView *mapView = [self mapView];
 
     NSMutableArray *annotations = [[NSMutableArray alloc] init];
 
     OBACoordinateBounds *bounds = [[OBACoordinateBounds alloc] init];
 
-    for (OBATripStopTimeV2 *stopTime in stopTimes) {
+    for (OBATripStopTimeV2 *stopTime in sched.stopTimes) {
         OBATripStopTimeMapAnnotation *an = [[OBATripStopTimeMapAnnotation alloc] initWithTripDetails:self.tripDetails stopTime:stopTime];
         [annotations addObject:an];
 
@@ -204,13 +203,13 @@ static const NSString *kShapeContext = @"ShapeContext";
         [bounds addLat:stop.lat lon:stop.lon];
     }
 
-    if (sched.nextTripId && stopTimes.count > 0) {
-        id<MKAnnotation> an = [self createTripContinuationAnnotation:sched.nextTrip isNextTrip:YES stopTimes:stopTimes];
+    if (sched.nextTripId && sched.stopTimes.count > 0) {
+        id<MKAnnotation> an = [self createTripContinuationAnnotation:sched.nextTrip isNextTrip:YES stopTimes:sched.stopTimes];
         [annotations addObject:an];
     }
 
-    if (sched.previousTripId && stopTimes.count > 0) {
-        id<MKAnnotation> an = [self createTripContinuationAnnotation:sched.previousTrip isNextTrip:NO stopTimes:stopTimes];
+    if (sched.previousTripId && sched.stopTimes.count > 0) {
+        id<MKAnnotation> an = [self createTripContinuationAnnotation:sched.previousTrip isNextTrip:NO stopTimes:sched.stopTimes];
         [annotations addObject:an];
     }
 

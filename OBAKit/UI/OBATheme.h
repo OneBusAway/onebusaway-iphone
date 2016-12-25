@@ -151,6 +151,11 @@
 + (UIColor*)mapBookmarkTintColor;
 
 /**
+ The color used to highlight the user location annotation view on the map.
+ */
+@property(class,nonatomic,copy,readonly) UIColor *mapUserLocationColor;
+
+/**
  * The text color used to indicate that the bus is on time for a given stop.
  */
 + (UIColor*)onTimeDepartureColor;
