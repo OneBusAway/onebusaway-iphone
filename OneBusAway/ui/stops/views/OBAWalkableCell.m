@@ -34,9 +34,10 @@
             make.height.equalTo(@(barHeight+triangleHeight));
         }];
 
+        CGFloat xPoint = CGRectGetWidth(self.frame) - triangleWidth - self.layoutMargins.right - [OBATheme defaultPadding];
         CGFloat yPoint = 0.f;
 
-        _triangleView = [[OBACanvasView alloc] initWithFrame:CGRectMake(self.layoutMargins.left, [OBATheme defaultPadding], triangleWidth, triangleHeight) drawRectBlock:^(CGRect rect) {
+        _triangleView = [[OBACanvasView alloc] initWithFrame:CGRectMake(xPoint, [OBATheme defaultPadding], triangleWidth, triangleHeight) drawRectBlock:^(CGRect rect) {
             UIBezierPath *path = [UIBezierPath bezierPath];
             [path moveToPoint:CGPointMake(0, yPoint)];
             [path addLineToPoint:CGPointMake(triangleWidth/2.f, triangleHeight)];
@@ -45,6 +46,7 @@
             [backgroundColor set];
             [path fill];
         }];
+        _triangleView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         [self addSubview:_triangleView];
 
         UIView *barView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), barHeight)];
@@ -54,9 +56,10 @@
 
         UIImage *walkImage = [[UIImage imageNamed:@"walkTransport"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         _walkImageView = [[UIImageView alloc] initWithImage:walkImage];
+        _walkImageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         _walkImageView.tintColor = [UIColor whiteColor];
         _walkImageView.contentMode = UIViewContentModeScaleAspectFit;
-        _walkImageView.frame = CGRectMake(self.layoutMargins.left + 8, 2, triangleHeight, triangleHeight);
+        _walkImageView.frame = CGRectApplyAffineTransform(_triangleView.frame, CGAffineTransformMakeTranslation(0, -6.f));
         [self addSubview:_walkImageView];
     }
 
