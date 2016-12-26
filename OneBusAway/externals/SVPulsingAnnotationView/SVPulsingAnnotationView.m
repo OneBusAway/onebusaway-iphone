@@ -42,7 +42,7 @@
         self.pulseAnimationDuration = 1.5;
         self.outerPulseAnimationDuration = 3;
         self.delayBetweenPulseCycles = 0;
-        self.annotationColor = [UIColor colorWithRed:0.000 green:0.478 blue:1.000 alpha:1];
+        self.annotationColor = [UIColor colorWithRed:0.f green:0.478f blue:1.f alpha:1.f];
         self.outerColor = [UIColor whiteColor];
         self.outerDotAlpha = 1;
 
