@@ -64,7 +64,6 @@
 		934197971DB0C140004BBBB7 /* OBASegmentedControlCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197251DB0C13F004BBBB7 /* OBASegmentedControlCell.m */; };
 		934197981DB0C140004BBBB7 /* OBASwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197271DB0C13F004BBBB7 /* OBASwitchCell.m */; };
 		934197991DB0C140004BBBB7 /* OBATableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341972A1DB0C13F004BBBB7 /* OBATableViewCell.m */; };
-		9341979A1DB0C140004BBBB7 /* OBATableViewCellValue1.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341972C1DB0C13F004BBBB7 /* OBATableViewCellValue1.m */; };
 		9341979B1DB0C140004BBBB7 /* OBATextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341972E1DB0C13F004BBBB7 /* OBATextFieldCell.m */; };
 		9341979C1DB0C140004BBBB7 /* OBAStaticTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197301DB0C13F004BBBB7 /* OBAStaticTableViewController.m */; };
 		9341979D1DB0C140004BBBB7 /* OBACollapsingHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197341DB0C13F004BBBB7 /* OBACollapsingHeaderView.m */; };
@@ -346,8 +345,6 @@
 		934197281DB0C13F004BBBB7 /* OBATableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATableCell.h; sourceTree = "<group>"; };
 		934197291DB0C13F004BBBB7 /* OBATableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATableViewCell.h; sourceTree = "<group>"; };
 		9341972A1DB0C13F004BBBB7 /* OBATableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableViewCell.m; sourceTree = "<group>"; };
-		9341972B1DB0C13F004BBBB7 /* OBATableViewCellValue1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATableViewCellValue1.h; sourceTree = "<group>"; };
-		9341972C1DB0C13F004BBBB7 /* OBATableViewCellValue1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableViewCellValue1.m; sourceTree = "<group>"; };
 		9341972D1DB0C13F004BBBB7 /* OBATextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATextFieldCell.h; sourceTree = "<group>"; };
 		9341972E1DB0C13F004BBBB7 /* OBATextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATextFieldCell.m; sourceTree = "<group>"; };
 		9341972F1DB0C13F004BBBB7 /* OBAStaticTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStaticTableViewController.h; sourceTree = "<group>"; };
@@ -914,8 +911,6 @@
 				934197281DB0C13F004BBBB7 /* OBATableCell.h */,
 				934197291DB0C13F004BBBB7 /* OBATableViewCell.h */,
 				9341972A1DB0C13F004BBBB7 /* OBATableViewCell.m */,
-				9341972B1DB0C13F004BBBB7 /* OBATableViewCellValue1.h */,
-				9341972C1DB0C13F004BBBB7 /* OBATableViewCellValue1.m */,
 				9341972D1DB0C13F004BBBB7 /* OBATextFieldCell.h */,
 				9341972E1DB0C13F004BBBB7 /* OBATextFieldCell.m */,
 			);
@@ -1684,7 +1679,6 @@
 				934197961DB0C140004BBBB7 /* OBAStaticTableViewController+Builders.m in Sources */,
 				9327DEF91E023BD400502F06 /* OBAArrivalDepartureRow.m in Sources */,
 				9341979B1DB0C140004BBBB7 /* OBATextFieldCell.m in Sources */,
-				9341979A1DB0C140004BBBB7 /* OBATableViewCellValue1.m in Sources */,
 				931E3A0E1DD566810064D680 /* AFMSlidingCell.m in Sources */,
 				934197B21DB0C140004BBBB7 /* OBAStopViewController.m in Sources */,
 				9341981A1DB0C1BA004BBBB7 /* OBAProgressIndicatorImpl.m in Sources */,
