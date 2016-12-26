@@ -92,22 +92,20 @@ static CGFloat const kTimelineWidth = 1.f;
 
     if ([self departureRow].closestStopToVehicle) {
         UIImage *image = [OBAStopIconFactory imageForRouteType:[self departureRow].routeType];
-        self.value1ContentsView.imageView.image = [self circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:image];
+        self.value1ContentsView.imageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:image backgroundColor:[OBATheme OBADarkGreen]];
 
         NSString *accessibilityLabel = [NSString stringWithFormat:NSLocalizedString(@"arrival_departure_cell.closest_stop", @"The vehicle is currently closest to <STOP NAME>"), [self departureRow].title];
         self.value1ContentsView.imageView.accessibilityLabel = accessibilityLabel;
     }
+    else if ([self departureRow].selectedStopForRider) {
+        UIImage *walkImage = [UIImage imageNamed:@"walkTransport"];
+        self.value1ContentsView.imageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:walkImage backgroundColor:OBATheme.mapUserLocationColor];
+    }
     else {
-        self.value1ContentsView.imageView.image = [self circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:nil];
+        self.value1ContentsView.imageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:nil];
     }
 
-    if ([self departureRow].selectedStopForRider) {
-        UIImage *walkImage = [[UIImage imageNamed:@"walkTransport"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        self.value1ContentsView.textLabel.attributedText = [OBAStrings attributedStringWithPrependedImage:walkImage string:[self departureRow].title color:[UIColor blackColor]];
-    }
-    else {
-        self.value1ContentsView.textLabel.text = [self departureRow].title;
-    }
+    self.value1ContentsView.textLabel.text = [self departureRow].title;
 
     self.value1ContentsView.detailTextLabel.text = [self departureRow].subtitle;
 }
@@ -116,29 +114,4 @@ static CGFloat const kTimelineWidth = 1.f;
     return (OBAArrivalDepartureRow*)[self tableRow];
 }
 
-#pragma mark - Private
-
-- (UIImage*)circleImageWithSize:(CGSize)size contents:(nullable UIImage*)image {
-    BOOL opaque = NO;
-    CGRect circleRect = CGRectMake(1, 1, size.width - 2, size.height - 2);
-
-    UIGraphicsBeginImageContextWithOptions(size, opaque, [UIScreen mainScreen].scale);
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-
-    CGContextSetLineWidth(ctx, kTimelineWidth);
-
-    [[UIColor whiteColor] set];
-    CGContextFillEllipseInRect(ctx, circleRect);
-
-    [[UIColor lightGrayColor] set];
-    CGContextStrokeEllipseInRect(ctx, circleRect);
-
-    if (image) {
-        [image drawInRect:CGRectInset(circleRect, 5, 5)];
-    }
-
-    UIImage *compositeImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return compositeImage;
-}
 @end

@@ -143,6 +143,14 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 - (AnyPromise*)requestStopsNear:(CLLocationCoordinate2D)coordinate;
 
 /**
+ Retrives the shape identified by the specified shape ID.
+
+ @param shapeID Identifier of a shape
+ @return A promise that resolves to an MKPolyline object.
+ */
+- (AnyPromise*)requestShapeForID:(NSString*)shapeID;
+
+/**
  *  Makes an asynchronous request to fetch the current server time.
  *
  *  @param completion The block to be called once the request completes, this is always executed on the main thread.

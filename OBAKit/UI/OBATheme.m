@@ -163,6 +163,10 @@ static UIFont *_italicFootnoteFont = nil;
     return [OBATheme colorWithRed:255 green:200 blue:39 alpha:1.f];
 }
 
++ (UIColor*)mapUserLocationColor {
+    return [OBATheme colorWithRed:38 green:122 blue:255 alpha:1.f];
+}
+
 #pragma mark - Brand Colors
 
 + (UIColor*)OBAGreen {

@@ -10,6 +10,7 @@
 #import <OBAKit/OBATheme.h>
 #import <OBAKit/UILabel+OBAAdditions.h>
 @import QuartzCore;
+@import Masonry;
 
 @implementation OBAUIBuilder
 
@@ -37,17 +38,32 @@
 }
 
 + (UIButton*)borderedButtonWithTitle:(NSString*)title {
-
-    UIColor *color = [UIColor blackColor];
-
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    button.layer.borderColor = color.CGColor;
-    [button setTitleColor:color forState:UIControlStateNormal];
-    button.layer.borderWidth = 1.f;
-    button.layer.cornerRadius = [OBATheme compactPadding];
+    UIButton *button = [self borderedButtonWithColor:[UIColor blackColor]];
     [button setTitle:title forState:UIControlStateNormal];
 
     return button;
+}
+
++ (UIButton*)borderedButtonWithColor:(UIColor*)borderColor {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitleColor:borderColor forState:UIControlStateNormal];
+    button.tintColor = borderColor;
+
+    button.layer.borderColor = borderColor.CGColor;
+    button.layer.borderWidth = 1.f;
+    button.layer.cornerRadius = [OBATheme compactPadding];
+
+    return button;
+}
+
++ (UIView*)lineView {
+    UIView *lineView = [[UIView alloc] init];
+    lineView.backgroundColor = [UIColor lightGrayColor];
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@1);
+    }];
+
+    return lineView;
 }
 
 @end

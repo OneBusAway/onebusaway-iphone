@@ -8,7 +8,6 @@
 
 #import "OBAArrivalAndDepartureViewController.h"
 #import "OBAStaticTableViewController+Builders.h"
-#import "OBATripScheduleMapViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
 #import "OBAVehicleDetailsController.h"
 #import "OBASeparatorSectionView.h"
@@ -16,28 +15,74 @@
 #import "OBATripScheduleSectionBuilder.h"
 #import "OBAArrivalAndDepartureSectionBuilder.h"
 #import "OBAArrivalDepartureRow.h"
+#import "UIViewController+OBAContainment.h"
+#import "OneBusAway-Swift.h"
+#import "OBATimelineBarRow.h"
+#import "OBAAnimation.h"
+@import Masonry;
+@import MarqueeLabel;
+
+static CGFloat const kCollapsedMapHeight = 225.f;
+static CGFloat const kExpandedMapHeight = 350.f;
 
 static NSTimeInterval const kRefreshTimeInterval = 30;
 
-@interface OBAArrivalAndDepartureViewController ()
+@interface OBAArrivalAndDepartureViewController ()<VehicleMapDelegate>
 @property(nonatomic,strong) OBATripDetailsV2 *tripDetails;
-@property(nonatomic,strong) OBAClassicDepartureView *tableHeaderView;
+@property(nonatomic,strong) UIView *tableHeaderView;
+@property(nonatomic,strong) OBAClassicDepartureView *departureView;
 @property(nonatomic,strong) NSTimer *refreshTimer;
-@property(nonatomic,strong) UIRefreshControl *refreshControl;
 @property(nonatomic,strong) NSLock *reloadLock;
 @property(nonatomic,copy) OBATripDeepLink *link;
-@end
+@property(nonatomic,strong) UIStackView *stackView;
 
-// TODO: lots of this is duplicated from OBAStopViewController.
-// Time to start considering how exactly it gets DRY'd up.
+@property(nonatomic,strong) VehicleMapController *mapController;
+
+@property(nonatomic,strong) UILabel *titleVehicleLabel;
+@property(nonatomic,strong) MarqueeLabel *titleUpdateLabel;
+@end
 
 @implementation OBAArrivalAndDepartureViewController
 
 - (instancetype)init {
     self = [super init];
 
-    if (self ) {
+    if (self) {
         _reloadLock = [[NSLock alloc] init];
+
+        CGFloat titleViewWidth = 178.f;
+
+        _titleVehicleLabel = ({
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, titleViewWidth, 10)];
+            label.font = [OBATheme boldFootnoteFont];
+            label.textAlignment = NSTextAlignmentCenter;
+            label.adjustsFontSizeToFitWidth = YES;
+            label.minimumScaleFactor = 0.8f;
+            label;
+        });
+        [_titleVehicleLabel oba_resizeHeightToFit];
+
+        _titleUpdateLabel = ({
+            MarqueeLabel *label = [[MarqueeLabel alloc] initWithFrame:CGRectMake(0, 0, titleViewWidth, 10)];
+            label.trailingBuffer = [OBATheme defaultPadding];
+            label.fadeLength = [OBATheme defaultPadding];
+            label.font = [OBATheme footnoteFont];
+            label.textAlignment = NSTextAlignmentCenter;
+            label.adjustsFontSizeToFitWidth = YES;
+            label;
+        });
+        [_titleUpdateLabel oba_resizeHeightToFit];
+
+        CGFloat combinedLabelHeight = CGRectGetHeight(_titleVehicleLabel.frame) + CGRectGetHeight(_titleUpdateLabel.frame);
+        UIView *wrapper = [[UIView alloc] initWithFrame:CGRectMake(0, 0, titleViewWidth, combinedLabelHeight)];
+        [wrapper addSubview:_titleVehicleLabel];
+        [wrapper addSubview:_titleUpdateLabel];
+
+        CGRect updateLabelFrame = _titleUpdateLabel.frame;
+        updateLabelFrame.origin.y = CGRectGetMaxY(_titleVehicleLabel.frame);
+        _titleUpdateLabel.frame = updateLabelFrame;
+
+        self.navigationItem.titleView = wrapper;
     }
     return self;
 }
@@ -47,6 +92,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
     if (self) {
         _arrivalAndDeparture = arrivalAndDeparture;
+        [self updateTitleViewWithArrivalAndDeparture:_arrivalAndDeparture];
     }
     return self;
 }
@@ -65,13 +111,40 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData:)];
+
+    self.view.backgroundColor = [UIColor whiteColor];
+
+    self.departureView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
+    self.departureView.translatesAutoresizingMaskIntoConstraints = NO;
+
+    self.stackView = [[UIStackView alloc] initWithFrame:self.view.bounds];
+    self.stackView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    self.stackView.axis = UILayoutConstraintAxisVertical;
+    self.stackView.spacing = 0.f;
+
+    self.mapController = [[VehicleMapController alloc] init];
+    self.mapController.delegate = self;
+    [self oba_prepareChildViewController:self.mapController];
+    [self.stackView addArrangedSubview:self.mapController.view];
+
+    self.tableHeaderView = [self.class buildTableHeaderViewWrapperWithHeaderView:self.departureView];
+    [self.stackView addArrangedSubview:self.tableHeaderView];
+
+    [self.tableView removeFromSuperview];
+    [self.stackView addArrangedSubview:self.tableView];
+
+    [self.view addSubview:self.stackView];
+    [self.mapController didMoveToParentViewController:self];
+    [self updateMapConstraints];
+
+    // This will hide the map if the user launched this
+    // view controller in landscape on an iPhone.
+    [self updateMapVisibilityForTraitCollection:self.traitCollection];
+
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0);
+    self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_show_map", @"") style:UIBarButtonItemStylePlain target:self action:@selector(showMap:)];
-
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(reloadData:) forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:self.refreshControl];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -94,15 +167,51 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [self cancelTimer];
 }
 
-#pragma mark - Actions
+#pragma mark - Traits
 
-- (void)showMap:(id)sender {
-    OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] init];
-    vc.tripInstance = self.arrivalAndDeparture.tripInstance;
-    vc.currentStopId = self.arrivalAndDeparture.stopId;
+- (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super willTransitionToTraitCollection:newCollection withTransitionCoordinator:coordinator];
 
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
-    [self presentViewController:navigationController animated:YES completion:nil];
+    [self updateMapVisibilityForTraitCollection:newCollection];
+}
+
+#pragma mark - Map/VehicleMapDelegate
+
+- (void)updateMapVisibilityForTraitCollection:(UITraitCollection*)traitCollection {
+    self.mapController.view.hidden = traitCollection.verticalSizeClass != UIUserInterfaceSizeClassRegular;
+}
+
+- (void)vehicleMap:(VehicleMapController *)vehicleMap didToggleSize:(BOOL)expanded {
+    [self updateMapConstraints];
+    [OBAAnimation performAnimations:^{
+        [self.view layoutIfNeeded];
+    }];
+}
+
+- (void)vehicleMap:(VehicleMapController *)vehicleMap didSelectStop:(id<MKAnnotation>)annotation {
+    if (![annotation isKindOfClass:OBATripStopTimeMapAnnotation.class]) {
+        return;
+    }
+
+    OBATripStopTimeMapAnnotation *stopTimeAnnotation = (OBATripStopTimeMapAnnotation*)annotation;
+    NSIndexPath *indexPath = [self indexPathForModel:stopTimeAnnotation.stopTime];
+
+    if (indexPath) {
+        [UIView animateWithDuration:[UIView inheritedAnimationDuration] animations:^{
+            [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+        } completion:^(BOOL finished) {
+            [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        }];
+    }
+}
+
+- (void)updateMapConstraints {
+    CGFloat mapHeight = self.mapController.expanded ? kExpandedMapHeight : kCollapsedMapHeight;
+    [self.mapController.view mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(self.view);
+        make.height.equalTo(@(mapHeight));
+    }];
 }
 
 #pragma mark - Notifications
@@ -127,7 +236,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     self.refreshTimer = nil;
 }
 
-#pragma mark - Lazy Loading
+#pragma mark - Lazily Loaded Accessors
 
 - (OBAModelDAO*)modelDAO {
     if (!_modelDAO) {
@@ -151,22 +260,20 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         return;
     }
 
-    if (animated) {
-        [self.refreshControl beginRefreshing];
-    }
-
     [self promiseArrivalDeparture].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
         self.arrivalAndDeparture = arrivalAndDeparture;
+        self.departureView.departureRow = [OBAArrivalAndDepartureSectionBuilder createDepartureRow:arrivalAndDeparture];
+        self.mapController.arrivalAndDeparture = self.arrivalAndDeparture;
+        self.mapController.routeType = self.arrivalAndDeparture.stop.firstAvailableRouteTypeForStop;
+        [self updateTitleViewWithArrivalAndDeparture:self.arrivalAndDeparture];
         return [self.modelService requestTripDetailsForTripInstance:self.arrivalAndDeparture.tripInstance];
     }).then(^(OBATripDetailsV2 *tripDetails) {
         self.tripDetails = tripDetails;
+        self.mapController.tripDetails = tripDetails;
         [self populateTableWithArrivalAndDeparture:self.arrivalAndDeparture tripDetails:self.tripDetails];
     }).catch(^(NSError *error) {
-        // TODO: handle error.
+        [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription];
     }).always(^{
-        if (animated) {
-            [self.refreshControl endRefreshing];
-        }
         [self.reloadLock unlock];
     });
 }
@@ -181,9 +288,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 }
 
 - (void)populateTableWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture tripDetails:(OBATripDetailsV2*)tripDetails {
-
     NSMutableArray *sections = [[NSMutableArray alloc] init];
-
     NSUInteger currentStopIndex = [OBATripScheduleSectionBuilder indexOfStopID:arrivalAndDeparture.stopId inSchedule:tripDetails.schedule];
 
     // Service Alerts Section
@@ -194,7 +299,6 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
     // Stops Section
     OBATableSection *stopsSection = [OBATripScheduleSectionBuilder buildStopsSection:tripDetails arrivalAndDeparture:arrivalAndDeparture currentStopIndex:currentStopIndex navigationController:self.navigationController];
-    stopsSection.headerView = [self buildTableHeaderViewWithArrivalAndDeparture:arrivalAndDeparture];
     [sections addObject:stopsSection];
 
     // Actions Section
@@ -219,6 +323,28 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     }
 }
 
+- (void)updateTitleViewWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+    if (arrivalAndDeparture.tripStatus.vehicleId.length > 0) {
+        self.titleVehicleLabel.text = arrivalAndDeparture.tripStatus.vehicleId;
+    }
+    else {
+        self.titleVehicleLabel.text = @"";
+    }
+
+    NSMutableArray *bottomLabelParts = [NSMutableArray new];
+
+    if (arrivalAndDeparture.tripStatus.lastUpdateTime != 0) {
+        NSString *timeString = [OBADateHelpers formatShortTimeNoDate:arrivalAndDeparture.tripStatus.lastUpdateDate];
+        [bottomLabelParts addObject:[NSString stringWithFormat:NSLocalizedString(@"arrival_departure_controller.last_report", @"Last report: <TIME>"), timeString]];
+    }
+
+    if (arrivalAndDeparture.tripStatus.scheduleDeviation != 0) {
+        [bottomLabelParts addObject:arrivalAndDeparture.tripStatus.formattedScheduleDeviation];
+    }
+
+    self.titleUpdateLabel.text = [bottomLabelParts componentsJoinedByString:@" • "];
+}
+
 #pragma mark - Section/Row Construction
 
 - (nullable OBATableSection*)createServiceAlertsSection:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
@@ -231,64 +357,37 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     return [self createServiceAlertsSection:arrivalAndDeparture serviceAlerts:serviceAlerts];
 }
 
-- (UIView*)buildTableHeaderViewWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
-    OBAClassicDepartureView *tableHeaderView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
-    tableHeaderView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    tableHeaderView.departureRow = [OBAArrivalAndDepartureSectionBuilder createDepartureRow:arrivalAndDeparture];
-
-    return [self buildTableHeaderWrapperView:tableHeaderView];
-}
-
-- (UIView*)buildTableHeaderWrapperView:(UIView*)tableHeaderView {
-    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    UIVisualEffectView *blurContainer = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-    blurContainer.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    blurContainer.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 60);
-
-    tableHeaderView.frame = CGRectInset(blurContainer.bounds, [OBATheme defaultPadding], 0);
-    [blurContainer.contentView addSubview:tableHeaderView];
-
-    UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, 59, CGRectGetWidth(blurContainer.contentView.frame), 1)];
-    bottomLine.backgroundColor = [OBATheme borderColor];
-    bottomLine.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
-    [blurContainer.contentView addSubview:bottomLine];
-
-    return blurContainer;
-}
-
 + (OBATableSection*)createActionsSection:(OBAArrivalAndDepartureV2*)arrivalAndDeparture navigationController:(UINavigationController*)navigationController {
     OBATableSection *actionsSection = [[OBATableSection alloc] init];
-    actionsSection.headerView = [OBASeparatorSectionView new];
 
     [actionsSection addRowWithBlock:^OBABaseRow * {
-        OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_minus_report_problem_this_trip", @"") action:^{
+        OBATimelineBarRow *tableRow = [[OBATimelineBarRow alloc] initWithTitle:NSLocalizedString(@"msg_minus_report_problem_this_trip", @"") action:^{
             OBAReportProblemWithTripViewController *vc = [[OBAReportProblemWithTripViewController alloc] initWithTripInstance:arrivalAndDeparture.tripInstance trip:arrivalAndDeparture.trip];
             vc.currentStopId = arrivalAndDeparture.stopId;
             [navigationController pushViewController:vc animated:YES];
         }];
-        return tableRow;
-    }];
-
-    [actionsSection addRowWithBlock:^OBABaseRow * {
-
-        OBATableRow *tableRow = nil;
-
-        if (arrivalAndDeparture.tripStatus.vehicleId.length > 0) {
-            tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_vehicle_info", @"") action:^{
-                OBAVehicleDetailsController *vc = [[OBAVehicleDetailsController alloc] initWithVehicleId:arrivalAndDeparture.tripStatus.vehicleId];
-                [navigationController pushViewController:vc animated:YES];
-            }];
-        }
-        else {
-            tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_no_vehicle_info_available", @"") action:nil];
-            tableRow.selectionStyle = UITableViewCellSelectionStyleNone;
-            tableRow.titleColor = [OBATheme darkDisabledColor];
-        }
-
+        tableRow.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return tableRow;
     }];
 
     return actionsSection;
+}
+
+#pragma mark - Private UI Stuff
+
++ (UIView*)buildTableHeaderViewWrapperWithHeaderView:(OBAClassicDepartureView*)headerView {
+    UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[headerView]];
+    stackView.axis = UILayoutConstraintAxisVertical;
+    stackView.alignment = UIStackViewAlignmentFill;
+    stackView.spacing = [OBATheme compactPadding];
+    stackView.layoutMargins = [OBATheme compactEdgeInsets];
+    stackView.layoutMarginsRelativeArrangement = YES;
+
+    UIStackView *outerStack = [[UIStackView alloc] initWithArrangedSubviews:@[OBAUIBuilder.lineView, stackView, OBAUIBuilder.lineView]];
+    outerStack.axis = UILayoutConstraintAxisVertical;
+    outerStack.alignment = UIStackViewAlignmentFill;
+
+    return outerStack;
 }
 
 @end

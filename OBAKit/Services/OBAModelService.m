@@ -19,6 +19,7 @@
 #import <OBAKit/OBASphericalGeometryLibrary.h>
 #import <OBAKit/OBAURLHelpers.h>
 #import <OBAKit/OBAMacros.h>
+#import <OBAKit/OBASphericalGeometryLibrary.h>
 
 static const CLLocationAccuracy kSearchRadius = 400;
 static const CLLocationAccuracy kBigSearchRadius = 15000;
@@ -155,6 +156,19 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         [self requestStopsForCoordinate:coordinate completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
             resolve(error ?: [responseData values]);
+        }];
+    }];
+}
+
+- (AnyPromise*)requestShapeForID:(NSString*)shapeID {
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestShapeForId:shapeID completionBlock:^(NSString *polylineString, NSUInteger responseCode, NSError *error) {
+            if (polylineString) {
+                resolve([OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString]);
+            }
+            else {
+                resolve(error);
+            }
         }];
     }];
 }

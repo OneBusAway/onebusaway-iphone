@@ -17,19 +17,20 @@
 #import <OBAKit/OBAHasReferencesV2.h>
 #import <OBAKit/OBATripV2.h>
 #import <OBAKit/OBAFrequencyV2.h>
+#import <OBAKit/OBATripStopTimeV2.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBATripScheduleV2 : OBAHasReferencesV2
 
-@property (nonatomic,strong) NSString * timeZone;
-@property (nonatomic,strong) NSArray * stopTimes;
-@property (nonatomic,strong) OBAFrequencyV2 * frequency;
-@property (nonatomic,strong) NSString * previousTripId;
-@property (nonatomic,strong) NSString * nextTripId;
+@property(nonatomic,strong) NSString * timeZone;
+@property(nonatomic,strong) NSArray<OBATripStopTimeV2*> *stopTimes;
+@property(nonatomic,strong) OBAFrequencyV2 * frequency;
 
-- (nullable OBATripV2*)previousTrip;
-- (nullable OBATripV2*)nextTrip;
+@property(nonatomic,strong) NSString * previousTripId;
+@property(nonatomic,strong) NSString * nextTripId;
+@property(nonatomic,strong,readonly,nullable) OBATripV2 *previousTrip;
+@property(nonatomic,strong,readonly,nullable) OBATripV2 *nextTrip;
 @end
 
 NS_ASSUME_NONNULL_END

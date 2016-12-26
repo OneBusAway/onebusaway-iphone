@@ -17,6 +17,7 @@
 #import <OBAKit/OBATripStatusV2.h>
 #import <OBAKit/NSObject+OBADescription.h>
 #import <OBAKit/OBAMacros.h>
+#import <OBAKit/OBADateHelpers.h>
 
 @implementation OBATripStatusV2
 
@@ -27,6 +28,10 @@
 
 - (OBATripInstanceRef*) tripInstance {
     return [OBATripInstanceRef tripInstance:self.activeTripId serviceDate:self.serviceDate vehicleId:self.vehicleId];
+}
+
+- (NSDate*)lastUpdateDate {
+    return [OBADateHelpers dateWithMillisecondsSince1970:self.lastUpdateTime];
 }
 
 - (NSString*)formattedScheduleDeviation {
@@ -50,4 +55,23 @@
 - (NSString*)description {
     return [self oba_description:@[@"activeTripId", @"activeTrip", @"serviceDate", @"frequency", @"location", @"predicted", @"scheduleDeviation", @"vehicleId", @"lastUpdateTime", @"lastKnownLocation", @"tripInstance", @"closestStopID"]];
 }
+
+- (CGFloat)orientationInRadians {
+    return self.orientation * M_PI / 180.f;
+}
+
+#pragma mark - MKAnnotation
+
+- (CLLocationCoordinate2D)coordinate {
+    return self.position.coordinate;
+}
+
+- (NSString*)title {
+    return self.activeTrip.asLabel;
+}
+
+- (NSString*)subtitle {
+    return self.formattedScheduleDeviation;
+}
+
 @end

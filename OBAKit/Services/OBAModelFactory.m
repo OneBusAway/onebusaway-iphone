@@ -525,9 +525,11 @@ static NSString * const kReferences = @"references";
     [self addSetPropertyRule:@"scheduleDeviation" forPrefix:[self extendPrefix:prefix withValue:@"scheduleDeviation"]];
     [self addSetPropertyRule:@"vehicleId" forPrefix:[self extendPrefix:prefix withValue:@"vehicleId"]];
     [self addSetPropertyRule:@"closestStopID" forPrefix:[self extendPrefix:prefix withValue:@"closestStop"]];
-
+    [self addSetPropertyRule:@"orientation" forPrefix:[self extendPrefix:prefix withValue:@"orientation"]];
+    [self addSetPropertyRule:@"lastKnownOrientation" forPrefix:[self extendPrefix:prefix withValue:@"lastKnownOrientation"]];
     [self addSetPropertyRule:@"lastUpdateTime" forPrefix:[self extendPrefix:prefix withValue:@"lastUpdateTime"]];
     [self addSetLocationPropertyRule:@"lastKnownLocation" withPrefix:[self extendPrefix:prefix withValue:@"lastKnownLocation"]];
+
     [self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];
 }         
 

@@ -81,6 +81,7 @@
         row.routeType = stop.firstAvailableRouteTypeForStop;
         row.subtitle = [self formattedStopTime:stopTime tripDetails:tripDetails];
         row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        row.model = stopTime;
 
         [stopsSection addRow:row];
     }
