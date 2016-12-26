@@ -9,7 +9,6 @@
 #import "OBATableRow.h"
 #import "OBAViewModelRegistry.h"
 #import "OBATableViewCell.h"
-#import "OBATableViewCellValue1.h"
 
 static NSString * const OBACellStyleDefaultReuseIdentifier = @"OBAUITableViewCellStyleDefaultCellIdentifier";
 static NSString * const OBACellStyleValue1ReuseIdentifier = @"OBACellStyleValue1ReuseIdentifier";
