@@ -151,35 +151,6 @@ NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2,
     return MKMapRectMake(MIN(a.x, b.x), MIN(a.y, b.y), ABS(a.x - b.x), ABS(a.y - b.y));
 }
 
-+ (MKCoordinateRegion)computeRegionForAgenciesWithCoverage:(NSArray*)agenciesWithCoverage defaultRegion:(MKCoordinateRegion)defaultRegion {
-    if (0 == agenciesWithCoverage.count) {
-        return defaultRegion;
-    }
-
-    OBACoordinateBounds *bounds = [OBACoordinateBounds bounds];
-
-    for (OBAAgencyWithCoverageV2 *agencyWithCoverage in agenciesWithCoverage) {
-        [bounds addCoordinate:agencyWithCoverage.coordinate];
-    }
-
-    if (bounds.empty) {
-        return defaultRegion;
-    }
-
-    MKCoordinateRegion region = bounds.region;
-    MKCoordinateRegion minRegion = [OBASphericalGeometryLibrary createRegionWithCenter:region.center latRadius:50000 lonRadius:50000];
-
-    if (region.span.latitudeDelta < minRegion.span.latitudeDelta) {
-        region.span.latitudeDelta = minRegion.span.latitudeDelta;
-    }
-
-    if (region.span.longitudeDelta < minRegion.span.longitudeDelta) {
-        region.span.longitudeDelta = minRegion.span.longitudeDelta;
-    }
-
-    return region;
-}
-
 + (MKCoordinateRegion)computeRegionForStops:(NSArray *)stops center:(CLLocation *)location {
     CLLocationCoordinate2D center = location.coordinate;
 

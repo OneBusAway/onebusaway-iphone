@@ -27,38 +27,60 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, OBAArrivalDepartureState) {
+    OBAArrivalDepartureStateArriving = 0,
+    OBAArrivalDepartureStateDeparting
+};
+
 @interface OBAArrivalAndDepartureV2 : OBAHasReferencesV2<OBAHasServiceAlerts>
 
+/**
+ the route id for the arriving vehicle
+ */
 @property(nonatomic,copy) NSString *routeId;
+
 @property(nonatomic,weak,readonly) OBARouteV2 * route;
 @property(nonatomic,copy) NSString *routeShortName;
 
+/**
+  the trip id for the arriving vehicle
+ */
 @property(nonatomic,copy) NSString * tripId;
+
 @property(nonatomic,weak,readonly) OBATripV2 * trip;
 @property(nonatomic,copy,nullable) NSString * tripHeadsign;
-@property(nonatomic,assign) long long serviceDate;
 
 @property(nonatomic,weak,readonly) OBAArrivalAndDepartureInstanceRef * instance;
 @property(nonatomic,weak,readonly) OBATripInstanceRef * tripInstance;
 
+/**
+ the stop id of the stop the vehicle is arriving at
+ */
 @property(nonatomic,copy) NSString * stopId;
 @property(nonatomic,weak,readonly) OBAStopV2 * stop;
+
+/**
+ the index of the stop into the sequence of stops that make up the trip for this arrival
+ */
 @property(nonatomic,assign) NSInteger stopSequence;
 
+/**
+ Gives trip-specific status for the arriving transit vehicle
+ */
 @property(nonatomic,strong) OBATripStatusV2 * tripStatus;
 
 @property(nonatomic,strong) OBAFrequencyV2 * frequency;
 
-@property(nonatomic,assign) BOOL predicted;
+/**
+ Answers the question: Does this represent the vehicle arriving, or the vehicle departing?
+ */
+@property(nonatomic,assign) OBAArrivalDepartureState arrivalDepartureState;
 
-@property(nonatomic,assign) long long scheduledArrivalTime;
-@property(nonatomic,assign) long long predictedArrivalTime;
-@property(nonatomic,assign,readonly) long long bestArrivalTime;
-
-@property(nonatomic,assign) long long scheduledDepartureTime;
-@property(nonatomic,assign) long long predictedDepartureTime;
-@property(nonatomic,assign,readonly) long long bestDepartureTime;
-@property(nonatomic,copy,readonly) NSDate *bestDeparture;
+/**
+ Returns the best available arrival date if this object is marked as an arrival,
+ and the best available departure date if it is marked as a departure.
+ */
+@property(nonatomic,copy,readonly) NSDate *bestArrivalDepartureDate;
 
 @property(nonatomic,assign) double distanceFromStop;
 @property(nonatomic,assign) NSInteger numberOfStopsAway;
@@ -78,9 +100,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSString*)bestAvailableName;
 
-- (OBADepartureStatus)departureStatus;
+@property(nonatomic,copy,readonly) NSString *bestAvailableNameWithHeadsign;
 
-- (NSString*)statusText;
+- (OBADepartureStatus)departureStatus;
 
 /**
  How far off is this vehicle from its predicted, scheduled time?
@@ -96,6 +118,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSInteger)minutesUntilBestDeparture;
 
+/**
+ How far away are we right now from the best departure time available to us? Uses real time data when available, and scheduled data otherwise.
+
+ @return The number of seconds until departure.
+ */
+- (NSTimeInterval)timeIntervalUntilBestDeparture;
+
 - (NSComparisonResult)compareRouteName:(OBAArrivalAndDepartureV2*)dep;
 
 /**
@@ -108,7 +137,6 @@ NS_ASSUME_NONNULL_BEGIN
  @return true if they represent the same route, and false otherwise.
  */
 - (BOOL)routesAreEquivalent:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
-
 
 @end
 

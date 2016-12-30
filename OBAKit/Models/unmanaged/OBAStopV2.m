@@ -16,6 +16,7 @@
 
 #import <OBAKit/OBAStopV2.h>
 #import <OBAKit/OBARouteV2.h>
+#import <OBAKit/OBAMacros.h>
 
 @interface OBAStopV2 ()
 @property(nonatomic,strong,readwrite) NSArray<OBARouteV2*> *routes;
@@ -84,14 +85,16 @@
 #pragma mark - Public
 
 - (NSArray<OBARouteV2*>*)routes {
-
     @synchronized (self) {
         if (!_routes) {
             NSMutableArray *routes = [NSMutableArray array];
 
             for (NSString *routeId in _routeIds) {
                 OBARouteV2 *route = [self.references getRouteForId:routeId];
-                [routes addObject:route];
+
+                if (route) {
+                    [routes addObject:route];
+                }
             }
 
             [routes sortUsingSelector:@selector(compareUsingName:)];
@@ -148,10 +151,10 @@
     NSString * r = [self routeNamesAsString];
 
     if (self.direction) {
-        return [NSString stringWithFormat:NSLocalizedString(@"%@ bound - Routes: %@", @""), self.direction, r];
+        return [NSString stringWithFormat:OBALocalized(@"text_bound_and_routes_params", @""), self.direction, r];
     }
     else {
-        return [NSString stringWithFormat:NSLocalizedString(@"Routes: %@", @""), r];
+        return [NSString stringWithFormat:OBALocalized(@"text_only_routes_colon_param", @""), r];
     }
 }
 
@@ -162,7 +165,7 @@
 
 #pragma mark NSObject
 
-- (BOOL)isEqual:(id)object {
+- (BOOL)isEqual:(OBAStopV2*)object {
     if (self == object) {
         return YES;
     }
@@ -171,7 +174,7 @@
         return NO;
     }
 
-    return [self.stopId isEqual:[object stopId]];
+    return [self.stopId isEqual:object.stopId];
 }
 
 - (NSString*) description {

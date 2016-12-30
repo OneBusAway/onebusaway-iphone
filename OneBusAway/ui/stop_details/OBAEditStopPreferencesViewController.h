@@ -15,10 +15,11 @@
  */
 
 @import OBAKit;
+#import "OBAStaticTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAEditStopPreferencesViewController : UITableViewController
+@interface OBAEditStopPreferencesViewController : OBAStaticTableViewController
 - (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO stop:(OBAStopV2*)stop;
 @end
 

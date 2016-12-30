@@ -51,15 +51,8 @@ extern NSString *const kOBAApplicationSettingsRegionRefreshNotification;
 
 /**
  Call this when the object has been fully configured.
-
- @param appDefaults The defaults dictionary to register with NSUserDefaults
  */
-- (void)startWithAppDefaults:(NSDictionary*)appDefaults;
-
-/**
- * Returns YES if the user has enabled darker system colors or reduced transparency.
- */
-- (BOOL)useHighContrastUI;
+- (void)start;
 
 /**
  * e.g. "2.4.2"

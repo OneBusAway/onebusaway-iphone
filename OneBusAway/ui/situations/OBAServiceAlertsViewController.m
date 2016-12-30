@@ -9,8 +9,8 @@
 #import "OBAServiceAlertsViewController.h"
 #import "OBAAnalytics.h"
 #import "OBAEmptyDataSetSource.h"
-#import "OBADiversionViewController.h"
 #import "EXTScope.h"
+#import "OneBusAway-Swift.h"
 
 @interface OBAServiceAlertsViewController ()
 @property(nonatomic,copy) NSArray<OBASituationV2*> *situations;
@@ -23,7 +23,7 @@
 - (instancetype) initWithSituations:(NSArray*)situations {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         _situations = situations;
-        self.title = NSLocalizedString(@"Service Alerts",);
+        self.title = NSLocalizedString(@"msg_service_alerts",);
     }
     
     return self;
@@ -33,7 +33,7 @@
     [super viewDidLoad];
     self.tableView.tableFooterView = [UIView new];
 
-    OBAEmptyDataSetSource *emptyDataSource = [[OBAEmptyDataSetSource alloc] initWithTitle:NSLocalizedString(@"No Active Service Alerts",) description:nil];
+    OBAEmptyDataSetSource *emptyDataSource = [[OBAEmptyDataSetSource alloc] initWithTitle:NSLocalizedString(@"msg_no_active_service_alerts",) description:nil];
     self.tableView.emptyDataSetSource = emptyDataSource;
 }
 
@@ -84,42 +84,16 @@
 
     OBASituationV2 * situation = self.situations[indexPath.row];
 
+    [self reportAnalytics:situation];
+
     [self.modelDAO setVisited:YES forSituationWithId:situation.situationId];
+    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:situation.summary message:situation.formattedDetails preferredStyle:UIAlertControllerStyleAlert];
-
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Share",) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self shareServiceAlert:situation];
-    }]];
-
-    if (situation.diversionPath) {
-        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"View Reroute",) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            OBADiversionViewController *vc = [OBADiversionViewController loadFromNibWithappDelegate:APP_DELEGATE];
-            vc.diversionPath = situation.diversionPath;
-            [self.navigationController pushViewController:vc animated:YES];
-        }]];
-    }
-
-    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleDefault handler:nil]];
-
-    [self presentViewController:alert animated:YES completion:^{
-        [self.tableView reloadData];
-    }];
+    ServiceAlertDetailsViewController *details = [[ServiceAlertDetailsViewController alloc] initWithServiceAlert:situation];
+    [self.navigationController pushViewController:details animated:YES];
 }
 
 #pragma mark - Private
-
-- (void)shareServiceAlert:(OBASituationV2*)serviceAlert {
-    UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:@[serviceAlert.formattedDetails] applicationActivities:nil];
-
-    @weakify(activityController);
-    [activityController setCompletionWithItemsHandler:^(UIActivityType activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-        @strongify(activityController);
-        [activityController dismissViewControllerAnimated:YES completion:nil];
-    }];
-
-    [self presentViewController:activityController animated:YES completion:nil];
-}
 
 - (void)reportAnalytics:(OBASituationV2 *) situation {
     NSDictionary *agencies = [situation.references getAllAgencies];

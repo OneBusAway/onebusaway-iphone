@@ -29,11 +29,11 @@ static NSUInteger const kMinutes = 30;
     self = [super init];
 
     if (self) {
-        self.title = NSLocalizedString(@"Bookmarks", @"");
-        self.tabBarItem.title = NSLocalizedString(@"Bookmarks", @"Bookmarks tab title");
-        self.tabBarItem.image = [UIImage imageNamed:@"Bookmarks"];
-        self.emptyDataSetTitle = NSLocalizedString(@"No Bookmarks", @"");
-        self.emptyDataSetDescription = NSLocalizedString(@"Tap 'Add to Bookmarks' from a stop to save a bookmark to this screen.", @"");
+        self.title = NSLocalizedString(@"msg_bookmarks", @"");
+        self.tabBarItem.image = [UIImage imageNamed:@"Favorites"];
+        self.tabBarItem.selectedImage = [UIImage imageNamed:@"Favorites_Selected"];
+        self.emptyDataSetTitle = NSLocalizedString(@"msg_no_bookmarks", @"");
+        self.emptyDataSetDescription = NSLocalizedString(@"msg_explanatory_add_bookmark_from_stop", @"");
         _bookmarksAndDepartures = [[NSMutableDictionary alloc] init];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -57,15 +57,17 @@ static NSUInteger const kMinutes = 30;
     self.tableView.allowsSelectionDuringEditing = YES;
 
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Groups", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editGroups)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_groups", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editGroups)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    OBALogFunction();
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 
-    NSMutableString *title = [NSMutableString stringWithString:NSLocalizedString(@"Bookmarks", @"")];
+    NSMutableString *title = [NSMutableString stringWithString:NSLocalizedString(@"msg_bookmarks", @"")];
     if (self.currentRegion) {
         [title appendFormat:@" - %@", self.currentRegion.regionName];
     }
@@ -82,6 +84,12 @@ static NSUInteger const kMinutes = 30;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 
     [self cancelTimer];
+}
+
+#pragma mark - OBANavigationTargetAware
+
+- (OBANavigationTarget*)navigationTarget {
+    return [OBANavigationTarget navigationTarget:OBANavigationTargetTypeBookmarks];
 }
 
 #pragma mark - Notifications
@@ -119,7 +127,7 @@ static NSUInteger const kMinutes = 30;
 + (NSArray<OBAUpcomingDeparture*>*)upcomingDeparturesFromArrivalsAndDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)matchingDepartures {
     NSMutableArray *upcomingDepartures = [NSMutableArray array];
     for (OBAArrivalAndDepartureV2 *dep in matchingDepartures) {
-        [upcomingDepartures addObject:[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestDeparture departureStatus:dep.departureStatus]];
+        [upcomingDepartures addObject:[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState]];
     }
     return [NSArray arrayWithArray:upcomingDepartures];
 }
@@ -144,7 +152,7 @@ static NSUInteger const kMinutes = 30;
             row.supplementaryMessage = nil;
         }
         else {
-            row.supplementaryMessage = [NSString stringWithFormat:NSLocalizedString(@"%@: No departure scheduled for the next %@ minutes", @""), bookmark.routeShortName, @(kMinutes)];
+            row.supplementaryMessage = [NSString stringWithFormat:NSLocalizedString(@"text_no_departure_next_time_minutes_params", @""), bookmark.routeShortName, @(kMinutes)];
         }
 
         // This will result in some 'false positive' instances where the
@@ -197,12 +205,6 @@ static NSUInteger const kMinutes = 30;
             [self.tableView reloadData];
         }
     });
-}
-
-#pragma mark -  OBANavigationTargetAware
-
-- (OBANavigationTarget *)navigationTarget {
-    return [OBANavigationTarget target:OBANavigationTargetTypeBookmarks];
 }
 
 #pragma mark - Reachability
@@ -280,13 +282,13 @@ static NSUInteger const kMinutes = 30;
 
     NSMutableArray<UITableViewRowAction *> *actions = [NSMutableArray array];
 
-    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedString(@"Delete", @"Title of delete bookmark row action.") handler:^(UITableViewRowAction *action, NSIndexPath *rowIndexPath) {
+    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:OBAStrings.delete handler:^(UITableViewRowAction *action, NSIndexPath *rowIndexPath) {
         [self deleteRowAtIndexPath:rowIndexPath];
     }];
     [actions addObject:delete];
 
     if (tableRow.editAction) {
-        UITableViewRowAction *edit = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedString(@"Edit", @"Title of edit bookmark/group row action.") handler:^(UITableViewRowAction *action, NSIndexPath *rowIndexPath) {
+        UITableViewRowAction *edit = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:OBAStrings.edit handler:^(UITableViewRowAction *action, NSIndexPath *rowIndexPath) {
             tableRow.editAction();
         }];
         [actions addObject:edit];
@@ -356,7 +358,7 @@ static NSUInteger const kMinutes = 30;
 - (OBATableSection*)tableSectionFromBookmarks:(NSArray<OBABookmarkV2*>*)bookmarks group:(nullable OBABookmarkGroup*)group {
     NSArray<OBABaseRow*>* rows = @[];
 
-    NSString *groupName = group ? group.name : NSLocalizedString(@"Bookmarks", @"");
+    NSString *groupName = group ? group.name : NSLocalizedString(@"msg_bookmarks", @"");
     BOOL groupOpen = group ? group.open : self.modelDAO.ungroupedBookmarksOpen;
 
     if (groupOpen) {
@@ -377,7 +379,19 @@ static NSUInteger const kMinutes = 30;
             self.modelDAO.ungroupedBookmarksOpen = open;
         }
         section.rows = open ? [self tableRowsFromBookmarks:bookmarks] : @[];
-        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[self.sections indexOfObject:section]];
+
+        if (!section) {
+            [self.tableView reloadData];
+            return;
+        }
+
+        NSUInteger index = [self.sections indexOfObject:section];
+        if (index == NSNotFound) {
+            [self.tableView reloadData];
+            return;
+        }
+
+        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:index];
         [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
     }];
     section.headerView = header;
@@ -468,7 +482,7 @@ static NSUInteger const kMinutes = 30;
     }
     row.routeName = arrivalAndDeparture.bestAvailableName;
     row.destination = arrivalAndDeparture.tripHeadsign;
-    row.statusText = arrivalAndDeparture.statusText;
+    row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:arrivalAndDeparture];
 }
 
 - (void)performCommonBookmarkRowConfiguration:(OBABaseRow*)row forBookmark:(OBABookmarkV2*)bookmark {

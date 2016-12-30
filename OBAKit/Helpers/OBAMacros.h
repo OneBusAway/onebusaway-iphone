@@ -25,4 +25,8 @@
 #define OBAGuardClass(object, typeName) \
     OBAGuard([object isKindOfClass:[typeName class]])
 
+#define OBALocalized(key, comment) \
+    [[NSBundle bundleWithIdentifier:@"org.onebusaway.iphone.OBAKit"] localizedStringForKey:(key) value:@"" table:nil]
+
+
 #endif /* OBAMacros_h */

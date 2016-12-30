@@ -1,0 +1,125 @@
+/* sd < 0 */
+"msg_space_early" = " early";
+
+/* sd > 0 */
+"msg_space_late" = " late";
+
+/* No comment provided by engineer. */
+"text_bound_and_routes_params" = "%@ bound - Routes: %@";
+
+/* <Route Number> to <Location>. e.g. 10 to Downtown Seattle */
+"text_route_to_orientation_params" = "%@ to %@";
+
+/* The explanatory text displayed when a non-realtime trip is displayed on-screen. */
+"msg_scheduled_explanatory" = "*'Scheduled': no vehicle location data available";
+
+/* Typically used on alerts and other modal actions. A 'cancel' button. */
+"msg_cancel" = "Cancel";
+
+/* No comment provided by engineer. */
+"msg_cellular" = "Cellular";
+
+/* Typically used on alerts and other modal actions. A 'delete' button. */
+"msg_delete" = "Delete";
+
+/* Used on alerts. iOS tends to use 'Dismiss' instead of 'OK' on alerts that the user isn't actually agreeing to. */
+"msg_dismiss" = "Dismiss";
+
+/* As in 'edit object'. */
+"msg_edit" = "Edit";
+
+/* The text 'Error' */
+"msg_error" = "Error";
+
+/* code != 404 */
+"msg_error_connecting" = "Error Connecting";
+
+/* frequency status string */
+"text_frequency_status_params" = "Every %@ mins %@ %@";
+
+/* No comment provided by engineer. */
+"msg_headed_somewhere_dots" = "Headed somewhere...";
+
+/* No comment provided by engineer. */
+"msg_now" = "NOW";
+
+/* No comment provided by engineer. */
+"msg_no_connection" = "No Connection";
+
+/* Standard 'OK' button text. */
+"msg_ok" = "OK";
+
+/* feedback mail subject */
+"msg_oba_ios_feedback" = "OneBusAway iOS Feedback";
+
+/* No comment provided by engineer. */
+"text_only_routes_colon_param" = "Routes: %@";
+
+/* No comment provided by engineer. */
+"msg_stop_mayus" = "STOP";
+
+/* Standard 'Save' button text. */
+"msg_save" = "Save";
+
+/* cell.textLabel.text */
+"msg_schedule_deviation" = "Schedule deviation";
+
+/* code == 404 */
+"mgs_stop_not_found" = "Stop not found";
+
+/* title */
+"msg_mayus_vehicle" = "Vehicle";
+
+/* No comment provided by engineer. */
+"msg_wifi" = "WiFi";
+
+/* minutes < 0 */
+"msg_departed_on_time" = "departed on time";
+
+/* No comment provided by engineer. */
+"msg_from" = "from";
+
+/* minutes */
+"msg_mins" = "mins";
+
+/* minutes >= 0 */
+"msg_on_time" = "departs on time";
+
+/* minutes >= 0 */
+"msg_scheduled_arrival_asterisk" = "scheduled arrival*";
+
+/* minutes < 0 */
+"msg_scheduled_departure_asterisk" = "scheduled departure*";
+
+/* No comment provided by engineer. */
+"msg_until" = "until";
+
+/* e.g. 'arrived 3 min early' - note the past tense */
+"departure_cell_helpers.arrived_x_minutes_early" = "arrived %@ min early";
+
+/* e.g. 'arriving 5 min early' - note the future tense */
+"departure_cell_helpers.arriving_x_minutes_early" = "arriving %@ min early";
+
+/* Indicates that the vehicle arrived on time. Note past tense. */
+"departure_cell_helpers.arrived_on_time" = "arrived on time";
+
+/* Indicates that the vehicle is arriving on time. Note future tense. */
+"departure_cell_helpers.arriving_on_time" = "arriving on time";
+
+/* e.g. 'arrived 5 min late'. Note the past tense. */
+"departure_cell_helpers.arrived_x_min_late" = "arrived %@ min late";
+
+/* e.g. 'arriving 5 min late'. Note the future tense. */
+"departure_cell_helpers.arriving_x_min_late" = "arriving %@ min late";
+
+/* e.g. 'departed 1 min early'. Note the past tense. */
+"departure_cell_helpers.departed_x_min_early" = "departed %@ min early";
+
+/* e.g. 'departs 1 min early'. Note the future tense. */
+"departure_cell_helpers.departs_x_min_early" = "departs %@ min early";
+
+/* e.g. 'departed 20 min late'. Note the past tense */
+"departure_cell_helpers.departed_x_min_late" = "departed %@ min late";
+
+/* e.g. 'departs 12 min late'. Note the future tense */
+"departure_cell_helpers.departs_x_min_late" = "departs %@ min late";

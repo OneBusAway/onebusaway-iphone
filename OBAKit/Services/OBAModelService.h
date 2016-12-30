@@ -25,6 +25,8 @@
 #import <OBAKit/OBAReportProblemWithStopV2.h>
 #import <OBAKit/OBAReportProblemWithTripV2.h>
 #import <OBAKit/OBALocationManager.h>
+#import <OBAKit/OBATripDeepLink.h>
+
 @import PromiseKit;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -94,6 +96,14 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 - (AnyPromise*)requestArrivalAndDeparture:(OBAArrivalAndDepartureInstanceRef*)instanceRef;
 
 /**
+ Retrieves an OBAArrivalAndDepartureV2 object from the server given a trip deep link object.
+
+ @param tripDeepLink A trip deep link object
+ @return A promise that resolves to an OBAArrivalAndDepartureV2 object
+ */
+- (AnyPromise*)requestArrivalAndDepartureWithTripDeepLink:(OBATripDeepLink*)tripDeepLink;
+
+/**
  Retrieves the current server time as an NSNumber representing the number of milliseconds since January 1, 1970.
 
  @return A promise that resolves to an NSNumber object.
@@ -122,6 +132,23 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  @return A promise that that resolves to OBAVehicleStatusV2
  */
 - (AnyPromise*)requestVehicleForID:(NSString*)vehicleID;
+
+/**
+   Retrieves the stops near the specified coordiante
+ 
+   @param coordinate     Center coordinate for retrieving stops
+
+   @return A promise that resolves to NSArray<OBAStopV2*>*
+ */
+- (AnyPromise*)requestStopsNear:(CLLocationCoordinate2D)coordinate;
+
+/**
+ Retrives the shape identified by the specified shape ID.
+
+ @param shapeID Identifier of a shape
+ @return A promise that resolves to an MKPolyline object.
+ */
+- (AnyPromise*)requestShapeForID:(NSString*)shapeID;
 
 /**
  *  Makes an asynchronous request to fetch the current server time.
@@ -158,6 +185,17 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  */
 - (id<OBAModelServiceRequest>)requestStopsForRegion:(MKCoordinateRegion)region
                                     completionBlock:(OBADataSourceCompletion)completion;
+
+/**
+ *  Makes an asynchronous request for a set of stops near the given coordinate
+ *
+ *  @param coordinate     Coordinate for which the stops are returned
+ *  @param completion The block to be called once the request completes, this is always executed on the main thread.
+ *
+ *  @return The OBAModelServiceRequest object that allows request cancellation
+ */
+- (id<OBAModelServiceRequest>)requestStopsForCoordinate:(CLLocationCoordinate2D)coordinate
+                                        completionBlock:(OBADataSourceCompletion)completion;
 
 /**
  *  Makes an asynchronous request to get a set of stops for a given query, bounded by a region

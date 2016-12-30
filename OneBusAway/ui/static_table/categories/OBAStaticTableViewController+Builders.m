@@ -12,7 +12,7 @@
 @implementation OBAStaticTableViewController (Builders)
 
 - (OBATableSection*)createServiceAlertsSection:(id<OBAHasServiceAlerts>)result serviceAlerts:(OBAServiceAlertsModel*)serviceAlerts {
-    OBATableRow *serviceAlertsRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"View Service Alerts", @"") action:^{
+    OBATableRow *serviceAlertsRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_view_service_alerts", @"") action:^{
         OBAServiceAlertsViewController *situations = [[OBAServiceAlertsViewController alloc] initWithSituations:result.situations];
         [self.navigationController pushViewController:situations animated:YES];
     }];
@@ -27,12 +27,10 @@
 
 + (UIImage*)iconForServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts {
     if (serviceAlerts.unreadCount > 0) {
-        NSString *imageName = [serviceAlerts.unreadMaxSeverity isEqual:@"noImpact"] ? @"Alert-Info" : @"Alert";
-        return [UIImage imageNamed:imageName];
+        return [UIImage imageNamed:@"warning_filled"];
     }
     else {
-        NSString *imageName = [serviceAlerts.maxSeverity isEqual:@"noImpact"] ? @"Alert-Info-Grayscale" : @"AlertGrayscale";
-        return [UIImage imageNamed:imageName];
+        return [UIImage imageNamed:@"warning"];
     }
 }
 @end

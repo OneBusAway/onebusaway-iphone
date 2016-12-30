@@ -11,6 +11,7 @@
 @import Masonry;
 
 #import "OBAAgenciesListViewController.h"
+#import "OBASettingsViewController.h"
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
 #import "Apptentive.h"
@@ -29,8 +30,9 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     self = [super init];
 
     if (self) {
-        self.title = NSLocalizedString(@"Info", @"");
-        self.tabBarItem.image = [UIImage imageNamed:@"info"];
+        self.title = NSLocalizedString(@"msg_info", @"");
+        self.tabBarItem.image = [UIImage imageNamed:@"Info"];
+        self.tabBarItem.selectedImage = [UIImage imageNamed:@"Info_Selected"];
     }
 
     return self;
@@ -41,12 +43,16 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_settings", @"Settings bar button item title on the info view controller.") style:UIBarButtonItemStylePlain target:self action:@selector(showSettings)];
+
     UIView *header = [self buildTableHeaderView];
     [self setTableViewHeader:header];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
+    OBALogFunction();
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMessageCountChanged:) name:ApptentiveMessageCenterUnreadCountChangedNotification object:nil];
 
@@ -102,32 +108,32 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 - (OBATableSection*)settingsTableSection {
 
-    OBATableRow *region = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Region", @"") action:^{
+    OBATableRow *region = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_region", @"") action:^{
         [self.navigationController pushViewController:[[RegionListViewController alloc] init] animated:YES];
     }];
     region.style = UITableViewCellStyleValue1;
     region.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     region.subtitle = self.modelDAO.currentRegion.regionName;
 
-    OBATableRow *agencies = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Agencies", @"Info Page Agencies Row Title") action:^{
+    OBATableRow *agencies = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_agencies", @"Info Page Agencies Row Title") action:^{
         [self openAgencies];
     }];
     agencies.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"Your Location", @"Settings section title on info page") rows:@[region,agencies]];
+    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_your_location", @"Settings section title on info page") rows:@[region,agencies]];
 }
 
 - (OBATableSection*)contactTableSection {
     NSMutableArray *rows = [[NSMutableArray alloc] init];
 
-    OBATableRow *contactUs = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Data & Schedule Issues", @"Info Page Contact Us Row Title") action:^{
+    OBATableRow *contactUs = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_data_schedule_issues", @"Info Page Contact Us Row Title") action:^{
         [self openContactUs];
     }];
     contactUs.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     [rows addObject:contactUs];
     
     if ([Apptentive sharedConnection].canShowMessageCenter) {
-      OBATableRow *reportAppIssue = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"App Bugs & Feature Requests",) action:^{
+      OBATableRow *reportAppIssue = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_app_bugs_feature_requests",) action:^{
           [self presentApptentiveMessageCenter];
       }];
       reportAppIssue.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -138,13 +144,27 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
       [rows addObject:reportAppIssue];
     }
 
-    OBATableSection *section = [OBATableSection tableSectionWithTitle:NSLocalizedString(@"Contact Us", @"") rows:rows];
+    OBATableRow *logs = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_send_logs",) action:^{
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_ask_send_logs",) message:NSLocalizedString(@"msg_explanatory_send_log_data",) preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
+        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_send",) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            for (NSData *logData in self.privacyBroker.shareableLogData) {
+                [[Apptentive sharedConnection] sendAttachmentFile:logData withMimeType:@"text/plain"];
+            }
+
+            [AlertPresenter showSuccess:NSLocalizedString(@"msg_log_files_sent",) body:NSLocalizedString(@"msg_thank_you_exclamation",)];
+        }]];
+        [self presentViewController:alert animated:YES completion:nil];
+    }];
+    [rows addObject:logs];
+
+    OBATableSection *section = [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_contact_us", @"") rows:rows];
 
     return section;
 }
 
 - (OBATableSection*)privacyTableSection {
-    OBATableRow *privacy = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Privacy Policy", @"Info Page Privacy Policy Row Title") action:^{
+    OBATableRow *privacy = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_privacy_policy", @"Info Page Privacy Policy Row Title") action:^{
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
         SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:kPrivacyURLString]];
         safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
@@ -152,26 +172,26 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     }];
     privacy.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    OBATableRow *PII = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Information for Support",) action:^{
+    OBATableRow *PII = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_information_for_support",) action:^{
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Opened PII controller" value:nil];
         PIIViewController *PIIController = [[PIIViewController alloc] init];
         [self.navigationController pushViewController:PIIController animated:YES];
     }];
     PII.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"Privacy",) rows:@[privacy, PII]];
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_privacy",) rows:@[privacy, PII]];
 
     return section;
 }
 
 - (OBATableSection*)aboutTableSection {
 
-    OBATableRow *credits = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Credits", @"Info Page Credits Row Title") action:^{
+    OBATableRow *credits = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_credits", @"Info Page Credits Row Title") action:^{
         [self.navigationController pushViewController:[[OBACreditsViewController alloc] init] animated:YES];
     }];
     credits.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"About OneBusAway", @"") rows:@[credits]];
+    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_about_oba", @"") rows:@[credits]];
 }
 
 #pragma mark - Email
@@ -183,7 +203,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 }
 
 - (void)cantSendEmail {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Please set up your Mail app before trying to send an email.", @"view.message")
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_set_up_mail_to_send_email", @"view.message")
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleAlert];
 
@@ -215,10 +235,17 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 #pragma mark - OBANavigationTargetAware
 
 - (OBANavigationTarget *)navigationTarget {
-    return [OBANavigationTarget target:OBANavigationTargetTypeContactUs];
+    return [OBANavigationTarget navigationTarget:OBANavigationTargetTypeContactUs];
 }
 
 #pragma mark - Private
+
+- (void)showSettings {
+    OBASettingsViewController *settings = [[OBASettingsViewController alloc] init];
+    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:settings];
+
+    [self presentViewController:navigation animated:YES completion:nil];
+}
 
 - (void)presentApptentiveMessageCenter {
     // Information that cannot be used to uniquely identify the user is shared automatically.
@@ -245,9 +272,6 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
         }
     }
 
-    for (NSData *logData in self.privacyBroker.shareableLogData) {
-        [[Apptentive sharedConnection] sendAttachmentFile:logData withMimeType:@"text/plain"];
-    }
     [[Apptentive sharedConnection] presentMessageCenterFromViewController:self];
 }
 
@@ -289,7 +313,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     UIFont *headlineFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     UIFont *subHeadlineFont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
 
-    UILabel *headerLabel = [self.class centeredLabelWithText:NSLocalizedString(@"OneBusAway",) font:headlineFont];
+    UILabel *headerLabel = [self.class centeredLabelWithText:NSLocalizedString(@"msg_oba_name",) font:headlineFont];
     [headerLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [views addObject:headerLabel];
 
@@ -297,11 +321,11 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [copyrightLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [views addObject:copyrightLabel];
 
-    UILabel *volunteerLabel = [self.class centeredLabelWithText:NSLocalizedString(@"OneBusAway for iOS is made and supported by volunteers. To help, tap the button below.",) font:subHeadlineFont];
+    UILabel *volunteerLabel = [self.class centeredLabelWithText:NSLocalizedString(@"msg_onebusaway_made_by_volunteers",) font:subHeadlineFont];
     [volunteerLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [views addObject:volunteerLabel];
 
-    UIButton *volunteerButton = [OBAUIBuilder borderedButtonWithTitle:NSLocalizedString(@"Visit Us",)];
+    UIButton *volunteerButton = [OBAUIBuilder borderedButtonWithTitle:NSLocalizedString(@"msg_visit_us",)];
     [volunteerButton addTarget:self action:@selector(openGitHub) forControlEvents:UIControlEventTouchUpInside];
     [volunteerButton setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     [volunteerButton setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];

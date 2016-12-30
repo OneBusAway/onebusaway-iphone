@@ -17,7 +17,6 @@
 #import "OBAReportProblemWithTripViewController.h"
 #import "OBALabelAndSwitchTableViewCell.h"
 #import "OBALabelAndTextFieldTableViewCell.h"
-#import "UITableViewController+oba_Additions.h"
 #import "UITableViewCell+oba_Additions.h"
 #import "OBAAnalytics.h"
 #import "OBAApplicationDelegate.h"
@@ -53,9 +52,9 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         _tripInstance = tripInstance;
         _trip = trip;
 
-        self.navigationItem.title = NSLocalizedString(@"Report a Problem", @"self.navigationItem.title");
+        self.navigationItem.title = NSLocalizedString(@"msg_report_a_problem", @"self.navigationItem.title");
 
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Custom Title", @"initWithTitle")
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_custom_title", @"initWithTitle")
                                                                  style:UIBarButtonItemStylePlain
                                                                 target:nil
                                                                 action:nil];
@@ -69,12 +68,12 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         _problemIds = [[NSMutableArray alloc] init];
         _problemNames = [[NSMutableArray alloc] init];
 
-        [self addProblemWithId:@"vehicle_never_came" name:[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"The", @"name"), _vehicleType, NSLocalizedString(@"never came", @"name")]];
-        [self addProblemWithId:@"vehicle_came_early" name:NSLocalizedString(@"It came earlier than predicted", @"name")];
-        [self addProblemWithId:@"vehicle_came_late" name:NSLocalizedString(@"It came later than predicted", @"name")];
-        [self addProblemWithId:@"wrong_headsign" name:NSLocalizedString(@"Wrong destination shown", @"name")];
-        [self addProblemWithId:@"vehicle_does_not_stop_here" name:[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"The", @"name"), _vehicleType, NSLocalizedString(@"doesn't stop here", @"name")]];
-        [self addProblemWithId:@"other" name:NSLocalizedString(@"Other", @"name")];
+        [self addProblemWithId:@"vehicle_never_came" name:[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"msg_the", @"name"), _vehicleType, NSLocalizedString(@"msg_never_came", @"name")]];
+        [self addProblemWithId:@"vehicle_came_early" name:NSLocalizedString(@"msg_it_came_earlier_than_predicted", @"name")];
+        [self addProblemWithId:@"vehicle_came_late" name:NSLocalizedString(@"msg_it_came_later_than_predicted", @"name")];
+        [self addProblemWithId:@"wrong_headsign" name:NSLocalizedString(@"msg_wrong_destination_shown", @"name")];
+        [self addProblemWithId:@"vehicle_does_not_stop_here" name:[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"msg_the", @"name"), _vehicleType, NSLocalizedString(@"msg_doesnt_stop_here", @"name")]];
+        [self addProblemWithId:@"other" name:NSLocalizedString(@"msg_other", @"name")];
     }
 
     return self;
@@ -84,10 +83,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.backBarButtonItem.title = NSLocalizedString(@"Problem", @"self.navigationItem.backBarButtonItem.title");
+    self.navigationItem.backBarButtonItem.title = NSLocalizedString(@"msg_problem", @"self.navigationItem.backBarButtonItem.title");
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
-    [self hideEmptySeparators];
+    self.tableView.tableFooterView = [UIView new];
 }
 
 #pragma mark - Lazily Loaded Properties
@@ -135,22 +134,22 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
     switch (sectionType) {
         case OBASectionTypeProblem:
-            title.text = NSLocalizedString(@"What's the problem?", @"OBASectionTypeProblem");
+            title.text = NSLocalizedString(@"msg_ask_whats_the_problem", @"OBASectionTypeProblem");
             break;
 
         case OBASectionTypeComment:
-            title.text = NSLocalizedString(@"Optional - Comment:", @"OBASectionTypeComment");
+            title.text = NSLocalizedString(@"msg_optional_comment", @"OBASectionTypeComment");
             break;
 
         case OBASectionTypeOnTheVehicle:
-            title.text = [NSString stringWithFormat:@"%@ %@?", NSLocalizedString(@"Optional - Are you on this", @"OBASectionTypeOnTheVehicle"), _vehicleType];
+            title.text = [NSString stringWithFormat:@"%@ %@?", NSLocalizedString(@"msg_optional_are_you_on_this", @"OBASectionTypeOnTheVehicle"), _vehicleType];
             break;
 
         case OBASectionTypeSubmit:
             view.frame = CGRectMake(0, 0, 320, 70);
             title.numberOfLines = 2;
             title.frame = CGRectMake(15, 5, 290, 60);
-            title.text = NSLocalizedString(@"Your reports help OneBusAway find and fix problems with the system.", @"OBASectionTypeNotes");
+            title.text = NSLocalizedString(@"msg_explanatory_send_reports", @"OBASectionTypeNotes");
             break;
 
         default:
@@ -213,7 +212,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             }
             else {
                 cell.textLabel.textColor = [UIColor grayColor];
-                cell.textLabel.text = NSLocalizedString(@"Touch to edit", @"cell.textLabel.text");
+                cell.textLabel.text = NSLocalizedString(@"msg_touch_to_edit", @"cell.textLabel.text");
             }
 
             return cell;
@@ -228,7 +227,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.textLabel.font = [OBATheme bodyFont];
-            cell.textLabel.text = NSLocalizedString(@"Submit", @"cell.textLabel.text");
+            cell.textLabel.text = NSLocalizedString(@"msg_submit", @"cell.textLabel.text");
             return cell;
         }
 
@@ -246,7 +245,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         case OBASectionTypeProblem: {
             NSIndexPath *selectedIndex = [NSIndexPath indexPathForRow:_problemIndex inSection:0];
             OBAListSelectionViewController *vc = [[OBAListSelectionViewController alloc] initWithValues:_problemNames selectedIndex:selectedIndex];
-            vc.title = NSLocalizedString(@"What's the problem?", @"vc.title");
+            vc.title = NSLocalizedString(@"msg_ask_whats_the_problem", @"vc.title");
             vc.delegate = self;
             vc.exitOnSelection = YES;
             [self.navigationController pushViewController:vc animated:YES];
@@ -257,7 +256,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             OBATextEditViewController *vc = [[OBATextEditViewController alloc] init];
             vc.delegate = self;
             vc.text = _comment;
-            vc.title = NSLocalizedString(@"Comment", @"withTitle");
+            vc.title = NSLocalizedString(@"msg_comment", @"withTitle");
 
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
             [self presentViewController:nav animated:YES completion:nil];
@@ -382,7 +381,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     switch (indexPath.row) {
         case 0: {
             OBALabelAndSwitchTableViewCell *cell = [OBALabelAndSwitchTableViewCell getOrCreateCellForTableView:tableView];
-            cell.label.text = [NSString stringWithFormat:@"%@ %@?", NSLocalizedString(@"On this", @"cell.label.text"), [_vehicleType capitalizedString]];
+            cell.label.text = [NSString stringWithFormat:@"%@ %@?", NSLocalizedString(@"msg_on_this", @"cell.label.text"), [_vehicleType capitalizedString]];
             cell.label.font = [OBATheme bodyFont];
             [cell.toggleSwitch setOn:_onVehicle];
             [cell.toggleSwitch addTarget:self action:@selector(setOnVehicle:) forControlEvents:UIControlEventValueChanged];
@@ -391,7 +390,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
         case 1: {
             OBALabelAndTextFieldTableViewCell *cell = [OBALabelAndTextFieldTableViewCell getOrCreateCellForTableView:tableView];
-            cell.label.text = [NSString stringWithFormat:@"%@ %@", [_vehicleType capitalizedString], NSLocalizedString(@"Number", @"cell.label.text")];
+            cell.label.text = [NSString stringWithFormat:@"%@ %@", [_vehicleType capitalizedString], NSLocalizedString(@"msg_number", @"cell.label.text")];
             cell.label.font = [OBATheme bodyFont];
             cell.textField.text = _vehicleNumber;
             cell.textField.delegate = self;
@@ -414,19 +413,19 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     switch (route.routeType.unsignedIntegerValue) {
         case OBARouteTypeLightRail:
         case OBARouteTypeMetro:
-            return NSLocalizedString(@"metro", @"routeType 1");
+            return NSLocalizedString(@"msg_metro", @"routeType 1");
 
         case OBARouteTypeTrain:
-            return NSLocalizedString(@"train", @"routeType 2");
+            return NSLocalizedString(@"msg_train", @"routeType 2");
 
         case OBARouteTypeBus:
-            return NSLocalizedString(@"bus", @"routeType 3");
+            return NSLocalizedString(@"msg_bus", @"routeType 3");
 
         case OBARouteTypeFerry:
-            return NSLocalizedString(@"ferry", @"routeType 4");
+            return NSLocalizedString(@"msg_ferry", @"routeType 4");
 
         default:
-            return NSLocalizedString(@"vehicle", @"routeType default");
+            return NSLocalizedString(@"msg_vehicle", @"routeType default");
     }
 }
 
@@ -452,8 +451,8 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategorySubmit action:@"report_problem" label:@"Reported Problem" value:nil];
 
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Submission Successful", @"view.title")
-                                                                       message:NSLocalizedString(@"The problem was sucessfully reported. Thank you!", @"view.message")
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_submission_successful", @"view.title")
+                                                                       message:NSLocalizedString(@"msg_sucessfull_report_send", @"view.message")
                                                                 preferredStyle:UIAlertControllerStyleAlert];
 
         [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -471,10 +470,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 }
 
 - (void)showErrorAlert {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error Submitting", @"view.title") message:NSLocalizedString(@"An error occurred while reporting the problem. Please contact us directly.", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_error_submitting", @"view.title") message:NSLocalizedString(@"msg_error_reporting_problem", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleCancel handler:nil]];
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", @"view addButtonWithTitle") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-        [APP_DELEGATE navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_contact_us", @"view addButtonWithTitle") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        [APP_DELEGATE navigateToTarget:[OBANavigationTarget navigationTarget:OBANavigationTargetTypeContactUs]];
     }]];
     [self presentViewController:alert animated:YES completion:nil];
 }

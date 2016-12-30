@@ -18,17 +18,18 @@
 
 @implementation OBATripInstanceRef
 
-- (id) initWithTripId:(NSString*)tripId serviceDate:(long long)serviceDate vehicleId:(NSString*)vehicleId {
+- (instancetype)initWithTripId:(NSString*)tripId serviceDate:(long long)serviceDate vehicleId:(NSString*)vehicleId {
     self = [super init];
-    if( self ) {
-        _tripId = tripId;
+
+    if (self) {
+        _tripId = [tripId copy];
         _serviceDate = serviceDate;
-        _vehicleId = vehicleId;
+        _vehicleId = [vehicleId copy];
     }
     return self;
 }
 
-+ (OBATripInstanceRef*) tripInstance:(NSString*)tripId serviceDate:(long long)serviceDate vehicleId:(NSString*)vehicleId {
++ (OBATripInstanceRef*)tripInstance:(NSString*)tripId serviceDate:(long long)serviceDate vehicleId:(NSString*)vehicleId {
     return [[OBATripInstanceRef alloc] initWithTripId:tripId serviceDate:serviceDate vehicleId:vehicleId];
 }
 
@@ -36,21 +37,20 @@
     return [OBATripInstanceRef tripInstance:newTripId serviceDate:self.serviceDate vehicleId:self.vehicleId];
 }
 
-- (BOOL) isEqual:(id)object {
-    if (self == object)
+- (NSUInteger)hash {
+    return [NSString stringWithFormat:@"%@_%@_%@", self.tripId, @(self.serviceDate), self.vehicleId].hash;
+}
+
+- (BOOL)isEqual:(OBATripInstanceRef*)object {
+    if (self == object) {
         return YES;
-    if (object == nil)
+    }
+
+    if (![object isKindOfClass:[OBATripInstanceRef class]]) {
         return NO;
-    if ( ![object isKindOfClass:[OBATripInstanceRef class]] )
-        return NO;
-    OBATripInstanceRef * instanceRef = object;
-    if ( ![_tripId isEqualToString:instanceRef.tripId] )
-        return NO;
-    if ( _serviceDate != instanceRef.serviceDate )
-        return NO;
-    if ( ! [_vehicleId isEqualToString:_vehicleId] )
-        return NO;
-    return YES;
+    }
+
+    return self.hash == object.hash;
 }
 
 - (NSString*) description {

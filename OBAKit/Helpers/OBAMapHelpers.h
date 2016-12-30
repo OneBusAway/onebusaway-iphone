@@ -25,10 +25,6 @@ NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2,
 
 @interface OBAMapHelpers : NSObject
 
-+ (double)longitudeToPixelSpaceX:(double)longitude;
-+ (double)latitudeToPixelSpaceY:(double)latitude;
-+ (double)pixelSpaceXToLongitude:(double)pixelX;
-+ (double)pixelSpaceYToLatitude:(double)pixelY;
 + (MKCoordinateSpan)coordinateSpanWithCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate zoomLevel:(NSUInteger)zoomLevel viewSize:(CGSize)size;
 + (MKCoordinateRegion)coordinateRegionWithCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate zoomLevel:(NSUInteger)zoomLevel viewSize:(CGSize)size;
 
@@ -62,16 +58,6 @@ NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2,
  @return The equivalent MKMapRect.
  */
 + (MKMapRect)mapRectForCoordinateRegion:(MKCoordinateRegion)region;
-
-/**
- This method is used to determine the correct coordinate region to display on the map when rendering a collection of agencies.
-
- @param agenciesWithCoverage The list of agencies to display.
- @param defaultRegion        The fallback region to display if something goes wrong.
-
- @return An MKCoordinateRegion to display in an MKMapView.
- */
-+ (MKCoordinateRegion)computeRegionForAgenciesWithCoverage:(NSArray*)agenciesWithCoverage defaultRegion:(MKCoordinateRegion)defaultRegion;
 
 /**
  Calculate the coordinate region for the list of stops provided with a provided center location.

@@ -15,9 +15,10 @@
  */
 
 #import "OBAApplicationDelegate.h"
-#import <SystemConfiguration/SystemConfiguration.h>
-#import <GoogleAnalytics/GoogleAnalytics.h>
+@import SystemConfiguration;
+@import GoogleAnalytics;
 @import OBAKit;
+@import SVProgressHUD;
 
 #import "OBANavigationTargetAware.h"
 
@@ -35,7 +36,6 @@
 #import "EXTScope.h"
 
 static NSString *const kTrackingId = @"UA-2423527-17";
-static NSString *const kOptOutOfTracking = @"OptOutOfTracking";
 static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc9f70ef38378a9d5a15ac7d4926";
 
 @interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate>
@@ -44,6 +44,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 @property(nonatomic,strong) id regionObserver;
 @property(nonatomic,strong) id recentStopsObserver;
 @property(nonatomic,strong) id<OBAApplicationUI> applicationUI;
+@property(nonatomic,strong) OBADeepLinkRouter *deepLinkRouter;
 @end
 
 @implementation OBAApplicationDelegate
@@ -63,10 +64,11 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
             [self updateShortcutItemsForRecentStops];
         }];
 
+        _deepLinkRouter = [self.class setupDeepLinkRouterWithModelDAO:[OBAApplication sharedApplication].modelDao appDelegate:self];
+
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 
-        NSDictionary *appDefaults = @{ kOptOutOfTracking: @(NO) };
-        [[OBAApplication sharedApplication] startWithAppDefaults:appDefaults];
+        [[OBAApplication sharedApplication] start];
 
         [OBAApplication sharedApplication].regionHelper.delegate = self;
     }
@@ -90,8 +92,6 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
     self.applicationUI = [[OBAClassicApplicationUI alloc] init];
 //    self.applicationUI = [[OBADrawerUI alloc] init];
-
-    [self.applicationUI updateSelectedTabIndex];
 
     [OBATheme setAppearanceProxies];
 
@@ -128,12 +128,13 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     [Apptentive sharedConnection].APIKey = kApptentiveKey;
 
     // Set up Google Analytics. User must be able to opt out of tracking.
-    [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:kOptOutOfTracking];
+    [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
     [GAI sharedInstance].trackUncaughtExceptions = YES;
     [GAI sharedInstance].logger.logLevel = kGAILogLevelWarning;
 
     //don't report to Google Analytics when developing
 #ifdef DEBUG
+    DDLogInfo(@"In DEBUG mode. Not reporting to Google Analytics.");
     [[GAI sharedInstance] setDryRun:YES];
 #endif
 
@@ -147,6 +148,8 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    DDLogInfo(@"Application entered background.");
+
     CLLocation *location = [OBAApplication sharedApplication].locationManager.currentLocation;
 
     if (location) {
@@ -155,11 +158,13 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    DDLogInfo(@"Application became active");
+
     [[OBAApplication sharedApplication] startReachabilityNotifier];
 
     [self.applicationUI applicationDidBecomeActive];
 
-    [GAI sharedInstance].optOut = [[NSUserDefaults standardUserDefaults] boolForKey:kOptOutOfTracking];
+    [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
 
     NSString *label = [NSString stringWithFormat:@"API Region: %@", [OBAApplication sharedApplication].modelDao.currentRegion.regionName];
 
@@ -174,9 +179,64 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     [[OBAApplication sharedApplication] stopReachabilityNotifier];
 }
 
-#pragma mark Shortcut Items
+#pragma mark - Deep Linking
 
-- (void)application:(UIApplication *)application performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler {
+#define kDeepLinkTripPattern @"\\/regions\\/(\\d+).*\\/stops\\/(.*)\\/trips\\/?"
+
++ (OBADeepLinkRouter*)setupDeepLinkRouterWithModelDAO:(OBAModelDAO*)modelDAO appDelegate:(OBAApplicationDelegate*)appDelegate {
+    OBADeepLinkRouter *deepLinkRouter = [[OBADeepLinkRouter alloc] init];
+
+    [deepLinkRouter routePattern:kDeepLinkTripPattern toAction:^(NSArray<NSString *> *matchGroupResults, NSURLComponents *URLComponents) {
+        OBAGuard(matchGroupResults.count == 2) else {
+            return;
+        }
+
+        NSInteger regionIdentifier = [matchGroupResults[0] integerValue];
+        NSString *stopID = matchGroupResults[1];
+        NSDictionary *queryItems = [NSURLQueryItem oba_dictionaryFromQueryItems:URLComponents.queryItems];
+
+        OBATripDeepLink *tripDeepLink = [[OBATripDeepLink alloc] init];
+        tripDeepLink.regionIdentifier = regionIdentifier;
+        tripDeepLink.stopID = stopID;
+        tripDeepLink.tripID = queryItems[@"trip_id"];
+        tripDeepLink.serviceDate = [queryItems[@"service_date"] longLongValue];
+        tripDeepLink.stopSequence = [queryItems[@"stop_sequence"] integerValue];
+
+        [SVProgressHUD show];
+
+        [[OBAApplication sharedApplication].modelService requestArrivalAndDepartureWithTripDeepLink:tripDeepLink].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
+            tripDeepLink.name = arrivalAndDeparture.bestAvailableNameWithHeadsign;
+
+            // OK, it works, so write it into the model DAO.
+            [[OBAApplication sharedApplication].modelDao addSharedTrip:tripDeepLink];
+
+            OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeRecentStops];
+            target.object = tripDeepLink;
+            [appDelegate navigateToTarget:target];
+        }).catch(^(NSError *error) {
+            NSString *body = [NSString stringWithFormat:NSLocalizedString(@"text_error_cant_show_shared_trip_param", @"Error message displayed to the user when something goes wrong with a just-tapped shared trip."), error.localizedDescription];
+            [AlertPresenter showWarning:NSLocalizedString(@"msg_something_went_wrong",) body:body];
+        }).always(^{
+            [SVProgressHUD dismiss];
+        });
+    }];
+
+    return deepLinkRouter;
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *))restorationHandler {
+
+    NSURL *URL = userActivity.webpageURL;
+    if (!URL) {
+        return NO;
+    }
+
+    return [self.deepLinkRouter performActionForURL:URL];
+}
+
+#pragma mark - Shortcut Items
+
+- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
 
     [self.applicationUI performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler];
 }
@@ -211,7 +271,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     OBAReachability *reachability = note.object;
 
     if (!reachability.isReachable) {
-        [AlertPresenter showWarning:NSLocalizedString(@"Cannot connect to the Internet", @"Reachability alert title") body:NSLocalizedString(@"Please check your Internet connection and try again.", @"Reachability alert body")];
+        [AlertPresenter showWarning:NSLocalizedString(@"msg_cannot_connect_to_the_internet", @"Reachability alert title") body:NSLocalizedString(@"msg_check_internet_connection", @"Reachability alert body")];
     }
 }
 

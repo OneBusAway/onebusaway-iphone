@@ -27,6 +27,9 @@ extern NSString * const kApplicationShortcutMap;
 extern NSString * const kApplicationShortcutRecents;
 extern NSString * const kApplicationShortcutBookmarks;
 
+// User Defaults Keys
+extern NSString * const OBAOptInToTrackingDefaultsKey;
+
 /**
  We report "YES" and "NO" to Google Analytics in several places. This method
  DRYs those up.
@@ -34,11 +37,8 @@ extern NSString * const kApplicationShortcutBookmarks;
 NSString * OBAStringFromBool(BOOL yn);
 
 @interface OBACommon : NSObject
-
 + (void)setRunningInsideTests:(BOOL)runningInsideTests;
 + (BOOL)isRunningInsideTests;
-
-+ (NSString*) getTimeAsString;
 @end
 
 NS_ASSUME_NONNULL_END

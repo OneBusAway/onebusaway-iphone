@@ -16,6 +16,8 @@
 
 #import <OBAKit/OBATripStatusV2.h>
 #import <OBAKit/NSObject+OBADescription.h>
+#import <OBAKit/OBAMacros.h>
+#import <OBAKit/OBADateHelpers.h>
 
 @implementation OBATripStatusV2
 
@@ -28,25 +30,48 @@
     return [OBATripInstanceRef tripInstance:self.activeTripId serviceDate:self.serviceDate vehicleId:self.vehicleId];
 }
 
+- (NSDate*)lastUpdateDate {
+    return [OBADateHelpers dateWithMillisecondsSince1970:self.lastUpdateTime];
+}
+
 - (NSString*)formattedScheduleDeviation {
     NSInteger sd = self.scheduleDeviation;
     NSString *label = @" ";
 
     if (sd > 0) {
-        label = NSLocalizedString(@" late", @"sd > 0");
+        label = OBALocalized(@"msg_space_late", @"sd > 0");
     }
     else if (sd < 0) {
-        label = NSLocalizedString(@" early", @"sd < 0");
+        label = OBALocalized(@"msg_space_early", @"sd < 0");
         sd = -sd;
     }
 
     NSInteger mins = sd / 60;
     NSInteger secs = sd % 60;
 
-    return [NSString stringWithFormat:@"%@: %ldm %lds%@", NSLocalizedString(@"Schedule deviation", @"cell.textLabel.text"), (long)mins, (long)secs, label];
+    return [NSString stringWithFormat:@"%@: %ldm %lds%@", OBALocalized(@"msg_schedule_deviation", @"cell.textLabel.text"), (long)mins, (long)secs, label];
 }
 
 - (NSString*)description {
-    return [self oba_description:@[@"activeTripId", @"activeTrip", @"serviceDate", @"frequency", @"location", @"predicted", @"scheduleDeviation", @"vehicleId", @"lastUpdateTime", @"lastKnownLocation", @"tripInstance"]];
+    return [self oba_description:@[@"activeTripId", @"activeTrip", @"serviceDate", @"frequency", @"location", @"predicted", @"scheduleDeviation", @"vehicleId", @"lastUpdateTime", @"lastKnownLocation", @"tripInstance", @"closestStopID"]];
 }
+
+- (CGFloat)orientationInRadians {
+    return self.orientation * M_PI / 180.f;
+}
+
+#pragma mark - MKAnnotation
+
+- (CLLocationCoordinate2D)coordinate {
+    return self.position.coordinate;
+}
+
+- (NSString*)title {
+    return self.activeTrip.asLabel;
+}
+
+- (NSString*)subtitle {
+    return self.formattedScheduleDeviation;
+}
+
 @end

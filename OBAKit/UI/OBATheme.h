@@ -44,6 +44,12 @@
 + (UIFont*)boldFootnoteFont;
 
 /**
+ * The appropriate font to use for footer text, or a sidenote, but italicized.
+ * Please use sparingly.
+ */
++ (UIFont*)italicFootnoteFont;
+
+/**
  * A bold variant of the appropriate font to use for body or label text.
  * Resizes based upon the user's chosen font sizes at the system level.
  */
@@ -61,6 +67,11 @@
 
 
 // Colors
+
+/**
+ * Returns YES if the user has enabled darker system colors or reduced transparency.
+ */
++ (BOOL)useHighContrastUI;
 
 /**
  Creates a UIColor with color values expressed in more typical 0-255 fashion.
@@ -104,6 +115,13 @@
  */
 + (UIColor*)lightDisabledColor;
 
+
+/**
+ Used for border lines on containers and the like. The same color that is used on the bottom
+ of a navigation bar, for instance.
+ */
++ (UIColor*)borderColor;
+
 /**
  Standard text color.
  */
@@ -133,6 +151,11 @@
 + (UIColor*)mapBookmarkTintColor;
 
 /**
+ The color used to highlight the user location annotation view on the map.
+ */
+@property(class,nonatomic,copy,readonly) UIColor *mapUserLocationColor;
+
+/**
  * The text color used to indicate that the bus is on time for a given stop.
  */
 + (UIColor*)onTimeDepartureColor;
@@ -151,6 +174,16 @@
  Table view section header background color.
  */
 + (UIColor*)tableViewSectionHeaderBackgroundColor;
+
+/**
+ The color of the line that separates one table view cell from another.
+ */
++ (UIColor*)tableViewSeparatorLineColor;
+
+/**
+ The color used on a label's textColor property when the label sits on a dark blurred background.
+ */
++ (UIColor*)darkBlurLabelTextColor;
 
 // Pixels (err, points)
 

@@ -20,7 +20,7 @@
 {
     self = [super initWithNibName:@"OBACreditsViewController" bundle:nil];
     if (self) {
-        self.title = NSLocalizedString(@"Credits", @"Title of credits view controller");
+        self.title = NSLocalizedString(@"msg_credits", @"Title of credits view controller");
     }
     return self;
 }
@@ -29,6 +29,7 @@
 {
     [super viewDidLoad];
     NSString *htmlString = [[NSString alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"credits" ofType:@"html"] encoding:NSUTF8StringEncoding error:nil];
+    self.webView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal;
     [self.webView loadHTMLString:htmlString baseURL:[NSURL fileURLWithPath:[NSBundle mainBundle].bundlePath]];
 }
 

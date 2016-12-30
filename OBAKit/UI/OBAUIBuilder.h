@@ -8,8 +8,15 @@
 
 @import UIKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBAUIBuilder : NSObject
 + (UILabel*)label;
 + (UIView*)footerViewWithText:(NSString*)text maximumWidth:(CGFloat)width;
 + (UIButton*)borderedButtonWithTitle:(NSString*)title;
++ (UIButton*)borderedButtonWithColor:(UIColor*)borderColor;
++ (UIView*)lineView;
+
 @end
+
+NS_ASSUME_NONNULL_END

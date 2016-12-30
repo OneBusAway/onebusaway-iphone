@@ -40,4 +40,12 @@
     return components.URL;
 }
 
++ (NSString*)escapePathVariable:(NSString*)pathVariable {
+    NSString *escaped = [pathVariable stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
+    // Apparently -stringByAddingPercentEncodingWithAllowedCharacters: won't remove
+    // '/' characters from paths, so we get to do that manually here. Boo.
+    // https://github.com/OneBusAway/onebusaway-iphone/issues/817
+    return [escaped stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
+}
+
 @end

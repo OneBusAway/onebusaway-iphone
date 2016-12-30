@@ -21,14 +21,19 @@
     [viewController removeFromParentViewController];
 }
 
+- (void)oba_prepareChildViewController:(UIViewController*)viewController {
+    [viewController willMoveToParentViewController:self];
+    [self setOverrideTraitCollection:self.traitCollection forChildViewController:viewController];
+    [self addChildViewController:viewController];
+}
+
 - (void)oba_addChildViewController:(UIViewController*)viewController {
     if (!viewController) {
         return;
     }
 
-    [viewController willMoveToParentViewController:self];
-    [self setOverrideTraitCollection:self.traitCollection forChildViewController:viewController];
-    [self addChildViewController:viewController];
+    [self oba_prepareChildViewController:viewController];
+
     viewController.view.frame = self.view.bounds;
     [self.view addSubview:viewController.view];
     [viewController didMoveToParentViewController:self];

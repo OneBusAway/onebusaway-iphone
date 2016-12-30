@@ -16,6 +16,7 @@
 
 #import <OBAKit/OBAVehicleMapAnnotation.h>
 #import <OBAKit/OBADateHelpers.h>
+#import <OBAKit/OBAMacros.h>
 
 @implementation OBAVehicleMapAnnotation
 
@@ -29,9 +30,12 @@
 #pragma mark MKAnnotation
 
 - (NSString*) title {
-    if( ! _tripStatus.vehicleId )
-        return NSLocalizedString(@"Vehicle",@"title");
-    return [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"Vehicle",@"title"), _tripStatus.vehicleId];
+    if (_tripStatus.vehicleId) {
+        return [NSString stringWithFormat:@"%@: %@", OBALocalized(@"msg_mayus_vehicle",@"title"), _tripStatus.vehicleId];
+    }
+    else {
+        return OBALocalized(@"msg_mayus_vehicle",@"title");
+    }
 }
 
 - (NSString*) subtitle {
@@ -39,11 +43,11 @@
 }
 
 - (CLLocationCoordinate2D) coordinate {
-    if( _showLastKnownLocation ) {
+    if (_showLastKnownLocation) {
         return _tripStatus.lastKnownLocation.coordinate;
     }
     else {
-        return _tripStatus.location.coordinate;
+        return _tripStatus.position.coordinate;
     }
 }
 

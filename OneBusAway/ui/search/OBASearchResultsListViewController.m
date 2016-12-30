@@ -24,9 +24,9 @@
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        self.title = NSLocalizedString(@"Nearby", @"");
-        self.emptyDataSetTitle = NSLocalizedString(@"No Results Found", @"");
-        self.emptyDataSetDescription = NSLocalizedString(@"No results were found for the searched area. Zoom out or move the map around to choose a different area.", @"");
+        self.title = NSLocalizedString(@"msg_nearby", @"");
+        self.emptyDataSetTitle = NSLocalizedString(@"msg_no_results_found", @"");
+        self.emptyDataSetDescription = NSLocalizedString(@"msg_no_result_map_area", @"");
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataUpdated:) name:OBASearchControllerDidUpdateNotification object:nil];
     }
@@ -40,7 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"") style:UIBarButtonItemStyleDone target:self action:@selector(dismissModal)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_close", @"") style:UIBarButtonItemStyleDone target:self action:@selector(dismissModal)];
 
     [self loadData];
 }
@@ -110,15 +110,6 @@
                 }];
                 break;
             }
-            case OBASearchTypeAgenciesWithCoverage: {
-                // There's no action to take when an agency is selected.
-                // hence the lack of a -setAction: call.
-                OBAAgencyWithCoverageV2 * awc = obj;
-                tableRow.style = UITableViewCellStyleDefault;
-                tableRow.title = awc.agency.name;
-                tableRow.accessoryType = UITableViewCellAccessoryNone;
-                break;
-            }
             default: {
                 // no-op.
             }
@@ -136,18 +127,16 @@
 + (nullable NSString*)titleFromSearchResult:(OBASearchResult*)result {
     switch (result.searchType) {
         case OBASearchTypeNone:
-            return NSLocalizedString(@"No Results",@"OBASearchTypeNone");
+            return NSLocalizedString(@"msg_no_results",@"OBASearchTypeNone");
         case OBASearchTypeRegion:
         case OBASearchTypePlacemark:
         case OBASearchTypeStopId:
         case OBASearchTypeRouteStops:
-            return NSLocalizedString(@"Stops",@"OBASearchTypeRouteStops");
+            return NSLocalizedString(@"msg_stops",@"OBASearchTypeRouteStops");
         case OBASearchTypeRoute:
-            return NSLocalizedString(@"Routes",@"OBASearchTypeRoute");
+            return NSLocalizedString(@"msg_routes",@"OBASearchTypeRoute");
         case OBASearchTypeAddress:
-            return NSLocalizedString(@"Places",@"OBASearchTypeAddress");
-        case OBASearchTypeAgenciesWithCoverage:
-            return NSLocalizedString(@"Agencies",@"OBASearchTypeAgenciesWithCoverage");
+            return NSLocalizedString(@"msg_places",@"OBASearchTypeAddress");
         default:
             return nil;
     }

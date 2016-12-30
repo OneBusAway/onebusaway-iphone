@@ -21,6 +21,7 @@
 #import <OBAKit/OBAServiceAlertsModel.h>
 #import <OBAKit/OBARegionV2.h>
 #import <OBAKit/OBAModelPersistenceLayer.h>
+#import <OBAKit/OBATripDeepLink.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -41,34 +42,41 @@ extern NSString * const OBARegionDidUpdateNotification;
 
 - (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer;
 
+// Bookmarks
+
 - (NSArray<OBABookmarkV2*>*)bookmarksMatchingPredicate:(NSPredicate*)predicate;
 - (nullable OBABookmarkV2*)bookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrival;
 - (void)saveBookmark:(OBABookmarkV2*)bookmark;
 - (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex;
 - (void)removeBookmark:(OBABookmarkV2*)bookmark;
-
 - (nullable OBABookmarkV2*)bookmarkAtIndex:(NSUInteger)index inGroup:(nullable OBABookmarkGroup*)group;
 - (void)moveBookmark:(OBABookmarkV2*)bookmark toIndex:(NSUInteger)index inGroup:(nullable OBABookmarkGroup*)group;
 - (void)moveBookmark:(OBABookmarkV2*)bookmark toGroup:(nullable OBABookmarkGroup*)group;
 - (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex inGroup:(OBABookmarkGroup*)group;
+
+// Bookmark Groups
 
 - (void)moveBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup toIndex:(NSUInteger)index;
 - (void)saveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup;
 - (void)removeBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup;
 - (void)persistGroups;
 
+// Stop Preferences
+
 - (OBAStopPreferencesV2*)stopPreferencesForStopWithId:(NSString*)stopId;
 - (void)setStopPreferences:(OBAStopPreferencesV2*)preferences forStopWithId:(NSString*)stopId;
 
-- (BOOL) isVisitedSituationWithId:(NSString*)situationId;
-- (void) setVisited:(BOOL)visited forSituationWithId:(NSString*)situationId;
+// Service Alerts
 
+- (BOOL)isVisitedSituationWithId:(NSString*)situationId;
+- (void)setVisited:(BOOL)visited forSituationWithId:(NSString*)situationId;
 - (OBAServiceAlertsModel*) getServiceAlertsModelForSituations:(NSArray*)situations;
 
 // Recent Stops
 
 - (void)clearMostRecentStops;
 - (void)viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop;
+- (void)removeRecentStop:(OBAStopAccessEventV2*)recentStop;
 
 // Regions
 
@@ -81,6 +89,14 @@ extern NSString * const OBARegionDidUpdateNotification;
 @property(nonatomic,assign) BOOL shareRegionPII;
 @property(nonatomic,assign) BOOL shareLocationPII;
 @property(nonatomic,assign) BOOL shareLogsPII;
+
+// Shared Trips
+
+@property(nonatomic,copy,readonly) NSArray<OBATripDeepLink*> *sharedTrips;
+- (void)addSharedTrip:(OBATripDeepLink*)sharedTrip;
+- (void)removeSharedTrip:(OBATripDeepLink*)sharedTrip;
+- (void)clearSharedTrips;
+- (void)clearSharedTripsOlderThan24Hours;
 
 @end
 

@@ -1,0 +1,125 @@
+/* sd < 0 */
+"msg_space_early" = " antes";
+
+/* sd > 0 */
+"msg_space_late" = " tarde";
+
+/* No comment provided by engineer. */
+"text_bound_and_routes_params" = "%@ bound - Rutas: %@";
+
+/* <Route Number> to <Location>. e.g. 10 to Downtown Seattle */
+"text_route_to_orientation_params" = "%@ hacia %@";
+
+/* The explanatory text displayed when a non-realtime trip is displayed on-screen. */
+"msg_scheduled_explanatory" = "*'Planificada': sin datos de ubicación de vehículos disponibles";
+
+/* Typically used on alerts and other modal actions. A 'cancel' button. */
+"msg_cancel" = "Cancelar";
+
+/* No comment provided by engineer. */
+"msg_cellular" = "Celular";
+
+/* Typically used on alerts and other modal actions. A 'delete' button. */
+"msg_delete" = "Borrar";
+
+/* Used on alerts. iOS tends to use 'Dismiss' instead of 'OK' on alerts that the user isn't actually agreeing to. */
+"msg_dismiss" = "Omitir";
+
+/* As in 'edit object'. */
+"msg_edit" = "Editar";
+
+/* The text 'Error' */
+"msg_error" = "Error";
+
+/* code != 404 */
+"msg_error_connecting" = "Error al Conectar";
+
+/* frequency status string */
+"text_frequency_status_params" = "Cada %@ mins %@ %@";
+
+/* No comment provided by engineer. */
+"msg_headed_somewhere_dots" = "Encabezados en algún lugar...";
+
+/* No comment provided by engineer. */
+"msg_now" = "AHORA";
+
+/* No comment provided by engineer. */
+"msg_no_connection" = "Sin Conexión";
+
+/* Standard 'OK' button text. */
+"msg_ok" = "Aceptar";
+
+/* feedback mail subject */
+"msg_oba_ios_feedback" = "Envio de Comentarios de OneBusAway iOS";
+
+/* No comment provided by engineer. */
+"text_only_routes_colon_param" = "Rutas: %@";
+
+/* No comment provided by engineer. */
+"msg_stop_mayus" = "PARADA";
+
+/* Standard 'Save' button text. */
+"msg_save" = "Guardar";
+
+/* cell.textLabel.text */
+"msg_schedule_deviation" = "Desviación";
+
+/* code == 404 */
+"mgs_stop_not_found" = "La Parada no fue encontrada";
+
+/* title */
+"msg_mayus_vehicle" = "Vehículo";
+
+/* No comment provided by engineer. */
+"msg_wifi" = "WiFi";
+
+/* minutes < 0 */
+"msg_departed_on_time" = "salió a tiempo";
+
+/* No comment provided by engineer. */
+"msg_from" = "de";
+
+/* minutes */
+"msg_mins" = "mins";
+
+/* minutes >= 0 */
+"msg_on_time" = "sale a tiempo";
+
+/* minutes >= 0 */
+"msg_scheduled_arrival_asterisk" = "llegada planificada*";
+
+/* minutes < 0 */
+"msg_scheduled_departure_asterisk" = "salida planificada*";
+
+/* No comment provided by engineer. */
+"msg_until" = "hasta";
+
+/* e.g. 'arrived 3 min early' - note the past tense */
+"departure_cell_helpers.arrived_x_minutes_early" = "llegó %@ min antes";
+
+/* e.g. 'arriving 5 min early' - note the future tense */
+"departure_cell_helpers.arriving_x_minutes_early" = "llegando %@ min antes";
+
+/* Indicates that the vehicle arrived on time. Note past tense. */
+"departure_cell_helpers.arrived_on_time" = "llegó a tiempo";
+
+/* Indicates that the vehicle is arriving on time. Note future tense. */
+"departure_cell_helpers.arriving_on_time" = "llegando a tiempo";
+
+/* e.g. 'arrived 5 min late'. Note the past tense. */
+"departure_cell_helpers.arrived_x_min_late" = "llegó %@ min tarde";
+
+/* e.g. 'arriving 5 min late'. Note the future tense. */
+"departure_cell_helpers.arriving_x_min_late" = "llegando %@ min tarde";
+
+/* e.g. 'departed 1 min early'. Note the past tense. */
+"departure_cell_helpers.departed_x_min_early" = "salió %@ min antes";
+
+/* e.g. 'departs 1 min early'. Note the future tense. */
+"departure_cell_helpers.departs_x_min_early" = "sale %@ min antes";
+
+/* e.g. 'departed 20 min late'. Note the past tense */
+"departure_cell_helpers.departed_x_min_late" = "salió %@ min tarde";
+
+/* e.g. 'departs 12 min late'. Note the future tense */
+"departure_cell_helpers.departs_x_min_late" = "sale %@ min tarde";

@@ -33,7 +33,7 @@
 
     if (self) {
         _stopID = [stopID copy];
-        self.title = NSLocalizedString(@"Report Problem",);
+        self.title = NSLocalizedString(@"msg_report_problem",);
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
     }
     return self;
@@ -49,13 +49,13 @@
     }).always(^{
         [SVProgressHUD dismiss];
     }).catch(^(NSError *error) {
-        [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription ?: NSLocalizedString(@"Error connecting", @"requestDidFail")];
+        [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription ?: NSLocalizedString(@"msg_error_min_connecting", @"requestDidFail")];
     });
 }
 
 - (void)populateTable {
-    OBATableSection *stopSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"The Stop Itself",)];
-    OBATableRow *theStopRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"Report a Problem with this Stop",) action:^{
+    OBATableSection *stopSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_the_stop_itself",)];
+    OBATableRow *theStopRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_report_problem_this_stop",) action:^{
         OBAReportProblemWithStopViewController * vc = [[OBAReportProblemWithStopViewController alloc] initWithStop:self.arrivalsAndDepartures.stop];
         [self.navigationController pushViewController:vc animated:YES];
     }];
@@ -70,9 +70,9 @@
         }];
         row.routeName = dep.bestAvailableName;
         row.destination = dep.tripHeadsign.capitalizedString;
-        row.statusText = dep.statusText;
+        row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
 
-        OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestDeparture departureStatus:dep.departureStatus];
+        OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState];
         row.upcomingDepartures = @[upcoming];
 
         row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -80,7 +80,7 @@
         [departureRows addObject:row];
     }
 
-    OBATableSection *departuresSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"A vehicle at this stop",) rows:departureRows];
+    OBATableSection *departuresSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_vehicle_this_stop",) rows:departureRows];
 
     self.sections = @[stopSection, departuresSection];
     [self.tableView reloadData];
@@ -95,7 +95,7 @@
     }).always(^{
         [SVProgressHUD dismiss];
     }).catch(^(NSError *error) {
-        [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription ?: NSLocalizedString(@"An error occurred loading this trip. Please try again.",)];
+        [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription ?: NSLocalizedString(@"msg_error_loading_trip",)];
     });
 }
 

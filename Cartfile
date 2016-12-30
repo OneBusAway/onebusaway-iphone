@@ -1,8 +1,8 @@
 # https://github.com/mxcl/promisekit/releases
-github "mxcl/PromiseKit" ~>4.0.3
+github "mxcl/PromiseKit" ~>4.0.5
 
 # https://github.com/PromiseKit/Foundation/releases
-github "PromiseKit/Foundation" ~>1.0.0
+github "PromiseKit/Foundation" ~>1.0.2
 
 # https://github.com/PromiseKit/CoreLocation/releases
 github "PromiseKit/CoreLocation" ~>1.0.1
@@ -19,11 +19,14 @@ github "SVProgressHUD/SVProgressHUD" ~>2.0.3
 # https://github.com/SnapKit/Masonry/releases
 github "SnapKit/Masonry" ~>1.0.2
 
+# https://github.com/SnapKit/SnapKit/releases
+github "SnapKit/SnapKit" ~>3.0.2
+
 # https://github.com/dzenbot/DZNEmptyDataSet/releases
 github "dzenbot/DZNEmptyDataSet" ~>1.8.1
 
 # https://github.com/SwiftKickMobile/SwiftMessages/releases
-github "SwiftKickMobile/SwiftMessages" ~>3.0.1
+github "SwiftKickMobile/SwiftMessages" ~>3.0.2
 
 # https://github.com/CocoaLumberjack/CocoaLumberjack/releases
 github "aaronbrethorst/CocoaLumberjack" "oba-compat"
@@ -31,14 +34,16 @@ github "aaronbrethorst/CocoaLumberjack" "oba-compat"
 # These repositories do not work properly with Carthage.
 # I am currently copying the source files present in Carthage/Checkouts
 # and copying them to the externals folder. So, we're at least getting
-# a decent level of version control, but it's less than ideal.
+# a decent level of release control, but it's less than ideal.
 github "jspahrsummers/libextobjc" ~>0.5.0
 
 # https://github.com/52inc/Pulley/releases
-github "52inc/Pulley" ~>1.2.2
+github "52inc/Pulley" ~>1.3.0
 
 # https://github.com/AzimoLabs/SMFloatingLabelTextField/releases
 github "AzimoLabs/SMFloatingLabelTextField" ~>0.2.0
+
+github "cbpowell/MarqueeLabel" ~>3.0.1
 
 # Having issues, needs work.
 # github "apptentive/apptentive-ios" ~>3.3.0

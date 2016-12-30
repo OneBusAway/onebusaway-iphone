@@ -27,6 +27,7 @@
 
 #import <OBAKit/OBAReachability.h>
 #import <OBAKit/OBALogging.h>
+#import <OBAKit/OBAMacros.h>
 
 #import <sys/socket.h>
 #import <netinet/in.h>
@@ -405,14 +406,14 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 	if(temp == ReachableViaWWAN)
 	{
         // Updated for the fact that we have CDMA phones now!
-		return NSLocalizedString(@"Cellular", @"");
+		return OBALocalized(@"msg_cellular", @"");
 	}
 	if (temp == ReachableViaWiFi) 
 	{
-		return NSLocalizedString(@"WiFi", @"");
+		return OBALocalized(@"msg_wifi", @"");
 	}
 	
-	return NSLocalizedString(@"No Connection", @"");
+	return OBALocalized(@"msg_no_connection", @"");
 }
 
 -(NSString*)currentReachabilityFlags

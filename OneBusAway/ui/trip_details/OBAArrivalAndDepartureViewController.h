@@ -15,4 +15,5 @@
 @property(nonatomic,strong) OBAArrivalAndDepartureV2* arrivalAndDeparture;
 
 - (instancetype)initWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
+- (instancetype)initWithTripDeepLink:(OBATripDeepLink*)link;
 @end

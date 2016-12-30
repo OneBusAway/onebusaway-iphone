@@ -11,6 +11,7 @@
 @interface UIViewController (OBAContainment)
 
 - (void)oba_removeChildViewController:(UIViewController*)viewController;
-- (void)oba_addChildViewController:(UIViewController*)viewController;
 
+- (void)oba_prepareChildViewController:(UIViewController*)viewController;
+- (void)oba_addChildViewController:(UIViewController*)viewController;
 @end

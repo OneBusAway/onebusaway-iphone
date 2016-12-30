@@ -29,7 +29,7 @@
 #define kAddressSegmentIndex        1
 #define kStopNumberSegmentIndex     2
 
-#define kDefaultTitle NSLocalizedString(@"Map", @"Map tab title")
+#define kDefaultTitle NSLocalizedString(@"msg_map", @"Map tab title")
 
 static const NSUInteger kShowNClosestStops = 4;
 static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
@@ -42,7 +42,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 @property(nonatomic,strong) IBOutlet MKMapView * mapView;
 @property(nonatomic,strong) IBOutlet UISearchBar *searchBar;
 @property(nonatomic,strong) IBOutlet UILabel *mapLabel;
-@property(nonatomic,strong) OBAVibrantBlurContainerView *mapLabelContainer;
+@property(nonatomic,strong) UIView *mapLabelContainer;
 
 // Programmatic UI
 @property(nonatomic,strong) OBAMapActivityIndicatorView *mapActivityIndicatorView;
@@ -71,7 +71,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     if (self) {
         self.title = kDefaultTitle;
-        self.tabBarItem.image = [UIImage imageNamed:@"CrossHairs"];
+        self.tabBarItem.image = [UIImage imageNamed:@"Map"];
+        self.tabBarItem.selectedImage = [UIImage imageNamed:@"Map_Selected"];
     }
 
     return self;
@@ -97,6 +98,9 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
     
     self.mapView.rotateEnabled = NO;
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        self.mapView.showsUserLocation = YES;
+    }
 
     self.hideFutureNetworkErrors = NO;
 
@@ -111,7 +115,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     [self configureNavigationBar];
 
-    if ([[OBAApplication sharedApplication] useHighContrastUI]) {
+    if ([OBATheme useHighContrastUI]) {
         [self setHighContrastStyle];
     }
     else {
@@ -134,7 +138,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self.navigationItem.leftBarButtonItem = self.trackingBarButtonItem;
 
     self.listBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStylePlain target:self action:@selector(showListView:)];
-    self.listBarButtonItem.accessibilityLabel = NSLocalizedString(@"Nearby stops list", @"self.listBarButtonItem.accessibilityLabel");
+    self.listBarButtonItem.accessibilityLabel = NSLocalizedString(@"msg_nearby_stops_list", @"self.listBarButtonItem.accessibilityLabel");
     self.navigationItem.rightBarButtonItem = self.listBarButtonItem;
 
     self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
@@ -142,7 +146,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
         searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         searchBar.searchBarStyle = UISearchBarStyleMinimal;
-        searchBar.placeholder = NSLocalizedString(@"Search", @"");
+        searchBar.placeholder = NSLocalizedString(@"msg_search", @"");
         searchBar.delegate = self;
         searchBar;
     });
@@ -160,6 +164,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    OBALogFunction();
+
     [self registerForLocationNotifications];
     [[OBAApplication sharedApplication].locationManager startUpdatingLocation];
 
@@ -168,10 +174,10 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
     
     if ([OBAApplication sharedApplication].modelDao.currentRegion.regionName) {
-        self.searchBar.placeholder = [NSString stringWithFormat:NSLocalizedString(@"Search %@",@"Search {Region Name}"), [OBAApplication sharedApplication].modelDao.currentRegion.regionName];
+        self.searchBar.placeholder = [NSString stringWithFormat:NSLocalizedString(@"text_search_param",@"Search {Region Name}"), [OBAApplication sharedApplication].modelDao.currentRegion.regionName];
     }
     else {
-        self.searchBar.placeholder = NSLocalizedString(@"Search", @"");
+        self.searchBar.placeholder = NSLocalizedString(@"msg_search", @"");
     }
 }
 
@@ -356,11 +362,11 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         self.hideFutureNetworkErrors = YES;
 
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error connecting", @"self.navigationItem.title") message:NSLocalizedString(@"There was a problem with your Internet connection.\r\n\r\nPlease check your network connection or contact us if you think the problem is on our end.", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_error_min_connecting", @"self.navigationItem.title") message:NSLocalizedString(@"msg_problem_internet_connection_on_map", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
 
         [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleCancel handler:nil]];
-        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [APP_DELEGATE navigateToTarget:[OBANavigationTarget target:OBANavigationTargetTypeContactUs]];
+        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_contact_us", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [APP_DELEGATE navigateToTarget:[OBANavigationTarget navigationTarget:OBANavigationTargetTypeContactUs]];
         }]];
         [self presentViewController:alert animated:YES completion:nil];
     }
@@ -479,7 +485,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     view.canShowCallout = YES;
     view.rightCalloutAccessoryView = ({
         UIButton *rightCalloutButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        if ([[OBAApplication sharedApplication] useHighContrastUI]) {
+        if ([OBATheme useHighContrastUI]) {
             rightCalloutButton.tintColor = [UIColor blackColor];
         }
         else {
@@ -759,12 +765,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         return;
     }
 
-    if (result && result.searchType == OBASearchTypeAgenciesWithCoverage) {
-        self.navigationItem.titleView = nil;
-        self.navigationItem.title = NSLocalizedString(@"Agencies", @"self.navigationItem.title");
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPressed)];
-    }
-
     [self.class setAnnotationsForMapView:self.mapView fromSearchResult:self.searchController.result bookmarkAnnotations:[self bookmarkAnnotations]];
     [self setOverlaysFromResults];
     [self setRegionFromResults];
@@ -819,16 +819,16 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     NSString *regionName = [OBAApplication sharedApplication].modelDao.currentRegion.regionName;
 
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Go to %@?", @"Out of range alert title"), regionName]
-                                                                   message:[NSString stringWithFormat:NSLocalizedString(@"You are out of the %@ service area. Go there now?", @"Out of range alert message"), regionName]
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:NSLocalizedString(@"text_ask_go_to_region_param", @"Out of range alert title"), regionName]
+                                                                   message:[NSString stringWithFormat:NSLocalizedString(@"text_ask_go_to_service_area_param", @"Out of range alert message"), regionName]
                                                             preferredStyle:UIAlertControllerStyleAlert];
 
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"No", @"Out of range alert Cancel button") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_no", @"Out of range alert Cancel button") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         self.hideFutureOutOfRangeErrors = YES;
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: NO" value:nil];
     }]];
 
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Yes", @"Out of range alert OK button") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_yes", @"Out of range alert OK button") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: YES" value:nil];
         MKMapRect serviceRect = [[OBAApplication sharedApplication].modelDao.currentRegion serviceRect];
         [self.mapRegionManager setRegion:MKCoordinateRegionForMapRect(serviceRect)];
@@ -853,22 +853,31 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 + (void)setAnnotationsForMapView:(MKMapView*)mapView fromSearchResult:(OBASearchResult*)result bookmarkAnnotations:(NSArray*)bookmarks {
     NSMutableArray *allCurrentAnnotations = [[NSMutableArray alloc] init];
 
-    if (result.searchType == OBASearchTypeAgenciesWithCoverage) {
-        for (OBAAgencyWithCoverageV2 *agencyWithCoverage in result.values) {
-            OBAAgencyV2 *agency = agencyWithCoverage.agency;
-            OBANavigationTargetAnnotation *an = [[OBANavigationTargetAnnotation alloc] initWithTitle:agency.name subtitle:nil coordinate:agencyWithCoverage.coordinate target:nil];
-            [allCurrentAnnotations addObject:an];
-        }
-    }
-    else {
-        [allCurrentAnnotations addObjectsFromArray:bookmarks];
+    [allCurrentAnnotations addObjectsFromArray:bookmarks];
 
-        if (result.values.count > 0) {
-            @autoreleasepool {
-                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (stopId IN %@)", [bookmarks valueForKey:@"stopId"]];
-                [allCurrentAnnotations addObjectsFromArray:[result.values filteredArrayUsingPredicate:predicate]];
-            }
+    NSSet *bookmarkStopIDs = [NSSet setWithArray:[bookmarks valueForKey:@"stopId"]];
+
+    // prospectiveAnnotation *should* be an OBAStopV2, but there are some indications that this
+    // is not always the case. To that end, we'll just go belt and suspenders on it and see if
+    // the object responds to the appropriate selector. Additionally, I've added a type check
+    // to validate my own assumptions about this.
+    // https://github.com/OneBusAway/onebusaway-iphone/issues/825
+    for (id prospectiveAnnotation in result.values) {
+        OBAGuardClass(prospectiveAnnotation, OBAStopV2) else {
+            DDLogError(@"prospectiveAnnotation is an instance of %@, and not OBAStopV2!", NSStringFromClass([prospectiveAnnotation class]));
         }
+
+        if (![prospectiveAnnotation respondsToSelector:@selector(stopId)]) {
+            continue;
+        }
+
+        NSString *stopID = [prospectiveAnnotation stopId];
+
+        if ([bookmarkStopIDs containsObject:stopID]) {
+            continue;
+        }
+
+        [allCurrentAnnotations addObject:prospectiveAnnotation];
     }
 
     NSMutableArray *toAdd = [[NSMutableArray alloc] init];
@@ -927,21 +936,18 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     switch (type) {
         case OBASearchTypeRoute:
-            return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Route", @"route"), param];
+            return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"msg_route", @"route"), param];
 
         case OBASearchTypeRouteStops: {
             OBARouteV2 *route = [[OBAApplication sharedApplication].references getRouteForId:param];
 
-            if (route) return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Route", @"route"), [route safeShortName]];
+            if (route) return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"msg_route", @"route"), [route safeShortName]];
 
-            return NSLocalizedString(@"Route", @"route");
+            return NSLocalizedString(@"msg_route", @"route");
         }
 
         case OBASearchTypeStopId:
-            return [NSString stringWithFormat:@"%@ # %@", NSLocalizedString(@"Stop", @"OBASearchTypeStopId"), param];
-
-        case OBASearchTypeAgenciesWithCoverage:
-            return NSLocalizedString(@"Transit Agencies", @"OBASearchTypeAgenciesWithCoverage");
+            return [NSString stringWithFormat:@"%@ # %@", NSLocalizedString(@"msg_stop", @"OBASearchTypeStopId"), param];
 
         case OBASearchTypeAddress:
             return param;
@@ -966,7 +972,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     NSString *defaultLabel = nil;
 
     if (span.latitudeDelta > OBAMaxLatitudeDeltaToShowStops) {
-        defaultLabel = NSLocalizedString(@"Zoom in to look for stops", @"span.latitudeDelta > kMaxLatDeltaToShowStops");
+        defaultLabel = NSLocalizedString(@"msg_zoom_on_map_for_look_stop", @"span.latitudeDelta > kMaxLatDeltaToShowStops");
     }
 
     if (!result) {
@@ -977,14 +983,13 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         case OBASearchTypeRoute:
         case OBASearchTypeRouteStops:
         case OBASearchTypeAddress:
-        case OBASearchTypeAgenciesWithCoverage:
         case OBASearchTypeStopId:
             return nil;
 
         case OBASearchTypePlacemark:
         case OBASearchTypeRegion: {
             if (![self checkStopsInRegion] && span.latitudeDelta <= OBAMaxLatitudeDeltaToShowStops) {
-                defaultLabel = NSLocalizedString(@"No stops at this location", @"[values count] == 0");
+                defaultLabel = NSLocalizedString(@"msg_no_stops_location_map", @"[values count] == 0");
             }
 
             break;
@@ -996,7 +1001,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 
     if ([OBAApplication sharedApplication].modelDao.currentRegion && [self outOfServiceArea]) {
-        return NSLocalizedString(@"Out of OneBusAway service area", @"result.outOfRange");
+        return NSLocalizedString(@"msg_out_oba_service_area", @"result.outOfRange");
     }
 
     return defaultLabel;
@@ -1035,9 +1040,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         case OBASearchTypeAddress:
             return [OBAMapHelpers computeRegionForPlacemarks:result.values defaultRegion:self.mapView.region];
-
-        case OBASearchTypeAgenciesWithCoverage:
-            return [OBAMapHelpers computeRegionForAgenciesWithCoverage:result.values defaultRegion:self.mapView.region];
 
         case OBASearchTypeNone:
         case OBASearchTypeRegion:
@@ -1102,8 +1104,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (BOOL)checkOutOfRangeResults {
     if (self.searchController.result.outOfRange) {
-        [self showNoResultsAlertWithTitle:NSLocalizedString(@"Out of range", @"showNoResultsAlertWithTitle")
-                                   prompt:NSLocalizedString(@"You are outside the OneBusAway service area.", @"prompt")];
+        [self showNoResultsAlertWithTitle:NSLocalizedString(@"msg_out_of_range", @"showNoResultsAlertWithTitle")
+                                   prompt:NSLocalizedString(@"msg_explanatory_out_of_range", @"prompt")];
     }
 
     return self.searchController.result.outOfRange;
@@ -1111,15 +1113,15 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)checkNoRouteResults {
     if (0 == self.searchController.result.values.count) {
-        [self showNoResultsAlertWithTitle:NSLocalizedString(@"No routes found", @"showNoResultsAlertWithTitle")
-                                   prompt:NSLocalizedString(@"No routes were found for your search.", @"prompt")];
+        [self showNoResultsAlertWithTitle:NSLocalizedString(@"msg_no_routes_found", @"showNoResultsAlertWithTitle")
+                                   prompt:NSLocalizedString(@"msg_explanatory_no_routes_found", @"prompt")];
     }
 }
 
 - (void)checkNoStopIdResults {
     if (0 == self.searchController.result.values.count) {
-        [self showNoResultsAlertWithTitle:NSLocalizedString(@"No stops found", @"showNoResultsAlertWithTitle")
-                                   prompt:NSLocalizedString(@"No stops were found for your search.", @"prompt")];
+        [self showNoResultsAlertWithTitle:NSLocalizedString(@"msg_minus_no_stops_found", @"showNoResultsAlertWithTitle")
+                                   prompt:NSLocalizedString(@"msg_explanatory_minus_no_stops_found", @"prompt")];
     }
 }
 
@@ -1128,7 +1130,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     if ([result.values count] == 0) {
         self.navigationItem.rightBarButtonItem.enabled = NO;
-        [self showNoResultsAlertWithTitle:NSLocalizedString(@"No places found", @"showNoResultsAlertWithTitle") prompt:NSLocalizedString(@"No places were found for your search.", @"prompt")];
+        [self showNoResultsAlertWithTitle:NSLocalizedString(@"msg_no_places_found", @"showNoResultsAlertWithTitle") prompt:NSLocalizedString(@"msg_explanatory_no_places_found", @"prompt")];
     }
 }
 
@@ -1140,11 +1142,11 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
-                                                                   message:NSLocalizedString(@"Would you like to go to your currently selected region?",)
+                                                                   message:NSLocalizedString(@"msg_ask_go_selected_region",)
                                                             preferredStyle:UIAlertControllerStyleAlert];
 
     [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleCancel handler:nil]];
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Go to Region",) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_go_to_region",) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         if (self.modelDAO.currentRegion) {
             [self.mapView setRegion:MKCoordinateRegionForMapRect(self.modelDAO.currentRegion.serviceRect)];
         }
@@ -1210,8 +1212,22 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 #pragma mark - Private Configuration Junk
 
 - (void)configureMapLabel {
-    self.mapLabelContainer = [[OBAVibrantBlurContainerView alloc] initWithFrame:CGRectZero];
-    self.mapLabelContainer.blurEffectStyle = UIBlurEffectStyleDark;
+
+    UIView *mapLabelParentView = nil;
+
+    if ([OBATheme useHighContrastUI]) {
+        UIView *container = [[OBAVibrantBlurContainerView alloc] initWithFrame:CGRectZero];
+        container.backgroundColor = [UIColor darkGrayColor];
+        self.mapLabelContainer = container;
+        mapLabelParentView = container;
+    }
+    else {
+        OBAVibrantBlurContainerView *container = [[OBAVibrantBlurContainerView alloc] initWithFrame:CGRectZero];
+        container.blurEffectStyle = UIBlurEffectStyleDark;
+        self.mapLabelContainer = container;
+        mapLabelParentView = container.vibrancyEffectView.contentView;
+    }
+
     self.mapLabelContainer.hidden = YES;
     self.mapLabelContainer.alpha = 0;
     self.mapLabelContainer.layer.cornerRadius = [OBATheme defaultCornerRadius];
@@ -1219,10 +1235,10 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     self.mapLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.mapLabel.textAlignment = NSTextAlignmentCenter;
-    self.mapLabel.textColor = [UIColor blackColor];
+    self.mapLabel.textColor = [OBATheme darkBlurLabelTextColor];
     self.mapLabel.font = [OBATheme boldBodyFont];
 
-    [self.mapLabelContainer.vibrancyEffectView.contentView addSubview:self.mapLabel];
+    [mapLabelParentView addSubview:self.mapLabel];
     [self.view addSubview:self.mapLabelContainer];
 
     [self.mapLabel mas_makeConstraints:^(MASConstraintMaker *make) {

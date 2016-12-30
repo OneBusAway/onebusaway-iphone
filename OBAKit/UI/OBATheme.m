@@ -16,6 +16,7 @@ static UIFont *_titleFont = nil;
 static UIFont *_subtitleFont = nil;
 static UIFont *_footnoteFont = nil;
 static UIFont *_boldFootnoteFont = nil;
+static UIFont *_italicFootnoteFont = nil;
 
 @implementation OBATheme
 
@@ -28,6 +29,7 @@ static UIFont *_boldFootnoteFont = nil;
     _subtitleFont = nil;
     _footnoteFont = nil;
     _boldFootnoteFont = nil;
+    _italicFootnoteFont = nil;
 }
 
 #pragma mark - Appearance Proxies
@@ -91,6 +93,13 @@ static UIFont *_boldFootnoteFont = nil;
     return _boldFootnoteFont;
 }
 
++ (UIFont*)italicFootnoteFont {
+    if (!_italicFootnoteFont) {
+        _italicFootnoteFont = [self italicFontWithTextStyle:UIFontTextStyleFootnote];
+    }
+    return _italicFootnoteFont;
+}
+
 #pragma mark - Private Font Helpers
 
 + (UIFont*)fontWithTextStyle:(NSString*)textStyle {
@@ -99,12 +108,24 @@ static UIFont *_boldFootnoteFont = nil;
 }
 
 + (UIFont*)boldFontWithTextStyle:(NSString*)textStyle {
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:textStyle];
-    UIFontDescriptor *boldDescriptor = [descriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
-    return [UIFont fontWithDescriptor:boldDescriptor size:MIN(boldDescriptor.pointSize, kMaxFontSize)];
+    return [self fontWithTextStyle:textStyle symbolicTraits:UIFontDescriptorTraitBold];
 }
 
-#pragma mark - UIColor
++ (UIFont*)italicFontWithTextStyle:(NSString*)textStyle {
+    return [self fontWithTextStyle:textStyle symbolicTraits:UIFontDescriptorTraitItalic];
+}
+
++ (UIFont*)fontWithTextStyle:(NSString*)textStyle symbolicTraits:(UIFontDescriptorSymbolicTraits)symbolicTraits {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:textStyle];
+    UIFontDescriptor *augmentedDescriptor = [descriptor fontDescriptorWithSymbolicTraits:symbolicTraits];
+    return [UIFont fontWithDescriptor:augmentedDescriptor size:MIN(augmentedDescriptor.pointSize, kMaxFontSize)];
+}
+
+#pragma mark - Colors
+
++ (BOOL)useHighContrastUI {
+    return UIAccessibilityDarkerSystemColorsEnabled() || UIAccessibilityIsReduceTransparencyEnabled();
+}
 
 + (UIColor*)colorWithRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue alpha:(CGFloat)alpha {
     return [UIColor colorWithRed:((CGFloat)red / 255.f) green:((CGFloat)green / 255.f) blue:((CGFloat)blue / 255.f) alpha:alpha];
@@ -116,6 +137,10 @@ static UIFont *_boldFootnoteFont = nil;
 
 + (UIColor*)lightDisabledColor {
     return [UIColor grayColor];
+}
+
++ (UIColor*)borderColor {
+    return [OBATheme colorWithRed:177 green:177 blue:177 alpha:0.7f];
 }
 
 + (UIColor*)textColor {
@@ -136,6 +161,10 @@ static UIFont *_boldFootnoteFont = nil;
 
 + (UIColor*)mapBookmarkTintColor {
     return [OBATheme colorWithRed:255 green:200 blue:39 alpha:1.f];
+}
+
++ (UIColor*)mapUserLocationColor {
+    return [OBATheme colorWithRed:38 green:122 blue:255 alpha:1.f];
 }
 
 #pragma mark - Brand Colors
@@ -172,6 +201,19 @@ static UIFont *_boldFootnoteFont = nil;
 
 + (UIColor*)tableViewSectionHeaderBackgroundColor {
     return [OBATheme colorWithRed:247.f green:247.f blue:247.f alpha:1.f];
+}
+
++ (UIColor*)darkBlurLabelTextColor {
+    if (UIAccessibilityIsReduceTransparencyEnabled()) {
+        return [UIColor whiteColor];
+    }
+    else {
+        return [UIColor blackColor];
+    }
+}
+
++ (UIColor*)tableViewSeparatorLineColor {
+    return [OBATheme colorWithRed:200 green:199 blue:204 alpha:1.f];
 }
 
 #pragma mark - Pixels, err points
