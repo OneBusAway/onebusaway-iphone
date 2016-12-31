@@ -21,6 +21,9 @@
 
 @interface AFMSlidingCell : UITableViewCell
 
+@property(nonatomic,assign,readonly) CGRect leftButtonFrame;
+@property(nonatomic,assign,readonly) CGRect rightButtonFrame;
+
 @property (nonatomic, weak) id<AFMSlidingCellDelegate> delegate;
 
 - (void)addFirstButton:(UIButton *)button withWidth:(CGFloat)width withTappedBlock:(void (^)(AFMSlidingCell *))tappedBlock;

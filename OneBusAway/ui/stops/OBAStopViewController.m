@@ -337,7 +337,7 @@ static NSInteger kStopsSectionTag = 101;
             [self toggleBookmarkActionForArrivalAndDeparture:dep];
         }];
         [row setShareAction:^{
-            [self shareActionForArrivalAndDeparture:dep];
+            [self shareActionForArrivalAndDeparture:dep atIndexPath:[self indexPathForModel:dep]];
         }];
 
         [departureRows addObject:row];
@@ -364,9 +364,31 @@ static NSInteger kStopsSectionTag = 101;
     }
 }
 
-- (void)shareActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+- (void)shareActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep atIndexPath:(NSIndexPath*)indexPath {
+    OBAGuard(dep && indexPath) else {
+        return;
+    }
+
     OBATripDeepLink *deepLink = [[OBATripDeepLink alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
-    [self shareDeepLinkURL:deepLink.deepLinkURL];
+    NSURL *URL = deepLink.deepLinkURL;
+
+    NSString *activityItem = [NSString stringWithFormat:NSLocalizedString(@"text_follow_my_trip_param", @"Sharing link activity item in the stop view controller"), URL.absoluteString];
+
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[activityItem] applicationActivities:nil];
+
+    // Present the activity controller from a popover on iPad in order to
+    // avoid a crash. See bug #919.
+    if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        CGRect rect = cell.bounds;
+        if ([cell isKindOfClass:[AFMSlidingCell class]]) {
+            rect = [(AFMSlidingCell*)cell rightButtonFrame];
+        }
+        controller.popoverPresentationController.sourceView = cell;
+        controller.popoverPresentationController.sourceRect = rect;
+    }
+
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 #pragma mark - Bookmarks
@@ -573,14 +595,6 @@ static NSInteger kStopsSectionTag = 101;
     self.stopHeaderView.highContrastMode = [OBATheme useHighContrastUI];
 
     self.tableView.tableHeaderView = self.stopHeaderView;
-}
-
-- (void)shareDeepLinkURL:(NSURL*)URL {
-    NSString *activityItem = [NSString stringWithFormat:NSLocalizedString(@"text_follow_my_trip_param", @"Sharing link activity item in the stop view controller"), URL.absoluteString];
-
-    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[activityItem] applicationActivities:nil];
-
-    [self presentViewController:controller animated:YES completion:nil];
 }
 
 @end
