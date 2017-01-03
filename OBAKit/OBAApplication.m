@@ -92,6 +92,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     defaults[kSetRegionAutomaticallyKey] = @(YES);
     defaults[kUngroupedBookmarksOpenKey] = @(YES);
     defaults[OBAOptInToTrackingDefaultsKey] = @(YES);
+    defaults[OBAAllowReviewPromptsDefaultsKey] = @(YES);
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 }
