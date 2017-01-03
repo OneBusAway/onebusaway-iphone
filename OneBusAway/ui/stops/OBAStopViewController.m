@@ -94,8 +94,11 @@ static NSInteger kStopsSectionTag = 101;
     // to ensure that the user has the opportunity to look up their departure information without a prompt appearing
     // on screen in the midst of their task. I would use -performSelector:afterDelay: or dispatch_after(), except
     // that I also want to make sure that I can appropriately cancel this timer and only show prompts from this controller.
-    self.apptentiveTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(recordUserVisit:) userInfo:nil repeats:NO];
-
+    
+    // Disable review requests - issue #854
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:OBAAllowReviewPromptsDefaultsKey]) {
+        self.apptentiveTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(recordUserVisit:) userInfo:nil repeats:NO];
+    }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 
     [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
