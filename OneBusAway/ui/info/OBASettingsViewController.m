@@ -8,6 +8,7 @@
 
 #import "OBASettingsViewController.h"
 @import OBAKit;
+@import GoogleAnalytics;
 #import "OBASwitchRow.h"
 
 @interface OBASettingsViewController ()
@@ -40,6 +41,7 @@
     BOOL analyticsValue = [[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
     OBASwitchRow *switchRow = [[OBASwitchRow alloc] initWithTitle:NSLocalizedString(@"msg_enable_google_analytics", @"A switch option's text for enabling and disabling Google Analytics") action:^{
         [[NSUserDefaults standardUserDefaults] setBool:!analyticsValue forKey:OBAOptInToTrackingDefaultsKey];
+        [GAI sharedInstance].optOut = !analyticsValue;
     } switchValue:analyticsValue];
     [analyticsSection addRow:switchRow];
 
