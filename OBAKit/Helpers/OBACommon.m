@@ -25,6 +25,7 @@ NSString * const kApplicationShortcutRecents = @"org.onebusaway.iphone.shortcut.
 NSString * const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcut.bookmarks";
 
 NSString * const OBAOptInToTrackingDefaultsKey = @"OBAOptInToTrackingDefaultsKey";
+NSString * const OBAAllowReviewPromptsDefaultsKey = @"OBAAllowReviewPromptsDefaultsKey";
 
 const NSInteger kOBAErrorDuplicateEntity = 1000;
 const NSInteger kOBAErrorMissingFieldInData = 1001;

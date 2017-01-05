@@ -146,6 +146,9 @@
 /* A switch option's text for enabling and disabling Google Analytics */
 "msg_enable_google_analytics" = "Enable Google Analytics";
 
+/* A switch option's text for enabling and disabling App Store review prompts*/
+"msg_allow_app_feedback" = "Prompt me for app feedback";
+
 /* view.title */
 "msg_error_submitting" = "Error Submitting";
 
@@ -464,6 +467,9 @@
 
 /* Analytics explanation on the Settings view controller. */
 "msg_explanatory_google_analytics" = "Some information about how you use this app is sent to Google Analytics in non-personally identifiable form to help us better understand how to improve the app. To learn more, please read our Privacy Policy.";
+
+/* App feedback explanation on the Settings view controller. */
+"msg_explanatory_allow_app_feedback" = "You can also submit feedback in the Contact Us section on the previous page";
 
 /* No comment provided by engineer. */
 "msg_something_went_wrong" = "Something Went Wrong";

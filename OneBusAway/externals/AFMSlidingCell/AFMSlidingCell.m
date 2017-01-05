@@ -247,6 +247,16 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     [self hideButtonViewAnimated:YES];
 }
 
+#pragma mark - Frames
+
+- (CGRect)leftButtonFrame {
+    return [self convertRect:self.buttonContainer.leftButton.frame fromView:self.buttonContainer];
+}
+
+- (CGRect)rightButtonFrame {
+    return [self convertRect:self.buttonContainer.rightButton.frame fromView:self.buttonContainer];
+}
+
 #pragma mark - Showing/hiding buttons
 
 - (void)showButtonViewAnimated:(BOOL)animated {

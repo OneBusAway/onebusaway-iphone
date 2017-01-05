@@ -10,8 +10,8 @@
 
 @interface AFMSlidingButtonContainer ()
 
-@property (nonatomic) UIButton *leftButton;
-@property (nonatomic) UIButton *rightButton;
+@property (nonatomic,strong,readwrite) UIButton *leftButton;
+@property (nonatomic,strong,readwrite) UIButton *rightButton;
 @property (nonatomic) CGFloat leftButtonWidth;
 @property (nonatomic) CGFloat rightButtonWidth;
 @property (nonatomic, copy) void (^leftButtonTappedBlock)(AFMSlidingCell *);
