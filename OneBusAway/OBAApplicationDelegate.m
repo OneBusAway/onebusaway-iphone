@@ -35,9 +35,6 @@
 #import "OBADrawerUI.h"
 #import "EXTScope.h"
 
-static NSString *const kTrackingId = @"UA-2423527-17";
-static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc9f70ef38378a9d5a15ac7d4926";
-
 @interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate>
 @property(nonatomic,strong) UINavigationController *regionNavigationController;
 @property(nonatomic,strong) RegionListViewController *regionListViewController;
@@ -125,20 +122,15 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     [OBAModelService addBackgroundExecutor:self];
 
     // Configure the Apptentive feedback system
-    [Apptentive sharedConnection].APIKey = kApptentiveKey;
+    [Apptentive sharedConnection].APIKey = [OBAApplication sharedApplication].apptentiveAPIKey;
 
     // Set up Google Analytics. User must be able to opt out of tracking.
-    [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:[OBAApplication sharedApplication].googleAnalyticsID];
+    BOOL optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
+    [GAI sharedInstance].optOut = optOut;
     [GAI sharedInstance].trackUncaughtExceptions = YES;
     [GAI sharedInstance].logger.logLevel = kGAILogLevelWarning;
-
-    //don't report to Google Analytics when developing
-#ifdef DEBUG
-    DDLogInfo(@"In DEBUG mode. Not reporting to Google Analytics.");
-    [[GAI sharedInstance] setDryRun:YES];
-#endif
-
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:[OBAApplication sharedApplication].modelDao.currentRegion.regionName];
+    [tracker set:[GAIFields customDimensionForIndex:1] value:[OBAApplication sharedApplication].modelDao.currentRegion.regionName];
 
     [OBAAnalytics configureVoiceOverStatus];
 

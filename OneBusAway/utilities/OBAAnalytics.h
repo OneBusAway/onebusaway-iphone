@@ -15,12 +15,12 @@
 @import UIKit;
 @import GoogleAnalytics;
 
-extern NSString * _Nonnull const OBAAnalyticsCategoryAppSettings;
-extern NSString * _Nonnull const OBAAnalyticsCategoryUIAction;
-extern NSString * _Nonnull const OBAAnalyticsCategoryAccessibility;
-extern NSString * _Nonnull const OBAAnalyticsCategorySubmit;
-
 NS_ASSUME_NONNULL_BEGIN
+
+extern NSString * const OBAAnalyticsCategoryAppSettings;
+extern NSString * const OBAAnalyticsCategoryUIAction;
+extern NSString * const OBAAnalyticsCategoryAccessibility;
+extern NSString * const OBAAnalyticsCategorySubmit;
 
 @interface OBAAnalytics : NSObject
 + (void)configureVoiceOverStatus;
