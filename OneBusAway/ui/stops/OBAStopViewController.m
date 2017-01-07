@@ -31,7 +31,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30.0;
 static CGFloat const kTableHeaderHeight = 150.f;
 static NSInteger kStopsSectionTag = 101;
 
-@interface OBAStopViewController ()<UIScrollViewDelegate>
+@interface OBAStopViewController ()<UIScrollViewDelegate, UIActivityItemSource>
 @property(nonatomic,strong) UIRefreshControl *refreshControl;
 @property(nonatomic,strong) NSTimer *refreshTimer;
 @property(nonatomic,strong) NSLock *reloadLock;
@@ -375,9 +375,7 @@ static NSInteger kStopsSectionTag = 101;
     OBATripDeepLink *deepLink = [[OBATripDeepLink alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
     NSURL *URL = deepLink.deepLinkURL;
 
-    NSString *activityItem = [NSString stringWithFormat:NSLocalizedString(@"text_follow_my_trip_param", @"Sharing link activity item in the stop view controller"), URL.absoluteString];
-
-    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[activityItem] applicationActivities:nil];
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self, URL] applicationActivities:nil];
 
     // Present the activity controller from a popover on iPad in order to
     // avoid a crash. See bug #919.
@@ -572,6 +570,22 @@ static NSInteger kStopsSectionTag = 101;
     });
 
     return actionSection;
+}
+
+#pragma mark - UIActivityItemSource methods
+
+// Make it possible to copy just the URL for trip sharing
+// See bug #928
+- (id)activityViewController:(UIActivityViewController *)activityViewController itemForActivityType:(NSString *)activityType {
+    if (![activityType isEqualToString:UIActivityTypeCopyToPasteboard]) {
+        return [NSString stringWithFormat:NSLocalizedString(@"text_follow_my_trip_param", @"Sharing link activity item in the stop view controller"), @""];
+    }
+    return nil;
+}
+
+- (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController
+{
+    return @"";
 }
 
 #pragma mark - Miscellaneous UI and Utilities
