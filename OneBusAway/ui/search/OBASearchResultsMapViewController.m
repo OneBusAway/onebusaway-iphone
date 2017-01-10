@@ -24,6 +24,7 @@
 #import "OBAMapActivityIndicatorView.h"
 @import Masonry;
 #import "OBAVibrantBlurContainerView.h"
+#import "OneBusAway-Swift.h"
 
 #define kRouteSegmentIndex          0
 #define kAddressSegmentIndex        1
@@ -42,6 +43,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 @property(nonatomic,strong) IBOutlet MKMapView * mapView;
 @property(nonatomic,strong) IBOutlet UISearchBar *searchBar;
 @property(nonatomic,strong) IBOutlet UILabel *mapLabel;
+@property(nonatomic,strong) IBOutlet OBAFloatingButton *floatingActionButton;
 @property(nonatomic,strong) UIView *mapLabelContainer;
 
 // Programmatic UI
@@ -100,6 +102,12 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self.mapView.rotateEnabled = NO;
     if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
         self.mapView.showsUserLocation = YES;
+    }
+    // More map options such as Satellite views
+    // see bug #65
+    NSInteger mapType = [[NSUserDefaults standardUserDefaults] integerForKey:OBAMapSelectedTypeDefaultsKey];
+    if (mapType != MKMapTypeStandard) {
+        [self changeMapTypes:_floatingActionButton];
     }
 
     self.hideFutureNetworkErrors = NO;
@@ -657,6 +665,21 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     listViewController.result = result;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:listViewController];
     [self presentViewController:nav animated:YES completion:nil];
+}
+
+// More map options such as Satellite views
+// see bug #65
+- (IBAction)changeMapTypes:(OBAFloatingButton*)sender {
+    // .selected = Satellite, .normal = Standard
+    if (self.mapView.mapType == MKMapTypeStandard) {
+        self.mapView.mapType = MKMapTypeHybrid;
+        [sender changeStateTo:UIControlStateSelected];
+        [[NSUserDefaults standardUserDefaults] setInteger:MKMapTypeHybrid forKey:OBAMapSelectedTypeDefaultsKey];
+    } else {
+        self.mapView.mapType = MKMapTypeStandard;
+        [sender changeStateTo:UIControlStateNormal];
+        [[NSUserDefaults standardUserDefaults] setInteger:MKMapTypeStandard forKey:OBAMapSelectedTypeDefaultsKey];
+    }
 }
 
 #pragma mark - OBASearchMapViewController Private Methods
