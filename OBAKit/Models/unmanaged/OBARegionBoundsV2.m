@@ -8,13 +8,9 @@
 
 #import <OBAKit/OBARegionBoundsV2.h>
 #import <OBAKit/NSObject+OBADescription.h>
+#import <OBAKit/NSCoder+OBAAdditions.h>
 
 @implementation OBARegionBoundsV2
-
-static NSString * kLatKey = @"lat";
-static NSString * kLatSpanKey = @"latSpan";
-static NSString * kLonKey = @"lon";
-static NSString * kLonSpanKey = @"lonSpan";
 
 #pragma mark - NSCoder
 
@@ -22,20 +18,20 @@ static NSString * kLonSpanKey = @"lonSpan";
     self = [super init];
 
     if (self) {
-        self.lat = [decoder decodeDoubleForKey:kLatKey];
-        self.lon = [decoder decodeDoubleForKey:kLonKey];
-        self.latSpan = [decoder decodeDoubleForKey:kLatSpanKey];
-        self.lonSpan = [decoder decodeDoubleForKey:kLonSpanKey];
+        _lat = [decoder oba_decodeDouble:@selector(lat)];
+        _lon = [decoder oba_decodeDouble:@selector(lon)];
+        _latSpan = [decoder oba_decodeDouble:@selector(latSpan)];
+        _lonSpan = [decoder oba_decodeDouble:@selector(lonSpan)];
     }
 
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeDouble:self.lat forKey:kLatKey];
-    [encoder encodeDouble:self.lon forKey:kLonKey];
-    [encoder encodeDouble:self.latSpan forKey:kLatSpanKey];
-    [encoder encodeDouble:self.lonSpan forKey:kLonSpanKey];
+    [encoder oba_encodeDouble:_lat forSelector:@selector(lat)];
+    [encoder oba_encodeDouble:_lon forSelector:@selector(lon)];
+    [encoder oba_encodeDouble:_latSpan forSelector:@selector(latSpan)];
+    [encoder oba_encodeDouble:_lonSpan forSelector:@selector(lonSpan)];
 }
 
 #pragma mark - Equality

@@ -15,6 +15,7 @@
  */
 
 #import <OBAKit/OBAStopAccessEventV2.h>
+#import <OBAKit/NSCoder+OBAAdditions.h>
 
 @implementation OBAStopAccessEventV2
 
@@ -23,17 +24,18 @@
 - (id)initWithCoder:(NSCoder*)coder {
     self = [super init];
     if (self) {
-        _title = [coder decodeObjectForKey:@"title"];
-        _subtitle = [coder decodeObjectForKey:@"subtitle"];
-        _stopIds = [coder decodeObjectForKey:@"stopIds"];
+        _title = [coder oba_decodeObject:@selector(title)];
+        _title = [coder oba_decodeObject:@selector(title)];
+        _subtitle = [coder oba_decodeObject:@selector(subtitle)];
+        _stopIds = [coder oba_decodeObject:@selector(stopIds)];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder*)coder {
-    [coder encodeObject:self.title forKey:@"title"];
-    [coder encodeObject:self.subtitle forKey:@"subtitle"];
-    [coder encodeObject:self.stopIds forKey:@"stopIds"];
+    [coder oba_encodePropertyOnObject:self withSelector:@selector(title)];
+    [coder oba_encodePropertyOnObject:self withSelector:@selector(subtitle)];
+    [coder oba_encodePropertyOnObject:self withSelector:@selector(stopIds)];
 }
 
 #pragma mark - Equality

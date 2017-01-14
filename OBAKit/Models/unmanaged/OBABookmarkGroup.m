@@ -9,12 +9,7 @@
 #import <OBAKit/OBABookmarkGroup.h>
 #import <OBAKit/NSObject+OBADescription.h>
 #import <OBAKit/OBAMacros.h>
-
-static NSString * const kNameKey = @"name";
-static NSString * const kBookmarksKey = @"bookmarks";
-static NSString * const kOpenKey = @"open";
-static NSString * const kUUIDKey = @"UUID";
-static NSString * const kSortOrderKey = @"sortOrder";
+#import <OBAKit/NSCoder+OBAAdditions.h>
 
 @implementation OBABookmarkGroup
 
@@ -33,40 +28,39 @@ static NSString * const kSortOrderKey = @"sortOrder";
 - (id)initWithCoder:(NSCoder*)coder
 {
     if (self = [super init]) {
-        _name = [coder decodeObjectForKey:kNameKey];
-        _bookmarks = [coder decodeObjectForKey:kBookmarksKey];
+        _name = [coder oba_decodeObject:@selector(name)];
+        _bookmarks = [coder oba_decodeObject:@selector(bookmarks)];
         for (OBABookmarkV2 *bookmark in _bookmarks) {
             bookmark.group = self;
         }
 
-        if ([coder containsValueForKey:kOpenKey]) {
-            _open = [coder decodeBoolForKey:kOpenKey];
+        if ([coder oba_containsValue:@selector(open)]) {
+            _open = [coder oba_decodeBool:@selector(open)];
         }
         else {
             _open = YES;
         }
 
-        if ([coder containsValueForKey:kUUIDKey]) {
-            _UUID = [coder decodeObjectForKey:kUUIDKey];
+        if ([coder oba_containsValue:@selector(UUID)]) {
+            _UUID = [coder oba_decodeObject:@selector(UUID)];
         }
         else {
             _UUID = [[NSUUID UUID] UUIDString];
         }
 
-        if ([coder containsValueForKey:kSortOrderKey]) {
-            _sortOrder = [coder decodeIntegerForKey:kSortOrderKey];
+        if ([coder oba_containsValue:@selector(sortOrder)]) {
+            _sortOrder = [coder oba_decodeInteger:@selector(sortOrder)];
         }
     }
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder*)coder
-{
-    [coder encodeObject:_name forKey:kNameKey];
-    [coder encodeObject:_bookmarks forKey:kBookmarksKey];
-    [coder encodeBool:_open forKey:kOpenKey];
-    [coder encodeObject:_UUID forKey:kUUIDKey];
-    [coder encodeInteger:_sortOrder forKey:kSortOrderKey];
+- (void)encodeWithCoder:(NSCoder*)coder {
+    [coder oba_encodeObject:_name forSelector:@selector(name)];
+    [coder oba_encodeObject:_bookmarks forSelector:@selector(bookmarks)];
+    [coder oba_encodeBool:_open forSelector:@selector(open)];
+    [coder oba_encodeObject:_UUID forSelector:@selector(UUID)];
+    [coder oba_encodeInteger:_sortOrder forSelector:@selector(sortOrder)];
 }
 
 #pragma mark - NSObject
@@ -88,7 +82,7 @@ static NSString * const kSortOrderKey = @"sortOrder";
 }
 
 - (NSString*)description {
-    return [self oba_description:@[kNameKey, kBookmarksKey, kOpenKey, kUUIDKey, kSortOrderKey]];
+    return [self oba_description:@[@"name", @"bookmarks", @"open", @"UUID", @"sortOrder"]];
 }
 
 @end

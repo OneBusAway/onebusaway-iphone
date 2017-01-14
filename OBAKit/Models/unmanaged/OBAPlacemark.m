@@ -15,30 +15,43 @@
  */
 
 #import <OBAKit/OBAPlacemark.h>
+#import <OBAKit/NSCoder+OBAAdditions.h>
 
 @implementation OBAPlacemark
 
--(id) initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate {
+- (instancetype)initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate {
     self = [super init];
-    if( self ) {
+
+    if (self) {
         _address = address;
         _coordinate = coordinate;
     }
     return self;
 }
 
-- (id) initWithCoder:(NSCoder*)coder {
+#pragma mark NSCoder Methods
+
+- (id)initWithCoder:(NSCoder*)coder {
     self = [super init];
-    if( self ) {
-        _name = [coder decodeObjectForKey:@"name"];
-        _address =  [coder decodeObjectForKey:@"address"];
-        _icon =  [coder decodeObjectForKey:@"icon"];
-        NSData * data = [coder decodeObjectForKey:@"coordinate"];
+    if (self) {
+        _name = [coder oba_decodeObject:@selector(name)];
+        _address = [coder oba_decodeObject:@selector(address)];
+        _icon = [coder oba_decodeObject:@selector(icon)];
+
+        NSData * data = [coder oba_decodeObject:@selector(coordinate)];
         [data getBytes:&_coordinate length:sizeof(CLLocationCoordinate2D)];
     }
     return self;
 }
 
+- (void) encodeWithCoder:(NSCoder *)coder {
+    [coder oba_encodeObject:_name forSelector:@selector(name)];
+    [coder oba_encodeObject:_address forSelector:@selector(address)];
+    [coder oba_encodeObject:_icon forSelector:@selector(icon)];
+
+    NSData * data = [NSData dataWithBytes:&_coordinate length:sizeof(CLLocationCoordinate2D)];
+    [coder oba_encodeObject:data forSelector:@selector(coordinate)];
+}
 
 - (CLLocation*) location {
     return [[CLLocation alloc] initWithLatitude:_coordinate.latitude longitude:_coordinate.longitude];
@@ -46,20 +59,8 @@
 
 #pragma mark MKAnnotation
 
-- (NSString*) title {
-    if( _name )
-        return _name;
-    return _address;
-}
-
-#pragma mark NSCoder Methods
-
-- (void) encodeWithCoder: (NSCoder *)coder {
-    [coder encodeObject:_name forKey:@"name"];
-    [coder encodeObject:_address forKey:@"address"];
-    [coder encodeObject:_icon forKey:@"icon"];
-    NSData * data = [NSData dataWithBytes:&_coordinate length:sizeof(CLLocationCoordinate2D)];
-    [coder encodeObject:data forKey:@"coordinate"];
+- (NSString*)title {
+    return self.name ?: self.address;
 }
 
 @end

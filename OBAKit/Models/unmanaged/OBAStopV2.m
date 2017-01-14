@@ -17,6 +17,7 @@
 #import <OBAKit/OBAStopV2.h>
 #import <OBAKit/OBARouteV2.h>
 #import <OBAKit/OBAMacros.h>
+#import <OBAKit/NSCoder+OBAAdditions.h>
 
 @interface OBAStopV2 ()
 @property(nonatomic,strong,readwrite) NSArray<OBARouteV2*> *routes;
@@ -30,40 +31,41 @@
     self = [super init];
 
     if (self) {
-        _stopId = [aDecoder decodeObjectForKey:@"stopId"];
-        _name = [aDecoder decodeObjectForKey:@"name"];
-        _code = [aDecoder decodeObjectForKey:@"code"];
-        _direction = [aDecoder decodeObjectForKey:@"direction"];
+        _stopId = [aDecoder oba_decodeObject:@selector(stopId)];
+        _name = [aDecoder oba_decodeObject:@selector(name)];
+        _code = [aDecoder oba_decodeObject:@selector(code)];
+        _direction = [aDecoder oba_decodeObject:@selector(direction)];
 
         if ([aDecoder containsValueForKey:@"lat"]) {
-            _lat = [aDecoder decodeDoubleForKey:@"lat"];
+            _lat = [aDecoder oba_decodeDouble:@selector(lat)];
         }
         else {
             _lat = [[aDecoder decodeObjectForKey:@"latitude"] doubleValue];
         }
 
         if ([aDecoder containsValueForKey:@"lon"]) {
-            _lon = [aDecoder decodeDoubleForKey:@"lon"];
+            _lon = [aDecoder oba_decodeDouble:@selector(lon)];
         }
         else {
             _lon = [[aDecoder decodeObjectForKey:@"longitude"] doubleValue];
         }
 
-        _routeIds = [aDecoder decodeObjectForKey:@"routeIds"];
-        _routes = [aDecoder decodeObjectForKey:@"routes"];
+        _routeIds = [aDecoder oba_decodeObject:@selector(routeIds)];
+        _routes = [aDecoder oba_decodeObject:@selector(routes)];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:_stopId forKey:@"stopId"];
-    [aCoder encodeObject:_name forKey:@"name"];
-    [aCoder encodeObject:_code forKey:@"code"];
-    [aCoder encodeObject:_direction forKey:@"direction"];
-    [aCoder encodeDouble:_lat forKey:@"lat"];
-    [aCoder encodeDouble:_lon forKey:@"lon"];
-    [aCoder encodeObject:_routeIds forKey:@"routeIds"];
-    [aCoder encodeObject:_routes forKey:@"routes"];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(stopId)];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(name)];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(code)];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(direction)];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(routeIds)];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(routes)];
+
+    [aCoder oba_encodeDouble:_lat forSelector:@selector(lat)];
+    [aCoder oba_encodeDouble:_lon forSelector:@selector(lon)];
 }
 
 #pragma mark - NSCopying

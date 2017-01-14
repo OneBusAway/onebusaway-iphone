@@ -20,16 +20,7 @@
 #import <OBAKit/OBAStopV2.h>
 #import <OBAKit/OBARegionV2.h>
 #import <OBAKit/NSObject+OBADescription.h>
-
-static NSString * const kRegionIdentifier = @"regionIdentifier";
-static NSString * const kName = @"name";
-static NSString * const kRouteShortName = @"routeShortName";
-static NSString * const kStopId = @"stopId";
-static NSString * const kStop = @"stop";
-static NSString * const kRouteID = @"routeID";
-static NSString * const kTripHeadsign = @"tripHeadsign";
-static NSString * const kSortOrder = @"sortOrder";
-static NSString * const kBookmarkVersion = @"bookmarkVersion";
+#import <OBAKit/NSCoder+OBAAdditions.h>
 
 @implementation OBABookmarkV2
 
@@ -68,7 +59,7 @@ static NSString * const kBookmarkVersion = @"bookmarkVersion";
 
 - (id)initWithCoder:(NSCoder*)coder {
     if (self = [super init]) {
-        _name = [coder decodeObjectForKey:kName];
+        _name = [coder oba_decodeObject:@selector(name)];
 
         // Handle legacy bookmark models.
         NSArray *stopIds = [coder decodeObjectForKey:@"stopIds"];
@@ -76,44 +67,44 @@ static NSString * const kBookmarkVersion = @"bookmarkVersion";
             _stopId = stopIds[0];
         }
         else {
-            _stopId = [coder decodeObjectForKey:kStopId];
+            _stopId = [coder oba_decodeObject:@selector(stopId)];
         }
 
         // Normally, we'd simply try decoding the object and use the fact that
         // nil would simply resolve to 0 to our advantage, but the Tampa region
         // has the ID of 0, so we're stuck trying to be clever here to work
         // around that issue.
-        if ([coder containsValueForKey:kRegionIdentifier]) {
-            _regionIdentifier = [coder decodeIntegerForKey:kRegionIdentifier];
+        if ([coder oba_containsValue:@selector(regionIdentifier)]) {
+            _regionIdentifier = [coder oba_decodeInteger:@selector(regionIdentifier)];
         }
         else {
             _regionIdentifier = NSNotFound;
         }
 
-        _stop = [coder decodeObjectForKey:kStop];
+        _stop = [coder oba_decodeObject:@selector(stop)];
 
         // New in 2.6.0
-        _routeShortName = [coder decodeObjectForKey:kRouteShortName];
-        _tripHeadsign = [coder decodeObjectForKey:kTripHeadsign];
-        _routeID = [coder decodeObjectForKey:kRouteID];
-        _sortOrder = [coder decodeIntegerForKey:kSortOrder];
-        _bookmarkVersion = [coder decodeIntegerForKey:kBookmarkVersion];
+        _routeShortName = [coder oba_decodeObject:@selector(routeShortName)];
+        _tripHeadsign = [coder oba_decodeObject:@selector(tripHeadsign)];
+        _routeID = [coder oba_decodeObject:@selector(routeID)];
+        _sortOrder = [coder oba_decodeInteger:@selector(sortOrder)];
+        _bookmarkVersion = [coder oba_decodeInteger:@selector(bookmarkVersion)];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder*)coder {
-    [coder encodeObject:_name forKey:kName];
-    [coder encodeObject:_stopId forKey:kStopId];
-    [coder encodeObject:_stop forKey:kStop];
-    [coder encodeInteger:_regionIdentifier forKey:kRegionIdentifier];
+    [coder oba_encodeObject:_name forSelector:@selector(name)];
+    [coder oba_encodeObject:_stopId forSelector:@selector(stopId)];
+    [coder oba_encodeObject:_stop forSelector:@selector(stop)];
+    [coder oba_encodeInteger:_regionIdentifier forSelector:@selector(regionIdentifier)];
 
     // New in 2.6.0
-    [coder encodeObject:_routeShortName forKey:kRouteShortName];
-    [coder encodeObject:_tripHeadsign forKey:kTripHeadsign];
-    [coder encodeObject:_routeID forKey:kRouteID];
-    [coder encodeInteger:_sortOrder forKey:kSortOrder];
-    [coder encodeInteger:_bookmarkVersion forKey:kBookmarkVersion];
+    [coder oba_encodeObject:_routeShortName forSelector:@selector(routeShortName)];
+    [coder oba_encodeObject:_tripHeadsign forSelector:@selector(tripHeadsign)];
+    [coder oba_encodeObject:_routeID forSelector:@selector(routeID)];
+    [coder oba_encodeInteger:_sortOrder forSelector:@selector(sortOrder)];
+    [coder oba_encodeInteger:_bookmarkVersion forSelector:@selector(bookmarkVersion)];
 }
 
 #pragma mark - NSCopying
