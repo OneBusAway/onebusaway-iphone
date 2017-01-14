@@ -141,6 +141,10 @@ SWIFT_CLASS("_TtC7SnapKit16LayoutConstraint")
 @end
 
 
+@interface UILayoutGuide (SWIFT_EXTENSION(SnapKit))
+@end
+
+
 @interface UIView (SWIFT_EXTENSION(SnapKit))
 @end
 
