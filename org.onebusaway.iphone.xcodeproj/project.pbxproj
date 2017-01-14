@@ -170,6 +170,7 @@
 		934198B61DB0C219004BBBB7 /* OBADataSourceConfig_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341987F1DB0C219004BBBB7 /* OBADataSourceConfig_Tests.m */; };
 		934198CD1DB0C578004BBBB7 /* OBAKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 934198CA1DB0C56D004BBBB7 /* OBAKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		934198D71DB0C886004BBBB7 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 934198D61DB0C886004BBBB7 /* Launch Screen.storyboard */; };
+		934C508D1E2A1E5C00DFDCA0 /* OneSignal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934C508C1E2A1E5C00DFDCA0 /* OneSignal.framework */; };
 		93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93528AAD1C8D50D200783E9A /* MapKit.framework */; };
 		93528AB11C8D517100783E9A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93528AB01C8D517100783E9A /* CloudKit.framework */; };
 		9353FF921E08E70A00B7A5C3 /* VehicleMapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9353FF911E08E70A00B7A5C3 /* VehicleMapController.swift */; };
@@ -504,6 +505,7 @@
 		934198D61DB0C886004BBBB7 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		934445F81AB105FB005B3333 /* capitolhill.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = capitolhill.gpx; sourceTree = "<group>"; };
 		9347860D1D3453E9002A5627 /* sandiego.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sandiego.gpx; sourceTree = "<group>"; };
+		934C508C1E2A1E5C00DFDCA0 /* OneSignal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OneSignal.framework; path = Carthage/Build/iOS/OneSignal.framework; sourceTree = "<group>"; };
 		93528AAD1C8D50D200783E9A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		93528AAF1C8D50E900783E9A /* OneBusAway.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = OneBusAway.entitlements; path = OneBusAway/Resources/OneBusAway.entitlements; sourceTree = "<group>"; };
 		93528AB01C8D517100783E9A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -557,6 +559,7 @@
 				93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */,
 				932CCEC61DC3D2DB001C8405 /* PMKFoundation.framework in Frameworks */,
 				93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */,
+				934C508D1E2A1E5C00DFDCA0 /* OneSignal.framework in Frameworks */,
 				93528AB11C8D517100783E9A /* CloudKit.framework in Frameworks */,
 				932CCEC51DC3D2DB001C8405 /* PMKCoreLocation.framework in Frameworks */,
 				93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */,
@@ -631,6 +634,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				934C508C1E2A1E5C00DFDCA0 /* OneSignal.framework */,
 				93FE60281E0C8F62006EC9FB /* SnapKit.framework */,
 				932CCEBC1DC3D2DB001C8405 /* CocoaLumberjack.framework */,
 				932CCEBD1DC3D2DB001C8405 /* CocoaLumberjackSwift.framework */,
@@ -1609,6 +1613,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/CocoaLumberjackSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/MarqueeLabel.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/OneSignal.framework",
 			);
 			name = "Carthage Integration";
 			outputPaths = (

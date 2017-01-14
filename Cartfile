@@ -43,7 +43,11 @@ github "52inc/Pulley" ~>1.3.0
 # https://github.com/AzimoLabs/SMFloatingLabelTextField/releases
 github "AzimoLabs/SMFloatingLabelTextField" ~>0.2.0
 
+# # https://github.com/cbpowell/MarqueeLabel/releases
 github "cbpowell/MarqueeLabel" ~>3.0.1
+
+# https://github.com/OneSignal/OneSignal-iOS-SDK/releases
+github "OneSignal/OneSignal-iOS-SDK" ~>2.3.4
 
 # Having issues, needs work.
 # github "apptentive/apptentive-ios" ~>3.3.0
