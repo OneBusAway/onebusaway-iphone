@@ -35,19 +35,19 @@ typedef NS_ENUM(NSUInteger, AFMSlidingCellState) {
 
 #pragma mark - Setting buttons
 
-- (void)addFirstButton:(UIButton *)button
-            withWidth:(CGFloat)width
-      withTappedBlock:(void (^)(AFMSlidingCell *))tappedBlock
-{
+- (void)addLeftButton:(UIButton *)button withWidth:(CGFloat)width withTappedBlock:(void (^)(AFMSlidingCell *))tappedBlock {
     [self.buttonContainer addLeftButton:button withWidth:width withTappedBlock:tappedBlock];
     [self setNeedsLayout];
     [self layoutIfNeeded];
 }
 
-- (void)addSecondButton:(UIButton *)button
-             withWidth:(CGFloat)width
-       withTappedBlock:(void (^)(AFMSlidingCell *))tappedBlock
-{
+- (void)addCenterButton:(UIButton *)button withWidth:(CGFloat)width withTappedBlock:(void (^)(AFMSlidingCell *))tappedBlock {
+    [self.buttonContainer addCenterButton:button withWidth:width withTappedBlock:tappedBlock];
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
+}
+
+- (void)addRightButton:(UIButton *)button withWidth:(CGFloat)width withTappedBlock:(void (^)(AFMSlidingCell *))tappedBlock {
     [self.buttonContainer addRightButton:button withWidth:width withTappedBlock:tappedBlock];
     [self setNeedsLayout];
     [self layoutIfNeeded];
@@ -107,6 +107,7 @@ typedef NS_ENUM(NSUInteger, AFMSlidingCellState) {
     // Button container will position buttons. Will be positioned properly in layoutSubviews
     CGRect containerFrame = CGRectOffset(self.frame, self.frame.size.width, 0);
     self.buttonContainer = [[AFMSlidingButtonContainer alloc] initWithFrame:containerFrame];
+    self.buttonContainer.backgroundColor = [UIColor colorWithRed:(188.f / 255.f) green:(187.f / 255.f) blue:(193.f / 255.f) alpha:1.f];
     self.buttonContainer.parentCell = self;
     [self insertSubview:self.buttonContainer belowSubview:self.contentView];
     [self.buttonContainer setHidden:YES];
@@ -251,6 +252,10 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 
 - (CGRect)leftButtonFrame {
     return [self convertRect:self.buttonContainer.leftButton.frame fromView:self.buttonContainer];
+}
+
+- (CGRect)centerButtonFrame {
+    return [self convertRect:self.buttonContainer.centerButton.frame fromView:self.buttonContainer];
 }
 
 - (CGRect)rightButtonFrame {

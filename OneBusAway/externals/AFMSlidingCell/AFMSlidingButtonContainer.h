@@ -16,9 +16,11 @@
 @property (nonatomic, weak) AFMSlidingCell *parentCell;
 
 @property(nonatomic,strong,readonly) UIButton *leftButton;
+@property(nonatomic,strong,readonly) UIButton *centerButton;
 @property(nonatomic,strong,readonly) UIButton *rightButton;
 
 - (void)addLeftButton:(UIButton *)button withWidth:(CGFloat)width withTappedBlock:(void (^)(AFMSlidingCell *))tappedBlock;
+- (void)addCenterButton:(UIButton *)button withWidth:(CGFloat)width withTappedBlock:(void (^)(AFMSlidingCell *))tappedBlock;
 - (void)addRightButton:(UIButton *)button withWidth:(CGFloat)width withTappedBlock:(void (^)(AFMSlidingCell *))tappedBlock;
 - (void)clearButtons;
 

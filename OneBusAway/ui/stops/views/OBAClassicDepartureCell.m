@@ -68,8 +68,8 @@ static CGFloat const kSwipeButtonWidth = 80.f;
 #pragma mark - Buttons
 
 - (void)addButtonsToContextMenu {
-    [self addFirstButton:_bookmarkButton withWidth:kSwipeButtonWidth withTappedBlock:nil];
-    [self addSecondButton:_shareButton withWidth:kSwipeButtonWidth withTappedBlock:nil];
+    [self addLeftButton:_bookmarkButton withWidth:kSwipeButtonWidth withTappedBlock:nil];
+    [self addRightButton:_shareButton withWidth:kSwipeButtonWidth withTappedBlock:nil];
 }
 
 - (void)configureBookmarkButtonForExistingBookmark:(BOOL)bookmarkExists {
