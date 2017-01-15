@@ -14,12 +14,11 @@
 
 @implementation JsonUrlFetcherImpl
 
-- (instancetype)initWithCompletionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress {
+- (instancetype)initWithCompletionBlock:(OBADataSourceCompletion)completion {
     self = [super init];
 
     if (self) {
         _completionBlock = completion;
-        _progressBlock = progress;
     }
 
     return self;

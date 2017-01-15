@@ -11,8 +11,7 @@
 
 @interface JsonUrlFetcherImpl : NSObject<NSURLConnectionDelegate, NSURLConnectionDataDelegate, OBADataSourceConnection>
 @property (nonatomic, copy) OBADataSourceCompletion completionBlock;
-@property (nonatomic, copy) OBADataSourceProgress progressBlock;
 
-- (instancetype)initWithCompletionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress;
+- (instancetype)initWithCompletionBlock:(OBADataSourceCompletion)completion;
 - (void)loadRequest:(NSURLRequest *)request;
 @end
