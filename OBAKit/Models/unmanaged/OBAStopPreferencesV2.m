@@ -16,6 +16,7 @@
 
 #import <OBAKit/OBAStopPreferencesV2.h>
 #import <OBAKit/NSObject+OBADescription.h>
+#import <OBAKit/NSCoder+OBAAdditions.h>
 
 NSString * _Nullable NSStringFromOBASortTripsByTypeV2(OBASortTripsByTypeV2 val);
 NSString * _Nullable NSStringFromOBASortTripsByTypeV2(OBASortTripsByTypeV2 val) {
@@ -54,17 +55,16 @@ NSString * _Nullable NSStringFromOBASortTripsByTypeV2(OBASortTripsByTypeV2 val) 
 
 - (instancetype)initWithCoder:(NSCoder*)coder {
     self = [super init];
-    if( self ) {
-        NSNumber * sortTripsByType = [coder decodeObjectForKey:@"sortTripsByType"];
-        _sortTripsByType = [sortTripsByType unsignedIntegerValue];
-        _routeFilter = [coder decodeObjectForKey:@"routeFilter"];
+    if (self) {
+        _sortTripsByType = [coder oba_decodeInteger:@selector(sortTripsByType)];
+        _routeFilter = [coder oba_decodeObject:@selector(routeFilter)];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder*)coder {
-    [coder encodeObject:[NSNumber numberWithInt:_sortTripsByType] forKey:@"sortTripsByType"];
-    [coder encodeObject:_routeFilter forKey:@"routeFilter"];
+    [coder oba_encodeInteger:_sortTripsByType forSelector:@selector(sortTripsByType)];
+    [coder oba_encodePropertyOnObject:self withSelector:@selector(routeFilter)];
 }
 
 

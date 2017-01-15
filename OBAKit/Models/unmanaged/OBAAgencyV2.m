@@ -15,6 +15,7 @@
  */
 
 #import <OBAKit/OBAAgencyV2.h>
+#import <OBAKit/NSCoder+OBAAdditions.h>
 
 @implementation OBAAgencyV2
 
@@ -24,17 +25,17 @@
     self = [super init];
 
     if (self) {
-        _agencyId = [aDecoder decodeObjectForKey:@"agencyId"];
-        _url = [aDecoder decodeObjectForKey:@"url"];
-        _name = [aDecoder decodeObjectForKey:@"name"];
+        _agencyId = [aDecoder oba_decodeObject:@selector(agencyId)];
+        _url = [aDecoder oba_decodeObject:@selector(url)];
+        _name = [aDecoder oba_decodeObject:@selector(name)];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:_agencyId forKey:@"agencyId"];
-    [aCoder encodeObject:_url forKey:@"url"];
-    [aCoder encodeObject:_name forKey:@"name"];
+    [aCoder oba_encodeObject:_agencyId forSelector:@selector(agencyId)];
+    [aCoder oba_encodeObject:_url forSelector:@selector(url)];
+    [aCoder oba_encodeObject:_name forSelector:@selector(name)];
 }
 
 #pragma mark - NSCopying

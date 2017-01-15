@@ -16,6 +16,7 @@
 
 #import <OBAKit/OBARouteV2.h>
 #import <OBAKit/NSObject+OBADescription.h>
+#import <OBAKit/NSCoder+OBAAdditions.h>
 
 @interface OBARouteV2 ()
 @property(nonatomic,copy,readwrite) OBAAgencyV2 *agency;
@@ -29,24 +30,24 @@
     self = [super init];
 
     if (self) {
-        _routeId = [aDecoder decodeObjectForKey:@"routeId"];
-        _shortName = [aDecoder decodeObjectForKey:@"shortName"];
-        _longName = [aDecoder decodeObjectForKey:@"longName"];
-        _routeType = [aDecoder decodeObjectForKey:@"routeType"];
-        _agencyId = [aDecoder decodeObjectForKey:@"agencyId"];
-        _agency = [aDecoder decodeObjectForKey:@"agency"];
+        _routeId = [aDecoder oba_decodeObject:@selector(routeId)];
+        _shortName = [aDecoder oba_decodeObject:@selector(shortName)];
+        _longName = [aDecoder oba_decodeObject:@selector(longName)];
+        _routeType = [aDecoder oba_decodeObject:@selector(routeType)];
+        _agencyId = [aDecoder oba_decodeObject:@selector(agencyId)];
+        _agency = [aDecoder oba_decodeObject:@selector(agency)];
     }
 
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:_routeId forKey:@"routeId"];
-    [aCoder encodeObject:_shortName forKey:@"shortName"];
-    [aCoder encodeObject:_longName forKey:@"longName"];
-    [aCoder encodeObject:_routeType forKey:@"routeType"];
-    [aCoder encodeObject:_agencyId forKey:@"agencyId"];
-    [aCoder encodeObject:_agency forKey:@"agency"];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(routeId)];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(shortName)];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(longName)];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(routeType)];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(agencyId)];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(agency)];
 }
 
 #pragma mark - NSCopying

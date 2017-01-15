@@ -15,6 +15,7 @@
  */
 
 #import <OBAKit/OBANavigationTarget.h>
+#import <OBAKit/NSCoder+OBAAdditions.h>
 
 NSString * const OBAStopIDNavigationTargetParameter = @"stopId";
 
@@ -44,24 +45,19 @@ NSString * const OBAStopIDNavigationTargetParameter = @"stopId";
 #pragma mark - NSCoding
 
 - (id)initWithCoder:(NSCoder*)coder {
-    if( self = [super init] ) {
-        
-        NSNumber * target = [coder decodeObjectForKey:@"target"];
-        _target = [target intValue];
-
-        NSDictionary * dictionary = [coder decodeObjectForKey:@"parameters"];
-        _parameters = [[NSMutableDictionary alloc] initWithDictionary:dictionary];
-
-        _object = [coder decodeObjectForKey:@"object"];
+    if (self = [super init]) {
+        _target = [coder oba_decodeInteger:@selector(target)];
+        _parameters = [NSMutableDictionary dictionaryWithDictionary:[coder oba_decodeObject:@selector(parameters)]];
+        _object = [coder oba_decodeObject:@selector(object)];
     }
     return self;
 }
 
-- (void)encodeWithCoder: (NSCoder *)coder {
-    [coder encodeObject:[NSNumber numberWithInt:_target] forKey:@"target"];
-    [coder encodeObject:_parameters forKey:@"parameters"];
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder oba_encodeInteger:_target forSelector:@selector(target)];
+    [coder oba_encodeObject:_parameters forSelector:@selector(parameters)];
     if ([_object conformsToProtocol:@protocol(NSCoding)]) {
-        [coder encodeObject:_object forKey:@"object"];
+        [coder oba_encodeObject:_object forSelector:@selector(object)];
     }
 }
 

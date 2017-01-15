@@ -18,18 +18,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAPlacemark : NSObject <NSCoding,MKAnnotation> {
-    NSString * _name;
-    NSString * _address;
-    NSString * _icon;
-    CLLocationCoordinate2D _coordinate;
-}
-
-@property (nonatomic,strong) NSString * name;
-@property (nonatomic,strong) NSString * address;
-@property (nonatomic,strong) NSString * icon;
-@property (nonatomic) CLLocationCoordinate2D coordinate;
-@property (weak, nonatomic,readonly) CLLocation * location;
+@interface OBAPlacemark : NSObject <NSCoding,MKAnnotation>
+@property(nonatomic,copy) NSString * name;
+@property(nonatomic,copy) NSString * address;
+@property(nonatomic,copy) NSString * icon;
+@property(nonatomic,assign) CLLocationCoordinate2D coordinate;
+@property(weak,nonatomic,readonly) CLLocation * location;
 
 - (instancetype)initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate;
 

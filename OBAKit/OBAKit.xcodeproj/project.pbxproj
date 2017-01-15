@@ -202,6 +202,8 @@
 		934196CF1DB0B369004BBBB7 /* OBAKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 934196CD1DB0B369004BBBB7 /* OBAKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196D31DB0C02F004BBBB7 /* NSDate+DateTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 934196D11DB0C02F004BBBB7 /* NSDate+DateTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196D41DB0C02F004BBBB7 /* NSDate+DateTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196D21DB0C02F004BBBB7 /* NSDate+DateTools.m */; };
+		934C50951E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 934C50931E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934C50961E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C50941E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m */; };
 		9358CDAE1DEA1AB000132CDE /* OBADepartureCellHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 9358CDAC1DEA1AB000132CDE /* OBADepartureCellHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9358CDAF1DEA1AB000132CDE /* OBADepartureCellHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358CDAD1DEA1AB000132CDE /* OBADepartureCellHelpers.m */; };
 		9358CDB21DEA242B00132CDE /* OBAUpcomingDeparture.h in Headers */ = {isa = PBXBuildFile; fileRef = 9358CDB01DEA242B00132CDE /* OBAUpcomingDeparture.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -424,6 +426,8 @@
 		934196CD1DB0B369004BBBB7 /* OBAKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAKit.h; sourceTree = "<group>"; };
 		934196D11DB0C02F004BBBB7 /* NSDate+DateTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DateTools.h"; sourceTree = "<group>"; };
 		934196D21DB0C02F004BBBB7 /* NSDate+DateTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DateTools.m"; sourceTree = "<group>"; };
+		934C50931E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCoder+OBAAdditions.h"; sourceTree = "<group>"; };
+		934C50941E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCoder+OBAAdditions.m"; sourceTree = "<group>"; };
 		9358CDAC1DEA1AB000132CDE /* OBADepartureCellHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADepartureCellHelpers.h; sourceTree = "<group>"; };
 		9358CDAD1DEA1AB000132CDE /* OBADepartureCellHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADepartureCellHelpers.m; sourceTree = "<group>"; };
 		9358CDB01DEA242B00132CDE /* OBAUpcomingDeparture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAUpcomingDeparture.h; sourceTree = "<group>"; };
@@ -513,6 +517,8 @@
 				93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */,
 				93B282C71DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m */,
 				930AFE8F1DD0717A0092AE82 /* Array+Functional.swift */,
+				934C50931E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h */,
+				934C50941E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -871,6 +877,7 @@
 				934196241DB0B099004BBBB7 /* OBASphericalGeometryLibrary.h in Headers */,
 				934196651DB0B099004BBBB7 /* OBAPlacemarks.h in Headers */,
 				934196761DB0B099004BBBB7 /* OBASearchResult.h in Headers */,
+				934C50951E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h in Headers */,
 				9341960E1DB0B099004BBBB7 /* OBAMapHelpers.h in Headers */,
 				9341964F1DB0B099004BBBB7 /* OBAArrivalsAndDeparturesForStopV2.h in Headers */,
 				930AFE9E1DD183720092AE82 /* OBAWalkingDirections.h in Headers */,
@@ -1058,6 +1065,7 @@
 				9327DEF41E02306900502F06 /* OBACanvasView.m in Sources */,
 				9341963A1DB0B099004BBBB7 /* OBASelectorJsonDigesterRule.m in Sources */,
 				934196171DB0B099004BBBB7 /* OBAStrings.m in Sources */,
+				934C50961E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m in Sources */,
 				932CCEE31DC40221001C8405 /* OBADeepLinkRouter.m in Sources */,
 				934196401DB0B099004BBBB7 /* OBASetLocationPropertyJsonDigesterRule.m in Sources */,
 				934196B91DB0B0AF004BBBB7 /* OBATheme.m in Sources */,

@@ -172,7 +172,7 @@ NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2,
 }
 
 + (MKCoordinateRegion)computeRegionForPlacemarks:(NSArray<OBAPlacemark*>*)placemarks defaultRegion:(MKCoordinateRegion)defaultRegion {
-    OBACoordinateBounds *bounds = [OBACoordinateBounds bounds];
+    OBACoordinateBounds *bounds = [[OBACoordinateBounds alloc] init];
 
     for (OBAPlacemark *placemark in placemarks) {
         [bounds addCoordinate:placemark.coordinate];

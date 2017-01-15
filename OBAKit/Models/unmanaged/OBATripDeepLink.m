@@ -9,6 +9,7 @@
 #import <OBAKit/OBATripDeepLink.h>
 #import <OBAKit/OBAURLHelpers.h>
 #import <OBAKit/NSObject+OBADescription.h>
+#import <OBAKit/NSCoder+OBAAdditions.h>
 
 NSString * const OBADeepLinkURL = @"https://www.onebusaway.co";
 
@@ -53,24 +54,24 @@ NSString * const OBADeepLinkURL = @"https://www.onebusaway.co";
     self = [super init];
 
     if (self) {
-        _name = [aDecoder decodeObjectForKey:kName];
-        _regionIdentifier = [aDecoder decodeIntegerForKey:kRegion];
-        _stopID = [aDecoder decodeObjectForKey:kStopID];
-        _tripID = [aDecoder decodeObjectForKey:kTripID];
-        _vehicleID = [aDecoder decodeObjectForKey:kVehicleID];
-        _serviceDate = [aDecoder decodeInt64ForKey:kServiceDate];
-        _stopSequence = [aDecoder decodeIntegerForKey:kStopSequence];
-        _createdAt = [aDecoder decodeObjectForKey:kCreatedAt];
+        _name = [aDecoder oba_decodeObject:@selector(name)];
+        _regionIdentifier = [aDecoder oba_decodeInteger:@selector(regionIdentifier)];
+        _stopID = [aDecoder oba_decodeObject:@selector(stopID)];
+        _tripID = [aDecoder oba_decodeObject:@selector(tripID)];
+        _vehicleID = [aDecoder oba_decodeObject:@selector(vehicleID)];
+        _serviceDate = [aDecoder oba_decodeInt64:@selector(serviceDate)];
+        _stopSequence = [aDecoder oba_decodeInteger:@selector(stopSequence)];
+        _createdAt = [aDecoder oba_decodeObject:@selector(createdAt)];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:self.name forKey:kName];
-    [aCoder encodeInteger:self.regionIdentifier forKey:kRegion];
-    [aCoder encodeObject:self.stopID forKey:kStopID];
-    [aCoder encodeObject:self.tripID forKey:kTripID];
-    [aCoder encodeObject:self.vehicleID forKey:kVehicleID];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(name)];
+    [aCoder oba_encodeInteger:self.regionIdentifier forSelector:@selector(regionIdentifier)];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(stopID)];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(tripID)];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(vehicleID)];
     [aCoder encodeInt64:self.serviceDate forKey:kServiceDate];
     [aCoder encodeInteger:self.stopSequence forKey:kStopSequence];
     [aCoder encodeObject:self.createdAt forKey:kCreatedAt];
