@@ -15,10 +15,9 @@
 
 @interface JsonUrlFetcherImpl : NSObject<NSURLConnectionDelegate, NSURLConnectionDataDelegate, OBADataSourceConnection>
 @property (nonatomic, copy) OBADataSourceCompletion completionBlock;
-@property (nonatomic, copy) OBADataSourceProgress progressBlock;
 @property(nonatomic,strong) NSURLSessionDataTask *task;
 
-- (instancetype)initWithCompletionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress;
+- (instancetype)initWithCompletionBlock:(OBADataSourceCompletion)completion;
 - (void)loadRequest:(NSURLRequest *)request;
 @end
 
@@ -57,7 +56,7 @@
 
 
 - (NSURL*)URLForRequestWithStopID:(NSString*)stopID minutesBefore:(NSInteger)minutesBefore minutesAfter:(NSInteger)minutesAfter {
-    OBAModelServiceRequest *request = [self.modelService requestStopWithArrivalsAndDeparturesForId:stopID withMinutesBefore:minutesBefore withMinutesAfter:minutesAfter completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {} progressBlock:nil];
+    OBAModelServiceRequest *request = [self.modelService requestStopWithArrivalsAndDeparturesForId:stopID withMinutesBefore:minutesBefore withMinutesAfter:minutesAfter completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {}];
     JsonUrlFetcherImpl *connection = (JsonUrlFetcherImpl*)[request connection];
 
     NSURLRequest *originalRequest = [connection.task originalRequest];

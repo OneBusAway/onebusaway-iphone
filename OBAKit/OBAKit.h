@@ -20,6 +20,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/NSArray+OBAAdditions.h>
 #import <OBAKit/NSCoder+OBAAdditions.h>
 #import <OBAKit/NSDate+DateTools.h>
+#import <OBAKit/NSDictionary+OBAAdditions.h>
 #import <OBAKit/NSObject+OBADescription.h>
 #import <OBAKit/NSURLQueryItem+OBAAdditions.h>
 #import <OBAKit/OBAAgencyV2.h>

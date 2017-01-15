@@ -16,6 +16,8 @@
 
 #import <OBAKit/OBAJsonDataSource.h>
 #import <OBAKit/JsonUrlFetcherImpl.h>
+#import <OBAKit/OBACommon.h>
+#import <OBAKit/NSDictionary+OBAAdditions.h>
 
 @interface OBAJsonDataSource ()
 @property(nonatomic,strong) NSHashTable *openConnections;
@@ -48,19 +50,42 @@
     return [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
 }
 
++ (instancetype)obacoJSONDataSource {
+    OBADataSourceConfig *obacoConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:OBADeepLinkServerAddress] args:nil];
+    return [[OBAJsonDataSource alloc] initWithConfig:obacoConfig];
+}
+
 #pragma mark - Public Methods
 
-- (id<OBADataSourceConnection>)requestWithPath:(NSString *)path withArgs:(NSDictionary *)args completionBlock:(OBADataSourceCompletion)completion progressBlock:(OBADataSourceProgress)progress {
-
-    NSURL *feedURL = [self.config constructURL:path withArgs:args];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:feedURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15];
+- (NSMutableURLRequest*)requestWithURL:(NSURL*)URL HTTPMethod:(NSString*)HTTPMethod {
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15];
     [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
+    request.HTTPMethod = HTTPMethod;
 
-    JsonUrlFetcherImpl *fetcher = [[JsonUrlFetcherImpl alloc] initWithCompletionBlock:completion progressBlock:progress];
+    return request;
+}
+
+- (id<OBADataSourceConnection>)performRequest:(NSURLRequest*)request completionBlock:(OBADataSourceCompletion) completion {
+    JsonUrlFetcherImpl *fetcher = [[JsonUrlFetcherImpl alloc] initWithCompletionBlock:completion];
     [self.openConnections addObject:fetcher];
     [fetcher loadRequest:request];
 
     return fetcher;
+}
+
+- (id<OBADataSourceConnection>)requestWithPath:(NSString*)path
+                                    HTTPMethod:(NSString*)httpMethod
+                               queryParameters:(nullable NSDictionary*)queryParameters
+                                      formBody:(nullable NSDictionary*)formBody
+                               completionBlock:(OBADataSourceCompletion) completion {
+
+    NSMutableURLRequest *request = [self requestWithURL:[self.config constructURL:path withArgs:queryParameters] HTTPMethod:httpMethod];
+
+    if (formBody && [self.class requestSupportsHTTPBody:request]) {
+        request.HTTPBody = [formBody oba_toHTTPBodyData];
+    }
+
+    return [self performRequest:request completionBlock:completion];
 }
 
 - (void)cancelOpenConnections {
@@ -69,6 +94,10 @@
     }
 
     [self.openConnections removeAllObjects];
+}
+
++ (BOOL)requestSupportsHTTPBody:(NSURLRequest*)request {
+    return [@[@"post", @"patch", @"put"] containsObject:request.HTTPMethod.lowercaseString];
 }
 
 @end

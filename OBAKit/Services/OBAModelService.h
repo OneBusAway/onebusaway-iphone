@@ -52,7 +52,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 @property (nonatomic, strong) OBAJsonDataSource *obaJsonDataSource;
 @property (nonatomic, strong) OBAJsonDataSource *obaRegionJsonDataSource;
 @property (nonatomic, strong) OBAJsonDataSource *googleMapsJsonDataSource;
-@property (nonatomic, strong) OBAJsonDataSource *googlePlacesJsonDataSource;
+@property (nonatomic, strong) OBAJsonDataSource *obacoJsonDataSource;
 @property (nonatomic, strong) OBALocationManager *locationManager;
 
 /**
@@ -62,9 +62,11 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 + (instancetype)modelServiceWithBaseURL:(NSURL*)URL;
 
 /**
- * Registers a background executor to be used by all services.  This method should not be used by extensions.
+ * Registers a background executor to be used by all services. This method should not be used by extensions.
  */
 +(void) addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*) executor;
+
+#pragma mark - Stop ID -> ArrivalsAndDeparturesV2
 
 /**
  Stop data with arrivals and departures for the specified stopID.
@@ -78,6 +80,23 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 - (AnyPromise*)requestStopForID:(NSString*)stopID minutesBefore:(NSUInteger)minutesBefore minutesAfter:(NSUInteger)minutesAfter;
 
 /**
+ *  Makes an asynchronous request to fetch a stop object that is also inflated with additional data for arrival and departure time
+ *
+ *  @param stopId        The string identifier of the stop to be fetched
+ *  @param minutesBefore The lower bound of time for which arrivals are returned
+ *  @param minutesAfter  The upper bound of time for which arrivals are returned
+ *  @param completion    The block to be called once the request completes, this is always executed on the main thread.
+ *
+ *  @return The OBAModelServiceRequest object that allows request cancellation
+ */
+- (id<OBAModelServiceRequest>)requestStopWithArrivalsAndDeparturesForId:(NSString *)stopId
+                                                      withMinutesBefore:(NSUInteger)minutesBefore
+                                                       withMinutesAfter:(NSUInteger)minutesAfter
+                                                        completionBlock:(OBADataSourceCompletion)completion;
+
+#pragma mark - OBATripInstanceRef -> OBATripDetailsV2
+
+/**
  Trip details for the specified OBATripInstanceRef
 
  @param tripInstance The trip instance reference
@@ -85,6 +104,19 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  @return An instance of OBATripDetailsV2
  */
 - (AnyPromise*)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance;
+
+/**
+ *  Makes an asynchronous request to fetch trip details
+ *
+ *  @param tripInstance An intance of a trip
+ *  @param completion   The block to be called once the request completes, this is always executed on the main thread.
+ *
+ *  @return The OBAModelServiceRequest object that allows request cancellation
+ */
+- (id<OBAModelServiceRequest>)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance
+                                                completionBlock:(OBADataSourceCompletion)completion;
+
+#pragma mark - OBAArrivalAndDepartureInstanceRef -> OBAArrivalAndDepartureV2
 
 /**
  Retrieves an up-to-date OBAArrivalAndDepartureV2 object.
@@ -96,6 +128,19 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 - (AnyPromise*)requestArrivalAndDeparture:(OBAArrivalAndDepartureInstanceRef*)instanceRef;
 
 /**
+ *  Makes an asynchronous request to fetch arrival and departure times for a particular stop
+ *
+ *  @param instance   An instance of a stop
+ *  @param completion The block to be called once the request completes, this is always executed on the main thread.
+ *
+ *  @return The OBAModelServiceRequest object that allows request cancellation
+ */
+- (id<OBAModelServiceRequest>)requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef *)instance
+                                                completionBlock:(OBADataSourceCompletion)completion;
+
+#pragma mark - OBATripDeepLink -> OBAArrivalAndDepartureV2
+
+/**
  Retrieves an OBAArrivalAndDepartureV2 object from the server given a trip deep link object.
 
  @param tripDeepLink A trip deep link object
@@ -103,12 +148,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  */
 - (AnyPromise*)requestArrivalAndDepartureWithTripDeepLink:(OBATripDeepLink*)tripDeepLink;
 
-/**
- Retrieves the current server time as an NSNumber representing the number of milliseconds since January 1, 1970.
-
- @return A promise that resolves to an NSNumber object.
- */
-- (AnyPromise*)requestCurrentTime;
+#pragma mark - Regions
 
 /**
  Retrieves all available OBA regions, including experimental and inactive regions. Returns an array of OBARegionV2 objects.
@@ -118,11 +158,33 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 - (AnyPromise*)requestRegions;
 
 /**
+ *  Makes an asynchronous request to fetch all available OBA regions, including experimental and inactive
+ *
+ *  @param completion The block to be called once the request completes, this is always executed on the main thread.
+ *
+ *  @return The OBAModelServiceRequest object that allows request cancellation
+ */
+- (id<OBAModelServiceRequest>)requestRegions:(OBADataSourceCompletion)completion;
+
+#pragma mark - Agencies
+
+/**
  Retrieves all available OBA regions, including experimental and inactive regions. Returns an array of OBARegionV2 objects.
  *
  *  @return A promise that resolves to NSArray<OBAAgencyWithCoverageV2*>*.
  */
 - (AnyPromise*)requestAgenciesWithCoverage;
+
+/**
+ *  Makes an asynchronous request to fetch all available agencies.
+ *
+ *  @param completion The block to be called once the request completes, this is always executed on the main thread.
+ *
+ *  @return The OBAModelServiceRequest object that allows request cancellation
+ */
+- (id<OBAModelServiceRequest>)requestAgenciesWithCoverage:(OBADataSourceCompletion)completion;
+
+#pragma mark - Vehicle ID -> OBAVehicleStatusV2
 
 /**
  Retrieves the OBAVehicleStatusV2 object for the specified vehicleID.
@@ -134,57 +196,26 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 - (AnyPromise*)requestVehicleForID:(NSString*)vehicleID;
 
 /**
-   Retrieves the stops near the specified coordiante
- 
-   @param coordinate     Center coordinate for retrieving stops
+ *  Makes an asynchronous request to fetch a vehicle definition based on id
+ *
+ *  @param vehicleId  The identifier of the vehicle to be fetched
+ *  @param completion The block to be called once the request completes, this is always executed on the main thread.
+ *
+ *  @return The OBAModelServiceRequest object that allows request cancellation
+ */
+- (id<OBAModelServiceRequest>)requestVehicleForId:(NSString *)vehicleId
+                                  completionBlock:(OBADataSourceCompletion)completion;
 
-   @return A promise that resolves to NSArray<OBAStopV2*>*
+#pragma mark - CLLocationCoordinate2D -> [OBAStopV2]
+
+/**
+ Retrieves the stops near the specified coordiante
+
+ @param coordinate     Center coordinate for retrieving stops
+
+ @return A promise that resolves to NSArray<OBAStopV2*>*
  */
 - (AnyPromise*)requestStopsNear:(CLLocationCoordinate2D)coordinate;
-
-/**
- Retrives the shape identified by the specified shape ID.
-
- @param shapeID Identifier of a shape
- @return A promise that resolves to an MKPolyline object.
- */
-- (AnyPromise*)requestShapeForID:(NSString*)shapeID;
-
-/**
- *  Makes an asynchronous request to fetch the current server time.
- *
- *  @param completion The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (id<OBAModelServiceRequest>)requestCurrentTimeWithCompletionBlock:(OBADataSourceCompletion)completion;
-
-/**
- *  Makes an asynchronous request to fetch a stop object that is also inflated with additional data for arrival and departure time
- *
- *  @param stopId        The string identifier of the stop to be fetched
- *  @param minutesBefore The lower bound of time for which arrivals are returned
- *  @param minutesAfter  The upper bound of time for which arrivals are returned
- *  @param completion    The block to be called once the request completes, this is always executed on the main thread.
- *  @param progress      The block to be called with progress updates, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (id<OBAModelServiceRequest>)requestStopWithArrivalsAndDeparturesForId:(NSString *)stopId
-                                                      withMinutesBefore:(NSUInteger)minutesBefore
-                                                       withMinutesAfter:(NSUInteger)minutesAfter
-                                                        completionBlock:(OBADataSourceCompletion)completion
-                                                          progressBlock:(nullable OBADataSourceProgress)progress;
-/**
- *  Makes an asynchronous request for a set of stops within a given region
- *
- *  @param region     Region for which the stops are returned
- *  @param completion The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (id<OBAModelServiceRequest>)requestStopsForRegion:(MKCoordinateRegion)region
-                                    completionBlock:(OBADataSourceCompletion)completion;
 
 /**
  *  Makes an asynchronous request for a set of stops near the given coordinate
@@ -196,6 +227,58 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  */
 - (id<OBAModelServiceRequest>)requestStopsForCoordinate:(CLLocationCoordinate2D)coordinate
                                         completionBlock:(OBADataSourceCompletion)completion;
+
+#pragma mark - Shape ID -> MKPolyline
+
+/**
+ Retrives the shape identified by the specified shape ID.
+
+ @param shapeID Identifier of a shape
+ @return A promise that resolves to an MKPolyline object.
+ */
+- (AnyPromise*)requestShapeForID:(NSString*)shapeID;
+
+/**
+ *  Makes an asynchronous request to fetch a shape
+ *
+ *  @param shapeId    Identifier of a shape
+ *  @param completion The block to be called once the request completes, this is always executed on the main thread.
+ *
+ *  @return The OBAModelServiceRequest object that allows request cancellation
+ */
+- (id<OBAModelServiceRequest>)requestShapeForId:(NSString *)shapeId
+                                completionBlock:(OBADataSourceCompletion)completion;
+
+#pragma mark - Current Time
+
+/**
+ Retrieves the current server time as an NSNumber representing the number of milliseconds since January 1, 1970.
+
+ @return A promise that resolves to an NSNumber object.
+ */
+- (AnyPromise*)requestCurrentTime;
+
+/**
+ *  Makes an asynchronous request to fetch the current server time.
+ *
+ *  @param completion The block to be called once the request completes, this is always executed on the main thread.
+ *
+ *  @return The OBAModelServiceRequest object that allows request cancellation
+ */
+- (id<OBAModelServiceRequest>)requestCurrentTimeWithCompletionBlock:(OBADataSourceCompletion)completion;
+
+#pragma mark - Requests for [OBAStopV2]
+
+/**
+ *  Makes an asynchronous request for a set of stops within a given region
+ *
+ *  @param region     Region for which the stops are returned
+ *  @param completion The block to be called once the request completes, this is always executed on the main thread.
+ *
+ *  @return The OBAModelServiceRequest object that allows request cancellation
+ */
+- (id<OBAModelServiceRequest>)requestStopsForRegion:(MKCoordinateRegion)region
+                                    completionBlock:(OBADataSourceCompletion)completion;
 
 /**
  *  Makes an asynchronous request to get a set of stops for a given query, bounded by a region
@@ -242,6 +325,9 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 - (id<OBAModelServiceRequest>)requestRoutesForQuery:(NSString *)routeQuery
                                          withRegion:(nullable CLCircularRegion *)region
                                     completionBlock:(OBADataSourceCompletion)completion;
+
+#pragma mark - Address -> [OBAPlacemark]
+
 /**
  *  Makes an asynchronous request to fetch a set of placemarks based on address string
  *
@@ -253,66 +339,8 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 - (id<OBAModelServiceRequest>)placemarksForAddress:(NSString *)address
                                    completionBlock:(OBADataSourceCompletion)completion;
 
-/**
- *  Makes an asynchronous request to fetch all available OBA regions, including experimental and inactive
- *
- *  @param completion The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (id<OBAModelServiceRequest>)requestRegions:(OBADataSourceCompletion)completion;
+#pragma mark - Problem Reporting
 
-/**
- *  Makes an asynchronous request to fetch all available agencies.
- *
- *  @param completion The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (id<OBAModelServiceRequest>)requestAgenciesWithCoverage:(OBADataSourceCompletion)completion;
-
-/**
- *  Makes an asynchronous request to fetch arrival and departure times for a particular stop
- *
- *  @param instance   An instance of a stop
- *  @param completion The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (id<OBAModelServiceRequest>)requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef *)instance
-                                                completionBlock:(OBADataSourceCompletion)completion;
-/**
- *  Makes an asynchronous request to fetch trip details
- *
- *  @param tripInstance An intance of a trip
- *  @param completion   The block to be called once the request completes, this is always executed on the main thread.
- *  @param progress     The block to be called with progress updates, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (id<OBAModelServiceRequest>)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance
-                                                completionBlock:(OBADataSourceCompletion)completion
-                                                  progressBlock:(nullable OBADataSourceProgress)progress;
-/**
- *  Makes an asynchronous request to fetch a vehicle definition based on id
- *
- *  @param vehicleId  The identifier of the vehicle to be fetched
- *  @param completion The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (id<OBAModelServiceRequest>)requestVehicleForId:(NSString *)vehicleId
-                                  completionBlock:(OBADataSourceCompletion)completion;
-/**
- *  Makes an asynchronous request to fetch a shape
- *
- *  @param shapeId    Identifier of a shape
- *  @param completion The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (id<OBAModelServiceRequest>)requestShapeForId:(NSString *)shapeId
-                                completionBlock:(OBADataSourceCompletion)completion;
 /**
  *  Makes an asynchronous request to report a problem with a stop
  *
