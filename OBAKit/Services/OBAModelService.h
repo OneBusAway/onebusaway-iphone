@@ -25,7 +25,8 @@
 #import <OBAKit/OBAReportProblemWithStopV2.h>
 #import <OBAKit/OBAReportProblemWithTripV2.h>
 #import <OBAKit/OBALocationManager.h>
-#import <OBAKit/OBATripDeepLink.h>
+#import <OBAKit/OBAArrivalAndDepartureConvertible.h>
+#import <OBAKit/OBAAlarm.h>
 
 @import PromiseKit;
 
@@ -65,6 +66,12 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  * Registers a background executor to be used by all services. This method should not be used by extensions.
  */
 +(void) addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*) executor;
+
+#pragma mark - Alarms
+
+- (id<OBAModelServiceRequest>)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion;
+
+- (AnyPromise*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID;
 
 #pragma mark - Stop ID -> ArrivalsAndDeparturesV2
 
@@ -138,15 +145,15 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 - (id<OBAModelServiceRequest>)requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef *)instance
                                                 completionBlock:(OBADataSourceCompletion)completion;
 
-#pragma mark - OBATripDeepLink -> OBAArrivalAndDepartureV2
+#pragma mark - OBAArrivalAndDepartureConvertible -> OBAArrivalAndDepartureV2
 
 /**
  Retrieves an OBAArrivalAndDepartureV2 object from the server given a trip deep link object.
 
- @param tripDeepLink A trip deep link object
+ @param convertible An object that contains properties that can be used to retrieve an OBAArrivalAndDepartureV2 object.
  @return A promise that resolves to an OBAArrivalAndDepartureV2 object
  */
-- (AnyPromise*)requestArrivalAndDepartureWithTripDeepLink:(OBATripDeepLink*)tripDeepLink;
+- (AnyPromise*)requestArrivalAndDepartureWithConvertible:(id<OBAArrivalAndDepartureConvertible>)convertible;
 
 #pragma mark - Regions
 

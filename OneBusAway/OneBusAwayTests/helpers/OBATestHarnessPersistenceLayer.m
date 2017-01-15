@@ -127,4 +127,22 @@
     //
 }
 
+#pragma mark - Alarms
+
+- (NSArray<OBAAlarm*>*)alarms {
+    return @[];
+}
+
+- (OBAAlarm*)alarmForKey:(NSString*)alarmKey {
+    return nil;
+}
+
+- (void)addAlarm:(OBAAlarm*)alarm {
+    //
+}
+
+- (void)removeAlarmWithKey:(NSString*)alarmKey {
+    //
+}
+
 @end

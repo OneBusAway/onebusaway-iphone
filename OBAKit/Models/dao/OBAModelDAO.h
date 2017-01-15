@@ -15,6 +15,7 @@
  */
 
 #import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBAAlarm.h>
 #import <OBAKit/OBABookmarkV2.h>
 #import <OBAKit/OBAStopAccessEventV2.h>
 #import <OBAKit/OBAStopPreferencesV2.h>
@@ -98,6 +99,12 @@ extern NSString * const OBARegionDidUpdateNotification;
 - (void)clearSharedTrips;
 - (void)clearSharedTripsOlderThan24Hours;
 
+// Alarms
+@property(nonatomic,copy,readonly) NSArray<OBAAlarm*> *alarms;
+- (OBAAlarm*)alarmForKey:(NSString*)alarmKey;
+- (void)addAlarm:(OBAAlarm*)alarm;
+- (void)removeAlarmWithKey:(NSString*)alarmKey;
+- (void)clearExpiredAlarms;
 @end
 
 NS_ASSUME_NONNULL_END

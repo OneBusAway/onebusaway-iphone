@@ -102,9 +102,9 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }];
 }
 
-- (AnyPromise*)requestArrivalAndDepartureWithTripDeepLink:(OBATripDeepLink*)tripDeepLink {
+- (AnyPromise*)requestArrivalAndDepartureWithConvertible:(id<OBAArrivalAndDepartureConvertible>)convertible {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestArrivalAndDepartureForStopID:tripDeepLink.stopID tripID:tripDeepLink.tripID serviceDate:tripDeepLink.serviceDate vehicleID:tripDeepLink.vehicleID stopSequence:tripDeepLink.stopSequence completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+        [self requestArrivalAndDepartureForStopID:[convertible stopID] tripID:[convertible tripID] serviceDate:[convertible serviceDate] vehicleID:[convertible vehicleID] stopSequence:[convertible stopSequence] completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
             if (error) {
                 resolve(error);
             }
@@ -171,6 +171,42 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
             }
         }];
     }];
+}
+
+#pragma mark - Alarms
+
+- (AnyPromise*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID {
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestAlarm:alarm userPushNotificationID:userPushNotificationID completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            if (responseData) {
+                resolve(responseData);
+            }
+            else {
+                resolve(error);
+            }
+        }];
+    }];
+}
+
+- (id<OBAModelServiceRequest>)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion {
+
+    NSDictionary *params = @{
+                             @"seconds_before": @(alarm.timeIntervalBeforeDeparture),
+                             @"stop_id":        alarm.stopID,
+                             @"trip_id":        alarm.tripID,
+                             @"service_date":   @(alarm.serviceDate),
+                             @"vehicle_id":     alarm.vehicleID,
+                             @"stop_sequence":  @(alarm.stopSequence),
+                             @"user_push_id":   userPushNotificationID
+                            };
+
+    return [self request:self.obacoJsonDataSource
+                     url:[NSString stringWithFormat:@"/regions/%@/alarms", @(alarm.regionIdentifier)]
+              HTTPMethod:@"POST"
+             queryParams:nil
+                formBody:params
+                selector:nil
+         completionBlock:completion];
 }
 
 #pragma mark - Old School Requests
@@ -246,8 +282,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 - (id<OBAModelServiceRequest>)requestStopsForPlacemark:(OBAPlacemark *)placemark completionBlock:(OBADataSourceCompletion)completion {
     MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:placemark.coordinate latRadius:kSearchRadius lonRadius:kSearchRadius];
 
-    return [self requestStopsForRegion:region
-                       completionBlock:completion];
+    return [self requestStopsForRegion:region completionBlock:completion];
 }
 
 - (id<OBAModelServiceRequest>)requestRoutesForQuery:(NSString *)routeQuery withRegion:(CLCircularRegion *)region completionBlock:(OBADataSourceCompletion)completion {

@@ -9,6 +9,7 @@
 #import "OBAStopViewController.h"
 @import OBAKit;
 @import PromiseKit;
+@import SVProgressHUD;
 #import "OneBusAway-Swift.h"
 #import "OBASeparatorSectionView.h"
 #import "OBAReportProblemWithRecentTripsViewController.h"
@@ -26,6 +27,8 @@
 #import "OBAWalkableRow.h"
 #import "AFMSlidingCell.h"
 #import "BTBalloon.h"
+#import "GKActionSheetPicker.h"
+#import "OBAPushManager.h"
 
 static NSTimeInterval const kRefreshTimeInterval = 30.0;
 static CGFloat const kTableHeaderHeight = 150.f;
@@ -40,6 +43,7 @@ static NSInteger kStopsSectionTag = 101;
 @property(nonatomic,strong) OBARouteFilter *routeFilter;
 @property(nonatomic,strong) OBAStopTableHeaderView *stopHeaderView;
 @property(nonatomic,strong) NSTimer *apptentiveTimer;
+@property(nonatomic,strong) GKActionSheetPicker *actionSheetPicker;
 @end
 
 @implementation OBAStopViewController
@@ -335,9 +339,15 @@ static NSInteger kStopsSectionTag = 101;
         row.upcomingDepartures = @[[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState]];
         row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
         row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
+        row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
+        // Only allow alarms to be created if the time to departure is greater than OBAAlarmIncrementsInMinutes.
+        row.alarmCanBeCreated = dep.timeIntervalUntilBestDeparture > OBAAlarmIncrementsInMinutes * 60;
 
         [row setToggleBookmarkAction:^{
             [self toggleBookmarkActionForArrivalAndDeparture:dep];
+        }];
+        [row setToggleAlarmAction:^{
+            [self toggleAlarmActionForArrivalAndDeparture:dep];
         }];
         [row setShareAction:^{
             [self shareActionForArrivalAndDeparture:dep atIndexPath:[self indexPathForModel:dep]];
@@ -390,6 +400,88 @@ static NSInteger kStopsSectionTag = 101;
     }
 
     [self presentViewController:controller animated:YES completion:nil];
+}
+
+#pragma mark - Alarms
+
+- (BOOL)hasAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+    id val = [self.modelDAO alarmForKey:dep.alarmKey];
+    return !!val;
+}
+
+- (void)promptToRemoveAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"alarms.confirm_deletion_alert_title", @"The title of the alert controller that prompts the user about whether they really want to delete this alarm.") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"alarms.confirm_deletion_alert_cancel_button", @"This is the button that cancels the alarm deletion.") style:UIAlertActionStyleCancel handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"alarms.confirm_deletion_alert_delete_button", @"This is the button that confirms that the user really does want to delete their alarm.") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        [self deleteAlarmForArrivalAndDeparture:dep];
+    }]];
+
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)toggleAlarmActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+    OBAGuard(dep) else {
+        return;
+    }
+
+    if ([self hasAlarmForArrivalAndDeparture:dep]) {
+        [self promptToRemoveAlarmForArrivalAndDeparture:dep];
+        return;
+    }
+
+    // This should never actually be triggered; the "Remind Me" button
+    // should be disabled if this condition is true.
+    if (dep.minutesUntilBestDeparture <= OBAAlarmIncrementsInMinutes) {
+        return;
+    }
+
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+
+    for (NSInteger i = dep.minutesUntilBestDeparture - (dep.minutesUntilBestDeparture % OBAAlarmIncrementsInMinutes); i > 0; i = i-OBAAlarmIncrementsInMinutes) {
+        NSString *pickerItemTitle = [NSString stringWithFormat:NSLocalizedString(@"alarms.picker.formatted_item", @"The format string used for picker items for choosing when an alarm should ring."), @(i)];
+        [items addObject:[GKActionSheetPickerItem pickerItemWithTitle:pickerItemTitle value:@(i*60)]];
+    }
+
+    self.actionSheetPicker = [GKActionSheetPicker stringPickerWithItems:items selectCallback:^(id selected) {
+        [self registerAlarmForArrivalAndDeparture:dep timeInterval:[selected doubleValue]];
+    } cancelCallback:nil];
+
+    self.actionSheetPicker.title = NSLocalizedString(@"alarms.picker.title", @"The title of the picker view that lets you choose how many minutes before your bus departs you will get an alarm.");
+
+    if (dep.minutesUntilBestDeparture >= 10) {
+        [self.actionSheetPicker selectValue:@(10*60)];
+    }
+
+    [self.actionSheetPicker presentPickerOnView:self.view];
+}
+
+- (void)deleteAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+    OBAAlarm *alarm = [self.modelDAO alarmForKey:dep.alarmKey];
+    NSURLRequest *request = [self.modelService.obaJsonDataSource requestWithURL:alarm.alarmURL HTTPMethod:@"DELETE"];
+    [self.modelService.obaJsonDataSource performRequest:request completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+        [self.modelDAO removeAlarmWithKey:dep.alarmKey];
+    }];
+}
+
+- (void)registerAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalDeparture timeInterval:(NSTimeInterval)timeInterval {
+    OBAAlarm *alarm = [[OBAAlarm alloc] initWithArrivalAndDeparture:arrivalDeparture regionIdentifier:self.modelDAO.currentRegion.identifier timeIntervalBeforeDeparture:timeInterval];
+
+    [[OBAPushManager pushManager] requestUserPushNotificationID].then(^(NSString *pushNotificationID) {
+        [SVProgressHUD show];
+        return [self.modelService requestAlarm:alarm userPushNotificationID:pushNotificationID];
+    }).then(^(NSDictionary *serverResponse) {
+        alarm.alarmURL = [NSURL URLWithString:serverResponse[@"url"]];
+        [self.modelDAO addAlarm:alarm];
+
+        NSString *body = [NSString stringWithFormat:NSLocalizedString(@"alarms.alarm_created_alert_body", @"The body of the non-modal alert that appears when a push notification alarm is registered."), @((NSUInteger)timeInterval / 60)];
+
+        [AlertPresenter showSuccess:NSLocalizedString(@"alarms.alarm_created_alert_title", @"The title of the non-modal alert displayed when a push notification alert is registered for a vehicle departure.") body:body];
+    }).catch(^(NSError *error) {
+        [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription];
+    }).always(^{
+        [SVProgressHUD dismiss];
+    });
 }
 
 #pragma mark - Bookmarks
