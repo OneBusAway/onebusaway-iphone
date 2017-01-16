@@ -226,6 +226,13 @@
     return [self.deepLinkRouter performActionForURL:URL];
 }
 
+/*
+ Necessary for onebusaway:// URLs to work.
+ */
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+    return YES;
+}
+
 #pragma mark - Shortcut Items
 
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
