@@ -25,7 +25,9 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/NSURLQueryItem+OBAAdditions.h>
 #import <OBAKit/OBAAgencyV2.h>
 #import <OBAKit/OBAAgencyWithCoverageV2.h>
+#import <OBAKit/OBAAlarm.h>
 #import <OBAKit/OBAApplication.h>
+#import <OBAKit/OBAArrivalAndDepartureConvertible.h>
 #import <OBAKit/OBAArrivalAndDepartureInstanceRef.h>
 #import <OBAKit/OBAArrivalAndDepartureV2.h>
 #import <OBAKit/OBAArrivalsAndDeparturesForStopV2.h>

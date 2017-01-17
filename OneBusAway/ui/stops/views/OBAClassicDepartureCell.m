@@ -17,6 +17,7 @@ static CGFloat const kSwipeButtonWidth = 80.f;
 @interface OBAClassicDepartureCell ()
 @property(nonatomic,strong) OBAClassicDepartureView *departureView;
 @property(nonatomic,strong,readonly) UIButton *bookmarkButton;
+@property(nonatomic,strong,readonly) UIButton *alarmButton;
 @property(nonatomic,strong,readonly) UIButton *shareButton;
 @end
 
@@ -46,6 +47,17 @@ static CGFloat const kSwipeButtonWidth = 80.f;
             button;
         });
 
+        _alarmButton = ({
+            UIButton *button = [OBAStackedButton buttonWithType:UIButtonTypeSystem];
+            [button addTarget:self action:@selector(toggleAlarm) forControlEvents:UIControlEventTouchUpInside];
+            button.titleLabel.font = [OBATheme footnoteFont];
+            [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"bell"] forState:UIControlStateNormal];
+            button.tintColor = [UIColor blackColor];
+            [button setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+            button;
+        });
+
         _shareButton = ({
             UIButton *button = [OBAStackedButton buttonWithType:UIButtonTypeSystem];
             [button setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
@@ -69,6 +81,7 @@ static CGFloat const kSwipeButtonWidth = 80.f;
 
 - (void)addButtonsToContextMenu {
     [self addLeftButton:_bookmarkButton withWidth:kSwipeButtonWidth withTappedBlock:nil];
+    [self addCenterButton:_alarmButton withWidth:kSwipeButtonWidth withTappedBlock:nil];
     [self addRightButton:_shareButton withWidth:kSwipeButtonWidth withTappedBlock:nil];
 }
 
@@ -85,7 +98,7 @@ static CGFloat const kSwipeButtonWidth = 80.f;
     }
     else {
         backgroundColor = [UIColor greenColor];
-        title = NSLocalizedString(@"msg_add",);
+        title = NSLocalizedString(@"stops_controller.cell.add_bookmark_title", @"Title of the swipe to reveal button on Stop cells for adding a bookmark.");
         accessibilityLabel = NSLocalizedString(@"msg_add_bookmark",);
     }
 
@@ -94,9 +107,41 @@ static CGFloat const kSwipeButtonWidth = 80.f;
     [self.bookmarkButton setAccessibilityLabel:accessibilityLabel];
 }
 
+- (void)configureAlarmButton {
+    UIColor *backgroundColor = nil;
+    NSString *title = nil;
+    NSString *accessibilityLabel = nil;
+    BOOL enabled = YES;
+
+    if ([self departureRow].alarmExists) {
+        backgroundColor = [UIColor redColor];
+
+        title = NSLocalizedString(@"msg_remove",);
+        accessibilityLabel = NSLocalizedString(@"msg_remove_alarm",);
+    }
+    else {
+        backgroundColor = [OBATheme OBAGreen];
+        title = NSLocalizedString(@"stops_controller.cell.add_alarm_title", @"Title of the swipe to reveal button on Stop cells that triggers an alarm.");
+        accessibilityLabel = NSLocalizedString(@"msg_add_alarm",);
+        enabled = [self departureRow].alarmCanBeCreated;
+    }
+
+    self.alarmButton.enabled = enabled;
+    self.alarmButton.backgroundColor = backgroundColor;
+    [self.alarmButton setTitle:title forState:UIControlStateNormal];
+    [self.alarmButton setAccessibilityLabel:accessibilityLabel];
+}
+
 - (void)toggleBookmark {
     if ([self departureRow].toggleBookmarkAction) {
         [self departureRow].toggleBookmarkAction();
+    }
+    [self hideButtonViewAnimated:YES];
+}
+
+- (void)toggleAlarm {
+    if ([self departureRow].toggleAlarmAction) {
+        [self departureRow].toggleAlarmAction();
     }
     [self hideButtonViewAnimated:YES];
 }
@@ -129,6 +174,7 @@ static CGFloat const kSwipeButtonWidth = 80.f;
     _tableRow = [tableRow copy];
 
     [self configureBookmarkButtonForExistingBookmark:[self departureRow].bookmarkExists];
+    [self configureAlarmButton];
 
     self.accessoryType = [self departureRow].accessoryType;
 

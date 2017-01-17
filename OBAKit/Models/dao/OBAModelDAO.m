@@ -579,5 +579,34 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     }
 }
 
+#pragma mark - Alarms
+
+- (NSArray<OBAAlarm*>*)alarms {
+    return self.preferencesDao.alarms;
+}
+
+- (OBAAlarm*)alarmForKey:(NSString*)alarmKey {
+    return [self.preferencesDao alarmForKey:alarmKey];
+}
+
+- (void)addAlarm:(OBAAlarm*)alarm {
+    [self.preferencesDao addAlarm:alarm];
+}
+
+- (void)removeAlarmWithKey:(NSString*)alarmKey {
+    [self.preferencesDao removeAlarmWithKey:alarmKey];
+}
+
+- (void)clearExpiredAlarms {
+    NSArray<OBAAlarm*> *alarms = [[NSArray alloc] initWithArray:self.alarms copyItems:YES];
+    NSDate *now = [NSDate date];
+
+    for (OBAAlarm *alarm in alarms) {
+        if (alarm.scheduledDeparture.timeIntervalSinceReferenceDate < now.timeIntervalSinceReferenceDate) {
+            [self removeAlarmWithKey:alarm.alarmKey];
+        }
+    }
+}
+
 @end
 

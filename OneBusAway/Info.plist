@@ -69,6 +69,13 @@
 				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
+			<key>ngrok.io</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
 			<key>obartd.com</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
@@ -144,6 +151,10 @@
 			<key>UIApplicationShortcutItemType</key>
 			<string>org.onebusaway.iphone.shortcut.bookmarks</string>
 		</dict>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>

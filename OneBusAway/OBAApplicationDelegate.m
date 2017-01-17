@@ -21,7 +21,7 @@
 @import SVProgressHUD;
 
 #import "OBANavigationTargetAware.h"
-
+#import "OBAPushManager.h"
 #import "OBASearchController.h"
 #import "OBAStopViewController.h"
 
@@ -35,7 +35,7 @@
 #import "OBADrawerUI.h"
 #import "EXTScope.h"
 
-@interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate>
+@interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate, OBAPushManagerDelegate>
 @property(nonatomic,strong) UINavigationController *regionNavigationController;
 @property(nonatomic,strong) RegionListViewController *regionListViewController;
 @property(nonatomic,strong) id regionObserver;
@@ -121,6 +121,8 @@
     // Register a background handler with the model service
     [OBAModelService addBackgroundExecutor:self];
 
+    [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:[OBAApplication sharedApplication].oneSignalAPIKey];
+
     // Configure the Apptentive feedback system
     [Apptentive sharedConnection].APIKey = [OBAApplication sharedApplication].apptentiveAPIKey;
 
@@ -196,7 +198,7 @@
 
         [SVProgressHUD show];
 
-        [[OBAApplication sharedApplication].modelService requestArrivalAndDepartureWithTripDeepLink:tripDeepLink].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
+        [[OBAApplication sharedApplication].modelService requestArrivalAndDepartureWithConvertible:tripDeepLink].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
             tripDeepLink.name = arrivalAndDeparture.bestAvailableNameWithHeadsign;
 
             // OK, it works, so write it into the model DAO.
@@ -272,6 +274,36 @@
     if (!reachability.isReachable) {
         [AlertPresenter showWarning:NSLocalizedString(@"msg_cannot_connect_to_the_internet", @"Reachability alert title") body:NSLocalizedString(@"msg_check_internet_connection", @"Reachability alert body")];
     }
+}
+
+#pragma mark - OBAPushManagerDelegate
+
+- (void)pushManager:(OBAPushManager*)pushManager notificationReceivedWithTitle:(NSString*)title message:(NSString*)message data:(nullable NSDictionary *)data {
+
+    NSDictionary *arrDepData = data[@"arrival_and_departure"];
+    OBAAlarm *alarm = [[OBAAlarm alloc] init];
+
+    alarm.regionIdentifier = [arrDepData[@"region_id"] integerValue];
+    alarm.stopID = arrDepData[@"stop_id"];
+    alarm.tripID = arrDepData[@"trip_id"];
+    alarm.serviceDate = [arrDepData[@"service_date"] longLongValue];
+    alarm.vehicleID = arrDepData[@"vehicle_id"];
+    alarm.stopSequence = [arrDepData[@"stop_sequence"] integerValue];
+
+    [SVProgressHUD show];
+
+    [[OBAApplication sharedApplication].modelService requestArrivalAndDepartureWithConvertible:alarm].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
+        alarm.title = arrivalAndDeparture.bestAvailableNameWithHeadsign;
+
+        OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeRecentStops];
+        target.object = alarm;
+        [self navigateToTarget:target];
+    }).catch(^(NSError *error) {
+        NSString *body = [NSString stringWithFormat:NSLocalizedString(@"notifications.error_messages.formatted_cant_display", @"Error message displayed to the user when something goes wrong with a just-tapped notification."), error.localizedDescription];
+        [AlertPresenter showWarning:OBAStrings.error body:body];
+    }).always(^{
+        [SVProgressHUD dismiss];
+    });
 }
 
 #pragma mark - RegionListDelegate

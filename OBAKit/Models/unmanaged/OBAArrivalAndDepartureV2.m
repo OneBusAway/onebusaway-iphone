@@ -18,6 +18,7 @@
 #import <OBAKit/OBADateHelpers.h>
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/NSObject+OBADescription.h>
+#import <OBAKit/OBAAlarm.h>
 
 @interface OBAArrivalAndDepartureV2 ()
 @property(nonatomic,strong) NSMutableArray *situationIds;
@@ -28,12 +29,6 @@
 @property(nonatomic,assign) long long scheduledDepartureTime;
 @property(nonatomic,assign) long long predictedDepartureTime;
 @property(nonatomic,assign,readonly) long long bestDepartureTime;
-
-/**
- time, in ms since the unix epoch, of midnight for start of the service date for the trip
- */
-@property(nonatomic,assign) long long serviceDate;
-
 @property(nonatomic,assign) BOOL predicted;
 @end
 
@@ -46,7 +41,6 @@
     }
     return self;
 }
-
 
 - (OBARouteV2*) route {
     OBAReferencesV2 * refs = [self references];
@@ -116,6 +110,10 @@
 
 - (long long) bestDepartureTime {
     return self.predictedDepartureTime == 0 ? self.scheduledDepartureTime : self.predictedDepartureTime;
+}
+
+- (NSDate*)scheduledDepartureDate {
+    return [OBADateHelpers dateWithMillisecondsSince1970:self.scheduledDepartureTime];
 }
 
 - (BOOL)hasRealTimeData {
@@ -241,10 +239,14 @@
     return [self.routeShortName compare:dep.routeShortName options:NSNumericSearch];
 }
 
-#pragma mark - Bookmarks
+#pragma mark - Keys
 
 - (NSString*)bookmarkKey {
     return [NSString stringWithFormat:@"%@_%@_%@", self.bestAvailableName, self.tripHeadsign.lowercaseString, self.routeId];
+}
+
+- (NSString*)alarmKey {
+    return [OBAAlarm alarmKeyForStopID:self.stopId tripID:self.tripId serviceDate:self.serviceDate vehicleID:self.tripStatus.vehicleId stopSequence:self.stopSequence];
 }
 
 #pragma mark - NSObject

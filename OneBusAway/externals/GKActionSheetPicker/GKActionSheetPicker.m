@@ -170,7 +170,7 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerType) {
 - (UIColor *)overlayLayerColor
 {
     if (!_overlayLayerColor) {
-        _overlayLayerColor = [UIColor colorWithWhite:0 alpha:0.25f];
+        _overlayLayerColor = [UIColor colorWithWhite:0 alpha:0.5f];
     }
     
     return _overlayLayerColor;

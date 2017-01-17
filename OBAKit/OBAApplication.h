@@ -44,6 +44,7 @@ extern NSString *const kOBAApplicationSettingsRegionRefreshNotification;
 
 @property (nonatomic, copy, readonly) NSString *apptentiveAPIKey;
 @property (nonatomic, copy, readonly) NSString *googleAnalyticsID;
+@property (nonatomic, copy, readonly) NSString *oneSignalAPIKey;
 
 /**
  *  This method should always be used to get an instance of this class.  This class should not be initialized directly.

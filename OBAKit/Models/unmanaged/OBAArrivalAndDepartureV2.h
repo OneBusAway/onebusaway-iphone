@@ -94,6 +94,13 @@ typedef NS_ENUM(NSUInteger, OBAArrivalDepartureState) {
 - (NSString*)bookmarkKey;
 
 /**
+ This string is composed of this object's stop ID, trip ID, service date, vehicle ID, and stop sequence.
+ It is meant to uniquely identify the correct trip at the specified stop at the proper point in time
+ in order to adequately capture the information needed to create a reminder alarm.
+ */
+@property(nonatomic,copy,readonly) NSString *alarmKey;
+
+/**
  Walks through a series of possible options for giving this arrival and departure a user-sensible name.
 
  @return A string (hopefully) suitable for presenting to the user.
@@ -103,6 +110,11 @@ typedef NS_ENUM(NSUInteger, OBAArrivalDepartureState) {
 @property(nonatomic,copy,readonly) NSString *bestAvailableNameWithHeadsign;
 
 - (OBADepartureStatus)departureStatus;
+
+/**
+ time, in ms since the unix epoch, of midnight for start of the service date for the trip
+ */
+@property(nonatomic,assign) long long serviceDate;
 
 /**
  How far off is this vehicle from its predicted, scheduled time?
@@ -117,6 +129,8 @@ typedef NS_ENUM(NSUInteger, OBAArrivalDepartureState) {
  @return The number of minutes until departure, suitable to display to a user.
  */
 - (NSInteger)minutesUntilBestDeparture;
+
+@property(nonatomic,copy,readonly) NSDate *scheduledDepartureDate;
 
 /**
  How far away are we right now from the best departure time available to us? Uses real time data when available, and scheduled data otherwise.
