@@ -103,12 +103,11 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
         self.mapView.showsUserLocation = YES;
     }
-    // More map options such as Satellite views
-    // see bug #65
-    NSInteger mapType = [[NSUserDefaults standardUserDefaults] integerForKey:OBAMapSelectedTypeDefaultsKey];
-    if (mapType != MKMapTypeStandard) {
-        [self changeMapTypes:_floatingActionButton];
-    }
+
+    // Configure the default map display style
+    // see https://github.com/OneBusAway/onebusaway-iphone/issues/65
+    self.mapView.mapType = [[NSUserDefaults standardUserDefaults] integerForKey:OBAMapSelectedTypeDefaultsKey];
+    self.floatingActionButton.selected = self.mapView.mapType == MKMapTypeHybrid;
 
     self.hideFutureNetworkErrors = NO;
 
@@ -668,18 +667,16 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 // More map options such as Satellite views
-// see bug #65
+// see https://github.com/OneBusAway/onebusaway-iphone/issues/65
 - (IBAction)changeMapTypes:(OBAFloatingButton*)sender {
-    // .selected = Satellite, .normal = Standard
     if (self.mapView.mapType == MKMapTypeStandard) {
         self.mapView.mapType = MKMapTypeHybrid;
-        [sender changeStateTo:UIControlStateSelected];
-        [[NSUserDefaults standardUserDefaults] setInteger:MKMapTypeHybrid forKey:OBAMapSelectedTypeDefaultsKey];
-    } else {
-        self.mapView.mapType = MKMapTypeStandard;
-        [sender changeStateTo:UIControlStateNormal];
-        [[NSUserDefaults standardUserDefaults] setInteger:MKMapTypeStandard forKey:OBAMapSelectedTypeDefaultsKey];
     }
+    else {
+        self.mapView.mapType = MKMapTypeStandard;
+    }
+    sender.selected = self.mapView.mapType == MKMapTypeHybrid;
+    [[NSUserDefaults standardUserDefaults] setInteger:self.mapView.mapType forKey:OBAMapSelectedTypeDefaultsKey];
 }
 
 #pragma mark - OBASearchMapViewController Private Methods
