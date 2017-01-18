@@ -19,6 +19,8 @@
 @import GoogleAnalytics;
 @import OBAKit;
 @import SVProgressHUD;
+@import Fabric;
+@import Crashlytics;
 
 #import "OBANavigationTargetAware.h"
 #import "OBAPushManager.h"
@@ -118,7 +120,9 @@
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Register a background handler with the model service
+    [self initializeFabric];
+
+    // Register a background handler with the modael service
     [OBAModelService addBackgroundExecutor:self];
 
     [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:[OBAApplication sharedApplication].oneSignalAPIKey];
@@ -325,6 +329,20 @@
     _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:_regionListViewController];
 
     self.window.rootViewController = _regionNavigationController;
+}
+
+#pragma mark - Fabric
+
+- (void)initializeFabric {
+    NSMutableArray *fabricKits = [[NSMutableArray alloc] initWithArray:@[Crashlytics.class]];
+
+    if ([OBAAnalytics OKToTrack]) {
+        [fabricKits addObject:Answers.class];
+    }
+
+    if (fabricKits.count > 0) {
+        [Fabric with:fabricKits];
+    }
 }
 
 @end

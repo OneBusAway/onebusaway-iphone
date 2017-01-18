@@ -190,6 +190,8 @@
 		938B84381D868A0500DB0AF0 /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84331D868A0500DB0AF0 /* SVProgressHUD.framework */; };
 		93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A923A11C21DCD600A657C8 /* SafariServices.framework */; };
 		93ADC51B1DCB1EBE0024FBD6 /* credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 93ADC51A1DCB1EBE0024FBD6 /* credits.html */; };
+		93BB1EE21E300526008A88BA /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE01E300526008A88BA /* Fabric.framework */; };
+		93BB1EE31E300526008A88BA /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE11E300526008A88BA /* Crashlytics.framework */; };
 		93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934198CA1DB0C56D004BBBB7 /* OBAKit.framework */; };
 		93BBB4291DB952FC00694940 /* OBAURLHelpers_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BBB4271DB9525000694940 /* OBAURLHelpers_Tests.m */; };
 		93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936A1D8A3A4D0080F370 /* UIKit.framework */; };
@@ -544,6 +546,8 @@
 		939CEB241C0E406500E1D2B7 /* rvtd.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = rvtd.gpx; sourceTree = "<group>"; };
 		93A923A11C21DCD600A657C8 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		93ADC51A1DCB1EBE0024FBD6 /* credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = credits.html; path = OneBusAway/credits.html; sourceTree = SOURCE_ROOT; };
+		93BB1EE01E300526008A88BA /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		93BB1EE11E300526008A88BA /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		93BBB4001DB4BA7200694940 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = OneBusAway/Info.plist; sourceTree = SOURCE_ROOT; };
 		93BBB4271DB9525000694940 /* OBAURLHelpers_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAURLHelpers_Tests.m; sourceTree = "<group>"; };
 		93C3936A1D8A3A4D0080F370 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -575,10 +579,12 @@
 				93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */,
 				932CCEC81DC3D2DB001C8405 /* PromiseKit.framework in Frameworks */,
 				938B84361D868A0500DB0AF0 /* DZNEmptyDataSet.framework in Frameworks */,
+				93BB1EE31E300526008A88BA /* Crashlytics.framework in Frameworks */,
 				93C3936F1D8A3AC20080F370 /* Masonry.framework in Frameworks */,
 				93FE60291E0C8F62006EC9FB /* SnapKit.framework in Frameworks */,
 				938B84381D868A0500DB0AF0 /* SVProgressHUD.framework in Frameworks */,
 				932CCEC41DC3D2DB001C8405 /* CocoaLumberjackSwift.framework in Frameworks */,
+				93BB1EE21E300526008A88BA /* Fabric.framework in Frameworks */,
 				938B842C1D868A0500DB0AF0 /* GoogleAnalytics.framework in Frameworks */,
 				934197E01DB0C14C004BBBB7 /* libApptentiveConnect.a in Frameworks */,
 				932CCEC91DC3D2DB001C8405 /* SwiftMessages.framework in Frameworks */,
@@ -644,6 +650,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93BB1EE01E300526008A88BA /* Fabric.framework */,
+				93BB1EE11E300526008A88BA /* Crashlytics.framework */,
 				934C508C1E2A1E5C00DFDCA0 /* OneSignal.framework */,
 				93FE60281E0C8F62006EC9FB /* SnapKit.framework */,
 				932CCEBC1DC3D2DB001C8405 /* CocoaLumberjack.framework */,
@@ -1471,6 +1479,7 @@
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				936F45191C780E7700C61656 /* Embed Frameworks */,
 				938B84231D8686B800DB0AF0 /* Carthage Integration */,
+				93BB1EDE1E3004E2008A88BA /* Fabric */,
 			);
 			buildRules = (
 			);
@@ -1653,6 +1662,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		93BB1EDE1E3004E2008A88BA /* Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Fabric;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run c84d1b759118d7506fea035b497a567d26a1c67b 27ddab734af739718fae5fb6f522d5b6a14873fbc58fddc62a8e14374815db58";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1871,6 +1894,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
@@ -1919,6 +1943,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
@@ -2319,6 +2344,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
@@ -2426,6 +2452,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
