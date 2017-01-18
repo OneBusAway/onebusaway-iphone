@@ -111,6 +111,12 @@
         groups.enableGroupEditing = NO;
         groups.delegate = self;
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:groups];
+        
+        // Sometimes cannot edit the name of a bookmark when creating it
+        // see #933
+        [self.view endEditing:YES];
+        self.bookmark.name = self.textField.text;
+        
         [self presentViewController:nav animated:YES completion:nil];
     }
 }
