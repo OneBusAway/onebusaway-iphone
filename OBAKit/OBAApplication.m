@@ -91,6 +91,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     defaults[OBAShareLogsPIIUserDefaultsKey] = @(YES);
     defaults[kSetRegionAutomaticallyKey] = @(YES);
     defaults[kUngroupedBookmarksOpenKey] = @(YES);
+    defaults[OBAOptInToCrashReportingDefaultsKey] = @(YES);
     defaults[OBAOptInToTrackingDefaultsKey] = @(YES);
     defaults[OBAAllowReviewPromptsDefaultsKey] = @(YES);
     defaults[OBAMapSelectedTypeDefaultsKey] = @(MKMapTypeStandard);

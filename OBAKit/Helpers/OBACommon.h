@@ -29,6 +29,7 @@ extern NSString * const kApplicationShortcutBookmarks;
 
 // User Defaults Keys
 extern NSString * const OBAOptInToTrackingDefaultsKey;
+extern NSString * const OBAOptInToCrashReportingDefaultsKey;
 extern NSString * const OBAAllowReviewPromptsDefaultsKey;
 extern NSString * const OBAMapSelectedTypeDefaultsKey;
 

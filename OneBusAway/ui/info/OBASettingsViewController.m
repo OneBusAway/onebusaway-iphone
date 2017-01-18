@@ -37,9 +37,10 @@
 
 - (void)loadData {
     OBATableSection *analyticsSection = [self buildAnalyticsSection];
+    OBATableSection *crashReportingSection = [self buildCrashReportingSection];
     OBATableSection *ratePromptSection = [self buildRatePromptSection];
     
-    self.sections = @[analyticsSection, ratePromptSection];
+    self.sections = @[analyticsSection, crashReportingSection, ratePromptSection];
     [self.tableView reloadData];
 }
 
@@ -56,6 +57,20 @@
     analyticsSection.footerView = [OBAUIBuilder footerViewWithText:NSLocalizedString(@"msg_explanatory_google_analytics", @"Analytics explanation on the Settings view controller.") maximumWidth:CGRectGetWidth(self.tableView.frame)];
 
     return analyticsSection;
+}
+
+- (OBATableSection*)buildCrashReportingSection {
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil];
+
+    BOOL value = [[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToCrashReportingDefaultsKey];
+    OBASwitchRow *switchRow = [[OBASwitchRow alloc] initWithTitle:NSLocalizedString(@"settings.crash_reporting.switch_text", @"A switch option's text for enabling and disabling crash reporting") action:^{
+        [[NSUserDefaults standardUserDefaults] setBool:!value forKey:OBAOptInToCrashReportingDefaultsKey];
+    } switchValue:value];
+    [section addRow:switchRow];
+
+    section.footerView = [OBAUIBuilder footerViewWithText:NSLocalizedString(@"settings.crash_reporting.footer", @"Crash reporting explanation on the Settings view controller.") maximumWidth:CGRectGetWidth(self.tableView.frame)];
+
+    return section;
 }
 
 // Disable review requests - issue #854
