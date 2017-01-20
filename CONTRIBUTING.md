@@ -45,8 +45,8 @@ If you can, please submit a pull request with the fix or improvements including 
 1. Fork the project on GitHub
 1. Create a feature branch
 1. Write tests and code
-1. Ensure your changes follow the [The New York Times style guide](https://github.com/NYTimes/objective-c-style-guide) by running Uncrustify from the Xcode Edit menu
-1. Summarize the changes you are making in a ~1 line high-level summary (to be used for release notes)
+1. Ensure your changes follow the [The New York Times style guide](https://github.com/NYTimes/objective-c-style-guide)
+1. Summarize the changes you are making in a ~1 line high-level summary (see below for preferred format)
 1. If you have multiple commits please combine them into one commit by [squashing them](http://git-scm.com/book/en/Git-Tools-Rewriting-History#Squashing-Commits)
 1. Push the commit to your fork
 1. Submit a pull request against the `develop` branch with a motive for your change and the method you used to achieve it
@@ -78,3 +78,17 @@ Feature branches -> `develop` branch -> `master` branch
 ## License
 
 By contributing code to this project via pull requests, patches, or any other process, you are agreeing to license your contributions under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
+
+## Preferred Commit Message Format
+
+```
+Pithy and short title for my changes
+
+Fixes https://github.com/OneBusAway/onebusaway-iphone/issues/ISSUE_NUMBER - Title of the issue you fixed
+
+Here are a couple sentences that explain what I did.
+
+* Here is a bullet point that further explains this commit, if necessary
+* And another bullet point, if necessary
+* etc
+```
