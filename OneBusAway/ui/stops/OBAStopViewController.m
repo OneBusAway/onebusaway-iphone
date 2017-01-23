@@ -107,6 +107,8 @@ static NSInteger kStopsSectionTag = 101;
 
     [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
     [self reloadDataAnimated:NO];
+    
+    [[OBAHandoff shared] broadcastWithStopID:self.stopID withRegion:self.modelDAO.currentRegion];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -123,6 +125,8 @@ static NSInteger kStopsSectionTag = 101;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 
     [self cancelTimers];
+    
+    [[OBAHandoff shared] stopBroadcasting];
 }
 
 #pragma mark - Apptentive

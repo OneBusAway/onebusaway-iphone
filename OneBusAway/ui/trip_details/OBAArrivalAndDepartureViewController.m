@@ -160,6 +160,10 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 
     [self reloadDataAnimated:NO];
+    
+    OBATripDeepLink *deepLink = [[OBATripDeepLink alloc] initWithArrivalAndDeparture:self.arrivalAndDeparture region:self.modelDAO.currentRegion];
+    
+    [[OBAHandoff shared] broadcastWithUrl:deepLink.deepLinkURL];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -168,6 +172,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 
     [self cancelTimer];
+    [[OBAHandoff shared] stopBroadcasting];
 }
 
 #pragma mark - Traits
