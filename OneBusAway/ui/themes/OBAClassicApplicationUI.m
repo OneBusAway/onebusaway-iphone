@@ -190,6 +190,11 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
     if ([viewController respondsToSelector:@selector(setNavigationTarget:)]) {
         [viewController setNavigationTarget:navigationTarget];
     }
+    
+    if (navigationTarget.parameters[@"stop"]) {
+        OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:navigationTarget.parameters[@"stopID"]];
+        [self.mapNavigationController pushViewController:vc animated:YES];
+    }
 
     // update kOBASelectedTabIndexDefaultsKey, otherwise -applicationDidBecomeActive: will switch us away.
     [self tabBarController:self.tabBarController didSelectViewController:self.tabBarController.selectedViewController];

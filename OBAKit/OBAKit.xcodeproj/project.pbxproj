@@ -217,6 +217,7 @@
 		93B282C51DC664C7005013D7 /* OBATripDeepLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B282C31DC664C7005013D7 /* OBATripDeepLink.m */; };
 		93B282C81DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93B282C91DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B282C71DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m */; };
+		CCD30CFB1E30564600080EFF /* OBAHandoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD30CFA1E30564600080EFF /* OBAHandoff.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -446,6 +447,7 @@
 		93B282C31DC664C7005013D7 /* OBATripDeepLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripDeepLink.m; sourceTree = "<group>"; };
 		93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLQueryItem+OBAAdditions.h"; sourceTree = "<group>"; };
 		93B282C71DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLQueryItem+OBAAdditions.m"; sourceTree = "<group>"; };
+		CCD30CFA1E30564600080EFF /* OBAHandoff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OBAHandoff.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -570,6 +572,7 @@
 				932CCEE11DC40221001C8405 /* OBADeepLinkRouter.m */,
 				930AFE9C1DD183720092AE82 /* OBAWalkingDirections.h */,
 				930AFE9D1DD183720092AE82 /* OBAWalkingDirections.m */,
+				CCD30CFA1E30564600080EFF /* OBAHandoff.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1117,6 +1120,7 @@
 				934196AF1DB0B0AF004BBBB7 /* OBADataSourceConfig.m in Sources */,
 				9341964E1DB0B099004BBBB7 /* OBAArrivalAndDepartureV2.m in Sources */,
 				934196421DB0B099004BBBB7 /* OBASetNextOBAJsonDigesterRule.m in Sources */,
+				CCD30CFB1E30564600080EFF /* OBAHandoff.swift in Sources */,
 				934196461DB0B099004BBBB7 /* PrivacyBroker.swift in Sources */,
 				934196D41DB0C02F004BBBB7 /* NSDate+DateTools.m in Sources */,
 				9341965D1DB0B099004BBBB7 /* OBAHasReferencesV2.m in Sources */,

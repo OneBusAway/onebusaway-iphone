@@ -219,6 +219,24 @@
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *))restorationHandler {
+    NSInteger regionID = [userActivity.userInfo[OBAHandoff.regionIDKey] integerValue];
+
+    if (userActivity.userInfo) {
+        // Make sure regions of both clients match
+        if ([OBAApplication sharedApplication].modelDao.currentRegion.identifier == regionID) {
+            NSString *stopID = userActivity.userInfo[OBAHandoff.stopIDKey];
+            OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeMap parameters:@{@"stop":@YES, @"stopID":stopID}];
+            [self.applicationUI navigateToTargetInternal:target];
+            return YES;
+        }
+        else {
+            NSString *title = NSLocalizedString(@"msg_handoff_failure_title", @"Error message title displayed to the user when handoff failed to work.");
+            NSString *body = NSLocalizedString(@"msg_handoff_region_mismatch_body", @"Error message body displayed to the user when handoff regions did not match both clients.");
+            
+            [AlertPresenter showError:title body:body];
+            return NO;
+        }
+    }
 
     NSURL *URL = userActivity.webpageURL;
     if (!URL) {
