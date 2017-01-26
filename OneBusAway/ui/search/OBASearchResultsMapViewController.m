@@ -24,6 +24,7 @@
 #import "OBAMapActivityIndicatorView.h"
 @import Masonry;
 #import "OBAVibrantBlurContainerView.h"
+#import "OneBusAway-Swift.h"
 
 #define kRouteSegmentIndex          0
 #define kAddressSegmentIndex        1
@@ -42,6 +43,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 @property(nonatomic,strong) IBOutlet MKMapView * mapView;
 @property(nonatomic,strong) IBOutlet UISearchBar *searchBar;
 @property(nonatomic,strong) IBOutlet UILabel *mapLabel;
+@property(nonatomic,strong) IBOutlet OBAFloatingButton *floatingActionButton;
 @property(nonatomic,strong) UIView *mapLabelContainer;
 
 // Programmatic UI
@@ -101,6 +103,11 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
         self.mapView.showsUserLocation = YES;
     }
+
+    // Configure the default map display style
+    // see https://github.com/OneBusAway/onebusaway-iphone/issues/65
+    self.mapView.mapType = [[NSUserDefaults standardUserDefaults] integerForKey:OBAMapSelectedTypeDefaultsKey];
+    self.floatingActionButton.selected = self.mapView.mapType == MKMapTypeHybrid;
 
     self.hideFutureNetworkErrors = NO;
 
@@ -657,6 +664,19 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     listViewController.result = result;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:listViewController];
     [self presentViewController:nav animated:YES completion:nil];
+}
+
+// More map options such as Satellite views
+// see https://github.com/OneBusAway/onebusaway-iphone/issues/65
+- (IBAction)changeMapTypes:(OBAFloatingButton*)sender {
+    if (self.mapView.mapType == MKMapTypeStandard) {
+        self.mapView.mapType = MKMapTypeHybrid;
+    }
+    else {
+        self.mapView.mapType = MKMapTypeStandard;
+    }
+    sender.selected = self.mapView.mapType == MKMapTypeHybrid;
+    [[NSUserDefaults standardUserDefaults] setInteger:self.mapView.mapType forKey:OBAMapSelectedTypeDefaultsKey];
 }
 
 #pragma mark - OBASearchMapViewController Private Methods

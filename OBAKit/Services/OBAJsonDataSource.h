@@ -26,13 +26,52 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)JSONDataSourceWithBaseURL:(NSURL*)URL userID:(NSString*)userID;
 + (instancetype)googleMapsJSONDataSource;
 
+/**
+ OBA.co, obaco, or onebusaway.co is the service that powers deep links in the app,
+ along with other cross-regional services.
+ */
++ (instancetype)obacoJSONDataSource;
+
 - (id)initWithConfig:(OBADataSourceConfig*)config;
 
-- (id<OBADataSourceConnection>)requestWithPath:(NSString*)path
-                                      withArgs:(nullable NSDictionary*)args
-                               completionBlock:(OBADataSourceCompletion) completion
-                                 progressBlock:(nullable OBADataSourceProgress) progress;
+/**
+ Creates a mutable URL request based upon the supplied URL and HTTP method, configuring other parameters, like a GZIP header.
 
+ @param URL The URL to load.
+ @param HTTPMethod The HTTP method to load: GET, POST, PUT, PATCH, DELETE.
+ @return A mutable URL request suitable for loading data.
+ */
+- (NSMutableURLRequest*)requestWithURL:(NSURL*)URL HTTPMethod:(NSString*)HTTPMethod;
+
+/**
+ Given an URL request, load its contents.
+
+ @param request The URL request to load data from.
+ @param completion A block fired on completion of the request.
+ @return An object that conforms to the OBADataSourceConnection protocol. Can be used to cancel the request.
+ */
+- (id<OBADataSourceConnection>)performRequest:(NSURLRequest*)request completionBlock:(OBADataSourceCompletion)completion;
+
+/**
+ Creates an OBADataSourceConnection-conforming request that uses the specified HTTP method.
+
+ @param path            The server path to request.
+ @param httpMethod      The method used to send the request to the server. e.g. GET, POST, or DELETE.
+ @param queryParameters The arguments that are passed to the server.
+ @param formBody        The form body. Only sent along for POST/PUT/PATCH requests.
+ @param completion      The completion block.
+ @return A connection object.
+ */
+- (id<OBADataSourceConnection>)requestWithPath:(NSString*)path
+                                    HTTPMethod:(NSString*)httpMethod
+                               queryParameters:(nullable NSDictionary*)queryParameters
+                                      formBody:(nullable NSDictionary*)formBody
+                               completionBlock:(OBADataSourceCompletion) completion;
+
+
+/**
+ Cancels all open URL requests.
+ */
 - (void)cancelOpenConnections;
 
 @end

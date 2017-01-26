@@ -146,6 +146,9 @@
 /* A switch option's text for enabling and disabling Google Analytics */
 "msg_enable_google_analytics" = "Enable Google Analytics";
 
+/* A switch option's text for enabling and disabling App Store review prompts*/
+"msg_allow_app_feedback" = "Prompt me for app feedback";
+
 /* view.title */
 "msg_error_submitting" = "Error Submitting";
 
@@ -262,6 +265,12 @@
 
 /* No comment provided by engineer. */
 "msg_no_bookmarks" = "No Bookmarks";
+
+/* Title of the Alarms section in the Recent Stops controller */
+"recent_stops.alarms_section_title" = "Alarms";
+
+/* e.g. <10> minutes before <5:02PM> departure (scheduled) */
+"recent_stops.alarms.subtitle" = "%@ minutes before %@ departure (scheduled)";
 
 /* No comment provided by engineer. */
 "msg_no_recent_stops" = "No Recent Stops";
@@ -465,11 +474,20 @@
 /* Analytics explanation on the Settings view controller. */
 "msg_explanatory_google_analytics" = "Some information about how you use this app is sent to Google Analytics in non-personally identifiable form to help us better understand how to improve the app. To learn more, please read our Privacy Policy.";
 
+/* App feedback explanation on the Settings view controller. */
+"msg_explanatory_allow_app_feedback" = "You can also submit feedback in the Contact Us section on the previous page.";
+
 /* No comment provided by engineer. */
 "msg_something_went_wrong" = "Something Went Wrong";
 
 /* Error message displayed to the user when something goes wrong with a just-tapped shared trip. */
 "text_error_cant_show_shared_trip_param" = "Sorry, we can't show you that shared trip. If this continues, please let us know. Error: %@";
+
+/* Error message title displayed to the user when handoff failed to work. */
+"msg_handoff_failure_title" = "Sorry, Handoff didn't work properly";
+
+/* Error message body displayed to the user when handoff regions did not match both clients. */
+"msg_handoff_region_mismatch_body" = "Try enabling the \"Automatically Select Region\" option from the Regions section under the Info tab to fix this issue, and let us know if that doesn't work.";
 
 /* Title for the Edit Stop Preferences Controller */
 "msg_sort_and_filter_routes" = "Sort & Filter Routes";
@@ -570,6 +588,11 @@
 
 /* Title of the Stop UI Controller while it is updating its content. */
 "stops_controller.title.updating" = "Updating...";
+
+"stops_controller.cell.add_bookmark_title" = "Bookmark";
+
+/* Title of the swipe to reveal button on Stop cells that triggers an alarm. */
+"stops_controller.cell.add_alarm_title" = "Remind Me";
 
 /* cell.statusLabel.text */
 "msg_mayus_vehicle" = "Vehicle";
@@ -725,3 +748,37 @@
 
 /* An accessibility label for the map size toggle button on the Vehicle Map Controller. */
 "vehicle_map_controller.toggle_button_accessibility_label" = "Toggle Map Size";
+
+/* The title of the non-modal alert displayed when a push notification alert is registered for a vehicle departure. */
+"alarms.alarm_created_alert_title" = "Alarm Created";
+
+/* The body of the non-modal alert that appears when a push notification alarm is registered. */
+"alarms.alarm_created_alert_body" = "You will receive a notification %@ minutes before this vehicle departs.";
+
+/* The title of the alert controller that prompts the user about whether they really want to delete this alarm. */
+"alarms.confirm_deletion_alert_title" = "Are you sure you want to delete this alarm?";
+
+/* This is the button that confirms that the user really does want to delete their alarm. */
+"alarms.confirm_deletion_alert_delete_button" = "Delete Alarm";
+
+/* This is the button that cancels the alarm deletion. */
+"alarms.confirm_deletion_alert_cancel_button" = "Keep the Alarm";
+
+"msg_remove_alarm" = "Delete Alarm";
+
+"msg_add_alarm" = "Add Alarm";
+
+/* The title of the picker view that lets you choose how many minutes before your bus departs you will get an alarm. */
+"alarms.picker.title" = "Alert Me";
+
+/* The format string used for picker items for choosing when an alarm should ring. */
+"alarms.picker.formatted_item" = "%@ minutes before";
+
+/* Error message displayed to the user when something goes wrong with a just-tapped notification. */
+"notifications.error_messages.formatted_cant_display" = "Sorry, we can't show you that shared trip. If this continues, please let us know. Error: %@";
+
+/* A switch option's text for enabling and disabling crash reporting */
+"settings.crash_reporting.switch_text" = "Enable crash reporting";
+
+/* Crash reporting explanation on the Settings view controller. */
+"settings.crash_reporting.footer" = "We can most effectively diagnose and fix crashes when you allow us to receive them.";

@@ -19,9 +19,11 @@
 @import GoogleAnalytics;
 @import OBAKit;
 @import SVProgressHUD;
+@import Fabric;
+@import Crashlytics;
 
 #import "OBANavigationTargetAware.h"
-
+#import "OBAPushManager.h"
 #import "OBASearchController.h"
 #import "OBAStopViewController.h"
 
@@ -35,10 +37,7 @@
 #import "OBADrawerUI.h"
 #import "EXTScope.h"
 
-static NSString *const kTrackingId = @"UA-2423527-17";
-static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc9f70ef38378a9d5a15ac7d4926";
-
-@interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate>
+@interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate, OBAPushManagerDelegate>
 @property(nonatomic,strong) UINavigationController *regionNavigationController;
 @property(nonatomic,strong) RegionListViewController *regionListViewController;
 @property(nonatomic,strong) id regionObserver;
@@ -121,24 +120,23 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Register a background handler with the model service
+    [self initializeFabric];
+
+    // Register a background handler with the modael service
     [OBAModelService addBackgroundExecutor:self];
 
+    [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:[OBAApplication sharedApplication].oneSignalAPIKey];
+
     // Configure the Apptentive feedback system
-    [Apptentive sharedConnection].APIKey = kApptentiveKey;
+    [Apptentive sharedConnection].APIKey = [OBAApplication sharedApplication].apptentiveAPIKey;
 
     // Set up Google Analytics. User must be able to opt out of tracking.
-    [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:[OBAApplication sharedApplication].googleAnalyticsID];
+    BOOL optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
+    [GAI sharedInstance].optOut = optOut;
     [GAI sharedInstance].trackUncaughtExceptions = YES;
     [GAI sharedInstance].logger.logLevel = kGAILogLevelWarning;
-
-    //don't report to Google Analytics when developing
-#ifdef DEBUG
-    DDLogInfo(@"In DEBUG mode. Not reporting to Google Analytics.");
-    [[GAI sharedInstance] setDryRun:YES];
-#endif
-
-    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:1] value:[OBAApplication sharedApplication].modelDao.currentRegion.regionName];
+    [tracker set:[GAIFields customDimensionForIndex:1] value:[OBAApplication sharedApplication].modelDao.currentRegion.regionName];
 
     [OBAAnalytics configureVoiceOverStatus];
 
@@ -204,7 +202,7 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 
         [SVProgressHUD show];
 
-        [[OBAApplication sharedApplication].modelService requestArrivalAndDepartureWithTripDeepLink:tripDeepLink].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
+        [[OBAApplication sharedApplication].modelService requestArrivalAndDepartureWithConvertible:tripDeepLink].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
             tripDeepLink.name = arrivalAndDeparture.bestAvailableNameWithHeadsign;
 
             // OK, it works, so write it into the model DAO.
@@ -225,6 +223,24 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *))restorationHandler {
+    NSInteger regionID = [userActivity.userInfo[OBAHandoff.regionIDKey] integerValue];
+
+    if (userActivity.userInfo) {
+        // Make sure regions of both clients match
+        if ([OBAApplication sharedApplication].modelDao.currentRegion.identifier == regionID) {
+            NSString *stopID = userActivity.userInfo[OBAHandoff.stopIDKey];
+            OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeMap parameters:@{@"stop":@YES, @"stopID":stopID}];
+            [self.applicationUI navigateToTargetInternal:target];
+            return YES;
+        }
+        else {
+            NSString *title = NSLocalizedString(@"msg_handoff_failure_title", @"Error message title displayed to the user when handoff failed to work.");
+            NSString *body = NSLocalizedString(@"msg_handoff_region_mismatch_body", @"Error message body displayed to the user when handoff regions did not match both clients.");
+            
+            [AlertPresenter showError:title body:body];
+            return NO;
+        }
+    }
 
     NSURL *URL = userActivity.webpageURL;
     if (!URL) {
@@ -232,6 +248,13 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     }
 
     return [self.deepLinkRouter performActionForURL:URL];
+}
+
+/*
+ Necessary for onebusaway:// URLs to work.
+ */
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+    return YES;
 }
 
 #pragma mark - Shortcut Items
@@ -275,6 +298,36 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     }
 }
 
+#pragma mark - OBAPushManagerDelegate
+
+- (void)pushManager:(OBAPushManager*)pushManager notificationReceivedWithTitle:(NSString*)title message:(NSString*)message data:(nullable NSDictionary *)data {
+
+    NSDictionary *arrDepData = data[@"arrival_and_departure"];
+    OBAAlarm *alarm = [[OBAAlarm alloc] init];
+
+    alarm.regionIdentifier = [arrDepData[@"region_id"] integerValue];
+    alarm.stopID = arrDepData[@"stop_id"];
+    alarm.tripID = arrDepData[@"trip_id"];
+    alarm.serviceDate = [arrDepData[@"service_date"] longLongValue];
+    alarm.vehicleID = arrDepData[@"vehicle_id"];
+    alarm.stopSequence = [arrDepData[@"stop_sequence"] integerValue];
+
+    [SVProgressHUD show];
+
+    [[OBAApplication sharedApplication].modelService requestArrivalAndDepartureWithConvertible:alarm].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
+        alarm.title = arrivalAndDeparture.bestAvailableNameWithHeadsign;
+
+        OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeRecentStops];
+        target.object = alarm;
+        [self navigateToTarget:target];
+    }).catch(^(NSError *error) {
+        NSString *body = [NSString stringWithFormat:NSLocalizedString(@"notifications.error_messages.formatted_cant_display", @"Error message displayed to the user when something goes wrong with a just-tapped notification."), error.localizedDescription];
+        [AlertPresenter showWarning:OBAStrings.error body:body];
+    }).always(^{
+        [SVProgressHUD dismiss];
+    });
+}
+
 #pragma mark - RegionListDelegate
 
 - (void)regionSelected {
@@ -294,6 +347,20 @@ static NSString *const kApptentiveKey = @"3363af9a6661c98dec30fedea451a06dd7d7bc
     _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:_regionListViewController];
 
     self.window.rootViewController = _regionNavigationController;
+}
+
+#pragma mark - Fabric
+
+- (void)initializeFabric {
+    NSMutableArray *fabricKits = [[NSMutableArray alloc] initWithArray:@[Crashlytics.class]];
+
+    if ([OBAAnalytics OKToTrack]) {
+        [fabricKits addObject:Answers.class];
+    }
+
+    if (fabricKits.count > 0) {
+        [Fabric with:fabricKits];
+    }
 }
 
 @end

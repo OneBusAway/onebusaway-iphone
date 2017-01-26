@@ -10,23 +10,7 @@
 #import <OBAKit/OBARegionBoundsV2.h>
 #import <OBAKit/NSArray+OBAAdditions.h>
 #import <OBAKit/NSObject+OBADescription.h>
-
-static NSString * kSiriBaseUrl = @"siriBaseUrl";
-static NSString * kObaVersionInfo = @"obaVersionInfo";
-static NSString * kSupportsSiriRealtimeApis = @"supportsSiriRealtimeApis";
-static NSString * kLanguage = @"language";
-static NSString * kSupportsObaRealtimeApis = @"supportsObaRealtimeApis";
-static NSString * kBounds = @"bounds";
-static NSString * kSupportsObaDiscoveryApis = @"supportsObaDiscoveryApis";
-static NSString * kContactEmail = @"contactEmail";
-static NSString * kTwitterUrl = @"twitterUrl";
-static NSString * kFacebookUrl = @"facebookUrl";
-static NSString * kActive = @"active";
-static NSString * kExperimental = @"experimental";
-static NSString * kObaBaseUrl = @"obaBaseUrl";
-static NSString * kIdentifier = @"id_number";
-static NSString * kRegionName = @"regionName";
-static NSString * kCustom = @"custom";
+#import <OBAKit/NSCoder+OBAAdditions.h>
 
 @implementation OBARegionV2
 @dynamic baseURL;
@@ -42,44 +26,45 @@ static NSString * kCustom = @"custom";
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeObject:self.siriBaseUrl forKey:kSiriBaseUrl];
-    [encoder encodeObject:self.obaVersionInfo forKey:kObaVersionInfo];
-    [encoder encodeBool:self.supportsSiriRealtimeApis forKey:kSupportsSiriRealtimeApis];
-    [encoder encodeObject:self.language forKey:kLanguage];
-    [encoder encodeBool:self.supportsObaRealtimeApis forKey:kSupportsObaRealtimeApis];
-    [encoder encodeObject:self.bounds forKey:kBounds];
-    [encoder encodeBool:self.supportsObaDiscoveryApis forKey:kSupportsObaDiscoveryApis];
-    [encoder encodeObject:self.contactEmail forKey:kContactEmail];
-    [encoder encodeObject:self.twitterUrl forKey:kTwitterUrl];
-    [encoder encodeObject:self.facebookUrl forKey:kFacebookUrl];
-    [encoder encodeBool:self.active forKey:kActive];
-    [encoder encodeBool:self.experimental forKey:kExperimental];
-    [encoder encodeObject:self.obaBaseUrl forKey:kObaBaseUrl];
-    [encoder encodeInteger:self.identifier forKey:kIdentifier];
-    [encoder encodeObject:self.regionName forKey:kRegionName];
-    [encoder encodeBool:self.custom forKey:kCustom];
+    [encoder oba_encodeBool:_active forSelector:@selector(active)];
+    [encoder oba_encodePropertyOnObject:self withSelector:@selector(bounds)];
+    [encoder oba_encodePropertyOnObject:self withSelector:@selector(contactEmail)];
+    [encoder oba_encodeBool:_custom forSelector:@selector(custom)];
+    [encoder oba_encodeBool:_experimental forSelector:@selector(experimental)];
+    [encoder oba_encodePropertyOnObject:self withSelector:@selector(facebookUrl)];
+    [encoder oba_encodeInteger:_identifier forSelector:@selector(identifier)];
+    [encoder oba_encodePropertyOnObject:self withSelector:@selector(language)];
+    [encoder oba_encodePropertyOnObject:self withSelector:@selector(obaBaseUrl)];
+    [encoder oba_encodePropertyOnObject:self withSelector:@selector(obaVersionInfo)];
+    [encoder oba_encodePropertyOnObject:self withSelector:@selector(regionName)];
+    [encoder oba_encodePropertyOnObject:self withSelector:@selector(siriBaseUrl)];
+    [encoder oba_encodeBool:_supportsObaRealtimeApis forSelector:@selector(supportsObaRealtimeApis)];
+    [encoder oba_encodeBool:_supportsObaDiscoveryApis forSelector:@selector(supportsObaDiscoveryApis)];
+    [encoder oba_encodeBool:_supportsSiriRealtimeApis forSelector:@selector(supportsSiriRealtimeApis)];
+    [encoder oba_encodePropertyOnObject:self withSelector:@selector(twitterUrl)];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
 
     if (self) {
-        _siriBaseUrl = [decoder decodeObjectForKey:kSiriBaseUrl];
-        _obaVersionInfo = [decoder decodeObjectForKey:kObaVersionInfo];
-        _supportsSiriRealtimeApis = [decoder decodeBoolForKey:kSupportsSiriRealtimeApis];
-        _language = [decoder decodeObjectForKey:kLanguage];
-        _supportsObaRealtimeApis = [decoder decodeBoolForKey:kSupportsObaRealtimeApis];
-        _bounds = [NSArray arrayWithArray:[decoder decodeObjectForKey:kBounds]];
-        _supportsObaDiscoveryApis = [decoder decodeBoolForKey:kSupportsObaDiscoveryApis];
-        _contactEmail = [decoder decodeObjectForKey:kContactEmail];
-        _twitterUrl = [decoder decodeObjectForKey:kTwitterUrl];
-        _facebookUrl = [decoder decodeObjectForKey:kFacebookUrl];
-        _active = [decoder decodeBoolForKey:kActive];
-        _experimental = [decoder decodeBoolForKey:kExperimental];
-        _obaBaseUrl = [decoder decodeObjectForKey:kObaBaseUrl];
-        _identifier = [decoder decodeIntegerForKey:kIdentifier];
-        _regionName = [self.class cleanUpRegionName:[decoder decodeObjectForKey:kRegionName]];
-        _custom = [decoder decodeBoolForKey:kCustom];
+        _siriBaseUrl = [decoder oba_decodeObject:@selector(siriBaseUrl)];
+        _obaVersionInfo = [decoder oba_decodeObject:@selector(obaVersionInfo)];
+        _supportsSiriRealtimeApis = [decoder oba_decodeBool:@selector(supportsSiriRealtimeApis)];
+        _language = [decoder oba_decodeObject:@selector(language)];
+
+        _supportsObaRealtimeApis = [decoder oba_decodeBool:@selector(supportsObaRealtimeApis)];
+        _bounds = [NSArray arrayWithArray:[decoder oba_decodeObject:@selector(bounds)]];
+        _supportsObaDiscoveryApis = [decoder oba_decodeBool:@selector(supportsObaDiscoveryApis)];
+        _contactEmail = [decoder oba_decodeObject:@selector(contactEmail)];
+        _twitterUrl = [decoder oba_decodeObject:@selector(twitterUrl)];
+        _facebookUrl = [decoder oba_decodeObject:@selector(facebookUrl)];
+        _active = [decoder oba_decodeBool:@selector(active)];
+        _experimental = [decoder oba_decodeBool:@selector(experimental)];
+        _obaBaseUrl = [decoder oba_decodeObject:@selector(obaBaseUrl)];
+        _identifier = [decoder oba_decodeInteger:@selector(identifier)];
+        _regionName = [self.class cleanUpRegionName:[decoder oba_decodeObject:@selector(regionName)]];
+        _custom = [decoder oba_decodeBool:@selector(custom)];
     }
 
     return self;

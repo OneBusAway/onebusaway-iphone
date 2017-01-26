@@ -14,18 +14,21 @@
 
 @import UIKit;
 @import GoogleAnalytics;
-
-extern NSString * _Nonnull const OBAAnalyticsCategoryAppSettings;
-extern NSString * _Nonnull const OBAAnalyticsCategoryUIAction;
-extern NSString * _Nonnull const OBAAnalyticsCategoryAccessibility;
-extern NSString * _Nonnull const OBAAnalyticsCategorySubmit;
+@import Crashlytics;
 
 NS_ASSUME_NONNULL_BEGIN
+
+extern NSString * const OBAAnalyticsCategoryAppSettings;
+extern NSString * const OBAAnalyticsCategoryUIAction;
+extern NSString * const OBAAnalyticsCategoryAccessibility;
+extern NSString * const OBAAnalyticsCategorySubmit;
 
 @interface OBAAnalytics : NSObject
 + (void)configureVoiceOverStatus;
 + (void)reportEventWithCategory:(NSString *)category action:(NSString*)action label:(NSString*)label value:(nullable id)value;
 + (void)reportScreenView:(NSString *)label;
+
++ (BOOL)OKToTrack;
 
 // This is automatically called for every view controller whose class name is prefixed with "OBA"
 // e.g. OBAStopViewController, but not UINavigationController.

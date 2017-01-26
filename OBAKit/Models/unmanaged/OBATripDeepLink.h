@@ -9,10 +9,11 @@
 @import Foundation;
 #import <OBAKit/OBAArrivalAndDepartureV2.h>
 #import <OBAKit/OBARegionV2.h>
+#import <OBAKit/OBAArrivalAndDepartureConvertible.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBATripDeepLink : NSObject<NSCoding,NSCopying>
+@interface OBATripDeepLink : NSObject<NSCoding,NSCopying,OBAArrivalAndDepartureConvertible>
 
 /**
  The friendly name of this object. Displayed to the user.

@@ -21,9 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBACoordinateBounds : NSObject <NSCoding>
 
-- (id) initWithBounds:(OBACoordinateBounds*)bounds;
-- (id) initWithRegion:(MKCoordinateRegion)region;
-+ (id) bounds;
+- (instancetype)initWithBounds:(OBACoordinateBounds*)bounds;
+- (instancetype)initWithRegion:(MKCoordinateRegion)region;
 
 @property (nonatomic,readonly) BOOL empty;
 @property (nonatomic) double minLatitude;

@@ -6,7 +6,7 @@ If you would like to help test the latest development release, email us at [ipho
 
 ## Contributing
 
-See our [contributing guidelines](CONTRIBUTING.md) and [roadmap](https://github.com/OneBusAway/onebusaway-iphone/wiki/Roadmap).
+See our [contributing guidelines](CONTRIBUTING.md) and [upcoming milestones](https://github.com/OneBusAway/onebusaway-iphone/milestones). [Drop into our Slack channel](https://onebusaway.herokuapp.com/) to say hi and let us know what you're interested in working on.
 
 ### Individual Contributor License Agreement (ICLA)
 To ensure that the app source code remains fully open-source under a common license, we require that contributors sign an electronic ICLA before contributions can be merged.  When you submit a pull request, you'll be prompted by the [CLA Assistant](https://cla-assistant.io/) to sign the ICLA.

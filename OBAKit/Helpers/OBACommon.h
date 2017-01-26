@@ -29,6 +29,12 @@ extern NSString * const kApplicationShortcutBookmarks;
 
 // User Defaults Keys
 extern NSString * const OBAOptInToTrackingDefaultsKey;
+extern NSString * const OBAOptInToCrashReportingDefaultsKey;
+extern NSString * const OBAAllowReviewPromptsDefaultsKey;
+extern NSString * const OBAMapSelectedTypeDefaultsKey;
+
+// Server Addresses
+extern NSString * const OBADeepLinkServerAddress;
 
 /**
  We report "YES" and "NO" to Google Analytics in several places. This method

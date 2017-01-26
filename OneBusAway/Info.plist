@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>17.1.0</string>
+	<string>17.2.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -32,7 +32,21 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2016126.00</string>
+	<string>20170116.23</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>c84d1b759118d7506fea035b497a567d26a1c67b</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -63,6 +77,13 @@
 				<true/>
 			</dict>
 			<key>mta.info</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+			<key>ngrok.io</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
 				<true/>
@@ -126,6 +147,10 @@
 	<string>Your location will be used to show nearby stops and routes.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Your screenshots can help us diagnose problems that you experience with OneBusAway.</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>org.onebusaway.iphone.handoff</string>
+	</array>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>
@@ -144,6 +169,10 @@
 			<key>UIApplicationShortcutItemType</key>
 			<string>org.onebusaway.iphone.shortcut.bookmarks</string>
 		</dict>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>

@@ -10,11 +10,14 @@
 
 @interface AFMSlidingButtonContainer ()
 
-@property (nonatomic) UIButton *leftButton;
-@property (nonatomic) UIButton *rightButton;
+@property (nonatomic,strong,readwrite) UIButton *leftButton;
+@property (nonatomic,strong,readwrite) UIButton *centerButton;
+@property (nonatomic,strong,readwrite) UIButton *rightButton;
 @property (nonatomic) CGFloat leftButtonWidth;
+@property (nonatomic) CGFloat centerButtonWidth;
 @property (nonatomic) CGFloat rightButtonWidth;
 @property (nonatomic, copy) void (^leftButtonTappedBlock)(AFMSlidingCell *);
+@property (nonatomic, copy) void (^centerButtonTappedBlock)(AFMSlidingCell *);
 @property (nonatomic, copy) void (^rightButtonTappedBlock)(AFMSlidingCell *);
 
 @end
@@ -25,7 +28,7 @@
 
 - (CGFloat)bothButtonsWidth
 {
-    return self.leftButtonWidth + self.rightButtonWidth;
+    return self.leftButtonWidth + self.centerButtonWidth + self.rightButtonWidth;
 }
 
 #pragma mark - Button adding API
@@ -38,6 +41,17 @@
     self.leftButton = button;
     self.leftButtonWidth = width;
     self.leftButtonTappedBlock = tappedBlock;
+    [self addButton:button withWidth:width];
+}
+
+- (void)addCenterButton:(UIButton *)button withWidth:(CGFloat)width withTappedBlock:(void (^)(AFMSlidingCell *))tappedBlock;
+{
+    if ([self.centerButton isEqual:button])
+        return;
+    [self removeButton:self.centerButton];
+    self.centerButton = button;
+    self.centerButtonWidth = width;
+    self.centerButtonTappedBlock = tappedBlock;
     [self addButton:button withWidth:width];
 }
 
@@ -73,10 +87,13 @@
 - (void)clearButtons
 {
     [self removeButton:self.leftButton];
+    [self removeButton:self.centerButton];
     [self removeButton:self.rightButton];
     self.leftButton = nil;
+    self.centerButton = nil;
     self.rightButton = nil;
     self.leftButtonWidth = 0;
+    self.centerButtonWidth = 0;
     self.rightButtonWidth = 0;
 }
 
@@ -89,6 +106,10 @@
         if (self.leftButtonTappedBlock)
             self.leftButtonTappedBlock(parentCell);
     }
+    else if ([button isEqual:self.centerButton]) {
+        if (self.centerButtonTappedBlock)
+            self.centerButtonTappedBlock(parentCell);
+    }
     else {
         if (self.rightButtonTappedBlock)
             self.rightButtonTappedBlock(parentCell);
@@ -97,15 +118,21 @@
 
 #pragma mark - Button positioning
 
-- (void)positionButtons
-{
+- (void)positionButtons {
+    CGFloat maxX = 0;
+
     if (self.leftButton) {
         [self.leftButton setFrame:CGRectMake(0, 0, self.leftButtonWidth, self.frame.size.height)];
+        maxX = self.leftButtonWidth;
     }
+
+    if (self.centerButton) {
+        self.centerButton.frame = CGRectMake(maxX, 0, self.centerButtonWidth, CGRectGetHeight(self.frame));
+        maxX += self.centerButtonWidth;
+    }
+
     if (self.rightButton) {
-        CGRect leftButtonBounds = self.leftButton.bounds;
-        [self.rightButton setFrame:CGRectMake(leftButtonBounds.size.width, 0,
-                                              self.rightButtonWidth, self.frame.size.height)];
+        [self.rightButton setFrame:CGRectMake(maxX, 0, self.rightButtonWidth, self.frame.size.height)];
     }
 }
 
@@ -115,7 +142,8 @@
 {
     if (self.rightButton) {
         [self setBackgroundColor:self.rightButton.backgroundColor];
-    } else if (self.leftButton) {
+    }
+    else if (self.leftButton) {
         [self setBackgroundColor:self.leftButton.backgroundColor];
     }
 }

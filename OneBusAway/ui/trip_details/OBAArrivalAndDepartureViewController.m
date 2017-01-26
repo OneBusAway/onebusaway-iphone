@@ -19,8 +19,11 @@
 #import "OneBusAway-Swift.h"
 #import "OBATimelineBarRow.h"
 #import "OBAAnimation.h"
+#import "OBAPushManager.h"
 @import Masonry;
 @import MarqueeLabel;
+@import SVProgressHUD;
+@import OBAKit;
 
 static CGFloat const kCollapsedMapHeight = 225.f;
 static CGFloat const kExpandedMapHeight = 350.f;
@@ -33,7 +36,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 @property(nonatomic,strong) OBAClassicDepartureView *departureView;
 @property(nonatomic,strong) NSTimer *refreshTimer;
 @property(nonatomic,strong) NSLock *reloadLock;
-@property(nonatomic,copy) OBATripDeepLink *link;
+@property(nonatomic,copy) id<OBAArrivalAndDepartureConvertible> convertible;
 @property(nonatomic,strong) UIStackView *stackView;
 
 @property(nonatomic,strong) VehicleMapController *mapController;
@@ -97,11 +100,11 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     return self;
 }
 
-- (instancetype)initWithTripDeepLink:(OBATripDeepLink*)link {
+- (instancetype)initWithArrivalAndDepartureConvertible:(NSObject<OBAArrivalAndDepartureConvertible,NSCopying>*)convertible {
     self = [self init];
 
     if (self) {
-        _link = [link copy];
+        _convertible = [convertible copy];
     }
     return self;
 }
@@ -157,6 +160,10 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 
     [self reloadDataAnimated:NO];
+    
+    OBATripDeepLink *deepLink = [[OBATripDeepLink alloc] initWithArrivalAndDeparture:self.arrivalAndDeparture region:self.modelDAO.currentRegion];
+    
+    [[OBAHandoff shared] broadcastWithUrl:deepLink.deepLinkURL];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -165,6 +172,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 
     [self cancelTimer];
+    [[OBAHandoff shared] stopBroadcasting];
 }
 
 #pragma mark - Traits
@@ -279,8 +287,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 }
 
 - (AnyPromise*)promiseArrivalDeparture {
-    if (self.link) {
-        return [self.modelService requestArrivalAndDepartureWithTripDeepLink:self.link];
+    if (self.convertible) {
+        return [self.modelService requestArrivalAndDepartureWithConvertible:self.convertible];
     }
     else {
         return [self.modelService requestArrivalAndDeparture:self.arrivalAndDeparture.instance];

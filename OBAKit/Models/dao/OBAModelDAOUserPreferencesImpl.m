@@ -19,6 +19,8 @@
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBARegionV2.h>
 #import <OBAKit/OBALogging.h>
+#import <OBAKit/OBAArrivalAndDepartureV2.h>
+#import <OBAKit/OBAAlarm.h>
 
 NSString * const kBookmarksKey = @"bookmarks";
 NSString * const kBookmarkGroupsKey = @"bookmarkGroups";
@@ -30,6 +32,7 @@ NSString * const kVisitedSituationIdsKey = @"visitedSituationIdsKey";
 NSString * const kOBARegionKey = @"oBARegion";
 NSString * const kCustomRegionsKey = @"customRegions";
 NSString * const kSharedTripsKey = @"sharedTrips";
+NSString * const kAlarmsKey = @"AlarmsKey";
 NSString * const kSetRegionAutomaticallyKey = @"setRegionAutomatically";
 NSString * const kUngroupedBookmarksOpenKey = @"UngroupedBookmarksOpen";
 NSString * const OBAShareRegionPIIUserDefaultsKey = @"OBAShareRegionPIIUserDefaultsKey";
@@ -184,6 +187,38 @@ NSString * const OBAShareLogsPIIUserDefaultsKey = @"OBAShareLogsPIIUserDefaultsK
 
 - (void)removeSharedTrip:(OBATripDeepLink*)sharedTrip {
     [self removeObject:sharedTrip fromSetWithKey:kSharedTripsKey];
+}
+
+#pragma mark - Alarms
+
+- (NSArray<OBAAlarm*>*)alarms {
+    @synchronized (kAlarmsKey) {
+        NSDictionary *alarms = [self.class loadAndDecodeObjectFromDataForKey:kAlarmsKey];
+        return alarms.count > 0 ? alarms.allValues : @[];
+    }
+}
+
+- (OBAAlarm*)alarmForKey:(NSString*)alarmKey {
+    @synchronized (kAlarmsKey) {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self.class loadAndDecodeObjectFromDataForKey:kAlarmsKey] ?: [NSDictionary dictionary]];
+        return dict[alarmKey];
+    }
+}
+
+- (void)addAlarm:(OBAAlarm*)alarm {
+    @synchronized (kAlarmsKey) {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self.class loadAndDecodeObjectFromDataForKey:kAlarmsKey] ?: [NSDictionary dictionary]];
+        dict[alarm.alarmKey] = alarm;
+        [self.class writeObjectToUserDefaults:dict withKey:kAlarmsKey];
+    }
+}
+
+- (void)removeAlarmWithKey:(NSString*)alarmKey {
+    @synchronized (kAlarmsKey) {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self.class loadAndDecodeObjectFromDataForKey:kAlarmsKey] ?: [NSDictionary dictionary]];
+        [dict removeObjectForKey:alarmKey];
+        [self.class writeObjectToUserDefaults:dict withKey:kAlarmsKey];
+    }
 }
 
 #pragma mark - Generic Set Management Methods

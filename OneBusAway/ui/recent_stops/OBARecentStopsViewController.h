@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBARecentStopsViewController : OBAStaticTableViewController <OBANavigationTargetAware>
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
+@property(nonatomic,strong) OBAModelService *modelService;
 @end
 
 NS_ASSUME_NONNULL_END
