@@ -25,6 +25,7 @@
 @import Masonry;
 #import "OBAVibrantBlurContainerView.h"
 #import "OneBusAway-Swift.h"
+#import "SVPulsingAnnotationView.h"
 
 #define kRouteSegmentIndex          0
 #define kAddressSegmentIndex        1
@@ -51,6 +52,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 @property(nonatomic,strong) UIBarButtonItem *listBarButtonItem;
 @property(nonatomic,strong) UIView *titleView;
 @property(nonatomic,strong) MKUserTrackingBarButtonItem *trackingBarButtonItem;
+@property(nonatomic,strong) SVPulsingAnnotationView *userLocationAnnotationView;
 
 // Everything Else
 @property(nonatomic,assign) BOOL hideFutureOutOfRangeErrors;
@@ -75,6 +77,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         self.title = kDefaultTitle;
         self.tabBarItem.image = [UIImage imageNamed:@"Map"];
         self.tabBarItem.selectedImage = [UIImage imageNamed:@"Map_Selected"];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userHeadingDidUpdate:) name:OBAHeadingDidUpdateNotification object:nil];
     }
 
     return self;
@@ -174,7 +178,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     OBALogFunction();
 
     [self registerForLocationNotifications];
-    [[OBAApplication sharedApplication].locationManager startUpdatingLocation];
+    [self.locationManager startUpdatingLocation];
 
     if (self.searchController.unfilteredSearch) {
         [self refreshStopsInRegion];
@@ -191,7 +195,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
-    [[OBAApplication sharedApplication].locationManager stopUpdatingLocation];
+    [self.locationManager stopUpdatingLocation];
     [self unregisterFromLocationNotifications];
 }
 
@@ -294,6 +298,13 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         _modelDAO = [OBAApplication sharedApplication].modelDao;
     }
     return _modelDAO;
+}
+
+- (OBALocationManager*)locationManager {
+    if (!_locationManager) {
+        _locationManager = [OBAApplication sharedApplication].locationManager;
+    }
+    return _locationManager;
 }
 
 #pragma mark - OBANavigationTargetAware
@@ -449,9 +460,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     if (self.searchController.unfilteredSearch) {
         if (self.mapRegionManager.lastRegionChangeWasProgrammatic) {
-            OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
-            NSTimeInterval refreshInterval = [self.class refreshIntervalForLocationAccuracy:lm.currentLocation];
-            [self scheduleRefreshOfStopsInRegion:refreshInterval location:lm.currentLocation];
+            NSTimeInterval refreshInterval = [self.class refreshIntervalForLocationAccuracy:self.locationManager.currentLocation];
+            [self scheduleRefreshOfStopsInRegion:refreshInterval location:self.locationManager.currentLocation];
         }
         else {
             [self scheduleRefreshOfStopsInRegion:kStopsInRegionRefreshDelayOnDrag location:nil];
@@ -581,8 +591,39 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     return view;
 }
 
+- (void)userHeadingDidUpdate:(NSNotification*)note {
+    if (!self.userLocationAnnotationView) {
+        return;
+    }
+
+    CLHeading *heading = note.userInfo[OBAHeadingUserInfoKey];
+    [self updateUserLocationAnnotationViewWithHeading:heading];
+}
+
+- (void)updateUserLocationAnnotationViewWithHeading:(CLHeading*)heading {
+    // The SVPulsingAnnotationView assumes east == 0. Because different coordinate systems :(
+    NSInteger adjustedDegrees = (NSInteger)(heading.trueHeading - 90) % 360;
+    CGFloat radians = [OBAImageHelpers degreesToRadians:(CGFloat)adjustedDegrees];
+    self.userLocationAnnotationView.headingImageView.transform = CGAffineTransformMakeRotation(radians);
+}
+
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
-    if ([annotation isKindOfClass:[OBAStopV2 class]]) {
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+        if (!self.userLocationAnnotationView) {
+            self.userLocationAnnotationView = [[SVPulsingAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"SVPulsingAnnotationView" size:CGSizeMake(24, 24)];
+            self.userLocationAnnotationView.annotationColor = [UIColor blueColor];
+            self.userLocationAnnotationView.canShowCallout = YES;
+            self.userLocationAnnotationView.headingImage = [UIImage imageNamed:@"userHeading"];
+        }
+
+        CLHeading *currentHeading = self.locationManager.currentHeading;
+
+        if (currentHeading) {
+            [self updateUserLocationAnnotationViewWithHeading:currentHeading];
+        }
+        return self.userLocationAnnotationView;
+    }
+    else if ([annotation isKindOfClass:[OBAStopV2 class]]) {
         return [self mapView:mapView annotationViewForStop:(OBAStopV2*)annotation];
     }
     else if ([annotation isKindOfClass:[OBABookmarkV2 class]]) {
@@ -628,10 +669,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 #pragma mark - IBActions
 
 - (IBAction)updateLocation:(id)sender {
-
-    OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
-
-    if (lm.locationServicesEnabled) {
+    if (self.locationManager.locationServicesEnabled) {
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked My Location Button" value:nil];
         DDLogInfo(@"setting auto center on current location");
         self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
@@ -682,8 +720,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 #pragma mark - OBASearchMapViewController Private Methods
 
 - (void)refreshCurrentLocation {
-    OBALocationManager *lm = [OBAApplication sharedApplication].locationManager;
-    CLLocation *location = lm.currentLocation;
+    CLLocation *location = self.locationManager.currentLocation;
 
     if (location) {
         if (self.mapRegionManager.lastRegionChangeWasProgrammatic) {
@@ -821,8 +858,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (CLLocation *)currentLocation {
     CLLocation *loc = self.searchController.searchLocation;
-    if ([OBAApplication sharedApplication].locationManager.currentLocation) {
-        return [OBAApplication sharedApplication].locationManager.currentLocation;
+    if (self.locationManager.currentLocation) {
+        return self.locationManager.currentLocation;
     }
     else if (loc) {
         return loc;

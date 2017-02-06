@@ -29,8 +29,12 @@ extern NSString * const OBALocationManagerDidFailWithErrorNotification;
 extern NSString * const OBALocationAuthorizationStatusUserInfoKey;
 extern NSString * const OBALocationErrorUserInfoKey;
 
+extern NSString * const OBAHeadingDidUpdateNotification;
+extern NSString * const OBAHeadingUserInfoKey;
+
 @interface OBALocationManager : NSObject <CLLocationManagerDelegate>
-@property(nonatomic,copy,nullable,readonly) CLLocation * currentLocation;
+@property(nonatomic,copy,nullable,readonly) CLLocation *currentLocation;
+@property(nonatomic,copy,nullable,readonly) CLHeading *currentHeading;
 
 /**
  Informs the caller whether or not location services are enabled for the app.
