@@ -10,14 +10,16 @@
 @import OBAKit;
 @import Masonry;
 #import "OBAAnimation.h"
+#import "OBAWalkableRow.h"
 
 @interface OBAWalkableCell ()
 @property(nonatomic,strong) OBACanvasView *triangleView;
 @property(nonatomic,strong) UIImageView *walkImageView;
+@property(nonatomic,strong) UILabel *distanceLabel;
 @end
 
 @implementation OBAWalkableCell
-@synthesize tableRow;
+@synthesize tableRow = _tableRow;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -61,9 +63,39 @@
         _walkImageView.contentMode = UIViewContentModeScaleAspectFit;
         _walkImageView.frame = CGRectApplyAffineTransform(_triangleView.frame, CGAffineTransformMakeTranslation(0, -6.f));
         [self addSubview:_walkImageView];
+
+        _distanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, barHeight, xPoint, triangleHeight)];
+        _distanceLabel.font = [OBATheme footnoteFont];
+        _distanceLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        _distanceLabel.textAlignment = NSTextAlignmentRight;
+        [self addSubview:_distanceLabel];
     }
 
     return self;
+}
+
+#pragma mark - UITableViewCell
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+
+    self.distanceLabel.text = nil;
+}
+
+#pragma mark - Table Data
+
+- (void)setTableRow:(OBAWalkableRow *)row {
+    OBAGuardClass(row, OBAWalkableRow) else {
+        return;
+    }
+
+    _tableRow = [row copy];
+
+    self.distanceLabel.text = [self walkableRow].text;
+}
+
+- (OBAWalkableRow*)walkableRow {
+    return (OBAWalkableRow*)self.tableRow;
 }
 
 @end

@@ -18,7 +18,7 @@
 
 - (id)copyWithZone:(NSZone *)zone {
     OBAWalkableRow *row = [super copyWithZone:zone];
-
+    row->_text = [_text copyWithZone:zone];
     return row;
 }
 

@@ -212,10 +212,8 @@ static NSInteger kStopsSectionTag = 101;
         return [OBAWalkingDirections requestWalkingETA:self.arrivalsAndDepartures.stop.coordinate];
     }).then(^(MKETAResponse *ETA) {
         [self insertWalkingIndicatorIntoTable:ETA];
-        self.stopHeaderView.walkingETA = ETA;
     }).catch(^(NSError *error) {
         DDLogError(@"Unable to calculate walk time to stop: %@", error);
-        self.stopHeaderView.walkingETA = nil;
     });
 }
 
@@ -515,10 +513,15 @@ static NSInteger kStopsSectionTag = 101;
         }
     }
 
+    OBAWalkableRow *walkableRow = [[OBAWalkableRow alloc] init];
+    walkableRow.text = [NSString stringWithFormat:NSLocalizedString(@"text_walk_to_stop_info_params",), [OBAMapHelpers stringFromDistance:ETA.distance],
+                        [[NSDate dateWithTimeIntervalSinceNow:ETA.expectedTravelTime] minutesUntil],
+                        [OBADateHelpers formatShortTimeNoDate:ETA.expectedArrivalDate]];
+
     [self.tableView beginUpdates];
 
     for (NSIndexPath *path in indexPaths) {
-        [self insertRow:[[OBAWalkableRow alloc] init] atIndexPath:path animation:UITableViewRowAnimationAutomatic];
+        [self insertRow:walkableRow atIndexPath:path animation:UITableViewRowAnimationAutomatic];
     }
 
     [self.tableView endUpdates];
