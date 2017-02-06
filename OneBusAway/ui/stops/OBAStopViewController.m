@@ -200,7 +200,7 @@ static NSInteger kStopsSectionTag = 101;
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
         [self.stopHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
     }).catch(^(NSError *error) {
-        [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription ?: NSLocalizedString(@"msg_error_min_connecting_dot", @"requestDidFail")];
+        [AlertPresenter showError:error];
         DDLogError(@"An error occurred while displaying a stop: %@", error);
         return error;
     }).always(^{
@@ -448,7 +448,7 @@ static NSInteger kStopsSectionTag = 101;
 
         [AlertPresenter showSuccess:NSLocalizedString(@"alarms.alarm_created_alert_title", @"The title of the non-modal alert displayed when a push notification alert is registered for a vehicle departure.") body:body];
     }).catch(^(NSError *error) {
-        [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription];
+        [AlertPresenter showError:error];
     }).always(^{
         [SVProgressHUD dismiss];
     });

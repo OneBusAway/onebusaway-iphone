@@ -790,3 +790,6 @@
 
 /* Title for alert controller's Share Trip Status option. */
 "classic_departure_cell.context_alert.share_trip_status" = "Share Trip Status";
+
+/* Error message displayed when the user is connecting to a Wi-Fi captive portal landing page. */
+"alert_presenter.captive_wifi_portal_error_message" = "We didn't get the expected reply from the server.\r\n\r\nUsually this means that you are connected to a Wi-Fi network that requires you to do something to access the Internet.\r\n\r\nCheck your Wi-Fi connection and try again.";
