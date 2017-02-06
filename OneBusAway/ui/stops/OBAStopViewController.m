@@ -25,8 +25,6 @@
 #import "OBABookmarkRouteDisambiguationViewController.h"
 #import "Apptentive.h"
 #import "OBAWalkableRow.h"
-#import "AFMSlidingCell.h"
-#import "BTBalloon.h"
 #import "GKActionSheetPicker.h"
 #import "OBAPushManager.h"
 
@@ -113,8 +111,6 @@ static NSInteger kStopsSectionTag = 101;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-
-    [[BTBalloon sharedInstance] hideWithAnimation:NO];
 
     // Nil these out to ensure that they are recreated once the
     // view comes back into focus, which is important if the user
@@ -220,36 +216,7 @@ static NSInteger kStopsSectionTag = 101;
     }).catch(^(NSError *error) {
         DDLogError(@"Unable to calculate walk time to stop: %@", error);
         self.stopHeaderView.walkingETA = nil;
-    }).always(^{
-        [self tryShowingTutorial];
     });
-}
-
-- (void)tryShowingTutorial {
-    NSString *stopViewTutorialViewedDefaultsKey = @"StopView265TutorialViewed";
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:stopViewTutorialViewedDefaultsKey]) {
-        for (id cell in self.tableView.visibleCells) {
-            if ([cell respondsToSelector:@selector(showButtonViewAnimated:)]) {
-                if ([self.reloadLock tryLock]) {
-                    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:stopViewTutorialViewedDefaultsKey];
-                    [self showTutorialForSlidingCell:cell];
-                    break;
-                }
-            }
-        }
-    }
-}
-
-- (void)showTutorialForSlidingCell:(AFMSlidingCell*)cell {
-    [cell showButtonViewAnimated:YES];
-    [[BTBalloon sharedInstance] showWithTitle:NSLocalizedString(@"stop_view_controller.context_menu_tutorial_title", @"Title for the tutorial balloon that shows the user where to find the share and bookmark context menu items")
-                                        image:nil
-                                 anchorToView:cell
-                                  buttonTitle:OBAStrings.ok
-                               buttonCallback:^{
-                                   [[BTBalloon sharedInstance] hideWithAnimation:YES];
-                                   [self.reloadLock unlock];
-                               } afterDelay:1];
 }
 
 - (void)populateTableFromArrivalsAndDeparturesModel:(OBAArrivalsAndDeparturesForStopV2 *)result {
@@ -347,6 +314,9 @@ static NSInteger kStopsSectionTag = 101;
         // Only allow alarms to be created if the time to departure is greater than OBAAlarmIncrementsInMinutes.
         row.alarmCanBeCreated = dep.timeIntervalUntilBestDeparture > OBAAlarmIncrementsInMinutes * 60;
 
+        [row setShowAlertController:^(UIAlertController *alert) {
+            [self presentViewController:alert animated:YES completion:nil];
+        }];
         [row setToggleBookmarkAction:^{
             [self toggleBookmarkActionForArrivalAndDeparture:dep];
         }];
@@ -395,12 +365,8 @@ static NSInteger kStopsSectionTag = 101;
     // avoid a crash. See bug #919.
     if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        CGRect rect = cell.bounds;
-        if ([cell isKindOfClass:[AFMSlidingCell class]]) {
-            rect = [(AFMSlidingCell*)cell rightButtonFrame];
-        }
         controller.popoverPresentationController.sourceView = cell;
-        controller.popoverPresentationController.sourceRect = rect;
+        controller.popoverPresentationController.sourceRect = cell.bounds;
     }
 
     [self presentViewController:controller animated:YES completion:nil];

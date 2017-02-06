@@ -8,8 +8,7 @@
 
 @import UIKit;
 #import "OBATableCell.h"
-#import "AFMSlidingCell.h"
 
-@interface OBAClassicDepartureCell : AFMSlidingCell<OBATableCell>
+@interface OBAClassicDepartureCell : UITableViewCell<OBATableCell>
 
 @end

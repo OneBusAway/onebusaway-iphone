@@ -12,13 +12,9 @@
 #import "OBAClassicDepartureView.h"
 #import "OBAStackedButton.h"
 
-static CGFloat const kSwipeButtonWidth = 80.f;
-
 @interface OBAClassicDepartureCell ()
 @property(nonatomic,strong) OBAClassicDepartureView *departureView;
-@property(nonatomic,strong,readonly) UIButton *bookmarkButton;
-@property(nonatomic,strong,readonly) UIButton *alarmButton;
-@property(nonatomic,strong,readonly) UIButton *shareButton;
+@property(nonatomic,strong) UIButton *contextMenuButton;
 @end
 
 @implementation OBAClassicDepartureCell
@@ -28,129 +24,99 @@ static CGFloat const kSwipeButtonWidth = 80.f;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 
     if (self) {
-        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        _contextMenuButton = [self buildContextMenuButton];
+        self.accessoryView = _contextMenuButton;
+
         _departureView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:_departureView];
-
         [_departureView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.contentView).insets(self.layoutMargins);
         }];
-
-        _bookmarkButton = ({
-            UIButton *button = [OBAStackedButton buttonWithType:UIButtonTypeSystem];
-            [button addTarget:self action:@selector(toggleBookmark) forControlEvents:UIControlEventTouchUpInside];
-            button.titleLabel.font = [OBATheme footnoteFont];
-            [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [button setImage:[UIImage imageNamed:@"Favorites"] forState:UIControlStateNormal];
-            button.tintColor = [UIColor blackColor];
-
-            button;
-        });
-
-        _alarmButton = ({
-            UIButton *button = [OBAStackedButton buttonWithType:UIButtonTypeSystem];
-            [button addTarget:self action:@selector(toggleAlarm) forControlEvents:UIControlEventTouchUpInside];
-            button.titleLabel.font = [OBATheme footnoteFont];
-            [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [button setImage:[UIImage imageNamed:@"bell"] forState:UIControlStateNormal];
-            button.tintColor = [UIColor blackColor];
-            [button setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
-            button;
-        });
-
-        _shareButton = ({
-            UIButton *button = [OBAStackedButton buttonWithType:UIButtonTypeSystem];
-            [button setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
-            [button setTitle:NSLocalizedString(@"msg_share",) forState:UIControlStateNormal];
-            button.backgroundColor = [UIColor lightGrayColor];
-            [button addTarget:self action:@selector(shareDeparture) forControlEvents:UIControlEventTouchUpInside];
-            [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            button.titleLabel.font = [OBATheme footnoteFont];
-            button.tintColor = [UIColor blackColor];
-
-            button;
-        });
-
-        [self addButtonsToContextMenu];
     }
 
     return self;
 }
 
-#pragma mark - Buttons
+#pragma mark - Context Menu
 
-- (void)addButtonsToContextMenu {
-    [self addLeftButton:_bookmarkButton withWidth:kSwipeButtonWidth withTappedBlock:nil];
-    [self addCenterButton:_alarmButton withWidth:kSwipeButtonWidth withTappedBlock:nil];
-    [self addRightButton:_shareButton withWidth:kSwipeButtonWidth withTappedBlock:nil];
+- (UIButton*)buildContextMenuButton {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *ellipsis = [UIImage imageNamed:@"ellipsis_button"];
+    [button setImage:ellipsis forState:UIControlStateNormal];
+    button.tintColor = [OBATheme OBAGreenWithAlpha:0.7f];
+    button.frame = CGRectMake(0, 0, 36, 36);
+    button.accessibilityLabel = NSLocalizedString(@"classic_departure_cell.context_button_accessibility_label", @"This is the ... button shown on the right side of a departure cell. Tapping it shows a menu with more options.");
+    [button addTarget:self action:@selector(showActionMenu) forControlEvents:UIControlEventTouchUpInside];
+
+    return button;
 }
 
-- (void)configureBookmarkButtonForExistingBookmark:(BOOL)bookmarkExists {
-    UIColor *backgroundColor = nil;
-    NSString *title = nil;
-    NSString *accessibilityLabel = nil;
+- (void)showActionMenu {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"classic_departure_cell.context_alert.title", @"Title for the context menu button's alert controller.") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
-    if (bookmarkExists) {
-        backgroundColor = [UIColor redColor];
+    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
 
-        title = NSLocalizedString(@"msg_remove",);
-        accessibilityLabel = NSLocalizedString(@"msg_remove_bookmark",);
+    // Add Bookmark
+    UIAlertAction *action = [UIAlertAction actionWithTitle:[self bookmarkButtonTitle] style:UIAlertActionStyleDefault handler:^(UIAlertAction *a) {
+        [self toggleBookmark];
+    }];
+    [action setValue:[UIImage imageNamed:@"Favorites_Selected"] forKey:@"image"];
+    [alert addAction:action];
+
+    // Set Alarm
+    if ([self departureRow].alarmCanBeCreated) {
+        action = [UIAlertAction actionWithTitle:[self alarmButtonTitle] style:UIAlertActionStyleDefault handler:^(UIAlertAction *a) {
+            [self toggleAlarm];
+        }];
+        [action setValue:[UIImage imageNamed:@"bell"] forKey:@"image"];
+        [alert addAction:action];
+    }
+
+    action = [UIAlertAction actionWithTitle:NSLocalizedString(@"classic_departure_cell.context_alert.share_trip_status", @"Title for alert controller's Share Trip Status option.") style:UIAlertActionStyleDefault handler:^(UIAlertAction *a) {
+        [self shareDeparture];
+    }];
+    [action setValue:[UIImage imageNamed:@"share"] forKey:@"image"];
+    [alert addAction:action];
+
+    if ([self departureRow].showAlertController) {
+        [self departureRow].showAlertController(alert);
+    }
+}
+
+- (NSString*)bookmarkButtonTitle {
+    if ([self departureRow].bookmarkExists) {
+        return NSLocalizedString(@"msg_remove_bookmark", @"Title for the alert controller option that removes an existing bookmark");
     }
     else {
-        backgroundColor = [UIColor greenColor];
-        title = NSLocalizedString(@"stops_controller.cell.add_bookmark_title", @"Title of the swipe to reveal button on Stop cells for adding a bookmark.");
-        accessibilityLabel = NSLocalizedString(@"msg_add_bookmark",);
+        return NSLocalizedString(@"msg_add_bookmark",);
     }
-
-    [self.bookmarkButton setBackgroundColor:backgroundColor];
-    [self.bookmarkButton setTitle:title forState:UIControlStateNormal];
-    [self.bookmarkButton setAccessibilityLabel:accessibilityLabel];
 }
 
-- (void)configureAlarmButton {
-    UIColor *backgroundColor = nil;
-    NSString *title = nil;
-    NSString *accessibilityLabel = nil;
-    BOOL enabled = YES;
-
+- (NSString*)alarmButtonTitle {
     if ([self departureRow].alarmExists) {
-        backgroundColor = [UIColor redColor];
-
-        title = NSLocalizedString(@"msg_remove",);
-        accessibilityLabel = NSLocalizedString(@"msg_remove_alarm",);
+        return NSLocalizedString(@"classic_departure_cell.context_alert.remove_alarm", @"Title for alert controller's Remove Alarm option.");
     }
     else {
-        backgroundColor = [OBATheme OBAGreen];
-        title = NSLocalizedString(@"stops_controller.cell.add_alarm_title", @"Title of the swipe to reveal button on Stop cells that triggers an alarm.");
-        accessibilityLabel = NSLocalizedString(@"msg_add_alarm",);
-        enabled = [self departureRow].alarmCanBeCreated;
+        return NSLocalizedString(@"classic_departure_cell.context_alert.set_alarm", @"Title for alert controller's Set Alarm option.");
     }
-
-    self.alarmButton.enabled = enabled;
-    self.alarmButton.backgroundColor = backgroundColor;
-    [self.alarmButton setTitle:title forState:UIControlStateNormal];
-    [self.alarmButton setAccessibilityLabel:accessibilityLabel];
 }
 
 - (void)toggleBookmark {
     if ([self departureRow].toggleBookmarkAction) {
         [self departureRow].toggleBookmarkAction();
     }
-    [self hideButtonViewAnimated:YES];
 }
 
 - (void)toggleAlarm {
     if ([self departureRow].toggleAlarmAction) {
         [self departureRow].toggleAlarmAction();
     }
-    [self hideButtonViewAnimated:YES];
 }
 
 - (void)shareDeparture {
     if ([self departureRow].shareAction) {
         [self departureRow].shareAction();
     }
-    [self hideButtonViewAnimated:YES];
 }
 
 #pragma mark - UITableViewCell
@@ -158,23 +124,17 @@ static CGFloat const kSwipeButtonWidth = 80.f;
 - (void)prepareForReuse {
     [super prepareForReuse];
 
-    [self addButtonsToContextMenu];
-
     [self.departureView prepareForReuse];
 }
 
 #pragma mark - OBATableCell
 
 - (void)setTableRow:(OBABaseRow *)tableRow {
-
     OBAGuardClass(tableRow, OBADepartureRow) else {
         return;
     }
 
     _tableRow = [tableRow copy];
-
-    [self configureBookmarkButtonForExistingBookmark:[self departureRow].bookmarkExists];
-    [self configureAlarmButton];
 
     self.accessoryType = [self departureRow].accessoryType;
 

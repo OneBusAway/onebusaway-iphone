@@ -591,9 +591,6 @@
 
 "stops_controller.cell.add_bookmark_title" = "Bookmark";
 
-/* Title of the swipe to reveal button on Stop cells that triggers an alarm. */
-"stops_controller.cell.add_alarm_title" = "Remind Me";
-
 /* cell.statusLabel.text */
 "msg_mayus_vehicle" = "Vehicle";
 
@@ -764,10 +761,6 @@
 /* This is the button that cancels the alarm deletion. */
 "alarms.confirm_deletion_alert_cancel_button" = "Keep the Alarm";
 
-"msg_remove_alarm" = "Delete Alarm";
-
-"msg_add_alarm" = "Add Alarm";
-
 /* The title of the picker view that lets you choose how many minutes before your bus departs you will get an alarm. */
 "alarms.picker.title" = "Alert Me";
 
@@ -782,3 +775,18 @@
 
 /* Crash reporting explanation on the Settings view controller. */
 "settings.crash_reporting.footer" = "We can most effectively diagnose and fix crashes when you allow us to receive them.";
+
+/* This is the ... button shown on the right side of a departure cell. Tapping it shows a menu with more options. */
+"classic_departure_cell.context_button_accessibility_label" = "Options";
+
+/* Title for the context menu button's alert controller. */
+"classic_departure_cell.context_alert.title" = "Options for Arrival & Departure";
+
+/* Title for alert controller's Set Alarm option. */
+"classic_departure_cell.context_alert.set_alarm" = "Set Alarm";
+
+/* Title for alert controller's Remove Alarm option. */
+"classic_departure_cell.context_alert.remove_alarm" = "Remove Alarm";
+
+/* Title for alert controller's Share Trip Status option. */
+"classic_departure_cell.context_alert.share_trip_status" = "Share Trip Status";

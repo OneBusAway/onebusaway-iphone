@@ -19,10 +19,6 @@
 		930AFE991DD11EF90092AE82 /* OBAWalkableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE981DD11EF90092AE82 /* OBAWalkableCell.m */; };
 		931A6A291E03EAA100131242 /* OBATimelineBarRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A281E03EAA100131242 /* OBATimelineBarRow.m */; };
 		931A6A2D1E03EAAE00131242 /* OBATimelineBarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A2C1E03EAAE00131242 /* OBATimelineBarCell.m */; };
-		931CED8B1E01E1B600BB0723 /* BTBalloon.m in Sources */ = {isa = PBXBuildFile; fileRef = 931CED881E01E1B600BB0723 /* BTBalloon.m */; };
-		931CED8C1E01E1B600BB0723 /* BTBalloonArrow.m in Sources */ = {isa = PBXBuildFile; fileRef = 931CED8A1E01E1B600BB0723 /* BTBalloonArrow.m */; };
-		931E3A0D1DD566810064D680 /* AFMSlidingButtonContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 931E3A0A1DD566810064D680 /* AFMSlidingButtonContainer.m */; };
-		931E3A0E1DD566810064D680 /* AFMSlidingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 931E3A0C1DD566810064D680 /* AFMSlidingCell.m */; };
 		9327DEF91E023BD400502F06 /* OBAArrivalDepartureRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9327DEF81E023BD400502F06 /* OBAArrivalDepartureRow.m */; };
 		9327DEFC1E023BE400502F06 /* OBAArrivalDepartureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9327DEFB1E023BE400502F06 /* OBAArrivalDepartureCell.m */; };
 		932CCEC31DC3D2DB001C8405 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEBC1DC3D2DB001C8405 /* CocoaLumberjack.framework */; };
@@ -274,14 +270,6 @@
 		931A6A281E03EAA100131242 /* OBATimelineBarRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATimelineBarRow.m; sourceTree = "<group>"; };
 		931A6A2B1E03EAAE00131242 /* OBATimelineBarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATimelineBarCell.h; sourceTree = "<group>"; };
 		931A6A2C1E03EAAE00131242 /* OBATimelineBarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATimelineBarCell.m; sourceTree = "<group>"; };
-		931CED871E01E1B600BB0723 /* BTBalloon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTBalloon.h; sourceTree = "<group>"; };
-		931CED881E01E1B600BB0723 /* BTBalloon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTBalloon.m; sourceTree = "<group>"; };
-		931CED891E01E1B600BB0723 /* BTBalloonArrow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTBalloonArrow.h; sourceTree = "<group>"; };
-		931CED8A1E01E1B600BB0723 /* BTBalloonArrow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTBalloonArrow.m; sourceTree = "<group>"; };
-		931E3A091DD566810064D680 /* AFMSlidingButtonContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFMSlidingButtonContainer.h; sourceTree = "<group>"; };
-		931E3A0A1DD566810064D680 /* AFMSlidingButtonContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFMSlidingButtonContainer.m; sourceTree = "<group>"; };
-		931E3A0B1DD566810064D680 /* AFMSlidingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFMSlidingCell.h; sourceTree = "<group>"; };
-		931E3A0C1DD566810064D680 /* AFMSlidingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFMSlidingCell.m; sourceTree = "<group>"; };
 		9327DEF71E023BD400502F06 /* OBAArrivalDepartureRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalDepartureRow.h; sourceTree = "<group>"; };
 		9327DEF81E023BD400502F06 /* OBAArrivalDepartureRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalDepartureRow.m; sourceTree = "<group>"; };
 		9327DEFA1E023BE400502F06 /* OBAArrivalDepartureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalDepartureCell.h; sourceTree = "<group>"; };
@@ -702,28 +690,6 @@
 			path = views;
 			sourceTree = "<group>";
 		};
-		931CED861E01E1B600BB0723 /* BTBalloon */ = {
-			isa = PBXGroup;
-			children = (
-				931CED871E01E1B600BB0723 /* BTBalloon.h */,
-				931CED881E01E1B600BB0723 /* BTBalloon.m */,
-				931CED891E01E1B600BB0723 /* BTBalloonArrow.h */,
-				931CED8A1E01E1B600BB0723 /* BTBalloonArrow.m */,
-			);
-			path = BTBalloon;
-			sourceTree = "<group>";
-		};
-		931E3A081DD566810064D680 /* AFMSlidingCell */ = {
-			isa = PBXGroup;
-			children = (
-				931E3A091DD566810064D680 /* AFMSlidingButtonContainer.h */,
-				931E3A0A1DD566810064D680 /* AFMSlidingButtonContainer.m */,
-				931E3A0B1DD566810064D680 /* AFMSlidingCell.h */,
-				931E3A0C1DD566810064D680 /* AFMSlidingCell.m */,
-			);
-			path = AFMSlidingCell;
-			sourceTree = "<group>";
-		};
 		9327DEF51E023BB900502F06 /* table_cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -1051,8 +1017,6 @@
 			children = (
 				934C509B1E2B69E300DFDCA0 /* GKActionSheetPicker */,
 				93FE60231E0B2F34006EC9FB /* SVPulsingAnnotationView */,
-				931CED861E01E1B600BB0723 /* BTBalloon */,
-				931E3A081DD566810064D680 /* AFMSlidingCell */,
 				934197C01DB0C14C004BBBB7 /* apptentive */,
 				934197C81DB0C14C004BBBB7 /* extobjc */,
 				934197CC1DB0C14C004BBBB7 /* LumberjackConsole */,
@@ -1698,7 +1662,6 @@
 				934197991DB0C140004BBBB7 /* OBATableViewCell.m in Sources */,
 				934197921DB0C140004BBBB7 /* OBADiversionViewController.m in Sources */,
 				934198211DB0C1BA004BBBB7 /* OBATextFieldTableViewCell.m in Sources */,
-				931E3A0D1DD566810064D680 /* AFMSlidingButtonContainer.m in Sources */,
 				934197821DB0C140004BBBB7 /* OBAEditStopBookmarkViewController.m in Sources */,
 				9341982C1DB0C1D6004BBBB7 /* main.m in Sources */,
 				934C50AE1E2B6D5B00DFDCA0 /* OBAPushManager.m in Sources */,
@@ -1745,7 +1708,6 @@
 				934197961DB0C140004BBBB7 /* OBAStaticTableViewController+Builders.m in Sources */,
 				9327DEF91E023BD400502F06 /* OBAArrivalDepartureRow.m in Sources */,
 				9341979B1DB0C140004BBBB7 /* OBATextFieldCell.m in Sources */,
-				931E3A0E1DD566810064D680 /* AFMSlidingCell.m in Sources */,
 				934197B21DB0C140004BBBB7 /* OBAStopViewController.m in Sources */,
 				9341981A1DB0C1BA004BBBB7 /* OBAProgressIndicatorImpl.m in Sources */,
 				930AFE781DD04CCA0092AE82 /* OBADepartureRow.m in Sources */,
@@ -1753,7 +1715,6 @@
 				9341979C1DB0C140004BBBB7 /* OBAStaticTableViewController.m in Sources */,
 				930AFE8B1DD04D2F0092AE82 /* OBADepartureTimeLabel.m in Sources */,
 				934197971DB0C140004BBBB7 /* OBASegmentedControlCell.m in Sources */,
-				931CED8C1E01E1B600BB0723 /* BTBalloonArrow.m in Sources */,
 				934197A31DB0C140004BBBB7 /* OBATableRow.m in Sources */,
 				934197A91DB0C140004BBBB7 /* OBAReportProblemWithStopViewController.m in Sources */,
 				9341981D1DB0C1BA004BBBB7 /* OBALabelAndSwitchTableViewCell.m in Sources */,
@@ -1775,7 +1736,6 @@
 				93FE60261E0B2F34006EC9FB /* SVPulsingAnnotationView.m in Sources */,
 				934197A81DB0C140004BBBB7 /* OBAReportProblemWithRecentTripsViewController.m in Sources */,
 				930AFE991DD11EF90092AE82 /* OBAWalkableCell.m in Sources */,
-				931CED8B1E01E1B600BB0723 /* BTBalloon.m in Sources */,
 				934197B71DB0C140004BBBB7 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */,
 				9341981F1DB0C1BA004BBBB7 /* OBALabelAndTextFieldTableViewCell.m in Sources */,
 				934197A61DB0C140004BBBB7 /* OBAViewModelRegistry.m in Sources */,
