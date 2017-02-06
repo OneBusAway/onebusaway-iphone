@@ -14,6 +14,10 @@ CGFloat DegreesToRadians(CGFloat degrees) {
 
 @implementation OBAImageHelpers
 
++ (CGFloat)degreesToRadians:(CGFloat)degrees {
+    return DegreesToRadians(degrees);
+}
+
 + (UIImage *)colorizeImage:(UIImage *)image withColor:(UIColor *)color {
     UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
 

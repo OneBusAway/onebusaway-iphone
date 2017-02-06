@@ -48,10 +48,14 @@ NSString * const OBALocationAuthorizationStatusUserInfoKey = @"OBALocationAuthor
 NSString * const OBALocationManagerDidFailWithErrorNotification = @"OBALocationManagerDidFailWithErrorNotification";
 NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
 
+NSString * const OBAHeadingDidUpdateNotification = @"OBAHeadingDidUpdateNotification";
+NSString * const OBAHeadingUserInfoKey = @"OBAHeadingUserInfoKey";
+
 @interface OBALocationManager ()
 @property(nonatomic,strong) OBAModelDAO *modelDao;
 @property(nonatomic,strong) CLLocationManager *locationManager;
 @property(nonatomic,copy,readwrite) CLLocation *currentLocation;
+@property(nonatomic,copy,readwrite) CLHeading *currentHeading;
 @end
 
 @implementation OBALocationManager
@@ -72,6 +76,10 @@ NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
 - (void)startUpdatingLocation {
     if ([CLLocationManager locationServicesEnabled]) {
         [self.locationManager startUpdatingLocation];
+
+        if ([CLLocationManager headingAvailable]) {
+            [self.locationManager startUpdatingHeading];
+        }
     }
     else {
         if (!self.modelDao.hideFutureLocationWarnings) {
@@ -83,6 +91,9 @@ NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
 
 - (void)stopUpdatingLocation {
     [self.locationManager stopUpdatingLocation];
+    if ([CLLocationManager headingAvailable]) {
+        [self.locationManager stopUpdatingHeading];
+    }
 }
 
 #pragma mark - Location Manager Permissions
@@ -109,6 +120,11 @@ NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
 {
     self.modelDao.hideFutureLocationWarnings = NO;
     [self handleNewLocation:locations.lastObject];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
+    self.currentHeading = newHeading;
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBAHeadingDidUpdateNotification object:self userInfo:@{OBAHeadingUserInfoKey: [newHeading copy]}];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
