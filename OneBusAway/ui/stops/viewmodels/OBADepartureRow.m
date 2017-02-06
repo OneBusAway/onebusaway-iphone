@@ -25,6 +25,7 @@
     row->_toggleBookmarkAction = [_toggleBookmarkAction copyWithZone:zone];
     row->_toggleAlarmAction = [_toggleAlarmAction copyWithZone:zone];
     row->_shareAction = [_shareAction copyWithZone:zone];
+    row->_showAlertController = [_showAlertController copyWithZone:zone];
     row->_bookmarkExists = _bookmarkExists;
     row->_alarmExists = _alarmExists;
     row->_alarmCanBeCreated = _alarmCanBeCreated;
