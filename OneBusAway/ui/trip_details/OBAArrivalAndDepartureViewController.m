@@ -41,7 +41,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
 @property(nonatomic,strong) VehicleMapController *mapController;
 
-@property(nonatomic,strong) UILabel *titleVehicleLabel;
+@property(nonatomic,strong) MarqueeLabel *titleVehicleLabel;
 @property(nonatomic,strong) MarqueeLabel *titleUpdateLabel;
 @end
 
@@ -55,26 +55,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
         CGFloat titleViewWidth = 178.f;
 
-        _titleVehicleLabel = ({
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, titleViewWidth, 10)];
-            label.font = [OBATheme boldFootnoteFont];
-            label.textAlignment = NSTextAlignmentCenter;
-            label.adjustsFontSizeToFitWidth = YES;
-            label.minimumScaleFactor = 0.8f;
-            label;
-        });
-        [_titleVehicleLabel oba_resizeHeightToFit];
-
-        _titleUpdateLabel = ({
-            MarqueeLabel *label = [[MarqueeLabel alloc] initWithFrame:CGRectMake(0, 0, titleViewWidth, 10)];
-            label.trailingBuffer = [OBATheme defaultPadding];
-            label.fadeLength = [OBATheme defaultPadding];
-            label.font = [OBATheme footnoteFont];
-            label.textAlignment = NSTextAlignmentCenter;
-            label.adjustsFontSizeToFitWidth = YES;
-            label;
-        });
-        [_titleUpdateLabel oba_resizeHeightToFit];
+        _titleVehicleLabel = [self.class buildMarqueeLabelWithWidth:titleViewWidth];
+        _titleUpdateLabel = [self.class buildMarqueeLabelWithWidth:titleViewWidth];
 
         CGFloat combinedLabelHeight = CGRectGetHeight(_titleVehicleLabel.frame) + CGRectGetHeight(_titleUpdateLabel.frame);
         UIView *wrapper = [[UIView alloc] initWithFrame:CGRectMake(0, 0, titleViewWidth, combinedLabelHeight)];
@@ -382,6 +364,18 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 }
 
 #pragma mark - Private UI Stuff
+
++ (MarqueeLabel*)buildMarqueeLabelWithWidth:(CGFloat)width {
+    MarqueeLabel *label = [[MarqueeLabel alloc] initWithFrame:CGRectMake(0, 0, width, 10)];
+    label.font = [OBATheme boldFootnoteFont];
+    label.trailingBuffer = [OBATheme defaultPadding];
+    label.fadeLength = [OBATheme defaultPadding];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.adjustsFontSizeToFitWidth = YES;
+    [label oba_resizeHeightToFit];
+
+    return label;
+}
 
 + (UIView*)buildTableHeaderViewWrapperWithHeaderView:(OBAClassicDepartureView*)headerView {
     UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[headerView]];
