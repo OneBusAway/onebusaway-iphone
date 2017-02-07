@@ -106,6 +106,11 @@
 + (UIColor*)OBADarkGreen;
 
 /**
+ Used for custom user annotation views.
+ */
++ (UIColor*)userLocationFillColor;
+
+/**
  Use this for UI elements that are not enabled or non-interactable.
  */
 + (UIColor*)darkDisabledColor;

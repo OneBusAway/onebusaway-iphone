@@ -612,7 +612,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     if ([annotation isKindOfClass:[MKUserLocation class]]) {
         if (!self.userLocationAnnotationView) {
             self.userLocationAnnotationView = [[SVPulsingAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"SVPulsingAnnotationView" size:CGSizeMake(24, 24)];
-            self.userLocationAnnotationView.annotationColor = [UIColor blueColor];
+            self.userLocationAnnotationView.annotationColor = [OBATheme userLocationFillColor];
             self.userLocationAnnotationView.canShowCallout = YES;
             self.userLocationAnnotationView.headingImage = [UIImage imageNamed:@"userHeading"];
         }

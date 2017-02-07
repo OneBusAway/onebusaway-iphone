@@ -189,6 +189,10 @@ static UIFont *_italicFootnoteFont = nil;
 
 #pragma mark - Named Colors
 
++ (UIColor*)userLocationFillColor {
+    return [self colorWithRed:25 green:131 blue:247 alpha:1.f];
+}
+
 + (UIColor*)onTimeDepartureColor {
     return [UIColor colorWithRed:0.f green:0.478f blue:0.f alpha:1.f];
 }
