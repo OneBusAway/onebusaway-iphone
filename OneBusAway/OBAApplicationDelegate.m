@@ -221,7 +221,10 @@
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *))restorationHandler {
     NSInteger regionID = [userActivity.userInfo[OBAHandoff.regionIDKey] integerValue];
 
-    if (userActivity.userInfo) {
+    NSURL *URL = userActivity.webpageURL;
+    
+    // Use deep link URL above all else
+    if (userActivity.userInfo && !URL) {
         // Make sure regions of both clients match
         if ([OBAApplication sharedApplication].modelDao.currentRegion.identifier == regionID) {
             NSString *stopID = userActivity.userInfo[OBAHandoff.stopIDKey];
@@ -238,7 +241,6 @@
         }
     }
 
-    NSURL *URL = userActivity.webpageURL;
     if (!URL) {
         return NO;
     }
