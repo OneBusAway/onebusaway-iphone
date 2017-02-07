@@ -8,35 +8,17 @@
 
 #import <OBAKit/OBAWalkingDirections.h>
 @import MapKit;
-@import PMKCoreLocation;
-@import PMKMapKit;
+#import <OBAKit/OBALogging.h>
+#import <OBAKit/OBACommon.h>
 
 @implementation OBAWalkingDirections
 
-+ (AnyPromise*)requestWalkingETA:(CLLocationCoordinate2D)destination {
-    __block NSUInteger iterations = 0;
-    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [CLLocationManager until:^BOOL(CLLocation *location) {
-            iterations += 1;
-            if (iterations >= 5) {
-                return YES;
-            }
-            else {
-                return location.horizontalAccuracy <= kCLLocationAccuracyNearestTenMeters;
-            }
-        }].thenInBackground(^(CLLocation* currentLocation) {
-            MKPlacemark *sourcePlacemark = [self.class placemarkForCoordinate:currentLocation.coordinate];
-            MKPlacemark *destinationPlacemark = [self.class placemarkForCoordinate:destination];
-            MKDirections *directions = [self.class walkingDirectionsFrom:sourcePlacemark to:destinationPlacemark];
-            return [directions calculateETA];
-        }).then(^(MKETAResponse* ETA) {
-            resolve(ETA);
-        }).catch(^(NSError *error) {
-            resolve(error);
-        }).always(^{
-            iterations = 0;
-        });
-    }];
++ (MKDirections*)directionsFromCoordinate:(CLLocationCoordinate2D)from toCoordinate:(CLLocationCoordinate2D)to {
+    MKPlacemark *sourcePlacemark = [self placemarkForCoordinate:from];
+    MKPlacemark *destinationPlacemark = [self placemarkForCoordinate:to];
+    MKDirections *directions = [self walkingDirectionsFrom:sourcePlacemark to:destinationPlacemark];
+
+    return directions;
 }
 
 + (MKPlacemark*)placemarkForCoordinate:(CLLocationCoordinate2D)coordinate {

@@ -69,6 +69,8 @@ NSString * const OBAHeadingUserInfoKey = @"OBAHeadingUserInfoKey";
         if (![self hasRequestedInUseAuthorization]) {
             [self requestInUseAuthorization];
         }
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
 }
@@ -76,10 +78,6 @@ NSString * const OBAHeadingUserInfoKey = @"OBAHeadingUserInfoKey";
 - (void)startUpdatingLocation {
     if ([CLLocationManager locationServicesEnabled]) {
         [self.locationManager startUpdatingLocation];
-
-        if ([CLLocationManager headingAvailable]) {
-            [self.locationManager startUpdatingHeading];
-        }
     }
     else {
         if (!self.modelDao.hideFutureLocationWarnings) {
@@ -89,11 +87,23 @@ NSString * const OBAHeadingUserInfoKey = @"OBAHeadingUserInfoKey";
     }
 }
 
-- (void)stopUpdatingLocation {
-    [self.locationManager stopUpdatingLocation];
+- (void)startUpdatingHeading {
+    if ([CLLocationManager headingAvailable]) {
+        [self.locationManager startUpdatingHeading];
+    }
+}
+
+- (void)stopUpdatingHeading {
     if ([CLLocationManager headingAvailable]) {
         [self.locationManager stopUpdatingHeading];
     }
+}
+
+#pragma mark - Notifications
+
+- (void)applicationDidEnterBackground:(NSNotification*)note {
+    [self.locationManager stopUpdatingLocation];
+    [self.locationManager stopUpdatingHeading];
 }
 
 #pragma mark - Location Manager Permissions
@@ -128,9 +138,6 @@ NSString * const OBAHeadingUserInfoKey = @"OBAHeadingUserInfoKey";
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    if (error.code == kCLErrorDenied) {
-        [self stopUpdatingLocation];
-    }
     [[NSNotificationCenter defaultCenter] postNotificationName:OBALocationManagerDidFailWithErrorNotification object:self userInfo:@{OBALocationErrorUserInfoKey: error}];
 }
 

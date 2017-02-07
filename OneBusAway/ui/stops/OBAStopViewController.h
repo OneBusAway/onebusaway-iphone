@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OBAStopViewController : OBAStaticTableViewController
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
 @property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) OBALocationManager *locationManager;
 @property(nonatomic,copy,readonly) NSString *stopID;
 @property(nonatomic,assign) NSUInteger minutesBefore;
 @property(nonatomic,assign) NSUInteger minutesAfter;

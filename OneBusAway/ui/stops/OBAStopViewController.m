@@ -9,6 +9,8 @@
 #import "OBAStopViewController.h"
 @import OBAKit;
 @import PromiseKit;
+@import PMKCoreLocation;
+@import PMKMapKit;
 @import SVProgressHUD;
 #import "OneBusAway-Swift.h"
 #import "OBASeparatorSectionView.h"
@@ -172,6 +174,13 @@ static NSInteger kStopsSectionTag = 101;
     return _routeFilter;
 }
 
+- (OBALocationManager*)locationManager {
+    if (!_locationManager) {
+        _locationManager = [OBAApplication sharedApplication].locationManager;
+    }
+    return _locationManager;
+}
+
 #pragma mark - Data Loading
 
 - (void)reloadData:(id)sender {
@@ -209,7 +218,7 @@ static NSInteger kStopsSectionTag = 101;
         }
         [self.reloadLock unlock];
     }).then(^{
-        return [OBAWalkingDirections requestWalkingETA:self.arrivalsAndDepartures.stop.coordinate];
+        return [[OBAWalkingDirections directionsFromCoordinate:self.locationManager.currentLocation.coordinate toCoordinate:self.arrivalsAndDepartures.stop.coordinate] calculateETA];
     }).then(^(MKETAResponse *ETA) {
         [self insertWalkingIndicatorIntoTable:ETA];
     }).catch(^(NSError *error) {
