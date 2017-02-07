@@ -8,15 +8,12 @@
 
 @import Foundation;
 @import CoreLocation;
-@import PromiseKit;
+@import MapKit;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAWalkingDirections : NSObject
-/**
- Resolves to an MKETAResponse object.
- */
-+ (AnyPromise*)requestWalkingETA:(CLLocationCoordinate2D)destination;
++ (MKDirections*)directionsFromCoordinate:(CLLocationCoordinate2D)from toCoordinate:(CLLocationCoordinate2D)to;
 @end
 
 NS_ASSUME_NONNULL_END

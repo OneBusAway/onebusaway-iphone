@@ -179,6 +179,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     [self registerForLocationNotifications];
     [self.locationManager startUpdatingLocation];
+    [self.locationManager startUpdatingHeading];
 
     if (self.searchController.unfilteredSearch) {
         [self refreshStopsInRegion];
@@ -195,7 +196,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
-    [self.locationManager stopUpdatingLocation];
+    [self.locationManager stopUpdatingHeading];
     [self unregisterFromLocationNotifications];
 }
 
