@@ -793,3 +793,9 @@
 
 /* Error message displayed when the user is connecting to a Wi-Fi captive portal landing page. */
 "alert_presenter.captive_wifi_portal_error_message" = "We didn't get the expected reply from the server.\r\n\r\nUsually this means that you are connected to a Wi-Fi network that requires you to do something to access the Internet.\r\n\r\nCheck your Wi-Fi connection and try again.";
+
+/* Returned by -[OBATripStatusV2 subtitle] when no real time data is available. */
+"trip_status.no_realtime_data_message" = "Real-time data unavailable.";
+
+/* e.g. Last report: 2m 43s ago */
+"trip_status.last_update_format" = "Last report: %@m %@s ago";

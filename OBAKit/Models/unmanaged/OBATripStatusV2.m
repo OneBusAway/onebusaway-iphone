@@ -71,7 +71,15 @@
 }
 
 - (NSString*)subtitle {
-    return self.formattedScheduleDeviation;
+    if (self.lastUpdateTime == 0) {
+        return NSLocalizedString(@"trip_status.no_realtime_data_message", @"Returned by -[OBATripStatusV2 subtitle] when no real time data is available.");
+    }
+
+    NSUInteger interval = (NSUInteger)ABS([self.lastUpdateDate timeIntervalSinceNow]);
+    NSUInteger minutes = interval / 60;
+    NSUInteger seconds = interval % 60;
+
+    return [NSString stringWithFormat:NSLocalizedString(@"trip_status.last_report_format", @"e.g. Last report: 2m 43s ago"), @(minutes), @(seconds)];
 }
 
 @end
