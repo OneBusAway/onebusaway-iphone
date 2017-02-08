@@ -53,15 +53,15 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage*)circleImageWithSize:(CGSize)size contents:(nullable UIImage*)image;
 
 /**
- Creates a circle of the specified size in light gray color, optionally compositing an
+ Creates a circle of the specified size in the specified color, optionally compositing an
  image in to the center.
 
  @param size Size of the circle
  @param image The image to composite into the center
- @param backgroundColor The interior color of the circle. Defaults to white if nil.
+ @param strokeColor The interior color of the circle. Defaults to light gray if nil.
  @return A circle with an optionally composited image
  */
-+ (UIImage*)circleImageWithSize:(CGSize)size contents:(nullable UIImage*)image backgroundColor:(nullable UIColor*)backgroundColor;
++ (UIImage*)circleImageWithSize:(CGSize)size contents:(nullable UIImage*)image strokeColor:(nullable UIColor*)strokeColor;
 
 /**
  Rotates the supplied UIImage by the specified number of degrees.
