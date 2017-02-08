@@ -188,7 +188,15 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
             annotationView = MKAnnotationView.init(annotation: annotation, reuseIdentifier: identifier)
         }
 
-        annotationView?.image = OBAImageHelpers.circleImage(with: CGSize.init(width: 12, height: 12), contents: nil)
+        var color: UIColor
+        if self.arrivalAndDeparture?.stopId == annotation.stopID {
+            color = OBATheme.userLocationFillColor()
+        }
+        else {
+            color = UIColor.lightGray
+        }
+
+        annotationView?.image = OBAImageHelpers.circleImage(with: CGSize.init(width: 12, height: 12), contents: nil, stroke: color)
 
         return annotationView
     }
@@ -202,7 +210,15 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
             annotationView = MKAnnotationView.init(annotation: stop, reuseIdentifier: identifier)
         }
 
-        annotationView?.image = OBAImageHelpers.circleImage(with: CGSize.init(width: 12, height: 12), contents: nil)
+        var color: UIColor
+        if self.arrivalAndDeparture?.stopId == stop.stopId {
+            color = OBATheme.userLocationFillColor()
+        }
+        else {
+            color = UIColor.lightGray
+        }
+
+        annotationView?.image = OBAImageHelpers.circleImage(with: CGSize.init(width: 12, height: 12), contents: nil, stroke: color)
 
         return annotationView
     }

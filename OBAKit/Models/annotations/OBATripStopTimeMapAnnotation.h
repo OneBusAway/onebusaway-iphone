@@ -19,13 +19,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBATripStopTimeMapAnnotation : NSObject <MKAnnotation> {
-    OBATripDetailsV2 * _tripDetails;
-}
+@interface OBATripStopTimeMapAnnotation : NSObject <MKAnnotation>
+@property(nonatomic,strong) OBATripDetailsV2 *tripDetails;
+@property(nonatomic,strong) OBATripStopTimeV2 * stopTime;
+@property(nonatomic,copy,readonly) NSString *stopID;
 
-- (id) initWithTripDetails:(OBATripDetailsV2*)tripDetails stopTime:(OBATripStopTimeV2*)stopTime;
-
-@property (nonatomic,strong) OBATripStopTimeV2 * stopTime;
+- (instancetype)initWithTripDetails:(OBATripDetailsV2*)tripDetails stopTime:(OBATripStopTimeV2*)stopTime;
 
 @end
 
