@@ -229,7 +229,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         var annotationView: SVPulsingAnnotationView? = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? SVPulsingAnnotationView
 
         if annotationView == nil {
-            annotationView = SVPulsingAnnotationView.init(annotation: vehicle, reuseIdentifier: identifier, size: CGSize(width: 40, height: 40))
+            annotationView = SVPulsingAnnotationView.init(annotation: vehicle, reuseIdentifier: identifier, size: CGSize(width: 32, height: 32))
             annotationView?.annotationColor = OBATheme.obaDarkGreen()
             annotationView?.canShowCallout = true
             annotationView?.headingImage = UIImage(named: "vehicleHeading")
