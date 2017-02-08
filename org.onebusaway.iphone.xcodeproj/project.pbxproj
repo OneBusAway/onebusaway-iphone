@@ -199,6 +199,7 @@
 		93FE60261E0B2F34006EC9FB /* SVPulsingAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FE60251E0B2F34006EC9FB /* SVPulsingAnnotationView.m */; };
 		93FE60291E0C8F62006EC9FB /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FE60281E0C8F62006EC9FB /* SnapKit.framework */; };
 		CCA679101E20CCC2000FA6B5 /* OBAFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA6790F1E20CCC2000FA6B5 /* OBAFloatingButton.swift */; };
+		CCE51CDC1E4A8E8E004F897F /* MGCollapsingHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE51CDB1E4A8E8E004F897F /* MGCollapsingHeaderView.m */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 /* End PBXBuildFile section */
 
@@ -557,6 +558,8 @@
 		93FE60251E0B2F34006EC9FB /* SVPulsingAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPulsingAnnotationView.m; sourceTree = "<group>"; };
 		93FE60281E0C8F62006EC9FB /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		CCA6790F1E20CCC2000FA6B5 /* OBAFloatingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OBAFloatingButton.swift; sourceTree = "<group>"; };
+		CCE51CDB1E4A8E8E004F897F /* MGCollapsingHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGCollapsingHeaderView.m; path = MGCollapsingHeader/MGCollapsingHeaderView.m; sourceTree = "<group>"; };
+		CCE51CDD1E4A8EB7004F897F /* MGCollapsingHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MGCollapsingHeaderView.h; path = MGCollapsingHeader/MGCollapsingHeaderView.h; sourceTree = "<group>"; };
 		D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = OneBusAway/Entitlements.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1041,6 +1044,7 @@
 		934197BF1DB0C14C004BBBB7 /* externals */ = {
 			isa = PBXGroup;
 			children = (
+				CCE51CD91E4A8C61004F897F /* MGCollapsingHeader */,
 				934C509B1E2B69E300DFDCA0 /* GKActionSheetPicker */,
 				93FE60231E0B2F34006EC9FB /* SVPulsingAnnotationView */,
 				931CED861E01E1B600BB0723 /* BTBalloon */,
@@ -1459,6 +1463,15 @@
 			path = SVPulsingAnnotationView;
 			sourceTree = "<group>";
 		};
+		CCE51CD91E4A8C61004F897F /* MGCollapsingHeader */ = {
+			isa = PBXGroup;
+			children = (
+				CCE51CDB1E4A8E8E004F897F /* MGCollapsingHeaderView.m */,
+				CCE51CDD1E4A8EB7004F897F /* MGCollapsingHeaderView.h */,
+			);
+			name = MGCollapsingHeader;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1716,6 +1729,7 @@
 				934197A11DB0C140004BBBB7 /* OBASegmentedRow.m in Sources */,
 				9341977D1DB0C140004BBBB7 /* AlertPresenter.swift in Sources */,
 				934C50A01E2B69E300DFDCA0 /* GKActionSheetPicker.m in Sources */,
+				CCE51CDC1E4A8E8E004F897F /* MGCollapsingHeaderView.m in Sources */,
 				934197BD1DB0C140004BBBB7 /* OBATripScheduleSectionBuilder.m in Sources */,
 				934198181DB0C1BA004BBBB7 /* OBALabelActivityIndicatorView.m in Sources */,
 				930AFE961DD11ECB0092AE82 /* OBAWalkableRow.m in Sources */,
