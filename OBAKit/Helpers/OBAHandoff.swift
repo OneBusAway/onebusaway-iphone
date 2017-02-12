@@ -27,16 +27,18 @@ class OBAHandoff: NSObject {
     }
     
     /// Begin broadcasting the specified URL
-    /// - parameter url: URL to broadcast, if `nil`, 
+    /// - parameter URL: URL to broadcast, if `nil`,
     /// this will stop broadcasting
-    open func broadcast(url link: URL?) {
-        activity.webpageURL = link
+    open func broadcast(_ URL: URL?) {
+        activity.webpageURL = URL
         activity.becomeCurrent()
     }
     
     /// Begin broadcasting the specified stop using its stop ID
-    /// - parameter stop: Stop ID to broadcast
-    /// - parameter region: `OBARegionV2` associated with the specified `stopID`
+    ///
+    /// - Parameters:
+    ///   - stop: Stop ID to broadcast
+    ///   - region: The OBARegionV2 object associated with the specified stopID
     open func broadcast(stopID stop: String, withRegion region: OBARegionV2) {
         let userInfo: [AnyHashable: Any] = [
             OBAHandoff.stopIDKey: stop,
