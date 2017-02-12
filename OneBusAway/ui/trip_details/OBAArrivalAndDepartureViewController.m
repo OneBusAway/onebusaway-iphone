@@ -144,8 +144,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [self reloadDataAnimated:NO];
     
     OBATripDeepLink *deepLink = [[OBATripDeepLink alloc] initWithArrivalAndDeparture:self.arrivalAndDeparture region:self.modelDAO.currentRegion];
-    
-    [[OBAHandoff shared] broadcastWithUrl:deepLink.deepLinkURL];
+
+    [[OBAHandoff shared] broadcast:deepLink.deepLinkURL];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
