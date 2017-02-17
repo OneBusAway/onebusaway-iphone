@@ -28,6 +28,9 @@
 		932CCEC71DC3D2DB001C8405 /* PMKMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEC01DC3D2DB001C8405 /* PMKMapKit.framework */; };
 		932CCEC81DC3D2DB001C8405 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEC11DC3D2DB001C8405 /* PromiseKit.framework */; };
 		932CCEC91DC3D2DB001C8405 /* SwiftMessages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEC21DC3D2DB001C8405 /* SwiftMessages.framework */; };
+		9331E41C1E56F68C001E27C2 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9331E4161E56F686001E27C2 /* Nimble.framework */; };
+		9331E41D1E56F68C001E27C2 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9331E4171E56F686001E27C2 /* OHHTTPStubs.framework */; };
+		9331E41E1E56F68C001E27C2 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9331E4181E56F686001E27C2 /* Quick.framework */; };
 		934196E21DB0C124004BBBB7 /* MKMapView+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196D71DB0C124004BBBB7 /* MKMapView+oba_Additions.m */; };
 		934196E31DB0C124004BBBB7 /* UINavigationController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196D91DB0C124004BBBB7 /* UINavigationController+oba_Additions.m */; };
 		934196E41DB0C124004BBBB7 /* UITableViewCell+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196DB1DB0C124004BBBB7 /* UITableViewCell+oba_Additions.m */; };
@@ -281,6 +284,9 @@
 		932CCEC01DC3D2DB001C8405 /* PMKMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKMapKit.framework; path = Carthage/Build/iOS/PMKMapKit.framework; sourceTree = "<group>"; };
 		932CCEC11DC3D2DB001C8405 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		932CCEC21DC3D2DB001C8405 /* SwiftMessages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftMessages.framework; path = Carthage/Build/iOS/SwiftMessages.framework; sourceTree = "<group>"; };
+		9331E4161E56F686001E27C2 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = SOURCE_ROOT; };
+		9331E4171E56F686001E27C2 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = SOURCE_ROOT; };
+		9331E4181E56F686001E27C2 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = SOURCE_ROOT; };
 		934196D61DB0C124004BBBB7 /* MKMapView+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+oba_Additions.h"; sourceTree = "<group>"; };
 		934196D71DB0C124004BBBB7 /* MKMapView+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+oba_Additions.m"; sourceTree = "<group>"; };
 		934196D81DB0C124004BBBB7 /* UINavigationController+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+oba_Additions.h"; sourceTree = "<group>"; };
@@ -586,6 +592,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9331E41C1E56F68C001E27C2 /* Nimble.framework in Frameworks */,
+				9331E41D1E56F68C001E27C2 /* OHHTTPStubs.framework in Frameworks */,
+				9331E41E1E56F68C001E27C2 /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -703,6 +712,16 @@
 				931A6A2C1E03EAAE00131242 /* OBATimelineBarCell.m */,
 			);
 			path = table_cells;
+			sourceTree = "<group>";
+		};
+		9331E4141E56F662001E27C2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9331E4161E56F686001E27C2 /* Nimble.framework */,
+				9331E4171E56F686001E27C2 /* OHHTTPStubs.framework */,
+				9331E4181E56F686001E27C2 /* Quick.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		934196D51DB0C124004BBBB7 /* categories */ = {
@@ -1209,6 +1228,7 @@
 		934198441DB0C218004BBBB7 /* OneBusAwayTests */ = {
 			isa = PBXGroup;
 			children = (
+				9331E4141E56F662001E27C2 /* Frameworks */,
 				9358CD9F1DEA19BA00132CDE /* helpers */,
 				934198451DB0C218004BBBB7 /* Fixtures */,
 				934198511DB0C219004BBBB7 /* Info.plist */,
@@ -1462,6 +1482,7 @@
 				936F45D51C78D06600C61656 /* Sources */,
 				936F45D61C78D06600C61656 /* Frameworks */,
 				936F45D71C78D06600C61656 /* Resources */,
+				9331E4201E56F6AF001E27C2 /* Carthage Integration */,
 			);
 			buildRules = (
 			);
@@ -1599,6 +1620,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		9331E4201E56F6AF001E27C2 /* Carthage Integration */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Quick.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Nimble.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/OHHTTPStubs.framework",
+			);
+			name = "Carthage Integration";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
 		938B84231D8686B800DB0AF0 /* Carthage Integration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
