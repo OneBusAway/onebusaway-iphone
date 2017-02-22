@@ -41,7 +41,7 @@ NSString * const kOBASearchControllerSearchLocationParameter = @"OBASearchContro
 }
 
 + (OBANavigationTarget*) getNavigationTargetForSearchRouteStops:(NSString*)routeId {
-    return [self getNavigationTargetForSearchType:OBASearchTypeRouteStops argument:routeId];
+    return [self getNavigationTargetForSearchType:OBASearchTypeStops argument:routeId];
 }
 
 + (OBANavigationTarget*) getNavigationTargetForSearchAddress:(NSString*)addressQuery {
@@ -70,8 +70,8 @@ NSString * const kOBASearchControllerSearchLocationParameter = @"OBASearchContro
             return OBASearchTypeRegion;
         case OBASearchTypeRoute:
             return OBASearchTypeRoute;
-        case OBASearchTypeRouteStops:
-            return OBASearchTypeRouteStops;
+        case OBASearchTypeStops:
+            return OBASearchTypeStops;
         case OBASearchTypeAddress:
             return OBASearchTypeAddress;
         case OBASearchTypePlacemark:

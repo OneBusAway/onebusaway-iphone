@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class OBAModelDAO;
 
-@interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate, OBAProgressIndicatorDelegate>
+@interface OBASearchResultsMapViewController : UIViewController <OBANavigationTargetAware, OBASearchControllerDelegate>
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
 @property(nonatomic,strong) OBAModelService *modelService;
 @property(nonatomic,strong) OBALocationManager *locationManager;

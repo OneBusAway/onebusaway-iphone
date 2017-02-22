@@ -102,7 +102,6 @@
 		934198171DB0C1BA004BBBB7 /* OBARotatingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197F91DB0C1BA004BBBB7 /* OBARotatingButton.m */; };
 		934198181DB0C1BA004BBBB7 /* OBALabelActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197FC1DB0C1BA004BBBB7 /* OBALabelActivityIndicatorView.m */; };
 		934198191DB0C1BA004BBBB7 /* OBAMapActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197FE1DB0C1BA004BBBB7 /* OBAMapActivityIndicatorView.m */; };
-		9341981A1DB0C1BA004BBBB7 /* OBAProgressIndicatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 934198001DB0C1BA004BBBB7 /* OBAProgressIndicatorImpl.m */; };
 		9341981B1DB0C1BA004BBBB7 /* OBAProgressIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 934198021DB0C1BA004BBBB7 /* OBAProgressIndicatorView.m */; };
 		9341981C1DB0C1BA004BBBB7 /* OBAProgressIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 934198031DB0C1BA004BBBB7 /* OBAProgressIndicatorView.xib */; };
 		9341981D1DB0C1BA004BBBB7 /* OBALabelAndSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 934198061DB0C1BA004BBBB7 /* OBALabelAndSwitchTableViewCell.m */; };
@@ -424,8 +423,6 @@
 		934197FC1DB0C1BA004BBBB7 /* OBALabelActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALabelActivityIndicatorView.m; sourceTree = "<group>"; };
 		934197FD1DB0C1BA004BBBB7 /* OBAMapActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapActivityIndicatorView.h; sourceTree = "<group>"; };
 		934197FE1DB0C1BA004BBBB7 /* OBAMapActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapActivityIndicatorView.m; sourceTree = "<group>"; };
-		934197FF1DB0C1BA004BBBB7 /* OBAProgressIndicatorImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAProgressIndicatorImpl.h; sourceTree = "<group>"; };
-		934198001DB0C1BA004BBBB7 /* OBAProgressIndicatorImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAProgressIndicatorImpl.m; sourceTree = "<group>"; };
 		934198011DB0C1BA004BBBB7 /* OBAProgressIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAProgressIndicatorView.h; sourceTree = "<group>"; };
 		934198021DB0C1BA004BBBB7 /* OBAProgressIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAProgressIndicatorView.m; sourceTree = "<group>"; };
 		934198031DB0C1BA004BBBB7 /* OBAProgressIndicatorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBAProgressIndicatorView.xib; sourceTree = "<group>"; };
@@ -1162,8 +1159,6 @@
 				934197FC1DB0C1BA004BBBB7 /* OBALabelActivityIndicatorView.m */,
 				934197FD1DB0C1BA004BBBB7 /* OBAMapActivityIndicatorView.h */,
 				934197FE1DB0C1BA004BBBB7 /* OBAMapActivityIndicatorView.m */,
-				934197FF1DB0C1BA004BBBB7 /* OBAProgressIndicatorImpl.h */,
-				934198001DB0C1BA004BBBB7 /* OBAProgressIndicatorImpl.m */,
 				934198011DB0C1BA004BBBB7 /* OBAProgressIndicatorView.h */,
 				934198021DB0C1BA004BBBB7 /* OBAProgressIndicatorView.m */,
 				934198031DB0C1BA004BBBB7 /* OBAProgressIndicatorView.xib */,
@@ -1747,7 +1742,6 @@
 				9327DEF91E023BD400502F06 /* OBAArrivalDepartureRow.m in Sources */,
 				9341979B1DB0C140004BBBB7 /* OBATextFieldCell.m in Sources */,
 				934197B21DB0C140004BBBB7 /* OBAStopViewController.m in Sources */,
-				9341981A1DB0C1BA004BBBB7 /* OBAProgressIndicatorImpl.m in Sources */,
 				930AFE781DD04CCA0092AE82 /* OBADepartureRow.m in Sources */,
 				934197B51DB0C140004BBBB7 /* OBAClassicApplicationUI.m in Sources */,
 				9341979C1DB0C140004BBBB7 /* OBAStaticTableViewController.m in Sources */,

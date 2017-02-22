@@ -117,7 +117,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     self.searchController = [[OBASearchController alloc] initWithModelService:self.modelService];
     self.searchController.delegate = self;
-    self.searchController.progress.delegate = self;
 
     if (self.savedNavigationTarget) {
         [self.searchController searchWithTarget:self.savedNavigationTarget];
@@ -315,7 +314,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         return [OBASearch getNavigationTargetForSearchLocationRegion:self.mapView.region];
     }
     else {
-        return [self.searchController getSearchTarget];
+        return self.searchController.searchTarget;
     }
 }
 
@@ -369,7 +368,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     if (!self.secondSearchTry) {
         self.secondSearchTry = YES;
-        [self.searchController searchWithTarget:[self.searchController getSearchTarget]];
+        [self.searchController searchWithTarget:self.searchController.searchTarget];
         return;
     }
 
@@ -389,6 +388,14 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         }]];
         [self presentViewController:alert animated:YES completion:nil];
     }
+}
+
+- (void)searchControllerBeganUpdating:(OBASearchController*)searchController {
+    [self.mapActivityIndicatorView setAnimating:YES];
+}
+
+- (void)searchControllerFinishedUpdating:(OBASearchController*)searchController {
+    [self.mapActivityIndicatorView setAnimating:NO];
 }
 
 #pragma mark - OBALocationManager Notifications
@@ -423,13 +430,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
         self.mapView.showsUserLocation = YES;
     }
-}
-
-#pragma mark - OBAProgressIndicatorDelegate
-
-- (void)progressUpdated {
-    id<OBAProgressIndicatorSource> progress = self.searchController.progress;
-    [self.mapActivityIndicatorView setAnimating:progress.inProgress];
 }
 
 #pragma mark - MKMapViewDelegate Methods
@@ -474,7 +474,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     OBASearchResult *result = self.searchController.result;
 
-    if (result && OBASearchTypeRouteStops == result.searchType) {
+    if (result && OBASearchTypeStops == result.searchType) {
         scale = [OBASphericalGeometryLibrary computeStopsForRouteAnnotationScaleFactor:mapView.region];
         alpha = scale <= 0.11f ? 0.f : 1.f;
     }
@@ -519,7 +519,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     MKAnnotationView *view = [self.class viewForAnnotation:stop forMapView:mapView];
     OBASearchResult *result = self.searchController.result;
 
-    if (OBASearchTypeRouteStops == result.searchType) {
+    if (OBASearchTypeStops == result.searchType) {
         CGFloat scale = [OBASphericalGeometryLibrary computeStopsForRouteAnnotationScaleFactor:mapView.region];
         CGFloat alpha = scale <= 0.11f ? 0.f : 1.f;
 
@@ -970,7 +970,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     OBASearchResult *result = self.searchController.result;
 
-    if (result && result.searchType == OBASearchTypeRouteStops) {
+    if (result && result.searchType == OBASearchTypeStops) {
         for (NSString *polylineString in result.additionalValues) {
             MKPolyline *polyline = [OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString];
             [self.mapView addOverlay:polyline];
@@ -996,7 +996,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         case OBASearchTypeRoute:
             return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"msg_route", @"route"), param];
 
-        case OBASearchTypeRouteStops: {
+        case OBASearchTypeStops: {
             OBARouteV2 *route = [[OBAApplication sharedApplication].references getRouteForId:param];
 
             if (route) return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"msg_route", @"route"), [route safeShortName]];
@@ -1039,7 +1039,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     switch (result.searchType) {
         case OBASearchTypeRoute:
-        case OBASearchTypeRouteStops:
+        case OBASearchTypeStops:
         case OBASearchTypeAddress:
         case OBASearchTypeStopId:
             return nil;
@@ -1090,7 +1090,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
             return [OBAMapHelpers computeRegionForNClosestStops:result.values center:[self currentLocation] numberOfStops:kShowNClosestStops];
 
         case OBASearchTypeRoute:
-        case OBASearchTypeRouteStops:
+        case OBASearchTypeStops:
             return [OBAMapHelpers computeRegionForCenter:[self currentLocation] nearbyStops:result.values];
 
         case OBASearchTypePlacemark:
