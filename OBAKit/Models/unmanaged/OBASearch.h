@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-#import <OBAKit/OBAProgressIndicatorSource.h>
 #import <OBAKit/OBAPlacemark.h>
 #import <OBAKit/OBANavigationTarget.h>
 #import <OBAKit/OBAListWithRangeAndReferencesV2.h>
@@ -30,7 +29,7 @@ typedef NS_ENUM(NSInteger, OBASearchType) {
     OBASearchTypePending,
     OBASearchTypeRegion,
     OBASearchTypeRoute,
-    OBASearchTypeRouteStops,
+    OBASearchTypeStops,
     OBASearchTypeAddress,
     OBASearchTypePlacemark,
     OBASearchTypeStopId,

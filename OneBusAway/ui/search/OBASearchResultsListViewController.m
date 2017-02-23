@@ -27,14 +27,8 @@
         self.title = NSLocalizedString(@"msg_nearby", @"");
         self.emptyDataSetTitle = NSLocalizedString(@"msg_no_results_found", @"");
         self.emptyDataSetDescription = NSLocalizedString(@"msg_no_result_map_area", @"");
-
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataUpdated:) name:OBASearchControllerDidUpdateNotification object:nil];
     }
     return self;
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBASearchControllerDidUpdateNotification object:nil];
 }
 
 - (void)viewDidLoad {
@@ -58,12 +52,6 @@
     [self loadData];
 }
 
-#pragma mark - Notifications
-
-- (void)dataUpdated:(NSNotification*)note {
-    self.result = note.userInfo[OBASearchControllerUserInfoDataKey];
-}
-
 #pragma mark - Table Data
 
 - (void)loadData {
@@ -78,7 +66,7 @@
             case OBASearchTypeRegion:
             case OBASearchTypePlacemark:
             case OBASearchTypeStopId:
-            case OBASearchTypeRouteStops: {
+            case OBASearchTypeStops: {
                 OBAStopV2 *stop = obj;
                 tableRow.title = stop.name;
                 [tableRow setAction:^(OBABaseRow *row) {
@@ -131,8 +119,8 @@
         case OBASearchTypeRegion:
         case OBASearchTypePlacemark:
         case OBASearchTypeStopId:
-        case OBASearchTypeRouteStops:
-            return NSLocalizedString(@"msg_stops",@"OBASearchTypeRouteStops");
+        case OBASearchTypeStops:
+            return NSLocalizedString(@"msg_stops",@"OBASearchTypeStops");
         case OBASearchTypeRoute:
             return NSLocalizedString(@"msg_routes",@"OBASearchTypeRoute");
         case OBASearchTypeAddress:

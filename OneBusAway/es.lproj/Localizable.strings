@@ -523,7 +523,7 @@
 /* name */
 "msg_stop_number_wrong" = "El número de parada está mal";
 
-/* OBASearchTypeRouteStops */
+/* OBASearchTypeStops */
 "msg_stops" = "Paradas";
 
 /* view.title */

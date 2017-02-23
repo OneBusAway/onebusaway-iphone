@@ -19,40 +19,33 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString * const OBASearchControllerDidUpdateNotification;
-extern NSString * const OBASearchControllerUserInfoDataKey;
-
+@class OBASearchController;
 @protocol OBASearchControllerDelegate <NSObject>
 - (void)handleSearchControllerUpdate:(OBASearchResult*)result;
-
-@optional
+- (void)searchControllerBeganUpdating:(OBASearchController*)searchController;
+- (void)searchControllerFinishedUpdating:(OBASearchController*)searchController;
 - (void)handleSearchControllerStarted:(OBASearchType)searchType;
 - (void)handleSearchControllerError:(NSError*)error;
 @end
 
-#pragma mark OBASearchController
+@interface OBASearchController : NSObject
+@property(nonatomic,strong) OBAModelService *modelService;
 
-@class OBAProgressIndicatorImpl;
+@property(nonatomic,weak) id<OBASearchControllerDelegate> delegate;
+@property(nonatomic,strong,readonly) OBANavigationTarget *searchTarget;
+@property(nonatomic,readonly) OBASearchType searchType;
+@property(weak, nonatomic,readonly) id searchParameter;
+@property(strong,readonly,nullable) OBASearchResult * result;
 
-@interface OBASearchController : NSObject 
-
-@property (nonatomic,weak) id<OBASearchControllerDelegate> delegate;
-@property (nonatomic,readonly) OBASearchType searchType;
-@property (weak, nonatomic,readonly) id searchParameter;
-@property (strong,readonly,nullable) OBASearchResult * result;
-
-@property (weak, nonatomic,readonly) CLLocation * searchLocation;
-@property (nonatomic,strong) CLCircularRegion *searchRegion;
-
-@property (nonatomic,strong) NSObject<OBAProgressIndicatorSource>* progress;
-@property (nonatomic,strong) NSError * error;
+@property(weak, nonatomic,readonly) CLLocation * searchLocation;
+@property(nonatomic,strong) CLCircularRegion *searchRegion;
+@property(nonatomic,strong) NSError * error;
 
 - (instancetype)initWithModelService:(OBAModelService*)modelService;
 
 - (BOOL)unfilteredSearch;
 - (void)searchWithTarget:(OBANavigationTarget*)target;
 - (void)searchPending;
-- (OBANavigationTarget*)getSearchTarget;
 - (void)cancelOpenConnections;
 
 @end
