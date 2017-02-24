@@ -30,7 +30,7 @@ static CGFloat const kExpandedMapHeight = 350.f;
 
 static NSTimeInterval const kRefreshTimeInterval = 30;
 
-@interface OBAArrivalAndDepartureViewController ()<VehicleMapDelegate>
+@interface OBAArrivalAndDepartureViewController ()<VehicleMapDelegate, MGCollapsingHeaderDelegate>
 @property(nonatomic,strong) OBATripDetailsV2 *tripDetails;
 @property(nonatomic,strong) UIView *tableHeaderView;
 @property(nonatomic,strong) OBAClassicDepartureView *departureView;
@@ -38,6 +38,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 @property(nonatomic,strong) NSLock *reloadLock;
 @property(nonatomic,copy) id<OBAArrivalAndDepartureConvertible> convertible;
 @property(nonatomic,strong) UIStackView *stackView;
+@property(nonatomic,strong) MGCollapsingHeaderView *collapsingHeaderView;
+@property(nonatomic,strong) NSLayoutConstraint *collapsingHeaderViewHeightConstraint;
 
 @property(nonatomic,strong) VehicleMapController *mapController;
 
@@ -95,38 +97,33 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData:)];
-
     self.view.backgroundColor = [UIColor whiteColor];
-
+    
     self.departureView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
     self.departureView.translatesAutoresizingMaskIntoConstraints = NO;
-
-    self.stackView = [[UIStackView alloc] initWithFrame:self.view.bounds];
-    self.stackView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    self.stackView.axis = UILayoutConstraintAxisVertical;
-    self.stackView.spacing = 0.f;
-
+    
+    self.collapsingHeaderView = [[MGCollapsingHeaderView alloc] init];
+    [self.collapsingHeaderView setDelegate:self];
+    
     self.mapController = [[VehicleMapController alloc] init];
     self.mapController.delegate = self;
     [self oba_prepareChildViewController:self.mapController];
-    [self.stackView addArrangedSubview:self.mapController.view];
-
+    
+    [self.collapsingHeaderView addSubview:self.mapController.view];
+    [self.view addSubview:self.collapsingHeaderView];
+    
     self.tableHeaderView = [self.class buildTableHeaderViewWrapperWithHeaderView:self.departureView];
-    [self.stackView addArrangedSubview:self.tableHeaderView];
-
+    
+    [self.view addSubview:self.tableHeaderView];
+    
+    // Makes constraints work for tableView
     [self.tableView removeFromSuperview];
-    [self.stackView addArrangedSubview:self.tableView];
-
-    [self.view addSubview:self.stackView];
+    [self.view addSubview:self.tableView];
+    
     [self.mapController didMoveToParentViewController:self];
-    [self updateMapConstraints];
-
-    // This will hide the map if the user launched this
-    // view controller in landscape on an iPhone.
-    [self updateMapVisibilityForTraitCollection:self.traitCollection];
-
+    
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0);
     self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -157,12 +154,54 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [[OBAHandoff shared] stopBroadcasting];
 }
 
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    [self.mapController.view mas_makeConstraints:^(MASConstraintMaker* make) {
+        make.edges.equalTo(self.collapsingHeaderView);
+    }];
+    
+    [self.collapsingHeaderView mas_makeConstraints:^(MASConstraintMaker* mas) {
+        mas.left.equalTo(self.view.mas_left);
+        mas.right.equalTo(self.view.mas_right);
+        mas.top.equalTo(self.view.mas_top);
+        mas.bottom.equalTo(self.tableHeaderView.mas_top);
+    }];
+    
+    if (!self.collapsingHeaderViewHeightConstraint) {
+        self.collapsingHeaderViewHeightConstraint = [NSLayoutConstraint constraintWithItem:self.view
+                                                                                 attribute:NSLayoutAttributeHeight
+                                                                                 relatedBy:NSLayoutRelationEqual
+                                                                                    toItem:self.collapsingHeaderView
+                                                                                 attribute:NSLayoutAttributeHeight
+                                                                                multiplier:1.0
+                                                                                  constant:512];
+        [self.view addConstraint:self.collapsingHeaderViewHeightConstraint];
+        [self.collapsingHeaderView setCollapsingConstraint:self.collapsingHeaderViewHeightConstraint];
+        
+    }
+    
+    [self.tableHeaderView mas_makeConstraints:^(MASConstraintMaker* make) {
+        make.top.equalTo(self.collapsingHeaderView.mas_bottom);
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.height.equalTo(@64);
+    }];
+    
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker* make) {
+        make.top.equalTo(self.tableHeaderView.mas_bottom);
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.bottom.equalTo(self.view);
+        make.height.greaterThanOrEqualTo(@128);
+    }];
+}
+
 #pragma mark - Traits
 
 - (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super willTransitionToTraitCollection:newCollection withTransitionCoordinator:coordinator];
 
-    [self updateMapVisibilityForTraitCollection:newCollection];
+//    [self updateMapVisibilityForTraitCollection:newCollection];
 }
 
 #pragma mark - Map/VehicleMapDelegate
@@ -202,6 +241,33 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         make.width.equalTo(self.view);
         make.height.equalTo(@(mapHeight));
     }];
+}
+
+#pragma mark - Scroll View delegate methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.collapsingHeaderView collapseWithScroll:scrollView];
+}
+
+#pragma mark - MGCollapsingHeaderView delegate
+- (void)headerDidCollapseToOffset:(double)offset {
+    [self adjustCollapsingHeaderView:offset];
+}
+
+- (void)headerDidFinishCollapsing {
+    
+}
+
+- (void)headerDidExpandToOffset:(double)offset {
+    [self adjustCollapsingHeaderView:offset];
+}
+
+- (void)headerDidFinishExpanding {
+    
+}
+
+- (void)adjustCollapsingHeaderView:(double)offset {
+    NSLog(@"%f", offset);
 }
 
 #pragma mark - Notifications
