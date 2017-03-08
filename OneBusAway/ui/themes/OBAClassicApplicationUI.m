@@ -8,13 +8,14 @@
 
 #import "OBAClassicApplicationUI.h"
 @import OBAKit;
+@import Apptentive;
 #import "OBASearchResultsMapViewController.h"
 #import "OBARecentStopsViewController.h"
 #import "OBABookmarksViewController.h"
 #import "OBAInfoViewController.h"
 #import "OBAStopViewController.h"
 #import "OBAAnalytics.h"
-#import "Apptentive.h"
+
 
 static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
 

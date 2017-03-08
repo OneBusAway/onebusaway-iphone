@@ -12,6 +12,7 @@
 @import PMKCoreLocation;
 @import PMKMapKit;
 @import SVProgressHUD;
+@import Apptentive;
 #import "OneBusAway-Swift.h"
 #import "OBASeparatorSectionView.h"
 #import "OBAReportProblemWithRecentTripsViewController.h"
@@ -25,7 +26,6 @@
 #import "OBAArrivalAndDepartureViewController.h"
 #import "OBAStaticTableViewController+Builders.h"
 #import "OBABookmarkRouteDisambiguationViewController.h"
-#import "Apptentive.h"
 #import "OBAWalkableRow.h"
 #import "GKActionSheetPicker.h"
 #import "OBAPushManager.h"

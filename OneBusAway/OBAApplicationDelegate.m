@@ -21,6 +21,7 @@
 @import SVProgressHUD;
 @import Fabric;
 @import Crashlytics;
+@import Apptentive;
 
 #import "OBANavigationTargetAware.h"
 #import "OBAPushManager.h"
@@ -30,7 +31,6 @@
 #import "OneBusAway-Swift.h"
 
 #import "OBAAnalytics.h"
-#import "Apptentive.h"
 
 #import "OBAApplicationUI.h"
 #import "OBAClassicApplicationUI.h"
