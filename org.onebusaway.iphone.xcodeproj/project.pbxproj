@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5B7C4A5A1DB96E6A00853DD5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */; };
 		5BF981001DBA55E40094C0BD /* OBASearchResultsMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BF981021DBA55E40094C0BD /* OBASearchResultsMapViewController.xib */; };
+		930653DD1E6F83F0005AF0C9 /* Apptentive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930653DC1E6F83F0005AF0C9 /* Apptentive.framework */; };
 		930AFE781DD04CCA0092AE82 /* OBADepartureRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE751DD04CCA0092AE82 /* OBADepartureRow.m */; };
 		930AFE871DD04D2F0092AE82 /* OBAClassicDepartureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE7C1DD04D2F0092AE82 /* OBAClassicDepartureCell.m */; };
 		930AFE891DD04D2F0092AE82 /* OBAClassicDepartureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE801DD04D2F0092AE82 /* OBAClassicDepartureView.m */; };
@@ -90,8 +91,6 @@
 		934197BC1DB0C140004BBBB7 /* OBATripScheduleMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197781DB0C140004BBBB7 /* OBATripScheduleMapViewController.m */; };
 		934197BD1DB0C140004BBBB7 /* OBATripScheduleSectionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341977A1DB0C140004BBBB7 /* OBATripScheduleSectionBuilder.m */; };
 		934197BE1DB0C140004BBBB7 /* OBAVehicleDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341977C1DB0C140004BBBB7 /* OBAVehicleDetailsController.m */; };
-		934197DE1DB0C14C004BBBB7 /* ApptentiveResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 934197C11DB0C14C004BBBB7 /* ApptentiveResources.bundle */; };
-		934197E01DB0C14C004BBBB7 /* libApptentiveConnect.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 934197C51DB0C14C004BBBB7 /* libApptentiveConnect.a */; };
 		934197E31DB0C14C004BBBB7 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197CA1DB0C14C004BBBB7 /* EXTScope.m */; };
 		934197E81DB0C14C004BBBB7 /* PTERootController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197D21DB0C14C004BBBB7 /* PTERootController.m */; };
 		934197EA1DB0C14C004BBBB7 /* PulleyPassthroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934197D51DB0C14C004BBBB7 /* PulleyPassthroughScrollView.swift */; };
@@ -253,6 +252,7 @@
 		5B7C4A5B1DB96E6A00853DD5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5BF981011DBA55E40094C0BD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OBASearchResultsMapViewController.xib; sourceTree = "<group>"; };
 		5BF981041DBA55EB0094C0BD /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OBASearchResultsMapViewController.xib; sourceTree = "<group>"; };
+		930653DC1E6F83F0005AF0C9 /* Apptentive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apptentive.framework; path = Carthage/Build/iOS/Apptentive.framework; sourceTree = "<group>"; };
 		930AFE741DD04CCA0092AE82 /* OBADepartureRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADepartureRow.h; sourceTree = "<group>"; };
 		930AFE751DD04CCA0092AE82 /* OBADepartureRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADepartureRow.m; sourceTree = "<group>"; };
 		930AFE7B1DD04D2F0092AE82 /* OBAClassicDepartureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureCell.h; sourceTree = "<group>"; };
@@ -400,9 +400,6 @@
 		9341977A1DB0C140004BBBB7 /* OBATripScheduleSectionBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripScheduleSectionBuilder.m; sourceTree = "<group>"; };
 		9341977B1DB0C140004BBBB7 /* OBAVehicleDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAVehicleDetailsController.h; sourceTree = "<group>"; };
 		9341977C1DB0C140004BBBB7 /* OBAVehicleDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAVehicleDetailsController.m; sourceTree = "<group>"; };
-		934197C11DB0C14C004BBBB7 /* ApptentiveResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ApptentiveResources.bundle; sourceTree = "<group>"; };
-		934197C41DB0C14C004BBBB7 /* Apptentive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Apptentive.h; sourceTree = "<group>"; };
-		934197C51DB0C14C004BBBB7 /* libApptentiveConnect.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libApptentiveConnect.a; sourceTree = "<group>"; };
 		934197C91DB0C14C004BBBB7 /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
 		934197CA1DB0C14C004BBBB7 /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
 		934197CB1DB0C14C004BBBB7 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
@@ -577,8 +574,8 @@
 				932CCEC41DC3D2DB001C8405 /* CocoaLumberjackSwift.framework in Frameworks */,
 				93BB1EE21E300526008A88BA /* Fabric.framework in Frameworks */,
 				938B842C1D868A0500DB0AF0 /* GoogleAnalytics.framework in Frameworks */,
-				934197E01DB0C14C004BBBB7 /* libApptentiveConnect.a in Frameworks */,
 				932CCEC91DC3D2DB001C8405 /* SwiftMessages.framework in Frameworks */,
+				930653DD1E6F83F0005AF0C9 /* Apptentive.framework in Frameworks */,
 				932CCEC71DC3D2DB001C8405 /* PMKMapKit.framework in Frameworks */,
 				932CCEC31DC3D2DB001C8405 /* CocoaLumberjack.framework in Frameworks */,
 				93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */,
@@ -644,6 +641,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				930653DC1E6F83F0005AF0C9 /* Apptentive.framework */,
 				93BB1EE01E300526008A88BA /* Fabric.framework */,
 				93BB1EE11E300526008A88BA /* Crashlytics.framework */,
 				934C508C1E2A1E5C00DFDCA0 /* OneSignal.framework */,
@@ -1033,7 +1031,6 @@
 			children = (
 				934C509B1E2B69E300DFDCA0 /* GKActionSheetPicker */,
 				93FE60231E0B2F34006EC9FB /* SVPulsingAnnotationView */,
-				934197C01DB0C14C004BBBB7 /* apptentive */,
 				934197C81DB0C14C004BBBB7 /* extobjc */,
 				934197CC1DB0C14C004BBBB7 /* LumberjackConsole */,
 				934197D41DB0C14C004BBBB7 /* pulley */,
@@ -1041,24 +1038,6 @@
 			);
 			name = externals;
 			path = OneBusAway/externals;
-			sourceTree = "<group>";
-		};
-		934197C01DB0C14C004BBBB7 /* apptentive */ = {
-			isa = PBXGroup;
-			children = (
-				934197C11DB0C14C004BBBB7 /* ApptentiveResources.bundle */,
-				934197C31DB0C14C004BBBB7 /* include */,
-				934197C51DB0C14C004BBBB7 /* libApptentiveConnect.a */,
-			);
-			path = apptentive;
-			sourceTree = "<group>";
-		};
-		934197C31DB0C14C004BBBB7 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				934197C41DB0C14C004BBBB7 /* Apptentive.h */,
-			);
-			path = include;
 			sourceTree = "<group>";
 		};
 		934197C81DB0C14C004BBBB7 /* extobjc */ = {
@@ -1594,7 +1573,6 @@
 				934197881DB0C140004BBBB7 /* OBACreditsViewController.xib in Resources */,
 				5B7C4A5A1DB96E6A00853DD5 /* Localizable.strings in Resources */,
 				9341981E1DB0C1BA004BBBB7 /* OBALabelAndSwitchTableViewCell.xib in Resources */,
-				934197DE1DB0C14C004BBBB7 /* ApptentiveResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1652,6 +1630,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/MarqueeLabel.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/OneSignal.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Apptentive.framework",
 			);
 			name = "Carthage Integration";
 			outputPaths = (

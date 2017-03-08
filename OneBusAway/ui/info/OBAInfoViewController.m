@@ -9,12 +9,12 @@
 #import "OBAInfoViewController.h"
 @import SafariServices;
 @import Masonry;
+@import Apptentive;
 
 #import "OBAAgenciesListViewController.h"
 #import "OBASettingsViewController.h"
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
-#import "Apptentive.h"
 #import "OneBusAway-Swift.h"
 
 static NSString * const kRepoURLString = @"https://www.github.com/onebusaway/onebusaway-iphone";
