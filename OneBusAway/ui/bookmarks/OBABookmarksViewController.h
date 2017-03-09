@@ -8,7 +8,6 @@
 
 @import OBAKit;
 #import "OBAStaticTableViewController.h"
-#import "OBANavigationTargetAware.h"
 
 @class OBAModelDAO;
 @class OBAModelService;

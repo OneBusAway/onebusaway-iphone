@@ -23,7 +23,6 @@
 @import Crashlytics;
 @import Apptentive;
 
-#import "OBANavigationTargetAware.h"
 #import "OBAPushManager.h"
 #import "OBASearchController.h"
 #import "OBAStopViewController.h"

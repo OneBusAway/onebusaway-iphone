@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "OBANavigationTargetAware.h"
+@import OBAKit;
 #import "OBASearchController.h"
 #import "OBAScopeView.h"
 

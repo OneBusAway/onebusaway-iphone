@@ -19,13 +19,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class OBASearchResultsMapViewController;
-@class OBARecentStopsViewController;
-@class OBAInfoViewController;
-
-@interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate>
+@interface OBAApplicationDelegate : UIResponder <UIApplicationDelegate, OBANavigator>
 @property (nullable, nonatomic, strong) UIWindow *window;
-- (void)navigateToTarget:(OBANavigationTarget*)navigationTarget;
 - (void)regionSelected;
 @end
 

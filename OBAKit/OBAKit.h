@@ -65,6 +65,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAModelServiceRequest.h>
 #import <OBAKit/OBANavigationTarget.h>
 #import <OBAKit/OBANavigationTargetAnnotation.h>
+#import <OBAKit/OBANavigationTargetAware.h>
 #import <OBAKit/OBAPlacemark.h>
 #import <OBAKit/OBAPlacemarks.h>
 #import <OBAKit/OBAReachability.h>
