@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-@import OBAKit;
+#import <OBAKit/OBANavigationTarget.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol OBANavigationTargetAware
-- (OBANavigationTarget*) navigationTarget;
+@protocol OBANavigationTargetAware<NSObject>
+- (OBANavigationTarget*)navigationTarget;
 
 @optional
 - (void)setNavigationTarget:(OBANavigationTarget*)navigationTarget;
+@end
+
+@protocol OBANavigation<NSObject>
+- (void)navigateToTarget:(OBANavigationTarget*)navigationTarget;
 @end
 
 NS_ASSUME_NONNULL_END

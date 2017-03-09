@@ -409,7 +409,6 @@
 		934197D61DB0C14C004BBBB7 /* PulleyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyViewController.swift; sourceTree = "<group>"; };
 		934197DC1DB0C14C004BBBB7 /* SMFloatingLabelTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMFloatingLabelTextField.h; sourceTree = "<group>"; };
 		934197DD1DB0C14C004BBBB7 /* SMFloatingLabelTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMFloatingLabelTextField.m; sourceTree = "<group>"; };
-		934197F01DB0C1AA004BBBB7 /* OBANavigationTargetAware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTargetAware.h; sourceTree = "<group>"; };
 		934197F31DB0C1BA004BBBB7 /* OBAScopeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAScopeView.h; sourceTree = "<group>"; };
 		934197F41DB0C1BA004BBBB7 /* OBAScopeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAScopeView.m; sourceTree = "<group>"; };
 		934197F51DB0C1BA004BBBB7 /* OBAVibrantBlurContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAVibrantBlurContainerView.h; sourceTree = "<group>"; };
@@ -614,7 +613,6 @@
 				934C50AB1E2B6D5B00DFDCA0 /* push_notifications */,
 				934198261DB0C1CA004BBBB7 /* utilities */,
 				934197F11DB0C1BA004BBBB7 /* controls */,
-				934197EF1DB0C1AA004BBBB7 /* protocols */,
 				934197BF1DB0C14C004BBBB7 /* externals */,
 				934196E81DB0C13F004BBBB7 /* ui */,
 				934196D51DB0C124004BBBB7 /* categories */,
@@ -1083,15 +1081,6 @@
 				934197DD1DB0C14C004BBBB7 /* SMFloatingLabelTextField.m */,
 			);
 			path = Classes;
-			sourceTree = "<group>";
-		};
-		934197EF1DB0C1AA004BBBB7 /* protocols */ = {
-			isa = PBXGroup;
-			children = (
-				934197F01DB0C1AA004BBBB7 /* OBANavigationTargetAware.h */,
-			);
-			name = protocols;
-			path = OneBusAway/protocols;
 			sourceTree = "<group>";
 		};
 		934197F11DB0C1BA004BBBB7 /* controls */ = {
