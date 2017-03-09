@@ -19,6 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString*)cancel;
 
 /**
+ The text 'Close'.
+ */
++ (NSString*)close;
+
+/**
  The text 'Delete'.
  */
 + (NSString*)delete;
@@ -38,6 +43,11 @@ NS_ASSUME_NONNULL_BEGIN
  The text 'Error'.
  */
 + (NSString*)error;
+
+/**
+ Generic error used for situations that shouldn't happen. Asks user to contact us.
+ */
++ (NSString*)inexplicableErrorPleaseContactUs;
 
 /**
  The text 'OK'.

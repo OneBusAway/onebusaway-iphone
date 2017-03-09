@@ -220,7 +220,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 
  @param coordinate     Center coordinate for retrieving stops
 
- @return A promise that resolves to NSArray<OBAStopV2*>*
+ @return A promise that resolves to an OBASearchResult object
  */
 - (AnyPromise*)requestStopsNear:(CLLocationCoordinate2D)coordinate;
 

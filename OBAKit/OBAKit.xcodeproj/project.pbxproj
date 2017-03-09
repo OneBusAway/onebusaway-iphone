@@ -35,7 +35,6 @@
 		934195FD1DB0B099004BBBB7 /* UILabel+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195591DB0B099004BBBB7 /* UILabel+OBAAdditions.m */; };
 		934196001DB0B099004BBBB7 /* OBACommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 9341955D1DB0B099004BBBB7 /* OBACommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196011DB0B099004BBBB7 /* OBACommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341955E1DB0B099004BBBB7 /* OBACommon.m */; };
-		934196021DB0B099004BBBB7 /* OBACommonV1.h in Headers */ = {isa = PBXBuildFile; fileRef = 9341955F1DB0B099004BBBB7 /* OBACommonV1.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196031DB0B099004BBBB7 /* OBAConsoleLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195601DB0B099004BBBB7 /* OBAConsoleLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196041DB0B099004BBBB7 /* OBAConsoleLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195611DB0B099004BBBB7 /* OBAConsoleLogger.m */; };
 		934196051DB0B099004BBBB7 /* OBADateHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195621DB0B099004BBBB7 /* OBADateHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -148,8 +147,6 @@
 		934196711DB0B099004BBBB7 /* OBARouteType.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195D51DB0B099004BBBB7 /* OBARouteType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196721DB0B099004BBBB7 /* OBARouteV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195D61DB0B099004BBBB7 /* OBARouteV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196731DB0B099004BBBB7 /* OBARouteV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195D71DB0B099004BBBB7 /* OBARouteV2.m */; };
-		934196741DB0B099004BBBB7 /* OBASearch.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195D81DB0B099004BBBB7 /* OBASearch.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		934196751DB0B099004BBBB7 /* OBASearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195D91DB0B099004BBBB7 /* OBASearch.m */; };
 		934196761DB0B099004BBBB7 /* OBASearchResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195DA1DB0B099004BBBB7 /* OBASearchResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196771DB0B099004BBBB7 /* OBASearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195DB1DB0B099004BBBB7 /* OBASearchResult.m */; };
 		934196781DB0B099004BBBB7 /* OBAServiceAlertsModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195DC1DB0B099004BBBB7 /* OBAServiceAlertsModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -263,7 +260,6 @@
 		934195591DB0B099004BBBB7 /* UILabel+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+OBAAdditions.m"; sourceTree = "<group>"; };
 		9341955D1DB0B099004BBBB7 /* OBACommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACommon.h; sourceTree = "<group>"; };
 		9341955E1DB0B099004BBBB7 /* OBACommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACommon.m; sourceTree = "<group>"; };
-		9341955F1DB0B099004BBBB7 /* OBACommonV1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACommonV1.h; sourceTree = "<group>"; };
 		934195601DB0B099004BBBB7 /* OBAConsoleLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAConsoleLogger.h; sourceTree = "<group>"; };
 		934195611DB0B099004BBBB7 /* OBAConsoleLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAConsoleLogger.m; sourceTree = "<group>"; };
 		934195621DB0B099004BBBB7 /* OBADateHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADateHelpers.h; sourceTree = "<group>"; };
@@ -376,8 +372,6 @@
 		934195D51DB0B099004BBBB7 /* OBARouteType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARouteType.h; sourceTree = "<group>"; };
 		934195D61DB0B099004BBBB7 /* OBARouteV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARouteV2.h; sourceTree = "<group>"; };
 		934195D71DB0B099004BBBB7 /* OBARouteV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARouteV2.m; sourceTree = "<group>"; };
-		934195D81DB0B099004BBBB7 /* OBASearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearch.h; sourceTree = "<group>"; };
-		934195D91DB0B099004BBBB7 /* OBASearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearch.m; sourceTree = "<group>"; };
 		934195DA1DB0B099004BBBB7 /* OBASearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASearchResult.h; sourceTree = "<group>"; };
 		934195DB1DB0B099004BBBB7 /* OBASearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASearchResult.m; sourceTree = "<group>"; };
 		934195DC1DB0B099004BBBB7 /* OBAServiceAlertsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAServiceAlertsModel.h; sourceTree = "<group>"; };
@@ -553,7 +547,6 @@
 			children = (
 				9341955D1DB0B099004BBBB7 /* OBACommon.h */,
 				9341955E1DB0B099004BBBB7 /* OBACommon.m */,
-				9341955F1DB0B099004BBBB7 /* OBACommonV1.h */,
 				934195601DB0B099004BBBB7 /* OBAConsoleLogger.h */,
 				934195611DB0B099004BBBB7 /* OBAConsoleLogger.m */,
 				934195621DB0B099004BBBB7 /* OBADateHelpers.h */,
@@ -725,8 +718,6 @@
 				934195D51DB0B099004BBBB7 /* OBARouteType.h */,
 				934195D61DB0B099004BBBB7 /* OBARouteV2.h */,
 				934195D71DB0B099004BBBB7 /* OBARouteV2.m */,
-				934195D81DB0B099004BBBB7 /* OBASearch.h */,
-				934195D91DB0B099004BBBB7 /* OBASearch.m */,
 				934195DA1DB0B099004BBBB7 /* OBASearchResult.h */,
 				934195DB1DB0B099004BBBB7 /* OBASearchResult.m */,
 				934195DC1DB0B099004BBBB7 /* OBAServiceAlertsModel.h */,
@@ -834,7 +825,6 @@
 				9341964D1DB0B099004BBBB7 /* OBAArrivalAndDepartureV2.h in Headers */,
 				934196841DB0B099004BBBB7 /* OBAStopV2.h in Headers */,
 				934196B21DB0B0AF004BBBB7 /* OBAModelFactory.h in Headers */,
-				934196741DB0B099004BBBB7 /* OBASearch.h in Headers */,
 				9341967C1DB0B099004BBBB7 /* OBASituationV2.h in Headers */,
 				934196821DB0B099004BBBB7 /* OBAStopsForRouteV2.h in Headers */,
 				934196001DB0B099004BBBB7 /* OBACommon.h in Headers */,
@@ -849,7 +839,6 @@
 				934C50A91E2B6D2700DFDCA0 /* OBAAlarm.h in Headers */,
 				934196491DB0B099004BBBB7 /* OBAAgencyWithCoverageV2.h in Headers */,
 				934196BA1DB0B0AF004BBBB7 /* OBAUIBuilder.h in Headers */,
-				934196021DB0B099004BBBB7 /* OBACommonV1.h in Headers */,
 				934196471DB0B099004BBBB7 /* OBAAgencyV2.h in Headers */,
 				934196691DB0B099004BBBB7 /* OBARegionBoundsV2.h in Headers */,
 				934196881DB0B099004BBBB7 /* OBATripInstanceRef.h in Headers */,
@@ -1071,7 +1060,6 @@
 				934196621DB0B099004BBBB7 /* OBANavigationTarget.m in Sources */,
 				934196561DB0B099004BBBB7 /* OBACoordinateBounds.m in Sources */,
 				934196151DB0B099004BBBB7 /* OBAStopIconFactory.m in Sources */,
-				934196751DB0B099004BBBB7 /* OBASearch.m in Sources */,
 				934196681DB0B099004BBBB7 /* OBAReferencesV2.m in Sources */,
 				934196971DB0B0A4004BBBB7 /* OBAApplication.m in Sources */,
 				934196521DB0B099004BBBB7 /* OBABookmarkGroup.m in Sources */,

@@ -15,6 +15,14 @@
     return OBALocalized(@"msg_cancel", @"Typically used on alerts and other modal actions. A 'cancel' button.");
 }
 
+/**
+ .
+ */
++ (NSString*)close {
+    return OBALocalized(@"strings.close", @"The text 'Close'");
+}
+
+
 + (NSString*)delete {
     return OBALocalized(@"msg_delete", @"Typically used on alerts and other modal actions. A 'delete' button.");
 }
@@ -29,6 +37,10 @@
 
 + (NSString*)error {
     return OBALocalized(@"msg_error", @"The text 'Error'");
+}
+
++ (NSString*)inexplicableErrorPleaseContactUs {
+    return OBALocalized(@"errors.inexplicable_error", @"Generic error used for situations that shouldn't happen. Asks user to contact us.");
 }
 
 + (NSString*)ok {

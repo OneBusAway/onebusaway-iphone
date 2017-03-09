@@ -19,25 +19,24 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class OBASearchController;
-@protocol OBASearchControllerDelegate <NSObject>
-- (void)handleSearchControllerUpdate:(OBASearchResult*)result;
-- (void)searchControllerBeganUpdating:(OBASearchController*)searchController;
-- (void)searchControllerFinishedUpdating:(OBASearchController*)searchController;
-- (void)handleSearchControllerStarted:(OBASearchType)searchType;
-- (void)handleSearchControllerError:(NSError*)error;
+@class OBAMapDataLoader;
+@protocol OBAMapDataLoaderDelegate <NSObject>
+- (void)mapDataLoader:(OBAMapDataLoader*)mapDataLoader didUpdateResult:(OBASearchResult*)searchResult;
+- (void)mapDataLoader:(OBAMapDataLoader*)mapDataLoader startedUpdatingWithNavigationTarget:(OBANavigationTarget*)target;
+- (void)mapDataLoaderFinishedUpdating:(OBAMapDataLoader*)mapDataLoader;
+- (void)mapDataLoader:(OBAMapDataLoader*)mapDataLoader didReceiveError:(NSError*)error;
 @end
 
-@interface OBASearchController : NSObject
+@interface OBAMapDataLoader : NSObject
 @property(nonatomic,strong) OBAModelService *modelService;
 
-@property(nonatomic,weak) id<OBASearchControllerDelegate> delegate;
+@property(nonatomic,weak) id<OBAMapDataLoaderDelegate> delegate;
 @property(nonatomic,strong,readonly) OBANavigationTarget *searchTarget;
 @property(nonatomic,readonly) OBASearchType searchType;
 @property(weak, nonatomic,readonly) id searchParameter;
 @property(strong,readonly,nullable) OBASearchResult * result;
 
-@property(weak, nonatomic,readonly) CLLocation * searchLocation;
+@property(nonatomic,weak,readonly) CLLocation * searchLocation;
 @property(nonatomic,strong) CLCircularRegion *searchRegion;
 @property(nonatomic,strong) NSError * error;
 

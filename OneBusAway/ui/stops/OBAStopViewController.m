@@ -614,6 +614,7 @@ static NSInteger kStopsSectionTag = 101;
     // Nearby Stops
     OBATableRow *nearbyStops = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_nearby_stops",) action:^{
         NearbyStopsViewController *nearby = [[NearbyStopsViewController alloc] initWithStop:self.arrivalsAndDepartures.stop];
+        nearby.pushesResultsOntoStack = YES;
         [self.navigationController pushViewController:nearby animated:YES];
     }];
     nearbyStops.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

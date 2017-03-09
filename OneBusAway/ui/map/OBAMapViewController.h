@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-#import "OBAStaticTableViewController.h"
+@import OBAKit;
+#import "OBAMapDataLoader.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class OBASearchResult;
+@class OBAModelDAO;
 
-@interface OBASearchResultsListViewController : OBAStaticTableViewController
-@property(nonatomic,strong) OBASearchResult *result;
+@interface OBAMapViewController : UIViewController <OBANavigationTargetAware, OBAMapDataLoaderDelegate>
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
+@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) OBALocationManager *locationManager;
+
+- (void)recenterMap;
 @end
 
 NS_ASSUME_NONNULL_END

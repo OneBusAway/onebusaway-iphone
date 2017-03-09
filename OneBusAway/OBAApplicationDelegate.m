@@ -24,7 +24,7 @@
 @import Apptentive;
 
 #import "OBAPushManager.h"
-#import "OBASearchController.h"
+#import "OBAMapDataLoader.h"
 #import "OBAStopViewController.h"
 
 #import "OneBusAway-Swift.h"
@@ -33,7 +33,6 @@
 
 #import "OBAApplicationUI.h"
 #import "OBAClassicApplicationUI.h"
-#import "OBADrawerUI.h"
 #import "EXTScope.h"
 
 @interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate, OBAPushManagerDelegate>
@@ -81,7 +80,8 @@
 }
 
 - (void)navigateToTarget:(OBANavigationTarget *)navigationTarget {
-    [self performSelector:@selector(_navigateToTargetInternal:) withObject:navigationTarget afterDelay:0];
+    [[OBAApplication sharedApplication].references clear];
+    [self.applicationUI navigateToTargetInternal:navigationTarget];
 }
 
 - (void)_constructUI {
@@ -89,7 +89,6 @@
     self.window.backgroundColor = [UIColor blackColor];
 
     self.applicationUI = [[OBAClassicApplicationUI alloc] init];
-//    self.applicationUI = [[OBADrawerUI alloc] init];
 
     [OBATheme setAppearanceProxies];
 
@@ -280,12 +279,6 @@
     }
 
     [UIApplication sharedApplication].shortcutItems = [dynamicShortcuts oba_pickFirst:4];
-}
-
-- (void)_navigateToTargetInternal:(OBANavigationTarget *)navigationTarget {
-    [[OBAApplication sharedApplication].references clear];
-
-    [self.applicationUI navigateToTargetInternal:navigationTarget];
 }
 
 #pragma mark - Reachability

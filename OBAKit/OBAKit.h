@@ -35,7 +35,6 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBABookmarkV2.h>
 #import <OBAKit/OBACanvasView.h>
 #import <OBAKit/OBACommon.h>
-#import <OBAKit/OBACommonV1.h>
 #import <OBAKit/OBAConsoleLogger.h>
 #import <OBAKit/OBACoordinateBounds.h>
 #import <OBAKit/OBADataSource.h>
@@ -79,7 +78,6 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBARouteFilter.h>
 #import <OBAKit/OBARouteType.h>
 #import <OBAKit/OBARouteV2.h>
-#import <OBAKit/OBASearch.h>
 #import <OBAKit/OBASearchResult.h>
 #import <OBAKit/OBAServiceAlertsModel.h>
 #import <OBAKit/OBASituationConsequenceV2.h>

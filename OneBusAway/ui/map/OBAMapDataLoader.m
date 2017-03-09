@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-#import "OBASearchController.h"
+#import "OBAMapDataLoader.h"
 
-@interface OBASearchController ()
+@interface OBAMapDataLoader ()
 @property (nonatomic, strong, readwrite) OBASearchResult *result;
 @property (nonatomic, strong) OBANavigationTarget *target;
 @property (nonatomic, strong) CLLocation *lastCurrentLocationSearch;
 @end
 
-#pragma mark OBASearchController
-
-@implementation OBASearchController
+@implementation OBAMapDataLoader
 
 - (instancetype)initWithModelService:(OBAModelService*)modelService {
     if (self = [super init]) {
@@ -51,23 +49,23 @@
 #pragma mark - Public Methods
 
 - (void)searchWithTarget:(OBANavigationTarget *)target {
-    id<OBASearchControllerDelegate> delegate = self.delegate;
+    id<OBAMapDataLoaderDelegate> delegate = self.delegate;
     [self cancelOpenConnections];
 
     _target = target;
-    _searchType = [OBASearch getSearchTypeForNavigationTarget:target];
+    _searchType = target.searchType;
 
     // Short circuit if the request is NONE
     if (_searchType == OBASearchTypeNone) {
         OBASearchResult *result = [OBASearchResult result];
         result.searchType = OBASearchTypeNone;
         [self fireUpdate:result];
-        [delegate searchControllerFinishedUpdating:self];
+        [delegate mapDataLoaderFinishedUpdating:self];
         return;
     }
 
     [self requestTarget:target];
-    [delegate searchControllerBeganUpdating:self];
+    [delegate mapDataLoader:self startedUpdatingWithNavigationTarget:target];
 }
 
 - (void)searchPending {
@@ -81,7 +79,7 @@
 }
 
 - (id)searchParameter {
-    return [OBASearch getSearchTypeParameterForNavigationTarget:_target];
+    return _target.searchArgument;
 }
 
 - (CLLocation *)searchLocation {
@@ -93,7 +91,7 @@
         return;
     }
 
-    _target.parameters[kOBASearchControllerSearchLocationParameter] = location;
+    [_target setObject:location forParameter:kOBASearchControllerSearchLocationParameter];
 }
 
 - (void)cancelOpenConnections {
@@ -140,7 +138,7 @@
     return [self.modelService placemarksForAddress:addressQuery].then(^(NSArray<OBAPlacemark*>* placemarks) {
         if (placemarks.count == 1) {
             OBAPlacemark *placemark = placemarks[0];
-            OBANavigationTarget *navTarget = [OBASearch getNavigationTargetForSearchPlacemark:placemark];
+            OBANavigationTarget *navTarget = [OBANavigationTarget navigationTargetForSearchPlacemark:placemark];
             [self searchWithTarget:navTarget];
         }
         else {
@@ -153,7 +151,7 @@
 
 - (AnyPromise*)requestPlacemark:(OBAPlacemark*)placemark {
     return [self.modelService requestStopsForPlacemark:placemark].then(^(OBASearchResult* result) {
-        OBAPlacemark *newMark = self.target.parameters[kOBASearchControllerSearchArgumentParameter];
+        OBAPlacemark *newMark = self.target.parameters[OBANavigationTargetSearchKey];
         result.additionalValues = @[newMark];
         [self fireUpdate:result];
     });
@@ -166,10 +164,10 @@
 }
 
 - (AnyPromise*)requestTarget:(OBANavigationTarget *)target {
-    id searchTypeParameter = [OBASearch getSearchTypeParameterForNavigationTarget:target];
+    id searchTypeParameter = target.searchArgument;
     AnyPromise *promise = nil;
 
-    OBASearchType searchType = [OBASearch getSearchTypeForNavigationTarget:target];
+    OBASearchType searchType = target.searchType;
 
     switch (searchType) {
         case OBASearchTypeRegion: {
@@ -211,7 +209,7 @@
     promise.catch(^(NSError *error) {
         [self processError:error responseCode:error.code];
     }).always(^{
-        [self.delegate searchControllerFinishedUpdating:self];
+        [self.delegate mapDataLoaderFinishedUpdating:self];
     });
 
     return promise;
@@ -222,11 +220,11 @@
 - (void)fireUpdate:(OBASearchResult *)result {
     result.searchType = self.searchType;
     self.result = result;
-    [self.delegate handleSearchControllerUpdate:self.result];
+    [self.delegate mapDataLoader:self didUpdateResult:self.result];
 }
 
 - (void)processError:(NSError *)error responseCode:(NSUInteger)responseCode {
-    id<OBASearchControllerDelegate> delegate = self.delegate;
+    id<OBAMapDataLoaderDelegate> delegate = self.delegate;
 
     if (responseCode == 0 && error.code == NSURLErrorCancelled) {
         // This shouldn't be happening, and frankly I'm not entirely sure why it's happening.
@@ -236,12 +234,12 @@
         DDLogError(@"Errored out at launch: %@", error);
     }
     else if (error) {
-        [delegate searchControllerFinishedUpdating:self];
+        [delegate mapDataLoaderFinishedUpdating:self];
         self.error = error;
-        [delegate handleSearchControllerError:error];
+        [delegate mapDataLoader:self didReceiveError:error];
     }
     else {
-        [delegate searchControllerFinishedUpdating:self];
+        [delegate mapDataLoaderFinishedUpdating:self];
     }
 }
 
