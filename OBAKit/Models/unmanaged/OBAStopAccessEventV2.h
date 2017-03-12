@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy) NSString *title;
 @property(nonatomic,copy) NSString *subtitle;
 @property(nonatomic,copy) NSArray *stopIds;
+@property(nonatomic,copy,readonly) NSString *stopID;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MKMapView (oba_Additions)
 - (void)oba_setCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate zoomLevel:(NSUInteger)zoomLevel animated:(BOOL)animated;
+- (NSUInteger)oba_zoomLevel;
 @end
 
 NS_ASSUME_NONNULL_END

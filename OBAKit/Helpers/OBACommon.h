@@ -18,6 +18,28 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, OBASearchType) {
+    OBASearchTypeNone=0,
+    OBASearchTypePending,
+    OBASearchTypeRegion,
+    OBASearchTypeRoute,
+    OBASearchTypeStops,
+    OBASearchTypeAddress,
+    OBASearchTypePlacemark,
+    OBASearchTypeStopId,
+};
+
+typedef NS_ENUM(NSInteger, OBANavigationTargetType) {
+    OBANavigationTargetTypeUndefined=0,
+    OBANavigationTargetTypeMap,
+    OBANavigationTargetTypeSearchResults,
+    OBANavigationTargetTypeRecentStops,
+    OBANavigationTargetTypeBookmarks,
+    OBANavigationTargetTypeContactUs,
+};
+
+NSString * _Nullable NSStringFromOBASearchType(OBASearchType searchType);
+
 extern NSString * const OBAErrorDomain;
 extern const NSInteger kOBAErrorDuplicateEntity;
 extern const NSInteger kOBAErrorMissingFieldInData;

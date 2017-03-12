@@ -156,7 +156,9 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 - (AnyPromise*)requestStopsNear:(CLLocationCoordinate2D)coordinate {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         [self requestStopsForCoordinate:coordinate completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            resolve(error ?: [responseData values]);
+            OBASearchResult *searchResult = [OBASearchResult resultFromList:responseData];
+            searchResult.searchType = OBASearchTypeStops;
+            resolve(error ?: searchResult);
         }];
     }];
 }

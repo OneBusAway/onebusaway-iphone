@@ -32,6 +32,11 @@ extern NSString * const OBARegionDidUpdateNotification;
 
 @interface OBAModelDAO : NSObject
 @property(nonatomic,strong,readonly) NSArray<OBABookmarkV2*> *bookmarksForCurrentRegion;
+
+/**
+ Comprises all of the bookmarks for the current region that can be displayed on a map. i.e., they have lat/lng, and a stop ID.
+ */
+@property(nonatomic,strong,readonly) NSArray<OBABookmarkV2*> *mappableBookmarksForCurrentRegion;
 @property(strong,nonatomic,readonly) NSArray<OBABookmarkV2*> *ungroupedBookmarks;
 @property(strong,nonatomic,readonly) NSArray<OBABookmarkGroup*> *bookmarkGroups;
 @property(strong,nonatomic,readonly) NSArray<OBAStopAccessEventV2*> * mostRecentStops;
@@ -46,6 +51,7 @@ extern NSString * const OBARegionDidUpdateNotification;
 // Bookmarks
 
 - (NSArray<OBABookmarkV2*>*)bookmarksMatchingPredicate:(NSPredicate*)predicate;
+- (NSArray<OBABookmarkV2*>*)mappableBookmarksMatchingString:(NSString*)matching;
 - (nullable OBABookmarkV2*)bookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrival;
 - (void)saveBookmark:(OBABookmarkV2*)bookmark;
 - (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex;
@@ -78,6 +84,7 @@ extern NSString * const OBARegionDidUpdateNotification;
 - (void)clearMostRecentStops;
 - (void)viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop;
 - (void)removeRecentStop:(OBAStopAccessEventV2*)recentStop;
+- (NSArray<OBAStopAccessEventV2*>*)recentStopsMatchingString:(NSString*)matching;
 
 // Regions
 

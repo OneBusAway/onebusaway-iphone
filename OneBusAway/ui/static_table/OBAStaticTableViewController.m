@@ -55,6 +55,11 @@
         [self.view addSubview:self.tableView];
     }
 
+    // Empty Data Set
+
+    // Totally arbitrary value. It just 'looks right'.
+    self.emptyDataSetVerticalOffset = -44.f;
+
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
 }
@@ -359,10 +364,16 @@
     return [[NSAttributedString alloc] initWithString:self.emptyDataSetDescription attributes:attributes];
 }
 
-- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
-{
-    // Totally arbitrary value. It just 'looks right'.
-    return -44;
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
+    return self.emptyDataSetImage;
+}
+
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView {
+    return self.emptyDataSetVerticalOffset;
+}
+
+- (UIColor *)imageTintColorForEmptyDataSet:(UIScrollView *)scrollView {
+    return [UIColor lightGrayColor];
 }
 
 - (void)emptyDataSetWillAppear:(UIScrollView *)scrollView {

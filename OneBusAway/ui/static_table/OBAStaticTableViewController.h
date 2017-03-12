@@ -42,6 +42,16 @@ typedef NS_ENUM(NSUInteger, OBARootViewStyle) {
  */
 @property(nonatomic,copy,nullable) NSString *emptyDataSetDescription;
 
+/**
+ Vertical offset of the empty data set image, title, and description. Default value is -44.0.
+ */
+@property(nonatomic,assign) CGFloat emptyDataSetVerticalOffset;
+
+/**
+ An optional image displayed above the empty data set title and description.
+ */
+@property(nonatomic,strong,nullable) UIImage *emptyDataSetImage;
+
 - (nullable OBABaseRow*)rowAtIndexPath:(NSIndexPath*)indexPath;
 - (nullable NSIndexPath*)indexPathForRow:(OBABaseRow*)row;
 
