@@ -192,6 +192,7 @@
 		93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936C1D8A3A530080F370 /* Foundation.framework */; };
 		93C3936F1D8A3AC20080F370 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936E1D8A3AC20080F370 /* Masonry.framework */; };
 		93CD35BE1DCC63270024DD3D /* OBAStackedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CD35BD1DCC63270024DD3D /* OBAStackedButton.m */; };
+		93F3F8971E7AEE560025FC78 /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F3F8961E7AEE560025FC78 /* Mantle.framework */; };
 		93FE60261E0B2F34006EC9FB /* SVPulsingAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FE60251E0B2F34006EC9FB /* SVPulsingAnnotationView.m */; };
 		93FE60291E0C8F62006EC9FB /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FE60281E0C8F62006EC9FB /* SnapKit.framework */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
@@ -535,6 +536,7 @@
 		93CD35BC1DCC63270024DD3D /* OBAStackedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStackedButton.h; sourceTree = "<group>"; };
 		93CD35BD1DCC63270024DD3D /* OBAStackedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStackedButton.m; sourceTree = "<group>"; };
 		93E4A7611CE65B2100E769B0 /* atlanta.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = atlanta.gpx; sourceTree = "<group>"; };
+		93F3F8961E7AEE560025FC78 /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = Carthage/Build/iOS/Mantle.framework; sourceTree = "<group>"; };
 		93F5CF8E1DA820A4003947A8 /* boston.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = boston.gpx; sourceTree = "<group>"; };
 		93FE60241E0B2F34006EC9FB /* SVPulsingAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPulsingAnnotationView.h; sourceTree = "<group>"; };
 		93FE60251E0B2F34006EC9FB /* SVPulsingAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPulsingAnnotationView.m; sourceTree = "<group>"; };
@@ -549,6 +551,7 @@
 			files = (
 				93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */,
 				932CCEC61DC3D2DB001C8405 /* PMKFoundation.framework in Frameworks */,
+				93F3F8971E7AEE560025FC78 /* Mantle.framework in Frameworks */,
 				93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */,
 				934C508D1E2A1E5C00DFDCA0 /* OneSignal.framework in Frameworks */,
 				93528AB11C8D517100783E9A /* CloudKit.framework in Frameworks */,
@@ -630,6 +633,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93F3F8961E7AEE560025FC78 /* Mantle.framework */,
 				930653DC1E6F83F0005AF0C9 /* Apptentive.framework */,
 				93BB1EE01E300526008A88BA /* Fabric.framework */,
 				93BB1EE11E300526008A88BA /* Crashlytics.framework */,
@@ -1614,6 +1618,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/OneSignal.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Apptentive.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Mantle.framework",
 			);
 			name = "Carthage Integration";
 			outputPaths = (

@@ -214,6 +214,7 @@
 		93B282C51DC664C7005013D7 /* OBATripDeepLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B282C31DC664C7005013D7 /* OBATripDeepLink.m */; };
 		93B282C81DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93B282C91DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B282C71DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m */; };
+		93F3F8951E7AEE260025FC78 /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F3F8941E7AEE260025FC78 /* Mantle.framework */; };
 		CCD30CFB1E30564600080EFF /* OBAHandoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD30CFA1E30564600080EFF /* OBAHandoff.swift */; };
 /* End PBXBuildFile section */
 
@@ -441,6 +442,7 @@
 		93B282C31DC664C7005013D7 /* OBATripDeepLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripDeepLink.m; sourceTree = "<group>"; };
 		93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLQueryItem+OBAAdditions.h"; sourceTree = "<group>"; };
 		93B282C71DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLQueryItem+OBAAdditions.m"; sourceTree = "<group>"; };
+		93F3F8941E7AEE260025FC78 /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = ../Carthage/Build/iOS/Mantle.framework; sourceTree = "<group>"; };
 		CCD30CFA1E30564600080EFF /* OBAHandoff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OBAHandoff.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -451,6 +453,7 @@
 			files = (
 				932CCED11DC3D315001C8405 /* CocoaLumberjackSwift.framework in Frameworks */,
 				932CCED21DC3D315001C8405 /* PMKCoreLocation.framework in Frameworks */,
+				93F3F8951E7AEE260025FC78 /* Mantle.framework in Frameworks */,
 				932CCED41DC3D315001C8405 /* PMKMapKit.framework in Frameworks */,
 				932CCED51DC3D315001C8405 /* PromiseKit.framework in Frameworks */,
 				932CCED31DC3D315001C8405 /* PMKFoundation.framework in Frameworks */,
@@ -794,6 +797,7 @@
 		934196BC1DB0B274004BBBB7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93F3F8941E7AEE260025FC78 /* Mantle.framework */,
 				932CCECA1DC3D315001C8405 /* CocoaLumberjack.framework */,
 				932CCECB1DC3D315001C8405 /* CocoaLumberjackSwift.framework */,
 				932CCECC1DC3D315001C8405 /* PMKCoreLocation.framework */,
