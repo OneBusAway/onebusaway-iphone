@@ -85,25 +85,39 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
         return sections
     }
 
+    private static func quickLookupRowText(title: String, searchText: String) -> NSAttributedString {
+        let str = NSMutableAttributedString.init()
+
+        let attributedTitle = NSAttributedString.init(string: title, attributes: [NSForegroundColorAttributeName: UIColor.darkGray])
+        str.append(attributedTitle)
+
+        // Needs a space tokeepwordsfromrunningtogether
+        str.append(NSAttributedString.init(string: " "))
+
+        let attributedSearchText = NSAttributedString.init(string: searchText, attributes: [NSFontAttributeName: OBATheme.boldBodyFont()])
+        str.append(attributedSearchText)
+
+        return str
+    }
+
     private func buildQuickLookupSection(searchText: String) -> OBATableSection {
 
-        // Route Row
-        let searchForRouteText = String.init(format: NSLocalizedString("map_search.search_for_route_format", comment: "Search for Route: <ROUTE NAME>"), searchText)
-        let routeRow = OBATableRow.init(title: searchForRouteText) {
+        let routeText = MapSearchViewController.quickLookupRowText(title: NSLocalizedString("map_search.search_for_route", comment: "Route Number: <ROUTE NUMBER>"), searchText: searchText)
+        let routeRow = OBATableRow.init(attributedTitle: routeText) {
             let target = OBANavigationTarget(forSearchRoute: searchText)
             self.delegate?.mapSearch(self, selectedNavigationTarget: target)
         }
 
         // Address Row
-        let searchAddressText = String.init(format: NSLocalizedString("map_search.search_for_address_format", comment: "Search for Address: <ADDRESS>"), searchText)
-        let addressRow = OBATableRow.init(title: searchAddressText) {
+        let searchAddressText = MapSearchViewController.quickLookupRowText(title: NSLocalizedString("map_search.search_for_address", comment: "Address: <ADDRESS>"), searchText: searchText)
+        let addressRow = OBATableRow.init(attributedTitle: searchAddressText) {
             let target = OBANavigationTarget(forSearchAddress: searchText)
             self.delegate?.mapSearch(self, selectedNavigationTarget: target)
         }
 
         // Stop Number Row
-        let stopNumberText = String.init(format: NSLocalizedString("map_search.search_for_stop_number_format", comment: "Formatted string for Search for Stop Number: <STOP NUMBER>"), searchText)
-        let stopNumberRow = OBATableRow.init(title: stopNumberText) {
+        let stopNumberText = MapSearchViewController.quickLookupRowText(title: NSLocalizedString("map_search.search_for_stop_number", comment: "Stop Number: <STOP NUMBER>"), searchText: searchText)
+        let stopNumberRow = OBATableRow.init(attributedTitle: stopNumberText) {
             let target = OBANavigationTarget(forStopID: searchText)
             self.delegate?.mapSearch(self, selectedNavigationTarget: target)
         }

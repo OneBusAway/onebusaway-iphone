@@ -803,20 +803,21 @@
 /* The empty data set description for the search controller */
 "map_search.empty_data_set_description" = "Type in an address, route number, or stop number here to search.";
 
-/* Search for Route: <ROUTE NAME> */
-"map_search.search_for_route_format" = "Route Lookup: %@";
 
 /* The section title on the 'Nearby' controller that says 'Routes' */
 "nearby_stops.routes_section_title" = "Routes";
 
 /* Map Search: Quick Lookup Table Section */
-"map_search.quick_lookup_section_title" = "Quick Lookup";
+"map_search.quick_lookup_section_title" = "Quick Search";
 
-/* "Search for Address: <ADDRESS>" */
-"map_search.search_for_address_format" = "Search for address: %@";
+/* 'Search for Route:' */
+"map_search.search_for_route" = "Route:";
 
-/* Formatted string for Search for Stop Number: <STOP NUMBER> */
-"map_search.search_for_stop_number_format" = "Stop Number Lookup: %@";
+/* "Search for Address:" */
+"map_search.search_for_address" = "Address:";
+
+/* Formatted string for Search for Stop Number: */
+"map_search.search_for_stop_number" = "Stop Number:";
 
 /* Map Search: Recent Stops section title */
 "map_search.recent_stops_section_title" = "Recent Stops";
