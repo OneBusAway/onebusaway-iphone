@@ -793,3 +793,37 @@
 
 /* Error message displayed when the user is connecting to a Wi-Fi captive portal landing page. */
 "alert_presenter.captive_wifi_portal_error_message" = "No obtuvimos la respuesta esperada del servidor.\r\n\r\nPor lo general, esto significa que está conectado a una red Wi-Fi que requiere que hagas algo para acceder a Internet.\r\n\r\nVerifica tu conexión Wi-Fi e inténtelo de nuevo.";
+
+/* Returned by -[OBATripStatusV2 subtitle] when no real time data is available. */
+"trip_status.no_realtime_data_message" = "Datos en Tiempo Real no disponibles.";
+
+/* e.g. Last report: 2m 43s ago */
+"trip_status.last_update_format" = "Último reporte: %@m %@s ago";
+
+/* The empty data set description for the search controller */
+"map_search.empty_data_set_description" = "Escriba una dirección, número de ruta o número de parada aquí para buscar.";
+
+
+/* The section title on the 'Nearby' controller that says 'Routes' */
+"nearby_stops.routes_section_title" = "Rutas";
+
+/* Map Search: Quick Lookup Table Section */
+"map_search.quick_lookup_section_title" = "Búsqueda Rápida";
+
+/* 'Search for Route:' */
+"map_search.search_for_route" = "Ruta:";
+
+/* "Search for Address:" */
+"map_search.search_for_address" = "Dirección:";
+
+/* Formatted string for Search for Stop Number: */
+"map_search.search_for_stop_number" = "Número de Parada:";
+
+/* Map Search: Recent Stops section title */
+"map_search.recent_stops_section_title" = "Paradas Recientes";
+
+/* Map Search: Bookmarks section title */
+"map_search.bookmarks_section_title" = "Favoritos";
+
+/* Clear Search button text */
+"toast_view.clear_search" = "Limpiar Búsqueda";
