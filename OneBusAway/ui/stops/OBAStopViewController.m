@@ -587,9 +587,25 @@ static NSInteger kStopsSectionTag = 101;
         row.destination = dep.tripHeadsign.capitalizedString;
         row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
         row.model = dep;
+        row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
+        row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
+        // Only allow alarms to be created if the time to departure is greater than OBAAlarmIncrementsInMinutes.
+        row.alarmCanBeCreated = dep.timeIntervalUntilBestDeparture > OBAAlarmIncrementsInMinutes * 60;
+        
+        [row setShowAlertController:^(UIAlertController *alert) {
+            [self presentViewController:alert animated:YES completion:nil];
+        }];
+        [row setToggleBookmarkAction:^{
+            [self toggleBookmarkActionForArrivalAndDeparture:dep];
+        }];
+        [row setToggleAlarmAction:^{
+            [self toggleAlarmActionForArrivalAndDeparture:dep];
+        }];
+        [row setShareAction:^{
+            [self shareActionForArrivalAndDeparture:dep atIndexPath:[self indexPathForModel:dep]];
+        }];
 
         OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState];
-
         row.upcomingDepartures = @[upcoming];
         [rows addObject:row];
     }
