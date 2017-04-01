@@ -18,6 +18,23 @@ import UIKit
 
 class VehicleMapController: UIViewController, MKMapViewDelegate {
 
+    static let expandedStateUserDefaultsKey = "expandedStateUserDefaultsKey"
+    public var expanded: Bool {
+        didSet {
+            UserDefaults.standard.set(expanded, forKey: VehicleMapController.expandedStateUserDefaultsKey)
+            self.toggleButton.isSelected = expanded
+        }
+    }
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        self.expanded = UserDefaults.standard.bool(forKey: VehicleMapController.expandedStateUserDefaultsKey)
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     public var tripDetails: OBATripDetailsV2? {
         didSet {
             guard let tripDetails = self.tripDetails else {
@@ -62,15 +79,6 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
     lazy var modelService: OBAModelService = {
         return OBAApplication.shared().modelService
     }()
-
-    public var expanded: Bool {
-        get {
-            return self.toggleButton.isSelected
-        }
-        set(val) {
-            self.toggleButton.isSelected = val
-        }
-    }
 
     var routePolyline: MKPolyline?
 
@@ -125,6 +133,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
             make.edges.equalToSuperview()
         }
         self.toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
+        self.toggleButton.isSelected = self.expanded
     }
 
     // MARK: - Data Loading
@@ -143,8 +152,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
     // MARK: - Delegate
 
     func toggleButtonTapped() {
-        self.toggleButton.isSelected = !self.toggleButton.isSelected
-        self.expanded = self.toggleButton.isSelected
+        self.expanded = !self.expanded
         self.delegate?.vehicleMap(self, didToggleSize: self.expanded)
     }
 
