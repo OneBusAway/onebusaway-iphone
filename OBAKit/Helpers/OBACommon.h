@@ -54,6 +54,7 @@ extern NSString * const OBAOptInToTrackingDefaultsKey;
 extern NSString * const OBAOptInToCrashReportingDefaultsKey;
 extern NSString * const OBAAllowReviewPromptsDefaultsKey;
 extern NSString * const OBAMapSelectedTypeDefaultsKey;
+extern NSString * const OBADebugModeUserDefaultsKey;
 
 // Server Addresses
 extern NSString * const OBADeepLinkServerAddress;

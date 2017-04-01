@@ -827,3 +827,9 @@
 
 /* Clear Search button text */
 "toast_view.clear_search" = "Clear Search";
+
+/* Message shown when debug mode is turned on */
+"info_controller.debug_mode_enabled" = "Debug mode enabled.";
+
+/* Message shown when debug mode is turned off */
+"info_controller.debug_mode_disabled" = "Debug mode disabled.";
