@@ -21,6 +21,7 @@
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBASphericalGeometryLibrary.h>
 #import <OBAKit/OBASearchResult.h>
+#import <OBAKit/OBARegionalAlert.h>
 
 static const CLLocationAccuracy kSearchRadius = 400;
 static const CLLocationAccuracy kBigSearchRadius = 15000;
@@ -172,6 +173,38 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
             else {
                 resolve(error);
             }
+        }];
+    }];
+}
+
+#pragma mark - Regional Alerts
+
+- (id<OBAModelServiceRequest>)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(NSDate*)date completionBlock:(OBADataSourceCompletion)completion {
+
+    NSDictionary *params = @{ @"since": @((long long)date.timeIntervalSince1970) };
+
+    return [self request:self.obacoJsonDataSource
+                     url:[NSString stringWithFormat:@"/regions/%@/alert_feed_items", @(region.identifier)]
+                    args:params
+                selector:nil
+         completionBlock:^(id responseData, NSUInteger responseCode, NSError * _Nonnull error) {
+             NSError *deserializationError = nil;
+             if (responseData) {
+                 responseData = [MTLJSONAdapter modelsOfClass:OBARegionalAlert.class fromJSONArray:responseData error:&deserializationError];
+
+                 // Mark all alerts older than one day as 'read' automatically.
+                 for (OBARegionalAlert *alert in responseData) {
+                     alert.unread = ABS(alert.publishedAt.timeIntervalSinceNow) < 86400; // Number of seconds in 1 day.
+                 }
+             }
+             completion(responseData, responseCode, error ?: deserializationError);
+         }];
+}
+
+- (AnyPromise*)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(NSDate*)sinceDate {
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestRegionalAlerts:region sinceDate:sinceDate completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            resolve(error ?: responseData);
         }];
     }];
 }

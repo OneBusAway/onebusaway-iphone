@@ -119,13 +119,38 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 #pragma mark - Table Data
 
 - (void)reloadData {
-    self.sections = @[
-                      [self settingsTableSection],
-                      [self contactTableSection],
-                      [self privacyTableSection],
-                      [self aboutTableSection]
-                    ];
+
+    NSMutableArray *sections = [[NSMutableArray alloc] init];
+
+    // Only show the alerts section if this region supports it.
+    if ([OBAApplication sharedApplication].regionalAlertsManager.regionalAlerts.count > 0) {
+        [sections addObject:[self alertsTableSection]];
+    }
+
+    [sections addObjectsFromArray:@[[self settingsTableSection],
+                                    [self contactTableSection],
+                                    [self privacyTableSection],
+                                    [self aboutTableSection]]];
+
+    self.sections = sections;
     [self.tableView reloadData];
+}
+
+- (OBATableSection*)alertsTableSection {
+    NSString *rowTitle = [NSString stringWithFormat:NSLocalizedString(@"info_controller.updates_alerts_row_format", @"Title for Updates & Alerts row. e.g. Alerts for <Region Name>"), self.modelDAO.currentRegion.regionName];
+    OBATableRow *row = [[OBATableRow alloc] initWithTitle:rowTitle action:^{
+        RegionalAlertsViewController *alertsController = [[RegionalAlertsViewController alloc] initWithRegionalAlertsManager:[OBAApplication sharedApplication].regionalAlertsManager];
+        [self.navigationController pushViewController:alertsController animated:YES];
+    }];
+    NSUInteger unreadCount = [OBAApplication sharedApplication].regionalAlertsManager.unreadCount;
+
+    if (unreadCount > 0) {
+        row.subtitle = [NSString stringWithFormat:@"%@", @(unreadCount)];
+    }
+    row.style = UITableViewCellStyleValue1;
+    row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    return [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"info_controller.updates_alerts_section_title", @"Title for the Updates & Alerts section") rows:@[row]];
 }
 
 - (OBATableSection*)settingsTableSection {

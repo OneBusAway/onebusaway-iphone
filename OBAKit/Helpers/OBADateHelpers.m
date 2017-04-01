@@ -14,14 +14,38 @@
 
 @implementation OBADateHelpers
 
-+ (NSString*)formatShortTimeNoDate:(NSDate*)date
-{
++ (NSString*)formatShortTimeNoDate:(NSDate*)date {
     static NSDateFormatter *formatter = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         formatter = [[NSDateFormatter alloc] init];
         formatter.timeStyle = NSDateFormatterShortStyle;
         formatter.dateStyle = NSDateFormatterNoStyle;
+        formatter.timeZone = [NSTimeZone localTimeZone];
+    });
+
+    return [formatter stringFromDate:date];
+}
+
++ (NSString*)formatShortTimeShortDate:(NSDate*)date {
+    static NSDateFormatter *formatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        formatter = [[NSDateFormatter alloc] init];
+        formatter.timeStyle = NSDateFormatterShortStyle;
+        formatter.dateStyle = NSDateFormatterShortStyle;
+    });
+
+    return [formatter stringFromDate:date];
+}
+
++ (NSString*)formatNoTimeShortDate:(NSDate*)date {
+    static NSDateFormatter *formatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        formatter = [[NSDateFormatter alloc] init];
+        formatter.timeStyle = NSDateFormatterNoStyle;
+        formatter.dateStyle = NSDateFormatterShortStyle;
     });
 
     return [formatter stringFromDate:date];

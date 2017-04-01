@@ -73,6 +73,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBARegionChangeRequest.h>
 #import <OBAKit/OBARegionHelper.h>
 #import <OBAKit/OBARegionV2.h>
+#import <OBAKit/OBARegionalAlert.h>
 #import <OBAKit/OBAReportProblemWithStopV2.h>
 #import <OBAKit/OBAReportProblemWithTripV2.h>
 #import <OBAKit/OBARouteFilter.h>

@@ -65,7 +65,27 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 /**
  * Registers a background executor to be used by all services. This method should not be used by extensions.
  */
-+(void) addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*) executor;
++ (void)addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*) executor;
+
+#pragma mark - Regional Alerts
+
+/**
+ Retrieves a list of alert messages for the specified `region` since `date`. The completion block's responseData is [OBARegionalAlert]
+
+ @param region The region from which alerts are desired.
+ @param date The last date that alerts were requested. Specify nil for all time.
+ @param completion Completion block is called when the operation finishes, regardless of success or failure.
+ @return The OBAModelServiceRequest object that allows request cancellation
+ */
+- (id<OBAModelServiceRequest>)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(nullable NSDate*)date completionBlock:(OBADataSourceCompletion)completion;
+
+/**
+ Retrieves a list of alert messages for the specified `region` since `date`.
+ @param region The region from which alerts are desired.
+ @param sinceDate The last date that alerts were requested. Specify nil for all time.
+ @return A promise that resolves to [OBARegionalAlert].
+ */
+- (AnyPromise*)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(nullable NSDate*)sinceDate;
 
 #pragma mark - Alarms
 

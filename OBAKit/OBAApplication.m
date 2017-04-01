@@ -23,6 +23,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 @property (nonatomic, strong, readwrite) OBALocationManager *locationManager;
 @property (nonatomic, strong, readwrite) OBAReachability *reachability;
 @property (nonatomic, strong, readwrite) OBARegionHelper *regionHelper;
+@property (nonatomic, strong, readwrite) RegionalAlertsManager *regionalAlertsManager;
 @property (nonatomic, strong, readwrite) PrivacyBroker *privacyBroker;
 @property (nonatomic, strong, readwrite) OBALogging *loggingManager;
 @end
@@ -76,6 +77,9 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 
     self.privacyBroker = [[PrivacyBroker alloc] initWithModelDAO:self.modelDao locationManager:self.locationManager];
 
+    self.regionalAlertsManager = [[RegionalAlertsManager alloc] init];
+    self.regionalAlertsManager.region = self.modelDao.currentRegion;
+
     [self registerAppDefaults];
 
     [self refreshSettings];
@@ -123,6 +127,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 #pragma mark - Region
 
 - (void)regionUpdated:(NSNotification*)note {
+    self.regionalAlertsManager.region = self.modelDao.currentRegion;
     [self refreshSettings];
 }
 
@@ -156,7 +161,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 
 #pragma mark - App/Region/API State
 
-- (void)refreshSettings {    
+- (void)refreshSettings {
     if (self.modelDao.currentRegion.baseURL) {
         self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:self.modelDao.currentRegion.baseURL userID:[OBAUser userIdFromDefaults]];
     }
@@ -167,6 +172,8 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
     self.modelService.googleMapsJsonDataSource = [OBAJsonDataSource googleMapsJSONDataSource];
     self.modelService.obaRegionJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:kOBADefaultRegionApiServerName] userID:[OBAUser userIdFromDefaults]];
     self.modelService.obacoJsonDataSource = [OBAJsonDataSource obacoJSONDataSource];
+
+    [self.regionalAlertsManager update];
 }
 
 #pragma mark - Logging

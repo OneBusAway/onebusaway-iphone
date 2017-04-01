@@ -29,6 +29,11 @@
     return [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:nil];
 }
 
++ (id)jsonObjectFromString:(NSString*)string {
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    return [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:nil];
+}
+
 + (void)archiveObject:(id<NSCoding>)object toPath:(NSString*)path {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:object];
     [data writeToFile:path atomically:YES];

@@ -833,3 +833,15 @@
 
 /* Title of the Experimental Regions section in the Region List view controller. */
 "region_list_controller.experimental_section_title" = "Experimental Regions";
+
+/* Title for the Updates & Alerts section */
+"info_controller.updates_alerts_section_title" = "Updates & Alerts";
+
+/* Title for Updates & Alerts row. e.g. Alerts for <Region Name> */
+"info_controller.updates_alerts_row_format" = "Alerts for %@";
+
+/* Alerts for <REGION NAME> */
+"regional_alerts_controller.title_format" = "Alerts for %@";
+
+/* Empty data set description for regional alerts controller */
+"regional_alerts_controller.empty_description" = "No alerts reported for your area.";
