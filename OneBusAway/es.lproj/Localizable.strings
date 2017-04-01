@@ -248,9 +248,6 @@
 /* self.listBarButtonItem.accessibilityLabel */
 "msg_nearby_stops_list" = "Lista de pardas cercanas";
 
-/* No comment provided by engineer. */
-"msg_newest_regions" = "Regiones Nuevas";
-
 /* Out of range alert Cancel button */
 "msg_no" = "No";
 
