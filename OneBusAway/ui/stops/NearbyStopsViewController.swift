@@ -222,7 +222,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
         case "W":
             return NSLocalizedString("msg_westbound", comment: "As in 'going to the west.'")
         default:
-            return "\(abbreviation)-bound"
+            return NSLocalizedString("nearby_stops.stops_section_title", comment: "Title for a section that displays stops without a specified cardinal direction. Just 'Stops' in English.")
         }
     }
 }
