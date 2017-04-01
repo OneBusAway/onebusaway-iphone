@@ -1,0 +1,187 @@
+//
+//  RegionalAlertsManager.swift
+//  OBAKit
+//
+//  Created by Aaron Brethorst on 3/16/17.
+//  Copyright © 2017 OneBusAway. All rights reserved.
+//
+
+import Foundation
+import CocoaLumberjackSwift
+
+/*
+ 1. There needs to be a way to separately broadcast information about high priority alerts.
+ 2. [DONE] Alerts need to have idea of priority. High priority (HPA) and normal.
+ 3. [DONE] Alerts need to have idea of read/unread state.
+ 4. HPAs should be displayed immediately upon receipt.
+ 5. HPAs should only be displayed once. This can probably be accomplished by 3.
+ 6. [DONE] Read/unread state should not be overwritten as new data is downloaded from the server.
+ */
+
+@objc public class RegionalAlertsManager: NSObject {
+    private let lastUpdateKey = "OBALastRegionalAlertsUpdateKey"
+    private(set) public var regionalAlerts: [OBARegionalAlert] = []
+    private let alertsUpdateQueue = DispatchQueue(label: "regional-alerts-manager-update")
+
+    public var region: OBARegionV2? {
+        didSet {
+            self.regionalAlerts = self.loadDefaultData() ?? []
+        }
+    }
+
+    lazy var modelService: OBAModelService = {
+        return OBAApplication.shared().modelService
+    }()
+
+    public var unreadCount: UInt {
+        return UInt(self.regionalAlerts.filter({ $0.unread }).count)
+    }
+
+    // MARK: - Other Public Methods
+
+    public func markRead(_ alert: OBARegionalAlert) {
+        self.alertsUpdateQueue.sync {
+            var alerts = self.regionalAlerts
+            guard let idx = alerts.index(of: alert) else {
+                return
+            }
+            let canonicalAlert = alerts[idx]
+            canonicalAlert.unread = false
+            alerts[idx] = canonicalAlert
+
+            self.regionalAlerts = alerts
+            _ = self.writeDefaultData(alerts)
+        }
+    }
+
+    // MARK: - Remote Data Updating
+
+    private let updateLock = NSLock.init()
+
+    /// Loads alerts for the currently selected region.
+    public func update() {
+        guard let region = self.region else {
+            return
+        }
+
+        // Protect access to the update() method.
+        if !self.updateLock.try() {
+            return
+        }
+
+        let lastUpdate = self.regionalAlerts.count == 0 ? nil : UserDefaults.standard.object(forKey: lastUpdateKey) as? Date
+        self.modelService.requestRegionalAlerts(region, since: lastUpdate).then { alerts -> Void in
+            self.alertsUpdateQueue.sync {
+                let newAlerts: [OBARegionalAlert] = alerts as! [OBARegionalAlert]
+                if newAlerts.count > 0 {
+                    self.postNotificationForHighPriorityAlerts(newAlerts)
+
+                    self.regionalAlerts = RegionalAlertsManager.merge(models: self.regionalAlerts, withNewModels: newAlerts)
+                    if self.writeDefaultData(self.regionalAlerts) {
+                        
+                        UserDefaults.standard.set(NSDate(), forKey: self.lastUpdateKey)
+                        self.broadcastUpdateNotification()
+                    }
+                }
+            }
+        }.catch { error in
+            DDLogError("Unable to retrieve regional alerts: \(error)")
+        }.always {
+            self.updateLock.unlock()
+        }
+    }
+
+    static func merge(models: [OBARegionalAlert], withNewModels newModels: [OBARegionalAlert]) -> [OBARegionalAlert] {
+        var mergedModels: [OBARegionalAlert] = []
+
+        var modelMap: [String: OBARegionalAlert] = models.reduce([String: OBARegionalAlert]()) { acc, alert in
+            var ret = acc
+            ret[String(alert.identifier)] = alert
+            return ret
+        }
+
+        newModels.forEach { alert in
+            if let match = modelMap[String(alert.identifier)] {
+                // exists; merge.
+                match.mergeValuesForKeys(from: alert)
+            }
+            else {
+                // doesn't exist. just add it.
+                mergedModels.append(alert)
+            }
+        }
+
+        mergedModels.append(contentsOf: modelMap.values)
+
+        mergedModels.sort { (alert1, alert2) -> Bool in
+            return (alert1.publishedAt >= alert2.publishedAt)
+        }
+
+        return mergedModels
+    }
+
+    // MARK: - Notifications
+
+    public static let regionalAlertsUpdatedNotification = NSNotification.Name("regionalAlertsUpdatedNotification")
+    public static let highPriorityRegionalAlertReceivedNotification = NSNotification.Name("highPriorityRegionalAlertReceivedNotification")
+    public static let highPriorityRegionalAlertUserInfoKey = "HighPriorityRegionalAlertUserInfoKey"
+
+    private func broadcastUpdateNotification() {
+        NotificationCenter.default.post(name: RegionalAlertsManager.regionalAlertsUpdatedNotification, object: self)
+    }
+
+    private func postNotificationForHighPriorityAlerts(_ alerts: [OBARegionalAlert]) {
+        let matches = alerts.filter { (alert: OBARegionalAlert) in
+            return alert.priority == .high && alert.unread
+        }
+
+        if matches.count > 0 {
+            self.broadcastHighPriorityNotification(for: matches[0])
+        }
+    }
+
+    private func broadcastHighPriorityNotification(for alert: OBARegionalAlert) {
+
+        // TODO: FIXME! GitHub issue: https://github.com/OneBusAway/onebusaway-iphone/issues/1021
+
+//        NotificationCenter.default.post(name: RegionalAlertsManager.highPriorityRegionalAlertReceivedNotification, object: self, userInfo: [RegionalAlertsManager.highPriorityRegionalAlertUserInfoKey: alert])
+    }
+
+    // MARK: - Local/Default Data
+
+    private func loadDefaultData() -> [OBARegionalAlert]? {
+        guard let path = self.defaultDataFilePathForCurrentRegion(),
+              let defaultData = FileManager.default.contents(atPath: path),
+              let jsonObject = try? JSONSerialization.jsonObject(with: defaultData, options: []),
+              let models = try? MTLJSONAdapter.models(of: OBARegionalAlert.self, fromJSONArray: jsonObject as! [Any])
+        else {
+            return nil
+        }
+
+        return models as? [OBARegionalAlert]
+    }
+
+    private func writeDefaultData(_ alerts: [OBARegionalAlert]) -> Bool {
+        do {
+            let JSONArray = try MTLJSONAdapter.jsonArray(fromModels: regionalAlerts)
+            let data = try JSONSerialization.data(withJSONObject: JSONArray, options: [])
+            guard let filePath = self.defaultDataFilePathForCurrentRegion() else {
+                return false
+            }
+
+            return (data as NSData).write(toFile: filePath, atomically: true)
+        }
+        catch {
+            DDLogError("Caught an error while writing regional alert data to disk: \(error)")
+            return false
+        }
+    }
+
+    private func defaultDataFilePathForCurrentRegion() -> String? {
+        guard let region = self.region else {
+            return nil
+        }
+
+        return FileHelpers.pathTo(fileName: "region_alerts_\(region.identifier).json", inDirectory: .cachesDirectory)
+    }
+}

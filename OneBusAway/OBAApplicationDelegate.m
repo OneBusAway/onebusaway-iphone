@@ -38,8 +38,6 @@
 @interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate, OBAPushManagerDelegate>
 @property(nonatomic,strong) UINavigationController *regionNavigationController;
 @property(nonatomic,strong) RegionListViewController *regionListViewController;
-@property(nonatomic,strong) id regionObserver;
-@property(nonatomic,strong) id recentStopsObserver;
 @property(nonatomic,strong) id<OBAApplicationUI> applicationUI;
 @property(nonatomic,strong) OBADeepLinkRouter *deepLinkRouter;
 @end
@@ -50,16 +48,7 @@
     self = [super init];
 
     if (self) {
-        self.regionObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kOBAApplicationSettingsRegionRefreshNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-            [OBAApplication sharedApplication].modelDao.automaticallySelectRegion = YES;
-            [[OBAApplication sharedApplication].regionHelper updateNearestRegion];
-            [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:OBAStringFromBool(YES)];
-        }];
-        @weakify(self);
-        self.recentStopsObserver = [[NSNotificationCenter defaultCenter] addObserverForName:OBAMostRecentStopsChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-            @strongify(self);
-            [self updateShortcutItemsForRecentStops];
-        }];
+        [self registerForNotifications];
 
         _deepLinkRouter = [self.class setupDeepLinkRouterWithModelDAO:[OBAApplication sharedApplication].modelDao appDelegate:self];
 
@@ -71,12 +60,6 @@
     }
 
     return self;
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self.regionObserver];
-    [[NSNotificationCenter defaultCenter] removeObserver:self.recentStopsObserver];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 }
 
 - (void)navigateToTarget:(OBANavigationTarget *)navigationTarget {
@@ -157,6 +140,7 @@
     DDLogInfo(@"Application became active");
 
     [[OBAApplication sharedApplication] startReachabilityNotifier];
+    [[OBAApplication sharedApplication].regionalAlertsManager update];
 
     [self.applicationUI applicationDidBecomeActive];
 
@@ -173,6 +157,31 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     [[OBAApplication sharedApplication] stopReachabilityNotifier];
+}
+
+#pragma mark - Notifications
+
+- (void)registerForNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(regionRefreshed:) name:kOBAApplicationSettingsRegionRefreshNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recentStopsChanged:) name:OBAMostRecentStopsChangedNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(highPriorityRegionalAlertReceived:) name:RegionalAlertsManager.highPriorityRegionalAlertReceivedNotification object:nil];
+}
+
+- (void)regionRefreshed:(NSNotification*)note {
+    [OBAApplication sharedApplication].modelDao.automaticallySelectRegion = YES;
+    [[OBAApplication sharedApplication].regionHelper updateNearestRegion];
+    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:OBAStringFromBool(YES)];
+}
+
+- (void)recentStopsChanged:(NSNotification*)note {
+    [self updateShortcutItemsForRecentStops];
+}
+
+- (void)highPriorityRegionalAlertReceived:(NSNotification*)note {
+    OBARegionalAlert *alert = note.userInfo[RegionalAlertsManager.highPriorityRegionalAlertUserInfoKey];
+    [AlertPresenter showError:NSLocalizedString(@"app_delegate.service_alert", @"The text 'Service Alert'. Used on an Alert Presenter shown from App Delegate") body:alert.summary];
 }
 
 #pragma mark - Deep Linking

@@ -44,6 +44,11 @@
 + (id)jsonObjectFromFile:(NSString*)fileName;
 
 /**
+ Creates a deserialized object from the specified string.
+ */
++ (id)jsonObjectFromString:(NSString*)string;
+
+/**
  Used to help create test fixture data. It archives the NSCoding-conforming object to path, which can be outside of the iOS app sandbox.
 
  @param object Any object that conforms to NSCoding

@@ -15,13 +15,9 @@
     return OBALocalized(@"msg_cancel", @"Typically used on alerts and other modal actions. A 'cancel' button.");
 }
 
-/**
- .
- */
 + (NSString*)close {
     return OBALocalized(@"strings.close", @"The text 'Close'");
 }
-
 
 + (NSString*)delete {
     return OBALocalized(@"msg_delete", @"Typically used on alerts and other modal actions. A 'delete' button.");
@@ -54,6 +50,11 @@
 + (NSString*)scheduledDepartureExplanation {
     return OBALocalized(@"msg_scheduled_explanatory", @"The explanatory text displayed when a non-realtime trip is displayed on-screen.");
 }
+
++ (NSString*)yesterday {
+    return OBALocalized(@"strings.yesterday", @"The word 'yesterday'");
+}
+
 
 + (nullable NSAttributedString*)attributedStringWithPrependedImage:(UIImage*)image string:(NSString*)string {
     return [self attributedStringWithPrependedImage:image string:string color:nil];

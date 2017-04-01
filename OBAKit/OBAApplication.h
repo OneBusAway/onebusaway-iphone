@@ -24,6 +24,7 @@
 
 @class PrivacyBroker;
 @class OBAConsoleLogger;
+@class RegionalAlertsManager;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,6 +39,7 @@ extern NSString *const kOBAApplicationSettingsRegionRefreshNotification;
 @property (nonatomic, strong, readonly) OBAModelDAO *modelDao;
 @property (nonatomic, strong, readonly) OBAModelService *modelService;
 @property (nonatomic, strong, readonly) OBALocationManager *locationManager;
+@property (nonatomic, strong, readonly) RegionalAlertsManager *regionalAlertsManager;
 @property (nonatomic, strong, readonly) OBARegionHelper *regionHelper;
 @property (nonatomic, strong, readonly) PrivacyBroker *privacyBroker;
 @property (nonatomic, strong, readonly) OBAConsoleLogger *consoleLogger;

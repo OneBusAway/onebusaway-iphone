@@ -153,3 +153,6 @@
 
 /* OBASearchTypeStopId. Rendered as 'Stop ID' in English. */
 "search_type.stop_id" = "Stop ID";
+
+/* The word 'yesterday' */
+"strings.yesterday" = "Yesterday";

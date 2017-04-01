@@ -65,6 +65,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString*)scheduledDepartureExplanation;
 
 /**
+ The word 'yesterday'
+ */
++ (NSString*)yesterday;
+
+/**
  Created an attributed string with a prepended image.
 
  @param image An image that will precede the string.
