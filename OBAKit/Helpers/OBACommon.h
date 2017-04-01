@@ -54,6 +54,7 @@ extern NSString * const OBAOptInToTrackingDefaultsKey;
 extern NSString * const OBAOptInToCrashReportingDefaultsKey;
 extern NSString * const OBAAllowReviewPromptsDefaultsKey;
 extern NSString * const OBAMapSelectedTypeDefaultsKey;
+extern NSString * const OBADebugModeUserDefaultsKey;
 
 // Server Addresses
 extern NSString * const OBADeepLinkServerAddress;
@@ -67,6 +68,7 @@ NSString * OBAStringFromBool(BOOL yn);
 @interface OBACommon : NSObject
 + (void)setRunningInsideTests:(BOOL)runningInsideTests;
 + (BOOL)isRunningInsideTests;
+@property(class,nonatomic,assign) BOOL debugMode;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -248,9 +248,6 @@
 /* self.listBarButtonItem.accessibilityLabel */
 "msg_nearby_stops_list" = "Nearby stops list";
 
-/* No comment provided by engineer. */
-"msg_newest_regions" = "Newest Regions";
-
 /* Out of range alert Cancel button */
 "msg_no" = "No";
 
@@ -827,3 +824,12 @@
 
 /* Clear Search button text */
 "toast_view.clear_search" = "Clear Search";
+
+/* Message shown when debug mode is turned on */
+"info_controller.debug_mode_enabled" = "Debug mode enabled.";
+
+/* Message shown when debug mode is turned off */
+"info_controller.debug_mode_disabled" = "Debug mode disabled.";
+
+/* Title of the Experimental Regions section in the Region List view controller. */
+"region_list_controller.experimental_section_title" = "Experimental Regions";
