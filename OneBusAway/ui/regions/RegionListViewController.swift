@@ -150,9 +150,11 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
             return
         }
 
+        let acceptableRegions = regions.filter { $0.active && $0.supportsObaRealtimeApis }
+
         let customRows = tableRowsFromRegions(self.modelDAO.customRegions())
-        let activeRows = tableRowsFromRegions(regions.filter { $0.active && !$0.experimental && $0.supportsObaRealtimeApis })
-        let experimentalRows = tableRowsFromRegions(regions.filter { $0.experimental })
+        let activeRows = tableRowsFromRegions(acceptableRegions.filter { !$0.experimental })
+        let experimentalRows = tableRowsFromRegions(acceptableRegions.filter { $0.experimental })
 
         let autoSelectRow = OBASwitchRow.init(title: NSLocalizedString("msg_automatically_select_region", comment: ""), action: { row in
             self.modelDAO.automaticallySelectRegion = !self.modelDAO.automaticallySelectRegion
