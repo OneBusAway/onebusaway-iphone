@@ -90,6 +90,26 @@
         return;
     }
 
+    CLLocation *newLocation = self.locationManager.currentLocation;
+
+    // If the location manager is being lame and is refusing to
+    // give us a location, then we need to proactively bail on the
+    // process of picking a new region. Otherwise, Objective-C's
+    // non-clever treatment of nil will result in us unexpectedly
+    // selecting Tampa. This happens because Tampa is the closest
+    // region to lat long point (0,0).
+    //
+    // Once we're in the block, if we have a region already,
+    // then do nothing and bail. Otherwise, if we don't yet have a
+    // region, show the picker.
+    if (!newLocation) {
+        if (!self.modelDAO.currentRegion) {
+            self.modelDAO.automaticallySelectRegion = NO;
+            [self.delegate regionHelperShowRegionListController:self];
+        }
+        return;
+    }
+
     NSMutableArray *notSupportedRegions = [NSMutableArray array];
 
     for (OBARegionV2 *region in self.regions) {
@@ -99,8 +119,6 @@
     }
 
     [self.regions removeObjectsInArray:notSupportedRegions];
-
-    CLLocation *newLocation = self.locationManager.currentLocation;
 
     NSMutableArray *regionsToRemove = [NSMutableArray array];
 
