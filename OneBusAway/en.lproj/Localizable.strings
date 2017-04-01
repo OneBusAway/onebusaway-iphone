@@ -731,3 +731,9 @@
 
 /* An accessibility label for the map size toggle button on the Vehicle Map Controller. */
 "vehicle_map_controller.toggle_button_accessibility_label" = "Toggle Map Size";
+
+/* Message shown when debug mode is turned on */
+"info_controller.debug_mode_enabled" = "Debug mode enabled.";
+
+/* Message shown when debug mode is turned off */
+"info_controller.debug_mode_disabled" = "Debug mode disabled.";

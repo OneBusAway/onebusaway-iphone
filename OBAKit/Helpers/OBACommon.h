@@ -30,6 +30,7 @@ extern NSString * const kApplicationShortcutBookmarks;
 // User Defaults Keys
 extern NSString * const OBAOptInToTrackingDefaultsKey;
 extern NSString * const OBAAllowReviewPromptsDefaultsKey;
+extern NSString * const OBADebugModeUserDefaultsKey;
 
 /**
  We report "YES" and "NO" to Google Analytics in several places. This method
