@@ -275,6 +275,11 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [[Apptentive sharedConnection] addCustomPersonDataBool:(!!self.modelDAO.currentRegion) withKey:@"Region Selected"];
     [[Apptentive sharedConnection] addCustomPersonDataString:locationAuthorizationStatusToString(self.locationManager.authorizationStatus) withKey:@"Location Auth Status"];
 
+    NSNumber *currentRegionBookmarkCount = @(self.modelDAO.bookmarksForCurrentRegion.count);
+    NSNumber *allBookmarksCount = @(self.modelDAO.allBookmarksCount);
+    [[Apptentive sharedConnection] addCustomPersonDataNumber:currentRegionBookmarkCount withKey:@"Bookmarks (Region)"];
+    [[Apptentive sharedConnection] addCustomPersonDataNumber:allBookmarksCount withKey:@"Bookmarks (All)"];
+
     // Information that can be used to uniquely identify the user is not shared automatically.
 
     if (self.privacyBroker.shareableLocationInformation) {

@@ -43,6 +43,7 @@ extern NSString * const OBARegionDidUpdateNotification;
 - (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer;
 
 // Bookmarks
+@property(nonatomic,assign,readonly) NSUInteger allBookmarksCount;
 
 - (NSArray<OBABookmarkV2*>*)bookmarksMatchingPredicate:(NSPredicate*)predicate;
 - (nullable OBABookmarkV2*)bookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrival;
