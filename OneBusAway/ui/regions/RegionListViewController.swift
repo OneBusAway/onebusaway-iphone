@@ -151,7 +151,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
         }
 
         let customRows = tableRowsFromRegions(self.modelDAO.customRegions())
-        let activeRows = tableRowsFromRegions(regions.filter { $0.active && !$0.experimental })
+        let activeRows = tableRowsFromRegions(regions.filter { $0.active && !$0.experimental && $0.supportsObaRealtimeApis })
         let experimentalRows = tableRowsFromRegions(regions.filter { $0.experimental })
 
         let autoSelectRow = OBASwitchRow.init(title: NSLocalizedString("msg_automatically_select_region", comment: ""), action: { row in
@@ -176,8 +176,8 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
         sections.append(OBATableSection.init(title: NSLocalizedString("msg_active_regions", comment: ""), rows: activeRows))
 
-        if experimentalRows.count > 0 {
-            sections.append(OBATableSection.init(title: NSLocalizedString("msg_newest_regions", comment: ""), rows: experimentalRows))
+        if experimentalRows.count > 0 && OBACommon.debugMode {
+            sections.append(OBATableSection.init(title: NSLocalizedString("region_list_controller.experimental_section_title", comment: ""), rows: experimentalRows))
         }
 
         self.sections = sections

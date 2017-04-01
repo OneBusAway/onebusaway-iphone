@@ -45,6 +45,14 @@ NSString * OBAStringFromBool(BOOL yn) {
     return obaCommonRunningInsideTests;
 }
 
++ (BOOL)debugMode {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:OBADebugModeUserDefaultsKey];
+}
+
++ (void)setDebugMode:(BOOL)debugMode {
+    [[NSUserDefaults standardUserDefaults] setBool:debugMode forKey:OBADebugModeUserDefaultsKey];
+}
+
 @end
 
 
