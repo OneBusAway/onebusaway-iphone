@@ -32,7 +32,6 @@
 
 #import "OBAApplicationUI.h"
 #import "OBAClassicApplicationUI.h"
-#import "OBADrawerUI.h"
 #import "EXTScope.h"
 
 @interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate>
@@ -88,7 +87,6 @@
     self.window.backgroundColor = [UIColor blackColor];
 
     self.applicationUI = [[OBAClassicApplicationUI alloc] init];
-//    self.applicationUI = [[OBADrawerUI alloc] init];
 
     [OBATheme setAppearanceProxies];
 

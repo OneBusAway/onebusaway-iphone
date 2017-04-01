@@ -1,3 +1,5 @@
+#if TARGET_OS_MAC && !TARGET_OS_EMBEDDED && !TARGET_OS_SIMULATOR
+
 #import <Foundation/NSTask.h>
 #import <PromiseKit/AnyPromise.h>
 
@@ -47,3 +49,5 @@
 - (AnyPromise *)promise NS_REFINED_FOR_SWIFT;
 
 @end
+
+#endif
