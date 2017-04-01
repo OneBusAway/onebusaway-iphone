@@ -845,3 +845,6 @@
 
 /* Empty data set description for regional alerts controller */
 "regional_alerts_controller.empty_description" = "No alerts reported for your area.";
+
+/* Title for a section that displays stops without a specified cardinal direction. Just 'Stops' in English. */
+"nearby_stops.stops_section_title" = "Stops";
