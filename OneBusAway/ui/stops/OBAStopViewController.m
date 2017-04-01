@@ -318,8 +318,6 @@ static NSInteger kStopsSectionTag = 101;
         row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
         row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
         row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
-        // Only allow alarms to be created if the time to departure is greater than OBAAlarmIncrementsInMinutes.
-        row.alarmCanBeCreated = dep.timeIntervalUntilBestDeparture > OBAAlarmIncrementsInMinutes * 60;
 
         [row setShowAlertController:^(UIAlertController *alert) {
             [self presentViewController:alert animated:YES completion:nil];
@@ -407,15 +405,11 @@ static NSInteger kStopsSectionTag = 101;
         return;
     }
 
-    // This should never actually be triggered; the "Remind Me" button
-    // should be disabled if this condition is true.
-    if (dep.minutesUntilBestDeparture <= OBAAlarmIncrementsInMinutes) {
-        return;
-    }
+    NSUInteger alarmIncrements = dep.minutesUntilBestDeparture <= OBAAlarmIncrementsInMinutes ? 1 : OBAAlarmIncrementsInMinutes;
 
     NSMutableArray *items = [[NSMutableArray alloc] init];
 
-    for (NSInteger i = dep.minutesUntilBestDeparture - (dep.minutesUntilBestDeparture % OBAAlarmIncrementsInMinutes); i > 0; i = i-OBAAlarmIncrementsInMinutes) {
+    for (NSInteger i = dep.minutesUntilBestDeparture - (dep.minutesUntilBestDeparture % alarmIncrements); i > 0; i -=alarmIncrements) {
         NSString *pickerItemTitle = [NSString stringWithFormat:NSLocalizedString(@"alarms.picker.formatted_item", @"The format string used for picker items for choosing when an alarm should ring."), @(i)];
         [items addObject:[GKActionSheetPickerItem pickerItemWithTitle:pickerItemTitle value:@(i*60)]];
     }
@@ -589,9 +583,7 @@ static NSInteger kStopsSectionTag = 101;
         row.model = dep;
         row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
         row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
-        // Only allow alarms to be created if the time to departure is greater than OBAAlarmIncrementsInMinutes.
-        row.alarmCanBeCreated = dep.timeIntervalUntilBestDeparture > OBAAlarmIncrementsInMinutes * 60;
-        
+
         [row setShowAlertController:^(UIAlertController *alert) {
             [self presentViewController:alert animated:YES completion:nil];
         }];
