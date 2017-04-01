@@ -21,7 +21,7 @@ static NSString * const kRepoURLString = @"https://www.github.com/onebusaway/one
 static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 @interface OBAInfoViewController ()<MFMailComposeViewControllerDelegate>
-
+@property(nonatomic,strong) UITapGestureRecognizer *debugTapRecognizer;
 @end
 
 @implementation OBAInfoViewController
@@ -92,6 +92,28 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
         _locationManager = [OBAApplication sharedApplication].locationManager;
     }
     return _locationManager;
+}
+
+#pragma mark - Debug Mode
+
+- (UITapGestureRecognizer*)debugTapRecognizer {
+    if (!_debugTapRecognizer) {
+        _debugTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleDebugMode:)];
+        _debugTapRecognizer.numberOfTapsRequired = 5;
+    }
+    return _debugTapRecognizer;
+}
+
+- (void)toggleDebugMode:(UITapGestureRecognizer*)sender {
+    BOOL debugMode = [[NSUserDefaults standardUserDefaults] boolForKey:OBADebugModeUserDefaultsKey];
+    debugMode = !debugMode;
+    [[NSUserDefaults standardUserDefaults] setBool:debugMode forKey:OBADebugModeUserDefaultsKey];
+
+    NSString *message = debugMode ? NSLocalizedString(@"info_controller.debug_mode_enabled", @"Message shown when debug mode is turned on") : NSLocalizedString(@"info_controller.debug_mode_disabled", @"Message shown when debug mode is turned off");
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:message message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.ok style:UIAlertActionStyleDefault handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - Table Data
@@ -253,6 +275,11 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [[Apptentive sharedConnection] addCustomPersonDataBool:(!!self.modelDAO.currentRegion) withKey:@"Region Selected"];
     [[Apptentive sharedConnection] addCustomPersonDataString:locationAuthorizationStatusToString(self.locationManager.authorizationStatus) withKey:@"Location Auth Status"];
 
+    NSNumber *currentRegionBookmarkCount = @(self.modelDAO.bookmarksForCurrentRegion.count);
+    NSNumber *allBookmarksCount = @(self.modelDAO.allBookmarksCount);
+    [[Apptentive sharedConnection] addCustomPersonDataNumber:currentRegionBookmarkCount withKey:@"Bookmarks (Region)"];
+    [[Apptentive sharedConnection] addCustomPersonDataNumber:allBookmarksCount withKey:@"Bookmarks (All)"];
+
     // Information that can be used to uniquely identify the user is not shared automatically.
 
     if (self.privacyBroker.shareableLocationInformation) {
@@ -308,6 +335,8 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [iconImageView setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
     [iconImageView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
     [iconImageView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    [iconImageView addGestureRecognizer:self.debugTapRecognizer];
+    iconImageView.userInteractionEnabled = YES;
     [views addObject:iconImageView];
 
     UIFont *headlineFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];

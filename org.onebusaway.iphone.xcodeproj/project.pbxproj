@@ -82,7 +82,6 @@
 		934197B21DB0C140004BBBB7 /* OBAStopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197611DB0C140004BBBB7 /* OBAStopViewController.m */; };
 		934197B41DB0C140004BBBB7 /* OBAAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197661DB0C140004BBBB7 /* OBAAnimation.m */; };
 		934197B51DB0C140004BBBB7 /* OBAClassicApplicationUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197691DB0C140004BBBB7 /* OBAClassicApplicationUI.m */; };
-		934197B61DB0C140004BBBB7 /* OBADrawerUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341976B1DB0C140004BBBB7 /* OBADrawerUI.m */; };
 		934197B71DB0C140004BBBB7 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341976E1DB0C140004BBBB7 /* OBAArrivalAndDepartureSectionBuilder.m */; };
 		934197B81DB0C140004BBBB7 /* OBAArrivalAndDepartureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197701DB0C140004BBBB7 /* OBAArrivalAndDepartureViewController.m */; };
 		934197B91DB0C140004BBBB7 /* OBAReportProblemWithTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197721DB0C140004BBBB7 /* OBAReportProblemWithTripViewController.m */; };
@@ -95,8 +94,6 @@
 		934197E01DB0C14C004BBBB7 /* libApptentiveConnect.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 934197C51DB0C14C004BBBB7 /* libApptentiveConnect.a */; };
 		934197E31DB0C14C004BBBB7 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197CA1DB0C14C004BBBB7 /* EXTScope.m */; };
 		934197E81DB0C14C004BBBB7 /* PTERootController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197D21DB0C14C004BBBB7 /* PTERootController.m */; };
-		934197EA1DB0C14C004BBBB7 /* PulleyPassthroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934197D51DB0C14C004BBBB7 /* PulleyPassthroughScrollView.swift */; };
-		934197EB1DB0C14C004BBBB7 /* PulleyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934197D61DB0C14C004BBBB7 /* PulleyViewController.swift */; };
 		934197EE1DB0C14C004BBBB7 /* SMFloatingLabelTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197DD1DB0C14C004BBBB7 /* SMFloatingLabelTextField.m */; };
 		934198151DB0C1BA004BBBB7 /* OBAScopeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197F41DB0C1BA004BBBB7 /* OBAScopeView.m */; };
 		934198161DB0C1BA004BBBB7 /* OBAVibrantBlurContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197F61DB0C1BA004BBBB7 /* OBAVibrantBlurContainerView.m */; };
@@ -382,8 +379,6 @@
 		934197671DB0C140004BBBB7 /* OBAApplicationUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAApplicationUI.h; sourceTree = "<group>"; };
 		934197681DB0C140004BBBB7 /* OBAClassicApplicationUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicApplicationUI.h; sourceTree = "<group>"; };
 		934197691DB0C140004BBBB7 /* OBAClassicApplicationUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicApplicationUI.m; sourceTree = "<group>"; };
-		9341976A1DB0C140004BBBB7 /* OBADrawerUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADrawerUI.h; sourceTree = "<group>"; };
-		9341976B1DB0C140004BBBB7 /* OBADrawerUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADrawerUI.m; sourceTree = "<group>"; };
 		9341976D1DB0C140004BBBB7 /* OBAArrivalAndDepartureSectionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureSectionBuilder.h; sourceTree = "<group>"; };
 		9341976E1DB0C140004BBBB7 /* OBAArrivalAndDepartureSectionBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureSectionBuilder.m; sourceTree = "<group>"; };
 		9341976F1DB0C140004BBBB7 /* OBAArrivalAndDepartureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureViewController.h; sourceTree = "<group>"; };
@@ -408,8 +403,6 @@
 		934197CB1DB0C14C004BBBB7 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
 		934197D11DB0C14C004BBBB7 /* PTERootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTERootController.h; sourceTree = "<group>"; };
 		934197D21DB0C14C004BBBB7 /* PTERootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTERootController.m; sourceTree = "<group>"; };
-		934197D51DB0C14C004BBBB7 /* PulleyPassthroughScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyPassthroughScrollView.swift; sourceTree = "<group>"; };
-		934197D61DB0C14C004BBBB7 /* PulleyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyViewController.swift; sourceTree = "<group>"; };
 		934197DC1DB0C14C004BBBB7 /* SMFloatingLabelTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMFloatingLabelTextField.h; sourceTree = "<group>"; };
 		934197DD1DB0C14C004BBBB7 /* SMFloatingLabelTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMFloatingLabelTextField.m; sourceTree = "<group>"; };
 		934197F01DB0C1AA004BBBB7 /* OBANavigationTargetAware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTargetAware.h; sourceTree = "<group>"; };
@@ -991,8 +984,6 @@
 				934197671DB0C140004BBBB7 /* OBAApplicationUI.h */,
 				934197681DB0C140004BBBB7 /* OBAClassicApplicationUI.h */,
 				934197691DB0C140004BBBB7 /* OBAClassicApplicationUI.m */,
-				9341976A1DB0C140004BBBB7 /* OBADrawerUI.h */,
-				9341976B1DB0C140004BBBB7 /* OBADrawerUI.m */,
 			);
 			path = themes;
 			sourceTree = "<group>";
@@ -1031,7 +1022,6 @@
 				934197C01DB0C14C004BBBB7 /* apptentive */,
 				934197C81DB0C14C004BBBB7 /* extobjc */,
 				934197CC1DB0C14C004BBBB7 /* LumberjackConsole */,
-				934197D41DB0C14C004BBBB7 /* pulley */,
 				934197D71DB0C14C004BBBB7 /* SMFloatingLabelTextField */,
 			);
 			name = externals;
@@ -1073,15 +1063,6 @@
 				934197D21DB0C14C004BBBB7 /* PTERootController.m */,
 			);
 			path = LumberjackConsole;
-			sourceTree = "<group>";
-		};
-		934197D41DB0C14C004BBBB7 /* pulley */ = {
-			isa = PBXGroup;
-			children = (
-				934197D51DB0C14C004BBBB7 /* PulleyPassthroughScrollView.swift */,
-				934197D61DB0C14C004BBBB7 /* PulleyViewController.swift */,
-			);
-			path = pulley;
 			sourceTree = "<group>";
 		};
 		934197D71DB0C14C004BBBB7 /* SMFloatingLabelTextField */ = {
@@ -1626,7 +1607,6 @@
 				9341981B1DB0C1BA004BBBB7 /* OBAProgressIndicatorView.m in Sources */,
 				9327DEFC1E023BE400502F06 /* OBAArrivalDepartureCell.m in Sources */,
 				9385EC3B1DCF14C60020CCB2 /* OBASettingsViewController.m in Sources */,
-				934197EA1DB0C14C004BBBB7 /* PulleyPassthroughScrollView.swift in Sources */,
 				934197B81DB0C140004BBBB7 /* OBAArrivalAndDepartureViewController.m in Sources */,
 				9385EC401DCF1D910020CCB2 /* ServiceAlertDetailsViewController.swift in Sources */,
 				9341978C1DB0C140004BBBB7 /* RegionBuilderViewController.swift in Sources */,
@@ -1696,11 +1676,9 @@
 				934197BC1DB0C140004BBBB7 /* OBATripScheduleMapViewController.m in Sources */,
 				934196E41DB0C124004BBBB7 /* UITableViewCell+oba_Additions.m in Sources */,
 				934197851DB0C140004BBBB7 /* OBADrawerViewController.m in Sources */,
-				934197B61DB0C140004BBBB7 /* OBADrawerUI.m in Sources */,
 				934197901DB0C140004BBBB7 /* OBASearchResultsMapViewController.m in Sources */,
 				934197A51DB0C140004BBBB7 /* OBATextFieldRow.m in Sources */,
 				931A6A291E03EAA100131242 /* OBATimelineBarRow.m in Sources */,
-				934197EB1DB0C14C004BBBB7 /* PulleyViewController.swift in Sources */,
 				934198151DB0C1BA004BBBB7 /* OBAScopeView.m in Sources */,
 				934196E21DB0C124004BBBB7 /* MKMapView+oba_Additions.m in Sources */,
 				9341978F1DB0C140004BBBB7 /* OBASearchResultsListViewController.m in Sources */,

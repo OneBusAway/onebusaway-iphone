@@ -26,6 +26,7 @@ NSString * const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcu
 
 NSString * const OBAOptInToTrackingDefaultsKey = @"OBAOptInToTrackingDefaultsKey";
 NSString * const OBAAllowReviewPromptsDefaultsKey = @"OBAAllowReviewPromptsDefaultsKey";
+NSString * const OBADebugModeUserDefaultsKey = @"OBADebugModeUserDefaultsKey";
 
 const NSInteger kOBAErrorDuplicateEntity = 1000;
 const NSInteger kOBAErrorMissingFieldInData = 1001;
@@ -42,6 +43,14 @@ NSString * OBAStringFromBool(BOOL yn) {
 
 + (BOOL)isRunningInsideTests {
     return obaCommonRunningInsideTests;
+}
+
++ (BOOL)debugMode {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:OBADebugModeUserDefaultsKey];
+}
+
++ (void)setDebugMode:(BOOL)debugMode {
+    [[NSUserDefaults standardUserDefaults] setBool:debugMode forKey:OBADebugModeUserDefaultsKey];
 }
 
 @end

@@ -148,7 +148,7 @@ NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
                 return;
             }
         }
-        _currentLocation = location;
+        self.currentLocation = location;
 
         [[NSNotificationCenter defaultCenter] postNotificationName:OBALocationDidUpdateNotification object:self userInfo:nil];
     }
