@@ -31,8 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  This notification is posted when the region changes and the app cannot generate an API URL from it.
  */
-// TODO: give it a better name.
-extern NSString *const kOBAApplicationSettingsRegionRefreshNotification;
+extern NSString *const OBARegionServerInvalidNotification;
 
 @interface OBAApplication : NSObject
 @property (nonatomic, strong, readonly) OBAReferencesV2 *references;

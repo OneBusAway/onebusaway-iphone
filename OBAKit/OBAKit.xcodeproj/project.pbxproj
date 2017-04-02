@@ -211,6 +211,8 @@
 		9358CDB21DEA242B00132CDE /* OBAUpcomingDeparture.h in Headers */ = {isa = PBXBuildFile; fileRef = 9358CDB01DEA242B00132CDE /* OBAUpcomingDeparture.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9358CDB31DEA242B00132CDE /* OBAUpcomingDeparture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358CDB11DEA242B00132CDE /* OBAUpcomingDeparture.m */; };
 		936EB1B61E91746400F4F3A7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */; };
+		936EB1B91E91A83700F4F3A7 /* OBARegionStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */; };
+		936EB1BA1E91A83700F4F3A7 /* OBARegionStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */; };
 		93B282C41DC664C7005013D7 /* OBATripDeepLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B282C21DC664C7005013D7 /* OBATripDeepLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93B282C51DC664C7005013D7 /* OBATripDeepLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B282C31DC664C7005013D7 /* OBATripDeepLink.m */; };
 		93B282C81DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -444,6 +446,8 @@
 		9358CDB01DEA242B00132CDE /* OBAUpcomingDeparture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAUpcomingDeparture.h; sourceTree = "<group>"; };
 		9358CDB11DEA242B00132CDE /* OBAUpcomingDeparture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAUpcomingDeparture.m; sourceTree = "<group>"; };
 		936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionStorage.h; sourceTree = "<group>"; };
+		936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionStorage.m; sourceTree = "<group>"; };
 		93B282C21DC664C7005013D7 /* OBATripDeepLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripDeepLink.h; sourceTree = "<group>"; };
 		93B282C31DC664C7005013D7 /* OBATripDeepLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripDeepLink.m; sourceTree = "<group>"; };
 		93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLQueryItem+OBAAdditions.h"; sourceTree = "<group>"; };
@@ -608,6 +612,8 @@
 				934195811DB0B099004BBBB7 /* OBARegionHelper.m */,
 				934195821DB0B099004BBBB7 /* OBASphericalGeometryLibrary.h */,
 				934195831DB0B099004BBBB7 /* OBASphericalGeometryLibrary.m */,
+				936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */,
+				936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */,
 			);
 			path = Location;
 			sourceTree = "<group>";
@@ -869,6 +875,7 @@
 				934196861DB0B099004BBBB7 /* OBATripDetailsV2.h in Headers */,
 				9341966B1DB0B099004BBBB7 /* OBARegionV2.h in Headers */,
 				9341964B1DB0B099004BBBB7 /* OBAArrivalAndDepartureInstanceRef.h in Headers */,
+				936EB1B91E91A83700F4F3A7 /* OBARegionStorage.h in Headers */,
 				9341965E1DB0B099004BBBB7 /* OBAHasServiceAlerts.h in Headers */,
 				934195FA1DB0B099004BBBB7 /* NSObject+OBADescription.h in Headers */,
 				9358CDB21DEA242B00132CDE /* OBAUpcomingDeparture.h in Headers */,
@@ -1129,6 +1136,7 @@
 				934196041DB0B099004BBBB7 /* OBAConsoleLogger.m in Sources */,
 				934196591DB0B099004BBBB7 /* OBAEntryWithReferencesV2.m in Sources */,
 				934196291DB0B099004BBBB7 /* OBATripContinuationMapAnnotation.m in Sources */,
+				936EB1BA1E91A83700F4F3A7 /* OBARegionStorage.m in Sources */,
 				934196BB1DB0B0AF004BBBB7 /* OBAUIBuilder.m in Sources */,
 				934196851DB0B099004BBBB7 /* OBAStopV2.m in Sources */,
 				9341967B1DB0B099004BBBB7 /* OBASituationConsequenceV2.m in Sources */,

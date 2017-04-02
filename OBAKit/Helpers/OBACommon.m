@@ -33,9 +33,6 @@ NSString * const OBADebugModeUserDefaultsKey = @"OBADebugModeUserDefaultsKey";
 
 NSString * const OBADeepLinkServerAddress = @"https://www.onebusaway.co";
 
-const NSInteger kOBAErrorDuplicateEntity = 1000;
-const NSInteger kOBAErrorMissingFieldInData = 1001;
-
 NSString * NSStringFromOBASearchType(OBASearchType searchType) {
     switch (searchType) {
         case OBASearchTypePending: {

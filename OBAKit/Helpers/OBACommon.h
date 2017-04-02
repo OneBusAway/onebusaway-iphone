@@ -38,11 +38,14 @@ typedef NS_ENUM(NSInteger, OBANavigationTargetType) {
     OBANavigationTargetTypeContactUs,
 };
 
+typedef NS_ENUM(NSUInteger, OBAErrorCode) {
+    OBAErrorCodeLocationAuthorizationFailed = 1002,
+    OBAErrorCodeMissingFieldInData,
+};
+
 NSString * _Nullable NSStringFromOBASearchType(OBASearchType searchType);
 
 extern NSString * const OBAErrorDomain;
-extern const NSInteger kOBAErrorDuplicateEntity;
-extern const NSInteger kOBAErrorMissingFieldInData;
 
 // 3D Touch Quick Actions
 extern NSString * const kApplicationShortcutMap;

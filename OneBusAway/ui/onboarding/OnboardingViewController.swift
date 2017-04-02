@@ -15,7 +15,6 @@ import SnapKit
 }
 
 @objc class OnboardingViewController: UIViewController {
-
     let stackView = UIStackView.init()
     weak var delegate: OnboardingDelegate?
 
@@ -80,8 +79,6 @@ import SnapKit
     }
 
     @objc func showLocationPrompt() {
-        CLLocationManager.requestAuthorization(type: .whenInUse).always {
-            self.delegate?.onboardingControllerRequestedAuthorization(self)
-        }
+        self.delegate?.onboardingControllerRequestedAuthorization(self)
     }
 }
