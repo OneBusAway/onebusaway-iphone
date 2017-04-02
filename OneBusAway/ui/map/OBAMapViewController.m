@@ -137,7 +137,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     OBALogFunction();
 
     [self registerForLocationNotifications];
-    [self.locationManager startUpdatingLocation];
     [self.locationManager startUpdatingHeading];
 
     if (self.mapDataLoader.unfilteredSearch) {

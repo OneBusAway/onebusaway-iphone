@@ -29,7 +29,6 @@
 
 - (void)updateNearestRegion {
     [self updateRegion];
-    [self.locationManager startUpdatingLocation];
 }
 
 - (void)updateRegion {
