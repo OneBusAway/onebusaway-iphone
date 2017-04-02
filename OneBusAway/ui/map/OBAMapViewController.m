@@ -171,6 +171,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self.searchController.hidesNavigationBarDuringPresentation = NO;
 
     // Search Bar
+    self.searchController.searchBar.returnKeyType = UIReturnKeyDone;
     self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     self.searchController.searchBar.delegate = self;
     self.navigationItem.titleView = self.searchController.searchBar;
