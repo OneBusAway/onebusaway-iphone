@@ -49,6 +49,7 @@ extern NSString * const OBAHeadingUserInfoKey;
 - (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO;
 
 - (void)startUpdatingLocation;
+- (void)stopUpdatingLocation;
 
 - (void)startUpdatingHeading;
 - (void)stopUpdatingHeading;

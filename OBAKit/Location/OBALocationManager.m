@@ -87,6 +87,12 @@ NSString * const OBAHeadingUserInfoKey = @"OBAHeadingUserInfoKey";
     }
 }
 
+- (void)stopUpdatingLocation {
+    if ([CLLocationManager locationServicesEnabled]) {
+        [self.locationManager stopUpdatingLocation];
+    }
+}
+
 - (void)startUpdatingHeading {
     if ([CLLocationManager headingAvailable]) {
         [self.locationManager startUpdatingHeading];

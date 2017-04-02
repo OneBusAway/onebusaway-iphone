@@ -134,11 +134,14 @@
     if (location) {
         [OBAApplication sharedApplication].modelDao.mostRecentLocation = location;
     }
+
+    [[OBAApplication sharedApplication].locationManager stopUpdatingLocation];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     DDLogInfo(@"Application became active");
 
+    [[OBAApplication sharedApplication].locationManager startUpdatingLocation];
     [[OBAApplication sharedApplication] startReachabilityNotifier];
     [[OBAApplication sharedApplication].regionalAlertsManager update];
 
