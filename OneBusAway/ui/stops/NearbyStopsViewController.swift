@@ -75,9 +75,9 @@ class NearbyStopsViewController: OBAStaticTableViewController {
                 AlertPresenter.showWarning(OBAStrings.error(), body: error.localizedDescription)
             }
         }
-        else {
-            AlertPresenter.showError(OBAStrings.error(), body: OBAStrings.inexplicableErrorPleaseContactUs())
-        }
+
+        // otherwise, show nothing. If the data on the map
+        // hasn't loaded yet, then there's nothing to show here.
     }
 
     /// Builds a list of table sections, sets the view controller's `sections` property
