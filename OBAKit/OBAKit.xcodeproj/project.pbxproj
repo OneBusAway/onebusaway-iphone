@@ -210,6 +210,7 @@
 		9358CDAF1DEA1AB000132CDE /* OBADepartureCellHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358CDAD1DEA1AB000132CDE /* OBADepartureCellHelpers.m */; };
 		9358CDB21DEA242B00132CDE /* OBAUpcomingDeparture.h in Headers */ = {isa = PBXBuildFile; fileRef = 9358CDB01DEA242B00132CDE /* OBAUpcomingDeparture.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9358CDB31DEA242B00132CDE /* OBAUpcomingDeparture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358CDB11DEA242B00132CDE /* OBAUpcomingDeparture.m */; };
+		936EB1B61E91746400F4F3A7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */; };
 		93B282C41DC664C7005013D7 /* OBATripDeepLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B282C21DC664C7005013D7 /* OBATripDeepLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93B282C51DC664C7005013D7 /* OBATripDeepLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B282C31DC664C7005013D7 /* OBATripDeepLink.m */; };
 		93B282C81DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -442,6 +443,7 @@
 		9358CDAD1DEA1AB000132CDE /* OBADepartureCellHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADepartureCellHelpers.m; sourceTree = "<group>"; };
 		9358CDB01DEA242B00132CDE /* OBAUpcomingDeparture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAUpcomingDeparture.h; sourceTree = "<group>"; };
 		9358CDB11DEA242B00132CDE /* OBAUpcomingDeparture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAUpcomingDeparture.m; sourceTree = "<group>"; };
+		936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		93B282C21DC664C7005013D7 /* OBATripDeepLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripDeepLink.h; sourceTree = "<group>"; };
 		93B282C31DC664C7005013D7 /* OBATripDeepLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripDeepLink.m; sourceTree = "<group>"; };
 		93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLQueryItem+OBAAdditions.h"; sourceTree = "<group>"; };
@@ -459,6 +461,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				936EB1B61E91746400F4F3A7 /* SystemConfiguration.framework in Frameworks */,
 				932CCED11DC3D315001C8405 /* CocoaLumberjackSwift.framework in Frameworks */,
 				932CCED21DC3D315001C8405 /* PMKCoreLocation.framework in Frameworks */,
 				93F3F8951E7AEE260025FC78 /* Mantle.framework in Frameworks */,
@@ -808,6 +811,7 @@
 		934196BC1DB0B274004BBBB7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */,
 				93F3F8941E7AEE260025FC78 /* Mantle.framework */,
 				932CCECA1DC3D315001C8405 /* CocoaLumberjack.framework */,
 				932CCECB1DC3D315001C8405 /* CocoaLumberjackSwift.framework */,
