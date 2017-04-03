@@ -66,10 +66,6 @@ NSString * const OBAHeadingUserInfoKey = @"OBAHeadingUserInfoKey";
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
 
-        if (![self hasRequestedInUseAuthorization]) {
-            [self requestInUseAuthorization];
-        }
-
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
@@ -116,10 +112,6 @@ NSString * const OBAHeadingUserInfoKey = @"OBAHeadingUserInfoKey";
 
 - (BOOL)hasRequestedInUseAuthorization {
     return [CLLocationManager authorizationStatus] != kCLAuthorizationStatusNotDetermined;
-}
-
-- (void)requestInUseAuthorization {
-    [self.locationManager requestWhenInUseAuthorization];
 }
 
 - (CLAuthorizationStatus)authorizationStatus {

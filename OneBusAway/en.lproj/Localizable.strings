@@ -854,3 +854,12 @@
 
 /* Segmented control item title: 'Sort by Proximity' */
 "bookmarks_controller.sort_by_proximity_item" = "Sort by Proximity";
+
+/* "Title of the Onboarding Controller. 'Welcome to OneBusAway!' */
+"onboarding_controller.title" = "Welcome to OneBusAway!";
+
+/* Body text of the Onboarding Controller. */
+"onboarding_controller.body_text" = "OneBusAway is an open source, volunteer-run app that helps you find out where your buses, trains, ferries, and more are in real time.\r\n\r\nThe app works best when it can find your location.\r\n\r\nPlease tap the button below to get started.";
+
+/* Bottom button on the Onboarding Controller */
+"onboarding_controller.request_location_permissions_button" = "Get Started";

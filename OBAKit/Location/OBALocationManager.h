@@ -33,6 +33,7 @@ extern NSString * const OBAHeadingDidUpdateNotification;
 extern NSString * const OBAHeadingUserInfoKey;
 
 @interface OBALocationManager : NSObject <CLLocationManagerDelegate>
+@property(nonatomic,assign,readonly) BOOL hasRequestedInUseAuthorization;
 @property(nonatomic,copy,nullable,readonly) CLLocation *currentLocation;
 @property(nonatomic,copy,nullable,readonly) CLHeading *currentHeading;
 
@@ -53,10 +54,6 @@ extern NSString * const OBAHeadingUserInfoKey;
 
 - (void)startUpdatingHeading;
 - (void)stopUpdatingHeading;
-
-// iOS 8 Location Manager Support
-- (BOOL)hasRequestedInUseAuthorization;
-- (void)requestInUseAuthorization;
 
 @end
 

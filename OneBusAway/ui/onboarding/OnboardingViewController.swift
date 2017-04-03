@@ -1,0 +1,87 @@
+//
+//  OnboardingViewController.swift
+//  org.onebusaway.iphone
+//
+//  Created by Aaron Brethorst on 4/3/17.
+//  Copyright © 2017 OneBusAway. All rights reserved.
+//
+
+import PMKCoreLocation
+import UIKit
+import SnapKit
+
+@objc protocol OnboardingDelegate {
+    func onboardingControllerRequestedAuthorization(_ onboardingController: OnboardingViewController)
+}
+
+@objc class OnboardingViewController: UIViewController {
+
+    let stackView = UIStackView.init()
+    weak var delegate: OnboardingDelegate?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.title = NSLocalizedString("onboarding_controller.title", comment: "Title of the Onboarding Controller. 'Welcome to OneBusAway!'")
+
+        self.view.backgroundColor = UIColor.white
+        self.stackView.axis = .vertical
+        self.stackView.spacing = OBATheme.defaultPadding()
+
+        let imageView = UIImageView.init(image: #imageLiteral(resourceName: "infoheader"))
+        let topView = UIView.init()
+        self.stackView.addArrangedSubview(topView)
+        topView.backgroundColor = OBATheme.obaGreen()
+
+        topView.addSubview(imageView)
+
+        imageView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+
+        topView.snp.makeConstraints { make in
+            make.height.equalTo(160)
+        }
+
+        let titleLabel = UILabel.init()
+        titleLabel.textAlignment = .center
+        titleLabel.text = self.title
+        titleLabel.font = OBATheme.subtitleFont()
+        self.stackView.addArrangedSubview(titleLabel)
+
+        let bodyTextView = UITextView.init()
+        self.stackView.addArrangedSubview(bodyTextView)
+        bodyTextView.text = NSLocalizedString("onboarding_controller.body_text", comment: "Body text of the Onboarding Controller.")
+        bodyTextView.isSelectable = false
+        bodyTextView.isEditable = false
+        bodyTextView.textAlignment = .left
+        bodyTextView.font = OBATheme.bodyFont()
+        bodyTextView.snp.makeConstraints { make in
+            make.left.equalTo(20)
+            make.right.equalTo(-20)
+        }
+
+        let button = UIButton.init()
+        button.setTitleColor(OBATheme.obaGreen(), for: .normal)
+        button.addTarget(self, action: #selector(showLocationPrompt), for: .touchUpInside)
+        self.stackView.addArrangedSubview(button)
+        button.setTitle(NSLocalizedString("onboarding_controller.request_location_permissions_button", comment: "Bottom button on the Onboarding Controller"), for: .normal)
+        button.titleLabel?.font = OBATheme.titleFont()
+        button.snp.makeConstraints { make in
+            make.height.greaterThanOrEqualTo(44)
+            make.width.equalToSuperview()
+        }
+
+        self.view.addSubview(self.stackView)
+        self.stackView.snp.makeConstraints { make in
+            make.top.right.left.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-60)
+        }
+    }
+
+    @objc func showLocationPrompt() {
+        CLLocationManager.requestAuthorization(type: .whenInUse).always {
+            self.delegate?.onboardingControllerRequestedAuthorization(self)
+        }
+    }
+}
