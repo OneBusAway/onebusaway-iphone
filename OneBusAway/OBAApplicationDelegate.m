@@ -33,13 +33,14 @@
 
 #import "OBAApplicationUI.h"
 #import "OBAClassicApplicationUI.h"
-#import "EXTScope.h"
+#import "UIWindow+OBAAdditions.h"
 
-@interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate, OBAPushManagerDelegate>
+@interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate, OBAPushManagerDelegate, OnboardingDelegate>
 @property(nonatomic,strong) UINavigationController *regionNavigationController;
 @property(nonatomic,strong) RegionListViewController *regionListViewController;
 @property(nonatomic,strong) id<OBAApplicationUI> applicationUI;
 @property(nonatomic,strong) OBADeepLinkRouter *deepLinkRouter;
+@property(nonatomic,strong) OnboardingViewController *onboardingViewController;
 @end
 
 @implementation OBAApplicationDelegate
@@ -75,7 +76,12 @@
 
     [OBATheme setAppearanceProxies];
 
-    self.window.rootViewController = self.applicationUI.rootViewController;
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+        self.window.rootViewController = self.onboardingViewController;
+    }
+    else {
+        self.window.rootViewController = self.applicationUI.rootViewController;
+    }
 
     if ([OBAApplication sharedApplication].modelDao.automaticallySelectRegion && [OBAApplication sharedApplication].locationManager.locationServicesEnabled) {
         [[OBAApplication sharedApplication].regionHelper updateNearestRegion];
@@ -341,8 +347,7 @@
     _regionNavigationController = nil;
     _regionListViewController = nil;
 
-    self.window.rootViewController = self.applicationUI.rootViewController;
-    [self.window makeKeyAndVisible];
+    [self.window oba_setRootViewController:self.applicationUI.rootViewController animated:YES];
 }
 
 #pragma mark - OBARegionHelperDelegate
@@ -352,7 +357,7 @@
     _regionListViewController.delegate = self;
     _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:_regionListViewController];
 
-    self.window.rootViewController = _regionNavigationController;
+    [self.window oba_setRootViewController:_regionNavigationController animated:YES];
 }
 
 #pragma mark - Fabric
@@ -367,6 +372,20 @@
     if (fabricKits.count > 0) {
         [Fabric with:fabricKits];
     }
+}
+
+#pragma mark - Onboarding
+
+- (UIViewController*)onboardingViewController {
+    if (!_onboardingViewController) {
+        _onboardingViewController = [[OnboardingViewController alloc] init];
+        _onboardingViewController.delegate = self;
+    }
+    return _onboardingViewController;
+}
+
+- (void)onboardingControllerRequestedAuthorization:(OnboardingViewController *)onboardingController {
+    [self.window oba_setRootViewController:self.applicationUI.rootViewController animated:YES];
 }
 
 @end
