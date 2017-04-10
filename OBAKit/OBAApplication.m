@@ -14,7 +14,7 @@
 #import <OBAKit/OBACommon.h>
 
 static NSString *const kOBADefaultRegionApiServerName = @"http://regions.onebusaway.org";
-NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplicationSettingsRegionRefreshNotification";
+NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNotification";
 
 @interface OBAApplication ()
 @property (nonatomic, strong, readwrite) OBAReferencesV2 *references;
@@ -73,7 +73,7 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 
     self.modelService.locationManager = self.locationManager;
 
-    self.regionHelper = [[OBARegionHelper alloc] initWithLocationManager:self.locationManager];
+    self.regionHelper = [[OBARegionHelper alloc] initWithLocationManager:self.locationManager modelService:self.modelService];
 
     self.privacyBroker = [[PrivacyBroker alloc] initWithModelDAO:self.modelDao locationManager:self.locationManager];
 
@@ -164,9 +164,6 @@ NSString *const kOBAApplicationSettingsRegionRefreshNotification = @"kOBAApplica
 - (void)refreshSettings {
     if (self.modelDao.currentRegion.baseURL) {
         self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:self.modelDao.currentRegion.baseURL userID:[OBAUser userIdFromDefaults]];
-    }
-    else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kOBAApplicationSettingsRegionRefreshNotification object:nil];
     }
 
     self.modelService.googleMapsJsonDataSource = [OBAJsonDataSource googleMapsJSONDataSource];

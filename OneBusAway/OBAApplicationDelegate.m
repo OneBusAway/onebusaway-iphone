@@ -22,6 +22,7 @@
 @import Fabric;
 @import Crashlytics;
 @import Apptentive;
+@import PMKCoreLocation;
 
 #import "OBAPushManager.h"
 #import "OBAMapDataLoader.h"
@@ -34,6 +35,8 @@
 #import "OBAApplicationUI.h"
 #import "OBAClassicApplicationUI.h"
 #import "UIWindow+OBAAdditions.h"
+
+static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegionRefreshDateUserDefaultsKey";
 
 @interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate, OBAPushManagerDelegate, OnboardingDelegate>
 @property(nonatomic,strong) UINavigationController *regionNavigationController;
@@ -76,21 +79,20 @@
 
     [OBATheme setAppearanceProxies];
 
-    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+    if ([OBAApplicationDelegate awaitingLocationAuthorization]) {
         self.window.rootViewController = self.onboardingViewController;
     }
     else {
         self.window.rootViewController = self.applicationUI.rootViewController;
     }
 
-    if ([OBAApplication sharedApplication].modelDao.automaticallySelectRegion && [OBAApplication sharedApplication].locationManager.locationServicesEnabled) {
-        [[OBAApplication sharedApplication].regionHelper updateNearestRegion];
-    }
-    else {
-        [[OBAApplication sharedApplication].regionHelper updateRegion];
-    }
-
     [self.window makeKeyAndVisible];
+}
+
+#pragma mark - Location Helpers
+
++ (BOOL)awaitingLocationAuthorization {
+    return [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined;
 }
 
 #pragma mark - UIApplication Methods
@@ -127,9 +129,27 @@
 
     [OBAAnalytics configureVoiceOverStatus];
 
+    // On first launch, this refresh process should be deferred.
+    if (![OBAApplicationDelegate awaitingLocationAuthorization] && [self hasEnoughTimeElapsedToRefreshRegions]) {
+        [[OBAApplication sharedApplication].regionHelper refreshData];
+    }
+
     [self _constructUI];
 
     return YES;
+}
+
+- (BOOL)hasEnoughTimeElapsedToRefreshRegions {
+    NSDate *lastRefresh = [[NSUserDefaults standardUserDefaults] objectForKey:OBALastRegionRefreshDateUserDefaultsKey];
+
+    if (!lastRefresh) {
+        return YES;
+    }
+
+    NSTimeInterval lastRefreshInterval = [lastRefresh timeIntervalSinceNow];
+
+    // 604,800 seconds in a week. Only refresh once a week.
+    return ABS(lastRefreshInterval) > 604800;
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -171,16 +191,16 @@
 #pragma mark - Notifications
 
 - (void)registerForNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(regionRefreshed:) name:kOBAApplicationSettingsRegionRefreshNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invalidRegionNotification:) name:OBARegionServerInvalidNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recentStopsChanged:) name:OBAMostRecentStopsChangedNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(highPriorityRegionalAlertReceived:) name:RegionalAlertsManager.highPriorityRegionalAlertReceivedNotification object:nil];
 }
 
-- (void)regionRefreshed:(NSNotification*)note {
+- (void)invalidRegionNotification:(NSNotification*)note {
     [OBAApplication sharedApplication].modelDao.automaticallySelectRegion = YES;
-    [[OBAApplication sharedApplication].regionHelper updateNearestRegion];
+    [[OBAApplication sharedApplication].regionHelper refreshData];
     [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:OBAStringFromBool(YES)];
 }
 
@@ -242,7 +262,7 @@
     NSInteger regionID = [userActivity.userInfo[OBAHandoff.regionIDKey] integerValue];
 
     NSURL *URL = userActivity.webpageURL;
-    
+
     // Use deep link URL above all else
     if (userActivity.userInfo && !URL) {
         // Make sure regions of both clients match
@@ -255,7 +275,7 @@
         else {
             NSString *title = NSLocalizedString(@"msg_handoff_failure_title", @"Error message title displayed to the user when handoff failed to work.");
             NSString *body = NSLocalizedString(@"msg_handoff_region_mismatch_body", @"Error message body displayed to the user when handoff regions did not match both clients.");
-            
+
             [AlertPresenter showError:title body:body];
             return NO;
         }
@@ -343,21 +363,37 @@
 #pragma mark - RegionListDelegate
 
 - (void)regionSelected {
-    [_regionNavigationController removeFromParentViewController];
-    _regionNavigationController = nil;
-    _regionListViewController = nil;
+    [self.regionNavigationController removeFromParentViewController];
+    self.regionNavigationController = nil;
+    self.regionListViewController = nil;
 
     [self.window oba_setRootViewController:self.applicationUI.rootViewController animated:YES];
 }
 
 #pragma mark - OBARegionHelperDelegate
 
-- (void)regionHelperShowRegionListController:(OBARegionHelper *)regionHelper {
-    _regionListViewController = [[RegionListViewController alloc] init];
-    _regionListViewController.delegate = self;
-    _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:_regionListViewController];
+- (RegionListViewController*)regionListViewController {
+    if (!_regionListViewController) {
+        _regionListViewController = [[RegionListViewController alloc] init];
+        _regionListViewController.delegate = self;
+    }
+    return _regionListViewController;
+}
 
-    [self.window oba_setRootViewController:_regionNavigationController animated:YES];
+- (UINavigationController*)regionNavigationController {
+    if (!_regionNavigationController) {
+        _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:self.regionListViewController];
+    }
+
+    return _regionNavigationController;
+}
+
+- (void)regionHelperShowRegionListController:(OBARegionHelper *)regionHelper {
+    [self.window oba_setRootViewController:self.regionNavigationController animated:YES];
+}
+
+- (void)regionHelperDidRefreshRegions:(OBARegionHelper*)regionHelper {
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:OBALastRegionRefreshDateUserDefaultsKey];
 }
 
 #pragma mark - Fabric
@@ -385,7 +421,21 @@
 }
 
 - (void)onboardingControllerRequestedAuthorization:(OnboardingViewController *)onboardingController {
-    [self.window oba_setRootViewController:self.applicationUI.rootViewController animated:YES];
+
+    // behind the scenes, +[CLLocationManager promise] is calling `requestWhenInUseAuthorization`.
+
+    [CLLocationManager promise].then(^(CLLocation *location) {
+        return [[OBAApplication sharedApplication].regionHelper refreshData];
+    }).catch(^(NSError *error) {
+        DDLogError(@"An error occurred while trying to load regions: %@", error);
+    }).always(^{
+        if ([OBAApplication sharedApplication].modelDao.currentRegion) {
+            [self.window oba_setRootViewController:self.applicationUI.rootViewController animated:YES];
+        }
+        else {
+            [self.window oba_setRootViewController:self.regionNavigationController animated:YES];
+        }
+    });
 }
 
 @end
