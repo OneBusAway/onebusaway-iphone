@@ -863,3 +863,12 @@
 
 /* Bottom button on the Onboarding Controller */
 "onboarding_controller.request_location_permissions_button" = "Get Started";
+
+/* Title for the user defaults browser */
+"user_defaults_browser_controller.title" = "User Defaults";
+
+/* The table section title for the debugging tools. */
+"info_controller.debug_section_title" = "Debugging Tools";
+
+/* Row title for the Browse User Defaults action */
+"info_controller.browse_user_defaults_row" = "Browse User Defaults";

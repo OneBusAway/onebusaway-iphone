@@ -113,7 +113,9 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:message message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.ok style:UIAlertActionStyleDefault handler:nil]];
-    [self presentViewController:alert animated:YES completion:nil];
+    [self presentViewController:alert animated:YES completion:^{
+        [self reloadData];
+    }];
 }
 
 #pragma mark - Table Data
@@ -121,6 +123,10 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 - (void)reloadData {
 
     NSMutableArray *sections = [[NSMutableArray alloc] init];
+
+    if ([OBACommon debugMode]) {
+        [sections addObject:[self debugTableSection]];
+    }
 
     // Only show the alerts section if this region supports it.
     if ([OBAApplication sharedApplication].regionalAlertsManager.regionalAlerts.count > 0) {
@@ -232,13 +238,25 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 }
 
 - (OBATableSection*)aboutTableSection {
-
     OBATableRow *credits = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_credits", @"Info Page Credits Row Title") action:^{
         [self.navigationController pushViewController:[[OBACreditsViewController alloc] init] animated:YES];
     }];
     credits.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_about_oba", @"") rows:@[credits]];
+}
+
+- (OBATableSection*)debugTableSection {
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"info_controller.debug_section_title", @"The table section title for the debugging tools.")];
+
+    OBATableRow *row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"info_controller.browse_user_defaults_row", @"Row title for the Browse User Defaults action") action:^{
+        UserDefaultsBrowserViewController *browser = [[UserDefaultsBrowserViewController alloc] init];
+        [self.navigationController pushViewController:browser animated:YES];
+    }];
+    row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [section addRow:row];
+
+    return section;
 }
 
 #pragma mark - Email
