@@ -872,3 +872,9 @@
 
 /* Row title for the Browse User Defaults action */
 "info_controller.browse_user_defaults_row" = "Browse User Defaults";
+
+/* Error title displayed when the stop ID provided doesn't match a known stop ID. */
+"map_controller.no_matching_stop_warning_title" = "No Stops Found";
+
+/* Error message displayed when the stop ID provided doesn't match a known stop ID. */
+"map_controller.no_matching_stop_warning_body" = "We were unable to find a stop that matches the ID you provided. Please check the number and try again.";
