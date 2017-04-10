@@ -18,6 +18,7 @@
 #import <OBAKit/JsonUrlFetcherImpl.h>
 #import <OBAKit/OBACommon.h>
 #import <OBAKit/NSDictionary+OBAAdditions.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 @interface OBAJsonDataSource ()
 @property(nonatomic,strong) NSHashTable *openConnections;
@@ -98,6 +99,10 @@
 
 + (BOOL)requestSupportsHTTPBody:(NSURLRequest*)request {
     return [@[@"post", @"patch", @"put"] containsObject:request.HTTPMethod.lowercaseString];
+}
+
+- (NSString*)description {
+    return [self oba_description:@[] keyPaths:@[@"config"]];
 }
 
 @end

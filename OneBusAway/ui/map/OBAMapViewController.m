@@ -17,6 +17,7 @@
 #import "OBAMapViewController.h"
 @import OBAKit;
 @import Masonry;
+@import SVProgressHUD;
 #import "OBAStopViewController.h"
 #import "OBAAnalytics.h"
 #import "OBAAlerts.h"
@@ -531,12 +532,34 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)navigateToTarget:(OBANavigationTarget*)navigationTarget {
     if (navigationTarget.searchType == OBASearchTypeStopId) {
-        OBAStopViewController *stopController = [[OBAStopViewController alloc] initWithStopID:navigationTarget.searchArgument];
-        [self.navigationController pushViewController:stopController animated:YES];
+        CLCircularRegion *circularRegion = [OBAMapHelpers convertVisibleMapRect:self.mapView.visibleMapRect intoCircularRegionWithCenter:self.mapView.centerCoordinate];
+
+        [SVProgressHUD show];
+        [self.modelService requestStopsForQuery:navigationTarget.searchArgument region:circularRegion].then(^(OBASearchResult *searchResult) {
+            [self displayStopControllerForSearchResult:searchResult];
+        }).always(^{
+            [SVProgressHUD dismiss];
+        });
     }
     else {
         [APP_DELEGATE navigateToTarget:navigationTarget];
     }
+}
+
+- (void)displayStopControllerForSearchResult:(OBASearchResult*)searchResult {
+    if (searchResult.values.count == 0) {
+        [AlertPresenter showWarning:NSLocalizedString(@"map_controller.no_matching_stop_warning_title", @"Error title displayed when the stop ID provided doesn't match a known stop ID.") body:NSLocalizedString(@"map_controller.no_matching_stop_warning_body", @"Error message displayed when the stop ID provided doesn't match a known stop ID.")];
+        return;
+    }
+
+    if (searchResult.values.count > 1) {
+        [self showNearbyStopsWithSearchResult:searchResult];
+        return;
+    }
+
+    OBAStopV2 *stop = searchResult.values.firstObject;
+    OBAStopViewController *stopController = [[OBAStopViewController alloc] initWithStopID:stop.stopId];
+    [self.navigationController pushViewController:stopController animated:YES];
 }
 
 #pragma mark - OBASearchMapViewController Private Methods

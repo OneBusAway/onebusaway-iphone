@@ -17,6 +17,7 @@
 #import <OBAKit/OBADataSourceConfig.h>
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBALogging.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 @interface OBADataSourceConfig ()
 @property(nonatomic,copy) NSURL* baseURL;
@@ -95,6 +96,10 @@
     }
 
     return [queryArgs copy];
+}
+
+- (NSString*)description {
+    return [self oba_description:@[@"baseURL", @"basePath", @"defaultArgs"]];
 }
 
 @end
