@@ -25,7 +25,7 @@
 
     XCTAssertNil(error);
 
-    XCTAssertEqual(alert.ID, 1330);
+    XCTAssertEqual(alert.identifier, 1330);
     XCTAssertEqualObjects(alert.title, @"Sounder Everett-Seattle - Delay - Train #1702 (4:33 pm Seattle departure) is delayed approximately 10 minutes");
     XCTAssertEqualObjects(alert.summary, @"North Line Train #1702 (4:33 pm Seattle departure) is delayed approximately 10 minutes en route to Everett due to BNSF freight interference.");
     XCTAssertEqualObjects(alert.URL, [NSURL URLWithString:@"http://m.soundtransit.org/node/15271"]);

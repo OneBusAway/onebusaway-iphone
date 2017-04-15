@@ -289,6 +289,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         return;
     }
 
+    DDLogError(@"%s - error: %@", __PRETTY_FUNCTION__, error);
+
     if ([error.domain isEqual:NSURLErrorDomain] || [error.domain isEqual:NSPOSIXErrorDomain]) {
         // We hide repeated network errors
         if (self.hideFutureNetworkErrors) {
@@ -297,13 +299,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         self.hideFutureNetworkErrors = YES;
 
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_error_min_connecting", @"self.navigationItem.title") message:NSLocalizedString(@"msg_problem_internet_connection_on_map", @"view.message") preferredStyle:UIAlertControllerStyleAlert];
-
-        [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleCancel handler:nil]];
-        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_contact_us", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [APP_DELEGATE navigateToTarget:[OBANavigationTarget navigationTarget:OBANavigationTargetTypeContactUs]];
-        }]];
-        [self presentViewController:alert animated:YES completion:nil];
+        [AlertPresenter showError:error];
     }
 }
 
