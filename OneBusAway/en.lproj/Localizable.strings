@@ -553,9 +553,6 @@
 /* Invalid region error message */
 "msg_alert_custom_region_not_valid" = "The region you have specified is not valid. Please specify at least a base URL (HTTPS) and a name.";
 
-/* view.message */
-"msg_problem_internet_connection_on_map" = "There was a problem with your Internet connection.\r\n\r\nPlease check your network connection or contact us if you think the problem is on our end.";
-
 /* The footer label on the PIIViewController */
 "msg_explanatory_information_send_on_submit_request" = "This information is only sent to OneBusAway when you submit a support request. You can disable sending us any or all of this data, but it will limit our ability to diagnose and fix problems you are experiencing.";
 
