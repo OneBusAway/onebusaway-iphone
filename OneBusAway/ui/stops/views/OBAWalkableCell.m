@@ -13,7 +13,7 @@
 #import "OBAWalkableRow.h"
 
 @interface OBAWalkableCell ()
-@property(nonatomic,strong) OBACanvasView *triangleView;
+@property(nonatomic,strong) OBACanvasView *fillView;
 @property(nonatomic,strong) UIImageView *walkImageView;
 @property(nonatomic,strong) UILabel *distanceLabel;
 @end
@@ -27,48 +27,58 @@
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         UIColor *backgroundColor = [OBATheme OBAGreen];
+        UIFont *distanceLabelFont = [OBATheme footnoteFont];
 
-        CGFloat barHeight = [OBATheme defaultPadding];
-        CGFloat triangleWidth = 30.f;
-        CGFloat triangleHeight = 15.f;
+        CGFloat barHeight = [@"jJmyg89" sizeWithAttributes:@{NSFontAttributeName: distanceLabelFont}].height + 2;
+        CGFloat triangleHeight = 8.f;
+        CGFloat triangleWidth = 20.f;
+        CGFloat triangleOffsetFromRight = 23.f;
 
         [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.height.equalTo(@(barHeight+triangleHeight));
         }];
 
-        CGFloat xPoint = CGRectGetWidth(self.frame) - triangleWidth - self.layoutMargins.right - [OBATheme defaultPadding];
-        CGFloat yPoint = 0.f;
-
-        _triangleView = [[OBACanvasView alloc] initWithFrame:CGRectMake(xPoint, [OBATheme defaultPadding], triangleWidth, triangleHeight) drawRectBlock:^(CGRect rect) {
+        _fillView = [[OBACanvasView alloc] initWithFrame:self.bounds drawRectBlock:^(CGRect rect) {
             UIBezierPath *path = [UIBezierPath bezierPath];
-            [path moveToPoint:CGPointMake(0, yPoint)];
-            [path addLineToPoint:CGPointMake(triangleWidth/2.f, triangleHeight)];
-            [path addLineToPoint:CGPointMake(triangleWidth, yPoint)];
+
+            CGPoint topLeft = CGPointMake(0, 0);
+            CGPoint topRight = CGPointMake(CGRectGetMaxX(rect), 0);
+            CGPoint bottomRight = CGPointMake(CGRectGetMaxX(rect), CGRectGetMaxY(rect) - triangleHeight);
+            CGPoint triangleStart = CGPointMake(CGRectGetMaxX(rect) - triangleOffsetFromRight, CGRectGetMaxY(rect) - triangleHeight);
+            CGPoint triangleMid = CGPointMake(triangleStart.x - (triangleWidth / 2.f), CGRectGetMaxY(rect));
+            CGPoint triangleEnd = CGPointMake(triangleStart.x - triangleWidth, triangleStart.y);
+            CGPoint bottomLeft = CGPointMake(0, bottomRight.y);
+
+            [path moveToPoint:topLeft];
+            [path addLineToPoint:topRight];
+            [path addLineToPoint:bottomRight];
+            [path addLineToPoint:triangleStart];
+            [path addLineToPoint:triangleMid];
+            [path addLineToPoint:triangleEnd];
+            [path addLineToPoint:bottomLeft];
+            [path addLineToPoint:topLeft];
+
             [path closePath];
             [backgroundColor set];
             [path fill];
         }];
-        _triangleView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-        [self addSubview:_triangleView];
+        _fillView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        [self addSubview:_fillView];
 
-        UIView *barView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), barHeight)];
-        barView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        barView.backgroundColor = backgroundColor;
-        [self addSubview:barView];
+        _distanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 2, CGRectGetWidth(self.frame) - triangleWidth - triangleOffsetFromRight - 4, CGRectGetHeight(self.frame) - triangleHeight - 4)];
+        _distanceLabel.font = distanceLabelFont;
+        _distanceLabel.textColor = [UIColor whiteColor];
+        _distanceLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+        _distanceLabel.textAlignment = NSTextAlignmentRight;
+        [_fillView addSubview:_distanceLabel];
 
         UIImage *walkImage = [[UIImage imageNamed:@"walkTransport"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         _walkImageView = [[UIImageView alloc] initWithImage:walkImage];
-        _walkImageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         _walkImageView.tintColor = [UIColor whiteColor];
-        _walkImageView.contentMode = UIViewContentModeScaleAspectFit;
-        _walkImageView.frame = CGRectApplyAffineTransform(_triangleView.frame, CGAffineTransformMakeTranslation(0, -6.f));
-        [self addSubview:_walkImageView];
+        _walkImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _walkImageView.frame = CGRectMake(CGRectGetMaxX(_distanceLabel.frame) + 4, 6, triangleWidth - 2, (barHeight+triangleHeight- 4)/2.f);
 
-        _distanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, barHeight, xPoint, triangleHeight)];
-        _distanceLabel.font = [OBATheme footnoteFont];
-        _distanceLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        _distanceLabel.textAlignment = NSTextAlignmentRight;
-        [self addSubview:_distanceLabel];
+        [_fillView addSubview:_walkImageView];
     }
 
     return self;

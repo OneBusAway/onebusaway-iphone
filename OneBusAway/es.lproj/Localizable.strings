@@ -613,7 +613,7 @@
 "msg_visit_us" = "Visitanos";
 
 /* No comment provided by engineer. */
-"text_walk_to_stop_info_params" = "%@; %.0f min, llegando a las %@";
+"text_walk_to_stop_info_params" = "%@, %.0f min: llegando a las %@";
 
 /* No comment provided by engineer. */
 "msg_explanatory_no_agencies" = "No hemos podido encontrar agencias de transporte público cerca de tu ubicación actual.";
