@@ -10,6 +10,8 @@
 @import OBAKit;
 #import "OBATestHarnessPersistenceLayer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class OBARegionV2;
 
 @interface OBATestHelpers : NSObject
@@ -67,8 +69,9 @@
 
 // Fixture Helpers
 
-+ (OBARegionV2*)pugetSoundRegion;
-
-+ (OBARegionV2*)tampaRegion;
+@property(class,nonatomic,readonly,copy) OBARegionV2 *pugetSoundRegion;
+@property(class,nonatomic,readonly,copy) OBARegionV2 *tampaRegion;
 
 @end
+
+NS_ASSUME_NONNULL_END
