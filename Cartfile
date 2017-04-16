@@ -52,7 +52,7 @@ github "cbpowell/MarqueeLabel" ~>3.0.1
 github "OneSignal/OneSignal-iOS-SDK" ~>2.3.5
 
 # https://github.com/apptentive/apptentive-ios/releases
-github "apptentive/apptentive-ios" ~>3.4.2
+github "apptentive/apptentive-ios" ~>3.5.0
 
 ###################
 ##### Testing #####

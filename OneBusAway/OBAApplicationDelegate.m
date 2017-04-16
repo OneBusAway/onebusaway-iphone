@@ -38,7 +38,7 @@
 
 static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegionRefreshDateUserDefaultsKey";
 
-@interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate, OBAPushManagerDelegate, OnboardingDelegate>
+@interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate, OBAPushManagerDelegate, OnboardingDelegate, PrivacyBrokerDelegate>
 @property(nonatomic,strong) UINavigationController *regionNavigationController;
 @property(nonatomic,strong) RegionListViewController *regionListViewController;
 @property(nonatomic,strong) id<OBAApplicationUI> applicationUI;
@@ -60,6 +60,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
         [[OBAApplication sharedApplication] start];
 
+        [OBAApplication sharedApplication].privacyBroker.delegate = self;
         [OBAApplication sharedApplication].regionHelper.delegate = self;
     }
 
@@ -117,7 +118,8 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:[OBAApplication sharedApplication].oneSignalAPIKey];
 
     // Configure the Apptentive feedback system
-    [Apptentive sharedConnection].APIKey = [OBAApplication sharedApplication].apptentiveAPIKey;
+    [Apptentive shared].APIKey = [OBAApplication sharedApplication].apptentiveAPIKey;
+    [Apptentive shared].appID = [OBAApplication sharedApplication].appStoreAppID;
 
     // Set up Google Analytics. User must be able to opt out of tracking.
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:[OBAApplication sharedApplication].googleAnalyticsID];
@@ -180,6 +182,10 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:label value:nil];
 
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", OBAStringFromBool([OBAApplication sharedApplication].modelDao.automaticallySelectRegion)] value:nil];
+
+    if (![OBAApplicationDelegate awaitingLocationAuthorization]) {
+        [OBAApplication.sharedApplication.privacyBroker reportUserDataWithNotificationsStatus:[UIApplication sharedApplication].isRegisteredForRemoteNotifications];
+    }
 
     [[Apptentive sharedConnection] engage:@"app_became_active" fromViewController:nil];
 }
@@ -418,6 +424,24 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
         _onboardingViewController.delegate = self;
     }
     return _onboardingViewController;
+}
+
+#pragma mark - PrivacyBrokerDelegate
+
+- (void)addPersonBool:(BOOL)value withKey:(NSString *)withKey {
+    [[Apptentive shared] addCustomPersonDataBool:value withKey:withKey];
+}
+
+- (void)addPersonNumber:(NSNumber *)value withKey:(NSString *)withKey {
+    [[Apptentive shared] addCustomPersonDataNumber:value withKey:withKey];
+}
+
+- (void)addPersonString:(NSString *)value withKey:(NSString *)withKey {
+    [[Apptentive shared] addCustomPersonDataString:value withKey:withKey];
+}
+
+- (void)removePersonKey:(NSString *)key {
+    [[Apptentive shared] removeCustomPersonDataWithKey:key];
 }
 
 - (void)onboardingControllerRequestedAuthorization:(OnboardingViewController *)onboardingController {

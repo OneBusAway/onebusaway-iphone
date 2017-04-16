@@ -21,6 +21,7 @@ extern NSString * const OBAPushNotificationUserIdDefaultsKey;
 extern NSString * const OBAPushNotificationPushTokenDefaultsKey;
 
 @interface OBAPushManager : NSObject
+@property(class,nonatomic,assign,readonly) BOOL isRegisteredForRemoteNotifications;
 @property(nonatomic,copy,readonly) NSString *pushNotificationUserID;
 @property(nonatomic,copy,readonly) NSString *pushNotificationToken;
 @property(nonatomic,weak) id<OBAPushManagerDelegate> delegate;

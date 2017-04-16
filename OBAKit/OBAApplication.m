@@ -159,6 +159,10 @@ NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNot
     return @"d5d0d28a-6091-46cd-9627-0ce01ffa9f9e";
 }
 
+- (NSString*)appStoreAppID {
+    return @"329380089";
+}
+
 #pragma mark - App/Region/API State
 
 - (void)refreshSettings {

@@ -16,6 +16,7 @@
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
 #import "OneBusAway-Swift.h"
+#import "OBAPushManager.h"
 
 static NSString * const kRepoURLString = @"https://www.github.com/onebusaway/onebusaway-iphone";
 static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
@@ -312,36 +313,12 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [self presentViewController:navigation animated:YES completion:nil];
 }
 
+- (void)recordUserInformation {
+    [self.privacyBroker reportUserDataWithNotificationsStatus:[UIApplication sharedApplication].isRegisteredForRemoteNotifications];
+}
+
 - (void)presentApptentiveMessageCenter {
-    // Information that cannot be used to uniquely identify the user is shared automatically.
-    [[Apptentive sharedConnection] addCustomPersonDataBool:self.modelDAO.automaticallySelectRegion withKey:@"Automatically Select Region"];
-    [[Apptentive sharedConnection] addCustomPersonDataBool:(!!self.modelDAO.currentRegion) withKey:@"Region Selected"];
-    [[Apptentive sharedConnection] addCustomPersonDataString:locationAuthorizationStatusToString(self.locationManager.authorizationStatus) withKey:@"Location Auth Status"];
-
-    NSNumber *currentRegionBookmarkCount = @(self.modelDAO.bookmarksForCurrentRegion.count);
-    NSNumber *allBookmarksCount = @(self.modelDAO.allBookmarksCount);
-    [[Apptentive sharedConnection] addCustomPersonDataNumber:currentRegionBookmarkCount withKey:@"Bookmarks (Region)"];
-    [[Apptentive sharedConnection] addCustomPersonDataNumber:allBookmarksCount withKey:@"Bookmarks (All)"];
-
-    // Information that can be used to uniquely identify the user is not shared automatically.
-
-    if (self.privacyBroker.shareableLocationInformation) {
-        [[Apptentive sharedConnection] addCustomPersonDataString:self.privacyBroker.shareableLocationInformation withKey:@"Location"];
-    }
-    else {
-        [[Apptentive sharedConnection] removeCustomPersonDataWithKey:@"Location"];
-    }
-
-    NSDictionary *regionInfo = self.privacyBroker.shareableRegionInformation;
-    for (NSString *key in regionInfo) {
-        if (self.privacyBroker.canShareRegionInformation) {
-            [[Apptentive sharedConnection] addCustomPersonDataString:regionInfo[key] withKey:key];
-        }
-        else {
-            [[Apptentive sharedConnection] removeCustomPersonDataWithKey:key];
-        }
-    }
-
+    [self recordUserInformation];
     [[Apptentive sharedConnection] presentMessageCenterFromViewController:self];
 }
 
