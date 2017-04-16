@@ -314,36 +314,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 }
 
 - (void)recordUserInformation {
-    // Information that cannot be used to uniquely identify the user is shared automatically.
-    [[Apptentive sharedConnection] addCustomPersonDataBool:self.modelDAO.automaticallySelectRegion withKey:@"Automatically Select Region"];
-    [[Apptentive sharedConnection] addCustomPersonDataBool:(!!self.modelDAO.currentRegion) withKey:@"Region Selected"];
-    [[Apptentive sharedConnection] addCustomPersonDataString:locationAuthorizationStatusToString(self.locationManager.authorizationStatus) withKey:@"Location Auth Status"];
-
-    NSNumber *currentRegionBookmarkCount = @(self.modelDAO.bookmarksForCurrentRegion.count);
-    NSNumber *allBookmarksCount = @(self.modelDAO.allBookmarksCount);
-    [[Apptentive sharedConnection] addCustomPersonDataNumber:currentRegionBookmarkCount withKey:@"Bookmarks (Region)"];
-    [[Apptentive sharedConnection] addCustomPersonDataNumber:allBookmarksCount withKey:@"Bookmarks (All)"];
-
-    [[Apptentive sharedConnection] addCustomPersonDataBool:OBAPushManager.isRegisteredForRemoteNotifications withKey:@"Registered for Notifications"];
-
-    // Information that can be used to uniquely identify the user is not shared automatically.
-
-    if (self.privacyBroker.shareableLocationInformation) {
-        [[Apptentive sharedConnection] addCustomPersonDataString:self.privacyBroker.shareableLocationInformation withKey:@"Location"];
-    }
-    else {
-        [[Apptentive sharedConnection] removeCustomPersonDataWithKey:@"Location"];
-    }
-
-    NSDictionary *regionInfo = self.privacyBroker.shareableRegionInformation;
-    for (NSString *key in regionInfo) {
-        if (self.privacyBroker.canShareRegionInformation) {
-            [[Apptentive sharedConnection] addCustomPersonDataString:regionInfo[key] withKey:key];
-        }
-        else {
-            [[Apptentive sharedConnection] removeCustomPersonDataWithKey:key];
-        }
-    }
+    [self.privacyBroker reportUserDataWithNotificationsStatus:[UIApplication sharedApplication].isRegisteredForRemoteNotifications];
 }
 
 - (void)presentApptentiveMessageCenter {

@@ -8,6 +8,13 @@
 
 import UIKit
 
+@objc public protocol PrivacyBrokerDelegate {
+    func addPersonBool(_ value: Bool, withKey: String)
+    func addPersonNumber(_ value: NSNumber, withKey: String)
+    func addPersonString(_ value: String, withKey: String)
+    func removePersonKey(_ key: String)
+}
+
 let RegionNameKey = "region_name"
 let RegionIdentifierKey = "region_identifier"
 let RegionURLKey = "region_base_api_url"
@@ -85,6 +92,50 @@ public class PrivacyBroker: NSObject {
 
     public func toggleShareLocationInformation() {
         self.modelDAO.shareLocationPII = !self.modelDAO.shareLocationPII
+    }
+
+    // MARK: - User Data
+
+    public weak var delegate: PrivacyBrokerDelegate?
+
+    public func reportUserData(notificationsStatus: Bool) {
+        // Information that cannot be used to uniquely identify the user is shared automatically.
+        self.reportNonPIIData(notificationsStatus)
+
+        // Information that can be used to uniquely identify the user is not shared automatically.
+        self.reportPIIData()
+    }
+
+    /// Information that cannot be used to uniquely identify the user is shared automatically.
+    private func reportNonPIIData(_ notificationsStatus: Bool) {
+        self.delegate?.addPersonBool(self.modelDAO.automaticallySelectRegion, withKey: "Automatically Select Region")
+        self.delegate?.addPersonBool(self.modelDAO.currentRegion != nil, withKey: "Region Selected")
+        self.delegate?.addPersonString(locationAuthorizationStatusToString(self.locationManager.authorizationStatus), withKey: "Location Auth Status")
+        self.delegate?.addPersonBool(notificationsStatus, withKey: "Registered for Notifications")
+
+        self.delegate?.addPersonNumber(NSNumber.init(value: self.modelDAO.bookmarksForCurrentRegion.count), withKey: "Bookmarks (Region)")
+        self.delegate?.addPersonNumber(NSNumber.init(value: self.modelDAO.allBookmarksCount), withKey: "Bookmarks (All)")
+    }
+
+
+    /// Information that can be used to uniquely identify the user is not shared automatically.
+    private func reportPIIData() {
+        if let location = self.shareableLocationInformation {
+            self.delegate?.addPersonString(location, withKey: "Location")
+        }
+        else {
+            self.delegate?.removePersonKey("Location")
+        }
+
+        let regionInfo = self.shareableRegionInformation()
+        for (key, value) in regionInfo {
+            if self.canShareRegionInformation {
+                self.delegate?.addPersonString(value, withKey: key)
+            }
+            else {
+                self.delegate?.removePersonKey(key)
+            }
+        }
     }
 
     // MARK: - Logging Information
