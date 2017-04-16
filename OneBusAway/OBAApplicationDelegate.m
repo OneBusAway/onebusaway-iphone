@@ -118,7 +118,8 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:[OBAApplication sharedApplication].oneSignalAPIKey];
 
     // Configure the Apptentive feedback system
-    [Apptentive sharedConnection].APIKey = [OBAApplication sharedApplication].apptentiveAPIKey;
+    [Apptentive shared].APIKey = [OBAApplication sharedApplication].apptentiveAPIKey;
+    [Apptentive shared].appID = [OBAApplication sharedApplication].appStoreAppID;
 
     // Set up Google Analytics. User must be able to opt out of tracking.
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:[OBAApplication sharedApplication].googleAnalyticsID];
