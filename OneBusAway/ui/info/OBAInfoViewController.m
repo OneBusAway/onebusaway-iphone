@@ -16,6 +16,7 @@
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
 #import "OneBusAway-Swift.h"
+#import "OBAPushManager.h"
 
 static NSString * const kRepoURLString = @"https://www.github.com/onebusaway/onebusaway-iphone";
 static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
@@ -312,7 +313,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [self presentViewController:navigation animated:YES completion:nil];
 }
 
-- (void)presentApptentiveMessageCenter {
+- (void)recordUserInformation {
     // Information that cannot be used to uniquely identify the user is shared automatically.
     [[Apptentive sharedConnection] addCustomPersonDataBool:self.modelDAO.automaticallySelectRegion withKey:@"Automatically Select Region"];
     [[Apptentive sharedConnection] addCustomPersonDataBool:(!!self.modelDAO.currentRegion) withKey:@"Region Selected"];
@@ -322,6 +323,8 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     NSNumber *allBookmarksCount = @(self.modelDAO.allBookmarksCount);
     [[Apptentive sharedConnection] addCustomPersonDataNumber:currentRegionBookmarkCount withKey:@"Bookmarks (Region)"];
     [[Apptentive sharedConnection] addCustomPersonDataNumber:allBookmarksCount withKey:@"Bookmarks (All)"];
+
+    [[Apptentive sharedConnection] addCustomPersonDataBool:OBAPushManager.isRegisteredForRemoteNotifications withKey:@"Registered for Notifications"];
 
     // Information that can be used to uniquely identify the user is not shared automatically.
 
@@ -341,7 +344,10 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
             [[Apptentive sharedConnection] removeCustomPersonDataWithKey:key];
         }
     }
+}
 
+- (void)presentApptentiveMessageCenter {
+    [self recordUserInformation];
     [[Apptentive sharedConnection] presentMessageCenterFromViewController:self];
 }
 
