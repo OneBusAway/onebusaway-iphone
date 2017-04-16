@@ -10,6 +10,8 @@
 @import OBAKit;
 #import "OBATestHarnessPersistenceLayer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class OBARegionV2;
 
 @interface OBATestHelpers : NSObject
@@ -67,8 +69,15 @@
 
 // Fixture Helpers
 
-+ (OBARegionV2*)pugetSoundRegion;
+@property(class,nonatomic,readonly,copy) OBARegionV2 *pugetSoundRegion;
+@property(class,nonatomic,readonly,copy) OBARegionV2 *tampaRegion;
 
-+ (OBARegionV2*)tampaRegion;
+// Time and Time Zones
+
+@property(class,nonatomic,readonly,assign) NSInteger timeZoneOffsetForTests;
+@property(class,nonatomic,readonly,copy) NSTimeZone *timeZoneForTests;
++ (void)configureDefaultTimeZone;
 
 @end
+
+NS_ASSUME_NONNULL_END
