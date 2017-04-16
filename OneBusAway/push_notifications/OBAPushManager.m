@@ -7,12 +7,19 @@
 //
 
 #import "OBAPushManager.h"
+@import UIKit;
 
 NSString * const OBAPushNotificationUserIdDefaultsKey = @"OBAPushNotificationUserIdDefaultsKey";
 NSString * const OBAPushNotificationPushTokenDefaultsKey = @"OBAPushNotificationPushTokenDefaultsKey";
 
 @implementation OBAPushManager {
     PMKResolver resolver;
+}
+
+#pragma mark - Permissions
+
++ (BOOL)isRegisteredForRemoteNotifications {
+    return [UIApplication sharedApplication].isRegisteredForRemoteNotifications;
 }
 
 #pragma mark - Setup Stuff
