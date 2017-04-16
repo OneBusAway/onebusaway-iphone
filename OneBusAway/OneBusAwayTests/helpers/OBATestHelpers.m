@@ -57,4 +57,19 @@
     return regions[0];
 }
 
+#pragma mark - Time and Time Zones
+
+// this is the number of seconds that Seattle is behind GMT during DST.
++ (NSInteger)timeZoneOffsetForTests {
+    return -25200;
+}
+
++ (NSTimeZone*)timeZoneForTests {
+    return [NSTimeZone timeZoneForSecondsFromGMT:[OBATestHelpers timeZoneOffsetForTests]];
+}
+
++ (void)configureDefaultTimeZone {
+    NSTimeZone.defaultTimeZone = [OBATestHelpers timeZoneForTests];
+}
+
 @end

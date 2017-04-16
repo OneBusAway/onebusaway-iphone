@@ -72,6 +72,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(class,nonatomic,readonly,copy) OBARegionV2 *pugetSoundRegion;
 @property(class,nonatomic,readonly,copy) OBARegionV2 *tampaRegion;
 
+// Time and Time Zones
+
+@property(class,nonatomic,readonly,assign) NSInteger timeZoneOffsetForTests;
+@property(class,nonatomic,readonly,copy) NSTimeZone *timeZoneForTests;
++ (void)configureDefaultTimeZone;
+
 @end
 
 NS_ASSUME_NONNULL_END
