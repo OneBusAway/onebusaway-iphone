@@ -92,6 +92,17 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     [self cancelTimer];
 }
 
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
+
+    if (editing) {
+        [self cancelTimer];
+    }
+    else {
+        [self startTimer];
+    }
+}
+
 #pragma mark - OBANavigationTargetAware
 
 - (OBANavigationTarget*)navigationTarget {
@@ -107,7 +118,24 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 }
 
 - (void)locationChanged:(NSNotification*)note {
+    if (self.editing) {
+        return;
+    };
     [self loadDataWithTableReload:YES];
+}
+
+- (void)reachabilityChanged:(NSNotification*)note {
+    if (self.editing) {
+        return;
+    };
+
+    // Automatically refresh whenever the connection goes from offline -> online
+    if ([OBAApplication sharedApplication].isServerReachable) {
+        [self startTimer];
+    }
+    else {
+        [self cancelTimer];
+    }
 }
 
 #pragma mark - Refresh Bookmarks
@@ -215,18 +243,6 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
             [self.tableView reloadData];
         }
     });
-}
-
-#pragma mark - Reachability
-
-- (void)reachabilityChanged:(NSNotification*)note {
-    // Automatically refresh whenever the connection goes from offline -> online
-    if ([OBAApplication sharedApplication].isServerReachable) {
-        [self startTimer];
-    }
-    else {
-        [self cancelTimer];
-    }
 }
 
 #pragma mark - Data Loading
