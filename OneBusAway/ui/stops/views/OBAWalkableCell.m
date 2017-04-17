@@ -75,6 +75,7 @@
         UIImage *walkImage = [[UIImage imageNamed:@"walkTransport"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         _walkImageView = [[UIImageView alloc] initWithImage:walkImage];
         _walkImageView.tintColor = [UIColor whiteColor];
+        _walkImageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         _walkImageView.contentMode = UIViewContentModeScaleAspectFill;
         _walkImageView.frame = CGRectMake(CGRectGetMaxX(_distanceLabel.frame) + 4, 6, triangleWidth - 2, (barHeight+triangleHeight- 4)/2.f);
 
