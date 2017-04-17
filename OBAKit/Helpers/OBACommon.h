@@ -27,6 +27,7 @@ typedef NS_ENUM(NSInteger, OBASearchType) {
     OBASearchTypeAddress,
     OBASearchTypePlacemark,
     OBASearchTypeStopId,
+    OBASearchTypeRegionalAlert,
 };
 
 typedef NS_ENUM(NSInteger, OBANavigationTargetType) {

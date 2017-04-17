@@ -755,6 +755,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
             break;
         }
 
+        case OBASearchTypeRegionalAlert:
         case OBASearchTypePending:
         case OBASearchTypeNone:
             break;
