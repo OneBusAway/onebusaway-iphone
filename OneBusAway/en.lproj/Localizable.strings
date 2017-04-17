@@ -248,9 +248,6 @@
 /* self.listBarButtonItem.accessibilityLabel */
 "msg_nearby_stops_list" = "Nearby stops list";
 
-/* No comment provided by engineer. */
-"msg_newest_regions" = "Newest Regions";
-
 /* Out of range alert Cancel button */
 "msg_no" = "No";
 
@@ -523,7 +520,7 @@
 /* name */
 "msg_stop_number_wrong" = "Stop number is wrong";
 
-/* OBASearchTypeRouteStops */
+/* OBASearchTypeStops */
 "msg_stops" = "Stops";
 
 /* view.title */
@@ -555,9 +552,6 @@
 
 /* Invalid region error message */
 "msg_alert_custom_region_not_valid" = "The region you have specified is not valid. Please specify at least a base URL (HTTPS) and a name.";
-
-/* view.message */
-"msg_problem_internet_connection_on_map" = "There was a problem with your Internet connection.\r\n\r\nPlease check your network connection or contact us if you think the problem is on our end.";
 
 /* The footer label on the PIIViewController */
 "msg_explanatory_information_send_on_submit_request" = "This information is only sent to OneBusAway when you submit a support request. You can disable sending us any or all of this data, but it will limit our ability to diagnose and fix problems you are experiencing.";
@@ -619,7 +613,7 @@
 "msg_visit_us" = "Visit Us";
 
 /* No comment provided by engineer. */
-"text_walk_to_stop_info_params" = "%@; %.0f min, arriving at %@";
+"text_walk_to_stop_info_params" = "%@, %.0f min: arriving at %@";
 
 /* No comment provided by engineer. */
 "msg_explanatory_no_agencies" = "We could not find any transit agencies near your current location.";
@@ -798,4 +792,89 @@
 "trip_status.no_realtime_data_message" = "Real-time data unavailable.";
 
 /* e.g. Last report: 2m 43s ago */
-"trip_status.last_update_format" = "Last report: %@m %@s ago";
+"trip_status.last_report_format" = "Last report: %@m %@s ago";
+
+/* The empty data set description for the search controller */
+"map_search.empty_data_set_description" = "Type in an address, route number, or stop number here to search.";
+
+
+/* The section title on the 'Nearby' controller that says 'Routes' */
+"nearby_stops.routes_section_title" = "Routes";
+
+/* Map Search: Quick Lookup Table Section */
+"map_search.quick_lookup_section_title" = "Quick Search";
+
+/* 'Search for Route:' */
+"map_search.search_for_route" = "Route:";
+
+/* "Search for Address:" */
+"map_search.search_for_address" = "Address:";
+
+/* Formatted string for Search for Stop Number: */
+"map_search.search_for_stop_number" = "Stop Number:";
+
+/* Map Search: Recent Stops section title */
+"map_search.recent_stops_section_title" = "Recent Stops";
+
+/* Map Search: Bookmarks section title */
+"map_search.bookmarks_section_title" = "Bookmarks";
+
+/* Clear Search button text */
+"toast_view.clear_search" = "Clear Search";
+
+/* Message shown when debug mode is turned on */
+"info_controller.debug_mode_enabled" = "Debug mode enabled.";
+
+/* Message shown when debug mode is turned off */
+"info_controller.debug_mode_disabled" = "Debug mode disabled.";
+
+/* Title of the Experimental Regions section in the Region List view controller. */
+"region_list_controller.experimental_section_title" = "Experimental Regions";
+
+/* Title for the Updates & Alerts section */
+"info_controller.updates_alerts_section_title" = "Updates & Alerts";
+
+/* Title for Updates & Alerts row. e.g. Alerts for <Region Name> */
+"info_controller.updates_alerts_row_format" = "Alerts for %@";
+
+/* Alerts for <REGION NAME> */
+"regional_alerts_controller.title_format" = "Alerts for %@";
+
+/* Empty data set description for regional alerts controller */
+"regional_alerts_controller.empty_description" = "No alerts reported for your area.";
+
+/* Title for a section that displays stops without a specified cardinal direction. Just 'Stops' in English. */
+"nearby_stops.stops_section_title" = "Stops";
+
+/* Segmented control item title: 'Sort by Group' */
+"bookmarks_controller.sort_by_group_item" = "Sort by Group";
+
+/* Segmented control item title: 'Sort by Proximity' */
+"bookmarks_controller.sort_by_proximity_item" = "Sort by Proximity";
+
+/* "Title of the Onboarding Controller. 'Welcome to OneBusAway!' */
+"onboarding_controller.title" = "Welcome to OneBusAway!";
+
+/* Body text of the Onboarding Controller. */
+"onboarding_controller.body_text" = "OneBusAway is an open source, volunteer-run app that helps you find out where your buses, trains, ferries, and more are in real time.\r\n\r\nThe app works best when it can find your location.\r\n\r\nPlease tap the button below to get started.";
+
+/* Bottom button on the Onboarding Controller */
+"onboarding_controller.request_location_permissions_button" = "Get Started";
+
+/* Title for the user defaults browser */
+"user_defaults_browser_controller.title" = "User Defaults";
+
+/* The table section title for the debugging tools. */
+"info_controller.debug_section_title" = "Debugging Tools";
+
+/* Row title for the Browse User Defaults action */
+"info_controller.browse_user_defaults_row" = "Browse User Defaults";
+
+/* Error title displayed when the stop ID provided doesn't match a known stop ID. */
+"map_controller.no_matching_stop_warning_title" = "No Stops Found";
+
+/* Error message displayed when the stop ID provided doesn't match a known stop ID. */
+"map_controller.no_matching_stop_warning_body" = "We were unable to find a stop that matches the ID you provided. Please check the number and try again.";
+
+/* Error message shown when the user denies the app the ability to send push notifications. */
+"push_manager.authorization_denied" = "Alarms only work when push notifications are allowed.";

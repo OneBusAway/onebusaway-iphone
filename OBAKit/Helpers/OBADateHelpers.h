@@ -15,6 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBADateHelpers : NSObject
 + (NSString*)formatShortTimeNoDate:(NSDate*)date;
++ (NSString*)formatShortTimeShortDate:(NSDate*)date;
++ (NSString*)formatNoTimeShortDate:(NSDate*)date;
+
 + (NSDate *)getTripStopTimeAsDate:(OBATripStopTimeV2*)stopTime tripDetails:(OBATripDetailsV2*)tripDetails;
 + (NSString*)formatMinutesUntilDate:(NSDate*)date;
 

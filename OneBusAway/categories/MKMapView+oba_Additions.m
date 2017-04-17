@@ -29,4 +29,9 @@
     [self setRegion:region animated:animated];
 }
 
+- (NSUInteger)oba_zoomLevel {
+    NSUInteger zoomLevel = [OBAMapHelpers zoomLevelForMapRect:self.visibleMapRect withMapViewSizeInPixels:self.frame.size];
+    return zoomLevel;
+}
+
 @end

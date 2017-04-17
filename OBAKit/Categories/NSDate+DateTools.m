@@ -32,4 +32,61 @@
     return MAX([self minutesFrom:date], 0);
 }
 
+- (BOOL)isToday {
+    NSCalendar *cal = [NSCalendar currentCalendar];
+    NSDateComponents *components = [cal components:(NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay) fromDate:[NSDate date]];
+    NSDate *today = [cal dateFromComponents:components];
+    components = [cal components:(NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay) fromDate:self];
+    NSDate *otherDate = [cal dateFromComponents:components];
+
+    return [today isEqualToDate:otherDate];
+}
+
+- (BOOL)isTomorrow {
+    NSCalendar *cal = [NSCalendar currentCalendar];
+    NSDateComponents *components = [cal components:(NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay) fromDate:[[NSDate date] dateByAddingDays:1 withCalendar:cal]];
+    NSDate *tomorrow = [cal dateFromComponents:components];
+    components = [cal components:(NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay) fromDate:self];
+    NSDate *otherDate = [cal dateFromComponents:components];
+
+    return [tomorrow isEqualToDate:otherDate];
+}
+
+- (BOOL)isYesterday {
+    NSCalendar *cal = [NSCalendar currentCalendar];
+    NSDateComponents *components = [cal components:(NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay) fromDate:[[NSDate date] dateBySubtractingDays:1 withCalendar:cal]];
+    NSDate *tomorrow = [cal dateFromComponents:components];
+    components = [cal components:(NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay) fromDate:self];
+    NSDate *otherDate = [cal dateFromComponents:components];
+    
+    return [tomorrow isEqualToDate:otherDate];
+}
+
+/**
+ *  Returns a date representing the receivers date shifted later by the provided number of days.
+ *
+ *  @param days NSInteger - Number of days to add
+ *
+ *  @return NSDate - Date modified by the number of desired days
+ */
+- (NSDate *)dateByAddingDays:(NSInteger)days withCalendar:(NSCalendar*)calendar {
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    [components setDay:days];
+
+    return [calendar dateByAddingComponents:components toDate:self options:0];
+}
+
+/**
+ *  Returns a date representing the receivers date shifted earlier by the provided number of days.
+ *
+ *  @param days NSInteger - Number of days to subtract
+ *
+ *  @return NSDate - Date modified by the number of desired days
+ */
+- (NSDate *)dateBySubtractingDays:(NSInteger)days withCalendar:(NSCalendar*)calendar {
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    [components setDay:-1*days];
+
+    return [calendar dateByAddingComponents:components toDate:self options:0];
+}
 @end

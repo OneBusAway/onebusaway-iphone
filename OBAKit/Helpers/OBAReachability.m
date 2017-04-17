@@ -29,6 +29,7 @@
 #import <OBAKit/OBALogging.h>
 #import <OBAKit/OBAMacros.h>
 
+#import <SystemConfiguration/CaptiveNetwork.h>
 #import <sys/socket.h>
 #import <netinet/in.h>
 #import <netinet6/in6.h>
@@ -86,6 +87,31 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
 
 @implementation OBAReachability
+
+#pragma mark - Class Properties
+
++ (nullable NSString*)wifiNetworkName {
+    CFArrayRef supportedInterfaces = CNCopySupportedInterfaces();
+    if (!supportedInterfaces) {
+        return nil;
+    }
+
+    if (CFArrayGetCount(supportedInterfaces) == 0) {
+        CFRelease(supportedInterfaces);
+        return nil;
+    }
+
+    CFStringRef interfaceName = CFArrayGetValueAtIndex(supportedInterfaces, 0);
+
+    CFDictionaryRef networkInfoRef = CNCopyCurrentNetworkInfo(interfaceName);
+    NSDictionary *networkInfo = (__bridge_transfer NSDictionary*)networkInfoRef;
+
+    NSString *SSID = [NSString stringWithString:networkInfo[(NSString*)kCNNetworkInfoKeySSID]];
+
+    CFRelease(supportedInterfaces);
+
+    return SSID;
+}
 
 #pragma mark - Class Constructor Methods
 

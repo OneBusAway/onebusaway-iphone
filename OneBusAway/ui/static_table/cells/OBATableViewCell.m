@@ -43,7 +43,13 @@
     _tableRow = [tableRow copy];
 
     self.textLabel.font = [self tableDataRow].titleFont;
-    self.textLabel.text = [self tableDataRow].title;
+
+    if ([self tableDataRow].attributedTitle) {
+        self.textLabel.attributedText = [self tableDataRow].attributedTitle;
+    }
+    else {
+        self.textLabel.text = [self tableDataRow].title;
+    }
     self.textLabel.textColor = [self tableDataRow].titleColor;
     self.textLabel.textAlignment = [self tableDataRow].textAlignment;
     self.detailTextLabel.text = [self tableDataRow].subtitle;

@@ -20,6 +20,8 @@
 #import <OBAKit/OBAURLHelpers.h>
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBASphericalGeometryLibrary.h>
+#import <OBAKit/OBASearchResult.h>
+#import <OBAKit/OBARegionalAlert.h>
 
 static const CLLocationAccuracy kSearchRadius = 400;
 static const CLLocationAccuracy kBigSearchRadius = 15000;
@@ -155,7 +157,9 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 - (AnyPromise*)requestStopsNear:(CLLocationCoordinate2D)coordinate {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         [self requestStopsForCoordinate:coordinate completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            resolve(error ?: [responseData values]);
+            OBASearchResult *searchResult = [OBASearchResult resultFromList:responseData];
+            searchResult.searchType = OBASearchTypeStops;
+            resolve(error ?: searchResult);
         }];
     }];
 }
@@ -169,6 +173,38 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
             else {
                 resolve(error);
             }
+        }];
+    }];
+}
+
+#pragma mark - Regional Alerts
+
+- (id<OBAModelServiceRequest>)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(NSDate*)date completionBlock:(OBADataSourceCompletion)completion {
+
+    NSDictionary *params = @{ @"since": @((long long)date.timeIntervalSince1970) };
+
+    return [self request:self.obacoJsonDataSource
+                     url:[NSString stringWithFormat:@"/regions/%@/alert_feed_items", @(region.identifier)]
+                    args:params
+                selector:nil
+         completionBlock:^(id responseData, NSUInteger responseCode, NSError * _Nonnull error) {
+             NSError *deserializationError = nil;
+             if (responseData) {
+                 responseData = [MTLJSONAdapter modelsOfClass:OBARegionalAlert.class fromJSONArray:responseData error:&deserializationError];
+
+                 // Mark all alerts older than one day as 'read' automatically.
+                 for (OBARegionalAlert *alert in responseData) {
+                     alert.unread = ABS(alert.publishedAt.timeIntervalSinceNow) < 86400; // Number of seconds in 1 day.
+                 }
+             }
+             completion(responseData, responseCode, error ?: deserializationError);
+         }];
+}
+
+- (AnyPromise*)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(NSDate*)sinceDate {
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestRegionalAlerts:region sinceDate:sinceDate completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            resolve(error ?: responseData);
         }];
     }];
 }
@@ -233,7 +269,20 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
          completionBlock:completion];
 }
 
-- (id<OBAModelServiceRequest>)requestStopsForRegion:(MKCoordinateRegion)region completionBlock:(OBADataSourceCompletion)completion; {
+- (AnyPromise*)requestStopsForRegion:(MKCoordinateRegion)region {
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestStopsForRegion:region completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            if (error) {
+                resolve(error);
+            }
+            else {
+                resolve([OBASearchResult resultFromList:responseData]);
+            }
+        }];
+    }];
+}
+
+- (id<OBAModelServiceRequest>)requestStopsForRegion:(MKCoordinateRegion)region completionBlock:(OBADataSourceCompletion)completion {
     NSDictionary *args = @{ @"lat": @(region.center.latitude),
                             @"lon": @(region.center.longitude),
                             @"latSpan": @(region.span.latitudeDelta),
@@ -258,6 +307,22 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
          completionBlock:completion];
 }
 
+- (AnyPromise*)requestStopsForQuery:(NSString*)query region:(nullable CLCircularRegion*)region {
+    OBAGuardClass(query, NSString) else {
+        return nil;
+    }
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestStopsForQuery:query withRegion:region completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            if (error) {
+                resolve(error);
+            }
+            else {
+                resolve([OBASearchResult resultFromList:responseData]);
+            }
+        }];
+    }];
+}
+
 - (id<OBAModelServiceRequest>)requestStopsForQuery:(NSString *)stopQuery withRegion:(CLCircularRegion *)region completionBlock:(OBADataSourceCompletion)completion {
     CLLocationDistance radius = MAX(region.radius, kBigSearchRadius);
     CLLocationCoordinate2D coord = region ? region.center : [self currentOrDefaultLocationToSearch].coordinate;
@@ -271,6 +336,24 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
          completionBlock:completion];
 }
 
+#pragma mark - Stops for Route
+
+- (AnyPromise*)requestStopsForRoute:(NSString*)routeID {
+    OBAGuardClass(routeID, NSString) else {
+        return nil;
+    }
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestStopsForRoute:routeID completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            if (error) {
+                resolve(error);
+            }
+            else {
+                resolve(responseData);
+            }
+        }];
+    }];
+}
+
 - (id<OBAModelServiceRequest>)requestStopsForRoute:(NSString *)routeId completionBlock:(OBADataSourceCompletion)completion {
     return [self request:self.obaJsonDataSource
                      url:[NSString stringWithFormat:@"/api/where/stops-for-route/%@.json", [OBAURLHelpers escapePathVariable:routeId]]
@@ -279,10 +362,39 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
          completionBlock:completion];
 }
 
+- (AnyPromise*)requestStopsForPlacemark:(OBAPlacemark*)placemark {
+    OBAGuardClass(placemark, OBAPlacemark) else {
+        return nil;
+    }
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestStopsForPlacemark:placemark completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            if (error) {
+                resolve(error);
+            }
+            else {
+                resolve([OBASearchResult resultFromList:responseData]);
+            }
+        }];
+    }];
+}
+
 - (id<OBAModelServiceRequest>)requestStopsForPlacemark:(OBAPlacemark *)placemark completionBlock:(OBADataSourceCompletion)completion {
     MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:placemark.coordinate latRadius:kSearchRadius lonRadius:kSearchRadius];
 
     return [self requestStopsForRegion:region completionBlock:completion];
+}
+
+- (AnyPromise*)requestRoutesForQuery:(NSString*)routeQuery region:(CLCircularRegion*)region {
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self requestRoutesForQuery:routeQuery withRegion:region completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            if (error) {
+                resolve(error);
+            }
+            else {
+                resolve([OBASearchResult resultFromList:responseData]);
+            }
+        }];
+    }];
 }
 
 - (id<OBAModelServiceRequest>)requestRoutesForQuery:(NSString *)routeQuery withRegion:(CLCircularRegion *)region completionBlock:(OBADataSourceCompletion)completion {
@@ -305,6 +417,24 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
                     args:args
                 selector:@selector(getRoutesV2FromJSON:error:)
          completionBlock:completion];
+}
+
+#pragma mark - Placemarks
+
+- (AnyPromise*)placemarksForAddress:(NSString*)address {
+    OBAGuardClass(address, NSString) else {
+        return nil;
+    }
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [self placemarksForAddress:address completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+            if (error) {
+                resolve(error);
+            }
+            else {
+                resolve([responseData placemarks]);
+            }
+        }];
+    }];
 }
 
 - (id<OBAModelServiceRequest>)placemarksForAddress:(NSString *)address completionBlock:(OBADataSourceCompletion)completion {

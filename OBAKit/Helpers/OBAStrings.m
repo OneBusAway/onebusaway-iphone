@@ -15,6 +15,10 @@
     return OBALocalized(@"msg_cancel", @"Typically used on alerts and other modal actions. A 'cancel' button.");
 }
 
++ (NSString*)close {
+    return OBALocalized(@"strings.close", @"The text 'Close'");
+}
+
 + (NSString*)delete {
     return OBALocalized(@"msg_delete", @"Typically used on alerts and other modal actions. A 'delete' button.");
 }
@@ -31,6 +35,10 @@
     return OBALocalized(@"msg_error", @"The text 'Error'");
 }
 
++ (NSString*)inexplicableErrorPleaseContactUs {
+    return OBALocalized(@"errors.inexplicable_error", @"Generic error used for situations that shouldn't happen. Asks user to contact us.");
+}
+
 + (NSString*)ok {
     return OBALocalized(@"msg_ok", @"Standard 'OK' button text.");
 }
@@ -42,6 +50,11 @@
 + (NSString*)scheduledDepartureExplanation {
     return OBALocalized(@"msg_scheduled_explanatory", @"The explanatory text displayed when a non-realtime trip is displayed on-screen.");
 }
+
++ (NSString*)yesterday {
+    return OBALocalized(@"strings.yesterday", @"The word 'yesterday'");
+}
+
 
 + (nullable NSAttributedString*)attributedStringWithPrependedImage:(UIImage*)image string:(NSString*)string {
     return [self attributedStringWithPrependedImage:image string:string color:nil];

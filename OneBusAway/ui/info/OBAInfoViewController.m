@@ -9,19 +9,20 @@
 #import "OBAInfoViewController.h"
 @import SafariServices;
 @import Masonry;
+@import Apptentive;
 
 #import "OBAAgenciesListViewController.h"
 #import "OBASettingsViewController.h"
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
-#import "Apptentive.h"
 #import "OneBusAway-Swift.h"
+#import "OBAPushManager.h"
 
 static NSString * const kRepoURLString = @"https://www.github.com/onebusaway/onebusaway-iphone";
 static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 @interface OBAInfoViewController ()<MFMailComposeViewControllerDelegate>
-
+@property(nonatomic,strong) UITapGestureRecognizer *debugTapRecognizer;
 @end
 
 @implementation OBAInfoViewController
@@ -94,16 +95,69 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     return _locationManager;
 }
 
+#pragma mark - Debug Mode
+
+- (UITapGestureRecognizer*)debugTapRecognizer {
+    if (!_debugTapRecognizer) {
+        _debugTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleDebugMode:)];
+        _debugTapRecognizer.numberOfTapsRequired = 5;
+    }
+    return _debugTapRecognizer;
+}
+
+- (void)toggleDebugMode:(UITapGestureRecognizer*)sender {
+    BOOL debugMode = [[NSUserDefaults standardUserDefaults] boolForKey:OBADebugModeUserDefaultsKey];
+    debugMode = !debugMode;
+    [[NSUserDefaults standardUserDefaults] setBool:debugMode forKey:OBADebugModeUserDefaultsKey];
+
+    NSString *message = debugMode ? NSLocalizedString(@"info_controller.debug_mode_enabled", @"Message shown when debug mode is turned on") : NSLocalizedString(@"info_controller.debug_mode_disabled", @"Message shown when debug mode is turned off");
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:message message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.ok style:UIAlertActionStyleDefault handler:nil]];
+    [self presentViewController:alert animated:YES completion:^{
+        [self reloadData];
+    }];
+}
+
 #pragma mark - Table Data
 
 - (void)reloadData {
-    self.sections = @[
-                      [self settingsTableSection],
-                      [self contactTableSection],
-                      [self privacyTableSection],
-                      [self aboutTableSection]
-                    ];
+
+    NSMutableArray *sections = [[NSMutableArray alloc] init];
+
+    if ([OBACommon debugMode]) {
+        [sections addObject:[self debugTableSection]];
+    }
+
+    // Only show the alerts section if this region supports it.
+    if ([OBAApplication sharedApplication].regionalAlertsManager.regionalAlerts.count > 0) {
+        [sections addObject:[self alertsTableSection]];
+    }
+
+    [sections addObjectsFromArray:@[[self settingsTableSection],
+                                    [self contactTableSection],
+                                    [self privacyTableSection],
+                                    [self aboutTableSection]]];
+
+    self.sections = sections;
     [self.tableView reloadData];
+}
+
+- (OBATableSection*)alertsTableSection {
+    NSString *rowTitle = [NSString stringWithFormat:NSLocalizedString(@"info_controller.updates_alerts_row_format", @"Title for Updates & Alerts row. e.g. Alerts for <Region Name>"), self.modelDAO.currentRegion.regionName];
+    OBATableRow *row = [[OBATableRow alloc] initWithTitle:rowTitle action:^{
+        RegionalAlertsViewController *alertsController = [[RegionalAlertsViewController alloc] initWithRegionalAlertsManager:[OBAApplication sharedApplication].regionalAlertsManager];
+        [self.navigationController pushViewController:alertsController animated:YES];
+    }];
+    NSUInteger unreadCount = [OBAApplication sharedApplication].regionalAlertsManager.unreadCount;
+
+    if (unreadCount > 0) {
+        row.subtitle = [NSString stringWithFormat:@"%@", @(unreadCount)];
+    }
+    row.style = UITableViewCellStyleValue1;
+    row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    return [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"info_controller.updates_alerts_section_title", @"Title for the Updates & Alerts section") rows:@[row]];
 }
 
 - (OBATableSection*)settingsTableSection {
@@ -185,13 +239,25 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 }
 
 - (OBATableSection*)aboutTableSection {
-
     OBATableRow *credits = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_credits", @"Info Page Credits Row Title") action:^{
         [self.navigationController pushViewController:[[OBACreditsViewController alloc] init] animated:YES];
     }];
     credits.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_about_oba", @"") rows:@[credits]];
+}
+
+- (OBATableSection*)debugTableSection {
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"info_controller.debug_section_title", @"The table section title for the debugging tools.")];
+
+    OBATableRow *row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"info_controller.browse_user_defaults_row", @"Row title for the Browse User Defaults action") action:^{
+        UserDefaultsBrowserViewController *browser = [[UserDefaultsBrowserViewController alloc] init];
+        [self.navigationController pushViewController:browser animated:YES];
+    }];
+    row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [section addRow:row];
+
+    return section;
 }
 
 #pragma mark - Email
@@ -247,31 +313,12 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [self presentViewController:navigation animated:YES completion:nil];
 }
 
+- (void)recordUserInformation {
+    [self.privacyBroker reportUserDataWithNotificationsStatus:[UIApplication sharedApplication].isRegisteredForRemoteNotifications];
+}
+
 - (void)presentApptentiveMessageCenter {
-    // Information that cannot be used to uniquely identify the user is shared automatically.
-    [[Apptentive sharedConnection] addCustomPersonDataBool:self.modelDAO.automaticallySelectRegion withKey:@"Automatically Select Region"];
-    [[Apptentive sharedConnection] addCustomPersonDataBool:(!!self.modelDAO.currentRegion) withKey:@"Region Selected"];
-    [[Apptentive sharedConnection] addCustomPersonDataString:locationAuthorizationStatusToString(self.locationManager.authorizationStatus) withKey:@"Location Auth Status"];
-
-    // Information that can be used to uniquely identify the user is not shared automatically.
-
-    if (self.privacyBroker.shareableLocationInformation) {
-        [[Apptentive sharedConnection] addCustomPersonDataString:self.privacyBroker.shareableLocationInformation withKey:@"Location"];
-    }
-    else {
-        [[Apptentive sharedConnection] removeCustomPersonDataWithKey:@"Location"];
-    }
-
-    NSDictionary *regionInfo = self.privacyBroker.shareableRegionInformation;
-    for (NSString *key in regionInfo) {
-        if (self.privacyBroker.canShareRegionInformation) {
-            [[Apptentive sharedConnection] addCustomPersonDataString:regionInfo[key] withKey:key];
-        }
-        else {
-            [[Apptentive sharedConnection] removeCustomPersonDataWithKey:key];
-        }
-    }
-
+    [self recordUserInformation];
     [[Apptentive sharedConnection] presentMessageCenterFromViewController:self];
 }
 
@@ -308,6 +355,8 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [iconImageView setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
     [iconImageView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
     [iconImageView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    [iconImageView addGestureRecognizer:self.debugTapRecognizer];
+    iconImageView.userInteractionEnabled = YES;
     [views addObject:iconImageView];
 
     UIFont *headlineFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];

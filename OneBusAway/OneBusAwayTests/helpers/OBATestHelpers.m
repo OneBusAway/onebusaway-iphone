@@ -29,6 +29,11 @@
     return [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:nil];
 }
 
++ (id)jsonObjectFromString:(NSString*)string {
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    return [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:nil];
+}
+
 + (void)archiveObject:(id<NSCoding>)object toPath:(NSString*)path {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:object];
     [data writeToFile:path atomically:YES];
@@ -50,6 +55,21 @@
     OBAModelFactory *modelFactory = [[OBAModelFactory alloc] initWithReferences:[[OBAReferencesV2 alloc] init]];
     NSArray *regions = [[modelFactory getRegionsV2FromJson:[OBATestHelpers jsonObjectFromFile:@"regions-v3.json"] error:nil] values];
     return regions[0];
+}
+
+#pragma mark - Time and Time Zones
+
+// this is the number of seconds that Seattle is behind GMT during DST.
++ (NSInteger)timeZoneOffsetForTests {
+    return -25200;
+}
+
++ (NSTimeZone*)timeZoneForTests {
+    return [NSTimeZone timeZoneForSecondsFromGMT:[OBATestHelpers timeZoneOffsetForTests]];
+}
+
++ (void)configureDefaultTimeZone {
+    NSTimeZone.defaultTimeZone = [OBATestHelpers timeZoneForTests];
 }
 
 @end

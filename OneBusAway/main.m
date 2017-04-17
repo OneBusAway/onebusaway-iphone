@@ -24,6 +24,12 @@
 
 int main(int argc, char *argv[]) {
     @autoreleasepool {
+
+#if DEBUG
+        NSLog(@"Bundle Path: %@", [NSBundle mainBundle].bundlePath);
+        NSLog(@"Caches path: %@", [FileHelpers pathToFileName:@"whatever" inDirectory:NSCachesDirectory]);
+#endif
+
         NSDictionary *processInfoEnv = [NSProcessInfo processInfo].environment;
 
         BOOL executingTests = [[processInfoEnv[@"XCInjectBundle"] pathExtension] isEqual:@"xctest"];

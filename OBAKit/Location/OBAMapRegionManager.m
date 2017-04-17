@@ -51,6 +51,14 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
     [self setMapRegion:region requestType:(changeWasProgrammatic ? OBARegionChangeRequestTypeProgrammatic : OBARegionChangeRequestTypeUser)];
 }
 
+- (void)setRegionFromNavigationTarget:(OBANavigationTarget*)navigationTarget {
+    NSDictionary *parameters = navigationTarget.parameters;
+    NSData *data = parameters[OBANavigationTargetSearchKey];
+    MKCoordinateRegion region;
+    [data getBytes:&region length:sizeof(MKCoordinateRegion)];
+    [self setRegion:region changeWasProgrammatic:NO];
+}
+
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
     self.currentlyChangingRegion = YES;
 }

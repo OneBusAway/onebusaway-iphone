@@ -65,7 +65,27 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 /**
  * Registers a background executor to be used by all services. This method should not be used by extensions.
  */
-+(void) addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*) executor;
++ (void)addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*) executor;
+
+#pragma mark - Regional Alerts
+
+/**
+ Retrieves a list of alert messages for the specified `region` since `date`. The completion block's responseData is [OBARegionalAlert]
+
+ @param region The region from which alerts are desired.
+ @param date The last date that alerts were requested. Specify nil for all time.
+ @param completion Completion block is called when the operation finishes, regardless of success or failure.
+ @return The OBAModelServiceRequest object that allows request cancellation
+ */
+- (id<OBAModelServiceRequest>)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(nullable NSDate*)date completionBlock:(OBADataSourceCompletion)completion;
+
+/**
+ Retrieves a list of alert messages for the specified `region` since `date`.
+ @param region The region from which alerts are desired.
+ @param sinceDate The last date that alerts were requested. Specify nil for all time.
+ @return A promise that resolves to [OBARegionalAlert].
+ */
+- (AnyPromise*)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(nullable NSDate*)sinceDate;
 
 #pragma mark - Alarms
 
@@ -220,7 +240,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 
  @param coordinate     Center coordinate for retrieving stops
 
- @return A promise that resolves to NSArray<OBAStopV2*>*
+ @return A promise that resolves to an OBASearchResult object
  */
 - (AnyPromise*)requestStopsNear:(CLLocationCoordinate2D)coordinate;
 
@@ -277,6 +297,14 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 #pragma mark - Requests for [OBAStopV2]
 
 /**
+ Makes an asynchronous request for a set of stops within a given region
+
+ @param region Region for which the stops are returned
+ @return A promise that resolves to an OBASearchResult object
+ */
+- (AnyPromise*)requestStopsForRegion:(MKCoordinateRegion)region;
+
+/**
  *  Makes an asynchronous request for a set of stops within a given region
  *
  *  @param region     Region for which the stops are returned
@@ -286,6 +314,15 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  */
 - (id<OBAModelServiceRequest>)requestStopsForRegion:(MKCoordinateRegion)region
                                     completionBlock:(OBADataSourceCompletion)completion;
+
+/**
+ Makes an asynchronous request to get a set of stops for a given query, bounded by a region
+
+ @param query A "stopCode" represented by a string
+ @param region A circular region
+ @return Resolves to an OBASearchResult object
+ */
+- (AnyPromise*)requestStopsForQuery:(NSString*)query region:(nullable CLCircularRegion*)region;
 
 /**
  *  Makes an asynchronous request to get a set of stops for a given query, bounded by a region
@@ -299,6 +336,16 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 - (id<OBAModelServiceRequest>)requestStopsForQuery:(NSString *)stopQuery
                                         withRegion:(nullable CLCircularRegion *)region
                                    completionBlock:(OBADataSourceCompletion)completion;
+
+
+/**
+ Requests the list of stops for the specified route ID.
+
+ @param routeID Identifier of a route for which the stops need to be fetched
+ @return A promise that resolves to an OBAStopsForRouteV2 object.
+ */
+- (AnyPromise*)requestStopsForRoute:(NSString*)routeID;
+
 /**
  *  Makes an asynchronous request to fetch a set of stops that belong to a particular route.
  *
@@ -309,6 +356,15 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  */
 - (id<OBAModelServiceRequest>)requestStopsForRoute:(NSString *)routeId
                                    completionBlock:(OBADataSourceCompletion)completion;
+
+/**
+ Fetches a set of stops near a placemark
+
+ @param placemark A placemark defined by @see OBAPlacemark object
+ @return An @see AnyPromise object that resolves to an OBASearchResult
+ */
+- (AnyPromise*)requestStopsForPlacemark:(OBAPlacemark*)placemark;
+
 /**
  *  Makes an asynchronous request to fetch a set of stops near a placemark
  *
@@ -319,6 +375,15 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  */
 - (id<OBAModelServiceRequest>)requestStopsForPlacemark:(OBAPlacemark *)placemark
                                        completionBlock:(OBADataSourceCompletion)completion;
+
+/**
+ Fetches a set of routes
+
+ @param routeQuery Query that identifies desired routes
+ @param region The geographic region to which the search is limited
+ @return A promise that resolves to an instance of OBAListWithRangeAndReferencesV2
+ */
+- (AnyPromise*)requestRoutesForQuery:(NSString*)routeQuery region:(CLCircularRegion*)region;
 
 /**
  *  Makes an asynchronous request to fetch a set of routes
@@ -334,6 +399,14 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
                                     completionBlock:(OBADataSourceCompletion)completion;
 
 #pragma mark - Address -> [OBAPlacemark]
+
+/**
+ Returns a collection of placemarks for the given address
+
+ @param address A string that corresponds to a location
+ @return A promise that resolves to an array of OBAPlacemark objects
+ */
+- (AnyPromise*)placemarksForAddress:(NSString*)address;
 
 /**
  *  Makes an asynchronous request to fetch a set of placemarks based on address string

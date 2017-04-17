@@ -1,0 +1,10 @@
+framework module Pulley {
+  umbrella header "Pulley.h"
+
+  export *
+  module * { export * }
+}
+
+module Pulley.Swift {
+    header "Pulley-Swift.h"
+}

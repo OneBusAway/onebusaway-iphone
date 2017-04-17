@@ -40,18 +40,8 @@ import SwiftMessages
     ///
     /// - Parameter error: The error object from which the alert is generated.
     open class func showError(_ error: NSError) {
-        var errorBody: String?
-
-        if (error.domain == NSCocoaErrorDomain && error.code == 3840) {
-            errorBody = NSLocalizedString("alert_presenter.captive_wifi_portal_error_message", comment: "Error message displayed when the user is connecting to a Wi-Fi captive portal landing page.")
-        }
-        else {
-            errorBody = error.localizedDescription;
-        }
-
-        self.showError(OBAStrings.error(), body: errorBody!)
+        self.showError(OBAStrings.error(), body: errorMessage(from: error))
     }
-
 
     open class func showMessage(withTheme theme: Theme, title: String, body: String) {
         var config = SwiftMessages.Config()
@@ -71,5 +61,16 @@ import SwiftMessages
 
         // Show the message.
         SwiftMessages.show(config: config, view: view)
+    }
+
+    private class func errorMessage(from error: NSError) -> String {
+        let wifiName = OBAReachability.wifiNetworkName
+        let potentialWifiCaptivePortalError = (error.domain == NSCocoaErrorDomain && error.code == 3840)
+        if (potentialWifiCaptivePortalError && wifiName != nil) {
+            return NSLocalizedString("alert_presenter.captive_wifi_portal_error_message", comment: "Error message displayed when the user is connecting to a Wi-Fi captive portal landing page.")
+        }
+        else {
+            return error.localizedDescription
+        }
     }
 }

@@ -38,6 +38,12 @@
     [coder oba_encodePropertyOnObject:self withSelector:@selector(stopIds)];
 }
 
+#pragma mark - Public Helpers
+
+- (NSString*)stopID {
+    return self.stopIds.firstObject;
+}
+
 #pragma mark - Equality
 
 - (BOOL)isEqual:(OBAStopAccessEventV2*)object {

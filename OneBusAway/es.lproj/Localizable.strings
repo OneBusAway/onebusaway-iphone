@@ -248,9 +248,6 @@
 /* self.listBarButtonItem.accessibilityLabel */
 "msg_nearby_stops_list" = "Lista de pardas cercanas";
 
-/* No comment provided by engineer. */
-"msg_newest_regions" = "Regiones Nuevas";
-
 /* Out of range alert Cancel button */
 "msg_no" = "No";
 
@@ -523,7 +520,7 @@
 /* name */
 "msg_stop_number_wrong" = "El número de parada está mal";
 
-/* OBASearchTypeRouteStops */
+/* OBASearchTypeStops */
 "msg_stops" = "Paradas";
 
 /* view.title */
@@ -555,9 +552,6 @@
 
 /* Invalid region error message */
 "msg_alert_custom_region_not_valid" = "La región que ha especificado no es válido. Por favor especificar al menos una dirección URL base (HTTPS) y un nombre.";
-
-/* view.message */
-"msg_problem_internet_connection_on_map" = "Hubo un problema con tu conexión a Internet.\r\n\r\nPor favor, compruebe su conexión a la red o contáctanos si crees que el problema es nuestro.";
 
 /* The footer label on the PIIViewController */
 "msg_explanatory_information_send_on_submit_request" = "Esta información sólo se envía a OneBusAway en el momento de enviar una solicitud de soporte. Puedes desactivar el envío de cualquiera o todos estos datos, pero va a limitar nuestra capacidad para diagnosticar y solucionar los problemas que estás experimentando.";
@@ -619,7 +613,7 @@
 "msg_visit_us" = "Visitanos";
 
 /* No comment provided by engineer. */
-"text_walk_to_stop_info_params" = "%@; %.0f min, llegando a las %@";
+"text_walk_to_stop_info_params" = "%@, %.0f min: llegando a las %@";
 
 /* No comment provided by engineer. */
 "msg_explanatory_no_agencies" = "No hemos podido encontrar agencias de transporte público cerca de tu ubicación actual.";
@@ -793,3 +787,67 @@
 
 /* Error message displayed when the user is connecting to a Wi-Fi captive portal landing page. */
 "alert_presenter.captive_wifi_portal_error_message" = "No obtuvimos la respuesta esperada del servidor.\r\n\r\nPor lo general, esto significa que está conectado a una red Wi-Fi que requiere que hagas algo para acceder a Internet.\r\n\r\nVerifica tu conexión Wi-Fi e inténtelo de nuevo.";
+
+/* Returned by -[OBATripStatusV2 subtitle] when no real time data is available. */
+"trip_status.no_realtime_data_message" = "Datos en Tiempo Real no disponibles.";
+
+/* e.g. Last report: 2m 43s ago */
+"trip_status.last_report_format" = "Último reporte: hace %@m %@s";
+
+/* The empty data set description for the search controller */
+"map_search.empty_data_set_description" = "Escriba una dirección, número de ruta o número de parada aquí para buscar.";
+
+
+/* The section title on the 'Nearby' controller that says 'Routes' */
+"nearby_stops.routes_section_title" = "Rutas";
+
+/* Map Search: Quick Lookup Table Section */
+"map_search.quick_lookup_section_title" = "Búsqueda Rápida";
+
+/* 'Search for Route:' */
+"map_search.search_for_route" = "Ruta:";
+
+/* "Search for Address:" */
+"map_search.search_for_address" = "Dirección:";
+
+/* Formatted string for Search for Stop Number: */
+"map_search.search_for_stop_number" = "Número de Parada:";
+
+/* Map Search: Recent Stops section title */
+"map_search.recent_stops_section_title" = "Paradas Recientes";
+
+/* Map Search: Bookmarks section title */
+"map_search.bookmarks_section_title" = "Favoritos";
+
+/* Clear Search button text */
+"toast_view.clear_search" = "Limpiar Búsqueda";
+
+/* Message shown when debug mode is turned on */
+"info_controller.debug_mode_enabled" = "Modo de depuración activado.";
+
+/* Message shown when debug mode is turned off */
+"info_controller.debug_mode_disabled" = "Modo de depuración desactivado.";
+
+/* Title of the Experimental Regions section in the Region List view controller. */
+"region_list_controller.experimental_section_title" = "Regiones Experimentales";
+
+/* Title for the Updates & Alerts section */
+"info_controller.updates_alerts_section_title" = "Actualizaciones & Alertas";
+
+/* Title for Updates & Alerts row. e.g. Alerts for <Region Name> */
+"info_controller.updates_alerts_row_format" = "Alertas para %@";
+
+/* Alerts for <REGION NAME> */
+"regional_alerts_controller.title_format" = "Alertas para %@";
+
+/* Empty data set description for regional alerts controller */
+"regional_alerts_controller.empty_description" = "Sin alertas reportada para tu área.";
+
+/* Title for a section that displays stops without a specified cardinal direction. Just 'Stops' in English. */
+"nearby_stops.stops_section_title" = "Paradas";
+
+/* Segmented control item title: 'Sort by Group' */
+"bookmarks_controller.sort_by_group_item" = "Ordenar por Grupo";
+
+/* Segmented control item title: 'Sort by Proximity' */
+"bookmarks_controller.sort_by_proximity_item" = "Ordenar por Proximidad";

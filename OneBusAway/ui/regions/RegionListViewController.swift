@@ -150,15 +150,17 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
             return
         }
 
+        let acceptableRegions = regions.filter { $0.active && $0.supportsObaRealtimeApis }
+
         let customRows = tableRowsFromRegions(self.modelDAO.customRegions())
-        let activeRows = tableRowsFromRegions(regions.filter { $0.active && !$0.experimental })
-        let experimentalRows = tableRowsFromRegions(regions.filter { $0.experimental })
+        let activeRows = tableRowsFromRegions(acceptableRegions.filter { !$0.experimental })
+        let experimentalRows = tableRowsFromRegions(acceptableRegions.filter { $0.experimental })
 
         let autoSelectRow = OBASwitchRow.init(title: NSLocalizedString("msg_automatically_select_region", comment: ""), action: { row in
             self.modelDAO.automaticallySelectRegion = !self.modelDAO.automaticallySelectRegion
 
             if (self.modelDAO.automaticallySelectRegion) {
-                OBAApplication.shared().regionHelper.updateNearestRegion()
+                OBAApplication.shared().regionHelper.refreshData()
                 SVProgressHUD.show()
             }
             else {
@@ -176,8 +178,8 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
         sections.append(OBATableSection.init(title: NSLocalizedString("msg_active_regions", comment: ""), rows: activeRows))
 
-        if experimentalRows.count > 0 {
-            sections.append(OBATableSection.init(title: NSLocalizedString("msg_newest_regions", comment: ""), rows: experimentalRows))
+        if experimentalRows.count > 0 && OBACommon.debugMode {
+            sections.append(OBATableSection.init(title: NSLocalizedString("region_list_controller.experimental_section_title", comment: ""), rows: experimentalRows))
         }
 
         self.sections = sections

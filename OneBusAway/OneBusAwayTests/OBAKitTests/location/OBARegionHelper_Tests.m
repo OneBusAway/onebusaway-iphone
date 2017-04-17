@@ -21,6 +21,7 @@
 @interface OBARegionHelper_Tests : XCTestCase
 @property(nonatomic,strong) OBATestHarnessPersistenceLayer *persistenceLayer;
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
+@property(nonatomic,strong) OBAModelService *modelService;
 @property(nonatomic,strong) OBALocationManager *locationManager;
 @end
 
@@ -35,6 +36,7 @@
     [self.persistenceLayer writeSetRegionAutomatically:NO];
     [self.persistenceLayer writeOBARegion:[OBATestHelpers pugetSoundRegion]];
     self.modelDAO = [[OBAModelDAO alloc] initWithModelPersistenceLayer:self.persistenceLayer];
+    self.modelService = [OBAModelService modelServiceWithBaseURL:[NSURL URLWithString:@"http://api.tampa.onebusaway.org/api/"]];
     self.locationManager = [[OBALocationManager alloc] initWithModelDAO:self.modelDAO];
     self.locationManager.currentLocation = tampaLocation;
 }
@@ -44,7 +46,7 @@
 }
 
 - (void)testRegionUpdates {
-    OBARegionHelper *regionHelper = [[OBARegionHelper alloc] initWithLocationManager:self.locationManager];
+    OBARegionHelper *regionHelper = [[OBARegionHelper alloc] initWithLocationManager:self.locationManager modelService:self.modelService];
     regionHelper.modelDAO = self.modelDAO;
     regionHelper.regions = [[NSMutableArray alloc] initWithObjects:[OBATestHelpers pugetSoundRegion], [OBATestHelpers tampaRegion], nil];
 

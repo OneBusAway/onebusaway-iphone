@@ -9,7 +9,6 @@
 #import "OBAServiceAlertsViewController.h"
 #import "OBAAnalytics.h"
 #import "OBAEmptyDataSetSource.h"
-#import "EXTScope.h"
 #import "OneBusAway-Swift.h"
 
 @interface OBAServiceAlertsViewController ()

@@ -8,6 +8,7 @@
 
 @import Foundation;
 #import <OBAKit/OBARegionChangeRequest.h>
+#import <OBAKit/OBANavigationTarget.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setRegion:(MKCoordinateRegion)region;
 - (void)setRegion:(MKCoordinateRegion)region changeWasProgrammatic:(BOOL)changeWasProgrammatic;
+- (void)setRegionFromNavigationTarget:(OBANavigationTarget*)navigationTarget;
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated;
 

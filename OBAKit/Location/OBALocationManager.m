@@ -66,10 +66,6 @@ NSString * const OBAHeadingUserInfoKey = @"OBAHeadingUserInfoKey";
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
 
-        if (![self hasRequestedInUseAuthorization]) {
-            [self requestInUseAuthorization];
-        }
-
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
@@ -84,6 +80,12 @@ NSString * const OBAHeadingUserInfoKey = @"OBAHeadingUserInfoKey";
             [self.locationManager startUpdatingLocation];
             self.modelDao.hideFutureLocationWarnings = YES;
         }
+    }
+}
+
+- (void)stopUpdatingLocation {
+    if ([CLLocationManager locationServicesEnabled]) {
+        [self.locationManager stopUpdatingLocation];
     }
 }
 
@@ -110,10 +112,6 @@ NSString * const OBAHeadingUserInfoKey = @"OBAHeadingUserInfoKey";
 
 - (BOOL)hasRequestedInUseAuthorization {
     return [CLLocationManager authorizationStatus] != kCLAuthorizationStatusNotDetermined;
-}
-
-- (void)requestInUseAuthorization {
-    [self.locationManager requestWhenInUseAuthorization];
 }
 
 - (CLAuthorizationStatus)authorizationStatus {
@@ -171,7 +169,7 @@ NSString * const OBAHeadingUserInfoKey = @"OBAHeadingUserInfoKey";
                 return;
             }
         }
-        _currentLocation = location;
+        self.currentLocation = location;
 
         [[NSNotificationCenter defaultCenter] postNotificationName:OBALocationDidUpdateNotification object:self userInfo:nil];
     }

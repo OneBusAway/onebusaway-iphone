@@ -101,4 +101,8 @@ static NSString * const kOBACurrentTimeURLPath = @"/where/current-time.json";
     XCTAssertEqualObjects([OBAURLHelpers normalizeURLPath:kOBACurrentTimeURLPath relativeToBaseURL:baseURLString parameters:@{@"key": @"org.onebusaway.iphone"}], [OBAURLHelpers_Tests portAndPathResultURL]);
 }
 
+- (void)testEscapePathVariableWithSpaces {
+    XCTAssertEqualObjects([OBAURLHelpers escapePathVariable:@"Hillsborough Area Regional Transit_3109"], @"Hillsborough%20Area%20Regional%20Transit_3109");
+}
+
 @end

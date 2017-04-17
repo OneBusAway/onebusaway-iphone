@@ -12,6 +12,7 @@
 @import PMKCoreLocation;
 @import PMKMapKit;
 @import SVProgressHUD;
+@import Apptentive;
 #import "OneBusAway-Swift.h"
 #import "OBASeparatorSectionView.h"
 #import "OBAReportProblemWithRecentTripsViewController.h"
@@ -25,7 +26,6 @@
 #import "OBAArrivalAndDepartureViewController.h"
 #import "OBAStaticTableViewController+Builders.h"
 #import "OBABookmarkRouteDisambiguationViewController.h"
-#import "Apptentive.h"
 #import "OBAWalkableRow.h"
 #import "GKActionSheetPicker.h"
 #import "OBAPushManager.h"
@@ -318,8 +318,6 @@ static NSInteger kStopsSectionTag = 101;
         row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
         row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
         row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
-        // Only allow alarms to be created if the time to departure is greater than OBAAlarmIncrementsInMinutes.
-        row.alarmCanBeCreated = dep.timeIntervalUntilBestDeparture > OBAAlarmIncrementsInMinutes * 60;
 
         [row setShowAlertController:^(UIAlertController *alert) {
             [self presentViewController:alert animated:YES completion:nil];
@@ -407,15 +405,11 @@ static NSInteger kStopsSectionTag = 101;
         return;
     }
 
-    // This should never actually be triggered; the "Remind Me" button
-    // should be disabled if this condition is true.
-    if (dep.minutesUntilBestDeparture <= OBAAlarmIncrementsInMinutes) {
-        return;
-    }
+    NSUInteger alarmIncrements = dep.minutesUntilBestDeparture <= OBAAlarmIncrementsInMinutes ? 1 : OBAAlarmIncrementsInMinutes;
 
     NSMutableArray *items = [[NSMutableArray alloc] init];
 
-    for (NSInteger i = dep.minutesUntilBestDeparture - (dep.minutesUntilBestDeparture % OBAAlarmIncrementsInMinutes); i > 0; i = i-OBAAlarmIncrementsInMinutes) {
+    for (NSInteger i = dep.minutesUntilBestDeparture - (dep.minutesUntilBestDeparture % alarmIncrements); i > 0; i -=alarmIncrements) {
         NSString *pickerItemTitle = [NSString stringWithFormat:NSLocalizedString(@"alarms.picker.formatted_item", @"The format string used for picker items for choosing when an alarm should ring."), @(i)];
         [items addObject:[GKActionSheetPickerItem pickerItemWithTitle:pickerItemTitle value:@(i*60)]];
     }
@@ -451,9 +445,10 @@ static NSInteger kStopsSectionTag = 101;
         alarm.alarmURL = [NSURL URLWithString:serverResponse[@"url"]];
         [self.modelDAO addAlarm:alarm];
 
+        NSString *title = NSLocalizedString(@"alarms.alarm_created_alert_title", @"The title of the non-modal alert displayed when a push notification alert is registered for a vehicle departure.");
         NSString *body = [NSString stringWithFormat:NSLocalizedString(@"alarms.alarm_created_alert_body", @"The body of the non-modal alert that appears when a push notification alarm is registered."), @((NSUInteger)timeInterval / 60)];
 
-        [AlertPresenter showSuccess:NSLocalizedString(@"alarms.alarm_created_alert_title", @"The title of the non-modal alert displayed when a push notification alert is registered for a vehicle departure.") body:body];
+        [AlertPresenter showSuccess:title body:body];
     }).catch(^(NSError *error) {
         [AlertPresenter showError:error];
     }).always(^{
@@ -587,9 +582,23 @@ static NSInteger kStopsSectionTag = 101;
         row.destination = dep.tripHeadsign.capitalizedString;
         row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
         row.model = dep;
+        row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
+        row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
+
+        [row setShowAlertController:^(UIAlertController *alert) {
+            [self presentViewController:alert animated:YES completion:nil];
+        }];
+        [row setToggleBookmarkAction:^{
+            [self toggleBookmarkActionForArrivalAndDeparture:dep];
+        }];
+        [row setToggleAlarmAction:^{
+            [self toggleAlarmActionForArrivalAndDeparture:dep];
+        }];
+        [row setShareAction:^{
+            [self shareActionForArrivalAndDeparture:dep atIndexPath:[self indexPathForModel:dep]];
+        }];
 
         OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState];
-
         row.upcomingDepartures = @[upcoming];
         [rows addObject:row];
     }
@@ -614,6 +623,7 @@ static NSInteger kStopsSectionTag = 101;
     // Nearby Stops
     OBATableRow *nearbyStops = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_nearby_stops",) action:^{
         NearbyStopsViewController *nearby = [[NearbyStopsViewController alloc] initWithStop:self.arrivalsAndDepartures.stop];
+        nearby.pushesResultsOntoStack = YES;
         [self.navigationController pushViewController:nearby animated:YES];
     }];
     nearbyStops.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

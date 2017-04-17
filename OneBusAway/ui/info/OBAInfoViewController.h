@@ -9,7 +9,6 @@
 @import UIKit;
 @import OBAKit;
 #import "OBAStaticTableViewController.h"
-#import "OBANavigationTargetAware.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

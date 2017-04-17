@@ -19,6 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString*)cancel;
 
 /**
+ The text 'Close'.
+ */
++ (NSString*)close;
+
+/**
  The text 'Delete'.
  */
 + (NSString*)delete;
@@ -40,6 +45,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString*)error;
 
 /**
+ Generic error used for situations that shouldn't happen. Asks user to contact us.
+ */
++ (NSString*)inexplicableErrorPleaseContactUs;
+
+/**
  The text 'OK'.
  */
 + (NSString*)ok;
@@ -53,6 +63,11 @@ NS_ASSUME_NONNULL_BEGIN
  The explanatory text displayed when a non-realtime trip is displayed on-screen.
  */
 + (NSString*)scheduledDepartureExplanation;
+
+/**
+ The word 'yesterday'
+ */
++ (NSString*)yesterday;
 
 /**
  Created an attributed string with a prepended image.

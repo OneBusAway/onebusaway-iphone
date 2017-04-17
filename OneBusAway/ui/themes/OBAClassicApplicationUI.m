@@ -8,13 +8,14 @@
 
 #import "OBAClassicApplicationUI.h"
 @import OBAKit;
-#import "OBASearchResultsMapViewController.h"
+@import Apptentive;
+#import "OBAMapViewController.h"
 #import "OBARecentStopsViewController.h"
 #import "OBABookmarksViewController.h"
 #import "OBAInfoViewController.h"
 #import "OBAStopViewController.h"
 #import "OBAAnalytics.h"
-#import "Apptentive.h"
+
 
 static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
 
@@ -22,7 +23,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
 @property(nonatomic, strong,readwrite) UITabBarController *tabBarController;
 
 @property(nonatomic, strong) UINavigationController *mapNavigationController;
-@property(strong) OBASearchResultsMapViewController *mapViewController;
+@property(strong) OBAMapViewController *mapViewController;
 
 @property(strong) UINavigationController *recentsNavigationController;
 @property(strong) OBARecentStopsViewController *recentsViewController;
@@ -43,7 +44,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
     if (self) {
         _tabBarController = [[UITabBarController alloc] init];
 
-        _mapViewController = [[OBASearchResultsMapViewController alloc] init];
+        _mapViewController = [[OBAMapViewController alloc] init];
         _mapNavigationController = [[UINavigationController alloc] initWithRootViewController:_mapViewController];
 
         _recentsViewController = [[OBARecentStopsViewController alloc] init];
@@ -122,7 +123,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
 
     switch (selectedIndex) {
         case 0:
-            startingTab = @"OBASearchResultsMapViewController";
+            startingTab = @"OBAMapViewController";
             break;
 
         case 1:
@@ -174,7 +175,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
             viewController = self.bookmarksViewController;
             break;
         }
-            
+
         case OBANavigationTargetTypeContactUs: {
             [self.tabBarController setSelectedViewController:self.infoNavigationController];
             viewController = self.infoViewController;
@@ -190,7 +191,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
     if ([viewController respondsToSelector:@selector(setNavigationTarget:)]) {
         [viewController setNavigationTarget:navigationTarget];
     }
-    
+
     if (navigationTarget.parameters[@"stop"]) {
         OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:navigationTarget.parameters[@"stopID"]];
         [self.mapNavigationController pushViewController:vc animated:YES];
