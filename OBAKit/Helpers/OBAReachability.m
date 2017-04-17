@@ -103,14 +103,12 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
     CFStringRef interfaceName = CFArrayGetValueAtIndex(supportedInterfaces, 0);
 
-    CFRelease(supportedInterfaces);
-
     CFDictionaryRef networkInfoRef = CNCopyCurrentNetworkInfo(interfaceName);
     NSDictionary *networkInfo = (__bridge_transfer NSDictionary*)networkInfoRef;
 
-    NSString *SSID = networkInfo[(NSString*)kCNNetworkInfoKeySSID];
+    NSString *SSID = [NSString stringWithString:networkInfo[(NSString*)kCNNetworkInfoKeySSID]];
 
-    CFRelease(networkInfoRef);
+    CFRelease(supportedInterfaces);
 
     return SSID;
 }
