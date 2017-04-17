@@ -7,19 +7,22 @@
 //
 
 #import "OBAPushManager.h"
+@import OBAKit;
 @import UIKit;
 
 NSString * const OBAPushNotificationUserIdDefaultsKey = @"OBAPushNotificationUserIdDefaultsKey";
 NSString * const OBAPushNotificationPushTokenDefaultsKey = @"OBAPushNotificationPushTokenDefaultsKey";
 
-@implementation OBAPushManager {
-    PMKResolver resolver;
-}
+@interface OBAPushManager ()<OSSubscriptionObserver>
+
+@end
+
+@implementation OBAPushManager
 
 #pragma mark - Permissions
 
 + (BOOL)isRegisteredForRemoteNotifications {
-    return [UIApplication sharedApplication].isRegisteredForRemoteNotifications;
+    return [OneSignal getPermissionSubscriptionState].permissionStatus.status == OSNotificationPermissionAuthorized;
 }
 
 #pragma mark - Setup Stuff
@@ -36,49 +39,44 @@ NSString * const OBAPushNotificationPushTokenDefaultsKey = @"OBAPushNotification
 
 - (void)startWithLaunchOptions:(NSDictionary*)launchOptions delegate:(id<OBAPushManagerDelegate>)delegate APIKey:(NSString*)APIKey {
     self.delegate = delegate;
-
-    [OneSignal IdsAvailable:^(NSString* userId, NSString* pushToken) {
-        [self.class storeUserID:userId pushToken:pushToken];
-        if (self->resolver) {
-            self->resolver(userId);
-        }
-    }];
+    [OneSignal addSubscriptionObserver:self];
 
     [OneSignal initWithLaunchOptions:launchOptions appId:APIKey handleNotificationAction:^(OSNotificationOpenedResult *result) {
         [self.delegate pushManager:self notificationReceivedWithTitle:@"Time to leave!" message:result.notification.payload.body data:result.notification.payload.additionalData];
     } settings:@{kOSSettingsKeyAutoPrompt: @(NO), kOSSettingsKeyInAppAlerts: @(YES)}];
 }
 
+#pragma mark - OneSignal Delegate Methods
+
+- (void)onOSSubscriptionChanged:(OSSubscriptionStateChanges*)stateChanges {
+    // TODO: send the updates to the server.
+//    NSString *userID = stateChanges.to.userId;
+//    NSString *pushToken = stateChanges.to.pushToken;
+}
+
 #pragma mark - Promises
 
 - (AnyPromise*)requestUserPushNotificationID {
-    AnyPromise *promise = [[AnyPromise alloc] initWithResolver:&resolver];
-
-    NSString *pushUserID = self.pushNotificationUserID;
-    if (pushUserID) {
-        resolver(pushUserID);
-    }
-    else {
-        [OneSignal registerForPushNotifications];
-    }
-
-    return promise;
+    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
+        [OneSignal promptForPushNotificationsWithUserResponse:^(BOOL accepted) {
+            if (accepted) {
+                resolve([OneSignal getPermissionSubscriptionState].subscriptionStatus.userId);
+            }
+            else {
+                resolve([NSError errorWithDomain:OBAErrorDomain code:OBAErrorCodePushNotificationAuthorizationDenied userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"push_manager.authorization_denied", @"Error message shown when the user denies the app the ability to send push notifications.")}]);
+            }
+        }];
+    }];
 }
 
 #pragma mark - User Identity Tokens
 
-+ (void)storeUserID:(NSString*)userID pushToken:(NSString*)pushToken {
-    [[NSUserDefaults standardUserDefaults] setObject:userID forKey:OBAPushNotificationUserIdDefaultsKey];
-    [[NSUserDefaults standardUserDefaults] setObject:pushToken forKey:OBAPushNotificationPushTokenDefaultsKey];
-}
-
 - (NSString*)pushNotificationUserID {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:OBAPushNotificationUserIdDefaultsKey];
+    return [OneSignal getPermissionSubscriptionState].subscriptionStatus.userId;
 }
 
 - (NSString*)pushNotificationToken {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:OBAPushNotificationPushTokenDefaultsKey];
+    return [OneSignal getPermissionSubscriptionState].subscriptionStatus.pushToken;
 }
-
 
 @end

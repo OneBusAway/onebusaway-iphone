@@ -445,9 +445,10 @@ static NSInteger kStopsSectionTag = 101;
         alarm.alarmURL = [NSURL URLWithString:serverResponse[@"url"]];
         [self.modelDAO addAlarm:alarm];
 
+        NSString *title = NSLocalizedString(@"alarms.alarm_created_alert_title", @"The title of the non-modal alert displayed when a push notification alert is registered for a vehicle departure.");
         NSString *body = [NSString stringWithFormat:NSLocalizedString(@"alarms.alarm_created_alert_body", @"The body of the non-modal alert that appears when a push notification alarm is registered."), @((NSUInteger)timeInterval / 60)];
 
-        [AlertPresenter showSuccess:NSLocalizedString(@"alarms.alarm_created_alert_title", @"The title of the non-modal alert displayed when a push notification alert is registered for a vehicle departure.") body:body];
+        [AlertPresenter showSuccess:title body:body];
     }).catch(^(NSError *error) {
         [AlertPresenter showError:error];
     }).always(^{
