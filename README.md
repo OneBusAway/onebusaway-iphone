@@ -27,9 +27,9 @@ You are welcome to work on any bug or feature you would like, but we know that g
 
 ### Development environment setup
 
-1. Install Xcode 8.x (whatever the latest released version of Xcode 8 might be...)
+1. Install the latest released version of Xcode 8.x from the Mac App Store
 2. `git clone` your fork
-3. install Carthage - see [carthage github repo](https://github.com/Carthage/Carthage) for instructions, and you can download the latest release at https://github.com/Carthage/Carthage/releases
+3. [Install Carthage](https://github.com/Carthage/Carthage#installing-carthage)
 4. `open org.onebusaway.iphone.xcodeproj`
 
 You should now be able to build. See our [contributing guidelines](CONTRIBUTING.md) for the specific workflow to add a new feature or bug fix.
