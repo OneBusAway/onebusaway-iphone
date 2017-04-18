@@ -94,7 +94,7 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
         // Needs a space tokeepwordsfromrunningtogether
         str.append(NSAttributedString.init(string: " "))
 
-        let attributedSearchText = NSAttributedString.init(string: searchText, attributes: [NSFontAttributeName: OBATheme.boldBodyFont()])
+        let attributedSearchText = NSAttributedString.init(string: searchText, attributes: [NSFontAttributeName: OBATheme.boldBodyFont])
         str.append(attributedSearchText)
 
         return str

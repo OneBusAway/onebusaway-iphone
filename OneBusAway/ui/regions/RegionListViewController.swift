@@ -221,7 +221,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
             }
 
             if (autoSelect) {
-                row.titleColor = OBATheme.darkDisabledColor()
+                row.titleColor = OBATheme.darkDisabledColor
                 row.selectionStyle = .none
             }
 

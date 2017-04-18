@@ -95,7 +95,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
 
     lazy var toggleButton: UIButton = {
         let button = OBAUIBuilder.borderedButton(with: UIColor.lightGray)
-        button.contentEdgeInsets = OBATheme.defaultEdgeInsets()
+        button.contentEdgeInsets = OBATheme.defaultEdgeInsets
         button.accessibilityLabel = NSLocalizedString("vehicle_map_controller.toggle_button_accessibility_label", comment: "An accessibility label for the map size toggle button on the Vehicle Map Controller.")
         button.imageView?.contentMode = .scaleAspectFit
 
@@ -125,7 +125,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         blurContainer.snp.makeConstraints { (make) in
             make.width.equalTo(40)
             make.height.equalTo(30)
-            make.right.bottom.equalToSuperview().offset(-OBATheme.defaultPadding())
+            make.right.bottom.equalToSuperview().offset(-OBATheme.defaultPadding)
         }
 
         blurContainer.vibrancyEffectView.addSubview(self.toggleButton)
@@ -198,7 +198,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
 
         var color: UIColor
         if self.arrivalAndDeparture?.stopId == annotation.stopID {
-            color = OBATheme.userLocationFillColor()
+            color = OBATheme.userLocationFillColor
         }
         else {
             color = UIColor.lightGray
@@ -220,7 +220,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
 
         var color: UIColor
         if self.arrivalAndDeparture?.stopId == stop.stopId {
-            color = OBATheme.userLocationFillColor()
+            color = OBATheme.userLocationFillColor
         }
         else {
             color = UIColor.lightGray
@@ -238,7 +238,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
 
         if annotationView == nil {
             annotationView = SVPulsingAnnotationView.init(annotation: vehicle, reuseIdentifier: identifier, size: CGSize(width: 32, height: 32))
-            annotationView?.annotationColor = OBATheme.obaDarkGreen()
+            annotationView?.annotationColor = OBATheme.obaDarkGreen
             annotationView?.canShowCallout = true
             annotationView?.headingImage = UIImage(named: "vehicleHeading")
         }

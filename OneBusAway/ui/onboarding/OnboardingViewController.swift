@@ -25,12 +25,12 @@ import SnapKit
 
         self.view.backgroundColor = UIColor.white
         self.stackView.axis = .vertical
-        self.stackView.spacing = OBATheme.defaultPadding()
+        self.stackView.spacing = OBATheme.defaultPadding
 
         let imageView = UIImageView.init(image: #imageLiteral(resourceName: "infoheader"))
         let topView = UIView.init()
         self.stackView.addArrangedSubview(topView)
-        topView.backgroundColor = OBATheme.obaGreen()
+        topView.backgroundColor = OBATheme.obaGreen
 
         topView.addSubview(imageView)
 
@@ -45,7 +45,7 @@ import SnapKit
         let titleLabel = UILabel.init()
         titleLabel.textAlignment = .center
         titleLabel.text = self.title
-        titleLabel.font = OBATheme.subtitleFont()
+        titleLabel.font = OBATheme.subtitleFont
         self.stackView.addArrangedSubview(titleLabel)
 
         let bodyTextView = UITextView.init()
@@ -54,18 +54,18 @@ import SnapKit
         bodyTextView.isSelectable = false
         bodyTextView.isEditable = false
         bodyTextView.textAlignment = .left
-        bodyTextView.font = OBATheme.bodyFont()
+        bodyTextView.font = OBATheme.bodyFont
         bodyTextView.snp.makeConstraints { make in
-            make.left.equalTo(20)
-            make.right.equalTo(-20)
+            make.left.equalTo(OBATheme.defaultMargin)
+            make.right.equalTo(-OBATheme.defaultMargin)
         }
 
         let button = UIButton.init()
-        button.setTitleColor(OBATheme.obaGreen(), for: .normal)
+        button.setTitleColor(OBATheme.obaGreen, for: .normal)
         button.addTarget(self, action: #selector(showLocationPrompt), for: .touchUpInside)
         self.stackView.addArrangedSubview(button)
         button.setTitle(NSLocalizedString("onboarding_controller.request_location_permissions_button", comment: "Bottom button on the Onboarding Controller"), for: .normal)
-        button.titleLabel?.font = OBATheme.titleFont()
+        button.titleLabel?.font = OBATheme.titleFont
         button.snp.makeConstraints { make in
             make.height.greaterThanOrEqualTo(44)
             make.width.equalToSuperview()
