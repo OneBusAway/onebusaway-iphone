@@ -66,12 +66,24 @@ import SwiftMessages
 
     private class func errorMessage(from error: NSError) -> String {
         let wifiName = OBAReachability.wifiNetworkName
-        let potentialWifiCaptivePortalError = (error.domain == NSCocoaErrorDomain && error.code == 3840)
-        if (potentialWifiCaptivePortalError && wifiName != nil) {
+
+        if (errorPotentiallyFromWifiCaptivePortal(error) && wifiName != nil) {
             return NSLocalizedString("alert_presenter.captive_wifi_portal_error_message", comment: "Error message displayed when the user is connecting to a Wi-Fi captive portal landing page.")
         }
         else {
             return error.localizedDescription
         }
+    }
+
+    private class func errorPotentiallyFromWifiCaptivePortal(_ error: NSError) -> Bool {
+        if error.domain == NSCocoaErrorDomain && error.code == 3840 {
+            return true
+        }
+
+        if error.domain == (kCFErrorDomainCFNetwork as String) && error.code == NSURLErrorAppTransportSecurityRequiresSecureConnection {
+            return true
+        }
+
+        return false
     }
 }
