@@ -851,3 +851,30 @@
 
 /* Segmented control item title: 'Sort by Proximity' */
 "bookmarks_controller.sort_by_proximity_item" = "Ordenar por Proximidad";
+
+/* "Title of the Onboarding Controller. 'Welcome to OneBusAway!' */
+"onboarding_controller.title" = "¡Bienvenido a OneBusAway!";
+
+/* Body text of the Onboarding Controller. */
+"onboarding_controller.body_text" = "OneBusAway es una aplicación de código abierto y gestionada por voluntarios que te ayuda a averigurar donde están tus buses, trenes, transbordadores, y mas en tiempo real.\r\n\r\nLa aplicación trabaja mejor cuando puede encontrar tu ubicación.\r\n\r\nPor favor, toque el botón de abajo para comenzar.";
+
+/* Bottom button on the Onboarding Controller */
+"onboarding_controller.request_location_permissions_button" = "Empezar";
+
+/* Title for the user defaults browser */
+"user_defaults_browser_controller.title" = "Opciones de Usuario";
+
+/* The table section title for the debugging tools. */
+"info_controller.debug_section_title" = "Herramientas de Depuración";
+
+/* Row title for the Browse User Defaults action */
+"info_controller.browse_user_defaults_row" = "Examinar las Opciones de Usuario";
+
+/* Error title displayed when the stop ID provided doesn't match a known stop ID. */
+"map_controller.no_matching_stop_warning_title" = "Paradas No Encontradas";
+
+/* Error message displayed when the stop ID provided doesn't match a known stop ID. */
+"map_controller.no_matching_stop_warning_body" = "No hemos podido encontrar una parada que coincida con el ID que proporcionaste. Por favor, combrueba tu número e inténtalo nuevamente.";
+
+/* Error message shown when the user denies the app the ability to send push notifications. */
+"push_manager.authorization_denied" = "Las Alarmas solo funcionan cuando las notificaciones push estan permitidas.";
