@@ -222,7 +222,11 @@ static UIFont *_italicFootnoteFont = nil;
     return [OBATheme colorWithRed:200 green:199 blue:204 alpha:1.f];
 }
 
-#pragma mark - Pixels, err points
+#pragma mark - Sizes
+
++ (CGFloat)defaultMargin {
+    return 20.f;
+}
 
 + (CGFloat)compactPadding {
     return self.defaultPadding / 2.f;

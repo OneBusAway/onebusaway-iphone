@@ -29,41 +29,41 @@
  * The appropriate font to use for body or label text. Resizes based upon
  * the user's chosen font sizes at the system level.
  */
-+ (UIFont*)bodyFont;
+@property(class,nonatomic,copy,readonly) UIFont *bodyFont;
 
 /**
  * The appropriate font to use for footer text, or a sidenote.
  * Please use sparingly.
  */
-+ (UIFont*)footnoteFont;
+@property(class,nonatomic,copy,readonly) UIFont *footnoteFont;
 
 /**
  * The appropriate font to use for footer text, or a sidenote, but bolded.
  * Please use sparingly.
  */
-+ (UIFont*)boldFootnoteFont;
+@property(class,nonatomic,copy,readonly) UIFont *boldFootnoteFont;
 
 /**
  * The appropriate font to use for footer text, or a sidenote, but italicized.
  * Please use sparingly.
  */
-+ (UIFont*)italicFootnoteFont;
+@property(class,nonatomic,copy,readonly) UIFont *italicFootnoteFont;
 
 /**
  * A bold variant of the appropriate font to use for body or label text.
  * Resizes based upon the user's chosen font sizes at the system level.
  */
-+ (UIFont*)boldBodyFont;
+@property(class,nonatomic,copy,readonly) UIFont *boldBodyFont;
 
 /**
  * The largest title font.
  */
-+ (UIFont*)titleFont;
+@property(class,nonatomic,copy,readonly) UIFont *titleFont;
 
 /**
  * A smaller title font.
  */
-+ (UIFont*)subtitleFont;
+@property(class,nonatomic,copy,readonly) UIFont *subtitleFont;
 
 
 // Colors
@@ -71,7 +71,7 @@
 /**
  * Returns YES if the user has enabled darker system colors or reduced transparency.
  */
-+ (BOOL)useHighContrastUI;
+@property(class,nonatomic,assign,readonly) BOOL useHighContrastUI;
 
 /**
  Creates a UIColor with color values expressed in more typical 0-255 fashion.
@@ -88,7 +88,7 @@
 /**
  Formerly known as OBAGREEN.
  */
-+ (UIColor*)OBAGreen;
+@property(class,nonatomic,copy,readonly) UIColor *OBAGreen;
 
 /**
  Formerly known as OBAGREENWITHALPHA.
@@ -98,62 +98,61 @@
 /**
  Formerly known as OBAGREENBACKGROUND. Very, very pale green. Semi-transparent.
  */
-+ (UIColor*)OBAGreenBackground;
+@property(class,nonatomic,copy,readonly) UIColor *OBAGreenBackground;
 
 /**
  Formerly known as OBADARKGREEN.
  */
-+ (UIColor*)OBADarkGreen;
+@property(class,nonatomic,copy,readonly) UIColor *OBADarkGreen;
 
 /**
  Used for custom user annotation views.
  */
-+ (UIColor*)userLocationFillColor;
+@property(class,nonatomic,copy,readonly) UIColor *userLocationFillColor;
 
 /**
  Use this for UI elements that are not enabled or non-interactable.
  */
-+ (UIColor*)darkDisabledColor;
+@property(class,nonatomic,copy,readonly) UIColor *darkDisabledColor;
 
 /**
  Use this for UI elements that are not enabled or non-interactable.
  */
-+ (UIColor*)lightDisabledColor;
-
+@property(class,nonatomic,copy,readonly) UIColor *lightDisabledColor;
 
 /**
  Used for border lines on containers and the like. The same color that is used on the bottom
  of a navigation bar, for instance.
  */
-+ (UIColor*)borderColor;
+@property(class,nonatomic,copy,readonly) UIColor *borderColor;
 
 /**
  Standard text color.
  */
-+ (UIColor*)textColor;
+@property(class,nonatomic,copy,readonly) UIColor *textColor;
 
 /**
  Use this when a control changes value on screen and you want to highlight
  its changed value for the user.
  */
-+ (UIColor*)propertyChangedColor;
+@property(class,nonatomic,copy,readonly) UIColor *propertyChangedColor;
 
 /**
  The standard highlight color with a less-than-100% opacity. By default, this is a dark green color.
 
  @return A UIColor.
  */
-+ (UIColor*)nonOpaquePrimaryColor;
+@property(class,nonatomic,copy,readonly) UIColor *nonOpaquePrimaryColor;
 
 /**
  * The default background color for non-white pages. By default, this is a dark green color.
  */
-+ (UIColor*)backgroundColor;
+@property(class,nonatomic,copy,readonly) UIColor *backgroundColor;
 
 /**
  Used to tint bookmarks on the map view.
 */
-+ (UIColor*)mapBookmarkTintColor;
+@property(class,nonatomic,copy,readonly) UIColor *mapBookmarkTintColor;
 
 /**
  The color used to highlight the user location annotation view on the map.
@@ -163,57 +162,60 @@
 /**
  * The text color used to indicate that the bus is on time for a given stop.
  */
-+ (UIColor*)onTimeDepartureColor;
+@property(class,nonatomic,copy,readonly) UIColor *onTimeDepartureColor;
 
 /**
  The text color used to indicate that the bus will depart early. Usually red.
  */
-+ (UIColor*)earlyDepartureColor;
+@property(class,nonatomic,copy,readonly) UIColor *earlyDepartureColor;
 
 /**
  The text color used to indicate that the bus will depart late. Usually blue.
  */
-+ (UIColor*)delayedDepartureColor;
+@property(class,nonatomic,copy,readonly) UIColor *delayedDepartureColor;
 
 /**
  Table view section header background color.
  */
-+ (UIColor*)tableViewSectionHeaderBackgroundColor;
+@property(class,nonatomic,copy,readonly) UIColor *tableViewSectionHeaderBackgroundColor;
 
 /**
  The color of the line that separates one table view cell from another.
  */
-+ (UIColor*)tableViewSeparatorLineColor;
+@property(class,nonatomic,copy,readonly) UIColor *tableViewSeparatorLineColor;
 
 /**
  The color used on a label's textColor property when the label sits on a dark blurred background.
  */
-+ (UIColor*)darkBlurLabelTextColor;
+@property(class,nonatomic,copy,readonly) UIColor *darkBlurLabelTextColor;
 
-// Pixels (err, points)
+/**
+ The size in points of the leading and trailing margins for content in view controllers. 20pt by default.
+ */
+@property(class,nonatomic,assign,readonly) CGFloat defaultMargin;
 
 /**
  Half of the default padding. Used in situations where a tighter fit is necessary.
  */
-+ (CGFloat)compactPadding;
+@property(class,nonatomic,assign,readonly) CGFloat compactPadding;
 
 /**
  * The default vertical and horizontal padding in px.
  */
-+ (CGFloat)defaultPadding;
+@property(class,nonatomic,assign,readonly) CGFloat defaultPadding;
 
 /**
  The default corner radius to apply to views that require rounded edges.
  */
-+ (CGFloat)defaultCornerRadius;
+@property(class,nonatomic,assign,readonly) CGFloat defaultCornerRadius;
 
 /**
  The value of +[OBATheme defaultPadding] in the form of UIEdgeInsets.
  */
-+ (UIEdgeInsets)defaultEdgeInsets;
+@property(class,nonatomic,assign,readonly) UIEdgeInsets defaultEdgeInsets;
 
 /**
  The value of +[OBATheme compactPadding] in the form of UIEdgeInsets.
  */
-+ (UIEdgeInsets)compactEdgeInsets;
+@property(class,nonatomic,assign,readonly) UIEdgeInsets compactEdgeInsets;
 @end
