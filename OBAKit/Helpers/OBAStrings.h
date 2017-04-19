@@ -70,6 +70,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(class,nonatomic,copy,readonly) NSString *yesterday;
 
 /**
+ The text 'Read More…' (note that is an ellipsis, not three dots…)
+ */
+@property(class,nonatomic,copy,readonly) NSString *readMore;
+
+/**
  Created an attributed string with a prepended image.
 
  @param image An image that will precede the string.
