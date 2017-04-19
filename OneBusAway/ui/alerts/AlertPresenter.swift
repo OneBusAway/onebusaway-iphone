@@ -40,6 +40,7 @@ import SwiftMessages
     ///
     /// - Parameter error: The error object from which the alert is generated.
     open class func showError(_ error: NSError) {
+        Crashlytics.sharedInstance().recordError(error)
         self.showError(OBAStrings.error, body: errorMessage(from: error))
     }
 
