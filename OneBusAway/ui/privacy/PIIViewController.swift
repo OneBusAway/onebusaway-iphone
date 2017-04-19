@@ -108,7 +108,7 @@ class PIIViewController: OBAStaticTableViewController {
 
     func showData(_ data: String) {
         let alert = UIAlertController.init(title: nil, message: data, preferredStyle: .alert)
-        alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss(), style: .default, handler: nil))
+        alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss, style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
 }

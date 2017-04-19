@@ -27,7 +27,7 @@ import SwiftMessages
     open class func showWarning(_ title: String, body: String) {
         self.showMessage(withTheme: .warning, title: title, body: body)
     }
-    
+
     /// Displays an alert on screen at the status bar level indicating an error.
     ///
     /// - parameter title: The title of the alert
@@ -40,7 +40,7 @@ import SwiftMessages
     ///
     /// - Parameter error: The error object from which the alert is generated.
     open class func showError(_ error: NSError) {
-        self.showError(OBAStrings.error(), body: errorMessage(from: error))
+        self.showError(OBAStrings.error, body: errorMessage(from: error))
     }
 
     open class func showMessage(withTheme theme: Theme, title: String, body: String) {
