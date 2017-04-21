@@ -80,6 +80,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
     [self loadData];
 
+    [self refreshBookmarkDepartures:nil];
     [self startTimer];
 }
 
@@ -121,6 +122,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     if (self.editing) {
         return;
     };
+
     [self loadDataWithTableReload:YES];
 }
 
@@ -131,6 +133,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
     // Automatically refresh whenever the connection goes from offline -> online
     if ([OBAApplication sharedApplication].isServerReachable) {
+        [self refreshBookmarkDepartures:nil];
         [self startTimer];
     }
     else {
@@ -149,7 +152,6 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     @synchronized (self) {
         if (!self.refreshBookmarksTimer) {
             self.refreshBookmarksTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimerInterval target:self selector:@selector(refreshBookmarkDepartures:) userInfo:nil repeats:YES];
-            [self refreshBookmarkDepartures:nil];
         }
     }
 }
