@@ -11,6 +11,8 @@
 #import <OBAKit/OBALogging.h>
 #import <OBAKit/OBACommon.h>
 
+const NSTimeInterval OBAWalkingMetersPerSecond = 1.4;
+
 @implementation OBAWalkingDirections
 
 + (MKDirections*)directionsFromCoordinate:(CLLocationCoordinate2D)from toCoordinate:(CLLocationCoordinate2D)to {
@@ -33,6 +35,11 @@
         r.transportType = MKDirectionsTransportTypeWalking;
         r;
     })];
+}
+
++ (NSTimeInterval)walkingTravelTimeFromLocation:(CLLocation*)from toLocation:(CLLocation*)to {
+    CLLocationDistance distance = [from distanceFromLocation:to];
+    return distance / OBAWalkingMetersPerSecond;
 }
 
 @end
