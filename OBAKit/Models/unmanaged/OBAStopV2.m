@@ -165,6 +165,10 @@
     return c;
 }
 
+- (CLLocation*)location {
+    return [[CLLocation alloc] initWithLatitude:self.lat longitude:self.lon];
+}
+
 #pragma mark NSObject
 
 - (BOOL)isEqual:(OBAStopV2*)object {

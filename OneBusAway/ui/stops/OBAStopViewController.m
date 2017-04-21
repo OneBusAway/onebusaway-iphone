@@ -217,12 +217,6 @@ static NSInteger kStopsSectionTag = 101;
             [self.refreshControl endRefreshing];
         }
         [self.reloadLock unlock];
-    }).then(^{
-        return [[OBAWalkingDirections directionsFromCoordinate:self.locationManager.currentLocation.coordinate toCoordinate:self.arrivalsAndDepartures.stop.coordinate] calculateETA];
-    }).then(^(MKETAResponse *ETA) {
-        [self insertWalkingIndicatorIntoTable:ETA];
-    }).catch(^(NSError *error) {
-        DDLogError(@"Unable to calculate walk time to stop: %@", error);
     });
 }
 
@@ -335,7 +329,17 @@ static NSInteger kStopsSectionTag = 101;
         [departureRows addObject:row];
     }
 
-    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:departureRows];
+    NSArray *rows = nil;
+
+    CLLocation *location = self.locationManager.currentLocation;
+    if (location) {
+        rows = [OBAStopViewController insertWalkableRowIntoRows:departureRows forCurrentLocation:location];
+    }
+    else {
+        rows = departureRows;
+    }
+
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:rows];
     section.tag = kStopsSectionTag;
 
     return section;
@@ -474,61 +478,42 @@ static NSInteger kStopsSectionTag = 101;
 
 #pragma mark - Walking
 
-- (void)insertWalkingIndicatorIntoTable:(MKETAResponse*)ETA {
-    OBAGuard(ETA) else {
-        return;
-    }
++ (NSArray<OBABaseRow*>*)insertWalkableRowIntoRows:(NSArray<OBABaseRow*>*)rows forCurrentLocation:(CLLocation*)location {
+    NSUInteger insertionIndex = NSNotFound;
 
-    NSMutableArray<NSIndexPath*> *indexPaths = [NSMutableArray array];
+    OBAArrivalAndDepartureV2 *departure = nil;
+    OBAStopV2 *stop = nil;
+    NSTimeInterval walkingTime = 0;
 
-    NSArray *sections = self.sections;
-    for (NSUInteger i=0; i<sections.count; i++) {
-        OBATableSection *section = sections[i];
-
-        if (section.tag != kStopsSectionTag) {
+    for (NSUInteger i=0; i<rows.count; i++) {
+        if (![rows[i].model isKindOfClass:[OBAArrivalAndDepartureV2 class]]) {
             continue;
         }
 
-        for (NSUInteger j=0; j<section.rows.count; j++) {
-            OBADepartureRow *row = section.rows[j];
-            OBAArrivalAndDepartureV2 *model = row.model;
+        departure = rows[i].model;
+        stop = departure.stop;
+        walkingTime = [OBAWalkingDirections walkingTravelTimeFromLocation:location toLocation:stop.location];
 
-            if ([row isKindOfClass:[OBAWalkableRow class]]) {
-                // If we already have a WalkableRow in this section
-                // for whatever reason, then just bail and move on
-                // to the next section.
-                // https://github.com/OneBusAway/onebusaway-iphone/issues/890
-                break;
-            }
-
-            if (![row isKindOfClass:[OBADepartureRow class]]) {
-                continue;
-            }
-
-            if (![model isKindOfClass:[OBAArrivalAndDepartureV2 class]]) {
-                continue;
-            }
-
-            if (model.timeIntervalUntilBestDeparture > ETA.expectedTravelTime) {
-                // this is the first row that departs after our walk time. Use it.
-                [indexPaths addObject:[NSIndexPath indexPathForRow:j inSection:i]];
-                break;
-            }
+        if (departure.timeIntervalUntilBestDeparture > walkingTime) {
+            insertionIndex = i;
+            break;
         }
     }
 
-    OBAWalkableRow *walkableRow = [[OBAWalkableRow alloc] init];
-    walkableRow.text = [NSString stringWithFormat:NSLocalizedString(@"text_walk_to_stop_info_params",), [OBAMapHelpers stringFromDistance:ETA.distance],
-                        [[NSDate dateWithTimeIntervalSinceNow:ETA.expectedTravelTime] minutesUntil],
-                        [OBADateHelpers formatShortTimeNoDate:ETA.expectedArrivalDate]];
-
-    [self.tableView beginUpdates];
-
-    for (NSIndexPath *path in indexPaths) {
-        [self insertRow:walkableRow atIndexPath:path animation:UITableViewRowAnimationAutomatic];
+    if (insertionIndex == NSNotFound) {
+        return rows;
     }
 
-    [self.tableView endUpdates];
+    NSString *distanceString = [OBAMapHelpers stringFromDistance:[location distanceFromLocation:stop.location]];
+    NSDate *expectedArrivalDate = [NSDate dateWithTimeIntervalSinceNow:walkingTime];
+
+    OBAWalkableRow *walkableRow = [[OBAWalkableRow alloc] init];
+    walkableRow.text = [NSString stringWithFormat:NSLocalizedString(@"text_walk_to_stop_info_params",), distanceString,expectedArrivalDate.minutesUntil,[OBADateHelpers formatShortTimeNoDate:expectedArrivalDate]];
+
+    NSMutableArray<OBABaseRow*> *mRows = [[NSMutableArray alloc] initWithArray:rows];
+    [mRows insertObject:walkableRow atIndex:insertionIndex];
+
+    return [NSArray arrayWithArray:mRows];
 }
 
 #pragma mark - Table View Hacks
@@ -570,8 +555,12 @@ static NSInteger kStopsSectionTag = 101;
     return [[OBATableSection alloc] initWithTitle:nil rows:@[moreDeparturesRow]];
 }
 
+/**
+ This method is used to build grouped sections for routes. i.e. go to "Sort & Filter Routes"
+ and choose "Sort by Route".
+ */
 - (OBATableSection*)createDepartureSectionWithTitle:(NSString*)title fromDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)departures {
-    NSMutableArray *rows = [[NSMutableArray alloc] init];
+    NSMutableArray *departureRows = [[NSMutableArray alloc] init];
 
     for (OBAArrivalAndDepartureV2* dep in departures) {
         OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:^(OBABaseRow *blockRow){
@@ -600,7 +589,16 @@ static NSInteger kStopsSectionTag = 101;
 
         OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState];
         row.upcomingDepartures = @[upcoming];
-        [rows addObject:row];
+        [departureRows addObject:row];
+    }
+
+    NSArray *rows = nil;
+    CLLocation *location = self.locationManager.currentLocation;
+    if (location) {
+        rows = [OBAStopViewController insertWalkableRowIntoRows:departureRows forCurrentLocation:location];
+    }
+    else {
+        rows = departureRows;
     }
 
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:title rows:rows];
