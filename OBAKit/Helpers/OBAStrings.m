@@ -55,6 +55,9 @@
     return OBALocalized(@"strings.yesterday", @"The word 'yesterday'");
 }
 
++ (NSString*)readMore {
+    return OBALocalized(@"strings.read_more", @"The text 'Read More…' (note that is an ellipsis, not three dots…)");
+}
 
 + (nullable NSAttributedString*)attributedStringWithPrependedImage:(UIImage*)image string:(NSString*)string {
     return [self attributedStringWithPrependedImage:image string:string color:nil];

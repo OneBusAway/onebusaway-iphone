@@ -141,10 +141,7 @@ import CocoaLumberjackSwift
     }
 
     private func broadcastHighPriorityNotification(for alert: OBARegionalAlert) {
-
-        // TODO: FIXME! GitHub issue: https://github.com/OneBusAway/onebusaway-iphone/issues/1021
-
-//        NotificationCenter.default.post(name: RegionalAlertsManager.highPriorityRegionalAlertReceivedNotification, object: self, userInfo: [RegionalAlertsManager.highPriorityRegionalAlertUserInfoKey: alert])
+        NotificationCenter.default.post(name: RegionalAlertsManager.highPriorityRegionalAlertReceivedNotification, object: self, userInfo: [RegionalAlertsManager.highPriorityRegionalAlertUserInfoKey: alert])
     }
 
     // MARK: - Local/Default Data

@@ -156,3 +156,6 @@
 
 /* The word 'yesterday' */
 "strings.yesterday" = "Yesterday";
+
+/* The text 'Read More…' (note that is an ellipsis, not three dots…) */
+"strings.read_more" = "Read More…";

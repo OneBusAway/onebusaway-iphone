@@ -19,10 +19,11 @@
 
 #import <OBAKit/OBACommon.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class OBAPlacemark;
 @class OBARouteV2;
-
-NS_ASSUME_NONNULL_BEGIN
+@class OBARegionalAlert;
 
 extern NSString * const kOBASearchTypeParameter;
 extern NSString * const OBAStopIDNavigationTargetParameter;
@@ -52,6 +53,7 @@ extern NSString * const OBAUserSearchQueryKey;
 + (OBANavigationTarget*)navigationTargetForSearchAddress:(NSString*)addressQuery;
 + (OBANavigationTarget*)navigationTargetForSearchPlacemark:(OBAPlacemark*)placemark;
 + (OBANavigationTarget*)navigationTargetForStopID:(NSString*)stopID;
++ (OBANavigationTarget*)navigationTargetForRegionalAlert:(OBARegionalAlert*)regionalAlert;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -53,7 +53,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
         self.emptyDataSetDescription = NSLocalizedString("msg_coulnt_find_other_stops_on_radius", comment: "Empty data set description for the Nearby Stops controller")
 
         if self.presentedModally {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: OBAStrings.close(), style: .plain, target: self, action: #selector(closeButtonTapped))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: OBAStrings.close, style: .plain, target: self, action: #selector(closeButtonTapped))
         }
 
         self.loadData()
@@ -72,7 +72,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
             }.always {
                 SVProgressHUD.dismiss()
             }.catch { error in
-                AlertPresenter.showWarning(OBAStrings.error(), body: error.localizedDescription)
+                AlertPresenter.showWarning(OBAStrings.error, body: error.localizedDescription)
             }
         }
 

@@ -304,6 +304,13 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     return [OBANavigationTarget navigationTarget:OBANavigationTargetTypeContactUs];
 }
 
+- (void)setNavigationTarget:(OBANavigationTarget *)navigationTarget {
+    if (navigationTarget.searchType == OBASearchTypeRegionalAlert) {
+        RegionalAlertsViewController *alertsController = [[RegionalAlertsViewController alloc] initWithRegionalAlertsManager:[OBAApplication sharedApplication].regionalAlertsManager focusedAlert:navigationTarget.searchArgument];
+        [self.navigationController pushViewController:alertsController animated:YES];
+    }
+}
+
 #pragma mark - Private
 
 - (void)showSettings {

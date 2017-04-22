@@ -216,7 +216,10 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
 - (void)highPriorityRegionalAlertReceived:(NSNotification*)note {
     OBARegionalAlert *alert = note.userInfo[RegionalAlertsManager.highPriorityRegionalAlertUserInfoKey];
-    [AlertPresenter showError:NSLocalizedString(@"app_delegate.service_alert", @"The text 'Service Alert'. Used on an Alert Presenter shown from App Delegate") body:alert.summary];
+    [AlertView presentAlertWithTitle:alert.title body:alert.summary actionTitle:OBAStrings.readMore action:^{
+        OBANavigationTarget *regionalAlertTarget = [OBANavigationTarget navigationTargetForRegionalAlert:alert];
+        [self navigateToTarget:regionalAlertTarget];
+    }];
 }
 
 #pragma mark - Deep Linking

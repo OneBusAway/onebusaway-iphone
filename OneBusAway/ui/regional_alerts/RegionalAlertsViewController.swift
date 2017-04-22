@@ -12,16 +12,20 @@ import SafariServices
 
 class RegionalAlertsViewController: OBAStaticTableViewController {
 
+    var focusedAlert: OBARegionalAlert?
     var regionalAlertsManager: RegionalAlertsManager
+    let refreshControl = UIRefreshControl.init()
 
-    init(regionalAlertsManager: RegionalAlertsManager) {
+    convenience init(regionalAlertsManager: RegionalAlertsManager) {
+        self.init(regionalAlertsManager: regionalAlertsManager, focusedAlert: nil)
+    }
+
+    init(regionalAlertsManager: RegionalAlertsManager, focusedAlert: OBARegionalAlert?) {
         self.regionalAlertsManager = regionalAlertsManager
-
+        self.focusedAlert = focusedAlert
         super.init(nibName: nil, bundle: nil)
     }
 
-    let refreshControl = UIRefreshControl.init()
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -44,6 +48,25 @@ class RegionalAlertsViewController: OBAStaticTableViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: RegionalAlertsManager.regionalAlertsUpdatedNotification, object: nil)
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if let focusedAlert = self.focusedAlert {
+            self.presentAlert(focusedAlert)
+        }
+    }
+
+    // MARK: - Actions
+
+    private func presentAlert(_ alert: OBARegionalAlert) {
+        let safari = SFSafariViewController.init(url: alert.url)
+        safari.modalPresentationStyle = .overFullScreen
+        self.present(safari, animated: true) {
+            self.regionalAlertsManager.markRead(alert)
+            self.reloadData()
+        }
+    }
+
     // MARK: - Data Loading
 
     @objc private func reloadServerData() {
@@ -53,12 +76,7 @@ class RegionalAlertsViewController: OBAStaticTableViewController {
     @objc private func reloadData() {
         let rows = self.regionalAlertsManager.regionalAlerts.map { alert -> OBAMessageRow in
             let tableRow = OBAMessageRow.init(action: { (row) in
-                let safari = SFSafariViewController.init(url: alert.url)
-                safari.modalPresentationStyle = .overFullScreen
-                self.present(safari, animated: true) {
-                    self.regionalAlertsManager.markRead(alert)
-                    self.reloadData()
-                }
+                self.presentAlert(alert)
             })
             tableRow.accessoryType = .disclosureIndicator
             tableRow.date = alert.publishedAt

@@ -27,7 +27,7 @@ import SwiftMessages
     open class func showWarning(_ title: String, body: String) {
         self.showMessage(withTheme: .warning, title: title, body: body)
     }
-    
+
     /// Displays an alert on screen at the status bar level indicating an error.
     ///
     /// - parameter title: The title of the alert
@@ -40,7 +40,8 @@ import SwiftMessages
     ///
     /// - Parameter error: The error object from which the alert is generated.
     open class func showError(_ error: NSError) {
-        self.showError(OBAStrings.error(), body: errorMessage(from: error))
+        Crashlytics.sharedInstance().recordError(error)
+        self.showError(OBAStrings.error, body: errorMessage(from: error))
     }
 
     open class func showMessage(withTheme theme: Theme, title: String, body: String) {
@@ -65,12 +66,24 @@ import SwiftMessages
 
     private class func errorMessage(from error: NSError) -> String {
         let wifiName = OBAReachability.wifiNetworkName
-        let potentialWifiCaptivePortalError = (error.domain == NSCocoaErrorDomain && error.code == 3840)
-        if (potentialWifiCaptivePortalError && wifiName != nil) {
+
+        if (errorPotentiallyFromWifiCaptivePortal(error) && wifiName != nil) {
             return NSLocalizedString("alert_presenter.captive_wifi_portal_error_message", comment: "Error message displayed when the user is connecting to a Wi-Fi captive portal landing page.")
         }
         else {
             return error.localizedDescription
         }
+    }
+
+    private class func errorPotentiallyFromWifiCaptivePortal(_ error: NSError) -> Bool {
+        if error.domain == NSCocoaErrorDomain && error.code == 3840 {
+            return true
+        }
+
+        if error.domain == (kCFErrorDomainCFNetwork as String) && error.code == NSURLErrorAppTransportSecurityRequiresSecureConnection {
+            return true
+        }
+
+        return false
     }
 }
