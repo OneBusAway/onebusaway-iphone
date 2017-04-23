@@ -206,6 +206,8 @@
 		934C50A91E2B6D2700DFDCA0 /* OBAAlarm.h in Headers */ = {isa = PBXBuildFile; fileRef = 934C50A71E2B6D2700DFDCA0 /* OBAAlarm.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934C50AA1E2B6D2700DFDCA0 /* OBAAlarm.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C50A81E2B6D2700DFDCA0 /* OBAAlarm.m */; };
 		934C50B91E2CBE2D00DFDCA0 /* OBAArrivalAndDepartureConvertible.h in Headers */ = {isa = PBXBuildFile; fileRef = 934C50B81E2CBE2D00DFDCA0 /* OBAArrivalAndDepartureConvertible.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9356803C1EAC379100BEC077 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9356803B1EAC379100BEC077 /* CoreLocation.framework */; };
+		9356803E1EAC379700BEC077 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9356803D1EAC379700BEC077 /* MapKit.framework */; };
 		9358CDAE1DEA1AB000132CDE /* OBADepartureCellHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 9358CDAC1DEA1AB000132CDE /* OBADepartureCellHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9358CDAF1DEA1AB000132CDE /* OBADepartureCellHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358CDAD1DEA1AB000132CDE /* OBADepartureCellHelpers.m */; };
 		9358CDB21DEA242B00132CDE /* OBAUpcomingDeparture.h in Headers */ = {isa = PBXBuildFile; fileRef = 9358CDB01DEA242B00132CDE /* OBAUpcomingDeparture.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -441,6 +443,8 @@
 		934C50A71E2B6D2700DFDCA0 /* OBAAlarm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAlarm.h; sourceTree = "<group>"; };
 		934C50A81E2B6D2700DFDCA0 /* OBAAlarm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAlarm.m; sourceTree = "<group>"; };
 		934C50B81E2CBE2D00DFDCA0 /* OBAArrivalAndDepartureConvertible.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureConvertible.h; sourceTree = "<group>"; };
+		9356803B1EAC379100BEC077 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		9356803D1EAC379700BEC077 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		9358CDAC1DEA1AB000132CDE /* OBADepartureCellHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADepartureCellHelpers.h; sourceTree = "<group>"; };
 		9358CDAD1DEA1AB000132CDE /* OBADepartureCellHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADepartureCellHelpers.m; sourceTree = "<group>"; };
 		9358CDB01DEA242B00132CDE /* OBAUpcomingDeparture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAUpcomingDeparture.h; sourceTree = "<group>"; };
@@ -465,6 +469,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9356803E1EAC379700BEC077 /* MapKit.framework in Frameworks */,
+				9356803C1EAC379100BEC077 /* CoreLocation.framework in Frameworks */,
 				936EB1B61E91746400F4F3A7 /* SystemConfiguration.framework in Frameworks */,
 				932CCED11DC3D315001C8405 /* CocoaLumberjackSwift.framework in Frameworks */,
 				932CCED21DC3D315001C8405 /* PMKCoreLocation.framework in Frameworks */,
@@ -817,6 +823,8 @@
 		934196BC1DB0B274004BBBB7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9356803D1EAC379700BEC077 /* MapKit.framework */,
+				9356803B1EAC379100BEC077 /* CoreLocation.framework */,
 				936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */,
 				93F3F8941E7AEE260025FC78 /* Mantle.framework */,
 				932CCECA1DC3D315001C8405 /* CocoaLumberjack.framework */,

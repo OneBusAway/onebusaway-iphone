@@ -7,7 +7,6 @@
 //
 
 #import <OBAKit/OBAWalkingDirections.h>
-@import MapKit;
 #import <OBAKit/OBALogging.h>
 #import <OBAKit/OBACommon.h>
 
