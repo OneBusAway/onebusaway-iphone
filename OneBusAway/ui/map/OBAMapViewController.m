@@ -651,8 +651,16 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)reloadData {
     OBASearchResult *result = self.mapDataLoader.result;
 
-    if (result && result.searchType == OBASearchTypeRoute && [result.values count] > 0) {
-        [self showNearbyStopsWithSearchResult:result];
+    if (result && result.searchType == OBASearchTypeRoute && result.values.count > 0) {
+        if (result.values.count == 1) {
+            // short-circuit and show the result.
+            OBARouteV2 *route = result.values[0];
+            OBANavigationTarget *target = [OBANavigationTarget navigationTargetForRoute:route];
+            [self setNavigationTarget:target];
+        }
+        else {
+            [self showNearbyStopsWithSearchResult:result];
+        }
         return;
     }
 
