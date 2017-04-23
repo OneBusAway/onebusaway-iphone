@@ -28,7 +28,7 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
         super.viewDidLoad()
 
         let image = UIImage(named: "search_placeholder")
-        self.emptyDataSetVerticalOffset = -135.0
+        self.emptyDataSetVerticalOffset = -125.0
         self.emptyDataSetImage = image
         self.emptyDataSetTitle = NSLocalizedString("map_search.empty_data_set_description", comment: "The empty data set description for the search controller")
     }
