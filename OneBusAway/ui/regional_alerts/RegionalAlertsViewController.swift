@@ -63,6 +63,7 @@ class RegionalAlertsViewController: OBAStaticTableViewController {
         super.viewDidAppear(animated)
 
         if let focusedAlert = self.focusedAlert {
+            self.focusedAlert = nil
             self.presentAlert(focusedAlert)
         }
     }
