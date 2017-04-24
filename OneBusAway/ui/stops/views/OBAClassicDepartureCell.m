@@ -24,13 +24,31 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 
     if (self) {
-        _contextMenuButton = [self buildContextMenuButton];
-        self.accessoryView = _contextMenuButton;
+        self.contentView.clipsToBounds = YES;
 
+        _contextMenuButton = [self buildContextMenuButton];
         _departureView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
-        [self.contentView addSubview:_departureView];
-        [_departureView mas_makeConstraints:^(MASConstraintMaker *make) {
+        UIView *wrapperView = [[UIView alloc] initWithFrame:CGRectZero];
+        wrapperView.clipsToBounds = YES;
+
+        [wrapperView addSubview:_departureView];
+        [wrapperView addSubview:_contextMenuButton];
+
+        [self.contentView addSubview:wrapperView];
+
+        [wrapperView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.contentView).insets(self.layoutMargins);
+        }];
+
+        [_contextMenuButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.and.width.equalTo(@40);
+            make.right.equalTo(wrapperView);
+            make.centerY.equalTo(wrapperView);
+        }];
+
+        [_departureView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.and.bottom.equalTo(wrapperView);
+            make.right.equalTo(self->_contextMenuButton.mas_left);
         }];
     }
 
@@ -44,7 +62,6 @@
     UIImage *ellipsis = [UIImage imageNamed:@"ellipsis_button"];
     [button setImage:ellipsis forState:UIControlStateNormal];
     button.tintColor = [OBATheme OBAGreenWithAlpha:0.7f];
-    button.frame = CGRectMake(0, 0, 36, 36);
     button.accessibilityLabel = NSLocalizedString(@"classic_departure_cell.context_button_accessibility_label", @"This is the ... button shown on the right side of a departure cell. Tapping it shows a menu with more options.");
     [button addTarget:self action:@selector(showActionMenu) forControlEvents:UIControlEventTouchUpInside];
 
