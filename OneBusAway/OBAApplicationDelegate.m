@@ -216,10 +216,16 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
 - (void)highPriorityRegionalAlertReceived:(NSNotification*)note {
     OBARegionalAlert *alert = note.userInfo[RegionalAlertsManager.highPriorityRegionalAlertUserInfoKey];
-    [AlertView presentAlertWithTitle:alert.title body:alert.summary actionTitle:OBAStrings.readMore action:^{
+
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alert.title message:alert.summary preferredStyle:UIAlertControllerStyleAlert];
+
+    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
+    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.readMore style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         OBANavigationTarget *regionalAlertTarget = [OBANavigationTarget navigationTargetForRegionalAlert:alert];
         [self navigateToTarget:regionalAlertTarget];
-    }];
+    }]];
+
+    [self.topViewController presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - Deep Linking
@@ -463,6 +469,25 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
             [self.window oba_setRootViewController:self.regionNavigationController animated:YES];
         }
     });
+}
+
+#pragma mark - Private UI Junk
+
+- (UIViewController *)topViewController{
+    return [OBAApplicationDelegate topViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
+}
+
++ (UIViewController *)topViewController:(UIViewController *)rootViewController {
+    if (rootViewController.presentedViewController == nil) {
+        return rootViewController;
+    }
+    if ([rootViewController.presentedViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)rootViewController.presentedViewController;
+        UIViewController *lastViewController = [[navigationController viewControllers] lastObject];
+        return [self topViewController:lastViewController];
+    }
+    UIViewController *presentedViewController = (UIViewController *)rootViewController.presentedViewController;
+    return [self topViewController:presentedViewController];
 }
 
 @end
