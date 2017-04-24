@@ -878,3 +878,6 @@
 
 /* Info tab log data explanation is used on an action sheet as a description of what the options do. */
 "info_controller.send_log_data_explanation" = "This will send your log data or preferences to app support. This may be necessary to help diagnose bugs. Check the 'Information for Support' section to see what your logs contain.";
+
+/* Mark All as Read toolbar button title */
+"regional_alerts_controller.mark_all_as_read" = "Mark All as Read";

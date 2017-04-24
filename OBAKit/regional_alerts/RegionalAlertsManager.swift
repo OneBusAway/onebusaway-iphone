@@ -54,6 +54,15 @@ import CocoaLumberjackSwift
         }
     }
 
+    public func markAllAsRead() {
+        self.alertsUpdateQueue.sync {
+            let alerts = self.regionalAlerts
+            alerts.forEach { $0.unread = false }
+            self.regionalAlerts = alerts
+            _ = self.writeDefaultData(alerts)
+        }
+    }
+
     // MARK: - Remote Data Updating
 
     private let updateLock = NSLock.init()
