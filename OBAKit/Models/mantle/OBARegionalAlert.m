@@ -10,12 +10,14 @@
 
 @implementation OBARegionalAlert
 
-- (instancetype)init {
-    self = [super init];
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error {
+    self = [super initWithDictionary:dictionaryValue error:error];
 
     if (self) {
-        _unread = YES;
+        // Mark any alerts older than 24 hours as 'read'.
+        _unread = ABS(self.publishedAt.timeIntervalSinceNow) < 86400;
     }
+
     return self;
 }
 
