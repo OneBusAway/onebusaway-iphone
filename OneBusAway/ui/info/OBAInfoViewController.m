@@ -198,17 +198,8 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
       [rows addObject:reportAppIssue];
     }
 
-    OBATableRow *logs = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_send_logs",) action:^{
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_ask_send_logs",) message:NSLocalizedString(@"msg_explanatory_send_log_data",) preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
-        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_send",) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            for (NSData *logData in self.privacyBroker.shareableLogData) {
-                [[Apptentive sharedConnection] sendAttachmentFile:logData withMimeType:@"text/plain"];
-            }
-
-            [AlertPresenter showSuccess:NSLocalizedString(@"msg_log_files_sent",) body:NSLocalizedString(@"msg_thank_you_exclamation",)];
-        }]];
-        [self presentViewController:alert animated:YES completion:nil];
+    OBATableRow *logs = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"info_controller.send_info_to_support_row",@"Info tab's table row title for sending logs to support.") action:^{
+        [self presentSendLogsActionSheet];
     }];
     [rows addObject:logs];
 
@@ -420,6 +411,31 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     headerFrame.size.height = height;
     header.frame = headerFrame;
     self.tableView.tableHeaderView = header;
+}
+
+- (void)presentSendLogsActionSheet {
+    NSString *title = NSLocalizedString(@"info_controller.send_info_to_support_row",@"Info tab's table row title for sending logs to support.");
+    NSString *message = NSLocalizedString(@"info_controller.send_log_data_explanation", @"Info tab log data explanation is used on an action sheet as a description of what the options do.");
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
+
+    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
+
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"info_controller.send_logs",@"'Send Logs' action sheet item on the Info tab") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        for (NSData *logData in self.privacyBroker.shareableLogData) {
+            [[Apptentive sharedConnection] sendAttachmentFile:logData withMimeType:@"text/plain"];
+        }
+
+        [AlertPresenter showSuccess:NSLocalizedString(@"msg_log_files_sent",) body:NSLocalizedString(@"msg_thank_you_exclamation",)];
+    }]];
+
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"info_controller.send_user_defaults", @"Info controller 'send info' action sheet option for sending user defaults") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+
+        NSDictionary *defaultsDict = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
+        [Apptentive.shared sendAttachmentFile:[NSKeyedArchiver archivedDataWithRootObject:defaultsDict] withMimeType:@"application/octet-stream"];
+    }]];
+
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end

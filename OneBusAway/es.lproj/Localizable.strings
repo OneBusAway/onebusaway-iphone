@@ -425,15 +425,6 @@
 /* No comment provided by engineer. */
 "msg_select_or_add_to_group_bookmark" = "Selecciona un grupo para el favorito,\no '+' para adicionarlo en un nuevo grupo.";
 
-/* No comment provided by engineer. */
-"msg_send" = "Enviar";
-
-/* No comment provided by engineer. */
-"msg_send_logs" = "Enviar Logs para Soporte";
-
-/* No comment provided by engineer. */
-"msg_ask_send_logs" = "¿Enviar Logs para Soporte?";
-
 /* code # 404 */
 "msg_server_error" = "Error de Servidor";
 
@@ -555,9 +546,6 @@
 
 /* The footer label on the PIIViewController */
 "msg_explanatory_information_send_on_submit_request" = "Esta información sólo se envía a OneBusAway en el momento de enviar una solicitud de soporte. Puedes desactivar el envío de cualquiera o todos estos datos, pero va a limitar nuestra capacidad para diagnosticar y solucionar los problemas que estás experimentando.";
-
-/* No comment provided by engineer. */
-"msg_explanatory_send_log_data" = "Esto enviará tus datos de log al soporte de la aplicación. Esto es necesario para ayudarnos a diagnosticar fallas. Mira la sección \"Información para Soporte\" para ver que contienen tus logs.";
 
 /* cell.textLabel.text */
 "msg_touch_to_edit" = "Toca para editar";
