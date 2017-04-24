@@ -182,24 +182,4 @@
     }
 }
 
-+ (void)scaleAnnotationsOnMapView:(MKMapView*)mapView forSearchResult:(OBASearchResult*)result {
-    CGFloat scale = 1.f;
-    CGFloat alpha = 1.f;
-
-    if (result && OBASearchTypeStops == result.searchType) {
-        scale = [OBASphericalGeometryLibrary computeStopsForRouteAnnotationScaleFactor:mapView.region];
-        alpha = scale <= 0.11f ? 0.f : 1.f;
-    }
-
-    CGAffineTransform transform = CGAffineTransformMakeScale(scale, scale);
-
-    for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[OBAStopV2 class]]) {
-            MKAnnotationView *view = [mapView viewForAnnotation:annotation];
-            view.transform = transform;
-            view.alpha = alpha;
-        }
-    }
-}
-
 @end
