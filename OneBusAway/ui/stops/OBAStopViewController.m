@@ -275,76 +275,6 @@ static NSInteger kStopsSectionTag = 101;
     [self.tableView reloadData];
 }
 
-- (OBATableSection *)buildClassicDepartureSectionWithDeparture:(OBAArrivalsAndDeparturesForStopV2 *)result {
-    NSMutableArray *departureRows = [NSMutableArray array];
-
-    NSArray<OBAArrivalAndDepartureV2*> *arrivalsAndDepartures = [result.arrivalsAndDepartures sortedArrayUsingComparator:^NSComparisonResult(OBAArrivalAndDepartureV2* obj1, OBAArrivalAndDepartureV2* obj2) {
-
-        if (obj1.minutesUntilBestDeparture != obj2.minutesUntilBestDeparture) {
-            return [obj1.bestArrivalDepartureDate compare:obj2.bestArrivalDepartureDate];
-        }
-
-        if (obj1.arrivalDepartureState == obj2.arrivalDepartureState) {
-            return NSOrderedSame;
-        }
-
-        if (obj1.arrivalDepartureState == OBAArrivalDepartureStateArriving) {
-            return NSOrderedAscending;
-        }
-        else {
-            return NSOrderedDescending;
-        }
-    }];
-
-    for (OBAArrivalAndDepartureV2 *dep in arrivalsAndDepartures) {
-        if (![self.routeFilter shouldShowRouteID:dep.routeId]) {
-            continue;
-        }
-
-        OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:^(OBABaseRow *blockRow) {
-            OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
-            [self.navigationController pushViewController:vc animated:YES];
-        }];
-        row.model = dep;
-        row.routeName = dep.bestAvailableName;
-        row.destination = dep.tripHeadsign.capitalizedString;
-        row.upcomingDepartures = @[[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState]];
-        row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
-        row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
-        row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
-
-        [row setShowAlertController:^(UIAlertController *alert) {
-            [self presentViewController:alert animated:YES completion:nil];
-        }];
-        [row setToggleBookmarkAction:^{
-            [self toggleBookmarkActionForArrivalAndDeparture:dep];
-        }];
-        [row setToggleAlarmAction:^{
-            [self toggleAlarmActionForArrivalAndDeparture:dep];
-        }];
-        [row setShareAction:^{
-            [self shareActionForArrivalAndDeparture:dep atIndexPath:[self indexPathForModel:dep]];
-        }];
-
-        [departureRows addObject:row];
-    }
-
-    NSArray *rows = nil;
-
-    CLLocation *location = self.locationManager.currentLocation;
-    if (location) {
-        rows = [OBAStopViewController insertWalkableRowIntoRows:departureRows forCurrentLocation:location];
-    }
-    else {
-        rows = departureRows;
-    }
-
-    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:rows];
-    section.tag = kStopsSectionTag;
-
-    return section;
-}
-
 #pragma mark - Row Actions
 
 - (void)toggleBookmarkActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
@@ -532,6 +462,76 @@ static NSInteger kStopsSectionTag = 101;
 }
 
 #pragma mark - Table Section Creation
+
+- (OBATableSection *)buildClassicDepartureSectionWithDeparture:(OBAArrivalsAndDeparturesForStopV2 *)result {
+    NSMutableArray *departureRows = [NSMutableArray array];
+
+    NSArray<OBAArrivalAndDepartureV2*> *arrivalsAndDepartures = [result.arrivalsAndDepartures sortedArrayUsingComparator:^NSComparisonResult(OBAArrivalAndDepartureV2* obj1, OBAArrivalAndDepartureV2* obj2) {
+
+        if (obj1.minutesUntilBestDeparture != obj2.minutesUntilBestDeparture) {
+            return [obj1.bestArrivalDepartureDate compare:obj2.bestArrivalDepartureDate];
+        }
+
+        if (obj1.arrivalDepartureState == obj2.arrivalDepartureState) {
+            return NSOrderedSame;
+        }
+
+        if (obj1.arrivalDepartureState == OBAArrivalDepartureStateArriving) {
+            return NSOrderedAscending;
+        }
+        else {
+            return NSOrderedDescending;
+        }
+    }];
+
+    for (OBAArrivalAndDepartureV2 *dep in arrivalsAndDepartures) {
+        if (![self.routeFilter shouldShowRouteID:dep.routeId]) {
+            continue;
+        }
+
+        OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:^(OBABaseRow *blockRow) {
+            OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+        row.model = dep;
+        row.routeName = dep.bestAvailableName;
+        row.destination = dep.tripHeadsign.capitalizedString;
+        row.upcomingDepartures = @[[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState]];
+        row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
+        row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
+        row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
+
+        [row setShowAlertController:^(UIAlertController *alert) {
+            [self presentViewController:alert animated:YES completion:nil];
+        }];
+        [row setToggleBookmarkAction:^{
+            [self toggleBookmarkActionForArrivalAndDeparture:dep];
+        }];
+        [row setToggleAlarmAction:^{
+            [self toggleAlarmActionForArrivalAndDeparture:dep];
+        }];
+        [row setShareAction:^{
+            [self shareActionForArrivalAndDeparture:dep atIndexPath:[self indexPathForModel:dep]];
+        }];
+
+        [departureRows addObject:row];
+    }
+
+    NSArray *rows = nil;
+
+    CLLocation *location = self.locationManager.currentLocation;
+    if (location) {
+        rows = [OBAStopViewController insertWalkableRowIntoRows:departureRows forCurrentLocation:location];
+    }
+    else {
+        rows = departureRows;
+    }
+
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:rows];
+    section.tag = kStopsSectionTag;
+    
+    return section;
+}
 
 - (OBATableSection*)createToggleDepartureFilterSection {
     OBASegmentedRow *segmentedRow = [[OBASegmentedRow alloc] initWithSelectionChange:^(NSUInteger selectedIndex) {
