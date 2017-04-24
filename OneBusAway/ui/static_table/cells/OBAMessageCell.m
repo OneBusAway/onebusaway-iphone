@@ -9,8 +9,9 @@
 #import "OBAMessageCell.h"
 @import OBAKit;
 @import Masonry;
-
 #import "OBAMessageRow.h"
+
+static CGFloat const kAccessoryWidth = 12.f;
 
 @interface OBAMessageCell ()
 @property(nonatomic,strong) UILabel *senderLabel;
@@ -34,9 +35,9 @@
         // Top Row: [unread] - [sender] - [date] - [arrow]
 
         _unreadImageView = [[UIImageView alloc] initWithImage:nil];
-        _unreadImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _unreadImageView.contentMode = UIViewContentModeScaleAspectFit;
         [_unreadImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.and.height.equalTo(@16);
+            make.width.equalTo(@(kAccessoryWidth));
         }];
 
         _senderLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -66,7 +67,7 @@
         _priorityLabel.font = [OBATheme boldBodyFont];
         _priorityLabel.textColor = [UIColor redColor];
         [_priorityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.equalTo(@16);
+            make.width.equalTo(@(kAccessoryWidth));
         }];
 
         _subjectLabel = [[UILabel alloc] initWithFrame:CGRectZero];
