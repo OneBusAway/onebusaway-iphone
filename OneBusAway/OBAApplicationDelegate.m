@@ -219,7 +219,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alert.title message:alert.summary preferredStyle:UIAlertControllerStyleAlert];
 
-    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
+    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleCancel handler:nil]];
     [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.readMore style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         OBANavigationTarget *regionalAlertTarget = [OBANavigationTarget navigationTargetForRegionalAlert:alert];
         [self navigateToTarget:regionalAlertTarget];
