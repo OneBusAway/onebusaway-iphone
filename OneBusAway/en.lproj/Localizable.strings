@@ -425,14 +425,8 @@
 /* No comment provided by engineer. */
 "msg_select_or_add_to_group_bookmark" = "Select a group for the bookmark,\nor '+' to add it to a new group.";
 
-/* No comment provided by engineer. */
-"msg_send" = "Send";
-
-/* No comment provided by engineer. */
-"msg_send_logs" = "Send Logs to Support";
-
-/* No comment provided by engineer. */
-"msg_ask_send_logs" = "Send Logs to Support?";
+/* Info tab's table row title for sending logs to support. */
+"info_controller.send_info_to_support_row" = "Send Information to Support";
 
 /* code # 404 */
 "msg_server_error" = "Server error";
@@ -555,9 +549,6 @@
 
 /* The footer label on the PIIViewController */
 "msg_explanatory_information_send_on_submit_request" = "This information is only sent to OneBusAway when you submit a support request. You can disable sending us any or all of this data, but it will limit our ability to diagnose and fix problems you are experiencing.";
-
-/* No comment provided by engineer. */
-"msg_explanatory_send_log_data" = "This will send your log data to app support. This may be necessary to help diagnose bugs. Check the \"Information for Support\" section to see what your logs contain.";
 
 /* cell.textLabel.text */
 "msg_touch_to_edit" = "Touch to edit";
@@ -878,3 +869,12 @@
 
 /* Error message shown when the user denies the app the ability to send push notifications. */
 "push_manager.authorization_denied" = "Alarms only work when push notifications are allowed.";
+
+/* 'Send Logs' action sheet item on the Info tab */
+"info_controller.send_logs" = "Send Logs";
+
+/* Info controller 'send info' action sheet option for sending user defaults */
+"info_controller.send_user_defaults" = "Send Preferences";
+
+/* Info tab log data explanation is used on an action sheet as a description of what the options do. */
+"info_controller.send_log_data_explanation" = "This will send your log data or preferences to app support. This may be necessary to help diagnose bugs. Check the 'Information for Support' section to see what your logs contain.";
