@@ -99,9 +99,6 @@ static const NSString *kShapeContext = @"ShapeContext";
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     if ([annotation isKindOfClass:[OBATripStopTimeMapAnnotation class]]) {
-        CGFloat scale = [OBASphericalGeometryLibrary computeStopsForRouteAnnotationScaleFactor:mapView.region];
-        CGFloat alpha = scale <= 0.11f ? 0.0f : 1.0f;
-
         OBATripStopTimeMapAnnotation *an = (OBATripStopTimeMapAnnotation *)annotation;
         static NSString *viewId = @"StopView";
 
@@ -114,8 +111,6 @@ static const NSString *kShapeContext = @"ShapeContext";
         view.canShowCallout = YES;
         view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         view.image = [OBAStopIconFactory getIconForStop:an.stopTime.stop];
-        view.transform = CGAffineTransformMakeScale(scale, scale);
-        view.alpha = alpha;
         return view;
     }
     else if ([annotation isKindOfClass:[OBATripContinuationMapAnnotation class]]) {
@@ -165,23 +160,6 @@ static const NSString *kShapeContext = @"ShapeContext";
     else {
         // TODO: Can't return nil here, MKMapViewDelegate specifies NONNULL for this
         return nil;
-    }
-}
-
-- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-    CGFloat scale = [OBASphericalGeometryLibrary computeStopsForRouteAnnotationScaleFactor:mapView.region];
-    CGFloat alpha = scale <= 0.11f ? 0.f : 1.f;
-
-    DDLogInfo(@"scale=%f alpha=%f", scale, alpha);
-
-    CGAffineTransform transform = CGAffineTransformMakeScale(scale, scale);
-
-    for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[OBATripStopTimeMapAnnotation class]]) {
-            MKAnnotationView *view = [mapView viewForAnnotation:annotation];
-            view.transform = transform;
-            view.alpha = alpha;
-        }
     }
 }
 

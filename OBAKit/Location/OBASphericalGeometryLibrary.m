@@ -179,37 +179,6 @@ typedef struct {
     return bounds;
 }
 
-+ (CGFloat)computeStopsForRouteAnnotationScaleFactor:(MKCoordinateRegion)region {
-
-    MKCoordinateSpan span = region.span;
-    CLLocationCoordinate2D center = region.center;
-
-    CLLocationDegrees lat1 = center.latitude;
-    CLLocationDegrees lon1 = center.longitude - span.longitudeDelta / 2;
-
-    CLLocationDegrees lat2 = center.latitude;
-    CLLocationDegrees lon2 = center.longitude + span.longitudeDelta / 2;
-
-    CLLocation * a = [[CLLocation alloc] initWithLatitude:lat1 longitude:lon1];
-    CLLocation * b = [[CLLocation alloc] initWithLatitude:lat2 longitude:lon2];
-
-    CLLocationDistance d = [a distanceFromLocation:b];
-
-    if (d <= kStopForRouteAnnotationMaxScaleDistance) {
-        return 1.0;
-    }
-    else if (d < kStopForRouteAnnotationMinScaleDistance) {
-        CGFloat kStopForRouteAnnotationScaleSlope = (1.f-kStopForRouteAnnotationMinScale) / (kStopForRouteAnnotationMaxScaleDistance-kStopForRouteAnnotationMinScaleDistance);
-        CGFloat kStopForRouteAnnotationScaleOffset = 1.f - kStopForRouteAnnotationScaleSlope * kStopForRouteAnnotationMaxScaleDistance;
-
-        CGFloat scale = kStopForRouteAnnotationScaleSlope * (CGFloat)d + kStopForRouteAnnotationScaleOffset;
-        return scale;
-    }
-    else {
-        return kStopForRouteAnnotationMinScale;
-    }
-}
-
 #pragma mark - Private
 
 + (OBANumberAndIndex) decodeSignedNumber:(NSString*)value withIndex:(int)index {
