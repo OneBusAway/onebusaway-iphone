@@ -107,6 +107,7 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
             let target = OBANavigationTarget(forSearchRoute: searchText)
             self.delegate?.mapSearch(self, selectedNavigationTarget: target)
         }
+        routeRow.accessoryType = .disclosureIndicator
 
         // Address Row
         let searchAddressText = MapSearchViewController.quickLookupRowText(title: NSLocalizedString("map_search.search_for_address", comment: "Address: <ADDRESS>"), searchText: searchText)
@@ -114,6 +115,7 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
             let target = OBANavigationTarget(forSearchAddress: searchText)
             self.delegate?.mapSearch(self, selectedNavigationTarget: target)
         }
+        addressRow.accessoryType = .disclosureIndicator
 
         // Stop Number Row
         let stopNumberText = MapSearchViewController.quickLookupRowText(title: NSLocalizedString("map_search.search_for_stop_number", comment: "Stop Number: <STOP NUMBER>"), searchText: searchText)
@@ -121,6 +123,7 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
             let target = OBANavigationTarget(forStopID: searchText)
             self.delegate?.mapSearch(self, selectedNavigationTarget: target)
         }
+        stopNumberRow.accessoryType = .disclosureIndicator
 
         return OBATableSection.init(title: NSLocalizedString("map_search.quick_lookup_section_title", comment: "Map Search: Quick Lookup Table Section"), rows: [routeRow, addressRow, stopNumberRow])
     }
