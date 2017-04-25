@@ -185,7 +185,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     }];
     contactUs.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     [rows addObject:contactUs];
-    
+
     if ([Apptentive sharedConnection].canShowMessageCenter) {
       OBATableRow *reportAppIssue = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_app_bugs_feature_requests",) action:^{
           [self presentApptentiveMessageCenter];
@@ -194,7 +194,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
       if ([Apptentive sharedConnection].unreadMessageCount > 0) {
           reportAppIssue.accessoryView = [[Apptentive sharedConnection] unreadMessageCountAccessoryView:YES];
       }
-      
+
       [rows addObject:reportAppIssue];
     }
 
