@@ -37,15 +37,6 @@
 
 + (MKAnnotationView*)mapView:(MKMapView*)mapView annotationViewForStop:(OBAStopV2*)stop withSearchType:(OBASearchType)searchType {
     MKAnnotationView *view = [OBAMapAnnotationViewBuilder viewForAnnotation:stop forMapView:mapView];
-
-    if (OBASearchTypeStops == searchType) {
-        CGFloat scale = [OBASphericalGeometryLibrary computeStopsForRouteAnnotationScaleFactor:mapView.region];
-        CGFloat alpha = scale <= 0.11f ? 0.f : 1.f;
-
-        view.transform = CGAffineTransformMakeScale(scale, scale);
-        view.alpha = alpha;
-    }
-
     view.image = [OBAStopIconFactory getIconForStop:stop];
 
     return view;

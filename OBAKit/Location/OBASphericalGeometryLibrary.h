@@ -35,7 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (OBACoordinateBounds*) boundsForLocations:(NSArray*)locations;
 + (OBACoordinateBounds*) boundsForMKPolyline:(MKPolyline*)polyline;
 
-+ (CGFloat)computeStopsForRouteAnnotationScaleFactor:(MKCoordinateRegion)region;
 @end
 
 NS_ASSUME_NONNULL_END
