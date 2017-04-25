@@ -425,6 +425,9 @@
 /* No comment provided by engineer. */
 "msg_select_or_add_to_group_bookmark" = "Selecciona un grupo para el favorito,\no '+' para adicionarlo en un nuevo grupo.";
 
+/* Info tab's table row title for sending logs to support. */
+"info_controller.send_info_to_support_row" = "Enviar Información para Soporte";
+
 /* code # 404 */
 "msg_server_error" = "Error de Servidor";
 
@@ -866,3 +869,15 @@
 
 /* Error message shown when the user denies the app the ability to send push notifications. */
 "push_manager.authorization_denied" = "Las Alarmas solo funcionan cuando las notificaciones push estan permitidas.";
+
+/* 'Send Logs' action sheet item on the Info tab */
+"info_controller.send_logs" = "Enviar Logs";
+
+/* Info controller 'send info' action sheet option for sending user defaults */
+"info_controller.send_user_defaults" = "Enviar Preferencias";
+
+/* Info tab log data explanation is used on an action sheet as a description of what the options do. */
+"info_controller.send_log_data_explanation" = "Esto enviará tus datos de log y preferencias al soporte de la aplicación. Esto puede ser necesario para ayudar a diagnosticar fallos. Mira la sección 'Información para Soporte' para ver que contienen tus logs.";
+
+/* Mark All as Read toolbar button title */
+"regional_alerts_controller.mark_all_as_read" = "Marcar Todas como Leídas";
