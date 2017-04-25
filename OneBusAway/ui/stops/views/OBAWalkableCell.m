@@ -32,7 +32,7 @@
         CGFloat barHeight = [@"jJmyg89" sizeWithAttributes:@{NSFontAttributeName: distanceLabelFont}].height + 2;
         CGFloat triangleHeight = 8.f;
         CGFloat triangleWidth = 20.f;
-        CGFloat triangleOffsetFromRight = 23.f;
+        CGFloat triangleOffsetFromRight = 18.f;
 
         [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.height.equalTo(@(barHeight+triangleHeight));
