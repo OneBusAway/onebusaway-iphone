@@ -381,8 +381,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         }
         [self scheduleRefreshOfStopsInRegion:interval location:location];
     }
-
-    [OBAMapAnnotationViewBuilder scaleAnnotationsOnMapView:mapView forSearchResult:self.mapDataLoader.result];
 }
 
 - (void)userHeadingDidUpdate:(NSNotification*)note {

@@ -17,6 +17,4 @@
 + (MKAnnotationView*)mapView:(MKMapView *)mapView viewForNavigationTarget:(OBANavigationTargetAnnotation*)annotation;
 + (void)updateAnnotationsOnMapView:(MKMapView*)mapView fromSearchResult:(OBASearchResult*)result bookmarkAnnotations:(NSArray*)bookmarks;
 + (void)setOverlaysOnMapView:(MKMapView*)mapView fromSearchResult:(OBASearchResult*)result;
-
-+ (void)scaleAnnotationsOnMapView:(MKMapView*)mapView forSearchResult:(OBASearchResult*)result;
 @end

@@ -23,7 +23,13 @@ class RegionalAlertsViewController: OBAStaticTableViewController {
     init(regionalAlertsManager: RegionalAlertsManager, focusedAlert: OBARegionalAlert?) {
         self.regionalAlertsManager = regionalAlertsManager
         self.focusedAlert = focusedAlert
+
         super.init(nibName: nil, bundle: nil)
+
+        self.hidesBottomBarWhenPushed = true
+        let spacer = UIBarButtonItem.init(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let markReadButton = UIBarButtonItem.init(title:  NSLocalizedString("regional_alerts_controller.mark_all_as_read", comment: "Mark All as Read toolbar button title"), style: .plain, target: self, action: #selector(markAllAsRead))
+        self.toolbarItems = [spacer, markReadButton]
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -48,23 +54,37 @@ class RegionalAlertsViewController: OBAStaticTableViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: RegionalAlertsManager.regionalAlertsUpdatedNotification, object: nil)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setToolbarHidden(false, animated: true)
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         if let focusedAlert = self.focusedAlert {
+            self.focusedAlert = nil
             self.presentAlert(focusedAlert)
         }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setToolbarHidden(true, animated: true)
     }
 
     // MARK: - Actions
 
     private func presentAlert(_ alert: OBARegionalAlert) {
         let safari = SFSafariViewController.init(url: alert.url)
-        safari.modalPresentationStyle = .overFullScreen
-        self.present(safari, animated: true) {
-            self.regionalAlertsManager.markRead(alert)
-            self.reloadData()
-        }
+        self.navigationController?.pushViewController(safari, animated: true)
+        self.regionalAlertsManager.markRead(alert)
+        self.reloadData()
+    }
+
+    @objc private func markAllAsRead() {
+        self.regionalAlertsManager.markAllAsRead()
+        self.reloadData()
     }
 
     // MARK: - Data Loading

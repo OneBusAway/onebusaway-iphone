@@ -37,10 +37,14 @@ import CocoaLumberjackSwift
         return UInt(self.regionalAlerts.filter({ $0.unread }).count)
     }
 
-    // MARK: - Other Public Methods
+    // MARK: - Mark Read
 
     public func markRead(_ alert: OBARegionalAlert) {
-        self.alertsUpdateQueue.sync {
+        self.markRead(alert, synchronous: true)
+    }
+
+    private func markRead(_ alert: OBARegionalAlert, synchronous: Bool) {
+        let op = {
             var alerts = self.regionalAlerts
             guard let idx = alerts.index(of: alert) else {
                 return
@@ -49,6 +53,22 @@ import CocoaLumberjackSwift
             canonicalAlert.unread = false
             alerts[idx] = canonicalAlert
 
+            self.regionalAlerts = alerts
+            _ = self.writeDefaultData(alerts)
+        }
+
+        if synchronous {
+            self.alertsUpdateQueue.sync(execute: op)
+        }
+        else {
+            op()
+        }
+    }
+
+    public func markAllAsRead() {
+        self.alertsUpdateQueue.sync {
+            let alerts = self.regionalAlerts
+            alerts.forEach { $0.unread = false }
             self.regionalAlerts = alerts
             _ = self.writeDefaultData(alerts)
         }
@@ -74,14 +94,12 @@ import CocoaLumberjackSwift
             self.alertsUpdateQueue.sync {
                 let newAlerts: [OBARegionalAlert] = alerts as! [OBARegionalAlert]
                 if newAlerts.count > 0 {
-                    self.postNotificationForHighPriorityAlerts(newAlerts)
-
                     self.regionalAlerts = RegionalAlertsManager.merge(models: self.regionalAlerts, withNewModels: newAlerts)
                     if self.writeDefaultData(self.regionalAlerts) {
-                        
                         UserDefaults.standard.set(NSDate(), forKey: self.lastUpdateKey)
                         self.broadcastUpdateNotification()
                     }
+                    self.postNotificationForHighPriorityAlerts(newAlerts)
                 }
             }
         }.catch { error in
@@ -135,9 +153,13 @@ import CocoaLumberjackSwift
             return alert.priority == .high && alert.unread
         }
 
-        if matches.count > 0 {
-            self.broadcastHighPriorityNotification(for: matches[0])
+        guard let alert = matches.first else {
+            return
         }
+
+        self.markRead(alert, synchronous: false)
+
+        self.broadcastHighPriorityNotification(for: alert)
     }
 
     private func broadcastHighPriorityNotification(for alert: OBARegionalAlert) {
