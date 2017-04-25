@@ -233,8 +233,7 @@ static const NSString *kShapeContext = @"ShapeContext";
 
     double lat = (stop.lat + y * span.latitudeDelta / 2);
     double lon = (stop.lon + x * span.longitudeDelta / 2);
-    CLLocationCoordinate2D p = [OBASphericalGeometryLibrary makeCoordinateLat:lat lon:lon];
-
+    CLLocationCoordinate2D p = CLLocationCoordinate2DMake(lat, lon);
     return [[OBATripContinuationMapAnnotation alloc] initWithTitle:tripTitle tripInstance:tripRef location:p];
 }
 
