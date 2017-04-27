@@ -933,11 +933,11 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self.toastView = [[OBAToastView alloc] initWithFrame:CGRectZero];
     [self.toastView.button addTarget:self action:@selector(cancelCurrentSearch) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.toastView];
+
     [self.toastView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
         make.top.equalTo(self.mas_topLayoutGuideBottom).offset([OBATheme defaultPadding]);
-        make.width.lessThanOrEqualTo(@500).priorityMedium();
-        make.left.and.right.lessThanOrEqualTo(self.view).insets(UIEdgeInsetsMake(0, 20, 0, 20)).priorityHigh();
+        make.width.lessThanOrEqualTo(self.view);
     }];
 }
 
