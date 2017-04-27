@@ -12,11 +12,15 @@ import OBAKit
 import PromiseKit
 import SVProgressHUD
 
+typealias NearbyStopsCanceled = () -> Void
+
 class NearbyStopsViewController: OBAStaticTableViewController {
     var stop: OBAStopV2?
     var searchResult: OBASearchResult?
     var presentedModally = false
     var pushesResultsOntoStack = false
+    var canceled: NearbyStopsCanceled?
+    var closeButtonTitle = OBAStrings.close
     lazy public var navigator: OBANavigator = {
         let navigator = UIApplication.shared.delegate as! OBAApplicationDelegate
         return navigator
@@ -32,15 +36,24 @@ class NearbyStopsViewController: OBAStaticTableViewController {
         self.stop = stop
         self.currentCoordinate = self.stop?.coordinate
         super.init(nibName: nil, bundle: nil)
+
+        self.configureUI()
     }
 
-    init(_ searchResult: OBASearchResult) {
+    init(withSearchResult searchResult: OBASearchResult) {
         self.searchResult = searchResult
         super.init(nibName: nil, bundle: nil)
+
+        self.configureUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func configureUI() {
+        self.title = NSLocalizedString("msg_nearby_stops", comment: "Title of the Nearby Stops view controller")
+
     }
 
     // MARK: - View Controller
@@ -48,12 +61,11 @@ class NearbyStopsViewController: OBAStaticTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = NSLocalizedString("msg_nearby_stops", comment: "Title of the Nearby Stops view controller")
         self.emptyDataSetTitle = NSLocalizedString("msg_mayus_no_stops_found", comment: "Empty data set title for the Nearby Stops controller")
         self.emptyDataSetDescription = NSLocalizedString("msg_coulnt_find_other_stops_on_radius", comment: "Empty data set description for the Nearby Stops controller")
 
         if self.presentedModally {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: OBAStrings.close, style: .plain, target: self, action: #selector(closeButtonTapped))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: self.closeButtonTitle, style: .plain, target: self, action: #selector(closeButtonTapped))
         }
 
         self.loadData()
@@ -183,7 +195,9 @@ class NearbyStopsViewController: OBAStaticTableViewController {
     // MARK: - Actions
 
     @objc private func closeButtonTapped() {
-        self.dismissModal(completion: nil)
+        self.dismissModal {
+            self.canceled?()
+        }
     }
 
     // MARK: - Private

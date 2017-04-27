@@ -516,8 +516,21 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 #pragma mark - Nearby Stops/OBANavigator
 
+- (void)showSearchDisambiguatorWithSearchResult:(OBASearchResult*)searchResult {
+    NearbyStopsViewController *nearbyStops = [[NearbyStopsViewController alloc] initWithSearchResult:searchResult];
+    nearbyStops.title = NSLocalizedString(@"nearby_stops.disambiguation_title", @"Title of the the Nearby Stops controller when it's in disambiguation mode. In English, this is just the word 'Disambiguate'.");
+    nearbyStops.closeButtonTitle = OBAStrings.cancel;
+    [nearbyStops setCanceled:^{
+        [self cancelCurrentSearch];
+    }];
+    nearbyStops.presentedModally = YES;
+    nearbyStops.navigator = self;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:nearbyStops];
+    [self presentViewController:nav animated:YES completion:nil];
+}
+
 - (void)showNearbyStopsWithSearchResult:(OBASearchResult*)searchResult {
-    NearbyStopsViewController *nearbyStops = [[NearbyStopsViewController alloc] init:searchResult];
+    NearbyStopsViewController *nearbyStops = [[NearbyStopsViewController alloc] initWithSearchResult:searchResult];
     nearbyStops.presentedModally = YES;
     nearbyStops.navigator = self;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:nearbyStops];
@@ -657,7 +670,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
             [self setNavigationTarget:target];
         }
         else {
-            [self showNearbyStopsWithSearchResult:result];
+            [self showSearchDisambiguatorWithSearchResult:result];
         }
         return;
     }
