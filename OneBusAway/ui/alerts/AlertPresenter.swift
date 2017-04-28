@@ -67,13 +67,22 @@ import SwiftMessages
 
     private class func errorMessage(from error: NSError) -> String {
         let wifiName = OBAReachability.wifiNetworkName
+        
+        var message: String
 
         if (errorPotentiallyFromWifiCaptivePortal(error) && wifiName != nil) {
-            return NSLocalizedString("alert_presenter.captive_wifi_portal_error_message", comment: "Error message displayed when the user is connecting to a Wi-Fi captive portal landing page.")
+            message = NSLocalizedString("alert_presenter.captive_wifi_portal_error_message", comment: "Error message displayed when the user is connecting to a Wi-Fi captive portal landing page.")
         }
         else {
-            return error.localizedDescription
+            message = error.localizedDescription
         }
+        
+        // If the error includes an URL, append that URL to the error message.
+        if let url = error.userInfo[NSURLErrorFailingURLStringErrorKey] {
+            message = "\(message)\r\n\r\n\(url)"
+        }
+        
+        return message
     }
 
     private class func errorPotentiallyFromWifiCaptivePortal(_ error: NSError) -> Bool {
