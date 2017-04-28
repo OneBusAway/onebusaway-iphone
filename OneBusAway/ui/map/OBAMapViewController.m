@@ -96,7 +96,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     self.mostRecentRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(0, 0), MKCoordinateSpanMake(0, 0));
 
-    // abxoxo - do this here or in the lazily loading property?
     self.mapDataLoader.delegate = self;
 
     self.mapRegionManager = [[OBAMapRegionManager alloc] initWithMapView:self.mapView];
@@ -189,14 +188,12 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     [self.searchController dismissViewControllerAnimated:YES completion:^{
         // abxoxo - TODO: figure out how to unify -navigateToTarget, this method, and -setNavigationTarget.
         if (target.searchType == OBASearchTypeStopId) {
-            OBAStopViewController *stopController = [[OBAStopViewController alloc] initWithStopID:target.searchArgument];
-            [self.navigationController pushViewController:stopController animated:YES];
-            return;
+            [self displayStopControllerForStopID:target.searchArgument];
         }
-
-        self.mapDataLoader.searchRegion = [OBAMapHelpers convertVisibleMapRect:self.mapView.visibleMapRect intoCircularRegionWithCenter:self.mapView.centerCoordinate];
-
-        [self setNavigationTarget:target];
+        else {
+            self.mapDataLoader.searchRegion = [OBAMapHelpers convertVisibleMapRect:self.mapView.visibleMapRect intoCircularRegionWithCenter:self.mapView.centerCoordinate];
+            [self setNavigationTarget:target];
+        }
     }];
 }
 
@@ -540,14 +537,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)navigateToTarget:(OBANavigationTarget*)navigationTarget {
     if (navigationTarget.searchType == OBASearchTypeStopId) {
-        CLCircularRegion *circularRegion = [OBAMapHelpers convertVisibleMapRect:self.mapView.visibleMapRect intoCircularRegionWithCenter:self.mapView.centerCoordinate];
-
-        [SVProgressHUD show];
-        [self.modelService requestStopsForQuery:navigationTarget.searchArgument region:circularRegion].then(^(OBASearchResult *searchResult) {
-            [self displayStopControllerForSearchResult:searchResult];
-        }).always(^{
-            [SVProgressHUD dismiss];
-        });
+        [self displayStopControllerForStopID:navigationTarget.searchArgument];
     }
     else {
         [APP_DELEGATE navigateToTarget:navigationTarget];
@@ -566,7 +556,11 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 
     OBAStopV2 *stop = searchResult.values.firstObject;
-    OBAStopViewController *stopController = [[OBAStopViewController alloc] initWithStopID:stop.stopId];
+    [self displayStopControllerForStopID:stop.stopId];
+}
+
+- (void)displayStopControllerForStopID:(NSString*)stopID {
+    OBAStopViewController *stopController = [[OBAStopViewController alloc] initWithStopID:stopID];
     [self.navigationController pushViewController:stopController animated:YES];
 }
 
