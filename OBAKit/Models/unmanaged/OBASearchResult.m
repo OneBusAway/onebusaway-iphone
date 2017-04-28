@@ -17,6 +17,7 @@
 #import <OBAKit/OBASearchResult.h>
 #import <OBAKit/OBASphericalGeometryLibrary.h>
 #import <OBAKit/OBAStopV2.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 @implementation OBASearchResult
 
@@ -71,6 +72,10 @@
 
 - (NSUInteger) count {
     return [_values count];
+}
+
+- (NSString*)description {
+    return [self oba_description:@[@"searchType", @"limitExceeded", @"outOfRange", @"values", @"additionalValues"]];
 }
 
 @end
