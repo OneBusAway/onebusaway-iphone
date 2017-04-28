@@ -189,7 +189,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     [self.searchController dismissViewControllerAnimated:YES completion:^{
         // abxoxo - TODO: figure out how to unify -navigateToTarget, this method, and -setNavigationTarget.
         if (target.searchType == OBASearchTypeStopId) {
-            [self navigateToTarget:target];
+            OBAStopViewController *stopController = [[OBAStopViewController alloc] initWithStopID:target.searchArgument];
+            [self.navigationController pushViewController:stopController animated:YES];
             return;
         }
 
