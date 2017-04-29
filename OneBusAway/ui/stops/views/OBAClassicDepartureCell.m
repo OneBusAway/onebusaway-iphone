@@ -94,7 +94,7 @@
     [alert addAction:action];
 
     if ([self departureRow].showAlertController) {
-        [self departureRow].showAlertController(alert);
+        [self departureRow].showAlertController(self.contextMenuButton, alert);
     }
 }
 
