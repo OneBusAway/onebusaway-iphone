@@ -501,8 +501,8 @@ static NSInteger kStopsSectionTag = 101;
         row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
         row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
 
-        [row setShowAlertController:^(UIAlertController *alert) {
-            [self presentViewController:alert animated:YES completion:nil];
+        [row setShowAlertController:^(UIView *presentingView, UIAlertController *alert) {
+            [self showAlertController:alert fromView:presentingView];
         }];
         [row setToggleBookmarkAction:^{
             [self toggleBookmarkActionForArrivalAndDeparture:dep];
@@ -531,6 +531,14 @@ static NSInteger kStopsSectionTag = 101;
     section.tag = kStopsSectionTag;
     
     return section;
+}
+
+- (void)showAlertController:(UIAlertController*)alert fromView:(UIView*)view {
+    if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+        alert.popoverPresentationController.sourceView = view;
+        alert.popoverPresentationController.sourceRect = view.bounds;
+    }
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (OBATableSection*)createToggleDepartureFilterSection {
@@ -574,8 +582,8 @@ static NSInteger kStopsSectionTag = 101;
         row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
         row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
 
-        [row setShowAlertController:^(UIAlertController *alert) {
-            [self presentViewController:alert animated:YES completion:nil];
+        [row setShowAlertController:^(UIView *presentingView, UIAlertController *alert) {
+            [self showAlertController:alert fromView:presentingView];
         }];
         [row setToggleBookmarkAction:^{
             [self toggleBookmarkActionForArrivalAndDeparture:dep];
