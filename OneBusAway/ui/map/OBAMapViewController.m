@@ -365,7 +365,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
     if (mapView.userLocation) {
         UIView *annotationView = [mapView viewForAnnotation:mapView.userLocation];
-        [annotationView.superview bringSubviewToFront:annotationView];
+        [annotationView.superview sendSubviewToBack:annotationView];
     }
 
     [self.mapRegionManager mapView:mapView regionDidChangeAnimated:animated];
@@ -568,7 +568,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)refreshCurrentLocation {
     CLLocation *location = self.locationManager.currentLocation;
-
+    
     if (location) {
         if (self.mapRegionManager.lastRegionChangeWasProgrammatic) {
             double radius = MAX(location.horizontalAccuracy, OBAMinMapRadiusInMeters);
