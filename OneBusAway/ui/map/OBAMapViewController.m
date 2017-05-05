@@ -568,7 +568,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)refreshCurrentLocation {
     CLLocation *location = self.locationManager.currentLocation;
-    
     if (location) {
         if (self.mapRegionManager.lastRegionChangeWasProgrammatic) {
             double radius = MAX(location.horizontalAccuracy, OBAMinMapRadiusInMeters);
