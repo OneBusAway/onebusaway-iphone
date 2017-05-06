@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy,nullable) void (^shareAction)();
 @property(nonatomic,assign) BOOL bookmarkExists;
 @property(nonatomic,assign) BOOL alarmExists;
+@property(nonatomic,assign) BOOL hasLeft;
 @end
 
 NS_ASSUME_NONNULL_END
