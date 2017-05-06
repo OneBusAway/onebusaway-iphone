@@ -81,7 +81,7 @@
     [alert addAction:action];
 
     // Set Alarm
-    if (![self departureRow].hasLeft) {
+    if ([self departureRow].hasArrived) {
         action = [UIAlertAction actionWithTitle:[self alarmButtonTitle] style:UIAlertActionStyleDefault handler:^(UIAlertAction *a) {
             [self toggleAlarm];
         }];

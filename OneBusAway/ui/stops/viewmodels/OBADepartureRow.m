@@ -28,7 +28,7 @@
     row->_showAlertController = [_showAlertController copyWithZone:zone];
     row->_bookmarkExists = _bookmarkExists;
     row->_alarmExists = _alarmExists;
-    row->_hasLeft = _hasLeft;
+    row->_hasArrived = _hasArrived;
 
     return row;
 }
