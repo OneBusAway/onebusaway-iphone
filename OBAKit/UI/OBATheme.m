@@ -36,11 +36,13 @@ static UIFont *_italicFootnoteFont = nil;
 
 + (void)setAppearanceProxies {
     UIColor *tintColor = [self OBAGreen];
+    [[UIWindow appearance] setTintColor:tintColor];
     [[UINavigationBar appearance] setTintColor:tintColor];
     [[UISearchBar appearance] setTintColor:tintColor];
     [[UISegmentedControl appearance] setTintColor:tintColor];
     [[UITabBar appearance] setTintColor:tintColor];
     [[UITextField appearance] setTintColor:tintColor];
+    [[UIButton appearance] setTintColor:tintColor];
     [[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateNormal];
     [[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateSelected];
     [[UISegmentedControl appearanceWhenContainedInInstancesOfClasses:@[UINavigationBar.class]] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor blackColor] } forState:UIControlStateNormal];
@@ -187,6 +189,10 @@ static UIFont *_italicFootnoteFont = nil;
 
 #pragma mark - Named Colors
 
++ (UIColor*)userLocationFillColor {
+    return [self colorWithRed:25 green:131 blue:247 alpha:1.f];
+}
+
 + (UIColor*)onTimeDepartureColor {
     return [UIColor colorWithRed:0.f green:0.478f blue:0.f alpha:1.f];
 }
@@ -216,7 +222,11 @@ static UIFont *_italicFootnoteFont = nil;
     return [OBATheme colorWithRed:200 green:199 blue:204 alpha:1.f];
 }
 
-#pragma mark - Pixels, err points
+#pragma mark - Sizes
+
++ (CGFloat)defaultMargin {
+    return 20.f;
+}
 
 + (CGFloat)compactPadding {
     return self.defaultPadding / 2.f;

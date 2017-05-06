@@ -18,12 +18,16 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <OBAKit/PublicHeader.h>
 
 #import <OBAKit/NSArray+OBAAdditions.h>
+#import <OBAKit/NSCoder+OBAAdditions.h>
 #import <OBAKit/NSDate+DateTools.h>
+#import <OBAKit/NSDictionary+OBAAdditions.h>
 #import <OBAKit/NSObject+OBADescription.h>
 #import <OBAKit/NSURLQueryItem+OBAAdditions.h>
 #import <OBAKit/OBAAgencyV2.h>
 #import <OBAKit/OBAAgencyWithCoverageV2.h>
+#import <OBAKit/OBAAlarm.h>
 #import <OBAKit/OBAApplication.h>
+#import <OBAKit/OBAArrivalAndDepartureConvertible.h>
 #import <OBAKit/OBAArrivalAndDepartureInstanceRef.h>
 #import <OBAKit/OBAArrivalAndDepartureV2.h>
 #import <OBAKit/OBAArrivalsAndDeparturesForStopV2.h>
@@ -31,7 +35,6 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBABookmarkV2.h>
 #import <OBAKit/OBACanvasView.h>
 #import <OBAKit/OBACommon.h>
-#import <OBAKit/OBACommonV1.h>
 #import <OBAKit/OBAConsoleLogger.h>
 #import <OBAKit/OBACoordinateBounds.h>
 #import <OBAKit/OBADataSource.h>
@@ -61,21 +64,21 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAModelServiceRequest.h>
 #import <OBAKit/OBANavigationTarget.h>
 #import <OBAKit/OBANavigationTargetAnnotation.h>
+#import <OBAKit/OBANavigationTargetAware.h>
 #import <OBAKit/OBAPlacemark.h>
 #import <OBAKit/OBAPlacemarks.h>
-#import <OBAKit/OBAProgressIndicatorSource.h>
 #import <OBAKit/OBAReachability.h>
 #import <OBAKit/OBAReferencesV2.h>
 #import <OBAKit/OBARegionBoundsV2.h>
 #import <OBAKit/OBARegionChangeRequest.h>
 #import <OBAKit/OBARegionHelper.h>
 #import <OBAKit/OBARegionV2.h>
+#import <OBAKit/OBARegionalAlert.h>
 #import <OBAKit/OBAReportProblemWithStopV2.h>
 #import <OBAKit/OBAReportProblemWithTripV2.h>
 #import <OBAKit/OBARouteFilter.h>
 #import <OBAKit/OBARouteType.h>
 #import <OBAKit/OBARouteV2.h>
-#import <OBAKit/OBASearch.h>
 #import <OBAKit/OBASearchResult.h>
 #import <OBAKit/OBAServiceAlertsModel.h>
 #import <OBAKit/OBASituationConsequenceV2.h>

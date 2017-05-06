@@ -26,4 +26,8 @@
  @return representiation of minutes
  */
 - (double)minutesUntil;
+
+- (BOOL)isToday;
+- (BOOL)isTomorrow;
+- (BOOL)isYesterday;
 @end

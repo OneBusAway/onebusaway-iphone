@@ -92,14 +92,14 @@ static CGFloat const kTimelineWidth = 1.f;
 
     if ([self departureRow].closestStopToVehicle) {
         UIImage *image = [OBAStopIconFactory imageForRouteType:[self departureRow].routeType];
-        self.value1ContentsView.imageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:image backgroundColor:[OBATheme OBADarkGreen]];
+        self.value1ContentsView.imageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:image strokeColor:[OBATheme OBADarkGreen]];
 
         NSString *accessibilityLabel = [NSString stringWithFormat:NSLocalizedString(@"arrival_departure_cell.closest_stop", @"The vehicle is currently closest to <STOP NAME>"), [self departureRow].title];
         self.value1ContentsView.imageView.accessibilityLabel = accessibilityLabel;
     }
     else if ([self departureRow].selectedStopForRider) {
         UIImage *walkImage = [UIImage imageNamed:@"walkTransport"];
-        self.value1ContentsView.imageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:walkImage backgroundColor:OBATheme.mapUserLocationColor];
+        self.value1ContentsView.imageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:walkImage strokeColor:OBATheme.mapUserLocationColor];
     }
     else {
         self.value1ContentsView.imageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:nil];

@@ -41,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) double lat;
 @property(nonatomic,assign) double lon;
 @property(nonatomic,readonly) CLLocationCoordinate2D coordinate;
+@property(nonatomic,readonly,copy) CLLocation *location;
 
 - (NSComparisonResult)compareUsingName:(OBAStopV2*)aStop;
 

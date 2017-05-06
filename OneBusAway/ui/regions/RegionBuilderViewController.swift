@@ -81,8 +81,8 @@ class RegionBuilderViewController: OBAStaticTableViewController {
         super.viewDidLoad()
 
         self.title = NSLocalizedString("msg_add_region", comment: "")
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(title: OBAStrings.cancel(), style: .plain, target: self, action: #selector(cancel))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: OBAStrings.save(), style: .done, target: self, action: #selector(save))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(title: OBAStrings.cancel, style: .plain, target: self, action: #selector(cancel))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: OBAStrings.save, style: .done, target: self, action: #selector(save))
 
         let requiredSection = OBATableSection.init(title: NSLocalizedString("msg_required", comment: ""))
 
@@ -120,7 +120,7 @@ class RegionBuilderViewController: OBAStaticTableViewController {
 
         guard self.region.isValidModel() else {
             let alert = UIAlertController.init(title: NSLocalizedString("msg_invalid_region", comment: ""), message: NSLocalizedString("msg_alert_custom_region_not_valid", comment: "Invalid region error message"), preferredStyle: .alert)
-            alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss(), style: .default, handler: nil))
+            alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss, style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             return
         }
@@ -147,7 +147,7 @@ class RegionBuilderViewController: OBAStaticTableViewController {
         }.catch { error in
             let msg = String(format: NSLocalizedString("text_unable_load_data_region_param", comment: ""), URL!.absoluteString, (error as NSError).localizedDescription)
             let alert = UIAlertController.init(title: NSLocalizedString("msg_invalid_region_base_url", comment: ""), message: msg, preferredStyle: .alert)
-            alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss(), style: .default, handler: nil))
+            alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss, style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
     }

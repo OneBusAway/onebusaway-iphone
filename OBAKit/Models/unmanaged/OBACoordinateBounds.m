@@ -15,12 +15,13 @@
  */
 
 #import <OBAKit/OBACoordinateBounds.h>
+#import <OBAKit/NSCoder+OBAAdditions.h>
 
 @implementation OBACoordinateBounds
 
-- (id) init {
+- (instancetype)init {
     self = [super init];
-    if( self ) {
+    if (self) {
         _empty = YES;
     }
     return self;
@@ -38,33 +39,41 @@
     return self;
 }
 
-- (id) initWithRegion:(MKCoordinateRegion)region {
+- (instancetype)initWithRegion:(MKCoordinateRegion)region {
     self = [super init];
-    if( self ) {
+    if (self) {
         _empty = YES;
         [self addRegion:region];
     }
     return self;
 }
 
-- (id) initWithCoder:(NSCoder*)coder {
+#pragma mark - NSCoder
+
+- (id)initWithCoder:(NSCoder*)coder {
     self = [super init];
-    if( self ) {
-        _empty = [coder decodeBoolForKey:@"empty"];
-        _minLatitude = [coder decodeDoubleForKey:@"minLatitude"];
-        _maxLatitude = [coder decodeDoubleForKey:@"maxLatitude"];
-        _minLongitude = [coder decodeDoubleForKey:@"minLongitude"];
-        _maxLongitude = [coder decodeDoubleForKey:@"maxLongitude"];
+    if (self) {
+        _empty = [coder oba_decodeBool:@selector(empty)];
+        _minLatitude = [coder oba_decodeDouble:@selector(minLatitude)];
+        _maxLatitude = [coder oba_decodeDouble:@selector(maxLatitude)];
+        _minLongitude = [coder oba_decodeDouble:@selector(minLongitude)];
+        _maxLongitude = [coder oba_decodeDouble:@selector(maxLongitude)];
     }
     return self;
 }
 
-+ (id) bounds {
-    return [[OBACoordinateBounds alloc] init];
+- (void)encodeWithCoder:(NSCoder*)coder {
+    [coder oba_encodeBool:_empty forSelector:@selector(empty)];
+    [coder oba_encodeDouble:_minLatitude forSelector:@selector(minLatitude)];
+    [coder oba_encodeDouble:_maxLatitude forSelector:@selector(maxLatitude)];
+    [coder oba_encodeDouble:_minLongitude forSelector:@selector(minLongitude)];
+    [coder oba_encodeDouble:_maxLongitude forSelector:@selector(maxLongitude)];
 }
 
-- (MKCoordinateRegion) region {
-    return MKCoordinateRegionMake([self center],[self span]);
+#pragma mark - Public Methods
+
+- (MKCoordinateRegion)region {
+    return MKCoordinateRegionMake(self.center,self.span);
 }
 
 - (CLLocationCoordinate2D) center {
@@ -122,9 +131,10 @@
     }
 }
 
-- (void) expandByRatio:(double)ratio {
-    if( _empty )
+- (void)expandByRatio:(double)ratio {
+    if (self.empty) {
         return;
+    }
     double latDelta = (_maxLatitude - _minLatitude) * ratio / 2;
     double lonDelta = (_maxLongitude - _minLongitude) * ratio / 2;
     _maxLatitude += latDelta;
@@ -135,16 +145,6 @@
 
 - (NSString*) description {
     return [NSString stringWithFormat:@"%f %f %f %f",_minLatitude,_minLongitude,_maxLatitude,_maxLongitude];
-}
-
-#pragma mark NSCoder Methods
-
-- (void) encodeWithCoder: (NSCoder *)coder {
-    [coder encodeBool:_empty forKey:@"empty"];
-    [coder encodeDouble:_minLatitude forKey:@"minLatitude"];
-    [coder encodeDouble:_maxLatitude forKey:@"maxLatitude"];
-    [coder encodeDouble:_minLongitude forKey:@"minLongitude"];
-    [coder encodeDouble:_maxLongitude forKey:@"maxLongitude"];
 }
 
 @end

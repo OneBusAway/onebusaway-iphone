@@ -16,9 +16,6 @@
 
 #import <OBAKit/OBASphericalGeometryLibrary.h>
 
-static const CGFloat kStopForRouteAnnotationMinScale = 0.1f;
-static const CGFloat kStopForRouteAnnotationMaxScaleDistance = 1500.f;
-static const CGFloat kStopForRouteAnnotationMinScaleDistance = 8000.f;
 static const double kRadiusOfEarthInMeters = 6371.01 * 1000;
 
 typedef struct {
@@ -27,13 +24,6 @@ typedef struct {
 } OBANumberAndIndex;
 
 @implementation OBASphericalGeometryLibrary
-
-+ (CLLocationCoordinate2D) makeCoordinateLat:(CLLocationDegrees)lat lon:(CLLocationDegrees)lon {
-    CLLocationCoordinate2D p;
-    p.latitude = lat;
-    p.longitude = lon;
-    return p;
-}
 
 + (MKCoordinateRegion) createRegionWithCenter:(CLLocationCoordinate2D)center latRadius:(double)latRadiusInMeters lonRadius:(double)lonRadiusInMeters {
 
@@ -140,21 +130,6 @@ typedef struct {
     return [OBASphericalGeometryLibrary createMKPolylineFromLocations:locations];
 }
 
-+ (NSArray*) subsamplePoints:(NSArray*)points minDistance:(double)minDistance {
-
-    NSMutableArray * array = [NSMutableArray array];
-    CLLocation * prevLocation = nil;
-    for (int i=0; i<points.count;i++) {
-        CLLocation * location = points[i];
-        if( prevLocation == nil || i == (points.count - 1) || [prevLocation distanceFromLocation:location] > minDistance ) {
-            [array addObject:location];
-            prevLocation = location;
-        }
-    }
-    
-    return array;
-}
-
 + (OBACoordinateBounds*) boundsForLocations:(NSArray*)locations {
 
     OBACoordinateBounds * bounds = [[OBACoordinateBounds alloc] init];
@@ -177,37 +152,6 @@ typedef struct {
         [bounds addLat:point.y lon:point.x];
     }
     return bounds;
-}
-
-+ (CGFloat)computeStopsForRouteAnnotationScaleFactor:(MKCoordinateRegion)region {
-
-    MKCoordinateSpan span = region.span;
-    CLLocationCoordinate2D center = region.center;
-
-    CLLocationDegrees lat1 = center.latitude;
-    CLLocationDegrees lon1 = center.longitude - span.longitudeDelta / 2;
-
-    CLLocationDegrees lat2 = center.latitude;
-    CLLocationDegrees lon2 = center.longitude + span.longitudeDelta / 2;
-
-    CLLocation * a = [[CLLocation alloc] initWithLatitude:lat1 longitude:lon1];
-    CLLocation * b = [[CLLocation alloc] initWithLatitude:lat2 longitude:lon2];
-
-    CLLocationDistance d = [a distanceFromLocation:b];
-
-    if (d <= kStopForRouteAnnotationMaxScaleDistance) {
-        return 1.0;
-    }
-    else if (d < kStopForRouteAnnotationMinScaleDistance) {
-        CGFloat kStopForRouteAnnotationScaleSlope = (1.f-kStopForRouteAnnotationMinScale) / (kStopForRouteAnnotationMaxScaleDistance-kStopForRouteAnnotationMinScaleDistance);
-        CGFloat kStopForRouteAnnotationScaleOffset = 1.f - kStopForRouteAnnotationScaleSlope * kStopForRouteAnnotationMaxScaleDistance;
-
-        CGFloat scale = kStopForRouteAnnotationScaleSlope * (CGFloat)d + kStopForRouteAnnotationScaleOffset;
-        return scale;
-    }
-    else {
-        return kStopForRouteAnnotationMinScale;
-    }
 }
 
 #pragma mark - Private

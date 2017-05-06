@@ -112,11 +112,11 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
             return nil;
         }
 
-        let edit = UITableViewRowAction.init(style: .normal, title: OBAStrings.edit()) { (action, indexPath) in
+        let edit = UITableViewRowAction.init(style: .normal, title: OBAStrings.edit) { (action, indexPath) in
             self.buildRegion(region)
         }
 
-        let delete = UITableViewRowAction.init(style: .destructive, title: OBAStrings.delete()) { (action, indexPath) in
+        let delete = UITableViewRowAction.init(style: .destructive, title: OBAStrings.delete) { (action, indexPath) in
             self.deleteRow(at: indexPath)
         }
 
@@ -160,7 +160,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
             self.modelDAO.automaticallySelectRegion = !self.modelDAO.automaticallySelectRegion
 
             if (self.modelDAO.automaticallySelectRegion) {
-                OBAApplication.shared().regionHelper.updateNearestRegion()
+                OBAApplication.shared().regionHelper.refreshData()
                 SVProgressHUD.show()
             }
             else {
@@ -213,15 +213,15 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
             row.model = region
             row.deleteModel = { row in
                 let alert = UIAlertController.init(title: NSLocalizedString("msg_ask_delete_region", comment: ""), message: nil, preferredStyle: .alert)
-                alert.addAction(UIAlertAction.init(title: OBAStrings.cancel(), style: .cancel, handler: nil))
-                alert.addAction(UIAlertAction.init(title: OBAStrings.delete(), style: .destructive, handler: { action in
+                alert.addAction(UIAlertAction.init(title: OBAStrings.cancel, style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction.init(title: OBAStrings.delete, style: .destructive, handler: { action in
                     self.modelDAO.removeCustomRegion(region)
                 }))
                 self.present(alert, animated: true, completion: nil)
             }
 
             if (autoSelect) {
-                row.titleColor = OBATheme.darkDisabledColor()
+                row.titleColor = OBATheme.darkDisabledColor
                 row.selectionStyle = .none
             }
 

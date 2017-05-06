@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-#import "OBANavigationTargetAware.h"
 @import OBAKit;
 #import "OBAStaticTableViewController.h"
 

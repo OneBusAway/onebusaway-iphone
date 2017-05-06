@@ -16,43 +16,63 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The text 'Cancel'.
  */
-+ (NSString*)cancel;
+@property(class,nonatomic,copy,readonly) NSString *cancel;
+
+/**
+ The text 'Close'.
+ */
+@property(class,nonatomic,copy,readonly) NSString *close;
 
 /**
  The text 'Delete'.
  */
-+ (NSString*)delete;
+@property(class,nonatomic,copy,readonly) NSString *delete;
 
 /**
  The text 'Dismiss'. Used on alerts.
  iOS tends to use 'Dismiss' instead of 'OK' on alerts that the user isn't actually agreeing to.
  */
-+ (NSString*)dismiss;
+@property(class,nonatomic,copy,readonly) NSString *dismiss;
 
 /**
  The text 'Edit'.
  */
-+ (NSString*)edit;
+@property(class,nonatomic,copy,readonly) NSString *edit;
 
 /**
  The text 'Error'.
  */
-+ (NSString*)error;
+@property(class,nonatomic,copy,readonly) NSString *error;
+
+/**
+ Generic error used for situations that shouldn't happen. Asks user to contact us.
+ */
+@property(class,nonatomic,copy,readonly) NSString *inexplicableErrorPleaseContactUs;
 
 /**
  The text 'OK'.
  */
-+ (NSString*)ok;
+@property(class,nonatomic,copy,readonly) NSString *ok;
 
 /**
  The text 'Save'.
  */
-+ (NSString*)save;
+@property(class,nonatomic,copy,readonly) NSString *save;
 
 /**
  The explanatory text displayed when a non-realtime trip is displayed on-screen.
  */
-+ (NSString*)scheduledDepartureExplanation;
+@property(class,nonatomic,copy,readonly) NSString *scheduledDepartureExplanation;
+
+/**
+ The word 'yesterday'
+ */
+@property(class,nonatomic,copy,readonly) NSString *yesterday;
+
+/**
+ The text 'Read More…' (note that is an ellipsis, not three dots…)
+ */
+@property(class,nonatomic,copy,readonly) NSString *readMore;
 
 /**
  Created an attributed string with a prepended image.

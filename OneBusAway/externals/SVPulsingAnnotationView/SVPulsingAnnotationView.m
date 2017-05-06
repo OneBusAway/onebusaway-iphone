@@ -83,7 +83,8 @@
     if (self.headingImage) {
         [self addSubview:self.headingImageView];
         [self sendSubviewToBack:self.headingImageView];
-        self.headingImageView.frame = CGRectMake(-40, -40, 120, 120);
+        CGFloat sz = CGRectGetWidth(self.frame);
+        self.headingImageView.frame = CGRectMake(-sz, -sz, 3 * sz, 3 * sz);
     }
     else {
         [self.headingImageView removeFromSuperview];
@@ -168,16 +169,6 @@
     if (self.superview) {
         [self rebuildLayers];
     }
-    
-//    CGFloat imageWidth = ceil(image.size.width);
-//    CGFloat imageHeight = ceil(image.size.height);
-//
-//    self.headingImageView.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-//    self.headingImageView.frame = CGRectMake(floor((self.bounds.size.width - imageWidth) * 0.5),
-//                                             floor((self.bounds.size.height - imageHeight) * 0.5),
-//                                             imageWidth,
-//                                             imageHeight);
-//    self.headingImageView.tintColor = self.annotationColor;
 }
 
 #pragma mark - Getters

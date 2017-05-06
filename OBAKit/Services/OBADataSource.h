@@ -19,7 +19,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^OBADataSourceCompletion)(_Nullable id responseData, NSUInteger responseCode, NSError * error);
-typedef void (^OBADataSourceProgress)(CGFloat progress);
 
 @protocol OBADataSourceConnection <NSObject>
 - (void) cancel;

@@ -19,7 +19,6 @@
 @interface OBAStopTableHeaderView ()
 @property(nonatomic,strong) UIImageView *headerImageView;
 @property(nonatomic,strong) UILabel *stopInformationLabel;
-@property(nonatomic,strong) UILabel *directionsLabel;
 @property(nonatomic,strong) OBAStopV2 *stop;
 @end
 
@@ -46,56 +45,18 @@
             UILabel *label = [OBAUIBuilder label];
             label.numberOfLines = 0;
             [self.class applyHeaderStylingToLabel:label];
+            label.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
             label;
         });
 
-        _directionsLabel = ({
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-            [self.class applyHeaderStylingToLabel:label];
-            label.numberOfLines = 0;
-            [label setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-
-            label.userInteractionEnabled = YES;
-            label;
-        });
-
-        UIView *wrapper = [[UIView alloc] initWithFrame:self.bounds];
-        wrapper.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        [self addSubview:wrapper];
-
-        [wrapper addSubview:_stopInformationLabel];
-        [wrapper addSubview:_directionsLabel];
+        [self addSubview:_stopInformationLabel];
     }
     return self;
-}
-
-#pragma mark - Auto Layout
-
-+ (BOOL)requiresConstraintBasedLayout {
-    return YES;
-}
-
-- (void)updateConstraints {
-
-    UIView *superview = self.stopInformationLabel.superview;
-
-    [self.directionsLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.bottom.and.right.equalTo(superview).insets(UIEdgeInsetsMake(0.f, [OBATheme defaultPadding], [OBATheme defaultPadding], [OBATheme defaultPadding]));
-    }];
-
-    [self.stopInformationLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.and.right.equalTo(superview).insets(UIEdgeInsetsMake([OBATheme defaultPadding], [OBATheme defaultPadding], 0, [OBATheme defaultPadding]));
-        make.bottom.equalTo(self.directionsLabel.mas_top).offset(-[OBATheme defaultPadding]);
-    }];
-
-    // According to Apple, -super should be called at end of method
-    [super updateConstraints];
 }
 
 #pragma mark - Public
 
 - (void)populateTableHeaderFromArrivalsAndDeparturesModel:(OBAArrivalsAndDeparturesForStopV2*)result {
-
     self.stop = result.stop;
 
     [self populateHeaderBackground];
@@ -122,47 +83,10 @@
     }
 
     self.stopInformationLabel.text = [stopMetadata componentsJoinedByString:@"\r\n"];
-}
 
-#pragma mark - Walking Distance
+    CGSize size = [self.stopInformationLabel sizeThatFits:CGSizeMake(CGRectGetWidth(self.frame) - (2 * [OBATheme defaultPadding]), 10000)];
 
-- (void)setWalkingETA:(MKETAResponse *)walkingETA {
-    if (_walkingETA == walkingETA) {
-        return;
-    }
-
-    _walkingETA = walkingETA;
-
-    if (!_walkingETA) {
-        [self.directionsLabel removeFromSuperview];
-        return;
-    }
-
-    NSString *walkText = [NSString stringWithFormat:NSLocalizedString(@"text_walk_to_stop_info_params",), [OBAMapHelpers stringFromDistance:_walkingETA.distance],
-                                 [[NSDate dateWithTimeIntervalSinceNow:_walkingETA.expectedTravelTime] minutesUntil],
-                                 [OBADateHelpers formatShortTimeNoDate:_walkingETA.expectedArrivalDate]];
-
-    UIImage *walkImage = [[UIImage imageNamed:@"walkTransport"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    self.directionsLabel.attributedText = [OBAStrings attributedStringWithPrependedImage:walkImage string:walkText];
-
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showWalkingDirections:)];
-    [self.directionsLabel addGestureRecognizer:tapRecognizer];
-
-    [OBAAnimation performAnimations:^{
-        [self setNeedsUpdateConstraints];
-    }];
-}
-
-- (void)showWalkingDirections:(UITapGestureRecognizer*)tap {
-    MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:self.stop.coordinate addressDictionary:nil];
-    MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
-    mapItem.name = self.stop.name;
-
-    [mapItem openInMapsWithLaunchOptions:@{
-                                           MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking,
-                                           MKLaunchOptionsMapTypeKey: @(MKMapTypeStandard),
-                                           MKLaunchOptionsShowsTrafficKey: @NO
-                                           }];
+    self.stopInformationLabel.frame = CGRectMake([OBATheme defaultPadding], [OBATheme defaultPadding], size.width, size.height);
 }
 
 #pragma mark - Private Helpers

@@ -9,5 +9,5 @@
 #import "OBABaseRow.h"
 
 @interface OBAWalkableRow : OBABaseRow
-
+@property(nonatomic,copy) NSString *text;
 @end

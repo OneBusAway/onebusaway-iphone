@@ -15,5 +15,8 @@
 @property(nonatomic,strong) OBAArrivalAndDepartureV2* arrivalAndDeparture;
 
 - (instancetype)initWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
-- (instancetype)initWithTripDeepLink:(OBATripDeepLink*)link;
+
+// Implementation weirdness explanation: NSObject implements -copy, not NSCopying :(
+- (instancetype)initWithArrivalAndDepartureConvertible:(NSObject<OBAArrivalAndDepartureConvertible,NSCopying>*)convertible;
+
 @end

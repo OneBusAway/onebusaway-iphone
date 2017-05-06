@@ -9,6 +9,10 @@
 #import "OBAStopViewController.h"
 @import OBAKit;
 @import PromiseKit;
+@import PMKCoreLocation;
+@import PMKMapKit;
+@import SVProgressHUD;
+@import Apptentive;
 #import "OneBusAway-Swift.h"
 #import "OBASeparatorSectionView.h"
 #import "OBAReportProblemWithRecentTripsViewController.h"
@@ -22,16 +26,15 @@
 #import "OBAArrivalAndDepartureViewController.h"
 #import "OBAStaticTableViewController+Builders.h"
 #import "OBABookmarkRouteDisambiguationViewController.h"
-#import "Apptentive.h"
 #import "OBAWalkableRow.h"
-#import "AFMSlidingCell.h"
-#import "BTBalloon.h"
+#import "GKActionSheetPicker.h"
+#import "OBAPushManager.h"
 
 static NSTimeInterval const kRefreshTimeInterval = 30.0;
 static CGFloat const kTableHeaderHeight = 150.f;
 static NSInteger kStopsSectionTag = 101;
 
-@interface OBAStopViewController ()<UIScrollViewDelegate>
+@interface OBAStopViewController ()<UIScrollViewDelegate, UIActivityItemSource>
 @property(nonatomic,strong) UIRefreshControl *refreshControl;
 @property(nonatomic,strong) NSTimer *refreshTimer;
 @property(nonatomic,strong) NSLock *reloadLock;
@@ -40,6 +43,7 @@ static NSInteger kStopsSectionTag = 101;
 @property(nonatomic,strong) OBARouteFilter *routeFilter;
 @property(nonatomic,strong) OBAStopTableHeaderView *stopHeaderView;
 @property(nonatomic,strong) NSTimer *apptentiveTimer;
+@property(nonatomic,strong) GKActionSheetPicker *actionSheetPicker;
 @end
 
 @implementation OBAStopViewController
@@ -103,12 +107,12 @@ static NSInteger kStopsSectionTag = 101;
 
     [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
     [self reloadDataAnimated:NO];
+    
+    [[OBAHandoff shared] broadcastWithStopID:self.stopID withRegion:self.modelDAO.currentRegion];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-
-    [[BTBalloon sharedInstance] hideWithAnimation:NO];
 
     // Nil these out to ensure that they are recreated once the
     // view comes back into focus, which is important if the user
@@ -119,6 +123,8 @@ static NSInteger kStopsSectionTag = 101;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 
     [self cancelTimers];
+    
+    [[OBAHandoff shared] stopBroadcasting];
 }
 
 #pragma mark - Apptentive
@@ -168,6 +174,13 @@ static NSInteger kStopsSectionTag = 101;
     return _routeFilter;
 }
 
+- (OBALocationManager*)locationManager {
+    if (!_locationManager) {
+        _locationManager = [OBAApplication sharedApplication].locationManager;
+    }
+    return _locationManager;
+}
+
 #pragma mark - Data Loading
 
 - (void)reloadData:(id)sender {
@@ -196,7 +209,7 @@ static NSInteger kStopsSectionTag = 101;
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
         [self.stopHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
     }).catch(^(NSError *error) {
-        [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription ?: NSLocalizedString(@"msg_error_min_connecting_dot", @"requestDidFail")];
+        [AlertPresenter showError:error];
         DDLogError(@"An error occurred while displaying a stop: %@", error);
         return error;
     }).always(^{
@@ -204,44 +217,7 @@ static NSInteger kStopsSectionTag = 101;
             [self.refreshControl endRefreshing];
         }
         [self.reloadLock unlock];
-    }).then(^{
-        return [OBAWalkingDirections requestWalkingETA:self.arrivalsAndDepartures.stop.coordinate];
-    }).then(^(MKETAResponse *ETA) {
-        [self insertWalkingIndicatorIntoTable:ETA];
-        self.stopHeaderView.walkingETA = ETA;
-    }).catch(^(NSError *error) {
-        DDLogError(@"Unable to calculate walk time to stop: %@", error);
-        self.stopHeaderView.walkingETA = nil;
-    }).always(^{
-        [self tryShowingTutorial];
     });
-}
-
-- (void)tryShowingTutorial {
-    NSString *stopViewTutorialViewedDefaultsKey = @"StopView265TutorialViewed";
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:stopViewTutorialViewedDefaultsKey]) {
-        for (id cell in self.tableView.visibleCells) {
-            if ([cell respondsToSelector:@selector(showButtonViewAnimated:)]) {
-                if ([self.reloadLock tryLock]) {
-                    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:stopViewTutorialViewedDefaultsKey];
-                    [self showTutorialForSlidingCell:cell];
-                    break;
-                }
-            }
-        }
-    }
-}
-
-- (void)showTutorialForSlidingCell:(AFMSlidingCell*)cell {
-    [cell showButtonViewAnimated:YES];
-    [[BTBalloon sharedInstance] showWithTitle:NSLocalizedString(@"stop_view_controller.context_menu_tutorial_title", @"Title for the tutorial balloon that shows the user where to find the share and bookmark context menu items")
-                                        image:nil
-                                 anchorToView:cell
-                                  buttonTitle:OBAStrings.ok
-                               buttonCallback:^{
-                                   [[BTBalloon sharedInstance] hideWithAnimation:YES];
-                                   [self.reloadLock unlock];
-                               } afterDelay:1];
 }
 
 - (void)populateTableFromArrivalsAndDeparturesModel:(OBAArrivalsAndDeparturesForStopV2 *)result {
@@ -299,6 +275,194 @@ static NSInteger kStopsSectionTag = 101;
     [self.tableView reloadData];
 }
 
+#pragma mark - Row Actions
+
+- (void)toggleBookmarkActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+    if ([self hasBookmarkForArrivalAndDeparture:dep]) {
+        [self promptToRemoveBookmarkForArrivalAndDeparture:dep];
+    }
+    else {
+        [self.tableView setEditing:NO animated:YES];
+        OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
+        OBAEditStopBookmarkViewController *editor = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:editor];
+        [self.navigationController presentViewController:nav animated:YES completion:nil];
+    }
+}
+
+- (void)shareActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep atIndexPath:(NSIndexPath*)indexPath {
+    OBAGuard(dep && indexPath) else {
+        return;
+    }
+
+    OBATripDeepLink *deepLink = [[OBATripDeepLink alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
+    NSURL *URL = deepLink.deepLinkURL;
+
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self, URL] applicationActivities:nil];
+
+    // Present the activity controller from a popover on iPad in order to
+    // avoid a crash. See bug #919.
+    if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        controller.popoverPresentationController.sourceView = cell;
+        controller.popoverPresentationController.sourceRect = cell.bounds;
+    }
+
+    [self presentViewController:controller animated:YES completion:nil];
+}
+
+#pragma mark - Alarms
+
+- (BOOL)hasAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+    id val = [self.modelDAO alarmForKey:dep.alarmKey];
+    return !!val;
+}
+
+- (void)promptToRemoveAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"alarms.confirm_deletion_alert_title", @"The title of the alert controller that prompts the user about whether they really want to delete this alarm.") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"alarms.confirm_deletion_alert_cancel_button", @"This is the button that cancels the alarm deletion.") style:UIAlertActionStyleCancel handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"alarms.confirm_deletion_alert_delete_button", @"This is the button that confirms that the user really does want to delete their alarm.") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        [self deleteAlarmForArrivalAndDeparture:dep];
+    }]];
+
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)toggleAlarmActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+    OBAGuard(dep) else {
+        return;
+    }
+
+    if ([self hasAlarmForArrivalAndDeparture:dep]) {
+        [self promptToRemoveAlarmForArrivalAndDeparture:dep];
+        return;
+    }
+
+    NSUInteger alarmIncrements = dep.minutesUntilBestDeparture <= OBAAlarmIncrementsInMinutes ? 1 : OBAAlarmIncrementsInMinutes;
+
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+
+    for (NSInteger i = dep.minutesUntilBestDeparture - (dep.minutesUntilBestDeparture % alarmIncrements); i > 0; i -=alarmIncrements) {
+        NSString *pickerItemTitle = [NSString stringWithFormat:NSLocalizedString(@"alarms.picker.formatted_item", @"The format string used for picker items for choosing when an alarm should ring."), @(i)];
+        [items addObject:[GKActionSheetPickerItem pickerItemWithTitle:pickerItemTitle value:@(i*60)]];
+    }
+
+    self.actionSheetPicker = [GKActionSheetPicker stringPickerWithItems:items selectCallback:^(id selected) {
+        [self registerAlarmForArrivalAndDeparture:dep timeInterval:[selected doubleValue]];
+    } cancelCallback:nil];
+
+    self.actionSheetPicker.title = NSLocalizedString(@"alarms.picker.title", @"The title of the picker view that lets you choose how many minutes before your bus departs you will get an alarm.");
+
+    if (dep.minutesUntilBestDeparture >= 10) {
+        [self.actionSheetPicker selectValue:@(10*60)];
+    }
+
+    [self.actionSheetPicker presentPickerOnView:self.view];
+}
+
+- (void)deleteAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+    OBAAlarm *alarm = [self.modelDAO alarmForKey:dep.alarmKey];
+    NSURLRequest *request = [self.modelService.obaJsonDataSource requestWithURL:alarm.alarmURL HTTPMethod:@"DELETE"];
+    [self.modelService.obaJsonDataSource performRequest:request completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+        [self.modelDAO removeAlarmWithKey:dep.alarmKey];
+    }];
+}
+
+- (void)registerAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalDeparture timeInterval:(NSTimeInterval)timeInterval {
+    OBAAlarm *alarm = [[OBAAlarm alloc] initWithArrivalAndDeparture:arrivalDeparture regionIdentifier:self.modelDAO.currentRegion.identifier timeIntervalBeforeDeparture:timeInterval];
+
+    [[OBAPushManager pushManager] requestUserPushNotificationID].then(^(NSString *pushNotificationID) {
+        [SVProgressHUD show];
+        return [self.modelService requestAlarm:alarm userPushNotificationID:pushNotificationID];
+    }).then(^(NSDictionary *serverResponse) {
+        alarm.alarmURL = [NSURL URLWithString:serverResponse[@"url"]];
+        [self.modelDAO addAlarm:alarm];
+
+        NSString *title = NSLocalizedString(@"alarms.alarm_created_alert_title", @"The title of the non-modal alert displayed when a push notification alert is registered for a vehicle departure.");
+        NSString *body = [NSString stringWithFormat:NSLocalizedString(@"alarms.alarm_created_alert_body", @"The body of the non-modal alert that appears when a push notification alarm is registered."), @((NSUInteger)timeInterval / 60)];
+
+        [AlertPresenter showSuccess:title body:body];
+    }).catch(^(NSError *error) {
+        [AlertPresenter showError:error];
+    }).always(^{
+        [SVProgressHUD dismiss];
+    });
+}
+
+#pragma mark - Bookmarks
+
+- (BOOL)hasBookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+    return !![self.modelDAO bookmarkForArrivalAndDeparture:arrivalAndDeparture];
+}
+
+- (void)promptToRemoveBookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_ask_remove_bookmark", @"Tap on Remove Bookmarks on OBAStopViewController.") message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_remove", @"") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        OBABookmarkV2 *bookmark = [self.modelDAO bookmarkForArrivalAndDeparture:dep];
+        [self.modelDAO removeBookmark:bookmark];
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - Walking
+
++ (NSArray<OBABaseRow*>*)insertWalkableRowIntoRows:(NSArray<OBABaseRow*>*)rows forCurrentLocation:(CLLocation*)location {
+    NSUInteger insertionIndex = NSNotFound;
+
+    OBAArrivalAndDepartureV2 *departure = nil;
+    OBAStopV2 *stop = nil;
+    NSTimeInterval walkingTime = 0;
+
+    for (NSUInteger i=0; i<rows.count; i++) {
+        if (![rows[i].model isKindOfClass:[OBAArrivalAndDepartureV2 class]]) {
+            continue;
+        }
+
+        departure = rows[i].model;
+        stop = departure.stop;
+        walkingTime = [OBAWalkingDirections walkingTravelTimeFromLocation:location toLocation:stop.location];
+
+        if (departure.timeIntervalUntilBestDeparture > walkingTime) {
+            insertionIndex = i;
+            break;
+        }
+    }
+
+    if (insertionIndex == NSNotFound) {
+        return rows;
+    }
+
+    NSString *distanceString = [OBAMapHelpers stringFromDistance:[location distanceFromLocation:stop.location]];
+    NSDate *expectedArrivalDate = [NSDate dateWithTimeIntervalSinceNow:walkingTime];
+
+    OBAWalkableRow *walkableRow = [[OBAWalkableRow alloc] init];
+    walkableRow.text = [NSString stringWithFormat:NSLocalizedString(@"text_walk_to_stop_info_params",), distanceString,expectedArrivalDate.minutesUntil,[OBADateHelpers formatShortTimeNoDate:expectedArrivalDate]];
+
+    NSMutableArray<OBABaseRow*> *mRows = [[NSMutableArray alloc] initWithArray:rows];
+    [mRows insertObject:walkableRow atIndex:insertionIndex];
+
+    return [NSArray arrayWithArray:mRows];
+}
+
+#pragma mark - Table View Hacks
+
+// This is used to hide the table view separator underneath an OBAWalkableRow, so
+// that an effect like what is seen in the mockup in the following issue can be
+// properly displayed: https://github.com/OneBusAway/onebusaway-iphone/issues/829
+- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    OBABaseRow *row = [self rowAtIndexPath:indexPath];
+    OBABaseRow *nextRow = [self rowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:indexPath.section]];
+    CGRect bounds = tableView.bounds;
+
+    if ([row isKindOfClass:[OBAWalkableRow class]] || [nextRow isKindOfClass:[OBAWalkableRow class]]) {
+        cell.separatorInset = UIEdgeInsetsMake(0, CGRectGetWidth(bounds)/2.f, 0, CGRectGetWidth(bounds)/2.f);
+    }
+}
+
+#pragma mark - Table Section Creation
+
 - (OBATableSection *)buildClassicDepartureSectionWithDeparture:(OBAArrivalsAndDeparturesForStopV2 *)result {
     NSMutableArray *departureRows = [NSMutableArray array];
 
@@ -335,9 +499,16 @@ static NSInteger kStopsSectionTag = 101;
         row.upcomingDepartures = @[[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState]];
         row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
         row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
+        row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
 
+        [row setShowAlertController:^(UIView *presentingView, UIAlertController *alert) {
+            [self showAlertController:alert fromView:presentingView];
+        }];
         [row setToggleBookmarkAction:^{
             [self toggleBookmarkActionForArrivalAndDeparture:dep];
+        }];
+        [row setToggleAlarmAction:^{
+            [self toggleAlarmActionForArrivalAndDeparture:dep];
         }];
         [row setShareAction:^{
             [self shareActionForArrivalAndDeparture:dep atIndexPath:[self indexPathForModel:dep]];
@@ -346,140 +517,29 @@ static NSInteger kStopsSectionTag = 101;
         [departureRows addObject:row];
     }
 
-    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:departureRows];
-    section.tag = kStopsSectionTag;
+    NSArray *rows = nil;
 
+    CLLocation *location = self.locationManager.currentLocation;
+    if (location) {
+        rows = [OBAStopViewController insertWalkableRowIntoRows:departureRows forCurrentLocation:location];
+    }
+    else {
+        rows = departureRows;
+    }
+
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:rows];
+    section.tag = kStopsSectionTag;
+    
     return section;
 }
 
-#pragma mark - Row Actions
-
-- (void)toggleBookmarkActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
-    if ([self hasBookmarkForArrivalAndDeparture:dep]) {
-        [self promptToRemoveBookmarkForArrivalAndDeparture:dep];
-    }
-    else {
-        [self.tableView setEditing:NO animated:YES];
-        OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
-        OBAEditStopBookmarkViewController *editor = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:editor];
-        [self.navigationController presentViewController:nav animated:YES completion:nil];
-    }
-}
-
-- (void)shareActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep atIndexPath:(NSIndexPath*)indexPath {
-    OBAGuard(dep && indexPath) else {
-        return;
-    }
-
-    OBATripDeepLink *deepLink = [[OBATripDeepLink alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
-    NSURL *URL = deepLink.deepLinkURL;
-
-    NSString *activityItem = [NSString stringWithFormat:NSLocalizedString(@"text_follow_my_trip_param", @"Sharing link activity item in the stop view controller"), URL.absoluteString];
-
-    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[activityItem] applicationActivities:nil];
-
-    // Present the activity controller from a popover on iPad in order to
-    // avoid a crash. See bug #919.
+- (void)showAlertController:(UIAlertController*)alert fromView:(UIView*)view {
     if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        CGRect rect = cell.bounds;
-        if ([cell isKindOfClass:[AFMSlidingCell class]]) {
-            rect = [(AFMSlidingCell*)cell rightButtonFrame];
-        }
-        controller.popoverPresentationController.sourceView = cell;
-        controller.popoverPresentationController.sourceRect = rect;
+        alert.popoverPresentationController.sourceView = view;
+        alert.popoverPresentationController.sourceRect = view.bounds;
     }
-
-    [self presentViewController:controller animated:YES completion:nil];
-}
-
-#pragma mark - Bookmarks
-
-- (BOOL)hasBookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
-    return !![self.modelDAO bookmarkForArrivalAndDeparture:arrivalAndDeparture];
-}
-
-- (void)promptToRemoveBookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_ask_remove_bookmark", @"Tap on Remove Bookmarks on OBAStopViewController.") message:nil preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_remove", @"") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-        OBABookmarkV2 *bookmark = [self.modelDAO bookmarkForArrivalAndDeparture:dep];
-        [self.modelDAO removeBookmark:bookmark];
-    }]];
-    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alert animated:YES completion:nil];
 }
-
-#pragma mark - Walking
-
-- (void)insertWalkingIndicatorIntoTable:(MKETAResponse*)ETA {
-    OBAGuard(ETA) else {
-        return;
-    }
-
-    NSMutableArray<NSIndexPath*> *indexPaths = [NSMutableArray array];
-
-    NSArray *sections = self.sections;
-    for (NSUInteger i=0; i<sections.count; i++) {
-        OBATableSection *section = sections[i];
-
-        if (section.tag != kStopsSectionTag) {
-            continue;
-        }
-
-        for (NSUInteger j=0; j<section.rows.count; j++) {
-            OBADepartureRow *row = section.rows[j];
-            OBAArrivalAndDepartureV2 *model = row.model;
-
-            if ([row isKindOfClass:[OBAWalkableRow class]]) {
-                // If we already have a WalkableRow in this section
-                // for whatever reason, then just bail and move on
-                // to the next section.
-                // https://github.com/OneBusAway/onebusaway-iphone/issues/890
-                break;
-            }
-
-            if (![row isKindOfClass:[OBADepartureRow class]]) {
-                continue;
-            }
-
-            if (![model isKindOfClass:[OBAArrivalAndDepartureV2 class]]) {
-                continue;
-            }
-
-            if (model.timeIntervalUntilBestDeparture > ETA.expectedTravelTime) {
-                // this is the first row that departs after our walk time. Use it.
-                [indexPaths addObject:[NSIndexPath indexPathForRow:j inSection:i]];
-                break;
-            }
-        }
-    }
-
-    [self.tableView beginUpdates];
-
-    for (NSIndexPath *path in indexPaths) {
-        [self insertRow:[[OBAWalkableRow alloc] init] atIndexPath:path animation:UITableViewRowAnimationAutomatic];
-    }
-
-    [self.tableView endUpdates];
-}
-
-#pragma mark - Table View Hacks
-
-// This is used to hide the table view separator underneath an OBAWalkableRow, so
-// that an effect like what is seen in the mockup in the following issue can be
-// properly displayed: https://github.com/OneBusAway/onebusaway-iphone/issues/829
-- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    OBABaseRow *row = [self rowAtIndexPath:indexPath];
-    OBABaseRow *nextRow = [self rowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:indexPath.section]];
-    CGRect bounds = tableView.bounds;
-
-    if ([row isKindOfClass:[OBAWalkableRow class]] || [nextRow isKindOfClass:[OBAWalkableRow class]]) {
-        cell.separatorInset = UIEdgeInsetsMake(0, CGRectGetWidth(bounds)/2.f, 0, CGRectGetWidth(bounds)/2.f);
-    }
-}
-
-#pragma mark - Table Section Creation
 
 - (OBATableSection*)createToggleDepartureFilterSection {
     OBASegmentedRow *segmentedRow = [[OBASegmentedRow alloc] initWithSelectionChange:^(NSUInteger selectedIndex) {
@@ -503,8 +563,12 @@ static NSInteger kStopsSectionTag = 101;
     return [[OBATableSection alloc] initWithTitle:nil rows:@[moreDeparturesRow]];
 }
 
+/**
+ This method is used to build grouped sections for routes. i.e. go to "Sort & Filter Routes"
+ and choose "Sort by Route".
+ */
 - (OBATableSection*)createDepartureSectionWithTitle:(NSString*)title fromDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)departures {
-    NSMutableArray *rows = [[NSMutableArray alloc] init];
+    NSMutableArray *departureRows = [[NSMutableArray alloc] init];
 
     for (OBAArrivalAndDepartureV2* dep in departures) {
         OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:^(OBABaseRow *blockRow){
@@ -515,11 +579,34 @@ static NSInteger kStopsSectionTag = 101;
         row.destination = dep.tripHeadsign.capitalizedString;
         row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
         row.model = dep;
+        row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
+        row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
+
+        [row setShowAlertController:^(UIView *presentingView, UIAlertController *alert) {
+            [self showAlertController:alert fromView:presentingView];
+        }];
+        [row setToggleBookmarkAction:^{
+            [self toggleBookmarkActionForArrivalAndDeparture:dep];
+        }];
+        [row setToggleAlarmAction:^{
+            [self toggleAlarmActionForArrivalAndDeparture:dep];
+        }];
+        [row setShareAction:^{
+            [self shareActionForArrivalAndDeparture:dep atIndexPath:[self indexPathForModel:dep]];
+        }];
 
         OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState];
-
         row.upcomingDepartures = @[upcoming];
-        [rows addObject:row];
+        [departureRows addObject:row];
+    }
+
+    NSArray *rows = nil;
+    CLLocation *location = self.locationManager.currentLocation;
+    if (location) {
+        rows = [OBAStopViewController insertWalkableRowIntoRows:departureRows forCurrentLocation:location];
+    }
+    else {
+        rows = departureRows;
     }
 
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:title rows:rows];
@@ -542,6 +629,7 @@ static NSInteger kStopsSectionTag = 101;
     // Nearby Stops
     OBATableRow *nearbyStops = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_nearby_stops",) action:^{
         NearbyStopsViewController *nearby = [[NearbyStopsViewController alloc] initWithStop:self.arrivalsAndDepartures.stop];
+        nearby.pushesResultsOntoStack = YES;
         [self.navigationController pushViewController:nearby animated:YES];
     }];
     nearbyStops.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -572,6 +660,22 @@ static NSInteger kStopsSectionTag = 101;
     });
 
     return actionSection;
+}
+
+#pragma mark - UIActivityItemSource methods
+
+// Make it possible to copy just the URL for trip sharing
+// See bug #928
+- (id)activityViewController:(UIActivityViewController *)activityViewController itemForActivityType:(NSString *)activityType {
+    if (![activityType isEqualToString:UIActivityTypeCopyToPasteboard]) {
+        return [NSString stringWithFormat:NSLocalizedString(@"text_follow_my_trip_param", @"Sharing link activity item in the stop view controller"), @""];
+    }
+    return nil;
+}
+
+- (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController
+{
+    return @"";
 }
 
 #pragma mark - Miscellaneous UI and Utilities

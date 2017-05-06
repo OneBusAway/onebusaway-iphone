@@ -29,8 +29,13 @@ extern NSString * const OBALocationManagerDidFailWithErrorNotification;
 extern NSString * const OBALocationAuthorizationStatusUserInfoKey;
 extern NSString * const OBALocationErrorUserInfoKey;
 
+extern NSString * const OBAHeadingDidUpdateNotification;
+extern NSString * const OBAHeadingUserInfoKey;
+
 @interface OBALocationManager : NSObject <CLLocationManagerDelegate>
-@property(nonatomic,copy,nullable,readonly) CLLocation * currentLocation;
+@property(nonatomic,assign,readonly) BOOL hasRequestedInUseAuthorization;
+@property(nonatomic,copy,nullable,readonly) CLLocation *currentLocation;
+@property(nonatomic,copy,nullable,readonly) CLHeading *currentHeading;
 
 /**
  Informs the caller whether or not location services are enabled for the app.
@@ -47,9 +52,8 @@ extern NSString * const OBALocationErrorUserInfoKey;
 - (void)startUpdatingLocation;
 - (void)stopUpdatingLocation;
 
-// iOS 8 Location Manager Support
-- (BOOL)hasRequestedInUseAuthorization;
-- (void)requestInUseAuthorization;
+- (void)startUpdatingHeading;
+- (void)stopUpdatingHeading;
 
 @end
 

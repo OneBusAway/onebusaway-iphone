@@ -19,7 +19,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBASphericalGeometryLibrary : NSObject
-+ (CLLocationCoordinate2D) makeCoordinateLat:(CLLocationDegrees)lat lon:(CLLocationDegrees)lon;
+
 + (MKCoordinateRegion) createRegionWithCenter:(CLLocationCoordinate2D)center latRadius:(double)latRadiusInMeters lonRadius:(double)lonRadiusInMeters;
 + (CLLocationDistance) getDistanceFromRegion:(MKCoordinateRegion)regionA toRegion:(MKCoordinateRegion)regionB;
 + (BOOL) isRegion:(MKCoordinateRegion)regionA containedBy:(MKCoordinateRegion)regionB;
@@ -30,12 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (MKPolyline*) createMKPolylineFromLocations:(NSArray*) locations;
 + (MKPolyline*) decodePolylineStringAsMKPolyline:(NSString*)polylineString;
 
-+ (NSArray*) subsamplePoints:(NSArray*)points minDistance:(double)minDistance;
-
 + (OBACoordinateBounds*) boundsForLocations:(NSArray*)locations;
 + (OBACoordinateBounds*) boundsForMKPolyline:(MKPolyline*)polyline;
 
-+ (CGFloat)computeStopsForRouteAnnotationScaleFactor:(MKCoordinateRegion)region;
 @end
 
 NS_ASSUME_NONNULL_END

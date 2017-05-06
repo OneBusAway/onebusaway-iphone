@@ -48,10 +48,14 @@ NSString * const OBALocationAuthorizationStatusUserInfoKey = @"OBALocationAuthor
 NSString * const OBALocationManagerDidFailWithErrorNotification = @"OBALocationManagerDidFailWithErrorNotification";
 NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
 
+NSString * const OBAHeadingDidUpdateNotification = @"OBAHeadingDidUpdateNotification";
+NSString * const OBAHeadingUserInfoKey = @"OBAHeadingUserInfoKey";
+
 @interface OBALocationManager ()
 @property(nonatomic,strong) OBAModelDAO *modelDao;
 @property(nonatomic,strong) CLLocationManager *locationManager;
 @property(nonatomic,copy,readwrite) CLLocation *currentLocation;
+@property(nonatomic,copy,readwrite) CLHeading *currentHeading;
 @end
 
 @implementation OBALocationManager
@@ -62,9 +66,7 @@ NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
 
-        if (![self hasRequestedInUseAuthorization]) {
-            [self requestInUseAuthorization];
-        }
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
 }
@@ -82,17 +84,34 @@ NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
 }
 
 - (void)stopUpdatingLocation {
+    if ([CLLocationManager locationServicesEnabled]) {
+        [self.locationManager stopUpdatingLocation];
+    }
+}
+
+- (void)startUpdatingHeading {
+    if ([CLLocationManager headingAvailable]) {
+        [self.locationManager startUpdatingHeading];
+    }
+}
+
+- (void)stopUpdatingHeading {
+    if ([CLLocationManager headingAvailable]) {
+        [self.locationManager stopUpdatingHeading];
+    }
+}
+
+#pragma mark - Notifications
+
+- (void)applicationDidEnterBackground:(NSNotification*)note {
     [self.locationManager stopUpdatingLocation];
+    [self.locationManager stopUpdatingHeading];
 }
 
 #pragma mark - Location Manager Permissions
 
 - (BOOL)hasRequestedInUseAuthorization {
     return [CLLocationManager authorizationStatus] != kCLAuthorizationStatusNotDetermined;
-}
-
-- (void)requestInUseAuthorization {
-    [self.locationManager requestWhenInUseAuthorization];
 }
 
 - (CLAuthorizationStatus)authorizationStatus {
@@ -111,10 +130,12 @@ NSString * const OBALocationErrorUserInfoKey = @"OBALocationErrorUserInfoKey";
     [self handleNewLocation:locations.lastObject];
 }
 
+- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
+    self.currentHeading = newHeading;
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBAHeadingDidUpdateNotification object:self userInfo:@{OBAHeadingUserInfoKey: [newHeading copy]}];
+}
+
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    if (error.code == kCLErrorDenied) {
-        [self stopUpdatingLocation];
-    }
     [[NSNotificationCenter defaultCenter] postNotificationName:OBALocationManagerDidFailWithErrorNotification object:self userInfo:@{OBALocationErrorUserInfoKey: error}];
 }
 

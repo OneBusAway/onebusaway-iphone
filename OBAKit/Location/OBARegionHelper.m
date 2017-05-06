@@ -10,87 +10,63 @@
 #import <OBAKit/OBAApplication.h>
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBALogging.h>
+#import <OBAKit/OBARegionStorage.h>
+#import <OBAKit/OBAKit-Swift.h>
 
 @interface OBARegionHelper ()
-@property(nonatomic,strong) NSMutableArray *regions;
+@property(nonatomic,copy) NSArray<OBARegionV2*> *regions;
+@property(nonatomic,strong) OBARegionStorage *regionStorage;
+@property(nonatomic,strong) NSLock *refreshLock;
 @end
 
 @implementation OBARegionHelper
 
-- (instancetype)initWithLocationManager:(OBALocationManager*)locationManager {
+- (instancetype)initWithLocationManager:(OBALocationManager*)locationManager modelService:(OBAModelService*)modelService {
     self = [super init];
 
     if (self) {
+        _refreshLock = [[NSLock alloc] init];
         _locationManager = locationManager;
-        [self registerForLocationNotifications];
+        _modelService = modelService;
+        _regionStorage = [[OBARegionStorage alloc] initWithModelFactory:modelService.modelFactory];
+        _regions = [_regionStorage regions];
     }
     return self;
 }
 
-- (void)updateNearestRegion {
-    [self updateRegion];
-    [self.locationManager startUpdatingLocation];
+- (void)start {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidUpdateLocation:) name:OBALocationDidUpdateNotification object:self.locationManager];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidFailWithError:) name:OBALocationManagerDidFailWithErrorNotification object:self.locationManager];
 }
 
-- (void)updateRegion {
-    [self.modelService requestRegions:^(id responseData, NSUInteger responseCode, NSError *error) {
-        if (error && !responseData) {
-            responseData = [self loadDefaultRegions];
+- (nullable AnyPromise*)refreshData {
+    if (![self.refreshLock tryLock]) {
+        return nil;
+    }
+
+    return [self.modelService requestRegions].then(^(NSArray<OBARegionV2*>* regions) {
+        self.regionStorage.regions = regions;
+        self.regions = [OBARegionHelper filterAcceptableRegions:regions];
+
+        if (self.modelDAO.automaticallySelectRegion && self.locationManager.locationServicesEnabled) {
+            [self setNearestRegion];
         }
-        [self processRegionData:responseData];
-     }];
-}
-
-- (OBAListWithRangeAndReferencesV2*)loadDefaultRegions {
-    DDLogWarn(@"Unable to retrieve regions file. Loading default regions from the app bundle.");
-
-    OBAModelFactory *factory = self.modelService.modelFactory;
-    NSError *error = nil;
-
-    NSData *data = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"regions-v3" ofType:@"json"]];
-
-    OBAGuard(data.length > 0) else {
-        DDLogError(@"Unable to load regions from app bundle.");
-        return nil;
-    }
-
-    id defaultJSONData = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:&error];
-
-    if (!defaultJSONData) {
-        DDLogError(@"Unable to convert bundled regions into an object. %@", error);
-        return nil;
-    }
-
-    OBAListWithRangeAndReferencesV2 *references = [factory getRegionsV2FromJson:defaultJSONData error:&error];
-
-    if (error) {
-        DDLogError(@"Issue parsing bundled JSON data: %@", error);
-    }
-
-    return references;
-}
-
-- (void)processRegionData:(OBAListWithRangeAndReferencesV2*)regionData {
-    OBAGuard(regionData) else {
-        return;
-    }
-
-    self.regions = [[NSMutableArray alloc] initWithArray:regionData.values];
-
-    if (self.modelDAO.automaticallySelectRegion && self.locationManager.locationServicesEnabled) {
-        [self setNearestRegion];
-    }
-    else {
-        [self setRegion];
-    }
+        else {
+            [self refreshCurrentRegionData];
+        }
+        [self.delegate regionHelperDidRefreshRegions:self];
+    }).catch(^(NSError *error) {
+        DDLogError(@"Error occurred while updating regions: %@", error);
+    }).always(^{
+        [self.refreshLock unlock];
+    }).then(^{
+        return @([CLLocationManager authorizationStatus]);
+    });
 }
 
 - (void)setNearestRegion {
-    if (self.regions.count == 0) {
-        return;
-    }
-
-    CLLocation *newLocation = self.locationManager.currentLocation;
+    NSArray<OBARegionV2*> *candidateRegions = self.regionsWithin100Miles;
 
     // If the location manager is being lame and is refusing to
     // give us a location, then we need to proactively bail on the
@@ -98,49 +74,48 @@
     // non-clever treatment of nil will result in us unexpectedly
     // selecting Tampa. This happens because Tampa is the closest
     // region to lat long point (0,0).
-    //
-    // Once we're in the block, if we have a region already,
-    // then do nothing and bail. Otherwise, if we don't yet have a
-    // region, show the picker.
-    if (!newLocation) {
-        if (!self.modelDAO.currentRegion) {
-            self.modelDAO.automaticallySelectRegion = NO;
-            [self.delegate regionHelperShowRegionListController:self];
-        }
-        return;
-    }
-
-    NSMutableArray *notSupportedRegions = [NSMutableArray array];
-
-    for (OBARegionV2 *region in self.regions) {
-        if (!region.supportsObaRealtimeApis || !region.active) {
-            [notSupportedRegions addObject:region];
-        }
-    }
-
-    [self.regions removeObjectsInArray:notSupportedRegions];
-
-    NSMutableArray *regionsToRemove = [NSMutableArray array];
-
-    for (OBARegionV2 *region in self.regions) {
-        CLLocationDistance distance = [region distanceFromLocation:newLocation];
-
-        if (distance > 160934) { // 100 miles
-            [regionsToRemove addObject:region];
-        }
-    }
-
-    [self.regions removeObjectsInArray:regionsToRemove];
-
-    if (self.regions.count == 0) {
+    if (candidateRegions.count == 0) {
         self.modelDAO.automaticallySelectRegion = NO;
         [self.delegate regionHelperShowRegionListController:self];
         return;
     }
 
-    [self.regions sortUsingComparator:^(OBARegionV2 *region1, OBARegionV2 *region2) {
-        CLLocationDistance distance1 = [region1 distanceFromLocation:newLocation];
-        CLLocationDistance distance2 = [region2 distanceFromLocation:newLocation];
+    self.modelDAO.currentRegion = candidateRegions[0];
+    self.modelDAO.automaticallySelectRegion = YES;
+}
+
+- (void)refreshCurrentRegionData {
+    OBARegionV2 *currentRegion = self.modelDAO.currentRegion;
+
+    if (!currentRegion && self.locationManager.hasRequestedInUseAuthorization) {
+        [self.delegate regionHelperShowRegionListController:self];
+        return;
+    }
+
+    for (OBARegionV2 *region in self.regions) {
+        if (currentRegion.identifier == region.identifier) {
+            self.modelDAO.currentRegion = region;
+            break;
+        }
+    }
+}
+
+#pragma mark - Public Properties
+
+- (NSArray<OBARegionV2*>*)regionsWithin100Miles {
+    if (self.regions.count == 0) {
+        return @[];
+    }
+
+    CLLocation *currentLocation = self.locationManager.currentLocation;
+
+    if (!currentLocation) {
+        return @[];
+    }
+
+    return [[self.regions sortedArrayUsingComparator:^NSComparisonResult(OBARegionV2 *r1, OBARegionV2 *r2) {
+        CLLocationDistance distance1 = [r1 distanceFromLocation:currentLocation];
+        CLLocationDistance distance2 = [r2 distanceFromLocation:currentLocation];
 
         if (distance1 > distance2) {
             return NSOrderedDescending;
@@ -151,27 +126,9 @@
         else {
             return NSOrderedSame;
         }
-     }];
-
-    self.modelDAO.currentRegion = self.regions[0];
-    self.modelDAO.automaticallySelectRegion = YES;
-}
-
-- (void)setRegion {
-    NSString *regionName = self.modelDAO.currentRegion.regionName;
-
-    if (!regionName && self.locationManager.hasRequestedInUseAuthorization) {
-        [self.delegate regionHelperShowRegionListController:self];
-        return;
-    }
-
-    // TODO: instead of comparing name, the regions' identifiers should be used instead.
-    for (OBARegionV2 *region in self.regions) {
-        if ([region.regionName isEqual:regionName]) {
-            self.modelDAO.currentRegion = region;
-            break;
-        }
-    }
+    }] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OBARegionV2 *r, NSDictionary<NSString *,id> *bindings) {
+        return ([r distanceFromLocation:currentLocation] < 160934); // == 100 miles
+    }]];
 }
 
 #pragma mark - Lazy Loaders
@@ -183,20 +140,7 @@
     return _modelDAO;
 }
 
-- (OBAModelService*)modelService {
-    if (!_modelService) {
-        _modelService = [OBAApplication sharedApplication].modelService;
-    }
-    return _modelService;
-}
-
 #pragma mark - OBALocationManager Notifications
-
-- (void)registerForLocationNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidUpdateLocation:) name:OBALocationDidUpdateNotification object:self.locationManager];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidFailWithError:) name:OBALocationManagerDidFailWithErrorNotification object:self.locationManager];
-}
 
 - (void)locationManagerDidUpdateLocation:(NSNotification*)note {
     if (self.modelDAO.automaticallySelectRegion) {
@@ -209,6 +153,22 @@
         self.modelDAO.automaticallySelectRegion = NO;
         [self.delegate regionHelperShowRegionListController:self];
     }
+}
+
+#pragma mark - Data Munging
+
++ (NSArray<OBARegionV2*>*)filterAcceptableRegions:(NSArray<OBARegionV2*>*)regions {
+    return [regions filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OBARegionV2 *region, NSDictionary<NSString *,id> * _Nullable bindings) {
+        if (!region.active) {
+            return NO;
+        }
+
+        if (!region.supportsObaRealtimeApis) {
+            return NO;
+        }
+
+        return YES;
+    }]];
 }
 
 @end

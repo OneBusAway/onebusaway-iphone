@@ -19,28 +19,31 @@
 @import GoogleAnalytics;
 @import OBAKit;
 @import SVProgressHUD;
+@import Fabric;
+@import Crashlytics;
+@import Apptentive;
+@import PMKCoreLocation;
 
-#import "OBANavigationTargetAware.h"
-
-#import "OBASearchController.h"
+#import "OBAPushManager.h"
+#import "OBAMapDataLoader.h"
 #import "OBAStopViewController.h"
 
 #import "OneBusAway-Swift.h"
 
 #import "OBAAnalytics.h"
-#import "Apptentive.h"
 
 #import "OBAApplicationUI.h"
 #import "OBAClassicApplicationUI.h"
-#import "EXTScope.h"
+#import "UIWindow+OBAAdditions.h"
 
-@interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate>
+static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegionRefreshDateUserDefaultsKey";
+
+@interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate, OBAPushManagerDelegate, OnboardingDelegate, PrivacyBrokerDelegate>
 @property(nonatomic,strong) UINavigationController *regionNavigationController;
 @property(nonatomic,strong) RegionListViewController *regionListViewController;
-@property(nonatomic,strong) id regionObserver;
-@property(nonatomic,strong) id recentStopsObserver;
 @property(nonatomic,strong) id<OBAApplicationUI> applicationUI;
 @property(nonatomic,strong) OBADeepLinkRouter *deepLinkRouter;
+@property(nonatomic,strong) OnboardingViewController *onboardingViewController;
 @end
 
 @implementation OBAApplicationDelegate
@@ -49,16 +52,7 @@
     self = [super init];
 
     if (self) {
-        self.regionObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kOBAApplicationSettingsRegionRefreshNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-            [OBAApplication sharedApplication].modelDao.automaticallySelectRegion = YES;
-            [[OBAApplication sharedApplication].regionHelper updateNearestRegion];
-            [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:OBAStringFromBool(YES)];
-        }];
-        @weakify(self);
-        self.recentStopsObserver = [[NSNotificationCenter defaultCenter] addObserverForName:OBAMostRecentStopsChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-            @strongify(self);
-            [self updateShortcutItemsForRecentStops];
-        }];
+        [self registerForNotifications];
 
         _deepLinkRouter = [self.class setupDeepLinkRouterWithModelDAO:[OBAApplication sharedApplication].modelDao appDelegate:self];
 
@@ -66,40 +60,40 @@
 
         [[OBAApplication sharedApplication] start];
 
+        [OBAApplication sharedApplication].privacyBroker.delegate = self;
         [OBAApplication sharedApplication].regionHelper.delegate = self;
     }
 
     return self;
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self.regionObserver];
-    [[NSNotificationCenter defaultCenter] removeObserver:self.recentStopsObserver];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
-}
-
 - (void)navigateToTarget:(OBANavigationTarget *)navigationTarget {
-    [self performSelector:@selector(_navigateToTargetInternal:) withObject:navigationTarget afterDelay:0];
+    [[OBAApplication sharedApplication].references clear];
+    [self.applicationUI navigateToTargetInternal:navigationTarget];
 }
 
 - (void)_constructUI {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.backgroundColor = [UIColor blackColor];
+    self.window.backgroundColor = [UIColor whiteColor];
 
     self.applicationUI = [[OBAClassicApplicationUI alloc] init];
 
     [OBATheme setAppearanceProxies];
 
-    self.window.rootViewController = self.applicationUI.rootViewController;
-
-    if ([OBAApplication sharedApplication].modelDao.automaticallySelectRegion && [OBAApplication sharedApplication].locationManager.locationServicesEnabled) {
-        [[OBAApplication sharedApplication].regionHelper updateNearestRegion];
+    if ([OBAApplicationDelegate awaitingLocationAuthorization]) {
+        self.window.rootViewController = self.onboardingViewController;
     }
     else {
-        [[OBAApplication sharedApplication].regionHelper updateRegion];
+        self.window.rootViewController = self.applicationUI.rootViewController;
     }
 
     [self.window makeKeyAndVisible];
+}
+
+#pragma mark - Location Helpers
+
++ (BOOL)awaitingLocationAuthorization {
+    return [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined;
 }
 
 #pragma mark - UIApplication Methods
@@ -116,11 +110,16 @@
 #pragma mark UIApplicationDelegate Methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Register a background handler with the model service
+    [self initializeFabric];
+
+    // Register a background handler with the modael service
     [OBAModelService addBackgroundExecutor:self];
 
+    [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:[OBAApplication sharedApplication].oneSignalAPIKey];
+
     // Configure the Apptentive feedback system
-    [Apptentive sharedConnection].APIKey = [OBAApplication sharedApplication].apptentiveAPIKey;
+    [Apptentive shared].APIKey = [OBAApplication sharedApplication].apptentiveAPIKey;
+    [Apptentive shared].appID = [OBAApplication sharedApplication].appStoreAppID;
 
     // Set up Google Analytics. User must be able to opt out of tracking.
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:[OBAApplication sharedApplication].googleAnalyticsID];
@@ -132,9 +131,27 @@
 
     [OBAAnalytics configureVoiceOverStatus];
 
+    // On first launch, this refresh process should be deferred.
+    if (![OBAApplicationDelegate awaitingLocationAuthorization] && [self hasEnoughTimeElapsedToRefreshRegions]) {
+        [[OBAApplication sharedApplication].regionHelper refreshData];
+    }
+
     [self _constructUI];
 
     return YES;
+}
+
+- (BOOL)hasEnoughTimeElapsedToRefreshRegions {
+    NSDate *lastRefresh = [[NSUserDefaults standardUserDefaults] objectForKey:OBALastRegionRefreshDateUserDefaultsKey];
+
+    if (!lastRefresh) {
+        return YES;
+    }
+
+    NSTimeInterval lastRefreshInterval = [lastRefresh timeIntervalSinceNow];
+
+    // 604,800 seconds in a week. Only refresh once a week.
+    return ABS(lastRefreshInterval) > 604800;
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -145,12 +162,16 @@
     if (location) {
         [OBAApplication sharedApplication].modelDao.mostRecentLocation = location;
     }
+
+    [[OBAApplication sharedApplication].locationManager stopUpdatingLocation];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     DDLogInfo(@"Application became active");
 
+    [[OBAApplication sharedApplication].locationManager startUpdatingLocation];
     [[OBAApplication sharedApplication] startReachabilityNotifier];
+    [[OBAApplication sharedApplication].regionalAlertsManager update];
 
     [self.applicationUI applicationDidBecomeActive];
 
@@ -162,11 +183,49 @@
 
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", OBAStringFromBool([OBAApplication sharedApplication].modelDao.automaticallySelectRegion)] value:nil];
 
+    if (![OBAApplicationDelegate awaitingLocationAuthorization]) {
+        [OBAApplication.sharedApplication.privacyBroker reportUserDataWithNotificationsStatus:[UIApplication sharedApplication].isRegisteredForRemoteNotifications];
+    }
+
     [[Apptentive sharedConnection] engage:@"app_became_active" fromViewController:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     [[OBAApplication sharedApplication] stopReachabilityNotifier];
+}
+
+#pragma mark - Notifications
+
+- (void)registerForNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invalidRegionNotification:) name:OBARegionServerInvalidNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recentStopsChanged:) name:OBAMostRecentStopsChangedNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(highPriorityRegionalAlertReceived:) name:RegionalAlertsManager.highPriorityRegionalAlertReceivedNotification object:nil];
+}
+
+- (void)invalidRegionNotification:(NSNotification*)note {
+    [OBAApplication sharedApplication].modelDao.automaticallySelectRegion = YES;
+    [[OBAApplication sharedApplication].regionHelper refreshData];
+    [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:OBAStringFromBool(YES)];
+}
+
+- (void)recentStopsChanged:(NSNotification*)note {
+    [self updateShortcutItemsForRecentStops];
+}
+
+- (void)highPriorityRegionalAlertReceived:(NSNotification*)note {
+    OBARegionalAlert *alert = note.userInfo[RegionalAlertsManager.highPriorityRegionalAlertUserInfoKey];
+
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alert.title message:alert.summary preferredStyle:UIAlertControllerStyleAlert];
+
+    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleCancel handler:nil]];
+    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.readMore style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        OBANavigationTarget *regionalAlertTarget = [OBANavigationTarget navigationTargetForRegionalAlert:alert];
+        [self navigateToTarget:regionalAlertTarget];
+    }]];
+
+    [self.topViewController presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - Deep Linking
@@ -194,7 +253,7 @@
 
         [SVProgressHUD show];
 
-        [[OBAApplication sharedApplication].modelService requestArrivalAndDepartureWithTripDeepLink:tripDeepLink].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
+        [[OBAApplication sharedApplication].modelService requestArrivalAndDepartureWithConvertible:tripDeepLink].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
             tripDeepLink.name = arrivalAndDeparture.bestAvailableNameWithHeadsign;
 
             // OK, it works, so write it into the model DAO.
@@ -215,13 +274,40 @@
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *))restorationHandler {
+    NSInteger regionID = [userActivity.userInfo[OBAHandoff.regionIDKey] integerValue];
 
     NSURL *URL = userActivity.webpageURL;
+
+    // Use deep link URL above all else
+    if (userActivity.userInfo && !URL) {
+        // Make sure regions of both clients match
+        if ([OBAApplication sharedApplication].modelDao.currentRegion.identifier == regionID) {
+            NSString *stopID = userActivity.userInfo[OBAHandoff.stopIDKey];
+            OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeMap parameters:@{@"stop":@YES, @"stopID":stopID}];
+            [self.applicationUI navigateToTargetInternal:target];
+            return YES;
+        }
+        else {
+            NSString *title = NSLocalizedString(@"msg_handoff_failure_title", @"Error message title displayed to the user when handoff failed to work.");
+            NSString *body = NSLocalizedString(@"msg_handoff_region_mismatch_body", @"Error message body displayed to the user when handoff regions did not match both clients.");
+
+            [AlertPresenter showError:title body:body];
+            return NO;
+        }
+    }
+
     if (!URL) {
         return NO;
     }
 
     return [self.deepLinkRouter performActionForURL:URL];
+}
+
+/*
+ Necessary for onebusaway:// URLs to work.
+ */
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+    return YES;
 }
 
 #pragma mark - Shortcut Items
@@ -248,12 +334,6 @@
     [UIApplication sharedApplication].shortcutItems = [dynamicShortcuts oba_pickFirst:4];
 }
 
-- (void)_navigateToTargetInternal:(OBANavigationTarget *)navigationTarget {
-    [[OBAApplication sharedApplication].references clear];
-
-    [self.applicationUI navigateToTargetInternal:navigationTarget];
-}
-
 #pragma mark - Reachability
 
 - (void)reachabilityChanged:(NSNotification*)note {
@@ -265,25 +345,149 @@
     }
 }
 
+#pragma mark - OBAPushManagerDelegate
+
+- (void)pushManager:(OBAPushManager*)pushManager notificationReceivedWithTitle:(NSString*)title message:(NSString*)message data:(nullable NSDictionary *)data {
+
+    NSDictionary *arrDepData = data[@"arrival_and_departure"];
+    OBAAlarm *alarm = [[OBAAlarm alloc] init];
+
+    alarm.regionIdentifier = [arrDepData[@"region_id"] integerValue];
+    alarm.stopID = arrDepData[@"stop_id"];
+    alarm.tripID = arrDepData[@"trip_id"];
+    alarm.serviceDate = [arrDepData[@"service_date"] longLongValue];
+    alarm.vehicleID = arrDepData[@"vehicle_id"];
+    alarm.stopSequence = [arrDepData[@"stop_sequence"] integerValue];
+
+    [SVProgressHUD show];
+
+    [[OBAApplication sharedApplication].modelService requestArrivalAndDepartureWithConvertible:alarm].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
+        alarm.title = arrivalAndDeparture.bestAvailableNameWithHeadsign;
+
+        OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeRecentStops];
+        target.object = alarm;
+        [self navigateToTarget:target];
+    }).catch(^(NSError *error) {
+        NSString *body = [NSString stringWithFormat:NSLocalizedString(@"notifications.error_messages.formatted_cant_display", @"Error message displayed to the user when something goes wrong with a just-tapped notification."), error.localizedDescription];
+        [AlertPresenter showWarning:OBAStrings.error body:body];
+    }).always(^{
+        [SVProgressHUD dismiss];
+    });
+}
+
 #pragma mark - RegionListDelegate
 
 - (void)regionSelected {
-    [_regionNavigationController removeFromParentViewController];
-    _regionNavigationController = nil;
-    _regionListViewController = nil;
+    [self.regionNavigationController removeFromParentViewController];
+    self.regionNavigationController = nil;
+    self.regionListViewController = nil;
 
-    self.window.rootViewController = self.applicationUI.rootViewController;
-    [self.window makeKeyAndVisible];
+    [self.window oba_setRootViewController:self.applicationUI.rootViewController animated:YES];
 }
 
 #pragma mark - OBARegionHelperDelegate
 
-- (void)regionHelperShowRegionListController:(OBARegionHelper *)regionHelper {
-    _regionListViewController = [[RegionListViewController alloc] init];
-    _regionListViewController.delegate = self;
-    _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:_regionListViewController];
+- (RegionListViewController*)regionListViewController {
+    if (!_regionListViewController) {
+        _regionListViewController = [[RegionListViewController alloc] init];
+        _regionListViewController.delegate = self;
+    }
+    return _regionListViewController;
+}
 
-    self.window.rootViewController = _regionNavigationController;
+- (UINavigationController*)regionNavigationController {
+    if (!_regionNavigationController) {
+        _regionNavigationController = [[UINavigationController alloc] initWithRootViewController:self.regionListViewController];
+    }
+
+    return _regionNavigationController;
+}
+
+- (void)regionHelperShowRegionListController:(OBARegionHelper *)regionHelper {
+    [self.window oba_setRootViewController:self.regionNavigationController animated:YES];
+}
+
+- (void)regionHelperDidRefreshRegions:(OBARegionHelper*)regionHelper {
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:OBALastRegionRefreshDateUserDefaultsKey];
+}
+
+#pragma mark - Fabric
+
+- (void)initializeFabric {
+    NSMutableArray *fabricKits = [[NSMutableArray alloc] initWithArray:@[Crashlytics.class]];
+
+    if ([OBAAnalytics OKToTrack]) {
+        [fabricKits addObject:Answers.class];
+    }
+
+    if (fabricKits.count > 0) {
+        [Fabric with:fabricKits];
+    }
+}
+
+#pragma mark - Onboarding
+
+- (UIViewController*)onboardingViewController {
+    if (!_onboardingViewController) {
+        _onboardingViewController = [[OnboardingViewController alloc] init];
+        _onboardingViewController.delegate = self;
+    }
+    return _onboardingViewController;
+}
+
+#pragma mark - PrivacyBrokerDelegate
+
+- (void)addPersonBool:(BOOL)value withKey:(NSString *)withKey {
+    [[Apptentive shared] addCustomPersonDataBool:value withKey:withKey];
+}
+
+- (void)addPersonNumber:(NSNumber *)value withKey:(NSString *)withKey {
+    [[Apptentive shared] addCustomPersonDataNumber:value withKey:withKey];
+}
+
+- (void)addPersonString:(NSString *)value withKey:(NSString *)withKey {
+    [[Apptentive shared] addCustomPersonDataString:value withKey:withKey];
+}
+
+- (void)removePersonKey:(NSString *)key {
+    [[Apptentive shared] removeCustomPersonDataWithKey:key];
+}
+
+- (void)onboardingControllerRequestedAuthorization:(OnboardingViewController *)onboardingController {
+
+    // behind the scenes, +[CLLocationManager promise] is calling `requestWhenInUseAuthorization`.
+
+    [CLLocationManager promise].then(^(CLLocation *location) {
+        return [[OBAApplication sharedApplication].regionHelper refreshData];
+    }).catch(^(NSError *error) {
+        DDLogError(@"An error occurred while trying to load regions: %@", error);
+    }).always(^{
+        if ([OBAApplication sharedApplication].modelDao.currentRegion) {
+            [self.window oba_setRootViewController:self.applicationUI.rootViewController animated:YES];
+        }
+        else {
+            [self.window oba_setRootViewController:self.regionNavigationController animated:YES];
+        }
+    });
+}
+
+#pragma mark - Private UI Junk
+
+- (UIViewController *)topViewController{
+    return [OBAApplicationDelegate topViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
+}
+
++ (UIViewController *)topViewController:(UIViewController *)rootViewController {
+    if (rootViewController.presentedViewController == nil) {
+        return rootViewController;
+    }
+    if ([rootViewController.presentedViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)rootViewController.presentedViewController;
+        UIViewController *lastViewController = [[navigationController viewControllers] lastObject];
+        return [self topViewController:lastViewController];
+    }
+    UIViewController *presentedViewController = (UIViewController *)rootViewController.presentedViewController;
+    return [self topViewController:presentedViewController];
 }
 
 @end

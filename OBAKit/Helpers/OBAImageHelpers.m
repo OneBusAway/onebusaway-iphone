@@ -14,6 +14,10 @@ CGFloat DegreesToRadians(CGFloat degrees) {
 
 @implementation OBAImageHelpers
 
++ (CGFloat)degreesToRadians:(CGFloat)degrees {
+    return DegreesToRadians(degrees);
+}
+
 + (UIImage *)colorizeImage:(UIImage *)image withColor:(UIColor *)color {
     UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
 
@@ -55,24 +59,23 @@ CGFloat DegreesToRadians(CGFloat degrees) {
 }
 
 + (UIImage*)circleImageWithSize:(CGSize)size contents:(nullable UIImage*)image {
-    return [self circleImageWithSize:size contents:image backgroundColor:nil];
+    return [self circleImageWithSize:size contents:image strokeColor:nil];
 }
 
-+ (UIImage*)circleImageWithSize:(CGSize)size contents:(nullable UIImage*)image backgroundColor:(nullable UIColor*)backgroundColor {
++ (UIImage*)circleImageWithSize:(CGSize)size contents:(nullable UIImage*)image strokeColor:(nullable UIColor*)strokeColor {
     BOOL opaque = NO;
     CGFloat kStrokeWidth = 2.f;
     CGRect circleRect = CGRectMake(1, 1, size.width - 2, size.height - 2);
-    backgroundColor = backgroundColor ?: [UIColor whiteColor];
 
     UIGraphicsBeginImageContextWithOptions(size, opaque, [UIScreen mainScreen].scale);
     CGContextRef ctx = UIGraphicsGetCurrentContext();
 
     CGContextSetLineWidth(ctx, kStrokeWidth);
 
-    [backgroundColor set];
+    [[UIColor whiteColor] set]; //background color
     CGContextFillEllipseInRect(ctx, circleRect);
 
-    [[UIColor lightGrayColor] set];
+    [(strokeColor ?: [UIColor lightGrayColor]) set];
     CGContextStrokeEllipseInRect(ctx, circleRect);
 
     if (image) {

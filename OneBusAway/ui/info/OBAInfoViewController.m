@@ -9,13 +9,14 @@
 #import "OBAInfoViewController.h"
 @import SafariServices;
 @import Masonry;
+@import Apptentive;
 
 #import "OBAAgenciesListViewController.h"
 #import "OBASettingsViewController.h"
 #import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
-#import "Apptentive.h"
 #import "OneBusAway-Swift.h"
+#import "OBAPushManager.h"
 
 static NSString * const kRepoURLString = @"https://www.github.com/onebusaway/onebusaway-iphone";
 static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
@@ -113,19 +114,50 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:message message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.ok style:UIAlertActionStyleDefault handler:nil]];
-    [self presentViewController:alert animated:YES completion:nil];
+    [self presentViewController:alert animated:YES completion:^{
+        [self reloadData];
+    }];
 }
 
 #pragma mark - Table Data
 
 - (void)reloadData {
-    self.sections = @[
-                      [self settingsTableSection],
-                      [self contactTableSection],
-                      [self privacyTableSection],
-                      [self aboutTableSection]
-                    ];
+
+    NSMutableArray *sections = [[NSMutableArray alloc] init];
+
+    if ([OBACommon debugMode]) {
+        [sections addObject:[self debugTableSection]];
+    }
+
+    // Only show the alerts section if this region supports it.
+    if ([OBAApplication sharedApplication].regionalAlertsManager.regionalAlerts.count > 0) {
+        [sections addObject:[self alertsTableSection]];
+    }
+
+    [sections addObjectsFromArray:@[[self settingsTableSection],
+                                    [self contactTableSection],
+                                    [self privacyTableSection],
+                                    [self aboutTableSection]]];
+
+    self.sections = sections;
     [self.tableView reloadData];
+}
+
+- (OBATableSection*)alertsTableSection {
+    NSString *rowTitle = [NSString stringWithFormat:NSLocalizedString(@"info_controller.updates_alerts_row_format", @"Title for Updates & Alerts row. e.g. Alerts for <Region Name>"), self.modelDAO.currentRegion.regionName];
+    OBATableRow *row = [[OBATableRow alloc] initWithTitle:rowTitle action:^{
+        RegionalAlertsViewController *alertsController = [[RegionalAlertsViewController alloc] initWithRegionalAlertsManager:[OBAApplication sharedApplication].regionalAlertsManager];
+        [self.navigationController pushViewController:alertsController animated:YES];
+    }];
+    NSUInteger unreadCount = [OBAApplication sharedApplication].regionalAlertsManager.unreadCount;
+
+    if (unreadCount > 0) {
+        row.subtitle = [NSString stringWithFormat:@"%@", @(unreadCount)];
+    }
+    row.style = UITableViewCellStyleValue1;
+    row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    return [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"info_controller.updates_alerts_section_title", @"Title for the Updates & Alerts section") rows:@[row]];
 }
 
 - (OBATableSection*)settingsTableSection {
@@ -153,7 +185,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     }];
     contactUs.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     [rows addObject:contactUs];
-    
+
     if ([Apptentive sharedConnection].canShowMessageCenter) {
       OBATableRow *reportAppIssue = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_app_bugs_feature_requests",) action:^{
           [self presentApptentiveMessageCenter];
@@ -162,21 +194,12 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
       if ([Apptentive sharedConnection].unreadMessageCount > 0) {
           reportAppIssue.accessoryView = [[Apptentive sharedConnection] unreadMessageCountAccessoryView:YES];
       }
-      
+
       [rows addObject:reportAppIssue];
     }
 
-    OBATableRow *logs = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_send_logs",) action:^{
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_ask_send_logs",) message:NSLocalizedString(@"msg_explanatory_send_log_data",) preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
-        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_send",) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            for (NSData *logData in self.privacyBroker.shareableLogData) {
-                [[Apptentive sharedConnection] sendAttachmentFile:logData withMimeType:@"text/plain"];
-            }
-
-            [AlertPresenter showSuccess:NSLocalizedString(@"msg_log_files_sent",) body:NSLocalizedString(@"msg_thank_you_exclamation",)];
-        }]];
-        [self presentViewController:alert animated:YES completion:nil];
+    OBATableRow *logs = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"info_controller.send_info_to_support_row",@"Info tab's table row title for sending logs to support.") action:^{
+        [self presentSendLogsActionSheet];
     }];
     [rows addObject:logs];
 
@@ -207,13 +230,25 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 }
 
 - (OBATableSection*)aboutTableSection {
-
     OBATableRow *credits = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_credits", @"Info Page Credits Row Title") action:^{
         [self.navigationController pushViewController:[[OBACreditsViewController alloc] init] animated:YES];
     }];
     credits.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_about_oba", @"") rows:@[credits]];
+}
+
+- (OBATableSection*)debugTableSection {
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"info_controller.debug_section_title", @"The table section title for the debugging tools.")];
+
+    OBATableRow *row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"info_controller.browse_user_defaults_row", @"Row title for the Browse User Defaults action") action:^{
+        UserDefaultsBrowserViewController *browser = [[UserDefaultsBrowserViewController alloc] init];
+        [self.navigationController pushViewController:browser animated:YES];
+    }];
+    row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [section addRow:row];
+
+    return section;
 }
 
 #pragma mark - Email
@@ -260,6 +295,13 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     return [OBANavigationTarget navigationTarget:OBANavigationTargetTypeContactUs];
 }
 
+- (void)setNavigationTarget:(OBANavigationTarget *)navigationTarget {
+    if (navigationTarget.searchType == OBASearchTypeRegionalAlert) {
+        RegionalAlertsViewController *alertsController = [[RegionalAlertsViewController alloc] initWithRegionalAlertsManager:[OBAApplication sharedApplication].regionalAlertsManager focusedAlert:navigationTarget.searchArgument];
+        [self.navigationController pushViewController:alertsController animated:YES];
+    }
+}
+
 #pragma mark - Private
 
 - (void)showSettings {
@@ -269,36 +311,12 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [self presentViewController:navigation animated:YES completion:nil];
 }
 
+- (void)recordUserInformation {
+    [self.privacyBroker reportUserDataWithNotificationsStatus:[UIApplication sharedApplication].isRegisteredForRemoteNotifications];
+}
+
 - (void)presentApptentiveMessageCenter {
-    // Information that cannot be used to uniquely identify the user is shared automatically.
-    [[Apptentive sharedConnection] addCustomPersonDataBool:self.modelDAO.automaticallySelectRegion withKey:@"Automatically Select Region"];
-    [[Apptentive sharedConnection] addCustomPersonDataBool:(!!self.modelDAO.currentRegion) withKey:@"Region Selected"];
-    [[Apptentive sharedConnection] addCustomPersonDataString:locationAuthorizationStatusToString(self.locationManager.authorizationStatus) withKey:@"Location Auth Status"];
-
-    NSNumber *currentRegionBookmarkCount = @(self.modelDAO.bookmarksForCurrentRegion.count);
-    NSNumber *allBookmarksCount = @(self.modelDAO.allBookmarksCount);
-    [[Apptentive sharedConnection] addCustomPersonDataNumber:currentRegionBookmarkCount withKey:@"Bookmarks (Region)"];
-    [[Apptentive sharedConnection] addCustomPersonDataNumber:allBookmarksCount withKey:@"Bookmarks (All)"];
-
-    // Information that can be used to uniquely identify the user is not shared automatically.
-
-    if (self.privacyBroker.shareableLocationInformation) {
-        [[Apptentive sharedConnection] addCustomPersonDataString:self.privacyBroker.shareableLocationInformation withKey:@"Location"];
-    }
-    else {
-        [[Apptentive sharedConnection] removeCustomPersonDataWithKey:@"Location"];
-    }
-
-    NSDictionary *regionInfo = self.privacyBroker.shareableRegionInformation;
-    for (NSString *key in regionInfo) {
-        if (self.privacyBroker.canShareRegionInformation) {
-            [[Apptentive sharedConnection] addCustomPersonDataString:regionInfo[key] withKey:key];
-        }
-        else {
-            [[Apptentive sharedConnection] removeCustomPersonDataWithKey:key];
-        }
-    }
-
+    [self recordUserInformation];
     [[Apptentive sharedConnection] presentMessageCenterFromViewController:self];
 }
 
@@ -393,6 +411,31 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     headerFrame.size.height = height;
     header.frame = headerFrame;
     self.tableView.tableHeaderView = header;
+}
+
+- (void)presentSendLogsActionSheet {
+    NSString *title = NSLocalizedString(@"info_controller.send_info_to_support_row",@"Info tab's table row title for sending logs to support.");
+    NSString *message = NSLocalizedString(@"info_controller.send_log_data_explanation", @"Info tab log data explanation is used on an action sheet as a description of what the options do.");
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
+
+    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
+
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"info_controller.send_logs",@"'Send Logs' action sheet item on the Info tab") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        for (NSData *logData in self.privacyBroker.shareableLogData) {
+            [[Apptentive sharedConnection] sendAttachmentFile:logData withMimeType:@"text/plain"];
+        }
+
+        [AlertPresenter showSuccess:NSLocalizedString(@"msg_log_files_sent",) body:NSLocalizedString(@"msg_thank_you_exclamation",)];
+    }]];
+
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"info_controller.send_user_defaults", @"Info controller 'send info' action sheet option for sending user defaults") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+
+        NSDictionary *defaultsDict = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
+        [Apptentive.shared sendAttachmentFile:[NSKeyedArchiver archivedDataWithRootObject:defaultsDict] withMimeType:@"application/octet-stream"];
+    }]];
+
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end

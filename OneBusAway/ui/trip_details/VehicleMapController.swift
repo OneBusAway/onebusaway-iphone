@@ -18,6 +18,23 @@ import UIKit
 
 class VehicleMapController: UIViewController, MKMapViewDelegate {
 
+    static let expandedStateUserDefaultsKey = "expandedStateUserDefaultsKey"
+    public var expanded: Bool {
+        didSet {
+            UserDefaults.standard.set(expanded, forKey: VehicleMapController.expandedStateUserDefaultsKey)
+            self.toggleButton.isSelected = expanded
+        }
+    }
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        self.expanded = UserDefaults.standard.bool(forKey: VehicleMapController.expandedStateUserDefaultsKey)
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     public var tripDetails: OBATripDetailsV2? {
         didSet {
             guard let tripDetails = self.tripDetails else {
@@ -63,15 +80,6 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         return OBAApplication.shared().modelService
     }()
 
-    public var expanded: Bool {
-        get {
-            return self.toggleButton.isSelected
-        }
-        set(val) {
-            self.toggleButton.isSelected = val
-        }
-    }
-
     var routePolyline: MKPolyline?
 
     lazy var routePolylineRenderer: MKPolylineRenderer = {
@@ -87,7 +95,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
 
     lazy var toggleButton: UIButton = {
         let button = OBAUIBuilder.borderedButton(with: UIColor.lightGray)
-        button.contentEdgeInsets = OBATheme.defaultEdgeInsets()
+        button.contentEdgeInsets = OBATheme.defaultEdgeInsets
         button.accessibilityLabel = NSLocalizedString("vehicle_map_controller.toggle_button_accessibility_label", comment: "An accessibility label for the map size toggle button on the Vehicle Map Controller.")
         button.imageView?.contentMode = .scaleAspectFit
 
@@ -117,7 +125,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         blurContainer.snp.makeConstraints { (make) in
             make.width.equalTo(40)
             make.height.equalTo(30)
-            make.right.bottom.equalToSuperview().offset(-OBATheme.defaultPadding())
+            make.right.bottom.equalToSuperview().offset(-OBATheme.defaultPadding)
         }
 
         blurContainer.vibrancyEffectView.addSubview(self.toggleButton)
@@ -125,6 +133,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
             make.edges.equalToSuperview()
         }
         self.toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
+        self.toggleButton.isSelected = self.expanded
     }
 
     // MARK: - Data Loading
@@ -143,8 +152,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
     // MARK: - Delegate
 
     func toggleButtonTapped() {
-        self.toggleButton.isSelected = !self.toggleButton.isSelected
-        self.expanded = self.toggleButton.isSelected
+        self.expanded = !self.expanded
         self.delegate?.vehicleMap(self, didToggleSize: self.expanded)
     }
 
@@ -188,7 +196,15 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
             annotationView = MKAnnotationView.init(annotation: annotation, reuseIdentifier: identifier)
         }
 
-        annotationView?.image = OBAImageHelpers.circleImage(with: CGSize.init(width: 12, height: 12), contents: nil)
+        var color: UIColor
+        if self.arrivalAndDeparture?.stopId == annotation.stopID {
+            color = OBATheme.userLocationFillColor
+        }
+        else {
+            color = UIColor.lightGray
+        }
+
+        annotationView?.image = OBAImageHelpers.circleImage(with: CGSize.init(width: 12, height: 12), contents: nil, stroke: color)
 
         return annotationView
     }
@@ -202,7 +218,15 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
             annotationView = MKAnnotationView.init(annotation: stop, reuseIdentifier: identifier)
         }
 
-        annotationView?.image = OBAImageHelpers.circleImage(with: CGSize.init(width: 12, height: 12), contents: nil)
+        var color: UIColor
+        if self.arrivalAndDeparture?.stopId == stop.stopId {
+            color = OBATheme.userLocationFillColor
+        }
+        else {
+            color = UIColor.lightGray
+        }
+
+        annotationView?.image = OBAImageHelpers.circleImage(with: CGSize.init(width: 12, height: 12), contents: nil, stroke: color)
 
         return annotationView
     }
@@ -213,8 +237,8 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         var annotationView: SVPulsingAnnotationView? = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? SVPulsingAnnotationView
 
         if annotationView == nil {
-            annotationView = SVPulsingAnnotationView.init(annotation: vehicle, reuseIdentifier: identifier, size: CGSize(width: 40, height: 40))
-            annotationView?.annotationColor = OBATheme.obaDarkGreen()
+            annotationView = SVPulsingAnnotationView.init(annotation: vehicle, reuseIdentifier: identifier, size: CGSize(width: 32, height: 32))
+            annotationView?.annotationColor = OBATheme.obaDarkGreen
             annotationView?.canShowCallout = true
             annotationView?.headingImage = UIImage(named: "vehicleHeading")
         }

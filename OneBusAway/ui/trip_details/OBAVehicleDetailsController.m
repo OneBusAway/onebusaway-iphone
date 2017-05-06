@@ -52,7 +52,7 @@
         [SVProgressHUD dismiss];
         self.navigationItem.rightBarButtonItem.enabled = YES;
     }).catch(^(NSError *error) {
-        [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription];
+        [AlertPresenter showError:error];
     });
 }
 

@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAStopTableHeaderView : UIView
 @property(nonatomic,assign) BOOL highContrastMode;
-@property(nonatomic,strong,nullable) MKETAResponse *walkingETA;
 - (void)populateTableHeaderFromArrivalsAndDeparturesModel:(OBAArrivalsAndDeparturesForStopV2*)result;
 @end
 

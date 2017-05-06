@@ -6,7 +6,11 @@ If you would like to help test the latest development release, email us at [ipho
 
 ## Contributing
 
-See our [contributing guidelines](CONTRIBUTING.md) and [roadmap](https://github.com/OneBusAway/onebusaway-iphone/wiki/Roadmap).
+See our [contributing guidelines](CONTRIBUTING.md) and [upcoming milestones](https://github.com/OneBusAway/onebusaway-iphone/milestones).
+
+### Slack
+
+[Drop into our Slack channel](https://onebusaway.herokuapp.com/) to say hi and let us know what you're interested in working on.
 
 ### Individual Contributor License Agreement (ICLA)
 To ensure that the app source code remains fully open-source under a common license, we require that contributors sign an electronic ICLA before contributions can be merged.  When you submit a pull request, you'll be prompted by the [CLA Assistant](https://cla-assistant.io/) to sign the ICLA.
@@ -23,9 +27,9 @@ You are welcome to work on any bug or feature you would like, but we know that g
 
 ### Development environment setup
 
-1. Install Xcode 8.1.x
+1. Install the latest released version of Xcode 8.x from the Mac App Store
 2. `git clone` your fork
-3. install Carthage - see [carthage github repo](https://github.com/Carthage/Carthage) for instructions, and you can download the latest release at https://github.com/Carthage/Carthage/releases
+3. [Install Carthage](https://github.com/Carthage/Carthage#installing-carthage)
 4. `open org.onebusaway.iphone.xcodeproj`
 
 You should now be able to build. See our [contributing guidelines](CONTRIBUTING.md) for the specific workflow to add a new feature or bug fix.

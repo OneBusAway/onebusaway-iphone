@@ -18,9 +18,35 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, OBASearchType) {
+    OBASearchTypeNone=0,
+    OBASearchTypePending,
+    OBASearchTypeRegion,
+    OBASearchTypeRoute,
+    OBASearchTypeStops,
+    OBASearchTypeAddress,
+    OBASearchTypePlacemark,
+    OBASearchTypeStopId,
+    OBASearchTypeRegionalAlert,
+};
+
+typedef NS_ENUM(NSInteger, OBANavigationTargetType) {
+    OBANavigationTargetTypeUndefined=0,
+    OBANavigationTargetTypeMap,
+    OBANavigationTargetTypeSearchResults,
+    OBANavigationTargetTypeRecentStops,
+    OBANavigationTargetTypeBookmarks,
+    OBANavigationTargetTypeContactUs,
+};
+
+typedef NS_ENUM(NSUInteger, OBAErrorCode) {
+    OBAErrorCodeLocationAuthorizationFailed = 1002,
+    OBAErrorCodePushNotificationAuthorizationDenied,
+};
+
+NSString * _Nullable NSStringFromOBASearchType(OBASearchType searchType);
+
 extern NSString * const OBAErrorDomain;
-extern const NSInteger kOBAErrorDuplicateEntity;
-extern const NSInteger kOBAErrorMissingFieldInData;
 
 // 3D Touch Quick Actions
 extern NSString * const kApplicationShortcutMap;
@@ -29,8 +55,13 @@ extern NSString * const kApplicationShortcutBookmarks;
 
 // User Defaults Keys
 extern NSString * const OBAOptInToTrackingDefaultsKey;
+extern NSString * const OBAOptInToCrashReportingDefaultsKey;
 extern NSString * const OBAAllowReviewPromptsDefaultsKey;
+extern NSString * const OBAMapSelectedTypeDefaultsKey;
 extern NSString * const OBADebugModeUserDefaultsKey;
+
+// Server Addresses
+extern NSString * const OBADeepLinkServerAddress;
 
 /**
  We report "YES" and "NO" to Google Analytics in several places. This method

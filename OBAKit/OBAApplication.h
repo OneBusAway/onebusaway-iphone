@@ -24,26 +24,29 @@
 
 @class PrivacyBroker;
 @class OBAConsoleLogger;
+@class RegionalAlertsManager;
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  This notification is posted when the region changes and the app cannot generate an API URL from it.
  */
-// TODO: give it a better name.
-extern NSString *const kOBAApplicationSettingsRegionRefreshNotification;
+extern NSString *const OBARegionServerInvalidNotification;
 
 @interface OBAApplication : NSObject
 @property (nonatomic, strong, readonly) OBAReferencesV2 *references;
 @property (nonatomic, strong, readonly) OBAModelDAO *modelDao;
 @property (nonatomic, strong, readonly) OBAModelService *modelService;
 @property (nonatomic, strong, readonly) OBALocationManager *locationManager;
+@property (nonatomic, strong, readonly) RegionalAlertsManager *regionalAlertsManager;
 @property (nonatomic, strong, readonly) OBARegionHelper *regionHelper;
 @property (nonatomic, strong, readonly) PrivacyBroker *privacyBroker;
 @property (nonatomic, strong, readonly) OBAConsoleLogger *consoleLogger;
 
 @property (nonatomic, copy, readonly) NSString *apptentiveAPIKey;
 @property (nonatomic, copy, readonly) NSString *googleAnalyticsID;
+@property (nonatomic, copy, readonly) NSString *oneSignalAPIKey;
+@property (nonatomic, copy, readonly) NSString *appStoreAppID;
 
 /**
  *  This method should always be used to get an instance of this class.  This class should not be initialized directly.

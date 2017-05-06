@@ -63,4 +63,8 @@
     return _stopTime.stop.coordinate;
 }
 
+- (NSString*)stopID {
+    return self.stopTime.stopId;
+}
+
 @end

@@ -24,37 +24,39 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
 @interface OBAMapRegionManager ()
 @property(strong) MKMapView *mapView;
 @property BOOL currentlyChangingRegion;
-@property BOOL firstRegionChangeRequested;
+@property NSUInteger regionChangeRequestCount;
 @property(strong) OBARegionChangeRequest *pendingRegionChangeRequest;
 @property(strong) NSMutableArray *appliedRegionChangeRequests;
-
-- (void)setMapRegion:(MKCoordinateRegion)region requestType:(OBARegionChangeRequestType)requestType;
-- (void)setMapRegionWithRequest:(OBARegionChangeRequest*)request;
-- (OBARegionChangeRequest*) getBestRegionChangeRequestForRegion:(MKCoordinateRegion)region;
 @end
-
 
 @implementation OBAMapRegionManager
 
 - (instancetype)initWithMapView:(MKMapView*)mapView {
     self = [super init];
     if (self) {
-        self.mapView = mapView;
-        self.lastRegionChangeWasProgrammatic = NO;
-        self.currentlyChangingRegion = NO;
-        self.firstRegionChangeRequested = NO;
-        self.pendingRegionChangeRequest = nil;
-        self.appliedRegionChangeRequests = [[NSMutableArray alloc] init];
+        _mapView = mapView;
+        _lastRegionChangeWasProgrammatic = NO;
+        _currentlyChangingRegion = NO;
+        _pendingRegionChangeRequest = nil;
+        _appliedRegionChangeRequests = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
-- (void) setRegion:(MKCoordinateRegion)region {
+- (void)setRegion:(MKCoordinateRegion)region {
     [self setMapRegion:region requestType:OBARegionChangeRequestTypeProgrammatic];
 }
 
-- (void) setRegion:(MKCoordinateRegion)region changeWasProgrammatic:(BOOL)changeWasProgrammatic {
+- (void)setRegion:(MKCoordinateRegion)region changeWasProgrammatic:(BOOL)changeWasProgrammatic {
     [self setMapRegion:region requestType:(changeWasProgrammatic ? OBARegionChangeRequestTypeProgrammatic : OBARegionChangeRequestTypeUser)];
+}
+
+- (void)setRegionFromNavigationTarget:(OBANavigationTarget*)navigationTarget {
+    NSDictionary *parameters = navigationTarget.parameters;
+    NSData *data = parameters[OBANavigationTargetSearchKey];
+    MKCoordinateRegion region;
+    [data getBytes:&region length:sizeof(MKCoordinateRegion)];
+    [self setRegion:region changeWasProgrammatic:NO];
 }
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
@@ -62,7 +64,6 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
 }
 
 - (BOOL)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-    
     self.currentlyChangingRegion = NO;
     
     /**
@@ -78,24 +79,27 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
     DDLogVerbose(@"=== regionDidChangeAnimated: requests=%lu",(unsigned long)[self.appliedRegionChangeRequests count]);
     DDLogVerbose(@"region=%@", [OBASphericalGeometryLibrary regionAsString:region]);
 
-    OBARegionChangeRequest * request = [self getBestRegionChangeRequestForRegion:region];
-    if( request ) {
+    OBARegionChangeRequest *request = [self getBestRegionChangeRequestForRegion:region];
+    if (request) {
         double score = [request compareRegion:region];
         BOOL oldRegionContainsNewRegion = [OBASphericalGeometryLibrary isRegion:region containedBy:request.region];
         BOOL newRegionContainsOldRegion = [OBASphericalGeometryLibrary isRegion:request.region containedBy:region];
+
+        if (score < kMinRegionDeltaToDetectUserDrag && !oldRegionContainsNewRegion && !newRegionContainsOldRegion) {
+            type = request.type;
+        }
+
         DDLogVerbose(@"regionDidChangeAnimated: score=%f", score);
         DDLogVerbose(@"subregion=%@", [OBASphericalGeometryLibrary regionAsString:request.region]);
-        if( score < kMinRegionDeltaToDetectUserDrag && !oldRegionContainsNewRegion && !newRegionContainsOldRegion)
-            type = request.type;
     }
-    
-    self.lastRegionChangeWasProgrammatic = (type == OBARegionChangeRequestTypeProgrammatic || !self.firstRegionChangeRequested);
+
+    self.lastRegionChangeWasProgrammatic = (type == OBARegionChangeRequestTypeProgrammatic || ![self treatRegionChangesAsAutomatic]);
     DDLogVerbose(@"regionDidChangeAnimated: setting self.lastRegionChangeWasprogrammatic to %d", self.lastRegionChangeWasProgrammatic);
 
     BOOL applyingPendingRequest = NO;
     
-    if( self.lastRegionChangeWasProgrammatic && self.pendingRegionChangeRequest ) {
-        DDLogVerbose(@"applying pending reqest");
+    if (self.lastRegionChangeWasProgrammatic && self.pendingRegionChangeRequest) {
+        DDLogVerbose(@"applying pending request");
         [self setMapRegionWithRequest:self.pendingRegionChangeRequest];
         applyingPendingRequest = YES;
     }
@@ -105,16 +109,18 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
     return applyingPendingRequest;
 }
 
+- (BOOL)treatRegionChangesAsAutomatic {
+    return self.regionChangeRequestCount > 1;
+}
+
 #pragma mark - Private Methods
 
-
 - (void)setMapRegion:(MKCoordinateRegion)region requestType:(OBARegionChangeRequestType)requestType {
-
     OBARegionChangeRequest * request = [[OBARegionChangeRequest alloc] initWithRegion:region type:requestType];
     [self setMapRegionWithRequest:request];
 }
 
-- (void) setMapRegionWithRequest:(OBARegionChangeRequest*)request {
+- (void)setMapRegionWithRequest:(OBARegionChangeRequest*)request {
 
     @synchronized(self) {
         DDLogVerbose(@"setMapRegion: requestType=%ld region=%@",(long)request.type,[OBASphericalGeometryLibrary regionAsString:request.region]);
@@ -123,20 +129,20 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
          * If we are currently in the process of changing the map region, we save the region change request as pending.
          * Otherwise, we apply the region change.
          */
-        if ( self.currentlyChangingRegion ) {
+        if (self.currentlyChangingRegion) {
             DDLogVerbose(@"saving pending request");
             self.pendingRegionChangeRequest = request;
         }
         else {
             [self.appliedRegionChangeRequests addObject:request];
-            [self.mapView setRegion:request.region animated:self.firstRegionChangeRequested];
+            [self.mapView setRegion:request.region animated:[self treatRegionChangesAsAutomatic]];
         }
 
         /**
          * firstRegionChangeRequested makes sure that the map view zooms to your current location before any requests have been made
          * map view will show current location on app startup
          */
-        self.firstRegionChangeRequested = YES;
+        self.regionChangeRequestCount += 1;
     }
 }
 

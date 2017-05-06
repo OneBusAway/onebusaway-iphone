@@ -34,7 +34,7 @@ class ServiceAlertDetailsViewController: UIViewController, UITextViewDelegate {
         self.textView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.textView.dataDetectorTypes = .all
         self.textView.isEditable = false
-        self.textView.font = OBATheme.bodyFont()
+        self.textView.font = OBATheme.bodyFont
         self.textView.delegate = self
 
         self.textView.text = self.serviceAlert.formattedDetails

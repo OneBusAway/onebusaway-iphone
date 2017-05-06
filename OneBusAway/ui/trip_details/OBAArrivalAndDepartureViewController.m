@@ -19,8 +19,11 @@
 #import "OneBusAway-Swift.h"
 #import "OBATimelineBarRow.h"
 #import "OBAAnimation.h"
+#import "OBAPushManager.h"
 @import Masonry;
 @import MarqueeLabel;
+@import SVProgressHUD;
+@import OBAKit;
 
 static CGFloat const kCollapsedMapHeight = 225.f;
 static CGFloat const kExpandedMapHeight = 350.f;
@@ -33,12 +36,12 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 @property(nonatomic,strong) OBAClassicDepartureView *departureView;
 @property(nonatomic,strong) NSTimer *refreshTimer;
 @property(nonatomic,strong) NSLock *reloadLock;
-@property(nonatomic,copy) OBATripDeepLink *link;
+@property(nonatomic,copy) id<OBAArrivalAndDepartureConvertible> convertible;
 @property(nonatomic,strong) UIStackView *stackView;
 
 @property(nonatomic,strong) VehicleMapController *mapController;
 
-@property(nonatomic,strong) UILabel *titleVehicleLabel;
+@property(nonatomic,strong) MarqueeLabel *titleVehicleLabel;
 @property(nonatomic,strong) MarqueeLabel *titleUpdateLabel;
 @end
 
@@ -52,26 +55,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
         CGFloat titleViewWidth = 178.f;
 
-        _titleVehicleLabel = ({
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, titleViewWidth, 10)];
-            label.font = [OBATheme boldFootnoteFont];
-            label.textAlignment = NSTextAlignmentCenter;
-            label.adjustsFontSizeToFitWidth = YES;
-            label.minimumScaleFactor = 0.8f;
-            label;
-        });
-        [_titleVehicleLabel oba_resizeHeightToFit];
-
-        _titleUpdateLabel = ({
-            MarqueeLabel *label = [[MarqueeLabel alloc] initWithFrame:CGRectMake(0, 0, titleViewWidth, 10)];
-            label.trailingBuffer = [OBATheme defaultPadding];
-            label.fadeLength = [OBATheme defaultPadding];
-            label.font = [OBATheme footnoteFont];
-            label.textAlignment = NSTextAlignmentCenter;
-            label.adjustsFontSizeToFitWidth = YES;
-            label;
-        });
-        [_titleUpdateLabel oba_resizeHeightToFit];
+        _titleVehicleLabel = [self.class buildMarqueeLabelWithWidth:titleViewWidth];
+        _titleUpdateLabel = [self.class buildMarqueeLabelWithWidth:titleViewWidth];
 
         CGFloat combinedLabelHeight = CGRectGetHeight(_titleVehicleLabel.frame) + CGRectGetHeight(_titleUpdateLabel.frame);
         UIView *wrapper = [[UIView alloc] initWithFrame:CGRectMake(0, 0, titleViewWidth, combinedLabelHeight)];
@@ -97,11 +82,11 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     return self;
 }
 
-- (instancetype)initWithTripDeepLink:(OBATripDeepLink*)link {
+- (instancetype)initWithArrivalAndDepartureConvertible:(NSObject<OBAArrivalAndDepartureConvertible,NSCopying>*)convertible {
     self = [self init];
 
     if (self) {
-        _link = [link copy];
+        _convertible = [convertible copy];
     }
     return self;
 }
@@ -157,6 +142,10 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 
     [self reloadDataAnimated:NO];
+    
+    OBATripDeepLink *deepLink = [[OBATripDeepLink alloc] initWithArrivalAndDeparture:self.arrivalAndDeparture region:self.modelDAO.currentRegion];
+
+    [[OBAHandoff shared] broadcast:deepLink.deepLinkURL];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -165,6 +154,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 
     [self cancelTimer];
+    [[OBAHandoff shared] stopBroadcasting];
 }
 
 #pragma mark - Traits
@@ -272,15 +262,15 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         self.mapController.tripDetails = tripDetails;
         [self populateTableWithArrivalAndDeparture:self.arrivalAndDeparture tripDetails:self.tripDetails];
     }).catch(^(NSError *error) {
-        [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription];
+        [AlertPresenter showError:error];
     }).always(^{
         [self.reloadLock unlock];
     });
 }
 
 - (AnyPromise*)promiseArrivalDeparture {
-    if (self.link) {
-        return [self.modelService requestArrivalAndDepartureWithTripDeepLink:self.link];
+    if (self.convertible) {
+        return [self.modelService requestArrivalAndDepartureWithConvertible:self.convertible];
     }
     else {
         return [self.modelService requestArrivalAndDeparture:self.arrivalAndDeparture.instance];
@@ -374,6 +364,18 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 }
 
 #pragma mark - Private UI Stuff
+
++ (MarqueeLabel*)buildMarqueeLabelWithWidth:(CGFloat)width {
+    MarqueeLabel *label = [[MarqueeLabel alloc] initWithFrame:CGRectMake(0, 0, width, 10)];
+    label.font = [OBATheme boldFootnoteFont];
+    label.trailingBuffer = [OBATheme defaultPadding];
+    label.fadeLength = [OBATheme defaultPadding];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.adjustsFontSizeToFitWidth = YES;
+    [label oba_resizeHeightToFit];
+
+    return label;
+}
 
 + (UIView*)buildTableHeaderViewWrapperWithHeaderView:(OBAClassicDepartureView*)headerView {
     UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[headerView]];

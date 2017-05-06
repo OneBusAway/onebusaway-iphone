@@ -173,7 +173,7 @@ l_OBJC_PROTOCOL_$_NSObject
 l_OBJC_LABEL_PROTOCOL_$_NSObject
 l_OBJC_PROTOCOL_$_CAAnimationDelegate
 l_OBJC_LABEL_PROTOCOL_$_CAAnimationDelegate
-Apple LLVM version 8.1.0 (clang-802.0.38)
+Apple LLVM version 8.1.0 (clang-802.0.42)
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/MarqueeLabel/Sources/ObjC/MarqueeLabel.m
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/MarqueeLabel/MarqueeLabel
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/MarqueeLabel/Sources/ObjC/MarqueeLabel.h

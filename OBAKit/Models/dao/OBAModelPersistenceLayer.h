@@ -11,6 +11,8 @@
 @class CLLocation;
 @class OBARegionV2;
 @class OBATripDeepLink;
+@class OBAAlarm;
+@class OBAArrivalAndDepartureV2;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,8 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (CLLocation * _Nullable) readMostRecentLocation;
 - (void) writeMostRecentLocation:(CLLocation*)mostRecentLocation;
 
-- (NSSet*) readVisistedSituationIds;
-- (void) writeVisistedSituationIds:(NSSet*)situationIds;
+// Service Alerts
+
+- (NSSet*)readVisistedSituationIds;
+- (void)writeVisistedSituationIds:(NSSet*)situationIds;
+
+// Regions
 
 - (OBARegionV2 * _Nullable) readOBARegion;
 - (void)writeOBARegion:(OBARegionV2*)region;
@@ -49,9 +55,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addCustomRegion:(OBARegionV2*)region;
 - (void)removeCustomRegion:(OBARegionV2*)region;
 
+// Shared Trips/Deep Links
+
 - (NSSet<OBATripDeepLink*>*)sharedTrips;
 - (void)addSharedTrip:(OBATripDeepLink*)sharedTrip;
 - (void)removeSharedTrip:(OBATripDeepLink*)sharedTrip;
+
+// Alarms
+- (NSArray<OBAAlarm*>*)alarms;
+- (OBAAlarm*)alarmForKey:(NSString*)alarmKey;
+- (void)addAlarm:(OBAAlarm*)alarm;
+- (void)removeAlarmWithKey:(NSString*)alarmKey;
 
 @end
 

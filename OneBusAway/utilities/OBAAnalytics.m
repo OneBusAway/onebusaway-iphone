@@ -13,6 +13,7 @@
  */
 
 #import "OBAAnalytics.h"
+@import OBAKit;
 
 NSString * const OBAAnalyticsCategoryAppSettings = @"app_settings";
 NSString * const OBAAnalyticsCategoryUIAction = @"ui_action";
@@ -25,6 +26,10 @@ NSString * const OBAAnalyticsDimensionOff = @"OFF";
 NSInteger const OBAAnalyticsDimensionVoiceOver = 4;
 
 @implementation OBAAnalytics
+
++ (BOOL)OKToTrack {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
+}
 
 + (void)configureVoiceOverStatus {
     if (UIAccessibilityIsVoiceOverRunning()) {

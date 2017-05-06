@@ -16,7 +16,6 @@
 
 #import <OBAKit/OBAModelDAO.h>
 #import <OBAKit/OBACommon.h>
-#import <OBAKit/OBACommonV1.h>
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBAStopAccessEventV2.h>
 #import <OBAKit/OBASituationV2.h>
@@ -124,6 +123,18 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     return [allBookmarks filteredArrayUsingPredicate:predicate];
 }
 
+- (NSArray<OBABookmarkV2*>*)mappableBookmarksMatchingString:(NSString*)matching {
+    OBAGuard(matching) else {
+        return @[];
+    }
+
+    NSPredicate *namePredicate = [NSPredicate predicateWithFormat:@"%K CONTAINS[cd] %@", @"name", matching];
+    NSPredicate *routePredicate = [NSPredicate predicateWithFormat:@"%K CONTAINS[cd] %@", @"routeShortName", matching];
+    NSCompoundPredicate *compoundPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:@[namePredicate, routePredicate]];
+
+    return [self.mappableBookmarksForCurrentRegion filteredArrayUsingPredicate:compoundPredicate];
+}
+
 - (OBABookmarkV2*)bookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrival {
     for (OBABookmarkV2 *bm in self.ungroupedBookmarks) {
         if ([bm matchesArrivalAndDeparture:arrival]) {
@@ -165,6 +176,16 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K IN %@", NSStringFromSelector(@selector(regionIdentifier)), @[@(self.currentRegion.identifier)]];
     return [self.allBookmarks filteredArrayUsingPredicate:predicate];
+}
+
+- (NSArray<OBABookmarkV2*>*)mappableBookmarksForCurrentRegion {
+    NSArray *bookmarks = self.bookmarksForCurrentRegion;
+
+    NSArray *filtered = [bookmarks filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OBABookmarkV2* bookmark, NSDictionary *bindings) {
+        return bookmark.stopId && CLLocationCoordinate2DIsValid(bookmark.coordinate) && bookmark.coordinate.latitude != 0 && bookmark.coordinate.longitude != 0;
+    }]];
+
+    return filtered;
 }
 
 - (NSArray *)bookmarkGroups {
@@ -468,6 +489,19 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [[NSNotificationCenter defaultCenter] postNotificationName:OBAMostRecentStopsChangedNotification object:nil];
 }
 
+- (NSArray<OBAStopAccessEventV2*>*)recentStopsMatchingString:(NSString*)matching {
+    OBAGuard(matching) else {
+        return @[];
+    }
+
+    NSPredicate *titlePredicate = [NSPredicate predicateWithFormat:@"%K CONTAINS[cd] %@", @"title", matching];
+    NSPredicate *subtitlePredicate = [NSPredicate predicateWithFormat:@"%K CONTAINS[cd] %@", @"subtitle", matching];
+    NSCompoundPredicate *compoundPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:@[titlePredicate, subtitlePredicate]];
+
+    NSArray *rows = [self.mostRecentStops filteredArrayUsingPredicate:compoundPredicate];
+    return rows;
+}
+
 #pragma mark - Service Alerts
 
 - (BOOL)isVisitedSituationWithId:(NSString*)situationId {
@@ -580,6 +614,35 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
     for (OBATripDeepLink *link in toPurge) {
         [self removeSharedTrip:link];
+    }
+}
+
+#pragma mark - Alarms
+
+- (NSArray<OBAAlarm*>*)alarms {
+    return self.preferencesDao.alarms;
+}
+
+- (OBAAlarm*)alarmForKey:(NSString*)alarmKey {
+    return [self.preferencesDao alarmForKey:alarmKey];
+}
+
+- (void)addAlarm:(OBAAlarm*)alarm {
+    [self.preferencesDao addAlarm:alarm];
+}
+
+- (void)removeAlarmWithKey:(NSString*)alarmKey {
+    [self.preferencesDao removeAlarmWithKey:alarmKey];
+}
+
+- (void)clearExpiredAlarms {
+    NSArray<OBAAlarm*> *alarms = [[NSArray alloc] initWithArray:self.alarms copyItems:YES];
+    NSDate *now = [NSDate date];
+
+    for (OBAAlarm *alarm in alarms) {
+        if (alarm.scheduledDeparture.timeIntervalSinceReferenceDate < now.timeIntervalSinceReferenceDate) {
+            [self removeAlarmWithKey:alarm.alarmKey];
+        }
     }
 }
 

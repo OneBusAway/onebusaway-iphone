@@ -48,6 +48,7 @@
     OBALogFunction();
 
     [self.modelDAO clearSharedTripsOlderThan24Hours];
+    [self.modelDAO clearExpiredAlarms];
 
     [self reloadData];
 }
@@ -74,10 +75,22 @@
     return _modelDAO;
 }
 
+- (OBAModelService*)modelService {
+    if (!_modelService) {
+        _modelService = [OBAApplication sharedApplication].modelService;
+    }
+    return _modelService;
+}
+
 #pragma mark - Data Loading
 
 - (void)buildSections {
     NSMutableArray *sections = [NSMutableArray new];
+
+    OBATableSection *alarmsSection = [self buildAlarmsSection];
+    if (alarmsSection) {
+        [sections addObject:alarmsSection];
+    }
 
     OBATableSection *sharedTripsSection = [self buildSharedTripsSection];
     if (sharedTripsSection) {
@@ -97,6 +110,46 @@
     [self.tableView reloadData];
 }
 
+- (nullable OBATableSection*)buildAlarmsSection {
+    NSArray<OBAAlarm*> *alarms = self.modelDAO.alarms;
+
+    if (alarms.count == 0) {
+        return nil;
+    }
+
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"recent_stops.alarms_section_title", @"Title of the Alarms section in the Recent Stops controller")];
+
+    for (OBAAlarm *alarm in alarms) {
+        OBATableRow *row = [[OBATableRow alloc] initWithTitle:alarm.title action:^{
+            OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:alarm];
+            [self.navigationController pushViewController:controller animated:YES];
+        }];
+        NSInteger minutes = (NSInteger)(alarm.timeIntervalBeforeDeparture / 60);
+        NSString *formattedTime = [OBADateHelpers formatShortTimeNoDate:alarm.scheduledDeparture];
+
+        row.subtitle = [NSString stringWithFormat:NSLocalizedString(@"recent_stops.alarms.subtitle", @"e.g. <10> minutes before <5:02PM> departure (scheduled)"), @(minutes), formattedTime];
+        row.style = UITableViewCellStyleSubtitle;
+        row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+        [row setDeleteModel:^(OBABaseRow *r) {
+            NSURLRequest *request = [self.modelService.obaJsonDataSource requestWithURL:alarm.alarmURL HTTPMethod:@"DELETE"];
+            [self.modelService.obaJsonDataSource performRequest:request completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+                // nop?
+            }];
+            [self.modelDAO removeAlarmWithKey:alarm.alarmKey];
+        }];
+
+        UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:OBAStrings.delete handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+            [self deleteRowAtIndexPath:indexPath];
+        }];
+        [row setRowActions:@[deleteAction]];
+
+        [section addRow:row];
+    }
+
+    return section;
+}
+
 - (nullable OBATableSection*)buildSharedTripsSection {
     NSArray<OBATripDeepLink *> *sharedTrips = self.modelDAO.sharedTrips;
 
@@ -108,7 +161,8 @@
 
     for (OBATripDeepLink *link in sharedTrips) {
         OBATableRow *row = [[OBATableRow alloc] initWithTitle:link.name action:^{
-            [self displayTripDeepLink:link animated:YES];
+            OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:link];
+            [self.navigationController pushViewController:controller animated:YES];
         }];
         row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
@@ -168,13 +222,6 @@
     }
 }
 
-#pragma mark - Deep Links
-
-- (void)displayTripDeepLink:(OBATripDeepLink*)link animated:(BOOL)animated {
-    OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripDeepLink:link];
-    [self.navigationController pushViewController:controller animated:animated];
-}
-
 #pragma mark - OBANavigationTargetAware
 
 - (OBANavigationTarget *)navigationTarget {
@@ -182,8 +229,9 @@
 }
 
 - (void)setNavigationTarget:(OBANavigationTarget *)target {
-    if ([target.object isKindOfClass:[OBATripDeepLink class]]) {
-        [self displayTripDeepLink:target.object animated:NO];
+    if ([target.object conformsToProtocol:@protocol(OBAArrivalAndDepartureConvertible)]) {
+        OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:target.object];
+        [self.navigationController pushViewController:controller animated:YES];
     }
     else if (target.parameters[OBAStopIDNavigationTargetParameter]) {
         NSString *stopID = target.parameters[OBAStopIDNavigationTargetParameter];

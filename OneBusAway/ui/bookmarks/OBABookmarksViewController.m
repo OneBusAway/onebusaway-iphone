@@ -14,9 +14,12 @@
 #import "OBACollapsingHeaderView.h"
 #import "OBABookmarkGroupsViewController.h"
 #import "OBATableCell.h"
+#import "OBASegmentedRow.h"
 
 static NSTimeInterval const kRefreshTimerInterval = 30.0;
 static NSUInteger const kMinutes = 30;
+
+static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDefaultsKey";
 
 @interface OBABookmarksViewController ()
 @property(nonatomic,strong) NSTimer *refreshBookmarksTimer;
@@ -67,6 +70,8 @@ static NSUInteger const kMinutes = 30;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationChanged:) name:OBALocationDidUpdateNotification object:self.locationManager];
+
     NSMutableString *title = [NSMutableString stringWithString:NSLocalizedString(@"msg_bookmarks", @"")];
     if (self.currentRegion) {
         [title appendFormat:@" - %@", self.currentRegion.regionName];
@@ -75,15 +80,28 @@ static NSUInteger const kMinutes = 30;
 
     [self loadData];
 
+    [self refreshBookmarkDepartures:nil];
     [self startTimer];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBALocationDidUpdateNotification object:self.locationManager];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 
     [self cancelTimer];
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
+
+    if (editing) {
+        [self cancelTimer];
+    }
+    else {
+        [self startTimer];
+    }
 }
 
 #pragma mark - OBANavigationTargetAware
@@ -100,6 +118,29 @@ static NSUInteger const kMinutes = 30;
     self.tableFooterView = nil;
 }
 
+- (void)locationChanged:(NSNotification*)note {
+    if (self.editing) {
+        return;
+    };
+
+    [self loadDataWithTableReload:YES];
+}
+
+- (void)reachabilityChanged:(NSNotification*)note {
+    if (self.editing) {
+        return;
+    };
+
+    // Automatically refresh whenever the connection goes from offline -> online
+    if ([OBAApplication sharedApplication].isServerReachable) {
+        [self refreshBookmarkDepartures:nil];
+        [self startTimer];
+    }
+    else {
+        [self cancelTimer];
+    }
+}
+
 #pragma mark - Refresh Bookmarks
 
 - (void)cancelTimer {
@@ -111,7 +152,6 @@ static NSUInteger const kMinutes = 30;
     @synchronized (self) {
         if (!self.refreshBookmarksTimer) {
             self.refreshBookmarksTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimerInterval target:self selector:@selector(refreshBookmarkDepartures:) userInfo:nil repeats:YES];
-            [self refreshBookmarkDepartures:nil];
         }
     }
 }
@@ -207,18 +247,6 @@ static NSUInteger const kMinutes = 30;
     });
 }
 
-#pragma mark - Reachability
-
-- (void)reachabilityChanged:(NSNotification*)note {
-    // Automatically refresh whenever the connection goes from offline -> online
-    if ([OBAApplication sharedApplication].isServerReachable) {
-        [self startTimer];
-    }
-    else {
-        [self cancelTimer];
-    }
-}
-
 #pragma mark - Data Loading
 
 - (void)loadData {
@@ -231,13 +259,21 @@ static NSUInteger const kMinutes = 30;
     // If there are no bookmarks anywhere in the system, ungrouped or otherwise, then skip
     // over this code and instead show the empty table message.
     if (self.modelDAO.bookmarkGroups.count != 0 || self.modelDAO.ungroupedBookmarks.count != 0) {
-        for (OBABookmarkGroup *group in [self.modelDAO.bookmarkGroups sortedArrayUsingSelector:@selector(compare:)]) {
-            OBATableSection *section = [self tableSectionFromBookmarks:group.bookmarks group:group];
-            [sections addObject:section];
-        }
+        [sections addObject:[self buildSegmentedControlSection]];
 
-        OBATableSection *looseBookmarks = [self tableSectionFromBookmarks:self.modelDAO.ungroupedBookmarks group:nil];
-        [sections addObject:looseBookmarks];
+        if ([OBABookmarksViewController sortBookmarksByProximity]) {
+            OBATableSection *section = [self proximitySortedTableSection];
+
+            if (section) {
+                [sections addObject:section];
+            }
+            else {
+                [sections addObjectsFromArray:[self buildGroupedTableSections]];
+            }
+        }
+        else {
+            [sections addObjectsFromArray:[self buildGroupedTableSections]];
+        }
     }
 
     self.sections = sections;
@@ -245,6 +281,59 @@ static NSUInteger const kMinutes = 30;
     if (tableReload) {
         [self.tableView reloadData];
     }
+}
+
+- (NSArray<OBATableSection*>*)buildGroupedTableSections {
+    NSMutableArray *sections = [[NSMutableArray alloc] init];
+    for (OBABookmarkGroup *group in [self.modelDAO.bookmarkGroups sortedArrayUsingSelector:@selector(compare:)]) {
+        OBATableSection *section = [self tableSectionFromBookmarks:group.bookmarks group:group];
+        [sections addObject:section];
+    }
+
+    OBATableSection *looseBookmarks = [self tableSectionFromBookmarks:self.modelDAO.ungroupedBookmarks group:nil];
+    [sections addObject:looseBookmarks];
+
+    return [NSArray arrayWithArray:sections];
+}
+
+- (OBATableSection*)buildSegmentedControlSection {
+    OBASegmentedRow *segmentedControl = [[OBASegmentedRow alloc] initWithSelectionChange:^(NSUInteger selectedIndex) {
+        [[NSUserDefaults standardUserDefaults] setInteger:selectedIndex forKey:OBABookmarkSortUserDefaultsKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self loadDataWithTableReload:YES];
+    }];
+
+    segmentedControl.selectedItemIndex = [[NSUserDefaults standardUserDefaults] integerForKey:OBABookmarkSortUserDefaultsKey];
+
+    NSString *sortGroup = NSLocalizedString(@"bookmarks_controller.sort_by_group_item", @"Segmented control item title: 'Sort by Group'");
+    NSString *sortProximity = NSLocalizedString(@"bookmarks_controller.sort_by_proximity_item", @"Segmented control item title: 'Sort by Proximity'");
+    segmentedControl.items = @[sortGroup, sortProximity];
+
+    OBATableSection *segmentedControlSection = [[OBATableSection alloc] initWithTitle:nil rows:@[segmentedControl]];
+
+    return segmentedControlSection;
+}
+
++ (BOOL)sortBookmarksByProximity {
+    // 1 is the index of the proximity sort item on the segmented control.
+    return [[NSUserDefaults standardUserDefaults] integerForKey:OBABookmarkSortUserDefaultsKey] == 1;
+}
+
+- (nullable OBATableSection*)proximitySortedTableSection {
+    CLLocation *location = self.locationManager.currentLocation;
+
+    if (!location) {
+        return nil;
+    }
+
+    NSArray<OBABookmarkV2*> *bookmarks = [self.modelDAO.bookmarksForCurrentRegion sortedArrayUsingComparator:^NSComparisonResult(OBABookmarkV2 *bm1, OBABookmarkV2 *bm2) {
+        return [OBAMapHelpers getDistanceFrom:bm1.coordinate to:location.coordinate] > [OBAMapHelpers getDistanceFrom:bm2.coordinate to:location.coordinate];
+    }];
+
+    NSArray *rows = [self tableRowsFromBookmarks:bookmarks];
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:rows];
+
+    return section;
 }
 
 #pragma mark - Actions
@@ -350,6 +439,13 @@ static NSUInteger const kMinutes = 30;
     return _modelService;
 }
 
+- (OBALocationManager*)locationManager {
+    if (!_locationManager) {
+        _locationManager = [OBAApplication sharedApplication].locationManager;
+    }
+    return _locationManager;
+}
+
 #pragma mark - Private
 
 /*
@@ -399,7 +495,7 @@ static NSUInteger const kMinutes = 30;
     return section;
 }
 
-- (NSArray*)tableRowsFromBookmarks:(NSArray<OBABookmarkV2*>*)bookmarks {
+- (NSArray<OBABaseRow*>*)tableRowsFromBookmarks:(NSArray<OBABookmarkV2*>*)bookmarks {
     NSMutableArray *rows = [NSMutableArray new];
 
     for (OBABookmarkV2 *bm in bookmarks) {

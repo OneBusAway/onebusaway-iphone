@@ -28,20 +28,7 @@
 @import Foundation;
 @import SystemConfiguration;
 
-//! Project version number for MacOSReachability.
-FOUNDATION_EXPORT double OBAReachabilityVersionNumber;
-
-//! Project version string for MacOSReachability.
-FOUNDATION_EXPORT const unsigned char OBAReachabilityVersionString[];
-
-/** 
- * Create NS_ENUM macro if it does not exist on the targeted version of iOS or OS X.
- *
- * @see http://nshipster.com/ns_enum-ns_options/
- **/
-#ifndef NS_ENUM
-#define NS_ENUM(_type, _name) enum _name : _type _name; enum _name : _type
-#endif
+NS_ASSUME_NONNULL_BEGIN
 
 extern NSString *const kReachabilityChangedNotification;
 
@@ -61,9 +48,9 @@ typedef void (^NetworkReachability)(OBAReachability * reachability, SCNetworkCon
 
 @interface OBAReachability : NSObject
 
-@property (nonatomic, copy) NetworkReachable    reachableBlock;
-@property (nonatomic, copy) NetworkUnreachable  unreachableBlock;
-@property (nonatomic, copy) NetworkReachability reachabilityBlock;
+@property (nonatomic,copy,nullable) NetworkReachable    reachableBlock;
+@property (nonatomic,copy,nullable) NetworkUnreachable  unreachableBlock;
+@property (nonatomic,copy,nullable) NetworkReachability reachabilityBlock;
 
 @property (nonatomic, assign) BOOL reachableOnWWAN;
 
@@ -98,4 +85,8 @@ typedef void (^NetworkReachability)(OBAReachability * reachability, SCNetworkCon
 -(NSString*)currentReachabilityString;
 -(NSString*)currentReachabilityFlags;
 
+@property(class,nonatomic,copy,readonly,nullable) NSString *wifiNetworkName;
+
 @end
+
+NS_ASSUME_NONNULL_END

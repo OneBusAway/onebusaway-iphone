@@ -146,6 +146,9 @@
 /* A switch option's text for enabling and disabling Google Analytics */
 "msg_enable_google_analytics" = "Habilitar Google Analytics";
 
+/* A switch option's text for enabling and disabling App Store review prompts*/
+"msg_allow_app_feedback" = "Preguntarme para comentarios de la aplicación";
+
 /* view.title */
 "msg_error_submitting" = "Error al Enviar";
 
@@ -259,6 +262,12 @@
 
 /* No comment provided by engineer. */
 "msg_no_bookmarks" = "Sin Favoritos";
+
+/* Title of the Alarms section in the Recent Stops controller */
+"recent_stops.alarms_section_title" = "Alarmas";
+
+/* e.g. <10> minutes before <5:02PM> departure (scheduled) */
+"recent_stops.alarms.subtitle" = "%@ minutps antes de las %@ de salida (programada)";
 
 /* No comment provided by engineer. */
 "msg_no_recent_stops" = "Sin Paradas Recientes";
@@ -416,14 +425,8 @@
 /* No comment provided by engineer. */
 "msg_select_or_add_to_group_bookmark" = "Selecciona un grupo para el favorito,\no '+' para adicionarlo en un nuevo grupo.";
 
-/* No comment provided by engineer. */
-"msg_send" = "Enviar";
-
-/* No comment provided by engineer. */
-"msg_send_logs" = "Enviar Logs para Soporte";
-
-/* No comment provided by engineer. */
-"msg_ask_send_logs" = "¿Enviar Logs para Soporte?";
+/* Info tab's table row title for sending logs to support. */
+"info_controller.send_info_to_support_row" = "Enviar Información para Soporte";
 
 /* code # 404 */
 "msg_server_error" = "Error de Servidor";
@@ -462,11 +465,20 @@
 /* Analytics explanation on the Settings view controller. */
 "msg_explanatory_google_analytics" = "Alguna información sobre como usas esta aplicación es enviada a Google Analytics de forma anónima para ayudarnos a entender mejor como mejorar la aplicación. Para conocer más, por favor lee nuestra Política de Privacidad.";
 
+/* App feedback explanation on the Settings view controller. */
+"msg_explanatory_allow_app_feedback" = "También puedes enviarnos tus comentarios la sección Contáctanos en la página anterior.";
+
 /* No comment provided by engineer. */
 "msg_something_went_wrong" = "Algo Salío Mal";
 
 /* Error message displayed to the user when something goes wrong with a just-tapped shared trip. */
 "text_error_cant_show_shared_trip_param" = "Lo sentimos, no podemos mostrar ese viaje compartido. Si esto continua, por favor informanos. Error: %@";
+
+/* Error message title displayed to the user when handoff failed to work. */
+"msg_handoff_failure_title" = "Lo sentimos, Handoff no funciona adecuadamente";
+
+/* Error message body displayed to the user when handoff regions did not match both clients. */
+"msg_handoff_region_mismatch_body" = "Intenta habilitando la opción \"Región Seleccionada Automáticamente\" desde la sección Regiones bajo la pestaña Información para arreglar este problema, y háganoslo saber si esto no funciona.";
 
 /* Title for the Edit Stop Preferences Controller */
 "msg_sort_and_filter_routes" = "Ordenar & Filtrar Rutas";
@@ -502,7 +514,7 @@
 /* name */
 "msg_stop_number_wrong" = "El número de parada está mal";
 
-/* OBASearchTypeRouteStops */
+/* OBASearchTypeStops */
 "msg_stops" = "Paradas";
 
 /* view.title */
@@ -535,14 +547,8 @@
 /* Invalid region error message */
 "msg_alert_custom_region_not_valid" = "La región que ha especificado no es válido. Por favor especificar al menos una dirección URL base (HTTPS) y un nombre.";
 
-/* view.message */
-"msg_problem_internet_connection_on_map" = "Hubo un problema con tu conexión a Internet.\r\n\r\nPor favor, compruebe su conexión a la red o contáctanos si crees que el problema es nuestro.";
-
 /* The footer label on the PIIViewController */
 "msg_explanatory_information_send_on_submit_request" = "Esta información sólo se envía a OneBusAway en el momento de enviar una solicitud de soporte. Puedes desactivar el envío de cualquiera o todos estos datos, pero va a limitar nuestra capacidad para diagnosticar y solucionar los problemas que estás experimentando.";
-
-/* No comment provided by engineer. */
-"msg_explanatory_send_log_data" = "Esto enviará tus datos de log al soporte de la aplicación. Esto es necesario para ayudarnos a diagnosticar fallas. Mira la sección \"Información para Soporte\" para ver que contienen tus logs.";
 
 /* cell.textLabel.text */
 "msg_touch_to_edit" = "Toca para editar";
@@ -567,6 +573,8 @@
 
 /* Title of the Stop UI Controller while it is updating its content. */
 "stops_controller.title.updating" = "Actualizando...";
+
+"stops_controller.cell.add_bookmark_title" = "Favorito";
 
 /* cell.statusLabel.text */
 "msg_mayus_vehicle" = "Vehículo";
@@ -596,7 +604,7 @@
 "msg_visit_us" = "Visitanos";
 
 /* No comment provided by engineer. */
-"text_walk_to_stop_info_params" = "Caminar a la parada: %@ — %.0f min, llegando a las %@.";
+"text_walk_to_stop_info_params" = "%@, %.0f min: llegando a las %@";
 
 /* No comment provided by engineer. */
 "msg_explanatory_no_agencies" = "No hemos podido encontrar agencias de transporte público cerca de tu ubicación actual.";
@@ -722,3 +730,154 @@
 
 /* An accessibility label for the map size toggle button on the Vehicle Map Controller. */
 "vehicle_map_controller.toggle_button_accessibility_label" = "Cambiar el Tamaño del Mapa";
+
+/* The title of the non-modal alert displayed when a push notification alert is registered for a vehicle departure. */
+"alarms.alarm_created_alert_title" = "Alarma Creada";
+
+/* The body of the non-modal alert that appears when a push notification alarm is registered. */
+"alarms.alarm_created_alert_body" = "Recibirás una notificación %@ minutos antes de que este vehículo salga.";
+
+/* The title of the alert controller that prompts the user about whether they really want to delete this alarm. */
+"alarms.confirm_deletion_alert_title" = "¿Estas seguro que quieres borrar esta alarma?";
+
+/* This is the button that confirms that the user really does want to delete their alarm. */
+"alarms.confirm_deletion_alert_delete_button" = "Borrar Alarma";
+
+/* This is the button that cancels the alarm deletion. */
+"alarms.confirm_deletion_alert_cancel_button" = "Mantener la Alarma";
+
+/* The title of the picker view that lets you choose how many minutes before your bus departs you will get an alarm. */
+"alarms.picker.title" = "Alertarme";
+
+/* The format string used for picker items for choosing when an alarm should ring. */
+"alarms.picker.formatted_item" = "%@ minutos antes";
+
+/* Error message displayed to the user when something goes wrong with a just-tapped notification. */
+"notifications.error_messages.formatted_cant_display" = "Lo sentinos, no podemos mostrarte ese viaje compartido. Si esto continúa, por favor háganoslo saber. Error: %@";
+
+/* A switch option's text for enabling and disabling crash reporting */
+"settings.crash_reporting.switch_text" = "Habilitar informe de fallos";
+
+/* Crash reporting explanation on the Settings view controller. */
+"settings.crash_reporting.footer" = "Podemos diagnosticar y arreglar los fallos más eficazmente cuando nos permites recibirlos.";
+
+/* This is the ... button shown on the right side of a departure cell. Tapping it shows a menu with more options. */
+"classic_departure_cell.context_button_accessibility_label" = "Opciones";
+
+/* Title for the context menu button's alert controller. */
+"classic_departure_cell.context_alert.title" = "Opciones para Llegadas & Salidas";
+
+/* Title for alert controller's Set Alarm option. */
+"classic_departure_cell.context_alert.set_alarm" = "Establecer Alarma";
+
+/* Title for alert controller's Remove Alarm option. */
+"classic_departure_cell.context_alert.remove_alarm" = "Quitar Alarma";
+
+/* Title for alert controller's Share Trip Status option. */
+"classic_departure_cell.context_alert.share_trip_status" = "Compartir estado del Viaje";
+
+/* Error message displayed when the user is connecting to a Wi-Fi captive portal landing page. */
+"alert_presenter.captive_wifi_portal_error_message" = "No obtuvimos la respuesta esperada del servidor.\r\n\r\nPor lo general, esto significa que está conectado a una red Wi-Fi que requiere que hagas algo para acceder a Internet.\r\n\r\nVerifica tu conexión Wi-Fi e inténtelo de nuevo.";
+
+/* Returned by -[OBATripStatusV2 subtitle] when no real time data is available. */
+"trip_status.no_realtime_data_message" = "Datos en Tiempo Real no disponibles.";
+
+/* e.g. Last report: 2m 43s ago */
+"trip_status.last_report_format" = "Último reporte: hace %@m %@s";
+
+/* The empty data set description for the search controller */
+"map_search.empty_data_set_description" = "Escriba una dirección, número de ruta o número de parada aquí para buscar.";
+
+
+/* The section title on the 'Nearby' controller that says 'Routes' */
+"nearby_stops.routes_section_title" = "Rutas";
+
+/* Map Search: Quick Lookup Table Section */
+"map_search.quick_lookup_section_title" = "Búsqueda Rápida";
+
+/* 'Search for Route:' */
+"map_search.search_for_route" = "Ruta:";
+
+/* "Search for Address:" */
+"map_search.search_for_address" = "Dirección:";
+
+/* Formatted string for Search for Stop Number: */
+"map_search.search_for_stop_number" = "Número de Parada:";
+
+/* Map Search: Recent Stops section title */
+"map_search.recent_stops_section_title" = "Paradas Recientes";
+
+/* Map Search: Bookmarks section title */
+"map_search.bookmarks_section_title" = "Favoritos";
+
+/* Clear Search button text */
+"toast_view.clear_search" = "Limpiar Búsqueda";
+
+/* Message shown when debug mode is turned on */
+"info_controller.debug_mode_enabled" = "Modo de depuración activado.";
+
+/* Message shown when debug mode is turned off */
+"info_controller.debug_mode_disabled" = "Modo de depuración desactivado.";
+
+/* Title of the Experimental Regions section in the Region List view controller. */
+"region_list_controller.experimental_section_title" = "Regiones Experimentales";
+
+/* Title for the Updates & Alerts section */
+"info_controller.updates_alerts_section_title" = "Actualizaciones & Alertas";
+
+/* Title for Updates & Alerts row. e.g. Alerts for <Region Name> */
+"info_controller.updates_alerts_row_format" = "Alertas para %@";
+
+/* Alerts for <REGION NAME> */
+"regional_alerts_controller.title_format" = "Alertas para %@";
+
+/* Empty data set description for regional alerts controller */
+"regional_alerts_controller.empty_description" = "Sin alertas reportada para tu área.";
+
+/* Title for a section that displays stops without a specified cardinal direction. Just 'Stops' in English. */
+"nearby_stops.stops_section_title" = "Paradas";
+
+/* Segmented control item title: 'Sort by Group' */
+"bookmarks_controller.sort_by_group_item" = "Ordenar por Grupo";
+
+/* Segmented control item title: 'Sort by Proximity' */
+"bookmarks_controller.sort_by_proximity_item" = "Ordenar por Proximidad";
+
+/* "Title of the Onboarding Controller. 'Welcome to OneBusAway!' */
+"onboarding_controller.title" = "¡Bienvenido a OneBusAway!";
+
+/* Body text of the Onboarding Controller. */
+"onboarding_controller.body_text" = "OneBusAway es una aplicación de código abierto y gestionada por voluntarios que te ayuda a averigurar donde están tus buses, trenes, transbordadores, y mas en tiempo real.\r\n\r\nLa aplicación trabaja mejor cuando puede encontrar tu ubicación.\r\n\r\nPor favor, toque el botón de abajo para comenzar.";
+
+/* Bottom button on the Onboarding Controller */
+"onboarding_controller.request_location_permissions_button" = "Empezar";
+
+/* Title for the user defaults browser */
+"user_defaults_browser_controller.title" = "Opciones de Usuario";
+
+/* The table section title for the debugging tools. */
+"info_controller.debug_section_title" = "Herramientas de Depuración";
+
+/* Row title for the Browse User Defaults action */
+"info_controller.browse_user_defaults_row" = "Examinar las Opciones de Usuario";
+
+/* Error title displayed when the stop ID provided doesn't match a known stop ID. */
+"map_controller.no_matching_stop_warning_title" = "Paradas No Encontradas";
+
+/* Error message displayed when the stop ID provided doesn't match a known stop ID. */
+"map_controller.no_matching_stop_warning_body" = "No hemos podido encontrar una parada que coincida con el ID que proporcionaste. Por favor, combrueba tu número e inténtalo nuevamente.";
+
+/* Error message shown when the user denies the app the ability to send push notifications. */
+"push_manager.authorization_denied" = "Las Alarmas solo funcionan cuando las notificaciones push estan permitidas.";
+
+/* 'Send Logs' action sheet item on the Info tab */
+"info_controller.send_logs" = "Enviar Logs";
+
+/* Info controller 'send info' action sheet option for sending user defaults */
+"info_controller.send_user_defaults" = "Enviar Preferencias";
+
+/* Info tab log data explanation is used on an action sheet as a description of what the options do. */
+"info_controller.send_log_data_explanation" = "Esto enviará tus datos de log y preferencias al soporte de la aplicación. Esto puede ser necesario para ayudar a diagnosticar fallos. Mira la sección 'Información para Soporte' para ver que contienen tus logs.";
+
+/* Mark All as Read toolbar button title */
+"regional_alerts_controller.mark_all_as_read" = "Marcar Todas como Leídas";

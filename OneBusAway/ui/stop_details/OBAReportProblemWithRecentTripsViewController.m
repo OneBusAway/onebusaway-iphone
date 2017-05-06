@@ -49,7 +49,7 @@
     }).always(^{
         [SVProgressHUD dismiss];
     }).catch(^(NSError *error) {
-        [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription ?: NSLocalizedString(@"msg_error_min_connecting", @"requestDidFail")];
+        [AlertPresenter showError:error];
     });
 }
 
@@ -95,7 +95,7 @@
     }).always(^{
         [SVProgressHUD dismiss];
     }).catch(^(NSError *error) {
-        [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription ?: NSLocalizedString(@"msg_error_loading_trip",)];
+        [AlertPresenter showError:error];
     });
 }
 

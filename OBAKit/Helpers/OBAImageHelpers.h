@@ -13,6 +13,15 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OBAImageHelpers : NSObject
 
 /**
+ Converts degrees to radians.
+ TODO: create an OBAMath helper and move this in there!
+
+ @param degrees Number of degrees
+ @return Equivalent in radians
+ */
++ (CGFloat)degreesToRadians:(CGFloat)degrees;
+
+/**
  Overlays the image parameter with the specified color using the multiply blend mode.
 
  @param image The image object that will have a color overlay applied to it.
@@ -44,15 +53,15 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage*)circleImageWithSize:(CGSize)size contents:(nullable UIImage*)image;
 
 /**
- Creates a circle of the specified size in light gray color, optionally compositing an
+ Creates a circle of the specified size in the specified color, optionally compositing an
  image in to the center.
 
  @param size Size of the circle
  @param image The image to composite into the center
- @param backgroundColor The interior color of the circle. Defaults to white if nil.
+ @param strokeColor The interior color of the circle. Defaults to light gray if nil.
  @return A circle with an optionally composited image
  */
-+ (UIImage*)circleImageWithSize:(CGSize)size contents:(nullable UIImage*)image backgroundColor:(nullable UIColor*)backgroundColor;
++ (UIImage*)circleImageWithSize:(CGSize)size contents:(nullable UIImage*)image strokeColor:(nullable UIColor*)strokeColor;
 
 /**
  Rotates the supplied UIImage by the specified number of degrees.

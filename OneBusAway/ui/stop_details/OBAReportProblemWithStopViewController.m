@@ -324,7 +324,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         [SVProgressHUD dismiss];
 
         if (error || !responseData) {
-            [AlertPresenter showWarning:OBAStrings.error body:error.localizedDescription];
+            [AlertPresenter showError:error];
             return;
         }
 

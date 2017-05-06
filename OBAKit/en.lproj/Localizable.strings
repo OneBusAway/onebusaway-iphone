@@ -16,6 +16,9 @@
 /* Typically used on alerts and other modal actions. A 'cancel' button. */
 "msg_cancel" = "Cancel";
 
+/* The text 'Close' */
+"strings.close" = "Close";
+
 /* No comment provided by engineer. */
 "msg_cellular" = "Cellular";
 
@@ -27,6 +30,9 @@
 
 /* As in 'edit object'. */
 "msg_edit" = "Edit";
+
+/* Generic error used for situations that shouldn't happen. Asks user to contact us. */
+"errors.inexplicable_error" = "Oops, you've run into a problem that we didn't think could occur. Please contact us with any information about how you ended up in this situation. Sorry!";
 
 /* The text 'Error' */
 "msg_error" = "Error";
@@ -123,3 +129,33 @@
 
 /* e.g. 'departs 12 min late'. Note the future tense */
 "departure_cell_helpers.departs_x_min_late" = "departs %@ min late";
+
+/* e.g. Route: <Route Number> */
+"navigation_target.search_query.route_format" = "Search for Route: %@";
+
+/* OBASearchTypePending. Rendered as 'Pending' in English. */
+"search_type.pending" = "Pending";
+
+/* OBASearchTypeRegion. Rendered as 'Region' in English. */
+"search_type.region" = "Region";
+
+/* OBASearchTypeRoute. Rendered as 'Route' in English. */
+"search_type.route" = "Route";
+
+/* OBASearchTypeStops. Rendered as 'Stops' in English. */
+"search_type.stops" = "Stops";
+
+/* OBASearchTypeAddress. Rendered as 'Address' in English. */
+"search_type.address" = "Address";
+
+/* OBASearchTypePlacemark. Rendered as 'Placemark' in English. */
+"search_type.placemark" = "Placemark";
+
+/* OBASearchTypeStopId. Rendered as 'Stop ID' in English. */
+"search_type.stop_id" = "Stop ID";
+
+/* The word 'yesterday' */
+"strings.yesterday" = "Yesterday";
+
+/* The text 'Read More…' (note that is an ellipsis, not three dots…) */
+"strings.read_more" = "Read More…";

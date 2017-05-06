@@ -31,7 +31,7 @@ typedef NS_ENUM(NSUInteger, MarqueeType) {
  */
 
 IB_DESIGNABLE
-@interface MarqueeLabel : UILabel
+@interface MarqueeLabel : UILabel <CAAnimationDelegate>
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @name Creating MarqueeLabels
