@@ -363,6 +363,7 @@ static NSInteger kStopsSectionTag = 101;
     NSURLRequest *request = [self.modelService.obaJsonDataSource requestWithURL:alarm.alarmURL HTTPMethod:@"DELETE"];
     [self.modelService.obaJsonDataSource performRequest:request completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
         [self.modelDAO removeAlarmWithKey:dep.alarmKey];
+        [self reloadDataAnimated:NO];
     }];
 }
 
@@ -375,7 +376,7 @@ static NSInteger kStopsSectionTag = 101;
     }).then(^(NSDictionary *serverResponse) {
         alarm.alarmURL = [NSURL URLWithString:serverResponse[@"url"]];
         [self.modelDAO addAlarm:alarm];
-
+        [self reloadDataAnimated:NO];
         NSString *title = NSLocalizedString(@"alarms.alarm_created_alert_title", @"The title of the non-modal alert displayed when a push notification alert is registered for a vehicle departure.");
         NSString *body = [NSString stringWithFormat:NSLocalizedString(@"alarms.alarm_created_alert_body", @"The body of the non-modal alert that appears when a push notification alarm is registered."), @((NSUInteger)timeInterval / 60)];
 
