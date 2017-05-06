@@ -43,6 +43,7 @@ static UIFont *_italicFootnoteFont = nil;
     [[UITabBar appearance] setTintColor:tintColor];
     [[UITextField appearance] setTintColor:tintColor];
     [[UIButton appearance] setTintColor:tintColor];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: tintColor } forState:UIControlStateNormal];
     [[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateNormal];
     [[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateSelected];
     [[UISegmentedControl appearanceWhenContainedInInstancesOfClasses:@[UINavigationBar.class]] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor blackColor] } forState:UIControlStateNormal];
