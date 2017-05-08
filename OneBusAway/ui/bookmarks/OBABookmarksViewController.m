@@ -15,6 +15,7 @@
 #import "OBABookmarkGroupsViewController.h"
 #import "OBATableCell.h"
 #import "OBASegmentedRow.h"
+#import <Masonry/Masonry.h>
 
 static NSTimeInterval const kRefreshTimerInterval = 30.0;
 static NSUInteger const kMinutes = 30;
@@ -72,16 +73,46 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationChanged:) name:OBALocationDidUpdateNotification object:self.locationManager];
 
-    NSMutableString *title = [NSMutableString stringWithString:NSLocalizedString(@"msg_bookmarks", @"")];
-    if (self.currentRegion) {
-        [title appendFormat:@" - %@", self.currentRegion.regionName];
-    }
-    self.navigationItem.title = title;
+//    NSMutableString *title = [NSMutableString stringWithString:NSLocalizedString(@"msg_bookmarks", @"")];
+//    if (self.currentRegion) {
+//        [title appendFormat:@" - %@", self.currentRegion.regionName];
+//    }
 
     [self loadData];
-
+    [self createNavBarTitleView];
     [self refreshBookmarkDepartures:nil];
     [self startTimer];
+}
+
+- (void)createNavBarTitleView
+{
+    if (!self.currentRegion) {
+        self.navigationItem.title = NSLocalizedString(@"msg_bookmarks", @"");
+        return;
+    }
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
+    titleView.backgroundColor = [UIColor redColor];
+    UILabel *titleLabel = [[UILabel alloc] init];
+    UILabel *subtitleLabel = [[UILabel alloc] init];
+    [titleView addSubview:titleLabel];
+    [titleView addSubview:subtitleLabel];
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(titleView);
+        make.top.equalTo(titleView).offset(5);
+        make.bottom.equalTo(subtitleLabel.mas_top);
+    }];
+   
+    [subtitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(titleView);
+    }];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    subtitleLabel.font = [UIFont systemFontOfSize:20];
+    subtitleLabel.textAlignment = NSTextAlignmentCenter;
+    subtitleLabel.font = [UIFont systemFontOfSize:12];
+    titleLabel.text = NSLocalizedString(@"msg_bookmarks", @"");
+    subtitleLabel.text = [NSString stringWithFormat:@"Region - %@", self.currentRegion.regionName];
+  
+    self.navigationItem.titleView = titleView;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
