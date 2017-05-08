@@ -159,3 +159,6 @@
 
 /* The text 'Read More…' (note that is an ellipsis, not three dots…) */
 "strings.read_more" = "Leer Más…";
+
+/* An error displayed to the user when their alarm can't be created. */
+"model_service.cant_register_alarm_missing_parameters" = "Lo siento, no pudimos crear una alarma para este próximo viaje. Puedes intentarlo de nuevo, pero probablemente no hará ninguna diferencia. Lo sentimos por eso :(";
