@@ -108,7 +108,11 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
     NSString *SSID = nil;
     if (networkInfo) {
-        SSID = [NSString stringWithString:networkInfo[(NSString*)kCNNetworkInfoKeySSID]];
+        NSString *SSIDTheirs = networkInfo[(NSString*)kCNNetworkInfoKeySSID];
+
+        if (SSIDTheirs) {
+            SSID = [NSString stringWithString:SSIDTheirs];
+        }
     }
 
     CFRelease(supportedInterfaces);

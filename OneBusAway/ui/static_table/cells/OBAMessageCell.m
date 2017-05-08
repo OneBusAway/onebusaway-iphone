@@ -112,15 +112,7 @@ static CGFloat const kAccessoryWidth = 12.f;
     self.senderLabel.text = [self messageRow].sender;
     self.subjectLabel.text = [self messageRow].subject;
 
-    if ([self messageRow].date.isToday) {
-        self.dateLabel.text = [OBADateHelpers formatShortTimeNoDate:[self messageRow].date];
-    }
-    else if ([self messageRow].date.isYesterday) {
-        self.dateLabel.text = OBAStrings.yesterday;
-    }
-    else {
-        self.dateLabel.text = [OBADateHelpers formatNoTimeShortDate:self.messageRow.date];
-    }
+    [self configureDateLabelForDate:self.messageRow.date];
 
     self.unreadImageView.alpha = [self messageRow].unread ? 1.f : 0.f;
 
@@ -132,6 +124,23 @@ static CGFloat const kAccessoryWidth = 12.f;
     if ([self messageRow].highPriority) {
         self.priorityLabel.text = @"!";
         self.priorityLabel.accessibilityLabel = NSLocalizedString(@"message_cell.high_priority", @"accessibility label with the text 'high priority'.");
+    }
+}
+
+- (void)configureDateLabelForDate:(nullable NSDate*)date {
+    if (![self messageRow].date) {
+        self.dateLabel.text = nil;
+        return;
+    }
+
+    if ([self messageRow].date.isToday) {
+        self.dateLabel.text = [OBADateHelpers formatShortTimeNoDate:[self messageRow].date];
+    }
+    else if ([self messageRow].date.isYesterday) {
+        self.dateLabel.text = OBAStrings.yesterday;
+    }
+    else {
+        self.dateLabel.text = [OBADateHelpers formatNoTimeShortDate:self.messageRow.date];
     }
 }
 
