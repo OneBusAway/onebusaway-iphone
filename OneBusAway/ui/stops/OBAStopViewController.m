@@ -501,6 +501,7 @@ static NSInteger kStopsSectionTag = 101;
         row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
         row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
         row.hasArrived = dep.minutesUntilBestDeparture > 0;
+		
         [row setShowAlertController:^(UIView *presentingView, UIAlertController *alert) {
             [self showAlertController:alert fromView:presentingView];
         }];
@@ -582,6 +583,7 @@ static NSInteger kStopsSectionTag = 101;
         row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
         row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
         row.hasArrived = dep.minutesUntilBestDeparture > 0;
+
         [row setShowAlertController:^(UIView *presentingView, UIAlertController *alert) {
             [self showAlertController:alert fromView:presentingView];
         }];
