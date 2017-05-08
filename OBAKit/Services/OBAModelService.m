@@ -213,7 +213,8 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (AnyPromise*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestAlarm:alarm userPushNotificationID:userPushNotificationID completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+
+        id request = [self requestAlarm:alarm userPushNotificationID:userPushNotificationID completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
             if (responseData) {
                 resolve(responseData);
             }
@@ -221,10 +222,38 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
                 resolve(error);
             }
         }];
+
+        if (!request) {
+            resolve([NSError errorWithDomain:OBAErrorDomain code:OABErrorCodeMissingMethodParameters userInfo:@{NSLocalizedDescriptionKey: OBALocalized(@"model_service.cant_register_alarm_missing_parameters", @"An error displayed to the user when their alarm can't be created.")}]);
+        }
     }];
 }
 
-- (id<OBAModelServiceRequest>)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion {
+- (nullable id<OBAModelServiceRequest>)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion {
+
+    OBAGuard(alarm.timeIntervalBeforeDeparture > 0) else {
+        return nil;
+    }
+
+    OBAGuard(alarm.stopID) else {
+        return nil;
+    }
+
+    OBAGuard(alarm.tripID) else {
+        return nil;
+    }
+
+    OBAGuard(alarm.serviceDate != 0) else {
+        return nil;
+    }
+
+    OBAGuard(alarm.vehicleID) else {
+        return nil;
+    }
+
+    OBAGuard(userPushNotificationID) else {
+        return nil;
+    }
 
     NSDictionary *params = @{
                              @"seconds_before": @(alarm.timeIntervalBeforeDeparture),
