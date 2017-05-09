@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OBAMessageRow : OBABaseRow
 @property(nonatomic,copy) NSString *sender;
 @property(nonatomic,copy) NSString *subject;
-@property(nonatomic,copy) NSDate *date;
+@property(nonatomic,copy,nullable) NSDate *date;
 @property(nonatomic,assign) BOOL unread;
 @property(nonatomic,assign) BOOL highPriority;
 @end

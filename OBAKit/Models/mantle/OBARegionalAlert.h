@@ -9,6 +9,8 @@
 @import Foundation;
 @import Mantle;
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSUInteger, OBARegionalAlertPriority) {
     OBARegionalAlertPriorityNormal=0,
     OBARegionalAlertPriorityHigh
@@ -23,6 +25,8 @@ typedef NS_ENUM(NSUInteger, OBARegionalAlertPriority) {
 @property(nonatomic,copy) NSString *summary;
 @property(nonatomic,copy) NSURL *URL;
 @property(nonatomic,assign) NSUInteger alertFeedID;
-@property(nonatomic,copy) NSDate *publishedAt;
+@property(nonatomic,copy,nullable) NSDate *publishedAt;
 @property(nonatomic,copy) NSString *externalID;
 @end
+
+NS_ASSUME_NONNULL_END

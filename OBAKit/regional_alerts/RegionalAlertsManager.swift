@@ -132,7 +132,10 @@ import CocoaLumberjackSwift
         mergedModels.append(contentsOf: modelMap.values)
 
         mergedModels.sort { (alert1, alert2) -> Bool in
-            return (alert1.publishedAt >= alert2.publishedAt)
+            let date1 = alert1.publishedAt ?? Date()
+            let date2 = alert2.publishedAt ?? Date()
+
+            return date1 >= date2
         }
 
         return mergedModels
