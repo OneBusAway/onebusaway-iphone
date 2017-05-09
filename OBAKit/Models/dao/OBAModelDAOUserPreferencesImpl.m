@@ -33,7 +33,7 @@ NSString * const kOBARegionKey = @"oBARegion";
 NSString * const kCustomRegionsKey = @"customRegions";
 NSString * const kSharedTripsKey = @"sharedTrips";
 NSString * const kAlarmsKey = @"AlarmsKey";
-NSString * const kSetRegionAutomaticallyKey = @"setRegionAutomatically";
+NSString * const OBASetRegionAutomaticallyKey = @"OBASetRegionAutomaticallyUserDefaultsKey";
 NSString * const kUngroupedBookmarksOpenKey = @"UngroupedBookmarksOpen";
 NSString * const OBAShareRegionPIIUserDefaultsKey = @"OBAShareRegionPIIUserDefaultsKey";
 NSString * const OBAShareLocationPIIUserDefaultsKey = @"OBAShareLocationPIIUserDefaultsKey";
@@ -136,11 +136,11 @@ NSString * const OBAShareLogsPIIUserDefaultsKey = @"OBAShareLogsPIIUserDefaultsK
 }
 
 - (BOOL)readSetRegionAutomatically {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:kSetRegionAutomaticallyKey];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:OBASetRegionAutomaticallyKey];
 }
 
 - (void)writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
-    [[NSUserDefaults standardUserDefaults] setBool:setRegionAutomatically forKey:kSetRegionAutomaticallyKey];
+    [[NSUserDefaults standardUserDefaults] setBool:setRegionAutomatically forKey:OBASetRegionAutomaticallyKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
