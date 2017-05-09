@@ -87,7 +87,7 @@
 - (void)refreshCurrentRegionData {
     OBARegionV2 *currentRegion = self.modelDAO.currentRegion;
 
-    if (!currentRegion && self.locationManager.hasRequestedInUseAuthorization) {
+    if (!currentRegion) {
         [self.delegate regionHelperShowRegionListController:self];
         return;
     }
