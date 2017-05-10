@@ -160,8 +160,14 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
             self.modelDAO.automaticallySelectRegion = !self.modelDAO.automaticallySelectRegion
 
             if (self.modelDAO.automaticallySelectRegion) {
-                OBAApplication.shared().regionHelper.refreshData()
-                SVProgressHUD.show()
+                if let refresh = OBAApplication.shared().regionHelper.refreshData() {
+                    SVProgressHUD.show()
+                    refresh.then { _ -> Void in
+                        // no-op?
+                    }.always {
+                        SVProgressHUD.dismiss()
+                    }
+                }
             }
             else {
                 self.loadData()
