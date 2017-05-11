@@ -81,11 +81,13 @@
     [alert addAction:action];
 
     // Set Alarm
-    action = [UIAlertAction actionWithTitle:[self alarmButtonTitle] style:UIAlertActionStyleDefault handler:^(UIAlertAction *a) {
-        [self toggleAlarm];
-    }];
-    [action setValue:[UIImage imageNamed:@"bell"] forKey:@"image"];
-    [alert addAction:action];
+    if ([self departureRow].hasArrived) {
+        action = [UIAlertAction actionWithTitle:[self alarmButtonTitle] style:UIAlertActionStyleDefault handler:^(UIAlertAction *a) {
+            [self toggleAlarm];
+        }];
+        [action setValue:[UIImage imageNamed:@"bell"] forKey:@"image"];
+        [alert addAction:action];
+    }
 
     action = [UIAlertAction actionWithTitle:NSLocalizedString(@"classic_departure_cell.context_alert.share_trip_status", @"Title for alert controller's Share Trip Status option.") style:UIAlertActionStyleDefault handler:^(UIAlertAction *a) {
         [self shareDeparture];
