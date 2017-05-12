@@ -884,3 +884,9 @@
 
 /* Mark All as Read toolbar button title */
 "regional_alerts_controller.mark_all_as_read" = "Mark All as Read";
+
+/* This is the '...' button in the stop header view. */
+"stop_header_view.menu_button_accessibility_label" = "More Options";
+
+/* This is the Filter button in the stop header view. */
+"stop_header_view.filter_button_accessibility_label" = "Filter & Sort Routes";
