@@ -238,9 +238,17 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
 
         if annotationView == nil {
             annotationView = SVPulsingAnnotationView.init(annotation: vehicle, reuseIdentifier: identifier, size: CGSize(width: 32, height: 32))
-            annotationView?.annotationColor = OBATheme.obaDarkGreen
             annotationView?.canShowCallout = true
             annotationView?.headingImage = UIImage(named: "vehicleHeading")
+        }
+
+        if vehicle.predicted {
+            annotationView?.annotationColor = OBATheme.obaDarkGreen
+            annotationView?.delayBetweenPulseCycles = 0
+        }
+        else {
+            annotationView?.annotationColor = UIColor.lightGray
+            annotationView?.delayBetweenPulseCycles = Double.infinity
         }
 
         // n.b. The coordinate system that Core Graphics uses on iOS for transforms is backwards from what
@@ -252,5 +260,4 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
 
         return annotationView
     }
-
 }

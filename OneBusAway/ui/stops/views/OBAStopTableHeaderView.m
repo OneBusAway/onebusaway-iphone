@@ -112,6 +112,7 @@
             options.region = [OBAMapHelpers coordinateRegionWithCenterCoordinate:self.stop.coordinate zoomLevel:15 viewSize:squareSize];
             options.size = squareSize;
             options.scale = [[UIScreen mainScreen] scale];
+            options.mapType = [[NSUserDefaults standardUserDefaults] integerForKey:OBAMapSelectedTypeDefaultsKey];
             [[MKMapSnapshotter alloc] initWithOptions:options];
         });
 

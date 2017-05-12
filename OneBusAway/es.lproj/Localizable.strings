@@ -248,6 +248,9 @@
 /* self.listBarButtonItem.accessibilityLabel */
 "msg_nearby_stops_list" = "Lista de pardas cercanas";
 
+/* Title of the the Nearby Stops controller when it's in disambiguation mode. In English, this is just the word 'Disambiguate'. */
+"nearby_stops.disambiguation_title" = "Desambiguar";
+
 /* Out of range alert Cancel button */
 "msg_no" = "No";
 
