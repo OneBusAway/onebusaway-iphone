@@ -21,6 +21,7 @@ extern const DDLogLevel ddLogLevel;
 @interface OBALogging : NSObject
 @property(nonatomic,strong,readonly) OBAConsoleLogger *consoleLogger;
 - (NSArray<NSData*>*)logFileData;
+- (instancetype)initWithLoggers:(nullable NSArray*)loggers;
 @end
 
 NS_ASSUME_NONNULL_END

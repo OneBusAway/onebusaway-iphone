@@ -500,7 +500,8 @@ static NSInteger kStopsSectionTag = 101;
         row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
         row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
         row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
-
+        row.hasArrived = dep.minutesUntilBestDeparture > 0;
+		
         [row setShowAlertController:^(UIView *presentingView, UIAlertController *alert) {
             [self showAlertController:alert fromView:presentingView];
         }];
@@ -581,6 +582,7 @@ static NSInteger kStopsSectionTag = 101;
         row.model = dep;
         row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
         row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
+        row.hasArrived = dep.minutesUntilBestDeparture > 0;
 
         [row setShowAlertController:^(UIView *presentingView, UIAlertController *alert) {
             [self showAlertController:alert fromView:presentingView];
