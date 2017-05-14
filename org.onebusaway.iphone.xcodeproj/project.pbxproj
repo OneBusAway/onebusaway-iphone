@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5B7C4A5A1DB96E6A00853DD5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */; };
+		6B24C8761EC7F99E00A1F7B7 /* OBANavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B24C8751EC7F99E00A1F7B7 /* OBANavigationTitleView.m */; };
 		930653D71E6DE293005AF0C9 /* OBAToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930653D61E6DE293005AF0C9 /* OBAToastView.m */; };
 		930653DD1E6F83F0005AF0C9 /* Apptentive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930653DC1E6F83F0005AF0C9 /* Apptentive.framework */; };
 		930AFE781DD04CCA0092AE82 /* OBADepartureRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE751DD04CCA0092AE82 /* OBADepartureRow.m */; };
@@ -256,6 +257,8 @@
 		1D6058910D05DD3D006BFB54 /* OneBusAway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneBusAway.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B175F3F1DE3806300F9E93C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5B7C4A5B1DB96E6A00853DD5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6B24C8741EC7F99E00A1F7B7 /* OBANavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTitleView.h; sourceTree = "<group>"; };
+		6B24C8751EC7F99E00A1F7B7 /* OBANavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTitleView.m; sourceTree = "<group>"; };
 		930653D51E6DE293005AF0C9 /* OBAToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAToastView.h; sourceTree = "<group>"; };
 		930653D61E6DE293005AF0C9 /* OBAToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAToastView.m; sourceTree = "<group>"; };
 		930653DC1E6F83F0005AF0C9 /* Apptentive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apptentive.framework; path = Carthage/Build/iOS/Apptentive.framework; sourceTree = "<group>"; };
@@ -1023,6 +1026,8 @@
 				934197671DB0C140004BBBB7 /* OBAApplicationUI.h */,
 				934197681DB0C140004BBBB7 /* OBAClassicApplicationUI.h */,
 				934197691DB0C140004BBBB7 /* OBAClassicApplicationUI.m */,
+				6B24C8741EC7F99E00A1F7B7 /* OBANavigationTitleView.h */,
+				6B24C8751EC7F99E00A1F7B7 /* OBANavigationTitleView.m */,
 			);
 			path = themes;
 			sourceTree = "<group>";
@@ -1784,6 +1789,7 @@
 				934197A31DB0C140004BBBB7 /* OBATableRow.m in Sources */,
 				934197A91DB0C140004BBBB7 /* OBAReportProblemWithStopViewController.m in Sources */,
 				9341981D1DB0C1BA004BBBB7 /* OBALabelAndSwitchTableViewCell.m in Sources */,
+				6B24C8761EC7F99E00A1F7B7 /* OBANavigationTitleView.m in Sources */,
 				934198191DB0C1BA004BBBB7 /* OBAMapActivityIndicatorView.m in Sources */,
 				934197BE1DB0C140004BBBB7 /* OBAVehicleDetailsController.m in Sources */,
 				934197BC1DB0C140004BBBB7 /* OBATripScheduleMapViewController.m in Sources */,
