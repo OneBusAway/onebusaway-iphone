@@ -259,6 +259,7 @@
 		5B7C4A5B1DB96E6A00853DD5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6B24C8741EC7F99E00A1F7B7 /* OBANavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTitleView.h; sourceTree = "<group>"; };
 		6B24C8751EC7F99E00A1F7B7 /* OBANavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTitleView.m; sourceTree = "<group>"; };
+		6B24C87C1EC821A900A1F7B7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		930653D51E6DE293005AF0C9 /* OBAToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAToastView.h; sourceTree = "<group>"; };
 		930653D61E6DE293005AF0C9 /* OBAToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAToastView.m; sourceTree = "<group>"; };
 		930653DC1E6F83F0005AF0C9 /* Apptentive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apptentive.framework; path = Carthage/Build/iOS/Apptentive.framework; sourceTree = "<group>"; };
@@ -1897,6 +1898,7 @@
 			children = (
 				5B7C4A5B1DB96E6A00853DD5 /* es */,
 				5B175F3F1DE3806300F9E93C /* en */,
+				6B24C87C1EC821A900A1F7B7 /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			path = OneBusAway;
