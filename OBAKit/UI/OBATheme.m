@@ -7,6 +7,8 @@
 //
 
 #import <OBAKit/OBATheme.h>
+#import <UIKit/UIKit.h>
+#import <Masonry/Masonry.h>
 
 static CGFloat const kMaxFontSize = 24.f;
 
@@ -50,6 +52,43 @@ static UIFont *_italicFootnoteFont = nil;
 
     [[UITableViewCell appearance] setPreservesSuperviewLayoutMargins:YES];
     [[[UITableViewCell appearance] contentView] setPreservesSuperviewLayoutMargins:YES];
+}
+
++ (UIView *)createNavbarTitleViewWithTitle:(NSString *)title subtitle:(NSString *)subtitle andStyle:(OBAAppearanceNavBarTitleViewStyle)style {
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, 44)];
+    UILabel *titleLabel = [[UILabel alloc] init];
+    UILabel *subtitleLabel = [[UILabel alloc] init];
+    [titleView addSubview:titleLabel];
+    [titleView addSubview:subtitleLabel];
+    switch (style) {
+        case OBAAppearanceNavBarTitleViewStyleDefault:
+        {
+            [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerX.centerY.equalTo(titleView);
+            }];
+            titleLabel.textAlignment = NSTextAlignmentCenter;
+            titleLabel.font = [UIFont boldSystemFontOfSize:18];
+            titleLabel.text = title;
+            break;
+        }
+        case OBAAppearanceNavBarTitleViewStyleSubtitle:
+            [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.equalTo(titleView);
+                make.top.equalTo(titleView).offset(5);
+                make.bottom.equalTo(subtitleLabel.mas_top);
+            }];
+            [subtitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.equalTo(titleView);
+            }];
+            titleLabel.textAlignment = NSTextAlignmentCenter;
+            titleLabel.font = [UIFont systemFontOfSize:16];
+            subtitleLabel.textAlignment = NSTextAlignmentCenter;
+            subtitleLabel.font = [UIFont systemFontOfSize:12];
+            titleLabel.text = title;
+            subtitleLabel.text = subtitle;
+            break;
+    }
+    return titleView;
 }
 
 #pragma mark - UIFont

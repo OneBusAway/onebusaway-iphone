@@ -8,6 +8,11 @@
 
 @import UIKit;
 
+typedef enum {
+    OBAAppearanceNavBarTitleViewStyleDefault, // subtitle won't be displayed
+    OBAAppearanceNavBarTitleViewStyleSubtitle,
+} OBAAppearanceNavBarTitleViewStyle;
+
 @interface OBATheme : NSObject
 
 /**
@@ -22,6 +27,11 @@
  Sets tint colors, title text attributes, etc. for UIKit controls.
  */
 + (void)setAppearanceProxies;
+
+/**
+ Create custom navigation bar title view.
+ */
++ (UIView *)createNavbarTitleViewWithTitle:(NSString *)title subtitle:(NSString *)subtitle andStyle:(OBAAppearanceNavBarTitleViewStyle)style;
 
 // Fonts
 
