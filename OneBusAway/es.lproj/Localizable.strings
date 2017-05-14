@@ -884,6 +884,3 @@
 
 /* Mark All as Read toolbar button title */
 "regional_alerts_controller.mark_all_as_read" = "Marcar Todas como Leídas";
-
-/* No comment provided by engineer. */
-"msg_scheduled_explanatory" = "*'Scheduled': no vehicle location data available";
