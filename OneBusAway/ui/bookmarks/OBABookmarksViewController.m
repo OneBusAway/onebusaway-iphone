@@ -15,6 +15,7 @@
 #import "OBABookmarkGroupsViewController.h"
 #import "OBATableCell.h"
 #import "OBASegmentedRow.h"
+#import "OBANavigationTitleView.h"
 
 static NSTimeInterval const kRefreshTimerInterval = 30.0;
 static NSUInteger const kMinutes = 30;
@@ -85,9 +86,9 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     }
     NSString *title = NSLocalizedString(@"msg_bookmarks", @"");
     NSString *subtitle = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"msg_region", @""), self.currentRegion.regionName];
-    self.navigationItem.titleView = [OBATheme createNavbarTitleViewWithTitle:title
-                                                                    subtitle:subtitle
-                                                                    andStyle:OBAAppearanceNavBarTitleViewStyleSubtitle];
+    self.navigationItem.titleView = [[OBANavigationTitleView alloc] initWithTitle:title
+                                                                         subtitle:subtitle
+                                                                            style:OBAAppearanceNavBarTitleViewStyleSubtitle];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
