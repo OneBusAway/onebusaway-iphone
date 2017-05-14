@@ -89,7 +89,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 
 #pragma mark - Alarms
 
-- (id<OBAModelServiceRequest>)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion;
+- (nullable id<OBAModelServiceRequest>)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion;
 
 - (AnyPromise*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID;
 

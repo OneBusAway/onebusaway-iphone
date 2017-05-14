@@ -653,13 +653,14 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerType) {
 - (void)updateSelection
 {
     if (self.pickerType == GKActionSheetPickerTypeString) {
-        
         NSUInteger index = [self.pickerView selectedRowInComponent:0];
-        GKActionSheetPickerItem *item = [self.items objectAtIndex:index];
-        self.selection = item.value;
-        
-    } else if (self.pickerType == GKActionSheetPickerTypeMultiColumnString) {
 
+        if (self.items.count > index) {
+            GKActionSheetPickerItem *item = self.items[index];
+            self.selection = item.value;
+        }
+    }
+    else if (self.pickerType == GKActionSheetPickerTypeMultiColumnString) {
         NSMutableArray *selections = [NSMutableArray new];
         
         for (NSUInteger i=0; i<self.components.count; i++) {
@@ -670,11 +671,9 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerType) {
         }
         
         self.selections = selections;
-
-    } else if (self.pickerType == GKActionSheetPickerTypeDate) {
-    
+    }
+    else if (self.pickerType == GKActionSheetPickerTypeDate) {
         self.selectedDate = self.datePicker.date;
-        
     }
 }
 

@@ -34,6 +34,7 @@
 
 #import "OBAApplicationUI.h"
 #import "OBAClassicApplicationUI.h"
+#import "OBACrashlyticsLogger.h"
 #import "UIWindow+OBAAdditions.h"
 
 static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegionRefreshDateUserDefaultsKey";
@@ -58,7 +59,9 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 
-        [[OBAApplication sharedApplication] start];
+        OBAApplicationConfiguration *configuration = [[OBAApplicationConfiguration alloc] init];
+        configuration.loggers = @[[OBACrashlyticsLogger sharedInstance]];
+        [[OBAApplication sharedApplication] startWithConfiguration:configuration];
 
         [OBAApplication sharedApplication].privacyBroker.delegate = self;
         [OBAApplication sharedApplication].regionHelper.delegate = self;

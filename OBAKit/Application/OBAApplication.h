@@ -22,6 +22,7 @@
 #import <OBAKit/OBAReachability.h>
 #import <OBAKit/OBARegionHelper.h>
 
+@class OBAApplicationConfiguration;
 @class PrivacyBroker;
 @class OBAConsoleLogger;
 @class RegionalAlertsManager;
@@ -56,9 +57,11 @@ extern NSString *const OBARegionServerInvalidNotification;
 + (instancetype)sharedApplication;
 
 /**
- Call this when the object has been fully configured.
+ Call this method to start shared application services
+
+ @param configuration An object that tells the application how to set itself up.
  */
-- (void)start;
+- (void)startWithConfiguration:(OBAApplicationConfiguration *)configuration;
 
 /**
  * e.g. "2.4.2"

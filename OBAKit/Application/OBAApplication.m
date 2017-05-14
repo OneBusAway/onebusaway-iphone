@@ -10,6 +10,7 @@
 #import <OBAKit/OBAUser.h>
 #import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
 #import <OBAKit/OBALogging.h>
+#import <OBAKit/OBAApplicationConfiguration.h>
 #import <OBAKit/OBAKit-Swift.h>
 #import <OBAKit/OBACommon.h>
 
@@ -47,17 +48,14 @@ NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNot
     self = [super init];
 
     if (self) {
-        _loggingManager = [[OBALogging alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(regionUpdated:) name:OBARegionDidUpdateNotification object:nil];
     }
     return self;
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:OBARegionDidUpdateNotification object:nil];
-}
+- (void)startWithConfiguration:(OBAApplicationConfiguration *)configuration {
+    self.loggingManager = [[OBALogging alloc] initWithLoggers:configuration.loggers];
 
-- (void)start {
     self.references = [[OBAReferencesV2 alloc] init];
 
     id<OBAModelPersistenceLayer> persistence = [[OBAModelDAOUserPreferencesImpl alloc] init];
@@ -93,7 +91,7 @@ NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNot
     defaults[OBAShareRegionPIIUserDefaultsKey] = @(YES);
     defaults[OBAShareLocationPIIUserDefaultsKey] = @(YES);
     defaults[OBAShareLogsPIIUserDefaultsKey] = @(YES);
-    defaults[kSetRegionAutomaticallyKey] = @(YES);
+    defaults[OBASetRegionAutomaticallyKey] = @(YES);
     defaults[kUngroupedBookmarksOpenKey] = @(YES);
     defaults[OBAOptInToCrashReportingDefaultsKey] = @(YES);
     defaults[OBAOptInToTrackingDefaultsKey] = @(YES);

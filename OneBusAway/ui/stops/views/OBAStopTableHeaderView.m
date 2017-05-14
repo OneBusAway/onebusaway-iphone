@@ -20,6 +20,8 @@
 @property(nonatomic,strong) UIImageView *headerImageView;
 @property(nonatomic,strong) UILabel *stopInformationLabel;
 @property(nonatomic,strong) OBAStopV2 *stop;
+@property(nonatomic,strong,readwrite) UIButton *menuButton;
+@property(nonatomic,strong,readwrite) UIButton *filterButton;
 @end
 
 @implementation OBAStopTableHeaderView
@@ -49,7 +51,41 @@
             label;
         });
 
-        [self addSubview:_stopInformationLabel];
+        _menuButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        [_menuButton setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+        [_menuButton setImage:[UIImage imageNamed:@"ellipsis_button"] forState:UIControlStateNormal];
+        _menuButton.tintColor = [UIColor whiteColor];
+        _menuButton.accessibilityLabel = NSLocalizedString(@"stop_header_view.menu_button_accessibility_label", @"This is the '...' button in the stop header view.");
+
+        _filterButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        _filterButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [_filterButton setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+        _filterButton.imageEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8);
+        [_filterButton setImage:[UIImage imageNamed:@"filter"] forState:UIControlStateNormal];
+        _filterButton.tintColor = [UIColor whiteColor];
+        _filterButton.accessibilityLabel = NSLocalizedString(@"stop_header_view.filter_button_accessibility_label", @"This is the Filter button in the stop header view.");
+
+        UIStackView *buttonStack = [[UIStackView alloc] initWithArrangedSubviews:@[[UIView new], _filterButton, _menuButton]];
+        buttonStack.axis = UILayoutConstraintAxisHorizontal;
+        buttonStack.spacing = [OBATheme defaultPadding];
+        buttonStack.distribution = UIStackViewDistributionFill;
+
+        UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[_stopInformationLabel, buttonStack]];
+        stack.axis = UILayoutConstraintAxisVertical;
+
+        [self addSubview:stack];
+
+        [_filterButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.equalTo([NSValue valueWithCGSize:CGSizeMake(48.f, 40.f)]);
+        }];
+
+        [_menuButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.equalTo([NSValue valueWithCGSize:CGSizeMake(56.f, 40.f)]);
+        }];
+
+        [stack mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.equalTo(self->_headerImageView);
+        }];
     }
     return self;
 }

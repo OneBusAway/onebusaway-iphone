@@ -268,9 +268,6 @@ static NSInteger kStopsSectionTag = 101;
     }
     [sections addObject:loadMoreSection];
 
-    // Actions
-    [sections addObject:[self createActionSectionWithStop:result.stop modelDAO:self.modelDAO]];
-
     self.sections = sections;
     [self.tableView reloadData];
 }
@@ -501,6 +498,7 @@ static NSInteger kStopsSectionTag = 101;
         row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
         row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
         row.hasArrived = dep.minutesUntilBestDeparture > 0;
+		
         [row setShowAlertController:^(UIView *presentingView, UIAlertController *alert) {
             [self showAlertController:alert fromView:presentingView];
         }];
@@ -582,6 +580,7 @@ static NSInteger kStopsSectionTag = 101;
         row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
         row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
         row.hasArrived = dep.minutesUntilBestDeparture > 0;
+
         [row setShowAlertController:^(UIView *presentingView, UIAlertController *alert) {
             [self showAlertController:alert fromView:presentingView];
         }];
@@ -614,54 +613,6 @@ static NSInteger kStopsSectionTag = 101;
     return section;
 }
 
-- (OBATableSection*)createActionSectionWithStop:(OBAStopV2*)stop modelDAO:(OBAModelDAO*)modelDAO {
-    NSMutableArray *actionRows = [[NSMutableArray alloc] init];
-
-    // Add to Bookmarks
-    NSString *bookmarksTitle = NSLocalizedString(@"msg_add_bookmark", @"");
-    OBATableRow *addToBookmarks = [[OBATableRow alloc] initWithTitle:bookmarksTitle action:^{
-        OBABookmarkRouteDisambiguationViewController *disambiguator = [[OBABookmarkRouteDisambiguationViewController alloc] initWithArrivalsAndDeparturesForStop:self.arrivalsAndDepartures];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:disambiguator];
-        [self presentViewController:nav animated:YES completion:nil];
-    }];
-    [actionRows addObject:addToBookmarks];
-
-    // Nearby Stops
-    OBATableRow *nearbyStops = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_nearby_stops",) action:^{
-        NearbyStopsViewController *nearby = [[NearbyStopsViewController alloc] initWithStop:self.arrivalsAndDepartures.stop];
-        nearby.pushesResultsOntoStack = YES;
-        [self.navigationController pushViewController:nearby animated:YES];
-    }];
-    nearbyStops.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    [actionRows addObject:nearbyStops];
-
-    // Report a Problem
-    OBATableRow *problem = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_report_a_problem", @"") action:^{
-        OBAReportProblemWithRecentTripsViewController * vc = [[OBAReportProblemWithRecentTripsViewController alloc] initWithStopID:stop.stopId];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-        [self presentViewController:nav animated:YES completion:nil];
-    }];
-    [actionRows addObject:problem];
-
-    // Filter/Sort Arrivals
-    OBATableRow *filter = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_sort_and_filter_routes",) action:^{
-        OBAEditStopPreferencesViewController *vc = [[OBAEditStopPreferencesViewController alloc] initWithModelDAO:modelDAO stop:stop];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-        [self presentViewController:nav animated:YES completion:nil];
-    }];
-    filter.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    [actionRows addObject:filter];
-
-    OBATableSection *actionSection = [[OBATableSection alloc] initWithTitle:nil rows:actionRows];
-    actionSection.headerView = ({
-        OBASeparatorSectionView *separator = [[OBASeparatorSectionView alloc] init];
-        separator.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        separator;
-    });
-
-    return actionSection;
-}
-
 #pragma mark - UIActivityItemSource methods
 
 // Make it possible to copy just the URL for trip sharing
@@ -673,9 +624,58 @@ static NSInteger kStopsSectionTag = 101;
     return nil;
 }
 
-- (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController
-{
+- (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController {
     return @"";
+}
+
+#pragma mark - Table Header
+
+- (void)showFilterAndSortUI {
+    OBAEditStopPreferencesViewController *vc = [[OBAEditStopPreferencesViewController alloc] initWithModelDAO:self.modelDAO stop:self.arrivalsAndDepartures.stop];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nav animated:YES completion:nil];
+}
+
+- (void)showActionsMenu {
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+
+    // Add Bookmark
+    UIAlertAction *addBookmark = [UIAlertAction actionWithTitle:NSLocalizedString(@"msg_add_bookmark", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        OBABookmarkRouteDisambiguationViewController *disambiguator = [[OBABookmarkRouteDisambiguationViewController alloc] initWithArrivalsAndDeparturesForStop:self.arrivalsAndDepartures];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:disambiguator];
+        [self presentViewController:nav animated:YES completion:nil];
+    }];
+
+    // Nearby Stops
+    UIAlertAction *nearbyStops = [UIAlertAction actionWithTitle:NSLocalizedString(@"msg_nearby_stops", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NearbyStopsViewController *nearby = [[NearbyStopsViewController alloc] initWithStop:self.arrivalsAndDepartures.stop];
+        nearby.pushesResultsOntoStack = YES;
+        [self.navigationController pushViewController:nearby animated:YES];
+    }];
+
+    // Report a Problem
+    UIAlertAction *problem = [UIAlertAction actionWithTitle:NSLocalizedString(@"msg_report_a_problem", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        OBAReportProblemWithRecentTripsViewController * vc = [[OBAReportProblemWithRecentTripsViewController alloc] initWithStopID:self.arrivalsAndDepartures.stop.stopId];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:nav animated:YES completion:nil];
+    }];
+
+    [actionSheet addAction:addBookmark];
+    [actionSheet addAction:nearbyStops];
+    [actionSheet addAction:problem];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
+
+    [self presentViewController:actionSheet animated:YES completion:nil];
+}
+
+- (void)createTableHeaderView {
+    self.stopHeaderView = [[OBAStopTableHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), kTableHeaderHeight)];
+    self.stopHeaderView.highContrastMode = [OBATheme useHighContrastUI];
+
+    [self.stopHeaderView.menuButton addTarget:self action:@selector(showActionsMenu) forControlEvents:UIControlEventTouchUpInside];
+    [self.stopHeaderView.filterButton addTarget:self action:@selector(showFilterAndSortUI) forControlEvents:UIControlEventTouchUpInside];
+
+    self.tableView.tableHeaderView = self.stopHeaderView;
 }
 
 #pragma mark - Miscellaneous UI and Utilities
@@ -695,13 +695,6 @@ static NSInteger kStopsSectionTag = 101;
     }
 
     return [NSDictionary dictionaryWithDictionary:dict];
-}
-
-- (void)createTableHeaderView {
-    self.stopHeaderView = [[OBAStopTableHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), kTableHeaderHeight)];
-    self.stopHeaderView.highContrastMode = [OBATheme useHighContrastUI];
-
-    self.tableView.tableHeaderView = self.stopHeaderView;
 }
 
 @end

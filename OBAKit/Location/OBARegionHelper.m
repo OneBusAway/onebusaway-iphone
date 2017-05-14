@@ -30,14 +30,12 @@
         _modelService = modelService;
         _regionStorage = [[OBARegionStorage alloc] initWithModelFactory:modelService.modelFactory];
         _regions = [_regionStorage regions];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidUpdateLocation:) name:OBALocationDidUpdateNotification object:self.locationManager];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidFailWithError:) name:OBALocationManagerDidFailWithErrorNotification object:self.locationManager];
     }
     return self;
-}
-
-- (void)start {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidUpdateLocation:) name:OBALocationDidUpdateNotification object:self.locationManager];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidFailWithError:) name:OBALocationManagerDidFailWithErrorNotification object:self.locationManager];
 }
 
 - (nullable AnyPromise*)refreshData {
@@ -87,7 +85,7 @@
 - (void)refreshCurrentRegionData {
     OBARegionV2 *currentRegion = self.modelDAO.currentRegion;
 
-    if (!currentRegion && self.locationManager.hasRequestedInUseAuthorization) {
+    if (!currentRegion) {
         [self.delegate regionHelperShowRegionListController:self];
         return;
     }

@@ -20,6 +20,10 @@ const DDLogLevel ddLogLevel = DDLogLevelInfo;
 @implementation OBALogging
 
 - (instancetype)init {
+    return [self initWithLoggers:nil];
+}
+
+- (instancetype)initWithLoggers:(nullable NSArray<DDAbstractLogger*>*)loggers {
     self = [super init];
 
     if (self) {
@@ -28,11 +32,14 @@ const DDLogLevel ddLogLevel = DDLogLevelInfo;
         [DDLog addLogger:[DDASLLogger sharedInstance] withLevel:ddLogLevel]; // ASL = Apple System Logs
         [DDLog addLogger:[DDTTYLogger sharedInstance] withLevel:ddLogLevel]; // TTY = Xcode console
 
+        for (DDAbstractLogger *logger in loggers) {
+            [DDLog addLogger:logger withLevel:ddLogLevel];
+        }
+
         _fileLogger = [[DDFileLogger alloc] init];
         _fileLogger.rollingFrequency = 60*60*24;  // 24 hours
         _fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
         [DDLog addLogger:self.fileLogger];
-
     }
     return self;
 }
