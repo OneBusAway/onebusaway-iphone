@@ -475,6 +475,12 @@
 /* Error message title displayed to the user when handoff failed to work. */
 "msg_handoff_failure_title" = "很抱歉， Handoff 無法正常執行。";
 
+
+
+/* Error message body displayed to the user when handoff regions did not match both clients. */
+"msg_handoff_region_mismatch_body" = "";
+
+
 /* Title for the Edit Stop Preferences Controller */
 "msg_sort_and_filter_routes" = "排序 & 過濾路線";
 
