@@ -481,7 +481,7 @@
 "msg_handoff_failure_title" = "Sorry, Handoff didn't work properly";
 
 /* Error message body displayed to the user when handoff regions did not match both clients. */
-"msg_handoff_region_mismatch_body" = "Try enabling the \"Automatically Select Region\" option from the Regions section under the Info tab to fix this issue, and let us know if that doesn't work.";
+"msg_handoff_region_mismatch_body" = "Try enabling the 'Automatically Select Region' option from the Regions section under the Info tab to fix this issue, and let us know if that doesn't work.";
 
 /* Title for the Edit Stop Preferences Controller */
 "msg_sort_and_filter_routes" = "Sort & Filter Routes";

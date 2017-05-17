@@ -44,7 +44,6 @@
 
 /* view.message */
 "msg_error_reporting_problem" = "回報問題時發生錯誤！請直接與我們聯絡。";
-
 /* No comment provided by engineer. */
 "msg_app_bugs_feature_requests" = "程式錯誤 & 功能需求";
 
@@ -226,8 +225,7 @@
 /* Logs table section in the PII controller */
 "msg_logs" = "Logs";
 
-/* initWithTitle
- Map tab title */
+/* initWithTitle Map tab title */
 "msg_map" = "地圖";
 
 /* No comment provided by engineer. */
@@ -476,9 +474,6 @@
 
 /* Error message title displayed to the user when handoff failed to work. */
 "msg_handoff_failure_title" = "很抱歉， Handoff 無法正常執行。";
-
-/* Error message body displayed to the user when handoff regions did not match both clients. */
-"msg_handoff_region_mismatch_body" = "請在\"資訊\"裡選擇\"地區\"，並開啟\"自動選擇地區\" 選項來排除此錯誤訊息。如果還是出現錯誤，請回報我們。"
 
 /* Title for the Edit Stop Preferences Controller */
 "msg_sort_and_filter_routes" = "排序 & 過濾路線";
