@@ -478,7 +478,7 @@
 
 
 /* Error message body displayed to the user when handoff regions did not match both clients. */
-"msg_handoff_region_mismatch_body" = "";
+"msg_handoff_region_mismatch_body" = "請在'資訊'裡選擇'地區'，並開啟'自動選擇地區'選項來排除此錯誤訊息。如果還是出現錯誤，請回報我們。";
 
 
 /* Title for the Edit Stop Preferences Controller */
