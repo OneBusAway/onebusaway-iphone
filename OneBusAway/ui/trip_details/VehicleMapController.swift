@@ -8,9 +8,6 @@
 
 import MapKit
 import OBAKit
-import SnapKit
-import UIKit
-
 
 
 
@@ -123,11 +120,9 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
             make.edges.equalToSuperview()
         }
         
-        
-        //Moved toggle and location hover bars into setup functions
-        self.createToggleHoverBar()
+        //toggle blur container and hover bar set up function call
+        self.createToggleBlurContainerView()
         self.createLocationHoverBar()
-        
     }
 
     // MARK: - Data Loading
@@ -257,7 +252,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
     
     // MARK: - UI Configurations
     
-    func createToggleHoverBar() {
+    func createToggleBlurContainerView() {
         let blurContainer = OBAVibrantBlurContainerView.init(frame: CGRect.zero)
         self.view.addSubview(blurContainer)
         blurContainer.snp.makeConstraints { (make) in
@@ -272,40 +267,23 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         }
         self.toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
         self.toggleButton.isSelected = self.expanded
-        
     }
     
-    
-
     func createLocationHoverBar() {
         let recenterMapButton = UIBarButtonItem(image: UIImage(named: "Map_Selected"), landscapeImagePhone: nil, style: .plain, target: self, action: #selector(self.recenterMap))
         
-        //instantiate and customize location hover bar
         let locationHoverBar = ISHHoverBar()
-        locationHoverBar.backgroundColor = UIColor.white
-        locationHoverBar.alpha = 0.7;
-        locationHoverBar.borderColor = UIColor.gray
-        locationHoverBar.borderWidth = 1.0
-        locationHoverBar.cornerRadius = 4.3
+        locationHoverBar.cornerRadius = 6.0
         locationHoverBar.items = [recenterMapButton]
         view.addSubview(locationHoverBar)
        
-        //UI: zoom to location button appears in toggle expanded view
-        //UX: selected bus departure time cell is transparent for a spacious Map View
         locationHoverBar.snp.makeConstraints { (make) in
-            //set hugging frame constraints
-            make.edges.equalToSuperview().inset(UIEdgeInsetsMake(263, 365.4, 50, 8))
-            //transparent selected bus cell
-            make.bottom.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 99.8, 0))
+            make.trailing.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 48, 8))
+            make.bottom.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 48, 8))
         }
-   
     }
     
-    //runs on an asynchronous GCD user initiated priority queue
     func recenterMap() {
-        DispatchQueue.global(qos: DispatchQoS.userInitiated.qosClass).async {
            self.mapView.setUserTrackingMode( MKUserTrackingMode.follow, animated: true)
-        }
     }
-    
 }
