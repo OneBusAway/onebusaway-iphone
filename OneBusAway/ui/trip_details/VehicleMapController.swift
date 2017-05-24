@@ -10,6 +10,8 @@ import MapKit
 import OBAKit
 import SnapKit
 import UIKit
+//import ISHHoverBar
+
 
 @objc protocol VehicleMapDelegate {
     func vehicleMap(_ vehicleMap: VehicleMapController, didToggleSize expanded: Bool)
@@ -273,7 +275,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
 
     func createLocationHoverBar() {
         
-        
+
     
     }
 }
