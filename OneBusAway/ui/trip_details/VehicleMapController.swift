@@ -119,21 +119,11 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         self.mapView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
-
-        let blurContainer = OBAVibrantBlurContainerView.init(frame: CGRect.zero)
-        self.view.addSubview(blurContainer)
-        blurContainer.snp.makeConstraints { (make) in
-            make.width.equalTo(40)
-            make.height.equalTo(30)
-            make.right.bottom.equalToSuperview().offset(-OBATheme.defaultPadding)
-        }
-
-        blurContainer.vibrancyEffectView.addSubview(self.toggleButton)
-        self.toggleButton.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        self.toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
-        self.toggleButton.isSelected = self.expanded
+        
+        //Moved toggle and location bars into own setup functions
+        self.createToggleHoverBar()
+        self.createLocationHoverBar()
+        
     }
 
     // MARK: - Data Loading
@@ -259,5 +249,31 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         annotationView?.image = OBAStopIconFactory.image(for: self.routeType)
 
         return annotationView
+    }
+    
+    // MARK: - UI Configurations
+    
+    func createToggleHoverBar() {
+        
+        let blurContainer = OBAVibrantBlurContainerView.init(frame: CGRect.zero)
+        self.view.addSubview(blurContainer)
+        blurContainer.snp.makeConstraints { (make) in
+            make.width.equalTo(40)
+            make.height.equalTo(30)
+            make.right.bottom.equalToSuperview().offset(-OBATheme.defaultPadding)
+        }
+        
+        blurContainer.vibrancyEffectView.addSubview(self.toggleButton)
+        self.toggleButton.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        self.toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
+        self.toggleButton.isSelected = self.expanded
+    }
+
+    func createLocationHoverBar() {
+        
+        
+    
     }
 }
