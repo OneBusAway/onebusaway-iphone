@@ -124,7 +124,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         }
         
         
-        //Moved toggle and location bars into own setup functions
+        //Moved toggle and location hover bars into setup functions
         self.createToggleHoverBar()
         self.createLocationHoverBar()
         
@@ -258,7 +258,6 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
     // MARK: - UI Configurations
     
     func createToggleHoverBar() {
-        
         let blurContainer = OBAVibrantBlurContainerView.init(frame: CGRect.zero)
         self.view.addSubview(blurContainer)
         blurContainer.snp.makeConstraints { (make) in
@@ -273,30 +272,43 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         }
         self.toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
         self.toggleButton.isSelected = self.expanded
+        
     }
+    
     
 
     func createLocationHoverBar() {
-        
         let recenterMapButton = UIBarButtonItem(image: UIImage(named: "Map_Selected"), landscapeImagePhone: nil, style: .plain, target: self, action: #selector(self.recenterMap))
         
+        //instantiate and customize location hover bar
         let locationHoverBar = ISHHoverBar()
+        locationHoverBar.isOpaque = true
+        locationHoverBar.backgroundColor = UIColor.white
+        locationHoverBar.alpha = 0.74;
+        locationHoverBar.borderColor = UIColor.gray
+        locationHoverBar.borderWidth = 1.0
+        locationHoverBar.cornerRadius = 5.0
         locationHoverBar.items = [recenterMapButton]
         view.addSubview(locationHoverBar)
        
         //UI: zoom to location button appears in toggle expanded view
-        //UX: picked bus departure time cell is transparent for a spacious Map View 
+        //UX: selected bus departure time cell is transparent for a spacious Map View
         locationHoverBar.snp.makeConstraints { (make) in
+            //set hugging frame constraints
             make.edges.equalToSuperview().inset(UIEdgeInsetsMake(260, 365.4, 50, 9.1))
+            //transparent selected bus cell
             make.bottom.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 99.8, 0))
         }
    
     }
     
+    
+    
+// Button logic: MKMapview, location manager
     func recenterMap() {
-        print("setting auto center on current location")
+        print("back on the road")
     }
-//
+
 //    func refreshCurrentLocation {
 //
 //    }
