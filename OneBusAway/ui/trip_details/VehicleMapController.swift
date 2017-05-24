@@ -284,9 +284,9 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         let locationHoverBar = ISHHoverBar()
         locationHoverBar.backgroundColor = UIColor.white
         locationHoverBar.alpha = 0.7;
-        locationHoverBar.borderColor = UIColor.lightGray
-        locationHoverBar.borderWidth = 1.5
-        locationHoverBar.cornerRadius = 5.0
+        locationHoverBar.borderColor = UIColor.gray
+        locationHoverBar.borderWidth = 1.0
+        locationHoverBar.cornerRadius = 4.3
         locationHoverBar.items = [recenterMapButton]
         view.addSubview(locationHoverBar)
        
@@ -294,17 +294,18 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         //UX: selected bus departure time cell is transparent for a spacious Map View
         locationHoverBar.snp.makeConstraints { (make) in
             //set hugging frame constraints
-            make.edges.equalToSuperview().inset(UIEdgeInsetsMake(260, 365.4, 50, 9.1))
+            make.edges.equalToSuperview().inset(UIEdgeInsetsMake(263, 365.4, 50, 8))
             //transparent selected bus cell
-//            make.bottom.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 99.8, 0))
+            make.bottom.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 99.8, 0))
         }
    
     }
     
-    
+    //runs on an asynchronous GCD user initiated priority queue
     func recenterMap() {
-        print("back on the road")
-        self.mapView.setUserTrackingMode( MKUserTrackingMode.follow, animated: true)
+        DispatchQueue.global(qos: DispatchQoS.userInitiated.qosClass).async {
+           self.mapView.setUserTrackingMode( MKUserTrackingMode.follow, animated: true)
+        }
     }
     
 }
