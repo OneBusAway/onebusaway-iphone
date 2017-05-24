@@ -10,7 +10,8 @@ import MapKit
 import OBAKit
 import SnapKit
 import UIKit
-//import ISHHoverBar
+
+
 
 
 @objc protocol VehicleMapDelegate {
@@ -121,6 +122,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         self.mapView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
+        
         
         //Moved toggle and location bars into own setup functions
         self.createToggleHoverBar()
@@ -272,10 +274,31 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         self.toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
         self.toggleButton.isSelected = self.expanded
     }
+    
 
     func createLocationHoverBar() {
         
-
-    
+        let recenterMapButton = UIBarButtonItem(image: UIImage(named: "Map_Selected"), landscapeImagePhone: nil, style: .plain, target: self, action: #selector(self.recenterMap))
+        
+        let locationHoverBar = ISHHoverBar()
+        locationHoverBar.items = [recenterMapButton]
+        view.addSubview(locationHoverBar)
+       
+        //UI: zoom to location button appears in toggle expanded view
+        //UX: picked bus departure time cell is transparent for a spacious Map View 
+        locationHoverBar.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview().inset(UIEdgeInsetsMake(260, 365.4, 50, 9.1))
+            make.bottom.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 99.8, 0))
+        }
+   
     }
+    
+    func recenterMap() {
+        print("setting auto center on current location")
+    }
+//
+//    func refreshCurrentLocation {
+//
+//    }
+    
 }
