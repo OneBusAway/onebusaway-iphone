@@ -282,11 +282,10 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         
         //instantiate and customize location hover bar
         let locationHoverBar = ISHHoverBar()
-        locationHoverBar.isOpaque = true
         locationHoverBar.backgroundColor = UIColor.white
-        locationHoverBar.alpha = 0.74;
-        locationHoverBar.borderColor = UIColor.gray
-        locationHoverBar.borderWidth = 1.0
+        locationHoverBar.alpha = 0.7;
+        locationHoverBar.borderColor = UIColor.lightGray
+        locationHoverBar.borderWidth = 1.5
         locationHoverBar.cornerRadius = 5.0
         locationHoverBar.items = [recenterMapButton]
         view.addSubview(locationHoverBar)
@@ -297,20 +296,15 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
             //set hugging frame constraints
             make.edges.equalToSuperview().inset(UIEdgeInsetsMake(260, 365.4, 50, 9.1))
             //transparent selected bus cell
-            make.bottom.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 99.8, 0))
+//            make.bottom.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 99.8, 0))
         }
    
     }
     
     
-    
-// Button logic: MKMapview, location manager
     func recenterMap() {
         print("back on the road")
+        self.mapView.setUserTrackingMode( MKUserTrackingMode.follow, animated: true)
     }
-
-//    func refreshCurrentLocation {
-//
-//    }
     
 }
