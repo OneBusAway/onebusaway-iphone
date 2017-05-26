@@ -120,9 +120,8 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
             make.edges.equalToSuperview()
         }
         
-        //toggle blur container and hover bar set up function call
-        self.createToggleBlurContainerView()
-        self.createLocationHoverBar()
+        //The view's hover bar setup function call
+        self.createVehicleMapHoverBar()
     }
 
     // MARK: - Data Loading
@@ -144,6 +143,11 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         self.expanded = !self.expanded
         self.delegate?.vehicleMap(self, didToggleSize: self.expanded)
     }
+    
+    func recenterMap() {
+        self.mapView.setUserTrackingMode( MKUserTrackingMode.follow, animated: true)
+    }
+
 
     // MARK: - MKMapViewDelegate
 
@@ -252,38 +256,21 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
     
     // MARK: - UI Configurations
     
-    func createToggleBlurContainerView() {
-        let blurContainer = OBAVibrantBlurContainerView.init(frame: CGRect.zero)
-        self.view.addSubview(blurContainer)
-        blurContainer.snp.makeConstraints { (make) in
-            make.width.equalTo(40)
-            make.height.equalTo(30)
-            make.right.bottom.equalToSuperview().offset(-OBATheme.defaultPadding)
-        }
-        
-        blurContainer.vibrancyEffectView.addSubview(self.toggleButton)
-        self.toggleButton.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        self.toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
-        self.toggleButton.isSelected = self.expanded
-    }
-    
-    func createLocationHoverBar() {
+    func createVehicleMapHoverBar() {
+        let VehicleMapHoverBar = ISHHoverBar()
+        self.view.addSubview(VehicleMapHoverBar)
+
         let recenterMapButton = UIBarButtonItem(image: UIImage(named: "Map_Selected"), landscapeImagePhone: nil, style: .plain, target: self, action: #selector(self.recenterMap))
+        let toggleButton = UIBarButtonItem(image: UIImage(named: "back"), landscapeImagePhone: nil, style: .plain, target: self, action: #selector(self.toggleButtonTapped))
         
-        let locationHoverBar = ISHHoverBar()
-        locationHoverBar.cornerRadius = 6.0
-        locationHoverBar.items = [recenterMapButton]
-        view.addSubview(locationHoverBar)
-       
-        locationHoverBar.snp.makeConstraints { (make) in
-            make.trailing.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 48, 8))
-            make.bottom.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 48, 8))
+        VehicleMapHoverBar.items = [recenterMapButton, toggleButton]
+        
+        self.toggleButton.isSelected = self.expanded
+        
+        VehicleMapHoverBar.snp.makeConstraints { (make) in
+            make.trailing.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 0, 8))
+            make.bottom.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 8, 0))
         }
-    }
-    
-    func recenterMap() {
-           self.mapView.setUserTrackingMode( MKUserTrackingMode.follow, animated: true)
+        
     }
 }
