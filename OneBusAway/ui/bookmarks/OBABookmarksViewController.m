@@ -365,6 +365,10 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     }
 }
 
+- (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.editing = NO;
+}
+
 #pragma mark - Table Row Actions (context menu thingy)
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -375,6 +379,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
         // rows not backed by models don't get actions.
         return nil;
     }
+    self.editing = YES;
 
     NSMutableArray<UITableViewRowAction *> *actions = [NSMutableArray array];
 
