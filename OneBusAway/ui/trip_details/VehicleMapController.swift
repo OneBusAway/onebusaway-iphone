@@ -94,7 +94,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
     var vehicleAnnotationView: SVPulsingAnnotationView?
 
     lazy var toggleButton: UIButton = {
-        let button = OBAUIBuilder.borderedButton(with: UIColor.lightGray)
+        let button = UIButton()
         button.contentEdgeInsets = OBATheme.defaultEdgeInsets
         button.accessibilityLabel = NSLocalizedString("vehicle_map_controller.toggle_button_accessibility_label", comment: "An accessibility label for the map size toggle button on the Vehicle Map Controller.")
         button.imageView?.contentMode = .scaleAspectFit
@@ -259,18 +259,17 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
     func createVehicleMapHoverBar() {
         let VehicleMapHoverBar = ISHHoverBar()
         self.view.addSubview(VehicleMapHoverBar)
+        
+        let toggleButton = UIBarButtonItem()
+        self.toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
+        toggleButton.customView = self.toggleButton
 
         let recenterMapButton = UIBarButtonItem(image: UIImage(named: "Map_Selected"), landscapeImagePhone: nil, style: .plain, target: self, action: #selector(self.recenterMap))
-        let toggleButton = UIBarButtonItem(image: UIImage(named: "back"), landscapeImagePhone: nil, style: .plain, target: self, action: #selector(self.toggleButtonTapped))
         
         VehicleMapHoverBar.items = [recenterMapButton, toggleButton]
-        
-        self.toggleButton.isSelected = self.expanded
-        
         VehicleMapHoverBar.snp.makeConstraints { (make) in
             make.trailing.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 0, 8))
             make.bottom.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 8, 0))
         }
-        
     }
 }
