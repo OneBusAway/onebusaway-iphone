@@ -363,8 +363,17 @@ static NSInteger kStopsSectionTag = 101;
     NSURLRequest *request = [self.modelService.obaJsonDataSource requestWithURL:alarm.alarmURL HTTPMethod:@"DELETE"];
     [self.modelService.obaJsonDataSource performRequest:request completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
         [self.modelDAO removeAlarmWithKey:dep.alarmKey];
-        [self reloadDataAnimated:NO];
+        // Replace with a new row and update it.
+        [self updateAlarmStateForRowAtIndexPath:[self indexPathForModel:dep]];
     }];
+}
+
+- (void)updateAlarmStateForRowAtIndexPath:(NSIndexPath *)indexPath {
+    OBADepartureRow *row = (OBADepartureRow *)[self rowAtIndexPath:indexPath];
+    OBADepartureRow *newRow = row;
+    newRow.alarmExists = !row.alarmExists;
+    [self replaceRowAtIndexPath:indexPath withRow:newRow];
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)registerAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalDeparture timeInterval:(NSTimeInterval)timeInterval {
@@ -376,7 +385,9 @@ static NSInteger kStopsSectionTag = 101;
     }).then(^(NSDictionary *serverResponse) {
         alarm.alarmURL = [NSURL URLWithString:serverResponse[@"url"]];
         [self.modelDAO addAlarm:alarm];
-        [self reloadDataAnimated:NO];
+        // Replace with a new row and update it.
+        [self updateAlarmStateForRowAtIndexPath:[self indexPathForModel:arrivalDeparture]];
+
         NSString *title = NSLocalizedString(@"alarms.alarm_created_alert_title", @"The title of the non-modal alert displayed when a push notification alert is registered for a vehicle departure.");
         NSString *body = [NSString stringWithFormat:NSLocalizedString(@"alarms.alarm_created_alert_body", @"The body of the non-modal alert that appears when a push notification alarm is registered."), @((NSUInteger)timeInterval / 60)];
 
