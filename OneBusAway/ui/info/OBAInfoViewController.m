@@ -9,8 +9,6 @@
 #import "OBAInfoViewController.h"
 @import SafariServices;
 @import Masonry;
-@import Apptentive;
-
 #import "OBAAgenciesListViewController.h"
 #import "OBASettingsViewController.h"
 #import "OBACreditsViewController.h"
@@ -55,15 +53,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
     OBALogFunction();
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMessageCountChanged:) name:ApptentiveMessageCenterUnreadCountChangedNotification object:nil];
-
     [self reloadData];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:ApptentiveMessageCenterUnreadCountChangedNotification object:nil];
 }
 
 #pragma mark - Notifications
@@ -186,23 +176,6 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     contactUs.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     [rows addObject:contactUs];
 
-    if ([Apptentive sharedConnection].canShowMessageCenter) {
-      OBATableRow *reportAppIssue = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_app_bugs_feature_requests",) action:^{
-          [self presentApptentiveMessageCenter];
-      }];
-      reportAppIssue.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-      if ([Apptentive sharedConnection].unreadMessageCount > 0) {
-          reportAppIssue.accessoryView = [[Apptentive sharedConnection] unreadMessageCountAccessoryView:YES];
-      }
-
-      [rows addObject:reportAppIssue];
-    }
-
-    OBATableRow *logs = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"info_controller.send_info_to_support_row",@"Info tab's table row title for sending logs to support.") action:^{
-        [self presentSendLogsActionSheet];
-    }];
-    [rows addObject:logs];
-
     OBATableSection *section = [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_contact_us", @"") rows:rows];
 
     return section;
@@ -311,15 +284,6 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [self presentViewController:navigation animated:YES completion:nil];
 }
 
-- (void)recordUserInformation {
-    [self.privacyBroker reportUserDataWithNotificationsStatus:[UIApplication sharedApplication].isRegisteredForRemoteNotifications];
-}
-
-- (void)presentApptentiveMessageCenter {
-    [self recordUserInformation];
-    [[Apptentive sharedConnection] presentMessageCenterFromViewController:self];
-}
-
 - (void)openGitHub {
     NSURL *URL = [NSURL URLWithString:kRepoURLString];
     SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:URL];
@@ -411,31 +375,6 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     headerFrame.size.height = height;
     header.frame = headerFrame;
     self.tableView.tableHeaderView = header;
-}
-
-- (void)presentSendLogsActionSheet {
-    NSString *title = NSLocalizedString(@"info_controller.send_info_to_support_row",@"Info tab's table row title for sending logs to support.");
-    NSString *message = NSLocalizedString(@"info_controller.send_log_data_explanation", @"Info tab log data explanation is used on an action sheet as a description of what the options do.");
-
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
-
-    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
-
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"info_controller.send_logs",@"'Send Logs' action sheet item on the Info tab") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        for (NSData *logData in self.privacyBroker.shareableLogData) {
-            [[Apptentive sharedConnection] sendAttachmentFile:logData withMimeType:@"text/plain"];
-        }
-
-        [AlertPresenter showSuccess:NSLocalizedString(@"msg_log_files_sent",) body:NSLocalizedString(@"msg_thank_you_exclamation",)];
-    }]];
-
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"info_controller.send_user_defaults", @"Info controller 'send info' action sheet option for sending user defaults") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-
-        NSDictionary *defaultsDict = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
-        [Apptentive.shared sendAttachmentFile:[NSKeyedArchiver archivedDataWithRootObject:defaultsDict] withMimeType:@"application/octet-stream"];
-    }]];
-
-    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end

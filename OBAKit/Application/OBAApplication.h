@@ -44,7 +44,6 @@ extern NSString *const OBARegionServerInvalidNotification;
 @property (nonatomic, strong, readonly) PrivacyBroker *privacyBroker;
 @property (nonatomic, strong, readonly) OBAConsoleLogger *consoleLogger;
 
-@property (nonatomic, copy, readonly) NSString *apptentiveAPIKey;
 @property (nonatomic, copy, readonly) NSString *googleAnalyticsID;
 @property (nonatomic, copy, readonly) NSString *oneSignalAPIKey;
 @property (nonatomic, copy, readonly) NSString *appStoreAppID;

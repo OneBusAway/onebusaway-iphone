@@ -21,7 +21,6 @@
 @import SVProgressHUD;
 @import Fabric;
 @import Crashlytics;
-@import Apptentive;
 @import PMKCoreLocation;
 
 #import "OBAPushManager.h"
@@ -120,10 +119,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
     [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:[OBAApplication sharedApplication].oneSignalAPIKey];
 
-    // Configure the Apptentive feedback system
-    [Apptentive shared].APIKey = [OBAApplication sharedApplication].apptentiveAPIKey;
-    [Apptentive shared].appID = [OBAApplication sharedApplication].appStoreAppID;
-
     // Set up Google Analytics. User must be able to opt out of tracking.
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:[OBAApplication sharedApplication].googleAnalyticsID];
     BOOL optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
@@ -189,8 +184,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     if (![OBAApplicationDelegate awaitingLocationAuthorization]) {
         [OBAApplication.sharedApplication.privacyBroker reportUserDataWithNotificationsStatus:[UIApplication sharedApplication].isRegisteredForRemoteNotifications];
     }
-
-    [[Apptentive sharedConnection] engage:@"app_became_active" fromViewController:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -441,19 +434,19 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 #pragma mark - PrivacyBrokerDelegate
 
 - (void)addPersonBool:(BOOL)value withKey:(NSString *)withKey {
-    [[Apptentive shared] addCustomPersonDataBool:value withKey:withKey];
+    //nop
 }
 
 - (void)addPersonNumber:(NSNumber *)value withKey:(NSString *)withKey {
-    [[Apptentive shared] addCustomPersonDataNumber:value withKey:withKey];
+    //nop
 }
 
 - (void)addPersonString:(NSString *)value withKey:(NSString *)withKey {
-    [[Apptentive shared] addCustomPersonDataString:value withKey:withKey];
+    //nop
 }
 
 - (void)removePersonKey:(NSString *)key {
-    [[Apptentive shared] removeCustomPersonDataWithKey:key];
+    //nop
 }
 
 - (void)onboardingControllerRequestedAuthorization:(OnboardingViewController *)onboardingController {
