@@ -370,9 +370,7 @@ static NSInteger kStopsSectionTag = 101;
 
 - (void)updateAlarmStateForRowAtIndexPath:(NSIndexPath *)indexPath {
     OBADepartureRow *row = (OBADepartureRow *)[self rowAtIndexPath:indexPath];
-    OBADepartureRow *newRow = row;
-    newRow.alarmExists = !row.alarmExists;
-    [self replaceRowAtIndexPath:indexPath withRow:newRow];
+    row.alarmExists = !row.alarmExists;    
     [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 
