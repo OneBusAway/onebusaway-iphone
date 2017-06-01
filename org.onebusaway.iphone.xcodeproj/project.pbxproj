@@ -10,7 +10,6 @@
 		5B7C4A5A1DB96E6A00853DD5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */; };
 		6B24C8761EC7F99E00A1F7B7 /* OBANavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B24C8751EC7F99E00A1F7B7 /* OBANavigationTitleView.m */; };
 		930653D71E6DE293005AF0C9 /* OBAToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930653D61E6DE293005AF0C9 /* OBAToastView.m */; };
-		930653DD1E6F83F0005AF0C9 /* Apptentive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930653DC1E6F83F0005AF0C9 /* Apptentive.framework */; };
 		930AFE781DD04CCA0092AE82 /* OBADepartureRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE751DD04CCA0092AE82 /* OBADepartureRow.m */; };
 		930AFE871DD04D2F0092AE82 /* OBAClassicDepartureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE7C1DD04D2F0092AE82 /* OBAClassicDepartureCell.m */; };
 		930AFE891DD04D2F0092AE82 /* OBAClassicDepartureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE801DD04D2F0092AE82 /* OBAClassicDepartureView.m */; };
@@ -262,7 +261,6 @@
 		6B24C87C1EC821A900A1F7B7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		930653D51E6DE293005AF0C9 /* OBAToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAToastView.h; sourceTree = "<group>"; };
 		930653D61E6DE293005AF0C9 /* OBAToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAToastView.m; sourceTree = "<group>"; };
-		930653DC1E6F83F0005AF0C9 /* Apptentive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apptentive.framework; path = Carthage/Build/iOS/Apptentive.framework; sourceTree = "<group>"; };
 		930AFE741DD04CCA0092AE82 /* OBADepartureRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADepartureRow.h; sourceTree = "<group>"; };
 		930AFE751DD04CCA0092AE82 /* OBADepartureRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADepartureRow.m; sourceTree = "<group>"; };
 		930AFE7B1DD04D2F0092AE82 /* OBAClassicDepartureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureCell.h; sourceTree = "<group>"; };
@@ -595,7 +593,6 @@
 				93BB1EE21E300526008A88BA /* Fabric.framework in Frameworks */,
 				938B842C1D868A0500DB0AF0 /* GoogleAnalytics.framework in Frameworks */,
 				932CCEC91DC3D2DB001C8405 /* SwiftMessages.framework in Frameworks */,
-				930653DD1E6F83F0005AF0C9 /* Apptentive.framework in Frameworks */,
 				932CCEC71DC3D2DB001C8405 /* PMKMapKit.framework in Frameworks */,
 				932CCEC31DC3D2DB001C8405 /* CocoaLumberjack.framework in Frameworks */,
 				93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */,
@@ -661,7 +658,6 @@
 			isa = PBXGroup;
 			children = (
 				93F3F8961E7AEE560025FC78 /* Mantle.framework */,
-				930653DC1E6F83F0005AF0C9 /* Apptentive.framework */,
 				93BB1EE01E300526008A88BA /* Fabric.framework */,
 				93BB1EE11E300526008A88BA /* Crashlytics.framework */,
 				934C508C1E2A1E5C00DFDCA0 /* OneSignal.framework */,
@@ -1685,7 +1681,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/MarqueeLabel.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/OneSignal.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Apptentive.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Mantle.framework",
 			);
 			name = "Carthage Integration";

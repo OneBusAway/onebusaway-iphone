@@ -8,7 +8,6 @@
 
 #import "OBAClassicApplicationUI.h"
 @import OBAKit;
-@import Apptentive;
 #import "OBAMapViewController.h"
 #import "OBARecentStopsViewController.h"
 #import "OBABookmarksViewController.h"
@@ -58,23 +57,9 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
 
         _tabBarController.viewControllers = @[_mapNavigationController, _recentsNavigationController, _bookmarksNavigationController, _infoNavigationController];
         _tabBarController.delegate = self;
-
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshMessageBadge:) name:ApptentiveMessageCenterUnreadCountChangedNotification object:nil];
     }
 
     return self;
-}
-
-#pragma mark - Notifications
-
-- (void)refreshMessageBadge:(NSNotification*)note {
-    NSString *badgeValue = nil;
-
-    if ([Apptentive sharedConnection].unreadMessageCount > 0) {
-        badgeValue = [NSString stringWithFormat:@"%@", @([Apptentive sharedConnection].unreadMessageCount)];
-    }
-
-    self.infoViewController.tabBarItem.badgeValue = badgeValue;
 }
 
 #pragma mark - Public Methods
