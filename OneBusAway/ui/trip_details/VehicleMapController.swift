@@ -120,7 +120,6 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
             make.edges.equalToSuperview()
         }
         
-        //The view's hover bar setup function call
         self.createVehicleMapHoverBar()
     }
 
@@ -268,8 +267,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         
         VehicleMapHoverBar.items = [recenterMapButton, toggleButton]
         VehicleMapHoverBar.snp.makeConstraints { (make) in
-            make.trailing.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 0, 8))
-            make.bottom.equalTo(mapView).inset(UIEdgeInsetsMake(0, 0, 8, 0))
+           make.trailing.bottom.equalToSuperview().inset(UIEdgeInsetsMake(0, 0, 8, 8))
         }
     }
 }
