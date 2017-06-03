@@ -44,6 +44,8 @@ extern NSInteger const OBAAlarmIncrementsInMinutes;
 
 @property(nonatomic,copy) NSDate *scheduledDeparture;
 
+@property(nonatomic,copy) NSDate *estimatedDeparture;
+
 @property(nonatomic,assign) long long serviceDate;
 
 @property(nonatomic,copy) NSString *vehicleID;

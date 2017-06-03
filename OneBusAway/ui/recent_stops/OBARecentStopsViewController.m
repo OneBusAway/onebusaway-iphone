@@ -125,7 +125,7 @@
             [self.navigationController pushViewController:controller animated:YES];
         }];
         NSInteger minutes = (NSInteger)(alarm.timeIntervalBeforeDeparture / 60);
-        NSString *formattedTime = [OBADateHelpers formatShortTimeNoDate:alarm.scheduledDeparture];
+        NSString *formattedTime = [OBADateHelpers formatShortTimeNoDate:alarm.estimatedDeparture];
 
         row.subtitle = [NSString stringWithFormat:NSLocalizedString(@"recent_stops.alarms.subtitle", @"e.g. <10> minutes before <5:02PM> departure (scheduled)"), @(minutes), formattedTime];
         row.style = UITableViewCellStyleSubtitle;
