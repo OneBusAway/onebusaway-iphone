@@ -18,7 +18,7 @@
 #import "OBANavigationTitleView.h"
 
 static NSTimeInterval const kRefreshTimerInterval = 30.0;
-static NSUInteger const kMinutes = 30;
+static NSUInteger const kMinutes = 60;
 
 static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDefaultsKey";
 
