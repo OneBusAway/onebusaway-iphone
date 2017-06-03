@@ -26,6 +26,7 @@ NSInteger const OBAAlarmIncrementsInMinutes = 5;
         _stopSequence = arrivalAndDeparture.stopSequence;
         _title = [arrivalAndDeparture.bestAvailableNameWithHeadsign copy];
         _scheduledDeparture = [arrivalAndDeparture.scheduledDepartureDate copy];
+        _estimatedDeparture = [arrivalAndDeparture.bestArrivalDepartureDate copy];
     }
 
     return self;
@@ -47,6 +48,7 @@ NSInteger const OBAAlarmIncrementsInMinutes = 5;
         _stopSequence = [aDecoder oba_decodeInteger:@selector(stopSequence)];
         _title = [aDecoder oba_decodeObject:@selector(title)];
         _scheduledDeparture = [aDecoder oba_decodeObject:@selector(scheduledDeparture)];
+        _estimatedDeparture = [aDecoder oba_decodeObject:@selector(estimatedDeparture)];
     }
 
     return self;
@@ -63,6 +65,7 @@ NSInteger const OBAAlarmIncrementsInMinutes = 5;
     [aCoder oba_encodeInteger:_stopSequence forSelector:@selector(stopSequence)];
     [aCoder oba_encodePropertyOnObject:self withSelector:@selector(title)];
     [aCoder oba_encodePropertyOnObject:self withSelector:@selector(scheduledDeparture)];
+    [aCoder oba_encodePropertyOnObject:self withSelector:@selector(estimatedDeparture)];
 }
 
 #pragma mark - NSCopying
@@ -79,7 +82,7 @@ NSInteger const OBAAlarmIncrementsInMinutes = 5;
     alarm->_stopSequence = _stopSequence;
     alarm->_title = [_title copy];
     alarm->_scheduledDeparture = [_scheduledDeparture copyWithZone:zone];
-
+    alarm->_estimatedDeparture = [_estimatedDeparture copyWithZone:zone];
     return alarm;
 }
 
