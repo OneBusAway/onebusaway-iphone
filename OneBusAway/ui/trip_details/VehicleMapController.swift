@@ -8,8 +8,8 @@
 
 import MapKit
 import OBAKit
-import SnapKit
-import UIKit
+
+
 
 @objc protocol VehicleMapDelegate {
     func vehicleMap(_ vehicleMap: VehicleMapController, didToggleSize expanded: Bool)
@@ -94,7 +94,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
     var vehicleAnnotationView: SVPulsingAnnotationView?
 
     lazy var toggleButton: UIButton = {
-        let button = OBAUIBuilder.borderedButton(with: UIColor.lightGray)
+        let button = UIButton()
         button.contentEdgeInsets = OBATheme.defaultEdgeInsets
         button.accessibilityLabel = NSLocalizedString("vehicle_map_controller.toggle_button_accessibility_label", comment: "An accessibility label for the map size toggle button on the Vehicle Map Controller.")
         button.imageView?.contentMode = .scaleAspectFit
@@ -119,21 +119,8 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         self.mapView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
-
-        let blurContainer = OBAVibrantBlurContainerView.init(frame: CGRect.zero)
-        self.view.addSubview(blurContainer)
-        blurContainer.snp.makeConstraints { (make) in
-            make.width.equalTo(40)
-            make.height.equalTo(30)
-            make.right.bottom.equalToSuperview().offset(-OBATheme.defaultPadding)
-        }
-
-        blurContainer.vibrancyEffectView.addSubview(self.toggleButton)
-        self.toggleButton.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        self.toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
-        self.toggleButton.isSelected = self.expanded
+        
+        self.createVehicleMapHoverBar()
     }
 
     // MARK: - Data Loading
@@ -155,6 +142,11 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         self.expanded = !self.expanded
         self.delegate?.vehicleMap(self, didToggleSize: self.expanded)
     }
+    
+    func recenterMap() {
+        self.mapView.setUserTrackingMode( MKUserTrackingMode.follow, animated: true)
+    }
+
 
     // MARK: - MKMapViewDelegate
 
@@ -259,5 +251,23 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         annotationView?.image = OBAStopIconFactory.image(for: self.routeType)
 
         return annotationView
+    }
+    
+    // MARK: - UI Configurations
+    
+    func createVehicleMapHoverBar() {
+        let VehicleMapHoverBar = ISHHoverBar()
+        self.view.addSubview(VehicleMapHoverBar)
+        
+        let toggleButton = UIBarButtonItem()
+        self.toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
+        toggleButton.customView = self.toggleButton
+
+        let recenterMapButton = UIBarButtonItem(image: UIImage(named: "Map_Selected"), landscapeImagePhone: nil, style: .plain, target: self, action: #selector(self.recenterMap))
+        
+        VehicleMapHoverBar.items = [recenterMapButton, toggleButton]
+        VehicleMapHoverBar.snp.makeConstraints { (make) in
+           make.trailing.bottom.equalToSuperview().inset(UIEdgeInsetsMake(0, 0, 8, 8))
+        }
     }
 }
