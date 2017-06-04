@@ -32,6 +32,7 @@
 static NSTimeInterval const kRefreshTimeInterval = 30.0;
 static CGFloat const kTableHeaderHeight = 150.f;
 static NSInteger kStopsSectionTag = 101;
+static NSInteger kNegligibleWalkingTimeToStop = 25;
 
 @interface OBAStopViewController ()<UIScrollViewDelegate, UIActivityItemSource>
 @property(nonatomic,strong) UIRefreshControl *refreshControl;
@@ -410,8 +411,8 @@ static NSInteger kStopsSectionTag = 101;
         departure = rows[i].model;
         stop = departure.stop;
         walkingTime = [OBAWalkingDirections walkingTravelTimeFromLocation:location toLocation:stop.location];
-
-        if (departure.timeIntervalUntilBestDeparture > walkingTime) {
+        // Is walking time less than time until bus departs or is user already at bus stop and bus hasn't left yet?
+        if ((departure.timeIntervalUntilBestDeparture > walkingTime) || (walkingTime < kNegligibleWalkingTimeToStop                                                                     && departure.minutesUntilBestDeparture >= 0)) {
             insertionIndex = i;
             break;
         }
