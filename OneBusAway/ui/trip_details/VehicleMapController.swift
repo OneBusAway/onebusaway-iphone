@@ -8,8 +8,6 @@
 
 import MapKit
 import OBAKit
-import SnapKit
-import UIKit
 
 @objc protocol VehicleMapDelegate {
     func vehicleMap(_ vehicleMap: VehicleMapController, didToggleSize expanded: Bool)
@@ -94,15 +92,18 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
     var vehicleAnnotationView: SVPulsingAnnotationView?
 
     lazy var toggleButton: UIButton = {
-        let button = OBAUIBuilder.borderedButton(with: UIColor.lightGray)
+        let button = UIButton()
         button.contentEdgeInsets = OBATheme.defaultEdgeInsets
         button.accessibilityLabel = NSLocalizedString("vehicle_map_controller.toggle_button_accessibility_label", comment: "An accessibility label for the map size toggle button on the Vehicle Map Controller.")
         button.imageView?.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
 
         if let toggleImage = UIImage(named: "back") {
             button.setImage(OBAImageHelpers.rotateImage(toggleImage, degrees: -90.0), for: .normal)
             button.setImage(OBAImageHelpers.rotateImage(toggleImage, degrees: 90.0), for: .selected)
         }
+
+        button.isSelected = self.expanded
 
         return button
     }()
@@ -112,28 +113,8 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.mapView.isRotateEnabled = false
-        self.mapView.delegate = self
-        self.mapView.showsUserLocation = true
-        self.view.addSubview(self.mapView)
-        self.mapView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
-
-        let blurContainer = OBAVibrantBlurContainerView.init(frame: CGRect.zero)
-        self.view.addSubview(blurContainer)
-        blurContainer.snp.makeConstraints { (make) in
-            make.width.equalTo(40)
-            make.height.equalTo(30)
-            make.right.bottom.equalToSuperview().offset(-OBATheme.defaultPadding)
-        }
-
-        blurContainer.vibrancyEffectView.addSubview(self.toggleButton)
-        self.toggleButton.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        self.toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
-        self.toggleButton.isSelected = self.expanded
+        self.createMapView()
+        self.createHoverBar()
     }
 
     // MARK: - Data Loading
@@ -149,12 +130,17 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         }
     }
 
-    // MARK: - Delegate
+    // MARK: - Actions
 
     func toggleButtonTapped() {
         self.expanded = !self.expanded
         self.delegate?.vehicleMap(self, didToggleSize: self.expanded)
     }
+    
+    func recenterMap() {
+        self.mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
+    }
+
 
     // MARK: - MKMapViewDelegate
 
@@ -259,5 +245,32 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         annotationView?.image = OBAStopIconFactory.image(for: self.routeType)
 
         return annotationView
+    }
+    
+    // MARK: - UI Configurations
+
+    func createMapView() {
+        self.mapView.isRotateEnabled = false
+        self.mapView.delegate = self
+        self.mapView.showsUserLocation = true
+        self.view.addSubview(self.mapView)
+        self.mapView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    func createHoverBar() {
+        let hoverBar = ISHHoverBar()
+
+        let toggleBarButton = UIBarButtonItem()
+        toggleBarButton.customView = self.toggleButton
+
+        let recenterMapButton = UIBarButtonItem(image: #imageLiteral(resourceName: "Map_Selected"), style: .plain, target: self, action: #selector(recenterMap))
+
+        hoverBar.items = [recenterMapButton, toggleBarButton]
+        self.view.addSubview(hoverBar)
+        hoverBar.snp.makeConstraints { (make) in
+           make.trailing.bottom.equalToSuperview().inset(UIEdgeInsetsMake(0, 0, OBATheme.defaultPadding, OBATheme.defaultPadding))
+        }
     }
 }

@@ -29,3 +29,4 @@
 #import "OBAVibrantBlurContainerView.h"
 #import "OBAAnalytics.h"
 #import "OBAMessageRow.h"
+#import "ISHHoverBar.h"

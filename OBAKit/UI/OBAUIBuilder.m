@@ -37,25 +37,6 @@
     return wrapper;
 }
 
-+ (UIButton*)borderedButtonWithTitle:(NSString*)title {
-    UIButton *button = [self borderedButtonWithColor:[UIColor blackColor]];
-    [button setTitle:title forState:UIControlStateNormal];
-
-    return button;
-}
-
-+ (UIButton*)borderedButtonWithColor:(UIColor*)borderColor {
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitleColor:borderColor forState:UIControlStateNormal];
-    button.tintColor = borderColor;
-
-    button.layer.borderColor = borderColor.CGColor;
-    button.layer.borderWidth = 1.f;
-    button.layer.cornerRadius = [OBATheme compactPadding];
-
-    return button;
-}
-
 + (UIView*)lineView {
     UIView *lineView = [[UIView alloc] init];
     lineView.backgroundColor = [UIColor lightGrayColor];
