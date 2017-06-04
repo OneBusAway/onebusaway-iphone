@@ -215,6 +215,7 @@
 		936EB1B61E91746400F4F3A7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */; };
 		936EB1B91E91A83700F4F3A7 /* OBARegionStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */; };
 		936EB1BA1E91A83700F4F3A7 /* OBARegionStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */; };
+		9377DD531EE4682E00134AE8 /* BorderedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9377DD521EE4682E00134AE8 /* BorderedButton.swift */; };
 		93B282C41DC664C7005013D7 /* OBATripDeepLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B282C21DC664C7005013D7 /* OBATripDeepLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93B282C51DC664C7005013D7 /* OBATripDeepLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B282C31DC664C7005013D7 /* OBATripDeepLink.m */; };
 		93B282C81DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -454,6 +455,7 @@
 		936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionStorage.h; sourceTree = "<group>"; };
 		936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionStorage.m; sourceTree = "<group>"; };
+		9377DD521EE4682E00134AE8 /* BorderedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedButton.swift; sourceTree = "<group>"; };
 		93B282C21DC664C7005013D7 /* OBATripDeepLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATripDeepLink.h; sourceTree = "<group>"; };
 		93B282C31DC664C7005013D7 /* OBATripDeepLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripDeepLink.m; sourceTree = "<group>"; };
 		93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLQueryItem+OBAAdditions.h"; sourceTree = "<group>"; };
@@ -820,6 +822,7 @@
 		934196A61DB0B0AF004BBBB7 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				9377DD511EE4682300134AE8 /* Controls */,
 				9358CDAB1DEA1AB000132CDE /* Departures */,
 				9327DEF11E02306900502F06 /* OBACanvasView.h */,
 				9327DEF21E02306900502F06 /* OBACanvasView.m */,
@@ -859,6 +862,14 @@
 				9358CDAD1DEA1AB000132CDE /* OBADepartureCellHelpers.m */,
 			);
 			path = Departures;
+			sourceTree = "<group>";
+		};
+		9377DD511EE4682300134AE8 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				9377DD521EE4682E00134AE8 /* BorderedButton.swift */,
+			);
+			path = Controls;
 			sourceTree = "<group>";
 		};
 		93F3F88F1E7A88D10025FC78 /* regional_alerts */ = {
@@ -1165,6 +1176,7 @@
 				934196B91DB0B0AF004BBBB7 /* OBATheme.m in Sources */,
 				934196871DB0B099004BBBB7 /* OBATripDetailsV2.m in Sources */,
 				934196911DB0B099004BBBB7 /* OBATripV2.m in Sources */,
+				9377DD531EE4682E00134AE8 /* BorderedButton.swift in Sources */,
 				934196041DB0B099004BBBB7 /* OBAConsoleLogger.m in Sources */,
 				934196591DB0B099004BBBB7 /* OBAEntryWithReferencesV2.m in Sources */,
 				934196291DB0B099004BBBB7 /* OBATripContinuationMapAnnotation.m in Sources */,
