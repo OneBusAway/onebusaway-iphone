@@ -412,7 +412,7 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
         stop = departure.stop;
         walkingTime = [OBAWalkingDirections walkingTravelTimeFromLocation:location toLocation:stop.location];
         // Is walking time less than time until bus departs or is user already at bus stop and bus hasn't left yet?
-        if ((departure.timeIntervalUntilBestDeparture > walkingTime) || (walkingTime < kNegligibleWalkingTimeToStop                                                                     && departure.minutesUntilBestDeparture >= 0)) {
+        if ((departure.timeIntervalUntilBestDeparture > walkingTime) || (walkingTime < kNegligibleWalkingTimeToStop && departure.minutesUntilBestDeparture >= 0)) {
             insertionIndex = i;
             break;
         }
