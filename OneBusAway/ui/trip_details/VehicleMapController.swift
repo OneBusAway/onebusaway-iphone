@@ -9,8 +9,6 @@
 import MapKit
 import OBAKit
 
-
-
 @objc protocol VehicleMapDelegate {
     func vehicleMap(_ vehicleMap: VehicleMapController, didToggleSize expanded: Bool)
     func vehicleMap(_ vehicleMap: VehicleMapController, didSelectStop annotation: MKAnnotation)
@@ -98,11 +96,14 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         button.contentEdgeInsets = OBATheme.defaultEdgeInsets
         button.accessibilityLabel = NSLocalizedString("vehicle_map_controller.toggle_button_accessibility_label", comment: "An accessibility label for the map size toggle button on the Vehicle Map Controller.")
         button.imageView?.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
 
         if let toggleImage = UIImage(named: "back") {
             button.setImage(OBAImageHelpers.rotateImage(toggleImage, degrees: -90.0), for: .normal)
             button.setImage(OBAImageHelpers.rotateImage(toggleImage, degrees: 90.0), for: .selected)
         }
+
+        button.isSelected = self.expanded
 
         return button
     }()
@@ -112,15 +113,8 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.mapView.isRotateEnabled = false
-        self.mapView.delegate = self
-        self.mapView.showsUserLocation = true
-        self.view.addSubview(self.mapView)
-        self.mapView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
-        
-        self.createVehicleMapHoverBar()
+        self.createMapView()
+        self.createHoverBar()
     }
 
     // MARK: - Data Loading
@@ -136,7 +130,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         }
     }
 
-    // MARK: - Delegate
+    // MARK: - Actions
 
     func toggleButtonTapped() {
         self.expanded = !self.expanded
@@ -144,7 +138,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
     }
     
     func recenterMap() {
-        self.mapView.setUserTrackingMode( MKUserTrackingMode.follow, animated: true)
+        self.mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
     }
 
 
@@ -254,20 +248,29 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
     }
     
     // MARK: - UI Configurations
-    
-    func createVehicleMapHoverBar() {
-        let VehicleMapHoverBar = ISHHoverBar()
-        self.view.addSubview(VehicleMapHoverBar)
-        
-        let toggleButton = UIBarButtonItem()
-        self.toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
-        toggleButton.customView = self.toggleButton
 
-        let recenterMapButton = UIBarButtonItem(image: UIImage(named: "Map_Selected"), landscapeImagePhone: nil, style: .plain, target: self, action: #selector(self.recenterMap))
-        
-        VehicleMapHoverBar.items = [recenterMapButton, toggleButton]
-        VehicleMapHoverBar.snp.makeConstraints { (make) in
-           make.trailing.bottom.equalToSuperview().inset(UIEdgeInsetsMake(0, 0, 8, 8))
+    func createMapView() {
+        self.mapView.isRotateEnabled = false
+        self.mapView.delegate = self
+        self.mapView.showsUserLocation = true
+        self.view.addSubview(self.mapView)
+        self.mapView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    func createHoverBar() {
+        let hoverBar = ISHHoverBar()
+
+        let toggleBarButton = UIBarButtonItem()
+        toggleBarButton.customView = self.toggleButton
+
+        let recenterMapButton = UIBarButtonItem(image: #imageLiteral(resourceName: "Map_Selected"), style: .plain, target: self, action: #selector(recenterMap))
+
+        hoverBar.items = [recenterMapButton, toggleBarButton]
+        self.view.addSubview(hoverBar)
+        hoverBar.snp.makeConstraints { (make) in
+           make.trailing.bottom.equalToSuperview().inset(UIEdgeInsetsMake(0, 0, OBATheme.defaultPadding, OBATheme.defaultPadding))
         }
     }
 }
