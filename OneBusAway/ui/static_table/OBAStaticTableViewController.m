@@ -148,8 +148,7 @@
         OBATableSection *section = self.sections[i];
         for (NSInteger j=0; j<section.rows.count; j++) {
             OBABaseRow *candidate = section.rows[j];
-
-            if ([candidate.model isEqual:model]) {
+            if (candidate.model == model) { // Need to compare the pointers to get the correct indexPath
                 return [NSIndexPath indexPathForRow:j inSection:i];
             }
         }

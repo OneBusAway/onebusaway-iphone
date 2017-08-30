@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5B7C4A5A1DB96E6A00853DD5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */; };
+		6B24C8761EC7F99E00A1F7B7 /* OBANavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B24C8751EC7F99E00A1F7B7 /* OBANavigationTitleView.m */; };
 		930653D71E6DE293005AF0C9 /* OBAToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930653D61E6DE293005AF0C9 /* OBAToastView.m */; };
-		930653DD1E6F83F0005AF0C9 /* Apptentive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930653DC1E6F83F0005AF0C9 /* Apptentive.framework */; };
 		930AFE781DD04CCA0092AE82 /* OBADepartureRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE751DD04CCA0092AE82 /* OBADepartureRow.m */; };
 		930AFE871DD04D2F0092AE82 /* OBAClassicDepartureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE7C1DD04D2F0092AE82 /* OBAClassicDepartureCell.m */; };
 		930AFE891DD04D2F0092AE82 /* OBAClassicDepartureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE801DD04D2F0092AE82 /* OBAClassicDepartureView.m */; };
@@ -55,7 +55,6 @@
 		934197871DB0C140004BBBB7 /* OBACreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197031DB0C13F004BBBB7 /* OBACreditsViewController.m */; };
 		934197881DB0C140004BBBB7 /* OBACreditsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 934197041DB0C13F004BBBB7 /* OBACreditsViewController.xib */; };
 		934197891DB0C140004BBBB7 /* OBAInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197061DB0C13F004BBBB7 /* OBAInfoViewController.m */; };
-		9341978A1DB0C140004BBBB7 /* PIIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934197081DB0C13F004BBBB7 /* PIIViewController.swift */; };
 		9341978B1DB0C140004BBBB7 /* OBARecentStopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341970B1DB0C13F004BBBB7 /* OBARecentStopsViewController.m */; };
 		9341978C1DB0C140004BBBB7 /* RegionBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341970D1DB0C13F004BBBB7 /* RegionBuilderViewController.swift */; };
 		9341978D1DB0C140004BBBB7 /* RegionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341970E1DB0C13F004BBBB7 /* RegionListViewController.swift */; };
@@ -256,9 +255,11 @@
 		1D6058910D05DD3D006BFB54 /* OneBusAway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneBusAway.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B175F3F1DE3806300F9E93C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5B7C4A5B1DB96E6A00853DD5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6B24C8741EC7F99E00A1F7B7 /* OBANavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTitleView.h; sourceTree = "<group>"; };
+		6B24C8751EC7F99E00A1F7B7 /* OBANavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTitleView.m; sourceTree = "<group>"; };
+		6B24C87C1EC821A900A1F7B7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		930653D51E6DE293005AF0C9 /* OBAToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAToastView.h; sourceTree = "<group>"; };
 		930653D61E6DE293005AF0C9 /* OBAToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAToastView.m; sourceTree = "<group>"; };
-		930653DC1E6F83F0005AF0C9 /* Apptentive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apptentive.framework; path = Carthage/Build/iOS/Apptentive.framework; sourceTree = "<group>"; };
 		930AFE741DD04CCA0092AE82 /* OBADepartureRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADepartureRow.h; sourceTree = "<group>"; };
 		930AFE751DD04CCA0092AE82 /* OBADepartureRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADepartureRow.m; sourceTree = "<group>"; };
 		930AFE7B1DD04D2F0092AE82 /* OBAClassicDepartureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureCell.h; sourceTree = "<group>"; };
@@ -334,7 +335,6 @@
 		934197041DB0C13F004BBBB7 /* OBACreditsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBACreditsViewController.xib; sourceTree = "<group>"; };
 		934197051DB0C13F004BBBB7 /* OBAInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAInfoViewController.h; sourceTree = "<group>"; };
 		934197061DB0C13F004BBBB7 /* OBAInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAInfoViewController.m; sourceTree = "<group>"; };
-		934197081DB0C13F004BBBB7 /* PIIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PIIViewController.swift; sourceTree = "<group>"; };
 		9341970A1DB0C13F004BBBB7 /* OBARecentStopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARecentStopsViewController.h; sourceTree = "<group>"; };
 		9341970B1DB0C13F004BBBB7 /* OBARecentStopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARecentStopsViewController.m; sourceTree = "<group>"; };
 		9341970D1DB0C13F004BBBB7 /* RegionBuilderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionBuilderViewController.swift; sourceTree = "<group>"; };
@@ -591,7 +591,6 @@
 				93BB1EE21E300526008A88BA /* Fabric.framework in Frameworks */,
 				938B842C1D868A0500DB0AF0 /* GoogleAnalytics.framework in Frameworks */,
 				932CCEC91DC3D2DB001C8405 /* SwiftMessages.framework in Frameworks */,
-				930653DD1E6F83F0005AF0C9 /* Apptentive.framework in Frameworks */,
 				932CCEC71DC3D2DB001C8405 /* PMKMapKit.framework in Frameworks */,
 				932CCEC31DC3D2DB001C8405 /* CocoaLumberjack.framework in Frameworks */,
 				93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */,
@@ -657,7 +656,6 @@
 			isa = PBXGroup;
 			children = (
 				93F3F8961E7AEE560025FC78 /* Mantle.framework */,
-				930653DC1E6F83F0005AF0C9 /* Apptentive.framework */,
 				93BB1EE01E300526008A88BA /* Fabric.framework */,
 				93BB1EE11E300526008A88BA /* Crashlytics.framework */,
 				934C508C1E2A1E5C00DFDCA0 /* OneSignal.framework */,
@@ -775,7 +773,6 @@
 				934196F01DB0C13F004BBBB7 /* bookmarks */,
 				934196FC1DB0C13F004BBBB7 /* drawer */,
 				934196FF1DB0C13F004BBBB7 /* info */,
-				934197071DB0C13F004BBBB7 /* privacy */,
 				934197091DB0C13F004BBBB7 /* recent_stops */,
 				9341970C1DB0C13F004BBBB7 /* regions */,
 				9341970F1DB0C13F004BBBB7 /* search */,
@@ -857,14 +854,6 @@
 				9385EC3A1DCF14C60020CCB2 /* OBASettingsViewController.m */,
 			);
 			path = info;
-			sourceTree = "<group>";
-		};
-		934197071DB0C13F004BBBB7 /* privacy */ = {
-			isa = PBXGroup;
-			children = (
-				934197081DB0C13F004BBBB7 /* PIIViewController.swift */,
-			);
-			path = privacy;
 			sourceTree = "<group>";
 		};
 		934197091DB0C13F004BBBB7 /* recent_stops */ = {
@@ -1023,6 +1012,8 @@
 				934197671DB0C140004BBBB7 /* OBAApplicationUI.h */,
 				934197681DB0C140004BBBB7 /* OBAClassicApplicationUI.h */,
 				934197691DB0C140004BBBB7 /* OBAClassicApplicationUI.m */,
+				6B24C8741EC7F99E00A1F7B7 /* OBANavigationTitleView.h */,
+				6B24C8751EC7F99E00A1F7B7 /* OBANavigationTitleView.m */,
 			);
 			path = themes;
 			sourceTree = "<group>";
@@ -1679,7 +1670,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/MarqueeLabel.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/OneSignal.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Apptentive.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Mantle.framework",
 			);
 			name = "Carthage Integration";
@@ -1757,7 +1747,6 @@
 				934197A71DB0C140004BBBB7 /* OBAEditStopPreferencesViewController.m in Sources */,
 				934197E31DB0C14C004BBBB7 /* EXTScope.m in Sources */,
 				93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */,
-				9341978A1DB0C140004BBBB7 /* PIIViewController.swift in Sources */,
 				934198231DB0C1BA004BBBB7 /* OBAListSelectionViewController.m in Sources */,
 				934197891DB0C140004BBBB7 /* OBAInfoViewController.m in Sources */,
 				930AFE8E1DD04D3D0092AE82 /* NearbyStopsViewController.swift in Sources */,
@@ -1784,6 +1773,7 @@
 				934197A31DB0C140004BBBB7 /* OBATableRow.m in Sources */,
 				934197A91DB0C140004BBBB7 /* OBAReportProblemWithStopViewController.m in Sources */,
 				9341981D1DB0C1BA004BBBB7 /* OBALabelAndSwitchTableViewCell.m in Sources */,
+				6B24C8761EC7F99E00A1F7B7 /* OBANavigationTitleView.m in Sources */,
 				934198191DB0C1BA004BBBB7 /* OBAMapActivityIndicatorView.m in Sources */,
 				934197BE1DB0C140004BBBB7 /* OBAVehicleDetailsController.m in Sources */,
 				934197BC1DB0C140004BBBB7 /* OBATripScheduleMapViewController.m in Sources */,
@@ -1891,6 +1881,7 @@
 			children = (
 				5B7C4A5B1DB96E6A00853DD5 /* es */,
 				5B175F3F1DE3806300F9E93C /* en */,
+				6B24C87C1EC821A900A1F7B7 /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			path = OneBusAway;

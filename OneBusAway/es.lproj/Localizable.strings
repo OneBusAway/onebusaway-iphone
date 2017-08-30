@@ -146,9 +146,6 @@
 /* A switch option's text for enabling and disabling Google Analytics */
 "msg_enable_google_analytics" = "Habilitar Google Analytics";
 
-/* A switch option's text for enabling and disabling App Store review prompts*/
-"msg_allow_app_feedback" = "Preguntarme para comentarios de la aplicación";
-
 /* view.title */
 "msg_error_submitting" = "Error al Enviar";
 
@@ -444,15 +441,6 @@
 /* No comment provided by engineer. */
 "msg_share" = "Compartir";
 
-/* Region switch row on PII Controller */
-"msg_share_current_region" = "Compartir Tu Región Actual";
-
-/* Location switch row on PII Controller */
-"msg_share_location" = "Compartir Tu Ubicación";
-
-/* Share logs action row title in the PII controller */
-"msg_share_logs" = "Compartir Registros";
-
 /* Section title for the shared trips section in the 'Recent' tab. */
 "msg_shared_trips" = "Viajes Compartidos";
 
@@ -481,7 +469,7 @@
 "msg_handoff_failure_title" = "Lo sentimos, Handoff no funciona adecuadamente";
 
 /* Error message body displayed to the user when handoff regions did not match both clients. */
-"msg_handoff_region_mismatch_body" = "Intenta habilitando la opción \"Región Seleccionada Automáticamente\" desde la sección Regiones bajo la pestaña Información para arreglar este problema, y háganoslo saber si esto no funciona.";
+"msg_handoff_region_mismatch_body" = "Intenta habilitando la opción 'Región Seleccionada Automáticamente' desde la sección Regiones bajo la pestaña Información para arreglar este problema, y háganoslo saber si esto no funciona.";
 
 /* Title for the Edit Stop Preferences Controller */
 "msg_sort_and_filter_routes" = "Ordenar & Filtrar Rutas";
@@ -549,9 +537,6 @@
 
 /* Invalid region error message */
 "msg_alert_custom_region_not_valid" = "La región que ha especificado no es válido. Por favor especificar al menos una dirección URL base (HTTPS) y un nombre.";
-
-/* The footer label on the PIIViewController */
-"msg_explanatory_information_send_on_submit_request" = "Esta información sólo se envía a OneBusAway en el momento de enviar una solicitud de soporte. Puedes desactivar el envío de cualquiera o todos estos datos, pero va a limitar nuestra capacidad para diagnosticar y solucionar los problemas que estás experimentando.";
 
 /* cell.textLabel.text */
 "msg_touch_to_edit" = "Toca para editar";
@@ -816,6 +801,9 @@
 /* Clear Search button text */
 "toast_view.clear_search" = "Limpiar Búsqueda";
 
+/* TODO: TRANSLATE ME! 'Contact app developers about a bug' row */
+"info_controller.contact_app_developers_row_title" = "Contact app developers about a bug";
+
 /* Message shown when debug mode is turned on */
 "info_controller.debug_mode_enabled" = "Modo de depuración activado.";
 
@@ -884,3 +872,12 @@
 
 /* Mark All as Read toolbar button title */
 "regional_alerts_controller.mark_all_as_read" = "Marcar Todas como Leídas";
+
+/* This is the '...' button in the stop header view. */
+"stop_header_view.menu_button_accessibility_label" = "Más Opciones";
+
+/* This is the Filter button in the stop header view. */
+"stop_header_view.filter_button_accessibility_label" = "Ordenar & Filtrar Rutas";
+
+/* No comment provided by engineer. */
+"msg_scheduled_explanatory" = "*'Programado': sin datos ubicación de vehículos disponibles";

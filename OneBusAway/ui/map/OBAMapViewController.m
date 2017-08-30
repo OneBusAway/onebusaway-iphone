@@ -559,7 +559,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     [self.navigationController pushViewController:stopController animated:YES];
 }
 
-#pragma mark - OBASearchMapViewController Private Methods
+#pragma mark - OBAMapViewController Private Methods
 
 - (void)refreshCurrentLocation {
     CLLocation *location = self.locationManager.currentLocation;

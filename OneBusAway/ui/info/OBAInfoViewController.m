@@ -9,8 +9,6 @@
 #import "OBAInfoViewController.h"
 @import SafariServices;
 @import Masonry;
-@import Apptentive;
-
 #import "OBAAgenciesListViewController.h"
 #import "OBASettingsViewController.h"
 #import "OBACreditsViewController.h"
@@ -55,15 +53,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
     OBALogFunction();
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMessageCountChanged:) name:ApptentiveMessageCenterUnreadCountChangedNotification object:nil];
-
     [self reloadData];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:ApptentiveMessageCenterUnreadCountChangedNotification object:nil];
 }
 
 #pragma mark - Notifications
@@ -136,7 +126,6 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
     [sections addObjectsFromArray:@[[self settingsTableSection],
                                     [self contactTableSection],
-                                    [self privacyTableSection],
                                     [self aboutTableSection]]];
 
     self.sections = sections;
@@ -180,51 +169,19 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 - (OBATableSection*)contactTableSection {
     NSMutableArray *rows = [[NSMutableArray alloc] init];
 
-    OBATableRow *contactUs = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_data_schedule_issues", @"Info Page Contact Us Row Title") action:^{
-        [self openContactUs];
+    OBATableRow *contactTransitAgency = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_data_schedule_issues", @"Info Page Contact Us Row Title") action:^{
+        [self contactTransitAgency];
     }];
-    contactUs.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    [rows addObject:contactUs];
+    contactTransitAgency.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [rows addObject:contactTransitAgency];
 
-    if ([Apptentive sharedConnection].canShowMessageCenter) {
-      OBATableRow *reportAppIssue = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_app_bugs_feature_requests",) action:^{
-          [self presentApptentiveMessageCenter];
-      }];
-      reportAppIssue.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-      if ([Apptentive sharedConnection].unreadMessageCount > 0) {
-          reportAppIssue.accessoryView = [[Apptentive sharedConnection] unreadMessageCountAccessoryView:YES];
-      }
-
-      [rows addObject:reportAppIssue];
-    }
-
-    OBATableRow *logs = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"info_controller.send_info_to_support_row",@"Info tab's table row title for sending logs to support.") action:^{
-        [self presentSendLogsActionSheet];
+    OBATableRow *contactAppDevelopers = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"info_controller.contact_app_developers_row_title", @"'Contact app developers about a bug' row") action:^{
+        [self contactAppDevelopers];
     }];
-    [rows addObject:logs];
+    contactAppDevelopers.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [rows addObject:contactAppDevelopers];
 
     OBATableSection *section = [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_contact_us", @"") rows:rows];
-
-    return section;
-}
-
-- (OBATableSection*)privacyTableSection {
-    OBATableRow *privacy = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_privacy_policy", @"Info Page Privacy Policy Row Title") action:^{
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
-        SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:kPrivacyURLString]];
-        safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        [self presentViewController:safari animated:YES completion:nil];
-    }];
-    privacy.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-    OBATableRow *PII = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_information_for_support",) action:^{
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Opened PII controller" value:nil];
-        PIIViewController *PIIController = [[PIIViewController alloc] init];
-        [self.navigationController pushViewController:PIIController animated:YES];
-    }];
-    PII.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_privacy",) rows:@[privacy, PII]];
 
     return section;
 }
@@ -235,7 +192,15 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     }];
     credits.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_about_oba", @"") rows:@[credits]];
+    OBATableRow *privacy = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_privacy_policy", @"Info Page Privacy Policy Row Title") action:^{
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
+        SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:kPrivacyURLString]];
+        safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [self presentViewController:safari animated:YES completion:nil];
+    }];
+    privacy.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_about_oba", @"") rows:@[credits, privacy]];
 }
 
 - (OBATableSection*)debugTableSection {
@@ -268,11 +233,19 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-- (void)openContactUs {
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Email Link" value:nil];
+- (void)contactTransitAgency {
+    [self presentEmailComposerForTarget:OBAEmailTargetTransitAgency];
+}
 
-    MFMailComposeViewController *composer = [OBAEmailHelper mailComposeViewControllerForModelDAO:self.modelDAO
-                                                                                 currentLocation:[OBAApplication sharedApplication].locationManager.currentLocation];
+- (void)contactAppDevelopers {
+    [self presentEmailComposerForTarget:OBAEmailTargetAppDevelopers];
+}
+
+- (void)presentEmailComposerForTarget:(OBAEmailTarget)emailTarget {
+    CLLocation *currentLocation = [OBAApplication sharedApplication].locationManager.currentLocation;
+    OBAEmailHelper *emailHelper = [[OBAEmailHelper alloc] initWithModelDAO:self.modelDAO currentLocation:currentLocation];
+
+    MFMailComposeViewController *composer = [emailHelper mailComposerForEmailTarget:emailTarget];
 
     if (composer) {
         composer.mailComposeDelegate = self;
@@ -309,15 +282,6 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:settings];
 
     [self presentViewController:navigation animated:YES completion:nil];
-}
-
-- (void)recordUserInformation {
-    [self.privacyBroker reportUserDataWithNotificationsStatus:[UIApplication sharedApplication].isRegisteredForRemoteNotifications];
-}
-
-- (void)presentApptentiveMessageCenter {
-    [self recordUserInformation];
-    [[Apptentive sharedConnection] presentMessageCenterFromViewController:self];
 }
 
 - (void)openGitHub {
@@ -372,7 +336,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [volunteerLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [views addObject:volunteerLabel];
 
-    UIButton *volunteerButton = [OBAUIBuilder borderedButtonWithTitle:NSLocalizedString(@"msg_visit_us",)];
+    BorderedButton *volunteerButton = [[BorderedButton alloc] initWithBorderColor:[UIColor blackColor] title:NSLocalizedString(@"msg_visit_us",)];
     [volunteerButton addTarget:self action:@selector(openGitHub) forControlEvents:UIControlEventTouchUpInside];
     [volunteerButton setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     [volunteerButton setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
@@ -411,31 +375,6 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     headerFrame.size.height = height;
     header.frame = headerFrame;
     self.tableView.tableHeaderView = header;
-}
-
-- (void)presentSendLogsActionSheet {
-    NSString *title = NSLocalizedString(@"info_controller.send_info_to_support_row",@"Info tab's table row title for sending logs to support.");
-    NSString *message = NSLocalizedString(@"info_controller.send_log_data_explanation", @"Info tab log data explanation is used on an action sheet as a description of what the options do.");
-
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
-
-    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
-
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"info_controller.send_logs",@"'Send Logs' action sheet item on the Info tab") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        for (NSData *logData in self.privacyBroker.shareableLogData) {
-            [[Apptentive sharedConnection] sendAttachmentFile:logData withMimeType:@"text/plain"];
-        }
-
-        [AlertPresenter showSuccess:NSLocalizedString(@"msg_log_files_sent",) body:NSLocalizedString(@"msg_thank_you_exclamation",)];
-    }]];
-
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"info_controller.send_user_defaults", @"Info controller 'send info' action sheet option for sending user defaults") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-
-        NSDictionary *defaultsDict = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
-        [Apptentive.shared sendAttachmentFile:[NSKeyedArchiver archivedDataWithRootObject:defaultsDict] withMimeType:@"application/octet-stream"];
-    }]];
-
-    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end

@@ -15,9 +15,10 @@
 #import "OBABookmarkGroupsViewController.h"
 #import "OBATableCell.h"
 #import "OBASegmentedRow.h"
+#import "OBANavigationTitleView.h"
 
 static NSTimeInterval const kRefreshTimerInterval = 30.0;
-static NSUInteger const kMinutes = 30;
+static NSUInteger const kMinutes = 60;
 
 static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDefaultsKey";
 
@@ -71,17 +72,23 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationChanged:) name:OBALocationDidUpdateNotification object:self.locationManager];
-
-    NSMutableString *title = [NSMutableString stringWithString:NSLocalizedString(@"msg_bookmarks", @"")];
-    if (self.currentRegion) {
-        [title appendFormat:@" - %@", self.currentRegion.regionName];
-    }
-    self.navigationItem.title = title;
-
     [self loadData];
-
+    [self createNavbarTitleView];
     [self refreshBookmarkDepartures:nil];
     [self startTimer];
+}
+
+- (void)createNavbarTitleView
+{
+    if (!self.currentRegion) {
+        self.navigationItem.title = NSLocalizedString(@"msg_bookmarks", @"");
+        return;
+    }
+    NSString *title = NSLocalizedString(@"msg_bookmarks", @"");
+    NSString *subtitle = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"msg_region", @""), self.currentRegion.regionName];
+    self.navigationItem.titleView = [[OBANavigationTitleView alloc] initWithTitle:title
+                                                                         subtitle:subtitle
+                                                                            style:OBAAppearanceNavBarTitleViewStyleSubtitle];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -358,6 +365,10 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     }
 }
 
+- (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.editing = NO;
+}
+
 #pragma mark - Table Row Actions (context menu thingy)
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -368,6 +379,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
         // rows not backed by models don't get actions.
         return nil;
     }
+    self.editing = YES;
 
     NSMutableArray<UITableViewRowAction *> *actions = [NSMutableArray array];
 

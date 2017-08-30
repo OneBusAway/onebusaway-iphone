@@ -95,7 +95,6 @@ NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNot
     defaults[kUngroupedBookmarksOpenKey] = @(YES);
     defaults[OBAOptInToCrashReportingDefaultsKey] = @(YES);
     defaults[OBAOptInToTrackingDefaultsKey] = @(YES);
-    defaults[OBAAllowReviewPromptsDefaultsKey] = @(YES);
     defaults[OBAMapSelectedTypeDefaultsKey] = @(MKMapTypeStandard);
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
@@ -144,10 +143,6 @@ NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNot
 }
 
 #pragma mark - App Keys
-
-- (NSString*)apptentiveAPIKey {
-    return @"3363af9a6661c98dec30fedea451a06dd7d7bc9f70ef38378a9d5a15ac7d4926";
-}
 
 - (NSString*)googleAnalyticsID {
     return @"UA-2423527-17";

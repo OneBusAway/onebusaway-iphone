@@ -129,7 +129,7 @@
 "msg_custom_title" = "Custom Title";
 
 /* Info Page Contact Us Row Title */
-"msg_data_schedule_issues" = "Data & Schedule Issues";
+"msg_data_schedule_issues" = "Report a problem with vehicle times or schedule information";
 
 /* No comment provided by engineer. */
 "msg_explanatory_delete_group_bookmarks" = "Deleting a group does not delete its bookmarks. Its contents will be moved to the 'Bookmarks' group.";
@@ -145,9 +145,6 @@
 
 /* A switch option's text for enabling and disabling Google Analytics */
 "msg_enable_google_analytics" = "Enable Google Analytics";
-
-/* A switch option's text for enabling and disabling App Store review prompts*/
-"msg_allow_app_feedback" = "Prompt me for app feedback";
 
 /* view.title */
 "msg_error_submitting" = "Error Submitting";
@@ -444,15 +441,6 @@
 /* No comment provided by engineer. */
 "msg_share" = "Share";
 
-/* Region switch row on PII Controller */
-"msg_share_current_region" = "Share Current Region";
-
-/* Location switch row on PII Controller */
-"msg_share_location" = "Share Location";
-
-/* Share logs action row title in the PII controller */
-"msg_share_logs" = "Share Logs";
-
 /* Section title for the shared trips section in the 'Recent' tab. */
 "msg_shared_trips" = "Shared Trips";
 
@@ -481,7 +469,7 @@
 "msg_handoff_failure_title" = "Sorry, Handoff didn't work properly";
 
 /* Error message body displayed to the user when handoff regions did not match both clients. */
-"msg_handoff_region_mismatch_body" = "Try enabling the \"Automatically Select Region\" option from the Regions section under the Info tab to fix this issue, and let us know if that doesn't work.";
+"msg_handoff_region_mismatch_body" = "Try enabling the 'Automatically Select Region' option from the Regions section under the Info tab to fix this issue, and let us know if that doesn't work.";
 
 /* Title for the Edit Stop Preferences Controller */
 "msg_sort_and_filter_routes" = "Sort & Filter Routes";
@@ -549,9 +537,6 @@
 
 /* Invalid region error message */
 "msg_alert_custom_region_not_valid" = "The region you have specified is not valid. Please specify at least a base URL (HTTPS) and a name.";
-
-/* The footer label on the PIIViewController */
-"msg_explanatory_information_send_on_submit_request" = "This information is only sent to OneBusAway when you submit a support request. You can disable sending us any or all of this data, but it will limit our ability to diagnose and fix problems you are experiencing.";
 
 /* cell.textLabel.text */
 "msg_touch_to_edit" = "Touch to edit";
@@ -816,6 +801,9 @@
 /* Clear Search button text */
 "toast_view.clear_search" = "Clear Search";
 
+/* 'Contact app developers about a bug' row */
+"info_controller.contact_app_developers_row_title" = "Contact app developers about a bug";
+
 /* Message shown when debug mode is turned on */
 "info_controller.debug_mode_enabled" = "Debug mode enabled.";
 
@@ -884,3 +872,12 @@
 
 /* Mark All as Read toolbar button title */
 "regional_alerts_controller.mark_all_as_read" = "Mark All as Read";
+
+/* This is the '...' button in the stop header view. */
+"stop_header_view.menu_button_accessibility_label" = "More Options";
+
+/* This is the Filter button in the stop header view. */
+"stop_header_view.filter_button_accessibility_label" = "Filter & Sort Routes";
+
+/* No comment provided by engineer. */
+"msg_scheduled_explanatory" = "*'Scheduled': no vehicle location data available";

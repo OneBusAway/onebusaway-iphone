@@ -13,14 +13,56 @@
 #import <OBAKit/OBACommon.h>
 #import <OBAKit/OBAMacros.h>
 
-static NSString const * kDefaultEmailAddress = @"contact@onebusaway.org";
+static NSString * kDefaultTransitEmailAddress = @"contact@onebusaway.org";
+static NSString * kAppDevelopersMailingListAddress = @"iphone-app@onebusaway.org";
 
 static NSString * OSVersion = nil;
 static NSString * appVersion = nil;
 
+@interface OBAEmailHelper ()
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
+@property(nonatomic,copy) CLLocation *currentLocation;
+@end
+
 @implementation OBAEmailHelper
 
-#pragma mark - Gross, internal test helpers
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)currentLocation {
+    self = [super init];
+
+    if (self) {
+        _modelDAO = modelDAO;
+        _currentLocation = [currentLocation copy];
+    }
+
+    return self;
+}
+
+- (MFMailComposeViewController*)mailComposerForEmailTarget:(OBAEmailTarget)emailTarget {
+    if (![MFMailComposeViewController canSendMail]) {
+        return nil;
+    }
+
+    NSString *emailAddress = [self emailAddressForTarget:emailTarget];
+    NSString *messageBody = [self.class messageBodyForModelDAO:self.modelDAO currentLocation:self.currentLocation];
+
+    MFMailComposeViewController *composer = [[MFMailComposeViewController alloc] init];
+    [composer setToRecipients:@[emailAddress]];
+    [composer setSubject:OBALocalized(@"msg_oba_ios_feedback", @"feedback mail subject")];
+    [composer setMessageBody:messageBody isHTML:YES];
+
+    return composer;
+}
+
+#pragma mark - Private
+
+- (NSString*)emailAddressForTarget:(OBAEmailTarget)emailTarget {
+    if (emailTarget == OBAEmailTargetTransitAgency) {
+        return self.modelDAO.currentRegion.contactEmail ?: kDefaultTransitEmailAddress;
+    }
+    else {
+        return kAppDevelopersMailingListAddress;
+    }
+}
 
 // TODO: Remove these once we have a proper mocking library that can do this for us :-\
 
@@ -56,10 +98,7 @@ static NSString * appVersion = nil;
     return deviceInfo;
 }
 
-#pragma mark - Public Methods
-
 + (NSString*)messageBodyForModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)location {
-
     NSMutableString *messageBody = [NSMutableString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"feedback_message_body" ofType:@"html"] encoding:NSUTF8StringEncoding error:nil];
 
     [messageBody replaceOccurrencesOfString:@"{{app_version}}" withString:[self appVersion] options:NSCaseInsensitiveSearch range:NSMakeRange(0, messageBody.length)];
@@ -84,23 +123,6 @@ static NSString * appVersion = nil;
     [messageBody replaceOccurrencesOfString:@"{{location}}" withString:locationString options:NSCaseInsensitiveSearch range:NSMakeRange(0, messageBody.length)];
 
     return messageBody;
-}
-
-+ (MFMailComposeViewController*)mailComposeViewControllerForModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)location {
-
-    if (![MFMailComposeViewController canSendMail]) {
-        return nil;
-    }
-
-    NSString *emailAddress = modelDAO.currentRegion.contactEmail ?: kDefaultEmailAddress;
-    NSString *messageBody = [self messageBodyForModelDAO:modelDAO currentLocation:location];
-
-    MFMailComposeViewController *composer = [[MFMailComposeViewController alloc] init];
-    [composer setToRecipients:@[emailAddress]];
-    [composer setSubject:OBALocalized(@"msg_oba_ios_feedback", @"feedback mail subject")];
-    [composer setMessageBody:messageBody isHTML:YES];
-
-    return composer;
 }
 
 @end

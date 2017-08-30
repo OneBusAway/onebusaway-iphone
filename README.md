@@ -1,23 +1,24 @@
 # OneBusAway for iPhone [![Build Status](https://img.shields.io/travis/OneBusAway/onebusaway-iphone.svg)](https://travis-ci.org/OneBusAway/onebusaway-iphone) [![codebeat badge](https://codebeat.co/badges/080b2d57-c69b-466e-be49-3b5b7e02c8d8)](https://codebeat.co/projects/github-com-onebusaway-onebusaway-iphone) [![Join the OneBusAway chat on Slack](https://onebusaway.herokuapp.com/badge.svg)](https://onebusaway.herokuapp.com/)
 
+## Start Here
+
+1. [Come join our Slack channel](https://onebusaway.herokuapp.com/) to say hi and let us know what you're interested in working on.
+2. We maintain a set of tasks that we think would be good choices for people interested in working on OneBusAway. Learn more about them here: [Picking an appropriate first time issue](#picking-an-appropriate-first-time-issue)
+3. This project adheres to the [Open Code of Conduct](http://todogroup.org/opencodeofconduct/#OneBusAway/conduct@onebusaway.org). By participating, you are expected to honor this code.
+4. Now, [learn about setting up your development environment](#development-environment-setup).
+
+---------
+
 ## Test latest development release
 
 If you would like to help test the latest development release, email us at [iphone-app@onebusaway.org](mailto:iphone-app@onebusaway.org) to be added to our TestFlight Beta testing group.
 
 ## Contributing
 
-See our [contributing guidelines](CONTRIBUTING.md) and [upcoming milestones](https://github.com/OneBusAway/onebusaway-iphone/milestones).
-
-### Slack
-
-[Drop into our Slack channel](https://onebusaway.herokuapp.com/) to say hi and let us know what you're interested in working on.
+See our [contributing guidelines](CONTRIBUTING.md) and [upcoming milestones](https://github.com/OneBusAway/onebusaway-iphone/milestones). This project adheres to the [Open Code of Conduct](http://todogroup.org/opencodeofconduct/#OneBusAway/conduct@onebusaway.org). By participating, you are expected to honor this code.
 
 ### Individual Contributor License Agreement (ICLA)
 To ensure that the app source code remains fully open-source under a common license, we require that contributors sign an electronic ICLA before contributions can be merged.  When you submit a pull request, you'll be prompted by the [CLA Assistant](https://cla-assistant.io/) to sign the ICLA.
-
-### Code of Conduct
-
-This project adheres to the [Open Code of Conduct](http://todogroup.org/opencodeofconduct/#OneBusAway/conduct@onebusaway.org). By participating, you are expected to honor this code.
 
 ### Picking an appropriate first-time issue
 

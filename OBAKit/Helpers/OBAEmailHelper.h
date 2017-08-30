@@ -12,11 +12,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, OBAEmailTarget) {
+    OBAEmailTargetTransitAgency,
+    OBAEmailTargetAppDevelopers,
+};
+
 @class OBAModelDAO;
 
 @interface OBAEmailHelper : NSObject
-+ (NSString*)messageBodyForModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)location;
-+ (nullable MFMailComposeViewController*)mailComposeViewControllerForModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)location;
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)currentLocation;
+- (nullable MFMailComposeViewController*)mailComposerForEmailTarget:(OBAEmailTarget)emailTarget;
 @end
 
 NS_ASSUME_NONNULL_END
