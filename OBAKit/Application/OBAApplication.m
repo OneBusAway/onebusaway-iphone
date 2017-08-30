@@ -95,7 +95,6 @@ NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNot
     defaults[kUngroupedBookmarksOpenKey] = @(YES);
     defaults[OBAOptInToCrashReportingDefaultsKey] = @(YES);
     defaults[OBAOptInToTrackingDefaultsKey] = @(YES);
-    defaults[OBAAllowReviewPromptsDefaultsKey] = @(YES);
     defaults[OBAMapSelectedTypeDefaultsKey] = @(MKMapTypeStandard);
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];

@@ -55,7 +55,6 @@
 		934197871DB0C140004BBBB7 /* OBACreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197031DB0C13F004BBBB7 /* OBACreditsViewController.m */; };
 		934197881DB0C140004BBBB7 /* OBACreditsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 934197041DB0C13F004BBBB7 /* OBACreditsViewController.xib */; };
 		934197891DB0C140004BBBB7 /* OBAInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197061DB0C13F004BBBB7 /* OBAInfoViewController.m */; };
-		9341978A1DB0C140004BBBB7 /* PIIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934197081DB0C13F004BBBB7 /* PIIViewController.swift */; };
 		9341978B1DB0C140004BBBB7 /* OBARecentStopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341970B1DB0C13F004BBBB7 /* OBARecentStopsViewController.m */; };
 		9341978C1DB0C140004BBBB7 /* RegionBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341970D1DB0C13F004BBBB7 /* RegionBuilderViewController.swift */; };
 		9341978D1DB0C140004BBBB7 /* RegionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341970E1DB0C13F004BBBB7 /* RegionListViewController.swift */; };
@@ -336,7 +335,6 @@
 		934197041DB0C13F004BBBB7 /* OBACreditsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBACreditsViewController.xib; sourceTree = "<group>"; };
 		934197051DB0C13F004BBBB7 /* OBAInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAInfoViewController.h; sourceTree = "<group>"; };
 		934197061DB0C13F004BBBB7 /* OBAInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAInfoViewController.m; sourceTree = "<group>"; };
-		934197081DB0C13F004BBBB7 /* PIIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PIIViewController.swift; sourceTree = "<group>"; };
 		9341970A1DB0C13F004BBBB7 /* OBARecentStopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARecentStopsViewController.h; sourceTree = "<group>"; };
 		9341970B1DB0C13F004BBBB7 /* OBARecentStopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARecentStopsViewController.m; sourceTree = "<group>"; };
 		9341970D1DB0C13F004BBBB7 /* RegionBuilderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionBuilderViewController.swift; sourceTree = "<group>"; };
@@ -775,7 +773,6 @@
 				934196F01DB0C13F004BBBB7 /* bookmarks */,
 				934196FC1DB0C13F004BBBB7 /* drawer */,
 				934196FF1DB0C13F004BBBB7 /* info */,
-				934197071DB0C13F004BBBB7 /* privacy */,
 				934197091DB0C13F004BBBB7 /* recent_stops */,
 				9341970C1DB0C13F004BBBB7 /* regions */,
 				9341970F1DB0C13F004BBBB7 /* search */,
@@ -857,14 +854,6 @@
 				9385EC3A1DCF14C60020CCB2 /* OBASettingsViewController.m */,
 			);
 			path = info;
-			sourceTree = "<group>";
-		};
-		934197071DB0C13F004BBBB7 /* privacy */ = {
-			isa = PBXGroup;
-			children = (
-				934197081DB0C13F004BBBB7 /* PIIViewController.swift */,
-			);
-			path = privacy;
 			sourceTree = "<group>";
 		};
 		934197091DB0C13F004BBBB7 /* recent_stops */ = {
@@ -1758,7 +1747,6 @@
 				934197A71DB0C140004BBBB7 /* OBAEditStopPreferencesViewController.m in Sources */,
 				934197E31DB0C14C004BBBB7 /* EXTScope.m in Sources */,
 				93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */,
-				9341978A1DB0C140004BBBB7 /* PIIViewController.swift in Sources */,
 				934198231DB0C1BA004BBBB7 /* OBAListSelectionViewController.m in Sources */,
 				934197891DB0C140004BBBB7 /* OBAInfoViewController.m in Sources */,
 				930AFE8E1DD04D3D0092AE82 /* NearbyStopsViewController.swift in Sources */,

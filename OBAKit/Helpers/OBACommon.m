@@ -27,7 +27,6 @@ NSString * const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcu
 
 NSString * const OBAOptInToTrackingDefaultsKey = @"OBAOptInToTrackingDefaultsKey";
 NSString * const OBAOptInToCrashReportingDefaultsKey = @"OBAOptInToCrashReportingDefaultsKey";
-NSString * const OBAAllowReviewPromptsDefaultsKey = @"OBAAllowReviewPromptsDefaultsKey";
 NSString * const OBAMapSelectedTypeDefaultsKey = @"OBAMapSelectedTypeDefaultsKey";
 NSString * const OBADebugModeUserDefaultsKey = @"OBADebugModeUserDefaultsKey";
 

@@ -145,9 +145,6 @@
 /* A switch option's text for enabling and disabling Google Analytics */
 "msg_enable_google_analytics" = "開啟 Google Analytics";
 
-/* A switch option's text for enabling and disabling App Store review prompts*/
-"msg_allow_app_feedback" = "提醒我給予App評分";
-
 /* view.title */
 "msg_error_submitting" = "錯誤產生";
 
@@ -439,15 +436,6 @@
 /* No comment provided by engineer. */
 "msg_share" = "分享";
 
-/* Region switch row on PII Controller */
-"msg_share_current_region" = "分享所在地區";
-
-/* Location switch row on PII Controller */
-"msg_share_location" = "分享地點";
-
-/* Share logs action row title in the PII controller */
-"msg_share_logs" = "分享 Logs";
-
 /* Section title for the shared trips section in the 'Recent' tab. */
 "msg_shared_trips" = "分享行程";
 
@@ -547,9 +535,6 @@
 
 /* Invalid region error message */
 "msg_alert_custom_region_not_valid" = "您提供的地區是無效的。請提供base URL (HTTPS) 和一個地區名稱";
-
-/* The footer label on the PIIViewController */
-"msg_explanatory_information_send_on_submit_request" = "當你發送支援要求，此資訊將會傳送至OneBusAway。你可以關起傳送數據的功能，但我們將無法診斷並排除你現在的錯誤問題";
 
 /* cell.textLabel.text */
 "msg_touch_to_edit" = "觸碰編輯";
@@ -813,6 +798,9 @@
 
 /* Clear Search button text */
 "toast_view.clear_search" = "清除搜尋";
+
+/* TODO: TRANSLATE ME! 'Contact app developers about a bug' row */
+"info_controller.contact_app_developers_row_title" = "Contact app developers about a bug";
 
 /* Message shown when debug mode is turned on */
 "info_controller.debug_mode_enabled" = "開啟排除錯誤模式";
