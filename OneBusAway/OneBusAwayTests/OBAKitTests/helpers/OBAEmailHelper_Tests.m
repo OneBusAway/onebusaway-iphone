@@ -18,6 +18,7 @@ static NSString * const kAppVersion = @"2.6.OBA_SIM";
 @interface OBAEmailHelper (Internal)
 + (void)setOSVersion:(NSString*)OSVersionOverride;
 + (void)setAppVersion:(NSString*)appVersionOverride;
++ (NSString*)messageBodyForModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)location;
 @end
 
 @interface OBAEmailHelper_Tests : XCTestCase

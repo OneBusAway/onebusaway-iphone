@@ -129,7 +129,7 @@
 "msg_custom_title" = "Custom Title";
 
 /* Info Page Contact Us Row Title */
-"msg_data_schedule_issues" = "Data & Schedule Issues";
+"msg_data_schedule_issues" = "Report a problem with vehicle times or schedule information";
 
 /* No comment provided by engineer. */
 "msg_explanatory_delete_group_bookmarks" = "Deleting a group does not delete its bookmarks. Its contents will be moved to the 'Bookmarks' group.";
@@ -145,9 +145,6 @@
 
 /* A switch option's text for enabling and disabling Google Analytics */
 "msg_enable_google_analytics" = "Enable Google Analytics";
-
-/* A switch option's text for enabling and disabling App Store review prompts*/
-"msg_allow_app_feedback" = "Prompt me for app feedback";
 
 /* view.title */
 "msg_error_submitting" = "Error Submitting";
@@ -444,15 +441,6 @@
 /* No comment provided by engineer. */
 "msg_share" = "Share";
 
-/* Region switch row on PII Controller */
-"msg_share_current_region" = "Share Current Region";
-
-/* Location switch row on PII Controller */
-"msg_share_location" = "Share Location";
-
-/* Share logs action row title in the PII controller */
-"msg_share_logs" = "Share Logs";
-
 /* Section title for the shared trips section in the 'Recent' tab. */
 "msg_shared_trips" = "Shared Trips";
 
@@ -549,9 +537,6 @@
 
 /* Invalid region error message */
 "msg_alert_custom_region_not_valid" = "The region you have specified is not valid. Please specify at least a base URL (HTTPS) and a name.";
-
-/* The footer label on the PIIViewController */
-"msg_explanatory_information_send_on_submit_request" = "This information is only sent to OneBusAway when you submit a support request. You can disable sending us any or all of this data, but it will limit our ability to diagnose and fix problems you are experiencing.";
 
 /* cell.textLabel.text */
 "msg_touch_to_edit" = "Touch to edit";
@@ -815,6 +800,9 @@
 
 /* Clear Search button text */
 "toast_view.clear_search" = "Clear Search";
+
+/* 'Contact app developers about a bug' row */
+"info_controller.contact_app_developers_row_title" = "Contact app developers about a bug";
 
 /* Message shown when debug mode is turned on */
 "info_controller.debug_mode_enabled" = "Debug mode enabled.";

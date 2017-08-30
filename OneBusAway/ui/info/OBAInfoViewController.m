@@ -126,7 +126,6 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
     [sections addObjectsFromArray:@[[self settingsTableSection],
                                     [self contactTableSection],
-                                    [self privacyTableSection],
                                     [self aboutTableSection]]];
 
     self.sections = sections;
@@ -170,34 +169,19 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 - (OBATableSection*)contactTableSection {
     NSMutableArray *rows = [[NSMutableArray alloc] init];
 
-    OBATableRow *contactUs = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_data_schedule_issues", @"Info Page Contact Us Row Title") action:^{
-        [self openContactUs];
+    OBATableRow *contactTransitAgency = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_data_schedule_issues", @"Info Page Contact Us Row Title") action:^{
+        [self contactTransitAgency];
     }];
-    contactUs.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    [rows addObject:contactUs];
+    contactTransitAgency.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [rows addObject:contactTransitAgency];
+
+    OBATableRow *contactAppDevelopers = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"info_controller.contact_app_developers_row_title", @"'Contact app developers about a bug' row") action:^{
+        [self contactAppDevelopers];
+    }];
+    contactAppDevelopers.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [rows addObject:contactAppDevelopers];
 
     OBATableSection *section = [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_contact_us", @"") rows:rows];
-
-    return section;
-}
-
-- (OBATableSection*)privacyTableSection {
-    OBATableRow *privacy = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_privacy_policy", @"Info Page Privacy Policy Row Title") action:^{
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
-        SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:kPrivacyURLString]];
-        safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        [self presentViewController:safari animated:YES completion:nil];
-    }];
-    privacy.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-    OBATableRow *PII = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_information_for_support",) action:^{
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Opened PII controller" value:nil];
-        PIIViewController *PIIController = [[PIIViewController alloc] init];
-        [self.navigationController pushViewController:PIIController animated:YES];
-    }];
-    PII.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_privacy",) rows:@[privacy, PII]];
 
     return section;
 }
@@ -208,7 +192,15 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     }];
     credits.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_about_oba", @"") rows:@[credits]];
+    OBATableRow *privacy = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_privacy_policy", @"Info Page Privacy Policy Row Title") action:^{
+        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
+        SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:kPrivacyURLString]];
+        safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [self presentViewController:safari animated:YES completion:nil];
+    }];
+    privacy.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_about_oba", @"") rows:@[credits, privacy]];
 }
 
 - (OBATableSection*)debugTableSection {
@@ -241,11 +233,19 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-- (void)openContactUs {
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Email Link" value:nil];
+- (void)contactTransitAgency {
+    [self presentEmailComposerForTarget:OBAEmailTargetTransitAgency];
+}
 
-    MFMailComposeViewController *composer = [OBAEmailHelper mailComposeViewControllerForModelDAO:self.modelDAO
-                                                                                 currentLocation:[OBAApplication sharedApplication].locationManager.currentLocation];
+- (void)contactAppDevelopers {
+    [self presentEmailComposerForTarget:OBAEmailTargetAppDevelopers];
+}
+
+- (void)presentEmailComposerForTarget:(OBAEmailTarget)emailTarget {
+    CLLocation *currentLocation = [OBAApplication sharedApplication].locationManager.currentLocation;
+    OBAEmailHelper *emailHelper = [[OBAEmailHelper alloc] initWithModelDAO:self.modelDAO currentLocation:currentLocation];
+
+    MFMailComposeViewController *composer = [emailHelper mailComposerForEmailTarget:emailTarget];
 
     if (composer) {
         composer.mailComposeDelegate = self;
