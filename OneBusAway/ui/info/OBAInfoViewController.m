@@ -71,13 +71,6 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     return _modelDAO;
 }
 
-- (PrivacyBroker*)privacyBroker {
-    if (!_privacyBroker) {
-        _privacyBroker = [OBAApplication sharedApplication].privacyBroker;
-    }
-    return _privacyBroker;
-}
-
 - (OBALocationManager*)locationManager {
     if (!_locationManager) {
         _locationManager = [OBAApplication sharedApplication].locationManager;

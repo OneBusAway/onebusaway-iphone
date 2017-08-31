@@ -103,7 +103,6 @@
 		934196421DB0B099004BBBB7 /* OBASetNextOBAJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195A41DB0B099004BBBB7 /* OBASetNextOBAJsonDigesterRule.m */; };
 		934196431DB0B099004BBBB7 /* OBASetPropertyJsonDigesterRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195A51DB0B099004BBBB7 /* OBASetPropertyJsonDigesterRule.h */; };
 		934196441DB0B099004BBBB7 /* OBASetPropertyJsonDigesterRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195A61DB0B099004BBBB7 /* OBASetPropertyJsonDigesterRule.m */; };
-		934196461DB0B099004BBBB7 /* PrivacyBroker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934195A91DB0B099004BBBB7 /* PrivacyBroker.swift */; };
 		934196471DB0B099004BBBB7 /* OBAAgencyV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195AB1DB0B099004BBBB7 /* OBAAgencyV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196481DB0B099004BBBB7 /* OBAAgencyV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195AC1DB0B099004BBBB7 /* OBAAgencyV2.m */; };
 		934196491DB0B099004BBBB7 /* OBAAgencyWithCoverageV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195AD1DB0B099004BBBB7 /* OBAAgencyWithCoverageV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -341,7 +340,6 @@
 		934195A41DB0B099004BBBB7 /* OBASetNextOBAJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetNextOBAJsonDigesterRule.m; sourceTree = "<group>"; };
 		934195A51DB0B099004BBBB7 /* OBASetPropertyJsonDigesterRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASetPropertyJsonDigesterRule.h; sourceTree = "<group>"; };
 		934195A61DB0B099004BBBB7 /* OBASetPropertyJsonDigesterRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASetPropertyJsonDigesterRule.m; sourceTree = "<group>"; };
-		934195A91DB0B099004BBBB7 /* PrivacyBroker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyBroker.swift; sourceTree = "<group>"; };
 		934195AB1DB0B099004BBBB7 /* OBAAgencyV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgencyV2.h; sourceTree = "<group>"; };
 		934195AC1DB0B099004BBBB7 /* OBAAgencyV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAgencyV2.m; sourceTree = "<group>"; };
 		934195AD1DB0B099004BBBB7 /* OBAAgencyWithCoverageV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgencyWithCoverageV2.h; sourceTree = "<group>"; };
@@ -646,7 +644,6 @@
 				934195851DB0B099004BBBB7 /* annotations */,
 				9341958E1DB0B099004BBBB7 /* dao */,
 				934195941DB0B099004BBBB7 /* json_digester */,
-				934195A81DB0B099004BBBB7 /* privacy */,
 				934195AA1DB0B099004BBBB7 /* unmanaged */,
 			);
 			path = Models;
@@ -702,14 +699,6 @@
 				934195A61DB0B099004BBBB7 /* OBASetPropertyJsonDigesterRule.m */,
 			);
 			path = json_digester;
-			sourceTree = "<group>";
-		};
-		934195A81DB0B099004BBBB7 /* privacy */ = {
-			isa = PBXGroup;
-			children = (
-				934195A91DB0B099004BBBB7 /* PrivacyBroker.swift */,
-			);
-			path = privacy;
 			sourceTree = "<group>";
 		};
 		934195AA1DB0B099004BBBB7 /* unmanaged */ = {
@@ -1063,6 +1052,7 @@
 				TargetAttributes = {
 					934195381DB0B013004BBBB7 = {
 						CreatedOnToolsVersion = 8.0;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Manual;
 					};
 					934195411DB0B013004BBBB7 = {
@@ -1209,7 +1199,6 @@
 				9341964E1DB0B099004BBBB7 /* OBAArrivalAndDepartureV2.m in Sources */,
 				934196421DB0B099004BBBB7 /* OBASetNextOBAJsonDigesterRule.m in Sources */,
 				CCD30CFB1E30564600080EFF /* OBAHandoff.swift in Sources */,
-				934196461DB0B099004BBBB7 /* PrivacyBroker.swift in Sources */,
 				934196D41DB0C02F004BBBB7 /* NSDate+DateTools.m in Sources */,
 				9341965D1DB0B099004BBBB7 /* OBAHasReferencesV2.m in Sources */,
 				934196441DB0B099004BBBB7 /* OBASetPropertyJsonDigesterRule.m in Sources */,
@@ -1396,8 +1385,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1421,8 +1411,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -1525,8 +1516,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = AppStoreDistribution;
 		};

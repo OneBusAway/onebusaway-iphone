@@ -16,11 +16,11 @@ class RegionalAlertsViewController: OBAStaticTableViewController {
     var regionalAlertsManager: RegionalAlertsManager
     let refreshControl = UIRefreshControl.init()
 
-    convenience init(regionalAlertsManager: RegionalAlertsManager) {
+    @objc convenience init(regionalAlertsManager: RegionalAlertsManager) {
         self.init(regionalAlertsManager: regionalAlertsManager, focusedAlert: nil)
     }
 
-    init(regionalAlertsManager: RegionalAlertsManager, focusedAlert: OBARegionalAlert?) {
+    @objc init(regionalAlertsManager: RegionalAlertsManager, focusedAlert: OBARegionalAlert?) {
         self.regionalAlertsManager = regionalAlertsManager
         self.focusedAlert = focusedAlert
 

@@ -15,7 +15,7 @@ import OBAKit
 
 class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpdating {
 
-    public weak var delegate: MapSearchDelegate?
+    @objc public weak var delegate: MapSearchDelegate?
 
     // MARK: Lazy Properties
     public var modelDAO: OBAModelDAO = {
@@ -88,13 +88,13 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
     private static func quickLookupRowText(title: String, searchText: String) -> NSAttributedString {
         let str = NSMutableAttributedString.init()
 
-        let attributedTitle = NSAttributedString.init(string: title, attributes: [NSForegroundColorAttributeName: UIColor.darkGray])
+        let attributedTitle = NSAttributedString.init(string: title, attributes: [NSAttributedStringKey.foregroundColor: UIColor.darkGray])
         str.append(attributedTitle)
 
         // Needs a space tokeepwordsfromrunningtogether
         str.append(NSAttributedString.init(string: " "))
 
-        let attributedSearchText = NSAttributedString.init(string: searchText, attributes: [NSFontAttributeName: OBATheme.boldBodyFont])
+        let attributedSearchText = NSAttributedString.init(string: searchText, attributes: [NSAttributedStringKey.font: OBATheme.boldBodyFont])
         str.append(attributedSearchText)
 
         return str

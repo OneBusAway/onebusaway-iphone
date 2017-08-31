@@ -23,7 +23,6 @@
 #import <OBAKit/OBARegionHelper.h>
 
 @class OBAApplicationConfiguration;
-@class PrivacyBroker;
 @class OBAConsoleLogger;
 @class RegionalAlertsManager;
 
@@ -41,7 +40,6 @@ extern NSString *const OBARegionServerInvalidNotification;
 @property (nonatomic, strong, readonly) OBALocationManager *locationManager;
 @property (nonatomic, strong, readonly) RegionalAlertsManager *regionalAlertsManager;
 @property (nonatomic, strong, readonly) OBARegionHelper *regionHelper;
-@property (nonatomic, strong, readonly) PrivacyBroker *privacyBroker;
 @property (nonatomic, strong, readonly) OBAConsoleLogger *consoleLogger;
 
 @property (nonatomic, copy, readonly) NSString *googleAnalyticsID;

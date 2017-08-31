@@ -25,7 +25,6 @@ NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNot
 @property (nonatomic, strong, readwrite) OBAReachability *reachability;
 @property (nonatomic, strong, readwrite) OBARegionHelper *regionHelper;
 @property (nonatomic, strong, readwrite) RegionalAlertsManager *regionalAlertsManager;
-@property (nonatomic, strong, readwrite) PrivacyBroker *privacyBroker;
 @property (nonatomic, strong, readwrite) OBALogging *loggingManager;
 @end
 
@@ -72,8 +71,6 @@ NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNot
     self.modelService.locationManager = self.locationManager;
 
     self.regionHelper = [[OBARegionHelper alloc] initWithLocationManager:self.locationManager modelService:self.modelService];
-
-    self.privacyBroker = [[PrivacyBroker alloc] initWithModelDAO:self.modelDao locationManager:self.locationManager];
 
     self.regionalAlertsManager = [[RegionalAlertsManager alloc] init];
     self.regionalAlertsManager.region = self.modelDao.currentRegion;

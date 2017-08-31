@@ -17,7 +17,7 @@ import OBAKit
 class VehicleMapController: UIViewController, MKMapViewDelegate {
 
     static let expandedStateUserDefaultsKey = "expandedStateUserDefaultsKey"
-    public var expanded: Bool {
+    @objc public var expanded: Bool {
         didSet {
             UserDefaults.standard.set(expanded, forKey: VehicleMapController.expandedStateUserDefaultsKey)
             self.toggleButton.isSelected = expanded
@@ -33,7 +33,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public var tripDetails: OBATripDetailsV2? {
+    @objc public var tripDetails: OBATripDetailsV2? {
         didSet {
             guard let tripDetails = self.tripDetails else {
                 return
@@ -47,7 +47,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         }
     }
 
-    public var arrivalAndDeparture: OBAArrivalAndDepartureV2? {
+    @objc public var arrivalAndDeparture: OBAArrivalAndDepartureV2? {
         willSet {
             // TODO: there's no reason to remove all of the annotations every time
             // the ArrivalAndDeparture object is updated. This will just cause an
@@ -70,9 +70,9 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
             }
         }
     }
-    public var routeType: OBARouteType = .bus
+    @objc public var routeType: OBARouteType = .bus
 
-    public weak var delegate: VehicleMapDelegate?
+    @objc public weak var delegate: VehicleMapDelegate?
 
     lazy var modelService: OBAModelService = {
         return OBAApplication.shared().modelService
@@ -132,12 +132,12 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
 
     // MARK: - Actions
 
-    func toggleButtonTapped() {
+    @objc func toggleButtonTapped() {
         self.expanded = !self.expanded
         self.delegate?.vehicleMap(self, didToggleSize: self.expanded)
     }
     
-    func recenterMap() {
+    @objc func recenterMap() {
         self.mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
     }
 

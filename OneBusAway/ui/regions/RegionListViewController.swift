@@ -19,7 +19,7 @@ import SVProgressHUD
 
 class RegionListViewController: OBAStaticTableViewController, RegionBuilderDelegate {
     var regions: [OBARegionV2]?
-    weak var delegate: RegionListDelegate?
+    @objc weak var delegate: RegionListDelegate?
 
     lazy var modelDAO: OBAModelDAO = OBAApplication.shared().modelDao
     lazy var modelService: OBAModelService = OBAModelService.init()
@@ -50,7 +50,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
     // MARK: - Region Builder
 
-    func addCustomAPI() {
+    @objc func addCustomAPI() {
         self.buildRegion(nil)
     }
 
@@ -79,7 +79,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
     // MARK: - Notifications
 
-    func selectedRegionDidChange(_ note: Notification) {
+    @objc func selectedRegionDidChange(_ note: Notification) {
         SVProgressHUD.dismiss()
         self.loadData()
     }
@@ -129,7 +129,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
         SVProgressHUD.show(withStatus: NSLocalizedString("msg_loading_regions", comment: "Progress HUD status when first locating the user on the Region List Controller"))
 
-        firstly { _ in
+        firstly { 
             OBAApplication.shared().modelService.requestRegions()
         }.then { regions in
             self.regions = regions as? [OBARegionV2]

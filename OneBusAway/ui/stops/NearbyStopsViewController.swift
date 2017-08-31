@@ -17,11 +17,11 @@ typealias NearbyStopsCanceled = () -> Void
 class NearbyStopsViewController: OBAStaticTableViewController {
     var stop: OBAStopV2?
     var searchResult: OBASearchResult?
-    var presentedModally = false
-    var pushesResultsOntoStack = false
-    var canceled: NearbyStopsCanceled?
-    var closeButtonTitle = OBAStrings.close
-    lazy public var navigator: OBANavigator = {
+    @objc var presentedModally = false
+    @objc var pushesResultsOntoStack = false
+    @objc var canceled: NearbyStopsCanceled?
+    @objc var closeButtonTitle = OBAStrings.close
+    @objc lazy public var navigator: OBANavigator = {
         let navigator = UIApplication.shared.delegate as! OBAApplicationDelegate
         return navigator
     }()
@@ -32,7 +32,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
 
     public var currentCoordinate: CLLocationCoordinate2D?
 
-    init(withStop stop: OBAStopV2) {
+    @objc init(withStop stop: OBAStopV2) {
         self.stop = stop
         self.currentCoordinate = self.stop?.coordinate
         super.init(nibName: nil, bundle: nil)
@@ -40,7 +40,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
         self.configureUI()
     }
 
-    init(withSearchResult searchResult: OBASearchResult) {
+    @objc init(withSearchResult searchResult: OBASearchResult) {
         self.searchResult = searchResult
         super.init(nibName: nil, bundle: nil)
 
