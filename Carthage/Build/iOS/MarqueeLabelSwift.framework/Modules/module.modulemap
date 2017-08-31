@@ -1,3 +1,4 @@
 framework module MarqueeLabelSwift {
     header "MarqueeLabelSwift-Swift.h"
+    requires objc
 }

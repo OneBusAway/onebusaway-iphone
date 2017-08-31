@@ -1,0 +1,9 @@
+{
+  "commitish" : "1.0.1",
+  "iOS" : [
+    {
+      "hash" : "4dd95fb7d61fbee84ba1b9b5d3bb62705a3935777bf7e942460eb7c0dca2298b",
+      "name" : "PMKMapKit"
+    }
+  ]
+}

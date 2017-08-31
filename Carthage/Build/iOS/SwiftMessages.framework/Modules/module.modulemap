@@ -7,4 +7,5 @@ framework module SwiftMessages {
 
 module SwiftMessages.Swift {
     header "SwiftMessages-Swift.h"
+    requires objc
 }
