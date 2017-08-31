@@ -11,17 +11,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class OBABaseRow;
+typedef void (^OBARowAction)(OBABaseRow *row);
+
 @interface OBABaseRow : NSObject<NSCopying>
 
 /**
  The action taken (pushing a view controller, etc.) when the row is tapped.
  */
-@property(nonatomic,copy) void (^action)(OBABaseRow *row);
+@property(nonatomic,copy) OBARowAction action;
 
 /**
  The action taken (editing the underlying model, etc.) when the row is tapped while the table is in edit mode.
  */
-@property(nonatomic,copy) void (^editAction)();
+@property(nonatomic,copy) void (^editAction)(void);
 
 /**
  Optional 'swipe to reveal' buttons for this row.
@@ -53,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,assign) UITableViewCellAccessoryType accessoryType;
 
-- (instancetype)initWithAction:(nullable void (^)(OBABaseRow *row))action NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithAction:(nullable OBARowAction)action NS_DESIGNATED_INITIALIZER;
 
 + (void)registerViewsWithTableView:(UITableView*)tableView;
 

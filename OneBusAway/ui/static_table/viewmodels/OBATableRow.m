@@ -21,7 +21,7 @@ static NSString * const OBACellStyleSubtitleReuseIdentifier = @"OBACellStyleSubt
     [OBAViewModelRegistry registerClass:self.class];
 }
 
-- (instancetype)initWithTitle:(NSString*)title action:(void (^)())action {
+- (instancetype)initWithTitle:(NSString*)title action:(nullable OBARowAction)action {
     self = [super initWithAction:action];
     
     if (self) {
@@ -31,7 +31,7 @@ static NSString * const OBACellStyleSubtitleReuseIdentifier = @"OBACellStyleSubt
     return self;
 }
 
-- (instancetype)initWithAttributedTitle:(NSAttributedString*)attributedTitle action:( void (^ _Nullable )())action {
+- (instancetype)initWithAttributedTitle:(NSAttributedString*)attributedTitle action:(nullable OBARowAction)action {
     self = [super initWithAction:action];
 
     if (self) {

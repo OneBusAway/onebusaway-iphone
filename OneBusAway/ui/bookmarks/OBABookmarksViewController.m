@@ -556,7 +556,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 }
 
 - (OBABaseRow*)rowForBookmarkVersion252:(OBABookmarkV2*)bm {
-    OBATableRow *row = [[OBATableRow alloc] initWithTitle:bm.name action:^{
+    OBATableRow *row = [[OBATableRow alloc] initWithTitle:bm.name action:^(OBABaseRow *r2) {
         OBAStopViewController *controller = [[OBAStopViewController alloc] initWithStopID:bm.stopId];
         [self.navigationController pushViewController:controller animated:YES];
     }];

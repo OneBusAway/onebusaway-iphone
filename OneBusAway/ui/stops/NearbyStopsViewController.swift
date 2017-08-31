@@ -150,10 +150,10 @@ class NearbyStopsViewController: OBAStaticTableViewController {
         }
 
         section.rows = rows.map { stop in
-            let row = OBATableRow.init(title: stop.name, action: {
+            let row = OBATableRow.init(title: stop.name) { _ in
                 let target = OBANavigationTarget(forStopID: stop.stopId)
                 self.navigateTo(target)
-            })
+            }
             row.subtitle = String.localizedStringWithFormat(NSLocalizedString("text_only_routes_colon_param", comment: "e.g. Routes: 10, 12, 43"), stop.routeNamesAsString())
             row.style = .subtitle
             row.accessoryType = .disclosureIndicator
@@ -166,10 +166,10 @@ class NearbyStopsViewController: OBAStaticTableViewController {
         let routes = searchResult.values as! [OBARouteV2]
 
         let rows = routes.map { route -> OBATableRow in
-            let row = OBATableRow.init(title: route.fullRouteName, action: {
+            let row = OBATableRow.init(title: route.fullRouteName) { _ in
                 let target = OBANavigationTarget(forRoute: route)
                 self.navigateTo(target)
-            })
+            }
             row.subtitle = route.agency.name
             row.style = .subtitle
 
@@ -182,7 +182,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
     func addressSectionFromSearchResult(_ searchResult: OBASearchResult) -> OBATableSection {
         let placemarks = searchResult.values as! [OBAPlacemark]
         let rows = placemarks.map { placemark -> OBATableRow in
-            let row = OBATableRow.init(title: placemark.title!, action: {
+            let row = OBATableRow.init(title: placemark.title!, action: { _ in
                 let target = OBANavigationTarget(forSearch: placemark)
                 self.navigateTo(target)
             })

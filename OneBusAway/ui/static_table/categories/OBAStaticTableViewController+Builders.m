@@ -12,7 +12,7 @@
 @implementation OBAStaticTableViewController (Builders)
 
 - (OBATableSection*)createServiceAlertsSection:(id<OBAHasServiceAlerts>)result serviceAlerts:(OBAServiceAlertsModel*)serviceAlerts {
-    OBATableRow *serviceAlertsRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_view_service_alerts", @"") action:^{
+    OBATableRow *serviceAlertsRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_view_service_alerts", @"") action:^(OBABaseRow *r2) {
         OBAServiceAlertsViewController *situations = [[OBAServiceAlertsViewController alloc] initWithSituations:result.situations];
         [self.navigationController pushViewController:situations animated:YES];
     }];

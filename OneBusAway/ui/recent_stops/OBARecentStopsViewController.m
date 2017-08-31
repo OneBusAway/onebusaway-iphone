@@ -120,7 +120,7 @@
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"recent_stops.alarms_section_title", @"Title of the Alarms section in the Recent Stops controller")];
 
     for (OBAAlarm *alarm in alarms) {
-        OBATableRow *row = [[OBATableRow alloc] initWithTitle:alarm.title action:^{
+        OBATableRow *row = [[OBATableRow alloc] initWithTitle:alarm.title action:^(OBABaseRow *r2){
             OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:alarm];
             [self.navigationController pushViewController:controller animated:YES];
         }];
@@ -160,7 +160,7 @@
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_shared_trips", @"Section title for the shared trips section in the 'Recent' tab.")];
 
     for (OBATripDeepLink *link in sharedTrips) {
-        OBATableRow *row = [[OBATableRow alloc] initWithTitle:link.name action:^{
+        OBATableRow *row = [[OBATableRow alloc] initWithTitle:link.name action:^(OBABaseRow *r2){
             OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:link];
             [self.navigationController pushViewController:controller animated:YES];
         }];
@@ -190,7 +190,7 @@
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_recent_stops",)];
 
     for (OBAStopAccessEventV2* stop in self.modelDAO.mostRecentStops) {
-        OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:stop.title action:^{
+        OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:stop.title action:^(OBABaseRow *r2){
             [self showStopViewControllerWithStopID:stop.stopIds[0]];
         }];
         tableRow.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

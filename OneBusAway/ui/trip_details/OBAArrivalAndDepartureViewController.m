@@ -351,7 +351,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     OBATableSection *actionsSection = [[OBATableSection alloc] init];
 
     [actionsSection addRowWithBlock:^OBABaseRow * {
-        OBATimelineBarRow *tableRow = [[OBATimelineBarRow alloc] initWithTitle:NSLocalizedString(@"msg_minus_report_problem_this_trip", @"") action:^{
+        OBATimelineBarRow *tableRow = [[OBATimelineBarRow alloc] initWithTitle:NSLocalizedString(@"msg_minus_report_problem_this_trip", @"") action:^(OBABaseRow *row){
             OBAReportProblemWithTripViewController *vc = [[OBAReportProblemWithTripViewController alloc] initWithTripInstance:arrivalAndDeparture.tripInstance trip:arrivalAndDeparture.trip];
             vc.currentStopId = arrivalAndDeparture.stopId;
             [navigationController pushViewController:vc animated:YES];

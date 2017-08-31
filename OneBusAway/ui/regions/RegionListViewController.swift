@@ -204,8 +204,10 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
             r1.regionName < r2.regionName
         }.map { region in
             let autoSelect = self.modelDAO.automaticallySelectRegion
-
-            let action: (() -> Void)? = autoSelect ? nil : {
+            let row = OBATableRow.init(title: region.regionName) { _ in
+                if autoSelect {
+                    return
+                }
                 self.modelDAO.currentRegion = region
                 self.loadData()
 
@@ -213,8 +215,6 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
                     delegate.regionSelected()
                 }
             }
-
-            let row: OBATableRow = OBATableRow.init(title: region.regionName, action: action)
 
             row.model = region
             row.deleteModel = { row in
