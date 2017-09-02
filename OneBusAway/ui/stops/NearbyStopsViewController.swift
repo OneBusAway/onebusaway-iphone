@@ -17,11 +17,11 @@ typealias NearbyStopsCanceled = () -> Void
 class NearbyStopsViewController: OBAStaticTableViewController {
     var stop: OBAStopV2?
     var searchResult: OBASearchResult?
-    var presentedModally = false
-    var pushesResultsOntoStack = false
-    var canceled: NearbyStopsCanceled?
-    var closeButtonTitle = OBAStrings.close
-    lazy public var navigator: OBANavigator = {
+    @objc var presentedModally = false
+    @objc var pushesResultsOntoStack = false
+    @objc var canceled: NearbyStopsCanceled?
+    @objc var closeButtonTitle = OBAStrings.close
+    @objc lazy public var navigator: OBANavigator = {
         let navigator = UIApplication.shared.delegate as! OBAApplicationDelegate
         return navigator
     }()
@@ -32,7 +32,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
 
     public var currentCoordinate: CLLocationCoordinate2D?
 
-    init(withStop stop: OBAStopV2) {
+    @objc init(withStop stop: OBAStopV2) {
         self.stop = stop
         self.currentCoordinate = self.stop?.coordinate
         super.init(nibName: nil, bundle: nil)
@@ -40,7 +40,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
         self.configureUI()
     }
 
-    init(withSearchResult searchResult: OBASearchResult) {
+    @objc init(withSearchResult searchResult: OBASearchResult) {
         self.searchResult = searchResult
         super.init(nibName: nil, bundle: nil)
 
@@ -150,10 +150,10 @@ class NearbyStopsViewController: OBAStaticTableViewController {
         }
 
         section.rows = rows.map { stop in
-            let row = OBATableRow.init(title: stop.name, action: {
+            let row = OBATableRow.init(title: stop.name) { _ in
                 let target = OBANavigationTarget(forStopID: stop.stopId)
                 self.navigateTo(target)
-            })
+            }
             row.subtitle = String.localizedStringWithFormat(NSLocalizedString("text_only_routes_colon_param", comment: "e.g. Routes: 10, 12, 43"), stop.routeNamesAsString())
             row.style = .subtitle
             row.accessoryType = .disclosureIndicator
@@ -166,10 +166,10 @@ class NearbyStopsViewController: OBAStaticTableViewController {
         let routes = searchResult.values as! [OBARouteV2]
 
         let rows = routes.map { route -> OBATableRow in
-            let row = OBATableRow.init(title: route.fullRouteName, action: {
+            let row = OBATableRow.init(title: route.fullRouteName) { _ in
                 let target = OBANavigationTarget(forRoute: route)
                 self.navigateTo(target)
-            })
+            }
             row.subtitle = route.agency.name
             row.style = .subtitle
 
@@ -182,7 +182,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
     func addressSectionFromSearchResult(_ searchResult: OBASearchResult) -> OBATableSection {
         let placemarks = searchResult.values as! [OBAPlacemark]
         let rows = placemarks.map { placemark -> OBATableRow in
-            let row = OBATableRow.init(title: placemark.title!, action: {
+            let row = OBATableRow.init(title: placemark.title!, action: { _ in
                 let target = OBANavigationTarget(forSearch: placemark)
                 self.navigateTo(target)
             })

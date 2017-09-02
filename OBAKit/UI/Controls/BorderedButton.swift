@@ -22,7 +22,7 @@ public class BorderedButton: UIButton {
         }
     }
 
-    public convenience init(borderColor: UIColor, title: String) {
+    @objc public convenience init(borderColor: UIColor, title: String) {
         self.init(frame: CGRect.zero)
         self.borderColor = borderColor
         self.configure()

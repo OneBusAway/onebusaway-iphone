@@ -63,7 +63,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     NSMutableArray * rows = [[NSMutableArray alloc] init];
 
     for (OBAAgencyWithCoverageV2 *awc in self.agencies) {
-        OBATableRow *row = [[OBATableRow alloc] initWithTitle:awc.agency.name action:^{
+        OBATableRow *row = [[OBATableRow alloc] initWithTitle:awc.agency.name action:^(OBABaseRow *r2) {
             SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:awc.agency.url]];
             safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
             [self presentViewController:safari animated:YES completion:nil];

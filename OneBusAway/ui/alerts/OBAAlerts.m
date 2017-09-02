@@ -20,7 +20,7 @@
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_fix_it", @"Location services alert button.") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSURL *appSettings = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
         // Appropriate use of -openURL:. Don't replace.
-        [[UIApplication sharedApplication] openURL:appSettings];
+        [UIApplication.sharedApplication openURL:appSettings options:@{} completionHandler:nil];
     }]];
 
     return alert;

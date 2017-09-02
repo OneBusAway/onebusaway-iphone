@@ -27,7 +27,7 @@ class UserDefaultsBrowserViewController: OBAStaticTableViewController {
         let dictionaryRep = UserDefaults.standard.dictionaryRepresentation()
         section.rows = dictionaryRep.keys.sorted().map { key -> OBATableRow in
             let value = dictionaryRep[key]
-            let row = OBATableRow.init(title: key) {
+            let row = OBATableRow.init(title: key) { _ in
                 self.visualizeKey(key, value: value)
             }
             row.subtitle = (value as! NSObject).description

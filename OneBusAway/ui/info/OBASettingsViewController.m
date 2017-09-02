@@ -47,7 +47,7 @@
     OBATableSection *analyticsSection = [[OBATableSection alloc] initWithTitle:nil];
 
     BOOL analyticsValue = [[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
-    OBASwitchRow *switchRow = [[OBASwitchRow alloc] initWithTitle:NSLocalizedString(@"msg_enable_google_analytics", @"A switch option's text for enabling and disabling Google Analytics") action:^{
+    OBASwitchRow *switchRow = [[OBASwitchRow alloc] initWithTitle:NSLocalizedString(@"msg_enable_google_analytics", @"A switch option's text for enabling and disabling Google Analytics") action:^(OBABaseRow *row){
         [[NSUserDefaults standardUserDefaults] setBool:!analyticsValue forKey:OBAOptInToTrackingDefaultsKey];
         [GAI sharedInstance].optOut = !analyticsValue;
     } switchValue:analyticsValue];
@@ -62,7 +62,7 @@
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil];
 
     BOOL value = [[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToCrashReportingDefaultsKey];
-    OBASwitchRow *switchRow = [[OBASwitchRow alloc] initWithTitle:NSLocalizedString(@"settings.crash_reporting.switch_text", @"A switch option's text for enabling and disabling crash reporting") action:^{
+    OBASwitchRow *switchRow = [[OBASwitchRow alloc] initWithTitle:NSLocalizedString(@"settings.crash_reporting.switch_text", @"A switch option's text for enabling and disabling crash reporting") action:^(OBABaseRow *row){
         [[NSUserDefaults standardUserDefaults] setBool:!value forKey:OBAOptInToCrashReportingDefaultsKey];
     } switchValue:value];
     [section addRow:switchRow];

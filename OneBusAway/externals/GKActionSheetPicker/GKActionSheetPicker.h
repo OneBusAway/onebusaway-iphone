@@ -10,7 +10,7 @@
 #import "GKActionSheetPickerItem.h"
 
 typedef void(^GKActionSheetPickerSelectCallback)(id selected);
-typedef void(^GKActionSheetPickerCancelCallback)();
+typedef void(^GKActionSheetPickerCancelCallback)(void);
 
 typedef NS_ENUM(NSUInteger, GKActionSheetPickerDismissType) {
     GKActionSheetPickerDismissTypeNone,

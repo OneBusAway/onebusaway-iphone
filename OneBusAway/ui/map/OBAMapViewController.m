@@ -106,8 +106,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         self.mapView.showsUserLocation = YES;
     }
 
-    [self createLocationHoverBar];
-    [self createSecondaryHoverBar];
+//    [self createLocationHoverBar];
+//    [self createSecondaryHoverBar];
 
     self.hideFutureNetworkErrors = NO;
 
@@ -118,7 +118,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         [self setRegularStyle];
     }
 
-    [self configureToastView];
+//    [self configureToastView];
 
     [self configureSearch];
 

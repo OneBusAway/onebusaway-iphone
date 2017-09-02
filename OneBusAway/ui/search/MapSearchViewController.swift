@@ -15,7 +15,7 @@ import OBAKit
 
 class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpdating {
 
-    public weak var delegate: MapSearchDelegate?
+    @objc public weak var delegate: MapSearchDelegate?
 
     // MARK: Lazy Properties
     public var modelDAO: OBAModelDAO = {
@@ -88,13 +88,13 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
     private static func quickLookupRowText(title: String, searchText: String) -> NSAttributedString {
         let str = NSMutableAttributedString.init()
 
-        let attributedTitle = NSAttributedString.init(string: title, attributes: [NSForegroundColorAttributeName: UIColor.darkGray])
+        let attributedTitle = NSAttributedString.init(string: title, attributes: [NSAttributedStringKey.foregroundColor: UIColor.darkGray])
         str.append(attributedTitle)
 
         // Needs a space tokeepwordsfromrunningtogether
         str.append(NSAttributedString.init(string: " "))
 
-        let attributedSearchText = NSAttributedString.init(string: searchText, attributes: [NSFontAttributeName: OBATheme.boldBodyFont])
+        let attributedSearchText = NSAttributedString.init(string: searchText, attributes: [NSAttributedStringKey.font: OBATheme.boldBodyFont])
         str.append(attributedSearchText)
 
         return str
@@ -103,7 +103,7 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
     private func buildQuickLookupSection(searchText: String) -> OBATableSection {
 
         let routeText = MapSearchViewController.quickLookupRowText(title: NSLocalizedString("map_search.search_for_route", comment: "Route Number: <ROUTE NUMBER>"), searchText: searchText)
-        let routeRow = OBATableRow.init(attributedTitle: routeText) {
+        let routeRow = OBATableRow.init(attributedTitle: routeText) { _ in
             let target = OBANavigationTarget(forSearchRoute: searchText)
             self.delegate?.mapSearch(self, selectedNavigationTarget: target)
         }
@@ -111,7 +111,7 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
 
         // Address Row
         let searchAddressText = MapSearchViewController.quickLookupRowText(title: NSLocalizedString("map_search.search_for_address", comment: "Address: <ADDRESS>"), searchText: searchText)
-        let addressRow = OBATableRow.init(attributedTitle: searchAddressText) {
+        let addressRow = OBATableRow.init(attributedTitle: searchAddressText) { _ in
             let target = OBANavigationTarget(forSearchAddress: searchText)
             self.delegate?.mapSearch(self, selectedNavigationTarget: target)
         }
@@ -119,7 +119,7 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
 
         // Stop Number Row
         let stopNumberText = MapSearchViewController.quickLookupRowText(title: NSLocalizedString("map_search.search_for_stop_number", comment: "Stop Number: <STOP NUMBER>"), searchText: searchText)
-        let stopNumberRow = OBATableRow.init(attributedTitle: stopNumberText) {
+        let stopNumberRow = OBATableRow.init(attributedTitle: stopNumberText) { _ in
             let target = OBANavigationTarget(forStopID: searchText)
             self.delegate?.mapSearch(self, selectedNavigationTarget: target)
         }
@@ -136,7 +136,7 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
         }
 
         let tableRows = rows.map { evt -> OBATableRow in
-            let tableRow = OBATableRow.init(title: evt.title, action: { 
+            let tableRow = OBATableRow.init(title: evt.title, action: { _ in
                 let target = OBANavigationTarget(forStopID: evt.stopID)
                 self.delegate?.mapSearch(self, selectedNavigationTarget: target)
             })
@@ -156,7 +156,7 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
         }
 
         let rows = bookmarks.map { bm -> OBATableRow in
-            let tableRow = OBATableRow.init(title: bm.name, action: { 
+            let tableRow = OBATableRow.init(title: bm.name, action: { _ in
                 let target = OBANavigationTarget(forStopID: bm.stopId)
                 self.delegate?.mapSearch(self, selectedNavigationTarget: target)
             })

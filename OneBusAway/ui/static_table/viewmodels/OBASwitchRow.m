@@ -12,7 +12,7 @@
 
 @implementation OBASwitchRow
 
-- (instancetype)initWithTitle:(NSString*)title action:(void (^)())action switchValue:(BOOL)switchValue {
+- (instancetype)initWithTitle:(NSString*)title action:(nullable OBARowAction)action switchValue:(BOOL)switchValue {
     self = [super initWithTitle:title action:action];
     if (self) {
         _switchValue = switchValue;

@@ -127,7 +127,7 @@
         OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:group.name action:nil];
         tableRow.model = group;
 
-        [tableRow setEditAction:^(OBABaseRow *row) {
+        [tableRow setEditAction:^{
             [self addEditGroupName:group];
         }];
 

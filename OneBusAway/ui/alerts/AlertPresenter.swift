@@ -16,7 +16,7 @@ import SwiftMessages
     ///
     /// - parameter title: The title of the alert
     /// - parameter body:  The body of the alert
-    open class func showSuccess(_ title: String, body: String) {
+    @objc open class func showSuccess(_ title: String, body: String) {
         self.showMessage(withTheme: .success, title: title, body: body)
     }
 
@@ -24,7 +24,7 @@ import SwiftMessages
     ///
     /// - parameter title: The title of the alert
     /// - parameter body:  The body of the alert
-    open class func showWarning(_ title: String, body: String) {
+    @objc open class func showWarning(_ title: String, body: String) {
         self.showMessage(withTheme: .warning, title: title, body: body)
     }
 
@@ -32,14 +32,14 @@ import SwiftMessages
     ///
     /// - parameter title: The title of the alert
     /// - parameter body:  The body of the alert
-    open class func showError(_ title: String, body: String) {
+    @objc open class func showError(_ title: String, body: String) {
         self.showMessage(withTheme: .error, title: title, body: body)
     }
 
     /// Displays an error alert on screen generated from an error object.
     ///
     /// - Parameter error: The error object from which the alert is generated.
-    open class func showError(_ error: NSError) {
+    @objc open class func showError(_ error: NSError) {
         Crashlytics.sharedInstance().recordError(error)
         self.showError(OBAStrings.error, body: errorMessage(from: error))
     }

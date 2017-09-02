@@ -1,0 +1,9 @@
+{
+  "commitish" : "2.1.0",
+  "iOS" : [
+    {
+      "hash" : "fb7a9e46535367f2414e83d0124326af28016a360ef9a03399891e495e4281ba",
+      "name" : "Mantle"
+    }
+  ]
+}

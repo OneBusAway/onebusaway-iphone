@@ -9,10 +9,10 @@
 import Foundation
 
 class OBAHandoff: NSObject {
-    static let shared = OBAHandoff()
-    static let activityType = "org.onebusaway.iphone.handoff"
-    static let stopIDKey = "stop_ID"
-    static let regionIDKey = "region_id"
+    @objc static let shared = OBAHandoff()
+    @objc static let activityType = "org.onebusaway.iphone.handoff"
+    @objc static let stopIDKey = "stop_ID"
+    @objc static let regionIDKey = "region_id"
     
     open internal(set) var activity: NSUserActivity! {
         didSet {
@@ -29,7 +29,7 @@ class OBAHandoff: NSObject {
     /// Begin broadcasting the specified URL
     /// - parameter URL: URL to broadcast, if `nil`,
     /// this will stop broadcasting
-    open func broadcast(_ URL: URL?) {
+    @objc open func broadcast(_ URL: URL?) {
         activity.webpageURL = URL
         activity.becomeCurrent()
     }
@@ -39,7 +39,7 @@ class OBAHandoff: NSObject {
     /// - Parameters:
     ///   - stop: Stop ID to broadcast
     ///   - region: The OBARegionV2 object associated with the specified stopID
-    open func broadcast(stopID stop: String, withRegion region: OBARegionV2) {
+    @objc open func broadcast(stopID stop: String, withRegion region: OBARegionV2) {
         let userInfo: [AnyHashable: Any] = [
             OBAHandoff.stopIDKey: stop,
             OBAHandoff.regionIDKey: region.identifier
@@ -49,7 +49,7 @@ class OBAHandoff: NSObject {
     }
     
     /// Stop broadcasting to other devices.
-    open func stopBroadcasting() {
+    @objc open func stopBroadcasting() {
         activity.userInfo = nil
         activity.webpageURL = nil
         activity.resignCurrent()
