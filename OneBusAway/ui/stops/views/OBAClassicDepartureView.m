@@ -13,13 +13,19 @@
 #import "OBAAnimation.h"
 #import "OBADepartureTimeLabel.h"
 
-#define kUseDebugColors 0
+#define kUseDebugColors NO
 
 @interface OBAClassicDepartureView ()
+@property(nonatomic,strong,readwrite) UIButton *contextMenuButton;
 @property(nonatomic,strong) UILabel *routeLabel;
 @property(nonatomic,strong,readwrite) OBADepartureTimeLabel *leadingLabel;
+@property(nonatomic,strong) UIView *leadingWrapper;
+
 @property(nonatomic,strong,readwrite) OBADepartureTimeLabel *centerLabel;
+@property(nonatomic,strong) UIView *centerWrapper;
+
 @property(nonatomic,strong,readwrite) OBADepartureTimeLabel *trailingLabel;
+@property(nonatomic,strong) UIView *trailingWrapper;
 @end
 
 @implementation OBAClassicDepartureView
@@ -37,43 +43,55 @@
         _routeLabel = ({
             UILabel *l = [[UILabel alloc] init];
             l.numberOfLines = 0;
-            [l setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+            [l setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+            [l setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+            [l setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
             l;
         });
 
         _leadingLabel = [self.class departureTimeLabel];
-        UIView *leadingWrapper = [self.class wrapLabel:_leadingLabel];
+        _leadingWrapper = [self.class wrapLabel:_leadingLabel];
 
         _centerLabel = [self.class departureTimeLabel];
-        UIView *centerWrapper = [self.class wrapLabel:_centerLabel];
+        _centerWrapper = [self.class wrapLabel:_centerLabel];
 
         _trailingLabel = [self.class departureTimeLabel];
-        UIView *trailingWrapper = [self.class wrapLabel:_trailingLabel];
+        _trailingWrapper = [self.class wrapLabel:_trailingLabel];
+
+        _contextMenuButton = [OBAUIBuilder contextMenuButton];
 
         if (kUseDebugColors) {
             self.backgroundColor = [UIColor purpleColor];
             _routeLabel.backgroundColor = [UIColor greenColor];
 
             _leadingLabel.backgroundColor = [UIColor magentaColor];
-            leadingWrapper.backgroundColor = [UIColor redColor];
+            _leadingWrapper.backgroundColor = [UIColor redColor];
 
             _centerLabel.backgroundColor = [UIColor magentaColor];
-            centerWrapper.backgroundColor = [UIColor blueColor];
+            _centerWrapper.backgroundColor = [UIColor blueColor];
 
             _trailingLabel.backgroundColor = [UIColor magentaColor];
-            trailingWrapper.backgroundColor = [UIColor brownColor];
+            _trailingWrapper.backgroundColor = [UIColor brownColor];
+
+            _contextMenuButton.backgroundColor = [UIColor yellowColor];
         }
 
         UIStackView *horizontalStack = ({
-            UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[_routeLabel, leadingWrapper, centerWrapper, trailingWrapper]];
+            UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[_routeLabel, _leadingWrapper, _centerWrapper, _trailingWrapper, _contextMenuButton]];
             stack.axis = UILayoutConstraintAxisHorizontal;
             stack.distribution = UIStackViewDistributionFill;
             stack.spacing = [OBATheme compactPadding];
             stack;
         });
         [self addSubview:horizontalStack];
+
         [horizontalStack mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self);
+        }];
+
+        [_contextMenuButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(@40);
+            make.height.greaterThanOrEqualTo(@40);
         }];
     }
     return self;
@@ -100,15 +118,27 @@
     [self renderRouteLabel];
 
     if ([self departureRow].upcomingDepartures.count > 0) {
+        self.leadingWrapper.hidden = NO;
         [self setDepartureStatus:[self departureRow].upcomingDepartures[0] forLabel:self.leadingLabel];
+    }
+    else {
+        self.leadingWrapper.hidden = YES;
     }
 
     if ([self departureRow].upcomingDepartures.count > 1) {
+        self.centerWrapper.hidden = NO;
         [self setDepartureStatus:[self departureRow].upcomingDepartures[1] forLabel:self.centerLabel];
+    }
+    else {
+        self.centerWrapper.hidden = YES;
     }
 
     if ([self departureRow].upcomingDepartures.count > 2) {
+        self.trailingWrapper.hidden = NO;
         [self setDepartureStatus:[self departureRow].upcomingDepartures[2] forLabel:self.trailingLabel];
+    }
+    else {
+        self.centerWrapper.hidden = YES;
     }
 }
 
@@ -148,6 +178,7 @@
     label.font = [OBATheme bodyFont];
     label.textAlignment = NSTextAlignmentRight;
     [label setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+    [label setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     return label;
 }
 

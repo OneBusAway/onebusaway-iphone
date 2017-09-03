@@ -16,10 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy,nullable) NSArray<OBAUpcomingDeparture*> *upcomingDepartures;
 @property(nonatomic,copy) NSString *statusText;
 @property(nonatomic,copy) NSString *routeName;
-@property(nonatomic,copy,nullable) void (^showAlertController)(UIView *presentingView, UIAlertController *alertController);
-@property(nonatomic,copy,nullable) void (^toggleBookmarkAction)(void);
-@property(nonatomic,copy,nullable) void (^toggleAlarmAction)(void);
-@property(nonatomic,copy,nullable) void (^shareAction)(void);
+@property(nonatomic,copy,nullable) void (^showAlertController)(UIView *presentingView);
 @property(nonatomic,assign) BOOL bookmarkExists;
 @property(nonatomic,assign) BOOL alarmExists;
 @property(nonatomic,assign) BOOL hasArrived;

@@ -20,6 +20,10 @@
 #import "OBATimelineBarRow.h"
 #import "OBAAnimation.h"
 #import "OBAPushManager.h"
+#import "OBAArrivalDepartureOptionsSheet.h"
+#import "UIViewController+OBAAdditions.h"
+#import "OBAEditStopBookmarkViewController.h"
+#import "EXTScope.h"
 @import Masonry;
 @import MarqueeLabel;
 @import SVProgressHUD;
@@ -30,7 +34,7 @@ static CGFloat const kExpandedMapHeight = 350.f;
 
 static NSTimeInterval const kRefreshTimeInterval = 30;
 
-@interface OBAArrivalAndDepartureViewController ()<VehicleMapDelegate>
+@interface OBAArrivalAndDepartureViewController ()<VehicleMapDelegate, OBAArrivalDepartureOptionsSheetDelegate>
 @property(nonatomic,strong) OBATripDetailsV2 *tripDetails;
 @property(nonatomic,strong) UIView *tableHeaderView;
 @property(nonatomic,strong) OBAClassicDepartureView *departureView;
@@ -43,6 +47,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
 @property(nonatomic,strong) MarqueeLabel *titleVehicleLabel;
 @property(nonatomic,strong) MarqueeLabel *titleUpdateLabel;
+
+@property(nonatomic,strong) OBAArrivalDepartureOptionsSheet *departureSheetHelper;
 @end
 
 @implementation OBAArrivalAndDepartureViewController
@@ -102,6 +108,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
     self.departureView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
     self.departureView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.departureView.contextMenuButton addTarget:self action:@selector(showActionMenu:) forControlEvents:UIControlEventTouchUpInside];
 
     self.stackView = [[UIStackView alloc] initWithFrame:self.view.bounds];
     self.stackView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
@@ -165,6 +172,32 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [self updateMapVisibilityForTraitCollection:newCollection];
 }
 
+#pragma mark - Action Menu
+
+- (void)showActionMenu:(UIButton*)sender {
+    OBADepartureRow *departureRow = self.departureView.departureRow;
+
+    if (!departureRow) {
+        return;
+    }
+
+    [self.departureSheetHelper showActionMenuForDepartureRow:departureRow fromPresentingView:sender];
+}
+
+#pragma mark - OBADepartureSheetDelegate
+
+- (void)optionsSheet:(OBAArrivalDepartureOptionsSheet*)departureSheetHelpers presentViewController:(UIViewController*)viewController fromView:(nullable UIView *)presentingView {
+    [self oba_presentViewController:viewController fromView:presentingView];
+}
+
+- (UIView*)optionsSheetPresentationView:(OBAArrivalDepartureOptionsSheet*)departureSheetHelpers {
+    return self.view;
+}
+
+- (UIView*)optionsSheet:(OBAArrivalDepartureOptionsSheet*)optionsSheet viewForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+    return self.departureView.contextMenuButton;
+}
+
 #pragma mark - Map/VehicleMapDelegate
 
 - (void)updateMapVisibilityForTraitCollection:(UITraitCollection*)traitCollection {
@@ -195,6 +228,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         }];
     }
 }
+
+#pragma mark - UI Layout
 
 - (void)updateMapConstraints {
     CGFloat mapHeight = self.mapController.expanded ? kExpandedMapHeight : kCollapsedMapHeight;
@@ -228,6 +263,14 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
 #pragma mark - Lazily Loaded Accessors
 
+- (OBAArrivalDepartureOptionsSheet*)departureSheetHelper {
+    if (!_departureSheetHelper) {
+        _departureSheetHelper = [[OBAArrivalDepartureOptionsSheet alloc] initWithDelegate:self];
+    }
+
+    return _departureSheetHelper;
+}
+
 - (OBAModelDAO*)modelDAO {
     if (!_modelDAO) {
         _modelDAO = [OBAApplication sharedApplication].modelDao;
@@ -252,7 +295,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
     [self promiseArrivalDeparture].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
         self.arrivalAndDeparture = arrivalAndDeparture;
-        self.departureView.departureRow = [OBAArrivalAndDepartureSectionBuilder createDepartureRow:arrivalAndDeparture];
+        self.departureView.departureRow = [self createDepartureRow:arrivalAndDeparture];
         self.mapController.arrivalAndDeparture = self.arrivalAndDeparture;
         self.mapController.routeType = self.arrivalAndDeparture.stop.firstAvailableRouteTypeForStop;
         [self updateTitleViewWithArrivalAndDeparture:self.arrivalAndDeparture];
@@ -275,6 +318,20 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     else {
         return [self.modelService requestArrivalAndDeparture:self.arrivalAndDeparture.instance];
     }
+}
+
+
+- (OBADepartureRow*)createDepartureRow:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+    OBAArrivalAndDepartureSectionBuilder *builder = [[OBAArrivalAndDepartureSectionBuilder alloc] initWithModelDAO:self.modelDAO];
+    OBADepartureRow *row = [builder createDepartureRowForStop:arrivalAndDeparture];
+
+    @weakify(row);
+    [row setShowAlertController:^(UIView *presentingView) {
+        @strongify(row);
+        [self.departureSheetHelper showActionMenuForDepartureRow:row fromPresentingView:presentingView];
+    }];
+
+    return row;
 }
 
 - (void)populateTableWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture tripDetails:(OBATripDetailsV2*)tripDetails {
@@ -333,6 +390,20 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     }
 
     self.titleUpdateLabel.text = [bottomLabelParts componentsJoinedByString:@" • "];
+}
+
+#pragma mark - Context Menu Actions
+
+- (void)toggleBookmarkActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+    if ([self.modelDAO bookmarkForArrivalAndDeparture:dep]) {
+        [self.departureSheetHelper presentAlertToRemoveBookmarkForArrivalAndDeparture:dep];
+    }
+    else {
+        OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
+        OBAEditStopBookmarkViewController *editor = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:editor];
+        [self.navigationController presentViewController:nav animated:YES completion:nil];
+    }
 }
 
 #pragma mark - Section/Row Construction
