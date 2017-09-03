@@ -743,6 +743,12 @@
 /* Error message displayed to the user when something goes wrong with a just-tapped notification. */
 "notifications.error_messages.formatted_cant_display" = "Sorry, we can't show you that shared trip. If this continues, please let us know. Error: %@";
 
+/* Title for the enable/disable user heading switch on the settings controller */
+"settings.user_heading_switch_title" = "Display heading on map";
+
+/* Footer for the enable/disable user heading switch on the settings controller */
+"settings.user_heading_footer_text" = "If you find the heading display (i.e. the compass) on the map to be unreliable, you can disable it by toggling this setting.";
+
 /* A switch option's text for enabling and disabling crash reporting */
 "settings.crash_reporting.switch_text" = "Enable crash reporting";
 
