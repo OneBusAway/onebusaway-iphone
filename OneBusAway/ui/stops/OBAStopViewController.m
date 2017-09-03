@@ -627,6 +627,8 @@ static NSInteger kStopsSectionTag = 101;
 }
 
 - (void)showActionsMenu {
+    OBAStopV2 *stop = self.arrivalsAndDepartures.stop;
+
     UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
     // Add Bookmark
@@ -635,13 +637,32 @@ static NSInteger kStopsSectionTag = 101;
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:disambiguator];
         [self presentViewController:nav animated:YES completion:nil];
     }];
+    [actionSheet addAction:addBookmark];
 
     // Nearby Stops
     UIAlertAction *nearbyStops = [UIAlertAction actionWithTitle:NSLocalizedString(@"msg_nearby_stops", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        NearbyStopsViewController *nearby = [[NearbyStopsViewController alloc] initWithStop:self.arrivalsAndDepartures.stop];
+        NearbyStopsViewController *nearby = [[NearbyStopsViewController alloc] initWithStop:stop];
         nearby.pushesResultsOntoStack = YES;
         [self.navigationController pushViewController:nearby animated:YES];
     }];
+    [actionSheet addAction:nearbyStops];
+
+    // Walking Directions (Apple Maps)
+    NSURL *appleMapsURL = [AppInterop appleMapsWalkingDirectionsURLWithCoordinate:stop.coordinate];
+    UIAlertAction *walkingDirectionsApple = [UIAlertAction actionWithTitle:NSLocalizedString(@"stop.walking_directions_apple_action_title", @"Title of the 'Get Walking Directions (Apple Maps)' option in the action sheet.") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [UIApplication.sharedApplication openURL:appleMapsURL options:@{} completionHandler:nil];
+    }];
+    [actionSheet addAction:walkingDirectionsApple];
+
+    // Walking Directions (Google Maps)
+
+    NSURL *googleMapsURL = [AppInterop googleMapsWalkingDirectionsURLWithCoordinate:stop.coordinate];
+    if ([UIApplication.sharedApplication canOpenURL:googleMapsURL]) {
+        UIAlertAction *walkingDirections = [UIAlertAction actionWithTitle:NSLocalizedString(@"stop.walking_directions_google_action_title", @"Title of the 'Get Walking Directions (Google Maps)' option in the action sheet.") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [UIApplication.sharedApplication openURL:googleMapsURL options:@{} completionHandler:nil];
+        }];
+        [actionSheet addAction:walkingDirections];
+    }
 
     // Report a Problem
     UIAlertAction *problem = [UIAlertAction actionWithTitle:NSLocalizedString(@"msg_report_a_problem", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -649,10 +670,9 @@ static NSInteger kStopsSectionTag = 101;
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         [self presentViewController:nav animated:YES completion:nil];
     }];
-
-    [actionSheet addAction:addBookmark];
-    [actionSheet addAction:nearbyStops];
     [actionSheet addAction:problem];
+
+    // Cancel
     [actionSheet addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
 
     [self presentViewController:actionSheet animated:YES completion:nil];
