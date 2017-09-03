@@ -53,6 +53,7 @@
 	<array>
 		<string>fb</string>
 		<string>twitter</string>
+		<string>comgooglemaps</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
