@@ -36,7 +36,7 @@ typedef void (^OBARowAction)(OBABaseRow *row);
  make it easier to change the underlying data. You are responsible
  for setting this in your view controllers.
  */
-@property(nullable,nonatomic,weak) id model;
+@property(nullable,nonatomic,strong) id model;
 
 /**
  A data identifier for this row. It will be used by editor-type cells (like OBATextFieldCell)
