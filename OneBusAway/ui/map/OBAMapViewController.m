@@ -76,6 +76,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         self.tabBarItem.selectedImage = [UIImage imageNamed:@"Map_Selected"];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userHeadingDidUpdate:) name:OBAHeadingDidUpdateNotification object:nil];
+
+        [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
     }
 
     return self;
@@ -83,6 +85,16 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)dealloc {
     [self.mapDataLoader cancelOpenConnections];
+    [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey];
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if (object == NSUserDefaults.standardUserDefaults && [keyPath isEqual:OBADisplayUserHeadingOnMapDefaultsKey]) {
+        BOOL value = [NSUserDefaults.standardUserDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
+        self.userLocationAnnotationView.headingImageView.hidden = !value;
+    }
 }
 
 #pragma mark - UIViewController
@@ -106,8 +118,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         self.mapView.showsUserLocation = YES;
     }
 
-//    [self createLocationHoverBar];
-//    [self createSecondaryHoverBar];
+    [self createLocationHoverBar];
+    [self createSecondaryHoverBar];
 
     self.hideFutureNetworkErrors = NO;
 
@@ -118,7 +130,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         [self setRegularStyle];
     }
 
-//    [self configureToastView];
+    [self configureToastView];
 
     [self configureSearch];
 
@@ -137,6 +149,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     OBALogFunction();
 
     [self registerForLocationNotifications];
+
     [self.locationManager startUpdatingHeading];
 
     if (self.mapDataLoader.unfilteredSearch) {
@@ -386,7 +399,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)updateUserLocationAnnotationViewWithHeading:(CLHeading*)heading {
-    _userLocationAnnotationView.headingImageView.hidden = NO;
+    _userLocationAnnotationView.headingImageView.hidden = ![NSUserDefaults.standardUserDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
     // The SVPulsingAnnotationView assumes east == 0. Because different coordinate systems :(
     NSInteger adjustedDegrees = (NSInteger)(heading.trueHeading - 90) % 360;
     CGFloat radians = [OBAImageHelpers degreesToRadians:(CGFloat)adjustedDegrees];
@@ -401,7 +414,9 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         _userLocationAnnotationView.headingImage = [UIImage imageNamed:@"userHeading"];
     }
 
-    if (heading) {
+    BOOL showHeading = [NSUserDefaults.standardUserDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
+
+    if (heading && showHeading) {
         [self updateUserLocationAnnotationViewWithHeading:heading];
     }
     else {
