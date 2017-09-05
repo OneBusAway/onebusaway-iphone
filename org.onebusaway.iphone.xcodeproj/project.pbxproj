@@ -2031,7 +2031,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "OneBusAway/OneBusAwayTests/OneBusAwayTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
 			};
@@ -2077,7 +2077,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.OneBusAwayTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "OneBusAway/OneBusAwayTests/OneBusAwayTests-Bridging-Header.h";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
 				VALIDATE_PRODUCT = YES;
@@ -2124,7 +2124,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.OneBusAwayTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "OneBusAway/OneBusAwayTests/OneBusAwayTests-Bridging-Header.h";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
 				VALIDATE_PRODUCT = YES;
@@ -2171,7 +2171,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.OneBusAwayTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "OneBusAway/OneBusAwayTests/OneBusAwayTests-Bridging-Header.h";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
 				VALIDATE_PRODUCT = YES;
