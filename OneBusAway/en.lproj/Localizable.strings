@@ -743,6 +743,12 @@
 /* Error message displayed to the user when something goes wrong with a just-tapped notification. */
 "notifications.error_messages.formatted_cant_display" = "Sorry, we can't show you that shared trip. If this continues, please let us know. Error: %@";
 
+/* Title for the enable/disable user heading switch on the settings controller */
+"settings.user_heading_switch_title" = "Display heading on map";
+
+/* Footer for the enable/disable user heading switch on the settings controller */
+"settings.user_heading_footer_text" = "If you find the heading display (i.e. the compass) on the map to be unreliable, you can disable it by toggling this setting.";
+
 /* A switch option's text for enabling and disabling crash reporting */
 "settings.crash_reporting.switch_text" = "Enable crash reporting";
 
@@ -775,7 +781,6 @@
 
 /* The empty data set description for the search controller */
 "map_search.empty_data_set_description" = "Type in an address, route number, or stop number here to search.";
-
 
 /* The section title on the 'Nearby' controller that says 'Routes' */
 "nearby_stops.routes_section_title" = "Routes";
@@ -881,3 +886,9 @@
 
 /* No comment provided by engineer. */
 "msg_scheduled_explanatory" = "*'Scheduled': no vehicle location data available";
+
+/* Title of the 'Walking Directions (Apple Maps)' option in the action sheet. */
+"stop.walking_directions_apple_action_title" = "Walking Directions (Apple Maps)";
+
+/* Title of the 'Walking Directions (Apple Maps)' option in the action sheet. */
+"stop.walking_directions_google_action_title" = "Walking Directions (Google Maps)";

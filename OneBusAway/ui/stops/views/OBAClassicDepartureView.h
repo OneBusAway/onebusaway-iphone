@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAClassicDepartureView : UIView
 @property(nonatomic,copy) OBADepartureRow *departureRow;
+@property(nonatomic,strong,readonly) UIButton *contextMenuButton;
 
 - (void)prepareForReuse;
 @end

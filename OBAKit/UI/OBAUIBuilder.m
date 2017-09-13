@@ -47,4 +47,14 @@
     return lineView;
 }
 
++ (UIButton*)contextMenuButton {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *ellipsis = [UIImage imageNamed:@"ellipsis_button"];
+    [button setImage:ellipsis forState:UIControlStateNormal];
+    button.tintColor = [OBATheme OBAGreenWithAlpha:0.7f];
+    button.accessibilityLabel = NSLocalizedString(@"classic_departure_cell.context_button_accessibility_label", @"This is the ... button shown on the right side of a departure cell. Tapping it shows a menu with more options.");
+
+    return button;
+}
+
 @end

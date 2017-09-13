@@ -78,7 +78,7 @@
 
 - (OBATableSection*)buildSortSection {
     OBATableSection *sortSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_sorting",)];
-    OBATableRow *row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_sort_by_time",) action:^{
+    OBATableRow *row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_sort_by_time",) action:^(OBABaseRow *r2) {
         [self.preferences toggleTripSorting];
         [self loadData];
     }];
@@ -86,7 +86,7 @@
         row.accessoryType = UITableViewCellAccessoryCheckmark;
     }
     [sortSection addRow:row];
-    row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_sort_by_route",) action:^{
+    row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_sort_by_route",) action:^(OBABaseRow *r2) {
         [self.preferences toggleTripSorting];
         [self loadData];
     }];
@@ -102,7 +102,7 @@
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_routes",)];
 
     for (OBARouteV2 *route in [self.stop.routes sortedArrayUsingSelector:@selector(compareUsingName:)]) {
-        OBATableRow *row = [[OBATableRow alloc] initWithTitle:route.safeShortName action:^{
+        OBATableRow *row = [[OBATableRow alloc] initWithTitle:route.safeShortName action:^(OBABaseRow *r2) {
             [self.preferences toggleRouteID:route.routeId];
             [self loadData];
         }];

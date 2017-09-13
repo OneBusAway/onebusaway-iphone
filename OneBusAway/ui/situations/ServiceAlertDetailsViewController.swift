@@ -14,7 +14,7 @@ class ServiceAlertDetailsViewController: UIViewController, UITextViewDelegate {
     var serviceAlert: OBASituationV2
     var textView: UITextView!
 
-    init(serviceAlert: OBASituationV2) {
+    @objc init(serviceAlert: OBASituationV2) {
         self.serviceAlert = serviceAlert
         super.init(nibName: nil, bundle: nil)
         self.hidesBottomBarWhenPushed = true
@@ -67,7 +67,7 @@ class ServiceAlertDetailsViewController: UIViewController, UITextViewDelegate {
 
     // MARK: - Toolbar Actions
 
-    func shareAlert() {
+    @objc func shareAlert() {
         let activityController = UIActivityViewController.init(activityItems: [self.serviceAlert.formattedDetails], applicationActivities: nil)
         activityController.completionWithItemsHandler = { type, completed, returnedItems, error in
             activityController.dismiss(animated: true, completion: nil)
@@ -76,7 +76,7 @@ class ServiceAlertDetailsViewController: UIViewController, UITextViewDelegate {
         self.present(activityController, animated: true, completion: nil)
     }
 
-    func viewReroute() {
+    @objc func viewReroute() {
         let diversionController = OBADiversionViewController.load(fromNibWithappDelegate: UIApplication.shared.delegate as! OBAApplicationDelegate)
         diversionController.diversionPath = (self.serviceAlert.diversionPath)!
         self.navigationController?.pushViewController(diversionController, animated: true)

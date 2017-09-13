@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIView*)footerViewWithText:(NSString*)text maximumWidth:(CGFloat)width;
 + (UIView*)lineView;
 
++ (UIButton*)contextMenuButton;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -55,7 +55,7 @@
 
 - (void)populateTable {
     OBATableSection *stopSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_the_stop_itself",)];
-    OBATableRow *theStopRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_report_problem_this_stop",) action:^{
+    OBATableRow *theStopRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_report_problem_this_stop",) action:^(OBABaseRow *r2) {
         OBAReportProblemWithStopViewController * vc = [[OBAReportProblemWithStopViewController alloc] initWithStop:self.arrivalsAndDepartures.stop];
         [self.navigationController pushViewController:vc animated:YES];
     }];

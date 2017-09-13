@@ -26,14 +26,18 @@
 #import "OBAStaticTableViewController+Builders.h"
 #import "OBABookmarkRouteDisambiguationViewController.h"
 #import "OBAWalkableRow.h"
-#import "GKActionSheetPicker.h"
 #import "OBAPushManager.h"
+#import "OBAArrivalAndDepartureSectionBuilder.h"
+#import "OBAArrivalDepartureOptionsSheet.h"
+#import "UIViewController+OBAAdditions.h"
+#import "EXTScope.h"
 
 static NSTimeInterval const kRefreshTimeInterval = 30.0;
 static CGFloat const kTableHeaderHeight = 150.f;
 static NSInteger kStopsSectionTag = 101;
+static NSInteger kNegligibleWalkingTimeToStop = 25;
 
-@interface OBAStopViewController ()<UIScrollViewDelegate, UIActivityItemSource>
+@interface OBAStopViewController ()<UIScrollViewDelegate, UIActivityItemSource, OBAArrivalDepartureOptionsSheetDelegate>
 @property(nonatomic,strong) UIRefreshControl *refreshControl;
 @property(nonatomic,strong) NSTimer *refreshTimer;
 @property(nonatomic,strong) NSLock *reloadLock;
@@ -41,7 +45,7 @@ static NSInteger kStopsSectionTag = 101;
 @property(nonatomic,strong) OBAStopPreferencesV2 *stopPreferences;
 @property(nonatomic,strong) OBARouteFilter *routeFilter;
 @property(nonatomic,strong) OBAStopTableHeaderView *stopHeaderView;
-@property(nonatomic,strong) GKActionSheetPicker *actionSheetPicker;
+@property(nonatomic,strong) OBAArrivalDepartureOptionsSheet *departureSheetHelper;
 @end
 
 @implementation OBAStopViewController
@@ -161,6 +165,14 @@ static NSInteger kStopsSectionTag = 101;
     return _locationManager;
 }
 
+- (OBAArrivalDepartureOptionsSheet*)departureSheetHelper {
+    if (!_departureSheetHelper) {
+        _departureSheetHelper = [[OBAArrivalDepartureOptionsSheet alloc] initWithDelegate:self];
+    }
+
+    return _departureSheetHelper;
+}
+
 #pragma mark - Data Loading
 
 - (void)reloadData:(id)sender {
@@ -252,147 +264,6 @@ static NSInteger kStopsSectionTag = 101;
     [self.tableView reloadData];
 }
 
-#pragma mark - Row Actions
-
-- (void)toggleBookmarkActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
-    if ([self hasBookmarkForArrivalAndDeparture:dep]) {
-        [self promptToRemoveBookmarkForArrivalAndDeparture:dep];
-    }
-    else {
-        [self.tableView setEditing:NO animated:YES];
-        OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
-        OBAEditStopBookmarkViewController *editor = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:editor];
-        [self.navigationController presentViewController:nav animated:YES completion:nil];
-    }
-}
-
-- (void)shareActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep atIndexPath:(NSIndexPath*)indexPath {
-    OBAGuard(dep && indexPath) else {
-        return;
-    }
-
-    OBATripDeepLink *deepLink = [[OBATripDeepLink alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
-    NSURL *URL = deepLink.deepLinkURL;
-
-    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self, URL] applicationActivities:nil];
-
-    // Present the activity controller from a popover on iPad in order to
-    // avoid a crash. See bug #919.
-    if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        controller.popoverPresentationController.sourceView = cell;
-        controller.popoverPresentationController.sourceRect = cell.bounds;
-    }
-
-    [self presentViewController:controller animated:YES completion:nil];
-}
-
-#pragma mark - Alarms
-
-- (BOOL)hasAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
-    id val = [self.modelDAO alarmForKey:dep.alarmKey];
-    return !!val;
-}
-
-- (void)promptToRemoveAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"alarms.confirm_deletion_alert_title", @"The title of the alert controller that prompts the user about whether they really want to delete this alarm.") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"alarms.confirm_deletion_alert_cancel_button", @"This is the button that cancels the alarm deletion.") style:UIAlertActionStyleCancel handler:nil]];
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"alarms.confirm_deletion_alert_delete_button", @"This is the button that confirms that the user really does want to delete their alarm.") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-        [self deleteAlarmForArrivalAndDeparture:dep];
-    }]];
-
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
-- (void)toggleAlarmActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
-    OBAGuard(dep) else {
-        return;
-    }
-
-    if ([self hasAlarmForArrivalAndDeparture:dep]) {
-        [self promptToRemoveAlarmForArrivalAndDeparture:dep];
-        return;
-    }
-
-    NSUInteger alarmIncrements = dep.minutesUntilBestDeparture <= OBAAlarmIncrementsInMinutes ? 1 : OBAAlarmIncrementsInMinutes;
-
-    NSMutableArray *items = [[NSMutableArray alloc] init];
-
-    for (NSInteger i = dep.minutesUntilBestDeparture - (dep.minutesUntilBestDeparture % alarmIncrements); i > 0; i -=alarmIncrements) {
-        NSString *pickerItemTitle = [NSString stringWithFormat:NSLocalizedString(@"alarms.picker.formatted_item", @"The format string used for picker items for choosing when an alarm should ring."), @(i)];
-        [items addObject:[GKActionSheetPickerItem pickerItemWithTitle:pickerItemTitle value:@(i*60)]];
-    }
-
-    self.actionSheetPicker = [GKActionSheetPicker stringPickerWithItems:items selectCallback:^(id selected) {
-        [self registerAlarmForArrivalAndDeparture:dep timeInterval:[selected doubleValue]];
-    } cancelCallback:nil];
-
-    self.actionSheetPicker.title = NSLocalizedString(@"alarms.picker.title", @"The title of the picker view that lets you choose how many minutes before your bus departs you will get an alarm.");
-
-    if (dep.minutesUntilBestDeparture >= 10) {
-        [self.actionSheetPicker selectValue:@(10*60)];
-    }
-
-    [self.actionSheetPicker presentPickerOnView:self.view];
-}
-
-- (void)deleteAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
-    OBAAlarm *alarm = [self.modelDAO alarmForKey:dep.alarmKey];
-    NSURLRequest *request = [self.modelService.obaJsonDataSource requestWithURL:alarm.alarmURL HTTPMethod:@"DELETE"];
-    [self.modelService.obaJsonDataSource performRequest:request completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-        [self.modelDAO removeAlarmWithKey:dep.alarmKey];
-        // Replace with a new row and update it.
-        [self updateAlarmStateForRowAtIndexPath:[self indexPathForModel:dep]];
-    }];
-}
-
-- (void)updateAlarmStateForRowAtIndexPath:(NSIndexPath *)indexPath {
-    OBADepartureRow *row = (OBADepartureRow *)[self rowAtIndexPath:indexPath];
-    row.alarmExists = !row.alarmExists;    
-    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-}
-
-- (void)registerAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalDeparture timeInterval:(NSTimeInterval)timeInterval {
-    OBAAlarm *alarm = [[OBAAlarm alloc] initWithArrivalAndDeparture:arrivalDeparture regionIdentifier:self.modelDAO.currentRegion.identifier timeIntervalBeforeDeparture:timeInterval];
-
-    [[OBAPushManager pushManager] requestUserPushNotificationID].then(^(NSString *pushNotificationID) {
-        [SVProgressHUD show];
-        return [self.modelService requestAlarm:alarm userPushNotificationID:pushNotificationID];
-    }).then(^(NSDictionary *serverResponse) {
-        alarm.alarmURL = [NSURL URLWithString:serverResponse[@"url"]];
-        [self.modelDAO addAlarm:alarm];
-        // Replace with a new row and update it.
-        [self updateAlarmStateForRowAtIndexPath:[self indexPathForModel:arrivalDeparture]];
-
-        NSString *title = NSLocalizedString(@"alarms.alarm_created_alert_title", @"The title of the non-modal alert displayed when a push notification alert is registered for a vehicle departure.");
-        NSString *body = [NSString stringWithFormat:NSLocalizedString(@"alarms.alarm_created_alert_body", @"The body of the non-modal alert that appears when a push notification alarm is registered."), @((NSUInteger)timeInterval / 60)];
-
-        [AlertPresenter showSuccess:title body:body];
-    }).catch(^(NSError *error) {
-        [AlertPresenter showError:error];
-    }).always(^{
-        [SVProgressHUD dismiss];
-    });
-}
-
-#pragma mark - Bookmarks
-
-- (BOOL)hasBookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
-    return !![self.modelDAO bookmarkForArrivalAndDeparture:arrivalAndDeparture];
-}
-
-- (void)promptToRemoveBookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_ask_remove_bookmark", @"Tap on Remove Bookmarks on OBAStopViewController.") message:nil preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_remove", @"") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-        OBABookmarkV2 *bookmark = [self.modelDAO bookmarkForArrivalAndDeparture:dep];
-        [self.modelDAO removeBookmark:bookmark];
-    }]];
-    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
 #pragma mark - Walking
 
 + (NSArray<OBABaseRow*>*)insertWalkableRowIntoRows:(NSArray<OBABaseRow*>*)rows forCurrentLocation:(CLLocation*)location {
@@ -410,8 +281,8 @@ static NSInteger kStopsSectionTag = 101;
         departure = rows[i].model;
         stop = departure.stop;
         walkingTime = [OBAWalkingDirections walkingTravelTimeFromLocation:location toLocation:stop.location];
-
-        if (departure.timeIntervalUntilBestDeparture > walkingTime) {
+        // Is walking time less than time until bus departs or is user already at bus stop and bus hasn't left yet?
+        if ((departure.timeIntervalUntilBestDeparture > walkingTime) || (walkingTime < kNegligibleWalkingTimeToStop && departure.minutesUntilBestDeparture >= 0)) {
             insertionIndex = i;
             break;
         }
@@ -476,32 +347,7 @@ static NSInteger kStopsSectionTag = 101;
             continue;
         }
 
-        OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:^(OBABaseRow *blockRow) {
-            OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
-            [self.navigationController pushViewController:vc animated:YES];
-        }];
-        row.model = dep;
-        row.routeName = dep.bestAvailableName;
-        row.destination = dep.tripHeadsign.capitalizedString;
-        row.upcomingDepartures = @[[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState]];
-        row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
-        row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
-        row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
-        row.hasArrived = dep.minutesUntilBestDeparture > 0;
-		
-        [row setShowAlertController:^(UIView *presentingView, UIAlertController *alert) {
-            [self showAlertController:alert fromView:presentingView];
-        }];
-        [row setToggleBookmarkAction:^{
-            [self toggleBookmarkActionForArrivalAndDeparture:dep];
-        }];
-        [row setToggleAlarmAction:^{
-            [self toggleAlarmActionForArrivalAndDeparture:dep];
-        }];
-        [row setShareAction:^{
-            [self shareActionForArrivalAndDeparture:dep atIndexPath:[self indexPathForModel:dep]];
-        }];
-
+        OBADepartureRow *row = [self buildDepartureRowForArrivalAndDeparture:dep];
         [departureRows addObject:row];
     }
 
@@ -521,14 +367,6 @@ static NSInteger kStopsSectionTag = 101;
     return section;
 }
 
-- (void)showAlertController:(UIAlertController*)alert fromView:(UIView*)view {
-    if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-        alert.popoverPresentationController.sourceView = view;
-        alert.popoverPresentationController.sourceRect = view.bounds;
-    }
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
 - (OBATableSection*)createToggleDepartureFilterSection {
     OBASegmentedRow *segmentedRow = [[OBASegmentedRow alloc] initWithSelectionChange:^(NSUInteger selectedIndex) {
         self.routeFilter.showFilteredRoutes = !self.routeFilter.showFilteredRoutes;
@@ -542,7 +380,7 @@ static NSInteger kStopsSectionTag = 101;
 }
 
 - (OBATableSection*)createLoadMoreDeparturesSection {
-    OBATableRow *moreDeparturesRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_load_more_departures_dots", @"") action:^{
+    OBATableRow *moreDeparturesRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_load_more_departures_dots", @"") action:^(OBABaseRow *r2) {
         [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked load more arrivals button" value:nil];
         self.minutesAfter += 30;
         [self reloadDataAnimated:NO];
@@ -559,33 +397,7 @@ static NSInteger kStopsSectionTag = 101;
     NSMutableArray *departureRows = [[NSMutableArray alloc] init];
 
     for (OBAArrivalAndDepartureV2* dep in departures) {
-        OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:^(OBABaseRow *blockRow){
-            OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
-            [self.navigationController pushViewController:vc animated:YES];
-        }];
-        row.routeName = dep.bestAvailableName;
-        row.destination = dep.tripHeadsign.capitalizedString;
-        row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
-        row.model = dep;
-        row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
-        row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
-        row.hasArrived = dep.minutesUntilBestDeparture > 0;
-
-        [row setShowAlertController:^(UIView *presentingView, UIAlertController *alert) {
-            [self showAlertController:alert fromView:presentingView];
-        }];
-        [row setToggleBookmarkAction:^{
-            [self toggleBookmarkActionForArrivalAndDeparture:dep];
-        }];
-        [row setToggleAlarmAction:^{
-            [self toggleAlarmActionForArrivalAndDeparture:dep];
-        }];
-        [row setShareAction:^{
-            [self shareActionForArrivalAndDeparture:dep atIndexPath:[self indexPathForModel:dep]];
-        }];
-
-        OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState];
-        row.upcomingDepartures = @[upcoming];
+        OBADepartureRow *row = [self buildDepartureRowForArrivalAndDeparture:dep];
         [departureRows addObject:row];
     }
 
@@ -601,6 +413,54 @@ static NSInteger kStopsSectionTag = 101;
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:title rows:rows];
     section.tag = kStopsSectionTag;
     return section;
+}
+
+- (OBADepartureRow*)buildDepartureRowForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+    OBAArrivalAndDepartureSectionBuilder *builder = [[OBAArrivalAndDepartureSectionBuilder alloc] initWithModelDAO:self.modelDAO];
+    OBADepartureRow *row = [builder createDepartureRowForStop:dep];
+
+    [row setAction:^(OBABaseRow *blockRow){
+        OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+
+    @weakify(row);
+    [row setShowAlertController:^(UIView *presentingView) {
+        @strongify(row);
+        [self.departureSheetHelper showActionMenuForDepartureRow:row fromPresentingView:presentingView];
+    }];
+
+    return row;
+}
+
+#pragma mark - OBADepartureSheetDelegate
+
+- (void)optionsSheet:(OBAArrivalDepartureOptionsSheet*)optionsSheet presentViewController:(UIViewController*)viewController fromView:(nullable UIView*)presentingView {
+    [self.tableView setEditing:NO animated:YES];
+    [self oba_presentViewController:viewController fromView:presentingView];
+}
+
+- (void)optionsSheet:(OBAArrivalDepartureOptionsSheet*)optionsSheet addedAlarm:(OBAAlarm*)alarm forArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalDeparture {
+    NSIndexPath *indexPath = [self indexPathForModel:arrivalDeparture];
+    OBADepartureRow *row = (OBADepartureRow *)[self rowAtIndexPath:indexPath];
+    row.alarmExists = YES;
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+- (void)optionsSheet:(OBAArrivalDepartureOptionsSheet*)optionsSheet deletedAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+    NSIndexPath *indexPath = [self indexPathForModel:arrivalAndDeparture];
+    OBADepartureRow *row = (OBADepartureRow *)[self rowAtIndexPath:indexPath];
+    row.alarmExists = NO;
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+- (UIView*)optionsSheetPresentationView:(OBAArrivalDepartureOptionsSheet*)optionsSheet {
+    return self.view;
+}
+
+- (UIView*)optionsSheet:(OBAArrivalDepartureOptionsSheet*)optionsSheet viewForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+    NSIndexPath *indexPath = [self indexPathForModel:arrivalAndDeparture];
+    return [self.tableView cellForRowAtIndexPath:indexPath];
 }
 
 #pragma mark - UIActivityItemSource methods
@@ -627,6 +487,8 @@ static NSInteger kStopsSectionTag = 101;
 }
 
 - (void)showActionsMenu {
+    OBAStopV2 *stop = self.arrivalsAndDepartures.stop;
+
     UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
     // Add Bookmark
@@ -635,13 +497,32 @@ static NSInteger kStopsSectionTag = 101;
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:disambiguator];
         [self presentViewController:nav animated:YES completion:nil];
     }];
+    [actionSheet addAction:addBookmark];
 
     // Nearby Stops
     UIAlertAction *nearbyStops = [UIAlertAction actionWithTitle:NSLocalizedString(@"msg_nearby_stops", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        NearbyStopsViewController *nearby = [[NearbyStopsViewController alloc] initWithStop:self.arrivalsAndDepartures.stop];
+        NearbyStopsViewController *nearby = [[NearbyStopsViewController alloc] initWithStop:stop];
         nearby.pushesResultsOntoStack = YES;
         [self.navigationController pushViewController:nearby animated:YES];
     }];
+    [actionSheet addAction:nearbyStops];
+
+    // Walking Directions (Apple Maps)
+    NSURL *appleMapsURL = [AppInterop appleMapsWalkingDirectionsURLWithCoordinate:stop.coordinate];
+    UIAlertAction *walkingDirectionsApple = [UIAlertAction actionWithTitle:NSLocalizedString(@"stop.walking_directions_apple_action_title", @"Title of the 'Get Walking Directions (Apple Maps)' option in the action sheet.") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [UIApplication.sharedApplication openURL:appleMapsURL options:@{} completionHandler:nil];
+    }];
+    [actionSheet addAction:walkingDirectionsApple];
+
+    // Walking Directions (Google Maps)
+
+    NSURL *googleMapsURL = [AppInterop googleMapsWalkingDirectionsURLWithCoordinate:stop.coordinate];
+    if ([UIApplication.sharedApplication canOpenURL:googleMapsURL]) {
+        UIAlertAction *walkingDirections = [UIAlertAction actionWithTitle:NSLocalizedString(@"stop.walking_directions_google_action_title", @"Title of the 'Get Walking Directions (Google Maps)' option in the action sheet.") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [UIApplication.sharedApplication openURL:googleMapsURL options:@{} completionHandler:nil];
+        }];
+        [actionSheet addAction:walkingDirections];
+    }
 
     // Report a Problem
     UIAlertAction *problem = [UIAlertAction actionWithTitle:NSLocalizedString(@"msg_report_a_problem", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -649,10 +530,9 @@ static NSInteger kStopsSectionTag = 101;
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         [self presentViewController:nav animated:YES completion:nil];
     }];
-
-    [actionSheet addAction:addBookmark];
-    [actionSheet addAction:nearbyStops];
     [actionSheet addAction:problem];
+
+    // Cancel
     [actionSheet addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
 
     [self presentViewController:actionSheet animated:YES completion:nil];

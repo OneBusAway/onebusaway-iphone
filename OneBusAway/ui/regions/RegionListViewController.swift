@@ -19,7 +19,7 @@ import SVProgressHUD
 
 class RegionListViewController: OBAStaticTableViewController, RegionBuilderDelegate {
     var regions: [OBARegionV2]?
-    weak var delegate: RegionListDelegate?
+    @objc weak var delegate: RegionListDelegate?
 
     lazy var modelDAO: OBAModelDAO = OBAApplication.shared().modelDao
     lazy var modelService: OBAModelService = OBAModelService.init()
@@ -50,7 +50,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
     // MARK: - Region Builder
 
-    func addCustomAPI() {
+    @objc func addCustomAPI() {
         self.buildRegion(nil)
     }
 
@@ -79,7 +79,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
     // MARK: - Notifications
 
-    func selectedRegionDidChange(_ note: Notification) {
+    @objc func selectedRegionDidChange(_ note: Notification) {
         SVProgressHUD.dismiss()
         self.loadData()
     }
@@ -87,7 +87,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
     // MARK: - Table View Editing/Deletion
 
     func tableView(_ tableView: UITableView, canEditRowAtIndexPath indexPath: IndexPath) -> Bool {
-        guard let region = self.row(at: indexPath)!.model else {
+        guard let region = self.row(at: indexPath)!.model as? OBARegionV2 else {
             return false
         }
 
@@ -129,7 +129,7 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
         SVProgressHUD.show(withStatus: NSLocalizedString("msg_loading_regions", comment: "Progress HUD status when first locating the user on the Region List Controller"))
 
-        firstly { _ in
+        firstly { 
             OBAApplication.shared().modelService.requestRegions()
         }.then { regions in
             self.regions = regions as? [OBARegionV2]
@@ -204,8 +204,10 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
             r1.regionName < r2.regionName
         }.map { region in
             let autoSelect = self.modelDAO.automaticallySelectRegion
-
-            let action: (() -> Void)? = autoSelect ? nil : {
+            let row = OBATableRow.init(title: region.regionName) { _ in
+                if autoSelect {
+                    return
+                }
                 self.modelDAO.currentRegion = region
                 self.loadData()
 
@@ -213,8 +215,6 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
                     delegate.regionSelected()
                 }
             }
-
-            let row: OBATableRow = OBATableRow.init(title: region.regionName, action: action)
 
             row.model = region
             row.deleteModel = { row in

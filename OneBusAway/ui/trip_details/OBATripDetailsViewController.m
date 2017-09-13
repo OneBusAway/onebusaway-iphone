@@ -86,7 +86,7 @@
     [sections addObject:tripScheduleSection];
 
     [tripScheduleSection addRowWithBlock:^OBABaseRow *{
-        OBATableRow *row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_show_as_map",) action:^{
+        OBATableRow *row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_show_as_map",) action:^(OBABaseRow *r2){
             OBATripScheduleMapViewController *vc = [[OBATripScheduleMapViewController alloc] init];
             vc.tripInstance = self.tripInstance;
             vc.tripDetails = self.tripDetails;
@@ -98,7 +98,7 @@
     }];
 
     [tripScheduleSection addRowWithBlock:^OBABaseRow *{
-        OBATableRow *row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_show_as_list",) action:^{
+        OBATableRow *row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_show_as_list",) action:^(OBABaseRow *r2){
             OBATripScheduleListViewController *vc = [[OBATripScheduleListViewController alloc] initWithTripInstance:self.tripInstance];
             vc.tripDetails = self.tripDetails;
             vc.currentStopId = self.currentStopId;
@@ -111,7 +111,7 @@
     OBATableSection *reportProblemSection = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"msg_report_problem",)];
     [sections addObject:reportProblemSection];
     [reportProblemSection addRowWithBlock:^OBABaseRow *{
-        OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_mayus_report_problem_this_trip",) action:^{
+        OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_mayus_report_problem_this_trip",) action:^(OBABaseRow *r2) {
             OBAReportProblemWithTripViewController *vc = [[OBAReportProblemWithTripViewController alloc] initWithTripInstance:self.tripInstance trip:self.tripDetails.trip];
             vc.currentStopId = self.currentStopId;
             [self.navigationController pushViewController:vc animated:YES];

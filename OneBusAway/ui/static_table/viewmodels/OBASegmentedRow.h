@@ -14,5 +14,5 @@
 @property(nonatomic,copy) void (^selectionChange)(NSUInteger selectedIndex);
 
 - (instancetype)initWithSelectionChange:(void(^)(NSUInteger selectedIndex))selectionChange NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithAction:(void (^)())action NS_UNAVAILABLE;
+- (instancetype)initWithAction:(void (^)(void))action NS_UNAVAILABLE;
 @end

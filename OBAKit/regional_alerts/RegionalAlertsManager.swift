@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CocoaLumberjack
 import CocoaLumberjackSwift
 
 /*
@@ -20,10 +21,10 @@ import CocoaLumberjackSwift
 
 @objc public class RegionalAlertsManager: NSObject {
     private let lastUpdateKey = "OBALastRegionalAlertsUpdateKey"
-    private(set) public var regionalAlerts: [OBARegionalAlert] = []
+    @objc private(set) public var regionalAlerts: [OBARegionalAlert] = []
     private let alertsUpdateQueue = DispatchQueue(label: "regional-alerts-manager-update")
 
-    public var region: OBARegionV2? {
+    @objc public var region: OBARegionV2? {
         didSet {
             self.regionalAlerts = self.loadDefaultData() ?? []
         }
@@ -33,7 +34,7 @@ import CocoaLumberjackSwift
         return OBAApplication.shared().modelService
     }()
 
-    public var unreadCount: UInt {
+    @objc public var unreadCount: UInt {
         return UInt(self.regionalAlerts.filter({ $0.unread }).count)
     }
 
@@ -79,7 +80,7 @@ import CocoaLumberjackSwift
     private let updateLock = NSLock.init()
 
     /// Loads alerts for the currently selected region.
-    public func update() {
+    @objc public func update() {
         guard let region = self.region else {
             return
         }
@@ -143,9 +144,9 @@ import CocoaLumberjackSwift
 
     // MARK: - Notifications
 
-    public static let regionalAlertsUpdatedNotification = NSNotification.Name("regionalAlertsUpdatedNotification")
-    public static let highPriorityRegionalAlertReceivedNotification = NSNotification.Name("highPriorityRegionalAlertReceivedNotification")
-    public static let highPriorityRegionalAlertUserInfoKey = "HighPriorityRegionalAlertUserInfoKey"
+    @objc public static let regionalAlertsUpdatedNotification = NSNotification.Name("regionalAlertsUpdatedNotification")
+    @objc public static let highPriorityRegionalAlertReceivedNotification = NSNotification.Name("highPriorityRegionalAlertReceivedNotification")
+    @objc public static let highPriorityRegionalAlertUserInfoKey = "HighPriorityRegionalAlertUserInfoKey"
 
     private func broadcastUpdateNotification() {
         NotificationCenter.default.post(name: RegionalAlertsManager.regionalAlertsUpdatedNotification, object: self)

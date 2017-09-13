@@ -7,4 +7,5 @@ framework module Pulley {
 
 module Pulley.Swift {
     header "Pulley-Swift.h"
+    requires objc
 }

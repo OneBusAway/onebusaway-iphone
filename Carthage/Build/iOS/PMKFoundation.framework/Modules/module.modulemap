@@ -7,4 +7,5 @@ framework module PMKFoundation {
 
 module PMKFoundation.Swift {
     header "PMKFoundation-Swift.h"
+    requires objc
 }
