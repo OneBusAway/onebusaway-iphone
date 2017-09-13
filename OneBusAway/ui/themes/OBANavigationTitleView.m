@@ -8,58 +8,48 @@
 
 #import "OBANavigationTitleView.h"
 #import <OBAKit/OBATheme.h>
+@import MarqueeLabel;
 @import Masonry;
 
 @interface OBANavigationTitleView ()
 
-@property(nonatomic,strong,readwrite) MarqueeLabel *titleLabel;
-@property(nonatomic,strong,readwrite) MarqueeLabel *subtitleLabel;
+@property(nonatomic,strong) MarqueeLabel *titleLabel;
+@property(nonatomic,strong) MarqueeLabel *subtitleLabel;
 
 @end
 
 @implementation OBANavigationTitleView
 
-- (instancetype)initWithTitle:(NSString *)title subtitle:(NSString *)subtitle style:(OBAAppearanceNavBarTitleViewStyle)style {
+- (instancetype)initWithTitle:(NSString *)title subtitle:(nullable NSString *)subtitle {
     self = [super initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44)];
     if (self) {
-        _titleLabel    = [[MarqueeLabel alloc] init];
-        _subtitleLabel = [[MarqueeLabel alloc] init];
+        self.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+        self.clipsToBounds = YES;
 
-        [self addSubview:_subtitleLabel];
-        [self addSubview:_titleLabel];
-        
-        switch (style) {
-            case OBAAppearanceNavBarTitleViewStyleDefault:
-            {
-                [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.centerX.centerY.equalTo(self);
-                }];
-                _titleLabel.textAlignment = NSTextAlignmentCenter;
-                _titleLabel.text = title;
-                _titleLabel.font = [OBATheme titleFont];
-                
-                break;
-            }
-            case OBAAppearanceNavBarTitleViewStyleSubtitle:
-                [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.left.right.equalTo(self);
-                    make.top.equalTo(self).offset(5);
-                    make.bottom.equalTo(self.subtitleLabel.mas_top);
-                }];
-                [_subtitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.left.right.equalTo(self);
-                }];
-                _titleLabel.font = [OBATheme bodyFont];
-                _subtitleLabel.font = [OBATheme footnoteFont];
-                _titleLabel.textAlignment = NSTextAlignmentCenter;
-                _subtitleLabel.textAlignment = NSTextAlignmentCenter;
-                _titleLabel.text = title;
-                _subtitleLabel.text = subtitle;
-                break;
+        _titleLabel = [[MarqueeLabel alloc] init];
+        _titleLabel.font = [OBATheme boldBodyFont];
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
+        _titleLabel.text = title;
+
+        NSMutableArray *subviews = [[NSMutableArray alloc] initWithArray:@[_titleLabel]];
+
+        if (subtitle) {
+            _subtitleLabel = [[MarqueeLabel alloc] init];
+            _subtitleLabel.font = [OBATheme footnoteFont];
+            _subtitleLabel.textAlignment = NSTextAlignmentCenter;
+            _subtitleLabel.text = subtitle;
+
+            [subviews addObject:_subtitleLabel];
         }
+
+        UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:subviews];
+        stack.axis = UILayoutConstraintAxisVertical;
+        [self addSubview:stack];
+        [stack mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self);
+        }];
     }
     return self;
 }
-
 
 @end

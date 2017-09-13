@@ -78,17 +78,14 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     [self startTimer];
 }
 
-- (void)createNavbarTitleView
-{
+- (void)createNavbarTitleView {
     if (!self.currentRegion) {
         self.navigationItem.title = NSLocalizedString(@"msg_bookmarks", @"");
         return;
     }
     NSString *title = NSLocalizedString(@"msg_bookmarks", @"");
     NSString *subtitle = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"msg_region", @""), self.currentRegion.regionName];
-    self.navigationItem.titleView = [[OBANavigationTitleView alloc] initWithTitle:title
-                                                                         subtitle:subtitle
-                                                                            style:OBAAppearanceNavBarTitleViewStyleSubtitle];
+    self.navigationItem.titleView = [[OBANavigationTitleView alloc] initWithTitle:title subtitle:subtitle];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
