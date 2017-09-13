@@ -362,6 +362,10 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     }
 }
 
+- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.editing = YES;
+}
+
 - (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     self.editing = NO;
 }
@@ -376,7 +380,6 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
         // rows not backed by models don't get actions.
         return nil;
     }
-    self.editing = YES;
 
     NSMutableArray<UITableViewRowAction *> *actions = [NSMutableArray array];
 
