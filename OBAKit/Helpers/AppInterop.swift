@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-@objc class AppInterop: NSObject {
+@objc public class AppInterop: NSObject {
 
     /// Creates an URL that can open the Google Maps app with the user's desired
     /// destination in walking directions mode.

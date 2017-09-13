@@ -8,7 +8,7 @@
 
 import Foundation
 
-class OBAHandoff: NSObject {
+@objc public class OBAHandoff: NSObject {
     @objc static let shared = OBAHandoff()
     @objc static let activityType = "org.onebusaway.iphone.handoff"
     @objc static let stopIDKey = "stop_ID"
