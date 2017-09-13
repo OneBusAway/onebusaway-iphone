@@ -176,6 +176,7 @@
 + (OBADepartureTimeLabel*)departureTimeLabel {
     OBADepartureTimeLabel *label = [[OBADepartureTimeLabel alloc] init];
     label.font = [OBATheme bodyFont];
+    label.isAccessibilityElement = NO;
     label.textAlignment = NSTextAlignmentRight;
     [label setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     [label setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
