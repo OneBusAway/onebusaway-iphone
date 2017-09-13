@@ -36,7 +36,7 @@
         OBATripStopTimeV2 *stopTime = schedule.stopTimes[i];
         OBAStopV2 *stop = stopTime.stop;
 
-        OBAArrivalDepartureRow *row = [[OBAArrivalDepartureRow alloc] initWithTitle:stop.name action:^{
+        OBAArrivalDepartureRow *row = [[OBAArrivalDepartureRow alloc] initWithTitle:stop.name action:^(OBABaseRow *r2) {
             OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stopTime.stopId];
             [navigationController pushViewController:vc animated:YES];
         }];
@@ -71,7 +71,7 @@
         OBATripStopTimeV2 *stopTime = schedule.stopTimes[i];
         OBAStopV2 *stop = stopTime.stop;
 
-        OBAArrivalDepartureRow *row = [[OBAArrivalDepartureRow alloc] initWithTitle:stop.name action:^{
+        OBAArrivalDepartureRow *row = [[OBAArrivalDepartureRow alloc] initWithTitle:stop.name action:^(OBABaseRow *r2) {
             OBAStopViewController *vc = [[OBAStopViewController alloc] initWithStopID:stopTime.stopId];
             [navigationController pushViewController:vc animated:YES];
         }];
@@ -112,7 +112,7 @@
     }
 
     NSString *labelText = [NSString stringWithFormat:NSLocalizedString(@"text_starts_as_param", @""), [tripDetails.schedule.previousTrip asLabel]];
-    OBATimelineBarRow *row = [[OBATimelineBarRow alloc] initWithTitle:labelText action:^{
+    OBATimelineBarRow *row = [[OBATimelineBarRow alloc] initWithTitle:labelText action:^(OBABaseRow *r2) {
         OBATripInstanceRef *prevTripInstance = [tripInstance copyWithNewTripId:tripDetails.schedule.previousTripId];
         OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:prevTripInstance];
         [navigationController pushViewController:vc animated:YES];
@@ -128,7 +128,7 @@
     }
 
     NSString *labelText = [NSString stringWithFormat:NSLocalizedString(@"text_continues_as_param", @""), [tripDetails.schedule.nextTrip asLabel]];
-    OBATimelineBarRow *row = [[OBATimelineBarRow alloc] initWithTitle:labelText action:^{
+    OBATimelineBarRow *row = [[OBATimelineBarRow alloc] initWithTitle:labelText action:^(OBABaseRow *r2) {
         OBATripInstanceRef *nextTripInstance = [tripInstance copyWithNewTripId:tripDetails.schedule.nextTripId];
         OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:nextTripInstance];
         [navigationController pushViewController:vc animated:YES];

@@ -87,6 +87,15 @@
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero];
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+
+        // Setting these three values to 0 works around a table view behavior
+        // change in iOS 11 that causes blank section headers to show up
+        // without it. See https://github.com/OneBusAway/onebusaway-iphone/issues/1171
+        // for the issue and https://github.com/venmo/Static/issues/105 for my inspiration.
+        _tableView.estimatedRowHeight = 0;
+        _tableView.estimatedSectionHeaderHeight = 0;
+        _tableView.estimatedSectionFooterHeight = 0;
+
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.tableFooterView = [UIView new];

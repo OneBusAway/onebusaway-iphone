@@ -55,6 +55,7 @@ extern NSString * const kApplicationShortcutRecents;
 extern NSString * const kApplicationShortcutBookmarks;
 
 // User Defaults Keys
+extern NSString * const OBADisplayUserHeadingOnMapDefaultsKey;
 extern NSString * const OBAOptInToTrackingDefaultsKey;
 extern NSString * const OBAOptInToCrashReportingDefaultsKey;
 extern NSString * const OBAMapSelectedTypeDefaultsKey;

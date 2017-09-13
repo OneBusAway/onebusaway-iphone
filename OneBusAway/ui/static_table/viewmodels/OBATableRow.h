@@ -36,8 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) UITableViewCellSelectionStyle selectionStyle;
 @property(nonatomic,strong,nullable) UIView *accessoryView;
 
-- (instancetype)initWithTitle:(NSString*)title action:( void (^ _Nullable )())action;
-- (instancetype)initWithAttributedTitle:(NSAttributedString*)attributedTitle action:( void (^ _Nullable )())action;
+- (instancetype)initWithTitle:(NSString*)title action:(nullable OBARowAction)action;
+- (instancetype)initWithAttributedTitle:(NSAttributedString*)attributedTitle action:(nullable OBARowAction)action;
 @end
 
 NS_ASSUME_NONNULL_END

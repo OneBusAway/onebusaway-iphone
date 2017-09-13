@@ -109,11 +109,11 @@ class RegionBuilderViewController: OBAStaticTableViewController {
 
     // MARK: - Actions
 
-    func cancel() {
+    @objc func cancel() {
         self.dismiss(animated: true, completion: nil)
     }
 
-    func save() {
+    @objc func save() {
         self.view.endEditing(true)
 
         self.loadDataIntoRegion()

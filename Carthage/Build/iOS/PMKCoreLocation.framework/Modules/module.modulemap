@@ -7,4 +7,5 @@ framework module PMKCoreLocation {
 
 module PMKCoreLocation.Swift {
     header "PMKCoreLocation-Swift.h"
+    requires objc
 }

@@ -25,7 +25,6 @@ NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNot
 @property (nonatomic, strong, readwrite) OBAReachability *reachability;
 @property (nonatomic, strong, readwrite) OBARegionHelper *regionHelper;
 @property (nonatomic, strong, readwrite) RegionalAlertsManager *regionalAlertsManager;
-@property (nonatomic, strong, readwrite) PrivacyBroker *privacyBroker;
 @property (nonatomic, strong, readwrite) OBALogging *loggingManager;
 @end
 
@@ -73,8 +72,6 @@ NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNot
 
     self.regionHelper = [[OBARegionHelper alloc] initWithLocationManager:self.locationManager modelService:self.modelService];
 
-    self.privacyBroker = [[PrivacyBroker alloc] initWithModelDAO:self.modelDao locationManager:self.locationManager];
-
     self.regionalAlertsManager = [[RegionalAlertsManager alloc] init];
     self.regionalAlertsManager.region = self.modelDao.currentRegion;
 
@@ -95,6 +92,7 @@ NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNot
     defaults[kUngroupedBookmarksOpenKey] = @(YES);
     defaults[OBAOptInToCrashReportingDefaultsKey] = @(YES);
     defaults[OBAOptInToTrackingDefaultsKey] = @(YES);
+    defaults[OBADisplayUserHeadingOnMapDefaultsKey] = @(YES);
     defaults[OBAMapSelectedTypeDefaultsKey] = @(MKMapTypeStandard);
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];

@@ -152,7 +152,7 @@
             [[MKMapSnapshotter alloc] initWithOptions:options];
         });
 
-        [snapshotter start].thenInBackground(^(MKMapSnapshot *snapshot) {
+        [snapshotter start].then(^(MKMapSnapshot *snapshot) {
             UIImage *annotatedImage = [OBAImageHelpers draw:[OBAStopIconFactory getIconForStop:self.stop]
                                                        onto:snapshot.image
                                                     atPoint:[snapshot pointForCoordinate:self.stop.coordinate]];

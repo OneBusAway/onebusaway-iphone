@@ -78,17 +78,14 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     [self startTimer];
 }
 
-- (void)createNavbarTitleView
-{
+- (void)createNavbarTitleView {
     if (!self.currentRegion) {
         self.navigationItem.title = NSLocalizedString(@"msg_bookmarks", @"");
         return;
     }
     NSString *title = NSLocalizedString(@"msg_bookmarks", @"");
     NSString *subtitle = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"msg_region", @""), self.currentRegion.regionName];
-    self.navigationItem.titleView = [[OBANavigationTitleView alloc] initWithTitle:title
-                                                                         subtitle:subtitle
-                                                                            style:OBAAppearanceNavBarTitleViewStyleSubtitle];
+    self.navigationItem.titleView = [[OBANavigationTitleView alloc] initWithTitle:title subtitle:subtitle];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -365,6 +362,10 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     }
 }
 
+- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.editing = YES;
+}
+
 - (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     self.editing = NO;
 }
@@ -379,7 +380,6 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
         // rows not backed by models don't get actions.
         return nil;
     }
-    self.editing = YES;
 
     NSMutableArray<UITableViewRowAction *> *actions = [NSMutableArray array];
 
@@ -556,7 +556,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 }
 
 - (OBABaseRow*)rowForBookmarkVersion252:(OBABookmarkV2*)bm {
-    OBATableRow *row = [[OBATableRow alloc] initWithTitle:bm.name action:^{
+    OBATableRow *row = [[OBATableRow alloc] initWithTitle:bm.name action:^(OBABaseRow *r2) {
         OBAStopViewController *controller = [[OBAStopViewController alloc] initWithStopID:bm.stopId];
         [self.navigationController pushViewController:controller animated:YES];
     }];

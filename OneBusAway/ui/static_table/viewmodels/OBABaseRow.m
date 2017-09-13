@@ -19,7 +19,7 @@
     return [self initWithAction:nil];
 }
 
-- (instancetype)initWithAction:(void (^)(OBABaseRow *row))action {
+- (instancetype)initWithAction:(nullable OBARowAction)action {
     self = [super init];
     
     if (self) {

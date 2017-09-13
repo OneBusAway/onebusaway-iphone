@@ -6,22 +6,12 @@
 //  Copyright © 2017 OneBusAway. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-@import MarqueeLabel;
+@import UIKit;
 
-typedef NS_ENUM(NSInteger, OBAAppearanceNavBarTitleViewStyle){
-    OBAAppearanceNavBarTitleViewStyleDefault, // subtitle won't be displayed
-    OBAAppearanceNavBarTitleViewStyleSubtitle,
-};
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OBANavigationTitleView : UIView
-
-@property(nonatomic,strong,readonly) MarqueeLabel *titleLabel;
-@property(nonatomic,strong,readonly) MarqueeLabel *subtitleLabel;
-
-- (instancetype)initWithTitle:(NSString *)title
-                     subtitle:(NSString *)subtitle
-                        style:(OBAAppearanceNavBarTitleViewStyle)style;
-
-
+- (instancetype)initWithTitle:(NSString *)title subtitle:(nullable NSString *)subtitle;
 @end
+
+NS_ASSUME_NONNULL_END

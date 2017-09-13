@@ -8,23 +8,49 @@
 
 #import "OBAArrivalAndDepartureSectionBuilder.h"
 
+@interface OBAArrivalAndDepartureSectionBuilder ()
+@property(nonatomic,strong) OBAModelDAO *modelDAO;
+@end
+
 @implementation OBAArrivalAndDepartureSectionBuilder
 
-+ (OBADepartureRow *)createDepartureRow:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
-    OBAGuard(arrivalAndDeparture) else {
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO {
+    self = [super init];
+
+    if (self) {
+        _modelDAO = modelDAO;
+    }
+
+    return self;
+}
+
+- (OBADepartureRow*)createDepartureRowForStop:(OBAArrivalAndDepartureV2*)dep {
+    OBAGuard(dep) else {
         return nil;
     }
 
     OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:nil];
+    row.routeName = dep.bestAvailableName;
+    row.destination = dep.tripHeadsign.capitalizedString;
+    row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
+    row.model = dep;
+    row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
+    row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
+    row.hasArrived = dep.minutesUntilBestDeparture > 0;
 
-    row.routeName = arrivalAndDeparture.bestAvailableName;
-    row.destination = arrivalAndDeparture.tripHeadsign;
-    row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:arrivalAndDeparture];
-
-    OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:arrivalAndDeparture.bestArrivalDepartureDate departureStatus:arrivalAndDeparture.departureStatus arrivalDepartureState:arrivalAndDeparture.arrivalDepartureState];
+    OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState];
     row.upcomingDepartures = @[upcoming];
 
     return row;
+}
+
+- (BOOL)hasBookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+    return !![self.modelDAO bookmarkForArrivalAndDeparture:arrivalAndDeparture];
+}
+
+- (BOOL)hasAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
+    id val = [self.modelDAO alarmForKey:dep.alarmKey];
+    return !!val;
 }
 
 @end

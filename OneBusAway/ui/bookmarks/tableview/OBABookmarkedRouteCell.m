@@ -39,6 +39,7 @@
         [self.contentView addSubview:_titleLabel];
 
         _departureView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
+        _departureView.contextMenuButton.hidden = YES;
         [self.contentView addSubview:_departureView];
 
         _activityIndicatorView = [[OBALabelActivityIndicatorView alloc] initWithFrame:CGRectZero];

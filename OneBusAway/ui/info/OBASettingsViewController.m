@@ -36,38 +36,30 @@
 #pragma mark - Data Loading
 
 - (void)loadData {
-    OBATableSection *analyticsSection = [self buildAnalyticsSection];
-    OBATableSection *crashReportingSection = [self buildCrashReportingSection];
+    OBATableSection *analyticsSection = [self buildSwitchSectionWithDefaultsKey:OBAOptInToTrackingDefaultsKey switchTitle:NSLocalizedString(@"msg_enable_google_analytics", @"A switch option's text for enabling and disabling Google Analytics") footerText:NSLocalizedString(@"msg_explanatory_google_analytics", @"Analytics explanation on the Settings view controller.")];
 
-    self.sections = @[analyticsSection, crashReportingSection];
+    OBATableSection *crashReportingSection = [self buildSwitchSectionWithDefaultsKey:OBAOptInToCrashReportingDefaultsKey switchTitle:NSLocalizedString(@"settings.crash_reporting.switch_text", @"A switch option's text for enabling and disabling crash reporting") footerText:NSLocalizedString(@"settings.crash_reporting.footer", @"Crash reporting explanation on the Settings view controller.")];
+
+    OBATableSection *compassSection = [self buildSwitchSectionWithDefaultsKey:OBADisplayUserHeadingOnMapDefaultsKey switchTitle:NSLocalizedString(@"settings.user_heading_switch_title", @"Title for the enable/disable user heading switch on the settings controller") footerText:NSLocalizedString(@"settings.user_heading_footer_text", @"Footer for the enable/disable user heading switch on the settings controller")];
+
+    self.sections = @[analyticsSection, crashReportingSection, compassSection];
     [self.tableView reloadData];
 }
 
-- (OBATableSection*)buildAnalyticsSection {
-    OBATableSection *analyticsSection = [[OBATableSection alloc] initWithTitle:nil];
-
-    BOOL analyticsValue = [[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
-    OBASwitchRow *switchRow = [[OBASwitchRow alloc] initWithTitle:NSLocalizedString(@"msg_enable_google_analytics", @"A switch option's text for enabling and disabling Google Analytics") action:^{
-        [[NSUserDefaults standardUserDefaults] setBool:!analyticsValue forKey:OBAOptInToTrackingDefaultsKey];
-        [GAI sharedInstance].optOut = !analyticsValue;
-    } switchValue:analyticsValue];
-    [analyticsSection addRow:switchRow];
-
-    analyticsSection.footerView = [OBAUIBuilder footerViewWithText:NSLocalizedString(@"msg_explanatory_google_analytics", @"Analytics explanation on the Settings view controller.") maximumWidth:CGRectGetWidth(self.tableView.frame)];
-
-    return analyticsSection;
-}
-
-- (OBATableSection*)buildCrashReportingSection {
+- (OBATableSection*)buildSwitchSectionWithDefaultsKey:(NSString*)defaultsKey switchTitle:(NSString*)switchTitle footerText:(nullable NSString*)footerText  {
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil];
 
-    BOOL value = [[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToCrashReportingDefaultsKey];
-    OBASwitchRow *switchRow = [[OBASwitchRow alloc] initWithTitle:NSLocalizedString(@"settings.crash_reporting.switch_text", @"A switch option's text for enabling and disabling crash reporting") action:^{
-        [[NSUserDefaults standardUserDefaults] setBool:!value forKey:OBAOptInToCrashReportingDefaultsKey];
-    } switchValue:value];
+    OBARowAction action = ^(OBABaseRow *row) {
+        BOOL currentValue = [NSUserDefaults.standardUserDefaults boolForKey:defaultsKey];
+        [NSUserDefaults.standardUserDefaults setBool:!currentValue forKey:defaultsKey];
+    };
+
+    OBASwitchRow *switchRow = [[OBASwitchRow alloc] initWithTitle:switchTitle action:action switchValue:[NSUserDefaults.standardUserDefaults boolForKey:defaultsKey]];
     [section addRow:switchRow];
 
-    section.footerView = [OBAUIBuilder footerViewWithText:NSLocalizedString(@"settings.crash_reporting.footer", @"Crash reporting explanation on the Settings view controller.") maximumWidth:CGRectGetWidth(self.tableView.frame)];
+    if (footerText) {
+        section.footerView = [OBAUIBuilder footerViewWithText:footerText maximumWidth:CGRectGetWidth(self.tableView.frame)];
+    }
 
     return section;
 }
