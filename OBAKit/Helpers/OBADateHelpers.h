@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString*)formatNoTimeShortDate:(NSDate*)date;
 
 + (NSDate *)getTripStopTimeAsDate:(OBATripStopTimeV2*)stopTime tripDetails:(OBATripDetailsV2*)tripDetails;
+
++ (NSString*)formatAccessibilityLabelMinutesUntilDate:(NSDate*)date;
 + (NSString*)formatMinutesUntilDate:(NSDate*)date;
 
 /**
