@@ -211,6 +211,7 @@
 		9358CDAF1DEA1AB000132CDE /* OBADepartureCellHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358CDAD1DEA1AB000132CDE /* OBADepartureCellHelpers.m */; };
 		9358CDB21DEA242B00132CDE /* OBAUpcomingDeparture.h in Headers */ = {isa = PBXBuildFile; fileRef = 9358CDB01DEA242B00132CDE /* OBAUpcomingDeparture.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9358CDB31DEA242B00132CDE /* OBAUpcomingDeparture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358CDB11DEA242B00132CDE /* OBAUpcomingDeparture.m */; };
+		935BB9F11F745E1E00062E31 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 935BB9F01F745E1E00062E31 /* CoreTelephony.framework */; };
 		936EB1B61E91746400F4F3A7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */; };
 		936EB1B91E91A83700F4F3A7 /* OBARegionStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */; };
 		936EB1BA1E91A83700F4F3A7 /* OBARegionStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */; };
@@ -451,6 +452,7 @@
 		9358CDAD1DEA1AB000132CDE /* OBADepartureCellHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADepartureCellHelpers.m; sourceTree = "<group>"; };
 		9358CDB01DEA242B00132CDE /* OBAUpcomingDeparture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAUpcomingDeparture.h; sourceTree = "<group>"; };
 		9358CDB11DEA242B00132CDE /* OBAUpcomingDeparture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAUpcomingDeparture.m; sourceTree = "<group>"; };
+		935BB9F01F745E1E00062E31 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionStorage.h; sourceTree = "<group>"; };
 		936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionStorage.m; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				935BB9F11F745E1E00062E31 /* CoreTelephony.framework in Frameworks */,
 				9356803E1EAC379700BEC077 /* MapKit.framework in Frameworks */,
 				9356803C1EAC379100BEC077 /* CoreLocation.framework in Frameworks */,
 				936EB1B61E91746400F4F3A7 /* SystemConfiguration.framework in Frameworks */,
@@ -831,6 +834,7 @@
 		934196BC1DB0B274004BBBB7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				935BB9F01F745E1E00062E31 /* CoreTelephony.framework */,
 				9356803D1EAC379700BEC077 /* MapKit.framework */,
 				9356803B1EAC379100BEC077 /* CoreLocation.framework */,
 				936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */,
