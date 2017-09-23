@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina4_0" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -13,31 +14,30 @@
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
-                        <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qqv-oa-8Ro">
-                                <rect key="frame" x="0.0" y="519" width="320" height="49"/>
+                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="57l-2m-ez1">
+                                <rect key="frame" x="0.0" y="729" width="375" height="83"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <viewLayoutGuide key="safeArea" id="rTY-uj-W81"/>
                                 <items>
-                                    <tabBarItem title="" image="Map" id="ZEy-hw-S0U"/>
-                                    <tabBarItem title="" image="Recent" id="0pE-aN-Fa4"/>
-                                    <tabBarItem title="" image="Favorites" id="Puy-ea-4VL"/>
-                                    <tabBarItem title="" image="Info" id="MyU-un-Fv6"/>
+                                    <tabBarItem image="Map" id="zQG-5H-SYE"/>
+                                    <tabBarItem image="Recent" id="7yx-j6-Rj3"/>
+                                    <tabBarItem title="" image="Favorites" id="IxM-O0-sXb"/>
+                                    <tabBarItem title="" image="Info" id="GFV-kW-0tI"/>
                                 </items>
                             </tabBar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Qqv-oa-8Ro" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="FUy-c1-uEV"/>
-                            <constraint firstAttribute="trailing" secondItem="Qqv-oa-8Ro" secondAttribute="trailing" id="T3v-xQ-pKp"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="Qqv-oa-8Ro" secondAttribute="bottom" id="TJ6-pZ-iM8"/>
+                            <constraint firstItem="57l-2m-ez1" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="1BQ-Vx-W2K"/>
+                            <constraint firstItem="57l-2m-ez1" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="MJQ-FH-eGP"/>
+                            <constraint firstItem="57l-2m-ez1" firstAttribute="trailing" secondItem="Bcu-3y-fUS" secondAttribute="trailing" id="dbO-JK-Dkm"/>
+                            <constraint firstItem="57l-2m-ez1" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="bottom" id="tGb-rs-Wjf"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -46,7 +46,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Favorites" width="24" height="24"/>
+        <image name="Favorites" width="28" height="28"/>
         <image name="Info" width="24" height="24"/>
         <image name="Map" width="24" height="24"/>
         <image name="Recent" width="24" height="24"/>
