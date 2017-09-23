@@ -57,6 +57,11 @@
 /**
  * The largest title font.
  */
+@property(class,nonatomic,copy,readonly) UIFont *largeTitleFont;
+
+/**
+ * Title font.
+ */
 @property(class,nonatomic,copy,readonly) UIFont *titleFont;
 
 /**
@@ -207,6 +212,11 @@
  The default corner radius to apply to views that require rounded edges.
  */
 @property(class,nonatomic,assign,readonly) CGFloat defaultCornerRadius;
+
+/**
+ The value of +[OBATheme defaultMargin] in the form of UIEdgeInsets.
+ */
+@property(class,nonatomic,assign,readonly) UIEdgeInsets marginSizedEdgeInsets;
 
 /**
  The value of +[OBATheme defaultPadding] in the form of UIEdgeInsets.

@@ -52,15 +52,12 @@ import SwiftMessages
         config.interactiveHide = true
         config.preferredStatusBarStyle = .lightContent
 
-        // Instantiate a message view from the provided card view layout. SwiftMessages searches for nib
-        // files in the main bundle first, so you can easily copy them into your project and make changes.
-        let view = MessageView.viewFromNib(layout: .CardView)
+        let view = AlertPresenterView.init()
         view.configureContent(title: title, body: body, iconImage: nil, iconText: nil, buttonImage: nil, buttonTitle: NSLocalizedString("msg_close", comment: "close"), buttonTapHandler: { _ in
             SwiftMessages.hide()
         })
         view.configureTheme(theme)
-        view.configureDropShadow()
-
+ 
         // Show the message.
         SwiftMessages.show(config: config, view: view)
     }
