@@ -9,6 +9,7 @@
 #import "OBAMapActivityIndicatorView.h"
 #import "OBAVibrantBlurContainerView.h"
 @import OBAKit;
+@import Masonry;
 
 @interface OBAMapActivityIndicatorView ()
 @property(nonatomic,strong) OBAVibrantBlurContainerView *blurContainer;
@@ -30,9 +31,14 @@
         _blurContainer.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         [self addSubview:_blurContainer];
 
-        _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectInset(self.bounds, [OBATheme compactPadding], [OBATheme compactPadding])];
+        CGRect activityFrame = CGRectZero;
+        _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:activityFrame];
         _activityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
         [_blurContainer.vibrancyEffectView.contentView addSubview:_activityIndicatorView];
+        UIView *container = _blurContainer.vibrancyEffectView.contentView;
+        [_activityIndicatorView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(container);
+        }];
     }
     return self;
 }
@@ -50,6 +56,14 @@
 
 - (BOOL)animating {
     return self.activityIndicatorView.isAnimating;
+}
+
+- (CGSize)intrinsicContentSize {
+    CGSize sz = self.activityIndicatorView.intrinsicContentSize;
+    sz.width += OBATheme.defaultPadding;
+    sz.height += OBATheme.defaultPadding;
+
+    return sz;
 }
 
 @end

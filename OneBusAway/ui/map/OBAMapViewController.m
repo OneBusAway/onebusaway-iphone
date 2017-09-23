@@ -939,12 +939,12 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)configureMapActivityIndicator {
-    CGRect indicatorBounds = CGRectMake(12, 12, 36, 36);
-    indicatorBounds.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
-
-    self.mapActivityIndicatorView = [[OBAMapActivityIndicatorView alloc] initWithFrame:indicatorBounds];
-    self.mapActivityIndicatorView.hidden = YES;
+    self.mapActivityIndicatorView = [[OBAMapActivityIndicatorView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:self.mapActivityIndicatorView];
+    [self.mapActivityIndicatorView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.mas_topLayoutGuideBottom).offset(OBATheme.defaultPadding);
+        make.leading.equalTo(self).offset(OBATheme.defaultMargin);
+    }];
 }
 
 - (void)configureToastView {
@@ -954,7 +954,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     [self.toastView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.top.equalTo(self.mas_topLayoutGuideBottom).offset([OBATheme defaultPadding]);
+        make.top.equalTo(self.mas_topLayoutGuideBottom).offset(OBATheme.defaultPadding);
         make.width.lessThanOrEqualTo(self.view);
     }];
 }
@@ -966,7 +966,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self.locationHoverBar.items = @[recenterMapButton];
     [self.view addSubview:self.locationHoverBar];
     [self.locationHoverBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.and.trailing.equalTo(self.mapView).insets(UIEdgeInsetsMake(0, 0, 64, 16));
+        make.bottom.equalTo(self.mas_bottomLayoutGuideTop).offset(-OBATheme.defaultMargin);
+        make.trailing.equalTo(self).offset(-OBATheme.defaultMargin);
     }];
 }
 
