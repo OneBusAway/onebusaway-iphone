@@ -162,7 +162,6 @@
 		934198B51DB0C219004BBBB7 /* OBAVehicleStatusV2_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341987D1DB0C219004BBBB7 /* OBAVehicleStatusV2_Tests.m */; };
 		934198B61DB0C219004BBBB7 /* OBADataSourceConfig_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341987F1DB0C219004BBBB7 /* OBADataSourceConfig_Tests.m */; };
 		934198CD1DB0C578004BBBB7 /* OBAKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 934198CA1DB0C56D004BBBB7 /* OBAKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		934198D71DB0C886004BBBB7 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 934198D61DB0C886004BBBB7 /* Launch Screen.storyboard */; };
 		934C508D1E2A1E5C00DFDCA0 /* OneSignal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934C508C1E2A1E5C00DFDCA0 /* OneSignal.framework */; };
 		934C50A01E2B69E300DFDCA0 /* GKActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C509D1E2B69E300DFDCA0 /* GKActionSheetPicker.m */; };
 		934C50A11E2B69E300DFDCA0 /* GKActionSheetPickerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C509F1E2B69E300DFDCA0 /* GKActionSheetPickerItem.m */; };
@@ -174,6 +173,7 @@
 		9358CDA51DEA19BA00132CDE /* OBATestHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358CDA31DEA19BA00132CDE /* OBATestHelpers.m */; };
 		9358CDB61DEA265200132CDE /* OBADepartureCellHelpers_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358CDB51DEA265200132CDE /* OBADepartureCellHelpers_Tests.m */; };
 		9359D1281DB92B4200CABFBD /* OBAModelService_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9359D1271DB92B4200CABFBD /* OBAModelService_Tests.m */; };
+		935C39111F76EEAD00737DC4 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 935C39101F76EEAD00737DC4 /* Launch Screen.storyboard */; };
 		93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */; };
 		9368E5C01DB1584900C329D0 /* OBAEmptyDataSetSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9368E5BF1DB1584900C329D0 /* OBAEmptyDataSetSource.m */; };
 		936EB1C11E92F30C00F4F3A7 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936EB1BF1E92F30C00F4F3A7 /* OnboardingViewController.swift */; };
@@ -497,7 +497,6 @@
 		9341987D1DB0C219004BBBB7 /* OBAVehicleStatusV2_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAVehicleStatusV2_Tests.m; sourceTree = "<group>"; };
 		9341987F1DB0C219004BBBB7 /* OBADataSourceConfig_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADataSourceConfig_Tests.m; sourceTree = "<group>"; };
 		934198C41DB0C56D004BBBB7 /* OBAKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OBAKit.xcodeproj; path = OBAKit/OBAKit.xcodeproj; sourceTree = "<group>"; };
-		934198D61DB0C886004BBBB7 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		934445F81AB105FB005B3333 /* capitolhill.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = capitolhill.gpx; sourceTree = "<group>"; };
 		9347860D1D3453E9002A5627 /* sandiego.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sandiego.gpx; sourceTree = "<group>"; };
 		934C508C1E2A1E5C00DFDCA0 /* OneSignal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OneSignal.framework; path = Carthage/Build/iOS/OneSignal.framework; sourceTree = "<group>"; };
@@ -519,6 +518,7 @@
 		9358CDB51DEA265200132CDE /* OBADepartureCellHelpers_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADepartureCellHelpers_Tests.m; sourceTree = "<group>"; };
 		9359D1271DB92B4200CABFBD /* OBAModelService_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelService_Tests.m; sourceTree = "<group>"; };
 		935BB9ED1F745E0500062E31 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		935C39101F76EEAD00737DC4 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		93631E4A1604F96800CB7209 /* OBAApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAApplicationDelegate.h; path = OneBusAway/OBAApplicationDelegate.h; sourceTree = "<group>"; };
 		93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = OBAApplicationDelegate.m; path = OneBusAway/OBAApplicationDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9363D58E1D6ADE6600A7021A /* invalid.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = invalid.gpx; sourceTree = "<group>"; };
@@ -1200,12 +1200,12 @@
 				93ADC51A1DCB1EBE0024FBD6 /* credits.html */,
 				5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */,
 				93BBB4001DB4BA7200694940 /* Info.plist */,
-				934198D61DB0C886004BBBB7 /* Launch Screen.storyboard */,
 				9341982E1DB0C1E9004BBBB7 /* CardView.xib */,
 				9341982F1DB0C1E9004BBBB7 /* feedback_message_body.html */,
 				934198301DB0C1E9004BBBB7 /* Images.xcassets */,
 				934198341DB0C1E9004BBBB7 /* OneBusAway.entitlements */,
 				934198351DB0C1E9004BBBB7 /* regions-v3.json */,
+				935C39101F76EEAD00737DC4 /* Launch Screen.storyboard */,
 			);
 			name = Resources;
 			path = OneBusAway/Resources;
@@ -1617,7 +1617,7 @@
 				934198201DB0C1BA004BBBB7 /* OBALabelAndTextFieldTableViewCell.xib in Resources */,
 				934198401DB0C1E9004BBBB7 /* regions-v3.json in Resources */,
 				934198221DB0C1BA004BBBB7 /* OBATextFieldTableViewCell.xib in Resources */,
-				934198D71DB0C886004BBBB7 /* Launch Screen.storyboard in Resources */,
+				935C39111F76EEAD00737DC4 /* Launch Screen.storyboard in Resources */,
 				D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */,
 				934197931DB0C140004BBBB7 /* OBADiversionViewController.xib in Resources */,
 				9341983A1DB0C1E9004BBBB7 /* CardView.xib in Resources */,
