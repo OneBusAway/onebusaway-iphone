@@ -12,6 +12,7 @@
 #import <OBAKit/OBARegionV2.h>
 #import <OBAKit/OBACommon.h>
 #import <OBAKit/OBAMacros.h>
+#import <OBAKit/OBALocationManager.h>
 @import CoreTelephony;
 
 static NSString * kDefaultTransitEmailAddress = @"contact@onebusaway.org";
@@ -23,16 +24,20 @@ static NSString * appVersion = nil;
 @interface OBAEmailHelper ()
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
 @property(nonatomic,copy) CLLocation *currentLocation;
+@property(nonatomic,assign) BOOL registeredForRemoteNotifications;
+@property(nonatomic,assign) CLAuthorizationStatus locationAuthorizationStatus;
 @end
 
 @implementation OBAEmailHelper
 
-- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)currentLocation {
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)location registeredForRemoteNotifications:(BOOL)registeredForRemoteNotifications locationAuthorizationStatus:(CLAuthorizationStatus)locationAuthorizationStatus {
     self = [super init];
 
     if (self) {
         _modelDAO = modelDAO;
-        _currentLocation = [currentLocation copy];
+        _currentLocation = [location copy];
+        _registeredForRemoteNotifications = registeredForRemoteNotifications;
+        _locationAuthorizationStatus = locationAuthorizationStatus;
     }
 
     return self;
@@ -44,7 +49,7 @@ static NSString * appVersion = nil;
     }
 
     NSString *emailAddress = [self emailAddressForTarget:emailTarget];
-    NSString *messageBody = [self.class messageBodyForModelDAO:self.modelDAO currentLocation:self.currentLocation];
+    NSString *messageBody = [self messageBody];
 
     MFMailComposeViewController *composer = [[MFMailComposeViewController alloc] init];
     [composer setToRecipients:@[emailAddress]];
@@ -99,29 +104,30 @@ static NSString * appVersion = nil;
     return deviceInfo;
 }
 
-+ (NSString*)messageBodyForModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)location {
+- (NSString*)messageBody {
+    return [self.class messageBodyForModelDAO:self.modelDAO currentLocation:self.currentLocation registeredForRemoteNotifications:self.registeredForRemoteNotifications locationAuthorizationStatus:self.locationAuthorizationStatus];
+}
+
+- (NSString*)messageBodyText {
+    return [self.class messageBodyTextForModelDAO:self.modelDAO currentLocation:self.currentLocation registeredForRemoteNotifications:self.registeredForRemoteNotifications locationAuthorizationStatus:self.locationAuthorizationStatus];
+}
+
++ (NSString*)messageBodyTextForModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)location registeredForRemoteNotifications:(BOOL)registeredForRemoteNotifications locationAuthorizationStatus:(CLAuthorizationStatus)locationAuthorizationStatus {
+    NSArray *debuggingInfo = [self debuggingInfoWithModelDAO:modelDAO currentLocation:location registeredForRemoteNotifications:registeredForRemoteNotifications locationAuthorizationStatus:locationAuthorizationStatus];
+
+    NSMutableString *body = [NSMutableString new];
+
+    for (NSArray *data in debuggingInfo) {
+        [body appendFormat:@"%@ = %@\r\n", data.firstObject, data.lastObject];
+    }
+
+    return [NSString stringWithString:body];
+}
+
++ (NSString*)messageBodyForModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)location registeredForRemoteNotifications:(BOOL)registeredForRemoteNotifications locationAuthorizationStatus:(CLAuthorizationStatus)locationAuthorizationStatus {
     NSMutableString *messageBody = [NSMutableString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"feedback_message_body" ofType:@"html"] encoding:NSUTF8StringEncoding error:nil];
 
-    NSMutableArray *debuggingInfo = [NSMutableArray new];
-
-    [debuggingInfo addObject:@[@"App Version", [self appVersion]]];
-    [debuggingInfo addObject:@[@"Device", [self deviceInfo]]];
-    [debuggingInfo addObject:@[@"iOS Version", [self OSVersion]]];
-    [debuggingInfo addObject:@[@"VoiceOver enabled", OBAStringFromBool(UIAccessibilityIsVoiceOverRunning())]];
-
-    [debuggingInfo addObject:@[@"Bookmark Count",@(modelDAO.allBookmarksCount)]];
-
-    [debuggingInfo addObject:@[@"Automatically Set Region", OBAStringFromBool(modelDAO.automaticallySelectRegion)]];
-    [debuggingInfo addObject:@[@"Region Name", modelDAO.currentRegion.regionName]];
-    [debuggingInfo addObject:@[@"Region Identifier", @(modelDAO.currentRegion.identifier)]];
-    [debuggingInfo addObject:@[@"Region Base API URL", modelDAO.currentRegion.baseURL.absoluteString]];
-    [debuggingInfo addObject:@[@"Current Location", location ? [NSString stringWithFormat:@"(%@, %@)", @(location.coordinate.latitude), @(location.coordinate.longitude)] : @"Unknown"]];
-
-    CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
-    if (networkInfo) {
-        [debuggingInfo addObject:@[@"Home Carrier", networkInfo.subscriberCellularProvider.carrierName]];
-        [debuggingInfo addObject:@[@"Radio Technology", networkInfo.currentRadioAccessTechnology]];
-    }
+    NSArray *debuggingInfo = [self debuggingInfoWithModelDAO:modelDAO currentLocation:location registeredForRemoteNotifications:registeredForRemoteNotifications locationAuthorizationStatus:locationAuthorizationStatus];
 
     NSMutableString *rawListHTML = [NSMutableString new];
     for (NSArray *data in debuggingInfo) {
@@ -131,6 +137,36 @@ static NSString * appVersion = nil;
     [messageBody replaceOccurrencesOfString:@"{{DEBUGGING_INFO}}" withString:rawListHTML options:NSLiteralSearch range:NSMakeRange(0, messageBody.length)];
 
     return [NSString stringWithString:messageBody];
+}
+
++ (NSArray*)debuggingInfoWithModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)location registeredForRemoteNotifications:(BOOL)registeredForRemoteNotifications locationAuthorizationStatus:(CLAuthorizationStatus)locationAuthorizationStatus {
+    NSMutableArray *debuggingInfo = [NSMutableArray new];
+
+    [debuggingInfo addObject:@[@"App Version", [self appVersion]]];
+    [debuggingInfo addObject:@[@"Device", [self deviceInfo]]];
+    [debuggingInfo addObject:@[@"iOS Version", [self OSVersion]]];
+    [debuggingInfo addObject:@[@"VoiceOver enabled", OBAStringFromBool(UIAccessibilityIsVoiceOverRunning())]];
+
+    [debuggingInfo addObject:@[@"Bookmark Count",@(modelDAO.allBookmarksCount)]];
+    [debuggingInfo addObject:@[@"Registered for Notifications", OBAStringFromBool(registeredForRemoteNotifications)]];
+
+    [debuggingInfo addObject:@[@"Location Auth Status", locationAuthorizationStatusToString(locationAuthorizationStatus)]];
+    [debuggingInfo addObject:@[@"Automatically Set Region", OBAStringFromBool(modelDAO.automaticallySelectRegion)]];
+    [debuggingInfo addObject:@[@"Region Name", modelDAO.currentRegion.regionName]];
+    [debuggingInfo addObject:@[@"Region Identifier", @(modelDAO.currentRegion.identifier)]];
+    [debuggingInfo addObject:@[@"Region Base API URL", modelDAO.currentRegion.baseURL.absoluteString]];
+    [debuggingInfo addObject:@[@"Current Location", location ? [NSString stringWithFormat:@"(%@, %@)", @(location.coordinate.latitude), @(location.coordinate.longitude)] : @"Unknown"]];
+
+    CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
+    if (networkInfo.subscriberCellularProvider.carrierName) {
+        [debuggingInfo addObject:@[@"Home Carrier", networkInfo.subscriberCellularProvider.carrierName]];
+    }
+
+    if (networkInfo.currentRadioAccessTechnology) {
+        [debuggingInfo addObject:@[@"Radio Technology", networkInfo.currentRadioAccessTechnology]];
+    }
+
+    return debuggingInfo;
 }
 
 @end
