@@ -212,6 +212,8 @@
 		9358CDB21DEA242B00132CDE /* OBAUpcomingDeparture.h in Headers */ = {isa = PBXBuildFile; fileRef = 9358CDB01DEA242B00132CDE /* OBAUpcomingDeparture.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9358CDB31DEA242B00132CDE /* OBAUpcomingDeparture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358CDB11DEA242B00132CDE /* OBAUpcomingDeparture.m */; };
 		935BB9F11F745E1E00062E31 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 935BB9F01F745E1E00062E31 /* CoreTelephony.framework */; };
+		935C39191F772CE300737DC4 /* NSString+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 935C39171F772CE300737DC4 /* NSString+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		935C391A1F772CE300737DC4 /* NSString+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 935C39181F772CE300737DC4 /* NSString+OBAAdditions.m */; };
 		936EB1B61E91746400F4F3A7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */; };
 		936EB1B91E91A83700F4F3A7 /* OBARegionStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */; };
 		936EB1BA1E91A83700F4F3A7 /* OBARegionStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */; };
@@ -453,6 +455,8 @@
 		9358CDB01DEA242B00132CDE /* OBAUpcomingDeparture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAUpcomingDeparture.h; sourceTree = "<group>"; };
 		9358CDB11DEA242B00132CDE /* OBAUpcomingDeparture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAUpcomingDeparture.m; sourceTree = "<group>"; };
 		935BB9F01F745E1E00062E31 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		935C39171F772CE300737DC4 /* NSString+OBAAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+OBAAdditions.h"; sourceTree = "<group>"; };
+		935C39181F772CE300737DC4 /* NSString+OBAAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+OBAAdditions.m"; sourceTree = "<group>"; };
 		936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionStorage.h; sourceTree = "<group>"; };
 		936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionStorage.m; sourceTree = "<group>"; };
@@ -583,6 +587,8 @@
 				934C50941E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m */,
 				934C50971E2B656900DFDCA0 /* NSDictionary+OBAAdditions.h */,
 				934C50981E2B656900DFDCA0 /* NSDictionary+OBAAdditions.m */,
+				935C39171F772CE300737DC4 /* NSString+OBAAdditions.h */,
+				935C39181F772CE300737DC4 /* NSString+OBAAdditions.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -994,6 +1000,7 @@
 				934196D31DB0C02F004BBBB7 /* NSDate+DateTools.h in Headers */,
 				934196CF1DB0B369004BBBB7 /* OBAKit.h in Headers */,
 				93B282C41DC664C7005013D7 /* OBATripDeepLink.h in Headers */,
+				935C39191F772CE300737DC4 /* NSString+OBAAdditions.h in Headers */,
 				9341965C1DB0B099004BBBB7 /* OBAHasReferencesV2.h in Headers */,
 				934196431DB0B099004BBBB7 /* OBASetPropertyJsonDigesterRule.h in Headers */,
 				934196411DB0B099004BBBB7 /* OBASetNextOBAJsonDigesterRule.h in Headers */,
@@ -1158,6 +1165,7 @@
 				934196AC1DB0B0AF004BBBB7 /* JsonUrlFetcherImpl.m in Sources */,
 				934196B31DB0B0AF004BBBB7 /* OBAModelFactory.m in Sources */,
 				9341961D1DB0B099004BBBB7 /* OBALocationManager.m in Sources */,
+				935C391A1F772CE300737DC4 /* NSString+OBAAdditions.m in Sources */,
 				934196501DB0B099004BBBB7 /* OBAArrivalsAndDeparturesForStopV2.m in Sources */,
 				9341960A1DB0B099004BBBB7 /* OBAImageHelpers.m in Sources */,
 				934196111DB0B099004BBBB7 /* OBAReachability.m in Sources */,
