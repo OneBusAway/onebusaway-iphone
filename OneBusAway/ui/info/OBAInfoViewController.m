@@ -9,6 +9,8 @@
 #import "OBAInfoViewController.h"
 @import SafariServices;
 @import Masonry;
+@import MobileCoreServices;
+@import OBAKit;
 #import "OBAAgenciesListViewController.h"
 #import "OBASettingsViewController.h"
 #import "OBACreditsViewController.h"
@@ -217,12 +219,25 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)cantSendEmail {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_set_up_mail_to_send_email", @"view.message")
-                                                                   message:nil
+- (void)cantSendEmail:(OBAEmailTarget)target {
+    NSString *emailAddress = [[self buildEmailHelper] emailAddressForTarget:target];
+    NSString *title = NSLocalizedString(@"info.email_app_not_set_up_title", @"Title of the the alert that appears when you try sending an email without Mail.app set up");
+    NSString *bodyFormat = NSLocalizedString(@"info.email_app_not_set_up_body_format", @"Body of the the alert that appears when you try sending an email without Mail.app set up");
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
+                                                                   message:[NSString stringWithFormat:bodyFormat, emailAddress]
                                                             preferredStyle:UIAlertControllerStyleAlert];
 
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"info.email_app_copy_email_address", @"Button that copies the targeted email address to the user's clipboard") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UIPasteboard.generalPasteboard.string = [[self buildEmailHelper] emailAddressForTarget:target];
+    }]];
+
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"info.email_app_copy_debug_info", @"Button that copies debug info to the user's clipboard") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        OBAEmailHelper *helper = [self buildEmailHelper];
+        UIPasteboard.generalPasteboard.string = helper.messageBodyText;
+    }]];
     [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleDefault handler:nil]];
+
     [self presentViewController:alert animated:YES completion:nil];
 }
 
@@ -234,9 +249,13 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [self presentEmailComposerForTarget:OBAEmailTargetAppDevelopers];
 }
 
-- (void)presentEmailComposerForTarget:(OBAEmailTarget)emailTarget {
+- (OBAEmailHelper*)buildEmailHelper {
     CLLocation *currentLocation = [OBAApplication sharedApplication].locationManager.currentLocation;
-    OBAEmailHelper *emailHelper = [[OBAEmailHelper alloc] initWithModelDAO:self.modelDAO currentLocation:currentLocation];
+    return [[OBAEmailHelper alloc] initWithModelDAO:self.modelDAO currentLocation:currentLocation registeredForRemoteNotifications:UIApplication.sharedApplication.registeredForRemoteNotifications locationAuthorizationStatus:self.locationManager.authorizationStatus];
+}
+
+- (void)presentEmailComposerForTarget:(OBAEmailTarget)emailTarget {
+    OBAEmailHelper *emailHelper = [self buildEmailHelper];
 
     MFMailComposeViewController *composer = [emailHelper mailComposerForEmailTarget:emailTarget];
 
@@ -245,7 +264,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
         [self presentViewController:composer animated:YES completion:nil];
     }
     else {
-        [self cantSendEmail];
+        [self cantSendEmail:emailTarget];
     }
 }
 
