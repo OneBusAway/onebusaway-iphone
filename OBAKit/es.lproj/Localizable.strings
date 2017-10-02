@@ -4,6 +4,12 @@
 /* sd > 0 */
 "msg_space_late" = " tarde";
 
+/* One minute */
+"date_helpers.one_minute" = "Un minuto";
+
+/* X minutes, plural */
+"date_helpers.formatted_minutes" = "%@ minutos";
+
 /* No comment provided by engineer. */
 "text_bound_and_routes_params" = "%@ bound - Rutas: %@";
 
