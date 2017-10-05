@@ -12,6 +12,7 @@ static CGFloat const kMaxFontSize = 24.f;
 
 static UIFont *_bodyFont = nil;
 static UIFont *_boldBodyFont = nil;
+static UIFont *_largeTitleFont = nil;
 static UIFont *_titleFont = nil;
 static UIFont *_subtitleFont = nil;
 static UIFont *_footnoteFont = nil;
@@ -25,6 +26,7 @@ static UIFont *_italicFootnoteFont = nil;
 + (void)resetTheme {
     _bodyFont = nil;
     _boldBodyFont = nil;
+    _largeTitleFont = nil;
     _titleFont = nil;
     _subtitleFont = nil;
     _footnoteFont = nil;
@@ -66,6 +68,13 @@ static UIFont *_italicFootnoteFont = nil;
         _boldBodyFont = [self boldFontWithTextStyle:UIFontTextStyleBody];
     }
     return _boldBodyFont;
+}
+
++ (UIFont*)largeTitleFont {
+    if (!_largeTitleFont) {
+        _largeTitleFont = [self fontWithTextStyle:UIFontTextStyleTitle1];
+    }
+    return _largeTitleFont;
 }
 
 + (UIFont*)titleFont {
@@ -240,6 +249,11 @@ static UIFont *_italicFootnoteFont = nil;
 + (CGFloat)defaultCornerRadius {
     return [self compactPadding];
 }
+
++ (UIEdgeInsets)marginSizedEdgeInsets {
+    return UIEdgeInsetsMake(self.defaultMargin, self.defaultMargin, self.defaultMargin, self.defaultMargin);
+}
+
 
 + (UIEdgeInsets)defaultEdgeInsets {
     return UIEdgeInsetsMake([self defaultPadding], [self defaultPadding], [self defaultPadding], [self defaultPadding]);

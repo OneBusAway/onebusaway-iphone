@@ -28,14 +28,16 @@ import SnapKit
         self.stackView.spacing = OBATheme.defaultPadding
 
         let imageView = UIImageView.init(image: #imageLiteral(resourceName: "infoheader"))
+        imageView.contentMode = .scaleAspectFit
         let topView = UIView.init()
         self.stackView.addArrangedSubview(topView)
         topView.backgroundColor = OBATheme.obaGreen
-
+        topView.clipsToBounds = true
         topView.addSubview(imageView)
 
         imageView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-OBATheme.defaultPadding)
         }
 
         topView.snp.makeConstraints { make in

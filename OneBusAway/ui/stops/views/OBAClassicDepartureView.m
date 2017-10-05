@@ -143,6 +143,7 @@
 }
 
 - (void)setDepartureStatus:(OBAUpcomingDeparture*)departure forLabel:(OBADepartureTimeLabel*)label {
+    label.accessibilityLabel = [OBADateHelpers formatAccessibilityLabelMinutesUntilDate:departure.departureDate];
     [label setText:[OBADateHelpers formatMinutesUntilDate:departure.departureDate] forStatus:departure.departureStatus];
 }
 
@@ -176,7 +177,6 @@
 + (OBADepartureTimeLabel*)departureTimeLabel {
     OBADepartureTimeLabel *label = [[OBADepartureTimeLabel alloc] init];
     label.font = [OBATheme bodyFont];
-    label.isAccessibilityElement = NO;
     label.textAlignment = NSTextAlignmentRight;
     [label setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     [label setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];

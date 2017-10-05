@@ -486,7 +486,7 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
     [self presentViewController:nav animated:YES completion:nil];
 }
 
-- (void)showActionsMenu {
+- (void)showActionsMenu:(id)sender {
     OBAStopV2 *stop = self.arrivalsAndDepartures.stop;
 
     UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -535,14 +535,14 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
     // Cancel
     [actionSheet addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
 
-    [self presentViewController:actionSheet animated:YES completion:nil];
+    [self oba_presentViewController:actionSheet fromView:sender];
 }
 
 - (void)createTableHeaderView {
     self.stopHeaderView = [[OBAStopTableHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), kTableHeaderHeight)];
     self.stopHeaderView.highContrastMode = [OBATheme useHighContrastUI];
 
-    [self.stopHeaderView.menuButton addTarget:self action:@selector(showActionsMenu) forControlEvents:UIControlEventTouchUpInside];
+    [self.stopHeaderView.menuButton addTarget:self action:@selector(showActionsMenu:) forControlEvents:UIControlEventTouchUpInside];
     [self.stopHeaderView.filterButton addTarget:self action:@selector(showFilterAndSortUI) forControlEvents:UIControlEventTouchUpInside];
 
     self.tableView.tableHeaderView = self.stopHeaderView;

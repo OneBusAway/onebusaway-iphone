@@ -1,6 +1,9 @@
 /* No comment provided by engineer. */
 " - " = " - ";
 
+/* ID: {Reference ID Number} */
+"alerts.reference_format" = "ID: %@";
+
 /* Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE> */
 "text_route_to_orientation_newline_params" = "%@ hacia %@\r\n";
 
@@ -355,6 +358,18 @@
 
 /* view.message */
 "msg_set_up_mail_to_send_email" = "Por favor configure tu aplicación de Correo antes de intentar enviar un correo electrónico.";
+
+/* Title of the the alert that appears when you try sending an email without Mail.app set up */
+"info.email_app_not_set_up_title" = "No se Puede Enviar Correo por medio de la app Mail";
+
+/* Body of the the alert that appears when you try sending an email without Mail.app set up */
+"info.email_app_not_set_up_body_format" = "Para contactarte con nosotros, necesitaras escribirnos a %@. Por favor toca 'Copiar la Información de Depuración' para copiar información al portapapeles que puede sernos de utilidad para resolver este problema. Por favor incluye esta información en tu correo electrónico.";
+
+/* Button that copies debug info to the user's clipboard */
+"info.email_app_copy_debug_info" = "Copiar la Información de Depuración";
+
+/* Button that copies the targeted email address to the user's clipboard */
+"info.email_app_copy_email_address" = "Copiar Correo Electrónico";
 
 /* No comment provided by engineer. */
 "msg_privacy" = "Privacidad";
@@ -743,6 +758,12 @@
 /* Error message displayed to the user when something goes wrong with a just-tapped notification. */
 "notifications.error_messages.formatted_cant_display" = "Lo sentinos, no podemos mostrarte ese viaje compartido. Si esto continúa, por favor háganoslo saber. Error: %@";
 
+/* Title for the enable/disable user heading switch on the settings controller */
+"settings.user_heading_switch_title" = "Mostrar título en el mapa";
+
+/* Footer for the enable/disable user heading switch on the settings controller */
+"settings.user_heading_footer_text" = "Si encuentras que la visualización del encabezado (es decir, la brújula) sobre el mapa puede no ser fiable, puedes desactivarlo cambiando esta configuración.";
+
 /* A switch option's text for enabling and disabling crash reporting */
 "settings.crash_reporting.switch_text" = "Habilitar informe de fallos";
 
@@ -776,7 +797,6 @@
 /* The empty data set description for the search controller */
 "map_search.empty_data_set_description" = "Escriba una dirección, número de ruta o número de parada aquí para buscar.";
 
-
 /* The section title on the 'Nearby' controller that says 'Routes' */
 "nearby_stops.routes_section_title" = "Rutas";
 
@@ -801,8 +821,8 @@
 /* Clear Search button text */
 "toast_view.clear_search" = "Limpiar Búsqueda";
 
-/* TODO: TRANSLATE ME! 'Contact app developers about a bug' row */
-"info_controller.contact_app_developers_row_title" = "Contact app developers about a bug";
+/* 'Contact app developers about a bug' row */
+"info_controller.contact_app_developers_row_title" = "Contacta a los desarrolladores de la app sobre un error";
 
 /* Message shown when debug mode is turned on */
 "info_controller.debug_mode_enabled" = "Modo de depuración activado.";
@@ -881,3 +901,9 @@
 
 /* No comment provided by engineer. */
 "msg_scheduled_explanatory" = "*'Programado': sin datos ubicación de vehículos disponibles";
+
+/* Title of the 'Walking Directions (Apple Maps)' option in the action sheet. */
+"stop.walking_directions_apple_action_title" = "Indicaciones para Caminar (Apple Maps)";
+
+/* Title of the 'Walking Directions (Apple Maps)' option in the action sheet. */
+"stop.walking_directions_google_action_title" = "Indicaciones para Caminar (Google Maps)";

@@ -83,8 +83,9 @@
 - (void)registerAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalDeparture timeInterval:(NSTimeInterval)timeInterval {
     OBAAlarm *alarm = [[OBAAlarm alloc] initWithArrivalAndDeparture:arrivalDeparture regionIdentifier:self.modelDAO.currentRegion.identifier timeIntervalBeforeDeparture:timeInterval];
 
+    [SVProgressHUD show];
+
     [[OBAPushManager pushManager] requestUserPushNotificationID].then(^(NSString *pushNotificationID) {
-        [SVProgressHUD show];
         return [self.modelService requestAlarm:alarm userPushNotificationID:pushNotificationID];
     }).then(^(NSDictionary *serverResponse) {
         alarm.alarmURL = [NSURL URLWithString:serverResponse[@"url"]];
