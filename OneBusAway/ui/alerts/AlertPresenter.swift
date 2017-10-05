@@ -40,8 +40,15 @@ import SwiftMessages
     ///
     /// - Parameter error: The error object from which the alert is generated.
     @objc open class func showError(_ error: NSError) {
-        Crashlytics.sharedInstance().recordError(error)
-        self.showError(OBAStrings.error, body: errorMessage(from: error))
+        var userInfo: [String: Any] = [:]
+        var referenceID: String? = nil
+        if let url = error.userInfo[NSURLErrorFailingURLStringErrorKey] as? NSString,
+           let substr = url.oba_SHA1?.prefix(10) {
+            referenceID = String(describing: substr)
+            userInfo["reference"] = referenceID
+        }
+        Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: userInfo)
+        self.showError(OBAStrings.error, body: errorMessage(from: error, referenceID: referenceID))
     }
 
     open class func showMessage(withTheme theme: Theme, title: String, body: String) {
@@ -52,20 +59,17 @@ import SwiftMessages
         config.interactiveHide = true
         config.preferredStatusBarStyle = .lightContent
 
-        // Instantiate a message view from the provided card view layout. SwiftMessages searches for nib
-        // files in the main bundle first, so you can easily copy them into your project and make changes.
-        let view = MessageView.viewFromNib(layout: .CardView)
+        let view = AlertPresenterView.init()
         view.configureContent(title: title, body: body, iconImage: nil, iconText: nil, buttonImage: nil, buttonTitle: NSLocalizedString("msg_close", comment: "close"), buttonTapHandler: { _ in
             SwiftMessages.hide()
         })
         view.configureTheme(theme)
-        view.configureDropShadow()
 
         // Show the message.
         SwiftMessages.show(config: config, view: view)
     }
 
-    private class func errorMessage(from error: NSError) -> String {
+    private class func errorMessage(from error: NSError, referenceID: String?) -> String {
         let wifiName = OBAReachability.wifiNetworkName
         
         var message: String
@@ -77,9 +81,12 @@ import SwiftMessages
             message = error.localizedDescription
         }
         
-        // If the error includes an URL, append that URL to the error message.
-        if let url = error.userInfo[NSURLErrorFailingURLStringErrorKey] {
-            message = "\(message)\r\n\r\n\(url)"
+        // If the error includes an URL, append the SHA-1 hash
+        // value of that URL to the error for legibility's sake.
+        if let referenceID = referenceID {
+            let formatString = NSLocalizedString("alerts.reference_format", comment: "ID: {Reference ID Number}")
+            let referenceLine = String.init(format: formatString, referenceID)
+            message = "\(message)\r\n\r\n\(referenceLine)"
         }
         
         return message
