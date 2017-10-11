@@ -11,12 +11,27 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, OBABookmarkGroupType) {
+    OBABookmarkGroupTypeRegular = 0,
+    OBABookmarkGroupTypeTodayWidget,
+};
+
 @interface OBABookmarkGroup : NSObject<NSCoding>
+
+/**
+ Used to distinguish between normal bookmark groups and the bookmark group
+ used for the Today screen widget.
+ */
+@property(nonatomic,assign,readonly) OBABookmarkGroupType bookmarkGroupType;
 
 /**
  The set of bookmarks contained in this group.
  */
-@property(nonatomic,strong) NSMutableArray<OBABookmarkV2*> *bookmarks;
+@property(nonatomic,copy,readonly) NSArray<OBABookmarkV2*> *bookmarks;
+
+- (void)addBookmark:(OBABookmarkV2*)bookmark;
+- (void)removeBookmark:(OBABookmarkV2*)bookmark;
+- (void)insertBookmark:(OBABookmarkV2*)bookmark atIndex:(NSUInteger)index;
 
 /**
  The name of this group.
@@ -42,6 +57,8 @@ NS_ASSUME_NONNULL_BEGIN
  Today screen extensions.
  */
 @property(nonatomic,assign) BOOL open;
+
+- (instancetype)initWithBookmarkGroupType:(OBABookmarkGroupType)bookmarkGroupType NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithName:(NSString*)name;
 

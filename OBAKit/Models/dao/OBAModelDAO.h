@@ -63,7 +63,7 @@ extern NSString * const OBARegionDidUpdateNotification;
 - (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex inGroup:(OBABookmarkGroup*)group;
 
 // Bookmark Groups
-
+@property(nonatomic,strong,readonly) OBABookmarkGroup *todayBookmarkGroup;
 - (void)moveBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup toIndex:(NSUInteger)index;
 - (void)saveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup;
 - (void)removeBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup;

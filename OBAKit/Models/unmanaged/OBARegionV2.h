@@ -46,6 +46,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (MKMapRect)serviceRect;
 
 /**
+ The location coordinate in the center of the `serviceRect`.
+ */
+@property(nonatomic,assign,readonly) CLLocationCoordinate2D centerCoordinate;
+
+/**
  Tests whether this is a valid region object.
  */
 - (BOOL)isValidModel;

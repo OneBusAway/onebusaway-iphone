@@ -114,9 +114,13 @@
 
     if ([self.delegate respondsToSelector:@selector(didSetBookmarkGroup:)]) {
         [self.delegate didSetBookmarkGroup:group];
+        [self close];
+    }
+    else if (group.bookmarkGroupType == OBABookmarkGroupTypeRegular) {
+        [self addEditGroupName:group];
     }
 
-    [self close];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)loadData {
@@ -145,6 +149,18 @@
 }
 
 #pragma mark - UITableView Editing
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    OBABaseRow *row = [self rowAtIndexPath:indexPath];
+    OBABookmarkGroup *group = [row model];
+
+    if (group.bookmarkGroupType == OBABookmarkGroupTypeRegular) {
+        return UITableViewCellEditingStyleDelete;
+    }
+    else {
+        return UITableViewCellEditingStyleNone;
+    }
+}
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
