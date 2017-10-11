@@ -17,6 +17,7 @@
 #import <OBAKit/OBACommon.h>
 #import <OBAKit/OBADateHelpers.h>
 #import <OBAKit/OBAMacros.h>
+#import <OBAKit/OBAApplication.h>
 
 static BOOL obaCommonRunningInsideTests = NO;
 
@@ -77,11 +78,11 @@ NSString * OBAStringFromBool(BOOL yn) {
 }
 
 + (BOOL)debugMode {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:OBADebugModeUserDefaultsKey];
+    return [OBAApplication.sharedApplication.userDefaults boolForKey:OBADebugModeUserDefaultsKey];
 }
 
 + (void)setDebugMode:(BOOL)debugMode {
-    [[NSUserDefaults standardUserDefaults] setBool:debugMode forKey:OBADebugModeUserDefaultsKey];
+    [OBAApplication.sharedApplication.userDefaults setBool:debugMode forKey:OBADebugModeUserDefaultsKey];
 }
 
 @end

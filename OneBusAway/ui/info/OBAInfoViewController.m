@@ -91,9 +91,9 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 }
 
 - (void)toggleDebugMode:(UITapGestureRecognizer*)sender {
-    BOOL debugMode = [[NSUserDefaults standardUserDefaults] boolForKey:OBADebugModeUserDefaultsKey];
+    BOOL debugMode = [OBAApplication.sharedApplication.userDefaults boolForKey:OBADebugModeUserDefaultsKey];
     debugMode = !debugMode;
-    [[NSUserDefaults standardUserDefaults] setBool:debugMode forKey:OBADebugModeUserDefaultsKey];
+    [OBAApplication.sharedApplication.userDefaults setBool:debugMode forKey:OBADebugModeUserDefaultsKey];
 
     NSString *message = debugMode ? NSLocalizedString(@"info_controller.debug_mode_enabled", @"Message shown when debug mode is turned on") : NSLocalizedString(@"info_controller.debug_mode_disabled", @"Message shown when debug mode is turned off");
 

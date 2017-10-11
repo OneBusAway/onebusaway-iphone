@@ -302,12 +302,11 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
 - (OBATableSection*)buildSegmentedControlSection {
     OBASegmentedRow *segmentedControl = [[OBASegmentedRow alloc] initWithSelectionChange:^(NSUInteger selectedIndex) {
-        [[NSUserDefaults standardUserDefaults] setInteger:selectedIndex forKey:OBABookmarkSortUserDefaultsKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        [OBAApplication.sharedApplication.userDefaults setInteger:selectedIndex forKey:OBABookmarkSortUserDefaultsKey];
         [self loadDataWithTableReload:YES];
     }];
 
-    segmentedControl.selectedItemIndex = [[NSUserDefaults standardUserDefaults] integerForKey:OBABookmarkSortUserDefaultsKey];
+    segmentedControl.selectedItemIndex = [OBAApplication.sharedApplication.userDefaults integerForKey:OBABookmarkSortUserDefaultsKey];
 
     NSString *sortGroup = NSLocalizedString(@"bookmarks_controller.sort_by_group_item", @"Segmented control item title: 'Sort by Group'");
     NSString *sortProximity = NSLocalizedString(@"bookmarks_controller.sort_by_proximity_item", @"Segmented control item title: 'Sort by Proximity'");
@@ -320,7 +319,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
 + (BOOL)sortBookmarksByProximity {
     // 1 is the index of the proximity sort item on the segmented control.
-    return [[NSUserDefaults standardUserDefaults] integerForKey:OBABookmarkSortUserDefaultsKey] == 1;
+    return [OBAApplication.sharedApplication.userDefaults integerForKey:OBABookmarkSortUserDefaultsKey] == 1;
 }
 
 - (nullable OBATableSection*)proximitySortedTableSection {

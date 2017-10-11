@@ -21,6 +21,7 @@
 #import <OBAKit/OBALogging.h>
 #import <OBAKit/OBAArrivalAndDepartureV2.h>
 #import <OBAKit/OBAAlarm.h>
+#import <OBAKit/OBAApplication.h>
 
 NSString * const kBookmarksKey = @"bookmarks";
 NSString * const kBookmarkGroupsKey = @"bookmarkGroups";
@@ -45,12 +46,11 @@ NSString * const OBAShareLogsPIIUserDefaultsKey = @"OBAShareLogsPIIUserDefaultsK
 @dynamic shareLogsPII;
 
 - (void)setUngroupedBookmarksOpen:(BOOL)ungroupedBookmarksOpen {
-    [[NSUserDefaults standardUserDefaults] setBool:ungroupedBookmarksOpen forKey:kUngroupedBookmarksOpenKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.userDefaults setBool:ungroupedBookmarksOpen forKey:kUngroupedBookmarksOpenKey];
 }
 
 - (BOOL)ungroupedBookmarksOpen {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:kUngroupedBookmarksOpenKey];
+    return [self.userDefaults boolForKey:kUngroupedBookmarksOpenKey];
 }
 
 - (NSArray*)readBookmarks {
@@ -95,12 +95,11 @@ NSString * const OBAShareLogsPIIUserDefaultsKey = @"OBAShareLogsPIIUserDefaultsK
 }
 
 - (BOOL)hideFutureLocationWarnings {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:kHideFutureLocationWarningsKey];
+    return [self.userDefaults boolForKey:kHideFutureLocationWarningsKey];
 }
 
 - (void)setHideFutureLocationWarnings:(BOOL)hideFutureLocationWarnings {
-    [[NSUserDefaults standardUserDefaults] setBool:hideFutureLocationWarnings forKey:kHideFutureLocationWarningsKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.userDefaults setBool:hideFutureLocationWarnings forKey:kHideFutureLocationWarningsKey];
 }
 
 - (NSSet*)readVisistedSituationIds {
@@ -136,41 +135,37 @@ NSString * const OBAShareLogsPIIUserDefaultsKey = @"OBAShareLogsPIIUserDefaultsK
 }
 
 - (BOOL)readSetRegionAutomatically {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:OBASetRegionAutomaticallyKey];
+    return [self.userDefaults boolForKey:OBASetRegionAutomaticallyKey];
 }
 
 - (void)writeSetRegionAutomatically:(BOOL)setRegionAutomatically {
-    [[NSUserDefaults standardUserDefaults] setBool:setRegionAutomatically forKey:OBASetRegionAutomaticallyKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.userDefaults setBool:setRegionAutomatically forKey:OBASetRegionAutomaticallyKey];
 }
 
 #pragma mark - Privacy/PII
 
 - (BOOL)shareRegionPII {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:OBAShareRegionPIIUserDefaultsKey];
+    return [self.userDefaults boolForKey:OBAShareRegionPIIUserDefaultsKey];
 }
 
 - (void)setShareRegionPII:(BOOL)shareRegionPII {
-    [[NSUserDefaults standardUserDefaults] setBool:shareRegionPII forKey:OBAShareRegionPIIUserDefaultsKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.userDefaults setBool:shareRegionPII forKey:OBAShareRegionPIIUserDefaultsKey];
 }
 
 - (BOOL)shareLocationPII {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:OBAShareLocationPIIUserDefaultsKey];
+    return [self.userDefaults boolForKey:OBAShareLocationPIIUserDefaultsKey];
 }
 
 - (void)setShareLocationPII:(BOOL)shareLocationPII {
-    [[NSUserDefaults standardUserDefaults] setBool:shareLocationPII forKey:OBAShareLocationPIIUserDefaultsKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.userDefaults setBool:shareLocationPII forKey:OBAShareLocationPIIUserDefaultsKey];
 }
 
 - (BOOL)shareLogsPII {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:OBAShareLogsPIIUserDefaultsKey];
+    return [self.userDefaults boolForKey:OBAShareLogsPIIUserDefaultsKey];
 }
 
 - (void)setShareLogsPII:(BOOL)shareLogsPII {
-    [[NSUserDefaults standardUserDefaults] setBool:shareLogsPII forKey:OBAShareLogsPIIUserDefaultsKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.userDefaults setBool:shareLogsPII forKey:OBAShareLogsPIIUserDefaultsKey];
 }
 
 #pragma mark - Shared Trips
@@ -221,6 +216,16 @@ NSString * const OBAShareLogsPIIUserDefaultsKey = @"OBAShareLogsPIIUserDefaultsK
     }
 }
 
+#pragma mark - User Defaults
+
++ (NSUserDefaults*)userDefaults {
+    return OBAApplication.sharedApplication.userDefaults;
+}
+
+- (NSUserDefaults*)userDefaults {
+    return [self.class userDefaults];
+}
+
 #pragma mark - Generic Set Management Methods
 
 - (void)addObject:(id)object toSetWithKey:(NSString*)key {
@@ -252,7 +257,7 @@ NSString * const OBAShareLogsPIIUserDefaultsKey = @"OBAShareLogsPIIUserDefaultsK
 #pragma mark - (De-)Serialization
 
 + (id)loadAndDecodeObjectFromDataForKey:(NSString*)key {
-    NSData *data = [[NSUserDefaults standardUserDefaults] dataForKey:key];
+    NSData *data = [self.userDefaults dataForKey:key];
 
     if (!data) {
         return nil;
@@ -279,7 +284,6 @@ NSString * const OBAShareLogsPIIUserDefaultsKey = @"OBAShareLogsPIIUserDefaultsK
     [archiver encodeObject:object forKey:key];
     [archiver finishEncoding];
 
-    [[NSUserDefaults standardUserDefaults] setObject:data forKey:key];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.userDefaults setObject:data forKey:key];
 }
 @end

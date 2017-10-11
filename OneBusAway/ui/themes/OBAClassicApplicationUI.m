@@ -100,8 +100,8 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
     NSInteger selectedIndex = 0;
     NSString *startingTab = nil;
 
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:kOBASelectedTabIndexDefaultsKey]) {
-        selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
+    if ([OBAApplication.sharedApplication.userDefaults objectForKey:kOBASelectedTabIndexDefaultsKey]) {
+        selectedIndex = [OBAApplication.sharedApplication.userDefaults integerForKey:kOBASelectedTabIndexDefaultsKey];
     }
 
     self.tabBarController.selectedIndex = selectedIndex;
@@ -200,8 +200,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    [[NSUserDefaults standardUserDefaults] setInteger:tabBarController.selectedIndex forKey:kOBASelectedTabIndexDefaultsKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [OBAApplication.sharedApplication.userDefaults setInteger:tabBarController.selectedIndex forKey:kOBASelectedTabIndexDefaultsKey];
 }
 
 @end
