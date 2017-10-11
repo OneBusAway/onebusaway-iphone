@@ -25,6 +25,24 @@
 // Fonts
 
 /**
+ * The appropriate font to use for headlines. Resizes based upon
+ * the user's chosen font sizes at the system level.
+ */
+@property(class,nonatomic,copy,readonly) UIFont *headlineFont;
+
+/**
+ * The appropriate font to use for subheadlines. Resizes based upon
+ * the user's chosen font sizes at the system level.
+ */
+@property(class,nonatomic,copy,readonly) UIFont *subheadFont;
+
+/**
+ * Bold variant of the appropriate font to use for subheadlines. Resizes
+ * based upon the user's chosen font sizes at the system level.
+ */
+@property(class,nonatomic,copy,readonly) UIFont *boldSubheadFont;
+
+/**
  * The appropriate font to use for body or label text. Resizes based upon
  * the user's chosen font sizes at the system level.
  */

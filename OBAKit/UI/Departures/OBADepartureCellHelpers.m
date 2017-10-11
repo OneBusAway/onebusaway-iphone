@@ -26,7 +26,7 @@
     NSString *nextDepartureTime = [OBADateHelpers formatShortTimeNoDate:upcomingDeparture.departureDate];
     OBADepartureStatus departureStatus = upcomingDeparture.departureStatus;
 
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:nextDepartureTime attributes:@{NSFontAttributeName: [OBATheme bodyFont]}];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:nextDepartureTime attributes:@{NSFontAttributeName: [OBATheme subheadFont]}];
 
     [string appendAttributedString:[[NSAttributedString alloc] initWithString:OBALocalized(@" - ",)]];
 
@@ -117,7 +117,7 @@
 #pragma mark - Private
 
 + (UIFont*)fontForStatus:(OBADepartureStatus)status {
-    return [OBATheme bodyFont];
+    return [OBATheme subheadFont];
 }
 
 + (NSString*)statusStringFromFrequency:(OBAFrequencyV2*)frequency {
