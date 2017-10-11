@@ -24,24 +24,32 @@ static NSString * const kAppVersion = @"2.6.OBA_SIM";
 @interface OBAEmailHelper_Tests : XCTestCase
 @property(nonatomic,strong) OBATestHarnessPersistenceLayer *persistenceLayer;
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
+@property(nonatomic,strong) OBAEmailHelper *emailHelper;
 @end
 
 @implementation OBAEmailHelper_Tests
 
 - (void)setUp {
     [super setUp];
+
     [OBAEmailHelper setOSVersion:kOSVersion];
     [OBAEmailHelper setAppVersion:kAppVersion];
     self.persistenceLayer = [[OBATestHarnessPersistenceLayer alloc] init];
     self.modelDAO = [[OBAModelDAO alloc] initWithModelPersistenceLayer:self.persistenceLayer];
     self.modelDAO.currentRegion = [OBATestHelpers pugetSoundRegion];
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:45.12 longitude:45.99];
+    self.emailHelper = [[OBAEmailHelper alloc] initWithModelDAO:self.modelDAO currentLocation:location registeredForRemoteNotifications:YES locationAuthorizationStatus:kCLAuthorizationStatusAuthorizedWhenInUse];
 }
 
 - (void)testMessageBodyForModelDAO {
-    CLLocation *location = [[CLLocation alloc] initWithLatitude:45.12 longitude:45.99];
+    NSString *messageBody = [self.emailHelper.messageBody stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    messageBody = [messageBody stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    messageBody = [messageBody stringByReplacingOccurrencesOfString:@" " withString:@""];
 
-    NSString *messageBody = [OBAEmailHelper messageBodyForModelDAO:self.modelDAO currentLocation:location];
     NSString *expectedBody = [OBATestHelpers contentsOfTestFile:@"testMessageBodyForModelDAO.html"];
+    [expectedBody stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    expectedBody = [expectedBody stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    expectedBody = [expectedBody stringByReplacingOccurrencesOfString:@" " withString:@""];
 
     XCTAssertEqualObjects(expectedBody, messageBody);
 }

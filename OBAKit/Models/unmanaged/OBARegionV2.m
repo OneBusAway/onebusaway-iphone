@@ -142,6 +142,13 @@
     return MKMapRectMake(minX, minY, maxX - minX, maxY - minY);
 }
 
+- (CLLocationCoordinate2D)centerCoordinate {
+    MKMapRect rect = self.serviceRect;
+    MKMapPoint centerPoint = MKMapPointMake(MKMapRectGetMidX(rect), MKMapRectGetMidY(rect));
+
+    return MKCoordinateForMapPoint(centerPoint);
+}
+
 #pragma mark - NSObject
 
 - (NSComparisonResult)compare:(id)obj {
