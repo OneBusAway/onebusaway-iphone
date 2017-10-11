@@ -122,6 +122,10 @@ NSString * const OBAHeadingUserInfoKey = @"OBAHeadingUserInfoKey";
     return [CLLocationManager locationServicesEnabled] && self.authorizationStatus == kCLAuthorizationStatusAuthorizedWhenInUse;
 }
 
++ (BOOL)awaitingLocationAuthorization {
+    return [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined;
+}
+
 #pragma mark - CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations

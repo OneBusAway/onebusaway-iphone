@@ -54,22 +54,22 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     if (self) {
         [self registerForNotifications];
 
-        _deepLinkRouter = [self.class setupDeepLinkRouterWithModelDAO:[OBAApplication sharedApplication].modelDao appDelegate:self];
+        _deepLinkRouter = [self.class setupDeepLinkRouterWithModelDAO:self.application.modelDao appDelegate:self];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 
         OBAApplicationConfiguration *configuration = [[OBAApplicationConfiguration alloc] init];
         configuration.loggers = @[[OBACrashlyticsLogger sharedInstance]];
-        [[OBAApplication sharedApplication] startWithConfiguration:configuration];
+        [self.application startWithConfiguration:configuration];
 
-        [OBAApplication sharedApplication].regionHelper.delegate = self;
+        self.application.regionHelper.delegate = self;
     }
 
     return self;
 }
 
 - (void)navigateToTarget:(OBANavigationTarget *)navigationTarget {
-    [[OBAApplication sharedApplication].references clear];
+    [self.application.references clear];
     [self.applicationUI navigateToTargetInternal:navigationTarget];
 }
 
@@ -81,7 +81,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
     [OBATheme setAppearanceProxies];
 
-    if ([OBAApplicationDelegate awaitingLocationAuthorization]) {
+    if (OBALocationManager.awaitingLocationAuthorization) {
         self.window.rootViewController = self.onboardingViewController;
     }
     else {
@@ -91,13 +91,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     [self.window makeKeyAndVisible];
 }
 
-#pragma mark - Location Helpers
-
-+ (BOOL)awaitingLocationAuthorization {
-    return [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined;
-}
-
-#pragma mark - UIApplication Methods
+#pragma mark - UIApplication
 
 - (UIBackgroundTaskIdentifier)beginBackgroundTaskWithExpirationHandler:(void (^)(void))handler {
     return [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:handler];
@@ -108,15 +102,13 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     return UIBackgroundTaskInvalid;
 }
 
-#pragma mark UIApplicationDelegate Methods
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self initializeFabric];
 
-    // Register a background handler with the modael service
+    // Register a background handler with the model service
     [OBAModelService addBackgroundExecutor:self];
 
-    [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:[OBAApplication sharedApplication].oneSignalAPIKey];
+    [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:self.application.oneSignalAPIKey];
 
     // Set up Google Analytics. User must be able to opt out of tracking.
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:self.application.googleAnalyticsID];
@@ -124,13 +116,13 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     [GAI sharedInstance].optOut = optOut;
     [GAI sharedInstance].trackUncaughtExceptions = YES;
     [GAI sharedInstance].logger.logLevel = kGAILogLevelWarning;
-    [tracker set:[GAIFields customDimensionForIndex:1] value:[OBAApplication sharedApplication].modelDao.currentRegion.regionName];
+    [tracker set:[GAIFields customDimensionForIndex:1] value:self.application.modelDao.currentRegion.regionName];
 
     [OBAAnalytics configureVoiceOverStatus];
 
     // On first launch, this refresh process should be deferred.
-    if (![OBAApplicationDelegate awaitingLocationAuthorization] && [self hasEnoughTimeElapsedToRefreshRegions]) {
-        [[OBAApplication sharedApplication].regionHelper refreshData];
+    if (!OBALocationManager.awaitingLocationAuthorization && [self hasEnoughTimeElapsedToRefreshRegions]) {
+        [self.application.regionHelper refreshData];
     }
 
     [self _constructUI];
@@ -138,54 +130,51 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     return YES;
 }
 
-- (BOOL)hasEnoughTimeElapsedToRefreshRegions {
-    NSDate *lastRefresh = [[NSUserDefaults standardUserDefaults] objectForKey:OBALastRegionRefreshDateUserDefaultsKey];
-
-    if (!lastRefresh) {
-        return YES;
-    }
-
-    NSTimeInterval lastRefreshInterval = [lastRefresh timeIntervalSinceNow];
-
-    // 604,800 seconds in a week. Only refresh once a week.
-    return ABS(lastRefreshInterval) > 604800;
-}
-
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     DDLogInfo(@"Application entered background.");
 
-    CLLocation *location = [OBAApplication sharedApplication].locationManager.currentLocation;
+    CLLocation *location = self.application.locationManager.currentLocation;
 
     if (location) {
-        [OBAApplication sharedApplication].modelDao.mostRecentLocation = location;
+        self.application.modelDao.mostRecentLocation = location;
     }
 
-    [[OBAApplication sharedApplication].locationManager stopUpdatingLocation];
+    [self.application.locationManager stopUpdatingLocation];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     DDLogInfo(@"Application became active");
 
-    [[OBAApplication sharedApplication].locationManager startUpdatingLocation];
-    [[OBAApplication sharedApplication] startReachabilityNotifier];
-    [[OBAApplication sharedApplication].regionalAlertsManager update];
+    [self.application.locationManager startUpdatingLocation];
+    [self.application startReachabilityNotifier];
+    [self.application.regionalAlertsManager update];
 
     [self.applicationUI applicationDidBecomeActive];
 
-    [GAI sharedInstance].optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
+    [GAI sharedInstance].optOut = ![OBAApplication.sharedApplication.userDefaults boolForKey:OBAOptInToTrackingDefaultsKey];
 
-    NSString *label = [NSString stringWithFormat:@"API Region: %@", [OBAApplication sharedApplication].modelDao.currentRegion.regionName];
+    NSString *label = [NSString stringWithFormat:@"API Region: %@", self.application.modelDao.currentRegion.regionName];
 
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:label value:nil];
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", OBAStringFromBool([OBAApplication sharedApplication].modelDao.automaticallySelectRegion)] value:nil];
+    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", OBAStringFromBool(self.application.modelDao.automaticallySelectRegion)] value:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-    [[OBAApplication sharedApplication] stopReachabilityNotifier];
+    [self.application stopReachabilityNotifier];
 }
 
-#pragma mark - Notifications
+#pragma mark - Properties
+
++ (OBAApplication*)application {
+    return [OBAApplication sharedApplication];
+}
+
+- (OBAApplication*)application {
+    return [OBAApplication sharedApplication];
+}
+
+#pragma mark - Notification Center
 
 - (void)registerForNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invalidRegionNotification:) name:OBARegionServerInvalidNotification object:nil];
@@ -196,8 +185,8 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 }
 
 - (void)invalidRegionNotification:(NSNotification*)note {
-    [OBAApplication sharedApplication].modelDao.automaticallySelectRegion = YES;
-    [[OBAApplication sharedApplication].regionHelper refreshData];
+    self.application.modelDao.automaticallySelectRegion = YES;
+    [self.application.regionHelper refreshData];
     [[GAI sharedInstance].defaultTracker set:[GAIFields customDimensionForIndex:2] value:OBAStringFromBool(YES)];
 }
 
@@ -244,11 +233,11 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
         [SVProgressHUD show];
 
-        [[OBAApplication sharedApplication].modelService requestArrivalAndDepartureWithConvertible:tripDeepLink].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
+        [self.application.modelService requestArrivalAndDepartureWithConvertible:tripDeepLink].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
             tripDeepLink.name = arrivalAndDeparture.bestAvailableNameWithHeadsign;
 
             // OK, it works, so write it into the model DAO.
-            [[OBAApplication sharedApplication].modelDao addSharedTrip:tripDeepLink];
+            [self.application.modelDao addSharedTrip:tripDeepLink];
 
             OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeRecentStops];
             target.object = tripDeepLink;
@@ -272,7 +261,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     // Use deep link URL above all else
     if (userActivity.userInfo && !URL) {
         // Make sure regions of both clients match
-        if ([OBAApplication sharedApplication].modelDao.currentRegion.identifier == regionID) {
+        if (self.application.modelDao.currentRegion.identifier == regionID) {
             NSString *stopID = userActivity.userInfo[OBAHandoff.stopIDKey];
             OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeMap parameters:@{@"stop":@YES, @"stopID":stopID}];
             [self.applicationUI navigateToTargetInternal:target];
@@ -312,7 +301,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     NSMutableArray *dynamicShortcuts = [NSMutableArray array];
     UIApplicationShortcutIcon *clockIcon = [UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypeTime];
 
-    for (OBAStopAccessEventV2 *stopEvent in [OBAApplication sharedApplication].modelDao.mostRecentStops) {
+    for (OBAStopAccessEventV2 *stopEvent in self.application.modelDao.mostRecentStops) {
         UIApplicationShortcutItem *shortcutItem =
                 [[UIApplicationShortcutItem alloc] initWithType:kApplicationShortcutRecents
                                                  localizedTitle:stopEvent.title
@@ -352,7 +341,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
     [SVProgressHUD show];
 
-    [[OBAApplication sharedApplication].modelService requestArrivalAndDepartureWithConvertible:alarm].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
+    [self.application.modelService requestArrivalAndDepartureWithConvertible:alarm].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
         alarm.title = arrivalAndDeparture.bestAvailableNameWithHeadsign;
 
         OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeRecentStops];
@@ -366,7 +355,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     });
 }
 
-#pragma mark - RegionListDelegate
+#pragma mark - Regions
 
 - (void)regionSelected {
     [self.regionNavigationController removeFromParentViewController];
@@ -376,7 +365,18 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     [self.window oba_setRootViewController:self.applicationUI.rootViewController animated:YES];
 }
 
-#pragma mark - OBARegionHelperDelegate
+- (BOOL)hasEnoughTimeElapsedToRefreshRegions {
+    NSDate *lastRefresh = [OBAApplication.sharedApplication.userDefaults objectForKey:OBALastRegionRefreshDateUserDefaultsKey];
+
+    if (!lastRefresh) {
+        return YES;
+    }
+
+    NSTimeInterval lastRefreshInterval = [lastRefresh timeIntervalSinceNow];
+
+    // 604,800 seconds in a week. Only refresh once a week.
+    return ABS(lastRefreshInterval) > 604800;
+}
 
 - (RegionListViewController*)regionListViewController {
     if (!_regionListViewController) {
@@ -426,34 +426,16 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     return _onboardingViewController;
 }
 
-#pragma mark - PrivacyBrokerDelegate
-
-- (void)addPersonBool:(BOOL)value withKey:(NSString *)withKey {
-    //nop
-}
-
-- (void)addPersonNumber:(NSNumber *)value withKey:(NSString *)withKey {
-    //nop
-}
-
-- (void)addPersonString:(NSString *)value withKey:(NSString *)withKey {
-    //nop
-}
-
-- (void)removePersonKey:(NSString *)key {
-    //nop
-}
-
 - (void)onboardingControllerRequestedAuthorization:(OnboardingViewController *)onboardingController {
 
     // behind the scenes, +[CLLocationManager promise] is calling `requestWhenInUseAuthorization`.
 
     [CLLocationManager promise].then(^(CLLocation *location) {
-        return [[OBAApplication sharedApplication].regionHelper refreshData];
+        return [self.application.regionHelper refreshData];
     }).catch(^(NSError *error) {
         DDLogError(@"An error occurred while trying to load regions: %@", error);
     }).always(^{
-        if ([OBAApplication sharedApplication].modelDao.currentRegion) {
+        if (self.application.modelDao.currentRegion) {
             [self.window oba_setRootViewController:self.applicationUI.rootViewController animated:YES];
         }
         else {
