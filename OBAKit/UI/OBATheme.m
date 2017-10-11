@@ -10,6 +10,9 @@
 
 static CGFloat const kMaxFontSize = 24.f;
 
+static UIFont *_headlineFont = nil;
+static UIFont *_subheadFont = nil;
+static UIFont *_boldSubheadFont = nil;
 static UIFont *_bodyFont = nil;
 static UIFont *_boldBodyFont = nil;
 static UIFont *_largeTitleFont = nil;
@@ -24,6 +27,8 @@ static UIFont *_italicFootnoteFont = nil;
 #pragma mark - Helpers
 
 + (void)resetTheme {
+    _headlineFont = nil;
+    _subheadFont = nil;
     _bodyFont = nil;
     _boldBodyFont = nil;
     _largeTitleFont = nil;
@@ -55,6 +60,27 @@ static UIFont *_italicFootnoteFont = nil;
 }
 
 #pragma mark - UIFont
+
++ (UIFont*)headlineFont {
+    if (!_headlineFont) {
+        _headlineFont = [self fontWithTextStyle:UIFontTextStyleHeadline];
+    }
+    return _headlineFont;
+}
+
++ (UIFont*)subheadFont {
+    if (!_subheadFont) {
+        _subheadFont = [self fontWithTextStyle:UIFontTextStyleSubheadline];
+    }
+    return _subheadFont;
+}
+
++ (UIFont*)boldSubheadFont {
+    if (!_boldSubheadFont) {
+        _boldSubheadFont = [self boldFontWithTextStyle:UIFontTextStyleSubheadline];
+    }
+    return _boldSubheadFont;
+}
 
 + (UIFont*)bodyFont {
     if (!_bodyFont) {
