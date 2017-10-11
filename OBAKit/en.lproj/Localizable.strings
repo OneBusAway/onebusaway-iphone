@@ -4,6 +4,12 @@
 /* sd > 0 */
 "msg_space_late" = " late";
 
+/* Default title of a bookmark group. In English, this is 'Untitled'. */
+"bookmark_group.default_title" = "Untitled";
+
+/* Title of the Bookmark Group that contains the Today Screen widget's bookmarks. */
+"bookmark_group.today_widget_title" = "Today Screen Bookmarks";
+
 /* One minute */
 "date_helpers.one_minute" = "One minute";
 
@@ -168,3 +174,6 @@
 
 /* An error displayed to the user when their alarm can't be created. */
 "model_service.cant_register_alarm_missing_parameters" = "Sorry, we can't create an alarm for this upcoming trip. You're welcome to try again, but it probably won't make any difference. Sorry about that :(";
+
+/* Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE> */
+"text_route_to_orientation_newline_params" = "%@ to %@\r\n";
