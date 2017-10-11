@@ -45,6 +45,8 @@ extern NSString * const OBAHeadingUserInfoKey;
  */
 @property(nonatomic,assign,readonly) BOOL locationServicesEnabled;
 
+@property(nonatomic,assign,class,readonly) BOOL awaitingLocationAuthorization;
+
 @property(nonatomic,assign,readonly) CLAuthorizationStatus authorizationStatus;
 
 - (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO;
