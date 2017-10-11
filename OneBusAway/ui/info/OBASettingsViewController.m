@@ -50,11 +50,11 @@
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil];
 
     OBARowAction action = ^(OBABaseRow *row) {
-        BOOL currentValue = [NSUserDefaults.standardUserDefaults boolForKey:defaultsKey];
-        [NSUserDefaults.standardUserDefaults setBool:!currentValue forKey:defaultsKey];
+        BOOL currentValue = [OBAApplication.sharedApplication.userDefaults boolForKey:defaultsKey];
+        [OBAApplication.sharedApplication.userDefaults setBool:!currentValue forKey:defaultsKey];
     };
 
-    OBASwitchRow *switchRow = [[OBASwitchRow alloc] initWithTitle:switchTitle action:action switchValue:[NSUserDefaults.standardUserDefaults boolForKey:defaultsKey]];
+    OBASwitchRow *switchRow = [[OBASwitchRow alloc] initWithTitle:switchTitle action:action switchValue:[OBAApplication.sharedApplication.userDefaults boolForKey:defaultsKey]];
     [section addRow:switchRow];
 
     if (footerText) {

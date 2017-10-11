@@ -14,10 +14,13 @@
 #import <OBAKit/OBAKit-Swift.h>
 #import <OBAKit/OBACommon.h>
 
+static NSString * const kAppGroup = @"group.org.onebusaway.iphone";
 static NSString *const kOBADefaultRegionApiServerName = @"http://regions.onebusaway.org";
 NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNotification";
+NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedDefaultsToAppGroupDefaultsKey";
 
 @interface OBAApplication ()
+@property (nonatomic, strong, readwrite) OBAApplicationConfiguration *configuration;
 @property (nonatomic, strong, readwrite) OBAReferencesV2 *references;
 @property (nonatomic, strong, readwrite) OBAModelDAO *modelDao;
 @property (nonatomic, strong, readwrite) OBAModelService *modelService;
@@ -26,6 +29,7 @@ NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNot
 @property (nonatomic, strong, readwrite) OBARegionHelper *regionHelper;
 @property (nonatomic, strong, readwrite) RegionalAlertsManager *regionalAlertsManager;
 @property (nonatomic, strong, readwrite) OBALogging *loggingManager;
+@property (nonatomic, strong, readwrite) NSUserDefaults *userDefaults;
 @end
 
 @implementation OBAApplication
@@ -53,7 +57,14 @@ NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNot
 }
 
 - (void)startWithConfiguration:(OBAApplicationConfiguration *)configuration {
+    self.configuration = configuration;
     self.loggingManager = [[OBALogging alloc] initWithLoggers:configuration.loggers];
+
+    if (![NSUserDefaults.standardUserDefaults boolForKey:OBAHasMigratedDefaultsToAppGroupDefaultsKey]) {
+        [self migrateUserDefaultsToSuite];
+    }
+
+    [self registerAppDefaults];
 
     self.references = [[OBAReferencesV2 alloc] init];
 
@@ -72,15 +83,23 @@ NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNot
 
     self.regionHelper = [[OBARegionHelper alloc] initWithLocationManager:self.locationManager modelService:self.modelService];
 
-    self.regionalAlertsManager = [[RegionalAlertsManager alloc] init];
-    self.regionalAlertsManager.region = self.modelDao.currentRegion;
-
-    [self registerAppDefaults];
+    if (!self.configuration.extensionMode) {
+        self.regionalAlertsManager = [[RegionalAlertsManager alloc] init];
+        self.regionalAlertsManager.region = self.modelDao.currentRegion;
+    }
 
     [self refreshSettings];
 }
 
 #pragma mark - Defaults
+
+- (NSUserDefaults*)userDefaults {
+    if (!_userDefaults) {
+        _userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kAppGroup];
+    }
+
+    return _userDefaults;
+}
 
 - (void)registerAppDefaults {
     NSMutableDictionary *defaults = [[NSMutableDictionary alloc] init];
@@ -95,7 +114,18 @@ NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNot
     defaults[OBADisplayUserHeadingOnMapDefaultsKey] = @(YES);
     defaults[OBAMapSelectedTypeDefaultsKey] = @(MKMapTypeStandard);
 
-    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+    [self.userDefaults registerDefaults:defaults];
+}
+
+- (void)migrateUserDefaultsToSuite {
+    NSDictionary<NSString *, id> *oldDefaults = NSUserDefaults.standardUserDefaults.dictionaryRepresentation;
+
+    for (NSString *key in oldDefaults) {
+        id object = oldDefaults[key];
+        [self.userDefaults setObject:object forKey:key];
+    }
+
+    [NSUserDefaults.standardUserDefaults setBool:YES forKey:OBAHasMigratedDefaultsToAppGroupDefaultsKey];
 }
 
 #pragma mark - Reachability
@@ -165,7 +195,9 @@ NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNot
     self.modelService.obaRegionJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:kOBADefaultRegionApiServerName] userID:[OBAUser userIdFromDefaults]];
     self.modelService.obacoJsonDataSource = [OBAJsonDataSource obacoJSONDataSource];
 
-    [self.regionalAlertsManager update];
+    if (!self.configuration.extensionMode) {
+        [self.regionalAlertsManager update];
+    }
 }
 
 #pragma mark - Logging

@@ -119,8 +119,8 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:[OBAApplication sharedApplication].oneSignalAPIKey];
 
     // Set up Google Analytics. User must be able to opt out of tracking.
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:[OBAApplication sharedApplication].googleAnalyticsID];
-    BOOL optOut = ![[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:self.application.googleAnalyticsID];
+    BOOL optOut = ![OBAApplication.sharedApplication.userDefaults boolForKey:OBAOptInToTrackingDefaultsKey];
     [GAI sharedInstance].optOut = optOut;
     [GAI sharedInstance].trackUncaughtExceptions = YES;
     [GAI sharedInstance].logger.logLevel = kGAILogLevelWarning;
@@ -399,7 +399,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 }
 
 - (void)regionHelperDidRefreshRegions:(OBARegionHelper*)regionHelper {
-    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:OBALastRegionRefreshDateUserDefaultsKey];
+    [self.application.userDefaults setObject:[NSDate date] forKey:OBALastRegionRefreshDateUserDefaultsKey];
 }
 
 #pragma mark - Fabric

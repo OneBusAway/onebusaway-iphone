@@ -41,6 +41,7 @@ extern NSString *const OBARegionServerInvalidNotification;
 @property (nonatomic, strong, readonly) RegionalAlertsManager *regionalAlertsManager;
 @property (nonatomic, strong, readonly) OBARegionHelper *regionHelper;
 @property (nonatomic, strong, readonly) OBAConsoleLogger *consoleLogger;
+@property (nonatomic, strong, readonly) NSUserDefaults *userDefaults;
 
 @property (nonatomic, copy, readonly) NSString *googleAnalyticsID;
 @property (nonatomic, copy, readonly) NSString *oneSignalAPIKey;

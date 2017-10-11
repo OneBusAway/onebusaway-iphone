@@ -77,7 +77,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userHeadingDidUpdate:) name:OBAHeadingDidUpdateNotification object:nil];
 
-        [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
+        [OBAApplication.sharedApplication.userDefaults addObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
     }
 
     return self;
@@ -85,14 +85,14 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)dealloc {
     [self.mapDataLoader cancelOpenConnections];
-    [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey];
+    [OBAApplication.sharedApplication.userDefaults removeObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey];
 }
 
 #pragma mark - KVO
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if (object == NSUserDefaults.standardUserDefaults && [keyPath isEqual:OBADisplayUserHeadingOnMapDefaultsKey]) {
-        BOOL value = [NSUserDefaults.standardUserDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
+    if (object == OBAApplication.sharedApplication.userDefaults && [keyPath isEqual:OBADisplayUserHeadingOnMapDefaultsKey]) {
+        BOOL value = [OBAApplication.sharedApplication.userDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
         self.userLocationAnnotationView.headingImageView.hidden = !value;
     }
 }
@@ -399,7 +399,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)updateUserLocationAnnotationViewWithHeading:(CLHeading*)heading {
-    _userLocationAnnotationView.headingImageView.hidden = ![NSUserDefaults.standardUserDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
+    _userLocationAnnotationView.headingImageView.hidden = ![OBAApplication.sharedApplication.userDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
     // The SVPulsingAnnotationView assumes east == 0. Because different coordinate systems :(
     NSInteger adjustedDegrees = (NSInteger)(heading.trueHeading - 90) % 360;
     CGFloat radians = [OBAImageHelpers degreesToRadians:(CGFloat)adjustedDegrees];
@@ -414,7 +414,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         _userLocationAnnotationView.headingImage = [UIImage imageNamed:@"userHeading"];
     }
 
-    BOOL showHeading = [NSUserDefaults.standardUserDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
+    BOOL showHeading = [OBAApplication.sharedApplication.userDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
 
     if (heading && showHeading) {
         [self updateUserLocationAnnotationViewWithHeading:heading];
@@ -508,7 +508,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         self.mapView.mapType = MKMapTypeStandard;
     }
     self.mapTypeButton.selected = self.mapView.mapType == MKMapTypeHybrid;
-    [[NSUserDefaults standardUserDefaults] setInteger:self.mapView.mapType forKey:OBAMapSelectedTypeDefaultsKey];
+    [OBAApplication.sharedApplication.userDefaults setInteger:self.mapView.mapType forKey:OBAMapSelectedTypeDefaultsKey];
 }
 
 - (IBAction)showNearbyStops {
@@ -988,7 +988,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     UIBarButtonItem *mapBarButton = [[UIBarButtonItem alloc] initWithCustomView:self.mapTypeButton];
     // Configure the default map display style
     // see https://github.com/OneBusAway/onebusaway-iphone/issues/65
-    self.mapView.mapType = [[NSUserDefaults standardUserDefaults] integerForKey:OBAMapSelectedTypeDefaultsKey];
+    self.mapView.mapType = [OBAApplication.sharedApplication.userDefaults integerForKey:OBAMapSelectedTypeDefaultsKey];
     self.mapTypeButton.selected = self.mapView.mapType == MKMapTypeHybrid;
 
     self.secondaryHoverBar.items = @[nearby, mapBarButton];
