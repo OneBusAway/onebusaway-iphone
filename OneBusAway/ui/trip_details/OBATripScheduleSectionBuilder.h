@@ -8,7 +8,6 @@
 
 @import Foundation;
 @import OBAKit;
-#import "OBATableSection.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

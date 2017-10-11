@@ -9,11 +9,8 @@
 #import "OBABookmarksViewController.h"
 #import "OBAStopViewController.h"
 #import "OBAEditStopBookmarkViewController.h"
-#import "OBABookmarkedRouteRow.h"
-#import "OBAArrivalAndDepartureSectionBuilder.h"
 #import "OBACollapsingHeaderView.h"
 #import "OBABookmarkGroupsViewController.h"
-#import "OBATableCell.h"
 #import "OBASegmentedRow.h"
 #import "OBANavigationTitleView.h"
 
@@ -145,7 +142,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     }
 }
 
-#pragma mark - Refresh Bookmarks
+#pragma mark - Refresh Bookmarks/Network Loading
 
 - (void)cancelTimer {
     [self.refreshBookmarksTimer invalidate];
@@ -168,29 +165,12 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     }
 }
 
-+ (NSArray<OBAUpcomingDeparture*>*)upcomingDeparturesFromArrivalsAndDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)matchingDepartures {
-    NSMutableArray *upcomingDepartures = [NSMutableArray array];
-    for (OBAArrivalAndDepartureV2 *dep in matchingDepartures) {
-        [upcomingDepartures addObject:[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState]];
-    }
-    return [NSArray arrayWithArray:upcomingDepartures];
-}
-
-+ (BOOL)hasScheduledDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)departures {
-    for (OBAArrivalAndDepartureV2* dep in departures) {
-        if (!dep.hasRealTimeData) {
-            return YES;
-        }
-    }
-    return NO;
-}
-
 - (void)refreshDataForBookmark:(OBABookmarkV2*)bookmark {
     OBABookmarkedRouteRow *row = [self rowForBookmarkVersion260:bookmark];
 
     [self.modelService requestStopForID:bookmark.stopId minutesBefore:0 minutesAfter:kMinutes].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
         NSArray<OBAArrivalAndDepartureV2*> *matchingDepartures = [bookmark matchingArrivalsAndDeparturesForStop:response];
-        BOOL missingRealTimeData = [self.class hasScheduledDepartures:matchingDepartures];
+        BOOL missingRealTimeData = [OBAArrivalAndDepartureV2 hasScheduledDepartures:matchingDepartures];
 
         if (matchingDepartures.count > 0) {
             row.supplementaryMessage = nil;
@@ -206,7 +186,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
             self.tableFooterView = [OBAUIBuilder footerViewWithText:[OBAStrings scheduledDepartureExplanation] maximumWidth:CGRectGetWidth(self.tableView.frame)];
         }
 
-        row.upcomingDepartures = [self.class upcomingDeparturesFromArrivalsAndDepartures:matchingDepartures];
+        row.upcomingDepartures = [OBAUpcomingDeparture upcomingDeparturesFromArrivalsAndDepartures:matchingDepartures];
         [self.class updateBookmarkedRouteRow:row withArrivalAndDeparture:matchingDepartures.firstObject];
         self.bookmarksAndDepartures[bookmark] = matchingDepartures;
         row.state = OBABookmarkedRouteRowStateComplete;
@@ -251,7 +231,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     });
 }
 
-#pragma mark - Data Loading
+#pragma mark - Data Composition/Table View Construction
 
 - (void)loadData {
     [self loadDataWithTableReload:YES];
@@ -566,19 +546,17 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 }
 
 - (OBABookmarkedRouteRow *)rowForBookmarkVersion260:(OBABookmarkV2*)bookmark {
-    OBABookmarkedRouteRow *row = [[OBABookmarkedRouteRow alloc] initWithAction:^(OBABaseRow *baseRow) {
+    OBABookmarkedRouteRow *row = [[OBABookmarkedRouteRow alloc] initWithBookmark:bookmark action:^(OBABaseRow *baseRow) {
         OBAStopViewController *controller = [[OBAStopViewController alloc] initWithStopID:bookmark.stopId];
         [self.navigationController pushViewController:controller animated:YES];
     }];
-
-    row.bookmark = bookmark;
     [self performCommonBookmarkRowConfiguration:row forBookmark:bookmark];
 
     // We only have this object available once the associated network request completes.
     OBAArrivalAndDepartureV2 *arrivalAndDeparture = self.bookmarksAndDepartures[bookmark].firstObject;
     [self.class updateBookmarkedRouteRow:row withArrivalAndDeparture:arrivalAndDeparture];
 
-    row.upcomingDepartures = [self.class upcomingDeparturesFromArrivalsAndDepartures:self.bookmarksAndDepartures[bookmark]];
+    row.upcomingDepartures = [OBAUpcomingDeparture upcomingDeparturesFromArrivalsAndDepartures:self.bookmarksAndDepartures[bookmark]];
 
     return row;
 }

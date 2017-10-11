@@ -7,7 +7,6 @@
 //
 
 @import OBAKit;
-#import "OBAStaticTableViewController.h"
 
 @interface OBAArrivalAndDepartureViewController : OBAStaticTableViewController
 @property(nonatomic,strong) OBAModelDAO *modelDAO;

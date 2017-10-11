@@ -7,7 +7,6 @@
 //
 
 #import "OBAArrivalDepartureRow.h"
-#import "OBAViewModelRegistry.h"
 #import "OBAArrivalDepartureCell.h"
 
 NSString * const OBATimelineCellReuseIdentifier = @"OBATimelineCellReuseIdentifier";

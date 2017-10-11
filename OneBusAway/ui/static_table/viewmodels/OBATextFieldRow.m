@@ -7,7 +7,6 @@
 //
 
 #import "OBATextFieldRow.h"
-#import "OBAViewModelRegistry.h"
 #import "OBATextFieldCell.h"
 
 @implementation OBATextFieldRow

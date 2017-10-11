@@ -8,7 +8,6 @@
 
 #import "OBATimelineBarCell.h"
 #import "OBATimelineBarRow.h"
-@import OBAKit;
 @import Masonry;
 
 CGFloat const OBATimelineBubbleSize = 30.f;

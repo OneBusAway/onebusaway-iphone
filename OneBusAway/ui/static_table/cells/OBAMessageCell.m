@@ -7,7 +7,6 @@
 //
 
 #import "OBAMessageCell.h"
-@import OBAKit;
 @import Masonry;
 #import "OBAMessageRow.h"
 

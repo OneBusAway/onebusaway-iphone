@@ -17,7 +17,6 @@
 #import "OBATripDetailsViewController.h"
 @import SVProgressHUD;
 #import "OneBusAway-Swift.h"
-#import "OBADepartureRow.h"
 #import "OBATripScheduleMapViewController.h"
 #import "OBATripScheduleListViewController.h"
 #import "OBAReportProblemWithTripViewController.h"

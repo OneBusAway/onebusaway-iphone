@@ -6,8 +6,7 @@
 //  Copyright © 2017 OneBusAway. All rights reserved.
 //
 
-@import UIKit;
-#import "OBABaseRow.h"
+@import OBAKit;
 
 NS_ASSUME_NONNULL_BEGIN
 

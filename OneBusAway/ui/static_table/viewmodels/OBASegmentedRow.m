@@ -7,7 +7,6 @@
 //
 
 #import "OBASegmentedRow.h"
-#import "OBAViewModelRegistry.h"
 #import "OBASegmentedControlCell.h"
 
 @implementation OBASegmentedRow

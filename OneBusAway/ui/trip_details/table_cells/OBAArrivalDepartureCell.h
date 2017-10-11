@@ -7,7 +7,7 @@
 //
 
 @import UIKit;
-#import "OBATableCell.h"
+@import OBAKit;
 
 @interface OBAArrivalDepartureCell : UITableViewCell<OBATableCell>
 

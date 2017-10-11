@@ -6,10 +6,8 @@
 //  Copyright © 2017 OneBusAway. All rights reserved.
 //
 
-@import Foundation;
 @import UIKit;
 @import OBAKit;
-#import "OBADepartureRow.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

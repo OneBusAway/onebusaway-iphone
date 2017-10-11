@@ -7,7 +7,7 @@
 //
 
 @import UIKit;
-#import "OBATableCell.h"
+@import OBAKit;
 
 NS_ASSUME_NONNULL_BEGIN
 

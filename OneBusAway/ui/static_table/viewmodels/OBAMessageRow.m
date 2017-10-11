@@ -7,7 +7,6 @@
 //
 
 #import "OBAMessageRow.h"
-#import "OBAViewModelRegistry.h"
 #import "OBAMessageCell.h"
 
 @implementation OBAMessageRow

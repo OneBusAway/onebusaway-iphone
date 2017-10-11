@@ -7,10 +7,8 @@
 //
 
 #import "OBAToastView.h"
-#import "OBAVibrantBlurContainerView.h"
 @import Masonry;
 @import OBAKit;
-#import "OBAAnimation.h"
 
 @interface OBAToastView ()
 @property(nonatomic,strong,readwrite) UILabel *label;

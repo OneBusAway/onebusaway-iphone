@@ -16,7 +16,6 @@
 
 #import "OBAReportProblemWithRecentTripsViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
-#import "OBADepartureRow.h"
 @import SVProgressHUD;
 #import "OneBusAway-Swift.h"
 #import "OBAReportProblemWithStopViewController.h"

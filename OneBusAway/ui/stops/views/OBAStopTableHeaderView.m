@@ -12,7 +12,6 @@
 @import PromiseKit;
 @import PMKMapKit;
 @import PMKCoreLocation;
-#import "OBAAnimation.h"
 
 #define kHeaderImageViewBackgroundColor [UIColor colorWithWhite:0.f alpha:0.4f]
 
