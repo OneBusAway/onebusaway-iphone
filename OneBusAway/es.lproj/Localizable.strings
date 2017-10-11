@@ -4,9 +4,6 @@
 /* ID: {Reference ID Number} */
 "alerts.reference_format" = "ID: %@";
 
-/* Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE> */
-"text_route_to_orientation_newline_params" = "%@ hacia %@\r\n";
-
 /* No comment provided by engineer. */
 "text_no_departure_next_time_minutes_params" = "%@: No hay horarios de salida para los próximos %@ minutos";
 
