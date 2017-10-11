@@ -7,7 +7,7 @@
 //
 
 @import UIKit;
-#import "OBATableCell.h"
+@import OBAKit;
 
 @interface OBATextFieldCell : UITableViewCell<OBATableCell>
 @property(nonatomic,strong,readonly) UITextField *textField;

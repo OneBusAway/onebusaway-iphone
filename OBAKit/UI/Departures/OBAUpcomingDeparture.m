@@ -29,4 +29,12 @@
     return departure;
 }
 
++ (NSArray<OBAUpcomingDeparture*>*)upcomingDeparturesFromArrivalsAndDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)matchingDepartures {
+    NSMutableArray *upcomingDepartures = [NSMutableArray array];
+    for (OBAArrivalAndDepartureV2 *dep in matchingDepartures) {
+        [upcomingDepartures addObject:[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState]];
+    }
+    return [NSArray arrayWithArray:upcomingDepartures];
+}
+
 @end

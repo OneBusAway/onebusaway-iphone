@@ -7,12 +7,7 @@
 //
 
 @import UIKit;
-#import "OBAStaticTableViewController.h"
-
-@class OBAArrivalsAndDeparturesForStopV2;
-@class OBARegionV2;
-@class OBAModelDAO;
-@class OBARouteFilter;
+@import OBAKit;
 
 NS_ASSUME_NONNULL_BEGIN
 

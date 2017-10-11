@@ -15,9 +15,8 @@
  */
 
 @import UIKit;
-#import "OBAApplicationDelegate.h"
 @import OBAKit;
-#import "OBAStaticTableViewController.h"
+#import "OBAApplicationDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

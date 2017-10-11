@@ -8,7 +8,6 @@
 
 #import "OBAArrivalDepartureCell.h"
 #import "OBAArrivalDepartureRow.h"
-@import OBAKit;
 @import Masonry;
 
 static CGFloat const kImageViewSize = 30.f;

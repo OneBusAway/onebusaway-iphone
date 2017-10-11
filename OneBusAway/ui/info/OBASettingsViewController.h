@@ -6,7 +6,7 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-#import "OBAStaticTableViewController.h"
+@import OBAKit;
 
 @interface OBASettingsViewController : OBAStaticTableViewController
 

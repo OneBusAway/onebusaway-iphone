@@ -34,6 +34,8 @@ typedef NS_ENUM(NSUInteger, OBAArrivalDepartureState) {
 
 @interface OBAArrivalAndDepartureV2 : OBAHasReferencesV2<OBAHasServiceAlerts>
 
++ (BOOL)hasScheduledDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)departures;
+
 /**
  the route id for the arriving vehicle
  */
@@ -105,7 +107,7 @@ typedef NS_ENUM(NSUInteger, OBAArrivalDepartureState) {
 
  @return A string (hopefully) suitable for presenting to the user.
  */
-- (NSString*)bestAvailableName;
+@property(nonatomic,copy,readonly) NSString *bestAvailableName;
 
 @property(nonatomic,copy,readonly) NSString *bestAvailableNameWithHeadsign;
 

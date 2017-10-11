@@ -6,7 +6,7 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-@import DZNEmptyDataSet;
+@import OBAKit;
 
 NS_ASSUME_NONNULL_BEGIN
 

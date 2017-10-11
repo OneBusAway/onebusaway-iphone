@@ -7,7 +7,6 @@
 //
 
 #import "OBAWalkableRow.h"
-#import "OBAViewModelRegistry.h"
 #import "OBAWalkableCell.h"
 
 @implementation OBAWalkableRow

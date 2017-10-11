@@ -7,8 +7,6 @@
 //
 
 #import "OBATripScheduleSectionBuilder.h"
-#import "OBATableSection.h"
-#import "OBATableRow.h"
 #import "OBAStopViewController.h"
 #import "OBATripDetailsViewController.h"
 #import "OBAArrivalDepartureRow.h"

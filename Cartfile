@@ -22,9 +22,6 @@ github "SnapKit/Masonry" ~>1.0.2
 # https://github.com/SnapKit/SnapKit/releases
 github "SnapKit/SnapKit" ~>3.2.0
 
-# https://github.com/dzenbot/DZNEmptyDataSet/releases
-github "dzenbot/DZNEmptyDataSet" ~>1.8.1
-
 # https://github.com/SwiftKickMobile/SwiftMessages/releases
 github "SwiftKickMobile/SwiftMessages" "3.5.0-beta2"
 
