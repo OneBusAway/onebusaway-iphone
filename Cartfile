@@ -48,7 +48,7 @@ github "AzimoLabs/SMFloatingLabelTextField" ~>0.3.2
 github "cbpowell/MarqueeLabel" ~>3.1.2
 
 # https://github.com/OneSignal/OneSignal-iOS-SDK/releases
-github "OneSignal/OneSignal-iOS-SDK" ~>2.5.4
+github "OneSignal/OneSignal-iOS-SDK" ~>2.5.6
 
 ###################
 ##### Testing #####
