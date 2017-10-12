@@ -52,6 +52,8 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     self = [super init];
 
     if (self) {
+        [OBAModelService addBackgroundExecutor:self];
+
         [self registerForNotifications];
 
         _deepLinkRouter = [self.class setupDeepLinkRouterWithModelDAO:self.application.modelDao appDelegate:self];
@@ -104,9 +106,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self initializeFabric];
-
-    // Register a background handler with the model service
-    [OBAModelService addBackgroundExecutor:self];
 
     [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:self.application.oneSignalAPIKey];
 
