@@ -19,13 +19,13 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
     static let expandedStateUserDefaultsKey = "expandedStateUserDefaultsKey"
     @objc public var expanded: Bool {
         didSet {
-            UserDefaults.standard.set(expanded, forKey: VehicleMapController.expandedStateUserDefaultsKey)
+            OBAApplication.shared().userDefaults.set(expanded, forKey: VehicleMapController.expandedStateUserDefaultsKey)
             self.toggleButton.isSelected = expanded
         }
     }
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.expanded = UserDefaults.standard.bool(forKey: VehicleMapController.expandedStateUserDefaultsKey)
+        self.expanded = OBAApplication.shared().userDefaults.bool(forKey: VehicleMapController.expandedStateUserDefaultsKey)
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
