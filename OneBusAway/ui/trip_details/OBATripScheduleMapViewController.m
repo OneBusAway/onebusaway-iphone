@@ -29,7 +29,7 @@ static const NSString *kShapeContext = @"ShapeContext";
 @interface OBATripScheduleMapViewController ()
 @property(nonatomic,strong) MKPolyline *routePolyline;
 @property(nonatomic,strong) MKPolylineRenderer *routePolylineRenderer;
-@property(nonatomic,strong) id<OBAModelServiceRequest> request;
+@property(nonatomic,strong) OBAModelServiceRequest *request;
 @end
 
 @implementation OBATripScheduleMapViewController

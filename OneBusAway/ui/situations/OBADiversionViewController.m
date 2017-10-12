@@ -27,7 +27,7 @@
 @property (nonatomic, strong) MKPolyline *reroutePolyline;
 @property (nonatomic, strong) MKPolylineRenderer *reroutePolylineRenderer;
 
-@property (nonatomic, strong) id<OBAModelServiceRequest> request;
+@property (nonatomic, strong) OBAModelServiceRequest *request;
 @end
 
 @implementation OBADiversionViewController
