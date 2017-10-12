@@ -15,11 +15,12 @@
  */
 
 @import Foundation;
-#import <OBAKit/OBAModelService.h>
+#import <OBAKit/OBAModelFactory.h>
+#import <OBAKit/OBADataSource.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAModelServiceRequest : NSObject<OBAModelServiceRequest>
+@interface OBAModelServiceRequest : NSObject
 
 @property(strong) OBAModelFactory * modelFactory;
 @property(assign,nullable) SEL modelFactorySelector;
@@ -35,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id<OBADataSourceConnection> connection;
 
 - (void) processData:(id) obj withError:(NSError *) error responseCode:(NSUInteger) code completionBlock:(OBADataSourceCompletion) completion;
+
+- (void)cancel;
 @end
 
 NS_ASSUME_NONNULL_END

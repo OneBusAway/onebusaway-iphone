@@ -15,6 +15,7 @@
  */
 
 #import <OBAKit/OBAModelDAO.h>
+#import <OBAKit/OBAModelServiceRequest.h>
 #import <OBAKit/OBAModelFactory.h>
 #import <OBAKit/OBAJsonDataSource.h>
 #import <OBAKit/OBAReferencesV2.h>
@@ -33,10 +34,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const OBAAgenciesWithCoverageAPIPath;
-
-@protocol OBAModelServiceRequest <NSObject>
-- (void)cancel;
-@end
 
 /**
  * This protocol mimics the functionality of UIApplication.  It is placed here to get around Extension only API limitation.
@@ -77,7 +74,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  @param completion Completion block is called when the operation finishes, regardless of success or failure.
  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(nullable NSDate*)date completionBlock:(OBADataSourceCompletion)completion;
+- (OBAModelServiceRequest*)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(nullable NSDate*)date completionBlock:(OBADataSourceCompletion)completion;
 
 /**
  Retrieves a list of alert messages for the specified `region` since `date`.
@@ -89,7 +86,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 
 #pragma mark - Alarms
 
-- (nullable id<OBAModelServiceRequest>)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion;
+- (nullable OBAModelServiceRequest*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion;
 
 - (AnyPromise*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID;
 
@@ -116,7 +113,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)requestStopWithArrivalsAndDeparturesForId:(NSString *)stopId
+- (OBAModelServiceRequest*)requestStopWithArrivalsAndDeparturesForId:(NSString *)stopId
                                                       withMinutesBefore:(NSUInteger)minutesBefore
                                                        withMinutesAfter:(NSUInteger)minutesAfter
                                                         completionBlock:(OBADataSourceCompletion)completion;
@@ -140,7 +137,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance
+- (OBAModelServiceRequest*)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance
                                                 completionBlock:(OBADataSourceCompletion)completion;
 
 #pragma mark - OBAArrivalAndDepartureInstanceRef -> OBAArrivalAndDepartureV2
@@ -162,7 +159,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef *)instance
+- (OBAModelServiceRequest*)requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef *)instance
                                                 completionBlock:(OBADataSourceCompletion)completion;
 
 #pragma mark - OBAArrivalAndDepartureConvertible -> OBAArrivalAndDepartureV2
@@ -191,7 +188,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)requestRegions:(OBADataSourceCompletion)completion;
+- (OBAModelServiceRequest*)requestRegions:(OBADataSourceCompletion)completion;
 
 #pragma mark - Agencies
 
@@ -209,7 +206,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)requestAgenciesWithCoverage:(OBADataSourceCompletion)completion;
+- (OBAModelServiceRequest*)requestAgenciesWithCoverage:(OBADataSourceCompletion)completion;
 
 #pragma mark - Vehicle ID -> OBAVehicleStatusV2
 
@@ -230,7 +227,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)requestVehicleForId:(NSString *)vehicleId
+- (OBAModelServiceRequest*)requestVehicleForId:(NSString *)vehicleId
                                   completionBlock:(OBADataSourceCompletion)completion;
 
 #pragma mark - CLLocationCoordinate2D -> [OBAStopV2]
@@ -252,7 +249,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)requestStopsForCoordinate:(CLLocationCoordinate2D)coordinate
+- (OBAModelServiceRequest*)requestStopsForCoordinate:(CLLocationCoordinate2D)coordinate
                                         completionBlock:(OBADataSourceCompletion)completion;
 
 #pragma mark - Shape ID -> MKPolyline
@@ -273,7 +270,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)requestShapeForId:(NSString *)shapeId
+- (OBAModelServiceRequest*)requestShapeForId:(NSString *)shapeId
                                 completionBlock:(OBADataSourceCompletion)completion;
 
 #pragma mark - Current Time
@@ -292,7 +289,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)requestCurrentTimeWithCompletionBlock:(OBADataSourceCompletion)completion;
+- (OBAModelServiceRequest*)requestCurrentTimeWithCompletionBlock:(OBADataSourceCompletion)completion;
 
 #pragma mark - Requests for [OBAStopV2]
 
@@ -312,7 +309,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)requestStopsForRegion:(MKCoordinateRegion)region
+- (OBAModelServiceRequest*)requestStopsForRegion:(MKCoordinateRegion)region
                                     completionBlock:(OBADataSourceCompletion)completion;
 
 /**
@@ -333,7 +330,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)requestStopsForQuery:(NSString *)stopQuery
+- (OBAModelServiceRequest*)requestStopsForQuery:(NSString *)stopQuery
                                         withRegion:(nullable CLCircularRegion *)region
                                    completionBlock:(OBADataSourceCompletion)completion;
 
@@ -354,7 +351,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)requestStopsForRoute:(NSString *)routeId
+- (OBAModelServiceRequest*)requestStopsForRoute:(NSString *)routeId
                                    completionBlock:(OBADataSourceCompletion)completion;
 
 /**
@@ -373,7 +370,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)requestStopsForPlacemark:(OBAPlacemark *)placemark
+- (OBAModelServiceRequest*)requestStopsForPlacemark:(OBAPlacemark *)placemark
                                        completionBlock:(OBADataSourceCompletion)completion;
 
 /**
@@ -394,7 +391,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)requestRoutesForQuery:(NSString *)routeQuery
+- (OBAModelServiceRequest*)requestRoutesForQuery:(NSString *)routeQuery
                                          withRegion:(nullable CLCircularRegion *)region
                                     completionBlock:(OBADataSourceCompletion)completion;
 
@@ -416,7 +413,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)placemarksForAddress:(NSString *)address
+- (OBAModelServiceRequest*)placemarksForAddress:(NSString *)address
                                    completionBlock:(OBADataSourceCompletion)completion;
 
 #pragma mark - Problem Reporting
@@ -429,7 +426,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)reportProblemWithStop:(OBAReportProblemWithStopV2 *)problem
+- (OBAModelServiceRequest*)reportProblemWithStop:(OBAReportProblemWithStopV2 *)problem
                                     completionBlock:(OBADataSourceCompletion)completion;
 /**
  *  Makes an asynchronous request to report a problem with a trip
@@ -439,7 +436,7 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  *
  *  @return The OBAModelServiceRequest object that allows request cancellation
  */
-- (id<OBAModelServiceRequest>)reportProblemWithTrip:(OBAReportProblemWithTripV2 *)problem
+- (OBAModelServiceRequest*)reportProblemWithTrip:(OBAReportProblemWithTripV2 *)problem
                                     completionBlock:(OBADataSourceCompletion)completion;
 
 @end
