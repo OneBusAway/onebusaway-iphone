@@ -90,14 +90,14 @@ import CocoaLumberjackSwift
             return
         }
 
-        let lastUpdate = self.regionalAlerts.count == 0 ? nil : UserDefaults.standard.object(forKey: lastUpdateKey) as? Date
+        let lastUpdate = self.regionalAlerts.count == 0 ? nil : OBAApplication.shared().userDefaults.object(forKey: lastUpdateKey) as? Date
         self.modelService.requestRegionalAlerts(region, since: lastUpdate).then { alerts -> Void in
             self.alertsUpdateQueue.sync {
                 let newAlerts: [OBARegionalAlert] = alerts as! [OBARegionalAlert]
                 if newAlerts.count > 0 {
                     self.regionalAlerts = RegionalAlertsManager.merge(models: self.regionalAlerts, withNewModels: newAlerts)
                     if self.writeDefaultData(self.regionalAlerts) {
-                        UserDefaults.standard.set(NSDate(), forKey: self.lastUpdateKey)
+                        OBAApplication.shared().userDefaults.set(NSDate(), forKey: self.lastUpdateKey)
                         self.broadcastUpdateNotification()
                     }
                     self.postNotificationForHighPriorityAlerts(newAlerts)
