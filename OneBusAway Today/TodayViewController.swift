@@ -53,19 +53,19 @@ extension TodayViewController {
     func populateRow(_ row: OBABookmarkedRouteRow, routeName: String, departures: [OBAArrivalAndDepartureV2]) {
         if departures.count > 0 {
             row.supplementaryMessage = nil
+            let arrivalDeparture = departures[0]
+            row.routeName = arrivalDeparture.bestAvailableName
+            row.destination = arrivalDeparture.tripHeadsign
+            
+            if let statusText = OBADepartureCellHelpers.statusText(forArrivalAndDeparture: arrivalDeparture) {
+                row.statusText = statusText
+            }
         }
         else {
             row.supplementaryMessage = String.init(format: NSLocalizedString("text_no_departure_next_time_minutes_params", comment: ""), routeName, kMinutes)
         }
 
         row.upcomingDepartures = OBAUpcomingDeparture.upcomingDepartures(fromArrivalsAndDepartures: departures)
-        let arrivalDeparture = departures[0]
-        row.routeName = arrivalDeparture.bestAvailableName
-        row.destination = arrivalDeparture.tripHeadsign
-
-        if let statusText = OBADepartureCellHelpers.statusText(forArrivalAndDeparture: arrivalDeparture) {
-            row.statusText = statusText
-        }
     }
 }
 
