@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		576BBECD1F963C5E008DCACF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */; };
 		5B7C4A5A1DB96E6A00853DD5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */; };
 		6B24C8761EC7F99E00A1F7B7 /* OBANavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B24C8751EC7F99E00A1F7B7 /* OBANavigationTitleView.m */; };
 		930653D71E6DE293005AF0C9 /* OBAToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930653D61E6DE293005AF0C9 /* OBAToastView.m */; };
@@ -1628,6 +1629,7 @@
 			files = (
 				93089DB61F88056700694A90 /* regions-v3.json in Resources */,
 				93AD17BA1F86C14C00E730D7 /* MainInterface.storyboard in Resources */,
+				576BBECD1F963C5E008DCACF /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
