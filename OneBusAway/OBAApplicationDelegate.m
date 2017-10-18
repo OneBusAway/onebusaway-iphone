@@ -209,44 +209,62 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
 #pragma mark - Deep Linking
 
-#define kDeepLinkTripPattern @"\\/regions\\/(\\d+).*\\/stops\\/(.*)\\/trips\\/?"
++ (void)routeDeepLinkStop:(NSURLComponents *)URLComponents appDelegate:(OBAApplicationDelegate *)appDelegate matchGroupResults:(NSArray<NSString *> *)matchGroupResults {
+    OBAGuard(matchGroupResults.count == 2) else {
+        return;
+    }
+
+    NSInteger regionIdentifier = [matchGroupResults[0] integerValue];
+    NSString *stopID = matchGroupResults[1];
+
+    NSLog(@"show: %@ - %@", @(regionIdentifier), stopID);
+    // TODO!
+}
+
++ (void)routeDeepLinkTrip:(NSURLComponents *)URLComponents appDelegate:(OBAApplicationDelegate *)appDelegate matchGroupResults:(NSArray<NSString *> *)matchGroupResults {
+    OBAGuard(matchGroupResults.count == 2) else {
+        return;
+    }
+
+    NSInteger regionIdentifier = [matchGroupResults[0] integerValue];
+    NSString *stopID = matchGroupResults[1];
+    NSDictionary *queryItems = [NSURLQueryItem oba_dictionaryFromQueryItems:URLComponents.queryItems];
+
+    OBATripDeepLink *tripDeepLink = [[OBATripDeepLink alloc] init];
+    tripDeepLink.regionIdentifier = regionIdentifier;
+    tripDeepLink.stopID = stopID;
+    tripDeepLink.tripID = queryItems[@"trip_id"];
+    tripDeepLink.serviceDate = [queryItems[@"service_date"] longLongValue];
+    tripDeepLink.stopSequence = [queryItems[@"stop_sequence"] integerValue];
+
+    [SVProgressHUD show];
+
+    [self.application.modelService requestArrivalAndDepartureWithConvertible:tripDeepLink].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
+        tripDeepLink.name = arrivalAndDeparture.bestAvailableNameWithHeadsign;
+
+        // OK, it works, so write it into the model DAO.
+        [self.application.modelDao addSharedTrip:tripDeepLink];
+
+        OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeRecentStops];
+        target.object = tripDeepLink;
+        [appDelegate navigateToTarget:target];
+    }).catch(^(NSError *error) {
+        NSString *body = [NSString stringWithFormat:NSLocalizedString(@"text_error_cant_show_shared_trip_param", @"Error message displayed to the user when something goes wrong with a just-tapped shared trip."), error.localizedDescription];
+        [AlertPresenter showWarning:NSLocalizedString(@"msg_something_went_wrong",) body:body];
+    }).always(^{
+        [SVProgressHUD dismiss];
+    });
+}
 
 + (OBADeepLinkRouter*)setupDeepLinkRouterWithModelDAO:(OBAModelDAO*)modelDAO appDelegate:(OBAApplicationDelegate*)appDelegate {
-    OBADeepLinkRouter *deepLinkRouter = [[OBADeepLinkRouter alloc] init];
+    OBADeepLinkRouter *deepLinkRouter = [[OBADeepLinkRouter alloc] initWithDeepLinkBaseURL:[NSURL URLWithString:OBADeepLinkServerAddress]];
 
-    [deepLinkRouter routePattern:kDeepLinkTripPattern toAction:^(NSArray<NSString *> *matchGroupResults, NSURLComponents *URLComponents) {
-        OBAGuard(matchGroupResults.count == 2) else {
-            return;
-        }
+    [deepLinkRouter routePattern:OBADeepLinkTripRegexPattern toAction:^(NSArray<NSString *> *matchGroupResults, NSURLComponents *URLComponents) {
+        [self routeDeepLinkTrip:URLComponents appDelegate:appDelegate matchGroupResults:matchGroupResults];
+    }];
 
-        NSInteger regionIdentifier = [matchGroupResults[0] integerValue];
-        NSString *stopID = matchGroupResults[1];
-        NSDictionary *queryItems = [NSURLQueryItem oba_dictionaryFromQueryItems:URLComponents.queryItems];
-
-        OBATripDeepLink *tripDeepLink = [[OBATripDeepLink alloc] init];
-        tripDeepLink.regionIdentifier = regionIdentifier;
-        tripDeepLink.stopID = stopID;
-        tripDeepLink.tripID = queryItems[@"trip_id"];
-        tripDeepLink.serviceDate = [queryItems[@"service_date"] longLongValue];
-        tripDeepLink.stopSequence = [queryItems[@"stop_sequence"] integerValue];
-
-        [SVProgressHUD show];
-
-        [self.application.modelService requestArrivalAndDepartureWithConvertible:tripDeepLink].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
-            tripDeepLink.name = arrivalAndDeparture.bestAvailableNameWithHeadsign;
-
-            // OK, it works, so write it into the model DAO.
-            [self.application.modelDao addSharedTrip:tripDeepLink];
-
-            OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeRecentStops];
-            target.object = tripDeepLink;
-            [appDelegate navigateToTarget:target];
-        }).catch(^(NSError *error) {
-            NSString *body = [NSString stringWithFormat:NSLocalizedString(@"text_error_cant_show_shared_trip_param", @"Error message displayed to the user when something goes wrong with a just-tapped shared trip."), error.localizedDescription];
-            [AlertPresenter showWarning:NSLocalizedString(@"msg_something_went_wrong",) body:body];
-        }).always(^{
-            [SVProgressHUD dismiss];
-        });
+    [deepLinkRouter routePattern:OBADeepLinkStopRegexPattern toAction:^(NSArray<NSString *> *matchGroupResults, NSURLComponents *URLComponents) {
+        [self routeDeepLinkStop:URLComponents appDelegate:appDelegate matchGroupResults:matchGroupResults];
     }];
 
     return deepLinkRouter;

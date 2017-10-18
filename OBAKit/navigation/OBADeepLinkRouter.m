@@ -8,15 +8,20 @@
 
 #import "OBADeepLinkRouter.h"
 
+NSString * const OBADeepLinkStopRegexPattern = @"\\/regions\\/(\\d+).*\\/stops\\/(.*)/?";
+NSString * const OBADeepLinkTripRegexPattern = @"\\/regions\\/(\\d+).*\\/stops\\/(.*)\\/trips\\/?";
+
 @interface OBADeepLinkRouter ()
+@property(nonatomic,copy) NSURL *baseURL;
 @property(nonatomic,strong) NSMutableDictionary *routes;
 @end
 
 @implementation OBADeepLinkRouter
 
-- (instancetype)init {
+- (instancetype)initWithDeepLinkBaseURL:(NSURL*)baseURL {
     self = [super init];
     if (self) {
+        _baseURL = [baseURL copy];
         _routes = [[NSMutableDictionary alloc] init];
     }
     return self;
@@ -51,6 +56,14 @@
     }
 
     return NO;
+}
+
+- (nullable NSURL*)deepLinkURLForStopID:(NSString*)stopID regionIdentifier:(NSInteger)regionIdentifier {
+    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.baseURL resolvingAgainstBaseURL:NO];
+
+    components.path = [NSString stringWithFormat:@"regions/%@/stops/%@", stopID, @(regionIdentifier)];
+
+    return components.URL;
 }
 
 @end
