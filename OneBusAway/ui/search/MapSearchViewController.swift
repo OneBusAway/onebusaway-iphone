@@ -58,7 +58,7 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
 
         var sections: [OBATableSection] = []
 
-        if trimmed.characters.count == 0 {
+        if trimmed.count == 0 {
             sections = []
         }
         else {
