@@ -16,9 +16,10 @@
 
 @import Foundation;
 #import <OBAKit/OBAModelFactory.h>
-#import <OBAKit/OBADataSource.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+typedef void (^OBADataSourceCompletion)(_Nullable id responseData, NSUInteger responseCode, NSError * error);
 
 @interface OBAModelServiceRequest : NSObject
 
@@ -33,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  This has to be weak to avoid retain cycles between the "Connection" object and this service request.  The connection may hold a strong reference 
  *  to this request to perform some post processing on the data.
  */
-@property (nonatomic, weak) id<OBADataSourceConnection> connection;
+@property (nonatomic, weak) NSURLSessionTask *connection;
 
 - (void) processData:(id) obj withError:(NSError *) error responseCode:(NSUInteger) code completionBlock:(OBADataSourceCompletion) completion;
 

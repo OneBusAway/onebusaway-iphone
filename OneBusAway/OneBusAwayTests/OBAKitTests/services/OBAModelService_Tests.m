@@ -13,15 +13,6 @@
 @property(nonatomic,strong) OBAModelService *modelService;
 @end
 
-@interface JsonUrlFetcherImpl : NSObject<NSURLConnectionDelegate, NSURLConnectionDataDelegate, OBADataSourceConnection>
-@property (nonatomic, copy) OBADataSourceCompletion completionBlock;
-@property(nonatomic,strong) NSURLSessionDataTask *task;
-
-- (instancetype)initWithCompletionBlock:(OBADataSourceCompletion)completion;
-- (void)loadRequest:(NSURLRequest *)request;
-@end
-
-
 @implementation OBAModelService_Tests
 
 - (void)setUp {
@@ -57,9 +48,7 @@
 
 - (NSURL*)URLForRequestWithStopID:(NSString*)stopID minutesBefore:(NSInteger)minutesBefore minutesAfter:(NSInteger)minutesAfter {
     OBAModelServiceRequest *request = [self.modelService requestStopWithArrivalsAndDeparturesForId:stopID withMinutesBefore:minutesBefore withMinutesAfter:minutesAfter completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {}];
-    JsonUrlFetcherImpl *connection = (JsonUrlFetcherImpl*)[request connection];
-
-    NSURLRequest *originalRequest = [connection.task originalRequest];
+    NSURLRequest *originalRequest = request.connection.originalRequest;
     return originalRequest.URL;
 }
 

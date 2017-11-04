@@ -15,13 +15,14 @@
  */
 
 @import Foundation;
-#import <OBAKit/OBADataSource.h>
 #import <OBAKit/OBADataSourceConfig.h>
+#import <OBAKit/OBAModelServiceRequest.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAJsonDataSource : NSObject
 @property(nonatomic,strong) OBADataSourceConfig *config;
+@property(nonatomic,strong) NSURLSession *URLSession;
 
 + (instancetype)JSONDataSourceWithBaseURL:(NSURL*)URL userID:(NSString*)userID;
 + (instancetype)googleMapsJSONDataSource;
@@ -48,12 +49,12 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param request The URL request to load data from.
  @param completion A block fired on completion of the request.
- @return An object that conforms to the OBADataSourceConnection protocol. Can be used to cancel the request.
+ @return An object that conforms to the NSURLSessionTask protocol. Can be used to cancel the request.
  */
-- (id<OBADataSourceConnection>)performRequest:(NSURLRequest*)request completionBlock:(OBADataSourceCompletion)completion;
+- (NSURLSessionTask*)performRequest:(NSURLRequest*)request completionBlock:(OBADataSourceCompletion)completion;
 
 /**
- Creates an OBADataSourceConnection-conforming request that uses the specified HTTP method.
+ Creates an NSURLSessionTask that uses the specified HTTP method.
 
  @param path            The server path to request.
  @param httpMethod      The method used to send the request to the server. e.g. GET, POST, or DELETE.
@@ -62,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param completion      The completion block.
  @return A connection object.
  */
-- (id<OBADataSourceConnection>)requestWithPath:(NSString*)path
+- (NSURLSessionTask*)requestWithPath:(NSString*)path
                                     HTTPMethod:(NSString*)httpMethod
                                queryParameters:(nullable NSDictionary*)queryParameters
                                       formBody:(nullable NSDictionary*)formBody
