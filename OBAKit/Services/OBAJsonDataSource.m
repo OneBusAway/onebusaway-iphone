@@ -15,7 +15,6 @@
  */
 
 #import <OBAKit/OBAJsonDataSource.h>
-#import <OBAKit/JsonUrlFetcherImpl.h>
 #import <OBAKit/OBACommon.h>
 #import <OBAKit/NSDictionary+OBAAdditions.h>
 #import <OBAKit/NSObject+OBADescription.h>
@@ -37,6 +36,13 @@
 
 - (void)dealloc {
     [self cancelOpenConnections];
+}
+
+- (NSURLSession*)URLSession {
+    if (!_URLSession) {
+        _URLSession = [NSURLSession sharedSession];
+    }
+    return _URLSession;
 }
 
 #pragma mark - Factory Helpers
@@ -66,19 +72,35 @@
     return request;
 }
 
-- (id<OBADataSourceConnection>)performRequest:(NSURLRequest*)request completionBlock:(OBADataSourceCompletion) completion {
-    JsonUrlFetcherImpl *fetcher = [[JsonUrlFetcherImpl alloc] initWithCompletionBlock:completion];
-    [self.openConnections addObject:fetcher];
-    [fetcher loadRequest:request];
+- (NSURLSessionTask*)performRequest:(NSURLRequest*)request completionBlock:(OBADataSourceCompletion) completion {
+    NSURLSessionDataTask *task = [self.URLSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        id responseObject = nil;
 
-    return fetcher;
+        if (data.length) {
+            NSError *jsonError = nil;
+            responseObject = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:&jsonError];
+
+            if (!responseObject && jsonError) {
+                error = jsonError;
+            }
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(responseObject, ((NSHTTPURLResponse*)response).statusCode, error);
+        });
+    }];
+
+    [self.openConnections addObject:task];
+
+    [task resume];
+
+    return task;
 }
 
-- (id<OBADataSourceConnection>)requestWithPath:(NSString*)path
-                                    HTTPMethod:(NSString*)httpMethod
-                               queryParameters:(nullable NSDictionary*)queryParameters
-                                      formBody:(nullable NSDictionary*)formBody
-                               completionBlock:(OBADataSourceCompletion) completion {
+- (NSURLSessionTask*)requestWithPath:(NSString*)path
+                          HTTPMethod:(NSString*)httpMethod
+                     queryParameters:(nullable NSDictionary*)queryParameters
+                            formBody:(nullable NSDictionary*)formBody
+                     completionBlock:(OBADataSourceCompletion) completion {
 
     NSMutableURLRequest *request = [self requestWithURL:[self.config constructURL:path withArgs:queryParameters] HTTPMethod:httpMethod];
 
@@ -90,8 +112,8 @@
 }
 
 - (void)cancelOpenConnections {
-    for (JsonUrlFetcherImpl *fetcher in self.openConnections) {
-        [fetcher cancel];
+    for (NSURLSessionTask *task in self.openConnections) {
+        [task cancel];
     }
 
     [self.openConnections removeAllObjects];

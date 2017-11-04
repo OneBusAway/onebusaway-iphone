@@ -43,7 +43,6 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAConsoleLogger.h>
 #import <OBAKit/OBACoordinateBounds.h>
 #import <OBAKit/OBAClassicDepartureCell.h>
-#import <OBAKit/OBADataSource.h>
 #import <OBAKit/OBADataSourceConfig.h>
 #import <OBAKit/OBADateHelpers.h>
 #import <OBAKit/OBADeepLinkRouter.h>

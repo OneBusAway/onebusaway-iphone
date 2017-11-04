@@ -181,9 +181,6 @@
 		934196911DB0B099004BBBB7 /* OBATripV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195F51DB0B099004BBBB7 /* OBATripV2.m */; };
 		934196921DB0B099004BBBB7 /* OBAVehicleStatusV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195F61DB0B099004BBBB7 /* OBAVehicleStatusV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196931DB0B099004BBBB7 /* OBAVehicleStatusV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195F71DB0B099004BBBB7 /* OBAVehicleStatusV2.m */; };
-		934196AB1DB0B0AF004BBBB7 /* JsonUrlFetcherImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 934196991DB0B0AF004BBBB7 /* JsonUrlFetcherImpl.h */; };
-		934196AC1DB0B0AF004BBBB7 /* JsonUrlFetcherImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341969A1DB0B0AF004BBBB7 /* JsonUrlFetcherImpl.m */; };
-		934196AD1DB0B0AF004BBBB7 /* OBADataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 9341969B1DB0B0AF004BBBB7 /* OBADataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196AE1DB0B0AF004BBBB7 /* OBADataSourceConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 9341969C1DB0B0AF004BBBB7 /* OBADataSourceConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196AF1DB0B0AF004BBBB7 /* OBADataSourceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341969D1DB0B0AF004BBBB7 /* OBADataSourceConfig.m */; };
 		934196B01DB0B0AF004BBBB7 /* OBAJsonDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 9341969E1DB0B0AF004BBBB7 /* OBAJsonDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -457,9 +454,6 @@
 		934195F51DB0B099004BBBB7 /* OBATripV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripV2.m; sourceTree = "<group>"; };
 		934195F61DB0B099004BBBB7 /* OBAVehicleStatusV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAVehicleStatusV2.h; sourceTree = "<group>"; };
 		934195F71DB0B099004BBBB7 /* OBAVehicleStatusV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAVehicleStatusV2.m; sourceTree = "<group>"; };
-		934196991DB0B0AF004BBBB7 /* JsonUrlFetcherImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonUrlFetcherImpl.h; sourceTree = "<group>"; };
-		9341969A1DB0B0AF004BBBB7 /* JsonUrlFetcherImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JsonUrlFetcherImpl.m; sourceTree = "<group>"; };
-		9341969B1DB0B0AF004BBBB7 /* OBADataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADataSource.h; sourceTree = "<group>"; };
 		9341969C1DB0B0AF004BBBB7 /* OBADataSourceConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADataSourceConfig.h; sourceTree = "<group>"; };
 		9341969D1DB0B0AF004BBBB7 /* OBADataSourceConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADataSourceConfig.m; sourceTree = "<group>"; };
 		9341969E1DB0B0AF004BBBB7 /* OBAJsonDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAJsonDataSource.h; sourceTree = "<group>"; };
@@ -896,9 +890,6 @@
 		934196981DB0B0AF004BBBB7 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				934196991DB0B0AF004BBBB7 /* JsonUrlFetcherImpl.h */,
-				9341969A1DB0B0AF004BBBB7 /* JsonUrlFetcherImpl.m */,
-				9341969B1DB0B0AF004BBBB7 /* OBADataSource.h */,
 				9341969C1DB0B0AF004BBBB7 /* OBADataSourceConfig.h */,
 				9341969D1DB0B0AF004BBBB7 /* OBADataSourceConfig.m */,
 				9341969E1DB0B0AF004BBBB7 /* OBAJsonDataSource.h */,
@@ -1122,7 +1113,6 @@
 				934196531DB0B099004BBBB7 /* OBABookmarkV2.h in Headers */,
 				930653F81E71D75A005AF0C9 /* OBANavigationTargetAware.h in Headers */,
 				934196261DB0B099004BBBB7 /* OBANavigationTargetAnnotation.h in Headers */,
-				934196AD1DB0B0AF004BBBB7 /* OBADataSource.h in Headers */,
 				9341968A1DB0B099004BBBB7 /* OBATripScheduleV2.h in Headers */,
 				934196921DB0B099004BBBB7 /* OBAVehicleStatusV2.h in Headers */,
 				9341965A1DB0B099004BBBB7 /* OBAFrequencyV2.h in Headers */,
@@ -1168,7 +1158,6 @@
 				931C60D31EC3974E0086EC37 /* OBAApplication.h in Headers */,
 				934196351DB0B099004BBBB7 /* OBACreateObjectJsonDigesterRule.h in Headers */,
 				934196331DB0B099004BBBB7 /* OBACallMethodJsonDigesterRule.h in Headers */,
-				934196AB1DB0B0AF004BBBB7 /* JsonUrlFetcherImpl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1326,7 +1315,6 @@
 				934196541DB0B099004BBBB7 /* OBABookmarkV2.m in Sources */,
 				934196131DB0B099004BBBB7 /* OBARouteFilter.m in Sources */,
 				93E5929C1F8CAA9C0079A2D8 /* OBATableSection.m in Sources */,
-				934196AC1DB0B0AF004BBBB7 /* JsonUrlFetcherImpl.m in Sources */,
 				93E592B21F8D3C600079A2D8 /* OBABookmarkedRouteCell.m in Sources */,
 				93E592B31F8D3C600079A2D8 /* OBABookmarkedRouteRow.m in Sources */,
 				93089D9F1F87E6B900694A90 /* OBABaseRow.m in Sources */,
