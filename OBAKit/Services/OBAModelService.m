@@ -659,10 +659,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
     request.modelFactory = _modelFactory;
     request.modelFactorySelector = selector;
-
-    if (source != _obaJsonDataSource) {
-        request.checkCode = NO;
-    }
+    request.checkCode = source.checkStatusCodeInBody;
 
     NSObject<OBABackgroundTaskExecutor> *executor = [[self class] sharedBackgroundExecutor];
     

@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OBAJsonDataSource : NSObject
 @property(nonatomic,strong) OBADataSourceConfig *config;
 @property(nonatomic,strong) NSURLSession *URLSession;
+@property(nonatomic,assign,readonly) BOOL checkStatusCodeInBody;
 
 + (instancetype)JSONDataSourceWithBaseURL:(NSURL*)URL userID:(NSString*)userID;
 + (instancetype)googleMapsJSONDataSource;
@@ -33,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)obacoJSONDataSource;
 
-- (id)initWithConfig:(OBADataSourceConfig*)config;
+- (instancetype)initWithConfig:(OBADataSourceConfig*)config checkStatusCodeInBody:(BOOL)checkStatusCodeInBody;
 
 /**
  Creates a mutable URL request based upon the supplied URL and HTTP method, configuring other parameters, like a GZIP header.
