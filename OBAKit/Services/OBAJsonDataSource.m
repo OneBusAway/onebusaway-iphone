@@ -25,10 +25,11 @@
 
 @implementation OBAJsonDataSource
 
-- (id)initWithConfig:(OBADataSourceConfig *)config {
+- (id)initWithConfig:(OBADataSourceConfig *)config checkStatusCodeInBody:(BOOL)checkStatusCodeInBody {
     if (self = [super init]) {
         _config = config;
         _openConnections = [NSHashTable weakObjectsHashTable];
+        _checkStatusCodeInBody = checkStatusCodeInBody;
     }
 
     return self;
@@ -49,17 +50,19 @@
 
 + (instancetype)JSONDataSourceWithBaseURL:(NSURL*)URL userID:(NSString*)userID {
     OBADataSourceConfig *obaDataSourceConfig = [OBADataSourceConfig dataSourceConfigWithBaseURL:URL userID:userID];
-    return [[OBAJsonDataSource alloc] initWithConfig:obaDataSourceConfig];
+    OBAJsonDataSource *dataSource = [[OBAJsonDataSource alloc] initWithConfig:obaDataSourceConfig checkStatusCodeInBody:YES];
+
+    return dataSource;
 }
 
 + (instancetype)googleMapsJSONDataSource {
     OBADataSourceConfig *googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:@"https://maps.googleapis.com"] args:@{@"sensor": @"true"}];
-    return [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
+    return [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig checkStatusCodeInBody:NO];
 }
 
 + (instancetype)obacoJSONDataSource {
     OBADataSourceConfig *obacoConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:OBADeepLinkServerAddress] args:nil];
-    return [[OBAJsonDataSource alloc] initWithConfig:obacoConfig];
+    return [[OBAJsonDataSource alloc] initWithConfig:obacoConfig checkStatusCodeInBody:NO];
 }
 
 #pragma mark - Public Methods
