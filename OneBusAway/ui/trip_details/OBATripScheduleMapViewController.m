@@ -201,7 +201,7 @@ static const NSString *kShapeContext = @"ShapeContext";
 
     if (trip.shapeId) {
         @weakify(self);
-        _request = [self.modelService requestShapeForId:trip.shapeId completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+        _request = [self.modelService requestShapeForId:trip.shapeId completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
 
             @strongify(self);
 

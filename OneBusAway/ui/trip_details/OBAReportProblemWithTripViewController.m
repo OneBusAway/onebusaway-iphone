@@ -441,7 +441,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     problem.userLocation = self.locationManager.currentLocation;
 
     [SVProgressHUD show];
-    [self.modelService reportProblemWithTrip:problem completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+    [self.modelService reportProblemWithTrip:problem completionBlock:^(id jsonData, NSHTTPURLResponse *response, NSError *error) {
         [SVProgressHUD dismiss];
 
         if (error || !jsonData) {

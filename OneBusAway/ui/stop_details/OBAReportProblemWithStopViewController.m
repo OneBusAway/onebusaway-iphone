@@ -320,7 +320,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     problem.userLocation = self.locationManager.currentLocation;
 
     [SVProgressHUD show];
-    [self.modelService reportProblemWithStop:problem completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+    [self.modelService reportProblemWithStop:problem completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
         [SVProgressHUD dismiss];
 
         if (error || !responseData) {

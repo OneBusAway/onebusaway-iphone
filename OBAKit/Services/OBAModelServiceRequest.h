@@ -19,7 +19,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^OBADataSourceCompletion)(_Nullable id responseData, NSUInteger responseCode, NSError * error);
+typedef void (^OBADataSourceCompletion)(_Nullable id responseData, NSHTTPURLResponse *response,  NSError * _Nullable error);
 
 @interface OBAModelServiceRequest : NSObject
 
@@ -36,7 +36,7 @@ typedef void (^OBADataSourceCompletion)(_Nullable id responseData, NSUInteger re
  */
 @property (nonatomic, weak) NSURLSessionTask *connection;
 
-- (void) processData:(id) obj withError:(NSError *) error responseCode:(NSUInteger) code completionBlock:(OBADataSourceCompletion) completion;
+- (void)processData:(id)obj withError:(NSError*)error response:(NSHTTPURLResponse*)response completionBlock:(OBADataSourceCompletion)completion;
 
 - (void)cancel;
 @end

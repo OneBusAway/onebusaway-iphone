@@ -58,13 +58,13 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }
 
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestStopWithArrivalsAndDeparturesForId:stopID withMinutesBefore:minutesBefore withMinutesAfter:minutesAfter completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+        [self requestStopWithArrivalsAndDeparturesForId:stopID withMinutesBefore:minutesBefore withMinutesAfter:minutesAfter completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
             if (error) {
                 resolve(error);
             }
-            else if (responseCode >= 300) {
-                NSString *message = (404 == responseCode ? OBALocalized(@"mgs_stop_not_found", @"code == 404") : OBALocalized(@"msg_error_connecting", @"code != 404"));
-                error = [NSError errorWithDomain:NSURLErrorDomain code:responseCode userInfo:@{NSLocalizedDescriptionKey: message}];
+            else if (response.statusCode >= 300) {
+                NSString *message = (404 == response.statusCode ? OBALocalized(@"mgs_stop_not_found", @"code == 404") : OBALocalized(@"msg_error_connecting", @"code != 404"));
+                error = [NSError errorWithDomain:NSURLErrorDomain code:response.statusCode userInfo:@{NSLocalizedDescriptionKey: message}];
                 resolve(error);
             }
             else {
@@ -80,59 +80,39 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }
 
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestTripDetailsForTripInstance:tripInstance completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve([responseData entry]);
-            }
+        [self requestTripDetailsForTripInstance:tripInstance completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: [responseData entry]);
         }];
     }];
 }
 
 - (AnyPromise*)requestArrivalAndDeparture:(OBAArrivalAndDepartureInstanceRef*)instanceRef {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestArrivalAndDepartureForStop:instanceRef completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve([responseData entry]);
-            }
+        [self requestArrivalAndDepartureForStop:instanceRef completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: [responseData entry]);
         }];
     }];
 }
 
 - (AnyPromise*)requestArrivalAndDepartureWithConvertible:(id<OBAArrivalAndDepartureConvertible>)convertible {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestArrivalAndDepartureForStopID:[convertible stopID] tripID:[convertible tripID] serviceDate:[convertible serviceDate] vehicleID:[convertible vehicleID] stopSequence:[convertible stopSequence] completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve([responseData entry]);
-            }
+        [self requestArrivalAndDepartureForStopID:[convertible stopID] tripID:[convertible tripID] serviceDate:[convertible serviceDate] vehicleID:[convertible vehicleID] stopSequence:[convertible stopSequence] completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: [responseData entry]);
         }];
     }];
 }
 
 - (AnyPromise*)requestCurrentTime {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestCurrentTimeWithCompletionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve(responseData[@"entry"][@"time"]);
-            }
+        [self requestCurrentTimeWithCompletionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: responseData[@"entry"][@"time"]);
         }];
     }];
 }
 
 - (AnyPromise*)requestRegions {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestRegions:^(id responseData, NSUInteger responseCode, NSError *error) {
+        [self requestRegions:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
             resolve(error ?: [responseData values]);
         }];
     }];
@@ -140,7 +120,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (AnyPromise*)requestAgenciesWithCoverage {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestAgenciesWithCoverage:^(id responseData, NSUInteger responseCode, NSError *error) {
+        [self requestAgenciesWithCoverage:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
             resolve(error ?: [responseData values]);
         }];
     }];
@@ -148,7 +128,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (AnyPromise*)requestVehicleForID:(NSString*)vehicleID {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestVehicleForId:vehicleID completionBlock:^(OBAEntryWithReferencesV2 *responseData, NSUInteger responseCode, NSError *error) {
+        [self requestVehicleForId:vehicleID completionBlock:^(OBAEntryWithReferencesV2 *responseData, NSHTTPURLResponse *response, NSError *error) {
             resolve(error ?: responseData.entry);
         }];
     }];
@@ -156,7 +136,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (AnyPromise*)requestStopsNear:(CLLocationCoordinate2D)coordinate {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestStopsForCoordinate:coordinate completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+        [self requestStopsForCoordinate:coordinate completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
             OBASearchResult *searchResult = [OBASearchResult resultFromList:responseData];
             searchResult.searchType = OBASearchTypeStops;
             resolve(error ?: searchResult);
@@ -166,7 +146,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (AnyPromise*)requestShapeForID:(NSString*)shapeID {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestShapeForId:shapeID completionBlock:^(NSString *polylineString, NSUInteger responseCode, NSError *error) {
+        [self requestShapeForId:shapeID completionBlock:^(NSString *polylineString, NSHTTPURLResponse *response, NSError *error) {
             if (polylineString) {
                 resolve([OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString]);
             }
@@ -187,7 +167,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
                      url:[NSString stringWithFormat:@"/regions/%@/alert_feed_items", @(region.identifier)]
                     args:params
                 selector:nil
-         completionBlock:^(id responseData, NSUInteger responseCode, NSError * _Nonnull error) {
+         completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
              NSError *deserializationError = nil;
              if (responseData) {
                  responseData = [MTLJSONAdapter modelsOfClass:OBARegionalAlert.class fromJSONArray:responseData error:&deserializationError];
@@ -197,13 +177,13 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
                      alert.unread = ABS(alert.publishedAt.timeIntervalSinceNow) < 86400; // Number of seconds in 1 day.
                  }
              }
-             completion(responseData, responseCode, error ?: deserializationError);
+             completion(responseData, response, error ?: deserializationError);
          }];
 }
 
 - (AnyPromise*)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(NSDate*)sinceDate {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestRegionalAlerts:region sinceDate:sinceDate completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+        [self requestRegionalAlerts:region sinceDate:sinceDate completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
             resolve(error ?: responseData);
         }];
     }];
@@ -214,7 +194,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 - (AnyPromise*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
 
-        id request = [self requestAlarm:alarm userPushNotificationID:userPushNotificationID completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+        id request = [self requestAlarm:alarm userPushNotificationID:userPushNotificationID completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
             if (responseData) {
                 resolve(responseData);
             }
@@ -300,13 +280,8 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (AnyPromise*)requestStopsForRegion:(MKCoordinateRegion)region {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestStopsForRegion:region completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve([OBASearchResult resultFromList:responseData]);
-            }
+        [self requestStopsForRegion:region completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: [OBASearchResult resultFromList:responseData]);
         }];
     }];
 }
@@ -341,13 +316,8 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
         return nil;
     }
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestStopsForQuery:query withRegion:region completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve([OBASearchResult resultFromList:responseData]);
-            }
+        [self requestStopsForQuery:query withRegion:region completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: [OBASearchResult resultFromList:responseData]);
         }];
     }];
 }
@@ -372,13 +342,8 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
         return nil;
     }
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestStopsForRoute:routeID completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve(responseData);
-            }
+        [self requestStopsForRoute:routeID completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: responseData);
         }];
     }];
 }
@@ -396,13 +361,8 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
         return nil;
     }
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestStopsForPlacemark:placemark completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve([OBASearchResult resultFromList:responseData]);
-            }
+        [self requestStopsForPlacemark:placemark completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: [OBASearchResult resultFromList:responseData]);
         }];
     }];
 }
@@ -415,13 +375,8 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (AnyPromise*)requestRoutesForQuery:(NSString*)routeQuery region:(CLCircularRegion*)region {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestRoutesForQuery:routeQuery withRegion:region completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve([OBASearchResult resultFromList:responseData]);
-            }
+        [self requestRoutesForQuery:routeQuery withRegion:region completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: [OBASearchResult resultFromList:responseData]);
         }];
     }];
 }
@@ -455,13 +410,8 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
         return nil;
     }
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self placemarksForAddress:address completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve([responseData placemarks]);
-            }
+        [self placemarksForAddress:address completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: [responseData placemarks]);
         }];
     }];
 }
@@ -647,8 +597,8 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 - (OBAModelServiceRequest *)request:(OBAJsonDataSource *)source url:(NSString *)url HTTPMethod:(NSString*)HTTPMethod queryParams:(NSDictionary *)queryParams formBody:(NSDictionary *)formBody selector:(SEL)selector completionBlock:(OBADataSourceCompletion)completion {
     OBAModelServiceRequest *request = [self request:source selector:selector];
 
-    request.connection = [source requestWithPath:url HTTPMethod:HTTPMethod queryParameters:queryParams formBody:formBody completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-        [request processData:jsonData withError:error responseCode:responseCode completionBlock:completion];
+    request.connection = [source requestWithPath:url HTTPMethod:HTTPMethod queryParameters:queryParams formBody:formBody completionBlock:^(id jsonData, NSHTTPURLResponse *response, NSError *error) {
+        [request processData:jsonData withError:error response:response completionBlock:completion];
     }];
 
     return request;

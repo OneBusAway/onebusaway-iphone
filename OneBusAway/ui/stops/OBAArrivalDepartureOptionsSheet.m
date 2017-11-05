@@ -112,7 +112,7 @@
     id<OBAArrivalDepartureOptionsSheetDelegate> delegate = self.delegate;
 
     NSURLRequest *request = [self.modelService.obaJsonDataSource requestWithURL:alarm.alarmURL HTTPMethod:@"DELETE"];
-    [self.modelService.obaJsonDataSource performRequest:request completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+    [self.modelService.obaJsonDataSource performRequest:request completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
         if ([delegate respondsToSelector:@selector(optionsSheet:deletedAlarmForArrivalAndDeparture:)]) {
             [delegate optionsSheet:self deletedAlarmForArrivalAndDeparture:dep];
         }

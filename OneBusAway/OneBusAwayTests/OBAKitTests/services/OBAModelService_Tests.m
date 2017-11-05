@@ -47,7 +47,7 @@
 
 
 - (NSURL*)URLForRequestWithStopID:(NSString*)stopID minutesBefore:(NSInteger)minutesBefore minutesAfter:(NSInteger)minutesAfter {
-    OBAModelServiceRequest *request = [self.modelService requestStopWithArrivalsAndDeparturesForId:stopID withMinutesBefore:minutesBefore withMinutesAfter:minutesAfter completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {}];
+    OBAModelServiceRequest *request = [self.modelService requestStopWithArrivalsAndDeparturesForId:stopID withMinutesBefore:minutesBefore withMinutesAfter:minutesAfter completionBlock:^(id responseData, NSHTTPURLResponse* response, NSError *error) {}];
     NSURLRequest *originalRequest = request.connection.originalRequest;
     return originalRequest.URL;
 }
