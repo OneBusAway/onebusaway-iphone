@@ -76,14 +76,6 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  */
 - (OBAModelServiceRequest*)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(nullable NSDate*)date completionBlock:(OBADataSourceCompletion)completion;
 
-/**
- Retrieves a list of alert messages for the specified `region` since `date`.
- @param region The region from which alerts are desired.
- @param sinceDate The last date that alerts were requested. Specify nil for all time.
- @return A promise that resolves to [OBARegionalAlert].
- */
-- (AnyPromise*)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(nullable NSDate*)sinceDate;
-
 #pragma mark - Alarms
 
 - (nullable OBAModelServiceRequest*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion;

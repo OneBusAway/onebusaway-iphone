@@ -11,8 +11,8 @@
 #import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
 #import <OBAKit/OBALogging.h>
 #import <OBAKit/OBAApplicationConfiguration.h>
-#import <OBAKit/OBAKit-Swift.h>
 #import <OBAKit/OBACommon.h>
+#import <OBAKit/OBAKit-Swift.h>
 
 static NSString * const kAppGroup = @"group.org.onebusaway.iphone";
 static NSString *const kOBADefaultRegionApiServerName = @"http://regions.onebusaway.org";
@@ -23,7 +23,7 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
 @property (nonatomic, strong, readwrite) OBAApplicationConfiguration *configuration;
 @property (nonatomic, strong, readwrite) OBAReferencesV2 *references;
 @property (nonatomic, strong, readwrite) OBAModelDAO *modelDao;
-@property (nonatomic, strong, readwrite) OBAModelService *modelService;
+@property (nonatomic, strong, readwrite) PromisedModelService *modelService;
 @property (nonatomic, strong, readwrite) OBALocationManager *locationManager;
 @property (nonatomic, strong, readwrite) OBAReachability *reachability;
 @property (nonatomic, strong, readwrite) OBARegionHelper *regionHelper;
@@ -72,7 +72,7 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
     self.modelDao = [[OBAModelDAO alloc] initWithModelPersistenceLayer:persistence];
     self.locationManager = [[OBALocationManager alloc] initWithModelDAO:self.modelDao];
 
-    self.modelService = [[OBAModelService alloc] init];
+    self.modelService = [[PromisedModelService alloc] init];
     self.modelService.references = self.references;
     self.modelService.modelDao = self.modelDao;
 
