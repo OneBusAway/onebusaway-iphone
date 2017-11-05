@@ -181,14 +181,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
          }];
 }
 
-- (AnyPromise*)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(NSDate*)sinceDate {
-    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestRegionalAlerts:region sinceDate:sinceDate completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
-            resolve(error ?: responseData);
-        }];
-    }];
-}
-
 #pragma mark - Alarms
 
 - (AnyPromise*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID {

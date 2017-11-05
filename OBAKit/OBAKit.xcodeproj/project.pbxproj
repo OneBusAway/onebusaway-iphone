@@ -218,6 +218,7 @@
 		936EB1B91E91A83700F4F3A7 /* OBARegionStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */; };
 		936EB1BA1E91A83700F4F3A7 /* OBARegionStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */; };
 		9377DD531EE4682E00134AE8 /* BorderedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9377DD521EE4682E00134AE8 /* BorderedButton.swift */; };
+		9385BED71FAFA07D00D122D1 /* PromisedModelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9385BED61FAFA07D00D122D1 /* PromisedModelService.swift */; };
 		93A6E9E21F5BC18B00AFA61C /* AppInterop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */; };
 		93A73BF21F8760F600F213D4 /* OBAClassicDepartureView.h in Headers */ = {isa = PBXBuildFile; fileRef = 93A73BF01F8760F600F213D4 /* OBAClassicDepartureView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93A73BF31F8760F600F213D4 /* OBAClassicDepartureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A73BF11F8760F600F213D4 /* OBAClassicDepartureView.m */; };
@@ -493,6 +494,7 @@
 		936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionStorage.h; sourceTree = "<group>"; };
 		936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionStorage.m; sourceTree = "<group>"; };
 		9377DD521EE4682E00134AE8 /* BorderedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedButton.swift; sourceTree = "<group>"; };
+		9385BED61FAFA07D00D122D1 /* PromisedModelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromisedModelService.swift; sourceTree = "<group>"; };
 		93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInterop.swift; sourceTree = "<group>"; };
 		93A73BF01F8760F600F213D4 /* OBAClassicDepartureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureView.h; sourceTree = "<group>"; };
 		93A73BF11F8760F600F213D4 /* OBAClassicDepartureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicDepartureView.m; sourceTree = "<group>"; };
@@ -900,6 +902,7 @@
 				934196A31DB0B0AF004BBBB7 /* OBAModelService.m */,
 				934196A41DB0B0AF004BBBB7 /* OBAModelServiceRequest.h */,
 				934196A51DB0B0AF004BBBB7 /* OBAModelServiceRequest.m */,
+				9385BED61FAFA07D00D122D1 /* PromisedModelService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1298,6 +1301,7 @@
 				93089DA81F87E7FC00694A90 /* OBADepartureRow.m in Sources */,
 				9341961F1DB0B099004BBBB7 /* OBAMapRegionManager.m in Sources */,
 				93E592B71F8D3D250079A2D8 /* OBALabelActivityIndicatorView.m in Sources */,
+				9385BED71FAFA07D00D122D1 /* PromisedModelService.swift in Sources */,
 				934196621DB0B099004BBBB7 /* OBANavigationTarget.m in Sources */,
 				934196561DB0B099004BBBB7 /* OBACoordinateBounds.m in Sources */,
 				93E592A51F8CACBF0079A2D8 /* OBAStaticTableViewController.m in Sources */,
@@ -1460,6 +1464,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 2.6.2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1521,6 +1526,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 2.6.2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1653,6 +1659,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 2.6.2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

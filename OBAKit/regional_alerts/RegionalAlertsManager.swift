@@ -30,7 +30,7 @@ import CocoaLumberjackSwift
         }
     }
 
-    lazy var modelService: OBAModelService = {
+    lazy var modelService: PromisedModelService = {
         return OBAApplication.shared().modelService
     }()
 
@@ -91,16 +91,16 @@ import CocoaLumberjackSwift
         }
 
         let lastUpdate = self.regionalAlerts.count == 0 ? nil : OBAApplication.shared().userDefaults.object(forKey: lastUpdateKey) as? Date
-        self.modelService.requestRegionalAlerts(region, since: lastUpdate).then { alerts -> Void in
+
+        self.modelService.regionalAlerts(region: region, sinceDate: lastUpdate).then { alerts -> Void in
             self.alertsUpdateQueue.sync {
-                let newAlerts: [OBARegionalAlert] = alerts as! [OBARegionalAlert]
-                if newAlerts.count > 0 {
-                    self.regionalAlerts = RegionalAlertsManager.merge(models: self.regionalAlerts, withNewModels: newAlerts)
+                if alerts.count > 0 {
+                    self.regionalAlerts = RegionalAlertsManager.merge(models: self.regionalAlerts, withNewModels: alerts)
                     if self.writeDefaultData(self.regionalAlerts) {
                         OBAApplication.shared().userDefaults.set(NSDate(), forKey: self.lastUpdateKey)
                         self.broadcastUpdateNotification()
                     }
-                    self.postNotificationForHighPriorityAlerts(newAlerts)
+                    self.postNotificationForHighPriorityAlerts(alerts)
                 }
             }
         }.catch { error in

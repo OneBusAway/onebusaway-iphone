@@ -25,6 +25,7 @@
 @class OBAApplicationConfiguration;
 @class OBAConsoleLogger;
 @class RegionalAlertsManager;
+@class PromisedModelService;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,7 +37,7 @@ extern NSString *const OBARegionServerInvalidNotification;
 @interface OBAApplication : NSObject
 @property (nonatomic, strong, readonly) OBAReferencesV2 *references;
 @property (nonatomic, strong, readonly) OBAModelDAO *modelDao;
-@property (nonatomic, strong, readonly) OBAModelService *modelService;
+@property (nonatomic, strong, readonly) PromisedModelService *modelService;
 @property (nonatomic, strong, readonly) OBALocationManager *locationManager;
 @property (nonatomic, strong, readonly) RegionalAlertsManager *regionalAlertsManager;
 @property (nonatomic, strong, readonly) OBARegionHelper *regionHelper;
