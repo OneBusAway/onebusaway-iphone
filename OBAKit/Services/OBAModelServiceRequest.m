@@ -36,31 +36,25 @@
 }
 
 - (void)dealloc {
-    if(self.cleanupBlock) {
+    if (self.cleanupBlock) {
         _bgTask = self.cleanupBlock(_bgTask);
-    }}
+    }
+}
 
-- (void)processData:(id)obj withError:(NSError *)error responseCode:(NSUInteger)code completionBlock:(OBADataSourceCompletion)completion {
-    NSUInteger responseCode = code;
-
+- (void)processData:(id)obj withError:(NSError*)error response:(NSHTTPURLResponse*)response completionBlock:(OBADataSourceCompletion)completion {
     if (self.checkCode && [obj respondsToSelector:@selector(valueForKey:)]) {
-        NSNumber *dataCode = [obj valueForKey:@"code"];
-
-        if (dataCode) {
-            responseCode = [dataCode unsignedIntegerValue];
-        }
-
         obj = [obj valueForKey:@"data"];
+        NSUInteger statusCode = [[obj valueForKey:@"code"] unsignedIntegerValue];
+
+        response = [[NSHTTPURLResponse alloc] initWithURL:response.URL statusCode:statusCode HTTPVersion:nil headerFields:response.allHeaderFields];
     }
 
-    NSDictionary *data = obj;
-    NSError *jsonError = nil;
-    id result = obj;
-
     if (_modelFactorySelector && [_modelFactory respondsToSelector:_modelFactorySelector]) {
+        NSError *jsonError = nil;
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        result = [_modelFactory performSelector:_modelFactorySelector withObject:data withObject:jsonError];
+        obj = [_modelFactory performSelector:_modelFactorySelector withObject:obj withObject:jsonError];
 #pragma clang diagnostic pop
 
         if (!error) {
@@ -70,7 +64,7 @@
 
     [self cleanup];
 
-    completion(result, responseCode, error);
+    completion(obj, response, error);
 }
 
 #pragma mark OBAModelServiceRequest
