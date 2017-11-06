@@ -24,7 +24,7 @@
 
 @implementation OBAMapDataLoader
 
-- (instancetype)initWithModelService:(OBAModelService*)modelService {
+- (instancetype)initWithModelService:(PromisedModelService*)modelService {
     if (self = [super init]) {
         _modelService = modelService;
         _searchType = OBASearchTypeNone;
@@ -39,7 +39,7 @@
 
 #pragma mark - Accessors
 
-- (OBAModelService*)modelService {
+- (PromisedModelService*)modelService {
     if (!_modelService) {
         _modelService = [OBAApplication sharedApplication].modelService;
     }

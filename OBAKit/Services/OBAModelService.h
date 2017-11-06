@@ -85,17 +85,6 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 #pragma mark - Stop ID -> ArrivalsAndDeparturesV2
 
 /**
- Stop data with arrivals and departures for the specified stopID.
-
- @param stopID        The ID of the stop that will be returned.
- @param minutesBefore How many minutes of elapsed departures should be included.
- @param minutesAfter  How many minutes into the future should be returned.
-
- @return A promise that resolves to an OBAArrivalsAndDeparturesForStopV2 object
- */
-- (AnyPromise*)requestStopForID:(NSString*)stopID minutesBefore:(NSUInteger)minutesBefore minutesAfter:(NSUInteger)minutesAfter;
-
-/**
  *  Makes an asynchronous request to fetch a stop object that is also inflated with additional data for arrival and departure time
  *
  *  @param stopId        The string identifier of the stop to be fetched

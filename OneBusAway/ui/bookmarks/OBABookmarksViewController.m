@@ -168,7 +168,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 - (void)refreshDataForBookmark:(OBABookmarkV2*)bookmark {
     OBABookmarkedRouteRow *row = [self rowForBookmarkVersion260:bookmark];
 
-    [self.modelService requestStopForID:bookmark.stopId minutesBefore:0 minutesAfter:kMinutes].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
+    [self.modelService promiseStopWithID:bookmark.stopId minutesBefore:0 minutesAfter:kMinutes].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
         NSArray<OBAArrivalAndDepartureV2*> *matchingDepartures = [bookmark matchingArrivalsAndDeparturesForStop:response];
         BOOL missingRealTimeData = [OBAArrivalAndDepartureV2 hasScheduledDepartures:matchingDepartures];
 
@@ -423,7 +423,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     return _modelDAO;
 }
 
-- (OBAModelService*)modelService {
+- (PromisedModelService*)modelService {
     if (!_modelService) {
         _modelService = [OBAApplication sharedApplication].modelService;
     }

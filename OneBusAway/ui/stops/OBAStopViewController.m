@@ -135,7 +135,7 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
     return _modelDAO;
 }
 
-- (OBAModelService*)modelService {
+- (PromisedModelService*)modelService {
     if (!_modelService) {
         _modelService = [OBAApplication sharedApplication].modelService;
     }
@@ -190,7 +190,7 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 
     self.navigationItem.title = NSLocalizedString(@"stops_controller.title.updating", @"Title of the Stop UI Controller while it is updating its content.");
 
-    [self.modelService requestStopForID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
+    [self.modelService promiseStopWithID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
         self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"msg_updated", @"message"), [OBADateHelpers formatShortTimeNoDate:[NSDate date]]];
         [self.modelDAO viewedArrivalsAndDeparturesForStop:response.stop];
 

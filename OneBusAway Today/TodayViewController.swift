@@ -78,8 +78,8 @@ extension TodayViewController {
 
         let row = self.row(at: indexPath) as! OBABookmarkedRouteRow
 
-        let promise = self.app.modelService.requestStop(forID: bookmark.stopId, minutesBefore: 0, minutesAfter: kMinutes).then { response -> Void in
-            let matchingDepartures: [OBAArrivalAndDepartureV2] = bookmark.matchingArrivalsAndDepartures(forStop: response as! OBAArrivalsAndDeparturesForStopV2)
+        let promise = self.app.modelService.stop(withID: bookmark.stopId, minutesBefore: 0, minutesAfter: kMinutes).then { response -> Void in
+            let matchingDepartures: [OBAArrivalAndDepartureV2] = bookmark.matchingArrivalsAndDepartures(forStop: response)
 
             self.populateRow(row, routeName: bookmark.routeShortName, departures: matchingDepartures)
             row.state = .complete

@@ -10,6 +10,6 @@
 
 @interface OBABookmarksViewController : OBAStaticTableViewController<OBANavigationTargetAware>
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
-@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) PromisedModelService *modelService;
 @property(nonatomic,strong) OBALocationManager *locationManager;
 @end
