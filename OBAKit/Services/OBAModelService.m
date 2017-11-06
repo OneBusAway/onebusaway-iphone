@@ -161,24 +161,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 #pragma mark - Alarms
 
-- (AnyPromise*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID {
-    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-
-        id request = [self requestAlarm:alarm userPushNotificationID:userPushNotificationID completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
-            if (responseData) {
-                resolve(responseData);
-            }
-            else {
-                resolve(error);
-            }
-        }];
-
-        if (!request) {
-            resolve([NSError errorWithDomain:OBAErrorDomain code:OABErrorCodeMissingMethodParameters userInfo:@{NSLocalizedDescriptionKey: OBALocalized(@"model_service.cant_register_alarm_missing_parameters", @"An error displayed to the user when their alarm can't be created.")}]);
-        }
-    }];
-}
-
 - (nullable OBAModelServiceRequest*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion {
 
     OBAGuard(alarm.timeIntervalBeforeDeparture > 0) else {

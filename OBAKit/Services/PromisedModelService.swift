@@ -81,3 +81,44 @@ import PromiseKit
         return AnyPromise(regionalAlerts(region: region, sinceDate: sinceDate))
     }
 }
+
+// MARK: - Alarms
+@objc extension PromisedModelService {
+
+    /// Creates an alarm object on the server
+    ///
+    /// - Parameters:
+    ///   - alarm: The local alarm object
+    ///   - userPushNotificationID: The user's unique push notification ID
+    /// - Returns: A promise that fulfills into an URL object
+    @nonobjc func createAlarm(_ alarm: OBAAlarm, userPushNotificationID: String) -> Promise<URL> {
+        let promise = Promise<URL> { fulfill, reject in
+            let request = self.request(alarm, userPushNotificationID: userPushNotificationID) { (responseObject, response, error) in
+                if let error = error {
+                    reject(error)
+                    return
+                }
+
+                let dict = responseObject as! Dictionary<String, Any>
+                let url = URL.init(string: dict["url"] as! String)
+
+                fulfill(url!)
+            }
+
+            if request == nil {
+                reject(OBAErrorMessages.cannotRegisterAlarm)
+            }
+        }
+        return promise
+    }
+
+    /// Creates an alarm object on the server
+    ///
+    /// - Parameters:
+    ///   - alarm: The local alarm object
+    ///   - userPushNotificationID: The user's unique push notification ID
+    /// - Returns: A promise that fulfills into an URL object
+    @objc func createAlarmPromise(_ alarm: OBAAlarm, userPushNotificationID: String) -> AnyPromise {
+        return AnyPromise(createAlarm(alarm, userPushNotificationID: userPushNotificationID))
+    }
+}
