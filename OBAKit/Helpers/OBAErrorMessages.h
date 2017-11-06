@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,copy,class,readonly) NSError *stopNotFoundError;
 + (NSError*)connectionError:(NSHTTPURLResponse*)response;
+@property(nonatomic,copy,class,readonly) NSError *cannotRegisterAlarm;
 
 @end
 

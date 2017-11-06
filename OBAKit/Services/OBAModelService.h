@@ -80,8 +80,6 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 
 - (nullable OBAModelServiceRequest*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion;
 
-- (AnyPromise*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID;
-
 #pragma mark - Stop ID -> ArrivalsAndDeparturesV2
 
 /**

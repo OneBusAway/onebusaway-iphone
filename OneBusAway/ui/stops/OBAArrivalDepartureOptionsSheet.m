@@ -85,8 +85,8 @@
 
     [SVProgressHUD show];
 
-    [[OBAPushManager pushManager] requestUserPushNotificationID].then(^(NSString *pushNotificationID) {
-        return [self.modelService requestAlarm:alarm userPushNotificationID:pushNotificationID];
+    [OBAPushManager.pushManager requestUserPushNotificationID].then(^(NSString *pushNotificationID) {
+        return [self.modelService createAlarmPromise:alarm userPushNotificationID:pushNotificationID];
     }).then(^(NSDictionary *serverResponse) {
         alarm.alarmURL = [NSURL URLWithString:serverResponse[@"url"]];
         [self.modelDAO addAlarm:alarm];
@@ -128,7 +128,7 @@
     return _modelDAO;
 }
 
-- (OBAModelService*)modelService {
+- (PromisedModelService*)modelService {
     if (!_modelService) {
         _modelService = [OBAApplication sharedApplication].modelService;
     }
