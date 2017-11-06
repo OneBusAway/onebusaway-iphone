@@ -51,6 +51,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBADepartureTimeLabel.h>
 #import <OBAKit/OBAEmailHelper.h>
 #import <OBAKit/OBAEntryWithReferencesV2.h>
+#import <OBAKit/OBAErrorMessages.h>
 #import <OBAKit/OBAFrequencyV2.h>
 #import <OBAKit/OBAHasReferencesV2.h>
 #import <OBAKit/OBAHasServiceAlerts.h>

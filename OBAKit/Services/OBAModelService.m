@@ -52,28 +52,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 #pragma mark - Promise-based Requests
 
-- (AnyPromise*)requestStopForID:(NSString*)stopID minutesBefore:(NSUInteger)minutesBefore minutesAfter:(NSUInteger)minutesAfter {
-    OBAGuard(stopID.length > 0) else {
-        return nil;
-    }
-
-    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestStopWithArrivalsAndDeparturesForId:stopID withMinutesBefore:minutesBefore withMinutesAfter:minutesAfter completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else if (response.statusCode >= 300) {
-                NSString *message = (404 == response.statusCode ? OBALocalized(@"mgs_stop_not_found", @"code == 404") : OBALocalized(@"msg_error_connecting", @"code != 404"));
-                error = [NSError errorWithDomain:NSURLErrorDomain code:response.statusCode userInfo:@{NSLocalizedDescriptionKey: message}];
-                resolve(error);
-            }
-            else {
-                resolve(responseData);
-            }
-        }];
-    }];
-}
-
 - (AnyPromise*)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance {
     OBAGuard(tripInstance) else {
         return nil;

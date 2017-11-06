@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface OBAMapDataLoader : NSObject
-@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) PromisedModelService *modelService;
 
 @property(nonatomic,weak) id<OBAMapDataLoaderDelegate> delegate;
 @property(nonatomic,strong,readonly) OBANavigationTarget *searchTarget;

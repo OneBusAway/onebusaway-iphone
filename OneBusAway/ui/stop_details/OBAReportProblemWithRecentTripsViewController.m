@@ -42,7 +42,7 @@
     [super viewDidLoad];
 
     [SVProgressHUD show];
-    [self.modelService requestStopForID:self.stopID minutesBefore:30 minutesAfter:30].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
+    [self.modelService promiseStopWithID:self.stopID minutesBefore:30 minutesAfter:30].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
         self.arrivalsAndDepartures = response;
         [self populateTable];
     }).always(^{
@@ -100,7 +100,7 @@
 
 #pragma mark - Lazy Loading
 
-- (OBAModelService*)modelService {
+- (PromisedModelService*)modelService {
     if (!_modelService) {
         _modelService = [OBAApplication sharedApplication].modelService;
     }

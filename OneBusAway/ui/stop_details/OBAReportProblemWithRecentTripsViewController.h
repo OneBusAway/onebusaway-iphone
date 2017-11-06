@@ -19,7 +19,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAReportProblemWithRecentTripsViewController : OBAStaticTableViewController
-@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) PromisedModelService *modelService;
 
 - (instancetype)initWithStopID:(NSString*)stopID;
 @end

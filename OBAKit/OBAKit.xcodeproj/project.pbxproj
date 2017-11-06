@@ -219,6 +219,8 @@
 		936EB1BA1E91A83700F4F3A7 /* OBARegionStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */; };
 		9377DD531EE4682E00134AE8 /* BorderedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9377DD521EE4682E00134AE8 /* BorderedButton.swift */; };
 		9385BED71FAFA07D00D122D1 /* PromisedModelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9385BED61FAFA07D00D122D1 /* PromisedModelService.swift */; };
+		9385BEDC1FB040B300D122D1 /* OBAErrorMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = 9385BEDA1FB040B300D122D1 /* OBAErrorMessages.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9385BEDD1FB040B300D122D1 /* OBAErrorMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385BEDB1FB040B300D122D1 /* OBAErrorMessages.m */; };
 		93A6E9E21F5BC18B00AFA61C /* AppInterop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */; };
 		93A73BF21F8760F600F213D4 /* OBAClassicDepartureView.h in Headers */ = {isa = PBXBuildFile; fileRef = 93A73BF01F8760F600F213D4 /* OBAClassicDepartureView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93A73BF31F8760F600F213D4 /* OBAClassicDepartureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A73BF11F8760F600F213D4 /* OBAClassicDepartureView.m */; };
@@ -495,6 +497,8 @@
 		936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionStorage.m; sourceTree = "<group>"; };
 		9377DD521EE4682E00134AE8 /* BorderedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedButton.swift; sourceTree = "<group>"; };
 		9385BED61FAFA07D00D122D1 /* PromisedModelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromisedModelService.swift; sourceTree = "<group>"; };
+		9385BEDA1FB040B300D122D1 /* OBAErrorMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAErrorMessages.h; sourceTree = "<group>"; };
+		9385BEDB1FB040B300D122D1 /* OBAErrorMessages.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAErrorMessages.m; sourceTree = "<group>"; };
 		93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInterop.swift; sourceTree = "<group>"; };
 		93A73BF01F8760F600F213D4 /* OBAClassicDepartureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureView.h; sourceTree = "<group>"; };
 		93A73BF11F8760F600F213D4 /* OBAClassicDepartureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicDepartureView.m; sourceTree = "<group>"; };
@@ -715,6 +719,8 @@
 				CCD30CFA1E30564600080EFF /* OBAHandoff.swift */,
 				93F3F8A11E7BCA8C0025FC78 /* FileHelpers.swift */,
 				93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */,
+				9385BEDA1FB040B300D122D1 /* OBAErrorMessages.h */,
+				9385BEDB1FB040B300D122D1 /* OBAErrorMessages.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1139,6 +1145,7 @@
 				9341967E1DB0B099004BBBB7 /* OBAStopAccessEventV2.h in Headers */,
 				934196901DB0B099004BBBB7 /* OBATripV2.h in Headers */,
 				934196711DB0B099004BBBB7 /* OBARouteType.h in Headers */,
+				9385BEDC1FB040B300D122D1 /* OBAErrorMessages.h in Headers */,
 				934196121DB0B099004BBBB7 /* OBARouteFilter.h in Headers */,
 				934195FC1DB0B099004BBBB7 /* UILabel+OBAAdditions.h in Headers */,
 				930653F41E71D704005AF0C9 /* OBADeepLinkRouter.h in Headers */,
@@ -1342,6 +1349,7 @@
 				934196401DB0B099004BBBB7 /* OBASetLocationPropertyJsonDigesterRule.m in Sources */,
 				934196B91DB0B0AF004BBBB7 /* OBATheme.m in Sources */,
 				93A73BFB1F87622600F213D4 /* OBAAnimation.m in Sources */,
+				9385BEDD1FB040B300D122D1 /* OBAErrorMessages.m in Sources */,
 				934196871DB0B099004BBBB7 /* OBATripDetailsV2.m in Sources */,
 				93E592A01F8CABD70079A2D8 /* OBAVibrantBlurContainerView.m in Sources */,
 				934196911DB0B099004BBBB7 /* OBATripV2.m in Sources */,
