@@ -20,7 +20,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBATripScheduleListViewController : OBAStaticTableViewController
-@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) PromisedModelService *modelService;
 @property(nonatomic,strong) OBATripDetailsV2 *tripDetails;
 @property(nonatomic,copy) NSString *currentStopId;
 

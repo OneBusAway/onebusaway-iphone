@@ -100,15 +100,6 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 #pragma mark - OBATripInstanceRef -> OBATripDetailsV2
 
 /**
- Trip details for the specified OBATripInstanceRef
-
- @param tripInstance The trip instance reference
-
- @return An instance of OBATripDetailsV2
- */
-- (AnyPromise*)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance;
-
-/**
  *  Makes an asynchronous request to fetch trip details
  *
  *  @param tripInstance An intance of a trip

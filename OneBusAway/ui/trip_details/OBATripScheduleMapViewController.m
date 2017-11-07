@@ -59,7 +59,7 @@ static const NSString *kShapeContext = @"ShapeContext";
         return;
     }
 
-    [self.modelService requestTripDetailsForTripInstance:self.tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
+    [self.modelService promiseTripDetailsFor:self.tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
         self.tripDetails = tripDetails;
         [self handleTripDetails];
     }).catch(^(NSError *error) {
@@ -82,7 +82,7 @@ static const NSString *kShapeContext = @"ShapeContext";
 
 #pragma mark - Lazily Loaded Properties
 
-- (OBAModelService*)modelService {
+- (PromisedModelService*)modelService {
     if (!_modelService) {
         _modelService = [OBAApplication sharedApplication].modelService;
     }

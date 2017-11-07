@@ -87,7 +87,7 @@
 
 - (void)reportProblemWithTrip:(OBATripInstanceRef*)tripInstance {
     [SVProgressHUD show];
-    [self.modelService requestTripDetailsForTripInstance:tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
+    [self.modelService promiseTripDetailsFor:tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
         OBAReportProblemWithTripViewController *vc = [[OBAReportProblemWithTripViewController alloc] initWithTripInstance:tripInstance trip:tripDetails.trip];
         vc.currentStopId = self.stopID;
         [self.navigationController pushViewController:vc animated:YES];

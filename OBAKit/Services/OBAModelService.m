@@ -52,18 +52,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 #pragma mark - Promise-based Requests
 
-- (AnyPromise*)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance {
-    OBAGuard(tripInstance) else {
-        return nil;
-    }
-
-    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestTripDetailsForTripInstance:tripInstance completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
-            resolve(error ?: [responseData entry]);
-        }];
-    }];
-}
-
 - (AnyPromise*)requestArrivalAndDeparture:(OBAArrivalAndDepartureInstanceRef*)instanceRef {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         [self requestArrivalAndDepartureForStop:instanceRef completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
