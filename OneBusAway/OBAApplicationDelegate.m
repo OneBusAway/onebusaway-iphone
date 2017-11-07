@@ -138,7 +138,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
         self.application.modelDao.mostRecentLocation = location;
     }
 
-    [self.application.locationManager stopUpdatingLocation];
+    [self.application applicationDidEnterBackground];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

@@ -63,6 +63,11 @@ extern NSString *const OBARegionServerInvalidNotification;
 - (void)startWithConfiguration:(OBAApplicationConfiguration *)configuration;
 
 /**
+ Call this when the application enters the background.
+ */
+- (void)applicationDidEnterBackground;
+
+/**
  * e.g. "2.4.2"
  */
 - (NSString*)formattedAppVersion;

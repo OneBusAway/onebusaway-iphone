@@ -128,6 +128,17 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
     [NSUserDefaults.standardUserDefaults setBool:YES forKey:OBAHasMigratedDefaultsToAppGroupDefaultsKey];
 }
 
+#pragma mark - App Lifecycle Events
+
+- (void)applicationDidEnterBackground {
+    [self.locationManager stopUpdatingLocation];
+
+    [self.modelService.obaJsonDataSource cancelOpenConnections];
+    [self.modelService.googleMapsJsonDataSource cancelOpenConnections];
+    [self.modelService.obaRegionJsonDataSource cancelOpenConnections];
+    [self.modelService.obacoJsonDataSource cancelOpenConnections];
+}
+
 #pragma mark - Reachability
 
 - (void)startReachabilityNotifier {
