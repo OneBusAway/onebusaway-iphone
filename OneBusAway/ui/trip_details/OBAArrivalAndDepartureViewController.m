@@ -275,7 +275,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     return _modelDAO;
 }
 
-- (OBAModelService*)modelService {
+- (PromisedModelService*)modelService {
     if (!_modelService) {
         _modelService = [OBAApplication sharedApplication].modelService;
     }
@@ -296,7 +296,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         self.mapController.arrivalAndDeparture = self.arrivalAndDeparture;
         self.mapController.routeType = self.arrivalAndDeparture.stop.firstAvailableRouteTypeForStop;
         [self updateTitleViewWithArrivalAndDeparture:self.arrivalAndDeparture];
-        return [self.modelService requestTripDetailsForTripInstance:self.arrivalAndDeparture.tripInstance];
+
+        return [self.modelService promiseTripDetailsFor:self.arrivalAndDeparture.tripInstance];
     }).then(^(OBATripDetailsV2 *tripDetails) {
         self.tripDetails = tripDetails;
         self.mapController.tripDetails = tripDetails;

@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBATripDetailsViewController : OBAStaticTableViewController
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
-@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) PromisedModelService *modelService;
 
 - (instancetype)initWithTripInstance:(OBATripInstanceRef *)tripInstance;
 

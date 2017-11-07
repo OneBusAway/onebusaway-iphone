@@ -21,7 +21,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBATripScheduleMapViewController : UIViewController <MKMapViewDelegate>
-@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) PromisedModelService *modelService;
 
 @property(nonatomic,strong) MKMapView *mapView;
 @property(nonatomic,strong) OBAProgressIndicatorView *progressView;

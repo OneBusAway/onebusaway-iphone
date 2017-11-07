@@ -122,3 +122,36 @@ import PromiseKit
         return AnyPromise(createAlarm(alarm, userPushNotificationID: userPushNotificationID))
     }
 }
+
+// MARK: - Trip Details
+@objc extension PromisedModelService {
+
+    /// Trip details for the specified OBATripInstanceRef
+    ///
+    /// - Parameter tripInstance: The trip instance reference
+    /// - Returns: A Promise that resolves to an instance of OBATripDetailsV2
+    @nonobjc func tripDetails(for tripInstance: OBATripInstanceRef) -> Promise<OBATripDetailsV2> {
+        let promise = Promise<OBATripDetailsV2> { fulfill, reject in
+            self.requestTripDetails(for: tripInstance) { (responseObject, response, error) in
+                if let error = error {
+                    reject(error);
+                    return
+                }
+
+                let entry = responseObject as! OBAEntryWithReferencesV2
+
+                fulfill(entry.entry as! OBATripDetailsV2)
+            }
+        }
+
+        return promise
+    }
+
+    /// Trip details for the specified OBATripInstanceRef
+    ///
+    /// - Parameter tripInstance: The trip instance reference
+    /// - Returns: A Promise that resolves to an instance of OBATripDetailsV2
+    @objc func promiseTripDetails(for tripInstance: OBATripInstanceRef) -> AnyPromise {
+        return AnyPromise(tripDetails(for: tripInstance))
+    }
+}

@@ -49,7 +49,7 @@
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [SVProgressHUD show];
 
-    [self.modelService requestTripDetailsForTripInstance:self.tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
+    [self.modelService promiseTripDetailsFor:self.tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
         self.tripDetails = tripDetails;
         [self buildSections];
     }).always(^{
@@ -132,7 +132,7 @@
     return _modelDAO;
 }
 
-- (OBAModelService*)modelService {
+- (PromisedModelService*)modelService {
     if (!_modelService) {
         _modelService = [OBAApplication sharedApplication].modelService;
     }
