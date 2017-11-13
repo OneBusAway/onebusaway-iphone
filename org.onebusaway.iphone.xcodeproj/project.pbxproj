@@ -23,13 +23,6 @@
 		931C60CE1EC3969B0086EC37 /* OBACrashlyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 931C60CD1EC3969B0086EC37 /* OBACrashlyticsLogger.m */; };
 		9327DEF91E023BD400502F06 /* OBAArrivalDepartureRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9327DEF81E023BD400502F06 /* OBAArrivalDepartureRow.m */; };
 		9327DEFC1E023BE400502F06 /* OBAArrivalDepartureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9327DEFB1E023BE400502F06 /* OBAArrivalDepartureCell.m */; };
-		932CCEC31DC3D2DB001C8405 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEBC1DC3D2DB001C8405 /* CocoaLumberjack.framework */; };
-		932CCEC41DC3D2DB001C8405 /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEBD1DC3D2DB001C8405 /* CocoaLumberjackSwift.framework */; };
-		932CCEC51DC3D2DB001C8405 /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEBE1DC3D2DB001C8405 /* PMKCoreLocation.framework */; };
-		932CCEC61DC3D2DB001C8405 /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEBF1DC3D2DB001C8405 /* PMKFoundation.framework */; };
-		932CCEC71DC3D2DB001C8405 /* PMKMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEC01DC3D2DB001C8405 /* PMKMapKit.framework */; };
-		932CCEC81DC3D2DB001C8405 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEC11DC3D2DB001C8405 /* PromiseKit.framework */; };
-		932CCEC91DC3D2DB001C8405 /* SwiftMessages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCEC21DC3D2DB001C8405 /* SwiftMessages.framework */; };
 		9331E41C1E56F68C001E27C2 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9331E4161E56F686001E27C2 /* Nimble.framework */; };
 		9331E41D1E56F68C001E27C2 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9331E4171E56F686001E27C2 /* OHHTTPStubs.framework */; };
 		9331E41E1E56F68C001E27C2 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9331E4181E56F686001E27C2 /* Quick.framework */; };
@@ -147,7 +140,6 @@
 		934198B51DB0C219004BBBB7 /* OBAVehicleStatusV2_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341987D1DB0C219004BBBB7 /* OBAVehicleStatusV2_Tests.m */; };
 		934198B61DB0C219004BBBB7 /* OBADataSourceConfig_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341987F1DB0C219004BBBB7 /* OBADataSourceConfig_Tests.m */; };
 		934198CD1DB0C578004BBBB7 /* OBAKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 934198CA1DB0C56D004BBBB7 /* OBAKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		934C508D1E2A1E5C00DFDCA0 /* OneSignal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934C508C1E2A1E5C00DFDCA0 /* OneSignal.framework */; };
 		934C50A01E2B69E300DFDCA0 /* GKActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C509D1E2B69E300DFDCA0 /* GKActionSheetPicker.m */; };
 		934C50A11E2B69E300DFDCA0 /* GKActionSheetPickerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C509F1E2B69E300DFDCA0 /* GKActionSheetPickerItem.m */; };
 		934C50AE1E2B6D5B00DFDCA0 /* OBAPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C50AD1E2B6D5B00DFDCA0 /* OBAPushManager.m */; };
@@ -167,8 +159,6 @@
 		9385EC3B1DCF14C60020CCB2 /* OBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385EC3A1DCF14C60020CCB2 /* OBASettingsViewController.m */; };
 		9385EC401DCF1D910020CCB2 /* ServiceAlertDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9385EC3F1DCF1D910020CCB2 /* ServiceAlertDetailsViewController.swift */; };
 		93876DFB1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 93876DFA1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m */; };
-		938B842C1D868A0500DB0AF0 /* GoogleAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84241D8689E900DB0AF0 /* GoogleAnalytics.framework */; };
-		938B84381D868A0500DB0AF0 /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938B84331D868A0500DB0AF0 /* SVProgressHUD.framework */; };
 		93A6E5241E6CB23500BEFECE /* ISHHoverBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A6E5231E6CB23500BEFECE /* ISHHoverBar.m */; };
 		93A6E9EA1F5C9EB400AFA61C /* OBAArrivalDepartureOptionsSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A6E9E91F5C9EB400AFA61C /* OBAArrivalDepartureOptionsSheet.m */; };
 		93A6E9EE1F5CC11800AFA61C /* UIViewController+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A6E9ED1F5CC11800AFA61C /* UIViewController+OBAAdditions.m */; };
@@ -186,16 +176,25 @@
 		93BB1EE31E300526008A88BA /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE11E300526008A88BA /* Crashlytics.framework */; };
 		93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934198CA1DB0C56D004BBBB7 /* OBAKit.framework */; };
 		93BBB4291DB952FC00694940 /* OBAURLHelpers_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BBB4271DB9525000694940 /* OBAURLHelpers_Tests.m */; };
+		93BC49D71FB8D5E0008B710D /* OneSignal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49D61FB8D5DF008B710D /* OneSignal.framework */; };
+		93BC49D91FB8D5EB008B710D /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49D81FB8D5EB008B710D /* SnapKit.framework */; };
+		93BC49DC1FB8D5FB008B710D /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49DA1FB8D5FB008B710D /* CocoaLumberjackSwift.framework */; };
+		93BC49DD1FB8D5FB008B710D /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49DB1FB8D5FB008B710D /* CocoaLumberjack.framework */; };
+		93BC49E11FB8D606008B710D /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49DE1FB8D606008B710D /* PMKFoundation.framework */; };
+		93BC49E21FB8D606008B710D /* PMKMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49DF1FB8D606008B710D /* PMKMapKit.framework */; };
+		93BC49E31FB8D606008B710D /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49E01FB8D606008B710D /* PMKCoreLocation.framework */; };
+		93BC49E51FB8D60F008B710D /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49E41FB8D60F008B710D /* PromiseKit.framework */; };
+		93BC49E81FB8D61D008B710D /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49E61FB8D61C008B710D /* Masonry.framework */; };
+		93BC49E91FB8D61D008B710D /* SwiftMessages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49E71FB8D61D008B710D /* SwiftMessages.framework */; };
+		93BC49EC1FB8D628008B710D /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49EA1FB8D628008B710D /* SVProgressHUD.framework */; };
+		93BC49ED1FB8D628008B710D /* GoogleAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49EB1FB8D628008B710D /* GoogleAnalytics.framework */; };
 		93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936A1D8A3A4D0080F370 /* UIKit.framework */; };
 		93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936C1D8A3A530080F370 /* Foundation.framework */; };
-		93C3936F1D8A3AC20080F370 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936E1D8A3AC20080F370 /* Masonry.framework */; };
-		93E592BA1F8D474E0079A2D8 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936E1D8A3AC20080F370 /* Masonry.framework */; };
 		93F3F88E1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */; };
 		93F3F8971E7AEE560025FC78 /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F3F8961E7AEE560025FC78 /* Mantle.framework */; };
 		93F3F89F1E7BAC510025FC78 /* OBARegionalAlert_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F89E1E7BAC510025FC78 /* OBARegionalAlert_Tests.m */; };
 		93F9574A1E9AFB020022586B /* UIWindow+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F957491E9AFB020022586B /* UIWindow+OBAAdditions.m */; };
 		93FE60261E0B2F34006EC9FB /* SVPulsingAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FE60251E0B2F34006EC9FB /* SVPulsingAnnotationView.m */; };
-		93FE60291E0C8F62006EC9FB /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FE60281E0C8F62006EC9FB /* SnapKit.framework */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 /* End PBXBuildFile section */
 
@@ -297,13 +296,6 @@
 		9327DEF81E023BD400502F06 /* OBAArrivalDepartureRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalDepartureRow.m; sourceTree = "<group>"; };
 		9327DEFA1E023BE400502F06 /* OBAArrivalDepartureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalDepartureCell.h; sourceTree = "<group>"; };
 		9327DEFB1E023BE400502F06 /* OBAArrivalDepartureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalDepartureCell.m; sourceTree = "<group>"; };
-		932CCEBC1DC3D2DB001C8405 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
-		932CCEBD1DC3D2DB001C8405 /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = Carthage/Build/iOS/CocoaLumberjackSwift.framework; sourceTree = "<group>"; };
-		932CCEBE1DC3D2DB001C8405 /* PMKCoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKCoreLocation.framework; path = Carthage/Build/iOS/PMKCoreLocation.framework; sourceTree = "<group>"; };
-		932CCEBF1DC3D2DB001C8405 /* PMKFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKFoundation.framework; path = Carthage/Build/iOS/PMKFoundation.framework; sourceTree = "<group>"; };
-		932CCEC01DC3D2DB001C8405 /* PMKMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKMapKit.framework; path = Carthage/Build/iOS/PMKMapKit.framework; sourceTree = "<group>"; };
-		932CCEC11DC3D2DB001C8405 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
-		932CCEC21DC3D2DB001C8405 /* SwiftMessages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftMessages.framework; path = Carthage/Build/iOS/SwiftMessages.framework; sourceTree = "<group>"; };
 		9331E4161E56F686001E27C2 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = SOURCE_ROOT; };
 		9331E4171E56F686001E27C2 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = SOURCE_ROOT; };
 		9331E4181E56F686001E27C2 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = SOURCE_ROOT; };
@@ -481,7 +473,6 @@
 		934198C41DB0C56D004BBBB7 /* OBAKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OBAKit.xcodeproj; path = OBAKit/OBAKit.xcodeproj; sourceTree = "<group>"; };
 		934445F81AB105FB005B3333 /* capitolhill.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = capitolhill.gpx; sourceTree = "<group>"; };
 		9347860D1D3453E9002A5627 /* sandiego.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sandiego.gpx; sourceTree = "<group>"; };
-		934C508C1E2A1E5C00DFDCA0 /* OneSignal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OneSignal.framework; path = Carthage/Build/iOS/OneSignal.framework; sourceTree = "<group>"; };
 		934C509C1E2B69E300DFDCA0 /* GKActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKActionSheetPicker.h; sourceTree = "<group>"; };
 		934C509D1E2B69E300DFDCA0 /* GKActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKActionSheetPicker.m; sourceTree = "<group>"; };
 		934C509E1E2B69E300DFDCA0 /* GKActionSheetPickerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKActionSheetPickerItem.h; sourceTree = "<group>"; };
@@ -519,8 +510,6 @@
 		9385EC3F1DCF1D910020CCB2 /* ServiceAlertDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceAlertDetailsViewController.swift; sourceTree = "<group>"; };
 		93876DF91E68AD3900B4343F /* OBAMapAnnotationViewBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapAnnotationViewBuilder.h; sourceTree = "<group>"; };
 		93876DFA1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapAnnotationViewBuilder.m; sourceTree = "<group>"; };
-		938B84241D8689E900DB0AF0 /* GoogleAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAnalytics.framework; path = Carthage/Build/iOS/GoogleAnalytics.framework; sourceTree = "<group>"; };
-		938B84331D868A0500DB0AF0 /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
 		939CEB241C0E406500E1D2B7 /* rvtd.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = rvtd.gpx; sourceTree = "<group>"; };
 		93A6E5221E6CB23500BEFECE /* ISHHoverBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISHHoverBar.h; sourceTree = "<group>"; };
 		93A6E5231E6CB23500BEFECE /* ISHHoverBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISHHoverBar.m; sourceTree = "<group>"; };
@@ -544,9 +533,20 @@
 		93BB1EE11E300526008A88BA /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		93BBB4001DB4BA7200694940 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = OneBusAway/Info.plist; sourceTree = SOURCE_ROOT; };
 		93BBB4271DB9525000694940 /* OBAURLHelpers_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAURLHelpers_Tests.m; sourceTree = "<group>"; };
+		93BC49D61FB8D5DF008B710D /* OneSignal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OneSignal.framework; path = Carthage/Build/iOS/OneSignal.framework; sourceTree = "<group>"; };
+		93BC49D81FB8D5EB008B710D /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
+		93BC49DA1FB8D5FB008B710D /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = Carthage/Build/iOS/CocoaLumberjackSwift.framework; sourceTree = "<group>"; };
+		93BC49DB1FB8D5FB008B710D /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
+		93BC49DE1FB8D606008B710D /* PMKFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKFoundation.framework; path = Carthage/Build/iOS/PMKFoundation.framework; sourceTree = "<group>"; };
+		93BC49DF1FB8D606008B710D /* PMKMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKMapKit.framework; path = Carthage/Build/iOS/PMKMapKit.framework; sourceTree = "<group>"; };
+		93BC49E01FB8D606008B710D /* PMKCoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKCoreLocation.framework; path = Carthage/Build/iOS/PMKCoreLocation.framework; sourceTree = "<group>"; };
+		93BC49E41FB8D60F008B710D /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
+		93BC49E61FB8D61C008B710D /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
+		93BC49E71FB8D61D008B710D /* SwiftMessages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftMessages.framework; path = Carthage/Build/iOS/SwiftMessages.framework; sourceTree = "<group>"; };
+		93BC49EA1FB8D628008B710D /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
+		93BC49EB1FB8D628008B710D /* GoogleAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAnalytics.framework; path = Carthage/Build/iOS/GoogleAnalytics.framework; sourceTree = "<group>"; };
 		93C3936A1D8A3A4D0080F370 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		93C3936C1D8A3A530080F370 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		93C3936E1D8A3AC20080F370 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
 		93E4A7611CE65B2100E769B0 /* atlanta.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = atlanta.gpx; sourceTree = "<group>"; };
 		93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionalAlertsViewController.swift; sourceTree = "<group>"; };
 		93F3F8961E7AEE560025FC78 /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = Carthage/Build/iOS/Mantle.framework; sourceTree = "<group>"; };
@@ -556,7 +556,6 @@
 		93F957491E9AFB020022586B /* UIWindow+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+OBAAdditions.m"; sourceTree = "<group>"; };
 		93FE60241E0B2F34006EC9FB /* SVPulsingAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPulsingAnnotationView.h; sourceTree = "<group>"; };
 		93FE60251E0B2F34006EC9FB /* SVPulsingAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPulsingAnnotationView.m; sourceTree = "<group>"; };
-		93FE60281E0C8F62006EC9FB /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = OneBusAway/Entitlements.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -565,26 +564,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93BC49E51FB8D60F008B710D /* PromiseKit.framework in Frameworks */,
 				93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */,
-				932CCEC61DC3D2DB001C8405 /* PMKFoundation.framework in Frameworks */,
+				93BC49E81FB8D61D008B710D /* Masonry.framework in Frameworks */,
 				93F3F8971E7AEE560025FC78 /* Mantle.framework in Frameworks */,
+				93BC49ED1FB8D628008B710D /* GoogleAnalytics.framework in Frameworks */,
+				93BC49D91FB8D5EB008B710D /* SnapKit.framework in Frameworks */,
+				93BC49DC1FB8D5FB008B710D /* CocoaLumberjackSwift.framework in Frameworks */,
+				93BC49EC1FB8D628008B710D /* SVProgressHUD.framework in Frameworks */,
 				93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */,
-				934C508D1E2A1E5C00DFDCA0 /* OneSignal.framework in Frameworks */,
 				93528AB11C8D517100783E9A /* CloudKit.framework in Frameworks */,
-				932CCEC51DC3D2DB001C8405 /* PMKCoreLocation.framework in Frameworks */,
 				93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */,
 				93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */,
-				932CCEC81DC3D2DB001C8405 /* PromiseKit.framework in Frameworks */,
 				93BB1EE31E300526008A88BA /* Crashlytics.framework in Frameworks */,
-				93C3936F1D8A3AC20080F370 /* Masonry.framework in Frameworks */,
-				93FE60291E0C8F62006EC9FB /* SnapKit.framework in Frameworks */,
-				938B84381D868A0500DB0AF0 /* SVProgressHUD.framework in Frameworks */,
-				932CCEC41DC3D2DB001C8405 /* CocoaLumberjackSwift.framework in Frameworks */,
+				93BC49E91FB8D61D008B710D /* SwiftMessages.framework in Frameworks */,
+				93BC49E31FB8D606008B710D /* PMKCoreLocation.framework in Frameworks */,
+				93BC49D71FB8D5E0008B710D /* OneSignal.framework in Frameworks */,
+				93BC49E11FB8D606008B710D /* PMKFoundation.framework in Frameworks */,
 				93BB1EE21E300526008A88BA /* Fabric.framework in Frameworks */,
-				938B842C1D868A0500DB0AF0 /* GoogleAnalytics.framework in Frameworks */,
-				932CCEC91DC3D2DB001C8405 /* SwiftMessages.framework in Frameworks */,
-				932CCEC71DC3D2DB001C8405 /* PMKMapKit.framework in Frameworks */,
-				932CCEC31DC3D2DB001C8405 /* CocoaLumberjack.framework in Frameworks */,
+				93BC49E21FB8D606008B710D /* PMKMapKit.framework in Frameworks */,
+				93BC49DD1FB8D5FB008B710D /* CocoaLumberjack.framework in Frameworks */,
 				93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -606,7 +605,6 @@
 				93A73BC71F86D08A00F213D4 /* OBAKit.framework in Frameworks */,
 				93AD17B41F86C14C00E730D7 /* NotificationCenter.framework in Frameworks */,
 				93A73BC81F86D09300F213D4 /* Mantle.framework in Frameworks */,
-				93E592BA1F8D474E0079A2D8 /* Masonry.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -660,24 +658,24 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93BC49EB1FB8D628008B710D /* GoogleAnalytics.framework */,
+				93BC49EA1FB8D628008B710D /* SVProgressHUD.framework */,
+				93BC49E61FB8D61C008B710D /* Masonry.framework */,
+				93BC49E71FB8D61D008B710D /* SwiftMessages.framework */,
+				93BC49E41FB8D60F008B710D /* PromiseKit.framework */,
+				93BC49E01FB8D606008B710D /* PMKCoreLocation.framework */,
+				93BC49DE1FB8D606008B710D /* PMKFoundation.framework */,
+				93BC49DF1FB8D606008B710D /* PMKMapKit.framework */,
+				93BC49DB1FB8D5FB008B710D /* CocoaLumberjack.framework */,
+				93BC49DA1FB8D5FB008B710D /* CocoaLumberjackSwift.framework */,
+				93BC49D81FB8D5EB008B710D /* SnapKit.framework */,
+				93BC49D61FB8D5DF008B710D /* OneSignal.framework */,
 				935BB9ED1F745E0500062E31 /* CoreTelephony.framework */,
 				93F3F8961E7AEE560025FC78 /* Mantle.framework */,
 				93BB1EE01E300526008A88BA /* Fabric.framework */,
 				93BB1EE11E300526008A88BA /* Crashlytics.framework */,
-				934C508C1E2A1E5C00DFDCA0 /* OneSignal.framework */,
-				93FE60281E0C8F62006EC9FB /* SnapKit.framework */,
-				932CCEBC1DC3D2DB001C8405 /* CocoaLumberjack.framework */,
-				932CCEBD1DC3D2DB001C8405 /* CocoaLumberjackSwift.framework */,
-				932CCEBE1DC3D2DB001C8405 /* PMKCoreLocation.framework */,
-				932CCEBF1DC3D2DB001C8405 /* PMKFoundation.framework */,
-				932CCEC01DC3D2DB001C8405 /* PMKMapKit.framework */,
-				932CCEC11DC3D2DB001C8405 /* PromiseKit.framework */,
-				932CCEC21DC3D2DB001C8405 /* SwiftMessages.framework */,
-				93C3936E1D8A3AC20080F370 /* Masonry.framework */,
 				93C3936C1D8A3A530080F370 /* Foundation.framework */,
 				93C3936A1D8A3A4D0080F370 /* UIKit.framework */,
-				938B84331D868A0500DB0AF0 /* SVProgressHUD.framework */,
-				938B84241D8689E900DB0AF0 /* GoogleAnalytics.framework */,
 				93528AB01C8D517100783E9A /* CloudKit.framework */,
 				93528AAD1C8D50D200783E9A /* MapKit.framework */,
 				93A923A11C21DCD600A657C8 /* SafariServices.framework */,

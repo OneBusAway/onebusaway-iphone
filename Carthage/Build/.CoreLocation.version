@@ -1,9 +1,9 @@
 {
-  "commitish" : "1.0.1",
+  "commitish" : "1.0.2",
   "iOS" : [
     {
       "name" : "PMKCoreLocation",
-      "hash" : "578f5cafb98dc3a1b0260278c134a6857a251f04eaf251e976206e8ac3fa00a8"
+      "hash" : "eba4eea267f7822eb950fdc54f747f3bb1754452bb6098043a9c0c3004907f09"
     }
   ]
 }

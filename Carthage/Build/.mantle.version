@@ -1,9 +1,27 @@
 {
+  "Mac" : [
+    {
+      "name" : "Mantle",
+      "hash" : "ad5dad5ea24d4e381c3c108a66ceb2bb6a36d661cdc03b020ddf32bdd72bd05c"
+    }
+  ],
+  "watchOS" : [
+    {
+      "name" : "Mantle",
+      "hash" : "2d02a9aeda03921339529881cc86949cb4a1911f9db352da1b08776e36836dad"
+    }
+  ],
+  "tvOS" : [
+    {
+      "name" : "Mantle",
+      "hash" : "fcc20c9c4c7e49adac2631ee7812cc8912c697849d28511f19377d87195098f1"
+    }
+  ],
   "commitish" : "2.1.0",
   "iOS" : [
     {
       "name" : "Mantle",
-      "hash" : "563e4be619be2948a3a3442f7971835ace5c2c1866c7e655d4289746788638a7"
+      "hash" : "99ae09fe49fc7311203c105d394735956b17100b3f3d9710df05dce8069a943a"
     }
   ]
 }
