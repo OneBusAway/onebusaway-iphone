@@ -32,12 +32,6 @@
 		931C60D81EC3975A0086EC37 /* OBAApplicationConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 931C60D61EC3975A0086EC37 /* OBAApplicationConfiguration.m */; };
 		9327DEF31E02306900502F06 /* OBACanvasView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9327DEF11E02306900502F06 /* OBACanvasView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9327DEF41E02306900502F06 /* OBACanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9327DEF21E02306900502F06 /* OBACanvasView.m */; };
-		932CCED01DC3D315001C8405 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCECA1DC3D315001C8405 /* CocoaLumberjack.framework */; };
-		932CCED11DC3D315001C8405 /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCECB1DC3D315001C8405 /* CocoaLumberjackSwift.framework */; };
-		932CCED21DC3D315001C8405 /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCECC1DC3D315001C8405 /* PMKCoreLocation.framework */; };
-		932CCED31DC3D315001C8405 /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCECD1DC3D315001C8405 /* PMKFoundation.framework */; };
-		932CCED41DC3D315001C8405 /* PMKMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCECE1DC3D315001C8405 /* PMKMapKit.framework */; };
-		932CCED51DC3D315001C8405 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CCECF1DC3D315001C8405 /* PromiseKit.framework */; };
 		934195431DB0B013004BBBB7 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934195391DB0B013004BBBB7 /* OBAKit.framework */; };
 		934195481DB0B013004BBBB7 /* OBAKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195471DB0B013004BBBB7 /* OBAKitTests.m */; };
 		934195F81DB0B099004BBBB7 /* NSArray+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195541DB0B099004BBBB7 /* NSArray+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -238,6 +232,13 @@
 		93B282C51DC664C7005013D7 /* OBATripDeepLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B282C31DC664C7005013D7 /* OBATripDeepLink.m */; };
 		93B282C81DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93B282C91DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B282C71DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m */; };
+		93BC49F21FB8D68E008B710D /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49F01FB8D68E008B710D /* CocoaLumberjackSwift.framework */; };
+		93BC49F31FB8D68E008B710D /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49F11FB8D68E008B710D /* CocoaLumberjack.framework */; };
+		93BC49F71FB8D697008B710D /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49F41FB8D696008B710D /* PMKFoundation.framework */; };
+		93BC49F81FB8D697008B710D /* PMKMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49F51FB8D697008B710D /* PMKMapKit.framework */; };
+		93BC49F91FB8D697008B710D /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49F61FB8D697008B710D /* PMKCoreLocation.framework */; };
+		93BC49FB1FB8D6A3008B710D /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49FA1FB8D6A3008B710D /* PromiseKit.framework */; };
+		93BC49FD1FB8D6F4008B710D /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49FC1FB8D6F4008B710D /* Mantle.framework */; };
 		93E592931F8CA6260079A2D8 /* OBATableRow.h in Headers */ = {isa = PBXBuildFile; fileRef = 93E592911F8CA6260079A2D8 /* OBATableRow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93E592941F8CA6260079A2D8 /* OBATableRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E592921F8CA6260079A2D8 /* OBATableRow.m */; };
 		93E592971F8CA6870079A2D8 /* OBATableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E592951F8CA6870079A2D8 /* OBATableViewCell.m */; };
@@ -257,7 +258,6 @@
 		93E592B61F8D3D250079A2D8 /* OBALabelActivityIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 93E592B41F8D3D240079A2D8 /* OBALabelActivityIndicatorView.h */; };
 		93E592B71F8D3D250079A2D8 /* OBALabelActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E592B51F8D3D240079A2D8 /* OBALabelActivityIndicatorView.m */; };
 		93F3F8911E7A88EA0025FC78 /* RegionalAlertsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F8901E7A88EA0025FC78 /* RegionalAlertsManager.swift */; };
-		93F3F8951E7AEE260025FC78 /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F3F8941E7AEE260025FC78 /* Mantle.framework */; };
 		93F3F89C1E7B02400025FC78 /* OBARegionalAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 93F3F89A1E7B02400025FC78 /* OBARegionalAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93F3F89D1E7B02400025FC78 /* OBARegionalAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F89B1E7B02400025FC78 /* OBARegionalAlert.m */; };
 		93F3F8A21E7BCA8C0025FC78 /* FileHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F8A11E7BCA8C0025FC78 /* FileHelpers.swift */; };
@@ -306,12 +306,6 @@
 		931C60D61EC3975A0086EC37 /* OBAApplicationConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAApplicationConfiguration.m; sourceTree = "<group>"; };
 		9327DEF11E02306900502F06 /* OBACanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACanvasView.h; sourceTree = "<group>"; };
 		9327DEF21E02306900502F06 /* OBACanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACanvasView.m; sourceTree = "<group>"; };
-		932CCECA1DC3D315001C8405 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = ../Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
-		932CCECB1DC3D315001C8405 /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = ../Carthage/Build/iOS/CocoaLumberjackSwift.framework; sourceTree = "<group>"; };
-		932CCECC1DC3D315001C8405 /* PMKCoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKCoreLocation.framework; path = ../Carthage/Build/iOS/PMKCoreLocation.framework; sourceTree = "<group>"; };
-		932CCECD1DC3D315001C8405 /* PMKFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKFoundation.framework; path = ../Carthage/Build/iOS/PMKFoundation.framework; sourceTree = "<group>"; };
-		932CCECE1DC3D315001C8405 /* PMKMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKMapKit.framework; path = ../Carthage/Build/iOS/PMKMapKit.framework; sourceTree = "<group>"; };
-		932CCECF1DC3D315001C8405 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = ../Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		934195391DB0B013004BBBB7 /* OBAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OBAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		934195421DB0B013004BBBB7 /* OBAKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OBAKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		934195471DB0B013004BBBB7 /* OBAKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAKitTests.m; sourceTree = "<group>"; };
@@ -516,6 +510,13 @@
 		93B282C31DC664C7005013D7 /* OBATripDeepLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATripDeepLink.m; sourceTree = "<group>"; };
 		93B282C61DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLQueryItem+OBAAdditions.h"; sourceTree = "<group>"; };
 		93B282C71DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLQueryItem+OBAAdditions.m"; sourceTree = "<group>"; };
+		93BC49F01FB8D68E008B710D /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = ../Carthage/Build/iOS/CocoaLumberjackSwift.framework; sourceTree = "<group>"; };
+		93BC49F11FB8D68E008B710D /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = ../Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
+		93BC49F41FB8D696008B710D /* PMKFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKFoundation.framework; path = ../Carthage/Build/iOS/PMKFoundation.framework; sourceTree = "<group>"; };
+		93BC49F51FB8D697008B710D /* PMKMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKMapKit.framework; path = ../Carthage/Build/iOS/PMKMapKit.framework; sourceTree = "<group>"; };
+		93BC49F61FB8D697008B710D /* PMKCoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKCoreLocation.framework; path = ../Carthage/Build/iOS/PMKCoreLocation.framework; sourceTree = "<group>"; };
+		93BC49FA1FB8D6A3008B710D /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = ../Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
+		93BC49FC1FB8D6F4008B710D /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = ../Carthage/Build/iOS/Mantle.framework; sourceTree = "<group>"; };
 		93E592911F8CA6260079A2D8 /* OBATableRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATableRow.h; sourceTree = "<group>"; };
 		93E592921F8CA6260079A2D8 /* OBATableRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableRow.m; sourceTree = "<group>"; };
 		93E592951F8CA6870079A2D8 /* OBATableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableViewCell.m; sourceTree = "<group>"; };
@@ -536,7 +537,6 @@
 		93E592B51F8D3D240079A2D8 /* OBALabelActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALabelActivityIndicatorView.m; sourceTree = "<group>"; };
 		93E592BB1F8D778C0079A2D8 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		93F3F8901E7A88EA0025FC78 /* RegionalAlertsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionalAlertsManager.swift; sourceTree = "<group>"; };
-		93F3F8941E7AEE260025FC78 /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = ../Carthage/Build/iOS/Mantle.framework; sourceTree = "<group>"; };
 		93F3F89A1E7B02400025FC78 /* OBARegionalAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionalAlert.h; sourceTree = "<group>"; };
 		93F3F89B1E7B02400025FC78 /* OBARegionalAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionalAlert.m; sourceTree = "<group>"; };
 		93F3F8A11E7BCA8C0025FC78 /* FileHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHelpers.swift; sourceTree = "<group>"; };
@@ -556,13 +556,13 @@
 				9356803E1EAC379700BEC077 /* MapKit.framework in Frameworks */,
 				9356803C1EAC379100BEC077 /* CoreLocation.framework in Frameworks */,
 				936EB1B61E91746400F4F3A7 /* SystemConfiguration.framework in Frameworks */,
-				932CCED11DC3D315001C8405 /* CocoaLumberjackSwift.framework in Frameworks */,
-				932CCED21DC3D315001C8405 /* PMKCoreLocation.framework in Frameworks */,
-				93F3F8951E7AEE260025FC78 /* Mantle.framework in Frameworks */,
-				932CCED41DC3D315001C8405 /* PMKMapKit.framework in Frameworks */,
-				932CCED51DC3D315001C8405 /* PromiseKit.framework in Frameworks */,
-				932CCED31DC3D315001C8405 /* PMKFoundation.framework in Frameworks */,
-				932CCED01DC3D315001C8405 /* CocoaLumberjack.framework in Frameworks */,
+				93BC49F91FB8D697008B710D /* PMKCoreLocation.framework in Frameworks */,
+				93BC49FD1FB8D6F4008B710D /* Mantle.framework in Frameworks */,
+				93BC49FB1FB8D6A3008B710D /* PromiseKit.framework in Frameworks */,
+				93BC49F71FB8D697008B710D /* PMKFoundation.framework in Frameworks */,
+				93BC49F21FB8D68E008B710D /* CocoaLumberjackSwift.framework in Frameworks */,
+				93BC49F31FB8D68E008B710D /* CocoaLumberjack.framework in Frameworks */,
+				93BC49F81FB8D697008B710D /* PMKMapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -939,17 +939,17 @@
 		934196BC1DB0B274004BBBB7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93BC49FC1FB8D6F4008B710D /* Mantle.framework */,
+				93BC49FA1FB8D6A3008B710D /* PromiseKit.framework */,
+				93BC49F61FB8D697008B710D /* PMKCoreLocation.framework */,
+				93BC49F41FB8D696008B710D /* PMKFoundation.framework */,
+				93BC49F51FB8D697008B710D /* PMKMapKit.framework */,
+				93BC49F11FB8D68E008B710D /* CocoaLumberjack.framework */,
+				93BC49F01FB8D68E008B710D /* CocoaLumberjackSwift.framework */,
 				935BB9F01F745E1E00062E31 /* CoreTelephony.framework */,
 				9356803D1EAC379700BEC077 /* MapKit.framework */,
 				9356803B1EAC379100BEC077 /* CoreLocation.framework */,
 				936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */,
-				93F3F8941E7AEE260025FC78 /* Mantle.framework */,
-				932CCECA1DC3D315001C8405 /* CocoaLumberjack.framework */,
-				932CCECB1DC3D315001C8405 /* CocoaLumberjackSwift.framework */,
-				932CCECC1DC3D315001C8405 /* PMKCoreLocation.framework */,
-				932CCECD1DC3D315001C8405 /* PMKFoundation.framework */,
-				932CCECE1DC3D315001C8405 /* PMKMapKit.framework */,
-				932CCECF1DC3D315001C8405 /* PromiseKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1567,7 +1567,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/**";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
@@ -1593,7 +1593,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/**";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
@@ -1698,7 +1698,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/**";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;

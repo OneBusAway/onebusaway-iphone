@@ -75,7 +75,6 @@ __T0SC7CLErrorVs8Hashable12CoreLocationsACP9hashValueSifgTW
 __T0SC7CLErrorV10Foundation21_BridgedStoredNSError12CoreLocationAcDP4code4CodeQzfgTW
 __T0SC7CLErrorV10Foundation21_BridgedStoredNSError12CoreLocationAcDP8_nsErrorSo0E0CfgTW
 __T0SC7CLErrorV10Foundation21_BridgedStoredNSError12CoreLocationAcDPxSo0E0C8_nsError_tcfCTW
-__T0SC7CLErrorV4CodeOs16RawRepresentable12CoreLocationsAEP8rawValue0cH0QzfgTW
 __T0s17_dictionaryUpCasts10DictionaryVyq0_q1_GACyxq_Gs8HashableRzsAFR0_r2_lFTfq4g_nSS_SSs03AnyE0VypTg5
 __T0s18DictionaryIteratorV11_nativeNextx3key_q_5valuetSgyFSS_SSTg5
 __T0s24_VariantDictionaryBufferO17nativeUpdateValueq_Sgq__x6forKeytFs11AnyHashableV_ypTg5
@@ -139,6 +138,7 @@ __T0SC7CLErrorV4CodeOs9Equatable12CoreLocationsAEP2eeoiSbx_xtFZTW
 __T0SC7CLErrorVwxs
 __T0SC7CLErrorV4CodeOwui
 __T0SC7CLErrorV4CodeOwug
+__T0SC7CLErrorV4CodeOs16RawRepresentable12CoreLocationsAEP8rawValue0cH0QzfgTW
 ___swift_destroy_boxed_opaque_existential_1
 __T0SC7CLErrorVwxx
 __T0SaySo11CLPlacemarkCGML
@@ -197,7 +197,7 @@ __T0So10CLLocationCMF
 __T0So8CLRegionCMF
 __T0So11CLPlacemarkCMF
 __T0SC7CLErrorV4CodeOMB
--emit-bc /Users/aaron/repos/onebusaway/Carthage/Checkouts/CoreLocation/Sources/CLGeocoder+Promise.swift /Users/aaron/repos/onebusaway/Carthage/Checkouts/CoreLocation/Sources/CLLocationManager+Promise.swift -target armv7-apple-ios8.0 -enable-objc-interop -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk -I /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/BuildProductsPath/Release-iphoneos -F /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/BuildProductsPath/Release-iphoneos -F /Users/aaron/repos/onebusaway/Carthage/Checkouts/CoreLocation/Carthage/Build/iOS -application-extension -g -import-underlying-module -module-cache-path /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/ModuleCache -swift-version 3 -serialize-debugging-options -report-errors-to-debugger -Xcc -I/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/swift-overrides.hmap -Xcc -iquote -Xcc /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/PMKCoreLocation-generated-files.hmap -Xcc -I/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/PMKCoreLocation-own-target-headers.hmap -Xcc -I/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/PMKCoreLocation-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/all-product-headers.yaml -Xcc -iquote -Xcc /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/PMKCoreLocation-project-headers.hmap -Xcc -I/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/BuildProductsPath/Release-iphoneos/include -Xcc -I/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/DerivedSources/armv7 -Xcc -I/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/DerivedSources -Xcc -ivfsoverlay -Xcc /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/unextended-module-overlay.yaml -Xcc -working-directory/Users/aaron/repos/onebusaway/Carthage/Checkouts/CoreLocation -emit-module-doc-path /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/Objects-normal/armv7/PMKCoreLocation.swiftdoc -serialize-diagnostics-path /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/Objects-normal/armv7/CLGeocoder+Promise.dia -O -module-name PMKCoreLocation -emit-module-path /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/Objects-normal/armv7/PMKCoreLocation.swiftmodule -emit-objc-header-path /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/Objects-normal/armv7/PMKCoreLocation-Swift.h -emit-dependencies-path /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/Objects-normal/armv7/CLGeocoder+Promise.d -num-threads 4 -o /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/Objects-normal/armv7/CLGeocoder+Promise.bc -o /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/Objects-normal/armv7/CLLocationManager+Promise.bc -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift
+-emit-bc /Users/aaron/repos/onebusaway/Carthage/Checkouts/CoreLocation/Sources/CLGeocoder+Promise.swift /Users/aaron/repos/onebusaway/Carthage/Checkouts/CoreLocation/Sources/CLLocationManager+Promise.swift -target armv7-apple-ios8.0 -enable-objc-interop -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk -I /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/BuildProductsPath/Release-iphoneos -F /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/BuildProductsPath/Release-iphoneos -F /Users/aaron/repos/onebusaway/Carthage/Checkouts/CoreLocation/Carthage/Build/iOS -application-extension -g -import-underlying-module -module-cache-path /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/ModuleCache -swift-version 3 -serialize-debugging-options -report-errors-to-debugger -Xcc -I/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/swift-overrides.hmap -Xcc -iquote -Xcc /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/PMKCoreLocation-generated-files.hmap -Xcc -I/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/PMKCoreLocation-own-target-headers.hmap -Xcc -I/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/PMKCoreLocation-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/all-product-headers.yaml -Xcc -iquote -Xcc /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/PMKCoreLocation-project-headers.hmap -Xcc -I/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/BuildProductsPath/Release-iphoneos/include -Xcc -I/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/DerivedSources/armv7 -Xcc -I/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/DerivedSources -Xcc -ivfsoverlay -Xcc /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/unextended-module-overlay.yaml -Xcc -working-directory/Users/aaron/repos/onebusaway/Carthage/Checkouts/CoreLocation -emit-module-doc-path /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/Objects-normal/armv7/PMKCoreLocation.swiftdoc -serialize-diagnostics-path /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/Objects-normal/armv7/CLGeocoder+Promise.dia -O -module-name PMKCoreLocation -emit-module-path /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/Objects-normal/armv7/PMKCoreLocation.swiftmodule -emit-objc-header-path /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/Objects-normal/armv7/PMKCoreLocation-Swift.h -emit-dependencies-path /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/Objects-normal/armv7/CLGeocoder+Promise.d -num-threads 4 -o /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/Objects-normal/armv7/CLGeocoder+Promise.bc -o /Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/Objects-normal/armv7/CLLocationManager+Promise.bc -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift
 <swift-imported-modules>
 Apple Swift version 4.0.2 effective-3.2.2 (swiftlang-900.0.69.2 clang-900.0.38)
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/CoreLocation/Sources/CLGeocoder+Promise.swift
@@ -303,7 +303,6 @@ _T0s18DictionaryIteratorV11_nativeNextx3key_q_5valuetSgyFSS_SSTg5
 _T0s17_dictionaryUpCasts10DictionaryVyq0_q1_GACyxq_Gs8HashableRzsAFR0_r2_lFTfq4g_nSS_SSs03AnyE0VypTg5
 _T0s23_NativeDictionaryBufferV5indexs01_aB5IndexVyxq_GAF5after_tFSS_SSTg5
 _T0s10DictionaryV5countSifgSS_SSTg5
-rawValue.get
 _nsError.get
 code.get
 hashValue.get
@@ -316,6 +315,7 @@ _getEmbeddedNSError
 _userInfo.get
 _code.get
 _domain.get
+rawValue.get
 _T0s2eeoiSbx_xts16RawRepresentableRzs9Equatable0B5ValueRpzlFTfq4gg_nSC21CLAuthorizationStatusO_Tg5
 _T0s5Int32Vs9EquatablessACP2eeoiSbx_xtFZTW
 _T0So17CLLocationManagerC15PMKCoreLocationE20requestAuthorization10PromiseKit0G0CySC21CLAuthorizationStatusOGAbCE07RequestF4TypeO4type_tFZfA_
@@ -357,7 +357,6 @@ __T015PMKCoreLocation0B7Manager33_A77B37770D2FCF629857A0E2BCE95784LLC7fulfillySa
 __T0SC21CLAuthorizationStatusOIxy_ABIyBy_TR
 __T015PMKCoreLocation20AuthorizationCatcher33_A77B37770D2FCF629857A0E2BCE95784LLC11retainCycleyXlSgfgTo
 __T015PMKCoreLocation20AuthorizationCatcher33_A77B37770D2FCF629857A0E2BCE95784LLC11retainCycleyXlSgfsTo
-__T015PMKCoreLocation20AuthorizationCatcher33_A77B37770D2FCF629857A0E2BCE95784LLCADySo17CLLocationManagerCc6auther_tcfcTo
 __T015PMKCoreLocation20AuthorizationCatcher33_A77B37770D2FCF629857A0E2BCE95784LLC15locationManagerySo010CLLocationM0C_SC21CLAuthorizationStatusO09didChangeC0tFTo
 __T015PMKCoreLocation20AuthorizationCatcher33_A77B37770D2FCF629857A0E2BCE95784LLCfD
 __T015PMKCoreLocation20AuthorizationCatcher33_A77B37770D2FCF629857A0E2BCE95784LLCfETo
@@ -389,26 +388,24 @@ __T0So17CLLocationManagerC15PMKCoreLocationE24RequestAuthorizationTypeOwup
 __T0So17CLLocationManagerC15PMKCoreLocationE24RequestAuthorizationTypeOwui
 __T0ySaySo10CLLocationCGcMa
 __T015PMKCoreLocation0B7Manager33_A77B37770D2FCF629857A0E2BCE95784LLC08locationC0ySo010CLLocationC0C_s5Error_p011didFailWithM0tFTf4ggn_n
-__T015PMKCoreLocation20AuthorizationCatcher33_A77B37770D2FCF629857A0E2BCE95784LLCADySo17CLLocationManagerCc6auther_tcfc07_T0So17lM14CIyBy_ABIxx_TRAFIyBy_Tf1cn_nTf4ng_n
 __T015PMKCoreLocation20AuthorizationCatcher33_A77B37770D2FCF629857A0E2BCE95784LLCADycfcTf4d_n
 __T0So10CLLocationCIxi_ABIxx_TRTA
 __T015PMKCoreLocation0B7PromiseC3foo33_A77B37770D2FCF629857A0E2BCE95784LLAC_ySaySo10CLLocationCGcys5Error_pctyFZyyAGc_ysAI_pctcfU_TA
 __T015PMKCoreLocation0B7PromiseC3foo33_A77B37770D2FCF629857A0E2BCE95784LLAC_ySaySo10CLLocationCGcys5Error_pctyFZyAHcfU0_TA
 __T0SaySo10CLLocationCGs5Error_pIxxzo_ACytsAD_pIxirzo_TRTA
 __T015PMKCoreLocation0B7PromiseC3foo33_A77B37770D2FCF629857A0E2BCE95784LLAC_ySaySo10CLLocationCGcys5Error_pctyFZyAHcfU0_Tf4gg_n
-_block_destroy_helper.41
-_block_destroy_helper.44
-_block_copy_helper.40
-_block_copy_helper.43
-__T0So10CLLocationCIxx_s5Error_pIxx_sAC_pIxxxzo_ABIxi_sAC_pIxx_sAC_pIxxxzo_TRTA.64
+_block_destroy_helper.37
+_block_destroy_helper.40
+_block_copy_helper.36
+_block_copy_helper.39
+__T0So10CLLocationCIxx_s5Error_pIxx_sAC_pIxxxzo_ABIxi_sAC_pIxx_sAC_pIxxxzo_TRTA.60
 __T0SaySo10CLLocationCGIxi_ACIxx_TRTA.13
 __T0SaySo10CLLocationCGIxi_ACIxx_TRTA.17
 __T0SaySo10CLLocationCGIxi_ACIxx_TRTA.23
 __T0SaySo10CLLocationCGIxi_ACIxx_TRTA.27
 __T0SaySo10CLLocationCGIxi_ACIxx_TRTA.31
 __T0SaySo10CLLocationCGIxi_ACIxx_TRTA.35
-__T0SC21CLAuthorizationStatusOIxi_ABIxy_TRTA.39
-__T0SaySo10CLLocationCGIxi_ACIxx_TRTA.60
+__T0SaySo10CLLocationCGIxi_ACIxx_TRTA.56
 __T015PMKCoreLocation0B7Manager33_A77B37770D2FCF629857A0E2BCE95784LLC7promiseAA0B7PromiseCvWvd
 __T015PMKCoreLocation0B7Manager33_A77B37770D2FCF629857A0E2BCE95784LLC7fulfillySaySo10CLLocationCGcvWvd
 __T015PMKCoreLocation0B7Manager33_A77B37770D2FCF629857A0E2BCE95784LLC6rejectys5Error_pcvWvd
@@ -448,8 +445,8 @@ __T0ys5Error_pcML
 __T0s5Error_pML
 __T0ySC21CLAuthorizationStatusOcML
 __T0yXlSgML
-_block_descriptor.42
-_block_descriptor.45
+_block_descriptor.38
+_block_descriptor.41
 __T0SC21CLAuthorizationStatusOMB
 l_OBJC_PROTOCOL_REFERENCE_$_NSObject
 _objc_classes
@@ -480,15 +477,10 @@ _T015PMKCoreLocation0B7PromiseC3foo33_A77B37770D2FCF629857A0E2BCE95784LLAC_ySayS
 _T015PMKCoreLocation0B7PromiseC3foo33_A77B37770D2FCF629857A0E2BCE95784LLAC_ySaySo10CLLocationCGcys5Error_pctyFZyyAGc_ysAI_pctcfU_TA
 _T015PMKCoreLocation0B7PromiseC3foo33_A77B37770D2FCF629857A0E2BCE95784LLAC_ySaySo10CLLocationCGcys5Error_pctyFZyyAGc_ysAI_pctcfU_
 _T015PMKCoreLocation0B7PromiseC3foo33_A77B37770D2FCF629857A0E2BCE95784LLAC_ySaySo10CLLocationCGcys5Error_pctyFZyyAGc_ysAI_pctcfU_Tf4gnnn_n
-objectdestroy.55
-objectdestroy.50
+objectdestroy.51
+objectdestroy.46
 _T0So10CLLocationCIxi_ABIxx_TRTA
 _T0So10CLLocationCIxi_ABIxx_TR
-_T0So17CLLocationManagerCIyBy_ABIxx_TR
-_T0So17CLLocationManagerCIyBy_ABIxx_TRTfq4gg_n
-_T015PMKCoreLocation20AuthorizationCatcher33_A77B37770D2FCF629857A0E2BCE95784LLCMa
-_T010PromiseKit0A0CySC21CLAuthorizationStatusOGMa
-_T0SC21CLAuthorizationStatusOMa
 locationManager
 promiseDoneForLocationManager
 _T0ySaySo10CLLocationCGcMa
@@ -502,6 +494,8 @@ _T0s5Error_pMa
 get_field_types_AuthorizationCatcher
 _T0yXlSgMa
 _T0ySC21CLAuthorizationStatusOcMa
+_T0SC21CLAuthorizationStatusOMa
+_T010PromiseKit0A0CySC21CLAuthorizationStatusOGMa
 get_field_types_LocationManager
 _T015PMKCoreLocation0B7PromiseCMa
 initialize_metadata_RequestAuthorizationType
@@ -525,10 +519,12 @@ _T0SaySo10CLLocationCGIxi_ACIxx_TR
 _T010PromiseKit0A0CySaySo10CLLocationCGGMa
 _T0SC21CLAuthorizationStatusOIxi_ABIxy_TRTA
 _T0SC21CLAuthorizationStatusOIxi_ABIxy_TR
+_T015PMKCoreLocation20AuthorizationCatcher33_A77B37770D2FCF629857A0E2BCE95784LLCMa
 _T0So17CLLocationManagerC15PMKCoreLocationE7promise33_A77B37770D2FCF629857A0E2BCE95784LLAC0D7PromiseCyABc8yielding_tFZyycfU_TA
 _T0So17CLLocationManagerC15PMKCoreLocationE7promise33_A77B37770D2FCF629857A0E2BCE95784LLAC0D7PromiseCyABc8yielding_tFZyycfU_
 _T0So17CLLocationManagerC15PMKCoreLocationE7promise33_A77B37770D2FCF629857A0E2BCE95784LLAC0D7PromiseCyABc8yielding_tFZyycfU_Tf4g_n
 _T015PMKCoreLocation6auther33_A77B37770D2FCF629857A0E2BCE95784LLySo17CLLocationManagerCcAeAE24RequestAuthorizationTypeOFyAEcfU_Tf4gn_n
+_T015PMKCoreLocation6auther33_A77B37770D2FCF629857A0E2BCE95784LLySo17CLLocationManagerCcAeAE24RequestAuthorizationTypeOFyAEcfU_SbycfU_
 hasInfoPlistKey
 isEmpty.get
 _T0SS7isEmptySbfgTfq4x_n
@@ -550,7 +546,7 @@ _T0s5Error_pIxx_So7NSErrorCIyBy_TR
 _T0SaySo10CLLocationCGIxx_So7NSArrayCIyBy_TR
 promise
 __derived_enum_equals
-/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.1/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/DerivedSources/PMKCoreLocation_vers.c
+/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/CoreLocation/1.0.2/Build/Intermediates.noindex/ArchiveIntermediates/PMKCoreLocation/IntermediateBuildFilesPath/PMKCoreLocation.build/Release-iphoneos/PMKCoreLocation.build/DerivedSources/PMKCoreLocation_vers.c
 __ZL15__ARCLite__loadv
 __ZL30add_image_hook_autoreleasepoolPK11mach_headerl
 __ZL34__arclite_objc_autoreleasePoolPushv
