@@ -1,6 +1,12 @@
 /* No comment provided by engineer. */
 " - " = " - ";
 
+/* No Bookmarks - empty data set title. */
+"today_screen.no_data_title" = "No Bookmarks";
+
+/* Add bookmarks to Today Screen Bookmarks to see them here. - empty data set description. */
+"today_screen.no_data_description" = "Add bookmarks to Today Screen Bookmarks to see them here.";
+
 /* ID: {Reference ID Number} */
 "alerts.reference_format" = "ID: %@";
 
