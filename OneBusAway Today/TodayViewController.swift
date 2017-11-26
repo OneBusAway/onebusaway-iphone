@@ -19,6 +19,10 @@ class TodayViewController: OBAStaticTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.emptyDataSetVerticalOffset = 0
+        self.emptyDataSetTitle = NSLocalizedString("today_screen.no_data_title", comment: "No Bookmarks - empty data set title.")
+        self.emptyDataSetDescription = NSLocalizedString("today_screen.no_data_description", comment: "Add bookmarks to Today Screen Bookmarks to see them here. - empty data set description.")
+
         let configuration = OBAApplicationConfiguration.init()
         configuration.extensionMode = true
         app.start(with: configuration)
@@ -28,6 +32,12 @@ class TodayViewController: OBAStaticTableViewController {
 extension TodayViewController: NCWidgetProviding {
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
         self.group = app.modelDao.todayBookmarkGroup
+
+        if (self.group.bookmarks.count == 0) {
+            completionHandler(NCUpdateResult.noData)
+            return
+        }
+
         self.sections = [buildTableSection(group: self.group)]
         self.tableView.reloadData()
 
