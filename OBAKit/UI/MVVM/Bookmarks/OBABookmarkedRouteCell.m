@@ -39,7 +39,7 @@
         _titleLabel.numberOfLines = 0;
         [self.contentView addSubview:_titleLabel];
 
-        _departureView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
+        _departureView = [[OBAClassicDepartureView alloc] initWithLabelAlignment:OBAClassicDepartureViewLabelAlignmentTop];
         _departureView.contextMenuButton.hidden = YES;
         [self.contentView addSubview:_departureView];
 
