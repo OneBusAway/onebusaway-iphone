@@ -30,6 +30,7 @@
 		931C60D41EC3974E0086EC37 /* OBAApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 931C60D21EC3974E0086EC37 /* OBAApplication.m */; };
 		931C60D71EC3975A0086EC37 /* OBAApplicationConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 931C60D51EC3975A0086EC37 /* OBAApplicationConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		931C60D81EC3975A0086EC37 /* OBAApplicationConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 931C60D61EC3975A0086EC37 /* OBAApplicationConfiguration.m */; };
+		9325DB501FCB569B00EDB0E8 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9325DB4F1FCB569B00EDB0E8 /* Masonry.framework */; };
 		9327DEF31E02306900502F06 /* OBACanvasView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9327DEF11E02306900502F06 /* OBACanvasView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9327DEF41E02306900502F06 /* OBACanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9327DEF21E02306900502F06 /* OBACanvasView.m */; };
 		934195431DB0B013004BBBB7 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934195391DB0B013004BBBB7 /* OBAKit.framework */; };
@@ -304,6 +305,7 @@
 		931C60D21EC3974E0086EC37 /* OBAApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAApplication.m; sourceTree = "<group>"; };
 		931C60D51EC3975A0086EC37 /* OBAApplicationConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAApplicationConfiguration.h; sourceTree = "<group>"; };
 		931C60D61EC3975A0086EC37 /* OBAApplicationConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAApplicationConfiguration.m; sourceTree = "<group>"; };
+		9325DB4F1FCB569B00EDB0E8 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = ../Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
 		9327DEF11E02306900502F06 /* OBACanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACanvasView.h; sourceTree = "<group>"; };
 		9327DEF21E02306900502F06 /* OBACanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACanvasView.m; sourceTree = "<group>"; };
 		934195391DB0B013004BBBB7 /* OBAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OBAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -554,6 +556,7 @@
 			files = (
 				935BB9F11F745E1E00062E31 /* CoreTelephony.framework in Frameworks */,
 				9356803E1EAC379700BEC077 /* MapKit.framework in Frameworks */,
+				9325DB501FCB569B00EDB0E8 /* Masonry.framework in Frameworks */,
 				9356803C1EAC379100BEC077 /* CoreLocation.framework in Frameworks */,
 				936EB1B61E91746400F4F3A7 /* SystemConfiguration.framework in Frameworks */,
 				93BC49F91FB8D697008B710D /* PMKCoreLocation.framework in Frameworks */,
@@ -939,6 +942,7 @@
 		934196BC1DB0B274004BBBB7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9325DB4F1FCB569B00EDB0E8 /* Masonry.framework */,
 				93BC49FC1FB8D6F4008B710D /* Mantle.framework */,
 				93BC49FA1FB8D6A3008B710D /* PromiseKit.framework */,
 				93BC49F61FB8D697008B710D /* PMKCoreLocation.framework */,
