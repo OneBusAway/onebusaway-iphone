@@ -103,7 +103,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
     self.view.backgroundColor = [UIColor whiteColor];
 
-    self.departureView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
+    self.departureView = [[OBAClassicDepartureView alloc] initWithLabelAlignment:OBAClassicDepartureViewLabelAlignmentCenter];
     self.departureView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.departureView.contextMenuButton addTarget:self action:@selector(showActionMenu:) forControlEvents:UIControlEventTouchUpInside];
 

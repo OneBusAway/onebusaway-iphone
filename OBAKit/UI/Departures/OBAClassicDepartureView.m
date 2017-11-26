@@ -19,7 +19,7 @@
 #define kUseDebugColors NO
 #define kBodyFont OBATheme.bodyFont
 #define kBoldBodyFont OBATheme.boldBodyFont
-#define kSmallFont OBATheme.footnoteFont
+#define kSmallFont OBATheme.subheadFont
 
 @interface OBAClassicDepartureView ()
 @property(nonatomic,strong,readwrite) UIButton *contextMenuButton;
@@ -41,10 +41,16 @@
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
+    return [self initWithLabelAlignment:OBAClassicDepartureViewLabelAlignmentCenter];
+}
+
+- (instancetype)initWithLabelAlignment:(OBAClassicDepartureViewLabelAlignment)labelAlignment {
+    self = [super initWithFrame:CGRectZero];
 
     if (self) {
         self.clipsToBounds = YES;
+
+        _labelAlignment = OBAClassicDepartureViewLabelAlignmentCenter;
 
         _routeLabel = ({
             UILabel *l = [[UILabel alloc] init];
@@ -56,13 +62,13 @@
         });
 
         _leadingLabel = [self.class departureTimeLabel];
-        _leadingWrapper = [self.class wrapLabel:_leadingLabel];
+        _leadingWrapper = [self.class wrapLabel:_leadingLabel withLabelAlignment:_labelAlignment];
 
         _centerLabel = [self.class departureTimeLabel];
-        _centerWrapper = [self.class wrapLabel:_centerLabel];
+        _centerWrapper = [self.class wrapLabel:_centerLabel withLabelAlignment:_labelAlignment];
 
         _trailingLabel = [self.class departureTimeLabel];
-        _trailingWrapper = [self.class wrapLabel:_trailingLabel];
+        _trailingWrapper = [self.class wrapLabel:_trailingLabel withLabelAlignment:_labelAlignment];
 
         _contextMenuButton = [OBAUIBuilder contextMenuButton];
 
@@ -189,12 +195,13 @@
     return label;
 }
 
-+ (UIView*)wrapLabel:(OBADepartureTimeLabel*)label {
++ (UIView*)wrapLabel:(OBADepartureTimeLabel*)label withLabelAlignment:(OBAClassicDepartureViewLabelAlignment)labelAlignment {
     UIView *minutesWrapper = [[UIView alloc] initWithFrame:CGRectZero];
     minutesWrapper.clipsToBounds = YES;
     [minutesWrapper addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(minutesWrapper);
+        MASConstraint *constraint = labelAlignment == OBAClassicDepartureViewLabelAlignmentTop ? make.top : make.centerY;
+        constraint.equalTo(minutesWrapper);
         make.left.and.right.equalTo(minutesWrapper);
     }];
 
