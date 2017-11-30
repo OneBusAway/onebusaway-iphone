@@ -82,8 +82,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
 
     lazy var routePolylineRenderer: MKPolylineRenderer = {
         let renderer = MKPolylineRenderer.init(polyline: self.routePolyline!)
-        renderer.fillColor = UIColor.white
-        renderer.strokeColor = UIColor.lightGray
+        renderer.strokeColor = OBATheme.obaGreen(withAlpha: 0.5)
         return renderer
     }()
 
