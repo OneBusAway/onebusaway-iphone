@@ -70,6 +70,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
             }
         }
     }
+
     @objc public var routeType: OBARouteType = .bus
 
     @objc public weak var delegate: VehicleMapDelegate?
@@ -106,30 +107,33 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
 
         return button
     }()
+}
 
-    // MARK: - View Controller
-
+// MARK: - UIViewController
+extension VehicleMapController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.createMapView()
         self.createHoverBar()
     }
+}
 
-    // MARK: - Data Loading
-
+// MARK: - Data Loading
+extension VehicleMapController {
     func downloadRoutePolyline(shapeID: String) {
         self.modelService.requestShape(forID: shapeID).then { polyline -> Void in
             self.routePolyline = polyline as! MKPolyline?
             self.mapView.add(self.routePolyline!)
             self.mapView.setRegion(MKCoordinateRegionForMapRect(self.routePolyline!.boundingMapRect), animated: false)
         }.catch { error in
-            // TODO: Handle error!
             DDLogError("Unable to render polyline on map: \(error)")
         }
     }
+}
 
-    // MARK: - Actions
+// MARK: - Actions
+extension VehicleMapController {
 
     @objc func toggleButtonTapped() {
         self.expanded = !self.expanded
@@ -140,9 +144,10 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         self.mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
     }
 
+}
 
-    // MARK: - MKMapViewDelegate
-
+// MARK: - MKMapViewDelegate
+extension VehicleMapController {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         return self.routePolylineRenderer
     }
@@ -245,9 +250,10 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
 
         return annotationView
     }
-    
-    // MARK: - UI Configurations
+}
 
+// MARK: - UI Configurations
+extension VehicleMapController {
     func createMapView() {
         self.mapView.isRotateEnabled = false
         self.mapView.delegate = self
