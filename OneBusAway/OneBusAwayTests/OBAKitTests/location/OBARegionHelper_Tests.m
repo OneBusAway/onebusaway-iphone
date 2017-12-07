@@ -36,7 +36,7 @@
     [self.persistenceLayer writeSetRegionAutomatically:NO];
     [self.persistenceLayer writeOBARegion:[OBATestHelpers pugetSoundRegion]];
     self.modelDAO = [[OBAModelDAO alloc] initWithModelPersistenceLayer:self.persistenceLayer];
-    self.modelService = [OBAModelService modelServiceWithBaseURL:[NSURL URLWithString:@"http://api.tampa.onebusaway.org/api/"]];
+    self.modelService = [OBATestHelpers tampaModelService];
     self.locationManager = [[OBALocationManager alloc] initWithModelDAO:self.modelDAO];
     self.locationManager.currentLocation = tampaLocation;
 }

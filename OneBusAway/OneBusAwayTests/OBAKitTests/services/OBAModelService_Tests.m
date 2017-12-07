@@ -18,7 +18,7 @@
 - (void)setUp {
     [super setUp];
 
-    self.modelService = [OBAModelService modelServiceWithBaseURL:[NSURL URLWithString:@"http://api.tampa.onebusaway.org/api/"]];
+    self.modelService = [OBATestHelpers tampaModelService];
 }
 
 - (void)testEncodingOfStopIDsWithAlphanumerics {

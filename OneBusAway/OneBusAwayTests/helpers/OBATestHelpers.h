@@ -17,6 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OBATestHelpers : NSObject
 
 /**
+ Convenience property for constructing an entire model service/factory/references stack.
+ */
+@property(nonatomic,strong,class,readonly) OBAModelService *tampaModelService;
+
+/**
  First, serializes an NSCoding compatible object into an NSData object, and then deserializes it back
  into the original kind of object that it was. Useful for testing NSCoding implementations.
  */

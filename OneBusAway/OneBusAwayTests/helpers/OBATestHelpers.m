@@ -10,6 +10,11 @@
 
 @implementation OBATestHelpers
 
++ (OBAModelService*)tampaModelService {
+    NSURL *URL = [NSURL URLWithString:@"http://api.tampa.onebusaway.org/api/"];
+    return [OBAModelService modelServiceWithBaseURL:URL];
+}
+
 + (id)roundtripObjectThroughNSCoding:(id<NSCoding>)obj {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:obj];
     return [NSKeyedUnarchiver unarchiveObjectWithData:data];
