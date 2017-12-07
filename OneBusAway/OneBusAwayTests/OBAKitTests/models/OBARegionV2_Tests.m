@@ -38,6 +38,10 @@
     return regions;
 }
 
+- (OBARegionV2*)getTampaRegion {
+    return [self getRegions][0];
+}
+
 - (void)testRegionsCount {
     NSArray<OBARegionV2*>* regions = [self getRegions];
     XCTAssertEqual(regions.count, 12);
@@ -73,6 +77,44 @@
     OBARegionV2 *region = [[OBARegionV2 alloc] init];
     XCTAssertNil(region.regionName);
 }
+
+#pragma mark - Other Methods
+
+- (void)testCenterCoordinate {
+    OBARegionV2 *tampa = [self getTampaRegion];
+    MKMapRect tampaServiceRect = MKMapRectMake(72439895.221134216, 112245249.35188442, 516632.36992569268, 476938.48868602514);
+    MKMapPoint centerPoint = MKMapPointMake(MKMapRectGetMidX(tampaServiceRect), MKMapRectGetMidY(tampaServiceRect));
+    CLLocationCoordinate2D knownGoodCoordinate = MKCoordinateForMapPoint(centerPoint);
+
+    CLLocationCoordinate2D testCoordinate = tampa.centerCoordinate;
+
+    XCTAssertEqual(knownGoodCoordinate.latitude, testCoordinate.latitude);
+    XCTAssertEqual(knownGoodCoordinate.longitude, testCoordinate.longitude);
+}
+
+- (void)testValidModelsMustHaveNames {
+    OBARegionV2 *region = [[OBARegionV2 alloc] init];
+    region.obaBaseUrl = @"https://www.example.com";
+
+    XCTAssertFalse(region.isValidModel);
+}
+
+- (void)testValidModelsMustBeHTTPS {
+    OBARegionV2 *region = [[OBARegionV2 alloc] init];
+    region.obaBaseUrl = @"https://www.example.com";
+    region.regionName = @"Region Name";
+
+    XCTAssertTrue(region.isValidModel);
+}
+
+- (void)testValidModelsCannotBeHTTP {
+    OBARegionV2 *region = [[OBARegionV2 alloc] init];
+    region.obaBaseUrl = @"http://www.example.com";
+    region.regionName = @"Region Name";
+
+    XCTAssertFalse(region.isValidModel);
+}
+
 
 #pragma mark - Tampa
 
