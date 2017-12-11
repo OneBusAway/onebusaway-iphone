@@ -534,37 +534,22 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     return [self request:source url:url HTTPMethod:@"GET" queryParams:args formBody:nil selector:selector completionBlock:completion];
 }
 
+// this method is weird. it creates the modelservice request object, stuffs a reference to the model factory into it,
+// specifies the model factory selector to use to process data on completion, then asks the OBAJSONDataSource for an
+// url session data task (which is already initiated by the time the `request.urlSessionTask` property is set).
+// When the url session task completes, it calls into its parent object (the request) to execute the -processData
+// method. I wonder if this is causing a memory leak. Also, the flow of control is just weird.
 - (OBAModelServiceRequest *)request:(OBAJsonDataSource *)source url:(NSString *)url HTTPMethod:(NSString*)HTTPMethod queryParams:(NSDictionary *)queryParams formBody:(NSDictionary *)formBody selector:(SEL)selector completionBlock:(OBADataSourceCompletion)completion {
-    OBAModelServiceRequest *request = [self request:source selector:selector];
 
-    request.connection = [source requestWithPath:url HTTPMethod:HTTPMethod queryParameters:queryParams formBody:formBody completionBlock:^(id jsonData, NSHTTPURLResponse *response, NSError *error) {
-        [request processData:jsonData withError:error response:response completionBlock:completion];
-    }];
-
-    return request;
-}
-
-- (OBAModelServiceRequest *)request:(OBAJsonDataSource *)source selector:(SEL)selector {
     OBAModelServiceRequest *request = [[OBAModelServiceRequest alloc] init];
-
-    request.modelFactory = _modelFactory;
+    request.modelFactory = self.modelFactory;
     request.modelFactorySelector = selector;
     request.checkCode = source.checkStatusCodeInBody;
 
-    NSObject<OBABackgroundTaskExecutor> *executor = [[self class] sharedBackgroundExecutor];
-    
-    if (executor) {
-        request.bgTask = [executor beginBackgroundTaskWithExpirationHandler:^{
-            if(request.cleanupBlock) {
-                request.cleanupBlock(request.bgTask);
-            }
-        }];
-        
-        [request setCleanupBlock:^(UIBackgroundTaskIdentifier identifier) {
-            return [executor endBackgroundTask:identifier];
-        }];
-    }
-    
+    request.urlSessionTask = [source requestWithPath:url HTTPMethod:HTTPMethod queryParameters:queryParams formBody:formBody completionBlock:^(id jsonData, NSHTTPURLResponse *response, NSError *error) {
+        [request processData:jsonData withError:error response:response completionBlock:completion];
+    }];
+
     return request;
 }
 
@@ -576,18 +561,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }
 
     return location;
-}
-
-#pragma mark - OBABackgroundTaskExecutor
-
-static NSObject<OBABackgroundTaskExecutor>* sharedExecutor = nil;
-
-+ (NSObject<OBABackgroundTaskExecutor>*)sharedBackgroundExecutor {
-    return sharedExecutor;
-}
-
-+ (void)addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*)exc {
-    sharedExecutor = exc;
 }
 
 @end

@@ -38,7 +38,7 @@
 
 static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegionRefreshDateUserDefaultsKey";
 
-@interface OBAApplicationDelegate () <OBABackgroundTaskExecutor, OBARegionHelperDelegate, RegionListDelegate, OBAPushManagerDelegate, OnboardingDelegate>
+@interface OBAApplicationDelegate () <OBARegionHelperDelegate, RegionListDelegate, OBAPushManagerDelegate, OnboardingDelegate>
 @property(nonatomic,strong) UINavigationController *regionNavigationController;
 @property(nonatomic,strong) RegionListViewController *regionListViewController;
 @property(nonatomic,strong) id<OBAApplicationUI> applicationUI;
@@ -52,8 +52,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     self = [super init];
 
     if (self) {
-        [OBAModelService addBackgroundExecutor:self];
-
         [self registerForNotifications];
 
         _deepLinkRouter = [self.class setupDeepLinkRouterWithModelDAO:self.application.modelDao appDelegate:self];
@@ -94,15 +92,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 }
 
 #pragma mark - UIApplication
-
-- (UIBackgroundTaskIdentifier)beginBackgroundTaskWithExpirationHandler:(void (^)(void))handler {
-    return [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:handler];
-}
-
-- (UIBackgroundTaskIdentifier)endBackgroundTask:(UIBackgroundTaskIdentifier)task {
-    [[UIApplication sharedApplication] endBackgroundTask:task];
-    return UIBackgroundTaskInvalid;
-}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self initializeFabric];
