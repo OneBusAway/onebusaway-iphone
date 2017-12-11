@@ -31,7 +31,7 @@ extension TodayViewController: NCWidgetProviding {
         self.sections = [buildTableSection(group: self.group)]
         self.tableView.reloadData()
 
-        let promises: [Promise<Void>] = self.group.bookmarks.flatMap { self.promiseStop(bookmark: $0) }
+        let promises: [Promise<Any>] = self.group.bookmarks.flatMap { self.promiseStop(bookmark: $0) }
         _ = when(resolved: promises).then { _ in completionHandler(NCUpdateResult.newData) }
     }
 }
@@ -71,16 +71,17 @@ extension TodayViewController {
 
 // MARK: - Data Loading
 extension TodayViewController {
-    func promiseStop(bookmark: OBABookmarkV2) -> Promise<Void>? {
+    func promiseStop(bookmark: OBABookmarkV2) -> Promise<Any>? {
         guard let indexPath = self.indexPath(forModel: bookmark) else {
             return nil
         }
 
         let row = self.row(at: indexPath) as! OBABookmarkedRouteRow
 
-        let promise = self.app.modelService.stop(withID: bookmark.stopId, minutesBefore: 0, minutesAfter: kMinutes).then { response -> Void in
-            let matchingDepartures: [OBAArrivalAndDepartureV2] = bookmark.matchingArrivalsAndDepartures(forStop: response)
+        let promiseWrapper = self.app.modelService.requestStopArrivalsAndDepartures(withID: bookmark.stopId, minutesBefore: 0, minutesAfter: kMinutes)
 
+        return promiseWrapper.promise.then { networkResponse -> Void in
+            let matchingDepartures: [OBAArrivalAndDepartureV2] = bookmark.matchingArrivalsAndDepartures(forStop: networkResponse.object as! OBAArrivalsAndDeparturesForStopV2)
             self.populateRow(row, routeName: bookmark.routeShortName, departures: matchingDepartures)
             row.state = .complete
         }.catch { error in
@@ -91,7 +92,5 @@ extension TodayViewController {
             self.replaceRow(at: indexPath, with: row)
             self.tableView.reloadRows(at: [indexPath], with: .none)
         }
-
-        return promise
     }
 }
