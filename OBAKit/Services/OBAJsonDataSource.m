@@ -67,16 +67,45 @@
 
 #pragma mark - Public Methods
 
-- (NSMutableURLRequest*)requestWithURL:(NSURL*)URL HTTPMethod:(NSString*)HTTPMethod {
+- (NSURLRequest*)buildGETRequestWithPath:(NSString*)path queryParameters:(nullable NSDictionary*)queryParameters {
+    return [self buildRequestWithPath:path HTTPMethod:@"GET" queryParameters:queryParameters formBody:nil];
+}
+
+- (NSURLRequest*)buildRequestWithPath:(NSString*)path HTTPMethod:(NSString*)httpMethod queryParameters:(nullable NSDictionary*)queryParameters formBody:(nullable NSDictionary*)formBody {
+    return [self buildRequestWithURL:[self.config constructURL:path withArgs:queryParameters] HTTPMethod:httpMethod queryParameters:queryParameters formBody:formBody];
+}
+
+- (NSURLRequest*)buildRequestWithURL:(NSURL*)URL HTTPMethod:(NSString*)httpMethod queryParameters:(nullable NSDictionary*)queryParameters formBody:(nullable NSDictionary*)formBody {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15];
     [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
-    request.HTTPMethod = HTTPMethod;
+    request.HTTPMethod = httpMethod;
+
+    BOOL requestSupportsHTTPBody = [@[@"post", @"patch", @"put"] containsObject:httpMethod.lowercaseString];
+
+    if (formBody && requestSupportsHTTPBody) {
+        request.HTTPBody = [formBody oba_toHTTPBodyData];
+    }
 
     return request;
 }
 
-- (NSURLSessionTask*)performRequest:(NSURLRequest*)request completionBlock:(OBADataSourceCompletion) completion {
-    NSURLSessionDataTask *task = [self.URLSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+- (NSURLSessionTask*)requestWithPath:(NSString*)path
+                          HTTPMethod:(NSString*)httpMethod
+                     queryParameters:(nullable NSDictionary*)queryParameters
+                            formBody:(nullable NSDictionary*)formBody
+                     completionBlock:(OBADataSourceCompletion)completion {
+
+    NSURLRequest *request = [self buildRequestWithPath:path
+                                            HTTPMethod:httpMethod
+                                       queryParameters:queryParameters
+                                              formBody:formBody];
+
+    return [self performRequest:request completionBlock:completion];
+}
+
+- (NSURLSessionTask*)createURLSessionTask:(NSURLRequest*)request completion:(OBADataSourceCompletion)completion {
+    NSURLSessionDataTask *task = [self.URLSession dataTaskWithRequest:request
+                                                    completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         id responseObject = nil;
 
         if (data.length) {
@@ -94,24 +123,14 @@
 
     [self.openConnections addObject:task];
 
-    [task resume];
-
     return task;
 }
 
-- (NSURLSessionTask*)requestWithPath:(NSString*)path
-                          HTTPMethod:(NSString*)httpMethod
-                     queryParameters:(nullable NSDictionary*)queryParameters
-                            formBody:(nullable NSDictionary*)formBody
-                     completionBlock:(OBADataSourceCompletion) completion {
+- (NSURLSessionTask*)performRequest:(NSURLRequest*)request completionBlock:(OBADataSourceCompletion)completion {
+    NSURLSessionTask *task = [self createURLSessionTask:request completion:completion];
+    [task resume];
 
-    NSMutableURLRequest *request = [self requestWithURL:[self.config constructURL:path withArgs:queryParameters] HTTPMethod:httpMethod];
-
-    if (formBody && [self.class requestSupportsHTTPBody:request]) {
-        request.HTTPBody = [formBody oba_toHTTPBodyData];
-    }
-
-    return [self performRequest:request completionBlock:completion];
+    return task;
 }
 
 - (void)cancelOpenConnections {
@@ -120,10 +139,6 @@
     }
 
     [self.openConnections removeAllObjects];
-}
-
-+ (BOOL)requestSupportsHTTPBody:(NSURLRequest*)request {
-    return [@[@"post", @"patch", @"put"] containsObject:request.HTTPMethod.lowercaseString];
 }
 
 - (NSString*)description {

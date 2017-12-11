@@ -37,13 +37,45 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithConfig:(OBADataSourceConfig*)config checkStatusCodeInBody:(BOOL)checkStatusCodeInBody;
 
 /**
- Creates a mutable URL request based upon the supplied URL and HTTP method, configuring other parameters, like a GZIP header.
+ Creates an URL request based upon the supplied path and HTTP method, configuring other parameters, like a GZIP header.
+
+ @param path The URL path to load. The full URL will be constructed from the config object passed in at init-time.
+ @param queryParameters An optional list of query parameters to append to the URL. Turned into: `?key1=value&key2=value`.
+ @return An URLRequest suitable for loading data.
+ */
+- (NSURLRequest*)buildGETRequestWithPath:(NSString*)path queryParameters:(nullable NSDictionary*)queryParameters;
+
+/**
+ Creates an URL request based upon the supplied path and HTTP method, configuring other parameters, like a GZIP header.
+
+ @param path The URL path to load. The full URL will be constructed from the config object passed in at init-time.
+ @param httpMethod GET, POST, PUT, PATCH, DELETE.
+ @param queryParameters An optional list of query parameters to append to the URL. Turned into: `?key1=value&key2=value`.
+ @param formBody Optional form body contents.
+ @return An URLRequest suitable for loading data.
+ */
+- (NSURLRequest*)buildRequestWithPath:(NSString*)path HTTPMethod:(NSString*)httpMethod queryParameters:(nullable NSDictionary*)queryParameters formBody:(nullable NSDictionary*)formBody;
+
+/**
+ Creates an URL request based upon the supplied URL and HTTP method, configuring other parameters, like a GZIP header.
 
  @param URL The URL to load.
- @param HTTPMethod The HTTP method to load: GET, POST, PUT, PATCH, DELETE.
- @return A mutable URL request suitable for loading data.
+ @param httpMethod GET, POST, PUT, PATCH, DELETE.
+ @param queryParameters An optional list of query parameters to append to the URL. Turned into: `?key1=value&key2=value`.
+ @param formBody Optional form body contents.
+ @return An URLRequest suitable for loading data.
  */
-- (NSMutableURLRequest*)requestWithURL:(NSURL*)URL HTTPMethod:(NSString*)HTTPMethod;
+- (NSURLRequest*)buildRequestWithURL:(NSURL*)URL HTTPMethod:(NSString*)httpMethod queryParameters:(nullable NSDictionary*)queryParameters formBody:(nullable NSDictionary*)formBody;
+
+/**
+ Creates an NSURLSessionTask from the supplied URL request that will execute the completion block when it finishes.
+ Note that -resume is NOT called on the task, which means that the caller will need to begin execution themselves.
+
+ @param request The URL request to load data from.
+ @param completion A block fired on completion of the request.
+ @return An object that conforms to the NSURLSessionTask protocol. Can be used to cancel the request.
+ */
+- (NSURLSessionTask*)createURLSessionTask:(NSURLRequest*)request completion:(OBADataSourceCompletion)completion;
 
 /**
  Given an URL request, load its contents.
