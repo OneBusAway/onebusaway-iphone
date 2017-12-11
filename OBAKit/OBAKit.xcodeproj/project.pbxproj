@@ -33,6 +33,7 @@
 		9325DB501FCB569B00EDB0E8 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9325DB4F1FCB569B00EDB0E8 /* Masonry.framework */; };
 		9327DEF31E02306900502F06 /* OBACanvasView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9327DEF11E02306900502F06 /* OBACanvasView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9327DEF41E02306900502F06 /* OBACanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9327DEF21E02306900502F06 /* OBACanvasView.m */; };
+		933A47161FDCCB81009EB332 /* PromiseWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933A47151FDCCB81009EB332 /* PromiseWrapper.swift */; };
 		934195431DB0B013004BBBB7 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934195391DB0B013004BBBB7 /* OBAKit.framework */; };
 		934195481DB0B013004BBBB7 /* OBAKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195471DB0B013004BBBB7 /* OBAKitTests.m */; };
 		934195F81DB0B099004BBBB7 /* NSArray+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195541DB0B099004BBBB7 /* NSArray+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -222,6 +223,7 @@
 		9385BED71FAFA07D00D122D1 /* PromisedModelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9385BED61FAFA07D00D122D1 /* PromisedModelService.swift */; };
 		9385BEDC1FB040B300D122D1 /* OBAErrorMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = 9385BEDA1FB040B300D122D1 /* OBAErrorMessages.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9385BEDD1FB040B300D122D1 /* OBAErrorMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385BEDB1FB040B300D122D1 /* OBAErrorMessages.m */; };
+		9387F0F91FDDD9F50033A922 /* NetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387F0F81FDDD9F50033A922 /* NetworkResponse.swift */; };
 		93A6E9E21F5BC18B00AFA61C /* AppInterop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */; };
 		93A73BF21F8760F600F213D4 /* OBAClassicDepartureView.h in Headers */ = {isa = PBXBuildFile; fileRef = 93A73BF01F8760F600F213D4 /* OBAClassicDepartureView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93A73BF31F8760F600F213D4 /* OBAClassicDepartureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A73BF11F8760F600F213D4 /* OBAClassicDepartureView.m */; };
@@ -308,6 +310,7 @@
 		9325DB4F1FCB569B00EDB0E8 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = ../Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
 		9327DEF11E02306900502F06 /* OBACanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACanvasView.h; sourceTree = "<group>"; };
 		9327DEF21E02306900502F06 /* OBACanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACanvasView.m; sourceTree = "<group>"; };
+		933A47151FDCCB81009EB332 /* PromiseWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseWrapper.swift; sourceTree = "<group>"; };
 		934195391DB0B013004BBBB7 /* OBAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OBAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		934195421DB0B013004BBBB7 /* OBAKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OBAKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		934195471DB0B013004BBBB7 /* OBAKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAKitTests.m; sourceTree = "<group>"; };
@@ -501,6 +504,7 @@
 		9385BED61FAFA07D00D122D1 /* PromisedModelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromisedModelService.swift; sourceTree = "<group>"; };
 		9385BEDA1FB040B300D122D1 /* OBAErrorMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAErrorMessages.h; sourceTree = "<group>"; };
 		9385BEDB1FB040B300D122D1 /* OBAErrorMessages.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAErrorMessages.m; sourceTree = "<group>"; };
+		9387F0F81FDDD9F50033A922 /* NetworkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponse.swift; sourceTree = "<group>"; };
 		93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInterop.swift; sourceTree = "<group>"; };
 		93A73BF01F8760F600F213D4 /* OBAClassicDepartureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureView.h; sourceTree = "<group>"; };
 		93A73BF11F8760F600F213D4 /* OBAClassicDepartureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicDepartureView.m; sourceTree = "<group>"; };
@@ -894,6 +898,7 @@
 				93B282C21DC664C7005013D7 /* OBATripDeepLink.h */,
 				93B282C31DC664C7005013D7 /* OBATripDeepLink.m */,
 				934C50B81E2CBE2D00DFDCA0 /* OBAArrivalAndDepartureConvertible.h */,
+				9387F0F81FDDD9F50033A922 /* NetworkResponse.swift */,
 			);
 			path = unmanaged;
 			sourceTree = "<group>";
@@ -912,6 +917,7 @@
 				934196A41DB0B0AF004BBBB7 /* OBAModelServiceRequest.h */,
 				934196A51DB0B0AF004BBBB7 /* OBAModelServiceRequest.m */,
 				9385BED61FAFA07D00D122D1 /* PromisedModelService.swift */,
+				933A47151FDCCB81009EB332 /* PromiseWrapper.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1347,6 +1353,7 @@
 				9327DEF41E02306900502F06 /* OBACanvasView.m in Sources */,
 				93089DAD1F87E8F200694A90 /* OBAClassicDepartureCell.m in Sources */,
 				9341963A1DB0B099004BBBB7 /* OBASelectorJsonDigesterRule.m in Sources */,
+				933A47161FDCCB81009EB332 /* PromiseWrapper.swift in Sources */,
 				934196171DB0B099004BBBB7 /* OBAStrings.m in Sources */,
 				930653F51E71D704005AF0C9 /* OBADeepLinkRouter.m in Sources */,
 				934C50961E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m in Sources */,
@@ -1355,6 +1362,7 @@
 				93A73BFB1F87622600F213D4 /* OBAAnimation.m in Sources */,
 				9385BEDD1FB040B300D122D1 /* OBAErrorMessages.m in Sources */,
 				934196871DB0B099004BBBB7 /* OBATripDetailsV2.m in Sources */,
+				9387F0F91FDDD9F50033A922 /* NetworkResponse.swift in Sources */,
 				93E592A01F8CABD70079A2D8 /* OBAVibrantBlurContainerView.m in Sources */,
 				934196911DB0B099004BBBB7 /* OBATripV2.m in Sources */,
 				9377DD531EE4682E00134AE8 /* BorderedButton.swift in Sources */,

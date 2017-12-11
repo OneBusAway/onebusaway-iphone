@@ -37,6 +37,7 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 
 @interface OBAStopViewController ()<UIScrollViewDelegate, UIActivityItemSource, OBAArrivalDepartureOptionsSheetDelegate>
 @property(nonatomic,strong) UIRefreshControl *refreshControl;
+@property(nonatomic,strong) PromiseWrapper *promiseWrapper;
 @property(nonatomic,strong) NSTimer *refreshTimer;
 @property(nonatomic,strong) NSLock *reloadLock;
 @property(nonatomic,strong) OBAArrivalsAndDeparturesForStopV2 *arrivalsAndDepartures;
@@ -62,6 +63,7 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 
 - (void)dealloc {
     [self cancelTimers];
+    [self.promiseWrapper cancel];
 }
 
 - (void)cancelTimers {
@@ -101,6 +103,7 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [[OBAHandoff shared] stopBroadcasting];
 
     // Nil these out to ensure that they are recreated once the
     // view comes back into focus, which is important if the user
@@ -111,8 +114,7 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 
     [self cancelTimers];
-    
-    [[OBAHandoff shared] stopBroadcasting];
+    [self.promiseWrapper cancel];
 }
 
 #pragma mark - Notifications
@@ -190,7 +192,10 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 
     self.navigationItem.title = NSLocalizedString(@"stops_controller.title.updating", @"Title of the Stop UI Controller while it is updating its content.");
 
-    [self.modelService promiseStopWithID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
+    self.promiseWrapper = [self.modelService requestStopArrivalsAndDeparturesWithID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter];
+
+    self.promiseWrapper.anyPromise.then(^(NetworkResponse *networkResponse) {
+        OBAArrivalsAndDeparturesForStopV2 *response = networkResponse.object;
         self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"msg_updated", @"message"), [OBADateHelpers formatShortTimeNoDate:[NSDate date]]];
         [self.modelDAO viewedArrivalsAndDeparturesForStop:response.stop];
 

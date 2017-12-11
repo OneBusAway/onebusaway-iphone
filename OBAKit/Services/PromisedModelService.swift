@@ -8,43 +8,54 @@
 
 import PromiseKit
 
+// MARK: Stop -> OBAArrivalAndDepartureV2
 @objc public class PromisedModelService: OBAModelService {
+    @objc public func requestStopArrivalsAndDepartures(withID stopID: String, minutesBefore: UInt, minutesAfter: UInt) -> PromiseWrapper {
+        let request = buildURLRequestForStopArrivalsAndDepartures(withID: stopID, minutesBefore: minutesBefore, minutesAfter: minutesAfter)
+        let promiseWrapper = PromiseWrapper.init(request: request)
 
-    /// Swift-Compatible: Stop data with arrivals and departures for the specified stop ID.
-    ///
-    /// - Parameters:
-    ///   - withID: The ID of the stop that will be returned.
-    ///   - minutesBefore: How many minutes of elapsed departures should be included
-    ///   - minutesAfter: How many minutes into the future should be returned
-    /// - Returns: A promise that resolves to an OBAArrivalsAndDeparturesForStopV2 object
-    @nonobjc public func stop(withID: String, minutesBefore: UInt, minutesAfter: UInt) -> Promise<OBAArrivalsAndDeparturesForStopV2> {
-        let promise = Promise<OBAArrivalsAndDeparturesForStopV2> { fulfill, reject in
-            self.requestStopWithArrivalsAndDepartures(forId: withID, withMinutesBefore: minutesBefore, withMinutesAfter: minutesAfter) { (responseObject, response, error) in
-                if let error = error {
-                    reject(error)
-                }
-                else if response.statusCode == 404 {
-                    reject(OBAErrorMessages.stopNotFoundError)
-                }
-                else if response.statusCode >= 300 {
-                    reject(OBAErrorMessages.connectionError(response))
-                }
+        promiseWrapper.promise = promiseWrapper.promise.then { networkResponse -> NetworkResponse in
+            let checkCode = self.obaJsonDataSource.checkStatusCodeInBody
+            var responseObject = networkResponse.object as AnyObject
+            var urlResponse = networkResponse.URLResponse
 
-                fulfill(responseObject as! OBAArrivalsAndDeparturesForStopV2)
+            if checkCode && responseObject.responds(to: #selector(self.value(forKey:))) {
+                let statusCode = (responseObject.value(forKey: "code") as! NSNumber).intValue
+                urlResponse = HTTPURLResponse.init(url: urlResponse.url!, statusCode: statusCode, httpVersion: nil, headerFields: urlResponse.allHeaderFields as? [String : String])!
+                responseObject = responseObject.value(forKey: "data") as AnyObject
+            }
+
+            let (arrivals, error) = self.decodeStopArrivals(json: responseObject)
+
+            if let error = error {
+                throw error
+            }
+            else {
+                return NetworkResponse.init(object: arrivals!, URLResponse: networkResponse.URLResponse)
             }
         }
-        return promise
+
+        return promiseWrapper
     }
 
-    /// Obj-C Compatible: Stop data with arrivals and departures for the specified stop ID.
-    ///
-    /// - Parameters:
-    ///   - withID: The ID of the stop that will be returned.
-    ///   - minutesBefore: How many minutes of elapsed departures should be included
-    ///   - minutesAfter: How many minutes into the future should be returned
-    /// - Returns: A promise that resolves to an OBAArrivalsAndDeparturesForStopV2 object
-    @objc public func promiseStop(withID: String, minutesBefore: UInt, minutesAfter: UInt) -> AnyPromise {
-        return AnyPromise(stop(withID: withID, minutesBefore: minutesBefore, minutesAfter: minutesAfter))
+    private func buildURLRequestForStopArrivalsAndDepartures(withID stopID: String, minutesBefore: UInt, minutesAfter: UInt) -> URLRequest {
+        let args = ["minutesBefore": minutesBefore, "minutesAfter": minutesAfter]
+        let escapedStopID = OBAURLHelpers.escapePathVariable(stopID)
+        let path = String.init(format: "/api/where/arrivals-and-departures-for-stop/%@.json", escapedStopID)
+
+        return self.obaJsonDataSource.buildGETRequest(withPath: path, queryParameters: args)
+    }
+
+    private func decodeStopArrivals(json: Any) -> (OBAArrivalsAndDeparturesForStopV2?, Error?) {
+        var error: NSError?
+
+        let modelObjects = self.modelFactory.getArrivalsAndDeparturesForStopV2(fromJSON: json as! [AnyHashable : Any], error: &error)
+        if let error = error {
+            return (nil, error)
+        }
+        else {
+            return (modelObjects,nil)
+        }
     }
 }
 

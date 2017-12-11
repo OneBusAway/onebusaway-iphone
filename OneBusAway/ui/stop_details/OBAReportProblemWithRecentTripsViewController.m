@@ -21,6 +21,7 @@
 #import "OBAReportProblemWithStopViewController.h"
 
 @interface OBAReportProblemWithRecentTripsViewController ()
+@property(nonatomic,strong) PromiseWrapper *promiseWrapper;
 @property(nonatomic,copy) NSString *stopID;
 @property(nonatomic,strong) OBAArrivalsAndDeparturesForStopV2 *arrivalsAndDepartures;
 @end
@@ -38,11 +39,16 @@
     return self;
 }
 
+- (void)dealloc {
+    [self.promiseWrapper cancel];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     [SVProgressHUD show];
-    [self.modelService promiseStopWithID:self.stopID minutesBefore:30 minutesAfter:30].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
+    self.promiseWrapper = [self.modelService requestStopArrivalsAndDeparturesWithID:self.stopID minutesBefore:30 minutesAfter:30];
+    self.promiseWrapper.anyPromise.then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
         self.arrivalsAndDepartures = response;
         [self populateTable];
     }).always(^{

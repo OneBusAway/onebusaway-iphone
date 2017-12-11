@@ -20,6 +20,7 @@ static NSUInteger const kMinutes = 60;
 static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDefaultsKey";
 
 @interface OBABookmarksViewController ()
+@property(nonatomic,strong) NSHashTable *pendingPromises;
 @property(nonatomic,strong) NSTimer *refreshBookmarksTimer;
 @property(nonatomic,strong) NSMutableDictionary<OBABookmarkV2*,NSArray<OBAArrivalAndDepartureV2*>*> *bookmarksAndDepartures;
 @end
@@ -37,12 +38,15 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
         self.emptyDataSetDescription = NSLocalizedString(@"msg_explanatory_add_bookmark_from_stop", @"");
         _bookmarksAndDepartures = [[NSMutableDictionary alloc] init];
 
+        _pendingPromises = [NSHashTable weakObjectsHashTable];
+
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
 }
 
 - (void)dealloc {
+    [self cancelPendingPromises];
     [self cancelTimer];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
@@ -92,6 +96,8 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 
     [self cancelTimer];
+
+    [self cancelPendingPromises];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -117,6 +123,8 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     // Wipe out the 'scheduled arrival/departure' footer message when the
     // application is backgrounded to ensure that it doesn't hang out forever.
     self.tableFooterView = nil;
+
+    [self cancelPendingPromises];
 }
 
 - (void)locationChanged:(NSNotification*)note {
@@ -144,6 +152,14 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
 #pragma mark - Refresh Bookmarks/Network Loading
 
+- (void)cancelPendingPromises {
+    NSArray<PromiseWrapper*> *promises = self.pendingPromises.allObjects;
+
+    for (PromiseWrapper *p in promises) {
+        [p cancel];
+    }
+}
+
 - (void)cancelTimer {
     [self.refreshBookmarksTimer invalidate];
     self.refreshBookmarksTimer = nil;
@@ -168,7 +184,8 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 - (void)refreshDataForBookmark:(OBABookmarkV2*)bookmark {
     OBABookmarkedRouteRow *row = [self rowForBookmarkVersion260:bookmark];
 
-    [self.modelService promiseStopWithID:bookmark.stopId minutesBefore:0 minutesAfter:kMinutes].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
+    PromiseWrapper *promiseWrapper = [self.modelService requestStopArrivalsAndDeparturesWithID:bookmark.stopId minutesBefore:0 minutesAfter:kMinutes];
+    promiseWrapper.anyPromise.then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
         NSArray<OBAArrivalAndDepartureV2*> *matchingDepartures = [bookmark matchingArrivalsAndDeparturesForStop:response];
         BOOL missingRealTimeData = [OBAArrivalAndDepartureV2 hasScheduledDepartures:matchingDepartures];
 
