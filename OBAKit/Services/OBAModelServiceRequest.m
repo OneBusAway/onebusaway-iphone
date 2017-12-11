@@ -16,11 +16,6 @@
 
 #import <OBAKit/OBAModelServiceRequest.h>
 
-@interface OBAModelServiceRequest ()
-@property BOOL clean;
-- (void)cleanup;
-@end
-
 @implementation OBAModelServiceRequest
 
 - (id)init {
@@ -28,17 +23,13 @@
 
     if (self) {
         self.checkCode = YES;
-        self.bgTask = UIBackgroundTaskInvalid;
-        self.clean = NO;
     }
 
     return self;
 }
 
 - (void)dealloc {
-    if (self.cleanupBlock) {
-        _bgTask = self.cleanupBlock(_bgTask);
-    }
+    [self cancel];
 }
 
 - (void)processData:(id)obj withError:(NSError*)error response:(NSHTTPURLResponse*)response completionBlock:(OBADataSourceCompletion)completion {
@@ -62,27 +53,13 @@
         }
     }
 
-    [self cleanup];
-
     completion(obj, response, error);
 }
 
 #pragma mark OBAModelServiceRequest
 
 - (void)cancel {
-    [_connection cancel];
-    [self cleanup];
-}
-
-- (void)cleanup {
-    if (self.clean) {
-        return;
-    }
-
-    self.clean = YES;
-    if(self.cleanupBlock) {
-        _bgTask = self.cleanupBlock(_bgTask);
-    }
+    [_urlSessionTask cancel];
 }
 
 @end

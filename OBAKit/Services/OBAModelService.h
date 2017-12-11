@@ -35,14 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const OBAAgenciesWithCoverageAPIPath;
 
-/**
- * This protocol mimics the functionality of UIApplication.  It is placed here to get around Extension only API limitation.
- */
-@protocol OBABackgroundTaskExecutor <NSObject>
-- (UIBackgroundTaskIdentifier) beginBackgroundTaskWithExpirationHandler:(void(^)(void))handler;
-- (UIBackgroundTaskIdentifier) endBackgroundTask:(UIBackgroundTaskIdentifier) task;
-@end
-
 @interface OBAModelService : NSObject
 @property (nonatomic, strong) OBAReferencesV2 *references;
 @property (nonatomic, strong) OBAModelDAO *modelDao;
@@ -58,11 +50,6 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  model service/factory/references stack.
  */
 + (instancetype)modelServiceWithBaseURL:(NSURL*)URL;
-
-/**
- * Registers a background executor to be used by all services. This method should not be used by extensions.
- */
-+ (void)addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*) executor;
 
 #pragma mark - Regional Alerts
 

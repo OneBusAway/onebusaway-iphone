@@ -25,16 +25,14 @@ typedef void (^OBADataSourceCompletion)(_Nullable id responseData, NSHTTPURLResp
 
 @property(strong) OBAModelFactory * modelFactory;
 @property(assign,nullable) SEL modelFactorySelector;
-@property(copy,nullable) UIBackgroundTaskIdentifier (^cleanupBlock)(UIBackgroundTaskIdentifier task);
 
 @property BOOL checkCode;
 
-@property UIBackgroundTaskIdentifier bgTask;
 /**
  *  This has to be weak to avoid retain cycles between the "Connection" object and this service request.  The connection may hold a strong reference 
  *  to this request to perform some post processing on the data.
  */
-@property (nonatomic, weak) NSURLSessionTask *connection;
+@property (nonatomic, weak) NSURLSessionTask *urlSessionTask;
 
 - (void)processData:(id)obj withError:(NSError*)error response:(NSHTTPURLResponse*)response completionBlock:(OBADataSourceCompletion)completion;
 
