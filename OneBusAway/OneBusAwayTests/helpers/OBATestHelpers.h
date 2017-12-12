@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Convenience property for constructing an entire model service/factory/references stack.
  */
-@property(nonatomic,strong,class,readonly) OBAModelService *tampaModelService;
+@property(nonatomic,strong,class,readonly) PromisedModelService *tampaModelService;
 
 /**
  First, serializes an NSCoding compatible object into an NSData object, and then deserializes it back

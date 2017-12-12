@@ -41,7 +41,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 @implementation OBAModelService
 
 + (instancetype)modelServiceWithBaseURL:(NSURL*)URL {
-    OBAModelService *service = [[OBAModelService alloc] init];
+    OBAModelService *service = [[self.class alloc] init];
     OBAModelFactory *modelFactory = [OBAModelFactory modelFactory];
     service.modelFactory = modelFactory;
     service.references = modelFactory.references;
@@ -201,20 +201,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
                      url:@"/api/where/current-time.json"
                     args:nil
                 selector:nil
-         completionBlock:completion];
-}
-
-- (OBAModelServiceRequest*)requestStopWithArrivalsAndDeparturesForId:(NSString *)stopId withMinutesBefore:(NSUInteger)minutesBefore withMinutesAfter:(NSUInteger)minutesAfter completionBlock:(OBADataSourceCompletion)completion {
-
-    NSDictionary *args = @{ @"minutesBefore": @(minutesBefore),
-                            @"minutesAfter":  @(minutesAfter) };
-
-    NSString *escapedStopID = [OBAURLHelpers escapePathVariable:stopId];
-
-    return [self request:self.obaJsonDataSource
-                     url:[NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", escapedStopID]
-                    args:args
-                selector:@selector(getArrivalsAndDeparturesForStopV2FromJSON:error:)
          completionBlock:completion];
 }
 

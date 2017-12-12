@@ -38,7 +38,9 @@ import PromiseKit
         return promiseWrapper
     }
 
-    private func buildURLRequestForStopArrivalsAndDepartures(withID stopID: String, minutesBefore: UInt, minutesAfter: UInt) -> URLRequest {
+    // TODO: extract this URL generation code into a new, separate class somewhere that is
+    // solely focused on URL generation.
+    @objc public func buildURLRequestForStopArrivalsAndDepartures(withID stopID: String, minutesBefore: UInt, minutesAfter: UInt) -> URLRequest {
         let args = ["minutesBefore": minutesBefore, "minutesAfter": minutesAfter]
         let escapedStopID = OBAURLHelpers.escapePathVariable(stopID)
         let path = String.init(format: "/api/where/arrivals-and-departures-for-stop/%@.json", escapedStopID)
