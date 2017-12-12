@@ -67,23 +67,6 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 
 - (nullable OBAModelServiceRequest*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion;
 
-#pragma mark - Stop ID -> ArrivalsAndDeparturesV2
-
-/**
- *  Makes an asynchronous request to fetch a stop object that is also inflated with additional data for arrival and departure time
- *
- *  @param stopId        The string identifier of the stop to be fetched
- *  @param minutesBefore The lower bound of time for which arrivals are returned
- *  @param minutesAfter  The upper bound of time for which arrivals are returned
- *  @param completion    The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (OBAModelServiceRequest*)requestStopWithArrivalsAndDeparturesForId:(NSString *)stopId
-                                                      withMinutesBefore:(NSUInteger)minutesBefore
-                                                       withMinutesAfter:(NSUInteger)minutesAfter
-                                                        completionBlock:(OBADataSourceCompletion)completion;
-
 #pragma mark - OBATripInstanceRef -> OBATripDetailsV2
 
 /**

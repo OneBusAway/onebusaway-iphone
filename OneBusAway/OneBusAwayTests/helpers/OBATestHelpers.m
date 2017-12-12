@@ -10,9 +10,9 @@
 
 @implementation OBATestHelpers
 
-+ (OBAModelService*)tampaModelService {
++ (PromisedModelService*)tampaModelService {
     NSURL *URL = [NSURL URLWithString:@"http://api.tampa.onebusaway.org/api/"];
-    return [OBAModelService modelServiceWithBaseURL:URL];
+    return [PromisedModelService modelServiceWithBaseURL:URL];
 }
 
 + (id)roundtripObjectThroughNSCoding:(id<NSCoding>)obj {
