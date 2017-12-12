@@ -410,6 +410,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         _userLocationAnnotationView.annotationColor = [OBATheme userLocationFillColor];
         _userLocationAnnotationView.canShowCallout = NO;
         _userLocationAnnotationView.headingImage = [UIImage imageNamed:@"userHeading"];
+        _userLocationAnnotationView.userInteractionEnabled = NO;
     }
 
     BOOL showHeading = [OBAApplication.sharedApplication.userDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];

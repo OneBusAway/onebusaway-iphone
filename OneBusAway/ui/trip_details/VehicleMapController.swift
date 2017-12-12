@@ -230,6 +230,7 @@ extension VehicleMapController {
             annotationView = SVPulsingAnnotationView.init(annotation: vehicle, reuseIdentifier: identifier, size: CGSize(width: 32, height: 32))
             annotationView?.canShowCallout = true
             annotationView?.headingImage = UIImage(named: "vehicleHeading")
+            annotationView?.isUserInteractionEnabled = false
         }
 
         if vehicle.predicted {
