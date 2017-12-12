@@ -185,7 +185,8 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     OBABookmarkedRouteRow *row = [self rowForBookmarkVersion260:bookmark];
 
     PromiseWrapper *promiseWrapper = [self.modelService requestStopArrivalsAndDeparturesWithID:bookmark.stopId minutesBefore:0 minutesAfter:kMinutes];
-    promiseWrapper.anyPromise.then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
+    promiseWrapper.anyPromise.then(^(NetworkResponse *networkResponse) {
+        OBAArrivalsAndDeparturesForStopV2* response = networkResponse.object;
         NSArray<OBAArrivalAndDepartureV2*> *matchingDepartures = [bookmark matchingArrivalsAndDeparturesForStop:response];
         BOOL missingRealTimeData = [OBAArrivalAndDepartureV2 hasScheduledDepartures:matchingDepartures];
 

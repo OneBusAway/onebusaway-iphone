@@ -48,7 +48,8 @@
 
     [SVProgressHUD show];
     self.promiseWrapper = [self.modelService requestStopArrivalsAndDeparturesWithID:self.stopID minutesBefore:30 minutesAfter:30];
-    self.promiseWrapper.anyPromise.then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
+    self.promiseWrapper.anyPromise.then(^(NetworkResponse *networkResponse) {
+        OBAArrivalsAndDeparturesForStopV2 *response = networkResponse.object;
         self.arrivalsAndDepartures = response;
         [self populateTable];
     }).always(^{
