@@ -86,8 +86,6 @@ extension TodayViewController {
         let promise = self.app.modelService.requestStop(forID: bookmark.stopId, minutesBefore: 0, minutesAfter: kMinutes).then { response -> Void in
             let matchingDepartures: [OBAArrivalAndDepartureV2] = bookmark.matchingArrivalsAndDepartures(forStop: response as! OBAArrivalsAndDeparturesForStopV2)
 
-            // TODO: FIXME - this is lame.
-            // Clearly the method below isn't working. I assume I'm doing something wrong with NSURLComponents.
             let url = self.deepLinkRouter.deepLinkURL(forStopID: bookmark.stopId, regionIdentifier: bookmark.regionIdentifier) ?? URL.init(string: "http://onebusaway.co")!
             self.populateRow(row, targetURL: url, routeName: bookmark.routeShortName, departures: matchingDepartures)
             row.state = .complete

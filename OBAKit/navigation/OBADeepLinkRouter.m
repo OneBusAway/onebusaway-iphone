@@ -61,7 +61,7 @@ NSString * const OBADeepLinkTripRegexPattern = @"\\/regions\\/(\\d+).*\\/stops\\
 - (nullable NSURL*)deepLinkURLForStopID:(NSString*)stopID regionIdentifier:(NSInteger)regionIdentifier {
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.baseURL resolvingAgainstBaseURL:NO];
 
-    components.path = [NSString stringWithFormat:@"regions/%@/stops/%@", stopID, @(regionIdentifier)];
+    components.path = [NSString stringWithFormat:@"/regions/%@/stops/%@", @(regionIdentifier), stopID];
 
     return components.URL;
 }
