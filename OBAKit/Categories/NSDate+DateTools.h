@@ -25,7 +25,7 @@
 
  @return representiation of minutes
  */
-- (double)minutesUntil;
+- (NSUInteger)minutesUntil;
 
 - (BOOL)isToday;
 - (BOOL)isTomorrow;

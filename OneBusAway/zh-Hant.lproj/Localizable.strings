@@ -587,7 +587,7 @@
 "msg_visit_us" = "參觀我們";
 
 /* No comment provided by engineer. */
-"text_walk_to_stop_info_params" = "%@, %.0f 分鐘: 抵達 %@";
+"text_walk_to_stop_info_params" = "%@, %@ 分鐘: 抵達 %@";
 
 /* No comment provided by engineer. */
 "msg_explanatory_no_agencies" = "我們無法在你的地區找到任何交通運輸機構。";

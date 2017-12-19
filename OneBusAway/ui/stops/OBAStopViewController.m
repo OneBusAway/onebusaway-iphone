@@ -297,9 +297,18 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 
     NSString *distanceString = [OBAMapHelpers stringFromDistance:[location distanceFromLocation:stop.location]];
     NSDate *expectedArrivalDate = [NSDate dateWithTimeIntervalSinceNow:walkingTime];
+    NSUInteger minutesToArrivalAtStop = expectedArrivalDate.minutesUntil;
 
     OBAWalkableRow *walkableRow = [[OBAWalkableRow alloc] init];
-    walkableRow.text = [NSString stringWithFormat:NSLocalizedString(@"text_walk_to_stop_info_params",), distanceString,expectedArrivalDate.minutesUntil,[OBADateHelpers formatShortTimeNoDate:expectedArrivalDate]];
+
+    // Only show the user's distance from the stop
+    // if they are a negligible distance from it.
+    if (minutesToArrivalAtStop == 0) {
+        walkableRow.text = distanceString;
+    }
+    else {
+        walkableRow.text = [NSString stringWithFormat:NSLocalizedString(@"text_walk_to_stop_info_params",), distanceString, @(minutesToArrivalAtStop), [OBADateHelpers formatShortTimeNoDate:expectedArrivalDate]];
+    }
 
     NSMutableArray<OBABaseRow*> *mRows = [[NSMutableArray alloc] initWithArray:rows];
     [mRows insertObject:walkableRow atIndex:insertionIndex];
