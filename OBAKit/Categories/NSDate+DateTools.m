@@ -16,8 +16,8 @@
     return ([self timeIntervalSinceDate:date])/SECONDS_IN_MINUTE;
 }
 
-- (double)minutesUntil; {
-    return [self minutesLaterThan:[NSDate date]];
+- (NSUInteger)minutesUntil {
+    return (NSUInteger)[self minutesLaterThan:[NSDate date]];
 }
 
 /**

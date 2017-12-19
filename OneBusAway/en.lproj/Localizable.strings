@@ -610,7 +610,7 @@
 "msg_visit_us" = "Visit Us";
 
 /* No comment provided by engineer. */
-"text_walk_to_stop_info_params" = "%@, %.0f min: arriving at %@";
+"text_walk_to_stop_info_params" = "%@, %@ min: arriving at %@";
 
 /* No comment provided by engineer. */
 "msg_explanatory_no_agencies" = "We could not find any transit agencies near your current location.";
