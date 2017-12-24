@@ -61,11 +61,10 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param URL The URL to load.
  @param httpMethod GET, POST, PUT, PATCH, DELETE.
- @param queryParameters An optional list of query parameters to append to the URL. Turned into: `?key1=value&key2=value`.
  @param formBody Optional form body contents.
  @return An URLRequest suitable for loading data.
  */
-- (NSURLRequest*)buildRequestWithURL:(NSURL*)URL HTTPMethod:(NSString*)httpMethod queryParameters:(nullable NSDictionary*)queryParameters formBody:(nullable NSDictionary*)formBody;
+- (NSURLRequest*)buildRequestWithURL:(NSURL*)URL HTTPMethod:(NSString*)httpMethod formBody:(nullable NSDictionary*)formBody;
 
 /**
  Creates an NSURLSessionTask from the supplied URL request that will execute the completion block when it finishes.

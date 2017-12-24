@@ -132,7 +132,7 @@
         row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
         [row setDeleteModel:^(OBABaseRow *r) {
-            NSURLRequest *request = [self.modelService.obaJsonDataSource buildRequestWithURL:alarm.alarmURL HTTPMethod:@"DELETE" queryParameters:nil formBody:nil];
+            NSURLRequest *request = [self.modelService.obaJsonDataSource buildRequestWithURL:alarm.alarmURL HTTPMethod:@"DELETE" formBody:nil];
             [self.modelService.obaJsonDataSource performRequest:request completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
                 // nop?
             }];
