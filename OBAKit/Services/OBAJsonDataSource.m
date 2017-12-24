@@ -72,12 +72,10 @@
 }
 
 - (NSURLRequest*)buildRequestWithPath:(NSString*)path HTTPMethod:(NSString*)httpMethod queryParameters:(nullable NSDictionary*)queryParameters formBody:(nullable NSDictionary*)formBody {
-    return [self buildRequestWithURL:[self.config constructURL:path withArgs:queryParameters] HTTPMethod:httpMethod queryParameters:queryParameters formBody:formBody];
+    return [self buildRequestWithURL:[self.config constructURL:path withArgs:queryParameters] HTTPMethod:httpMethod formBody:formBody];
 }
 
-// abxoxo queryParameters isn't being used at all, which sounds like it's probably busting some other stuff in the app.
-// Need to take a peek and see what I might have broken with this.
-- (NSURLRequest*)buildRequestWithURL:(NSURL*)URL HTTPMethod:(NSString*)httpMethod queryParameters:(nullable NSDictionary*)queryABXOXOParameters formBody:(nullable NSDictionary*)formBody {
+- (NSURLRequest*)buildRequestWithURL:(NSURL*)URL HTTPMethod:(NSString*)httpMethod formBody:(nullable NSDictionary*)formBody {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15];
     [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
     request.HTTPMethod = httpMethod;
