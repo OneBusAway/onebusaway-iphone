@@ -34,8 +34,8 @@
 
 - (void)processData:(id)obj withError:(NSError*)error response:(NSHTTPURLResponse*)response completionBlock:(OBADataSourceCompletion)completion {
     if (self.checkCode && [obj respondsToSelector:@selector(valueForKey:)]) {
-        obj = [obj valueForKey:@"data"];
         NSUInteger statusCode = [[obj valueForKey:@"code"] unsignedIntegerValue];
+        obj = [obj valueForKey:@"data"];
 
         response = [[NSHTTPURLResponse alloc] initWithURL:response.URL statusCode:statusCode HTTPVersion:nil headerFields:response.allHeaderFields];
     }

@@ -14,6 +14,7 @@
 #import <OBAKit/OBAKit-Swift.h>
 
 @interface OBARegionHelper ()
+@property(nonatomic,strong) PromiseWrapper *promiseWrapper;
 @property(nonatomic,copy) NSArray<OBARegionV2*> *regions;
 @property(nonatomic,strong) OBARegionStorage *regionStorage;
 @property(nonatomic,strong) NSLock *refreshLock;
@@ -21,7 +22,7 @@
 
 @implementation OBARegionHelper
 
-- (instancetype)initWithLocationManager:(OBALocationManager*)locationManager modelService:(OBAModelService*)modelService {
+- (instancetype)initWithLocationManager:(OBALocationManager*)locationManager modelService:(PromisedModelService*)modelService {
     self = [super init];
 
     if (self) {
@@ -43,9 +44,11 @@
         return nil;
     }
 
-    return [self.modelService requestRegions].then(^(NSArray<OBARegionV2*>* regions) {
-        self.regionStorage.regions = regions;
-        self.regions = [OBARegionHelper filterAcceptableRegions:regions];
+    self.promiseWrapper = [self.modelService requestRegions];
+
+    return self.promiseWrapper.anyPromise.then(^(NetworkResponse* response) {
+        self.regionStorage.regions = response.object;
+        self.regions = [OBARegionHelper filterAcceptableRegions:response.object];
 
         if (self.modelDAO.automaticallySelectRegion && self.locationManager.locationServicesEnabled) {
             [self setNearestRegion];

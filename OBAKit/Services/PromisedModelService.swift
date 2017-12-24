@@ -61,6 +61,42 @@ import PromiseKit
     }
 }
 
+// MARK: - Regions
+@objc extension PromisedModelService {
+    ///  Retrieves all available OBA regions, including experimental and inactive regions.
+    ///
+    /// - Returns: An array of OBARegionV2 objects.
+    @objc public func requestRegions() -> PromiseWrapper {
+        let request = buildURLRequestForRegions()
+        let wrapper = PromiseWrapper.init(request: request)
+
+        wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
+            let regions = try self.decodeRegions(json: networkResponse.object)
+            return NetworkResponse.init(object: regions, URLResponse: networkResponse.URLResponse)
+        }
+
+        return wrapper
+    }
+
+    private func decodeRegions(json: Any) throws -> [OBARegionV2] {
+        var error: NSError? = nil
+        let listWithRangeAndReferences = self.modelFactory.getRegionsV2(fromJson: json, error: &error)
+
+        if let error = error {
+            throw error
+        }
+
+        let regions = listWithRangeAndReferences.values as! [OBARegionV2]
+
+        return regions
+    }
+
+    private func buildURLRequestForRegions() -> URLRequest {
+        let path = "/regions-v3.json"
+        return self.obaRegionJsonDataSource.buildGETRequest(withPath: path, queryParameters: nil)
+    }
+}
+
 // MARK: - Regional Alerts
 @objc extension PromisedModelService {
     /// Retrieves a list of alert messages for the specified `region` since `date`.

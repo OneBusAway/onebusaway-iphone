@@ -76,14 +76,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }];
 }
 
-- (AnyPromise*)requestRegions {
-    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestRegions:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
-            resolve(error ?: [responseData values]);
-        }];
-    }];
-}
-
 - (AnyPromise*)requestAgenciesWithCoverage {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         [self requestAgenciesWithCoverage:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
@@ -354,14 +346,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
                      url:@"/maps/api/geocode/json"
                     args:args
                 selector:@selector(getPlacemarksFromJSONObject:error:)
-         completionBlock:completion];
-}
-
-- (OBAModelServiceRequest*)requestRegions:(OBADataSourceCompletion)completion {
-    return [self request:self.obaRegionJsonDataSource
-                     url:@"/regions-v3.json"
-                    args:nil
-                selector:@selector(getRegionsV2FromJson:error:)
          completionBlock:completion];
 }
 

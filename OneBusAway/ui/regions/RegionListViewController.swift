@@ -126,13 +126,11 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
     // MARK: - Data Loading
 
     func updateData() {
-
         SVProgressHUD.show(withStatus: NSLocalizedString("msg_loading_regions", comment: "Progress HUD status when first locating the user on the Region List Controller"))
 
-        firstly { 
-            OBAApplication.shared().modelService.requestRegions()
-        }.then { regions in
-            self.regions = regions as? [OBARegionV2]
+        let wrapper = OBAApplication.shared().modelService.requestRegions()
+        wrapper.promise.then { networkResponse in
+            self.regions = networkResponse.object as? [OBARegionV2]
         }.then { _ in
             self.loadData()
         }.always {
