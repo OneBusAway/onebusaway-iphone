@@ -13,6 +13,8 @@
 #import <OBAKit/OBALocationManager.h>
 #import <OBAKit/OBAModelDAO.h>
 
+@class PromisedModelService;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class OBARegionHelper;
@@ -24,11 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OBARegionHelper : NSObject
 @property(nonatomic,strong) OBALocationManager *locationManager;
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
-@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) PromisedModelService *modelService;
 @property(nonatomic,weak) id<OBARegionHelperDelegate> delegate;
 @property(nonatomic,copy,readonly) NSArray<OBARegionV2*> *regionsWithin100Miles;
 
-- (instancetype)initWithLocationManager:(OBALocationManager*)locationManager modelService:(OBAModelService*)modelService NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithLocationManager:(OBALocationManager*)locationManager modelService:(PromisedModelService*)modelService NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (void)setNearestRegion;

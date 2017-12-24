@@ -112,30 +112,12 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  */
 - (AnyPromise*)requestArrivalAndDepartureWithConvertible:(id<OBAArrivalAndDepartureConvertible>)convertible;
 
-#pragma mark - Regions
-
-/**
- Retrieves all available OBA regions, including experimental and inactive regions. Returns an array of OBARegionV2 objects.
- *
- *  @return A promise that resolves to NSArray<OBARegionV2*>*.
- */
-- (AnyPromise*)requestRegions;
-
-/**
- *  Makes an asynchronous request to fetch all available OBA regions, including experimental and inactive
- *
- *  @param completion The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (OBAModelServiceRequest*)requestRegions:(OBADataSourceCompletion)completion;
-
 #pragma mark - Agencies
 
 /**
- Retrieves all available OBA regions, including experimental and inactive regions. Returns an array of OBARegionV2 objects.
- *
- *  @return A promise that resolves to NSArray<OBAAgencyWithCoverageV2*>*.
+ Retrieves all available agencies for the current region.
+
+ @return A promise that resolves to [OBAAgencyWithCoverageV2]
  */
 - (AnyPromise*)requestAgenciesWithCoverage;
 
