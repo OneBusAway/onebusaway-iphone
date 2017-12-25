@@ -27,7 +27,6 @@
 #import <OBAKit/OBAReportProblemWithTripV2.h>
 #import <OBAKit/OBALocationManager.h>
 #import <OBAKit/OBAArrivalAndDepartureConvertible.h>
-#import <OBAKit/OBAAlarm.h>
 
 @import PromiseKit;
 
@@ -50,10 +49,6 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  model service/factory/references stack.
  */
 + (instancetype)modelServiceWithBaseURL:(NSURL*)URL;
-
-#pragma mark - Alarms
-
-- (nullable OBAModelServiceRequest*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion;
 
 #pragma mark - OBATripInstanceRef -> OBATripDetailsV2
 

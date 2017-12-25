@@ -149,42 +149,38 @@ import Mantle
 
 // MARK: - Alarms
 @objc extension PromisedModelService {
-
     /// Creates an alarm object on the server
     ///
     /// - Parameters:
     ///   - alarm: The local alarm object
     ///   - userPushNotificationID: The user's unique push notification ID
     /// - Returns: A promise that fulfills into an URL object
-    @nonobjc func createAlarm(_ alarm: OBAAlarm, userPushNotificationID: String) -> Promise<URL> {
-        let promise = Promise<URL> { fulfill, reject in
-            let request = self.request(alarm, userPushNotificationID: userPushNotificationID) { (responseObject, response, error) in
-                if let error = error {
-                    reject(error)
-                    return
-                }
+    @objc func createAlarm(_ alarm: OBAAlarm, userPushNotificationID: String) -> PromiseWrapper {
+        let request = createAlarmRequest(alarm, userPushNotificationID: userPushNotificationID)
+        let wrapper = PromiseWrapper.init(request: request)
 
-                let dict = responseObject as! Dictionary<String, Any>
-                let url = URL.init(string: dict["url"] as! String)
+        wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
+            let dict = networkResponse.object as! Dictionary<String, Any>
+            let url = URL.init(string: dict["url"] as! String)!
 
-                fulfill(url!)
-            }
-
-            if request == nil {
-                reject(OBAErrorMessages.cannotRegisterAlarm)
-            }
+            return NetworkResponse.init(object: url, URLResponse: networkResponse.URLResponse)
         }
-        return promise
+
+        return wrapper
     }
 
-    /// Creates an alarm object on the server
-    ///
-    /// - Parameters:
-    ///   - alarm: The local alarm object
-    ///   - userPushNotificationID: The user's unique push notification ID
-    /// - Returns: A promise that fulfills into an URL object
-    @objc func createAlarmPromise(_ alarm: OBAAlarm, userPushNotificationID: String) -> AnyPromise {
-        return AnyPromise(createAlarm(alarm, userPushNotificationID: userPushNotificationID))
+    @nonobjc private func createAlarmRequest(_ alarm: OBAAlarm, userPushNotificationID: String) -> URLRequest {
+        let params: [String: Any] = [
+            "seconds_before": alarm.timeIntervalBeforeDeparture,
+            "stop_id":        alarm.stopID,
+            "trip_id":        alarm.tripID,
+            "service_date":   alarm.serviceDate,
+            "vehicle_id":     alarm.vehicleID,
+            "stop_sequence":  alarm.stopSequence,
+            "user_push_id":   userPushNotificationID
+        ]
+
+        return self.obacoJsonDataSource.buildRequest(withPath: "/regions/\(alarm.regionIdentifier)/alarms", httpMethod: "POST", queryParameters: nil, formBody: params)
     }
 }
 

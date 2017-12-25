@@ -86,9 +86,10 @@
     [SVProgressHUD show];
 
     [OBAPushManager.pushManager requestUserPushNotificationID].then(^(NSString *pushNotificationID) {
-        return [self.modelService createAlarmPromise:alarm userPushNotificationID:pushNotificationID];
-    }).then(^(NSDictionary *serverResponse) {
-        alarm.alarmURL = [NSURL URLWithString:serverResponse[@"url"]];
+        PromiseWrapper *wrapper = [self.modelService createAlarm:alarm userPushNotificationID:pushNotificationID];
+        return wrapper.anyPromise;
+    }).then(^(NetworkResponse *response) {
+        alarm.alarmURL = response.object;
         [self.modelDAO addAlarm:alarm];
 
         id<OBAArrivalDepartureOptionsSheetDelegate> delegate = self.delegate;
