@@ -25,6 +25,10 @@ import PromiseKit
                 responseObject = responseObject.value(forKey: "data") as AnyObject
             }
 
+            if urlResponse.statusCode == 404 {
+                throw NSError.init(domain: OBAErrorDomain, code: 404, userInfo: nil)
+            }
+
             let (arrivals, error) = self.decodeStopArrivals(json: responseObject)
 
             if let error = error {

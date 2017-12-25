@@ -910,3 +910,16 @@
 
 /* Title of the 'Walking Directions (Apple Maps)' option in the action sheet. */
 "stop.walking_directions_google_action_title" = "Walking Directions (Google Maps)";
+
+/* Title of an alert displayed when the user is trying to view an object from a different region than the one they're currently in. */
+"deep_links.errors.region_mismatch_alert.title" = "Wrong Region";
+
+/* Message of an alert displayed when the user is trying to view an object from a different region than the one they're currently in. */
+"deep_links.errors.region_mismatch_alert.message" = "The item you're trying to view belongs to a different region than the one in which you are currently located.";
+
+/* The button title is Change Regions and this is used to switch the user to the correct region." */
+"deep_links.errors.region_mismatch_alert.change_regions_button" = "Change Regions";
+
+/* The button title is Do Nothing and this is used to, ahem, do nothing. */
+"deep_links.errors.region_mismatch_alert.do_nothing_button" = "Do Nothing";
+

@@ -54,7 +54,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     if (self) {
         [self registerForNotifications];
 
-        _deepLinkRouter = [self.class setupDeepLinkRouterWithModelDAO:self.application.modelDao appDelegate:self];
+        _deepLinkRouter = [self setupDeepLinkRouterWithModelDAO:self.application.modelDao appDelegate:self];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 
@@ -66,11 +66,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     }
 
     return self;
-}
-
-- (void)navigateToTarget:(OBANavigationTarget *)navigationTarget {
-    [self.application.references clear];
-    [self.applicationUI navigateToTargetInternal:navigationTarget];
 }
 
 - (void)_constructUI {
@@ -196,46 +191,90 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     [self.topViewController presentViewController:alertController animated:YES completion:nil];
 }
 
+#pragma mark - OBANavigator
+
+- (void)navigateToTarget:(OBANavigationTarget *)navigationTarget {
+    [self.application.references clear];
+    [self.applicationUI navigateToTargetInternal:navigationTarget];
+}
+
+- (id<OBANavigator>)navigator {
+    return self;
+}
+
 #pragma mark - Deep Linking
 
-#define kDeepLinkTripPattern @"\\/regions\\/(\\d+).*\\/stops\\/(.*)\\/trips\\/?"
+- (void)routeDeepLinkStop:(NSURLComponents *)URLComponents appDelegate:(OBAApplicationDelegate *)appDelegate matchGroupResults:(NSArray<NSString *> *)matchGroupResults {
+    OBAGuard(matchGroupResults.count == 2) else {
+        return;
+    }
 
-+ (OBADeepLinkRouter*)setupDeepLinkRouterWithModelDAO:(OBAModelDAO*)modelDAO appDelegate:(OBAApplicationDelegate*)appDelegate {
-    OBADeepLinkRouter *deepLinkRouter = [[OBADeepLinkRouter alloc] init];
+    NSInteger regionIdentifier = [matchGroupResults[0] integerValue];
+    NSString *stopID = matchGroupResults[1];
 
-    [deepLinkRouter routePattern:kDeepLinkTripPattern toAction:^(NSArray<NSString *> *matchGroupResults, NSURLComponents *URLComponents) {
-        OBAGuard(matchGroupResults.count == 2) else {
-            return;
-        }
+    if (self.application.modelDao.currentRegion.identifier != regionIdentifier) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"deep_links.errors.region_mismatch_alert.title", @"Title of an alert displayed when the user is trying to view an object from a different region than the one they're currently in.") message:NSLocalizedString(@"deep_links.errors.region_mismatch_alert.message", @"Message of an alert displayed when the user is trying to view an object from a different region than the one they're currently in.") preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"deep_links.errors.region_mismatch_alert.change_regions_button", @"The button title is Change Regions and this is used to switch the user to the correct region.") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            if ([self.application.regionHelper selectRegionWithIdentifier:regionIdentifier]) {
+                OBANavigationTarget *navTarget = [OBANavigationTarget navigationTargetForStopID:stopID];
+                [appDelegate navigateToTarget:navTarget];
+            }
+        }]];
+        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"deep_links.errors.region_mismatch_alert.do_nothing_button", @"The button title is Do Nothing and this is used to, ahem, do nothing.") style:UIAlertActionStyleDefault handler:nil]];
 
-        NSInteger regionIdentifier = [matchGroupResults[0] integerValue];
-        NSString *stopID = matchGroupResults[1];
-        NSDictionary *queryItems = [NSURLQueryItem oba_dictionaryFromQueryItems:URLComponents.queryItems];
+        [appDelegate.topViewController presentViewController:alert animated:YES completion:nil];
 
-        OBATripDeepLink *tripDeepLink = [[OBATripDeepLink alloc] init];
-        tripDeepLink.regionIdentifier = regionIdentifier;
-        tripDeepLink.stopID = stopID;
-        tripDeepLink.tripID = queryItems[@"trip_id"];
-        tripDeepLink.serviceDate = [queryItems[@"service_date"] longLongValue];
-        tripDeepLink.stopSequence = [queryItems[@"stop_sequence"] integerValue];
+        return;
+    }
 
-        [SVProgressHUD show];
+    OBANavigationTarget *navTarget = [OBANavigationTarget navigationTargetForStopID:stopID];
+    [appDelegate navigateToTarget:navTarget];
+}
 
-        [self.application.modelService requestArrivalAndDepartureWithConvertible:tripDeepLink].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
-            tripDeepLink.name = arrivalAndDeparture.bestAvailableNameWithHeadsign;
+- (void)routeDeepLinkTrip:(NSURLComponents *)URLComponents appDelegate:(OBAApplicationDelegate *)appDelegate matchGroupResults:(NSArray<NSString *> *)matchGroupResults {
+    OBAGuard(matchGroupResults.count == 2) else {
+        return;
+    }
 
-            // OK, it works, so write it into the model DAO.
-            [self.application.modelDao addSharedTrip:tripDeepLink];
+    NSInteger regionIdentifier = [matchGroupResults[0] integerValue];
+    NSString *stopID = matchGroupResults[1];
+    NSDictionary *queryItems = [NSURLQueryItem oba_dictionaryFromQueryItems:URLComponents.queryItems];
 
-            OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeRecentStops];
-            target.object = tripDeepLink;
-            [appDelegate navigateToTarget:target];
-        }).catch(^(NSError *error) {
-            NSString *body = [NSString stringWithFormat:NSLocalizedString(@"text_error_cant_show_shared_trip_param", @"Error message displayed to the user when something goes wrong with a just-tapped shared trip."), error.localizedDescription];
-            [AlertPresenter showWarning:NSLocalizedString(@"msg_something_went_wrong",) body:body];
-        }).always(^{
-            [SVProgressHUD dismiss];
-        });
+    OBATripDeepLink *tripDeepLink = [[OBATripDeepLink alloc] init];
+    tripDeepLink.regionIdentifier = regionIdentifier;
+    tripDeepLink.stopID = stopID;
+    tripDeepLink.tripID = queryItems[@"trip_id"];
+    tripDeepLink.serviceDate = [queryItems[@"service_date"] longLongValue];
+    tripDeepLink.stopSequence = [queryItems[@"stop_sequence"] integerValue];
+
+    [SVProgressHUD show];
+
+    [self.application.modelService requestArrivalAndDepartureWithConvertible:tripDeepLink].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
+        tripDeepLink.name = arrivalAndDeparture.bestAvailableNameWithHeadsign;
+
+        // OK, it works, so write it into the model DAO.
+        [self.application.modelDao addSharedTrip:tripDeepLink];
+
+        OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeRecentStops];
+        target.object = tripDeepLink;
+        [appDelegate navigateToTarget:target];
+    }).catch(^(NSError *error) {
+        NSString *body = [NSString stringWithFormat:NSLocalizedString(@"text_error_cant_show_shared_trip_param", @"Error message displayed to the user when something goes wrong with a just-tapped shared trip."), error.localizedDescription];
+        [AlertPresenter showWarning:NSLocalizedString(@"msg_something_went_wrong",) body:body];
+    }).always(^{
+        [SVProgressHUD dismiss];
+    });
+}
+
+- (OBADeepLinkRouter*)setupDeepLinkRouterWithModelDAO:(OBAModelDAO*)modelDAO appDelegate:(OBAApplicationDelegate*)appDelegate {
+    OBADeepLinkRouter *deepLinkRouter = [[OBADeepLinkRouter alloc] initWithDeepLinkBaseURL:[NSURL URLWithString:OBADeepLinkServerAddress]];
+
+    [deepLinkRouter routePattern:OBADeepLinkTripRegexPattern toAction:^(NSArray<NSString *> *matchGroupResults, NSURLComponents *URLComponents) {
+        [self routeDeepLinkTrip:URLComponents appDelegate:appDelegate matchGroupResults:matchGroupResults];
+    }];
+
+    [deepLinkRouter routePattern:OBADeepLinkStopRegexPattern toAction:^(NSArray<NSString *> *matchGroupResults, NSURLComponents *URLComponents) {
+        [self routeDeepLinkStop:URLComponents appDelegate:appDelegate matchGroupResults:matchGroupResults];
     }];
 
     return deepLinkRouter;

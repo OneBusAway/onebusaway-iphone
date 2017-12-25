@@ -14,6 +14,7 @@ let kMinutes: UInt = 60
 
 class TodayViewController: OBAStaticTableViewController {
     let app = OBAApplication.init()
+    let deepLinkRouter = OBADeepLinkRouter.init(deepLinkBaseURL: URL.init(string: OBADeepLinkServerAddress)!)
     var group: OBABookmarkGroup = OBABookmarkGroup.init(bookmarkGroupType: .todayWidget)
 
     override func viewDidLoad() {
@@ -60,7 +61,7 @@ extension TodayViewController {
         return tableSection
     }
 
-    func populateRow(_ row: OBABookmarkedRouteRow, routeName: String, departures: [OBAArrivalAndDepartureV2]) {
+    func populateRow(_ row: OBABookmarkedRouteRow, targetURL: URL, routeName: String, departures: [OBAArrivalAndDepartureV2]) {
         if departures.count > 0 {
             row.supplementaryMessage = nil
             let arrivalDeparture = departures[0]
@@ -76,6 +77,10 @@ extension TodayViewController {
         }
         
         row.upcomingDepartures = OBAUpcomingDeparture.upcomingDepartures(fromArrivalsAndDepartures: departures)
+
+        row.action = { _ in
+            self.extensionContext?.open(targetURL, completionHandler: nil)
+        }
     }
 }
 
@@ -89,10 +94,10 @@ extension TodayViewController {
         let row = self.row(at: indexPath) as! OBABookmarkedRouteRow
 
         let promiseWrapper = self.app.modelService.requestStopArrivalsAndDepartures(withID: bookmark.stopId, minutesBefore: 0, minutesAfter: kMinutes)
-
         return promiseWrapper.promise.then { networkResponse -> Void in
             let matchingDepartures: [OBAArrivalAndDepartureV2] = bookmark.matchingArrivalsAndDepartures(forStop: networkResponse.object as! OBAArrivalsAndDeparturesForStopV2)
-            self.populateRow(row, routeName: bookmark.routeShortName, departures: matchingDepartures)
+            let url = self.deepLinkRouter.deepLinkURL(forStopID: bookmark.stopId, regionIdentifier: bookmark.regionIdentifier) ?? URL.init(string: "http://onebusaway.co")!
+            self.populateRow(row, targetURL: url, routeName: bookmark.routeShortName, departures: matchingDepartures)
             row.state = .complete
         }.catch { error in
             row.upcomingDepartures = nil

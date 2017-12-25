@@ -41,10 +41,8 @@ extern NSString * const OBARegionDidUpdateNotification;
 @property(strong,nonatomic,readonly) NSArray<OBABookmarkGroup*> *bookmarkGroups;
 @property(strong,nonatomic,readonly) NSArray<OBAStopAccessEventV2*> * mostRecentStops;
 @property(nonatomic,copy) CLLocation *mostRecentLocation;
-@property(nonatomic,strong,nullable) OBARegionV2 *currentRegion;
 @property(nonatomic,assign) BOOL hideFutureLocationWarnings;
 @property(nonatomic,assign) BOOL ungroupedBookmarksOpen;
-@property(nonatomic,assign) BOOL automaticallySelectRegion;
 
 - (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer;
 
@@ -88,6 +86,9 @@ extern NSString * const OBARegionDidUpdateNotification;
 - (NSArray<OBAStopAccessEventV2*>*)recentStopsMatchingString:(NSString*)matching;
 
 // Regions
+
+@property(nonatomic,strong,nullable) OBARegionV2 *currentRegion;
+@property(nonatomic,assign) BOOL automaticallySelectRegion;
 
 - (NSArray<OBARegionV2*>*)customRegions;
 - (void)addCustomRegion:(OBARegionV2*)region;
