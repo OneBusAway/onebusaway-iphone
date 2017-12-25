@@ -15,7 +15,7 @@
 
 @interface OBARegionHelper ()
 @property(nonatomic,strong) PromiseWrapper *promiseWrapper;
-@property(nonatomic,copy) NSArray<OBARegionV2*> *regions;
+@property(nonatomic,copy,readwrite) NSArray<OBARegionV2*> *regions;
 @property(nonatomic,strong) OBARegionStorage *regionStorage;
 @property(nonatomic,strong) NSLock *refreshLock;
 @end
@@ -83,6 +83,25 @@
 
     self.modelDAO.currentRegion = candidateRegions[0];
     self.modelDAO.automaticallySelectRegion = YES;
+}
+
+- (BOOL)selectRegionWithIdentifier:(NSInteger)identifier {
+    OBARegionV2 *region = nil;
+
+    for (OBARegionV2 *r in self.regions) {
+        if (r.identifier == identifier) {
+            region = r;
+            break;
+        }
+    }
+
+    if (region) {
+        self.modelDAO.automaticallySelectRegion = NO;
+        self.modelDAO.currentRegion = region;
+        return YES;
+    }
+
+    return NO;
 }
 
 - (void)refreshCurrentRegionData {

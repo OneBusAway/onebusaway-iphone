@@ -269,6 +269,9 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         [self.mapDataLoader searchPending];
         [self.mapRegionManager setRegionFromNavigationTarget:target];
     }
+    else if (OBASearchTypeStopId == target.searchType) {
+        [self displayStopControllerForStopID:target.searchArgument];
+    }
     else {
         [self.mapDataLoader searchWithTarget:target];
     }
