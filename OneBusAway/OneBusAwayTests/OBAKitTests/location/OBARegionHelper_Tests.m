@@ -21,7 +21,7 @@
 @interface OBARegionHelper_Tests : XCTestCase
 @property(nonatomic,strong) OBATestHarnessPersistenceLayer *persistenceLayer;
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
-@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) PromisedModelService *modelService;
 @property(nonatomic,strong) OBALocationManager *locationManager;
 @end
 
