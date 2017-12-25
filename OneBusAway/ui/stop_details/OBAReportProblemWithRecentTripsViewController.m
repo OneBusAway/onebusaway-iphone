@@ -21,7 +21,8 @@
 #import "OBAReportProblemWithStopViewController.h"
 
 @interface OBAReportProblemWithRecentTripsViewController ()
-@property(nonatomic,strong) PromiseWrapper *promiseWrapper;
+@property(nonatomic,strong) PromiseWrapper *stopArrivalsPromiseWrapper;
+@property(nonatomic,strong) PromiseWrapper *tripDetailsPromiseWrapper;
 @property(nonatomic,copy) NSString *stopID;
 @property(nonatomic,strong) OBAArrivalsAndDeparturesForStopV2 *arrivalsAndDepartures;
 @end
@@ -40,15 +41,16 @@
 }
 
 - (void)dealloc {
-    [self.promiseWrapper cancel];
+    [self.stopArrivalsPromiseWrapper cancel];
+    [self.tripDetailsPromiseWrapper cancel];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     [SVProgressHUD show];
-    self.promiseWrapper = [self.modelService requestStopArrivalsAndDeparturesWithID:self.stopID minutesBefore:30 minutesAfter:30];
-    self.promiseWrapper.anyPromise.then(^(NetworkResponse *networkResponse) {
+    self.stopArrivalsPromiseWrapper = [self.modelService requestStopArrivalsAndDeparturesWithID:self.stopID minutesBefore:30 minutesAfter:30];
+    self.stopArrivalsPromiseWrapper.anyPromise.then(^(NetworkResponse *networkResponse) {
         OBAArrivalsAndDeparturesForStopV2 *response = networkResponse.object;
         self.arrivalsAndDepartures = response;
         [self populateTable];
@@ -94,7 +96,10 @@
 
 - (void)reportProblemWithTrip:(OBATripInstanceRef*)tripInstance {
     [SVProgressHUD show];
-    [self.modelService promiseTripDetailsFor:tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
+
+    self.tripDetailsPromiseWrapper = [self.modelService requestTripDetailsWithTripInstance:tripInstance];
+    self.tripDetailsPromiseWrapper.anyPromise.then(^(NetworkResponse *response) {
+        OBATripDetailsV2 *tripDetails = response.object;
         OBAReportProblemWithTripViewController *vc = [[OBAReportProblemWithTripViewController alloc] initWithTripInstance:tripInstance trip:tripDetails.trip];
         vc.currentStopId = self.stopID;
         [self.navigationController pushViewController:vc animated:YES];

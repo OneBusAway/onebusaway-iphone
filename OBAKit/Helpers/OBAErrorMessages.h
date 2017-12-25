@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSError*)connectionError:(NSHTTPURLResponse*)response;
 @property(nonatomic,copy,class,readonly) NSError *cannotRegisterAlarm;
 
++ (nullable NSError*)errorFromHttpResponse:(NSHTTPURLResponse*)httpResponse;
+
 @end
 
 NS_ASSUME_NONNULL_END

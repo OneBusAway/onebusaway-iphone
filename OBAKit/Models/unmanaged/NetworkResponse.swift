@@ -11,9 +11,11 @@ import Foundation
 @objc public class NetworkResponse: NSObject {
     @objc public var object: Any
     @objc public var URLResponse: HTTPURLResponse
+    @objc public var urlRequest: OBAURLRequest
 
-    init(object: Any, URLResponse: HTTPURLResponse) {
+    init(object: Any, URLResponse: HTTPURLResponse, urlRequest: OBAURLRequest) {
         self.object = object
         self.URLResponse = URLResponse
+        self.urlRequest = urlRequest
     }
 }

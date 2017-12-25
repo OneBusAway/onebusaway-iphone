@@ -319,24 +319,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
          completionBlock:completion];
 }
 
-- (OBAModelServiceRequest*)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance completionBlock:(OBADataSourceCompletion)completion {
-    NSMutableDictionary *args = [[NSMutableDictionary alloc] init];
-
-    if (tripInstance.serviceDate > 0) {
-        args[@"serviceDate"] = @(tripInstance.serviceDate);
-    }
-
-    if (tripInstance.vehicleId) {
-        args[@"vehicleId"] = tripInstance.vehicleId;
-    }
-
-    return [self request:self.obaJsonDataSource
-                     url:[NSString stringWithFormat:@"/api/where/trip-details/%@.json", [OBAURLHelpers escapePathVariable:tripInstance.tripId]]
-                    args:args
-                selector:@selector(getTripDetailsV2FromJSON:error:)
-         completionBlock:completion];
-}
-
 - (OBAModelServiceRequest*)requestVehicleForId:(NSString *)vehicleId completionBlock:(OBADataSourceCompletion)completion {
     return [self request:self.obaJsonDataSource
                      url:[NSString stringWithFormat:@"/api/where/vehicle/%@.json", [OBAURLHelpers escapePathVariable:vehicleId]]

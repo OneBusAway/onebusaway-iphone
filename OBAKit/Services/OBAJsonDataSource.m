@@ -18,6 +18,7 @@
 #import <OBAKit/OBACommon.h>
 #import <OBAKit/NSDictionary+OBAAdditions.h>
 #import <OBAKit/NSObject+OBADescription.h>
+#import <OBAKit/OBAKit-Swift.h>
 
 @interface OBAJsonDataSource ()
 @property(nonatomic,strong) NSHashTable *openConnections;
@@ -67,21 +68,18 @@
 
 #pragma mark - Public Methods
 
-- (NSURLRequest*)buildGETRequestWithPath:(NSString*)path queryParameters:(nullable NSDictionary*)queryParameters {
+- (OBAURLRequest*)buildGETRequestWithPath:(NSString*)path queryParameters:(nullable NSDictionary*)queryParameters {
     return [self buildRequestWithPath:path HTTPMethod:@"GET" queryParameters:queryParameters formBody:nil];
 }
 
-- (NSURLRequest*)buildRequestWithPath:(NSString*)path HTTPMethod:(NSString*)httpMethod queryParameters:(nullable NSDictionary*)queryParameters formBody:(nullable NSDictionary*)formBody {
+- (OBAURLRequest*)buildRequestWithPath:(NSString*)path HTTPMethod:(NSString*)httpMethod queryParameters:(nullable NSDictionary*)queryParameters formBody:(nullable NSDictionary*)formBody {
     return [self buildRequestWithURL:[self.config constructURL:path withArgs:queryParameters] HTTPMethod:httpMethod formBody:formBody];
 }
 
-- (NSURLRequest*)buildRequestWithURL:(NSURL*)URL HTTPMethod:(NSString*)httpMethod formBody:(nullable NSDictionary*)formBody {
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15];
-    [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
-    request.HTTPMethod = httpMethod;
+- (OBAURLRequest*)buildRequestWithURL:(NSURL*)URL HTTPMethod:(NSString*)httpMethod formBody:(nullable NSDictionary*)formBody {
+    OBAURLRequest *request = [OBAURLRequest requestWithURL:URL httpMethod:httpMethod checkStatusCodeInBody:self.checkStatusCodeInBody];
 
     BOOL requestSupportsHTTPBody = [@[@"post", @"patch", @"put"] containsObject:httpMethod.lowercaseString];
-
     if (formBody && requestSupportsHTTPBody) {
         request.HTTPBody = [formBody oba_toHTTPBodyData];
     }
@@ -95,7 +93,7 @@
                             formBody:(nullable NSDictionary*)formBody
                      completionBlock:(OBADataSourceCompletion)completion {
 
-    NSURLRequest *request = [self buildRequestWithPath:path
+    OBAURLRequest *request = [self buildRequestWithPath:path
                                             HTTPMethod:httpMethod
                                        queryParameters:queryParameters
                                               formBody:formBody];

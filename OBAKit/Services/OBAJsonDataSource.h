@@ -18,6 +18,8 @@
 #import <OBAKit/OBADataSourceConfig.h>
 #import <OBAKit/OBAModelServiceRequest.h>
 
+@class OBAURLRequest;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAJsonDataSource : NSObject
@@ -43,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param queryParameters An optional list of query parameters to append to the URL. Turned into: `?key1=value&key2=value`.
  @return An URLRequest suitable for loading data.
  */
-- (NSURLRequest*)buildGETRequestWithPath:(NSString*)path queryParameters:(nullable NSDictionary*)queryParameters;
+- (OBAURLRequest*)buildGETRequestWithPath:(NSString*)path queryParameters:(nullable NSDictionary*)queryParameters;
 
 /**
  Creates an URL request based upon the supplied path and HTTP method, configuring other parameters, like a GZIP header.
@@ -54,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param formBody Optional form body contents.
  @return An URLRequest suitable for loading data.
  */
-- (NSURLRequest*)buildRequestWithPath:(NSString*)path HTTPMethod:(NSString*)httpMethod queryParameters:(nullable NSDictionary*)queryParameters formBody:(nullable NSDictionary*)formBody;
+- (OBAURLRequest*)buildRequestWithPath:(NSString*)path HTTPMethod:(NSString*)httpMethod queryParameters:(nullable NSDictionary*)queryParameters formBody:(nullable NSDictionary*)formBody;
 
 /**
  Creates an URL request based upon the supplied URL and HTTP method, configuring other parameters, like a GZIP header.
@@ -64,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param formBody Optional form body contents.
  @return An URLRequest suitable for loading data.
  */
-- (NSURLRequest*)buildRequestWithURL:(NSURL*)URL HTTPMethod:(NSString*)httpMethod formBody:(nullable NSDictionary*)formBody;
+- (OBAURLRequest*)buildRequestWithURL:(NSURL*)URL HTTPMethod:(NSString*)httpMethod formBody:(nullable NSDictionary*)formBody;
 
 /**
  Creates an NSURLSessionTask from the supplied URL request that will execute the completion block when it finishes.
