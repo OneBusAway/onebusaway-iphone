@@ -115,53 +115,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }];
 }
 
-#pragma mark - Alarms
-
-- (nullable OBAModelServiceRequest*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion {
-
-    OBAGuard(alarm.timeIntervalBeforeDeparture > 0) else {
-        return nil;
-    }
-
-    OBAGuard(alarm.stopID) else {
-        return nil;
-    }
-
-    OBAGuard(alarm.tripID) else {
-        return nil;
-    }
-
-    OBAGuard(alarm.serviceDate != 0) else {
-        return nil;
-    }
-
-    OBAGuard(alarm.vehicleID) else {
-        return nil;
-    }
-
-    OBAGuard(userPushNotificationID) else {
-        return nil;
-    }
-
-    NSDictionary *params = @{
-                             @"seconds_before": @(alarm.timeIntervalBeforeDeparture),
-                             @"stop_id":        alarm.stopID,
-                             @"trip_id":        alarm.tripID,
-                             @"service_date":   @(alarm.serviceDate),
-                             @"vehicle_id":     alarm.vehicleID,
-                             @"stop_sequence":  @(alarm.stopSequence),
-                             @"user_push_id":   userPushNotificationID
-                            };
-
-    return [self request:self.obacoJsonDataSource
-                     url:[NSString stringWithFormat:@"/regions/%@/alarms", @(alarm.regionIdentifier)]
-              HTTPMethod:@"POST"
-             queryParams:nil
-                formBody:params
-                selector:nil
-         completionBlock:completion];
-}
-
 #pragma mark - Old School Requests
 
 - (OBAModelServiceRequest*)requestCurrentTimeWithCompletionBlock:(OBADataSourceCompletion)completion {
