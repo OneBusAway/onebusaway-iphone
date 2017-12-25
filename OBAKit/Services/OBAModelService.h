@@ -51,18 +51,6 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  */
 + (instancetype)modelServiceWithBaseURL:(NSURL*)URL;
 
-#pragma mark - Regional Alerts
-
-/**
- Retrieves a list of alert messages for the specified `region` since `date`. The completion block's responseData is [OBARegionalAlert]
-
- @param region The region from which alerts are desired.
- @param date The last date that alerts were requested. Specify nil for all time.
- @param completion Completion block is called when the operation finishes, regardless of success or failure.
- @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (OBAModelServiceRequest*)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(nullable NSDate*)date completionBlock:(OBADataSourceCompletion)completion;
-
 #pragma mark - Alarms
 
 - (nullable OBAModelServiceRequest*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion;

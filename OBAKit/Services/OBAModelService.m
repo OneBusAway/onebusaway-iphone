@@ -115,30 +115,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }];
 }
 
-#pragma mark - Regional Alerts
-
-- (OBAModelServiceRequest*)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(NSDate*)date completionBlock:(OBADataSourceCompletion)completion {
-
-    NSDictionary *params = @{ @"since": @((long long)date.timeIntervalSince1970) };
-
-    return [self request:self.obacoJsonDataSource
-                     url:[NSString stringWithFormat:@"/regions/%@/alert_feed_items", @(region.identifier)]
-                    args:params
-                selector:nil
-         completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
-             NSError *deserializationError = nil;
-             if (responseData) {
-                 responseData = [MTLJSONAdapter modelsOfClass:OBARegionalAlert.class fromJSONArray:responseData error:&deserializationError];
-
-                 // Mark all alerts older than one day as 'read' automatically.
-                 for (OBARegionalAlert *alert in responseData) {
-                     alert.unread = ABS(alert.publishedAt.timeIntervalSinceNow) < 86400; // Number of seconds in 1 day.
-                 }
-             }
-             completion(responseData, response, error ?: deserializationError);
-         }];
-}
-
 #pragma mark - Alarms
 
 - (nullable OBAModelServiceRequest*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion {

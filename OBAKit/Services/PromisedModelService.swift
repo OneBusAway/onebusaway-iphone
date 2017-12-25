@@ -7,6 +7,7 @@
 //
 
 import PromiseKit
+import Mantle
 
 // MARK: Stop -> OBAArrivalAndDepartureV2
 @objc public class PromisedModelService: OBAModelService {
@@ -103,35 +104,46 @@ import PromiseKit
 
 // MARK: - Regional Alerts
 @objc extension PromisedModelService {
-    /// Retrieves a list of alert messages for the specified `region` since `date`.
+    /// Retrieves a list of alert messages for the specified `region` since `date`. The completion block's responseData is [OBARegionalAlert]
     ///
     /// - Parameters:
-    ///   - region: The region from which alerts are desired
-    ///   - sinceDate: The last date that alerts were requested. Specify nil for all time.
-    /// - Returns: A promise that resolves to [OBARegionalAlert]
-    @nonobjc public func regionalAlerts(region: OBARegionV2, sinceDate: Date?) -> Promise<[OBARegionalAlert]> {
-        let promise = Promise<[OBARegionalAlert]> { fulfill, reject in
-            self.requestRegionalAlerts(region, since: sinceDate) { (responseObject, response, error) in
-                if let error = error {
-                    reject(error)
-                }
-                else {
-                    fulfill(responseObject as! [OBARegionalAlert])
-                }
-            }
+    ///   - region: The region from which alerts are desired.
+    ///   - date: The last date that alerts were requested. Specify nil for all time.
+    /// - Returns: A promise wrapper that resolves to [OBARegionalAlert]
+    @objc func requestAlerts(for region: OBARegionV2, since date: Date?) -> PromiseWrapper {
+        let request = buildURLRequestForRegionalAlerts(region: region, since: date)
+        let wrapper = PromiseWrapper.init(request: request)
+
+        wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
+            let alerts = try self.decodeRegionalAlerts(json: networkResponse.object as! [Any])
+            return NetworkResponse.init(object: alerts, URLResponse: networkResponse.URLResponse)
         }
 
-        return promise
+        return wrapper
     }
 
-    /// Retrieves a list of alert messages for the specified `region` since `date`.
-    ///
-    /// - Parameters:
-    ///   - region: The region from which alerts are desired
-    ///   - sinceDate: The last date that alerts were requested. Specify nil for all time.
-    /// - Returns: A promise that resolves to [OBARegionalAlert]
-    @objc public func promiseRegionalAlerts(region: OBARegionV2, sinceDate: Date?) -> AnyPromise {
-        return AnyPromise(regionalAlerts(region: region, sinceDate: sinceDate))
+    @nonobjc private func buildURLRequestForRegionalAlerts(region: OBARegionV2, since date: Date?) -> URLRequest {
+        var params = ["since": 0]
+
+        if let date = date {
+            params["since"] = Int(date.timeIntervalSince1970)
+        }
+
+        let path = "/regions/\(region.identifier)/alert_feed_items"
+
+        return self.obacoJsonDataSource.buildGETRequest(withPath: path, queryParameters: params)
+    }
+
+    @nonobjc private func decodeRegionalAlerts(json: [Any]) throws -> [OBARegionalAlert] {
+        let models: [OBARegionalAlert] = try MTLJSONAdapter.models(of: OBARegionalAlert.self, fromJSONArray: json) as! [OBARegionalAlert]
+
+        // Mark all alerts older than one day as 'read' automatically.
+        return models.map {
+            if let published = $0.publishedAt {
+                $0.unread = abs(published.timeIntervalSinceNow) < 86400 // Number of seconds in 1 day.
+            }
+            return $0
+        }
     }
 }
 
