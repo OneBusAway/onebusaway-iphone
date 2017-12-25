@@ -29,12 +29,14 @@ static const NSString *kShapeContext = @"ShapeContext";
 @interface OBATripScheduleMapViewController ()
 @property(nonatomic,strong) MKPolyline *routePolyline;
 @property(nonatomic,strong) MKPolylineRenderer *routePolylineRenderer;
+@property(nonatomic,strong) PromiseWrapper *promiseWrapper;
 @property(nonatomic,strong) OBAModelServiceRequest *request;
 @end
 
 @implementation OBATripScheduleMapViewController
 
 - (void)dealloc {
+    [self.promiseWrapper cancel];
     [self.request cancel];
     self.request = nil;
 }
@@ -59,8 +61,9 @@ static const NSString *kShapeContext = @"ShapeContext";
         return;
     }
 
-    [self.modelService promiseTripDetailsFor:self.tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
-        self.tripDetails = tripDetails;
+    self.promiseWrapper = [self.modelService requestTripDetailsWithTripInstance:self.tripInstance];
+    self.promiseWrapper.anyPromise.then(^(NetworkResponse *response) {
+        self.tripDetails = response.object;
         [self handleTripDetails];
     }).catch(^(NSError *error) {
         [self updateProgressViewWithError:error responseCode:error.code];

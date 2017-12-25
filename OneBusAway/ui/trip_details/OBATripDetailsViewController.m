@@ -25,6 +25,7 @@
 @property(nonatomic,strong) OBATripInstanceRef *tripInstance;
 @property(nonatomic,strong) OBATripDetailsV2 *tripDetails;
 @property(nonatomic,copy) NSString *currentStopId;
+@property(nonatomic,strong) PromiseWrapper *promiseWrapper;
 @end
 
 @implementation OBATripDetailsViewController
@@ -35,6 +36,10 @@
     }
 
     return self;
+}
+
+- (void)dealloc {
+    [self.promiseWrapper cancel];
 }
 
 - (void)viewDidLoad {
@@ -49,8 +54,9 @@
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [SVProgressHUD show];
 
-    [self.modelService promiseTripDetailsFor:self.tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
-        self.tripDetails = tripDetails;
+    self.promiseWrapper = [self.modelService requestTripDetailsWithTripInstance:self.tripInstance];
+    self.promiseWrapper.anyPromise.then(^(NetworkResponse *response) {
+        self.tripDetails = response.object;
         [self buildSections];
     }).always(^{
         self.navigationItem.rightBarButtonItem.enabled = YES;

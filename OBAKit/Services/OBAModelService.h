@@ -50,19 +50,6 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  */
 + (instancetype)modelServiceWithBaseURL:(NSURL*)URL;
 
-#pragma mark - OBATripInstanceRef -> OBATripDetailsV2
-
-/**
- *  Makes an asynchronous request to fetch trip details
- *
- *  @param tripInstance An intance of a trip
- *  @param completion   The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (OBAModelServiceRequest*)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance
-                                                completionBlock:(OBADataSourceCompletion)completion;
-
 #pragma mark - OBAArrivalAndDepartureInstanceRef -> OBAArrivalAndDepartureV2
 
 /**

@@ -34,6 +34,7 @@ typedef NS_ENUM(NSUInteger, OBASectionType) {
 @interface OBATripScheduleListViewController ()
 @property(nonatomic,strong) OBATripInstanceRef *tripInstance;
 @property(nonatomic,strong) OBAProgressIndicatorView *progressView;
+@property(nonatomic,strong) PromiseWrapper *promiseWrapper;
 @end
 
 @implementation OBATripScheduleListViewController
@@ -58,6 +59,10 @@ typedef NS_ENUM(NSUInteger, OBASectionType) {
     return self;
 }
 
+- (void)dealloc {
+    [self.promiseWrapper cancel];
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -68,11 +73,11 @@ typedef NS_ENUM(NSUInteger, OBASectionType) {
         return;
     }
 
-    [self.modelService promiseTripDetailsFor:self.tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
-        self.tripDetails = tripDetails;
+    self.promiseWrapper = [self.modelService requestTripDetailsWithTripInstance:self.tripInstance];
+    self.promiseWrapper.anyPromise.then(^(NetworkResponse *response) {
+        self.tripDetails = response.object;
         [self buildUI];
     }).catch(^(NSError *error) {
-
         // TODO: replace this with an AlertPresenter.
         if (error.code == 404) {
             [self.progressView setMessage:NSLocalizedString(@"msg_trip_not_found", @"message") inProgress:NO progress:0];

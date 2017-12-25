@@ -16,28 +16,8 @@ import Mantle
         let promiseWrapper = PromiseWrapper.init(request: request)
 
         promiseWrapper.promise = promiseWrapper.promise.then { networkResponse -> NetworkResponse in
-            let checkCode = self.obaJsonDataSource.checkStatusCodeInBody
-            var responseObject = networkResponse.object as AnyObject
-            var urlResponse = networkResponse.URLResponse
-
-            if checkCode && responseObject.responds(to: #selector(self.value(forKey:))) {
-                let statusCode = (responseObject.value(forKey: "code") as! NSNumber).intValue
-                urlResponse = HTTPURLResponse.init(url: urlResponse.url!, statusCode: statusCode, httpVersion: nil, headerFields: urlResponse.allHeaderFields as? [String : String])!
-                responseObject = responseObject.value(forKey: "data") as AnyObject
-            }
-
-            if urlResponse.statusCode == 404 {
-                throw NSError.init(domain: OBAErrorDomain, code: 404, userInfo: nil)
-            }
-
-            let (arrivals, error) = self.decodeStopArrivals(json: responseObject)
-
-            if let error = error {
-                throw error
-            }
-            else {
-                return NetworkResponse.init(object: arrivals!, URLResponse: networkResponse.URLResponse)
-            }
+            let arrivals = try self.decodeStopArrivals(json: networkResponse.object)
+            return NetworkResponse.init(object: arrivals, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
         }
 
         return promiseWrapper
@@ -45,7 +25,7 @@ import Mantle
 
     // TODO: extract this URL generation code into a new, separate class somewhere that is
     // solely focused on URL generation.
-    @objc public func buildURLRequestForStopArrivalsAndDepartures(withID stopID: String, minutesBefore: UInt, minutesAfter: UInt) -> URLRequest {
+    @objc public func buildURLRequestForStopArrivalsAndDepartures(withID stopID: String, minutesBefore: UInt, minutesAfter: UInt) -> OBAURLRequest {
         let args = ["minutesBefore": minutesBefore, "minutesAfter": minutesAfter]
         let escapedStopID = OBAURLHelpers.escapePathVariable(stopID)
         let path = String.init(format: "/api/where/arrivals-and-departures-for-stop/%@.json", escapedStopID)
@@ -53,16 +33,15 @@ import Mantle
         return self.obaJsonDataSource.buildGETRequest(withPath: path, queryParameters: args)
     }
 
-    private func decodeStopArrivals(json: Any) -> (OBAArrivalsAndDeparturesForStopV2?, Error?) {
+    private func decodeStopArrivals(json: Any) throws -> OBAArrivalsAndDeparturesForStopV2 {
         var error: NSError?
 
         let modelObjects = self.modelFactory.getArrivalsAndDeparturesForStopV2(fromJSON: json as! [AnyHashable : Any], error: &error)
         if let error = error {
-            return (nil, error)
+            throw error
         }
-        else {
-            return (modelObjects,nil)
-        }
+
+        return modelObjects
     }
 }
 
@@ -77,7 +56,7 @@ import Mantle
 
         wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
             let regions = try self.decodeRegions(json: networkResponse.object)
-            return NetworkResponse.init(object: regions, URLResponse: networkResponse.URLResponse)
+            return NetworkResponse.init(object: regions, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
         }
 
         return wrapper
@@ -96,7 +75,7 @@ import Mantle
         return regions
     }
 
-    private func buildURLRequestForRegions() -> URLRequest {
+    private func buildURLRequestForRegions() -> OBAURLRequest {
         let path = "/regions-v3.json"
         return self.obaRegionJsonDataSource.buildGETRequest(withPath: path, queryParameters: nil)
     }
@@ -116,13 +95,13 @@ import Mantle
 
         wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
             let alerts = try self.decodeRegionalAlerts(json: networkResponse.object as! [Any])
-            return NetworkResponse.init(object: alerts, URLResponse: networkResponse.URLResponse)
+            return NetworkResponse.init(object: alerts, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
         }
 
         return wrapper
     }
 
-    @nonobjc private func buildURLRequestForRegionalAlerts(region: OBARegionV2, since date: Date?) -> URLRequest {
+    @nonobjc private func buildURLRequestForRegionalAlerts(region: OBARegionV2, since date: Date?) -> OBAURLRequest {
         var params = ["since": 0]
 
         if let date = date {
@@ -163,13 +142,13 @@ import Mantle
             let dict = networkResponse.object as! Dictionary<String, Any>
             let url = URL.init(string: dict["url"] as! String)!
 
-            return NetworkResponse.init(object: url, URLResponse: networkResponse.URLResponse)
+            return NetworkResponse.init(object: url, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
         }
 
         return wrapper
     }
 
-    @nonobjc private func createAlarmRequest(_ alarm: OBAAlarm, userPushNotificationID: String) -> URLRequest {
+    @nonobjc private func createAlarmRequest(_ alarm: OBAAlarm, userPushNotificationID: String) -> OBAURLRequest {
         let params: [String: Any] = [
             "seconds_before": alarm.timeIntervalBeforeDeparture,
             "stop_id":        alarm.stopID,
@@ -186,33 +165,46 @@ import Mantle
 
 // MARK: - Trip Details
 @objc extension PromisedModelService {
-
     /// Trip details for the specified OBATripInstanceRef
     ///
     /// - Parameter tripInstance: The trip instance reference
-    /// - Returns: A Promise that resolves to an instance of OBATripDetailsV2
-    @nonobjc func tripDetails(for tripInstance: OBATripInstanceRef) -> Promise<OBATripDetailsV2> {
-        let promise = Promise<OBATripDetailsV2> { fulfill, reject in
-            self.requestTripDetails(for: tripInstance) { (responseObject, response, error) in
-                if let error = error {
-                    reject(error);
-                    return
-                }
+    /// - Returns: A PromiseWrapper that resolves to an instance of OBATripDetailsV2
+    @objc func requestTripDetails(tripInstance: OBATripInstanceRef) -> PromiseWrapper {
+        let request = self.buildTripDetailsRequest(tripInstance: tripInstance)
+        let wrapper = PromiseWrapper.init(request: request)
 
-                let entry = responseObject as! OBAEntryWithReferencesV2
-
-                fulfill(entry.entry as! OBATripDetailsV2)
-            }
+        wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
+            let tripDetails = try self.decodeTripDetails(json: networkResponse.object as! [AnyHashable : Any])
+            return NetworkResponse.init(object: tripDetails, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
         }
 
-        return promise
+        return wrapper
     }
 
-    /// Trip details for the specified OBATripInstanceRef
-    ///
-    /// - Parameter tripInstance: The trip instance reference
-    /// - Returns: A Promise that resolves to an instance of OBATripDetailsV2
-    @objc func promiseTripDetails(for tripInstance: OBATripInstanceRef) -> AnyPromise {
-        return AnyPromise(tripDetails(for: tripInstance))
+    @nonobjc private func decodeTripDetails(json: [AnyHashable: Any]) throws -> OBATripDetailsV2 {
+        var error: NSError? = nil
+        let model = self.modelFactory.getTripDetailsV2(fromJSON: json, error: &error)
+
+        if let error = error {
+            throw error
+        }
+
+        let entry = model.entry as! OBATripDetailsV2
+        return entry
+    }
+
+    @nonobjc private func buildTripDetailsRequest(tripInstance: OBATripInstanceRef) -> OBAURLRequest {
+        var args: [String: Any] = [:]
+        if tripInstance.serviceDate > 0 {
+            args["serviceDate"] = tripInstance.serviceDate
+        }
+
+        if tripInstance.vehicleId != nil {
+            args["vehicleId"] = tripInstance.vehicleId
+        }
+
+        let escapedTripID = OBAURLHelpers.escapePathVariable(tripInstance.tripId)
+
+        return self.obaJsonDataSource.buildGETRequest(withPath: "/api/where/trip-details/\(escapedTripID).json", queryParameters: args)
     }
 }

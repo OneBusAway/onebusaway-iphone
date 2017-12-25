@@ -242,6 +242,7 @@
 		93BC49F91FB8D697008B710D /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49F61FB8D697008B710D /* PMKCoreLocation.framework */; };
 		93BC49FB1FB8D6A3008B710D /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49FA1FB8D6A3008B710D /* PromiseKit.framework */; };
 		93BC49FD1FB8D6F4008B710D /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49FC1FB8D6F4008B710D /* Mantle.framework */; };
+		93D5F3671FF1900700800132 /* OBAURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D5F3661FF1900700800132 /* OBAURLRequest.swift */; };
 		93E592931F8CA6260079A2D8 /* OBATableRow.h in Headers */ = {isa = PBXBuildFile; fileRef = 93E592911F8CA6260079A2D8 /* OBATableRow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93E592941F8CA6260079A2D8 /* OBATableRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E592921F8CA6260079A2D8 /* OBATableRow.m */; };
 		93E592971F8CA6870079A2D8 /* OBATableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E592951F8CA6870079A2D8 /* OBATableViewCell.m */; };
@@ -523,6 +524,7 @@
 		93BC49F61FB8D697008B710D /* PMKCoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKCoreLocation.framework; path = ../Carthage/Build/iOS/PMKCoreLocation.framework; sourceTree = "<group>"; };
 		93BC49FA1FB8D6A3008B710D /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = ../Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		93BC49FC1FB8D6F4008B710D /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = ../Carthage/Build/iOS/Mantle.framework; sourceTree = "<group>"; };
+		93D5F3661FF1900700800132 /* OBAURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBAURLRequest.swift; sourceTree = "<group>"; };
 		93E592911F8CA6260079A2D8 /* OBATableRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATableRow.h; sourceTree = "<group>"; };
 		93E592921F8CA6260079A2D8 /* OBATableRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableRow.m; sourceTree = "<group>"; };
 		93E592951F8CA6870079A2D8 /* OBATableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableViewCell.m; sourceTree = "<group>"; };
@@ -918,6 +920,7 @@
 				934196A51DB0B0AF004BBBB7 /* OBAModelServiceRequest.m */,
 				9385BED61FAFA07D00D122D1 /* PromisedModelService.swift */,
 				933A47151FDCCB81009EB332 /* PromiseWrapper.swift */,
+				93D5F3661FF1900700800132 /* OBAURLRequest.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1348,6 +1351,7 @@
 				9341968D1DB0B099004BBBB7 /* OBATripStatusV2.m in Sources */,
 				93F3F89D1E7B02400025FC78 /* OBARegionalAlert.m in Sources */,
 				934196B71DB0B0AF004BBBB7 /* OBAModelServiceRequest.m in Sources */,
+				93D5F3671FF1900700800132 /* OBAURLRequest.swift in Sources */,
 				93FF1AB21EC39270006C883D /* OBALogging.m in Sources */,
 				93E592971F8CA6870079A2D8 /* OBATableViewCell.m in Sources */,
 				9327DEF41E02306900502F06 /* OBACanvasView.m in Sources */,

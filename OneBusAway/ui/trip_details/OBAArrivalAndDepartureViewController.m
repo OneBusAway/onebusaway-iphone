@@ -297,8 +297,10 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         self.mapController.routeType = self.arrivalAndDeparture.stop.firstAvailableRouteTypeForStop;
         [self updateTitleViewWithArrivalAndDeparture:self.arrivalAndDeparture];
 
-        return [self.modelService promiseTripDetailsFor:self.arrivalAndDeparture.tripInstance];
-    }).then(^(OBATripDetailsV2 *tripDetails) {
+        PromiseWrapper *wrapper = [self.modelService requestTripDetailsWithTripInstance:self.arrivalAndDeparture.tripInstance];
+        return wrapper.anyPromise;
+    }).then(^(NetworkResponse *response) {
+        OBATripDetailsV2 *tripDetails = response.object;
         self.tripDetails = tripDetails;
         self.mapController.tripDetails = tripDetails;
         [self populateTableWithArrivalAndDeparture:self.arrivalAndDeparture tripDetails:self.tripDetails];
