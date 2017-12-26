@@ -11,6 +11,7 @@
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/NSCoder+OBAAdditions.h>
 #import <OBAKit/NSArray+OBAAdditions.h>
+#import <OBAKit/OBARegionV2.h>
 
 @interface OBABookmarkGroup ()
 @property(nonatomic,strong) NSMutableArray<OBABookmarkV2*> *internalBookmarks;
@@ -94,6 +95,10 @@
 }
 
 #pragma mark - Bookmarks
+
+- (NSArray<OBABookmarkV2*>*)bookmarksInRegion:(OBARegionV2*)region {
+    return [self.bookmarks filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"regionIdentifier == %d", region.identifier]];
+}
 
 - (NSArray*)bookmarks {
     return [NSArray arrayWithArray:self.internalBookmarks];
