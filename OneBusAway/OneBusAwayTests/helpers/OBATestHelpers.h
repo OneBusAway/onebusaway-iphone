@@ -8,7 +8,25 @@
 
 @import Foundation;
 @import OBAKit;
+@import OHHTTPStubs;
 #import "OBATestHarnessPersistenceLayer.h"
+
+/* HTTP Stubs
+
+ [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    return [request.URL.host isEqualToString:@"mywebservice.com"];
+ } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+    // Stub it with our "wsresponse.json" stub file (which is in same bundle as self)
+    NSString* fixture = OHPathForFile(@"wsresponse.json", self.class);
+    return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+ }];
+
+ stub(isHost("mywebservice.com")) { _ in
+    // Stub it with our "wsresponse.json" stub file (which is in same bundle as self)
+    let stubPath = OHPathForFile("wsresponse.json", type(of: self))
+    return fixture(filePath: stubPath!, headers: ["Content-Type":"application/json"])
+ }
+ */
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -29,6 +29,14 @@ typedef NS_ENUM(NSUInteger, OBABookmarkGroupType) {
  */
 @property(nonatomic,copy,readonly) NSArray<OBABookmarkV2*> *bookmarks;
 
+/**
+ Filters the bookmarks in this group to the ones with a matching region.
+
+ @param region The region to filter by.
+ @return A list of bookmarks that match the specified region.
+ */
+- (NSArray<OBABookmarkV2*>*)bookmarksInRegion:(nullable OBARegionV2*)region;
+
 - (void)addBookmark:(OBABookmarkV2*)bookmark;
 - (void)removeBookmark:(OBABookmarkV2*)bookmark;
 - (void)insertBookmark:(OBABookmarkV2*)bookmark atIndex:(NSUInteger)index;

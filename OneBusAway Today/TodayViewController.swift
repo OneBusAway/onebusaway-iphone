@@ -52,13 +52,21 @@ extension TodayViewController {
     func buildTableSection(group: OBABookmarkGroup) -> OBATableSection {
         let tableSection = OBATableSection.init()
 
-        for bookmark in self.group.bookmarks {
+        for bookmark in self.bookmarksInCurrentRegion() {
             let row = OBABookmarkedRouteRow.init(bookmark: bookmark, action: nil)
             row.model = bookmark
             tableSection.addRow(row)
         }
 
         return tableSection
+    }
+
+    func bookmarksInCurrentRegion() -> [OBABookmarkV2] {
+        guard let region = self.app.modelDao.currentRegion else {
+            return self.group.bookmarks
+        }
+
+        return self.group.bookmarks(inRegion: region)
     }
 
     func populateRow(_ row: OBABookmarkedRouteRow, targetURL: URL, routeName: String, departures: [OBAArrivalAndDepartureV2]) {
@@ -96,7 +104,7 @@ extension TodayViewController {
         let promiseWrapper = self.app.modelService.requestStopArrivalsAndDepartures(withID: bookmark.stopId, minutesBefore: 0, minutesAfter: kMinutes)
         return promiseWrapper.promise.then { networkResponse -> Void in
             let matchingDepartures: [OBAArrivalAndDepartureV2] = bookmark.matchingArrivalsAndDepartures(forStop: networkResponse.object as! OBAArrivalsAndDeparturesForStopV2)
-            let url = self.deepLinkRouter.deepLinkURL(forStopID: bookmark.stopId, regionIdentifier: bookmark.regionIdentifier) ?? URL.init(string: "http://onebusaway.co")!
+            let url = self.deepLinkRouter.deepLinkURL(forStopID: bookmark.stopId, regionIdentifier: bookmark.regionIdentifier) ?? URL.init(string: OBADeepLinkServerAddress)!
             self.populateRow(row, targetURL: url, routeName: bookmark.routeShortName, departures: matchingDepartures)
             row.state = .complete
         }.catch { error in
