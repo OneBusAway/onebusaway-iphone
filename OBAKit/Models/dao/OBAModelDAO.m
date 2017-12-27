@@ -244,7 +244,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
         [group removeBookmark:bookmark];
 
         // The group is empty. Delete it.
-        if (group.bookmarks.count == 0) {
+        if (group.bookmarks.count == 0 && group.bookmarkGroupType != OBABookmarkGroupTypeTodayWidget) {
             [_bookmarkGroups removeObject:group];
         }
 
