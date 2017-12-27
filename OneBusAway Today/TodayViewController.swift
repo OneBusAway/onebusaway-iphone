@@ -53,7 +53,17 @@ extension TodayViewController {
         let tableSection = OBATableSection.init()
 
         for bookmark in self.bookmarksInCurrentRegion() {
-            let row = OBABookmarkedRouteRow.init(bookmark: bookmark, action: nil)
+            let row: OBABaseRow
+            if bookmark.bookmarkVersion == .version252 {
+                row = OBATableRow.init(title: bookmark.name) { _ in
+                    let targetURL = self.deepLinkRouter.deepLinkURL(forStopID: bookmark.stopId, regionIdentifier: bookmark.regionIdentifier) ?? URL.init(string: OBADeepLinkServerAddress)!
+                    self.extensionContext?.open(targetURL, completionHandler: nil)
+                }
+            }
+            else {
+                row = OBABookmarkedRouteRow.init(bookmark: bookmark, action: nil)
+            }
+
             row.model = bookmark
             tableSection.addRow(row)
         }
@@ -99,6 +109,16 @@ extension TodayViewController {
             return nil
         }
 
+        if bookmark.bookmarkVersion == .version252 {
+            // whole stop bookmark, and nothing to retrieve from server.
+            return Promise.init(value: true)
+        }
+        else {
+            return loadBookmarkedRoute(bookmark, atIndexPath: indexPath)
+        }
+    }
+
+    func loadBookmarkedRoute(_ bookmark: OBABookmarkV2, atIndexPath indexPath: IndexPath) -> Promise<Any>? {
         let row = self.row(at: indexPath) as! OBABookmarkedRouteRow
 
         let promiseWrapper = self.app.modelService.requestStopArrivalsAndDepartures(withID: bookmark.stopId, minutesBefore: 0, minutesAfter: kMinutes)
