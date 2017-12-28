@@ -1,6 +1,12 @@
 /* No comment provided by engineer. */
 " - " = " - ";
 
+/* No Bookmarks - empty data set title. */
+"today_screen.no_data_title" = "Sin Favoritos";
+
+/* Add bookmarks to Today Screen Bookmarks to see them here. - empty data set description. */
+"today_screen.no_data_description" = "Agregar favoritos a los Favoritos de la Pantalla Hoy para verlos ahí.";
+
 /* ID: {Reference ID Number} */
 "alerts.reference_format" = "ID: %@";
 
@@ -904,3 +910,16 @@
 
 /* Title of the 'Walking Directions (Apple Maps)' option in the action sheet. */
 "stop.walking_directions_google_action_title" = "Indicaciones para Caminar (Google Maps)";
+
+/* Title of an alert displayed when the user is trying to view an object from a different region than the one they're currently in. */
+"deep_links.errors.region_mismatch_alert.title" = "Región Incorrecta";
+
+/* Message of an alert displayed when the user is trying to view an object from a different region than the one they're currently in. */
+"deep_links.errors.region_mismatch_alert.message" = "El elemento que tratas de ver pertenece a una región difernete a la que te encuentras actualmente ubicado.;
+
+/* The button title is Change Regions and this is used to switch the user to the correct region." */
+"deep_links.errors.region_mismatch_alert.change_regions_button" = "Cambiar Región";
+
+/* The button title is Do Nothing and this is used to, ahem, do nothing. */
+"deep_links.errors.region_mismatch_alert.do_nothing_button" = "No Hacer Nada";
+
