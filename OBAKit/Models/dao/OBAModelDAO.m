@@ -424,7 +424,16 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
 + (NSArray*)bookmarkGroupsWithPreprendedTodayGroup:(NSArray<OBABookmarkGroup*>*)groups {
     OBABookmarkGroup *todayGroup = [[OBABookmarkGroup alloc] initWithBookmarkGroupType:OBABookmarkGroupTypeTodayWidget];
-    return [groups oba_arrayByInsertingObject:todayGroup atIndex:0];
+    todayGroup.sortOrder = 0;
+    NSMutableArray *sortedGroups = [[NSMutableArray alloc] initWithArray:groups copyItems:YES];
+
+    for (OBABookmarkGroup *g in sortedGroups) {
+        g.sortOrder += 1;
+    }
+
+    [sortedGroups insertObject:todayGroup atIndex:0];
+
+    return [NSArray arrayWithArray:sortedGroups];
 }
 
 #pragma mark - Misc

@@ -123,10 +123,6 @@
         return NSOrderedAscending; //shrug.
     }
 
-    if (self.bookmarkGroupType != group.bookmarkGroupType) {
-        return self.bookmarkGroupType > group.bookmarkGroupType;
-    }
-
     if (self.sortOrder > group.sortOrder) {
         return NSOrderedDescending;
     }
