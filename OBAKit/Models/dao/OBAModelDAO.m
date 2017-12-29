@@ -24,6 +24,7 @@
 #import <OBAKit/OBABookmarkGroup.h>
 #import <OBAKit/OBAApplication.h>
 #import <OBAKit/NSArray+OBAAdditions.h>
+#import <OBAKit/OBALogging.h>
 
 NSString * const OBAUngroupedBookmarksIdentifier = @"OBAUngroupedBookmarksIdentifier";
 NSString * const OBAMostRecentStopsChangedNotification = @"OBAMostRecentStopsChangedNotification";
@@ -56,7 +57,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
         _bookmarks = [[NSMutableArray alloc] initWithArray:[_preferencesDao readBookmarks]];
 
         NSArray<OBABookmarkGroup*> *groups = [_preferencesDao readBookmarkGroups];
-        if (![self.class bookmarkGroupsContainTodayGroup:groups]) {
+        if (![groups isKindOfClass:NSArray.class] || ![self.class bookmarkGroupsContainTodayGroup:groups]) {
             groups = [self.class bookmarkGroupsWithPreprendedTodayGroup:groups];
         }
 
@@ -425,15 +426,26 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 + (NSArray*)bookmarkGroupsWithPreprendedTodayGroup:(NSArray<OBABookmarkGroup*>*)groups {
     OBABookmarkGroup *todayGroup = [[OBABookmarkGroup alloc] initWithBookmarkGroupType:OBABookmarkGroupTypeTodayWidget];
     todayGroup.sortOrder = 0;
-    NSMutableArray *sortedGroups = [[NSMutableArray alloc] initWithArray:groups copyItems:YES];
 
-    for (OBABookmarkGroup *g in sortedGroups) {
-        g.sortOrder += 1;
+    if (![groups isKindOfClass:NSArray.class]) {
+        return @[todayGroup];
     }
 
-    [sortedGroups insertObject:todayGroup atIndex:0];
+    @try {
+        NSMutableArray *sortedGroups = [[NSMutableArray alloc] initWithArray:groups copyItems:YES];
 
-    return [NSArray arrayWithArray:sortedGroups];
+        for (OBABookmarkGroup *g in sortedGroups) {
+            g.sortOrder += 1;
+        }
+
+        [sortedGroups insertObject:todayGroup atIndex:0];
+
+        return [NSArray arrayWithArray:sortedGroups];
+    }
+    @catch (NSException *ex) {
+        DDLogError(@"Caught an exception while trying to load bookmark groups: %@", ex);
+        return @[todayGroup];
+    }
 }
 
 #pragma mark - Misc
