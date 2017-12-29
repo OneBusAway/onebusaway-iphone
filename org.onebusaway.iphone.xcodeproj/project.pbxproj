@@ -28,6 +28,8 @@
 		9331E41E1E56F68C001E27C2 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9331E4181E56F686001E27C2 /* Quick.framework */; };
 		933546DD1E834ABE00D83519 /* OBAMessageRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 933546DC1E834ABE00D83519 /* OBAMessageRow.m */; };
 		933546E11E834BB000D83519 /* OBAMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 933546E01E834BB000D83519 /* OBAMessageCell.m */; };
+		9336B1B11FF6468B00CCC5ED /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE01E300526008A88BA /* Fabric.framework */; };
+		9336B1B21FF6468B00CCC5ED /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE11E300526008A88BA /* Crashlytics.framework */; };
 		934196E21DB0C124004BBBB7 /* MKMapView+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196D71DB0C124004BBBB7 /* MKMapView+oba_Additions.m */; };
 		934196E31DB0C124004BBBB7 /* UINavigationController+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196D91DB0C124004BBBB7 /* UINavigationController+oba_Additions.m */; };
 		934196E41DB0C124004BBBB7 /* UITableViewCell+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196DB1DB0C124004BBBB7 /* UITableViewCell+oba_Additions.m */; };
@@ -605,6 +607,8 @@
 				93A73BC71F86D08A00F213D4 /* OBAKit.framework in Frameworks */,
 				93AD17B41F86C14C00E730D7 /* NotificationCenter.framework in Frameworks */,
 				93A73BC81F86D09300F213D4 /* Mantle.framework in Frameworks */,
+				9336B1B11FF6468B00CCC5ED /* Fabric.framework in Frameworks */,
+				9336B1B21FF6468B00CCC5ED /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1477,6 +1481,7 @@
 				93AD17AE1F86C14C00E730D7 /* Sources */,
 				93AD17AF1F86C14C00E730D7 /* Frameworks */,
 				93AD17B01F86C14C00E730D7 /* Resources */,
+				9336B1A81FF6446300CCC5ED /* Fabric */,
 			);
 			buildRules = (
 			);
@@ -1650,6 +1655,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		9336B1A81FF6446300CCC5ED /* Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Fabric;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run c84d1b759118d7506fea035b497a567d26a1c67b 27ddab734af739718fae5fb6f522d5b6a14873fbc58fddc62a8e14374815db58";
 		};
 		938B84231D8686B800DB0AF0 /* Carthage Integration */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2208,11 +2227,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = THEWY9596Q;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2257,6 +2277,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -2296,6 +2317,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -2335,6 +2357,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;

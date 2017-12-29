@@ -9,6 +9,8 @@
 import UIKit
 import NotificationCenter
 import OBAKit
+import Fabric
+import Crashlytics
 
 let kMinutes: UInt = 60
 
@@ -16,6 +18,11 @@ class TodayViewController: OBAStaticTableViewController {
     let app = OBAApplication.init()
     let deepLinkRouter = OBADeepLinkRouter.init(deepLinkBaseURL: URL.init(string: OBADeepLinkServerAddress)!)
     var group: OBABookmarkGroup = OBABookmarkGroup.init(bookmarkGroupType: .todayWidget)
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        Fabric.with([Crashlytics.self])
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
