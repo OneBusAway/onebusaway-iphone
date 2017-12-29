@@ -8,7 +8,7 @@
 
 import Foundation
 
-class FileHelpers: NSObject {
+@objc class FileHelpers: NSObject {
     /// Retrieves the file path to the specified file in the specified directory.
     /// Success of this method does not guarantee that the
     /// file actually exists!
@@ -18,12 +18,24 @@ class FileHelpers: NSObject {
     ///   - inDirectory: The search path directory enum value
     /// - Returns: The full, absolute path to the specified file, whether or not it exists
     @objc public class func pathTo(fileName: String, inDirectory: FileManager.SearchPathDirectory) -> String? {
+        let url = urlTo(fileName: fileName, inDirectory: inDirectory)
+        return url?.path
+    }
+
+    /// Retrieves the URL to the specified file in the specified directory.
+    /// Success of this method does not guarantee that the file actually exists!
+    ///
+    /// - Parameters:
+    ///   - fileName: Name of file, including extenion
+    ///   - inDirectory: The search path directory enum value
+    /// - Returns: The full, absolute URL to the specified file, whether or not it exists
+    @objc public class func urlTo(fileName: String, inDirectory: FileManager.SearchPathDirectory) -> URL? {
         let fileManager = FileManager.init()
         guard let directory = try? fileManager.url(for: inDirectory, in: .userDomainMask, appropriateFor: nil, create: true) else {
             return nil
         }
 
         let filePath: NSURL = directory.appendingPathComponent(fileName) as NSURL
-        return filePath.filePathURL?.path
+        return filePath.filePathURL
     }
 }

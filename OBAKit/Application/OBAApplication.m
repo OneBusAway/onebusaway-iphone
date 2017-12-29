@@ -128,6 +128,11 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
     [NSUserDefaults.standardUserDefaults setBool:YES forKey:OBAHasMigratedDefaultsToAppGroupDefaultsKey];
 }
 
+- (NSData*)exportUserDefaultsAsXML {
+    NSDictionary *dict = self.userDefaults.dictionaryRepresentation;
+    return [NSPropertyListSerialization dataWithPropertyList:dict format:NSPropertyListXMLFormat_v1_0 options:0 error:nil];
+}
+
 #pragma mark - App Lifecycle Events
 
 - (void)applicationDidEnterBackground {

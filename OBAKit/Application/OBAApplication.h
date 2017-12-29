@@ -104,6 +104,8 @@ extern NSString *const OBARegionServerInvalidNotification;
  */
 @property(nonatomic,copy,readonly) NSArray<NSData*> *logFileData;
 
+- (NSData*)exportUserDefaultsAsXML;
+
 @end
 
 NS_ASSUME_NONNULL_END
