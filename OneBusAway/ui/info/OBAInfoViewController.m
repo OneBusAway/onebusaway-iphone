@@ -21,8 +21,9 @@
 static NSString * const kRepoURLString = @"https://www.github.com/onebusaway/onebusaway-iphone";
 static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
-@interface OBAInfoViewController ()<MFMailComposeViewControllerDelegate>
+@interface OBAInfoViewController ()<MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate>
 @property(nonatomic,strong) UITapGestureRecognizer *debugTapRecognizer;
+@property(nonatomic,strong) UIDocumentInteractionController *docController;
 @end
 
 @implementation OBAInfoViewController
@@ -208,7 +209,35 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     [section addRow:row];
 
+    row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"info_controller.export_user_defaults_row", @"Row title for Export Defaults action") action:^(OBABaseRow *r2) {
+        NSData *archivedData = [[OBAApplication sharedApplication] exportUserDefaultsAsXML];
+        NSURL *URL = [FileHelpers urlToFileName:@"userdefaults.xml" inDirectory:NSDocumentDirectory];
+        [archivedData writeToURL:URL atomically:YES];
+
+        [self displayDocumentInteractionControllerForURL:URL];
+    }];
+    [section addRow:row];
+
     return section;
+}
+
+#pragma mark - Doc Controller
+
+- (void)displayDocumentInteractionControllerForURL:(NSURL*)URL {
+    self.docController.URL = URL;
+    [self.docController presentPreviewAnimated:YES];
+}
+
+- (UIDocumentInteractionController*)docController {
+    if (!_docController) {
+        _docController = [[UIDocumentInteractionController alloc] init];
+        _docController.delegate = self;
+    }
+    return _docController;
+}
+
+- (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller {
+    return self;
 }
 
 #pragma mark - Email
@@ -251,7 +280,8 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 - (OBAEmailHelper*)buildEmailHelper {
     CLLocation *currentLocation = [OBAApplication sharedApplication].locationManager.currentLocation;
-    return [[OBAEmailHelper alloc] initWithModelDAO:self.modelDAO currentLocation:currentLocation registeredForRemoteNotifications:UIApplication.sharedApplication.registeredForRemoteNotifications locationAuthorizationStatus:self.locationManager.authorizationStatus];
+
+    return [[OBAEmailHelper alloc] initWithModelDAO:self.modelDAO currentLocation:currentLocation registeredForRemoteNotifications:UIApplication.sharedApplication.registeredForRemoteNotifications locationAuthorizationStatus:self.locationManager.authorizationStatus userDefaultsData:[OBAApplication.sharedApplication exportUserDefaultsAsXML]];
 }
 
 - (void)presentEmailComposerForTarget:(OBAEmailTarget)emailTarget {

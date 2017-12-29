@@ -38,7 +38,7 @@ static NSString * const kAppVersion = @"2.6.OBA_SIM";
     self.modelDAO = [[OBAModelDAO alloc] initWithModelPersistenceLayer:self.persistenceLayer];
     self.modelDAO.currentRegion = [OBATestHelpers pugetSoundRegion];
     CLLocation *location = [[CLLocation alloc] initWithLatitude:45.12 longitude:45.99];
-    self.emailHelper = [[OBAEmailHelper alloc] initWithModelDAO:self.modelDAO currentLocation:location registeredForRemoteNotifications:YES locationAuthorizationStatus:kCLAuthorizationStatusAuthorizedWhenInUse];
+    self.emailHelper = [[OBAEmailHelper alloc] initWithModelDAO:self.modelDAO currentLocation:location registeredForRemoteNotifications:YES locationAuthorizationStatus:kCLAuthorizationStatusAuthorizedWhenInUse userDefaultsData:[NSData new]];
 }
 
 - (void)testMessageBodyForModelDAO {

@@ -446,6 +446,9 @@
 /* Info tab's table row title for sending logs to support. */
 "info_controller.send_info_to_support_row" = "Send Information to Support";
 
+/* Row title for Export Defaults action */
+"info_controller.export_user_defaults_row" = "Export User Defaults";
+
 /* code # 404 */
 "msg_server_error" = "Server error";
 
