@@ -334,6 +334,26 @@
     XCTAssertEqual(1, group.bookmarks.count);
 }
 
+#pragma mark - Groups
+
+- (void)testNilGroupsObjectDoesntCrashApp {
+    id shouldntBeNilButHereWeAreAnyway = nil;
+
+    OBATestHarnessPersistenceLayer *persistenceLayer = [[OBATestHarnessPersistenceLayer alloc] init];
+    [persistenceLayer writeBookmarkGroups:shouldntBeNilButHereWeAreAnyway];
+    OBAModelDAO *modelDAO = [[OBAModelDAO alloc] initWithModelPersistenceLayer:persistenceLayer];
+    XCTAssertEqual(modelDAO.bookmarkGroups.count, 1);
+}
+
+- (void)testGarbageGroupsObjectDoesntCrashApp {
+    id shouldntBeNilButHereWeAreAnyway = [NSNull null];
+
+    OBATestHarnessPersistenceLayer *persistenceLayer = [[OBATestHarnessPersistenceLayer alloc] init];
+    [persistenceLayer writeBookmarkGroups:shouldntBeNilButHereWeAreAnyway];
+    OBAModelDAO *modelDAO = [[OBAModelDAO alloc] initWithModelPersistenceLayer:persistenceLayer];
+    XCTAssertEqual(modelDAO.bookmarkGroups.count, 1);
+}
+
 #pragma mark - Reordering Bookmark Groups
 
 - (void)testTodayGroupIsFirstByDefault {
