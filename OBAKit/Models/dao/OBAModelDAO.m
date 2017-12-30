@@ -470,7 +470,11 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     return [[OBAStopPreferencesV2 alloc] initWithStopPreferences:prefs];
 }
 
-- (void) setStopPreferences:(OBAStopPreferencesV2*)preferences forStopWithId:(NSString*)stopId {
+- (void)setStopPreferences:(OBAStopPreferencesV2*)preferences forStopWithId:(NSString*)stopId {
+    OBAGuard(stopId.length > 0) else {
+        return;
+    }
+
     _stopPreferences[stopId] = preferences;
     [_preferencesDao writeStopPreferences:_stopPreferences];
 }
