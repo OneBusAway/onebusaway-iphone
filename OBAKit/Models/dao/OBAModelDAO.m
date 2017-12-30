@@ -432,7 +432,7 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     }
 
     @try {
-        NSMutableArray *sortedGroups = [[NSMutableArray alloc] initWithArray:groups copyItems:YES];
+        NSMutableArray *sortedGroups = [[NSMutableArray alloc] initWithArray:groups];
 
         for (OBABookmarkGroup *g in sortedGroups) {
             g.sortOrder += 1;
