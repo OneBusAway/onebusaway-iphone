@@ -454,6 +454,11 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 
 - (void)optionsSheet:(OBAArrivalDepartureOptionsSheet*)optionsSheet addedAlarm:(OBAAlarm*)alarm forArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalDeparture {
     NSIndexPath *indexPath = [self indexPathForModel:arrivalDeparture];
+
+    OBAGuard(indexPath) else {
+        return;
+    }
+
     OBADepartureRow *row = (OBADepartureRow *)[self rowAtIndexPath:indexPath];
     row.alarmExists = YES;
     [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
