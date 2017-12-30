@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc class FileHelpers: NSObject {
+@objc public class FileHelpers: NSObject {
     /// Retrieves the file path to the specified file in the specified directory.
     /// Success of this method does not guarantee that the
     /// file actually exists!
