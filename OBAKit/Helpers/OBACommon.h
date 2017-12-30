@@ -42,7 +42,8 @@ typedef NS_ENUM(NSInteger, OBANavigationTargetType) {
 typedef NS_ENUM(NSUInteger, OBAErrorCode) {
     OBAErrorCodeLocationAuthorizationFailed = 1002,
     OBAErrorCodePushNotificationAuthorizationDenied,
-    OABErrorCodeMissingMethodParameters,
+    OBAErrorCodeMissingMethodParameters,
+    OBAErrorCodeBadData,
 };
 
 NSString * _Nullable NSStringFromOBASearchType(OBASearchType searchType);

@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAErrorMessages : NSObject
 
++ (NSError*)buildErrorForBadData:(nullable id)badData;
+
 @property(nonatomic,copy,class,readonly) NSError *stopNotFoundError;
 + (NSError*)connectionError:(NSHTTPURLResponse*)response;
 @property(nonatomic,copy,class,readonly) NSError *cannotRegisterAlarm;
