@@ -97,7 +97,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
     ///
     /// - Parameter searchResult: The `OBASearchResult` object used to populate the view controller
     func populateTable(_ searchResult: OBASearchResult) {
-        var sections: [OBATableSection]
+        var sections: [OBATableSection?]
 
         switch searchResult.searchType {
         case .region, .placemark, .stopId, .stops:
@@ -110,7 +110,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
             sections = []
         }
 
-        self.sections = sections
+        self.sections = sections.flatMap { $0 }
         self.tableView.reloadData()
     }
 
@@ -162,8 +162,12 @@ class NearbyStopsViewController: OBAStaticTableViewController {
         return section
     }
 
-    func routeSectionFromSearchResult(_ searchResult: OBASearchResult) -> OBATableSection {
-        let routes = searchResult.values as! [OBARouteV2]
+    func routeSectionFromSearchResult(_ searchResult: OBASearchResult) -> OBATableSection? {
+        guard let routes = searchResult.values as? [OBARouteV2] else {
+            let error = OBAErrorMessages.buildError(forBadData: searchResult)
+            Crashlytics.sharedInstance().recordError(error)
+            return nil
+        }
 
         let rows = routes.map { route -> OBATableRow in
             let row = OBATableRow.init(title: route.fullRouteName) { _ in
