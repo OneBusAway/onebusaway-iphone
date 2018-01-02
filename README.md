@@ -58,3 +58,23 @@ The bundle version number should be updated upon every release to the App Store.
 ```
 ./update-version.sh 17.10.0
 ```
+
+### Frequently Asked Questions
+
+#### Swift Compiler Errors
+
+Q: When I compile, I see errors that look like this:
+
+```
+error: module compiled with Swift 4.0 cannot be imported in Swift 4.0.3: /onebusaway/OBAKit/../Carthage/Build/iOS/PromiseKit.framework/Modules/PromiseKit.swiftmodule/x86_64.swiftmodule
+  ```
+
+What is going on, and how do I fix this?
+
+A: Like the error suggests, this is happening because the project's Carthage frameworks were compiled with an older version of the Swift compiler than the one you have on your computer. You can recompile the Carthage dependencies with this command from the command line:
+
+```
+carthage build --platform iOS --no-use-binaries
+```
+
+After Carthage finishes, I recommend cleaning your project and possibly deleting all of your build artifacts.
