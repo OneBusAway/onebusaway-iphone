@@ -51,15 +51,18 @@
 }
 
 + (OBARegionV2*)pugetSoundRegion {
-    OBAModelFactory *modelFactory = [[OBAModelFactory alloc] initWithReferences:[[OBAReferencesV2 alloc] init]];
-    NSArray *regions = [[modelFactory getRegionsV2FromJson:[OBATestHelpers jsonObjectFromFile:@"regions-v3.json"] error:nil] values];
-    return regions[1];
+    return self.regionsList[1];
 }
 
 + (OBARegionV2*)tampaRegion {
+    return self.regionsList[0];
+}
+
++ (NSArray<OBARegionV2*>*)regionsList {
     OBAModelFactory *modelFactory = [[OBAModelFactory alloc] initWithReferences:[[OBAReferencesV2 alloc] init]];
-    NSArray *regions = [[modelFactory getRegionsV2FromJson:[OBATestHelpers jsonObjectFromFile:@"regions-v3.json"] error:nil] values];
-    return regions[0];
+    id jsonData = [OBATestHelpers jsonObjectFromFile:@"regions-v3.json"][@"data"];
+    OBAListWithRangeAndReferencesV2 *list = [modelFactory getRegionsV2FromJson:jsonData error:nil];
+    return list.values;
 }
 
 #pragma mark - Time and Time Zones

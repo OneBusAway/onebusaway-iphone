@@ -171,8 +171,8 @@ static NSString * const kReferences = @"references";
     jsonDictionary = jsonDictionary ?: [self.class staticRegionsJSON];
     
     OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
-    [digester addRegionV2RulesWithPrefix:@"/data/list/[]"];
-    [digester addSetNext:@selector(addValue:) forPrefix:@"/data/list/[]"];
+    [digester addRegionV2RulesWithPrefix:@"/list/[]"];
+    [digester addSetNext:@selector(addValue:) forPrefix:@"/list/[]"];
     [digester parse:jsonDictionary withRoot:list parameters:[self getDigesterParameters] error:error];
 
     return list;

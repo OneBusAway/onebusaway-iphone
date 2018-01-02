@@ -58,7 +58,13 @@ static NSString * const OBALocalRegionsFileName = @"regions.json";
 - (NSArray<OBARegionV2*>*)readRegionsFromDisk {
     __block NSArray<OBARegionV2*>* regions = nil;
     dispatch_sync(self.serialQueue, ^{
-        regions = [self persistedRegions] ?: [self bundledRegions];
+        NSArray<OBARegionV2*>* persisted = [self persistedRegions];
+        if (persisted.count > 0) {
+            regions = persisted;
+        }
+        else {
+            regions = [self bundledRegions];
+        }
     });
     return regions;
 }

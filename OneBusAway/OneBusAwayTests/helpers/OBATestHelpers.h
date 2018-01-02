@@ -94,6 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(class,nonatomic,readonly,copy) OBARegionV2 *pugetSoundRegion;
 @property(class,nonatomic,readonly,copy) OBARegionV2 *tampaRegion;
+@property(class,nonatomic,readonly,copy) NSArray<OBARegionV2*> *regionsList;
 
 // Time and Time Zones
 
