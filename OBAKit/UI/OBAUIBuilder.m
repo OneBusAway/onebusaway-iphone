@@ -57,4 +57,17 @@
     return button;
 }
 
++ (UIBarButtonItem*)wrappedImageButton:(UIImage*)image accessibilityLabel:(NSString*)label target:(id)target action:(SEL)action {
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    button.tintColor = UIColor.darkGrayColor;
+    [button setImage:image forState:UIControlStateNormal];
+    button.imageEdgeInsets = [OBATheme defaultEdgeInsets];
+    [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+
+    return barButtonItem;
+
+}
+
 @end
