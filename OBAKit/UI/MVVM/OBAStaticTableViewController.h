@@ -84,6 +84,16 @@ typedef NS_ENUM(NSUInteger, OBARootViewStyle) {
 - (nullable NSIndexPath*)indexPathForModel:(id)model;
 
 - (BOOL)replaceRowAtIndexPath:(NSIndexPath*)indexPath withRow:(OBABaseRow*)row;
+
+/**
+ Displays a few rows of shimmering placeholder cells while content loads.
+ */
+- (void)displayLoadingUI;
+
+/**
+ Dismisses shimmering placeholder cells.
+ */
+- (void)hideLoadingUI;
 @end
 
 NS_ASSUME_NONNULL_END

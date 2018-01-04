@@ -224,6 +224,17 @@
 		9385BEDC1FB040B300D122D1 /* OBAErrorMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = 9385BEDA1FB040B300D122D1 /* OBAErrorMessages.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9385BEDD1FB040B300D122D1 /* OBAErrorMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385BEDB1FB040B300D122D1 /* OBAErrorMessages.m */; };
 		9387F0F91FDDD9F50033A922 /* NetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387F0F81FDDD9F50033A922 /* NetworkResponse.swift */; };
+		9388C29B1FFDBAEA0068041F /* FBShimmering.h in Headers */ = {isa = PBXBuildFile; fileRef = 9388C2961FFDBAE90068041F /* FBShimmering.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9388C29C1FFDBAEA0068041F /* FBShimmeringLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9388C2971FFDBAE90068041F /* FBShimmeringLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9388C29D1FFDBAEA0068041F /* FBShimmeringView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9388C2981FFDBAE90068041F /* FBShimmeringView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9388C29E1FFDBAEA0068041F /* FBShimmeringLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9388C2991FFDBAE90068041F /* FBShimmeringLayer.m */; };
+		9388C29F1FFDBAEA0068041F /* FBShimmeringView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9388C29A1FFDBAE90068041F /* FBShimmeringView.m */; };
+		9388C2A41FFDF7C90068041F /* OBAPlaceholderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9388C2A21FFDF7C90068041F /* OBAPlaceholderView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9388C2A51FFDF7C90068041F /* OBAPlaceholderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9388C2A31FFDF7C90068041F /* OBAPlaceholderView.m */; };
+		9388C2A81FFE1BB90068041F /* OBAPlaceholderRow.h in Headers */ = {isa = PBXBuildFile; fileRef = 9388C2A61FFE1BB90068041F /* OBAPlaceholderRow.h */; };
+		9388C2A91FFE1BB90068041F /* OBAPlaceholderRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9388C2A71FFE1BB90068041F /* OBAPlaceholderRow.m */; };
+		9388C2AC1FFE1C240068041F /* OBAPlaceholderCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 9388C2AA1FFE1C240068041F /* OBAPlaceholderCell.h */; };
+		9388C2AD1FFE1C240068041F /* OBAPlaceholderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9388C2AB1FFE1C240068041F /* OBAPlaceholderCell.m */; };
 		93A6E9E21F5BC18B00AFA61C /* AppInterop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */; };
 		93A73BF21F8760F600F213D4 /* OBAClassicDepartureView.h in Headers */ = {isa = PBXBuildFile; fileRef = 93A73BF01F8760F600F213D4 /* OBAClassicDepartureView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93A73BF31F8760F600F213D4 /* OBAClassicDepartureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A73BF11F8760F600F213D4 /* OBAClassicDepartureView.m */; };
@@ -506,6 +517,17 @@
 		9385BEDA1FB040B300D122D1 /* OBAErrorMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAErrorMessages.h; sourceTree = "<group>"; };
 		9385BEDB1FB040B300D122D1 /* OBAErrorMessages.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAErrorMessages.m; sourceTree = "<group>"; };
 		9387F0F81FDDD9F50033A922 /* NetworkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponse.swift; sourceTree = "<group>"; };
+		9388C2961FFDBAE90068041F /* FBShimmering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBShimmering.h; sourceTree = "<group>"; };
+		9388C2971FFDBAE90068041F /* FBShimmeringLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBShimmeringLayer.h; sourceTree = "<group>"; };
+		9388C2981FFDBAE90068041F /* FBShimmeringView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBShimmeringView.h; sourceTree = "<group>"; };
+		9388C2991FFDBAE90068041F /* FBShimmeringLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBShimmeringLayer.m; sourceTree = "<group>"; };
+		9388C29A1FFDBAE90068041F /* FBShimmeringView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBShimmeringView.m; sourceTree = "<group>"; };
+		9388C2A21FFDF7C90068041F /* OBAPlaceholderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAPlaceholderView.h; sourceTree = "<group>"; };
+		9388C2A31FFDF7C90068041F /* OBAPlaceholderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAPlaceholderView.m; sourceTree = "<group>"; };
+		9388C2A61FFE1BB90068041F /* OBAPlaceholderRow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAPlaceholderRow.h; sourceTree = "<group>"; };
+		9388C2A71FFE1BB90068041F /* OBAPlaceholderRow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAPlaceholderRow.m; sourceTree = "<group>"; };
+		9388C2AA1FFE1C240068041F /* OBAPlaceholderCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAPlaceholderCell.h; sourceTree = "<group>"; };
+		9388C2AB1FFE1C240068041F /* OBAPlaceholderCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAPlaceholderCell.m; sourceTree = "<group>"; };
 		93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInterop.swift; sourceTree = "<group>"; };
 		93A73BF01F8760F600F213D4 /* OBAClassicDepartureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureView.h; sourceTree = "<group>"; };
 		93A73BF11F8760F600F213D4 /* OBAClassicDepartureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicDepartureView.m; sourceTree = "<group>"; };
@@ -613,6 +635,10 @@
 				93089DA21F87E6E600694A90 /* OBAViewModelRegistry.m */,
 				93089D9E1F87E6B900694A90 /* OBABaseRow.h */,
 				93089D9D1F87E6B900694A90 /* OBABaseRow.m */,
+				9388C2A61FFE1BB90068041F /* OBAPlaceholderRow.h */,
+				9388C2A71FFE1BB90068041F /* OBAPlaceholderRow.m */,
+				9388C2AA1FFE1C240068041F /* OBAPlaceholderCell.h */,
+				9388C2AB1FFE1C240068041F /* OBAPlaceholderCell.m */,
 			);
 			path = MVVM;
 			sourceTree = "<group>";
@@ -928,6 +954,7 @@
 		934196A61DB0B0AF004BBBB7 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				9388C2951FFDBAE90068041F /* Shimmer */,
 				93E5929D1F8CABD70079A2D8 /* Containers */,
 				93089DAA1F87E8F200694A90 /* OBAClassicDepartureCell.h */,
 				93089DAB1F87E8F200694A90 /* OBAClassicDepartureCell.m */,
@@ -992,6 +1019,20 @@
 				9377DD521EE4682E00134AE8 /* BorderedButton.swift */,
 			);
 			path = Controls;
+			sourceTree = "<group>";
+		};
+		9388C2951FFDBAE90068041F /* Shimmer */ = {
+			isa = PBXGroup;
+			children = (
+				9388C2961FFDBAE90068041F /* FBShimmering.h */,
+				9388C2971FFDBAE90068041F /* FBShimmeringLayer.h */,
+				9388C2991FFDBAE90068041F /* FBShimmeringLayer.m */,
+				9388C2981FFDBAE90068041F /* FBShimmeringView.h */,
+				9388C29A1FFDBAE90068041F /* FBShimmeringView.m */,
+				9388C2A21FFDF7C90068041F /* OBAPlaceholderView.h */,
+				9388C2A31FFDF7C90068041F /* OBAPlaceholderView.m */,
+			);
+			path = Shimmer;
 			sourceTree = "<group>";
 		};
 		93E5929D1F8CABD70079A2D8 /* Containers */ = {
@@ -1099,8 +1140,10 @@
 				934196B61DB0B0AF004BBBB7 /* OBAModelServiceRequest.h in Headers */,
 				9341967A1DB0B099004BBBB7 /* OBASituationConsequenceV2.h in Headers */,
 				9341962C1DB0B099004BBBB7 /* OBAVehicleMapAnnotation.h in Headers */,
+				9388C2A41FFDF7C90068041F /* OBAPlaceholderView.h in Headers */,
 				9341966D1DB0B099004BBBB7 /* OBAReportProblemWithStopV2.h in Headers */,
 				934196051DB0B099004BBBB7 /* OBADateHelpers.h in Headers */,
+				9388C2A81FFE1BB90068041F /* OBAPlaceholderRow.h in Headers */,
 				934196AE1DB0B0AF004BBBB7 /* OBADataSourceConfig.h in Headers */,
 				9341961A1DB0B099004BBBB7 /* OBAUser.h in Headers */,
 				934196B81DB0B0AF004BBBB7 /* OBATheme.h in Headers */,
@@ -1123,6 +1166,7 @@
 				93FFA5FA1F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h in Headers */,
 				934196201DB0B099004BBBB7 /* OBARegionChangeRequest.h in Headers */,
 				9327DEF31E02306900502F06 /* OBACanvasView.h in Headers */,
+				9388C2AC1FFE1C240068041F /* OBAPlaceholderCell.h in Headers */,
 				934196321DB0B099004BBBB7 /* OBAModelPersistenceLayer.h in Headers */,
 				93089DA01F87E6B900694A90 /* OBABaseRow.h in Headers */,
 				934196781DB0B099004BBBB7 /* OBAServiceAlertsModel.h in Headers */,
@@ -1143,12 +1187,14 @@
 				934196651DB0B099004BBBB7 /* OBAPlacemarks.h in Headers */,
 				934196761DB0B099004BBBB7 /* OBASearchResult.h in Headers */,
 				934C50951E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h in Headers */,
+				9388C29C1FFDBAEA0068041F /* FBShimmeringLayer.h in Headers */,
 				93089DA31F87E6E600694A90 /* OBAViewModelRegistry.h in Headers */,
 				9341960E1DB0B099004BBBB7 /* OBAMapHelpers.h in Headers */,
 				9341964F1DB0B099004BBBB7 /* OBAArrivalsAndDeparturesForStopV2.h in Headers */,
 				930AFE9E1DD183720092AE82 /* OBAWalkingDirections.h in Headers */,
 				931C60D71EC3975A0086EC37 /* OBAApplicationConfiguration.h in Headers */,
 				93E592B01F8D3C600079A2D8 /* OBABookmarkedRouteRow.h in Headers */,
+				9388C29D1FFDBAEA0068041F /* FBShimmeringView.h in Headers */,
 				934196091DB0B099004BBBB7 /* OBAImageHelpers.h in Headers */,
 				934196281DB0B099004BBBB7 /* OBATripContinuationMapAnnotation.h in Headers */,
 				93E592A11F8CABD70079A2D8 /* OBAVibrantBlurContainerView.h in Headers */,
@@ -1167,6 +1213,7 @@
 				934196D31DB0C02F004BBBB7 /* NSDate+DateTools.h in Headers */,
 				934196CF1DB0B369004BBBB7 /* OBAKit.h in Headers */,
 				93A73BF21F8760F600F213D4 /* OBAClassicDepartureView.h in Headers */,
+				9388C29B1FFDBAEA0068041F /* FBShimmering.h in Headers */,
 				93A73BF61F87613A00F213D4 /* OBADepartureTimeLabel.h in Headers */,
 				93B282C41DC664C7005013D7 /* OBATripDeepLink.h in Headers */,
 				935C39191F772CE300737DC4 /* NSString+OBAAdditions.h in Headers */,
@@ -1326,6 +1373,7 @@
 				934196561DB0B099004BBBB7 /* OBACoordinateBounds.m in Sources */,
 				93E592A51F8CACBF0079A2D8 /* OBAStaticTableViewController.m in Sources */,
 				931C60D81EC3975A0086EC37 /* OBAApplicationConfiguration.m in Sources */,
+				9388C2A91FFE1BB90068041F /* OBAPlaceholderRow.m in Sources */,
 				934196151DB0B099004BBBB7 /* OBAStopIconFactory.m in Sources */,
 				93A73BF71F87613A00F213D4 /* OBADepartureTimeLabel.m in Sources */,
 				93089DA41F87E6E600694A90 /* OBAViewModelRegistry.m in Sources */,
@@ -1355,6 +1403,7 @@
 				93FF1AB21EC39270006C883D /* OBALogging.m in Sources */,
 				93E592971F8CA6870079A2D8 /* OBATableViewCell.m in Sources */,
 				9327DEF41E02306900502F06 /* OBACanvasView.m in Sources */,
+				9388C2AD1FFE1C240068041F /* OBAPlaceholderCell.m in Sources */,
 				93089DAD1F87E8F200694A90 /* OBAClassicDepartureCell.m in Sources */,
 				9341963A1DB0B099004BBBB7 /* OBASelectorJsonDigesterRule.m in Sources */,
 				933A47161FDCCB81009EB332 /* PromiseWrapper.swift in Sources */,
@@ -1385,6 +1434,7 @@
 				93F3F8A21E7BCA8C0025FC78 /* FileHelpers.swift in Sources */,
 				934196231DB0B099004BBBB7 /* OBARegionHelper.m in Sources */,
 				93F3F8911E7A88EA0025FC78 /* RegionalAlertsManager.swift in Sources */,
+				9388C29F1FFDBAEA0068041F /* FBShimmeringView.m in Sources */,
 				9341964A1DB0B099004BBBB7 /* OBAAgencyWithCoverageV2.m in Sources */,
 				934C509A1E2B656900DFDCA0 /* NSDictionary+OBAAdditions.m in Sources */,
 				934196081DB0B099004BBBB7 /* OBAEmailHelper.m in Sources */,
@@ -1393,6 +1443,7 @@
 				934196B11DB0B0AF004BBBB7 /* OBAJsonDataSource.m in Sources */,
 				934196481DB0B099004BBBB7 /* OBAAgencyV2.m in Sources */,
 				9358CDAF1DEA1AB000132CDE /* OBADepartureCellHelpers.m in Sources */,
+				9388C2A51FFDF7C90068041F /* OBAPlaceholderView.m in Sources */,
 				93A73BF31F8760F600F213D4 /* OBAClassicDepartureView.m in Sources */,
 				934196341DB0B099004BBBB7 /* OBACallMethodJsonDigesterRule.m in Sources */,
 				9341962F1DB0B099004BBBB7 /* OBAModelDAO.m in Sources */,
@@ -1410,6 +1461,7 @@
 				9341966E1DB0B099004BBBB7 /* OBAReportProblemWithStopV2.m in Sources */,
 				934196B51DB0B0AF004BBBB7 /* OBAModelService.m in Sources */,
 				93FFA5FB1F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */,
+				9388C29E1FFDBAEA0068041F /* FBShimmeringLayer.m in Sources */,
 				934196641DB0B099004BBBB7 /* OBAPlacemark.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
