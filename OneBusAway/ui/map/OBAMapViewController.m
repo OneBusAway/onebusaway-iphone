@@ -976,7 +976,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)createSecondaryHoverBar {
     self.secondaryHoverBar = [[ISHHoverBar alloc] init];
 
-    UIBarButtonItem *nearby = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStylePlain target:self action:@selector(showNearbyStops)];
+    UIBarButtonItem *nearby = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nearby3"] style:UIBarButtonItemStylePlain target:self action:@selector(showNearbyStops)];
     nearby.accessibilityLabel = NSLocalizedString(@"msg_nearby_stops_list", @"self.listBarButtonItem.accessibilityLabel");
 
     // Create Map Type Toggle Button
