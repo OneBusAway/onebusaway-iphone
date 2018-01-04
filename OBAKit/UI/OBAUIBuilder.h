@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (UIButton*)contextMenuButton;
 
++ (UIBarButtonItem*)wrappedImageButton:(UIImage*)image accessibilityLabel:(NSString*)label target:(id)target action:(SEL)action;
+
 @end
 
 NS_ASSUME_NONNULL_END

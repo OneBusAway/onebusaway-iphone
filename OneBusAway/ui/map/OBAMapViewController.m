@@ -40,7 +40,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 @property(nonatomic,strong) MKMapView *mapView;
 @property(nonatomic,strong) ISHHoverBar *locationHoverBar;
 @property(nonatomic,strong) ISHHoverBar *secondaryHoverBar;
-@property(nonatomic,strong) UIButton *mapTypeButton;
 @property(nonatomic,strong) OBAToastView *toastView;
 
 // Search
@@ -956,6 +955,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self.mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
     self.mapView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     self.mapView.delegate = self;
+    self.mapView.mapType = [OBAApplication.sharedApplication.userDefaults integerForKey:OBAMapSelectedTypeDefaultsKey];
     [self.view addSubview:self.mapView];
 }
 
@@ -995,24 +995,12 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)createSecondaryHoverBar {
     self.secondaryHoverBar = [[ISHHoverBar alloc] init];
 
-    UIBarButtonItem *nearby = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStylePlain target:self action:@selector(showNearbyStops)];
-    nearby.accessibilityLabel = NSLocalizedString(@"msg_nearby_stops_list", @"self.listBarButtonItem.accessibilityLabel");
+    UIBarButtonItem *nearbyButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"map_signs"] accessibilityLabel:NSLocalizedString(@"msg_nearby_stops_list", @"self.listBarButtonItem.accessibilityLabel") target:self action:@selector(showNearbyStops)];
 
-    // Create Map Type Toggle Button
-    self.mapTypeButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-    [self.mapTypeButton setImage:[UIImage imageNamed:@"satelliteMapIcon"] forState:UIControlStateNormal];
-    [self.mapTypeButton setImage:[UIImage imageNamed:@"standardMapIcon"] forState:UIControlStateSelected];
-    self.mapTypeButton.imageEdgeInsets = [OBATheme compactEdgeInsets];
-    [self.mapTypeButton addTarget:self action:@selector(changeMapTypes) forControlEvents:UIControlEventTouchUpInside];
+    NSString *label = NSLocalizedString(@"map_controller.toggle_map_type_accessibility_label", @"Accessibility label for toggle map type button on map.");
+    UIBarButtonItem *mapBarButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"map_button"] accessibilityLabel:label target:self action:@selector(changeMapTypes:)];
 
-    // Create Bar Button Item
-    UIBarButtonItem *mapBarButton = [[UIBarButtonItem alloc] initWithCustomView:self.mapTypeButton];
-    // Configure the default map display style
-    // see https://github.com/OneBusAway/onebusaway-iphone/issues/65
-    self.mapView.mapType = [OBAApplication.sharedApplication.userDefaults integerForKey:OBAMapSelectedTypeDefaultsKey];
-    self.mapTypeButton.selected = self.mapView.mapType == MKMapTypeHybrid;
-
-    self.secondaryHoverBar.items = @[nearby, mapBarButton];
+    self.secondaryHoverBar.items = @[nearbyButton, mapBarButton];
 
     [self.view addSubview:self.secondaryHoverBar];
     [self.secondaryHoverBar mas_makeConstraints:^(MASConstraintMaker *make) {
