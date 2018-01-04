@@ -14,12 +14,21 @@
 #import <OBAKit/OBATheme.h>
 #import <OBAKit/OBAPlaceholderRow.h>
 
-@interface OBAStaticTableViewController ()<UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface OBAStaticTableViewController ()<DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property(nonatomic,strong,readwrite) UITableView *tableView;
 @property(nonatomic,strong) UIVisualEffectView *blurContainer;
 @end
 
 @implementation OBAStaticTableViewController
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+
+    if (self) {
+        _showsLoadingPlaceholderRows = YES;
+    }
+    return self;
+}
 
 #pragma mark - UIViewController
 
@@ -65,7 +74,9 @@
     self.tableView.emptyDataSetDelegate = self;
 
     // Shimmering 'Loading' Cells
-    [self displayLoadingUI];
+    if (self.showsLoadingPlaceholderRows) {
+        [self displayLoadingUI];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

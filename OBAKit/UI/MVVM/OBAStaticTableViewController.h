@@ -17,10 +17,15 @@ typedef NS_ENUM(NSUInteger, OBARootViewStyle) {
     OBARootViewStyleBlur,
 };
 
-@interface OBAStaticTableViewController : UIViewController
+@interface OBAStaticTableViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 @property(nonatomic,assign) OBARootViewStyle rootViewStyle;
 @property(nonatomic,strong,readonly) UITableView *tableView;
 @property(nonatomic,strong) NSArray<OBATableSection*> *sections;
+
+/**
+ Determines whether the controller displays the animated 'loading' rows at view load. True by default.
+ */
+@property(nonatomic,assign) BOOL showsLoadingPlaceholderRows;
 
 /**
  The empty data set treatment requires that the table view's footer view

@@ -25,6 +25,7 @@
 #import "OneBusAway-Swift.h"
 #import "SVPulsingAnnotationView.h"
 #import "UIViewController+OBAContainment.h"
+#import "UIViewController+OBAAdditions.h"
 #import "OBAMapAnnotationViewBuilder.h"
 #import "MKMapView+oba_Additions.h"
 #import "ISHHoverBar.h"
@@ -502,15 +503,33 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 // More map options such as Satellite views
 // see https://github.com/OneBusAway/onebusaway-iphone/issues/65
-- (IBAction)changeMapTypes {
-    if (self.mapView.mapType == MKMapTypeStandard) {
-        self.mapView.mapType = MKMapTypeHybrid;
-    }
-    else {
+- (IBAction)changeMapTypes:(UIButton*)sender {
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil];
+
+    OBATableRow *standardRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"map_controller.standard_map_type_title", @"Title for Standard Map toggle option.") action:^(OBABaseRow *row) {
         self.mapView.mapType = MKMapTypeStandard;
+        [OBAApplication.sharedApplication.userDefaults setInteger:MKMapTypeStandard forKey:OBAMapSelectedTypeDefaultsKey];
+    }];
+
+    OBATableRow *hybridRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"map_controller.hybrid_map_type_title", @"Title for Hybrid Map toggle option.") action:^(OBABaseRow *row) {
+        self.mapView.mapType = MKMapTypeHybrid;
+        [OBAApplication.sharedApplication.userDefaults setInteger:MKMapTypeHybrid forKey:OBAMapSelectedTypeDefaultsKey];
+    }];
+
+    if (self.mapView.mapType == MKMapTypeStandard) {
+        standardRow.accessoryType = UITableViewCellAccessoryCheckmark;
     }
-    self.mapTypeButton.selected = self.mapView.mapType == MKMapTypeHybrid;
-    [OBAApplication.sharedApplication.userDefaults setInteger:self.mapView.mapType forKey:OBAMapSelectedTypeDefaultsKey];
+    else if (self.mapView.mapType == MKMapTypeHybrid) {
+        hybridRow.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+
+    [section addRow:standardRow];
+    [section addRow:hybridRow];
+
+    PickerViewController *picker = [[PickerViewController alloc] init];
+    picker.sections = @[section];
+
+    [self oba_presentPopoverViewController:picker fromView:sender];
 }
 
 - (IBAction)showNearbyStops {
