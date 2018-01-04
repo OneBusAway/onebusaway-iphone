@@ -12,6 +12,7 @@
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBATableCell.h>
 #import <OBAKit/OBATheme.h>
+#import <OBAKit/OBAPlaceholderRow.h>
 
 @interface OBAStaticTableViewController ()<UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property(nonatomic,strong,readwrite) UITableView *tableView;
@@ -62,6 +63,9 @@
 
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
+
+    // Shimmering 'Loading' Cells
+    [self displayLoadingUI];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -323,6 +327,24 @@
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     OBABaseRow *row = [self rowAtIndexPath:indexPath];
     return row.rowActions;
+}
+
+#pragma mark - Placeholder UI
+
+- (void)displayLoadingUI {
+    OBAPlaceholderRow *row1 = [[OBAPlaceholderRow alloc] init];
+    OBAPlaceholderRow *row2 = [[OBAPlaceholderRow alloc] init];
+
+    NSArray *placeholderRows = @[row1, row2];
+    OBATableSection *placeholderSection = [[OBATableSection alloc] initWithTitle:nil rows:placeholderRows];
+    self.sections = @[placeholderSection];
+
+    [self.tableView reloadData];
+}
+
+- (void)hideLoadingUI {
+    self.sections = @[];
+    [self.tableView reloadData];
 }
 
 #pragma mark - DZNEmptyDataSet

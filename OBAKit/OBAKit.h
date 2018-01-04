@@ -72,6 +72,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBANavigationTarget.h>
 #import <OBAKit/OBANavigationTargetAnnotation.h>
 #import <OBAKit/OBANavigationTargetAware.h>
+#import <OBAKit/OBAPlaceholderView.h>
 #import <OBAKit/OBAPlacemark.h>
 #import <OBAKit/OBAPlacemarks.h>
 #import <OBAKit/OBAReachability.h>
@@ -120,6 +121,9 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 
 // 3rd Party Components
 #import <OBAKit/UIScrollView+EmptyDataSet.h>
+#import <OBAKit/FBShimmering.h>
+#import <OBAKit/FBShimmeringLayer.h>
+#import <OBAKit/FBShimmeringView.h>
 
 // MVVM
 #import <OBAKit/OBABaseRow.h>
