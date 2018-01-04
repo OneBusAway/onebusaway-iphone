@@ -884,6 +884,15 @@
 /* Error message displayed when the stop ID provided doesn't match a known stop ID. */
 "map_controller.no_matching_stop_warning_body" = "We were unable to find a stop that matches the ID you provided. Please check the number and try again.";
 
+/* Accessibility label for toggle map type button on map. */
+"map_controller.toggle_map_type_accessibility_label" = "Toggle Map Type";
+
+/* Title for Standard Map toggle option. */
+"map_controller.standard_map_type_title" = "Standard Map";
+
+/* Title for Hybrid Map toggle option. */
+"map_controller.hybrid_map_type_title" = "Hybrid Map";
+
 /* Error message shown when the user denies the app the ability to send push notifications. */
 "push_manager.authorization_denied" = "Alarms only work when push notifications are allowed.";
 
