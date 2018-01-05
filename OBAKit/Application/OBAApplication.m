@@ -101,18 +101,27 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
     return _userDefaults;
 }
 
-- (void)registerAppDefaults {
-    NSMutableDictionary *defaults = [[NSMutableDictionary alloc] init];
+#define kUseDebugAppDefaults NO
 
-    defaults[OBAShareRegionPIIUserDefaultsKey] = @(YES);
-    defaults[OBAShareLocationPIIUserDefaultsKey] = @(YES);
-    defaults[OBAShareLogsPIIUserDefaultsKey] = @(YES);
-    defaults[OBASetRegionAutomaticallyKey] = @(YES);
-    defaults[kUngroupedBookmarksOpenKey] = @(YES);
-    defaults[OBAOptInToCrashReportingDefaultsKey] = @(YES);
-    defaults[OBAOptInToTrackingDefaultsKey] = @(YES);
-    defaults[OBADisplayUserHeadingOnMapDefaultsKey] = @(YES);
-    defaults[OBAMapSelectedTypeDefaultsKey] = @(MKMapTypeStandard);
+- (void)registerAppDefaults {
+    NSDictionary *defaults = nil;
+
+#if kUseDebugAppDefaults
+    defaults = [NSDictionary dictionaryWithContentsOfFile:[NSBundle.mainBundle pathForResource:@"test_userdefaults" ofType:@"xml"]];
+#else
+    NSMutableDictionary *mutableDefaults = [[NSMutableDictionary alloc] init];
+
+    mutableDefaults[OBAShareRegionPIIUserDefaultsKey] = @(YES);
+    mutableDefaults[OBAShareLocationPIIUserDefaultsKey] = @(YES);
+    mutableDefaults[OBAShareLogsPIIUserDefaultsKey] = @(YES);
+    mutableDefaults[OBASetRegionAutomaticallyKey] = @(YES);
+    mutableDefaults[kUngroupedBookmarksOpenKey] = @(YES);
+    mutableDefaults[OBAOptInToCrashReportingDefaultsKey] = @(YES);
+    mutableDefaults[OBAOptInToTrackingDefaultsKey] = @(YES);
+    mutableDefaults[OBADisplayUserHeadingOnMapDefaultsKey] = @(YES);
+    mutableDefaults[OBAMapSelectedTypeDefaultsKey] = @(MKMapTypeStandard);
+    defaults = mutableDefaults;
+#endif
 
     [self.userDefaults registerDefaults:defaults];
 }
