@@ -73,19 +73,19 @@ NS_ASSUME_NONNULL_BEGIN
  Note that -resume is NOT called on the task, which means that the caller will need to begin execution themselves.
 
  @param request The URL request to load data from.
- @param completion A block fired on completion of the request.
+ @param completion An optional block fired on completion of the request.
  @return An object that conforms to the NSURLSessionTask protocol. Can be used to cancel the request.
  */
-- (NSURLSessionTask*)createURLSessionTask:(NSURLRequest*)request completion:(OBADataSourceCompletion)completion;
+- (NSURLSessionTask*)createURLSessionTask:(NSURLRequest*)request completion:(nullable OBADataSourceCompletion)completion;
 
 /**
  Given an URL request, load its contents.
 
  @param request The URL request to load data from.
- @param completion A block fired on completion of the request.
+ @param completion An optional block fired on completion of the request.
  @return An object that conforms to the NSURLSessionTask protocol. Can be used to cancel the request.
  */
-- (NSURLSessionTask*)performRequest:(NSURLRequest*)request completionBlock:(OBADataSourceCompletion)completion;
+- (NSURLSessionTask*)performRequest:(NSURLRequest*)request completionBlock:(nullable OBADataSourceCompletion)completion;
 
 /**
  Creates an NSURLSessionTask that uses the specified HTTP method.

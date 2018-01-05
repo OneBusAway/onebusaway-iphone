@@ -101,7 +101,7 @@
     return [self performRequest:request completionBlock:completion];
 }
 
-- (NSURLSessionTask*)createURLSessionTask:(NSURLRequest*)request completion:(OBADataSourceCompletion)completion {
+- (NSURLSessionTask*)createURLSessionTask:(NSURLRequest*)request completion:(nullable OBADataSourceCompletion)completion {
     NSURLSessionDataTask *task = [self.URLSession dataTaskWithRequest:request
                                                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         id responseObject = nil;
@@ -115,7 +115,9 @@
             }
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            completion(responseObject, (NSHTTPURLResponse*)response, error);
+            if (completion) {
+                completion(responseObject, (NSHTTPURLResponse*)response, error);
+            }
         });
     }];
 
@@ -124,7 +126,7 @@
     return task;
 }
 
-- (NSURLSessionTask*)performRequest:(NSURLRequest*)request completionBlock:(OBADataSourceCompletion)completion {
+- (NSURLSessionTask*)performRequest:(NSURLRequest*)request completionBlock:(nullable OBADataSourceCompletion)completion {
     NSURLSessionTask *task = [self createURLSessionTask:request completion:completion];
     [task resume];
 

@@ -133,9 +133,7 @@
 
         [row setDeleteModel:^(OBABaseRow *r) {
             NSURLRequest *request = [self.modelService.obaJsonDataSource buildRequestWithURL:alarm.alarmURL HTTPMethod:@"DELETE" formBody:nil];
-            [self.modelService.obaJsonDataSource performRequest:request completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
-                // nop?
-            }];
+            [self.modelService.obaJsonDataSource performRequest:request completionBlock:nil];
             [self.modelDAO removeAlarmWithKey:alarm.alarmKey];
         }];
 
