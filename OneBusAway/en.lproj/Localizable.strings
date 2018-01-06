@@ -155,14 +155,6 @@
 /* view.title */
 "msg_error_submitting" = "Error Submitting";
 
-/* message
-   requestDidFail
-   self.navigationItem.title */
-"msg_error_min_connecting" = "Error connecting";
-
-/* requestDidFail */
-"msg_error_min_connecting_dot" = "Error connecting.";
-
 /* No comment provided by engineer. */
 "msg_filtered_departures" = "Filtered Departures";
 
@@ -466,9 +458,6 @@
 "msg_shared_trips" = "Shared Trips";
 
 /* No comment provided by engineer. */
-"msg_show_map" = "Show Map";
-
-/* No comment provided by engineer. */
 "msg_show_as_list" = "Show as List";
 
 /* No comment provided by engineer. */
@@ -565,17 +554,11 @@
 /* No comment provided by engineer. */
 "msg_trip_schedule" = "Trip Schedule";
 
-/* message */
-"msg_trip_not_found" = "Trip not found";
-
 /* No comment provided by engineer. */
 "msg_unable_load_regions" = "Unable to Load Regions";
 
 /* No comment provided by engineer. */
 "text_unable_load_data_region_param" = "Unable to load data from %@. Please check the URL and try again.\r\n\r\n%@";
-
-/* message */
-"msg_unknown_error" = "Unknown error";
 
 /* message */
 "msg_updated" = "Updated";

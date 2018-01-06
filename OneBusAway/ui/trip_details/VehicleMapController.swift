@@ -33,6 +33,12 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        self.promiseWrapper?.cancel()
+    }
+
+    @objc private var promiseWrapper: PromiseWrapper?
+
     @objc public var tripDetails: OBATripDetailsV2? {
         didSet {
             guard let tripDetails = self.tripDetails else {
@@ -44,6 +50,39 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
             }
 
             self.mapView.addAnnotations(annotations!)
+        }
+    }
+
+    @objc public var tripInstance: OBATripInstanceRef? {
+        willSet {
+            // TODO: there's no reason to remove all of the annotations every time
+            // the tripInstance object is updated. This will just cause an
+            // annoying flicker. However, it's easier than doing the right thing and
+            // I just want to get this done for now. So someone please improve this!
+            self.mapView.removeAnnotations(self.mapView.annotations)
+        }
+        didSet {
+            if self.routePolyline != nil {
+                return
+            }
+
+            guard let tripInstance = self.tripInstance else {
+                return
+            }
+
+            let wrapper = self.modelService.requestTripDetails(tripInstance: tripInstance)
+            wrapper.promise.then { resp -> Void in
+                let tripDetails = resp.object as! OBATripDetailsV2
+                self.tripDetails = tripDetails
+
+                guard let shapeID = tripDetails.trip?.shapeId else {
+                    return
+                }
+
+                self.downloadRoutePolyline(shapeID: shapeID)
+            }
+
+            self.promiseWrapper = wrapper
         }
     }
 
@@ -75,7 +114,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
 
     @objc public weak var delegate: VehicleMapDelegate?
 
-    lazy var modelService: OBAModelService = {
+    lazy var modelService: PromisedModelService = {
         return OBAApplication.shared().modelService
     }()
 
@@ -98,10 +137,9 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         button.imageView?.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
 
-        if let toggleImage = UIImage(named: "back") {
-            button.setImage(OBAImageHelpers.rotateImage(toggleImage, degrees: -90.0), for: .normal)
-            button.setImage(OBAImageHelpers.rotateImage(toggleImage, degrees: 90.0), for: .selected)
-        }
+        let toggleImage = #imageLiteral(resourceName: "back")
+        button.setImage(OBAImageHelpers.rotateImage(toggleImage, degrees: -90.0), for: .normal)
+        button.setImage(OBAImageHelpers.rotateImage(toggleImage, degrees: 90.0), for: .selected)
 
         button.isSelected = self.expanded
 
