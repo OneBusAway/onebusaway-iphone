@@ -155,14 +155,6 @@
 /* view.title */
 "msg_error_submitting" = "Error al Enviar";
 
-/* message
-   requestDidFail
-   self.navigationItem.title */
-"msg_error_min_connecting" = "Error al conectar";
-
-/* requestDidFail */
-"msg_error_min_connecting_dot" = "Error conectando.";
-
 /* No comment provided by engineer. */
 "msg_filtered_departures" = "Salidas Filtradas";
 
@@ -463,9 +455,6 @@
 "msg_shared_trips" = "Viajes Compartidos";
 
 /* No comment provided by engineer. */
-"msg_show_map" = "Mostrar Mapa";
-
-/* No comment provided by engineer. */
 "msg_show_as_list" = "Mostrar como Lista";
 
 /* No comment provided by engineer. */
@@ -562,17 +551,11 @@
 /* No comment provided by engineer. */
 "msg_trip_schedule" = "Horario de Viaje";
 
-/* message */
-"msg_trip_not_found" = "El viaje no fue encontrado";
-
 /* No comment provided by engineer. */
 "msg_unable_load_regions" = "No se pueden Cargar las Regiones";
 
 /* No comment provided by engineer. */
 "text_unable_load_data_region_param" = "No se pueden cargar los datos desde %@. Por favor verifica la URL e intenta de nuevo.\r\n\r\n%@";
-
-/* message */
-"msg_unknown_error" = "Error desconocido";
 
 /* message */
 "msg_updated" = "Actualizado";

@@ -38,7 +38,7 @@ import PromiseKit
         return AnyPromise(self.promise)
     }
 
-    @objc func cancel() {
+    @objc public func cancel() {
         cancellablePromise.cancel()
     }
 }

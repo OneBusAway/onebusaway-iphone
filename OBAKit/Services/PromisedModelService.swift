@@ -169,7 +169,7 @@ import Mantle
     ///
     /// - Parameter tripInstance: The trip instance reference
     /// - Returns: A PromiseWrapper that resolves to an instance of OBATripDetailsV2
-    @objc func requestTripDetails(tripInstance: OBATripInstanceRef) -> PromiseWrapper {
+    @objc public func requestTripDetails(tripInstance: OBATripInstanceRef) -> PromiseWrapper {
         let request = self.buildTripDetailsRequest(tripInstance: tripInstance)
         let wrapper = PromiseWrapper.init(request: request)
 

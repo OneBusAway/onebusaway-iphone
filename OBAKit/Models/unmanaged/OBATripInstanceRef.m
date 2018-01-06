@@ -29,6 +29,15 @@
     return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    OBATripInstanceRef *ref = [[self.class allocWithZone:zone] init];
+    ref->_tripId = [_tripId copyWithZone:zone];
+    ref->_serviceDate = _serviceDate;
+    ref->_vehicleId = [_vehicleId copyWithZone:zone];
+
+    return ref;
+}
+
 + (OBATripInstanceRef*)tripInstance:(NSString*)tripId serviceDate:(long long)serviceDate vehicleId:(NSString*)vehicleId {
     return [[OBATripInstanceRef alloc] initWithTripId:tripId serviceDate:serviceDate vehicleId:vehicleId];
 }
