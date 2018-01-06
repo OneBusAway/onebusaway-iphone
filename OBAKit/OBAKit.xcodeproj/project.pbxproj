@@ -237,6 +237,8 @@
 		9388C2AD1FFE1C240068041F /* OBAPlaceholderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9388C2AB1FFE1C240068041F /* OBAPlaceholderCell.m */; };
 		9388C2B61FFEAA4B0068041F /* PopoverPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9388C2B51FFEAA4B0068041F /* PopoverPresenter.swift */; };
 		9388C2B91FFEC29B0068041F /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9388C2B81FFEC29B0068041F /* PickerViewController.swift */; };
+		9388C2D32001567F0068041F /* OBAStackedMarqueeLabels.h in Headers */ = {isa = PBXBuildFile; fileRef = 9388C2D12001567F0068041F /* OBAStackedMarqueeLabels.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9388C2D42001567F0068041F /* OBAStackedMarqueeLabels.m in Sources */ = {isa = PBXBuildFile; fileRef = 9388C2D22001567F0068041F /* OBAStackedMarqueeLabels.m */; };
 		93A6E9E21F5BC18B00AFA61C /* AppInterop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */; };
 		93A73BF21F8760F600F213D4 /* OBAClassicDepartureView.h in Headers */ = {isa = PBXBuildFile; fileRef = 93A73BF01F8760F600F213D4 /* OBAClassicDepartureView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93A73BF31F8760F600F213D4 /* OBAClassicDepartureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A73BF11F8760F600F213D4 /* OBAClassicDepartureView.m */; };
@@ -532,6 +534,8 @@
 		9388C2AB1FFE1C240068041F /* OBAPlaceholderCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAPlaceholderCell.m; sourceTree = "<group>"; };
 		9388C2B51FFEAA4B0068041F /* PopoverPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverPresenter.swift; sourceTree = "<group>"; };
 		9388C2B81FFEC29B0068041F /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
+		9388C2D12001567F0068041F /* OBAStackedMarqueeLabels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAStackedMarqueeLabels.h; sourceTree = "<group>"; };
+		9388C2D22001567F0068041F /* OBAStackedMarqueeLabels.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAStackedMarqueeLabels.m; sourceTree = "<group>"; };
 		93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInterop.swift; sourceTree = "<group>"; };
 		93A73BF01F8760F600F213D4 /* OBAClassicDepartureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureView.h; sourceTree = "<group>"; };
 		93A73BF11F8760F600F213D4 /* OBAClassicDepartureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicDepartureView.m; sourceTree = "<group>"; };
@@ -977,6 +981,8 @@
 				931A6A231E02772E00131242 /* OBAValue1ContentsView.h */,
 				931A6A241E02772E00131242 /* OBAValue1ContentsView.m */,
 				9388C2B51FFEAA4B0068041F /* PopoverPresenter.swift */,
+				9388C2D12001567F0068041F /* OBAStackedMarqueeLabels.h */,
+				9388C2D22001567F0068041F /* OBAStackedMarqueeLabels.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1192,6 +1198,7 @@
 				934C50991E2B656900DFDCA0 /* NSDictionary+OBAAdditions.h in Headers */,
 				934196651DB0B099004BBBB7 /* OBAPlacemarks.h in Headers */,
 				934196761DB0B099004BBBB7 /* OBASearchResult.h in Headers */,
+				9388C2D32001567F0068041F /* OBAStackedMarqueeLabels.h in Headers */,
 				934C50951E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h in Headers */,
 				9388C29C1FFDBAEA0068041F /* FBShimmeringLayer.h in Headers */,
 				93089DA31F87E6E600694A90 /* OBAViewModelRegistry.h in Headers */,
@@ -1380,6 +1387,7 @@
 				934196561DB0B099004BBBB7 /* OBACoordinateBounds.m in Sources */,
 				93E592A51F8CACBF0079A2D8 /* OBAStaticTableViewController.m in Sources */,
 				931C60D81EC3975A0086EC37 /* OBAApplicationConfiguration.m in Sources */,
+				9388C2D42001567F0068041F /* OBAStackedMarqueeLabels.m in Sources */,
 				9388C2A91FFE1BB90068041F /* OBAPlaceholderRow.m in Sources */,
 				934196151DB0B099004BBBB7 /* OBAStopIconFactory.m in Sources */,
 				93A73BF71F87613A00F213D4 /* OBADepartureTimeLabel.m in Sources */,

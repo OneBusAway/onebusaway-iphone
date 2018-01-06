@@ -42,8 +42,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
 @property(nonatomic,strong) VehicleMapController *mapController;
 
-@property(nonatomic,strong) MarqueeLabel *titleVehicleLabel;
-@property(nonatomic,strong) MarqueeLabel *titleUpdateLabel;
+@property(nonatomic,strong) OBAStackedMarqueeLabels *titleLabels;
 
 @property(nonatomic,strong) OBAArrivalDepartureOptionsSheet *departureSheetHelper;
 @end
@@ -57,20 +56,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         _reloadLock = [[NSLock alloc] init];
 
         CGFloat titleViewWidth = 178.f;
-
-        _titleVehicleLabel = [self.class buildMarqueeLabelWithWidth:titleViewWidth];
-        _titleUpdateLabel = [self.class buildMarqueeLabelWithWidth:titleViewWidth];
-
-        CGFloat combinedLabelHeight = CGRectGetHeight(_titleVehicleLabel.frame) + CGRectGetHeight(_titleUpdateLabel.frame);
-        UIView *wrapper = [[UIView alloc] initWithFrame:CGRectMake(0, 0, titleViewWidth, combinedLabelHeight)];
-        [wrapper addSubview:_titleVehicleLabel];
-        [wrapper addSubview:_titleUpdateLabel];
-
-        CGRect updateLabelFrame = _titleUpdateLabel.frame;
-        updateLabelFrame.origin.y = CGRectGetMaxY(_titleVehicleLabel.frame);
-        _titleUpdateLabel.frame = updateLabelFrame;
-
-        self.navigationItem.titleView = wrapper;
+        _titleLabels = [[OBAStackedMarqueeLabels alloc] initWithWidth:titleViewWidth];
+        self.navigationItem.titleView = _titleLabels;
     }
     return self;
 }
@@ -372,10 +359,10 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
 - (void)updateTitleViewWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
     if (arrivalAndDeparture.tripStatus.vehicleId.length > 0) {
-        self.titleVehicleLabel.text = arrivalAndDeparture.tripStatus.vehicleId;
+        self.titleLabels.topLabel.text = arrivalAndDeparture.tripStatus.vehicleId;
     }
     else {
-        self.titleVehicleLabel.text = @"";
+        self.titleLabels.topLabel.text = @"";
     }
 
     NSMutableArray *bottomLabelParts = [NSMutableArray new];
@@ -389,7 +376,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         [bottomLabelParts addObject:arrivalAndDeparture.tripStatus.formattedScheduleDeviation];
     }
 
-    self.titleUpdateLabel.text = [bottomLabelParts componentsJoinedByString:@" • "];
+    self.titleLabels.bottomLabel.text = [bottomLabelParts componentsJoinedByString:@" • "];
 }
 
 #pragma mark - Context Menu Actions
@@ -435,18 +422,6 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 }
 
 #pragma mark - Private UI Stuff
-
-+ (MarqueeLabel*)buildMarqueeLabelWithWidth:(CGFloat)width {
-    MarqueeLabel *label = [[MarqueeLabel alloc] initWithFrame:CGRectMake(0, 0, width, 10)];
-    label.font = [OBATheme boldFootnoteFont];
-    label.trailingBuffer = [OBATheme defaultPadding];
-    label.fadeLength = [OBATheme defaultPadding];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.adjustsFontSizeToFitWidth = YES;
-    [label oba_resizeHeightToFit];
-
-    return label;
-}
 
 + (UIView*)buildTableHeaderViewWrapperWithHeaderView:(OBAClassicDepartureView*)headerView {
     UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[headerView]];

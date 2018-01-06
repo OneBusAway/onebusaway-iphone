@@ -45,7 +45,7 @@ github "52inc/Pulley" ~>1.5.2
 github "AzimoLabs/SMFloatingLabelTextField" ~>0.3.2
 
 # https://github.com/cbpowell/MarqueeLabel/releases
-github "cbpowell/MarqueeLabel" ~>3.1.2
+github "aaronbrethorst/MarqueeLabel" "6257cc167a60a371159da1db2c7130cc774222ca"
 
 # https://github.com/OneSignal/OneSignal-iOS-SDK/releases
 github "OneSignal/OneSignal-iOS-SDK" ~>2.5.6
