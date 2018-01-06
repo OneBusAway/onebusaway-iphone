@@ -92,6 +92,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBASituationConsequenceV2.h>
 #import <OBAKit/OBASituationV2.h>
 #import <OBAKit/OBASphericalGeometryLibrary.h>
+#import <OBAKit/OBAStackedMarqueeLabels.h>
 #import <OBAKit/OBAStopAccessEventV2.h>
 #import <OBAKit/OBAStopIconFactory.h>
 #import <OBAKit/OBAStopPreferencesV2.h>
