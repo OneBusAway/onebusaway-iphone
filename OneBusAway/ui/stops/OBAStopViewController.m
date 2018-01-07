@@ -35,7 +35,11 @@ static CGFloat const kTableHeaderHeight = 150.f;
 static NSInteger kStopsSectionTag = 101;
 static NSInteger kNegligibleWalkingTimeToStop = 25;
 
+static NSUInteger const kDefaultMinutesBefore = 5;
+static NSUInteger const kDefaultMinutesAfter = 35;
+
 @interface OBAStopViewController ()<UIScrollViewDelegate, UIActivityItemSource, OBAArrivalDepartureOptionsSheetDelegate>
+@property(nonatomic,strong) NSDateIntervalFormatter *timeframeFormatter;
 @property(nonatomic,strong) UIRefreshControl *refreshControl;
 @property(nonatomic,strong) PromiseWrapper *promiseWrapper;
 @property(nonatomic,strong) NSTimer *refreshTimer;
@@ -55,8 +59,8 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
     if (self) {
         _reloadLock = [[NSLock alloc] init];
         _stopID = [stopID copy];
-        _minutesBefore = 5;
-        _minutesAfter = 35;
+        _minutesBefore = kDefaultMinutesBefore;
+        _minutesAfter = kDefaultMinutesAfter;
     }
     return self;
 }
@@ -254,6 +258,17 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 
     // "Load More Departures..."
     OBATableSection *loadMoreSection = [self createLoadMoreDeparturesSection];
+
+    NSString *timeframeText = [self timeframeStringForMinutesBeforeToAfter];
+
+    if (timeframeText) {
+        OBATableRow *timeframeRow = [[OBATableRow alloc] initWithTitle:timeframeText action:nil];
+        timeframeRow.textAlignment = NSTextAlignmentCenter;
+        timeframeRow.titleFont = [OBATheme italicFootnoteFont];
+        timeframeRow.selectionStyle = UITableViewCellSelectionStyleNone;
+        [loadMoreSection addRow:timeframeRow];
+    }
+
     if (result.lacksRealTimeData) {
         OBATableRow *scheduledExplanationRow = [[OBATableRow alloc] initWithTitle:[OBAStrings scheduledDepartureExplanation] action:nil];
         scheduledExplanationRow.textAlignment = NSTextAlignmentCenter;
@@ -265,6 +280,27 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 
     self.sections = sections;
     [self.tableView reloadData];
+}
+
+- (nullable NSString*)timeframeStringForMinutesBeforeToAfter {
+    if (self.minutesBefore == kDefaultMinutesBefore && self.minutesAfter == kDefaultMinutesAfter) {
+        return nil;
+    }
+
+    NSDate *beforeDate = [NSDate dateWithTimeIntervalSinceNow:-(60.0 * self.minutesBefore)];
+    NSDate *afterDate = [NSDate dateWithTimeIntervalSinceNow:(60.0 * self.minutesAfter)];
+
+    return [self.timeframeFormatter stringFromDate:beforeDate toDate:afterDate];
+}
+
+- (NSDateIntervalFormatter*)timeframeFormatter {
+    if (!_timeframeFormatter) {
+        _timeframeFormatter = [[NSDateIntervalFormatter alloc] init];
+        _timeframeFormatter.dateStyle = NSDateIntervalFormatterNoStyle;
+        _timeframeFormatter.timeStyle = NSDateIntervalFormatterShortStyle;
+    }
+
+    return _timeframeFormatter;
 }
 
 #pragma mark - Walking
@@ -397,7 +433,9 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
         self.minutesAfter += 30;
         [self reloadDataAnimated:NO];
     }];
+
     moreDeparturesRow.textAlignment = NSTextAlignmentCenter;
+
     return [[OBATableSection alloc] initWithTitle:nil rows:@[moreDeparturesRow]];
 }
 
