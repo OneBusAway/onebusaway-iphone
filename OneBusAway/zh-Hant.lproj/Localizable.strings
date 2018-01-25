@@ -661,9 +661,6 @@
 /* No comment provided by engineer. */
 "text_only_routes_colon_param" = "路線: %@";
 
-/* cell.textLabel.text */
-"msg_schedule_deviation" = "預計行程差";
-
 /* title */
 "msg_mayus_vehicle" = "車次";
 

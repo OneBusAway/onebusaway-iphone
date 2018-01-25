@@ -684,9 +684,6 @@
 /* No comment provided by engineer. */
 "text_only_routes_colon_param" = "Rutas: %@";
 
-/* cell.textLabel.text */
-"msg_schedule_deviation" = "Desviación";
-
 /* title */
 "msg_mayus_vehicle" = "Vehículo";
 

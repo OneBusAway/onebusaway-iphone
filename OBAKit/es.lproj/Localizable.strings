@@ -73,9 +73,6 @@
 /* Standard 'Save' button text. */
 "msg_save" = "Guardar";
 
-/* cell.textLabel.text */
-"msg_schedule_deviation" = "Desviación";
-
 /* code == 404 */
 "mgs_stop_not_found" = "La Parada no fue encontrada";
 
