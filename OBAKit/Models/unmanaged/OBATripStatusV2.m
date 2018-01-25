@@ -49,7 +49,7 @@
     NSInteger mins = sd / 60;
     NSInteger secs = sd % 60;
 
-    return [NSString stringWithFormat:@"%@: %ldm %lds%@", OBALocalized(@"msg_schedule_deviation", @"cell.textLabel.text"), (long)mins, (long)secs, label];
+    return [NSString stringWithFormat:@"%ldm %lds%@", (long)mins, (long)secs, label];
 }
 
 - (NSString*)description {

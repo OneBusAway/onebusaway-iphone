@@ -79,9 +79,6 @@
 /* Standard 'Save' button text. */
 "msg_save" = "Save";
 
-/* cell.textLabel.text */
-"msg_schedule_deviation" = "Schedule deviation";
-
 /* code == 404 */
 "mgs_stop_not_found" = "Stop not found";
 
