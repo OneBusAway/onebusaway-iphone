@@ -102,7 +102,7 @@
 
         [AlertPresenter showSuccess:title body:body];
     }).catch(^(NSError *error) {
-        [AlertPresenter showError:error];
+        [AlertPresenter showError:error presentingController:nil];
     }).always(^{
         [SVProgressHUD dismiss];
     });
