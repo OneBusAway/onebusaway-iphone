@@ -318,7 +318,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         self.mapController.tripDetails = tripDetails;
         [self populateTableWithArrivalAndDeparture:self.arrivalAndDeparture tripDetails:self.tripDetails];
     }).catch(^(NSError *error) {
-        [AlertPresenter showError:error];
+        [AlertPresenter showError:error presentingController:self];
     }).always(^{
         [self.reloadLock unlock];
     });

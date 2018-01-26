@@ -9,6 +9,7 @@
 import OBAKit
 import UIKit
 import SwiftMessages
+import SafariServices
 
 @objc open class AlertPresenter: NSObject {
 
@@ -38,12 +39,29 @@ import SwiftMessages
 
     /// Displays an error alert on screen generated from an error object.
     ///
-    /// - Parameter error: The error object from which the alert is generated.
-    @objc open class func showError(_ error: NSError) {
+    /// - Parameters:
+    ///   - error: The error object from which the alert is generated.
+    ///   - presentingController: The view controller from which a modal view controller should be presented if this error requires action on the user's part.
+    @objc open class func showError(_ error: NSError, presentingController: UIViewController?) {
+        guard
+            let presentingController = presentingController,
+            shouldDisplayErrorUrlInController(error),
+            let urlString = error.userInfo[NSURLErrorFailingURLStringErrorKey] as? String,
+            let url = URL.init(string: urlString)
+        else {
+            showMessage(from: error)
+            return
+        }
+
+        let safari = SFSafariViewController.init(url: url)
+        presentingController.present(safari, animated: true, completion: nil)
+    }
+
+    private class func showMessage(from error: NSError) {
         var userInfo: [String: Any] = [:]
         var referenceID: String? = nil
         if let url = error.userInfo[NSURLErrorFailingURLStringErrorKey] as? NSString,
-           let substr = url.oba_SHA1?.prefix(10) {
+            let substr = url.oba_SHA1?.prefix(10) {
             referenceID = String(describing: substr)
             userInfo["reference"] = referenceID
         }
@@ -90,6 +108,24 @@ import SwiftMessages
         }
         
         return message
+    }
+
+    /// Returns true if the value of error.userInfo[NSURLErrorFailingURLStringErrorKey] should be displayed in a
+    /// modal safari view controller, and false if it shouldn't be. Currently only looks for cases where the user
+    /// is on what appears to be a captive portal wifi network.
+    ///
+    /// - Parameter error: The error in question
+    /// - Returns: true if a modal safari controller should be displayed and false otherwise.
+    private class func shouldDisplayErrorUrlInController(_ error: NSError) -> Bool {
+        if error.domain != NSURLErrorDomain && error.domain != (kCFErrorDomainCFNetwork as String) {
+            return false
+        }
+
+        if error.code != NSURLErrorAppTransportSecurityRequiresSecureConnection {
+            return false
+        }
+
+        return error.userInfo[NSURLErrorFailingURLStringErrorKey] != nil
     }
 
     private class func errorPotentiallyFromWifiCaptivePortal(_ error: NSError) -> Bool {

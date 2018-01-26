@@ -306,7 +306,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         self.hideFutureNetworkErrors = YES;
 
-        [AlertPresenter showError:error];
+        [AlertPresenter showError:error presentingController:self];
     }
 }
 
