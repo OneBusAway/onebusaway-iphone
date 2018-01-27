@@ -18,10 +18,14 @@
 #import <OBAKit/OBADateHelpers.h>
 #import <OBAKit/OBAMacros.h>
 
+@interface OBAVehicleMapAnnotation ()
+@property(nonatomic,strong) OBATripStatusV2 *tripStatus;
+@end
+
 @implementation OBAVehicleMapAnnotation
 
-- (id) initWithTripStatus:(OBATripStatusV2*)tripStatus {
-    if( self = [super init] ) {
+- (instancetype)initWithTripStatus:(OBATripStatusV2*)tripStatus {
+    if (self = [super init]) {
         _tripStatus = tripStatus;
     }
     return self;    
@@ -29,9 +33,9 @@
 
 #pragma mark MKAnnotation
 
-- (NSString*) title {
-    if (_tripStatus.vehicleId) {
-        return [NSString stringWithFormat:@"%@: %@", OBALocalized(@"msg_mayus_vehicle",@"title"), _tripStatus.vehicleId];
+- (NSString*)title {
+    if (self.tripStatus.vehicleId) {
+        return [NSString stringWithFormat:@"%@: %@", OBALocalized(@"msg_mayus_vehicle",@"title"), self.tripStatus.vehicleId];
     }
     else {
         return OBALocalized(@"msg_mayus_vehicle",@"title");
@@ -39,16 +43,19 @@
 }
 
 - (NSString*) subtitle {
-    return [OBADateHelpers formatShortTimeNoDate:[NSDate dateWithTimeIntervalSince1970:_tripStatus.lastUpdateTime/1000.0]];
+    return [OBADateHelpers formatShortTimeNoDate:[NSDate dateWithTimeIntervalSince1970:self.tripStatus.lastUpdateTime/1000.0]];
 }
 
 - (CLLocationCoordinate2D) coordinate {
-    if (_showLastKnownLocation) {
-        return _tripStatus.lastKnownLocation.coordinate;
+    if (!self.tripStatus.lastKnownLocation) {
+        return self.tripStatus.position.coordinate;
     }
-    else {
-        return _tripStatus.position.coordinate;
+
+    if (self.tripStatus.lastKnownLocation.coordinate.latitude == 0 || self.tripStatus.lastKnownLocation.coordinate.longitude == 0) {
+        return self.tripStatus.position.coordinate;
     }
+
+    return self.tripStatus.lastKnownLocation.coordinate;
 }
 
 @end
