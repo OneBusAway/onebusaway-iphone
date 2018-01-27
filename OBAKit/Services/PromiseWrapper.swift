@@ -20,12 +20,18 @@ import PromiseKit
             var jsonObject = try! JSONSerialization.jsonObject(with: (response.object as! Data), options: []) as AnyObject
             var httpResponse = response.URLResponse
 
+            // pre-munge
+            if let error = OBAErrorMessages.error(fromHttpResponse: httpResponse) {
+                throw error
+            }
+
             if checkCode && jsonObject.responds(to: #selector(self.value(forKey:))) {
                 let statusCode = (jsonObject.value(forKey: "code") as! NSNumber).intValue
                 httpResponse = HTTPURLResponse.init(url: httpResponse.url!, statusCode: statusCode, httpVersion: nil, headerFields: httpResponse.allHeaderFields as? [String : String])!
                 jsonObject = jsonObject.value(forKey: "data") as AnyObject
             }
 
+            // post-munge
             if let error = OBAErrorMessages.error(fromHttpResponse: httpResponse) {
                 throw error
             }

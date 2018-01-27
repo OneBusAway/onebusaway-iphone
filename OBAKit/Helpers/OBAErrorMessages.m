@@ -31,7 +31,10 @@
 }
 
 + (NSError*)errorFromHttpResponse:(NSHTTPURLResponse*)httpResponse {
-    if (httpResponse.statusCode == 404) {
+    if (httpResponse.statusCode >= 500) {
+        return OBAErrorMessages.serverError;
+    }
+    else if (httpResponse.statusCode == 404) {
         return OBAErrorMessages.stopNotFoundError;
     }
     else if (httpResponse.statusCode >= 300 && httpResponse.statusCode <= 399) {
@@ -39,6 +42,10 @@
     }
 
     return nil;
+}
+
++ (NSError*)serverError {
+    return [NSError errorWithDomain:NSURLErrorDomain code:500 userInfo:@{NSLocalizedDescriptionKey: OBALocalized(@"error_messages.server_error", @"code == 500")}];
 }
 
 + (NSError*)stopNotFoundError {

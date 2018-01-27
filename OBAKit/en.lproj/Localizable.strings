@@ -79,6 +79,10 @@
 /* Standard 'Save' button text. */
 "msg_save" = "Save";
 
+/* code == 500 */
+"error_messages.server_error" = "The server was unable to interpret your request, or it is simply having some problems.";
+
+
 /* code == 404 */
 "mgs_stop_not_found" = "Stop not found";
 
