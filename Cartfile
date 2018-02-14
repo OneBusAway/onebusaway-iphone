@@ -38,14 +38,11 @@ github "jspahrsummers/libextobjc" ~>0.5.0
 # https://github.com/mantle/mantle/releases
 github "mantle/mantle" ~>2.1.0
 
-# https://github.com/52inc/Pulley/releases
-github "52inc/Pulley" ~>1.5.2
-
 # https://github.com/AzimoLabs/SMFloatingLabelTextField/releases
 github "AzimoLabs/SMFloatingLabelTextField" ~>0.3.2
 
 # https://github.com/cbpowell/MarqueeLabel/releases
-github "aaronbrethorst/MarqueeLabel" "6257cc167a60a371159da1db2c7130cc774222ca"
+github "cbpowell/MarqueeLabel" "d7cdb1708910f030c28d0118e26f6bac24dcad8a"
 
 # https://github.com/OneSignal/OneSignal-iOS-SDK/releases
 github "OneSignal/OneSignal-iOS-SDK" ~>2.5.6
