@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-#import "OBAMapDataLoader.h"
+#import <OBAKit/OBAMapDataLoader.h>
+#import <OBAKit/OBAKit-Swift.h>
 
 @interface OBAMapDataLoader ()
 @property (nonatomic, strong, readwrite) OBASearchResult *result;
 @property (nonatomic, strong) OBANavigationTarget *target;
 @property (nonatomic, strong) CLLocation *lastCurrentLocationSearch;
+@property (nonatomic, strong) NSHashTable *delegates;
 @end
 
 @implementation OBAMapDataLoader
@@ -28,6 +30,7 @@
     if (self = [super init]) {
         _modelService = modelService;
         _searchType = OBASearchTypeNone;
+        _delegates = [NSHashTable weakObjectsHashTable];
     }
 
     return self;
@@ -37,19 +40,43 @@
     [self cancelOpenConnections];
 }
 
-#pragma mark - Accessors
+#pragma mark - Delegates
 
-- (PromisedModelService*)modelService {
-    if (!_modelService) {
-        _modelService = [OBAApplication sharedApplication].modelService;
+- (void)addDelegate:(id<OBAMapDataLoaderDelegate>)delegate {
+    [self.delegates addObject:delegate];
+}
+
+- (void)removeDelegate:(id<OBAMapDataLoaderDelegate>)delegate {
+    [self.delegates removeObject:delegate];
+}
+
+- (void)callDelegatesDidUpdateResult:(OBASearchResult*)searchResult {
+    for (id<OBAMapDataLoaderDelegate> delegate in self.delegates) {
+        [delegate mapDataLoader:self didUpdateResult:searchResult];
     }
-    return _modelService;
+}
+
+- (void)callDelegatesStartedUpdatingWithNavigationTarget:(OBANavigationTarget*)target {
+    for (id<OBAMapDataLoaderDelegate> delegate in self.delegates) {
+        [delegate mapDataLoader:self startedUpdatingWithNavigationTarget:target];
+    }
+}
+
+- (void)callDelegatesFinishedUpdating {
+    for (id<OBAMapDataLoaderDelegate> delegate in self.delegates) {
+        [delegate mapDataLoaderFinishedUpdating:self];
+    }
+}
+
+- (void)callDelegatesDidReceiveError:(NSError*)error {
+    for (id<OBAMapDataLoaderDelegate> delegate in self.delegates) {
+        [delegate mapDataLoader:self didReceiveError:error];
+    }
 }
 
 #pragma mark - Public Methods
 
 - (void)searchWithTarget:(OBANavigationTarget *)target {
-    id<OBAMapDataLoaderDelegate> delegate = self.delegate;
     [self cancelOpenConnections];
 
     _target = target;
@@ -60,12 +87,12 @@
         OBASearchResult *result = [OBASearchResult result];
         result.searchType = OBASearchTypeNone;
         [self fireUpdate:result];
-        [delegate mapDataLoaderFinishedUpdating:self];
+        [self callDelegatesFinishedUpdating];
         return;
     }
 
     [self requestTarget:target];
-    [delegate mapDataLoader:self startedUpdatingWithNavigationTarget:target];
+    [self callDelegatesStartedUpdatingWithNavigationTarget:target];
 }
 
 - (void)searchPending {
@@ -209,7 +236,7 @@
     promise.catch(^(NSError *error) {
         [self processError:error responseCode:error.code];
     }).always(^{
-        [self.delegate mapDataLoaderFinishedUpdating:self];
+        [self callDelegatesFinishedUpdating];
     });
 
     return promise;
@@ -220,12 +247,10 @@
 - (void)fireUpdate:(OBASearchResult *)result {
     result.searchType = self.searchType;
     self.result = result;
-    [self.delegate mapDataLoader:self didUpdateResult:self.result];
+    [self callDelegatesDidUpdateResult:self.result];
 }
 
 - (void)processError:(NSError *)error responseCode:(NSUInteger)responseCode {
-    id<OBAMapDataLoaderDelegate> delegate = self.delegate;
-
     if (responseCode == 0 && error.code == NSURLErrorCancelled) {
         // This shouldn't be happening, and frankly I'm not entirely sure why it's happening.
         // But, I do know that it doesn't have any appreciable user impact outside of this
@@ -234,12 +259,12 @@
         DDLogError(@"Errored out at launch: %@", error);
     }
     else if (error) {
-        [delegate mapDataLoaderFinishedUpdating:self];
+        [self callDelegatesFinishedUpdating];
         self.error = error;
-        [delegate mapDataLoader:self didReceiveError:error];
+        [self callDelegatesDidReceiveError:error];
     }
     else {
-        [delegate mapDataLoaderFinishedUpdating:self];
+        [self callDelegatesFinishedUpdating];
     }
 }
 

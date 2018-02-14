@@ -24,7 +24,6 @@
 @import PMKCoreLocation;
 
 #import "OBAPushManager.h"
-#import "OBAMapDataLoader.h"
 #import "OBAStopViewController.h"
 
 #import "OneBusAway-Swift.h"

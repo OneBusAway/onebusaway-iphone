@@ -30,6 +30,7 @@
 #import "MKMapView+oba_Additions.h"
 #import "ISHHoverBar.h"
 #import "OBAToastView.h"
+#import "OBAApplicationDelegate.h"
 
 static const NSUInteger kShowNClosestStops = 4;
 static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
