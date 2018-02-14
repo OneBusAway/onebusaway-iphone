@@ -35,7 +35,7 @@
 static const NSUInteger kShowNClosestStops = 4;
 static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
-@interface OBAMapViewController ()<MKMapViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, MapSearchDelegate, OBANavigator>
+@interface OBAMapViewController ()<MKMapViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, MapSearchDelegate, OBANavigator, OBAMapRegionDelegate>
 
 // Map UI
 @property(nonatomic,strong) MKMapView *mapView;
@@ -66,12 +66,16 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 @implementation OBAMapViewController
 
-- (instancetype)initWithMapDataLoader:(OBAMapDataLoader*)mapDataLoader {
+- (instancetype)initWithMapDataLoader:(OBAMapDataLoader*)mapDataLoader mapRegionManager:(OBAMapRegionManager*)mapRegionManager {
     self = [super initWithNibName:nil bundle:nil];
 
     if (self) {
         _mapDataLoader = mapDataLoader;
         [_mapDataLoader addDelegate:self];
+
+        _mapRegionManager = mapRegionManager;
+        [_mapRegionManager addDelegate:self];
+
         self.title = NSLocalizedString(@"msg_map", @"Map tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Map"];
         self.tabBarItem.selectedImage = [UIImage imageNamed:@"Map_Selected"];
@@ -108,9 +112,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     self.mostRecentRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(0, 0), MKCoordinateSpanMake(0, 0));
 
-    self.mapRegionManager = [[OBAMapRegionManager alloc] initWithMapView:self.mapView];
-    self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
-    
     self.mapView.rotateEnabled = NO;
     if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
         self.mapView.showsUserLocation = YES;
@@ -307,6 +308,12 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)mapDataLoaderFinishedUpdating:(OBAMapDataLoader*)searchController {
     [self.mapActivityIndicatorView setAnimating:NO];
+}
+
+#pragma mark - OBAMapRegionDelegate
+
+- (void)mapRegionManager:(OBAMapRegionManager*)manager setRegion:(MKCoordinateRegion)region animated:(BOOL)animated {
+    [self.mapView setRegion:region animated:animated];
 }
 
 #pragma mark - OBALocationManager Notifications

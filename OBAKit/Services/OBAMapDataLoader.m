@@ -52,25 +52,33 @@
 
 - (void)callDelegatesDidUpdateResult:(OBASearchResult*)searchResult {
     for (id<OBAMapDataLoaderDelegate> delegate in self.delegates) {
-        [delegate mapDataLoader:self didUpdateResult:searchResult];
+        if ([delegate respondsToSelector:@selector(mapDataLoader:didUpdateResult:)]) {
+            [delegate mapDataLoader:self didUpdateResult:searchResult];
+        }
     }
 }
 
 - (void)callDelegatesStartedUpdatingWithNavigationTarget:(OBANavigationTarget*)target {
     for (id<OBAMapDataLoaderDelegate> delegate in self.delegates) {
-        [delegate mapDataLoader:self startedUpdatingWithNavigationTarget:target];
+        if ([delegate respondsToSelector:@selector(mapDataLoader:startedUpdatingWithNavigationTarget:)]) {
+            [delegate mapDataLoader:self startedUpdatingWithNavigationTarget:target];
+        }
     }
 }
 
 - (void)callDelegatesFinishedUpdating {
     for (id<OBAMapDataLoaderDelegate> delegate in self.delegates) {
-        [delegate mapDataLoaderFinishedUpdating:self];
+        if ([delegate respondsToSelector:@selector(mapDataLoaderFinishedUpdating:)]) {
+            [delegate mapDataLoaderFinishedUpdating:self];
+        }
     }
 }
 
 - (void)callDelegatesDidReceiveError:(NSError*)error {
     for (id<OBAMapDataLoaderDelegate> delegate in self.delegates) {
-        [delegate mapDataLoader:self didReceiveError:error];
+        if ([delegate respondsToSelector:@selector(mapDataLoader:didReceiveError:)]) {
+            [delegate mapDataLoader:self didReceiveError:error];
+        }
     }
 }
 

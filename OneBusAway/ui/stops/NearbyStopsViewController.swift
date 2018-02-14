@@ -17,7 +17,9 @@ typealias NearbyStopsCanceled = () -> Void
 class NearbyStopsViewController: OBAStaticTableViewController {
     var stop: OBAStopV2?
     var searchResult: OBASearchResult?
+
     var mapDataLoader: OBAMapDataLoader?
+    var mapRegionManager: OBAMapRegionManager?
 
     @objc var presentedModally = false
     @objc var pushesResultsOntoStack = false
@@ -34,11 +36,14 @@ class NearbyStopsViewController: OBAStaticTableViewController {
 
     public var currentCoordinate: CLLocationCoordinate2D?
 
-    @objc init(mapDataLoader: OBAMapDataLoader) {
+    @objc init(mapDataLoader: OBAMapDataLoader, mapRegionManager: OBAMapRegionManager) {
         super.init(nibName: nil, bundle: nil)
 
         self.mapDataLoader = mapDataLoader
         self.mapDataLoader?.add(self)
+
+        self.mapRegionManager = mapRegionManager
+        self.mapRegionManager?.add(delegate: self)
     }
 
     @objc init(withStop stop: OBAStopV2) {
@@ -76,10 +81,6 @@ class NearbyStopsViewController: OBAStaticTableViewController {
 
 // MARK: - Map Data Loader
 extension NearbyStopsViewController: OBAMapDataLoaderDelegate {
-    func mapDataLoaderFinishedUpdating(_ mapDataLoader: OBAMapDataLoader) {
-        //
-    }
-
     func mapDataLoader(_ mapDataLoader: OBAMapDataLoader, didReceiveError error: Error) {
         //
     }
@@ -89,7 +90,14 @@ extension NearbyStopsViewController: OBAMapDataLoaderDelegate {
         self.loadData()
     }
 
-    func mapDataLoader(_ mapDataLoader: OBAMapDataLoader, startedUpdatingWith target: OBANavigationTarget) {
+    func mapDataLoader(_ mapDataLoader: OBAMapDataLoader, didUpdate mapCenterLocation: CLLocation) {
+
+    }
+}
+
+// MARK: - Map Region Manager
+extension NearbyStopsViewController: OBAMapRegionDelegate {
+    func mapRegionManager(_ manager: OBAMapRegionManager, setRegion region: MKCoordinateRegion, animated: Bool) {
         //
     }
 }

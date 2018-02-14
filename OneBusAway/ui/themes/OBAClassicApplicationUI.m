@@ -54,10 +54,10 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
         UIViewController *firstTab = nil;
 
         if (showDrawer) {
-            _mapViewController = [[OBAMapViewController alloc] initWithMapDataLoader:application.mapDataLoader];
+            _mapViewController = [[OBAMapViewController alloc] initWithMapDataLoader:application.mapDataLoader mapRegionManager:application.mapRegionManager];
             _mapNavigationController = [[UINavigationController alloc] initWithRootViewController:_mapViewController];
 
-            _nearbyStopsController = [[NearbyStopsViewController alloc] initWithMapDataLoader:application.mapDataLoader];
+            _nearbyStopsController = [[NearbyStopsViewController alloc] initWithMapDataLoader:application.mapDataLoader mapRegionManager:application.mapRegionManager];
             _nearbyStopsNavigation = [[UINavigationController alloc] initWithRootViewController:_nearbyStopsController];
 
             _pulleyController = [[PulleyViewController alloc] initWithContentViewController:_mapNavigationController drawerViewController:_nearbyStopsNavigation];
@@ -68,7 +68,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
             firstTab = _pulleyController;
         }
         else {
-            _mapViewController = [[OBAMapViewController alloc] initWithMapDataLoader:application.mapDataLoader];
+            _mapViewController = [[OBAMapViewController alloc] initWithMapDataLoader:application.mapDataLoader mapRegionManager:application.mapRegionManager];
             _mapNavigationController = [[UINavigationController alloc] initWithRootViewController:_mapViewController];
 
             firstTab = _mapNavigationController;
