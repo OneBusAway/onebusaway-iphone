@@ -28,7 +28,7 @@ INIT_CODER_UNAVAILABLE;
 @property(nonatomic,strong) PromisedModelService *modelService;
 @property(nonatomic,strong) OBALocationManager *locationManager;
 
-- (instancetype)initWithMapDataLoader:(OBAMapDataLoader*)mapDataLoader NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithMapDataLoader:(OBAMapDataLoader*)mapDataLoader mapRegionManager:(OBAMapRegionManager*)mapRegionManager NS_DESIGNATED_INITIALIZER;
 
 - (void)recenterMap;
 @end

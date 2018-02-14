@@ -22,7 +22,7 @@ static const double kMinRegionDeltaToDetectUserDrag = 50;
 static const double kRegionChangeRequestsTimeToLive = 3.0;
 
 @interface OBAMapRegionManager ()
-@property(strong) MKMapView *mapView;
+@property(nonatomic,strong) NSHashTable *delegates;
 @property BOOL currentlyChangingRegion;
 @property NSUInteger regionChangeRequestCount;
 @property(strong) OBARegionChangeRequest *pendingRegionChangeRequest;
@@ -31,17 +31,36 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
 
 @implementation OBAMapRegionManager
 
-- (instancetype)initWithMapView:(MKMapView*)mapView {
+- (instancetype)init {
     self = [super init];
     if (self) {
-        _mapView = mapView;
+        _delegates = [NSHashTable weakObjectsHashTable];
         _lastRegionChangeWasProgrammatic = NO;
         _currentlyChangingRegion = NO;
         _pendingRegionChangeRequest = nil;
         _appliedRegionChangeRequests = [[NSMutableArray alloc] init];
+        _lastRegionChangeWasProgrammatic = YES;
     }
     return self;
 }
+
+#pragma mark - Delegate
+
+- (void)addDelegate:(id<OBAMapRegionDelegate>)delegate {
+    [self.delegates addObject:delegate];
+}
+
+- (void)removeDelegate:(id<OBAMapRegionDelegate>)delegate {
+    [self.delegates removeObject:delegate];
+}
+
+- (void)callDelegatesWithUpdatedRegion:(MKCoordinateRegion)region animated:(BOOL)animated {
+    for (id<OBAMapRegionDelegate> delegate in self.delegates) {
+        [delegate mapRegionManager:self setRegion:region animated:animated];
+    }
+}
+
+#pragma mark - Public
 
 - (void)setRegion:(MKCoordinateRegion)region {
     [self setMapRegion:region requestType:OBARegionChangeRequestTypeProgrammatic];
@@ -73,7 +92,7 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
      * the actual map region change.  When the actual map region change doesn't match any
      * of our applied requests, we assume it must have been from a user zoom or pan.
      */
-    MKCoordinateRegion region = self.mapView.region;
+    MKCoordinateRegion region = mapView.region;
     OBARegionChangeRequestType type = OBARegionChangeRequestTypeUser;
     
     DDLogVerbose(@"=== regionDidChangeAnimated: requests=%lu",(unsigned long)[self.appliedRegionChangeRequests count]);
@@ -135,7 +154,7 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
         }
         else {
             [self.appliedRegionChangeRequests addObject:request];
-            [self.mapView setRegion:request.region animated:[self treatRegionChangesAsAutomatic]];
+            [self callDelegatesWithUpdatedRegion:request.region animated:[self treatRegionChangesAsAutomatic]];
         }
 
         /**

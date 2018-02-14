@@ -26,10 +26,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class OBAMapDataLoader;
 @protocol OBAMapDataLoaderDelegate <NSObject>
+@optional
 - (void)mapDataLoader:(OBAMapDataLoader*)mapDataLoader didUpdateResult:(OBASearchResult*)searchResult;
 - (void)mapDataLoader:(OBAMapDataLoader*)mapDataLoader startedUpdatingWithNavigationTarget:(OBANavigationTarget*)target;
 - (void)mapDataLoaderFinishedUpdating:(OBAMapDataLoader*)mapDataLoader;
 - (void)mapDataLoader:(OBAMapDataLoader*)mapDataLoader didReceiveError:(NSError*)error;
+- (void)mapDataLoader:(OBAMapDataLoader*)mapDataLoader didUpdateMapCenterLocation:(CLLocation*)location;
 @end
 
 @interface OBAMapDataLoader : NSObject
@@ -43,9 +45,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(weak, nonatomic,readonly) id searchParameter;
 @property(strong,readonly,nullable) OBASearchResult * result;
 
-@property(nonatomic,weak,readonly) CLLocation * searchLocation;
-@property(nonatomic,strong) CLCircularRegion *searchRegion;
-@property(nonatomic,strong) NSError * error;
+@property(nonatomic,copy,readonly) CLLocation * searchLocation;
+@property(nonatomic,copy) CLCircularRegion *searchRegion;
+@property(nonatomic,copy) NSError * error;
 
 - (instancetype)initWithModelService:(PromisedModelService*)modelService;
 

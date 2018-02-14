@@ -27,6 +27,7 @@
 @class RegionalAlertsManager;
 @class PromisedModelService;
 @class OBAMapDataLoader;
+@class OBAMapRegionManager;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -44,6 +45,7 @@ extern NSString *const OBARegionServerInvalidNotification;
 @property (nonatomic, strong, readonly) OBARegionHelper *regionHelper;
 @property (nonatomic, strong, readonly) OBAConsoleLogger *consoleLogger;
 @property (nonatomic, strong, readonly) OBAMapDataLoader *mapDataLoader;
+@property (nonatomic, strong, readonly) OBAMapRegionManager *mapRegionManager;
 @property (nonatomic, strong, readonly) NSUserDefaults *userDefaults;
 
 @property (nonatomic, copy, readonly) NSString *googleAnalyticsID;
