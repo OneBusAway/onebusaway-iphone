@@ -14,8 +14,13 @@
  * limitations under the License.
  */
 
-@import OBAKit;
-#import "OBAApplicationDelegate.h"
+@import Foundation;
+@import CoreLocation;
+
+#import <OBAKit/OBASearchResult.h>
+#import <OBAKit/OBANavigationTarget.h>
+
+@class PromisedModelService;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,7 +35,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OBAMapDataLoader : NSObject
 @property(nonatomic,strong) PromisedModelService *modelService;
 
-@property(nonatomic,weak) id<OBAMapDataLoaderDelegate> delegate;
+- (void)addDelegate:(id<OBAMapDataLoaderDelegate>)delegate;
+- (void)removeDelegate:(id<OBAMapDataLoaderDelegate>)delegate;
+
 @property(nonatomic,strong,readonly) OBANavigationTarget *searchTarget;
 @property(nonatomic,readonly) OBASearchType searchType;
 @property(weak, nonatomic,readonly) id searchParameter;
@@ -40,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong) CLCircularRegion *searchRegion;
 @property(nonatomic,strong) NSError * error;
 
-- (instancetype)initWithModelService:(OBAModelService*)modelService;
+- (instancetype)initWithModelService:(PromisedModelService*)modelService;
 
 - (BOOL)unfilteredSearch;
 - (void)searchWithTarget:(OBANavigationTarget*)target;

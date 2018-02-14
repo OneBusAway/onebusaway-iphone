@@ -34,6 +34,8 @@
 		9327DEF31E02306900502F06 /* OBACanvasView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9327DEF11E02306900502F06 /* OBACanvasView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9327DEF41E02306900502F06 /* OBACanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9327DEF21E02306900502F06 /* OBACanvasView.m */; };
 		933A47161FDCCB81009EB332 /* PromiseWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933A47151FDCCB81009EB332 /* PromiseWrapper.swift */; };
+		933BC22D2033CC0E00267965 /* OBAMapDataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 933BC22B2033CC0E00267965 /* OBAMapDataLoader.m */; };
+		933BC22E2033CC0E00267965 /* OBAMapDataLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 933BC22C2033CC0E00267965 /* OBAMapDataLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934195431DB0B013004BBBB7 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934195391DB0B013004BBBB7 /* OBAKit.framework */; };
 		934195481DB0B013004BBBB7 /* OBAKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195471DB0B013004BBBB7 /* OBAKitTests.m */; };
 		934195F81DB0B099004BBBB7 /* NSArray+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195541DB0B099004BBBB7 /* NSArray+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -327,6 +329,8 @@
 		9327DEF11E02306900502F06 /* OBACanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACanvasView.h; sourceTree = "<group>"; };
 		9327DEF21E02306900502F06 /* OBACanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACanvasView.m; sourceTree = "<group>"; };
 		933A47151FDCCB81009EB332 /* PromiseWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseWrapper.swift; sourceTree = "<group>"; };
+		933BC22B2033CC0E00267965 /* OBAMapDataLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapDataLoader.m; sourceTree = "<group>"; };
+		933BC22C2033CC0E00267965 /* OBAMapDataLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapDataLoader.h; sourceTree = "<group>"; };
 		934195391DB0B013004BBBB7 /* OBAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OBAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		934195421DB0B013004BBBB7 /* OBAKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OBAKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		934195471DB0B013004BBBB7 /* OBAKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAKitTests.m; sourceTree = "<group>"; };
@@ -943,6 +947,8 @@
 		934196981DB0B0AF004BBBB7 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				933BC22C2033CC0E00267965 /* OBAMapDataLoader.h */,
+				933BC22B2033CC0E00267965 /* OBAMapDataLoader.m */,
 				9341969C1DB0B0AF004BBBB7 /* OBADataSourceConfig.h */,
 				9341969D1DB0B0AF004BBBB7 /* OBADataSourceConfig.m */,
 				9341969E1DB0B0AF004BBBB7 /* OBAJsonDataSource.h */,
@@ -1173,6 +1179,7 @@
 				9341962A1DB0B099004BBBB7 /* OBATripStopTimeMapAnnotation.h in Headers */,
 				93E592B11F8D3C600079A2D8 /* OBABookmarkedRouteCell.h in Headers */,
 				93E5929B1F8CAA9C0079A2D8 /* OBATableSection.h in Headers */,
+				933BC22E2033CC0E00267965 /* OBAMapDataLoader.h in Headers */,
 				934196141DB0B099004BBBB7 /* OBAStopIconFactory.h in Headers */,
 				93E592AA1F8D38070079A2D8 /* UIScrollView+EmptyDataSet.h in Headers */,
 				93FFA5FA1F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h in Headers */,
@@ -1368,6 +1375,7 @@
 				931A6A261E02772E00131242 /* OBAValue1ContentsView.m in Sources */,
 				934195F91DB0B099004BBBB7 /* NSArray+OBAAdditions.m in Sources */,
 				9388C2B61FFEAA4B0068041F /* PopoverPresenter.swift in Sources */,
+				933BC22D2033CC0E00267965 /* OBAMapDataLoader.m in Sources */,
 				9341965B1DB0B099004BBBB7 /* OBAFrequencyV2.m in Sources */,
 				934196601DB0B099004BBBB7 /* OBAListWithRangeAndReferencesV2.m in Sources */,
 				9341966A1DB0B099004BBBB7 /* OBARegionBoundsV2.m in Sources */,

@@ -167,7 +167,6 @@
 		93AD17BE1F86C14C00E730D7 /* OneBusAway Today.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 93AD17B21F86C14C00E730D7 /* OneBusAway Today.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		93ADC51B1DCB1EBE0024FBD6 /* credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 93ADC51A1DCB1EBE0024FBD6 /* credits.html */; };
 		93B781AD1E64BAC900F2C38D /* OBAMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B781AA1E64BAC900F2C38D /* OBAMapViewController.m */; };
-		93B781B21E64BB2800F2C38D /* OBAMapDataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B781B11E64BB2800F2C38D /* OBAMapDataLoader.m */; };
 		93BB1EE21E300526008A88BA /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE01E300526008A88BA /* Fabric.framework */; };
 		93BB1EE31E300526008A88BA /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE11E300526008A88BA /* Crashlytics.framework */; };
 		93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934198CA1DB0C56D004BBBB7 /* OBAKit.framework */; };
@@ -511,8 +510,6 @@
 		93ADC51A1DCB1EBE0024FBD6 /* credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = credits.html; path = OneBusAway/credits.html; sourceTree = SOURCE_ROOT; };
 		93B781A91E64BAC900F2C38D /* OBAMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapViewController.h; sourceTree = "<group>"; };
 		93B781AA1E64BAC900F2C38D /* OBAMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapViewController.m; sourceTree = "<group>"; };
-		93B781B01E64BB2800F2C38D /* OBAMapDataLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapDataLoader.h; sourceTree = "<group>"; };
-		93B781B11E64BB2800F2C38D /* OBAMapDataLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapDataLoader.m; sourceTree = "<group>"; };
 		93BB1EE01E300526008A88BA /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		93BB1EE11E300526008A88BA /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		93BBB4001DB4BA7200694940 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = OneBusAway/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -1372,8 +1369,6 @@
 		93B781A21E64BA7800F2C38D /* map */ = {
 			isa = PBXGroup;
 			children = (
-				93B781B01E64BB2800F2C38D /* OBAMapDataLoader.h */,
-				93B781B11E64BB2800F2C38D /* OBAMapDataLoader.m */,
 				93B781A91E64BAC900F2C38D /* OBAMapViewController.h */,
 				93B781AA1E64BAC900F2C38D /* OBAMapViewController.m */,
 				93876DF91E68AD3900B4343F /* OBAMapAnnotationViewBuilder.h */,
@@ -1689,7 +1684,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93B781B21E64BB2800F2C38D /* OBAMapDataLoader.m in Sources */,
 				934197EE1DB0C14C004BBBB7 /* SMFloatingLabelTextField.m in Sources */,
 				930653D71E6DE293005AF0C9 /* OBAToastView.m in Sources */,
 				9327DEFC1E023BE400502F06 /* OBAArrivalDepartureCell.m in Sources */,

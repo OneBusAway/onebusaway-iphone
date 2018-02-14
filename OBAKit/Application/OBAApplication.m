@@ -12,6 +12,7 @@
 #import <OBAKit/OBALogging.h>
 #import <OBAKit/OBAApplicationConfiguration.h>
 #import <OBAKit/OBACommon.h>
+#import <OBAKit/OBAMapDataLoader.h>
 #import <OBAKit/OBAKit-Swift.h>
 
 static NSString * const kAppGroup = @"group.org.onebusaway.iphone";
@@ -29,6 +30,7 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
 @property (nonatomic, strong, readwrite) OBARegionHelper *regionHelper;
 @property (nonatomic, strong, readwrite) RegionalAlertsManager *regionalAlertsManager;
 @property (nonatomic, strong, readwrite) OBALogging *loggingManager;
+@property (nonatomic, strong, readwrite) OBAMapDataLoader *mapDataLoader;
 @property (nonatomic, strong, readwrite) NSUserDefaults *userDefaults;
 @end
 
@@ -82,6 +84,8 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
     self.modelService.locationManager = self.locationManager;
 
     self.regionHelper = [[OBARegionHelper alloc] initWithLocationManager:self.locationManager modelService:self.modelService];
+
+    self.mapDataLoader = [[OBAMapDataLoader alloc] initWithModelService:self.modelService];
 
     if (!self.configuration.extensionMode) {
         self.regionalAlertsManager = [[RegionalAlertsManager alloc] init];
