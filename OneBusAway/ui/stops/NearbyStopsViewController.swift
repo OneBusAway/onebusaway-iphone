@@ -17,6 +17,8 @@ typealias NearbyStopsCanceled = () -> Void
 class NearbyStopsViewController: OBAStaticTableViewController {
     var stop: OBAStopV2?
     var searchResult: OBASearchResult?
+    var mapDataLoader: OBAMapDataLoader?
+
     @objc var presentedModally = false
     @objc var pushesResultsOntoStack = false
     @objc var canceled: NearbyStopsCanceled?
@@ -32,34 +34,34 @@ class NearbyStopsViewController: OBAStaticTableViewController {
 
     public var currentCoordinate: CLLocationCoordinate2D?
 
+    @objc init(mapDataLoader: OBAMapDataLoader) {
+        super.init(nibName: nil, bundle: nil)
+
+        self.mapDataLoader = mapDataLoader
+        self.mapDataLoader?.add(self)
+    }
+
     @objc init(withStop stop: OBAStopV2) {
         self.stop = stop
         self.currentCoordinate = self.stop?.coordinate
         super.init(nibName: nil, bundle: nil)
-
-        self.configureUI()
     }
 
-    @objc init(withSearchResult searchResult: OBASearchResult) {
+    @objc init(withSearchResult searchResult: OBASearchResult?) {
         self.searchResult = searchResult
         super.init(nibName: nil, bundle: nil)
-
-        self.configureUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureUI() {
-        self.title = NSLocalizedString("msg_nearby_stops", comment: "Title of the Nearby Stops view controller")
-
-    }
-
     // MARK: - View Controller
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.title = NSLocalizedString("msg_nearby_stops", comment: "Title of the Nearby Stops view controller")
 
         self.emptyDataSetTitle = NSLocalizedString("msg_mayus_no_stops_found", comment: "Empty data set title for the Nearby Stops controller")
         self.emptyDataSetDescription = NSLocalizedString("msg_coulnt_find_other_stops_on_radius", comment: "Empty data set description for the Nearby Stops controller")
@@ -70,8 +72,30 @@ class NearbyStopsViewController: OBAStaticTableViewController {
 
         self.loadData()
     }
+}
 
-    // MARK: - Data Loading
+// MARK: - Map Data Loader
+extension NearbyStopsViewController: OBAMapDataLoaderDelegate {
+    func mapDataLoaderFinishedUpdating(_ mapDataLoader: OBAMapDataLoader) {
+        //
+    }
+
+    func mapDataLoader(_ mapDataLoader: OBAMapDataLoader, didReceiveError error: Error) {
+        //
+    }
+
+    func mapDataLoader(_ mapDataLoader: OBAMapDataLoader, didUpdate searchResult: OBASearchResult) {
+        self.searchResult = searchResult
+        self.loadData()
+    }
+
+    func mapDataLoader(_ mapDataLoader: OBAMapDataLoader, startedUpdatingWith target: OBANavigationTarget) {
+        //
+    }
+}
+
+// MARK: - Data Loading
+extension NearbyStopsViewController {
 
     func loadData() {
         if let searchResult = self.searchResult {
@@ -195,16 +219,19 @@ class NearbyStopsViewController: OBAStaticTableViewController {
 
         return OBATableSection.init(title: nil, rows: rows)
     }
+}
 
-    // MARK: - Actions
-
+// MARK: - Actions
+extension NearbyStopsViewController {
     @objc private func closeButtonTapped() {
         self.dismissModal {
             self.canceled?()
         }
     }
+}
 
-    // MARK: - Private
+// MARK: - Private
+extension NearbyStopsViewController {
 
     private func navigateTo(_ target: OBANavigationTarget) {
         if self.pushesResultsOntoStack {

@@ -71,7 +71,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
 
-    self.applicationUI = [[OBAClassicApplicationUI alloc] init];
+    self.applicationUI = [[OBAClassicApplicationUI alloc] initWithApplication:self.application];
 
     [OBATheme setAppearanceProxies];
 

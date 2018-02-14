@@ -36,13 +36,23 @@
 #pragma mark - Data Loading
 
 - (void)loadData {
+    NSMutableArray *sections = [[NSMutableArray alloc] init];
+
     OBATableSection *analyticsSection = [self buildSwitchSectionWithDefaultsKey:OBAOptInToTrackingDefaultsKey switchTitle:NSLocalizedString(@"msg_enable_google_analytics", @"A switch option's text for enabling and disabling Google Analytics") footerText:NSLocalizedString(@"msg_explanatory_google_analytics", @"Analytics explanation on the Settings view controller.")];
+    [sections addObject:analyticsSection];
 
     OBATableSection *crashReportingSection = [self buildSwitchSectionWithDefaultsKey:OBAOptInToCrashReportingDefaultsKey switchTitle:NSLocalizedString(@"settings.crash_reporting.switch_text", @"A switch option's text for enabling and disabling crash reporting") footerText:NSLocalizedString(@"settings.crash_reporting.footer", @"Crash reporting explanation on the Settings view controller.")];
+    [sections addObject:crashReportingSection];
 
     OBATableSection *compassSection = [self buildSwitchSectionWithDefaultsKey:OBADisplayUserHeadingOnMapDefaultsKey switchTitle:NSLocalizedString(@"settings.user_heading_switch_title", @"Title for the enable/disable user heading switch on the settings controller") footerText:NSLocalizedString(@"settings.user_heading_footer_text", @"Footer for the enable/disable user heading switch on the settings controller")];
+    [sections addObject:compassSection];
 
-    self.sections = @[analyticsSection, crashReportingSection, compassSection];
+    if ([OBACommon debugMode]) {
+        OBATableSection *experimentalSection = [self buildSwitchSectionWithDefaultsKey:OBAExperimentalUseDrawerUIDefaultsKey switchTitle:@"Use Drawer UI" footerText:@"EXPERIMENTAL! Kill app and relaunch to see this in action"];
+        [sections addObject:experimentalSection];
+    }
+
+    self.sections = sections;
     [self.tableView reloadData];
 }
 
