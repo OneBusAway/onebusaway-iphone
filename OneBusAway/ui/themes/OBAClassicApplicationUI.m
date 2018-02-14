@@ -14,12 +14,18 @@
 #import "OBAInfoViewController.h"
 #import "OBAStopViewController.h"
 #import "OBAAnalytics.h"
-
+#import "OneBusAway-Swift.h"
 
 static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
 
 @interface OBAClassicApplicationUI ()<UITabBarControllerDelegate>
 @property(nonatomic, strong,readwrite) UITabBarController *tabBarController;
+
+// Map/Drawer/Nearby
+@property(nonatomic,strong) PulleyViewController *pulleyController;
+
+@property(nonatomic,strong) NearbyStopsViewController *nearbyStopsController;
+@property(nonatomic,strong) UINavigationController *nearbyStopsNavigation;
 
 @property(nonatomic, strong) UINavigationController *mapNavigationController;
 @property(strong) OBAMapViewController *mapViewController;
@@ -36,15 +42,37 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
 
 @implementation OBAClassicApplicationUI
 
-- (instancetype)init {
+- (instancetype)initWithApplication:(OBAApplication*)application {
 
     self = [super init];
 
     if (self) {
         _tabBarController = [[UITabBarController alloc] init];
 
-        _mapViewController = [[OBAMapViewController alloc] init];
-        _mapNavigationController = [[UINavigationController alloc] initWithRootViewController:_mapViewController];
+        BOOL showDrawer = [application.userDefaults boolForKey:OBAExperimentalUseDrawerUIDefaultsKey];
+
+        UIViewController *firstTab = nil;
+
+        if (showDrawer) {
+            _mapViewController = [[OBAMapViewController alloc] initWithMapDataLoader:application.mapDataLoader];
+            _mapNavigationController = [[UINavigationController alloc] initWithRootViewController:_mapViewController];
+
+            _nearbyStopsController = [[NearbyStopsViewController alloc] initWithMapDataLoader:application.mapDataLoader];
+            _nearbyStopsNavigation = [[UINavigationController alloc] initWithRootViewController:_nearbyStopsController];
+
+            _pulleyController = [[PulleyViewController alloc] initWithContentViewController:_mapNavigationController drawerViewController:_nearbyStopsNavigation];
+            _pulleyController.title = _mapViewController.title;
+            _pulleyController.tabBarItem.image = _mapViewController.tabBarItem.image;
+            _pulleyController.tabBarItem.selectedImage = _mapViewController.tabBarItem.selectedImage;
+
+            firstTab = _pulleyController;
+        }
+        else {
+            _mapViewController = [[OBAMapViewController alloc] initWithMapDataLoader:application.mapDataLoader];
+            _mapNavigationController = [[UINavigationController alloc] initWithRootViewController:_mapViewController];
+
+            firstTab = _mapNavigationController;
+        }
 
         _recentsViewController = [[OBARecentStopsViewController alloc] init];
         _recentsNavigationController = [[UINavigationController alloc] initWithRootViewController:_recentsViewController];
@@ -55,7 +83,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
         _infoViewController = [[OBAInfoViewController alloc] init];
         _infoNavigationController = [[UINavigationController alloc] initWithRootViewController:_infoViewController];
 
-        _tabBarController.viewControllers = @[_mapNavigationController, _recentsNavigationController, _bookmarksNavigationController, _infoNavigationController];
+        _tabBarController.viewControllers = @[firstTab, _recentsNavigationController, _bookmarksNavigationController, _infoNavigationController];
         _tabBarController.delegate = self;
     }
 

@@ -9,10 +9,15 @@
 @import Foundation;
 @import OBAKit;
 
+@class OBAApplication;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol OBAApplicationUI<NSObject>
 @property(nonatomic,strong,readonly) UIViewController *rootViewController;
+
+- (instancetype)initWithApplication:(OBAApplication*)application;
+
 - (void)performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler;
 - (void)applicationDidBecomeActive;
 - (void)navigateToTargetInternal:(OBANavigationTarget*)navigationTarget;

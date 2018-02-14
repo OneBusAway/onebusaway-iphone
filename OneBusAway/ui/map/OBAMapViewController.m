@@ -66,10 +66,12 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 @implementation OBAMapViewController
 
-- (id)init {
-    self = [super init];
+- (instancetype)initWithMapDataLoader:(OBAMapDataLoader*)mapDataLoader {
+    self = [super initWithNibName:nil bundle:nil];
 
     if (self) {
+        _mapDataLoader = mapDataLoader;
+        [_mapDataLoader addDelegate:self];
         self.title = NSLocalizedString(@"msg_map", @"Map tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Map"];
         self.tabBarItem.selectedImage = [UIImage imageNamed:@"Map_Selected"];
@@ -78,7 +80,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         [OBAApplication.sharedApplication.userDefaults addObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
     }
-
     return self;
 }
 
@@ -106,8 +107,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     [self configureMapActivityIndicator];
 
     self.mostRecentRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(0, 0), MKCoordinateSpanMake(0, 0));
-
-    self.mapDataLoader.delegate = self;
 
     self.mapRegionManager = [[OBAMapRegionManager alloc] initWithMapView:self.mapView];
     self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
@@ -224,7 +223,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 #pragma mark - Lazily Loaded Properties
 
-- (OBAModelService*)modelService {
+- (PromisedModelService*)modelService {
     if (!_modelService) {
         _modelService = [OBAApplication sharedApplication].modelService;
     }
@@ -243,15 +242,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         _locationManager = [OBAApplication sharedApplication].locationManager;
     }
     return _locationManager;
-}
-
-- (OBAMapDataLoader*)mapDataLoader {
-    if (!_mapDataLoader) {
-        _mapDataLoader = [[OBAMapDataLoader alloc] initWithModelService:self.modelService];
-        // abxoxo - do this here or in -viewDidLoad?
-        // _mapDataLoader.delegate = self;
-    }
-    return _mapDataLoader;
 }
 
 #pragma mark - OBANavigationTargetAware
