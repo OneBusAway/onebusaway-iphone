@@ -28,5 +28,11 @@
 #define OBALocalized(key, comment) \
     [[NSBundle bundleWithIdentifier:@"org.onebusaway.iphone.OBAKit"] localizedStringForKey:(key) value:@"" table:nil]
 
+#define INIT_NIB_UNAVAILABLE \
+    - (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
+
+#define INIT_CODER_UNAVAILABLE \
+    - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
+
 
 #endif /* OBAMacros_h */

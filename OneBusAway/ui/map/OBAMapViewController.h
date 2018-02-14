@@ -21,9 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
 @class OBAModelDAO;
 
 @interface OBAMapViewController : UIViewController <OBANavigationTargetAware, OBAMapDataLoaderDelegate>
+INIT_NIB_UNAVAILABLE;
+INIT_CODER_UNAVAILABLE;
+
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
-@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) PromisedModelService *modelService;
 @property(nonatomic,strong) OBALocationManager *locationManager;
+
+- (instancetype)initWithMapDataLoader:(OBAMapDataLoader*)mapDataLoader NS_DESIGNATED_INITIALIZER;
 
 - (void)recenterMap;
 @end
