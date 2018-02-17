@@ -42,6 +42,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 @property(nonatomic,strong) ISHHoverBar *locationHoverBar;
 @property(nonatomic,strong) ISHHoverBar *secondaryHoverBar;
 @property(nonatomic,strong) OBAToastView *toastView;
+@property(nonatomic,strong) UIImageView *mapCenterImage;
 
 // Search
 @property(nonatomic,strong) UISearchController *searchController;
@@ -168,6 +169,12 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     [self.locationManager stopUpdatingHeading];
     [self unregisterFromLocationNotifications];
+}
+
+#pragma mark - Drawer UI
+
+- (BOOL)usingDrawerUI {
+    return [OBAApplication.sharedApplication.userDefaults boolForKey:OBAExperimentalUseDrawerUIDefaultsKey];
 }
 
 #pragma mark - Search
@@ -955,6 +962,15 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self.mapView.delegate = self;
     self.mapView.mapType = [OBAApplication.sharedApplication.userDefaults integerForKey:OBAMapSelectedTypeDefaultsKey];
     [self.view addSubview:self.mapView];
+
+    if (self.usingDrawerUI) {
+        self.mapCenterImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"map_center"]];
+        self.mapCenterImage.alpha = 0.3f;
+        [self.view addSubview:self.mapCenterImage];
+        [self.mapCenterImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(self.mapView);
+        }];
+    }
 }
 
 - (void)configureMapActivityIndicator {
