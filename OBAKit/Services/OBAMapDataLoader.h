@@ -31,7 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)mapDataLoader:(OBAMapDataLoader*)mapDataLoader startedUpdatingWithNavigationTarget:(OBANavigationTarget*)target;
 - (void)mapDataLoaderFinishedUpdating:(OBAMapDataLoader*)mapDataLoader;
 - (void)mapDataLoader:(OBAMapDataLoader*)mapDataLoader didReceiveError:(NSError*)error;
-- (void)mapDataLoader:(OBAMapDataLoader*)mapDataLoader didUpdateMapCenterLocation:(CLLocation*)location;
 @end
 
 @interface OBAMapDataLoader : NSObject
