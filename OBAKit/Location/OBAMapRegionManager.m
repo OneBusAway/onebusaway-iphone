@@ -94,6 +94,8 @@ static const double kRegionChangeRequestsTimeToLive = 3.0;
      */
     MKCoordinateRegion region = mapView.region;
     OBARegionChangeRequestType type = OBARegionChangeRequestTypeUser;
+
+    [self callDelegatesWithUpdatedRegion:region animated:YES];
     
     DDLogVerbose(@"=== regionDidChangeAnimated: requests=%lu",(unsigned long)[self.appliedRegionChangeRequests count]);
     DDLogVerbose(@"region=%@", [OBASphericalGeometryLibrary regionAsString:region]);

@@ -6,7 +6,6 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import OBAKit
 import PromiseKit
@@ -38,6 +37,8 @@ class NearbyStopsViewController: OBAStaticTableViewController {
 
     @objc init(mapDataLoader: OBAMapDataLoader, mapRegionManager: OBAMapRegionManager) {
         super.init(nibName: nil, bundle: nil)
+
+        self.pushesResultsOntoStack = true
 
         self.mapDataLoader = mapDataLoader
         self.mapDataLoader?.add(self)
@@ -82,23 +83,20 @@ class NearbyStopsViewController: OBAStaticTableViewController {
 // MARK: - Map Data Loader
 extension NearbyStopsViewController: OBAMapDataLoaderDelegate {
     func mapDataLoader(_ mapDataLoader: OBAMapDataLoader, didReceiveError error: Error) {
-        //
+        // noop?
     }
 
     func mapDataLoader(_ mapDataLoader: OBAMapDataLoader, didUpdate searchResult: OBASearchResult) {
         self.searchResult = searchResult
         self.loadData()
     }
-
-    func mapDataLoader(_ mapDataLoader: OBAMapDataLoader, didUpdate mapCenterLocation: CLLocation) {
-
-    }
 }
 
 // MARK: - Map Region Manager
 extension NearbyStopsViewController: OBAMapRegionDelegate {
     func mapRegionManager(_ manager: OBAMapRegionManager, setRegion region: MKCoordinateRegion, animated: Bool) {
-        //
+        self.currentCoordinate = region.center
+        loadData()
     }
 }
 
@@ -156,18 +154,28 @@ extension NearbyStopsViewController {
         let stops = searchResult.values as! [OBAStopV2]
         var sections: [OBATableSection] = []
         let filteredStops = stops.filter { $0 != self.stop }
-        let grouped: [String: [OBAStopV2]] = filteredStops.categorize { $0.direction }
 
-        for (direction, stopsForDirection) in grouped {
-            let section = self.stopSectionFrom(direction: direction, stops: stopsForDirection)
+        // If we have a coordinate, sort by that into a single section.
+        // If not, group by cardinal direction and return multiple sections.
+        if self.currentCoordinate != nil {
+            let section = stopSectionFrom(title: nil, stops: stops)
             sections.append(section)
+        }
+        else {
+            let grouped: [String: [OBAStopV2]] = filteredStops.categorize { $0.direction }
+
+            for (direction, stopsForDirection) in grouped {
+                let title = cardinalDirectionFromAbbreviation(direction)
+                let section = stopSectionFrom(title: title, stops: stopsForDirection)
+                sections.append(section)
+            }
         }
 
         return sections
     }
 
-    func stopSectionFrom(direction: String, stops: [OBAStopV2]) -> OBATableSection {
-        let section = OBATableSection.init(title: cardinalDirectionFromAbbreviation(direction))
+    func stopSectionFrom(title: String?, stops: [OBAStopV2]) -> OBATableSection {
+        let section = OBATableSection.init(title: title)
         var rows: [OBAStopV2]
 
         if let coordinate = self.currentCoordinate {
