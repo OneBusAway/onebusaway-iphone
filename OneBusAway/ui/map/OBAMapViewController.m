@@ -456,8 +456,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     id annotation = view.annotation;
 
     if ([annotation respondsToSelector:@selector(stopId)]) {
-        OBAStopViewController *stopController = [[OBAStopViewController alloc] initWithStopID:[annotation stopId]];
-        [self.navigationController pushViewController:stopController animated:YES];
+        [self displayStopControllerForStopID:[annotation stopId]];
     }
     else if ([annotation isKindOfClass:[OBAPlacemark class]]) {
         OBAPlacemark *placemark = annotation;
@@ -596,7 +595,13 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)displayStopControllerForStopID:(NSString*)stopID {
     OBAStopViewController *stopController = [[OBAStopViewController alloc] initWithStopID:stopID];
-    [self.navigationController pushViewController:stopController animated:YES];
+
+    if ([self usingDrawerUI]) {
+        [self.drawerPresenter pushViewController:stopController animated:YES];
+    }
+    else {
+        [self.navigationController pushViewController:stopController animated:YES];
+    }
 }
 
 #pragma mark - OBAMapViewController Private Methods
