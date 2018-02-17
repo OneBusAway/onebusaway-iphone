@@ -28,6 +28,8 @@ INIT_CODER_UNAVAILABLE;
 @property(nonatomic,strong) PromisedModelService *modelService;
 @property(nonatomic,strong) OBALocationManager *locationManager;
 
+@property(nonatomic,weak) id<OBADrawerPresenter> drawerPresenter;
+
 - (instancetype)initWithMapDataLoader:(OBAMapDataLoader*)mapDataLoader mapRegionManager:(OBAMapRegionManager*)mapRegionManager NS_DESIGNATED_INITIALIZER;
 
 - (void)recenterMap;

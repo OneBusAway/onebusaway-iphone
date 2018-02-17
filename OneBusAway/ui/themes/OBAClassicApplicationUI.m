@@ -18,7 +18,7 @@
 
 static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
 
-@interface OBAClassicApplicationUI ()<UITabBarControllerDelegate>
+@interface OBAClassicApplicationUI ()<UITabBarControllerDelegate, OBADrawerPresenter>
 @property(nonatomic, strong,readwrite) UITabBarController *tabBarController;
 
 // Map/Drawer/Nearby
@@ -56,6 +56,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
         if (showDrawer) {
             _mapViewController = [[OBAMapViewController alloc] initWithMapDataLoader:application.mapDataLoader mapRegionManager:application.mapRegionManager];
             _mapNavigationController = [[UINavigationController alloc] initWithRootViewController:_mapViewController];
+            _mapViewController.drawerPresenter = self;
 
             _nearbyStopsController = [[NearbyStopsViewController alloc] initWithMapDataLoader:application.mapDataLoader mapRegionManager:application.mapRegionManager];
             _nearbyStopsNavigation = [[UINavigationController alloc] initWithRootViewController:_nearbyStopsController];
@@ -212,6 +213,12 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
 
     // update kOBASelectedTabIndexDefaultsKey, otherwise -applicationDidBecomeActive: will switch us away.
     [self tabBarController:self.tabBarController didSelectViewController:self.tabBarController.selectedViewController];
+}
+
+#pragma mark - OBADrawerPresenter
+
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    [self.nearbyStopsNavigation pushViewController:viewController animated:animated];
 }
 
 #pragma mark - UITabBarControllerDelegate
