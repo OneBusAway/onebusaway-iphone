@@ -28,3 +28,9 @@
 #import "OBAAnalytics.h"
 #import "OBAMessageRow.h"
 #import "ISHHoverBar.h"
+
+#import "OBAMapViewController.h"
+#import "OBAApplicationUI.h"
+#import "OBARecentStopsViewController.h"
+#import "OBABookmarksViewController.h"
+#import "OBAInfoViewController.h"

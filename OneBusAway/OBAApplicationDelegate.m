@@ -71,7 +71,15 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
 
-    self.applicationUI = [[OBAClassicApplicationUI alloc] initWithApplication:self.application];
+
+    BOOL showDrawer = [self.application.userDefaults boolForKey:OBAExperimentalUseDrawerUIDefaultsKey];
+
+    if (showDrawer) {
+        self.applicationUI = [[DrawerApplicationUI alloc] initWithApplication:self.application];
+    }
+    else {
+        self.applicationUI = [[OBAClassicApplicationUI alloc] initWithApplication:self.application];
+    }
 
     [OBATheme setAppearanceProxies];
 
