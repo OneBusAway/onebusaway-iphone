@@ -31,6 +31,7 @@
 		9336B1B11FF6468B00CCC5ED /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE01E300526008A88BA /* Fabric.framework */; };
 		9336B1B21FF6468B00CCC5ED /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE11E300526008A88BA /* Crashlytics.framework */; };
 		9336B1CB1FF95D5500CCC5ED /* test_userdefaults.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9336B1C91FF95D5400CCC5ED /* test_userdefaults.xml */; };
+		933BC246203936E500267965 /* DrawerApplicationUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933BC245203936E500267965 /* DrawerApplicationUI.swift */; };
 		934196E21DB0C124004BBBB7 /* MKMapView+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196D71DB0C124004BBBB7 /* MKMapView+oba_Additions.m */; };
 		934196E41DB0C124004BBBB7 /* UITableViewCell+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196DB1DB0C124004BBBB7 /* UITableViewCell+oba_Additions.m */; };
 		934196E61DB0C124004BBBB7 /* UIViewController+OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196DF1DB0C124004BBBB7 /* UIViewController+OBAAnalytics.m */; };
@@ -302,6 +303,7 @@
 		933546DF1E834BB000D83519 /* OBAMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMessageCell.h; sourceTree = "<group>"; };
 		933546E01E834BB000D83519 /* OBAMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMessageCell.m; sourceTree = "<group>"; };
 		9336B1C91FF95D5400CCC5ED /* test_userdefaults.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = test_userdefaults.xml; sourceTree = "<group>"; };
+		933BC245203936E500267965 /* DrawerApplicationUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerApplicationUI.swift; sourceTree = "<group>"; };
 		934196D61DB0C124004BBBB7 /* MKMapView+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+oba_Additions.h"; sourceTree = "<group>"; };
 		934196D71DB0C124004BBBB7 /* MKMapView+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+oba_Additions.m"; sourceTree = "<group>"; };
 		934196DA1DB0C124004BBBB7 /* UITableViewCell+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+oba_Additions.h"; sourceTree = "<group>"; };
@@ -967,6 +969,7 @@
 				934197691DB0C140004BBBB7 /* OBAClassicApplicationUI.m */,
 				6B24C8741EC7F99E00A1F7B7 /* OBANavigationTitleView.h */,
 				6B24C8751EC7F99E00A1F7B7 /* OBANavigationTitleView.m */,
+				933BC245203936E500267965 /* DrawerApplicationUI.swift */,
 			);
 			path = themes;
 			sourceTree = "<group>";
@@ -1740,6 +1743,7 @@
 				934198231DB0C1BA004BBBB7 /* OBAListSelectionViewController.m in Sources */,
 				934197891DB0C140004BBBB7 /* OBAInfoViewController.m in Sources */,
 				93A6E9EA1F5C9EB400AFA61C /* OBAArrivalDepartureOptionsSheet.m in Sources */,
+				933BC246203936E500267965 /* DrawerApplicationUI.swift in Sources */,
 				930AFE8E1DD04D3D0092AE82 /* NearbyStopsViewController.swift in Sources */,
 				934197861DB0C140004BBBB7 /* OBAAgenciesListViewController.m in Sources */,
 				930AFE8C1DD04D2F0092AE82 /* OBAStopTableHeaderView.m in Sources */,

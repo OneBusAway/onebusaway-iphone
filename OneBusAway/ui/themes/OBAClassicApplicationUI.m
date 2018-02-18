@@ -49,31 +49,8 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
     if (self) {
         _tabBarController = [[UITabBarController alloc] init];
 
-        BOOL showDrawer = [application.userDefaults boolForKey:OBAExperimentalUseDrawerUIDefaultsKey];
-
-        UIViewController *firstTab = nil;
-
-        if (showDrawer) {
-            _mapViewController = [[OBAMapViewController alloc] initWithMapDataLoader:application.mapDataLoader mapRegionManager:application.mapRegionManager];
-            _mapNavigationController = [[UINavigationController alloc] initWithRootViewController:_mapViewController];
-            _mapViewController.drawerPresenter = self;
-
-            _nearbyStopsController = [[NearbyStopsViewController alloc] initWithMapDataLoader:application.mapDataLoader mapRegionManager:application.mapRegionManager];
-            _nearbyStopsNavigation = [[UINavigationController alloc] initWithRootViewController:_nearbyStopsController];
-
-            _pulleyController = [[PulleyViewController alloc] initWithContentViewController:_mapNavigationController drawerViewController:_nearbyStopsNavigation];
-            _pulleyController.title = _mapViewController.title;
-            _pulleyController.tabBarItem.image = _mapViewController.tabBarItem.image;
-            _pulleyController.tabBarItem.selectedImage = _mapViewController.tabBarItem.selectedImage;
-
-            firstTab = _pulleyController;
-        }
-        else {
-            _mapViewController = [[OBAMapViewController alloc] initWithMapDataLoader:application.mapDataLoader mapRegionManager:application.mapRegionManager];
-            _mapNavigationController = [[UINavigationController alloc] initWithRootViewController:_mapViewController];
-
-            firstTab = _mapNavigationController;
-        }
+        _mapViewController = [[OBAMapViewController alloc] initWithMapDataLoader:application.mapDataLoader mapRegionManager:application.mapRegionManager];
+        _mapNavigationController = [[UINavigationController alloc] initWithRootViewController:_mapViewController];
 
         _recentsViewController = [[OBARecentStopsViewController alloc] init];
         _recentsNavigationController = [[UINavigationController alloc] initWithRootViewController:_recentsViewController];
@@ -84,7 +61,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
         _infoViewController = [[OBAInfoViewController alloc] init];
         _infoNavigationController = [[UINavigationController alloc] initWithRootViewController:_infoViewController];
 
-        _tabBarController.viewControllers = @[firstTab, _recentsNavigationController, _bookmarksNavigationController, _infoNavigationController];
+        _tabBarController.viewControllers = @[_mapNavigationController, _recentsNavigationController, _bookmarksNavigationController, _infoNavigationController];
         _tabBarController.delegate = self;
     }
 
