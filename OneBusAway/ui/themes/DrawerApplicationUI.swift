@@ -49,6 +49,7 @@ import OBAKit
         nearbyStopsNavigation = UINavigationController.init(rootViewController: nearbyStopsController)
 
         pulleyController = PulleyViewController.init(contentViewController: mapNavigationController, drawerViewController: nearbyStopsNavigation)
+        pulleyController.displayMode = .automatic
         pulleyController.title = mapController.title
         pulleyController.tabBarItem.image = mapController.tabBarItem.image
         pulleyController.tabBarItem.selectedImage = mapController.tabBarItem.selectedImage
@@ -57,6 +58,8 @@ import OBAKit
 
         tabBarController.viewControllers = [pulleyController, recentsNavigation, bookmarksNavigation, infoNavigation]
         tabBarController.delegate = self
+
+        pulleyController.delegate = self
 
         mapController.drawerPresenter = self
     }
@@ -154,10 +157,30 @@ extension DrawerApplicationUI: OBAApplicationUI {
     }
 }
 
+// MARK: - Pulley Controller
+extension DrawerApplicationUI: PulleyDrawerViewControllerDelegate {
+    func supportedDrawerPositions() -> [PulleyPosition] {
+        return [
+            .collapsed,
+            .partiallyRevealed,
+            .open
+        ]
+    }
+
+    func collapsedDrawerHeight(bottomSafeArea: CGFloat) -> CGFloat {
+        return 180
+    }
+
+    func partialRevealDrawerHeight(bottomSafeArea: CGFloat) -> CGFloat {
+        return 300
+    }
+}
+
 // MARK: - OBADrawerPresenter
 extension DrawerApplicationUI: OBADrawerPresenter {
     func push(_ viewController: UIViewController, animated: Bool) {
-        nearbyStopsNavigation.pushViewController(viewController, animated: animated)
+        pulleyController.setDrawerPosition(position: .open, animated: animated)
+        nearbyStopsNavigation.pushViewController(viewController, animated: false)
     }
 }
 
