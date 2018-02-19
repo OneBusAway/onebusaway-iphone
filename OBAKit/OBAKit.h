@@ -17,13 +17,6 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <OBAKit/PublicHeader.h>
 
-#import <OBAKit/NSArray+OBAAdditions.h>
-#import <OBAKit/NSCoder+OBAAdditions.h>
-#import <OBAKit/NSDate+DateTools.h>
-#import <OBAKit/NSDictionary+OBAAdditions.h>
-#import <OBAKit/NSObject+OBADescription.h>
-#import <OBAKit/NSString+OBAAdditions.h>
-#import <OBAKit/NSURLQueryItem+OBAAdditions.h>
 #import <OBAKit/OBAAgencyV2.h>
 #import <OBAKit/OBAAgencyWithCoverageV2.h>
 #import <OBAKit/OBAAlarm.h>
@@ -120,6 +113,15 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAVibrantBlurContainerView.h>
 #import <OBAKit/OBAVehicleStatusV2.h>
 #import <OBAKit/OBAWalkingDirections.h>
+
+// Categories
+#import <OBAKit/NSArray+OBAAdditions.h>
+#import <OBAKit/NSCoder+OBAAdditions.h>
+#import <OBAKit/NSDate+DateTools.h>
+#import <OBAKit/NSDictionary+OBAAdditions.h>
+#import <OBAKit/NSObject+OBADescription.h>
+#import <OBAKit/NSString+OBAAdditions.h>
+#import <OBAKit/NSURLQueryItem+OBAAdditions.h>
 #import <OBAKit/UILabel+OBAAdditions.h>
 
 // 3rd Party Components

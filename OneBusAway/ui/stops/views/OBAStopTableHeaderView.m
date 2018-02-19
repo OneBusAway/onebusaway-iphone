@@ -73,6 +73,9 @@
         stack.axis = UILayoutConstraintAxisVertical;
 
         [self addSubview:stack];
+        [stack mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self);
+        }];
 
         [_filterButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.equalTo([NSValue valueWithCGSize:CGSizeMake(48.f, 40.f)]);

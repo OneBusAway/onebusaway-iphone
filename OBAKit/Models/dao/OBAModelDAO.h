@@ -38,7 +38,17 @@ extern NSString * const OBARegionDidUpdateNotification;
  */
 @property(nonatomic,strong,readonly) NSArray<OBABookmarkV2*> *mappableBookmarksForCurrentRegion;
 @property(strong,nonatomic,readonly) NSArray<OBABookmarkV2*> *ungroupedBookmarks;
+
+/**
+ All bookmark groups.
+ */
 @property(strong,nonatomic,readonly) NSArray<OBABookmarkGroup*> *bookmarkGroups;
+
+/**
+ The Today View Controller bookmark group.
+ */
+@property(nonatomic,strong,readonly) OBABookmarkGroup *todayBookmarkGroup;
+
 @property(strong,nonatomic,readonly) NSArray<OBAStopAccessEventV2*> * mostRecentStops;
 @property(nonatomic,copy) CLLocation *mostRecentLocation;
 @property(nonatomic,assign) BOOL hideFutureLocationWarnings;
@@ -61,7 +71,7 @@ extern NSString * const OBARegionDidUpdateNotification;
 - (void)moveBookmark:(NSUInteger)startIndex to:(NSUInteger)endIndex inGroup:(OBABookmarkGroup*)group;
 
 // Bookmark Groups
-@property(nonatomic,strong,readonly) OBABookmarkGroup *todayBookmarkGroup;
+
 - (void)moveBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup toIndex:(NSUInteger)index;
 - (void)saveBookmarkGroup:(OBABookmarkGroup *)bookmarkGroup;
 - (void)removeBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup;
