@@ -11,8 +11,15 @@
 #import "OBAEditStopBookmarkViewController.h"
 #import "OBACollapsingHeaderView.h"
 #import "OBABookmarkGroupsViewController.h"
-#import "OBASegmentedRow.h"
 #import "OBANavigationTitleView.h"
+#import "ISHHoverBar.h"
+#import "UIViewController+OBAAdditions.h"
+@import Masonry;
+
+typedef NS_ENUM(NSUInteger, OBABookmarkSort) {
+    OBABookmarkSortGroup = 0,
+    OBABookmarkSortProximity,
+};
 
 static NSTimeInterval const kRefreshTimerInterval = 30.0;
 static NSUInteger const kMinutes = 60;
@@ -20,6 +27,7 @@ static NSUInteger const kMinutes = 60;
 static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDefaultsKey";
 
 @interface OBABookmarksViewController ()
+@property(nonatomic,strong) ISHHoverBar *sortHoverBar;
 @property(nonatomic,strong) NSHashTable *pendingPromises;
 @property(nonatomic,strong) NSTimer *refreshBookmarksTimer;
 @property(nonatomic,strong) NSMutableDictionary<OBABookmarkV2*,NSArray<OBAArrivalAndDepartureV2*>*> *bookmarksAndDepartures;
@@ -63,6 +71,8 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_groups", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editGroups)];
+
+    [self createSortHoverBar];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -261,8 +271,6 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     // If there are no bookmarks anywhere in the system, ungrouped or otherwise, then skip
     // over this code and instead show the empty table message.
     if (self.modelDAO.bookmarkGroups.count != 0 || self.modelDAO.ungroupedBookmarks.count != 0) {
-        [sections addObject:[self buildSegmentedControlSection]];
-
         if ([OBABookmarksViewController sortBookmarksByProximity]) {
             OBATableSection *section = [self proximitySortedTableSection];
 
@@ -296,23 +304,6 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     [sections addObject:looseBookmarks];
 
     return [NSArray arrayWithArray:sections];
-}
-
-- (OBATableSection*)buildSegmentedControlSection {
-    OBASegmentedRow *segmentedControl = [[OBASegmentedRow alloc] initWithSelectionChange:^(NSUInteger selectedIndex) {
-        [OBAApplication.sharedApplication.userDefaults setInteger:selectedIndex forKey:OBABookmarkSortUserDefaultsKey];
-        [self loadDataWithTableReload:YES];
-    }];
-
-    segmentedControl.selectedItemIndex = [OBAApplication.sharedApplication.userDefaults integerForKey:OBABookmarkSortUserDefaultsKey];
-
-    NSString *sortGroup = NSLocalizedString(@"bookmarks_controller.sort_by_group_item", @"Segmented control item title: 'Sort by Group'");
-    NSString *sortProximity = NSLocalizedString(@"bookmarks_controller.sort_by_proximity_item", @"Segmented control item title: 'Sort by Proximity'");
-    segmentedControl.items = @[sortGroup, sortProximity];
-
-    OBATableSection *segmentedControlSection = [[OBATableSection alloc] initWithTitle:nil rows:@[segmentedControl]];
-
-    return segmentedControlSection;
 }
 
 + (BOOL)sortBookmarksByProximity {
@@ -536,6 +527,58 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     }
 
     return YES;
+}
+
+#pragma mark - Sort UI
+
+- (IBAction)showSortPopover {
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil];
+
+    NSString *sortGroup = NSLocalizedString(@"bookmarks_controller.sort_by_group_item", @"Segmented control item title: 'Sort by Group'");
+    OBATableRow *groupRow = [[OBATableRow alloc] initWithTitle:sortGroup action:^(OBABaseRow *row) {
+        [OBAApplication.sharedApplication.userDefaults setInteger:OBABookmarkSortGroup forKey:OBABookmarkSortUserDefaultsKey];
+        [self loadDataWithTableReload:YES];
+    }];
+
+    NSString *sortProximity = NSLocalizedString(@"bookmarks_controller.sort_by_proximity_item", @"Segmented control item title: 'Sort by Proximity'");
+    OBATableRow *proximityRow = [[OBATableRow alloc] initWithTitle:sortProximity action:^(OBABaseRow *row) {
+        [OBAApplication.sharedApplication.userDefaults setInteger:OBABookmarkSortProximity forKey:OBABookmarkSortUserDefaultsKey];
+        [self loadDataWithTableReload:YES];
+    }];
+
+    OBABookmarkSort sort = [OBAApplication.sharedApplication.userDefaults integerForKey:OBABookmarkSortUserDefaultsKey];
+
+    if (sort == OBABookmarkSortGroup) {
+        groupRow.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    else if (sort == OBABookmarkSortProximity) {
+        proximityRow.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+
+    [section addRow:groupRow];
+    [section addRow:proximityRow];
+
+    PickerViewController *picker = [[PickerViewController alloc] init];
+    picker.sections = @[section];
+
+    [self oba_presentPopoverViewController:picker fromView:self.sortHoverBar];
+}
+
+- (void)createSortHoverBar {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    button.imageEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8);
+    button.tintColor = [UIColor blackColor];
+    [button setImage:[UIImage imageNamed:@"sort-amount-desc"] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(showSortPopover) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *sortButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+
+    self.sortHoverBar = [[ISHHoverBar alloc] init];
+    self.sortHoverBar.items = @[sortButton];
+    [self.view addSubview:self.sortHoverBar];
+    [self.sortHoverBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.mas_bottomLayoutGuideTop).offset(-OBATheme.defaultMargin);
+        make.trailing.equalTo(self).offset(-OBATheme.defaultMargin);
+    }];
 }
 
 #pragma mark - Row Builders
