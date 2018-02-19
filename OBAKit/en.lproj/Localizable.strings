@@ -10,6 +10,12 @@
 /* Title of the Bookmark Group that contains the Today Screen widget's bookmarks. */
 "bookmark_group.today_widget_title" = "Today Screen Bookmarks";
 
+/* Displayed on today screen extension, shows last time the data was reloaded. e.g. "Last updated: 3:30PM" */
+"refresh_cell.last_updated_format" = "Last updated: %@";
+
+/* As in 'actively updating content' */
+"strings.updating" = "Updating…";
+
 /* One minute */
 "date_helpers.one_minute" = "One minute";
 
@@ -30,6 +36,9 @@
 
 /* The text 'Close' */
 "strings.close" = "Close";
+
+/* The word 'Refresh', like a synonym for 'Reload'. */
+"strings.refresh" = "Refresh";
 
 /* No comment provided by engineer. */
 "msg_cellular" = "Cellular";
@@ -166,6 +175,9 @@
 
 /* OBASearchTypeStopId. Rendered as 'Stop ID' in English. */
 "search_type.stop_id" = "Stop ID";
+
+/* The word 'Never' */
+"strings.never" = "Never";
 
 /* The word 'yesterday' */
 "strings.yesterday" = "Yesterday";
