@@ -185,6 +185,10 @@ static UIFont *_italicFootnoteFont = nil;
     return [UIColor blackColor];
 }
 
++ (UIColor*)scheduledDepartureColor {
+    return self.darkDisabledColor;
+}
+
 + (UIColor*)propertyChangedColor {
     return [OBATheme colorWithRed:255 green:255 blue:128 alpha:0.7f];
 }

@@ -154,6 +154,11 @@
 @property(class,nonatomic,copy,readonly) UIColor *textColor;
 
 /**
+ Color of arrivals/departures that are 'scheduled' (i.e. not real-time).
+ */
+@property(class,nonatomic,copy,readonly) UIColor *scheduledDepartureColor;
+
+/**
  Use this when a control changes value on screen and you want to highlight
  its changed value for the user.
  */
