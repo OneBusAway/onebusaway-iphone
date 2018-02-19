@@ -132,8 +132,11 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 
 // MVVM
 #import <OBAKit/OBABaseRow.h>
+#import <OBAKit/OBABaseTableCell.h>
 #import <OBAKit/OBABookmarkedRouteRow.h>
 #import <OBAKit/OBABookmarkedRouteCell.h>
+#import <OBAKit/OBARefreshCell.h>
+#import <OBAKit/OBARefreshRow.h>
 #import <OBAKit/OBAStaticTableViewController.h>
 #import <OBAKit/OBATableRow.h>
 #import <OBAKit/OBATableCell.h>
