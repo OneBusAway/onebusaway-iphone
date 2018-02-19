@@ -108,7 +108,7 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
     return _userDefaults;
 }
 
-#define kUseDebugAppDefaults NO
+#define kUseDebugAppDefaults 0
 
 - (void)registerAppDefaults {
     NSDictionary *defaults = nil;

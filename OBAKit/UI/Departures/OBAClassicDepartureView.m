@@ -94,7 +94,7 @@
         UIStackView *departureLabelStack = [[UIStackView alloc] initWithArrangedSubviews:labelStackViews];
         departureLabelStack.axis = UILayoutConstraintAxisVertical;
         departureLabelStack.distribution = UIStackViewDistributionFill;
-        departureLabelStack.spacing = OBATheme.compactPadding;
+        departureLabelStack.spacing = 0;
 
         UIStackView *horizontalStack = ({
             UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[labelStack, departureLabelStack, _contextMenuButton]];
