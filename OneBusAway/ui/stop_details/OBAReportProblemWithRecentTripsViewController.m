@@ -76,12 +76,12 @@
         OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:^(OBABaseRow *blockRow){
             [self reportProblemWithTrip:dep.tripInstance];
         }];
-        row.routeName = dep.bestAvailableName;
-        row.destination = dep.tripHeadsign.capitalizedString;
-        row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
 
         OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState];
         row.upcomingDepartures = @[upcoming];
+
+        row.attributedMiddleLine = [OBADepartureRow buildAttributedRoute:dep.bestAvailableName destination:dep.tripHeadsign.capitalizedString];
+        row.attributedBottomLine = [OBADepartureCellHelpers attributedDepartureTimeWithStatusText:[OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep] upcomingDeparture:upcoming];
 
         row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 

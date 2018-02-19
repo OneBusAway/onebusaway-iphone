@@ -166,5 +166,5 @@
 /* An error displayed to the user when their alarm can't be created. */
 "model_service.cant_register_alarm_missing_parameters" = "Lo siento, no pudimos crear una alarma para este próximo viaje. Puedes intentarlo de nuevo, pero probablemente no hará ninguna diferencia. Lo sentimos por eso :(";
 
-/* Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE> */
-"text_route_to_orientation_newline_params" = "%@ hacia %@\r\n";
+/* Route formatting string. e.g. 10 to Downtown Seattle */
+"text_route_to_orientation_newline_params" = "%@ hacia %@";

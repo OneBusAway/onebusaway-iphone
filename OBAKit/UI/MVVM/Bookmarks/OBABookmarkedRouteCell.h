@@ -6,9 +6,9 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-@import UIKit;
-#import <OBAKit/OBATableCell.h>
+#import <OBAKit/OBABaseTableCell.h>
+#import <OBAKit/OBAClassicDepartureView.h>
 
-@interface OBABookmarkedRouteCell : UITableViewCell<OBATableCell>
-
+@interface OBABookmarkedRouteCell : OBABaseTableCell
+@property(nonatomic,strong,readonly) OBAClassicDepartureView *departureView;
 @end

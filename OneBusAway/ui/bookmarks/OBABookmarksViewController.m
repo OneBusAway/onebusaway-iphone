@@ -201,10 +201,10 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
         BOOL missingRealTimeData = [OBAArrivalAndDepartureV2 hasScheduledDepartures:matchingDepartures];
 
         if (matchingDepartures.count > 0) {
-            row.supplementaryMessage = nil;
+            row.errorMessage = nil;
         }
         else {
-            row.supplementaryMessage = [NSString stringWithFormat:NSLocalizedString(@"text_no_departure_next_time_minutes_params", @""), bookmark.routeShortName, @(kMinutes)];
+            row.errorMessage = [NSString stringWithFormat:NSLocalizedString(@"text_no_departure_next_time_minutes_params", @""), bookmark.routeShortName, @(kMinutes)];
         }
 
         // This will result in some 'false positive' instances where the
@@ -222,7 +222,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
         DDLogError(@"Failed to load departure for bookmark: %@", error);
         row.upcomingDepartures = nil;
         row.state = OBABookmarkedRouteRowStateError;
-        row.supplementaryMessage = [error localizedDescription];
+        row.errorMessage = [error localizedDescription];
     }).always(^{
         NSIndexPath *indexPath = [self indexPathForModel:bookmark];
 
@@ -626,9 +626,9 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     if (!arrivalAndDeparture) {
         return;
     }
-    row.routeName = arrivalAndDeparture.bestAvailableName;
-    row.destination = arrivalAndDeparture.tripHeadsign;
-    row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:arrivalAndDeparture];
+    row.attributedTopLine = [[NSAttributedString alloc] initWithString:row.bookmark.name];
+    row.attributedMiddleLine = [OBADepartureRow buildAttributedRoute:arrivalAndDeparture.bestAvailableName destination:arrivalAndDeparture.tripHeadsign];
+    row.attributedBottomLine = [OBADepartureCellHelpers attributedDepartureTimeWithStatusText:[OBADepartureCellHelpers statusTextForArrivalAndDeparture:arrivalAndDeparture] upcomingDeparture:[OBAUpcomingDeparture upcomingDeparturesFromArrivalsAndDepartures:@[arrivalAndDeparture]].firstObject];
 }
 
 - (void)performCommonBookmarkRowConfiguration:(OBABaseRow*)row forBookmark:(OBABookmarkV2*)bookmark {

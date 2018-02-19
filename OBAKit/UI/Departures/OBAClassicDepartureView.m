@@ -15,81 +15,89 @@
 #import <OBAKit/OBADateHelpers.h>
 #import <OBAKit/OBADepartureCellHelpers.h>
 #import <OBAKit/OBAMacros.h>
+#import <OBAKit/OBABookmarkedRouteRow.h>
 
 #define kUseDebugColors NO
-#define kBodyFont OBATheme.bodyFont
-#define kBoldBodyFont OBATheme.boldBodyFont
-#define kSmallFont OBATheme.subheadFont
 
 @interface OBAClassicDepartureView ()
 @property(nonatomic,strong,readwrite) UIButton *contextMenuButton;
-@property(nonatomic,strong) UILabel *routeLabel;
-@property(nonatomic,strong,readwrite) OBADepartureTimeLabel *leadingLabel;
-@property(nonatomic,strong) UIView *leadingWrapper;
+@property(nonatomic,strong) UILabel *topLineLabel;
+@property(nonatomic,strong) UILabel *middleLineLabel;
+@property(nonatomic,strong) UILabel *bottomLineLabel;
 
-@property(nonatomic,strong,readwrite) OBADepartureTimeLabel *centerLabel;
-@property(nonatomic,strong) UIView *centerWrapper;
-
-@property(nonatomic,strong,readwrite) OBADepartureTimeLabel *trailingLabel;
-@property(nonatomic,strong) UIView *trailingWrapper;
+@property(nonatomic,strong,readwrite) OBADepartureTimeLabel *firstDepartureLabel;
+@property(nonatomic,strong,readwrite) OBADepartureTimeLabel *secondDepartureLabel;
+@property(nonatomic,strong,readwrite) OBADepartureTimeLabel *thirdDepartureLabel;
+@property(nonatomic,strong) UIView *departureLabelSpacer;
 @end
 
 @implementation OBAClassicDepartureView
 
-- (instancetype)init {
-    return [self initWithFrame:CGRectZero];
-}
-
 - (instancetype)initWithFrame:(CGRect)frame {
-    return [self initWithLabelAlignment:OBAClassicDepartureViewLabelAlignmentCenter];
-}
-
-- (instancetype)initWithLabelAlignment:(OBAClassicDepartureViewLabelAlignment)labelAlignment {
-    self = [super initWithFrame:CGRectZero];
+    self = [super initWithFrame:frame];
 
     if (self) {
         self.clipsToBounds = YES;
 
-        _labelAlignment = OBAClassicDepartureViewLabelAlignmentCenter;
+        _topLineLabel = [[UILabel alloc] init];
+        _topLineLabel.font = OBATheme.boldBodyFont;
+        _topLineLabel.numberOfLines = 1;
+        _topLineLabel.adjustsFontSizeToFitWidth = YES;
+        _topLineLabel.minimumScaleFactor = 0.8f;
+        [_topLineLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+        [_topLineLabel setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
 
-        _routeLabel = ({
-            UILabel *l = [[UILabel alloc] init];
-            l.numberOfLines = 0;
-            [l setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-            [l setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-            [l setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
-            l;
-        });
+        _middleLineLabel = [self.class buildLineLabel];
+        _bottomLineLabel = [self.class buildLineLabel];
 
-        _leadingLabel = [self.class departureTimeLabel];
-        _leadingWrapper = [self.class wrapLabel:_leadingLabel withLabelAlignment:_labelAlignment];
+        _firstDepartureLabel = [[OBADepartureTimeLabel alloc] init];
+        _firstDepartureLabel.font = [OBATheme bodyFont];
+        [_firstDepartureLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
 
-        _centerLabel = [self.class departureTimeLabel];
-        _centerWrapper = [self.class wrapLabel:_centerLabel withLabelAlignment:_labelAlignment];
+        _secondDepartureLabel = [[OBADepartureTimeLabel alloc] init];
+        _secondDepartureLabel.font = [OBATheme footnoteFont];
+        [_secondDepartureLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
 
-        _trailingLabel = [self.class departureTimeLabel];
-        _trailingWrapper = [self.class wrapLabel:_trailingLabel withLabelAlignment:_labelAlignment];
+        _thirdDepartureLabel = [[OBADepartureTimeLabel alloc] init];
+        _thirdDepartureLabel.font = [OBATheme footnoteFont];
+        [_thirdDepartureLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+
+        _departureLabelSpacer = [UIView new];
 
         _contextMenuButton = [OBAUIBuilder contextMenuButton];
 
         if (kUseDebugColors) {
             self.backgroundColor = [UIColor purpleColor];
-            _routeLabel.backgroundColor = [UIColor greenColor];
+            _topLineLabel.backgroundColor = [UIColor redColor];
+            _middleLineLabel.backgroundColor = [UIColor greenColor];
+            _bottomLineLabel.backgroundColor = [UIColor blueColor];
 
-            _leadingLabel.backgroundColor = [UIColor magentaColor];
-            _leadingWrapper.backgroundColor = [UIColor redColor];
-
-            _centerLabel.backgroundColor = [UIColor magentaColor];
-            _centerWrapper.backgroundColor = [UIColor blueColor];
-
-            _trailingLabel.backgroundColor = [UIColor magentaColor];
-            _trailingWrapper.backgroundColor = [UIColor brownColor];
+            _firstDepartureLabel.backgroundColor = [UIColor magentaColor];
+            _secondDepartureLabel.backgroundColor = [UIColor blueColor];
+            _thirdDepartureLabel.backgroundColor = [UIColor greenColor];
 
             _contextMenuButton.backgroundColor = [UIColor yellowColor];
         }
 
+        UIStackView *labelStack = [[UIStackView alloc] initWithArrangedSubviews:@[_topLineLabel, _middleLineLabel, _bottomLineLabel, [UIView new]]];
+        labelStack.axis = UILayoutConstraintAxisVertical;
+        labelStack.distribution = UIStackViewDistributionFill;
+        labelStack.spacing = 0;
+
+
+        NSArray *labelStackViews = @[
+                                     [OBAClassicDepartureView wrapDepartureLabel:_firstDepartureLabel],
+                                     [OBAClassicDepartureView wrapDepartureLabel:_secondDepartureLabel],
+                                     [OBAClassicDepartureView wrapDepartureLabel:_thirdDepartureLabel],
+                                     _departureLabelSpacer
+                                     ];
+        UIStackView *departureLabelStack = [[UIStackView alloc] initWithArrangedSubviews:labelStackViews];
+        departureLabelStack.axis = UILayoutConstraintAxisVertical;
+        departureLabelStack.distribution = UIStackViewDistributionFill;
+        departureLabelStack.spacing = OBATheme.compactPadding;
+
         UIStackView *horizontalStack = ({
-            UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[_routeLabel, _leadingWrapper, _centerWrapper, _trailingWrapper, _contextMenuButton]];
+            UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[labelStack, departureLabelStack, _contextMenuButton]];
             stack.axis = UILayoutConstraintAxisHorizontal;
             stack.distribution = UIStackViewDistributionFill;
             stack.spacing = OBATheme.compactPadding;
@@ -109,13 +117,34 @@
     return self;
 }
 
++ (UIView*)wrapDepartureLabel:(UILabel*)label {
+    UIView *wrapper = [[UIView alloc] initWithFrame:CGRectZero];
+    wrapper.translatesAutoresizingMaskIntoConstraints = NO;
+    [wrapper addSubview:label];
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.right.and.bottom.equalTo(wrapper);
+    }];
+
+    return wrapper;
+}
+
++ (UILabel*)buildLineLabel {
+    UILabel *lineLabel = [[UILabel alloc] init];
+    lineLabel.numberOfLines = 0;
+    [lineLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    [lineLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    [lineLabel setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
+
+    return lineLabel;
+}
+
+
 #pragma mark - Reuse
 
 - (void)prepareForReuse {
-    self.routeLabel.text = nil;
-    self.leadingLabel.text = nil;
-    self.centerLabel.text = nil;
-    self.trailingLabel.text = nil;
+    self.topLineLabel.text = nil;
+    self.middleLineLabel.text = nil;
+    self.bottomLineLabel.text = nil;
 }
 
 #pragma mark - Row Logic
@@ -127,85 +156,35 @@
 
     _departureRow = [departureRow copy];
 
-    [self renderRouteLabel];
+    self.topLineLabel.attributedText = _departureRow.attributedTopLine;
+    self.topLineLabel.hidden = self.topLineLabel.attributedText.length == 0;
 
-    if ([self departureRow].upcomingDepartures.count > 0) {
-        self.leadingWrapper.hidden = NO;
-        [self setDepartureStatus:[self departureRow].upcomingDepartures[0] forLabel:self.leadingLabel];
-    }
-    else {
-        self.leadingWrapper.hidden = YES;
-    }
+    self.middleLineLabel.attributedText = _departureRow.attributedMiddleLine;
+    self.middleLineLabel.hidden = self.middleLineLabel.attributedText.length == 0;
 
-    if ([self departureRow].upcomingDepartures.count > 1) {
-        self.centerWrapper.hidden = NO;
-        [self setDepartureStatus:[self departureRow].upcomingDepartures[1] forLabel:self.centerLabel];
-    }
-    else {
-        self.centerWrapper.hidden = YES;
-    }
+    self.bottomLineLabel.attributedText = _departureRow.attributedBottomLine;
+    self.bottomLineLabel.hidden = self.bottomLineLabel.attributedText.length == 0;
 
-    if ([self departureRow].upcomingDepartures.count > 2) {
-        self.trailingWrapper.hidden = NO;
-        [self setDepartureStatus:[self departureRow].upcomingDepartures[2] forLabel:self.trailingLabel];
-    }
-    else {
-        self.centerWrapper.hidden = YES;
-    }
+    [self applyUpcomingDeparture:[self departureRow].upcomingDepartures atIndex:0 toLabel:self.firstDepartureLabel];
+    [self applyUpcomingDeparture:[self departureRow].upcomingDepartures atIndex:1 toLabel:self.secondDepartureLabel];
+    [self applyUpcomingDeparture:[self departureRow].upcomingDepartures atIndex:2 toLabel:self.thirdDepartureLabel];
+
+    // vertically center the one departure label if there is only one departure.
+    // Otherwise vertically align them to the top.
+    self.departureLabelSpacer.hidden = [self departureRow].upcomingDepartures.count == 1;
 }
 
-- (void)setDepartureStatus:(OBAUpcomingDeparture*)departure forLabel:(OBADepartureTimeLabel*)label {
-    label.accessibilityLabel = [OBADateHelpers formatAccessibilityLabelMinutesUntilDate:departure.departureDate];
-    [label setText:[OBADateHelpers formatMinutesUntilDate:departure.departureDate] forStatus:departure.departureStatus];
-}
+- (void)applyUpcomingDeparture:(NSArray<OBAUpcomingDeparture*>*)upcomingDepartures atIndex:(NSUInteger)index toLabel:(OBADepartureTimeLabel*)departureTimeLabel {
+    if (upcomingDepartures.count > index) {
+        departureTimeLabel.hidden = NO;
 
-#pragma mark - Label Logic
-
-- (void)renderRouteLabel {
-    // TODO: clean me up once we've verified that users aren't losing their minds over the change.
-    NSString *firstLineText = nil;
-
-    if ([self departureRow].destination) {
-        firstLineText = [NSString stringWithFormat:OBALocalized(@"text_route_to_orientation_newline_params", @"Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE>"), [self departureRow].routeName, [self departureRow].destination];
+        OBAUpcomingDeparture *departure = upcomingDepartures[index];
+        departureTimeLabel.accessibilityLabel = [OBADateHelpers formatAccessibilityLabelMinutesUntilDate:departure.departureDate];
+        [departureTimeLabel setText:[OBADateHelpers formatMinutesUntilDate:departure.departureDate] forStatus:departure.departureStatus];
     }
     else {
-        firstLineText = [NSString stringWithFormat:@"%@\r\n", [self departureRow].routeName];
+        departureTimeLabel.hidden = YES;
     }
-
-    NSMutableAttributedString *routeText = [[NSMutableAttributedString alloc] initWithString:firstLineText attributes:@{NSFontAttributeName: kBodyFont}];
-
-    [routeText addAttribute:NSFontAttributeName value:kBoldBodyFont range:NSMakeRange(0, [self departureRow].routeName.length)];
-
-    OBAUpcomingDeparture *upcoming = [self departureRow].upcomingDepartures.firstObject;
-    NSAttributedString *departureTime = [OBADepartureCellHelpers attributedDepartureTimeWithStatusText:[self departureRow].statusText upcomingDeparture:upcoming];
-
-    [routeText appendAttributedString:departureTime];
-
-    self.routeLabel.attributedText = routeText;
-}
-
-#pragma mark - Label and Wrapper Builders
-
-+ (OBADepartureTimeLabel*)departureTimeLabel {
-    OBADepartureTimeLabel *label = [[OBADepartureTimeLabel alloc] init];
-    label.font = kSmallFont;
-    label.textAlignment = NSTextAlignmentRight;
-    [label setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-    [label setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-    return label;
-}
-
-+ (UIView*)wrapLabel:(OBADepartureTimeLabel*)label withLabelAlignment:(OBAClassicDepartureViewLabelAlignment)labelAlignment {
-    UIView *minutesWrapper = [[UIView alloc] initWithFrame:CGRectZero];
-    minutesWrapper.clipsToBounds = YES;
-    [minutesWrapper addSubview:label];
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        MASConstraint *constraint = labelAlignment == OBAClassicDepartureViewLabelAlignmentTop ? make.top : make.centerY;
-        constraint.equalTo(minutesWrapper);
-        make.left.and.right.equalTo(minutesWrapper);
-    }];
-
-    return minutesWrapper;
 }
 
 @end
