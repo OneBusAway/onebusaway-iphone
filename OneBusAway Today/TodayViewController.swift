@@ -18,6 +18,9 @@ class TodayViewController: OBAStaticTableViewController {
     let app = OBAApplication.init()
     let deepLinkRouter = OBADeepLinkRouter.init(deepLinkBaseURL: URL.init(string: OBADeepLinkServerAddress)!)
     var group: OBABookmarkGroup = OBABookmarkGroup.init(bookmarkGroupType: .todayWidget)
+    var lastUpdateRow: OBABaseRow?
+
+    // MARK: - Init/View Controller Lifecycle
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -26,6 +29,8 @@ class TodayViewController: OBAStaticTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.extensionContext?.widgetLargestAvailableDisplayMode = .expanded
 
         self.emptyDataSetVerticalOffset = 0
         self.emptyDataSetTitle = NSLocalizedString("today_screen.no_data_title", comment: "No Bookmarks - empty data set title.")
@@ -37,7 +42,27 @@ class TodayViewController: OBAStaticTableViewController {
     }
 }
 
+// MARK: - Widget Protocol
 extension TodayViewController: NCWidgetProviding {
+
+    func updateData(completionHandler: ((NCUpdateResult) -> Void)?) {
+        self.group = app.modelDao.todayBookmarkGroup
+
+        if (self.group.bookmarks.count == 0) {
+            completionHandler?(NCUpdateResult.noData)
+            return
+        }
+
+        self.sections = [buildLastUpdatedSection(), buildTableSection(group: self.group)]
+        self.tableView.reloadData()
+
+        let promises: [Promise<Any>] = self.group.bookmarks.flatMap { self.promiseStop(bookmark: $0) }
+        _ = when(resolved: promises).then { _ -> Void in
+            self.lastUpdatedAt = Date.init()
+            completionHandler?(NCUpdateResult.newData)
+        }
+    }
+
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
         self.group = app.modelDao.todayBookmarkGroup
 
@@ -46,11 +71,63 @@ extension TodayViewController: NCWidgetProviding {
             return
         }
 
-        self.sections = [buildTableSection(group: self.group)]
+        self.sections = [buildLastUpdatedSection(), buildTableSection(group: self.group)]
         self.tableView.reloadData()
 
-        let promises: [Promise<Any>] = self.group.bookmarks.flatMap { self.promiseStop(bookmark: $0) }
-        _ = when(resolved: promises).then { _ in completionHandler(NCUpdateResult.newData) }
+        updateData(completionHandler: completionHandler)
+    }
+
+    func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
+        if activeDisplayMode == .expanded {
+            // abxoxo - todo: calculate real height of table!
+            preferredContentSize = CGSize(width: 0, height: 280)
+        }
+        else {
+            preferredContentSize = maxSize
+        }
+    }
+}
+
+// MARK: - Last Updated Section
+extension TodayViewController {
+
+    private static let lastUpdatedAtUserDefaultsKey = "lastUpdatedAtUserDefaultsKey"
+    var lastUpdatedAt: Date? {
+        get {
+            guard let defaultsDate = self.app.userDefaults.value(forKey: TodayViewController.lastUpdatedAtUserDefaultsKey) else {
+                return nil
+            }
+
+            return defaultsDate as? Date
+        }
+        set(val) {
+            self.app.userDefaults.setValue(val, forKey: TodayViewController.lastUpdatedAtUserDefaultsKey)
+
+            guard let row = self.lastUpdateRow,
+                  let indexPath = self.indexPath(for: row) else {
+                return
+            }
+            self.replaceRow(at: indexPath, with: buildLastUpdateRow())
+            self.tableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+
+    func buildLastUpdateRow() -> OBABaseRow {
+        let row = OBARefreshRow.init(date: lastUpdatedAt) { _ in
+            self.updateData(completionHandler: nil)
+        }
+
+        return row
+    }
+
+    func buildLastUpdatedSection() -> OBATableSection {
+        let tableSection = OBATableSection.init()
+        let tableRow = buildLastUpdateRow()
+
+        tableSection.addRow(tableRow)
+        self.lastUpdateRow = tableRow
+
+        return tableSection
     }
 }
 
