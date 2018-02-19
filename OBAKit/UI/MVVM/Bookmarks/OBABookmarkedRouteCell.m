@@ -32,7 +32,8 @@
         [self.contentView addSubview:_departureView];
 
         [_departureView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.contentView).insets(OBATheme.defaultEdgeInsets);
+            UIEdgeInsets insets = UIEdgeInsetsMake(OBATheme.compactPadding, OBATheme.defaultPadding, OBATheme.compactPadding, OBATheme.defaultPadding);
+            make.edges.equalTo(self.contentView).insets(insets);
         }];
     }
     return self;
