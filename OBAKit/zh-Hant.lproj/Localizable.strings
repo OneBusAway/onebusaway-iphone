@@ -1,2 +1,2 @@
-/* Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE> */
-"text_route_to_orientation_newline_params" = "%@ 往 %@\r\n";
+/* Route formatting string. e.g. 10 to Downtown Seattle */
+"text_route_to_orientation_newline_params" = "%@ 往 %@";

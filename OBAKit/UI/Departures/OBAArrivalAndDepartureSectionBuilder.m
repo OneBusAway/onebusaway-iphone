@@ -33,16 +33,16 @@
     }
 
     OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:nil];
-    row.routeName = dep.bestAvailableName;
-    row.destination = dep.tripHeadsign.capitalizedString;
-    row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
+
+    OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState];
+    row.upcomingDepartures = @[upcoming];
+
+    row.attributedMiddleLine = [OBADepartureRow buildAttributedRoute:dep.bestAvailableName destination:dep.tripHeadsign];
+    row.attributedBottomLine = [OBADepartureCellHelpers attributedDepartureTimeWithStatusText:[OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep] upcomingDeparture:upcoming];
     row.model = dep;
     row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];
     row.alarmExists = [self hasAlarmForArrivalAndDeparture:dep];
     row.hasArrived = dep.minutesUntilBestDeparture > 0;
-
-    OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState];
-    row.upcomingDepartures = @[upcoming];
 
     return row;
 }

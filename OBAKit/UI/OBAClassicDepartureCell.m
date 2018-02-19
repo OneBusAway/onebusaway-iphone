@@ -25,7 +25,7 @@
     if (self) {
         self.contentView.clipsToBounds = YES;
 
-        _departureView = [[OBAClassicDepartureView alloc] initWithLabelAlignment:OBAClassicDepartureViewLabelAlignmentCenter];
+        _departureView = [[OBAClassicDepartureView alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:_departureView];
 
         [_departureView mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -131,7 +131,7 @@ extension TodayViewController {
     }
 }
 
-// MARK: - UI Construction
+// MARK: - Dynamic UI Construction
 extension TodayViewController {
     func buildTableSection(group: OBABookmarkGroup) -> OBATableSection {
         let tableSection = OBATableSection.init()
@@ -145,7 +145,10 @@ extension TodayViewController {
                 }
             }
             else {
-                row = OBABookmarkedRouteRow.init(bookmark: bookmark, action: nil)
+                let routeRow = OBABookmarkedRouteRow.init(bookmark: bookmark, action: nil)
+                routeRow.attributedTopLine = NSAttributedString.init(string: bookmark.name)
+
+                row = routeRow
             }
 
             row.model = bookmark
@@ -165,20 +168,20 @@ extension TodayViewController {
 
     func populateRow(_ row: OBABookmarkedRouteRow, targetURL: URL, routeName: String, departures: [OBAArrivalAndDepartureV2]) {
         if departures.count > 0 {
-            row.supplementaryMessage = nil
+            row.errorMessage = nil
             let arrivalDeparture = departures[0]
-            row.routeName = arrivalDeparture.bestAvailableName
-            row.destination = arrivalDeparture.tripHeadsign
-            
-            if let statusText = OBADepartureCellHelpers.statusText(forArrivalAndDeparture: arrivalDeparture) {
-                row.statusText = statusText
+
+            row.upcomingDepartures = OBAUpcomingDeparture.upcomingDepartures(fromArrivalsAndDepartures: departures)
+
+            if let statusText = OBADepartureCellHelpers.statusText(forArrivalAndDeparture: arrivalDeparture),
+               let upcoming = row.upcomingDepartures?.first {
+                row.attributedMiddleLine = OBADepartureCellHelpers.attributedDepartureTime(withStatusText: statusText, upcomingDeparture: upcoming)
             }
         }
         else {
-            row.supplementaryMessage = String.init(format: NSLocalizedString("text_no_departure_next_time_minutes_params", comment: ""), routeName, String(kMinutes))
+            let noDepartureText = String.init(format: NSLocalizedString("text_no_departure_next_time_minutes_params", comment: ""), routeName, String(kMinutes))
+            row.attributedMiddleLine = OBADepartureCellHelpers.attributedDepartureTime(withStatusText: noDepartureText, upcomingDeparture: nil)
         }
-        
-        row.upcomingDepartures = OBAUpcomingDeparture.upcomingDepartures(fromArrivalsAndDepartures: departures)
 
         row.action = { _ in
             self.extensionContext?.open(targetURL, completionHandler: nil)
@@ -214,7 +217,7 @@ extension TodayViewController {
         }.catch { error in
             row.upcomingDepartures = nil
             row.state = .error
-            row.supplementaryMessage = error.localizedDescription
+            row.errorMessage = error.localizedDescription
         }.always {
             self.replaceRow(at: indexPath, with: row)
             self.tableView.reloadRows(at: [indexPath], with: .none)

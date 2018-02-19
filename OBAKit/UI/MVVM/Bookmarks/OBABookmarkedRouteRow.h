@@ -22,7 +22,7 @@ typedef NS_ENUM(NSUInteger, OBABookmarkedRouteRowState) {
 @interface OBABookmarkedRouteRow : OBADepartureRow
 @property(nonatomic,copy) OBABookmarkV2 *bookmark;
 @property(nonatomic,assign) OBABookmarkedRouteRowState state;
-@property(nonatomic,copy,nullable) NSString *supplementaryMessage;
+@property(nonatomic,copy,nullable) NSString *errorMessage;
 
 - (instancetype)initWithBookmark:(OBABookmarkV2*)bookmark action:(nullable OBARowAction)action NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithAction:(nullable OBARowAction)action NS_UNAVAILABLE;

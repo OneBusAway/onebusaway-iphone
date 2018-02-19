@@ -11,17 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, OBAClassicDepartureViewLabelAlignment) {
-    OBAClassicDepartureViewLabelAlignmentTop,
-    OBAClassicDepartureViewLabelAlignmentCenter,
-};
-
 @interface OBAClassicDepartureView : UIView
 @property(nonatomic,copy) OBADepartureRow *departureRow;
 @property(nonatomic,strong,readonly) UIButton *contextMenuButton;
-@property(nonatomic,assign,readonly) OBAClassicDepartureViewLabelAlignment labelAlignment;
-
-- (instancetype)initWithLabelAlignment:(OBAClassicDepartureViewLabelAlignment)labelAlignment;
 
 - (void)prepareForReuse;
 @end
