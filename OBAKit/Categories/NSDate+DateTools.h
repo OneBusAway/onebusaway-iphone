@@ -27,7 +27,8 @@
  */
 - (NSUInteger)minutesUntil;
 
-- (BOOL)isToday;
-- (BOOL)isTomorrow;
-- (BOOL)isYesterday;
+@property(nonatomic,assign,readonly) BOOL isToday;
+@property(nonatomic,assign,readonly) BOOL isTomorrow;
+@property(nonatomic,assign,readonly) BOOL isYesterday;
+
 @end
