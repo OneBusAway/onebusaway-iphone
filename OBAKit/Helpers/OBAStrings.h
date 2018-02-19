@@ -70,9 +70,25 @@ NS_ASSUME_NONNULL_BEGIN
 @property(class,nonatomic,copy,readonly) NSString *yesterday;
 
 /**
+ The word 'never'
+ */
+@property(class,nonatomic,copy,readonly) NSString *never;
+
+/**
  The text 'Read More…' (note that is an ellipsis, not three dots…)
  */
 @property(class,nonatomic,copy,readonly) NSString *readMore;
+
+/**
+ The word 'Refresh', like a synonym for 'Reload'.
+ */
+@property(class,nonatomic,copy,readonly) NSString *refresh;
+
+
+/**
+ As in 'actively updating content'.
+ */
+@property(class,nonatomic,copy,readonly) NSString *updating;
 
 /**
  Created an attributed string with a prepended image.
