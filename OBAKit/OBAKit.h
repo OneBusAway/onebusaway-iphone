@@ -64,9 +64,6 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAModelPersistenceLayer.h>
 #import <OBAKit/OBAModelService.h>
 #import <OBAKit/OBAModelServiceRequest.h>
-#import <OBAKit/OBANavigationTarget.h>
-#import <OBAKit/OBANavigationTargetAnnotation.h>
-#import <OBAKit/OBANavigationTargetAware.h>
 #import <OBAKit/OBAPlaceholderView.h>
 #import <OBAKit/OBAPlacemark.h>
 #import <OBAKit/OBAPlacemarks.h>
@@ -113,6 +110,13 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAVibrantBlurContainerView.h>
 #import <OBAKit/OBAVehicleStatusV2.h>
 #import <OBAKit/OBAWalkingDirections.h>
+
+// Navigation
+#import <OBAKit/OBAAlarmNavigationTarget.h>
+#import <OBAKit/OBADeepLinkNavigationTarget.h>
+#import <OBAKit/OBANavigationTarget.h>
+#import <OBAKit/OBANavigationTargetAnnotation.h>
+#import <OBAKit/OBANavigationTargetAware.h>
 
 // Categories
 #import <OBAKit/NSArray+OBAAdditions.h>

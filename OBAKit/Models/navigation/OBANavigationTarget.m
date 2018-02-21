@@ -55,7 +55,6 @@ NSString * const OBAUserSearchQueryKey = @"OBAUserSearchQueryKey";
     if (self = [super init]) {
         _target = [coder oba_decodeInteger:@selector(target)];
         _parameters = [NSMutableDictionary dictionaryWithDictionary:[coder oba_decodeObject:@selector(parameters)]];
-        _object = [coder oba_decodeObject:@selector(object)];
     }
     return self;
 }
@@ -63,9 +62,16 @@ NSString * const OBAUserSearchQueryKey = @"OBAUserSearchQueryKey";
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder oba_encodeInteger:_target forSelector:@selector(target)];
     [coder oba_encodeObject:_parameters forSelector:@selector(parameters)];
-    if ([_object conformsToProtocol:@protocol(NSCoding)]) {
-        [coder oba_encodeObject:_object forSelector:@selector(object)];
-    }
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+    OBANavigationTarget *target = [[self.class allocWithZone:zone] init];
+    target->_target = _target;
+    target->_parameters = [_parameters copyWithZone:zone];
+
+    return target;
 }
 
 #pragma mark - Public
