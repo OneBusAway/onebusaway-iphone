@@ -262,8 +262,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
         // OK, it works, so write it into the model DAO.
         [self.application.modelDao addSharedTrip:tripDeepLink];
 
-        OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeRecentStops];
-        target.object = tripDeepLink;
+        OBADeepLinkNavigationTarget *target = [OBADeepLinkNavigationTarget targetWithTripDeepLink:tripDeepLink];
         [appDelegate navigateToTarget:target];
     }).catch(^(NSError *error) {
         NSString *body = [NSString stringWithFormat:NSLocalizedString(@"text_error_cant_show_shared_trip_param", @"Error message displayed to the user when something goes wrong with a just-tapped shared trip."), error.localizedDescription];
@@ -377,10 +376,8 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
     [self.application.modelService requestArrivalAndDepartureWithConvertible:alarm].then(^(OBAArrivalAndDepartureV2 *arrivalAndDeparture) {
         alarm.title = arrivalAndDeparture.bestAvailableNameWithHeadsign;
-
-        OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeRecentStops];
-        target.object = alarm;
-        [self navigateToTarget:target];
+        OBAAlarmNavigationTarget *alarmTarget = [OBAAlarmNavigationTarget navigationTargetWithAlarm:alarm];
+        [self navigateToTarget:alarmTarget];
     }).catch(^(NSError *error) {
         NSString *body = [NSString stringWithFormat:NSLocalizedString(@"notifications.error_messages.formatted_cant_display", @"Error message displayed to the user when something goes wrong with a just-tapped notification."), error.localizedDescription];
         [AlertPresenter showWarning:OBAStrings.error body:body];

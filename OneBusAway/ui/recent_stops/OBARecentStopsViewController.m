@@ -227,8 +227,9 @@
 }
 
 - (void)setNavigationTarget:(OBANavigationTarget *)target {
-    if ([target.object conformsToProtocol:@protocol(OBAArrivalAndDepartureConvertible)]) {
-        OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:target.object];
+    if ([target isKindOfClass:OBADeepLinkNavigationTarget.class]) {
+        OBADeepLinkNavigationTarget *t = (OBADeepLinkNavigationTarget *)target;
+        OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:t.tripDeepLink];
         [self.navigationController pushViewController:controller animated:YES];
     }
     else if (target.parameters[OBAStopIDNavigationTargetParameter]) {
@@ -236,7 +237,7 @@
         [self showStopViewControllerWithStopID:stopID];
     }
     else {
-        DDLogError(@"Unhandled object type (%@) from OBANavigationTarget: %@", target.object, target);
+        DDLogError(@"Unhandled OBANavigationTarget: %@", target);
     }
 }
 
