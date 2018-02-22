@@ -23,13 +23,25 @@
     self = [super init];
 
     if (self) {
-        _address = address;
+        _address = [address copy];
         _coordinate = coordinate;
     }
     return self;
 }
 
-#pragma mark NSCoder Methods
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+    OBAPlacemark *placemark = [[self.class allocWithZone:zone] init];
+    placemark->_address = [_address copyWithZone:zone];
+    placemark->_coordinate = _coordinate;
+    placemark->_icon = [_icon copyWithZone:zone];
+    placemark->_name = [_name copyWithZone:zone];
+
+    return placemark;
+}
+
+#pragma mark - NSCoder Methods
 
 - (id)initWithCoder:(NSCoder*)coder {
     self = [super init];
@@ -53,7 +65,7 @@
     [coder oba_encodeObject:data forSelector:@selector(coordinate)];
 }
 
-- (CLLocation*) location {
+- (CLLocation*)location {
     return [[CLLocation alloc] initWithLatitude:_coordinate.latitude longitude:_coordinate.longitude];
 }
 

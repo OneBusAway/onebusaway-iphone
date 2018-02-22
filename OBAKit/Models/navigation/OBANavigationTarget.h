@@ -18,6 +18,7 @@
 @import MapKit;
 
 #import <OBAKit/OBACommon.h>
+#import <OBAKit/OBASearchType.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,7 +35,6 @@ extern NSString * const OBAUserSearchQueryKey;
 @interface OBANavigationTarget : NSObject <NSCoding, NSCopying>
 @property(nonatomic,assign,readonly) OBANavigationTargetType target;
 @property(nonatomic,strong,readonly) NSDictionary * parameters;
-//@property(nonatomic,strong) id object;
 @property(nonatomic,assign,readonly) OBASearchType searchType;
 @property(nonatomic,strong,readonly,nullable) id searchArgument;
 @property(nonatomic,copy,readonly,nullable) NSString *userFacingSearchQuery;
