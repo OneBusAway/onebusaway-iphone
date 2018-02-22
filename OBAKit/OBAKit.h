@@ -118,6 +118,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBANavigationTarget.h>
 #import <OBAKit/OBANavigationTargetAnnotation.h>
 #import <OBAKit/OBANavigationTargetAware.h>
+#import <OBAKit/OBAStopSearchNavigationTarget.h>
 
 // Categories
 #import <OBAKit/NSArray+OBAAdditions.h>

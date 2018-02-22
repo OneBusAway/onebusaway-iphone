@@ -109,9 +109,15 @@
 + (void)updateAnnotationsOnMapView:(MKMapView*)mapView fromSearchResult:(OBASearchResult*)result bookmarkAnnotations:(NSArray*)bookmarks {
     NSMutableArray *allCurrentAnnotations = [[NSMutableArray alloc] init];
 
-    [allCurrentAnnotations addObjectsFromArray:bookmarks];
+    NSSet *bookmarkStopIDs = nil;
 
-    NSSet *bookmarkStopIDs = [NSSet setWithArray:[bookmarks valueForKey:@"stopId"]];
+    if (result.searchType != OBASearchTypeStopIdSearch && result.searchType != OBASearchTypeRoute) {
+        [allCurrentAnnotations addObjectsFromArray:bookmarks];
+        bookmarkStopIDs = [NSSet setWithArray:[bookmarks valueForKey:@"stopId"]];
+    }
+    else {
+        bookmarkStopIDs = [NSSet set];
+    }
 
     // prospectiveAnnotation *should* be an OBAStopV2, but there are some indications that this
     // is not always the case. To that end, we'll just go belt and suspenders on it and see if

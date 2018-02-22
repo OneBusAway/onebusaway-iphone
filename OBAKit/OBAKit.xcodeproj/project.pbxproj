@@ -294,6 +294,8 @@
 		93EA5A40203DF41B00CE6CAC /* OBAAlarmNavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EA5A3E203DF41B00CE6CAC /* OBAAlarmNavigationTarget.m */; };
 		93EA5A48203DFDAA00CE6CAC /* OBASearchType.h in Headers */ = {isa = PBXBuildFile; fileRef = 93EA5A46203DFDAA00CE6CAC /* OBASearchType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93EA5A4B203DFEC300CE6CAC /* OBASearchType.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EA5A4A203DFEC300CE6CAC /* OBASearchType.m */; };
+		93EA5A57203F368700CE6CAC /* OBAStopSearchNavigationTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 93EA5A55203F368700CE6CAC /* OBAStopSearchNavigationTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93EA5A58203F368700CE6CAC /* OBAStopSearchNavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EA5A56203F368700CE6CAC /* OBAStopSearchNavigationTarget.m */; };
 		93F3F8911E7A88EA0025FC78 /* RegionalAlertsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F8901E7A88EA0025FC78 /* RegionalAlertsManager.swift */; };
 		93F3F89C1E7B02400025FC78 /* OBARegionalAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 93F3F89A1E7B02400025FC78 /* OBARegionalAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93F3F89D1E7B02400025FC78 /* OBARegionalAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F89B1E7B02400025FC78 /* OBARegionalAlert.m */; };
@@ -610,6 +612,8 @@
 		93EA5A3E203DF41B00CE6CAC /* OBAAlarmNavigationTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAAlarmNavigationTarget.m; sourceTree = "<group>"; };
 		93EA5A46203DFDAA00CE6CAC /* OBASearchType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBASearchType.h; sourceTree = "<group>"; };
 		93EA5A4A203DFEC300CE6CAC /* OBASearchType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBASearchType.m; sourceTree = "<group>"; };
+		93EA5A55203F368700CE6CAC /* OBAStopSearchNavigationTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAStopSearchNavigationTarget.h; sourceTree = "<group>"; };
+		93EA5A56203F368700CE6CAC /* OBAStopSearchNavigationTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAStopSearchNavigationTarget.m; sourceTree = "<group>"; };
 		93F3F8901E7A88EA0025FC78 /* RegionalAlertsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionalAlertsManager.swift; sourceTree = "<group>"; };
 		93F3F89A1E7B02400025FC78 /* OBARegionalAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionalAlert.h; sourceTree = "<group>"; };
 		93F3F89B1E7B02400025FC78 /* OBARegionalAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionalAlert.m; sourceTree = "<group>"; };
@@ -1128,14 +1132,16 @@
 		93EA5A38203DF1DC00CE6CAC /* navigation */ = {
 			isa = PBXGroup;
 			children = (
+				93EA5A46203DFDAA00CE6CAC /* OBASearchType.h */,
+				93EA5A4A203DFEC300CE6CAC /* OBASearchType.m */,
 				934195C51DB0B099004BBBB7 /* OBANavigationTarget.h */,
 				934195C61DB0B099004BBBB7 /* OBANavigationTarget.m */,
 				93EA5A39203DF21800CE6CAC /* OBADeepLinkNavigationTarget.h */,
 				93EA5A3A203DF21800CE6CAC /* OBADeepLinkNavigationTarget.m */,
 				93EA5A3D203DF41B00CE6CAC /* OBAAlarmNavigationTarget.h */,
 				93EA5A3E203DF41B00CE6CAC /* OBAAlarmNavigationTarget.m */,
-				93EA5A46203DFDAA00CE6CAC /* OBASearchType.h */,
-				93EA5A4A203DFEC300CE6CAC /* OBASearchType.m */,
+				93EA5A55203F368700CE6CAC /* OBAStopSearchNavigationTarget.h */,
+				93EA5A56203F368700CE6CAC /* OBAStopSearchNavigationTarget.m */,
 			);
 			path = navigation;
 			sourceTree = "<group>";
@@ -1187,6 +1193,7 @@
 				936EB1B91E91A83700F4F3A7 /* OBARegionStorage.h in Headers */,
 				932CE84D20263F0C003091D3 /* OBABookmarkedRouteErrorCell.h in Headers */,
 				9341965E1DB0B099004BBBB7 /* OBAHasServiceAlerts.h in Headers */,
+				93EA5A57203F368700CE6CAC /* OBAStopSearchNavigationTarget.h in Headers */,
 				934195FA1DB0B099004BBBB7 /* NSObject+OBADescription.h in Headers */,
 				9358CDB21DEA242B00132CDE /* OBAUpcomingDeparture.h in Headers */,
 				934C50A91E2B6D2700DFDCA0 /* OBAAlarm.h in Headers */,
@@ -1542,6 +1549,7 @@
 				934196341DB0B099004BBBB7 /* OBACallMethodJsonDigesterRule.m in Sources */,
 				9341962F1DB0B099004BBBB7 /* OBAModelDAO.m in Sources */,
 				934196061DB0B099004BBBB7 /* OBADateHelpers.m in Sources */,
+				93EA5A58203F368700CE6CAC /* OBAStopSearchNavigationTarget.m in Sources */,
 				934196771DB0B099004BBBB7 /* OBASearchResult.m in Sources */,
 				934196381DB0B099004BBBB7 /* OBAJsonDigester.m in Sources */,
 				930AFE9F1DD183720092AE82 /* OBAWalkingDirections.m in Sources */,

@@ -788,7 +788,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         case OBASearchTypeRoute:
         case OBASearchTypeStops:
         case OBASearchTypeAddress:
-        case OBASearchTypeStopId: {
+        case OBASearchTypeStopId:
+        case OBASearchTypeStopIdSearch: {
             NSString *query = navigationTarget.userFacingSearchQuery;
 
             if (!query) {
@@ -848,6 +849,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 
     switch (result.searchType) {
+        case OBASearchTypeStopIdSearch:
         case OBASearchTypeStopId:
             return [OBAMapHelpers computeRegionForNClosestStops:result.values center:[self currentLocation] numberOfStops:kShowNClosestStops];
 
@@ -912,7 +914,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         alertTitle = NSLocalizedString(@"msg_no_places_found", @"showNoResultsAlertWithTitle");
         alertMessage = NSLocalizedString(@"msg_explanatory_no_places_found", @"prompt");
     }
-    else if (OBASearchTypeStopId == result.searchType) {
+    else if (OBASearchTypeStopId == result.searchType || OBASearchTypeStopIdSearch == result.searchType) {
         alertTitle = NSLocalizedString(@"msg_minus_no_stops_found", @"showNoResultsAlertWithTitle");
         alertMessage = NSLocalizedString(@"msg_explanatory_minus_no_stops_found", @"prompt");
     }
