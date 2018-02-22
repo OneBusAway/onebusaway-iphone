@@ -46,14 +46,15 @@ extern NSString * const OBAUserSearchQueryKey;
 @end
 
 @interface OBANavigationTarget (Builders)
-+ (OBANavigationTarget*)navigationTargetForSearchNone;
-+ (OBANavigationTarget*)navigationTargetForSearchLocationRegion:(MKCoordinateRegion)region;
-+ (OBANavigationTarget*)navigationTargetForSearchRoute:(NSString*)routeQuery;
-+ (OBANavigationTarget*)navigationTargetForRoute:(OBARouteV2*)route;
-+ (OBANavigationTarget*)navigationTargetForSearchAddress:(NSString*)addressQuery;
-+ (OBANavigationTarget*)navigationTargetForSearchPlacemark:(OBAPlacemark*)placemark;
-+ (OBANavigationTarget*)navigationTargetForStopID:(NSString*)stopID;
-+ (OBANavigationTarget*)navigationTargetForRegionalAlert:(OBARegionalAlert*)regionalAlert;
++ (instancetype)navigationTargetForSearchNone;
++ (instancetype)navigationTargetForSearchLocationRegion:(MKCoordinateRegion)region;
++ (instancetype)navigationTargetForSearchRoute:(NSString*)routeQuery;
++ (instancetype)navigationTargetForRoute:(OBARouteV2*)route;
++ (instancetype)navigationTargetForSearchAddress:(NSString*)addressQuery;
++ (instancetype)navigationTargetForSearchPlacemark:(OBAPlacemark*)placemark;
++ (instancetype)navigationTargetForStopID:(NSString*)stopID;
++ (instancetype)navigationTargetForStopIDSearch:(NSString*)stopID;
++ (instancetype)navigationTargetForRegionalAlert:(OBARegionalAlert*)regionalAlert;
 @end
 
 NS_ASSUME_NONNULL_END
