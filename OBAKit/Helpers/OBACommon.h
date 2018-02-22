@@ -18,15 +18,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, OBANavigationTargetType) {
-    OBANavigationTargetTypeUndefined=0,
-    OBANavigationTargetTypeMap,
-    OBANavigationTargetTypeSearchResults,
-    OBANavigationTargetTypeRecentStops,
-    OBANavigationTargetTypeBookmarks,
-    OBANavigationTargetTypeContactUs,
-};
-
 typedef NS_ENUM(NSUInteger, OBAErrorCode) {
     OBAErrorCodeLocationAuthorizationFailed = 1002,
     OBAErrorCodePushNotificationAuthorizationDenied,

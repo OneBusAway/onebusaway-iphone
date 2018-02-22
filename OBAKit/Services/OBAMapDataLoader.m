@@ -232,7 +232,7 @@
             break;
         }
 
-        case OBASearchTypeStopId: {
+        case OBASearchTypeStopIdSearch: {
             promise = [self requestStopIDWithStopCode:searchTypeParameter];
             break;
         }

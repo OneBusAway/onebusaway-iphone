@@ -29,6 +29,7 @@ NSString * NSStringFromOBASearchType(OBASearchType searchType) {
         case OBASearchTypePlacemark: {
             return OBALocalized(@"search_type.placemark", @"OBASearchTypePlacemark. Rendered as 'Placemark' in English.");
         }
+        case OBASearchTypeStopIdSearch:
         case OBASearchTypeStopId: {
             return OBALocalized(@"search_type.stop_id", @"OBASearchTypeStopId. Rendered as 'Stop ID' in English.");
         }

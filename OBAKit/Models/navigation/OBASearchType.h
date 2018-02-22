@@ -8,6 +8,15 @@
 
 @import Foundation;
 
+typedef NS_ENUM(NSInteger, OBANavigationTargetType) {
+    OBANavigationTargetTypeUndefined=0,
+    OBANavigationTargetTypeMap,
+    OBANavigationTargetTypeSearchResults,
+    OBANavigationTargetTypeRecentStops,
+    OBANavigationTargetTypeBookmarks,
+    OBANavigationTargetTypeContactUs,
+};
+
 typedef NS_ENUM(NSUInteger, OBASearchType) {
     OBASearchTypeNone=0,
     OBASearchTypePending,
@@ -18,6 +27,7 @@ typedef NS_ENUM(NSUInteger, OBASearchType) {
     OBASearchTypePlacemark,
     OBASearchTypeStopId,
     OBASearchTypeRegionalAlert,
+    OBASearchTypeStopIdSearch,
 };
 
 NSString * _Nullable NSStringFromOBASearchType(OBASearchType searchType);
