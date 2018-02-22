@@ -18,18 +18,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, OBASearchType) {
-    OBASearchTypeNone=0,
-    OBASearchTypePending,
-    OBASearchTypeRegion,
-    OBASearchTypeRoute,
-    OBASearchTypeStops,
-    OBASearchTypeAddress,
-    OBASearchTypePlacemark,
-    OBASearchTypeStopId,
-    OBASearchTypeRegionalAlert,
-};
-
 typedef NS_ENUM(NSInteger, OBANavigationTargetType) {
     OBANavigationTargetTypeUndefined=0,
     OBANavigationTargetTypeMap,
@@ -45,8 +33,6 @@ typedef NS_ENUM(NSUInteger, OBAErrorCode) {
     OBAErrorCodeMissingMethodParameters,
     OBAErrorCodeBadData,
 };
-
-NSString * _Nullable NSStringFromOBASearchType(OBASearchType searchType);
 
 extern NSString * const OBAErrorDomain;
 

@@ -18,7 +18,7 @@
 @import Foundation;
 @import MapKit;
 
-#import <OBAKit/OBACommon.h>
+#import <OBAKit/OBASearchType.h>
 #import <OBAKit/OBAListWithRangeAndReferencesV2.h>
 
 NS_ASSUME_NONNULL_BEGIN

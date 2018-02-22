@@ -292,6 +292,8 @@
 		93EA5A3C203DF21800CE6CAC /* OBADeepLinkNavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EA5A3A203DF21800CE6CAC /* OBADeepLinkNavigationTarget.m */; };
 		93EA5A3F203DF41B00CE6CAC /* OBAAlarmNavigationTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 93EA5A3D203DF41B00CE6CAC /* OBAAlarmNavigationTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93EA5A40203DF41B00CE6CAC /* OBAAlarmNavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EA5A3E203DF41B00CE6CAC /* OBAAlarmNavigationTarget.m */; };
+		93EA5A48203DFDAA00CE6CAC /* OBASearchType.h in Headers */ = {isa = PBXBuildFile; fileRef = 93EA5A46203DFDAA00CE6CAC /* OBASearchType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93EA5A4B203DFEC300CE6CAC /* OBASearchType.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EA5A4A203DFEC300CE6CAC /* OBASearchType.m */; };
 		93F3F8911E7A88EA0025FC78 /* RegionalAlertsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F8901E7A88EA0025FC78 /* RegionalAlertsManager.swift */; };
 		93F3F89C1E7B02400025FC78 /* OBARegionalAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 93F3F89A1E7B02400025FC78 /* OBARegionalAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93F3F89D1E7B02400025FC78 /* OBARegionalAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F89B1E7B02400025FC78 /* OBARegionalAlert.m */; };
@@ -606,6 +608,8 @@
 		93EA5A3A203DF21800CE6CAC /* OBADeepLinkNavigationTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBADeepLinkNavigationTarget.m; sourceTree = "<group>"; };
 		93EA5A3D203DF41B00CE6CAC /* OBAAlarmNavigationTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAAlarmNavigationTarget.h; sourceTree = "<group>"; };
 		93EA5A3E203DF41B00CE6CAC /* OBAAlarmNavigationTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAAlarmNavigationTarget.m; sourceTree = "<group>"; };
+		93EA5A46203DFDAA00CE6CAC /* OBASearchType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBASearchType.h; sourceTree = "<group>"; };
+		93EA5A4A203DFEC300CE6CAC /* OBASearchType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBASearchType.m; sourceTree = "<group>"; };
 		93F3F8901E7A88EA0025FC78 /* RegionalAlertsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionalAlertsManager.swift; sourceTree = "<group>"; };
 		93F3F89A1E7B02400025FC78 /* OBARegionalAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionalAlert.h; sourceTree = "<group>"; };
 		93F3F89B1E7B02400025FC78 /* OBARegionalAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionalAlert.m; sourceTree = "<group>"; };
@@ -1130,6 +1134,8 @@
 				93EA5A3A203DF21800CE6CAC /* OBADeepLinkNavigationTarget.m */,
 				93EA5A3D203DF41B00CE6CAC /* OBAAlarmNavigationTarget.h */,
 				93EA5A3E203DF41B00CE6CAC /* OBAAlarmNavigationTarget.m */,
+				93EA5A46203DFDAA00CE6CAC /* OBASearchType.h */,
+				93EA5A4A203DFEC300CE6CAC /* OBASearchType.m */,
 			);
 			path = navigation;
 			sourceTree = "<group>";
@@ -1229,6 +1235,7 @@
 				93F3F89C1E7B02400025FC78 /* OBARegionalAlert.h in Headers */,
 				934196631DB0B099004BBBB7 /* OBAPlacemark.h in Headers */,
 				934196511DB0B099004BBBB7 /* OBABookmarkGroup.h in Headers */,
+				93EA5A48203DFDAA00CE6CAC /* OBASearchType.h in Headers */,
 				9341962A1DB0B099004BBBB7 /* OBATripStopTimeMapAnnotation.h in Headers */,
 				93E592B11F8D3C600079A2D8 /* OBABookmarkedRouteCell.h in Headers */,
 				93E5929B1F8CAA9C0079A2D8 /* OBATableSection.h in Headers */,
@@ -1516,6 +1523,7 @@
 				9341963C1DB0B099004BBBB7 /* OBASetCoordinatePropertyJsonDigesterRule.m in Sources */,
 				934196931DB0B099004BBBB7 /* OBAVehicleStatusV2.m in Sources */,
 				93F3F8A21E7BCA8C0025FC78 /* FileHelpers.swift in Sources */,
+				93EA5A4B203DFEC300CE6CAC /* OBASearchType.m in Sources */,
 				934196231DB0B099004BBBB7 /* OBARegionHelper.m in Sources */,
 				93F3F8911E7A88EA0025FC78 /* RegionalAlertsManager.swift in Sources */,
 				9388C29F1FFDBAEA0068041F /* FBShimmeringView.m in Sources */,

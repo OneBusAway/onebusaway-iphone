@@ -112,6 +112,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAWalkingDirections.h>
 
 // Navigation
+#import <OBAKit/OBASearchType.h>
 #import <OBAKit/OBAAlarmNavigationTarget.h>
 #import <OBAKit/OBADeepLinkNavigationTarget.h>
 #import <OBAKit/OBANavigationTarget.h>
