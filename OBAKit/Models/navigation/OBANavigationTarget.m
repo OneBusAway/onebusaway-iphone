@@ -107,20 +107,20 @@ NSString * const OBAUserSearchQueryKey = @"OBAUserSearchQueryKey";
 
 @implementation OBANavigationTarget (Builders)
 
-+ (OBANavigationTarget*)navigationTargetForSearchNone {
++ (instancetype)navigationTargetForSearchNone {
     return [self navigationTargetForSearchType:OBASearchTypeNone];
 }
 
-+ (OBANavigationTarget*)navigationTargetForSearchLocationRegion:(MKCoordinateRegion)region {
++ (instancetype)navigationTargetForSearchLocationRegion:(MKCoordinateRegion)region {
     NSData * data = [NSData dataWithBytes:&region length:sizeof(MKCoordinateRegion)];
     return [self navigationTargetForSearchType:OBASearchTypeRegion argument:data];
 }
 
-+ (OBANavigationTarget*)navigationTargetForSearchRoute:(NSString*)routeQuery {
++ (instancetype)navigationTargetForSearchRoute:(NSString*)routeQuery {
     return [self navigationTargetForSearchType:OBASearchTypeRoute argument:routeQuery];
 }
 
-+ (OBANavigationTarget*)navigationTargetForRoute:(OBARouteV2*)route {
++ (instancetype)navigationTargetForRoute:(OBARouteV2*)route {
     NSString *str = OBALocalized(@"navigation_target.search_query.route_format", @"e.g. Search for Route: <Route Number>");
     NSString *searchQuery = [NSString stringWithFormat:str, route.safeShortName];
 
@@ -129,34 +129,38 @@ NSString * const OBAUserSearchQueryKey = @"OBAUserSearchQueryKey";
                                extraParameters:@{OBAUserSearchQueryKey: searchQuery}];
 }
 
-+ (OBANavigationTarget*)navigationTargetForSearchAddress:(NSString*)addressQuery {
++ (instancetype)navigationTargetForSearchAddress:(NSString*)addressQuery {
     return [self navigationTargetForSearchType:OBASearchTypeAddress argument:addressQuery];
 }
 
-+ (OBANavigationTarget*)navigationTargetForSearchPlacemark:(OBAPlacemark*)placemark {
++ (instancetype)navigationTargetForSearchPlacemark:(OBAPlacemark*)placemark {
     return [self navigationTargetForSearchType:OBASearchTypePlacemark argument:placemark];
 }
 
-+ (OBANavigationTarget*)navigationTargetForStopID:(NSString*)stopID {
++ (instancetype)navigationTargetForStopID:(NSString*)stopID {
     return [self navigationTargetForSearchType:OBASearchTypeStopId argument:stopID];
 }
 
-+ (OBANavigationTarget*)navigationTargetForRegionalAlert:(OBARegionalAlert*)regionalAlert {
++ (instancetype)navigationTargetForStopIDSearch:(NSString*)stopID {
+    return [self navigationTargetForSearchType:OBASearchTypeStopIdSearch argument:stopID];
+}
+
++ (instancetype)navigationTargetForRegionalAlert:(OBARegionalAlert*)regionalAlert {
     OBANavigationTarget *target = [self navigationTargetForSearchType:OBASearchTypeRegionalAlert argument:regionalAlert];
     target.target = OBANavigationTargetTypeContactUs;
 
     return target;
 }
 
-+ (OBANavigationTarget*)navigationTargetForSearchType:(OBASearchType)searchType {
++ (instancetype)navigationTargetForSearchType:(OBASearchType)searchType {
     return [self navigationTargetForSearchType:searchType argument:nil];
 }
 
-+ (OBANavigationTarget*)navigationTargetForSearchType:(OBASearchType)searchType argument:(nullable id)argument {
++ (instancetype)navigationTargetForSearchType:(OBASearchType)searchType argument:(nullable id)argument {
     return [self navigationTargetForSearchType:searchType argument:argument extraParameters:nil];
 }
 
-+ (OBANavigationTarget*)navigationTargetForSearchType:(OBASearchType)searchType argument:(nullable id)argument extraParameters:(nullable NSDictionary*)dictionary {
++ (instancetype)navigationTargetForSearchType:(OBASearchType)searchType argument:(nullable id)argument extraParameters:(nullable NSDictionary*)dictionary {
     dictionary = dictionary ?: @{};
 
     NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:dictionary];
@@ -166,7 +170,7 @@ NSString * const OBAUserSearchQueryKey = @"OBAUserSearchQueryKey";
         params[OBANavigationTargetSearchKey] = argument;
     }
 
-    OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeSearchResults parameters:params];
+    OBANavigationTarget *target = [self navigationTarget:OBANavigationTargetTypeSearchResults parameters:params];
 
     return target;
 }
