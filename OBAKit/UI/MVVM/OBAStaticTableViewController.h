@@ -57,6 +57,11 @@ typedef NS_ENUM(NSUInteger, OBARootViewStyle) {
  */
 @property(nonatomic,strong,nullable) UIImage *emptyDataSetImage;
 
+/**
+ Reloads the empty data set title, description, and image.
+ */
+- (void)reloadEmptyDataSet;
+
 - (nullable OBABaseRow*)rowAtIndexPath:(NSIndexPath*)indexPath;
 - (nullable NSIndexPath*)indexPathForRow:(OBABaseRow*)row;
 

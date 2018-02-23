@@ -14,7 +14,16 @@
 #import "OBANavigationTitleView.h"
 #import "ISHHoverBar.h"
 #import "UIViewController+OBAAdditions.h"
+
+@import SafariServices;
 @import Masonry;
+
+static NSString * const OBABookmarkTypeToggleUserDefaultsKey = @"OBABookmarkTypeToggleUserDefaultsKey";
+
+typedef NS_ENUM(NSUInteger, OBABookmarkTypeToggle) {
+    OBABookmarkTypeToggleBookmarks = 0,
+    OBABookmarkTypeToggleTodayWidget,
+};
 
 typedef NS_ENUM(NSUInteger, OBABookmarkSort) {
     OBABookmarkSortGroup = 0,
@@ -31,6 +40,8 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 @property(nonatomic,strong) NSHashTable *pendingPromises;
 @property(nonatomic,strong) NSTimer *refreshBookmarksTimer;
 @property(nonatomic,strong) NSMutableDictionary<OBABookmarkV2*,NSArray<OBAArrivalAndDepartureV2*>*> *bookmarksAndDepartures;
+@property(nonatomic,strong) OBAExtendedNavBarView *toggleContainer;
+@property(nonatomic,strong) UISegmentedControl *bookmarkTypeToggle;
 @end
 
 @implementation OBABookmarksViewController
@@ -42,8 +53,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
         self.title = NSLocalizedString(@"msg_bookmarks", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"Favorites"];
         self.tabBarItem.selectedImage = [UIImage imageNamed:@"Favorites_Selected"];
-        self.emptyDataSetTitle = NSLocalizedString(@"msg_no_bookmarks", @"");
-        self.emptyDataSetDescription = NSLocalizedString(@"msg_explanatory_add_bookmark_from_stop", @"");
+
         _bookmarksAndDepartures = [[NSMutableDictionary alloc] init];
 
         _pendingPromises = [NSHashTable weakObjectsHashTable];
@@ -63,6 +73,15 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    [self createBookmarkTypeToggle];
+
+    [self updateEmptyDataSetText];
+
+    [self.tableView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.toggleContainer.mas_bottom);
+        make.left.right.and.bottom.equalTo(self.view);
+    }];
 
     self.tableView.estimatedRowHeight = 80.f;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
@@ -158,6 +177,78 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     else {
         [self cancelTimer];
     }
+}
+
+#pragma mark - Bookmark Toggle
+
+- (void)createBookmarkTypeToggle {
+    [OBAExtendedNavBarView customizeNavigationBar:self.navigationController.navigationBar];
+
+    self.toggleContainer = [[OBAExtendedNavBarView alloc] initWithFrame:CGRectZero];
+
+    NSString *bookmarks = NSLocalizedString(@"bookmarks.toggle.bookmarks", @"Bookmarks toggle item");
+    NSString *todayExt = NSLocalizedString(@"bookmarks.toggle.today_view", @"Today View toggle item");
+    self.bookmarkTypeToggle = [[UISegmentedControl alloc] initWithItems:@[bookmarks, todayExt]];
+    self.bookmarkTypeToggle.selectedSegmentIndex = [self.application.userDefaults integerForKey:OBABookmarkTypeToggleUserDefaultsKey];
+    [self.bookmarkTypeToggle setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor blackColor]} forState:UIControlStateNormal];
+    [self.bookmarkTypeToggle addTarget:self action:@selector(toggleBookmarks) forControlEvents:UIControlEventValueChanged];
+
+    [self.toggleContainer addSubview:self.bookmarkTypeToggle];
+    [self.bookmarkTypeToggle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.and.bottom.equalTo(self.toggleContainer).inset(OBATheme.defaultPadding);
+        make.center.equalTo(self.toggleContainer);
+    }];
+
+    [self.view addSubview:self.toggleContainer];
+    [self.toggleContainer mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.and.right.equalTo(self.view);
+        make.top.equalTo(self.view.mas_topMargin);
+        make.height.equalTo(@44).priorityMedium();
+    }];
+}
+
+- (void)toggleBookmarks {
+    OBABookmarkTypeToggle toggleValue = self.bookmarkTypeToggle.selectedSegmentIndex;
+    [self.application.userDefaults setInteger:toggleValue forKey:OBABookmarkTypeToggleUserDefaultsKey];
+    [self updateEmptyDataSetText];
+    [self loadDataWithTableReload:YES];
+}
+
+- (OBABookmarkTypeToggle)bookmarkTypeToggleValue {
+    return [self.application.userDefaults integerForKey:OBABookmarkTypeToggleUserDefaultsKey];
+}
+
+#pragma mark - Empty Data Set
+
+- (void)updateEmptyDataSetText {
+    if ([self bookmarkTypeToggleValue] == OBABookmarkTypeToggleTodayWidget) {
+        self.emptyDataSetTitle = NSLocalizedString(@"bookmarks_controller.today_view.no_content_title", @"Empty data set title when there are no Today View bookmarks.");
+        self.emptyDataSetDescription = NSLocalizedString(@"bookmarks_controller.today_view.no_content_description", @"Empty data set description when there are no Today View bookmarks.");
+    }
+    else {
+        self.emptyDataSetTitle = NSLocalizedString(@"msg_no_bookmarks", @"");
+        self.emptyDataSetDescription = NSLocalizedString(@"msg_explanatory_add_bookmark_from_stop", @"");
+    }
+
+    [self reloadEmptyDataSet];
+}
+
+- (nullable NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state {
+    if ([self bookmarkTypeToggleValue] != OBABookmarkTypeToggleTodayWidget) {
+        return nil;
+    }
+
+    NSDictionary *attrs = @{
+                            NSFontAttributeName: [OBATheme boldBodyFont],
+                            NSForegroundColorAttributeName: [OBATheme OBADarkGreen]
+                            };
+    return [[NSAttributedString alloc] initWithString:OBAStrings.learnMore attributes:attrs];
+}
+
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView {
+    NSURL *URL = [NSURL URLWithString:@"https://support.apple.com/en-us/HT207122"];
+    SFSafariViewController *safariController = [[SFSafariViewController alloc] initWithURL:URL];
+    [self presentViewController:safariController animated:YES completion:nil];
 }
 
 #pragma mark - Refresh Bookmarks/Network Loading
@@ -266,24 +357,32 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 }
 
 - (void)loadDataWithTableReload:(BOOL)tableReload {
+    // If there are no bookmarks anywhere in the system, ungrouped or otherwise, then skip
+    // over the following code and instead show the empty table message. There is always
+    // one group because of the Today View.
+    if (self.modelDAO.bookmarkGroups.count < 2 && self.modelDAO.ungroupedBookmarks.count == 0) {
+        self.sections = @[];
+
+        if (tableReload) {
+            [self.tableView reloadData];
+        }
+
+        return;
+    }
+
     NSMutableArray *sections = [[NSMutableArray alloc] init];
 
-    // If there are no bookmarks anywhere in the system, ungrouped or otherwise, then skip
-    // over this code and instead show the empty table message.
-    if (self.modelDAO.bookmarkGroups.count != 0 || self.modelDAO.ungroupedBookmarks.count != 0) {
-        if ([OBABookmarksViewController sortBookmarksByProximity]) {
+    if (self.bookmarkTypeToggleValue == OBABookmarkTypeToggleBookmarks) {
+        if (self.sortBookmarksByProximity) {
             OBATableSection *section = [self proximitySortedTableSection];
-
-            if (section) {
-                [sections addObject:section];
-            }
-            else {
-                [sections addObjectsFromArray:[self buildGroupedTableSections]];
-            }
+            [sections addObject:section];
         }
         else {
             [sections addObjectsFromArray:[self buildGroupedTableSections]];
         }
+    }
+    else {
+        [sections addObject:[self todayBookmarkTableSection]];
     }
 
     self.sections = sections;
@@ -295,29 +394,30 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
 - (NSArray<OBATableSection*>*)buildGroupedTableSections {
     NSMutableArray *sections = [[NSMutableArray alloc] init];
-    for (OBABookmarkGroup *group in [self.modelDAO.bookmarkGroups sortedArrayUsingSelector:@selector(compare:)]) {
-        OBATableSection *section = [self tableSectionFromBookmarks:group.bookmarks group:group];
+    for (OBABookmarkGroup *group in [self.modelDAO.userCreatedBookmarkGroups sortedArrayUsingSelector:@selector(compare:)]) {
+        OBATableSection *section = [self collapsibleTableSectionFromBookmarks:group.bookmarks group:group];
         [sections addObject:section];
     }
 
-    OBATableSection *looseBookmarks = [self tableSectionFromBookmarks:self.modelDAO.ungroupedBookmarks group:nil];
+    OBATableSection *looseBookmarks = [self collapsibleTableSectionFromBookmarks:self.modelDAO.ungroupedBookmarks group:nil];
     [sections addObject:looseBookmarks];
 
     return [NSArray arrayWithArray:sections];
 }
 
-+ (BOOL)sortBookmarksByProximity {
+- (BOOL)sortBookmarksByProximity {
+    CLLocation *location = self.locationManager.currentLocation;
+
+    if (!location) {
+        return NO;
+    }
+
     // 1 is the index of the proximity sort item on the segmented control.
     return [OBAApplication.sharedApplication.userDefaults integerForKey:OBABookmarkSortUserDefaultsKey] == 1;
 }
 
-- (nullable OBATableSection*)proximitySortedTableSection {
+- (OBATableSection*)proximitySortedTableSection {
     CLLocation *location = self.locationManager.currentLocation;
-
-    if (!location) {
-        return nil;
-    }
-
     NSArray<OBABookmarkV2*> *bookmarks = [self.modelDAO.bookmarksForCurrentRegion sortedArrayUsingComparator:^NSComparisonResult(OBABookmarkV2 *bm1, OBABookmarkV2 *bm2) {
         return [OBAMapHelpers getDistanceFrom:bm1.coordinate to:location.coordinate] > [OBAMapHelpers getDistanceFrom:bm2.coordinate to:location.coordinate];
     }];
@@ -326,6 +426,11 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:rows];
 
     return section;
+}
+
+- (OBATableSection*)todayBookmarkTableSection {
+    OBABookmarkGroup *todayGroup = self.modelDAO.todayBookmarkGroup;
+    return [self tableSectionFromBookmarks:todayGroup.bookmarks group:todayGroup];
 }
 
 #pragma mark - Actions
@@ -421,27 +526,34 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
 #pragma mark - Accessors
 
+- (OBAApplication*)application {
+    if (!_application) {
+        _application = [OBAApplication sharedApplication];
+    }
+    return _application;
+}
+
 - (OBARegionV2*)currentRegion {
-    return [OBAApplication sharedApplication].modelDao.currentRegion;
+    return self.modelDAO.currentRegion;
 }
 
 - (OBAModelDAO*)modelDAO {
     if (!_modelDAO) {
-        _modelDAO = [OBAApplication sharedApplication].modelDao;
+        _modelDAO = self.application.modelDao;
     }
     return _modelDAO;
 }
 
 - (PromisedModelService*)modelService {
     if (!_modelService) {
-        _modelService = [OBAApplication sharedApplication].modelService;
+        _modelService = self.application.modelService;
     }
     return _modelService;
 }
 
 - (OBALocationManager*)locationManager {
     if (!_locationManager) {
-        _locationManager = [OBAApplication sharedApplication].locationManager;
+        _locationManager = self.application.locationManager;
     }
     return _locationManager;
 }
@@ -451,7 +563,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 /*
  TODO: aggressively refactor me! This code is really ugly, and can definitely stand to be improved.
  */
-- (OBATableSection*)tableSectionFromBookmarks:(NSArray<OBABookmarkV2*>*)bookmarks group:(nullable OBABookmarkGroup*)group {
+- (OBATableSection*)collapsibleTableSectionFromBookmarks:(NSArray<OBABookmarkV2*>*)bookmarks group:(nullable OBABookmarkGroup*)group {
     NSArray<OBABaseRow*>* rows = @[];
 
     NSString *groupName = group ? group.name : NSLocalizedString(@"msg_bookmarks", @"");
@@ -492,6 +604,12 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     }];
     section.headerView = header;
 
+    return section;
+}
+
+- (OBATableSection*)tableSectionFromBookmarks:(NSArray<OBABookmarkV2*>*)bookmarks group:(nullable OBABookmarkGroup*)group {
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:[self tableRowsFromBookmarks:bookmarks]];
+    section.model = group;
     return section;
 }
 

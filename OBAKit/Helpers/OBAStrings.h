@@ -84,11 +84,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(class,nonatomic,copy,readonly) NSString *refresh;
 
-
 /**
  As in 'actively updating content'.
  */
 @property(class,nonatomic,copy,readonly) NSString *updating;
+
+/**
+ Learn More
+ */
+@property(class,nonatomic,copy,readonly) NSString *learnMore;
 
 /**
  Created an attributed string with a prepended image.

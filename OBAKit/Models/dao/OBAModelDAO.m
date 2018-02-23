@@ -335,6 +335,11 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
 #pragma mark - Bookmark Groups
 
+- (NSArray<OBABookmarkGroup*>*)userCreatedBookmarkGroups {
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"%K != %@", NSStringFromSelector(@selector(bookmarkGroupType)), @(OBABookmarkGroupTypeTodayWidget)];
+    return [self.bookmarkGroups filteredArrayUsingPredicate:filter];
+}
+
 - (OBABookmarkGroup*)todayBookmarkGroup {
     for (OBABookmarkGroup *group in self.bookmarkGroups) {
         if (group.bookmarkGroupType == OBABookmarkGroupTypeTodayWidget) {

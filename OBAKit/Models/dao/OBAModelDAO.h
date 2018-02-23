@@ -42,7 +42,12 @@ extern NSString * const OBARegionDidUpdateNotification;
 /**
  All bookmark groups.
  */
-@property(strong,nonatomic,readonly) NSArray<OBABookmarkGroup*> *bookmarkGroups;
+@property(nonatomic,strong,readonly) NSArray<OBABookmarkGroup*> *bookmarkGroups;
+
+/**
+ All bookmark groups created by the user. (i.e. not the Today Widget bookmark group.)
+ */
+@property(nonatomic,strong,readonly) NSArray<OBABookmarkGroup*> *userCreatedBookmarkGroups;
 
 /**
  The Today View Controller bookmark group.

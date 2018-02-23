@@ -13,6 +13,7 @@
 #import <OBAKit/OBATableCell.h>
 #import <OBAKit/OBATheme.h>
 #import <OBAKit/OBAPlaceholderRow.h>
+@import Masonry;
 
 @interface OBAStaticTableViewController ()<DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property(nonatomic,strong,readwrite) UITableView *tableView;
@@ -49,21 +50,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.tableView.frame = self.view.bounds;
-
     NSArray *registered = [OBAViewModelRegistry registeredClasses];
 
     for (Class c in registered) {
         [c registerViewsWithTableView:self.tableView];
     }
 
+    UIView *tableParentView = nil;
+
     if (self.blurContainer) {
         self.tableView.backgroundColor = [UIColor clearColor];
-        [self.blurContainer.contentView addSubview:self.tableView];
+        tableParentView = self.blurContainer.contentView;
     }
     else {
-        [self.view addSubview:self.tableView];
+        tableParentView = self.view;
     }
+
+    [tableParentView addSubview:self.tableView];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(tableParentView);
+    }];
 
     // Empty Data Set
 
@@ -101,7 +107,6 @@
 - (UITableView*)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero];
-        _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 
         // Setting these three values to 0 works around a table view behavior
         // change in iOS 11 that causes blank section headers to show up
@@ -359,6 +364,10 @@
 }
 
 #pragma mark - DZNEmptyDataSet
+
+- (void)reloadEmptyDataSet {
+    [self.tableView reloadEmptyDataSet];
+}
 
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
 

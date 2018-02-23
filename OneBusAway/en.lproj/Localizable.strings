@@ -1,11 +1,17 @@
 /* No comment provided by engineer. */
 " - " = " - ";
 
+/* Bookmarks toggle item */
+"bookmarks.toggle.bookmarks" = "Bookmarks";
+
+/* Today View toggle item */
+"bookmarks.toggle.today_view" = "Today View";
+
 /* No Bookmarks - empty data set title. */
 "today_screen.no_data_title" = "No Bookmarks";
 
 /* Add bookmarks to Today Screen Bookmarks to see them here. - empty data set description. */
-"today_screen.no_data_description" = "Add bookmarks to Today Screen Bookmarks to see them here.";
+"today_screen.no_data_description" = "Add bookmarks to Today View Bookmarks to see them here.";
 
 /* ID: {Reference ID Number} */
 "alerts.reference_format" = "ID: %@";
@@ -839,6 +845,12 @@
 
 /* Segmented control item title: 'Sort by Proximity' */
 "bookmarks_controller.sort_by_proximity_item" = "Sort by Proximity";
+
+/* Empty data set title when there are no Today View bookmarks. */
+"bookmarks_controller.today_view.no_content_title" = "Today View";
+
+/* Empty data set description when there are no Today View bookmarks. */
+"bookmarks_controller.today_view.no_content_description" = "Add bookmarks to the Today View group to get quick access to bus times. Tap the button below to learn more.";
 
 /* "Title of the Onboarding Controller. 'Welcome to OneBusAway!' */
 "onboarding_controller.title" = "Welcome to OneBusAway!";
