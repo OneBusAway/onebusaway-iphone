@@ -121,8 +121,9 @@
     UIView *wrapper = [[UIView alloc] initWithFrame:CGRectZero];
     wrapper.translatesAutoresizingMaskIntoConstraints = NO;
     [wrapper addSubview:label];
+
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.right.and.bottom.equalTo(wrapper);
+        make.edges.equalTo(wrapper);
     }];
 
     return wrapper;
