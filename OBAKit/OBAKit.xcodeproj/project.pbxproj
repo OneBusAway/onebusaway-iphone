@@ -288,6 +288,8 @@
 		93E592B11F8D3C600079A2D8 /* OBABookmarkedRouteCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 93E592AD1F8D3C600079A2D8 /* OBABookmarkedRouteCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93E592B21F8D3C600079A2D8 /* OBABookmarkedRouteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E592AE1F8D3C600079A2D8 /* OBABookmarkedRouteCell.m */; };
 		93E592B31F8D3C600079A2D8 /* OBABookmarkedRouteRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E592AF1F8D3C600079A2D8 /* OBABookmarkedRouteRow.m */; };
+		93E6595F204098FB00053B7C /* OBAExtendedNavBarView.h in Headers */ = {isa = PBXBuildFile; fileRef = 93E6595D204098FB00053B7C /* OBAExtendedNavBarView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93E65960204098FB00053B7C /* OBAExtendedNavBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E6595E204098FB00053B7C /* OBAExtendedNavBarView.m */; };
 		93EA5A3B203DF21800CE6CAC /* OBADeepLinkNavigationTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 93EA5A39203DF21800CE6CAC /* OBADeepLinkNavigationTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93EA5A3C203DF21800CE6CAC /* OBADeepLinkNavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EA5A3A203DF21800CE6CAC /* OBADeepLinkNavigationTarget.m */; };
 		93EA5A3F203DF41B00CE6CAC /* OBAAlarmNavigationTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 93EA5A3D203DF41B00CE6CAC /* OBAAlarmNavigationTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -606,6 +608,8 @@
 		93E592AE1F8D3C600079A2D8 /* OBABookmarkedRouteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkedRouteCell.m; sourceTree = "<group>"; };
 		93E592AF1F8D3C600079A2D8 /* OBABookmarkedRouteRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkedRouteRow.m; sourceTree = "<group>"; };
 		93E592BB1F8D778C0079A2D8 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		93E6595D204098FB00053B7C /* OBAExtendedNavBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAExtendedNavBarView.h; sourceTree = "<group>"; };
+		93E6595E204098FB00053B7C /* OBAExtendedNavBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAExtendedNavBarView.m; sourceTree = "<group>"; };
 		93EA5A39203DF21800CE6CAC /* OBADeepLinkNavigationTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBADeepLinkNavigationTarget.h; sourceTree = "<group>"; };
 		93EA5A3A203DF21800CE6CAC /* OBADeepLinkNavigationTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBADeepLinkNavigationTarget.m; sourceTree = "<group>"; };
 		93EA5A3D203DF41B00CE6CAC /* OBAAlarmNavigationTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAAlarmNavigationTarget.h; sourceTree = "<group>"; };
@@ -1101,6 +1105,8 @@
 			children = (
 				93E5929E1F8CABD70079A2D8 /* OBAVibrantBlurContainerView.m */,
 				93E5929F1F8CABD70079A2D8 /* OBAVibrantBlurContainerView.h */,
+				93E6595D204098FB00053B7C /* OBAExtendedNavBarView.h */,
+				93E6595E204098FB00053B7C /* OBAExtendedNavBarView.m */,
 			);
 			path = Containers;
 			sourceTree = "<group>";
@@ -1307,6 +1313,7 @@
 				93A73BF61F87613A00F213D4 /* OBADepartureTimeLabel.h in Headers */,
 				93B282C41DC664C7005013D7 /* OBATripDeepLink.h in Headers */,
 				935C39191F772CE300737DC4 /* NSString+OBAAdditions.h in Headers */,
+				93E6595F204098FB00053B7C /* OBAExtendedNavBarView.h in Headers */,
 				9341965C1DB0B099004BBBB7 /* OBAHasReferencesV2.h in Headers */,
 				934196431DB0B099004BBBB7 /* OBASetPropertyJsonDigesterRule.h in Headers */,
 				934196411DB0B099004BBBB7 /* OBASetNextOBAJsonDigesterRule.h in Headers */,
@@ -1560,6 +1567,7 @@
 				932CE84E20263F0C003091D3 /* OBABookmarkedRouteErrorCell.m in Sources */,
 				934196D41DB0C02F004BBBB7 /* NSDate+DateTools.m in Sources */,
 				9341965D1DB0B099004BBBB7 /* OBAHasReferencesV2.m in Sources */,
+				93E65960204098FB00053B7C /* OBAExtendedNavBarView.m in Sources */,
 				934196441DB0B099004BBBB7 /* OBASetPropertyJsonDigesterRule.m in Sources */,
 				9341966E1DB0B099004BBBB7 /* OBAReportProblemWithStopV2.m in Sources */,
 				934196B51DB0B0AF004BBBB7 /* OBAModelService.m in Sources */,

@@ -71,6 +71,10 @@
     return OBALocalized(@"strings.updating", @"As in 'actively updating content'.");
 }
 
++ (NSString*)learnMore {
+    return OBALocalized(@"strings.learn_more", @"Learn More");
+}
+
 + (nullable NSAttributedString*)attributedStringWithPrependedImage:(UIImage*)image string:(NSString*)string {
     return [self attributedStringWithPrependedImage:image string:string color:nil];
 }
