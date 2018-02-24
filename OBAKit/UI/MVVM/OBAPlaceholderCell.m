@@ -9,6 +9,7 @@
 #import <OBAKit/OBAPlaceholderCell.h>
 #import <OBAKit/OBAPlaceholderView.h>
 #import <OBAKit/FBShimmeringView.h>
+#import <OBAKit/OBATheme.h>
 @import Masonry;
 
 @interface OBAPlaceholderCell ()
@@ -26,10 +27,10 @@
         _shimmeringView = [[FBShimmeringView alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:_shimmeringView];
         [_shimmeringView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.contentView);
+            make.edges.equalTo(self.contentView).insets(OBATheme.defaultEdgeInsets);
         }];
 
-        _placeholderView = [[OBAPlaceholderView alloc] initWithFrame:CGRectZero];
+        _placeholderView = [[OBAPlaceholderView alloc] initWithNumberOfLines:3];
         _shimmeringView.contentView = _placeholderView;
         [_placeholderView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(_shimmeringView);

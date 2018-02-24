@@ -611,6 +611,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
         OBAStopViewController *controller = [[OBAStopViewController alloc] initWithStopID:bookmark.stopId];
         [self.navigationController pushViewController:controller animated:YES];
     }];
+    row.attributedTopLine = [[NSAttributedString alloc] initWithString:bookmark.name];
     [self performCommonBookmarkRowConfiguration:row forBookmark:bookmark];
 
     // We only have this object available once the associated network request completes.
