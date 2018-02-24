@@ -35,9 +35,14 @@
         _topLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
         _shimmeringView = [[FBShimmeringView alloc] initWithFrame:CGRectZero];
-        _placeholderView = [[OBAPlaceholderView alloc] initWithFrame:CGRectZero];
+        _placeholderView = [[OBAPlaceholderView alloc] initWithNumberOfLines:2];
         _shimmeringView.contentView = _placeholderView;
         _shimmeringView.shimmering = YES;
+
+        [_shimmeringView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(self.contentView).priorityMedium();
+            make.height.greaterThanOrEqualTo(@44);
+        }];
 
         UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[_topLabel, _shimmeringView]];
         stack.axis = UILayoutConstraintAxisVertical;
