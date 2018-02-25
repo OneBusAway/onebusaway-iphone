@@ -337,12 +337,9 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 
     OBAWalkableRow *walkableRow = [[OBAWalkableRow alloc] init];
 
-    // Only show the user's distance from the stop
+    // Only show the user's distance/time from the stop
     // if they are a negligible distance from it.
-    if (minutesToArrivalAtStop == 0) {
-        walkableRow.text = distanceString;
-    }
-    else {
+    if (minutesToArrivalAtStop > 0) {
         walkableRow.text = [NSString stringWithFormat:NSLocalizedString(@"text_walk_to_stop_info_params",), distanceString, @(minutesToArrivalAtStop), [OBADateHelpers formatShortTimeNoDate:expectedArrivalDate]];
     }
 
