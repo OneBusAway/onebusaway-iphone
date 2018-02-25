@@ -232,9 +232,9 @@
         OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:t.tripDeepLink];
         [self.navigationController pushViewController:controller animated:YES];
     }
-    else if (target.parameters[OBAStopIDNavigationTargetParameter]) {
-        NSString *stopID = target.parameters[OBAStopIDNavigationTargetParameter];
-        [self showStopViewControllerWithStopID:stopID];
+    else if ([target isKindOfClass:OBAAlarmNavigationTarget.class]) {
+        OBAAlarmNavigationTarget *t = (OBAAlarmNavigationTarget*)target;
+        [self showStopViewControllerWithStopID:t.alarm.stopID];
     }
     else {
         DDLogError(@"Unhandled OBANavigationTarget: %@", target);
