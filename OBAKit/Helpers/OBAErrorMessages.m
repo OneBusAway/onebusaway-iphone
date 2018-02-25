@@ -44,6 +44,17 @@
     return nil;
 }
 
++ (NSError*)unknownErrorFromResponse:(NSHTTPURLResponse*)httpResponse {
+    NSError *error = [self errorFromHttpResponse:httpResponse];
+
+    if (error) {
+        return error;
+    }
+
+    NSString *message = [NSString stringWithFormat:@"Unknown error from server response: %@", httpResponse.URL];
+    return [NSError errorWithDomain:OBAErrorDomain code:OBAErrorCodeBadData userInfo:@{NSLocalizedDescriptionKey: message}];
+}
+
 + (NSError*)serverError {
     return [NSError errorWithDomain:NSURLErrorDomain code:500 userInfo:@{NSLocalizedDescriptionKey: OBALocalized(@"error_messages.server_error", @"code == 500")}];
 }
