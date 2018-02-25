@@ -29,6 +29,9 @@
 #import "OBAArrivalDepartureOptionsSheet.h"
 #import "UIViewController+OBAAdditions.h"
 #import "EXTScope.h"
+#import "ISHHoverBar.h"
+
+@import Masonry;
 
 static NSTimeInterval const kRefreshTimeInterval = 30.0;
 static CGFloat const kTableHeaderHeight = 150.f;
@@ -49,6 +52,7 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 @property(nonatomic,strong) OBARouteFilter *routeFilter;
 @property(nonatomic,strong) OBAStopTableHeaderView *stopHeaderView;
 @property(nonatomic,strong) OBAArrivalDepartureOptionsSheet *departureSheetHelper;
+@property(nonatomic,strong) ISHHoverBar *hoverBar;
 @end
 
 @implementation OBAStopViewController
@@ -88,6 +92,8 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reloadData:) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
+
+    [self createHoverBar];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -594,9 +600,6 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     self.stopHeaderView = [[OBAStopTableHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), kTableHeaderHeight)];
     self.stopHeaderView.highContrastMode = [OBATheme useHighContrastUI];
 
-    [self.stopHeaderView.menuButton addTarget:self action:@selector(showActionsMenu:) forControlEvents:UIControlEventTouchUpInside];
-    [self.stopHeaderView.filterButton addTarget:self action:@selector(showFilterAndSortUI) forControlEvents:UIControlEventTouchUpInside];
-
     self.tableView.tableHeaderView = self.stopHeaderView;
 }
 
@@ -618,5 +621,24 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 
     return [NSDictionary dictionaryWithDictionary:dict];
 }
+
+#pragma mark - Hover Bar
+
+- (void)createHoverBar {
+    NSString *label = NSLocalizedString(@"stop_header_view.menu_button_accessibility_label", @"This is the '...' button in the stop header view.");
+    UIBarButtonItem *menuButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"ellipsis_button"] accessibilityLabel:label target:self action:@selector(showActionsMenu:)];
+
+    label = NSLocalizedString(@"stop_header_view.filter_button_accessibility_label", @"This is the Filter button in the stop header view.");
+    UIBarButtonItem *filterButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"filter"] accessibilityLabel:label target:self action:@selector(showFilterAndSortUI)];
+
+    self.hoverBar = [[ISHHoverBar alloc] init];
+    self.hoverBar.items = @[menuButton, filterButton];
+    [self.view addSubview:self.hoverBar];
+    [self.hoverBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.mas_bottomLayoutGuideTop).offset(-OBATheme.defaultMargin);
+        make.trailing.equalTo(self).offset(-OBATheme.defaultMargin);
+    }];
+}
+
 
 @end

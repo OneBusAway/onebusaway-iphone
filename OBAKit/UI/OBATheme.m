@@ -293,4 +293,8 @@ static UIFont *_italicFootnoteFont = nil;
     return UIEdgeInsetsMake([self compactPadding], [self compactPadding], [self compactPadding], [self compactPadding]);
 }
 
++ (UIEdgeInsets)hoverBarImageInsets {
+    return self.defaultEdgeInsets;
+}
+
 @end
