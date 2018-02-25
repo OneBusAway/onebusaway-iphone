@@ -117,6 +117,7 @@
         if ([delegate respondsToSelector:@selector(optionsSheet:deletedAlarmForArrivalAndDeparture:)]) {
             [delegate optionsSheet:self deletedAlarmForArrivalAndDeparture:dep];
         }
+        [self.modelDAO removeAlarmWithKey:alarm.alarmKey];
     }];
 }
 
