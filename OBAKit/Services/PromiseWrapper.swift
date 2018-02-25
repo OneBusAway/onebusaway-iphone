@@ -17,7 +17,16 @@ import PromiseKit
         self.cancellablePromise = CancellablePromise.go(request: request)
         self.promise = self.cancellablePromise.then { response -> NetworkResponse in
             let checkCode = response.urlRequest.checkStatusCodeInBody // abxoxo - can all this stuff be replaced with request.checkStatusCodeInBody?
-            var jsonObject = try! JSONSerialization.jsonObject(with: (response.object as! Data), options: []) as AnyObject
+            var jsonObject: AnyObject
+
+            do {
+                jsonObject = try JSONSerialization.jsonObject(with: (response.object as! Data), options: []) as AnyObject
+            }
+            catch {
+                DDLogError("Unable to parse response body for request: \(response.urlRequest)")
+                throw OBAErrorMessages.error(fromHttpResponse: response.URLResponse) ?? OBAErrorMessages.unknownError(from: response.URLResponse)
+            }
+
             var httpResponse = response.URLResponse
 
             // pre-munge

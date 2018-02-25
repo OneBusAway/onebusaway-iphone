@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (nullable NSError*)errorFromHttpResponse:(NSHTTPURLResponse*)httpResponse;
 
++ (NSError*)unknownErrorFromResponse:(NSHTTPURLResponse*)httpResponse;
+
 @end
 
 NS_ASSUME_NONNULL_END
