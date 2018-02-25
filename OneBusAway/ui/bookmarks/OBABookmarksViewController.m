@@ -683,12 +683,8 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 }
 
 - (void)createSortHoverBar {
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    button.imageEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8);
-    button.tintColor = [UIColor blackColor];
-    [button setImage:[UIImage imageNamed:@"sort-amount-desc"] forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(showSortPopover) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *sortButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+    NSString *label = NSLocalizedString(@"bookmarks_controller.sorting_accessibility_label", @"Accessibility label for sorting popover button");
+    UIBarButtonItem *sortButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"sort-amount-desc"] accessibilityLabel:label target:self action:@selector(showSortPopover)];
 
     self.sortHoverBar = [[ISHHoverBar alloc] init];
     self.sortHoverBar.items = @[sortButton];

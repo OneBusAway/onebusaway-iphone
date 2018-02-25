@@ -250,4 +250,10 @@
  The value of +[OBATheme compactPadding] in the form of UIEdgeInsets.
  */
 @property(class,nonatomic,assign,readonly) UIEdgeInsets compactEdgeInsets;
+
+/**
+ Default insets for images placed in UIButtons inside of a hover bar—our version of a FAB.
+ */
+@property(class,nonatomic,assign,readonly) UIEdgeInsets hoverBarImageInsets;
+
 @end

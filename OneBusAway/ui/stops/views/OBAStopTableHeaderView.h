@@ -15,8 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAStopTableHeaderView : UIView
 @property(nonatomic,assign) BOOL highContrastMode;
-@property(nonatomic,strong,readonly) UIButton *menuButton;
-@property(nonatomic,strong,readonly) UIButton *filterButton;
 - (void)populateTableHeaderFromArrivalsAndDeparturesModel:(OBAArrivalsAndDeparturesForStopV2*)result;
 @end
 

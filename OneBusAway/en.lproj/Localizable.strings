@@ -852,6 +852,9 @@
 /* Empty data set description when there are no Today View bookmarks. */
 "bookmarks_controller.today_view.no_content_description" = "Add bookmarks to the Today View group to get quick access to bus times. Tap the button below to learn more.";
 
+/* Accessibility label for sorting popover button */
+"bookmarks_controller.sorting_accessibility_label" = "Sort Bookmarks";
+
 /* "Title of the Onboarding Controller. 'Welcome to OneBusAway!' */
 "onboarding_controller.title" = "Welcome to OneBusAway!";
 
