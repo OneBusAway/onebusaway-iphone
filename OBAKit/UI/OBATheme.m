@@ -268,6 +268,10 @@ static UIFont *_italicFootnoteFont = nil;
     return 20.f;
 }
 
++ (CGFloat)minimalPadding {
+    return self.defaultPadding / 4.f;
+}
+
 + (CGFloat)compactPadding {
     return self.defaultPadding / 2.f;
 }

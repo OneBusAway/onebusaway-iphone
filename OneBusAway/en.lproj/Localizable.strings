@@ -13,10 +13,22 @@
 /* Add bookmarks to Today Screen Bookmarks to see them here. - empty data set description. */
 "today_screen.no_data_description" = "Add bookmarks to Today View Bookmarks to see them here.";
 
+/* We don't know where you're located. Please choose a region in OneBusAway. */
+"today_screen.no_region_description" = "We don't know where you're located. Please choose a region in OneBusAway.";
+
+/* No departures in the next {MINUTES} minutes */
+"today_screen.no_departures_in_next_n_minutes_format" = "No departures in the next %@ minutes";
+
+/* Tap for more information subheading on Today view */
+"today_screen.tap_for_more_information" = "Tap for more information";
+
+/* Displayed on today screen extension, shows last time the data was reloaded. e.g. "Last updated: 3:30PM" */
+"refresh_cell.last_updated_format" = "Last updated: %@";
+
 /* ID: {Reference ID Number} */
 "alerts.reference_format" = "ID: %@";
 
-/* No comment provided by engineer. */
+/* No departure scheduled for the next {MINUTES} minutes */
 "text_no_departure_next_time_minutes_params" = "No departure scheduled for the next %@ minutes";
 
 /* No comment provided by engineer. */

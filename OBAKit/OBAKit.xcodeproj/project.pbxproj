@@ -42,11 +42,6 @@
 		933A47161FDCCB81009EB332 /* PromiseWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933A47151FDCCB81009EB332 /* PromiseWrapper.swift */; };
 		933BC22D2033CC0E00267965 /* OBAMapDataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 933BC22B2033CC0E00267965 /* OBAMapDataLoader.m */; };
 		933BC22E2033CC0E00267965 /* OBAMapDataLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 933BC22C2033CC0E00267965 /* OBAMapDataLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		933BC2362035137900267965 /* OBARefreshRow.h in Headers */ = {isa = PBXBuildFile; fileRef = 933BC2342035137900267965 /* OBARefreshRow.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		933BC2372035137900267965 /* OBARefreshRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 933BC2352035137900267965 /* OBARefreshRow.m */; };
-		933BC23A2035139500267965 /* OBARefreshCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 933BC2382035139400267965 /* OBARefreshCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		933BC23B2035139500267965 /* OBARefreshCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 933BC2392035139400267965 /* OBARefreshCell.m */; };
-		933BC23D2035861D00267965 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 933BC23C2035861C00267965 /* Media.xcassets */; };
 		934195431DB0B013004BBBB7 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934195391DB0B013004BBBB7 /* OBAKit.framework */; };
 		934195481DB0B013004BBBB7 /* OBAKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195471DB0B013004BBBB7 /* OBAKitTests.m */; };
 		934195F81DB0B099004BBBB7 /* NSArray+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195541DB0B099004BBBB7 /* NSArray+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -298,6 +293,8 @@
 		93EA5A4B203DFEC300CE6CAC /* OBASearchType.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EA5A4A203DFEC300CE6CAC /* OBASearchType.m */; };
 		93EA5A57203F368700CE6CAC /* OBAStopSearchNavigationTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 93EA5A55203F368700CE6CAC /* OBAStopSearchNavigationTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93EA5A58203F368700CE6CAC /* OBAStopSearchNavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EA5A56203F368700CE6CAC /* OBAStopSearchNavigationTarget.m */; };
+		93F35C412058FE9C00F46F80 /* UIView+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 93F35C3F2058FE9C00F46F80 /* UIView+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93F35C422058FE9C00F46F80 /* UIView+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F35C402058FE9C00F46F80 /* UIView+OBAAdditions.m */; };
 		93F3F8911E7A88EA0025FC78 /* RegionalAlertsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F8901E7A88EA0025FC78 /* RegionalAlertsManager.swift */; };
 		93F3F89C1E7B02400025FC78 /* OBARegionalAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 93F3F89A1E7B02400025FC78 /* OBARegionalAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93F3F89D1E7B02400025FC78 /* OBARegionalAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F89B1E7B02400025FC78 /* OBARegionalAlert.m */; };
@@ -357,11 +354,6 @@
 		933A47151FDCCB81009EB332 /* PromiseWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseWrapper.swift; sourceTree = "<group>"; };
 		933BC22B2033CC0E00267965 /* OBAMapDataLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapDataLoader.m; sourceTree = "<group>"; };
 		933BC22C2033CC0E00267965 /* OBAMapDataLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapDataLoader.h; sourceTree = "<group>"; };
-		933BC2342035137900267965 /* OBARefreshRow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBARefreshRow.h; sourceTree = "<group>"; };
-		933BC2352035137900267965 /* OBARefreshRow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBARefreshRow.m; sourceTree = "<group>"; };
-		933BC2382035139400267965 /* OBARefreshCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBARefreshCell.h; sourceTree = "<group>"; };
-		933BC2392035139400267965 /* OBARefreshCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBARefreshCell.m; sourceTree = "<group>"; };
-		933BC23C2035861C00267965 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		934195391DB0B013004BBBB7 /* OBAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OBAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		934195421DB0B013004BBBB7 /* OBAKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OBAKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		934195471DB0B013004BBBB7 /* OBAKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAKitTests.m; sourceTree = "<group>"; };
@@ -618,6 +610,8 @@
 		93EA5A4A203DFEC300CE6CAC /* OBASearchType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBASearchType.m; sourceTree = "<group>"; };
 		93EA5A55203F368700CE6CAC /* OBAStopSearchNavigationTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAStopSearchNavigationTarget.h; sourceTree = "<group>"; };
 		93EA5A56203F368700CE6CAC /* OBAStopSearchNavigationTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAStopSearchNavigationTarget.m; sourceTree = "<group>"; };
+		93F35C3F2058FE9C00F46F80 /* UIView+OBAAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+OBAAdditions.h"; sourceTree = "<group>"; };
+		93F35C402058FE9C00F46F80 /* UIView+OBAAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+OBAAdditions.m"; sourceTree = "<group>"; };
 		93F3F8901E7A88EA0025FC78 /* RegionalAlertsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionalAlertsManager.swift; sourceTree = "<group>"; };
 		93F3F89A1E7B02400025FC78 /* OBARegionalAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionalAlert.h; sourceTree = "<group>"; };
 		93F3F89B1E7B02400025FC78 /* OBARegionalAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionalAlert.m; sourceTree = "<group>"; };
@@ -694,10 +688,6 @@
 				9388C2AB1FFE1C240068041F /* OBAPlaceholderCell.m */,
 				932CE84F20263FFB003091D3 /* OBABaseTableCell.h */,
 				932CE85020263FFB003091D3 /* OBABaseTableCell.m */,
-				933BC2342035137900267965 /* OBARefreshRow.h */,
-				933BC2352035137900267965 /* OBARefreshRow.m */,
-				933BC2382035139400267965 /* OBARefreshCell.h */,
-				933BC2392035139400267965 /* OBARefreshCell.m */,
 			);
 			path = MVVM;
 			sourceTree = "<group>";
@@ -716,7 +706,6 @@
 		9341952F1DB0B013004BBBB7 = {
 			isa = PBXGroup;
 			children = (
-				933BC23C2035861C00267965 /* Media.xcassets */,
 				5B7C4A661DB96E8200853DD5 /* Localizable.strings */,
 				934196CB1DB0B369004BBBB7 /* Info.plist */,
 				934196CC1DB0B369004BBBB7 /* module.modulemap */,
@@ -777,6 +766,8 @@
 				934C50981E2B656900DFDCA0 /* NSDictionary+OBAAdditions.m */,
 				935C39171F772CE300737DC4 /* NSString+OBAAdditions.h */,
 				935C39181F772CE300737DC4 /* NSString+OBAAdditions.m */,
+				93F35C3F2058FE9C00F46F80 /* UIView+OBAAdditions.h */,
+				93F35C402058FE9C00F46F80 /* UIView+OBAAdditions.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1233,7 +1224,6 @@
 				934196051DB0B099004BBBB7 /* OBADateHelpers.h in Headers */,
 				9388C2A81FFE1BB90068041F /* OBAPlaceholderRow.h in Headers */,
 				93B763332038BBFF00A965CE /* OBADrawerPresenter.h in Headers */,
-				933BC2362035137900267965 /* OBARefreshRow.h in Headers */,
 				934196AE1DB0B0AF004BBBB7 /* OBADataSourceConfig.h in Headers */,
 				9341961A1DB0B099004BBBB7 /* OBAUser.h in Headers */,
 				934196B81DB0B0AF004BBBB7 /* OBATheme.h in Headers */,
@@ -1246,6 +1236,7 @@
 				9341960D1DB0B099004BBBB7 /* OBAMacros.h in Headers */,
 				934196031DB0B099004BBBB7 /* OBAConsoleLogger.h in Headers */,
 				93F3F89C1E7B02400025FC78 /* OBARegionalAlert.h in Headers */,
+				93F35C412058FE9C00F46F80 /* UIView+OBAAdditions.h in Headers */,
 				934196631DB0B099004BBBB7 /* OBAPlacemark.h in Headers */,
 				934196511DB0B099004BBBB7 /* OBABookmarkGroup.h in Headers */,
 				93EA5A48203DFDAA00CE6CAC /* OBASearchType.h in Headers */,
@@ -1318,7 +1309,6 @@
 				934196431DB0B099004BBBB7 /* OBASetPropertyJsonDigesterRule.h in Headers */,
 				934196411DB0B099004BBBB7 /* OBASetNextOBAJsonDigesterRule.h in Headers */,
 				9341963F1DB0B099004BBBB7 /* OBASetLocationPropertyJsonDigesterRule.h in Headers */,
-				933BC23A2035139500267965 /* OBARefreshCell.h in Headers */,
 				9341963D1DB0B099004BBBB7 /* OBASetDatePropertyJsonDigesterRule.h in Headers */,
 				9341963B1DB0B099004BBBB7 /* OBASetCoordinatePropertyJsonDigesterRule.h in Headers */,
 				934196391DB0B099004BBBB7 /* OBASelectorJsonDigesterRule.h in Headers */,
@@ -1413,7 +1403,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				933BC23D2035861D00267965 /* Media.xcassets in Resources */,
 				5B7C4A641DB96E8200853DD5 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1471,6 +1460,7 @@
 				9341961F1DB0B099004BBBB7 /* OBAMapRegionManager.m in Sources */,
 				9385BED71FAFA07D00D122D1 /* PromisedModelService.swift in Sources */,
 				934196621DB0B099004BBBB7 /* OBANavigationTarget.m in Sources */,
+				93F35C422058FE9C00F46F80 /* UIView+OBAAdditions.m in Sources */,
 				934196561DB0B099004BBBB7 /* OBACoordinateBounds.m in Sources */,
 				93E592A51F8CACBF0079A2D8 /* OBAStaticTableViewController.m in Sources */,
 				931C60D81EC3975A0086EC37 /* OBAApplicationConfiguration.m in Sources */,
@@ -1542,7 +1532,6 @@
 				93F3F8911E7A88EA0025FC78 /* RegionalAlertsManager.swift in Sources */,
 				9388C29F1FFDBAEA0068041F /* FBShimmeringView.m in Sources */,
 				9341964A1DB0B099004BBBB7 /* OBAAgencyWithCoverageV2.m in Sources */,
-				933BC2372035137900267965 /* OBARefreshRow.m in Sources */,
 				934C509A1E2B656900DFDCA0 /* NSDictionary+OBAAdditions.m in Sources */,
 				934196081DB0B099004BBBB7 /* OBAEmailHelper.m in Sources */,
 				9341967F1DB0B099004BBBB7 /* OBAStopAccessEventV2.m in Sources */,
@@ -1572,7 +1561,6 @@
 				9341966E1DB0B099004BBBB7 /* OBAReportProblemWithStopV2.m in Sources */,
 				934196B51DB0B0AF004BBBB7 /* OBAModelService.m in Sources */,
 				93FFA5FB1F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */,
-				933BC23B2035139500267965 /* OBARefreshCell.m in Sources */,
 				9388C29E1FFDBAEA0068041F /* FBShimmeringLayer.m in Sources */,
 				934196641DB0B099004BBBB7 /* OBAPlacemark.m in Sources */,
 			);

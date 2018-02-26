@@ -10,7 +10,7 @@
 /* ID: {Reference ID Number} */
 "alerts.reference_format" = "ID: %@";
 
-/* No comment provided by engineer. */
+/* No departure scheduled for the next {MINUTES} minutes */
 "text_no_departure_next_time_minutes_params" = "No hay horarios de salida para los próximos %@ minutos";
 
 /* No comment provided by engineer. */

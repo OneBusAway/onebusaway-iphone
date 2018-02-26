@@ -1,7 +1,7 @@
 /* No comment provided by engineer. */
 " - " = " - ";
 
-/* No comment provided by engineer. */
+/* No departure scheduled for the next {MINUTES} minutes */
 "text_no_departure_next_time_minutes_params" = "接下來 %@ 分鐘內無預定車次";
 
 /* No comment provided by engineer. */

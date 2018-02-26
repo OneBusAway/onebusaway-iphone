@@ -39,6 +39,12 @@
     return self;
 }
 
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
+
+    [self.departureView setEditing:editing animated:animated];
+}
+
 - (void)prepareForReuse {
     [super prepareForReuse];
 

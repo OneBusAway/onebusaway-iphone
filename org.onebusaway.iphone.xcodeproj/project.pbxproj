@@ -20,6 +20,8 @@
 		930E41A21E5ECAA60040CEB5 /* MapSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930E41A11E5ECAA60040CEB5 /* MapSearchViewController.swift */; };
 		931A6A291E03EAA100131242 /* OBATimelineBarRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A281E03EAA100131242 /* OBATimelineBarRow.m */; };
 		931A6A2D1E03EAAE00131242 /* OBATimelineBarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A2C1E03EAAE00131242 /* OBATimelineBarCell.m */; };
+		931AEE21204B70060054E448 /* TodayRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931AEE20204B70060054E448 /* TodayRefreshView.swift */; };
+		931AEE23204B75540054E448 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 934198301DB0C1E9004BBBB7 /* Images.xcassets */; };
 		931C60CE1EC3969B0086EC37 /* OBACrashlyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 931C60CD1EC3969B0086EC37 /* OBACrashlyticsLogger.m */; };
 		9327DEF91E023BD400502F06 /* OBAArrivalDepartureRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9327DEF81E023BD400502F06 /* OBAArrivalDepartureRow.m */; };
 		9327DEFC1E023BE400502F06 /* OBAArrivalDepartureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9327DEFB1E023BE400502F06 /* OBAArrivalDepartureCell.m */; };
@@ -149,6 +151,7 @@
 		9359D1281DB92B4200CABFBD /* OBAModelService_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9359D1271DB92B4200CABFBD /* OBAModelService_Tests.m */; };
 		935C39111F76EEAD00737DC4 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 935C39101F76EEAD00737DC4 /* Launch Screen.storyboard */; };
 		935C39151F7707FF00737DC4 /* AlertPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935C39141F7707FF00737DC4 /* AlertPresenterView.swift */; };
+		9362C5B72047EF9A00C2C164 /* TodayRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9362C5B62047EF9A00C2C164 /* TodayRowView.swift */; };
 		93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */; };
 		9364DC532033630C00F857E9 /* PulleyPassthroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9364DC502033630C00F857E9 /* PulleyPassthroughScrollView.swift */; };
 		9364DC542033630C00F857E9 /* PulleyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9364DC512033630C00F857E9 /* PulleyViewController.swift */; };
@@ -289,6 +292,7 @@
 		931A6A281E03EAA100131242 /* OBATimelineBarRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATimelineBarRow.m; sourceTree = "<group>"; };
 		931A6A2B1E03EAAE00131242 /* OBATimelineBarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATimelineBarCell.h; sourceTree = "<group>"; };
 		931A6A2C1E03EAAE00131242 /* OBATimelineBarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATimelineBarCell.m; sourceTree = "<group>"; };
+		931AEE20204B70060054E448 /* TodayRefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayRefreshView.swift; sourceTree = "<group>"; };
 		931C60CC1EC3969B0086EC37 /* OBACrashlyticsLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACrashlyticsLogger.h; sourceTree = "<group>"; };
 		931C60CD1EC3969B0086EC37 /* OBACrashlyticsLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACrashlyticsLogger.m; sourceTree = "<group>"; };
 		9327DEF71E023BD400502F06 /* OBAArrivalDepartureRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalDepartureRow.h; sourceTree = "<group>"; };
@@ -481,6 +485,7 @@
 		935BB9ED1F745E0500062E31 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		935C39101F76EEAD00737DC4 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		935C39141F7707FF00737DC4 /* AlertPresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenterView.swift; sourceTree = "<group>"; };
+		9362C5B62047EF9A00C2C164 /* TodayRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayRowView.swift; sourceTree = "<group>"; };
 		93631E4A1604F96800CB7209 /* OBAApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAApplicationDelegate.h; path = OneBusAway/OBAApplicationDelegate.h; sourceTree = "<group>"; };
 		93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = OBAApplicationDelegate.m; path = OneBusAway/OBAApplicationDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9363D58E1D6ADE6600A7021A /* invalid.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = invalid.gpx; sourceTree = "<group>"; };
@@ -1382,6 +1387,8 @@
 				93AD17B61F86C14C00E730D7 /* TodayViewController.swift */,
 				93AD17B81F86C14C00E730D7 /* MainInterface.storyboard */,
 				93AD17BB1F86C14C00E730D7 /* Info.plist */,
+				9362C5B62047EF9A00C2C164 /* TodayRowView.swift */,
+				931AEE20204B70060054E448 /* TodayRefreshView.swift */,
 			);
 			path = "OneBusAway Today";
 			sourceTree = "<group>";
@@ -1616,6 +1623,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93089DB61F88056700694A90 /* regions-v3.json in Resources */,
+				931AEE23204B75540054E448 /* Images.xcassets in Resources */,
 				93AD17BA1F86C14C00E730D7 /* MainInterface.storyboard in Resources */,
 				576BBECD1F963C5E008DCACF /* Localizable.strings in Resources */,
 			);
@@ -1852,6 +1860,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				93AD17B71F86C14C00E730D7 /* TodayViewController.swift in Sources */,
+				9362C5B72047EF9A00C2C164 /* TodayRowView.swift in Sources */,
+				931AEE21204B70060054E448 /* TodayRefreshView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

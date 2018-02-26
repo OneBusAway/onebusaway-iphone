@@ -111,7 +111,7 @@ typedef NS_ENUM(NSUInteger, OBAArrivalDepartureState) {
 
 @property(nonatomic,copy,readonly) NSString *bestAvailableNameWithHeadsign;
 
-- (OBADepartureStatus)departureStatus;
+@property(nonatomic,assign,readonly) OBADepartureStatus departureStatus;
 
 /**
  time, in ms since the unix epoch, of midnight for start of the service date for the trip
