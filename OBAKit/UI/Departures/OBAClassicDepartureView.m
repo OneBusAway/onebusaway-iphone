@@ -140,12 +140,65 @@
 }
 
 
-#pragma mark - Reuse
+#pragma mark - Table Cell 'Proxy' Methods
 
 - (void)prepareForReuse {
     self.topLineLabel.text = nil;
     self.middleLineLabel.text = nil;
     self.bottomLineLabel.text = nil;
+}
+
+#pragma mark - Label Animation
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    if (!animated) {
+        [self toggleLabelVisibilityForEditing:editing];
+        return;
+    }
+
+    if (editing) {
+        [self hideLabels];
+    }
+    else {
+        [self showLabels];
+    }
+}
+
+- (void)hideLabels {
+    [OBAAnimation performAnimations:^{
+        [self updateLabelAlpha:0.f];
+    } completion:^(BOOL finished) {
+        [self toggleLabelVisibilityForEditing:YES];
+    }];
+}
+
+- (void)showLabels {
+    // Make sure all of the labels are hidden.
+    [self toggleLabelVisibilityForEditing:YES];
+
+    // Make labels invisible.
+    [self updateLabelAlpha:0.f];
+
+    // Update hidden to NO
+    [self toggleLabelVisibilityForEditing:NO];
+
+    [OBAAnimation performAnimations:^{
+        [self updateLabelAlpha:1.f];
+    }];
+}
+
+- (void)updateLabelAlpha:(CGFloat)alpha {
+    self.bottomLineLabel.alpha = alpha;
+    self.firstDepartureLabel.alpha = alpha;
+    self.secondDepartureLabel.alpha = alpha;
+    self.thirdDepartureLabel.alpha = alpha;
+}
+
+- (void)toggleLabelVisibilityForEditing:(BOOL)editing {
+    self.bottomLineLabel.hidden = editing;
+    self.firstDepartureLabel.hidden = editing;
+    self.secondDepartureLabel.hidden = editing;
+    self.thirdDepartureLabel.hidden = editing;
 }
 
 #pragma mark - Row Logic

@@ -10,9 +10,6 @@
 /* Title of the Bookmark Group that contains the Today Screen widget's bookmarks. */
 "bookmark_group.today_widget_title" = "Today View Bookmarks";
 
-/* Displayed on today screen extension, shows last time the data was reloaded. e.g. "Last updated: 3:30PM" */
-"refresh_cell.last_updated_format" = "Last updated: %@";
-
 /* As in 'actively updating content' */
 "strings.updating" = "Updating…";
 

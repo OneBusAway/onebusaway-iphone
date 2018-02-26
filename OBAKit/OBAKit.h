@@ -130,6 +130,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/NSString+OBAAdditions.h>
 #import <OBAKit/NSURLQueryItem+OBAAdditions.h>
 #import <OBAKit/UILabel+OBAAdditions.h>
+#import <OBAKit/UIView+OBAAdditions.h>
 
 // 3rd Party Components
 #import <OBAKit/UIScrollView+EmptyDataSet.h>
@@ -142,8 +143,6 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBABaseTableCell.h>
 #import <OBAKit/OBABookmarkedRouteRow.h>
 #import <OBAKit/OBABookmarkedRouteCell.h>
-#import <OBAKit/OBARefreshCell.h>
-#import <OBAKit/OBARefreshRow.h>
 #import <OBAKit/OBAStaticTableViewController.h>
 #import <OBAKit/OBATableRow.h>
 #import <OBAKit/OBATableCell.h>

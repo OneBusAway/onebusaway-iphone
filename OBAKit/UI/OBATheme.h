@@ -222,6 +222,11 @@
 @property(class,nonatomic,assign,readonly) CGFloat defaultMargin;
 
 /**
+ One quarter of the default padding. Use it on screens like the Today View widget.
+ */
+@property(class,nonatomic,assign,readonly) CGFloat minimalPadding;
+
+/**
  Half of the default padding. Used in situations where a tighter fit is necessary.
  */
 @property(class,nonatomic,assign,readonly) CGFloat compactPadding;

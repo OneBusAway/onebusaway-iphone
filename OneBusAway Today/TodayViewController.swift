@@ -11,14 +11,74 @@ import NotificationCenter
 import OBAKit
 import Fabric
 import Crashlytics
+import SnapKit
 
 let kMinutes: UInt = 60
 
-class TodayViewController: OBAStaticTableViewController {
+/*
+ abxoxo - todo:
+ 3. Handle states!
+ 4. Attributed strings in labels
+ */
+
+class TodayViewController: UIViewController {
     let app = OBAApplication.init()
     let deepLinkRouter = OBADeepLinkRouter.init(deepLinkBaseURL: URL.init(string: OBADeepLinkServerAddress)!)
     var group: OBABookmarkGroup = OBABookmarkGroup.init(bookmarkGroupType: .todayWidget)
-    var lastUpdateRow: OBABaseRow?
+
+    var bookmarkViewsMap: [OBABookmarkV2: TodayRowView] = [:]
+
+    private let outerStackView: UIStackView = TodayViewController.buildStackView()
+
+    private lazy var frontMatterStack: UIStackView = {
+        let stack = TodayViewController.buildStackView()
+        stack.addArrangedSubview(refreshControl)
+        stack.addArrangedSubview(errorTitleLabel)
+        stack.addArrangedSubview(errorDescriptionLabel)
+        return stack
+    }()
+
+    private lazy var frontMatterWrapper: UIView = {
+        return frontMatterStack.oba_embedInWrapper()
+    }()
+
+    private let bookmarkStackView: UIStackView = TodayViewController.buildStackView()
+    private lazy var bookmarkWrapper: UIView = {
+        return bookmarkStackView.oba_embedInWrapper()
+    }()
+
+    private lazy var errorTitleLabel: UILabel = {
+        let label = UILabel.oba_autolayoutNew()
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.font = OBATheme.boldBodyFont
+        label.text = OBAStrings.error
+        label.isHidden = true
+        return label
+    }()
+
+    private lazy var errorDescriptionLabel: UILabel = {
+        let label = UILabel.oba_autolayoutNew()
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.font = OBATheme.bodyFont
+        label.text = OBAStrings.inexplicableErrorPleaseContactUs
+        label.isHidden = true
+        return label
+    }()
+
+    private lazy var refreshControl: TodayRefreshView = {
+        let refresh = TodayRefreshView.oba_autolayoutNew()
+        refresh.lastUpdatedAt = lastUpdatedAt
+        refresh.addTarget(self, action: #selector(beginRefreshing), for: .touchUpInside)
+        return refresh
+    }()
+
+    private lazy var spacerView: UIView = {
+        let spacer = UIView.oba_autolayoutNew()
+        spacer.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        return spacer
+    }()
 
     // MARK: - Init/View Controller Lifecycle
 
@@ -30,67 +90,149 @@ class TodayViewController: OBAStaticTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.extensionContext?.widgetLargestAvailableDisplayMode = .expanded
+        extensionContext?.widgetLargestAvailableDisplayMode = .expanded
 
-        self.emptyDataSetVerticalOffset = 0
-        self.emptyDataSetTitle = NSLocalizedString("today_screen.no_data_title", comment: "No Bookmarks - empty data set title.")
-        self.emptyDataSetDescription = NSLocalizedString("today_screen.no_data_description", comment: "Add bookmarks to Today Screen Bookmarks to see them here. - empty data set description.")
+        outerStackView.addArrangedSubview(frontMatterWrapper)
+        outerStackView.addArrangedSubview(bookmarkWrapper)
+        outerStackView.addArrangedSubview(spacerView)
+
+        self.view.addSubview(outerStackView)
+        outerStackView.snp.makeConstraints { (make) in
+            let inset = UIEdgeInsetsMake(OBATheme.compactPadding, 10, OBATheme.compactPadding, 10)
+            make.leading.top.trailing.equalToSuperview().inset(inset)
+        }
 
         let configuration = OBAApplicationConfiguration.init()
         configuration.extensionMode = true
         app.start(with: configuration)
+
+        rebuildUI()
+    }
+}
+
+// MARK: - UI Construction
+extension TodayViewController {
+    private func rebuildUI() {
+        group = app.modelDao.todayBookmarkGroup
+
+        for v in bookmarkStackView.arrangedSubviews {
+            bookmarkStackView.removeArrangedSubview(v)
+            v.removeFromSuperview()
+        }
+
+        bookmarkViewsMap.removeAll()
+
+        displayErrorMessagesIfAppropriate()
+
+        for (idx, bm) in group.bookmarks.enumerated() {
+            let view = viewForBookmark(bm, index: idx)
+            bookmarkStackView.addArrangedSubview(view)
+            bookmarkViewsMap[bm] = view
+        }
+    }
+
+    private func viewForBookmark(_ bookmark: OBABookmarkV2, index: Int) -> TodayRowView {
+        let v = TodayRowView.oba_autolayoutNew()
+        v.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(TodayViewController.bookmarkTapped(sender:))))
+        v.bookmark = bookmark
+        v.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        v.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        let inCompactMode = extensionContext?.widgetActiveDisplayMode == .compact
+        v.isHidden = inCompactMode && index > 1
+
+        return v
+    }
+
+    private func displayErrorMessagesIfAppropriate() {
+        if group.bookmarks.isEmpty {
+            showErrorMessage(title: NSLocalizedString("today_screen.no_data_title", comment: "No Bookmarks - empty data set title."), description: NSLocalizedString("today_screen.no_data_description", comment: "Add bookmarks to Today View Bookmarks to see them here. - empty data set description."))
+        }
+        else if app.modelDao.currentRegion == nil {
+            showErrorMessage(title: OBAStrings.error, description: NSLocalizedString("today_screen.no_region_description", comment: "We don't know where you're located. Please choose a region in OneBusAway."))
+        }
+        else {
+            errorTitleLabel.isHidden = true
+            errorDescriptionLabel.isHidden = true
+        }
+    }
+
+    private func showErrorMessage(title: String, description: String) {
+        errorTitleLabel.isHidden = false
+        errorDescriptionLabel.isHidden = false
+
+        errorTitleLabel.text = title
+        errorDescriptionLabel.text = description
+    }
+
+    @objc func bookmarkTapped(sender: UITapGestureRecognizer?) {
+        guard let sender = sender,
+              let rowView = sender.view as? TodayRowView,
+              let bookmark = rowView.bookmark else {
+            return
+        }
+
+        let url = deepLinkRouter.deepLinkURL(forStopID: bookmark.stopId, regionIdentifier: bookmark.regionIdentifier) ?? URL.init(string: OBADeepLinkServerAddress)!
+        extensionContext?.open(url, completionHandler: nil)
+    }
+
+    private static func buildStackView() -> UIStackView {
+        let stack = UIStackView.init()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.spacing = OBATheme.compactPadding
+
+        return stack
     }
 }
 
 // MARK: - Widget Protocol
 extension TodayViewController: NCWidgetProviding {
+    func widgetPerformUpdate(completionHandler: @escaping (NCUpdateResult) -> Void) {
+        rebuildUI()
+        reloadData(completionHandler)
+    }
 
-    func updateData(completionHandler: ((NCUpdateResult) -> Void)?) {
-        self.group = app.modelDao.todayBookmarkGroup
+    func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
+        let isCompact = activeDisplayMode == .compact
+        for (idx, v) in bookmarkStackView.arrangedSubviews.enumerated() {
+            v.isHidden = isCompact && idx > 1
+        }
 
-        if (self.group.bookmarks.count == 0) {
+        let frontMatterSize = self.frontMatterWrapper.systemLayoutSizeFitting(maxSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .defaultHigh)
+
+        let bookmarkSize = self.bookmarkWrapper.systemLayoutSizeFitting(maxSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .defaultHigh)
+
+        let extra = OBATheme.defaultPadding
+
+        self.preferredContentSize = CGSize.init(width: frontMatterSize.width, height: frontMatterSize.height + bookmarkSize.height + extra)
+    }
+}
+
+// MARK: - Refresh Control UI
+extension TodayViewController {
+    @objc private func beginRefreshing() {
+        reloadData(nil)
+    }
+
+    private func reloadData(_ completionHandler: ((NCUpdateResult) -> Void)?) {
+        if group.bookmarks.isEmpty {
             completionHandler?(NCUpdateResult.noData)
             return
         }
 
-        self.sections = [buildLastUpdatedSection(), buildTableSection(group: self.group)]
-        self.tableView.reloadData()
+        refreshControl.beginRefreshing()
 
-        let promises: [Promise<Any>] = self.group.bookmarks.flatMap { self.promiseStop(bookmark: $0) }
+        let promises: [Promise<Any>] = group.bookmarks.flatMap { self.promiseStop(bookmark: $0) }
         _ = when(resolved: promises).then { _ -> Void in
             self.lastUpdatedAt = Date.init()
+            self.refreshControl.stopRefreshing()
             completionHandler?(NCUpdateResult.newData)
-        }
-    }
-
-    func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
-        self.group = app.modelDao.todayBookmarkGroup
-
-        if (self.group.bookmarks.count == 0) {
-            completionHandler(NCUpdateResult.noData)
-            return
-        }
-
-        self.sections = [buildLastUpdatedSection(), buildTableSection(group: self.group)]
-        self.tableView.reloadData()
-
-        updateData(completionHandler: completionHandler)
-    }
-
-    func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
-        if activeDisplayMode == .expanded {
-            // abxoxo - todo: calculate real height of table!
-            preferredContentSize = CGSize(width: 0, height: maxSize.height)
-        }
-        else {
-            preferredContentSize = maxSize
         }
     }
 }
 
 // MARK: - Last Updated Section
 extension TodayViewController {
-
     private static let lastUpdatedAtUserDefaultsKey = "lastUpdatedAtUserDefaultsKey"
     var lastUpdatedAt: Date? {
         get {
@@ -102,89 +244,7 @@ extension TodayViewController {
         }
         set(val) {
             self.app.userDefaults.setValue(val, forKey: TodayViewController.lastUpdatedAtUserDefaultsKey)
-
-            guard let row = self.lastUpdateRow,
-                  let indexPath = self.indexPath(for: row) else {
-                return
-            }
-            self.replaceRow(at: indexPath, with: buildLastUpdateRow())
-            self.tableView.reloadRows(at: [indexPath], with: .none)
-        }
-    }
-
-    func buildLastUpdateRow() -> OBABaseRow {
-        let row = OBARefreshRow.init(date: lastUpdatedAt) { _ in
-            self.updateData(completionHandler: nil)
-        }
-
-        return row
-    }
-
-    func buildLastUpdatedSection() -> OBATableSection {
-        let tableSection = OBATableSection.init()
-        let tableRow = buildLastUpdateRow()
-
-        tableSection.addRow(tableRow)
-        self.lastUpdateRow = tableRow
-
-        return tableSection
-    }
-}
-
-// MARK: - Dynamic UI Construction
-extension TodayViewController {
-    func buildTableSection(group: OBABookmarkGroup) -> OBATableSection {
-        let tableSection = OBATableSection.init()
-
-        for bookmark in self.bookmarksInCurrentRegion() {
-            let row: OBABaseRow
-            if bookmark.bookmarkVersion == .version252 {
-                row = OBATableRow.init(title: bookmark.name) { _ in
-                    let targetURL = self.deepLinkRouter.deepLinkURL(forStopID: bookmark.stopId, regionIdentifier: bookmark.regionIdentifier) ?? URL.init(string: OBADeepLinkServerAddress)!
-                    self.extensionContext?.open(targetURL, completionHandler: nil)
-                }
-            }
-            else {
-                let routeRow = OBABookmarkedRouteRow.init(bookmark: bookmark, action: nil)
-                routeRow.attributedTopLine = NSAttributedString.init(string: bookmark.name)
-
-                row = routeRow
-            }
-
-            row.model = bookmark
-            tableSection.addRow(row)
-        }
-
-        return tableSection
-    }
-
-    func bookmarksInCurrentRegion() -> [OBABookmarkV2] {
-        guard let region = self.app.modelDao.currentRegion else {
-            return self.group.bookmarks
-        }
-
-        return self.group.bookmarks(inRegion: region)
-    }
-
-    func populateRow(_ row: OBABookmarkedRouteRow, targetURL: URL, routeName: String, departures: [OBAArrivalAndDepartureV2]) {
-        if departures.count > 0 {
-            row.errorMessage = nil
-            let arrivalDeparture = departures[0]
-
-            row.upcomingDepartures = OBAUpcomingDeparture.upcomingDepartures(fromArrivalsAndDepartures: departures)
-
-            if let statusText = OBADepartureCellHelpers.statusText(forArrivalAndDeparture: arrivalDeparture),
-               let upcoming = row.upcomingDepartures?.first {
-                row.attributedMiddleLine = OBADepartureCellHelpers.attributedDepartureTime(withStatusText: statusText, upcomingDeparture: upcoming)
-            }
-        }
-        else {
-            let noDepartureText = String.init(format: NSLocalizedString("text_no_departure_next_time_minutes_params", comment: ""), String(kMinutes))
-            row.attributedMiddleLine = OBADepartureCellHelpers.attributedDepartureTime(withStatusText: noDepartureText, upcomingDeparture: nil)
-        }
-
-        row.action = { _ in
-            self.extensionContext?.open(targetURL, completionHandler: nil)
+            refreshControl.lastUpdatedAt = val
         }
     }
 }
@@ -192,35 +252,30 @@ extension TodayViewController {
 // MARK: - Data Loading
 extension TodayViewController {
     func promiseStop(bookmark: OBABookmarkV2) -> Promise<Any>? {
-        guard let indexPath = self.indexPath(forModel: bookmark) else {
-            return nil
-        }
-
         if bookmark.bookmarkVersion == .version252 {
             // whole stop bookmark, and nothing to retrieve from server.
             return Promise.init(value: true)
         }
-        else {
-            return loadBookmarkedRoute(bookmark, atIndexPath: indexPath)
-        }
+
+        return loadBookmarkedRoute(bookmark)
     }
 
-    func loadBookmarkedRoute(_ bookmark: OBABookmarkV2, atIndexPath indexPath: IndexPath) -> Promise<Any>? {
-        let row = self.row(at: indexPath) as! OBABookmarkedRouteRow
+    func loadBookmarkedRoute(_ bookmark: OBABookmarkV2) -> Promise<Any>? {
+        guard let view = self.bookmarkViewsMap[bookmark] else {
+            // abxoxo todo: is this the best way to bail immediately?
+            // maybe throw an error?
+            return Promise.init(value: false)
+        }
 
-        let promiseWrapper = self.app.modelService.requestStopArrivalsAndDepartures(withID: bookmark.stopId, minutesBefore: 0, minutesAfter: kMinutes)
+        let promiseWrapper = app.modelService.requestStopArrivalsAndDepartures(withID: bookmark.stopId, minutesBefore: 0, minutesAfter: kMinutes)
         return promiseWrapper.promise.then { networkResponse -> Void in
-            let matchingDepartures: [OBAArrivalAndDepartureV2] = bookmark.matchingArrivalsAndDepartures(forStop: networkResponse.object as! OBAArrivalsAndDeparturesForStopV2)
-            let url = self.deepLinkRouter.deepLinkURL(forStopID: bookmark.stopId, regionIdentifier: bookmark.regionIdentifier) ?? URL.init(string: OBADeepLinkServerAddress)!
-            self.populateRow(row, targetURL: url, routeName: bookmark.routeShortName, departures: matchingDepartures)
-            row.state = .complete
+            let departures: [OBAArrivalAndDepartureV2] = bookmark.matchingArrivalsAndDepartures(forStop: networkResponse.object as! OBAArrivalsAndDeparturesForStopV2)
+                view.departures = departures
+                view.loadingState = .complete
         }.catch { error in
-            row.upcomingDepartures = nil
-            row.state = .error
-            row.errorMessage = error.localizedDescription
+            DDLogError("Error loading data: \(error)")
         }.always {
-            self.replaceRow(at: indexPath, with: row)
-            self.tableView.reloadRows(at: [indexPath], with: .none)
+            view.loadingState = .complete
         }
     }
 }
