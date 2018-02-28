@@ -179,7 +179,7 @@ extension TodayViewController {
             }
         }
         else {
-            let noDepartureText = String.init(format: NSLocalizedString("text_no_departure_next_time_minutes_params", comment: ""), routeName, String(kMinutes))
+            let noDepartureText = String.init(format: NSLocalizedString("text_no_departure_next_time_minutes_params", comment: ""), String(kMinutes))
             row.attributedMiddleLine = OBADepartureCellHelpers.attributedDepartureTime(withStatusText: noDepartureText, upcomingDeparture: nil)
         }
 

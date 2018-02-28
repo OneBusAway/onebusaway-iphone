@@ -295,7 +295,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
             row.errorMessage = nil;
         }
         else {
-            row.errorMessage = [NSString stringWithFormat:NSLocalizedString(@"text_no_departure_next_time_minutes_params", @""), bookmark.routeShortName, @(kMinutes)];
+            row.errorMessage = [NSString stringWithFormat:NSLocalizedString(@"text_no_departure_next_time_minutes_params", @""), @(kMinutes)];
         }
 
         // This will result in some 'false positive' instances where the
