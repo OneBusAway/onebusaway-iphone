@@ -186,7 +186,7 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 #pragma mark - Data Loading
 
 - (void)reloadData:(id)sender {
-    BOOL animated = ![sender isEqual:self.navigationItem.rightBarButtonItem];
+    BOOL animated = !(sender == self.refreshTimer || sender == self.navigationItem.rightBarButtonItem);
     [self reloadDataAnimated:animated];
 }
 
