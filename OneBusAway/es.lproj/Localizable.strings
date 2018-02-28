@@ -11,7 +11,7 @@
 "alerts.reference_format" = "ID: %@";
 
 /* No comment provided by engineer. */
-"text_no_departure_next_time_minutes_params" = "%@: No hay horarios de salida para los próximos %@ minutos";
+"text_no_departure_next_time_minutes_params" = "No hay horarios de salida para los próximos %@ minutos";
 
 /* No comment provided by engineer. */
 "msg_vehicle_this_stop" = "Un vehículo en esta parada";

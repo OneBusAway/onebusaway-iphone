@@ -17,7 +17,7 @@
 "alerts.reference_format" = "ID: %@";
 
 /* No comment provided by engineer. */
-"text_no_departure_next_time_minutes_params" = "%@: No departure scheduled for the next %@ minutes";
+"text_no_departure_next_time_minutes_params" = "No departure scheduled for the next %@ minutes";
 
 /* No comment provided by engineer. */
 "msg_vehicle_this_stop" = "A vehicle at this stop";

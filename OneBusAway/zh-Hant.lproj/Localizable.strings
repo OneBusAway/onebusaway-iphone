@@ -2,7 +2,7 @@
 " - " = " - ";
 
 /* No comment provided by engineer. */
-"text_no_departure_next_time_minutes_params" = "%@: 接下來 %@ 分鐘內無預定車次";
+"text_no_departure_next_time_minutes_params" = "接下來 %@ 分鐘內無預定車次";
 
 /* No comment provided by engineer. */
 "msg_vehicle_this_stop" = "在此站牌的車次";
