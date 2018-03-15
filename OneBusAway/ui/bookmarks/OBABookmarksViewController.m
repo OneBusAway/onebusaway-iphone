@@ -220,6 +220,10 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
 #pragma mark - Empty Data Set
 
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
+    return [self selectedSubTabIsEmpty];
+}
+
 - (void)updateEmptyDataSetText {
     if ([self bookmarkTypeToggleValue] == OBABookmarkTypeToggleTodayWidget) {
         self.emptyDataSetTitle = NSLocalizedString(@"bookmarks_controller.today_view.no_content_title", @"Empty data set title when there are no Today View bookmarks.");
@@ -352,6 +356,15 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
 #pragma mark - Data Composition/Table View Construction
 
+- (BOOL)selectedSubTabIsEmpty {
+    if (self.bookmarkTypeToggleValue == OBABookmarkTypeToggleBookmarks) {
+        return self.modelDAO.bookmarkGroups.count < 2 && self.modelDAO.ungroupedBookmarks.count == 0;
+    }
+    else {
+        return self.modelDAO.todayBookmarkGroup.bookmarks.count == 0;
+    }
+}
+
 - (void)loadData {
     [self loadDataWithTableReload:YES];
 }
@@ -360,7 +373,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     // If there are no bookmarks anywhere in the system, ungrouped or otherwise, then skip
     // over the following code and instead show the empty table message. There is always
     // one group because of the Today View.
-    if (self.modelDAO.bookmarkGroups.count < 2 && self.modelDAO.ungroupedBookmarks.count == 0) {
+    if (self.selectedSubTabIsEmpty) {
         self.sections = @[];
 
         if (tableReload) {
