@@ -26,11 +26,12 @@ static NSString * appVersion = nil;
 @property(nonatomic,copy) CLLocation *currentLocation;
 @property(nonatomic,assign) BOOL registeredForRemoteNotifications;
 @property(nonatomic,assign) CLAuthorizationStatus locationAuthorizationStatus;
+@property(nonatomic,copy) NSData *userDefaultsData;
 @end
 
 @implementation OBAEmailHelper
 
-- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)location registeredForRemoteNotifications:(BOOL)registeredForRemoteNotifications locationAuthorizationStatus:(CLAuthorizationStatus)locationAuthorizationStatus {
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)location registeredForRemoteNotifications:(BOOL)registeredForRemoteNotifications locationAuthorizationStatus:(CLAuthorizationStatus)locationAuthorizationStatus userDefaultsData:(NSData*)userDefaultsData {
     self = [super init];
 
     if (self) {
@@ -38,6 +39,7 @@ static NSString * appVersion = nil;
         _currentLocation = [location copy];
         _registeredForRemoteNotifications = registeredForRemoteNotifications;
         _locationAuthorizationStatus = locationAuthorizationStatus;
+        _userDefaultsData = [userDefaultsData copy];
     }
 
     return self;
@@ -55,6 +57,7 @@ static NSString * appVersion = nil;
     [composer setToRecipients:@[emailAddress]];
     [composer setSubject:OBALocalized(@"msg_oba_ios_feedback", @"feedback mail subject")];
     [composer setMessageBody:messageBody isHTML:YES];
+    [composer addAttachmentData:self.userDefaultsData mimeType:@"application/xml" fileName:@"userdefaults.xml"];
 
     return composer;
 }

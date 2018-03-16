@@ -17,6 +17,7 @@
 #import <OBAKit/OBACommon.h>
 #import <OBAKit/OBADateHelpers.h>
 #import <OBAKit/OBAMacros.h>
+#import <OBAKit/OBAApplication.h>
 
 static BOOL obaCommonRunningInsideTests = NO;
 
@@ -25,6 +26,7 @@ NSString * const kApplicationShortcutMap = @"org.onebusaway.iphone.shortcut.map"
 NSString * const kApplicationShortcutRecents = @"org.onebusaway.iphone.shortcut.recents";
 NSString * const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcut.bookmarks";
 
+NSString * const OBAExperimentalUseDrawerUIDefaultsKey = @"OBAExperimentalUseDrawerUIDefaultsKey";
 NSString * const OBADisplayUserHeadingOnMapDefaultsKey = @"OBADisplayUserHeadingOnMapDefaultsKey";
 NSString * const OBAOptInToTrackingDefaultsKey = @"OBAOptInToTrackingDefaultsKey";
 NSString * const OBAOptInToCrashReportingDefaultsKey = @"OBAOptInToCrashReportingDefaultsKey";
@@ -32,35 +34,6 @@ NSString * const OBAMapSelectedTypeDefaultsKey = @"OBAMapSelectedTypeDefaultsKey
 NSString * const OBADebugModeUserDefaultsKey = @"OBADebugModeUserDefaultsKey";
 
 NSString * const OBADeepLinkServerAddress = @"https://www.onebusaway.co";
-
-NSString * NSStringFromOBASearchType(OBASearchType searchType) {
-    switch (searchType) {
-        case OBASearchTypePending: {
-            return OBALocalized(@"search_type.pending", @"OBASearchTypePending. Rendered as 'Pending' in English.");
-        }
-        case OBASearchTypeRegion: {
-            return OBALocalized(@"search_type.region", @"OBASearchTypeRegion. Rendered as 'Region' in English.");
-        }
-        case OBASearchTypeRoute: {
-            return OBALocalized(@"search_type.route", @"OBASearchTypeRoute. Rendered as 'Route' in English.");
-        }
-        case OBASearchTypeStops: {
-            return OBALocalized(@"search_type.stops", @"OBASearchTypeStops. Rendered as 'Stops' in English.");
-        }
-        case OBASearchTypeAddress: {
-            return OBALocalized(@"search_type.address", @"OBASearchTypeAddress. Rendered as 'Address' in English.");
-        }
-        case OBASearchTypePlacemark: {
-            return OBALocalized(@"search_type.placemark", @"OBASearchTypePlacemark. Rendered as 'Placemark' in English.");
-        }
-        case OBASearchTypeStopId: {
-            return OBALocalized(@"search_type.stop_id", @"OBASearchTypeStopId. Rendered as 'Stop ID' in English.");
-        }
-        default: {
-            return nil;
-        }
-    }
-}
 
 NSString * OBAStringFromBool(BOOL yn) {
     return yn ? @"YES" : @"NO";
@@ -77,11 +50,11 @@ NSString * OBAStringFromBool(BOOL yn) {
 }
 
 + (BOOL)debugMode {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:OBADebugModeUserDefaultsKey];
+    return [OBAApplication.sharedApplication.userDefaults boolForKey:OBADebugModeUserDefaultsKey];
 }
 
 + (void)setDebugMode:(BOOL)debugMode {
-    [[NSUserDefaults standardUserDefaults] setBool:debugMode forKey:OBADebugModeUserDefaultsKey];
+    [OBAApplication.sharedApplication.userDefaults setBool:debugMode forKey:OBADebugModeUserDefaultsKey];
 }
 
 @end

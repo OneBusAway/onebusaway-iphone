@@ -59,6 +59,22 @@
     return OBALocalized(@"strings.read_more", @"The text 'Read More…' (note that is an ellipsis, not three dots…)");
 }
 
++ (NSString*)never {
+    return OBALocalized(@"strings.never", @"The word 'Never'");
+}
+
++ (NSString*)refresh {
+    return OBALocalized(@"strings.refresh", @"The word 'Refresh', like a synonym for 'Reload'.");
+}
+
++ (NSString*)updating {
+    return OBALocalized(@"strings.updating", @"As in 'actively updating content'.");
+}
+
++ (NSString*)learnMore {
+    return OBALocalized(@"strings.learn_more", @"Learn More");
+}
+
 + (nullable NSAttributedString*)attributedStringWithPrependedImage:(UIImage*)image string:(NSString*)string {
     return [self attributedStringWithPrependedImage:image string:string color:nil];
 }

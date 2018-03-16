@@ -8,13 +8,36 @@
 
 @import Foundation;
 @import OBAKit;
+@import OHHTTPStubs;
 #import "OBATestHarnessPersistenceLayer.h"
+
+/* HTTP Stubs
+
+ [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    return [request.URL.host isEqualToString:@"mywebservice.com"];
+ } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+    // Stub it with our "wsresponse.json" stub file (which is in same bundle as self)
+    NSString* fixture = OHPathForFile(@"wsresponse.json", self.class);
+    return [OHHTTPStubsResponse responseWithFileAtPath:fixture statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+ }];
+
+ stub(isHost("mywebservice.com")) { _ in
+    // Stub it with our "wsresponse.json" stub file (which is in same bundle as self)
+    let stubPath = OHPathForFile("wsresponse.json", type(of: self))
+    return fixture(filePath: stubPath!, headers: ["Content-Type":"application/json"])
+ }
+ */
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class OBARegionV2;
 
 @interface OBATestHelpers : NSObject
+
+/**
+ Convenience property for constructing an entire model service/factory/references stack.
+ */
+@property(nonatomic,strong,class,readonly) PromisedModelService *tampaModelService;
 
 /**
  First, serializes an NSCoding compatible object into an NSData object, and then deserializes it back
@@ -71,6 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(class,nonatomic,readonly,copy) OBARegionV2 *pugetSoundRegion;
 @property(class,nonatomic,readonly,copy) OBARegionV2 *tampaRegion;
+@property(class,nonatomic,readonly,copy) NSArray<OBARegionV2*> *regionsList;
 
 // Time and Time Zones
 

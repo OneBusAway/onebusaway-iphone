@@ -7,9 +7,7 @@
 //
 
 #import "OBAWalkableCell.h"
-@import OBAKit;
 @import Masonry;
-#import "OBAAnimation.h"
 #import "OBAWalkableRow.h"
 
 @interface OBAWalkableCell ()

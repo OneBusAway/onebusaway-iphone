@@ -7,7 +7,7 @@
 //
 
 @import UIKit;
-#import "OBATableCell.h"
+@import OBAKit;
 
 @interface OBASwitchCell : UITableViewCell<OBATableCell>
 

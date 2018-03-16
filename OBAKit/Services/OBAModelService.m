@@ -41,7 +41,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 @implementation OBAModelService
 
 + (instancetype)modelServiceWithBaseURL:(NSURL*)URL {
-    OBAModelService *service = [[OBAModelService alloc] init];
+    OBAModelService *service = [[self.class alloc] init];
     OBAModelFactory *modelFactory = [OBAModelFactory modelFactory];
     service.modelFactory = modelFactory;
     service.references = modelFactory.references;
@@ -52,95 +52,33 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 #pragma mark - Promise-based Requests
 
-- (AnyPromise*)requestStopForID:(NSString*)stopID minutesBefore:(NSUInteger)minutesBefore minutesAfter:(NSUInteger)minutesAfter {
-    OBAGuard(stopID.length > 0) else {
-        return nil;
-    }
-
-    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestStopWithArrivalsAndDeparturesForId:stopID withMinutesBefore:minutesBefore withMinutesAfter:minutesAfter completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else if (responseCode >= 300) {
-                NSString *message = (404 == responseCode ? OBALocalized(@"mgs_stop_not_found", @"code == 404") : OBALocalized(@"msg_error_connecting", @"code != 404"));
-                error = [NSError errorWithDomain:NSURLErrorDomain code:responseCode userInfo:@{NSLocalizedDescriptionKey: message}];
-                resolve(error);
-            }
-            else {
-                resolve(responseData);
-            }
-        }];
-    }];
-}
-
-- (AnyPromise*)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance {
-    OBAGuard(tripInstance) else {
-        return nil;
-    }
-
-    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestTripDetailsForTripInstance:tripInstance completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve([responseData entry]);
-            }
-        }];
-    }];
-}
-
 - (AnyPromise*)requestArrivalAndDeparture:(OBAArrivalAndDepartureInstanceRef*)instanceRef {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestArrivalAndDepartureForStop:instanceRef completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve([responseData entry]);
-            }
+        [self requestArrivalAndDepartureForStop:instanceRef completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: [responseData entry]);
         }];
     }];
 }
 
 - (AnyPromise*)requestArrivalAndDepartureWithConvertible:(id<OBAArrivalAndDepartureConvertible>)convertible {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestArrivalAndDepartureForStopID:[convertible stopID] tripID:[convertible tripID] serviceDate:[convertible serviceDate] vehicleID:[convertible vehicleID] stopSequence:[convertible stopSequence] completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve([responseData entry]);
-            }
+        [self requestArrivalAndDepartureForStopID:[convertible stopID] tripID:[convertible tripID] serviceDate:[convertible serviceDate] vehicleID:[convertible vehicleID] stopSequence:[convertible stopSequence] completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: [responseData entry]);
         }];
     }];
 }
 
 - (AnyPromise*)requestCurrentTime {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestCurrentTimeWithCompletionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve(responseData[@"entry"][@"time"]);
-            }
-        }];
-    }];
-}
-
-- (AnyPromise*)requestRegions {
-    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestRegions:^(id responseData, NSUInteger responseCode, NSError *error) {
-            resolve(error ?: [responseData values]);
+        [self requestCurrentTimeWithCompletionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: responseData[@"entry"][@"time"]);
         }];
     }];
 }
 
 - (AnyPromise*)requestAgenciesWithCoverage {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestAgenciesWithCoverage:^(id responseData, NSUInteger responseCode, NSError *error) {
+        [self requestAgenciesWithCoverage:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
             resolve(error ?: [responseData values]);
         }];
     }];
@@ -148,7 +86,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (AnyPromise*)requestVehicleForID:(NSString*)vehicleID {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestVehicleForId:vehicleID completionBlock:^(OBAEntryWithReferencesV2 *responseData, NSUInteger responseCode, NSError *error) {
+        [self requestVehicleForId:vehicleID completionBlock:^(OBAEntryWithReferencesV2 *responseData, NSHTTPURLResponse *response, NSError *error) {
             resolve(error ?: responseData.entry);
         }];
     }];
@@ -156,7 +94,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (AnyPromise*)requestStopsNear:(CLLocationCoordinate2D)coordinate {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestStopsForCoordinate:coordinate completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+        [self requestStopsForCoordinate:coordinate completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
             OBASearchResult *searchResult = [OBASearchResult resultFromList:responseData];
             searchResult.searchType = OBASearchTypeStops;
             resolve(error ?: searchResult);
@@ -166,7 +104,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (AnyPromise*)requestShapeForID:(NSString*)shapeID {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestShapeForId:shapeID completionBlock:^(NSString *polylineString, NSUInteger responseCode, NSError *error) {
+        [self requestShapeForId:shapeID completionBlock:^(NSString *polylineString, NSHTTPURLResponse *response, NSError *error) {
             if (polylineString) {
                 resolve([OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString]);
             }
@@ -177,106 +115,9 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }];
 }
 
-#pragma mark - Regional Alerts
-
-- (id<OBAModelServiceRequest>)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(NSDate*)date completionBlock:(OBADataSourceCompletion)completion {
-
-    NSDictionary *params = @{ @"since": @((long long)date.timeIntervalSince1970) };
-
-    return [self request:self.obacoJsonDataSource
-                     url:[NSString stringWithFormat:@"/regions/%@/alert_feed_items", @(region.identifier)]
-                    args:params
-                selector:nil
-         completionBlock:^(id responseData, NSUInteger responseCode, NSError * _Nonnull error) {
-             NSError *deserializationError = nil;
-             if (responseData) {
-                 responseData = [MTLJSONAdapter modelsOfClass:OBARegionalAlert.class fromJSONArray:responseData error:&deserializationError];
-
-                 // Mark all alerts older than one day as 'read' automatically.
-                 for (OBARegionalAlert *alert in responseData) {
-                     alert.unread = ABS(alert.publishedAt.timeIntervalSinceNow) < 86400; // Number of seconds in 1 day.
-                 }
-             }
-             completion(responseData, responseCode, error ?: deserializationError);
-         }];
-}
-
-- (AnyPromise*)requestRegionalAlerts:(OBARegionV2*)region sinceDate:(NSDate*)sinceDate {
-    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestRegionalAlerts:region sinceDate:sinceDate completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            resolve(error ?: responseData);
-        }];
-    }];
-}
-
-#pragma mark - Alarms
-
-- (AnyPromise*)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID {
-    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-
-        id request = [self requestAlarm:alarm userPushNotificationID:userPushNotificationID completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (responseData) {
-                resolve(responseData);
-            }
-            else {
-                resolve(error);
-            }
-        }];
-
-        if (!request) {
-            resolve([NSError errorWithDomain:OBAErrorDomain code:OABErrorCodeMissingMethodParameters userInfo:@{NSLocalizedDescriptionKey: OBALocalized(@"model_service.cant_register_alarm_missing_parameters", @"An error displayed to the user when their alarm can't be created.")}]);
-        }
-    }];
-}
-
-- (nullable id<OBAModelServiceRequest>)requestAlarm:(OBAAlarm*)alarm userPushNotificationID:(NSString*)userPushNotificationID completionBlock:(OBADataSourceCompletion)completion {
-
-    OBAGuard(alarm.timeIntervalBeforeDeparture > 0) else {
-        return nil;
-    }
-
-    OBAGuard(alarm.stopID) else {
-        return nil;
-    }
-
-    OBAGuard(alarm.tripID) else {
-        return nil;
-    }
-
-    OBAGuard(alarm.serviceDate != 0) else {
-        return nil;
-    }
-
-    OBAGuard(alarm.vehicleID) else {
-        return nil;
-    }
-
-    OBAGuard(userPushNotificationID) else {
-        return nil;
-    }
-
-    NSDictionary *params = @{
-                             @"seconds_before": @(alarm.timeIntervalBeforeDeparture),
-                             @"stop_id":        alarm.stopID,
-                             @"trip_id":        alarm.tripID,
-                             @"service_date":   @(alarm.serviceDate),
-                             @"vehicle_id":     alarm.vehicleID,
-                             @"stop_sequence":  @(alarm.stopSequence),
-                             @"user_push_id":   userPushNotificationID
-                            };
-
-    return [self request:self.obacoJsonDataSource
-                     url:[NSString stringWithFormat:@"/regions/%@/alarms", @(alarm.regionIdentifier)]
-              HTTPMethod:@"POST"
-             queryParams:nil
-                formBody:params
-                selector:nil
-         completionBlock:completion];
-}
-
 #pragma mark - Old School Requests
 
-- (id<OBAModelServiceRequest>)requestCurrentTimeWithCompletionBlock:(OBADataSourceCompletion)completion {
+- (OBAModelServiceRequest*)requestCurrentTimeWithCompletionBlock:(OBADataSourceCompletion)completion {
     return [self request:self.obaJsonDataSource
                      url:@"/api/where/current-time.json"
                     args:nil
@@ -284,34 +125,15 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
          completionBlock:completion];
 }
 
-- (id<OBAModelServiceRequest>)requestStopWithArrivalsAndDeparturesForId:(NSString *)stopId withMinutesBefore:(NSUInteger)minutesBefore withMinutesAfter:(NSUInteger)minutesAfter completionBlock:(OBADataSourceCompletion)completion {
-
-    NSDictionary *args = @{ @"minutesBefore": @(minutesBefore),
-                            @"minutesAfter":  @(minutesAfter) };
-
-    NSString *escapedStopID = [OBAURLHelpers escapePathVariable:stopId];
-
-    return [self request:self.obaJsonDataSource
-                     url:[NSString stringWithFormat:@"/api/where/arrivals-and-departures-for-stop/%@.json", escapedStopID]
-                    args:args
-                selector:@selector(getArrivalsAndDeparturesForStopV2FromJSON:error:)
-         completionBlock:completion];
-}
-
 - (AnyPromise*)requestStopsForRegion:(MKCoordinateRegion)region {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestStopsForRegion:region completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve([OBASearchResult resultFromList:responseData]);
-            }
+        [self requestStopsForRegion:region completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: [OBASearchResult resultFromList:responseData]);
         }];
     }];
 }
 
-- (id<OBAModelServiceRequest>)requestStopsForRegion:(MKCoordinateRegion)region completionBlock:(OBADataSourceCompletion)completion {
+- (OBAModelServiceRequest*)requestStopsForRegion:(MKCoordinateRegion)region completionBlock:(OBADataSourceCompletion)completion {
     NSDictionary *args = @{ @"lat": @(region.center.latitude),
                             @"lon": @(region.center.longitude),
                             @"latSpan": @(region.span.latitudeDelta),
@@ -324,7 +146,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
          completionBlock:completion];
 }
 
-- (id<OBAModelServiceRequest>)requestStopsForCoordinate:(CLLocationCoordinate2D)coordinate
+- (OBAModelServiceRequest*)requestStopsForCoordinate:(CLLocationCoordinate2D)coordinate
                                         completionBlock:(OBADataSourceCompletion)completion {
     NSDictionary *args = @{ @"lat": @(coordinate.latitude),
                             @"lon": @(coordinate.longitude) };
@@ -341,18 +163,13 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
         return nil;
     }
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestStopsForQuery:query withRegion:region completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve([OBASearchResult resultFromList:responseData]);
-            }
+        [self requestStopsForQuery:query withRegion:region completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: [OBASearchResult resultFromList:responseData]);
         }];
     }];
 }
 
-- (id<OBAModelServiceRequest>)requestStopsForQuery:(NSString *)stopQuery withRegion:(CLCircularRegion *)region completionBlock:(OBADataSourceCompletion)completion {
+- (OBAModelServiceRequest*)requestStopsForQuery:(NSString *)stopQuery withRegion:(CLCircularRegion *)region completionBlock:(OBADataSourceCompletion)completion {
     CLLocationDistance radius = MAX(region.radius, kBigSearchRadius);
     CLLocationCoordinate2D coord = region ? region.center : [self currentOrDefaultLocationToSearch].coordinate;
 
@@ -372,18 +189,13 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
         return nil;
     }
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestStopsForRoute:routeID completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve(responseData);
-            }
+        [self requestStopsForRoute:routeID completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: responseData);
         }];
     }];
 }
 
-- (id<OBAModelServiceRequest>)requestStopsForRoute:(NSString *)routeId completionBlock:(OBADataSourceCompletion)completion {
+- (OBAModelServiceRequest*)requestStopsForRoute:(NSString *)routeId completionBlock:(OBADataSourceCompletion)completion {
     return [self request:self.obaJsonDataSource
                      url:[NSString stringWithFormat:@"/api/where/stops-for-route/%@.json", [OBAURLHelpers escapePathVariable:routeId]]
                     args:nil
@@ -396,18 +208,13 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
         return nil;
     }
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestStopsForPlacemark:placemark completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve([OBASearchResult resultFromList:responseData]);
-            }
+        [self requestStopsForPlacemark:placemark completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: [OBASearchResult resultFromList:responseData]);
         }];
     }];
 }
 
-- (id<OBAModelServiceRequest>)requestStopsForPlacemark:(OBAPlacemark *)placemark completionBlock:(OBADataSourceCompletion)completion {
+- (OBAModelServiceRequest*)requestStopsForPlacemark:(OBAPlacemark *)placemark completionBlock:(OBADataSourceCompletion)completion {
     MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:placemark.coordinate latRadius:kSearchRadius lonRadius:kSearchRadius];
 
     return [self requestStopsForRegion:region completionBlock:completion];
@@ -415,18 +222,13 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 - (AnyPromise*)requestRoutesForQuery:(NSString*)routeQuery region:(CLCircularRegion*)region {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestRoutesForQuery:routeQuery withRegion:region completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve([OBASearchResult resultFromList:responseData]);
-            }
+        [self requestRoutesForQuery:routeQuery withRegion:region completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: [OBASearchResult resultFromList:responseData]);
         }];
     }];
 }
 
-- (id<OBAModelServiceRequest>)requestRoutesForQuery:(NSString *)routeQuery withRegion:(CLCircularRegion *)region completionBlock:(OBADataSourceCompletion)completion {
+- (OBAModelServiceRequest*)requestRoutesForQuery:(NSString *)routeQuery withRegion:(CLCircularRegion *)region completionBlock:(OBADataSourceCompletion)completion {
     CLLocationDistance radius = kBigSearchRadius;
     CLLocationCoordinate2D coord;
 
@@ -455,18 +257,13 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
         return nil;
     }
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self placemarksForAddress:address completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-            if (error) {
-                resolve(error);
-            }
-            else {
-                resolve([responseData placemarks]);
-            }
+        [self placemarksForAddress:address completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+            resolve(error ?: [responseData placemarks]);
         }];
     }];
 }
 
-- (id<OBAModelServiceRequest>)placemarksForAddress:(NSString *)address completionBlock:(OBADataSourceCompletion)completion {
+- (OBAModelServiceRequest*)placemarksForAddress:(NSString *)address completionBlock:(OBADataSourceCompletion)completion {
     CLLocationCoordinate2D coord = [self currentOrDefaultLocationToSearch].coordinate;
 
     NSDictionary *args = @{
@@ -481,15 +278,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
          completionBlock:completion];
 }
 
-- (id<OBAModelServiceRequest>)requestRegions:(OBADataSourceCompletion)completion {
-    return [self request:self.obaRegionJsonDataSource
-                     url:@"/regions-v3.json"
-                    args:nil
-                selector:@selector(getRegionsV2FromJson:error:)
-         completionBlock:completion];
-}
-
-- (id<OBAModelServiceRequest>)requestAgenciesWithCoverage:(OBADataSourceCompletion)completion {
+- (OBAModelServiceRequest*)requestAgenciesWithCoverage:(OBADataSourceCompletion)completion {
     return [self request:self.obaJsonDataSource
                      url:OBAAgenciesWithCoverageAPIPath
                     args:nil
@@ -497,13 +286,13 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
          completionBlock:completion];
 }
 
-- (id<OBAModelServiceRequest>)requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef *)instance completionBlock:(OBADataSourceCompletion)completion {
+- (OBAModelServiceRequest*)requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef *)instance completionBlock:(OBADataSourceCompletion)completion {
     OBATripInstanceRef *tripInstance = instance.tripInstance;
 
     return [self requestArrivalAndDepartureForStopID:instance.stopId tripID:tripInstance.tripId serviceDate:tripInstance.serviceDate vehicleID:tripInstance.vehicleId stopSequence:instance.stopSequence completionBlock:completion];
 }
 
-- (id<OBAModelServiceRequest>)requestArrivalAndDepartureForStopID:(NSString*)stopID
+- (OBAModelServiceRequest*)requestArrivalAndDepartureForStopID:(NSString*)stopID
                                                            tripID:(NSString*)tripID
                                                       serviceDate:(long long)serviceDate
                                                         vehicleID:(nullable NSString*)vehicleID
@@ -530,25 +319,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
          completionBlock:completion];
 }
 
-- (id<OBAModelServiceRequest>)requestTripDetailsForTripInstance:(OBATripInstanceRef *)tripInstance completionBlock:(OBADataSourceCompletion)completion {
-    NSMutableDictionary *args = [[NSMutableDictionary alloc] init];
-
-    if (tripInstance.serviceDate > 0) {
-        args[@"serviceDate"] = @(tripInstance.serviceDate);
-    }
-
-    if (tripInstance.vehicleId) {
-        args[@"vehicleId"] = tripInstance.vehicleId;
-    }
-
-    return [self request:self.obaJsonDataSource
-                     url:[NSString stringWithFormat:@"/api/where/trip-details/%@.json", [OBAURLHelpers escapePathVariable:tripInstance.tripId]]
-                    args:args
-                selector:@selector(getTripDetailsV2FromJSON:error:)
-         completionBlock:completion];
-}
-
-- (id<OBAModelServiceRequest>)requestVehicleForId:(NSString *)vehicleId completionBlock:(OBADataSourceCompletion)completion {
+- (OBAModelServiceRequest*)requestVehicleForId:(NSString *)vehicleId completionBlock:(OBADataSourceCompletion)completion {
     return [self request:self.obaJsonDataSource
                      url:[NSString stringWithFormat:@"/api/where/vehicle/%@.json", [OBAURLHelpers escapePathVariable:vehicleId]]
                     args:nil
@@ -556,7 +327,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
          completionBlock:completion];
 }
 
-- (id<OBAModelServiceRequest>)requestShapeForId:(NSString *)shapeId completionBlock:(OBADataSourceCompletion)completion {
+- (OBAModelServiceRequest*)requestShapeForId:(NSString *)shapeId completionBlock:(OBADataSourceCompletion)completion {
     return [self request:self.obaJsonDataSource
                      url:[NSString stringWithFormat:@"/api/where/shape/%@.json", [OBAURLHelpers escapePathVariable:shapeId]]
                     args:nil
@@ -564,7 +335,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
          completionBlock:completion];
 }
 
-- (id<OBAModelServiceRequest>)reportProblemWithStop:(OBAReportProblemWithStopV2 *)problem completionBlock:(OBADataSourceCompletion)completion {
+- (OBAModelServiceRequest*)reportProblemWithStop:(OBAReportProblemWithStopV2 *)problem completionBlock:(OBADataSourceCompletion)completion {
     NSMutableDictionary *args = [[NSMutableDictionary alloc] init];
 
     args[@"stopId"] = problem.stopId;
@@ -593,7 +364,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     return request;
 }
 
-- (id<OBAModelServiceRequest>)reportProblemWithTrip:(OBAReportProblemWithTripV2 *)problem completionBlock:(OBADataSourceCompletion)completion {
+- (OBAModelServiceRequest*)reportProblemWithTrip:(OBAReportProblemWithTripV2 *)problem completionBlock:(OBADataSourceCompletion)completion {
     NSString *url = [NSString stringWithFormat:@"/api/where/report-problem-with-trip.json"];
 
     NSMutableDictionary *args = [[NSMutableDictionary alloc] init];
@@ -644,40 +415,22 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     return [self request:source url:url HTTPMethod:@"GET" queryParams:args formBody:nil selector:selector completionBlock:completion];
 }
 
+// this method is weird. it creates the modelservice request object, stuffs a reference to the model factory into it,
+// specifies the model factory selector to use to process data on completion, then asks the OBAJSONDataSource for an
+// url session data task (which is already initiated by the time the `request.urlSessionTask` property is set).
+// When the url session task completes, it calls into its parent object (the request) to execute the -processData
+// method. I wonder if this is causing a memory leak. Also, the flow of control is just weird.
 - (OBAModelServiceRequest *)request:(OBAJsonDataSource *)source url:(NSString *)url HTTPMethod:(NSString*)HTTPMethod queryParams:(NSDictionary *)queryParams formBody:(NSDictionary *)formBody selector:(SEL)selector completionBlock:(OBADataSourceCompletion)completion {
-    OBAModelServiceRequest *request = [self request:source selector:selector];
 
-    request.connection = [source requestWithPath:url HTTPMethod:HTTPMethod queryParameters:queryParams formBody:formBody completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
-        [request processData:jsonData withError:error responseCode:responseCode completionBlock:completion];
+    OBAModelServiceRequest *request = [[OBAModelServiceRequest alloc] init];
+    request.modelFactory = self.modelFactory;
+    request.modelFactorySelector = selector;
+    request.checkCode = source.checkStatusCodeInBody;
+
+    request.urlSessionTask = [source requestWithPath:url HTTPMethod:HTTPMethod queryParameters:queryParams formBody:formBody completionBlock:^(id jsonData, NSHTTPURLResponse *response, NSError *error) {
+        [request processData:jsonData withError:error response:response completionBlock:completion];
     }];
 
-    return request;
-}
-
-- (OBAModelServiceRequest *)request:(OBAJsonDataSource *)source selector:(SEL)selector {
-    OBAModelServiceRequest *request = [[OBAModelServiceRequest alloc] init];
-
-    request.modelFactory = _modelFactory;
-    request.modelFactorySelector = selector;
-
-    if (source != _obaJsonDataSource) {
-        request.checkCode = NO;
-    }
-
-    NSObject<OBABackgroundTaskExecutor> *executor = [[self class] sharedBackgroundExecutor];
-    
-    if (executor) {
-        request.bgTask = [executor beginBackgroundTaskWithExpirationHandler:^{
-            if(request.cleanupBlock) {
-                request.cleanupBlock(request.bgTask);
-            }
-        }];
-        
-        [request setCleanupBlock:^(UIBackgroundTaskIdentifier identifier) {
-            return [executor endBackgroundTask:identifier];
-        }];
-    }
-    
     return request;
 }
 
@@ -689,18 +442,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }
 
     return location;
-}
-
-#pragma mark - OBABackgroundTaskExecutor
-
-static NSObject<OBABackgroundTaskExecutor>* sharedExecutor;
-
-+ (NSObject<OBABackgroundTaskExecutor>*)sharedBackgroundExecutor {
-    return sharedExecutor;
-}
-
-+ (void)addBackgroundExecutor:(NSObject<OBABackgroundTaskExecutor>*)exc {
-    sharedExecutor = exc;
 }
 
 @end

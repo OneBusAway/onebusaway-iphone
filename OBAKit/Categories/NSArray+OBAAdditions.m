@@ -33,4 +33,11 @@
     return [self subarrayWithRange:NSMakeRange(index, self.count - index)];
 }
 
+- (NSArray*)oba_arrayByInsertingObject:(id)object atIndex:(NSUInteger)index {
+    NSMutableArray *mut = [NSMutableArray arrayWithArray:self];
+    [mut insertObject:object atIndex:index];
+
+    return [NSArray arrayWithArray:mut];
+}
+
 @end

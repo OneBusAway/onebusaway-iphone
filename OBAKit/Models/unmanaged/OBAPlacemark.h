@@ -18,7 +18,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAPlacemark : NSObject <NSCoding,MKAnnotation>
+@interface OBAPlacemark : NSObject <NSCopying,NSCoding,MKAnnotation>
 @property(nonatomic,copy) NSString * name;
 @property(nonatomic,copy) NSString * address;
 @property(nonatomic,copy) NSString * icon;

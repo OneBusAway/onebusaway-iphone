@@ -1,11 +1,11 @@
 # https://github.com/mxcl/promisekit/releases
-github "mxcl/PromiseKit" ~>4.3.2
+github "mxcl/PromiseKit" ~>4.5.0
 
 # https://github.com/PromiseKit/Foundation/releases
 github "PromiseKit/Foundation" ~>1.0.7
 
 # https://github.com/PromiseKit/CoreLocation/releases
-github "PromiseKit/CoreLocation" ~>1.0.1
+github "PromiseKit/CoreLocation" ~>1.0.2
 
 # https://github.com/PromiseKit/MapKit/releases
 github "PromiseKit/MapKit" ~>1.0.1
@@ -21,9 +21,6 @@ github "SnapKit/Masonry" ~>1.0.2
 
 # https://github.com/SnapKit/SnapKit/releases
 github "SnapKit/SnapKit" ~>3.2.0
-
-# https://github.com/dzenbot/DZNEmptyDataSet/releases
-github "dzenbot/DZNEmptyDataSet" ~>1.8.1
 
 # https://github.com/SwiftKickMobile/SwiftMessages/releases
 github "SwiftKickMobile/SwiftMessages" "3.5.0-beta2"
@@ -41,17 +38,14 @@ github "jspahrsummers/libextobjc" ~>0.5.0
 # https://github.com/mantle/mantle/releases
 github "mantle/mantle" ~>2.1.0
 
-# https://github.com/52inc/Pulley/releases
-github "52inc/Pulley" ~>1.5.2
-
 # https://github.com/AzimoLabs/SMFloatingLabelTextField/releases
 github "AzimoLabs/SMFloatingLabelTextField" ~>0.3.2
 
 # https://github.com/cbpowell/MarqueeLabel/releases
-github "cbpowell/MarqueeLabel" ~>3.1.2
+github "cbpowell/MarqueeLabel" "d7cdb1708910f030c28d0118e26f6bac24dcad8a"
 
 # https://github.com/OneSignal/OneSignal-iOS-SDK/releases
-github "OneSignal/OneSignal-iOS-SDK" ~>2.5.4
+github "OneSignal/OneSignal-iOS-SDK" ~>2.5.6
 
 ###################
 ##### Testing #####

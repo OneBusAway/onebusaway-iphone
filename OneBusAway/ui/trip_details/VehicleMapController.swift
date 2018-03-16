@@ -19,19 +19,25 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
     static let expandedStateUserDefaultsKey = "expandedStateUserDefaultsKey"
     @objc public var expanded: Bool {
         didSet {
-            UserDefaults.standard.set(expanded, forKey: VehicleMapController.expandedStateUserDefaultsKey)
+            OBAApplication.shared().userDefaults.set(expanded, forKey: VehicleMapController.expandedStateUserDefaultsKey)
             self.toggleButton.isSelected = expanded
         }
     }
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.expanded = UserDefaults.standard.bool(forKey: VehicleMapController.expandedStateUserDefaultsKey)
+        self.expanded = OBAApplication.shared().userDefaults.bool(forKey: VehicleMapController.expandedStateUserDefaultsKey)
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    deinit {
+        self.promiseWrapper?.cancel()
+    }
+
+    @objc private var promiseWrapper: PromiseWrapper?
 
     @objc public var tripDetails: OBATripDetailsV2? {
         didSet {
@@ -44,6 +50,39 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
             }
 
             self.mapView.addAnnotations(annotations!)
+        }
+    }
+
+    @objc public var tripInstance: OBATripInstanceRef? {
+        willSet {
+            // TODO: there's no reason to remove all of the annotations every time
+            // the tripInstance object is updated. This will just cause an
+            // annoying flicker. However, it's easier than doing the right thing and
+            // I just want to get this done for now. So someone please improve this!
+            self.mapView.removeAnnotations(self.mapView.annotations)
+        }
+        didSet {
+            if self.routePolyline != nil {
+                return
+            }
+
+            guard let tripInstance = self.tripInstance else {
+                return
+            }
+
+            let wrapper = self.modelService.requestTripDetails(tripInstance: tripInstance)
+            wrapper.promise.then { resp -> Void in
+                let tripDetails = resp.object as! OBATripDetailsV2
+                self.tripDetails = tripDetails
+
+                guard let shapeID = tripDetails.trip?.shapeId else {
+                    return
+                }
+
+                self.downloadRoutePolyline(shapeID: shapeID)
+            }
+
+            self.promiseWrapper = wrapper
         }
     }
 
@@ -70,11 +109,12 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
             }
         }
     }
+
     @objc public var routeType: OBARouteType = .bus
 
     @objc public weak var delegate: VehicleMapDelegate?
 
-    lazy var modelService: OBAModelService = {
+    lazy var modelService: PromisedModelService = {
         return OBAApplication.shared().modelService
     }()
 
@@ -82,8 +122,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
 
     lazy var routePolylineRenderer: MKPolylineRenderer = {
         let renderer = MKPolylineRenderer.init(polyline: self.routePolyline!)
-        renderer.fillColor = UIColor.white
-        renderer.strokeColor = UIColor.lightGray
+        renderer.strokeColor = OBATheme.obaGreen(withAlpha: 0.5)
         return renderer
     }()
 
@@ -98,39 +137,41 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         button.imageView?.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
 
-        if let toggleImage = UIImage(named: "back") {
-            button.setImage(OBAImageHelpers.rotateImage(toggleImage, degrees: -90.0), for: .normal)
-            button.setImage(OBAImageHelpers.rotateImage(toggleImage, degrees: 90.0), for: .selected)
-        }
+        let toggleImage = #imageLiteral(resourceName: "back")
+        button.setImage(OBAImageHelpers.rotateImage(toggleImage, degrees: -90.0), for: .normal)
+        button.setImage(OBAImageHelpers.rotateImage(toggleImage, degrees: 90.0), for: .selected)
 
         button.isSelected = self.expanded
 
         return button
     }()
+}
 
-    // MARK: - View Controller
-
+// MARK: - UIViewController
+extension VehicleMapController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.createMapView()
         self.createHoverBar()
     }
+}
 
-    // MARK: - Data Loading
-
+// MARK: - Data Loading
+extension VehicleMapController {
     func downloadRoutePolyline(shapeID: String) {
         self.modelService.requestShape(forID: shapeID).then { polyline -> Void in
             self.routePolyline = polyline as! MKPolyline?
             self.mapView.add(self.routePolyline!)
             self.mapView.setRegion(MKCoordinateRegionForMapRect(self.routePolyline!.boundingMapRect), animated: false)
         }.catch { error in
-            // TODO: Handle error!
             DDLogError("Unable to render polyline on map: \(error)")
         }
     }
+}
 
-    // MARK: - Actions
+// MARK: - Actions
+extension VehicleMapController {
 
     @objc func toggleButtonTapped() {
         self.expanded = !self.expanded
@@ -141,9 +182,10 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         self.mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
     }
 
+}
 
-    // MARK: - MKMapViewDelegate
-
+// MARK: - MKMapViewDelegate
+extension VehicleMapController {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         return self.routePolylineRenderer
     }
@@ -226,6 +268,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
             annotationView = SVPulsingAnnotationView.init(annotation: vehicle, reuseIdentifier: identifier, size: CGSize(width: 32, height: 32))
             annotationView?.canShowCallout = true
             annotationView?.headingImage = UIImage(named: "vehicleHeading")
+            annotationView?.isUserInteractionEnabled = false
         }
 
         if vehicle.predicted {
@@ -246,9 +289,10 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
 
         return annotationView
     }
-    
-    // MARK: - UI Configurations
+}
 
+// MARK: - UI Configurations
+extension VehicleMapController {
     func createMapView() {
         self.mapView.isRotateEnabled = false
         self.mapView.delegate = self

@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) OBADepartureStatus departureStatus;
 
 - (instancetype)initWithDepartureDate:(NSDate*)departureDate departureStatus:(OBADepartureStatus)departureStatus arrivalDepartureState:(OBAArrivalDepartureState)arrivalDepartureState;
+
++ (NSArray<OBAUpcomingDeparture*>*)upcomingDeparturesFromArrivalsAndDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)matchingDepartures;
 @end
 
 NS_ASSUME_NONNULL_END

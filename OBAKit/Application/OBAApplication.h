@@ -25,6 +25,9 @@
 @class OBAApplicationConfiguration;
 @class OBAConsoleLogger;
 @class RegionalAlertsManager;
+@class PromisedModelService;
+@class OBAMapDataLoader;
+@class OBAMapRegionManager;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,11 +39,14 @@ extern NSString *const OBARegionServerInvalidNotification;
 @interface OBAApplication : NSObject
 @property (nonatomic, strong, readonly) OBAReferencesV2 *references;
 @property (nonatomic, strong, readonly) OBAModelDAO *modelDao;
-@property (nonatomic, strong, readonly) OBAModelService *modelService;
+@property (nonatomic, strong, readonly) PromisedModelService *modelService;
 @property (nonatomic, strong, readonly) OBALocationManager *locationManager;
 @property (nonatomic, strong, readonly) RegionalAlertsManager *regionalAlertsManager;
 @property (nonatomic, strong, readonly) OBARegionHelper *regionHelper;
 @property (nonatomic, strong, readonly) OBAConsoleLogger *consoleLogger;
+@property (nonatomic, strong, readonly) OBAMapDataLoader *mapDataLoader;
+@property (nonatomic, strong, readonly) OBAMapRegionManager *mapRegionManager;
+@property (nonatomic, strong, readonly) NSUserDefaults *userDefaults;
 
 @property (nonatomic, copy, readonly) NSString *googleAnalyticsID;
 @property (nonatomic, copy, readonly) NSString *oneSignalAPIKey;
@@ -59,6 +65,11 @@ extern NSString *const OBARegionServerInvalidNotification;
  @param configuration An object that tells the application how to set itself up.
  */
 - (void)startWithConfiguration:(OBAApplicationConfiguration *)configuration;
+
+/**
+ Call this when the application enters the background.
+ */
+- (void)applicationDidEnterBackground;
 
 /**
  * e.g. "2.4.2"
@@ -96,6 +107,8 @@ extern NSString *const OBARegionServerInvalidNotification;
  application logs on disk as strings.
  */
 @property(nonatomic,copy,readonly) NSArray<NSData*> *logFileData;
+
+- (NSData*)exportUserDefaultsAsXML;
 
 @end
 

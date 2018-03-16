@@ -6,10 +6,8 @@
 //  Copyright © 2017 OneBusAway. All rights reserved.
 //
 
-@import Foundation;
 @import UIKit;
 @import OBAKit;
-#import "OBADepartureRow.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -66,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAArrivalDepartureOptionsSheet : NSObject
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
-@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) PromisedModelService *modelService;
 
 - (instancetype)initWithDelegate:(id<OBAArrivalDepartureOptionsSheetDelegate>)delegate;
 

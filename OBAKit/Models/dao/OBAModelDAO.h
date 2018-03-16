@@ -38,13 +38,26 @@ extern NSString * const OBARegionDidUpdateNotification;
  */
 @property(nonatomic,strong,readonly) NSArray<OBABookmarkV2*> *mappableBookmarksForCurrentRegion;
 @property(strong,nonatomic,readonly) NSArray<OBABookmarkV2*> *ungroupedBookmarks;
-@property(strong,nonatomic,readonly) NSArray<OBABookmarkGroup*> *bookmarkGroups;
+
+/**
+ All bookmark groups.
+ */
+@property(nonatomic,strong,readonly) NSArray<OBABookmarkGroup*> *bookmarkGroups;
+
+/**
+ All bookmark groups created by the user. (i.e. not the Today Widget bookmark group.)
+ */
+@property(nonatomic,strong,readonly) NSArray<OBABookmarkGroup*> *userCreatedBookmarkGroups;
+
+/**
+ The Today View Controller bookmark group.
+ */
+@property(nonatomic,strong,readonly) OBABookmarkGroup *todayBookmarkGroup;
+
 @property(strong,nonatomic,readonly) NSArray<OBAStopAccessEventV2*> * mostRecentStops;
 @property(nonatomic,copy) CLLocation *mostRecentLocation;
-@property(nonatomic,strong,nullable) OBARegionV2 *currentRegion;
 @property(nonatomic,assign) BOOL hideFutureLocationWarnings;
 @property(nonatomic,assign) BOOL ungroupedBookmarksOpen;
-@property(nonatomic,assign) BOOL automaticallySelectRegion;
 
 - (instancetype)initWithModelPersistenceLayer:(id<OBAModelPersistenceLayer>)persistenceLayer;
 
@@ -88,6 +101,9 @@ extern NSString * const OBARegionDidUpdateNotification;
 - (NSArray<OBAStopAccessEventV2*>*)recentStopsMatchingString:(NSString*)matching;
 
 // Regions
+
+@property(nonatomic,strong,nullable) OBARegionV2 *currentRegion;
+@property(nonatomic,assign) BOOL automaticallySelectRegion;
 
 - (NSArray<OBARegionV2*>*)customRegions;
 - (void)addCustomRegion:(OBARegionV2*)region;

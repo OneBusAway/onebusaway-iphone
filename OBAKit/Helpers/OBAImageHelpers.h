@@ -13,6 +13,15 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OBAImageHelpers : NSObject
 
 /**
+ Creates an image of size `size` filled with color `color`.
+
+ @param color The image fill color.
+ @param size The image size.
+ @return The colored, filled image.
+ */
++ (UIImage*)imageOfColor:(UIColor*)color size:(CGSize)size;
+
+/**
  Converts degrees to radians.
  TODO: create an OBAMath helper and move this in there!
 

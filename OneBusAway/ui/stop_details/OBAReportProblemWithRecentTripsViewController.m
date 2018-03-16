@@ -16,12 +16,13 @@
 
 #import "OBAReportProblemWithRecentTripsViewController.h"
 #import "OBAReportProblemWithTripViewController.h"
-#import "OBADepartureRow.h"
 @import SVProgressHUD;
 #import "OneBusAway-Swift.h"
 #import "OBAReportProblemWithStopViewController.h"
 
 @interface OBAReportProblemWithRecentTripsViewController ()
+@property(nonatomic,strong) PromiseWrapper *stopArrivalsPromiseWrapper;
+@property(nonatomic,strong) PromiseWrapper *tripDetailsPromiseWrapper;
 @property(nonatomic,copy) NSString *stopID;
 @property(nonatomic,strong) OBAArrivalsAndDeparturesForStopV2 *arrivalsAndDepartures;
 @end
@@ -39,17 +40,24 @@
     return self;
 }
 
+- (void)dealloc {
+    [self.stopArrivalsPromiseWrapper cancel];
+    [self.tripDetailsPromiseWrapper cancel];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     [SVProgressHUD show];
-    [self.modelService requestStopForID:self.stopID minutesBefore:30 minutesAfter:30].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
+    self.stopArrivalsPromiseWrapper = [self.modelService requestStopArrivalsAndDeparturesWithID:self.stopID minutesBefore:30 minutesAfter:30];
+    self.stopArrivalsPromiseWrapper.anyPromise.then(^(NetworkResponse *networkResponse) {
+        OBAArrivalsAndDeparturesForStopV2 *response = networkResponse.object;
         self.arrivalsAndDepartures = response;
         [self populateTable];
     }).always(^{
         [SVProgressHUD dismiss];
     }).catch(^(NSError *error) {
-        [AlertPresenter showError:error];
+        [AlertPresenter showError:error presentingController:self];
     });
 }
 
@@ -68,12 +76,12 @@
         OBADepartureRow *row = [[OBADepartureRow alloc] initWithAction:^(OBABaseRow *blockRow){
             [self reportProblemWithTrip:dep.tripInstance];
         }];
-        row.routeName = dep.bestAvailableName;
-        row.destination = dep.tripHeadsign.capitalizedString;
-        row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep];
 
         OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState];
         row.upcomingDepartures = @[upcoming];
+
+        row.attributedMiddleLine = [OBADepartureRow buildAttributedRoute:dep.bestAvailableName destination:dep.tripHeadsign.capitalizedString];
+        row.attributedBottomLine = [OBADepartureCellHelpers attributedDepartureTimeWithStatusText:[OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep] upcomingDeparture:upcoming];
 
         row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
@@ -88,20 +96,23 @@
 
 - (void)reportProblemWithTrip:(OBATripInstanceRef*)tripInstance {
     [SVProgressHUD show];
-    [self.modelService requestTripDetailsForTripInstance:tripInstance].then(^(OBATripDetailsV2 *tripDetails) {
+
+    self.tripDetailsPromiseWrapper = [self.modelService requestTripDetailsWithTripInstance:tripInstance];
+    self.tripDetailsPromiseWrapper.anyPromise.then(^(NetworkResponse *response) {
+        OBATripDetailsV2 *tripDetails = response.object;
         OBAReportProblemWithTripViewController *vc = [[OBAReportProblemWithTripViewController alloc] initWithTripInstance:tripInstance trip:tripDetails.trip];
         vc.currentStopId = self.stopID;
         [self.navigationController pushViewController:vc animated:YES];
     }).always(^{
         [SVProgressHUD dismiss];
     }).catch(^(NSError *error) {
-        [AlertPresenter showError:error];
+        [AlertPresenter showError:error presentingController:self];
     });
 }
 
 #pragma mark - Lazy Loading
 
-- (OBAModelService*)modelService {
+- (PromisedModelService*)modelService {
     if (!_modelService) {
         _modelService = [OBAApplication sharedApplication].modelService;
     }

@@ -19,15 +19,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAVehicleMapAnnotation : NSObject <MKAnnotation> {
-    OBATripStatusV2 * _tripStatus;
-    BOOL _showLastKnownLocation;
-}
-
-- (id) initWithTripStatus:(OBATripStatusV2*)tripStatus;
-
-@property (nonatomic) BOOL showLastKnownLocation;
-
+@interface OBAVehicleMapAnnotation : NSObject <MKAnnotation>
+- (instancetype) initWithTripStatus:(OBATripStatusV2*)tripStatus;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -15,26 +15,28 @@
  */
 
 @import Foundation;
-#import <OBAKit/OBAModelService.h>
+#import <OBAKit/OBAModelFactory.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAModelServiceRequest : NSObject<OBAModelServiceRequest>
+typedef void (^OBADataSourceCompletion)(_Nullable id responseData, NSHTTPURLResponse *response,  NSError * _Nullable error);
+
+@interface OBAModelServiceRequest : NSObject
 
 @property(strong) OBAModelFactory * modelFactory;
 @property(assign,nullable) SEL modelFactorySelector;
-@property(copy,nullable) UIBackgroundTaskIdentifier (^cleanupBlock)(UIBackgroundTaskIdentifier task);
 
 @property BOOL checkCode;
 
-@property UIBackgroundTaskIdentifier bgTask;
 /**
  *  This has to be weak to avoid retain cycles between the "Connection" object and this service request.  The connection may hold a strong reference 
  *  to this request to perform some post processing on the data.
  */
-@property (nonatomic, weak) id<OBADataSourceConnection> connection;
+@property (nonatomic, weak) NSURLSessionTask *urlSessionTask;
 
-- (void) processData:(id) obj withError:(NSError *) error responseCode:(NSUInteger) code completionBlock:(OBADataSourceCompletion) completion;
+- (void)processData:(id)obj withError:(NSError*)error response:(NSHTTPURLResponse*)response completionBlock:(OBADataSourceCompletion)completion;
+
+- (void)cancel;
 @end
 
 NS_ASSUME_NONNULL_END

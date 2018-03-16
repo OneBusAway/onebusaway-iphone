@@ -28,7 +28,7 @@ NSInteger const OBAAnalyticsDimensionVoiceOver = 4;
 @implementation OBAAnalytics
 
 + (BOOL)OKToTrack {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:OBAOptInToTrackingDefaultsKey];
+    return [OBAApplication.sharedApplication.userDefaults boolForKey:OBAOptInToTrackingDefaultsKey];
 }
 
 + (void)configureVoiceOverStatus {

@@ -9,13 +9,26 @@
 #import "OBABookmarksViewController.h"
 #import "OBAStopViewController.h"
 #import "OBAEditStopBookmarkViewController.h"
-#import "OBABookmarkedRouteRow.h"
-#import "OBAArrivalAndDepartureSectionBuilder.h"
 #import "OBACollapsingHeaderView.h"
 #import "OBABookmarkGroupsViewController.h"
-#import "OBATableCell.h"
-#import "OBASegmentedRow.h"
 #import "OBANavigationTitleView.h"
+#import "ISHHoverBar.h"
+#import "UIViewController+OBAAdditions.h"
+
+@import SafariServices;
+@import Masonry;
+
+static NSString * const OBABookmarkTypeToggleUserDefaultsKey = @"OBABookmarkTypeToggleUserDefaultsKey";
+
+typedef NS_ENUM(NSUInteger, OBABookmarkTypeToggle) {
+    OBABookmarkTypeToggleBookmarks = 0,
+    OBABookmarkTypeToggleTodayWidget,
+};
+
+typedef NS_ENUM(NSUInteger, OBABookmarkSort) {
+    OBABookmarkSortGroup = 0,
+    OBABookmarkSortProximity,
+};
 
 static NSTimeInterval const kRefreshTimerInterval = 30.0;
 static NSUInteger const kMinutes = 60;
@@ -23,8 +36,12 @@ static NSUInteger const kMinutes = 60;
 static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDefaultsKey";
 
 @interface OBABookmarksViewController ()
+@property(nonatomic,strong) ISHHoverBar *sortHoverBar;
+@property(nonatomic,strong) NSHashTable *pendingPromises;
 @property(nonatomic,strong) NSTimer *refreshBookmarksTimer;
 @property(nonatomic,strong) NSMutableDictionary<OBABookmarkV2*,NSArray<OBAArrivalAndDepartureV2*>*> *bookmarksAndDepartures;
+@property(nonatomic,strong) OBAExtendedNavBarView *toggleContainer;
+@property(nonatomic,strong) UISegmentedControl *bookmarkTypeToggle;
 @end
 
 @implementation OBABookmarksViewController
@@ -36,9 +53,10 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
         self.title = NSLocalizedString(@"msg_bookmarks", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"Favorites"];
         self.tabBarItem.selectedImage = [UIImage imageNamed:@"Favorites_Selected"];
-        self.emptyDataSetTitle = NSLocalizedString(@"msg_no_bookmarks", @"");
-        self.emptyDataSetDescription = NSLocalizedString(@"msg_explanatory_add_bookmark_from_stop", @"");
+
         _bookmarksAndDepartures = [[NSMutableDictionary alloc] init];
+
+        _pendingPromises = [NSHashTable weakObjectsHashTable];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
@@ -46,6 +64,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 }
 
 - (void)dealloc {
+    [self cancelPendingPromises];
     [self cancelTimer];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
@@ -55,6 +74,15 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [self createBookmarkTypeToggle];
+
+    [self updateEmptyDataSetText];
+
+    [self.tableView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.toggleContainer.mas_bottom);
+        make.left.right.and.bottom.equalTo(self.view);
+    }];
+
     self.tableView.estimatedRowHeight = 80.f;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
 
@@ -62,6 +90,8 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_groups", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editGroups)];
+
+    [self createSortHoverBar];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -95,6 +125,8 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 
     [self cancelTimer];
+
+    [self cancelPendingPromises];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -120,6 +152,8 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     // Wipe out the 'scheduled arrival/departure' footer message when the
     // application is backgrounded to ensure that it doesn't hang out forever.
     self.tableFooterView = nil;
+
+    [self cancelPendingPromises];
 }
 
 - (void)locationChanged:(NSNotification*)note {
@@ -145,7 +179,91 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     }
 }
 
-#pragma mark - Refresh Bookmarks
+#pragma mark - Bookmark Toggle
+
+- (void)createBookmarkTypeToggle {
+    [OBAExtendedNavBarView customizeNavigationBar:self.navigationController.navigationBar];
+
+    self.toggleContainer = [[OBAExtendedNavBarView alloc] initWithFrame:CGRectZero];
+
+    NSString *bookmarks = NSLocalizedString(@"bookmarks.toggle.bookmarks", @"Bookmarks toggle item");
+    NSString *todayExt = NSLocalizedString(@"bookmarks.toggle.today_view", @"Today View toggle item");
+    self.bookmarkTypeToggle = [[UISegmentedControl alloc] initWithItems:@[bookmarks, todayExt]];
+    self.bookmarkTypeToggle.selectedSegmentIndex = [self.application.userDefaults integerForKey:OBABookmarkTypeToggleUserDefaultsKey];
+    [self.bookmarkTypeToggle setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor blackColor]} forState:UIControlStateNormal];
+    [self.bookmarkTypeToggle addTarget:self action:@selector(toggleBookmarks) forControlEvents:UIControlEventValueChanged];
+
+    [self.toggleContainer addSubview:self.bookmarkTypeToggle];
+    [self.bookmarkTypeToggle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.and.bottom.equalTo(self.toggleContainer).inset(OBATheme.defaultPadding);
+        make.center.equalTo(self.toggleContainer);
+    }];
+
+    [self.view addSubview:self.toggleContainer];
+    [self.toggleContainer mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.and.right.equalTo(self.view);
+        make.top.equalTo(self.view.mas_topMargin);
+        make.height.equalTo(@44).priorityMedium();
+    }];
+}
+
+- (void)toggleBookmarks {
+    OBABookmarkTypeToggle toggleValue = self.bookmarkTypeToggle.selectedSegmentIndex;
+    [self.application.userDefaults setInteger:toggleValue forKey:OBABookmarkTypeToggleUserDefaultsKey];
+    [self updateEmptyDataSetText];
+    [self loadDataWithTableReload:YES];
+}
+
+- (OBABookmarkTypeToggle)bookmarkTypeToggleValue {
+    return [self.application.userDefaults integerForKey:OBABookmarkTypeToggleUserDefaultsKey];
+}
+
+#pragma mark - Empty Data Set
+
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
+    return [self selectedSubTabIsEmpty];
+}
+
+- (void)updateEmptyDataSetText {
+    if ([self bookmarkTypeToggleValue] == OBABookmarkTypeToggleTodayWidget) {
+        self.emptyDataSetTitle = NSLocalizedString(@"bookmarks_controller.today_view.no_content_title", @"Empty data set title when there are no Today View bookmarks.");
+        self.emptyDataSetDescription = NSLocalizedString(@"bookmarks_controller.today_view.no_content_description", @"Empty data set description when there are no Today View bookmarks.");
+    }
+    else {
+        self.emptyDataSetTitle = NSLocalizedString(@"msg_no_bookmarks", @"");
+        self.emptyDataSetDescription = NSLocalizedString(@"msg_explanatory_add_bookmark_from_stop", @"");
+    }
+
+    [self reloadEmptyDataSet];
+}
+
+- (nullable NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state {
+    if ([self bookmarkTypeToggleValue] != OBABookmarkTypeToggleTodayWidget) {
+        return nil;
+    }
+
+    NSDictionary *attrs = @{
+                            NSFontAttributeName: [OBATheme boldBodyFont],
+                            NSForegroundColorAttributeName: [OBATheme OBADarkGreen]
+                            };
+    return [[NSAttributedString alloc] initWithString:OBAStrings.learnMore attributes:attrs];
+}
+
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView {
+    NSURL *URL = [NSURL URLWithString:@"https://support.apple.com/en-us/HT207122"];
+    SFSafariViewController *safariController = [[SFSafariViewController alloc] initWithURL:URL];
+    [self presentViewController:safariController animated:YES completion:nil];
+}
+
+#pragma mark - Refresh Bookmarks/Network Loading
+
+- (void)cancelPendingPromises {
+    NSArray<PromiseWrapper*> *promises = self.pendingPromises.allObjects;
+
+    for (PromiseWrapper *p in promises) {
+        [p cancel];
+    }
+}
 
 - (void)cancelTimer {
     [self.refreshBookmarksTimer invalidate];
@@ -168,35 +286,20 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     }
 }
 
-+ (NSArray<OBAUpcomingDeparture*>*)upcomingDeparturesFromArrivalsAndDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)matchingDepartures {
-    NSMutableArray *upcomingDepartures = [NSMutableArray array];
-    for (OBAArrivalAndDepartureV2 *dep in matchingDepartures) {
-        [upcomingDepartures addObject:[[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState]];
-    }
-    return [NSArray arrayWithArray:upcomingDepartures];
-}
-
-+ (BOOL)hasScheduledDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)departures {
-    for (OBAArrivalAndDepartureV2* dep in departures) {
-        if (!dep.hasRealTimeData) {
-            return YES;
-        }
-    }
-    return NO;
-}
-
 - (void)refreshDataForBookmark:(OBABookmarkV2*)bookmark {
     OBABookmarkedRouteRow *row = [self rowForBookmarkVersion260:bookmark];
 
-    [self.modelService requestStopForID:bookmark.stopId minutesBefore:0 minutesAfter:kMinutes].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
+    PromiseWrapper *promiseWrapper = [self.modelService requestStopArrivalsAndDeparturesWithID:bookmark.stopId minutesBefore:0 minutesAfter:kMinutes];
+    promiseWrapper.anyPromise.then(^(NetworkResponse *networkResponse) {
+        OBAArrivalsAndDeparturesForStopV2* response = networkResponse.object;
         NSArray<OBAArrivalAndDepartureV2*> *matchingDepartures = [bookmark matchingArrivalsAndDeparturesForStop:response];
-        BOOL missingRealTimeData = [self.class hasScheduledDepartures:matchingDepartures];
+        BOOL missingRealTimeData = [OBAArrivalAndDepartureV2 hasScheduledDepartures:matchingDepartures];
 
         if (matchingDepartures.count > 0) {
-            row.supplementaryMessage = nil;
+            row.errorMessage = nil;
         }
         else {
-            row.supplementaryMessage = [NSString stringWithFormat:NSLocalizedString(@"text_no_departure_next_time_minutes_params", @""), bookmark.routeShortName, @(kMinutes)];
+            row.errorMessage = [NSString stringWithFormat:NSLocalizedString(@"text_no_departure_next_time_minutes_params", @"No departure scheduled for the next {MINUTES} minutes"), @(kMinutes)];
         }
 
         // This will result in some 'false positive' instances where the
@@ -206,7 +309,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
             self.tableFooterView = [OBAUIBuilder footerViewWithText:[OBAStrings scheduledDepartureExplanation] maximumWidth:CGRectGetWidth(self.tableView.frame)];
         }
 
-        row.upcomingDepartures = [self.class upcomingDeparturesFromArrivalsAndDepartures:matchingDepartures];
+        row.upcomingDepartures = [OBAUpcomingDeparture upcomingDeparturesFromArrivalsAndDepartures:matchingDepartures];
         [self.class updateBookmarkedRouteRow:row withArrivalAndDeparture:matchingDepartures.firstObject];
         self.bookmarksAndDepartures[bookmark] = matchingDepartures;
         row.state = OBABookmarkedRouteRowStateComplete;
@@ -214,7 +317,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
         DDLogError(@"Failed to load departure for bookmark: %@", error);
         row.upcomingDepartures = nil;
         row.state = OBABookmarkedRouteRowStateError;
-        row.supplementaryMessage = [error localizedDescription];
+        row.errorMessage = [error localizedDescription];
     }).always(^{
         NSIndexPath *indexPath = [self indexPathForModel:bookmark];
 
@@ -251,33 +354,48 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     });
 }
 
-#pragma mark - Data Loading
+#pragma mark - Data Composition/Table View Construction
+
+- (BOOL)selectedSubTabIsEmpty {
+    if (self.bookmarkTypeToggleValue == OBABookmarkTypeToggleBookmarks) {
+        return self.modelDAO.bookmarkGroups.count < 2 && self.modelDAO.ungroupedBookmarks.count == 0;
+    }
+    else {
+        return self.modelDAO.todayBookmarkGroup.bookmarks.count == 0;
+    }
+}
 
 - (void)loadData {
     [self loadDataWithTableReload:YES];
 }
 
 - (void)loadDataWithTableReload:(BOOL)tableReload {
+    // If there are no bookmarks anywhere in the system, ungrouped or otherwise, then skip
+    // over the following code and instead show the empty table message. There is always
+    // one group because of the Today View.
+    if (self.selectedSubTabIsEmpty) {
+        self.sections = @[];
+
+        if (tableReload) {
+            [self.tableView reloadData];
+        }
+
+        return;
+    }
+
     NSMutableArray *sections = [[NSMutableArray alloc] init];
 
-    // If there are no bookmarks anywhere in the system, ungrouped or otherwise, then skip
-    // over this code and instead show the empty table message.
-    if (self.modelDAO.bookmarkGroups.count != 0 || self.modelDAO.ungroupedBookmarks.count != 0) {
-        [sections addObject:[self buildSegmentedControlSection]];
-
-        if ([OBABookmarksViewController sortBookmarksByProximity]) {
+    if (self.bookmarkTypeToggleValue == OBABookmarkTypeToggleBookmarks) {
+        if (self.sortBookmarksByProximity) {
             OBATableSection *section = [self proximitySortedTableSection];
-
-            if (section) {
-                [sections addObject:section];
-            }
-            else {
-                [sections addObjectsFromArray:[self buildGroupedTableSections]];
-            }
+            [sections addObject:section];
         }
         else {
             [sections addObjectsFromArray:[self buildGroupedTableSections]];
         }
+    }
+    else {
+        [sections addObject:[self todayBookmarkTableSection]];
     }
 
     self.sections = sections;
@@ -289,47 +407,30 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
 - (NSArray<OBATableSection*>*)buildGroupedTableSections {
     NSMutableArray *sections = [[NSMutableArray alloc] init];
-    for (OBABookmarkGroup *group in [self.modelDAO.bookmarkGroups sortedArrayUsingSelector:@selector(compare:)]) {
-        OBATableSection *section = [self tableSectionFromBookmarks:group.bookmarks group:group];
+    for (OBABookmarkGroup *group in [self.modelDAO.userCreatedBookmarkGroups sortedArrayUsingSelector:@selector(compare:)]) {
+        OBATableSection *section = [self collapsibleTableSectionFromBookmarks:group.bookmarks group:group];
         [sections addObject:section];
     }
 
-    OBATableSection *looseBookmarks = [self tableSectionFromBookmarks:self.modelDAO.ungroupedBookmarks group:nil];
+    OBATableSection *looseBookmarks = [self collapsibleTableSectionFromBookmarks:self.modelDAO.ungroupedBookmarks group:nil];
     [sections addObject:looseBookmarks];
 
     return [NSArray arrayWithArray:sections];
 }
 
-- (OBATableSection*)buildSegmentedControlSection {
-    OBASegmentedRow *segmentedControl = [[OBASegmentedRow alloc] initWithSelectionChange:^(NSUInteger selectedIndex) {
-        [[NSUserDefaults standardUserDefaults] setInteger:selectedIndex forKey:OBABookmarkSortUserDefaultsKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [self loadDataWithTableReload:YES];
-    }];
-
-    segmentedControl.selectedItemIndex = [[NSUserDefaults standardUserDefaults] integerForKey:OBABookmarkSortUserDefaultsKey];
-
-    NSString *sortGroup = NSLocalizedString(@"bookmarks_controller.sort_by_group_item", @"Segmented control item title: 'Sort by Group'");
-    NSString *sortProximity = NSLocalizedString(@"bookmarks_controller.sort_by_proximity_item", @"Segmented control item title: 'Sort by Proximity'");
-    segmentedControl.items = @[sortGroup, sortProximity];
-
-    OBATableSection *segmentedControlSection = [[OBATableSection alloc] initWithTitle:nil rows:@[segmentedControl]];
-
-    return segmentedControlSection;
-}
-
-+ (BOOL)sortBookmarksByProximity {
-    // 1 is the index of the proximity sort item on the segmented control.
-    return [[NSUserDefaults standardUserDefaults] integerForKey:OBABookmarkSortUserDefaultsKey] == 1;
-}
-
-- (nullable OBATableSection*)proximitySortedTableSection {
+- (BOOL)sortBookmarksByProximity {
     CLLocation *location = self.locationManager.currentLocation;
 
     if (!location) {
-        return nil;
+        return NO;
     }
 
+    // 1 is the index of the proximity sort item on the segmented control.
+    return [OBAApplication.sharedApplication.userDefaults integerForKey:OBABookmarkSortUserDefaultsKey] == 1;
+}
+
+- (OBATableSection*)proximitySortedTableSection {
+    CLLocation *location = self.locationManager.currentLocation;
     NSArray<OBABookmarkV2*> *bookmarks = [self.modelDAO.bookmarksForCurrentRegion sortedArrayUsingComparator:^NSComparisonResult(OBABookmarkV2 *bm1, OBABookmarkV2 *bm2) {
         return [OBAMapHelpers getDistanceFrom:bm1.coordinate to:location.coordinate] > [OBAMapHelpers getDistanceFrom:bm2.coordinate to:location.coordinate];
     }];
@@ -338,6 +439,11 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:rows];
 
     return section;
+}
+
+- (OBATableSection*)todayBookmarkTableSection {
+    OBABookmarkGroup *todayGroup = self.modelDAO.todayBookmarkGroup;
+    return [self tableSectionFromBookmarks:todayGroup.bookmarks group:todayGroup];
 }
 
 #pragma mark - Actions
@@ -433,27 +539,34 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
 #pragma mark - Accessors
 
+- (OBAApplication*)application {
+    if (!_application) {
+        _application = [OBAApplication sharedApplication];
+    }
+    return _application;
+}
+
 - (OBARegionV2*)currentRegion {
-    return [OBAApplication sharedApplication].modelDao.currentRegion;
+    return self.modelDAO.currentRegion;
 }
 
 - (OBAModelDAO*)modelDAO {
     if (!_modelDAO) {
-        _modelDAO = [OBAApplication sharedApplication].modelDao;
+        _modelDAO = self.application.modelDao;
     }
     return _modelDAO;
 }
 
-- (OBAModelService*)modelService {
+- (PromisedModelService*)modelService {
     if (!_modelService) {
-        _modelService = [OBAApplication sharedApplication].modelService;
+        _modelService = self.application.modelService;
     }
     return _modelService;
 }
 
 - (OBALocationManager*)locationManager {
     if (!_locationManager) {
-        _locationManager = [OBAApplication sharedApplication].locationManager;
+        _locationManager = self.application.locationManager;
     }
     return _locationManager;
 }
@@ -463,7 +576,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 /*
  TODO: aggressively refactor me! This code is really ugly, and can definitely stand to be improved.
  */
-- (OBATableSection*)tableSectionFromBookmarks:(NSArray<OBABookmarkV2*>*)bookmarks group:(nullable OBABookmarkGroup*)group {
+- (OBATableSection*)collapsibleTableSectionFromBookmarks:(NSArray<OBABookmarkV2*>*)bookmarks group:(nullable OBABookmarkGroup*)group {
     NSArray<OBABaseRow*>* rows = @[];
 
     NSString *groupName = group ? group.name : NSLocalizedString(@"msg_bookmarks", @"");
@@ -507,6 +620,12 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     return section;
 }
 
+- (OBATableSection*)tableSectionFromBookmarks:(NSArray<OBABookmarkV2*>*)bookmarks group:(nullable OBABookmarkGroup*)group {
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:[self tableRowsFromBookmarks:bookmarks]];
+    section.model = group;
+    return section;
+}
+
 - (NSArray<OBABaseRow*>*)tableRowsFromBookmarks:(NSArray<OBABookmarkV2*>*)bookmarks {
     NSMutableArray *rows = [NSMutableArray new];
 
@@ -541,6 +660,54 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     return YES;
 }
 
+#pragma mark - Sort UI
+
+- (IBAction)showSortPopover {
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil];
+
+    NSString *sortGroup = NSLocalizedString(@"bookmarks_controller.sort_by_group_item", @"Segmented control item title: 'Sort by Group'");
+    OBATableRow *groupRow = [[OBATableRow alloc] initWithTitle:sortGroup action:^(OBABaseRow *row) {
+        [OBAApplication.sharedApplication.userDefaults setInteger:OBABookmarkSortGroup forKey:OBABookmarkSortUserDefaultsKey];
+        [self loadDataWithTableReload:YES];
+    }];
+
+    NSString *sortProximity = NSLocalizedString(@"bookmarks_controller.sort_by_proximity_item", @"Segmented control item title: 'Sort by Proximity'");
+    OBATableRow *proximityRow = [[OBATableRow alloc] initWithTitle:sortProximity action:^(OBABaseRow *row) {
+        [OBAApplication.sharedApplication.userDefaults setInteger:OBABookmarkSortProximity forKey:OBABookmarkSortUserDefaultsKey];
+        [self loadDataWithTableReload:YES];
+    }];
+
+    OBABookmarkSort sort = [OBAApplication.sharedApplication.userDefaults integerForKey:OBABookmarkSortUserDefaultsKey];
+
+    if (sort == OBABookmarkSortGroup) {
+        groupRow.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    else if (sort == OBABookmarkSortProximity) {
+        proximityRow.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+
+    [section addRow:groupRow];
+    [section addRow:proximityRow];
+
+    PickerViewController *picker = [[PickerViewController alloc] init];
+    picker.sections = @[section];
+
+    [self oba_presentPopoverViewController:picker fromView:self.sortHoverBar];
+}
+
+- (void)createSortHoverBar {
+    NSString *label = NSLocalizedString(@"bookmarks_controller.sorting_accessibility_label", @"Accessibility label for sorting popover button");
+    UIBarButtonItem *sortButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"sort-amount-desc"] accessibilityLabel:label target:self action:@selector(showSortPopover)];
+
+    self.sortHoverBar = [[ISHHoverBar alloc] init];
+    self.sortHoverBar.items = @[sortButton];
+    [self.view addSubview:self.sortHoverBar];
+    [self.sortHoverBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.mas_bottomLayoutGuideTop).offset(-OBATheme.defaultMargin);
+        make.trailing.equalTo(self).offset(-OBATheme.defaultMargin);
+    }];
+}
+
 #pragma mark - Row Builders
 
 /**
@@ -567,19 +734,18 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 }
 
 - (OBABookmarkedRouteRow *)rowForBookmarkVersion260:(OBABookmarkV2*)bookmark {
-    OBABookmarkedRouteRow *row = [[OBABookmarkedRouteRow alloc] initWithAction:^(OBABaseRow *baseRow) {
+    OBABookmarkedRouteRow *row = [[OBABookmarkedRouteRow alloc] initWithBookmark:bookmark action:^(OBABaseRow *baseRow) {
         OBAStopViewController *controller = [[OBAStopViewController alloc] initWithStopID:bookmark.stopId];
         [self.navigationController pushViewController:controller animated:YES];
     }];
-
-    row.bookmark = bookmark;
+    row.attributedTopLine = [[NSAttributedString alloc] initWithString:bookmark.name];
     [self performCommonBookmarkRowConfiguration:row forBookmark:bookmark];
 
     // We only have this object available once the associated network request completes.
     OBAArrivalAndDepartureV2 *arrivalAndDeparture = self.bookmarksAndDepartures[bookmark].firstObject;
     [self.class updateBookmarkedRouteRow:row withArrivalAndDeparture:arrivalAndDeparture];
 
-    row.upcomingDepartures = [self.class upcomingDeparturesFromArrivalsAndDepartures:self.bookmarksAndDepartures[bookmark]];
+    row.upcomingDepartures = [OBAUpcomingDeparture upcomingDeparturesFromArrivalsAndDepartures:self.bookmarksAndDepartures[bookmark]];
 
     return row;
 }
@@ -588,9 +754,9 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     if (!arrivalAndDeparture) {
         return;
     }
-    row.routeName = arrivalAndDeparture.bestAvailableName;
-    row.destination = arrivalAndDeparture.tripHeadsign;
-    row.statusText = [OBADepartureCellHelpers statusTextForArrivalAndDeparture:arrivalAndDeparture];
+    row.attributedTopLine = [[NSAttributedString alloc] initWithString:row.bookmark.name];
+    row.attributedMiddleLine = [OBADepartureRow buildAttributedRoute:arrivalAndDeparture.bestAvailableName destination:arrivalAndDeparture.tripHeadsign];
+    row.attributedBottomLine = [OBADepartureCellHelpers attributedDepartureTimeWithStatusText:[OBADepartureCellHelpers statusTextForArrivalAndDeparture:arrivalAndDeparture] upcomingDeparture:[OBAUpcomingDeparture upcomingDeparturesFromArrivalsAndDepartures:@[arrivalAndDeparture]].firstObject];
 }
 
 - (void)performCommonBookmarkRowConfiguration:(OBABaseRow*)row forBookmark:(OBABookmarkV2*)bookmark {

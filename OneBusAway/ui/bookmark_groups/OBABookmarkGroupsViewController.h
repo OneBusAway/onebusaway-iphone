@@ -6,11 +6,7 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-@import UIKit;
-#import "OBAStaticTableViewController.h"
-
-@class OBABookmarkGroup;
-@class OBAModelDAO;
+@import OBAKit;
 
 @protocol OBABookmarkGroupVCDelegate <NSObject>
 @optional

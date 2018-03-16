@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param upcomingDeparture An object that encapsulates several pieces of data about this departure.
  @return An attributed string
  */
-+ (NSAttributedString*)attributedDepartureTimeWithStatusText:(NSString*)statusText upcomingDeparture:(OBAUpcomingDeparture*)upcomingDeparture;
++ (NSAttributedString*)attributedDepartureTimeWithStatusText:(NSString*)statusText upcomingDeparture:(nullable OBAUpcomingDeparture*)upcomingDeparture;
 + (UIColor*)colorForStatus:(OBADepartureStatus)status;
 
 /**
