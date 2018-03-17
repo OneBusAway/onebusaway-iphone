@@ -20,6 +20,7 @@ ___destroy_helper_block_
 +[SVProgressHUD setBackgroundColor:]
 +[SVProgressHUD setBackgroundLayerColor:]
 +[SVProgressHUD setImageViewSize:]
++[SVProgressHUD setShouldTintImages:]
 +[SVProgressHUD setInfoImage:]
 +[SVProgressHUD setSuccessImage:]
 +[SVProgressHUD setErrorImage:]
@@ -41,25 +42,25 @@ ___destroy_helper_block_
 +[SVProgressHUD showProgress:status:maskType:]
 +[SVProgressHUD showInfoWithStatus:]
 ___36+[SVProgressHUD showInfoWithStatus:]_block_invoke
-___copy_helper_block_.106
-___destroy_helper_block_.107
+___copy_helper_block_.108
+___destroy_helper_block_.109
 +[SVProgressHUD showInfoWithStatus:maskType:]
 +[SVProgressHUD showSuccessWithStatus:]
 ___39+[SVProgressHUD showSuccessWithStatus:]_block_invoke
-___copy_helper_block_.114
-___destroy_helper_block_.115
+___copy_helper_block_.116
+___destroy_helper_block_.117
 +[SVProgressHUD showSuccessWithStatus:maskType:]
 ___48+[SVProgressHUD showSuccessWithStatus:maskType:]_block_invoke
-___copy_helper_block_.120
-___destroy_helper_block_.121
+___copy_helper_block_.122
+___destroy_helper_block_.123
 +[SVProgressHUD showErrorWithStatus:]
 ___37+[SVProgressHUD showErrorWithStatus:]_block_invoke
-___copy_helper_block_.126
-___destroy_helper_block_.127
+___copy_helper_block_.128
+___destroy_helper_block_.129
 +[SVProgressHUD showErrorWithStatus:maskType:]
 ___46+[SVProgressHUD showErrorWithStatus:maskType:]_block_invoke
-___copy_helper_block_.132
-___destroy_helper_block_.133
+___copy_helper_block_.134
+___destroy_helper_block_.135
 +[SVProgressHUD showImage:status:]
 +[SVProgressHUD showImage:status:maskType:]
 +[SVProgressHUD popActivity]
@@ -81,53 +82,53 @@ ___destroy_helper_block_.133
 -[SVProgressHUD notificationUserInfo]
 -[SVProgressHUD positionHUD:]
 ___29-[SVProgressHUD positionHUD:]_block_invoke
-___copy_helper_block_.322
-___destroy_helper_block_.323
+___copy_helper_block_.319
+___destroy_helper_block_.320
 -[SVProgressHUD moveToPoint:rotateAngle:]
 -[SVProgressHUD controlViewDidReceiveTouchEvent:forEvent:]
 -[SVProgressHUD showProgress:status:]
 ___37-[SVProgressHUD showProgress:status:]_block_invoke
-___copy_helper_block_.390
-___destroy_helper_block_.391
+___copy_helper_block_.385
+___destroy_helper_block_.386
 -[SVProgressHUD showImage:status:duration:]
 ___43-[SVProgressHUD showImage:status:duration:]_block_invoke
-___copy_helper_block_.399
-___destroy_helper_block_.400
+___copy_helper_block_.402
+___destroy_helper_block_.403
 -[SVProgressHUD fadeIn:]
 ___Block_byref_object_copy_
 ___Block_byref_object_dispose_
 ___24-[SVProgressHUD fadeIn:]_block_invoke
-___copy_helper_block_.418
-___destroy_helper_block_.419
-___24-[SVProgressHUD fadeIn:]_block_invoke.421
-___copy_helper_block_.424
-___destroy_helper_block_.425
-___24-[SVProgressHUD fadeIn:]_block_invoke.429
-___copy_helper_block_.430
-___destroy_helper_block_.431
+___copy_helper_block_.422
+___destroy_helper_block_.423
+___24-[SVProgressHUD fadeIn:]_block_invoke.425
+___copy_helper_block_.428
+___destroy_helper_block_.429
 ___24-[SVProgressHUD fadeIn:]_block_invoke.433
 ___copy_helper_block_.434
 ___destroy_helper_block_.435
+___24-[SVProgressHUD fadeIn:]_block_invoke.437
+___copy_helper_block_.438
+___destroy_helper_block_.439
 -[SVProgressHUD dismiss]
 -[SVProgressHUD dismissWithDelay:completion:]
 ___45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke
 ___45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke_2
-___copy_helper_block_.440
-___destroy_helper_block_.441
-___45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke.443
-___copy_helper_block_.454
-___destroy_helper_block_.455
-___45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke.457
-___45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke_2.460
-___copy_helper_block_.461
-___destroy_helper_block_.462
-___45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke.464
+___copy_helper_block_.444
+___destroy_helper_block_.445
+___45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke.447
+___copy_helper_block_.458
+___destroy_helper_block_.459
+___45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke.461
+___45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke_2.464
 ___copy_helper_block_.465
 ___destroy_helper_block_.466
-___copy_helper_block_.468
-___destroy_helper_block_.469
-___copy_helper_block_.471
-___destroy_helper_block_.472
+___45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke.468
+___copy_helper_block_.469
+___destroy_helper_block_.470
+___copy_helper_block_.472
+___destroy_helper_block_.473
+___copy_helper_block_.475
+___destroy_helper_block_.476
 -[SVProgressHUD indefiniteAnimatedView]
 -[SVProgressHUD ringView]
 -[SVProgressHUD backgroundRingView]
@@ -160,6 +161,7 @@ ___destroy_helper_block_.472
 -[SVProgressHUD setForegroundColor:]
 -[SVProgressHUD setBackgroundColor:]
 -[SVProgressHUD setBackgroundLayerColor:]
+-[SVProgressHUD setShouldTintImages:]
 -[SVProgressHUD setInfoImage:]
 -[SVProgressHUD setSuccessImage:]
 -[SVProgressHUD setErrorImage:]
@@ -184,6 +186,7 @@ ___destroy_helper_block_.472
 -[SVProgressHUD backgroundLayerColor]
 -[SVProgressHUD imageViewSize]
 -[SVProgressHUD setImageViewSize:]
+-[SVProgressHUD shouldTintImages]
 -[SVProgressHUD infoImage]
 -[SVProgressHUD successImage]
 -[SVProgressHUD errorImage]
@@ -217,14 +220,15 @@ ___destroy_helper_block_.472
 -[SVProgressHUD setActivityCount:]
 -[SVProgressHUD setHapticGenerator:]
 -[SVProgressHUD .cxx_destruct]
+___clang_at_available_requires_core_foundation_framework
 _sharedView.once
 _sharedView.sharedView
 ___block_descriptor_tmp
-___block_descriptor_tmp.109
-___block_descriptor_tmp.117
-___block_descriptor_tmp.123
-___block_descriptor_tmp.129
-___block_descriptor_tmp.135
+___block_descriptor_tmp.111
+___block_descriptor_tmp.119
+___block_descriptor_tmp.125
+___block_descriptor_tmp.131
+___block_descriptor_tmp.137
 _OBJC_IVAR_$_SVProgressHUD._isInitializing
 _OBJC_IVAR_$_SVProgressHUD._backgroundColor
 _OBJC_IVAR_$_SVProgressHUD._foregroundColor
@@ -234,6 +238,8 @@ _OBJC_IVAR_$_SVProgressHUD._defaultStyle
 _OBJC_IVAR_$_SVProgressHUD._defaultAnimationType
 _OBJC_IVAR_$_SVProgressHUD._minimumSize
 _OBJC_IVAR_$_SVProgressHUD._font
+_OBJC_IVAR_$_SVProgressHUD._imageViewSize
+_OBJC_IVAR_$_SVProgressHUD._shouldTintImages
 _OBJC_IVAR_$_SVProgressHUD._infoImage
 _OBJC_IVAR_$_SVProgressHUD._successImage
 _OBJC_IVAR_$_SVProgressHUD._errorImage
@@ -241,7 +247,6 @@ _OBJC_IVAR_$_SVProgressHUD._ringThickness
 _OBJC_IVAR_$_SVProgressHUD._ringRadius
 _OBJC_IVAR_$_SVProgressHUD._ringNoTextRadius
 _OBJC_IVAR_$_SVProgressHUD._cornerRadius
-_OBJC_IVAR_$_SVProgressHUD._imageViewSize
 _OBJC_IVAR_$_SVProgressHUD._graceTimeInterval
 _OBJC_IVAR_$_SVProgressHUD._minimumDismissTimeInterval
 _OBJC_IVAR_$_SVProgressHUD._maximumDismissTimeInterval
@@ -251,19 +256,19 @@ _OBJC_IVAR_$_SVProgressHUD._maxSupportedWindowLevel
 _OBJC_IVAR_$_SVProgressHUD._hapticsEnabled
 _OBJC_IVAR_$_SVProgressHUD._graceTimer
 _OBJC_IVAR_$_SVProgressHUD._fadeOutTimer
-___block_descriptor_tmp.324
-___block_descriptor_tmp.392
-___block_descriptor_tmp.401
-___block_descriptor_tmp.420
-___block_descriptor_tmp.426
-___block_descriptor_tmp.432
-___block_descriptor_tmp.437
-___block_descriptor_tmp.442
-___block_descriptor_tmp.456
-___block_descriptor_tmp.463
+___block_descriptor_tmp.321
+___block_descriptor_tmp.387
+___block_descriptor_tmp.405
+___block_descriptor_tmp.424
+___block_descriptor_tmp.430
+___block_descriptor_tmp.436
+___block_descriptor_tmp.441
+___block_descriptor_tmp.446
+___block_descriptor_tmp.460
 ___block_descriptor_tmp.467
-___block_descriptor_tmp.470
-___block_descriptor_tmp.473
+___block_descriptor_tmp.471
+___block_descriptor_tmp.474
+___block_descriptor_tmp.478
 _OBJC_IVAR_$_SVProgressHUD._indefiniteAnimatedView
 _OBJC_IVAR_$_SVProgressHUD._ringView
 _OBJC_IVAR_$_SVProgressHUD._backgroundRingView
@@ -279,32 +284,33 @@ _OBJC_IVAR_$_SVProgressHUD._viewForExtension
 _OBJC_IVAR_$_SVProgressHUD._offsetFromCenter
 _OBJC_IVAR_$_SVProgressHUD._progress
 _OBJC_IVAR_$_SVProgressHUD._activityCount
-Apple LLVM version 9.0.0 (clang-900.0.38)
+Apple LLVM version 9.0.0 (clang-900.0.39.2)
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/SVProgressHUD/SVProgressHUD/SVProgressHUD.m
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/SVProgressHUD
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/SVProgressHUD/SVProgressHUD/SVProgressHUD.h
 __CGSizeEqualToSize
-/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CGGeometry.h
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CGGeometry.h
 __destroy_helper_block_
 __copy_helper_block_
-__45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke.464
-__45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke_2.460
-__45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke.457
-__45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke.443
+__45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke.468
+__45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke_2.464
+__45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke.461
+__45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke.447
 __45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke_2
 __45-[SVProgressHUD dismissWithDelay:completion:]_block_invoke
+__24-[SVProgressHUD fadeIn:]_block_invoke.437
 __24-[SVProgressHUD fadeIn:]_block_invoke.433
-__24-[SVProgressHUD fadeIn:]_block_invoke.429
-__24-[SVProgressHUD fadeIn:]_block_invoke.421
+__24-[SVProgressHUD fadeIn:]_block_invoke.425
 __24-[SVProgressHUD fadeIn:]_block_invoke
 __Block_byref_object_dispose_
 __Block_byref_object_copy_
 __43-[SVProgressHUD showImage:status:duration:]_block_invoke
 __37-[SVProgressHUD showProgress:status:]_block_invoke
+CGPointMake
 __29-[SVProgressHUD positionHUD:]_block_invoke
-UIInterfaceOrientationIsLandscape
-/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIApplication.h
 UIInterfaceOrientationIsPortrait
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIApplication.h
+CGRectMake
 __46+[SVProgressHUD showErrorWithStatus:maskType:]_block_invoke
 __37+[SVProgressHUD showErrorWithStatus:]_block_invoke
 __48+[SVProgressHUD showSuccessWithStatus:maskType:]_block_invoke
@@ -312,7 +318,7 @@ __39+[SVProgressHUD showSuccessWithStatus:]_block_invoke
 __36+[SVProgressHUD showInfoWithStatus:]_block_invoke
 __27+[SVProgressHUD sharedView]_block_invoke
 _dispatch_once
-/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk/usr/include/dispatch/once.h
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/usr/include/dispatch/once.h
 -[SVRadialGradientLayer drawInContext:]
 -[SVRadialGradientLayer gradientCenter]
 -[SVRadialGradientLayer setGradientCenter:]
@@ -338,6 +344,7 @@ _OBJC_IVAR_$_SVIndefiniteAnimatedView._strokeColor
 _OBJC_IVAR_$_SVIndefiniteAnimatedView._strokeThickness
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/SVProgressHUD/SVProgressHUD/SVIndefiniteAnimatedView.m
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/SVProgressHUD/SVProgressHUD/SVIndefiniteAnimatedView.h
+CGSizeMake
 -[SVProgressAnimatedView willMoveToSuperview:]
 -[SVProgressAnimatedView layoutAnimatedLayer]
 -[SVProgressAnimatedView ringAnimatedLayer]
@@ -360,9 +367,31 @@ _OBJC_IVAR_$_SVProgressAnimatedView._strokeThickness
 _OBJC_IVAR_$_SVProgressAnimatedView._strokeEnd
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/SVProgressHUD/SVProgressHUD/SVProgressAnimatedView.m
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/SVProgressHUD/SVProgressHUD/SVProgressAnimatedView.h
-/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/SVProgressHUD/2.2.2/Build/Intermediates.noindex/ArchiveIntermediates/SVProgressHUD-Framework/IntermediateBuildFilesPath/SVProgressHUD.build/Release-iphoneos/SVProgressHUD-Framework.build/DerivedSources/SVProgressHUD_vers.c
+/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.2_9C40b/SVProgressHUD/2.2.5/Build/Intermediates.noindex/ArchiveIntermediates/SVProgressHUD-Framework/IntermediateBuildFilesPath/SVProgressHUD.build/Release-iphoneos/SVProgressHUD-Framework.build/DerivedSources/SVProgressHUD_vers.c
 __ZL15__ARCLite__loadv
+__ZL30add_image_hook_autoreleasepoolPK11mach_headerl
+__ZL34__arclite_objc_autoreleasePoolPushv
+__ZL33__arclite_objc_autoreleasePoolPopPv
+__ZL19patch_lazy_pointersPK11mach_headerP7patch_tm
+__ZL42__arclite_NSArray_objectAtIndexedSubscriptP7NSArrayP13objc_selectorj
+__ZL53__arclite_NSMutableArray_setObject_atIndexedSubscriptP14NSMutableArrayP13objc_selectorP11objc_objectj
+__ZL46__arclite_NSDictionary_objectForKeyedSubscriptP12NSDictionaryP13objc_selectorP11objc_object
+__ZL47__arclite_NSOrderedSet_objectAtIndexedSubscriptP12NSOrderedSetP13objc_selectorj
+__ZL58__arclite_NSMutableOrderedSet_setObject_atIndexedSubscriptP19NSMutableOrderedSetP13objc_selectorP11objc_objectj
 __ZL58__arclite_NSMutableDictionary__setObject_forKeyedSubscriptP19NSMutableDictionaryP13objc_selectorP11objc_objectS4_
+__ZL18add_image_hook_ARCPK11mach_headerl
+__ZL36__arclite_object_setInstanceVariableP11objc_objectPKcPv
+__ZL24__arclite_object_setIvarP11objc_objectP9objc_ivarS0_
+__ZL21__arclite_object_copyP11objc_objectm
+__ZL21__arclite_objc_retainP11objc_object
+__ZL26__arclite_objc_retainBlockP11objc_object
+__ZL22__arclite_objc_releaseP11objc_object
+__ZL26__arclite_objc_autoreleaseP11objc_object
+__ZL32__arclite_objc_retainAutoreleaseP11objc_object
+__ZL37__arclite_objc_autoreleaseReturnValueP11objc_object
+__ZL43__arclite_objc_retainAutoreleaseReturnValueP11objc_object
+__ZL44__arclite_objc_retainAutoreleasedReturnValueP11objc_object
+__ZL26__arclite_objc_storeStrongPP11objc_objectS0_
 __ZL22add_image_hook_swiftV1PK11mach_headerl
 __ZL42__arclite_NSUndoManagerProxy_isKindOfClassP11objc_objectP13objc_selectorP10objc_class
 __ZL13replaceMethodP10objc_classP13objc_selectorPFP11objc_objectS4_S2_zEPS6_
@@ -406,9 +435,17 @@ __ZL11_class_name
 __ZL32OBJC_$_CLASS_METHODS___ARCLite__
 __ZL17_load_method_name
 __ZL17_load_method_type
+__ZL23NSAutoreleasePool_class
+__ZZL30add_image_hook_autoreleasepoolPK11mach_headerlE7patches
+__ZGVZL30add_image_hook_autoreleasepoolPK11mach_headerlE7patches
+l_OBJC_PROTOCOL_$___ARCLiteIndexedSubscripting__
+l_OBJC_LABEL_PROTOCOL_$___ARCLiteIndexedSubscripting__
+l_OBJC_PROTOCOL_REFERENCE_$___ARCLiteIndexedSubscripting__
 l_OBJC_PROTOCOL_$___ARCLiteKeyedSubscripting__
 l_OBJC_LABEL_PROTOCOL_$___ARCLiteKeyedSubscripting__
 l_OBJC_PROTOCOL_REFERENCE_$___ARCLiteKeyedSubscripting__
+__ZZL18add_image_hook_ARCPK11mach_headerlE7patches
+__ZGVZL18add_image_hook_ARCPK11mach_headerlE7patches
 __ZL30NSUndoManagerProxy_targetClass
 __ZL29original_NSManagedObject_init
 __ZL40original_NSManagedObject_allocWithEntity
@@ -436,7 +473,8 @@ __ZL25original_protocol_getName
 __ZL36original_objc_copyClassNamesForImage
 __ZL12demangleLock
 __ZL9Demangled
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c++ -arch arm64 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=c++11 -Wno-trigraphs -fno-exceptions -fno-rtti -fno-sanitize=vptr -mpascal-strings -Os -Wno-missing-field-initializers -Wmissing-prototypes -Wno-implicit-atomic-properties -Wno-arc-repeated-use-of-weak -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -Wno-c++11-extensions -D NDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.Internal.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Winvalid-offsetof -miphoneos-version-min=4.3 -g -fno-threadsafe-statics -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -fembed-bitcode=all -iquote /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-generated-files.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-own-target-headers.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-all-target-headers.hmap -iquote /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-project-headers.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/Symbols/BuiltProducts/include -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/DerivedSources/arm64 -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/DerivedSources -F/Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/Symbols/BuiltProducts -iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.Internal.sdk/System/Library/PrivateFrameworks -Wall -Wextra -Wno-gcc-compat -Wno-error=incomplete-umbrella -Wno-error=invalid-ios-deployment-target -Wno-error=incomplete-umbrella -Wno-error=invalid-ios-deployment-target -MMD -MT dependencies -MF /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/arm64/arclite.d --serialize-diagnostics /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/arm64/arclite.dia -c /Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-67/source/arclite.mm -o /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/arm64/arclite.o -mlinker-version=302.3.1
+Apple LLVM version 9.0.0 (clang-900.0.39)
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c++ -arch armv7 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=c++11 -Wno-trigraphs -fno-exceptions -fno-rtti -fno-sanitize=vptr -mpascal-strings -Os -Wno-missing-field-initializers -Wmissing-prototypes -Wno-implicit-atomic-properties -Wno-arc-repeated-use-of-weak -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -Wno-c++11-extensions -D NDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.Internal.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Winvalid-offsetof -miphoneos-version-min=4.3 -g -fno-threadsafe-statics -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -fembed-bitcode=all -iquote /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-generated-files.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-own-target-headers.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-all-target-headers.hmap -iquote /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-project-headers.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/Symbols/BuiltProducts/include -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/DerivedSources/armv7 -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/DerivedSources -F/Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/Symbols/BuiltProducts -iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.Internal.sdk/System/Library/PrivateFrameworks -Wall -Wextra -Wno-gcc-compat -Wno-error=incomplete-umbrella -Wno-error=invalid-ios-deployment-target -Wno-error=incomplete-umbrella -Wno-error=invalid-ios-deployment-target -MMD -MT dependencies -MF /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/armv7/arclite.d --serialize-diagnostics /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/armv7/arclite.dia -c /Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-67/source/arclite.mm -o /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/armv7/arclite.o -mlinker-version=305 -march=armv7a
 /Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-67/source/arclite.mm
 /Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-67
 fixStringForCoreData
@@ -444,7 +482,7 @@ cxxConstruct
 arclite_uninitialized_function
 scanMangledField
 isdigit
-/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.Internal.sdk/usr/include/ctype.h
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.Internal.sdk/usr/include/ctype.h
 __isctype
 demangledName
 copySwiftV1DemangledName
@@ -489,7 +527,6 @@ __arclite_NSManagedObject_init
 replaceMethod
 __arclite_NSUndoManagerProxy_isKindOfClass
 add_image_hook_swiftV1
-patch_lazy_pointers
 patch_t<const char **(const char *, unsigned int *)>
 patch_t<const char *(Protocol *)>
 patch_t<const char *(Class)>
@@ -498,9 +535,51 @@ patch_t<Class (const char *)>
 patch_t<void *(id)>
 patch_t<Class (Class, const char *, unsigned long)>
 patch_t<Class (Class, const objc_image_info *)>
+__arclite_objc_storeStrong
+__arclite_objc_release
+__arclite_objc_retain
+__arclite_objc_retainAutoreleasedReturnValue
+__arclite_objc_retainAutoreleaseReturnValue
+__arclite_objc_autoreleaseReturnValue
+__arclite_objc_retainAutorelease
+__arclite_objc_autorelease
+__arclite_objc_retainBlock
+__arclite_object_copy
+fixupCopiedReferences
+_class_getInstanceStart
+alignedInstanceStart
+__arclite_class_usesAutomaticRetainRelease
+classOrSuperClassesUseARR
+__arclite_object_setIvar
+isScannedOffset
+_ivar_getClass
+__arclite_object_setInstanceVariable
+add_image_hook_ARC
+patch_t<void (id *, id)>
+patch_t<id (id)>
+patch_t<void (id)>
+patch_t<id (id, unsigned long)>
+patch_t<void (id, objc_ivar *, id)>
+patch_t<objc_ivar *(id, const char *, void *)>
 __arclite_NSMutableDictionary__setObject_forKeyedSubscript
+__arclite_NSMutableOrderedSet_setObject_atIndexedSubscript
+__arclite_NSOrderedSet_objectAtIndexedSubscript
+__arclite_NSDictionary_objectForKeyedSubscript
+__arclite_NSMutableArray_setObject_atIndexedSubscript
+__arclite_NSArray_objectAtIndexedSubscript
+patch_lazy_pointers
+__arclite_objc_autoreleasePoolPop
+__arclite_objc_autoreleasePoolPush
+add_image_hook_autoreleasepool
+patch_t<void (void *)>
+patch_t<void *()>
 __ARCLite__load
 install_swiftV1
+install_ARC
 install_dict_nil_value
 addOrReplaceMethod
 keyedGetter
+install_subscripting
+addMethod
+indexedGetter
+install_autoreleasepool
