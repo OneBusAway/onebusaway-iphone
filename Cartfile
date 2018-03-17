@@ -17,7 +17,7 @@ github "akashivskyy/GoogleAnalytics-Framework" ~>3.17
 github "SVProgressHUD/SVProgressHUD" ~>2.2.5
 
 # https://github.com/SnapKit/Masonry/releases
-github "SnapKit/Masonry" ~>1.0.2
+github "SnapKit/Masonry" ~>1.1.0
 
 # https://github.com/SnapKit/SnapKit/releases
 github "SnapKit/SnapKit" ~>3.2.0
