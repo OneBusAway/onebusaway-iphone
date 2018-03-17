@@ -28,7 +28,7 @@ github "SwiftKickMobile/SwiftMessages" ~>4.1.0
 # https://github.com/CocoaLumberjack/CocoaLumberjack/releases
 github "CocoaLumberjack/CocoaLumberjack" ~>3.4.1
 
-# These repositories do not work properly with Carthage.
+# This repository does not work properly with Carthage.
 # I am currently copying the source files present in Carthage/Checkouts
 # and copying them to the externals folder. So, we're at least getting
 # a decent level of release control, but it's less than ideal.
@@ -45,7 +45,7 @@ github "AzimoLabs/SMFloatingLabelTextField" ~>0.3.2
 github "cbpowell/MarqueeLabel" "d7cdb1708910f030c28d0118e26f6bac24dcad8a"
 
 # https://github.com/OneSignal/OneSignal-iOS-SDK/releases
-github "OneSignal/OneSignal-iOS-SDK" ~>2.5.6
+github "OneSignal/OneSignal-iOS-SDK" ~>2.8.1
 
 ###################
 ##### Testing #####
