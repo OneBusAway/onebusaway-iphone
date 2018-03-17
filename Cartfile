@@ -26,7 +26,7 @@ github "SnapKit/SnapKit" ~>4.0.0
 github "SwiftKickMobile/SwiftMessages" ~>4.1.0
 
 # https://github.com/CocoaLumberjack/CocoaLumberjack/releases
-github "CocoaLumberjack/CocoaLumberjack" ~>3.2.1
+github "CocoaLumberjack/CocoaLumberjack" ~>3.4.1
 
 # These repositories do not work properly with Carthage.
 # I am currently copying the source files present in Carthage/Checkouts
