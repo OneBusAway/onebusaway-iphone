@@ -23,7 +23,7 @@ github "SnapKit/Masonry" ~>1.1.0
 github "SnapKit/SnapKit" ~>4.0.0
 
 # https://github.com/SwiftKickMobile/SwiftMessages/releases
-github "SwiftKickMobile/SwiftMessages" "3.5.0-beta2"
+github "SwiftKickMobile/SwiftMessages" ~>4.1.0
 
 # https://github.com/CocoaLumberjack/CocoaLumberjack/releases
 github "CocoaLumberjack/CocoaLumberjack" ~>3.2.1
