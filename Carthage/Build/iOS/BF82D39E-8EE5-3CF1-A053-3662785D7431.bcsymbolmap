@@ -5,33 +5,41 @@ BCSymbolMap Version: 2.0
 -[OSPermissionSubscriptionState setPermissionStatus:]
 -[OSPermissionSubscriptionState subscriptionStatus]
 -[OSPermissionSubscriptionState setSubscriptionStatus:]
+-[OSPermissionSubscriptionState emailSubscriptionStatus]
+-[OSPermissionSubscriptionState setEmailSubscriptionStatus:]
 -[OSPermissionSubscriptionState .cxx_destruct]
 -[OSPendingCallbacks successBlock]
 -[OSPendingCallbacks setSuccessBlock:]
 -[OSPendingCallbacks failureBlock]
 -[OSPendingCallbacks setFailureBlock:]
 -[OSPendingCallbacks .cxx_destruct]
-+[OneSignal httpClient]
 +[OneSignal setInFocusDisplayType:]
 +[OneSignal inFocusDisplayType]
 +[OneSignal osNotificationSettings]
 +[OneSignal currentPermissionState]
 +[OneSignal lastPermissionState]
 +[OneSignal setLastPermissionState:]
++[OneSignal currentEmailSubscriptionState]
++[OneSignal lastEmailSubscriptionState]
++[OneSignal setLastEmailSubscriptionState:]
 +[OneSignal currentSubscriptionState]
 +[OneSignal lastSubscriptionState]
 +[OneSignal setLastSubscriptionState:]
 +[OneSignal permissionStateChangesObserver]
 +[OneSignal subscriptionStateChangesObserver]
++[OneSignal emailSubscriptionStateChangesObserver]
 +[OneSignal setMSubscriptionStatus:]
 +[OneSignal app_id]
 +[OneSignal sdk_version_raw]
 +[OneSignal sdk_semantic_version]
 +[OneSignal mUserId]
++[OneSignal mEmailAuthToken]
++[OneSignal mEmailUserId]
 +[OneSignal setMSDKType:]
 +[OneSignal setWaitingForApnsResponse:]
 +[OneSignal clearStatics]
 +[OneSignal coldStartFromTapOnNotification]
++[OneSignal shouldDelaySubscriptionSettingsUpdate]
 +[OneSignal initWithLaunchOptions:appId:]
 +[OneSignal initWithLaunchOptions:appId:handleNotificationAction:]
 +[OneSignal initWithLaunchOptions:appId:handleNotificationAction:settings:]
@@ -40,11 +48,16 @@ ___102+[OneSignal initWithLaunchOptions:appId:handleNotificationReceived:handleN
 ___copy_helper_block_
 ___destroy_helper_block_
 +[OneSignal initAppId:withUserDefaults:withSettings:]
++[OneSignal checkIfApplicationImplementsDeprecatedMethods]
++[OneSignal downloadIOSParams]
+___30+[OneSignal downloadIOSParams]_block_invoke
+___copy_helper_block_.281
+___destroy_helper_block_.282
 +[OneSignal setLogLevel:visualLevel:]
 +[OneSignal onesignal_Log:message:]
 ___onesignal_Log_block_invoke
-___copy_helper_block_.230
-___destroy_helper_block_.231
+___copy_helper_block_.315
+___destroy_helper_block_.316
 +[OneSignal registerForAPNsToken]
 +[OneSignal promptForPushNotificationsWithUserResponse:]
 +[OneSignal registerForPushNotifications]
@@ -53,27 +66,29 @@ ___destroy_helper_block_.231
 +[OneSignal removePermissionObserver:]
 +[OneSignal addSubscriptionObserver:]
 +[OneSignal removeSubscriptionObserver:]
++[OneSignal addEmailSubscriptionObserver:]
++[OneSignal removeEmailSubscriptionObserver:]
 +[OneSignal IdsAvailable:]
 +[OneSignal fireIdsAvailableCallback]
 ___37+[OneSignal fireIdsAvailableCallback]_block_invoke
-___copy_helper_block_.281
-___destroy_helper_block_.282
+___copy_helper_block_.365
+___destroy_helper_block_.366
 +[OneSignal sendTagsWithJsonString:]
 +[OneSignal sendTags:]
 +[OneSignal sendTags:onSuccess:onFailure:]
 +[OneSignal sendTagsToServer]
 ___29+[OneSignal sendTagsToServer]_block_invoke
-___copy_helper_block_.342
-___destroy_helper_block_.343
-___29+[OneSignal sendTagsToServer]_block_invoke.346
-___copy_helper_block_.348
-___destroy_helper_block_.349
+___copy_helper_block_.423
+___destroy_helper_block_.424
+___29+[OneSignal sendTagsToServer]_block_invoke.426
+___copy_helper_block_.427
+___destroy_helper_block_.428
 +[OneSignal sendTag:value:]
 +[OneSignal sendTag:value:onSuccess:onFailure:]
 +[OneSignal getTags:onFailure:]
 ___31+[OneSignal getTags:onFailure:]_block_invoke
-___copy_helper_block_.362
-___destroy_helper_block_.363
+___copy_helper_block_.439
+___destroy_helper_block_.440
 +[OneSignal getTags:]
 +[OneSignal deleteTag:onSuccess:onFailure:]
 +[OneSignal deleteTag:]
@@ -83,12 +98,19 @@ ___destroy_helper_block_.363
 +[OneSignal postNotification:]
 +[OneSignal postNotification:onSuccess:onFailure:]
 ___50+[OneSignal postNotification:onSuccess:onFailure:]_block_invoke
-___copy_helper_block_.397
-___destroy_helper_block_.398
-___50+[OneSignal postNotification:onSuccess:onFailure:]_block_invoke.400
-___copy_helper_block_.403
-___destroy_helper_block_.404
+___50+[OneSignal postNotification:onSuccess:onFailure:]_block_invoke_2
+___copy_helper_block_.469
+___destroy_helper_block_.470
+___copy_helper_block_.472
+___destroy_helper_block_.473
+___50+[OneSignal postNotification:onSuccess:onFailure:]_block_invoke.475
+___50+[OneSignal postNotification:onSuccess:onFailure:]_block_invoke_2.476
+___copy_helper_block_.479
+___destroy_helper_block_.480
+___copy_helper_block_.482
+___destroy_helper_block_.483
 +[OneSignal postNotificationWithJsonString:onSuccess:onFailure:]
++[OneSignal convertDatesToISO8061Strings:]
 +[OneSignal parseNSErrorAsJsonString:]
 +[OneSignal enableInAppLaunchURL:]
 +[OneSignal setSubscription:]
@@ -97,30 +119,37 @@ ___destroy_helper_block_.404
 +[OneSignal handleDidFailRegisterForRemoteNotification:]
 +[OneSignal updateDeviceToken:onSuccess:onFailure:]
 ___51+[OneSignal updateDeviceToken:onSuccess:onFailure:]_block_invoke
-___copy_helper_block_.457
-___destroy_helper_block_.458
+___copy_helper_block_.550
+___destroy_helper_block_.551
 +[OneSignal isHighPriorityCall]
++[OneSignal setNextRegistrationHighPriority:]
 +[OneSignal updateLastSessionDateTime]
 +[OneSignal shouldRegisterNow]
 +[OneSignal registerUserAfterDelay]
 +[OneSignal getRegisterQueue]
 +[OneSignal registerUser]
 ___25+[OneSignal registerUser]_block_invoke
-___copy_helper_block_.487
-___destroy_helper_block_.488
+___copy_helper_block_.578
+___destroy_helper_block_.579
 +[OneSignal registerUserInternal]
 ___33+[OneSignal registerUserInternal]_block_invoke
-___copy_helper_block_.594
-___destroy_helper_block_.595
-___33+[OneSignal registerUserInternal]_block_invoke.598
+___copy_helper_block_.709
+___destroy_helper_block_.710
+___33+[OneSignal registerUserInternal]_block_invoke.713
+___copy_helper_block_.716
+___destroy_helper_block_.717
 +[OneSignal getUsableDeviceToken]
 +[OneSignal sendNotificationTypesUpdate]
+___40+[OneSignal sendNotificationTypesUpdate]_block_invoke
+___copy_helper_block_.726
+___destroy_helper_block_.727
 +[OneSignal sendPurchases:]
 +[OneSignal setLastAppActiveMessageId:]
 +[OneSignal setLastnonActiveMessageId:]
 +[OneSignal notificationOpened:isActive:]
 +[OneSignal checkForProcessedDups:lastMessageId:]
 +[OneSignal handleNotificationOpened:isActive:actionType:displayType:]
++[OneSignal shouldPromptToShowURL]
 +[OneSignal launchWebURL:]
 +[OneSignal submitNotificationOpened:]
 +[OneSignal clearBadgeCount:]
@@ -129,88 +158,219 @@ ___33+[OneSignal registerUserInternal]_block_invoke.598
 +[OneSignal updateNotificationTypes:]
 +[OneSignal didRegisterForRemoteNotifications:deviceToken:]
 ___59+[OneSignal didRegisterForRemoteNotifications:deviceToken:]_block_invoke
-___copy_helper_block_.704
-___destroy_helper_block_.705
-___59+[OneSignal didRegisterForRemoteNotifications:deviceToken:]_block_invoke.708
+___copy_helper_block_.830
+___destroy_helper_block_.831
+___59+[OneSignal didRegisterForRemoteNotifications:deviceToken:]_block_invoke.834
 +[OneSignal remoteSilentNotification:UserInfo:completionHandler:]
 +[OneSignal processLocalActionBasedNotification:identifier:]
 +[OneSignal syncHashedEmail:]
-+[OneSignal addActionButtonsToExtentionRequest:withMutableNotificationContent:]
 +[OneSignal didReceiveNotificationExtensionRequest:withMutableNotificationContent:]
 +[OneSignal serviceExtensionTimeWillExpireRequest:withMutableNotificationContent:]
++[OneSignal callFailureBlockOnMainThread:withError:]
+___52+[OneSignal callFailureBlockOnMainThread:withError:]_block_invoke
+___copy_helper_block_.875
+___destroy_helper_block_.876
++[OneSignal callSuccessBlockOnMainThread:]
+___42+[OneSignal callSuccessBlockOnMainThread:]_block_invoke
+___copy_helper_block_.878
+___destroy_helper_block_.879
++[OneSignal setEmail:withEmailAuthHashToken:withSuccess:withFailure:]
+___69+[OneSignal setEmail:withEmailAuthHashToken:withSuccess:withFailure:]_block_invoke
+___copy_helper_block_.909
+___destroy_helper_block_.910
+___69+[OneSignal setEmail:withEmailAuthHashToken:withSuccess:withFailure:]_block_invoke.913
+___copy_helper_block_.916
+___destroy_helper_block_.917
+___69+[OneSignal setEmail:withEmailAuthHashToken:withSuccess:withFailure:]_block_invoke.923
+___69+[OneSignal setEmail:withEmailAuthHashToken:withSuccess:withFailure:]_block_invoke_2
+___copy_helper_block_.930
+___destroy_helper_block_.931
+___69+[OneSignal setEmail:withEmailAuthHashToken:withSuccess:withFailure:]_block_invoke.934
+___copy_helper_block_.935
+___destroy_helper_block_.936
+___copy_helper_block_.941
+___destroy_helper_block_.942
+___69+[OneSignal setEmail:withEmailAuthHashToken:withSuccess:withFailure:]_block_invoke.945
+___copy_helper_block_.946
+___destroy_helper_block_.947
++[OneSignal setEmail:withSuccess:withFailure:]
++[OneSignal logoutEmailWithSuccess:withFailure:]
+___48+[OneSignal logoutEmailWithSuccess:withFailure:]_block_invoke
+___copy_helper_block_.957
+___destroy_helper_block_.958
+___48+[OneSignal logoutEmailWithSuccess:withFailure:]_block_invoke.961
+___copy_helper_block_.962
+___destroy_helper_block_.963
++[OneSignal setEmail:]
++[OneSignal logoutEmail]
++[OneSignal setEmail:withEmailAuthHashToken:]
++[OneSignal emailChangedWithNewEmailPlayerId:]
+___46+[OneSignal emailChangedWithNewEmailPlayerId:]_block_invoke
+___copy_helper_block_.972
+___destroy_helper_block_.973
 +[UIApplication(OneSignal) load]
++[UIApplication(OneSignal) setupUNUserNotificationCenterDelegate]
 _OBJC_IVAR_$_OSPermissionSubscriptionState._permissionStatus
 _OBJC_IVAR_$_OSPermissionSubscriptionState._subscriptionStatus
+_OBJC_IVAR_$_OSPermissionSubscriptionState._emailSubscriptionStatus
 _OBJC_IVAR_$_OSPendingCallbacks._successBlock
 _OBJC_IVAR_$_OSPendingCallbacks._failureBlock
 _mSDKType
-__httpClient
 __inFocusDisplayType
 __osNotificationSettings
 __currentPermissionState
 __lastPermissionState
+__currentEmailSubscriptionState
+__lastEmailSubscriptionState
 __currentSubscriptionState
 __lastSubscriptionState
 __permissionStateChangesObserver
 __subscriptionStateChangesObserver
+__emailSubscriptionStateChangesObserver
 _mSubscriptionStatus
 _app_id
 _waitingForApnsResponse
+_didCallDownloadParameters
 _coldStartFromTapOnNotification
+_shouldDelaySubscriptionUpdate
 _registeredWithApple
+_promptBeforeOpeningPushURLs
 ___block_descriptor_tmp
 _trackIAPPurchase
+_delayedParameters
+_downloadedParameters
+___block_descriptor_tmp.285
 __nsLogLevel
 __visualLogLevel
-___block_descriptor_tmp.233
+___block_descriptor_tmp.318
 _backgroundModesEnabled
-___block_descriptor_tmp.284
+___block_descriptor_tmp.368
 _pendingSendTagCallbacks
-___block_descriptor_tmp.345
-___block_descriptor_tmp.351
+___block_descriptor_tmp.425
+___block_descriptor_tmp.429
 _pendingGetTagsSuccessBlock
 _pendingGetTagsFailureBlock
-___block_descriptor_tmp.364
-___block_descriptor_tmp.399
-___block_descriptor_tmp.405
-___block_descriptor_tmp.460
+___block_descriptor_tmp.441
+___block_descriptor_tmp.471
+___block_descriptor_tmp.474
+___block_descriptor_tmp.481
+___block_descriptor_tmp.485
+___block_descriptor_tmp.553
 _waitingForOneSReg
 _serialQueue
-___block_descriptor_tmp.490
-___block_descriptor_tmp.597
-___block_descriptor_tmp.601
-___block_literal_global
+___block_descriptor_tmp.581
+___block_descriptor_tmp.712
+___block_descriptor_tmp.718
+___block_descriptor_tmp.729
 __lastAppActiveMessageId
 __lastnonActiveMessageId
-___block_descriptor_tmp.707
-___block_descriptor_tmp.711
-___block_literal_global.712
-Apple LLVM version 9.0.0 (clang-900.0.38)
+___block_descriptor_tmp.833
+___block_descriptor_tmp.835
+___block_literal_global
+___block_descriptor_tmp.877
+___block_descriptor_tmp.880
+___block_descriptor_tmp.912
+___block_descriptor_tmp.919
+___block_descriptor_tmp.933
+___block_descriptor_tmp.938
+___block_descriptor_tmp.944
+___block_descriptor_tmp.949
+___block_descriptor_tmp.960
+___block_descriptor_tmp.965
+___block_descriptor_tmp.975
+Apple LLVM version 9.0.0 (clang-900.0.39.2)
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignal.m
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK
-__59+[OneSignal didRegisterForRemoteNotifications:deviceToken:]_block_invoke.708
 __destroy_helper_block_
 __copy_helper_block_
+__46+[OneSignal emailChangedWithNewEmailPlayerId:]_block_invoke
+__48+[OneSignal logoutEmailWithSuccess:withFailure:]_block_invoke.961
+__48+[OneSignal logoutEmailWithSuccess:withFailure:]_block_invoke
+__69+[OneSignal setEmail:withEmailAuthHashToken:withSuccess:withFailure:]_block_invoke.945
+__69+[OneSignal setEmail:withEmailAuthHashToken:withSuccess:withFailure:]_block_invoke.934
+__69+[OneSignal setEmail:withEmailAuthHashToken:withSuccess:withFailure:]_block_invoke_2
+__69+[OneSignal setEmail:withEmailAuthHashToken:withSuccess:withFailure:]_block_invoke.923
+__69+[OneSignal setEmail:withEmailAuthHashToken:withSuccess:withFailure:]_block_invoke.913
+__69+[OneSignal setEmail:withEmailAuthHashToken:withSuccess:withFailure:]_block_invoke
+__42+[OneSignal callSuccessBlockOnMainThread:]_block_invoke
+__52+[OneSignal callFailureBlockOnMainThread:withError:]_block_invoke
+__59+[OneSignal didRegisterForRemoteNotifications:deviceToken:]_block_invoke.834
 __59+[OneSignal didRegisterForRemoteNotifications:deviceToken:]_block_invoke
-__33+[OneSignal registerUserInternal]_block_invoke.598
+__40+[OneSignal sendNotificationTypesUpdate]_block_invoke
+__33+[OneSignal registerUserInternal]_block_invoke.713
 __33+[OneSignal registerUserInternal]_block_invoke
 __25+[OneSignal registerUser]_block_invoke
 __51+[OneSignal updateDeviceToken:onSuccess:onFailure:]_block_invoke
-__50+[OneSignal postNotification:onSuccess:onFailure:]_block_invoke.400
+__50+[OneSignal postNotification:onSuccess:onFailure:]_block_invoke_2.476
+__50+[OneSignal postNotification:onSuccess:onFailure:]_block_invoke.475
+__50+[OneSignal postNotification:onSuccess:onFailure:]_block_invoke_2
 __50+[OneSignal postNotification:onSuccess:onFailure:]_block_invoke
 __31+[OneSignal getTags:onFailure:]_block_invoke
-__29+[OneSignal sendTagsToServer]_block_invoke.346
+__29+[OneSignal sendTagsToServer]_block_invoke.426
 __29+[OneSignal sendTagsToServer]_block_invoke
 __37+[OneSignal fireIdsAvailableCallback]_block_invoke
 __onesignal_Log_block_invoke
+__30+[OneSignal downloadIOSParams]_block_invoke
 onesignal_Log
 __102+[OneSignal initWithLaunchOptions:appId:handleNotificationReceived:handleNotificationAction:settings:]_block_invoke
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalInternal.h
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignal.h
--[OneSignalNotificationSettingsIOS8 getNotificationPermissionState:]
--[OneSignalNotificationSettingsIOS8 getNotificationPermissionState]
++[OneSignalClient sharedClient]
+___31+[OneSignalClient sharedClient]_block_invoke
+-[OneSignalClient init]
+-[OneSignalClient executeSimultaneousRequests:withSuccess:onFailure:]
+___69-[OneSignalClient executeSimultaneousRequests:withSuccess:onFailure:]_block_invoke
 ___Block_byref_object_copy_
 ___Block_byref_object_dispose_
+___69-[OneSignalClient executeSimultaneousRequests:withSuccess:onFailure:]_block_invoke.22
+___69-[OneSignalClient executeSimultaneousRequests:withSuccess:onFailure:]_block_invoke.27
+___copy_helper_block_.28
+___destroy_helper_block_.29
+___69-[OneSignalClient executeSimultaneousRequests:withSuccess:onFailure:]_block_invoke.34
+___copy_helper_block_.35
+___destroy_helper_block_.36
+___copy_helper_block_.38
+___destroy_helper_block_.39
+-[OneSignalClient executeRequest:onSuccess:onFailure:]
+___54-[OneSignalClient executeRequest:onSuccess:onFailure:]_block_invoke
+___copy_helper_block_.51
+___destroy_helper_block_.52
+-[OneSignalClient executeSynchronousRequest:onSuccess:onFailure:]
+___65-[OneSignalClient executeSynchronousRequest:onSuccess:onFailure:]_block_invoke
+___copy_helper_block_.59
+___destroy_helper_block_.60
+-[OneSignalClient handleMissingAppIdError:withRequest:]
+-[OneSignalClient validRequest:]
+-[OneSignalClient reattemptRequest:]
+-[OneSignalClient willReattemptRequest:withRequest:success:failure:asyncRequest:]
+-[OneSignalClient prettyPrintDebugStatementWithRequest:]
+-[OneSignalClient handleJSONNSURLResponse:data:error:isAsync:withRequest:onSuccess:onFailure:]
+-[OneSignalClient sharedSession]
+-[OneSignalClient setSharedSession:]
+-[OneSignalClient .cxx_destruct]
+_sharedClient.sharedClient
+_sharedClient.once
+_OBJC_IVAR_$_OneSignalClient._sharedSession
+___block_descriptor_tmp.26
+___block_descriptor_tmp.31
+___block_descriptor_tmp.37
+___block_descriptor_tmp.40
+___block_descriptor_tmp.54
+___block_descriptor_tmp.61
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalClient.m
+__65-[OneSignalClient executeSynchronousRequest:onSuccess:onFailure:]_block_invoke
+__54-[OneSignalClient executeRequest:onSuccess:onFailure:]_block_invoke
+__69-[OneSignalClient executeSimultaneousRequests:withSuccess:onFailure:]_block_invoke.34
+__69-[OneSignalClient executeSimultaneousRequests:withSuccess:onFailure:]_block_invoke.27
+__69-[OneSignalClient executeSimultaneousRequests:withSuccess:onFailure:]_block_invoke.22
+__Block_byref_object_dispose_
+__Block_byref_object_copy_
+__69-[OneSignalClient executeSimultaneousRequests:withSuccess:onFailure:]_block_invoke
+__31+[OneSignalClient sharedClient]_block_invoke
+_dispatch_once
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/usr/include/dispatch/once.h
+-[OneSignalNotificationSettingsIOS8 getNotificationPermissionState:]
+-[OneSignalNotificationSettingsIOS8 getNotificationPermissionState]
 ___67-[OneSignalNotificationSettingsIOS8 getNotificationPermissionState]_block_invoke
 -[OneSignalNotificationSettingsIOS8 getNotificationTypes]
 -[OneSignalNotificationSettingsIOS8 promptForNotifications:]
@@ -224,38 +384,43 @@ l_OBJC_PROTOCOL_$_OneSignalNotificationSettings
 l_OBJC_LABEL_PROTOCOL_$_OneSignalNotificationSettings
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalNotificationSettingsIOS8.m
 __67-[OneSignalNotificationSettingsIOS8 getNotificationPermissionState]_block_invoke
-__Block_byref_object_dispose_
-__Block_byref_object_copy_
 +[OneSignalJailbreakDetection isJailbroken]
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalJailbreakDetection.m
+-[OneSignalRequest init]
+-[OneSignalRequest request]
+-[OneSignalRequest missingAppId]
+-[OneSignalRequest attachBodyToRequest:withParameters:]
+-[OneSignalRequest attachQueryParametersToRequest:withParameters:]
+-[OneSignalRequest queryStringForParameters:]
+-[OneSignalRequest method]
+-[OneSignalRequest setMethod:]
+-[OneSignalRequest path]
+-[OneSignalRequest setPath:]
+-[OneSignalRequest parameters]
+-[OneSignalRequest setParameters:]
+-[OneSignalRequest reattemptCount]
+-[OneSignalRequest setReattemptCount:]
+-[OneSignalRequest .cxx_destruct]
+_OBJC_IVAR_$_OneSignalRequest._method
+_OBJC_IVAR_$_OneSignalRequest._path
+_OBJC_IVAR_$_OneSignalRequest._parameters
+_OBJC_IVAR_$_OneSignalRequest._reattemptCount
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalRequest.m
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalRequest.h
+-[DirectDownloadDelegate URLSession:dataTask:didReceiveData:]
+-[DirectDownloadDelegate URLSession:dataTask:didReceiveResponse:completionHandler:]
+-[DirectDownloadDelegate URLSession:didBecomeInvalidWithError:]
+-[DirectDownloadDelegate URLSession:task:didCompleteWithError:]
 -[DirectDownloadDelegate initWithFilePath:]
--[DirectDownloadDelegate connection:didFailWithError:]
--[DirectDownloadDelegate connection:didReceiveData:]
--[DirectDownloadDelegate connection:didReceiveResponse:]
--[DirectDownloadDelegate connectionDidFinishLoading:]
 -[DirectDownloadDelegate error]
 -[DirectDownloadDelegate response]
 -[DirectDownloadDelegate isDone]
 -[DirectDownloadDelegate .cxx_destruct]
-+[NSURLConnection(DirectDownload) downloadItemAtURL:toFile:error:]
++[NSURLSession(DirectDownload) downloadItemAtURL:toFile:error:]
 -[OSNotificationAction initWithActionType::]
 -[OSNotificationAction type]
 -[OSNotificationAction actionID]
 -[OSNotificationAction .cxx_destruct]
--[OSNotificationPayload initWithRawMessage:]
--[OSNotificationPayload actionButtons]
--[OSNotificationPayload additionalData]
--[OSNotificationPayload badge]
--[OSNotificationPayload body]
--[OSNotificationPayload contentAvailable]
--[OSNotificationPayload notificationID]
--[OSNotificationPayload launchURL]
--[OSNotificationPayload rawPayload]
--[OSNotificationPayload sound]
--[OSNotificationPayload subtitle]
--[OSNotificationPayload title]
--[OSNotificationPayload attachments]
--[OSNotificationPayload .cxx_destruct]
 -[OSNotification initWithPayload:displayType:]
 -[OSNotification stringify]
 -[OSNotification payload]
@@ -278,69 +443,66 @@ ___43+[OneSignalHelper beginBackgroundMediaTask]_block_invoke
 +[OneSignalHelper isRemoteSilentNotification:]
 +[OneSignalHelper lastMessageReceived:]
 +[OneSignalHelper notificationBlocks::]
-+[OneSignalHelper md5:]
-+[OneSignalHelper getActionButtons:]
 +[OneSignalHelper getAppName]
-+[OneSignalHelper getPushTitleBody:]
 +[OneSignalHelper formatApsPayloadIntoStandard:identifier:]
-+[OneSignalHelper isOneSignalPayload]
++[OneSignalHelper isOneSignalPayload:]
 +[OneSignalHelper handleNotificationReceived:]
 +[OneSignalHelper handleNotificationAction:actionID:displayType:]
 +[OneSignalHelper getNetType]
 +[OneSignalHelper canGetNotificationTypes]
 +[OneSignalHelper createUILocalNotification:]
-+[OneSignalHelper prepareUILocalNotification::]
++[OneSignalHelper prepareUILocalNotification:]
 +[OneSignalHelper sharedInstance]
 +[OneSignalHelper isIOSVersionGreaterOrEqual:]
 +[OneSignalHelper randomStringWithLength:]
 +[OneSignalHelper registerAsUNNotificationCenterDelegate]
-+[OneSignalHelper prepareUNNotificationRequest::]
++[OneSignalHelper prepareUNNotificationRequest:]
 +[OneSignalHelper addActionButtons:toNotificationContent:]
-___58+[OneSignalHelper addActionButtons:toNotificationContent:]_block_invoke
++[OneSignalHelper existingCategories]
+___37+[OneSignalHelper existingCategories]_block_invoke
 +[OneSignalHelper addAttachments:toNotificationContent:]
-+[OneSignalHelper addnotificationRequest:userInfo:completionHandler:]
-___69+[OneSignalHelper addnotificationRequest:userInfo:completionHandler:]_block_invoke
-___69+[OneSignalHelper addnotificationRequest:userInfo:completionHandler:]_block_invoke_2
-___copy_helper_block_.575
-___destroy_helper_block_.576
++[OneSignalHelper addNotificationRequest:completionHandler:]
+___60+[OneSignalHelper addNotificationRequest:completionHandler:]_block_invoke
+___60+[OneSignalHelper addNotificationRequest:completionHandler:]_block_invoke_2
+___copy_helper_block_.590
+___destroy_helper_block_.591
 +[OneSignalHelper downloadMediaAndSaveInBundle:]
 +[OneSignalHelper clearCachedMedia]
 +[OneSignalHelper verifyURL:]
-+[OneSignalHelper enqueueRequest:onSuccess:onFailure:]
-+[OneSignalHelper enqueueRequest:onSuccess:onFailure:isSynchronous:]
-___68+[OneSignalHelper enqueueRequest:onSuccess:onFailure:isSynchronous:]_block_invoke
-___copy_helper_block_.641
-___destroy_helper_block_.642
-+[OneSignalHelper handleJSONNSURLResponse:data:error:onSuccess:onFailure:]
 +[OneSignalHelper isWWWScheme:]
 +[OneSignalHelper displayWebView:]
+___Block_byref_object_copy_.662
+___Block_byref_object_dispose_.663
 ___34+[OneSignalHelper displayWebView:]_block_invoke
+___34+[OneSignalHelper displayWebView:]_block_invoke_2
+___34+[OneSignalHelper displayWebView:]_block_invoke_3
+___copy_helper_block_.671
+___destroy_helper_block_.672
+___copy_helper_block_.675
+___destroy_helper_block_.676
 ___copy_helper_block_.681
 ___destroy_helper_block_.682
+___34+[OneSignalHelper displayWebView:]_block_invoke.689
+___copy_helper_block_.690
+___destroy_helper_block_.691
 +[OneSignalHelper runOnMainThread:]
 +[OneSignalHelper dispatch_async_on_main_queue:]
 +[OneSignalHelper performSelector:onMainThreadOnObject:withObject:afterDelay:]
 ___78+[OneSignalHelper performSelector:onMainThreadOnObject:withObject:afterDelay:]_block_invoke
-___copy_helper_block_.691
-___destroy_helper_block_.692
+___copy_helper_block_.700
+___destroy_helper_block_.701
 +[OneSignalHelper isValidEmail:]
 +[OneSignalHelper hashUsingSha1:]
 +[OneSignalHelper hashUsingMD5:]
 +[OneSignalHelper trimURLSpacing:]
+l_OBJC_PROTOCOL_$_NSURLSessionDelegate
+l_OBJC_LABEL_PROTOCOL_$_NSURLSessionDelegate
+l_OBJC_PROTOCOL_$_NSURLSessionTaskDelegate
+l_OBJC_LABEL_PROTOCOL_$_NSURLSessionTaskDelegate
+l_OBJC_PROTOCOL_$_NSURLSessionDataDelegate
+l_OBJC_LABEL_PROTOCOL_$_NSURLSessionDataDelegate
 _OBJC_IVAR_$_OSNotificationAction._type
 _OBJC_IVAR_$_OSNotificationAction._actionID
-_OBJC_IVAR_$_OSNotificationPayload._rawPayload
-_OBJC_IVAR_$_OSNotificationPayload._contentAvailable
-_OBJC_IVAR_$_OSNotificationPayload._badge
-_OBJC_IVAR_$_OSNotificationPayload._actionButtons
-_OBJC_IVAR_$_OSNotificationPayload._sound
-_OBJC_IVAR_$_OSNotificationPayload._additionalData
-_OBJC_IVAR_$_OSNotificationPayload._notificationID
-_OBJC_IVAR_$_OSNotificationPayload._launchURL
-_OBJC_IVAR_$_OSNotificationPayload._attachments
-_OBJC_IVAR_$_OSNotificationPayload._body
-_OBJC_IVAR_$_OSNotificationPayload._title
-_OBJC_IVAR_$_OSNotificationPayload._subtitle
 _OBJC_IVAR_$_OSNotification._payload
 _OBJC_IVAR_$_OSNotification._displayType
 _OBJC_IVAR_$_OSNotification._silentNotification
@@ -352,20 +514,24 @@ _OBJC_IVAR_$_OSNotificationOpenedResult._action
 __lastMessageIdFromAction
 _handleNotificationReceived:.lastMessageID
 _singleInstance
-___block_descriptor_tmp.520
-___block_descriptor_tmp.571
-___block_literal_global.572
-___block_descriptor_tmp.577
-___block_descriptor_tmp.644
-___block_descriptor_tmp.683
-___block_descriptor_tmp.694
+___block_descriptor_tmp.544
+___block_descriptor_tmp.586
+___block_literal_global.587
+___block_descriptor_tmp.592
+___block_descriptor_tmp.674
+___block_descriptor_tmp.678
+___block_descriptor_tmp.685
+___block_descriptor_tmp.692
+___block_descriptor_tmp.703
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalHelper.m
 __78+[OneSignalHelper performSelector:onMainThreadOnObject:withObject:afterDelay:]_block_invoke
+__34+[OneSignalHelper displayWebView:]_block_invoke.689
+__34+[OneSignalHelper displayWebView:]_block_invoke_3
+__34+[OneSignalHelper displayWebView:]_block_invoke_2
 __34+[OneSignalHelper displayWebView:]_block_invoke
-__68+[OneSignalHelper enqueueRequest:onSuccess:onFailure:isSynchronous:]_block_invoke
-__69+[OneSignalHelper addnotificationRequest:userInfo:completionHandler:]_block_invoke_2
-__69+[OneSignalHelper addnotificationRequest:userInfo:completionHandler:]_block_invoke
-__58+[OneSignalHelper addActionButtons:toNotificationContent:]_block_invoke
+__60+[OneSignalHelper addNotificationRequest:completionHandler:]_block_invoke_2
+__60+[OneSignalHelper addNotificationRequest:completionHandler:]_block_invoke
+__37+[OneSignalHelper existingCategories]_block_invoke
 __43+[OneSignalHelper beginBackgroundMediaTask]_block_invoke
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalSelectorHelpers.m
 ClassGetSubclasses
@@ -383,6 +549,18 @@ getClassWithProtocolInHierarchy
 _OBJC_IVAR_$_OneSignalReachability._reachabilityRef
 _OBJC_IVAR_$_OneSignalReachability._alwaysReturnLocalWiFiStatus
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalReachability.m
++[OneSignalTrackFirebaseAnalytics needsRemoteParams]
++[OneSignalTrackFirebaseAnalytics init]
++[OneSignalTrackFirebaseAnalytics updateFromDownloadParams:]
++[OneSignalTrackFirebaseAnalytics appGroupKey]
++[OneSignalTrackFirebaseAnalytics logEventWithName:parameters:]
++[OneSignalTrackFirebaseAnalytics getCampaignNameFromPayload:]
++[OneSignalTrackFirebaseAnalytics trackOpenEvent:]
++[OneSignalTrackFirebaseAnalytics trackReceivedEvent:]
++[OneSignalTrackFirebaseAnalytics trackInfluenceOpenEvent]
+_trackingEnabled
+_lastOpenedTime
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalTrackFirebaseAnalytics.m
 +[OneSignalNotificationSettingsIOS10 getQueue]
 -[OneSignalNotificationSettingsIOS10 init]
 -[OneSignalNotificationSettingsIOS10 getNotificationPermissionState:]
@@ -395,8 +573,6 @@ ___68-[OneSignalNotificationSettingsIOS10 getNotificationPermissionState]_block_
 ___68-[OneSignalNotificationSettingsIOS10 getNotificationPermissionState]_block_invoke_2
 ___copy_helper_block_.29
 ___destroy_helper_block_.30
-___copy_helper_block_.35
-___destroy_helper_block_.36
 -[OneSignalNotificationSettingsIOS10 getNotificationTypes]
 -[OneSignalNotificationSettingsIOS10 promptForNotifications:]
 ___61-[OneSignalNotificationSettingsIOS10 promptForNotifications:]_block_invoke
@@ -410,7 +586,6 @@ ___destroy_helper_block_.51
 _OBJC_IVAR_$_OneSignalNotificationSettingsIOS10.useCachedStatus
 ___block_descriptor_tmp.28
 ___block_descriptor_tmp.32
-___block_descriptor_tmp.37
 ___block_descriptor_tmp.47
 ___block_descriptor_tmp.53
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalNotificationSettingsIOS10.m
@@ -465,6 +640,80 @@ _delegateReference
 l_OBJC_PROTOCOL_$_UIAlertViewDelegate
 l_OBJC_LABEL_PROTOCOL_$_UIAlertViewDelegate
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalAlertViewDelegate.m
++[OneSignalWebOpenDialog sharedInstance]
+___40+[OneSignalWebOpenDialog sharedInstance]_block_invoke
++[OneSignalWebOpenDialog showOpenDialogwithURL:withResponse:]
+___61+[OneSignalWebOpenDialog showOpenDialogwithURL:withResponse:]_block_invoke
+___61+[OneSignalWebOpenDialog showOpenDialogwithURL:withResponse:]_block_invoke.55
+___copy_helper_block_.56
+___destroy_helper_block_.57
++[OneSignalWebOpenDialog delayResult:shouldOpen:]
+___49+[OneSignalWebOpenDialog delayResult:shouldOpen:]_block_invoke
+___copy_helper_block_.61
+___destroy_helper_block_.62
+-[OneSignalWebOpenDialog alertView:didDismissWithButtonIndex:]
+-[OneSignalWebOpenDialog alertView]
+-[OneSignalWebOpenDialog setAlertView:]
+-[OneSignalWebOpenDialog resultBlock]
+-[OneSignalWebOpenDialog setResultBlock:]
+-[OneSignalWebOpenDialog .cxx_destruct]
+_sharedInstance.sharedInstance
+_sharedInstance.onceToken
+___block_descriptor_tmp.50
+___block_descriptor_tmp.58
+___block_descriptor_tmp.63
+_OBJC_IVAR_$_OneSignalWebOpenDialog._alertView
+_OBJC_IVAR_$_OneSignalWebOpenDialog._resultBlock
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalWebOpenDialog.m
+__49+[OneSignalWebOpenDialog delayResult:shouldOpen:]_block_invoke
+__61+[OneSignalWebOpenDialog showOpenDialogwithURL:withResponse:]_block_invoke.55
+__61+[OneSignalWebOpenDialog showOpenDialogwithURL:withResponse:]_block_invoke
+__40+[OneSignalWebOpenDialog sharedInstance]_block_invoke
++[OSNotificationPayload parseWithApns:]
+-[OSNotificationPayload initWithRawMessage:]
+-[OSNotificationPayload parseOriginalPayload]
+-[OSNotificationPayload parseOSDataPayload]
+-[OSNotificationPayload parseOSDataAdditionalData]
+-[OSNotificationPayload parseCommonOneSignalFields:]
+-[OSNotificationPayload parseApnsFields]
+-[OSNotificationPayload parseAlertField:]
+-[OSNotificationPayload parseRemoteSlient:]
+-[OSNotificationPayload parseActionButtons:]
+-[OSNotificationPayload parseOtherApnsFields]
+-[OSNotificationPayload notificationID]
+-[OSNotificationPayload templateID]
+-[OSNotificationPayload templateName]
+-[OSNotificationPayload contentAvailable]
+-[OSNotificationPayload mutableContent]
+-[OSNotificationPayload category]
+-[OSNotificationPayload badge]
+-[OSNotificationPayload sound]
+-[OSNotificationPayload title]
+-[OSNotificationPayload subtitle]
+-[OSNotificationPayload body]
+-[OSNotificationPayload launchURL]
+-[OSNotificationPayload additionalData]
+-[OSNotificationPayload attachments]
+-[OSNotificationPayload actionButtons]
+-[OSNotificationPayload rawPayload]
+-[OSNotificationPayload .cxx_destruct]
+_OBJC_IVAR_$_OSNotificationPayload._rawPayload
+_OBJC_IVAR_$_OSNotificationPayload._attachments
+_OBJC_IVAR_$_OSNotificationPayload._additionalData
+_OBJC_IVAR_$_OSNotificationPayload._notificationID
+_OBJC_IVAR_$_OSNotificationPayload._launchURL
+_OBJC_IVAR_$_OSNotificationPayload._templateID
+_OBJC_IVAR_$_OSNotificationPayload._templateName
+_OBJC_IVAR_$_OSNotificationPayload._badge
+_OBJC_IVAR_$_OSNotificationPayload._sound
+_OBJC_IVAR_$_OSNotificationPayload._body
+_OBJC_IVAR_$_OSNotificationPayload._title
+_OBJC_IVAR_$_OSNotificationPayload._subtitle
+_OBJC_IVAR_$_OSNotificationPayload._actionButtons
+_OBJC_IVAR_$_OSNotificationPayload._contentAvailable
+_OBJC_IVAR_$_OSNotificationPayload._mutableContent
+_OBJC_IVAR_$_OSNotificationPayload._category
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OSNotificationPayload.m
 +[OneSignalUNUserNotificationCenter swizzleSelectors]
 +[OneSignalUNUserNotificationCenter setUseiOS10_2_workaround:]
 -[OneSignalUNUserNotificationCenter onesignalRequestAuthorizationWithOptions:completionHandler:]
@@ -481,20 +730,14 @@ ___115-[OneSignalUNUserNotificationCenter onesignalUserNotificationCenter:willPr
 +[OneSignalUNUserNotificationCenter processiOS10Open:]
 +[OneSignalUNUserNotificationCenter callLegacyAppDeletegateSelector:isTextReply:actionIdentifier:userText:fromPresentNotification:withCompletionHandler:]
 ___153+[OneSignalUNUserNotificationCenter callLegacyAppDeletegateSelector:isTextReply:actionIdentifier:userText:fromPresentNotification:withCompletionHandler:]_block_invoke
-___copy_helper_block_.205
-___destroy_helper_block_.206
-___153+[OneSignalUNUserNotificationCenter callLegacyAppDeletegateSelector:isTextReply:actionIdentifier:userText:fromPresentNotification:withCompletionHandler:]_block_invoke.210
-___copy_helper_block_.211
-___destroy_helper_block_.212
-___153+[OneSignalUNUserNotificationCenter callLegacyAppDeletegateSelector:isTextReply:actionIdentifier:userText:fromPresentNotification:withCompletionHandler:]_block_invoke.218
-___copy_helper_block_.219
-___destroy_helper_block_.220
-___153+[OneSignalUNUserNotificationCenter callLegacyAppDeletegateSelector:isTextReply:actionIdentifier:userText:fromPresentNotification:withCompletionHandler:]_block_invoke.224
-___copy_helper_block_.225
-___destroy_helper_block_.226
-___153+[OneSignalUNUserNotificationCenter callLegacyAppDeletegateSelector:isTextReply:actionIdentifier:userText:fromPresentNotification:withCompletionHandler:]_block_invoke.234
-___copy_helper_block_.235
-___destroy_helper_block_.236
+___copy_helper_block_.149
+___destroy_helper_block_.150
+___153+[OneSignalUNUserNotificationCenter callLegacyAppDeletegateSelector:isTextReply:actionIdentifier:userText:fromPresentNotification:withCompletionHandler:]_block_invoke.154
+___copy_helper_block_.155
+___destroy_helper_block_.156
+___153+[OneSignalUNUserNotificationCenter callLegacyAppDeletegateSelector:isTextReply:actionIdentifier:userText:fromPresentNotification:withCompletionHandler:]_block_invoke.164
+___copy_helper_block_.165
+___destroy_helper_block_.166
 _delegateUNSubclasses
 _useiOS10_2_workaround
 _useCachedUNNotificationSettings
@@ -504,17 +747,13 @@ l_OBJC_PROTOCOL_$_UNUserNotificationCenterDelegate
 l_OBJC_LABEL_PROTOCOL_$_UNUserNotificationCenterDelegate
 l_OBJC_PROTOCOL_REFERENCE_$_UNUserNotificationCenterDelegate
 _delegateUNClass
-___block_descriptor_tmp.99
-___block_descriptor_tmp.207
-___block_descriptor_tmp.213
-___block_descriptor_tmp.221
-___block_descriptor_tmp.227
-___block_descriptor_tmp.238
+___block_descriptor_tmp.102
+___block_descriptor_tmp.151
+___block_descriptor_tmp.157
+___block_descriptor_tmp.168
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/UNUserNotificationCenter+OneSignal.m
-__153+[OneSignalUNUserNotificationCenter callLegacyAppDeletegateSelector:isTextReply:actionIdentifier:userText:fromPresentNotification:withCompletionHandler:]_block_invoke.234
-__153+[OneSignalUNUserNotificationCenter callLegacyAppDeletegateSelector:isTextReply:actionIdentifier:userText:fromPresentNotification:withCompletionHandler:]_block_invoke.224
-__153+[OneSignalUNUserNotificationCenter callLegacyAppDeletegateSelector:isTextReply:actionIdentifier:userText:fromPresentNotification:withCompletionHandler:]_block_invoke.218
-__153+[OneSignalUNUserNotificationCenter callLegacyAppDeletegateSelector:isTextReply:actionIdentifier:userText:fromPresentNotification:withCompletionHandler:]_block_invoke.210
+__153+[OneSignalUNUserNotificationCenter callLegacyAppDeletegateSelector:isTextReply:actionIdentifier:userText:fromPresentNotification:withCompletionHandler:]_block_invoke.164
+__153+[OneSignalUNUserNotificationCenter callLegacyAppDeletegateSelector:isTextReply:actionIdentifier:userText:fromPresentNotification:withCompletionHandler:]_block_invoke.154
 __153+[OneSignalUNUserNotificationCenter callLegacyAppDeletegateSelector:isTextReply:actionIdentifier:userText:fromPresentNotification:withCompletionHandler:]_block_invoke
 __115-[OneSignalUNUserNotificationCenter onesignalUserNotificationCenter:willPresentNotification:withCompletionHandler:]_block_invoke
 __91-[OneSignalUNUserNotificationCenter onesignalGetNotificationSettingsWithCompletionHandler:]_block_invoke
@@ -526,6 +765,8 @@ ___28-[OneSignalWebView dismiss:]_block_invoke
 -[OneSignalWebView webViewDidStartLoad:]
 -[OneSignalWebView webViewDidFinishLoad:]
 -[OneSignalWebView webView:didFailLoadWithError:]
+-[OneSignalWebView pinSubviewToMarginsWithSubview:withSuperview:]
+-[OneSignalWebView topMostController]
 -[OneSignalWebView showInApp]
 -[OneSignalWebView url]
 -[OneSignalWebView setUrl:]
@@ -564,11 +805,32 @@ l_OBJC_PROTOCOL_$_UIApplicationDelegate
 l_OBJC_LABEL_PROTOCOL_$_UIApplicationDelegate
 l_OBJC_PROTOCOL_REFERENCE_$_UIApplicationDelegate
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/UIApplicationDelegate+OneSignal.m
++[OneSignalNotificationServiceExtensionHandler didReceiveNotificationExtensionRequest:withMutableNotificationContent:]
++[OneSignalNotificationServiceExtensionHandler serviceExtensionTimeWillExpireRequest:withMutableNotificationContent:]
++[OneSignalNotificationServiceExtensionHandler addActionButtonsToExtentionRequest:withPayload:withMutableNotificationContent:]
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalNotificationServiceExtensionHandler.m
++[OneSignalSetEmailParameters withEmail:withAuthToken:withSuccess:withFailure:]
+-[OneSignalSetEmailParameters email]
+-[OneSignalSetEmailParameters setEmail:]
+-[OneSignalSetEmailParameters authToken]
+-[OneSignalSetEmailParameters setAuthToken:]
+-[OneSignalSetEmailParameters successBlock]
+-[OneSignalSetEmailParameters setSuccessBlock:]
+-[OneSignalSetEmailParameters failureBlock]
+-[OneSignalSetEmailParameters setFailureBlock:]
+-[OneSignalSetEmailParameters .cxx_destruct]
+_OBJC_IVAR_$_OneSignalSetEmailParameters._email
+_OBJC_IVAR_$_OneSignalSetEmailParameters._authToken
+_OBJC_IVAR_$_OneSignalSetEmailParameters._successBlock
+_OBJC_IVAR_$_OneSignalSetEmailParameters._failureBlock
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalSetEmailParameters.m
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalSetEmailParameters.h
 +[OneSignalMobileProvision getMobileProvision]
 +[OneSignalMobileProvision releaseMode]
 _getMobileProvision.mobileProvision
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalMobileProvision.m
 +[OneSignalTracker resetLocals]
++[OneSignalTracker setLastOpenedTime:]
 +[OneSignalTracker beginBackgroundFocusTask]
 ___44+[OneSignalTracker beginBackgroundFocusTask]_block_invoke
 +[OneSignalTracker endBackgroundFocusTask]
@@ -578,31 +840,74 @@ ___28+[OneSignalTracker onFocus:]_block_invoke
 +[OneSignalTracker saveUnsentActiveTime:]
 _unSentActiveTime
 _focusBackgroundTask
-_lastOpenedTime
 _lastOnFocusWasToBackground
-___block_descriptor_tmp.90
+___block_descriptor_tmp.71
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalTracker.m
 __28+[OneSignalTracker onFocus:]_block_invoke
 __44+[OneSignalTracker beginBackgroundFocusTask]_block_invoke
--[OneSignalHTTPClient init]
--[OneSignalHTTPClient requestWithMethod:path:]
--[OneSignalHTTPClient baseURL]
--[OneSignalHTTPClient setBaseURL:]
--[OneSignalHTTPClient .cxx_destruct]
-_OBJC_IVAR_$_OneSignalHTTPClient._baseURL
-/Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalHTTPClient.m
-/Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalHTTPClient.h
 -[OSObservable initWithChangeSelector:]
 -[OSObservable init]
 -[OSObservable addObserver:]
 -[OSObservable removeObserver:]
 -[OSObservable notifyChange:]
-___29-[OSObservable notifyChange:]_block_invoke
+-[OSObservable callObserver:withSelector:withState:]
+___52-[OSObservable callObserver:withSelector:withState:]_block_invoke
 -[OSObservable .cxx_destruct]
 _OBJC_IVAR_$_OSObservable.observers
 _OBJC_IVAR_$_OSObservable.changeSelector
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OSObservable.m
-__29-[OSObservable notifyChange:]_block_invoke
+__52-[OSObservable callObserver:withSelector:withState:]_block_invoke
+-[OSEmailSubscriptionState observable]
+-[OSEmailSubscriptionState init]
+-[OSEmailSubscriptionState subscribed]
+-[OSEmailSubscriptionState persist]
+-[OSEmailSubscriptionState description]
+-[OSEmailSubscriptionState copyWithZone:]
+-[OSEmailSubscriptionState setEmailUserId:]
+-[OSEmailSubscriptionState setEmailAddress:]
+-[OSEmailSubscriptionState toDictionary]
+-[OSEmailSubscriptionState compare:]
+-[OSEmailSubscriptionState emailUserId]
+-[OSEmailSubscriptionState emailAddress]
+-[OSEmailSubscriptionState setObservable:]
+-[OSEmailSubscriptionState emailAuthCode]
+-[OSEmailSubscriptionState setEmailAuthCode:]
+-[OSEmailSubscriptionState requiresEmailAuth]
+-[OSEmailSubscriptionState setRequiresEmailAuth:]
+-[OSEmailSubscriptionState .cxx_destruct]
+-[OSEmailSubscriptionChangedInternalObserver onChanged:]
++[OSEmailSubscriptionChangedInternalObserver fireChangesObserver:]
+-[OSEmailSubscriptionStateChanges description]
+-[OSEmailSubscriptionStateChanges toDictionary]
+-[OSEmailSubscriptionStateChanges to]
+-[OSEmailSubscriptionStateChanges setTo:]
+-[OSEmailSubscriptionStateChanges from]
+-[OSEmailSubscriptionStateChanges setFrom:]
+-[OSEmailSubscriptionStateChanges .cxx_destruct]
+_OBJC_IVAR_$_OSEmailSubscriptionState._observable
+_OBJC_IVAR_$_OSEmailSubscriptionState._emailAddress
+_OBJC_IVAR_$_OSEmailSubscriptionState._requiresEmailAuth
+_OBJC_IVAR_$_OSEmailSubscriptionState._emailAuthCode
+_OBJC_IVAR_$_OSEmailSubscriptionState._emailUserId
+l_OBJC_PROTOCOL_$_OSEmailSubscriptionStateObserver
+l_OBJC_LABEL_PROTOCOL_$_OSEmailSubscriptionStateObserver
+_OBJC_IVAR_$_OSEmailSubscriptionStateChanges._from
+_OBJC_IVAR_$_OSEmailSubscriptionStateChanges._to
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OSEmailSubscription.m
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OSEmailSubscription.h
++[ReattemptRequest withRequest:successBlock:failureBlock:]
+-[ReattemptRequest request]
+-[ReattemptRequest setRequest:]
+-[ReattemptRequest successBlock]
+-[ReattemptRequest setSuccessBlock:]
+-[ReattemptRequest failureBlock]
+-[ReattemptRequest setFailureBlock:]
+-[ReattemptRequest .cxx_destruct]
+_OBJC_IVAR_$_ReattemptRequest._request
+_OBJC_IVAR_$_ReattemptRequest._successBlock
+_OBJC_IVAR_$_ReattemptRequest._failureBlock
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/ReattemptRequest.m
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/ReattemptRequest.h
 -[OneSignalNotificationSettingsIOS7 getNotificationPermissionState:]
 -[OneSignalNotificationSettingsIOS7 getNotificationPermissionState]
 ___67-[OneSignalNotificationSettingsIOS7 getNotificationPermissionState]_block_invoke
@@ -626,12 +931,13 @@ ___30+[OneSignalLocation beginTask]_block_invoke
 +[OneSignalLocation endTask]
 +[OneSignalLocation internalGetLocation:]
 -[OneSignalLocation locationManager:didUpdateLocations:]
+-[OneSignalLocation locationManager:didFailWithError:]
 +[OneSignalLocation resetSendTimer]
 +[OneSignalLocation sendLocation]
 _locationManager
 _hasDelayed
 _started
-___block_descriptor_tmp.36
+___block_descriptor_tmp.34
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalLocation.m
 __30+[OneSignalLocation beginTask]_block_invoke
 __33+[OneSignalLocation getLocation:]_block_invoke
@@ -658,6 +964,8 @@ __33+[OneSignalLocation getLocation:]_block_invoke
 -[OSSubscriptionState pushToken]
 -[OSSubscriptionState accpeted]
 -[OSSubscriptionState setAccpeted:]
+-[OSSubscriptionState delayedObserverUpdate]
+-[OSSubscriptionState setDelayedObserverUpdate:]
 -[OSSubscriptionState setObservable:]
 -[OSSubscriptionState .cxx_destruct]
 -[OSSubscriptionChangedInternalObserver onChanged:]
@@ -671,6 +979,7 @@ __33+[OneSignalLocation getLocation:]_block_invoke
 -[OSSubscriptionStateChanges .cxx_destruct]
 _OBJC_IVAR_$_OSSubscriptionState._observable
 _OBJC_IVAR_$_OSSubscriptionState._accpeted
+_OBJC_IVAR_$_OSSubscriptionState._delayedObserverUpdate
 l_OBJC_PROTOCOL_$_OSSubscriptionStateObserver
 l_OBJC_LABEL_PROTOCOL_$_OSSubscriptionStateObserver
 _OBJC_IVAR_$_OSSubscriptionStateChanges._from
@@ -687,7 +996,25 @@ _skPaymentQueue
 _productsRequest
 _sKProductsRequestClass
 /Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/OneSignalTrackIAP.m
-/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.1_9B55/OneSignal-iOS-SDK/2.5.7/Build/Intermediates.noindex/ArchiveIntermediates/OneSignal-Dynamic/IntermediateBuildFilesPath/OneSignal.build/Release-iphoneos/OneSignal-Dynamic.build/DerivedSources/OneSignal_vers.c
++[OSRequestGetTags withUserId:appId:]
++[OSRequestGetIosParams withUserId:appId:]
+-[OSRequestGetIosParams missingAppId]
++[OSRequestSendTagsToServer withUserId:appId:tags:networkType:withEmailAuthHashToken:]
++[OSRequestPostNotification withAppId:withJson:]
++[OSRequestUpdateDeviceToken withUserId:appId:deviceToken:notificationTypes:withParentId:emailAuthToken:email:]
++[OSRequestCreateDevice withAppId:withDeviceType:withEmail:withPlayerId:withEmailAuthHash:]
++[OSRequestLogoutEmail withAppId:emailPlayerId:devicePlayerId:emailAuthHash:]
++[OSRequestUpdateNotificationTypes withUserId:appId:notificationTypes:]
++[OSRequestSendPurchases withUserId:appId:withPurchases:]
++[OSRequestSendPurchases withUserId:emailAuthToken:appId:withPurchases:]
++[OSRequestSubmitNotificationOpened withUserId:appId:wasOpened:messageId:]
++[OSRequestRegisterUser withData:userId:]
++[OSRequestSyncHashedEmail withUserId:appId:email:networkType:]
++[OSRequestSendLocation withUserId:appId:location:networkType:backgroundState:emailAuthHashToken:]
++[OSRequestOnFocus withUserId:appId:badgeCount:emailAuthToken:]
++[OSRequestOnFocus withUserId:appId:state:type:activeTime:netType:emailAuthToken:]
+/Users/aaron/repos/onebusaway/Carthage/Checkouts/OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/Source/Requests.m
+/Users/aaron/Library/Caches/org.carthage.CarthageKit/DerivedData/9.2_9C40b/OneSignal-iOS-SDK/2.8.1/Build/Intermediates.noindex/ArchiveIntermediates/OneSignal-Dynamic/IntermediateBuildFilesPath/OneSignal.build/Release-iphoneos/OneSignal-Dynamic.build/DerivedSources/OneSignal_vers.c
 __ZL15__ARCLite__loadv
 __ZL30add_image_hook_autoreleasepoolPK11mach_headerl
 __ZL34__arclite_objc_autoreleasePoolPushv
@@ -793,7 +1120,8 @@ __ZL25original_protocol_getName
 __ZL36original_objc_copyClassNamesForImage
 __ZL12demangleLock
 __ZL9Demangled
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c++ -arch armv7 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=c++11 -Wno-trigraphs -fno-exceptions -fno-rtti -fno-sanitize=vptr -mpascal-strings -Os -Wno-missing-field-initializers -Wmissing-prototypes -Wno-implicit-atomic-properties -Wno-arc-repeated-use-of-weak -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -Wno-c++11-extensions -D NDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.Internal.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Winvalid-offsetof -miphoneos-version-min=4.3 -g -fno-threadsafe-statics -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -fembed-bitcode=all -iquote /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-generated-files.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-own-target-headers.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-all-target-headers.hmap -iquote /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-project-headers.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/Symbols/BuiltProducts/include -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/DerivedSources/armv7 -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/DerivedSources -F/Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/Symbols/BuiltProducts -iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.Internal.sdk/System/Library/PrivateFrameworks -Wall -Wextra -Wno-gcc-compat -Wno-error=incomplete-umbrella -Wno-error=invalid-ios-deployment-target -Wno-error=incomplete-umbrella -Wno-error=invalid-ios-deployment-target -MMD -MT dependencies -MF /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/armv7/arclite.d --serialize-diagnostics /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/armv7/arclite.dia -c /Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-67/source/arclite.mm -o /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/armv7/arclite.o -mlinker-version=302.3.1 -march=armv7a
+Apple LLVM version 9.0.0 (clang-900.0.39)
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c++ -arch armv7 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=c++11 -Wno-trigraphs -fno-exceptions -fno-rtti -fno-sanitize=vptr -mpascal-strings -Os -Wno-missing-field-initializers -Wmissing-prototypes -Wno-implicit-atomic-properties -Wno-arc-repeated-use-of-weak -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -Wno-c++11-extensions -D NDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.Internal.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Winvalid-offsetof -miphoneos-version-min=4.3 -g -fno-threadsafe-statics -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -fembed-bitcode=all -iquote /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-generated-files.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-own-target-headers.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-all-target-headers.hmap -iquote /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-project-headers.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/Symbols/BuiltProducts/include -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/DerivedSources/armv7 -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/DerivedSources -F/Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/Symbols/BuiltProducts -iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.Internal.sdk/System/Library/PrivateFrameworks -Wall -Wextra -Wno-gcc-compat -Wno-error=incomplete-umbrella -Wno-error=invalid-ios-deployment-target -Wno-error=incomplete-umbrella -Wno-error=invalid-ios-deployment-target -MMD -MT dependencies -MF /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/armv7/arclite.d --serialize-diagnostics /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/armv7/arclite.dia -c /Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-67/source/arclite.mm -o /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/armv7/arclite.o -mlinker-version=305 -march=armv7a
 /Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-67/source/arclite.mm
 /Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-67
 fixStringForCoreData
@@ -801,7 +1129,7 @@ cxxConstruct
 arclite_uninitialized_function
 scanMangledField
 isdigit
-/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.Internal.sdk/usr/include/ctype.h
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.Internal.sdk/usr/include/ctype.h
 __isctype
 demangledName
 copySwiftV1DemangledName
