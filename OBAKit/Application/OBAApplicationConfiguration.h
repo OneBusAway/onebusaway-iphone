@@ -12,6 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAApplicationConfiguration : NSObject
+@property(nonatomic,assign) BOOL extensionMode;
 @property(nonatomic,copy,nullable) NSArray<DDAbstractLogger*> *loggers;
 @end
 

@@ -7,14 +7,13 @@
 //
 
 @import OBAKit;
-#import "OBAStaticTableViewController.h"
 
 @interface OBAArrivalAndDepartureViewController : OBAStaticTableViewController
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
-@property(nonatomic,strong) OBAModelService *modelService;
-@property(nonatomic,strong) OBAArrivalAndDepartureV2* arrivalAndDeparture;
+@property(nonatomic,strong) PromisedModelService *modelService;
 
 - (instancetype)initWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
+- (instancetype)initWithTripInstance:(OBATripInstanceRef *)tripInstance;
 
 // Implementation weirdness explanation: NSObject implements -copy, not NSCopying :(
 - (instancetype)initWithArrivalAndDepartureConvertible:(NSObject<OBAArrivalAndDepartureConvertible,NSCopying>*)convertible;

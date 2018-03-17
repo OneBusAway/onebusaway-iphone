@@ -7,7 +7,6 @@
 //
 
 #import "OBATimelineBarRow.h"
-#import "OBAViewModelRegistry.h"
 #import "OBATimelineBarCell.h"
 
 @implementation OBATimelineBarRow

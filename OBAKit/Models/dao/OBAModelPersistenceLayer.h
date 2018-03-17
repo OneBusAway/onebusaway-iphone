@@ -12,6 +12,7 @@
 @class OBARegionV2;
 @class OBATripDeepLink;
 @class OBAAlarm;
+@class OBABookmarkGroup;
 @class OBAArrivalAndDepartureV2;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -26,17 +27,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray*) readBookmarks;
 - (void) writeBookmarks:(NSArray*)source;
 
-- (NSArray*) readBookmarkGroups;
-- (void) writeBookmarkGroups:(NSArray*)source;
+- (NSArray<OBABookmarkGroup*>*)readBookmarkGroups;
+- (void)writeBookmarkGroups:(NSArray<OBABookmarkGroup*>*)source;
 
-- (NSArray*) readMostRecentStops;
-- (void) writeMostRecentStops:(NSArray*)source;
+- (NSArray*)readMostRecentStops;
+- (void)writeMostRecentStops:(NSArray*)source;
 
-- (NSDictionary*) readStopPreferences;
-- (void) writeStopPreferences:(NSDictionary*)stopPreferences;
+- (NSDictionary*)readStopPreferences;
+- (void)writeStopPreferences:(NSDictionary*)stopPreferences;
 
-- (CLLocation * _Nullable) readMostRecentLocation;
-- (void) writeMostRecentLocation:(CLLocation*)mostRecentLocation;
+- (nullable CLLocation *)readMostRecentLocation;
+- (void)writeMostRecentLocation:(CLLocation*)mostRecentLocation;
 
 // Service Alerts
 

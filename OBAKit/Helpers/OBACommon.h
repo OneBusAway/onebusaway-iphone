@@ -18,34 +18,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, OBASearchType) {
-    OBASearchTypeNone=0,
-    OBASearchTypePending,
-    OBASearchTypeRegion,
-    OBASearchTypeRoute,
-    OBASearchTypeStops,
-    OBASearchTypeAddress,
-    OBASearchTypePlacemark,
-    OBASearchTypeStopId,
-    OBASearchTypeRegionalAlert,
-};
-
-typedef NS_ENUM(NSInteger, OBANavigationTargetType) {
-    OBANavigationTargetTypeUndefined=0,
-    OBANavigationTargetTypeMap,
-    OBANavigationTargetTypeSearchResults,
-    OBANavigationTargetTypeRecentStops,
-    OBANavigationTargetTypeBookmarks,
-    OBANavigationTargetTypeContactUs,
-};
-
 typedef NS_ENUM(NSUInteger, OBAErrorCode) {
     OBAErrorCodeLocationAuthorizationFailed = 1002,
     OBAErrorCodePushNotificationAuthorizationDenied,
-    OABErrorCodeMissingMethodParameters,
+    OBAErrorCodeMissingMethodParameters,
+    OBAErrorCodeBadData,
 };
-
-NSString * _Nullable NSStringFromOBASearchType(OBASearchType searchType);
 
 extern NSString * const OBAErrorDomain;
 
@@ -60,6 +38,7 @@ extern NSString * const OBAOptInToTrackingDefaultsKey;
 extern NSString * const OBAOptInToCrashReportingDefaultsKey;
 extern NSString * const OBAMapSelectedTypeDefaultsKey;
 extern NSString * const OBADebugModeUserDefaultsKey;
+extern NSString * const OBAExperimentalUseDrawerUIDefaultsKey;
 
 // Server Addresses
 extern NSString * const OBADeepLinkServerAddress;

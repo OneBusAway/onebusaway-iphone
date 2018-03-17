@@ -2,8 +2,8 @@
   "commitish" : "3.5.0-beta2",
   "iOS" : [
     {
-      "hash" : "36022289ee76954c2cceca0443c56dc0ce8906bab9fd958121dc009d3dfbcafd",
-      "name" : "SwiftMessages"
+      "name" : "SwiftMessages",
+      "hash" : "a017f92212eccb4d3d338053220a5dc99be06d6da9c6bd653a615f4584a7db74"
     }
   ]
 }

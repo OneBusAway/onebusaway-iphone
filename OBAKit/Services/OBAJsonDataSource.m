@@ -15,10 +15,10 @@
  */
 
 #import <OBAKit/OBAJsonDataSource.h>
-#import <OBAKit/JsonUrlFetcherImpl.h>
 #import <OBAKit/OBACommon.h>
 #import <OBAKit/NSDictionary+OBAAdditions.h>
 #import <OBAKit/NSObject+OBADescription.h>
+#import <OBAKit/OBAKit-Swift.h>
 
 @interface OBAJsonDataSource ()
 @property(nonatomic,strong) NSHashTable *openConnections;
@@ -26,10 +26,11 @@
 
 @implementation OBAJsonDataSource
 
-- (id)initWithConfig:(OBADataSourceConfig *)config {
+- (id)initWithConfig:(OBADataSourceConfig *)config checkStatusCodeInBody:(BOOL)checkStatusCodeInBody {
     if (self = [super init]) {
         _config = config;
         _openConnections = [NSHashTable weakObjectsHashTable];
+        _checkStatusCodeInBody = checkStatusCodeInBody;
     }
 
     return self;
@@ -39,66 +40,105 @@
     [self cancelOpenConnections];
 }
 
+- (NSURLSession*)URLSession {
+    if (!_URLSession) {
+        _URLSession = [NSURLSession sharedSession];
+    }
+    return _URLSession;
+}
+
 #pragma mark - Factory Helpers
 
 + (instancetype)JSONDataSourceWithBaseURL:(NSURL*)URL userID:(NSString*)userID {
     OBADataSourceConfig *obaDataSourceConfig = [OBADataSourceConfig dataSourceConfigWithBaseURL:URL userID:userID];
-    return [[OBAJsonDataSource alloc] initWithConfig:obaDataSourceConfig];
+    OBAJsonDataSource *dataSource = [[OBAJsonDataSource alloc] initWithConfig:obaDataSourceConfig checkStatusCodeInBody:YES];
+
+    return dataSource;
 }
 
 + (instancetype)googleMapsJSONDataSource {
     OBADataSourceConfig *googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:@"https://maps.googleapis.com"] args:@{@"sensor": @"true"}];
-    return [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig];
+    return [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig checkStatusCodeInBody:NO];
 }
 
 + (instancetype)obacoJSONDataSource {
     OBADataSourceConfig *obacoConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:OBADeepLinkServerAddress] args:nil];
-    return [[OBAJsonDataSource alloc] initWithConfig:obacoConfig];
+    return [[OBAJsonDataSource alloc] initWithConfig:obacoConfig checkStatusCodeInBody:NO];
 }
 
 #pragma mark - Public Methods
 
-- (NSMutableURLRequest*)requestWithURL:(NSURL*)URL HTTPMethod:(NSString*)HTTPMethod {
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15];
-    [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
-    request.HTTPMethod = HTTPMethod;
+- (OBAURLRequest*)buildGETRequestWithPath:(NSString*)path queryParameters:(nullable NSDictionary*)queryParameters {
+    return [self buildRequestWithPath:path HTTPMethod:@"GET" queryParameters:queryParameters formBody:nil];
+}
+
+- (OBAURLRequest*)buildRequestWithPath:(NSString*)path HTTPMethod:(NSString*)httpMethod queryParameters:(nullable NSDictionary*)queryParameters formBody:(nullable NSDictionary*)formBody {
+    return [self buildRequestWithURL:[self.config constructURL:path withArgs:queryParameters] HTTPMethod:httpMethod formBody:formBody];
+}
+
+- (OBAURLRequest*)buildRequestWithURL:(NSURL*)URL HTTPMethod:(NSString*)httpMethod formBody:(nullable NSDictionary*)formBody {
+    OBAURLRequest *request = [OBAURLRequest requestWithURL:URL httpMethod:httpMethod checkStatusCodeInBody:self.checkStatusCodeInBody];
+
+    BOOL requestSupportsHTTPBody = [@[@"post", @"patch", @"put"] containsObject:httpMethod.lowercaseString];
+    if (formBody && requestSupportsHTTPBody) {
+        request.HTTPBody = [formBody oba_toHTTPBodyData];
+    }
 
     return request;
 }
 
-- (id<OBADataSourceConnection>)performRequest:(NSURLRequest*)request completionBlock:(OBADataSourceCompletion) completion {
-    JsonUrlFetcherImpl *fetcher = [[JsonUrlFetcherImpl alloc] initWithCompletionBlock:completion];
-    [self.openConnections addObject:fetcher];
-    [fetcher loadRequest:request];
+- (NSURLSessionTask*)requestWithPath:(NSString*)path
+                          HTTPMethod:(NSString*)httpMethod
+                     queryParameters:(nullable NSDictionary*)queryParameters
+                            formBody:(nullable NSDictionary*)formBody
+                     completionBlock:(OBADataSourceCompletion)completion {
 
-    return fetcher;
-}
-
-- (id<OBADataSourceConnection>)requestWithPath:(NSString*)path
-                                    HTTPMethod:(NSString*)httpMethod
-                               queryParameters:(nullable NSDictionary*)queryParameters
-                                      formBody:(nullable NSDictionary*)formBody
-                               completionBlock:(OBADataSourceCompletion) completion {
-
-    NSMutableURLRequest *request = [self requestWithURL:[self.config constructURL:path withArgs:queryParameters] HTTPMethod:httpMethod];
-
-    if (formBody && [self.class requestSupportsHTTPBody:request]) {
-        request.HTTPBody = [formBody oba_toHTTPBodyData];
-    }
+    OBAURLRequest *request = [self buildRequestWithPath:path
+                                            HTTPMethod:httpMethod
+                                       queryParameters:queryParameters
+                                              formBody:formBody];
 
     return [self performRequest:request completionBlock:completion];
 }
 
+- (NSURLSessionTask*)createURLSessionTask:(NSURLRequest*)request completion:(nullable OBADataSourceCompletion)completion {
+    NSURLSessionDataTask *task = [self.URLSession dataTaskWithRequest:request
+                                                    completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        id responseObject = nil;
+
+        if (data.length) {
+            NSError *jsonError = nil;
+            responseObject = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:&jsonError];
+
+            if (!responseObject && jsonError) {
+                error = jsonError;
+            }
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (completion) {
+                completion(responseObject, (NSHTTPURLResponse*)response, error);
+            }
+        });
+    }];
+
+    [self.openConnections addObject:task];
+
+    return task;
+}
+
+- (NSURLSessionTask*)performRequest:(NSURLRequest*)request completionBlock:(nullable OBADataSourceCompletion)completion {
+    NSURLSessionTask *task = [self createURLSessionTask:request completion:completion];
+    [task resume];
+
+    return task;
+}
+
 - (void)cancelOpenConnections {
-    for (JsonUrlFetcherImpl *fetcher in self.openConnections) {
-        [fetcher cancel];
+    for (NSURLSessionTask *task in self.openConnections) {
+        [task cancel];
     }
 
     [self.openConnections removeAllObjects];
-}
-
-+ (BOOL)requestSupportsHTTPBody:(NSURLRequest*)request {
-    return [@[@"post", @"patch", @"put"] containsObject:request.HTTPMethod.lowercaseString];
 }
 
 - (NSString*)description {

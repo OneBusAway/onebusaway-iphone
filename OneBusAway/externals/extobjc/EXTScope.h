@@ -78,7 +78,6 @@
         return [foo isEqual:obj] || [bar isEqual:obj];
     };
 
- * @endcode
  */
 #define strongify(...) \
     ext_keywordify \

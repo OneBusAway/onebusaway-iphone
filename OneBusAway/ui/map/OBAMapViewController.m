@@ -21,28 +21,28 @@
 #import "OBAStopViewController.h"
 #import "OBAAnalytics.h"
 #import "OBAAlerts.h"
-#import "OBAAnimation.h"
 #import "OBAMapActivityIndicatorView.h"
-#import "OBAVibrantBlurContainerView.h"
 #import "OneBusAway-Swift.h"
 #import "SVPulsingAnnotationView.h"
 #import "UIViewController+OBAContainment.h"
+#import "UIViewController+OBAAdditions.h"
 #import "OBAMapAnnotationViewBuilder.h"
 #import "MKMapView+oba_Additions.h"
 #import "ISHHoverBar.h"
 #import "OBAToastView.h"
+#import "OBAApplicationDelegate.h"
 
 static const NSUInteger kShowNClosestStops = 4;
 static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
-@interface OBAMapViewController ()<MKMapViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, MapSearchDelegate, OBANavigator>
+@interface OBAMapViewController ()<MKMapViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, MapSearchDelegate, OBANavigator, OBAMapRegionDelegate>
 
 // Map UI
 @property(nonatomic,strong) MKMapView *mapView;
 @property(nonatomic,strong) ISHHoverBar *locationHoverBar;
 @property(nonatomic,strong) ISHHoverBar *secondaryHoverBar;
-@property(nonatomic,strong) UIButton *mapTypeButton;
 @property(nonatomic,strong) OBAToastView *toastView;
+@property(nonatomic,strong) UIImageView *mapCenterImage;
 
 // Search
 @property(nonatomic,strong) UISearchController *searchController;
@@ -67,32 +67,37 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 @implementation OBAMapViewController
 
-- (id)init {
-    self = [super init];
+- (instancetype)initWithMapDataLoader:(OBAMapDataLoader*)mapDataLoader mapRegionManager:(OBAMapRegionManager*)mapRegionManager {
+    self = [super initWithNibName:nil bundle:nil];
 
     if (self) {
+        _mapDataLoader = mapDataLoader;
+        [_mapDataLoader addDelegate:self];
+
+        _mapRegionManager = mapRegionManager;
+        [_mapRegionManager addDelegate:self];
+
         self.title = NSLocalizedString(@"msg_map", @"Map tab title");
         self.tabBarItem.image = [UIImage imageNamed:@"Map"];
         self.tabBarItem.selectedImage = [UIImage imageNamed:@"Map_Selected"];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userHeadingDidUpdate:) name:OBAHeadingDidUpdateNotification object:nil];
 
-        [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
+        [OBAApplication.sharedApplication.userDefaults addObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
     }
-
     return self;
 }
 
 - (void)dealloc {
     [self.mapDataLoader cancelOpenConnections];
-    [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey];
+    [OBAApplication.sharedApplication.userDefaults removeObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey];
 }
 
 #pragma mark - KVO
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if (object == NSUserDefaults.standardUserDefaults && [keyPath isEqual:OBADisplayUserHeadingOnMapDefaultsKey]) {
-        BOOL value = [NSUserDefaults.standardUserDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
+    if (object == OBAApplication.sharedApplication.userDefaults && [keyPath isEqual:OBADisplayUserHeadingOnMapDefaultsKey]) {
+        BOOL value = [OBAApplication.sharedApplication.userDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
         self.userLocationAnnotationView.headingImageView.hidden = !value;
     }
 }
@@ -108,11 +113,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     self.mostRecentRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(0, 0), MKCoordinateSpanMake(0, 0));
 
-    self.mapDataLoader.delegate = self;
-
-    self.mapRegionManager = [[OBAMapRegionManager alloc] initWithMapView:self.mapView];
-    self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
-    
     self.mapView.rotateEnabled = NO;
     if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
         self.mapView.showsUserLocation = YES;
@@ -171,6 +171,12 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     [self unregisterFromLocationNotifications];
 }
 
+#pragma mark - Drawer UI
+
+- (BOOL)usingDrawerUI {
+    return [OBAApplication.sharedApplication.userDefaults boolForKey:OBAExperimentalUseDrawerUIDefaultsKey];
+}
+
 #pragma mark - Search
 
 - (void)configureSearch {
@@ -225,7 +231,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 #pragma mark - Lazily Loaded Properties
 
-- (OBAModelService*)modelService {
+- (PromisedModelService*)modelService {
     if (!_modelService) {
         _modelService = [OBAApplication sharedApplication].modelService;
     }
@@ -246,15 +252,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     return _locationManager;
 }
 
-- (OBAMapDataLoader*)mapDataLoader {
-    if (!_mapDataLoader) {
-        _mapDataLoader = [[OBAMapDataLoader alloc] initWithModelService:self.modelService];
-        // abxoxo - do this here or in -viewDidLoad?
-        // _mapDataLoader.delegate = self;
-    }
-    return _mapDataLoader;
-}
-
 #pragma mark - OBANavigationTargetAware
 
 - (OBANavigationTarget *)navigationTarget {
@@ -270,6 +267,9 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     if (OBASearchTypeRegion == target.searchType) {
         [self.mapDataLoader searchPending];
         [self.mapRegionManager setRegionFromNavigationTarget:target];
+    }
+    else if (OBASearchTypeStopId == target.searchType) {
+        [self displayStopControllerForStopID:target.searchArgument];
     }
     else {
         [self.mapDataLoader searchWithTarget:target];
@@ -305,7 +305,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         self.hideFutureNetworkErrors = YES;
 
-        [AlertPresenter showError:error];
+        [AlertPresenter showError:error presentingController:self];
     }
 }
 
@@ -315,6 +315,12 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)mapDataLoaderFinishedUpdating:(OBAMapDataLoader*)searchController {
     [self.mapActivityIndicatorView setAnimating:NO];
+}
+
+#pragma mark - OBAMapRegionDelegate
+
+- (void)mapRegionManager:(OBAMapRegionManager*)manager setRegion:(MKCoordinateRegion)region animated:(BOOL)animated {
+    [self.mapView setRegion:region animated:animated];
 }
 
 #pragma mark - OBALocationManager Notifications
@@ -399,7 +405,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)updateUserLocationAnnotationViewWithHeading:(CLHeading*)heading {
-    _userLocationAnnotationView.headingImageView.hidden = ![NSUserDefaults.standardUserDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
+    _userLocationAnnotationView.headingImageView.hidden = ![OBAApplication.sharedApplication.userDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
     // The SVPulsingAnnotationView assumes east == 0. Because different coordinate systems :(
     NSInteger adjustedDegrees = (NSInteger)(heading.trueHeading - 90) % 360;
     CGFloat radians = [OBAImageHelpers degreesToRadians:(CGFloat)adjustedDegrees];
@@ -412,9 +418,10 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         _userLocationAnnotationView.annotationColor = [OBATheme userLocationFillColor];
         _userLocationAnnotationView.canShowCallout = NO;
         _userLocationAnnotationView.headingImage = [UIImage imageNamed:@"userHeading"];
+        _userLocationAnnotationView.userInteractionEnabled = NO;
     }
 
-    BOOL showHeading = [NSUserDefaults.standardUserDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
+    BOOL showHeading = [OBAApplication.sharedApplication.userDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
 
     if (heading && showHeading) {
         [self updateUserLocationAnnotationViewWithHeading:heading];
@@ -449,8 +456,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     id annotation = view.annotation;
 
     if ([annotation respondsToSelector:@selector(stopId)]) {
-        OBAStopViewController *stopController = [[OBAStopViewController alloc] initWithStopID:[annotation stopId]];
-        [self.navigationController pushViewController:stopController animated:YES];
+        [self displayStopControllerForStopID:[annotation stopId]];
     }
     else if ([annotation isKindOfClass:[OBAPlacemark class]]) {
         OBAPlacemark *placemark = annotation;
@@ -500,15 +506,33 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 // More map options such as Satellite views
 // see https://github.com/OneBusAway/onebusaway-iphone/issues/65
-- (IBAction)changeMapTypes {
-    if (self.mapView.mapType == MKMapTypeStandard) {
-        self.mapView.mapType = MKMapTypeHybrid;
-    }
-    else {
+- (IBAction)changeMapTypes:(UIButton*)sender {
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil];
+
+    OBATableRow *standardRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"map_controller.standard_map_type_title", @"Title for Standard Map toggle option.") action:^(OBABaseRow *row) {
         self.mapView.mapType = MKMapTypeStandard;
+        [OBAApplication.sharedApplication.userDefaults setInteger:MKMapTypeStandard forKey:OBAMapSelectedTypeDefaultsKey];
+    }];
+
+    OBATableRow *hybridRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"map_controller.hybrid_map_type_title", @"Title for Hybrid Map toggle option.") action:^(OBABaseRow *row) {
+        self.mapView.mapType = MKMapTypeHybrid;
+        [OBAApplication.sharedApplication.userDefaults setInteger:MKMapTypeHybrid forKey:OBAMapSelectedTypeDefaultsKey];
+    }];
+
+    if (self.mapView.mapType == MKMapTypeStandard) {
+        standardRow.accessoryType = UITableViewCellAccessoryCheckmark;
     }
-    self.mapTypeButton.selected = self.mapView.mapType == MKMapTypeHybrid;
-    [[NSUserDefaults standardUserDefaults] setInteger:self.mapView.mapType forKey:OBAMapSelectedTypeDefaultsKey];
+    else if (self.mapView.mapType == MKMapTypeHybrid) {
+        hybridRow.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+
+    [section addRow:standardRow];
+    [section addRow:hybridRow];
+
+    PickerViewController *picker = [[PickerViewController alloc] init];
+    picker.sections = @[section];
+
+    [self oba_presentPopoverViewController:picker fromView:sender];
 }
 
 - (IBAction)showNearbyStops {
@@ -571,7 +595,13 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)displayStopControllerForStopID:(NSString*)stopID {
     OBAStopViewController *stopController = [[OBAStopViewController alloc] initWithStopID:stopID];
-    [self.navigationController pushViewController:stopController animated:YES];
+
+    if ([self usingDrawerUI]) {
+        [self.drawerPresenter pushViewController:stopController animated:YES];
+    }
+    else {
+        [self.navigationController pushViewController:stopController animated:YES];
+    }
 }
 
 #pragma mark - OBAMapViewController Private Methods
@@ -758,7 +788,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         case OBASearchTypeRoute:
         case OBASearchTypeStops:
         case OBASearchTypeAddress:
-        case OBASearchTypeStopId: {
+        case OBASearchTypeStopId:
+        case OBASearchTypeStopIdSearch: {
             NSString *query = navigationTarget.userFacingSearchQuery;
 
             if (!query) {
@@ -818,6 +849,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 
     switch (result.searchType) {
+        case OBASearchTypeStopIdSearch:
         case OBASearchTypeStopId:
             return [OBAMapHelpers computeRegionForNClosestStops:result.values center:[self currentLocation] numberOfStops:kShowNClosestStops];
 
@@ -882,7 +914,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         alertTitle = NSLocalizedString(@"msg_no_places_found", @"showNoResultsAlertWithTitle");
         alertMessage = NSLocalizedString(@"msg_explanatory_no_places_found", @"prompt");
     }
-    else if (OBASearchTypeStopId == result.searchType) {
+    else if (OBASearchTypeStopId == result.searchType || OBASearchTypeStopIdSearch == result.searchType) {
         alertTitle = NSLocalizedString(@"msg_minus_no_stops_found", @"showNoResultsAlertWithTitle");
         alertMessage = NSLocalizedString(@"msg_explanatory_minus_no_stops_found", @"prompt");
     }
@@ -935,7 +967,17 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self.mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
     self.mapView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     self.mapView.delegate = self;
+    self.mapView.mapType = [OBAApplication.sharedApplication.userDefaults integerForKey:OBAMapSelectedTypeDefaultsKey];
     [self.view addSubview:self.mapView];
+
+    if (self.usingDrawerUI) {
+        self.mapCenterImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"map_center"]];
+        self.mapCenterImage.alpha = 0.3f;
+        [self.view addSubview:self.mapCenterImage];
+        [self.mapCenterImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(self.mapView);
+        }];
+    }
 }
 
 - (void)configureMapActivityIndicator {
@@ -974,24 +1016,12 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)createSecondaryHoverBar {
     self.secondaryHoverBar = [[ISHHoverBar alloc] init];
 
-    UIBarButtonItem *nearby = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lines"] style:UIBarButtonItemStylePlain target:self action:@selector(showNearbyStops)];
-    nearby.accessibilityLabel = NSLocalizedString(@"msg_nearby_stops_list", @"self.listBarButtonItem.accessibilityLabel");
+    UIBarButtonItem *nearbyButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"map_signs"] accessibilityLabel:NSLocalizedString(@"msg_nearby_stops_list", @"self.listBarButtonItem.accessibilityLabel") target:self action:@selector(showNearbyStops)];
 
-    // Create Map Type Toggle Button
-    self.mapTypeButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-    [self.mapTypeButton setImage:[UIImage imageNamed:@"satelliteMapIcon"] forState:UIControlStateNormal];
-    [self.mapTypeButton setImage:[UIImage imageNamed:@"standardMapIcon"] forState:UIControlStateSelected];
-    self.mapTypeButton.imageEdgeInsets = [OBATheme compactEdgeInsets];
-    [self.mapTypeButton addTarget:self action:@selector(changeMapTypes) forControlEvents:UIControlEventTouchUpInside];
+    NSString *label = NSLocalizedString(@"map_controller.toggle_map_type_accessibility_label", @"Accessibility label for toggle map type button on map.");
+    UIBarButtonItem *mapBarButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"map_button"] accessibilityLabel:label target:self action:@selector(changeMapTypes:)];
 
-    // Create Bar Button Item
-    UIBarButtonItem *mapBarButton = [[UIBarButtonItem alloc] initWithCustomView:self.mapTypeButton];
-    // Configure the default map display style
-    // see https://github.com/OneBusAway/onebusaway-iphone/issues/65
-    self.mapView.mapType = [[NSUserDefaults standardUserDefaults] integerForKey:OBAMapSelectedTypeDefaultsKey];
-    self.mapTypeButton.selected = self.mapView.mapType == MKMapTypeHybrid;
-
-    self.secondaryHoverBar.items = @[nearby, mapBarButton];
+    self.secondaryHoverBar.items = @[nearbyButton, mapBarButton];
 
     [self.view addSubview:self.secondaryHoverBar];
     [self.secondaryHoverBar mas_makeConstraints:^(MASConstraintMaker *make) {

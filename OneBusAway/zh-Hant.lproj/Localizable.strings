@@ -1,11 +1,8 @@
 /* No comment provided by engineer. */
 " - " = " - ";
 
-/* Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE> */
-"text_route_to_orientation_newline_params" = "%@ 往 %@\r\n";
-
-/* No comment provided by engineer. */
-"text_no_departure_next_time_minutes_params" = "%@: 接下來 %@ 分鐘內無預定車次";
+/* No departure scheduled for the next {MINUTES} minutes */
+"text_no_departure_next_time_minutes_params" = "接下來 %@ 分鐘內無預定車次";
 
 /* No comment provided by engineer. */
 "msg_vehicle_this_stop" = "在此站牌的車次";
@@ -147,14 +144,6 @@
 
 /* view.title */
 "msg_error_submitting" = "錯誤產生";
-
-/* message
- requestDidFail
- self.navigationItem.title */
-"msg_error_min_connecting" = "連結中發生錯誤";
-
-/* requestDidFail */
-"msg_error_min_connecting_dot" = "連結中發生錯誤.";
 
 /* No comment provided by engineer. */
 "msg_filtered_departures" = "過濾站牌";
@@ -440,9 +429,6 @@
 "msg_shared_trips" = "分享行程";
 
 /* No comment provided by engineer. */
-"msg_show_map" = "顯示地圖";
-
-/* No comment provided by engineer. */
 "msg_show_as_list" = "顯示列表";
 
 /* No comment provided by engineer. */
@@ -542,17 +528,11 @@
 /* No comment provided by engineer. */
 "msg_trip_schedule" = "行程安排";
 
-/* message */
-"msg_trip_not_found" = "查無行程";
-
 /* No comment provided by engineer. */
 "msg_unable_load_regions" = "無法讀取地區";
 
 /* No comment provided by engineer. */
 "text_unable_load_data_region_param" = "無法從 %@ 讀取數據。 請確認 URL 並再次一次 \r\n\r\n%@";
-
-/* message */
-"msg_unknown_error" = "未知錯誤";
 
 /* message */
 "msg_updated" = "更新";
@@ -590,7 +570,7 @@
 "msg_visit_us" = "參觀我們";
 
 /* No comment provided by engineer. */
-"text_walk_to_stop_info_params" = "%@, %.0f 分鐘: 抵達 %@";
+"text_walk_to_stop_info_params" = "%@, %@ 分鐘: 抵達 %@";
 
 /* No comment provided by engineer. */
 "msg_explanatory_no_agencies" = "我們無法在你的地區找到任何交通運輸機構。";
@@ -680,9 +660,6 @@
 
 /* No comment provided by engineer. */
 "text_only_routes_colon_param" = "路線: %@";
-
-/* cell.textLabel.text */
-"msg_schedule_deviation" = "預計行程差";
 
 /* title */
 "msg_mayus_vehicle" = "車次";

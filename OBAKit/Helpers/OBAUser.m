@@ -7,18 +7,18 @@
 //
 
 #import <OBAKit/OBAUser.h>
+#import <OBAKit/OBAApplication.h>
 
 static NSString * const kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 
 @implementation OBAUser
 
 + (NSString *)userIdFromDefaults {
-    NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:kOBAHiddenPreferenceUserId];
+    NSString *userId = [OBAApplication.sharedApplication.userDefaults stringForKey:kOBAHiddenPreferenceUserId];
 
     if (!userId) {
         userId = [[NSUUID UUID] UUIDString];
-        [[NSUserDefaults standardUserDefaults] setObject:userId forKey:kOBAHiddenPreferenceUserId];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        [OBAApplication.sharedApplication.userDefaults setObject:userId forKey:kOBAHiddenPreferenceUserId];
     }
 
     return userId;

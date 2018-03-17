@@ -7,7 +7,7 @@
 //
 
 #import "OBADrawerViewController.h"
-#import "OBAVibrantBlurContainerView.h"
+@import OBAKit;
 #import "UIViewController+OBAContainment.h"
 
 @interface OBADrawerViewController ()

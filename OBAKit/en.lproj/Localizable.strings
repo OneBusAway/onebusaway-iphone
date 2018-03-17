@@ -4,6 +4,15 @@
 /* sd > 0 */
 "msg_space_late" = " late";
 
+/* Default title of a bookmark group. In English, this is 'Untitled'. */
+"bookmark_group.default_title" = "Untitled";
+
+/* Title of the Bookmark Group that contains the Today Screen widget's bookmarks. */
+"bookmark_group.today_widget_title" = "Today View Bookmarks";
+
+/* As in 'actively updating content' */
+"strings.updating" = "Updating…";
+
 /* One minute */
 "date_helpers.one_minute" = "One minute";
 
@@ -24,6 +33,12 @@
 
 /* The text 'Close' */
 "strings.close" = "Close";
+
+/* The word 'Refresh', like a synonym for 'Reload'. */
+"strings.refresh" = "Refresh";
+
+/* Learn More */
+"strings.learn_more" = "Learn More";
 
 /* No comment provided by engineer. */
 "msg_cellular" = "Cellular";
@@ -73,8 +88,9 @@
 /* Standard 'Save' button text. */
 "msg_save" = "Save";
 
-/* cell.textLabel.text */
-"msg_schedule_deviation" = "Schedule deviation";
+/* code == 500 */
+"error_messages.server_error" = "The server was unable to interpret your request, or it is simply having some problems.";
+
 
 /* code == 404 */
 "mgs_stop_not_found" = "Stop not found";
@@ -160,6 +176,9 @@
 /* OBASearchTypeStopId. Rendered as 'Stop ID' in English. */
 "search_type.stop_id" = "Stop ID";
 
+/* The word 'Never' */
+"strings.never" = "Never";
+
 /* The word 'yesterday' */
 "strings.yesterday" = "Yesterday";
 
@@ -168,3 +187,6 @@
 
 /* An error displayed to the user when their alarm can't be created. */
 "model_service.cant_register_alarm_missing_parameters" = "Sorry, we can't create an alarm for this upcoming trip. You're welcome to try again, but it probably won't make any difference. Sorry about that :(";
+
+/* Route formatting string. e.g. 10 to Downtown Seattle */
+"text_route_to_orientation_newline_params" = "%@ to %@";

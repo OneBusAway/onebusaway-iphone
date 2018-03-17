@@ -132,10 +132,8 @@
         row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
         [row setDeleteModel:^(OBABaseRow *r) {
-            NSURLRequest *request = [self.modelService.obaJsonDataSource requestWithURL:alarm.alarmURL HTTPMethod:@"DELETE"];
-            [self.modelService.obaJsonDataSource performRequest:request completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
-                // nop?
-            }];
+            NSURLRequest *request = [self.modelService.obaJsonDataSource buildRequestWithURL:alarm.alarmURL HTTPMethod:@"DELETE" formBody:nil];
+            [self.modelService.obaJsonDataSource performRequest:request completionBlock:nil];
             [self.modelDAO removeAlarmWithKey:alarm.alarmKey];
         }];
 
@@ -229,16 +227,17 @@
 }
 
 - (void)setNavigationTarget:(OBANavigationTarget *)target {
-    if ([target.object conformsToProtocol:@protocol(OBAArrivalAndDepartureConvertible)]) {
-        OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:target.object];
+    if ([target isKindOfClass:OBADeepLinkNavigationTarget.class]) {
+        OBADeepLinkNavigationTarget *t = (OBADeepLinkNavigationTarget *)target;
+        OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:t.tripDeepLink];
         [self.navigationController pushViewController:controller animated:YES];
     }
-    else if (target.parameters[OBAStopIDNavigationTargetParameter]) {
-        NSString *stopID = target.parameters[OBAStopIDNavigationTargetParameter];
-        [self showStopViewControllerWithStopID:stopID];
+    else if ([target isKindOfClass:OBAAlarmNavigationTarget.class]) {
+        OBAAlarmNavigationTarget *t = (OBAAlarmNavigationTarget*)target;
+        [self showStopViewControllerWithStopID:t.alarm.stopID];
     }
     else {
-        DDLogError(@"Unhandled object type (%@) from OBANavigationTarget: %@", target.object, target);
+        DDLogError(@"Unhandled OBANavigationTarget: %@", target);
     }
 }
 

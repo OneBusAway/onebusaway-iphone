@@ -7,7 +7,6 @@
 //
 
 #import "OBASwitchRow.h"
-#import "OBAViewModelRegistry.h"
 #import "OBASwitchCell.h"
 
 @implementation OBASwitchRow

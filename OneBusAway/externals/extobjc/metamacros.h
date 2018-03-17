@@ -103,7 +103,6 @@
 #define varmacro(...) \
     metamacro_head(__VA_ARGS__)
 
- * @endcode
  */
 #define metamacro_head(...) \
         metamacro_head_(__VA_ARGS__, 0)
@@ -160,7 +159,6 @@ metamacro_if_eq(0, 0)(true)(false)
 // expands to false
 metamacro_if_eq(0, 1)(true)(false)
 
- * @endcode
  *
  * This is primarily useful when dealing with indexes and counts in
  * metaprogramming.

@@ -6,7 +6,6 @@
 //  Copyright © 2016 OneBusAway. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import OBAKit
 import PromiseKit
@@ -17,6 +16,10 @@ typealias NearbyStopsCanceled = () -> Void
 class NearbyStopsViewController: OBAStaticTableViewController {
     var stop: OBAStopV2?
     var searchResult: OBASearchResult?
+
+    var mapDataLoader: OBAMapDataLoader?
+    var mapRegionManager: OBAMapRegionManager?
+
     @objc var presentedModally = false
     @objc var pushesResultsOntoStack = false
     @objc var canceled: NearbyStopsCanceled?
@@ -32,34 +35,39 @@ class NearbyStopsViewController: OBAStaticTableViewController {
 
     public var currentCoordinate: CLLocationCoordinate2D?
 
+    @objc init(mapDataLoader: OBAMapDataLoader, mapRegionManager: OBAMapRegionManager) {
+        super.init(nibName: nil, bundle: nil)
+
+        self.pushesResultsOntoStack = true
+
+        self.mapDataLoader = mapDataLoader
+        self.mapDataLoader?.add(self)
+
+        self.mapRegionManager = mapRegionManager
+        self.mapRegionManager?.add(delegate: self)
+    }
+
     @objc init(withStop stop: OBAStopV2) {
         self.stop = stop
         self.currentCoordinate = self.stop?.coordinate
         super.init(nibName: nil, bundle: nil)
-
-        self.configureUI()
     }
 
-    @objc init(withSearchResult searchResult: OBASearchResult) {
+    @objc init(withSearchResult searchResult: OBASearchResult?) {
         self.searchResult = searchResult
         super.init(nibName: nil, bundle: nil)
-
-        self.configureUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureUI() {
-        self.title = NSLocalizedString("msg_nearby_stops", comment: "Title of the Nearby Stops view controller")
-
-    }
-
     // MARK: - View Controller
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.title = NSLocalizedString("msg_nearby_stops", comment: "Title of the Nearby Stops view controller")
 
         self.emptyDataSetTitle = NSLocalizedString("msg_mayus_no_stops_found", comment: "Empty data set title for the Nearby Stops controller")
         self.emptyDataSetDescription = NSLocalizedString("msg_coulnt_find_other_stops_on_radius", comment: "Empty data set description for the Nearby Stops controller")
@@ -70,8 +78,30 @@ class NearbyStopsViewController: OBAStaticTableViewController {
 
         self.loadData()
     }
+}
 
-    // MARK: - Data Loading
+// MARK: - Map Data Loader
+extension NearbyStopsViewController: OBAMapDataLoaderDelegate {
+    func mapDataLoader(_ mapDataLoader: OBAMapDataLoader, didReceiveError error: Error) {
+        // noop?
+    }
+
+    func mapDataLoader(_ mapDataLoader: OBAMapDataLoader, didUpdate searchResult: OBASearchResult) {
+        self.searchResult = searchResult
+        self.loadData()
+    }
+}
+
+// MARK: - Map Region Manager
+extension NearbyStopsViewController: OBAMapRegionDelegate {
+    func mapRegionManager(_ manager: OBAMapRegionManager, setRegion region: MKCoordinateRegion, animated: Bool) {
+        self.currentCoordinate = region.center
+        loadData()
+    }
+}
+
+// MARK: - Data Loading
+extension NearbyStopsViewController {
 
     func loadData() {
         if let searchResult = self.searchResult {
@@ -97,7 +127,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
     ///
     /// - Parameter searchResult: The `OBASearchResult` object used to populate the view controller
     func populateTable(_ searchResult: OBASearchResult) {
-        var sections: [OBATableSection]
+        var sections: [OBATableSection?]
 
         switch searchResult.searchType {
         case .region, .placemark, .stopId, .stops:
@@ -110,7 +140,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
             sections = []
         }
 
-        self.sections = sections
+        self.sections = sections.flatMap { $0 }
         self.tableView.reloadData()
     }
 
@@ -124,18 +154,28 @@ class NearbyStopsViewController: OBAStaticTableViewController {
         let stops = searchResult.values as! [OBAStopV2]
         var sections: [OBATableSection] = []
         let filteredStops = stops.filter { $0 != self.stop }
-        let grouped: [String: [OBAStopV2]] = filteredStops.categorize { $0.direction }
 
-        for (direction, stopsForDirection) in grouped {
-            let section = self.stopSectionFrom(direction: direction, stops: stopsForDirection)
+        // If we have a coordinate, sort by that into a single section.
+        // If not, group by cardinal direction and return multiple sections.
+        if self.currentCoordinate != nil {
+            let section = stopSectionFrom(title: nil, stops: stops)
             sections.append(section)
+        }
+        else {
+            let grouped: [String: [OBAStopV2]] = filteredStops.categorize { $0.direction }
+
+            for (direction, stopsForDirection) in grouped {
+                let title = cardinalDirectionFromAbbreviation(direction)
+                let section = stopSectionFrom(title: title, stops: stopsForDirection)
+                sections.append(section)
+            }
         }
 
         return sections
     }
 
-    func stopSectionFrom(direction: String, stops: [OBAStopV2]) -> OBATableSection {
-        let section = OBATableSection.init(title: cardinalDirectionFromAbbreviation(direction))
+    func stopSectionFrom(title: String?, stops: [OBAStopV2]) -> OBATableSection {
+        let section = OBATableSection.init(title: title)
         var rows: [OBAStopV2]
 
         if let coordinate = self.currentCoordinate {
@@ -162,8 +202,12 @@ class NearbyStopsViewController: OBAStaticTableViewController {
         return section
     }
 
-    func routeSectionFromSearchResult(_ searchResult: OBASearchResult) -> OBATableSection {
-        let routes = searchResult.values as! [OBARouteV2]
+    func routeSectionFromSearchResult(_ searchResult: OBASearchResult) -> OBATableSection? {
+        guard let routes = searchResult.values as? [OBARouteV2] else {
+            let error = OBAErrorMessages.buildError(forBadData: searchResult)
+            Crashlytics.sharedInstance().recordError(error)
+            return nil
+        }
 
         let rows = routes.map { route -> OBATableRow in
             let row = OBATableRow.init(title: route.fullRouteName) { _ in
@@ -191,16 +235,19 @@ class NearbyStopsViewController: OBAStaticTableViewController {
 
         return OBATableSection.init(title: nil, rows: rows)
     }
+}
 
-    // MARK: - Actions
-
+// MARK: - Actions
+extension NearbyStopsViewController {
     @objc private func closeButtonTapped() {
         self.dismissModal {
             self.canceled?()
         }
     }
+}
 
-    // MARK: - Private
+// MARK: - Private
+extension NearbyStopsViewController {
 
     private func navigateTo(_ target: OBANavigationTarget) {
         if self.pushesResultsOntoStack {

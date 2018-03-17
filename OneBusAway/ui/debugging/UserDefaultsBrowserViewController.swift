@@ -24,7 +24,7 @@ class UserDefaultsBrowserViewController: OBAStaticTableViewController {
     @objc func reloadData() {
         let section = OBATableSection.init(title: nil)
 
-        let dictionaryRep = UserDefaults.standard.dictionaryRepresentation()
+        let dictionaryRep = OBAApplication.shared().userDefaults.dictionaryRepresentation()
         section.rows = dictionaryRep.keys.sorted().map { key -> OBATableRow in
             let value = dictionaryRep[key]
             let row = OBATableRow.init(title: key) { _ in

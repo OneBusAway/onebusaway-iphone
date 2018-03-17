@@ -58,7 +58,7 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
 
         var sections: [OBATableSection] = []
 
-        if trimmed.characters.count == 0 {
+        if trimmed.count == 0 {
             sections = []
         }
         else {
@@ -120,7 +120,7 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
         // Stop Number Row
         let stopNumberText = MapSearchViewController.quickLookupRowText(title: NSLocalizedString("map_search.search_for_stop_number", comment: "Stop Number: <STOP NUMBER>"), searchText: searchText)
         let stopNumberRow = OBATableRow.init(attributedTitle: stopNumberText) { _ in
-            let target = OBANavigationTarget(forStopID: searchText)
+            let target = OBAStopSearchNavigationTarget(stopSearchQuery: searchText)
             self.delegate?.mapSearch(self, selectedNavigationTarget: target)
         }
         stopNumberRow.accessoryType = .disclosureIndicator

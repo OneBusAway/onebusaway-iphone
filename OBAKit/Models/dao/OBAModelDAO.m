@@ -22,6 +22,9 @@
 #import <OBAKit/OBAModelDAOUserPreferencesImpl.h>
 #import <OBAKit/OBAPlacemark.h>
 #import <OBAKit/OBABookmarkGroup.h>
+#import <OBAKit/OBAApplication.h>
+#import <OBAKit/NSArray+OBAAdditions.h>
+#import <OBAKit/OBALogging.h>
 
 NSString * const OBAUngroupedBookmarksIdentifier = @"OBAUngroupedBookmarksIdentifier";
 NSString * const OBAMostRecentStopsChangedNotification = @"OBAMostRecentStopsChangedNotification";
@@ -52,7 +55,13 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     if (self) {
         _preferencesDao = persistenceLayer;
         _bookmarks = [[NSMutableArray alloc] initWithArray:[_preferencesDao readBookmarks]];
-        _bookmarkGroups = [[NSMutableArray alloc] initWithArray:[_preferencesDao readBookmarkGroups]];
+
+        NSArray<OBABookmarkGroup*> *groups = [_preferencesDao readBookmarkGroups];
+        if (![groups isKindOfClass:NSArray.class] || ![self.class bookmarkGroupsContainTodayGroup:groups]) {
+            groups = [self.class bookmarkGroupsWithPreprendedTodayGroup:groups];
+        }
+
+        _bookmarkGroups = [[NSMutableArray alloc] initWithArray:groups];
         _mostRecentStops = [[NSMutableArray alloc] initWithArray:[_preferencesDao readMostRecentStops]];
         _stopPreferences = [[NSMutableDictionary alloc] initWithDictionary:[_preferencesDao readStopPreferences]];
         _mostRecentLocation = [_preferencesDao readMostRecentLocation];
@@ -233,10 +242,10 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     if (bookmark.group) {
         OBABookmarkGroup *group = bookmark.group;
 
-        [group.bookmarks removeObject:bookmark];
+        [group removeBookmark:bookmark];
 
         // The group is empty. Delete it.
-        if (group.bookmarks.count == 0) {
+        if (group.bookmarks.count == 0 && group.bookmarkGroupType != OBABookmarkGroupTypeTodayWidget) {
             [_bookmarkGroups removeObject:group];
         }
 
@@ -269,15 +278,15 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
         if (![_bookmarks containsObject:bookmark]) {
             [_bookmarks addObject:bookmark];
         }
-        [bookmark.group.bookmarks removeObject:bookmark];
+        [bookmark.group removeBookmark:bookmark];
     }
     else if (bookmark.group) {
-        [bookmark.group.bookmarks removeObject:bookmark];
-        [group.bookmarks addObject:bookmark];
+        [bookmark.group removeBookmark:bookmark];
+        [group addBookmark:bookmark];
     }
     else {
         [_bookmarks removeObject:bookmark];
-        [group.bookmarks addObject:bookmark];
+        [group addBookmark:bookmark];
     }
     bookmark.group = group;
     [_preferencesDao writeBookmarks:_bookmarks];
@@ -297,12 +306,12 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
     @synchronized (self) {
         OBABookmarkV2 *bm = group.bookmarks[startIndex];
-        [group.bookmarks removeObjectAtIndex:startIndex];
+        [group removeBookmark:bm];
 
         // If the caller put this bookmark out of bounds, then
         // just stick the bookmark at the end of the array and
         // call it a day.
-        [group.bookmarks insertObject:bm atIndex:MIN(endIndex, bookmarksCount - 1)];
+        [group insertBookmark:bm atIndex:MIN(endIndex, bookmarksCount - 1)];
         [self persistGroups];
     }
 }
@@ -325,6 +334,25 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 }
 
 #pragma mark - Bookmark Groups
+
+- (NSArray<OBABookmarkGroup*>*)userCreatedBookmarkGroups {
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"%K != %@", NSStringFromSelector(@selector(bookmarkGroupType)), @(OBABookmarkGroupTypeTodayWidget)];
+    return [self.bookmarkGroups filteredArrayUsingPredicate:filter];
+}
+
+- (OBABookmarkGroup*)todayBookmarkGroup {
+    for (OBABookmarkGroup *group in self.bookmarkGroups) {
+        if (group.bookmarkGroupType == OBABookmarkGroupTypeTodayWidget) {
+            return group;
+        }
+    }
+
+    // This should never happen, but I want to make sure
+    // something sensible happens if it does.
+    OBAGuard(NO) else {
+        return [[OBABookmarkGroup alloc] initWithBookmarkGroupType:OBABookmarkGroupTypeTodayWidget];
+    }
+}
 
 - (void)moveBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup toIndex:(NSUInteger)index {
     OBAGuard(bookmarkGroup) else {
@@ -391,6 +419,40 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     }
 }
 
++ (BOOL)bookmarkGroupsContainTodayGroup:(NSArray<OBABookmarkGroup*>*)groups {
+    for (OBABookmarkGroup *g in groups) {
+        if (g.bookmarkGroupType == OBABookmarkGroupTypeTodayWidget) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
++ (NSArray*)bookmarkGroupsWithPreprendedTodayGroup:(NSArray<OBABookmarkGroup*>*)groups {
+    OBABookmarkGroup *todayGroup = [[OBABookmarkGroup alloc] initWithBookmarkGroupType:OBABookmarkGroupTypeTodayWidget];
+    todayGroup.sortOrder = 0;
+
+    if (![groups isKindOfClass:NSArray.class]) {
+        return @[todayGroup];
+    }
+
+    @try {
+        NSMutableArray *sortedGroups = [[NSMutableArray alloc] initWithArray:groups];
+
+        for (OBABookmarkGroup *g in sortedGroups) {
+            g.sortOrder += 1;
+        }
+
+        [sortedGroups insertObject:todayGroup atIndex:0];
+
+        return [NSArray arrayWithArray:sortedGroups];
+    }
+    @catch (NSException *ex) {
+        DDLogError(@"Caught an exception while trying to load bookmark groups: %@", ex);
+        return @[todayGroup];
+    }
+}
+
 #pragma mark - Misc
 
 - (void)setUngroupedBookmarksOpen:(BOOL)open {
@@ -413,7 +475,11 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     return [[OBAStopPreferencesV2 alloc] initWithStopPreferences:prefs];
 }
 
-- (void) setStopPreferences:(OBAStopPreferencesV2*)preferences forStopWithId:(NSString*)stopId {
+- (void)setStopPreferences:(OBAStopPreferencesV2*)preferences forStopWithId:(NSString*)stopId {
+    OBAGuard(stopId.length > 0) else {
+        return;
+    }
+
     _stopPreferences[stopId] = preferences;
     [_preferencesDao writeStopPreferences:_stopPreferences];
 }

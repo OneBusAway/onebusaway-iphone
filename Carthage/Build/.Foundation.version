@@ -2,8 +2,8 @@
   "commitish" : "1.0.7",
   "iOS" : [
     {
-      "hash" : "899f2023463b00bd798a76302ba19eace34f2743c6746436263f6e31ce7bc125",
-      "name" : "PMKFoundation"
+      "name" : "PMKFoundation",
+      "hash" : "59aeb096c495828fd9d9cc575b8409d9ec7ac212c1faf8dfe8ab99d8867d93ed"
     }
   ]
 }

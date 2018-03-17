@@ -1,14 +1,35 @@
 /* No comment provided by engineer. */
 " - " = " - ";
 
+/* Bookmarks toggle item */
+"bookmarks.toggle.bookmarks" = "Bookmarks";
+
+/* Today View toggle item */
+"bookmarks.toggle.today_view" = "Today View";
+
+/* No Bookmarks - empty data set title. */
+"today_screen.no_data_title" = "No Bookmarks";
+
+/* Add bookmarks to Today Screen Bookmarks to see them here. - empty data set description. */
+"today_screen.no_data_description" = "Add bookmarks to Today View Bookmarks to see them here.";
+
+/* We don't know where you're located. Please choose a region in OneBusAway. */
+"today_screen.no_region_description" = "We don't know where you're located. Please choose a region in OneBusAway.";
+
+/* No departures in the next {MINUTES} minutes */
+"today_screen.no_departures_in_next_n_minutes_format" = "No departures in the next %@ minutes";
+
+/* Tap for more information subheading on Today view */
+"today_screen.tap_for_more_information" = "Tap for more information";
+
+/* Displayed on today screen extension, shows last time the data was reloaded. e.g. "Last updated: 3:30PM" */
+"refresh_cell.last_updated_format" = "Last updated: %@";
+
 /* ID: {Reference ID Number} */
 "alerts.reference_format" = "ID: %@";
 
-/* Route formatting string. e.g. 10 to Downtown Seattle<NEWLINE> */
-"text_route_to_orientation_newline_params" = "%@ to %@\r\n";
-
-/* No comment provided by engineer. */
-"text_no_departure_next_time_minutes_params" = "%@: No departure scheduled for the next %@ minutes";
+/* No departure scheduled for the next {MINUTES} minutes */
+"text_no_departure_next_time_minutes_params" = "No departure scheduled for the next %@ minutes";
 
 /* No comment provided by engineer. */
 "msg_vehicle_this_stop" = "A vehicle at this stop";
@@ -151,14 +172,6 @@
 
 /* view.title */
 "msg_error_submitting" = "Error Submitting";
-
-/* message
-   requestDidFail
-   self.navigationItem.title */
-"msg_error_min_connecting" = "Error connecting";
-
-/* requestDidFail */
-"msg_error_min_connecting_dot" = "Error connecting.";
 
 /* No comment provided by engineer. */
 "msg_filtered_departures" = "Filtered Departures";
@@ -443,6 +456,9 @@
 /* Info tab's table row title for sending logs to support. */
 "info_controller.send_info_to_support_row" = "Send Information to Support";
 
+/* Row title for Export Defaults action */
+"info_controller.export_user_defaults_row" = "Export User Defaults";
+
 /* code # 404 */
 "msg_server_error" = "Server error";
 
@@ -458,9 +474,6 @@
 
 /* Section title for the shared trips section in the 'Recent' tab. */
 "msg_shared_trips" = "Shared Trips";
-
-/* No comment provided by engineer. */
-"msg_show_map" = "Show Map";
 
 /* No comment provided by engineer. */
 "msg_show_as_list" = "Show as List";
@@ -559,17 +572,11 @@
 /* No comment provided by engineer. */
 "msg_trip_schedule" = "Trip Schedule";
 
-/* message */
-"msg_trip_not_found" = "Trip not found";
-
 /* No comment provided by engineer. */
 "msg_unable_load_regions" = "Unable to Load Regions";
 
 /* No comment provided by engineer. */
 "text_unable_load_data_region_param" = "Unable to load data from %@. Please check the URL and try again.\r\n\r\n%@";
-
-/* message */
-"msg_unknown_error" = "Unknown error";
 
 /* message */
 "msg_updated" = "Updated";
@@ -607,7 +614,7 @@
 "msg_visit_us" = "Visit Us";
 
 /* No comment provided by engineer. */
-"text_walk_to_stop_info_params" = "%@, %.0f min: arriving at %@";
+"text_walk_to_stop_info_params" = "%@, %@ min: arriving at %@";
 
 /* No comment provided by engineer. */
 "msg_explanatory_no_agencies" = "We could not find any transit agencies near your current location.";
@@ -697,9 +704,6 @@
 
 /* No comment provided by engineer. */
 "text_only_routes_colon_param" = "Routes: %@";
-
-/* cell.textLabel.text */
-"msg_schedule_deviation" = "Schedule deviation";
 
 /* title */
 "msg_mayus_vehicle" = "Vehicle";
@@ -854,6 +858,15 @@
 /* Segmented control item title: 'Sort by Proximity' */
 "bookmarks_controller.sort_by_proximity_item" = "Sort by Proximity";
 
+/* Empty data set title when there are no Today View bookmarks. */
+"bookmarks_controller.today_view.no_content_title" = "Today View";
+
+/* Empty data set description when there are no Today View bookmarks. */
+"bookmarks_controller.today_view.no_content_description" = "Add bookmarks to the Today View group to get quick access to bus times. Tap the button below to learn more.";
+
+/* Accessibility label for sorting popover button */
+"bookmarks_controller.sorting_accessibility_label" = "Sort Bookmarks";
+
 /* "Title of the Onboarding Controller. 'Welcome to OneBusAway!' */
 "onboarding_controller.title" = "Welcome to OneBusAway!";
 
@@ -877,6 +890,15 @@
 
 /* Error message displayed when the stop ID provided doesn't match a known stop ID. */
 "map_controller.no_matching_stop_warning_body" = "We were unable to find a stop that matches the ID you provided. Please check the number and try again.";
+
+/* Accessibility label for toggle map type button on map. */
+"map_controller.toggle_map_type_accessibility_label" = "Toggle Map Type";
+
+/* Title for Standard Map toggle option. */
+"map_controller.standard_map_type_title" = "Standard Map";
+
+/* Title for Hybrid Map toggle option. */
+"map_controller.hybrid_map_type_title" = "Hybrid Map";
 
 /* Error message shown when the user denies the app the ability to send push notifications. */
 "push_manager.authorization_denied" = "Alarms only work when push notifications are allowed.";
@@ -907,3 +929,16 @@
 
 /* Title of the 'Walking Directions (Apple Maps)' option in the action sheet. */
 "stop.walking_directions_google_action_title" = "Walking Directions (Google Maps)";
+
+/* Title of an alert displayed when the user is trying to view an object from a different region than the one they're currently in. */
+"deep_links.errors.region_mismatch_alert.title" = "Wrong Region";
+
+/* Message of an alert displayed when the user is trying to view an object from a different region than the one they're currently in. */
+"deep_links.errors.region_mismatch_alert.message" = "The item you're trying to view belongs to a different region than the one in which you are currently located.";
+
+/* The button title is Change Regions and this is used to switch the user to the correct region." */
+"deep_links.errors.region_mismatch_alert.change_regions_button" = "Change Regions";
+
+/* The button title is Do Nothing and this is used to, ahem, do nothing. */
+"deep_links.errors.region_mismatch_alert.do_nothing_button" = "Do Nothing";
+

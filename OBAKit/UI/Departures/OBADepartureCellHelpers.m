@@ -16,24 +16,34 @@
 
 #pragma mark - Public Methods
 
-+ (NSAttributedString*)attributedDepartureTimeWithStatusText:(NSString*)statusText upcomingDeparture:(OBAUpcomingDeparture*)upcomingDeparture {
+// TODO: this method is getting rather grotesque and could use a rethink.
++ (NSAttributedString*)attributedDepartureTimeWithStatusText:(NSString*)statusText upcomingDeparture:(nullable OBAUpcomingDeparture*)upcomingDeparture {
 
-    OBAGuard(upcomingDeparture && statusText.length > 0) else {
-        DDLogError(@"upcomingDeparture and departure time should be non-nil and populated.");
+    OBAGuard(statusText.length > 0) else {
+        DDLogError(@"departure time should be non-nil and populated.");
         return [[NSAttributedString alloc] init];
+    }
+
+    if (!upcomingDeparture) {
+        NSDictionary *attributes = @{NSFontAttributeName: [OBATheme subheadFont], NSForegroundColorAttributeName: UIColor.blackColor};
+        NSAttributedString *attributedStatus = [[NSAttributedString alloc] initWithString:statusText attributes:attributes];
+
+        return attributedStatus;
     }
 
     NSString *nextDepartureTime = [OBADateHelpers formatShortTimeNoDate:upcomingDeparture.departureDate];
     OBADepartureStatus departureStatus = upcomingDeparture.departureStatus;
 
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:nextDepartureTime attributes:@{NSFontAttributeName: [OBATheme bodyFont]}];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:nextDepartureTime attributes:@{NSFontAttributeName: [OBATheme subheadFont]}];
 
-    [string appendAttributedString:[[NSAttributedString alloc] initWithString:OBALocalized(@" - ",)]];
+    if (upcomingDeparture) {
+        [string appendAttributedString:[[NSAttributedString alloc] initWithString:OBALocalized(@" - ",)]];
 
-    NSDictionary *attributes = @{NSFontAttributeName: [self fontForStatus:departureStatus], NSForegroundColorAttributeName: [self colorForStatus:departureStatus]};
-    NSAttributedString *attributedStatus = [[NSAttributedString alloc] initWithString:statusText attributes:attributes];
+        NSDictionary *attributes = @{NSFontAttributeName: [self fontForStatus:departureStatus], NSForegroundColorAttributeName: [self colorForStatus:departureStatus]};
+        NSAttributedString *attributedStatus = [[NSAttributedString alloc] initWithString:statusText attributes:attributes];
 
-    [string appendAttributedString:attributedStatus];
+        [string appendAttributedString:attributedStatus];
+    }
 
     return string;
 }
@@ -49,7 +59,7 @@
         return [OBATheme delayedDepartureColor];
     }
     else {
-        return [OBATheme textColor];
+        return [OBATheme scheduledDepartureColor];
     }
 }
 
@@ -117,7 +127,7 @@
 #pragma mark - Private
 
 + (UIFont*)fontForStatus:(OBADepartureStatus)status {
-    return [OBATheme bodyFont];
+    return [OBATheme subheadFont];
 }
 
 + (NSString*)statusStringFromFrequency:(OBAFrequencyV2*)frequency {

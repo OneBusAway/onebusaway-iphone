@@ -35,8 +35,25 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    XCTAssertTrue(YES);
+- (void)testRegionFiltering {
+
+    OBARegionV2 *tampa = [OBATestHelpers tampaRegion];
+    OBARegionV2 *pugetSound = [OBATestHelpers pugetSoundRegion];
+
+    OBABookmarkGroup *group = [[OBABookmarkGroup alloc] initWithName:@"group"];
+    OBABookmarkV2 *bookmarkTampa = [[OBABookmarkV2 alloc] init];
+    bookmarkTampa.regionIdentifier = tampa.identifier;
+
+    OBABookmarkV2 *bookmarkPugetSound = [[OBABookmarkV2 alloc] init];
+    bookmarkPugetSound.regionIdentifier = pugetSound.identifier;
+
+    [group addBookmark:bookmarkTampa];
+    [group addBookmark:bookmarkPugetSound];
+
+    NSArray *tampaBookmarks = [group bookmarksInRegion:tampa];
+
+    XCTAssertEqual(tampaBookmarks.count, 1);
+    XCTAssertEqualObjects(tampaBookmarks.firstObject, bookmarkTampa);
 }
 
 @end

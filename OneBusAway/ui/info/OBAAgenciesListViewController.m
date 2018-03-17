@@ -54,7 +54,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     }).always(^{
         [SVProgressHUD dismiss];
     }).catch(^(NSError *error) {
-        [AlertPresenter showError:error];
+        [AlertPresenter showError:error presentingController:self];
     });
 }
 

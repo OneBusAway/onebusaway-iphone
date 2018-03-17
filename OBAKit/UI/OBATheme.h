@@ -25,6 +25,24 @@
 // Fonts
 
 /**
+ * The appropriate font to use for headlines. Resizes based upon
+ * the user's chosen font sizes at the system level.
+ */
+@property(class,nonatomic,copy,readonly) UIFont *headlineFont;
+
+/**
+ * The appropriate font to use for subheadlines. Resizes based upon
+ * the user's chosen font sizes at the system level.
+ */
+@property(class,nonatomic,copy,readonly) UIFont *subheadFont;
+
+/**
+ * Bold variant of the appropriate font to use for subheadlines. Resizes
+ * based upon the user's chosen font sizes at the system level.
+ */
+@property(class,nonatomic,copy,readonly) UIFont *boldSubheadFont;
+
+/**
  * The appropriate font to use for body or label text. Resizes based upon
  * the user's chosen font sizes at the system level.
  */
@@ -136,6 +154,11 @@
 @property(class,nonatomic,copy,readonly) UIColor *textColor;
 
 /**
+ Color of arrivals/departures that are 'scheduled' (i.e. not real-time).
+ */
+@property(class,nonatomic,copy,readonly) UIColor *scheduledDepartureColor;
+
+/**
  Use this when a control changes value on screen and you want to highlight
  its changed value for the user.
  */
@@ -199,6 +222,11 @@
 @property(class,nonatomic,assign,readonly) CGFloat defaultMargin;
 
 /**
+ One quarter of the default padding. Use it on screens like the Today View widget.
+ */
+@property(class,nonatomic,assign,readonly) CGFloat minimalPadding;
+
+/**
  Half of the default padding. Used in situations where a tighter fit is necessary.
  */
 @property(class,nonatomic,assign,readonly) CGFloat compactPadding;
@@ -227,4 +255,10 @@
  The value of +[OBATheme compactPadding] in the form of UIEdgeInsets.
  */
 @property(class,nonatomic,assign,readonly) UIEdgeInsets compactEdgeInsets;
+
+/**
+ Default insets for images placed in UIButtons inside of a hover bar—our version of a FAB.
+ */
+@property(class,nonatomic,assign,readonly) UIEdgeInsets hoverBarImageInsets;
+
 @end

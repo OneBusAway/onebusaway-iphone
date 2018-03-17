@@ -7,13 +7,15 @@
 //
 
 @import OBAKit;
-#import "OBAStaticTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAStopViewController : OBAStaticTableViewController
+INIT_CODER_UNAVAILABLE;
+INIT_NIB_UNAVAILABLE;
+
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
-@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) PromisedModelService *modelService;
 @property(nonatomic,strong) OBALocationManager *locationManager;
 @property(nonatomic,copy,readonly) NSString *stopID;
 @property(nonatomic,assign) NSUInteger minutesBefore;
@@ -21,8 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithStopID:(NSString*)stopID NS_DESIGNATED_INITIALIZER;
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
-- (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -12,10 +12,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class OBAMapRegionManager;
+@protocol OBAMapRegionDelegate<NSObject>
+- (void)mapRegionManager:(OBAMapRegionManager*)manager setRegion:(MKCoordinateRegion)region animated:(BOOL)animated;
+@end
+
 @interface OBAMapRegionManager : NSObject
 @property (nonatomic) BOOL lastRegionChangeWasProgrammatic;
 
-- (instancetype)initWithMapView:(MKMapView*)mapView;
+- (void)addDelegate:(id<OBAMapRegionDelegate>)delegate NS_SWIFT_NAME(add(delegate:));
+- (void)removeDelegate:(id<OBAMapRegionDelegate>)delegate NS_SWIFT_NAME(remove(delegate:));
 
 - (void)setRegion:(MKCoordinateRegion)region;
 - (void)setRegion:(MKCoordinateRegion)region changeWasProgrammatic:(BOOL)changeWasProgrammatic;

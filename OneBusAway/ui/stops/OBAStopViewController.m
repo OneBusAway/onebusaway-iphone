@@ -18,7 +18,6 @@
 #import "OBAEditStopPreferencesViewController.h"
 #import "OBAStopTableHeaderView.h"
 #import "OBAEditStopBookmarkViewController.h"
-#import "OBADepartureRow.h"
 #import "OBAAnalytics.h"
 #import "OBALabelFooterView.h"
 #import "OBASegmentedRow.h"
@@ -27,18 +26,25 @@
 #import "OBABookmarkRouteDisambiguationViewController.h"
 #import "OBAWalkableRow.h"
 #import "OBAPushManager.h"
-#import "OBAArrivalAndDepartureSectionBuilder.h"
 #import "OBAArrivalDepartureOptionsSheet.h"
 #import "UIViewController+OBAAdditions.h"
 #import "EXTScope.h"
+#import "ISHHoverBar.h"
+
+@import Masonry;
 
 static NSTimeInterval const kRefreshTimeInterval = 30.0;
 static CGFloat const kTableHeaderHeight = 150.f;
 static NSInteger kStopsSectionTag = 101;
 static NSInteger kNegligibleWalkingTimeToStop = 25;
 
+static NSUInteger const kDefaultMinutesBefore = 5;
+static NSUInteger const kDefaultMinutesAfter = 35;
+
 @interface OBAStopViewController ()<UIScrollViewDelegate, UIActivityItemSource, OBAArrivalDepartureOptionsSheetDelegate>
+@property(nonatomic,strong) NSDateIntervalFormatter *timeframeFormatter;
 @property(nonatomic,strong) UIRefreshControl *refreshControl;
+@property(nonatomic,strong) PromiseWrapper *promiseWrapper;
 @property(nonatomic,strong) NSTimer *refreshTimer;
 @property(nonatomic,strong) NSLock *reloadLock;
 @property(nonatomic,strong) OBAArrivalsAndDeparturesForStopV2 *arrivalsAndDepartures;
@@ -46,6 +52,7 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 @property(nonatomic,strong) OBARouteFilter *routeFilter;
 @property(nonatomic,strong) OBAStopTableHeaderView *stopHeaderView;
 @property(nonatomic,strong) OBAArrivalDepartureOptionsSheet *departureSheetHelper;
+@property(nonatomic,strong) ISHHoverBar *hoverBar;
 @end
 
 @implementation OBAStopViewController
@@ -56,14 +63,15 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
     if (self) {
         _reloadLock = [[NSLock alloc] init];
         _stopID = [stopID copy];
-        _minutesBefore = 5;
-        _minutesAfter = 35;
+        _minutesBefore = kDefaultMinutesBefore;
+        _minutesAfter = kDefaultMinutesAfter;
     }
     return self;
 }
 
 - (void)dealloc {
     [self cancelTimers];
+    [self.promiseWrapper cancel];
 }
 
 - (void)cancelTimers {
@@ -84,6 +92,8 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reloadData:) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
+
+    [self createHoverBar];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -103,6 +113,7 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [[OBAHandoff shared] stopBroadcasting];
 
     // Nil these out to ensure that they are recreated once the
     // view comes back into focus, which is important if the user
@@ -113,8 +124,7 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 
     [self cancelTimers];
-    
-    [[OBAHandoff shared] stopBroadcasting];
+    [self.promiseWrapper cancel];
 }
 
 #pragma mark - Notifications
@@ -137,7 +147,7 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
     return _modelDAO;
 }
 
-- (OBAModelService*)modelService {
+- (PromisedModelService*)modelService {
     if (!_modelService) {
         _modelService = [OBAApplication sharedApplication].modelService;
     }
@@ -176,7 +186,7 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 #pragma mark - Data Loading
 
 - (void)reloadData:(id)sender {
-    BOOL animated = ![sender isEqual:self.navigationItem.rightBarButtonItem];
+    BOOL animated = !(sender == self.refreshTimer || sender == self.navigationItem.rightBarButtonItem);
     [self reloadDataAnimated:animated];
 }
 
@@ -192,7 +202,10 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 
     self.navigationItem.title = NSLocalizedString(@"stops_controller.title.updating", @"Title of the Stop UI Controller while it is updating its content.");
 
-    [self.modelService requestStopForID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter].then(^(OBAArrivalsAndDeparturesForStopV2 *response) {
+    self.promiseWrapper = [self.modelService requestStopArrivalsAndDeparturesWithID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter];
+
+    self.promiseWrapper.anyPromise.then(^(NetworkResponse *networkResponse) {
+        OBAArrivalsAndDeparturesForStopV2 *response = networkResponse.object;
         self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"msg_updated", @"message"), [OBADateHelpers formatShortTimeNoDate:[NSDate date]]];
         [self.modelDAO viewedArrivalsAndDeparturesForStop:response.stop];
 
@@ -201,7 +214,7 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
         [self.stopHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
     }).catch(^(NSError *error) {
-        [AlertPresenter showError:error];
+        [AlertPresenter showError:error presentingController:self];
         DDLogError(@"An error occurred while displaying a stop: %@", error);
         return error;
     }).always(^{
@@ -251,6 +264,17 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 
     // "Load More Departures..."
     OBATableSection *loadMoreSection = [self createLoadMoreDeparturesSection];
+
+    NSString *timeframeText = [self timeframeStringForMinutesBeforeToAfter];
+
+    if (timeframeText) {
+        OBATableRow *timeframeRow = [[OBATableRow alloc] initWithTitle:timeframeText action:nil];
+        timeframeRow.textAlignment = NSTextAlignmentCenter;
+        timeframeRow.titleFont = [OBATheme italicFootnoteFont];
+        timeframeRow.selectionStyle = UITableViewCellSelectionStyleNone;
+        [loadMoreSection addRow:timeframeRow];
+    }
+
     if (result.lacksRealTimeData) {
         OBATableRow *scheduledExplanationRow = [[OBATableRow alloc] initWithTitle:[OBAStrings scheduledDepartureExplanation] action:nil];
         scheduledExplanationRow.textAlignment = NSTextAlignmentCenter;
@@ -262,6 +286,27 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 
     self.sections = sections;
     [self.tableView reloadData];
+}
+
+- (nullable NSString*)timeframeStringForMinutesBeforeToAfter {
+    if (self.minutesBefore == kDefaultMinutesBefore && self.minutesAfter == kDefaultMinutesAfter) {
+        return nil;
+    }
+
+    NSDate *beforeDate = [NSDate dateWithTimeIntervalSinceNow:-(60.0 * self.minutesBefore)];
+    NSDate *afterDate = [NSDate dateWithTimeIntervalSinceNow:(60.0 * self.minutesAfter)];
+
+    return [self.timeframeFormatter stringFromDate:beforeDate toDate:afterDate];
+}
+
+- (NSDateIntervalFormatter*)timeframeFormatter {
+    if (!_timeframeFormatter) {
+        _timeframeFormatter = [[NSDateIntervalFormatter alloc] init];
+        _timeframeFormatter.dateStyle = NSDateIntervalFormatterNoStyle;
+        _timeframeFormatter.timeStyle = NSDateIntervalFormatterShortStyle;
+    }
+
+    return _timeframeFormatter;
 }
 
 #pragma mark - Walking
@@ -294,9 +339,15 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 
     NSString *distanceString = [OBAMapHelpers stringFromDistance:[location distanceFromLocation:stop.location]];
     NSDate *expectedArrivalDate = [NSDate dateWithTimeIntervalSinceNow:walkingTime];
+    NSUInteger minutesToArrivalAtStop = expectedArrivalDate.minutesUntil;
 
     OBAWalkableRow *walkableRow = [[OBAWalkableRow alloc] init];
-    walkableRow.text = [NSString stringWithFormat:NSLocalizedString(@"text_walk_to_stop_info_params",), distanceString,expectedArrivalDate.minutesUntil,[OBADateHelpers formatShortTimeNoDate:expectedArrivalDate]];
+
+    // Only show the user's distance/time from the stop
+    // if they are a negligible distance from it.
+    if (minutesToArrivalAtStop > 0) {
+        walkableRow.text = [NSString stringWithFormat:NSLocalizedString(@"text_walk_to_stop_info_params",), distanceString, @(minutesToArrivalAtStop), [OBADateHelpers formatShortTimeNoDate:expectedArrivalDate]];
+    }
 
     NSMutableArray<OBABaseRow*> *mRows = [[NSMutableArray alloc] initWithArray:rows];
     [mRows insertObject:walkableRow atIndex:insertionIndex];
@@ -385,7 +436,9 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
         self.minutesAfter += 30;
         [self reloadDataAnimated:NO];
     }];
+
     moreDeparturesRow.textAlignment = NSTextAlignmentCenter;
+
     return [[OBATableSection alloc] initWithTitle:nil rows:@[moreDeparturesRow]];
 }
 
@@ -442,6 +495,11 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 
 - (void)optionsSheet:(OBAArrivalDepartureOptionsSheet*)optionsSheet addedAlarm:(OBAAlarm*)alarm forArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalDeparture {
     NSIndexPath *indexPath = [self indexPathForModel:arrivalDeparture];
+
+    OBAGuard(indexPath) else {
+        return;
+    }
+
     OBADepartureRow *row = (OBADepartureRow *)[self rowAtIndexPath:indexPath];
     row.alarmExists = YES;
     [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
@@ -542,9 +600,6 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
     self.stopHeaderView = [[OBAStopTableHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), kTableHeaderHeight)];
     self.stopHeaderView.highContrastMode = [OBATheme useHighContrastUI];
 
-    [self.stopHeaderView.menuButton addTarget:self action:@selector(showActionsMenu:) forControlEvents:UIControlEventTouchUpInside];
-    [self.stopHeaderView.filterButton addTarget:self action:@selector(showFilterAndSortUI) forControlEvents:UIControlEventTouchUpInside];
-
     self.tableView.tableHeaderView = self.stopHeaderView;
 }
 
@@ -566,5 +621,24 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 
     return [NSDictionary dictionaryWithDictionary:dict];
 }
+
+#pragma mark - Hover Bar
+
+- (void)createHoverBar {
+    NSString *label = NSLocalizedString(@"stop_header_view.menu_button_accessibility_label", @"This is the '...' button in the stop header view.");
+    UIBarButtonItem *menuButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"ellipsis_button"] accessibilityLabel:label target:self action:@selector(showActionsMenu:)];
+
+    label = NSLocalizedString(@"stop_header_view.filter_button_accessibility_label", @"This is the Filter button in the stop header view.");
+    UIBarButtonItem *filterButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"filter"] accessibilityLabel:label target:self action:@selector(showFilterAndSortUI)];
+
+    self.hoverBar = [[ISHHoverBar alloc] init];
+    self.hoverBar.items = @[menuButton, filterButton];
+    [self.view addSubview:self.hoverBar];
+    [self.hoverBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.mas_bottomLayoutGuideTop).offset(-OBATheme.defaultMargin);
+        make.trailing.equalTo(self).offset(-OBATheme.defaultMargin);
+    }];
+}
+
 
 @end

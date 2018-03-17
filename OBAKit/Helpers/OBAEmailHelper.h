@@ -22,7 +22,7 @@ typedef NS_ENUM(NSUInteger, OBAEmailTarget) {
 @interface OBAEmailHelper : NSObject
 @property(nonatomic,copy) NSString *messageBody;
 @property(nonatomic,copy) NSString *messageBodyText;
-- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)location registeredForRemoteNotifications:(BOOL)registeredForRemoteNotifications locationAuthorizationStatus:(CLAuthorizationStatus)locationAuthorizationStatus;
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO currentLocation:(CLLocation*)location registeredForRemoteNotifications:(BOOL)registeredForRemoteNotifications locationAuthorizationStatus:(CLAuthorizationStatus)locationAuthorizationStatus userDefaultsData:(NSData*)userDefaultsData;
 - (nullable MFMailComposeViewController*)mailComposerForEmailTarget:(OBAEmailTarget)emailTarget;
 - (NSString*)emailAddressForTarget:(OBAEmailTarget)emailTarget;
 @end

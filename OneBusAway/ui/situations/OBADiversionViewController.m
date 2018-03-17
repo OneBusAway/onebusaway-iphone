@@ -27,7 +27,7 @@
 @property (nonatomic, strong) MKPolyline *reroutePolyline;
 @property (nonatomic, strong) MKPolylineRenderer *reroutePolylineRenderer;
 
-@property (nonatomic, strong) id<OBAModelServiceRequest> request;
+@property (nonatomic, strong) OBAModelServiceRequest *request;
 @end
 
 @implementation OBADiversionViewController
@@ -78,7 +78,7 @@
 
 - (void)requestShapeForID:(NSString *)shapeId {
     @weakify(self);
-    self.request = [self.modelService requestShapeForId:shapeId completionBlock:^(id jsonData, NSUInteger responseCode, NSError *error) {
+    self.request = [self.modelService requestShapeForId:shapeId completionBlock:^(id jsonData, NSHTTPURLResponse *response, NSError *error) {
         @strongify(self);
 
         if (!jsonData) {

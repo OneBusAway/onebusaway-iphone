@@ -14,12 +14,18 @@
 #import "OBAInfoViewController.h"
 #import "OBAStopViewController.h"
 #import "OBAAnalytics.h"
-
+#import "OneBusAway-Swift.h"
 
 static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
 
-@interface OBAClassicApplicationUI ()<UITabBarControllerDelegate>
+@interface OBAClassicApplicationUI ()<UITabBarControllerDelegate, OBADrawerPresenter>
 @property(nonatomic, strong,readwrite) UITabBarController *tabBarController;
+
+// Map/Drawer/Nearby
+@property(nonatomic,strong) PulleyViewController *pulleyController;
+
+@property(nonatomic,strong) NearbyStopsViewController *nearbyStopsController;
+@property(nonatomic,strong) UINavigationController *nearbyStopsNavigation;
 
 @property(nonatomic, strong) UINavigationController *mapNavigationController;
 @property(strong) OBAMapViewController *mapViewController;
@@ -36,14 +42,14 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
 
 @implementation OBAClassicApplicationUI
 
-- (instancetype)init {
+- (instancetype)initWithApplication:(OBAApplication*)application {
 
     self = [super init];
 
     if (self) {
         _tabBarController = [[UITabBarController alloc] init];
 
-        _mapViewController = [[OBAMapViewController alloc] init];
+        _mapViewController = [[OBAMapViewController alloc] initWithMapDataLoader:application.mapDataLoader mapRegionManager:application.mapRegionManager];
         _mapNavigationController = [[UINavigationController alloc] initWithRootViewController:_mapViewController];
 
         _recentsViewController = [[OBARecentStopsViewController alloc] init];
@@ -100,8 +106,8 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
     NSInteger selectedIndex = 0;
     NSString *startingTab = nil;
 
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:kOBASelectedTabIndexDefaultsKey]) {
-        selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kOBASelectedTabIndexDefaultsKey];
+    if ([OBAApplication.sharedApplication.userDefaults objectForKey:kOBASelectedTabIndexDefaultsKey]) {
+        selectedIndex = [OBAApplication.sharedApplication.userDefaults integerForKey:kOBASelectedTabIndexDefaultsKey];
     }
 
     self.tabBarController.selectedIndex = selectedIndex;
@@ -186,6 +192,12 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
     [self tabBarController:self.tabBarController didSelectViewController:self.tabBarController.selectedViewController];
 }
 
+#pragma mark - OBADrawerPresenter
+
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    [self.nearbyStopsNavigation pushViewController:viewController animated:animated];
+}
+
 #pragma mark - UITabBarControllerDelegate
 
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
@@ -200,8 +212,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    [[NSUserDefaults standardUserDefaults] setInteger:tabBarController.selectedIndex forKey:kOBASelectedTabIndexDefaultsKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [OBAApplication.sharedApplication.userDefaults setInteger:tabBarController.selectedIndex forKey:kOBASelectedTabIndexDefaultsKey];
 }
 
 @end

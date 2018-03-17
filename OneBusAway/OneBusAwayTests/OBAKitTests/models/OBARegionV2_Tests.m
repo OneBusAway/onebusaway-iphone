@@ -7,39 +7,18 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <OBAKit/OBAModelFactory.h>
 #import <OBAKit/OBAReferencesV2.h>
 #import <OBAKit/OBARegionBoundsV2.h>
 #import <OBAKit/OBARegionV2.h>
 #import "OBATestHelpers.h"
 
 @interface OBARegionV2_Tests : XCTestCase
-@property(nonatomic,strong) OBAModelFactory *modelFactory;
-@property(nonatomic,strong) id regionsJSON;
 @end
 
 @implementation OBARegionV2_Tests
 
-- (void)setUp {
-    [super setUp];
-
-    OBAReferencesV2 *references = [[OBAReferencesV2 alloc] init];
-    self.modelFactory = [[OBAModelFactory alloc] initWithReferences:references];
-    self.regionsJSON = [OBATestHelpers jsonObjectFromFile:@"regions-v3.json"];
-}
-
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
-
-- (NSArray<OBARegionV2*>*)getRegions {
-    NSArray *regions = [[self.modelFactory getRegionsV2FromJson:self.regionsJSON error:nil] values];
-    return regions;
-}
-
-- (void)testRegionsCount {
-    NSArray<OBARegionV2*>* regions = [self getRegions];
+- (void)validateRegionsCount {
+    NSArray<OBARegionV2*>* regions = [OBATestHelpers regionsList];
     XCTAssertEqual(regions.count, 12);
 }
 
@@ -74,18 +53,52 @@
     XCTAssertNil(region.regionName);
 }
 
+#pragma mark - Other Methods
+
+- (void)testCenterCoordinate {
+    OBARegionV2 *tampa = [OBATestHelpers tampaRegion];
+    MKMapRect tampaServiceRect = MKMapRectMake(72439895.221134216, 112245249.35188442, 516632.36992569268, 476938.48868602514);
+    MKMapPoint centerPoint = MKMapPointMake(MKMapRectGetMidX(tampaServiceRect), MKMapRectGetMidY(tampaServiceRect));
+    CLLocationCoordinate2D knownGoodCoordinate = MKCoordinateForMapPoint(centerPoint);
+
+    CLLocationCoordinate2D testCoordinate = tampa.centerCoordinate;
+
+    XCTAssertEqual(knownGoodCoordinate.latitude, testCoordinate.latitude);
+    XCTAssertEqual(knownGoodCoordinate.longitude, testCoordinate.longitude);
+}
+
+- (void)testValidModelsMustHaveNames {
+    OBARegionV2 *region = [[OBARegionV2 alloc] init];
+    region.obaBaseUrl = @"https://www.example.com";
+
+    XCTAssertFalse(region.isValidModel);
+}
+
+- (void)testValidModelsMustBeHTTPS {
+    OBARegionV2 *region = [[OBARegionV2 alloc] init];
+    region.obaBaseUrl = @"https://www.example.com";
+    region.regionName = @"Region Name";
+
+    XCTAssertTrue(region.isValidModel);
+}
+
+- (void)testValidModelsCannotBeHTTP {
+    OBARegionV2 *region = [[OBARegionV2 alloc] init];
+    region.obaBaseUrl = @"http://www.example.com";
+    region.regionName = @"Region Name";
+
+    XCTAssertFalse(region.isValidModel);
+}
+
+
 #pragma mark - Tampa
 
 - (void)testTampa {
-    NSArray<OBARegionV2*>* regions = [self getRegions];
-    OBARegionV2 *tampa = regions[0];
-
-    [self testTampaWithRegion:tampa];
+    [self testTampaWithRegion:[OBATestHelpers tampaRegion]];
 }
 
 - (void)testUnarchivedTampa {
-    NSArray<OBARegionV2*>* regions = [self getRegions];
-    OBARegionV2 *firstTampa = regions[0];
+    OBARegionV2 *firstTampa = [OBATestHelpers tampaRegion];
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:firstTampa];
 
     OBARegionV2 *tampa = [NSKeyedUnarchiver unarchiveObjectWithData:data];
@@ -136,14 +149,14 @@
 #pragma mark - Boston
 
 - (void)testBoston {
-    NSArray<OBARegionV2*>* regions = [self getRegions];
+    NSArray<OBARegionV2*>* regions = [OBATestHelpers regionsList];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"regionName == %@", @"Boston"];
     OBARegionV2 *boston = [[regions filteredArrayUsingPredicate:predicate] firstObject];
     [self testBostonWithRegion:boston];
 }
 
 - (void)testUnarchivingBoston {
-    NSArray<OBARegionV2*>* regions = [self getRegions];
+    NSArray<OBARegionV2*>* regions = [OBATestHelpers regionsList];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"regionName == %@", @"Boston"];
     OBARegionV2 *boston = [[regions filteredArrayUsingPredicate:predicate] firstObject];
 

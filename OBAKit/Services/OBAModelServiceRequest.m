@@ -16,11 +16,6 @@
 
 #import <OBAKit/OBAModelServiceRequest.h>
 
-@interface OBAModelServiceRequest ()
-@property BOOL clean;
-- (void)cleanup;
-@end
-
 @implementation OBAModelServiceRequest
 
 - (id)init {
@@ -28,39 +23,29 @@
 
     if (self) {
         self.checkCode = YES;
-        self.bgTask = UIBackgroundTaskInvalid;
-        self.clean = NO;
     }
 
     return self;
 }
 
 - (void)dealloc {
-    if(self.cleanupBlock) {
-        _bgTask = self.cleanupBlock(_bgTask);
-    }}
+    [self cancel];
+}
 
-- (void)processData:(id)obj withError:(NSError *)error responseCode:(NSUInteger)code completionBlock:(OBADataSourceCompletion)completion {
-    NSUInteger responseCode = code;
-
+- (void)processData:(id)obj withError:(NSError*)error response:(NSHTTPURLResponse*)response completionBlock:(OBADataSourceCompletion)completion {
     if (self.checkCode && [obj respondsToSelector:@selector(valueForKey:)]) {
-        NSNumber *dataCode = [obj valueForKey:@"code"];
-
-        if (dataCode) {
-            responseCode = [dataCode unsignedIntegerValue];
-        }
-
+        NSUInteger statusCode = [[obj valueForKey:@"code"] unsignedIntegerValue];
         obj = [obj valueForKey:@"data"];
+
+        response = [[NSHTTPURLResponse alloc] initWithURL:response.URL statusCode:statusCode HTTPVersion:nil headerFields:response.allHeaderFields];
     }
 
-    NSDictionary *data = obj;
-    NSError *jsonError = nil;
-    id result = obj;
-
     if (_modelFactorySelector && [_modelFactory respondsToSelector:_modelFactorySelector]) {
+        NSError *jsonError = nil;
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        result = [_modelFactory performSelector:_modelFactorySelector withObject:data withObject:jsonError];
+        obj = [_modelFactory performSelector:_modelFactorySelector withObject:obj withObject:jsonError];
 #pragma clang diagnostic pop
 
         if (!error) {
@@ -68,27 +53,13 @@
         }
     }
 
-    [self cleanup];
-
-    completion(result, responseCode, error);
+    completion(obj, response, error);
 }
 
 #pragma mark OBAModelServiceRequest
 
 - (void)cancel {
-    [_connection cancel];
-    [self cleanup];
-}
-
-- (void)cleanup {
-    if (self.clean) {
-        return;
-    }
-
-    self.clean = YES;
-    if(self.cleanupBlock) {
-        _bgTask = self.cleanupBlock(_bgTask);
-    }
+    [_urlSessionTask cancel];
 }
 
 @end

@@ -34,6 +34,20 @@
 
 @implementation OBAArrivalAndDepartureV2
 
+#pragma mark - Class Helpers
+
++ (BOOL)hasScheduledDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)departures {
+    for (OBAArrivalAndDepartureV2* dep in departures) {
+        if (!dep.hasRealTimeData) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+
+#pragma mark - Instance Methods
+
 - (instancetype)init {
     self = [super init];
     if (self) {

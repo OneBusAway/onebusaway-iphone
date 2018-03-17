@@ -7,13 +7,10 @@
 //
 
 @import OBAKit;
-#import "OBAStaticTableViewController.h"
-
-@class OBAModelDAO;
-@class OBAModelService;
 
 @interface OBABookmarksViewController : OBAStaticTableViewController<OBANavigationTargetAware>
+@property(nonatomic,strong) OBAApplication *application;
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
-@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) PromisedModelService *modelService;
 @property(nonatomic,strong) OBALocationManager *locationManager;
 @end

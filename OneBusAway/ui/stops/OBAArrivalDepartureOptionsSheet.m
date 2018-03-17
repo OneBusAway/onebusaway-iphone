@@ -85,10 +85,11 @@
 
     [SVProgressHUD show];
 
-    [[OBAPushManager pushManager] requestUserPushNotificationID].then(^(NSString *pushNotificationID) {
-        return [self.modelService requestAlarm:alarm userPushNotificationID:pushNotificationID];
-    }).then(^(NSDictionary *serverResponse) {
-        alarm.alarmURL = [NSURL URLWithString:serverResponse[@"url"]];
+    [OBAPushManager.pushManager requestUserPushNotificationID].then(^(NSString *pushNotificationID) {
+        PromiseWrapper *wrapper = [self.modelService createAlarm:alarm userPushNotificationID:pushNotificationID];
+        return wrapper.anyPromise;
+    }).then(^(NetworkResponse *response) {
+        alarm.alarmURL = response.object;
         [self.modelDAO addAlarm:alarm];
 
         id<OBAArrivalDepartureOptionsSheetDelegate> delegate = self.delegate;
@@ -101,7 +102,7 @@
 
         [AlertPresenter showSuccess:title body:body];
     }).catch(^(NSError *error) {
-        [AlertPresenter showError:error];
+        [AlertPresenter showError:error presentingController:nil];
     }).always(^{
         [SVProgressHUD dismiss];
     });
@@ -111,11 +112,12 @@
     OBAAlarm *alarm = [self.modelDAO alarmForKey:dep.alarmKey];
     id<OBAArrivalDepartureOptionsSheetDelegate> delegate = self.delegate;
 
-    NSURLRequest *request = [self.modelService.obaJsonDataSource requestWithURL:alarm.alarmURL HTTPMethod:@"DELETE"];
-    [self.modelService.obaJsonDataSource performRequest:request completionBlock:^(id responseData, NSUInteger responseCode, NSError *error) {
+    NSURLRequest *request = [self.modelService.obaJsonDataSource buildRequestWithURL:alarm.alarmURL HTTPMethod:@"DELETE" formBody:nil];
+    [self.modelService.obaJsonDataSource performRequest:request completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
         if ([delegate respondsToSelector:@selector(optionsSheet:deletedAlarmForArrivalAndDeparture:)]) {
             [delegate optionsSheet:self deletedAlarmForArrivalAndDeparture:dep];
         }
+        [self.modelDAO removeAlarmWithKey:alarm.alarmKey];
     }];
 }
 
@@ -128,7 +130,7 @@
     return _modelDAO;
 }
 
-- (OBAModelService*)modelService {
+- (PromisedModelService*)modelService {
     if (!_modelService) {
         _modelService = [OBAApplication sharedApplication].modelService;
     }

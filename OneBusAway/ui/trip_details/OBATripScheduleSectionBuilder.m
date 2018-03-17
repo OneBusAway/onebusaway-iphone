@@ -7,12 +7,10 @@
 //
 
 #import "OBATripScheduleSectionBuilder.h"
-#import "OBATableSection.h"
-#import "OBATableRow.h"
 #import "OBAStopViewController.h"
-#import "OBATripDetailsViewController.h"
 #import "OBAArrivalDepartureRow.h"
 #import "OBATimelineBarRow.h"
+#import "OBAArrivalAndDepartureViewController.h"
 
 @implementation OBATripScheduleSectionBuilder
 
@@ -107,14 +105,14 @@
 
 + (nullable OBATableRow*)buildPreviousConnectionRowWithTripDetails:(OBATripDetailsV2*)tripDetails tripInstance:(OBATripInstanceRef*)tripInstance navigationController:(UINavigationController*)navigationController {
 
-    if (!tripDetails.schedule.previousTrip) {
+    if (!tripDetails.schedule.previousTrip || !tripInstance) {
         return nil;
     }
 
     NSString *labelText = [NSString stringWithFormat:NSLocalizedString(@"text_starts_as_param", @""), [tripDetails.schedule.previousTrip asLabel]];
     OBATimelineBarRow *row = [[OBATimelineBarRow alloc] initWithTitle:labelText action:^(OBABaseRow *r2) {
         OBATripInstanceRef *prevTripInstance = [tripInstance copyWithNewTripId:tripDetails.schedule.previousTripId];
-        OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:prevTripInstance];
+        OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:prevTripInstance];
         [navigationController pushViewController:vc animated:YES];
     }];
     row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -123,14 +121,14 @@
 
 + (nullable OBATableRow*)buildNextConnectionRowWithTripDetails:(OBATripDetailsV2*)tripDetails tripInstance:(OBATripInstanceRef*)tripInstance navigationController:(UINavigationController*)navigationController {
 
-    if (!tripDetails.schedule.nextTrip) {
+    if (!tripDetails.schedule.nextTrip || !tripInstance) {
         return nil;
     }
 
     NSString *labelText = [NSString stringWithFormat:NSLocalizedString(@"text_continues_as_param", @""), [tripDetails.schedule.nextTrip asLabel]];
     OBATimelineBarRow *row = [[OBATimelineBarRow alloc] initWithTitle:labelText action:^(OBABaseRow *r2) {
         OBATripInstanceRef *nextTripInstance = [tripInstance copyWithNewTripId:tripDetails.schedule.nextTripId];
-        OBATripDetailsViewController *vc = [[OBATripDetailsViewController alloc] initWithTripInstance:nextTripInstance];
+        OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:nextTripInstance];
         [navigationController pushViewController:vc animated:YES];
     }];
     row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

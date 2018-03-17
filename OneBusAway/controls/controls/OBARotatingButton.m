@@ -7,7 +7,7 @@
 //
 
 #import "OBARotatingButton.h"
-#import "OBAAnimation.h"
+@import OBAKit;
 
 @implementation OBARotatingButton
 
