@@ -1,6 +1,33 @@
 /* No comment provided by engineer. */
 " - " = " - ";
 
+/* Bookmarks toggle item */
+"bookmarks.toggle.bookmarks" = "書籤";
+
+/* Today View toggle item */
+"bookmarks.toggle.today_view" = "今日觀點";
+
+/* No Bookmarks - empty data set title. */
+"today_screen.no_data_title" = "沒有書籤";
+
+/* Add bookmarks to Today Screen Bookmarks to see them here. - empty data set description. */
+"today_screen.no_data_description" = "為讀取書籤，請將書籤加入到今日觀點書籤";
+
+/* We don't know where you're located. Please choose a region in OneBusAway. */
+"today_screen.no_region_description" = "無法讀取你所在地區，請在OneBusAway裡選擇你的地區。";
+
+/* No departures in the next {MINUTES} minutes */
+"today_screen.no_departures_in_next_n_minutes_format" = "在@%分鐘內無任何離站公車";
+
+/* Tap for more information subheading on Today view */
+"today_screen.tap_for_more_information" = "點選讀取更多資訊";
+
+/* Displayed on today screen extension, shows last time the data was reloaded. e.g. "Last updated: 3:30PM" */
+"refresh_cell.last_updated_format" = "上次更新: %@";
+
+/* ID: {Reference ID Number} */
+"alerts.reference_format" = "ID: %@";
+
 /* No departure scheduled for the next {MINUTES} minutes */
 "text_no_departure_next_time_minutes_params" = "接下來 %@ 分鐘內無預定車次";
 
@@ -37,10 +64,11 @@
 "msg_all_departures" = "所有車次";
 
 /* No comment provided by engineer. */
-"msg_error_loading_trip" = "讀取次行程時發生錯誤！請再試一次。";
+"msg_error_loading_trip" = "讀取次行程時發生錯誤，請再試一次。";
 
 /* view.message */
-"msg_error_reporting_problem" = "回報問題時發生錯誤！請直接與我們聯絡。";
+"msg_error_reporting_problem" = "回報問題時發生錯誤，請直接與我們聯絡。";
+
 /* No comment provided by engineer. */
 "msg_app_bugs_feature_requests" = "程式錯誤 & 功能需求";
 
@@ -57,7 +85,7 @@
 "msg_automatically_select_region" = "自動選擇地區";
 
 /* No comment provided by engineer. */
-"msg_base_url" = "base URL";
+"msg_base_url" = "Base URL";
 
 /* No comment provided by engineer. */
 "msg_bookmark_groups" = "書籤群組";
@@ -72,10 +100,10 @@
 "msg_bookmarks" = "書籤";
 
 /* Body of the alert shown when a bookmark can't be created. */
-"msg_alert_bookmarks_must_have_name" = "書籤名稱未必填資料，請輸入書籤名稱並再試一次！";
+"msg_alert_bookmarks_must_have_name" = "書籤名稱為必填資料，請輸入書籤名稱並再試一次！";
 
 /* Title of the alert shown when a bookmark can't be created */
-"msg_cant_create_bookmark" = "無法使用書籤";
+"msg_cant_create_bookmark" = "無法新增書籤";
 
 /* Reachability alert title */
 "msg_cannot_connect_to_the_internet" = "無法連結至網路";
@@ -125,7 +153,7 @@
 "msg_custom_title" = "自選標題";
 
 /* Info Page Contact Us Row Title */
-"msg_data_schedule_issues" = "數據 & 車次相關問題";
+"msg_data_schedule_issues" = "通報數據 & 車次相關問題";
 
 /* No comment provided by engineer. */
 "msg_explanatory_delete_group_bookmarks" = "刪除群組並不會刪除群組內的書籤，群組內的書籤將會被自動移到 '書籤' 群組";
@@ -179,10 +207,10 @@
 "msg_is_active" = "有效的";
 
 /* name */
-"msg_it_came_earlier_than_predicted" = "比預定時間還早抵達";
+"msg_it_came_earlier_than_predicted" = "比預定時間早抵達";
 
 /* name */
-"msg_it_came_later_than_predicted" = "比預定時間還晚到達";
+"msg_it_came_later_than_predicted" = "比預定時間晚抵達";
 
 /* No comment provided by engineer. */
 "text_last_update_param" = "上一次更新: %@";
@@ -211,6 +239,7 @@
 /* Logs table section in the PII controller */
 "msg_logs" = "Logs";
 
+
 /* initWithTitle Map tab title */
 "msg_map" = "地圖";
 
@@ -232,6 +261,9 @@
 /* self.listBarButtonItem.accessibilityLabel */
 "msg_nearby_stops_list" = "附近站牌列表";
 
+/* Title of the the Nearby Stops controller when it's in disambiguation mode. In English, this is just the word 'Disambiguate'. */
+"nearby_stops.disambiguation_title" = "Disambiguate";
+
 /* Out of range alert Cancel button */
 "msg_no" = "取消";
 
@@ -248,7 +280,7 @@
 "msg_no_bookmarks" = "無書籤";
 
 /* Title of the Alarms section in the Recent Stops controller */
-"recent_stops.alarms_section_title" = "鬧鈴";
+"recent_stops.alarms_section_title" = "鬧鈴提醒";
 
 /* e.g. <10> minutes before <5:02PM> departure (scheduled) */
 "recent_stops.alarms.subtitle" = "將在 %@ 分鐘前通知 - 預定到達時間 %@";
@@ -275,7 +307,7 @@
 "msg_explanatory_no_places_found" = "根據您的搜尋，我們無法查詢到相關地方";
 
 /* No comment provided by engineer. */
-"msg_no_result_map_area" = "根據您的在此地區的搜尋，我們無法查詢到相關地方。請移動或縮小地圖來選擇不一樣的地區。";
+"msg_no_result_map_area" = "根據你所在地區的搜尋，我們無法查詢到相關資訊。請移動或縮小地圖來選擇另一個地區。";
 
 /* showNoResultsAlertWithTitle */
 "msg_no_routes_found" = "查無此路線";
@@ -290,7 +322,7 @@
 "msg_minus_no_stops_found" = "查無任何站牌";
 
 /* prompt */
-"msg_explanatory_minus_no_stops_found" = "查無此站牌";
+"msg_explanatory_minus_no_stops_found" = "查無站牌";
 
 /* As in 'going to the north.' */
 "msg_northbound" = "往北";
@@ -339,6 +371,18 @@
 
 /* view.message */
 "msg_set_up_mail_to_send_email" = "請再傳送電子郵件之前先設定好您的信箱。";
+
+/* Title of the the alert that appears when you try sending an email without Mail.app set up */
+"info.email_app_not_set_up_title" = "無法使用'信箱'應用程式傳送郵件";
+
+/* Body of the the alert that appears when you try sending an email without Mail.app set up */
+"info.email_app_not_set_up_body_format" = "如需聯繫我們，請傳送email到 %@。 請選擇 '複製排除故障資訊' 並在信件內容內貼上此資訊以便我們排除錯誤。";
+
+/* Button that copies debug info to the user's clipboard */
+"info.email_app_copy_debug_info" = "複製排除故障資訊";
+
+/* Button that copies the targeted email address to the user's clipboard */
+"info.email_app_copy_email_address" = "複製email地址";
 
 /* No comment provided by engineer. */
 "msg_privacy" = "隱私";
@@ -412,6 +456,9 @@
 /* Info tab's table row title for sending logs to support. */
 "info_controller.send_info_to_support_row" = "傳送資訊";
 
+/* Row title for Export Defaults action */
+"info_controller.export_user_defaults_row" = "輸出使用者預設值";
+
 /* code # 404 */
 "msg_server_error" = "錯誤 404";
 
@@ -448,8 +495,6 @@
 
 /* Error message title displayed to the user when handoff failed to work. */
 "msg_handoff_failure_title" = "很抱歉， Handoff 無法正常執行。";
-
-
 
 /* Error message body displayed to the user when handoff regions did not match both clients. */
 "msg_handoff_region_mismatch_body" = "請在'資訊'裡選擇'地區'，並開啟'自動選擇地區'選項來排除此錯誤訊息。如果還是出現錯誤，請回報我們。";
@@ -586,10 +631,10 @@
 "msg_ask_whats_the_problem" = "有什麼問題？";
 
 /* No comment provided by engineer. */
-"msg_ask_go_selected_region" = "你想要回到你現在選擇的地區嗎？";
+"msg_ask_go_selected_region" = "你想要回到你選擇的所在地區嗎？";
 
 /* name */
-"msg_wrong_destination_shown" = "顯示錯誤的目的";
+"msg_wrong_destination_shown" = "顯示錯誤的目的地";
 
 /* Out of range alert OK button */
 "msg_yes" = "好";
@@ -680,7 +725,7 @@
 "msg_until" = "直到";
 
 /* Title for the tutorial balloon that shows the user where to find the share and bookmark context menu items */
-"stop_view_controller.context_menu_tutorial_title" = "向右滑將此行程加入至你的書籤或是與朋友分享此次行程。";
+"stop_view_controller.context_menu_tutorial_title" = "向左滑將此行程加入至你的書籤或是與朋友分享此次行程。";
 
 /* Back button title representing going back to the stop controller. */
 "stop_view_controller.stop_back_title" = "站牌";
@@ -692,22 +737,22 @@
 "arrival_departure_controller.last_report" = "上一次回報: %@";
 
 /* An accessibility label for the map size toggle button on the Vehicle Map Controller. */
-"vehicle_map_controller.toggle_button_accessibility_label" = "Toggle 地圖大小";
+"vehicle_map_controller.toggle_button_accessibility_label" = "切換地圖大小";
 
 /* The title of the non-modal alert displayed when a push notification alert is registered for a vehicle departure. */
-"alarms.alarm_created_alert_title" = "提示鈴已設定";
+"alarms.alarm_created_alert_title" = "提醒鬧鈴已新增";
 
 /* The body of the non-modal alert that appears when a push notification alarm is registered. */
 "alarms.alarm_created_alert_body" = "你將會在此班車到達前 %@ 分鐘收到一封通知。";
 
 /* The title of the alert controller that prompts the user about whether they really want to delete this alarm. */
-"alarms.confirm_deletion_alert_title" = "你確定要刪除此提示鈴嗎？";
+"alarms.confirm_deletion_alert_title" = "你確定要刪除此提醒鬧鈴嗎？";
 
 /* This is the button that confirms that the user really does want to delete their alarm. */
-"alarms.confirm_deletion_alert_delete_button" = "刪除提示鈴";
+"alarms.confirm_deletion_alert_delete_button" = "刪除提醒鬧鈴";
 
 /* This is the button that cancels the alarm deletion. */
-"alarms.confirm_deletion_alert_cancel_button" = "保留提示鈴";
+"alarms.confirm_deletion_alert_cancel_button" = "保留停醒鬧鈴";
 
 /* The title of the picker view that lets you choose how many minutes before your bus departs you will get an alarm. */
 "alarms.picker.title" = "通知我";
@@ -717,6 +762,12 @@
 
 /* Error message displayed to the user when something goes wrong with a just-tapped notification. */
 "notifications.error_messages.formatted_cant_display" = "很抱歉，我們無法提供你此次行程資訊。如果持續出現此錯誤，請聯繫我們。Error: %@";
+
+/* Title for the enable/disable user heading switch on the settings controller */
+"settings.user_heading_switch_title" = "在地圖上顯示指南方向";
+
+/* Footer for the enable/disable user heading switch on the settings controller */
+"settings.user_heading_footer_text" = "如果指南方向不正確，你可以切換設定來選擇關閉此功能。";
 
 /* A switch option's text for enabling and disabling crash reporting */
 "settings.crash_reporting.switch_text" = "開啟錯誤回報";
@@ -731,10 +782,10 @@
 "classic_departure_cell.context_alert.title" = "到達 & 離開 選項";
 
 /* Title for alert controller's Set Alarm option. */
-"classic_departure_cell.context_alert.set_alarm" = "設定鬧鈴";
+"classic_departure_cell.context_alert.set_alarm" = "設定提醒鬧鈴";
 
 /* Title for alert controller's Remove Alarm option. */
-"classic_departure_cell.context_alert.remove_alarm" = "移除鬧鈴";
+"classic_departure_cell.context_alert.remove_alarm" = "移除提醒鬧鈴";
 
 /* Title for alert controller's Share Trip Status option. */
 "classic_departure_cell.context_alert.share_trip_status" = "分享行程資訊";
@@ -776,8 +827,8 @@
 /* Clear Search button text */
 "toast_view.clear_search" = "清除搜尋";
 
-/* TODO: TRANSLATE ME! 'Contact app developers about a bug' row */
-"info_controller.contact_app_developers_row_title" = "Contact app developers about a bug";
+/* Contact app developers about a bug */
+"info_controller.contact_app_developers_row_title" = "聯繫並通報錯誤";
 
 /* Message shown when debug mode is turned on */
 "info_controller.debug_mode_enabled" = "開啟排除錯誤模式";
@@ -786,7 +837,7 @@
 "info_controller.debug_mode_disabled" = "關閉排除錯誤模式";
 
 /* Title of the Experimental Regions section in the Region List view controller. */
-"region_list_controller.experimental_section_title" = "實驗地區";
+"region_list_controller.experimental_section_title" = "實驗測試地區";
 
 /* Title for the Updates & Alerts section */
 "info_controller.updates_alerts_section_title" = "更新 & 通知";
@@ -809,6 +860,15 @@
 /* Segmented control item title: 'Sort by Proximity' */
 "bookmarks_controller.sort_by_proximity_item" = "根據預計時間排序";
 
+/* Empty data set title when there are no Today View bookmarks. */
+"bookmarks_controller.today_view.no_content_title" = "今日觀點";
+
+/* Empty data set description when there are no Today View bookmarks. */
+"bookmarks_controller.today_view.no_content_description" = "將書籤加入今日觀點群組以便快速讀取公車行程。想得知更多資訊請點選下面按鈕。";
+
+/* Accessibility label for sorting popover button */
+"bookmarks_controller.sorting_accessibility_label" = "根據書籤排序";
+
 /* "Title of the Onboarding Controller. 'Welcome to OneBusAway!' */
 "onboarding_controller.title" = "歡迎使用 OneBusAway!";
 
@@ -825,7 +885,7 @@
 "info_controller.debug_section_title" = "排除錯誤工具";
 
 /* Row title for the Browse User Defaults action */
-"info_controller.browse_user_defaults_row" = "看使用者Defaults";
+"info_controller.browse_user_defaults_row" = "查看使用者預設值";
 
 /* Error title displayed when the stop ID provided doesn't match a known stop ID. */
 "map_controller.no_matching_stop_warning_title" = "查無站牌";
@@ -833,14 +893,23 @@
 /* Error message displayed when the stop ID provided doesn't match a known stop ID. */
 "map_controller.no_matching_stop_warning_body" = "我們無法找到任何跟你提供的ID相關的站牌，請確認輸入內容並再次一次！";
 
+/* Accessibility label for toggle map type button on map. */
+"map_controller.toggle_map_type_accessibility_label" = "切換地圖形式";
+
+/* Title for Standard Map toggle option. */
+"map_controller.standard_map_type_title" = "一般地圖";
+
+/* Title for Hybrid Map toggle option. */
+"map_controller.hybrid_map_type_title" = "混合地圖";
+
 /* Error message shown when the user denies the app the ability to send push notifications. */
-"push_manager.authorization_denied" = "鬧鈴必須在你開啟通知下才會有效";
+"push_manager.authorization_denied" = "提醒鬧鈴必須在你開啟通知下才會有效";
 
 /* 'Send Logs' action sheet item on the Info tab */
 "info_controller.send_logs" = "傳送 Logs";
 
 /* Info controller 'send info' action sheet option for sending user defaults */
-"info_controller.send_user_defaults" = "傳送使用者設定";
+"info_controller.send_user_defaults" = "傳送使用者偏好設定";
 
 /* Info tab log data explanation is used on an action sheet as a description of what the options do. */
 "info_controller.send_log_data_explanation" = "這將會把你的Log數據傳送至App Support。這有便於讓我們更快速的解決錯誤。請參閱\"資訊支援\"瞭解Log數據內容。";
@@ -848,5 +917,31 @@
 /* Mark All as Read toolbar button title */
 "regional_alerts_controller.mark_all_as_read" = "標記全部已讀";
 
+/* This is the '...' button in the stop header view. */
+"stop_header_view.menu_button_accessibility_label" = "更多選項";
+
+/* This is the Filter button in the stop header view. */
+"stop_header_view.filter_button_accessibility_label" = "過濾 & 排序路線";
+
 /* No comment provided by engineer. */
 "msg_scheduled_explanatory" = "*'行程': 無車次地點數據";
+
+/* Title of the 'Walking Directions (Apple Maps)' option in the action sheet. */
+"stop.walking_directions_apple_action_title" = "徒步路線 (Apple 地圖)";
+
+/* Title of the 'Walking Directions (Apple Maps)' option in the action sheet. */
+"stop.walking_directions_google_action_title" = "徒步路線 (Google 地圖)";
+
+/* Title of an alert displayed when the user is trying to view an object from a different region than the one they're currently in. */
+"deep_links.errors.region_mismatch_alert.title" = "地區錯誤";
+
+/* Message of an alert displayed when the user is trying to view an object from a different region than the one they're currently in. */
+"deep_links.errors.region_mismatch_alert.message" = "錯誤讀取一個非在你所處地區的項目";
+
+/* The button title is Change Regions and this is used to switch the user to the correct region." */
+"deep_links.errors.region_mismatch_alert.change_regions_button" = "更改地區";
+
+/* The button title is Do Nothing and this is used to, ahem, do nothing. */
+"deep_links.errors.region_mismatch_alert.do_nothing_button" = "什麼都不做";
+
+

@@ -182,7 +182,6 @@
 		93BC49D91FB8D5EB008B710D /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49D81FB8D5EB008B710D /* SnapKit.framework */; };
 		93BC49DC1FB8D5FB008B710D /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49DA1FB8D5FB008B710D /* CocoaLumberjackSwift.framework */; };
 		93BC49DD1FB8D5FB008B710D /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49DB1FB8D5FB008B710D /* CocoaLumberjack.framework */; };
-		93BC49E11FB8D606008B710D /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49DE1FB8D606008B710D /* PMKFoundation.framework */; };
 		93BC49E21FB8D606008B710D /* PMKMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49DF1FB8D606008B710D /* PMKMapKit.framework */; };
 		93BC49E31FB8D606008B710D /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49E01FB8D606008B710D /* PMKCoreLocation.framework */; };
 		93BC49E51FB8D60F008B710D /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49E41FB8D60F008B710D /* PromiseKit.framework */; };
@@ -531,7 +530,6 @@
 		93BC49D81FB8D5EB008B710D /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		93BC49DA1FB8D5FB008B710D /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = Carthage/Build/iOS/CocoaLumberjackSwift.framework; sourceTree = "<group>"; };
 		93BC49DB1FB8D5FB008B710D /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
-		93BC49DE1FB8D606008B710D /* PMKFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKFoundation.framework; path = Carthage/Build/iOS/PMKFoundation.framework; sourceTree = "<group>"; };
 		93BC49DF1FB8D606008B710D /* PMKMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKMapKit.framework; path = Carthage/Build/iOS/PMKMapKit.framework; sourceTree = "<group>"; };
 		93BC49E01FB8D606008B710D /* PMKCoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKCoreLocation.framework; path = Carthage/Build/iOS/PMKCoreLocation.framework; sourceTree = "<group>"; };
 		93BC49E41FB8D60F008B710D /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
@@ -574,7 +572,6 @@
 				93BC49E91FB8D61D008B710D /* SwiftMessages.framework in Frameworks */,
 				93BC49E31FB8D606008B710D /* PMKCoreLocation.framework in Frameworks */,
 				93BC49D71FB8D5E0008B710D /* OneSignal.framework in Frameworks */,
-				93BC49E11FB8D606008B710D /* PMKFoundation.framework in Frameworks */,
 				93BB1EE21E300526008A88BA /* Fabric.framework in Frameworks */,
 				93BC49E21FB8D606008B710D /* PMKMapKit.framework in Frameworks */,
 				93BC49DD1FB8D5FB008B710D /* CocoaLumberjack.framework in Frameworks */,
@@ -660,7 +657,6 @@
 				93BC49E71FB8D61D008B710D /* SwiftMessages.framework */,
 				93BC49E41FB8D60F008B710D /* PromiseKit.framework */,
 				93BC49E01FB8D606008B710D /* PMKCoreLocation.framework */,
-				93BC49DE1FB8D606008B710D /* PMKFoundation.framework */,
 				93BC49DF1FB8D606008B710D /* PMKMapKit.framework */,
 				93BC49DB1FB8D5FB008B710D /* CocoaLumberjack.framework */,
 				93BC49DA1FB8D5FB008B710D /* CocoaLumberjackSwift.framework */,
@@ -1671,7 +1667,6 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/GoogleAnalytics.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/PMKCoreLocation.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/PMKFoundation.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/PMKMapKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SVProgressHUD.framework",
