@@ -236,7 +236,11 @@
         OBAAlarmNavigationTarget *t = (OBAAlarmNavigationTarget*)target;
         [self showStopViewControllerWithStopID:t.alarm.stopID];
     }
+    else if (target.target == OBANavigationTargetTypeRecentStops) {
+        [self showStopViewControllerWithStopID:target.parameters[OBAStopIDNavigationTargetParameter]];
+    }
     else {
+        // abxoxo
         DDLogError(@"Unhandled OBANavigationTarget: %@", target);
     }
 }

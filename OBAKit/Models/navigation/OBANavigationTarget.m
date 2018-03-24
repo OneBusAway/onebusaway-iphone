@@ -100,7 +100,7 @@ NSString * const OBAUserSearchQueryKey = @"OBAUserSearchQueryKey";
 }
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, @{@"Parameters": self.parameters, @"Search Type": NSStringFromOBASearchType(self.searchType)}];
+    return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, @{@"Parameters": self.parameters ?: @"(nil)", @"Search Type": NSStringFromOBASearchType(self.searchType)}];
 }
 
 @end
