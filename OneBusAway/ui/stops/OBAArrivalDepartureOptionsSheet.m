@@ -46,7 +46,7 @@
 #pragma mark - Alarm
 
 - (void)createAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
-    NSUInteger alarmIncrements = dep.minutesUntilBestDeparture <= OBAAlarmIncrementsInMinutes ? 1 : OBAAlarmIncrementsInMinutes;
+    NSUInteger alarmIncrements = dep.minutesUntilBestDeparture <= (2 * OBAAlarmIncrementsInMinutes) ? 1 : OBAAlarmIncrementsInMinutes;
 
     NSMutableArray *items = [[NSMutableArray alloc] init];
 
