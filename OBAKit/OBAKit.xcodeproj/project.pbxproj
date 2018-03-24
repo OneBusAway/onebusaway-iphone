@@ -261,7 +261,6 @@
 		93B763332038BBFF00A965CE /* OBADrawerPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B763322038BBFF00A965CE /* OBADrawerPresenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93BC49F21FB8D68E008B710D /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49F01FB8D68E008B710D /* CocoaLumberjackSwift.framework */; };
 		93BC49F31FB8D68E008B710D /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49F11FB8D68E008B710D /* CocoaLumberjack.framework */; };
-		93BC49F71FB8D697008B710D /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49F41FB8D696008B710D /* PMKFoundation.framework */; };
 		93BC49F81FB8D697008B710D /* PMKMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49F51FB8D697008B710D /* PMKMapKit.framework */; };
 		93BC49F91FB8D697008B710D /* PMKCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49F61FB8D697008B710D /* PMKCoreLocation.framework */; };
 		93BC49FB1FB8D6A3008B710D /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49FA1FB8D6A3008B710D /* PromiseKit.framework */; };
@@ -577,7 +576,6 @@
 		93B763322038BBFF00A965CE /* OBADrawerPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBADrawerPresenter.h; sourceTree = "<group>"; };
 		93BC49F01FB8D68E008B710D /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = ../Carthage/Build/iOS/CocoaLumberjackSwift.framework; sourceTree = "<group>"; };
 		93BC49F11FB8D68E008B710D /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = ../Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
-		93BC49F41FB8D696008B710D /* PMKFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKFoundation.framework; path = ../Carthage/Build/iOS/PMKFoundation.framework; sourceTree = "<group>"; };
 		93BC49F51FB8D697008B710D /* PMKMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKMapKit.framework; path = ../Carthage/Build/iOS/PMKMapKit.framework; sourceTree = "<group>"; };
 		93BC49F61FB8D697008B710D /* PMKCoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKCoreLocation.framework; path = ../Carthage/Build/iOS/PMKCoreLocation.framework; sourceTree = "<group>"; };
 		93BC49FA1FB8D6A3008B710D /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = ../Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
@@ -636,7 +634,6 @@
 				93BC49F91FB8D697008B710D /* PMKCoreLocation.framework in Frameworks */,
 				93BC49FD1FB8D6F4008B710D /* Mantle.framework in Frameworks */,
 				93BC49FB1FB8D6A3008B710D /* PromiseKit.framework in Frameworks */,
-				93BC49F71FB8D697008B710D /* PMKFoundation.framework in Frameworks */,
 				93BC49F21FB8D68E008B710D /* CocoaLumberjackSwift.framework in Frameworks */,
 				93BC49F31FB8D68E008B710D /* CocoaLumberjack.framework in Frameworks */,
 				93BC49F81FB8D697008B710D /* PMKMapKit.framework in Frameworks */,
@@ -1038,7 +1035,6 @@
 				93BC49FC1FB8D6F4008B710D /* Mantle.framework */,
 				93BC49FA1FB8D6A3008B710D /* PromiseKit.framework */,
 				93BC49F61FB8D697008B710D /* PMKCoreLocation.framework */,
-				93BC49F41FB8D696008B710D /* PMKFoundation.framework */,
 				93BC49F51FB8D697008B710D /* PMKMapKit.framework */,
 				93BC49F11FB8D68E008B710D /* CocoaLumberjack.framework */,
 				93BC49F01FB8D68E008B710D /* CocoaLumberjackSwift.framework */,
