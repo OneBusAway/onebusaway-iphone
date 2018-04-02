@@ -140,7 +140,7 @@ extension NearbyStopsViewController {
             sections = []
         }
 
-        self.sections = sections.flatMap { $0 }
+        self.sections = sections.compactMap { $0 }
         self.tableView.reloadData()
     }
 

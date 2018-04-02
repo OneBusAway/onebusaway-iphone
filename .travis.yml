@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode9.2
+osx_image: xcode9.3
 before_install:
   - export IOS_SIMULATOR_UDID=`instruments -s devices | grep "iPhone SE (11.2" | ruby -e "puts gets.split('[')[1].split(']').first"`
   - echo $IOS_SIMULATOR_UDID
