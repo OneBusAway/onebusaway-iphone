@@ -222,7 +222,7 @@ extension TodayViewController {
 
         refreshControl.beginRefreshing()
 
-        let promises: [Promise<Any>] = group.bookmarks.flatMap { self.promiseStop(bookmark: $0) }
+        let promises: [Promise<Any>] = group.bookmarks.compactMap { self.promiseStop(bookmark: $0) }
         _ = when(resolved: promises).then { _ -> Void in
             self.lastUpdatedAt = Date.init()
             self.refreshControl.stopRefreshing()
