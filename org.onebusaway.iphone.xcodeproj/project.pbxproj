@@ -34,6 +34,8 @@
 		9336B1B21FF6468B00CCC5ED /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE11E300526008A88BA /* Crashlytics.framework */; };
 		9336B1CB1FF95D5500CCC5ED /* test_userdefaults.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9336B1C91FF95D5400CCC5ED /* test_userdefaults.xml */; };
 		933BC246203936E500267965 /* DrawerApplicationUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933BC245203936E500267965 /* DrawerApplicationUI.swift */; };
+		93414D76207361E7001D1892 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE01E300526008A88BA /* Fabric.framework */; };
+		93414D77207361E7001D1892 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE11E300526008A88BA /* Crashlytics.framework */; };
 		934196E21DB0C124004BBBB7 /* MKMapView+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196D71DB0C124004BBBB7 /* MKMapView+oba_Additions.m */; };
 		934196E41DB0C124004BBBB7 /* UITableViewCell+oba_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196DB1DB0C124004BBBB7 /* UITableViewCell+oba_Additions.m */; };
 		934196E61DB0C124004BBBB7 /* UIViewController+OBAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196DF1DB0C124004BBBB7 /* UIViewController+OBAAnalytics.m */; };
@@ -174,8 +176,6 @@
 		93AD17BE1F86C14C00E730D7 /* OneBusAway Today.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 93AD17B21F86C14C00E730D7 /* OneBusAway Today.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		93ADC51B1DCB1EBE0024FBD6 /* credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 93ADC51A1DCB1EBE0024FBD6 /* credits.html */; };
 		93B781AD1E64BAC900F2C38D /* OBAMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B781AA1E64BAC900F2C38D /* OBAMapViewController.m */; };
-		93BB1EE21E300526008A88BA /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE01E300526008A88BA /* Fabric.framework */; };
-		93BB1EE31E300526008A88BA /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE11E300526008A88BA /* Crashlytics.framework */; };
 		93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934198CA1DB0C56D004BBBB7 /* OBAKit.framework */; };
 		93BBB4291DB952FC00694940 /* OBAURLHelpers_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BBB4271DB9525000694940 /* OBAURLHelpers_Tests.m */; };
 		93BC49D71FB8D5E0008B710D /* OneSignal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49D61FB8D5DF008B710D /* OneSignal.framework */; };
@@ -568,14 +568,14 @@
 				93528AB11C8D517100783E9A /* CloudKit.framework in Frameworks */,
 				93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */,
 				93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */,
-				93BB1EE31E300526008A88BA /* Crashlytics.framework in Frameworks */,
 				93BC49E91FB8D61D008B710D /* SwiftMessages.framework in Frameworks */,
 				93BC49E31FB8D606008B710D /* PMKCoreLocation.framework in Frameworks */,
 				93BC49D71FB8D5E0008B710D /* OneSignal.framework in Frameworks */,
-				93BB1EE21E300526008A88BA /* Fabric.framework in Frameworks */,
 				93BC49E21FB8D606008B710D /* PMKMapKit.framework in Frameworks */,
 				93BC49DD1FB8D5FB008B710D /* CocoaLumberjack.framework in Frameworks */,
 				93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */,
+				93414D76207361E7001D1892 /* Fabric.framework in Frameworks */,
+				93414D77207361E7001D1892 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
