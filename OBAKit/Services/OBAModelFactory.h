@@ -19,7 +19,6 @@
 #import <OBAKit/OBAListWithRangeAndReferencesV2.h>
 #import <OBAKit/OBAArrivalsAndDeparturesForStopV2.h>
 #import <OBAKit/OBAStopsForRouteV2.h>
-#import <OBAKit/OBAPlacemarks.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

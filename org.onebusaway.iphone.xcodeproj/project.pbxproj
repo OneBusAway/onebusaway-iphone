@@ -117,7 +117,6 @@
 		9341989C1DB0C219004BBBB7 /* OBAModelDAO_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 934198641DB0C219004BBBB7 /* OBAModelDAO_Tests.m */; };
 		9341989D1DB0C219004BBBB7 /* OBANavigationTarget_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 934198651DB0C219004BBBB7 /* OBANavigationTarget_Tests.m */; };
 		9341989E1DB0C219004BBBB7 /* OBAPlacemark_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 934198661DB0C219004BBBB7 /* OBAPlacemark_Tests.m */; };
-		9341989F1DB0C219004BBBB7 /* OBAPlacemarks_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 934198671DB0C219004BBBB7 /* OBAPlacemarks_Tests.m */; };
 		934198A01DB0C219004BBBB7 /* OBAReferencesV2_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 934198681DB0C219004BBBB7 /* OBAReferencesV2_Tests.m */; };
 		934198A11DB0C219004BBBB7 /* OBARegionBoundsV2_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 934198691DB0C219004BBBB7 /* OBARegionBoundsV2_Tests.m */; };
 		934198A21DB0C219004BBBB7 /* OBARegionV2_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341986A1DB0C219004BBBB7 /* OBARegionV2_Tests.m */; };
@@ -438,7 +437,6 @@
 		934198641DB0C219004BBBB7 /* OBAModelDAO_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelDAO_Tests.m; sourceTree = "<group>"; };
 		934198651DB0C219004BBBB7 /* OBANavigationTarget_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTarget_Tests.m; sourceTree = "<group>"; };
 		934198661DB0C219004BBBB7 /* OBAPlacemark_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAPlacemark_Tests.m; sourceTree = "<group>"; };
-		934198671DB0C219004BBBB7 /* OBAPlacemarks_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAPlacemarks_Tests.m; sourceTree = "<group>"; };
 		934198681DB0C219004BBBB7 /* OBAReferencesV2_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReferencesV2_Tests.m; sourceTree = "<group>"; };
 		934198691DB0C219004BBBB7 /* OBARegionBoundsV2_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionBoundsV2_Tests.m; sourceTree = "<group>"; };
 		9341986A1DB0C219004BBBB7 /* OBARegionV2_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionV2_Tests.m; sourceTree = "<group>"; };
@@ -1237,7 +1235,6 @@
 				934198641DB0C219004BBBB7 /* OBAModelDAO_Tests.m */,
 				934198651DB0C219004BBBB7 /* OBANavigationTarget_Tests.m */,
 				934198661DB0C219004BBBB7 /* OBAPlacemark_Tests.m */,
-				934198671DB0C219004BBBB7 /* OBAPlacemarks_Tests.m */,
 				934198681DB0C219004BBBB7 /* OBAReferencesV2_Tests.m */,
 				934198691DB0C219004BBBB7 /* OBARegionBoundsV2_Tests.m */,
 				9341986A1DB0C219004BBBB7 /* OBARegionV2_Tests.m */,
@@ -1842,7 +1839,6 @@
 				9341989C1DB0C219004BBBB7 /* OBAModelDAO_Tests.m in Sources */,
 				934198A71DB0C219004BBBB7 /* OBASearchResult_Tests.m in Sources */,
 				934198931DB0C219004BBBB7 /* OBAArrivalAndDepartureV2_Tests.m in Sources */,
-				9341989F1DB0C219004BBBB7 /* OBAPlacemarks_Tests.m in Sources */,
 				9341988E1DB0C219004BBBB7 /* OBAEmailHelper_Tests.m in Sources */,
 				934198AC1DB0C219004BBBB7 /* OBAStopPreferencesV2_Tests.m in Sources */,
 				934198B21DB0C219004BBBB7 /* OBATripStatusV2_Tests.m in Sources */,
