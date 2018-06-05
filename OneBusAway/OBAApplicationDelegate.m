@@ -98,8 +98,10 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self initializeFabric];
 
+#ifndef TARGET_IPHONE_SIMULATOR
     [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:self.application.oneSignalAPIKey];
-
+#endif
+    
     // Set up Google Analytics. User must be able to opt out of tracking.
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:self.application.googleAnalyticsID];
     BOOL optOut = ![OBAApplication.sharedApplication.userDefaults boolForKey:OBAOptInToTrackingDefaultsKey];

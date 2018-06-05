@@ -41,7 +41,6 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 @property (nonatomic, strong) OBAModelFactory *modelFactory;
 @property (nonatomic, strong) OBAJsonDataSource *obaJsonDataSource;
 @property (nonatomic, strong) OBAJsonDataSource *obaRegionJsonDataSource;
-@property (nonatomic, strong) OBAJsonDataSource *googleMapsJsonDataSource;
 @property (nonatomic, strong) OBAJsonDataSource *obacoJsonDataSource;
 @property (nonatomic, strong) OBALocationManager *locationManager;
 

@@ -28,7 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign,readonly) BOOL checkStatusCodeInBody;
 
 + (instancetype)JSONDataSourceWithBaseURL:(NSURL*)URL userID:(NSString*)userID;
-+ (instancetype)googleMapsJSONDataSource;
 
 /**
  OBA.co, obaco, or onebusaway.co is the service that powers deep links in the app,

@@ -159,7 +159,6 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
     [self.locationManager stopUpdatingLocation];
 
     [self.modelService.obaJsonDataSource cancelOpenConnections];
-    [self.modelService.googleMapsJsonDataSource cancelOpenConnections];
     [self.modelService.obaRegionJsonDataSource cancelOpenConnections];
     [self.modelService.obacoJsonDataSource cancelOpenConnections];
 }
@@ -227,7 +226,6 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
         self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:self.modelDao.currentRegion.baseURL userID:[OBAUser userIdFromDefaults]];
     }
 
-    self.modelService.googleMapsJsonDataSource = [OBAJsonDataSource googleMapsJSONDataSource];
     self.modelService.obaRegionJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:kOBADefaultRegionApiServerName] userID:[OBAUser userIdFromDefaults]];
     self.modelService.obacoJsonDataSource = [OBAJsonDataSource obacoJSONDataSource];
 
