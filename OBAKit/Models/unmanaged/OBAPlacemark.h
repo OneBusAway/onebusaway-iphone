@@ -23,9 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy) NSString * address;
 @property(nonatomic,copy) NSString * icon;
 @property(nonatomic,assign) CLLocationCoordinate2D coordinate;
-@property(weak,nonatomic,readonly) CLLocation * location;
+@property(nonatomic,copy,readonly) CLLocation * location;
 
-- (instancetype)initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate;
+- (instancetype)initWithMapItem:(MKMapItem*)mapItem;
 
 @end
 

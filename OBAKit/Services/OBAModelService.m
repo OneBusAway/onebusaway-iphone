@@ -256,26 +256,31 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     OBAGuardClass(address, NSString) else {
         return nil;
     }
+
+    CLLocationCoordinate2D coord = [self currentOrDefaultLocationToSearch].coordinate;
+    MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
+    request.naturalLanguageQuery = address;
+    request.region = MKCoordinateRegionMakeWithDistance(coord, 10000, 10000); // todo: reconsider this size of region.
+    MKLocalSearch *search = [[MKLocalSearch alloc] initWithRequest:request];
+
+    // abxoxo
+
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self placemarksForAddress:address completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
-            resolve(error ?: [responseData placemarks]);
+        [search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
+            if (error) {
+                resolve(error);
+                return;
+            }
+
+            NSMutableArray<OBAPlacemark*> *placemarks = [[NSMutableArray alloc] init];
+            for (MKMapItem *mapItem in response.mapItems) {
+                OBAPlacemark *placemark = [[OBAPlacemark alloc] initWithMapItem:mapItem];
+                [placemarks addObject:placemark];
+            }
+
+            resolve([NSArray arrayWithArray:placemarks]);
         }];
     }];
-}
-
-- (OBAModelServiceRequest*)placemarksForAddress:(NSString *)address completionBlock:(OBADataSourceCompletion)completion {
-    CLLocationCoordinate2D coord = [self currentOrDefaultLocationToSearch].coordinate;
-
-    NSDictionary *args = @{
-                           @"bounds": [NSString stringWithFormat:@"%@,%@|%@,%@", @(coord.latitude), @(coord.longitude), @(coord.latitude), @(coord.longitude)],
-                           @"address": address
-                           };
-
-    return [self request:_googleMapsJsonDataSource
-                     url:@"/maps/api/geocode/json"
-                    args:args
-                selector:@selector(getPlacemarksFromJSONObject:error:)
-         completionBlock:completion];
 }
 
 - (OBAModelServiceRequest*)requestAgenciesWithCoverage:(OBADataSourceCompletion)completion {

@@ -18,14 +18,23 @@
 #import <OBAKit/NSCoder+OBAAdditions.h>
 #import <OBAKit/NSObject+OBADescription.h>
 
+@import Contacts;
+
 @implementation OBAPlacemark
 
-- (instancetype)initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate {
+- (instancetype)initWithMapItem:(MKMapItem*)mapItem {
     self = [super init];
 
     if (self) {
-        _address = [address copy];
-        _coordinate = coordinate;
+        if (@available(iOS 11.0, *)) {
+            _address = [CNPostalAddressFormatter stringFromPostalAddress:mapItem.placemark.postalAddress style:CNPostalAddressFormatterStyleMailingAddress];
+        }
+        else {
+            _address = [NSString stringWithFormat:@"%@ %@, %@", mapItem.placemark.subThoroughfare, mapItem.placemark.thoroughfare, mapItem.placemark.subLocality];
+        }
+
+        _coordinate = mapItem.placemark.coordinate;
+        _name = mapItem.name;
     }
     return self;
 }
