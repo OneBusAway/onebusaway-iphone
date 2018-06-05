@@ -29,6 +29,7 @@
 #import <OBAKit/OBAArrivalAndDepartureConvertible.h>
 
 @import PromiseKit;
+@import MapKit;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -40,7 +41,6 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
 @property (nonatomic, strong) OBAModelFactory *modelFactory;
 @property (nonatomic, strong) OBAJsonDataSource *obaJsonDataSource;
 @property (nonatomic, strong) OBAJsonDataSource *obaRegionJsonDataSource;
-@property (nonatomic, strong) OBAJsonDataSource *googleMapsJsonDataSource;
 @property (nonatomic, strong) OBAJsonDataSource *obacoJsonDataSource;
 @property (nonatomic, strong) OBALocationManager *locationManager;
 
@@ -296,17 +296,6 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  @return A promise that resolves to an array of OBAPlacemark objects
  */
 - (AnyPromise*)placemarksForAddress:(NSString*)address;
-
-/**
- *  Makes an asynchronous request to fetch a set of placemarks based on address string
- *
- *  @param address    The address to be used to search for placemarks
- *  @param completion The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (OBAModelServiceRequest*)placemarksForAddress:(NSString *)address
-                                   completionBlock:(OBADataSourceCompletion)completion;
 
 #pragma mark - Problem Reporting
 

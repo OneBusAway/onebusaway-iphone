@@ -56,11 +56,6 @@
     return dataSource;
 }
 
-+ (instancetype)googleMapsJSONDataSource {
-    OBADataSourceConfig *googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:@"https://maps.googleapis.com"] args:@{@"sensor": @"true"}];
-    return [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig checkStatusCodeInBody:NO];
-}
-
 + (instancetype)obacoJSONDataSource {
     OBADataSourceConfig *obacoConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:OBADeepLinkServerAddress] args:nil];
     return [[OBAJsonDataSource alloc] initWithConfig:obacoConfig checkStatusCodeInBody:NO];

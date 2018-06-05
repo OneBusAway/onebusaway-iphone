@@ -16,15 +16,25 @@
 
 #import <OBAKit/OBAPlacemark.h>
 #import <OBAKit/NSCoder+OBAAdditions.h>
+#import <OBAKit/NSObject+OBADescription.h>
+
+@import Contacts;
 
 @implementation OBAPlacemark
 
-- (instancetype)initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate {
+- (instancetype)initWithMapItem:(MKMapItem*)mapItem {
     self = [super init];
 
     if (self) {
-        _address = [address copy];
-        _coordinate = coordinate;
+        if (@available(iOS 11.0, *)) {
+            _address = [CNPostalAddressFormatter stringFromPostalAddress:mapItem.placemark.postalAddress style:CNPostalAddressFormatterStyleMailingAddress];
+        }
+        else {
+            _address = [NSString stringWithFormat:@"%@ %@, %@", mapItem.placemark.subThoroughfare, mapItem.placemark.thoroughfare, mapItem.placemark.subLocality];
+        }
+
+        _coordinate = mapItem.placemark.coordinate;
+        _name = mapItem.name;
     }
     return self;
 }
@@ -56,7 +66,7 @@
     return self;
 }
 
-- (void) encodeWithCoder:(NSCoder *)coder {
+- (void)encodeWithCoder:(NSCoder *)coder {
     [coder oba_encodeObject:_name forSelector:@selector(name)];
     [coder oba_encodeObject:_address forSelector:@selector(address)];
     [coder oba_encodeObject:_icon forSelector:@selector(icon)];
@@ -69,10 +79,17 @@
     return [[CLLocation alloc] initWithLatitude:_coordinate.latitude longitude:_coordinate.longitude];
 }
 
-#pragma mark MKAnnotation
+#pragma mark - MKAnnotation
 
 - (NSString*)title {
     return self.name ?: self.address;
+}
+
+#pragma mark - NSObject
+
+- (NSString*)description {
+    NSString *coordinateString = [NSString stringWithFormat:@"(%f, %f)", self.coordinate.latitude, self.coordinate.longitude];
+    return [self oba_description:@[@"name", @"address", @"icon"] keyPaths:nil otherValues:@{@"coordinate": coordinateString}];
 }
 
 @end

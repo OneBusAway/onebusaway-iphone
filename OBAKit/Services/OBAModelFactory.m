@@ -215,50 +215,6 @@ static NSString * const kReferences = @"references";
     return entry;
 }
 
-- (OBAPlacemarks*) getPlacemarksFromJSONObject:(id)jsonObject error:(NSError**)error {
-    
-    OBAPlacemarks * placemarks = [[OBAPlacemarks alloc] init];
-    
-    OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
-    [digester addObjectCreateRule:[OBAPlacemark class] forPrefix:@"/results/[]"];
-    [digester addSetPropertyRule:@"address" forPrefix:@"/results/[]/formatted_address"];
-    
-    OBASetCoordinatePropertyJsonDigesterRule * rule = [[OBASetCoordinatePropertyJsonDigesterRule alloc] initWithPropertyName:@"coordinate" method:OBASetCoordinatePropertyMethodLatLon];
-    rule.lonJsonName = @"lng";
-    [digester addRule:rule forPrefix:@"/results/[]/geometry/location"];
-    [digester addSetNext:@selector(addPlacemark:) forPrefix:@"/results/[]"];
-    
-    
-    
-    [digester parse:jsonObject withRoot:placemarks parameters:[self getDigesterParameters] error:error];
-    
-    return placemarks;
-}
-
-
-- (OBAPlacemarks*) getPlacemarksFromGooglePlacesJSONObject:(id)jsonObject error:(NSError**)error {
-    
-    OBAPlacemarks * placemarks = [[OBAPlacemarks alloc] init];
-    
-    OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
-    [digester addObjectCreateRule:[OBAPlacemark class] forPrefix:@"/results/[]"];
-    [digester addSetPropertyRule:@"name" forPrefix:@"/results/[]/name"];
-    [digester addSetPropertyRule:@"address" forPrefix:@"/results/[]/vicinity"];
-    [digester addSetPropertyRule:@"icon" forPrefix:@"/results/[]/icon"];
-    
-    OBASetCoordinatePropertyJsonDigesterRule * rule = [[OBASetCoordinatePropertyJsonDigesterRule alloc] initWithPropertyName:@"coordinate" method:OBASetCoordinatePropertyMethodLatLon];
-    rule.lonJsonName = @"lng";
-    [digester addRule:rule forPrefix:@"/results/[]/geometry/location"];
-    
-    [digester addSetNext:@selector(addPlacemark:) forPrefix:@"/results/[]"];
-    
-    [digester addCallMethodRule:@selector(addAttribution:) forPrefix:@"/html_attributions/[]"];
-    
-    [digester parse:jsonObject withRoot:placemarks parameters:[self getDigesterParameters] error:error];
-    
-    return placemarks;
-}
-
 - (OBAEntryWithReferencesV2*) getTripDetailsV2FromJSON:(NSDictionary*)json error:(NSError**)error {
 
     OBAEntryWithReferencesV2 * entry = [[OBAEntryWithReferencesV2 alloc] initWithReferences:_references];

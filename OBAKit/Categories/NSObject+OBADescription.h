@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSObject (OBADescription)
 - (NSString*)oba_description:(NSArray<NSString*>*)keys;
 - (NSString*)oba_description:(NSArray<NSString*>*)keys keyPaths:(nullable NSArray<NSString*>*)keyPaths;
+- (NSString*)oba_description:(NSArray<NSString*>*)keys keyPaths:(nullable NSArray<NSString*>*)keyPaths otherValues:(nullable NSDictionary<NSString*,NSString*>*)otherValues;
 @end
 
 NS_ASSUME_NONNULL_END

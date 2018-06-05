@@ -24,6 +24,7 @@
 		930AFE901DD0717A0092AE82 /* Array+Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE8F1DD0717A0092AE82 /* Array+Functional.swift */; };
 		930AFE9E1DD183720092AE82 /* OBAWalkingDirections.h in Headers */ = {isa = PBXBuildFile; fileRef = 930AFE9C1DD183720092AE82 /* OBAWalkingDirections.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		930AFE9F1DD183720092AE82 /* OBAWalkingDirections.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE9D1DD183720092AE82 /* OBAWalkingDirections.m */; };
+		930EFFD620C6F28500A2AE1F /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930EFFD520C6F28400A2AE1F /* Contacts.framework */; };
 		931A6A251E02772E00131242 /* OBAValue1ContentsView.h in Headers */ = {isa = PBXBuildFile; fileRef = 931A6A231E02772E00131242 /* OBAValue1ContentsView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		931A6A261E02772E00131242 /* OBAValue1ContentsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A241E02772E00131242 /* OBAValue1ContentsView.m */; };
 		931C60D31EC3974E0086EC37 /* OBAApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 931C60D11EC3974E0086EC37 /* OBAApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -146,8 +147,6 @@
 		934196621DB0B099004BBBB7 /* OBANavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195C61DB0B099004BBBB7 /* OBANavigationTarget.m */; };
 		934196631DB0B099004BBBB7 /* OBAPlacemark.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195C71DB0B099004BBBB7 /* OBAPlacemark.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196641DB0B099004BBBB7 /* OBAPlacemark.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195C81DB0B099004BBBB7 /* OBAPlacemark.m */; };
-		934196651DB0B099004BBBB7 /* OBAPlacemarks.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195C91DB0B099004BBBB7 /* OBAPlacemarks.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		934196661DB0B099004BBBB7 /* OBAPlacemarks.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195CA1DB0B099004BBBB7 /* OBAPlacemarks.m */; };
 		934196671DB0B099004BBBB7 /* OBAReferencesV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195CB1DB0B099004BBBB7 /* OBAReferencesV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196681DB0B099004BBBB7 /* OBAReferencesV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 934195CC1DB0B099004BBBB7 /* OBAReferencesV2.m */; };
 		934196691DB0B099004BBBB7 /* OBARegionBoundsV2.h in Headers */ = {isa = PBXBuildFile; fileRef = 934195CD1DB0B099004BBBB7 /* OBARegionBoundsV2.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -335,6 +334,7 @@
 		930AFE8F1DD0717A0092AE82 /* Array+Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Functional.swift"; sourceTree = "<group>"; };
 		930AFE9C1DD183720092AE82 /* OBAWalkingDirections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAWalkingDirections.h; sourceTree = "<group>"; };
 		930AFE9D1DD183720092AE82 /* OBAWalkingDirections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAWalkingDirections.m; sourceTree = "<group>"; };
+		930EFFD520C6F28400A2AE1F /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
 		931A6A231E02772E00131242 /* OBAValue1ContentsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAValue1ContentsView.h; sourceTree = "<group>"; };
 		931A6A241E02772E00131242 /* OBAValue1ContentsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAValue1ContentsView.m; sourceTree = "<group>"; };
 		931C60D11EC3974E0086EC37 /* OBAApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAApplication.h; sourceTree = "<group>"; };
@@ -459,8 +459,6 @@
 		934195C61DB0B099004BBBB7 /* OBANavigationTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTarget.m; sourceTree = "<group>"; };
 		934195C71DB0B099004BBBB7 /* OBAPlacemark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAPlacemark.h; sourceTree = "<group>"; };
 		934195C81DB0B099004BBBB7 /* OBAPlacemark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAPlacemark.m; sourceTree = "<group>"; };
-		934195C91DB0B099004BBBB7 /* OBAPlacemarks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAPlacemarks.h; sourceTree = "<group>"; };
-		934195CA1DB0B099004BBBB7 /* OBAPlacemarks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAPlacemarks.m; sourceTree = "<group>"; };
 		934195CB1DB0B099004BBBB7 /* OBAReferencesV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAReferencesV2.h; sourceTree = "<group>"; };
 		934195CC1DB0B099004BBBB7 /* OBAReferencesV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAReferencesV2.m; sourceTree = "<group>"; };
 		934195CD1DB0B099004BBBB7 /* OBARegionBoundsV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionBoundsV2.h; sourceTree = "<group>"; };
@@ -626,6 +624,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				930EFFD620C6F28500A2AE1F /* Contacts.framework in Frameworks */,
 				935BB9F11F745E1E00062E31 /* CoreTelephony.framework in Frameworks */,
 				9356803E1EAC379700BEC077 /* MapKit.framework in Frameworks */,
 				9325DB501FCB569B00EDB0E8 /* Masonry.framework in Frameworks */,
@@ -925,8 +924,6 @@
 				934195C41DB0B099004BBBB7 /* OBAListWithRangeAndReferencesV2.m */,
 				934195C71DB0B099004BBBB7 /* OBAPlacemark.h */,
 				934195C81DB0B099004BBBB7 /* OBAPlacemark.m */,
-				934195C91DB0B099004BBBB7 /* OBAPlacemarks.h */,
-				934195CA1DB0B099004BBBB7 /* OBAPlacemarks.m */,
 				934195CB1DB0B099004BBBB7 /* OBAReferencesV2.h */,
 				934195CC1DB0B099004BBBB7 /* OBAReferencesV2.m */,
 				934195CD1DB0B099004BBBB7 /* OBARegionBoundsV2.h */,
@@ -1031,6 +1028,7 @@
 		934196BC1DB0B274004BBBB7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				930EFFD520C6F28400A2AE1F /* Contacts.framework */,
 				9325DB4F1FCB569B00EDB0E8 /* Masonry.framework */,
 				93BC49FC1FB8D6F4008B710D /* Mantle.framework */,
 				93BC49FA1FB8D6A3008B710D /* PromiseKit.framework */,
@@ -1263,7 +1261,6 @@
 				9341965A1DB0B099004BBBB7 /* OBAFrequencyV2.h in Headers */,
 				934196241DB0B099004BBBB7 /* OBASphericalGeometryLibrary.h in Headers */,
 				934C50991E2B656900DFDCA0 /* NSDictionary+OBAAdditions.h in Headers */,
-				934196651DB0B099004BBBB7 /* OBAPlacemarks.h in Headers */,
 				934196761DB0B099004BBBB7 /* OBASearchResult.h in Headers */,
 				9388C2D32001567F0068041F /* OBAStackedMarqueeLabels.h in Headers */,
 				934C50951E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h in Headers */,
@@ -1468,7 +1465,6 @@
 				934196681DB0B099004BBBB7 /* OBAReferencesV2.m in Sources */,
 				934196521DB0B099004BBBB7 /* OBABookmarkGroup.m in Sources */,
 				9341964C1DB0B099004BBBB7 /* OBAArrivalAndDepartureInstanceRef.m in Sources */,
-				934196661DB0B099004BBBB7 /* OBAPlacemarks.m in Sources */,
 				9341960F1DB0B099004BBBB7 /* OBAMapHelpers.m in Sources */,
 				934196361DB0B099004BBBB7 /* OBACreateObjectJsonDigesterRule.m in Sources */,
 				934196791DB0B099004BBBB7 /* OBAServiceAlertsModel.m in Sources */,

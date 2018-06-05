@@ -72,8 +72,8 @@ NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2,
 /**
  Calculate the coordinate region for the list of placemarks provided. Falls back to the default region if it cannot compute a region from the placemarks.
 
- @param placemarks    The list of OBAPlacemarks that it will compute a region from.
- @param defaultRegion The fallback MKCoordinateRegion that will be returned if OBAPlacemarks is empty.
+ @param placemarks    The list of `OBAPlacemark`s that it will compute a region from.
+ @param defaultRegion The fallback MKCoordinateRegion that will be returned if `OBAPlacemark`s are empty.
 
  @return The bounding region for the provided placemarks.
  */

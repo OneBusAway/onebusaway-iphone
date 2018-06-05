@@ -19,7 +19,6 @@
 #import <OBAKit/OBAListWithRangeAndReferencesV2.h>
 #import <OBAKit/OBAArrivalsAndDeparturesForStopV2.h>
 #import <OBAKit/OBAStopsForRouteV2.h>
-#import <OBAKit/OBAPlacemarks.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -43,8 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (OBAListWithRangeAndReferencesV2*) getRegionsV2FromJson:(id)jsonDictionary error:(NSError**)error;
 - (OBAArrivalsAndDeparturesForStopV2*) getArrivalsAndDeparturesForStopV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error;
 - (OBAEntryWithReferencesV2*)getArrivalAndDepartureForStopV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error;
-- (OBAPlacemarks*) getPlacemarksFromJSONObject:(id)jsonObject error:(NSError**)error;
-- (OBAPlacemarks*) getPlacemarksFromGooglePlacesJSONObject:(id)jsonObject error:(NSError**)error;
 - (OBAEntryWithReferencesV2*) getTripDetailsV2FromJSON:(NSDictionary*)json error:(NSError**)error;
 
 - (OBAEntryWithReferencesV2*) getVehicleStatusV2FromJSON:(NSDictionary*)json error:(NSError**)error;
