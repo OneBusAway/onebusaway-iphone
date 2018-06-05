@@ -16,6 +16,7 @@
 
 #import <OBAKit/OBAPlacemark.h>
 #import <OBAKit/NSCoder+OBAAdditions.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 @implementation OBAPlacemark
 
@@ -56,7 +57,7 @@
     return self;
 }
 
-- (void) encodeWithCoder:(NSCoder *)coder {
+- (void)encodeWithCoder:(NSCoder *)coder {
     [coder oba_encodeObject:_name forSelector:@selector(name)];
     [coder oba_encodeObject:_address forSelector:@selector(address)];
     [coder oba_encodeObject:_icon forSelector:@selector(icon)];
@@ -69,10 +70,17 @@
     return [[CLLocation alloc] initWithLatitude:_coordinate.latitude longitude:_coordinate.longitude];
 }
 
-#pragma mark MKAnnotation
+#pragma mark - MKAnnotation
 
 - (NSString*)title {
     return self.name ?: self.address;
+}
+
+#pragma mark - NSObject
+
+- (NSString*)description {
+    NSString *coordinateString = [NSString stringWithFormat:@"(%f, %f)", self.coordinate.latitude, self.coordinate.longitude];
+    return [self oba_description:@[@"name", @"address", @"icon"] keyPaths:nil otherValues:@{@"coordinate": coordinateString}];
 }
 
 @end
