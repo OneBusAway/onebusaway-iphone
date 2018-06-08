@@ -8,11 +8,17 @@
 
 @import UIKit;
 
+@class OBACardWrapper;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UIView (OBAAdditions)
 + (instancetype)oba_autolayoutNew;
+
+- (OBACardWrapper*)oba_embedInCardWrapper;
+
 - (UIView*)oba_embedInWrapperView;
+- (UIView*)oba_embedInWrapperViewWithConstraints:(BOOL)constrained;
 
 // Debug-only
 - (void)printAutoLayoutTrace;

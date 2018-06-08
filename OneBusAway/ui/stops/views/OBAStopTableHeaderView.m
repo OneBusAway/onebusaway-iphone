@@ -40,8 +40,10 @@
         [self addSubview:_headerImageView];
 
         _stopInformationLabel = ({
-            UILabel *label = [OBAUIBuilder label];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
             label.numberOfLines = 0;
+            label.adjustsFontSizeToFitWidth = YES;
+            label.minimumScaleFactor = 0.8f;
             [self.class applyHeaderStylingToLabel:label];
             label.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
             label;

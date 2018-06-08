@@ -209,6 +209,7 @@
 		934196CF1DB0B369004BBBB7 /* OBAKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 934196CD1DB0B369004BBBB7 /* OBAKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196D31DB0C02F004BBBB7 /* NSDate+DateTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 934196D11DB0C02F004BBBB7 /* NSDate+DateTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196D41DB0C02F004BBBB7 /* NSDate+DateTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196D21DB0C02F004BBBB7 /* NSDate+DateTools.m */; };
+		9341B82E20B69327006450FC /* CardWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341B82D20B69327006450FC /* CardWrapper.swift */; };
 		934C50951E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 934C50931E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934C50961E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C50941E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m */; };
 		934C50991E2B656900DFDCA0 /* NSDictionary+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 934C50971E2B656900DFDCA0 /* NSDictionary+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -524,6 +525,7 @@
 		934196CD1DB0B369004BBBB7 /* OBAKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAKit.h; sourceTree = "<group>"; };
 		934196D11DB0C02F004BBBB7 /* NSDate+DateTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DateTools.h"; sourceTree = "<group>"; };
 		934196D21DB0C02F004BBBB7 /* NSDate+DateTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DateTools.m"; sourceTree = "<group>"; };
+		9341B82D20B69327006450FC /* CardWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardWrapper.swift; sourceTree = "<group>"; };
 		934C50931E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCoder+OBAAdditions.h"; sourceTree = "<group>"; };
 		934C50941E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCoder+OBAAdditions.m"; sourceTree = "<group>"; };
 		934C50971E2B656900DFDCA0 /* NSDictionary+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+OBAAdditions.h"; sourceTree = "<group>"; };
@@ -1003,6 +1005,7 @@
 		934196A61DB0B0AF004BBBB7 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				9341B82C20B69309006450FC /* Cards */,
 				9388C2951FFDBAE90068041F /* Shimmer */,
 				93E5929D1F8CABD70079A2D8 /* Containers */,
 				93089DAA1F87E8F200694A90 /* OBAClassicDepartureCell.h */,
@@ -1044,6 +1047,14 @@
 				936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9341B82C20B69309006450FC /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				9341B82D20B69327006450FC /* CardWrapper.swift */,
+			);
+			path = Cards;
 			sourceTree = "<group>";
 		};
 		9358CDAB1DEA1AB000132CDE /* Departures */ = {
@@ -1434,6 +1445,7 @@
 				9341967D1DB0B099004BBBB7 /* OBASituationV2.m in Sources */,
 				9341962D1DB0B099004BBBB7 /* OBAVehicleMapAnnotation.m in Sources */,
 				9341963E1DB0B099004BBBB7 /* OBASetDatePropertyJsonDigesterRule.m in Sources */,
+				9341B82E20B69327006450FC /* CardWrapper.swift in Sources */,
 				9341968F1DB0B099004BBBB7 /* OBATripStopTimeV2.m in Sources */,
 				934196731DB0B099004BBBB7 /* OBARouteV2.m in Sources */,
 				9341966C1DB0B099004BBBB7 /* OBARegionV2.m in Sources */,

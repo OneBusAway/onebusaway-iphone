@@ -284,6 +284,10 @@ static UIFont *_italicFootnoteFont = nil;
     return [self compactPadding];
 }
 
++ (CGFloat)compactCornerRadius {
+    return [self minimalPadding];
+}
+
 + (UIEdgeInsets)marginSizedEdgeInsets {
     return UIEdgeInsetsMake(self.defaultMargin, self.defaultMargin, self.defaultMargin, self.defaultMargin);
 }

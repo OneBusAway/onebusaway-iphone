@@ -242,6 +242,11 @@
 @property(class,nonatomic,assign,readonly) CGFloat defaultCornerRadius;
 
 /**
+ A more compact corner radius to apply to views that require rounded edges.
+ */
+@property(class,nonatomic,assign,readonly) CGFloat compactCornerRadius;
+
+/**
  The value of +[OBATheme defaultMargin] in the form of UIEdgeInsets.
  */
 @property(class,nonatomic,assign,readonly) UIEdgeInsets marginSizedEdgeInsets;
