@@ -11,7 +11,6 @@
 @import Masonry;
 @import PromiseKit;
 @import PMKMapKit;
-@import PMKCoreLocation;
 
 #define kHeaderImageViewBackgroundColor [UIColor colorWithWhite:0.f alpha:0.4f]
 

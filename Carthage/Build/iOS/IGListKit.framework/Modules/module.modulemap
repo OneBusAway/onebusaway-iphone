@@ -1,0 +1,6 @@
+framework module IGListKit {
+  umbrella header "IGListKit.h"
+
+  export *
+  module * { export * }
+}

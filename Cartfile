@@ -2,10 +2,10 @@
 github "mxcl/PromiseKit" ==4.5.1
 
 # https://github.com/PromiseKit/CoreLocation/releases
-github "PromiseKit/CoreLocation" ~>3.0.3
+github "PromiseKit/CoreLocation" ==1.0.2
 
 # https://github.com/PromiseKit/MapKit/releases
-github "PromiseKit/MapKit" ~>3.0.0
+github "PromiseKit/MapKit" ==1.0.1
 
 # https://github.com/akashivskyy/GoogleAnalytics-Framework/releases
 github "akashivskyy/GoogleAnalytics-Framework" ~>3.17
@@ -43,6 +43,7 @@ github "cbpowell/MarqueeLabel" "d7cdb1708910f030c28d0118e26f6bac24dcad8a"
 
 # https://github.com/OneSignal/OneSignal-iOS-SDK/releases
 github "OneSignal/OneSignal-iOS-SDK" ~>2.8.1
+github "Instagram/IGListKit" ==3.4.0
 
 ###################
 ##### Testing #####

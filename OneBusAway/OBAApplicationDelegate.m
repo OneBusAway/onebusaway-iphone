@@ -21,7 +21,6 @@
 @import SVProgressHUD;
 @import Fabric;
 @import Crashlytics;
-@import PMKCoreLocation;
 
 #import "OBAPushManager.h"
 #import "OBAStopViewController.h"
