@@ -161,9 +161,6 @@
 		935C39151F7707FF00737DC4 /* AlertPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935C39141F7707FF00737DC4 /* AlertPresenterView.swift */; };
 		9362C5B72047EF9A00C2C164 /* TodayRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9362C5B62047EF9A00C2C164 /* TodayRowView.swift */; };
 		93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */; };
-		9364DC532033630C00F857E9 /* PulleyPassthroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9364DC502033630C00F857E9 /* PulleyPassthroughScrollView.swift */; };
-		9364DC542033630C00F857E9 /* PulleyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9364DC512033630C00F857E9 /* PulleyViewController.swift */; };
-		9364DC552033630C00F857E9 /* UIView+constrainToParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9364DC522033630C00F857E9 /* UIView+constrainToParent.swift */; };
 		9368E5C01DB1584900C329D0 /* OBAEmptyDataSetSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9368E5BF1DB1584900C329D0 /* OBAEmptyDataSetSource.m */; };
 		936EB1C11E92F30C00F4F3A7 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936EB1BF1E92F30C00F4F3A7 /* OnboardingViewController.swift */; };
 		9373E70F1EA4084C0019C7CB /* OBATripDeepLink_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9373E70E1EA4084C0019C7CB /* OBATripDeepLink_Tests.swift */; };
@@ -519,9 +516,6 @@
 		9363D58F1D6ADE6600A7021A /* tampa.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = tampa.gpx; sourceTree = "<group>"; };
 		9363D5901D6ADE6600A7021A /* washingtondc.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = washingtondc.gpx; sourceTree = "<group>"; };
 		9363D5911D6ADE6600A7021A /* yorkca.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = yorkca.gpx; sourceTree = "<group>"; };
-		9364DC502033630C00F857E9 /* PulleyPassthroughScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyPassthroughScrollView.swift; sourceTree = "<group>"; };
-		9364DC512033630C00F857E9 /* PulleyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyViewController.swift; sourceTree = "<group>"; };
-		9364DC522033630C00F857E9 /* UIView+constrainToParent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+constrainToParent.swift"; sourceTree = "<group>"; };
 		9368E5BE1DB1584900C329D0 /* OBAEmptyDataSetSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEmptyDataSetSource.h; sourceTree = "<group>"; };
 		9368E5BF1DB1584900C329D0 /* OBAEmptyDataSetSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEmptyDataSetSource.m; sourceTree = "<group>"; };
 		936EB1BF1E92F30C00F4F3A7 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -1040,7 +1034,6 @@
 		934197BF1DB0C14C004BBBB7 /* externals */ = {
 			isa = PBXGroup;
 			children = (
-				9364DC4F2033630C00F857E9 /* PulleyLib */,
 				93A6E5211E6CB23500BEFECE /* ISHHoverBar */,
 				934C509B1E2B69E300DFDCA0 /* GKActionSheetPicker */,
 				93FE60231E0B2F34006EC9FB /* SVPulsingAnnotationView */,
@@ -1410,16 +1403,6 @@
 				9358CDB51DEA265200132CDE /* OBADepartureCellHelpers_Tests.m */,
 			);
 			path = UI;
-			sourceTree = "<group>";
-		};
-		9364DC4F2033630C00F857E9 /* PulleyLib */ = {
-			isa = PBXGroup;
-			children = (
-				9364DC502033630C00F857E9 /* PulleyPassthroughScrollView.swift */,
-				9364DC512033630C00F857E9 /* PulleyViewController.swift */,
-				9364DC522033630C00F857E9 /* UIView+constrainToParent.swift */,
-			);
-			path = PulleyLib;
 			sourceTree = "<group>";
 		};
 		9368E5BB1DB1582600C329D0 /* empty_data_sets */ = {
@@ -1876,19 +1859,16 @@
 				934197A11DB0C140004BBBB7 /* OBASegmentedRow.m in Sources */,
 				9341977D1DB0C140004BBBB7 /* AlertPresenter.swift in Sources */,
 				934C50A01E2B69E300DFDCA0 /* GKActionSheetPicker.m in Sources */,
-				9364DC552033630C00F857E9 /* UIView+constrainToParent.swift in Sources */,
 				934197BD1DB0C140004BBBB7 /* OBATripScheduleSectionBuilder.m in Sources */,
 				930AFE961DD11ECB0092AE82 /* OBAWalkableRow.m in Sources */,
 				93C48E492096EF0F001FB95C /* MapTableViewController.swift in Sources */,
 				934197961DB0C140004BBBB7 /* OBAStaticTableViewController+Builders.m in Sources */,
 				9327DEF91E023BD400502F06 /* OBAArrivalDepartureRow.m in Sources */,
-				9364DC532033630C00F857E9 /* PulleyPassthroughScrollView.swift in Sources */,
 				9341979B1DB0C140004BBBB7 /* OBATextFieldCell.m in Sources */,
 				93A637E120A2CDA60005248C /* EmbeddedSectionController.swift in Sources */,
 				934197B21DB0C140004BBBB7 /* OBAStopViewController.m in Sources */,
 				934197B51DB0C140004BBBB7 /* OBAClassicApplicationUI.m in Sources */,
 				934197971DB0C140004BBBB7 /* OBASegmentedControlCell.m in Sources */,
-				9364DC542033630C00F857E9 /* PulleyViewController.swift in Sources */,
 				93B781AD1E64BAC900F2C38D /* OBAMapViewController.m in Sources */,
 				934197A91DB0C140004BBBB7 /* OBAReportProblemWithStopViewController.m in Sources */,
 				9341981D1DB0C1BA004BBBB7 /* OBALabelAndSwitchTableViewCell.m in Sources */,
