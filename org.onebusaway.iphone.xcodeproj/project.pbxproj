@@ -189,6 +189,8 @@
 		93BC49ED1FB8D628008B710D /* GoogleAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49EB1FB8D628008B710D /* GoogleAnalytics.framework */; };
 		93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936A1D8A3A4D0080F370 /* UIKit.framework */; };
 		93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936C1D8A3A530080F370 /* Foundation.framework */; };
+		93EFFFB020B938F100B84DF4 /* RecentStopWithStopIDs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93EFFFAE20B938F000B84DF4 /* RecentStopWithStopIDs.plist */; };
+		93EFFFB220B93CD100B84DF4 /* RecentStopWithStopID.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93EFFFB120B93CD100B84DF4 /* RecentStopWithStopID.plist */; };
 		93F3F88E1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */; };
 		93F3F8971E7AEE560025FC78 /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F3F8961E7AEE560025FC78 /* Mantle.framework */; };
 		93F3F89F1E7BAC510025FC78 /* OBARegionalAlert_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F89E1E7BAC510025FC78 /* OBARegionalAlert_Tests.m */; };
@@ -537,6 +539,8 @@
 		93C3936A1D8A3A4D0080F370 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		93C3936C1D8A3A530080F370 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		93E4A7611CE65B2100E769B0 /* atlanta.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = atlanta.gpx; sourceTree = "<group>"; };
+		93EFFFAE20B938F000B84DF4 /* RecentStopWithStopIDs.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = RecentStopWithStopIDs.plist; sourceTree = "<group>"; };
+		93EFFFB120B93CD100B84DF4 /* RecentStopWithStopID.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = RecentStopWithStopID.plist; sourceTree = "<group>"; };
 		93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionalAlertsViewController.swift; sourceTree = "<group>"; };
 		93F3F8961E7AEE560025FC78 /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = Carthage/Build/iOS/Mantle.framework; sourceTree = "<group>"; };
 		93F3F89E1E7BAC510025FC78 /* OBARegionalAlert_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionalAlert_Tests.m; sourceTree = "<group>"; };
@@ -1397,6 +1401,15 @@
 			path = map;
 			sourceTree = "<group>";
 		};
+		93EFFFAD20B938F000B84DF4 /* RecentStops */ = {
+			isa = PBXGroup;
+			children = (
+				93EFFFB120B93CD100B84DF4 /* RecentStopWithStopID.plist */,
+				93EFFFAE20B938F000B84DF4 /* RecentStopWithStopIDs.plist */,
+			);
+			path = RecentStops;
+			sourceTree = "<group>";
+		};
 		93F3F88C1E7A7B160025FC78 /* regional_alerts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1603,9 +1616,11 @@
 			files = (
 				9341988B1DB0C219004BBBB7 /* SEA_4thPike_East.json in Resources */,
 				9341988C1DB0C219004BBBB7 /* stop_with_obj_lat_long.plist in Resources */,
+				93EFFFB220B93CD100B84DF4 /* RecentStopWithStopID.plist in Resources */,
 				9341988A1DB0C219004BBBB7 /* regions-v3.json in Resources */,
 				934198881DB0C219004BBBB7 /* bookmark_without_region_identifier.plist in Resources */,
 				934198891DB0C219004BBBB7 /* testMessageBodyForModelDAO.html in Resources */,
+				93EFFFB020B938F100B84DF4 /* RecentStopWithStopIDs.plist in Resources */,
 				934198861DB0C219004BBBB7 /* bookmark_with_region_identifier.plist in Resources */,
 				934198871DB0C219004BBBB7 /* bookmark_with_stopids_array.plist in Resources */,
 			);

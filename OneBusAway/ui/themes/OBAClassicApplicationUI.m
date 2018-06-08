@@ -86,9 +86,9 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
     }
     else if ([shortcutItem.type isEqual:kApplicationShortcutRecents]) {
         navigationTargetType = OBANavigationTargetTypeRecentStops;
-        NSArray *stopIDs = (NSArray*)shortcutItem.userInfo[@"stopIds"];
-        if (stopIDs.count > 0) {
-            parameters = @{OBAStopIDNavigationTargetParameter: stopIDs.firstObject};
+        NSString *stopID = (NSString*)shortcutItem.userInfo[@"stopID"];
+        if (stopID.length > 0) {
+            parameters = @{OBAStopIDNavigationTargetParameter: stopID};
         }
     }
 

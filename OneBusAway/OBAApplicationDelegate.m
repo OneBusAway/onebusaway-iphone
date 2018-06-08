@@ -341,7 +341,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
                                                  localizedTitle:stopEvent.title
                                               localizedSubtitle:nil
                                                            icon:clockIcon
-                                                       userInfo:@{ @"stopIds": stopEvent.stopIds }];
+                                                       userInfo:@{ @"stopID": stopEvent.stopID }];
         [dynamicShortcuts addObject:shortcutItem];
     }
 

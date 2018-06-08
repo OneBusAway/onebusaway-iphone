@@ -25,12 +25,14 @@
 #import <OBAKit/OBAApplication.h>
 #import <OBAKit/NSArray+OBAAdditions.h>
 #import <OBAKit/OBALogging.h>
+#import <OBAKit/OBAMapHelpers.h>
 
 NSString * const OBAUngroupedBookmarksIdentifier = @"OBAUngroupedBookmarksIdentifier";
 NSString * const OBAMostRecentStopsChangedNotification = @"OBAMostRecentStopsChangedNotification";
 NSString * const OBARegionDidUpdateNotification = @"OBARegionDidUpdateNotification";
 
 const NSInteger kMaxEntriesInMostRecentList = 10;
+const CLLocationDistance kMetersInOneMile = 1609.34;
 
 @interface OBAModelDAO ()
 @property(nonatomic,strong) id<OBAModelPersistenceLayer> preferencesDao;
@@ -502,51 +504,28 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
     [[NSNotificationCenter defaultCenter] postNotificationName:OBAMostRecentStopsChangedNotification object:nil];
 }
 
-- (void)addStopAccessEvent:(OBAStopAccessEventV2*)event {
-
-    OBAStopAccessEventV2 * existingEvent = nil;
-
-    NSArray * stopIds = event.stopIds;
-
-    for (OBAStopAccessEventV2 * stopEvent in _mostRecentStops) {
-        if ([stopEvent.stopIds isEqual:stopIds]) {
-            existingEvent = stopEvent;
-            break;
-        }
-    }
-
-    if (existingEvent) {
-        [_mostRecentStops removeObject:existingEvent];
-        [_mostRecentStops insertObject:existingEvent atIndex:0];
-    }
-    else {
-        existingEvent = [[OBAStopAccessEventV2 alloc] init];
-        existingEvent.stopIds = stopIds;
-        [_mostRecentStops insertObject:existingEvent atIndex:0];
-    }
-
-    existingEvent.title = event.title;
-    existingEvent.subtitle = event.subtitle;
-
-    NSInteger over = [_mostRecentStops count] - kMaxEntriesInMostRecentList;
-    for (int i=0; i<over; i++) {
-        [_mostRecentStops removeObjectAtIndex:([_mostRecentStops count]-1)];
-    }
-
-    [_preferencesDao writeMostRecentStops:_mostRecentStops];
-    [[NSNotificationCenter defaultCenter] postNotificationName:OBAMostRecentStopsChangedNotification object:nil];
-}
-
 - (void)viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop {
     OBAGuard(stop) else {
         return;
     }
 
-    OBAStopAccessEventV2 * event = [[OBAStopAccessEventV2 alloc] init];
-    event.stopIds = @[stop.stopId];
-    event.title = stop.title;
-    event.subtitle = stop.subtitle;
-    [self addStopAccessEvent:event];
+    for (OBAStopAccessEventV2 *stopEvent in _mostRecentStops) {
+        if ([stopEvent.stopID isEqual:stop.stopId]) {
+            [_mostRecentStops removeObject:stopEvent];
+            break;
+        }
+    }
+
+    OBAStopAccessEventV2 *recentStop = [[OBAStopAccessEventV2 alloc] initWithStop:stop];
+    [_mostRecentStops insertObject:recentStop atIndex:0];
+
+    NSInteger over = self.mostRecentStops.count - kMaxEntriesInMostRecentList;
+    for (NSInteger i=0; i<over; i++) {
+        [_mostRecentStops removeObjectAtIndex:_mostRecentStops.count - 1];
+    }
+
+    [_preferencesDao writeMostRecentStops:_mostRecentStops];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBAMostRecentStopsChangedNotification object:nil];
 }
 
 - (void)removeRecentStop:(OBAStopAccessEventV2*)recentStop {
@@ -566,6 +545,37 @@ const NSInteger kMaxEntriesInMostRecentList = 10;
 
     NSArray *rows = [self.mostRecentStops filteredArrayUsingPredicate:compoundPredicate];
     return rows;
+}
+
+- (NSArray<OBAStopAccessEventV2*>*)recentStopsNearCoordinate:(CLLocationCoordinate2D)coordinate {
+    OBAGuard(CLLocationCoordinate2DIsValid(coordinate)) else {
+        return @[];
+    }
+
+    NSArray<OBAStopAccessEventV2*> *recentStopsWithinOneMile = [self.mostRecentStops filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OBAStopAccessEventV2 *evaluatedObject, NSDictionary<NSString *,id> *bindings) {
+        if (!evaluatedObject.hasLocation) {
+            return NO;
+        }
+
+        return [OBAMapHelpers getDistanceFrom:evaluatedObject.coordinate to:coordinate] < kMetersInOneMile;
+    }]];
+
+    NSArray<OBAStopAccessEventV2*> *sortedRecentStops = [recentStopsWithinOneMile sortedArrayUsingComparator:^NSComparisonResult(OBAStopAccessEventV2 *obj1, OBAStopAccessEventV2 *obj2) {
+        CLLocationDistance dist1 = [OBAMapHelpers getDistanceFrom:obj1.coordinate to:coordinate];
+        CLLocationDistance dist2 = [OBAMapHelpers getDistanceFrom:obj2.coordinate to:coordinate];
+
+        if (dist1 < dist2) {
+            return NSOrderedAscending;
+        }
+        else if (dist1 > dist2) {
+            return NSOrderedDescending;
+        }
+        else {
+            return NSOrderedSame;
+        }
+    }];
+
+    return sortedRecentStops;
 }
 
 #pragma mark - Service Alerts
