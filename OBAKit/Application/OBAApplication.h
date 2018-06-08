@@ -24,7 +24,7 @@
 
 @class OBAApplicationConfiguration;
 @class OBAConsoleLogger;
-@class RegionalAlertsManager;
+@class OBARegionalAlertsManager;
 @class PromisedModelService;
 @class OBAMapDataLoader;
 @class OBAMapRegionManager;
@@ -41,7 +41,7 @@ extern NSString *const OBARegionServerInvalidNotification;
 @property (nonatomic, strong, readonly) OBAModelDAO *modelDao;
 @property (nonatomic, strong, readonly) PromisedModelService *modelService;
 @property (nonatomic, strong, readonly) OBALocationManager *locationManager;
-@property (nonatomic, strong, readonly) RegionalAlertsManager *regionalAlertsManager;
+@property (nonatomic, strong, readonly) OBARegionalAlertsManager *regionalAlertsManager;
 @property (nonatomic, strong, readonly) OBARegionHelper *regionHelper;
 @property (nonatomic, strong, readonly) OBAConsoleLogger *consoleLogger;
 @property (nonatomic, strong, readonly) OBAMapDataLoader *mapDataLoader;

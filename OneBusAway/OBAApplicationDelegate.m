@@ -172,7 +172,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recentStopsChanged:) name:OBAMostRecentStopsChangedNotification object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(highPriorityRegionalAlertReceived:) name:RegionalAlertsManager.highPriorityRegionalAlertReceivedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(highPriorityRegionalAlertReceived:) name:OBARegionalAlertsManager.highPriorityRegionalAlertReceivedNotification object:nil];
 }
 
 - (void)invalidRegionNotification:(NSNotification*)note {
@@ -186,7 +186,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 }
 
 - (void)highPriorityRegionalAlertReceived:(NSNotification*)note {
-    OBARegionalAlert *alert = note.userInfo[RegionalAlertsManager.highPriorityRegionalAlertUserInfoKey];
+    OBARegionalAlert *alert = note.userInfo[OBARegionalAlertsManager.highPriorityRegionalAlertUserInfoKey];
 
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alert.title message:alert.summary preferredStyle:UIAlertControllerStyleAlert];
 

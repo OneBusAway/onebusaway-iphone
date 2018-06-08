@@ -10,16 +10,9 @@ import Foundation
 import CocoaLumberjack
 import CocoaLumberjackSwift
 
-/*
- 1. There needs to be a way to separately broadcast information about high priority alerts.
- 2. [DONE] Alerts need to have idea of priority. High priority (HPA) and normal.
- 3. [DONE] Alerts need to have idea of read/unread state.
- 4. HPAs should be displayed immediately upon receipt.
- 5. HPAs should only be displayed once. This can probably be accomplished by 3.
- 6. [DONE] Read/unread state should not be overwritten as new data is downloaded from the server.
- */
 
-@objc public class RegionalAlertsManager: NSObject {
+@objc(OBARegionalAlertsManager)
+public class RegionalAlertsManager: NSObject {
     private let lastUpdateKey = "OBALastRegionalAlertsUpdateKey"
     @objc private(set) public var regionalAlerts: [OBARegionalAlert] = []
     private let alertsUpdateQueue = DispatchQueue(label: "regional-alerts-manager-update")

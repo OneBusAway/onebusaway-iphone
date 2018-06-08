@@ -29,7 +29,7 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
 @property (nonatomic, strong, readwrite) OBALocationManager *locationManager;
 @property (nonatomic, strong, readwrite) OBAReachability *reachability;
 @property (nonatomic, strong, readwrite) OBARegionHelper *regionHelper;
-@property (nonatomic, strong, readwrite) RegionalAlertsManager *regionalAlertsManager;
+@property (nonatomic, strong, readwrite) OBARegionalAlertsManager *regionalAlertsManager;
 @property (nonatomic, strong, readwrite) OBALogging *loggingManager;
 @property (nonatomic, strong, readwrite) OBAMapDataLoader *mapDataLoader;
 @property (nonatomic, strong, readwrite) OBAMapRegionManager *mapRegionManager;
@@ -91,7 +91,7 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
     self.mapRegionManager = [[OBAMapRegionManager alloc] init];
 
     if (!self.configuration.extensionMode) {
-        self.regionalAlertsManager = [[RegionalAlertsManager alloc] init];
+        self.regionalAlertsManager = [[OBARegionalAlertsManager alloc] init];
         self.regionalAlertsManager.region = self.modelDao.currentRegion;
     }
 
