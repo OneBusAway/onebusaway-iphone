@@ -693,7 +693,7 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
     [button addTarget:self action:@selector(embedDelegateShowStop:) forControlEvents:UIControlEventTouchUpInside];
-    [button setImage:[UIImage imageNamed:@"disclosure_arrow"] forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:@"chevron"] forState:UIControlStateNormal];
     [button setTitle:NSLocalizedString(@"stop.view_stop_button_title", @"View Stop button in embed mode") forState:UIControlStateNormal];
     button.transform = CGAffineTransformMakeScale(-1.0, 1.0);
     button.titleLabel.transform = CGAffineTransformMakeScale(-1.0, 1.0);

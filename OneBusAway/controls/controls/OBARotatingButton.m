@@ -13,7 +13,7 @@
 
 + (instancetype)rotatingButton {
     OBARotatingButton *button = [OBARotatingButton buttonWithType:UIButtonTypeCustom];
-    [button setImage:[UIImage imageNamed:@"chevron"] forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:@"disclosure_button"] forState:UIControlStateNormal];
     return button;
 }
 
