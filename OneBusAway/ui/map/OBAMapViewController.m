@@ -71,6 +71,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self = [super initWithNibName:nil bundle:nil];
 
     if (self) {
+        _standaloneMode = YES;
+
         _mapDataLoader = mapDataLoader;
         [_mapDataLoader addDelegate:self];
 
@@ -118,8 +120,11 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         self.mapView.showsUserLocation = YES;
     }
 
-    [self createLocationHoverBar];
-    [self createSecondaryHoverBar];
+    if (self.standaloneMode) {
+        [self createLocationHoverBar];
+        [self createSecondaryHoverBar];
+        [self configureSearch];
+    }
 
     self.hideFutureNetworkErrors = NO;
 
@@ -131,8 +136,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 
     [self configureToastView];
-
-    [self configureSearch];
 
     [self reloadData];
 }
@@ -206,9 +209,13 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     [self.searchController dismissViewControllerAnimated:YES completion:^{
         // abxoxo - TODO: figure out how to unify -navigateToTarget, this method, and -setNavigationTarget.
-        self.mapDataLoader.searchRegion = [OBAMapHelpers convertVisibleMapRect:self.mapView.visibleMapRect intoCircularRegionWithCenter:self.mapView.centerCoordinate];
+        self.mapDataLoader.searchRegion = self.visibleMapRegion;
         [self setNavigationTarget:target];
     }];
+}
+
+- (CLCircularRegion*)visibleMapRegion {
+    return [OBAMapHelpers convertVisibleMapRect:self.mapView.visibleMapRect intoCircularRegionWithCenter:self.mapView.centerCoordinate];
 }
 
 #pragma mark - UISearchControllerDelegate
@@ -631,13 +638,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)displayStopControllerForStopID:(NSString*)stopID {
     OBAStopViewController *stopController = [[OBAStopViewController alloc] initWithStopID:stopID];
-
-    if ([self usingDrawerUI]) {
-        [self.drawerPresenter pushViewController:stopController animated:YES];
-    }
-    else {
-        [self.navigationController pushViewController:stopController animated:YES];
-    }
+    [self.navigationController pushViewController:stopController animated:YES];
 }
 
 #pragma mark - OBAMapViewController Private Methods

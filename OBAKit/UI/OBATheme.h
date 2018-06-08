@@ -107,6 +107,8 @@
  */
 + (UIColor*)colorWithRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue alpha:(CGFloat)alpha;
 
+@property(class,nonatomic,copy,readonly) UIColor *mapTableBackgroundColor;
+
 /**
  Formerly known as OBAGREEN.
  */

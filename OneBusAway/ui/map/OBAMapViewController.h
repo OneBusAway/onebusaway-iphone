@@ -15,6 +15,7 @@
  */
 
 @import OBAKit;
+@import CoreLocation;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,7 +29,13 @@ INIT_CODER_UNAVAILABLE;
 @property(nonatomic,strong) PromisedModelService *modelService;
 @property(nonatomic,strong) OBALocationManager *locationManager;
 
-@property(nonatomic,weak) id<OBADrawerPresenter> drawerPresenter;
+/**
+ When the view controller is in standalone mode, it will display toolbars. Defaults to true.
+ Set it to false when hosting this view controller inside of another.
+ */
+@property(nonatomic,assign) BOOL standaloneMode;
+
+@property(nonatomic,strong,readonly) CLCircularRegion *visibleMapRegion;
 
 - (instancetype)initWithMapDataLoader:(OBAMapDataLoader*)mapDataLoader mapRegionManager:(OBAMapRegionManager*)mapRegionManager NS_DESIGNATED_INITIALIZER;
 
