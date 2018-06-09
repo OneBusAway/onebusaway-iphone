@@ -248,3 +248,34 @@ import Mantle
         return self.obaJsonDataSource.buildGETRequest(withPath: "/api/where/trip-details/\(escapedTripID).json", queryParameters: args)
     }
 }
+
+// MARK: - Agencies with Coverage
+@objc extension PromisedModelService {
+    @objc public func requestAgenciesWithCoverage() -> PromiseWrapper {
+        let request = buildRequest()
+        let wrapper = PromiseWrapper.init(request: request)
+
+        wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
+            let agencies = try self.decodeData(json: networkResponse.object as! [AnyHashable : Any])
+            return NetworkResponse.init(object: agencies, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
+        }
+
+        return wrapper
+    }
+
+    @nonobjc private func buildRequest() -> OBAURLRequest {
+        return obaJsonDataSource.buildGETRequest(withPath: "/api/where/agencies-with-coverage.json", queryParameters: nil)
+    }
+
+    @nonobjc private func decodeData(json: [AnyHashable: Any]) throws -> [OBAAgencyWithCoverageV2] {
+        var error: NSError? = nil
+        let listWithRange = modelFactory.getAgenciesWithCoverageV2(fromJson: json, error: &error)
+
+        if let error = error {
+            throw error
+        }
+
+        let entries = listWithRange.values as! [OBAAgencyWithCoverageV2]
+        return entries
+    }
+}

@@ -76,14 +76,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }];
 }
 
-- (AnyPromise*)requestAgenciesWithCoverage {
-    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestAgenciesWithCoverage:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
-            resolve(error ?: [responseData values]);
-        }];
-    }];
-}
-
 - (AnyPromise*)requestVehicleForID:(NSString*)vehicleID {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         [self requestVehicleForId:vehicleID completionBlock:^(OBAEntryWithReferencesV2 *responseData, NSHTTPURLResponse *response, NSError *error) {
@@ -279,14 +271,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
             resolve([NSArray arrayWithArray:placemarks]);
         }];
     }];
-}
-
-- (OBAModelServiceRequest*)requestAgenciesWithCoverage:(OBADataSourceCompletion)completion {
-    return [self request:self.obaJsonDataSource
-                     url:OBAAgenciesWithCoverageAPIPath
-                    args:nil
-                selector:@selector(getAgenciesWithCoverageV2FromJson:error:)
-         completionBlock:completion];
 }
 
 - (OBAModelServiceRequest*)requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef *)instance completionBlock:(OBADataSourceCompletion)completion {

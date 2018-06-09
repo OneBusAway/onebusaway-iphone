@@ -82,24 +82,6 @@ extern NSString * const OBAAgenciesWithCoverageAPIPath;
  */
 - (AnyPromise*)requestArrivalAndDepartureWithConvertible:(id<OBAArrivalAndDepartureConvertible>)convertible;
 
-#pragma mark - Agencies
-
-/**
- Retrieves all available agencies for the current region.
-
- @return A promise that resolves to [OBAAgencyWithCoverageV2]
- */
-- (AnyPromise*)requestAgenciesWithCoverage;
-
-/**
- *  Makes an asynchronous request to fetch all available agencies.
- *
- *  @param completion The block to be called once the request completes, this is always executed on the main thread.
- *
- *  @return The OBAModelServiceRequest object that allows request cancellation
- */
-- (OBAModelServiceRequest*)requestAgenciesWithCoverage:(OBADataSourceCompletion)completion;
-
 #pragma mark - Vehicle ID -> OBAVehicleStatusV2
 
 /**
