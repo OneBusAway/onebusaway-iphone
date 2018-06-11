@@ -279,3 +279,34 @@ import Mantle
         return entries
     }
 }
+
+// MARK: - Regional Alerts
+extension PromisedModelService {
+    public func requestRegionalAlerts() -> Promise<[AgencyAlert]> {
+        return requestAgenciesWithCoverage().promise.then { networkResponse -> Promise<[AgencyAlert]> in
+            let agencies = networkResponse.object as! [OBAAgencyWithCoverageV2]
+            let promises = agencies.map { agency -> Promise<[TransitRealtime_Alert]> in
+                let request = self.buildRequest(agency: agency)
+                return CancellablePromise.go(request: request).then { networkResponse -> Promise<[TransitRealtime_Alert]> in
+                    let data = networkResponse.object as! Data
+                    let message = try TransitRealtime_FeedMessage(serializedData: data)
+                    let alerts = message.entity.map { $0.alert }
+                    return Promise(value: alerts)
+                }
+            }
+
+            return when(fulfilled: promises).then { nestedAlerts in
+                let allAlerts: [AgencyAlert] = nestedAlerts.reduce(into: [], { (acc, alerts) in
+                    acc.append(contentsOf: alerts.compactMap { try? AgencyAlert(alert: $0) })
+                })
+                return Promise.init(value: allAlerts)
+            }
+        }
+    }
+
+    private func buildRequest(agency: OBAAgencyWithCoverageV2) -> OBAURLRequest {
+        let encodedID = OBAURLHelpers.escapePathVariable(agency.agencyId)
+        let path = "/api/gtfs_realtime/alerts-for-agency/\(encodedID).pb"
+        return unparsedDataSource.buildGETRequest(withPath: path, queryParameters: nil)
+    }
+}

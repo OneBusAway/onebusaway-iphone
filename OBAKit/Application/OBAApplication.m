@@ -223,10 +223,11 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
 
 - (void)refreshSettings {
     if (self.modelDao.currentRegion.baseURL) {
-        self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:self.modelDao.currentRegion.baseURL userID:[OBAUser userIdFromDefaults]];
+        self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:self.modelDao.currentRegion.baseURL userID:OBAUser.userIDFromDefaults];
+        self.modelService.unparsedDataSource = [OBAJsonDataSource unparsedDataSourceWithBaseURL:self.modelDao.currentRegion.baseURL userID:OBAUser.userIDFromDefaults];
     }
 
-    self.modelService.obaRegionJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:kOBADefaultRegionApiServerName] userID:[OBAUser userIdFromDefaults]];
+    self.modelService.obaRegionJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:kOBADefaultRegionApiServerName] userID:OBAUser.userIDFromDefaults];
     self.modelService.obacoJsonDataSource = [OBAJsonDataSource obacoJSONDataSource];
 
     if (!self.configuration.extensionMode) {

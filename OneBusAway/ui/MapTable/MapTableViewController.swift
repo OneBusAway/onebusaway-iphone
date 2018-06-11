@@ -190,6 +190,9 @@ extension MapTableViewController {
         super.viewDidAppear(animated)
         refreshCurrentLocation()
         loadForecast()
+
+        // abxoxo - DELETE ME!
+        _ = modelService.requestRegionalAlerts()
     }
 }
 

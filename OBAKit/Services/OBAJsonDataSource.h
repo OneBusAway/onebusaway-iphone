@@ -23,11 +23,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAJsonDataSource : NSObject
-@property(nonatomic,strong) OBADataSourceConfig *config;
+@property(nonatomic,strong,readonly) OBADataSourceConfig *config;
 @property(nonatomic,strong) NSURLSession *URLSession;
 @property(nonatomic,assign,readonly) BOOL checkStatusCodeInBody;
 
 + (instancetype)JSONDataSourceWithBaseURL:(NSURL*)URL userID:(NSString*)userID;
+
++ (instancetype)unparsedDataSourceWithBaseURL:(NSURL*)URL userID:(NSString*)userID;
 
 /**
  OBA.co, obaco, or onebusaway.co is the service that powers deep links in the app,
@@ -35,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)obacoJSONDataSource;
 
-- (instancetype)initWithConfig:(OBADataSourceConfig*)config checkStatusCodeInBody:(BOOL)checkStatusCodeInBody;
+- (instancetype)initWithConfig:(OBADataSourceConfig*)config;
 
 /**
  Creates an URL request based upon the supplied path and HTTP method, configuring other parameters, like a GZIP header.

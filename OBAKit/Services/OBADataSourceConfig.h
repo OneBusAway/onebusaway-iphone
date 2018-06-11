@@ -18,10 +18,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBADataSourceConfig : NSObject
-+ (instancetype)dataSourceConfigWithBaseURL:(NSURL*)URL userID:(NSString*)userID;
+typedef NS_ENUM(NSUInteger, OBADataSourceContentType) {
+    OBADataSourceContentTypeJSON = 0,
+    OBADataSourceContentTypeRaw,
+};
 
-- (instancetype)initWithURL:(NSURL*)baseURL args:(nullable NSDictionary*)args;
+@interface OBADataSourceConfig : NSObject
+@property(nonatomic,assign,readonly) BOOL checkStatusCodeInBody;
+@property(nonatomic,assign) OBADataSourceContentType contentType;
+
+- (instancetype)initWithBaseURL:(NSURL*)URL userID:(nullable NSString*)userID checkStatusCodeInBody:(BOOL)checkStatusCodeInBody;
+
 - (nullable NSURL*)constructURL:(NSString*)path withArgs:(nullable NSDictionary*)args;
 @end
 

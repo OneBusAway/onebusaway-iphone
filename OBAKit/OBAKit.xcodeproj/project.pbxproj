@@ -42,6 +42,9 @@
 		932CE84E20263F0C003091D3 /* OBABookmarkedRouteErrorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 932CE84C20263F0C003091D3 /* OBABookmarkedRouteErrorCell.m */; };
 		932CE85120263FFB003091D3 /* OBABaseTableCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 932CE84F20263FFB003091D3 /* OBABaseTableCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		932CE85220263FFB003091D3 /* OBABaseTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 932CE85020263FFB003091D3 /* OBABaseTableCell.m */; };
+		93302B4E20CB595E003699C6 /* SwiftProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93302B4D20CB594C003699C6 /* SwiftProtobuf.framework */; };
+		93302B5220CB5A36003699C6 /* gtfs-realtime.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93302B5020CB5A36003699C6 /* gtfs-realtime.pb.swift */; };
+		93302B5520CFA75D003699C6 /* AgencyAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93302B5420CFA75D003699C6 /* AgencyAlert.swift */; };
 		933A47161FDCCB81009EB332 /* PromiseWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933A47151FDCCB81009EB332 /* PromiseWrapper.swift */; };
 		933BC22D2033CC0E00267965 /* OBAMapDataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 933BC22B2033CC0E00267965 /* OBAMapDataLoader.m */; };
 		933BC22E2033CC0E00267965 /* OBAMapDataLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 933BC22C2033CC0E00267965 /* OBAMapDataLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -355,6 +358,9 @@
 		932CE84C20263F0C003091D3 /* OBABookmarkedRouteErrorCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkedRouteErrorCell.m; sourceTree = "<group>"; };
 		932CE84F20263FFB003091D3 /* OBABaseTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBABaseTableCell.h; sourceTree = "<group>"; };
 		932CE85020263FFB003091D3 /* OBABaseTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBABaseTableCell.m; sourceTree = "<group>"; };
+		93302B4D20CB594C003699C6 /* SwiftProtobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftProtobuf.framework; path = ../Carthage/Build/iOS/SwiftProtobuf.framework; sourceTree = "<group>"; };
+		93302B5020CB5A36003699C6 /* gtfs-realtime.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "gtfs-realtime.pb.swift"; sourceTree = "<group>"; };
+		93302B5420CFA75D003699C6 /* AgencyAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgencyAlert.swift; sourceTree = "<group>"; };
 		933A47151FDCCB81009EB332 /* PromiseWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseWrapper.swift; sourceTree = "<group>"; };
 		933BC22B2033CC0E00267965 /* OBAMapDataLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapDataLoader.m; sourceTree = "<group>"; };
 		933BC22C2033CC0E00267965 /* OBAMapDataLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapDataLoader.h; sourceTree = "<group>"; };
@@ -641,6 +647,7 @@
 				93BC49F21FB8D68E008B710D /* CocoaLumberjackSwift.framework in Frameworks */,
 				93BC49F31FB8D68E008B710D /* CocoaLumberjack.framework in Frameworks */,
 				93BC49F81FB8D697008B710D /* PMKMapKit.framework in Frameworks */,
+				93302B4E20CB595E003699C6 /* SwiftProtobuf.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -702,6 +709,15 @@
 				931C60D61EC3975A0086EC37 /* OBAApplicationConfiguration.m */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		93302B4F20CB5A36003699C6 /* protobuf */ = {
+			isa = PBXGroup;
+			children = (
+				93302B5020CB5A36003699C6 /* gtfs-realtime.pb.swift */,
+				93302B5420CFA75D003699C6 /* AgencyAlert.swift */,
+			);
+			path = protobuf;
 			sourceTree = "<group>";
 		};
 		9341952F1DB0B013004BBBB7 = {
@@ -836,6 +852,7 @@
 		934195841DB0B099004BBBB7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				93302B4F20CB5A36003699C6 /* protobuf */,
 				93EA5A38203DF1DC00CE6CAC /* navigation */,
 				93F3F8991E7B022D0025FC78 /* mantle */,
 				934195851DB0B099004BBBB7 /* annotations */,
@@ -1037,6 +1054,7 @@
 		934196BC1DB0B274004BBBB7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93302B4D20CB594C003699C6 /* SwiftProtobuf.framework */,
 				930EFFD520C6F28400A2AE1F /* Contacts.framework */,
 				9325DB4F1FCB569B00EDB0E8 /* Masonry.framework */,
 				93BC49FC1FB8D6F4008B710D /* Mantle.framework */,
@@ -1485,6 +1503,7 @@
 				9341964C1DB0B099004BBBB7 /* OBAArrivalAndDepartureInstanceRef.m in Sources */,
 				9341960F1DB0B099004BBBB7 /* OBAMapHelpers.m in Sources */,
 				934196361DB0B099004BBBB7 /* OBACreateObjectJsonDigesterRule.m in Sources */,
+				93302B5220CB5A36003699C6 /* gtfs-realtime.pb.swift in Sources */,
 				934196791DB0B099004BBBB7 /* OBAServiceAlertsModel.m in Sources */,
 				934196541DB0B099004BBBB7 /* OBABookmarkV2.m in Sources */,
 				934196131DB0B099004BBBB7 /* OBARouteFilter.m in Sources */,
@@ -1509,6 +1528,7 @@
 				9327DEF41E02306900502F06 /* OBACanvasView.m in Sources */,
 				9388C2AD1FFE1C240068041F /* OBAPlaceholderCell.m in Sources */,
 				93089DAD1F87E8F200694A90 /* OBAClassicDepartureCell.m in Sources */,
+				93302B5520CFA75D003699C6 /* AgencyAlert.swift in Sources */,
 				9341963A1DB0B099004BBBB7 /* OBASelectorJsonDigesterRule.m in Sources */,
 				9388C2B91FFEC29B0068041F /* PickerViewController.swift in Sources */,
 				933A47161FDCCB81009EB332 /* PromiseWrapper.swift in Sources */,
