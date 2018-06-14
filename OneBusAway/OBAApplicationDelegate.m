@@ -97,6 +97,11 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self initializeFabric];
 
+    NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:(10 * 1024 * 1024) // 10MB
+                                                      diskCapacity:(25 * 1024 * 1024) // 25MB
+                                                          diskPath:nil];
+    [NSURLCache setSharedURLCache:cache];
+
 #ifndef TARGET_IPHONE_SIMULATOR
     [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:self.application.oneSignalAPIKey];
 #endif
