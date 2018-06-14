@@ -285,19 +285,24 @@ extension PromisedModelService {
     public func requestRegionalAlerts() -> Promise<[AgencyAlert]> {
         return requestAgenciesWithCoverage().promise.then { networkResponse -> Promise<[AgencyAlert]> in
             let agencies = networkResponse.object as! [OBAAgencyWithCoverageV2]
-            let promises = agencies.map { agency -> Promise<[TransitRealtime_Alert]> in
+            let promises = agencies.map { agency -> Promise<[TransitRealtime_FeedEntity]> in
                 let request = self.buildRequest(agency: agency)
-                return CancellablePromise.go(request: request).then { networkResponse -> Promise<[TransitRealtime_Alert]> in
+                return CancellablePromise.go(request: request).then { networkResponse -> Promise<[TransitRealtime_FeedEntity]> in
                     let data = networkResponse.object as! Data
                     let message = try TransitRealtime_FeedMessage(serializedData: data)
-                    let alerts = message.entity.map { $0.alert }
-                    return Promise(value: alerts)
+                    return Promise(value: message.entity)
                 }
             }
 
-            return when(fulfilled: promises).then { nestedAlerts in
-                let allAlerts: [AgencyAlert] = nestedAlerts.reduce(into: [], { (acc, alerts) in
-                    acc.append(contentsOf: alerts.compactMap { try? AgencyAlert(alert: $0) })
+            // abxoxo - todo: add promise for loading GTFS-RT compliant
+            // alert feed from obaco!
+
+            return when(fulfilled: promises).then { nestedEntities in
+                let allAlerts: [AgencyAlert] = nestedEntities.reduce(into: [], { (acc, entities) in
+                    let alerts = entities.filter { (entity) -> Bool in
+                        return entity.hasAlert && AgencyAlert.isAgencyWideAlert(alert: entity.alert)
+                    }.compactMap { try? AgencyAlert(feedEntity: $0) }
+                    acc.append(contentsOf: alerts)
                 })
                 return Promise.init(value: allAlerts)
             }

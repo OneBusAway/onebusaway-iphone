@@ -11,6 +11,8 @@ import Foundation
 @objc(OBAAgencyAlert) public class AgencyAlert: NSObject {
     private let alert: TransitRealtime_Alert
 
+    @objc public let id: String
+
     @objc public var agencyID: String {
         var agency: TransitRealtime_EntitySelector = TransitRealtime_EntitySelector()
         for sel in alert.informedEntity {
@@ -23,6 +25,12 @@ import Foundation
     }
 
     // MARK: - Translation Properties
+
+    private lazy var urlTranslations: [String: String] = {
+        return alert.url.translation.reduce(into: [:]) { (acc, translation) in
+            acc[translation.language] = translation.text
+        }
+    }()
 
     private lazy var titleTranslations: [String: String] = {
         return alert.headerText.translation.reduce(into: [:]) { (acc, translation) in
@@ -38,11 +46,15 @@ import Foundation
 
     // MARK: - Initialization
 
-    init(alert: TransitRealtime_Alert) throws {
-        guard AgencyAlert.isAgencyWideAlert(alert: alert) else {
+    init(feedEntity: TransitRealtime_FeedEntity) throws {
+        guard
+            feedEntity.hasAlert,
+            AgencyAlert.isAgencyWideAlert(alert: feedEntity.alert)
+        else {
             throw AlertError.invalidAlert
         }
-        self.alert = alert
+        self.alert = feedEntity.alert
+        self.id = feedEntity.id
     }
 }
 
@@ -80,6 +92,17 @@ extension AgencyAlert {
 
 // MARK: - Translated Text
 extension AgencyAlert {
+    @objc public func url(language: String) -> URL? {
+        guard
+            alert.hasURL,
+            let urlString = translation(key: language, from: urlTranslations)
+        else {
+            return nil
+        }
+
+        return URL(string: urlString)
+    }
+
     @objc public func title(language: String) -> String? {
         guard alert.hasHeaderText else {
             return nil

@@ -13,11 +13,11 @@ import SafariServices
 
 class RegionalAlert: NSObject, ListDiffable {
     let alertIdentifier: String
-    let title: String
-    let summary: String
-    let url: URL
+    let title: String?
+    let summary: String?
+    let url: URL?
 
-    init(alertIdentifier: String, title: String, summary: String, url: URL) {
+    init(alertIdentifier: String, title: String?, summary: String?, url: URL?) {
         self.alertIdentifier = alertIdentifier
         self.title = title
         self.summary = summary
@@ -38,6 +38,7 @@ class RegionalAlert: NSObject, ListDiffable {
         return alertIdentifier == alert.alertIdentifier
             && title == alert.title
             && summary == alert.summary
+            && url == alert.url
     }
 }
 
@@ -56,15 +57,11 @@ class RegionalAlertSectionController: ListSectionController {
     }
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
-        guard let ctx = collectionContext else {
-            fatalError()
-        }
-
-        guard let data = data else {
-            fatalError()
-        }
-
-        guard let cell = ctx.dequeueReusableCell(of: RegionalAlertCell.self, for: self, at: index) as? RegionalAlertCell else {
+        guard
+            let ctx = collectionContext,
+            let data = data,
+            let cell = ctx.dequeueReusableCell(of: RegionalAlertCell.self, for: self, at: index) as? RegionalAlertCell
+        else {
             fatalError()
         }
 
@@ -76,13 +73,13 @@ class RegionalAlertSectionController: ListSectionController {
 
     override func didSelectItem(at index: Int) {
         guard
-            let data = data,
+            let url = data?.url,
             let viewController = viewController
             else {
                 return
         }
 
-        let safariController = SFSafariViewController.init(url: data.url)
+        let safariController = SFSafariViewController.init(url: url)
         viewController.navigationController?.present(safariController, animated: true, completion: nil)
     }
 }

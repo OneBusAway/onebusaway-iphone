@@ -48,11 +48,8 @@ class MapTableViewController: UIViewController {
     fileprivate let modelDAO: OBAModelDAO
     fileprivate let modelService: PromisedModelService
 
-    // MARK: - Regional Alerts
-
-    fileprivate let regionalAlertsManager: RegionalAlertsManager
-
-    fileprivate var regionalAlerts: [OBARegionalAlert] {
+    // MARK: - Service Alerts
+    fileprivate var agencyAlerts: [AgencyAlert] = [] {
         didSet {
             adapter.performUpdates(animated: true)
         }
@@ -61,7 +58,7 @@ class MapTableViewController: UIViewController {
     // MARK: - Weather
     var weatherForecast: WeatherForecast? {
         didSet {
-            self.adapter.performUpdates(animated: true, completion: nil)
+            self.adapter.performUpdates(animated: true)
         }
     }
 
@@ -117,8 +114,6 @@ class MapTableViewController: UIViewController {
         mapRegionManager = application.mapRegionManager
         modelDAO = application.modelDao
         modelService = application.modelService
-        regionalAlertsManager = application.regionalAlertsManager
-        regionalAlerts = Array(regionalAlertsManager.regionalAlerts.prefix(3))
 
         self.mapController = OBAMapViewController.init(mapDataLoader: application.mapDataLoader, mapRegionManager: application.mapRegionManager)
         self.mapController.standaloneMode = false
@@ -174,25 +169,11 @@ extension MapTableViewController {
         configureSearchUI()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        registerRegionalAlertNotifications()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        unregisterRegionalAlertNotifications()
-    }
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         refreshCurrentLocation()
         loadForecast()
-
-        // abxoxo - DELETE ME!
-        _ = modelService.requestRegionalAlerts()
+        loadAlerts()
     }
 }
 
@@ -226,6 +207,17 @@ extension MapTableViewController: UIScrollViewDelegate {
     }
 }
 
+// MARK: - Regional Alerts
+extension MapTableViewController {
+    fileprivate func loadAlerts() {
+        modelService.requestRegionalAlerts().then { (alerts: [AgencyAlert]) -> Void in
+            self.agencyAlerts = alerts
+        }.catch { err in
+            DDLogError("Unable to retrieve agency alerts: \(err)")
+        }
+    }
+}
+
 // MARK: - Weather
 extension MapTableViewController {
     fileprivate func loadForecast() {
@@ -238,23 +230,8 @@ extension MapTableViewController {
             let forecast = networkResponse.object as! WeatherForecast
             self.weatherForecast = forecast
         }.catch { error in
-            DDLogError("Unable to retrieve regional alerts: \(error)")
+            DDLogError("Unable to retrieve forecast: \(error)")
         }
-    }
-}
-
-// MARK: - Alerts
-extension MapTableViewController {
-    fileprivate func registerRegionalAlertNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(regionalAlertsUpdated(_:)), name: RegionalAlertsManager.regionalAlertsUpdatedNotification, object: nil)
-    }
-
-    fileprivate func unregisterRegionalAlertNotifications() {
-        NotificationCenter.default.removeObserver(self, name: RegionalAlertsManager.regionalAlertsUpdatedNotification, object: nil)
-    }
-
-    @objc func regionalAlertsUpdated(_ note: Notification) {
-        regionalAlerts = Array(regionalAlertsManager.regionalAlerts.filter { $0.publishedAt != nil }.prefix(3))
     }
 }
 
@@ -272,13 +249,11 @@ extension MapTableViewController: ListAdapterDataSource {
             sections.append(forecast)
         }
 
-        // abxoxo: todo add horizontal scrolling and support more than one alert!
-        let r = regionalAlerts
-
-        if r.count > 0 {
-            let first = r[0]
-            let regionalAlertViewModel = RegionalAlert(alertIdentifier: "\(first.identifier)", title: first.title, summary: first.summary, url: first.url)
-            sections.append(regionalAlertViewModel)
+        // abxoxo: todo add horizontal scrolling!
+        if agencyAlerts.count > 0 {
+            let first = agencyAlerts[0]
+            let viewModel = RegionalAlert.init(alertIdentifier: first.id, title: first.title(language: "en"), summary: first.body(language: "en"), url: first.url(language: "en"))
+            sections.append(viewModel)
         }
 
         // Recent Stops
