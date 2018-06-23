@@ -20,7 +20,7 @@
         view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     }
 
-    view.canShowCallout = YES;
+    view.canShowCallout = NO;
     view.rightCalloutAccessoryView = ({
         UIButton *rightCalloutButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         [rightCalloutButton setImage:[UIImage imageNamed:@"disclosure_arrow"] forState:UIControlStateNormal];

@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) BOOL bookmarkExists;
 @property(nonatomic,assign) BOOL alarmExists;
 @property(nonatomic,assign) BOOL hasArrived;
+@property(nonatomic,assign) BOOL displayContextButton;
 
 + (NSAttributedString*)buildAttributedRoute:(NSString*)route destination:(nullable NSString*)destination;
 @end

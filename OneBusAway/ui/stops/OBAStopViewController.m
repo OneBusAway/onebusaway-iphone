@@ -30,6 +30,7 @@
 #import "UIViewController+OBAAdditions.h"
 #import "EXTScope.h"
 #import "ISHHoverBar.h"
+#import "OBANavigationTitleView.h"
 
 @import Masonry;
 
@@ -53,6 +54,7 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 @property(nonatomic,strong) OBAStopTableHeaderView *stopHeaderView;
 @property(nonatomic,strong) OBAArrivalDepartureOptionsSheet *departureSheetHelper;
 @property(nonatomic,strong) ISHHoverBar *hoverBar;
+@property(nonatomic,assign,readonly) BOOL regularUIMode;
 @end
 
 @implementation OBAStopViewController
@@ -84,16 +86,19 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationItem.title = NSLocalizedString(@"stop_view_controller.stop_back_title", @"Back button title representing going back to the stop controller.");
+    if (self.regularUIMode) {
+        self.navigationItem.title = NSLocalizedString(@"stop_view_controller.stop_back_title", @"Back button title representing going back to the stop controller.");
+        [self createTableHeaderView];
+        self.refreshControl = [[UIRefreshControl alloc] init];
+        [self.refreshControl addTarget:self action:@selector(reloadData:) forControlEvents:UIControlEventValueChanged];
+        [self.tableView addSubview:self.refreshControl];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData:)];
 
-    [self createTableHeaderView];
-
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData:)];
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(reloadData:) forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:self.refreshControl];
-
-    [self createHoverBar];
+        [self createHoverBar];
+    }
+    else {
+        [self buildBottomEmbedUI];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -183,6 +188,10 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     return _departureSheetHelper;
 }
 
+- (BOOL)regularUIMode {
+    return !self.inEmbedMode;
+}
+
 #pragma mark - Data Loading
 
 - (void)reloadData:(id)sender {
@@ -200,19 +209,32 @@ static NSUInteger const kDefaultMinutesAfter = 35;
         [self.refreshControl beginRefreshing];
     }
 
-    self.navigationItem.title = NSLocalizedString(@"stops_controller.title.updating", @"Title of the Stop UI Controller while it is updating its content.");
+    if (self.regularUIMode) {
+        self.navigationItem.title = NSLocalizedString(@"stops_controller.title.updating", @"Title of the Stop UI Controller while it is updating its content.");
+    }
 
     self.promiseWrapper = [self.modelService requestStopArrivalsAndDeparturesWithID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter];
 
     self.promiseWrapper.anyPromise.then(^(NetworkResponse *networkResponse) {
         OBAArrivalsAndDeparturesForStopV2 *response = networkResponse.object;
-        self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"msg_updated", @"message"), [OBADateHelpers formatShortTimeNoDate:[NSDate date]]];
+        if (self.regularUIMode) {
+            self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"msg_updated", @"message"), [OBADateHelpers formatShortTimeNoDate:[NSDate date]]];
+        }
         [self.modelDAO viewedArrivalsAndDeparturesForStop:response.stop];
 
         self.arrivalsAndDepartures = response;
 
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
-        [self.stopHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
+
+        if (self.regularUIMode) {
+            [self.stopHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
+        }
+        else {
+            OBAStopV2 *stop = self.arrivalsAndDepartures.stop;
+            NSString *title = stop.nameWithDirection;
+            NSString *subtitle = stop.routeNamesAsString;
+            self.navigationItem.titleView = [[OBANavigationTitleView alloc] initWithTitle:title subtitle:subtitle];
+        }
     }).catch(^(NSError *error) {
         [AlertPresenter showError:error presentingController:self];
         DDLogError(@"An error occurred while displaying a stop: %@", error);
@@ -262,8 +284,15 @@ static NSUInteger const kDefaultMinutesAfter = 35;
         }
     }
 
-    // "Load More Departures..."
-    OBATableSection *loadMoreSection = [self createLoadMoreDeparturesSection];
+    OBATableSection *loadMoreSection = nil;
+
+    if (self.regularUIMode) {
+        // "Load More Departures..."
+        loadMoreSection = [self createLoadMoreDeparturesSection];
+    }
+    else {
+        loadMoreSection = [[OBATableSection alloc] initWithTitle:nil];
+    }
 
     NSString *timeframeText = [self timeframeStringForMinutesBeforeToAfter];
 
@@ -471,10 +500,11 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 - (OBADepartureRow*)buildDepartureRowForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
     OBAArrivalAndDepartureSectionBuilder *builder = [[OBAArrivalAndDepartureSectionBuilder alloc] initWithModelDAO:self.modelDAO];
     OBADepartureRow *row = [builder createDepartureRowForStop:dep];
+    row.displayContextButton = self.regularUIMode;
 
-    [row setAction:^(OBABaseRow *blockRow){
+    [row setAction:^(OBABaseRow *blockRow) {
         OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
-        [self.navigationController pushViewController:vc animated:YES];
+        [self pushViewController:vc animated:YES];
     }];
 
     @weakify(row);
@@ -561,7 +591,7 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     UIAlertAction *nearbyStops = [UIAlertAction actionWithTitle:NSLocalizedString(@"msg_nearby_stops", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NearbyStopsViewController *nearby = [[NearbyStopsViewController alloc] initWithStop:stop];
         nearby.pushesResultsOntoStack = YES;
-        [self.navigationController pushViewController:nearby animated:YES];
+        [self pushViewController:nearby animated:YES];
     }];
     [actionSheet addAction:nearbyStops];
 
@@ -638,6 +668,56 @@ static NSUInteger const kDefaultMinutesAfter = 35;
         make.bottom.equalTo(self.mas_bottomLayoutGuideTop).offset(-OBATheme.defaultMargin);
         make.trailing.equalTo(self).offset(-OBATheme.defaultMargin);
     }];
+}
+
+#pragma mark - Embed UI
+
+- (void)pushViewController:(UIViewController*)viewController animated:(BOOL)animated {
+    if (self.inEmbedMode) {
+        [self.embedDelegate embeddedStopController:self pushViewController:viewController animated:animated];
+    }
+    else {
+        [self.navigationController pushViewController:viewController animated:YES];
+    }
+}
+
+- (void)buildBottomEmbedUI {
+    UIView *fixedBottomBar = [[UIView alloc] init];
+    fixedBottomBar.backgroundColor = [OBATheme colorWithRed:250 green:250 blue:250 alpha:1.f];
+
+    UIView *topLine = [[UIView alloc] initWithFrame:CGRectZero];
+    topLine.backgroundColor = UIColor.lightGrayColor;
+    [topLine setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    [topLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@(0.5f));
+    }];
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    [button addTarget:self action:@selector(embedDelegateShowStop:) forControlEvents:UIControlEventTouchUpInside];
+    [button setImage:[UIImage imageNamed:@"disclosure_arrow"] forState:UIControlStateNormal];
+    [button setTitle:NSLocalizedString(@"stop.view_stop_button_title", @"View Stop button in embed mode") forState:UIControlStateNormal];
+    button.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+    button.titleLabel.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+    button.imageView.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+    button.imageEdgeInsets = UIEdgeInsetsMake(10, -30, 10, 0);
+
+    UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[topLine, button]];
+    stack.axis = UILayoutConstraintAxisVertical;
+    [fixedBottomBar addSubview:stack];
+    [stack mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(fixedBottomBar);
+    }];
+    [self.view addSubview:fixedBottomBar];
+    [fixedBottomBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.trailing.and.bottom.equalTo(self.view);
+        make.height.greaterThanOrEqualTo(@44.5);
+    }];
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
+    self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
+}
+
+- (void)embedDelegateShowStop:(UIButton*)button {
+    [self.embedDelegate embeddedStopController:self showStop:self.stopID];
 }
 
 
