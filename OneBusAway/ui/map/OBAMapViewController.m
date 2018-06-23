@@ -35,7 +35,7 @@
 static const NSUInteger kShowNClosestStops = 4;
 static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
-@interface OBAMapViewController ()<MKMapViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, MapSearchDelegate, OBANavigator, OBAMapRegionDelegate>
+@interface OBAMapViewController ()<MKMapViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, MapSearchDelegate, OBANavigator, OBAMapRegionDelegate, OBAEmbeddedStopDelegate>
 
 // Map UI
 @property(nonatomic,strong) MKMapView *mapView;
@@ -452,6 +452,21 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     return nil;
 }
 
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+    [mapView deselectAnnotation:view.annotation animated:YES];
+
+    OBAStopV2 *stop = (OBAStopV2 *)view.annotation;
+    if (![stop isKindOfClass:OBAStopV2.class]) {
+        return;
+    }
+
+    OBAStopViewController *stopController = [[OBAStopViewController alloc] initWithStopID:stop.stopId];
+    stopController.embedDelegate = self;
+    stopController.inEmbedMode = YES;
+
+    [self oba_presentPopoverViewController:stopController fromView:view popoverSize:CGSizeMake(CGFLOAT_MAX, 225) hideNavigationBar:NO];
+}
+
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
     id annotation = view.annotation;
 
@@ -476,6 +491,20 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     else {
         return [[MKOverlayRenderer alloc] init];
     }
+}
+
+#pragma mark OBAEmbeddedStopDelegate
+
+- (void)embeddedStopController:(OBAStopViewController*)stopController showStop:(NSString*)stopID {
+    [stopController.presentingViewController dismissViewControllerAnimated:NO completion:^{
+        [self displayStopControllerForStopID:stopID];
+    }];
+}
+
+- (void)embeddedStopController:(OBAStopViewController*)stopController pushViewController:(UIViewController*)viewController animated:(BOOL)animated {
+    [stopController.presentingViewController dismissViewControllerAnimated:NO completion:^{
+        [self.navigationController pushViewController:viewController animated:YES];
+    }];
 }
 
 #pragma mark - Actions

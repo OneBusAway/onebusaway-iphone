@@ -31,6 +31,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)oba_presentPopoverViewController:(UIViewController*)viewController fromView:(UIView*)view;
 
 /**
+ Present a popover controller from the specified view on an iPhone or iPad with an explicit popover size.
+
+ @param viewController The view controller that will be presented as a popover.
+ @param view The view from which the popover will be presented.
+ @param popoverSize The preferred content size of the popover.
+ @param hideNavigationBar Show or hide the navigation bar.
+ */
+- (void)oba_presentPopoverViewController:(UIViewController*)viewController fromView:(UIView*)view popoverSize:(CGSize)popoverSize hideNavigationBar:(BOOL)hideNavigationBar;
+
+/**
  True if either the horizontal or vertical size class for this view controller is compact,
  and false otherwise.
  */

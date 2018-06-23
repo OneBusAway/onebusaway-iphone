@@ -10,6 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class OBAStopViewController;
+@protocol OBAEmbeddedStopDelegate<NSObject>
+- (void)embeddedStopController:(OBAStopViewController*)stopController showStop:(NSString*)stopID;
+- (void)embeddedStopController:(OBAStopViewController*)stopController pushViewController:(UIViewController*)viewController animated:(BOOL)animated;
+@end
+
 @interface OBAStopViewController : OBAStaticTableViewController
 INIT_CODER_UNAVAILABLE;
 INIT_NIB_UNAVAILABLE;
@@ -20,6 +26,9 @@ INIT_NIB_UNAVAILABLE;
 @property(nonatomic,copy,readonly) NSString *stopID;
 @property(nonatomic,assign) NSUInteger minutesBefore;
 @property(nonatomic,assign) NSUInteger minutesAfter;
+
+@property(nonatomic,assign) BOOL inEmbedMode;
+@property(nonatomic,weak) id<OBAEmbeddedStopDelegate> embedDelegate;
 
 - (instancetype)initWithStopID:(NSString*)stopID NS_DESIGNATED_INITIALIZER;
 
