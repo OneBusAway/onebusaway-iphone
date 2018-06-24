@@ -263,8 +263,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     request.region = MKCoordinateRegionMakeWithDistance(coord, 10000, 10000); // todo: reconsider this size of region.
     MKLocalSearch *search = [[MKLocalSearch alloc] initWithRequest:request];
 
-    // abxoxo
-
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         [search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
             if (error) {

@@ -126,6 +126,46 @@ import Mantle
     }
 }
 
+// MARK: - Weather
+@objc extension PromisedModelService {
+
+    /// Request the forecasted weather for the user's region and/or location.
+    ///
+    /// - Parameters:
+    ///   - region: The user's current region
+    ///   - location: An optional location used to determine more accurate weather data.
+    /// - Returns: A promise wrapper that resolves to a WeatherForecast object.
+    @objc public func requestWeather(in region: OBARegionV2, location: CLLocation?) -> PromiseWrapper {
+        let request = buildURLRequestForWeather(in: region, location: location)
+        let wrapper = PromiseWrapper.init(request: request)
+
+        wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
+            let forecast = try self.decodeWeather(json: networkResponse.object as! [AnyHashable : Any])
+            return NetworkResponse.init(object: forecast, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
+        }
+
+        return wrapper
+    }
+
+    @nonobjc private func decodeWeather(json: [AnyHashable: Any]) throws -> WeatherForecast {
+        let model = try MTLJSONAdapter.model(of: WeatherForecast.self, fromJSONDictionary: json)
+
+        return model as! WeatherForecast
+    }
+
+    @nonobjc private func buildURLRequestForWeather(in region: OBARegionV2, location: CLLocation?) -> OBAURLRequest {
+        let path = "/regions/\(region.identifier)/weather"
+
+        var params: [AnyHashable: Any] = [:]
+        if let location = location {
+            params["lat"] = location.coordinate.latitude
+            params["lng"] = location.coordinate.longitude
+        }
+
+        return self.obacoJsonDataSource.buildGETRequest(withPath: path, queryParameters: params)
+    }
+}
+
 // MARK: - Alarms
 @objc extension PromisedModelService {
     /// Creates an alarm object on the server

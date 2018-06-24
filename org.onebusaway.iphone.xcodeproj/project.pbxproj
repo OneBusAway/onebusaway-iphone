@@ -190,6 +190,8 @@
 		93BC49ED1FB8D628008B710D /* GoogleAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49EB1FB8D628008B710D /* GoogleAnalytics.framework */; };
 		93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936A1D8A3A4D0080F370 /* UIKit.framework */; };
 		93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936C1D8A3A530080F370 /* Foundation.framework */; };
+		93EBB9BC20B283F900B31DA8 /* OBAWeatherForecast_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EBB9BB20B283F900B31DA8 /* OBAWeatherForecast_Tests.m */; };
+		93EBB9C120B28F2B00B31DA8 /* weather.json in Resources */ = {isa = PBXBuildFile; fileRef = 93EBB9BF20B28A3800B31DA8 /* weather.json */; };
 		93EFFFB020B938F100B84DF4 /* RecentStopWithStopIDs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93EFFFAE20B938F000B84DF4 /* RecentStopWithStopIDs.plist */; };
 		93EFFFB220B93CD100B84DF4 /* RecentStopWithStopID.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93EFFFB120B93CD100B84DF4 /* RecentStopWithStopID.plist */; };
 		93F3F88E1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */; };
@@ -541,6 +543,8 @@
 		93C3936A1D8A3A4D0080F370 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		93C3936C1D8A3A530080F370 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		93E4A7611CE65B2100E769B0 /* atlanta.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = atlanta.gpx; sourceTree = "<group>"; };
+		93EBB9BB20B283F900B31DA8 /* OBAWeatherForecast_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAWeatherForecast_Tests.m; sourceTree = "<group>"; };
+		93EBB9BF20B28A3800B31DA8 /* weather.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weather.json; sourceTree = "<group>"; };
 		93EFFFAE20B938F000B84DF4 /* RecentStopWithStopIDs.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = RecentStopWithStopIDs.plist; sourceTree = "<group>"; };
 		93EFFFB120B93CD100B84DF4 /* RecentStopWithStopID.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = RecentStopWithStopID.plist; sourceTree = "<group>"; };
 		93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionalAlertsViewController.swift; sourceTree = "<group>"; };
@@ -1263,6 +1267,7 @@
 				9341987D1DB0C219004BBBB7 /* OBAVehicleStatusV2_Tests.m */,
 				93F3F89E1E7BAC510025FC78 /* OBARegionalAlert_Tests.m */,
 				9373E70E1EA4084C0019C7CB /* OBATripDeepLink_Tests.swift */,
+				93EBB9BB20B283F900B31DA8 /* OBAWeatherForecast_Tests.m */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -1408,6 +1413,7 @@
 				93EFFFB120B93CD100B84DF4 /* RecentStopWithStopID.plist */,
 				93EFFFAE20B938F000B84DF4 /* RecentStopWithStopIDs.plist */,
 				930EFFD220C6088300A2AE1F /* alert_feed_items.json */,
+				93EBB9BF20B28A3800B31DA8 /* weather.json */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1621,6 +1627,7 @@
 				93EFFFB220B93CD100B84DF4 /* RecentStopWithStopID.plist in Resources */,
 				9341988A1DB0C219004BBBB7 /* regions-v3.json in Resources */,
 				934198881DB0C219004BBBB7 /* bookmark_without_region_identifier.plist in Resources */,
+				93EBB9C120B28F2B00B31DA8 /* weather.json in Resources */,
 				934198891DB0C219004BBBB7 /* testMessageBodyForModelDAO.html in Resources */,
 				93EFFFB020B938F100B84DF4 /* RecentStopWithStopIDs.plist in Resources */,
 				934198861DB0C219004BBBB7 /* bookmark_with_region_identifier.plist in Resources */,
@@ -1847,6 +1854,7 @@
 				934198AD1DB0C219004BBBB7 /* OBAStopsForRouteV2_Tests.m in Sources */,
 				934198921DB0C219004BBBB7 /* OBAArrivalAndDepartureInstanceRef_Tests.m in Sources */,
 				934198A91DB0C219004BBBB7 /* OBASituationConsequenceV2_Tests.m in Sources */,
+				93EBB9BC20B283F900B31DA8 /* OBAWeatherForecast_Tests.m in Sources */,
 				934198A11DB0C219004BBBB7 /* OBARegionBoundsV2_Tests.m in Sources */,
 				934198971DB0C219004BBBB7 /* OBACoordinateBounds_Tests.m in Sources */,
 				934198B01DB0C219004BBBB7 /* OBATripInstanceRef_Tests.m in Sources */,
