@@ -7,6 +7,7 @@
 //
 
 #import <OBAKit/OBARegionalAlert.h>
+#import <OBAKit/OBAMacros.h>
 
 @implementation OBARegionalAlert
 
@@ -59,7 +60,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
     });
 
     return [MTLValueTransformer transformerUsingForwardBlock:^id(NSString *dateString, BOOL *success, NSError *__autoreleasing *error) {

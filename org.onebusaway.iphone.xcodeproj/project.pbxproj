@@ -18,6 +18,7 @@
 		930AFE991DD11EF90092AE82 /* OBAWalkableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE981DD11EF90092AE82 /* OBAWalkableCell.m */; };
 		930CE4DB1E9BFB590073F04D /* UserDefaultsBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930CE4DA1E9BFB590073F04D /* UserDefaultsBrowserViewController.swift */; };
 		930E41A21E5ECAA60040CEB5 /* MapSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930E41A11E5ECAA60040CEB5 /* MapSearchViewController.swift */; };
+		930EFFD320C6088300A2AE1F /* alert_feed_items.json in Resources */ = {isa = PBXBuildFile; fileRef = 930EFFD220C6088300A2AE1F /* alert_feed_items.json */; };
 		931A6A291E03EAA100131242 /* OBATimelineBarRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A281E03EAA100131242 /* OBATimelineBarRow.m */; };
 		931A6A2D1E03EAAE00131242 /* OBATimelineBarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A2C1E03EAAE00131242 /* OBATimelineBarCell.m */; };
 		931AEE21204B70060054E448 /* TodayRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931AEE20204B70060054E448 /* TodayRefreshView.swift */; };
@@ -287,6 +288,7 @@
 		930AFE981DD11EF90092AE82 /* OBAWalkableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAWalkableCell.m; sourceTree = "<group>"; };
 		930CE4DA1E9BFB590073F04D /* UserDefaultsBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsBrowserViewController.swift; sourceTree = "<group>"; };
 		930E41A11E5ECAA60040CEB5 /* MapSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSearchViewController.swift; sourceTree = "<group>"; };
+		930EFFD220C6088300A2AE1F /* alert_feed_items.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = alert_feed_items.json; sourceTree = "<group>"; };
 		931A6A271E03EAA100131242 /* OBATimelineBarRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATimelineBarRow.h; sourceTree = "<group>"; };
 		931A6A281E03EAA100131242 /* OBATimelineBarRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATimelineBarRow.m; sourceTree = "<group>"; };
 		931A6A2B1E03EAAE00131242 /* OBATimelineBarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATimelineBarCell.h; sourceTree = "<group>"; };
@@ -1405,6 +1407,7 @@
 			children = (
 				93EFFFB120B93CD100B84DF4 /* RecentStopWithStopID.plist */,
 				93EFFFAE20B938F000B84DF4 /* RecentStopWithStopIDs.plist */,
+				930EFFD220C6088300A2AE1F /* alert_feed_items.json */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1621,6 +1624,7 @@
 				934198891DB0C219004BBBB7 /* testMessageBodyForModelDAO.html in Resources */,
 				93EFFFB020B938F100B84DF4 /* RecentStopWithStopIDs.plist in Resources */,
 				934198861DB0C219004BBBB7 /* bookmark_with_region_identifier.plist in Resources */,
+				930EFFD320C6088300A2AE1F /* alert_feed_items.json in Resources */,
 				934198871DB0C219004BBBB7 /* bookmark_with_stopids_array.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

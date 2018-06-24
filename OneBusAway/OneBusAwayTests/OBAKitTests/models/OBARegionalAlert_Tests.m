@@ -23,22 +23,19 @@
     [OBATestHelpers configureDefaultTimeZone];
 }
 
-- (void)testDeserialization {
-    NSString *sample = @"{\"id\":1330,\"alert_feed_id\":2,\"title\":\"Sounder Everett-Seattle - Delay - Train #1702 (4:33 pm Seattle departure) is delayed approximately 10 minutes\",\"url\":\"http://m.soundtransit.org/node/15271\",\"summary\":\"North Line Train #1702 (4:33 pm Seattle departure) is delayed approximately 10 minutes en route to Everett due to BNSF freight interference.\",\"published_at\":\"2017-03-16T23:49:00.000Z\",\"external_id\":\"15271\",\"created_at\":\"2017-03-16T23:52:25.947Z\",\"updated_at\":\"2017-03-16T23:52:25.947Z\"}";
-    NSDictionary *dict = [OBATestHelpers jsonObjectFromString:sample];
+- (void)testUpdatedTestDeserialization {
+    id json = [OBATestHelpers jsonObjectFromFile:@"alert_feed_items.json"];
+
     NSError *error = nil;
-    OBARegionalAlert *alert = [MTLJSONAdapter modelOfClass:OBARegionalAlert.class fromJSONDictionary:dict error:&error];
+    NSArray *models = [MTLJSONAdapter modelsOfClass:OBARegionalAlert.class fromJSONArray:json error:&error];
 
     XCTAssertNil(error);
+    XCTAssertEqual(models.count, 20);
 
-    XCTAssertEqual(alert.identifier, 1330);
-    XCTAssertEqualObjects(alert.title, @"Sounder Everett-Seattle - Delay - Train #1702 (4:33 pm Seattle departure) is delayed approximately 10 minutes");
-    XCTAssertEqualObjects(alert.summary, @"North Line Train #1702 (4:33 pm Seattle departure) is delayed approximately 10 minutes en route to Everett due to BNSF freight interference.");
-    XCTAssertEqualObjects(alert.URL, [NSURL URLWithString:@"http://m.soundtransit.org/node/15271"]);
-    XCTAssertEqual(alert.alertFeedID, 2);
-    XCTAssertEqualObjects(alert.summary, @"North Line Train #1702 (4:33 pm Seattle departure) is delayed approximately 10 minutes en route to Everett due to BNSF freight interference.");
-    XCTAssertEqualObjects(alert.publishedAt, [NSDate dateWithTimeIntervalSince1970:(1489708140+25200)]);
-    XCTAssertEqualObjects(alert.externalID, @"15271");
+    OBARegionalAlert *alert = models[0];
+
+    XCTAssertEqualObjects(alert.title, @"Link light rail - Elevator outage - Northbound Platform at Mt Baker Station ");
+    XCTAssertNotNil(alert.publishedAt);
 }
 
 @end
