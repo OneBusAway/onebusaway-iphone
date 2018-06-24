@@ -174,20 +174,22 @@ extension NearbyStopsViewController {
         return sections
     }
 
+    // TODO: DRY me up with identical function in MapTableViewController
+    func sort(stops: [OBAStopV2], byDistanceTo coordinate: CLLocationCoordinate2D?) -> [OBAStopV2] {
+        guard let coordinate = coordinate else {
+            return stops
+        }
+
+        return stops.sorted { (s1, s2) -> Bool in
+            let distance1 = OBAMapHelpers.getDistanceFrom(s1.coordinate, to: coordinate)
+            let distance2 = OBAMapHelpers.getDistanceFrom(s2.coordinate, to: coordinate)
+            return distance1 < distance2
+        }
+    }
+
     func stopSectionFrom(title: String?, stops: [OBAStopV2]) -> OBATableSection {
         let section = OBATableSection.init(title: title)
-        var rows: [OBAStopV2]
-
-        if let coordinate = self.currentCoordinate {
-            rows = stops.sorted(by: { (s1, s2) -> Bool in
-                let distance1 = OBAMapHelpers.getDistanceFrom(s1.coordinate, to: coordinate)
-                let distance2 = OBAMapHelpers.getDistanceFrom(s2.coordinate, to: coordinate)
-                return distance1 < distance2
-            })
-        }
-        else {
-            rows = stops
-        }
+        let rows = sort(stops: stops, byDistanceTo: currentCoordinate)
 
         section.rows = rows.map { stop in
             let row = OBATableRow.init(title: stop.name) { _ in
@@ -256,7 +258,7 @@ extension NearbyStopsViewController {
             guard let stopID = target.searchArgument as? String else {
                 return
             }
-            let stopController = OBAStopViewController.init(stopID: stopID)
+            let stopController = StopViewController.init(stopID: stopID)
             self.navigationController?.pushViewController(stopController, animated: true)
         }
         else {

@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)embeddedStopController:(OBAStopViewController*)stopController pushViewController:(UIViewController*)viewController animated:(BOOL)animated;
 @end
 
+NS_SWIFT_NAME(StopViewController)
 @interface OBAStopViewController : OBAStaticTableViewController
 INIT_CODER_UNAVAILABLE;
 INIT_NIB_UNAVAILABLE;
