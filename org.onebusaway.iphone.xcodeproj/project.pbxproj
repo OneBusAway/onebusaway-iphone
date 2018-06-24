@@ -19,7 +19,6 @@
 		930CE4DB1E9BFB590073F04D /* UserDefaultsBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930CE4DA1E9BFB590073F04D /* UserDefaultsBrowserViewController.swift */; };
 		930E41A21E5ECAA60040CEB5 /* MapSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930E41A11E5ECAA60040CEB5 /* MapSearchViewController.swift */; };
 		930EFFCF20C5CC0200A2AE1F /* RegionalAlertSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930EFFCE20C5CC0200A2AE1F /* RegionalAlertSection.swift */; };
-		930EFFD320C6088300A2AE1F /* alert_feed_items.json in Resources */ = {isa = PBXBuildFile; fileRef = 930EFFD220C6088300A2AE1F /* alert_feed_items.json */; };
 		931A6A291E03EAA100131242 /* OBATimelineBarRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A281E03EAA100131242 /* OBATimelineBarRow.m */; };
 		931A6A2D1E03EAAE00131242 /* OBATimelineBarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A2C1E03EAAE00131242 /* OBATimelineBarCell.m */; };
 		931AEE21204B70060054E448 /* TodayRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931AEE20204B70060054E448 /* TodayRefreshView.swift */; };
@@ -27,6 +26,11 @@
 		931C60CE1EC3969B0086EC37 /* OBACrashlyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 931C60CD1EC3969B0086EC37 /* OBACrashlyticsLogger.m */; };
 		9327DEF91E023BD400502F06 /* OBAArrivalDepartureRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9327DEF81E023BD400502F06 /* OBAArrivalDepartureRow.m */; };
 		9327DEFC1E023BE400502F06 /* OBAArrivalDepartureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9327DEFB1E023BE400502F06 /* OBAArrivalDepartureCell.m */; };
+		93302B4020CB181C003699C6 /* alert_feed_items.json in Resources */ = {isa = PBXBuildFile; fileRef = 93302B3F20CB181C003699C6 /* alert_feed_items.json */; };
+		93302B4320CB183C003699C6 /* weather.json in Resources */ = {isa = PBXBuildFile; fileRef = 93302B4220CB183C003699C6 /* weather.json */; };
+		93302B4720CB185F003699C6 /* RecentStopWithStopIDs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93302B4520CB185F003699C6 /* RecentStopWithStopIDs.plist */; };
+		93302B4820CB185F003699C6 /* RecentStopWithStopID.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93302B4620CB185F003699C6 /* RecentStopWithStopID.plist */; };
+		93302B4A20CB189D003699C6 /* IGListKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93302B4920CB189C003699C6 /* IGListKit.framework */; };
 		9331E41C1E56F68C001E27C2 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9331E4161E56F686001E27C2 /* Nimble.framework */; };
 		9331E41D1E56F68C001E27C2 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9331E4171E56F686001E27C2 /* OHHTTPStubs.framework */; };
 		9331E41E1E56F68C001E27C2 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9331E4181E56F686001E27C2 /* Quick.framework */; };
@@ -169,7 +173,6 @@
 		9385EC401DCF1D910020CCB2 /* ServiceAlertDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9385EC3F1DCF1D910020CCB2 /* ServiceAlertDetailsViewController.swift */; };
 		93876DFB1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 93876DFA1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m */; };
 		93A1C68A20B3F63F00E176DE /* ForecastSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A1C68920B3F63F00E176DE /* ForecastSectionController.swift */; };
-		93A637A520A203CB0005248C /* IGListKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A637A320A203CA0005248C /* IGListKit.framework */; };
 		93A637DB20A2CCE30005248C /* HorizontalSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A637D820A2CCE20005248C /* HorizontalSectionController.swift */; };
 		93A637DC20A2CCE30005248C /* DisplaySectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A637D920A2CCE20005248C /* DisplaySectionController.swift */; };
 		93A637DF20A2CD8D0005248C /* EmbeddedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A637DE20A2CD8C0005248C /* EmbeddedCollectionViewCell.swift */; };
@@ -205,9 +208,6 @@
 		93C48E492096EF0F001FB95C /* MapTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C48E482096EF0F001FB95C /* MapTableViewController.swift */; };
 		93D5480520B778F700334939 /* SectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D5480420B778F700334939 /* SectionHeaderCell.swift */; };
 		93EBB9BC20B283F900B31DA8 /* OBAWeatherForecast_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EBB9BB20B283F900B31DA8 /* OBAWeatherForecast_Tests.m */; };
-		93EBB9C120B28F2B00B31DA8 /* weather.json in Resources */ = {isa = PBXBuildFile; fileRef = 93EBB9BF20B28A3800B31DA8 /* weather.json */; };
-		93EFFFB020B938F100B84DF4 /* RecentStopWithStopIDs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93EFFFAE20B938F000B84DF4 /* RecentStopWithStopIDs.plist */; };
-		93EFFFB220B93CD100B84DF4 /* RecentStopWithStopID.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93EFFFB120B93CD100B84DF4 /* RecentStopWithStopID.plist */; };
 		93F1C26020BCD34B00B5032B /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1C25F20BCD34B00B5032B /* LoadingCell.swift */; };
 		93F1C26320BCDCCF00B5032B /* OfflineSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1C26220BCDCCF00B5032B /* OfflineSection.swift */; };
 		93F3F88E1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */; };
@@ -307,7 +307,6 @@
 		930CE4DA1E9BFB590073F04D /* UserDefaultsBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsBrowserViewController.swift; sourceTree = "<group>"; };
 		930E41A11E5ECAA60040CEB5 /* MapSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSearchViewController.swift; sourceTree = "<group>"; };
 		930EFFCE20C5CC0200A2AE1F /* RegionalAlertSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalAlertSection.swift; sourceTree = "<group>"; };
-		930EFFD220C6088300A2AE1F /* alert_feed_items.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = alert_feed_items.json; sourceTree = "<group>"; };
 		931A6A271E03EAA100131242 /* OBATimelineBarRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATimelineBarRow.h; sourceTree = "<group>"; };
 		931A6A281E03EAA100131242 /* OBATimelineBarRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATimelineBarRow.m; sourceTree = "<group>"; };
 		931A6A2B1E03EAAE00131242 /* OBATimelineBarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATimelineBarCell.h; sourceTree = "<group>"; };
@@ -319,6 +318,11 @@
 		9327DEF81E023BD400502F06 /* OBAArrivalDepartureRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalDepartureRow.m; sourceTree = "<group>"; };
 		9327DEFA1E023BE400502F06 /* OBAArrivalDepartureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalDepartureCell.h; sourceTree = "<group>"; };
 		9327DEFB1E023BE400502F06 /* OBAArrivalDepartureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalDepartureCell.m; sourceTree = "<group>"; };
+		93302B3F20CB181C003699C6 /* alert_feed_items.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = alert_feed_items.json; sourceTree = "<group>"; };
+		93302B4220CB183C003699C6 /* weather.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weather.json; sourceTree = "<group>"; };
+		93302B4520CB185F003699C6 /* RecentStopWithStopIDs.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = RecentStopWithStopIDs.plist; sourceTree = "<group>"; };
+		93302B4620CB185F003699C6 /* RecentStopWithStopID.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = RecentStopWithStopID.plist; sourceTree = "<group>"; };
+		93302B4920CB189C003699C6 /* IGListKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IGListKit.framework; path = Carthage/Build/iOS/IGListKit.framework; sourceTree = "<group>"; };
 		9331E4161E56F686001E27C2 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = SOURCE_ROOT; };
 		9331E4171E56F686001E27C2 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = SOURCE_ROOT; };
 		9331E4181E56F686001E27C2 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = SOURCE_ROOT; };
@@ -530,7 +534,6 @@
 		93876DFA1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapAnnotationViewBuilder.m; sourceTree = "<group>"; };
 		939CEB241C0E406500E1D2B7 /* rvtd.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = rvtd.gpx; sourceTree = "<group>"; };
 		93A1C68920B3F63F00E176DE /* ForecastSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastSectionController.swift; sourceTree = "<group>"; };
-		93A637A320A203CA0005248C /* IGListKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IGListKit.framework; path = Carthage/Build/iOS/IGListKit.framework; sourceTree = "<group>"; };
 		93A637D820A2CCE20005248C /* HorizontalSectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalSectionController.swift; sourceTree = "<group>"; };
 		93A637D920A2CCE20005248C /* DisplaySectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplaySectionController.swift; sourceTree = "<group>"; };
 		93A637DE20A2CD8C0005248C /* EmbeddedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -562,7 +565,6 @@
 		93BC49DA1FB8D5FB008B710D /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = Carthage/Build/iOS/CocoaLumberjackSwift.framework; sourceTree = "<group>"; };
 		93BC49DB1FB8D5FB008B710D /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
 		93BC49DF1FB8D606008B710D /* PMKMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKMapKit.framework; path = Carthage/Build/iOS/PMKMapKit.framework; sourceTree = "<group>"; };
-		93BC49E01FB8D606008B710D /* PMKCoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKCoreLocation.framework; path = Carthage/Build/iOS/PMKCoreLocation.framework; sourceTree = "<group>"; };
 		93BC49E41FB8D60F008B710D /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		93BC49E61FB8D61C008B710D /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
 		93BC49E71FB8D61D008B710D /* SwiftMessages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftMessages.framework; path = Carthage/Build/iOS/SwiftMessages.framework; sourceTree = "<group>"; };
@@ -574,9 +576,6 @@
 		93D5480420B778F700334939 /* SectionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderCell.swift; sourceTree = "<group>"; };
 		93E4A7611CE65B2100E769B0 /* atlanta.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = atlanta.gpx; sourceTree = "<group>"; };
 		93EBB9BB20B283F900B31DA8 /* OBAWeatherForecast_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAWeatherForecast_Tests.m; sourceTree = "<group>"; };
-		93EBB9BF20B28A3800B31DA8 /* weather.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weather.json; sourceTree = "<group>"; };
-		93EFFFAE20B938F000B84DF4 /* RecentStopWithStopIDs.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = RecentStopWithStopIDs.plist; sourceTree = "<group>"; };
-		93EFFFB120B93CD100B84DF4 /* RecentStopWithStopID.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = RecentStopWithStopID.plist; sourceTree = "<group>"; };
 		93F1C25F20BCD34B00B5032B /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		93F1C26220BCDCCF00B5032B /* OfflineSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineSection.swift; sourceTree = "<group>"; };
 		93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionalAlertsViewController.swift; sourceTree = "<group>"; };
@@ -614,6 +613,7 @@
 				93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */,
 				93414D76207361E7001D1892 /* Fabric.framework in Frameworks */,
 				93414D77207361E7001D1892 /* Crashlytics.framework in Frameworks */,
+				93302B4A20CB189D003699C6 /* IGListKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -673,7 +673,6 @@
 				934198441DB0C218004BBBB7 /* OneBusAwayTests */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */,
-				93D4CFEC20DF285A00789526 /* Recovered References */,
 			);
 			name = org.onebusaway.iphone;
 			sourceTree = "<group>";
@@ -690,12 +689,12 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93302B4920CB189C003699C6 /* IGListKit.framework */,
 				93BC49EB1FB8D628008B710D /* GoogleAnalytics.framework */,
 				93BC49EA1FB8D628008B710D /* SVProgressHUD.framework */,
 				93BC49E61FB8D61C008B710D /* Masonry.framework */,
 				93BC49E71FB8D61D008B710D /* SwiftMessages.framework */,
 				93BC49E41FB8D60F008B710D /* PromiseKit.framework */,
-				93BC49E01FB8D606008B710D /* PMKCoreLocation.framework */,
 				93BC49DF1FB8D606008B710D /* PMKMapKit.framework */,
 				93BC49DB1FB8D5FB008B710D /* CocoaLumberjack.framework */,
 				93BC49DA1FB8D5FB008B710D /* CocoaLumberjackSwift.framework */,
@@ -756,6 +755,31 @@
 				931A6A2C1E03EAAE00131242 /* OBATimelineBarCell.m */,
 			);
 			path = table_cells;
+			sourceTree = "<group>";
+		};
+		93302B3E20CB181C003699C6 /* Alerts */ = {
+			isa = PBXGroup;
+			children = (
+				93302B3F20CB181C003699C6 /* alert_feed_items.json */,
+			);
+			path = Alerts;
+			sourceTree = "<group>";
+		};
+		93302B4120CB183C003699C6 /* Weather */ = {
+			isa = PBXGroup;
+			children = (
+				93302B4220CB183C003699C6 /* weather.json */,
+			);
+			path = Weather;
+			sourceTree = "<group>";
+		};
+		93302B4420CB185F003699C6 /* RecentStops */ = {
+			isa = PBXGroup;
+			children = (
+				93302B4520CB185F003699C6 /* RecentStopWithStopIDs.plist */,
+				93302B4620CB185F003699C6 /* RecentStopWithStopID.plist */,
+			);
+			path = RecentStops;
 			sourceTree = "<group>";
 		};
 		9331E4141E56F662001E27C2 /* Frameworks */ = {
@@ -1187,9 +1211,9 @@
 		934198451DB0C218004BBBB7 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
-				930EFFD120C6083000A2AE1F /* Alerts */,
-				93EFFFAD20B938F000B84DF4 /* RecentStops */,
-				93EBB9BE20B289F700B31DA8 /* Weather */,
+				93302B4420CB185F003699C6 /* RecentStops */,
+				93302B4120CB183C003699C6 /* Weather */,
+				93302B3E20CB181C003699C6 /* Alerts */,
 				934198461DB0C218004BBBB7 /* Bookmarks */,
 				9341984A1DB0C218004BBBB7 /* Emails */,
 				9341984C1DB0C218004BBBB7 /* Regions */,
@@ -1696,17 +1720,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93302B4720CB185F003699C6 /* RecentStopWithStopIDs.plist in Resources */,
 				9341988B1DB0C219004BBBB7 /* SEA_4thPike_East.json in Resources */,
+				93302B4020CB181C003699C6 /* alert_feed_items.json in Resources */,
 				9341988C1DB0C219004BBBB7 /* stop_with_obj_lat_long.plist in Resources */,
-				93EFFFB220B93CD100B84DF4 /* RecentStopWithStopID.plist in Resources */,
 				9341988A1DB0C219004BBBB7 /* regions-v3.json in Resources */,
 				934198881DB0C219004BBBB7 /* bookmark_without_region_identifier.plist in Resources */,
-				93EBB9C120B28F2B00B31DA8 /* weather.json in Resources */,
+				93302B4820CB185F003699C6 /* RecentStopWithStopID.plist in Resources */,
 				934198891DB0C219004BBBB7 /* testMessageBodyForModelDAO.html in Resources */,
-				93EFFFB020B938F100B84DF4 /* RecentStopWithStopIDs.plist in Resources */,
 				934198861DB0C219004BBBB7 /* bookmark_with_region_identifier.plist in Resources */,
-				930EFFD320C6088300A2AE1F /* alert_feed_items.json in Resources */,
 				934198871DB0C219004BBBB7 /* bookmark_with_stopids_array.plist in Resources */,
+				93302B4320CB183C003699C6 /* weather.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
