@@ -563,7 +563,6 @@
 				93F3F8971E7AEE560025FC78 /* Mantle.framework in Frameworks */,
 				93BC49ED1FB8D628008B710D /* GoogleAnalytics.framework in Frameworks */,
 				93BC49D91FB8D5EB008B710D /* SnapKit.framework in Frameworks */,
-				93A637A520A203CB0005248C /* IGListKit.framework in Frameworks */,
 				93BC49DC1FB8D5FB008B710D /* CocoaLumberjackSwift.framework in Frameworks */,
 				93BC49EC1FB8D628008B710D /* SVProgressHUD.framework in Frameworks */,
 				93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */,
@@ -636,6 +635,7 @@
 				934198441DB0C218004BBBB7 /* OneBusAwayTests */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */,
+				93D4CFEC20DF285A00789526 /* Recovered References */,
 			);
 			name = org.onebusaway.iphone;
 			sourceTree = "<group>";
@@ -652,7 +652,6 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				93A637A320A203CA0005248C /* IGListKit.framework */,
 				93BC49EB1FB8D628008B710D /* GoogleAnalytics.framework */,
 				93BC49EA1FB8D628008B710D /* SVProgressHUD.framework */,
 				93BC49E61FB8D61C008B710D /* Masonry.framework */,
@@ -1401,13 +1400,13 @@
 			path = map;
 			sourceTree = "<group>";
 		};
-		93EFFFAD20B938F000B84DF4 /* RecentStops */ = {
+		93D4CFEC20DF285A00789526 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
 				93EFFFB120B93CD100B84DF4 /* RecentStopWithStopID.plist */,
 				93EFFFAE20B938F000B84DF4 /* RecentStopWithStopIDs.plist */,
 			);
-			path = RecentStops;
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		93F3F88C1E7A7B160025FC78 /* regional_alerts */ = {
