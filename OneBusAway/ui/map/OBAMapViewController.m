@@ -455,8 +455,15 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     [mapView deselectAnnotation:view.annotation animated:YES];
 
-    OBAStopV2 *stop = (OBAStopV2 *)view.annotation;
-    if (![stop isKindOfClass:OBAStopV2.class]) {
+    OBAStopV2 *stop = nil;
+
+    if ([view.annotation isKindOfClass:OBABookmarkV2.class]) {
+        stop = ((OBABookmarkV2*)view.annotation).stop;
+    }
+    else if ([view.annotation isKindOfClass:OBAStopV2.class]) {
+        stop = (OBAStopV2*)view.annotation;
+    }
+    else {
         return;
     }
 
