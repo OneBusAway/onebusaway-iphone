@@ -196,7 +196,11 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     }];
     privacy.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_about_oba", @"") rows:@[credits, privacy]];
+    OBATableRow *darkSky = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"info.dark_sky_attribution", @"Attribution text for the Dark Sky weather service.") action:^(OBABaseRow *row) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://darksky.net/poweredby/"] options:@{} completionHandler:nil];
+    }];
+
+    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_about_oba", @"") rows:@[credits, privacy, darkSky]];
 }
 
 - (OBATableSection*)debugTableSection {
