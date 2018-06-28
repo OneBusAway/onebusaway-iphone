@@ -43,7 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)addBound:(OBARegionBoundsV2*)bound;
 - (CLLocationDistance)distanceFromLocation:(CLLocation*)location;
-- (MKMapRect)serviceRect;
+
+@property(nonatomic,assign,readonly) MKMapRect serviceRect;
 
 /**
  The location coordinate in the center of the `serviceRect`.

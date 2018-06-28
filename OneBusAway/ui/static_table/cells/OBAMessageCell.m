@@ -47,7 +47,7 @@ static CGFloat const kAccessoryWidth = 12.f;
         _dateLabel.font = [OBATheme footnoteFont];
         _dateLabel.textColor = subduedColor;
 
-        UIImage *disclosureArrow = [UIImage imageNamed:@"disclosure_arrow"];
+        UIImage *disclosureArrow = [UIImage imageNamed:@"chevron"];
         UIImageView *arrowImageView = [[UIImageView alloc] initWithImage:disclosureArrow];
         arrowImageView.contentMode = UIViewContentModeScaleAspectFit;
         arrowImageView.tintColor = [UIColor grayColor];

@@ -1,0 +1,31 @@
+//
+//  OBAWeatherForecast.h
+//  OBAKit
+//
+//  Created by Aaron Brethorst on 5/20/18.
+//  Copyright © 2018 OneBusAway. All rights reserved.
+//
+
+@import Foundation;
+@import UIKit;
+@import Mantle;
+@import IGListKit;
+
+NS_ASSUME_NONNULL_BEGIN
+
+NS_SWIFT_NAME(WeatherForecast)
+@interface OBAWeatherForecast : MTLModel<MTLJSONSerializing, IGListDiffable>
+@property(nonatomic,assign,readonly) CGFloat latitude;
+@property(nonatomic,assign,readonly) CGFloat longitude;
+@property(nonatomic,assign,readonly) NSUInteger regionIdentifier;
+@property(nonatomic,copy,readonly) NSString* regionName;
+@property(nonatomic,copy,readonly) NSDate *forecastRetrievedAt;
+@property(nonatomic,copy,readonly) NSString *units;
+
+@property(nonatomic,copy,readonly) NSString *todaySummary;
+@property(nonatomic,copy,readonly) NSString *currentForecastIconName;
+@property(nonatomic,assign,readonly) CGFloat currentPrecipProbability;
+@property(nonatomic,assign,readonly) CGFloat currentTemperature;
+@end
+
+NS_ASSUME_NONNULL_END

@@ -21,7 +21,6 @@
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBASphericalGeometryLibrary.h>
 #import <OBAKit/OBASearchResult.h>
-#import <OBAKit/OBARegionalAlert.h>
 
 static const CLLocationAccuracy kSearchRadius = 400;
 static const CLLocationAccuracy kBigSearchRadius = 15000;
@@ -72,14 +71,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         [self requestCurrentTimeWithCompletionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
             resolve(error ?: responseData[@"entry"][@"time"]);
-        }];
-    }];
-}
-
-- (AnyPromise*)requestAgenciesWithCoverage {
-    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestAgenciesWithCoverage:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
-            resolve(error ?: [responseData values]);
         }];
     }];
 }
@@ -263,8 +254,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     request.region = MKCoordinateRegionMakeWithDistance(coord, 10000, 10000); // todo: reconsider this size of region.
     MKLocalSearch *search = [[MKLocalSearch alloc] initWithRequest:request];
 
-    // abxoxo
-
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         [search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
             if (error) {
@@ -281,14 +270,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
             resolve([NSArray arrayWithArray:placemarks]);
         }];
     }];
-}
-
-- (OBAModelServiceRequest*)requestAgenciesWithCoverage:(OBADataSourceCompletion)completion {
-    return [self request:self.obaJsonDataSource
-                     url:OBAAgenciesWithCoverageAPIPath
-                    args:nil
-                selector:@selector(getAgenciesWithCoverageV2FromJson:error:)
-         completionBlock:completion];
 }
 
 - (OBAModelServiceRequest*)requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef *)instance completionBlock:(OBADataSourceCompletion)completion {

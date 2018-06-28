@@ -21,7 +21,6 @@
 @import SVProgressHUD;
 @import Fabric;
 @import Crashlytics;
-@import PMKCoreLocation;
 
 #import "OBAPushManager.h"
 #import "OBAStopViewController.h"
@@ -72,7 +71,8 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     self.window.backgroundColor = [UIColor whiteColor];
 
 
-    BOOL showDrawer = [self.application.userDefaults boolForKey:OBAExperimentalUseDrawerUIDefaultsKey];
+//    BOOL showDrawer = [self.application.userDefaults boolForKey:OBAExperimentalUseDrawerUIDefaultsKey];
+    BOOL showDrawer = YES;
 
     if (showDrawer) {
         self.applicationUI = [[DrawerApplicationUI alloc] initWithApplication:self.application];
@@ -97,6 +97,11 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self initializeFabric];
+
+    NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:(10 * 1024 * 1024) // 10MB
+                                                      diskCapacity:(25 * 1024 * 1024) // 25MB
+                                                          diskPath:nil];
+    [NSURLCache setSharedURLCache:cache];
 
 #ifndef TARGET_IPHONE_SIMULATOR
     [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:self.application.oneSignalAPIKey];
@@ -139,7 +144,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
     [self.application.locationManager startUpdatingLocation];
     [self.application startReachabilityNotifier];
-    [self.application.regionalAlertsManager update];
 
     [self.applicationUI applicationDidBecomeActive];
 
@@ -172,8 +176,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invalidRegionNotification:) name:OBARegionServerInvalidNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recentStopsChanged:) name:OBAMostRecentStopsChangedNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(highPriorityRegionalAlertReceived:) name:RegionalAlertsManager.highPriorityRegionalAlertReceivedNotification object:nil];
 }
 
 - (void)invalidRegionNotification:(NSNotification*)note {
@@ -184,20 +186,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
 - (void)recentStopsChanged:(NSNotification*)note {
     [self updateShortcutItemsForRecentStops];
-}
-
-- (void)highPriorityRegionalAlertReceived:(NSNotification*)note {
-    OBARegionalAlert *alert = note.userInfo[RegionalAlertsManager.highPriorityRegionalAlertUserInfoKey];
-
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alert.title message:alert.summary preferredStyle:UIAlertControllerStyleAlert];
-
-    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleCancel handler:nil]];
-    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.readMore style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        OBANavigationTarget *regionalAlertTarget = [OBANavigationTarget navigationTargetForRegionalAlert:alert];
-        [self navigateToTarget:regionalAlertTarget];
-    }]];
-
-    [self.topViewController presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - OBANavigator
@@ -342,7 +330,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
                                                  localizedTitle:stopEvent.title
                                               localizedSubtitle:nil
                                                            icon:clockIcon
-                                                       userInfo:@{ @"stopIds": stopEvent.stopIds }];
+                                                       userInfo:@{ @"stopID": stopEvent.stopID }];
         [dynamicShortcuts addObject:shortcutItem];
     }
 

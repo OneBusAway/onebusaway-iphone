@@ -57,6 +57,10 @@ static UIFont *_italicFootnoteFont = nil;
 
     [[UITableViewCell appearance] setPreservesSuperviewLayoutMargins:YES];
     [[[UITableViewCell appearance] contentView] setPreservesSuperviewLayoutMargins:YES];
+
+    // Per:
+    // https://github.com/Instagram/IGListKit/blob/master/Guides/Working%20with%20UICollectionView.md
+    [[UICollectionView appearance] setPrefetchingEnabled:NO];
 }
 
 #pragma mark - UIFont
@@ -160,6 +164,10 @@ static UIFont *_italicFootnoteFont = nil;
 }
 
 #pragma mark - Colors
+
++ (UIColor*)mapTableBackgroundColor {
+    return [self colorWithRed:238 green:238 blue:238 alpha:1.f];
+}
 
 + (BOOL)useHighContrastUI {
     return UIAccessibilityDarkerSystemColorsEnabled() || UIAccessibilityIsReduceTransparencyEnabled();
@@ -282,6 +290,10 @@ static UIFont *_italicFootnoteFont = nil;
 
 + (CGFloat)defaultCornerRadius {
     return [self compactPadding];
+}
+
++ (CGFloat)compactCornerRadius {
+    return [self minimalPadding];
 }
 
 + (UIEdgeInsets)marginSizedEdgeInsets {

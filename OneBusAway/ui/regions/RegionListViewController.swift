@@ -10,7 +10,6 @@ import UIKit
 import CoreLocation
 import OBAKit
 import PromiseKit
-import PMKCoreLocation
 import SVProgressHUD
 
 @objc protocol RegionListDelegate {

@@ -13,7 +13,7 @@ static NSString * const kOBAHiddenPreferenceUserId = @"OBAApplicationUserId";
 
 @implementation OBAUser
 
-+ (NSString *)userIdFromDefaults {
++ (NSString *)userIDFromDefaults {
     NSString *userId = [OBAApplication.sharedApplication.userDefaults stringForKey:kOBAHiddenPreferenceUserId];
 
     if (!userId) {

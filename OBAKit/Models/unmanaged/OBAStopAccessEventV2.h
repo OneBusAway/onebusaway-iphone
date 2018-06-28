@@ -15,14 +15,21 @@
  */
 
 @import Foundation;
+@import CoreLocation;
+
+@class OBAStopV2;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAStopAccessEventV2 : NSObject<NSCoding>
 @property(nonatomic,copy) NSString *title;
 @property(nonatomic,copy) NSString *subtitle;
-@property(nonatomic,copy) NSArray *stopIds;
-@property(nonatomic,copy,readonly) NSString *stopID;
+@property(nonatomic,copy) NSString *stopID;
+
+@property(nonatomic,assign,readonly) BOOL hasLocation;
+@property(nonatomic,assign) CLLocationCoordinate2D coordinate;
+
+- (instancetype)initWithStop:(OBAStopV2*)stop;
 @end
 
 NS_ASSUME_NONNULL_END

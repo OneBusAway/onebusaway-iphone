@@ -15,8 +15,9 @@
  */
 
 #import "OBAAgenciesListViewController.h"
-#import <SafariServices/SafariServices.h>
+@import SafariServices;
 #import "OneBusAway-Swift.h"
+
 @import SVProgressHUD;
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
@@ -27,6 +28,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 };
 
 @interface OBAAgenciesListViewController ()
+@property(nonatomic,strong) PromiseWrapper *wrapper;
 @property(nonatomic,copy) NSArray<OBAAgencyWithCoverageV2 *> *agencies;
 @end
 
@@ -44,11 +46,18 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     return self;
 }
 
+- (void)dealloc {
+    [self.wrapper cancel];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     [SVProgressHUD show];
-    [self.modelService requestAgenciesWithCoverage].then(^(NSArray<OBAAgencyWithCoverageV2*>* agencies) {
+
+    PromiseWrapper *wrapper = [self.modelService requestAgenciesWithCoverage];
+    wrapper.anyPromise.then(^(NetworkResponse *networkResponse) {
+        NSArray<OBAAgencyWithCoverageV2*>* agencies = networkResponse.object;
         self.agencies = [agencies sortedArrayUsingSelector:@selector(compareUsingAgencyName:)];
         [self loadData];
     }).always(^{

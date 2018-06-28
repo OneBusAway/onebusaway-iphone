@@ -107,6 +107,8 @@
  */
 + (UIColor*)colorWithRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue alpha:(CGFloat)alpha;
 
+@property(class,nonatomic,copy,readonly) UIColor *mapTableBackgroundColor;
+
 /**
  Formerly known as OBAGREEN.
  */
@@ -240,6 +242,11 @@
  The default corner radius to apply to views that require rounded edges.
  */
 @property(class,nonatomic,assign,readonly) CGFloat defaultCornerRadius;
+
+/**
+ A more compact corner radius to apply to views that require rounded edges.
+ */
+@property(class,nonatomic,assign,readonly) CGFloat compactCornerRadius;
 
 /**
  The value of +[OBATheme defaultMargin] in the form of UIEdgeInsets.

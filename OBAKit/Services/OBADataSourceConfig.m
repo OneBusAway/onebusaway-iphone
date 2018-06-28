@@ -27,24 +27,33 @@
 
 @implementation OBADataSourceConfig
 
-- (instancetype)initWithURL:(NSURL*)baseURL args:(nullable NSDictionary*)args {
+- (instancetype)initWithBaseURL:(NSURL*)URL userID:(nullable NSString*)userID checkStatusCodeInBody:(BOOL)checkStatusCodeInBody {
     self = [super init];
-    
+
     if (self) {
-        _baseURL = [baseURL copy];
+        _baseURL = [URL copy];
+        _checkStatusCodeInBody = checkStatusCodeInBody;
         _basePath = [[NSURLComponents componentsWithURL:_baseURL resolvingAgainstBaseURL:NO] percentEncodedPath];
-        _defaultArgs = [self.class dictionaryToQueryItems:args];
+        _defaultArgs = [OBADataSourceConfig defaultArgsWithUserID:userID];
+        _contentType = OBADataSourceContentTypeJSON;
     }
     return self;
 }
 
-+ (instancetype)dataSourceConfigWithBaseURL:(NSURL*)URL userID:(NSString*)userID {
-    NSDictionary *obaArgs = @{ @"key":     @"org.onebusaway.iphone",
-                               @"app_uid": userID,
-                               @"app_ver": [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
-                               @"version": @"2"};
++ (NSArray<NSURLQueryItem*>*)defaultArgsWithUserID:(nullable NSString*)userID {
+    NSMutableArray *args = [[NSMutableArray alloc] init];
 
-    return [[OBADataSourceConfig alloc] initWithURL:URL args:obaArgs];
+    [args addObject:[NSURLQueryItem queryItemWithName:@"key" value:@"org.onebusaway.iphone"]];
+
+    if (userID.length > 0) {
+        [args addObject:[NSURLQueryItem queryItemWithName:@"app_uid" value:userID]];
+    }
+
+    [args addObject:[NSURLQueryItem queryItemWithName:@"app_ver" value:[NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]]];
+
+    [args addObject:[NSURLQueryItem queryItemWithName:@"version" value:@"2"]];
+
+    return [NSArray arrayWithArray:args];
 }
 
 #pragma mark - Public Methods

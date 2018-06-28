@@ -372,6 +372,9 @@
 /* view.message */
 "msg_set_up_mail_to_send_email" = "Please set up your Mail app before trying to send an email.";
 
+/* Attribution text for the Dark Sky weather service. */
+"info.dark_sky_attribution" = "Weather forecasts powered by Dark Sky";
+
 /* Title of the the alert that appears when you try sending an email without Mail.app set up */
 "info.email_app_not_set_up_title" = "Can't Send Email via Mail app";
 

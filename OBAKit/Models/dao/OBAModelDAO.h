@@ -100,6 +100,14 @@ extern NSString * const OBARegionDidUpdateNotification;
 - (void)removeRecentStop:(OBAStopAccessEventV2*)recentStop;
 - (NSArray<OBAStopAccessEventV2*>*)recentStopsMatchingString:(NSString*)matching;
 
+/**
+ Creates and returns a sorted list of recent stops within one mile of the specified coordinate.
+
+ @param coordinate The coordinate from which to return recent stops.
+ @return An array of recent stop objects.
+ */
+- (NSArray<OBAStopAccessEventV2*>*)recentStopsNearCoordinate:(CLLocationCoordinate2D)coordinate;
+
 // Regions
 
 @property(nonatomic,strong,nullable) OBARegionV2 *currentRegion;

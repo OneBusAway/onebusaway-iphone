@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (id)jsonObjectFromString:(NSString*)string;
 
 /**
- Used to help create test fixture data. It archives the NSCoding-conforming object to path, which can be outside of the iOS app sandbox.
+ Used to help create test fixture data. It archives the NSCoding-conforming object to `path`, which can be outside of the iOS app sandbox.
 
  @param object Any object that conforms to NSCoding
  @param path   The full output path for the plist.

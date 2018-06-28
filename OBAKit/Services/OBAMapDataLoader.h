@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(weak, nonatomic,readonly) id searchParameter;
 @property(strong,readonly,nullable) OBASearchResult * result;
 
-@property(nonatomic,copy,readonly) CLLocation * searchLocation;
+@property(nonatomic,copy,nullable,readonly) CLLocation * searchLocation;
 @property(nonatomic,copy) CLCircularRegion *searchRegion;
 @property(nonatomic,copy) NSError * error;
 

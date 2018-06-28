@@ -31,6 +31,7 @@
 + (id)jsonObjectFromFile:(NSString*)fileName {
     NSString *filePath = [OBATestHelpers pathToTestFile:fileName];
     NSData *data = [[NSData alloc] initWithContentsOfFile:filePath];
+    assert(data.length > 0);
     return [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:nil];
 }
 
@@ -47,6 +48,7 @@
 + (id)unarchiveBundledTestFile:(NSString*)fileName {
     NSString *filePath = [OBATestHelpers pathToTestFile:fileName];
     NSData *data = [[NSData alloc] initWithContentsOfFile:filePath];
+    assert(data.length > 0);
     return [NSKeyedUnarchiver unarchiveObjectWithData:data];
 }
 

@@ -23,7 +23,7 @@
     view.canShowCallout = NO;
     view.rightCalloutAccessoryView = ({
         UIButton *rightCalloutButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        [rightCalloutButton setImage:[UIImage imageNamed:@"disclosure_arrow"] forState:UIControlStateNormal];
+        [rightCalloutButton setImage:[UIImage imageNamed:@"chevron"] forState:UIControlStateNormal];
         if ([OBATheme useHighContrastUI]) {
             rightCalloutButton.tintColor = [UIColor blackColor];
         }

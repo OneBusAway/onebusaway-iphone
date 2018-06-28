@@ -29,7 +29,6 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
 @property (nonatomic, strong, readwrite) OBALocationManager *locationManager;
 @property (nonatomic, strong, readwrite) OBAReachability *reachability;
 @property (nonatomic, strong, readwrite) OBARegionHelper *regionHelper;
-@property (nonatomic, strong, readwrite) RegionalAlertsManager *regionalAlertsManager;
 @property (nonatomic, strong, readwrite) OBALogging *loggingManager;
 @property (nonatomic, strong, readwrite) OBAMapDataLoader *mapDataLoader;
 @property (nonatomic, strong, readwrite) OBAMapRegionManager *mapRegionManager;
@@ -89,11 +88,6 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
 
     self.mapDataLoader = [[OBAMapDataLoader alloc] initWithModelService:self.modelService];
     self.mapRegionManager = [[OBAMapRegionManager alloc] init];
-
-    if (!self.configuration.extensionMode) {
-        self.regionalAlertsManager = [[RegionalAlertsManager alloc] init];
-        self.regionalAlertsManager.region = self.modelDao.currentRegion;
-    }
 
     [self refreshSettings];
 }
@@ -187,7 +181,6 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
 #pragma mark - Region
 
 - (void)regionUpdated:(NSNotification*)note {
-    self.regionalAlertsManager.region = self.modelDao.currentRegion;
     [self refreshSettings];
 }
 
@@ -223,15 +216,12 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
 
 - (void)refreshSettings {
     if (self.modelDao.currentRegion.baseURL) {
-        self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:self.modelDao.currentRegion.baseURL userID:[OBAUser userIdFromDefaults]];
+        self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:self.modelDao.currentRegion.baseURL userID:OBAUser.userIDFromDefaults];
+        self.modelService.unparsedDataSource = [OBAJsonDataSource unparsedDataSourceWithBaseURL:self.modelDao.currentRegion.baseURL userID:OBAUser.userIDFromDefaults];
     }
 
-    self.modelService.obaRegionJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:kOBADefaultRegionApiServerName] userID:[OBAUser userIdFromDefaults]];
+    self.modelService.obaRegionJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:kOBADefaultRegionApiServerName] userID:OBAUser.userIDFromDefaults];
     self.modelService.obacoJsonDataSource = [OBAJsonDataSource obacoJSONDataSource];
-
-    if (!self.configuration.extensionMode) {
-        [self.regionalAlertsManager update];
-    }
 }
 
 #pragma mark - Logging

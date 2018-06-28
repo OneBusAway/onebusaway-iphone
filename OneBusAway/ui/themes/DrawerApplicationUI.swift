@@ -14,11 +14,8 @@ import OBAKit
     let tabBarController = UITabBarController.init()
 
     // MARK: - Map Tab
-    var mapController: OBAMapViewController
+    var mapController: MapTableViewController
     var mapNavigationController: UINavigationController
-    var nearbyStopsController: NearbyStopsViewController
-    var nearbyStopsNavigation: UINavigationController
-    var pulleyController: PulleyViewController
 
     // MARK: - Recents Tab
     let recentsController = OBARecentStopsViewController.init()
@@ -42,26 +39,13 @@ import OBAKit
     required init(application: OBAApplication) {
         self.application = application
 
-        mapController = OBAMapViewController.init(mapDataLoader: application.mapDataLoader, mapRegionManager: application.mapRegionManager)
+        mapController = MapTableViewController.init(application: application)
         mapNavigationController = UINavigationController.init(rootViewController: mapController)
-
-        nearbyStopsController = NearbyStopsViewController.init(mapDataLoader: application.mapDataLoader, mapRegionManager: application.mapRegionManager)
-        nearbyStopsNavigation = UINavigationController.init(rootViewController: nearbyStopsController)
-
-        pulleyController = PulleyViewController.init(contentViewController: mapNavigationController, drawerViewController: nearbyStopsNavigation)
-        pulleyController.displayMode = .automatic
-        pulleyController.title = mapController.title
-        pulleyController.tabBarItem.image = mapController.tabBarItem.image
-        pulleyController.tabBarItem.selectedImage = mapController.tabBarItem.selectedImage
 
         super.init()
 
-        tabBarController.viewControllers = [pulleyController, recentsNavigation, bookmarksNavigation, infoNavigation]
+        tabBarController.viewControllers = [mapNavigationController, recentsNavigation, bookmarksNavigation, infoNavigation]
         tabBarController.delegate = self
-
-        pulleyController.delegate = self
-
-        mapController.drawerPresenter = self
     }
 }
 
@@ -119,7 +103,8 @@ extension DrawerApplicationUI: OBAApplicationUI {
 
         switch navigationTarget.target {
         case .map, .searchResults:
-            viewController = mapController
+            // abxoxo
+//            viewController = mapController
             navController = mapNavigationController
         case .recentStops:
             viewController = recentsController
@@ -144,43 +129,15 @@ extension DrawerApplicationUI: OBAApplicationUI {
             viewController.setNavigationTarget!(navigationTarget)
         }
 
-        if navigationTarget.parameters["stop"] != nil,
-           let stopID = navigationTarget.parameters["stopID"] as? String {
-            let vc = OBAStopViewController.init(stopID: stopID)
-            push(vc, animated: true)
+        if navigationTarget.parameters["stop"] != nil, let stopID = navigationTarget.parameters["stopID"] as? String {
+            let vc = StopViewController.init(stopID: stopID)
+            mapNavigationController.pushViewController(vc, animated: true)
         }
 
         // update kOBASelectedTabIndexDefaultsKey, otherwise -applicationDidBecomeActive: will switch us away.
         if let selected = tabBarController.selectedViewController {
             tabBarController(tabBarController, didSelect: selected)
         }
-    }
-}
-
-// MARK: - Pulley Controller
-extension DrawerApplicationUI: PulleyDrawerViewControllerDelegate {
-    func supportedDrawerPositions() -> [PulleyPosition] {
-        return [
-            .collapsed,
-            .partiallyRevealed,
-            .open
-        ]
-    }
-
-    func collapsedDrawerHeight(bottomSafeArea: CGFloat) -> CGFloat {
-        return 180
-    }
-
-    func partialRevealDrawerHeight(bottomSafeArea: CGFloat) -> CGFloat {
-        return 300
-    }
-}
-
-// MARK: - OBADrawerPresenter
-extension DrawerApplicationUI: OBADrawerPresenter {
-    func push(_ viewController: UIViewController, animated: Bool) {
-        pulleyController.setDrawerPosition(position: .open, animated: animated)
-        nearbyStopsNavigation.pushViewController(viewController, animated: false)
     }
 }
 

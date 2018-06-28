@@ -81,48 +81,43 @@ import Mantle
     }
 }
 
-// MARK: - Regional Alerts
+// MARK: - Weather
 @objc extension PromisedModelService {
-    /// Retrieves a list of alert messages for the specified `region` since `date`. The completion block's responseData is [OBARegionalAlert]
+
+    /// Request the forecasted weather for the user's region and/or location.
     ///
     /// - Parameters:
-    ///   - region: The region from which alerts are desired.
-    ///   - date: The last date that alerts were requested. Specify nil for all time.
-    /// - Returns: A promise wrapper that resolves to [OBARegionalAlert]
-    @objc func requestAlerts(for region: OBARegionV2, since date: Date?) -> PromiseWrapper {
-        let request = buildURLRequestForRegionalAlerts(region: region, since: date)
+    ///   - region: The user's current region
+    ///   - location: An optional location used to determine more accurate weather data.
+    /// - Returns: A promise wrapper that resolves to a WeatherForecast object.
+    @objc public func requestWeather(in region: OBARegionV2, location: CLLocation?) -> PromiseWrapper {
+        let request = buildURLRequestForWeather(in: region, location: location)
         let wrapper = PromiseWrapper.init(request: request)
 
         wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
-            let alerts = try self.decodeRegionalAlerts(json: networkResponse.object as! [Any])
-            return NetworkResponse.init(object: alerts, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
+            let forecast = try self.decodeWeather(json: networkResponse.object as! [AnyHashable : Any])
+            return NetworkResponse.init(object: forecast, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
         }
 
         return wrapper
     }
 
-    @nonobjc private func buildURLRequestForRegionalAlerts(region: OBARegionV2, since date: Date?) -> OBAURLRequest {
-        var params = ["since": 0]
+    @nonobjc private func decodeWeather(json: [AnyHashable: Any]) throws -> WeatherForecast {
+        let model = try MTLJSONAdapter.model(of: WeatherForecast.self, fromJSONDictionary: json)
 
-        if let date = date {
-            params["since"] = Int(date.timeIntervalSince1970)
-        }
-
-        let path = "/regions/\(region.identifier)/alert_feed_items"
-
-        return self.obacoJsonDataSource.buildGETRequest(withPath: path, queryParameters: params)
+        return model as! WeatherForecast
     }
 
-    @nonobjc private func decodeRegionalAlerts(json: [Any]) throws -> [OBARegionalAlert] {
-        let models: [OBARegionalAlert] = try MTLJSONAdapter.models(of: OBARegionalAlert.self, fromJSONArray: json) as! [OBARegionalAlert]
+    @nonobjc private func buildURLRequestForWeather(in region: OBARegionV2, location: CLLocation?) -> OBAURLRequest {
+        let path = "/api/v1/regions/\(region.identifier)/weather"
 
-        // Mark all alerts older than one day as 'read' automatically.
-        return models.map {
-            if let published = $0.publishedAt {
-                $0.unread = abs(published.timeIntervalSinceNow) < 86400 // Number of seconds in 1 day.
-            }
-            return $0
+        var params: [AnyHashable: Any] = [:]
+        if let location = location {
+            params["lat"] = location.coordinate.latitude
+            params["lng"] = location.coordinate.longitude
         }
+
+        return self.obacoJsonDataSource.buildGETRequest(withPath: path, queryParameters: params)
     }
 }
 
@@ -159,7 +154,7 @@ import Mantle
             "user_push_id":   userPushNotificationID
         ]
 
-        return self.obacoJsonDataSource.buildRequest(withPath: "/regions/\(alarm.regionIdentifier)/alarms", httpMethod: "POST", queryParameters: nil, formBody: params)
+        return self.obacoJsonDataSource.buildRequest(withPath: "/api/v1/regions/\(alarm.regionIdentifier)/alarms", httpMethod: "POST", queryParameters: nil, formBody: params)
     }
 }
 
@@ -206,5 +201,79 @@ import Mantle
         let escapedTripID = OBAURLHelpers.escapePathVariable(tripInstance.tripId)
 
         return self.obaJsonDataSource.buildGETRequest(withPath: "/api/where/trip-details/\(escapedTripID).json", queryParameters: args)
+    }
+}
+
+// MARK: - Agencies with Coverage
+@objc extension PromisedModelService {
+    @objc public func requestAgenciesWithCoverage() -> PromiseWrapper {
+        let request = buildRequest()
+        let wrapper = PromiseWrapper.init(request: request)
+
+        wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
+            let agencies = try self.decodeData(json: networkResponse.object as! [AnyHashable : Any])
+            return NetworkResponse.init(object: agencies, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
+        }
+
+        return wrapper
+    }
+
+    @nonobjc private func buildRequest() -> OBAURLRequest {
+        return obaJsonDataSource.buildGETRequest(withPath: "/api/where/agencies-with-coverage.json", queryParameters: nil)
+    }
+
+    @nonobjc private func decodeData(json: [AnyHashable: Any]) throws -> [OBAAgencyWithCoverageV2] {
+        var error: NSError? = nil
+        let listWithRange = modelFactory.getAgenciesWithCoverageV2(fromJson: json, error: &error)
+
+        if let error = error {
+            throw error
+        }
+
+        let entries = listWithRange.values as! [OBAAgencyWithCoverageV2]
+        return entries
+    }
+}
+
+// MARK: - Regional Alerts
+extension PromisedModelService {
+    public func requestRegionalAlerts() -> Promise<[AgencyAlert]> {
+        return requestAgenciesWithCoverage().promise.then { networkResponse -> Promise<[AgencyAlert]> in
+            let agencies = networkResponse.object as! [OBAAgencyWithCoverageV2]
+            var requests = agencies.map { self.buildRequest(agency: $0) }
+
+            let obacoRequest = self.buildObacoRequest(region: self.modelDao.currentRegion!)
+            requests.append(obacoRequest)
+
+            let promises = requests.map { request -> Promise<[TransitRealtime_FeedEntity]> in
+                return CancellablePromise.go(request: request).then { networkResponse -> Promise<[TransitRealtime_FeedEntity]> in
+                    let data = networkResponse.object as! Data
+                    let message = try TransitRealtime_FeedMessage(serializedData: data)
+                    return Promise(value: message.entity)
+                }
+            }
+
+            return when(fulfilled: promises).then { nestedEntities in
+                let allAlerts: [AgencyAlert] = nestedEntities.reduce(into: [], { (acc, entities) in
+                    let alerts = entities.filter { (entity) -> Bool in
+                        return entity.hasAlert && AgencyAlert.isAgencyWideAlert(alert: entity.alert)
+                    }.compactMap { try? AgencyAlert(feedEntity: $0, agencies: agencies) }
+                    acc.append(contentsOf: alerts)
+                })
+                return Promise.init(value: allAlerts)
+            }
+        }
+    }
+
+    private func buildObacoRequest(region: OBARegionV2) -> OBAURLRequest {
+        let url = obacoJsonDataSource.constructURL(fromPath: "/api/v1/regions/\(region.identifier)/alerts.pb", params: nil)
+        let obacoRequest = OBAURLRequest.init(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
+        return obacoRequest
+    }
+
+    private func buildRequest(agency: OBAAgencyWithCoverageV2) -> OBAURLRequest {
+        let encodedID = OBAURLHelpers.escapePathVariable(agency.agencyId)
+        let path = "/api/gtfs_realtime/alerts-for-agency/\(encodedID).pb"
+        return unparsedDataSource.buildGETRequest(withPath: path, queryParameters: nil)
     }
 }
