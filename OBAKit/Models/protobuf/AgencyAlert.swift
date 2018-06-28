@@ -13,16 +13,20 @@ import Foundation
 
     @objc public let id: String
 
-    @objc public var agencyID: String {
-        var agency: TransitRealtime_EntitySelector = TransitRealtime_EntitySelector()
-        for sel in alert.informedEntity {
+    // MARK: - Agency
+
+    @objc public let agencyID: String
+
+    private static func findAgencyInList(list: [TransitRealtime_EntitySelector]) -> TransitRealtime_EntitySelector? {
+        for sel in list {
             if sel.hasAgencyID {
-                agency = sel
-                break
+                return sel
             }
         }
-        return agency.agencyID
+        return nil
     }
+
+    @objc public let agency: OBAAgencyWithCoverageV2?
 
     // MARK: - Translation Properties
 
@@ -46,15 +50,19 @@ import Foundation
 
     // MARK: - Initialization
 
-    init(feedEntity: TransitRealtime_FeedEntity) throws {
+    init(feedEntity: TransitRealtime_FeedEntity, agencies: [OBAAgencyWithCoverageV2]) throws {
         guard
             feedEntity.hasAlert,
-            AgencyAlert.isAgencyWideAlert(alert: feedEntity.alert)
+            AgencyAlert.isAgencyWideAlert(alert: feedEntity.alert),
+            let gtfsAgency = AgencyAlert.findAgencyInList(list: feedEntity.alert.informedEntity),
+            gtfsAgency.hasAgencyID
         else {
             throw AlertError.invalidAlert
         }
         self.alert = feedEntity.alert
         self.id = feedEntity.id
+        self.agencyID = gtfsAgency.agencyID
+        self.agency = agencies.first { $0.agencyId == gtfsAgency.agencyID }
     }
 }
 

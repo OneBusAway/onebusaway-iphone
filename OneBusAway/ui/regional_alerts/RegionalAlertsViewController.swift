@@ -106,7 +106,9 @@ class RegionalAlertsViewController: OBAStaticTableViewController {
         let rows = agencyAlerts.map { alert -> OBAMessageRow in
             let tableRow = OBAMessageRow.init { _ in self.presentAlert(alert) }
             tableRow.accessoryType = .disclosureIndicator
-            tableRow.sender = alert.agencyID
+            if let name = alert.agency?.agency?.name {
+                tableRow.sender = name
+            }
             if let subject = alert.title(language: language) {
                 tableRow.subject = subject
             }

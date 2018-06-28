@@ -257,7 +257,7 @@ extension PromisedModelService {
                 let allAlerts: [AgencyAlert] = nestedEntities.reduce(into: [], { (acc, entities) in
                     let alerts = entities.filter { (entity) -> Bool in
                         return entity.hasAlert && AgencyAlert.isAgencyWideAlert(alert: entity.alert)
-                    }.compactMap { try? AgencyAlert(feedEntity: $0) }
+                    }.compactMap { try? AgencyAlert(feedEntity: $0, agencies: agencies) }
                     acc.append(contentsOf: alerts)
                 })
                 return Promise.init(value: allAlerts)
