@@ -71,7 +71,8 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     self.window.backgroundColor = [UIColor whiteColor];
 
 
-    BOOL showDrawer = [self.application.userDefaults boolForKey:OBAExperimentalUseDrawerUIDefaultsKey];
+//    BOOL showDrawer = [self.application.userDefaults boolForKey:OBAExperimentalUseDrawerUIDefaultsKey];
+    BOOL showDrawer = YES;
 
     if (showDrawer) {
         self.applicationUI = [[DrawerApplicationUI alloc] initWithApplication:self.application];
