@@ -109,7 +109,7 @@ import Mantle
     }
 
     @nonobjc private func buildURLRequestForWeather(in region: OBARegionV2, location: CLLocation?) -> OBAURLRequest {
-        let path = "/regions/\(region.identifier)/weather"
+        let path = "/api/v1/regions/\(region.identifier)/weather"
 
         var params: [AnyHashable: Any] = [:]
         if let location = location {
@@ -154,7 +154,7 @@ import Mantle
             "user_push_id":   userPushNotificationID
         ]
 
-        return self.obacoJsonDataSource.buildRequest(withPath: "/regions/\(alarm.regionIdentifier)/alarms", httpMethod: "POST", queryParameters: nil, formBody: params)
+        return self.obacoJsonDataSource.buildRequest(withPath: "/api/v1/regions/\(alarm.regionIdentifier)/alarms", httpMethod: "POST", queryParameters: nil, formBody: params)
     }
 }
 
