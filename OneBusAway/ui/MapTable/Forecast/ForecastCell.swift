@@ -21,12 +21,8 @@ class ForecastCell: SelfSizingCollectionCell {
 
         let topStack = UIStackView.init(arrangedSubviews: [weatherImageView, temperatureLabel, UIView()])
         topStack.axis = .horizontal
-        let topStackWrapper = topStack.oba_embedInWrapper()
 
-        let labelStack = UIStackView.init(arrangedSubviews: [topStackWrapper, summaryLabel])
-        labelStack.axis = .vertical
-
-        let outerWrapper = labelStack.oba_embedInWrapper()
+        let outerWrapper = topStack.oba_embedInWrapper()
         contentView.addSubview(outerWrapper)
         outerWrapper.snp.makeConstraints { make in
             make.top.trailing.bottom.equalToSuperview().inset(UIEdgeInsetsMake(0, 0, OBATheme.compactPadding, OBATheme.defaultPadding))
@@ -34,7 +30,6 @@ class ForecastCell: SelfSizingCollectionCell {
 
         weatherImageView.tintColor = foregroundColor
         temperatureLabel.textColor = foregroundColor
-        summaryLabel.textColor = foregroundColor
 
         outerWrapper.backgroundColor = OBATheme.mapTableBackgroundColor.withAlphaComponent(0.8)
         outerWrapper.layer.cornerRadius = OBATheme.compactPadding
@@ -54,8 +49,7 @@ class ForecastCell: SelfSizingCollectionCell {
             }
             let truncatedTemperature = Int(forecast.currentTemperature)
             temperatureLabel.text = "\(truncatedTemperature)º"
-            summaryLabel.text = forecast.currentSummary
-            weatherImageView.image = UIImage(named: forecast.currentSummaryIconName)
+            weatherImageView.image = UIImage(named: forecast.currentForecastIconName)
         }
     }
 
@@ -75,20 +69,12 @@ class ForecastCell: SelfSizingCollectionCell {
         return label
     }()
 
-    fileprivate let summaryLabel: UILabel = {
-        let label = UILabel()
-        label.backgroundColor = .clear
-        label.numberOfLines = 1
-        label.font = ForecastCell.summaryFont
-        return label
-    }()
-
     fileprivate let weatherImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.backgroundColor = .clear
         imageView.snp.makeConstraints { make in
-            make.width.height.equalTo(24)
+            make.width.height.equalTo(40)
         }
         return imageView
     }()

@@ -19,11 +19,12 @@
              @"regionIdentifier": @"region_identifier",
              @"regionName": @"region_name",
              @"forecastRetrievedAt": @"retrieved_at",
-             @"currentSummary": @"currently.summary",
-             @"currentSummaryIconName": @"currently.icon",
-             @"currentPrecipProbability": @"currently.precipProbability",
-             @"currentTemperature": @"currently.temperature"
-             };
+             @"units": @"units",
+             @"todaySummary": @"today_summary",
+             @"currentForecastIconName": @"current_forecast.icon",
+             @"currentPrecipProbability": @"current_forecast.precip_probability",
+             @"currentTemperature": @"current_forecast.temperature"
+    };
 }
 
 + (NSDateFormatter *)dateFormatter {

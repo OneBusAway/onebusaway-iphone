@@ -20,9 +20,10 @@ NS_SWIFT_NAME(WeatherForecast)
 @property(nonatomic,assign,readonly) NSUInteger regionIdentifier;
 @property(nonatomic,copy,readonly) NSString* regionName;
 @property(nonatomic,copy,readonly) NSDate *forecastRetrievedAt;
+@property(nonatomic,copy,readonly) NSString *units;
 
-@property(nonatomic,copy,readonly) NSString *currentSummary;
-@property(nonatomic,copy,readonly) NSString *currentSummaryIconName;
+@property(nonatomic,copy,readonly) NSString *todaySummary;
+@property(nonatomic,copy,readonly) NSString *currentForecastIconName;
 @property(nonatomic,assign,readonly) CGFloat currentPrecipProbability;
 @property(nonatomic,assign,readonly) CGFloat currentTemperature;
 @end
